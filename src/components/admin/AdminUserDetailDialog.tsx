@@ -22,6 +22,7 @@ import {
 import { Switch } from "@/components/ui/switch.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
+import { SearchableCurrencySelect } from "@/components/common/SearchableCurrencySelect.tsx";
 import { CURRENCIES, type Currency } from "@/data/internal/common/Currency.ts";
 import { LANGUAGES, type Language } from "@/data/internal/common/Language.ts";
 import { UNIT_SYSTEMS, type UnitSystem } from "@/data/internal/common/UnitSystem.ts";
@@ -181,24 +182,22 @@ function AdminUserEditForm({ user, onClose }: AdminUserEditFormProps) {
                         <Label htmlFor="admin-user-currency">
                             {t("adminDashboard.users.fields.currency")}
                         </Label>
-                        <Select
+                        <SearchableCurrencySelect
+                            id="admin-user-currency"
+                            options={[
+                                {
+                                    value: "NONE",
+                                    label: t("adminDashboard.users.fields.notSet"),
+                                },
+                                ...CURRENCIES.map((value) => ({ value, label: value })),
+                            ]}
                             value={currency}
                             onValueChange={(value) => setCurrency(value as Currency | "NONE")}
-                        >
-                            <SelectTrigger id="admin-user-currency">
-                                <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="NONE">
-                                    {t("adminDashboard.users.fields.notSet")}
-                                </SelectItem>
-                                {CURRENCIES.map((value) => (
-                                    <SelectItem key={value} value={value}>
-                                        {value}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                            placeholder={t("adminDashboard.users.fields.currency")}
+                            searchPlaceholder={t("common.currencySearchPlaceholder")}
+                            emptyMessage={t("common.currencySearchEmpty")}
+                            ariaLabel={t("adminDashboard.users.fields.currency")}
+                        />
                     </div>
                     <div className="flex flex-col gap-1.5">
                         <Label htmlFor="admin-user-unit-system">

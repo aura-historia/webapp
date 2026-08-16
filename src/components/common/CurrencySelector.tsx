@@ -1,24 +1,23 @@
-import { CURRENCIES, CURRENCY_SYMBOLS, parseCurrency } from "@/data/internal/common/Currency.ts";
+import {
+    CURRENCIES,
+    CURRENCY_SYMBOLS,
+    parseCurrency,
+    type Currency,
+} from "@/data/internal/common/Currency.ts";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount.ts";
 import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+import { SearchableCurrencySelect } from "@/components/common/SearchableCurrencySelect.tsx";
 
 export function CurrencySelector() {
     const { preferences, updatePreferences } = useUserPreferences();
     const { mutate: updateAccount } = useUpdateUserAccount();
     const { data: account } = useUserAccount();
     const { isAuthenticated } = useResolvedAuth();
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     // On login: backend currency overwrites local preference to stay in sync across devices
     useEffect(() => {
@@ -30,6 +29,15 @@ export function CurrencySelector() {
     const displayNames = useMemo(
         () => new Intl.DisplayNames([i18n.language], { type: "currency" }),
         [i18n.language],
+    );
+    const currencyOptions = useMemo(
+        () =>
+            CURRENCIES.map((code) => ({
+                value: code,
+                label: displayNames.of(code) ?? code,
+                searchTerms: [CURRENCY_SYMBOLS[code]],
+            })),
+        [displayNames],
     );
 
     const handleChange = useCallback(
@@ -44,21 +52,32 @@ export function CurrencySelector() {
     );
 
     return (
-        <Select value={preferences.currency} onValueChange={handleChange}>
-            <SelectTrigger className="h-8 gap-2 border-outline-variant/20 bg-transparent text-sm text-primary/80 transition-colors duration-300 ease-out hover:text-primary">
-                <SelectValue>
-                    <span>{CURRENCY_SYMBOLS[preferences.currency]}</span>
-                    <span className="pl-2">{displayNames.of(preferences.currency)}</span>
-                </SelectValue>
-            </SelectTrigger>
-            <SelectContent align="end" className="max-h-60 overflow-hidden rounded-md">
-                {CURRENCIES.map((code) => (
-                    <SelectItem key={code} value={code}>
-                        <span className="inline-block w-8 shrink-0">{CURRENCY_SYMBOLS[code]}</span>
-                        <span>{displayNames.of(code)}</span>
-                    </SelectItem>
-                ))}
-            </SelectContent>
-        </Select>
+        <SearchableCurrencySelect
+            options={currencyOptions}
+            value={preferences.currency}
+            onValueChange={handleChange}
+            placeholder={t("auth.signUp.currency")}
+            searchPlaceholder={t("common.currencySearchPlaceholder")}
+            emptyMessage={t("common.currencySearchEmpty")}
+            align="end"
+            ariaLabel={t("auth.signUp.currency")}
+            className="h-8 border-outline-variant/20 bg-transparent text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+            renderValue={(option) =>
+                option && (
+                    <>
+                        <span>{CURRENCY_SYMBOLS[option.value as Currency]}</span>
+                        <span className="pl-2">{option.label}</span>
+                    </>
+                )
+            }
+            renderOption={(option) => (
+                <>
+                    <span className="inline-block w-8 shrink-0">
+                        {CURRENCY_SYMBOLS[option.value as Currency]}
+                    </span>
+                    <span>{option.label}</span>
+                </>
+            )}
+        />
     );
 }

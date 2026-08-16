@@ -29,5 +29,5 @@ Refined global discovery for antiques, art, design objects, dealers, and auction
 ## Validation
 
 - Docs only: usually none.
-- Code: run the narrowest relevant test, then `pnpm lint` or `pnpm check`.
+- Code: run the narrowest relevant test, then `pnpm lint` or `pnpm check` run `tsc --noEmit` for a type check.
 - Routes, SSR, i18n, or hydration: also run `pnpm build`.

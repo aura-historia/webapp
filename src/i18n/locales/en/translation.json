@@ -2,7 +2,9 @@
   "common": {
     "auraHistoria": "Aura Historia",
     "infoButton": "More information",
-    "unitSystemPrefix": "Units"
+    "unitSystemPrefix": "Units",
+    "currencySearchPlaceholder": "Search currencies…",
+    "currencySearchEmpty": "No currencies found."
   },
   "meta": {
     "siteName": "Aura Historia | Global Antiques Platform",

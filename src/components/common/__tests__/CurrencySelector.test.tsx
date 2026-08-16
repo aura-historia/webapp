@@ -27,7 +27,10 @@ vi.mock("react-i18next", async () => {
     const actual = await vi.importActual("react-i18next");
     return {
         ...actual,
-        useTranslation: () => ({ i18n: { language: "en" } }),
+        useTranslation: () => ({
+            t: (key: string) => key,
+            i18n: { language: "en" },
+        }),
     };
 });
 
