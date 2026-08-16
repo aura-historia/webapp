@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Branch Changes"
+  short_description: "Review branch changes in parallel"
+  default_prompt: "Use $review-branch-changes to review this branch against develop."

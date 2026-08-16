@@ -12,8 +12,8 @@ Use this skill whenever work affects user data or behavior described by the priv
 Read:
 
 - `docs/privacy-policy-alignment.md`
-- `src/assets/content/AGENTS.md` when privacy/legal markdown may change
-- the applicable DOX chain for touched code paths
+- `AGENTS.md`
+- relevant privacy/legal markdown when privacy behavior may change
 
 ## Data Categories to Check
 

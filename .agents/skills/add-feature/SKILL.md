@@ -9,17 +9,15 @@ Use this skill when creating a new feature, adding a route-backed flow, or exten
 
 ## Required Reading
 
-Before planning or editing, read the applicable DOX chain and these docs:
+Before planning or editing, read the root instructions and these docs:
 
 - `AGENTS.md`
-- `src/AGENTS.md`
 - `docs/architecture-guidelines.md`
 - `docs/design-guidelines.md` for UI work
 - `docs/product-context.md` for user-facing text
 - `docs/privacy-policy-alignment.md` for user-data/auth/tracking/account/payment/partner/admin/OAuth changes
 - `docs/hydration-guidelines.md` for route/SSR/browser API changes
 
-Also read child `AGENTS.md` files along target paths, especially `src/routes/AGENTS.md`, `src/components/AGENTS.md`, `src/features/AGENTS.md`, and `src/i18n/AGENTS.md`.
 
 ## Planning Steps
 
@@ -51,5 +49,5 @@ Start narrow, then broaden if needed:
 
 ## Closeout
 
-- Run a DOX pass and update the nearest owning `AGENTS.md` if the change creates durable structure, contracts, or workflow rules.
+- Update relevant docs when the change affects their guidance, contracts, or described behaviour.
 - Report changed files and validation run.

@@ -10,6 +10,7 @@ Do not read these directly while rendering SSR-visible markup:
 - `Date.now()`, `new Date()` for displayed values, `Math.random()`, generated IDs not stabilized by React.
 - Browser-only media queries or layout measurements.
 - Client-only language, currency, timezone, auth, or consent values when the server has a different initial value.
+- Preference values unavailable from the request-time server context. Do not include preference-dependent markup in prerendered output.
 
 Use route loaders, server helpers, context, props, or `useEffect` after mount instead.
 
@@ -18,7 +19,7 @@ Use route loaders, server helpers, context, props, or `useEffect` after mount in
 Prefer these existing sources:
 
 - Locale: the real `/$lng` route segment. SSR sets the locale before render; the client initializes from the server-rendered `<html lang>` before hydration and keeps it synchronized through the locale route. For unprefixed URLs, `getPreferredLocale()` prefers an explicit `aura-language` cookie and otherwise uses `Accept-Language`.
-- Preferences: `getServerPreferences()` and `UserPreferencesProvider` initial state.
+- Preferences: `getServerPreferences()` and `UserPreferencesProvider` initial state are safe for request-time SSR when they use the same request cookie on the server and first client render. They are not safe for static prerendering.
 - Timezone: `getServerTimezone()` through route context.
 - Auth: `getServerUser()` in root route context and existing auth hooks/guards.
 - Data: TanStack Router loaders and TanStack Query SSR integration in `src/router.tsx`.
@@ -27,10 +28,19 @@ Prefer these existing sources:
 
 Use effects for browser-only behavior such as scroll listeners, analytics page views, Amplify Hub listeners, and third-party widgets. Keep the initial render deterministic and render the same fallback on server and first client render.
 
+## Preferences and prerendering
+
+- For request-time SSR, render preference-dependent UI only from `getServerPreferences()` passed as `UserPreferencesProvider` initial state. Do not replace it with browser storage before hydration.
+- Do not statically prerender preference-dependent markup: build-time HTML cannot contain request-cookie preferences.
+- For a prerendered route, defer preference-dependent UI until after mount and render a matching placeholder. If the preference-dependent content must be in HTML, opt the route out of static prerendering and use request-time SSR.
+- Do not publicly cache a response that varies by user preferences unless its cache key and headers safely separate those variants.
+
 ## Common safe patterns
 
 - Render a stable placeholder/skeleton until client-only data is available.
 - Initialize state from SSR-provided props/context rather than recomputing from browser storage.
+- In request-time SSR, pass cookie preferences through `UserPreferencesProvider` so server and first client markup match.
+- In static prerendering, keep preference-dependent components out of HTML and load them after mount.
 - Gate analytics/tracking initialization behind consent and run it in effects, not render.
 - Use `useId` for React-stable IDs instead of custom random IDs.
 - When displaying dates/prices/currency/language-sensitive values, use the same locale/currency/timezone inputs on server and client.
@@ -44,5 +54,6 @@ Before finishing work that touches routes, layout, i18n, preferences, auth, time
 - Will the browser's first render produce identical text, attributes, and element structure?
 - Are locale, currency, timezone, consent, and auth initialized from server-compatible data?
 - Are user-specific responses protected from public/shared caching?
-- Are server context providers and parsers checked after adjusting user preferences?
+- For request-time SSR, do server and first client renders use the same preference initial state?
+- For static prerendering, are preference-dependent components excluded from output and deferred until client state is available?
 - Did you run `pnpm build` if the change is SSR/routing-sensitive?
