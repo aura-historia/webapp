@@ -1,0 +1,58 @@
+name: Redeploy production release
+
+on:
+    workflow_dispatch:
+        inputs:
+            release_tag:
+                description: Immutable UTC release tag to redeploy (YYYYMMDD-HHMM)
+                required: true
+                type: string
+
+permissions:
+    contents: read
+    deployments: write
+
+jobs:
+    redeploy:
+        name: Redeploy ${{ inputs.release_tag }}
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        concurrency:
+            group: production-deploy
+            cancel-in-progress: false
+        environment:
+            name: production
+            url: https://aura-historia.com
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
+
+            - name: Validate protected release tag
+              shell: bash
+              env:
+                  RELEASE_TAG: ${{ inputs.release_tag }}
+              run: |
+                  git fetch --tags --force
+
+                  if [[ ! "$RELEASE_TAG" =~ ^[0-9]{8}-[0-9]{4}$ ]]; then
+                      echo "Release tags must use YYYYMMDD-HHMM; received: $RELEASE_TAG" >&2
+                      exit 1
+                  fi
+
+                  release_timestamp="${RELEASE_TAG:0:8} ${RELEASE_TAG:9:2}:${RELEASE_TAG:11:2}"
+                  canonical_tag="$(date -u -d "$release_timestamp" +%Y%m%d-%H%M 2>/dev/null || true)"
+                  if [[ "$canonical_tag" != "$RELEASE_TAG" ]]; then
+                      echo "Release tag is not a valid UTC calendar timestamp: $RELEASE_TAG" >&2
+                      exit 1
+                  fi
+
+                  git rev-parse --verify --quiet "refs/tags/$RELEASE_TAG^{commit}" >/dev/null
+
+            - name: Redeploy tagged Worker version
+              uses: cloudflare/wrangler-action@v4
+              with:
+                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                  command: versions deploy --yes --name aura-historia --version-tag ${{ inputs.release_tag }} --message "Redeploy release ${{ inputs.release_tag }}"

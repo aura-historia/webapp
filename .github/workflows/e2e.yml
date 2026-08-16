@@ -2,8 +2,7 @@ name: E2E Tests
 
 on:
     push:
-        branches: [main]
-    pull_request:
+        # temp disable until we fix #https://github.com/aura-historia/webapp/issues/597
         branches: [main]
 
 permissions:

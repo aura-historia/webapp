@@ -2,9 +2,11 @@ name: CI
 
 on:
     push:
-        branches: [main, develop]
+        branches: [develop]
+        tags:
+            - "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]"
     pull_request:
-        branches: [main, develop]
+        branches: [develop]
 
 permissions:
     contents: read
@@ -141,15 +143,15 @@ jobs:
                       .output
                       dist
 
-    deploy:
-        name: Deploy to Cloudflare
+    deploy-staging:
+        name: Deploy staging to Cloudflare
         runs-on: ubuntu-latest
         timeout-minutes: 10
         needs: [build]
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
         environment:
-            name: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
-            url: ${{ github.ref == 'refs/heads/main' && 'https://aura-historia.com' || 'https://stage.aura-historia.com' }}
+            name: staging
+            url: https://stage.aura-historia.com
         env:
             VITE_USER_POOL_ID: ${{ secrets.VITE_USER_POOL_ID }}
             VITE_USER_POOL_CLIENT_ID: ${{ secrets.VITE_USER_POOL_CLIENT_ID }}
@@ -177,14 +179,89 @@ jobs:
             - name: Build application
               run: pnpm run build
 
-            - name: Update wrangler config for production
-              if: github.ref == 'refs/heads/main'
-              run: |
-                  sed -i 's/"name": "aura-historia-staging"/"name": "aura-historia"/' wrangler.jsonc
-
             - name: Deploy to Cloudflare Workers
               uses: cloudflare/wrangler-action@v4
               with:
                   apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-                  command: deploy --name ${{ github.ref == 'refs/heads/main' && 'aura-historia' || 'aura-historia-staging' }}
+                  command: deploy --name aura-historia-staging
+
+    deploy-production:
+        name: Release production to Cloudflare
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        needs: [build]
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        concurrency:
+            group: production-deploy
+            cancel-in-progress: false
+        environment:
+            name: production
+            url: https://aura-historia.com
+        env:
+            VITE_USER_POOL_ID: ${{ secrets.VITE_USER_POOL_ID }}
+            VITE_USER_POOL_CLIENT_ID: ${{ secrets.VITE_USER_POOL_CLIENT_ID }}
+            VITE_API_URL: ${{ vars.VITE_API_URL }}
+            VITE_APP_URL: ${{ vars.VITE_APP_URL }}
+            VITE_FEATURE_LOGIN_ENABLED: ${{ vars.VITE_FEATURE_LOGIN_ENABLED }}
+            VITE_FEATURE_SEARCH_ENABLED: ${{ vars.VITE_FEATURE_SEARCH_ENABLED }}
+        steps:
+            - name: Checkout release tag
+              uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
+
+            - name: Validate release tag
+              shell: bash
+              run: |
+                  tag="${GITHUB_REF_NAME}"
+                  if [[ ! "$tag" =~ ^[0-9]{8}-[0-9]{4}$ ]]; then
+                      echo "Release tags must use YYYYMMDD-HHMM; received: $tag" >&2
+                      exit 1
+                  fi
+
+                  release_timestamp="${tag:0:8} ${tag:9:2}:${tag:11:2}"
+                  canonical_tag="$(date -u -d "$release_timestamp" +%Y%m%d-%H%M 2>/dev/null || true)"
+                  if [[ "$canonical_tag" != "$tag" ]]; then
+                      echo "Release tag is not a valid UTC calendar timestamp: $tag" >&2
+                      exit 1
+                  fi
+
+                  git fetch --no-tags origin develop:refs/remotes/origin/develop
+                  tag_commit="$(git rev-list -n 1 "$GITHUB_REF")"
+                  if ! git merge-base --is-ancestor "$tag_commit" origin/develop; then
+                      echo "Release tag must point to a commit in the develop history." >&2
+                      echo "Tag commit:     $tag_commit" >&2
+                      echo "Develop head:   $(git rev-parse origin/develop)" >&2
+                      exit 1
+                  fi
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version: 24
+
+            - name: Set up pnpm
+              run: |
+                  npm install --global pnpm@11.17.0
+                  pnpm --version
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Build application
+              run: pnpm run build
+
+            - name: Upload tagged Worker version
+              uses: cloudflare/wrangler-action@v4
+              with:
+                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                  command: versions upload --name aura-historia --tag ${{ github.ref_name }} --message "Release ${{ github.ref_name }}"
+
+            - name: Deploy tagged Worker version
+              uses: cloudflare/wrangler-action@v4
+              with:
+                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                  command: versions deploy --yes --name aura-historia --version-tag ${{ github.ref_name }} --message "Release ${{ github.ref_name }}"
