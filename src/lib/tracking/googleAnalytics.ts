@@ -9,6 +9,9 @@ const FORBIDDEN_PARAMS = new Set(["token", "password", "email", "reset_key", "se
 const isRunningInProd = env.VITE_APP_URL === "https://aura-historia.com";
 
 class GoogleAnalytics {
+    private hasInitialized = false;
+    private pendingConsent: boolean | undefined;
+
     /**
      * Initialises Google Analytics with the user's initial consent value.
      * GA is always loaded — consent mode handles what data is sent internally:
@@ -18,7 +21,10 @@ class GoogleAnalytics {
      */
     init(initialConsent?: boolean): void {
         if (import.meta.env.SSR) return;
-        if (ReactGA.isInitialized) return;
+        if (this.hasInitialized || ReactGA.isInitialized) {
+            this.flushPendingConsent();
+            return;
+        }
 
         const consentState = initialConsent ? "granted" : "denied";
 
@@ -33,6 +39,9 @@ class GoogleAnalytics {
         ReactGA.initialize(isRunningInProd ? TRACKING_TAG : TRACKING_TAG_STAGE, {
             gtagOptions: { send_page_view: false },
         });
+
+        this.hasInitialized = true;
+        this.flushPendingConsent();
     }
 
     /**
@@ -42,6 +51,22 @@ class GoogleAnalytics {
     setConsent(granted: boolean): void {
         if (import.meta.env.SSR) return;
 
+        if (!this.hasInitialized && !ReactGA.isInitialized) {
+            this.pendingConsent = granted;
+            return;
+        }
+
+        this.sendConsentUpdate(granted);
+    }
+
+    private flushPendingConsent(): void {
+        if (this.pendingConsent === undefined) return;
+
+        this.sendConsentUpdate(this.pendingConsent);
+        this.pendingConsent = undefined;
+    }
+
+    private sendConsentUpdate(granted: boolean): void {
         const consentState = granted ? "granted" : "denied";
 
         ReactGA.gtag("consent", "update", {

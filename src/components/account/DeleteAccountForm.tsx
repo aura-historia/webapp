@@ -18,7 +18,7 @@ import { useDeleteUserAccount } from "@/hooks/account/useDeleteUserAccount";
 
 export function DeleteAccountForm() {
     const { t } = useTranslation();
-    const navigate = useNavigate();
+    const navigate = useNavigate({ from: "/$lng" });
     const { signOut } = useResolvedAuth();
     const { mutate: deleteUserAccount, isPending } = useDeleteUserAccount();
     const [open, setOpen] = useState(false);
@@ -29,7 +29,7 @@ export function DeleteAccountForm() {
                 toast.success(t("account.deleteAccount.successMessage"));
                 setOpen(false);
                 await signOut();
-                await navigate({ to: "/" });
+                await navigate({ to: "/$lng" });
             },
             onError: (error) => {
                 toast.error(error.message || t("account.deleteAccount.errorMessage"));

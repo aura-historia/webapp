@@ -1,4 +1,12 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import {
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+    type ReactNode,
+} from "react";
 import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
 import { inferCurrencyFromLocale } from "@/data/internal/common/Currency.ts";
 import { inferUnitSystemFromLocale } from "@/data/internal/common/UnitSystem.ts";
@@ -19,11 +27,7 @@ type UserPreferencesContextValue = {
 
 const UserPreferencesContext = createContext<UserPreferencesContextValue | null>(null);
 
-function loadPreferences(locale: string): UserPreferences {
-    if (import.meta.env.SSR) {
-        return DEFAULT_PREFERENCES;
-    }
-
+function loadClientPreferences(locale: string): UserPreferences {
     try {
         const stored = localStorage.getItem(PREFERENCES_STORAGE_KEY);
         if (stored) {
@@ -70,9 +74,24 @@ export function UserPreferencesProvider({
     readonly locale: string;
 }) {
     const [preferences, setPreferences] = useState<UserPreferences>(() => ({
-        ...loadPreferences(locale),
+        ...DEFAULT_PREFERENCES,
         ...initialPreferences,
     }));
+
+    useEffect(() => {
+        if (import.meta.env.SSR) return;
+
+        const restoredPreferences = {
+            ...loadClientPreferences(locale),
+            ...initialPreferences,
+        };
+
+        setPreferences(restoredPreferences);
+
+        if (initialPreferences?.trackingConsent !== restoredPreferences.trackingConsent) {
+            googleAnalytics.setConsent(restoredPreferences.trackingConsent ?? false);
+        }
+    }, [initialPreferences, locale]);
 
     const updatePreferences = useCallback((updates: Partial<UserPreferences>) => {
         setPreferences((prev) => {

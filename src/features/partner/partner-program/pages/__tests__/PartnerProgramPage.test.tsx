@@ -24,7 +24,7 @@ describe("PartnerProgramPage", () => {
     it("links the final application CTA to the partner dashboard", () => {
         expect(screen.getByRole("link", { name: "Jetzt Partner werden" })).toHaveAttribute(
             "href",
-            "/partners/applications",
+            "/de/partners/applications",
         );
     });
 
@@ -45,7 +45,7 @@ describe("PartnerProgramPage", () => {
         expect(shopify).toHaveAttribute("target", "_blank");
 
         const customApi = screen.getByText("Eigene API-Integration").closest("a");
-        expect(customApi).toHaveAttribute("href", "/partner-program/custom-integration");
+        expect(customApi).toHaveAttribute("href", "/de/partner-program/custom-integration");
         expect(customApi).not.toHaveAttribute("target");
     });
 

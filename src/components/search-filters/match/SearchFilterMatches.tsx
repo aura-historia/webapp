@@ -65,7 +65,9 @@ export function SearchFilterMatches({ filterId }: Props) {
                     description={t("searchFilters.noMatches.description")}
                 >
                     <Button variant="outline" asChild>
-                        <Link to="/me/search-filters">{t("searchFilters.noMatches.editHint")}</Link>
+                        <Link to="/$lng/me/search-filters" params={true} from="/$lng">
+                            {t("searchFilters.noMatches.editHint")}
+                        </Link>
                     </Button>
                 </EmptyState>
             );

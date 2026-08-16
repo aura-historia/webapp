@@ -178,8 +178,8 @@ We use technically necessary browser storage and, only where legally permissible
 At present, the following storage mechanisms are used in particular:
 
 - **`user-preferences` (cookie, up to 1 year):** stores functional preferences such as currency and the status of your choices for analytics/tracking and external maps; this is used to apply your settings consistently on the server and client side
+- **`aura-language` (cookie, up to 1 year):** stores the language you explicitly select so that a later visit without a language prefix opens in that language instead of relying on your browser settings
 - **`user-preferences` (local storage):** stores the same functional preferences locally in your browser until you delete them
-- **`i18nextLng` (local storage):** stores your selected language until you delete or overwrite it
 - **`auth.signUp.pendingEmail` (session storage):** temporarily stores your email address during a multi-step sign-up process and is typically deleted at the end of the browser session
 
 Additional technically necessary storage may be used by authentication, security, or consent mechanisms. The exact key names may change over time.
@@ -358,4 +358,4 @@ We may adapt these privacy notices where this becomes necessary due to legal, te
 
 ---
 
-*Status: 17 May 2026*
+*Status: 14 August 2026*

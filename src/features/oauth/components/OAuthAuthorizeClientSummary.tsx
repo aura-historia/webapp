@@ -53,6 +53,8 @@ export function OAuthAuthorizeClientSummary({ client }: OAuthAuthorizeClientSumm
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-1 underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                                params={true}
+                                from="/$lng"
                             >
                                 <span>{link.label}</span>
                                 <ExternalLink className="size-3" aria-hidden="true" />

@@ -1,6 +1,7 @@
 import { env } from "@/env.ts";
 import { setPartnerShopIdOnRedirectUri } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
 import { z } from "zod";
+import { isSupportedLanguage, localizePathname } from "@/i18n/routing.ts";
 
 const DEFAULT_API_URL = "https://api.dev.aura-historia.com";
 const AUTHORIZE_ENDPOINT = "/api/v1/oauth/authorize";
@@ -8,6 +9,7 @@ const LOGIN_PATH = "/login";
 const AUTHORIZE_PAGE_PATH = "/oauth/authorize";
 
 const oauthAuthorizeFormSchema = z.object({
+    lng: z.string().refine(isSupportedLanguage),
     response_type: z.literal("code"),
     client_id: z.string().min(1),
     redirect_uri: z.string().min(1),
@@ -23,6 +25,7 @@ type OAuthAuthorizeFormData = z.infer<typeof oauthAuthorizeFormSchema>;
 export async function postOAuthAuthorizeApprove({ request }: { request: Request }) {
     const formData = await request.formData();
     const parseResult = oauthAuthorizeFormSchema.safeParse({
+        lng: getFormValue(formData, "lng"),
         response_type: getFormValue(formData, "response_type"),
         client_id: getFormValue(formData, "client_id"),
         redirect_uri: getFormValue(formData, "redirect_uri"),
@@ -76,10 +79,10 @@ function buildBackendAuthorizeUrl(params: OAuthAuthorizeFormData): string {
 }
 
 function buildLoginRedirectUrl(request: Request, params: OAuthAuthorizeFormData): string {
-    const authorizeUrl = new URL(AUTHORIZE_PAGE_PATH, request.url);
+    const authorizeUrl = new URL(localizePathname(AUTHORIZE_PAGE_PATH, params.lng), request.url);
     appendAuthorizeParams(authorizeUrl.searchParams, params);
 
-    const loginUrl = new URL(LOGIN_PATH, request.url);
+    const loginUrl = new URL(localizePathname(LOGIN_PATH, params.lng), request.url);
     loginUrl.searchParams.set("redirect", `${authorizeUrl.pathname}${authorizeUrl.search}`);
     return loginUrl.toString();
 }

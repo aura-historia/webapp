@@ -389,9 +389,11 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                                             )}
                                                         </span>
                                                         <Link
-                                                            to="/"
+                                                            to="/$lng"
                                                             hash="pricing"
                                                             className="text-primary underline underline-offset-2 font-medium"
+                                                            params={true}
+                                                            from="/$lng"
                                                         >
                                                             {t("searchFilter.upgradeNow")}
                                                         </Link>

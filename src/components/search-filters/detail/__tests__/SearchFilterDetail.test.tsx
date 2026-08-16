@@ -144,7 +144,7 @@ describe("SearchFilterDetail", () => {
             await userEvent.click(screen.getByRole("button", { name: "Endgültig löschen" }));
 
             expect(mockDeleteMutate).toHaveBeenCalledWith("filter-1", expect.anything());
-            expect(mockNavigate).toHaveBeenCalledWith({ to: "/me/search-filters" });
+            expect(mockNavigate).toHaveBeenCalledWith({ to: "/$lng/me/search-filters" });
         });
     });
 });

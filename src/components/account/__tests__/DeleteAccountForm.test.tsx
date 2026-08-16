@@ -81,7 +81,7 @@ describe("DeleteAccountForm", () => {
                 }),
             );
             expect(mockSignOut).toHaveBeenCalled();
-            expect(mockNavigate).toHaveBeenCalledWith({ to: "/" });
+            expect(mockNavigate).toHaveBeenCalledWith({ to: "/$lng" });
             expect(mockToast.success).toHaveBeenCalledWith("Account wurde erfolgreich gelöscht!");
         });
     });

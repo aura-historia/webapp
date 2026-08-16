@@ -1,6 +1,10 @@
 import "@testing-library/jest-dom";
 import testI18n from "@/i18n/i18nForTests";
-import { vi } from "vitest";
+import { beforeEach, vi } from "vitest";
+
+beforeEach(async () => {
+    await testI18n.changeLanguage("de");
+});
 
 vi.mock("@/i18n/i18n", () => ({
     default: testI18n,

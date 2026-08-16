@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { OAUTH_AUTHORIZE_APPROVE_ACTION } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
 import type { OAuthAuthorizeSearchParams } from "@/features/oauth/lib/oauthAuthorizeSearchParams.ts";
 import { useTranslation } from "react-i18next";
+import { useParams } from "@tanstack/react-router";
 
 interface OAuthAuthorizeActionsProps {
     readonly approveAriaLabel: string;
@@ -21,6 +22,7 @@ export function OAuthAuthorizeActions({
     searchParams,
 }: OAuthAuthorizeActionsProps) {
     const { t } = useTranslation();
+    const { lng } = useParams({ from: "/$lng" });
 
     return (
         <>
@@ -29,6 +31,7 @@ export function OAuthAuthorizeActions({
                 method="post"
                 className="w-full sm:w-auto"
             >
+                <input type="hidden" name="lng" value={lng} />
                 <input type="hidden" name="response_type" value={searchParams.response_type} />
                 <input type="hidden" name="client_id" value={searchParams.client_id} />
                 <input type="hidden" name="redirect_uri" value={searchParams.redirect_uri} />

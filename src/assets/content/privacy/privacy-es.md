@@ -178,8 +178,8 @@ Utilizamos almacenamiento del navegador técnicamente necesario y, solo cuando s
 Actualmente se utilizan en particular los siguientes mecanismos de almacenamiento:
 
 - **`user-preferences` (cookie, hasta 1 año):** almacena preferencias funcionales como la moneda y el estado de sus elecciones sobre analítica/seguimiento y mapas externos; se utiliza para aplicar sus ajustes de forma coherente del lado del servidor y del cliente
+- **`aura-language` (cookie, hasta 1 año):** almacena el idioma que usted selecciona expresamente para que una visita posterior sin prefijo de idioma se abra en ese idioma en lugar de depender de la configuración de su navegador
 - **`user-preferences` (local storage):** almacena las mismas preferencias funcionales localmente en su navegador hasta que usted las elimine
-- **`i18nextLng` (local storage):** almacena el idioma seleccionado hasta que usted lo elimine o lo sobrescriba
 - **`auth.signUp.pendingEmail` (session storage):** almacena temporalmente su dirección de correo electrónico durante un proceso de registro en varios pasos y normalmente se elimina al finalizar la sesión del navegador
 
 Pueden utilizarse almacenamientos técnicamente necesarios adicionales mediante mecanismos de autenticación, seguridad o consentimiento. Los nombres exactos de las claves pueden cambiar con el tiempo.
@@ -358,4 +358,4 @@ Podemos adaptar estas notas de privacidad cuando sea necesario por cambios legal
 
 ---
 
-*Estado: 17.05.2026*
+*Estado: 14.08.2026*

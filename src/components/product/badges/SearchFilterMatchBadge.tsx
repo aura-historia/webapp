@@ -16,7 +16,11 @@ export function SearchFilterMatchBadge({ filterId, filterName, matchReason }: Pr
     return (
         <Tooltip>
             <TooltipTrigger asChild>
-                <Link to="/me/search-filter/$filterId" params={{ filterId }}>
+                <Link
+                    to="/$lng/me/search-filter/$filterId"
+                    params={(current) => ({ ...current, filterId })}
+                    from="/$lng"
+                >
                     <Badge className="bg-tertiary text-tertiary-foreground py-1 gap-1 cursor-pointer">
                         <Filter className="w-3 h-3" />
                         {t("product.searchFilter.matchedBadge")}

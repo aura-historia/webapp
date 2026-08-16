@@ -198,7 +198,12 @@ export default function PricingSection() {
                                         </Button>
                                     ) : (
                                         <Button asChild variant="outline" className="mt-8 w-full">
-                                            <Link to="/login" search={{ mode: "sign-up" }}>
+                                            <Link
+                                                to="/$lng/login"
+                                                search={{ mode: "sign-up" }}
+                                                params={true}
+                                                from="/$lng"
+                                            >
                                                 {t("landingPage.pricing.getStartedFree")}
                                             </Link>
                                         </Button>

@@ -240,8 +240,10 @@ export default function NewsletterSection() {
                                                 components={{
                                                     privacyLink: (
                                                         <Link
-                                                            to="/privacy"
+                                                            to="/$lng/privacy"
                                                             className="underline underline-offset-2 hover:text-primary-foreground/80"
+                                                            params={true}
+                                                            from="/$lng"
                                                         />
                                                     ),
                                                 }}

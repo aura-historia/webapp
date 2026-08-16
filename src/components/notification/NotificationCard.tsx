@@ -82,13 +82,15 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                         </span>
                         {isProductNotification(payload) ? (
                             <Link
-                                to="/shops/$shopSlugId/products/$productSlugId"
-                                params={{
+                                to="/$lng/shops/$shopSlugId/products/$productSlugId"
+                                params={(current) => ({
+                                    ...current,
                                     shopSlugId: payload.shopSlugId,
                                     productSlugId: payload.productSlugId,
-                                }}
+                                })}
                                 className="min-w-0 overflow-hidden"
                                 onClick={() => !seen && markAsSeen.mutate(originEventId)}
+                                from="/$lng"
                             >
                                 <H2 className="overflow-ellipsis line-clamp-1 hover:underline">
                                     {payload.productTitle}

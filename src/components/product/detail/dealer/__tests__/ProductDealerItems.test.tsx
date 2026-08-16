@@ -33,9 +33,32 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     const actual = await importOriginal<typeof import("@tanstack/react-router")>();
     return {
         ...actual,
-        Link: ({ children, ...props }: { children: React.ReactNode }) => (
-            <a {...props}>{children}</a>
-        ),
+        Link: ({
+            children,
+            to,
+            params,
+            from: _from,
+            ...props
+        }: {
+            children: React.ReactNode;
+            to: string;
+            params?:
+                | Record<string, string>
+                | ((current: Record<string, string>) => Record<string, string>);
+            from?: string;
+        }) => {
+            const resolvedParams =
+                typeof params === "function" ? params({ lng: "de" }) : (params ?? { lng: "de" });
+            let href = to;
+            for (const [key, value] of Object.entries(resolvedParams)) {
+                href = href.replace(`$${key}`, value);
+            }
+            return (
+                <a href={href} {...props}>
+                    {children}
+                </a>
+            );
+        },
     };
 });
 
@@ -122,7 +145,7 @@ describe("ProductDealerItems", () => {
         expect(screen.getByText("Ancient Vase")).toBeInTheDocument();
         expect(screen.getByText("Roman Coin")).toBeInTheDocument();
         const shopLink = screen.getByText("Shop ansehen").closest("a");
-        expect(shopLink).toHaveAttribute("to", "/shops/$shopSlugId");
+        expect(shopLink).toHaveAttribute("href", "/de/shops/shop-1");
     });
 
     it("renders product cards in a carousel", () => {

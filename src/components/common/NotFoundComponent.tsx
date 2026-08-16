@@ -16,7 +16,9 @@ export function NotFoundComponent() {
                     <p className="text-base text-muted-foreground">{t("notFound.description")}</p>
                 </div>
                 <Button asChild>
-                    <Link to="/">{t("notFound.goHome")}</Link>
+                    <Link to="/$lng" params={true} from="/$lng">
+                        {t("notFound.goHome")}
+                    </Link>
                 </Button>
             </div>
         </div>

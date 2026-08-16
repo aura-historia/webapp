@@ -165,6 +165,7 @@ describe("OAuthAuthorizePage", () => {
 
         const formData = new FormData(form);
         expect(Object.fromEntries(formData)).toEqual({
+            lng: "de",
             response_type: "code",
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             redirect_uri: "https://client.example/callback",

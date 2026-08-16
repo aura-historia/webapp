@@ -1,5 +1,6 @@
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { env } from "@/env.ts";
+import { localizePathname } from "@/i18n/routing.ts";
 
 export type HreflangLink = {
     rel: "alternate";
@@ -11,9 +12,7 @@ export type HreflangLink = {
  * Generates `<link rel="alternate" hreflang="…">` entries for every supported
  * language plus an `x-default` fallback.
  *
- * Each language variant is addressed via the `?lng=<code>` query parameter,
- * which is already supported by the client-side i18next detector
- * (`lookupQuerystring: "lng"`) and by the SSR `getLocale` server function.
+ * Each language variant uses a stable language path prefix.
  *
  * Inject the returned array into a TanStack Router route's `head()` `links`
  * field so that search-engine crawlers can discover every language version.
@@ -27,7 +26,7 @@ export function generateHreflangLinks(path: string): HreflangLink[] {
     const languageLinks: HreflangLink[] = SUPPORTED_LANGUAGES.map(({ code }) => ({
         rel: "alternate" as const,
         hrefLang: code,
-        href: `${baseUrl}${path}?lng=${code}`,
+        href: `${baseUrl}${localizePathname(path, code)}`,
     }));
 
     return [
@@ -37,7 +36,7 @@ export function generateHreflangLinks(path: string): HreflangLink[] {
         {
             rel: "alternate" as const,
             hrefLang: "x-default",
-            href: `${baseUrl}${path}?lng=${DEFAULT_LANGUAGE}`,
+            href: `${baseUrl}${localizePathname(path, DEFAULT_LANGUAGE)}`,
         },
     ];
 }

@@ -5,17 +5,17 @@ import { cn } from "@/lib/utils.ts";
 
 const SIDEBAR_ITEMS = [
     {
-        to: "/partners/applications",
+        to: "/$lng/partners/applications",
         labelKey: "partnerDashboard.nav.applications",
         icon: <FileText className="h-4 w-4" aria-hidden="true" />,
     },
     {
-        to: "/partners/shops",
+        to: "/$lng/partners/shops",
         labelKey: "partnerDashboard.nav.shops",
         icon: <Store className="h-4 w-4" aria-hidden="true" />,
     },
     {
-        to: "/partners/access-tokens",
+        to: "/$lng/partners/access-tokens",
         labelKey: "partnerDashboard.nav.accessTokens",
         icon: <KeyRound className="h-4 w-4" aria-hidden="true" />,
     },
@@ -34,7 +34,9 @@ export function PartnerSidebar() {
                 {t("partnerDashboard.sidebarLabel")}
             </h2>
             {SIDEBAR_ITEMS.map((item) => {
-                const isActive = pathname === item.to || pathname.startsWith(`${item.to}/`);
+                const concretePath = item.to.replace("$lng", pathname.split("/")[1] ?? "");
+                const isActive =
+                    pathname === concretePath || pathname.startsWith(`${concretePath}/`);
 
                 return (
                     <Link
@@ -46,6 +48,8 @@ export function PartnerSidebar() {
                             isActive ? "bg-muted text-foreground" : "text-muted-foreground",
                         )}
                         aria-current={isActive ? "page" : undefined}
+                        params={true}
+                        from="/$lng"
                     >
                         {item.icon}
                         {t(item.labelKey)}

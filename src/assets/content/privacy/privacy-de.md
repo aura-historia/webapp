@@ -178,8 +178,8 @@ Wir verwenden technisch erforderliche Browser-Speicherungen sowie – nur im zul
 Derzeit werden insbesondere folgende Speichermechanismen verwendet:
 
 - **`user-preferences` (Cookie, bis zu 1 Jahr):** speichert funktionale Präferenzen wie Währung sowie den Status Ihrer Entscheidungen zu Analytics/Tracking und externen Karten; dient dazu, Ihre Einstellungen server- und clientseitig konsistent anzuwenden
+- **`aura-language` (Cookie, bis zu 1 Jahr):** speichert die von Ihnen ausdrücklich gewählte Sprache, damit ein späterer Aufruf ohne Sprachpräfix in dieser Sprache statt anhand der Browsereinstellungen geöffnet wird
 - **`user-preferences` (Local Storage):** speichert dieselben funktionalen Präferenzen lokal im Browser, bis Sie diese löschen
-- **`i18nextLng` (Local Storage):** speichert Ihre gewählte Sprache, bis Sie diese löschen oder überschreiben
 - **`auth.signUp.pendingEmail` (Session Storage):** speichert Ihre E-Mail-Adresse vorübergehend während eines mehrstufigen Registrierungsprozesses und wird typischerweise mit Ende der Browser-Sitzung gelöscht
 
 Zusätzlich können technisch erforderliche Speicherungen durch Authentifizierungs-, Sicherheits- oder Consent-Mechanismen eingesetzt werden. Deren konkrete Schlüsselnamen können sich im Zeitablauf ändern.
@@ -358,4 +358,4 @@ Wir können diese Datenschutzhinweise anpassen, wenn dies aufgrund rechtlicher, 
 
 ---
 
-*Stand: 17.05.2026*
+*Stand: 14.08.2026*

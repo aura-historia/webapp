@@ -9,13 +9,15 @@ vi.mock("@tanstack/react-router", () => ({
     Link: ({
         children,
         to,
+        params: _params,
+        from: _from,
         ...props
     }: {
         children: ReactNode;
         to: string;
         [key: string]: unknown;
     }) => (
-        <a href={to} {...props}>
+        <a href={to.replace("$lng", "de")} {...props}>
             {children}
         </a>
     ),
@@ -24,14 +26,14 @@ vi.mock("@tanstack/react-router", () => ({
 
 describe("PartnerSidebar", () => {
     it("links to partner applications and marks the route as active", () => {
-        mockPathname.mockReturnValue("/partners/applications");
+        mockPathname.mockReturnValue("/de/partners/applications");
 
         render(<PartnerSidebar />);
 
         expect(screen.getByRole("navigation", { name: "Partner-Bereiche" })).toBeInTheDocument();
         expect(screen.getByRole("link", { name: "Partner-Anträge" })).toHaveAttribute(
             "href",
-            "/partners/applications",
+            "/de/partners/applications",
         );
         expect(screen.getByRole("link", { name: "Partner-Anträge" })).toHaveAttribute(
             "aria-current",
@@ -39,12 +41,12 @@ describe("PartnerSidebar", () => {
         );
         expect(screen.getByRole("link", { name: "Zugriffstoken" })).toHaveAttribute(
             "href",
-            "/partners/access-tokens",
+            "/de/partners/access-tokens",
         );
     });
 
     it("marks access token management as active", () => {
-        mockPathname.mockReturnValue("/partners/access-tokens");
+        mockPathname.mockReturnValue("/de/partners/access-tokens");
 
         render(<PartnerSidebar />);
 

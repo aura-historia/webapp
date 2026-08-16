@@ -3,6 +3,7 @@ import { renderHook, act } from "@testing-library/react";
 import { UserPreferencesProvider, useUserPreferences } from "../useUserPreferences.tsx";
 import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";
 import type React from "react";
+import { renderToString } from "react-dom/server";
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
     <UserPreferencesProvider locale="de-DE">{children}</UserPreferencesProvider>
@@ -47,14 +48,31 @@ describe("useUserPreferences", () => {
         expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
     });
 
-    it("should return persisted preferences from localStorage", () => {
+    it("should return persisted preferences from localStorage and sync tracking consent", () => {
         localStorage.setItem("user-preferences", JSON.stringify({ trackingConsent: true }));
 
         renderHook(() => useUserPreferences(), {
             wrapper,
         });
 
-        expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
+        expect(googleAnalytics.setConsent).toHaveBeenCalledWith(true);
+    });
+
+    it("uses server preferences instead of localStorage for prerendered markup", () => {
+        localStorage.setItem("user-preferences", JSON.stringify({ currency: "USD" }));
+
+        function PreferenceValue() {
+            return <span>{useUserPreferences().preferences.currency}</span>;
+        }
+
+        const html = renderToString(
+            <UserPreferencesProvider initialPreferences={{ currency: "GBP" }} locale="de-DE">
+                <PreferenceValue />
+            </UserPreferencesProvider>,
+        );
+
+        expect(html).toContain("GBP");
+        expect(html).not.toContain("USD");
     });
 
     it("should update preferences, persist to localStorage and sync GA on change", async () => {

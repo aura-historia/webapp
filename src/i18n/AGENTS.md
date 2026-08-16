@@ -22,6 +22,8 @@ This doc owns `src/i18n/**`, including locale JSON dictionaries, language metada
 - Keep translation key structure aligned across every `translation.json` file.
 - Preserve placeholders exactly across locales, e.g. `{{year}}`, `{{language}}`, component markers used by `<Trans>`, and plural/context keys when present.
 - Do not add hardcoded user-facing strings in components/routes when a translation key should be used.
+- Treat the supported URL prefix (`/de`, `/en`, `/es`, `/fr`, `/it`) as the language source of truth. Persist only an explicit selector choice in the `aura-language` cookie; use it only for unprefixed redirects before `Accept-Language`.
+- Initialize client i18n from the server-rendered `<html lang>` before hydration, then keep it synchronized through the `/$lng` route.
 - Read `../../docs/product-context.md` for voice and audience before translating marketing/product copy.
 
 ## Work Guidance

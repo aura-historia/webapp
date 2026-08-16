@@ -134,6 +134,7 @@ Tone: professional, precise, calm, high-trust, art-market aware. No cheap hype.
 - Use React Query for cache, mutations, and interaction state.
 - Use existing primitives/hooks/libs before new abstraction.
 - Co-locate tests near changed code in `__tests__`.
+- Prerender only explicit locale-expanded static routes; do not crawl dynamic, personalized, or authenticated pages.
 
 ## Privacy And Security
 

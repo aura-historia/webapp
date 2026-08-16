@@ -11,8 +11,13 @@ import {
     WORDPRESS_PLUGIN_DIRECTORY_URL,
 } from "@/features/partner/partner-program/config/partnerProgramLinks.ts";
 
-const { changeLanguageMock } = vi.hoisted(() => ({
+const { changeLanguageMock, persistLanguagePreferenceMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
+    persistLanguagePreferenceMock: vi.fn(),
+}));
+
+vi.mock("@/i18n/languagePreference.ts", () => ({
+    persistLanguagePreference: persistLanguagePreferenceMock,
 }));
 
 vi.mock("@/hooks/account/usePatchUserAccount.ts", () => ({
@@ -51,6 +56,7 @@ vi.mock("react-i18next", async () => {
 describe("Footer Component", () => {
     beforeEach(async () => {
         changeLanguageMock.mockClear();
+        persistLanguagePreferenceMock.mockClear();
         await act(async () => {
             renderWithRouter(<Footer />);
         });
@@ -74,19 +80,19 @@ describe("Footer Component", () => {
     });
 
     it("should render navigation links with correct href attributes", () => {
-        expect(screen.getByText("Über uns").closest("a")).toHaveAttribute("href", "/about-us");
-        expect(screen.getByText("Impressum").closest("a")).toHaveAttribute("href", "/imprint");
+        expect(screen.getByText("Über uns").closest("a")).toHaveAttribute("href", "/de/about-us");
+        expect(screen.getByText("Impressum").closest("a")).toHaveAttribute("href", "/de/imprint");
         expect(screen.getByText("Datenschutzerklärung").closest("a")).toHaveAttribute(
             "href",
-            "/privacy",
+            "/de/privacy",
         );
         expect(screen.getByText("AGB").closest("a")).toHaveAttribute(
             "href",
-            "/terms-and-conditions",
+            "/de/terms-and-conditions",
         );
         expect(screen.getByText("Cookie-Einstellungen").closest("a")).toHaveAttribute(
             "href",
-            "/consent-settings",
+            "/de/consent-settings",
         );
     });
 
@@ -124,11 +130,11 @@ describe("Footer Component", () => {
     it("should render partner program links with correct href attributes", () => {
         expect(screen.getByText("Übersicht").closest("a")).toHaveAttribute(
             "href",
-            "/partner-program",
+            "/de/partner-program",
         );
         expect(screen.getByText("Partner-Dashboard").closest("a")).toHaveAttribute(
             "href",
-            "/partners/applications",
+            "/de/partners/applications",
         );
         expect(screen.getByText("WordPress-Plugin").closest("a")).toHaveAttribute(
             "href",
@@ -148,11 +154,11 @@ describe("Footer Component", () => {
         );
         expect(screen.getByText("Eigene Integration").closest("a")).toHaveAttribute(
             "href",
-            "/partner-program/custom-integration",
+            "/de/partner-program/custom-integration",
         );
         expect(screen.getByText("Jetzt bewerben").closest("a")).toHaveAttribute(
             "href",
-            "/partners/applications",
+            "/de/partners/applications",
         );
     });
 
@@ -180,18 +186,21 @@ describe("Footer Component", () => {
     it("should render landing page fragment links", () => {
         expect(screen.getByText("Neueste Zugänge").closest("a")).toHaveAttribute(
             "href",
-            "/#recently-added",
+            "/de#recently-added",
         );
-        expect(screen.getByText("Plattform").closest("a")).toHaveAttribute("href", "/#discover");
-        expect(screen.getByText("Funktionen").closest("a")).toHaveAttribute("href", "/#features");
+        expect(screen.getByText("Plattform").closest("a")).toHaveAttribute("href", "/de#discover");
+        expect(screen.getByText("Funktionen").closest("a")).toHaveAttribute("href", "/de#features");
         expect(screen.getByText("So funktioniert's").closest("a")).toHaveAttribute(
             "href",
-            "/#how-it-works",
+            "/de#how-it-works",
         );
         expect(screen.queryByText("Nutzerstimmen")).not.toBeInTheDocument();
-        expect(screen.getByText("Preise").closest("a")).toHaveAttribute("href", "/#pricing");
-        expect(screen.getByText("Newsletter").closest("a")).toHaveAttribute("href", "/#newsletter");
-        expect(screen.getByText("FAQ").closest("a")).toHaveAttribute("href", "/#faq");
+        expect(screen.getByText("Preise").closest("a")).toHaveAttribute("href", "/de#pricing");
+        expect(screen.getByText("Newsletter").closest("a")).toHaveAttribute(
+            "href",
+            "/de#newsletter",
+        );
+        expect(screen.getByText("FAQ").closest("a")).toHaveAttribute("href", "/de#faq");
     });
 
     it("should navigate to the landing page fragment from another route", async () => {
@@ -230,7 +239,18 @@ describe("Footer Component", () => {
     });
 
     it("should change language", async () => {
+        cleanup();
         const user = userEvent.setup();
+
+        await act(async () => {
+            renderWithRouter(
+                <>
+                    <Footer />
+                    <LocationProbe />
+                </>,
+                { initialEntries: ["/de/test"] },
+            );
+        });
 
         const trigger = screen.getByRole("combobox");
         await user.click(trigger);
@@ -239,7 +259,9 @@ describe("Footer Component", () => {
         await user.click(option);
 
         await waitFor(() => {
+            expect(screen.getByTestId("location-probe")).toHaveTextContent("/en/test");
             expect(changeLanguageMock).toHaveBeenCalledWith("en");
+            expect(persistLanguagePreferenceMock).toHaveBeenCalledWith("en");
         });
     });
 });

@@ -103,9 +103,10 @@ function ShopPageField({
             </dt>
             <dd className="min-w-0 text-sm">
                 <Link
-                    to="/shops/$shopSlugId"
-                    params={{ shopSlugId }}
+                    to="/$lng/shops/$shopSlugId"
+                    params={(current) => ({ ...current, shopSlugId })}
                     className="inline-flex min-w-0 items-center gap-1 text-primary hover:underline"
+                    from="/$lng"
                 >
                     <span className="truncate">{shopName}</span>
                     <ExternalLink className="h-3 w-3 shrink-0" aria-hidden="true" />

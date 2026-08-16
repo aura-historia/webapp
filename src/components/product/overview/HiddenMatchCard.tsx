@@ -24,7 +24,7 @@ export function HiddenMatchCard() {
                     className="rounded-none text-[10px] uppercase tracking-[0.12em]"
                     asChild
                 >
-                    <Link to="/" hash="pricing">
+                    <Link to="/$lng" hash="pricing" params={true} from="/$lng">
                         {t("searchFilters.hiddenMatch.upgradeButton")}
                     </Link>
                 </Button>

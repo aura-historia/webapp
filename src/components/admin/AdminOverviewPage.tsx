@@ -30,8 +30,10 @@ export function AdminOverviewPage() {
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
                 <Link
-                    to="/admin/shops"
+                    to="/$lng/admin/shops"
                     className="group flex flex-col gap-2 rounded-md border bg-surface-container-low p-5 transition-colors hover:border-primary"
+                    params={true}
+                    from="/$lng"
                 >
                     <div className="flex items-center gap-3">
                         <Store className="h-5 w-5 text-primary" aria-hidden="true" />
@@ -45,8 +47,10 @@ export function AdminOverviewPage() {
                 </Link>
 
                 <Link
-                    to="/admin/partner-applications"
+                    to="/$lng/admin/partner-applications"
                     className="group flex flex-col gap-2 rounded-md border bg-surface-container-low p-5 transition-colors hover:border-primary"
+                    params={true}
+                    from="/$lng"
                 >
                     <div className="flex items-center gap-3">
                         <FileText className="h-5 w-5 text-primary" aria-hidden="true" />
@@ -67,8 +71,10 @@ export function AdminOverviewPage() {
                 </Link>
 
                 <Link
-                    to="/admin/oauth-clients"
+                    to="/$lng/admin/oauth-clients"
                     className="group flex flex-col gap-2 rounded-md border bg-surface-container-low p-5 transition-colors hover:border-primary"
+                    params={true}
+                    from="/$lng"
                 >
                     <div className="flex items-center gap-3">
                         <KeyRound className="h-5 w-5 text-primary" aria-hidden="true" />
@@ -89,8 +95,10 @@ export function AdminOverviewPage() {
                 </Link>
 
                 <Link
-                    to="/admin/users"
+                    to="/$lng/admin/users"
                     className="group flex flex-col gap-2 rounded-md border bg-surface-container-low p-5 transition-colors hover:border-primary"
+                    params={true}
+                    from="/$lng"
                 >
                     <div className="flex items-center gap-3">
                         <Users className="h-5 w-5 text-primary" aria-hidden="true" />

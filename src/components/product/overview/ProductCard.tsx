@@ -77,13 +77,15 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                 <div className="flex min-w-0 items-start justify-between gap-3 pb-3">
                     <div className="min-w-0">
                         <Link
-                            to="/shops/$shopSlugId/products/$productSlugId"
-                            params={{
+                            to="/$lng/shops/$shopSlugId/products/$productSlugId"
+                            params={(current) => ({
+                                ...current,
                                 shopSlugId: product.shopSlugId,
                                 productSlugId: product.productSlugId,
-                            }}
+                            })}
                             className="min-w-0"
                             onClick={handleProductClick}
+                            from="/$lng"
                         >
                             <H2 className="line-clamp-2 text-[1.35rem] leading-8 italic transition-colors duration-300 ease-out hover:text-primary-container">
                                 {product.title}
@@ -118,9 +120,13 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                     <p className="text-sm uppercase tracking-[0.08em] text-muted-foreground/80">
                         {product.sellerName === product.shopName ? (
                             <Link
-                                to="/shops/$shopSlugId"
-                                params={{ shopSlugId: product.shopSlugId }}
+                                to="/$lng/shops/$shopSlugId"
+                                params={(current) => ({
+                                    ...current,
+                                    shopSlugId: product.shopSlugId,
+                                })}
                                 className="transition-colors hover:text-foreground hover:underline"
+                                from="/$lng"
                             >
                                 {product.shopName}
                             </Link>
@@ -130,9 +136,13 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                                 <span className="ml-2 text-muted-foreground/80">
                                     {t("product.soldOn")}{" "}
                                     <Link
-                                        to="/shops/$shopSlugId"
-                                        params={{ shopSlugId: product.shopSlugId }}
+                                        to="/$lng/shops/$shopSlugId"
+                                        params={(current) => ({
+                                            ...current,
+                                            shopSlugId: product.shopSlugId,
+                                        })}
                                         className="transition-colors hover:text-foreground hover:underline"
+                                        from="/$lng"
                                     >
                                         {product.shopName}
                                     </Link>
@@ -168,12 +178,14 @@ function ProductCardComponent({ product }: { readonly product: OverviewProduct }
                             asChild
                         >
                             <Link
-                                to="/shops/$shopSlugId/products/$productSlugId"
-                                params={{
+                                to="/$lng/shops/$shopSlugId/products/$productSlugId"
+                                params={(current) => ({
+                                    ...current,
                                     shopSlugId: product.shopSlugId,
                                     productSlugId: product.productSlugId,
-                                }}
+                                })}
                                 onClick={handleProductClick}
+                                from="/$lng"
                             >
                                 <Eye />
                                 <span>{t("product.details")}</span>

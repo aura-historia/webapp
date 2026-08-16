@@ -178,8 +178,8 @@ Utilizziamo meccanismi di memorizzazione del browser tecnicamente necessari e, s
 Attualmente vengono utilizzati in particolare i seguenti meccanismi di memorizzazione:
 
 - **`user-preferences` (cookie, fino a 1 anno):** memorizza preferenze funzionali come la valuta e lo stato delle vostre scelte in materia di analytics / tracking e mappe esterne; serve ad applicare le vostre impostazioni in modo coerente lato server e lato client
+- **`aura-language` (cookie, fino a 1 anno):** memorizza la lingua selezionata espressamente, affinché una visita successiva senza prefisso linguistico si apra in quella lingua anziché basarsi sulle impostazioni del browser
 - **`user-preferences` (local storage):** memorizza le stesse preferenze funzionali localmente nel vostro browser finché non le eliminate
-- **`i18nextLng` (local storage):** memorizza la lingua selezionata finché non la eliminate o la sovrascrivete
 - **`auth.signUp.pendingEmail` (session storage):** memorizza temporaneamente il vostro indirizzo email durante un processo di registrazione in più fasi e di norma viene eliminato al termine della sessione del browser
 
 Ulteriori memorizzazioni tecnicamente necessarie possono essere utilizzate da meccanismi di autenticazione, sicurezza o consenso. I nomi esatti delle chiavi possono cambiare nel tempo.
@@ -358,4 +358,4 @@ Possiamo adeguare le presenti note sulla privacy quando ciò si renda necessario
 
 ---
 
-*Stato: 17.05.2026*
+*Stato: 14.08.2026*

@@ -280,8 +280,10 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
                                                 components={{
                                                     privacyLink: (
                                                         <Link
-                                                            to="/privacy"
+                                                            to="/$lng/privacy"
                                                             className="underline underline-offset-2"
+                                                            params={true}
+                                                            from="/$lng"
                                                         />
                                                     ),
                                                 }}

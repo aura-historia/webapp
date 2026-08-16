@@ -29,7 +29,14 @@ export function ConsentSettings() {
                 <Trans
                     i18nKey="consentSettings.description"
                     components={{
-                        1: <Link to="/privacy" className="underline hover:text-foreground" />,
+                        1: (
+                            <Link
+                                to="/$lng/privacy"
+                                className="underline hover:text-foreground"
+                                params={true}
+                                from="/$lng"
+                            />
+                        ),
                     }}
                 />
             </p>

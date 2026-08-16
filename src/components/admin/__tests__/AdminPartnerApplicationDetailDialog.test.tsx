@@ -20,7 +20,11 @@ vi.mock("@tanstack/react-router", () => ({
         children: React.ReactNode;
         to: string;
         search?: { userId?: string };
-    }) => <a href={`${to}${search?.userId ? `?userId=${search.userId}` : ""}`}>{children}</a>,
+    }) => (
+        <a href={`${to.replace("$lng", "de")}${search?.userId ? `?userId=${search.userId}` : ""}`}>
+            {children}
+        </a>
+    ),
 }));
 
 const application: PartnerApplication = {
@@ -77,7 +81,7 @@ describe("AdminPartnerApplicationDetailDialog", () => {
         expect(screen.getByText("ADMIN")).toBeInTheDocument();
         expect(screen.getByRole("link", { name: /Benutzerprofil öffnen/i })).toHaveAttribute(
             "href",
-            "/admin/users?userId=user-1",
+            "/de/admin/users?userId=user-1",
         );
     });
 

@@ -4,8 +4,22 @@ import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { devtools } from "@tanstack/devtools-vite";
+import { SUPPORTED_LANGUAGES } from "./src/i18n/languages.ts";
 
-const EXCLUDED_ROUTES = new Set(["/me/", "/search", "/api/", "/login", "/admin/", "/partners/"]);
+const STATIC_PAGE_PATHS = [
+    "/",
+    "/about-us",
+    "/compare/barnebys",
+    "/imprint",
+    "/partner-program",
+    "/partner-program/custom-integration",
+    "/privacy",
+    "/terms-and-conditions",
+] as const;
+
+const PRERENDER_PAGES = SUPPORTED_LANGUAGES.flatMap(({ code }) =>
+    STATIC_PAGE_PATHS.map((path) => ({ path: `/${code}${path}` })),
+);
 
 export default defineConfig({
     plugins: [
@@ -14,17 +28,12 @@ export default defineConfig({
             removeDevtoolsOnBuild: true,
         }),
         tanstackStart({
+            pages: PRERENDER_PAGES,
             prerender: {
-                // TODO: Re-enable once we've integrated lang preference in URL
-                enabled: false,
-                crawlLinks: true,
-                filter: ({ path }) => {
-                    const isExcludedRoute = [...EXCLUDED_ROUTES].some((route) =>
-                        path.includes(route),
-                    );
-
-                    return !isExcludedRoute;
-                },
+                enabled: true,
+                autoStaticPathsDiscovery: false,
+                concurrency: 1,
+                crawlLinks: false,
             },
             sitemap: {
                 enabled: true,

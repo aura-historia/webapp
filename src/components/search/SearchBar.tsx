@@ -25,6 +25,7 @@ import { env } from "@/env.ts";
 import { useAnimatedPlaceholder } from "@/hooks/useAnimatedPlaceholder";
 import { serializeSearchParams } from "@/lib/searchValidation.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import { stripLanguageFromPathname } from "@/i18n/routing.ts";
 import {
     Select,
     SelectContent,
@@ -56,10 +57,11 @@ export type SearchFormSchema = z.infer<ReturnType<typeof createSearchFormSchema>
 
 export function SearchBar({ type }: SearchBarProps) {
     const { t } = useTranslation();
-    const navigate = useNavigate({ from: "/" });
+    const navigate = useNavigate({ from: "/$lng" });
     const pathname = useLocation({
         select: (location) => location.pathname,
     });
+    const routePathname = stripLanguageFromPathname(pathname);
     const isNavigating = useRouterState({ select: (s) => s.isLoading });
     const { setQuery } = useSearchQueryContext();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -74,8 +76,8 @@ export function SearchBar({ type }: SearchBarProps) {
     const showLoading = isSubmitting && isNavigating;
 
     const searchParams = useSearch({ strict: false });
-    const isOnProductSearch = pathname === "/search";
-    const isOnShopSearch = pathname === "/search/shops";
+    const isOnProductSearch = routePathname === "/search";
+    const isOnShopSearch = routePathname === "/search/shops";
     const currentQuery =
         isOnProductSearch || isOnShopSearch ? (searchParams.q as string) || "" : "";
 
@@ -127,7 +129,7 @@ export function SearchBar({ type }: SearchBarProps) {
         setIsSubmitting(true);
         if (searchType === "shops") {
             navigate({
-                to: "/search/shops",
+                to: "/$lng/search/shops",
                 search: {
                     q: values.query,
                 },
@@ -135,7 +137,7 @@ export function SearchBar({ type }: SearchBarProps) {
             return;
         }
         navigate({
-            to: "/search",
+            to: "/$lng/search",
             search: (prev) => {
                 const currentParams = serializeSearchParams(prev as SearchFilterArguments);
                 return {
