@@ -89,9 +89,42 @@ describe("GoogleAnalytics.setConsent", () => {
         vi.clearAllMocks();
     });
 
-    it("sends a consent update with granted when called with true", async () => {
+    it("queues consent received before initialisation and applies it after setup", async () => {
         import.meta.env.SSR = false;
         const ga = await freshGA();
+
+        ga.setConsent(true);
+        expect(ReactGA.gtag).not.toHaveBeenCalled();
+
+        ga.init();
+
+        expect(ReactGA.gtag).toHaveBeenNthCalledWith(1, "consent", "default", {
+            ad_storage: "denied",
+            analytics_storage: "denied",
+            ad_user_data: "denied",
+            ad_personalization: "denied",
+        });
+        expect(ReactGA.initialize).toHaveBeenCalledTimes(1);
+        expect(ReactGA.gtag).toHaveBeenNthCalledWith(2, "consent", "update", {
+            ad_storage: "granted",
+            analytics_storage: "granted",
+            ad_user_data: "granted",
+            ad_personalization: "granted",
+        });
+        expect(vi.mocked(ReactGA.gtag).mock.invocationCallOrder[0]).toBeLessThan(
+            vi.mocked(ReactGA.initialize).mock.invocationCallOrder[0],
+        );
+        expect(vi.mocked(ReactGA.initialize).mock.invocationCallOrder[0]).toBeLessThan(
+            vi.mocked(ReactGA.gtag).mock.invocationCallOrder[1],
+        );
+    });
+
+    it("sends a consent update with granted after initialisation", async () => {
+        import.meta.env.SSR = false;
+        const ga = await freshGA();
+
+        ga.init(false);
+        vi.clearAllMocks();
 
         ga.setConsent(true);
 
@@ -106,6 +139,9 @@ describe("GoogleAnalytics.setConsent", () => {
     it("sends a consent update with denied when called with false", async () => {
         import.meta.env.SSR = false;
         const ga = await freshGA();
+
+        ga.init(false);
+        vi.clearAllMocks();
 
         ga.setConsent(false);
 
