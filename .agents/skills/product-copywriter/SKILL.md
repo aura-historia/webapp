@@ -14,7 +14,7 @@ Read:
 - `docs/product-context.md`
 - `docs/design-guidelines.md` for UI tone/fit
 - `docs/privacy-policy-alignment.md` if the copy explains data, consent, tracking, accounts, payments, tokens, OAuth, or privacy
-- `src/i18n/AGENTS.md`
+- `AGENTS.md`
 
 ## Voice
 
