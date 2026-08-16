@@ -141,21 +141,22 @@ Partner and integration endpoints are documented in the OpenAPI reference.
 
 The application deploys to Cloudflare Workers after CI succeeds:
 
-| Branch | Environment | URL |
+| Source | Environment | URL |
 | --- | --- | --- |
-| `main` | Production | [aura-historia.com](https://aura-historia.com) |
 | `develop` | Staging | [stage.aura-historia.com](https://stage.aura-historia.com) |
+| Protected `YYYYMMDD-HHMM` release tag from `develop` history | Production | [aura-historia.com](https://aura-historia.com) |
+
+Release timestamps use UTC. Production deployment is CI-only: create and push a protected, immutable release tag after the corresponding `develop` commit has passed CI. CI validates the tag timestamp and that its commit belongs to `develop` history, uploads it to Cloudflare with the same version tag, then deploys that version. This supports re-deploying or rolling back to a named release in Cloudflare.
+
+To redeploy a previous release, run the **Redeploy production release** workflow from GitHub Actions and provide its release tag. The workflow requires the same production-environment protections and promotes the already-uploaded Cloudflare Worker version without rebuilding it.
 
 <p>
   <a href="https://aura-historia.com"><img src="https://img.shields.io/badge/aura--historia.com-Visit%20Website-8B4513?style=flat" alt="Aura Historia website" /></a>
 </p>
 
-Manual deployments require `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`:
+Manual staging deployments require `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`:
 
 ```sh
-# Production
-pnpm deploy:production
-
 # Staging
 pnpm deploy:staging
 ```
