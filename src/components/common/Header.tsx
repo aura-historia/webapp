@@ -50,6 +50,7 @@ export function Header() {
     if (prevPathnameRef.current !== pathname) {
         prevPathnameRef.current = pathname;
         setIsMobileSearchOpen(false);
+        setLandingHeroVisibility({ pathname: "", isOutOfView: false });
     }
 
     const searchString = useLocation({
@@ -77,12 +78,13 @@ export function Header() {
             return;
         }
 
-        const hero = document.getElementById(LANDING_PAGE_FRAGMENTS.hero);
-        if (!hero) {
-            return;
-        }
+        let hero: HTMLElement | null = null;
 
         const updateHeroVisibility = () => {
+            if (!hero) {
+                return;
+            }
+
             const { bottom, top } = hero.getBoundingClientRect();
             const isOutOfView = bottom <= 0 || top >= window.innerHeight;
 
@@ -96,11 +98,32 @@ export function Header() {
         };
 
         const observer = new IntersectionObserver(updateHeroVisibility);
-        observer.observe(hero);
+        const observeCurrentHero = () => {
+            const currentHero = document.getElementById(LANDING_PAGE_FRAGMENTS.hero);
+            if (currentHero === hero) {
+                return;
+            }
+
+            if (hero) {
+                observer.unobserve(hero);
+            }
+
+            hero = currentHero;
+            if (hero) {
+                observer.observe(hero);
+                updateHeroVisibility();
+            }
+        };
+
+        observeCurrentHero();
+
+        const heroMountObserver = new MutationObserver(observeCurrentHero);
+        heroMountObserver.observe(document.body, { childList: true, subtree: true });
         window.addEventListener("resize", updateHeroVisibility, { passive: true });
 
         return () => {
             observer.disconnect();
+            heroMountObserver.disconnect();
             window.removeEventListener("resize", updateHeroVisibility);
         };
     }, [isLandingPage, pathname]);
@@ -147,12 +170,28 @@ export function Header() {
                                 <DropdownMenuLabel>{t("header.collection")}</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                    <Link to="/$lng/me/watchlist" params={true} from="/$lng">
+                                    <Link
+                                        to="/$lng/me/watchlist"
+                                        aria-current={
+                                            routePathname === "/me/watchlist" ? "page" : undefined
+                                        }
+                                        params={true}
+                                        from="/$lng"
+                                    >
                                         {t("header.watchlist")}
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                    <Link to="/$lng/me/search-filters" params={true} from="/$lng">
+                                    <Link
+                                        to="/$lng/me/search-filters"
+                                        aria-current={
+                                            routePathname === "/me/search-filters"
+                                                ? "page"
+                                                : undefined
+                                        }
+                                        params={true}
+                                        from="/$lng"
+                                    >
                                         {t("header.searchFilters")}
                                     </Link>
                                 </DropdownMenuItem>
@@ -181,6 +220,11 @@ export function Header() {
                                 <DropdownMenuItem asChild>
                                     <Link
                                         to="/$lng/partners/applications"
+                                        aria-current={
+                                            routePathname.startsWith("/partners/")
+                                                ? "page"
+                                                : undefined
+                                        }
                                         params={true}
                                         from="/$lng"
                                     >
@@ -189,7 +233,16 @@ export function Header() {
                                 </DropdownMenuItem>
                                 {isAdmin && (
                                     <DropdownMenuItem asChild>
-                                        <Link to="/$lng/admin/overview" params={true} from="/$lng">
+                                        <Link
+                                            to="/$lng/admin/overview"
+                                            aria-current={
+                                                routePathname.startsWith("/admin/")
+                                                    ? "page"
+                                                    : undefined
+                                            }
+                                            params={true}
+                                            from="/$lng"
+                                        >
                                             {t("header.admin")}
                                         </Link>
                                     </DropdownMenuItem>

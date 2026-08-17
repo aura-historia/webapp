@@ -1,4 +1,5 @@
 import { renderWithRouter } from "@/test/utils.tsx";
+import { LANDING_PAGE_FRAGMENTS } from "@/components/landing-page/LandingPage.fragments.ts";
 import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -197,6 +198,45 @@ describe("Header Component", () => {
         });
     });
 
+    describe("Grouped desktop navigation current page state", () => {
+        beforeEach(() => {
+            setupAuthMock({ isAuthenticated: true });
+            mockUseUserAccount.mockReturnValue({
+                data: {
+                    firstName: "Ada",
+                    lastName: "Admin",
+                    role: "ADMIN",
+                },
+                isLoading: false,
+            });
+        });
+
+        it.each([
+            ["/me/watchlist", "Sammlung", "Merkliste", "Suchaufträge"],
+            ["/me/search-filters", "Sammlung", "Suchaufträge", "Merkliste"],
+            ["/partners/applications", "Arbeitsbereich", "Partner-Dashboard", "Admin"],
+            ["/admin/overview", "Arbeitsbereich", "Admin", "Partner-Dashboard"],
+        ])(
+            "should expose the current grouped destination on %s",
+            async (initialEntry, triggerName, currentLinkName, otherLinkName) => {
+                const user = userEvent.setup();
+                await act(async () => {
+                    renderWithRouter(<Header />, { initialEntries: [initialEntry] });
+                });
+
+                await user.click(screen.getByRole("button", { name: triggerName }));
+
+                expect(screen.getByRole("menuitem", { name: currentLinkName })).toHaveAttribute(
+                    "aria-current",
+                    "page",
+                );
+                expect(screen.getByRole("menuitem", { name: otherLinkName })).not.toHaveAttribute(
+                    "aria-current",
+                );
+            },
+        );
+    });
+
     describe("Cloudflare prerendered auth state", () => {
         it("uses the client Amplify session when server auth was rendered as logged out", async () => {
             setupAuthMock({ isAuthenticated: true });
@@ -247,6 +287,47 @@ describe("Header Component", () => {
             });
             const searchInput = screen.getAllByPlaceholderText("Suche")[0];
             expect(searchInput.closest("form")?.parentElement).toHaveClass("opacity-0");
+        });
+
+        it("should observe the landing hero when it mounts after the header", async () => {
+            const originalIntersectionObserver = globalThis.IntersectionObserver;
+            const observe = vi.fn();
+            const unobserve = vi.fn();
+            const disconnect = vi.fn();
+
+            globalThis.IntersectionObserver = class {
+                readonly root = null;
+                readonly rootMargin = "";
+                readonly thresholds = [];
+                observe = observe;
+                unobserve = unobserve;
+                disconnect = disconnect;
+                takeRecords = () => [];
+            } as unknown as typeof IntersectionObserver;
+
+            const hero = document.createElement("div");
+            hero.id = LANDING_PAGE_FRAGMENTS.hero;
+            hero.getBoundingClientRect = vi.fn(() => ({ top: -100, bottom: 0 }) as DOMRect);
+
+            try {
+                await act(() => {
+                    renderWithRouter(<Header />, { initialEntries: ["/"] });
+                });
+
+                expect(observe).not.toHaveBeenCalled();
+
+                await act(async () => {
+                    document.body.appendChild(hero);
+                    await Promise.resolve();
+                });
+
+                expect(observe).toHaveBeenCalledWith(hero);
+                const searchInput = screen.getAllByPlaceholderText("Suche")[0];
+                expect(searchInput.closest("form")?.parentElement).toHaveClass("opacity-100");
+            } finally {
+                hero.remove();
+                globalThis.IntersectionObserver = originalIntersectionObserver;
+            }
         });
 
         it("should show the search bar on other routes", async () => {

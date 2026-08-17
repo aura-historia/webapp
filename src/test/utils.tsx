@@ -55,6 +55,30 @@ const partnerProgramRoute = createRoute({
     component: () => <>{injectedChildren}</>,
 });
 
+const watchlistRoute = createRoute({
+    getParentRoute: () => languageRoute,
+    path: "me/watchlist",
+    component: () => <>{injectedChildren}</>,
+});
+
+const searchFiltersRoute = createRoute({
+    getParentRoute: () => languageRoute,
+    path: "me/search-filters",
+    component: () => <>{injectedChildren}</>,
+});
+
+const partnerApplicationsRoute = createRoute({
+    getParentRoute: () => languageRoute,
+    path: "partners/applications",
+    component: () => <>{injectedChildren}</>,
+});
+
+const adminOverviewRoute = createRoute({
+    getParentRoute: () => languageRoute,
+    path: "admin/overview",
+    component: () => <>{injectedChildren}</>,
+});
+
 const routeTree = rootRoute.addChildren([
     languageRoute.addChildren([
         indexRoute,
@@ -62,6 +86,10 @@ const routeTree = rootRoute.addChildren([
         searchRoute,
         searchShopsRoute,
         partnerProgramRoute,
+        watchlistRoute,
+        searchFiltersRoute,
+        partnerApplicationsRoute,
+        adminOverviewRoute,
     ]),
 ]);
 
