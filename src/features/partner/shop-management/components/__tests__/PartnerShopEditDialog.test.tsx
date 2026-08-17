@@ -162,13 +162,13 @@ describe("PartnerShopEditDialog", () => {
             expect(screen.getByDisplayValue("https://aurora.example.com")).toBeInTheDocument(),
         );
 
-        await user.click(screen.getByRole("combobox", { name: "Shopify-Währung" }));
+        await user.click(screen.getByRole("button", { name: "Shopify-Währung" }));
         await user.click(screen.getByRole("option", { name: "Euro (EUR)" }));
 
         await user.click(screen.getByRole("combobox", { name: "Shopify-Sprache" }));
         await user.click(screen.getByRole("option", { name: "Deutsch" }));
 
-        await user.click(screen.getByRole("combobox", { name: "WooCommerce-Währung" }));
+        await user.click(screen.getByRole("button", { name: "WooCommerce-Währung" }));
         await user.click(screen.getByRole("option", { name: "US-Dollar (USD)" }));
 
         await user.click(screen.getByRole("combobox", { name: "WooCommerce-Sprache" }));
