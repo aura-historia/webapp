@@ -100,7 +100,10 @@ describe("AdminShopEditDialog", () => {
         expect(screen.getByDisplayValue("aurora.myshopify.com")).toBeInTheDocument();
         expect(
             screen.getAllByRole("combobox").map((combobox) => combobox.textContent?.trim()),
-        ).toEqual(expect.arrayContaining(["Euro (EUR)", "Deutsch", "US Dollar (USD)", "English"]));
+        ).toEqual(expect.arrayContaining(["Deutsch", "English"]));
+        expect(screen.getAllByRole("button").map((button) => button.textContent?.trim())).toEqual(
+            expect.arrayContaining(["Euro (EUR)", "US Dollar (USD)"]),
+        );
 
         await user.click(screen.getByRole("button", { name: "Speichern" }));
 

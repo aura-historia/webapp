@@ -42,6 +42,7 @@ import { COUNTRY_CODES } from "@/data/internal/shop/CountryCode.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { useAdminShop } from "@/hooks/admin/useAdminShops.ts";
 import { usePatchAdminShop } from "@/hooks/admin/usePatchAdminShop.ts";
+import { SearchableCurrencySelect } from "@/components/common/SearchableCurrencySelect.tsx";
 import { toast } from "sonner";
 
 const NO_COUNTRY_VALUE = "__none__";
@@ -415,7 +416,16 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                                                             "adminDashboard.shops.fields.shopifyCurrency",
                                                         )}
                                                     </FormLabel>
-                                                    <Select
+                                                    <SearchableCurrencySelect
+                                                        options={[
+                                                            {
+                                                                value: NO_CURRENCY_VALUE,
+                                                                label: t(
+                                                                    "adminDashboard.shops.fields.currencyNone",
+                                                                ),
+                                                            },
+                                                            ...currencyOptions,
+                                                        ]}
                                                         value={field.value || NO_CURRENCY_VALUE}
                                                         onValueChange={(value) =>
                                                             field.onChange(
@@ -424,32 +434,20 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                                                                     : value,
                                                             )
                                                         }
-                                                    >
-                                                        <FormControl>
-                                                            <SelectTrigger>
-                                                                <SelectValue
-                                                                    placeholder={t(
-                                                                        "adminDashboard.shops.fields.currencyPlaceholder",
-                                                                    )}
-                                                                />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            <SelectItem value={NO_CURRENCY_VALUE}>
-                                                                {t(
-                                                                    "adminDashboard.shops.fields.currencyNone",
-                                                                )}
-                                                            </SelectItem>
-                                                            {currencyOptions.map((option) => (
-                                                                <SelectItem
-                                                                    key={option.value}
-                                                                    value={option.value}
-                                                                >
-                                                                    {option.label}
-                                                                </SelectItem>
-                                                            ))}
-                                                        </SelectContent>
-                                                    </Select>
+                                                        placeholder={t(
+                                                            "adminDashboard.shops.fields.currencyPlaceholder",
+                                                        )}
+                                                        searchPlaceholder={t(
+                                                            "common.currencySearchPlaceholder",
+                                                        )}
+                                                        emptyMessage={t(
+                                                            "common.currencySearchEmpty",
+                                                        )}
+                                                        ariaLabel={t(
+                                                            "adminDashboard.shops.fields.shopifyCurrency",
+                                                        )}
+                                                        formControl
+                                                    />
                                                     <FormMessage />
                                                 </FormItem>
                                             )}
@@ -518,7 +516,16 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                                                             "adminDashboard.shops.fields.woocommerceCurrency",
                                                         )}
                                                     </FormLabel>
-                                                    <Select
+                                                    <SearchableCurrencySelect
+                                                        options={[
+                                                            {
+                                                                value: NO_CURRENCY_VALUE,
+                                                                label: t(
+                                                                    "adminDashboard.shops.fields.currencyNone",
+                                                                ),
+                                                            },
+                                                            ...currencyOptions,
+                                                        ]}
                                                         value={field.value || NO_CURRENCY_VALUE}
                                                         onValueChange={(value) =>
                                                             field.onChange(
@@ -527,32 +534,20 @@ export function AdminShopEditDialog({ shop, open, onOpenChange }: AdminShopEditD
                                                                     : value,
                                                             )
                                                         }
-                                                    >
-                                                        <FormControl>
-                                                            <SelectTrigger>
-                                                                <SelectValue
-                                                                    placeholder={t(
-                                                                        "adminDashboard.shops.fields.currencyPlaceholder",
-                                                                    )}
-                                                                />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            <SelectItem value={NO_CURRENCY_VALUE}>
-                                                                {t(
-                                                                    "adminDashboard.shops.fields.currencyNone",
-                                                                )}
-                                                            </SelectItem>
-                                                            {currencyOptions.map((option) => (
-                                                                <SelectItem
-                                                                    key={option.value}
-                                                                    value={option.value}
-                                                                >
-                                                                    {option.label}
-                                                                </SelectItem>
-                                                            ))}
-                                                        </SelectContent>
-                                                    </Select>
+                                                        placeholder={t(
+                                                            "adminDashboard.shops.fields.currencyPlaceholder",
+                                                        )}
+                                                        searchPlaceholder={t(
+                                                            "common.currencySearchPlaceholder",
+                                                        )}
+                                                        emptyMessage={t(
+                                                            "common.currencySearchEmpty",
+                                                        )}
+                                                        ariaLabel={t(
+                                                            "adminDashboard.shops.fields.woocommerceCurrency",
+                                                        )}
+                                                        formControl
+                                                    />
                                                     <FormMessage />
                                                 </FormItem>
                                             )}

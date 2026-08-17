@@ -27,7 +27,10 @@ vi.mock("react-i18next", async () => {
     const actual = await vi.importActual("react-i18next");
     return {
         ...actual,
-        useTranslation: () => ({ i18n: { language: "en" } }),
+        useTranslation: () => ({
+            t: (key: string) => key,
+            i18n: { language: "en" },
+        }),
     };
 });
 
@@ -57,7 +60,7 @@ describe("CurrencySelector", () => {
 
     it("renders all currencies in dropdown", () => {
         renderCurrencySelector();
-        fireEvent.click(screen.getByRole("combobox"));
+        fireEvent.click(screen.getByRole("button"));
 
         const options = screen.getAllByRole("option");
         expect(options).toHaveLength(CURRENCIES.length);
@@ -84,7 +87,7 @@ describe("CurrencySelector", () => {
 
     it("saves selected currency to localStorage", () => {
         renderCurrencySelector();
-        fireEvent.click(screen.getByRole("combobox"));
+        fireEvent.click(screen.getByRole("button"));
         fireEvent.click(screen.getByText("US Dollar"));
         const stored = JSON.parse(localStorage.getItem("user-preferences") ?? "{}");
         expect(stored.currency).toBe("USD");
@@ -119,7 +122,7 @@ describe("CurrencySelector", () => {
         } as never);
 
         renderCurrencySelector();
-        fireEvent.click(screen.getByRole("combobox"));
+        fireEvent.click(screen.getByRole("button"));
         fireEvent.click(screen.getByText("US Dollar"));
 
         expect(mutate).toHaveBeenCalledWith({ currency: "USD" });

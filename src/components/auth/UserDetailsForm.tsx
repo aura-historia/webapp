@@ -31,6 +31,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { SearchableCurrencySelect } from "@/components/common/SearchableCurrencySelect.tsx";
 
 type UserDetailsFormProps = {
     readonly email: string;
@@ -172,7 +173,7 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
                                     <FormLabel>{t("auth.signUp.language")}</FormLabel>
                                     <Select
                                         onValueChange={field.onChange}
-                                        value={field.value}
+                                        value={field.value ?? ""}
                                         key={field.value}
                                     >
                                         <FormControl>
@@ -201,26 +202,20 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>{t("auth.signUp.currency")}</FormLabel>
-                                    <Select
+                                    <SearchableCurrencySelect
+                                        options={CURRENCIES.map((currency) => ({
+                                            value: currency,
+                                            label: t(`auth.currencies.${currency}`),
+                                        }))}
+                                        value={field.value ?? ""}
                                         onValueChange={field.onChange}
-                                        value={field.value}
-                                        key={field.value}
-                                    >
-                                        <FormControl>
-                                            <SelectTrigger className="w-full data-[size=default]:h-11">
-                                                <SelectValue
-                                                    placeholder={t("auth.signUp.pleaseSelect")}
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            {CURRENCIES.map((curr) => (
-                                                <SelectItem key={curr} value={curr}>
-                                                    {t(`auth.currencies.${curr}`)}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                                        placeholder={t("auth.signUp.pleaseSelect")}
+                                        searchPlaceholder={t("common.currencySearchPlaceholder")}
+                                        emptyMessage={t("common.currencySearchEmpty")}
+                                        className="h-11"
+                                        ariaLabel={t("auth.signUp.currency")}
+                                        formControl
+                                    />
                                     <FormMessage />
                                 </FormItem>
                             )}

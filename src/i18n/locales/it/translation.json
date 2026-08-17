@@ -2,7 +2,9 @@
   "common": {
     "auraHistoria": "Aura Historia",
     "infoButton": "Maggiori informazioni",
-    "unitSystemPrefix": "Unità"
+    "unitSystemPrefix": "Unità",
+    "currencySearchPlaceholder": "Cerca valute…",
+    "currencySearchEmpty": "Nessuna valuta trovata."
   },
   "meta": {
     "siteName": "Aura Historia | Piattaforma globale per antiquariato",

@@ -54,7 +54,7 @@ describe("UserDetailsForm", () => {
         });
 
         expect(screen.getByRole("combobox", { name: "Sprache" })).toHaveTextContent("Deutsch");
-        expect(screen.getByRole("combobox", { name: "Währung" })).toHaveTextContent("EUR - Euro");
+        expect(screen.getByRole("button", { name: "Währung" })).toHaveTextContent("EUR - Euro");
     });
 
     it("subscribes to the newsletter with the default consent when the form is submitted", async () => {

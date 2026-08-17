@@ -2,7 +2,9 @@
   "common": {
     "auraHistoria": "Aura Historia",
     "infoButton": "Plus d'informations",
-    "unitSystemPrefix": "Unités"
+    "unitSystemPrefix": "Unités",
+    "currencySearchPlaceholder": "Rechercher des devises…",
+    "currencySearchEmpty": "Aucune devise trouvée."
   },
   "meta": {
     "siteName": "Aura Historia | Plateforme mondiale d’antiquités",

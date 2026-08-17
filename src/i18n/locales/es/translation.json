@@ -2,7 +2,9 @@
   "common": {
     "auraHistoria": "Aura Historia",
     "infoButton": "Más información",
-    "unitSystemPrefix": "Unidades"
+    "unitSystemPrefix": "Unidades",
+    "currencySearchPlaceholder": "Buscar divisas…",
+    "currencySearchEmpty": "No se ha encontrado ninguna divisa."
   },
   "meta": {
     "siteName": "Aura Historia | Plataforma global de antigüedades",

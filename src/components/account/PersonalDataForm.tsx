@@ -32,6 +32,7 @@ import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";
 import { Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { SearchableCurrencySelect } from "@/components/common/SearchableCurrencySelect.tsx";
 
 export function PersonalDataForm() {
     const { t } = useTranslation();
@@ -148,28 +149,20 @@ export function PersonalDataForm() {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>{t("account.personalData.currencyLabel")}</FormLabel>
-                                <Select
+                                <SearchableCurrencySelect
+                                    options={CURRENCIES.map((currency) => ({
+                                        value: currency,
+                                        label: t(`auth.currencies.${currency}`),
+                                    }))}
+                                    value={field.value ?? ""}
                                     onValueChange={field.onChange}
-                                    value={field.value}
-                                    key={field.value}
-                                >
-                                    <FormControl>
-                                        <SelectTrigger className="w-full data-[size=default]:h-12">
-                                            <SelectValue
-                                                placeholder={t(
-                                                    "account.personalData.currencyPlaceholder",
-                                                )}
-                                            />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {CURRENCIES.map((curr) => (
-                                            <SelectItem key={curr} value={curr}>
-                                                {t(`auth.currencies.${curr}`)}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                    placeholder={t("account.personalData.currencyPlaceholder")}
+                                    searchPlaceholder={t("common.currencySearchPlaceholder")}
+                                    emptyMessage={t("common.currencySearchEmpty")}
+                                    className="h-12"
+                                    ariaLabel={t("account.personalData.currencyLabel")}
+                                    formControl
+                                />
                                 <FormMessage />
                             </FormItem>
                         )}
