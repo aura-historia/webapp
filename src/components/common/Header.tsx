@@ -8,6 +8,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu.tsx";
 import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
@@ -15,7 +23,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
 import { SearchBar } from "@/components/search/SearchBar.tsx";
-import { Menu, Search, ArrowLeft, ChevronDown } from "lucide-react";
+import { Menu, Search, ArrowLeft } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils.ts";
 import { env } from "@/env.ts";
@@ -28,7 +36,7 @@ const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
 const isLoginEnabled = env.VITE_FEATURE_LOGIN_ENABLED;
 const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
-const desktopNavItemClass = "rounded-none focus-visible:ring-0";
+const desktopNavItemClass = "h-10 rounded-none px-3 focus-visible:ring-0";
 const activeNavTextClass = "underline decoration-1 underline-offset-4";
 
 export function Header() {
@@ -36,6 +44,8 @@ export function Header() {
     const navigate = useNavigate({ from: "/$lng" });
 
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+    const [desktopNavigationValue, setDesktopNavigationValue] = useState("");
+    const [accountNavigationValue, setAccountNavigationValue] = useState("");
     const [landingHeroVisibility, setLandingHeroVisibility] = useState({
         pathname: "",
         isOutOfView: false,
@@ -146,116 +156,133 @@ export function Header() {
         if (isAuthenticated) {
             return (
                 <div className="flex w-max shrink-0 items-center">
-                    <nav
-                        className="hidden items-center gap-0.5 min-[1800px]:flex"
+                    <NavigationMenu
+                        viewport={false}
+                        delayDuration={120}
+                        skipDelayDuration={300}
+                        value={desktopNavigationValue}
+                        onValueChange={setDesktopNavigationValue}
+                        className="hidden min-[1800px]:flex"
                         aria-label={t("header.accountNavigation")}
                     >
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
+                        <NavigationMenuList className="gap-0.5">
+                            <NavigationMenuItem value="collection">
+                                <NavigationMenuTrigger
                                     className={cn(
                                         desktopNavItemClass,
+                                        "bg-transparent",
                                         (routePathname === "/me/watchlist" ||
                                             routePathname === "/me/search-filters") &&
                                             activeNavTextClass,
                                     )}
                                 >
                                     {t("header.collection")}
-                                    <ChevronDown className="size-3.5" aria-hidden="true" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>{t("header.collection")}</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild>
-                                    <Link
-                                        to="/$lng/me/watchlist"
-                                        aria-current={
-                                            routePathname === "/me/watchlist" ? "page" : undefined
-                                        }
-                                        params={true}
-                                        from="/$lng"
+                                </NavigationMenuTrigger>
+                                <NavigationMenuContent className="min-w-48 p-1">
+                                    <NavigationMenuLink
+                                        asChild
+                                        active={routePathname === "/me/watchlist"}
                                     >
-                                        {t("header.watchlist")}
-                                    </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link
-                                        to="/$lng/me/search-filters"
-                                        aria-current={
-                                            routePathname === "/me/search-filters"
-                                                ? "page"
-                                                : undefined
-                                        }
-                                        params={true}
-                                        from="/$lng"
+                                        <Link
+                                            to="/$lng/me/watchlist"
+                                            className="h-10 flex-row items-center px-3 py-2"
+                                            aria-current={
+                                                routePathname === "/me/watchlist"
+                                                    ? "page"
+                                                    : undefined
+                                            }
+                                            params={true}
+                                            from="/$lng"
+                                            onClick={() => setDesktopNavigationValue("")}
+                                        >
+                                            {t("header.watchlist")}
+                                        </Link>
+                                    </NavigationMenuLink>
+                                    <NavigationMenuLink
+                                        asChild
+                                        active={routePathname === "/me/search-filters"}
                                     >
-                                        {t("header.searchFilters")}
-                                    </Link>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                                        <Link
+                                            to="/$lng/me/search-filters"
+                                            className="h-10 flex-row items-center px-3 py-2"
+                                            aria-current={
+                                                routePathname === "/me/search-filters"
+                                                    ? "page"
+                                                    : undefined
+                                            }
+                                            params={true}
+                                            from="/$lng"
+                                            onClick={() => setDesktopNavigationValue("")}
+                                        >
+                                            {t("header.searchFilters")}
+                                        </Link>
+                                    </NavigationMenuLink>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
 
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
+                            <NavigationMenuItem value="workspace">
+                                <NavigationMenuTrigger
                                     className={cn(
                                         desktopNavItemClass,
+                                        "bg-transparent",
                                         (routePathname.startsWith("/partners/") ||
                                             routePathname.startsWith("/admin/")) &&
                                             activeNavTextClass,
                                     )}
                                 >
                                     {t("header.workspace")}
-                                    <ChevronDown className="size-3.5" aria-hidden="true" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>{t("header.workspace")}</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild>
-                                    <Link
-                                        to="/$lng/partners/applications"
-                                        aria-current={
-                                            routePathname.startsWith("/partners/")
-                                                ? "page"
-                                                : undefined
-                                        }
-                                        params={true}
-                                        from="/$lng"
+                                </NavigationMenuTrigger>
+                                <NavigationMenuContent className="min-w-48 p-1">
+                                    <NavigationMenuLink
+                                        asChild
+                                        active={routePathname.startsWith("/partners/")}
                                     >
-                                        {t("header.partnerDashboard")}
-                                    </Link>
-                                </DropdownMenuItem>
-                                {isAdmin && (
-                                    <DropdownMenuItem asChild>
                                         <Link
-                                            to="/$lng/admin/overview"
+                                            to="/$lng/partners/applications"
+                                            className="h-10 flex-row items-center px-3 py-2"
                                             aria-current={
-                                                routePathname.startsWith("/admin/")
+                                                routePathname.startsWith("/partners/")
                                                     ? "page"
                                                     : undefined
                                             }
                                             params={true}
                                             from="/$lng"
+                                            onClick={() => setDesktopNavigationValue("")}
                                         >
-                                            {t("header.admin")}
+                                            {t("header.partnerDashboard")}
                                         </Link>
-                                    </DropdownMenuItem>
-                                )}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </nav>
+                                    </NavigationMenuLink>
+                                    {isAdmin && (
+                                        <NavigationMenuLink
+                                            asChild
+                                            active={routePathname.startsWith("/admin/")}
+                                        >
+                                            <Link
+                                                to="/$lng/admin/overview"
+                                                className="h-10 flex-row items-center px-3 py-2"
+                                                aria-current={
+                                                    routePathname.startsWith("/admin/")
+                                                        ? "page"
+                                                        : undefined
+                                                }
+                                                params={true}
+                                                from="/$lng"
+                                                onClick={() => setDesktopNavigationValue("")}
+                                            >
+                                                {t("header.admin")}
+                                            </Link>
+                                        </NavigationMenuLink>
+                                    )}
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                        </NavigationMenuList>
+                    </NavigationMenu>
 
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
                                 variant="ghost"
-                                size="icon"
+                                size="icon-lg"
                                 className="hidden min-[1024px]:max-[1799px]:inline-flex"
                                 aria-label={t("header.accountNavigation")}
                             >
@@ -290,44 +317,68 @@ export function Header() {
                         </DropdownMenuContent>
                     </DropdownMenu>
 
-                    <NotificationBell />
+                    <NotificationBell triggerClassName="size-10" />
 
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className={cn(desktopNavItemClass, "h-10 gap-2 px-2")}
-                            >
-                                {userAccount?.firstName && (
-                                    <span
-                                        className={cn(
-                                            "hidden min-[1920px]:inline",
-                                            routePathname === "/me/account" && activeNavTextClass,
-                                        )}
+                    <NavigationMenu
+                        viewport={false}
+                        delayDuration={120}
+                        skipDelayDuration={300}
+                        value={accountNavigationValue}
+                        onValueChange={setAccountNavigationValue}
+                    >
+                        <NavigationMenuList>
+                            <NavigationMenuItem value="account">
+                                <NavigationMenuTrigger
+                                    className={cn(
+                                        desktopNavItemClass,
+                                        "gap-2 bg-transparent px-2",
+                                        routePathname === "/me/account" && activeNavTextClass,
+                                    )}
+                                >
+                                    {userAccount?.firstName && (
+                                        <span className="hidden min-[1920px]:inline">
+                                            {t("header.hello")}, {userAccount.firstName}
+                                        </span>
+                                    )}
+                                    <AccountImage
+                                        firstName={userAccount?.firstName || ""}
+                                        lastName={userAccount?.lastName || ""}
+                                    />
+                                </NavigationMenuTrigger>
+                                <NavigationMenuContent className="right-0 left-auto min-w-48 p-1">
+                                    <NavigationMenuLink
+                                        asChild
+                                        active={routePathname === "/me/account"}
                                     >
-                                        {t("header.hello")}, {userAccount.firstName}
-                                    </span>
-                                )}
-                                <AccountImage
-                                    firstName={userAccount?.firstName || ""}
-                                    lastName={userAccount?.lastName || ""}
-                                />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>{t("header.myAccount")}</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild>
-                                <Link to="/$lng/me/account" params={true} from="/$lng">
-                                    {t("header.editAccount")}
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => signOut()}>
-                                {t("header.logout")}
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                                        <Link
+                                            to="/$lng/me/account"
+                                            className="h-10 flex-row items-center px-3 py-2"
+                                            aria-current={
+                                                routePathname === "/me/account" ? "page" : undefined
+                                            }
+                                            params={true}
+                                            from="/$lng"
+                                            onClick={() => setAccountNavigationValue("")}
+                                        >
+                                            {t("header.editAccount")}
+                                        </Link>
+                                    </NavigationMenuLink>
+                                    <NavigationMenuLink asChild>
+                                        <button
+                                            type="button"
+                                            className="h-10 w-full flex-row items-center px-3 py-2 text-left"
+                                            onClick={() => {
+                                                setAccountNavigationValue("");
+                                                void signOut();
+                                            }}
+                                        >
+                                            {t("header.logout")}
+                                        </button>
+                                    </NavigationMenuLink>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                        </NavigationMenuList>
+                    </NavigationMenu>
                 </div>
             );
         }

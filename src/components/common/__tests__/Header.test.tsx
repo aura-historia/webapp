@@ -84,22 +84,24 @@ describe("Header Component", () => {
             expect(initialsElement).toBeInTheDocument();
         });
 
-        it("should show dropdown menu items when clicked", async () => {
+        it("should reveal account navigation on hover", async () => {
             const user = userEvent.setup();
             const initialsElement = screen.getByText("MM");
             const dropdownTrigger = initialsElement.closest("button");
 
             expect(dropdownTrigger).toBeInTheDocument();
             if (dropdownTrigger) {
-                await user.click(dropdownTrigger);
+                await user.hover(dropdownTrigger);
             }
 
-            expect(screen.getByText("Mein Account")).toBeInTheDocument();
-            expect(screen.getByText("Account bearbeiten")).toBeInTheDocument();
-            expect(screen.getByText("Ausloggen")).toBeInTheDocument();
-            expect(screen.queryByRole("menuitem", { name: "Merkliste" })).not.toBeInTheDocument();
+            expect(await screen.findByRole("link", { name: "Account bearbeiten" })).toHaveAttribute(
+                "href",
+                "/de/me/account",
+            );
+            expect(screen.getByRole("button", { name: "Ausloggen" })).toBeInTheDocument();
+            expect(screen.queryByRole("link", { name: "Merkliste" })).not.toBeInTheDocument();
             expect(
-                screen.queryByRole("menuitem", { name: "Partner-Dashboard" }),
+                screen.queryByRole("link", { name: "Partner-Dashboard" }),
             ).not.toBeInTheDocument();
         });
 
@@ -131,18 +133,25 @@ describe("Header Component", () => {
             expect(screen.queryByText("Einloggen")).not.toBeInTheDocument();
         });
 
-        it("should group desktop navigation links in dropdown menus", async () => {
+        it("should reveal grouped desktop navigation links on hover", async () => {
             const user = userEvent.setup();
             expect(screen.getByRole("button", { name: "Sammlung" })).toBeInTheDocument();
             const workspaceTrigger = screen.getByRole("button", { name: "Arbeitsbereich" });
             expect(workspaceTrigger).toBeInTheDocument();
 
-            await user.click(workspaceTrigger);
+            await user.hover(workspaceTrigger);
 
-            expect(screen.getByRole("menuitem", { name: "Partner-Dashboard" })).toHaveAttribute(
-                "href",
-                "/de/partners/applications",
-            );
+            const partnerLink = await screen.findByRole("link", { name: "Partner-Dashboard" });
+            expect(partnerLink).toHaveAttribute("href", "/de/partners/applications");
+            expect(partnerLink).toHaveClass("focus-visible:bg-accent");
+            expect(partnerLink).not.toHaveClass("focus:bg-accent");
+
+            await user.click(partnerLink);
+
+            expect(workspaceTrigger).toHaveAttribute("data-state", "closed");
+            expect(
+                screen.queryByRole("link", { name: "Partner-Dashboard" }),
+            ).not.toBeInTheDocument();
         });
 
         it("should reserve text decoration for the active navigation item", () => {
@@ -160,10 +169,31 @@ describe("Header Component", () => {
 
         it("should keep the account trigger inside the desktop navigation panel", () => {
             const accountTrigger = screen.getByText("MM").closest("button");
-            const desktopNavigationPanel = accountTrigger?.parentElement;
+            const desktopNavigationPanel = accountTrigger?.closest(".w-max.shrink-0");
 
             expect(desktopNavigationPanel).toHaveClass("w-max", "shrink-0");
             expect(desktopNavigationPanel).not.toHaveClass("min-w-0");
+        });
+
+        it("should give every desktop navigation control the same target height", () => {
+            const accountTrigger = screen.getByText("MM").closest("button");
+            const notificationTrigger = screen
+                .getAllByRole("button", { name: "Benachrichtigungen öffnen" })
+                .find((button) => button.classList.contains("size-10"));
+            expect(notificationTrigger).toBeDefined();
+
+            const controls = [
+                screen.getByRole("button", { name: "Sammlung" }),
+                screen.getByRole("button", { name: "Arbeitsbereich" }),
+                notificationTrigger,
+                accountTrigger,
+            ];
+
+            for (const control of controls) {
+                expect(
+                    control?.classList.contains("h-10") || control?.classList.contains("size-10"),
+                ).toBe(true);
+            }
         });
 
         it("should not show an admin link for non-admin users", () => {
@@ -191,7 +221,7 @@ describe("Header Component", () => {
             const user = userEvent.setup();
             await user.click(screen.getByRole("button", { name: "Arbeitsbereich" }));
 
-            expect(screen.getByRole("menuitem", { name: "Admin" })).toHaveAttribute(
+            expect(screen.getByRole("link", { name: "Admin" })).toHaveAttribute(
                 "href",
                 "/de/admin/overview",
             );
@@ -226,11 +256,11 @@ describe("Header Component", () => {
 
                 await user.click(screen.getByRole("button", { name: triggerName }));
 
-                expect(screen.getByRole("menuitem", { name: currentLinkName })).toHaveAttribute(
+                expect(screen.getByRole("link", { name: currentLinkName })).toHaveAttribute(
                     "aria-current",
                     "page",
                 );
-                expect(screen.getByRole("menuitem", { name: otherLinkName })).not.toHaveAttribute(
+                expect(screen.getByRole("link", { name: otherLinkName })).not.toHaveAttribute(
                     "aria-current",
                 );
             },
