@@ -3,7 +3,6 @@ import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "../Header.tsx";
-import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
 
 const mockUseResolvedAuth = vi.hoisted(() => vi.fn());
 const mockUseUserAccount = vi.hoisted(() => vi.fn());
@@ -131,18 +130,24 @@ describe("Header Component", () => {
             expect(screen.queryByText("Einloggen")).not.toBeInTheDocument();
         });
 
-        it("should show a partner dashboard link", () => {
-            expect(screen.getByRole("link", { name: "Partner-Dashboard" })).toHaveAttribute(
+        it("should group desktop navigation links in dropdown menus", async () => {
+            const user = userEvent.setup();
+            expect(screen.getByRole("button", { name: "Sammlung" })).toBeInTheDocument();
+            const workspaceTrigger = screen.getByRole("button", { name: "Arbeitsbereich" });
+            expect(workspaceTrigger).toBeInTheDocument();
+
+            await user.click(workspaceTrigger);
+
+            expect(screen.getByRole("menuitem", { name: "Partner-Dashboard" })).toHaveAttribute(
                 "href",
                 "/de/partners/applications",
             );
         });
 
         it("should reserve text decoration for the active navigation item", () => {
-            const watchlistLink = screen.getByRole("link", { name: "Merkliste" });
-            expect(watchlistLink).toHaveClass("rounded-none");
-            expect(watchlistLink).not.toHaveClass("border-b-2");
-            expect(watchlistLink).not.toHaveClass("bg-accent");
+            const collectionTrigger = screen.getByRole("button", { name: "Sammlung" });
+            expect(collectionTrigger).toHaveClass("rounded-none");
+            expect(collectionTrigger).not.toHaveClass("border-b-2", "bg-accent");
         });
 
         it("should render the account trigger without a focus ring", () => {
@@ -181,8 +186,11 @@ describe("Header Component", () => {
             });
         });
 
-        it("should show an admin link to the admin dashboard", () => {
-            expect(screen.getByRole("link", { name: "Admin" })).toHaveAttribute(
+        it("should show an admin link in the workspace menu", async () => {
+            const user = userEvent.setup();
+            await user.click(screen.getByRole("button", { name: "Arbeitsbereich" }));
+
+            expect(screen.getByRole("menuitem", { name: "Admin" })).toHaveAttribute(
                 "href",
                 "/de/admin/overview",
             );
@@ -233,38 +241,12 @@ describe("Header Component", () => {
             expect(searchInputs.length).toBeGreaterThan(0);
         });
 
-        it("should hide the search bar on the landing page initially", async () => {
+        it("should hide the header search bar while the landing hero is visible", async () => {
             await act(() => {
                 renderWithRouter(<Header />, { initialEntries: ["/"] });
             });
-            // Search bar is in DOM but hidden with CSS
-            const searchInputs = screen.queryAllByPlaceholderText("Suche");
-
-            if (searchInputs.length > 0) {
-                const wrapper = searchInputs[0].closest("form")?.parentElement;
-                expect(wrapper).toHaveClass("opacity-0");
-                expect(wrapper).toHaveClass("pointer-events-none");
-            }
-        });
-
-        it("should show search bar when scrolling on landing page", async () => {
-            await act(() => {
-                renderWithRouter(<Header />, { initialEntries: ["/"] });
-            });
-
-            await act(() => {
-                Object.defineProperty(window, "scrollY", {
-                    value: HERO_SEARCH_BAR_SCROLL_THRESHOLD + 1,
-                    writable: true,
-                });
-                window.dispatchEvent(new Event("scroll"));
-            });
-
-            const searchInputs = screen.queryAllByPlaceholderText("Suche");
-            if (searchInputs.length > 0) {
-                const wrapper = searchInputs[0].closest("form")?.parentElement;
-                expect(wrapper).toHaveClass("opacity-100");
-            }
+            const searchInput = screen.getAllByPlaceholderText("Suche")[0];
+            expect(searchInput.closest("form")?.parentElement).toHaveClass("opacity-0");
         });
 
         it("should show the search bar on other routes", async () => {

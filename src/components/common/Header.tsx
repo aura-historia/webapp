@@ -15,14 +15,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
 import { SearchBar } from "@/components/search/SearchBar.tsx";
-import { Menu, Search, ArrowLeft } from "lucide-react";
+import { Menu, Search, ArrowLeft, ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils.ts";
-import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
 import { env } from "@/env.ts";
 import logo from "@/assets/logo/logo.svg";
 import logoCompact from "@/assets/logo/logo-compact.svg";
 import { stripLanguageFromPathname } from "@/i18n/routing.ts";
+import { LANDING_PAGE_FRAGMENTS } from "@/components/landing-page/LandingPage.fragments.ts";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
@@ -35,8 +35,11 @@ export function Header() {
     const { t } = useTranslation();
     const navigate = useNavigate({ from: "/$lng" });
 
-    const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+    const [landingHeroVisibility, setLandingHeroVisibility] = useState({
+        pathname: "",
+        isOutOfView: false,
+    });
 
     const pathname = useLocation({
         select: (location) => location.pathname,
@@ -53,12 +56,6 @@ export function Header() {
         select: (location) => location.searchStr,
     });
 
-    useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > HERO_SEARCH_BAR_SCROLL_THRESHOLD);
-        window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
     const {
         isAuthenticated,
         isResolved: isAuthResolved,
@@ -68,10 +65,45 @@ export function Header() {
     const { data: userAccount } = useUserAccount();
     const isAdmin = userAccount?.role === "ADMIN";
 
-    const isLandingPage = routePathname === "/";
     const isHiddenRoute = SEARCH_BAR_HIDDEN_ROUTES.has(routePathname);
-    const shouldShowSearchBar = isSearchEnabled && !isHiddenRoute && (!isLandingPage || isScrolled);
-    const isFloating = isLandingPage && !isScrolled;
+    const isLandingPage = routePathname === "/";
+    const isLandingHeroOutOfView =
+        landingHeroVisibility.pathname === pathname && landingHeroVisibility.isOutOfView;
+    const isSearchAvailable = isSearchEnabled && !isHiddenRoute;
+    const shouldShowSearchBar = isSearchAvailable && (!isLandingPage || isLandingHeroOutOfView);
+
+    useEffect(() => {
+        if (!isLandingPage) {
+            return;
+        }
+
+        const hero = document.getElementById(LANDING_PAGE_FRAGMENTS.hero);
+        if (!hero) {
+            return;
+        }
+
+        const updateHeroVisibility = () => {
+            const { bottom, top } = hero.getBoundingClientRect();
+            const isOutOfView = bottom <= 0 || top >= window.innerHeight;
+
+            setLandingHeroVisibility((current) => {
+                if (current.pathname === pathname && current.isOutOfView === isOutOfView) {
+                    return current;
+                }
+
+                return { pathname, isOutOfView };
+            });
+        };
+
+        const observer = new IntersectionObserver(updateHeroVisibility);
+        observer.observe(hero);
+        window.addEventListener("resize", updateHeroVisibility, { passive: true });
+
+        return () => {
+            observer.disconnect();
+            window.removeEventListener("resize", updateHeroVisibility);
+        };
+    }, [isLandingPage, pathname]);
 
     const queryClient = useQueryClient();
 
@@ -90,98 +122,80 @@ export function Header() {
 
         if (isAuthenticated) {
             return (
-                <div
-                    className={cn(
-                        "flex w-max shrink-0 items-center transition-all duration-300",
-                        isFloating ? "bg-background rounded-xs px-4 py-2 hero-search-shadow" : "",
-                    )}
-                >
+                <div className="flex w-max shrink-0 items-center">
                     <nav
                         className="hidden items-center gap-0.5 min-[1800px]:flex"
                         aria-label={t("header.accountNavigation")}
                     >
-                        <Button
-                            asChild
-                            variant="ghost"
-                            size="sm"
-                            className={cn(
-                                desktopNavItemClass,
-                                routePathname === "/me/watchlist" && activeNavTextClass,
-                            )}
-                        >
-                            <Link
-                                to="/$lng/me/watchlist"
-                                aria-current={
-                                    routePathname === "/me/watchlist" ? "page" : undefined
-                                }
-                                params={true}
-                                from="/$lng"
-                            >
-                                {t("header.watchlist")}
-                            </Link>
-                        </Button>
-                        <Button
-                            asChild
-                            variant="ghost"
-                            size="sm"
-                            className={cn(
-                                desktopNavItemClass,
-                                routePathname === "/me/search-filters" && activeNavTextClass,
-                            )}
-                        >
-                            <Link
-                                to="/$lng/me/search-filters"
-                                aria-current={
-                                    routePathname === "/me/search-filters" ? "page" : undefined
-                                }
-                                params={true}
-                                from="/$lng"
-                            >
-                                {t("header.searchFilters")}
-                            </Link>
-                        </Button>
-                        <Button
-                            asChild
-                            variant="ghost"
-                            size="sm"
-                            className={cn(
-                                desktopNavItemClass,
-                                routePathname.startsWith("/partners/") && activeNavTextClass,
-                            )}
-                        >
-                            <Link
-                                to="/$lng/partners/applications"
-                                aria-current={
-                                    routePathname.startsWith("/partners/") ? "page" : undefined
-                                }
-                                params={true}
-                                from="/$lng"
-                            >
-                                {t("header.partnerDashboard")}
-                            </Link>
-                        </Button>
-                        {isAdmin && (
-                            <Button
-                                asChild
-                                variant="ghost"
-                                size="sm"
-                                className={cn(
-                                    desktopNavItemClass,
-                                    routePathname.startsWith("/admin/") && activeNavTextClass,
-                                )}
-                            >
-                                <Link
-                                    to="/$lng/admin/overview"
-                                    aria-current={
-                                        routePathname.startsWith("/admin/") ? "page" : undefined
-                                    }
-                                    params={true}
-                                    from="/$lng"
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className={cn(
+                                        desktopNavItemClass,
+                                        (routePathname === "/me/watchlist" ||
+                                            routePathname === "/me/search-filters") &&
+                                            activeNavTextClass,
+                                    )}
                                 >
-                                    {t("header.admin")}
-                                </Link>
-                            </Button>
-                        )}
+                                    {t("header.collection")}
+                                    <ChevronDown className="size-3.5" aria-hidden="true" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>{t("header.collection")}</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                    <Link to="/$lng/me/watchlist" params={true} from="/$lng">
+                                        {t("header.watchlist")}
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link to="/$lng/me/search-filters" params={true} from="/$lng">
+                                        {t("header.searchFilters")}
+                                    </Link>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className={cn(
+                                        desktopNavItemClass,
+                                        (routePathname.startsWith("/partners/") ||
+                                            routePathname.startsWith("/admin/")) &&
+                                            activeNavTextClass,
+                                    )}
+                                >
+                                    {t("header.workspace")}
+                                    <ChevronDown className="size-3.5" aria-hidden="true" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>{t("header.workspace")}</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                    <Link
+                                        to="/$lng/partners/applications"
+                                        params={true}
+                                        from="/$lng"
+                                    >
+                                        {t("header.partnerDashboard")}
+                                    </Link>
+                                </DropdownMenuItem>
+                                {isAdmin && (
+                                    <DropdownMenuItem asChild>
+                                        <Link to="/$lng/admin/overview" params={true} from="/$lng">
+                                            {t("header.admin")}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                )}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </nav>
 
                     <DropdownMenu>
@@ -266,12 +280,7 @@ export function Header() {
         }
 
         return (
-            <div
-                className={cn(
-                    "flex items-center gap-3 transition-all duration-300",
-                    isFloating ? "bg-background rounded-xs p-2 hero-search-shadow" : "",
-                )}
-            >
+            <div className="flex items-center gap-3">
                 <Button asChild variant="default">
                     <Link
                         to="/$lng/login"
@@ -297,14 +306,7 @@ export function Header() {
     })();
 
     return (
-        <header
-            className={cn(
-                "sticky top-0 z-50 grid h-20 w-full grid-cols-[auto_1fr_auto] items-center gap-3 px-4 transition-all duration-300 lg:grid-cols-[minmax(0,1fr)_minmax(12rem,36rem)_minmax(0,1fr)] xl:gap-5 xl:px-8 2xl:grid-cols-[minmax(0,1fr)_minmax(12rem,42rem)_minmax(0,1fr)]",
-                isFloating
-                    ? "bg-transparent border-transparent"
-                    : "bg-background border-b border-border",
-            )}
-        >
+        <header className="sticky top-0 z-50 grid h-20 w-full grid-cols-[auto_1fr_auto] items-center gap-3 border-b border-border bg-background px-4 lg:grid-cols-[minmax(0,1fr)_minmax(12rem,36rem)_minmax(0,1fr)] xl:gap-5 xl:px-8 2xl:grid-cols-[minmax(0,1fr)_minmax(12rem,42rem)_minmax(0,1fr)]">
             <div
                 className={cn(
                     "absolute inset-0 flex lg:hidden items-center gap-2 px-4 bg-background z-10 transition-all duration-200",
@@ -319,14 +321,7 @@ export function Header() {
 
             <div className="flex items-center justify-start gap-4">
                 <Link to="/$lng" params={true} from="/$lng">
-                    <div
-                        className={cn(
-                            "transition-all duration-300",
-                            isFloating
-                                ? "bg-background rounded-xs px-2 lg:px-4 py-2 hero-search-shadow"
-                                : "",
-                        )}
-                    >
+                    <div>
                         <img
                             src={logo}
                             alt=""
@@ -339,54 +334,48 @@ export function Header() {
                 </Link>
             </div>
 
-            <div
-                className={cn(
-                    "hidden min-w-0 w-full justify-self-center transition-all duration-500 lg:block",
-                    shouldShowSearchBar ? "opacity-100" : "opacity-0 pointer-events-none",
-                    isFloating && shouldShowSearchBar
-                        ? "bg-background backdrop-blur-sm rounded-xs px-3 py-1.5 shadow-sm"
-                        : "",
-                )}
-            >
-                <SearchBar type="small" />
-            </div>
+            {isSearchAvailable && (
+                <div
+                    className={cn(
+                        "hidden min-w-0 w-full justify-self-center transition-opacity duration-300 ease-out lg:block",
+                        shouldShowSearchBar ? "opacity-100" : "pointer-events-none opacity-0",
+                    )}
+                    aria-hidden={!shouldShowSearchBar}
+                    inert={!shouldShowSearchBar}
+                >
+                    <SearchBar type="small" />
+                </div>
+            )}
 
-            <div className="flex items-center justify-end">
-                <div className="flex lg:hidden items-center gap-2">
-                    {shouldShowSearchBar && (
+            <div className="flex items-center justify-end gap-2">
+                {isSearchAvailable && (
+                    <div className="flex lg:hidden">
                         <Button
                             variant="ghost"
                             size="icon"
                             className={cn(
-                                isFloating
-                                    ? "bg-background backdrop-blur-sm rounded-xs p-1 shadow-sm"
-                                    : "",
+                                "transition-opacity duration-300 ease-out",
+                                shouldShowSearchBar
+                                    ? "opacity-100"
+                                    : "pointer-events-none opacity-0",
                             )}
                             onClick={() => setIsMobileSearchOpen(true)}
                             aria-label={t("search.bar.label")}
+                            aria-hidden={!shouldShowSearchBar}
+                            tabIndex={shouldShowSearchBar ? undefined : -1}
                         >
                             <Search className="size-5" />
                         </Button>
-                    )}
+                    </div>
+                )}
+                <div className="flex lg:hidden items-center gap-2">
                     {isLoginEnabled && isAuthenticated && (
-                        <div
-                            className={cn(
-                                isFloating
-                                    ? "bg-background backdrop-blur-sm rounded-xs p-1 shadow-sm"
-                                    : "",
-                            )}
-                        >
+                        <div>
                             <NotificationBell />
                         </div>
                     )}
                     {isLoginEnabled && isAuthResolved && (
-                        <div
-                            className={cn(
-                                isFloating
-                                    ? "bg-background backdrop-blur-sm rounded-xs p-2 shadow-sm"
-                                    : "",
-                            )}
-                        >
+                        <div>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" size="icon">

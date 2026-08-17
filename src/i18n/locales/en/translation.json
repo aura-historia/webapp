@@ -119,6 +119,8 @@
     "register": "Register",
     "login": "Login",
     "partnerDashboard": "Partner dashboard",
+    "collection": "Collection",
+    "workspace": "Workspace",
     "accountNavigation": "Account navigation"
   },
   "footer": {

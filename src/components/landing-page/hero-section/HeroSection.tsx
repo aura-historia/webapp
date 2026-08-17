@@ -2,19 +2,9 @@ import { SearchBar } from "@/components/search/SearchBar.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { Trans, useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
 
 export default function HeroSection() {
     const { t } = useTranslation();
-    const [isScrolled, setIsScrolled] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > HERO_SEARCH_BAR_SCROLL_THRESHOLD);
-        window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
     return (
         <section className="hero-section-safari-offset min-h-screen flex items-center justify-center relative overflow-hidden">
             {/* Background image */}
@@ -35,11 +25,7 @@ export default function HeroSection() {
                 <p className="text-center text-lg md:text-xl text-foreground mt-6 max-w-2xl mx-auto">
                     {t("landingPage.subtitle")}
                 </p>
-                <Card
-                    className={`p-2 sm:mt-8 mt-6 bg-surface-container hero-search-shadow transition-all duration-500 ease-in-out ${
-                        isScrolled ? "opacity-0 pointer-events-none" : "opacity-100"
-                    }`}
-                >
+                <Card className="mt-6 bg-surface-container p-2 hero-search-shadow sm:mt-8">
                     <SearchBar type={"big"} />
                 </Card>
             </div>
