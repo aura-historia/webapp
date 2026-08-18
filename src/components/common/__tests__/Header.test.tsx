@@ -94,15 +94,22 @@ describe("Header Component", () => {
                 await user.hover(dropdownTrigger);
             }
 
-            expect(await screen.findByRole("link", { name: "Account bearbeiten" })).toHaveAttribute(
-                "href",
-                "/de/me/account",
-            );
+            const accountLink = await screen.findByRole("link", { name: "Account bearbeiten" });
+            expect(accountLink).toHaveAttribute("href", "/de/me/account");
             expect(screen.getByRole("button", { name: "Ausloggen" })).toBeInTheDocument();
             expect(screen.queryByRole("link", { name: "Merkliste" })).not.toBeInTheDocument();
             expect(
                 screen.queryByRole("link", { name: "Partner-Dashboard" }),
             ).not.toBeInTheDocument();
+
+            accountLink.addEventListener("click", (event) => event.preventDefault(), {
+                once: true,
+            });
+            await user.hover(accountLink);
+            await user.click(accountLink);
+
+            expect(dropdownTrigger).toHaveAttribute("data-state", "open");
+            expect(screen.getByRole("link", { name: "Account bearbeiten" })).toBeInTheDocument();
         });
 
         it("should put collapsed navigation links behind a hamburger menu", async () => {
@@ -133,7 +140,7 @@ describe("Header Component", () => {
             expect(screen.queryByText("Einloggen")).not.toBeInTheDocument();
         });
 
-        it("should reveal grouped desktop navigation links on hover", async () => {
+        it("should keep grouped desktop navigation open while hovered after selecting a link", async () => {
             const user = userEvent.setup();
             expect(screen.getByRole("button", { name: "Sammlung" })).toBeInTheDocument();
             const workspaceTrigger = screen.getByRole("button", { name: "Arbeitsbereich" });
@@ -146,12 +153,14 @@ describe("Header Component", () => {
             expect(partnerLink).toHaveClass("focus-visible:bg-accent");
             expect(partnerLink).not.toHaveClass("focus:bg-accent");
 
+            partnerLink.addEventListener("click", (event) => event.preventDefault(), {
+                once: true,
+            });
+            await user.hover(partnerLink);
             await user.click(partnerLink);
 
-            expect(workspaceTrigger).toHaveAttribute("data-state", "closed");
-            expect(
-                screen.queryByRole("link", { name: "Partner-Dashboard" }),
-            ).not.toBeInTheDocument();
+            expect(workspaceTrigger).toHaveAttribute("data-state", "open");
+            expect(screen.getByRole("link", { name: "Partner-Dashboard" })).toBeInTheDocument();
         });
 
         it("should reserve text decoration for the active navigation item", () => {
@@ -368,6 +377,19 @@ describe("Header Component", () => {
             expect(searchInputs.length).toBeGreaterThan(0);
         });
 
+        it("should hide authentication navigation on the login route", async () => {
+            setupAuthMock({ isAuthenticated: false });
+            mockUseUserAccount.mockReturnValue({ data: undefined, isLoading: false });
+
+            await act(() => {
+                renderWithRouter(<Header />, { initialEntries: ["/login"] });
+            });
+
+            expect(screen.queryByRole("link", { name: "Registrieren" })).not.toBeInTheDocument();
+            expect(screen.queryByRole("link", { name: "Einloggen" })).not.toBeInTheDocument();
+            expect(document.querySelector("svg.lucide-menu")).not.toBeInTheDocument();
+        });
+
         it("should render search bar in the center column", async () => {
             await act(() => {
                 renderWithRouter(<Header />, { initialEntries: ["/search"] });
@@ -454,6 +476,14 @@ describe("Header Component", () => {
             });
             const header = screen.getByRole("banner");
             expect(header).toHaveClass("bg-background", "border-b");
+        });
+
+        it("should clip horizontal navigation animation overflow", async () => {
+            await act(() => {
+                renderWithRouter(<Header />);
+            });
+            const header = screen.getByRole("banner");
+            expect(header).toHaveClass("overflow-x-clip");
         });
     });
 

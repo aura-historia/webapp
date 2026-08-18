@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { signIn } from "aws-amplify/auth";
+import { resendSignUpCode, signIn } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
 import {
     Form,
@@ -27,12 +27,26 @@ type SignInValues = z.infer<ReturnType<typeof signInSchema>>;
 type SignInFormProps = {
     readonly onSwitchToSignUp: () => void;
     readonly onSwitchToResetPassword: () => void;
+    readonly onConfirmationRequired: (email: string, password: string) => void;
     readonly onSuccess: () => void;
 };
+
+function isUserNotConfirmedError(err: unknown): boolean {
+    if (err instanceof Error && err.name === "UserNotConfirmedException") {
+        return true;
+    }
+
+    if (typeof err !== "object" || err === null || !("__type" in err)) {
+        return false;
+    }
+
+    return err.__type === "UserNotConfirmedException";
+}
 
 export function SignInForm({
     onSwitchToSignUp,
     onSwitchToResetPassword,
+    onConfirmationRequired,
     onSuccess,
 }: SignInFormProps) {
     const { t } = useTranslation();
@@ -43,11 +57,35 @@ export function SignInForm({
         defaultValues: { email: "", password: "" },
     });
 
-    const onSubmit = async (data: SignInValues) => {
+    const continueToConfirmation = async (email: string, password: string) => {
         try {
-            await signIn({ username: data.email.trim(), password: data.password });
+            await resendSignUpCode({ username: email });
+        } catch {
+            // The previously issued code may still be valid. The confirmation form
+            // also lets the user retry delivery without repeating sign-in.
+        }
+
+        onConfirmationRequired(email, password);
+    };
+
+    const onSubmit = async (data: SignInValues) => {
+        const email = data.email.trim();
+
+        try {
+            const result = await signIn({ username: email, password: data.password });
+
+            if (result.nextStep.signInStep === "CONFIRM_SIGN_UP") {
+                await continueToConfirmation(email, data.password);
+                return;
+            }
+
             onSuccess();
         } catch (err) {
+            if (isUserNotConfirmedError(err)) {
+                await continueToConfirmation(email, data.password);
+                return;
+            }
+
             const message = getAuthErrorMessage(err, t);
             form.setError("root", { message });
         }

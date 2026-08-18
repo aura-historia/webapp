@@ -45,7 +45,9 @@ export function Header() {
 
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
     const [desktopNavigationValue, setDesktopNavigationValue] = useState("");
+    const [hoveredDesktopNavigationValue, setHoveredDesktopNavigationValue] = useState("");
     const [accountNavigationValue, setAccountNavigationValue] = useState("");
+    const [isAccountNavigationHovered, setIsAccountNavigationHovered] = useState(false);
     const [landingHeroVisibility, setLandingHeroVisibility] = useState({
         pathname: "",
         isOutOfView: false,
@@ -77,11 +79,28 @@ export function Header() {
     const isAdmin = userAccount?.role === "ADMIN";
 
     const isHiddenRoute = SEARCH_BAR_HIDDEN_ROUTES.has(routePathname);
+    const isLoginRoute = routePathname === "/login";
     const isLandingPage = routePathname === "/";
     const isLandingHeroOutOfView =
         landingHeroVisibility.pathname === pathname && landingHeroVisibility.isOutOfView;
     const isSearchAvailable = isSearchEnabled && !isHiddenRoute;
     const shouldShowSearchBar = isSearchAvailable && (!isLandingPage || isLandingHeroOutOfView);
+
+    const handleDesktopNavigationValueChange = (value: string) => {
+        if (!value && hoveredDesktopNavigationValue) {
+            return;
+        }
+
+        setDesktopNavigationValue(value);
+    };
+
+    const handleAccountNavigationValueChange = (value: string) => {
+        if (!value && isAccountNavigationHovered) {
+            return;
+        }
+
+        setAccountNavigationValue(value);
+    };
 
     useEffect(() => {
         if (!isLandingPage) {
@@ -149,7 +168,7 @@ export function Header() {
     };
 
     const desktopMenuContent = (() => {
-        if (!isAuthResolved) {
+        if (!isAuthResolved || isLoginRoute) {
             return null;
         }
 
@@ -161,7 +180,7 @@ export function Header() {
                         delayDuration={120}
                         skipDelayDuration={300}
                         value={desktopNavigationValue}
-                        onValueChange={setDesktopNavigationValue}
+                        onValueChange={handleDesktopNavigationValueChange}
                         className="hidden min-[1800px]:flex"
                         aria-label={t("header.accountNavigation")}
                     >
@@ -178,7 +197,17 @@ export function Header() {
                                 >
                                     {t("header.collection")}
                                 </NavigationMenuTrigger>
-                                <NavigationMenuContent className="min-w-48 p-1">
+                                <NavigationMenuContent
+                                    className="min-w-48 p-1"
+                                    onPointerEnter={() =>
+                                        setHoveredDesktopNavigationValue("collection")
+                                    }
+                                    onPointerLeave={() =>
+                                        setHoveredDesktopNavigationValue((current) =>
+                                            current === "collection" ? "" : current,
+                                        )
+                                    }
+                                >
                                     <NavigationMenuLink
                                         asChild
                                         active={routePathname === "/me/watchlist"}
@@ -193,7 +222,6 @@ export function Header() {
                                             }
                                             params={true}
                                             from="/$lng"
-                                            onClick={() => setDesktopNavigationValue("")}
                                         >
                                             {t("header.watchlist")}
                                         </Link>
@@ -212,7 +240,6 @@ export function Header() {
                                             }
                                             params={true}
                                             from="/$lng"
-                                            onClick={() => setDesktopNavigationValue("")}
                                         >
                                             {t("header.searchFilters")}
                                         </Link>
@@ -232,7 +259,17 @@ export function Header() {
                                 >
                                     {t("header.workspace")}
                                 </NavigationMenuTrigger>
-                                <NavigationMenuContent className="min-w-48 p-1">
+                                <NavigationMenuContent
+                                    className="min-w-48 p-1"
+                                    onPointerEnter={() =>
+                                        setHoveredDesktopNavigationValue("workspace")
+                                    }
+                                    onPointerLeave={() =>
+                                        setHoveredDesktopNavigationValue((current) =>
+                                            current === "workspace" ? "" : current,
+                                        )
+                                    }
+                                >
                                     <NavigationMenuLink
                                         asChild
                                         active={routePathname.startsWith("/partners/")}
@@ -247,7 +284,6 @@ export function Header() {
                                             }
                                             params={true}
                                             from="/$lng"
-                                            onClick={() => setDesktopNavigationValue("")}
                                         >
                                             {t("header.partnerDashboard")}
                                         </Link>
@@ -267,7 +303,6 @@ export function Header() {
                                                 }
                                                 params={true}
                                                 from="/$lng"
-                                                onClick={() => setDesktopNavigationValue("")}
                                             >
                                                 {t("header.admin")}
                                             </Link>
@@ -324,7 +359,7 @@ export function Header() {
                         delayDuration={120}
                         skipDelayDuration={300}
                         value={accountNavigationValue}
-                        onValueChange={setAccountNavigationValue}
+                        onValueChange={handleAccountNavigationValueChange}
                     >
                         <NavigationMenuList>
                             <NavigationMenuItem value="account">
@@ -345,7 +380,11 @@ export function Header() {
                                         lastName={userAccount?.lastName || ""}
                                     />
                                 </NavigationMenuTrigger>
-                                <NavigationMenuContent className="right-0 left-auto min-w-48 p-1">
+                                <NavigationMenuContent
+                                    className="right-0 left-auto min-w-48 p-1"
+                                    onPointerEnter={() => setIsAccountNavigationHovered(true)}
+                                    onPointerLeave={() => setIsAccountNavigationHovered(false)}
+                                >
                                     <NavigationMenuLink
                                         asChild
                                         active={routePathname === "/me/account"}
@@ -358,7 +397,6 @@ export function Header() {
                                             }
                                             params={true}
                                             from="/$lng"
-                                            onClick={() => setAccountNavigationValue("")}
                                         >
                                             {t("header.editAccount")}
                                         </Link>
@@ -368,7 +406,6 @@ export function Header() {
                                             type="button"
                                             className="h-10 w-full flex-row items-center px-3 py-2 text-left"
                                             onClick={() => {
-                                                setAccountNavigationValue("");
                                                 void signOut();
                                             }}
                                         >
@@ -410,7 +447,7 @@ export function Header() {
     })();
 
     return (
-        <header className="sticky top-0 z-50 grid h-20 w-full grid-cols-[auto_1fr_auto] items-center gap-3 border-b border-border bg-background px-4 lg:grid-cols-[minmax(0,1fr)_minmax(12rem,36rem)_minmax(0,1fr)] xl:gap-5 xl:px-8 2xl:grid-cols-[minmax(0,1fr)_minmax(12rem,42rem)_minmax(0,1fr)]">
+        <header className="sticky top-0 z-50 grid h-20 w-full overflow-x-clip grid-cols-[auto_1fr_auto] items-center gap-3 border-b border-border bg-background px-4 lg:grid-cols-[minmax(0,1fr)_minmax(12rem,36rem)_minmax(0,1fr)] xl:gap-5 xl:px-8 2xl:grid-cols-[minmax(0,1fr)_minmax(12rem,42rem)_minmax(0,1fr)]">
             <div
                 className={cn(
                     "absolute inset-0 flex lg:hidden items-center gap-2 px-4 bg-background z-10 transition-all duration-200",
@@ -478,7 +515,7 @@ export function Header() {
                             <NotificationBell />
                         </div>
                     )}
-                    {isLoginEnabled && isAuthResolved && (
+                    {isLoginEnabled && isAuthResolved && !isLoginRoute && (
                         <div>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -580,7 +617,7 @@ export function Header() {
                     )}
                 </div>
 
-                {isLoginEnabled && (
+                {isLoginEnabled && !isLoginRoute && (
                     <div className="hidden lg:flex items-center justify-end w-full">
                         {desktopMenuContent}
                     </div>
