@@ -57,6 +57,17 @@ export function SignInForm({
         defaultValues: { email: "", password: "" },
     });
 
+    const continueToConfirmation = async (email: string, password: string) => {
+        try {
+            await resendSignUpCode({ username: email });
+        } catch {
+            // The previously issued code may still be valid. The confirmation form
+            // also lets the user retry delivery without repeating sign-in.
+        }
+
+        onConfirmationRequired(email, password);
+    };
+
     const onSubmit = async (data: SignInValues) => {
         const email = data.email.trim();
 
@@ -64,23 +75,15 @@ export function SignInForm({
             const result = await signIn({ username: email, password: data.password });
 
             if (result.nextStep.signInStep === "CONFIRM_SIGN_UP") {
-                await resendSignUpCode({ username: email });
-                onConfirmationRequired(email, data.password);
+                await continueToConfirmation(email, data.password);
                 return;
             }
 
             onSuccess();
         } catch (err) {
             if (isUserNotConfirmedError(err)) {
-                try {
-                    await resendSignUpCode({ username: email });
-                    onConfirmationRequired(email, data.password);
-                    return;
-                } catch (resendError) {
-                    const message = getAuthErrorMessage(resendError, t);
-                    form.setError("root", { message });
-                    return;
-                }
+                await continueToConfirmation(email, data.password);
+                return;
             }
 
             const message = getAuthErrorMessage(err, t);

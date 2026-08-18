@@ -90,6 +90,27 @@ describe("SignInForm", () => {
         });
     });
 
+    it("requests confirmation even when automatically resending the code fails", async () => {
+        const error = new Error("User is not confirmed.");
+        error.name = "UserNotConfirmedException";
+        mockSignIn.mockRejectedValue(error);
+        mockResendSignUpCode.mockRejectedValue(
+            Object.assign(new Error("Attempt limit exceeded."), {
+                name: "LimitExceededException",
+            }),
+        );
+        const onConfirmationRequired = createConfirmationRequiredMock();
+
+        await act(async () => {
+            renderSignInForm({ onConfirmationRequired });
+        });
+        await submitCredentials();
+
+        await waitFor(() => {
+            expect(onConfirmationRequired).toHaveBeenCalledWith("user@example.com", "Password1!");
+        });
+    });
+
     it("handles the Amplify CONFIRM_SIGN_UP next step", async () => {
         mockSignIn.mockResolvedValue({
             isSignedIn: false,
