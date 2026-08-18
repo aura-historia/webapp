@@ -1,9 +1,9 @@
 import { renderWithRouter } from "@/test/utils.tsx";
+import { LANDING_PAGE_FRAGMENTS } from "@/components/landing-page/LandingPage.fragments.ts";
 import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "../Header.tsx";
-import { HERO_SEARCH_BAR_SCROLL_THRESHOLD } from "@/components/landing-page/common/landingPageConstants.ts";
 
 const mockUseResolvedAuth = vi.hoisted(() => vi.fn());
 const mockUseUserAccount = vi.hoisted(() => vi.fn());
@@ -84,22 +84,24 @@ describe("Header Component", () => {
             expect(initialsElement).toBeInTheDocument();
         });
 
-        it("should show dropdown menu items when clicked", async () => {
+        it("should reveal account navigation on hover", async () => {
             const user = userEvent.setup();
             const initialsElement = screen.getByText("MM");
             const dropdownTrigger = initialsElement.closest("button");
 
             expect(dropdownTrigger).toBeInTheDocument();
             if (dropdownTrigger) {
-                await user.click(dropdownTrigger);
+                await user.hover(dropdownTrigger);
             }
 
-            expect(screen.getByText("Mein Account")).toBeInTheDocument();
-            expect(screen.getByText("Account bearbeiten")).toBeInTheDocument();
-            expect(screen.getByText("Ausloggen")).toBeInTheDocument();
-            expect(screen.queryByRole("menuitem", { name: "Merkliste" })).not.toBeInTheDocument();
+            expect(await screen.findByRole("link", { name: "Account bearbeiten" })).toHaveAttribute(
+                "href",
+                "/de/me/account",
+            );
+            expect(screen.getByRole("button", { name: "Ausloggen" })).toBeInTheDocument();
+            expect(screen.queryByRole("link", { name: "Merkliste" })).not.toBeInTheDocument();
             expect(
-                screen.queryByRole("menuitem", { name: "Partner-Dashboard" }),
+                screen.queryByRole("link", { name: "Partner-Dashboard" }),
             ).not.toBeInTheDocument();
         });
 
@@ -131,18 +133,31 @@ describe("Header Component", () => {
             expect(screen.queryByText("Einloggen")).not.toBeInTheDocument();
         });
 
-        it("should show a partner dashboard link", () => {
-            expect(screen.getByRole("link", { name: "Partner-Dashboard" })).toHaveAttribute(
-                "href",
-                "/de/partners/applications",
-            );
+        it("should reveal grouped desktop navigation links on hover", async () => {
+            const user = userEvent.setup();
+            expect(screen.getByRole("button", { name: "Sammlung" })).toBeInTheDocument();
+            const workspaceTrigger = screen.getByRole("button", { name: "Arbeitsbereich" });
+            expect(workspaceTrigger).toBeInTheDocument();
+
+            await user.hover(workspaceTrigger);
+
+            const partnerLink = await screen.findByRole("link", { name: "Partner-Dashboard" });
+            expect(partnerLink).toHaveAttribute("href", "/de/partners/applications");
+            expect(partnerLink).toHaveClass("focus-visible:bg-accent");
+            expect(partnerLink).not.toHaveClass("focus:bg-accent");
+
+            await user.click(partnerLink);
+
+            expect(workspaceTrigger).toHaveAttribute("data-state", "closed");
+            expect(
+                screen.queryByRole("link", { name: "Partner-Dashboard" }),
+            ).not.toBeInTheDocument();
         });
 
         it("should reserve text decoration for the active navigation item", () => {
-            const watchlistLink = screen.getByRole("link", { name: "Merkliste" });
-            expect(watchlistLink).toHaveClass("rounded-none");
-            expect(watchlistLink).not.toHaveClass("border-b-2");
-            expect(watchlistLink).not.toHaveClass("bg-accent");
+            const collectionTrigger = screen.getByRole("button", { name: "Sammlung" });
+            expect(collectionTrigger).toHaveClass("rounded-none");
+            expect(collectionTrigger).not.toHaveClass("border-b-2", "bg-accent");
         });
 
         it("should render the account trigger without a focus ring", () => {
@@ -154,10 +169,31 @@ describe("Header Component", () => {
 
         it("should keep the account trigger inside the desktop navigation panel", () => {
             const accountTrigger = screen.getByText("MM").closest("button");
-            const desktopNavigationPanel = accountTrigger?.parentElement;
+            const desktopNavigationPanel = accountTrigger?.closest(".w-max.shrink-0");
 
             expect(desktopNavigationPanel).toHaveClass("w-max", "shrink-0");
             expect(desktopNavigationPanel).not.toHaveClass("min-w-0");
+        });
+
+        it("should give every desktop navigation control the same target height", () => {
+            const accountTrigger = screen.getByText("MM").closest("button");
+            const notificationTrigger = screen
+                .getAllByRole("button", { name: "Benachrichtigungen öffnen" })
+                .find((button) => button.classList.contains("size-10"));
+            expect(notificationTrigger).toBeDefined();
+
+            const controls = [
+                screen.getByRole("button", { name: "Sammlung" }),
+                screen.getByRole("button", { name: "Arbeitsbereich" }),
+                notificationTrigger,
+                accountTrigger,
+            ];
+
+            for (const control of controls) {
+                expect(
+                    control?.classList.contains("h-10") || control?.classList.contains("size-10"),
+                ).toBe(true);
+            }
         });
 
         it("should not show an admin link for non-admin users", () => {
@@ -181,12 +217,54 @@ describe("Header Component", () => {
             });
         });
 
-        it("should show an admin link to the admin dashboard", () => {
+        it("should show an admin link in the workspace menu", async () => {
+            const user = userEvent.setup();
+            await user.click(screen.getByRole("button", { name: "Arbeitsbereich" }));
+
             expect(screen.getByRole("link", { name: "Admin" })).toHaveAttribute(
                 "href",
                 "/de/admin/overview",
             );
         });
+    });
+
+    describe("Grouped desktop navigation current page state", () => {
+        beforeEach(() => {
+            setupAuthMock({ isAuthenticated: true });
+            mockUseUserAccount.mockReturnValue({
+                data: {
+                    firstName: "Ada",
+                    lastName: "Admin",
+                    role: "ADMIN",
+                },
+                isLoading: false,
+            });
+        });
+
+        it.each([
+            ["/me/watchlist", "Sammlung", "Merkliste", "Suchaufträge"],
+            ["/me/search-filters", "Sammlung", "Suchaufträge", "Merkliste"],
+            ["/partners/applications", "Arbeitsbereich", "Partner-Dashboard", "Admin"],
+            ["/admin/overview", "Arbeitsbereich", "Admin", "Partner-Dashboard"],
+        ])(
+            "should expose the current grouped destination on %s",
+            async (initialEntry, triggerName, currentLinkName, otherLinkName) => {
+                const user = userEvent.setup();
+                await act(async () => {
+                    renderWithRouter(<Header />, { initialEntries: [initialEntry] });
+                });
+
+                await user.click(screen.getByRole("button", { name: triggerName }));
+
+                expect(screen.getByRole("link", { name: currentLinkName })).toHaveAttribute(
+                    "aria-current",
+                    "page",
+                );
+                expect(screen.getByRole("link", { name: otherLinkName })).not.toHaveAttribute(
+                    "aria-current",
+                );
+            },
+        );
     });
 
     describe("Cloudflare prerendered auth state", () => {
@@ -233,37 +311,52 @@ describe("Header Component", () => {
             expect(searchInputs.length).toBeGreaterThan(0);
         });
 
-        it("should hide the search bar on the landing page initially", async () => {
+        it("should hide the header search bar while the landing hero is visible", async () => {
             await act(() => {
                 renderWithRouter(<Header />, { initialEntries: ["/"] });
             });
-            // Search bar is in DOM but hidden with CSS
-            const searchInputs = screen.queryAllByPlaceholderText("Suche");
-
-            if (searchInputs.length > 0) {
-                const wrapper = searchInputs[0].closest("form")?.parentElement;
-                expect(wrapper).toHaveClass("opacity-0");
-                expect(wrapper).toHaveClass("pointer-events-none");
-            }
+            const searchInput = screen.getAllByPlaceholderText("Suche")[0];
+            expect(searchInput.closest("form")?.parentElement).toHaveClass("opacity-0");
         });
 
-        it("should show search bar when scrolling on landing page", async () => {
-            await act(() => {
-                renderWithRouter(<Header />, { initialEntries: ["/"] });
-            });
+        it("should observe the landing hero when it mounts after the header", async () => {
+            const originalIntersectionObserver = globalThis.IntersectionObserver;
+            const observe = vi.fn();
+            const unobserve = vi.fn();
+            const disconnect = vi.fn();
 
-            await act(() => {
-                Object.defineProperty(window, "scrollY", {
-                    value: HERO_SEARCH_BAR_SCROLL_THRESHOLD + 1,
-                    writable: true,
+            globalThis.IntersectionObserver = class {
+                readonly root = null;
+                readonly rootMargin = "";
+                readonly thresholds = [];
+                observe = observe;
+                unobserve = unobserve;
+                disconnect = disconnect;
+                takeRecords = () => [];
+            } as unknown as typeof IntersectionObserver;
+
+            const hero = document.createElement("div");
+            hero.id = LANDING_PAGE_FRAGMENTS.hero;
+            hero.getBoundingClientRect = vi.fn(() => ({ top: -100, bottom: 0 }) as DOMRect);
+
+            try {
+                await act(() => {
+                    renderWithRouter(<Header />, { initialEntries: ["/"] });
                 });
-                window.dispatchEvent(new Event("scroll"));
-            });
 
-            const searchInputs = screen.queryAllByPlaceholderText("Suche");
-            if (searchInputs.length > 0) {
-                const wrapper = searchInputs[0].closest("form")?.parentElement;
-                expect(wrapper).toHaveClass("opacity-100");
+                expect(observe).not.toHaveBeenCalled();
+
+                await act(async () => {
+                    document.body.appendChild(hero);
+                    await Promise.resolve();
+                });
+
+                expect(observe).toHaveBeenCalledWith(hero);
+                const searchInput = screen.getAllByPlaceholderText("Suche")[0];
+                expect(searchInput.closest("form")?.parentElement).toHaveClass("opacity-100");
+            } finally {
+                hero.remove();
+                globalThis.IntersectionObserver = originalIntersectionObserver;
             }
         });
 

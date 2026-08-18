@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { NotificationItem } from "./NotificationItem.tsx";
 import { useState } from "react";
+import { cn } from "@/lib/utils.ts";
 
 const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3"] as const;
 
@@ -25,7 +26,11 @@ function NotificationSkeleton() {
     );
 }
 
-export function NotificationBell() {
+interface NotificationBellProps {
+    readonly triggerClassName?: string;
+}
+
+export function NotificationBell({ triggerClassName }: NotificationBellProps = {}) {
     const { t } = useTranslation();
     const { data, isLoading } = useNotifications();
     const markAllAsSeen = useMarkAllNotificationsSeen();
@@ -42,7 +47,7 @@ export function NotificationBell() {
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="relative"
+                    className={cn("relative", triggerClassName)}
                     aria-label={t("notifications.ariaLabel")}
                 >
                     {hasUnseenNotifications ? (
