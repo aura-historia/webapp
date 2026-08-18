@@ -1,11 +1,21 @@
 import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useState } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const userDetailsSpy = vi.hoisted(() => vi.fn());
+const confirmationSpy = vi.hoisted(() => vi.fn());
 
 vi.mock("@/components/auth/SignInForm.tsx", () => ({
-    SignInForm: () => <div>sign-in</div>,
+    SignInForm: ({
+        onConfirmationRequired,
+    }: {
+        onConfirmationRequired: (email: string, password: string) => void;
+    }) => (
+        <Button onClick={() => onConfirmationRequired("user@example.com", "Password1!")}>
+            sign-in
+        </Button>
+    ),
 }));
 
 vi.mock("@/components/auth/SignUpForm.tsx", () => ({
@@ -15,7 +25,10 @@ vi.mock("@/components/auth/SignUpForm.tsx", () => ({
 }));
 
 vi.mock("@/components/auth/ConfirmSignUpForm.tsx", () => ({
-    ConfirmSignUpForm: () => <div>confirm</div>,
+    ConfirmSignUpForm: ({ email, password }: { email: string; password: string }) => {
+        confirmationSpy(email, password);
+        return <div>confirm</div>;
+    },
 }));
 
 vi.mock("@/components/auth/UserDetailsForm.tsx", () => ({
@@ -63,5 +76,32 @@ describe("AuthFlow", () => {
 
         expect(userDetailsSpy).toHaveBeenCalledWith("user@example.com");
         expect(screen.getByText("user@example.com")).toBeInTheDocument();
+    });
+
+    it("moves an unconfirmed sign-in to email confirmation with its credentials", async () => {
+        const user = userEvent.setup();
+
+        function TestAuthFlow() {
+            const [step, setStep] = useState<"sign-in" | "confirm">("sign-in");
+
+            return (
+                <AuthFlow
+                    step={step}
+                    onStepChange={(newStep) => {
+                        if (newStep === "sign-in" || newStep === "confirm") {
+                            setStep(newStep);
+                        }
+                    }}
+                    onComplete={vi.fn()}
+                />
+            );
+        }
+
+        await act(async () => renderWithRouter(<TestAuthFlow />));
+
+        await user.click(screen.getByRole("button", { name: "sign-in" }));
+
+        expect(window.sessionStorage.getItem("auth.signUp.pendingEmail")).toBe("user@example.com");
+        expect(confirmationSpy).toHaveBeenCalledWith("user@example.com", "Password1!");
     });
 });

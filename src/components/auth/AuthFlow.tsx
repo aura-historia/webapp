@@ -26,6 +26,12 @@ export function AuthFlow({ step, onStepChange, onComplete }: AuthFlowProps) {
                 <SignInForm
                     onSwitchToSignUp={() => onStepChange("sign-up")}
                     onSwitchToResetPassword={() => onStepChange("reset-password")}
+                    onConfirmationRequired={(email, password) => {
+                        setPendingEmail(email);
+                        storePendingEmail(email);
+                        setPendingPassword(password);
+                        onStepChange("confirm");
+                    }}
                     onSuccess={onComplete}
                 />
             )}

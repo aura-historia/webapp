@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { signIn } from "aws-amplify/auth";
+import { resendSignUpCode, signIn } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
 import {
     Form,
@@ -27,12 +27,26 @@ type SignInValues = z.infer<ReturnType<typeof signInSchema>>;
 type SignInFormProps = {
     readonly onSwitchToSignUp: () => void;
     readonly onSwitchToResetPassword: () => void;
+    readonly onConfirmationRequired: (email: string, password: string) => void;
     readonly onSuccess: () => void;
 };
+
+function isUserNotConfirmedError(err: unknown): boolean {
+    if (err instanceof Error && err.name === "UserNotConfirmedException") {
+        return true;
+    }
+
+    if (typeof err !== "object" || err === null || !("__type" in err)) {
+        return false;
+    }
+
+    return err.__type === "UserNotConfirmedException";
+}
 
 export function SignInForm({
     onSwitchToSignUp,
     onSwitchToResetPassword,
+    onConfirmationRequired,
     onSuccess,
 }: SignInFormProps) {
     const { t } = useTranslation();
@@ -44,10 +58,31 @@ export function SignInForm({
     });
 
     const onSubmit = async (data: SignInValues) => {
+        const email = data.email.trim();
+
         try {
-            await signIn({ username: data.email.trim(), password: data.password });
+            const result = await signIn({ username: email, password: data.password });
+
+            if (result.nextStep.signInStep === "CONFIRM_SIGN_UP") {
+                await resendSignUpCode({ username: email });
+                onConfirmationRequired(email, data.password);
+                return;
+            }
+
             onSuccess();
         } catch (err) {
+            if (isUserNotConfirmedError(err)) {
+                try {
+                    await resendSignUpCode({ username: email });
+                    onConfirmationRequired(email, data.password);
+                    return;
+                } catch (resendError) {
+                    const message = getAuthErrorMessage(resendError, t);
+                    form.setError("root", { message });
+                    return;
+                }
+            }
+
             const message = getAuthErrorMessage(err, t);
             form.setError("root", { message });
         }
