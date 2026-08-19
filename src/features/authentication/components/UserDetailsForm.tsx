@@ -8,9 +8,9 @@ import { LANGUAGES, mapToBackendLanguage, parseLanguage } from "@/data/internal/
 import { CURRENCIES, mapToBackendCurrency } from "@/data/internal/common/Currency.ts";
 import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";
 import { getAccountEditSchema } from "@/utils/nameValidation";
-import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount";
-import { useNewsletterSubscription } from "@/hooks/newsletter/useNewsletterSubscription.ts";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useRegistrationAccount } from "@/features/authentication/hooks/useRegistrationAccount.ts";
+import { useRegistrationNewsletter } from "@/features/authentication/hooks/useRegistrationNewsletter.ts";
+import { useRegistrationPreferences } from "@/features/authentication/hooks/useRegistrationPreferences.ts";
 import {
     Form,
     FormControl,
@@ -49,7 +49,7 @@ type UserDetailsFormValues = z.infer<ReturnType<typeof getUserDetailsSchema>>;
 export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
     const { t, i18n } = useTranslation();
     const schema = getUserDetailsSchema(t);
-    const { preferences } = useUserPreferences();
+    const { preferences } = useRegistrationPreferences();
     const inferredLanguage = parseLanguage(i18n.resolvedLanguage ?? i18n.language);
 
     const form = useForm<UserDetailsFormValues>({
@@ -65,8 +65,8 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
         },
     });
 
-    const { mutateAsync: updateAccount, isPending } = useUpdateUserAccount();
-    const { mutateAsync: subscribe, isPending: isNewsletterPending } = useNewsletterSubscription();
+    const { mutateAsync: updateAccount, isPending } = useRegistrationAccount();
+    const { mutateAsync: subscribe, isPending: isNewsletterPending } = useRegistrationNewsletter();
 
     const subscribeUserToNewsletter = async (data?: UserDetailsFormValues) => {
         if (!data?.newsletterConsent) {

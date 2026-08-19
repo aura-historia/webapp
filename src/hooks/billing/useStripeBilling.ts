@@ -1,5 +1,5 @@
 import { postBillingManage } from "@/client";
-import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
+import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { useState } from "react";
 import { useApiError } from "@/hooks/common/useApiError.ts";

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { getAuthErrorMessage } from "@/lib/auth/getAuthErrorMessage";
+import { getAuthErrorMessage } from "@/features/authentication/lib/getAuthErrorMessage.ts";
 import { Spinner } from "@/components/ui/spinner";
 
 const requestSchema = (t: ReturnType<typeof useTranslation>["t"]) =>

@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { SignInForm } from "@/components/auth/SignInForm.tsx";
-import { SignUpForm } from "@/components/auth/SignUpForm.tsx";
-import { ConfirmSignUpForm } from "@/components/auth/ConfirmSignUpForm.tsx";
-import { UserDetailsForm } from "@/components/auth/UserDetailsForm.tsx";
-import { ResetPasswordForm } from "@/components/auth/ResetPasswordForm.tsx";
-import { getStoredPendingEmail, storePendingEmail } from "@/components/auth/pendingSignUpEmail.ts";
+import { SignInForm } from "@/features/authentication/components/SignInForm.tsx";
+import { SignUpForm } from "@/features/authentication/components/SignUpForm.tsx";
+import { ConfirmSignUpForm } from "@/features/authentication/components/ConfirmSignUpForm.tsx";
+import { UserDetailsForm } from "@/features/authentication/components/UserDetailsForm.tsx";
+import { ResetPasswordForm } from "@/features/authentication/components/ResetPasswordForm.tsx";
+import {
+    getStoredPendingEmail,
+    storePendingEmail,
+} from "@/features/authentication/components/pendingSignUpEmail.ts";
 
-type AuthStep = "sign-in" | "sign-up" | "confirm" | "user-details" | "reset-password";
+export type AuthStep = "sign-in" | "sign-up" | "confirm" | "user-details" | "reset-password";
 
 type AuthFlowProps = {
     readonly step: AuthStep;

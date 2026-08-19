@@ -38,7 +38,7 @@ vi.mock(
     }),
 );
 
-vi.mock("@/hooks/auth/useResolvedAuth.ts", () => ({
+vi.mock("@/features/authentication/hooks/useResolvedAuth.ts", () => ({
     useResolvedAuth: () => authState,
 }));
 

@@ -12,7 +12,7 @@ import {
 } from "@/features/partner/common/api/usePartnerShops.ts";
 import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
 import { AccessTokenCreateDialog } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
-import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
+import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import { cn } from "@/lib/utils.ts";
 import { ClientOnly, Link } from "@tanstack/react-router";
 import { ArrowRight, Clock3, Code2, ExternalLink, KeyRound, RefreshCw, Store } from "lucide-react";
