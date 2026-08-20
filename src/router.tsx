@@ -1,7 +1,7 @@
 import { createRouter as createTanstackRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 import * as TanstackQuery from "./integrations/tanstack-query/root-provider";
-import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
+import type { UserPreferences } from "@/features/preferences/types/UserPreferences.ts";
 import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 
 // Import the generated route tree

@@ -10,7 +10,7 @@ import { ProductDetailPageSkeleton } from "@/components/product/detail/ProductDe
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { generateProductHeadMeta } from "@/lib/seo/productHeadMeta.ts";
 import { isApiNotFoundError } from "@/lib/api/apiError.ts";
 

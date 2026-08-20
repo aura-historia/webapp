@@ -9,7 +9,7 @@ import {
     type BillingInterval,
     type PricingTier,
 } from "@/components/landing-page/pricing-section/PricingSection.data.ts";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useStripeBilling } from "@/hooks/billing/useStripeBilling.ts";

@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { CurrencySelector } from "@/components/common/CurrencySelector.tsx";
-import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
+import { CurrencySelector } from "@/features/preferences/components/CurrencySelector.tsx";
+import { UserPreferencesProvider } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 
 // Mock external dependencies

@@ -10,7 +10,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { SearchQueryProvider } from "@/hooks/search/useSearchQueryContext.tsx";
-import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
+import { UserPreferencesProvider } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { getLanguageFromPathname, localizeHref } from "@/i18n/routing.ts";
 
 const rootRoute = createRootRouteWithContext()({

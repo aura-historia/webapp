@@ -1,9 +1,9 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ConsentSettings } from "../ConsentSettings";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 
-vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
+vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
     useUserPreferences: vi.fn(),
 }));
 

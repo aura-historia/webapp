@@ -2,8 +2,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { ProductLocationSection } from "../ProductLocationSection.tsx";
-import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
-import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
+import { UserPreferencesProvider } from "@/features/preferences/hooks/useUserPreferences.tsx";
+import type { UserPreferences } from "@/features/preferences/types/UserPreferences.ts";
 import type { GeoAddress, StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
 
 type MockProductLocation = {

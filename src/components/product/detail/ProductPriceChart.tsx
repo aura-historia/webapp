@@ -11,7 +11,7 @@ import {
 } from "@/lib/utils.ts";
 import { isPriceEvent } from "@/lib/eventFilters.ts";
 import { useTranslation } from "react-i18next";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import type { TFunction } from "i18next";
 import Chart from "react-apexcharts";
 import { ClientOnly } from "@tanstack/react-router";

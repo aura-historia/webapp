@@ -15,8 +15,8 @@ import {
     PARTNER_PROGRAM_FOOTER_LINKS,
     SOCIAL_LINKS,
 } from "./footer/Footer.data.ts";
-import { CurrencySelector } from "@/components/common/CurrencySelector.tsx";
-import { UnitSystemSelector } from "@/components/common/UnitSystemSelector.tsx";
+import { CurrencySelector } from "@/features/preferences/components/CurrencySelector.tsx";
+import { UnitSystemSelector } from "@/features/preferences/components/UnitSystemSelector.tsx";
 import { localizeHref } from "@/i18n/routing.ts";
 import { persistLanguagePreference } from "@/i18n/languagePreference.ts";
 
