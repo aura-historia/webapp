@@ -26,7 +26,7 @@ vi.mock("@/hooks/search-filters/useUpdateUserSearchFilter.ts", () => ({
     useUpdateUserSearchFilter: () => ({ mutate: mockUpdateMutate, isPending: false }),
 }));
 
-vi.mock("@/features/account-management/index.ts", () => ({
+vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
     useUserAccount: () => ({ data: { subscriptionType: "ultimate" }, isPending: false }),
 }));
 

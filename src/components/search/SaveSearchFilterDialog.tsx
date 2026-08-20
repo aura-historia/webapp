@@ -28,7 +28,7 @@ import { Textarea } from "@/components/ui/textarea.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { useCreateUserSearchFilter } from "@/hooks/search-filters/useCreateUserSearchFilter.ts";
-import { useUserAccount } from "@/features/account-management/index.ts";
+import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import {
     getActiveRestrictedFilterLabels,

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useUserAccount } from "@/features/account-management/index.ts";
+import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { ShieldAlert } from "lucide-react";
 import { H1 } from "@/components/typography/H1.tsx";

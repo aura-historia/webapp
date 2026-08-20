@@ -1,1 +1,1 @@
-export { useUpdateUserAccount as useRegistrationAccount } from "@/features/account-management/index.ts";
+export { useUpdateUserAccount as useRegistrationAccount } from "@/features/account-management/hooks/usePatchUserAccount.ts";

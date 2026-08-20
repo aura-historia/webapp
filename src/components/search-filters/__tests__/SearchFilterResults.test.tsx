@@ -19,7 +19,7 @@ vi.mock("@/hooks/search-filters/useDeleteUserSearchFilter.ts", () => ({
     useDeleteUserSearchFilter: mockUseDeleteUserSearchFilter,
 }));
 
-vi.mock("@/features/account-management/index.ts", () => ({
+vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
     useUserAccount: mockUseUserAccount,
 }));
 

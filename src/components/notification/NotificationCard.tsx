@@ -8,7 +8,7 @@ import {
 } from "@/components/notification/notificationUtils.ts";
 import { useDeleteNotification } from "@/hooks/notification/useDeleteNotification.ts";
 import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
-import { useUserAccount } from "@/features/account-management/index.ts";
+import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 import { ProhibitedImagePlaceholder } from "@/components/common/ProhibitedImagePlaceholder.tsx";

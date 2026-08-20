@@ -9,7 +9,7 @@ const mockUseUserAccount = vi.hoisted(() => vi.fn());
 const mockUseMarkNotificationSeen = vi.hoisted(() => vi.fn());
 const mockUseDeleteNotification = vi.hoisted(() => vi.fn());
 
-vi.mock("@/features/account-management/index.ts", () => ({
+vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
     useUserAccount: mockUseUserAccount,
 }));
 

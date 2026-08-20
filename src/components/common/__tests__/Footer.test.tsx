@@ -20,8 +20,11 @@ vi.mock("@/i18n/languagePreference.ts", () => ({
     persistLanguagePreference: persistLanguagePreferenceMock,
 }));
 
-vi.mock("@/features/account-management/index.ts", () => ({
+vi.mock("@/features/account-management/hooks/usePatchUserAccount.ts", () => ({
     useUpdateUserAccount: vi.fn(() => ({ mutate: vi.fn() })),
+}));
+
+vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
     useUserAccount: vi.fn(() => ({ data: undefined })),
 }));
 
