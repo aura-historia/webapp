@@ -5,8 +5,8 @@ import {
     type Currency,
 } from "@/data/internal/common/Currency.ts";
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
-import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount.ts";
-import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
+import { useUpdateUserAccount } from "@/features/account-management/hooks/usePatchUserAccount.ts";
+import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";

@@ -1,4 +1,4 @@
-import { AccountImage } from "@/components/account/AccountImage.tsx";
+import { AccountImage } from "../AccountImage.tsx";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 

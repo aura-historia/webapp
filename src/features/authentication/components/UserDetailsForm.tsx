@@ -7,7 +7,7 @@ import { z } from "zod";
 import { LANGUAGES, mapToBackendLanguage, parseLanguage } from "@/data/internal/common/Language.ts";
 import { CURRENCIES, mapToBackendCurrency } from "@/data/internal/common/Currency.ts";
 import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";
-import { getAccountEditSchema } from "@/utils/nameValidation";
+import { getAccountEditSchema } from "@/features/account-management/lib/validation.ts";
 import { useRegistrationAccount } from "@/features/authentication/hooks/useRegistrationAccount.ts";
 import { useRegistrationNewsletter } from "@/features/authentication/hooks/useRegistrationNewsletter.ts";
 import { useRegistrationPreferences } from "@/features/authentication/hooks/useRegistrationPreferences.ts";

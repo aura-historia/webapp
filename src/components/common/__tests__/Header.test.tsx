@@ -12,7 +12,7 @@ vi.mock("@/features/authentication/hooks/useResolvedAuth", () => ({
     useResolvedAuth: mockUseResolvedAuth,
 }));
 
-vi.mock("@/hooks/account/useUserAccount.ts", () => ({
+vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
     useUserAccount: mockUseUserAccount,
 }));
 

@@ -1,6 +1,6 @@
 import { useUserSearchFilters } from "@/hooks/search-filters/useUserSearchFilters.ts";
 import { useDeleteUserSearchFilter } from "@/hooks/search-filters/useDeleteUserSearchFilter.ts";
-import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
+import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { SEARCH_FILTER_QUOTA } from "@/data/internal/account/SubscriptionType.ts";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";

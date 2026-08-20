@@ -18,8 +18,8 @@ vi.mock("sonner", () => ({
     toast: mockToast,
 }));
 
-vi.mock("@/hooks/account/useUserAccount");
-vi.mock("@/hooks/account/usePatchUserAccount");
+vi.mock("@/features/account-management/hooks/useUserAccount.ts");
+vi.mock("@/features/account-management/hooks/usePatchUserAccount.ts");
 
 const renderWithQueryClient = (component: React.ReactElement) => {
     const queryClient = new QueryClient({
@@ -53,8 +53,12 @@ describe("PersonalDataForm", () => {
         vi.clearAllMocks();
         mockMutate = vi.fn();
 
-        const { useUserAccount } = await import("@/hooks/account/useUserAccount");
-        const { useUpdateUserAccount } = await import("@/hooks/account/usePatchUserAccount");
+        const { useUserAccount } = await import(
+            "@/features/account-management/hooks/useUserAccount.ts"
+        );
+        const { useUpdateUserAccount } = await import(
+            "@/features/account-management/hooks/usePatchUserAccount.ts"
+        );
 
         vi.mocked(useUserAccount).mockReturnValue({
             data: mockUserData,
@@ -157,7 +161,9 @@ describe("PersonalDataForm", () => {
     });
 
     it("should show spinner and disable button while submitting", async () => {
-        const { useUpdateUserAccount } = await import("@/hooks/account/usePatchUserAccount");
+        const { useUpdateUserAccount } = await import(
+            "@/features/account-management/hooks/usePatchUserAccount.ts"
+        );
 
         vi.mocked(useUpdateUserAccount).mockReturnValue({
             mutate: mockMutate,

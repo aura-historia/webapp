@@ -5,7 +5,7 @@ import { SubscriptionPlanSection } from "../SubscriptionPlanSection.tsx";
 import type { UserAccountData } from "@/data/internal/account/UserAccountData.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 
-vi.mock("@/hooks/account/useUserAccount");
+vi.mock("@/features/account-management/hooks/useUserAccount.ts");
 vi.mock("@/hooks/billing/useStripeBilling");
 
 describe("SubscriptionPlanSection", () => {
@@ -26,7 +26,9 @@ describe("SubscriptionPlanSection", () => {
     beforeEach(async () => {
         vi.clearAllMocks();
 
-        const { useUserAccount } = await import("@/hooks/account/useUserAccount");
+        const { useUserAccount } = await import(
+            "@/features/account-management/hooks/useUserAccount.ts"
+        );
         const { useStripeBilling } = await import("@/hooks/billing/useStripeBilling");
 
         vi.mocked(useUserAccount).mockReturnValue({

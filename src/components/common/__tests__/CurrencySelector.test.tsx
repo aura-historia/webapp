@@ -15,11 +15,11 @@ vi.mock("@/features/authentication/hooks/useResolvedAuth", () => ({
     })),
 }));
 
-vi.mock("@/hooks/account/usePatchUserAccount.ts", () => ({
+vi.mock("@/features/account-management/hooks/usePatchUserAccount.ts", () => ({
     useUpdateUserAccount: vi.fn(() => ({ mutate: vi.fn() })),
 }));
 
-vi.mock("@/hooks/account/useUserAccount.ts", () => ({
+vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
     useUserAccount: vi.fn(() => ({ data: undefined })),
 }));
 
@@ -94,7 +94,9 @@ describe("CurrencySelector", () => {
     });
 
     it("syncs backend currency to localStorage on login", async () => {
-        const { useUserAccount } = await import("@/hooks/account/useUserAccount.ts");
+        const { useUserAccount } = await import(
+            "@/features/account-management/hooks/useUserAccount.ts"
+        );
         vi.mocked(useUserAccount).mockReturnValue({ data: { currency: "GBP" } } as never);
 
         renderCurrencySelector();
@@ -108,7 +110,7 @@ describe("CurrencySelector", () => {
     it("calls updateAccount when logged in and currency changes", async () => {
         const mutate = vi.fn();
         const { useUpdateUserAccount } = vi.mocked(
-            await import("@/hooks/account/usePatchUserAccount.ts"),
+            await import("@/features/account-management/hooks/usePatchUserAccount.ts"),
         );
         useUpdateUserAccount.mockReturnValue({ mutate } as never);
 

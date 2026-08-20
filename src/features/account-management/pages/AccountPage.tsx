@@ -1,10 +1,10 @@
 import { H1 } from "@/components/typography/H1";
 import { H2 } from "@/components/typography/H2";
 import { useTranslation } from "react-i18next";
-import { PersonalDataForm } from "@/components/account/PersonalDataForm";
-import { ChangePasswordForm } from "@/components/account/ChangePasswordForm";
-import { DeleteAccountForm } from "@/components/account/DeleteAccountForm";
-import { SubscriptionPlanSection } from "@/components/account/SubscriptionPlanSection";
+import { PersonalDataForm } from "@/features/account-management/components/PersonalDataForm.tsx";
+import { ChangePasswordForm } from "@/features/account-management/components/ChangePasswordForm.tsx";
+import { DeleteAccountForm } from "@/features/account-management/components/DeleteAccountForm.tsx";
+import { SubscriptionPlanSection } from "@/features/account-management/components/SubscriptionPlanSection.tsx";
 
 export function AccountPage() {
     const { t } = useTranslation();

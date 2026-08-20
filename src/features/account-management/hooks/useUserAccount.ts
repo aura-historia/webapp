@@ -7,13 +7,14 @@ import { getUserAccount } from "@/client";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
+import { USER_ACCOUNT_QUERY_KEY } from "@/features/account-management/api/accountQueryKeys.ts";
 
 export function useUserAccount(enabled: boolean = true): UseQueryResult<UserAccountData> {
     const { getErrorMessage } = useApiError();
     const { isAuthenticated } = useResolvedAuth();
 
     return useQuery({
-        queryKey: ["userAccount"],
+        queryKey: USER_ACCOUNT_QUERY_KEY,
         queryFn: async () => {
             const userAccountData = await getUserAccount();
 
