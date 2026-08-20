@@ -14,7 +14,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
-import { useDeleteUserAccount } from "@/hooks/account/useDeleteUserAccount";
+import { useDeleteUserAccount } from "@/features/account-management/hooks/useDeleteUserAccount.ts";
 
 export function DeleteAccountForm() {
     const { t } = useTranslation();

@@ -7,7 +7,7 @@ import { renderWithRouter } from "@/test/utils";
 
 const mockMutate = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/account/useChangePassword", () => ({
+vi.mock("@/features/account-management/hooks/useChangePassword.ts", () => ({
     useChangePassword: () => ({
         mutate: mockMutate,
         isPending: false,

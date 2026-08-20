@@ -18,7 +18,7 @@ import { SearchResults } from "@/components/search/SearchResults.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
-import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
+import { useUserAccount } from "@/features/account-management/index.ts";
 import { useUserSearchFilters } from "@/hooks/search-filters/useUserSearchFilters.ts";
 import { SEARCH_FILTER_QUOTA } from "@/data/internal/account/SubscriptionType.ts";
 

@@ -47,7 +47,7 @@ import { CreationDateSpanFilter } from "@/components/search/filters/CreationDate
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
 import { useCreateUserSearchFilter } from "@/hooks/search-filters/useCreateUserSearchFilter.ts";
 import { useUpdateUserSearchFilter } from "@/hooks/search-filters/useUpdateUserSearchFilter.ts";
-import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
+import { useUserAccount } from "@/features/account-management/index.ts";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { SearchFilterWizardConfirmStep } from "@/components/search-filters/SearchFilterWizardConfirmStep.tsx";

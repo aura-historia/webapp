@@ -1,4 +1,4 @@
-import { AccountImage } from "@/components/account/AccountImage.tsx";
+import { AccountImage, useUserAccount } from "@/features/account-management/index.ts";
 import { NotificationBell } from "@/components/notification/NotificationBell.tsx";
 import {
     DropdownMenu,
@@ -16,7 +16,6 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu.tsx";
-import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";

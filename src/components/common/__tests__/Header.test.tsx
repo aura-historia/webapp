@@ -12,9 +12,13 @@ vi.mock("@/features/authentication/hooks/useResolvedAuth", () => ({
     useResolvedAuth: mockUseResolvedAuth,
 }));
 
-vi.mock("@/hooks/account/useUserAccount.ts", () => ({
-    useUserAccount: mockUseUserAccount,
-}));
+vi.mock("@/features/account-management/index.ts", async (importOriginal) => {
+    const actual = await importOriginal<typeof import("@/features/account-management/index.ts")>();
+    return {
+        ...actual,
+        useUserAccount: mockUseUserAccount,
+    };
+});
 
 const setupAuthMock = ({
     isAuthenticated = false,

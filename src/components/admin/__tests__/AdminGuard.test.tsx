@@ -5,7 +5,7 @@ import { AdminGuard } from "../AdminGuard.tsx";
 
 const mockUseUserAccount = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/account/useUserAccount.ts", () => ({
+vi.mock("@/features/account-management/index.ts", () => ({
     useUserAccount: mockUseUserAccount,
 }));
 

@@ -23,10 +23,13 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { useUserAccount } from "@/hooks/account/useUserAccount";
-import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount";
-import { getAccountEditSchema, type AccountEditFormData } from "@/utils/nameValidation";
-import { PersonalDataFormSkeleton } from "@/components/account/PersonalDataFormSkeleton";
+import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
+import { useUpdateUserAccount } from "@/features/account-management/hooks/usePatchUserAccount.ts";
+import {
+    getAccountEditSchema,
+    type AccountEditFormData,
+} from "@/features/account-management/lib/validation.ts";
+import { PersonalDataFormSkeleton } from "@/features/account-management/components/PersonalDataFormSkeleton.tsx";
 import { LANGUAGES } from "@/data/internal/common/Language.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";

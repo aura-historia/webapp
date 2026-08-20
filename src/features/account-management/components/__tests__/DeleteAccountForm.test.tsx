@@ -13,7 +13,7 @@ const mockToast = vi.hoisted(() => ({
     error: vi.fn(),
 }));
 
-vi.mock("@/hooks/account/useDeleteUserAccount", () => ({
+vi.mock("@/features/account-management/hooks/useDeleteUserAccount.ts", () => ({
     useDeleteUserAccount: () => ({
         mutate: mockMutate,
         isPending: false,

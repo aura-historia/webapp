@@ -1,7 +1,7 @@
 import { H2 } from "@/components/typography/H2";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { useUserAccount } from "@/hooks/account/useUserAccount";
+import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { useStripeBilling } from "@/hooks/billing/useStripeBilling";
 import { useTranslation } from "react-i18next";
 import { SUBSCRIPTION_TYPE_TRANSLATION_KEYS } from "@/data/internal/account/SubscriptionType.ts";

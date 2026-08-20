@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { useChangePassword } from "@/hooks/account/useChangePassword";
+import { useChangePassword } from "@/features/account-management/hooks/useChangePassword.ts";
 import { cn } from "@/lib/utils";
 
 function getChangePasswordSchema(t: (key: string) => string) {

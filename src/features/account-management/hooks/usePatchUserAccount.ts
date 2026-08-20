@@ -9,6 +9,7 @@ import {
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { toast } from "sonner";
+import { USER_ACCOUNT_QUERY_KEY } from "@/features/account-management/api/accountQueryKeys.ts";
 
 export function useUpdateUserAccount(): UseMutationResult<
     UserAccountData,
@@ -32,7 +33,7 @@ export function useUpdateUserAccount(): UseMutationResult<
         },
 
         onSuccess: (updatedData) => {
-            queryClient.setQueryData(["userAccount"], updatedData);
+            queryClient.setQueryData(USER_ACCOUNT_QUERY_KEY, updatedData);
             queryClient.invalidateQueries();
         },
 
