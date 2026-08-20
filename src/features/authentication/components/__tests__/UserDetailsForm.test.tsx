@@ -5,15 +5,15 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const mockUpdateAccount = vi.hoisted(() => vi.fn());
 const mockSubscribe = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/account/usePatchUserAccount", () => ({
-    useUpdateUserAccount: () => ({
+vi.mock("@/features/authentication/hooks/useRegistrationAccount.ts", () => ({
+    useRegistrationAccount: () => ({
         mutateAsync: mockUpdateAccount,
         isPending: false,
     }),
 }));
 
-vi.mock("@/hooks/newsletter/useNewsletterSubscription.ts", () => ({
-    useNewsletterSubscription: () => ({
+vi.mock("@/features/authentication/hooks/useRegistrationNewsletter.ts", () => ({
+    useRegistrationNewsletter: () => ({
         mutateAsync: mockSubscribe,
         isPending: false,
     }),

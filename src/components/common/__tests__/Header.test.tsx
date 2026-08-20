@@ -8,7 +8,7 @@ import { Header } from "../Header.tsx";
 const mockUseResolvedAuth = vi.hoisted(() => vi.fn());
 const mockUseUserAccount = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/auth/useResolvedAuth", () => ({
+vi.mock("@/features/authentication/hooks/useResolvedAuth", () => ({
     useResolvedAuth: mockUseResolvedAuth,
 }));
 

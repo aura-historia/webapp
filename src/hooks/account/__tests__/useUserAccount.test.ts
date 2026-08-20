@@ -25,7 +25,7 @@ vi.mock("@/data/internal/hooks/ApiError", () => ({
     mapToInternalApiError: (error: unknown) => error,
 }));
 
-vi.mock("@/hooks/auth/useResolvedAuth", () => ({
+vi.mock("@/features/authentication/hooks/useResolvedAuth", () => ({
     useResolvedAuth: () => ({
         user: { userId: "test-user-id", username: "test-user" },
         isAuthenticated: true,

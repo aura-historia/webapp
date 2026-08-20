@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useStripeBilling } from "@/hooks/billing/useStripeBilling.ts";
 import type { BillingCycle } from "@/data/internal/billing/BillingCycle.ts";
 import type { BillingPlan } from "@/data/internal/billing/BillingPlan.ts";
-import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
+import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 
 export default function PricingSection() {
     const { t, i18n } = useTranslation();

@@ -17,7 +17,7 @@ import {
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu.tsx";
 import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
-import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
+import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";

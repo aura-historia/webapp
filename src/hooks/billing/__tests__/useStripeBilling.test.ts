@@ -17,7 +17,7 @@ vi.mock("@/client", () => ({
     postBillingPortal: mockPostBillingPortal,
 }));
 
-vi.mock("@/hooks/auth/useResolvedAuth", () => ({
+vi.mock("@/features/authentication/hooks/useResolvedAuth", () => ({
     useResolvedAuth: vi.fn(() => ({
         user: { userId: "test-user-id", username: "test-user" },
         isAuthenticated: true,
@@ -46,7 +46,7 @@ vi.mock("sonner", () => ({
     toast: mockToast,
 }));
 
-const { useResolvedAuth } = await import("@/hooks/auth/useResolvedAuth");
+const { useResolvedAuth } = await import("@/features/authentication/hooks/useResolvedAuth");
 const mockUseResolvedAuth = vi.mocked(useResolvedAuth);
 
 describe("useStripeBilling", () => {

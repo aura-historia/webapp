@@ -37,6 +37,7 @@ import { ConsentBanner } from "@/components/common/ConsentBanner.tsx";
 import { SONNER_TOASTER_PROPS } from "@/lib/ui/sonnerToasterConfig";
 import { getServerUser } from "@/lib/server/amplify.ts";
 import { getLanguageFromPathname, isLocalizedAppPath, localizeHref } from "@/i18n/routing.ts";
+import { syncAmplifyTranslations } from "@/features/authentication/lib/amplifyI18nBridge.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -178,6 +179,10 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const initialConsentRef = useRef(initialPreferences?.trackingConsent);
     useEffect(() => {
         googleAnalytics.init(initialConsentRef.current);
+    }, []);
+
+    useEffect(() => {
+        syncAmplifyTranslations();
     }, []);
 
     useEffect(() => {

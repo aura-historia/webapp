@@ -20,7 +20,7 @@ vi.mock("@/hooks/account/useDeleteUserAccount", () => ({
     }),
 }));
 
-vi.mock("@/hooks/auth/useResolvedAuth", () => ({
+vi.mock("@/features/authentication/hooks/useResolvedAuth", () => ({
     useResolvedAuth: () => ({
         user: { userId: "test", username: "test" },
         isAuthenticated: true,

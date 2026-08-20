@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const userDetailsSpy = vi.hoisted(() => vi.fn());
 const confirmationSpy = vi.hoisted(() => vi.fn());
 
-vi.mock("@/components/auth/SignInForm.tsx", () => ({
+vi.mock("@/features/authentication/components/SignInForm.tsx", () => ({
     SignInForm: ({
         onConfirmationRequired,
     }: {
@@ -18,27 +18,27 @@ vi.mock("@/components/auth/SignInForm.tsx", () => ({
     ),
 }));
 
-vi.mock("@/components/auth/SignUpForm.tsx", () => ({
+vi.mock("@/features/authentication/components/SignUpForm.tsx", () => ({
     SignUpForm: ({ onSuccess }: { onSuccess: (email: string, password: string) => void }) => (
         <Button onClick={() => onSuccess("user@example.com", "Password1!")}>sign-up</Button>
     ),
 }));
 
-vi.mock("@/components/auth/ConfirmSignUpForm.tsx", () => ({
+vi.mock("@/features/authentication/components/ConfirmSignUpForm.tsx", () => ({
     ConfirmSignUpForm: ({ email, password }: { email: string; password: string }) => {
         confirmationSpy(email, password);
         return <div>confirm</div>;
     },
 }));
 
-vi.mock("@/components/auth/UserDetailsForm.tsx", () => ({
+vi.mock("@/features/authentication/components/UserDetailsForm.tsx", () => ({
     UserDetailsForm: ({ email }: { email: string }) => {
         userDetailsSpy(email);
         return <div>{email}</div>;
     },
 }));
 
-vi.mock("@/components/auth/ResetPasswordForm.tsx", () => ({
+vi.mock("@/features/authentication/components/ResetPasswordForm.tsx", () => ({
     ResetPasswordForm: () => <div>reset-password</div>,
 }));
 

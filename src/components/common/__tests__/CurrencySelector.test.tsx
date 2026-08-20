@@ -5,7 +5,7 @@ import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 
 // Mock external dependencies
-vi.mock("@/hooks/auth/useResolvedAuth", () => ({
+vi.mock("@/features/authentication/hooks/useResolvedAuth", () => ({
     useResolvedAuth: vi.fn(() => ({
         user: null,
         isAuthenticated: false,
@@ -112,7 +112,9 @@ describe("CurrencySelector", () => {
         );
         useUpdateUserAccount.mockReturnValue({ mutate } as never);
 
-        const { useResolvedAuth } = vi.mocked(await import("@/hooks/auth/useResolvedAuth"));
+        const { useResolvedAuth } = vi.mocked(
+            await import("@/features/authentication/hooks/useResolvedAuth"),
+        );
         useResolvedAuth.mockReturnValue({
             user: { userId: "test", username: "test" },
             isAuthenticated: true,

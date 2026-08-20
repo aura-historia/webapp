@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
-import { getAuthErrorMessage } from "@/lib/auth/getAuthErrorMessage";
+import { getAuthErrorMessage } from "@/features/authentication/lib/getAuthErrorMessage.ts";
 import { Spinner } from "@/components/ui/spinner";
 
 const confirmSchema = (t: ReturnType<typeof useTranslation>["t"]) =>

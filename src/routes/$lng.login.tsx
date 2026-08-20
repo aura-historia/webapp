@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
-import { AuthFlow } from "@/components/auth/AuthFlow.tsx";
-import { hasStoredPendingEmail } from "@/components/auth/pendingSignUpEmail.ts";
+import { hasStoredPendingEmail } from "@/features/authentication/components/pendingSignUpEmail.ts";
+import { LoginPage } from "@/features/authentication/pages/LoginPage.tsx";
+import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
+import type { AuthStep } from "@/features/authentication/components/AuthFlow.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
-import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
 import "../amplify-config";
 import { localizeHref, stripLanguageFromPathname } from "@/i18n/routing.ts";
 
@@ -40,13 +40,12 @@ export const Route = createFileRoute("/$lng/login")({
             url: `${env.VITE_APP_URL}/login`,
             noIndex: true,
         }),
-    component: LoginPage,
+    component: LoginRoutePage,
 });
 
-function LoginPage() {
+function LoginRoutePage() {
     const { redirect: redirectParam, mode } = Route.useSearch();
     const { lng } = Route.useParams();
-    const { t } = useTranslation();
     const navigate = Route.useNavigate();
     const { isAuthenticated, isResolved } = useResolvedAuth();
 
@@ -64,42 +63,24 @@ function LoginPage() {
         }
     }, [isAuthenticated, isResolved, lng, mode, navigate, redirectParam]);
 
+    const step: AuthStep = mode || "sign-in";
+
     return (
-        <div className="flex flex-col gap-8 lg:gap-0 lg:grid lg:grid-cols-[2fr_auto_3fr] min-h-screen w-full">
-            {/* Left panel — branding */}
-            <div className="flex flex-col items-center justify-start lg:justify-center pt-12 lg:pt-0 px-6 lg:px-0 pb-8 lg:pb-0 w-full">
-                <span className="text-3xl text-primary lg:text-5xl font-display text-center">
-                    {t("common.auraHistoria")}
-                </span>
-                <p className="mt-6 text-center text-lg lg:text-xl text-muted-foreground px-8">
-                    {t("auth.subtitle")}
-                </p>
-            </div>
-
-            {/* Divider */}
-            <div className="hidden lg:flex items-center justify-center">
-                <div className="w-px bg-gray-300 h-[80%]" />
-            </div>
-
-            {/* Right panel — auth form or completion state */}
-            <div className="flex justify-center items-start lg:items-center px-6 lg:px-0 pb-12 lg:pb-0 w-full">
-                <AuthFlow
-                    step={mode || "sign-in"}
-                    onStepChange={(newStep) => {
-                        navigate({
-                            from: "/$lng/login",
-                            search: (prev) => ({ ...prev, mode: newStep }),
-                            replace: true,
-                        });
-                    }}
-                    onComplete={() => {
-                        navigate({
-                            href: redirectParam ? localizeHref(redirectParam, lng) : `/${lng}`,
-                            viewTransition: true,
-                        });
-                    }}
-                />
-            </div>
-        </div>
+        <LoginPage
+            step={step}
+            onStepChange={(newStep) => {
+                navigate({
+                    from: "/$lng/login",
+                    search: (prev) => ({ ...prev, mode: newStep }),
+                    replace: true,
+                });
+            }}
+            onComplete={() => {
+                navigate({
+                    href: redirectParam ? localizeHref(redirectParam, lng) : `/${lng}`,
+                    viewTransition: true,
+                });
+            }}
+        />
     );
 }

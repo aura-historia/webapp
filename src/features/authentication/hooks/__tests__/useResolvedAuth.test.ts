@@ -1,6 +1,6 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
+import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 
 const mockGetCurrentUser = vi.hoisted(() => vi.fn());
 const mockSignOut = vi.hoisted(() => vi.fn());

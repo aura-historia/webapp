@@ -7,7 +7,7 @@ import {
 import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
 import { useUpdateUserAccount } from "@/hooks/account/usePatchUserAccount.ts";
 import { useUserAccount } from "@/hooks/account/useUserAccount.ts";
-import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
+import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { SearchableCurrencySelect } from "@/components/common/SearchableCurrencySelect.tsx";

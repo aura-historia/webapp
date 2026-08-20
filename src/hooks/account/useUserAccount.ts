@@ -6,7 +6,7 @@ import {
 import { getUserAccount } from "@/client";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
-import { useResolvedAuth } from "@/hooks/auth/useResolvedAuth.ts";
+import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 
 export function useUserAccount(enabled: boolean = true): UseQueryResult<UserAccountData> {
     const { getErrorMessage } = useApiError();

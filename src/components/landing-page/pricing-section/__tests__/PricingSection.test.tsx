@@ -21,7 +21,7 @@ const mockUseResolvedAuth = vi.hoisted(() => vi.fn());
 const mockPostBillingManage = vi.hoisted(() => vi.fn());
 const mockNavigate = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/auth/useResolvedAuth", () => ({
+vi.mock("@/features/authentication/hooks/useResolvedAuth", () => ({
     useResolvedAuth: mockUseResolvedAuth,
 }));
 
