@@ -6,7 +6,7 @@ import {
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 

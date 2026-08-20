@@ -6,7 +6,7 @@ import RecentlyAddedSection from "@/components/landing-page/recently-added-secti
 import { RecentlyAddedSectionSkeleton } from "@/components/landing-page/recently-added-section/RecentlyAddedSectionSkeleton.tsx";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { useTranslation } from "react-i18next";
 
 export function RecentlyAddedClientSection() {

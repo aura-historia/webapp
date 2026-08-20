@@ -3,8 +3,8 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { ShopLocationSection } from "../ShopLocationSection.tsx";
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
-import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
-import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
+import { UserPreferencesProvider } from "@/features/preferences/hooks/useUserPreferences.tsx";
+import type { UserPreferences } from "@/features/preferences/types/UserPreferences.ts";
 
 const mockShop: ShopDetail = {
     shopId: "shop-uuid-123",

@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
 import { FilterCard } from "./FilterCard.tsx";
 import { CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 10_000;

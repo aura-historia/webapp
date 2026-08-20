@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { UnitSystemSelector } from "@/components/common/UnitSystemSelector.tsx";
-import { UserPreferencesProvider } from "@/hooks/preferences/useUserPreferences.tsx";
+import { UnitSystemSelector } from "@/features/preferences/components/UnitSystemSelector.tsx";
+import { UserPreferencesProvider } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";
 
 // Mock external dependencies

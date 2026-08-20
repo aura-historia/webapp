@@ -1,5 +1,5 @@
 import { UNIT_SYSTEMS, parseUnitSystem } from "@/data/internal/common/UnitSystem.ts";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { useUpdateUserAccount } from "@/features/account-management/hooks/usePatchUserAccount.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";

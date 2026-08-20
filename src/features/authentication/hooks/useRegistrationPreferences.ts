@@ -1,1 +1,1 @@
-export { useUserPreferences as useRegistrationPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+export { useUserPreferences as useRegistrationPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";

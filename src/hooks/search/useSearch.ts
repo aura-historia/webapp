@@ -12,7 +12,7 @@ import { mapToBackendSortModeArguments } from "@/data/internal/search/SortMode.t
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useTranslation } from "react-i18next";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
 import { env } from "@/env.ts";

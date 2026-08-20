@@ -11,7 +11,7 @@ vi.mock("@/hooks/common/useApiError", () => ({
     useApiError: () => ({ getErrorMessage: mockGetErrorMessage }),
 }));
 vi.mock("@/data/internal/hooks/ApiError", () => ({ mapToInternalApiError: (e: unknown) => e }));
-vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
+vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
     useUserPreferences: () => ({ preferences: { currency: "EUR" } }),
 }));
 

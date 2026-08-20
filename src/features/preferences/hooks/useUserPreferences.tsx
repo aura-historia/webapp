@@ -7,7 +7,7 @@ import {
     useState,
     type ReactNode,
 } from "react";
-import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
+import type { UserPreferences } from "@/features/preferences/types/UserPreferences.ts";
 import { inferCurrencyFromLocale } from "@/data/internal/common/Currency.ts";
 import { inferUnitSystemFromLocale } from "@/data/internal/common/UnitSystem.ts";
 import { googleAnalytics } from "@/lib/tracking/googleAnalytics.ts";

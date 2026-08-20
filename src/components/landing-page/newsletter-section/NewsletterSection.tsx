@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { H2 } from "@/components/typography/H2.tsx";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { parseLanguage, mapToBackendLanguage } from "@/data/internal/common/Language.ts";
 import { mapToBackendCurrency } from "@/data/internal/common/Currency.ts";
 import { useNewsletterSubscription } from "@/hooks/newsletter/useNewsletterSubscription.ts";

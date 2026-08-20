@@ -1,6 +1,6 @@
 import { H2 } from "@/components/typography/H2.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { useUserPreferences } from "@/hooks/preferences/useUserPreferences.tsx";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import type { GeoAddress, StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { useTranslation } from "react-i18next";

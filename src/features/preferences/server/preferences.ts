@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getCookie } from "@tanstack/react-start/server";
-import type { UserPreferences } from "@/data/internal/preferences/UserPreferences.ts";
+import type { UserPreferences } from "@/features/preferences/types/UserPreferences.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";
 

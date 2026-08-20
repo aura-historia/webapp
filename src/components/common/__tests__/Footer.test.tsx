@@ -28,11 +28,11 @@ vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
     useUserAccount: vi.fn(() => ({ data: undefined })),
 }));
 
-vi.mock("@/components/common/CurrencySelector.tsx", () => ({
+vi.mock("@/features/preferences/components/CurrencySelector.tsx", () => ({
     CurrencySelector: () => null,
 }));
 
-vi.mock("@/components/common/UnitSystemSelector.tsx", () => ({
+vi.mock("@/features/preferences/components/UnitSystemSelector.tsx", () => ({
     UnitSystemSelector: () => null,
 }));
 

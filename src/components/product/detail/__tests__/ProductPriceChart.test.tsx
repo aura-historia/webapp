@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 import { ProductPriceChart } from "../ProductPriceChart.tsx";
 import { vi } from "vitest";
 
-vi.mock("@/hooks/preferences/useUserPreferences.tsx", () => ({
+vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
     useUserPreferences: () => ({
         preferences: { currency: "EUR" },
         updatePreferences: vi.fn(),
