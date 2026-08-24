@@ -49,7 +49,7 @@
         "@scalar/api-reference-react": "0.9.65",
         "@t3-oss/env-core": "^0.13.11",
         "@tailwindcss/vite": "^4.3.3",
-        "@tanstack/match-sorter-utils": "^8.19.4",
+        "@tanstack/match-sorter-utils": "^9.1.2",
         "@tanstack/react-devtools": "^0.10.12",
         "@tanstack/react-form": "^1.33.5",
         "@tanstack/react-query": "^5.101.4",
