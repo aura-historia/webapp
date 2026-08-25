@@ -5,7 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { H1 } from "@/components/typography/H1.tsx";
 
-export function ConsentSettings() {
+export function ConsentSettingsPage() {
     const { preferences, updatePreferences } = useUserPreferences();
     const { t } = useTranslation();
 

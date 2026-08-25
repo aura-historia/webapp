@@ -33,7 +33,7 @@ import { getPreferredLocale } from "@/lib/server/i18n.ts";
 import i18n from "@/i18n/i18n.ts";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
-import { ConsentBanner } from "@/components/common/ConsentBanner.tsx";
+import { ConsentBanner } from "@/features/consent-management/components/ConsentBanner.tsx";
 import { SONNER_TOASTER_PROPS } from "@/lib/ui/sonnerToasterConfig";
 import { getServerUser } from "@/lib/server/amplify.ts";
 import { getLanguageFromPathname, isLocalizedAppPath, localizeHref } from "@/i18n/routing.ts";
