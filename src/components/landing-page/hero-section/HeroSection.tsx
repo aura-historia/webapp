@@ -1,4 +1,4 @@
-import { SearchBar } from "@/components/search/SearchBar.tsx";
+import { SearchBar } from "@/features/search/common";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { Trans, useTranslation } from "react-i18next";

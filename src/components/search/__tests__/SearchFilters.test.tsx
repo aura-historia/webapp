@@ -1,5 +1,5 @@
 import { SearchFilters } from "@/components/search/SearchFilters";
-import { SearchBar } from "@/components/search/SearchBar";
+import { SearchBar } from "@/features/search/common";
 import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";

@@ -1,4 +1,4 @@
-import type { FilterSchema } from "@/components/search/SearchFilters";
+import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 
 /** Minimum number of characters required for a search query */

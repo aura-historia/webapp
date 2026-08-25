@@ -1,4 +1,4 @@
-import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter";
+import { ShopTypeFilter } from "../ShopTypeFilter.tsx";
 import { FormProvider, useForm } from "react-hook-form";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";

@@ -37,10 +37,9 @@ import {
     StepperTitle,
     StepperTrigger,
 } from "@/components/ui/stepper.tsx";
-import { SearchFilterFormProvider } from "@/components/search/SearchFilterFormProvider.tsx";
+import { SearchFilterFormProvider, ShopTypeFilter } from "@/features/search/common";
 import { PriceSpanFilter } from "@/components/search/filters/PriceSpanFilter.tsx";
 import { ProductStateFilter } from "@/components/search/filters/ProductStateFilter.tsx";
-import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter.tsx";
 import { MerchantFilters } from "@/components/search/filters/MerchantFilters.tsx";
 import { AuctionDateSpanFilter } from "@/components/search/filters/AuctionDateSpanFilter.tsx";
 import { CreationDateSpanFilter } from "@/components/search/filters/CreationDateSpanFilter.tsx";

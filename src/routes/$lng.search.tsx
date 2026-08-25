@@ -3,7 +3,7 @@ import { H1 } from "@/components/typography/H1.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { serializeSearchParams, validateSearchParams } from "@/lib/searchValidation.ts";
 import { useTranslation } from "react-i18next";
-import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
+import { ScrollToTopButton } from "@/features/search/common";
 import { FloatingSaveSearchFilterButton } from "@/components/search/FloatingSaveSearchFilterButton.tsx";
 import { SaveSearchFilterDialog } from "@/components/search/SaveSearchFilterDialog.tsx";
 import { H2 } from "@/components/typography/H2.tsx";

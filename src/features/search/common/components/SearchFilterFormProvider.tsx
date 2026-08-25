@@ -12,7 +12,7 @@ import {
     type FilterSchema,
     mapFormValuesToSearchFilterArguments,
     mapSearchFiltersToFormValues,
-} from "@/components/search/SearchFilters.tsx";
+} from "@/features/search/common/lib/filterForm.ts";
 
 type Props = {
     readonly value: SearchFilterArguments;

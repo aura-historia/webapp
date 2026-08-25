@@ -1,5 +1,5 @@
 import { Controller, useFormContext, useFormState } from "react-hook-form";
-import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
+import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { useTranslation } from "react-i18next";
 import { MultiSelect, type MultiSelectOption } from "@/components/ui/multi-select.tsx";
 import { Label } from "@/components/ui/label.tsx";
