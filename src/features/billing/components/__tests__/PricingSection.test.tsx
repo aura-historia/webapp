@@ -1,5 +1,5 @@
-import PricingSection from "@/components/landing-page/pricing-section/PricingSection.tsx";
-import { PRICING_TIERS } from "@/components/landing-page/pricing-section/PricingSection.data.ts";
+import PricingSection from "@/features/billing/components/PricingSection.tsx";
+import { PRICING_TIERS } from "@/features/billing/components/PricingSection.data.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
