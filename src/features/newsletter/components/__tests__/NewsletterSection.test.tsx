@@ -1,8 +1,8 @@
-import NewsletterSection from "@/components/landing-page/newsletter-section/NewsletterSection.tsx";
+import NewsletterSection from "@/features/newsletter/components/NewsletterSection.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useNewsletterSubscription } from "@/hooks/newsletter/useNewsletterSubscription.ts";
+import { useNewsletterSubscription } from "@/features/newsletter/api/useNewsletterSubscription.ts";
 
 const mockToast = vi.hoisted(() => ({
     success: vi.fn(),
@@ -13,7 +13,7 @@ vi.mock("sonner", () => ({
     toast: mockToast,
 }));
 
-vi.mock("@/hooks/newsletter/useNewsletterSubscription.ts", () => ({
+vi.mock("@/features/newsletter/api/useNewsletterSubscription.ts", () => ({
     useNewsletterSubscription: vi.fn(() => ({
         mutateAsync: vi.fn().mockResolvedValue(undefined),
         isPending: false,
