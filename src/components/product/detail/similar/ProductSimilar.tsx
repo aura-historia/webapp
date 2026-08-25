@@ -1,7 +1,7 @@
 import { useSimilarProducts } from "@/hooks/useSimilarProducts.ts";
-import { ProductGridItem } from "@/components/product/grid/ProductGridItem.tsx";
-import { ProductGridItemSkeleton } from "@/components/product/grid/ProductGridItemSkeleton.tsx";
-import { HiddenMatchCard } from "@/components/product/overview/HiddenMatchCard.tsx";
+import { ProductGridItem } from "@/features/product/catalog/components/grid/ProductGridItem.tsx";
+import { ProductGridItemSkeleton } from "@/features/product/catalog/components/grid/ProductGridItemSkeleton.tsx";
+import { HiddenMatchCard } from "@/features/product/catalog/components/cards/HiddenMatchCard.tsx";
 import { ProductSectionHeading } from "@/components/product/detail/ProductSectionHeading.tsx";
 import { ProductCarouselNavButtons } from "@/components/product/detail/ProductCarouselNavButtons.tsx";
 import { H3 } from "@/components/typography/H3.tsx";

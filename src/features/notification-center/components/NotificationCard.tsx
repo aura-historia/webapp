@@ -11,7 +11,7 @@ import { useMarkNotificationSeen } from "@/features/notification-center/api/useM
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
-import { ProhibitedImagePlaceholder } from "@/components/common/ProhibitedImagePlaceholder.tsx";
+import { ProhibitedImagePlaceholder } from "@/features/product/catalog/components/media/ProhibitedImagePlaceholder.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
 import { Card } from "@/components/ui/card.tsx";

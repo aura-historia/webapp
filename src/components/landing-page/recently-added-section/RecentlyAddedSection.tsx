@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/carousel.tsx";
 import Autoplay from "embla-carousel-autoplay";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import { ProductGridItem } from "@/components/product/grid/ProductGridItem.tsx";
+import { ProductGridItem } from "@/features/product/catalog/components/grid/ProductGridItem.tsx";
 import { CAROUSEL_AUTOPLAY_DELAY_MS } from "@/components/landing-page/common/landingPageConstants.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 

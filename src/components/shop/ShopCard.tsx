@@ -1,6 +1,6 @@
 import { H2 } from "@/components/typography/H2.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
+import { ShopTypeBadge } from "@/features/product/catalog/components/badges/ShopTypeBadge.tsx";
 import { ShopPartnerStatusBadge } from "@/components/product/badges/ShopPartnerStatusBadge.tsx";
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { Link } from "@tanstack/react-router";

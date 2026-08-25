@@ -1,7 +1,7 @@
 import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
-import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
-import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
-import { AuctionWindowBadge } from "@/components/product/badges/AuctionWindowBadge.tsx";
+import { StatusBadge } from "@/features/product/catalog/components/badges/StatusBadge.tsx";
+import { ShopTypeBadge } from "@/features/product/catalog/components/badges/ShopTypeBadge.tsx";
+import { AuctionWindowBadge } from "@/features/product/catalog/components/badges/AuctionWindowBadge.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { ArrowUpRight } from "lucide-react";

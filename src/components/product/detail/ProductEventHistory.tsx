@@ -9,8 +9,8 @@ import {
     TimelineTime,
     TimelineHeader,
 } from "@/components/ui/timeline.tsx";
-import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
-import { PriceBadge } from "@/components/product/badges/PriceBadge.tsx";
+import { StatusBadge } from "@/features/product/catalog/components/badges/StatusBadge.tsx";
+import { PriceBadge } from "@/features/product/catalog/components/badges/PriceBadge.tsx";
 import { formatDate, formatTime, formatStateName } from "@/lib/utils.ts";
 import {
     isCreatedEvent,

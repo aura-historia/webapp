@@ -11,7 +11,7 @@ import { ImageOff, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
-import { ProhibitedImagePlaceholder } from "@/components/common/ProhibitedImagePlaceholder.tsx";
+import { ProhibitedImagePlaceholder } from "@/features/product/catalog/components/media/ProhibitedImagePlaceholder.tsx";
 import type { UserProductData } from "@/data/internal/product/UserProductData.ts";
 
 interface ProductCardImageCarouselProps {

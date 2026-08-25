@@ -1,6 +1,6 @@
 import { useDealerProducts } from "@/hooks/shop/useDealerProducts.ts";
-import { ProductGridItem } from "@/components/product/grid/ProductGridItem.tsx";
-import { ProductGridItemSkeleton } from "@/components/product/grid/ProductGridItemSkeleton.tsx";
+import { ProductGridItem } from "@/features/product/catalog/components/grid/ProductGridItem.tsx";
+import { ProductGridItemSkeleton } from "@/features/product/catalog/components/grid/ProductGridItemSkeleton.tsx";
 import { ProductSectionHeading } from "@/components/product/detail/ProductSectionHeading.tsx";
 import { ProductCarouselNavButtons } from "@/components/product/detail/ProductCarouselNavButtons.tsx";
 import { EmptyState } from "@/components/common/EmptyState.tsx";

@@ -1,6 +1,6 @@
-import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
-import { HiddenMatchCard } from "@/components/product/overview/HiddenMatchCard.tsx";
-import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
+import { ProductCard } from "@/features/product/catalog/components/cards/ProductCard.tsx";
+import { HiddenMatchCard } from "@/features/product/catalog/components/cards/HiddenMatchCard.tsx";
+import { ProductCardSkeleton } from "@/features/product/catalog/components/cards/ProductCardSkeleton.tsx";
 import { useEffect } from "react";
 import { SearchX, ServerCrash } from "lucide-react";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";

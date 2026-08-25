@@ -4,7 +4,7 @@ import { SearchFilterMatchCard } from "../SearchFilterMatchCard.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 
-vi.mock("@/components/product/overview/ProductCard.tsx", () => ({
+vi.mock("@/features/product/catalog/components/cards/ProductCard.tsx", () => ({
     ProductCard: ({ product }: { product: OverviewProduct }) => (
         <div data-testid="product-card">{product.title}</div>
     ),
