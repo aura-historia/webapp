@@ -1,5 +1,5 @@
-import { ProductGridItem } from "@/components/product/grid/ProductGridItem.tsx";
-import { ProductGridItemSkeleton } from "@/components/product/grid/ProductGridItemSkeleton.tsx";
+import { ProductGridItem } from "@/features/product/catalog/components/grid/ProductGridItem.tsx";
+import { ProductGridItemSkeleton } from "@/features/product/catalog/components/grid/ProductGridItemSkeleton.tsx";
 import { useShopProducts } from "@/hooks/shop/useShopProducts.ts";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";

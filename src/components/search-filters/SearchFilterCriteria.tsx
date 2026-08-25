@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge.tsx";
-import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
-import { ShopTypeBadge } from "@/components/product/badges/ShopTypeBadge.tsx";
+import { StatusBadge } from "@/features/product/catalog/components/badges/StatusBadge.tsx";
+import { ShopTypeBadge } from "@/features/product/catalog/components/badges/ShopTypeBadge.tsx";
 import { FilterDetailRow } from "@/components/search-filters/FilterDetailRow.tsx";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";

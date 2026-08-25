@@ -1,6 +1,6 @@
 import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
 import { Checkbox } from "@/components/ui/checkbox";
-import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
+import { StatusBadge } from "@/features/product/catalog/components/badges/StatusBadge.tsx";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";

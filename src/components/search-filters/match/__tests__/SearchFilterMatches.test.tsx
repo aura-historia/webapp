@@ -25,11 +25,11 @@ vi.mock("@/components/search-filters/match/SearchFilterMatchCard.tsx", () => ({
     ),
 }));
 
-vi.mock("@/components/product/overview/HiddenMatchCard.tsx", () => ({
+vi.mock("@/features/product/catalog/components/cards/HiddenMatchCard.tsx", () => ({
     HiddenMatchCard: () => <div data-testid="hidden-match-card" />,
 }));
 
-vi.mock("@/components/product/overview/ProductCardSkeleton.tsx", () => ({
+vi.mock("@/features/product/catalog/components/cards/ProductCardSkeleton.tsx", () => ({
     ProductCardSkeleton: () => <div data-testid="product-card-skeleton" />,
 }));
 

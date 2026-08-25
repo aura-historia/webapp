@@ -1,7 +1,7 @@
 import { useSearchFilterMatchedProducts } from "@/hooks/search-filters/useSearchFilterMatchedProducts.ts";
 import { SearchFilterMatchCard } from "@/components/search-filters/match/SearchFilterMatchCard.tsx";
-import { HiddenMatchCard } from "@/components/product/overview/HiddenMatchCard.tsx";
-import { ProductCardSkeleton } from "@/components/product/overview/ProductCardSkeleton.tsx";
+import { HiddenMatchCard } from "@/features/product/catalog/components/cards/HiddenMatchCard.tsx";
+import { ProductCardSkeleton } from "@/features/product/catalog/components/cards/ProductCardSkeleton.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { SearchX, ServerCrash } from "lucide-react";
 import { EmptyState } from "@/components/common/EmptyState.tsx";

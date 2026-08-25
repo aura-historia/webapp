@@ -1,4 +1,4 @@
-import { ProductCard } from "@/components/product/overview/ProductCard.tsx";
+import { ProductCard } from "@/features/product/catalog/components/cards/ProductCard.tsx";
 import { MatchFeedbackButtons } from "@/components/product/buttons/MatchFeedbackButtons.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 

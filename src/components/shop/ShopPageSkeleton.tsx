@@ -1,5 +1,5 @@
 import { ShopHeaderSkeleton } from "@/components/shop/ShopHeaderSkeleton.tsx";
-import { ProductGridItemSkeleton } from "@/components/product/grid/ProductGridItemSkeleton.tsx";
+import { ProductGridItemSkeleton } from "@/features/product/catalog/components/grid/ProductGridItemSkeleton.tsx";
 
 const SKELETON_IDS = Array.from({ length: 8 }, (_, i) => `skeleton-${i}`);
 

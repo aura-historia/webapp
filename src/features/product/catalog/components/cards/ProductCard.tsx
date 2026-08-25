@@ -1,5 +1,5 @@
-import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
-import { AuctionWindowBadge } from "@/components/product/badges/AuctionWindowBadge.tsx";
+import { StatusBadge } from "@/features/product/catalog/components/badges/StatusBadge.tsx";
+import { AuctionWindowBadge } from "@/features/product/catalog/components/badges/AuctionWindowBadge.tsx";
 import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotificationBadge.tsx";
 import { SearchFilterMatchBadge } from "@/components/product/badges/SearchFilterMatchBadge.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
@@ -11,7 +11,7 @@ import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
-import { ProductCardImageCarousel } from "@/components/product/overview/ProductCardImageCarousel.tsx";
+import { ProductCardImageCarousel } from "@/features/product/catalog/components/media/ProductCardImageCarousel.tsx";
 import { memo, useCallback } from "react";
 import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
 import { cn } from "@/lib/utils.ts";
