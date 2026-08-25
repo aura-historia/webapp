@@ -1,5 +1,5 @@
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
-import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotificationBadge.tsx";
+import { UnseenNotificationBadge } from "@/features/notification-center/components/UnseenNotificationBadge.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { ImageOff } from "lucide-react";
@@ -9,7 +9,7 @@ import { H3 } from "@/components/typography/H3.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 import { memo, useCallback } from "react";
-import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
+import { useMarkNotificationSeen } from "@/features/notification-center/api/useMarkNotificationSeen.ts";
 import { cn } from "@/lib/utils.ts";
 import { isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
 import { ProhibitedImagePlaceholder } from "@/components/common/ProhibitedImagePlaceholder.tsx";

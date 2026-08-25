@@ -13,11 +13,11 @@ vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
     useUserAccount: mockUseUserAccount,
 }));
 
-vi.mock("@/hooks/notification/useMarkNotificationSeen.ts", () => ({
+vi.mock("@/features/notification-center/api/useMarkNotificationSeen.ts", () => ({
     useMarkNotificationSeen: mockUseMarkNotificationSeen,
 }));
 
-vi.mock("@/hooks/notification/useDeleteNotification.ts", () => ({
+vi.mock("@/features/notification-center/api/useDeleteNotification.ts", () => ({
     useDeleteNotification: mockUseDeleteNotification,
 }));
 

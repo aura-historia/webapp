@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button.tsx";
-import { useMarkAllNotificationsSeen } from "@/hooks/notification/useMarkAllNotificationsSeen.ts";
-import { useDeleteAllNotifications } from "@/hooks/notification/useDeleteAllNotifications.ts";
-import { useNotifications } from "@/hooks/notification/useNotifications.ts";
+import { useMarkAllNotificationsSeen } from "@/features/notification-center/api/useMarkAllNotificationsSeen.ts";
+import { useDeleteAllNotifications } from "@/features/notification-center/api/useDeleteAllNotifications.ts";
+import { useNotifications } from "@/features/notification-center/api/useNotifications.ts";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
 import { Bell, BellRing, CheckCheck, Trash2 } from "lucide-react";

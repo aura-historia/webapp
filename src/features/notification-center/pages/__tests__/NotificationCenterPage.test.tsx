@@ -2,23 +2,23 @@ import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderWithQueryClient } from "@/test/utils.tsx";
-import { NotificationResults } from "../NotificationResults.tsx";
+import { NotificationCenterPage } from "../NotificationCenterPage.tsx";
 import type { Notification } from "@/data/internal/notification/Notification.ts";
-import type { useNotifications } from "@/hooks/notification/useNotifications.ts";
+import type { useNotifications } from "@/features/notification-center/api/useNotifications.ts";
 
 const mockUseNotifications = vi.hoisted(() => vi.fn());
 const mockUseDeleteAllNotifications = vi.hoisted(() => vi.fn());
 const mockUseMarkAllNotificationsSeen = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/notification/useNotifications.ts", () => ({
+vi.mock("@/features/notification-center/api/useNotifications.ts", () => ({
     useNotifications: mockUseNotifications,
 }));
 
-vi.mock("@/hooks/notification/useDeleteAllNotifications.ts", () => ({
+vi.mock("@/features/notification-center/api/useDeleteAllNotifications.ts", () => ({
     useDeleteAllNotifications: mockUseDeleteAllNotifications,
 }));
 
-vi.mock("@/hooks/notification/useMarkAllNotificationsSeen.ts", () => ({
+vi.mock("@/features/notification-center/api/useMarkAllNotificationsSeen.ts", () => ({
     useMarkAllNotificationsSeen: mockUseMarkAllNotificationsSeen,
 }));
 
@@ -30,13 +30,13 @@ vi.mock("lottie-react", () => ({
     Lottie: () => <div data-testid="lottie-animation" />,
 }));
 
-vi.mock("@/components/notification/NotificationCard.tsx", () => ({
+vi.mock("@/features/notification-center/components/NotificationCard.tsx", () => ({
     NotificationCard: ({ notification }: { notification: Notification }) => (
         <div data-testid="notification-card">{notification.notificationId}</div>
     ),
 }));
 
-vi.mock("@/components/notification/NotificationCardSkeleton.tsx", () => ({
+vi.mock("@/features/notification-center/components/NotificationCardSkeleton.tsx", () => ({
     NotificationCardSkeleton: () => <div data-testid="notification-card-skeleton" />,
 }));
 
@@ -93,7 +93,7 @@ function setMock({
     mockUseMarkAllNotificationsSeen.mockReturnValue({ mutate: vi.fn(), isPending: false });
 }
 
-describe("NotificationResults", () => {
+describe("NotificationCenterPage", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         setMock();
@@ -102,7 +102,7 @@ describe("NotificationResults", () => {
     describe("Loading state", () => {
         it("renders skeleton cards while loading", () => {
             setMock({ isPending: true });
-            renderWithQueryClient(<NotificationResults />);
+            renderWithQueryClient(<NotificationCenterPage />);
             expect(screen.getAllByTestId("notification-card-skeleton")).toHaveLength(4);
         });
     });
@@ -110,7 +110,7 @@ describe("NotificationResults", () => {
     describe("Error state", () => {
         it("renders error EmptyState when the hook returns an error", () => {
             setMock({ error: new Error("fetch failed") });
-            renderWithQueryClient(<NotificationResults />);
+            renderWithQueryClient(<NotificationCenterPage />);
             expect(screen.getByText("Fehler beim Laden")).toBeInTheDocument();
             expect(
                 screen.getByText(
@@ -123,7 +123,7 @@ describe("NotificationResults", () => {
     describe("Empty state", () => {
         it("renders empty state when there are no notifications", () => {
             setMock({ notifications: [], total: 0 });
-            renderWithQueryClient(<NotificationResults />);
+            renderWithQueryClient(<NotificationCenterPage />);
             expect(screen.getByText("Keine Benachrichtigungen")).toBeInTheDocument();
             expect(
                 screen.getByText("Sie haben noch keine Benachrichtigungen erhalten."),
@@ -140,26 +140,26 @@ describe("NotificationResults", () => {
                 ],
                 total: 2,
             });
-            renderWithQueryClient(<NotificationResults />);
+            renderWithQueryClient(<NotificationCenterPage />);
             expect(screen.getAllByTestId("notification-card")).toHaveLength(2);
         });
 
         it("renders the title and total count", () => {
             setMock({ notifications: [buildNotification()], total: 1 });
-            renderWithQueryClient(<NotificationResults />);
+            renderWithQueryClient(<NotificationCenterPage />);
             expect(screen.getByText("Benachrichtigungen")).toBeInTheDocument();
             expect(screen.getByText("1 Benachrichtigung")).toBeInTheDocument();
         });
 
         it("always shows the delete-all button when notifications are present", () => {
             setMock({ notifications: [buildNotification({ seen: true })], total: 1 });
-            renderWithQueryClient(<NotificationResults />);
+            renderWithQueryClient(<NotificationCenterPage />);
             expect(screen.getByRole("button", { name: "Alle löschen" })).toBeInTheDocument();
         });
 
         it("shows mark-all-read button only when there are unseen notifications", () => {
             setMock({ notifications: [buildNotification({ seen: false })], total: 1 });
-            renderWithQueryClient(<NotificationResults />);
+            renderWithQueryClient(<NotificationCenterPage />);
             expect(
                 screen.getByRole("button", { name: "Alle als gelesen markieren" }),
             ).toBeInTheDocument();
@@ -167,7 +167,7 @@ describe("NotificationResults", () => {
 
         it("hides mark-all-read button when all notifications are already seen", () => {
             setMock({ notifications: [buildNotification({ seen: true })], total: 1 });
-            renderWithQueryClient(<NotificationResults />);
+            renderWithQueryClient(<NotificationCenterPage />);
             expect(
                 screen.queryByRole("button", { name: "Alle als gelesen markieren" }),
             ).not.toBeInTheDocument();
@@ -180,7 +180,7 @@ describe("NotificationResults", () => {
                 mutate: mutateDelete,
                 isPending: false,
             });
-            renderWithQueryClient(<NotificationResults />);
+            renderWithQueryClient(<NotificationCenterPage />);
             await userEvent.click(screen.getByRole("button", { name: "Alle löschen" }));
             expect(mutateDelete).toHaveBeenCalledTimes(1);
         });
@@ -192,7 +192,7 @@ describe("NotificationResults", () => {
                 mutate: mutateMark,
                 isPending: false,
             });
-            renderWithQueryClient(<NotificationResults />);
+            renderWithQueryClient(<NotificationCenterPage />);
             await userEvent.click(
                 screen.getByRole("button", { name: "Alle als gelesen markieren" }),
             );
@@ -208,7 +208,7 @@ describe("NotificationResults", () => {
                 hasNextPage: false,
                 isFetchingNextPage: false,
             });
-            renderWithQueryClient(<NotificationResults />);
+            renderWithQueryClient(<NotificationCenterPage />);
             expect(screen.getByText("1 Benachrichtigung geladen")).toBeInTheDocument();
         });
 
@@ -219,7 +219,7 @@ describe("NotificationResults", () => {
                 hasNextPage: true,
                 isFetchingNextPage: true,
             });
-            renderWithQueryClient(<NotificationResults />);
+            renderWithQueryClient(<NotificationCenterPage />);
             expect(screen.getByText("Lade weitere Benachrichtigungen...")).toBeInTheDocument();
         });
     });

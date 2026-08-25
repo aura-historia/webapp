@@ -1,6 +1,6 @@
 import { StatusBadge } from "@/components/product/badges/StatusBadge.tsx";
 import { AuctionWindowBadge } from "@/components/product/badges/AuctionWindowBadge.tsx";
-import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotificationBadge.tsx";
+import { UnseenNotificationBadge } from "@/features/notification-center/components/UnseenNotificationBadge.tsx";
 import { SearchFilterMatchBadge } from "@/components/product/badges/SearchFilterMatchBadge.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
@@ -13,7 +13,7 @@ import { NotificationButton } from "@/components/product/buttons/NotificationBut
 import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
 import { ProductCardImageCarousel } from "@/components/product/overview/ProductCardImageCarousel.tsx";
 import { memo, useCallback } from "react";
-import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
+import { useMarkNotificationSeen } from "@/features/notification-center/api/useMarkNotificationSeen.ts";
 import { cn } from "@/lib/utils.ts";
 
 function ProductCardComponent({ product }: { readonly product: OverviewProduct }) {
