@@ -1,6 +1,6 @@
 import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { WatchlistResults } from "@/components/watchlist/WatchlistResults.tsx";
+import { WatchlistPage } from "@/features/watchlist/pages/WatchlistPage.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -112,7 +112,7 @@ function setInfiniteQueryMock({
     } as unknown as ReturnType<typeof useInfiniteQuery>);
 }
 
-describe("WatchlistResults", () => {
+describe("WatchlistPage", () => {
     beforeEach(() => {
         mockUseInfiniteQuery.mockReset();
         setInfiniteQueryMock();
@@ -121,7 +121,7 @@ describe("WatchlistResults", () => {
     describe("Loading State", () => {
         it("should render skeleton loaders while data is loading", () => {
             setInfiniteQueryMock({ isPending: true });
-            renderWithQueryClient(<WatchlistResults />);
+            renderWithQueryClient(<WatchlistPage />);
 
             const skeletons = screen.getAllByTestId("product-card-skeleton");
             expect(skeletons).toHaveLength(4);
@@ -131,7 +131,7 @@ describe("WatchlistResults", () => {
     describe("Error State", () => {
         it("should render error message when there is an error", () => {
             setInfiniteQueryMock({ error: new Error("API Error") });
-            renderWithQueryClient(<WatchlistResults />);
+            renderWithQueryClient(<WatchlistPage />);
 
             expect(screen.getByText("Merkliste nicht erreichbar")).toBeInTheDocument();
             expect(
@@ -145,7 +145,7 @@ describe("WatchlistResults", () => {
     describe("Empty State", () => {
         it("should render empty state when no products are found", () => {
             setInfiniteQueryMock({ products: [] });
-            renderWithQueryClient(<WatchlistResults />);
+            renderWithQueryClient(<WatchlistPage />);
 
             expect(screen.getByText("Keine Artikel gefunden")).toBeInTheDocument();
             expect(
@@ -155,7 +155,7 @@ describe("WatchlistResults", () => {
 
         it("should display search icon in empty state", () => {
             setInfiniteQueryMock({ products: [] });
-            const { container } = renderWithQueryClient(<WatchlistResults />);
+            const { container } = renderWithQueryClient(<WatchlistPage />);
 
             // Icon is an SVG with aria-hidden, so we check for its presence
             const icon = container.querySelector("svg.lucide-search-x");
@@ -170,7 +170,7 @@ describe("WatchlistResults", () => {
                 createMockProduct({ productId: "2", title: "Product 2" }),
             ];
             setInfiniteQueryMock({ products: products, total: 2 });
-            renderWithQueryClient(<WatchlistResults />);
+            renderWithQueryClient(<WatchlistPage />);
 
             expect(screen.getByText("Product 1")).toBeInTheDocument();
             expect(screen.getByText("Product 2")).toBeInTheDocument();
@@ -179,7 +179,7 @@ describe("WatchlistResults", () => {
         it("should render title and total count", () => {
             const products = [createMockProduct(), createMockProduct({ productId: "2" })];
             setInfiniteQueryMock({ products: products, total: 2 });
-            renderWithQueryClient(<WatchlistResults />);
+            renderWithQueryClient(<WatchlistPage />);
 
             expect(screen.getByText("Meine Merkliste")).toBeInTheDocument();
             expect(screen.getByText("2 Artikel")).toBeInTheDocument();
@@ -202,7 +202,7 @@ describe("WatchlistResults", () => {
                 },
             });
             setInfiniteQueryMock({ products: [productWithoutWatchlistData] });
-            renderWithQueryClient(<WatchlistResults />);
+            renderWithQueryClient(<WatchlistPage />);
 
             // Component should render the product - the component sets isWatching to true internally
             expect(screen.getByText("Test Product")).toBeInTheDocument();
@@ -225,7 +225,7 @@ describe("WatchlistResults", () => {
                 },
             });
             setInfiniteQueryMock({ products: [productWithNotifications] });
-            renderWithQueryClient(<WatchlistResults />);
+            renderWithQueryClient(<WatchlistPage />);
 
             expect(screen.getByText("Test Product")).toBeInTheDocument();
         });
@@ -238,7 +238,7 @@ describe("WatchlistResults", () => {
                 hasNextPage: true,
                 isFetchingNextPage: true,
             });
-            renderWithQueryClient(<WatchlistResults />);
+            renderWithQueryClient(<WatchlistPage />);
 
             expect(screen.getByText("Lade neue Ergebnisse...")).toBeInTheDocument();
         });
@@ -250,7 +250,7 @@ describe("WatchlistResults", () => {
                 isFetchingNextPage: false,
                 total: 1,
             });
-            renderWithQueryClient(<WatchlistResults />);
+            renderWithQueryClient(<WatchlistPage />);
 
             expect(
                 screen.getByText("Sie haben 1 Artikel Ihrer Merkliste gesehen."),
@@ -268,7 +268,7 @@ describe("WatchlistResults", () => {
                 isFetchingNextPage: false,
                 total: 2,
             });
-            renderWithQueryClient(<WatchlistResults />);
+            renderWithQueryClient(<WatchlistPage />);
 
             expect(
                 screen.getByText("Sie haben alle 2 Artikel Ihrer Merkliste gesehen."),
@@ -282,7 +282,7 @@ describe("WatchlistResults", () => {
                 isFetchingNextPage: false,
                 total: 1,
             });
-            renderWithQueryClient(<WatchlistResults />);
+            renderWithQueryClient(<WatchlistPage />);
 
             expect(screen.getByTestId("lottie-animation")).toBeInTheDocument();
         });
@@ -293,7 +293,7 @@ describe("WatchlistResults", () => {
                 hasNextPage: true,
                 isFetchingNextPage: false,
             });
-            renderWithQueryClient(<WatchlistResults />);
+            renderWithQueryClient(<WatchlistPage />);
 
             // Should not show loading or completed state
             expect(screen.queryByText("Lade neue Ergebnisse...")).not.toBeInTheDocument();
@@ -326,7 +326,7 @@ describe("WatchlistResults", () => {
                 status: "success",
             } as unknown as ReturnType<typeof useInfiniteQuery>);
 
-            renderWithQueryClient(<WatchlistResults />);
+            renderWithQueryClient(<WatchlistPage />);
 
             expect(screen.getByText("Product 1")).toBeInTheDocument();
             expect(screen.getByText("Product 2")).toBeInTheDocument();

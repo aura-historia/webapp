@@ -29,7 +29,7 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     };
 });
 
-vi.mock("@/components/product/buttons/NotificationButton", () => ({
+vi.mock("@/features/watchlist/components/NotificationButton", () => ({
     NotificationButton: () => (
         <button type="button" data-testid="notification-button">
             Notification

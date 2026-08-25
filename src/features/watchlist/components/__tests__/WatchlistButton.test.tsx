@@ -5,14 +5,14 @@ import { renderWithQueryClient } from "@/test/utils.tsx";
 
 const mockMutate = vi.fn();
 
-vi.mock("@/hooks/watchlist/useWatchlistMutation.ts", () => ({
+vi.mock("@/features/watchlist/api/useWatchlistMutation.ts", () => ({
     useWatchlistMutation: vi.fn(() => ({
         mutate: mockMutate,
         isPending: false,
     })),
 }));
 
-import { useWatchlistMutation } from "@/hooks/watchlist/useWatchlistMutation.ts";
+import { useWatchlistMutation } from "@/features/watchlist/api/useWatchlistMutation.ts";
 const mockUseWatchlistMutation = vi.mocked(useWatchlistMutation);
 
 describe("WatchlistButton", () => {

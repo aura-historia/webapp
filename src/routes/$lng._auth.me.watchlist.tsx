@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { WatchlistResults } from "@/components/watchlist/WatchlistResults.tsx";
+import { WatchlistPage } from "@/features/watchlist/pages/WatchlistPage.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 
 export const Route = createFileRoute("/$lng/_auth/me/watchlist")({
@@ -8,13 +8,5 @@ export const Route = createFileRoute("/$lng/_auth/me/watchlist")({
             pageKey: "watchlist",
             noIndex: true,
         }),
-    component: RouteComponent,
+    component: WatchlistPage,
 });
-
-function RouteComponent() {
-    return (
-        <div className="max-w-6xl mx-auto flex flex-col gap-8 pt-8 pb-8 ml-8 mr-8 lg:ml-auto lg:mr-auto">
-            <WatchlistResults />
-        </div>
-    );
-}
