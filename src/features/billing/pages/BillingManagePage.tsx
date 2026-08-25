@@ -4,8 +4,8 @@ import type { BillingPlan } from "@/data/internal/billing/BillingPlan.ts";
 import { useStripeBilling } from "@/features/billing/hooks/useStripeBilling.ts";
 
 type BillingManagePageProps = {
-    plan: BillingPlan;
-    cycle: BillingCycle;
+    readonly plan: BillingPlan;
+    readonly cycle: BillingCycle;
 };
 
 export function BillingManagePage({ plan, cycle }: BillingManagePageProps) {
