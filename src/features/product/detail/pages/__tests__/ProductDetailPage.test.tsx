@@ -4,29 +4,29 @@ import { ProductDetailPage } from "../ProductDetailPage.tsx";
 import { vi } from "vitest";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 
-vi.mock("@/components/product/detail/ProductInfo.tsx", () => ({
+vi.mock("@/features/product/detail/components/ProductInfo.tsx", () => ({
     ProductInfo: ({ product }: { product: ProductDetail }) => (
         <div data-testid="product-info">ProductInfo: {product.title}</div>
     ),
 }));
 
-vi.mock("@/components/product/detail/ProductPriceChart.tsx", () => ({
+vi.mock("@/features/product/detail/components/ProductPriceChart.tsx", () => ({
     ProductPriceChart: () => <div data-testid="product-price-chart">ProductPriceChart</div>,
 }));
 
-vi.mock("@/components/product/detail/ProductHistory.tsx", () => ({
+vi.mock("@/features/product/detail/components/ProductHistory.tsx", () => ({
     ProductHistory: () => <div data-testid="product-history">ProductHistory</div>,
 }));
 
-vi.mock("@/components/product/detail/ProductLocationSection.tsx", () => ({
+vi.mock("@/features/product/detail/components/ProductLocationSection.tsx", () => ({
     ProductLocationSection: () => <div data-testid="product-location">ProductLocationSection</div>,
 }));
 
-vi.mock("@/components/product/detail/similar/ProductSimilar.tsx", () => ({
+vi.mock("@/features/product/detail/components/similar/ProductSimilar.tsx", () => ({
     ProductSimilar: () => <div data-testid="product-similar">ProductSimilar</div>,
 }));
 
-vi.mock("@/components/product/detail/dealer/ProductDealerItems.tsx", () => ({
+vi.mock("@/features/product/detail/components/dealer/ProductDealerItems.tsx", () => ({
     ProductDealerItems: () => <div data-testid="product-dealer-items">ProductDealerItems</div>,
 }));
 

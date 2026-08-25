@@ -4,7 +4,7 @@ vi.mock("lottie-react", () => ({
 
 import { screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { ProductSharer } from "@/components/product/detail/ProductSharer.tsx";
+import { ProductSharer } from "@/features/product/detail/components/ProductSharer.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 
 describe("ProductSharer", () => {

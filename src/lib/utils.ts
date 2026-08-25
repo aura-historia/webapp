@@ -1,15 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
-import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
-import {
-    isCreatedEvent,
-    isPriceChangedEvent,
-    isPriceDiscoveredEvent,
-    isPriceRemovedEvent,
-} from "@/lib/eventFilters.ts";
-import type { ProductState } from "@/data/internal/product/ProductState.ts";
-import type { TFunction } from "i18next";
+import type { ProductStateData } from "@/client";
 import type { ShopType } from "@/data/internal/shop/ShopType.ts";
 import { CURRENCY_SYMBOLS, type Currency } from "@/data/internal/common/Currency.ts";
 import type { CheckedState } from "@radix-ui/react-checkbox";
@@ -17,31 +9,6 @@ import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
-}
-
-/**
- * Extracts the price amount from a price event.
- *
- * Different event types store the price in different places:
- * - PRICE_DISCOVERED/CHANGED: newPrice.amount
- * - PRICE_REMOVED: oldPrice.amount
- *
- * Returns the price in minor currency units (cents) or null (0).
- */
-export function getPriceAmount(event: ProductEvent): number | undefined {
-    if (isCreatedEvent(event)) {
-        return event.payload.price?.amount;
-    }
-    if (isPriceDiscoveredEvent(event)) {
-        return event.payload.newPrice.amount;
-    }
-    if (isPriceChangedEvent(event)) {
-        return event.payload.newPrice.amount;
-    }
-    if (isPriceRemovedEvent(event)) {
-        return event.payload.oldPrice.amount;
-    }
-    return 0;
 }
 
 export function formatToDateString(date?: Date): string | undefined {
@@ -57,7 +24,7 @@ export type SearchFilterData = {
         min?: number;
         max?: number;
     };
-    productState?: ProductState[];
+    productState?: ProductStateData[];
     creationDate?: {
         from?: Date;
         to?: Date;
@@ -81,7 +48,7 @@ export type SearchUrlParams = {
     q: string;
     priceFrom?: number;
     priceTo?: number;
-    allowedStates?: ProductState[];
+    allowedStates?: ProductStateData[];
     creationDateFrom?: string;
     creationDateTo?: string;
     updateDateFrom?: string;
@@ -177,23 +144,6 @@ export function formatCompactCurrency(value: number, currency: string, locale: s
 
     const sym = CURRENCY_SYMBOLS[currency as Currency];
     return sym ? formatted.replace(currency, sym) : formatted;
-}
-
-export function formatStateName(state: ProductState, t: TFunction): string {
-    switch (state) {
-        case "LISTED":
-            return `'${t("productState.listed")}'`;
-        case "AVAILABLE":
-            return `'${t("productState.available")}'`;
-        case "RESERVED":
-            return `'${t("productState.reserved")}'`;
-        case "SOLD":
-            return `'${t("productState.sold")}'`;
-        case "REMOVED":
-            return `'${t("productState.removed")}'`;
-        case "UNKNOWN":
-            return `'${t("productState.unknown")}'`;
-    }
 }
 
 export function formatShortDate(date: Date, locale?: string, timeZone?: string): string {

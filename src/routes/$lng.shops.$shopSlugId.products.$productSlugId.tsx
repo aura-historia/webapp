@@ -5,26 +5,25 @@ import {
     getProductHistoryOptions,
 } from "@/client/@tanstack/react-query.gen";
 import { mapToDetailProduct } from "@/data/internal/product/ProductDetails.ts";
-import { ProductDetailPage } from "@/components/product/detail/ProductDetailPage.tsx";
-import { ProductDetailPageSkeleton } from "@/components/product/detail/ProductDetailPageSkeleton.tsx";
+import { ProductDetailPage } from "@/features/product/detail/pages/ProductDetailPage.tsx";
+import { ProductDetailPageSkeleton } from "@/features/product/detail/components/ProductDetailPageSkeleton.tsx";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
-import i18n from "@/i18n/i18n.ts";
 import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
-import { generateProductHeadMeta } from "@/lib/seo/productHeadMeta.ts";
+import { generateProductHeadMeta } from "@/features/product/detail/lib/seo/productHeadMeta.ts";
 import { isApiNotFoundError } from "@/lib/api/apiError.ts";
 
 export const Route = createFileRoute("/$lng/shops/$shopSlugId/products/$productSlugId")({
     loader: async ({
         context: { queryClient, initialPreferences },
-        params: { shopSlugId, productSlugId },
+        params: { lng, shopSlugId, productSlugId },
     }) => {
         const currency = initialPreferences.currency;
         const productData = await queryClient
             .ensureQueryData(
                 getProductBySlugOptions({
                     query: {
-                        language: parseLanguage(i18n.language),
+                        language: parseLanguage(lng),
                         currency: currency,
                     },
                     path: { shopSlugId, productSlugId },
@@ -42,7 +41,7 @@ export const Route = createFileRoute("/$lng/shops/$shopSlugId/products/$productS
             .ensureQueryData(
                 getProductHistoryOptions({
                     query: {
-                        language: parseLanguage(i18n.language),
+                        language: parseLanguage(lng),
                         currency: currency,
                     },
                     path: {

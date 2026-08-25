@@ -2,11 +2,11 @@ import { renderWithQueryClient } from "@/test/utils.tsx";
 import { screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { ProductDealerItems } from "../ProductDealerItems.tsx";
-import { useDealerProducts } from "@/hooks/shop/useDealerProducts.ts";
+import { useDealerProducts } from "@/features/product/detail/api/useDealerProducts.ts";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import type React from "react";
 
-vi.mock("@/hooks/shop/useDealerProducts.ts", () => ({
+vi.mock("@/features/product/detail/api/useDealerProducts.ts", () => ({
     useDealerProducts: vi.fn(),
 }));
 

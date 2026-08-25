@@ -1,10 +1,10 @@
 import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
-import { ProductPriceChart } from "@/components/product/detail/ProductPriceChart.tsx";
-import { ProductHistory } from "@/components/product/detail/ProductHistory.tsx";
-import { ProductInfo } from "@/components/product/detail/ProductInfo.tsx";
-import { ProductLocationSection } from "@/components/product/detail/ProductLocationSection.tsx";
-import { ProductSimilar } from "@/components/product/detail/similar/ProductSimilar.tsx";
-import { ProductDealerItems } from "@/components/product/detail/dealer/ProductDealerItems.tsx";
+import { ProductPriceChart } from "@/features/product/detail/components/ProductPriceChart.tsx";
+import { ProductHistory } from "@/features/product/detail/components/ProductHistory.tsx";
+import { ProductInfo } from "@/features/product/detail/components/ProductInfo.tsx";
+import { ProductLocationSection } from "@/features/product/detail/components/ProductLocationSection.tsx";
+import { ProductSimilar } from "@/features/product/detail/components/similar/ProductSimilar.tsx";
+import { ProductDealerItems } from "@/features/product/detail/components/dealer/ProductDealerItems.tsx";
 
 export function ProductDetailPage({ product }: { readonly product: ProductDetail }) {
     return (

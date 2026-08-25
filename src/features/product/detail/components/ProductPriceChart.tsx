@@ -3,13 +3,9 @@ import type { ApexOptions } from "apexcharts";
 import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 
-import {
-    formatCompactCurrency,
-    formatDate,
-    formatTimeWithSeconds,
-    getPriceAmount,
-} from "@/lib/utils.ts";
-import { isPriceEvent } from "@/lib/eventFilters.ts";
+import { formatCompactCurrency, formatDate, formatTimeWithSeconds } from "@/lib/utils.ts";
+import { getPriceAmount } from "@/features/product/detail/lib/events/eventUtils.ts";
+import { isPriceEvent } from "@/features/product/detail/lib/events/eventFilters.ts";
 import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import type { TFunction } from "i18next";

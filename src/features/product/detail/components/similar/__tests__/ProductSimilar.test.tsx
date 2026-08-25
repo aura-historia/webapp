@@ -33,11 +33,11 @@ vi.mock("@/features/notification-center/api/useMarkNotificationSeen.ts", () => (
     useMarkNotificationSeen: () => ({ mutate: vi.fn() }),
 }));
 
-vi.mock("@/hooks/useSimilarProducts.ts", () => ({
+vi.mock("@/features/product/detail/api/useSimilarProducts.ts", () => ({
     useSimilarProducts: vi.fn(),
 }));
 
-import { useSimilarProducts } from "@/hooks/useSimilarProducts.ts";
+import { useSimilarProducts } from "@/features/product/detail/api/useSimilarProducts.ts";
 
 describe("ProductSimilar", () => {
     const mockProducts: OverviewProduct[] = [

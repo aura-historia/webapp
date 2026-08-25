@@ -2,8 +2,8 @@ import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Timeline } from "@/components/ui/timeline.tsx";
 import { useMemo, useState } from "react";
-import { isPriceEvent, isStateEvent } from "@/lib/eventFilters.ts";
-import { ProductEventHistory } from "@/components/product/detail/ProductEventHistory.tsx";
+import { isPriceEvent, isStateEvent } from "@/features/product/detail/lib/events/eventFilters.ts";
+import { ProductEventHistory } from "@/features/product/detail/components/ProductEventHistory.tsx";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 

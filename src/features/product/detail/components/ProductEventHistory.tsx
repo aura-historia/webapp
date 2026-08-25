@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/timeline.tsx";
 import { StatusBadge } from "@/features/product/catalog/components/badges/StatusBadge.tsx";
 import { PriceBadge } from "@/features/product/catalog/components/badges/PriceBadge.tsx";
-import { formatDate, formatTime, formatStateName } from "@/lib/utils.ts";
+import { formatDate, formatTime } from "@/lib/utils.ts";
+import { formatStateName } from "@/features/product/detail/lib/events/eventUtils.ts";
 import {
     isCreatedEvent,
     isPriceChangedEvent,
@@ -22,7 +23,7 @@ import {
     isUrlChangedEvent,
     isImagesChangedEvent,
     isAuctionTimeChangedEvent,
-} from "@/lib/eventFilters.ts";
+} from "@/features/product/detail/lib/events/eventFilters.ts";
 import { useTranslation } from "react-i18next";
 import { useRouteContext } from "@tanstack/react-router";
 import { formatPrice } from "@/data/internal/price/Price.ts";
