@@ -1,5 +1,5 @@
-import { ShopCard } from "@/components/shop/ShopCard.tsx";
-import { ShopCardSkeleton } from "@/components/shop/ShopCardSkeleton.tsx";
+import { ShopCard } from "@/features/shop/profile/components/ShopCard.tsx";
+import { ShopCardSkeleton } from "@/features/shop/profile/components/ShopCardSkeleton.tsx";
 import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { useEffect } from "react";
 import { SearchX, ServerCrash } from "lucide-react";
