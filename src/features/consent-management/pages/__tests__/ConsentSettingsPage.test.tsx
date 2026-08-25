@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { ConsentSettings } from "../ConsentSettings";
+import { ConsentSettingsPage } from "../ConsentSettingsPage.tsx";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 
 vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
@@ -18,7 +18,7 @@ vi.mock("sonner", () => ({
     toast: { success: vi.fn() },
 }));
 
-describe("ConsentSettings", () => {
+describe("ConsentSettingsPage", () => {
     const mockUpdatePreferences = vi.fn();
 
     beforeEach(() => {
@@ -35,13 +35,13 @@ describe("ConsentSettings", () => {
     });
 
     it("renders the title and description", () => {
-        render(<ConsentSettings />);
+        render(<ConsentSettingsPage />);
         expect(screen.getByText("consentSettings.title")).toBeDefined();
         expect(screen.getByText("consentSettings.description")).toBeDefined();
     });
 
     it("renders the analytics and external maps labels and descriptions", () => {
-        render(<ConsentSettings />);
+        render(<ConsentSettingsPage />);
         expect(screen.getByText("consentSettings.analyticsLabel")).toBeDefined();
         expect(screen.getByText("consentSettings.analyticsDescription")).toBeDefined();
         expect(screen.getByText("consentSettings.externalMapsLabel")).toBeDefined();
@@ -49,7 +49,7 @@ describe("ConsentSettings", () => {
     });
 
     it("analytics switch is unchecked when trackingConsent is undefined", () => {
-        render(<ConsentSettings />);
+        render(<ConsentSettingsPage />);
         const switchEl = screen.getByRole("switch", {
             name: "consentSettings.analyticsLabel",
         });
@@ -66,7 +66,7 @@ describe("ConsentSettings", () => {
             },
             updatePreferences: mockUpdatePreferences,
         });
-        render(<ConsentSettings />);
+        render(<ConsentSettingsPage />);
         const switchEl = screen.getByRole("switch", {
             name: "consentSettings.analyticsLabel",
         });
@@ -83,7 +83,7 @@ describe("ConsentSettings", () => {
             },
             updatePreferences: mockUpdatePreferences,
         });
-        render(<ConsentSettings />);
+        render(<ConsentSettingsPage />);
         const switchEl = screen.getByRole("switch", {
             name: "consentSettings.analyticsLabel",
         });
@@ -91,7 +91,7 @@ describe("ConsentSettings", () => {
     });
 
     it("calls updatePreferences with true when analytics switch is toggled on", () => {
-        render(<ConsentSettings />);
+        render(<ConsentSettingsPage />);
         fireEvent.click(screen.getByRole("switch", { name: "consentSettings.analyticsLabel" }));
         expect(mockUpdatePreferences).toHaveBeenCalledWith({ trackingConsent: true });
     });
@@ -106,7 +106,7 @@ describe("ConsentSettings", () => {
             },
             updatePreferences: mockUpdatePreferences,
         });
-        render(<ConsentSettings />);
+        render(<ConsentSettingsPage />);
         fireEvent.click(screen.getByRole("switch", { name: "consentSettings.analyticsLabel" }));
         expect(mockUpdatePreferences).toHaveBeenCalledWith({ trackingConsent: false });
     });
@@ -121,7 +121,7 @@ describe("ConsentSettings", () => {
             },
             updatePreferences: mockUpdatePreferences,
         });
-        render(<ConsentSettings />);
+        render(<ConsentSettingsPage />);
         const switchEl = screen.getByRole("switch", {
             name: "consentSettings.externalMapsLabel",
         });
@@ -129,7 +129,7 @@ describe("ConsentSettings", () => {
     });
 
     it("calls updatePreferences when external maps switch is toggled", () => {
-        render(<ConsentSettings />);
+        render(<ConsentSettingsPage />);
         fireEvent.click(screen.getByRole("switch", { name: "consentSettings.externalMapsLabel" }));
         expect(mockUpdatePreferences).toHaveBeenCalledWith({ externalMapConsent: true });
     });
