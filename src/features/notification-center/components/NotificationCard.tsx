@@ -5,9 +5,9 @@ import {
 import {
     getNotificationChangeParts,
     getNotificationTypeLabel,
-} from "@/components/notification/notificationUtils.ts";
-import { useDeleteNotification } from "@/hooks/notification/useDeleteNotification.ts";
-import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
+} from "@/features/notification-center/lib/notificationUtils.ts";
+import { useDeleteNotification } from "@/features/notification-center/api/useDeleteNotification.ts";
+import { useMarkNotificationSeen } from "@/features/notification-center/api/useMarkNotificationSeen.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
