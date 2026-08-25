@@ -39,7 +39,7 @@ vi.mock("react-intersection-observer", () => ({
 }));
 
 vi.mock("lottie-react", () => ({
-    default: () => <div data-testid="lottie-animation" />,
+    Lottie: () => <div data-testid="lottie-animation" />,
 }));
 
 const mockUseSearch = vi.mocked(useSearch);

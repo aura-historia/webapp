@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ConsentSettings } from "@/components/consent/ConsentSettings.tsx";
+import { ConsentSettingsPage } from "@/features/consent-management/pages/ConsentSettingsPage.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
 
@@ -10,5 +10,5 @@ export const Route = createFileRoute("/$lng/consent-settings")({
             url: `${env.VITE_APP_URL}/consent-settings`,
             noIndex: true,
         }),
-    component: ConsentSettings,
+    component: ConsentSettingsPage,
 });
