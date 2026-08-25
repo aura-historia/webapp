@@ -9,8 +9,8 @@ import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts
 import { ArrowUpRight, Eye } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
-import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
+import { NotificationButton } from "@/features/watchlist/components/NotificationButton.tsx";
+import { WatchlistButton } from "@/features/watchlist/components/WatchlistButton.tsx";
 import { ProductCardImageCarousel } from "@/components/product/overview/ProductCardImageCarousel.tsx";
 import { memo, useCallback } from "react";
 import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
