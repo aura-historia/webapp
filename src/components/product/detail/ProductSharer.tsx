@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import Lottie from "lottie-react";
+import { Lottie } from "lottie-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Share2, Link2 } from "lucide-react";
 import {
     FacebookShareButton,
     WhatsappShareButton,
-    TwitterShareButton,
+    XShareButton,
     TelegramShareButton,
-    // RedditShareButton, // TODO: Re-enable once https://github.com/nygardk/react-share/pull/572 is merged
+    RedditShareButton,
     FacebookIcon,
     WhatsappIcon,
     XIcon,
     TelegramIcon,
-    // RedditIcon, // TODO: Re-enable once https://github.com/nygardk/react-share/pull/572 is merged
+    RedditIcon,
 } from "react-share";
 import tick from "@/assets/lottie/tick.json";
 import { useTranslation } from "react-i18next";
@@ -58,15 +58,14 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
             Icon: FacebookIcon,
             usePersonalText: true,
         },
-        { name: "X", Button: TwitterShareButton, Icon: XIcon, usePersonalText: true },
+        { name: "X", Button: XShareButton, Icon: XIcon, usePersonalText: true },
         {
             name: "Telegram",
             Button: TelegramShareButton,
             Icon: TelegramIcon,
             usePersonalText: true,
         },
-        // TODO: Re-enable Reddit button once https://github.com/nygardk/react-share/pull/572 is merged
-        // { name: "Reddit", Button: RedditShareButton, Icon: RedditIcon, usePersonalText: false },
+        { name: "Reddit", Button: RedditShareButton, Icon: RedditIcon, usePersonalText: true },
     ];
 
     return (
@@ -84,7 +83,7 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
                         onClick={copyLink}
                         className="flex items-center gap-3 px-3 py-2 hover:bg-accent rounded-md cursor-pointer w-full text-left"
                     >
-                        <div className="w-8 h-8 flex-shrink-0 relative">
+                        <div className="w-8 h-8 shrink-0 relative">
                             <div
                                 className={`absolute inset-0 flex items-center justify-center rounded-full bg-primary transition-all duration-200 ease-out ${
                                     copied ? "opacity-0 scale-75" : "opacity-100 scale-100"
@@ -95,12 +94,12 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
 
                             {copied && (
                                 <div className="absolute inset-0 flex items-center justify-center scale-[1.7]">
-                                    <Lottie animationData={tick} loop={false} className="w-8 h-8" />
+                                    <Lottie src={tick} autoplay={true} className="w-8 h-8" />
                                 </div>
                             )}
                         </div>
 
-                        <div className="relative min-w-[90px]">
+                        <div className="relative min-w-22.5">
                             <span
                                 className={`font-medium text-sm block transition-opacity duration-200 ease-out ${
                                     copied ? "opacity-0" : "opacity-100"
@@ -126,7 +125,7 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
                             resetButtonStyle={false}
                         >
                             <div className="flex items-center gap-3 px-3 py-2 hover:bg-accent rounded-md cursor-pointer w-full">
-                                <Icon size={iconSize} round className="flex-shrink-0" />
+                                <Icon size={iconSize} round className="shrink-0" />
                                 <span className="font-medium text-sm">{name}</span>
                             </div>
                         </ShareButton>
