@@ -12,8 +12,8 @@ vi.mock("@/features/authentication/hooks/useRegistrationAccount.ts", () => ({
     }),
 }));
 
-vi.mock("@/features/authentication/hooks/useRegistrationNewsletter.ts", () => ({
-    useRegistrationNewsletter: () => ({
+vi.mock("@/features/newsletter/api/useNewsletterSubscription.ts", () => ({
+    useNewsletterSubscription: () => ({
         mutateAsync: mockSubscribe,
         isPending: false,
     }),

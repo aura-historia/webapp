@@ -9,7 +9,7 @@ import { CURRENCIES, mapToBackendCurrency } from "@/data/internal/common/Currenc
 import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";
 import { getAccountEditSchema } from "@/features/account-management/lib/validation.ts";
 import { useRegistrationAccount } from "@/features/authentication/hooks/useRegistrationAccount.ts";
-import { useRegistrationNewsletter } from "@/features/authentication/hooks/useRegistrationNewsletter.ts";
+import { useNewsletterSubscription } from "@/features/newsletter/api/useNewsletterSubscription.ts";
 import { useRegistrationPreferences } from "@/features/authentication/hooks/useRegistrationPreferences.ts";
 import {
     Form,
@@ -66,7 +66,7 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
     });
 
     const { mutateAsync: updateAccount, isPending } = useRegistrationAccount();
-    const { mutateAsync: subscribe, isPending: isNewsletterPending } = useRegistrationNewsletter();
+    const { mutateAsync: subscribe, isPending: isNewsletterPending } = useNewsletterSubscription();
 
     const subscribeUserToNewsletter = async (data?: UserDetailsFormValues) => {
         if (!data?.newsletterConsent) {

@@ -3,7 +3,7 @@ import { HeartIcon } from "lucide-react";
 import {
     useWatchlistMutation,
     type WatchlistMutationType,
-} from "@/hooks/watchlist/useWatchlistMutation.ts";
+} from "@/features/watchlist/api/useWatchlistMutation.ts";
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils.ts";
 

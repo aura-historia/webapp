@@ -1,5 +1,5 @@
 import { AccountImage } from "@/components/common/AccountImage.tsx";
-import { NotificationBell } from "@/components/notification/NotificationBell.tsx";
+import { NotificationBell } from "@/features/notification-center/components/NotificationBell.tsx";
 import {
     DropdownMenu,
     DropdownMenuContent,

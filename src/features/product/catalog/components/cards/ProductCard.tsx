@@ -1,6 +1,6 @@
 import { StatusBadge } from "@/features/product/catalog/components/badges/StatusBadge.tsx";
 import { AuctionWindowBadge } from "@/features/product/catalog/components/badges/AuctionWindowBadge.tsx";
-import { UnseenNotificationBadge } from "@/components/product/badges/UnseenNotificationBadge.tsx";
+import { UnseenNotificationBadge } from "@/features/notification-center/components/UnseenNotificationBadge.tsx";
 import { SearchFilterMatchBadge } from "@/components/product/badges/SearchFilterMatchBadge.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
@@ -9,11 +9,11 @@ import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts
 import { ArrowUpRight, Eye } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { NotificationButton } from "@/components/product/buttons/NotificationButton.tsx";
-import { WatchlistButton } from "@/components/product/buttons/WatchlistButton.tsx";
+import { NotificationButton } from "@/features/watchlist/components/NotificationButton.tsx";
+import { WatchlistButton } from "@/features/watchlist/components/WatchlistButton.tsx";
 import { ProductCardImageCarousel } from "@/features/product/catalog/components/media/ProductCardImageCarousel.tsx";
 import { memo, useCallback } from "react";
-import { useMarkNotificationSeen } from "@/hooks/notification/useMarkNotificationSeen.ts";
+import { useMarkNotificationSeen } from "@/features/notification-center/api/useMarkNotificationSeen.ts";
 import { cn } from "@/lib/utils.ts";
 
 function ProductCardComponent({ product }: { readonly product: OverviewProduct }) {

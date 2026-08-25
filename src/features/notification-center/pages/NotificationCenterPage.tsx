@@ -1,11 +1,11 @@
-import { NotificationCard } from "@/components/notification/NotificationCard.tsx";
-import { NotificationCardSkeleton } from "@/components/notification/NotificationCardSkeleton.tsx";
+import { NotificationCard } from "@/features/notification-center/components/NotificationCard.tsx";
+import { NotificationCardSkeleton } from "@/features/notification-center/components/NotificationCardSkeleton.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
-import { useNotifications } from "@/hooks/notification/useNotifications.ts";
-import { useDeleteAllNotifications } from "@/hooks/notification/useDeleteAllNotifications.ts";
-import { useMarkAllNotificationsSeen } from "@/hooks/notification/useMarkAllNotificationsSeen.ts";
+import { useNotifications } from "@/features/notification-center/api/useNotifications.ts";
+import { useDeleteAllNotifications } from "@/features/notification-center/api/useDeleteAllNotifications.ts";
+import { useMarkAllNotificationsSeen } from "@/features/notification-center/api/useMarkAllNotificationsSeen.ts";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,7 +14,7 @@ import { EmptyState } from "@/components/common/EmptyState.tsx";
 
 const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as const;
 
-export function NotificationResults() {
+export function NotificationCenterPage() {
     const { ref, inView } = useInView();
     const { t } = useTranslation();
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =

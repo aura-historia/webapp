@@ -1,8 +1,7 @@
-import { useEffect, useRef } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useStripeBilling } from "@/hooks/billing/useStripeBilling.ts";
 import { parseBillingCycle, type BillingCycle } from "@/data/internal/billing/BillingCycle.ts";
 import { parseBillingPlan, type BillingPlan } from "@/data/internal/billing/BillingPlan.ts";
+import { BillingManagePage } from "@/features/billing/pages/BillingManagePage.tsx";
 
 type BillingManageSearch = {
     plan: BillingPlan;
@@ -30,21 +29,6 @@ export const Route = createFileRoute("/$lng/_auth/me/billing/manage")({
 
 function BillingManageRoute() {
     const { plan, cycle } = Route.useSearch();
-    const { handleSubscribe, isLoading } = useStripeBilling();
-    const hasStartedCheckout = useRef(false);
 
-    useEffect(() => {
-        if (hasStartedCheckout.current) return;
-
-        hasStartedCheckout.current = true;
-        void handleSubscribe(plan, cycle);
-    }, [handleSubscribe, plan, cycle]);
-
-    return (
-        <div className="flex min-h-screen items-center justify-center">
-            {isLoading && (
-                <div className="h-12 w-12 animate-spin rounded-full border-4 border-t-primary" />
-            )}
-        </div>
-    );
+    return <BillingManagePage plan={plan} cycle={cycle} />;
 }

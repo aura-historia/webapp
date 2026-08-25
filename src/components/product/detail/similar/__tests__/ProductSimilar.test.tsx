@@ -29,7 +29,7 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     };
 });
 
-vi.mock("@/hooks/notification/useMarkNotificationSeen.ts", () => ({
+vi.mock("@/features/notification-center/api/useMarkNotificationSeen.ts", () => ({
     useMarkNotificationSeen: () => ({ mutate: vi.fn() }),
 }));
 
