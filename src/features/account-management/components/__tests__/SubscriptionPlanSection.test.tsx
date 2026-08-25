@@ -6,7 +6,7 @@ import type { UserAccountData } from "@/data/internal/account/UserAccountData.ts
 import { renderWithRouter } from "@/test/utils.tsx";
 
 vi.mock("@/features/account-management/hooks/useUserAccount.ts");
-vi.mock("@/hooks/billing/useStripeBilling");
+vi.mock("@/features/billing/hooks/useStripeBilling");
 
 describe("SubscriptionPlanSection", () => {
     const mockUserData: UserAccountData = {
@@ -29,7 +29,7 @@ describe("SubscriptionPlanSection", () => {
         const { useUserAccount } = await import(
             "@/features/account-management/hooks/useUserAccount.ts"
         );
-        const { useStripeBilling } = await import("@/hooks/billing/useStripeBilling");
+        const { useStripeBilling } = await import("@/features/billing/hooks/useStripeBilling");
 
         vi.mocked(useUserAccount).mockReturnValue({
             data: mockUserData,
