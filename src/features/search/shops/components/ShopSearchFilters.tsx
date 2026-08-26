@@ -6,7 +6,7 @@ import { useNavigate } from "@tanstack/react-router";
 import type { ShopSearchFilterArguments } from "@/data/internal/search/ShopSearchFilterArguments.ts";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
+import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 import { ShopTypeFilter } from "@/features/search/common/components/filters/ShopTypeFilter.tsx";
 import { toast } from "sonner";
 import { useSearchQueryContext } from "@/features/search/common/hooks/useSearchQueryContext.tsx";

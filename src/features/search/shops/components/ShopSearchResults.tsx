@@ -9,7 +9,7 @@ import { useShopSearch } from "@/features/search/shops/api/useShopSearch.ts";
 import { useTranslation } from "react-i18next";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
 import { useInView } from "react-intersection-observer";
-import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
+import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 
 type ShopSearchResultsProps = {
     readonly searchFilters: ShopSearchFilterArguments;
