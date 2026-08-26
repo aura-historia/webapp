@@ -1,11 +1,11 @@
-import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
+import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { Input } from "@/components/ui/input.tsx";
 import { Slider } from "@/components/ui/slider.tsx";
 import { useEffect, useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
-import { FilterCard } from "./FilterCard.tsx";
+import { FilterCard } from "@/features/search/common/components/filters/FilterCard.tsx";
 import { CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 

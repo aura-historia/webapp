@@ -8,7 +8,7 @@ import {
     SHOP_PARTNER_STATUS_TRANSLATION_CONFIG,
 } from "@/data/internal/shop/ShopPartnerStatus.ts";
 import { SHOP_FILTER_DEFAULTS } from "@/lib/shopFilterDefaults.ts";
-import { FilterCard } from "./FilterCard.tsx";
+import { FilterCard } from "@/features/search/common/components/filters/FilterCard.tsx";
 
 export function ShopPartnerStatusFilter() {
     const { control, setValue } = useFormContext<ShopFilterSchema>();

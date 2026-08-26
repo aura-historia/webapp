@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { CheckboxMultiSelect } from "@/components/ui/checkbox-multi-select.tsx";
 import { useMemo } from "react";
 import { SHOP_TYPES, SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
-import { FilterCard } from "./FilterCard.tsx";
+import { FilterCard } from "@/features/search/common/components/filters/FilterCard.tsx";
 import type { ShopType } from "@/data/internal/shop/ShopType.ts";
 
 type ShopTypeFilterFormValues = {

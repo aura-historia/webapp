@@ -1,9 +1,9 @@
-import { DatePicker } from "@/components/search/filters/util/DatePicker.tsx";
+import { DatePicker } from "@/features/search/common/components/filters/util/DatePicker.tsx";
 import { useFormContext, useFormState } from "react-hook-form";
-import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
+import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { useTranslation } from "react-i18next";
 import { useFilterNavigation } from "@/hooks/search/useFilterNavigation.ts";
-import { FilterCard } from "./FilterCard.tsx";
+import { FilterCard } from "@/features/search/common/components/filters/FilterCard.tsx";
 
 type Props = {
     readonly defaultOpen?: boolean;

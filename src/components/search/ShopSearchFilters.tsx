@@ -8,14 +8,14 @@ import type { ShopSearchFilterArguments } from "@/data/internal/search/ShopSearc
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
-import { useSearchQueryContext } from "@/hooks/search/useSearchQueryContext.tsx";
+import { ShopTypeFilter } from "@/features/search/common/components/filters/ShopTypeFilter.tsx";
 import { toast } from "sonner";
+import { useSearchQueryContext } from "@/features/search/common/hooks/useSearchQueryContext.tsx";
 import { SHOP_PARTNER_STATUSES } from "@/data/internal/shop/ShopPartnerStatus.ts";
 import { SHOP_FILTER_DEFAULTS } from "@/lib/shopFilterDefaults.ts";
 import { ShopPartnerStatusFilter } from "@/components/search/filters/ShopPartnerStatusFilter.tsx";
 import { serializeShopSearchParams } from "@/lib/shopSearchValidation.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
-import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter.tsx";
 
 const shopFilterSchema = z.object({
     shopType: z.array(z.enum(SHOP_TYPES)),

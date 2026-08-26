@@ -5,152 +5,32 @@ import { Button } from "@/components/ui/button.tsx";
 import { Form } from "@/components/ui/form.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { MerchantFilters } from "@/components/search/filters/MerchantFilters.tsx";
 import { SellerFilters } from "@/components/search/filters/SellerFilters.tsx";
-import { ShopTypeFilter } from "@/components/search/filters/ShopTypeFilter.tsx";
+import { ShopTypeFilter } from "@/features/search/common/components/filters/ShopTypeFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
+import { useSearchQueryContext } from "@/features/search/common/hooks/useSearchQueryContext.tsx";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useCallback, useEffect, useMemo } from "react";
 import { UpdateDateSpanFilter } from "@/components/search/filters/UpdateDateSpanFilter.tsx";
 import { AuctionDateSpanFilter } from "@/components/search/filters/AuctionDateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
-import type { TFunction } from "i18next";
 import { mapFiltersToUrlParams } from "@/lib/utils.ts";
 import { FILTER_DEFAULTS, MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
-import { useSearchQueryContext } from "@/hooks/search/useSearchQueryContext.tsx";
 import { toast } from "sonner";
-import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
-import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 import { serializeSearchParams } from "@/lib/searchValidation.ts";
 import { useDebouncedCallback } from "use-debounce";
-
-export const createFilterSchema = (t: TFunction) =>
-    z
-        .object({
-            priceSpan: z
-                .object({
-                    min: z.number().min(0).optional().or(z.undefined()),
-                    max: z.number().min(0).optional().or(z.undefined()),
-                })
-                .optional(),
-            productState: z.array(z.enum(PRODUCT_STATES)),
-            creationDate: z.object({
-                from: z.date().optional(),
-                to: z.date().optional(),
-            }),
-            updateDate: z.object({
-                from: z.date().optional(),
-                to: z.date().optional(),
-            }),
-            auctionDate: z.object({
-                from: z.date().optional(),
-                to: z.date().optional(),
-            }),
-            merchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
-            excludeMerchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
-            seller: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
-            excludeSeller: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
-            shopType: z.array(z.enum(SHOP_TYPES)),
-        })
-        .superRefine((data, ctx) => {
-            if (
-                data.creationDate.from &&
-                data.creationDate.to &&
-                data.creationDate.from > data.creationDate.to
-            ) {
-                ctx.addIssue({
-                    code: "custom",
-                    message: t("search.validation.dateOrder"),
-                    path: ["creationDate", "to"],
-                });
-            }
-            if (
-                data.updateDate.from &&
-                data.updateDate.to &&
-                data.updateDate.from > data.updateDate.to
-            ) {
-                ctx.addIssue({
-                    code: "custom",
-                    message: t("search.validation.dateOrder"),
-                    path: ["updateDate", "to"],
-                });
-            }
-            if (
-                data.auctionDate.from &&
-                data.auctionDate.to &&
-                data.auctionDate.from > data.auctionDate.to
-            ) {
-                ctx.addIssue({
-                    code: "custom",
-                    message: t("search.validation.dateOrder"),
-                    path: ["auctionDate", "to"],
-                });
-            }
-        });
-
-export type FilterSchema = z.infer<ReturnType<typeof createFilterSchema>>;
+import {
+    createFilterSchema,
+    DEBOUNCE_DELAY_MS,
+    DEBOUNCED_FIELDS,
+    type FilterSchema,
+    mapSearchFiltersToFormValues,
+} from "@/features/search/common/lib/filterForm.ts";
 
 type SearchFilterProps = {
     readonly searchFilters: SearchFilterArguments;
 };
-
-/**
- * Maps URL search params (SearchFilterArguments) to the form's value shape (FilterSchema).
- * Used by the RHF `values` prop for declarative URL→Form synchronization.
- */
-export function mapSearchFiltersToFormValues(filters: SearchFilterArguments): FilterSchema {
-    return {
-        priceSpan: {
-            min: filters.priceFrom,
-            max: filters.priceTo,
-        },
-        productState: filters.allowedStates ?? FILTER_DEFAULTS.productState,
-        creationDate: {
-            from: filters.creationDateFrom,
-            to: filters.creationDateTo,
-        },
-        updateDate: {
-            from: filters.updateDateFrom,
-            to: filters.updateDateTo,
-        },
-        auctionDate: {
-            from: filters.auctionDateFrom,
-            to: filters.auctionDateTo,
-        },
-        merchant: filters.merchant,
-        excludeMerchant: filters.excludeMerchant,
-        seller: filters.seller,
-        excludeSeller: filters.excludeSeller,
-        shopType: filters.shopType ?? FILTER_DEFAULTS.shopType,
-    };
-}
-
-/** Converts form values (FilterSchema) to SearchFilterArguments. Used by SearchFilterFormProvider and SearchFilters. */
-export function mapFormValuesToSearchFilterArguments(
-    data: FilterSchema,
-    q: string,
-): SearchFilterArguments {
-    return {
-        q,
-        priceFrom: data.priceSpan?.min,
-        priceTo: data.priceSpan?.max,
-        allowedStates: data.productState,
-        creationDateFrom: data.creationDate.from,
-        creationDateTo: data.creationDate.to,
-        updateDateFrom: data.updateDate.from,
-        updateDateTo: data.updateDate.to,
-        auctionDateFrom: data.auctionDate.from,
-        auctionDateTo: data.auctionDate.to,
-        merchant: data.merchant?.length ? data.merchant : undefined,
-        excludeMerchant: data.excludeMerchant?.length ? data.excludeMerchant : undefined,
-        shopType: data.shopType,
-    };
-}
-
-export const DEBOUNCE_DELAY_MS = 500;
-
-export const DEBOUNCED_FIELDS = new Set(["priceSpan.min", "priceSpan.max"]);
 
 export function SearchFilters({ searchFilters }: SearchFilterProps) {
     const navigate = useNavigate({ from: "/$lng/search" });

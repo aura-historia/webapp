@@ -1,4 +1,4 @@
-import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
+import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { Checkbox } from "@/components/ui/checkbox";
 import { StatusBadge } from "@/features/product/catalog/components/badges/StatusBadge.tsx";
 import { Controller, useFormContext } from "react-hook-form";
@@ -9,7 +9,7 @@ import {
     PRODUCT_STATE_TRANSLATION_CONFIG,
 } from "@/data/internal/product/ProductState.ts";
 import { handleCheckedChange } from "@/lib/utils.ts";
-import { FilterCard } from "./FilterCard.tsx";
+import { FilterCard } from "@/features/search/common/components/filters/FilterCard.tsx";
 import { Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 

@@ -1,5 +1,5 @@
-import { SearchBar } from "@/components/search/SearchBar";
-import { useAnimatedPlaceholder } from "@/hooks/useAnimatedPlaceholder";
+import { SearchBar } from "../SearchBar.tsx";
+import { useAnimatedPlaceholder } from "@/features/search/common/hooks/useAnimatedPlaceholder.ts";
 import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -12,7 +12,7 @@ vi.mock("sonner", () => ({
     },
 }));
 
-vi.mock("@/hooks/useAnimatedPlaceholder", () => ({
+vi.mock("@/features/search/common/hooks/useAnimatedPlaceholder.ts", () => ({
     useAnimatedPlaceholder: vi.fn(() => ""),
 }));
 

@@ -9,7 +9,7 @@ import {
 import { fireEvent, render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
-import { SearchQueryProvider } from "@/hooks/search/useSearchQueryContext.tsx";
+import { SearchQueryProvider } from "@/features/search/common/hooks/useSearchQueryContext.tsx";
 import { UserPreferencesProvider } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { getLanguageFromPathname, localizeHref } from "@/i18n/routing.ts";
 

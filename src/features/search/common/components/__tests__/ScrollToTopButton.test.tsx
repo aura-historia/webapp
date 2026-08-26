@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { ScrollToTopButton } from "@/components/search/ScrollToTopButton.tsx";
+import { ScrollToTopButton } from "../ScrollToTopButton.tsx";
 
 describe("ScrollToTopButton", () => {
     beforeEach(() => {

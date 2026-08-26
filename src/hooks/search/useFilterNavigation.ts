@@ -1,4 +1,4 @@
-import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
+import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 import { useFormContext } from "react-hook-form";
 

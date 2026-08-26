@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { useFormContext } from "react-hook-form";
-import type { FilterSchema } from "@/components/search/SearchFilters.tsx";
+import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
 import { MerchantIncludeFilter } from "@/components/search/filters/MerchantIncludeFilter.tsx";
 import { MerchantExcludeFilter } from "@/components/search/filters/MerchantExcludeFilter.tsx";
-import { FilterCard } from "./FilterCard.tsx";
+import { FilterCard } from "@/features/search/common/components/filters/FilterCard.tsx";
 
 type Props = {
     readonly disabled?: boolean;

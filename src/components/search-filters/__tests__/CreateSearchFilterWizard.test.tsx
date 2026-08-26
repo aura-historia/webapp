@@ -46,7 +46,10 @@ vi.mock("@/components/search/filters/PriceSpanFilter.tsx", () => ({
 vi.mock("@/components/search/filters/ProductStateFilter.tsx", () => ({
     ProductStateFilter: () => <div data-testid="state-filter" />,
 }));
-vi.mock("@/components/search/filters/ShopTypeFilter.tsx", () => ({
+vi.mock("@/features/search/common/components/SearchFilterFormProvider.tsx", () => ({
+    SearchFilterFormProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+vi.mock("@/features/search/common/components/filters/ShopTypeFilter.tsx", () => ({
     ShopTypeFilter: () => <div data-testid="shop-type-filter" />,
 }));
 vi.mock("@/components/search/filters/MerchantFilters.tsx", () => ({
