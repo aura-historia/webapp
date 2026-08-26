@@ -1,6 +1,6 @@
 import { ProductGridItem } from "@/features/product/catalog/components/grid/ProductGridItem.tsx";
 import { ProductGridItemSkeleton } from "@/features/product/catalog/components/grid/ProductGridItemSkeleton.tsx";
-import { useShopProducts } from "@/hooks/shop/useShopProducts.ts";
+import { useShopProducts } from "@/features/shop/profile/hooks/useShopProducts.ts";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";

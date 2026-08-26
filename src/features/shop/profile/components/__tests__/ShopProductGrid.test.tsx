@@ -2,12 +2,12 @@ import { renderWithQueryClient } from "@/test/utils.tsx";
 import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ShopProductGrid } from "../ShopProductGrid.tsx";
-import { useShopProducts } from "@/hooks/shop/useShopProducts.ts";
+import { useShopProducts } from "@/features/shop/profile/hooks/useShopProducts.ts";
 import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import type { ShopProductsPage } from "@/hooks/shop/useShopProducts.ts";
+import type { ShopProductsPage } from "@/features/shop/profile/hooks/useShopProducts.ts";
 import type { InfiniteData } from "@tanstack/react-query";
 
-vi.mock("@/hooks/shop/useShopProducts.ts", () => ({
+vi.mock("@/features/shop/profile/hooks/useShopProducts.ts", () => ({
     useShopProducts: vi.fn(),
 }));
 

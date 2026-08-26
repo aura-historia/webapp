@@ -1,7 +1,7 @@
 import { H1 } from "@/components/typography/H1.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { ShopTypeBadge } from "@/features/product/catalog/components/badges/ShopTypeBadge.tsx";
-import { ShopPartnerStatusBadge } from "@/components/product/badges/ShopPartnerStatusBadge.tsx";
+import { ShopPartnerStatusBadge } from "@/features/shop/profile/components/badges/ShopPartnerStatusBadge.tsx";
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { useTranslation } from "react-i18next";

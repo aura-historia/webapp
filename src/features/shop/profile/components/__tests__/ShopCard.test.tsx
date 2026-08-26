@@ -1,4 +1,4 @@
-import { ShopCard } from "@/components/shop/ShopCard.tsx";
+import { ShopCard } from "@/features/shop/profile/components/ShopCard.tsx";
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { act, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
