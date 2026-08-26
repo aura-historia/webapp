@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
-import type { ProductStateData } from "@/client";
+import type { ProductState } from "@/data/internal/product/ProductState.ts";
 import type { ShopType } from "@/data/internal/shop/ShopType.ts";
 import { CURRENCY_SYMBOLS, type Currency } from "@/data/internal/common/Currency.ts";
 import type { CheckedState } from "@radix-ui/react-checkbox";
@@ -24,7 +24,7 @@ export type SearchFilterData = {
         min?: number;
         max?: number;
     };
-    productState?: ProductStateData[];
+    productState?: ProductState[];
     creationDate?: {
         from?: Date;
         to?: Date;
@@ -48,7 +48,7 @@ export type SearchUrlParams = {
     q: string;
     priceFrom?: number;
     priceTo?: number;
-    allowedStates?: ProductStateData[];
+    allowedStates?: ProductState[];
     creationDateFrom?: string;
     creationDateTo?: string;
     updateDateFrom?: string;
