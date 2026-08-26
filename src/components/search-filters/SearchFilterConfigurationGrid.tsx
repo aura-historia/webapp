@@ -23,7 +23,7 @@ import {
     hasActiveFilters,
     type SearchFilterArguments,
 } from "@/data/internal/search/SearchFilterArguments.ts";
-import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
+import { FILTER_DEFAULTS } from "@/features/search/products/lib/filterDefaults.ts";
 
 type TileProps = {
     readonly icon: LucideIcon;
