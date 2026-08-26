@@ -1,5 +1,5 @@
 import { Controller, useFormContext } from "react-hook-form";
-import type { ShopFilterSchema } from "@/components/search/ShopSearchFilters.tsx";
+import type { ShopFilterSchema } from "@/features/search/shops/lib/filterForm.ts";
 import { useTranslation } from "react-i18next";
 import { CheckboxMultiSelect } from "@/components/ui/checkbox-multi-select.tsx";
 import { useMemo } from "react";
@@ -7,7 +7,7 @@ import {
     SHOP_PARTNER_STATUSES,
     SHOP_PARTNER_STATUS_TRANSLATION_CONFIG,
 } from "@/data/internal/shop/ShopPartnerStatus.ts";
-import { SHOP_FILTER_DEFAULTS } from "@/lib/shopFilterDefaults.ts";
+import { SHOP_FILTER_DEFAULTS } from "@/features/search/shops/lib/shopFilterDefaults.ts";
 import { FilterCard } from "@/features/search/common/components/filters/FilterCard.tsx";
 
 export function ShopPartnerStatusFilter() {

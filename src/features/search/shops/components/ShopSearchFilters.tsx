@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button.tsx";
 import { Form } from "@/components/ui/form.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { useNavigate } from "@tanstack/react-router";
 import type { ShopSearchFilterArguments } from "@/data/internal/search/ShopSearchFilterArguments.ts";
 import { useCallback, useEffect, useMemo } from "react";
@@ -11,18 +10,11 @@ import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDe
 import { ShopTypeFilter } from "@/features/search/common/components/filters/ShopTypeFilter.tsx";
 import { toast } from "sonner";
 import { useSearchQueryContext } from "@/features/search/common/hooks/useSearchQueryContext.tsx";
-import { SHOP_PARTNER_STATUSES } from "@/data/internal/shop/ShopPartnerStatus.ts";
-import { SHOP_FILTER_DEFAULTS } from "@/lib/shopFilterDefaults.ts";
-import { ShopPartnerStatusFilter } from "@/components/search/filters/ShopPartnerStatusFilter.tsx";
-import { serializeShopSearchParams } from "@/lib/shopSearchValidation.ts";
+import { SHOP_FILTER_DEFAULTS } from "@/features/search/shops/lib/shopFilterDefaults.ts";
+import { ShopPartnerStatusFilter } from "@/features/search/shops/components/filters/ShopPartnerStatusFilter.tsx";
+import { serializeShopSearchParams } from "@/features/search/shops/lib/shopSearchValidation.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
-
-const shopFilterSchema = z.object({
-    shopType: z.array(z.enum(SHOP_TYPES)),
-    partnerStatus: z.array(z.enum(SHOP_PARTNER_STATUSES)),
-});
-
-export type ShopFilterSchema = z.infer<typeof shopFilterSchema>;
+import { shopFilterSchema, type ShopFilterSchema } from "@/features/search/shops/lib/filterForm.ts";
 
 type ShopSearchFiltersProps = {
     readonly searchFilters: ShopSearchFilterArguments;

@@ -1,4 +1,4 @@
-import { ShopPartnerStatusFilter } from "@/components/search/filters/ShopPartnerStatusFilter";
+import { ShopPartnerStatusFilter } from "@/features/search/shops/components/filters/ShopPartnerStatusFilter.tsx";
 import { FormProvider, useForm } from "react-hook-form";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";

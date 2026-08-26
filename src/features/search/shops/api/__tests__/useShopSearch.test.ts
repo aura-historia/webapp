@@ -1,5 +1,5 @@
 import type { ShopSearchFilterArguments } from "@/data/internal/search/ShopSearchFilterArguments.ts";
-import { useShopSearch } from "@/hooks/search/useShopSearch.ts";
+import { useShopSearch } from "@/features/search/shops/api/useShopSearch.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import { createElement } from "react";

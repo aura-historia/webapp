@@ -1,4 +1,4 @@
-import { ShopSearchFilters } from "@/components/search/ShopSearchFilters.tsx";
+import { ShopSearchFilters } from "@/features/search/shops/components/ShopSearchFilters.tsx";
 import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";

@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { validateShopSearchParams, serializeShopSearchParams } from "@/lib/shopSearchValidation.ts";
+import {
+    validateShopSearchParams,
+    serializeShopSearchParams,
+} from "@/features/search/shops/lib/shopSearchValidation.ts";
 
 describe("shopSearchValidation", () => {
     describe("validateShopSearchParams", () => {
