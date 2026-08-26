@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SearchFilterResults } from "@/components/search-filters/SearchFilterResults.tsx";
+import { SearchFiltersPage } from "@/features/saved-searches/pages/SearchFiltersPage.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 
 export const Route = createFileRoute("/$lng/_auth/me/search-filters")({
@@ -12,9 +12,5 @@ export const Route = createFileRoute("/$lng/_auth/me/search-filters")({
 });
 
 function RouteComponent() {
-    return (
-        <div className="max-w-6xl mx-auto flex flex-col gap-8 py-8 px-4 sm:px-8">
-            <SearchFilterResults />
-        </div>
-    );
+    return <SearchFiltersPage />;
 }

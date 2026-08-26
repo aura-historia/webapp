@@ -8,8 +8,8 @@ import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from "@/components/
 import { H1 } from "@/components/typography/H1.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
-import { FloatingSaveSearchFilterButton } from "@/components/search/FloatingSaveSearchFilterButton.tsx";
-import { SaveSearchFilterDialog } from "@/components/search/SaveSearchFilterDialog.tsx";
+import { FloatingSaveSearchFilterButton } from "@/features/saved-searches/components/FloatingSaveSearchFilterButton.tsx";
+import { SaveSearchFilterDialog } from "@/features/saved-searches/components/SaveSearchFilterDialog.tsx";
 import { SEARCH_FILTER_QUOTA } from "@/data/internal/account/SubscriptionType.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import type { SortMode } from "@/data/internal/search/SortMode.ts";
@@ -20,7 +20,7 @@ import { SearchFilters } from "@/features/search/products/components/SearchFilte
 import { SearchResults } from "@/features/search/products/components/SearchResults.tsx";
 import { SortModeSelection } from "@/features/search/products/components/SortModeSelection.tsx";
 import { serializeSearchParams } from "@/features/search/products/lib/searchValidation.ts";
-import { useUserSearchFilters } from "@/hooks/search-filters/useUserSearchFilters.ts";
+import { useUserSearchFilters } from "@/features/saved-searches/api/useUserSearchFilters.ts";
 
 type ProductSearchPageProps = {
     readonly searchArgs: SearchFilterArguments;
