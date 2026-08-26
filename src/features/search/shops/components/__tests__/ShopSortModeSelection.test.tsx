@@ -1,4 +1,4 @@
-import { ShopSortModeSelection } from "@/components/search/ShopSortModeSelection.tsx";
+import { ShopSortModeSelection } from "@/features/search/shops/components/ShopSortModeSelection.tsx";
 import type { ShopSortMode } from "@/data/internal/search/ShopSortMode.ts";
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";

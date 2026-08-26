@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { SearchX, ServerCrash } from "lucide-react";
 import { EmptyState } from "@/components/common/EmptyState.tsx";
 import type { ShopSearchFilterArguments } from "@/data/internal/search/ShopSearchFilterArguments.ts";
-import { useShopSearch } from "@/hooks/search/useShopSearch.ts";
+import { useShopSearch } from "@/features/search/shops/api/useShopSearch.ts";
 import { useTranslation } from "react-i18next";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
 import { useInView } from "react-intersection-observer";

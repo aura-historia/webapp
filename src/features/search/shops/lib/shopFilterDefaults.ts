@@ -1,4 +1,4 @@
-import type { ShopFilterSchema } from "@/components/search/ShopSearchFilters.tsx";
+import type { ShopFilterSchema } from "@/features/search/shops/lib/filterForm.ts";
 import { SHOP_PARTNER_STATUSES } from "@/data/internal/shop/ShopPartnerStatus.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
 

@@ -1,12 +1,12 @@
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { useShopSearch } from "@/hooks/search/useShopSearch.ts";
-import { ShopSearchResults } from "@/components/search/ShopSearchResults.tsx";
+import { useShopSearch } from "@/features/search/shops/api/useShopSearch.ts";
+import { ShopSearchResults } from "@/features/search/shops/components/ShopSearchResults.tsx";
 import type React from "react";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 
-vi.mock("@/hooks/search/useShopSearch.ts", () => ({
+vi.mock("@/features/search/shops/api/useShopSearch.ts", () => ({
     useShopSearch: vi.fn(),
 }));
 
