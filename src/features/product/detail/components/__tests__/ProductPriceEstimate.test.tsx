@@ -1,4 +1,4 @@
-import { ProductPriceEstimate } from "@/components/product/detail/ProductPriceEstimate.tsx";
+import { ProductPriceEstimate } from "@/features/product/detail/components/ProductPriceEstimate.tsx";
 import type { PriceEstimate } from "@/data/internal/quality-indicators/PriceEstimate.ts";
 import { render, screen } from "@testing-library/react";
 

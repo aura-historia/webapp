@@ -1,9 +1,9 @@
-import { useSimilarProducts } from "@/hooks/useSimilarProducts.ts";
+import { useSimilarProducts } from "@/features/product/detail/api/useSimilarProducts.ts";
 import { ProductGridItem } from "@/features/product/catalog/components/grid/ProductGridItem.tsx";
 import { ProductGridItemSkeleton } from "@/features/product/catalog/components/grid/ProductGridItemSkeleton.tsx";
 import { HiddenMatchCard } from "@/features/product/catalog/components/cards/HiddenMatchCard.tsx";
-import { ProductSectionHeading } from "@/components/product/detail/ProductSectionHeading.tsx";
-import { ProductCarouselNavButtons } from "@/components/product/detail/ProductCarouselNavButtons.tsx";
+import { ProductSectionHeading } from "@/features/product/detail/components/ProductSectionHeading.tsx";
+import { ProductCarouselNavButtons } from "@/features/product/detail/components/ProductCarouselNavButtons.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
 import { useTranslation } from "react-i18next";
 import { AlertCircle, SearchX, RefreshCw } from "lucide-react";

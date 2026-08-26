@@ -7,12 +7,12 @@ import { Button } from "@/components/ui/button.tsx";
 import { ArrowUpRight } from "lucide-react";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
-import { ProductImageGallery } from "@/components/product/detail/ProductImageGallery.tsx";
+import { ProductImageGallery } from "@/features/product/detail/components/ProductImageGallery.tsx";
 import { useTranslation } from "react-i18next";
-import { ProductSharer } from "@/components/product/detail/ProductSharer.tsx";
+import { ProductSharer } from "@/features/product/detail/components/ProductSharer.tsx";
 import { NotificationButton } from "@/features/watchlist/components/NotificationButton.tsx";
 import { WatchlistButton } from "@/features/watchlist/components/WatchlistButton.tsx";
-import { ProductPriceEstimate } from "@/components/product/detail/ProductPriceEstimate.tsx";
+import { ProductPriceEstimate } from "@/features/product/detail/components/ProductPriceEstimate.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Link } from "@tanstack/react-router";
 

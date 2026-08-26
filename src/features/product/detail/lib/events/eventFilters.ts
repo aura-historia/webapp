@@ -10,7 +10,7 @@ import type {
     ProductImagesChangedPayload,
     ProductAuctionTimeChangedPayload,
 } from "@/data/internal/product/ProductDetails.ts";
-import type { StateEventType } from "@/types/events";
+import type { StateEventType } from "./types.ts";
 
 /**
  * Filter only CREATED events (where payload has state field and optional price)

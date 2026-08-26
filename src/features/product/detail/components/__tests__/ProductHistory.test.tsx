@@ -1,6 +1,6 @@
 import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
 import { render, screen } from "@testing-library/react";
-import { ProductHistory } from "@/components/product/detail/ProductHistory.tsx";
+import { ProductHistory } from "@/features/product/detail/components/ProductHistory.tsx";
 import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 

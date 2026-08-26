@@ -1,6 +1,6 @@
 import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
 import { render, screen } from "@testing-library/react";
-import { ProductEventHistory } from "@/components/product/detail/ProductEventHistory.tsx";
+import { ProductEventHistory } from "@/features/product/detail/components/ProductEventHistory.tsx";
 import { vi } from "vitest";
 
 vi.mock("@tanstack/react-router", async () => {
