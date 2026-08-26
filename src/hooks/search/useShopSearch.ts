@@ -12,7 +12,7 @@ import { mapToBackendShopSortModeArguments } from "@/data/internal/search/ShopSo
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { env } from "@/env.ts";
-import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
+import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 import { mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
 
 const PAGE_SIZE = 30;

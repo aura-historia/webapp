@@ -4,7 +4,7 @@ import { z } from "zod";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
-import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
+import { FILTER_DEFAULTS } from "@/features/search/products/lib/filterDefaults.ts";
 
 export const createFilterSchema = (t: TFunction) =>
     z

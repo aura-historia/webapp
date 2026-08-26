@@ -8,7 +8,7 @@ import type {
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { parseProductState, mapToBackendState } from "@/data/internal/product/ProductState.ts";
 import { parseShopType, mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
-import { FILTER_DEFAULTS } from "@/lib/filterDefaults.ts";
+import { FILTER_DEFAULTS } from "@/features/search/products/lib/filterDefaults.ts";
 import {
     parseResourceState,
     type ResourceState,

@@ -13,17 +13,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { useLocation, useNavigate, useRouterState, useSearch } from "@tanstack/react-router";
 import { Search, Loader2 } from "lucide-react";
-import { cn, mapFiltersToUrlParams } from "@/lib/utils.ts";
+import { cn } from "@/lib/utils.ts";
+import { mapFiltersToUrlParams } from "@/features/search/products/lib/searchUrlParams.ts";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { z } from "zod";
-import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/filterDefaults.ts";
+import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 import { useSearchQueryContext } from "@/features/search/common/hooks/useSearchQueryContext.tsx";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { env } from "@/env.ts";
 import { useAnimatedPlaceholder } from "@/features/search/common/hooks/useAnimatedPlaceholder.ts";
-import { serializeSearchParams } from "@/lib/searchValidation.ts";
+import { serializeSearchParams } from "@/features/search/products/lib/searchValidation.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { stripLanguageFromPathname } from "@/i18n/routing.ts";
 import {
