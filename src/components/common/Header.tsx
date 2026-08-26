@@ -22,7 +22,7 @@ import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button.tsx";
-import { SearchBar } from "@/features/search/common";
+import { SearchBar } from "@/features/search/common/components/SearchBar.tsx";
 import { Menu, Search, ArrowLeft } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils.ts";

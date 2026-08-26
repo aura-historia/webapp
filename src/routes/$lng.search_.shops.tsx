@@ -3,7 +3,7 @@ import { H1 } from "@/components/typography/H1.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { serializeShopSearchParams, validateShopSearchParams } from "@/lib/shopSearchValidation.ts";
 import { useTranslation } from "react-i18next";
-import { ScrollToTopButton } from "@/features/search/common";
+import { ScrollToTopButton } from "@/features/search/common/components/ScrollToTopButton.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer.tsx";
 import { Button } from "@/components/ui/button.tsx";
