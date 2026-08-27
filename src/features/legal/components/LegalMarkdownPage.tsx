@@ -14,7 +14,7 @@ interface MarkdownPageProps {
     readonly localeMap: Record<string, string>;
 }
 
-export function MarkdownPage({ titleKey, localeMap }: MarkdownPageProps) {
+export function LegalMarkdownPage({ titleKey, localeMap }: MarkdownPageProps) {
     const { t, i18n } = useTranslation();
 
     return (

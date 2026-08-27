@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { IMPRINT_LOCALE_MAP } from "@/assets/content/imprint/imprint-asset-map.ts";
-import { Imprint } from "../Imprint.tsx";
+import { IMPRINT_LOCALE_MAP } from "@/features/legal/content/imprint/imprint-asset-map.ts";
+import { ImprintPage } from "../ImprintPage.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 
@@ -18,10 +18,10 @@ vi.mock("react-i18next", () => ({
     }),
 }));
 
-describe("Imprint Component", () => {
+describe("ImprintPage", () => {
     beforeEach(async () => {
         await act(async () => {
-            renderWithQueryClient(<Imprint />);
+            renderWithQueryClient(<ImprintPage />);
         });
     });
 

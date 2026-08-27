@@ -8,12 +8,12 @@ This document is an engineering checklist, not legal advice. If a change introdu
 
 Privacy content lives in:
 
-- `src/assets/content/privacy/privacy-de.md`
-- `src/assets/content/privacy/privacy-en.md`
-- `src/assets/content/privacy/privacy-es.md`
-- `src/assets/content/privacy/privacy-fr.md`
-- `src/assets/content/privacy/privacy-it.md`
-- `src/assets/content/privacy/privacy-asset-map.ts`
+- `src/features/legal/content/privacy/privacy-de.md`
+- `src/features/legal/content/privacy/privacy-en.md`
+- `src/features/legal/content/privacy/privacy-es.md`
+- `src/features/legal/content/privacy/privacy-fr.md`
+- `src/features/legal/content/privacy/privacy-it.md`
+- `src/features/legal/content/privacy/privacy-asset-map.ts`
 
 The German text is especially important for German-law alignment. Keep all locale files semantically aligned.
 

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { PRIVACY_LOCALE_MAP } from "@/assets/content/privacy/privacy-asset-map.ts";
-import { Privacy } from "../Privacy.tsx";
+import { PRIVACY_LOCALE_MAP } from "@/features/legal/content/privacy/privacy-asset-map.ts";
+import { PrivacyPage } from "../PrivacyPage.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 
@@ -81,10 +81,10 @@ const EXTERNAL_MAP_PRIVACY_EXPECTATIONS: Record<string, string[]> = {
     ],
 };
 
-describe("Privacy Component", () => {
+describe("PrivacyPage", () => {
     beforeEach(async () => {
         await act(async () => {
-            renderWithQueryClient(<Privacy />);
+            renderWithQueryClient(<PrivacyPage />);
         });
     });
 

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Privacy } from "@/components/privacy/Privacy.tsx";
+import { PrivacyPage } from "@/features/legal/pages/PrivacyPage.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
 
@@ -10,5 +10,5 @@ export const Route = createFileRoute("/$lng/privacy")({
             url: `${env.VITE_APP_URL}/privacy`,
             noIndex: true,
         }),
-    component: Privacy,
+    component: PrivacyPage,
 });

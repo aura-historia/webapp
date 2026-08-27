@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { TERMS_LOCALE_MAP } from "@/assets/content/terms/terms-asset-map.ts";
-import { Terms } from "../Terms.tsx";
+import { TERMS_LOCALE_MAP } from "@/features/legal/content/terms/terms-asset-map.ts";
+import { TermsPage } from "../TermsPage.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 
@@ -18,10 +18,10 @@ vi.mock("react-i18next", () => ({
     }),
 }));
 
-describe("Terms Component", () => {
+describe("TermsPage", () => {
     beforeEach(async () => {
         await act(async () => {
-            renderWithQueryClient(<Terms />);
+            renderWithQueryClient(<TermsPage />);
         });
     });
 
