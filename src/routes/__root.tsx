@@ -12,9 +12,9 @@ import manropeFontUrl from "@fontsource-variable/manrope/files/manrope-latin-wgh
 import newsreaderFontUrl from "@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
-import { Footer } from "@/components/common/Footer.tsx";
-import { Header } from "@/components/common/Header.tsx";
-import { NavigationProgress } from "@/components/common/NavigationProgress.tsx";
+import { Footer } from "@/features/app-shell/components/Footer.tsx";
+import { Header } from "@/features/app-shell/components/Header.tsx";
+import { NavigationProgress } from "@/features/app-shell/components/NavigationProgress.tsx";
 import { type QueryClient, useQueryClient } from "@tanstack/react-query";
 import type React from "react";
 import { useEffect, useRef } from "react";

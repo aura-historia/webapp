@@ -1,7 +1,7 @@
 import { ExternalLink, Mail } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-import { LinkedInIcon } from "@/components/common/footer/SocialIcons";
+import { LinkedInIcon } from "@/components/icons/SocialIcons.tsx";
 import { H1 } from "@/components/typography/H1";
 import { H2 } from "@/components/typography/H2";
 import { H3 } from "@/components/typography/H3";

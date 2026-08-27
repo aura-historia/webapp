@@ -16,7 +16,8 @@
       "**/vitest.config.ts",
       "!**/src/routeTree.gen.ts",
       "!**/src/client",
-      "!**/src/assets"
+      "!**/src/assets",
+      "!**/src/features/**/assets"
     ]
   },
   "formatter": {
