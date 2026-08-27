@@ -1,5 +1,5 @@
 import { renderWithRouter } from "@/test/utils.tsx";
-import { LANDING_PAGE_FRAGMENTS } from "@/components/landing-page/LandingPage.fragments.ts";
+import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
 import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";

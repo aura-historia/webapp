@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { useTranslation } from "react-i18next";
-import { SectionHeading } from "@/components/landing-page/common/SectionHeading.tsx";
+import { MarketingSectionHeading } from "@/components/typography/MarketingSectionHeading.tsx";
 import {
     BadgeCheck,
     Globe,
@@ -31,7 +31,7 @@ export default function PartnerMotivationSection() {
     return (
         <section className="py-20 px-4 bg-surface-bright">
             <div className="max-w-7xl mx-auto">
-                <SectionHeading
+                <MarketingSectionHeading
                     headline={t("partnerProgram.motivation.title")}
                     description={t("partnerProgram.motivation.subtitle")}
                     showDivider={false}
