@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useFormContext } from "react-hook-form";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import type { FilterSchema } from "@/features/search/products/index.ts";
+import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { SearchFilterSummary } from "@/features/saved-searches/components/SearchFilterSummary.tsx";
 
 type Props = {
