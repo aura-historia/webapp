@@ -1,7 +1,7 @@
 import { StatusBadge } from "@/features/product/catalog/components/badges/StatusBadge.tsx";
 import { AuctionWindowBadge } from "@/features/product/catalog/components/badges/AuctionWindowBadge.tsx";
 import { UnseenNotificationBadge } from "@/features/notification-center/components/UnseenNotificationBadge.tsx";
-import { SearchFilterMatchBadge } from "@/components/product/badges/SearchFilterMatchBadge.tsx";
+import { SearchFilterMatchBadge } from "@/features/saved-searches/components/SearchFilterMatchBadge.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
