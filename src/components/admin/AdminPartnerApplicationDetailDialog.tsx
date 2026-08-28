@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
-import { useAdminUser } from "@/hooks/admin/useAdminUsers.ts";
+import { useAdminUser } from "@/features/admin/user-management/api/useAdminUsers.ts";
 import { formatShortDate } from "@/lib/utils.ts";
 
 interface AdminPartnerApplicationDetailDialogProps {

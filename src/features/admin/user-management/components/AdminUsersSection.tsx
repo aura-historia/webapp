@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useInView } from "react-intersection-observer";
 import { z } from "zod";
 import { Mail, Search, Shield, UserRound } from "lucide-react";
-import { AdminUserDetailDialog } from "@/components/admin/AdminUserDetailDialog.tsx";
+import { AdminUserDetailDialog } from "@/features/admin/user-management/components/AdminUserDetailDialog.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -21,7 +21,10 @@ import {
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { USER_TIERS, type AdminUser, type UserTier } from "@/data/internal/admin/AdminUser.ts";
 import { USER_ROLES, type UserRole } from "@/data/internal/account/UserRole.ts";
-import { useAdminUsers, type AdminUserFilters } from "@/hooks/admin/useAdminUsers.ts";
+import {
+    useAdminUsers,
+    type AdminUserFilters,
+} from "@/features/admin/user-management/api/useAdminUsers.ts";
 import { formatShortDate } from "@/lib/utils.ts";
 
 interface AdminUsersSectionProps {
