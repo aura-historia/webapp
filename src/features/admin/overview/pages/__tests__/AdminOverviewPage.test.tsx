@@ -6,9 +6,12 @@ const mockUseAdminPartnerApplications = vi.hoisted(() => vi.fn());
 const mockUseAdminOAuthClients = vi.hoisted(() => vi.fn());
 const mockUseAdminUsers = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/admin/useAdminPartnerApplications.ts", () => ({
-    useAdminPartnerApplications: mockUseAdminPartnerApplications,
-}));
+vi.mock(
+    "@/features/admin/partner-application-management/api/useAdminPartnerApplications.ts",
+    () => ({
+        useAdminPartnerApplications: mockUseAdminPartnerApplications,
+    }),
+);
 
 vi.mock("@/features/admin/oauth-client-management/hooks/useAdminOAuthClients.ts", () => ({
     useAdminOAuthClients: mockUseAdminOAuthClients,

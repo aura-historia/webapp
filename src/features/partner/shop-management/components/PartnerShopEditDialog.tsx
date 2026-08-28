@@ -31,9 +31,14 @@ import {
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
 import type { ShopDetail, StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
-import { SHOP_TYPE_TRANSLATION_CONFIG, type ShopType } from "@/data/internal/shop/ShopType.ts";
+import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { COUNTRY_CODES } from "@/data/internal/shop/CountryCode.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
+import {
+    EDITABLE_SHOP_TYPES,
+    normalizeShopDomain,
+    parseShopDomains,
+} from "@/features/shop-management-common/lib/shopFormUtils.ts";
 import { usePatchMyPartnerShop } from "@/features/partner/shop-management/api/usePatchMyPartnerShop.ts";
 import { SearchableCurrencySelect } from "@/components/common/SearchableCurrencySelect.tsx";
 import { toast } from "sonner";
@@ -41,13 +46,6 @@ import { toast } from "sonner";
 const NO_COUNTRY_VALUE = "__none__";
 const NO_CURRENCY_VALUE = "__none__";
 const NO_LANGUAGE_VALUE = "__none__";
-
-const EDITABLE_SHOP_TYPES = [
-    "AUCTION_HOUSE",
-    "AUCTION_PLATFORM",
-    "COMMERCIAL_DEALER",
-    "MARKETPLACE",
-] as const satisfies readonly ShopType[];
 
 const SHOP_LANGUAGES = [
     "de",
@@ -65,36 +63,6 @@ const SHOP_LANGUAGES = [
     "ru",
     "ar",
 ] as const;
-
-function normalizeShopDomain(domain: string): string {
-    const trimmed = domain.trim().toLowerCase();
-
-    if (trimmed === "") {
-        return "";
-    }
-
-    const withoutScheme = trimmed.replace(/^[a-z][a-z0-9+.-]*:\/\//, "");
-    const withoutWww = withoutScheme.replace(/^www\./, "");
-    const [withoutPathOrQuery = ""] = withoutWww.split(/[/?#]/, 1);
-
-    return withoutPathOrQuery.replace(/:\d+$/, "");
-}
-
-function parseShopDomains(input: string): string[] {
-    const seen = new Set<string>();
-
-    return input
-        .split(/[\s,;]+/)
-        .map(normalizeShopDomain)
-        .filter((domain) => {
-            if (domain === "" || seen.has(domain)) {
-                return false;
-            }
-
-            seen.add(domain);
-            return true;
-        });
-}
 
 type PartnerShopSelectOption = {
     readonly value: string;

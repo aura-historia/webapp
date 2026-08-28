@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AdminPartnerApplicationsSection } from "@/components/admin/AdminPartnerApplicationsSection.tsx";
+import { AdminPartnerApplicationsPage } from "@/features/admin/partner-application-management/pages/AdminPartnerApplicationsPage.tsx";
 
 export const Route = createFileRoute("/$lng/_auth/admin/partner-applications")({
-    component: AdminPartnerApplicationsSection,
+    component: AdminPartnerApplicationsPage,
 });

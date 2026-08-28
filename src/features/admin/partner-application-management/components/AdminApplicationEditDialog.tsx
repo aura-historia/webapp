@@ -21,27 +21,17 @@ import {
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { SHOP_TYPE_TRANSLATION_CONFIG, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
-import { usePatchAdminPartnerApplication } from "@/hooks/admin/useAdminPartnerApplicationActions.ts";
+import { usePatchAdminPartnerApplication } from "@/features/admin/partner-application-management/api/useAdminPartnerApplicationActions.ts";
+import {
+    EDITABLE_SHOP_TYPES,
+    parseShopDomains,
+} from "@/features/shop-management-common/lib/shopFormUtils.ts";
 import { toast } from "sonner";
 
 interface AdminApplicationEditDialogProps {
     readonly application: PartnerApplication | null;
     readonly open: boolean;
     readonly onOpenChange: (open: boolean) => void;
-}
-
-const EDITABLE_SHOP_TYPES = [
-    "AUCTION_HOUSE",
-    "AUCTION_PLATFORM",
-    "COMMERCIAL_DEALER",
-    "MARKETPLACE",
-] as const;
-
-function parseDomains(input: string): string[] {
-    return input
-        .split(/[\s,;]+/)
-        .map((d) => d.trim().toLowerCase())
-        .filter(Boolean);
 }
 
 export function AdminApplicationEditDialog({
@@ -76,7 +66,7 @@ export function AdminApplicationEditDialog({
                 partnerApplicationId: application.id,
                 shopName: shopName.trim() || undefined,
                 shopType,
-                shopDomains: parseDomains(domainsRaw),
+                shopDomains: parseShopDomains(domainsRaw),
                 shopImage: trimmedImage === "" ? null : trimmedImage,
             },
             {

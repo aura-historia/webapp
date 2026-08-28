@@ -1,4 +1,4 @@
-import { parseShopDomains } from "@/components/admin/adminShopFormUtils.ts";
+import { parseShopDomains } from "@/features/shop-management-common/lib/shopFormUtils.ts";
 import { Button } from "@/components/ui/button.tsx";
 import {
     Dialog,

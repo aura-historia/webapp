@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { FileText, KeyRound, Store, Users } from "lucide-react";
 import { H1 } from "@/components/typography/H1.tsx";
 import { useAdminOAuthClients } from "@/features/admin/oauth-client-management/hooks/useAdminOAuthClients.ts";
-import { useAdminPartnerApplications } from "@/hooks/admin/useAdminPartnerApplications.ts";
+import { useAdminPartnerApplications } from "@/features/admin/partner-application-management/api/useAdminPartnerApplications.ts";
 import { useAdminUsers } from "@/hooks/admin/useAdminUsers.ts";
 
 export function AdminOverviewPage() {

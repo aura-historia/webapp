@@ -14,7 +14,7 @@ import {
 import type { CurrencyData, LanguageData } from "@/client";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
-import type { EditableShopType } from "@/components/admin/adminShopFormUtils.ts";
+import type { EditableShopType } from "@/features/shop-management-common/lib/shopFormUtils.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import type { AdminShopFilters, AdminShopPage } from "@/hooks/admin/useAdminShops.ts";
 import { toast } from "sonner";
