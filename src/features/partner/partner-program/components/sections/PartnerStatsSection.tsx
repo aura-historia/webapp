@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { SectionHeading } from "@/components/landing-page/common/SectionHeading.tsx";
+import { MarketingSectionHeading } from "@/components/typography/MarketingSectionHeading.tsx";
 
 const STATS = ["trafficIncrease", "newBuyers", "countries", "setup"] as const;
 
@@ -9,7 +9,7 @@ export default function PartnerStatsSection() {
     return (
         <section className="bg-surface-container-low border-t border-b border-outline-variant/10 py-24 px-4">
             <div className="max-w-7xl mx-auto">
-                <SectionHeading
+                <MarketingSectionHeading
                     headline={t("partnerProgram.stats.title")}
                     description={t("partnerProgram.stats.subtitle")}
                     showDivider={true}

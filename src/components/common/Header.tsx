@@ -30,7 +30,7 @@ import { env } from "@/env.ts";
 import logo from "@/assets/logo/logo.svg";
 import logoCompact from "@/assets/logo/logo-compact.svg";
 import { stripLanguageFromPathname } from "@/i18n/routing.ts";
-import { LANDING_PAGE_FRAGMENTS } from "@/components/landing-page/LandingPage.fragments.ts";
+import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
