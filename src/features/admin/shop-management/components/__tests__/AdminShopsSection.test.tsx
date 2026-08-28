@@ -6,7 +6,7 @@ import { AdminShopsSection } from "../AdminShopsSection.tsx";
 const mockUseAdminShops = vi.hoisted(() => vi.fn());
 const mockUseInView = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/admin/useAdminShops.ts", () => ({
+vi.mock("@/features/admin/shop-management/api/useAdminShops.ts", () => ({
     useAdminShops: mockUseAdminShops,
 }));
 

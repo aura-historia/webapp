@@ -1,4 +1,4 @@
-import { EDITABLE_SHOP_TYPES, parseShopDomains } from "@/components/admin/adminShopFormUtils.ts";
+import { EDITABLE_SHOP_TYPES, parseShopDomains } from "@/features/shop/common/lib/shopFormUtils.ts";
 import type { StructuredAddressData } from "@/client";
 import type { TFunction } from "i18next";
 import { z } from "zod";
