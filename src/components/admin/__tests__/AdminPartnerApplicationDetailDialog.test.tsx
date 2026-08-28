@@ -7,7 +7,7 @@ import { AdminPartnerApplicationDetailDialog } from "../AdminPartnerApplicationD
 const mockUseAdminUser = vi.hoisted(() => vi.fn());
 const mockRefetchApplicant = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/admin/useAdminUsers.ts", () => ({
+vi.mock("@/features/admin/user-management/api/useAdminUsers.ts", () => ({
     useAdminUser: mockUseAdminUser,
 }));
 

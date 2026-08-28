@@ -32,7 +32,7 @@ import {
     useAdminUser,
     useDeleteAdminUser,
     usePatchAdminUser,
-} from "@/hooks/admin/useAdminUsers.ts";
+} from "@/features/admin/user-management/api/useAdminUsers.ts";
 import { formatShortDate } from "@/lib/utils.ts";
 import { toast } from "sonner";
 

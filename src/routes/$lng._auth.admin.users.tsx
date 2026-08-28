@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { AdminUsersSection } from "@/components/admin/AdminUsersSection.tsx";
+import { createFileRoute } from "@tanstack/react-router";
+import { AdminUsersPage } from "@/features/admin/user-management/pages/AdminUsersPage.tsx";
 
 type AdminUsersSearch = {
     readonly userId?: string;
@@ -9,22 +9,5 @@ export const Route = createFileRoute("/$lng/_auth/admin/users")({
     validateSearch: (search: Record<string, unknown>): AdminUsersSearch => ({
         userId: typeof search.userId === "string" ? search.userId : undefined,
     }),
-    component: AdminUsersRouteComponent,
+    component: AdminUsersPage,
 });
-
-function AdminUsersRouteComponent() {
-    const { userId } = Route.useSearch();
-    const navigate = useNavigate({ from: "/$lng/admin/users" });
-
-    return (
-        <AdminUsersSection
-            selectedUserId={userId}
-            onSelectedUserIdChange={(nextUserId) =>
-                navigate({
-                    search: nextUserId ? { userId: nextUserId } : {},
-                    replace: true,
-                })
-            }
-        />
-    );
-}

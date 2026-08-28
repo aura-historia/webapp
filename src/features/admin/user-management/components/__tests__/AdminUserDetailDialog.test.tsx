@@ -10,7 +10,7 @@ const mockToast = vi.hoisted(() => ({
     success: vi.fn(),
 }));
 
-vi.mock("@/hooks/admin/useAdminUsers.ts", () => ({
+vi.mock("@/features/admin/user-management/api/useAdminUsers.ts", () => ({
     useAdminUser: mockUseAdminUser,
     useDeleteAdminUser: () => ({
         mutate: mockDeleteMutate,

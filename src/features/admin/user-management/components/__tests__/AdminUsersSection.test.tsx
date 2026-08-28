@@ -6,7 +6,7 @@ import { AdminUsersSection } from "../AdminUsersSection.tsx";
 const mockUseAdminUsers = vi.hoisted(() => vi.fn());
 const mockUseInView = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/admin/useAdminUsers.ts", () => ({
+vi.mock("@/features/admin/user-management/api/useAdminUsers.ts", () => ({
     useAdminUsers: mockUseAdminUsers,
 }));
 
