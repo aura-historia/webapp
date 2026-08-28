@@ -14,10 +14,10 @@ import {
 } from "@/data/internal/shop/ShopPartnerStatus.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
-import { useAdminShops } from "@/hooks/admin/useAdminShops.ts";
+import { useAdminShops } from "@/features/admin/shop-management/api/useAdminShops.ts";
 import { formatShortDate } from "@/lib/utils.ts";
-import { AdminShopEditDialog } from "@/components/admin/AdminShopEditDialog.tsx";
-import { AdminShopCreateDialog } from "@/components/admin/AdminShopCreateDialog.tsx";
+import { AdminShopEditDialog } from "@/features/admin/shop-management/components/AdminShopEditDialog.tsx";
+import { AdminShopCreateDialog } from "@/features/admin/shop-management/components/AdminShopCreateDialog.tsx";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 
 function shopTypeLabel(t: (k: string) => string, shopType?: ShopType): string {

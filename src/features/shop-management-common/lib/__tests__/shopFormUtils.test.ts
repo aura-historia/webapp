@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { normalizeShopDomain, parseShopDomains } from "../adminShopFormUtils.ts";
+import { normalizeShopDomain, parseShopDomains } from "../shopFormUtils.ts";
 
-describe("adminShopFormUtils", () => {
+describe("shopFormUtils", () => {
     it("normalizes protocols, www prefixes, paths, and ports from domains", () => {
         expect(normalizeShopDomain("https://www.Example.com:8443/path?q=1#fragment")).toBe(
             "example.com",
