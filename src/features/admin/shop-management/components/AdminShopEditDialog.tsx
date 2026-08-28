@@ -35,7 +35,7 @@ import {
     EDITABLE_SHOP_TYPES,
     normalizeShopDomain,
     parseShopDomains,
-} from "@/features/shop-management-common/lib/shopFormUtils.ts";
+} from "@/features/shop/common/lib/shopFormUtils.ts";
 import type { ShopDetail, StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { COUNTRY_CODES } from "@/data/internal/shop/CountryCode.ts";

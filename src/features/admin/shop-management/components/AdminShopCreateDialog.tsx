@@ -36,7 +36,7 @@ import {
     normalizeShopDomain,
     parseShopDomains,
     type EditableShopType,
-} from "@/features/shop-management-common/lib/shopFormUtils.ts";
+} from "@/features/shop/common/lib/shopFormUtils.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { COUNTRY_CODES } from "@/data/internal/shop/CountryCode.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
