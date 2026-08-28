@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Terms } from "@/components/terms/Terms.tsx";
+import { TermsPage } from "@/features/legal/pages/TermsPage.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 import { env } from "@/env";
 
@@ -10,5 +10,5 @@ export const Route = createFileRoute("/$lng/terms-and-conditions")({
             url: `${env.VITE_APP_URL}/terms-and-conditions`,
             noIndex: true,
         }),
-    component: Terms,
+    component: TermsPage,
 });
