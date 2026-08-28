@@ -161,7 +161,6 @@ export function usePatchAdminUser() {
             queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
         },
         onError: (error) => {
-            console.error("[usePatchAdminUser]", error);
             toast.error(error.message);
         },
     });
@@ -187,7 +186,6 @@ export function useDeleteAdminUser() {
             queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
         },
         onError: (error) => {
-            console.error("[useDeleteAdminUser]", error);
             toast.error(error.message);
         },
     });

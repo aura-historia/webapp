@@ -30,18 +30,18 @@ import {
 } from "@/components/ui/select.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
-import { useAdminShopMetadataOptions } from "@/components/admin/useAdminShopMetadataOptions.ts";
+import { useAdminShopMetadataOptions } from "@/features/admin/shop-management/hooks/useAdminShopMetadataOptions.ts";
 import {
     EDITABLE_SHOP_TYPES,
     normalizeShopDomain,
     parseShopDomains,
-} from "@/features/shop-management-common/lib/shopFormUtils.ts";
+} from "@/features/shop/common/lib/shopFormUtils.ts";
 import type { ShopDetail, StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { COUNTRY_CODES } from "@/data/internal/shop/CountryCode.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
-import { useAdminShop } from "@/hooks/admin/useAdminShops.ts";
-import { usePatchAdminShop } from "@/hooks/admin/usePatchAdminShop.ts";
+import { useAdminShop } from "@/features/admin/shop-management/api/useAdminShops.ts";
+import { usePatchAdminShop } from "@/features/admin/shop-management/api/usePatchAdminShop.ts";
 import { SearchableCurrencySelect } from "@/components/common/SearchableCurrencySelect.tsx";
 import { toast } from "sonner";
 

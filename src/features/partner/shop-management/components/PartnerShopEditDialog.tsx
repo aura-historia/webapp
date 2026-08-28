@@ -38,7 +38,7 @@ import {
     EDITABLE_SHOP_TYPES,
     normalizeShopDomain,
     parseShopDomains,
-} from "@/features/shop-management-common/lib/shopFormUtils.ts";
+} from "@/features/shop/common/lib/shopFormUtils.ts";
 import { usePatchMyPartnerShop } from "@/features/partner/shop-management/api/usePatchMyPartnerShop.ts";
 import { SearchableCurrencySelect } from "@/components/common/SearchableCurrencySelect.tsx";
 import { toast } from "sonner";

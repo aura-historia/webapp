@@ -9,14 +9,14 @@ const mockToast = vi.hoisted(() => ({
     success: vi.fn(),
 }));
 
-vi.mock("@/hooks/admin/usePatchAdminShop.ts", () => ({
+vi.mock("@/features/admin/shop-management/api/usePatchAdminShop.ts", () => ({
     usePatchAdminShop: () => ({
         mutate: mockMutate,
         isPending: false,
     }),
 }));
 
-vi.mock("@/components/admin/useAdminShopMetadataOptions.ts", () => ({
+vi.mock("@/features/admin/shop-management/hooks/useAdminShopMetadataOptions.ts", () => ({
     useAdminShopMetadataOptions: () => ({
         countryOptions: [{ value: "DE", label: "Deutschland" }],
         currencyOptions: [
@@ -30,7 +30,7 @@ vi.mock("@/components/admin/useAdminShopMetadataOptions.ts", () => ({
     }),
 }));
 
-vi.mock("@/hooks/admin/useAdminShops.ts", () => ({
+vi.mock("@/features/admin/shop-management/api/useAdminShops.ts", () => ({
     useAdminShop: mockUseAdminShop,
 }));
 

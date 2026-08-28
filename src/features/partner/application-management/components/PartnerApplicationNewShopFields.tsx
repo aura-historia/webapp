@@ -1,4 +1,4 @@
-import { EDITABLE_SHOP_TYPES } from "@/features/shop-management-common/lib/shopFormUtils.ts";
+import { EDITABLE_SHOP_TYPES } from "@/features/shop/common/lib/shopFormUtils.ts";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import {

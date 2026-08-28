@@ -17,7 +17,7 @@ vi.mock("@/features/admin/oauth-client-management/hooks/useAdminOAuthClients.ts"
     useAdminOAuthClients: mockUseAdminOAuthClients,
 }));
 
-vi.mock("@/hooks/admin/useAdminUsers.ts", () => ({
+vi.mock("@/features/admin/user-management/api/useAdminUsers.ts", () => ({
     useAdminUsers: mockUseAdminUsers,
 }));
 

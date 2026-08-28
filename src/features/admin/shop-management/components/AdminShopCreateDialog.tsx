@@ -36,12 +36,12 @@ import {
     normalizeShopDomain,
     parseShopDomains,
     type EditableShopType,
-} from "@/features/shop-management-common/lib/shopFormUtils.ts";
+} from "@/features/shop/common/lib/shopFormUtils.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
 import { COUNTRY_CODES } from "@/data/internal/shop/CountryCode.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
-import { useCreateAdminShop } from "@/hooks/admin/useCreateAdminShop.ts";
-import { useAdminShopMetadataOptions } from "@/components/admin/useAdminShopMetadataOptions.ts";
+import { useCreateAdminShop } from "@/features/admin/shop-management/api/useCreateAdminShop.ts";
+import { useAdminShopMetadataOptions } from "@/features/admin/shop-management/hooks/useAdminShopMetadataOptions.ts";
 import { SearchableCurrencySelect } from "@/components/common/SearchableCurrencySelect.tsx";
 import { toast } from "sonner";
 

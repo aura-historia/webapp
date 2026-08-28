@@ -11,7 +11,7 @@ import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { mapToBackendShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import { toast } from "sonner";
-import type { AdminShopPage } from "@/hooks/admin/useAdminShops.ts";
+import type { AdminShopPage } from "@/features/admin/shop-management/api/useAdminShops.ts";
 
 export type AdminShopPatch = {
     readonly shopId: string;

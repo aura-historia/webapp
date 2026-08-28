@@ -3,10 +3,7 @@ import type { TFunction } from "i18next";
 import { useController, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
-import {
-    EDITABLE_SHOP_TYPES,
-    parseShopDomains,
-} from "@/features/shop-management-common/lib/shopFormUtils.ts";
+import { EDITABLE_SHOP_TYPES, parseShopDomains } from "@/features/shop/common/lib/shopFormUtils.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { DialogFooter } from "@/components/ui/dialog.tsx";
 import { Input } from "@/components/ui/input.tsx";

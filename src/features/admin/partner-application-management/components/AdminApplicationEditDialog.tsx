@@ -22,10 +22,7 @@ import { Spinner } from "@/components/ui/spinner.tsx";
 import { SHOP_TYPE_TRANSLATION_CONFIG, type ShopType } from "@/data/internal/shop/ShopType.ts";
 import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
 import { usePatchAdminPartnerApplication } from "@/features/admin/partner-application-management/api/useAdminPartnerApplicationActions.ts";
-import {
-    EDITABLE_SHOP_TYPES,
-    parseShopDomains,
-} from "@/features/shop-management-common/lib/shopFormUtils.ts";
+import { EDITABLE_SHOP_TYPES, parseShopDomains } from "@/features/shop/common/lib/shopFormUtils.ts";
 import { toast } from "sonner";
 
 interface AdminApplicationEditDialogProps {
