@@ -1,5 +1,5 @@
 import { renderWithRouter } from "@/test/utils.tsx";
-import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
+import { APP_SHELL_CONFIG } from "@/features/app-shell/config/appShellConfig.ts";
 import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -345,8 +345,10 @@ describe("Header Component", () => {
             } as unknown as typeof IntersectionObserver;
 
             const hero = document.createElement("div");
-            hero.id = LANDING_PAGE_FRAGMENTS.hero;
+            hero.setAttribute("data-app-shell-hero", "");
             hero.getBoundingClientRect = vi.fn(() => ({ top: -100, bottom: 0 }) as DOMRect);
+
+            expect(hero.matches(APP_SHELL_CONFIG.landingHeroSelector)).toBe(true);
 
             try {
                 await act(() => {

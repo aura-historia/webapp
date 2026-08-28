@@ -16,7 +16,7 @@ export default function LandingPage() {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <div id={LANDING_PAGE_FRAGMENTS.hero} className="scroll-mt-24">
+            <div id={LANDING_PAGE_FRAGMENTS.hero} data-app-shell-hero className="scroll-mt-24">
                 <HeroSection />
             </div>
             <ArtworkStorySection />

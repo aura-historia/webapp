@@ -7,14 +7,14 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import {
     COMPARE_FOOTER_LINKS,
     LANDING_PAGE_FOOTER_LINKS,
     PARTNER_PROGRAM_FOOTER_LINKS,
     SOCIAL_LINKS,
-} from "./footer/Footer.data.ts";
+} from "@/features/app-shell/components/footer/Footer.data.ts";
 import { CurrencySelector } from "@/features/preferences/components/CurrencySelector.tsx";
 import { UnitSystemSelector } from "@/features/preferences/components/UnitSystemSelector.tsx";
 import { localizeHref } from "@/i18n/routing.ts";

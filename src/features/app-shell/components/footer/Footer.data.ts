@@ -7,7 +7,7 @@ import {
     TikTokIcon,
     XIcon,
     YouTubeIcon,
-} from "./SocialIcons.tsx";
+} from "@/components/icons/SocialIcons.tsx";
 import type { ComponentType, SVGProps } from "react";
 import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
 import {

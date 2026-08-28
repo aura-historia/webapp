@@ -21,16 +21,16 @@ import { useUserAccount } from "@/features/account-management/hooks/useUserAccou
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Button } from "../ui/button.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import { SearchBar } from "@/features/search/common/components/SearchBar.tsx";
 import { Menu, Search, ArrowLeft } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils.ts";
 import { env } from "@/env.ts";
-import logo from "@/assets/logo/logo.svg";
-import logoCompact from "@/assets/logo/logo-compact.svg";
+import logo from "@/features/app-shell/assets/logo/logo.svg";
+import logoCompact from "@/features/app-shell/assets/logo/logo-compact.svg";
 import { stripLanguageFromPathname } from "@/i18n/routing.ts";
-import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
+import { APP_SHELL_CONFIG } from "@/features/app-shell/config/appShellConfig.ts";
 
 const SEARCH_BAR_HIDDEN_ROUTES = new Set(["/login"]);
 
@@ -128,7 +128,9 @@ export function Header() {
 
         const observer = new IntersectionObserver(updateHeroVisibility);
         const observeCurrentHero = () => {
-            const currentHero = document.getElementById(LANDING_PAGE_FRAGMENTS.hero);
+            const currentHero = document.querySelector<HTMLElement>(
+                APP_SHELL_CONFIG.landingHeroSelector,
+            );
             if (currentHero === hero) {
                 return;
             }
