@@ -146,24 +146,13 @@ describe("Privacy Page Logic", () => {
     });
 
     describe("Markdown content structure", () => {
-        it("should contain controller name in all locales", () => {
-            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
-            for (const key of localeKeys) {
-                expect(PRIVACY_LOCALE_MAP[key]).toContain("Julian Bruder Einzelunternehmen");
-            }
-        });
-
-        it("should contain personal email in all locales", () => {
-            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
-            for (const key of localeKeys) {
-                expect(PRIVACY_LOCALE_MAP[key]).toContain("julian.bruder@aura-historia.com");
-            }
-        });
-
-        it("should contain contact email in all locales", () => {
-            const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
-            for (const key of localeKeys) {
-                expect(PRIVACY_LOCALE_MAP[key]).toContain("contact@aura-historia.com");
+        it.each([
+            ["controller name", "Julian Bruder Einzelunternehmen"],
+            ["personal email", "julian.bruder@aura-historia.com"],
+            ["contact email", "contact@aura-historia.com"],
+        ])("should contain %s in all locales", (_description, expectedPhrase) => {
+            for (const content of Object.values(PRIVACY_LOCALE_MAP)) {
+                expect(content).toContain(expectedPhrase);
             }
         });
 

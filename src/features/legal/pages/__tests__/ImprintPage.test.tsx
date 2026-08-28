@@ -179,38 +179,15 @@ describe("Imprint Page Logic", () => {
             expect(englishContent).toContain("Content Notice and Liability");
         });
 
-        it("should contain contact email in all locales", () => {
-            const localeKeys = Object.keys(IMPRINT_LOCALE_MAP);
-            for (const key of localeKeys) {
-                expect(IMPRINT_LOCALE_MAP[key]).toContain("contact@aura-historia.com");
-            }
-        });
-
-        it("should contain service name in all locales", () => {
-            const localeKeys = Object.keys(IMPRINT_LOCALE_MAP);
-            for (const key of localeKeys) {
-                expect(IMPRINT_LOCALE_MAP[key]).toContain("Aura Historia");
-            }
-        });
-
-        it("should contain owner name in all locales", () => {
-            const localeKeys = Object.keys(IMPRINT_LOCALE_MAP);
-            for (const key of localeKeys) {
-                expect(IMPRINT_LOCALE_MAP[key]).toContain("Julian Bruder Einzelunternehmen");
-            }
-        });
-
-        it("should contain personal email in all locales", () => {
-            const localeKeys = Object.keys(IMPRINT_LOCALE_MAP);
-            for (const key of localeKeys) {
-                expect(IMPRINT_LOCALE_MAP[key]).toContain("julian.bruder@aura-historia.com");
-            }
-        });
-
-        it("should mention Stripe in all locales", () => {
-            const localeKeys = Object.keys(IMPRINT_LOCALE_MAP);
-            for (const key of localeKeys) {
-                expect(IMPRINT_LOCALE_MAP[key]).toContain("Stripe");
+        it.each([
+            ["contact email", "contact@aura-historia.com"],
+            ["service name", "Aura Historia"],
+            ["owner name", "Julian Bruder Einzelunternehmen"],
+            ["personal email", "julian.bruder@aura-historia.com"],
+            ["Stripe wording", "Stripe"],
+        ])("should contain %s in all locales", (_description, expectedPhrase) => {
+            for (const content of Object.values(IMPRINT_LOCALE_MAP)) {
+                expect(content).toContain(expectedPhrase);
             }
         });
     });
