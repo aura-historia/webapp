@@ -8,20 +8,26 @@ const mockUseAdminPartnerApplications = vi.hoisted(() => vi.fn());
 const mockDecisionMutate = vi.hoisted(() => vi.fn());
 const mockPatchMutate = vi.hoisted(() => vi.fn());
 
-vi.mock("@/hooks/admin/useAdminPartnerApplications.ts", () => ({
-    useAdminPartnerApplications: mockUseAdminPartnerApplications,
-}));
+vi.mock(
+    "@/features/admin/partner-application-management/api/useAdminPartnerApplications.ts",
+    () => ({
+        useAdminPartnerApplications: mockUseAdminPartnerApplications,
+    }),
+);
 
-vi.mock("@/hooks/admin/useAdminPartnerApplicationActions.ts", () => ({
-    useAdminPartnerApplicationDecision: () => ({
-        mutate: mockDecisionMutate,
-        isPending: false,
+vi.mock(
+    "@/features/admin/partner-application-management/api/useAdminPartnerApplicationActions.ts",
+    () => ({
+        useAdminPartnerApplicationDecision: () => ({
+            mutate: mockDecisionMutate,
+            isPending: false,
+        }),
+        usePatchAdminPartnerApplication: () => ({
+            mutate: mockPatchMutate,
+            isPending: false,
+        }),
     }),
-    usePatchAdminPartnerApplication: () => ({
-        mutate: mockPatchMutate,
-        isPending: false,
-    }),
-}));
+);
 
 vi.mock("../AdminApplicationEditDialog.tsx", () => ({
     AdminApplicationEditDialog: ({

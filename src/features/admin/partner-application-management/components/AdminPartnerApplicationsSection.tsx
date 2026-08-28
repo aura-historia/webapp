@@ -11,15 +11,15 @@ import type {
     PartnerApplicationBusinessState,
     PartnerApplicationExecutionState,
 } from "@/data/internal/partner-application/PartnerApplication.ts";
-import { useAdminPartnerApplications } from "@/hooks/admin/useAdminPartnerApplications.ts";
+import { useAdminPartnerApplications } from "@/features/admin/partner-application-management/api/useAdminPartnerApplications.ts";
 import {
     useAdminPartnerApplicationDecision,
     usePatchAdminPartnerApplication,
-} from "@/hooks/admin/useAdminPartnerApplicationActions.ts";
+} from "@/features/admin/partner-application-management/api/useAdminPartnerApplicationActions.ts";
 import { formatShortDate } from "@/lib/utils.ts";
 import { toast } from "sonner";
-import { AdminApplicationEditDialog } from "@/components/admin/AdminApplicationEditDialog.tsx";
-import { AdminPartnerApplicationDetailDialog } from "@/components/admin/AdminPartnerApplicationDetailDialog.tsx";
+import { AdminApplicationEditDialog } from "@/features/admin/partner-application-management/components/AdminApplicationEditDialog.tsx";
+import { AdminPartnerApplicationDetailDialog } from "@/features/admin/partner-application-management/components/AdminPartnerApplicationDetailDialog.tsx";
 
 const BUSINESS_STATE_TRANSLATION_KEY: Record<PartnerApplicationBusinessState, string> = {
     SUBMITTED: "adminDashboard.applications.businessState.submitted",
