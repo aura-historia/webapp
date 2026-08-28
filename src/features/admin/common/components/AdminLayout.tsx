@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { AdminGuard } from "@/components/admin/AdminGuard.tsx";
-import { AdminSidebar } from "@/components/admin/AdminSidebar.tsx";
+import { AdminGuard } from "@/features/admin/common/components/AdminGuard.tsx";
+import { AdminSidebar } from "@/features/admin/common/components/AdminSidebar.tsx";
 
 interface AdminLayoutProps {
     readonly children: ReactNode;

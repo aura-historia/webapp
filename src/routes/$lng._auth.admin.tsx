@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { AdminLayout } from "@/components/admin/AdminLayout.tsx";
+import { AdminLayout } from "@/features/admin/common/components/AdminLayout.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 
 export const Route = createFileRoute("/$lng/_auth/admin")({
