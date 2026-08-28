@@ -1,4 +1,4 @@
-import { SectionHeading } from "@/components/landing-page/common/SectionHeading.tsx";
+import { MarketingSectionHeading } from "@/components/typography/MarketingSectionHeading.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
@@ -219,7 +219,7 @@ export default function PartnerCustomIntegrationPage() {
 
             <section className="bg-muted/25 px-4 py-24 sm:px-8">
                 <div className="mx-auto max-w-7xl">
-                    <SectionHeading
+                    <MarketingSectionHeading
                         headline={t("partnerProgram.customIntegrationPage.guide.title")}
                         description={t("partnerProgram.customIntegrationPage.guide.subtitle")}
                         showDivider={false}
@@ -378,7 +378,7 @@ export default function PartnerCustomIntegrationPage() {
 
             <section className="px-4 py-24 sm:px-8">
                 <div className="mx-auto max-w-7xl">
-                    <SectionHeading
+                    <MarketingSectionHeading
                         headline={t("partnerProgram.customIntegrationPage.endpoints.title")}
                         description={t("partnerProgram.customIntegrationPage.endpoints.subtitle")}
                         showDivider={false}

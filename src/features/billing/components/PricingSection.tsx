@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { Switch } from "@/components/ui/switch.tsx";
 import { useTranslation } from "react-i18next";
 import { Check, Loader2, Sparkles } from "lucide-react";
-import { SectionHeading } from "@/components/landing-page/common/SectionHeading.tsx";
+import { MarketingSectionHeading } from "@/components/typography/MarketingSectionHeading.tsx";
 import {
     PRICING_TIERS,
     type BillingInterval,
@@ -96,7 +96,7 @@ export default function PricingSection() {
             aria-label={t("landingPage.pricing.title")}
         >
             <div className="mx-auto max-w-7xl">
-                <SectionHeading
+                <MarketingSectionHeading
                     headline={t("landingPage.pricing.title")}
                     description={t("landingPage.pricing.subtitle")}
                     showDivider={false}

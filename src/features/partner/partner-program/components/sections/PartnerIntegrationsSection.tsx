@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { useTranslation } from "react-i18next";
-import { SectionHeading } from "@/components/landing-page/common/SectionHeading.tsx";
+import { MarketingSectionHeading } from "@/components/typography/MarketingSectionHeading.tsx";
 import { ArrowRight, Code2 } from "lucide-react";
 import {
     ShopifyIcon,
@@ -51,7 +51,7 @@ export default function PartnerIntegrationsSection() {
             aria-labelledby="partner-integrations-title"
         >
             <div className="mx-auto max-w-7xl">
-                <SectionHeading
+                <MarketingSectionHeading
                     headline={t("partnerProgram.integrations.title")}
                     description={t("partnerProgram.integrations.subtitle")}
                     showDivider={false}

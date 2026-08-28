@@ -5,38 +5,28 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion.tsx";
 import { useTranslation } from "react-i18next";
+import { FAQ_DATA } from "@/features/landing/components/faq-section/FAQSection.data.ts";
 import { MarketingSectionHeading } from "@/components/typography/MarketingSectionHeading.tsx";
 
-const FAQ_KEYS = [
-    "free",
-    "cancel",
-    "technical",
-    "exclusivity",
-    "data",
-    "transactions",
-    "fit",
-    "support",
-] as const;
-
-export default function PartnerFAQSection() {
+export default function FAQSection() {
     const { t } = useTranslation();
 
     return (
         <section className="py-20 px-4 bg-surface-container-high">
             <div className="max-w-4xl mx-auto">
                 <MarketingSectionHeading
-                    headline={t("partnerProgram.faq.title")}
-                    description={t("partnerProgram.faq.subtitle")}
+                    headline={t("landingPage.faq.title")}
+                    description={t("landingPage.faq.subtitle")}
                     showDivider={true}
                 />
                 <Accordion type="single" collapsible className="w-full mt-12">
-                    {FAQ_KEYS.map((itemKey, index) => (
-                        <AccordionItem key={itemKey} value={`item-${index}`}>
+                    {FAQ_DATA.map((item, index) => (
+                        <AccordionItem key={item.questionKey} value={`item-${index}`}>
                             <AccordionTrigger className="text-left">
-                                {t(`partnerProgram.faq.items.${itemKey}.question`)}
+                                {t(item.questionKey)}
                             </AccordionTrigger>
                             <AccordionContent className="text-muted-foreground">
-                                {t(`partnerProgram.faq.items.${itemKey}.answer`)}
+                                {t(item.answerKey)}
                             </AccordionContent>
                         </AccordionItem>
                     ))}
