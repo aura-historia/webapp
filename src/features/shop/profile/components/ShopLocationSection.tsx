@@ -1,6 +1,6 @@
 import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
 import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
-import { LocationSection } from "@/components/location/LocationSection.tsx";
+import { LocationSection } from "@/features/location-display/components/LocationSection.tsx";
 import { useTranslation } from "react-i18next";
 
 type ShopLocationSectionProps = {

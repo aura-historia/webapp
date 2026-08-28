@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { LocationSection } from "@/components/location/LocationSection.tsx";
 import type { GeoAddress, StructuredAddress } from "@/data/internal/shop/ShopDetail.ts";
+import { LocationSection } from "@/features/location-display/components/LocationSection.tsx";
 
 type ProductLocationSectionProps = {
     readonly title: string;
