@@ -63,7 +63,7 @@
         "@tanstack/router-plugin": "^1.168.35",
         "@tanstack/start-server-core": "^1.169.31",
         "accept-language": "^3.0.20",
-        "apexcharts": "^6.10.0",
+        "apexcharts": "^7.0.0",
         "aws-amplify": "^6.20.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
