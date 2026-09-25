@@ -13,7 +13,7 @@ import {
 } from "@/data/internal/product/ProductListingSource.ts";
 import { formatPrice } from "@/data/internal/price/Price.ts";
 
-export type ProductDetail = {
+export type ProductListingDetail = {
     readonly productListingId: string;
     readonly productListingTitleSlugId?: string;
     readonly title?: string;
@@ -63,10 +63,10 @@ function getDisplayPrice(data: ProductListingDetailsData, locale: string): strin
 }
 
 /** Converts the personalized listing DTO at the API boundary for detail presentation. */
-export function mapToDetailProduct(
+export function mapToProductListingDetail(
     apiData: PersonalizedProductListingDetailsData,
     locale: string,
-): ProductDetail {
+): ProductListingDetail {
     const item = apiData.item;
 
     return {

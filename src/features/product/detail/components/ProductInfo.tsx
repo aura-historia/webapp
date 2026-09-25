@@ -1,4 +1,4 @@
-import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
+import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { ArrowUpRight } from "lucide-react";
@@ -14,7 +14,7 @@ import { Link } from "@tanstack/react-router";
 import { ListingStatusBadge } from "@/features/product/catalog/components/badges/ListingStatusBadge.tsx";
 import { PriceValuationBadge } from "@/features/product/catalog/components/badges/PriceValuationBadge.tsx";
 
-export function ProductInfo({ product }: { readonly product: ProductDetail }) {
+export function ProductInfo({ product }: { readonly product: ProductListingDetail }) {
     const { t } = useTranslation();
     const isWatching = product.userState?.watchlist.watching ?? false;
     const notificationsEnabled = product.userState?.watchlist.notifications ?? false;

@@ -1,7 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getProductListingByTitleSlugOptions } from "@/client/@tanstack/react-query.gen";
-import { mapToDetailProduct } from "@/data/internal/product/ProductDetails.ts";
+import { mapToProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
 import { ProductDetailPage } from "@/features/product/detail/pages/ProductDetailPage.tsx";
 import { ProductDetailPageSkeleton } from "@/features/product/detail/components/ProductDetailPageSkeleton.tsx";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
@@ -52,7 +52,7 @@ function ProductDetailComponent() {
         }),
     );
 
-    const product = mapToDetailProduct(apiData, i18n.language);
+    const product = mapToProductListingDetail(apiData, i18n.language);
 
     return <ProductDetailPage product={product} productListingId={product.productListingId} />;
 }

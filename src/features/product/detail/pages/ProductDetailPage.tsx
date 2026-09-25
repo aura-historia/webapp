@@ -1,4 +1,4 @@
-import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
+import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
 import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
 import { useOptionalProductListingHistory } from "@/features/product/detail/api/productListingHistoryQuery.ts";
 import { ProductPriceChart } from "@/features/product/detail/components/ProductPriceChart.tsx";
@@ -12,7 +12,7 @@ export function ProductDetailPage({
     productListingId,
     history,
 }: {
-    readonly product: ProductDetail;
+    readonly product: ProductListingDetail;
     readonly productListingId?: string;
     readonly history?: readonly ProductListingHistoryEntry[];
 }) {
