@@ -2,7 +2,7 @@
 
 import { type Client, type ClientMeta, type Options as Options2, type RequestResult, type TDataShape, urlSearchParamsBodySerializer } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminCreateListingSourceData, AdminCreateListingSourceErrors, AdminCreateListingSourceResponses, AdminCreateOAuthClientData, AdminCreateOAuthClientErrors, AdminCreateOAuthClientResponses, AdminCreatePartyData, AdminCreatePartyErrors, AdminCreatePartyResponses, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationErrors, AdminDecidePartnershipApplicationResponses, AdminDeleteListingSourceData, AdminDeleteListingSourceErrors, AdminDeleteListingSourceResponses, AdminDeleteOAuthClientData, AdminDeleteOAuthClientErrors, AdminDeleteOAuthClientResponses, AdminDeletePartyData, AdminDeletePartyErrors, AdminDeletePartyResponses, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenErrors, AdminDeleteUserAccessTokenResponses, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensErrors, AdminDeleteUserAccessTokensResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminDissolvePartnershipData, AdminDissolvePartnershipErrors, AdminDissolvePartnershipResponses, AdminGetListingSourceData, AdminGetListingSourceErrors, AdminGetListingSourceResponses, AdminGetOAuthClientData, AdminGetOAuthClientErrors, AdminGetOAuthClientResponses, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationErrors, AdminGetPartnershipApplicationResponses, AdminGetPartnershipData, AdminGetPartnershipErrors, AdminGetPartnershipResponses, AdminGetPartyData, AdminGetPartyErrors, AdminGetPartyResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceErrors, AdminGrantPartnershipListingSourceResponses, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipErrors, AdminGrantPartnershipMembershipResponses, AdminListOAuthClientsData, AdminListOAuthClientsErrors, AdminListOAuthClientsResponses, AdminListUserAccessTokensData, AdminListUserAccessTokensErrors, AdminListUserAccessTokensResponses, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewErrors, AdminMarkPartnershipApplicationInReviewResponses, AdminPatchOAuthClientData, AdminPatchOAuthClientErrors, AdminPatchOAuthClientResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceErrors, AdminRevokePartnershipListingSourceResponses, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipErrors, AdminRevokePartnershipMembershipResponses, AdminRevokeUserSessionsData, AdminRevokeUserSessionsErrors, AdminRevokeUserSessionsResponses, AdminSearchListingSourcesData, AdminSearchListingSourcesErrors, AdminSearchListingSourcesResponses, AdminSearchPartiesData, AdminSearchPartiesErrors, AdminSearchPartiesResponses, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsErrors, AdminSearchPartnershipApplicationsResponses, AdminSearchPartnershipsData, AdminSearchPartnershipsErrors, AdminSearchPartnershipsResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, AdminSuspendUserData, AdminSuspendUserErrors, AdminSuspendUserResponses, AdminUnsuspendUserData, AdminUnsuspendUserErrors, AdminUnsuspendUserResponses, AdminUpdateListingSourceData, AdminUpdateListingSourceErrors, AdminUpdateListingSourceResponses, AdminUpdatePartyData, AdminUpdatePartyErrors, AdminUpdatePartyResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteMyAccessTokenData, DeleteMyAccessTokenErrors, DeleteMyAccessTokenResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteNotificationsData, DeleteNotificationsErrors, DeleteNotificationsResponses, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationErrors, DeleteOwnPartnershipApplicationResponses, DeletePartnerProductListingsData, DeletePartnerProductListingsErrors, DeletePartnerProductListingsResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetAdminOverviewData, GetAdminOverviewErrors, GetAdminOverviewResponses, GetListingSourceBySlugData, GetListingSourceBySlugErrors, GetListingSourceBySlugResponses, GetMyAccessTokenData, GetMyAccessTokenErrors, GetMyAccessTokenResponses, GetMyAccessTokensData, GetMyAccessTokensErrors, GetMyAccessTokensResponses, GetMyListingSourcesData, GetMyListingSourcesErrors, GetMyListingSourcesResponses, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsErrors, GetMyPartnershipApplicationsResponses, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationErrors, GetOwnPartnershipApplicationResponses, GetProductListingByTitleSlugData, GetProductListingByTitleSlugErrors, GetProductListingByTitleSlugResponses, GetProductListingData, GetProductListingErrors, GetProductListingHistoryData, GetProductListingHistoryErrors, GetProductListingHistoryResponses, GetProductListingResponses, GetSimilarProductListingsData, GetSimilarProductListingsErrors, GetSimilarProductListingsResponses, GetUserAccountData, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductListingsData, GetWatchlistProductListingsErrors, GetWatchlistProductListingsResponses, ListNotificationsData, ListNotificationsErrors, ListNotificationsResponses, ListSearchFilterMatchesData, ListSearchFilterMatchesErrors, ListSearchFilterMatchesResponses, OauthAuthorizeData, OauthAuthorizeErrors, OauthIntrospectData, OauthIntrospectErrors, OauthIntrospectResponses, OauthRevokeData, OauthRevokeErrors, OauthRevokeResponses, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeErrors, OauthTokenByThirdPartyCodeResponses, OauthTokenData, OauthTokenErrors, OauthTokenResponses, PatchMyAccessTokenData, PatchMyAccessTokenErrors, PatchMyAccessTokenResponses, PatchPartnerProductListingsData, PatchPartnerProductListingsErrors, PatchPartnerProductListingsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostMyAccessTokenData, PostMyAccessTokenErrors, PostMyAccessTokenResponses, PostPartnerProductListingsData, PostPartnerProductListingsErrors, PostPartnerProductListingsResponses, PostPartnershipApplicationData, PostPartnershipApplicationErrors, PostPartnershipApplicationResponses, PostWoocommerceWebhookData, PostWoocommerceWebhookErrors, PostWoocommerceWebhookResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductListingsData, PutPartnerProductListingsErrors, PutPartnerProductListingsResponses, SimpleSearchProductListingsData, SimpleSearchProductListingsErrors, SimpleSearchProductListingsResponses, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenErrors, UpdateAllNotificationsSeenResponses, UpdateNotificationSeenData2, UpdateNotificationSeenErrors, UpdateNotificationSeenResponses, UpdateNotificationsSeenData2, UpdateNotificationsSeenErrors, UpdateNotificationsSeenResponses, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackErrors, UpdateSearchFilterMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminCreateListingSourceData, AdminCreateListingSourceErrors, AdminCreateListingSourceResponses, AdminCreateOAuthClientData, AdminCreateOAuthClientErrors, AdminCreateOAuthClientResponses, AdminCreatePartyData, AdminCreatePartyErrors, AdminCreatePartyResponses, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationErrors, AdminDecidePartnershipApplicationResponses, AdminDeleteListingSourceData, AdminDeleteListingSourceErrors, AdminDeleteListingSourceResponses, AdminDeleteOAuthClientData, AdminDeleteOAuthClientErrors, AdminDeleteOAuthClientResponses, AdminDeletePartyData, AdminDeletePartyErrors, AdminDeletePartyResponses, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenErrors, AdminDeleteUserAccessTokenResponses, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensErrors, AdminDeleteUserAccessTokensResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminDissolvePartnershipData, AdminDissolvePartnershipErrors, AdminDissolvePartnershipResponses, AdminGetListingSourceData, AdminGetListingSourceErrors, AdminGetListingSourceResponses, AdminGetOAuthClientData, AdminGetOAuthClientErrors, AdminGetOAuthClientResponses, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationErrors, AdminGetPartnershipApplicationResponses, AdminGetPartnershipData, AdminGetPartnershipErrors, AdminGetPartnershipResponses, AdminGetPartyData, AdminGetPartyErrors, AdminGetPartyResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceErrors, AdminGrantPartnershipListingSourceResponses, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipErrors, AdminGrantPartnershipMembershipResponses, AdminListOAuthClientsData, AdminListOAuthClientsErrors, AdminListOAuthClientsResponses, AdminListUserAccessTokensData, AdminListUserAccessTokensErrors, AdminListUserAccessTokensResponses, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewErrors, AdminMarkPartnershipApplicationInReviewResponses, AdminPatchOAuthClientData, AdminPatchOAuthClientErrors, AdminPatchOAuthClientResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceErrors, AdminRevokePartnershipListingSourceResponses, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipErrors, AdminRevokePartnershipMembershipResponses, AdminRevokeUserSessionsData, AdminRevokeUserSessionsErrors, AdminRevokeUserSessionsResponses, AdminSearchListingSourcesData, AdminSearchListingSourcesErrors, AdminSearchListingSourcesResponses, AdminSearchPartiesData, AdminSearchPartiesErrors, AdminSearchPartiesResponses, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsErrors, AdminSearchPartnershipApplicationsResponses, AdminSearchPartnershipsData, AdminSearchPartnershipsErrors, AdminSearchPartnershipsResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, AdminSuspendUserData, AdminSuspendUserErrors, AdminSuspendUserResponses, AdminUnsuspendUserData, AdminUnsuspendUserErrors, AdminUnsuspendUserResponses, AdminUpdateListingSourceData, AdminUpdateListingSourceErrors, AdminUpdateListingSourceResponses, AdminUpdatePartyData, AdminUpdatePartyErrors, AdminUpdatePartyResponses, CreateAdminAuctionData, CreateAdminAuctionErrors, CreateAdminAuctionResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteMyAccessTokenData, DeleteMyAccessTokenErrors, DeleteMyAccessTokenResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteNotificationsData, DeleteNotificationsErrors, DeleteNotificationsResponses, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationErrors, DeleteOwnPartnershipApplicationResponses, DeletePartnerProductListingsData, DeletePartnerProductListingsErrors, DeletePartnerProductListingsResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetAdminAuctionData, GetAdminAuctionErrors, GetAdminAuctionResponses, GetAdminOverviewData, GetAdminOverviewErrors, GetAdminOverviewResponses, GetAuctionCatalogueData, GetAuctionCatalogueErrors, GetAuctionCatalogueResponses, GetAuctionData, GetAuctionErrors, GetAuctionResponses, GetMyAccessTokenData, GetMyAccessTokenErrors, GetMyAccessTokenResponses, GetMyAccessTokensData, GetMyAccessTokensErrors, GetMyAccessTokensResponses, GetMyListingSourcesData, GetMyListingSourcesErrors, GetMyListingSourcesResponses, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsErrors, GetMyPartnershipApplicationsResponses, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationErrors, GetOwnPartnershipApplicationResponses, GetProductListingByTitleSlugData, GetProductListingByTitleSlugErrors, GetProductListingByTitleSlugResponses, GetProductListingData, GetProductListingErrors, GetProductListingHistoryData, GetProductListingHistoryErrors, GetProductListingHistoryResponses, GetProductListingResponses, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugErrors, GetPublicListingSourceBySlugResponses, GetSimilarProductListingsData, GetSimilarProductListingsErrors, GetSimilarProductListingsResponses, GetUserAccountData, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductListingsData, GetWatchlistProductListingsErrors, GetWatchlistProductListingsResponses, ListAuctionsData, ListAuctionsErrors, ListAuctionsResponses, ListNotificationsData, ListNotificationsErrors, ListNotificationsResponses, ListSearchFilterMatchesData, ListSearchFilterMatchesErrors, ListSearchFilterMatchesResponses, OauthAuthorizeData, OauthAuthorizeErrors, OauthIntrospectData, OauthIntrospectErrors, OauthIntrospectResponses, OauthRevokeData, OauthRevokeErrors, OauthRevokeResponses, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeErrors, OauthTokenByThirdPartyCodeResponses, OauthTokenData, OauthTokenErrors, OauthTokenResponses, PatchMyAccessTokenData, PatchMyAccessTokenErrors, PatchMyAccessTokenResponses, PatchPartnerProductListingsData, PatchPartnerProductListingsErrors, PatchPartnerProductListingsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostMyAccessTokenData, PostMyAccessTokenErrors, PostMyAccessTokenResponses, PostPartnerProductListingsData, PostPartnerProductListingsErrors, PostPartnerProductListingsResponses, PostPartnershipApplicationData, PostPartnershipApplicationErrors, PostPartnershipApplicationResponses, PostWoocommerceWebhookData, PostWoocommerceWebhookErrors, PostWoocommerceWebhookResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductListingsData, PutPartnerProductListingsErrors, PutPartnerProductListingsResponses, SearchPublicListingSourcesData, SearchPublicListingSourcesErrors, SearchPublicListingSourcesResponses, SimpleSearchProductListingsData, SimpleSearchProductListingsErrors, SimpleSearchProductListingsResponses, UpdateAdminAuctionData, UpdateAdminAuctionErrors, UpdateAdminAuctionResponses, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenErrors, UpdateAllNotificationsSeenResponses, UpdateNotificationSeenData2, UpdateNotificationSeenErrors, UpdateNotificationSeenResponses, UpdateNotificationsSeenData2, UpdateNotificationsSeenErrors, UpdateNotificationsSeenResponses, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackErrors, UpdateSearchFilterMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
   /**
@@ -17,6 +17,80 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
    */
   meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
+
+/**
+ * List public Auctions
+ */
+export const listAuctions = <ThrowOnError extends boolean = false>(options?: Options<ListAuctionsData, ThrowOnError>): RequestResult<ListAuctionsResponses, ListAuctionsErrors, ThrowOnError> => (options?.client ?? client).get<ListAuctionsResponses, ListAuctionsErrors, ThrowOnError>({ url: '/api/v1/auctions', ...options });
+
+/**
+ * Get public Auction detail
+ */
+export const getAuction = <ThrowOnError extends boolean = false>(options: Options<GetAuctionData, ThrowOnError>): RequestResult<GetAuctionResponses, GetAuctionErrors, ThrowOnError> => (options.client ?? client).get<GetAuctionResponses, GetAuctionErrors, ThrowOnError>({ url: '/api/v1/auctions/{auctionId}', ...options });
+
+/**
+ * Get public Auction catalogue
+ */
+export const getAuctionCatalogue = <ThrowOnError extends boolean = false>(options: Options<GetAuctionCatalogueData, ThrowOnError>): RequestResult<GetAuctionCatalogueResponses, GetAuctionCatalogueErrors, ThrowOnError> => (options.client ?? client).get<GetAuctionCatalogueResponses, GetAuctionCatalogueErrors, ThrowOnError>({ url: '/api/v1/auctions/{auctionId}/product-listings', ...options });
+
+/**
+ * Create a source-scoped Auction (admin)
+ */
+export const createAdminAuction = <ThrowOnError extends boolean = false>(options: Options<CreateAdminAuctionData, ThrowOnError>): RequestResult<CreateAdminAuctionResponses, CreateAdminAuctionErrors, ThrowOnError> => (options.client ?? client).post<CreateAdminAuctionResponses, CreateAdminAuctionErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/auctions',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Get Auction administration detail
+ */
+export const getAdminAuction = <ThrowOnError extends boolean = false>(options: Options<GetAdminAuctionData, ThrowOnError>): RequestResult<GetAdminAuctionResponses, GetAdminAuctionErrors, ThrowOnError> => (options.client ?? client).get<GetAdminAuctionResponses, GetAdminAuctionErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/auctions/{auctionId}',
+  ...options
+});
+
+/**
+ * Update Auction metadata (admin)
+ */
+export const updateAdminAuction = <ThrowOnError extends boolean = false>(options: Options<UpdateAdminAuctionData, ThrowOnError>): RequestResult<UpdateAdminAuctionResponses, UpdateAdminAuctionErrors, ThrowOnError> => (options.client ?? client).patch<UpdateAdminAuctionResponses, UpdateAdminAuctionErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/auctions/{auctionId}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
 
 /**
  * Batch delete product-listings (Partner API)
@@ -63,8 +137,11 @@ export const deletePartnerProductListings = <ThrowOnError extends boolean = fals
  * Allowed callers are Aura Historia admins and users partnered with the target listing source.
  *
  * The request body is an array of `UpdateProductListingData` objects. Omitted fields are unchanged;
- * `null` clears availability, price, and auction fields. `null` for `url` or `images` returns
- * `400 BAD_BODY_VALUE`; send `[]` to remove all images. The complete batch contract is
+ * `null` clears availability and price. Omit `auction` to preserve its context; `auction: null`, `url: null`,
+ * and `images: null` return `400 BAD_BODY_VALUE`; send `[]` to remove all images. Within an asserted `auction`,
+ * omit a leaf to preserve it, send `null` to clear a clearable lot/timing leaf, or send a value to set it.
+ * `auction.auctionId` must name an existing Auction for this ListingSource. Omit it to preserve membership, send
+ * `null` to clear membership, or send an ID to set it. The complete batch contract is
  * validated before any entry is applied synchronously in its own PostgreSQL transaction.
  *
  * The response returns HTTP 200 with failures as `{ listingSourceId, sourceListingId, error }` objects when
@@ -140,10 +217,9 @@ export const postPartnerProductListings = <ThrowOnError extends boolean = false>
  *
  * The request body is an array of `UpsertProductListingData` objects. Each entry is upserted
  * synchronously in its own PostgreSQL transaction. For each entry:
- * - **New listing** — omitted or `null` availability, price, estimates, and auction timestamps
- *   create no value; a concrete value sets it.
- * - **Existing listing** — availability, price, each price estimate, and each auction timestamp
- *   are tri-state: omitted preserves, `null` clears, and a concrete value sets. A withdrawn
+ * - **New listing** — omitted or `null` availability, price, and estimates create no value; `auction` is omitted or an asserted nested Auction/lot-facts patch (not `null`).
+ * - **Existing listing** — availability, price, and each price estimate
+ *   are tri-state: omitted preserves, `null` clears, and a concrete value replaces. Omit `auction` to preserve it; `auction: null` is invalid. Within an asserted Auction/lot-facts patch, each lot/timing leaf is tri-state: omit to preserve, `null` to clear clearable leaves, or provide a value to set. `auctionId` must name an existing Auction for this ListingSource; omit it to preserve membership, send `null` to clear it, or send an ID to set it. A withdrawn
  *   listing is restored before current facts apply.
  * - `title` and `description` apply only on creation. For an
  *   existing listing they preserve current state and emit no current-state history event.
@@ -1816,9 +1892,30 @@ export const adminPatchOAuthClient = <ThrowOnError extends boolean = false>(opti
 });
 
 /**
- * Get a ListingSource by slug
+ * Search public ListingSources
+ *
+ * Anonymous, literal partial-name search and browse of every persisted ListingSource. Optional valid credentials never widen the public representation; invalid supplied credentials are rejected. Query values are NFC/Unicode-whitespace canonicalized. One scalar and punctuation-only input return a terminal empty collection.
  */
-export const getListingSourceBySlug = <ThrowOnError extends boolean = false>(options: Options<GetListingSourceBySlugData, ThrowOnError>): RequestResult<GetListingSourceBySlugResponses, GetListingSourceBySlugErrors, ThrowOnError> => (options.client ?? client).get<GetListingSourceBySlugResponses, GetListingSourceBySlugErrors, ThrowOnError>({
+export const searchPublicListingSources = <ThrowOnError extends boolean = false>(options?: Options<SearchPublicListingSourcesData, ThrowOnError>): RequestResult<SearchPublicListingSourcesResponses, SearchPublicListingSourcesErrors, ThrowOnError> => (options?.client ?? client).get<SearchPublicListingSourcesResponses, SearchPublicListingSourcesErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources',
+  ...options
+});
+
+/**
+ * Get a public ListingSource by immutable slug
+ *
+ * Anonymous exact immutable-slug lookup. This route accepts no query parameters. Optional valid credentials never widen the public representation; invalid supplied credentials are rejected.
+ */
+export const getPublicListingSourceBySlug = <ThrowOnError extends boolean = false>(options: Options<GetPublicListingSourceBySlugData, ThrowOnError>): RequestResult<GetPublicListingSourceBySlugResponses, GetPublicListingSourceBySlugErrors, ThrowOnError> => (options.client ?? client).get<GetPublicListingSourceBySlugResponses, GetPublicListingSourceBySlugErrors, ThrowOnError>({
   security: [{
       key: 'BearerAuth',
       scheme: 'bearer',

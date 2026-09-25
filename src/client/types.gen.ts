@@ -23,6 +23,10 @@ export type ProductListingSummaryData = {
   eventId: string;
   source: ProductListingSourceData;
   sourceListingId: string;
+  /**
+   * Indexed Auction TypeID association. Omitted when this listing has no Auction association; search and similar results do not hydrate current Auction metadata.
+   */
+  auctionId?: string;
   title?: LocalizedTextData | null;
   displayPrice?: ProductListingPriceData | null;
   priceValuation: ProductListingSummaryPriceValuationData;
@@ -72,12 +76,27 @@ export type ProductListingDetailsData = {
   viewUrl: string;
   images: Array<ProductListingImageData>;
   contentPolicy?: ContentPolicyData | null;
-  auction: {
-    start: string | null;
-    end: string | null;
-  };
+  /**
+   * Current parent Auction presentation from the joined PostgreSQL detail read. Null when the listing has no parent Auction.
+   */
+  auction: AuctionSummaryData | null;
+  /**
+   * Listing-owned lot facts. Null when the listing has no lot facts.
+   */
+  lot: ProductListingLotData | null;
   created: string;
   updated: string;
+};
+
+/**
+ * Listing-owned lot facts. These facts may exist without a parent Auction.
+ */
+export type ProductListingLotData = {
+  lotNumber: string | null;
+  cataloguePosition: number | null;
+  biddingOpens: string | null;
+  scheduledCloses: string | null;
+  reportedClosedAt: string | null;
 };
 
 export type ProductListingPricingData = {
@@ -150,33 +169,6 @@ export type ProductListingSearchCursorData = {
    * Internal OpenSearch continuation token.
    */
   searchAfter: Array<unknown>;
-};
-
-/**
- * Paginated collection of personalized product-listings using cursor-based pagination (search-after pattern).
- * Each product may include user-specific state when the request is authenticated.
- *
- */
-export type PersonalizedProductListingSearchResultData = {
-  /**
-   * Array of personalized product summaries in the current page
-   */
-  items: Array<PersonalizedProductListingSummaryData>;
-  /**
-   * Number of product-listings returned in the current page
-   */
-  size: number;
-  /**
-   * Total number of product-listings matching the query (optional, may not always be available)
-   */
-  total?: number | null;
-  /**
-   * Cursor for the next page (JSON value). Present when there are more results.
-   * Pass this value as the `searchAfter` query parameter to get the next page.
-   * This can be ANY heterogeneous array.
-   *
-   */
-  searchAfter?: Array<unknown> | null;
 };
 
 /**
@@ -403,26 +395,52 @@ export type ListingOrderabilityData = 'ORDERABLE_NOW' | 'ORDERABLE_CONDITIONALLY
 export type ListingLifecycleData = 'ACTIVE' | 'WITHDRAWN';
 
 /**
- * Auction time window information for product-listings from auction houses.
- * Contains optional start and end timestamps for scheduled auctions.
- * At least one of the fields (start or end) must be present when this object is included.
- *
+ * Partner ProductListing nested write patch. `auctionId` must identify an existing Auction for the same ListingSource. Omit it to preserve membership, send null to clear membership, or send a value to set it. Omit a lot/timing leaf to preserve it, send null to clear a clearable leaf, or send a value to set it.
  */
-export type AuctionData = {
+export type ProductListingAuctionData = {
   /**
-   * Start datetime of the auction window for this product (RFC3339 format).
-   * Only present for product-listings from auction houses with scheduled auction start times.
-   * Used to indicate when bidding begins or when the item will be auctioned.
-   *
+   * Existing same-ListingSource Aura Auction TypeID. Omit to preserve membership; send null to clear it.
    */
-  start?: string | null;
+  auctionId?: string | null;
   /**
-   * End datetime of the auction window for this product (RFC3339 format).
-   * Only present for product-listings from auction houses with scheduled auction end times.
-   * Used to indicate when bidding ends or when the auction session concludes.
-   *
+   * Omit to preserve the lot label; send null to clear it; send a value to set it.
    */
-  end?: string | null;
+  lotNumber?: string | null;
+  /**
+   * Omit to preserve the catalogue position; send null to clear it; send a value to set it.
+   */
+  cataloguePosition?: number | null;
+  timing?: ProductListingAuctionTimesData | null;
+};
+
+/**
+ * Immutable historical listing-owned Auction and lot facts. Their presence has no separate meaning. They never expose a source Auction key or shared Auction metadata.
+ */
+export type ProductListingAuctionFactsData = {
+  /**
+   * Resolved Aura Auction TypeID. Omitted when no resolved membership is present.
+   */
+  auctionId?: string;
+  /**
+   * Optional source-assigned lot label.
+   */
+  lotNumber: string | null;
+  /**
+   * Optional one-based source catalogue position.
+   */
+  cataloguePosition: number | null;
+  biddingOpens: string | null;
+  scheduledCloses: string | null;
+  reportedClosedAt: string | null;
+};
+
+/**
+ * Omit each leaf to preserve it; send null to clear it; values are RFC3339 instants.
+ */
+export type ProductListingAuctionTimesData = {
+  biddingOpens?: string | null;
+  scheduledCloses?: string | null;
+  reportedClosedAt?: string | null;
 };
 
 /**
@@ -509,7 +527,7 @@ export type ProductListingDiscoveryHistoryPayloadData = {
   availability: ListingAvailabilityData | null;
   url: string;
   imageCount: number;
-  auction: AuctionData;
+  auction: ProductListingAuctionFactsData | null;
 };
 
 export type ProductListingChangedHistoryPayloadData = {
@@ -556,8 +574,8 @@ export type ProductListingImagesHistoryChangeData = {
 
 export type ProductListingAuctionHistoryChangeData = {
   type: 'AUCTION_CHANGED';
-  previous: AuctionData;
-  current: AuctionData;
+  previous: ProductListingAuctionFactsData | null;
+  current: ProductListingAuctionFactsData | null;
 };
 
 export type ProductListingWithdrawalHistoryChangeData = {
@@ -633,15 +651,19 @@ export type ProductListingSearchData = {
   /**
    * ListingSource IDs to exclude.
    */
-  excludeListingSourceId?: Array<string>;
+  excludeListingSourceId?: Array<string> | null;
+  /**
+   * Exact resolved Auction membership IDs. Omit to preserve; `null` clears.
+   */
+  auctionId?: Array<string> | null;
   price?: RangeQueryUInt64 | null;
   availability?: Array<ListingAvailabilityData> | null;
   orderability?: Array<ListingOrderabilityData> | null;
   includeUnspecifiedAvailability?: boolean | null;
   created?: RangeQueryDateTime | null;
   updated?: RangeQueryDateTime | null;
-  auctionStart?: RangeQueryDateTime | null;
-  auctionEnd?: RangeQueryDateTime | null;
+  lotBiddingOpens?: RangeQueryDateTime | null;
+  lotScheduledCloses?: RangeQueryDateTime | null;
 };
 
 /**
@@ -703,7 +725,7 @@ export type PatchUserSearchFilterMatchData = {
 };
 
 /**
- * Partial ProductListing search criteria. Omitted fields are unchanged. `enhancedSearchDescription`, price, date ranges, and the availability query may be cleared with `null`; availability, orderability, and includeUnspecifiedAvailability` must be supplied together or all be `null`.
+ * Partial ProductListing search criteria. Omitted fields are unchanged. `enhancedSearchDescription`, `auctionId`, price, date ranges, and the availability query may be cleared with `null`; availability, orderability, and includeUnspecifiedAvailability` must be supplied together or all be `null`.
  */
 export type PatchProductListingSearchData = {
   language?: LanguageData;
@@ -717,15 +739,19 @@ export type PatchProductListingSearchData = {
   /**
    * ListingSource IDs to exclude.
    */
-  excludeListingSourceId?: Array<string> | null;
+  excludeListingSourceId?: Array<string>;
+  /**
+   * Exact resolved Auction membership IDs. Values use strict `auc_` TypeIDs and OR together.
+   */
+  auctionId?: Array<string>;
   price?: RangeQueryUInt64 | null;
   availability?: Array<ListingAvailabilityData> | null;
   orderability?: Array<ListingOrderabilityData> | null;
   includeUnspecifiedAvailability?: boolean | null;
   created?: RangeQueryDateTime | null;
   updated?: RangeQueryDateTime | null;
-  auctionStart?: RangeQueryDateTime | null;
-  auctionEnd?: RangeQueryDateTime | null;
+  lotBiddingOpens?: RangeQueryDateTime | null;
+  lotScheduledCloses?: RangeQueryDateTime | null;
 };
 
 /**
@@ -1930,13 +1956,9 @@ export type CreateProductListingData = {
    */
   images: Array<string>;
   /**
-   * Optional RFC3339 auction timestamp.
+   * Omit for no Auction or lot changes, or send an asserted nested Auction/lot-facts patch. `null` is invalid. `auctionId` must identify an existing Auction for this ListingSource.
    */
-  auctionStart?: string | null;
-  /**
-   * Optional RFC3339 auction timestamp.
-   */
-  auctionEnd?: string | null;
+  auction?: ProductListingAuctionData;
 };
 
 /**
@@ -1968,8 +1990,8 @@ export type WithdrawProductListingData = {
 
 /**
  * Data for synchronously updating one ProductListing. Omitted fields remain unchanged.
- * `availability: null` clears the current assertion. `null` clears price and auction fields;
- * `url` and `images` reject null. Send `images: []` to remove all images.
+ * `availability: null` clears the current assertion and `price: null` clears price. Omit `auction` to preserve
+ * its context; `auction: null`, `url: null`, and `images: null` are invalid. Send `images: []` to remove all images.
  *
  */
 export type UpdateProductListingData = {
@@ -2002,20 +2024,17 @@ export type UpdateProductListingData = {
    */
   images?: Array<string>;
   /**
-   * Omit to leave unchanged. Send null to clear the auction start.
+   * Omit to leave unchanged. Send an object to apply nested lot/timing leaf patches. `auctionId` must identify an existing Auction for this ListingSource; omit it to preserve membership, send null to clear it, or send an ID to set it. `null` for `auction` is invalid.
    */
-  auctionStart?: string | null;
-  /**
-   * Omit to leave unchanged. Send null to clear the auction end.
-   */
-  auctionEnd?: string | null;
+  auction?: ProductListingAuctionData;
 };
 
 /**
  * Data for synchronously upserting one ProductListing. Only `sourceListingId` is required.
- * Availability, price, each price estimate, and each auction timestamp are tri-state: omitted
- * preserves an existing value, `null` clears it, and a concrete value sets it. On creation,
- * omitted and `null` both mean no value. Upsert restores a withdrawn listing before current
+ * Availability, price, and each price estimate are tri-state: omitted preserves an existing
+ * value, `null` clears it, and a concrete value replaces it. The nested Auction/lot-facts patch is omitted
+ * to preserve stored facts or supplied as a leaf patch; `null` is invalid. Within an asserted patch, lot/timing leaves
+ * omit to preserve, use `null` to clear, or provide a value to set. `auctionId` must identify an existing Auction for this ListingSource; omit it to preserve membership, send `null` to clear it, or send an ID to set it. Upsert restores a withdrawn listing before current
  * facts apply. Images and URL use the field-specific rules documented below.
  *
  */
@@ -2057,13 +2076,9 @@ export type UpsertProductListingData = {
    */
   images?: Array<string>;
   /**
-   * Optional RFC3339 auction timestamp.
+   * Omit to preserve the current context or send an object to apply nested leaf patches. `auctionId` must identify an existing Auction for this ListingSource; omit it to preserve membership, send null to clear it, or send an ID to set it. `null` for `auction` is invalid.
    */
-  auctionStart?: string | null;
-  /**
-   * Optional RFC3339 auction timestamp.
-   */
-  auctionEnd?: string | null;
+  auction?: ProductListingAuctionData;
 };
 
 /**
@@ -2106,7 +2121,7 @@ export type WoocommerceProductWebhookUpsertData = {
   short_description?: string | null;
   /**
    * Optional WooCommerce price string for a captured `status: publish` UPSERT.
-   * Intake writes raw-values V2 `MACHINE_DECIMAL`. A nonblank value must be an untrimmed unsigned ASCII decimal
+   * Intake writes current raw-values schema `1` with `MACHINE_DECIMAL`. A nonblank value must be an untrimmed unsigned ASCII decimal
    * (`digits` or `digits.digits`): no whitespace, signs, grouping separators, or currency symbols. A nonblank
    * `SET` requires the listing source's configured `woocommerceCurrency`. Fractional digits beyond the configured
    * currency minor-unit scale are accepted only when every excess digit is `0`; a nonzero excess digit is
@@ -2400,6 +2415,49 @@ export type ListingSourceReferenceData = {
   listingSourceSlugId: string;
 };
 
+export type PublicListingSourceOperatorData = {
+  /**
+   * Original display name of the ListingSource operator Party. The operator is not a seller resource.
+   */
+  name: string;
+};
+
+/**
+ * Allowlisted public ListingSource card used by both public collection search and exact slug lookup. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata.
+ */
+export type PublicListingSourceData = {
+  /**
+   * Canonical `ls_` TypeID.
+   */
+  listingSourceId: string;
+  /**
+   * Immutable navigation slug.
+   */
+  listingSourceSlugId: string;
+  name: string;
+  operator: PublicListingSourceOperatorData;
+  /**
+   * Optional http/https presentation URL, omitted when absent.
+   */
+  url?: string;
+  /**
+   * Optional http/https presentation image URL, omitted when absent.
+   */
+  image?: string;
+};
+
+export type PublicListingSourceSearchCollectionData = {
+  items: Array<PublicListingSourceData>;
+  /**
+   * Accepted requested page size, not item count.
+   */
+  size: number;
+  /**
+   * Opaque continuation, omitted on a terminal page.
+   */
+  searchAfter?: string;
+};
+
 export type ListingSourceData = {
   listingSourceId: string;
   listingSourceSlugId: string;
@@ -2591,6 +2649,173 @@ export type DecidePartnershipApplicationData = {
   decision: 'APPROVE' | 'REJECT';
 };
 
+export type CreateAuctionData = {
+  /**
+   * Strict ListingSource TypeID.
+   */
+  listingSourceId: string;
+  /**
+   * 1–512 UTF-8 bytes after outer Unicode-whitespace trimming; case and internal whitespace are preserved.
+   */
+  sourceAuctionId: string;
+  name?: LocalizedTextData;
+  catalogueUrl?: string;
+  format?: AuctionFormatData;
+  schedule?: AuctionScheduleInputData;
+  reportedStatus?: AuctionReportedStatusData;
+  reportedLotCount?: number;
+};
+
+/**
+ * Omitted members are unchanged. Nullable members explicitly clear their value.
+ */
+export type UpdateAuctionData = {
+  expectedVersion: number;
+  name?: LocalizedTextData | null;
+  catalogueUrl?: string | null;
+  format?: AuctionFormatData | null;
+  schedule?: AuctionSchedulePatchData;
+  reportedStatus?: AuctionReportedStatusData | null;
+  reportedLotCount?: number | null;
+};
+
+export type PublicAuctionDirectoryData = {
+  items: Array<PublicAuctionDirectoryItemData>;
+  pageSize: number;
+  /**
+   * Omitted on the terminal page. Send the complete JSON value as the `searchAfter` query parameter.
+   */
+  searchAfter?: PublicAuctionDirectoryCursorData | null;
+};
+
+export type PublicAuctionDirectoryItemData = {
+  /**
+   * Strict `auc_` UUIDv7 TypeID.
+   */
+  auctionId: string;
+  listingSource: PublicAuctionSourceData;
+  name: LocalizedTextData | null;
+  format: AuctionFormatData | null;
+  schedule: AuctionScheduleData;
+  reportedStatus: AuctionReportedStatusData | null;
+  created: string;
+};
+
+export type PublicAuctionData = {
+  /**
+   * Strict `auc_` UUIDv7 TypeID.
+   */
+  auctionId: string;
+  listingSource: PublicAuctionSourceData;
+  name: LocalizedTextData | null;
+  catalogueUrl: string | null;
+  viewUrl: string | null;
+  format: AuctionFormatData | null;
+  schedule: AuctionScheduleData;
+  reportedStatus: AuctionReportedStatusData | null;
+  reportedLotCount: number | null;
+  visibleListingCount: number;
+};
+
+export type PublicAuctionSourceData = {
+  listingSourceId: string;
+  name: string;
+  slugId: string;
+};
+
+export type PublicAuctionDirectoryCursorData = {
+  created: string;
+  auctionId: string;
+  scope: PublicAuctionDirectoryCursorScopeData;
+};
+
+export type PublicAuctionDirectoryCursorScopeData = {
+  listingSourceId: string | null;
+  format: AuctionFormatData | null;
+  reportedStatus: AuctionReportedStatusData | null;
+  timeRole: 'BIDDING_OPENS' | 'LIVE_STARTS' | 'LOTS_BEGIN_CLOSING' | 'SCHEDULED_END';
+  from: string | null;
+  to: string | null;
+};
+
+export type PublicAuctionCatalogueData = {
+  items: Array<PersonalizedProductListingDetailsData>;
+  pageSize: number;
+  /**
+   * Omitted on the terminal page. Send the complete JSON value as the `searchAfter` query parameter.
+   */
+  searchAfter?: PublicAuctionCatalogueCursorData | null;
+};
+
+export type PublicAuctionCatalogueCursorData = {
+  auctionId: string;
+  cataloguePosition: number | null;
+  productListingId: string;
+};
+
+export type AuctionAdminData = {
+  /**
+   * Strict `auc_` UUIDv7 TypeID.
+   */
+  auctionId: string;
+  listingSourceId: string;
+  sourceAuctionId: string;
+  name: LocalizedTextData | null;
+  catalogueUrl: string | null;
+  format: AuctionFormatData | null;
+  schedule: AuctionScheduleData;
+  reportedStatus: AuctionReportedStatusData | null;
+  reportedLotCount: number | null;
+  expectedVersion: number;
+  created: string;
+  updated: string;
+};
+
+export type AuctionFormatData = 'LIVE' | 'TIMED';
+
+export type AuctionReportedStatusData = 'SCHEDULED' | 'IN_PROGRESS' | 'ENDED' | 'POSTPONED' | 'CANCELLED';
+
+/**
+ * Safe current parent Auction presentation included by PostgreSQL full-detail ProductListing reads.
+ */
+export type AuctionSummaryData = {
+  /**
+   * Strict `auc_` UUIDv7 TypeID.
+   */
+  auctionId: string;
+  name?: LocalizedTextData | null;
+  format?: AuctionFormatData | null;
+  reportedStatus?: AuctionReportedStatusData | null;
+  schedule: AuctionScheduleData;
+};
+
+export type AuctionScheduleData = {
+  biddingOpens: string | null;
+  liveStarts: string | null;
+  lotsBeginClosing: string | null;
+  scheduledEnd: string | null;
+};
+
+/**
+ * Sparse Auction create schedule. Omitted roles remain absent.
+ */
+export type AuctionScheduleInputData = {
+  biddingOpens?: string | null;
+  liveStarts?: string | null;
+  lotsBeginClosing?: string | null;
+  scheduledEnd?: string | null;
+};
+
+/**
+ * Omitted roles are unchanged; `null` clears an asserted RFC3339 instant.
+ */
+export type AuctionSchedulePatchData = {
+  biddingOpens?: string | null;
+  liveStarts?: string | null;
+  lotsBeginClosing?: string | null;
+  scheduledEnd?: string | null;
+};
+
 /**
  * ListingSource presentation hydrated for a ProductListing response.
  */
@@ -2633,6 +2858,250 @@ export type UpdateListingSourceDataWritable = {
   image?: string | null;
   referralConfiguration?: ReferralConfigurationData | null;
 };
+
+/**
+ * Strict `pl_` UUIDv7 ProductListing TypeID.
+ */
+export type ProductListingIdPath = string;
+
+export type ListAuctionsData = {
+  body?: never;
+  path?: never;
+  query?: {
+    listingSourceId?: string;
+    format?: 'LIVE' | 'TIMED';
+    reportedStatus?: 'SCHEDULED' | 'IN_PROGRESS' | 'ENDED' | 'POSTPONED' | 'CANCELLED';
+    timeRole?: 'BIDDING_OPENS' | 'LIVE_STARTS' | 'LOTS_BEGIN_CLOSING' | 'SCHEDULED_END';
+    from?: string;
+    to?: string;
+    pageSize?: number;
+    /**
+     * Complete returned JSON cursor. Its scope must exactly match the source, format, reported-status, and exact-time filters of this request.
+     */
+    searchAfter?: string;
+  };
+  url: '/api/v1/auctions';
+};
+
+export type ListAuctionsErrors = {
+  /**
+   * Invalid ID, filter, cursor, or incomplete exact-time range.
+   */
+  400: unknown;
+};
+
+export type ListAuctionsResponses = {
+  /**
+   * Bounded newest-first Auction directory. All responses use `Cache-Control: no-store`.
+   */
+  200: PublicAuctionDirectoryData;
+};
+
+export type ListAuctionsResponse = ListAuctionsResponses[keyof ListAuctionsResponses];
+
+export type GetAuctionData = {
+  body?: never;
+  path: {
+    /**
+     * Strict `auc_` UUIDv7 TypeID.
+     */
+    auctionId: string;
+  };
+  query?: never;
+  url: '/api/v1/auctions/{auctionId}';
+};
+
+export type GetAuctionErrors = {
+  /**
+   * Invalid Auction ID (`INVALID_OBJECT_ID`).
+   */
+  400: unknown;
+  /**
+   * Auction missing (`AUCTION_NOT_FOUND`).
+   */
+  404: unknown;
+};
+
+export type GetAuctionResponses = {
+  /**
+   * Public Auction facts, source summary, schedule, reported lot count, and visible listing count. Always `Cache-Control: no-store`.
+   */
+  200: PublicAuctionData;
+};
+
+export type GetAuctionResponse = GetAuctionResponses[keyof GetAuctionResponses];
+
+export type GetAuctionCatalogueData = {
+  body?: never;
+  path: {
+    auctionId: string;
+  };
+  query?: {
+    language?: string;
+    currency?: string;
+    pageSize?: number;
+    /**
+     * Complete returned JSON cursor. It is scoped to this Auction and includes `auctionId`, catalogue position, and ProductListing ID.
+     */
+    searchAfter?: string;
+  };
+  url: '/api/v1/auctions/{auctionId}/product-listings';
+};
+
+export type GetAuctionCatalogueErrors = {
+  /**
+   * Invalid Auction ID or cursor.
+   */
+  400: unknown;
+  /**
+   * Auction missing (`AUCTION_NOT_FOUND`).
+   */
+  404: unknown;
+};
+
+export type GetAuctionCatalogueResponses = {
+  /**
+   * Visible assigned ProductListings in normal personalized detail presentation, ordered by catalogue position, null positions last, then backing listing UUID. Always `Cache-Control: no-store`.
+   */
+  200: PublicAuctionCatalogueData;
+};
+
+export type GetAuctionCatalogueResponse = GetAuctionCatalogueResponses[keyof GetAuctionCatalogueResponses];
+
+export type CreateAdminAuctionData = {
+  body: CreateAuctionData;
+  path?: never;
+  query?: never;
+  url: '/api/v1/admin/auctions';
+};
+
+export type CreateAdminAuctionErrors = {
+  /**
+   * Invalid body or value (`BAD_BODY_VALUE`).
+   */
+  400: unknown;
+  /**
+   * Missing or invalid credentials (`INVALID_CREDENTIALS`).
+   */
+  401: unknown;
+  /**
+   * Administrator authority required (`FORBIDDEN`).
+   */
+  403: unknown;
+  /**
+   * ListingSource missing (`LISTING_SOURCE_NOT_FOUND`).
+   */
+  404: unknown;
+  /**
+   * The ListingSource/sourceAuctionId key already exists (`CONFLICT`).
+   */
+  409: unknown;
+  /**
+   * Temporary Auction persistence failure (`AUCTION_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: unknown;
+};
+
+export type CreateAdminAuctionResponses = {
+  /**
+   * Auction created. `Location` names the new admin detail resource.
+   */
+  201: AuctionAdminData;
+};
+
+export type CreateAdminAuctionResponse = CreateAdminAuctionResponses[keyof CreateAdminAuctionResponses];
+
+export type GetAdminAuctionData = {
+  body?: never;
+  path: {
+    /**
+     * Strict `auc_` UUIDv7 TypeID. Bare UUIDs and wrong prefixes are invalid.
+     */
+    auctionId: string;
+  };
+  query?: never;
+  url: '/api/v1/admin/auctions/{auctionId}';
+};
+
+export type GetAdminAuctionErrors = {
+  /**
+   * Invalid Auction ID (`INVALID_OBJECT_ID`).
+   */
+  400: unknown;
+  /**
+   * Missing or invalid credentials (`INVALID_CREDENTIALS`).
+   */
+  401: unknown;
+  /**
+   * Administrator authority required (`FORBIDDEN`).
+   */
+  403: unknown;
+  /**
+   * Auction missing (`AUCTION_NOT_FOUND`).
+   */
+  404: unknown;
+  /**
+   * Temporary Auction persistence failure (`AUCTION_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: unknown;
+};
+
+export type GetAdminAuctionResponses = {
+  /**
+   * Current administrative Auction data. Always `Cache-Control: no-store`.
+   */
+  200: AuctionAdminData;
+};
+
+export type GetAdminAuctionResponse = GetAdminAuctionResponses[keyof GetAdminAuctionResponses];
+
+export type UpdateAdminAuctionData = {
+  body: UpdateAuctionData;
+  path: {
+    /**
+     * Strict `auc_` UUIDv7 TypeID. Auction identity and source key are immutable.
+     */
+    auctionId: string;
+  };
+  query?: never;
+  url: '/api/v1/admin/auctions/{auctionId}';
+};
+
+export type UpdateAdminAuctionErrors = {
+  /**
+   * Invalid body, expectedVersion, or schedule (`BAD_BODY_VALUE`).
+   */
+  400: unknown;
+  /**
+   * Missing or invalid credentials (`INVALID_CREDENTIALS`).
+   */
+  401: unknown;
+  /**
+   * Administrator authority required (`FORBIDDEN`).
+   */
+  403: unknown;
+  /**
+   * Auction missing (`AUCTION_NOT_FOUND`).
+   */
+  404: unknown;
+  /**
+   * Stale expectedVersion (`CONFLICT`).
+   */
+  409: unknown;
+  /**
+   * Temporary Auction persistence failure (`AUCTION_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: unknown;
+};
+
+export type UpdateAdminAuctionResponses = {
+  /**
+   * Updated administrative Auction data. Always `Cache-Control: no-store`.
+   */
+  200: AuctionAdminData;
+};
+
+export type UpdateAdminAuctionResponse = UpdateAdminAuctionResponses[keyof UpdateAdminAuctionResponses];
 
 export type DeletePartnerProductListingsData = {
   /**
@@ -3165,6 +3634,10 @@ export type SimpleSearchProductListingsData = {
      */
     excludeListingSourceId?: Array<string>;
     /**
+     * Exact resolved Auction membership IDs. Repeat up to 100 distinct strict `auc_` TypeIDs; supplied IDs OR together and intersect all other filters. Listings without resolved membership do not match.
+     */
+    auctionId?: Array<string>;
+    /**
      * Optional price range filter in minor currency units (e.g. cents for most supported currencies, whole yen for JPY).
      * Use `price[min]` and/or `price[max]` to specify the range bounds.
      *
@@ -3214,34 +3687,34 @@ export type SimpleSearchProductListingsData = {
       max?: string;
     };
     /**
-     * Optional filter by auction start datetime range (RFC3339 format).
-     * Use `auctionStart[min]` and/or `auctionStart[max]` to specify the bounds.
-     * Only matches product-listings that have an auction start time set.
+     * Optional exact lot-bidding-open range (RFC3339 instants).
+     * Use `lotBiddingOpens[min]` and/or `lotBiddingOpens[max]` for `[min, max)` bounds.
+     * Date-only and absent lot times never match this filter.
      *
      */
-    auctionStart?: {
+    lotBiddingOpens?: {
       /**
-       * Minimum auction start datetime (inclusive, RFC3339 format)
+       * Inclusive minimum exact lot bidding-open instant (RFC3339)
        */
       min?: string;
       /**
-       * Maximum auction start datetime (inclusive, RFC3339 format)
+       * Exclusive maximum exact lot bidding-open instant (RFC3339)
        */
       max?: string;
     };
     /**
-     * Optional filter by auction end datetime range (RFC3339 format).
-     * Use `auctionEnd[min]` and/or `auctionEnd[max]` to specify the bounds.
-     * Only matches product-listings that have an auction end time set.
+     * Optional exact lot-scheduled-close range (RFC3339 instants).
+     * Use `lotScheduledCloses[min]` and/or `lotScheduledCloses[max]` for `[min, max)` bounds.
+     * Date-only and absent lot times never match this filter.
      *
      */
-    auctionEnd?: {
+    lotScheduledCloses?: {
       /**
-       * Minimum auction end datetime (inclusive, RFC3339 format)
+       * Inclusive minimum exact lot scheduled-close instant (RFC3339)
        */
       min?: string;
       /**
-       * Maximum auction end datetime (inclusive, RFC3339 format)
+       * Exclusive maximum exact lot scheduled-close instant (RFC3339)
        */
       max?: string;
     };
@@ -3259,7 +3732,7 @@ export type SimpleSearchProductListingsData = {
      * for the full cursor chain.
      *
      */
-    searchAfter?: ProductListingSearchCursorData;
+    searchAfter?: string;
     /**
      * Number of product-listings to return per page
      */
@@ -6208,52 +6681,98 @@ export type AdminPatchOAuthClientResponses = {
 
 export type AdminPatchOAuthClientResponse = AdminPatchOAuthClientResponses[keyof AdminPatchOAuthClientResponses];
 
-export type GetListingSourceBySlugData = {
+export type SearchPublicListingSourcesData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Optional contiguous literal text. Only `query`, `size`, and `searchAfter` are accepted once; unknown or repeated parameters return 400.
+     */
+    query?: string;
+    size?: number;
+    /**
+     * Opaque URL-safe base64 continuation from this endpoint. Omit on the first page and restart after a query or size change.
+     */
+    searchAfter?: string;
+  };
+  url: '/api/v1/listing-sources';
+};
+
+export type SearchPublicListingSourcesErrors = {
+  /**
+   * Invalid query parameter or continuation. Cache-Control is no-store.
+   */
+  400: ApiError;
+  /**
+   * Invalid supplied credential. Cache-Control is no-store.
+   */
+  401: ApiError;
+  /**
+   * Invalid persisted public read model. Cache-Control is no-store.
+   */
+  500: ApiError;
+  /**
+   * Temporary public-read failure. Cache-Control is no-store.
+   */
+  503: ApiError;
+};
+
+export type SearchPublicListingSourcesError = SearchPublicListingSourcesErrors[keyof SearchPublicListingSourcesErrors];
+
+export type SearchPublicListingSourcesResponses = {
+  /**
+   * Public collection page. Cache-Control is no-store.
+   */
+  200: PublicListingSourceSearchCollectionData;
+};
+
+export type SearchPublicListingSourcesResponse = SearchPublicListingSourcesResponses[keyof SearchPublicListingSourcesResponses];
+
+export type GetPublicListingSourceBySlugData = {
   body?: never;
   path: {
+    /**
+     * Exact persisted immutable ListingSource slug.
+     */
     listingSourceSlugId: string;
   };
   query?: never;
   url: '/api/v1/listing-sources/by-slug/{listingSourceSlugId}';
 };
 
-export type GetListingSourceBySlugErrors = {
+export type GetPublicListingSourceBySlugErrors = {
   /**
-   * Problem response
+   * Invalid slug or nonempty query string. Cache-Control is no-store.
    */
   400: ApiError;
   /**
-   * Problem response
+   * Invalid supplied credential. Cache-Control is no-store.
    */
   401: ApiError;
   /**
-   * Problem response
-   */
-  403: ApiError;
-  /**
-   * Problem response
+   * LISTING_SOURCE_NOT_FOUND. Cache-Control is no-store.
    */
   404: ApiError;
   /**
-   * Problem response
+   * Invalid persisted public read model. Cache-Control is no-store.
    */
   500: ApiError;
   /**
-   * Problem response
+   * Temporary public-read failure. Cache-Control is no-store.
    */
   503: ApiError;
 };
 
-export type GetListingSourceBySlugError = GetListingSourceBySlugErrors[keyof GetListingSourceBySlugErrors];
+export type GetPublicListingSourceBySlugError = GetPublicListingSourceBySlugErrors[keyof GetPublicListingSourceBySlugErrors];
 
-export type GetListingSourceBySlugResponses = {
+export type GetPublicListingSourceBySlugResponses = {
   /**
-   * Success
+   * Public ListingSource. Cache-Control is no-store.
    */
-  200: ListingSourceData;
+  200: PublicListingSourceData;
 };
 
-export type GetListingSourceBySlugResponse = GetListingSourceBySlugResponses[keyof GetListingSourceBySlugResponses];
+export type GetPublicListingSourceBySlugResponse = GetPublicListingSourceBySlugResponses[keyof GetPublicListingSourceBySlugResponses];
 
 export type GetMyListingSourcesData = {
   body?: never;
