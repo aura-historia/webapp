@@ -473,6 +473,8 @@
         "listingChangedTitle": "Listing updated",
         "listingDiscovered": "First recorded by Aura Historia.",
         "initialPrice": "Asking price: {{price}}.",
+        "initialMinimumEstimate": "Minimum estimate: {{price}}.",
+        "initialMaximumEstimate": "Maximum estimate: {{price}}.",
         "initialAvailability": "Availability: {{availability}}.",
         "initialImages": "{{count}} image(s) recorded at discovery.",
         "initialUrl": "Listing URL recorded at discovery.",

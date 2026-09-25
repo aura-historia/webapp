@@ -468,6 +468,8 @@
         "listingChangedTitle": "Anuncio actualizado",
         "listingDiscovered": "Registrado por primera vez por Aura Historia.",
         "initialPrice": "Precio de venta: {{price}}.",
+        "initialMinimumEstimate": "Estimación mínima: {{price}}.",
+        "initialMaximumEstimate": "Estimación máxima: {{price}}.",
         "initialAvailability": "Disponibilidad: {{availability}}.",
         "initialImages": "Imágenes registradas al detectarse: {{count}}.",
         "initialUrl": "URL del anuncio registrada al detectarse.",
@@ -479,7 +481,7 @@
         "imagesChangedWithCounts": "El número de imágenes cambió de {{previousCount}} a {{currentCount}}.",
         "auctionChanged": "Se actualizaron los datos de la subasta o del lote.",
         "withdrawn": "Anuncio retirado; la disponibilidad era {{previousAvailability}}.",
-        "restored": "El vendedor restableció el anuncio.",
+        "restored": "El anuncio fue restablecido por su fuente.",
         "saleObserved": "Se registró una observación de venta para {{observedAt}}.",
         "saleObservationRetracted": "Se retiró la observación de venta de {{observedAt}}.",
         "unknownChange": "Se actualizaron los datos del anuncio."

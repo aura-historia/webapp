@@ -141,6 +141,22 @@ export function ProductEventHistory({ event, filter = "all" }: ProductEventHisto
                 }),
             });
         }
+        if (showPrice && discovery.pricing.priceEstimateMin) {
+            descriptions.push({
+                key: "initial-minimum-estimate",
+                text: t("product.history.events.initialMinimumEstimate", {
+                    price: formatPrice(discovery.pricing.priceEstimateMin),
+                }),
+            });
+        }
+        if (showPrice && discovery.pricing.priceEstimateMax) {
+            descriptions.push({
+                key: "initial-maximum-estimate",
+                text: t("product.history.events.initialMaximumEstimate", {
+                    price: formatPrice(discovery.pricing.priceEstimateMax),
+                }),
+            });
+        }
         if (showAvailability && discovery.availability !== null) {
             descriptions.push({
                 key: "initial-availability",

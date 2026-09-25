@@ -468,6 +468,8 @@
         "listingChangedTitle": "Annonce mise à jour",
         "listingDiscovered": "Première annonce enregistrée par Aura Historia.",
         "initialPrice": "Prix demandé : {{price}}.",
+        "initialMinimumEstimate": "Estimation minimale : {{price}}.",
+        "initialMaximumEstimate": "Estimation maximale : {{price}}.",
         "initialAvailability": "Disponibilité : {{availability}}.",
         "initialImages": "Images enregistrées lors de la découverte : {{count}}.",
         "initialUrl": "URL de l’annonce enregistrée lors de sa découverte.",
