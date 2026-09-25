@@ -36,7 +36,6 @@ export function useWatchlist() {
                         mapPersonalizedProductListingDetails(product, i18n.language),
                     ) ?? [],
                 size: result.data?.size,
-                total: result.data?.total ?? undefined,
                 searchAfter: result.data.searchAfter
                     ? JSON.stringify(result.data.searchAfter)
                     : undefined,

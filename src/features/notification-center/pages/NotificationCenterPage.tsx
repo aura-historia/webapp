@@ -69,9 +69,11 @@ export function NotificationCenterPage() {
             <div className="flex flex-row items-start justify-between">
                 <div className="flex flex-col gap-1">
                     <H1>{t("notifications.title")}</H1>
-                    <span className="text-base text-muted-foreground">
-                        {t("notifications.totalElements", { count: total })}
-                    </span>
+                    {!hasNextPage && (
+                        <span className="text-base text-muted-foreground">
+                            {t("notifications.totalElements", { count: total })}
+                        </span>
+                    )}
                 </div>
                 <div className="flex items-center gap-2">
                     {hasUnseen && (

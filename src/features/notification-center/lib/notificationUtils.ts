@@ -45,7 +45,7 @@ export function getNotificationChangeParts(
             price?.type === "MONETARY"
                 ? formatPrice({ amount: price.amount, currency: price.currency }, language)
                 : price?.type === "ON_REQUEST"
-                  ? t("product.priceChart.values.onRequest")
+                  ? t("product.history.values.onRequest")
                   : unknown;
 
         return {

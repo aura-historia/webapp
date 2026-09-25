@@ -7,6 +7,18 @@ import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 
 export type WatchlistMutationType = "addToWatchlist" | "deleteFromWatchlist";
 
+function isProductListingQuery(queryKey: readonly unknown[]): boolean {
+    return queryKey.some(
+        (part) =>
+            typeof part === "object" &&
+            part !== null &&
+            "_id" in part &&
+            ["getProductListingByTitleSlug", "getProductListing"].includes(
+                String((part as { _id?: unknown })._id),
+            ),
+    );
+}
+
 export function useWatchlistMutation(productListingId: string) {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
@@ -41,8 +53,9 @@ export function useWatchlistMutation(productListingId: string) {
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ["watchlist"] }),
                 queryClient.invalidateQueries({ queryKey: ["search"] }),
-                queryClient.invalidateQueries({ queryKey: ["getProductListingByTitleSlug"] }),
-                queryClient.invalidateQueries({ queryKey: ["getProductListing"] }),
+                queryClient.invalidateQueries({
+                    predicate: ({ queryKey }) => isProductListingQuery(queryKey),
+                }),
             ]);
         },
     });

@@ -52,7 +52,6 @@ export function WatchlistPage() {
 
     const allProducts: ProductListing[] = data?.pages.flatMap((page) => page.products) ?? [];
 
-    const totalProducts = allProducts.length;
     const allLoaded = allProducts.length > 0 && !hasNextPage;
     const showLoaderRow = isFetchingNextPage || allLoaded;
 
@@ -73,11 +72,13 @@ export function WatchlistPage() {
             <div className={"flex flex-col w-full gap-8"}>
                 <div className="flex flex-row items-center justify-between">
                     <H1>{t("watchlist.title")}</H1>
-                    <span className={"text-2xl font-semibold whitespace-nowrap"}>
-                        {t("watchlist.totalElements", {
-                            count: totalProducts,
-                        })}
-                    </span>
+                    {!hasNextPage && (
+                        <span className={"text-2xl font-semibold whitespace-nowrap"}>
+                            {t("watchlist.totalElements", {
+                                count: allProducts.length,
+                            })}
+                        </span>
+                    )}
                 </div>
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                     {allProducts.map((watchlistProduct: ProductListing) => (
@@ -91,7 +92,7 @@ export function WatchlistPage() {
                     <div ref={ref}>
                         <ListLoaderRow
                             isFetchingNextPage={isFetchingNextPage}
-                            totalCount={totalProducts}
+                            totalCount={allProducts.length}
                             loadingMoreKey="watchlist.loadingMore"
                             allLoadedKey="watchlist.allLoaded"
                         />

@@ -9,13 +9,17 @@ import type {
     ProductListingUserStateData,
 } from "@/client";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+import {
+    mapProductListingSource,
+    type ProductListingSource,
+} from "@/data/internal/product/ProductListingSource.ts";
 import { formatPrice } from "@/data/internal/price/Price.ts";
 
 /** Listing fields shared by search cards and the detail presentation. */
 export type ProductListing = {
     readonly productListingId: string;
     readonly productListingTitleSlugId?: string;
-    readonly source: ProductListingDetailsData["source"];
+    readonly source: ProductListingSource;
     readonly sourceListingId: string;
     readonly title?: string;
     readonly price?: ProductListingPriceData | null;
@@ -58,7 +62,7 @@ function mapSummaryFields(
     return {
         productListingId: item.productListingId,
         productListingTitleSlugId: item.productListingTitleSlugId,
-        source: item.source,
+        source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
         title: item.title?.text ?? undefined,
         price: item.displayPrice,
@@ -98,7 +102,7 @@ export function mapPersonalizedProductListingDetails(
     return {
         productListingId: item.productListingId,
         productListingTitleSlugId: item.productListingTitleSlugId,
-        source: item.source,
+        source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
         title: item.productTitle?.text ?? item.title?.text ?? undefined,
         price: displayPrice,

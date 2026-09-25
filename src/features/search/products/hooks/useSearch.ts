@@ -24,7 +24,7 @@ const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 const EMPTY_RESULT: SearchResultData = { products: [], size: 0, total: 0, searchAfter: undefined };
 
 function hasEmptyArrayFilter(args: SearchFilterArguments): boolean {
-    return args.allowedStates?.length === 0 || args.shopType?.length === 0;
+    return args.allowedStates?.length === 0;
 }
 
 function mapAvailabilityFilters(states: NonNullable<SearchFilterArguments["allowedStates"]>) {

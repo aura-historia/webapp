@@ -32,7 +32,7 @@ export function ListingStatusBadge({
             ? t("product.listingAvailability.withdrawn")
             : availability
               ? t(`product.listingAvailability.${AVAILABILITY_KEYS[availability]}`)
-              : undefined;
+              : t("product.listingAvailability.unknown");
 
     if (!label) return null;
 

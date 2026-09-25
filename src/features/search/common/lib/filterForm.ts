@@ -116,6 +116,8 @@ export function mapFormValuesToSearchFilterArguments(
         auctionDateTo: data.auctionDate.to,
         merchant: data.merchant?.length ? data.merchant : undefined,
         excludeMerchant: data.excludeMerchant?.length ? data.excludeMerchant : undefined,
+        seller: data.seller?.length ? data.seller : undefined,
+        excludeSeller: data.excludeSeller?.length ? data.excludeSeller : undefined,
         shopType: data.shopType,
     };
 }

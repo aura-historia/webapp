@@ -26,7 +26,7 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
         : undefined;
     const priceLabel =
         product.price?.type === "ON_REQUEST"
-            ? t("product.priceChart.values.onRequest")
+            ? t("product.history.values.onRequest")
             : (product.displayPrice ?? t("product.unknownPrice"));
     const title = product.title ?? t("product.untitled");
     const showSensitiveContent =

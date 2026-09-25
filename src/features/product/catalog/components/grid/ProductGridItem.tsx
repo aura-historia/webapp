@@ -47,7 +47,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
     const priceLabel =
         product.formattedPrice ??
         (product.price?.type === "ON_REQUEST"
-            ? t("product.priceChart.values.onRequest")
+            ? t("product.history.values.onRequest")
             : t("product.unknownPrice"));
 
     if (variant === "recentlyAdded") {

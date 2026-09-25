@@ -7,6 +7,10 @@ import type {
     ProductListingUserStateData,
 } from "@/client";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+import {
+    mapProductListingSource,
+    type ProductListingSource,
+} from "@/data/internal/product/ProductListingSource.ts";
 import { formatPrice } from "@/data/internal/price/Price.ts";
 
 export type ProductDetail = {
@@ -14,7 +18,7 @@ export type ProductDetail = {
     readonly productListingTitleSlugId?: string;
     readonly title?: string;
     readonly description?: string;
-    readonly source: ProductListingDetailsData["source"];
+    readonly source: ProductListingSource;
     readonly sourceListingId: string;
     readonly price?: ProductListingDetailsData["pricing"]["display"]["price"];
     readonly displayPrice?: string;
@@ -71,7 +75,7 @@ export function mapToDetailProduct(
         // The API's localized title is preferred, with its source title as fallback.
         title: item.productTitle?.text ?? item.title?.text ?? undefined,
         description: item.productDescription?.text ?? item.description?.text ?? undefined,
-        source: item.source,
+        source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
         price: item.pricing.display.price,
         displayPrice: getDisplayPrice(item, locale),

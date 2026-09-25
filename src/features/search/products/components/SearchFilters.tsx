@@ -5,9 +5,6 @@ import { Button } from "@/components/ui/button.tsx";
 import { Form } from "@/components/ui/form.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { MerchantFilters } from "@/features/search/products/components/filters/MerchantFilters.tsx";
-import { SellerFilters } from "@/features/search/products/components/filters/SellerFilters.tsx";
-import { ShopTypeFilter } from "@/features/search/common/components/filters/ShopTypeFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import { useSearchQueryContext } from "@/features/search/common/hooks/useSearchQueryContext.tsx";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
@@ -77,11 +74,6 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                         creationDate: data.creationDate,
                         updateDate: data.updateDate,
                         auctionDate: data.auctionDate,
-                        merchant: data.merchant,
-                        excludeMerchant: data.excludeMerchant,
-                        seller: data.seller,
-                        excludeSeller: data.excludeSeller,
-                        shopType: data.shopType,
                     }),
                 }),
             });
@@ -130,11 +122,6 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                 <div className="flex min-w-0 w-full flex-col gap-4 overflow-visible">
                     <ProductStateFilter />
                     <PriceSpanFilter />
-                    <ShopTypeFilter
-                        onReset={() => form.setValue("shopType", FILTER_DEFAULTS.shopType)}
-                    />
-                    <MerchantFilters />
-                    <SellerFilters />
                     <AuctionDateSpanFilter />
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />

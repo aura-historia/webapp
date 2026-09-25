@@ -1,7 +1,6 @@
 import { format } from "date-fns";
 
 import type { ProductState } from "@/data/internal/product/ProductState.ts";
-import type { ShopType } from "@/data/internal/shop/ShopType.ts";
 import { FILTER_DEFAULTS } from "@/features/search/products/lib/filterDefaults.ts";
 
 export type SearchFilterData = {
@@ -23,11 +22,6 @@ export type SearchFilterData = {
         from?: Date;
         to?: Date;
     };
-    merchant?: string[];
-    excludeMerchant?: string[];
-    seller?: string[];
-    excludeSeller?: string[];
-    shopType?: ShopType[];
 };
 
 export type SearchUrlParams = {
@@ -41,11 +35,6 @@ export type SearchUrlParams = {
     updateDateTo?: string;
     auctionDateFrom?: string;
     auctionDateTo?: string;
-    merchant?: string[];
-    excludeMerchant?: string[];
-    seller?: string[];
-    excludeSeller?: string[];
-    shopType?: ShopType[];
 };
 
 function formatToDateString(date?: Date): string | undefined {
@@ -79,10 +68,5 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
         updateDateTo: updateDate.to,
         auctionDateFrom: auctionDate.from,
         auctionDateTo: auctionDate.to,
-        merchant: data.merchant?.length ? data.merchant : undefined,
-        excludeMerchant: data.excludeMerchant?.length ? data.excludeMerchant : undefined,
-        seller: data.seller?.length ? data.seller : undefined,
-        excludeSeller: data.excludeSeller?.length ? data.excludeSeller : undefined,
-        shopType: data.shopType?.length ? data.shopType : undefined,
     };
 }

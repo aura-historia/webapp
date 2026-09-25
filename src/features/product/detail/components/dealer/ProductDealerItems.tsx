@@ -8,12 +8,12 @@ import { useTranslation } from "react-i18next";
 import { ArrowUpRight, ServerCrash } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
-import type { ProductListingDetailsData } from "@/client";
+import type { ProductListingSource } from "@/data/internal/product/ProductListingSource.ts";
 
 const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"];
 
 interface ProductDealerItemsProps {
-    readonly source: ProductListingDetailsData["source"];
+    readonly source: ProductListingSource;
     readonly excludeProductListingId: string;
 }
 

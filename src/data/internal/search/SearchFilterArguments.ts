@@ -1,6 +1,6 @@
 import type { ProductState } from "@/data/internal/product/ProductState.ts";
-import type { SortMode } from "@/data/internal/search/SortMode.ts";
 import type { ShopType } from "@/data/internal/shop/ShopType.ts";
+import type { SortMode } from "@/data/internal/search/SortMode.ts";
 
 export type SearchFilterArguments = {
     q: string;
