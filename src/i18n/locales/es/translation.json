@@ -322,7 +322,7 @@
       "searchTypeLabel": "Tipo de búsqueda",
       "searchType": {
         "products": "Artículos",
-        "shops": "Tiendas"
+        "shops": "Fuentes"
       }
     },
     "validation": {
@@ -399,7 +399,8 @@
       },
       "name": "Nombre"
     },
-    "shopResultsFor": "Resultados de tiendas para:",
+    "shopResultsFor": "Resultados para",
+    "publicSourcesBrowseTitle": "Fuentes públicas de catálogo",
     "totalShopResults_one": "{{count}} tienda",
     "totalShopResults_other": "{{count}} tiendas"
   },
@@ -586,9 +587,8 @@
     "p1": "Las antigüedades ya están online, pero las piezas relevantes siguen repartidas entre webs de anticuarios, calendarios de subastas, marketplaces y especialistas locales. Aura Historia reúne esas fuentes en una plataforma serena y cuidada.",
     "p2": "Para coleccionistas, interioristas y profesionales, significa menos puntos ciegos: más contexto y más posibilidades de ver una pieza especial antes de que vuelva a desaparecer.",
     "highlight1": {
-      "title": "Más de {{count}} fuentes indexadas",
-      "titleFallback": "Cientos de fuentes indexadas",
-      "description": "Anticuarios especializados, casas de subastas, marketplaces y tiendas se reúnen en una misma vista."
+      "title": "Fuentes públicas de catálogo",
+      "description": "Explore perfiles públicos de fuentes y los anuncios asociados actualmente."
     },
     "highlight2": {
       "title": "Lectura del mercado más allá de los nombres obvios",
@@ -1353,12 +1353,14 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Resumen de la tienda",
+      "overviewTitle": "Fuente de anuncios",
       "indexedItems": "Artículos indexados",
-      "imageAlt": "Logotipo de {{shop}}",
-      "noImage": "No hay logotipo disponible",
+      "imageAlt": "Imagen de {{shop}}",
+      "operator": "Gestionado por {{operator}}",
+      "visitWebsite": "Visitar el sitio web",
+      "noImage": "No hay imagen disponible",
       "addedOn": "Añadido el {{date}}",
-      "metaDescription": "Explore antigüedades y objetos de colección de {{shop}} en Aura Historia."
+      "metaDescription": "Explore la fuente pública de anuncios {{shop}} en Aura Historia."
     },
     "location": {
       "eyebrow": "Ubicación",
@@ -1378,7 +1380,7 @@
       "allLoaded_other": "Ha visto todos los {{count}} artículos {{shopTypePossessive}}.",
       "noResults": {
         "title": "No se encontraron artículos",
-        "description": "Actualmente no hay artículos {{shopTypePossessive}}."
+        "description": "Actualmente no hay anuncios asociados con {{source}}."
       },
       "error": {
         "title": "No se pudieron cargar los artículos",
@@ -1386,7 +1388,7 @@
       }
     },
     "card": {
-      "viewShop": "Ver tienda"
+      "viewSource": "Ver fuente"
     },
     "typeFallback": "vendedor",
     "typePossessiveFallback": "de este vendedor",

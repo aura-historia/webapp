@@ -7,40 +7,26 @@ import { useTranslation } from "react-i18next";
 import { SearchX, ServerCrash } from "lucide-react";
 import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
-import { SHOP_TYPE_TRANSLATION_CONFIG, type ShopType } from "@/data/internal/shop/ShopType.ts";
+import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
 
 const SKELETON_COUNT = 8;
 const SKELETON_IDS = Array.from({ length: SKELETON_COUNT }, (_, i) => `skeleton-${i}`);
 
 type ShopProductGridProps = {
-    readonly shopName: string;
-    readonly shopType?: ShopType;
-    readonly onTotalChange?: (total: number | undefined) => void;
+    readonly source: PublicListingSource;
 };
 
-export function ShopProductGrid({ shopName, shopType, onTotalChange }: ShopProductGridProps) {
+export function ShopProductGrid({ source }: ShopProductGridProps) {
     const { ref, inView } = useInView();
     const { t } = useTranslation();
-    const shopTypeName = shopType
-        ? t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].translationKey)
-        : t("shop.typeFallback");
-    const shopTypePossessive = shopType
-        ? t(SHOP_TYPE_TRANSLATION_CONFIG[shopType].possessiveTranslationKey)
-        : t("shop.typePossessiveFallback");
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useShopProducts(shopName);
-
-    const totalProducts = data?.pages[0]?.total ?? 0;
+        useShopProducts(source.listingSourceId);
 
     useEffect(() => {
         if (inView && hasNextPage && !isFetchingNextPage) {
             fetchNextPage();
         }
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-    useEffect(() => {
-        onTotalChange?.(totalProducts);
-    }, [totalProducts, onTotalChange]);
 
     if (isPending) {
         return (
@@ -64,12 +50,16 @@ export function ShopProductGrid({ shopName, shopType, onTotalChange }: ShopProdu
 
     const allProducts = data?.pages.flatMap((page) => page.products) ?? [];
 
+    if (allProducts.length === 0 && hasNextPage) {
+        return <div ref={ref} className="h-1" />;
+    }
+
     if (allProducts.length === 0) {
         return (
             <EmptyState
                 icon={SearchX}
                 title={t("shop.products.noResults.title")}
-                description={t("shop.products.noResults.description", { shopType: shopTypeName })}
+                description={t("shop.products.noResults.description", { source: source.name })}
             />
         );
     }
@@ -81,14 +71,8 @@ export function ShopProductGrid({ shopName, shopType, onTotalChange }: ShopProdu
                     <ProductGridItem key={product.productId} product={product} />
                 ))}
             </div>
-            {(isFetchingNextPage || !hasNextPage) && (
-                <ListLoaderRow
-                    isFetchingNextPage={isFetchingNextPage}
-                    totalCount={totalProducts}
-                    loadingMoreKey="shop.products.loadingMore"
-                    allLoadedKey="shop.products.allLoaded"
-                    allLoadedValues={{ shopTypePossessive }}
-                />
+            {isFetchingNextPage && (
+                <ListLoaderRow isFetchingNextPage loadingMoreKey="shop.products.loadingMore" />
             )}
             {hasNextPage && !isFetchingNextPage && <div ref={ref} className="h-1" />}
         </div>
