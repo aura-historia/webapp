@@ -322,7 +322,7 @@
       "searchTypeLabel": "Search type",
       "searchType": {
         "products": "Items",
-        "shops": "Shops"
+        "shops": "Sources"
       }
     },
     "validation": {
@@ -399,7 +399,8 @@
       },
       "name": "Name"
     },
-    "shopResultsFor": "Shop search results for:",
+    "shopResultsFor": "Results for",
+    "publicSourcesBrowseTitle": "Merchants",
     "totalShopResults_one": "{{count}} shop",
     "totalShopResults_other": "{{count}} shops"
   },
@@ -586,9 +587,8 @@
     "p1": "Antiques have moved online, but inventory remains split across dealer websites, auction calendars, marketplaces, and local shops. Aura Historia brings that scattered supply into one calm, curated platform view.",
     "p2": "For collectors, decorators, and the trade, that means fewer blind spots: more sources, more context, and a better chance of finding the object others have not noticed yet.",
     "highlight1": {
-      "title": "{{count}}+ Indexed Sources",
-      "titleFallback": "Hundreds of Indexed Sources",
-      "description": "Specialist dealers, auction houses, marketplaces, and shops are brought into one searchable view."
+      "title": "Merchants",
+      "description": "Explore merchant profiles and the listings currently associated with them."
     },
     "highlight2": {
       "title": "Market Watch Beyond the Obvious",
@@ -1385,12 +1385,14 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Shop Overview",
+      "overviewTitle": "Merchant",
       "indexedItems": "Indexed Items",
-      "imageAlt": "Logo of {{shop}}",
-      "noImage": "No logo available",
+      "imageAlt": "Image for {{shop}}",
+      "operator": "Operated by {{operator}}",
+      "visitWebsite": "Visit website",
+      "noImage": "No image available",
       "addedOn": "Added on {{date}}",
-      "metaDescription": "Explore antiques and collectibles from {{shop}} on Aura Historia."
+      "metaDescription": "Explore {{shop}} on Aura Historia."
     },
     "location": {
       "eyebrow": "Location",
@@ -1410,7 +1412,7 @@
       "allLoaded_other": "You have seen all {{count}} items {{shopTypePossessive}}.",
       "noResults": {
         "title": "No items found",
-        "description": "There are currently no items from this {{shopType}}."
+        "description": "There are currently no listings associated with {{source}}."
       },
       "error": {
         "title": "Could not load items",
@@ -1418,7 +1420,7 @@
       }
     },
     "card": {
-      "viewShop": "View shop"
+      "viewSource": "View merchant profile"
     },
     "typeFallback": "dealer",
     "typePossessiveFallback": "from this dealer",

@@ -3,17 +3,14 @@ import watteauGersaintImage from "@/features/landing/assets/watteau-gersaint.web
 export const DISCOVER_HIGHLIGHTS = [
     {
         titleKey: "discover.highlight1.title",
-        titleFallbackKey: "discover.highlight1.titleFallback",
         descKey: "discover.highlight1.description",
     },
     {
         titleKey: "discover.highlight2.title",
-        titleFallbackKey: undefined,
         descKey: "discover.highlight2.description",
     },
     {
         titleKey: "discover.highlight3.title",
-        titleFallbackKey: undefined,
         descKey: "discover.highlight3.description",
     },
 ] as const;

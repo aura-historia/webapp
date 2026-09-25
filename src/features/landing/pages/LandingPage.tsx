@@ -1,5 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import { simpleSearchShopsOptions } from "@/client/@tanstack/react-query.gen.ts";
 import ArtworkStorySection from "@/features/landing/components/artwork-story-section/ArtworkStorySection.tsx";
 import DiscoverSection from "@/features/landing/components/discover-section/DiscoverSection.tsx";
 import FAQSection from "@/features/landing/components/faq-section/FAQSection.tsx";
@@ -12,8 +10,6 @@ import PricingSection from "@/features/billing/components/PricingSection.tsx";
 import NewsletterSection from "@/features/newsletter/components/NewsletterSection.tsx";
 
 export default function LandingPage() {
-    const { data: shopData } = useQuery(simpleSearchShopsOptions());
-
     return (
         <div className="flex flex-col min-h-screen">
             <div id={LANDING_PAGE_FRAGMENTS.hero} data-app-shell-hero className="scroll-mt-24">
@@ -22,7 +18,7 @@ export default function LandingPage() {
             <ArtworkStorySection />
             <RecentlyAddedClientSection />
             <div id={LANDING_PAGE_FRAGMENTS.discover} className="scroll-mt-24">
-                <DiscoverSection shopCount={shopData?.total ?? undefined} />
+                <DiscoverSection />
             </div>
             <div id={LANDING_PAGE_FRAGMENTS.features} className="scroll-mt-24">
                 <FeaturesSection />

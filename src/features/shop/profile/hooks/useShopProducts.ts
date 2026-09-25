@@ -1,4 +1,4 @@
-import { simpleSearchProducts } from "@/client";
+import { simpleSearchProductListings, type ProductListingSearchCursorData } from "@/client";
 import { mapPersonalizedProductListingSummary } from "@/data/internal/product/ProductListing.ts";
 import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import {
@@ -16,21 +16,26 @@ const PAGE_SIZE = 20;
 
 export type ShopProductsPage = {
     products: ProductListing[];
-    total: number | undefined;
-    searchAfter: Array<unknown> | undefined;
+    searchAfter: ProductListingSearchCursorData | undefined;
 };
 
 export function useShopProducts(
-    shopName: string,
+    listingSourceId: string,
 ): UseInfiniteQueryResult<InfiniteData<ShopProductsPage>> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
 
     return useInfiniteQuery({
-        queryKey: ["shopProducts", shopName, i18n.language],
+        queryKey: [
+            "sourceProductListings",
+            listingSourceId,
+            i18n.language,
+            preferences.currency,
+            PAGE_SIZE,
+        ],
         queryFn: async ({ pageParam }) => {
-            const result = await simpleSearchProducts({
+            const result = await simpleSearchProductListings({
                 query: {
                     language: parseLanguage(i18n.language),
                     currency: preferences.currency,
@@ -38,7 +43,7 @@ export function useShopProducts(
                     size: PAGE_SIZE,
                     sort: "updated",
                     order: "desc",
-                    shopName: [shopName],
+                    listingSourceId: [listingSourceId],
                 },
             });
 
@@ -51,11 +56,10 @@ export function useShopProducts(
                     result.data?.items?.map((product) =>
                         mapPersonalizedProductListingSummary(product, i18n.language),
                     ) ?? [],
-                total: result.data?.total ?? undefined,
                 searchAfter: result.data?.searchAfter ?? undefined,
             };
         },
-        initialPageParam: undefined as Array<unknown> | undefined,
+        initialPageParam: undefined as ProductListingSearchCursorData | undefined,
         getNextPageParam: (lastPage) => lastPage.searchAfter ?? undefined,
     });
 }

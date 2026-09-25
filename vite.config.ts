@@ -17,6 +17,9 @@ const STATIC_PAGE_PATHS = [
     "/terms-and-conditions",
 ] as const;
 
+// Dynamic source search and profile routes are intentionally excluded; see the public-source
+// discovery guidance before adding a static sitemap or prerender entry for them.
+
 const PRERENDER_PAGES = SUPPORTED_LANGUAGES.flatMap(({ code }) =>
     STATIC_PAGE_PATHS.map((path) => ({ path: `/${code}${path}` })),
 );

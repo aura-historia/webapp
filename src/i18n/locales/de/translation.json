@@ -322,7 +322,7 @@
       "searchTypeLabel": "Suchtyp",
       "searchType": {
         "products": "Artikel",
-        "shops": "Shops"
+        "shops": "Quellen"
       }
     },
     "validation": {
@@ -399,7 +399,8 @@
       },
       "name": "Name"
     },
-    "shopResultsFor": "Shop-Suchergebnisse für:",
+    "shopResultsFor": "Ergebnisse für",
+    "publicSourcesBrowseTitle": "Händler",
     "totalShopResults_one": "{{count}} Shop",
     "totalShopResults_other": "{{count}} Shops"
   },
@@ -586,9 +587,8 @@
     "p1": "Antiquitäten findet man heutzutage zunehmend online. Doch relevante Stücke liegen verstreut: auf Händlerseiten, in Auktionskatalogen, auf Marktplätzen und bei lokalen Spezialisten. Aura Historia führt diese Quellen in einer ruhigen, kuratierten Plattform zusammen.",
     "p2": "Für Sammler, Interior-Profis und den Handel heißt das: weniger blinde Flecken, mehr Kontext und bessere Chancen, ein besonderes Objekt zu sehen, bevor es anderswo verschwindet.",
     "highlight1": {
-      "title": "Über {{count}} indexierte Quellen",
-      "titleFallback": "Hunderte indexierte Quellen",
-      "description": "Spezialisierte Händler, Auktionshäuser, Marktplätze und Shops werden in einer gemeinsamen Ansicht erschlossen."
+      "title": "Händler",
+      "description": "Entdecken Sie Händlerprofile und die aktuell zugeordneten Angebote."
     },
     "highlight2": {
       "title": "Marktüberblick abseits der großen Namen",
@@ -1385,12 +1385,14 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Shop-Übersicht",
+      "overviewTitle": "Händlerprofil",
       "indexedItems": "Erfasste Objekte",
-      "imageAlt": "Logo von {{shop}}",
-      "noImage": "Kein Logo verfügbar",
+      "imageAlt": "Bild für {{shop}}",
+      "operator": "Betreiber: {{operator}}",
+      "visitWebsite": "Website besuchen",
+      "noImage": "Kein Bild verfügbar",
       "addedOn": "Hinzugefügt am {{date}}",
-      "metaDescription": "Entdecken Sie Antiquitäten und Sammlerstücke von {{shop}} auf Aura Historia."
+      "metaDescription": "Entdecken Sie {{shop}} auf Aura Historia."
     },
     "location": {
       "eyebrow": "Standort",
@@ -1410,7 +1412,7 @@
       "allLoaded_other": "Sie haben alle {{count}} Artikel {{shopTypePossessive}} gesehen.",
       "noResults": {
         "title": "Keine Artikel gefunden",
-        "description": "Von diesem {{shopType}} sind derzeit keine Artikel vorhanden."
+        "description": "Derzeit sind keine Angebote von {{source}} gelistet."
       },
       "error": {
         "title": "Artikel konnten nicht geladen werden",
@@ -1418,7 +1420,7 @@
       }
     },
     "card": {
-      "viewShop": "Shop ansehen"
+      "viewSource": "Händlerprofil ansehen"
     },
     "typeFallback": "Händler",
     "typePossessiveFallback": "dieses Händlers",
