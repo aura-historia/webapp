@@ -400,7 +400,7 @@
       "name": "Nom"
     },
     "shopResultsFor": "Résultats pour",
-    "publicSourcesBrowseTitle": "Sources de catalogue publiques",
+    "publicSourcesBrowseTitle": "Marchands",
     "totalShopResults_one": "{{count}} boutique",
     "totalShopResults_other": "{{count}} boutiques"
   },
@@ -587,8 +587,8 @@
     "p1": "Les antiquités sont bien en ligne, mais les pièces pertinentes restent dispersées entre sites de marchands, calendriers de ventes, places de marché et spécialistes locaux. Aura Historia réunit ces sources dans une plateforme calme et soignée.",
     "p2": "Pour les collectionneurs, décorateurs et professionnels, cela veut dire moins d’angles morts : plus de contexte et de meilleures chances de voir une pièce remarquable avant qu’elle ne disparaisse à nouveau.",
     "highlight1": {
-      "title": "Sources de catalogue publiques",
-      "description": "Découvrez les profils publics des sources et les annonces qui leur sont actuellement associées."
+      "title": "Marchands",
+      "description": "Découvrez les profils des marchands et les annonces qui leur sont actuellement associées."
     },
     "highlight2": {
       "title": "Veille du marché au-delà des grands noms",
@@ -1353,14 +1353,14 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Source de catalogue",
+      "overviewTitle": "Marchand",
       "indexedItems": "Articles indexés",
       "imageAlt": "Image de {{shop}}",
       "operator": "Géré par {{operator}}",
       "visitWebsite": "Visiter le site web",
       "noImage": "Aucune image disponible",
       "addedOn": "Ajouté le {{date}}",
-      "metaDescription": "Découvrez la source de catalogue publique {{shop}} sur Aura Historia."
+      "metaDescription": "Découvrez {{shop}} sur Aura Historia."
     },
     "location": {
       "eyebrow": "Localisation",
@@ -1388,7 +1388,7 @@
       }
     },
     "card": {
-      "viewSource": "Voir la source"
+      "viewSource": "Voir le profil du marchand"
     },
     "typeFallback": "marchand",
     "typePossessiveFallback": "de ce marchand",

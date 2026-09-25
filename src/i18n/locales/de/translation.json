@@ -400,7 +400,7 @@
       "name": "Name"
     },
     "shopResultsFor": "Ergebnisse für",
-    "publicSourcesBrowseTitle": "Öffentliche Quellenprofile",
+    "publicSourcesBrowseTitle": "Händler",
     "totalShopResults_one": "{{count}} Shop",
     "totalShopResults_other": "{{count}} Shops"
   },
@@ -587,8 +587,8 @@
     "p1": "Antiquitäten findet man heutzutage zunehmend online. Doch relevante Stücke liegen verstreut: auf Händlerseiten, in Auktionskatalogen, auf Marktplätzen und bei lokalen Spezialisten. Aura Historia führt diese Quellen in einer ruhigen, kuratierten Plattform zusammen.",
     "p2": "Für Sammler, Interior-Profis und den Handel heißt das: weniger blinde Flecken, mehr Kontext und bessere Chancen, ein besonderes Objekt zu sehen, bevor es anderswo verschwindet.",
     "highlight1": {
-      "title": "Öffentliche Quellenprofile",
-      "description": "Entdecken Sie öffentliche Quellenprofile und die aktuell zugeordneten Angebote."
+      "title": "Händler",
+      "description": "Entdecken Sie Händlerprofile und die aktuell zugeordneten Angebote."
     },
     "highlight2": {
       "title": "Marktüberblick abseits der großen Namen",
@@ -1385,14 +1385,14 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Quellenprofil",
+      "overviewTitle": "Händlerprofil",
       "indexedItems": "Erfasste Objekte",
       "imageAlt": "Bild für {{shop}}",
       "operator": "Betreiber: {{operator}}",
       "visitWebsite": "Website besuchen",
       "noImage": "Kein Bild verfügbar",
       "addedOn": "Hinzugefügt am {{date}}",
-      "metaDescription": "Entdecken Sie die öffentliche Angebotsquelle {{shop}} auf Aura Historia."
+      "metaDescription": "Entdecken Sie {{shop}} auf Aura Historia."
     },
     "location": {
       "eyebrow": "Standort",
@@ -1420,7 +1420,7 @@
       }
     },
     "card": {
-      "viewSource": "Quelle ansehen"
+      "viewSource": "Händlerprofil ansehen"
     },
     "typeFallback": "Händler",
     "typePossessiveFallback": "dieses Händlers",

@@ -400,7 +400,7 @@
       "name": "Nombre"
     },
     "shopResultsFor": "Resultados para",
-    "publicSourcesBrowseTitle": "Fuentes públicas de catálogo",
+    "publicSourcesBrowseTitle": "Comerciantes",
     "totalShopResults_one": "{{count}} tienda",
     "totalShopResults_other": "{{count}} tiendas"
   },
@@ -587,8 +587,8 @@
     "p1": "Las antigüedades ya están online, pero las piezas relevantes siguen repartidas entre webs de anticuarios, calendarios de subastas, marketplaces y especialistas locales. Aura Historia reúne esas fuentes en una plataforma serena y cuidada.",
     "p2": "Para coleccionistas, interioristas y profesionales, significa menos puntos ciegos: más contexto y más posibilidades de ver una pieza especial antes de que vuelva a desaparecer.",
     "highlight1": {
-      "title": "Fuentes públicas de catálogo",
-      "description": "Explore perfiles públicos de fuentes y los anuncios asociados actualmente."
+      "title": "Comerciantes",
+      "description": "Explore perfiles de comerciantes y los anuncios que tienen asociados actualmente."
     },
     "highlight2": {
       "title": "Lectura del mercado más allá de los nombres obvios",
@@ -1353,14 +1353,14 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Fuente de anuncios",
+      "overviewTitle": "Comerciante",
       "indexedItems": "Artículos indexados",
       "imageAlt": "Imagen de {{shop}}",
       "operator": "Gestionado por {{operator}}",
       "visitWebsite": "Visitar el sitio web",
       "noImage": "No hay imagen disponible",
       "addedOn": "Añadido el {{date}}",
-      "metaDescription": "Explore la fuente pública de anuncios {{shop}} en Aura Historia."
+      "metaDescription": "Explore {{shop}} en Aura Historia."
     },
     "location": {
       "eyebrow": "Ubicación",
@@ -1388,7 +1388,7 @@
       }
     },
     "card": {
-      "viewSource": "Ver fuente"
+      "viewSource": "Ver perfil del comerciante"
     },
     "typeFallback": "vendedor",
     "typePossessiveFallback": "de este vendedor",

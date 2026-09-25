@@ -400,7 +400,7 @@
       "name": "Name"
     },
     "shopResultsFor": "Results for",
-    "publicSourcesBrowseTitle": "Public listing sources",
+    "publicSourcesBrowseTitle": "Merchants",
     "totalShopResults_one": "{{count}} shop",
     "totalShopResults_other": "{{count}} shops"
   },
@@ -587,8 +587,8 @@
     "p1": "Antiques have moved online, but inventory remains split across dealer websites, auction calendars, marketplaces, and local shops. Aura Historia brings that scattered supply into one calm, curated platform view.",
     "p2": "For collectors, decorators, and the trade, that means fewer blind spots: more sources, more context, and a better chance of finding the object others have not noticed yet.",
     "highlight1": {
-      "title": "Public listing sources",
-      "description": "Explore public source profiles and the listings currently associated with them."
+      "title": "Merchants",
+      "description": "Explore merchant profiles and the listings currently associated with them."
     },
     "highlight2": {
       "title": "Market Watch Beyond the Obvious",
@@ -1385,14 +1385,14 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Listing source",
+      "overviewTitle": "Merchant",
       "indexedItems": "Indexed Items",
       "imageAlt": "Image for {{shop}}",
       "operator": "Operated by {{operator}}",
       "visitWebsite": "Visit website",
       "noImage": "No image available",
       "addedOn": "Added on {{date}}",
-      "metaDescription": "Explore the public listing source {{shop}} on Aura Historia."
+      "metaDescription": "Explore {{shop}} on Aura Historia."
     },
     "location": {
       "eyebrow": "Location",
@@ -1420,7 +1420,7 @@
       }
     },
     "card": {
-      "viewSource": "View source"
+      "viewSource": "View merchant profile"
     },
     "typeFallback": "dealer",
     "typePossessiveFallback": "from this dealer",

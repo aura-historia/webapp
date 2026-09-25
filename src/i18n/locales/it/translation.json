@@ -400,7 +400,7 @@
       "name": "Nome"
     },
     "shopResultsFor": "Risultati per",
-    "publicSourcesBrowseTitle": "Fonti pubbliche di catalogo",
+    "publicSourcesBrowseTitle": "Commercianti",
     "totalShopResults_one": "{{count}} negozio",
     "totalShopResults_other": "{{count}} negozi"
   },
@@ -587,8 +587,8 @@
     "p1": "L’antiquariato è ormai online, ma i pezzi rilevanti restano dispersi tra siti di commercianti, calendari d’asta, marketplace e specialisti locali. Aura Historia riunisce queste fonti in una piattaforma calma e curata.",
     "p2": "Per collezionisti, interior designer e professionisti significa meno punti ciechi: più contesto e migliori possibilità di vedere un pezzo speciale prima che scompaia di nuovo.",
     "highlight1": {
-      "title": "Fonti pubbliche di catalogo",
-      "description": "Scopri i profili pubblici delle fonti e gli annunci attualmente associati."
+      "title": "Commercianti",
+      "description": "Scopri i profili dei commercianti e gli annunci attualmente associati."
     },
     "highlight2": {
       "title": "Osservare il mercato oltre i nomi più noti",
@@ -1353,14 +1353,14 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Fonte di catalogo",
+      "overviewTitle": "Commerciante",
       "indexedItems": "Articoli indicizzati",
       "imageAlt": "Immagine di {{shop}}",
       "operator": "Gestito da {{operator}}",
       "visitWebsite": "Visita il sito web",
       "noImage": "Nessuna immagine disponibile",
       "addedOn": "Aggiunto il {{date}}",
-      "metaDescription": "Scopri la fonte pubblica di catalogo {{shop}} su Aura Historia."
+      "metaDescription": "Scopri {{shop}} su Aura Historia."
     },
     "location": {
       "eyebrow": "Posizione",
@@ -1388,7 +1388,7 @@
       }
     },
     "card": {
-      "viewSource": "Vedi fonte"
+      "viewSource": "Vedi il profilo del commerciante"
     },
     "typeFallback": "venditore",
     "typePossessiveFallback": "di questo venditore",
