@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { patchNotification } from "@/client";
+import { updateNotificationSeen } from "@/client";
 import { toast } from "sonner";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
@@ -9,9 +9,9 @@ export function useMarkNotificationSeen() {
     const { getErrorMessage } = useApiError();
 
     return useMutation({
-        mutationFn: async (eventId: string) => {
-            const result = await patchNotification({
-                path: { eventId },
+        mutationFn: async (notificationId: string) => {
+            const result = await updateNotificationSeen({
+                path: { notificationId },
                 body: { seen: true },
             });
 
@@ -24,9 +24,9 @@ export function useMarkNotificationSeen() {
         onSuccess: async () => {
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ["search"] }),
-                queryClient.invalidateQueries({ queryKey: ["getSimilarProducts"] }),
-                queryClient.invalidateQueries({ queryKey: ["getProduct"] }),
-                queryClient.invalidateQueries({ queryKey: ["getProductBySlug"] }),
+                queryClient.invalidateQueries({ queryKey: ["similarProductListings"] }),
+                queryClient.invalidateQueries({ queryKey: ["getProductListing"] }),
+                queryClient.invalidateQueries({ queryKey: ["getProductListingByTitleSlug"] }),
                 queryClient.invalidateQueries({ queryKey: ["watchlist"] }),
                 queryClient.invalidateQueries({ queryKey: ["getNotifications"] }),
             ]);

@@ -2,85 +2,48 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addWatchlistProduct, deleteWatchlistProduct } from "@/client";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import {
-    getProductBySlugQueryKey,
-    getProductQueryKey,
-} from "@/client/@tanstack/react-query.gen.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
-import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { useParams } from "@tanstack/react-router";
 
 export type WatchlistMutationType = "addToWatchlist" | "deleteFromWatchlist";
 
-export function useWatchlistMutation(shopId: string, shopsProductId: string) {
+export function useWatchlistMutation(productListingId: string) {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
-
-    const { i18n } = useTranslation();
-    const routeParams = useParams({ strict: false, shouldThrow: false });
-
     const { t } = useTranslation();
 
     return useMutation({
         mutationFn: async (mutationType: WatchlistMutationType) => {
             const result =
                 mutationType === "deleteFromWatchlist"
-                    ? await deleteWatchlistProduct({
-                          path: { shopId: shopId, shopsProductId: shopsProductId },
-                      })
-                    : await addWatchlistProduct({
-                          body: { shopId: shopId, shopsProductId: shopsProductId },
-                          query: { language: parseLanguage(i18n.language) },
-                      });
+                    ? await deleteWatchlistProduct({ path: { productListingId } })
+                    : await addWatchlistProduct({ body: { productListingId } });
 
             if (result.error) {
-                const status = result.response?.status;
-
-                if (status === 401) {
+                if (result.response?.status === 401) {
                     toast.info(t("watchlist.loginRequired"));
                     return;
-                } else if (status === 422) {
+                }
+                if (result.response?.status === 422) {
                     toast.warning(getErrorMessage(mapToInternalApiError(result.error)));
                     return;
                 }
-
                 throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
 
             return result.data;
         },
-        onError: (e) => {
-            console.error("Error mutating watchlist:", e);
-            toast.error(e.message || t("watchlist.loadingError.description"));
+        onError: (error) => {
+            console.error("Error mutating watchlist:", error);
+            toast.error(error.message || t("watchlist.loadingError.description"));
         },
         onSuccess: async () => {
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ["watchlist"] }),
                 queryClient.invalidateQueries({ queryKey: ["search"] }),
-                queryClient.invalidateQueries({
-                    queryKey: getProductQueryKey({
-                        path: { shopId: shopId, shopsProductId: shopsProductId },
-                        query: {
-                            language: parseLanguage(i18n.language),
-                        },
-                    }),
-                }),
+                queryClient.invalidateQueries({ queryKey: ["getProductListingByTitleSlug"] }),
+                queryClient.invalidateQueries({ queryKey: ["getProductListing"] }),
             ]);
-
-            if (routeParams?.shopSlugId !== undefined && routeParams?.productSlugId !== undefined) {
-                await queryClient.invalidateQueries({
-                    queryKey: getProductBySlugQueryKey({
-                        path: {
-                            shopSlugId: routeParams.shopSlugId,
-                            productSlugId: routeParams.productSlugId,
-                        },
-                        query: {
-                            language: parseLanguage(i18n.language),
-                        },
-                    }),
-                });
-            }
         },
     });
 }

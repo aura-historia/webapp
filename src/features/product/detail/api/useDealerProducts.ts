@@ -1,4 +1,4 @@
-import { simpleSearchProducts } from "@/client";
+import { simpleSearchProductListings } from "@/client";
 import {
     mapPersonalizedGetProductSummaryDataToOverviewProduct,
     type OverviewProduct,
@@ -13,8 +13,8 @@ import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferen
 const DEALER_PRODUCTS_SIZE = 8;
 
 export function useDealerProducts(
-    shopName: string,
-    excludeProductId: string,
+    listingSourceId: string,
+    excludeProductListingId: string,
 ): UseQueryResult<OverviewProduct[]> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
@@ -23,21 +23,21 @@ export function useDealerProducts(
     return useQuery({
         queryKey: [
             "dealerProducts",
-            shopName,
-            excludeProductId,
+            listingSourceId,
+            excludeProductListingId,
             i18n.language,
             preferences.currency,
         ],
         queryFn: async () => {
-            const result = await simpleSearchProducts({
+            const result = await simpleSearchProductListings({
                 query: {
                     language: parseLanguage(i18n.language),
                     currency: preferences.currency,
                     size: DEALER_PRODUCTS_SIZE,
                     sort: "updated",
                     order: "desc",
-                    shopName: [shopName],
-                    excludeProductId: [excludeProductId],
+                    listingSourceId: [listingSourceId],
+                    excludeProductId: [excludeProductListingId],
                 },
             });
 

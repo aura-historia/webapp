@@ -405,6 +405,8 @@
   },
   "product": {
     "unknownPrice": "Preis unbekannt",
+    "untitled": "Unbenanntes Objekt",
+    "saleObservationPrice": "Beobachteter Verkaufspreis",
     "details": "Details",
     "toMerchant": "Zur Seite des Händlers",
     "soldOn": "auf",
@@ -506,7 +508,8 @@
     "auction": {
       "start": "ab {{date}}",
       "end": "bis {{date}}",
-      "range": "{{start}} – {{end}}"
+      "range": "{{start}} – {{end}}",
+      "lotNumber": "Los {{lotNumber}}"
     },
     "priceEstimate": {
       "tooltip": "Preisschätzung vom {{shopType}}",
@@ -543,7 +546,8 @@
       "reserved": "Reserviert",
       "outOfStock": "Nicht auf Lager",
       "soldOut": "Ausverkauft",
-      "unknown": "Nicht angegeben"
+      "unknown": "Nicht angegeben",
+      "withdrawn": "Zurückgezogen"
     }
   },
   "priceBadge": {

@@ -8,8 +8,7 @@ import type { ComponentType, SVGProps } from "react";
 
 type MatchFeedbackButtonsProps = {
     readonly filterId: string;
-    readonly shopId: string;
-    readonly shopsProductId: string;
+    readonly productListingId: string;
     readonly currentFeedback?: boolean;
 };
 
@@ -49,12 +48,11 @@ function FeedbackButton({
 
 export function MatchFeedbackButtons({
     filterId,
-    shopId,
-    shopsProductId,
+    productListingId,
     currentFeedback,
 }: MatchFeedbackButtonsProps) {
     const { t } = useTranslation();
-    const { mutate, isPending } = useSearchFilterMatchFeedback(filterId, shopId, shopsProductId);
+    const { mutate, isPending } = useSearchFilterMatchFeedback(filterId, productListingId);
 
     return (
         <div className="flex items-center gap-1">

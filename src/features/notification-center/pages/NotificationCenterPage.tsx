@@ -49,9 +49,9 @@ export function NotificationCenterPage() {
     }
 
     const allNotifications = data?.pages.flatMap((p) => p.items) ?? [];
-    const total = data?.pages[0]?.total ?? 0;
+    const total = allNotifications.length;
     const hasUnseen = allNotifications.some((n) => !n.seen);
-    const allLoaded = allNotifications.length >= total && total > 0;
+    const allLoaded = !hasNextPage && total > 0;
     const showLoaderRow = isFetchingNextPage || allLoaded;
 
     if (allNotifications.length === 0) {

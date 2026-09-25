@@ -405,6 +405,8 @@
   },
   "product": {
     "unknownPrice": "Precio desconocido",
+    "untitled": "Lote sin título",
+    "saleObservationPrice": "Precio de venta observado",
     "details": "Detalles",
     "toMerchant": "Ir al vendedor",
     "soldOn": "en",
@@ -525,7 +527,8 @@
     "auction": {
       "start": "desde {{date}}",
       "end": "hasta {{date}}",
-      "range": "{{start}} – {{end}}"
+      "range": "{{start}} – {{end}}",
+      "lotNumber": "Lote {{lotNumber}}"
     },
     "searchFilter": {
       "matchedBadge": "Coincidencia",
@@ -543,7 +546,8 @@
       "reserved": "Reservado",
       "outOfStock": "Agotado temporalmente",
       "soldOut": "Vendido",
-      "unknown": "Sin datos"
+      "unknown": "Sin datos",
+      "withdrawn": "Retirado"
     }
   },
   "priceBadge": {

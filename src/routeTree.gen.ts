@@ -26,6 +26,7 @@ import { Route as LngCompareBarnebysRouteImport } from './routes/$lng.compare.ba
 import { Route as LngPartnerProgramIndexRouteImport } from './routes/$lng.partner-program.index'
 import { Route as LngPartnerProgramApplyRouteImport } from './routes/$lng.partner-program.apply'
 import { Route as LngPartnerProgramCustomIntegrationRouteImport } from './routes/$lng.partner-program.custom-integration'
+import { Route as LngProductsProductListingTitleSlugIdRouteImport } from './routes/$lng.products.$productListingTitleSlugId'
 import { Route as LngSearchShopsRouteImport } from './routes/$lng.search_.shops'
 import { Route as LngAuthAdminIndexRouteImport } from './routes/$lng._auth.admin.index'
 import { Route as LngAuthAdminOauthClientsRouteImport } from './routes/$lng._auth.admin.oauth-clients'
@@ -42,12 +43,10 @@ import { Route as LngAuthPartnersIndexRouteImport } from './routes/$lng._auth.pa
 import { Route as LngAuthPartnersAccessTokensRouteImport } from './routes/$lng._auth.partners.access-tokens'
 import { Route as LngAuthPartnersApplicationsRouteImport } from './routes/$lng._auth.partners.applications'
 import { Route as LngAuthPartnersShopsRouteImport } from './routes/$lng._auth.partners.shops'
-import { Route as LngProductShopIdShopsProductIdRouteImport } from './routes/$lng.product.$shopId.$shopsProductId'
 import { Route as LngShopsShopSlugIdIndexRouteImport } from './routes/$lng.shops.$shopSlugId.index'
 import { Route as ApiOauthAuthorizeApproveRouteImport } from './routes/api.oauth.authorize.approve'
 import { Route as LngAuthMeBillingManageRouteImport } from './routes/$lng._auth.me.billing.manage'
 import { Route as LngAuthMeSearchFilterFilterIdRouteImport } from './routes/$lng._auth.me.search-filter.$filterId'
-import { Route as LngShopsShopSlugIdProductsProductSlugIdRouteImport } from './routes/$lng.shops.$shopSlugId.products.$productSlugId'
 import { Route as ApiOauthClientRedirectBrokerWoocommerceRouteImport } from './routes/api.oauth.client_.redirect-broker.woocommerce'
 
 const LngRoute = LngRouteImport.update({
@@ -135,6 +134,12 @@ const LngPartnerProgramCustomIntegrationRoute =
     path: '/custom-integration',
     getParentRoute: () => LngPartnerProgramRoute,
   } as any)
+const LngProductsProductListingTitleSlugIdRoute =
+  LngProductsProductListingTitleSlugIdRouteImport.update({
+    id: '/products/$productListingTitleSlugId',
+    path: '/products/$productListingTitleSlugId',
+    getParentRoute: () => LngRoute,
+  } as any)
 const LngSearchShopsRoute = LngSearchShopsRouteImport.update({
   id: '/search_/shops',
   path: '/search/shops',
@@ -219,12 +224,6 @@ const LngAuthPartnersShopsRoute = LngAuthPartnersShopsRouteImport.update({
   path: '/shops',
   getParentRoute: () => LngAuthPartnersRoute,
 } as any)
-const LngProductShopIdShopsProductIdRoute =
-  LngProductShopIdShopsProductIdRouteImport.update({
-    id: '/product/$shopId/$shopsProductId',
-    path: '/product/$shopId/$shopsProductId',
-    getParentRoute: () => LngRoute,
-  } as any)
 const LngShopsShopSlugIdIndexRoute = LngShopsShopSlugIdIndexRouteImport.update({
   id: '/shops/$shopSlugId/',
   path: '/shops/$shopSlugId/',
@@ -246,12 +245,6 @@ const LngAuthMeSearchFilterFilterIdRoute =
     id: '/me/search-filter/$filterId',
     path: '/me/search-filter/$filterId',
     getParentRoute: () => LngAuthRoute,
-  } as any)
-const LngShopsShopSlugIdProductsProductSlugIdRoute =
-  LngShopsShopSlugIdProductsProductSlugIdRouteImport.update({
-    id: '/shops/$shopSlugId/products/$productSlugId',
-    path: '/shops/$shopSlugId/products/$productSlugId',
-    getParentRoute: () => LngRoute,
   } as any)
 const ApiOauthClientRedirectBrokerWoocommerceRoute =
   ApiOauthClientRedirectBrokerWoocommerceRouteImport.update({
@@ -276,6 +269,7 @@ export interface FileRoutesByFullPath {
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
+  '/$lng/products/$productListingTitleSlugId': typeof LngProductsProductListingTitleSlugIdRoute
   '/$lng/search/shops': typeof LngSearchShopsRoute
   '/$lng/partner-program/': typeof LngPartnerProgramIndexRoute
   '/$lng/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
@@ -291,14 +285,12 @@ export interface FileRoutesByFullPath {
   '/$lng/partners/access-tokens': typeof LngAuthPartnersAccessTokensRoute
   '/$lng/partners/applications': typeof LngAuthPartnersApplicationsRoute
   '/$lng/partners/shops': typeof LngAuthPartnersShopsRoute
-  '/$lng/product/$shopId/$shopsProductId': typeof LngProductShopIdShopsProductIdRoute
   '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
   '/$lng/admin/': typeof LngAuthAdminIndexRoute
   '/$lng/partners/': typeof LngAuthPartnersIndexRoute
   '/$lng/shops/$shopSlugId/': typeof LngShopsShopSlugIdIndexRoute
   '/$lng/me/billing/manage': typeof LngAuthMeBillingManageRoute
   '/$lng/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
-  '/$lng/shops/$shopSlugId/products/$productSlugId': typeof LngShopsShopSlugIdProductsProductSlugIdRoute
   '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 export interface FileRoutesByTo {
@@ -313,6 +305,7 @@ export interface FileRoutesByTo {
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
+  '/$lng/products/$productListingTitleSlugId': typeof LngProductsProductListingTitleSlugIdRoute
   '/$lng/search/shops': typeof LngSearchShopsRoute
   '/$lng/partner-program': typeof LngPartnerProgramIndexRoute
   '/$lng/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
@@ -328,14 +321,12 @@ export interface FileRoutesByTo {
   '/$lng/partners/access-tokens': typeof LngAuthPartnersAccessTokensRoute
   '/$lng/partners/applications': typeof LngAuthPartnersApplicationsRoute
   '/$lng/partners/shops': typeof LngAuthPartnersShopsRoute
-  '/$lng/product/$shopId/$shopsProductId': typeof LngProductShopIdShopsProductIdRoute
   '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
   '/$lng/admin': typeof LngAuthAdminIndexRoute
   '/$lng/partners': typeof LngAuthPartnersIndexRoute
   '/$lng/shops/$shopSlugId': typeof LngShopsShopSlugIdIndexRoute
   '/$lng/me/billing/manage': typeof LngAuthMeBillingManageRoute
   '/$lng/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
-  '/$lng/shops/$shopSlugId/products/$productSlugId': typeof LngShopsShopSlugIdProductsProductSlugIdRoute
   '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 export interface FileRoutesById {
@@ -356,6 +347,7 @@ export interface FileRoutesById {
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
+  '/$lng/products/$productListingTitleSlugId': typeof LngProductsProductListingTitleSlugIdRoute
   '/$lng/search_/shops': typeof LngSearchShopsRoute
   '/$lng/partner-program/': typeof LngPartnerProgramIndexRoute
   '/$lng/_auth/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
@@ -371,14 +363,12 @@ export interface FileRoutesById {
   '/$lng/_auth/partners/access-tokens': typeof LngAuthPartnersAccessTokensRoute
   '/$lng/_auth/partners/applications': typeof LngAuthPartnersApplicationsRoute
   '/$lng/_auth/partners/shops': typeof LngAuthPartnersShopsRoute
-  '/$lng/product/$shopId/$shopsProductId': typeof LngProductShopIdShopsProductIdRoute
   '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
   '/$lng/_auth/admin/': typeof LngAuthAdminIndexRoute
   '/$lng/_auth/partners/': typeof LngAuthPartnersIndexRoute
   '/$lng/shops/$shopSlugId/': typeof LngShopsShopSlugIdIndexRoute
   '/$lng/_auth/me/billing/manage': typeof LngAuthMeBillingManageRoute
   '/$lng/_auth/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
-  '/$lng/shops/$shopSlugId/products/$productSlugId': typeof LngShopsShopSlugIdProductsProductSlugIdRoute
   '/api/oauth/client_/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 export interface FileRouteTypes {
@@ -399,6 +389,7 @@ export interface FileRouteTypes {
     | '/$lng/compare/barnebys'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
+    | '/$lng/products/$productListingTitleSlugId'
     | '/$lng/search/shops'
     | '/$lng/partner-program/'
     | '/$lng/admin/oauth-clients'
@@ -414,14 +405,12 @@ export interface FileRouteTypes {
     | '/$lng/partners/access-tokens'
     | '/$lng/partners/applications'
     | '/$lng/partners/shops'
-    | '/$lng/product/$shopId/$shopsProductId'
     | '/api/oauth/authorize/approve'
     | '/$lng/admin/'
     | '/$lng/partners/'
     | '/$lng/shops/$shopSlugId/'
     | '/$lng/me/billing/manage'
     | '/$lng/me/search-filter/$filterId'
-    | '/$lng/shops/$shopSlugId/products/$productSlugId'
     | '/api/oauth/client/redirect-broker/woocommerce'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -436,6 +425,7 @@ export interface FileRouteTypes {
     | '/$lng/compare/barnebys'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
+    | '/$lng/products/$productListingTitleSlugId'
     | '/$lng/search/shops'
     | '/$lng/partner-program'
     | '/$lng/admin/oauth-clients'
@@ -451,14 +441,12 @@ export interface FileRouteTypes {
     | '/$lng/partners/access-tokens'
     | '/$lng/partners/applications'
     | '/$lng/partners/shops'
-    | '/$lng/product/$shopId/$shopsProductId'
     | '/api/oauth/authorize/approve'
     | '/$lng/admin'
     | '/$lng/partners'
     | '/$lng/shops/$shopSlugId'
     | '/$lng/me/billing/manage'
     | '/$lng/me/search-filter/$filterId'
-    | '/$lng/shops/$shopSlugId/products/$productSlugId'
     | '/api/oauth/client/redirect-broker/woocommerce'
   id:
     | '__root__'
@@ -478,6 +466,7 @@ export interface FileRouteTypes {
     | '/$lng/compare/barnebys'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
+    | '/$lng/products/$productListingTitleSlugId'
     | '/$lng/search_/shops'
     | '/$lng/partner-program/'
     | '/$lng/_auth/admin/oauth-clients'
@@ -493,14 +482,12 @@ export interface FileRouteTypes {
     | '/$lng/_auth/partners/access-tokens'
     | '/$lng/_auth/partners/applications'
     | '/$lng/_auth/partners/shops'
-    | '/$lng/product/$shopId/$shopsProductId'
     | '/api/oauth/authorize/approve'
     | '/$lng/_auth/admin/'
     | '/$lng/_auth/partners/'
     | '/$lng/shops/$shopSlugId/'
     | '/$lng/_auth/me/billing/manage'
     | '/$lng/_auth/me/search-filter/$filterId'
-    | '/$lng/shops/$shopSlugId/products/$productSlugId'
     | '/api/oauth/client_/redirect-broker/woocommerce'
   fileRoutesById: FileRoutesById
 }
@@ -631,6 +618,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LngPartnerProgramCustomIntegrationRouteImport
       parentRoute: typeof LngPartnerProgramRoute
     }
+    '/$lng/products/$productListingTitleSlugId': {
+      id: '/$lng/products/$productListingTitleSlugId'
+      path: '/products/$productListingTitleSlugId'
+      fullPath: '/$lng/products/$productListingTitleSlugId'
+      preLoaderRoute: typeof LngProductsProductListingTitleSlugIdRouteImport
+      parentRoute: typeof LngRoute
+    }
     '/$lng/search_/shops': {
       id: '/$lng/search_/shops'
       path: '/search/shops'
@@ -743,13 +737,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LngAuthPartnersShopsRouteImport
       parentRoute: typeof LngAuthPartnersRoute
     }
-    '/$lng/product/$shopId/$shopsProductId': {
-      id: '/$lng/product/$shopId/$shopsProductId'
-      path: '/product/$shopId/$shopsProductId'
-      fullPath: '/$lng/product/$shopId/$shopsProductId'
-      preLoaderRoute: typeof LngProductShopIdShopsProductIdRouteImport
-      parentRoute: typeof LngRoute
-    }
     '/$lng/shops/$shopSlugId/': {
       id: '/$lng/shops/$shopSlugId/'
       path: '/shops/$shopSlugId'
@@ -777,13 +764,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/$lng/me/search-filter/$filterId'
       preLoaderRoute: typeof LngAuthMeSearchFilterFilterIdRouteImport
       parentRoute: typeof LngAuthRoute
-    }
-    '/$lng/shops/$shopSlugId/products/$productSlugId': {
-      id: '/$lng/shops/$shopSlugId/products/$productSlugId'
-      path: '/shops/$shopSlugId/products/$productSlugId'
-      fullPath: '/$lng/shops/$shopSlugId/products/$productSlugId'
-      preLoaderRoute: typeof LngShopsShopSlugIdProductsProductSlugIdRouteImport
-      parentRoute: typeof LngRoute
     }
     '/api/oauth/client_/redirect-broker/woocommerce': {
       id: '/api/oauth/client_/redirect-broker/woocommerce'
@@ -890,10 +870,9 @@ interface LngRouteChildren {
   LngTermsAndConditionsRoute: typeof LngTermsAndConditionsRoute
   LngIndexRoute: typeof LngIndexRoute
   LngCompareBarnebysRoute: typeof LngCompareBarnebysRoute
+  LngProductsProductListingTitleSlugIdRoute: typeof LngProductsProductListingTitleSlugIdRoute
   LngSearchShopsRoute: typeof LngSearchShopsRoute
-  LngProductShopIdShopsProductIdRoute: typeof LngProductShopIdShopsProductIdRoute
   LngShopsShopSlugIdIndexRoute: typeof LngShopsShopSlugIdIndexRoute
-  LngShopsShopSlugIdProductsProductSlugIdRoute: typeof LngShopsShopSlugIdProductsProductSlugIdRoute
 }
 
 const LngRouteChildren: LngRouteChildren = {
@@ -908,11 +887,10 @@ const LngRouteChildren: LngRouteChildren = {
   LngTermsAndConditionsRoute: LngTermsAndConditionsRoute,
   LngIndexRoute: LngIndexRoute,
   LngCompareBarnebysRoute: LngCompareBarnebysRoute,
+  LngProductsProductListingTitleSlugIdRoute:
+    LngProductsProductListingTitleSlugIdRoute,
   LngSearchShopsRoute: LngSearchShopsRoute,
-  LngProductShopIdShopsProductIdRoute: LngProductShopIdShopsProductIdRoute,
   LngShopsShopSlugIdIndexRoute: LngShopsShopSlugIdIndexRoute,
-  LngShopsShopSlugIdProductsProductSlugIdRoute:
-    LngShopsShopSlugIdProductsProductSlugIdRoute,
 }
 
 const LngRouteWithChildren = LngRoute._addFileChildren(LngRouteChildren)

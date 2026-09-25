@@ -16,7 +16,6 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { type ProductImage, isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 import { ProhibitedImagePlaceholder } from "@/features/product/catalog/components/media/ProhibitedImagePlaceholder.tsx";
-import type { UserProductData } from "@/data/internal/product/UserProductData.ts";
 
 interface ThumbnailButtonProps {
     readonly image: ProductImage;
@@ -72,14 +71,18 @@ function imageKey(image: ProductImage, index: number): string {
 interface ProductImageGalleryProps {
     readonly images: readonly ProductImage[];
     readonly productId: string;
-    readonly userData?: UserProductData;
+    readonly showSensitiveContent?: boolean;
 }
 
-export function ProductImageGallery({ images, productId, userData }: ProductImageGalleryProps) {
+export function ProductImageGallery({
+    images,
+    productId,
+    showSensitiveContent = false,
+}: ProductImageGalleryProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
-    const isRestrictedConsentGiven = userData?.restrictedContentData.consentGiven ?? false;
+    const isRestrictedConsentGiven = showSensitiveContent;
 
     /** Only images with actual URLs can be shown in the lightbox */
     const lightboxSlides = useMemo(

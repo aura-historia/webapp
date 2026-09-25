@@ -8,15 +8,14 @@ type Props = {
 };
 
 export function SearchFilterMatchCard({ product, filterId }: Props) {
-    const searchFilterData = product.userData?.searchFilterData;
+    const searchFilterData = product.userState?.searchFilter;
 
     return (
         <div className="relative">
             <div className="absolute right-3 top-3 z-20 rounded-sm bg-surface-container-lowest/85 backdrop-blur-sm">
                 <MatchFeedbackButtons
                     filterId={filterId}
-                    shopId={product.shopId}
-                    shopsProductId={product.shopsProductId}
+                    productListingId={product.productListingId}
                     currentFeedback={searchFilterData?.matchFeedback}
                 />
             </div>

@@ -1,66 +1,68 @@
 import type {
-    GetNotificationData,
+    ListingAvailabilityData,
     NotificationCollectionData,
+    NotificationData,
     NotificationPayloadData,
-    PartnerApplicationNotificationPayloadData,
-    PartnerApplicationPayloadData,
-    PriceChangeWatchlistPayloadData,
+    PartnershipApplicationNotificationPayloadData,
+    ProductListingImageData,
+    ProductListingPriceData,
     SearchFilterNotificationPayloadData,
-    StateChangeWatchlistPayloadData,
     WatchlistNotificationPayloadData,
-    WatchlistPayloadData,
 } from "@/client";
-import { parsePrice, type Price } from "@/data/internal/price/Price.ts";
-import {
-    mapToInternalProductImage,
-    type ProductImage,
-} from "@/data/internal/product/ProductImageData.ts";
-import { parseProductState, type ProductState } from "@/data/internal/product/ProductState.ts";
+import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
 
 export type NotificationWatchlistPriceChangePayload = {
     readonly type: "PRICE_CHANGE";
-    readonly oldPrice?: Price;
-    readonly newPrice?: Price;
+    readonly oldPrice: ProductListingPriceData | null;
+    readonly newPrice: ProductListingPriceData | null;
 };
 
-export type NotificationWatchlistStateChangePayload = {
-    readonly type: "STATE_CHANGE";
-    readonly oldState: ProductState;
-    readonly newState: ProductState;
+export type NotificationWatchlistAvailabilityChangePayload = {
+    readonly type: "AVAILABILITY_CHANGE";
+    readonly oldAvailability: ListingAvailabilityData | null;
+    readonly newAvailability: ListingAvailabilityData | null;
 };
 
-export type NotificationWatchlistPayload =
+export type NotificationWatchlistChangePayload =
     | NotificationWatchlistPriceChangePayload
-    | NotificationWatchlistStateChangePayload;
+    | NotificationWatchlistAvailabilityChangePayload;
 
 export type NotificationWatchlist = {
     readonly type: "WATCHLIST";
-    readonly productId: string;
-    readonly shopId: string;
-    readonly shopsProductId: string;
-    readonly shopSlugId: string;
-    readonly productSlugId: string;
-    readonly shopName: string;
-    readonly productTitle: string;
+    readonly productListingId: string;
+    readonly productListingTitleSlugId?: string;
+    readonly listingSourceId: string;
+    readonly listingSourceSlugId: string;
+    readonly listingSourceName: string;
+    readonly sourceListingId: string;
+    readonly productTitle?: string;
     readonly image?: ProductImage;
-    readonly watchlistPayload: NotificationWatchlistPayload;
+    readonly change: NotificationWatchlistChangePayload;
 };
 
 export type NotificationSearchFilter = {
     readonly type: "SEARCH_FILTER";
-    readonly productId: string;
-    readonly shopId: string;
-    readonly shopsProductId: string;
-    readonly shopSlugId: string;
-    readonly productSlugId: string;
-    readonly shopName: string;
-    readonly productTitle: string;
+    readonly productListingId: string;
+    readonly productListingTitleSlugId?: string;
+    readonly listingSourceId: string;
+    readonly listingSourceSlugId: string;
+    readonly listingSourceName: string;
+    readonly sourceListingId: string;
+    readonly productTitle?: string;
     readonly image?: ProductImage;
-    readonly searchFilterId: string;
-    readonly searchFilterName: string;
+    readonly userSearchFilterId: string;
+    readonly userSearchFilterName: string;
 };
 
 export type NotificationProductPayload = NotificationWatchlist | NotificationSearchFilter;
+
+export type NotificationPartnerApplication = {
+    readonly type: "PARTNER_APPLICATION";
+    readonly listingSourceName: string;
+    readonly image?: string;
+    readonly partnershipApplicationId: string;
+    readonly decision: "APPROVED" | "REJECTED";
+};
 
 export type NotificationPayload = NotificationProductPayload | NotificationPartnerApplication;
 
@@ -70,33 +72,10 @@ export function isProductNotification(
     return payload.type === "WATCHLIST" || payload.type === "SEARCH_FILTER";
 }
 
-export type NotificationPartnerApplicationApprovedPayload = {
-    readonly type: "APPROVED";
-    readonly partnerApplicationId: string;
-};
-
-export type NotificationPartnerApplicationRejectedPayload = {
-    readonly type: "REJECTED";
-    readonly partnerApplicationId: string;
-};
-
-export type NotificationPartnerApplicationPayload =
-    | NotificationPartnerApplicationApprovedPayload
-    | NotificationPartnerApplicationRejectedPayload;
-
-export type NotificationPartnerApplication = {
-    readonly type: "PARTNER_APPLICATION";
-    readonly shopName: string;
-    readonly image?: string;
-    readonly partnerApplicationPayload: NotificationPartnerApplicationPayload;
-};
-
 export type Notification = {
-    readonly originEventId: string;
     readonly notificationId: string;
     readonly payload: NotificationPayload;
     readonly seen: boolean;
-    readonly external: boolean;
     readonly created: Date;
     readonly updated: Date;
 };
@@ -104,116 +83,96 @@ export type Notification = {
 export type NotificationCollection = {
     readonly items: readonly Notification[];
     readonly size: number;
-    readonly total?: number;
     readonly searchAfter?: string;
 };
 
-function mapToWatchlistPriceChangePayload(
-    apiData: PriceChangeWatchlistPayloadData,
-): NotificationWatchlistPriceChangePayload {
+function mapImage(data: ProductListingImageData | null): ProductImage | undefined {
+    if (!data?.url) return undefined;
+    const url = URL.parse(data.url);
+    return url ? { url, prohibitedContentType: "NONE" } : undefined;
+}
+
+function mapProductFields(
+    data: WatchlistNotificationPayloadData | SearchFilterNotificationPayloadData,
+) {
     return {
-        type: "PRICE_CHANGE",
-        oldPrice: apiData.oldPrice ? parsePrice(apiData.oldPrice) : undefined,
-        newPrice: apiData.newPrice ? parsePrice(apiData.newPrice) : undefined,
+        productListingId: data.productListingId,
+        productListingTitleSlugId: data.productListingTitleSlugId || undefined,
+        listingSourceId: data.listingSourceId,
+        listingSourceSlugId: data.listingSourceSlugId,
+        listingSourceName: data.listingSourceName,
+        sourceListingId: data.sourceListingId,
+        productTitle: data.title?.text ?? undefined,
+        image: mapImage(data.image),
     };
 }
 
-function mapToWatchlistStateChangePayload(
-    apiData: StateChangeWatchlistPayloadData,
-): NotificationWatchlistStateChangePayload {
-    return {
-        type: "STATE_CHANGE",
-        oldState: parseProductState(apiData.oldState),
-        newState: parseProductState(apiData.newState),
-    };
-}
-
-function mapToWatchlistPayload(apiData: WatchlistPayloadData): NotificationWatchlistPayload {
-    switch (apiData.type) {
-        case "PRICE_CHANGE":
-            return mapToWatchlistPriceChangePayload(apiData);
-        case "STATE_CHANGE":
-            return mapToWatchlistStateChangePayload(apiData);
-    }
-}
-
-function mapToNotificationWatchlist(
-    apiData: WatchlistNotificationPayloadData,
-): NotificationWatchlist {
+function mapWatchlistNotification(data: WatchlistNotificationPayloadData): NotificationWatchlist {
+    const common = mapProductFields(data);
     return {
         type: "WATCHLIST",
-        productId: apiData.productId,
-        shopId: apiData.shopId,
-        shopsProductId: apiData.shopsProductId,
-        shopSlugId: apiData.shopSlugId,
-        productSlugId: apiData.productSlugId,
-        shopName: apiData.shopName,
-        productTitle: apiData.title.text,
-        image: apiData.image ? mapToInternalProductImage(apiData.image) : undefined,
-        watchlistPayload: mapToWatchlistPayload(apiData.watchlistPayload),
+        ...common,
+        change:
+            data.change.type === "PRICE_CHANGE"
+                ? {
+                      type: "PRICE_CHANGE",
+                      oldPrice: data.change.oldPrice,
+                      newPrice: data.change.newPrice,
+                  }
+                : {
+                      type: "AVAILABILITY_CHANGE",
+                      oldAvailability: data.change.oldAvailability,
+                      newAvailability: data.change.newAvailability,
+                  },
     };
 }
 
-function mapToNotificationSearchFilter(
-    apiData: SearchFilterNotificationPayloadData,
+function mapSearchFilterNotification(
+    data: SearchFilterNotificationPayloadData,
 ): NotificationSearchFilter {
     return {
         type: "SEARCH_FILTER",
-        productId: apiData.productId,
-        shopId: apiData.shopId,
-        shopsProductId: apiData.shopsProductId,
-        shopSlugId: apiData.shopSlugId,
-        productSlugId: apiData.productSlugId,
-        shopName: apiData.shopName,
-        productTitle: apiData.title.text,
-        image: apiData.image ? mapToInternalProductImage(apiData.image) : undefined,
-        searchFilterId: apiData.searchFilterPayload.userSearchFilterId,
-        searchFilterName: apiData.searchFilterPayload.userSearchFilterName,
+        ...mapProductFields(data),
+        userSearchFilterId: data.userSearchFilterId,
+        userSearchFilterName: data.userSearchFilterName,
     };
 }
 
-function mapToPartnerApplicationPayload(
-    apiData: PartnerApplicationPayloadData,
-): NotificationPartnerApplicationPayload {
-    switch (apiData.type) {
-        case "APPROVED":
-            return { type: "APPROVED", partnerApplicationId: apiData.partnerApplicationId };
-        case "REJECTED":
-            return { type: "REJECTED", partnerApplicationId: apiData.partnerApplicationId };
-    }
-}
-
-function mapToNotificationPartnerApplication(
-    apiData: PartnerApplicationNotificationPayloadData,
+function mapPartnershipApplicationNotification(
+    data: PartnershipApplicationNotificationPayloadData,
 ): NotificationPartnerApplication {
     return {
         type: "PARTNER_APPLICATION",
-        shopName: apiData.shopName,
-        image: apiData.image ?? undefined,
-        partnerApplicationPayload: mapToPartnerApplicationPayload(
-            apiData.partnerApplicationPayload,
-        ),
+        listingSourceName: data.listingSourceName,
+        image: data.image ?? undefined,
+        partnershipApplicationId: data.partnershipApplicationId,
+        decision: data.decision,
     };
 }
 
-function mapToNotificationPayload(apiData: NotificationPayloadData): NotificationPayload {
-    switch (apiData.type) {
-        case "WATCHLIST":
-            return mapToNotificationWatchlist(apiData);
-        case "SEARCH_FILTER":
-            return mapToNotificationSearchFilter(apiData);
-        case "PARTNER_APPLICATION":
-            return mapToNotificationPartnerApplication(apiData);
+function mapNotificationPayload(
+    kind: NotificationData["kind"],
+    payload: NotificationPayloadData,
+): NotificationPayload {
+    switch (kind) {
+        case "WATCHLIST_PRICE_CHANGED":
+        case "WATCHLIST_AVAILABILITY_CHANGED":
+            return mapWatchlistNotification(payload as WatchlistNotificationPayloadData);
+        case "SEARCH_FILTER_MATCH":
+            return mapSearchFilterNotification(payload as SearchFilterNotificationPayloadData);
+        case "PARTNERSHIP_APPLICATION_APPROVED":
+        case "PARTNERSHIP_APPLICATION_REJECTED":
+            return mapPartnershipApplicationNotification(
+                payload as PartnershipApplicationNotificationPayloadData,
+            );
     }
 }
 
-export function mapToInternalNotification(apiData: GetNotificationData): Notification {
+export function mapToInternalNotification(apiData: NotificationData): Notification {
     return {
-        originEventId: apiData.originEventId,
         notificationId: apiData.notificationId,
-        payload: mapToNotificationPayload(apiData.payload),
+        payload: mapNotificationPayload(apiData.kind, apiData.payload),
         seen: apiData.seen,
-        external: apiData.external,
         created: new Date(apiData.created),
         updated: new Date(apiData.updated),
     };
@@ -225,7 +184,6 @@ export function mapToInternalNotificationCollection(
     return {
         items: apiData.items.map(mapToInternalNotification),
         size: apiData.size,
-        total: apiData.total ?? undefined,
-        searchAfter: apiData.searchAfter ?? undefined,
+        searchAfter: apiData.searchAfter ? JSON.stringify(apiData.searchAfter) : undefined,
     };
 }

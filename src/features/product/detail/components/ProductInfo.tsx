@@ -1,7 +1,4 @@
 import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
-import { StatusBadge } from "@/features/product/catalog/components/badges/StatusBadge.tsx";
-import { ShopTypeBadge } from "@/features/product/catalog/components/badges/ShopTypeBadge.tsx";
-import { AuctionWindowBadge } from "@/features/product/catalog/components/badges/AuctionWindowBadge.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { ArrowUpRight } from "lucide-react";
@@ -12,152 +9,135 @@ import { useTranslation } from "react-i18next";
 import { ProductSharer } from "@/features/product/detail/components/ProductSharer.tsx";
 import { NotificationButton } from "@/features/watchlist/components/NotificationButton.tsx";
 import { WatchlistButton } from "@/features/watchlist/components/WatchlistButton.tsx";
-import { ProductPriceEstimate } from "@/features/product/detail/components/ProductPriceEstimate.tsx";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Link } from "@tanstack/react-router";
+import { ListingStatusBadge } from "@/features/product/catalog/components/badges/ListingStatusBadge.tsx";
+import { PriceValuationBadge } from "@/features/product/catalog/components/badges/PriceValuationBadge.tsx";
 
 export function ProductInfo({ product }: { readonly product: ProductDetail }) {
     const { t } = useTranslation();
-    const isWatching = product.userData?.watchlistData.isWatching ?? false;
-    const isRemoved = product.state === "REMOVED";
+    const isWatching = product.userState?.watchlist.watching ?? false;
+    const notificationsEnabled = product.userState?.watchlist.notifications ?? false;
+    const isWithdrawn = product.lifecycle === "WITHDRAWN";
     const merchantUrl = product.viewUrl?.href ?? product.url?.href;
-
-    const searchFilterData = product.userData?.searchFilterData;
-    const matchedSearchFilterId = searchFilterData?.userSearchFilterId;
+    const searchFilterData = product.userState?.searchFilter;
+    const matchedSearchFilterId = searchFilterData?.matched
+        ? searchFilterData.userSearchFilterId
+        : undefined;
+    const priceLabel =
+        product.price?.type === "ON_REQUEST"
+            ? t("product.priceChart.values.onRequest")
+            : (product.displayPrice ?? t("product.unknownPrice"));
+    const title = product.title ?? t("product.untitled");
+    const showSensitiveContent =
+        product.userState?.contentVisibility.showUnassessedOrSensitiveContent ?? false;
 
     return (
-        <section className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 pb-8">
+        <section className="grid grid-cols-1 gap-8 pb-8 lg:grid-cols-12 lg:gap-12">
             <div className="shrink-0 lg:col-span-7">
                 <ProductImageGallery
                     images={product.images}
-                    productId={product.productId}
-                    userData={product.userData}
+                    productId={product.productListingId}
+                    showSensitiveContent={showSensitiveContent}
                 />
             </div>
             <div className="flex min-w-0 flex-col lg:col-span-5">
                 <div className="flex items-center justify-between gap-4">
                     <div className="flex flex-wrap items-center gap-2">
-                        <StatusBadge status={product.state} />
-                        <ShopTypeBadge shopType={product.shopType} />
-                        {product.auction && <AuctionWindowBadge auction={product.auction} />}
+                        <ListingStatusBadge
+                            availability={product.availability}
+                            lifecycle={product.lifecycle}
+                        />
+                        {product.auction?.name?.text && (
+                            <span className="text-xs uppercase tracking-widest text-muted-foreground">
+                                {product.auction.name.text}
+                            </span>
+                        )}
+                        {product.lot?.lotNumber && (
+                            <span className="text-xs uppercase tracking-widest text-muted-foreground">
+                                {t("product.auction.lotNumber", {
+                                    lotNumber: product.lot.lotNumber,
+                                })}
+                            </span>
+                        )}
                     </div>
                     <div className="ml-auto shrink-0 self-start">
                         <div className="hidden gap-2 md:flex">
-                            <ProductSharer title={product.title} />
-
+                            <ProductSharer title={title} />
                             <NotificationButton
                                 variant="ghost"
                                 size="icon"
-                                shopId={product.shopId}
-                                shopsProductId={product.shopsProductId}
-                                isNotificationEnabled={
-                                    product.userData?.watchlistData.isNotificationEnabled ?? false
-                                }
+                                productListingId={product.productListingId}
+                                isNotificationEnabled={notificationsEnabled}
                                 isVisible={isWatching}
                             />
                         </div>
                         <div className="flex gap-2 md:hidden">
-                            <ProductSharer title={product.title} variant="outline" />
-
+                            <ProductSharer title={title} variant="outline" />
                             <NotificationButton
                                 variant="outline"
                                 size="icon"
-                                shopId={product.shopId}
-                                shopsProductId={product.shopsProductId}
-                                isNotificationEnabled={
-                                    product.userData?.watchlistData.isNotificationEnabled ?? false
-                                }
+                                productListingId={product.productListingId}
+                                isNotificationEnabled={notificationsEnabled}
                                 isVisible={isWatching}
                             />
                         </div>
                     </div>
                 </div>
 
-                <H1 className="mt-8 overflow-hidden leading-[1.2] md:leading-tight font-normal">
-                    {product.title}
+                <H1 className="mt-8 overflow-hidden font-normal leading-[1.2] md:leading-tight">
+                    {title}
                 </H1>
                 <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted-foreground/80">
-                    {product.sellerName === product.shopName ? (
-                        <Link
-                            to="/$lng/shops/$shopSlugId"
-                            params={(current) => ({ ...current, shopSlugId: product.shopSlugId })}
-                            className="transition-colors hover:text-foreground hover:underline"
-                            from="/$lng"
-                        >
-                            {product.shopName}
-                        </Link>
-                    ) : (
-                        <>
-                            {product.sellerName}
-                            <span className="ml-2 text-muted-foreground/80">
-                                {t("product.soldOn")}{" "}
-                                <Link
-                                    to="/$lng/shops/$shopSlugId"
-                                    params={(current) => ({
-                                        ...current,
-                                        shopSlugId: product.shopSlugId,
-                                    })}
-                                    className="transition-colors hover:text-foreground hover:underline"
-                                    from="/$lng"
-                                >
-                                    {product.shopName}
-                                </Link>
-                            </span>
-                        </>
-                    )}
+                    <Link
+                        to="/$lng/shops/$shopSlugId"
+                        params={(current) => ({ ...current, shopSlugId: product.source.slugId })}
+                        className="transition-colors hover:text-foreground hover:underline"
+                        from="/$lng"
+                    >
+                        {product.source.name}
+                    </Link>
                 </p>
 
-                <div className="mt-5 flex flex-wrap items-end gap-3">
-                    <PriceText className="line-clamp-none overflow-visible whitespace-nowrap text-[2.25rem] leading-none font-display font-normal italic text-primary">
-                        {product.price ?? t("product.unknownPrice")}
-                    </PriceText>
-                    {product.priceEstimate && (
-                        <ProductPriceEstimate
-                            priceEstimate={product.priceEstimate}
-                            shopType={product.shopType}
-                        />
-                    )}
-                </div>
-
-                {searchFilterData?.matched &&
-                    !searchFilterData?.hidden &&
-                    matchedSearchFilterId && (
-                        <div className="mt-6 border-l-2 border-tertiary pl-4 flex flex-col gap-2">
-                            <p className="text-xs uppercase tracking-[0.08em] text-muted-foreground">
-                                {t("product.searchFilter.matchedBy")}:{" "}
-                                <Link
-                                    to="/$lng/me/search-filter/$filterId"
-                                    params={(current) => ({
-                                        ...current,
-                                        filterId: matchedSearchFilterId,
-                                    })}
-                                    className="font-semibold text-tertiary transition-colors hover:underline normal-case tracking-normal"
-                                    from="/$lng"
-                                >
-                                    {searchFilterData.userSearchFilterName}
-                                </Link>
+                {searchFilterData?.matched && !searchFilterData.hidden && matchedSearchFilterId && (
+                    <div className="mt-6 border-l-2 border-tertiary pl-4">
+                        <p className="text-xs uppercase tracking-[0.08em] text-muted-foreground">
+                            {t("product.searchFilter.matchedBy")}:{" "}
+                            <Link
+                                to="/$lng/me/search-filter/$filterId"
+                                params={(current) => ({
+                                    ...current,
+                                    filterId: matchedSearchFilterId,
+                                })}
+                                className="font-semibold normal-case tracking-normal text-tertiary transition-colors hover:underline"
+                                from="/$lng"
+                            >
+                                {searchFilterData.userSearchFilterName}
+                            </Link>
+                        </p>
+                        {searchFilterData.matchReason && (
+                            <p className="mt-1 text-sm italic text-on-surface/80">
+                                {searchFilterData.matchReason}
                             </p>
-                            {searchFilterData.matchReason && (
-                                <p className="mt-1 text-sm italic text-on-surface/80">
-                                    {searchFilterData.matchReason}
-                                </p>
-                            )}
-                        </div>
-                    )}
+                        )}
+                    </div>
+                )}
+
+                <div className="mt-5 flex flex-wrap items-end gap-3">
+                    <PriceText className="line-clamp-none overflow-visible whitespace-nowrap text-[2.25rem] font-display font-normal italic leading-none text-primary">
+                        {priceLabel}
+                    </PriceText>
+                    <PriceValuationBadge type={product.priceValuation} />
+                </div>
 
                 <div className="mt-8 flex flex-col gap-3">
                     <Button
                         variant="default"
-                        className="h-14 w-full rounded-none text-xs tracking-[0.12em] uppercase"
-                        disabled={isRemoved}
-                        asChild={!isRemoved}
+                        className="h-14 w-full rounded-none text-xs uppercase tracking-[0.12em]"
+                        disabled={isWithdrawn || !merchantUrl}
+                        asChild={!isWithdrawn && Boolean(merchantUrl)}
                     >
-                        {isRemoved ? (
-                            <>
-                                <ArrowUpRight />
-                                <span>{t("product.toMerchant")}</span>
-                            </>
-                        ) : (
+                        {!isWithdrawn && merchantUrl ? (
                             <a
                                 href={merchantUrl}
                                 target="_blank"
@@ -166,20 +146,24 @@ export function ProductInfo({ product }: { readonly product: ProductDetail }) {
                                 <ArrowUpRight />
                                 <span>{t("product.toMerchant")}</span>
                             </a>
+                        ) : (
+                            <span>
+                                <ArrowUpRight />
+                                <span>{t("product.toMerchant")}</span>
+                            </span>
                         )}
                     </Button>
 
                     <WatchlistButton
                         variant={isWatching ? "default" : "outline"}
-                        className={`h-14 w-full justify-center rounded-none text-xs tracking-[0.12em] uppercase ${
+                        className={`h-14 w-full justify-center rounded-none text-xs uppercase tracking-[0.12em] ${
                             isWatching
                                 ? "bg-secondary text-secondary-foreground hover:bg-secondary/90"
                                 : "text-primary"
                         }`}
-                        shopId={product.shopId}
-                        shopsProductId={product.shopsProductId}
+                        productListingId={product.productListingId}
                         isWatching={isWatching}
-                        label={`${isWatching ? "-" : "+"} ${t(
+                        label={`${isWatching ? "−" : "+"} ${t(
                             isWatching ? "product.watchlist.remove" : "product.watchlist.add",
                         )}`}
                         showIcon={false}

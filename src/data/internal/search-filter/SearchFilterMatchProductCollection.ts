@@ -20,7 +20,7 @@ export function mapToInternalSearchFilterMatchProductCollection(
             mapPersonalizedGetProductDataToOverviewProduct(item, locale),
         ),
         size: data.size,
-        searchAfter: data.searchAfter ?? undefined,
+        searchAfter: data.searchAfter ? JSON.stringify(data.searchAfter) : undefined,
         total: data.total ?? undefined,
     };
 }

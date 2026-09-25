@@ -32,7 +32,7 @@ export function SearchFilterMatches({ filterId }: Props) {
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     const allProducts: OverviewProduct[] = data?.pages.flatMap((page) => [...page.items]) ?? [];
-    const totalProducts = data?.pages[0]?.total ?? 0;
+    const totalProducts = data?.pages[0]?.total ?? allProducts.length;
     const allLoaded = !hasNextPage && allProducts.length > 0;
     const showLoaderRow = isFetchingNextPage || allLoaded;
 
@@ -77,8 +77,8 @@ export function SearchFilterMatches({ filterId }: Props) {
             <>
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                     {allProducts.map((product: OverviewProduct, index) => {
-                        const isHidden = product.userData?.searchFilterData?.hidden === true;
-                        const key = isHidden ? `hidden-${index}` : product.productId;
+                        const isHidden = product.userState?.searchFilter.hidden === true;
+                        const key = isHidden ? `hidden-${index}` : product.productListingId;
 
                         return isHidden ? (
                             <HiddenMatchCard key={key} />

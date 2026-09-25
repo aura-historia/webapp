@@ -1,154 +1,123 @@
 import type {
-    GetProductData,
-    GetProductSummaryData,
-    PersonalizedGetProductData,
-    PersonalizedGetProductSummaryData,
-    ProductUserStateData,
+    ListingAvailabilityData,
+    ListingLifecycleData,
+    PersonalizedProductListingDetailsData,
+    PersonalizedProductListingSummaryData,
+    ProductListingDetailsData,
+    ProductListingImageData,
+    ProductListingPriceData,
+    ProductListingUserStateData,
 } from "@/client";
-import { parseProductState, type ProductState } from "@/data/internal/product/ProductState.ts";
-import {
-    mapToInternalUserProductData,
-    type UserProductData,
-} from "@/data/internal/product/UserProductData.ts";
-import {
-    filterDuplicateImages,
-    mapToInternalProductImage,
-    type ProductImage,
-    sortImagesRestrictedLast,
-} from "@/data/internal/product/ProductImageData.ts";
-import { parseShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
-import {
-    mapGeoAddress,
-    mapStructuredAddress,
-    type GeoAddress,
-    type StructuredAddress,
-} from "@/data/internal/shop/ShopDetail.ts";
-import {
-    type AuctionWindow,
-    mapToInternalAuctionWindow,
-} from "@/data/internal/product/AuctionWindow.ts";
-import {
-    parsePriceEstimate,
-    type PriceEstimate,
-} from "@/data/internal/quality-indicators/PriceEstimate.ts";
+import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
 import { formatPrice } from "@/data/internal/price/Price.ts";
 
+/** Listing fields shared by search cards and the detail presentation. */
 export type OverviewProduct = {
-    readonly productId: string;
-    readonly productSlugId: string;
-    readonly eventId: string;
-    readonly shopId: string;
-    readonly shopSlugId: string;
-    readonly shopsProductId: string;
-    readonly shopName: string;
-    readonly sellerName: string;
-    readonly title: string;
-    readonly price?: string;
-    readonly priceEstimate?: PriceEstimate;
-    readonly state: ProductState;
-    readonly url: URL | null;
-    readonly viewUrl?: URL | null;
+    readonly productListingId: string;
+    readonly productListingTitleSlugId?: string;
+    readonly source: ProductListingDetailsData["source"];
+    readonly sourceListingId: string;
+    readonly title?: string;
+    readonly price?: ProductListingPriceData | null;
+    readonly formattedPrice?: string;
+    readonly priceValuation: "CURRENT" | "SALE_OBSERVATION";
+    readonly availability: ListingAvailabilityData | null;
+    readonly lifecycle: ListingLifecycleData;
+    readonly url?: URL;
+    readonly viewUrl?: URL;
     readonly images: readonly ProductImage[];
-    readonly created: Date;
+    readonly contentPolicy: ProductListingDetailsData["contentPolicy"];
     readonly updated: Date;
-    readonly userData?: UserProductData;
-    readonly shopType?: ShopType;
-    readonly auction?: AuctionWindow;
-    readonly structuredAddress?: StructuredAddress;
-    readonly geoAddress?: GeoAddress;
+    readonly userState?: ProductListingUserStateData | null;
+    readonly auctionId?: string;
 };
 
-function mapProductDataToOverviewProduct(
-    productData: GetProductData,
-    locale: string,
-    userData?: ProductUserStateData | null,
-): OverviewProduct {
-    return {
-        productId: productData.productId,
-        productSlugId: productData.productSlugId,
-        eventId: productData.eventId,
-        shopId: productData.shopId,
-        shopSlugId: productData.shopSlugId,
-        shopsProductId: productData.shopsProductId,
-        shopName: productData.shopName,
-        sellerName: productData.sellerName,
-        shopType: parseShopType(productData.shopType),
-        auction: productData.auction ? mapToInternalAuctionWindow(productData.auction) : undefined,
-        structuredAddress: mapStructuredAddress(productData.structuredAddress),
-        geoAddress: mapGeoAddress(productData.geoAddress),
-        title: productData.title.text,
-        price: productData.price?.offer ? formatPrice(productData.price.offer, locale) : undefined,
-        priceEstimate: parsePriceEstimate(
-            productData.price?.estimate?.min ?? undefined,
-            productData.price?.estimate?.max ?? undefined,
-            locale,
-        ),
-        state: parseProductState(productData.state),
-        url: URL.parse(productData.url),
-        viewUrl: URL.parse(productData.viewUrl),
-        images: sortImagesRestrictedLast(
-            filterDuplicateImages(
-                productData.images == null
-                    ? []
-                    : productData.images
-                          .map(mapToInternalProductImage)
-                          .filter((image) => image !== undefined),
-            ),
-            userData?.prohibitedContent?.consent ?? false,
-        ),
-        created: new Date(productData.created),
-        updated: new Date(productData.updated),
-        userData: userData ? mapToInternalUserProductData(userData) : undefined,
-    };
+function mapImage(
+    image: ProductListingImageData,
+    contentPolicy: ProductListingDetailsData["contentPolicy"],
+): ProductImage {
+    const url = image.url ? (URL.parse(image.url) ?? undefined) : undefined;
+    const prohibitedContentType =
+        contentPolicy?.decision === "REQUIRES_CONSENT"
+            ? contentPolicy.category
+            : contentPolicy?.decision === "ALLOWED"
+              ? "NONE"
+              : "UNKNOWN";
+    return { url, prohibitedContentType };
 }
 
-function mapProductSummaryDataToOverviewProduct(
-    productData: GetProductSummaryData,
-    locale: string,
-    userData?: ProductUserStateData | null,
-): OverviewProduct {
-    return {
-        productId: productData.productId,
-        productSlugId: productData.productSlugId,
-        eventId: productData.eventId,
-        shopId: productData.shopId,
-        shopSlugId: productData.shopSlugId,
-        shopsProductId: productData.shopsProductId,
-        shopName: productData.shopName,
-        sellerName: productData.sellerName,
-        shopType: parseShopType(productData.shopType),
-        auction: productData.auction ? mapToInternalAuctionWindow(productData.auction) : undefined,
-        title: productData.title.text,
-        price: productData.price ? formatPrice(productData.price, locale) : undefined,
-        state: parseProductState(productData.state),
-        url: URL.parse(productData.url),
-        viewUrl: URL.parse(productData.viewUrl),
-        images: sortImagesRestrictedLast(
-            filterDuplicateImages(
-                productData.images == null
-                    ? []
-                    : productData.images
-                          .map(mapToInternalProductImage)
-                          .filter((image) => image !== undefined),
-            ),
-            userData?.prohibitedContent.consent ?? false,
-        ),
-        created: new Date(productData.created),
-        updated: new Date(productData.updated),
-        userData: userData ? mapToInternalUserProductData(userData) : undefined,
-    };
+function mapUrl(value: string): URL | undefined {
+    return URL.parse(value) ?? undefined;
 }
 
-export function mapPersonalizedGetProductDataToOverviewProduct(
-    apiData: PersonalizedGetProductData,
+function mapSummaryFields(
+    item: PersonalizedProductListingSummaryData["item"],
+    userState: ProductListingUserStateData | null | undefined,
     locale: string,
 ): OverviewProduct {
-    return mapProductDataToOverviewProduct(apiData.item, locale, apiData.userState);
+    return {
+        productListingId: item.productListingId,
+        productListingTitleSlugId: item.productListingTitleSlugId,
+        source: item.source,
+        sourceListingId: item.sourceListingId,
+        title: item.title?.text ?? undefined,
+        price: item.displayPrice,
+        priceValuation: item.priceValuation.type,
+        formattedPrice:
+            item.displayPrice?.type === "MONETARY"
+                ? formatPrice(
+                      { amount: item.displayPrice.amount, currency: item.displayPrice.currency },
+                      locale,
+                  )
+                : undefined,
+        availability: item.availability,
+        lifecycle: item.lifecycle,
+        url: mapUrl(item.url),
+        viewUrl: mapUrl(item.viewUrl),
+        images: item.images.map((image) => mapImage(image, item.contentPolicy)),
+        contentPolicy: item.contentPolicy,
+        updated: new Date(item.updated),
+        userState,
+        auctionId: item.auctionId,
+    };
 }
 
 export function mapPersonalizedGetProductSummaryDataToOverviewProduct(
-    apiData: PersonalizedGetProductSummaryData,
+    apiData: PersonalizedProductListingSummaryData,
     locale: string,
 ): OverviewProduct {
-    return mapProductSummaryDataToOverviewProduct(apiData.item, locale, apiData.userState);
+    return mapSummaryFields(apiData.item, apiData.userState, locale);
+}
+
+export function mapPersonalizedGetProductDataToOverviewProduct(
+    apiData: PersonalizedProductListingDetailsData,
+    locale: string,
+): OverviewProduct {
+    const item = apiData.item;
+    const displayPrice = item.pricing.display.price;
+    return {
+        productListingId: item.productListingId,
+        productListingTitleSlugId: item.productListingTitleSlugId,
+        source: item.source,
+        sourceListingId: item.sourceListingId,
+        title: item.productTitle?.text ?? item.title?.text ?? undefined,
+        price: displayPrice,
+        priceValuation: item.pricing.valuation.type,
+        formattedPrice:
+            displayPrice?.type === "MONETARY"
+                ? formatPrice(
+                      { amount: displayPrice.amount, currency: displayPrice.currency },
+                      locale,
+                  )
+                : undefined,
+        availability: item.availability,
+        lifecycle: item.lifecycle,
+        url: mapUrl(item.url),
+        viewUrl: mapUrl(item.viewUrl),
+        images: item.images.map((image) => mapImage(image, item.contentPolicy)),
+        contentPolicy: item.contentPolicy,
+        updated: new Date(item.updated),
+        userState: apiData.userState,
+        auctionId: item.auction?.auctionId ?? undefined,
+    };
 }

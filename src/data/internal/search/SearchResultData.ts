@@ -4,5 +4,5 @@ export type SearchResultData = {
     products: OverviewProduct[];
     size: number | undefined;
     total: number | undefined;
-    searchAfter: Array<unknown> | undefined;
+    searchAfter: string | undefined;
 };

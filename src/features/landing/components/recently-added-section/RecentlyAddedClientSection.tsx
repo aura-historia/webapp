@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { ClientOnly } from "@tanstack/react-router";
-import { simpleSearchProductsOptions } from "@/client/@tanstack/react-query.gen.ts";
+import { simpleSearchProductListingsOptions } from "@/client/@tanstack/react-query.gen.ts";
 import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
 import RecentlyAddedSection from "@/features/landing/components/recently-added-section/RecentlyAddedSection.tsx";
 import { RecentlyAddedSectionSkeleton } from "@/features/landing/components/recently-added-section/RecentlyAddedSectionSkeleton.tsx";
@@ -22,7 +22,7 @@ function RecentlyAddedContent() {
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
     const { data, isPending } = useQuery(
-        simpleSearchProductsOptions({
+        simpleSearchProductListingsOptions({
             query: {
                 sort: "created",
                 order: "desc",

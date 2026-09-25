@@ -1,4 +1,4 @@
-import { simpleSearchProducts, type SimpleSearchProductsData } from "@/client";
+import { simpleSearchProductListings, type SimpleSearchProductListingsData } from "@/client";
 import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
 import {
     type InfiniteData,
@@ -7,14 +7,14 @@ import {
 } from "@tanstack/react-query";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import type { SearchResultData } from "@/data/internal/search/SearchResultData.ts";
-import { mapToBackendState } from "@/data/internal/product/ProductState.ts";
+import type { ListingAvailabilityData } from "@/client";
+import { toMinorCurrencyAmount } from "@/data/internal/price/Price.ts";
 import { mapToBackendSortModeArguments } from "@/data/internal/search/SortMode.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
 import { env } from "@/env.ts";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 
@@ -26,25 +26,62 @@ const EMPTY_RESULT: SearchResultData = { products: [], size: 0, total: 0, search
 function hasEmptyArrayFilter(args: SearchFilterArguments): boolean {
     return args.allowedStates?.length === 0 || args.shopType?.length === 0;
 }
+
+function mapAvailabilityFilters(states: NonNullable<SearchFilterArguments["allowedStates"]>) {
+    const values = new Set<ListingAvailabilityData>();
+    for (const state of states) {
+        switch (state) {
+            case "AVAILABLE":
+                for (const value of [
+                    "AVAILABLE",
+                    "IN_STOCK",
+                    "LIMITED_AVAILABILITY",
+                    "BACK_ORDER",
+                    "MADE_TO_ORDER",
+                    "PRE_ORDER",
+                    "PRE_SALE",
+                ] as const) {
+                    values.add(value);
+                }
+                break;
+            case "RESERVED":
+                values.add("RESERVED");
+                break;
+            case "SOLD":
+                values.add("SOLD_OUT");
+                values.add("OUT_OF_STOCK");
+                values.add("UNAVAILABLE");
+                break;
+        }
+    }
+    return [...values];
+}
 /**
  * Builds filter query parameters from search arguments.
- * Returns a strongly typed Partial of SimpleSearchProductsData's query object,
+ * Returns a strongly typed Partial of SimpleSearchProductListingsData's query object,
  * ensuring all field names and values conform to the API contract.
  */
 function buildFilterQuery(
     searchArgs: SearchFilterArguments,
-): Partial<SimpleSearchProductsData["query"]> {
-    const filters: Partial<SimpleSearchProductsData["query"]> = {};
+    currency: string,
+): Partial<NonNullable<SimpleSearchProductListingsData["query"]>> {
+    const filters: Partial<NonNullable<SimpleSearchProductListingsData["query"]>> = {};
 
     if (searchArgs.priceFrom != null || searchArgs.priceTo != null) {
         filters.price = {
-            min: searchArgs.priceFrom == null ? undefined : searchArgs.priceFrom * 100,
-            max: searchArgs.priceTo == null ? undefined : searchArgs.priceTo * 100,
+            min:
+                searchArgs.priceFrom == null
+                    ? undefined
+                    : toMinorCurrencyAmount(searchArgs.priceFrom, currency),
+            max:
+                searchArgs.priceTo == null
+                    ? undefined
+                    : toMinorCurrencyAmount(searchArgs.priceTo, currency),
         };
     }
 
     if (searchArgs.allowedStates && searchArgs.allowedStates.length > 0) {
-        filters.state = searchArgs.allowedStates.map((state) => mapToBackendState(state));
+        filters.availability = mapAvailabilityFilters(searchArgs.allowedStates);
     }
 
     if (searchArgs.creationDateFrom != null || searchArgs.creationDateTo != null) {
@@ -62,33 +99,10 @@ function buildFilterQuery(
     }
 
     if (searchArgs.auctionDateFrom != null || searchArgs.auctionDateTo != null) {
-        filters.auctionStart = {
+        filters.lotBiddingOpens = {
             min: searchArgs.auctionDateFrom?.toISOString(),
             max: searchArgs.auctionDateTo?.toISOString(),
         };
-    }
-
-    if (searchArgs.merchant && searchArgs.merchant.length > 0) {
-        filters.shopName = searchArgs.merchant;
-    }
-
-    if (searchArgs.excludeMerchant && searchArgs.excludeMerchant.length > 0) {
-        filters.excludeShopName = searchArgs.excludeMerchant;
-    }
-
-    if (searchArgs.seller && searchArgs.seller.length > 0) {
-        filters.sellerName = searchArgs.seller;
-    }
-
-    if (searchArgs.excludeSeller && searchArgs.excludeSeller.length > 0) {
-        filters.excludeSellerName = searchArgs.excludeSeller;
-    }
-
-    if (searchArgs.shopType && searchArgs.shopType.length > 0) {
-        const mapped = searchArgs.shopType
-            .map((type) => mapToBackendShopType(type))
-            .filter((t) => t !== undefined);
-        if (mapped.length > 0) filters.shopType = mapped;
     }
 
     return filters;
@@ -107,7 +121,7 @@ export function useSearch(
         queryFn: async ({ pageParam }) => {
             if (hasEmptyArrayFilter(searchArgs)) return EMPTY_RESULT;
 
-            const result = await simpleSearchProducts({
+            const result = await simpleSearchProductListings({
                 query: {
                     language: parseLanguage(i18n.language),
                     currency: preferences.currency,
@@ -118,7 +132,7 @@ export function useSearch(
                         field: searchArgs.sortField ?? "RELEVANCE",
                         order: searchArgs.sortOrder ?? "DESC",
                     }),
-                    ...buildFilterQuery(searchArgs),
+                    ...buildFilterQuery(searchArgs, preferences.currency),
                 },
             });
 
@@ -135,11 +149,13 @@ export function useSearch(
                         ),
                     ) ?? [],
                 size: result.data?.size,
-                total: result.data?.total,
-                searchAfter: result.data?.searchAfter,
+                total: result.data?.total ?? undefined,
+                searchAfter: result.data?.searchAfter
+                    ? JSON.stringify(result.data.searchAfter)
+                    : undefined,
             };
         },
-        initialPageParam: undefined as Array<unknown> | undefined,
+        initialPageParam: undefined as string | undefined,
         getNextPageParam: (lastPage) => lastPage.searchAfter ?? undefined,
     });
 }

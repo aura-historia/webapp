@@ -50,32 +50,9 @@ export function WatchlistPage() {
         );
     }
 
-    const allProducts: OverviewProduct[] =
-        data?.pages.flatMap((page) =>
-            page.products.map((product) => {
-                return {
-                    ...product,
-                    userData: {
-                        watchlistData: {
-                            isWatching: true,
-                            isNotificationEnabled:
-                                product.userData?.watchlistData.isNotificationEnabled ?? false,
-                        },
-                        notificationData: {
-                            hasUnseenNotification:
-                                product.userData?.notificationData?.hasUnseenNotification ?? false,
-                            originEventId: product.userData?.notificationData?.originEventId,
-                        },
-                        restrictedContentData: {
-                            consentGiven:
-                                product.userData?.restrictedContentData.consentGiven ?? false,
-                        },
-                    },
-                };
-            }),
-        ) ?? [];
+    const allProducts: OverviewProduct[] = data?.pages.flatMap((page) => page.products) ?? [];
 
-    const totalProducts = data?.pages[0]?.total ?? 0;
+    const totalProducts = allProducts.length;
     const allLoaded = allProducts.length > 0 && !hasNextPage;
     const showLoaderRow = isFetchingNextPage || allLoaded;
 
@@ -104,7 +81,10 @@ export function WatchlistPage() {
                 </div>
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                     {allProducts.map((watchlistProduct: OverviewProduct) => (
-                        <ProductCard key={watchlistProduct.productId} product={watchlistProduct} />
+                        <ProductCard
+                            key={watchlistProduct.productListingId}
+                            product={watchlistProduct}
+                        />
                     ))}
                 </div>
                 {showLoaderRow && (

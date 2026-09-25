@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteAllNotifications } from "@/client";
+import { deleteNotifications } from "@/client";
 import { toast } from "sonner";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
@@ -10,7 +10,7 @@ export function useDeleteAllNotifications() {
 
     return useMutation({
         mutationFn: async () => {
-            const result = await deleteAllNotifications();
+            const result = await deleteNotifications();
 
             if (result.error) {
                 throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
