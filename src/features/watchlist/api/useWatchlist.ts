@@ -1,5 +1,5 @@
 import { getWatchlistProductListings } from "@/client";
-import { mapPersonalizedGetProductDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import { mapPersonalizedProductListingDetails } from "@/data/internal/product/ProductListing.ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
@@ -33,7 +33,7 @@ export function useWatchlist() {
             return {
                 products:
                     result.data?.items?.map((product) =>
-                        mapPersonalizedGetProductDataToOverviewProduct(product, i18n.language),
+                        mapPersonalizedProductListingDetails(product, i18n.language),
                     ) ?? [],
                 size: result.data?.size,
                 total: result.data?.total ?? undefined,

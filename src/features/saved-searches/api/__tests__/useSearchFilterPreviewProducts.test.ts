@@ -15,8 +15,8 @@ vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
     useUserPreferences: () => ({ preferences: { currency: "EUR" } }),
 }));
 
-vi.mock("@/data/internal/product/OverviewProduct.ts", () => ({
-    mapPersonalizedGetProductSummaryDataToOverviewProduct: vi.fn(() => ({ shopId: "shop-1" })),
+vi.mock("@/data/internal/product/ProductListing.ts", () => ({
+    mapPersonalizedProductListingSummary: vi.fn(() => ({ shopId: "shop-1" })),
 }));
 
 import { useSearchFilterPreviewProducts } from "../useSearchFilterPreviewProducts.ts";

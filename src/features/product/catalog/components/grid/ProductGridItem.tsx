@@ -2,7 +2,7 @@ import { ListingStatusBadge } from "@/features/product/catalog/components/badges
 import { PriceValuationBadge } from "@/features/product/catalog/components/badges/PriceValuationBadge.tsx";
 import { UnseenNotificationBadge } from "@/features/notification-center/components/UnseenNotificationBadge.tsx";
 import { Card } from "@/components/ui/card.tsx";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { ImageOff } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { H3 } from "@/components/typography/H3.tsx";
@@ -18,13 +18,13 @@ import { ProductListingLink } from "@/features/product/catalog/components/Produc
 type ProductGridItemVariant = "default" | "recentlyAdded";
 
 type ProductGridItemProps = {
-    readonly product: OverviewProduct;
+    readonly product: ProductListing;
     readonly variant?: ProductGridItemVariant;
 };
 
 function getRecentlyAddedMetaText(
     t: (key: string, options?: Record<string, unknown>) => string,
-    product: OverviewProduct,
+    product: ProductListing,
 ) {
     return t("landingPage.recentlyAdded.foundAt", {
         shopName: product.source.name,

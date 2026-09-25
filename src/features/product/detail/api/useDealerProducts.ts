@@ -1,8 +1,8 @@
 import { simpleSearchProductListings } from "@/client";
 import {
-    mapPersonalizedGetProductSummaryDataToOverviewProduct,
-    type OverviewProduct,
-} from "@/data/internal/product/OverviewProduct.ts";
+    mapPersonalizedProductListingSummary,
+    type ProductListing,
+} from "@/data/internal/product/ProductListing.ts";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
@@ -15,7 +15,7 @@ const DEALER_PRODUCTS_SIZE = 8;
 export function useDealerProducts(
     listingSourceId: string,
     excludeProductListingId: string,
-): UseQueryResult<OverviewProduct[]> {
+): UseQueryResult<ProductListing[]> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
@@ -47,7 +47,7 @@ export function useDealerProducts(
 
             return (
                 result.data?.items?.map((product) =>
-                    mapPersonalizedGetProductSummaryDataToOverviewProduct(product, i18n.language),
+                    mapPersonalizedProductListingSummary(product, i18n.language),
                 ) ?? []
             );
         },

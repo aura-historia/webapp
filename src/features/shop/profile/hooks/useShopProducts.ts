@@ -1,6 +1,6 @@
 import { simpleSearchProducts } from "@/client";
-import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import { mapPersonalizedProductListingSummary } from "@/data/internal/product/ProductListing.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import {
     type InfiniteData,
     useInfiniteQuery,
@@ -15,7 +15,7 @@ import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferen
 const PAGE_SIZE = 20;
 
 export type ShopProductsPage = {
-    products: OverviewProduct[];
+    products: ProductListing[];
     total: number | undefined;
     searchAfter: Array<unknown> | undefined;
 };
@@ -49,10 +49,7 @@ export function useShopProducts(
             return {
                 products:
                     result.data?.items?.map((product) =>
-                        mapPersonalizedGetProductSummaryDataToOverviewProduct(
-                            product,
-                            i18n.language,
-                        ),
+                        mapPersonalizedProductListingSummary(product, i18n.language),
                     ) ?? [],
                 total: result.data?.total ?? undefined,
                 searchAfter: result.data?.searchAfter ?? undefined,

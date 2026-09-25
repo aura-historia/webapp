@@ -5,7 +5,7 @@ import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFra
 import RecentlyAddedSection from "@/features/landing/components/recently-added-section/RecentlyAddedSection.tsx";
 import { RecentlyAddedSectionSkeleton } from "@/features/landing/components/recently-added-section/RecentlyAddedSectionSkeleton.tsx";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import { mapPersonalizedProductListingSummary } from "@/data/internal/product/ProductListing.ts";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { useTranslation } from "react-i18next";
 
@@ -34,7 +34,7 @@ function RecentlyAddedContent() {
     );
 
     const products = (data?.items ?? []).map((product) =>
-        mapPersonalizedGetProductSummaryDataToOverviewProduct(product, i18n.language),
+        mapPersonalizedProductListingSummary(product, i18n.language),
     );
 
     if (isPending) return <RecentlyAddedSectionSkeleton />;

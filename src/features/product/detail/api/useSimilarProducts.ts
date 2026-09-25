@@ -5,9 +5,9 @@ import {
 } from "@/client";
 import { client } from "@/client/client.gen.ts";
 import {
-    mapPersonalizedGetProductSummaryDataToOverviewProduct,
-    type OverviewProduct,
-} from "@/data/internal/product/OverviewProduct.ts";
+    mapPersonalizedProductListingSummary,
+    type ProductListing,
+} from "@/data/internal/product/ProductListing.ts";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 
 type SimilarProductsData = {
-    products: OverviewProduct[];
+    products: ProductListing[];
     isEmbeddingsPending: boolean;
     pendingPollCount: number;
     pollUrl?: string;
@@ -57,10 +57,10 @@ function getSafePollUrl(
     return `${pollUrl.pathname}${pollUrl.search}`;
 }
 
-function mapProducts(data: unknown, locale: string): OverviewProduct[] {
+function mapProducts(data: unknown, locale: string): ProductListing[] {
     if (!Array.isArray(data)) return [];
     return (data as PersonalizedProductListingSummaryData[]).map((product) =>
-        mapPersonalizedGetProductSummaryDataToOverviewProduct(product, locale),
+        mapPersonalizedProductListingSummary(product, locale),
     );
 }
 

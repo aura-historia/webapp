@@ -12,7 +12,7 @@ import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
 import { formatPrice } from "@/data/internal/price/Price.ts";
 
 /** Listing fields shared by search cards and the detail presentation. */
-export type OverviewProduct = {
+export type ProductListing = {
     readonly productListingId: string;
     readonly productListingTitleSlugId?: string;
     readonly source: ProductListingDetailsData["source"];
@@ -54,7 +54,7 @@ function mapSummaryFields(
     item: PersonalizedProductListingSummaryData["item"],
     userState: ProductListingUserStateData | null | undefined,
     locale: string,
-): OverviewProduct {
+): ProductListing {
     return {
         productListingId: item.productListingId,
         productListingTitleSlugId: item.productListingTitleSlugId,
@@ -82,17 +82,17 @@ function mapSummaryFields(
     };
 }
 
-export function mapPersonalizedGetProductSummaryDataToOverviewProduct(
+export function mapPersonalizedProductListingSummary(
     apiData: PersonalizedProductListingSummaryData,
     locale: string,
-): OverviewProduct {
+): ProductListing {
     return mapSummaryFields(apiData.item, apiData.userState, locale);
 }
 
-export function mapPersonalizedGetProductDataToOverviewProduct(
+export function mapPersonalizedProductListingDetails(
     apiData: PersonalizedProductListingDetailsData,
     locale: string,
-): OverviewProduct {
+): ProductListing {
     const item = apiData.item;
     const displayPrice = item.pricing.display.price;
     return {

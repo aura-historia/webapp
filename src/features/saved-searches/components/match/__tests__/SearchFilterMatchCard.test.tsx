@@ -2,10 +2,10 @@ import { screen, act } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { SearchFilterMatchCard } from "../SearchFilterMatchCard.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 
 vi.mock("@/features/product/catalog/components/cards/ProductCard.tsx", () => ({
-    ProductCard: ({ product }: { product: OverviewProduct }) => (
+    ProductCard: ({ product }: { product: ProductListing }) => (
         <div data-testid="product-card">{product.title}</div>
     ),
 }));
@@ -25,7 +25,7 @@ vi.mock("@/features/saved-searches/components/MatchFeedbackButtons.tsx", () => (
     ),
 }));
 
-const baseProduct: OverviewProduct = {
+const baseProduct: ProductListing = {
     productId: "product-id-1",
     eventId: "event-1",
     shopId: "shop-1",
@@ -72,7 +72,7 @@ describe("SearchFilterMatchCard", () => {
     });
 
     it("passes matchFeedback from searchFilterData to MatchFeedbackButtons", async () => {
-        const product: OverviewProduct = {
+        const product: ProductListing = {
             ...baseProduct,
             userData: {
                 watchlistData: { isWatching: false, isNotificationEnabled: false },

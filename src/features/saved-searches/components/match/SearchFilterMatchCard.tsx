@@ -1,9 +1,9 @@
 import { ProductCard } from "@/features/product/catalog/components/cards/ProductCard.tsx";
 import { MatchFeedbackButtons } from "@/features/saved-searches/components/MatchFeedbackButtons.tsx";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 
 type Props = {
-    readonly product: OverviewProduct;
+    readonly product: ProductListing;
     readonly filterId: string;
 };
 

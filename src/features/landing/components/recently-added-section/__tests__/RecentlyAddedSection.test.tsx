@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import RecentlyAddedSection from "../RecentlyAddedSection.tsx";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { parseProductState } from "@/data/internal/product/ProductState.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act } from "react";
@@ -37,7 +37,7 @@ vi.mock("embla-carousel-autoplay", () => ({
     })),
 }));
 
-const createMockProduct = (id: string, title: string): OverviewProduct => ({
+const createMockProduct = (id: string, title: string): ProductListing => ({
     productId: id,
     productSlugId: `slug-${id}`,
     eventId: `event-${id}`,
@@ -55,7 +55,7 @@ const createMockProduct = (id: string, title: string): OverviewProduct => ({
     updated: new Date(),
 });
 
-const mockProducts: OverviewProduct[] = [
+const mockProducts: ProductListing[] = [
     createMockProduct("1", "Product A"),
     createMockProduct("2", "Product B"),
 ];

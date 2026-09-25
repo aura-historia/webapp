@@ -1,4 +1,4 @@
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { screen, waitFor } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
 import type { SearchResultData } from "@/data/internal/search/SearchResultData.ts";
@@ -45,7 +45,7 @@ vi.mock("lottie-react", () => ({
 const mockUseSearch = vi.mocked(useSearch);
 
 const buildQueryPayload = (
-    products: OverviewProduct[],
+    products: ProductListing[],
     total = products.length,
 ): SearchResultData => ({
     products,
@@ -55,7 +55,7 @@ const buildQueryPayload = (
 });
 
 type SearchMockOptions = {
-    products?: OverviewProduct[];
+    products?: ProductListing[];
     total?: number;
     hasNextPage?: boolean;
     fetchNextPage?: () => void;
@@ -134,7 +134,7 @@ describe("SearchResults", () => {
     });
 
     it("renders HiddenMatchCard instead of ProductCard when product is hidden", () => {
-        const hiddenProduct: OverviewProduct = {
+        const hiddenProduct: ProductListing = {
             productId: "00000000-0000-0000-0000-000000000000",
             eventId: "e1",
             shopId: "s1",
@@ -165,7 +165,7 @@ describe("SearchResults", () => {
     });
 
     it("renders a list of product cards when products are found", () => {
-        const base: Omit<OverviewProduct, "productId" | "title"> = {
+        const base: Omit<ProductListing, "productId" | "title"> = {
             eventId: "e1",
             shopId: "s1",
             shopSlugId: "shop-1",
@@ -195,7 +195,7 @@ describe("SearchResults", () => {
 
     it("loads the next page when the cursor indicates more results even if total is reached", async () => {
         const fetchNextPage = vi.fn();
-        const product: OverviewProduct = {
+        const product: ProductListing = {
             eventId: "e1",
             productId: "1",
             shopId: "s1",

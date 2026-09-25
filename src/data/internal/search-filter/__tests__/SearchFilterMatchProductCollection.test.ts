@@ -2,8 +2,8 @@ import { describe, expect, it, vi } from "vitest";
 import { mapToInternalSearchFilterMatchProductCollection } from "../SearchFilterMatchProductCollection.ts";
 import type { SearchFilterMatchProductCollectionData } from "@/client";
 
-vi.mock("@/data/internal/product/OverviewProduct.ts", () => ({
-    mapPersonalizedGetProductDataToOverviewProduct: vi.fn((item: { shopId: string }) => ({
+vi.mock("@/data/internal/product/ProductListing.ts", () => ({
+    mapPersonalizedProductListingDetails: vi.fn((item: { shopId: string }) => ({
         shopId: item.shopId,
     })),
 }));

@@ -4,7 +4,7 @@ import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { H1 } from "@/components/typography/H1.tsx";
 import { useTranslation } from "react-i18next";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { SearchX, ServerCrash } from "lucide-react";
 import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { useWatchlist } from "@/features/watchlist/api/useWatchlist.ts";
@@ -50,7 +50,7 @@ export function WatchlistPage() {
         );
     }
 
-    const allProducts: OverviewProduct[] = data?.pages.flatMap((page) => page.products) ?? [];
+    const allProducts: ProductListing[] = data?.pages.flatMap((page) => page.products) ?? [];
 
     const totalProducts = allProducts.length;
     const allLoaded = allProducts.length > 0 && !hasNextPage;
@@ -80,7 +80,7 @@ export function WatchlistPage() {
                     </span>
                 </div>
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                    {allProducts.map((watchlistProduct: OverviewProduct) => (
+                    {allProducts.map((watchlistProduct: ProductListing) => (
                         <ProductCard
                             key={watchlistProduct.productListingId}
                             product={watchlistProduct}

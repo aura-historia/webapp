@@ -20,8 +20,8 @@ vi.mock("@/data/internal/hooks/ApiError.ts", () => ({
     mapToInternalApiError: (error: unknown) => error,
 }));
 
-vi.mock("@/data/internal/product/OverviewProduct.ts", () => ({
-    mapPersonalizedGetProductSummaryDataToOverviewProduct: (product: unknown) => product,
+vi.mock("@/data/internal/product/ProductListing.ts", () => ({
+    mapPersonalizedProductListingSummary: (product: unknown) => product,
 }));
 
 vi.mock("react-i18next", () => ({

@@ -7,13 +7,13 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel.tsx";
 import Autoplay from "embla-carousel-autoplay";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { ProductGridItem } from "@/features/product/catalog/components/grid/ProductGridItem.tsx";
 import { CAROUSEL_AUTOPLAY_DELAY_MS } from "@/features/landing/config/landingPageConstants.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 
 type RecentlyAddedSectionProps = {
-    readonly products: OverviewProduct[];
+    readonly products: ProductListing[];
 };
 
 export default function RecentlyAddedSection({ products }: RecentlyAddedSectionProps) {

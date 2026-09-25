@@ -3,7 +3,7 @@ import { SearchFilterMatchBadge } from "@/features/saved-searches/components/Sea
 import { H2 } from "@/components/typography/H2.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { ArrowUpRight, Eye } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
@@ -17,7 +17,7 @@ import { memo, useCallback } from "react";
 import { useMarkNotificationSeen } from "@/features/notification-center/api/useMarkNotificationSeen.ts";
 import { cn } from "@/lib/utils.ts";
 
-function ProductCardComponent({ product }: { readonly product: OverviewProduct }) {
+function ProductCardComponent({ product }: { readonly product: ProductListing }) {
     const { t } = useTranslation();
     const unseenNotificationIds = product.userState?.notification.unseenNotificationIds ?? [];
     const hasUnseenNotification = unseenNotificationIds.length > 0;

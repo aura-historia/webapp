@@ -1,10 +1,10 @@
 import type { PersonalizedGetProductData } from "@/client";
 import { describe, expect, it } from "vitest";
-import { mapPersonalizedGetProductDataToOverviewProduct } from "../OverviewProduct.ts";
+import { mapPersonalizedProductListingDetails } from "../ProductListing.ts";
 
-describe("OverviewProduct mappers", () => {
-    describe("mapToInternalOverviewProduct", () => {
-        it("should create OverviewProduct with valid data", () => {
+describe("ProductListing mappers", () => {
+    describe("mapToInternalProductListing", () => {
+        it("should create ProductListing with valid data", () => {
             const apiData: PersonalizedGetProductData = {
                 item: {
                     productId: "item-123",
@@ -30,7 +30,7 @@ describe("OverviewProduct mappers", () => {
                 },
             };
 
-            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData, "en");
+            const result = mapPersonalizedProductListingDetails(apiData, "en");
 
             expect(result.productId).toBe("item-123");
             expect(result.eventId).toBe("event-456");
@@ -82,7 +82,7 @@ describe("OverviewProduct mappers", () => {
                 },
             };
 
-            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData, "en");
+            const result = mapPersonalizedProductListingDetails(apiData, "en");
 
             expect(result.structuredAddress).toEqual({
                 addressline: "8 King St",
@@ -122,7 +122,7 @@ describe("OverviewProduct mappers", () => {
                 },
             };
 
-            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData, "de");
+            const result = mapPersonalizedProductListingDetails(apiData, "de");
 
             expect(result.url).toBeNull();
             expect(result.viewUrl).toBeNull();
@@ -155,7 +155,7 @@ describe("OverviewProduct mappers", () => {
                 },
             };
 
-            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData, "de");
+            const result = mapPersonalizedProductListingDetails(apiData, "de");
 
             expect(result.images).toEqual([]);
         });
@@ -186,7 +186,7 @@ describe("OverviewProduct mappers", () => {
                 },
             };
 
-            const result = mapPersonalizedGetProductDataToOverviewProduct(apiData, "de");
+            const result = mapPersonalizedProductListingDetails(apiData, "de");
 
             expect(result.images).toEqual([]);
         });

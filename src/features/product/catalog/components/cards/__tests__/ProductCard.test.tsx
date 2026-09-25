@@ -1,4 +1,4 @@
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { act, screen } from "@testing-library/react";
 import { ProductCard } from "../ProductCard.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
@@ -11,7 +11,7 @@ vi.mock("@/features/notification-center/api/useMarkNotificationSeen.ts", () => (
 }));
 
 describe("ProductCard", () => {
-    const mockProduct: OverviewProduct = {
+    const mockProduct: ProductListing = {
         created: new Date(),
         eventId: "",
         shopId: "",
@@ -171,7 +171,7 @@ describe("ProductCard", () => {
     });
 
     describe("search filter highlight", () => {
-        const mockProductMatched: OverviewProduct = {
+        const mockProductMatched: ProductListing = {
             ...mockProduct,
             userData: {
                 watchlistData: { isWatching: false, isNotificationEnabled: false },
@@ -209,7 +209,7 @@ describe("ProductCard", () => {
         });
 
         it("should NOT render match badge when notification badge is shown", async () => {
-            const productWithBoth: OverviewProduct = {
+            const productWithBoth: ProductListing = {
                 ...mockProductMatched,
                 userData: {
                     ...mockProductMatched.userData!,
@@ -224,7 +224,7 @@ describe("ProductCard", () => {
         });
 
         it("should prefer border-primary over border-tertiary when notification is present", async () => {
-            const productWithBoth: OverviewProduct = {
+            const productWithBoth: ProductListing = {
                 ...mockProductMatched,
                 userData: {
                     ...mockProductMatched.userData!,
@@ -239,7 +239,7 @@ describe("ProductCard", () => {
         });
 
         it("should NOT render match badge or border-tertiary when hidden=true", async () => {
-            const hiddenProduct: OverviewProduct = {
+            const hiddenProduct: ProductListing = {
                 ...mockProduct,
                 userData: {
                     watchlistData: { isWatching: false, isNotificationEnabled: false },
@@ -257,7 +257,7 @@ describe("ProductCard", () => {
     });
 
     describe("unseen notification highlight", () => {
-        const mockProductWithUnseenNotification: OverviewProduct = {
+        const mockProductWithUnseenNotification: ProductListing = {
             ...mockProduct,
             userData: {
                 watchlistData: { isWatching: true, isNotificationEnabled: true },
