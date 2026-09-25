@@ -468,7 +468,30 @@
         "estimatePriceChanged": "Estimated price range updated.",
         "urlChanged": "Product URL updated.",
         "imagesChanged": "Images updated • {{count}} image(s).",
-        "auctionTimeChanged": "Auction period updated."
+        "auctionTimeChanged": "Auction period updated.",
+        "listingDiscoveredTitle": "Listing discovered",
+        "listingChangedTitle": "Listing updated",
+        "listingDiscovered": "First recorded by Aura Historia.",
+        "initialPrice": "Asking price: {{price}}.",
+        "initialAvailability": "Availability: {{availability}}.",
+        "initialImages": "{{count}} image(s) recorded at discovery.",
+        "initialUrl": "Listing URL recorded at discovery.",
+        "initialAuction": "Auction or lot details recorded at discovery.",
+        "mainPriceChanged": "Main price changed from {{previous}} to {{current}}.",
+        "minimumEstimateChanged": "Minimum estimate changed from {{previous}} to {{current}}.",
+        "maximumEstimateChanged": "Maximum estimate changed from {{previous}} to {{current}}.",
+        "availabilityChanged": "Availability changed from {{previous}} to {{current}}.",
+        "imagesChangedWithCounts": "Image count changed from {{previousCount}} to {{currentCount}}.",
+        "auctionChanged": "Auction or lot details changed.",
+        "withdrawn": "Listing withdrawn after availability was {{previousAvailability}}.",
+        "restored": "Listing restored by its source.",
+        "saleObserved": "A sale observation was recorded for {{observedAt}}.",
+        "saleObservationRetracted": "The sale observation for {{observedAt}} was retracted.",
+        "unknownChange": "Listing details changed."
+      },
+      "values": {
+        "onRequest": "Price on request",
+        "notProvided": "Not provided"
       }
     },
     "dealer": {
@@ -493,7 +516,7 @@
     "priceChart": {
       "title": "Price History",
       "noData": "No price data available for this item.",
-      "seriesName": "Price",
+      "seriesName": "Price ({{currency}})",
       "timeRanges": {
         "1d": "1D",
         "5d": "5D",
@@ -502,7 +525,23 @@
         "6m": "6M",
         "1y": "1Y",
         "all": "All"
-      }
+      },
+      "currencySelectLabel": "Source currency",
+      "currencySelect": "Show price history in {{currency}}"
+    },
+    "listingAvailability": {
+      "available": "Available",
+      "inStock": "In stock",
+      "limitedAvailability": "Limited availability",
+      "backOrder": "Back order",
+      "madeToOrder": "Made to order",
+      "preOrder": "Pre-order",
+      "preSale": "Pre-sale",
+      "unavailable": "Unavailable",
+      "reserved": "Reserved",
+      "outOfStock": "Out of stock",
+      "soldOut": "Sold out",
+      "unknown": "Not reported"
     }
   },
   "priceBadge": {

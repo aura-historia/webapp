@@ -1,13 +1,12 @@
 import { useRef, useMemo, useState, useEffect } from "react";
 import type { ApexOptions } from "apexcharts";
-import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
+import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 
 import { formatCompactCurrency, formatDate, formatTimeWithSeconds } from "@/lib/utils.ts";
-import { getPriceAmount } from "@/features/product/detail/lib/events/eventUtils.ts";
-import { isPriceEvent } from "@/features/product/detail/lib/events/eventFilters.ts";
+import { getPriceHistorySeries } from "@/features/product/detail/lib/events/priceHistory.ts";
 import { useTranslation } from "react-i18next";
-import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
+import { useRouteContext } from "@tanstack/react-router";
 import type { TFunction } from "i18next";
 import Chart from "react-apexcharts";
 import { ClientOnly } from "@tanstack/react-router";
@@ -53,60 +52,26 @@ const isZoomableChart = (chart: unknown): chart is ZoomableChartHandle => {
     );
 };
 
-export function ProductPriceChart({ history }: { readonly history?: readonly ProductEvent[] }) {
+export function ProductPriceChart({
+    history,
+}: {
+    readonly history?: readonly ProductListingHistoryEntry[];
+}) {
     const { t, i18n } = useTranslation();
-    const { preferences } = useUserPreferences();
+    const { timeZone } = useRouteContext({ from: "__root__" });
     const chartRef = useRef<ApexCharts | null>(null);
     const [selectedTimeRange, setSelectedTimeRange] = useState<number | null>(null);
-    const [now] = useState(() => Date.now());
+    const [selectedCurrencyOverride, setSelectedCurrencyOverride] = useState<string>();
 
     const TIME_RANGES = useMemo(() => createTimeRanges(t), [t]);
-    /**
-     * Filters the mixed `history` list and keeps only the events
-     * that actually contain a price.
-     *
-     * This is necessary because the list contains two types of events: simple
-     * status events (e.g., ‘SOLD’) and price events (objects with `amount`).
-     * This code acts as a safe filter that only lets price events
-     * through and blocks status events, because that is exactly the data we need to create a price history
-
-     * NOTE: I talked to Julian again about this and suggested or asked whether it wouldn't make more sense to
-     * keep separate histories in the backend (e.g., a pure `priceHistory`) instead of
-     * putting everything into one, also because there will be even more types.
-     * This would mean we wouldn't have to filter by type here and would get the data we need directly. But he wanted to think about it again.
-     */
-
-    const priceEvents = (history ?? []).filter(isPriceEvent);
-
-    /**
-     * Maps the cleaned `priceEvents` array to the specific `{x, y}` coordinate format
-     * required by ApexCharts for time-series charts.
-     *
-     * - `x` is set to the event's timestamp for the horizontal time axis.
-     * - `y` is set to the price amount, converted from its minor unit (e.g., cents).
-     */
-    const priceData = priceEvents.flatMap((event) => {
-        const priceAmount = getPriceAmount(event);
-
-        if (priceAmount === undefined) {
-            return [];
-        }
-
-        return [
-            {
-                x: event.timestamp.getTime(),
-                y: priceAmount / 100,
-            },
-        ];
-    });
-
-    if (priceData.length > 0) {
-        const lastPrice = priceData.at(-1);
-        priceData.push({
-            x: now,
-            y: lastPrice?.y ?? 0,
-        });
-    }
+    const currencySeries = getPriceHistorySeries(history ?? []);
+    const currencies = currencySeries.map(({ currency }) => currency);
+    const selectedCurrency =
+        (selectedCurrencyOverride && currencies.includes(selectedCurrencyOverride)
+            ? selectedCurrencyOverride
+            : undefined) ?? currencies.at(-1);
+    const priceData =
+        currencySeries.find(({ currency }) => currency === selectedCurrency)?.data ?? [];
 
     /**
      *  Determines the earliest (`minTimestamp`) and latest (`maxTimestamp`) timestamps from the existing price data.
@@ -151,7 +116,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
         }
     }, [selectedTimeRange, maxTimestamp, minTimestamp]);
 
-    if (!history || priceData.length === 0) {
+    if (priceData.length === 0) {
         return (
             <div className="flex min-w-0 flex-col gap-4 border border-outline-variant/10 bg-surface-container-low p-8 md:p-12">
                 <H2 className="font-display text-2xl font-normal uppercase tracking-[-0.02em] text-primary">
@@ -169,7 +134,12 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
      * series (e.g., a line).
      * - `name`: The label used for the series in legends and tooltips.
      */
-    const series = [{ name: t("product.priceChart.seriesName"), data: priceData }];
+    const series = [
+        {
+            name: t("product.priceChart.seriesName", { currency: selectedCurrency }),
+            data: [...priceData],
+        },
+    ];
 
     const handleBeforeZoom: (chart: ApexCharts, options?: ZoomRange) => void = (
         _chartContext,
@@ -262,10 +232,10 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                     const oneDayInMs = 24 * 60 * 60 * 1000;
 
                     if (timeRange <= oneDayInMs) {
-                        return formatTimeWithSeconds(date, "de-DE");
+                        return formatTimeWithSeconds(date, i18n.language, timeZone);
                     }
 
-                    return formatDate(date, "de-DE");
+                    return formatDate(date, i18n.language, timeZone);
                 },
                 style: {
                     fontSize: "15px",
@@ -279,7 +249,7 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
         yaxis: {
             labels: {
                 formatter: (val: number) =>
-                    formatCompactCurrency(val, preferences.currency, i18n.language),
+                    formatCompactCurrency(val, selectedCurrency ?? "EUR", i18n.language),
                 style: {
                     fontSize: "15px",
                     fontWeight: 500,
@@ -308,7 +278,11 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                     yaxis: {
                         labels: {
                             formatter: (val: number) =>
-                                formatCompactCurrency(val, preferences.currency, i18n.language),
+                                formatCompactCurrency(
+                                    val,
+                                    selectedCurrency ?? "EUR",
+                                    i18n.language,
+                                ),
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,
@@ -335,7 +309,11 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                     yaxis: {
                         labels: {
                             formatter: (val: number) =>
-                                formatCompactCurrency(val, preferences.currency, i18n.language),
+                                formatCompactCurrency(
+                                    val,
+                                    selectedCurrency ?? "EUR",
+                                    i18n.language,
+                                ),
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,
@@ -372,6 +350,32 @@ export function ProductPriceChart({ history }: { readonly history?: readonly Pro
                     {t("product.priceChart.title")}
                 </H2>
                 <div className="flex gap-4 flex-wrap items-end">
+                    {currencies.length > 1 && (
+                        <div
+                            className="flex flex-wrap gap-3"
+                            role="group"
+                            aria-label={t("product.priceChart.currencySelectLabel")}
+                        >
+                            {currencies.map((currency) => (
+                                <button
+                                    type="button"
+                                    key={currency}
+                                    aria-pressed={currency === selectedCurrency}
+                                    aria-label={t("product.priceChart.currencySelect", {
+                                        currency,
+                                    })}
+                                    onClick={() => setSelectedCurrencyOverride(currency)}
+                                    className={`border-b pb-1 text-xs tracking-widest uppercase transition-colors duration-300 ease-out ${
+                                        currency === selectedCurrency
+                                            ? "border-primary text-primary"
+                                            : "border-transparent text-muted-foreground hover:text-primary"
+                                    }`}
+                                >
+                                    {currency}
+                                </button>
+                            ))}
+                        </div>
+                    )}
                     {TIME_RANGES.map((timeRange) => (
                         <button
                             type="button"

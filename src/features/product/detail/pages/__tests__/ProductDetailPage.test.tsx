@@ -48,7 +48,6 @@ describe("ProductDetailPage", () => {
         images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
         created: new Date(),
         updated: new Date(),
-        history: [],
     };
 
     it("should render ProductInfo component", () => {

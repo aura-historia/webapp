@@ -463,7 +463,30 @@
         "estimatePriceChanged": "Fascia di prezzo stimata aggiornata.",
         "urlChanged": "URL del prodotto aggiornato.",
         "imagesChanged": "Immagini aggiornate • {{count}} immagine/i.",
-        "auctionTimeChanged": "Periodo d'asta aggiornato."
+        "auctionTimeChanged": "Periodo d'asta aggiornato.",
+        "listingDiscoveredTitle": "Annuncio rilevato",
+        "listingChangedTitle": "Annuncio aggiornato",
+        "listingDiscovered": "Registrato per la prima volta da Aura Historia.",
+        "initialPrice": "Prezzo richiesto: {{price}}.",
+        "initialAvailability": "Disponibilità: {{availability}}.",
+        "initialImages": "Immagini registrate al rilevamento: {{count}}.",
+        "initialUrl": "URL dell’annuncio registrata al rilevamento.",
+        "initialAuction": "Dettagli dell’asta o del lotto registrati al rilevamento.",
+        "mainPriceChanged": "Il prezzo richiesto è cambiato da {{previous}} a {{current}}.",
+        "minimumEstimateChanged": "La stima minima è cambiata da {{previous}} a {{current}}.",
+        "maximumEstimateChanged": "La stima massima è cambiata da {{previous}} a {{current}}.",
+        "availabilityChanged": "La disponibilità è cambiata da {{previous}} a {{current}}.",
+        "imagesChangedWithCounts": "Il numero di immagini è cambiato da {{previousCount}} a {{currentCount}}.",
+        "auctionChanged": "I dettagli dell’asta o del lotto sono cambiati.",
+        "withdrawn": "Annuncio ritirato; la disponibilità era {{previousAvailability}}.",
+        "restored": "Annuncio ripristinato dalla fonte.",
+        "saleObserved": "È stata registrata un’osservazione di vendita per il {{observedAt}}.",
+        "saleObservationRetracted": "L’osservazione di vendita del {{observedAt}} è stata ritirata.",
+        "unknownChange": "I dettagli dell’annuncio sono cambiati."
+      },
+      "values": {
+        "onRequest": "Prezzo su richiesta",
+        "notProvided": "Non indicato"
       }
     },
     "dealer": {
@@ -483,7 +506,7 @@
     "priceChart": {
       "title": "Storico dei prezzi",
       "noData": "Nessun dato sui prezzi disponibile per questo articolo.",
-      "seriesName": "Prezzo",
+      "seriesName": "Prezzo ({{currency}})",
       "timeRanges": {
         "1d": "1G",
         "5d": "5G",
@@ -492,7 +515,9 @@
         "6m": "6M",
         "1y": "1A",
         "all": "Tutto"
-      }
+      },
+      "currencySelectLabel": "Valuta di origine",
+      "currencySelect": "Mostra lo storico dei prezzi in {{currency}}"
     },
     "unseenNotification": "Aggiornato",
     "auction": {
@@ -503,6 +528,20 @@
     "searchFilter": {
       "matchedBadge": "Corrispondenza",
       "matchedBy": "Dalla tua ricerca salvata"
+    },
+    "listingAvailability": {
+      "available": "Disponibile",
+      "inStock": "Disponibile in magazzino",
+      "limitedAvailability": "Disponibilità limitata",
+      "backOrder": "Disponibile su ordinazione differita",
+      "madeToOrder": "Realizzato su ordinazione",
+      "preOrder": "Preordine",
+      "preSale": "Prevendita",
+      "unavailable": "Non disponibile",
+      "reserved": "Riservato",
+      "outOfStock": "Non disponibile in magazzino",
+      "soldOut": "Esaurito",
+      "unknown": "Non indicato"
     }
   },
   "priceBadge": {
