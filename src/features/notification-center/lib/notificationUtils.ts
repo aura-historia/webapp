@@ -1,32 +1,27 @@
+import type { ListingAvailabilityData } from "@/client";
 import type { NotificationPayload } from "@/data/internal/notification/Notification.ts";
 import { formatPrice } from "@/data/internal/price/Price.ts";
 
-/**
- * Returns the display label for the notification type.
- *
- * Examples:
- * - WATCHLIST + PRICE_CHANGE  → "Preisänderung"
- * - WATCHLIST + STATE_CHANGE  → "Statusänderung"
- * - SEARCH_FILTER             → "Neuer Treffer"
- * - PARTNER_APPLICATION       → "Partnerantrag"
- */
 export function getNotificationTypeLabel(
     payload: NotificationPayload,
     t: (key: string) => string,
 ): string {
     if (payload.type === "SEARCH_FILTER") return t("notifications.types.newMatch");
     if (payload.type === "PARTNER_APPLICATION") return t("notifications.types.partnerApplication");
-    if (payload.watchlistPayload.type === "PRICE_CHANGE")
-        return t("notifications.types.priceChange");
+    if (payload.change.type === "PRICE_CHANGE") return t("notifications.types.priceChange");
     return t("notifications.types.stateChange");
 }
 
-/**
- * Returns the change split into { from, to } parts, used where old and new values
- * need to be styled separately (e.g. old value with strikethrough in the notification card).
- *
- * Returns null for SEARCH_FILTER notifications, as they have no from/to change.
- */
+function availabilityLabel(
+    availability: ListingAvailabilityData | null,
+    t: (key: string) => string,
+) {
+    if (!availability) return t("product.listingAvailability.unknown");
+    const [first, ...rest] = availability.toLowerCase().split("_");
+    const key = `${first}${rest.map((part) => part[0]?.toUpperCase() + part.slice(1)).join("")}`;
+    return t(`product.listingAvailability.${key}`);
+}
+
 export function getNotificationChangeParts(
     payload: NotificationPayload,
     t: (key: string) => string,
@@ -38,23 +33,29 @@ export function getNotificationChangeParts(
         return {
             from: t("notifications.types.partnerApplicationSubmitted"),
             to:
-                payload.partnerApplicationPayload.type === "APPROVED"
+                payload.decision === "APPROVED"
                     ? t("notifications.types.partnerApplicationStatusApproved")
                     : t("notifications.types.partnerApplicationStatusRejected"),
         };
     }
 
-    if (payload.watchlistPayload.type === "PRICE_CHANGE") {
-        const { oldPrice, newPrice } = payload.watchlistPayload;
+    if (payload.change.type === "PRICE_CHANGE") {
         const unknown = t("product.unknownPrice");
+        const displayPrice = (price: typeof payload.change.oldPrice) =>
+            price?.type === "MONETARY"
+                ? formatPrice({ amount: price.amount, currency: price.currency }, language)
+                : price?.type === "ON_REQUEST"
+                  ? t("product.history.values.onRequest")
+                  : unknown;
+
         return {
-            from: oldPrice ? formatPrice(oldPrice, language) : unknown,
-            to: newPrice ? formatPrice(newPrice, language) : unknown,
+            from: displayPrice(payload.change.oldPrice),
+            to: displayPrice(payload.change.newPrice),
         };
     }
 
     return {
-        from: t(`productState.${payload.watchlistPayload.oldState.toLowerCase()}`),
-        to: t(`productState.${payload.watchlistPayload.newState.toLowerCase()}`),
+        from: availabilityLabel(payload.change.oldAvailability, t),
+        to: availabilityLabel(payload.change.newAvailability, t),
     };
 }

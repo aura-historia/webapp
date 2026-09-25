@@ -3,7 +3,7 @@ import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ShopProductGrid } from "../ShopProductGrid.tsx";
 import { useShopProducts } from "@/features/shop/profile/hooks/useShopProducts.ts";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import type { ShopProductsPage } from "@/features/shop/profile/hooks/useShopProducts.ts";
 import type { InfiniteData } from "@tanstack/react-query";
 
@@ -39,7 +39,7 @@ vi.mock("@/features/watchlist/components/NotificationButton", () => ({
 
 const mockUseShopProducts = vi.mocked(useShopProducts);
 
-const baseProduct: OverviewProduct = {
+const baseProduct: ProductListing = {
     productId: "p1",
     productSlugId: "product-1",
     eventId: "e1",
@@ -68,7 +68,7 @@ function buildInfiniteData(pages: ShopProductsPage[]): InfiniteData<ShopProducts
 type MockOptions = {
     isPending?: boolean;
     error?: Error | null;
-    products?: OverviewProduct[];
+    products?: ProductListing[];
     total?: number;
     hasNextPage?: boolean;
     isFetchingNextPage?: boolean;

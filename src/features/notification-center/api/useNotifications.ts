@@ -1,4 +1,4 @@
-import { getNotifications } from "@/client";
+import { listNotifications } from "@/client";
 import { mapToInternalNotificationCollection } from "@/data/internal/notification/Notification.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
@@ -15,7 +15,7 @@ export function useNotifications() {
     return useInfiniteQuery({
         queryKey: ["getNotifications", i18n.language],
         queryFn: async ({ pageParam }) => {
-            const result = await getNotifications({
+            const result = await listNotifications({
                 query: {
                     language: parseLanguage(i18n.language),
                     searchAfter: pageParam,

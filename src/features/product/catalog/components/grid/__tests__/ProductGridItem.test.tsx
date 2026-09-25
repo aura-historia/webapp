@@ -1,4 +1,4 @@
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 import { vi } from "vitest";
@@ -11,7 +11,7 @@ vi.mock("@/features/notification-center/api/useMarkNotificationSeen.ts", () => (
 }));
 
 describe("ProductGridItem", () => {
-    const mockProduct: OverviewProduct = {
+    const mockProduct: ProductListing = {
         created: new Date(),
         eventId: "",
         shopId: "",
@@ -30,7 +30,7 @@ describe("ProductGridItem", () => {
         images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
     };
 
-    const mockProductWithUnseenNotification: OverviewProduct = {
+    const mockProductWithUnseenNotification: ProductListing = {
         ...mockProduct,
         userData: {
             watchlistData: { isWatching: true, isNotificationEnabled: true },

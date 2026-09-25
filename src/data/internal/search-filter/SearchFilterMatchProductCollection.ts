@@ -1,11 +1,11 @@
 import type { SearchFilterMatchProductCollectionData } from "@/client";
 import {
-    mapPersonalizedGetProductDataToOverviewProduct,
-    type OverviewProduct,
-} from "@/data/internal/product/OverviewProduct.ts";
+    mapPersonalizedProductListingDetails,
+    type ProductListing,
+} from "@/data/internal/product/ProductListing.ts";
 
 export type SearchFilterMatchProductCollection = {
-    readonly items: readonly OverviewProduct[];
+    readonly items: readonly ProductListing[];
     readonly size: number;
     readonly searchAfter?: string;
     readonly total?: number;
@@ -16,11 +16,9 @@ export function mapToInternalSearchFilterMatchProductCollection(
     locale: string,
 ): SearchFilterMatchProductCollection {
     return {
-        items: data.items.map((item) =>
-            mapPersonalizedGetProductDataToOverviewProduct(item, locale),
-        ),
+        items: data.items.map((item) => mapPersonalizedProductListingDetails(item, locale)),
         size: data.size,
-        searchAfter: data.searchAfter ?? undefined,
+        searchAfter: data.searchAfter ? JSON.stringify(data.searchAfter) : undefined,
         total: data.total ?? undefined,
     };
 }

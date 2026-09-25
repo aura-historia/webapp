@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { SearchFilterMatches } from "../SearchFilterMatches.tsx";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import type React from "react";
 
 const mockUseSearchFilterMatchedProducts = vi.hoisted(() => vi.fn());
@@ -20,7 +20,7 @@ vi.mock("lottie-react", () => ({
 }));
 
 vi.mock("@/features/saved-searches/components/match/SearchFilterMatchCard.tsx", () => ({
-    SearchFilterMatchCard: ({ product }: { product: OverviewProduct }) => (
+    SearchFilterMatchCard: ({ product }: { product: ProductListing }) => (
         <div data-testid="search-filter-match-card">{product.title}</div>
     ),
 }));
@@ -45,7 +45,7 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     };
 });
 
-const buildProduct = (overrides: Partial<OverviewProduct> = {}): OverviewProduct => ({
+const buildProduct = (overrides: Partial<ProductListing> = {}): ProductListing => ({
     productId: "p1",
     productSlugId: "product-1",
     eventId: "e1",
@@ -66,7 +66,7 @@ const buildProduct = (overrides: Partial<OverviewProduct> = {}): OverviewProduct
 });
 
 type MatchesMockOptions = {
-    products?: OverviewProduct[];
+    products?: ProductListing[];
     total?: number;
     isPending?: boolean;
     error?: Error | null;

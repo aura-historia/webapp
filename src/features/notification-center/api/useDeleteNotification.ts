@@ -9,8 +9,8 @@ export function useDeleteNotification() {
     const { getErrorMessage } = useApiError();
 
     return useMutation({
-        mutationFn: async (eventId: string) => {
-            const result = await deleteNotification({ path: { eventId } });
+        mutationFn: async (notificationId: string) => {
+            const result = await deleteNotification({ path: { notificationId } });
 
             if (result.error) {
                 throw new Error(getErrorMessage(mapToInternalApiError(result.error)));

@@ -89,11 +89,11 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
         <div className="space-y-8">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                 {allProducts.map((product) => {
-                    const isHidden = product.userData?.searchFilterData?.hidden === true;
+                    const isHidden = product.userState?.searchFilter.hidden === true;
                     return isHidden ? (
-                        <HiddenMatchCard key={product.productId} />
+                        <HiddenMatchCard key={product.productListingId} />
                     ) : (
-                        <ProductCard key={product.productId} product={product} />
+                        <ProductCard key={product.productListingId} product={product} />
                     );
                 })}
             </div>

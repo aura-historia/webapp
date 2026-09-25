@@ -1,10 +1,9 @@
-import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
+import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
 import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
 import { useOptionalProductListingHistory } from "@/features/product/detail/api/productListingHistoryQuery.ts";
 import { ProductPriceChart } from "@/features/product/detail/components/ProductPriceChart.tsx";
 import { ProductHistory } from "@/features/product/detail/components/ProductHistory.tsx";
 import { ProductInfo } from "@/features/product/detail/components/ProductInfo.tsx";
-import { ProductLocationSection } from "@/features/product/detail/components/ProductLocationSection.tsx";
 import { ProductSimilar } from "@/features/product/detail/components/similar/ProductSimilar.tsx";
 import { ProductDealerItems } from "@/features/product/detail/components/dealer/ProductDealerItems.tsx";
 
@@ -13,7 +12,7 @@ export function ProductDetailPage({
     productListingId,
     history,
 }: {
-    readonly product: ProductDetail;
+    readonly product: ProductListingDetail;
     readonly productListingId?: string;
     readonly history?: readonly ProductListingHistoryEntry[];
 }) {
@@ -24,15 +23,9 @@ export function ProductDetailPage({
         <div className="mx-auto w-full max-w-7xl px-4 pb-20 pt-8 md:px-8">
             <ProductInfo product={product} />
 
-            <ProductLocationSection
-                title={product.title}
-                structuredAddress={product.structuredAddress}
-                geoAddress={product.geoAddress}
-            />
-
             <div className="mt-16">
                 <ProductPriceChart
-                    key={productListingId ?? product.shopsProductId}
+                    key={productListingId ?? product.productListingId}
                     history={listingHistory}
                 />
             </div>
@@ -42,18 +35,14 @@ export function ProductDetailPage({
                     <ProductHistory history={listingHistory} />
                 </div>
                 <div className="lg:col-span-8">
-                    <ProductSimilar
-                        shopId={product.shopId}
-                        shopsProductId={product.shopsProductId}
-                    />
+                    <ProductSimilar productListingId={product.productListingId} />
                 </div>
             </div>
 
             <div className="mt-16">
                 <ProductDealerItems
-                    shopName={product.shopName}
-                    shopSlugId={product.shopSlugId}
-                    excludeProductId={product.productId}
+                    source={product.source}
+                    excludeProductListingId={product.productListingId}
                 />
             </div>
         </div>

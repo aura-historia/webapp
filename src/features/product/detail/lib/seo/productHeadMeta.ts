@@ -1,94 +1,48 @@
-import type { PersonalizedGetProductData } from "@/client";
+import type { PersonalizedProductListingDetailsData } from "@/client";
 import { generateProductJsonLdScript } from "./productJsonLd.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { env } from "@/env.ts";
 import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
 import i18n from "@/i18n/i18n.ts";
 import { localizeUrl } from "@/i18n/routing.ts";
-
-type HeadMeta = {
-    meta: Array<
-        | { title: string }
-        | { name: string; content: string }
-        | { property: string; content: string }
-    >;
-    links: Array<{ rel: string; href: string; hreflang?: string }>;
-    scripts: Array<{ type: string; children: string }>;
-};
+import { getProductListingPath } from "@/features/product/catalog/lib/productListingUrl.ts";
 
 type ProductHeadParams = {
-    shopSlugId: string;
-    productSlugId: string;
+    lng: string;
+    productListingTitleSlugId: string;
 };
 
-/**
- * Generates head metadata (meta tags, Open Graph, Twitter Cards, and JSON-LD)
- * for a product detail page.
- */
 export function generateProductHeadMeta(
-    loaderData: PersonalizedGetProductData | undefined,
+    loaderData: PersonalizedProductListingDetailsData | undefined,
     params: ProductHeadParams,
-): HeadMeta {
-    const productTitle = loaderData?.item.title.text ?? "Product";
+) {
+    const productTitle =
+        loaderData?.item.productTitle?.text ??
+        loaderData?.item.title?.text ??
+        i18n.getFixedT(params.lng)("product.untitled");
     const productImage =
-        loaderData?.item.images?.find((img) => img.prohibitedContent === "NONE")?.url ??
-        BANNER_IMAGE_URL;
-    const productUrl = localizeUrl(
-        `${env.VITE_APP_URL}/shops/${params.shopSlugId}/products/${params.productSlugId}`,
-        i18n.resolvedLanguage ?? i18n.language,
-    );
+        loaderData?.item.images.find((image) => image.url !== null)?.url ?? BANNER_IMAGE_URL;
+    const listingPath = getProductListingPath(params.productListingTitleSlugId);
+    const productUrl = localizeUrl(new URL(listingPath, env.VITE_APP_URL).toString(), params.lng);
 
     return {
         meta: [
-            {
-                title: `${productTitle} | Aura Historia`,
-            },
-            // Open Graph tags
-            {
-                property: "og:title",
-                content: productTitle,
-            },
-            {
-                property: "og:type",
-                content: "product",
-            },
-            {
-                property: "og:url",
-                content: productUrl,
-            },
-            {
-                property: "og:image",
-                content: productImage,
-            },
-            // Twitter Card tags
-            {
-                name: "twitter:card",
-                content: "summary_large_image",
-            },
-            {
-                name: "twitter:url",
-                content: productUrl,
-            },
-            {
-                name: "twitter:title",
-                content: productTitle,
-            },
-            {
-                name: "twitter:image",
-                content: productImage,
-            },
+            { title: `${productTitle} | Aura Historia` },
+            { property: "og:title", content: productTitle },
+            { property: "og:type", content: "product" },
+            { property: "og:url", content: productUrl },
+            { property: "og:image", content: productImage },
+            { name: "twitter:card", content: "summary_large_image" },
+            { name: "twitter:url", content: productUrl },
+            { name: "twitter:title", content: productTitle },
+            { name: "twitter:image", content: productImage },
         ],
-        links: [
-            { rel: "canonical", href: productUrl },
-            ...generateHreflangLinks(
-                `/shops/${params.shopSlugId}/products/${params.productSlugId}`,
-            ),
-        ],
+        links: [{ rel: "canonical", href: productUrl }, ...generateHreflangLinks(listingPath)],
         scripts: loaderData
             ? [
                   {
                       type: "application/ld+json",
-                      children: generateProductJsonLdScript(loaderData),
+                      children: generateProductJsonLdScript(loaderData, productUrl),
                   },
               ]
             : [],

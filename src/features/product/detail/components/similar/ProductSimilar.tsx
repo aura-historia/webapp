@@ -11,8 +11,7 @@ import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carouse
 import type { ReactNode } from "react";
 
 interface ProductSimilarProps {
-    readonly shopId: string;
-    readonly shopsProductId: string;
+    readonly productListingId: string;
 }
 
 function SimilarState({
@@ -37,9 +36,9 @@ function SimilarState({
     );
 }
 
-export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) {
+export function ProductSimilar({ productListingId }: ProductSimilarProps) {
     const { t } = useTranslation();
-    const { data, isLoading, isError, error } = useSimilarProducts(shopId, shopsProductId);
+    const { data, isLoading, isError, error } = useSimilarProducts(productListingId);
 
     if (isLoading) {
         return (
@@ -104,10 +103,10 @@ export function ProductSimilar({ shopId, shopsProductId }: ProductSimilarProps) 
                 </div>
                 <CarouselContent className="-ml-6 mt-6">
                     {data.products.map((product) => {
-                        const isHidden = product.userData?.searchFilterData?.hidden === true;
+                        const isHidden = product.userState?.searchFilter.hidden === true;
                         return (
                             <CarouselItem
-                                key={product.productId}
+                                key={product.productListingId}
                                 className="basis-full pl-6 sm:basis-1/2 lg:basis-1/3"
                             >
                                 {isHidden ? (

@@ -4,7 +4,7 @@ import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { H1 } from "@/components/typography/H1.tsx";
 import { useTranslation } from "react-i18next";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { SearchX, ServerCrash } from "lucide-react";
 import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { useWatchlist } from "@/features/watchlist/api/useWatchlist.ts";
@@ -50,32 +50,8 @@ export function WatchlistPage() {
         );
     }
 
-    const allProducts: OverviewProduct[] =
-        data?.pages.flatMap((page) =>
-            page.products.map((product) => {
-                return {
-                    ...product,
-                    userData: {
-                        watchlistData: {
-                            isWatching: true,
-                            isNotificationEnabled:
-                                product.userData?.watchlistData.isNotificationEnabled ?? false,
-                        },
-                        notificationData: {
-                            hasUnseenNotification:
-                                product.userData?.notificationData?.hasUnseenNotification ?? false,
-                            originEventId: product.userData?.notificationData?.originEventId,
-                        },
-                        restrictedContentData: {
-                            consentGiven:
-                                product.userData?.restrictedContentData.consentGiven ?? false,
-                        },
-                    },
-                };
-            }),
-        ) ?? [];
+    const allProducts: ProductListing[] = data?.pages.flatMap((page) => page.products) ?? [];
 
-    const totalProducts = data?.pages[0]?.total ?? 0;
     const allLoaded = allProducts.length > 0 && !hasNextPage;
     const showLoaderRow = isFetchingNextPage || allLoaded;
 
@@ -96,22 +72,27 @@ export function WatchlistPage() {
             <div className={"flex flex-col w-full gap-8"}>
                 <div className="flex flex-row items-center justify-between">
                     <H1>{t("watchlist.title")}</H1>
-                    <span className={"text-2xl font-semibold whitespace-nowrap"}>
-                        {t("watchlist.totalElements", {
-                            count: totalProducts,
-                        })}
-                    </span>
+                    {!hasNextPage && (
+                        <span className={"text-2xl font-semibold whitespace-nowrap"}>
+                            {t("watchlist.totalElements", {
+                                count: allProducts.length,
+                            })}
+                        </span>
+                    )}
                 </div>
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                    {allProducts.map((watchlistProduct: OverviewProduct) => (
-                        <ProductCard key={watchlistProduct.productId} product={watchlistProduct} />
+                    {allProducts.map((watchlistProduct: ProductListing) => (
+                        <ProductCard
+                            key={watchlistProduct.productListingId}
+                            product={watchlistProduct}
+                        />
                     ))}
                 </div>
                 {showLoaderRow && (
                     <div ref={ref}>
                         <ListLoaderRow
                             isFetchingNextPage={isFetchingNextPage}
-                            totalCount={totalProducts}
+                            totalCount={allProducts.length}
                             loadingMoreKey="watchlist.loadingMore"
                             allLoadedKey="watchlist.allLoaded"
                         />

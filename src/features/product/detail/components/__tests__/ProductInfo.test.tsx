@@ -40,7 +40,7 @@ vi.mock("@tanstack/react-router", async () => {
     };
 });
 
-import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
+import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
 import { screen } from "@testing-library/react";
 import { ProductInfo } from "../ProductInfo.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
@@ -62,7 +62,7 @@ beforeAll(() => {
 });
 
 describe("ProductInfo", () => {
-    const mockProduct: ProductDetail = {
+    const mockProduct: ProductListingDetail = {
         productId: "1",
         productSlugId: "test-product-title",
         eventId: "",
@@ -194,7 +194,7 @@ describe("ProductInfo", () => {
     });
 
     describe("search filter info", () => {
-        const mockProductMatched: ProductDetail = {
+        const mockProductMatched: ProductListingDetail = {
             ...mockProduct,
             userData: {
                 watchlistData: { isWatching: false, isNotificationEnabled: false },
@@ -231,7 +231,7 @@ describe("ProductInfo", () => {
         });
 
         it("should NOT render search filter info when hidden", () => {
-            const hiddenProduct: ProductDetail = {
+            const hiddenProduct: ProductListingDetail = {
                 ...mockProduct,
                 userData: {
                     watchlistData: { isWatching: false, isNotificationEnabled: false },
@@ -245,7 +245,7 @@ describe("ProductInfo", () => {
         });
 
         it("should render filter name but NOT match reason when matchReason is absent", () => {
-            const productNoReason: ProductDetail = {
+            const productNoReason: ProductListingDetail = {
                 ...mockProduct,
                 userData: {
                     watchlistData: { isWatching: false, isNotificationEnabled: false },

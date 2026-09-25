@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { WatchlistPage } from "@/features/watchlist/pages/WatchlistPage.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 vi.mock("@tanstack/react-query", async (importOriginal) => {
@@ -38,7 +38,7 @@ vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
 
 const mockUseInfiniteQuery = vi.mocked(useInfiniteQuery);
 
-const createMockProduct = (overrides: Partial<OverviewProduct> = {}): OverviewProduct => ({
+const createMockProduct = (overrides: Partial<ProductListing> = {}): ProductListing => ({
     productId: "item-1",
     productSlugId: "test-product",
     eventId: "event-1",
@@ -71,7 +71,7 @@ const createMockProduct = (overrides: Partial<OverviewProduct> = {}): OverviewPr
 });
 
 type InfiniteQueryMockOptions = {
-    products?: OverviewProduct[];
+    products?: ProductListing[];
     isPending?: boolean;
     error?: Error | null;
     hasNextPage?: boolean;

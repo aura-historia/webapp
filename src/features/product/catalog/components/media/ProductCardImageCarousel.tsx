@@ -9,24 +9,21 @@ import { cn } from "@/lib/utils";
 import { type ProductImage, isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
 import { ImageOff, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Link } from "@tanstack/react-router";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 import { ProhibitedImagePlaceholder } from "@/features/product/catalog/components/media/ProhibitedImagePlaceholder.tsx";
-import type { UserProductData } from "@/data/internal/product/UserProductData.ts";
+import { ProductListingLink } from "@/features/product/catalog/components/ProductListingLink.tsx";
 
 interface ProductCardImageCarouselProps {
     readonly images: readonly ProductImage[];
-    readonly shopSlugId: string;
-    readonly productSlugId: string;
-    readonly userData?: UserProductData;
+    readonly productListingTitleSlugId?: string;
+    readonly showSensitiveContent: boolean;
     readonly onProductClick?: () => void;
 }
 
 export function ProductCardImageCarousel({
     images,
-    shopSlugId,
-    productSlugId,
-    userData,
+    productListingTitleSlugId,
+    showSensitiveContent,
     onProductClick,
 }: ProductCardImageCarouselProps) {
     const { t } = useTranslation();
@@ -36,7 +33,7 @@ export function ProductCardImageCarousel({
     const [canScrollNext, setCanScrollNext] = useState(false);
     const [dotStart, setDotStart] = useState(0);
 
-    const isRestrictedConsentGiven = userData?.restrictedContentData.consentGiven ?? false;
+    const isRestrictedConsentGiven = showSensitiveContent;
 
     const onSelect = useCallback(() => {
         if (!carouselApi) return;
@@ -82,11 +79,9 @@ export function ProductCardImageCarousel({
 
     if (images.length === 0) {
         return (
-            <Link
-                to="/$lng/shops/$shopSlugId/products/$productSlugId"
-                params={(current) => ({ ...current, shopSlugId, productSlugId })}
+            <ProductListingLink
+                productListingTitleSlugId={productListingTitleSlugId}
                 onClick={onProductClick}
-                from="/$lng"
             >
                 <div className="aspect-[4/3] w-full bg-muted flex flex-col items-center justify-center gap-2">
                     <ImageOff
@@ -95,18 +90,16 @@ export function ProductCardImageCarousel({
                     />
                     <p className="text-sm text-muted-foreground">{t("product.noImage")}</p>
                 </div>
-            </Link>
+            </ProductListingLink>
         );
     }
 
     if (images.length === 1) {
         // Simple single image display without carousel complexity
         return (
-            <Link
-                to="/$lng/shops/$shopSlugId/products/$productSlugId"
-                params={(current) => ({ ...current, shopSlugId, productSlugId })}
+            <ProductListingLink
+                productListingTitleSlugId={productListingTitleSlugId}
                 onClick={onProductClick}
-                from="/$lng"
             >
                 {isRestrictedImage(images[0], isRestrictedConsentGiven) ? (
                     <ProhibitedImagePlaceholder className="w-full aspect-[4/3]" />
@@ -120,7 +113,7 @@ export function ProductCardImageCarousel({
                         decoding="async"
                     />
                 )}
-            </Link>
+            </ProductListingLink>
         );
     }
 
@@ -136,11 +129,9 @@ export function ProductCardImageCarousel({
                 <CarouselContent>
                     {images.map((image, index) => (
                         <CarouselItem key={image.url?.href ?? `restricted-${index}`}>
-                            <Link
-                                to="/$lng/shops/$shopSlugId/products/$productSlugId"
-                                params={(current) => ({ ...current, shopSlugId, productSlugId })}
+                            <ProductListingLink
+                                productListingTitleSlugId={productListingTitleSlugId}
                                 onClick={onProductClick}
-                                from="/$lng"
                             >
                                 {isRestrictedImage(image, isRestrictedConsentGiven) ? (
                                     <ProhibitedImagePlaceholder className="w-full aspect-[4/3]" />
@@ -154,7 +145,7 @@ export function ProductCardImageCarousel({
                                         decoding="async"
                                     />
                                 )}
-                            </Link>
+                            </ProductListingLink>
                         </CarouselItem>
                     ))}
                 </CarouselContent>

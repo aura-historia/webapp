@@ -3,7 +3,7 @@ import { screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { ProductDealerItems } from "../ProductDealerItems.tsx";
 import { useDealerProducts } from "@/features/product/detail/api/useDealerProducts.ts";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import type React from "react";
 
 vi.mock("@/features/product/detail/api/useDealerProducts.ts", () => ({
@@ -64,7 +64,7 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
 
 const mockUseDealerProducts = vi.mocked(useDealerProducts);
 
-const baseProduct: OverviewProduct = {
+const baseProduct: ProductListing = {
     productId: "p1",
     productSlugId: "product-1",
     eventId: "e1",

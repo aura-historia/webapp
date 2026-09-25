@@ -5,11 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 
-export function useSearchFilterMatchFeedback(
-    filterId: string,
-    shopId: string,
-    shopsProductId: string,
-) {
+export function useSearchFilterMatchFeedback(filterId: string, productListingId: string) {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
     const { t } = useTranslation();
@@ -17,7 +13,7 @@ export function useSearchFilterMatchFeedback(
     return useMutation({
         mutationFn: async (feedback: boolean) => {
             const result = await updateSearchFilterMatchFeedback({
-                path: { userSearchFilterId: filterId, shopId, shopsProductId },
+                path: { userSearchFilterId: filterId, productListingId },
                 body: { feedback },
             });
 

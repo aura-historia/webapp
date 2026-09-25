@@ -8,22 +8,21 @@ import { useTranslation } from "react-i18next";
 import { ArrowUpRight, ServerCrash } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
+import type { ProductListingSource } from "@/data/internal/product/ProductListingSource.ts";
 
 const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"];
 
 interface ProductDealerItemsProps {
-    readonly shopName: string;
-    readonly shopSlugId: string;
-    readonly excludeProductId: string;
+    readonly source: ProductListingSource;
+    readonly excludeProductListingId: string;
 }
 
-export function ProductDealerItems({
-    shopName,
-    shopSlugId,
-    excludeProductId,
-}: ProductDealerItemsProps) {
+export function ProductDealerItems({ source, excludeProductListingId }: ProductDealerItemsProps) {
     const { t } = useTranslation();
-    const { data, isLoading, isError, error } = useDealerProducts(shopName, excludeProductId);
+    const { data, isLoading, isError, error } = useDealerProducts(
+        source.listingSourceId,
+        excludeProductListingId,
+    );
 
     if (isLoading) {
         return (
@@ -63,7 +62,7 @@ export function ProductDealerItems({
                     <div className="flex shrink-0 items-center gap-4">
                         <Link
                             to="/$lng/shops/$shopSlugId"
-                            params={(current) => ({ ...current, shopSlugId })}
+                            params={(current) => ({ ...current, shopSlugId: source.slugId })}
                             className="flex items-center gap-1 text-xs uppercase tracking-widest text-primary hover:underline"
                             from="/$lng"
                         >
@@ -76,7 +75,7 @@ export function ProductDealerItems({
                 <CarouselContent className="-ml-6 mt-6">
                     {data.map((product) => (
                         <CarouselItem
-                            key={product.productId}
+                            key={product.productListingId}
                             className="basis-full pl-6 sm:basis-1/2 lg:basis-1/4"
                         >
                             <ProductGridItem product={product} />

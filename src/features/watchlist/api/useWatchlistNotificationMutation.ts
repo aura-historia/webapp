@@ -1,27 +1,31 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { patchWatchlistProduct, type PersonalizedGetProductData } from "@/client";
+import { patchWatchlistProduct } from "@/client";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import {
-    getProductBySlugQueryKey,
-    getProductQueryKey,
-} from "@/client/@tanstack/react-query.gen.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
-import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { useParams } from "@tanstack/react-router";
 
-export function useWatchlistNotificationMutation(shopId: string, shopsProductId: string) {
+function isProductListingQuery(queryKey: readonly unknown[]): boolean {
+    return queryKey.some(
+        (part) =>
+            typeof part === "object" &&
+            part !== null &&
+            "_id" in part &&
+            ["getProductListingByTitleSlug", "getProductListing"].includes(
+                String((part as { _id?: unknown })._id),
+            ),
+    );
+}
+
+export function useWatchlistNotificationMutation(productListingId: string) {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
-
-    const routeParams = useParams({ strict: false, shouldThrow: false });
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     return useMutation({
         mutationFn: async (notificationsEnabled: boolean) => {
             const result = await patchWatchlistProduct({
-                path: { shopId, shopsProductId },
+                path: { productListingId },
                 body: { notifications: notificationsEnabled },
             });
 
@@ -35,59 +39,16 @@ export function useWatchlistNotificationMutation(shopId: string, shopsProductId:
 
             return result.data;
         },
-        onError: (e) => {
-            console.error("Error mutating watchlist:", e);
-            toast.error(e.message || t("watchlist.loadingError.description"));
+        onError: (error) => {
+            console.error("Error mutating watchlist:", error);
+            toast.error(error.message || t("watchlist.loadingError.description"));
         },
-        onSuccess: async (data) => {
-            if (!data) return;
-
-            // Update product detail query
-            queryClient.setQueryData(
-                getProductQueryKey({
-                    query: { language: parseLanguage(i18n.language) },
-                    path: { shopId, shopsProductId },
-                }),
-                (old: PersonalizedGetProductData | undefined) =>
-                    old && {
-                        ...old,
-                        userState: {
-                            ...old.userState,
-                            watchlist: {
-                                watching: old.userState?.watchlist?.watching ?? true,
-                                notifications: data.userState?.watchlist.notifications,
-                            },
-                        },
-                    },
-            );
-
-            if (routeParams?.shopSlugId !== undefined && routeParams?.productSlugId !== undefined) {
-                // Update product detail query
-                queryClient.setQueryData(
-                    getProductBySlugQueryKey({
-                        query: { language: parseLanguage(i18n.language) },
-                        path: {
-                            shopSlugId: routeParams.shopSlugId,
-                            productSlugId: routeParams.productSlugId,
-                        },
-                    }),
-                    (old: PersonalizedGetProductData | undefined) =>
-                        old && {
-                            ...old,
-                            userState: {
-                                ...old.userState,
-                                watchlist: {
-                                    watching: old.userState?.watchlist?.watching ?? true,
-                                    notifications: data.userState?.watchlist.notifications,
-                                },
-                            },
-                        },
-                );
-            }
-
+        onSuccess: async () => {
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ["watchlist"] }),
-                queryClient.invalidateQueries({ queryKey: ["search"] }),
+                queryClient.invalidateQueries({
+                    predicate: ({ queryKey }) => isProductListingQuery(queryKey),
+                }),
             ]);
         },
     });

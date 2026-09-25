@@ -1,11 +1,11 @@
-import type { ProductDetail } from "@/data/internal/product/ProductDetails.ts";
+import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
 import { screen } from "@testing-library/react";
 import { ProductDetailPage } from "../ProductDetailPage.tsx";
 import { vi } from "vitest";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 
 vi.mock("@/features/product/detail/components/ProductInfo.tsx", () => ({
-    ProductInfo: ({ product }: { product: ProductDetail }) => (
+    ProductInfo: ({ product }: { product: ProductListingDetail }) => (
         <div data-testid="product-info">ProductInfo: {product.title}</div>
     ),
 }));
@@ -31,7 +31,7 @@ vi.mock("@/features/product/detail/components/dealer/ProductDealerItems.tsx", ()
 }));
 
 describe("ProductDetailPage", () => {
-    const mockProduct: ProductDetail = {
+    const mockProduct: ProductListingDetail = {
         productId: "1",
         productSlugId: "test-product",
         eventId: "",

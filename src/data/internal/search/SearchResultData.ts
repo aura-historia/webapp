@@ -1,8 +1,8 @@
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 
 export type SearchResultData = {
-    products: OverviewProduct[];
+    products: ProductListing[];
     size: number | undefined;
     total: number | undefined;
-    searchAfter: Array<unknown> | undefined;
+    searchAfter: string | undefined;
 };

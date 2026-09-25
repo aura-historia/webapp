@@ -1,5 +1,5 @@
-import { getWatchlistProducts } from "@/client";
-import { mapPersonalizedGetProductDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import { getWatchlistProductListings } from "@/client";
+import { mapPersonalizedProductListingDetails } from "@/data/internal/product/ProductListing.ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
@@ -15,16 +15,14 @@ export function useWatchlist() {
     const { preferences } = useUserPreferences();
 
     return useInfiniteQuery({
-        queryKey: ["watchlist", i18n.language],
+        queryKey: ["watchlist", i18n.language, preferences.currency],
         queryFn: async ({ pageParam }) => {
-            const result = await getWatchlistProducts({
+            const result = await getWatchlistProductListings({
                 query: {
                     language: parseLanguage(i18n.language),
                     currency: preferences.currency,
                     searchAfter: pageParam,
                     size: PAGE_SIZE,
-                    sort: "created",
-                    order: "desc",
                 },
             });
 
@@ -35,11 +33,12 @@ export function useWatchlist() {
             return {
                 products:
                     result.data?.items?.map((product) =>
-                        mapPersonalizedGetProductDataToOverviewProduct(product, i18n.language),
+                        mapPersonalizedProductListingDetails(product, i18n.language),
                     ) ?? [],
                 size: result.data?.size,
-                total: result.data?.total ?? undefined,
-                searchAfter: result.data?.searchAfter ?? undefined,
+                searchAfter: result.data.searchAfter
+                    ? JSON.stringify(result.data.searchAfter)
+                    : undefined,
             };
         },
         initialPageParam: undefined as string | undefined,

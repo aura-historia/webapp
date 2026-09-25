@@ -1,4 +1,4 @@
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { render, screen } from "@testing-library/react";
 import { ProductSimilar } from "../ProductSimilar.tsx";
 import { vi } from "vitest";
@@ -40,7 +40,7 @@ vi.mock("@/features/product/detail/api/useSimilarProducts.ts", () => ({
 import { useSimilarProducts } from "@/features/product/detail/api/useSimilarProducts.ts";
 
 describe("ProductSimilar", () => {
-    const mockProducts: OverviewProduct[] = [
+    const mockProducts: ProductListing[] = [
         {
             productId: "1",
             productSlugId: "similar-product-1",
@@ -206,7 +206,7 @@ describe("ProductSimilar", () => {
     });
 
     it("should render HiddenMatchCard instead of ProductGridItem when product is hidden", () => {
-        const hiddenProduct: OverviewProduct = {
+        const hiddenProduct: ProductListing = {
             ...mockProducts[0],
             productId: "00000000-0000-0000-0000-000000000000",
             userData: {

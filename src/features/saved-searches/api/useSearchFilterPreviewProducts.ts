@@ -1,8 +1,8 @@
 import { getSearchFilterPreviewProducts } from "@/client";
 import {
-    mapPersonalizedGetProductSummaryDataToOverviewProduct,
-    type OverviewProduct,
-} from "@/data/internal/product/OverviewProduct.ts";
+    mapPersonalizedProductListingSummary,
+    type ProductListing,
+} from "@/data/internal/product/ProductListing.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 export function useSearchFilterPreviewProducts(
     id: string,
     enabled: boolean,
-): UseQueryResult<OverviewProduct[]> {
+): UseQueryResult<ProductListing[]> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
@@ -35,7 +35,7 @@ export function useSearchFilterPreviewProducts(
             }
 
             return result.data.items.map((item) =>
-                mapPersonalizedGetProductSummaryDataToOverviewProduct(item, i18n.language),
+                mapPersonalizedProductListingSummary(item, i18n.language),
             );
         },
     });
