@@ -1,23 +1,25 @@
-import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
+import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Timeline } from "@/components/ui/timeline.tsx";
 import { useMemo, useState } from "react";
-import { isPriceEvent, isStateEvent } from "@/features/product/detail/lib/events/eventFilters.ts";
+import {
+    matchesHistoryFilter,
+    type HistoryFilter,
+} from "@/features/product/detail/lib/events/eventFilters.ts";
 import { ProductEventHistory } from "@/features/product/detail/components/ProductEventHistory.tsx";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 
-type FilterType = "all" | "price" | "state";
-
 interface ProductHistoryProps {
-    readonly history?: readonly ProductEvent[];
+    readonly history?: readonly ProductListingHistoryEntry[];
 }
 
 const createFilterOptions = (t: TFunction) => {
     return [
         { label: t("product.history.filters.all"), value: "all" as const },
         { label: t("product.history.filters.price"), value: "price" as const },
-        { label: t("product.history.filters.availability"), value: "state" as const },
+        { label: t("product.history.filters.availability"), value: "availability" as const },
+        { label: t("product.history.filters.details"), value: "details" as const },
     ] as const;
 };
 
@@ -36,7 +38,7 @@ export function ProductHistory({ history }: ProductHistoryProps) {
      * Currently active filter state.
      * Controls which event types are displayed in the timeline.
      */
-    const [activeFilter, setActiveFilter] = useState<FilterType>("all");
+    const [activeFilter, setActiveFilter] = useState<HistoryFilter>("all");
 
     /**
      * Renders buttons for each filter option with active state highlighting.
@@ -75,18 +77,7 @@ export function ProductHistory({ history }: ProductHistoryProps) {
     /**
      * Filter events based on selected filter type.
      */
-    const filteredEvents = history.filter((event) => {
-        switch (activeFilter) {
-            case "all":
-                return true;
-            case "state":
-                return isStateEvent(event);
-            case "price":
-                return isPriceEvent(event);
-            default:
-                return false;
-        }
-    });
+    const filteredEvents = history.filter((event) => matchesHistoryFilter(event, activeFilter));
 
     /**
      * Early return: Shows when there are no events for the specified filter.
@@ -116,7 +107,11 @@ export function ProductHistory({ history }: ProductHistoryProps) {
                         .slice()
                         .reverse()
                         .map((event) => (
-                            <ProductEventHistory key={event.eventId} event={event} />
+                            <ProductEventHistory
+                                key={event.eventId}
+                                event={event}
+                                filter={activeFilter}
+                            />
                         ))}
                 </Timeline>
             </div>

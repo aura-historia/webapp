@@ -1,9 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-    getProductBySlugOptions,
-    getProductHistoryOptions,
-} from "@/client/@tanstack/react-query.gen";
+import { getProductBySlugOptions } from "@/client/@tanstack/react-query.gen";
 import { mapToDetailProduct } from "@/data/internal/product/ProductDetails.ts";
 import { ProductDetailPage } from "@/features/product/detail/pages/ProductDetailPage.tsx";
 import { ProductDetailPageSkeleton } from "@/features/product/detail/components/ProductDetailPageSkeleton.tsx";
@@ -37,27 +34,6 @@ export const Route = createFileRoute("/$lng/shops/$shopSlugId/products/$productS
                 throw error;
             });
 
-        await queryClient
-            .ensureQueryData(
-                getProductHistoryOptions({
-                    query: {
-                        language: parseLanguage(lng),
-                        currency: currency,
-                    },
-                    path: {
-                        shopId: productData.item.shopId,
-                        shopsProductId: productData.item.shopsProductId,
-                    },
-                }),
-            )
-            .catch((error) => {
-                if (isApiNotFoundError(error)) {
-                    throw notFound();
-                }
-
-                throw error;
-            });
-
         return productData;
     },
     head: ({ loaderData, params }) => generateProductHeadMeta(loaderData, params),
@@ -80,20 +56,7 @@ function ProductDetailComponent() {
         }),
     );
 
-    const { data: historyData } = useSuspenseQuery(
-        getProductHistoryOptions({
-            query: {
-                language: parseLanguage(i18n.language),
-                currency: preferences.currency,
-            },
-            path: {
-                shopId: apiData.item.shopId,
-                shopsProductId: apiData.item.shopsProductId,
-            },
-        }),
-    );
-
-    const product = mapToDetailProduct(apiData, historyData, i18n.language);
+    const product = mapToDetailProduct(apiData, i18n.language);
 
     return <ProductDetailPage product={product} />;
 }

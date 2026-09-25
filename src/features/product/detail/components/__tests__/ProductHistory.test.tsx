@@ -1,8 +1,8 @@
-import type { ProductEvent } from "@/data/internal/product/ProductDetails.ts";
+import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { ProductHistory } from "@/features/product/detail/components/ProductHistory.tsx";
 import { vi } from "vitest";
-import userEvent from "@testing-library/user-event";
 
 vi.mock("@tanstack/react-router", async () => {
     const actual =
@@ -14,196 +14,68 @@ vi.mock("@tanstack/react-router", async () => {
 });
 
 vi.mock("@/components/ui/timeline", () => ({
-    Timeline: ({ children }: { children: React.ReactNode }) => (
-        <div data-testid="timeline">{children}</div>
-    ),
+    Timeline: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
     TimelineItem: ({ children }: { children: React.ReactNode }) => (
         <div data-testid="timeline-item">{children}</div>
     ),
-    TimelineTitle: ({ children }: { children: React.ReactNode }) => (
-        <div data-testid="timeline-title">{children}</div>
-    ),
-    TimelineDescription: ({ children }: { children: React.ReactNode }) => (
-        <div data-testid="timeline-description">{children}</div>
-    ),
-    TimelineTime: ({ children }: { children: React.ReactNode }) => (
-        <div data-testid="timeline-time">{children}</div>
-    ),
-    TimelineHeader: ({ children }: { children: React.ReactNode }) => (
-        <div data-testid="timeline-header">{children}</div>
-    ),
+    TimelineTitle: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    TimelineDescription: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    TimelineTime: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    TimelineHeader: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 
-vi.mock("@/features/product/catalog/components/badges/StatusBadge", () => ({
-    StatusBadge: ({ status }: { status: string }) => (
-        <span data-testid="status-badge">{status}</span>
-    ),
-}));
-
-vi.mock("@/features/product/catalog/components/badges/PriceBadge", () => ({
-    PriceBadge: ({ eventType }: { eventType: string }) => (
-        <span data-testid="price-badge">{eventType}</span>
-    ),
-}));
+const mixedEvent: ProductListingHistoryEntry = {
+    eventType: "PRODUCT_LISTING_CHANGED",
+    productListingId: "plist_123",
+    eventId: "event-1",
+    timestamp: new Date("2026-09-02T10:00:00Z"),
+    payload: {
+        kind: "CHANGED",
+        changes: [
+            {
+                type: "MAIN_PRICE_CHANGED",
+                previous: { type: "MONETARY", amount: 10000, currency: "EUR" },
+                current: { type: "MONETARY", amount: 9000, currency: "EUR" },
+            },
+            { type: "AVAILABILITY_CHANGED", previous: "AVAILABLE", current: "RESERVED" },
+        ],
+    },
+};
 
 describe("ProductHistory", () => {
-    const mockStateEvent: ProductEvent = {
-        eventId: "1",
-        productId: "item-1",
-        shopId: "shop-1",
-        shopsProductId: "shops-item-1",
-        eventType: "STATE_CHANGED",
-        timestamp: new Date("2024-01-15T10:00:00Z"),
-        payload: {
-            oldState: "LISTED",
-            newState: "AVAILABLE",
-        },
-    };
-
-    const mockPriceEvent: ProductEvent = {
-        eventId: "2",
-        productId: "item-1",
-        shopId: "shop-1",
-        shopsProductId: "shops-item-1",
-        eventType: "PRICE_CHANGED",
-        timestamp: new Date("2024-01-16T11:00:00Z"),
-        payload: {
-            oldPrice: { amount: 8999, currency: "EUR" },
-            newPrice: { amount: 9999, currency: "EUR" },
-        },
-    };
-
-    const mockCreatedEvent: ProductEvent = {
-        eventId: "3",
-        productId: "item-1",
-        shopId: "shop-1",
-        shopsProductId: "shops-item-1",
-        eventType: "CREATED",
-        timestamp: new Date("2024-01-14T09:00:00Z"),
-        payload: {
-            state: "AVAILABLE",
-            price: { amount: 8999, currency: "EUR" },
-        },
-    };
-
-    it("should render empty state when history is undefined", () => {
+    it("renders a localized empty state when there is no history", () => {
         render(<ProductHistory history={undefined} />);
-        expect(screen.getByText("Historie")).toBeInTheDocument();
         expect(screen.getByText("Keine Daten für diesen Artikel vorhanden.")).toBeInTheDocument();
     });
 
-    it("should render empty state when history is empty array", () => {
-        render(<ProductHistory history={[]} />);
-        expect(screen.getByText("Keine Daten für diesen Artikel vorhanden.")).toBeInTheDocument();
+    it("renders a grouped history entry once and exposes the four history filters", () => {
+        render(<ProductHistory history={[mixedEvent]} />);
+
+        expect(screen.getAllByTestId("timeline-item")).toHaveLength(1);
+        expect(screen.getByRole("button", { name: "Alle" })).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Preis" })).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Verfügbarkeit" })).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Details" })).toBeInTheDocument();
     });
 
-    it("should render all filter buttons", () => {
-        render(<ProductHistory history={[mockStateEvent]} />);
-        expect(screen.getByText("Alle")).toBeInTheDocument();
-        expect(screen.getByText("Preis")).toBeInTheDocument();
-        expect(screen.getByText("Verfügbarkeit")).toBeInTheDocument();
-        expect(screen.queryByText("Details")).not.toBeInTheDocument();
-    });
-
-    it("should render state events correctly", () => {
-        render(<ProductHistory history={[mockStateEvent]} />);
-        expect(screen.getByTestId("timeline")).toBeInTheDocument();
-        expect(screen.getByTestId("timeline-item")).toBeInTheDocument();
-        expect(screen.getByTestId("status-badge")).toHaveTextContent("AVAILABLE");
-    });
-
-    it("should render price events correctly", () => {
-        render(<ProductHistory history={[mockPriceEvent]} />);
-        expect(screen.getByTestId("price-badge")).toHaveTextContent("PRICE_INCREASED");
-    });
-
-    it("should render created events correctly", () => {
-        render(<ProductHistory history={[mockCreatedEvent]} />);
-        expect(screen.getByTestId("status-badge")).toHaveTextContent("AVAILABLE");
-        expect(screen.getByText(/Im System erfasst/)).toBeInTheDocument();
-    });
-
-    it("should filter to show only state events when Verfügbarkeit is clicked", async () => {
+    it("shows only matching changes when the price filter is selected", async () => {
         const user = userEvent.setup();
-        render(<ProductHistory history={[mockStateEvent, mockPriceEvent]} />);
+        render(<ProductHistory history={[mixedEvent]} />);
 
-        const availabilityButton = screen.getByText("Verfügbarkeit");
-        await user.click(availabilityButton);
+        await user.click(screen.getByRole("button", { name: "Preis" }));
 
-        const timelineItems = screen.getAllByTestId("timeline-item");
-        expect(timelineItems).toHaveLength(1);
-        expect(screen.getByTestId("status-badge")).toBeInTheDocument();
+        expect(screen.getAllByTestId("timeline-item")).toHaveLength(1);
+        expect(screen.getByText(/Angebotspreis geändert/)).toBeInTheDocument();
+        expect(screen.queryByText(/Verfügbarkeit geändert/)).not.toBeInTheDocument();
     });
 
-    it("should filter to show only price events when Preis is clicked", async () => {
+    it("shows an empty result when the active filter has no matching changes", async () => {
         const user = userEvent.setup();
-        render(<ProductHistory history={[mockStateEvent, mockPriceEvent]} />);
+        render(<ProductHistory history={[mixedEvent]} />);
 
-        const preisButton = screen.getByText("Preis");
-        await user.click(preisButton);
+        await user.click(screen.getByRole("button", { name: "Details" }));
 
-        const timelineItems = screen.getAllByTestId("timeline-item");
-        expect(timelineItems).toHaveLength(1);
-        expect(screen.getByTestId("price-badge")).toBeInTheDocument();
-    });
-
-    it("should show all events when Alle filter is active", async () => {
-        const user = userEvent.setup();
-        render(<ProductHistory history={[mockStateEvent, mockPriceEvent, mockCreatedEvent]} />);
-
-        await user.click(screen.getByText("Preis"));
-        await user.click(screen.getByText("Alle"));
-
-        const timelineItems = screen.getAllByTestId("timeline-item");
-        expect(timelineItems).toHaveLength(3);
-    });
-
-    it("should show empty filter message when no events match filter", async () => {
-        const user = userEvent.setup();
-        render(<ProductHistory history={[mockStateEvent]} />);
-
-        const preisButton = screen.getByText("Preis");
-        await user.click(preisButton);
-
-        expect(screen.getByText("Keine Events für diesen Filter verfügbar.")).toBeInTheDocument();
-    });
-
-    it("should show new detail events in All filter", () => {
-        const mockConditionEvent: ProductEvent = {
-            eventId: "4",
-            productId: "item-1",
-            shopId: "shop-1",
-            shopsProductId: "shops-item-1",
-            eventType: "ESTIMATE_PRICE_CHANGED",
-            timestamp: new Date("2024-01-17T12:00:00Z"),
-            payload: {},
-        };
-
-        render(
-            <ProductHistory
-                history={[mockStateEvent, mockPriceEvent, mockCreatedEvent, mockConditionEvent]}
-            />,
-        );
-
-        const timelineItems = screen.getAllByTestId("timeline-item");
-        expect(timelineItems).toHaveLength(4);
-    });
-
-    it("should not show new detail events in Price filter", async () => {
-        const user = userEvent.setup();
-        const mockConditionEvent: ProductEvent = {
-            eventId: "4",
-            productId: "item-1",
-            shopId: "shop-1",
-            shopsProductId: "shops-item-1",
-            eventType: "ESTIMATE_PRICE_CHANGED",
-            timestamp: new Date("2024-01-17T12:00:00Z"),
-            payload: {},
-        };
-
-        render(<ProductHistory history={[mockStateEvent, mockConditionEvent]} />);
-        await user.click(screen.getByText("Preis"));
-
+        expect(screen.queryByTestId("timeline-item")).not.toBeInTheDocument();
         expect(screen.getByText("Keine Events für diesen Filter verfügbar.")).toBeInTheDocument();
     });
 });
