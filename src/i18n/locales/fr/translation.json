@@ -273,6 +273,7 @@
   "search": {
     "filters": "Filtres",
     "resultsFor": "Résultats de recherche pour :",
+    "legacyFiltersRemoved": "Certains filtres de ce lien ne sont plus pris en charge et ont été supprimés ; les résultats peuvent donc différer.",
     "resetAllFilters": "Réinitialiser tous les filtres",
     "totalResults_one": "{{count}} article",
     "totalResults_other": "{{count}} articles",
@@ -334,6 +335,15 @@
       "from": "Du :",
       "to": "Au :",
       "productState": "Statut de l'annonce",
+      "availability": "Disponibilité",
+      "listingSource": "Inclure une source d'annonces",
+      "listingSources": "Sources d'annonces",
+      "searchListingSources": "Rechercher des sources d'annonces...",
+      "noListingSourcesFound": "Aucune source d'annonces trouvée",
+      "excludeListingSource": "Exclure une source d'annonces",
+      "searchExcludeListingSources": "Rechercher des sources à exclure...",
+      "sourceCount_one": "{{count}} source sélectionnée",
+      "sourceCount_other": "{{count}} sources sélectionnées",
       "merchant": "Marchand",
       "searchMerchants": "Rechercher des marchands...",
       "noMerchantsFound": "Aucun marchand trouvé",
@@ -346,6 +356,8 @@
       "resetTooltip": {
         "priceSpan": "Réinitialiser le filtre de fourchette de prix",
         "productState": "Réinitialiser le filtre de statut",
+        "availability": "Réinitialiser le filtre de disponibilité",
+        "listingSources": "Réinitialiser les filtres de source",
         "creationDate": "Réinitialiser le filtre de date de création",
         "updateDate": "Réinitialiser le filtre de date de mise à jour",
         "auctionDate": "Réinitialiser le filtre de date de vente aux enchères",
@@ -556,6 +568,19 @@
     "dropped": "Prix en baisse",
     "increased": "Prix en hausse",
     "removed": "Prix supprimé"
+  },
+  "listingAvailability": {
+    "available": "Disponible",
+    "inStock": "En stock",
+    "limitedAvailability": "Disponibilité limitée",
+    "backOrder": "En réapprovisionnement",
+    "madeToOrder": "Sur commande",
+    "preOrder": "Précommande",
+    "preSale": "Prévente",
+    "unavailable": "Indisponible",
+    "reserved": "Réservé",
+    "outOfStock": "Rupture de stock",
+    "soldOut": "Épuisé"
   },
   "productState": {
     "listed": "Listé",

@@ -7,7 +7,7 @@ import {
     mapSearchFilterArgumentsToProductSearchData,
 } from "../UserSearchFilter.ts";
 import type { UserSearchFilterData } from "@/client";
-import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
+import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 const baseFilterData: UserSearchFilterData = {
     userId: "user-1",
@@ -18,8 +18,8 @@ const baseFilterData: UserSearchFilterData = {
     search: {
         productQuery: ["Tisch"],
         price: { min: 1000, max: 5000 },
-        state: ["AVAILABLE"],
-        shopType: ["AUCTION_HOUSE"],
+        availability: ["AVAILABLE"],
+        listingSourceId: ["source-1"],
     },
     createdBy: "SYSTEM",
     updatedBy: "SYSTEM",
@@ -56,6 +56,12 @@ describe("mapToInternalUserSearchFilter", () => {
     it("maps productQuery to q", () => {
         const result = mapToInternalUserSearchFilter(baseFilterData);
         expect(result.search.q).toBe("Tisch");
+    });
+
+    it("maps canonical availability and source IDs", () => {
+        const result = mapToInternalUserSearchFilter(baseFilterData);
+        expect(result.search.availability).toEqual(["AVAILABLE"]);
+        expect(result.search.listingSourceId).toEqual(["source-1"]);
     });
 
     it("maps optional enhancedSearchDescription", () => {
@@ -250,11 +256,16 @@ describe("mapToBackendPatchUserSearchFilter", () => {
 });
 
 describe("isDefaultOrEmpty behaviour in mapToBackendCreateUserSearchFilter", () => {
-    it("omits shopType when set to full defaults", () => {
+    it("preserves canonical listing availability and source IDs", () => {
         const result = mapToBackendCreateUserSearchFilter({
             name: "Test",
-            search: { q: "", shopType: [...SHOP_TYPES] },
+            search: {
+                q: "",
+                availability: [...LISTING_AVAILABILITIES],
+                listingSourceId: ["source-1"],
+            },
         });
-        expect(result.search.shopType).toBeUndefined();
+        expect(result.search.availability).toEqual([...LISTING_AVAILABILITIES]);
+        expect(result.search.listingSourceId).toEqual(["source-1"]);
     });
 });

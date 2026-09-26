@@ -5,10 +5,10 @@ import { describe, expect, it, vi } from "vitest";
 import type React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-// Mock the simpleSearchShops API
+// Mock public listing-source search.
 vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
-    simpleSearchShopsOptions: () => ({
-        queryKey: ["simpleSearchShops"],
+    searchPublicListingSourcesOptions: () => ({
+        queryKey: ["searchPublicListingSources"],
         queryFn: vi.fn().mockResolvedValue({ items: [] }),
         enabled: false,
     }),
@@ -32,8 +32,8 @@ const FormWrapper = ({
 }) => {
     const methods = useForm({
         defaultValues: {
-            merchant: [],
-            excludeMerchant: [],
+            listingSourceId: [],
+            excludeListingSourceId: [],
             ...defaultValues,
         },
     });
@@ -53,9 +53,7 @@ describe("MerchantFilters", () => {
             </FormWrapper>,
         );
 
-        // "Händler" appears twice: once in card header, once as include filter label
-        const merchantTexts = screen.getAllByText("Händler");
-        expect(merchantTexts).toHaveLength(2);
+        expect(screen.getByText("Angebotsquellen")).toBeInTheDocument();
     });
 
     it("renders MerchantIncludeFilter", () => {
@@ -65,10 +63,8 @@ describe("MerchantFilters", () => {
             </FormWrapper>,
         );
 
-        // "Händler" appears twice: card header and filter label
-        const merchantTexts = screen.getAllByText("Händler");
-        expect(merchantTexts).toHaveLength(2);
-        expect(screen.getByPlaceholderText("Händler suchen...")).toBeInTheDocument();
+        expect(screen.getByText("Angebotsquelle einschließen")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Angebotsquellen suchen...")).toBeInTheDocument();
     });
 
     it("renders MerchantExcludeFilter", () => {
@@ -78,9 +74,9 @@ describe("MerchantFilters", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Händler ausschließen")).toBeInTheDocument();
+        expect(screen.getByText("Angebotsquelle ausschließen")).toBeInTheDocument();
         expect(
-            screen.getByPlaceholderText("Auszuschließende Händler suchen..."),
+            screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen..."),
         ).toBeInTheDocument();
     });
 
@@ -91,16 +87,13 @@ describe("MerchantFilters", () => {
             </FormWrapper>,
         );
 
-        // Both filter labels should be present
-        // "Händler" appears twice: card header and include filter label
-        const merchantTexts = screen.getAllByText("Händler");
-        expect(merchantTexts).toHaveLength(2);
-        expect(screen.getByText("Händler ausschließen")).toBeInTheDocument();
+        expect(screen.getByText("Angebotsquelle einschließen")).toBeInTheDocument();
+        expect(screen.getByText("Angebotsquelle ausschließen")).toBeInTheDocument();
 
         // Both search inputs should be present
-        expect(screen.getByPlaceholderText("Händler suchen...")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Angebotsquellen suchen...")).toBeInTheDocument();
         expect(
-            screen.getByPlaceholderText("Auszuschließende Händler suchen..."),
+            screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen..."),
         ).toBeInTheDocument();
     });
 });

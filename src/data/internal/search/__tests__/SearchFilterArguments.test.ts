@@ -1,69 +1,36 @@
 import { describe, expect, it } from "vitest";
 import { hasActiveFilters, hasAdvancedFilterDetails } from "../SearchFilterArguments.ts";
 import type { SearchFilterArguments } from "../SearchFilterArguments.ts";
+import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 const empty: SearchFilterArguments = { q: "" };
+const activeCases: SearchFilterArguments[] = [
+    { q: "", priceFrom: 100 },
+    { q: "", availability: ["IN_STOCK"] },
+    { q: "", excludeProductId: ["pl_1"] },
+    { q: "", listingSourceId: ["ls_1"] },
+    { q: "", excludeListingSourceId: ["ls_2"] },
+    { q: "", auctionDateFrom: new Date("2026-01-01") },
+];
 
-describe("hasActiveFilters", () => {
-    it("returns false for empty filters", () => {
+describe("canonical listing search filters", () => {
+    it("reports an empty query as having no active filters", () => {
         expect(hasActiveFilters(empty)).toBe(false);
     });
 
-    it("returns true when priceFrom is set", () => {
-        expect(hasActiveFilters({ q: "", priceFrom: 100 })).toBe(true);
+    it.each(activeCases)("counts supported criteria as active filters", (filters) => {
+        expect(hasActiveFilters(filters)).toBe(true);
     });
 
-    it("returns true when priceTo is set", () => {
-        expect(hasActiveFilters({ q: "", priceTo: 500 })).toBe(true);
+    it("treats all availability values as an unfiltered default", () => {
+        expect(hasActiveFilters({ q: "", availability: [...LISTING_AVAILABILITIES] })).toBe(false);
     });
 
-    it("returns true when allowedStates is set", () => {
-        expect(hasActiveFilters({ q: "", allowedStates: ["LISTED"] })).toBe(true);
-    });
-
-    it("returns true when shopType is set", () => {
-        expect(hasActiveFilters({ q: "", shopType: ["AUCTION_HOUSE"] })).toBe(true);
-    });
-
-    it("returns true for advanced filter (merchant)", () => {
-        expect(hasActiveFilters({ q: "", merchant: ["Shop A"] })).toBe(true);
-    });
-});
-
-describe("hasAdvancedFilterDetails", () => {
-    it("returns false for empty filters", () => {
+    it("recognizes date and source criteria as advanced details", () => {
+        expect(hasAdvancedFilterDetails({ q: "", listingSourceId: ["ls_1"] })).toBe(true);
+        expect(hasAdvancedFilterDetails({ q: "", updateDateTo: new Date("2026-01-01") })).toBe(
+            true,
+        );
         expect(hasAdvancedFilterDetails(empty)).toBe(false);
-    });
-
-    it("returns true when merchant is set", () => {
-        expect(hasAdvancedFilterDetails({ q: "", merchant: ["Shop A"] })).toBe(true);
-    });
-
-    it("returns true when excludeMerchant is set", () => {
-        expect(hasAdvancedFilterDetails({ q: "", excludeMerchant: ["Shop B"] })).toBe(true);
-    });
-
-    it("returns true when creationDateFrom is set", () => {
-        expect(hasAdvancedFilterDetails({ q: "", creationDateFrom: new Date("2024-01-01") })).toBe(
-            true,
-        );
-    });
-
-    it("returns true when auctionDateFrom is set", () => {
-        expect(hasAdvancedFilterDetails({ q: "", auctionDateFrom: new Date("2024-06-01") })).toBe(
-            true,
-        );
-    });
-
-    it("returns false when merchant is empty array", () => {
-        expect(hasAdvancedFilterDetails({ q: "", merchant: [] })).toBe(false);
-    });
-
-    it("returns true when seller is set", () => {
-        expect(hasAdvancedFilterDetails({ q: "", seller: ["Seller A"] })).toBe(true);
-    });
-
-    it("returns true when excludeSeller is set", () => {
-        expect(hasAdvancedFilterDetails({ q: "", excludeSeller: ["Seller B"] })).toBe(true);
     });
 });

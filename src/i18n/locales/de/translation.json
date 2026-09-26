@@ -273,6 +273,7 @@
   "search": {
     "filters": "Filter",
     "resultsFor": "Suchergebnisse für:",
+    "legacyFiltersRemoved": "Einige Filter in diesem Link werden nicht mehr unterstützt und wurden entfernt. Die Ergebnisse können daher abweichen.",
     "resetAllFilters": "Alle Filter zurücksetzen",
     "totalResults_one": "{{count}} Artikel",
     "totalResults_other": "{{count}} Artikel",
@@ -334,6 +335,15 @@
       "from": "Von:",
       "to": "Bis:",
       "productState": "Anzeigenstatus",
+      "availability": "Verfügbarkeit",
+      "listingSource": "Angebotsquelle einschließen",
+      "listingSources": "Angebotsquellen",
+      "searchListingSources": "Angebotsquellen suchen...",
+      "noListingSourcesFound": "Keine Angebotsquellen gefunden",
+      "excludeListingSource": "Angebotsquelle ausschließen",
+      "searchExcludeListingSources": "Auszuschließende Angebotsquellen suchen...",
+      "sourceCount_one": "{{count}} Angebotsquelle ausgewählt",
+      "sourceCount_other": "{{count}} Angebotsquellen ausgewählt",
       "merchant": "Händler",
       "merchants": "Händler",
       "searchMerchants": "Händler suchen...",
@@ -360,6 +370,8 @@
       "resetTooltip": {
         "priceSpan": "Filter für die Preisspanne zurücksetzen",
         "productState": "Filter für den Status zurücksetzen",
+        "availability": "Verfügbarkeitsfilter zurücksetzen",
+        "listingSources": "Angebotsquellenfilter zurücksetzen",
         "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
         "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
         "auctionDate": "Filter für das Auktionsdatum zurücksetzen",
@@ -556,6 +568,19 @@
     "dropped": "Preis gesunken",
     "increased": "Preis gestiegen",
     "removed": "Preis entfernt"
+  },
+  "listingAvailability": {
+    "available": "Verfügbar",
+    "inStock": "Auf Lager",
+    "limitedAvailability": "Begrenzte Verfügbarkeit",
+    "backOrder": "Nachbestellung",
+    "madeToOrder": "Auf Bestellung",
+    "preOrder": "Vorbestellung",
+    "preSale": "Vorverkauf",
+    "unavailable": "Nicht verfügbar",
+    "reserved": "Reserviert",
+    "outOfStock": "Nicht auf Lager",
+    "soldOut": "Ausverkauft"
   },
   "productState": {
     "listed": "Gelistet",

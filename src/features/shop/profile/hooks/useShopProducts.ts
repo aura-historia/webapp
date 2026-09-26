@@ -1,4 +1,4 @@
-import { simpleSearchProductListings, type ProductListingSearchCursorData } from "@/client";
+import { simpleSearchProductListings } from "@/client";
 import { mapPersonalizedProductListingSummary } from "@/data/internal/product/ProductListing.ts";
 import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import {
@@ -11,12 +11,18 @@ import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useTranslation } from "react-i18next";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
+import {
+    mapListingSearchCursor,
+    serializeListingSearchCursor,
+    type ListingSearchCursor,
+} from "@/data/internal/search/SearchResultData.ts";
 
 const PAGE_SIZE = 20;
 
 export type ShopProductsPage = {
     products: ProductListing[];
-    searchAfter: ProductListingSearchCursorData | undefined;
+    total: number | undefined;
+    searchAfter: ListingSearchCursor | undefined;
 };
 
 export function useShopProducts(
@@ -39,7 +45,7 @@ export function useShopProducts(
                 query: {
                     language: parseLanguage(i18n.language),
                     currency: preferences.currency,
-                    searchAfter: pageParam,
+                    searchAfter: pageParam ? serializeListingSearchCursor(pageParam) : undefined,
                     size: PAGE_SIZE,
                     sort: "updated",
                     order: "desc",
@@ -56,10 +62,11 @@ export function useShopProducts(
                     result.data?.items?.map((product) =>
                         mapPersonalizedProductListingSummary(product, i18n.language),
                     ) ?? [],
-                searchAfter: result.data?.searchAfter ?? undefined,
+                total: result.data?.total ?? undefined,
+                searchAfter: mapListingSearchCursor(result.data?.searchAfter),
             };
         },
-        initialPageParam: undefined as ProductListingSearchCursorData | undefined,
-        getNextPageParam: (lastPage) => lastPage.searchAfter ?? undefined,
+        initialPageParam: undefined as ListingSearchCursor | undefined,
+        getNextPageParam: (lastPage) => lastPage.searchAfter,
     });
 }

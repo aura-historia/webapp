@@ -1,33 +1,47 @@
 import type { SearchSchemaInput } from "@tanstack/react-router";
+
+import { parseListingAvailability } from "@/data/internal/product/ListingAvailability.ts";
+import type { ListingAvailability } from "@/data/internal/product/ProductListingDomain.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import { type ProductState, parseProductState } from "@/data/internal/product/ProductState.ts";
 import { SEARCH_RESULT_SORT_FIELDS, type SortMode } from "@/data/internal/search/SortMode.ts";
-import type { ShopType } from "@/data/internal/shop/ShopType.ts";
-import { FILTER_DEFAULTS } from "@/features/search/products/lib/filterDefaults.ts";
 
 export type RawSearchParams = {
-    q: string;
+    q?: string;
+    enhancedSearchDescription?: string;
+    excludeProductId?: string | string[];
+    listingSourceId?: string | string[];
+    excludeListingSourceId?: string | string[];
     priceFrom?: number;
     priceTo?: number;
-    allowedStates?: ProductState[];
+    availability?: ListingAvailability[];
     creationDateFrom?: string;
     creationDateTo?: string;
     updateDateFrom?: string;
     updateDateTo?: string;
     auctionDateFrom?: string;
     auctionDateTo?: string;
-    merchant?: string | string[];
-    excludeMerchant?: string | string[];
-    seller?: string | string[];
-    excludeSeller?: string | string[];
-    shopType?: ShopType[];
     sortField?: string;
     sortOrder?: string;
+    // Legacy bookmarked filters are detected and discarded; they cannot be translated safely.
+    allowedStates?: unknown;
+    merchant?: unknown;
+    excludeMerchant?: unknown;
+    seller?: unknown;
+    excludeSeller?: unknown;
+    shopName?: unknown;
+    sellerName?: unknown;
+    shopType?: unknown;
+    category?: unknown;
+    period?: unknown;
+    country?: unknown;
+    region?: unknown;
+    location?: unknown;
 } & SearchSchemaInput;
 
 function parseOptionalNumber(value: unknown): number | undefined {
+    if (value === undefined || value === null || value === "") return undefined;
     const num = Number(value);
-    return Number.isNaN(num) ? undefined : num;
+    return Number.isFinite(num) ? num : undefined;
 }
 
 function parseOptionalDate(value: string | undefined): Date | undefined {
@@ -36,11 +50,10 @@ function parseOptionalDate(value: string | undefined): Date | undefined {
     return Number.isNaN(parsed.getTime()) ? undefined : parsed;
 }
 
-function parseProductStates(states: unknown): ProductState[] | undefined {
-    if (!Array.isArray(states)) return undefined;
-    return states
-        .map((state) => parseProductState(state))
-        .filter((elem, index, self) => index === self.indexOf(elem));
+function parseStringArray(value: string | string[] | undefined): string[] | undefined {
+    if (value === undefined) return undefined;
+    const values = Array.isArray(value) ? value : [value];
+    return [...new Set(values.filter((item) => typeof item === "string" && item.length > 0))];
 }
 
 function parseSortField(field: string | undefined): SortMode["field"] {
@@ -53,12 +66,37 @@ function parseSortOrder(order: string | undefined): SortMode["order"] {
     return order === "ASC" || order === "DESC" ? order : "DESC";
 }
 
+const LEGACY_FILTER_KEYS = [
+    "allowedStates",
+    "merchant",
+    "excludeMerchant",
+    "seller",
+    "excludeSeller",
+    "shopName",
+    "sellerName",
+    "shopType",
+    "category",
+    "period",
+    "country",
+    "region",
+    "location",
+] as const;
+
 export function validateSearchParams(search: RawSearchParams): SearchFilterArguments {
+    const legacyFiltersRemoved =
+        LEGACY_FILTER_KEYS.some((key) => search[key] != null) ||
+        (search.sortField != null &&
+            !SEARCH_RESULT_SORT_FIELDS.includes(search.sortField as SortMode["field"]));
+
     return {
-        q: (search.q as string) || "",
+        q: typeof search.q === "string" ? search.q : "",
+        enhancedSearchDescription: search.enhancedSearchDescription,
+        excludeProductId: parseStringArray(search.excludeProductId),
+        listingSourceId: parseStringArray(search.listingSourceId),
+        excludeListingSourceId: parseStringArray(search.excludeListingSourceId),
         priceFrom: parseOptionalNumber(search.priceFrom),
         priceTo: parseOptionalNumber(search.priceTo),
-        allowedStates: parseProductStates(search.allowedStates) ?? FILTER_DEFAULTS.productState,
+        availability: parseListingAvailability(search.availability),
         creationDateFrom: parseOptionalDate(search.creationDateFrom),
         creationDateTo: parseOptionalDate(search.creationDateTo),
         updateDateFrom: parseOptionalDate(search.updateDateFrom),
@@ -67,6 +105,7 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         auctionDateTo: parseOptionalDate(search.auctionDateTo),
         sortField: parseSortField(search.sortField),
         sortOrder: parseSortOrder(search.sortOrder),
+        legacyFiltersRemoved,
     };
 }
 
@@ -74,18 +113,19 @@ function serializeOptionalDate(date: Date | undefined): string | undefined {
     return date?.toISOString();
 }
 
-/**
- * Converts validated SearchFilterArguments back to RawSearchParams format.
- * This is useful when updating search params in functional updates.
- */
+/** Converts validated search arguments back to URL-safe query values. */
 export function serializeSearchParams(
     params: SearchFilterArguments,
 ): Omit<RawSearchParams, keyof SearchSchemaInput> {
     return {
         q: params.q,
+        enhancedSearchDescription: params.enhancedSearchDescription,
+        excludeProductId: params.excludeProductId,
+        listingSourceId: params.listingSourceId,
+        excludeListingSourceId: params.excludeListingSourceId,
         priceFrom: params.priceFrom,
         priceTo: params.priceTo,
-        allowedStates: params.allowedStates,
+        availability: params.availability,
         creationDateFrom: serializeOptionalDate(params.creationDateFrom),
         creationDateTo: serializeOptionalDate(params.creationDateTo),
         updateDateFrom: serializeOptionalDate(params.updateDateFrom),

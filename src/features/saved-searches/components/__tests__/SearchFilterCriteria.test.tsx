@@ -6,6 +6,7 @@ import {
     SearchFilterCriteriaDetails,
 } from "../SearchFilterCriteria.tsx";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 function renderBadges(search: SearchFilterArguments) {
     return renderWithQueryClient(<SearchFilterCriteriaBadges search={search} />);
@@ -21,36 +22,19 @@ describe("SearchFilterCriteriaBadges", () => {
         expect(screen.getByText("100 – 500 €")).toBeInTheDocument();
     });
 
-    it("shows nothing when no price/states/shopType are set", () => {
+    it("shows no price badge when no price is set", () => {
         renderBadges({ q: "" });
         expect(screen.queryByText(/€/)).not.toBeInTheDocument();
+    });
+
+    it("shows specific availability badges when only some values are selected", () => {
+        renderBadges({ q: "", availability: ["AVAILABLE"] });
+        expect(screen.getByText("Verfügbar")).toBeInTheDocument();
         expect(screen.queryByText("Alle")).not.toBeInTheDocument();
     });
 
-    it("shows specific state badges when only some states are selected", () => {
-        renderBadges({ q: "", allowedStates: ["AVAILABLE"] });
-        expect(screen.getByText("Verfügbar")).toBeInTheDocument();
-        expect(screen.queryByText("Gelistet")).not.toBeInTheDocument();
-    });
-
-    it("shows the 'Alle' badge when all states are selected", () => {
-        renderBadges({
-            q: "",
-            allowedStates: ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"],
-        });
-        expect(screen.getByText("Alle")).toBeInTheDocument();
-    });
-
-    it("shows specific shop-type badges when only some shop types are selected", () => {
-        renderBadges({ q: "", shopType: ["AUCTION_HOUSE"] });
-        expect(screen.getByText("Auktionshaus")).toBeInTheDocument();
-    });
-
-    it("shows the 'Alle' badge when all shop types are selected", () => {
-        renderBadges({
-            q: "",
-            shopType: ["AUCTION_HOUSE", "AUCTION_PLATFORM", "COMMERCIAL_DEALER", "MARKETPLACE"],
-        });
+    it("shows the 'Alle' badge when all availability values are selected", () => {
+        renderBadges({ q: "", availability: [...LISTING_AVAILABILITIES] });
         expect(screen.getByText("Alle")).toBeInTheDocument();
     });
 });
@@ -58,28 +42,18 @@ describe("SearchFilterCriteriaBadges", () => {
 describe("SearchFilterCriteriaDetails", () => {
     it("renders no rows when nothing is set", () => {
         renderDetails({ q: "" });
-        expect(screen.queryByText("Händler")).not.toBeInTheDocument();
-        expect(screen.queryByText("Verkäufer")).not.toBeInTheDocument();
+        expect(screen.queryByText("Angebotsquelle")).not.toBeInTheDocument();
     });
 
-    it("shows merchant and exclude-merchant rows", () => {
-        renderDetails({ q: "", merchant: ["Sotheby's"], excludeMerchant: ["eBay"] });
-        expect(screen.getByText("Händler")).toBeInTheDocument();
-        expect(screen.getByText("Sotheby's")).toBeInTheDocument();
-        expect(screen.getByText("Händler ausschließen")).toBeInTheDocument();
-        expect(screen.getByText("eBay")).toBeInTheDocument();
-    });
-
-    it("shows seller and exclude-seller rows", () => {
+    it("shows listing-source include and exclude rows", () => {
         renderDetails({
             q: "",
-            seller: ["Kunsthaus Lempertz"],
-            excludeSeller: ["privater Anbieter"],
+            listingSourceId: ["source-1"],
+            excludeListingSourceId: ["source-2"],
         });
-        expect(screen.getByText("Verkäufer")).toBeInTheDocument();
-        expect(screen.getByText("Kunsthaus Lempertz")).toBeInTheDocument();
-        expect(screen.getByText("Verkäufer ausschließen")).toBeInTheDocument();
-        expect(screen.getByText("privater Anbieter")).toBeInTheDocument();
+        expect(screen.getByText("Angebotsquelle einschließen")).toBeInTheDocument();
+        expect(screen.getAllByText("1 Angebotsquelle ausgewählt")).toHaveLength(2);
+        expect(screen.getByText("Angebotsquelle ausschließen")).toBeInTheDocument();
     });
 
     it("shows the creation-date row when set", () => {

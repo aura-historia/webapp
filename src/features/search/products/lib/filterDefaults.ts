@@ -1,5 +1,6 @@
 import type { ProductState } from "@/data/internal/product/ProductState.ts";
 import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
+import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 /** Minimum number of characters required for a search query */
 export const MIN_SEARCH_QUERY_LENGTH = 3;
@@ -10,6 +11,7 @@ export type ProductFilterFormValues = {
         max?: number;
     };
     productState: ProductState[];
+    availability: (typeof LISTING_AVAILABILITIES)[number][];
     creationDate: {
         from?: Date;
         to?: Date;
@@ -27,10 +29,13 @@ export type ProductFilterFormValues = {
     seller?: string[];
     excludeSeller?: string[];
     shopType: (typeof SHOP_TYPES)[number][];
+    listingSourceId: string[];
+    excludeListingSourceId: string[];
 };
 
 export const FILTER_DEFAULTS: ProductFilterFormValues = {
     priceSpan: { min: undefined, max: undefined },
+    availability: [...LISTING_AVAILABILITIES],
     productState: ["AVAILABLE", "LISTED", "UNKNOWN"],
     creationDate: { from: undefined, to: undefined },
     updateDate: { from: undefined, to: undefined },
@@ -40,4 +45,6 @@ export const FILTER_DEFAULTS: ProductFilterFormValues = {
     seller: undefined,
     excludeSeller: undefined,
     shopType: [...SHOP_TYPES],
+    listingSourceId: [],
+    excludeListingSourceId: [],
 };

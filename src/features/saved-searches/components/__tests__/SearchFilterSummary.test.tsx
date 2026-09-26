@@ -3,21 +3,19 @@ import { describe, expect, it } from "vitest";
 import { SearchFilterSummary } from "../SearchFilterSummary.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 function renderSummary(
     name: string,
     search: SearchFilterArguments,
-    shopType: string[] = [],
-    productState: string[] = [],
+    availability: string[] = [...LISTING_AVAILABILITIES],
 ) {
     return renderWithQueryClient(
         <SearchFilterSummary
             name={name}
             search={search}
             // biome-ignore lint/suspicious/noExplicitAny: test helper, real callers pass typed enums
-            shopType={shopType as any}
-            // biome-ignore lint/suspicious/noExplicitAny: test helper, real callers pass typed enums
-            productState={productState as any}
+            availability={availability as any}
         />,
     );
 }
@@ -33,8 +31,7 @@ describe("SearchFilterSummary", () => {
             <SearchFilterSummary
                 name="Barock Möbel"
                 search={{ q: "" }}
-                shopType={[]}
-                productState={[]}
+                availability={[...LISTING_AVAILABILITIES]}
                 showName={false}
             />,
         );
@@ -64,14 +61,13 @@ describe("SearchFilterSummary", () => {
         expect(screen.getByText("100 – 500 €")).toBeInTheDocument();
     });
 
-    it("shows merchant badges when merchant is set", () => {
-        renderSummary("Filter", { q: "", merchant: ["Shop A", "Shop B"] });
-        expect(screen.getByText("Shop A")).toBeInTheDocument();
-        expect(screen.getByText("Shop B")).toBeInTheDocument();
+    it("shows selected listing source count", () => {
+        renderSummary("Filter", { q: "", listingSourceId: ["source-a", "source-b"] });
+        expect(screen.getByText("2 Angebotsquellen ausgewählt")).toBeInTheDocument();
     });
 
     it("shows the specific state, not the 'all' badge, when only one state is selected", () => {
-        renderSummary("Filter", { q: "" }, [], ["AVAILABLE"]);
+        renderSummary("Filter", { q: "" }, ["AVAILABLE"]);
         expect(screen.queryByText("Alle")).not.toBeInTheDocument();
     });
 });

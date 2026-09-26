@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { SearchFilterConfigurationGrid } from "../SearchFilterConfigurationGrid.tsx";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 function renderGrid(search: SearchFilterArguments) {
     return renderWithQueryClient(<SearchFilterConfigurationGrid search={search} />);
@@ -14,69 +15,39 @@ describe("SearchFilterConfigurationGrid", () => {
         expect(screen.getByText("Keine weiteren Kriterien konfiguriert.")).toBeInTheDocument();
     });
 
-    it("shows the query terms", () => {
-        renderGrid({ q: "vase", queryTerms: ["vase", "Jugendstil"], priceFrom: 10 });
+    it("shows query terms and a price range", () => {
+        renderGrid({ q: "vase", queryTerms: ["vase", "Jugendstil"], priceFrom: 100, priceTo: 500 });
         expect(screen.getByText("vase")).toBeInTheDocument();
         expect(screen.getByText("Jugendstil")).toBeInTheDocument();
-    });
-
-    it("shows the price range", () => {
-        renderGrid({ q: "", priceFrom: 100, priceTo: 500 });
         expect(screen.getByText("100 – 500 €")).toBeInTheDocument();
     });
 
-    it("shows the wizard's default states when allowedStates is unset", () => {
+    it("shows the default availability as unrestricted", () => {
         renderGrid({ q: "", priceFrom: 100 });
-        expect(screen.getByText("Anzeigenstatus")).toBeInTheDocument();
-        expect(screen.getByText("Verfügbar")).toBeInTheDocument();
-        expect(screen.getByText("Gelistet")).toBeInTheDocument();
-        expect(screen.getByText("Unbekannt")).toBeInTheDocument();
-        expect(screen.queryByText("Alle")).not.toBeInTheDocument();
-    });
-
-    it("shows the specific state badges when only some states are explicitly selected", () => {
-        renderGrid({ q: "", priceFrom: 100, allowedStates: ["AVAILABLE"] });
-        expect(screen.getByText("Verfügbar")).toBeInTheDocument();
-        expect(screen.queryByText("Gelistet")).not.toBeInTheDocument();
-    });
-
-    it("shows the 'Alle' badge when all states are explicitly selected", () => {
-        renderGrid({
-            q: "",
-            priceFrom: 100,
-            allowedStates: ["LISTED", "AVAILABLE", "RESERVED", "SOLD", "REMOVED", "UNKNOWN"],
-        });
+        expect(screen.getByText("Verfügbarkeit")).toBeInTheDocument();
         expect(screen.getByText("Alle")).toBeInTheDocument();
     });
 
-    it("does not show the shop-type tile when shopType is unset", () => {
-        renderGrid({ q: "", priceFrom: 100 });
-        expect(screen.queryByText("Shop-Typ")).not.toBeInTheDocument();
+    it("shows selected listing availability values", () => {
+        renderGrid({ q: "", availability: ["AVAILABLE"] });
+        expect(screen.getByText("Verfügbar")).toBeInTheDocument();
+        expect(screen.queryByText("Alle")).not.toBeInTheDocument();
     });
 
-    it("shows the shop-type tile when shopType is explicitly set", () => {
-        renderGrid({ q: "", priceFrom: 100, shopType: ["AUCTION_HOUSE"] });
-        expect(screen.getByText("Shop-Typ")).toBeInTheDocument();
+    it("shows all when every API availability is selected", () => {
+        renderGrid({ q: "", availability: [...LISTING_AVAILABILITIES] });
+        expect(screen.getByText("Alle")).toBeInTheDocument();
     });
 
-    it("shows merchant and exclude-merchant badges", () => {
-        renderGrid({ q: "", merchant: ["Sotheby's"], excludeMerchant: ["eBay"] });
-        expect(screen.getByText("Sotheby's")).toBeInTheDocument();
-        expect(screen.getByText("eBay")).toBeInTheDocument();
+    it("shows source filter counts without exposing opaque IDs", () => {
+        renderGrid({ q: "", listingSourceId: ["ls_1"], excludeListingSourceId: ["ls_2", "ls_3"] });
+        expect(screen.getByText("Angebotsquelle einschließen")).toBeInTheDocument();
+        expect(screen.getByText("1 Angebotsquelle ausgewählt")).toBeInTheDocument();
+        expect(screen.getByText("2 Angebotsquellen ausgewählt")).toBeInTheDocument();
+        expect(screen.queryByText("ls_1")).not.toBeInTheDocument();
     });
 
-    it("shows seller and exclude-seller badges", () => {
-        renderGrid({ q: "", seller: ["Kunsthaus Lempertz"], excludeSeller: ["privater Anbieter"] });
-        expect(screen.getByText("Kunsthaus Lempertz")).toBeInTheDocument();
-        expect(screen.getByText("privater Anbieter")).toBeInTheDocument();
-    });
-
-    it("does not show merchant tiles when merchant/excludeMerchant are unset", () => {
-        renderGrid({ q: "", priceFrom: 100 });
-        expect(screen.queryByText("Händler")).not.toBeInTheDocument();
-    });
-
-    it("shows a one-sided date range with the 'from' label", () => {
+    it("shows a one-sided date range with the from label", () => {
         renderGrid({ q: "", creationDateFrom: new Date("2024-01-01") });
         expect(screen.getByText(/Von:/)).toBeInTheDocument();
     });

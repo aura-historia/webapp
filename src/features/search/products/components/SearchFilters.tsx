@@ -1,5 +1,6 @@
 import { CreationDateSpanFilter } from "@/features/search/products/components/filters/CreationDateSpanFilter.tsx";
 import { ProductStateFilter } from "@/features/search/products/components/filters/ProductStateFilter.tsx";
+import { MerchantFilters } from "@/features/search/products/components/filters/MerchantFilters.tsx";
 import { PriceSpanFilter } from "@/features/search/products/components/filters/PriceSpanFilter.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Form } from "@/components/ui/form.tsx";
@@ -70,7 +71,9 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                     ...mapFiltersToUrlParams({
                         query: getEffectiveQuery(),
                         priceSpan: data.priceSpan,
-                        productState: data.productState,
+                        availability: data.availability,
+                        listingSourceId: data.listingSourceId,
+                        excludeListingSourceId: data.excludeListingSourceId,
                         creationDate: data.creationDate,
                         updateDate: data.updateDate,
                         auctionDate: data.auctionDate,
@@ -121,6 +124,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
             <form className="space-y-4">
                 <div className="flex min-w-0 w-full flex-col gap-4 overflow-visible">
                     <ProductStateFilter />
+                    <MerchantFilters />
                     <PriceSpanFilter />
                     <AuctionDateSpanFilter />
                     <CreationDateSpanFilter />

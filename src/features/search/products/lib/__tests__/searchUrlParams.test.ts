@@ -1,61 +1,48 @@
 import { describe, expect, it } from "vitest";
 
-import { FILTER_DEFAULTS } from "@/features/search/products/lib/filterDefaults.ts";
 import { mapFiltersToUrlParams } from "@/features/search/products/lib/searchUrlParams.ts";
+import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 describe("mapFiltersToUrlParams", () => {
-    it("maps filter values and date ranges to search URL parameters", () => {
+    it("maps price, availability, source IDs, and date ranges to canonical URL fields", () => {
         expect(
             mapFiltersToUrlParams({
                 query: "antique vase",
                 priceSpan: { min: 100, max: 500 },
-                productState: ["AVAILABLE"],
+                availability: ["IN_STOCK", "SOLD_OUT"],
+                listingSourceId: ["ls_1"],
+                excludeListingSourceId: ["ls_2"],
                 creationDate: {
                     from: new Date("2024-01-15T18:30:00.000Z"),
                     to: new Date("2024-12-31T18:30:00.000Z"),
                 },
-                merchant: ["Trusted dealer"],
-                shopType: ["AUCTION_HOUSE"],
             }),
-        ).toEqual({
+        ).toMatchObject({
             q: "antique vase",
             priceFrom: 100,
             priceTo: 500,
-            allowedStates: ["AVAILABLE"],
+            availability: ["IN_STOCK", "SOLD_OUT"],
+            listingSourceId: ["ls_1"],
+            excludeListingSourceId: ["ls_2"],
             creationDateFrom: "2024-01-15",
             creationDateTo: "2024-12-31",
-            updateDateFrom: undefined,
-            updateDateTo: undefined,
-            auctionDateFrom: undefined,
-            auctionDateTo: undefined,
-            merchant: ["Trusted dealer"],
-            excludeMerchant: undefined,
-            seller: undefined,
-            excludeSeller: undefined,
-            shopType: ["AUCTION_HOUSE"],
         });
     });
 
-    it("uses default product states when no state filter is provided", () => {
-        expect(mapFiltersToUrlParams({ query: "chair" }).allowedStates).toEqual(
-            FILTER_DEFAULTS.productState,
-        );
+    it("does not filter out listings with nullable availability by default", () => {
+        expect(
+            mapFiltersToUrlParams({ query: "chair", availability: [...LISTING_AVAILABILITIES] })
+                .availability,
+        ).toBeUndefined();
     });
 
-    it("omits empty list filters", () => {
+    it("omits empty source selections", () => {
         const params = mapFiltersToUrlParams({
             query: "chair",
-            merchant: [],
-            excludeMerchant: [],
-            seller: [],
-            excludeSeller: [],
-            shopType: [],
+            listingSourceId: [],
+            excludeListingSourceId: [],
         });
-
-        expect(params.merchant).toBeUndefined();
-        expect(params.excludeMerchant).toBeUndefined();
-        expect(params.seller).toBeUndefined();
-        expect(params.excludeSeller).toBeUndefined();
-        expect(params.shopType).toBeUndefined();
+        expect(params.listingSourceId).toBeUndefined();
+        expect(params.excludeListingSourceId).toBeUndefined();
     });
 });

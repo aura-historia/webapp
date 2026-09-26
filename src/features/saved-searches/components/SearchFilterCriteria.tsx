@@ -1,22 +1,18 @@
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge.tsx";
-import { StatusBadge } from "@/features/product/catalog/components/badges/StatusBadge.tsx";
-import { ShopTypeBadge } from "@/features/product/catalog/components/badges/ShopTypeBadge.tsx";
 import { FilterDetailRow } from "@/features/saved-searches/components/FilterDetailRow.tsx";
-import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
-import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
+import {
+    LISTING_AVAILABILITIES,
+    LISTING_AVAILABILITY_TRANSLATION_KEYS,
+} from "@/data/internal/product/ListingAvailability.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 
-type Props = {
-    readonly search: SearchFilterArguments;
-};
+type Props = { readonly search: SearchFilterArguments };
 
-/**
- * Top-level criteria as badges: price range, product state, shop type.
- * Used on SearchFilterCard and the search-filter detail page.
- */
+/** Search criteria as compact badges and date/source detail rows. */
 export function SearchFilterCriteriaBadges({ search }: Props) {
     const { t } = useTranslation();
+    const availability = search.availability ?? [...LISTING_AVAILABILITIES];
 
     return (
         <div className="flex flex-wrap items-center gap-y-2 [&>span]:after:content-['·'] [&>span]:after:mx-2 [&>span]:after:text-muted-foreground/40 [&>span:last-child]:after:hidden">
@@ -27,23 +23,16 @@ export function SearchFilterCriteriaBadges({ search }: Props) {
                     </Badge>
                 </span>
             )}
-            {!!search.allowedStates?.length && (
+            {availability.length > 0 && (
                 <span className="inline-flex flex-wrap gap-1.5">
-                    {search.allowedStates.length === PRODUCT_STATES.length ? (
+                    {availability.length === LISTING_AVAILABILITIES.length ? (
                         <Badge variant="outline">{t("search.filter.all")}</Badge>
                     ) : (
-                        search.allowedStates.map((s) => (
-                            <StatusBadge key={s} status={s} showIcon={false} />
+                        availability.map((value) => (
+                            <Badge key={value} variant="outline">
+                                {t(LISTING_AVAILABILITY_TRANSLATION_KEYS[value])}
+                            </Badge>
                         ))
-                    )}
-                </span>
-            )}
-            {!!search.shopType?.length && (
-                <span className="inline-flex flex-wrap gap-1.5">
-                    {search.shopType.length === SHOP_TYPES.length ? (
-                        <Badge variant="outline">{t("search.filter.all")}</Badge>
-                    ) : (
-                        search.shopType.map((st) => <ShopTypeBadge key={st} shopType={st} />)
                     )}
                 </span>
             )}
@@ -51,35 +40,30 @@ export function SearchFilterCriteriaBadges({ search }: Props) {
     );
 }
 
-/**
- * Advanced criteria rows: merchant/seller allow/deny lists and date spans.
- * Used inside the card's collapsible accordion and always-expanded on the detail page.
- */
 export function SearchFilterCriteriaDetails({ search }: Props) {
     const { t, i18n } = useTranslation();
-
     return (
         <div className="flex flex-col gap-3">
-            <FilterDetailRow
-                variant="text"
-                label={t("search.filter.merchant")}
-                values={search.merchant ?? []}
-            />
-            <FilterDetailRow
-                variant="text"
-                label={t("search.filter.excludeMerchant")}
-                values={search.excludeMerchant ?? []}
-            />
-            <FilterDetailRow
-                variant="text"
-                label={t("search.filter.seller")}
-                values={search.seller ?? []}
-            />
-            <FilterDetailRow
-                variant="text"
-                label={t("search.filter.excludeSeller")}
-                values={search.excludeSeller ?? []}
-            />
+            {!!search.listingSourceId?.length && (
+                <FilterDetailRow
+                    variant="text"
+                    label={t("search.filter.listingSource")}
+                    values={[
+                        t("search.filter.sourceCount", { count: search.listingSourceId.length }),
+                    ]}
+                />
+            )}
+            {!!search.excludeListingSourceId?.length && (
+                <FilterDetailRow
+                    variant="text"
+                    label={t("search.filter.excludeListingSource")}
+                    values={[
+                        t("search.filter.sourceCount", {
+                            count: search.excludeListingSourceId.length,
+                        }),
+                    ]}
+                />
+            )}
             {(search.creationDateFrom != null || search.creationDateTo != null) && (
                 <FilterDetailRow
                     variant="text"

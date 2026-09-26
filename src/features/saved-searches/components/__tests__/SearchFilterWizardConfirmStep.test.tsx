@@ -7,7 +7,7 @@ import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterA
 
 function FormWrapper({ children }: { children: ReactNode }) {
     const methods = useForm({
-        defaultValues: { shopType: [], productState: [] },
+        defaultValues: { availability: ["AVAILABLE"] },
     });
     return <FormProvider {...methods}>{children}</FormProvider>;
 }
@@ -55,9 +55,8 @@ describe("SearchFilterWizardConfirmStep", () => {
         expect(screen.getByText("100 – 500 €")).toBeInTheDocument();
     });
 
-    it("shows merchant badges when merchant is set", () => {
-        renderConfirmStep("Filter", { q: "", merchant: ["Shop A", "Shop B"] });
-        expect(screen.getByText("Shop A")).toBeInTheDocument();
-        expect(screen.getByText("Shop B")).toBeInTheDocument();
+    it("shows selected listing source count", () => {
+        renderConfirmStep("Filter", { q: "", listingSourceId: ["source-a", "source-b"] });
+        expect(screen.getByText("2 Angebotsquellen ausgewählt")).toBeInTheDocument();
     });
 });

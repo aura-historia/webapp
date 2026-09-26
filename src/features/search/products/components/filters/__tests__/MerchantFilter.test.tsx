@@ -10,10 +10,10 @@ vi.mock("@/features/search/products/hooks/useFilterNavigation", () => ({
     useFilterNavigation: () => vi.fn(),
 }));
 
-// Mock the simpleSearchShops API
+// Mock public listing-source search.
 vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
-    simpleSearchShopsOptions: () => ({
-        queryKey: ["simpleSearchShops"],
+    searchPublicListingSourcesOptions: () => ({
+        queryKey: ["searchPublicListingSources"],
         queryFn: vi.fn().mockResolvedValue({ items: [] }),
         enabled: false,
     }),
@@ -39,7 +39,7 @@ const FormWrapper = ({
     const queryClient = createTestQueryClient();
     const methods = useForm({
         defaultValues: {
-            merchant: [],
+            listingSourceId: [],
             ...defaultValues,
         },
     });
@@ -62,8 +62,8 @@ describe("MerchantIncludeFilter", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Händler")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Händler suchen...")).toBeInTheDocument();
+        expect(screen.getByText("Angebotsquelle einschließen")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Angebotsquellen suchen...")).toBeInTheDocument();
     });
 
     it("allows entering search text in the input", async () => {
@@ -74,7 +74,7 @@ describe("MerchantIncludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Händler suchen...");
+        const input = screen.getByPlaceholderText("Angebotsquellen suchen...");
 
         await user.type(input, "Test");
 
@@ -83,12 +83,12 @@ describe("MerchantIncludeFilter", () => {
 
     it("shows pre-populated merchant values as badges when provided", () => {
         render(
-            <FormWrapper defaultValues={{ merchant: ["Existing Merchant"] }}>
+            <FormWrapper defaultValues={{ listingSourceId: ["ls_existing"] }}>
                 <MerchantIncludeFilter />
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Existing Merchant")).toBeInTheDocument();
+        expect(screen.getByText("ls_existing")).toBeInTheDocument();
     });
 
     it("handles special characters in search input", async () => {
@@ -99,7 +99,7 @@ describe("MerchantIncludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Händler suchen...");
+        const input = screen.getByPlaceholderText("Angebotsquellen suchen...");
 
         await user.type(input, "Special & Chars");
 
@@ -114,7 +114,7 @@ describe("MerchantIncludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Händler suchen...");
+        const input = screen.getByPlaceholderText("Angebotsquellen suchen...");
 
         await user.type(input, "Initial Value");
         await user.clear(input);
@@ -124,12 +124,12 @@ describe("MerchantIncludeFilter", () => {
 
     it("displays multiple selected merchants as badges", () => {
         render(
-            <FormWrapper defaultValues={{ merchant: ["Merchant One", "Merchant Two"] }}>
+            <FormWrapper defaultValues={{ listingSourceId: ["ls_1", "ls_2"] }}>
                 <MerchantIncludeFilter />
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Merchant One")).toBeInTheDocument();
-        expect(screen.getByText("Merchant Two")).toBeInTheDocument();
+        expect(screen.getByText("ls_1")).toBeInTheDocument();
+        expect(screen.getByText("ls_2")).toBeInTheDocument();
     });
 });

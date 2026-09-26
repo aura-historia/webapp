@@ -7,15 +7,15 @@ import { useMerchantSearch } from "@/features/search/products/hooks/useMerchantS
 
 export function MerchantExcludeFilter() {
     const { control } = useFormContext<FilterSchema>();
-    const { errors } = useFormState({ control, name: ["excludeMerchant"] });
+    const { errors } = useFormState({ control, name: ["excludeListingSourceId"] });
     const { t } = useTranslation();
     const { shopOptions, handleSearchChange, isPending, searchQuery } = useMerchantSearch();
 
     return (
         <div className="space-y-2">
-            <Label>{t("search.filter.excludeMerchant")}</Label>
+            <Label>{t("search.filter.excludeListingSource")}</Label>
             <Controller
-                name="excludeMerchant"
+                name="excludeListingSourceId"
                 control={control}
                 render={({ field }) => {
                     const selectedOptions: MultiSelectOption[] = (field.value || []).map(
@@ -30,16 +30,16 @@ export function MerchantExcludeFilter() {
                                 field.onChange(options.map((opt) => opt.value));
                             }}
                             onSearchChange={handleSearchChange}
-                            placeholder={t("search.filter.searchExcludeMerchants")}
+                            placeholder={t("search.filter.searchExcludeListingSources")}
                             isLoading={isPending && searchQuery.length > 0}
-                            emptyMessage={t("search.filter.noMerchantsFound")}
+                            emptyMessage={t("search.filter.noListingSourcesFound")}
                         />
                     );
                 }}
             />
-            {errors?.excludeMerchant && (
+            {errors?.excludeListingSourceId && (
                 <p className="text-destructive text-sm mt-1">
-                    {errors.excludeMerchant.message ?? ""}
+                    {errors.excludeListingSourceId.message ?? ""}
                 </p>
             )}
         </div>

@@ -273,6 +273,7 @@
   "search": {
     "filters": "Filtri",
     "resultsFor": "Risultati di ricerca per:",
+    "legacyFiltersRemoved": "Alcuni filtri di questo link non sono più supportati e sono stati rimossi; i risultati potrebbero essere diversi.",
     "resetAllFilters": "Reimposta tutti i filtri",
     "totalResults_one": "{{count}} articolo",
     "totalResults_other": "{{count}} articoli",
@@ -334,6 +335,15 @@
       "from": "Da:",
       "to": "A:",
       "productState": "Stato dell'inserzione",
+      "availability": "Disponibilità",
+      "listingSource": "Includi fonte delle inserzioni",
+      "listingSources": "Fonti delle inserzioni",
+      "searchListingSources": "Cerca fonti delle inserzioni...",
+      "noListingSourcesFound": "Nessuna fonte delle inserzioni trovata",
+      "excludeListingSource": "Escludi fonte delle inserzioni",
+      "searchExcludeListingSources": "Cerca fonti da escludere...",
+      "sourceCount_one": "{{count}} fonte selezionata",
+      "sourceCount_other": "{{count}} fonti selezionate",
       "merchant": "Commerciante",
       "merchants": "Commercianti",
       "searchMerchants": "Cerca commercianti...",
@@ -360,6 +370,8 @@
       "resetTooltip": {
         "priceSpan": "Reimposta filtro fascia di prezzo",
         "productState": "Reimposta filtro stato",
+        "availability": "Reimposta filtro disponibilità",
+        "listingSources": "Reimposta filtri delle fonti",
         "creationDate": "Reimposta filtro data di creazione",
         "updateDate": "Reimposta filtro data di aggiornamento",
         "auctionDate": "Reimposta filtro data dell'asta",
@@ -556,6 +568,19 @@
     "dropped": "Prezzo diminuito",
     "increased": "Prezzo aumentato",
     "removed": "Prezzo rimosso"
+  },
+  "listingAvailability": {
+    "available": "Disponibile",
+    "inStock": "Disponibile in magazzino",
+    "limitedAvailability": "Disponibilità limitata",
+    "backOrder": "In riassortimento",
+    "madeToOrder": "Su ordinazione",
+    "preOrder": "Preordine",
+    "preSale": "Prevendita",
+    "unavailable": "Non disponibile",
+    "reserved": "Riservato",
+    "outOfStock": "Esaurito temporaneamente",
+    "soldOut": "Esaurito"
   },
   "productState": {
     "listed": "In lista",

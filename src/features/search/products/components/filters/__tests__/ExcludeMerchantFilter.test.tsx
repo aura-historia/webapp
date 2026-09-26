@@ -10,10 +10,10 @@ vi.mock("@/features/search/products/hooks/useFilterNavigation", () => ({
     useFilterNavigation: () => vi.fn(),
 }));
 
-// Mock the simpleSearchShops API
+// Mock public listing-source search.
 vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
-    simpleSearchShopsOptions: () => ({
-        queryKey: ["simpleSearchShops"],
+    searchPublicListingSourcesOptions: () => ({
+        queryKey: ["searchPublicListingSources"],
         queryFn: vi.fn().mockResolvedValue({ items: [] }),
         enabled: false,
     }),
@@ -39,7 +39,7 @@ const FormWrapper = ({
     const queryClient = createTestQueryClient();
     const methods = useForm({
         defaultValues: {
-            excludeMerchant: [],
+            excludeListingSourceId: [],
             ...defaultValues,
         },
     });
@@ -62,9 +62,9 @@ describe("MerchantExcludeFilter", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Händler ausschließen")).toBeInTheDocument();
+        expect(screen.getByText("Angebotsquelle ausschließen")).toBeInTheDocument();
         expect(
-            screen.getByPlaceholderText("Auszuschließende Händler suchen..."),
+            screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen..."),
         ).toBeInTheDocument();
     });
 
@@ -76,21 +76,21 @@ describe("MerchantExcludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Auszuschließende Händler suchen...");
+        const input = screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen...");
 
         await user.type(input, "Test");
 
         expect(input).toHaveValue("Test");
     });
 
-    it("shows pre-populated excludeMerchant values as badges when provided", () => {
+    it("shows pre-populated excluded source IDs as badges when provided", () => {
         render(
-            <FormWrapper defaultValues={{ excludeMerchant: ["Existing Merchant"] }}>
+            <FormWrapper defaultValues={{ excludeListingSourceId: ["ls_existing"] }}>
                 <MerchantExcludeFilter />
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Existing Merchant")).toBeInTheDocument();
+        expect(screen.getByText("ls_existing")).toBeInTheDocument();
     });
 
     it("handles special characters in search input", async () => {
@@ -101,7 +101,7 @@ describe("MerchantExcludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Auszuschließende Händler suchen...");
+        const input = screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen...");
 
         await user.type(input, "Special & Chars");
 
@@ -116,7 +116,7 @@ describe("MerchantExcludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Auszuschließende Händler suchen...");
+        const input = screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen...");
 
         await user.type(input, "Initial Value");
         await user.clear(input);
@@ -126,12 +126,12 @@ describe("MerchantExcludeFilter", () => {
 
     it("displays multiple selected merchants as badges", () => {
         render(
-            <FormWrapper defaultValues={{ excludeMerchant: ["Merchant One", "Merchant Two"] }}>
+            <FormWrapper defaultValues={{ excludeListingSourceId: ["ls_1", "ls_2"] }}>
                 <MerchantExcludeFilter />
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Merchant One")).toBeInTheDocument();
-        expect(screen.getByText("Merchant Two")).toBeInTheDocument();
+        expect(screen.getByText("ls_1")).toBeInTheDocument();
+        expect(screen.getByText("ls_2")).toBeInTheDocument();
     });
 });

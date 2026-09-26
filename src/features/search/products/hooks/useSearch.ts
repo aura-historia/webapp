@@ -6,8 +6,13 @@ import {
     type UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import type { SearchResultData } from "@/data/internal/search/SearchResultData.ts";
-import type { ListingAvailabilityData } from "@/client";
+import {
+    mapListingSearchCursor,
+    serializeListingSearchCursor,
+    type ListingSearchCursor,
+    type SearchResultData,
+} from "@/data/internal/search/SearchResultData.ts";
+import { LISTING_AVAILABILITIES } from "@/data/internal/product/ProductListingDomain.ts";
 import { toMinorCurrencyAmount } from "@/data/internal/price/Price.ts";
 import { mapToBackendSortModeArguments } from "@/data/internal/search/SortMode.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
@@ -24,37 +29,7 @@ const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 const EMPTY_RESULT: SearchResultData = { products: [], size: 0, total: 0, searchAfter: undefined };
 
 function hasEmptyArrayFilter(args: SearchFilterArguments): boolean {
-    return args.allowedStates?.length === 0;
-}
-
-function mapAvailabilityFilters(states: NonNullable<SearchFilterArguments["allowedStates"]>) {
-    const values = new Set<ListingAvailabilityData>();
-    for (const state of states) {
-        switch (state) {
-            case "AVAILABLE":
-                for (const value of [
-                    "AVAILABLE",
-                    "IN_STOCK",
-                    "LIMITED_AVAILABILITY",
-                    "BACK_ORDER",
-                    "MADE_TO_ORDER",
-                    "PRE_ORDER",
-                    "PRE_SALE",
-                ] as const) {
-                    values.add(value);
-                }
-                break;
-            case "RESERVED":
-                values.add("RESERVED");
-                break;
-            case "SOLD":
-                values.add("SOLD_OUT");
-                values.add("OUT_OF_STOCK");
-                values.add("UNAVAILABLE");
-                break;
-        }
-    }
-    return [...values];
+    return args.availability?.length === 0;
 }
 /**
  * Builds filter query parameters from search arguments.
@@ -80,8 +55,11 @@ function buildFilterQuery(
         };
     }
 
-    if (searchArgs.allowedStates && searchArgs.allowedStates.length > 0) {
-        filters.availability = mapAvailabilityFilters(searchArgs.allowedStates);
+    if (searchArgs.availability?.length) {
+        filters.availability = searchArgs.availability.filter(
+            (value): value is (typeof LISTING_AVAILABILITIES)[number] =>
+                LISTING_AVAILABILITIES.includes(value as (typeof LISTING_AVAILABILITIES)[number]),
+        );
     }
 
     if (searchArgs.creationDateFrom != null || searchArgs.creationDateTo != null) {
@@ -125,8 +103,17 @@ export function useSearch(
                 query: {
                     language: parseLanguage(i18n.language),
                     currency: preferences.currency,
-                    productQuery: searchArgs.q ? [searchArgs.q] : [],
-                    searchAfter: pageParam,
+                    productQuery: searchArgs.queryTerms?.length
+                        ? searchArgs.queryTerms
+                        : searchArgs.q
+                          ? [searchArgs.q]
+                          : [],
+                    enhancedSearchDescription: searchArgs.enhancedSearchDescription,
+                    excludeProductId: searchArgs.excludeProductId,
+                    listingSourceId: searchArgs.listingSourceId,
+                    excludeListingSourceId: searchArgs.excludeListingSourceId,
+                    auctionId: searchArgs.auctionId,
+                    searchAfter: pageParam ? serializeListingSearchCursor(pageParam) : undefined,
                     size: PAGE_SIZE,
                     ...mapToBackendSortModeArguments({
                         field: searchArgs.sortField ?? "RELEVANCE",
@@ -147,12 +134,10 @@ export function useSearch(
                     ) ?? [],
                 size: result.data?.size,
                 total: result.data?.total ?? undefined,
-                searchAfter: result.data?.searchAfter
-                    ? JSON.stringify(result.data.searchAfter)
-                    : undefined,
+                searchAfter: mapListingSearchCursor(result.data?.searchAfter),
             };
         },
-        initialPageParam: undefined as string | undefined,
-        getNextPageParam: (lastPage) => lastPage.searchAfter ?? undefined,
+        initialPageParam: undefined as ListingSearchCursor | undefined,
+        getNextPageParam: (lastPage) => lastPage.searchAfter,
     });
 }

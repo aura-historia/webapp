@@ -38,7 +38,6 @@ import {
     StepperTrigger,
 } from "@/components/ui/stepper.tsx";
 import { SearchFilterFormProvider } from "@/features/search/common/components/SearchFilterFormProvider.tsx";
-import { ShopTypeFilter } from "@/features/search/common/components/filters/ShopTypeFilter.tsx";
 import { AuctionDateSpanFilter } from "@/features/search/products/components/filters/AuctionDateSpanFilter.tsx";
 import { CreationDateSpanFilter } from "@/features/search/products/components/filters/CreationDateSpanFilter.tsx";
 import { MerchantFilters } from "@/features/search/products/components/filters/MerchantFilters.tsx";
@@ -108,7 +107,6 @@ const FILTER_STEPS: FilterStep[] = [
         restricted: true,
         content: (disabled) => (
             <>
-                <ShopTypeFilter disabled={disabled} />
                 <MerchantFilters disabled={disabled} />
             </>
         ),
