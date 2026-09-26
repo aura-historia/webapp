@@ -1,4 +1,4 @@
-import type { PersonalizedProductListingDetailsData } from "@/client";
+import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
 import { generateProductJsonLdScript } from "./productJsonLd.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { env } from "@/env.ts";
@@ -13,15 +13,11 @@ type ProductHeadParams = {
 };
 
 export function generateProductHeadMeta(
-    loaderData: PersonalizedProductListingDetailsData | undefined,
+    product: ProductListingDetail | undefined,
     params: ProductHeadParams,
 ) {
-    const productTitle =
-        loaderData?.item.productTitle?.text ??
-        loaderData?.item.title?.text ??
-        i18n.getFixedT(params.lng)("product.untitled");
-    const productImage =
-        loaderData?.item.images.find((image) => image.url !== null)?.url ?? BANNER_IMAGE_URL;
+    const productTitle = product?.title ?? i18n.getFixedT(params.lng)("product.untitled");
+    const productImage = product?.images.find((image) => image.url)?.url?.href ?? BANNER_IMAGE_URL;
     const listingPath = getProductListingPath(params.productListingTitleSlugId);
     const productUrl = localizeUrl(new URL(listingPath, env.VITE_APP_URL).toString(), params.lng);
 
@@ -38,11 +34,11 @@ export function generateProductHeadMeta(
             { name: "twitter:image", content: productImage },
         ],
         links: [{ rel: "canonical", href: productUrl }, ...generateHreflangLinks(listingPath)],
-        scripts: loaderData
+        scripts: product
             ? [
                   {
                       type: "application/ld+json",
-                      children: generateProductJsonLdScript(loaderData, productUrl),
+                      children: generateProductJsonLdScript(product, productUrl),
                   },
               ]
             : [],

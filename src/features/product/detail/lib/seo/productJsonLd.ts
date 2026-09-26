@@ -1,4 +1,5 @@
-import type { ListingAvailabilityData, PersonalizedProductListingDetailsData } from "@/client";
+import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
+import type { ListingAvailability } from "@/data/internal/product/ProductListingDomain.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { toMajorCurrencyAmount } from "@/data/internal/price/Price.ts";
 
@@ -20,7 +21,7 @@ type ProductJsonLd = {
     dateModified?: string;
 };
 
-const SCHEMA_AVAILABILITY: Partial<Record<ListingAvailabilityData, string>> = {
+const SCHEMA_AVAILABILITY: Partial<Record<ListingAvailability, string>> = {
     AVAILABLE: "https://schema.org/InStock",
     IN_STOCK: "https://schema.org/InStock",
     LIMITED_AVAILABILITY: "https://schema.org/LimitedAvailability",
@@ -33,52 +34,47 @@ const SCHEMA_AVAILABILITY: Partial<Record<ListingAvailabilityData, string>> = {
 };
 
 export function generateProductJsonLd(
-    apiData: PersonalizedProductListingDetailsData,
+    product: ProductListingDetail,
     canonicalUrl?: string,
 ): ProductJsonLd {
-    const item = apiData.item;
-    const title = item.productTitle?.text ?? item.title?.text ?? undefined;
-    const listingPrice = item.pricing.display.price;
-    const offerAvailability = item.availability
-        ? SCHEMA_AVAILABILITY[item.availability]
+    const listingPrice = product.pricing.display.price;
+    const offerAvailability = product.availability
+        ? SCHEMA_AVAILABILITY[product.availability]
         : undefined;
-    const merchantUrl = item.viewUrl || item.url;
 
     const jsonLd: ProductJsonLd = {
         "@context": "https://schema.org/",
         "@type": "Product",
-        sku: item.productListingId,
+        sku: product.productListingId,
     };
-    if (title) jsonLd.name = title;
+    if (product.title) jsonLd.name = product.title;
 
-    const validImages = item.images
-        .map((image) => image.url)
-        .filter((imageUrl): imageUrl is string => imageUrl !== null);
+    const validImages = product.images.flatMap((image) => (image.url ? [image.url.href] : []));
     jsonLd.image = validImages.length > 0 ? validImages : [BANNER_IMAGE_URL];
 
     if (canonicalUrl) jsonLd.url = canonicalUrl;
     if (
         listingPrice?.type === "MONETARY" &&
-        item.pricing.valuation.type === "CURRENT" &&
-        item.lifecycle === "ACTIVE"
+        product.valuation.type === "CURRENT" &&
+        product.lifecycle === "ACTIVE"
     ) {
         jsonLd.offers = {
             "@type": "Offer",
             priceCurrency: listingPrice.currency,
             price: toMajorCurrencyAmount(listingPrice.amount, listingPrice.currency),
-            url: merchantUrl,
+            url: product.viewUrl?.href ?? product.url?.href,
         };
         if (offerAvailability) jsonLd.offers.availability = offerAvailability;
     }
 
-    jsonLd.dateCreated = item.created;
-    jsonLd.dateModified = item.updated;
+    jsonLd.dateCreated = product.created.toISOString();
+    jsonLd.dateModified = product.updated.toISOString();
     return jsonLd;
 }
 
 export function generateProductJsonLdScript(
-    apiData: PersonalizedProductListingDetailsData,
+    product: ProductListingDetail,
     canonicalUrl?: string,
 ): string {
-    return JSON.stringify(generateProductJsonLd(apiData, canonicalUrl));
+    return JSON.stringify(generateProductJsonLd(product, canonicalUrl));
 }

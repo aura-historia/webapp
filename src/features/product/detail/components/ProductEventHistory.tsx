@@ -1,10 +1,12 @@
 import type {
-    ListingHistoryMoney,
-    ListingHistoryPrice,
     ProductListingHistoryChange,
     ProductListingHistoryEntry,
 } from "@/data/internal/product/ProductListingHistory.ts";
-import type { ListingAvailabilityData } from "@/client";
+import type {
+    ListingPrice,
+    ListingPriceEstimate,
+    ListingAvailability,
+} from "@/data/internal/product/ProductListingDomain.ts";
 import {
     TimelineItem,
     TimelineTitle,
@@ -29,7 +31,7 @@ interface ProductEventHistoryProps {
     readonly filter?: HistoryFilter;
 }
 
-const AVAILABILITY_KEYS: Partial<Record<ListingAvailabilityData, string>> = {
+const AVAILABILITY_KEYS: Partial<Record<ListingAvailability, string>> = {
     AVAILABLE: "available",
     IN_STOCK: "inStock",
     LIMITED_AVAILABILITY: "limitedAvailability",
@@ -43,7 +45,7 @@ const AVAILABILITY_KEYS: Partial<Record<ListingAvailabilityData, string>> = {
     SOLD_OUT: "soldOut",
 } as const;
 
-type PriceLabel = ListingHistoryPrice | ListingHistoryMoney | null;
+type PriceLabel = ListingPrice | ListingPriceEstimate | null;
 
 export function ProductEventHistory({ event, filter = "all" }: ProductEventHistoryProps) {
     const { t, i18n } = useTranslation();
@@ -58,7 +60,7 @@ export function ProductEventHistory({ event, filter = "all" }: ProductEventHisto
         return price ? formatHistoryMoney(price, i18n.language) : labels.notProvided;
     };
 
-    const formatAvailability = (availability: ListingAvailabilityData | null) =>
+    const formatAvailability = (availability: ListingAvailability | null) =>
         availability
             ? t(`product.listingAvailability.${AVAILABILITY_KEYS[availability] ?? "unknown"}`)
             : t("product.listingAvailability.unknown");

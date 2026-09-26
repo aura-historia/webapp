@@ -1,194 +1,354 @@
-import type { PersonalizedGetProductData } from "@/client";
+import type {
+    PersonalizedProductListingDetailsData,
+    PersonalizedProductListingSummaryData,
+    ProductListingDetailsData,
+    ProductListingSummaryData,
+} from "@/client";
 import { describe, expect, it } from "vitest";
-import { mapPersonalizedProductListingDetails } from "../ProductListing.ts";
+import { mapPersonalizedProductListingSummary } from "../ProductListing.ts";
+import { mapToProductListingDetail } from "../ProductListingDetail.ts";
+
+const source = { listingSourceId: "ls_opaque:01", name: "Atelier", slugId: "source-slug" };
+const baseSummary: ProductListingSummaryData = {
+    productListingId: "plist_opaque:01",
+    eventId: "evt_opaque:01",
+    source,
+    sourceListingId: "vendor/item/01",
+    title: { text: "Silver bowl", language: "en" },
+    displayPrice: { type: "MONETARY", amount: 1099, currency: "USD" },
+    priceValuation: { type: "CURRENT", fxRateId: "fx_01", capturedAt: "2026-09-01T00:00:00Z" },
+    availability: "AVAILABLE",
+    lifecycle: "ACTIVE",
+    url: "https://example.com/item",
+    viewUrl: "https://example.com/view",
+    images: [{ url: "https://example.com/image.jpg" }],
+    updated: "2026-09-01T00:00:00Z",
+};
+
+const baseDetails: ProductListingDetailsData = {
+    productListingId: "plist_opaque:01",
+    eventId: "evt_opaque:01",
+    source,
+    sourceListingId: "vendor/item/01",
+    title: { text: "Silver bowl", language: "en" },
+    pricing: {
+        source: {
+            price: { type: "MONETARY", amount: 1200, currency: "GBP" },
+            priceEstimateMin: { amount: 800, currency: "GBP" },
+            priceEstimateMax: { amount: 1600, currency: "GBP" },
+        },
+        display: {
+            price: { type: "MONETARY", amount: 1099, currency: "USD" },
+            priceEstimateMin: { amount: 700, currency: "USD" },
+            priceEstimateMax: { amount: 1400, currency: "USD" },
+        },
+        valuation: { type: "CURRENT", fxRateId: "fx_01", capturedAt: "2026-09-01T00:00:00Z" },
+    },
+    availability: "AVAILABLE",
+    lifecycle: "ACTIVE",
+    url: "https://example.com/item",
+    viewUrl: "https://example.com/view",
+    images: [{ url: "https://example.com/image.jpg" }],
+    auction: null,
+    lot: null,
+    created: "2026-08-01T00:00:00Z",
+    updated: "2026-09-01T00:00:00Z",
+};
+
+const personalized = <TItem>(item: TItem) => ({
+    item,
+    userState: {
+        watchlist: { watching: true, notifications: true },
+        contentVisibility: { showUnassessedOrSensitiveContent: false },
+        notification: { unseenNotificationIds: ["ntf_01", "ntf_02"] },
+        searchFilter: { matched: false, hidden: false },
+    },
+});
 
 describe("ProductListing mappers", () => {
-    describe("mapToInternalProductListing", () => {
-        it("should create ProductListing with valid data", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "item-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Antique Shop",
-                    shopType: "AUCTION_HOUSE",
-                    title: { text: "Vintage Vase", language: "de" },
-                    price: { offer: { amount: 1099, currency: "USD" } },
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/item",
-                    viewUrl: "https://affiliate.example.com/item",
-                    images: [{ url: "https://example.com/image1.jpg", prohibitedContent: "NONE" }],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2023-01-01T00:00:00Z",
-                    updated: "2023-01-02T00:00:00Z",
-                },
-            };
+    it("maps opaque identity, nested source, summary price metadata and viewer state", () => {
+        const data: PersonalizedProductListingSummaryData = personalized(baseSummary);
+        const result = mapPersonalizedProductListingSummary(data, "en-US");
 
-            const result = mapPersonalizedProductListingDetails(apiData, "en");
-
-            expect(result.productId).toBe("item-123");
-            expect(result.eventId).toBe("event-456");
-            expect(result.shopId).toBe("shop-789");
-            expect(result.shopsProductId).toBe("shop-item-101");
-            expect(result.shopName).toBe("Antique Shop");
-            expect(result.title).toBe("Vintage Vase");
-            expect(result.price).toBe("$10.99");
-            expect(result.state).toBe("AVAILABLE");
-            expect(result.url?.href).toBe("https://example.com/item");
-            expect(result.viewUrl?.href).toBe("https://affiliate.example.com/item");
-            expect(result.images[0].url?.href).toEqual("https://example.com/image1.jpg");
-            expect(result.created.getTime()).toBe(new Date("2023-01-01T00:00:00Z").getTime());
-            expect(result.updated.getTime()).toBe(new Date("2023-01-02T00:00:00Z").getTime());
-            expect(result.structuredAddress).toBeUndefined();
-            expect(result.geoAddress).toBeUndefined();
+        expect(result.productListingId).toBe("plist_opaque:01");
+        expect(result.sourceListingId).toBe("vendor/item/01");
+        expect(result.source).toEqual(source);
+        expect(result.price).toEqual(baseSummary.displayPrice);
+        expect(result.priceValuation).toBe("CURRENT");
+        expect(result.valuation).toEqual({
+            type: "CURRENT",
+            fxRateId: "fx_01",
+            capturedAt: new Date("2026-09-01T00:00:00Z"),
         });
+        expect(result.userState?.notification).toEqual({
+            unseenNotificationIds: ["ntf_01", "ntf_02"],
+            hasUnseenNotification: true,
+        });
+        expect(result.userState?.contentVisibility.showUnassessedOrSensitiveContent).toBe(false);
+    });
 
-        it("should map structured address and geo coordinates when present", () => {
-            const apiData: PersonalizedGetProductData = {
+    it("keeps redacted summary text, slug and image URLs absent without inventing values", () => {
+        const summary: ProductListingSummaryData = {
+            ...baseSummary,
+            productListingTitleSlugId: undefined,
+            title: null,
+            displayPrice: null,
+            availability: null,
+            images: [{ url: null }],
+        };
+        const result = mapPersonalizedProductListingSummary({ item: summary }, "en");
+
+        expect(result.title).toBeUndefined();
+        expect(result.productListingTitleSlugId).toBeUndefined();
+        expect(result.price).toBeNull();
+        expect(result.availability).toBeNull();
+        expect(result.contentPolicy).toBeUndefined();
+        expect(result.images).toEqual([{ url: undefined, prohibitedContentType: "UNKNOWN" }]);
+    });
+
+    it("keeps ON_REQUEST distinct from missing price", () => {
+        const onRequest = mapPersonalizedProductListingSummary(
+            { item: { ...baseSummary, displayPrice: { type: "ON_REQUEST" } } },
+            "en",
+        );
+        const missing = mapPersonalizedProductListingSummary(
+            { item: { ...baseSummary, displayPrice: null } },
+            "en",
+        );
+
+        expect(onRequest.price).toEqual({ type: "ON_REQUEST" });
+        expect(onRequest.formattedPrice).toBeUndefined();
+        expect(missing.price).toBeNull();
+        expect(missing.formattedPrice).toBeUndefined();
+    });
+
+    it("preserves a summary SALE_OBSERVATION valuation", () => {
+        const result = mapPersonalizedProductListingSummary(
+            {
                 item: {
-                    productId: "item-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Antique Shop",
-                    shopType: "AUCTION_HOUSE",
-                    structuredAddress: {
-                        addressline: "8 King St",
-                        locality: "London",
-                        postalCode: "SW1Y 6QT",
-                        country: "GB",
+                    ...baseSummary,
+                    priceValuation: {
+                        type: "SALE_OBSERVATION",
+                        fxRateId: "fx_sale",
+                        observedAt: "2026-08-30T00:00:00Z",
                     },
-                    geoAddress: { lat: 51.5074, lon: -0.1278 },
-                    title: { text: "Vintage Vase", language: "de" },
-                    price: { offer: { amount: 1099, currency: "USD" } },
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/item",
-                    viewUrl: "https://example.com/item",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2023-01-01T00:00:00Z",
-                    updated: "2023-01-02T00:00:00Z",
                 },
-            };
+            },
+            "en",
+        );
 
-            const result = mapPersonalizedProductListingDetails(apiData, "en");
-
-            expect(result.structuredAddress).toEqual({
-                addressline: "8 King St",
-                addresslineExtra: undefined,
-                locality: "London",
-                region: undefined,
-                postalCode: "SW1Y 6QT",
-                country: "GB",
-                continent: undefined,
-            });
-            expect(result.geoAddress).toEqual({ lat: 51.5074, lon: -0.1278 });
+        expect(result.priceValuation).toBe("SALE_OBSERVATION");
+        expect(result.valuation).toEqual({
+            type: "SALE_OBSERVATION",
+            fxRateId: "fx_sale",
+            observedAt: new Date("2026-08-30T00:00:00Z"),
         });
+    });
 
-        it("should handle missing fields", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "item-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Antique Shop",
-                    shopType: "AUCTION_HOUSE",
-                    title: { text: "Vintage Vase", language: "de" },
-                    price: { offer: { amount: 2550, currency: "EUR" } },
-                    state: "LISTED",
-                    lifecycle: "ACTIVE",
-                    url: "",
-                    viewUrl: "",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2023-01-01T00:00:00Z",
-                    updated: "2023-01-02T00:00:00Z",
+    it("preserves all availability values and unknown values independently of lifecycle", () => {
+        const availabilities = [
+            "AVAILABLE",
+            "IN_STOCK",
+            "LIMITED_AVAILABILITY",
+            "BACK_ORDER",
+            "MADE_TO_ORDER",
+            "PRE_ORDER",
+            "PRE_SALE",
+            "UNAVAILABLE",
+            "RESERVED",
+            "OUT_OF_STOCK",
+            "SOLD_OUT",
+        ] as const;
+
+        for (const availability of availabilities) {
+            const result = mapPersonalizedProductListingSummary(
+                { item: { ...baseSummary, availability, lifecycle: "WITHDRAWN" } },
+                "en",
+            );
+            expect(result.availability).toBe(availability);
+            expect(result.lifecycle).toBe("WITHDRAWN");
+        }
+
+        const unknown = "FUTURE_VALUE" as ProductListingSummaryData["availability"];
+        expect(
+            mapPersonalizedProductListingSummary(
+                { item: { ...baseSummary, availability: unknown } },
+                "en",
+            ).availability,
+        ).toBe("UNKNOWN");
+    });
+
+    it("keeps summary auctionId as an identifier without hydrating auction metadata", () => {
+        const result = mapPersonalizedProductListingSummary(
+            { item: { ...baseSummary, auctionId: "auc_opaque:01" } },
+            "en",
+        );
+
+        expect(result.auctionId).toBe("auc_opaque:01");
+        expect("auction" in result).toBe(false);
+    });
+
+    it("maps detail source and display prices plus CURRENT valuation metadata", () => {
+        const details: PersonalizedProductListingDetailsData = personalized({
+            ...baseDetails,
+            contentPolicy: { decision: "REQUIRES_CONSENT", category: "NAZI_GERMANY" },
+        });
+        const result = mapToProductListingDetail(details, "en-US");
+
+        expect(result.pricing.source.price).toEqual({
+            type: "MONETARY",
+            amount: 1200,
+            currency: "GBP",
+        });
+        expect(result.pricing.display.price).toEqual({
+            type: "MONETARY",
+            amount: 1099,
+            currency: "USD",
+        });
+        expect(result.pricing.source.priceEstimateMin).toEqual({ amount: 800, currency: "GBP" });
+        expect(result.pricing.source.priceEstimateMax).toEqual({ amount: 1600, currency: "GBP" });
+        expect(result.pricing.display.priceEstimateMin).toEqual({ amount: 700, currency: "USD" });
+        expect(result.pricing.display.priceEstimateMax).toEqual({ amount: 1400, currency: "USD" });
+        expect(result.priceValuation).toBe("CURRENT");
+        expect(result.valuation).toEqual({
+            type: "CURRENT",
+            fxRateId: "fx_01",
+            capturedAt: new Date("2026-09-01T00:00:00Z"),
+        });
+        expect(result.contentPolicy).toEqual({
+            decision: "REQUIRES_CONSENT",
+            category: "NAZI_GERMANY",
+        });
+        expect(result.auction).toBeNull();
+        expect(result.lot).toBeNull();
+    });
+
+    it("preserves SALE_OBSERVATION metadata, ON_REQUEST, and lot facts without a parent auction", () => {
+        const details: ProductListingDetailsData = {
+            ...baseDetails,
+            productTitle: null,
+            title: null,
+            description: null,
+            pricing: {
+                source: { price: { type: "ON_REQUEST" } },
+                display: { price: { type: "ON_REQUEST" } },
+                valuation: {
+                    type: "SALE_OBSERVATION",
+                    fxRateId: "fx_sale",
+                    capturedAt: "2026-08-31T00:00:00Z",
+                    observedAt: "2026-08-30T00:00:00Z",
                 },
-            };
+            },
+            auction: null,
+            lot: {
+                lotNumber: "42",
+                cataloguePosition: 7,
+                biddingOpens: null,
+                scheduledCloses: null,
+                reportedClosedAt: null,
+            },
+        };
+        const result = mapToProductListingDetail({ item: details }, "en");
 
-            const result = mapPersonalizedProductListingDetails(apiData, "de");
-
-            expect(result.url).toBeNull();
-            expect(result.viewUrl).toBeNull();
-            expect(result.images).toEqual([]);
+        expect(result.title).toBeUndefined();
+        expect(result.description).toBeUndefined();
+        expect(result.price).toEqual({ type: "ON_REQUEST" });
+        expect(result.displayPrice).toBeUndefined();
+        expect(result.priceValuation).toBe("SALE_OBSERVATION");
+        expect(result.valuation).toEqual({
+            type: "SALE_OBSERVATION",
+            fxRateId: "fx_sale",
+            capturedAt: new Date("2026-08-31T00:00:00Z"),
+            observedAt: new Date("2026-08-30T00:00:00Z"),
         });
+        expect(result.auction).toBeNull();
+        expect(result.lot).toEqual({
+            lotNumber: "42",
+            cataloguePosition: 7,
+            biddingOpens: null,
+            scheduledCloses: null,
+            reportedClosedAt: null,
+        });
+    });
 
-        it("should contain an empty array for an invalid image url", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "item-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Antique Shop",
-                    shopType: "AUCTION_HOUSE",
-                    title: { text: "Rare Painting", language: "de" },
-                    price: { offer: { amount: 5000, currency: "USD" } },
-                    state: "SOLD",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/item",
-                    viewUrl: "https://example.com/item",
-                    images: [{ url: "invalid-url", prohibitedContent: "NONE" }],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2023-01-01T00:00:00Z",
-                    updated: "2023-01-02T00:00:00Z",
+    it("preserves a parent auction and nullable lot facts without deriving schedule values", () => {
+        const details: ProductListingDetailsData = {
+            ...baseDetails,
+            auction: {
+                auctionId: "auc_opaque:01",
+                schedule: {
+                    biddingOpens: "2026-09-01T00:00:00Z",
+                    liveStarts: null,
+                    lotsBeginClosing: null,
+                    scheduledEnd: null,
                 },
-            };
+            },
+            lot: null,
+        };
+        const result = mapToProductListingDetail({ item: details }, "en");
 
-            const result = mapPersonalizedProductListingDetails(apiData, "de");
-
-            expect(result.images).toEqual([]);
+        expect(result.auction).toEqual({
+            ...details.auction,
+            schedule: {
+                biddingOpens: new Date("2026-09-01T00:00:00Z"),
+                liveStarts: null,
+                lotsBeginClosing: null,
+                scheduledEnd: null,
+            },
         });
+        expect(result.lot).toBeNull();
+    });
 
-        it("should return an empty list for missing image fields", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "item-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Antique Shop",
-                    shopType: "AUCTION_HOUSE",
-                    title: { text: "Vintage Vase", language: "de" },
-                    price: { offer: { amount: 1099, currency: "USD" } },
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/item",
-                    viewUrl: "https://example.com/item",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2023-01-01T00:00:00Z",
-                    updated: "2023-01-02T00:00:00Z",
+    it("preserves a parent auction and listing-owned lot facts independently", () => {
+        const details: ProductListingDetailsData = {
+            ...baseDetails,
+            auction: {
+                auctionId: "auc_opaque:01",
+                schedule: {
+                    biddingOpens: null,
+                    liveStarts: null,
+                    lotsBeginClosing: null,
+                    scheduledEnd: null,
                 },
-            };
+            },
+            lot: {
+                lotNumber: "42",
+                cataloguePosition: null,
+                biddingOpens: "2026-09-02T10:00:00Z",
+                scheduledCloses: null,
+                reportedClosedAt: null,
+            },
+        };
+        const result = mapToProductListingDetail({ item: details }, "en");
 
-            const result = mapPersonalizedProductListingDetails(apiData, "de");
-
-            expect(result.images).toEqual([]);
+        expect(result.auction?.auctionId).toBe("auc_opaque:01");
+        expect(result.lot).toEqual({
+            lotNumber: "42",
+            cataloguePosition: null,
+            biddingOpens: new Date("2026-09-02T10:00:00Z"),
+            scheduledCloses: null,
+            reportedClosedAt: null,
         });
+    });
+
+    it("keeps missing detail prices distinct from ON_REQUEST", () => {
+        const details: ProductListingDetailsData = {
+            ...baseDetails,
+            pricing: {
+                source: {},
+                display: {},
+                valuation: {
+                    type: "CURRENT",
+                    fxRateId: "fx_01",
+                    capturedAt: "2026-09-01T00:00:00Z",
+                },
+            },
+        };
+        const result = mapToProductListingDetail({ item: details }, "en");
+
+        expect(result.pricing.source.price).toBeUndefined();
+        expect(result.pricing.display.price).toBeUndefined();
+        expect(result.price).toBeUndefined();
+        expect(result.displayPrice).toBeUndefined();
     });
 });

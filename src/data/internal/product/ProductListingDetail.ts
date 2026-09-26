@@ -1,17 +1,33 @@
-import type {
-    ListingAvailabilityData,
-    ListingLifecycleData,
-    PersonalizedProductListingDetailsData,
-    ProductListingDetailsData,
-    ProductListingImageData,
-    ProductListingUserStateData,
-} from "@/client";
+import type { PersonalizedProductListingDetailsData } from "@/client";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
 import {
     mapProductListingSource,
     type ProductListingSource,
 } from "@/data/internal/product/ProductListingSource.ts";
-import { formatPrice } from "@/data/internal/price/Price.ts";
+import {
+    mapProductListingUserState,
+    type ProductListingUserState,
+} from "@/data/internal/product/UserProductData.ts";
+import {
+    mapListingAvailability,
+    mapListingAuction,
+    mapListingContentPolicy,
+    mapListingDetailValuation,
+    formatListingPrice,
+    mapListingImages,
+    mapListingLifecycle,
+    mapListingLot,
+    mapListingPricingAmounts,
+    mapListingUrl,
+    type ListingAvailability,
+    type ListingAuctionSummary,
+    type ListingContentPolicy,
+    type ListingLifecycle,
+    type ListingLotFacts,
+    type ListingPrice,
+    type ListingPriceValuation,
+    type ListingPricing,
+} from "@/data/internal/product/ProductListingDomain.ts";
 
 export type ProductListingDetail = {
     readonly productListingId: string;
@@ -20,47 +36,23 @@ export type ProductListingDetail = {
     readonly description?: string;
     readonly source: ProductListingSource;
     readonly sourceListingId: string;
-    readonly price?: ProductListingDetailsData["pricing"]["display"]["price"];
+    readonly pricing: ListingPricing;
+    readonly price?: ListingPrice | null;
     readonly displayPrice?: string;
-    readonly priceValuation: "CURRENT" | "SALE_OBSERVATION";
-    readonly availability: ListingAvailabilityData | null;
-    readonly lifecycle: ListingLifecycleData;
+    readonly priceValuation: ListingPriceValuation["type"];
+    readonly valuation: ListingPriceValuation;
+    readonly availability: ListingAvailability | null;
+    readonly lifecycle: ListingLifecycle;
     readonly url?: URL;
     readonly viewUrl?: URL;
     readonly images: readonly ProductImage[];
-    readonly contentPolicy: ProductListingDetailsData["contentPolicy"];
-    readonly auction: ProductListingDetailsData["auction"];
-    readonly lot: ProductListingDetailsData["lot"];
+    readonly contentPolicy: ListingContentPolicy | null | undefined;
+    readonly auction: ListingAuctionSummary | null;
+    readonly lot: ListingLotFacts | null;
     readonly created: Date;
     readonly updated: Date;
-    readonly userState?: ProductListingUserStateData | null;
+    readonly userState?: ProductListingUserState | null;
 };
-
-function mapImage(
-    image: ProductListingImageData,
-    contentPolicy: ProductListingDetailsData["contentPolicy"],
-): ProductImage {
-    const url = image.url ? (URL.parse(image.url) ?? undefined) : undefined;
-    const prohibitedContentType =
-        contentPolicy?.decision === "REQUIRES_CONSENT"
-            ? contentPolicy.category
-            : contentPolicy?.decision === "ALLOWED"
-              ? "NONE"
-              : "UNKNOWN";
-
-    return { url, prohibitedContentType };
-}
-
-function mapUrl(value: string): URL | undefined {
-    return URL.parse(value) ?? undefined;
-}
-
-function getDisplayPrice(data: ProductListingDetailsData, locale: string): string | undefined {
-    const price = data.pricing.display.price;
-    if (price?.type !== "MONETARY") return undefined;
-
-    return formatPrice({ amount: price.amount, currency: price.currency }, locale);
-}
 
 /** Converts the personalized listing DTO at the API boundary for detail presentation. */
 export function mapToProductListingDetail(
@@ -68,6 +60,13 @@ export function mapToProductListingDetail(
     locale: string,
 ): ProductListingDetail {
     const item = apiData.item;
+    const displayPricing = mapListingPricingAmounts(item.pricing.display);
+    const pricing: ListingPricing = {
+        source: mapListingPricingAmounts(item.pricing.source),
+        display: displayPricing,
+        valuation: mapListingDetailValuation(item.pricing.valuation),
+    };
+    const displayPrice = displayPricing.price;
 
     return {
         productListingId: item.productListingId,
@@ -77,19 +76,21 @@ export function mapToProductListingDetail(
         description: item.productDescription?.text ?? item.description?.text ?? undefined,
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
-        price: item.pricing.display.price,
-        displayPrice: getDisplayPrice(item, locale),
-        priceValuation: item.pricing.valuation.type,
-        availability: item.availability,
-        lifecycle: item.lifecycle,
-        url: mapUrl(item.url),
-        viewUrl: mapUrl(item.viewUrl),
-        images: item.images.map((image) => mapImage(image, item.contentPolicy)),
-        contentPolicy: item.contentPolicy,
-        auction: item.auction,
-        lot: item.lot,
+        pricing,
+        price: displayPrice,
+        displayPrice: formatListingPrice(displayPrice, locale),
+        priceValuation: pricing.valuation.type,
+        valuation: pricing.valuation,
+        availability: mapListingAvailability(item.availability),
+        lifecycle: mapListingLifecycle(item.lifecycle),
+        url: mapListingUrl(item.url),
+        viewUrl: mapListingUrl(item.viewUrl),
+        images: mapListingImages(item.images, item.contentPolicy),
+        contentPolicy: mapListingContentPolicy(item.contentPolicy),
+        auction: mapListingAuction(item.auction),
+        lot: mapListingLot(item.lot),
         created: new Date(item.created),
         updated: new Date(item.updated),
-        userState: apiData.userState,
+        userState: mapProductListingUserState(apiData.userState),
     };
 }

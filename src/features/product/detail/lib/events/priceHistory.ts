@@ -1,8 +1,8 @@
+import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
 import type {
-    ListingHistoryMoney,
-    ListingHistoryPrice,
-    ProductListingHistoryEntry,
-} from "@/data/internal/product/ProductListingHistory.ts";
+    ListingPrice,
+    ListingPriceEstimate,
+} from "@/data/internal/product/ProductListingDomain.ts";
 
 export type PriceHistoryPoint = { readonly x: number; readonly y: number | null };
 export type PriceHistorySeries = {
@@ -12,14 +12,16 @@ export type PriceHistorySeries = {
 
 function minorUnitDigits(currency: string, locale = "en"): number {
     try {
-        return new Intl.NumberFormat(locale, { style: "currency", currency }).resolvedOptions()
-            .maximumFractionDigits;
+        return (
+            new Intl.NumberFormat(locale, { style: "currency", currency }).resolvedOptions()
+                .maximumFractionDigits ?? 2
+        );
     } catch {
         return 2;
     }
 }
 
-export function formatHistoryMoney(value: ListingHistoryMoney, locale: string): string {
+export function formatHistoryMoney(value: ListingPriceEstimate, locale: string): string {
     const digits = minorUnitDigits(value.currency, locale);
     return new Intl.NumberFormat(locale, {
         style: "currency",
@@ -28,7 +30,7 @@ export function formatHistoryMoney(value: ListingHistoryMoney, locale: string): 
 }
 
 export function formatHistoryPrice(
-    value: ListingHistoryPrice | null,
+    value: ListingPrice | null,
     locale: string,
     labels: { readonly onRequest: string; readonly notProvided: string },
 ): string {

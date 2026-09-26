@@ -1,20 +1,17 @@
 import type {
-    ListingAvailabilityData,
     ProductListingHistoryChangeData,
     ProductListingHistoryEntryData,
-    ProductListingPriceData,
     ProductListingAuctionFactsData,
     PriceData,
 } from "@/client";
-
-export type ListingHistoryPrice =
-    | { readonly type: "MONETARY"; readonly amount: number; readonly currency: string }
-    | { readonly type: "ON_REQUEST" };
-
-export type ListingHistoryMoney = {
-    readonly amount: number;
-    readonly currency: string;
-};
+import {
+    mapListingAvailability,
+    mapListingPrice,
+    mapListingPriceEstimate,
+    type ListingAvailability,
+    type ListingPrice,
+    type ListingPriceEstimate,
+} from "@/data/internal/product/ProductListingDomain.ts";
 
 export type ListingAuctionFacts = {
     readonly auctionId?: string;
@@ -31,11 +28,11 @@ export type ProductListingDiscovery = {
     readonly title?: { readonly text: string; readonly language: string };
     readonly description?: { readonly text: string; readonly language: string };
     readonly pricing: {
-        readonly price?: ListingHistoryPrice | null;
-        readonly priceEstimateMin?: ListingHistoryMoney | null;
-        readonly priceEstimateMax?: ListingHistoryMoney | null;
+        readonly price?: ListingPrice | null;
+        readonly priceEstimateMin?: ListingPriceEstimate | null;
+        readonly priceEstimateMax?: ListingPriceEstimate | null;
     };
-    readonly availability: ListingAvailabilityData | null;
+    readonly availability: ListingAvailability | null;
     readonly url: string;
     readonly imageCount: number;
     readonly auction: ListingAuctionFacts | null;
@@ -44,18 +41,18 @@ export type ProductListingDiscovery = {
 export type ProductListingHistoryChange =
     | {
           readonly type: "MAIN_PRICE_CHANGED";
-          readonly previous: ListingHistoryPrice | null;
-          readonly current: ListingHistoryPrice | null;
+          readonly previous: ListingPrice | null;
+          readonly current: ListingPrice | null;
       }
     | {
           readonly type: "MINIMUM_ESTIMATE_CHANGED" | "MAXIMUM_ESTIMATE_CHANGED";
-          readonly previous: ListingHistoryMoney | null;
-          readonly current: ListingHistoryMoney | null;
+          readonly previous: ListingPriceEstimate | null;
+          readonly current: ListingPriceEstimate | null;
       }
     | {
           readonly type: "AVAILABILITY_CHANGED";
-          readonly previous: ListingAvailabilityData | null;
-          readonly current: ListingAvailabilityData | null;
+          readonly previous: ListingAvailability | null;
+          readonly current: ListingAvailability | null;
       }
     | { readonly type: "URL_CHANGED"; readonly previous: string; readonly current: string }
     | {
@@ -68,7 +65,7 @@ export type ProductListingHistoryChange =
           readonly previous: ListingAuctionFacts | null;
           readonly current: ListingAuctionFacts | null;
       }
-    | { readonly type: "WITHDRAWN"; readonly previousAvailability: ListingAvailabilityData | null }
+    | { readonly type: "WITHDRAWN"; readonly previousAvailability: ListingAvailability | null }
     | { readonly type: "RESTORED" }
     | {
           readonly type: "SALE_OBSERVED" | "SALE_OBSERVATION_RETRACTED";
@@ -89,15 +86,8 @@ export type ProductListingHistoryEntry = {
     readonly payload: ProductListingHistoryPayload;
 };
 
-function mapListingPrice(value: ProductListingPriceData | null): ListingHistoryPrice | null {
-    if (value === null) return null;
-    return value.type === "MONETARY"
-        ? { type: "MONETARY", amount: value.amount, currency: value.currency }
-        : { type: "ON_REQUEST" };
-}
-
-function mapMoney(value: PriceData | null): ListingHistoryMoney | null {
-    return value === null ? null : { amount: value.amount, currency: value.currency };
+function mapMoney(value: PriceData | null): ListingPriceEstimate | null {
+    return mapListingPriceEstimate(value) ?? null;
 }
 
 function mapAuction(value: ProductListingAuctionFactsData | null): ListingAuctionFacts | null {
@@ -117,8 +107,8 @@ function mapChange(change: ProductListingHistoryChangeData): ProductListingHisto
         case "MAIN_PRICE_CHANGED":
             return {
                 type: change.type,
-                previous: mapListingPrice(change.previous),
-                current: mapListingPrice(change.current),
+                previous: mapListingPrice(change.previous) ?? null,
+                current: mapListingPrice(change.current) ?? null,
             };
         case "MINIMUM_ESTIMATE_CHANGED":
         case "MAXIMUM_ESTIMATE_CHANGED":
@@ -128,7 +118,11 @@ function mapChange(change: ProductListingHistoryChangeData): ProductListingHisto
                 current: mapMoney(change.current),
             };
         case "AVAILABILITY_CHANGED":
-            return { type: change.type, previous: change.previous, current: change.current };
+            return {
+                type: change.type,
+                previous: mapListingAvailability(change.previous),
+                current: mapListingAvailability(change.current),
+            };
         case "URL_CHANGED":
             return { type: change.type, previous: change.previous, current: change.current };
         case "IMAGES_CHANGED":
@@ -144,7 +138,10 @@ function mapChange(change: ProductListingHistoryChangeData): ProductListingHisto
                 current: mapAuction(change.current),
             };
         case "WITHDRAWN":
-            return { type: change.type, previousAvailability: change.previousAvailability };
+            return {
+                type: change.type,
+                previousAvailability: mapListingAvailability(change.previousAvailability),
+            };
         case "RESTORED":
             return { type: change.type };
         case "SALE_OBSERVED":
@@ -172,11 +169,11 @@ function mapDiscovery(
         title: data.title,
         description: data.description,
         pricing: {
-            price: mapListingPrice(data.pricing.price ?? null),
+            price: mapListingPrice(data.pricing.price ?? null) ?? null,
             priceEstimateMin: mapMoney(data.pricing.priceEstimateMin ?? null),
             priceEstimateMax: mapMoney(data.pricing.priceEstimateMax ?? null),
         },
-        availability: data.availability,
+        availability: mapListingAvailability(data.availability),
         url: data.url,
         imageCount: data.imageCount,
         auction: mapAuction(data.auction),
