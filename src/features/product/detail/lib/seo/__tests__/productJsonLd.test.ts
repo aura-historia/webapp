@@ -1,567 +1,135 @@
 import { describe, expect, it } from "vitest";
-import type { PersonalizedGetProductData, ProductStateData } from "@/client";
+import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
+import type {
+    ListingPrice,
+    ListingPriceValuation,
+    ListingPricing,
+} from "@/data/internal/product/ProductListingDomain.ts";
 import { generateProductJsonLd, generateProductJsonLdScript } from "../productJsonLd.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 
+function makeProduct(overrides: Partial<ProductListingDetail> = {}): ProductListingDetail {
+    const price: ListingPrice = { type: "MONETARY", amount: 25_000, currency: "USD" };
+    const valuation: ListingPriceValuation = {
+        type: "CURRENT",
+        fxRateId: "fx-123",
+        capturedAt: new Date("2024-01-20T15:30:00Z"),
+    };
+    const pricing: ListingPricing = {
+        source: { price },
+        display: { price },
+        valuation,
+    };
+
+    return {
+        productListingId: "listing-123",
+        title: "Antique Chair",
+        source: { listingSourceId: "source-1", name: "Antique Store", slugId: "antique-store" },
+        sourceListingId: "source-listing-456",
+        pricing,
+        price,
+        displayPrice: "$250.00",
+        priceValuation: "CURRENT",
+        valuation,
+        availability: "IN_STOCK",
+        lifecycle: "ACTIVE",
+        url: new URL("https://example.com/chair"),
+        viewUrl: new URL("https://affiliate.example.com/chair"),
+        images: [
+            { url: new URL("https://example.com/images/chair.jpg"), prohibitedContentType: "NONE" },
+        ],
+        contentPolicy: { decision: "ALLOWED" },
+        auction: null,
+        lot: null,
+        created: new Date("2024-01-01T00:00:00Z"),
+        updated: new Date("2024-01-20T15:30:00Z"),
+        ...overrides,
+    };
+}
+
 describe("productJsonLd", () => {
-    describe("generateProductJsonLd", () => {
-        it("should generate complete JSON-LD with all fields", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    sellerName: "",
-                    shopSlugId: "test-shop-slug",
-                    shopName: "Antique Store",
-                    shopType: "AUCTION_HOUSE",
-                    title: { text: "Vintage Vase from 1920s", language: "en" },
-                    price: { offer: { amount: 15000, currency: "EUR" } },
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/products/vintage-vase",
-                    viewUrl: "https://affiliate.example.com/products/vintage-vase",
-                    images: [
-                        {
-                            url: "https://example.com/images/vase1.jpg",
-                            prohibitedContent: "NONE",
-                        },
-                        {
-                            url: "https://example.com/images/vase2.jpg",
-                            prohibitedContent: "NONE",
-                        },
-                    ],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-15T10:00:00Z",
-                    updated: "2024-01-20T15:30:00Z",
-                },
-            };
+    it("generates product metadata from the domain model", () => {
+        const result = generateProductJsonLd(
+            makeProduct(),
+            "https://aura-historia.com/products/chair",
+        );
 
-            const result = generateProductJsonLd(apiData);
-
-            expect(result["@context"]).toBe("https://schema.org/");
-            expect(result["@type"]).toBe("Product");
-            expect(result.name).toBe("Vintage Vase from 1920s");
-            expect(result.sku).toBe("shop-789-shop-item-101");
-            expect(result.url).toBe("https://affiliate.example.com/products/vintage-vase");
-            expect(result.image).toEqual([
-                "https://example.com/images/vase1.jpg",
-                "https://example.com/images/vase2.jpg",
-            ]);
-        });
-
-        it("should include offer details with InStock availability for AVAILABLE state", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    shopName: "Antique Dealer",
-                    shopType: "COMMERCIAL_DEALER",
-                    sellerName: "",
-                    title: { text: "Antique Chair", language: "en" },
-                    price: { offer: { amount: 25000, currency: "USD" } },
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/chair",
-                    viewUrl: "https://affiliate.example.com/chair",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.offers).toBeDefined();
-            expect(result.offers?.["@type"]).toBe("Offer");
-            expect(result.offers?.priceCurrency).toBe("USD");
-            expect(result.offers?.price).toBe(250.0);
-            expect(result.offers?.availability).toBe("https://schema.org/InStock");
-            expect(result.offers?.url).toBe("https://affiliate.example.com/chair");
-            expect(result.offers?.seller?.["@type"]).toBe("Organization");
-            expect(result.offers?.seller?.name).toBe("Antique Dealer");
-        });
-
-        it("should include offer with InStock availability for LISTED state", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Auction House",
-                    shopType: "AUCTION_HOUSE",
-                    title: { text: "Rare Painting", language: "en" },
-                    price: { offer: { amount: 500000, currency: "GBP" } },
-                    state: "LISTED",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/painting",
-                    viewUrl: "https://example.com/painting",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.offers?.availability).toBe("https://schema.org/InStock");
-        });
-
-        it("should include offer with LimitedAvailability for RESERVED state", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    sellerName: "",
-                    shopSlugId: "test-shop-slug",
-                    shopName: "Antique Store",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "Reserved Item", language: "en" },
-                    price: { offer: { amount: 10000, currency: "EUR" } },
-                    state: "RESERVED",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/reserved",
-                    viewUrl: "https://example.com/reserved",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.offers?.availability).toBe("https://schema.org/LimitedAvailability");
-        });
-
-        it("should include offer with SoldOut availability for SOLD state", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Auction House",
-                    shopType: "AUCTION_HOUSE",
-                    title: { text: "Sold Antique", language: "en" },
-                    price: { offer: { amount: 75000, currency: "USD" } },
-                    state: "SOLD",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/sold",
-                    viewUrl: "https://example.com/sold",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.offers?.availability).toBe("https://schema.org/SoldOut");
-        });
-
-        it("should include offer with Discontinued availability for unknown state", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Dealer",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "Discontinued Item", language: "en" },
-                    price: { offer: { amount: 5000, currency: "EUR" } },
-                    state: "REMOVED" as unknown as ProductStateData,
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/item",
-                    viewUrl: "https://example.com/item",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.offers?.availability).toBe("https://schema.org/Discontinued");
-        });
-
-        it("should handle missing images", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Store",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "Item Without Images", language: "en" },
-                    price: { offer: { amount: 1000, currency: "USD" } },
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/item",
-                    viewUrl: "https://example.com/item",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.image).toEqual([BANNER_IMAGE_URL]);
-        });
-
-        it("should handle empty images array", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Store",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "Item With Empty Images", language: "en" },
-                    price: { offer: { amount: 1000, currency: "USD" } },
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/item",
-                    viewUrl: "https://example.com/item",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.image).toEqual([BANNER_IMAGE_URL]);
-        });
-
-        it("should filter out images with prohibited content", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Store",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "Item With Mixed Images", language: "en" },
-                    price: { offer: { amount: 1000, currency: "USD" } },
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/item",
-                    viewUrl: "https://example.com/item",
-                    images: [
-                        {
-                            url: "https://example.com/image1.jpg",
-                            prohibitedContent: "NONE",
-                        },
-                        {
-                            url: "https://example.com/image2.jpg",
-                            prohibitedContent: "NAZI_GERMANY",
-                        },
-                        {
-                            url: "https://example.com/image3.jpg",
-                            prohibitedContent: "NONE",
-                        },
-                    ],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.image).toEqual([
-                "https://example.com/image1.jpg",
-                "https://example.com/image3.jpg",
-            ]);
-        });
-
-        it("should handle missing URL", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    sellerName: "",
-                    shopSlugId: "test-shop-slug",
-                    shopName: "Store",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "Item Without URL", language: "en" },
-                    price: { offer: { amount: 1000, currency: "USD" } },
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "",
-                    viewUrl: "",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.url).toBeUndefined();
-            expect(result.offers?.url).toBe("");
-        });
-
-        it("should handle missing price", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Store",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "Item Without Price", language: "en" },
-                    price: undefined,
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/item",
-                    viewUrl: "https://example.com/item",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.offers).toBeUndefined();
-        });
-
-        it("should correctly convert price from cents to currency units", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Store",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "Test Price Item", language: "en" },
-                    price: { offer: { amount: 12345, currency: "USD" } },
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/item",
-                    viewUrl: "https://example.com/item",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.offers?.price).toBe(123.45);
-        });
-
-        it("should generate correct SKU from shopId and shopsProductId", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "my-shop-id",
-                    shopsProductId: "product-xyz-789",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Store",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "SKU Test Item", language: "en" },
-                    price: { offer: { amount: 1000, currency: "USD" } },
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/item",
-                    viewUrl: "https://example.com/item",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
-
-            const result = generateProductJsonLd(apiData);
-
-            expect(result.sku).toBe("my-shop-id-product-xyz-789");
+        expect(result).toMatchObject({
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            name: "Antique Chair",
+            sku: "listing-123",
+            url: "https://aura-historia.com/products/chair",
+            image: ["https://example.com/images/chair.jpg"],
+            dateCreated: "2024-01-01T00:00:00.000Z",
+            dateModified: "2024-01-20T15:30:00.000Z",
         });
     });
 
-    describe("generateProductJsonLdScript", () => {
-        it("should return valid JSON string", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    sellerName: "",
-                    shopSlugId: "test-shop-slug",
-                    shopName: "Antique Store",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "Test Item", language: "en" },
-                    price: { offer: { amount: 5000, currency: "EUR" } },
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/item",
-                    viewUrl: "https://example.com/item",
-                    images: [
-                        {
-                            url: "https://example.com/image.jpg",
-                            prohibitedContent: "NONE",
-                        },
-                    ],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
+    it("includes a current monetary offer and mapped availability", () => {
+        const result = generateProductJsonLd(makeProduct());
+
+        expect(result.offers).toEqual({
+            "@type": "Offer",
+            priceCurrency: "USD",
+            price: 250,
+            availability: "https://schema.org/InStock",
+            url: "https://affiliate.example.com/chair",
+        });
+    });
+
+    it("omits offers for on-request prices", () => {
+        const price: ListingPrice = { type: "ON_REQUEST" };
+        const product = makeProduct({
+            price,
+            pricing: {
+                source: { price },
+                display: { price },
+                valuation: {
+                    type: "CURRENT",
+                    fxRateId: "fx-123",
+                    capturedAt: new Date("2024-01-20T15:30:00Z"),
                 },
-            };
-
-            const result = generateProductJsonLdScript(apiData);
-
-            // Should be valid JSON
-            expect(() => JSON.parse(result)).not.toThrow();
-
-            // Parse and verify structure
-            const parsed = JSON.parse(result);
-            expect(parsed["@context"]).toBe("https://schema.org/");
-            expect(parsed["@type"]).toBe("Product");
-            expect(parsed.name).toBe("Test Item");
+            },
         });
 
-        it("should match output of generateProductJsonLd when stringified", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Store",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "Comparison Test", language: "en" },
-                    price: { offer: { amount: 10000, currency: "USD" } },
-                    state: "SOLD",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/test",
-                    viewUrl: "https://example.com/test",
-                    images: [
-                        {
-                            url: "https://example.com/img1.jpg",
-                            prohibitedContent: "NONE",
-                        },
-                    ],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
+        expect(generateProductJsonLd(product).offers).toBeUndefined();
+    });
 
-            const jsonLd = generateProductJsonLd(apiData);
-            const scriptContent = generateProductJsonLdScript(apiData);
-
-            expect(scriptContent).toBe(JSON.stringify(jsonLd));
+    it("omits offers for sale observations and withdrawn listings", () => {
+        const saleValuation: ListingPriceValuation = {
+            type: "SALE_OBSERVATION",
+            fxRateId: "fx-123",
+            observedAt: new Date("2024-01-10T00:00:00Z"),
+        };
+        const saleObserved = makeProduct({
+            valuation: saleValuation,
+            priceValuation: "SALE_OBSERVATION",
+            pricing: {
+                source: { price: makeProduct().price },
+                display: { price: makeProduct().price },
+                valuation: saleValuation,
+            },
         });
+        expect(generateProductJsonLd(saleObserved).offers).toBeUndefined();
 
-        it("should produce compact JSON without extra whitespace", () => {
-            const apiData: PersonalizedGetProductData = {
-                item: {
-                    productId: "product-123",
-                    eventId: "event-456",
-                    shopId: "shop-789",
-                    shopsProductId: "shop-item-101",
-                    productSlugId: "test-product-slug",
-                    shopSlugId: "test-shop-slug",
-                    sellerName: "",
-                    shopName: "Store",
-                    shopType: "COMMERCIAL_DEALER",
-                    title: { text: "Compact Test", language: "en" },
-                    price: { offer: { amount: 1000, currency: "USD" } },
-                    state: "AVAILABLE",
-                    lifecycle: "ACTIVE",
-                    url: "https://example.com/item",
-                    viewUrl: "https://example.com/item",
-                    images: [],
-                    createdBy: "SYSTEM",
-                    updatedBy: "SYSTEM",
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-01T00:00:00Z",
-                },
-            };
+        expect(
+            generateProductJsonLd(makeProduct({ lifecycle: "WITHDRAWN" })).offers,
+        ).toBeUndefined();
+    });
 
-            const result = generateProductJsonLdScript(apiData);
+    it("omits unknown availability and uses the fallback image when no images are present", () => {
+        const result = generateProductJsonLd(makeProduct({ availability: "UNKNOWN", images: [] }));
 
-            // Should not contain unnecessary whitespace (no newlines or extra spaces)
-            expect(result).not.toMatch(/\n/);
-            expect(result).not.toMatch(/\s{2,}/);
-        });
+        expect(result.offers?.availability).toBeUndefined();
+        expect(result.image).toEqual([BANNER_IMAGE_URL]);
+    });
+
+    it("serializes a domain model to a JSON-LD script", () => {
+        const script = generateProductJsonLdScript(makeProduct());
+        const parsed = JSON.parse(script) as ReturnType<typeof generateProductJsonLd>;
+
+        expect(parsed.name).toBe("Antique Chair");
+        expect(parsed.offers?.price).toBe(250);
     });
 });

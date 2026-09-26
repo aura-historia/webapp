@@ -32,7 +32,11 @@ export const Route = createFileRoute("/$lng/products/$productListingTitleSlugId"
 
         return productData;
     },
-    head: ({ loaderData, params }) => generateProductHeadMeta(loaderData, params),
+    head: ({ loaderData, params }) =>
+        generateProductHeadMeta(
+            loaderData ? mapToProductListingDetail(loaderData, params.lng) : undefined,
+            params,
+        ),
     pendingComponent: ProductDetailPageSkeleton,
     component: ProductDetailComponent,
 });
