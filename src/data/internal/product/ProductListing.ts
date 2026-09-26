@@ -8,7 +8,6 @@ import {
     mapProductListingSource,
     type ProductListingSource,
 } from "@/data/internal/product/ProductListingSource.ts";
-import { formatPrice } from "@/data/internal/price/Price.ts";
 import {
     mapProductListingUserState,
     type ProductListingUserState,
@@ -16,6 +15,7 @@ import {
 import {
     mapListingAvailability,
     mapListingContentPolicy,
+    formatListingPrice,
     mapListingImages,
     mapListingLifecycle,
     mapListingPrice,
@@ -59,22 +59,18 @@ function mapSummaryFields(
     userState: ProductListingUserStateData | null | undefined,
     locale: string,
 ): ProductListing {
+    const displayPrice = mapListingPrice(item.displayPrice);
+
     return {
         productListingId: item.productListingId,
         productListingTitleSlugId: item.productListingTitleSlugId,
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
         title: item.title?.text ?? undefined,
-        price: mapListingPrice(item.displayPrice),
+        price: displayPrice,
         priceValuation: item.priceValuation.type,
         valuation: mapListingSummaryValuation(item.priceValuation),
-        formattedPrice:
-            item.displayPrice?.type === "MONETARY"
-                ? formatPrice(
-                      { amount: item.displayPrice.amount, currency: item.displayPrice.currency },
-                      locale,
-                  )
-                : undefined,
+        formattedPrice: formatListingPrice(displayPrice, locale),
         availability: mapListingAvailability(item.availability),
         lifecycle: mapListingLifecycle(item.lifecycle),
         url: mapListingUrl(item.url),
@@ -100,23 +96,17 @@ export function mapPersonalizedProductListingDetails(
     locale: string,
 ): ProductListing {
     const item = apiData.item;
-    const displayPrice = item.pricing.display.price;
+    const displayPrice = mapListingPrice(item.pricing.display.price);
     return {
         productListingId: item.productListingId,
         productListingTitleSlugId: item.productListingTitleSlugId,
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
         title: item.productTitle?.text ?? item.title?.text ?? undefined,
-        price: mapListingPrice(displayPrice),
+        price: displayPrice,
         priceValuation: item.pricing.valuation.type,
         valuation: mapListingDetailValuation(item.pricing.valuation),
-        formattedPrice:
-            displayPrice?.type === "MONETARY"
-                ? formatPrice(
-                      { amount: displayPrice.amount, currency: displayPrice.currency },
-                      locale,
-                  )
-                : undefined,
+        formattedPrice: formatListingPrice(displayPrice, locale),
         availability: mapListingAvailability(item.availability),
         lifecycle: mapListingLifecycle(item.lifecycle),
         url: mapListingUrl(item.url),

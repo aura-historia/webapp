@@ -1,9 +1,12 @@
-import type { ListingAvailabilityData, ListingLifecycleData } from "@/client";
+import type {
+    ListingAvailability,
+    ListingLifecycle,
+} from "@/data/internal/product/ProductListingDomain.ts";
 import { Badge } from "@/components/ui/badge.tsx";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils.ts";
 
-const AVAILABILITY_KEYS: Record<ListingAvailabilityData, string> = {
+const AVAILABILITY_KEYS: Partial<Record<ListingAvailability, string>> = {
     AVAILABLE: "available",
     IN_STOCK: "inStock",
     LIMITED_AVAILABILITY: "limitedAvailability",
@@ -22,15 +25,15 @@ export function ListingStatusBadge({
     lifecycle,
     className,
 }: {
-    readonly availability: ListingAvailabilityData | null;
-    readonly lifecycle: ListingLifecycleData;
+    readonly availability: ListingAvailability | null;
+    readonly lifecycle: ListingLifecycle;
     readonly className?: string;
 }) {
     const { t } = useTranslation();
     const label =
         lifecycle === "WITHDRAWN"
             ? t("product.listingAvailability.withdrawn")
-            : availability
+            : availability && AVAILABILITY_KEYS[availability]
               ? t(`product.listingAvailability.${AVAILABILITY_KEYS[availability]}`)
               : t("product.listingAvailability.unknown");
 

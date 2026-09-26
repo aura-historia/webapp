@@ -12,6 +12,7 @@ import type {
 } from "@/client";
 import type { Currency } from "@/data/internal/common/Currency.ts";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+import { formatPrice } from "@/data/internal/price/Price.ts";
 
 export const LISTING_AVAILABILITIES = [
     "AVAILABLE",
@@ -43,6 +44,15 @@ export type OnRequestListingPrice = {
 
 export type ListingPrice = MonetaryListingPrice | OnRequestListingPrice;
 export type PriceValuationType = "CURRENT" | "SALE_OBSERVATION";
+
+export function formatListingPrice(
+    price: ListingPrice | null | undefined,
+    locale: string,
+): string | undefined {
+    return price?.type === "MONETARY"
+        ? formatPrice({ amount: price.amount, currency: price.currency }, locale)
+        : undefined;
+}
 
 export type ListingPriceValuation =
     | {
