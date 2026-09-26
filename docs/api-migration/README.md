@@ -21,6 +21,7 @@ This compares what is represented in the generated client with the supplied sche
 - [Complete model inventory](model-inventory.md): every one of the 134 old generated component types and all 163 target schemas, paired where meaningful. Includes unchanged models so omissions can be distinguished from unchanged contracts.
 - [Machine-readable contracts](contracts.json): captured generated baseline types/operations, complete target schema and successor mappings.
 - Individual issue bodies are in `issues/00.md` through `issues/24.md`.
+- [Listing domain contracts](listing-domain-contracts.md): webapp summary/detail models, personalized state, identity/query-key rules, price/availability semantics, and resilient API error mapping.
 
 These are local drafts, not published GitHub issues. MIG IDs are dependency labels, not existing GitHub issue numbers. Copy a file's first heading into the GitHub title field and the remaining Markdown into the issue body.
 

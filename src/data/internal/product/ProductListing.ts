@@ -5,6 +5,7 @@ import type {
     PersonalizedProductListingSummaryData,
     ProductListingDetailsData,
     ProductListingImageData,
+    ProductListingSummaryPriceValuationData,
     ProductListingPriceData,
     ProductListingUserStateData,
 } from "@/client";
@@ -14,8 +15,12 @@ import {
     type ProductListingSource,
 } from "@/data/internal/product/ProductListingSource.ts";
 import { formatPrice } from "@/data/internal/price/Price.ts";
+import {
+    mapProductListingUserState,
+    type ProductListingUserState,
+} from "@/data/internal/product/UserProductData.ts";
 
-/** Listing fields shared by search cards and the detail presentation. */
+/** Card/search projection of a listing; use ProductListingDetail for detail contracts. */
 export type ProductListing = {
     readonly productListingId: string;
     readonly productListingTitleSlugId?: string;
@@ -24,7 +29,10 @@ export type ProductListing = {
     readonly title?: string;
     readonly price?: ProductListingPriceData | null;
     readonly formattedPrice?: string;
-    readonly priceValuation: "CURRENT" | "SALE_OBSERVATION";
+    /** Summary valuation type used by existing card presentations. */
+    readonly priceValuation: ProductListingSummaryPriceValuationData["type"];
+    /** Full valuation metadata, including the FX snapshot and capture/observation time. */
+    readonly valuation: ProductListingSummaryPriceValuationData;
     readonly availability: ListingAvailabilityData | null;
     readonly lifecycle: ListingLifecycleData;
     readonly url?: URL;
@@ -32,7 +40,7 @@ export type ProductListing = {
     readonly images: readonly ProductImage[];
     readonly contentPolicy: ProductListingDetailsData["contentPolicy"];
     readonly updated: Date;
-    readonly userState?: ProductListingUserStateData | null;
+    readonly userState?: ProductListingUserState | null;
     readonly auctionId?: string;
 };
 
@@ -67,6 +75,7 @@ function mapSummaryFields(
         title: item.title?.text ?? undefined,
         price: item.displayPrice,
         priceValuation: item.priceValuation.type,
+        valuation: item.priceValuation,
         formattedPrice:
             item.displayPrice?.type === "MONETARY"
                 ? formatPrice(
@@ -81,7 +90,7 @@ function mapSummaryFields(
         images: item.images.map((image) => mapImage(image, item.contentPolicy)),
         contentPolicy: item.contentPolicy,
         updated: new Date(item.updated),
-        userState,
+        userState: mapProductListingUserState(userState),
         auctionId: item.auctionId,
     };
 }
@@ -93,6 +102,7 @@ export function mapPersonalizedProductListingSummary(
     return mapSummaryFields(apiData.item, apiData.userState, locale);
 }
 
+/** Projects a detail response into card fields for endpoints that return listing details in collections. */
 export function mapPersonalizedProductListingDetails(
     apiData: PersonalizedProductListingDetailsData,
     locale: string,
@@ -107,6 +117,7 @@ export function mapPersonalizedProductListingDetails(
         title: item.productTitle?.text ?? item.title?.text ?? undefined,
         price: displayPrice,
         priceValuation: item.pricing.valuation.type,
+        valuation: item.pricing.valuation,
         formattedPrice:
             displayPrice?.type === "MONETARY"
                 ? formatPrice(
@@ -121,7 +132,7 @@ export function mapPersonalizedProductListingDetails(
         images: item.images.map((image) => mapImage(image, item.contentPolicy)),
         contentPolicy: item.contentPolicy,
         updated: new Date(item.updated),
-        userState: apiData.userState,
+        userState: mapProductListingUserState(apiData.userState),
         auctionId: item.auction?.auctionId ?? undefined,
     };
 }

@@ -4,7 +4,6 @@ import type {
     PersonalizedProductListingDetailsData,
     ProductListingDetailsData,
     ProductListingImageData,
-    ProductListingUserStateData,
 } from "@/client";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
 import {
@@ -12,6 +11,10 @@ import {
     type ProductListingSource,
 } from "@/data/internal/product/ProductListingSource.ts";
 import { formatPrice } from "@/data/internal/price/Price.ts";
+import {
+    mapProductListingUserState,
+    type ProductListingUserState,
+} from "@/data/internal/product/UserProductData.ts";
 
 export type ProductListingDetail = {
     readonly productListingId: string;
@@ -20,9 +23,11 @@ export type ProductListingDetail = {
     readonly description?: string;
     readonly source: ProductListingSource;
     readonly sourceListingId: string;
+    readonly pricing: ProductListingDetailsData["pricing"];
     readonly price?: ProductListingDetailsData["pricing"]["display"]["price"];
     readonly displayPrice?: string;
-    readonly priceValuation: "CURRENT" | "SALE_OBSERVATION";
+    readonly priceValuation: ProductListingDetailsData["pricing"]["valuation"]["type"];
+    readonly valuation: ProductListingDetailsData["pricing"]["valuation"];
     readonly availability: ListingAvailabilityData | null;
     readonly lifecycle: ListingLifecycleData;
     readonly url?: URL;
@@ -33,7 +38,7 @@ export type ProductListingDetail = {
     readonly lot: ProductListingDetailsData["lot"];
     readonly created: Date;
     readonly updated: Date;
-    readonly userState?: ProductListingUserStateData | null;
+    readonly userState?: ProductListingUserState | null;
 };
 
 function mapImage(
@@ -77,9 +82,11 @@ export function mapToProductListingDetail(
         description: item.productDescription?.text ?? item.description?.text ?? undefined,
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
+        pricing: item.pricing,
         price: item.pricing.display.price,
         displayPrice: getDisplayPrice(item, locale),
         priceValuation: item.pricing.valuation.type,
+        valuation: item.pricing.valuation,
         availability: item.availability,
         lifecycle: item.lifecycle,
         url: mapUrl(item.url),
@@ -90,6 +97,6 @@ export function mapToProductListingDetail(
         lot: item.lot,
         created: new Date(item.created),
         updated: new Date(item.updated),
-        userState: apiData.userState,
+        userState: mapProductListingUserState(apiData.userState),
     };
 }
