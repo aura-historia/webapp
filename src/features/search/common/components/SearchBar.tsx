@@ -160,6 +160,8 @@ export function SearchBar({ type }: SearchBarProps) {
                         },
                         listingSourceId: searchParams.listingSourceId,
                         excludeListingSourceId: searchParams.excludeListingSourceId,
+                        listingSourceLabels: searchParams.listingSourceLabels,
+                        excludeListingSourceLabels: searchParams.excludeListingSourceLabels,
                     }),
                 };
             },

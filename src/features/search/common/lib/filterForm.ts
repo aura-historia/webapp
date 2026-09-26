@@ -32,6 +32,8 @@ export const createFilterSchema = (t: TFunction) =>
             }),
             listingSourceId: z.array(z.string()),
             excludeListingSourceId: z.array(z.string()),
+            listingSourceLabels: z.array(z.string()),
+            excludeListingSourceLabels: z.array(z.string()),
         })
         .superRefine((data, ctx) => {
             if (
@@ -81,6 +83,8 @@ export function mapSearchFiltersToFormValues(filters: SearchFilterArguments): Fi
             parseListingAvailability(filters.availability) ?? FILTER_DEFAULTS.availability,
         listingSourceId: filters.listingSourceId ?? [],
         excludeListingSourceId: filters.excludeListingSourceId ?? [],
+        listingSourceLabels: filters.listingSourceLabels ?? [],
+        excludeListingSourceLabels: filters.excludeListingSourceLabels ?? [],
         creationDate: {
             from: filters.creationDateFrom,
             to: filters.creationDateTo,
@@ -99,8 +103,10 @@ export function mapSearchFiltersToFormValues(filters: SearchFilterArguments): Fi
 export function mapFormValuesToSearchFilterArguments(
     data: FilterSchema,
     q: string,
+    existing: SearchFilterArguments = { q },
 ): SearchFilterArguments {
     return {
+        ...existing,
         q,
         priceFrom: data.priceSpan?.min,
         priceTo: data.priceSpan?.max,
@@ -117,6 +123,12 @@ export function mapFormValuesToSearchFilterArguments(
         listingSourceId: data.listingSourceId?.length ? data.listingSourceId : undefined,
         excludeListingSourceId: data.excludeListingSourceId?.length
             ? data.excludeListingSourceId
+            : undefined,
+        listingSourceLabels: data.listingSourceLabels?.length
+            ? data.listingSourceLabels
+            : undefined,
+        excludeListingSourceLabels: data.excludeListingSourceLabels?.length
+            ? data.excludeListingSourceLabels
             : undefined,
     };
 }

@@ -31,6 +31,8 @@ export type ProductFilterFormValues = {
     shopType: (typeof SHOP_TYPES)[number][];
     listingSourceId: string[];
     excludeListingSourceId: string[];
+    listingSourceLabels: string[];
+    excludeListingSourceLabels: string[];
 };
 
 export const FILTER_DEFAULTS: ProductFilterFormValues = {
@@ -47,4 +49,6 @@ export const FILTER_DEFAULTS: ProductFilterFormValues = {
     shopType: [...SHOP_TYPES],
     listingSourceId: [],
     excludeListingSourceId: [],
+    listingSourceLabels: [],
+    excludeListingSourceLabels: [],
 };

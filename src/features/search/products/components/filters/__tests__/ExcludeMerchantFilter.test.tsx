@@ -1,5 +1,5 @@
 import { MerchantExcludeFilter } from "@/features/search/products/components/filters/MerchantExcludeFilter";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useFormContext, useWatch } from "react-hook-form";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi, beforeEach } from "vitest";
@@ -14,10 +14,25 @@ vi.mock("@/features/search/products/hooks/useFilterNavigation", () => ({
 vi.mock("@/client/@tanstack/react-query.gen.ts", () => ({
     searchPublicListingSourcesOptions: () => ({
         queryKey: ["searchPublicListingSources"],
-        queryFn: vi.fn().mockResolvedValue({ items: [] }),
+        queryFn: vi.fn().mockResolvedValue({
+            items: [
+                {
+                    listingSourceId: "ls_1",
+                    listingSourceSlugId: "source-one",
+                    name: "Source One",
+                    operator: { name: "Operator One" },
+                },
+            ],
+        }),
         enabled: false,
     }),
 }));
+
+function SelectedIds() {
+    const { control } = useFormContext();
+    const ids = useWatch({ control, name: "excludeListingSourceId" }) as string[] | undefined;
+    return <output data-testid="selected-source-ids">{ids?.join(",")}</output>;
+}
 
 // Create a new QueryClient for each test
 const createTestQueryClient = () =>
@@ -83,14 +98,38 @@ describe("MerchantExcludeFilter", () => {
         expect(input).toHaveValue("Test");
     });
 
-    it("shows pre-populated excluded source IDs as badges when provided", () => {
+    it("shows the retained label for a selected excluded source ID", () => {
         render(
-            <FormWrapper defaultValues={{ excludeListingSourceId: ["ls_existing"] }}>
+            <FormWrapper
+                defaultValues={{
+                    excludeListingSourceId: ["ls_existing"],
+                    excludeListingSourceLabels: ["Existing Source"],
+                }}
+            >
                 <MerchantExcludeFilter />
             </FormWrapper>,
         );
 
-        expect(screen.getByText("ls_existing")).toBeInTheDocument();
+        expect(screen.getByText("Existing Source")).toBeInTheDocument();
+        expect(screen.queryByText("ls_existing")).not.toBeInTheDocument();
+    });
+
+    it("keeps the public name visible while storing the excluded source ID", async () => {
+        render(
+            <FormWrapper>
+                <MerchantExcludeFilter />
+                <SelectedIds />
+            </FormWrapper>,
+        );
+
+        const user = userEvent.setup();
+        const input = screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen...");
+        await user.type(input, "Source");
+        const option = await screen.findByText("Source One");
+        await user.click(option);
+
+        expect(screen.getByText("Source One")).toBeInTheDocument();
+        expect(screen.getByTestId("selected-source-ids")).toHaveTextContent("ls_1");
     });
 
     it("handles special characters in search input", async () => {

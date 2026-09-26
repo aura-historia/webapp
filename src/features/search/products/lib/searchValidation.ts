@@ -11,6 +11,8 @@ export type RawSearchParams = {
     excludeProductId?: string | string[];
     listingSourceId?: string | string[];
     excludeListingSourceId?: string | string[];
+    listingSourceLabels?: string | string[];
+    excludeListingSourceLabels?: string | string[];
     priceFrom?: number;
     priceTo?: number;
     availability?: ListingAvailability[];
@@ -59,6 +61,8 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         excludeProductId: parseStringArray(search.excludeProductId),
         listingSourceId: parseStringArray(search.listingSourceId),
         excludeListingSourceId: parseStringArray(search.excludeListingSourceId),
+        listingSourceLabels: parseStringArray(search.listingSourceLabels),
+        excludeListingSourceLabels: parseStringArray(search.excludeListingSourceLabels),
         priceFrom: parseOptionalNumber(search.priceFrom),
         priceTo: parseOptionalNumber(search.priceTo),
         availability: parseListingAvailability(search.availability),
@@ -87,6 +91,8 @@ export function serializeSearchParams(
         excludeProductId: params.excludeProductId,
         listingSourceId: params.listingSourceId,
         excludeListingSourceId: params.excludeListingSourceId,
+        listingSourceLabels: params.listingSourceLabels,
+        excludeListingSourceLabels: params.excludeListingSourceLabels,
         priceFrom: params.priceFrom,
         priceTo: params.priceTo,
         availability: params.availability,

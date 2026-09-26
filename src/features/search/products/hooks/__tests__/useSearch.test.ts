@@ -87,6 +87,8 @@ describe("useSearch", () => {
             updateDateTo: new Date("2025-06-30T23:59:59.999Z"),
             auctionDateFrom: new Date("2026-01-01T00:00:00.000Z"),
             auctionDateTo: new Date("2026-02-01T00:00:00.000Z"),
+            orderability: ["NOT_ORDERABLE"],
+            includeUnspecifiedAvailability: false,
             sortField: "CREATION_DATE",
             sortOrder: "ASC",
         };
@@ -116,6 +118,8 @@ describe("useSearch", () => {
         expect(query).not.toHaveProperty("shopName");
         expect(query).not.toHaveProperty("sellerName");
         expect(query).not.toHaveProperty("shopType");
+        expect(query).not.toHaveProperty("orderability");
+        expect(query).not.toHaveProperty("includeUnspecifiedAvailability");
         expect(result.current.data?.pages[0]?.total).toBeUndefined();
     });
 

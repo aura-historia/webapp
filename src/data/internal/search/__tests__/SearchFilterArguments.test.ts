@@ -7,6 +7,8 @@ const empty: SearchFilterArguments = { q: "" };
 const activeCases: SearchFilterArguments[] = [
     { q: "", priceFrom: 100 },
     { q: "", availability: ["IN_STOCK"] },
+    { q: "", orderability: ["ORDERABLE_NOW"] },
+    { q: "", includeUnspecifiedAvailability: false },
     { q: "", excludeProductId: ["pl_1"] },
     { q: "", listingSourceId: ["ls_1"] },
     { q: "", excludeListingSourceId: ["ls_2"] },

@@ -74,6 +74,8 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                         availability: data.availability,
                         listingSourceId: data.listingSourceId,
                         excludeListingSourceId: data.excludeListingSourceId,
+                        listingSourceLabels: data.listingSourceLabels,
+                        excludeListingSourceLabels: data.excludeListingSourceLabels,
                         creationDate: data.creationDate,
                         updateDate: data.updateDate,
                         auctionDate: data.auctionDate,

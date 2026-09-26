@@ -9,6 +9,8 @@ export type SearchFilterData = {
     availability?: SearchFilterArguments["availability"];
     listingSourceId?: string[];
     excludeListingSourceId?: string[];
+    listingSourceLabels?: string[];
+    excludeListingSourceLabels?: string[];
     creationDate?: { from?: Date; to?: Date };
     updateDate?: { from?: Date; to?: Date };
     auctionDate?: { from?: Date; to?: Date };
@@ -57,6 +59,12 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
         listingSourceId: data.listingSourceId?.length ? data.listingSourceId : undefined,
         excludeListingSourceId: data.excludeListingSourceId?.length
             ? data.excludeListingSourceId
+            : undefined,
+        listingSourceLabels: data.listingSourceLabels?.length
+            ? data.listingSourceLabels
+            : undefined,
+        excludeListingSourceLabels: data.excludeListingSourceLabels?.length
+            ? data.excludeListingSourceLabels
             : undefined,
         creationDateFrom: creationDate.from,
         creationDateTo: creationDate.to,

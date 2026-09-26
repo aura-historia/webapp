@@ -12,6 +12,8 @@ describe("mapFiltersToUrlParams", () => {
                 availability: ["IN_STOCK", "SOLD_OUT"],
                 listingSourceId: ["ls_1"],
                 excludeListingSourceId: ["ls_2"],
+                listingSourceLabels: ["Source One"],
+                excludeListingSourceLabels: ["Source Two"],
                 creationDate: {
                     from: new Date("2024-01-15T18:30:00.000Z"),
                     to: new Date("2024-12-31T18:30:00.000Z"),
@@ -24,6 +26,8 @@ describe("mapFiltersToUrlParams", () => {
             availability: ["IN_STOCK", "SOLD_OUT"],
             listingSourceId: ["ls_1"],
             excludeListingSourceId: ["ls_2"],
+            listingSourceLabels: ["Source One"],
+            excludeListingSourceLabels: ["Source Two"],
             creationDateFrom: "2024-01-15",
             creationDateTo: "2024-12-31",
         });

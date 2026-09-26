@@ -7,6 +7,7 @@ import type {
 } from "@/client";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { parseListingAvailability } from "@/data/internal/product/ListingAvailability.ts";
+import { parseListingOrderability } from "@/data/internal/product/ListingOrderability.ts";
 import {
     parseResourceState,
     type ResourceState,
@@ -53,6 +54,8 @@ export function mapProductSearchDataToSearchFilterArguments(
         excludeListingSourceId: data.excludeListingSourceId ?? undefined,
         auctionId: data.auctionId ?? undefined,
         availability: parseListingAvailability(data.availability),
+        orderability: parseListingOrderability(data.orderability),
+        includeUnspecifiedAvailability: data.includeUnspecifiedAvailability,
         creationDateFrom: data.created?.min ? new Date(data.created.min) : undefined,
         creationDateTo: data.created?.max ? new Date(data.created.max) : undefined,
         updateDateFrom: data.updated?.min ? new Date(data.updated.min) : undefined,
@@ -65,6 +68,7 @@ export function mapProductSearchDataToSearchFilterArguments(
 export function mapSearchFilterArgumentsToProductSearchData(
     args: SearchFilterArguments,
 ): ProductListingSearchData {
+    const availabilityCriteria = mapAvailabilityCriteria(args);
     return {
         productQuery: args.queryTerms?.length ? args.queryTerms : args.q ? [args.q] : [],
         price:
@@ -79,7 +83,7 @@ export function mapSearchFilterArgumentsToProductSearchData(
         listingSourceId: args.listingSourceId,
         excludeListingSourceId: args.excludeListingSourceId,
         auctionId: args.auctionId,
-        availability: args.availability,
+        ...availabilityCriteria,
         created:
             args.creationDateFrom != null || args.creationDateTo != null
                 ? {
@@ -104,6 +108,47 @@ export function mapSearchFilterArgumentsToProductSearchData(
     };
 }
 
+function mapAvailabilityCriteria(
+    args: SearchFilterArguments,
+): Pick<
+    ProductListingSearchData,
+    "availability" | "orderability" | "includeUnspecifiedAvailability"
+> {
+    if (args.availability == null) {
+        return {
+            availability: null,
+            orderability: null,
+            includeUnspecifiedAvailability: null,
+        };
+    }
+
+    return {
+        availability: args.availability,
+        orderability: args.orderability ?? null,
+        includeUnspecifiedAvailability: args.includeUnspecifiedAvailability ?? null,
+    };
+}
+
+function mapSearchFilterArgumentsToPatchProductSearchData(
+    args: SearchFilterArguments,
+): PatchProductListingSearchData {
+    const mapped = mapSearchFilterArgumentsToProductSearchData(args);
+    return {
+        productQuery: mapped.productQuery,
+        enhancedSearchDescription: mapped.enhancedSearchDescription ?? null,
+        listingSourceId: mapped.listingSourceId ?? null,
+        excludeListingSourceId: mapped.excludeListingSourceId ?? [],
+        auctionId: mapped.auctionId ?? [],
+        price: mapped.price ?? null,
+        availability: mapped.availability ?? null,
+        orderability: mapped.orderability ?? null,
+        includeUnspecifiedAvailability: mapped.includeUnspecifiedAvailability ?? null,
+        created: mapped.created ?? null,
+        updated: mapped.updated ?? null,
+        lotBiddingOpens: mapped.lotBiddingOpens ?? null,
+    };
+}
+
 export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserSearchFilter {
     return {
         userId: data.userId,
@@ -117,11 +162,6 @@ export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserS
         updated: new Date(data.updated),
     };
 }
-
-/**
- * Search filters share the canonical listing-search criteria. The personal-search workflow owns
- * subscription-specific orderability controls and those fields are deliberately left to its adapter.
- */
 
 export function mapToBackendCreateUserSearchFilter(
     data: UserSearchFilterCreateData,
@@ -142,11 +182,9 @@ export function mapToBackendPatchUserSearchFilter(
     let search: PatchProductListingSearchData | undefined;
 
     if (data.search) {
-        const mapped = mapSearchFilterArgumentsToProductSearchData(data.search);
+        const mapped = mapSearchFilterArgumentsToPatchProductSearchData(data.search);
         search = {
             ...mapped,
-            auctionId: mapped.auctionId ?? undefined,
-            excludeListingSourceId: mapped.excludeListingSourceId ?? undefined,
         };
     }
 

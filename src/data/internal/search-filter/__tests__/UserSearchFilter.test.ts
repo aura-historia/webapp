@@ -19,6 +19,8 @@ const baseFilterData: UserSearchFilterData = {
         productQuery: ["Tisch"],
         price: { min: 1000, max: 5000 },
         availability: ["AVAILABLE"],
+        orderability: ["ORDERABLE_NOW"],
+        includeUnspecifiedAvailability: false,
         listingSourceId: ["source-1"],
     },
     createdBy: "SYSTEM",
@@ -61,6 +63,8 @@ describe("mapToInternalUserSearchFilter", () => {
     it("maps canonical availability and source IDs", () => {
         const result = mapToInternalUserSearchFilter(baseFilterData);
         expect(result.search.availability).toEqual(["AVAILABLE"]);
+        expect(result.search.orderability).toEqual(["ORDERABLE_NOW"]);
+        expect(result.search.includeUnspecifiedAvailability).toBe(false);
         expect(result.search.listingSourceId).toEqual(["source-1"]);
     });
 
@@ -235,6 +239,44 @@ describe("mapToBackendPatchUserSearchFilter", () => {
     it("maps search when provided", () => {
         const result = mapToBackendPatchUserSearchFilter({ search: { q: "Lampe" } });
         expect(result.search?.productQuery).toEqual(["Lampe"]);
+        expect(result.search).toMatchObject({
+            availability: null,
+            orderability: null,
+            includeUnspecifiedAvailability: null,
+        });
+    });
+
+    it("sends the complete saved-search availability tuple when a subset is selected", () => {
+        const result = mapToBackendPatchUserSearchFilter({
+            search: {
+                q: "Lampe",
+                availability: ["IN_STOCK"],
+                orderability: ["ORDERABLE_NOW"],
+                includeUnspecifiedAvailability: false,
+            },
+        });
+
+        expect(result.search).toMatchObject({
+            availability: ["IN_STOCK"],
+            orderability: ["ORDERABLE_NOW"],
+            includeUnspecifiedAvailability: false,
+        });
+    });
+
+    it("clears the complete saved-search availability tuple when all values are selected", () => {
+        const result = mapToBackendPatchUserSearchFilter({
+            search: {
+                q: "Lampe",
+                orderability: ["ORDERABLE_NOW"],
+                includeUnspecifiedAvailability: false,
+            },
+        });
+
+        expect(result.search).toMatchObject({
+            availability: null,
+            orderability: null,
+            includeUnspecifiedAvailability: null,
+        });
     });
 
     it("creates a search object for enhancedSearchDescription alone when no other search criteria change", () => {
@@ -266,6 +308,8 @@ describe("isDefaultOrEmpty behaviour in mapToBackendCreateUserSearchFilter", () 
             },
         });
         expect(result.search.availability).toEqual([...LISTING_AVAILABILITIES]);
+        expect(result.search.orderability).toBeNull();
+        expect(result.search.includeUnspecifiedAvailability).toBeNull();
         expect(result.search.listingSourceId).toEqual(["source-1"]);
     });
 });

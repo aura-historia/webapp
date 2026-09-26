@@ -43,7 +43,7 @@ export function SearchFilterFormProvider({ value, onChange, children }: Props) {
     const emitChange = useDebouncedCallback((data: unknown) => {
         const result = filterSchema.safeParse(data);
         if (!result.success) return;
-        onChange(mapFormValuesToSearchFilterArguments(result.data, value.q));
+        onChange(mapFormValuesToSearchFilterArguments(result.data, value.q, value));
     }, DEBOUNCE_DELAY_MS);
 
     useEffect(() => {

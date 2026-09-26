@@ -92,9 +92,14 @@ export function useSearch(
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
+    const searchCriteria = { ...searchArgs };
+    delete searchCriteria.listingSourceLabels;
+    delete searchCriteria.excludeListingSourceLabels;
+    delete searchCriteria.orderability;
+    delete searchCriteria.includeUnspecifiedAvailability;
 
     return useInfiniteQuery({
-        queryKey: ["search", searchArgs, i18n.language, preferences.currency],
+        queryKey: ["search", searchCriteria, i18n.language, preferences.currency],
         enabled: isSearchEnabled && searchArgs.q.length >= MIN_SEARCH_QUERY_LENGTH,
         queryFn: async ({ pageParam }) => {
             if (hasEmptyArrayFilter(searchArgs)) return EMPTY_RESULT;
