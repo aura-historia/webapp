@@ -149,7 +149,7 @@ export function SearchBar({ type }: SearchBarProps) {
                             min: searchParams.priceFrom,
                             max: searchParams.priceTo,
                         },
-                        productState: searchParams.allowedStates,
+                        availability: searchParams.availability,
                         creationDate: {
                             from: searchParams.creationDateFrom,
                             to: searchParams.creationDateTo,
@@ -158,7 +158,10 @@ export function SearchBar({ type }: SearchBarProps) {
                             from: searchParams.updateDateFrom,
                             to: searchParams.updateDateTo,
                         },
-                        merchant: searchParams.merchant,
+                        listingSourceId: searchParams.listingSourceId,
+                        excludeListingSourceId: searchParams.excludeListingSourceId,
+                        listingSourceLabels: searchParams.listingSourceLabels,
+                        excludeListingSourceLabels: searchParams.excludeListingSourceLabels,
                     }),
                 };
             },

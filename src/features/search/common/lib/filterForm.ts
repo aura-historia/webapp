@@ -2,8 +2,10 @@ import type { TFunction } from "i18next";
 import { z } from "zod";
 
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
-import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
+import {
+    LISTING_AVAILABILITIES,
+    parseListingAvailability,
+} from "@/data/internal/product/ListingAvailability.ts";
 import { FILTER_DEFAULTS } from "@/features/search/products/lib/filterDefaults.ts";
 
 export const createFilterSchema = (t: TFunction) =>
@@ -15,7 +17,7 @@ export const createFilterSchema = (t: TFunction) =>
                     max: z.number().min(0).optional().or(z.undefined()),
                 })
                 .optional(),
-            productState: z.array(z.enum(PRODUCT_STATES)),
+            availability: z.array(z.enum(LISTING_AVAILABILITIES)),
             creationDate: z.object({
                 from: z.date().optional(),
                 to: z.date().optional(),
@@ -28,11 +30,10 @@ export const createFilterSchema = (t: TFunction) =>
                 from: z.date().optional(),
                 to: z.date().optional(),
             }),
-            merchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
-            excludeMerchant: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
-            seller: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
-            excludeSeller: z.array(z.string()).optional().or(z.array(z.string()).max(0)),
-            shopType: z.array(z.enum(SHOP_TYPES)),
+            listingSourceId: z.array(z.string()),
+            excludeListingSourceId: z.array(z.string()),
+            listingSourceLabels: z.array(z.string()),
+            excludeListingSourceLabels: z.array(z.string()),
         })
         .superRefine((data, ctx) => {
             if (
@@ -78,7 +79,12 @@ export function mapSearchFiltersToFormValues(filters: SearchFilterArguments): Fi
             min: filters.priceFrom,
             max: filters.priceTo,
         },
-        productState: filters.allowedStates ?? FILTER_DEFAULTS.productState,
+        availability:
+            parseListingAvailability(filters.availability) ?? FILTER_DEFAULTS.availability,
+        listingSourceId: filters.listingSourceId ?? [],
+        excludeListingSourceId: filters.excludeListingSourceId ?? [],
+        listingSourceLabels: filters.listingSourceLabels ?? [],
+        excludeListingSourceLabels: filters.excludeListingSourceLabels ?? [],
         creationDate: {
             from: filters.creationDateFrom,
             to: filters.creationDateTo,
@@ -91,34 +97,39 @@ export function mapSearchFiltersToFormValues(filters: SearchFilterArguments): Fi
             from: filters.auctionDateFrom,
             to: filters.auctionDateTo,
         },
-        merchant: filters.merchant,
-        excludeMerchant: filters.excludeMerchant,
-        seller: filters.seller,
-        excludeSeller: filters.excludeSeller,
-        shopType: filters.shopType ?? FILTER_DEFAULTS.shopType,
     };
 }
 
 export function mapFormValuesToSearchFilterArguments(
     data: FilterSchema,
     q: string,
+    existing: SearchFilterArguments = { q },
 ): SearchFilterArguments {
     return {
+        ...existing,
         q,
         priceFrom: data.priceSpan?.min,
         priceTo: data.priceSpan?.max,
-        allowedStates: data.productState,
+        availability:
+            data.availability.length === LISTING_AVAILABILITIES.length
+                ? undefined
+                : data.availability,
         creationDateFrom: data.creationDate.from,
         creationDateTo: data.creationDate.to,
         updateDateFrom: data.updateDate.from,
         updateDateTo: data.updateDate.to,
         auctionDateFrom: data.auctionDate.from,
         auctionDateTo: data.auctionDate.to,
-        merchant: data.merchant?.length ? data.merchant : undefined,
-        excludeMerchant: data.excludeMerchant?.length ? data.excludeMerchant : undefined,
-        seller: data.seller?.length ? data.seller : undefined,
-        excludeSeller: data.excludeSeller?.length ? data.excludeSeller : undefined,
-        shopType: data.shopType,
+        listingSourceId: data.listingSourceId?.length ? data.listingSourceId : undefined,
+        excludeListingSourceId: data.excludeListingSourceId?.length
+            ? data.excludeListingSourceId
+            : undefined,
+        listingSourceLabels: data.listingSourceLabels?.length
+            ? data.listingSourceLabels
+            : undefined,
+        excludeListingSourceLabels: data.excludeListingSourceLabels?.length
+            ? data.excludeListingSourceLabels
+            : undefined,
     };
 }
 

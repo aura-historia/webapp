@@ -1,38 +1,40 @@
-import type { ProductState } from "@/data/internal/product/ProductState.ts";
-import type { ShopType } from "@/data/internal/shop/ShopType.ts";
+import type { ListingAvailability } from "@/data/internal/product/ProductListingDomain.ts";
+import { LISTING_AVAILABILITIES } from "@/data/internal/product/ProductListingDomain.ts";
+import type { ListingOrderability } from "@/data/internal/product/ListingOrderability.ts";
 import type { SortMode } from "@/data/internal/search/SortMode.ts";
 
 export type SearchFilterArguments = {
     q: string;
     queryTerms?: string[];
+    enhancedSearchDescription?: string;
+    excludeProductId?: string[];
+    listingSourceId?: string[];
+    excludeListingSourceId?: string[];
+    auctionId?: string[];
     priceFrom?: number;
     priceTo?: number;
-    allowedStates?: ProductState[];
+    availability?: Exclude<ListingAvailability, "UNKNOWN">[];
+    /** Saved-search-only criteria; intentionally omitted from public GET search requests. */
+    orderability?: ListingOrderability[] | null;
+    includeUnspecifiedAvailability?: boolean | null;
+    /** Presentation labels paired by index with source IDs in search URLs. */
+    listingSourceLabels?: string[];
+    excludeListingSourceLabels?: string[];
     creationDateFrom?: Date;
     creationDateTo?: Date;
     updateDateFrom?: Date;
     updateDateTo?: Date;
     auctionDateFrom?: Date;
     auctionDateTo?: Date;
-    merchant?: string[];
-    excludeMerchant?: string[];
-    seller?: string[];
-    excludeSeller?: string[];
-    shopType?: ShopType[];
     sortField?: SortMode["field"];
     sortOrder?: SortMode["order"];
 };
 
-/**
- * Returns true if any "advanced" filter detail is set — those shown in the
- * collapsed accordion section of SearchFilterCard (merchants, dates).
- */
+/** Returns true when any advanced range or source filter is set. */
 export function hasAdvancedFilterDetails(filters: SearchFilterArguments): boolean {
     return (
-        !!filters.merchant?.length ||
-        !!filters.excludeMerchant?.length ||
-        !!filters.seller?.length ||
-        !!filters.excludeSeller?.length ||
+        !!filters.listingSourceId?.length ||
+        !!filters.excludeListingSourceId?.length ||
         filters.creationDateFrom != null ||
         filters.creationDateTo != null ||
         filters.updateDateFrom != null ||
@@ -47,8 +49,11 @@ export function hasActiveFilters(filters: SearchFilterArguments): boolean {
     return (
         filters.priceFrom != null ||
         filters.priceTo != null ||
-        filters.allowedStates != null ||
-        filters.shopType != null ||
+        (filters.availability != null &&
+            filters.availability.length !== LISTING_AVAILABILITIES.length) ||
+        filters.orderability != null ||
+        filters.includeUnspecifiedAvailability != null ||
+        !!filters.excludeProductId?.length ||
         hasAdvancedFilterDetails(filters)
     );
 }

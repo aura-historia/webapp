@@ -27,8 +27,7 @@ export function SearchFilterWizardConfirmStep({ name, filters }: Props) {
             <SearchFilterSummary
                 name={name}
                 search={filters}
-                shopType={formValues.shopType}
-                productState={formValues.productState}
+                availability={formValues.availability}
             />
         </div>
     );

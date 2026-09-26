@@ -10,15 +10,13 @@ import {
     Search,
     Store,
     Tag,
-    User,
-    UserX,
 } from "lucide-react";
 import type { ReactNode } from "react";
 import { Badge } from "@/components/ui/badge.tsx";
-import { StatusBadge } from "@/features/product/catalog/components/badges/StatusBadge.tsx";
-import { ShopTypeBadge } from "@/features/product/catalog/components/badges/ShopTypeBadge.tsx";
-import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
-import { PRODUCT_STATES } from "@/data/internal/product/ProductState.ts";
+import {
+    LISTING_AVAILABILITIES,
+    LISTING_AVAILABILITY_TRANSLATION_KEYS,
+} from "@/data/internal/product/ListingAvailability.ts";
 import {
     hasActiveFilters,
     type SearchFilterArguments,
@@ -40,25 +38,6 @@ function CriteriaTile({ icon: Icon, label, children }: TileProps) {
             </span>
             <div className="flex flex-wrap gap-1.5">{children}</div>
         </div>
-    );
-}
-
-type BadgeListTileProps = {
-    readonly icon: LucideIcon;
-    readonly label: string;
-    readonly values: string[];
-};
-
-function BadgeListTile({ icon, label, values }: BadgeListTileProps) {
-    if (!values.length) return null;
-    return (
-        <CriteriaTile icon={icon} label={label}>
-            {values.map((v) => (
-                <Badge key={v} variant="outline">
-                    {v}
-                </Badge>
-            ))}
-        </CriteriaTile>
     );
 }
 
@@ -84,13 +63,10 @@ export function SearchFilterConfigurationGrid({ search }: Props) {
     const fallbackQueryTerms = search.q ? [search.q] : [];
     const queryTerms = search.queryTerms?.length ? search.queryTerms : fallbackQueryTerms;
     const hasPrice = search.priceFrom != null || search.priceTo != null;
-    // Mirrors the wizard's confirm-step preview: when allowedStates was never explicitly
-    // narrowed, show the same pre-selected default states the wizard shows (see FILTER_DEFAULTS).
-    const displayedStates = search.allowedStates?.length
-        ? search.allowedStates
-        : FILTER_DEFAULTS.productState;
-    const statesAllSelected = displayedStates.length === PRODUCT_STATES.length;
-    const shopTypeAllSelected = search.shopType?.length === SHOP_TYPES.length;
+    const displayedAvailability = search.availability?.length
+        ? search.availability
+        : FILTER_DEFAULTS.availability;
+    const allAvailabilitySelected = displayedAvailability.length === LISTING_AVAILABILITIES.length;
 
     if (queryTerms.length === 0 && !hasActiveFilters(search)) {
         return (
@@ -123,44 +99,34 @@ export function SearchFilterConfigurationGrid({ search }: Props) {
                 </CriteriaTile>
             )}
 
-            <CriteriaTile icon={Tag} label={t("search.filter.productState")}>
-                {statesAllSelected ? (
+            <CriteriaTile icon={Tag} label={t("search.filter.availability")}>
+                {allAvailabilitySelected ? (
                     <Badge variant="outline">{t("search.filter.all")}</Badge>
                 ) : (
-                    displayedStates.map((s) => <StatusBadge key={s} status={s} showIcon={false} />)
+                    displayedAvailability.map((value) => (
+                        <Badge key={value} variant="outline">
+                            {t(LISTING_AVAILABILITY_TRANSLATION_KEYS[value])}
+                        </Badge>
+                    ))
                 )}
             </CriteriaTile>
 
-            {!!search.shopType?.length && (
-                <CriteriaTile icon={Store} label={t("search.filter.shopType")}>
-                    {shopTypeAllSelected ? (
-                        <Badge variant="outline">{t("search.filter.all")}</Badge>
-                    ) : (
-                        search.shopType.map((st) => <ShopTypeBadge key={st} shopType={st} />)
-                    )}
+            {!!search.listingSourceId?.length && (
+                <CriteriaTile icon={Store} label={t("search.filter.listingSource")}>
+                    <Badge variant="outline">
+                        {t("search.filter.sourceCount", { count: search.listingSourceId.length })}
+                    </Badge>
                 </CriteriaTile>
             )}
-
-            <BadgeListTile
-                icon={Store}
-                label={t("search.filter.merchant")}
-                values={search.merchant ?? []}
-            />
-            <BadgeListTile
-                icon={Ban}
-                label={t("search.filter.excludeMerchant")}
-                values={search.excludeMerchant ?? []}
-            />
-            <BadgeListTile
-                icon={User}
-                label={t("search.filter.seller")}
-                values={search.seller ?? []}
-            />
-            <BadgeListTile
-                icon={UserX}
-                label={t("search.filter.excludeSeller")}
-                values={search.excludeSeller ?? []}
-            />
+            {!!search.excludeListingSourceId?.length && (
+                <CriteriaTile icon={Ban} label={t("search.filter.excludeListingSource")}>
+                    <Badge variant="destructive">
+                        {t("search.filter.sourceCount", {
+                            count: search.excludeListingSourceId.length,
+                        })}
+                    </Badge>
+                </CriteriaTile>
+            )}
 
             {(search.creationDateFrom != null || search.creationDateTo != null) && (
                 <CriteriaTile icon={CalendarPlus} label={t("searchFilters.info.creationDate")}>

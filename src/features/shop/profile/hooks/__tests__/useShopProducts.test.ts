@@ -3,11 +3,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { TestRouterWrapper } from "@/test/utils.tsx";
 import { useShopProducts } from "../useShopProducts.ts";
 
-const mockSimpleSearchProducts = vi.hoisted(() => vi.fn());
+const mockSimpleSearchProductListings = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
 
 vi.mock("@/client", () => ({
-    simpleSearchProducts: mockSimpleSearchProducts,
+    simpleSearchProductListings: mockSimpleSearchProductListings,
 }));
 
 vi.mock("@/hooks/common/useApiError.ts", () => ({
@@ -45,7 +45,7 @@ describe("useShopProducts", () => {
     });
 
     it("fetches and returns products for the given shopName", async () => {
-        mockSimpleSearchProducts.mockResolvedValue({
+        mockSimpleSearchProductListings.mockResolvedValue({
             data: {
                 items: [{ productId: "p1" }, { productId: "p2" }],
                 total: 2,
@@ -54,7 +54,7 @@ describe("useShopProducts", () => {
             error: null,
         });
 
-        const { result } = renderHook(() => useShopProducts("Christie's"), {
+        const { result } = renderHook(() => useShopProducts("ls_1"), {
             wrapper: TestRouterWrapper,
         });
 
@@ -66,38 +66,38 @@ describe("useShopProducts", () => {
         expect(page?.searchAfter).toBeUndefined();
     });
 
-    it("calls simpleSearchProducts with the correct shopName and defaults", async () => {
-        mockSimpleSearchProducts.mockResolvedValue({
+    it("calls simpleSearchProductListings with the correct shopName and defaults", async () => {
+        mockSimpleSearchProductListings.mockResolvedValue({
             data: { items: [], total: 0, searchAfter: undefined },
             error: null,
         });
 
-        renderHook(() => useShopProducts("Christie's"), {
+        renderHook(() => useShopProducts("ls_1"), {
             wrapper: TestRouterWrapper,
         });
 
-        await waitFor(() => expect(mockSimpleSearchProducts).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(mockSimpleSearchProductListings).toHaveBeenCalledTimes(1));
 
-        expect(mockSimpleSearchProducts).toHaveBeenCalledWith({
+        expect(mockSimpleSearchProductListings).toHaveBeenCalledWith({
             query: expect.objectContaining({
                 language: "de",
                 currency: "EUR",
                 size: 20,
                 sort: "updated",
                 order: "desc",
-                shopName: ["Christie's"],
+                listingSourceId: ["ls_1"],
             }),
         });
     });
 
     it("throws an error mapped via getErrorMessage when API returns an error", async () => {
-        mockSimpleSearchProducts.mockResolvedValue({
+        mockSimpleSearchProductListings.mockResolvedValue({
             data: null,
             error: { message: "Server Error" },
         });
         mockGetErrorMessage.mockReturnValue("Mapped Server Error");
 
-        const { result } = renderHook(() => useShopProducts("Christie's"), {
+        const { result } = renderHook(() => useShopProducts("ls_1"), {
             wrapper: TestRouterWrapper,
         });
 
@@ -107,7 +107,7 @@ describe("useShopProducts", () => {
     });
 
     it("returns an empty products array when items is undefined", async () => {
-        mockSimpleSearchProducts.mockResolvedValue({
+        mockSimpleSearchProductListings.mockResolvedValue({
             data: { items: undefined, total: 0, searchAfter: undefined },
             error: null,
         });
@@ -122,22 +122,25 @@ describe("useShopProducts", () => {
     });
 
     it("provides searchAfter as the next page param", async () => {
-        mockSimpleSearchProducts.mockResolvedValue({
+        mockSimpleSearchProductListings.mockResolvedValue({
             data: {
                 items: [{ productId: "p1" }],
                 total: 10,
-                searchAfter: ["cursor-value"],
+                searchAfter: { fxRateId: "fx-1", searchAfter: ["cursor-value"] },
             },
             error: null,
         });
 
-        const { result } = renderHook(() => useShopProducts("Christie's"), {
+        const { result } = renderHook(() => useShopProducts("ls_1"), {
             wrapper: TestRouterWrapper,
         });
 
         await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-        expect(result.current.data?.pages[0]?.searchAfter).toEqual(["cursor-value"]);
+        expect(result.current.data?.pages[0]?.searchAfter).toEqual({
+            fxRateId: "fx-1",
+            searchAfter: ["cursor-value"],
+        });
         expect(result.current.hasNextPage).toBe(true);
     });
 });
