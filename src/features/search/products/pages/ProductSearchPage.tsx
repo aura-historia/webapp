@@ -120,12 +120,6 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                                     </Tooltip>
                                 </div>
 
-                                {searchArgs.legacyFiltersRemoved && (
-                                    <p className="text-sm text-on-surface-variant" role="status">
-                                        {t("search.legacyFiltersRemoved")}
-                                    </p>
-                                )}
-
                                 <div className="mt-2 flex flex-row justify-between w-full gap-2 lg:hidden">
                                     <Drawer direction="left">
                                         <DrawerTrigger asChild>

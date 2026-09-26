@@ -21,8 +21,6 @@ export type SearchFilterArguments = {
     auctionDateTo?: Date;
     sortField?: SortMode["field"];
     sortOrder?: SortMode["order"];
-    /** True when an obsolete bookmarked filter or sort was removed during URL validation. */
-    legacyFiltersRemoved?: boolean;
 };
 
 /** Returns true when any advanced range or source filter is set. */

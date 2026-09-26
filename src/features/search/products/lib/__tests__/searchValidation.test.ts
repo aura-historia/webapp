@@ -34,26 +34,17 @@ describe("validateSearchParams", () => {
             auctionDateTo: new Date("2026-03-01T00:00:00.000Z"),
             sortField: "CREATION_DATE",
             sortOrder: "ASC",
-            legacyFiltersRemoved: false,
         });
     });
 
-    it("removes old search filters and obsolete price sorting with a visible feedback flag", () => {
+    it("falls back to the default sort for unsupported sort fields", () => {
         const result = validateSearchParams({
             q: "vase",
-            merchant: ["Old Dealer"],
-            sellerName: "Old Seller",
-            shopType: ["AUCTION_HOUSE"],
-            category: "ceramics",
             sortField: "PRICE",
             sortOrder: "ASC",
         } as unknown as RawSearchParams);
 
         expect(result).toMatchObject({ q: "vase", sortField: "RELEVANCE", sortOrder: "ASC" });
-        expect(result.legacyFiltersRemoved).toBe(true);
-        expect(result).not.toHaveProperty("merchant");
-        expect(result).not.toHaveProperty("sellerName");
-        expect(result).not.toHaveProperty("shopType");
     });
 
     it("uses safe defaults for invalid dates, sort, and array parameters", () => {
@@ -92,6 +83,5 @@ describe("serializeSearchParams", () => {
             creationDateFrom: "2026-01-01T00:00:00.000Z",
             sortField: "UPDATE_DATE",
         });
-        expect(serialized).not.toHaveProperty("legacyFiltersRemoved");
     });
 });

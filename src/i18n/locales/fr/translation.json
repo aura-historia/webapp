@@ -273,7 +273,6 @@
   "search": {
     "filters": "Filtres",
     "resultsFor": "Résultats de recherche pour :",
-    "legacyFiltersRemoved": "Certains filtres de ce lien ne sont plus pris en charge et ont été supprimés ; les résultats peuvent donc différer.",
     "resetAllFilters": "Réinitialiser tous les filtres",
     "totalResults_one": "{{count}} article",
     "totalResults_other": "{{count}} articles",

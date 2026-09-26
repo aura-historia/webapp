@@ -22,20 +22,6 @@ export type RawSearchParams = {
     auctionDateTo?: string;
     sortField?: string;
     sortOrder?: string;
-    // Legacy bookmarked filters are detected and discarded; they cannot be translated safely.
-    allowedStates?: unknown;
-    merchant?: unknown;
-    excludeMerchant?: unknown;
-    seller?: unknown;
-    excludeSeller?: unknown;
-    shopName?: unknown;
-    sellerName?: unknown;
-    shopType?: unknown;
-    category?: unknown;
-    period?: unknown;
-    country?: unknown;
-    region?: unknown;
-    location?: unknown;
 } & SearchSchemaInput;
 
 function parseOptionalNumber(value: unknown): number | undefined {
@@ -66,28 +52,7 @@ function parseSortOrder(order: string | undefined): SortMode["order"] {
     return order === "ASC" || order === "DESC" ? order : "DESC";
 }
 
-const LEGACY_FILTER_KEYS = [
-    "allowedStates",
-    "merchant",
-    "excludeMerchant",
-    "seller",
-    "excludeSeller",
-    "shopName",
-    "sellerName",
-    "shopType",
-    "category",
-    "period",
-    "country",
-    "region",
-    "location",
-] as const;
-
 export function validateSearchParams(search: RawSearchParams): SearchFilterArguments {
-    const legacyFiltersRemoved =
-        LEGACY_FILTER_KEYS.some((key) => search[key] != null) ||
-        (search.sortField != null &&
-            !SEARCH_RESULT_SORT_FIELDS.includes(search.sortField as SortMode["field"]));
-
     return {
         q: typeof search.q === "string" ? search.q : "",
         enhancedSearchDescription: search.enhancedSearchDescription,
@@ -105,7 +70,6 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
         auctionDateTo: parseOptionalDate(search.auctionDateTo),
         sortField: parseSortField(search.sortField),
         sortOrder: parseSortOrder(search.sortOrder),
-        legacyFiltersRemoved,
     };
 }
 

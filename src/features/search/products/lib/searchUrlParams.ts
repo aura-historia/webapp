@@ -16,7 +16,6 @@ export type SearchFilterData = {
 
 export type SearchUrlParams = Omit<
     SearchFilterArguments,
-    | "legacyFiltersRemoved"
     | "queryTerms"
     | "creationDateFrom"
     | "creationDateTo"
