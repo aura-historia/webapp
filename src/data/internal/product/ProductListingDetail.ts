@@ -1,9 +1,4 @@
-import type {
-    PersonalizedProductListingDetailsData,
-    ProductListingDetailsData,
-    ProductListingImageData,
-} from "@/client";
-import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+import type { PersonalizedProductListingDetailsData, ProductListingDetailsData } from "@/client";
 import {
     mapProductListingSource,
     type ProductListingSource,
@@ -18,10 +13,12 @@ import {
     mapListingAuction,
     mapListingContentPolicy,
     mapListingDetailValuation,
+    mapListingImages,
     mapListingLifecycle,
     mapListingLot,
     mapListingPrice,
     mapListingPricingAmounts,
+    mapListingUrl,
     type ListingAvailability,
     type ListingAuctionSummary,
     type ListingContentPolicy,
@@ -57,25 +54,6 @@ export type ProductListingDetail = {
     readonly userState?: ProductListingUserState | null;
 };
 
-function mapImage(
-    image: ProductListingImageData,
-    contentPolicy: ProductListingDetailsData["contentPolicy"],
-): ProductImage {
-    const url = image.url ? (URL.parse(image.url) ?? undefined) : undefined;
-    const prohibitedContentType =
-        contentPolicy?.decision === "REQUIRES_CONSENT"
-            ? contentPolicy.category
-            : contentPolicy?.decision === "ALLOWED"
-              ? "NONE"
-              : "UNKNOWN";
-
-    return { url, prohibitedContentType };
-}
-
-function mapUrl(value: string): URL | undefined {
-    return URL.parse(value) ?? undefined;
-}
-
 function getDisplayPrice(data: ProductListingDetailsData, locale: string): string | undefined {
     const price = data.pricing.display.price;
     if (price?.type !== "MONETARY") return undefined;
@@ -110,9 +88,9 @@ export function mapToProductListingDetail(
         valuation: pricing.valuation,
         availability: mapListingAvailability(item.availability),
         lifecycle: mapListingLifecycle(item.lifecycle),
-        url: mapUrl(item.url),
-        viewUrl: mapUrl(item.viewUrl),
-        images: item.images.map((image) => mapImage(image, item.contentPolicy)),
+        url: mapListingUrl(item.url),
+        viewUrl: mapListingUrl(item.viewUrl),
+        images: mapListingImages(item.images, item.contentPolicy),
         contentPolicy: mapListingContentPolicy(item.contentPolicy),
         auction: mapListingAuction(item.auction),
         lot: mapListingLot(item.lot),

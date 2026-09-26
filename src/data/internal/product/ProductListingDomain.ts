@@ -4,12 +4,14 @@ import type {
     ListingAvailabilityData,
     ListingLifecycleData,
     ProductListingLotData,
+    ProductListingImageData,
     ProductListingPriceData,
     ProductListingPricingData,
     ProductListingPricingValuationData,
     ProductListingSummaryPriceValuationData,
 } from "@/client";
 import type { Currency } from "@/data/internal/common/Currency.ts";
+import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
 
 export const LISTING_AVAILABILITIES = [
     "AVAILABLE",
@@ -104,6 +106,27 @@ export type ListingLotFacts = {
     readonly scheduledCloses: Date | null;
     readonly reportedClosedAt: Date | null;
 };
+
+export function mapListingUrl(value: string): URL | undefined {
+    return URL.parse(value) ?? undefined;
+}
+
+export function mapListingImages(
+    images: readonly ProductListingImageData[],
+    contentPolicy: ContentPolicyData | null | undefined,
+): readonly ProductImage[] {
+    const prohibitedContentType =
+        contentPolicy?.decision === "REQUIRES_CONSENT"
+            ? contentPolicy.category
+            : contentPolicy?.decision === "ALLOWED"
+              ? "NONE"
+              : "UNKNOWN";
+
+    return images.map((image) => ({
+        url: image.url ? mapListingUrl(image.url) : undefined,
+        prohibitedContentType,
+    }));
+}
 
 function mapDate(value: string): Date {
     return new Date(value);

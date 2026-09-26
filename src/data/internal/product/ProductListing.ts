@@ -1,8 +1,6 @@
 import type {
     PersonalizedProductListingDetailsData,
     PersonalizedProductListingSummaryData,
-    ProductListingDetailsData,
-    ProductListingImageData,
     ProductListingUserStateData,
 } from "@/client";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
@@ -18,8 +16,10 @@ import {
 import {
     mapListingAvailability,
     mapListingContentPolicy,
+    mapListingImages,
     mapListingLifecycle,
     mapListingPrice,
+    mapListingUrl,
     mapListingDetailValuation,
     mapListingSummaryValuation,
     type ListingAvailability,
@@ -54,24 +54,6 @@ export type ProductListing = {
     readonly auctionId?: string;
 };
 
-function mapImage(
-    image: ProductListingImageData,
-    contentPolicy: ProductListingDetailsData["contentPolicy"],
-): ProductImage {
-    const url = image.url ? (URL.parse(image.url) ?? undefined) : undefined;
-    const prohibitedContentType =
-        contentPolicy?.decision === "REQUIRES_CONSENT"
-            ? contentPolicy.category
-            : contentPolicy?.decision === "ALLOWED"
-              ? "NONE"
-              : "UNKNOWN";
-    return { url, prohibitedContentType };
-}
-
-function mapUrl(value: string): URL | undefined {
-    return URL.parse(value) ?? undefined;
-}
-
 function mapSummaryFields(
     item: PersonalizedProductListingSummaryData["item"],
     userState: ProductListingUserStateData | null | undefined,
@@ -95,9 +77,9 @@ function mapSummaryFields(
                 : undefined,
         availability: mapListingAvailability(item.availability),
         lifecycle: mapListingLifecycle(item.lifecycle),
-        url: mapUrl(item.url),
-        viewUrl: mapUrl(item.viewUrl),
-        images: item.images.map((image) => mapImage(image, item.contentPolicy)),
+        url: mapListingUrl(item.url),
+        viewUrl: mapListingUrl(item.viewUrl),
+        images: mapListingImages(item.images, item.contentPolicy),
         contentPolicy: mapListingContentPolicy(item.contentPolicy),
         updated: new Date(item.updated),
         userState: mapProductListingUserState(userState),
@@ -137,9 +119,9 @@ export function mapPersonalizedProductListingDetails(
                 : undefined,
         availability: mapListingAvailability(item.availability),
         lifecycle: mapListingLifecycle(item.lifecycle),
-        url: mapUrl(item.url),
-        viewUrl: mapUrl(item.viewUrl),
-        images: item.images.map((image) => mapImage(image, item.contentPolicy)),
+        url: mapListingUrl(item.url),
+        viewUrl: mapListingUrl(item.viewUrl),
+        images: mapListingImages(item.images, item.contentPolicy),
         contentPolicy: mapListingContentPolicy(item.contentPolicy),
         updated: new Date(item.updated),
         userState: mapProductListingUserState(apiData.userState),
