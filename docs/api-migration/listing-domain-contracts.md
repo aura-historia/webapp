@@ -2,13 +2,15 @@
 
 These shared contracts adapt the generated API DTOs for consumers in MIG-03 through MIG-09. Keep API-to-domain mapping in `src/data/internal`; components should not reinterpret generated listing DTOs.
 
+The `ProductListing` and `ProductListingDetail` output types use app-owned price, availability, lifecycle, valuation, content-policy, auction, lot, and viewer-state types. API DTO types belong only in mapper inputs. Timestamp strings become `Date` values at the boundary.
+
 ## Listing summaries and details
 
 - `ProductListing` is the card/search projection. It retains canonical `productListingId`, source-owned `sourceListingId`, nested source identity, optional public slug, optional summary `auctionId`, availability, lifecycle, content policy and complete summary valuation metadata.
 - `ProductListingDetail` is a distinct detail contract. Its `pricing` keeps source and display prices and the valuation snapshot; `auction` and `lot` remain independently nullable. A lot never creates or supplies a parent auction.
 - Text and public slugs remain optional. Redacted or missing text, slugs, and image URLs stay absent; adapters do not invent titles, prices, sellers, auctions, or sale facts.
 - Monetary and on-request prices are separate union members. A missing price remains `null` or absent. Valuation retains `CURRENT` or `SALE_OBSERVATION` and its FX/timestamp metadata.
-- Availability uses the API's nullable 11-value enum. Lifecycle remains independently `ACTIVE` or `WITHDRAWN`; unknown runtime enum values pass through for safe consumer handling.
+- Availability uses the app-owned nullable 11-value enum plus `UNKNOWN` for unexpected runtime values. Lifecycle remains independently `ACTIVE` or `WITHDRAWN` (with an `UNKNOWN` fallback); withdrawal, out-of-stock and sale are not equated.
 
 ## Personalized state and cache identity
 

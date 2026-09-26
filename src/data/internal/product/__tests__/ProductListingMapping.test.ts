@@ -32,8 +32,16 @@ const baseDetails: ProductListingDetailsData = {
     sourceListingId: "vendor/item/01",
     title: { text: "Silver bowl", language: "en" },
     pricing: {
-        source: { price: { type: "MONETARY", amount: 1200, currency: "GBP" } },
-        display: { price: { type: "MONETARY", amount: 1099, currency: "USD" } },
+        source: {
+            price: { type: "MONETARY", amount: 1200, currency: "GBP" },
+            priceEstimateMin: { amount: 800, currency: "GBP" },
+            priceEstimateMax: { amount: 1600, currency: "GBP" },
+        },
+        display: {
+            price: { type: "MONETARY", amount: 1099, currency: "USD" },
+            priceEstimateMin: { amount: 700, currency: "USD" },
+            priceEstimateMax: { amount: 1400, currency: "USD" },
+        },
         valuation: { type: "CURRENT", fxRateId: "fx_01", capturedAt: "2026-09-01T00:00:00Z" },
     },
     availability: "AVAILABLE",
@@ -67,7 +75,11 @@ describe("ProductListing mappers", () => {
         expect(result.source).toEqual(source);
         expect(result.price).toEqual(baseSummary.displayPrice);
         expect(result.priceValuation).toBe("CURRENT");
-        expect(result.valuation).toEqual(baseSummary.priceValuation);
+        expect(result.valuation).toEqual({
+            type: "CURRENT",
+            fxRateId: "fx_01",
+            capturedAt: new Date("2026-09-01T00:00:00Z"),
+        });
         expect(result.userState?.notification).toEqual({
             unseenNotificationIds: ["ntf_01", "ntf_02"],
             hasUnseenNotification: true,
@@ -90,6 +102,7 @@ describe("ProductListing mappers", () => {
         expect(result.productListingTitleSlugId).toBeUndefined();
         expect(result.price).toBeNull();
         expect(result.availability).toBeNull();
+        expect(result.contentPolicy).toBeUndefined();
         expect(result.images).toEqual([{ url: undefined, prohibitedContentType: "UNKNOWN" }]);
     });
 
@@ -128,7 +141,7 @@ describe("ProductListing mappers", () => {
         expect(result.valuation).toEqual({
             type: "SALE_OBSERVATION",
             fxRateId: "fx_sale",
-            observedAt: "2026-08-30T00:00:00Z",
+            observedAt: new Date("2026-08-30T00:00:00Z"),
         });
     });
 
@@ -162,7 +175,7 @@ describe("ProductListing mappers", () => {
                 { item: { ...baseSummary, availability: unknown } },
                 "en",
             ).availability,
-        ).toBe(unknown);
+        ).toBe("UNKNOWN");
     });
 
     it("keeps summary auctionId as an identifier without hydrating auction metadata", () => {
@@ -176,7 +189,10 @@ describe("ProductListing mappers", () => {
     });
 
     it("maps detail source and display prices plus CURRENT valuation metadata", () => {
-        const details: PersonalizedProductListingDetailsData = personalized(baseDetails);
+        const details: PersonalizedProductListingDetailsData = personalized({
+            ...baseDetails,
+            contentPolicy: { decision: "REQUIRES_CONSENT", category: "NAZI_GERMANY" },
+        });
         const result = mapToProductListingDetail(details, "en-US");
 
         expect(result.pricing.source.price).toEqual({
@@ -189,8 +205,20 @@ describe("ProductListing mappers", () => {
             amount: 1099,
             currency: "USD",
         });
+        expect(result.pricing.source.priceEstimateMin).toEqual({ amount: 800, currency: "GBP" });
+        expect(result.pricing.source.priceEstimateMax).toEqual({ amount: 1600, currency: "GBP" });
+        expect(result.pricing.display.priceEstimateMin).toEqual({ amount: 700, currency: "USD" });
+        expect(result.pricing.display.priceEstimateMax).toEqual({ amount: 1400, currency: "USD" });
         expect(result.priceValuation).toBe("CURRENT");
-        expect(result.valuation).toEqual(baseDetails.pricing.valuation);
+        expect(result.valuation).toEqual({
+            type: "CURRENT",
+            fxRateId: "fx_01",
+            capturedAt: new Date("2026-09-01T00:00:00Z"),
+        });
+        expect(result.contentPolicy).toEqual({
+            decision: "REQUIRES_CONSENT",
+            category: "NAZI_GERMANY",
+        });
         expect(result.auction).toBeNull();
         expect(result.lot).toBeNull();
     });
@@ -227,9 +255,20 @@ describe("ProductListing mappers", () => {
         expect(result.price).toEqual({ type: "ON_REQUEST" });
         expect(result.displayPrice).toBeUndefined();
         expect(result.priceValuation).toBe("SALE_OBSERVATION");
-        expect(result.valuation).toEqual(details.pricing.valuation);
+        expect(result.valuation).toEqual({
+            type: "SALE_OBSERVATION",
+            fxRateId: "fx_sale",
+            capturedAt: new Date("2026-08-31T00:00:00Z"),
+            observedAt: new Date("2026-08-30T00:00:00Z"),
+        });
         expect(result.auction).toBeNull();
-        expect(result.lot).toEqual(details.lot);
+        expect(result.lot).toEqual({
+            lotNumber: "42",
+            cataloguePosition: 7,
+            biddingOpens: null,
+            scheduledCloses: null,
+            reportedClosedAt: null,
+        });
     });
 
     it("preserves a parent auction and nullable lot facts without deriving schedule values", () => {
@@ -248,7 +287,15 @@ describe("ProductListing mappers", () => {
         };
         const result = mapToProductListingDetail({ item: details }, "en");
 
-        expect(result.auction).toEqual(details.auction);
+        expect(result.auction).toEqual({
+            ...details.auction,
+            schedule: {
+                biddingOpens: new Date("2026-09-01T00:00:00Z"),
+                liveStarts: null,
+                lotsBeginClosing: null,
+                scheduledEnd: null,
+            },
+        });
         expect(result.lot).toBeNull();
     });
 
@@ -275,7 +322,13 @@ describe("ProductListing mappers", () => {
         const result = mapToProductListingDetail({ item: details }, "en");
 
         expect(result.auction?.auctionId).toBe("auc_opaque:01");
-        expect(result.lot).toEqual(details.lot);
+        expect(result.lot).toEqual({
+            lotNumber: "42",
+            cataloguePosition: null,
+            biddingOpens: new Date("2026-09-02T10:00:00Z"),
+            scheduledCloses: null,
+            reportedClosedAt: null,
+        });
     });
 
     it("keeps missing detail prices distinct from ON_REQUEST", () => {

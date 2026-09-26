@@ -1,12 +1,8 @@
 import type {
-    ListingAvailabilityData,
-    ListingLifecycleData,
     PersonalizedProductListingDetailsData,
     PersonalizedProductListingSummaryData,
     ProductListingDetailsData,
     ProductListingImageData,
-    ProductListingSummaryPriceValuationData,
-    ProductListingPriceData,
     ProductListingUserStateData,
 } from "@/client";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
@@ -19,6 +15,20 @@ import {
     mapProductListingUserState,
     type ProductListingUserState,
 } from "@/data/internal/product/UserProductData.ts";
+import {
+    mapListingAvailability,
+    mapListingContentPolicy,
+    mapListingLifecycle,
+    mapListingPrice,
+    mapListingDetailValuation,
+    mapListingSummaryValuation,
+    type ListingAvailability,
+    type ListingContentPolicy,
+    type ListingLifecycle,
+    type ListingPrice,
+    type ListingPriceValuation,
+    type PriceValuationType,
+} from "@/data/internal/product/ProductListingDomain.ts";
 
 /** Card/search projection of a listing; use ProductListingDetail for detail contracts. */
 export type ProductListing = {
@@ -27,18 +37,18 @@ export type ProductListing = {
     readonly source: ProductListingSource;
     readonly sourceListingId: string;
     readonly title?: string;
-    readonly price?: ProductListingPriceData | null;
+    readonly price?: ListingPrice | null;
     readonly formattedPrice?: string;
     /** Summary valuation type used by existing card presentations. */
-    readonly priceValuation: ProductListingSummaryPriceValuationData["type"];
+    readonly priceValuation: PriceValuationType;
     /** Full valuation metadata, including the FX snapshot and capture/observation time. */
-    readonly valuation: ProductListingSummaryPriceValuationData;
-    readonly availability: ListingAvailabilityData | null;
-    readonly lifecycle: ListingLifecycleData;
+    readonly valuation: ListingPriceValuation;
+    readonly availability: ListingAvailability | null;
+    readonly lifecycle: ListingLifecycle;
     readonly url?: URL;
     readonly viewUrl?: URL;
     readonly images: readonly ProductImage[];
-    readonly contentPolicy: ProductListingDetailsData["contentPolicy"];
+    readonly contentPolicy: ListingContentPolicy | null | undefined;
     readonly updated: Date;
     readonly userState?: ProductListingUserState | null;
     readonly auctionId?: string;
@@ -73,9 +83,9 @@ function mapSummaryFields(
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
         title: item.title?.text ?? undefined,
-        price: item.displayPrice,
+        price: mapListingPrice(item.displayPrice),
         priceValuation: item.priceValuation.type,
-        valuation: item.priceValuation,
+        valuation: mapListingSummaryValuation(item.priceValuation),
         formattedPrice:
             item.displayPrice?.type === "MONETARY"
                 ? formatPrice(
@@ -83,12 +93,12 @@ function mapSummaryFields(
                       locale,
                   )
                 : undefined,
-        availability: item.availability,
-        lifecycle: item.lifecycle,
+        availability: mapListingAvailability(item.availability),
+        lifecycle: mapListingLifecycle(item.lifecycle),
         url: mapUrl(item.url),
         viewUrl: mapUrl(item.viewUrl),
         images: item.images.map((image) => mapImage(image, item.contentPolicy)),
-        contentPolicy: item.contentPolicy,
+        contentPolicy: mapListingContentPolicy(item.contentPolicy),
         updated: new Date(item.updated),
         userState: mapProductListingUserState(userState),
         auctionId: item.auctionId,
@@ -115,9 +125,9 @@ export function mapPersonalizedProductListingDetails(
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
         title: item.productTitle?.text ?? item.title?.text ?? undefined,
-        price: displayPrice,
+        price: mapListingPrice(displayPrice),
         priceValuation: item.pricing.valuation.type,
-        valuation: item.pricing.valuation,
+        valuation: mapListingDetailValuation(item.pricing.valuation),
         formattedPrice:
             displayPrice?.type === "MONETARY"
                 ? formatPrice(
@@ -125,12 +135,12 @@ export function mapPersonalizedProductListingDetails(
                       locale,
                   )
                 : undefined,
-        availability: item.availability,
-        lifecycle: item.lifecycle,
+        availability: mapListingAvailability(item.availability),
+        lifecycle: mapListingLifecycle(item.lifecycle),
         url: mapUrl(item.url),
         viewUrl: mapUrl(item.viewUrl),
         images: item.images.map((image) => mapImage(image, item.contentPolicy)),
-        contentPolicy: item.contentPolicy,
+        contentPolicy: mapListingContentPolicy(item.contentPolicy),
         updated: new Date(item.updated),
         userState: mapProductListingUserState(apiData.userState),
         auctionId: item.auction?.auctionId ?? undefined,

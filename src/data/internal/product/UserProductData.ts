@@ -13,7 +13,14 @@ export type ProductListingUserState = {
         readonly unseenNotificationIds: readonly string[];
         readonly hasUnseenNotification: boolean;
     };
-    readonly searchFilter: ProductListingUserStateData["searchFilter"];
+    readonly searchFilter: {
+        readonly matched: boolean;
+        readonly hidden: boolean;
+        readonly userSearchFilterId?: string;
+        readonly userSearchFilterName?: string;
+        readonly matchReason?: string;
+        readonly matchFeedback?: boolean;
+    };
 };
 
 /** Maps personalized viewer state and derives unread status from its ID collection. */

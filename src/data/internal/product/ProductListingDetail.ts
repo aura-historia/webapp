@@ -1,6 +1,4 @@
 import type {
-    ListingAvailabilityData,
-    ListingLifecycleData,
     PersonalizedProductListingDetailsData,
     ProductListingDetailsData,
     ProductListingImageData,
@@ -15,6 +13,24 @@ import {
     mapProductListingUserState,
     type ProductListingUserState,
 } from "@/data/internal/product/UserProductData.ts";
+import {
+    mapListingAvailability,
+    mapListingAuction,
+    mapListingContentPolicy,
+    mapListingDetailValuation,
+    mapListingLifecycle,
+    mapListingLot,
+    mapListingPrice,
+    mapListingPricingAmounts,
+    type ListingAvailability,
+    type ListingAuctionSummary,
+    type ListingContentPolicy,
+    type ListingLifecycle,
+    type ListingLotFacts,
+    type ListingPrice,
+    type ListingPriceValuation,
+    type ListingPricing,
+} from "@/data/internal/product/ProductListingDomain.ts";
 
 export type ProductListingDetail = {
     readonly productListingId: string;
@@ -23,19 +39,19 @@ export type ProductListingDetail = {
     readonly description?: string;
     readonly source: ProductListingSource;
     readonly sourceListingId: string;
-    readonly pricing: ProductListingDetailsData["pricing"];
-    readonly price?: ProductListingDetailsData["pricing"]["display"]["price"];
+    readonly pricing: ListingPricing;
+    readonly price?: ListingPrice | null;
     readonly displayPrice?: string;
-    readonly priceValuation: ProductListingDetailsData["pricing"]["valuation"]["type"];
-    readonly valuation: ProductListingDetailsData["pricing"]["valuation"];
-    readonly availability: ListingAvailabilityData | null;
-    readonly lifecycle: ListingLifecycleData;
+    readonly priceValuation: ListingPriceValuation["type"];
+    readonly valuation: ListingPriceValuation;
+    readonly availability: ListingAvailability | null;
+    readonly lifecycle: ListingLifecycle;
     readonly url?: URL;
     readonly viewUrl?: URL;
     readonly images: readonly ProductImage[];
-    readonly contentPolicy: ProductListingDetailsData["contentPolicy"];
-    readonly auction: ProductListingDetailsData["auction"];
-    readonly lot: ProductListingDetailsData["lot"];
+    readonly contentPolicy: ListingContentPolicy | null | undefined;
+    readonly auction: ListingAuctionSummary | null;
+    readonly lot: ListingLotFacts | null;
     readonly created: Date;
     readonly updated: Date;
     readonly userState?: ProductListingUserState | null;
@@ -73,6 +89,11 @@ export function mapToProductListingDetail(
     locale: string,
 ): ProductListingDetail {
     const item = apiData.item;
+    const pricing: ListingPricing = {
+        source: mapListingPricingAmounts(item.pricing.source),
+        display: mapListingPricingAmounts(item.pricing.display),
+        valuation: mapListingDetailValuation(item.pricing.valuation),
+    };
 
     return {
         productListingId: item.productListingId,
@@ -82,19 +103,19 @@ export function mapToProductListingDetail(
         description: item.productDescription?.text ?? item.description?.text ?? undefined,
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
-        pricing: item.pricing,
-        price: item.pricing.display.price,
+        pricing,
+        price: mapListingPrice(item.pricing.display.price),
         displayPrice: getDisplayPrice(item, locale),
-        priceValuation: item.pricing.valuation.type,
-        valuation: item.pricing.valuation,
-        availability: item.availability,
-        lifecycle: item.lifecycle,
+        priceValuation: pricing.valuation.type,
+        valuation: pricing.valuation,
+        availability: mapListingAvailability(item.availability),
+        lifecycle: mapListingLifecycle(item.lifecycle),
         url: mapUrl(item.url),
         viewUrl: mapUrl(item.viewUrl),
         images: item.images.map((image) => mapImage(image, item.contentPolicy)),
-        contentPolicy: item.contentPolicy,
-        auction: item.auction,
-        lot: item.lot,
+        contentPolicy: mapListingContentPolicy(item.contentPolicy),
+        auction: mapListingAuction(item.auction),
+        lot: mapListingLot(item.lot),
         created: new Date(item.created),
         updated: new Date(item.updated),
         userState: mapProductListingUserState(apiData.userState),
