@@ -13,8 +13,7 @@ vi.mock("@/features/product/catalog/components/cards/ProductCard.tsx", () => ({
 vi.mock("@/features/saved-searches/components/MatchFeedbackButtons.tsx", () => ({
     MatchFeedbackButtons: (props: {
         filterId: string;
-        shopId: string;
-        shopsProductId: string;
+        productListingId: string;
         currentFeedback?: boolean;
     }) => (
         <div
@@ -26,20 +25,16 @@ vi.mock("@/features/saved-searches/components/MatchFeedbackButtons.tsx", () => (
 }));
 
 const baseProduct: ProductListing = {
-    productId: "product-id-1",
-    eventId: "event-1",
-    shopId: "shop-1",
-    shopsProductId: "prod-1",
-    shopSlugId: "shop-slug",
-    productSlugId: "prod-slug",
+    productListingId: "listing-1",
+    source: { listingSourceId: "source-1", name: "Antik AG", slugId: "antik-ag" },
+    sourceListingId: "source-listing-1",
     title: "Barocktisch",
-    shopName: "Antik AG",
-    sellerName: "Antik AG",
-    shopType: "AUCTION_HOUSE",
-    state: "AVAILABLE",
-    url: null,
+    priceValuation: "CURRENT",
+    valuation: { type: "CURRENT", fxRateId: "fx-1", capturedAt: new Date("2024-01-01") },
+    availability: "AVAILABLE",
+    lifecycle: "ACTIVE",
     images: [],
-    created: new Date("2024-01-01"),
+    contentPolicy: null,
     updated: new Date("2024-01-01"),
 };
 
@@ -74,11 +69,11 @@ describe("SearchFilterMatchCard", () => {
     it("passes matchFeedback from searchFilterData to MatchFeedbackButtons", async () => {
         const product: ProductListing = {
             ...baseProduct,
-            userData: {
-                watchlistData: { isWatching: false, isNotificationEnabled: false },
-                notificationData: { hasUnseenNotification: false },
-                restrictedContentData: { consentGiven: true },
-                searchFilterData: { matched: true, hidden: false, matchFeedback: true },
+            userState: {
+                watchlist: { watching: false, notifications: false },
+                notification: { unseenNotificationIds: [], hasUnseenNotification: false },
+                contentVisibility: { showUnassessedOrSensitiveContent: true },
+                searchFilter: { matched: true, hidden: false, matchFeedback: true },
             },
         };
         await act(() => {

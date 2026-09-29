@@ -1,9 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import { FormProvider, useForm } from "react-hook-form";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { ReactNode } from "react";
 import { SearchFilterWizardConfirmStep } from "../SearchFilterWizardConfirmStep.tsx";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+
+vi.mock("@/features/saved-searches/api/useSearchFilterPreviewProducts.ts", () => ({
+    canPreviewSavedSearch: () => true,
+    useSearchFilterPreviewProducts: () => ({ isPending: false, error: null, data: [] }),
+}));
 
 function FormWrapper({ children }: { children: ReactNode }) {
     const methods = useForm({

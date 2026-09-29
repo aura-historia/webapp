@@ -49,6 +49,7 @@ import { useUpdateUserSearchFilter } from "@/features/saved-searches/api/useUpda
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { SearchFilterWizardConfirmStep } from "@/features/saved-searches/components/SearchFilterWizardConfirmStep.tsx";
 import type { Variants } from "motion";
 
@@ -171,6 +172,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
     const isPending = isCreating || isUpdating;
 
     const { data: account } = useUserAccount();
+    const { preferences } = useUserPreferences();
     const isFree = !account || account.subscriptionType === "free";
     const isUltimate = account?.subscriptionType === "ultimate";
 
@@ -219,6 +221,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
         const description = enhancedSearchDescription || undefined;
         const search: SearchFilterArguments = {
             ...filters,
+            currency: filters.currency ?? preferences.currency,
             q: queryTerms[0] ?? "",
             queryTerms,
         };
@@ -251,7 +254,17 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                 callbacks,
             );
         }
-    }, [filter, createFilter, updateFilter, nameForm, filters, t, onOpenChange, mode]);
+    }, [
+        filter,
+        createFilter,
+        updateFilter,
+        nameForm,
+        filters,
+        preferences.currency,
+        t,
+        onOpenChange,
+        mode,
+    ]);
 
     /**
      * Step labels shown in the sidebar.

@@ -1869,7 +1869,14 @@
       "relevantHint": "La coincidencia es relevante",
       "notRelevantHint": "La coincidencia no es relevante"
     },
-    "feedbackError": "No se pudo guardar el comentario."
+    "feedbackError": "No se pudo guardar el comentario.",
+    "preview": {
+      "title": "Vista previa de anuncios",
+      "description": "Una vista previa actual de la búsqueda de anuncios. Las coincidencias guardadas aparecen por separado en el detalle del filtro.",
+      "unavailable": "La vista previa no está disponible porque este filtro contiene criterios que la búsqueda de anuncios no puede expresar.",
+      "error": "No se pudo cargar la vista previa.",
+      "empty": "Ahora mismo no hay anuncios que coincidan con estos criterios."
+    }
   },
   "oauth": {
     "authorize": {

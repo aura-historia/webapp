@@ -1869,7 +1869,14 @@
       "relevantHint": "La correspondance est pertinente",
       "notRelevantHint": "La correspondance n'est pas pertinente"
     },
-    "feedbackError": "Échec de l'enregistrement des commentaires."
+    "feedbackError": "Échec de l'enregistrement des commentaires.",
+    "preview": {
+      "title": "Aperçu des annonces",
+      "description": "Un aperçu en temps réel issu de la recherche d’annonces. Les correspondances enregistrées figurent séparément sur la page de détail du filtre.",
+      "unavailable": "L’aperçu est indisponible, car ce filtre contient des critères que la recherche d’annonces ne peut pas exprimer.",
+      "error": "Impossible de charger l’aperçu.",
+      "empty": "Aucune annonce ne correspond à ces critères pour le moment."
+    }
   },
   "oauth": {
     "authorize": {

@@ -1869,7 +1869,14 @@
       "relevantHint": "La corrispondenza è rilevante",
       "notRelevantHint": "La corrispondenza non è rilevante"
     },
-    "feedbackError": "Impossibile salvare il feedback."
+    "feedbackError": "Impossibile salvare il feedback.",
+    "preview": {
+      "title": "Anteprima degli annunci",
+      "description": "Un’anteprima aggiornata dalla ricerca degli annunci. Le corrispondenze salvate sono mostrate separatamente nella pagina dei dettagli del filtro.",
+      "unavailable": "L’anteprima non è disponibile perché questo filtro contiene criteri che la ricerca degli annunci non può esprimere.",
+      "error": "Impossibile caricare l’anteprima.",
+      "empty": "Al momento nessun annuncio corrisponde a questi criteri."
+    }
   },
   "oauth": {
     "authorize": {

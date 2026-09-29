@@ -6,6 +6,8 @@ import type {
     PatchUserSearchFilterData,
 } from "@/client";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import { mapToBackendCurrency, parseCurrency } from "@/data/internal/common/Currency.ts";
+import { toMajorCurrencyAmount, toMinorCurrencyAmount } from "@/data/internal/price/Price.ts";
 import { parseListingAvailability } from "@/data/internal/product/ListingAvailability.ts";
 import { parseListingOrderability } from "@/data/internal/product/ListingOrderability.ts";
 import {
@@ -45,9 +47,16 @@ export function mapProductSearchDataToSearchFilterArguments(
 ): SearchFilterArguments {
     return {
         q: data.productQuery?.[0] ?? "",
+        currency: data.currency ? parseCurrency(data.currency) : undefined,
         queryTerms: data.productQuery,
-        priceFrom: data.price?.min == null ? undefined : data.price.min / 100,
-        priceTo: data.price?.max == null ? undefined : data.price.max / 100,
+        priceFrom:
+            data.price?.min == null
+                ? undefined
+                : toMajorCurrencyAmount(data.price.min, data.currency ?? "EUR"),
+        priceTo:
+            data.price?.max == null
+                ? undefined
+                : toMajorCurrencyAmount(data.price.max, data.currency ?? "EUR"),
         enhancedSearchDescription: data.enhancedSearchDescription ?? undefined,
         excludeProductId: data.excludeProductId,
         listingSourceId: data.listingSourceId,
@@ -70,12 +79,19 @@ export function mapSearchFilterArgumentsToProductSearchData(
 ): ProductListingSearchData {
     const availabilityCriteria = mapAvailabilityCriteria(args);
     return {
+        currency: args.currency ? (mapToBackendCurrency(args.currency) ?? undefined) : undefined,
         productQuery: args.queryTerms?.length ? args.queryTerms : args.q ? [args.q] : [],
         price:
             args.priceFrom != null || args.priceTo != null
                 ? {
-                      min: args.priceFrom == null ? undefined : args.priceFrom * 100,
-                      max: args.priceTo == null ? undefined : args.priceTo * 100,
+                      min:
+                          args.priceFrom == null
+                              ? undefined
+                              : toMinorCurrencyAmount(args.priceFrom, args.currency ?? "EUR"),
+                      max:
+                          args.priceTo == null
+                              ? undefined
+                              : toMinorCurrencyAmount(args.priceTo, args.currency ?? "EUR"),
                   }
                 : undefined,
         enhancedSearchDescription: args.enhancedSearchDescription,
@@ -134,6 +150,7 @@ function mapSearchFilterArgumentsToPatchProductSearchData(
 ): PatchProductListingSearchData {
     const mapped = mapSearchFilterArgumentsToProductSearchData(args);
     return {
+        currency: mapped.currency,
         productQuery: mapped.productQuery,
         enhancedSearchDescription: mapped.enhancedSearchDescription ?? null,
         listingSourceId: mapped.listingSourceId ?? null,
