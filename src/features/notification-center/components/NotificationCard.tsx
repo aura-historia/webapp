@@ -16,15 +16,16 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { cn } from "@/lib/utils.ts";
-import { intlFormatDistance } from "date-fns";
 import { ProductListingLink } from "@/features/product/catalog/components/ProductListingLink.tsx";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Check, ImageOff, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useRouteContext } from "@tanstack/react-router";
 
 export function NotificationCard({ notification }: { readonly notification: Notification }) {
     const { t, i18n } = useTranslation();
+    const { timeZone } = useRouteContext({ from: "__root__" });
     const markAsSeen = useMarkNotificationSeen();
     const deleteNotification = useDeleteNotification();
     const { data: userAccount } = useUserAccount();
@@ -148,13 +149,11 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                             <span>{changeParts.to}</span>
                         </span>
                     )}
-                    <span
-                        className="text-base text-muted-foreground shrink-0 ml-auto"
-                        suppressHydrationWarning
-                    >
-                        {intlFormatDistance(notification.created, new Date(), {
-                            locale: i18n.language,
-                        })}
+                    <span className="text-base text-muted-foreground shrink-0 ml-auto">
+                        {new Intl.DateTimeFormat(i18n.language, {
+                            dateStyle: "medium",
+                            timeZone,
+                        }).format(notification.created)}
                     </span>
                 </div>
             </div>

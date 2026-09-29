@@ -1,4 +1,4 @@
-import type { ListingAvailabilityData } from "@/client";
+import type { ListingAvailability } from "@/data/internal/product/ProductListingDomain.ts";
 import type { NotificationPayload } from "@/data/internal/notification/Notification.ts";
 import { formatPrice } from "@/data/internal/price/Price.ts";
 
@@ -12,10 +12,7 @@ export function getNotificationTypeLabel(
     return t("notifications.types.stateChange");
 }
 
-function availabilityLabel(
-    availability: ListingAvailabilityData | null,
-    t: (key: string) => string,
-) {
+function availabilityLabel(availability: ListingAvailability | null, t: (key: string) => string) {
     if (!availability) return t("product.listingAvailability.unknown");
     const [first, ...rest] = availability.toLowerCase().split("_");
     const key = `${first}${rest.map((part) => part[0]?.toUpperCase() + part.slice(1)).join("")}`;

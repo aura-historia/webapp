@@ -8,7 +8,7 @@ const mockPatchNotification = vi.fn();
 const mockToastError = vi.hoisted(() => vi.fn());
 
 vi.mock("@/client", () => ({
-    patchNotification: (...args: unknown[]) => mockPatchNotification(...args),
+    updateNotificationSeen: (...args: unknown[]) => mockPatchNotification(...args),
 }));
 vi.mock("sonner", () => ({ toast: { error: mockToastError } }));
 vi.mock("@/hooks/common/useApiError", () => ({
@@ -37,16 +37,16 @@ describe("useMarkNotificationSeen", () => {
     });
 
     it("should call patchNotification with correct params", async () => {
-        mockPatchNotification.mockResolvedValue({ data: { seen: true } });
+        mockPatchNotification.mockResolvedValue({ data: undefined });
 
         const wrapper = createWrapper();
         const { result } = renderHook(() => useMarkNotificationSeen(), { wrapper });
 
-        result.current.mutate("event-123");
+        result.current.mutate("notification-123");
 
         await waitFor(() => {
             expect(mockPatchNotification).toHaveBeenCalledWith({
-                path: { eventId: "event-123" },
+                path: { notificationId: "notification-123" },
                 body: { seen: true },
             });
         });
@@ -58,7 +58,7 @@ describe("useMarkNotificationSeen", () => {
         const wrapper = createWrapper();
         const { result } = renderHook(() => useMarkNotificationSeen(), { wrapper });
 
-        result.current.mutate("event-456");
+        result.current.mutate("notification-456");
 
         await waitFor(() => {
             expect(result.current.isError).toBe(true);
@@ -72,7 +72,7 @@ describe("useMarkNotificationSeen", () => {
         const wrapper = createWrapper();
         const { result } = renderHook(() => useMarkNotificationSeen(), { wrapper });
 
-        result.current.mutate("event-456");
+        result.current.mutate("notification-456");
 
         await waitFor(() =>
             expect(mockToastError).toHaveBeenCalledWith("Ein unerwarteter Fehler ist aufgetreten."),
@@ -80,7 +80,7 @@ describe("useMarkNotificationSeen", () => {
     });
 
     it("should invalidate correct query keys on success", async () => {
-        mockPatchNotification.mockResolvedValue({ data: { seen: true } });
+        mockPatchNotification.mockResolvedValue({ data: undefined });
 
         const queryClient = new QueryClient({
             defaultOptions: {
@@ -95,23 +95,14 @@ describe("useMarkNotificationSeen", () => {
 
         const { result } = renderHook(() => useMarkNotificationSeen(), { wrapper });
 
-        result.current.mutate("event-789");
+        result.current.mutate("notification-789");
 
         await waitFor(() => {
             expect(result.current.isSuccess).toBe(true);
         });
 
-        const expectedKeys = [
-            "search",
-            "getSimilarProducts",
-            "getProduct",
-            "getProductBySlug",
-            "watchlist",
-            "getNotifications",
-        ];
-
-        for (const key of expectedKeys) {
-            expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: [key] });
-        }
+        expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["getNotifications", "user-1"] });
     });
 });
+
+vi.mock("aws-amplify/auth", () => ({ getCurrentUser: async () => ({ userId: "user-1" }) }));

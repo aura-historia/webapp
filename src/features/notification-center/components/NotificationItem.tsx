@@ -10,14 +10,15 @@ import { useDeleteNotification } from "@/features/notification-center/api/useDel
 import { useMarkNotificationSeen } from "@/features/notification-center/api/useMarkNotificationSeen.ts";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
 import { cn } from "@/lib/utils.ts";
-import { intlFormatDistance } from "date-fns";
 import { ProductListingLink } from "@/features/product/catalog/components/ProductListingLink.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Check, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useRouteContext } from "@tanstack/react-router";
 
 export function NotificationItem({ notification }: { readonly notification: Notification }) {
     const { t, i18n } = useTranslation();
+    const { timeZone } = useRouteContext({ from: "__root__" });
     const markAsSeen = useMarkNotificationSeen();
     const deleteNotification = useDeleteNotification();
     const { payload, seen } = notification;
@@ -109,13 +110,11 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                                 <span>{changeParts.to}</span>
                             </span>
                         )}
-                        <span
-                            className="ml-auto shrink-0 text-[11px] text-muted-foreground"
-                            suppressHydrationWarning
-                        >
-                            {intlFormatDistance(notification.created, new Date(), {
-                                locale: i18n.language,
-                            })}
+                        <span className="ml-auto shrink-0 text-[11px] text-muted-foreground">
+                            {new Intl.DateTimeFormat(i18n.language, {
+                                dateStyle: "medium",
+                                timeZone,
+                            }).format(notification.created)}
                         </span>
                     </div>
                 </div>
