@@ -78,6 +78,17 @@ describe("useSearchFilterPreviewProducts", () => {
         expect(mockSearchListings).not.toHaveBeenCalled();
     });
 
+    it("returns no preview results when every availability option is unchecked", async () => {
+        const { result } = renderHook(
+            () => useSearchFilterPreviewProducts({ ...baseSearch, availability: [] }, true),
+            { wrapper: createWrapper() },
+        );
+
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+        expect(result.current.data).toEqual([]);
+        expect(mockSearchListings).not.toHaveBeenCalled();
+    });
+
     it("does not broaden criteria the listing search endpoint cannot express", () => {
         expect(canPreviewSavedSearch({ ...baseSearch, orderability: ["ORDERABLE_NOW"] })).toBe(
             false,

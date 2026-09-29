@@ -86,6 +86,8 @@ export function useSearchFilterPreviewProducts(
         queryKey: ["searchFilterPreviewProducts", search, i18n.language, preferences.currency],
         enabled: enabled && previewable,
         queryFn: async () => {
+            if (search.availability?.length === 0) return [];
+
             const currency = search.currency ?? preferences.currency;
             const result = await simpleSearchProductListings({
                 query: toListingSearchQuery(search, i18n.language, currency),

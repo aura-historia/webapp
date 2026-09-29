@@ -13,12 +13,17 @@ import {
 type Props = {
     readonly name: string;
     readonly filters: SearchFilterArguments;
+    readonly enhancedSearchDescription?: string;
 };
 
-export function SearchFilterWizardConfirmStep({ name, filters }: Props) {
+export function SearchFilterWizardConfirmStep({ name, filters, enhancedSearchDescription }: Props) {
     const { t } = useTranslation();
-    const preview = useSearchFilterPreviewProducts(filters, true);
-    const previewable = canPreviewSavedSearch(filters);
+    const previewSearch = {
+        ...filters,
+        enhancedSearchDescription: enhancedSearchDescription || undefined,
+    };
+    const preview = useSearchFilterPreviewProducts(previewSearch, true);
+    const previewable = canPreviewSavedSearch(previewSearch);
     // Raw form values — reflect exactly what the user has checked (incl. "all selected"),
     // without waiting for SearchFilterFormProvider's debounce to sync them into `filters`.
     const formValues = useFormContext<FilterSchema>().watch();

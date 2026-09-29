@@ -293,6 +293,16 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
     const handleContentKeyDown = useCallback(
         (e: React.KeyboardEvent) => {
             if (e.key !== "Enter" || (e.target as HTMLElement).tagName === "TEXTAREA") return;
+            const target = e.target;
+            if (
+                step === TOTAL_STEPS &&
+                target instanceof Element &&
+                target.closest(
+                    "a, button, input, select, [role='button'], [role='link'], [contenteditable='true']",
+                )
+            ) {
+                return;
+            }
             e.preventDefault();
             if (step < TOTAL_STEPS) {
                 handleNext();
@@ -443,6 +453,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
             return (
                 <SearchFilterWizardConfirmStep
                     name={nameForm.watch("name")}
+                    enhancedSearchDescription={nameForm.watch("enhancedSearchDescription")}
                     filters={{
                         ...filters,
                         q: nameForm.watch("queryTerms")[0] ?? "",

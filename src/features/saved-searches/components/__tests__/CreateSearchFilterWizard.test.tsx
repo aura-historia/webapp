@@ -38,7 +38,12 @@ vi.mock("@tanstack/react-query", async (importOriginal) => {
 vi.mock("sonner", () => ({ toast: mockToast }));
 
 vi.mock("@/features/saved-searches/components/SearchFilterWizardConfirmStep.tsx", () => ({
-    SearchFilterWizardConfirmStep: () => <div data-testid="confirm-step">Zusammenfassung</div>,
+    SearchFilterWizardConfirmStep: () => (
+        <div data-testid="confirm-step">
+            Zusammenfassung
+            <button type="button">Preview listing action</button>
+        </div>
+    ),
 }));
 vi.mock("@/features/search/products/components/filters/PriceSpanFilter.tsx", () => ({
     PriceSpanFilter: () => <div data-testid="price-filter" />,
@@ -564,6 +569,26 @@ describe("CreateSearchFilterWizard", () => {
                 expect.objectContaining({ id: "filter-1" }),
                 expect.objectContaining({ onSuccess: expect.any(Function) }),
             );
+        });
+
+        it("does not save when Enter activates an interactive preview control", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard
+                        open
+                        onOpenChange={vi.fn()}
+                        mode="edit"
+                        filter={mockFilter}
+                    />,
+                ),
+            );
+
+            await navigateToConfirmStep(user);
+            screen.getByRole("button", { name: "Preview listing action" }).focus();
+            await user.keyboard("{Enter}");
+
+            expect(mockUpdateMutate).not.toHaveBeenCalled();
         });
     });
 });
