@@ -303,38 +303,5 @@ describe("WatchlistPage", () => {
             expect(screen.getByText("Product 1")).toBeInTheDocument();
             expect(screen.getByText("Product 2")).toBeInTheDocument();
         });
-
-        it("does not render the same canonical listing twice across pages", () => {
-            const duplicateInFirstPage = createMockProduct({
-                productListingId: "listing-1",
-                title: "Repeated listing",
-            });
-            const duplicateInSecondPage = createMockProduct({
-                productListingId: "listing-1",
-                title: "Repeated listing",
-            });
-
-            mockUseInfiniteQuery.mockReturnValue({
-                data: {
-                    pages: [
-                        { products: [duplicateInFirstPage], size: 1, searchAfter: "cursor-1" },
-                        { products: [duplicateInSecondPage], size: 1, searchAfter: undefined },
-                    ],
-                    pageParams: [undefined, "cursor-1"],
-                },
-                isPending: false,
-                error: null,
-                fetchNextPage: vi.fn(),
-                hasNextPage: false,
-                isFetchingNextPage: false,
-                isError: false,
-                isSuccess: true,
-                status: "success",
-            } as unknown as ReturnType<typeof useInfiniteQuery>);
-
-            renderWithQueryClient(<WatchlistPage />);
-
-            expect(screen.getAllByText("Repeated listing")).toHaveLength(1);
-        });
     });
 });

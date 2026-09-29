@@ -50,14 +50,7 @@ export function WatchlistPage() {
         );
     }
 
-    const allProducts: ProductListing[] = [
-        ...new Map(
-            (data?.pages.flatMap((page) => page.products) ?? []).map((product) => [
-                product.productListingId,
-                product,
-            ]),
-        ).values(),
-    ];
+    const allProducts: ProductListing[] = data?.pages.flatMap((page) => page.products) ?? [];
 
     const allLoaded = allProducts.length > 0 && !hasNextPage;
     const showLoaderRow = isFetchingNextPage || allLoaded;
