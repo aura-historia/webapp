@@ -1,26 +1,30 @@
 import type {
-    ListingAvailabilityData,
     NotificationCollectionData,
     NotificationData,
     NotificationPayloadData,
     PartnershipApplicationNotificationPayloadData,
     ProductListingImageData,
-    ProductListingPriceData,
     SearchFilterNotificationPayloadData,
     WatchlistNotificationPayloadData,
 } from "@/client";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+import {
+    mapListingAvailability,
+    mapListingPrice,
+    type ListingAvailability,
+    type ListingPrice,
+} from "@/data/internal/product/ProductListingDomain.ts";
 
 export type NotificationWatchlistPriceChangePayload = {
     readonly type: "PRICE_CHANGE";
-    readonly oldPrice: ProductListingPriceData | null;
-    readonly newPrice: ProductListingPriceData | null;
+    readonly oldPrice: ListingPrice | null;
+    readonly newPrice: ListingPrice | null;
 };
 
 export type NotificationWatchlistAvailabilityChangePayload = {
     readonly type: "AVAILABILITY_CHANGE";
-    readonly oldAvailability: ListingAvailabilityData | null;
-    readonly newAvailability: ListingAvailabilityData | null;
+    readonly oldAvailability: ListingAvailability | null;
+    readonly newAvailability: ListingAvailability | null;
 };
 
 export type NotificationWatchlistChangePayload =
@@ -88,8 +92,13 @@ export type NotificationCollection = {
 
 function mapImage(data: ProductListingImageData | null): ProductImage | undefined {
     if (!data?.url) return undefined;
-    const url = URL.parse(data.url);
+    const url = safeImageUrl(data.url);
     return url ? { url, prohibitedContentType: "NONE" } : undefined;
+}
+
+function safeImageUrl(value: string): URL | undefined {
+    const url = URL.parse(value);
+    return url && (url.protocol === "https:" || url.protocol === "http:") ? url : undefined;
 }
 
 function mapProductFields(
@@ -116,13 +125,13 @@ function mapWatchlistNotification(data: WatchlistNotificationPayloadData): Notif
             data.change.type === "PRICE_CHANGE"
                 ? {
                       type: "PRICE_CHANGE",
-                      oldPrice: data.change.oldPrice,
-                      newPrice: data.change.newPrice,
+                      oldPrice: mapListingPrice(data.change.oldPrice) ?? null,
+                      newPrice: mapListingPrice(data.change.newPrice) ?? null,
                   }
                 : {
                       type: "AVAILABILITY_CHANGE",
-                      oldAvailability: data.change.oldAvailability,
-                      newAvailability: data.change.newAvailability,
+                      oldAvailability: mapListingAvailability(data.change.oldAvailability),
+                      newAvailability: mapListingAvailability(data.change.newAvailability),
                   },
     };
 }
@@ -144,7 +153,7 @@ function mapPartnershipApplicationNotification(
     return {
         type: "PARTNER_APPLICATION",
         listingSourceName: data.listingSourceName,
-        image: data.image ?? undefined,
+        image: data.image ? safeImageUrl(data.image)?.href : undefined,
         partnershipApplicationId: data.partnershipApplicationId,
         decision: data.decision,
     };

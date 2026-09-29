@@ -46,17 +46,17 @@ describe("useDeleteNotification", () => {
     });
 
     it("should call deleteNotification with correct eventId", async () => {
-        mockDeleteNotification.mockResolvedValue({ data: null, error: null });
+        mockDeleteNotification.mockResolvedValue({ data: undefined, error: null });
 
         const { result } = renderHook(() => useDeleteNotification(), {
             wrapper: createWrapper(),
         });
 
-        result.current.mutate("event-123");
+        result.current.mutate("notification-123");
 
         await waitFor(() => {
             expect(mockDeleteNotification).toHaveBeenCalledWith({
-                path: { eventId: "event-123" },
+                path: { notificationId: "notification-123" },
             });
         });
     });
@@ -69,7 +69,7 @@ describe("useDeleteNotification", () => {
             wrapper: createWrapper(),
         });
 
-        result.current.mutate("event-456");
+        result.current.mutate("notification-456");
 
         await waitFor(() => {
             expect(result.current.isError).toBe(true);
@@ -79,7 +79,7 @@ describe("useDeleteNotification", () => {
     });
 
     it("should invalidate getNotifications query on success", async () => {
-        mockDeleteNotification.mockResolvedValue({ data: null, error: null });
+        mockDeleteNotification.mockResolvedValue({ data: undefined, error: null });
 
         const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
 
@@ -87,7 +87,7 @@ describe("useDeleteNotification", () => {
             wrapper: createWrapper(),
         });
 
-        result.current.mutate("event-789");
+        result.current.mutate("notification-789");
 
         await waitFor(() => {
             expect(result.current.isSuccess).toBe(true);

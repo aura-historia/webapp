@@ -4,6 +4,8 @@ import { toast } from "sonner";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 
+import { commitNotificationMutation } from "./notificationCache.ts";
+
 export function useDeleteNotification() {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
@@ -16,7 +18,8 @@ export function useDeleteNotification() {
                 throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["getNotifications"] }),
+        onSuccess: (_, notificationId) =>
+            commitNotificationMutation(queryClient, [notificationId], "delete"),
         onError: (error) => {
             toast.error(error.message);
         },

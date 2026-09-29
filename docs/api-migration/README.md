@@ -80,6 +80,9 @@ The 22 additions are admin source search and deletion; five party CRUD/search op
 | Admin overview | Dedicated aggregate endpoint | Stop counting loaded collection rows; handle overlapping ingestion assignments | MIG-23 |
 | Cross-cutting | Generated export/Query helper renames, changed fixtures, links, locales and docs | Single generation owner; integration/release gate | MIG-01, MIG-24 |
 
+The notification migration's implemented DTO boundary, mutation/cache behavior,
+pagination, and rendering rules are documented in [Notification center](../notification-center.md).
+
 ### Preserved contracts and limits of inference
 
 - Language, currency, measurement units, FREE/PRO/ULTIMATE tiers and role enums already exist in the generated client. They are not new features simply because the embedded partner snapshot differs.

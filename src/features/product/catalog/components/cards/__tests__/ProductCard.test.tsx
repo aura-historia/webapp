@@ -6,28 +6,27 @@ import { vi } from "vitest";
 
 const mockMutate = vi.fn();
 
-vi.mock("@/features/notification-center/api/useMarkNotificationSeen.ts", () => ({
-    useMarkNotificationSeen: () => ({ mutate: mockMutate }),
+vi.mock("@/features/notification-center/api/useMarkNotificationsSeen.ts", () => ({
+    useMarkNotificationsSeen: () => ({ mutate: mockMutate }),
 }));
 
 describe("ProductCard", () => {
     const mockProduct: ProductListing = {
-        created: new Date(),
-        eventId: "",
-        shopId: "",
-        shopSlugId: "sample-shop",
-        shopsProductId: "",
-        productId: "1",
-        productSlugId: "sample-product",
-        updated: new Date(),
+        productListingId: "listing-1",
+        productListingTitleSlugId: "sample-product",
+        sourceListingId: "item-1",
+        source: { listingSourceId: "source-1", slugId: "sample-shop", name: "Sample Shop" },
+        updated: new Date("2026-09-10T10:00:00Z"),
         url: new URL("https://example.com"),
         viewUrl: new URL("https://affiliate.example.com/product"),
         title: "Sample Product",
-        shopName: "Sample Shop",
-        sellerName: "Sample Shop",
-        shopType: "AUCTION_HOUSE",
-        state: "AVAILABLE",
-        price: "100€",
+        availability: "AVAILABLE",
+        lifecycle: "ACTIVE",
+        price: { type: "MONETARY", amount: 10000, currency: "EUR" },
+        formattedPrice: "100€",
+        priceValuation: "CURRENT",
+        valuation: { type: "CURRENT", fxRateId: "fx-1", capturedAt: new Date("2026-09-10") },
+        contentPolicy: { decision: "ALLOWED" },
         images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
     };
 
@@ -57,7 +56,7 @@ describe("ProductCard", () => {
     });
 
     it("should render 'Preis unbekannt' when the price is not provided", async () => {
-        const productWithoutPrice = { ...mockProduct, price: undefined };
+        const productWithoutPrice = { ...mockProduct, price: undefined, formattedPrice: undefined };
         await act(() => {
             renderWithRouter(<ProductCard product={productWithoutPrice} />);
         });
@@ -75,7 +74,7 @@ describe("ProductCard", () => {
         await act(() => {
             renderWithRouter(<ProductCard product={mockProduct} />);
         });
-        expect(screen.getByText("Sample Shop").closest("p")).toHaveClass(
+        expect(screen.getByText("Sample Shop")).toHaveClass(
             "uppercase",
             "tracking-[0.08em]",
             "text-muted-foreground/80",
@@ -83,35 +82,19 @@ describe("ProductCard", () => {
         expect(screen.queryByText("Auktionshaus")).not.toBeInTheDocument();
     });
 
-    it("should show the selling source and linked shop when they differ", async () => {
+    it("renders the canonical listing source", async () => {
         await act(() => {
             renderWithRouter(
                 <ProductCard
                     product={{
                         ...mockProduct,
-                        sellerName: "Secondary Seller",
+                        source: { ...mockProduct.source, name: "New Source" },
                     }}
                 />,
             );
         });
-
-        expect(screen.getByText("Secondary Seller")).toBeInTheDocument();
-        expect(screen.getByText("auf")).toBeInTheDocument();
-        expect(screen.getByRole("link", { name: "Sample Shop" })).toHaveAttribute(
-            "href",
-            "/de/shops/sample-shop",
-        );
-    });
-
-    it("should render the auction window badge when auction start is set", async () => {
-        const productWithAuction = {
-            ...mockProduct,
-            auction: { start: new Date("2025-06-15T10:00:00Z") },
-        };
-        await act(() => {
-            renderWithRouter(<ProductCard product={productWithAuction} />);
-        });
-        expect(screen.getByText(/^ab /)).toBeInTheDocument();
+        expect(screen.getByText("New Source")).toBeInTheDocument();
+        expect(screen.queryByText("Sample Shop")).not.toBeInTheDocument();
     });
 
     it("should not render the auction window badge when no auction is set", async () => {
@@ -160,7 +143,7 @@ describe("ProductCard", () => {
     });
 
     it("should disable merchant button when state is REMOVED", async () => {
-        const removedProduct = { ...mockProduct, state: "REMOVED" as const };
+        const removedProduct = { ...mockProduct, lifecycle: "WITHDRAWN" as const };
         await act(() => {
             renderWithRouter(<ProductCard product={removedProduct} />);
         });
@@ -171,13 +154,13 @@ describe("ProductCard", () => {
     });
 
     describe("search filter highlight", () => {
-        const mockProductMatched: ProductListing = {
+        const mockProductMatched = {
             ...mockProduct,
-            userData: {
-                watchlistData: { isWatching: false, isNotificationEnabled: false },
-                notificationData: { hasUnseenNotification: false },
-                restrictedContentData: { consentGiven: false },
-                searchFilterData: {
+            userState: {
+                watchlist: { watching: false, notifications: false },
+                notification: { hasUnseenNotification: false, unseenNotificationIds: [] },
+                contentVisibility: { showUnassessedOrSensitiveContent: false },
+                searchFilter: {
                     matched: true,
                     hidden: false,
                     userSearchFilterId: "filter-123",
@@ -185,7 +168,7 @@ describe("ProductCard", () => {
                     matchReason: "Passt zum gesuchten Vintage Art Deco Stil.",
                 },
             },
-        };
+        } satisfies ProductListing;
 
         it("should render border-tertiary when matched and not hidden", async () => {
             const { container } = await act(() =>
@@ -211,9 +194,12 @@ describe("ProductCard", () => {
         it("should NOT render match badge when notification badge is shown", async () => {
             const productWithBoth: ProductListing = {
                 ...mockProductMatched,
-                userData: {
-                    ...mockProductMatched.userData!,
-                    notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
+                userState: {
+                    ...mockProductMatched.userState,
+                    notification: {
+                        hasUnseenNotification: true,
+                        unseenNotificationIds: ["notification-1", "notification-2"],
+                    },
                 },
             };
             await act(() => {
@@ -226,9 +212,12 @@ describe("ProductCard", () => {
         it("should prefer border-primary over border-tertiary when notification is present", async () => {
             const productWithBoth: ProductListing = {
                 ...mockProductMatched,
-                userData: {
-                    ...mockProductMatched.userData!,
-                    notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
+                userState: {
+                    ...mockProductMatched.userState,
+                    notification: {
+                        hasUnseenNotification: true,
+                        unseenNotificationIds: ["notification-1", "notification-2"],
+                    },
                 },
             };
             const { container } = await act(() =>
@@ -241,11 +230,11 @@ describe("ProductCard", () => {
         it("should NOT render match badge or border-tertiary when hidden=true", async () => {
             const hiddenProduct: ProductListing = {
                 ...mockProduct,
-                userData: {
-                    watchlistData: { isWatching: false, isNotificationEnabled: false },
-                    notificationData: { hasUnseenNotification: false },
-                    restrictedContentData: { consentGiven: false },
-                    searchFilterData: { matched: true, hidden: true },
+                userState: {
+                    watchlist: { watching: false, notifications: false },
+                    notification: { hasUnseenNotification: false, unseenNotificationIds: [] },
+                    contentVisibility: { showUnassessedOrSensitiveContent: false },
+                    searchFilter: { matched: true, hidden: true },
                 },
             };
             const { container } = await act(() =>
@@ -259,10 +248,14 @@ describe("ProductCard", () => {
     describe("unseen notification highlight", () => {
         const mockProductWithUnseenNotification: ProductListing = {
             ...mockProduct,
-            userData: {
-                watchlistData: { isWatching: true, isNotificationEnabled: true },
-                notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
-                restrictedContentData: { consentGiven: false },
+            userState: {
+                watchlist: { watching: true, notifications: true },
+                notification: {
+                    hasUnseenNotification: true,
+                    unseenNotificationIds: ["notification-1", "notification-2"],
+                },
+                contentVisibility: { showUnassessedOrSensitiveContent: false },
+                searchFilter: { matched: false, hidden: false },
             },
         };
 
@@ -315,7 +308,7 @@ describe("ProductCard", () => {
                 detailsLink?.click();
             });
 
-            expect(mockMutate).toHaveBeenCalledWith("event-123");
+            expect(mockMutate).toHaveBeenCalledWith(["notification-1", "notification-2"]);
         });
 
         it("should NOT call markSeen mutate when clicking a product link without unseen notification", async () => {

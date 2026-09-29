@@ -4,6 +4,8 @@ import { toast } from "sonner";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 
+import { commitNotificationMutation } from "./notificationCache.ts";
+
 export function useMarkAllNotificationsSeen() {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
@@ -16,7 +18,7 @@ export function useMarkAllNotificationsSeen() {
                 throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["getNotifications"] }),
+        onSuccess: () => commitNotificationMutation(queryClient, undefined, "seen"),
         onError: (error) => {
             toast.error(error.message);
         },

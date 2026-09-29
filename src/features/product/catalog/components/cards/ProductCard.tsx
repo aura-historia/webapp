@@ -14,15 +14,14 @@ import { ProductListingLink } from "@/features/product/catalog/components/Produc
 import { ListingStatusBadge } from "@/features/product/catalog/components/badges/ListingStatusBadge.tsx";
 import { PriceValuationBadge } from "@/features/product/catalog/components/badges/PriceValuationBadge.tsx";
 import { memo, useCallback } from "react";
-import { useMarkNotificationSeen } from "@/features/notification-center/api/useMarkNotificationSeen.ts";
+import { useMarkNotificationsSeen } from "@/features/notification-center/api/useMarkNotificationsSeen.ts";
 import { cn } from "@/lib/utils.ts";
 
 function ProductCardComponent({ product }: { readonly product: ProductListing }) {
     const { t } = useTranslation();
     const unseenNotificationIds = product.userState?.notification.unseenNotificationIds ?? [];
     const hasUnseenNotification = unseenNotificationIds.length > 0;
-    const notificationId = unseenNotificationIds[0];
-    const markSeen = useMarkNotificationSeen();
+    const markSeen = useMarkNotificationsSeen();
     const searchFilterData = product.userState?.searchFilter;
     const matchedFilterId =
         searchFilterData?.matched && !searchFilterData.hidden
@@ -41,8 +40,8 @@ function ProductCardComponent({ product }: { readonly product: ProductListing })
             : t("product.unknownPrice"));
 
     const handleProductClick = useCallback(() => {
-        if (notificationId) markSeen.mutate(notificationId);
-    }, [notificationId, markSeen.mutate]);
+        if (unseenNotificationIds.length > 0) markSeen.mutate(unseenNotificationIds);
+    }, [unseenNotificationIds, markSeen.mutate]);
 
     return (
         <article

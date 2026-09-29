@@ -42,15 +42,14 @@ vi.mock("@/features/notification-center/components/NotificationCardSkeleton.tsx"
 
 const buildNotification = (overrides: Partial<Notification> = {}): Notification => ({
     notificationId: "notif-1",
-    originEventId: "event-1",
     seen: false,
-    external: false,
     created: new Date("2024-01-01"),
     updated: new Date("2024-01-01"),
     payload: {
         type: "PARTNER_APPLICATION",
-        shopName: "Test Shop",
-        partnerApplicationPayload: { type: "APPROVED", partnerApplicationId: "app-1" },
+        listingSourceName: "Test Shop",
+        decision: "APPROVED",
+        partnershipApplicationId: "app-1",
     },
     ...overrides,
 });

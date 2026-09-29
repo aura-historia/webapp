@@ -9,7 +9,7 @@ import { H3 } from "@/components/typography/H3.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 import { memo, useCallback } from "react";
-import { useMarkNotificationSeen } from "@/features/notification-center/api/useMarkNotificationSeen.ts";
+import { useMarkNotificationsSeen } from "@/features/notification-center/api/useMarkNotificationsSeen.ts";
 import { cn } from "@/lib/utils.ts";
 import { isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
 import { ProhibitedImagePlaceholder } from "@/features/product/catalog/components/media/ProhibitedImagePlaceholder.tsx";
@@ -35,12 +35,11 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
     const { t } = useTranslation();
     const unseenNotificationIds = product.userState?.notification.unseenNotificationIds ?? [];
     const hasUnseenNotification = unseenNotificationIds.length > 0;
-    const notificationId = unseenNotificationIds[0];
-    const markSeen = useMarkNotificationSeen();
+    const markSeen = useMarkNotificationsSeen();
 
     const handleProductClick = useCallback(() => {
-        if (notificationId) markSeen.mutate(notificationId);
-    }, [notificationId, markSeen.mutate]);
+        if (unseenNotificationIds.length > 0) markSeen.mutate(unseenNotificationIds);
+    }, [unseenNotificationIds, markSeen.mutate]);
 
     const showSensitiveContent =
         product.userState?.contentVisibility.showUnassessedOrSensitiveContent ?? false;

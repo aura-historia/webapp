@@ -1,306 +1,129 @@
 import { describe, expect, it } from "vitest";
-import type { GetNotificationData, NotificationCollectionData } from "@/client";
 import { mapToInternalNotification, mapToInternalNotificationCollection } from "../Notification.ts";
+import {
+    notificationDto,
+    watchlistPayload,
+} from "@/features/notification-center/__tests__/fixtures.ts";
 
-const mockWatchlistPriceChangeNotification: GetNotificationData = {
-    originEventId: "origin-event-1",
-    notificationId: "notif-1",
-    seen: false,
-    external: false,
-    createdBy: "SYSTEM",
-    updatedBy: "SYSTEM",
-    created: "2024-01-15T08:00:00Z",
-    updated: "2024-06-20T12:30:00Z",
-    payload: {
-        type: "WATCHLIST",
-        productId: "prod-1",
-        shopId: "shop-1",
-        shopsProductId: "shops-prod-1",
-        shopSlugId: "antique-shop",
-        productSlugId: "vintage-vase",
-        shopName: "Antique Shop",
-        title: { text: "Vintage Vase", language: "en" },
-        url: "https://example.com/product/vintage-vase",
-        viewUrl: "https://example.com/product/vintage-vase?utm_source=test",
-        image: null,
-        watchlistPayload: {
-            type: "PRICE_CHANGE",
-            oldPrice: { amount: 10000, currency: "EUR" },
-            newPrice: { amount: 8000, currency: "EUR" },
+describe("notification mapping", () => {
+    it("uses notification identity and omits removed audit fields", () => {
+        const result = mapToInternalNotification(notificationDto());
+        expect(result.notificationId).toBe("notification-1");
+        expect(result.created).toEqual(new Date("2026-09-10T10:00:00Z"));
+        for (const key of ["originEventId", "external", "createdBy", "updatedBy"])
+            expect(result).not.toHaveProperty(key);
+    });
+    it("copies prices into domain values without changing source currency", () => {
+        const result = mapToInternalNotification(notificationDto());
+        expect(result.payload).toMatchObject({
+            type: "WATCHLIST",
+            change: { oldPrice: { type: "MONETARY", amount: 10000, currency: "USD" } },
+        });
+        if (result.payload.type !== "WATCHLIST" || result.payload.change.type !== "PRICE_CHANGE")
+            throw new Error("Wrong kind");
+        expect(result.payload.change.oldPrice).not.toBe(watchlistPayload.change.oldPrice);
+    });
+    it("maps on-request/null price and nullable availability", () => {
+        expect(
+            mapToInternalNotification(
+                notificationDto({
+                    payload: {
+                        ...watchlistPayload,
+                        change: {
+                            type: "PRICE_CHANGE",
+                            oldPrice: null,
+                            newPrice: { type: "ON_REQUEST" },
+                        },
+                    },
+                }),
+            ).payload,
+        ).toMatchObject({ change: { oldPrice: null, newPrice: { type: "ON_REQUEST" } } });
+        expect(
+            mapToInternalNotification(
+                notificationDto({
+                    kind: "WATCHLIST_AVAILABILITY_CHANGED",
+                    payload: {
+                        ...watchlistPayload,
+                        change: {
+                            type: "AVAILABILITY_CHANGE",
+                            oldAvailability: null,
+                            newAvailability: "SOLD_OUT",
+                        },
+                    },
+                }),
+            ).payload,
+        ).toMatchObject({ change: { oldAvailability: null, newAvailability: "SOLD_OUT" } });
+    });
+    it("maps search matches and safely preserves redaction", () => {
+        const { change: _change, ...product } = watchlistPayload;
+        const result = mapToInternalNotification(
+            notificationDto({
+                kind: "SEARCH_FILTER_MATCH",
+                payload: {
+                    ...product,
+                    title: null,
+                    image: null,
+                    productListingTitleSlugId: "",
+                    userSearchFilterId: "filter-1",
+                    userSearchFilterName: "Vases",
+                },
+            }),
+        );
+        expect(result.payload).toMatchObject({
+            type: "SEARCH_FILTER",
+            productListingId: "listing-1",
+            userSearchFilterId: "filter-1",
+            productTitle: undefined,
+            image: undefined,
+            productListingTitleSlugId: undefined,
+        });
+    });
+    it.each(["APPROVED", "REJECTED"] as const)("maps partnership %s", (decision) => {
+        expect(
+            mapToInternalNotification(
+                notificationDto({
+                    kind:
+                        decision === "APPROVED"
+                            ? "PARTNERSHIP_APPLICATION_APPROVED"
+                            : "PARTNERSHIP_APPLICATION_REJECTED",
+                    payload: {
+                        partnershipApplicationId: "application-1",
+                        decision,
+                        listingSourceName: "Shop",
+                        image: null,
+                    },
+                }),
+            ).payload,
+        ).toEqual({
+            type: "PARTNER_APPLICATION",
+            partnershipApplicationId: "application-1",
+            decision,
+            listingSourceName: "Shop",
+            image: undefined,
+        });
+    });
+    it.each(["invalid", "javascript:alert(1)", "data:image/svg+xml,unsafe"])(
+        "rejects unsafe image %s",
+        (url) => {
+            expect(
+                mapToInternalNotification(
+                    notificationDto({ payload: { ...watchlistPayload, image: { url } } }),
+                ).payload,
+            ).toMatchObject({ image: undefined });
         },
-    },
-};
-
-const mockWatchlistStateChangeNotification: GetNotificationData = {
-    originEventId: "origin-event-2",
-    notificationId: "notif-2",
-    seen: true,
-    external: true,
-    createdBy: "SYSTEM",
-    updatedBy: "SYSTEM",
-    created: "2024-02-10T09:00:00Z",
-    updated: "2024-07-01T10:00:00Z",
-    payload: {
-        type: "WATCHLIST",
-        productId: "prod-2",
-        shopId: "shop-2",
-        shopsProductId: "shops-prod-2",
-        shopSlugId: "old-books",
-        productSlugId: "rare-book",
-        shopName: "Old Books",
-        title: { text: "Rare Book", language: "en" },
-        url: "https://example.com/product/rare-book",
-        viewUrl: "https://example.com/product/rare-book?utm_source=test",
-        image: null,
-        watchlistPayload: {
-            type: "STATE_CHANGE",
-            oldState: "AVAILABLE",
-            newState: "SOLD",
-        },
-    },
-};
-
-const mockSearchFilterNotification: GetNotificationData = {
-    originEventId: "origin-event-3",
-    notificationId: "notif-3",
-    seen: false,
-    external: false,
-    createdBy: "SYSTEM",
-    updatedBy: "SYSTEM",
-    created: "2024-03-05T07:00:00Z",
-    updated: "2024-08-15T11:00:00Z",
-    payload: {
-        type: "SEARCH_FILTER",
-        productId: "prod-3",
-        shopId: "shop-3",
-        shopsProductId: "shops-prod-3",
-        shopSlugId: "art-gallery",
-        productSlugId: "baroque-painting",
-        shopName: "Art Gallery",
-        title: { text: "Baroque Painting", language: "en" },
-        url: "https://example.com/product/baroque-painting",
-        viewUrl: "https://example.com/product/baroque-painting?utm_source=test",
-        image: null,
-        searchFilterPayload: {
-            userSearchFilterId: "filter-abc",
-            userSearchFilterName: "My Baroque Filter",
-        },
-    },
-};
-
-const mockPartnerApplicationApprovedNotification: GetNotificationData = {
-    originEventId: "origin-event-4",
-    notificationId: "notif-4",
-    seen: false,
-    external: false,
-    createdBy: "SYSTEM",
-    updatedBy: "SYSTEM",
-    created: "2024-04-01T10:00:00Z",
-    updated: "2024-04-01T10:00:00Z",
-    payload: {
-        type: "PARTNER_APPLICATION",
-        shopName: "Antique Shop",
-        image: "https://example.com/logo.png",
-        partnerApplicationPayload: {
-            type: "APPROVED",
-            partnerApplicationId: "pa-1",
-        },
-    },
-};
-
-const mockPartnerApplicationRejectedNotification: GetNotificationData = {
-    originEventId: "origin-event-5",
-    notificationId: "notif-5",
-    seen: true,
-    external: false,
-    createdBy: "SYSTEM",
-    updatedBy: "SYSTEM",
-    created: "2024-05-01T10:00:00Z",
-    updated: "2024-05-01T10:00:00Z",
-    payload: {
-        type: "PARTNER_APPLICATION",
-        shopName: "Old Books",
-        image: null,
-        partnerApplicationPayload: {
-            type: "REJECTED",
-            partnerApplicationId: "pa-2",
-        },
-    },
-};
-
-describe("mapToInternalNotification", () => {
-    it("maps base fields correctly", () => {
-        const result = mapToInternalNotification(mockWatchlistPriceChangeNotification);
-
-        expect(result.originEventId).toBe("origin-event-1");
-        expect(result.notificationId).toBe("notif-1");
-        expect(result.seen).toBe(false);
-        expect(result.external).toBe(false);
-    });
-
-    it("parses created and updated as Date objects", () => {
-        const result = mapToInternalNotification(mockWatchlistPriceChangeNotification);
-
-        expect(result.created).toBeInstanceOf(Date);
-        expect(result.updated).toBeInstanceOf(Date);
-        expect(result.created.toISOString()).toBe("2024-01-15T08:00:00.000Z");
-        expect(result.updated.toISOString()).toBe("2024-06-20T12:30:00.000Z");
-    });
-
-    describe("WATCHLIST PRICE_CHANGE payload", () => {
-        it("maps payload type to WATCHLIST", () => {
-            const result = mapToInternalNotification(mockWatchlistPriceChangeNotification);
-            expect(result.payload.type).toBe("WATCHLIST");
-        });
-
-        it("maps product fields correctly", () => {
-            const result = mapToInternalNotification(mockWatchlistPriceChangeNotification);
-            if (result.payload.type !== "WATCHLIST") throw new Error("wrong type");
-
-            expect(result.payload.productId).toBe("prod-1");
-            expect(result.payload.shopId).toBe("shop-1");
-            expect(result.payload.shopName).toBe("Antique Shop");
-            expect(result.payload.productTitle).toBe("Vintage Vase");
-        });
-
-        it("maps watchlistPayload type to PRICE_CHANGE", () => {
-            const result = mapToInternalNotification(mockWatchlistPriceChangeNotification);
-            if (result.payload.type !== "WATCHLIST") throw new Error("wrong type");
-
-            expect(result.payload.watchlistPayload.type).toBe("PRICE_CHANGE");
-        });
-
-        it("maps old and new price", () => {
-            const result = mapToInternalNotification(mockWatchlistPriceChangeNotification);
-            if (result.payload.type !== "WATCHLIST") throw new Error("wrong type");
-            if (result.payload.watchlistPayload.type !== "PRICE_CHANGE")
-                throw new Error("wrong watchlist type");
-
-            expect(result.payload.watchlistPayload.oldPrice?.amount).toBe(10000);
-            expect(result.payload.watchlistPayload.newPrice?.amount).toBe(8000);
-        });
-    });
-
-    describe("WATCHLIST STATE_CHANGE payload", () => {
-        it("maps watchlistPayload type to STATE_CHANGE", () => {
-            const result = mapToInternalNotification(mockWatchlistStateChangeNotification);
-            if (result.payload.type !== "WATCHLIST") throw new Error("wrong type");
-
-            expect(result.payload.watchlistPayload.type).toBe("STATE_CHANGE");
-        });
-
-        it("maps oldState and newState correctly", () => {
-            const result = mapToInternalNotification(mockWatchlistStateChangeNotification);
-            if (result.payload.type !== "WATCHLIST") throw new Error("wrong type");
-            if (result.payload.watchlistPayload.type !== "STATE_CHANGE")
-                throw new Error("wrong watchlist type");
-
-            expect(result.payload.watchlistPayload.oldState).toBe("AVAILABLE");
-            expect(result.payload.watchlistPayload.newState).toBe("SOLD");
-        });
-    });
-
-    describe("SEARCH_FILTER payload", () => {
-        it("maps payload type to SEARCH_FILTER", () => {
-            const result = mapToInternalNotification(mockSearchFilterNotification);
-            expect(result.payload.type).toBe("SEARCH_FILTER");
-        });
-
-        it("maps searchFilterId and searchFilterName correctly", () => {
-            const result = mapToInternalNotification(mockSearchFilterNotification);
-            if (result.payload.type !== "SEARCH_FILTER") throw new Error("wrong type");
-
-            expect(result.payload.searchFilterId).toBe("filter-abc");
-            expect(result.payload.searchFilterName).toBe("My Baroque Filter");
-        });
-
-        it("maps product fields correctly", () => {
-            const result = mapToInternalNotification(mockSearchFilterNotification);
-            if (result.payload.type !== "SEARCH_FILTER") throw new Error("wrong type");
-
-            expect(result.payload.productTitle).toBe("Baroque Painting");
-            expect(result.payload.shopName).toBe("Art Gallery");
-        });
-    });
-
-    describe("PARTNER_APPLICATION payload", () => {
-        it("maps payload type to PARTNER_APPLICATION", () => {
-            const result = mapToInternalNotification(mockPartnerApplicationApprovedNotification);
-            expect(result.payload.type).toBe("PARTNER_APPLICATION");
-        });
-
-        it("maps shopName correctly", () => {
-            const result = mapToInternalNotification(mockPartnerApplicationApprovedNotification);
-            if (result.payload.type !== "PARTNER_APPLICATION") throw new Error("wrong type");
-            expect(result.payload.shopName).toBe("Antique Shop");
-        });
-
-        it("maps optional image correctly", () => {
-            const result = mapToInternalNotification(mockPartnerApplicationApprovedNotification);
-            if (result.payload.type !== "PARTNER_APPLICATION") throw new Error("wrong type");
-            expect(result.payload.image).toBe("https://example.com/logo.png");
-        });
-
-        it("maps APPROVED partnerApplicationPayload correctly", () => {
-            const result = mapToInternalNotification(mockPartnerApplicationApprovedNotification);
-            if (result.payload.type !== "PARTNER_APPLICATION") throw new Error("wrong type");
-            expect(result.payload.partnerApplicationPayload.type).toBe("APPROVED");
-            expect(result.payload.partnerApplicationPayload.partnerApplicationId).toBe("pa-1");
-        });
-
-        it("maps REJECTED partnerApplicationPayload correctly", () => {
-            const result = mapToInternalNotification(mockPartnerApplicationRejectedNotification);
-            if (result.payload.type !== "PARTNER_APPLICATION") throw new Error("wrong type");
-            expect(result.payload.image).toBeUndefined();
-            expect(result.payload.partnerApplicationPayload.type).toBe("REJECTED");
-            expect(result.payload.partnerApplicationPayload.partnerApplicationId).toBe("pa-2");
-        });
-    });
-});
-
-describe("mapToInternalNotificationCollection", () => {
-    const mockCollection: NotificationCollectionData = {
-        items: [mockWatchlistPriceChangeNotification, mockSearchFilterNotification],
-        size: 2,
-        total: 5,
-        searchAfter: "cursor-xyz",
-    };
-
-    it("maps all items in the collection", () => {
-        const result = mapToInternalNotificationCollection(mockCollection);
-        expect(result.items).toHaveLength(2);
-    });
-
-    it("maps size correctly", () => {
-        const result = mapToInternalNotificationCollection(mockCollection);
-        expect(result.size).toBe(2);
-    });
-
-    it("maps total correctly", () => {
-        const result = mapToInternalNotificationCollection(mockCollection);
-        expect(result.total).toBe(5);
-    });
-
-    it("maps searchAfter correctly", () => {
-        const result = mapToInternalNotificationCollection(mockCollection);
-        expect(result.searchAfter).toBe("cursor-xyz");
-    });
-
-    it("returns undefined for total when null", () => {
-        const result = mapToInternalNotificationCollection({ ...mockCollection, total: null });
-        expect(result.total).toBeUndefined();
-    });
-
-    it("returns undefined for searchAfter when null", () => {
+    );
+    it("serializes the tuple cursor losslessly and does not invent totals", () => {
+        const cursor: [string, string] = ["2026-09-10T10:00:00Z", "notification-1"];
         const result = mapToInternalNotificationCollection({
-            ...mockCollection,
-            searchAfter: null,
+            items: [notificationDto()],
+            size: 1,
+            searchAfter: cursor,
         });
-        expect(result.searchAfter).toBeUndefined();
-    });
-
-    it("handles empty items array", () => {
-        const result = mapToInternalNotificationCollection({ items: [], size: 0 });
-        expect(result.items).toHaveLength(0);
+        expect(result.searchAfter).toBe(JSON.stringify(cursor));
+        expect(result).not.toHaveProperty("total");
+        expect(
+            mapToInternalNotificationCollection({ items: [], size: 0, searchAfter: null })
+                .searchAfter,
+        ).toBeUndefined();
     });
 });

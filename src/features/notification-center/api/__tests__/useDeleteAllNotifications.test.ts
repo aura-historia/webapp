@@ -7,7 +7,7 @@ const mockDeleteAllNotifications = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
 
 vi.mock("@/client", () => ({
-    deleteAllNotifications: mockDeleteAllNotifications,
+    deleteNotifications: mockDeleteAllNotifications,
 }));
 
 vi.mock("@/hooks/common/useApiError.ts", () => ({
@@ -46,7 +46,7 @@ describe("useDeleteAllNotifications", () => {
     });
 
     it("should call deleteAllNotifications", async () => {
-        mockDeleteAllNotifications.mockResolvedValue({ data: null, error: null });
+        mockDeleteAllNotifications.mockResolvedValue({ data: undefined, error: null });
 
         const { result } = renderHook(() => useDeleteAllNotifications(), {
             wrapper: createWrapper(),
@@ -77,7 +77,7 @@ describe("useDeleteAllNotifications", () => {
     });
 
     it("should invalidate getNotifications query on success", async () => {
-        mockDeleteAllNotifications.mockResolvedValue({ data: null, error: null });
+        mockDeleteAllNotifications.mockResolvedValue({ data: undefined, error: null });
 
         const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
 
