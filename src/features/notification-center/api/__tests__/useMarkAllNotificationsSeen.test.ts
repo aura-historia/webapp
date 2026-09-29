@@ -91,6 +91,8 @@ describe("useMarkAllNotificationsSeen", () => {
             expect(result.current.isSuccess).toBe(true);
         });
 
-        expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["getNotifications"] });
+        expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["getNotifications", "user-1"] });
     });
 });
+
+vi.mock("aws-amplify/auth", () => ({ getCurrentUser: async () => ({ userId: "user-1" }) }));

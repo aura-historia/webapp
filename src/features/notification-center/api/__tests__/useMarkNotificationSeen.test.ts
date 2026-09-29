@@ -101,17 +101,8 @@ describe("useMarkNotificationSeen", () => {
             expect(result.current.isSuccess).toBe(true);
         });
 
-        const expectedKeys = [
-            "search",
-            "similarProductListings",
-            "dealerProducts",
-            "searchFilterMatchedProducts",
-            "watchlist",
-            "getNotifications",
-        ];
-
-        for (const key of expectedKeys) {
-            expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: [key] });
-        }
+        expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["getNotifications", "user-1"] });
     });
 });
+
+vi.mock("aws-amplify/auth", () => ({ getCurrentUser: async () => ({ userId: "user-1" }) }));

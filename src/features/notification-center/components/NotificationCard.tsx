@@ -21,9 +21,11 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { Button } from "@/components/ui/button.tsx";
 import { Check, ImageOff, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useRouteContext } from "@tanstack/react-router";
 
 export function NotificationCard({ notification }: { readonly notification: Notification }) {
     const { t, i18n } = useTranslation();
+    const { timeZone } = useRouteContext({ from: "__root__" });
     const markAsSeen = useMarkNotificationSeen();
     const deleteNotification = useDeleteNotification();
     const { data: userAccount } = useUserAccount();
@@ -150,7 +152,7 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                     <span className="text-base text-muted-foreground shrink-0 ml-auto">
                         {new Intl.DateTimeFormat(i18n.language, {
                             dateStyle: "medium",
-                            timeZone: "UTC",
+                            timeZone,
                         }).format(notification.created)}
                     </span>
                 </div>

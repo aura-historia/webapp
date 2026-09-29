@@ -14,9 +14,11 @@ import { ProductListingLink } from "@/features/product/catalog/components/Produc
 import { Button } from "@/components/ui/button.tsx";
 import { Check, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useRouteContext } from "@tanstack/react-router";
 
 export function NotificationItem({ notification }: { readonly notification: Notification }) {
     const { t, i18n } = useTranslation();
+    const { timeZone } = useRouteContext({ from: "__root__" });
     const markAsSeen = useMarkNotificationSeen();
     const deleteNotification = useDeleteNotification();
     const { payload, seen } = notification;
@@ -111,7 +113,7 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                         <span className="ml-auto shrink-0 text-[11px] text-muted-foreground">
                             {new Intl.DateTimeFormat(i18n.language, {
                                 dateStyle: "medium",
-                                timeZone: "UTC",
+                                timeZone,
                             }).format(notification.created)}
                         </span>
                     </div>

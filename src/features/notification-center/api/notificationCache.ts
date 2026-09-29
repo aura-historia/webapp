@@ -1,10 +1,8 @@
 import type { InfiniteData, QueryClient } from "@tanstack/react-query";
+import { getCurrentUser } from "aws-amplify/auth";
 import type { NotificationCollection } from "@/data/internal/notification/Notification.ts";
 import type { ProductListingUserState } from "@/data/internal/product/UserProductData.ts";
-import {
-    invalidateWatchlistRelatedQueries,
-    isProductListingDetailQuery,
-} from "@/features/watchlist/api/watchlistCache.ts";
+import { isProductListingDetailQuery } from "@/features/watchlist/api/watchlistCache.ts";
 
 const listingPrefixes = new Set([
     "watchlist",
@@ -14,7 +12,21 @@ const listingPrefixes = new Set([
     "searchFilterMatchedProducts",
     "searchFilterPreviewProducts",
     "productListings",
+    "sourceProductListings",
 ]);
+
+/** Capture the authenticated identity before the mutation request is dispatched. */
+export async function getNotificationMutationViewer(): Promise<string> {
+    return (await getCurrentUser()).userId;
+}
+
+async function isCurrentViewer(viewerId: string): Promise<boolean> {
+    try {
+        return (await getCurrentUser()).userId === viewerId;
+    } catch {
+        return false;
+    }
+}
 
 // Collection caches contain domain models; detail query caches contain personalized wrappers.
 // Both carry the same unread ID projection. Only update that projection.
@@ -51,12 +63,35 @@ export async function commitNotificationMutation(
     queryClient: QueryClient,
     notificationIds: readonly string[] | undefined,
     action: "seen" | "delete",
+    viewerId: string | undefined,
 ) {
+    if (!viewerId || !(await isCurrentViewer(viewerId))) return;
     const ids = notificationIds === undefined ? undefined : new Set(notificationIds);
+    const notificationKey = ["getNotifications", viewerId];
+    const listingQueries = queryClient.getQueryCache().findAll({
+        predicate: ({ queryKey }) => {
+            if (queryKey[0] === "watchlist") return queryKey[1] === viewerId;
+            if (queryKey[0] === "productListings") {
+                return queryKey.some(
+                    (part, index) => part === "viewer" && queryKey[index + 1] === viewerId,
+                );
+            }
+            return (
+                listingPrefixes.has(String(queryKey[0])) || isProductListingDetailQuery(queryKey)
+            );
+        },
+    });
     // Stop older list responses from overwriting the acknowledged mutation.
-    await queryClient.cancelQueries({ queryKey: ["getNotifications"] });
+    await Promise.all([
+        queryClient.cancelQueries({ queryKey: notificationKey }),
+        ...listingQueries.map((query) =>
+            queryClient.cancelQueries({ queryKey: query.queryKey, exact: true }),
+        ),
+    ]);
+    // An account transition may have occurred while awaiting cancellation.
+    if (!(await isCurrentViewer(viewerId))) return;
     queryClient.setQueriesData<InfiniteData<NotificationCollection>>(
-        { queryKey: ["getNotifications"] },
+        { queryKey: notificationKey },
         (data) =>
             data && {
                 ...data,
@@ -82,21 +117,13 @@ export async function commitNotificationMutation(
                 }),
             },
     );
-    const listingQueries = queryClient.getQueryCache().findAll({
-        predicate: ({ queryKey }) =>
-            listingPrefixes.has(String(queryKey[0])) || isProductListingDetailQuery(queryKey),
-    });
-    await Promise.all(
-        listingQueries.map((query) =>
-            queryClient.cancelQueries({ queryKey: query.queryKey, exact: true }),
-        ),
-    );
     for (const query of listingQueries) {
         queryClient.setQueryData(query.queryKey, (data: unknown) => updateUnreadState(data, ids));
     }
     await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ["getNotifications"] }),
-        queryClient.invalidateQueries({ queryKey: ["productListings"] }),
-        invalidateWatchlistRelatedQueries(queryClient),
+        queryClient.invalidateQueries({ queryKey: notificationKey }),
+        ...listingQueries.map((query) =>
+            queryClient.invalidateQueries({ queryKey: query.queryKey, exact: true }),
+        ),
     ]);
 }

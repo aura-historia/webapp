@@ -16,6 +16,13 @@ const api = vi.hoisted(() => ({
     deleteNotification: vi.fn(),
     deleteNotifications: vi.fn(),
 }));
+const auth = vi.hoisted(() => ({ userId: "user-1" as string | undefined }));
+vi.mock("aws-amplify/auth", () => ({
+    getCurrentUser: async () => {
+        if (!auth.userId) throw new Error("Signed out");
+        return { userId: auth.userId };
+    },
+}));
 vi.mock("@/client", () => api);
 vi.mock("@/hooks/common/useApiError.ts", () => ({
     useApiError: () => ({ getErrorMessage: () => "Request failed" }),
@@ -48,6 +55,7 @@ describe("204 notification mutations", () => {
         }>(listingKey)?.products[0].userState.notification;
     beforeEach(() => {
         vi.clearAllMocks();
+        auth.userId = "user-1";
         for (const method of Object.values(api))
             method.mockResolvedValue({ data: undefined, response: { status: 204 } });
         client = new QueryClient({
@@ -142,8 +150,92 @@ describe("204 notification mutations", () => {
                 },
             ],
         });
-        expect(invalidate).toHaveBeenCalledWith({ predicate: expect.any(Function) });
-        expect(invalidate).toHaveBeenCalledWith({ queryKey: ["searchFilterMatchedProducts"] });
+        expect(invalidate).toHaveBeenCalledWith({ queryKey: detailKey, exact: true });
+        expect(invalidate).toHaveBeenCalledWith({ queryKey: matchKey, exact: true });
+    });
+
+    it("updates and invalidates shop-profile listing unread state", async () => {
+        const shopKey = ["sourceProductListings", "source-1", "en", "USD", 20];
+        client.setQueryData(shopKey, {
+            pages: [client.getQueryData(listingKey)],
+            pageParams: [undefined],
+        });
+        const invalidate = vi.spyOn(client, "invalidateQueries");
+        const { result } = renderHook(() => useMarkNotificationsSeen(), { wrapper });
+        await act(() => result.current.mutateAsync(["notification-1", "notification-2"]));
+        expect(client.getQueryData(shopKey)).toMatchObject({
+            pages: [
+                {
+                    products: [
+                        {
+                            userState: {
+                                notification: {
+                                    unseenNotificationIds: [],
+                                    hasUnseenNotification: false,
+                                },
+                            },
+                        },
+                    ],
+                },
+            ],
+        });
+        expect(invalidate).toHaveBeenCalledWith({ queryKey: shopKey, exact: true });
+    });
+
+    it("leaves other viewers' partitioned caches unchanged", async () => {
+        const otherKey = ["getNotifications", "user-2", "en"];
+        const otherWatchlistKey = ["watchlist", "user-2", "en", "USD"];
+        const otherListingKey = ["productListings", "summary", "en", "USD", "viewer", "user-2"];
+        client.setQueryData(otherKey, client.getQueryData(key));
+        client.setQueryData(otherWatchlistKey, client.getQueryData(listingKey));
+        client.setQueryData(otherListingKey, client.getQueryData(listingKey));
+        const otherNotifications = client.getQueryData(otherKey);
+        const otherListings = client.getQueryData(otherWatchlistKey);
+        const { result } = renderHook(() => useDeleteAllNotifications(), { wrapper });
+        await act(() => result.current.mutateAsync());
+        expect(client.getQueryData(otherKey)).toBe(otherNotifications);
+        expect(client.getQueryData(otherWatchlistKey)).toBe(otherListings);
+        expect(client.getQueryData(otherListingKey)).toBe(otherListings);
+        expect(client.getQueryState(otherKey)?.isInvalidated).toBe(false);
+        expect(client.getQueryState(otherWatchlistKey)?.isInvalidated).toBe(false);
+    });
+
+    it.each(["user-2", undefined])(
+        "discards late mark-all responses after switching to %s",
+        async (nextViewer) => {
+            let resolveRequest!: (value: { data: undefined }) => void;
+            api.updateAllNotificationsSeen.mockImplementation(
+                () =>
+                    new Promise((resolve) => {
+                        resolveRequest = resolve;
+                    }),
+            );
+            const { result } = renderHook(() => useMarkAllNotificationsSeen(), { wrapper });
+            result.current.mutate();
+            await waitFor(() => expect(api.updateAllNotificationsSeen).toHaveBeenCalled());
+            const before = client.getQueryData(key);
+            const beforeListings = client.getQueryData(listingKey);
+            auth.userId = nextViewer;
+            await act(async () => {
+                resolveRequest({ data: undefined });
+            });
+            await waitFor(() => expect(result.current.isSuccess).toBe(true));
+            expect(client.getQueryData(key)).toBe(before);
+            expect(client.getQueryData(listingKey)).toBe(beforeListings);
+            expect(client.getQueryState(listingKey)?.isInvalidated).toBe(false);
+        },
+    );
+
+    it("rechecks the viewer after awaiting query cancellation", async () => {
+        const before = client.getQueryData(key);
+        const beforeListings = client.getQueryData(listingKey);
+        vi.spyOn(client, "cancelQueries").mockImplementation(async () => {
+            auth.userId = "user-2";
+        });
+        const { result } = renderHook(() => useDeleteAllNotifications(), { wrapper });
+        await act(() => result.current.mutateAsync());
+        expect(client.getQueryData(key)).toBe(before);
+        expect(client.getQueryData(listingKey)).toBe(beforeListings);
     });
     it("selected-bulk sends explicit IDs, never mark-all", async () => {
         const { result } = renderHook(() => useMarkNotificationsSeen(), { wrapper });

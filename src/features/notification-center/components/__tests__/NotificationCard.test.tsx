@@ -11,6 +11,11 @@ const mockUseUserAccount = vi.hoisted(() => vi.fn());
 const mockUseMarkNotificationSeen = vi.hoisted(() => vi.fn());
 const mockUseDeleteNotification = vi.hoisted(() => vi.fn());
 
+vi.mock("@tanstack/react-router", async (importOriginal) => ({
+    ...(await importOriginal<typeof import("@tanstack/react-router")>()),
+    useRouteContext: () => ({ timeZone: "America/New_York" }),
+}));
+
 vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
     useUserAccount: mockUseUserAccount,
 }));
@@ -67,6 +72,14 @@ describe("NotificationCard", () => {
 
     for (const Component of [NotificationCard, NotificationItem]) {
         describe(Component.name, () => {
+            it("formats near-midnight dates in the server-provided visitor timezone", async () => {
+                const value = notification({ created: "2026-09-10T00:30:00Z" });
+                await act(async () => {
+                    renderWithRouter(<Component notification={value} />);
+                });
+                expect(screen.getByText("09.09.2026")).toBeInTheDocument();
+                expect(screen.queryByText("10.09.2026")).not.toBeInTheDocument();
+            });
             it("renders redacted on-request/null prices without a listing link or image", async () => {
                 const value = notification({
                     payload: {
