@@ -160,4 +160,58 @@ describe("useWatchlistMutation", () => {
                 ?.pages[0].products[0].userState?.watchlist.watching,
         ).toBe(true);
     });
+
+    it("does not restore the previous viewer's caches after they have been removed", async () => {
+        let resolveMutation!: (value: {
+            data: null;
+            error: { message: string };
+            response: { status: number };
+        }) => void;
+        mockAdd.mockReturnValue(
+            new Promise((resolve) => {
+                resolveMutation = resolve;
+            }),
+        );
+        const { result } = renderHook(() => useWatchlistMutation(productListingId), { wrapper });
+
+        const mutation = result.current.mutateAsync("addToWatchlist");
+        const mutationFailure = expect(mutation).rejects.toThrow("Mutation failed");
+        await waitFor(() => {
+            expect(
+                queryClient.getQueryData<{ pages: Array<{ products: ProductListing[] }> }>(
+                    searchKey,
+                )?.pages[0].products[0].userState?.watchlist.watching,
+            ).toBe(true);
+        });
+
+        queryClient.removeQueries({
+            predicate: ({ queryKey }) => queryKey[0] === "watchlist" || queryKey[0] === "search",
+        });
+        const nextViewerListing: ProductListing = {
+            ...listing,
+            userState: {
+                contentVisibility: { showUnassessedOrSensitiveContent: false },
+                notification: { unseenNotificationIds: [], hasUnseenNotification: false },
+                searchFilter: { matched: false, hidden: false },
+                watchlist: { watching: false, notifications: false },
+            },
+        };
+        queryClient.setQueryData(searchKey, {
+            pages: [{ products: [nextViewerListing], total: 1 }],
+            pageParams: [undefined],
+        });
+
+        resolveMutation({
+            data: null,
+            error: { message: "Mutation failed" },
+            response: { status: 500 },
+        });
+        await mutationFailure;
+
+        expect(queryClient.getQueryData(watchlistKey)).toBeUndefined();
+        expect(
+            queryClient.getQueryData<{ pages: Array<{ products: ProductListing[] }> }>(searchKey)
+                ?.pages[0].products[0].userState?.watchlist,
+        ).toEqual({ watching: false, notifications: false });
+    });
 });

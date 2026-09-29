@@ -67,7 +67,7 @@ export function snapshotWatchlistListingCaches(queryClient: QueryClient) {
     return queryClient
         .getQueryCache()
         .findAll({ predicate: ({ queryKey }) => isListingStateQuery(queryKey) })
-        .map(({ queryKey }) => [queryKey, queryClient.getQueryData(queryKey)] as const);
+        .map((query) => ({ query, data: query.state.data }));
 }
 
 export function updateWatchlistListingCaches(
@@ -75,9 +75,9 @@ export function updateWatchlistListingCaches(
     productListingId: string,
     update: (listing: ProductListing) => ProductListing | null,
 ) {
-    for (const [queryKey, data] of snapshotWatchlistListingCaches(queryClient)) {
+    for (const { query, data } of snapshotWatchlistListingCaches(queryClient)) {
         const next = updateListingCollections(data, productListingId, update);
-        if (next !== data) queryClient.setQueryData(queryKey, next);
+        if (next !== data) queryClient.setQueryData(query.queryKey, next);
     }
 }
 
@@ -85,10 +85,10 @@ export function removeListingFromWatchlistCache(
     queryClient: QueryClient,
     productListingId: string,
 ) {
-    for (const [queryKey, data] of snapshotWatchlistListingCaches(queryClient)) {
-        if (queryKey[0] !== "watchlist") continue;
+    for (const { query, data } of snapshotWatchlistListingCaches(queryClient)) {
+        if (query.queryKey[0] !== "watchlist") continue;
         const next = updateListingCollections(data, productListingId, () => null);
-        if (next !== data) queryClient.setQueryData(queryKey, next);
+        if (next !== data) queryClient.setQueryData(query.queryKey, next);
     }
 }
 
@@ -96,8 +96,10 @@ export function restoreWatchlistListingCaches(
     queryClient: QueryClient,
     snapshots: ReturnType<typeof snapshotWatchlistListingCaches> | undefined,
 ) {
-    for (const [queryKey, data] of snapshots ?? []) {
-        queryClient.setQueryData(queryKey, data);
+    const queryCache = queryClient.getQueryCache();
+    for (const { query, data } of snapshots ?? []) {
+        if (queryCache.get(query.queryHash) !== query) continue;
+        queryClient.setQueryData(query.queryKey, data);
     }
 }
 
