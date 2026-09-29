@@ -62,7 +62,7 @@ export function MatchFeedbackButtons({
                 active={currentFeedback === true}
                 activeClass="fill-primary text-primary"
                 disabled={isPending}
-                onClick={() => mutate(true)}
+                onClick={() => mutate(currentFeedback === true ? null : true)}
             />
             <FeedbackButton
                 icon={ThumbsDown}
@@ -70,7 +70,7 @@ export function MatchFeedbackButtons({
                 active={currentFeedback === false}
                 activeClass="fill-destructive text-destructive"
                 disabled={isPending}
-                onClick={() => mutate(false)}
+                onClick={() => mutate(currentFeedback === false ? null : false)}
             />
         </div>
     );

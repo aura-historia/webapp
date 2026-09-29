@@ -68,7 +68,7 @@ export function SearchFilterConfigurationGrid({ search }: Props) {
         : FILTER_DEFAULTS.availability;
     const allAvailabilitySelected = displayedAvailability.length === LISTING_AVAILABILITIES.length;
 
-    if (queryTerms.length === 0 && !hasActiveFilters(search)) {
+    if (queryTerms.length === 0 && !hasActiveFilters(search) && search.availability == null) {
         return (
             <p className="text-sm text-muted-foreground italic">
                 {t("searchFilters.noAdditionalCriteria")}

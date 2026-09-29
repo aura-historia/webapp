@@ -46,21 +46,16 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
 });
 
 const buildProduct = (overrides: Partial<ProductListing> = {}): ProductListing => ({
-    productId: "p1",
-    productSlugId: "product-1",
-    eventId: "e1",
-    shopId: "s1",
-    shopSlugId: "shop-1",
-    shopsProductId: "si1",
-    shopName: "Test Shop",
-    sellerName: "Test Shop",
-    shopType: "AUCTION_HOUSE",
+    productListingId: "p1",
+    source: { listingSourceId: "s1", name: "Test Shop", slugId: "shop-1" },
+    sourceListingId: "si1",
     title: "Antike Vase",
-    price: "100 €",
-    state: "AVAILABLE",
-    url: null,
+    priceValuation: "CURRENT",
+    valuation: { type: "CURRENT", fxRateId: "fx-1", capturedAt: new Date("2024-01-01") },
+    availability: "AVAILABLE",
+    lifecycle: "ACTIVE",
     images: [],
-    created: new Date("2024-01-01"),
+    contentPolicy: null,
     updated: new Date("2024-01-01"),
     ...overrides,
 });
@@ -150,8 +145,8 @@ describe("SearchFilterMatches", () => {
         it("renders one match card per product", () => {
             setMatchesMock({
                 products: [
-                    buildProduct({ productId: "p1", title: "Vase 1" }),
-                    buildProduct({ productId: "p2", title: "Vase 2" }),
+                    buildProduct({ productListingId: "p1", title: "Vase 1" }),
+                    buildProduct({ productListingId: "p2", title: "Vase 2" }),
                 ],
                 total: 2,
             });
@@ -164,15 +159,18 @@ describe("SearchFilterMatches", () => {
         it("renders HiddenMatchCard instead of a product card for hidden products", () => {
             setMatchesMock({
                 products: [
-                    buildProduct({ productId: "p1", title: "Sichtbar" }),
+                    buildProduct({ productListingId: "p1", title: "Sichtbar" }),
                     buildProduct({
-                        productId: "p2",
+                        productListingId: "p2",
                         title: "Verborgen",
-                        userData: {
-                            watchlistData: { isWatching: false, isNotificationEnabled: false },
-                            notificationData: { hasUnseenNotification: false },
-                            restrictedContentData: { consentGiven: false },
-                            searchFilterData: { matched: true, hidden: true },
+                        userState: {
+                            watchlist: { watching: false, notifications: false },
+                            notification: {
+                                unseenNotificationIds: [],
+                                hasUnseenNotification: false,
+                            },
+                            contentVisibility: { showUnassessedOrSensitiveContent: false },
+                            searchFilter: { matched: true, hidden: true },
                         },
                     }),
                 ],

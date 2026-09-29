@@ -55,6 +55,16 @@ describe("mapToInternalUserSearchFilter", () => {
         expect(result.search.priceTo).toBe(50);
     });
 
+    it("maps currency and converts minor units using that currency", () => {
+        const result = mapProductSearchDataToSearchFilterArguments({
+            currency: "JPY",
+            price: { min: 2500, max: 9000 },
+        });
+        expect(result.currency).toBe("JPY");
+        expect(result.priceFrom).toBe(2500);
+        expect(result.priceTo).toBe(9000);
+    });
+
     it("maps productQuery to q", () => {
         const result = mapToInternalUserSearchFilter(baseFilterData);
         expect(result.search.q).toBe("Tisch");
@@ -165,6 +175,18 @@ describe("mapSearchFilterArgumentsToProductSearchData", () => {
         });
         expect(result.price?.min).toBe(2000);
         expect(result.price?.max).toBe(10000);
+    });
+
+    it("maps currency and converts amounts to currency minor units", () => {
+        const result = mapSearchFilterArgumentsToProductSearchData({
+            q: "",
+            currency: "JPY",
+            priceFrom: 2500,
+            priceTo: 9000,
+        });
+        expect(result.currency).toBe("JPY");
+        expect(result.price?.min).toBe(2500);
+        expect(result.price?.max).toBe(9000);
     });
 
     it("omits price when neither priceFrom nor priceTo is set", () => {

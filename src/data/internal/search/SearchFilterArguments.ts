@@ -2,9 +2,11 @@ import type { ListingAvailability } from "@/data/internal/product/ProductListing
 import { LISTING_AVAILABILITIES } from "@/data/internal/product/ProductListingDomain.ts";
 import type { ListingOrderability } from "@/data/internal/product/ListingOrderability.ts";
 import type { SortMode } from "@/data/internal/search/SortMode.ts";
+import type { Currency } from "@/data/internal/common/Currency.ts";
 
 export type SearchFilterArguments = {
     q: string;
+    currency?: Currency;
     queryTerms?: string[];
     enhancedSearchDescription?: string;
     excludeProductId?: string[];

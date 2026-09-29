@@ -7,6 +7,7 @@ import {
 export type SearchFilterMatchProductCollection = {
     readonly items: readonly ProductListing[];
     readonly size: number;
+    /** JSON serialized [created, productListingId] cursor for this endpoint. */
     readonly searchAfter?: string;
     readonly total?: number;
 };

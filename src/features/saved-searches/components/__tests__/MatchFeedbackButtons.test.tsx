@@ -15,8 +15,7 @@ vi.mock("@/features/saved-searches/api/useSearchFilterMatchFeedback.ts", () => (
 
 const defaultProps = {
     filterId: "filter-1",
-    shopId: "shop-1",
-    shopsProductId: "product-1",
+    productListingId: "listing-1",
 };
 
 describe("MatchFeedbackButtons", () => {
@@ -94,9 +93,21 @@ describe("MatchFeedbackButtons", () => {
     it("passes correct ids to useSearchFilterMatchFeedback", async () => {
         await act(() => {
             renderWithQueryClient(
-                <MatchFeedbackButtons filterId="f-abc" shopId="s-xyz" shopsProductId="p-123" />,
+                <MatchFeedbackButtons filterId="f-abc" productListingId="listing-123" />,
             );
         });
-        expect(mockUseHook).toHaveBeenCalledWith("f-abc", "s-xyz", "p-123");
+        expect(mockUseHook).toHaveBeenCalledWith("f-abc", "listing-123");
+    });
+
+    it("clears an existing positive or negative response", async () => {
+        const { rerender } = renderWithQueryClient(
+            <MatchFeedbackButtons {...defaultProps} currentFeedback={true} />,
+        );
+        await act(() => fireEvent.click(screen.getAllByRole("button")[0]));
+        expect(mockMutate).toHaveBeenCalledWith(null);
+
+        rerender(<MatchFeedbackButtons {...defaultProps} currentFeedback={false} />);
+        await act(() => fireEvent.click(screen.getAllByRole("button")[1]));
+        expect(mockMutate).toHaveBeenLastCalledWith(null);
     });
 });

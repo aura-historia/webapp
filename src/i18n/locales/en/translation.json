@@ -1574,7 +1574,14 @@
       "relevantHint": "Match is relevant",
       "notRelevantHint": "Match is not relevant"
     },
-    "feedbackError": "Failed to save feedback."
+    "feedbackError": "Failed to save feedback.",
+    "preview": {
+      "title": "Listing preview",
+      "description": "A live preview from listing search. Persisted matches appear separately on the filter detail page.",
+      "unavailable": "A preview is unavailable because this filter contains criteria that listing search cannot express.",
+      "error": "The preview could not be loaded.",
+      "empty": "No listings match these criteria right now."
+    }
   },
   "partnerDashboard": {
     "title": "Partner Dashboard",

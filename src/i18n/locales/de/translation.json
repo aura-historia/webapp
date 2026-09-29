@@ -1574,7 +1574,14 @@
       "relevantHint": "Treffer ist relevant",
       "notRelevantHint": "Treffer ist nicht relevant"
     },
-    "feedbackError": "Feedback konnte nicht gespeichert werden."
+    "feedbackError": "Feedback konnte nicht gespeichert werden.",
+    "preview": {
+      "title": "Vorschau der Angebote",
+      "description": "Eine aktuelle Vorschau aus der Angebotssuche. Gespeicherte Treffer erscheinen separat auf der Detailseite des Suchauftrags.",
+      "unavailable": "Eine Vorschau ist nicht verfügbar, weil dieser Suchauftrag Kriterien enthält, die die Angebotssuche nicht abbilden kann.",
+      "error": "Die Vorschau konnte nicht geladen werden.",
+      "empty": "Derzeit entsprechen keine Angebote diesen Kriterien."
+    }
   },
   "partnerDashboard": {
     "title": "Partner-Dashboard",

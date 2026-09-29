@@ -50,31 +50,37 @@ describe("useSearchFilterMatchFeedback", () => {
         });
     });
 
+    const matchData = {
+        userId: "user-1",
+        userSearchFilterId: "f-1",
+        productListingId: "listing-1",
+        originEventId: "event-1",
+        feedback: false,
+        created: "2026-09-20T12:00:00Z",
+        updated: "2026-09-21T12:00:00Z",
+    };
+
     it("calls API with correct path and body on mutate(true)", async () => {
-        mockUpdateFeedback.mockResolvedValue({ data: {}, error: null });
+        mockUpdateFeedback.mockResolvedValue({ data: matchData, error: null });
 
-        const { result } = renderHook(
-            () => useSearchFilterMatchFeedback("f-1", "shop-1", "prod-1"),
-            { wrapper: createWrapper() },
-        );
-
-        await act(async () => {
-            result.current.mutate(true);
+        const { result } = renderHook(() => useSearchFilterMatchFeedback("f-1", "listing-1"), {
+            wrapper: createWrapper(),
         });
 
+        await act(async () => result.current.mutateAsync(true));
+
         expect(mockUpdateFeedback).toHaveBeenCalledWith({
-            path: { userSearchFilterId: "f-1", shopId: "shop-1", shopsProductId: "prod-1" },
+            path: { userSearchFilterId: "f-1", productListingId: "listing-1" },
             body: { feedback: true },
         });
     });
 
     it("calls API with feedback=false on mutate(false)", async () => {
-        mockUpdateFeedback.mockResolvedValue({ data: {}, error: null });
+        mockUpdateFeedback.mockResolvedValue({ data: matchData, error: null });
 
-        const { result } = renderHook(
-            () => useSearchFilterMatchFeedback("f-1", "shop-1", "prod-1"),
-            { wrapper: createWrapper() },
-        );
+        const { result } = renderHook(() => useSearchFilterMatchFeedback("f-1", "listing-1"), {
+            wrapper: createWrapper(),
+        });
 
         await act(async () => {
             result.current.mutate(false);
@@ -85,17 +91,28 @@ describe("useSearchFilterMatchFeedback", () => {
         );
     });
 
-    it("invalidates query on success", async () => {
-        mockUpdateFeedback.mockResolvedValue({ data: {}, error: null });
+    it("sends null to clear saved feedback", async () => {
+        mockUpdateFeedback.mockResolvedValue({ data: matchData, error: null });
 
-        const { result } = renderHook(
-            () => useSearchFilterMatchFeedback("f-1", "shop-1", "prod-1"),
-            { wrapper: createWrapper() },
-        );
-
-        await act(async () => {
-            result.current.mutate(true);
+        const { result } = renderHook(() => useSearchFilterMatchFeedback("f-1", "listing-1"), {
+            wrapper: createWrapper(),
         });
+
+        await act(async () => result.current.mutate(null));
+        expect(mockUpdateFeedback).toHaveBeenCalledWith({
+            path: { userSearchFilterId: "f-1", productListingId: "listing-1" },
+            body: { feedback: null },
+        });
+    });
+
+    it("invalidates query on success", async () => {
+        mockUpdateFeedback.mockResolvedValue({ data: matchData, error: null });
+
+        const { result } = renderHook(() => useSearchFilterMatchFeedback("f-1", "listing-1"), {
+            wrapper: createWrapper(),
+        });
+
+        await act(async () => result.current.mutateAsync(true));
 
         expect(mockInvalidateQueries).toHaveBeenCalledWith(
             expect.objectContaining({ queryKey: ["searchFilterMatchedProducts", "f-1"] }),
@@ -108,10 +125,9 @@ describe("useSearchFilterMatchFeedback", () => {
             error: { status: 400, error: "BAD_REQUEST" },
         });
 
-        const { result } = renderHook(
-            () => useSearchFilterMatchFeedback("f-1", "shop-1", "prod-1"),
-            { wrapper: createWrapper() },
-        );
+        const { result } = renderHook(() => useSearchFilterMatchFeedback("f-1", "listing-1"), {
+            wrapper: createWrapper(),
+        });
 
         await act(async () => {
             result.current.mutate(true);
@@ -123,10 +139,9 @@ describe("useSearchFilterMatchFeedback", () => {
     it("shows toast error on unexpected rejection", async () => {
         mockUpdateFeedback.mockRejectedValue(new Error("Netzwerkfehler"));
 
-        const { result } = renderHook(
-            () => useSearchFilterMatchFeedback("f-1", "shop-1", "prod-1"),
-            { wrapper: createWrapper() },
-        );
+        const { result } = renderHook(() => useSearchFilterMatchFeedback("f-1", "listing-1"), {
+            wrapper: createWrapper(),
+        });
 
         await act(async () => {
             result.current.mutate(true);
@@ -136,10 +151,9 @@ describe("useSearchFilterMatchFeedback", () => {
     });
 
     it("returns isPending false initially", () => {
-        const { result } = renderHook(
-            () => useSearchFilterMatchFeedback("f-1", "shop-1", "prod-1"),
-            { wrapper: createWrapper() },
-        );
+        const { result } = renderHook(() => useSearchFilterMatchFeedback("f-1", "listing-1"), {
+            wrapper: createWrapper(),
+        });
         expect(result.current.isPending).toBe(false);
     });
 });
