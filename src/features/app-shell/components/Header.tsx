@@ -17,6 +17,7 @@ import {
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu.tsx";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
+import { clearViewerScopedQueries } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
@@ -171,37 +172,12 @@ export function Header() {
         previousUserIdRef.current = currentUserId;
         if (previousUserId === undefined || previousUserId === currentUserId) return;
 
-        const userScopedQueryPrefixes = new Set([
-            "watchlist",
-            "search",
-            "similarProductListings",
-            "dealerProducts",
-            "searchFilterMatchedProducts",
-            "searchFilterPreviewProducts",
-            "getNotifications",
-            "userAccount",
-            "userSearchFilters",
-            "userSearchFilter",
-        ]);
-
-        queryClient.removeQueries({
-            predicate: ({ queryKey }) =>
-                (typeof queryKey[0] === "string" && userScopedQueryPrefixes.has(queryKey[0])) ||
-                queryKey.some(
-                    (part) =>
-                        typeof part === "object" &&
-                        part !== null &&
-                        "_id" in part &&
-                        ["getProductListingByTitleSlug", "getProductListing"].includes(
-                            String((part as { _id?: unknown })._id),
-                        ),
-                ),
-        });
+        clearViewerScopedQueries(queryClient);
     }, [isAuthResolved, queryClient, user?.userId]);
 
     const signOut = async () => {
         await amplifySignOut();
-        queryClient.removeQueries({ queryKey: ["userAccount"] });
+        clearViewerScopedQueries(queryClient);
         await navigate({
             to: "/$lng",
         });
