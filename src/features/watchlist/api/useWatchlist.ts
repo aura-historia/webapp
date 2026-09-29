@@ -42,15 +42,10 @@ export function useWatchlist() {
             }
 
             return {
-                products: [
-                    ...new Map(
-                        (result.data?.items ?? [])
-                            .map((product) =>
-                                mapPersonalizedProductListingDetails(product, i18n.language),
-                            )
-                            .map((product) => [product.productListingId, product] as const),
-                    ).values(),
-                ],
+                products:
+                    result.data?.items?.map((product) =>
+                        mapPersonalizedProductListingDetails(product, i18n.language),
+                    ) ?? [],
                 size: result.data?.size,
                 searchAfter: result.data?.searchAfter
                     ? JSON.stringify(result.data.searchAfter)
