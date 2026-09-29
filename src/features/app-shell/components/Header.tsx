@@ -70,6 +70,7 @@ export function Header() {
     });
 
     const {
+        user,
         isAuthenticated,
         isResolved: isAuthResolved,
         signOut: amplifySignOut,
@@ -160,6 +161,43 @@ export function Header() {
     }, [isLandingPage, pathname]);
 
     const queryClient = useQueryClient();
+    const previousUserIdRef = useRef<string | null | undefined>(undefined);
+
+    useEffect(() => {
+        if (!isAuthResolved) return;
+
+        const currentUserId = user?.userId ?? null;
+        const previousUserId = previousUserIdRef.current;
+        previousUserIdRef.current = currentUserId;
+        if (previousUserId === undefined || previousUserId === currentUserId) return;
+
+        const userScopedQueryPrefixes = new Set([
+            "watchlist",
+            "search",
+            "similarProductListings",
+            "dealerProducts",
+            "searchFilterMatchedProducts",
+            "searchFilterPreviewProducts",
+            "getNotifications",
+            "userAccount",
+            "userSearchFilters",
+            "userSearchFilter",
+        ]);
+
+        queryClient.removeQueries({
+            predicate: ({ queryKey }) =>
+                (typeof queryKey[0] === "string" && userScopedQueryPrefixes.has(queryKey[0])) ||
+                queryKey.some(
+                    (part) =>
+                        typeof part === "object" &&
+                        part !== null &&
+                        "_id" in part &&
+                        ["getProductListingByTitleSlug", "getProductListing"].includes(
+                            String((part as { _id?: unknown })._id),
+                        ),
+                ),
+        });
+    }, [isAuthResolved, queryClient, user?.userId]);
 
     const signOut = async () => {
         await amplifySignOut();

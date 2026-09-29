@@ -1,265 +1,92 @@
-import { renderHook, waitFor } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import { useWatchlistNotificationMutation } from "../useWatchlistNotificationMutation.ts";
+import { renderHook } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
+import { useWatchlistNotificationMutation } from "../useWatchlistNotificationMutation.ts";
 
-const mockPatchWatchlistProduct = vi.hoisted(() => vi.fn());
-const mockGetErrorMessage = vi.hoisted(() => vi.fn());
-const mockToast = vi.hoisted(() => ({
-    info: vi.fn(),
-    error: vi.fn(),
-}));
-
-vi.mock("@/client", () => ({
-    patchWatchlistProduct: mockPatchWatchlistProduct,
-}));
-
-vi.mock("sonner", () => ({
-    toast: mockToast,
-}));
-
+const mockPatch = vi.hoisted(() => vi.fn());
+const mockErrorMessage = vi.hoisted(() => vi.fn());
+const mockToast = vi.hoisted(() => ({ info: vi.fn(), error: vi.fn() }));
+vi.mock("@/client", () => ({ patchWatchlistProduct: mockPatch }));
+vi.mock("sonner", () => ({ toast: mockToast }));
 vi.mock("@/hooks/common/useApiError.ts", () => ({
-    useApiError: () => ({
-        getErrorMessage: mockGetErrorMessage,
-    }),
+    useApiError: () => ({ getErrorMessage: mockErrorMessage }),
 }));
-
 vi.mock("@/data/internal/hooks/ApiError.ts", () => ({
     mapToInternalApiError: (error: unknown) => error,
 }));
+vi.mock("react-i18next", () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
 
-vi.mock("@/data/internal/common/Language.ts", () => ({
-    parseLanguage: (lang: string) => lang,
-}));
-
-vi.mock("react-i18next", () => ({
-    useTranslation: () => ({
-        t: (key: string) => key,
-        i18n: { language: "en" },
-    }),
-}));
-
-vi.mock("@tanstack/react-router", async () => {
-    const actual =
-        await vi.importActual<typeof import("@tanstack/react-router")>("@tanstack/react-router");
-
-    return {
-        ...actual,
-        useParams: () => ({}),
-    };
-});
+const listing = {
+    productListingId: "listing-1",
+    sourceListingId: "source-item-1",
+    source: { listingSourceId: "source-1", name: "Source", slugId: "source" },
+    userState: {
+        watchlist: { watching: true, notifications: false },
+        contentVisibility: { showUnassessedOrSensitiveContent: false },
+        notification: { unseenNotificationIds: [], hasUnseenNotification: false },
+        searchFilter: { matched: false, hidden: false },
+    },
+} as unknown as ProductListing;
 
 describe("useWatchlistNotificationMutation", () => {
     let queryClient: QueryClient;
-    const shopId = "test-shop-id";
-    const shopsProductId = "test-product-id";
-
-    const createWrapper = () => {
-        return ({ children }: { children: React.ReactNode }) =>
-            createElement(QueryClientProvider, { client: queryClient }, children);
-    };
+    const productListingId = "listing-1";
+    const key = ["watchlist", "user-1", "en", "EUR"];
+    const wrapper = ({ children }: { children: React.ReactNode }) =>
+        createElement(QueryClientProvider, { client: queryClient }, children);
 
     beforeEach(() => {
         vi.clearAllMocks();
         queryClient = new QueryClient({
-            defaultOptions: {
-                queries: { retry: false },
-                mutations: { retry: false },
-            },
+            defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
         });
-
-        mockGetErrorMessage.mockImplementation((error) => error?.message || "Unknown error");
+        queryClient.setQueryData(key, {
+            pages: [{ products: [listing], size: 1 }],
+            pageParams: [undefined],
+        });
+        mockErrorMessage.mockImplementation((error) => error?.message ?? "Unknown error");
     });
 
-    describe("toggle notifications", () => {
-        it("should successfully enable notifications", async () => {
-            const mockResponse = { notifications: true };
-            mockPatchWatchlistProduct.mockResolvedValue({
-                data: mockResponse,
-                error: null,
-            });
-
-            const { result } = renderHook(
-                () => useWatchlistNotificationMutation(shopId, shopsProductId),
-                {
-                    wrapper: createWrapper(),
-                },
-            );
-
-            result.current.mutate(true);
-
-            await waitFor(() => {
-                expect(mockPatchWatchlistProduct).toHaveBeenCalledWith({
-                    path: { shopId, shopsProductId },
-                    body: { notifications: true },
-                });
-            });
+    it("updates notification state optimistically and sends the canonical path", async () => {
+        mockPatch.mockResolvedValue({
+            data: { userId: "user-1", productListingId, notifications: true, state: "ACTIVE" },
+            error: null,
+        });
+        const { result } = renderHook(() => useWatchlistNotificationMutation(productListingId), {
+            wrapper,
         });
 
-        it("should successfully disable notifications", async () => {
-            const mockResponse = { notifications: false };
-            mockPatchWatchlistProduct.mockResolvedValue({
-                data: mockResponse,
-                error: null,
-            });
+        await result.current.mutateAsync(true);
 
-            const { result } = renderHook(
-                () => useWatchlistNotificationMutation(shopId, shopsProductId),
-                {
-                    wrapper: createWrapper(),
-                },
-            );
-
-            result.current.mutate(false);
-
-            await waitFor(() => {
-                expect(mockPatchWatchlistProduct).toHaveBeenCalledWith({
-                    path: { shopId, shopsProductId },
-                    body: { notifications: false },
-                });
-            });
+        expect(mockPatch).toHaveBeenCalledWith({
+            path: { productListingId },
+            body: { notifications: true },
         });
-
-        it("should show info toast on 401 unauthorized", async () => {
-            mockPatchWatchlistProduct.mockResolvedValue({
-                data: null,
-                error: { message: "Unauthorized" },
-                response: { status: 401 },
-            });
-
-            const { result } = renderHook(
-                () => useWatchlistNotificationMutation(shopId, shopsProductId),
-                {
-                    wrapper: createWrapper(),
-                },
-            );
-
-            result.current.mutate(true);
-
-            await waitFor(() => {
-                expect(mockToast.info).toHaveBeenCalledWith("watchlist.loginRequired");
-            });
-        });
-
-        it("should call setQueryData on success", async () => {
-            const mockResponse = { notifications: true };
-            mockPatchWatchlistProduct.mockResolvedValue({
-                data: mockResponse,
-                error: null,
-            });
-
-            const setQueryDataSpy = vi.spyOn(queryClient, "setQueryData");
-
-            const { result } = renderHook(
-                () => useWatchlistNotificationMutation(shopId, shopsProductId),
-                {
-                    wrapper: createWrapper(),
-                },
-            );
-
-            result.current.mutate(true);
-
-            await waitFor(() => {
-                // Verify setQueryData was called to update the product cache
-                expect(setQueryDataSpy).toHaveBeenCalled();
-            });
-        });
-
-        it("should invalidate watchlist and search queries on success", async () => {
-            mockPatchWatchlistProduct.mockResolvedValue({
-                data: { notifications: true },
-                error: null,
-            });
-
-            const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-
-            const { result } = renderHook(
-                () => useWatchlistNotificationMutation(shopId, shopsProductId),
-                {
-                    wrapper: createWrapper(),
-                },
-            );
-
-            result.current.mutate(true);
-
-            await waitFor(() => {
-                expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ["watchlist"] });
-                expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ["search"] });
-            });
-        });
+        const cached = queryClient.getQueryData<{ pages: Array<{ products: ProductListing[] }> }>(
+            key,
+        );
+        expect(cached?.pages[0].products[0].userState?.watchlist.notifications).toBe(true);
+        expect(cached?.pages[0].products[0]).toHaveProperty("source");
     });
 
-    describe("error handling", () => {
-        it("should show error toast on mutation error", async () => {
-            const errorMessage = "Server error";
-            mockPatchWatchlistProduct.mockResolvedValue({
-                data: null,
-                error: { message: errorMessage },
-                response: { status: 500 },
-            });
-            mockGetErrorMessage.mockReturnValue(errorMessage);
-
-            const { result } = renderHook(
-                () => useWatchlistNotificationMutation(shopId, shopsProductId),
-                {
-                    wrapper: createWrapper(),
-                },
-            );
-
-            result.current.mutate(true);
-
-            await waitFor(() => {
-                expect(mockToast.error).toHaveBeenCalled();
-            });
+    it("rolls back a failed notification change", async () => {
+        mockPatch.mockResolvedValue({
+            data: null,
+            error: { message: "Unavailable" },
+            response: { status: 500 },
+        });
+        mockErrorMessage.mockReturnValue("Unavailable");
+        const { result } = renderHook(() => useWatchlistNotificationMutation(productListingId), {
+            wrapper,
         });
 
-        it("should show error toast when mutation error has no response", async () => {
-            const errorMessage = "Network error";
-            mockPatchWatchlistProduct.mockResolvedValue({
-                data: null,
-                error: { message: errorMessage },
-            });
-            mockGetErrorMessage.mockReturnValue(errorMessage);
-
-            const { result } = renderHook(
-                () => useWatchlistNotificationMutation(shopId, shopsProductId),
-                {
-                    wrapper: createWrapper(),
-                },
-            );
-
-            result.current.mutate(true);
-
-            await waitFor(() => {
-                expect(mockToast.error).toHaveBeenCalledWith(errorMessage);
-            });
-        });
-
-        it("should not update query data when response is null", async () => {
-            mockPatchWatchlistProduct.mockResolvedValue({
-                data: null,
-                error: { message: "Unauthorized" },
-                response: { status: 401 },
-            });
-
-            const setQueryDataSpy = vi.spyOn(queryClient, "setQueryData");
-
-            const { result } = renderHook(
-                () => useWatchlistNotificationMutation(shopId, shopsProductId),
-                {
-                    wrapper: createWrapper(),
-                },
-            );
-
-            result.current.mutate(true);
-
-            await waitFor(() => {
-                expect(mockToast.info).toHaveBeenCalled();
-            });
-
-            // Should not call setQueryData when data is null
-            expect(setQueryDataSpy).not.toHaveBeenCalled();
-        });
+        await expect(result.current.mutateAsync(true)).rejects.toThrow("Unavailable");
+        expect(
+            queryClient.getQueryData<{ pages: Array<{ products: ProductListing[] }> }>(key)
+                ?.pages[0].products[0].userState?.watchlist.notifications,
+        ).toBe(false);
+        expect(mockToast.error).toHaveBeenCalled();
     });
 });
