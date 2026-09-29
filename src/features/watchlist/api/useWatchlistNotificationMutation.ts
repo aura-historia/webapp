@@ -4,17 +4,23 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
+import {
+    cancelWatchlistRelatedQueries,
+    invalidateWatchlistRelatedQueries,
+    restoreWatchlistListingCaches,
+    snapshotWatchlistListingCaches,
+    updateListingWatchlistState,
+    updateWatchlistListingCaches,
+} from "@/features/watchlist/api/watchlistCache.ts";
 
-function isProductListingQuery(queryKey: readonly unknown[]): boolean {
-    return queryKey.some(
-        (part) =>
-            typeof part === "object" &&
-            part !== null &&
-            "_id" in part &&
-            ["getProductListingByTitleSlug", "getProductListing"].includes(
-                String((part as { _id?: unknown })._id),
-            ),
-    );
+class WatchlistRequestError extends Error {
+    constructor(
+        message: string,
+        readonly status?: number,
+    ) {
+        super(message);
+        this.name = "WatchlistRequestError";
+    }
 }
 
 export function useWatchlistNotificationMutation(productListingId: string) {
@@ -23,33 +29,39 @@ export function useWatchlistNotificationMutation(productListingId: string) {
     const { t } = useTranslation();
 
     return useMutation({
-        mutationFn: async (notificationsEnabled: boolean) => {
+        mutationFn: async (notifications: boolean) => {
             const result = await patchWatchlistProduct({
                 path: { productListingId },
-                body: { notifications: notificationsEnabled },
+                body: { notifications },
             });
 
             if (result.error) {
-                if (result.response?.status === 401) {
-                    toast.info(t("watchlist.loginRequired"));
-                    return;
-                }
-                throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
+                throw new WatchlistRequestError(
+                    getErrorMessage(mapToInternalApiError(result.error)),
+                    result.response?.status,
+                );
             }
 
-            return result.data;
+            // The response is a watchlist entry, not a product listing.
+            return undefined;
         },
-        onError: (error) => {
-            console.error("Error mutating watchlist:", error);
-            toast.error(error.message || t("watchlist.loadingError.description"));
+        onMutate: async (notifications) => {
+            await cancelWatchlistRelatedQueries(queryClient);
+            const snapshots = snapshotWatchlistListingCaches(queryClient);
+            updateWatchlistListingCaches(queryClient, productListingId, (listing) =>
+                updateListingWatchlistState(listing, { notifications }),
+            );
+            return { snapshots };
         },
-        onSuccess: async () => {
-            await Promise.all([
-                queryClient.invalidateQueries({ queryKey: ["watchlist"] }),
-                queryClient.invalidateQueries({
-                    predicate: ({ queryKey }) => isProductListingQuery(queryKey),
-                }),
-            ]);
+        onError: (error, _notifications, context) => {
+            restoreWatchlistListingCaches(queryClient, context?.snapshots);
+            if (error instanceof WatchlistRequestError && error.status === 401) {
+                toast.info(t("watchlist.loginRequired"));
+            } else {
+                console.error("Error mutating watchlist:", error);
+                toast.error(error.message || t("watchlist.loadingError.description"));
+            }
         },
+        onSettled: async () => invalidateWatchlistRelatedQueries(queryClient),
     });
 }

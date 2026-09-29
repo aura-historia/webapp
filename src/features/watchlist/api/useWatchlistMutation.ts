@@ -4,19 +4,26 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
+import {
+    cancelWatchlistRelatedQueries,
+    invalidateWatchlistRelatedQueries,
+    removeListingFromWatchlistCache,
+    restoreWatchlistListingCaches,
+    snapshotWatchlistListingCaches,
+    updateListingWatchlistState,
+    updateWatchlistListingCaches,
+} from "@/features/watchlist/api/watchlistCache.ts";
 
 export type WatchlistMutationType = "addToWatchlist" | "deleteFromWatchlist";
 
-function isProductListingQuery(queryKey: readonly unknown[]): boolean {
-    return queryKey.some(
-        (part) =>
-            typeof part === "object" &&
-            part !== null &&
-            "_id" in part &&
-            ["getProductListingByTitleSlug", "getProductListing"].includes(
-                String((part as { _id?: unknown })._id),
-            ),
-    );
+class WatchlistRequestError extends Error {
+    constructor(
+        message: string,
+        readonly status?: number,
+    ) {
+        super(message);
+        this.name = "WatchlistRequestError";
+    }
 }
 
 export function useWatchlistMutation(productListingId: string) {
@@ -32,31 +39,44 @@ export function useWatchlistMutation(productListingId: string) {
                     : await addWatchlistProduct({ body: { productListingId } });
 
             if (result.error) {
-                if (result.response?.status === 401) {
-                    toast.info(t("watchlist.loginRequired"));
-                    return;
-                }
-                if (result.response?.status === 422) {
-                    toast.warning(getErrorMessage(mapToInternalApiError(result.error)));
-                    return;
-                }
-                throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
+                throw new WatchlistRequestError(
+                    getErrorMessage(mapToInternalApiError(result.error)),
+                    result.response?.status,
+                );
             }
 
-            return result.data;
+            // Mutation DTOs describe only a watchlist entry. Keep them out of listing caches.
+            return undefined;
         },
-        onError: (error) => {
-            console.error("Error mutating watchlist:", error);
-            toast.error(error.message || t("watchlist.loadingError.description"));
+        onMutate: async (mutationType) => {
+            await cancelWatchlistRelatedQueries(queryClient);
+            const snapshots = snapshotWatchlistListingCaches(queryClient);
+            const watching = mutationType === "addToWatchlist";
+
+            updateWatchlistListingCaches(queryClient, productListingId, (listing) => {
+                return updateListingWatchlistState(listing, { watching });
+            });
+            if (mutationType === "deleteFromWatchlist") {
+                removeListingFromWatchlistCache(queryClient, productListingId);
+            }
+
+            return { snapshots };
         },
-        onSuccess: async () => {
-            await Promise.all([
-                queryClient.invalidateQueries({ queryKey: ["watchlist"] }),
-                queryClient.invalidateQueries({ queryKey: ["search"] }),
-                queryClient.invalidateQueries({
-                    predicate: ({ queryKey }) => isProductListingQuery(queryKey),
-                }),
-            ]);
+        onError: (error, _mutationType, context) => {
+            restoreWatchlistListingCaches(queryClient, context?.snapshots);
+
+            if (error instanceof WatchlistRequestError && error.status === 401) {
+                toast.info(t("watchlist.loginRequired"));
+            } else if (
+                error instanceof WatchlistRequestError &&
+                (error.status === 409 || error.status === 422)
+            ) {
+                toast.warning(error.message);
+            } else {
+                console.error("Error mutating watchlist:", error);
+                toast.error(error.message || t("watchlist.loadingError.description"));
+            }
         },
+        onSettled: async () => invalidateWatchlistRelatedQueries(queryClient),
     });
 }

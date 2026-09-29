@@ -17,8 +17,7 @@ const mockUseWatchlistNotificationMutation = vi.mocked(useWatchlistNotificationM
 
 describe("NotificationButton", () => {
     const defaultProps = {
-        shopId: "shop-1",
-        shopsProductId: "product-1",
+        productListingId: "listing-1",
         isNotificationEnabled: false,
     };
 
@@ -156,21 +155,17 @@ describe("NotificationButton", () => {
         expect(svgElements[1]).toHaveClass("animate-heart-bounce");
     });
 
-    it("should pass shopId and shopsProductId to useWatchlistNotificationMutation", async () => {
+    it("should pass the canonical listing ID to useWatchlistNotificationMutation", async () => {
         await act(() => {
             renderWithQueryClient(
                 <NotificationButton
-                    shopId="custom-shop"
-                    shopsProductId="custom-product"
+                    productListingId="custom-listing"
                     isNotificationEnabled={false}
                 />,
             );
         });
 
-        expect(mockUseWatchlistNotificationMutation).toHaveBeenCalledWith(
-            "custom-shop",
-            "custom-product",
-        );
+        expect(mockUseWatchlistNotificationMutation).toHaveBeenCalledWith("custom-listing");
     });
 
     it("should apply custom className", async () => {

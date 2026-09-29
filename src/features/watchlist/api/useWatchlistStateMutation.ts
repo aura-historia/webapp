@@ -4,8 +4,27 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
+import {
+    cancelWatchlistRelatedQueries,
+    invalidateWatchlistRelatedQueries,
+    removeListingFromWatchlistCache,
+    restoreWatchlistListingCaches,
+    snapshotWatchlistListingCaches,
+    updateListingWatchlistState,
+    updateWatchlistListingCaches,
+} from "@/features/watchlist/api/watchlistCache.ts";
 
-export function useWatchlistStateMutation(shopId: string, shopsProductId: string) {
+class WatchlistRequestError extends Error {
+    constructor(
+        message: string,
+        readonly status?: number,
+    ) {
+        super(message);
+        this.name = "WatchlistRequestError";
+    }
+}
+
+export function useWatchlistStateMutation(productListingId: string) {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
     const { t } = useTranslation();
@@ -13,29 +32,38 @@ export function useWatchlistStateMutation(shopId: string, shopsProductId: string
     return useMutation({
         mutationFn: async (active: boolean) => {
             const result = await patchWatchlistProduct({
-                path: { shopId, shopsProductId },
+                path: { productListingId },
                 body: { state: active ? "ACTIVE" : "INACTIVE_BY_USER" },
             });
 
             if (result.error) {
-                if (result.response?.status === 401) {
-                    toast.info(t("watchlist.loginRequired"));
-                    return;
-                }
-                throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
+                throw new WatchlistRequestError(
+                    getErrorMessage(mapToInternalApiError(result.error)),
+                    result.response?.status,
+                );
             }
 
-            return result.data;
+            // The response is an entry. Listing details stay in their own cache contract.
+            return undefined;
         },
-        onError: (e) => {
-            console.error("Error mutating watchlist state:", e);
-            toast.error(e.message || t("watchlist.loadingError"));
+        onMutate: async (active) => {
+            await cancelWatchlistRelatedQueries(queryClient);
+            const snapshots = snapshotWatchlistListingCaches(queryClient);
+            updateWatchlistListingCaches(queryClient, productListingId, (listing) =>
+                updateListingWatchlistState(listing, { watching: active }),
+            );
+            if (!active) removeListingFromWatchlistCache(queryClient, productListingId);
+            return { snapshots };
         },
-        onSuccess: async () => {
-            await Promise.all([
-                queryClient.invalidateQueries({ queryKey: ["watchlist"] }),
-                queryClient.invalidateQueries({ queryKey: ["search"] }),
-            ]);
+        onError: (error, _active, context) => {
+            restoreWatchlistListingCaches(queryClient, context?.snapshots);
+            if (error instanceof WatchlistRequestError && error.status === 401) {
+                toast.info(t("watchlist.loginRequired"));
+            } else {
+                console.error("Error mutating watchlist state:", error);
+                toast.error(error.message || t("watchlist.loadingError.description"));
+            }
         },
+        onSettled: async () => invalidateWatchlistRelatedQueries(queryClient),
     });
 }

@@ -6,16 +6,27 @@ import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
+import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 
 const PAGE_SIZE = 20;
+
+export function getWatchlistQueryKey(
+    viewerCacheKey: string | undefined,
+    language: string,
+    currency: string,
+) {
+    return ["watchlist", viewerCacheKey ?? "anonymous", language, currency] as const;
+}
 
 export function useWatchlist() {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
+    const { user, isLoading: isAuthLoading } = useResolvedAuth();
 
     return useInfiniteQuery({
-        queryKey: ["watchlist", i18n.language, preferences.currency],
+        queryKey: getWatchlistQueryKey(user?.userId, i18n.language, preferences.currency),
+        enabled: !isAuthLoading && Boolean(user),
         queryFn: async ({ pageParam }) => {
             const result = await getWatchlistProductListings({
                 query: {
@@ -36,14 +47,16 @@ export function useWatchlist() {
                         mapPersonalizedProductListingDetails(product, i18n.language),
                     ) ?? [],
                 size: result.data?.size,
-                searchAfter: result.data.searchAfter
+                searchAfter: result.data?.searchAfter
                     ? JSON.stringify(result.data.searchAfter)
                     : undefined,
             };
         },
         initialPageParam: undefined as string | undefined,
-        getNextPageParam: (lastPage) => {
-            return lastPage.searchAfter ?? undefined;
+        getNextPageParam: (lastPage, _allPages, _lastPageParam, allPageParams) => {
+            if (!lastPage.searchAfter || allPageParams.includes(lastPage.searchAfter))
+                return undefined;
+            return lastPage.searchAfter;
         },
     });
 }
