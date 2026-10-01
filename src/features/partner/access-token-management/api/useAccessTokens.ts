@@ -1,5 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { AccessTokenScopeData } from "@/client";
+import {
+    mapToCreateAccessTokenRequest,
+    mapToUpdateAccessTokenRequest,
+    type CreateAccessTokenInput,
+    type UpdateAccessTokenInput,
+} from "@/data/internal/access-tokens/AccessTokenRequests.ts";
+export type {
+    CreateAccessTokenInput,
+    UpdateAccessTokenInput,
+} from "@/data/internal/access-tokens/AccessTokenRequests.ts";
 import {
     deleteMyAccessToken,
     getMyAccessTokens,
@@ -37,24 +46,15 @@ export function useAccessTokens() {
     });
 }
 
-export type CreateAccessTokenInput = {
-    readonly name: string;
-    readonly scopes: AccessTokenScopeData[];
-    readonly expiresAt?: Date;
-};
-
 export function useCreateAccessToken() {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
 
     return useMutation<CreatedAccessToken, Error, CreateAccessTokenInput>({
-        mutationFn: async ({ name, scopes, expiresAt }) => {
+        gcTime: 0,
+        mutationFn: async (input) => {
             const response = await postMyAccessToken({
-                body: {
-                    name,
-                    scope: scopes.length > 0 ? scopes : undefined,
-                    expiresAt: expiresAt?.toISOString(),
-                },
+                body: mapToCreateAccessTokenRequest(input),
             });
             if (response.error) {
                 throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
@@ -66,32 +66,19 @@ export function useCreateAccessToken() {
             queryClient.invalidateQueries({ queryKey: ACCESS_TOKENS_QUERY_KEY });
         },
         onError: (error) => {
-            console.error("[useCreateAccessToken]", error);
             toast.error(error.message);
         },
     });
 }
-
-export type UpdateAccessTokenInput = {
-    readonly id: string;
-    readonly name: string;
-    readonly scopes: AccessTokenScopeData[];
-    readonly expiresAt?: Date;
-};
 
 export function useUpdateAccessToken() {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
 
     return useMutation<AccessToken, Error, UpdateAccessTokenInput>({
-        mutationFn: async ({ id, name, scopes, expiresAt }) => {
+        mutationFn: async (input) => {
             const response = await patchMyAccessToken({
-                body: {
-                    accessTokenId: id,
-                    name,
-                    scope: scopes,
-                    expiresAt: expiresAt?.toISOString(),
-                },
+                body: mapToUpdateAccessTokenRequest(input),
             });
             if (response.error) {
                 throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
@@ -107,7 +94,6 @@ export function useUpdateAccessToken() {
             );
         },
         onError: (error) => {
-            console.error("[useUpdateAccessToken]", error);
             toast.error(error.message);
         },
     });
@@ -137,7 +123,6 @@ export function useDeleteAccessToken() {
             );
         },
         onError: (error) => {
-            console.error("[useDeleteAccessToken]", error);
             toast.error(error.message);
         },
     });
@@ -156,7 +141,6 @@ export function useDeleteAllAccessTokens() {
         },
         onError: (error) => {
             void queryClient.invalidateQueries({ queryKey: ACCESS_TOKENS_QUERY_KEY });
-            console.error("[useDeleteAllAccessTokens]", error);
             toast.error(error.message);
         },
     });

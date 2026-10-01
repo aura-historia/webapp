@@ -5,7 +5,7 @@ import { mapToAccessToken } from "@/features/partner/access-token-management/typ
 const apiAccessToken: GetAccessTokenData = {
     accessTokenId: "token-123",
     name: "Product sync",
-    scope: ["products:write"],
+    scope: ["product-listings:write"],
     token: "aurahistoria_abcdefghijk_****",
     tokenType: "BEARER",
     expiresAt: "2026-08-01T12:00:00Z",
@@ -21,7 +21,7 @@ describe("mapToAccessToken", () => {
         expect(mapToAccessToken(apiAccessToken)).toEqual({
             id: "token-123",
             name: "Product sync",
-            scopes: ["products:write"],
+            scopes: ["product-listings:write"],
             maskedToken: "aurahistoria_abcdefghijk_****",
             tokenType: "BEARER",
             expiresAt: new Date("2026-08-01T12:00:00Z"),
@@ -41,5 +41,10 @@ describe("mapToAccessToken", () => {
             scopes: [],
             expiresAt: null,
         });
+    });
+
+    it("does not translate legacy scopes into replacement capabilities", () => {
+        const legacyData = { ...apiAccessToken, scope: ["shops:manage", "products:write"] };
+        expect(mapToAccessToken(legacyData as unknown as GetAccessTokenData).scopes).toEqual([]);
     });
 });

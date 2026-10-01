@@ -2263,8 +2263,14 @@
         "token": "Token de acceso"
       },
       "scopeDescriptions": {
-        "shopsManage": "Gestionar configuraciones de la tienda y flujos de trabajo relacionados con la tienda.",
-        "productsWrite": "Crear y actualizar listados de productos."
+        "productListingsWrite": "Crear o actualizar anuncios de productos dentro de los permisos concedidos a su cuenta.",
+        "usersRead": "Leer datos de usuarios dentro de los permisos concedidos a su cuenta.",
+        "usersWrite": "Actualizar datos de usuarios dentro de los permisos concedidos a su cuenta.",
+        "accessTokensRead": "Leer detalles de tokens de acceso dentro de los permisos concedidos a su cuenta.",
+        "accessTokensWrite": "Crear, actualizar o revocar tokens de acceso dentro de los permisos concedidos a su cuenta.",
+        "searchFiltersWrite": "Crear, actualizar o eliminar sus búsquedas guardadas.",
+        "watchlistRead": "Leer los anuncios de su lista de seguimiento.",
+        "watchlistWrite": "Añadir o eliminar anuncios y actualizar los ajustes de su lista de seguimiento."
       },
       "validation": {
         "nameRequired": "Por favor, introduce un nombre para el token.",
@@ -2308,8 +2314,14 @@
     "noExpiration": "No expira",
     "noScopes": "Sin permisos",
     "scopes": {
-      "shopsManage": "Gestionar tiendas",
-      "productsWrite": "Escribir productos"
+      "productListingsWrite": "Escribir anuncios de productos",
+      "usersRead": "Leer datos de usuarios",
+      "usersWrite": "Actualizar datos de usuarios",
+      "accessTokensRead": "Leer tokens de acceso",
+      "accessTokensWrite": "Gestionar tokens de acceso",
+      "searchFiltersWrite": "Gestionar búsquedas guardadas",
+      "watchlistRead": "Leer la lista de seguimiento",
+      "watchlistWrite": "Gestionar la lista de seguimiento"
     }
   },
   "shopTypePossessive": {

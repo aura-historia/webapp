@@ -72,7 +72,7 @@ describe("useAccessTokens", () => {
                 {
                     accessTokenId: "newer-token",
                     name: "Newer token",
-                    scope: ["products:write"],
+                    scope: ["product-listings:write"],
                     token: "aurahistoria_newer_****",
                     tokenType: "BEARER",
                     createdBy: "user-1",
@@ -97,7 +97,7 @@ describe("useAccessTokens", () => {
         ]);
         expect(result.current.data?.[0]).toMatchObject({
             name: "Newer token",
-            scopes: ["products:write"],
+            scopes: ["product-listings:write"],
             created: new Date("2026-07-01T12:00:00Z"),
         });
     });
@@ -124,7 +124,7 @@ describe("useAccessTokens", () => {
             data: {
                 accessTokenId: "created-token",
                 name: "Product sync",
-                scope: ["products:write"],
+                scope: ["product-listings:write"],
                 token: "aurahistoria_plaintext_token",
                 tokenType: "BEARER",
                 expiresAt: "2026-08-01T10:00:00.000Z",
@@ -142,7 +142,7 @@ describe("useAccessTokens", () => {
         });
         result.current.mutate({
             name: "Product sync",
-            scopes: ["products:write"],
+            scopes: ["product-listings:write"],
             expiresAt,
         });
 
@@ -151,7 +151,7 @@ describe("useAccessTokens", () => {
         expect(mockPostMyAccessToken).toHaveBeenCalledWith({
             body: {
                 name: "Product sync",
-                scope: ["products:write"],
+                scope: ["product-listings:write"],
                 expiresAt: "2026-08-01T10:00:00.000Z",
             },
         });
@@ -165,6 +165,9 @@ describe("useAccessTokens", () => {
         expect(invalidateQueries).toHaveBeenCalledWith({
             queryKey: ACCESS_TOKENS_QUERY_KEY,
         });
+        expect(queryClient.getQueryData(ACCESS_TOKENS_QUERY_KEY)).toBeUndefined();
+        result.current.reset();
+        await waitFor(() => expect(queryClient.getMutationCache().getAll()).toHaveLength(0));
     });
 
     it("omits optional create fields when they are empty", async () => {
@@ -195,8 +198,6 @@ describe("useAccessTokens", () => {
         expect(mockPostMyAccessToken).toHaveBeenCalledWith({
             body: {
                 name: "Unscoped token",
-                scope: undefined,
-                expiresAt: undefined,
             },
         });
     });
@@ -218,7 +219,7 @@ describe("useAccessTokens", () => {
             data: {
                 accessTokenId: "token-123",
                 name: "Product sync",
-                scope: ["products:write"],
+                scope: ["product-listings:write"],
                 token: "aurahistoria_obfuscated_****",
                 tokenType: "BEARER",
                 expiresAt: "2026-08-01T10:00:00.000Z",
@@ -237,7 +238,7 @@ describe("useAccessTokens", () => {
         result.current.mutate({
             id: "token-123",
             name: "Product sync",
-            scopes: ["products:write"],
+            scopes: ["product-listings:write"],
             expiresAt,
         });
 
@@ -247,8 +248,8 @@ describe("useAccessTokens", () => {
             body: {
                 accessTokenId: "token-123",
                 name: "Product sync",
-                scope: ["products:write"],
-                expiresAt: "2026-08-01T10:00:00.000Z",
+                scopes: ["product-listings:write"],
+                expires: "2026-08-01T10:00:00.000Z",
             },
         });
         expect(queryClient.getQueryData<AccessToken[]>(ACCESS_TOKENS_QUERY_KEY)?.[0]).toMatchObject(
@@ -295,6 +296,48 @@ describe("useAccessTokens", () => {
         });
         expect(mockDeleteMyAccessToken).toHaveBeenCalledWith({
             path: { accessTokenId: "token-2" },
+        });
+        expect(queryClient.getQueryData(ACCESS_TOKENS_QUERY_KEY)).toEqual([]);
+    });
+
+    it.each([
+        [
+            { id: "at_opaque", name: "Renamed" },
+            { accessTokenId: "at_opaque", name: "Renamed" },
+        ],
+        [
+            { id: "at_opaque", scopes: [], expiresAt: null },
+            { accessTokenId: "at_opaque", scopes: [], expires: null },
+        ],
+    ])("sends partial edits without changing omitted fields: %j", async (input, body) => {
+        mockPatchMyAccessToken.mockResolvedValue({
+            data: {
+                accessTokenId: "at_opaque",
+                name: "Renamed",
+                token: "prefix_****",
+                tokenType: "BEARER",
+                created: "2026-07-01T10:00:00Z",
+                updated: "2026-07-01T10:00:00Z",
+            },
+        });
+        const { result } = renderHook(() => useUpdateAccessToken(), { wrapper: createWrapper() });
+        await result.current.mutateAsync(input);
+        expect(mockPatchMyAccessToken).toHaveBeenCalledWith({ body });
+    });
+
+    it("repeated deletion of an opaque ID succeeds when already absent", async () => {
+        queryClient.setQueryData(ACCESS_TOKENS_QUERY_KEY, [{ id: "at_opaque" }]);
+        mockDeleteMyAccessToken.mockResolvedValue({
+            data: undefined,
+            error: null,
+            response: { status: 204 },
+        });
+        const { result } = renderHook(() => useDeleteAccessToken(), { wrapper: createWrapper() });
+        await result.current.mutateAsync("at_opaque");
+        await result.current.mutateAsync("at_opaque");
+        expect(mockDeleteMyAccessToken).toHaveBeenCalledTimes(2);
+        expect(mockDeleteMyAccessToken).toHaveBeenLastCalledWith({
+            path: { accessTokenId: "at_opaque" },
         });
         expect(queryClient.getQueryData(ACCESS_TOKENS_QUERY_KEY)).toEqual([]);
     });

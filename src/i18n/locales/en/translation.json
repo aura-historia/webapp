@@ -1640,8 +1640,14 @@
         "token": "Access token"
       },
       "scopeDescriptions": {
-        "shopsManage": "Manage shop settings and shop-related workflows.",
-        "productsWrite": "Create and update product listings."
+        "productListingsWrite": "Create or update product listings within the access granted to your account.",
+        "usersRead": "Read user data within the access granted to your account.",
+        "usersWrite": "Update user data within the access granted to your account.",
+        "accessTokensRead": "Read access-token details within the access granted to your account.",
+        "accessTokensWrite": "Create, update or revoke access tokens within the access granted to your account.",
+        "searchFiltersWrite": "Create, update or delete your saved searches.",
+        "watchlistRead": "Read the listings in your watchlist.",
+        "watchlistWrite": "Add or remove listings and update your watchlist settings."
       },
       "validation": {
         "nameRequired": "Please enter a token name.",
@@ -1685,8 +1691,14 @@
     "noExpiration": "Does not expire",
     "noScopes": "No scopes",
     "scopes": {
-      "shopsManage": "Manage shops",
-      "productsWrite": "Write products"
+      "productListingsWrite": "Write product listings",
+      "usersRead": "Read user data",
+      "usersWrite": "Update user data",
+      "accessTokensRead": "Read access tokens",
+      "accessTokensWrite": "Manage access tokens",
+      "searchFiltersWrite": "Manage saved searches",
+      "watchlistRead": "Read watchlist",
+      "watchlistWrite": "Manage watchlist"
     }
   },
   "partnerApplications": {

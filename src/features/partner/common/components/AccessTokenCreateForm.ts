@@ -1,7 +1,8 @@
 import type { TFunction } from "i18next";
 import { z } from "zod";
 
-export const ACCESS_TOKEN_SCOPES = ["shops:manage", "products:write"] as const;
+import { ACCESS_TOKEN_SCOPES } from "@/data/internal/access-tokens/AccessTokenScope.ts";
+export { ACCESS_TOKEN_SCOPES } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 
 export const ACCESS_TOKEN_CREATE_DEFAULT_VALUES = {
     name: "",

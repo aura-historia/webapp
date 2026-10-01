@@ -1640,8 +1640,14 @@
         "token": "Zugriffstoken"
       },
       "scopeDescriptions": {
-        "shopsManage": "Shop-Einstellungen und shopbezogene Abläufe verwalten.",
-        "productsWrite": "Produktangebote erstellen und aktualisieren."
+        "productListingsWrite": "Produktangebote im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen oder aktualisieren.",
+        "usersRead": "Benutzerdaten im Rahmen der Ihrem Konto gewährten Zugriffsrechte lesen.",
+        "usersWrite": "Benutzerdaten im Rahmen der Ihrem Konto gewährten Zugriffsrechte aktualisieren.",
+        "accessTokensRead": "Details zu Zugriffstoken im Rahmen der Ihrem Konto gewährten Zugriffsrechte lesen.",
+        "accessTokensWrite": "Zugriffstoken im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen, aktualisieren oder widerrufen.",
+        "searchFiltersWrite": "Ihre gespeicherten Suchen erstellen, aktualisieren oder löschen.",
+        "watchlistRead": "Die Angebote in Ihrer Merkliste lesen.",
+        "watchlistWrite": "Angebote hinzufügen oder entfernen und Ihre Merklisten-Einstellungen aktualisieren."
       },
       "validation": {
         "nameRequired": "Bitte geben Sie einen Token-Namen ein.",
@@ -1685,8 +1691,14 @@
     "noExpiration": "Läuft nicht ab",
     "noScopes": "Keine Berechtigungen",
     "scopes": {
-      "shopsManage": "Shops verwalten",
-      "productsWrite": "Produkte schreiben"
+      "productListingsWrite": "Produktangebote schreiben",
+      "usersRead": "Benutzerdaten lesen",
+      "usersWrite": "Benutzerdaten aktualisieren",
+      "accessTokensRead": "Zugriffstoken lesen",
+      "accessTokensWrite": "Zugriffstoken verwalten",
+      "searchFiltersWrite": "Gespeicherte Suchen verwalten",
+      "watchlistRead": "Merkliste lesen",
+      "watchlistWrite": "Merkliste verwalten"
     }
   },
   "partnerApplications": {

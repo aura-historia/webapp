@@ -1,3 +1,4 @@
+import { ACCESS_TOKEN_SCOPE_METADATA } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import { Clock3, KeyRound, Pencil, Plus, RefreshCw, SearchX, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -26,11 +27,6 @@ import { AccessTokenEditDialog } from "@/features/partner/access-token-managemen
 import type { AccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
 import { formatDateTime } from "@/lib/utils.ts";
 import { toast } from "sonner";
-
-const SCOPE_TRANSLATION_KEYS = {
-    "shops:manage": "partnerAccessTokens.scopes.shopsManage",
-    "products:write": "partnerAccessTokens.scopes.productsWrite",
-} as const;
 
 export function AccessTokensSection() {
     const { t, i18n } = useTranslation();
@@ -270,7 +266,7 @@ function AccessTokenListItem({
                     {accessToken.scopes.length > 0 ? (
                         accessToken.scopes.map((scope) => (
                             <Badge key={scope} variant="secondary">
-                                {t(SCOPE_TRANSLATION_KEYS[scope])}
+                                {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
                             </Badge>
                         ))
                     ) : (

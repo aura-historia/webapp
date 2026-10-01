@@ -2263,8 +2263,14 @@
         "token": "Jeton d'accès"
       },
       "scopeDescriptions": {
-        "shopsManage": "Gérer les paramètres des boutiques et les flux de travail liés aux boutiques.",
-        "productsWrite": "Créer et mettre à jour les fiches produits."
+        "productListingsWrite": "Créer ou mettre à jour des annonces de produits dans les limites des droits accordés à votre compte.",
+        "usersRead": "Lire les données des utilisateurs dans les limites des droits accordés à votre compte.",
+        "usersWrite": "Mettre à jour les données des utilisateurs dans les limites des droits accordés à votre compte.",
+        "accessTokensRead": "Lire les détails des jetons d’accès dans les limites des droits accordés à votre compte.",
+        "accessTokensWrite": "Créer, mettre à jour ou révoquer des jetons d’accès dans les limites des droits accordés à votre compte.",
+        "searchFiltersWrite": "Créer, mettre à jour ou supprimer vos recherches enregistrées.",
+        "watchlistRead": "Lire les annonces de votre liste de suivi.",
+        "watchlistWrite": "Ajouter ou retirer des annonces et mettre à jour les paramètres de votre liste de suivi."
       },
       "validation": {
         "nameRequired": "Veuillez entrer un nom de jeton.",
@@ -2308,8 +2314,14 @@
     "noExpiration": "N'expire pas",
     "noScopes": "Aucune autorisation",
     "scopes": {
-      "shopsManage": "Gérer les boutiques",
-      "productsWrite": "Écrire des produits"
+      "productListingsWrite": "Écrire des annonces de produits",
+      "usersRead": "Lire les données des utilisateurs",
+      "usersWrite": "Mettre à jour les données des utilisateurs",
+      "accessTokensRead": "Lire les jetons d’accès",
+      "accessTokensWrite": "Gérer les jetons d’accès",
+      "searchFiltersWrite": "Gérer les recherches enregistrées",
+      "watchlistRead": "Lire la liste de suivi",
+      "watchlistWrite": "Gérer la liste de suivi"
     }
   },
   "partnerShops": {

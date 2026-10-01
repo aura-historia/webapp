@@ -4,7 +4,10 @@ import { useState } from "react";
 import { useController, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import type { AccessTokenScopeData } from "@/client";
+import {
+    ACCESS_TOKEN_SCOPE_METADATA,
+    type AccessTokenScope,
+} from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
 import {
@@ -26,17 +29,6 @@ import {
     createAccessTokenFormSchema,
 } from "@/features/partner/common/components/AccessTokenCreateForm.ts";
 import type { CreatedAccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
-
-const SCOPE_TRANSLATION_KEYS = {
-    "shops:manage": {
-        label: "partnerAccessTokens.scopes.shopsManage",
-        description: "partnerAccessTokens.create.scopeDescriptions.shopsManage",
-    },
-    "products:write": {
-        label: "partnerAccessTokens.scopes.productsWrite",
-        description: "partnerAccessTokens.create.scopeDescriptions.productsWrite",
-    },
-} as const;
 
 interface AccessTokenCreateDialogProps {
     readonly open: boolean;
@@ -61,6 +53,7 @@ export function AccessTokenCreateDialog({
     const resetDialog = () => {
         form.reset(defaultValues);
         setCreatedAccessToken(null);
+        createAccessToken.reset();
     };
 
     const handleOpenChange = (nextOpen: boolean) => {
@@ -200,8 +193,8 @@ export function AccessTokenScopesField({
     value,
     onChange,
 }: {
-    readonly value: AccessTokenScopeData[];
-    readonly onChange: (value: AccessTokenScopeData[]) => void;
+    readonly value: AccessTokenScope[];
+    readonly onChange: (value: AccessTokenScope[]) => void;
 }) {
     const { t } = useTranslation();
 
@@ -236,10 +229,10 @@ export function AccessTokenScopesField({
                                     htmlFor={inputId}
                                     className="text-sm font-medium leading-none"
                                 >
-                                    {t(SCOPE_TRANSLATION_KEYS[scope].label)}
+                                    {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
                                 </label>
                                 <p className="text-xs text-muted-foreground">
-                                    {t(SCOPE_TRANSLATION_KEYS[scope].description)}
+                                    {t(ACCESS_TOKEN_SCOPE_METADATA[scope].description)}
                                 </p>
                             </div>
                         </div>

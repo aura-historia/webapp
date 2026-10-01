@@ -77,14 +77,19 @@ function AccessTokenEditDialogContent({
         },
     });
     const scopesField = useController({ control: form.control, name: "scopes" }).field;
+    const { dirtyFields } = form.formState;
 
     const handleSubmit = (values: AccessTokenCreateFormData) => {
         updateAccessToken.mutate(
             {
                 id: accessToken.id,
-                name: values.name.trim(),
-                scopes: values.scopes,
-                expiresAt: values.expiresAt ? new Date(values.expiresAt) : undefined,
+                name: dirtyFields.name ? values.name.trim() : undefined,
+                scopes: dirtyFields.scopes ? values.scopes : undefined,
+                expiresAt: dirtyFields.expiresAt
+                    ? values.expiresAt
+                        ? new Date(values.expiresAt)
+                        : null
+                    : undefined,
             },
             {
                 onSuccess: () => {
