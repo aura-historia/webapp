@@ -2263,9 +2263,9 @@
         "token": "Jeton d'accès"
       },
       "scopeDescriptions": {
-        "productListingsWrite": "Créer ou mettre à jour des annonces de produits dans les limites des droits accordés à votre compte.",
-        "usersRead": "Lire les données des utilisateurs dans les limites des droits accordés à votre compte.",
-        "usersWrite": "Mettre à jour les données des utilisateurs dans les limites des droits accordés à votre compte.",
+        "productListingsWrite": "Créer, mettre à jour ou supprimer des annonces de produits dans les limites des droits accordés à votre compte.",
+        "usersRead": "Lire les données des utilisateurs et créer des sessions de paiement ou du portail de facturation Stripe pour votre compte.",
+        "usersWrite": "Mettre à jour les données des utilisateurs et supprimer définitivement votre compte.",
         "accessTokensRead": "Lire les détails des jetons d’accès dans les limites des droits accordés à votre compte.",
         "accessTokensWrite": "Créer, mettre à jour ou révoquer des jetons d’accès dans les limites des droits accordés à votre compte.",
         "searchFiltersWrite": "Créer, mettre à jour ou supprimer vos recherches enregistrées.",
@@ -2313,6 +2313,7 @@
     "expiresAt": "Expire le {{date}}",
     "noExpiration": "N'expire pas",
     "noScopes": "Aucune autorisation",
+    "unsupportedScopes": "Autorisations anciennes ou inconnues : {{scopes}}. Ce jeton peut toujours autoriser l’accès. Ces autorisations ne peuvent pas être sélectionnées ici. Modifier les autorisations remplace toutes les autorisations existantes ; révoquez le jeton si l’accès n’est plus nécessaire.",
     "scopes": {
       "productListingsWrite": "Écrire des annonces de produits",
       "usersRead": "Lire les données des utilisateurs",

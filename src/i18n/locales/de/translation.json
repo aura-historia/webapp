@@ -1640,9 +1640,9 @@
         "token": "Zugriffstoken"
       },
       "scopeDescriptions": {
-        "productListingsWrite": "Produktangebote im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen oder aktualisieren.",
-        "usersRead": "Benutzerdaten im Rahmen der Ihrem Konto gewährten Zugriffsrechte lesen.",
-        "usersWrite": "Benutzerdaten im Rahmen der Ihrem Konto gewährten Zugriffsrechte aktualisieren.",
+        "productListingsWrite": "Produktangebote im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen, aktualisieren oder löschen.",
+        "usersRead": "Benutzerdaten lesen und Stripe-Checkout- oder Abrechnungsportal-Sitzungen für Ihr Konto erstellen.",
+        "usersWrite": "Benutzerdaten aktualisieren und Ihr Konto dauerhaft löschen.",
         "accessTokensRead": "Details zu Zugriffstoken im Rahmen der Ihrem Konto gewährten Zugriffsrechte lesen.",
         "accessTokensWrite": "Zugriffstoken im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen, aktualisieren oder widerrufen.",
         "searchFiltersWrite": "Ihre gespeicherten Suchen erstellen, aktualisieren oder löschen.",
@@ -1690,6 +1690,7 @@
     "expiresAt": "Läuft ab am {{date}}",
     "noExpiration": "Läuft nicht ab",
     "noScopes": "Keine Berechtigungen",
+    "unsupportedScopes": "Veraltete oder unbekannte Berechtigungen: {{scopes}}. Dieses Token kann weiterhin Zugriff gewähren. Diese Berechtigungen können hier nicht ausgewählt werden. Das Ändern der Berechtigungen ersetzt alle bestehenden Berechtigungen; widerrufen Sie das Token, wenn der Zugriff nicht mehr benötigt wird.",
     "scopes": {
       "productListingsWrite": "Produktangebote schreiben",
       "usersRead": "Benutzerdaten lesen",

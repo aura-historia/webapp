@@ -21,6 +21,7 @@ import {
     createAccessTokenFormSchema,
 } from "@/features/partner/common/components/AccessTokenCreateForm.ts";
 import type { AccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
+import { AccessTokenUnsupportedScopesNotice } from "./AccessTokenUnsupportedScopesNotice.tsx";
 
 interface AccessTokenEditDialogProps {
     readonly accessToken: AccessToken | null;
@@ -101,7 +102,10 @@ function AccessTokenEditDialogContent({
     };
 
     return (
-        <DialogContent className="sm:max-w-xl" showCloseButton={!updateAccessToken.isPending}>
+        <DialogContent
+            className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-xl"
+            showCloseButton={!updateAccessToken.isPending}
+        >
             <DialogHeader>
                 <DialogTitle>{t("partnerAccessTokens.edit.title")}</DialogTitle>
                 <DialogDescription>
@@ -133,6 +137,7 @@ function AccessTokenEditDialogContent({
                 </div>
 
                 <AccessTokenScopesField value={scopesField.value} onChange={scopesField.onChange} />
+                <AccessTokenUnsupportedScopesNotice scopes={accessToken.unsupportedScopes} />
 
                 <div className="grid gap-2">
                     <Label htmlFor="access-token-edit-expiration">

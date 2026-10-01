@@ -5,6 +5,7 @@ export type AccessToken = {
     readonly id: string;
     readonly name: string;
     readonly scopes: AccessTokenScope[];
+    readonly unsupportedScopes: string[];
     readonly maskedToken: string;
     readonly tokenType: "BEARER";
     readonly expiresAt: Date | null;
@@ -22,6 +23,9 @@ export function mapToAccessToken(data: GetAccessTokenData): AccessToken {
         id: data.accessTokenId,
         name: data.name,
         scopes: (data.scope ?? []).filter((scope) => ACCESS_TOKEN_SCOPES.includes(scope)),
+        unsupportedScopes: (data.scope ?? []).filter(
+            (scope) => !ACCESS_TOKEN_SCOPES.includes(scope),
+        ),
         maskedToken: data.token,
         tokenType: data.tokenType,
         expiresAt: data.expiresAt ? new Date(data.expiresAt) : null,

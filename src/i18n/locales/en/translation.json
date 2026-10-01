@@ -1640,9 +1640,9 @@
         "token": "Access token"
       },
       "scopeDescriptions": {
-        "productListingsWrite": "Create or update product listings within the access granted to your account.",
-        "usersRead": "Read user data within the access granted to your account.",
-        "usersWrite": "Update user data within the access granted to your account.",
+        "productListingsWrite": "Create, update or delete product listings within the access granted to your account.",
+        "usersRead": "Read user data and create Stripe checkout or billing-portal sessions for your account.",
+        "usersWrite": "Update user data and permanently delete your account.",
         "accessTokensRead": "Read access-token details within the access granted to your account.",
         "accessTokensWrite": "Create, update or revoke access tokens within the access granted to your account.",
         "searchFiltersWrite": "Create, update or delete your saved searches.",
@@ -1690,6 +1690,7 @@
     "expiresAt": "Expires {{date}}",
     "noExpiration": "Does not expire",
     "noScopes": "No scopes",
+    "unsupportedScopes": "Legacy or unknown permissions: {{scopes}}. This token may still authorize access. These permissions cannot be selected here. Changing permissions replaces all existing grants; revoke the token if access is no longer needed.",
     "scopes": {
       "productListingsWrite": "Write product listings",
       "usersRead": "Read user data",

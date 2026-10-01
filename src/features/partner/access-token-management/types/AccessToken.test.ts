@@ -22,6 +22,7 @@ describe("mapToAccessToken", () => {
             id: "token-123",
             name: "Product sync",
             scopes: ["product-listings:write"],
+            unsupportedScopes: [],
             maskedToken: "aurahistoria_abcdefghijk_****",
             tokenType: "BEARER",
             expiresAt: new Date("2026-08-01T12:00:00Z"),
@@ -39,12 +40,19 @@ describe("mapToAccessToken", () => {
             }),
         ).toMatchObject({
             scopes: [],
+            unsupportedScopes: [],
             expiresAt: null,
         });
     });
 
     it("does not translate legacy scopes into replacement capabilities", () => {
-        const legacyData = { ...apiAccessToken, scope: ["shops:manage", "products:write"] };
-        expect(mapToAccessToken(legacyData as unknown as GetAccessTokenData).scopes).toEqual([]);
+        const legacyData = {
+            ...apiAccessToken,
+            scope: ["shops:manage", "products:write", "future:write", "users:read"],
+        };
+        expect(mapToAccessToken(legacyData as unknown as GetAccessTokenData)).toMatchObject({
+            scopes: ["users:read"],
+            unsupportedScopes: ["shops:manage", "products:write", "future:write"],
+        });
     });
 });

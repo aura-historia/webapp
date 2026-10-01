@@ -2263,9 +2263,9 @@
         "token": "Token di accesso"
       },
       "scopeDescriptions": {
-        "productListingsWrite": "Creare o aggiornare annunci di prodotti entro i permessi concessi al suo account.",
-        "usersRead": "Leggere i dati degli utenti entro i permessi concessi al suo account.",
-        "usersWrite": "Aggiornare i dati degli utenti entro i permessi concessi al suo account.",
+        "productListingsWrite": "Creare, aggiornare o eliminare annunci di prodotti entro i permessi concessi al suo account.",
+        "usersRead": "Leggere i dati degli utenti e creare sessioni di pagamento o del portale di fatturazione Stripe per il suo account.",
+        "usersWrite": "Aggiornare i dati degli utenti ed eliminare definitivamente il suo account.",
         "accessTokensRead": "Leggere i dettagli dei token di accesso entro i permessi concessi al suo account.",
         "accessTokensWrite": "Creare, aggiornare o revocare token di accesso entro i permessi concessi al suo account.",
         "searchFiltersWrite": "Creare, aggiornare o eliminare le sue ricerche salvate.",
@@ -2313,6 +2313,7 @@
     "expiresAt": "Scade il {{date}}",
     "noExpiration": "Non scade",
     "noScopes": "Nessuna autorizzazione",
+    "unsupportedScopes": "Permessi precedenti o sconosciuti: {{scopes}}. Questo token può ancora autorizzare l’accesso. Questi permessi non possono essere selezionati qui. Modificare i permessi sostituisce tutti i permessi esistenti; revochi il token se l’accesso non è più necessario.",
     "scopes": {
       "productListingsWrite": "Scrivere annunci di prodotti",
       "usersRead": "Leggere i dati degli utenti",
