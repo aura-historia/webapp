@@ -15,7 +15,11 @@ const viewerScopedQueryPrefixes = new Set([
     "userSearchFilter",
 ]);
 
-const productListingQueryIds = new Set(["getProductListingByTitleSlug", "getProductListing"]);
+const productListingQueryIds = new Set([
+    "getProductListingByTitleSlug",
+    "getProductListing",
+    "simpleSearchProductListings",
+]);
 
 export function clearViewerScopedQueries(queryClient: QueryClient) {
     queryClient.removeQueries({

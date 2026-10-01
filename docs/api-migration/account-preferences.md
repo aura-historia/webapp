@@ -8,6 +8,6 @@ Issue #982 (MIG-10) uses the generated `OwnUserAccountData` contract through `ma
 
 Listing assessments distinguish `ALLOWED`, `REQUIRES_CONSENT`, and absent/unassessed content. A returned URL alone is not an allowed assessment. Images with redacted or missing URLs remain hidden with either preference. Notification images have no assessment and therefore require the broader visibility preference.
 
-Account updates cancel and reset viewer-scoped listing, watchlist, saved-search and notification queries while retaining the mapped account. Active queries refetch; inactive caches lose old image data. Account deletion cancels queries before clearing the cache and completing sign-out. Authentication transitions use the same viewer-query classifier to remove personalized data.
+Account updates cancel and reset viewer-scoped listing, watchlist, saved-search and notification queries while retaining the mapped account. This includes the generated `simpleSearchProductListings` queries used for recently added listings on the landing page. Active queries refetch; inactive caches lose old image data. Account deletion cancels queries before clearing the cache and completing sign-out. Authentication transitions use the same viewer-query classifier to remove personalized data.
 
 Billing management continues sending the selected plan and cycle for both checkout and paid-user portal responses. Newsletter subscription continues to accept optional profile preferences and a successful empty 204 response.

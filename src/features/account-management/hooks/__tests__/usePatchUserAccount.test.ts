@@ -3,6 +3,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useUpdateUserAccount } from "../usePatchUserAccount.ts";
 import { QueryClient, QueryClientProvider, QueryObserver } from "@tanstack/react-query";
 import { createElement } from "react";
+import { simpleSearchProductListingsQueryKey } from "@/client/@tanstack/react-query.gen.ts";
+
+const recentlyAddedQueryKey = simpleSearchProductListingsQueryKey({
+    query: { sort: "created", order: "desc", size: 12, language: "de", currency: "EUR" },
+});
 
 const mockUpdateUserAccount = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
@@ -76,33 +81,40 @@ describe("useUpdateUserAccount", () => {
     });
 
     describe("Success Path", () => {
-        it("refetches mounted listing queries with the updated visibility", async () => {
-            let showSensitive = true;
-            const listingQuery = vi.fn(async () => ({
-                image: showSensitive ? "sensitive.jpg" : null,
-            }));
-            const observer = new QueryObserver(queryClient, {
-                queryKey: ["search", "chair"],
-                queryFn: listingQuery,
-            });
-            const unsubscribe = observer.subscribe(() => {});
-            await waitFor(() =>
-                expect(observer.getCurrentResult().data?.image).toBe("sensitive.jpg"),
-            );
-            mockUpdateUserAccount.mockImplementation(async () => {
-                showSensitive = false;
-                return { data: { showUnassessedOrSensitiveContent: false } };
-            });
-            const { result } = renderHook(() => useUpdateUserAccount(), {
-                wrapper: createWrapper(),
-            });
-            await act(async () => {
-                await result.current.mutateAsync({ showUnassessedOrSensitiveContent: false });
-            });
-            expect(listingQuery).toHaveBeenCalledTimes(2);
-            expect(observer.getCurrentResult().data?.image).toBeNull();
-            unsubscribe();
-        });
+        it.each([
+            ["search", ["search", "chair"]],
+            ["recently added", recentlyAddedQueryKey],
+        ] as const)(
+            "refetches mounted %s queries with the updated visibility",
+            async (_name, queryKey) => {
+                let showSensitive = true;
+                const listingQuery = vi.fn(async () => ({
+                    image: showSensitive ? "sensitive.jpg" : null,
+                }));
+                const observer = new QueryObserver(queryClient, {
+                    queryKey,
+                    queryFn: listingQuery,
+                    staleTime: 5 * 60 * 1000,
+                });
+                const unsubscribe = observer.subscribe(() => {});
+                await waitFor(() =>
+                    expect(observer.getCurrentResult().data?.image).toBe("sensitive.jpg"),
+                );
+                mockUpdateUserAccount.mockImplementation(async () => {
+                    showSensitive = false;
+                    return { data: { showUnassessedOrSensitiveContent: false } };
+                });
+                const { result } = renderHook(() => useUpdateUserAccount(), {
+                    wrapper: createWrapper(),
+                });
+                await act(async () => {
+                    await result.current.mutateAsync({ showUnassessedOrSensitiveContent: false });
+                });
+                expect(listingQuery).toHaveBeenCalledTimes(2);
+                expect(observer.getCurrentResult().data?.image).toBeNull();
+                unsubscribe();
+            },
+        );
         it("discards content-sensitive cache data and keeps the updated account and public data", async () => {
             const updatedAccount = { showUnassessedOrSensitiveContent: false };
             mockUpdateUserAccount.mockResolvedValue({ data: updatedAccount });
@@ -117,6 +129,7 @@ describe("useUpdateUserAccount", () => {
                 ["searchFilterPreviewProducts", "filter"],
                 ["getNotifications", "user"],
                 [{ _id: "getProductListingByTitleSlug" }, "chair"],
+                recentlyAddedQueryKey,
             ];
             for (const key of affectedKeys)
                 queryClient.setQueryData(key, { image: "sensitive.jpg" });
