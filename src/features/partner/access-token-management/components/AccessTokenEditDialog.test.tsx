@@ -13,7 +13,6 @@ const accessToken: AccessToken = {
     id: "at_01jopaque",
     name: "Sync",
     scopes: ["product-listings:write"],
-    unsupportedScopes: [],
     maskedToken: "aurahistoria_prefix_****",
     tokenType: "BEARER",
     expiresAt: new Date("2026-10-01T12:34:56.789Z"),
@@ -43,34 +42,6 @@ it("clears the existing expiry and last scope explicitly", async () => {
     await user.click(screen.getByRole("button", { name: "Änderungen speichern" }));
     expect(mutate).toHaveBeenCalledWith(
         { id: accessToken.id, name: undefined, scopes: [], expiresAt: null },
-        expect.anything(),
-    );
-});
-
-it("shows legacy grants read-only and preserves them when renaming", async () => {
-    const user = userEvent.setup();
-    render(
-        <AccessTokenEditDialog
-            accessToken={{
-                ...accessToken,
-                scopes: [],
-                unsupportedScopes: ["shops:manage", "products:write"],
-            }}
-            open
-            onOpenChange={vi.fn()}
-        />,
-    );
-    expect(screen.getByRole("note")).toHaveTextContent("shops:manage, products:write");
-    expect(screen.getByRole("note")).toHaveTextContent("ersetzt alle bestehenden Berechtigungen");
-    expect(screen.getAllByRole("checkbox")).toHaveLength(8);
-    for (const checkbox of screen.getAllByRole("checkbox")) {
-        expect(checkbox).not.toBeChecked();
-    }
-    await user.clear(screen.getByLabelText("Name"));
-    await user.type(screen.getByLabelText("Name"), "Renamed");
-    await user.click(screen.getByRole("button", { name: "Änderungen speichern" }));
-    expect(mutate).toHaveBeenCalledWith(
-        { id: accessToken.id, name: "Renamed", scopes: undefined, expiresAt: undefined },
         expect.anything(),
     );
 });

@@ -2313,7 +2313,6 @@
     "expiresAt": "Expira {{date}}",
     "noExpiration": "No expira",
     "noScopes": "Sin permisos",
-    "unsupportedScopes": "Permisos antiguos o desconocidos: {{scopes}}. Este token puede seguir autorizando el acceso. Estos permisos no se pueden seleccionar aquí. Cambiar los permisos reemplaza todos los permisos existentes; revoque el token si ya no necesita el acceso.",
     "scopes": {
       "productListingsWrite": "Escribir anuncios de productos",
       "usersRead": "Leer datos de usuarios",

@@ -21,7 +21,6 @@ import {
     createAccessTokenFormSchema,
 } from "@/features/partner/common/components/AccessTokenCreateForm.ts";
 import type { AccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
-import { AccessTokenUnsupportedScopesNotice } from "./AccessTokenUnsupportedScopesNotice.tsx";
 
 interface AccessTokenEditDialogProps {
     readonly accessToken: AccessToken | null;
@@ -137,7 +136,6 @@ function AccessTokenEditDialogContent({
                 </div>
 
                 <AccessTokenScopesField value={scopesField.value} onChange={scopesField.onChange} />
-                <AccessTokenUnsupportedScopesNotice scopes={accessToken.unsupportedScopes} />
 
                 <div className="grid gap-2">
                     <Label htmlFor="access-token-edit-expiration">

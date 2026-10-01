@@ -1690,7 +1690,6 @@
     "expiresAt": "Läuft ab am {{date}}",
     "noExpiration": "Läuft nicht ab",
     "noScopes": "Keine Berechtigungen",
-    "unsupportedScopes": "Veraltete oder unbekannte Berechtigungen: {{scopes}}. Dieses Token kann weiterhin Zugriff gewähren. Diese Berechtigungen können hier nicht ausgewählt werden. Das Ändern der Berechtigungen ersetzt alle bestehenden Berechtigungen; widerrufen Sie das Token, wenn der Zugriff nicht mehr benötigt wird.",
     "scopes": {
       "productListingsWrite": "Produktangebote schreiben",
       "usersRead": "Benutzerdaten lesen",

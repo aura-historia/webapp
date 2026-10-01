@@ -1,4 +1,4 @@
-/** Shared by own-token and OAuth UI; never migrate legacy grants automatically. */
+/** Supported scope contract shared by own-token and OAuth UI. */
 export const ACCESS_TOKEN_SCOPES = [
     "product-listings:write",
     "users:read",

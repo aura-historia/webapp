@@ -24,7 +24,6 @@ import {
 } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
 import { AccessTokenCreateDialog } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
 import { AccessTokenEditDialog } from "@/features/partner/access-token-management/components/AccessTokenEditDialog.tsx";
-import { AccessTokenUnsupportedScopesNotice } from "./AccessTokenUnsupportedScopesNotice.tsx";
 import type { AccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
 import { formatDateTime } from "@/lib/utils.ts";
 import { toast } from "sonner";
@@ -270,13 +269,11 @@ function AccessTokenListItem({
                                 {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
                             </Badge>
                         ))
-                    ) : accessToken.unsupportedScopes.length === 0 ? (
+                    ) : (
                         <Badge variant="outline">{t("partnerAccessTokens.noScopes")}</Badge>
-                    ) : null}
+                    )}
                 </div>
             </div>
-
-            <AccessTokenUnsupportedScopesNotice scopes={accessToken.unsupportedScopes} />
 
             <div className="mt-2 flex w-full gap-2 md:absolute md:top-4 md:right-4 md:mt-0 md:w-auto">
                 <Button

@@ -2313,7 +2313,6 @@
     "expiresAt": "Expire le {{date}}",
     "noExpiration": "N'expire pas",
     "noScopes": "Aucune autorisation",
-    "unsupportedScopes": "Autorisations anciennes ou inconnues : {{scopes}}. Ce jeton peut toujours autoriser l’accès. Ces autorisations ne peuvent pas être sélectionnées ici. Modifier les autorisations remplace toutes les autorisations existantes ; révoquez le jeton si l’accès n’est plus nécessaire.",
     "scopes": {
       "productListingsWrite": "Écrire des annonces de produits",
       "usersRead": "Lire les données des utilisateurs",

@@ -38,7 +38,6 @@ describe("AccessTokensSection", () => {
                     id: "token-12345678",
                     name: "Product sync",
                     scopes: ["product-listings:write"],
-                    unsupportedScopes: [],
                     maskedToken: "aurahistoria_abcdefghijk_****",
                     tokenType: "BEARER",
                     expiresAt: null,
@@ -49,7 +48,6 @@ describe("AccessTokensSection", () => {
                     id: "token-87654321",
                     name: "Shop administration",
                     scopes: [],
-                    unsupportedScopes: [],
                     maskedToken: "aurahistoria_zyxwvutsrqp_****",
                     tokenType: "BEARER",
                     expiresAt: new Date("2026-08-01T12:00:00Z"),
@@ -78,23 +76,6 @@ describe("AccessTokensSection", () => {
         expect(expirationBadge?.querySelector("svg")).toBeInTheDocument();
         expect(screen.getByRole("button", { name: "Neues Zugriffstoken" })).toBeInTheDocument();
     });
-
-    it.each(["shops:manage", "future:write"])(
-        "warns about %s instead of showing no permissions",
-        (scope) => {
-            const token = mockUseAccessTokens().data[0];
-            mockUseAccessTokens.mockReturnValue({
-                data: [{ ...token, scopes: [], unsupportedScopes: [scope] }],
-                isPending: false,
-                isError: false,
-                refetch: vi.fn(),
-            });
-            render(<AccessTokensSection />);
-            expect(screen.getByRole("note")).toHaveTextContent(scope);
-            expect(screen.getByRole("note")).toHaveTextContent("weiterhin Zugriff gewähren");
-            expect(screen.queryByText("Keine Berechtigungen")).not.toBeInTheDocument();
-        },
-    );
 
     it("opens the access token creation dialog", async () => {
         const user = userEvent.setup();

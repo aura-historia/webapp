@@ -1690,7 +1690,6 @@
     "expiresAt": "Expires {{date}}",
     "noExpiration": "Does not expire",
     "noScopes": "No scopes",
-    "unsupportedScopes": "Legacy or unknown permissions: {{scopes}}. This token may still authorize access. These permissions cannot be selected here. Changing permissions replaces all existing grants; revoke the token if access is no longer needed.",
     "scopes": {
       "productListingsWrite": "Write product listings",
       "usersRead": "Read user data",
