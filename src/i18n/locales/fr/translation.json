@@ -266,8 +266,8 @@
       "unitSystemPlaceholder": "Sélectionnez le système d'unités",
       "saveButton": "Enregistrer les modifications",
       "successMessage": "Données personnelles mises à jour avec succès",
-      "prohibitedContentConsentLabel": "Afficher les produits avec des marquages § 86a StGB",
-      "prohibitedContentConsentTooltip": "Les images des produits peuvent contenir des symboles d'organisations anticonstitutionnelles ou terroristes, en particulier ceux de l'époque nationale-socialiste, tels que définis par le § 86a StGB. En acceptant, vous consentez à ce que nous vous affichions ce contenu."
+      "showUnassessedOrSensitiveContentLabel": "Afficher les contenus non évalués ou sensibles",
+      "showUnassessedOrSensitiveContentTooltip": "Afficher les contenus qui n'ont pas encore été évalués ou qui sont classés comme sensibles. Les images peuvent inclure des symboles visés par le § 86a StGB. Lorsque cette option est désactivée, ces images restent masquées. Les contenus masqués par le service restent indisponibles."
     }
   },
   "search": {
@@ -1195,8 +1195,8 @@
       "currency": "Devise",
       "unitSystem": "Système d'unités",
       "pleaseSelect": "Veuillez sélectionner",
-      "prohibitedContentConsentLabel": "Afficher les produits avec des marquages §86a StGB",
-      "prohibitedContentConsentTooltip": "Les images des produits peuvent contenir des symboles d'organisations anticonstitutionnelles ou terroristes, en particulier ceux de l'époque nationale-socialiste, tels que définis par le §86a StGB. En acceptant, vous consentez à ce que nous vous affichions ce contenu.",
+      "showUnassessedOrSensitiveContentLabel": "Afficher les contenus non évalués ou sensibles",
+      "showUnassessedOrSensitiveContentTooltip": "Afficher les contenus qui n'ont pas encore été évalués ou qui sont classés comme sensibles. Les images peuvent inclure des symboles visés par le § 86a StGB. Lorsque cette option est désactivée, ces images restent masquées. Les contenus masqués par le service restent indisponibles.",
       "title": "Créer un compte",
       "subtitle": "Rejoignez Aura Historia pour suivre les antiquités",
       "passwordPlaceholder": "Créer un mot de passe",

@@ -16,11 +16,9 @@ describe("SubscriptionPlanSection", () => {
         lastName: "Doe",
         language: "de",
         currency: "EUR",
-        prohibitedContentConsent: false,
+        showUnassessedOrSensitiveContent: false,
         role: "USER",
         subscriptionType: "pro",
-        created: new Date("2024-01-01T00:00:00Z"),
-        updated: new Date("2024-01-01T00:00:00Z"),
     };
 
     beforeEach(async () => {

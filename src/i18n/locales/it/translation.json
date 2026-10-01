@@ -241,8 +241,8 @@
       "unitSystemPlaceholder": "Seleziona sistema di unità",
       "saveButton": "Salva modifiche",
       "successMessage": "Dati personali aggiornati con successo",
-      "prohibitedContentConsentLabel": "Mostra prodotti con simboli ai sensi del § 86a StGB",
-      "prohibitedContentConsentTooltip": "Le immagini dei prodotti possono contenere simboli di organizzazioni incostituzionali o terroristiche, in particolare quelli dell'era nazionalsocialista, come definito dal § 86a StGB. Accettando, acconsenti alla visualizzazione di tali contenuti."
+      "showUnassessedOrSensitiveContentLabel": "Mostrare contenuti non valutati o sensibili",
+      "showUnassessedOrSensitiveContentTooltip": "Mostrare contenuti non ancora valutati o classificati come sensibili. Le immagini possono includere simboli contemplati dal § 86a StGB. Se disattivata, queste immagini rimangono nascoste. I contenuti oscurati dal servizio restano non disponibili."
     },
     "changePassword": {
       "title": "Cambia password",
@@ -1195,8 +1195,8 @@
       "currency": "Valuta",
       "unitSystem": "Sistema di unità",
       "pleaseSelect": "Seleziona",
-      "prohibitedContentConsentLabel": "Mostra prodotti con simboli ai sensi del §86a StGB",
-      "prohibitedContentConsentTooltip": "Le immagini dei prodotti potrebbero contenere simboli di organizzazioni incostituzionali o terroristiche, in particolare del periodo nazionalsocialista, come definito dal §86a StGB. Accettando, acconsenti alla visualizzazione di tali contenuti.",
+      "showUnassessedOrSensitiveContentLabel": "Mostrare contenuti non valutati o sensibili",
+      "showUnassessedOrSensitiveContentTooltip": "Mostrare contenuti non ancora valutati o classificati come sensibili. Le immagini possono includere simboli contemplati dal § 86a StGB. Se disattivata, queste immagini rimangono nascoste. I contenuti oscurati dal servizio restano non disponibili.",
       "title": "Crea un account",
       "subtitle": "Unisciti ad Aura Historia per tracciare le antichità",
       "passwordPlaceholder": "Crea una password",

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { mapToInternalUserAccount } from "../UserAccountData.ts";
 import { parseUserRole } from "../UserRole.ts";
-import type { GetUserAccountData } from "@/client";
+import type { OwnUserAccountData } from "@/client";
 
 describe("UserRole", () => {
     it("parses ADMIN role", () => {
@@ -19,16 +19,12 @@ describe("UserRole", () => {
 });
 
 describe("mapToInternalUserAccount", () => {
-    const baseApi: GetUserAccountData = {
+    const baseApi: OwnUserAccountData = {
         userId: "u-1",
         email: "user@example.com",
-        prohibitedContentConsent: false,
+        showUnassessedOrSensitiveContent: false,
         tier: "FREE",
         role: "USER",
-        createdBy: "SYSTEM",
-        updatedBy: "SYSTEM",
-        created: "2024-01-01T00:00:00Z",
-        updated: "2024-01-02T00:00:00Z",
     };
 
     it("includes the role in the mapped result", () => {

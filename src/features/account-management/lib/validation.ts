@@ -22,7 +22,7 @@ export function getAccountEditSchema(t: TFunction) {
         language: z.enum(LANGUAGES).optional(),
         currency: z.enum(CURRENCIES).optional(),
         unitSystem: z.enum(UNIT_SYSTEMS).optional(),
-        prohibitedContentConsent: z.boolean(),
+        showUnassessedOrSensitiveContent: z.boolean(),
     });
 }
 

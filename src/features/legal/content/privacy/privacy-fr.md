@@ -72,7 +72,7 @@ Si vous créez ou utilisez un compte utilisateur, nous traitons notamment :
 - les informations d’authentification et de session
 - le prénom et le nom, lorsqu’ils sont fournis
 - la langue et la devise préférées, lorsqu’elles sont fournies
-- le statut de consentement pour l’affichage de contenus sensibles (`prohibitedContentConsent`), lorsqu’il est utilisé
+- préférence d'affichage des contenus non évalués ou sensibles (`showUnassessedOrSensitiveContent`)
 - les rôles, autorisations et le statut d’abonnement
 
 L’authentification est gérée techniquement via AWS Amplify et Amazon Cognito.

@@ -72,7 +72,7 @@ If you create or use a user account, we process in particular:
 - authentication and session information
 - first and last name where provided
 - preferred language and currency where provided
-- consent status for sensitive content displays (`prohibitedContentConsent`) where used
+- preference for showing unassessed or sensitive content (`showUnassessedOrSensitiveContent`)
 - roles, permissions, and subscription status
 
 Authentication is technically handled via AWS Amplify and Amazon Cognito.

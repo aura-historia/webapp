@@ -93,7 +93,8 @@ export type NotificationCollection = {
 function mapImage(data: ProductListingImageData | null): ProductImage | undefined {
     if (!data?.url) return undefined;
     const url = safeImageUrl(data.url);
-    return url ? { url, prohibitedContentType: "NONE" } : undefined;
+    // Notification images have no content assessment; a URL does not prove they are allowed.
+    return url ? { url, prohibitedContentType: "UNKNOWN" } : undefined;
 }
 
 function safeImageUrl(value: string): URL | undefined {

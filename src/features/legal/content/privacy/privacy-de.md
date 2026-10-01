@@ -72,7 +72,7 @@ Wenn Sie ein Nutzerkonto anlegen oder verwenden, verarbeiten wir insbesondere:
 - Authentifizierungs- und Sitzungsinformationen
 - Vorname und Nachname, soweit angegeben
 - bevorzugte Sprache und Währung, soweit angegeben
-- Einwilligungsstatus für sensible Inhaltsdarstellungen (`prohibitedContentConsent`), soweit genutzt
+- Einstellung zur Anzeige ungeprüfter oder sensibler Inhalte (`showUnassessedOrSensitiveContent`)
 - Rollen-, Berechtigungs- und Abonnementstatus
 
 Die Authentifizierung erfolgt technisch über AWS Amplify bzw. Amazon Cognito.

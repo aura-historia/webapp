@@ -49,19 +49,30 @@ export function PersonalDataForm() {
         values: {
             firstName: userAccount?.firstName ?? "",
             lastName: userAccount?.lastName ?? "",
-            language: userAccount?.language,
-            currency: userAccount?.currency,
-            unitSystem: userAccount?.unitSystem,
-            prohibitedContentConsent: userAccount?.prohibitedContentConsent ?? false,
+            language: userAccount?.language ?? undefined,
+            currency: userAccount?.currency ?? undefined,
+            unitSystem: userAccount?.unitSystem ?? undefined,
+            showUnassessedOrSensitiveContent:
+                userAccount?.showUnassessedOrSensitiveContent ?? false,
         },
     });
 
     const onSubmit = (data: AccountEditFormData) => {
-        updateAccount(data, {
-            onSuccess: () => {
-                toast.success(t("account.personalData.successMessage"));
+        const { showUnassessedOrSensitiveContent, ...profile } = data;
+        updateAccount(
+            {
+                ...profile,
+                ...(showUnassessedOrSensitiveContent !==
+                    userAccount?.showUnassessedOrSensitiveContent && {
+                    showUnassessedOrSensitiveContent,
+                }),
             },
-        });
+            {
+                onSuccess: () => {
+                    toast.success(t("account.personalData.successMessage"));
+                },
+            },
+        );
     };
 
     if (isLoading) {
@@ -207,7 +218,7 @@ export function PersonalDataForm() {
 
                 <FormField
                     control={accountEditForm.control}
-                    name="prohibitedContentConsent"
+                    name="showUnassessedOrSensitiveContent"
                     render={({ field }) => (
                         <FormItem className="space-y-2">
                             <div className="flex items-start gap-3">
@@ -220,7 +231,9 @@ export function PersonalDataForm() {
                                 </FormControl>
                                 <div className="space-y-1">
                                     <FormLabel className="inline-flex items-center gap-1.5 font-medium">
-                                        {t("account.personalData.prohibitedContentConsentLabel")}
+                                        {t(
+                                            "account.personalData.showUnassessedOrSensitiveContentLabel",
+                                        )}
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
@@ -232,7 +245,7 @@ export function PersonalDataForm() {
                                                 <TooltipContent className="max-w-xs">
                                                     <p>
                                                         {t(
-                                                            "account.personalData.prohibitedContentConsentTooltip",
+                                                            "account.personalData.showUnassessedOrSensitiveContentTooltip",
                                                         )}
                                                     </p>
                                                 </TooltipContent>
@@ -240,7 +253,9 @@ export function PersonalDataForm() {
                                         </TooltipProvider>
                                     </FormLabel>
                                     <p className="text-muted-foreground text-xs">
-                                        {t("account.personalData.prohibitedContentConsentTooltip")}
+                                        {t(
+                                            "account.personalData.showUnassessedOrSensitiveContentTooltip",
+                                        )}
                                     </p>
                                 </div>
                             </div>

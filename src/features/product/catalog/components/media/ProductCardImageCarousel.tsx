@@ -33,8 +33,6 @@ export function ProductCardImageCarousel({
     const [canScrollNext, setCanScrollNext] = useState(false);
     const [dotStart, setDotStart] = useState(0);
 
-    const isRestrictedConsentGiven = showSensitiveContent;
-
     const onSelect = useCallback(() => {
         if (!carouselApi) return;
         const index = carouselApi.selectedScrollSnap();
@@ -101,7 +99,7 @@ export function ProductCardImageCarousel({
                 productListingTitleSlugId={productListingTitleSlugId}
                 onClick={onProductClick}
             >
-                {isRestrictedImage(images[0], isRestrictedConsentGiven) ? (
+                {isRestrictedImage(images[0], showSensitiveContent) ? (
                     <ProhibitedImagePlaceholder className="w-full aspect-[4/3]" />
                 ) : (
                     <ImageWithFallback
@@ -133,7 +131,7 @@ export function ProductCardImageCarousel({
                                 productListingTitleSlugId={productListingTitleSlugId}
                                 onClick={onProductClick}
                             >
-                                {isRestrictedImage(image, isRestrictedConsentGiven) ? (
+                                {isRestrictedImage(image, showSensitiveContent) ? (
                                     <ProhibitedImagePlaceholder className="w-full aspect-[4/3]" />
                                 ) : (
                                     <ImageWithFallback

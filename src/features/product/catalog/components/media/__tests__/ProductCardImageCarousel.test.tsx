@@ -63,10 +63,8 @@ describe("ProductCardImageCarousel", () => {
     ];
 
     const defaultProps = {
-        shopId: "shop-1",
-        shopsProductId: "product-1",
-        shopSlugId: "test-shop-abc123",
-        productSlugId: "test-product-def456",
+        productListingTitleSlugId: "test-product-def456",
+        showSensitiveContent: false,
     };
 
     it("should render a placeholder when no images are provided", async () => {
@@ -124,9 +122,6 @@ describe("ProductCardImageCarousel", () => {
             renderWithRouter(<ProductCardImageCarousel images={mockImages} {...defaultProps} />);
         });
         const links = screen.getAllByRole("link");
-        expect(links[0]).toHaveAttribute(
-            "href",
-            "/de/shops/test-shop-abc123/products/test-product-def456",
-        );
+        expect(links[0]).toHaveAttribute("href", "/de/products/test-product-def456");
     });
 });
