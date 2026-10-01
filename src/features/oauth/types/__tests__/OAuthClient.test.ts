@@ -13,7 +13,7 @@ describe("mapToInternalOAuthClient", () => {
             client_uri: "https://client.example",
             logo_uri: "https://client.example/logo.png",
             redirect_uris: ["https://client.example/callback"],
-            scope: ["products:write"],
+            scope: ["product-listings:write"],
             client_id_issued_at: 1748539200,
         };
 
@@ -26,7 +26,7 @@ describe("mapToInternalOAuthClient", () => {
         expect(result.clientUri).toBe("https://client.example");
         expect(result.logoUri).toBe("https://client.example/logo.png");
         expect(result.redirectUris).toEqual(["https://client.example/callback"]);
-        expect(result.scopes).toEqual(["products:write"]);
+        expect(result.scopes).toEqual(["product-listings:write"]);
     });
 
     it("maps multiple scopes correctly", () => {
@@ -39,13 +39,13 @@ describe("mapToInternalOAuthClient", () => {
             client_uri: "https://client.example",
             logo_uri: "https://client.example/logo.png",
             redirect_uris: ["https://client.example/callback", "https://client.example/auth"],
-            scope: ["products:write", "shops:manage"],
+            scope: ["product-listings:write", "watchlist:read"],
             client_id_issued_at: 1748539200,
         };
 
         const result = mapToInternalOAuthClient(apiData);
 
-        expect(result.scopes).toEqual(["products:write", "shops:manage"]);
+        expect(result.scopes).toEqual(["product-listings:write", "watchlist:read"]);
         expect(result.redirectUris).toHaveLength(2);
     });
 
@@ -78,7 +78,7 @@ describe("mapToInternalOAuthClient", () => {
             client_uri: "https://client.example",
             logo_uri: "https://client.example/logo.png",
             redirect_uris: ["https://example.com/cb"],
-            scope: ["products:write"],
+            scope: ["product-listings:write"],
             client_id_issued_at: 1748539200,
         };
 

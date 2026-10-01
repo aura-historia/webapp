@@ -35,6 +35,25 @@ describe("_auth.oauth.authorize route", () => {
         expect(Route.options.ssr).toBe(false);
     });
 
+    it("rejects legacy shop selection flags and unsupported PKCE methods", () => {
+        const params = {
+            client_id: "oc_test",
+            redirect_uri: "https://client.example/callback",
+            code_challenge: "challenge",
+        };
+        expect(() => validateSearch({ ...params, requires_partner_shop_id: true })).toThrow();
+        expect(() => validateSearch({ ...params, code_challenge_method: "plain" })).toThrow();
+    });
+
+    it("requires canonical source selection for the WooCommerce broker even when the flag is omitted", () => {
+        const result = validateSearch({
+            client_id: "oc_test",
+            redirect_uri: "https://auth.example/api/oauth/client/redirect-broker/woocommerce",
+            code_challenge: "challenge",
+        });
+        expect(result.requires_listing_source_id).toBe(true);
+    });
+
     it("validates search params with required fields", () => {
         expect(validateSearch).toBeDefined();
 
@@ -54,7 +73,7 @@ describe("_auth.oauth.authorize route", () => {
                 redirect_uri: "https://client.example/callback",
                 code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
                 code_challenge_method: "S256",
-                requires_partner_shop_id: false,
+                requires_listing_source_id: false,
             }),
         );
     });
@@ -64,14 +83,14 @@ describe("_auth.oauth.authorize route", () => {
             response_type: "code",
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             redirect_uri: "https://client.example/callback",
-            scope: "products:write",
+            scope: "product-listings:write",
             state: "csrf-token-xyz",
             code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
             code_challenge_method: "S256",
         };
 
         const result = validateSearch(searchWithOptionals);
-        expect(result).toHaveProperty("scope", "products:write");
+        expect(result).toHaveProperty("scope", "product-listings:write");
         expect(result).toHaveProperty("state", "csrf-token-xyz");
     });
 
@@ -130,7 +149,7 @@ describe("_auth.oauth.authorize route", () => {
         expect(result).toHaveProperty("code_challenge_method", "S256");
     });
 
-    it("defaults requires_partner_shop_id to false when not provided", () => {
+    it("defaults requires_listing_source_id to false when not provided", () => {
         const result = validateSearch({
             response_type: "code",
             client_id: "01970f22-2bf0-7000-8000-000000000010",
@@ -139,20 +158,20 @@ describe("_auth.oauth.authorize route", () => {
             code_challenge_method: "S256",
         });
 
-        expect(result).toHaveProperty("requires_partner_shop_id", false);
+        expect(result).toHaveProperty("requires_listing_source_id", false);
     });
 
-    it("parses requires_partner_shop_id from the route search", () => {
+    it("parses requires_listing_source_id from the route search", () => {
         const result = validateSearch({
             response_type: "code",
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             redirect_uri: "https://client.example/callback",
             code_challenge: "test-challenge",
             code_challenge_method: "S256",
-            requires_partner_shop_id: "true",
+            requires_listing_source_id: "true",
         });
 
-        expect(result).toHaveProperty("requires_partner_shop_id", true);
+        expect(result).toHaveProperty("requires_listing_source_id", true);
     });
 
     it("renders the authorize page with route search params", () => {
@@ -160,11 +179,11 @@ describe("_auth.oauth.authorize route", () => {
             response_type: "code",
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             redirect_uri: "https://client.example/callback",
-            scope: "products:write",
+            scope: "product-listings:write",
             state: "csrf-token-xyz",
             code_challenge: "test-challenge",
             code_challenge_method: "S256",
-            requires_partner_shop_id: false,
+            requires_listing_source_id: false,
         };
         vi.spyOn(Route, "useSearch").mockReturnValue(searchParams);
 

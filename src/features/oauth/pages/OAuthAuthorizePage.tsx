@@ -1,4 +1,3 @@
-import { useNavigate } from "@tanstack/react-router";
 import { ShieldAlert } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardFooter } from "@/components/ui/card.tsx";
@@ -8,13 +7,15 @@ import { OAuthAuthorizeClientSummary } from "@/features/oauth/components/OAuthAu
 import { OAuthAuthorizeErrorCard } from "@/features/oauth/components/OAuthAuthorizeErrorCard.tsx";
 import { OAuthAuthorizePageContainer } from "@/features/oauth/components/OAuthAuthorizePageContainer.tsx";
 import { OAuthAuthorizePageSkeleton } from "@/features/oauth/components/OAuthAuthorizePageSkeleton.tsx";
-import { OAuthPartnerShopSelection } from "@/features/oauth/components/OAuthPartnerShopSelection.tsx";
+import { OAuthListingSourceSelection } from "@/features/oauth/components/OAuthListingSourceSelection.tsx";
 import { OAuthRequestedScopes } from "@/features/oauth/components/OAuthRequestedScopes.tsx";
-import { OAuthSelectedPartnerShopConfirmation } from "@/features/oauth/components/OAuthSelectedPartnerShopConfirmation.tsx";
-import { useOAuthAuthorizePartnerShopSelection } from "@/features/oauth/hooks/useOAuthAuthorizePartnerShopSelection.ts";
+import { OAuthSelectedListingSourceConfirmation } from "@/features/oauth/components/OAuthSelectedListingSourceConfirmation.tsx";
+import { useOAuthAuthorizeListingSourceSelection } from "@/features/oauth/hooks/useOAuthAuthorizeListingSourceSelection.ts";
 import { useOAuthClient } from "@/features/oauth/hooks/useOAuthClient.ts";
-import { useOAuthPartnerShops } from "@/features/oauth/hooks/useOAuthPartnerShops.ts";
+import { useOAuthListingSources } from "@/features/oauth/hooks/useOAuthListingSources.ts";
 import type { OAuthAuthorizeSearchParams } from "@/features/oauth/lib/oauthAuthorizeSearchParams.ts";
+import { isValidOAuthConsentRequest } from "@/features/oauth/lib/oauthConsentValidation.ts";
+import { OAuthConsentUnavailableError } from "@/features/oauth/api/oauthConsentMetadata.ts";
 
 interface OAuthAuthorizePageProps {
     readonly searchParams: OAuthAuthorizeSearchParams;
@@ -22,39 +23,27 @@ interface OAuthAuthorizePageProps {
 
 export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
     const { t } = useTranslation();
-    const navigate = useNavigate();
-    const { data: client, isLoading, isError } = useOAuthClient(searchParams.client_id);
-    const requiresPartnerShopId = searchParams.requires_partner_shop_id;
+    const { data: client, isLoading, isError, error } = useOAuthClient(searchParams.client_id);
+    const requiresListingSourceId = searchParams.requires_listing_source_id;
     const {
-        data: partnerShops = [],
-        isLoading: isPartnerShopsLoading,
-        isError: isPartnerShopsError,
-    } = useOAuthPartnerShops(requiresPartnerShopId);
+        data: listingSources = [],
+        isLoading: isListingSourcesLoading,
+        isError: isListingSourcesError,
+    } = useOAuthListingSources(requiresListingSourceId);
     const {
-        effectivePartnerShop,
-        effectivePartnerShopId,
-        partnerShopId,
-        requiresPartnerShopSelection,
-        selectPartnerShop,
+        effectiveListingSource,
+        effectiveListingSourceId,
+        listingSourceId,
+        requiresListingSourceSelection,
+        selectListingSource,
         requestedScopes,
-        shouldShowSelectedPartnerShop,
-    } = useOAuthAuthorizePartnerShopSelection({
+        shouldShowSelectedListingSource,
+    } = useOAuthAuthorizeListingSourceSelection({
         searchParams,
-        partnerShops,
+        listingSources,
     });
 
-    const handleDeny = () => {
-        const url = new URL(searchParams.redirect_uri);
-        url.searchParams.set("error", "access_denied");
-        url.searchParams.set("error_description", "The user denied the authorization request");
-        if (searchParams.state) {
-            url.searchParams.set("state", searchParams.state);
-        }
-
-        navigate({ href: url.toString() });
-    };
-
-    if (isLoading || (requiresPartnerShopId && isPartnerShopsLoading)) {
+    if (isLoading || (requiresListingSourceId && isListingSourcesLoading)) {
         return (
             <OAuthAuthorizePageContainer>
                 <OAuthAuthorizePageSkeleton
@@ -65,29 +54,30 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
         );
     }
 
-    if (isError || !client) {
+    if (isError || !client || !isValidOAuthConsentRequest(client, searchParams)) {
+        const errorKey = error instanceof OAuthConsentUnavailableError ? "unavailable" : "error";
         return (
             <OAuthAuthorizeErrorCard
-                title={t("oauth.authorize.error.title")}
-                description={t("oauth.authorize.error.description")}
+                title={t(`oauth.authorize.${errorKey}.title`)}
+                description={t(`oauth.authorize.${errorKey}.description`)}
             />
         );
     }
 
-    if (requiresPartnerShopId && isPartnerShopsError) {
+    if (requiresListingSourceId && isListingSourcesError) {
         return (
             <OAuthAuthorizeErrorCard
-                title={t("oauth.authorize.partnerShops.loadError.title")}
-                description={t("oauth.authorize.partnerShops.loadError.description")}
+                title={t("oauth.authorize.listingSources.loadError.title")}
+                description={t("oauth.authorize.listingSources.loadError.description")}
             />
         );
     }
 
-    if (requiresPartnerShopId && partnerShops.length === 0) {
+    if (requiresListingSourceId && listingSources.length === 0) {
         return (
             <OAuthAuthorizeErrorCard
-                title={t("oauth.authorize.partnerShops.empty.title")}
-                description={t("oauth.authorize.partnerShops.empty.description")}
+                title={t("oauth.authorize.listingSources.empty.title")}
+                description={t("oauth.authorize.listingSources.empty.description")}
             />
         );
     }
@@ -109,17 +99,17 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
 
                         <OAuthRequestedScopes requestedScopes={requestedScopes} />
 
-                        {requiresPartnerShopSelection && (
-                            <OAuthPartnerShopSelection
-                                partnerShops={partnerShops}
-                                selectedPartnerShopId={effectivePartnerShopId}
-                                onSelectPartnerShop={selectPartnerShop}
+                        {requiresListingSourceSelection && (
+                            <OAuthListingSourceSelection
+                                listingSources={listingSources}
+                                selectedListingSourceId={effectiveListingSourceId}
+                                onSelectListingSource={selectListingSource}
                             />
                         )}
 
-                        {shouldShowSelectedPartnerShop && effectivePartnerShop && (
-                            <OAuthSelectedPartnerShopConfirmation
-                                partnerShop={effectivePartnerShop}
+                        {shouldShowSelectedListingSource && effectiveListingSource && (
+                            <OAuthSelectedListingSourceConfirmation
+                                listingSource={effectiveListingSource}
                             />
                         )}
 
@@ -142,11 +132,8 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
                             denyAriaLabel={t("oauth.authorize.denyAriaLabel", {
                                 appName: client.clientName,
                             })}
-                            isApproveDisabled={
-                                requiresPartnerShopSelection && !effectivePartnerShopId
-                            }
-                            onDeny={handleDeny}
-                            partnerShopId={partnerShopId}
+                            isApproveDisabled={requiresListingSourceId && !effectiveListingSourceId}
+                            listingSourceId={listingSourceId}
                             searchParams={searchParams}
                         />
                     </CardFooter>

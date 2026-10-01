@@ -1892,30 +1892,26 @@
       "approveAriaLabel": "Autorizar a {{appName}} para acceder a su cuenta",
       "denyAriaLabel": "Rechazar la autorización para {{appName}}",
       "securityNote": "Puede revocar este acceso en cualquier momento desde la configuración de su cuenta. Solo autorice aplicaciones de confianza.",
-      "partnerShops": {
-        "title": "Elegir una tienda asociada",
-        "description": "Seleccione la tienda asociada para la que debe autorizarse esta aplicación.",
-        "selectedLabel": "Tienda asociada seleccionada",
-        "empty": {
-          "title": "No hay ninguna tienda asociada disponible",
-          "description": "Esta autorización requiere una tienda asociada vinculada, pero no se encontró ninguna para su cuenta."
-        },
-        "loadError": {
-          "title": "No se pudieron cargar las tiendas asociadas",
-          "description": "No se pudieron cargar las tiendas asociadas disponibles en este momento. Inténtelo de nuevo."
-        }
-      },
       "error": {
         "title": "Solicitud de autorización inválida",
         "description": "No se pudo identificar la aplicación. El enlace de autorización puede ser inválido o haber expirado. Inténtelo de nuevo desde la aplicación."
-      }
-    },
-    "scopes": {
-      "products_write": {
-        "description": "Crear o actualizar sus anuncios de productos."
       },
-      "shops_manage": {
-        "description": "Gestionar la configuración de su tienda."
+      "listingSources": {
+        "title": "Seleccionar una fuente de anuncios",
+        "description": "Elija la fuente para conectar con WooCommerce. Esta selección no limita los permisos del token; el acceso depende de los permisos solicitados y de sus autorizaciones actuales sobre las fuentes.",
+        "selectedLabel": "Fuente de anuncios seleccionada",
+        "empty": {
+          "title": "No hay fuentes de anuncios disponibles",
+          "description": "Esta integración requiere acceso a una fuente de anuncios. Solicite acceso y reinicie la autorización."
+        },
+        "loadError": {
+          "title": "No se pudieron cargar las fuentes de anuncios",
+          "description": "No se pudo verificar su acceso a las fuentes de anuncios. Inténtelo de nuevo."
+        }
+      },
+      "unavailable": {
+        "title": "Autorización no disponible",
+        "description": "No podemos verificar los datos registrados de esta aplicación en este momento. Inténtelo más tarde."
       }
     }
   },

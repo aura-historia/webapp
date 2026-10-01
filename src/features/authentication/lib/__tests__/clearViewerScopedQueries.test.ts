@@ -7,6 +7,8 @@ describe("clearViewerScopedQueries", () => {
     it("removes viewer-scoped and personalized listing queries while keeping public queries", () => {
         const queryClient = new QueryClient();
         const viewerScopedQueryKeys = [
+            ["oauthClient", "oc_test"],
+            ["oauthListingSources"],
             ["watchlist", "user-1"],
             ["search", { term: "chair" }],
             ["similarProductListings", "listing-1"],

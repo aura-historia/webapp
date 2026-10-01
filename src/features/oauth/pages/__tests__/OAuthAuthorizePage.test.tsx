@@ -4,6 +4,9 @@ import { useState } from "react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { OAuthAuthorizePage } from "@/features/oauth/pages/OAuthAuthorizePage.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
+import type { OAuthAuthorizeSearchParams } from "@/features/oauth/lib/oauthAuthorizeSearchParams.ts";
+import { OAuthConsentUnavailableError } from "@/features/oauth/api/oauthConsentMetadata.ts";
+import { ACCESS_TOKEN_SCOPES } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 
 const mockClientData = vi.hoisted(() => ({
     clientId: "01970f22-2bf0-7000-8000-000000000010",
@@ -13,7 +16,7 @@ const mockClientData = vi.hoisted(() => ({
     clientUri: "https://client.example",
     logoUri: "https://client.example/logo.png",
     redirectUris: ["https://client.example/callback"],
-    scopes: ["products:write" as const, "shops:manage" as const],
+    scopes: ["product-listings:write" as const, "watchlist:read" as const],
 }));
 
 const mockUseOAuthClient = vi.hoisted(() =>
@@ -24,7 +27,7 @@ const mockUseOAuthClient = vi.hoisted(() =>
     }),
 );
 
-const mockUseOAuthPartnerShops = vi.hoisted(() =>
+const mockUseOAuthListingSources = vi.hoisted(() =>
     vi.fn().mockReturnValue({
         data: [],
         isLoading: false,
@@ -36,19 +39,19 @@ vi.mock("@/features/oauth/hooks/useOAuthClient.ts", () => ({
     useOAuthClient: mockUseOAuthClient,
 }));
 
-vi.mock("@/features/oauth/hooks/useOAuthPartnerShops.ts", () => ({
-    useOAuthPartnerShops: mockUseOAuthPartnerShops,
+vi.mock("@/features/oauth/hooks/useOAuthListingSources.ts", () => ({
+    useOAuthListingSources: mockUseOAuthListingSources,
 }));
 
-const defaultSearchParams = {
+const defaultSearchParams: OAuthAuthorizeSearchParams = {
     response_type: "code",
     client_id: "01970f22-2bf0-7000-8000-000000000010",
     redirect_uri: "https://client.example/callback",
-    scope: "products:write shops:manage",
+    scope: "product-listings:write watchlist:read",
     state: "csrf-state-123",
     code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
     code_challenge_method: "S256",
-    requires_partner_shop_id: false,
+    requires_listing_source_id: false,
 };
 
 describe("OAuthAuthorizePage", () => {
@@ -59,7 +62,7 @@ describe("OAuthAuthorizePage", () => {
             isLoading: false,
             isError: false,
         });
-        mockUseOAuthPartnerShops.mockReturnValue({
+        mockUseOAuthListingSources.mockReturnValue({
             data: [],
             isLoading: false,
             isError: false,
@@ -103,12 +106,14 @@ describe("OAuthAuthorizePage", () => {
             renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
         );
 
-        expect(screen.getByText("products:write")).toBeInTheDocument();
+        expect(screen.getByText("product-listings:write")).toBeInTheDocument();
         expect(
-            screen.getByText("Produkte in Ihrem Namen erstellen oder aktualisieren."),
+            screen.getByText(
+                "Produktangebote im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen, aktualisieren oder löschen.",
+            ),
         ).toBeInTheDocument();
-        expect(screen.getByText("shops:manage")).toBeInTheDocument();
-        expect(screen.getByText("Ihre Shop-Einstellungen verwalten.")).toBeInTheDocument();
+        expect(screen.getByText("watchlist:read")).toBeInTheDocument();
+        expect(screen.getByText("Die Angebote in Ihrer Merkliste lesen.")).toBeInTheDocument();
     });
 
     it("displays the authorization description with app name", async () => {
@@ -166,139 +171,34 @@ describe("OAuthAuthorizePage", () => {
         const formData = new FormData(form);
         expect(Object.fromEntries(formData)).toEqual({
             lng: "de",
+            requires_listing_source_id: "false",
             response_type: "code",
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             redirect_uri: "https://client.example/callback",
-            scope: "products:write shops:manage",
+            scope: "product-listings:write watchlist:read",
             state: "csrf-state-123",
             code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
             code_challenge_method: "S256",
         });
     });
 
-    it("redirects to redirect_uri with access_denied on deny click", async () => {
-        const user = userEvent.setup();
-        const mockLocationHref = vi.fn();
-        const locationProxy = new Proxy(
-            {},
-            {
-                set(_target, prop, value) {
-                    if (prop === "href") {
-                        mockLocationHref(value);
-                    }
-                    return true;
-                },
-            },
-        );
-        Object.defineProperty(window, "location", {
-            value: locationProxy,
-            writable: true,
-            configurable: true,
-        });
-
+    it("submits denial through the server form so redirects and broker state are validated", async () => {
         await act(async () =>
             renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
         );
-
-        await user.click(
-            screen.getByRole("button", {
-                name: "Autorisierung für Test Partner App ablehnen",
-            }),
-        );
-
-        expect(mockLocationHref).toHaveBeenCalledWith(
-            expect.stringContaining("error=access_denied"),
-        );
-        expect(mockLocationHref).toHaveBeenCalledWith(
-            expect.stringContaining("state=csrf-state-123"),
+        const deny = screen.getByRole("button", {
+            name: "Autorisierung für Test Partner App ablehnen",
+        });
+        expect(deny).toHaveAttribute("type", "submit");
+        expect(deny).toHaveAttribute("name", "decision");
+        expect(deny).toHaveAttribute("value", "deny");
+        const formId = deny.getAttribute("form");
+        expect(formId).toBeTruthy();
+        expect(document.getElementById(formId ?? "")).toHaveAttribute(
+            "action",
+            "/api/oauth/authorize/approve",
         );
     });
-
-    it("redirects to redirect_uri without state when deny click has no state", async () => {
-        const user = userEvent.setup();
-        const mockLocationHref = vi.fn();
-        const locationProxy = new Proxy(
-            {},
-            {
-                set(_target, prop, value) {
-                    if (prop === "href") {
-                        mockLocationHref(value);
-                    }
-                    return true;
-                },
-            },
-        );
-        Object.defineProperty(window, "location", {
-            value: locationProxy,
-            writable: true,
-            configurable: true,
-        });
-
-        await act(async () =>
-            renderWithRouter(
-                <OAuthAuthorizePage searchParams={{ ...defaultSearchParams, state: undefined }} />,
-            ),
-        );
-
-        await user.click(
-            screen.getByRole("button", {
-                name: "Autorisierung für Test Partner App ablehnen",
-            }),
-        );
-
-        const redirectUrl = new URL(String(mockLocationHref.mock.calls[0]?.[0]));
-        expect(redirectUrl.searchParams.get("error")).toBe("access_denied");
-        expect(redirectUrl.searchParams.has("state")).toBe(false);
-    });
-
-    it("does not append partner_shop_id when denying a request after selecting a shop", async () => {
-        const user = userEvent.setup();
-        const mockLocationHref = vi.fn();
-        const locationProxy = new Proxy(
-            {},
-            {
-                set(_target, prop, value) {
-                    if (prop === "href") {
-                        mockLocationHref(value);
-                    }
-                    return true;
-                },
-            },
-        );
-        Object.defineProperty(window, "location", {
-            value: locationProxy,
-            writable: true,
-            configurable: true,
-        });
-        mockUseOAuthPartnerShops.mockReturnValue({
-            data: [
-                { shopId: "shop-1", name: "First Shop" },
-                { shopId: "shop-2", name: "Second Shop" },
-            ],
-            isLoading: false,
-            isError: false,
-        });
-
-        await act(async () =>
-            renderWithRouter(
-                <OAuthAuthorizePage
-                    searchParams={{ ...defaultSearchParams, requires_partner_shop_id: true }}
-                />,
-            ),
-        );
-
-        await user.click(screen.getByRole("radio", { name: /Second Shop/ }));
-        await user.click(
-            screen.getByRole("button", {
-                name: "Autorisierung für Test Partner App ablehnen",
-            }),
-        );
-
-        const redirectUrl = new URL(String(mockLocationHref.mock.calls[0]?.[0]));
-        expect(redirectUrl.searchParams.get("error")).toBe("access_denied");
-        expect(redirectUrl.searchParams.has("partner_shop_id")).toBe(false);
-    });
-
     it("shows skeleton when client data is loading", async () => {
         mockUseOAuthClient.mockReturnValue({
             data: undefined,
@@ -329,6 +229,38 @@ describe("OAuthAuthorizePage", () => {
         expect(
             screen.getByText(/Die Anwendung konnte nicht identifiziert werden/),
         ).toBeInTheDocument();
+    });
+
+    it("explains unavailable metadata without presenting an approval form", async () => {
+        mockUseOAuthClient.mockImplementation(() => ({
+            data: undefined,
+            isLoading: false,
+            isError: true,
+            error: new OAuthConsentUnavailableError(),
+        }));
+        await act(async () =>
+            renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
+        );
+        expect(screen.getByText("Autorisierung nicht verfügbar")).toBeInTheDocument();
+        expect(screen.queryByRole("button", { name: /den Zugriff/ })).not.toBeInTheDocument();
+    });
+
+    it("renders every supported scope exactly as requested using the shared metadata", async () => {
+        mockUseOAuthClient.mockImplementation(() => ({
+            data: { ...mockClientData, scopes: [...ACCESS_TOKEN_SCOPES] },
+            isLoading: false,
+            isError: false,
+        }));
+        await act(async () =>
+            renderWithRouter(
+                <OAuthAuthorizePage
+                    searchParams={{ ...defaultSearchParams, scope: ACCESS_TOKEN_SCOPES.join(" ") }}
+                />,
+            ),
+        );
+        expect(screen.getAllByRole("listitem")).toHaveLength(ACCESS_TOKEN_SCOPES.length);
+        for (const scope of ACCESS_TOKEN_SCOPES)
+            expect(screen.getByText(scope)).toBeInTheDocument();
     });
 
     it("renders without scopes when scope param is missing", async () => {
@@ -371,8 +303,8 @@ describe("OAuthAuthorizePage", () => {
     });
 
     it("submits the only available partner shop separately from the redirect URI", async () => {
-        mockUseOAuthPartnerShops.mockReturnValue({
-            data: [{ shopId: "shop-1", name: "Only Shop" }],
+        mockUseOAuthListingSources.mockReturnValue({
+            data: [{ listingSourceId: "shop-1", name: "Only Shop" }],
             isLoading: false,
             isError: false,
         });
@@ -380,7 +312,7 @@ describe("OAuthAuthorizePage", () => {
         await act(async () =>
             renderWithRouter(
                 <OAuthAuthorizePage
-                    searchParams={{ ...defaultSearchParams, requires_partner_shop_id: true }}
+                    searchParams={{ ...defaultSearchParams, requires_listing_source_id: true }}
                 />,
             ),
         );
@@ -395,13 +327,13 @@ describe("OAuthAuthorizePage", () => {
 
         const formData = new FormData(form);
         expect(formData.get("redirect_uri")).toBe("https://client.example/callback");
-        expect(formData.get("partner_shop_id")).toBe("shop-1");
-        expect(screen.getByText("Ausgewählter Partner-Shop")).toBeInTheDocument();
+        expect(formData.get("listing_source_id")).toBe("shop-1");
+        expect(screen.getByText("Ausgewählte Listing-Quelle")).toBeInTheDocument();
         expect(screen.getByText("Only Shop")).toBeInTheDocument();
     });
 
     it("shows an error when a partner shop is required but none are available", async () => {
-        mockUseOAuthPartnerShops.mockReturnValue({
+        mockUseOAuthListingSources.mockReturnValue({
             data: [],
             isLoading: false,
             isError: false,
@@ -410,25 +342,23 @@ describe("OAuthAuthorizePage", () => {
         await act(async () =>
             renderWithRouter(
                 <OAuthAuthorizePage
-                    searchParams={{ ...defaultSearchParams, requires_partner_shop_id: true }}
+                    searchParams={{ ...defaultSearchParams, requires_listing_source_id: true }}
                 />,
             ),
         );
 
-        expect(screen.getByText("Kein Partner-Shop verfügbar")).toBeInTheDocument();
+        expect(screen.getByText("Keine Listing-Quelle verfügbar")).toBeInTheDocument();
         expect(
-            screen.getByText(
-                /Für diese Autorisierung ist ein verknüpfter Partner-Shop erforderlich/,
-            ),
+            screen.getByText(/Für diese Integration benötigen Sie Zugriff auf eine Listing-Quelle/),
         ).toBeInTheDocument();
     });
 
     it("lets the user choose a partner shop when multiple are available", async () => {
         const user = userEvent.setup();
-        mockUseOAuthPartnerShops.mockReturnValue({
+        mockUseOAuthListingSources.mockReturnValue({
             data: [
-                { shopId: "shop-1", name: "First Shop" },
-                { shopId: "shop-2", name: "Second Shop" },
+                { listingSourceId: "shop-1", name: "First Shop" },
+                { listingSourceId: "shop-2", name: "Second Shop" },
             ],
             isLoading: false,
             isError: false,
@@ -437,7 +367,7 @@ describe("OAuthAuthorizePage", () => {
         await act(async () =>
             renderWithRouter(
                 <OAuthAuthorizePage
-                    searchParams={{ ...defaultSearchParams, requires_partner_shop_id: true }}
+                    searchParams={{ ...defaultSearchParams, requires_listing_source_id: true }}
                 />,
             ),
         );
@@ -450,7 +380,7 @@ describe("OAuthAuthorizePage", () => {
         await user.click(screen.getByRole("radio", { name: /Second Shop/ }));
 
         expect(approveButton).toBeEnabled();
-        expect(screen.queryByText("Ausgewählter Partner-Shop")).not.toBeInTheDocument();
+        expect(screen.queryByText("Ausgewählte Listing-Quelle")).not.toBeInTheDocument();
         expect(screen.getByText("Second Shop")).toBeInTheDocument();
 
         const form = approveButton.closest("form");
@@ -460,16 +390,16 @@ describe("OAuthAuthorizePage", () => {
 
         const formData = new FormData(form);
         expect(formData.get("redirect_uri")).toBe("https://client.example/callback");
-        expect(formData.get("partner_shop_id")).toBe("shop-2");
+        expect(formData.get("listing_source_id")).toBe("shop-2");
     });
 
     it("clears a manual partner shop selection when the authorization request changes", async () => {
         const user = userEvent.setup();
         let updateSearchParams: (searchParams: typeof defaultSearchParams) => void = () => {};
-        mockUseOAuthPartnerShops.mockReturnValue({
+        mockUseOAuthListingSources.mockReturnValue({
             data: [
-                { shopId: "shop-1", name: "First Shop" },
-                { shopId: "shop-2", name: "Second Shop" },
+                { listingSourceId: "shop-1", name: "First Shop" },
+                { listingSourceId: "shop-2", name: "Second Shop" },
             ],
             isLoading: false,
             isError: false,
@@ -478,7 +408,7 @@ describe("OAuthAuthorizePage", () => {
         function OAuthAuthorizePageHarness() {
             const [searchParams, setSearchParams] = useState({
                 ...defaultSearchParams,
-                requires_partner_shop_id: true,
+                requires_listing_source_id: true,
             });
             updateSearchParams = setSearchParams;
 
@@ -497,7 +427,7 @@ describe("OAuthAuthorizePage", () => {
             updateSearchParams({
                 ...defaultSearchParams,
                 state: "next-csrf-state",
-                requires_partner_shop_id: true,
+                requires_listing_source_id: true,
             }),
         );
 
@@ -508,7 +438,7 @@ describe("OAuthAuthorizePage", () => {
         }
 
         expect(new FormData(form).get("redirect_uri")).toBe("https://client.example/callback");
-        expect(new FormData(form).has("partner_shop_id")).toBe(false);
+        expect(new FormData(form).has("listing_source_id")).toBe(false);
     });
 
     it("omits optional approval fields and unsafe client links when values are missing", async () => {
@@ -554,14 +484,14 @@ describe("OAuthAuthorizePage", () => {
     it("handles single scope correctly", async () => {
         const singleScopeParams = {
             ...defaultSearchParams,
-            scope: "products:write",
+            scope: "product-listings:write",
         };
 
         await act(async () =>
             renderWithRouter(<OAuthAuthorizePage searchParams={singleScopeParams} />),
         );
 
-        expect(screen.getByText("products:write")).toBeInTheDocument();
-        expect(screen.queryByText("shops:manage")).not.toBeInTheDocument();
+        expect(screen.getByText("product-listings:write")).toBeInTheDocument();
+        expect(screen.queryByText("watchlist:read")).not.toBeInTheDocument();
     });
 });

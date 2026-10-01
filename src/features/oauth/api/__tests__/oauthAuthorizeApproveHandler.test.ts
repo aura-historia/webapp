@@ -1,12 +1,24 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { postOAuthAuthorizeApprove } from "../oauthAuthorizeApproveHandler.ts";
+import { encodeOAuthClientBrokerState } from "@/features/oauth-client-broker/lib/oauthClientBrokerState.ts";
+import {
+    getS256Challenge,
+    verifyOAuthClientBrokerState,
+} from "@/features/oauth-client-broker/lib/signedOAuthClientBrokerState.ts";
 
 const mockGetServerAuthToken = vi.hoisted(() => vi.fn());
 const mockFetch = vi.hoisted(() => vi.fn());
+const mockConsent = vi.hoisted(() => vi.fn());
+const mockSources = vi.hoisted(() => vi.fn());
+
+vi.mock("../oauthConsentMetadata.ts", () => ({ getOAuthConsentClient: mockConsent }));
+vi.mock("@/client", () => ({ getMyListingSources: mockSources }));
 
 vi.mock("@/env.ts", () => ({
     env: {
         VITE_API_URL: "https://api.test.example",
+        OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID: "01970f22-2bf0-7000-8000-000000000010",
+        OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET: "broker-secret",
     },
 }));
 
@@ -21,7 +33,7 @@ const defaultFormFields = {
     response_type: "code",
     client_id: "01970f22-2bf0-7000-8000-000000000010",
     redirect_uri: "https://client.example/callback",
-    scope: "products:write shops:manage",
+    scope: "product-listings:write watchlist:read",
     state: "csrf-state-123",
     code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
     code_challenge_method: "S256",
@@ -32,6 +44,14 @@ describe("/api/oauth/authorize/approve", () => {
         vi.clearAllMocks();
         vi.stubGlobal("fetch", mockFetch);
         mockGetServerAuthToken.mockResolvedValue("access-token");
+        mockConsent.mockResolvedValue({
+            clientId: defaultFormFields.client_id,
+            redirectUris: [defaultFormFields.redirect_uri],
+            scopes: ["product-listings:write", "watchlist:read"],
+        });
+        mockSources.mockResolvedValue({
+            data: [{ listingSourceId: "shop-1", name: "Source", listingSourceSlugId: "source" }],
+        });
     });
 
     it("rejects invalid form submissions", async () => {
@@ -40,6 +60,191 @@ describe("/api/oauth/authorize/approve", () => {
         expect(response.status).toBe(400);
         await expect(response.text()).resolves.toBe("Invalid OAuth authorization request.");
         expect(mockGetServerAuthToken).not.toHaveBeenCalled();
+        expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it("blocks approval when trustworthy ordinary-user metadata is unavailable", async () => {
+        mockConsent.mockRejectedValue(new Error("No consent contract"));
+        const response = await post(createRequest(defaultFormFields));
+        expect(response.status).toBe(503);
+        expect(response.headers.get("Cache-Control")).toBe("no-store");
+        expect(mockFetch).not.toHaveBeenCalled();
+        expect(mockSources).not.toHaveBeenCalled();
+    });
+
+    it("rejects a cross-origin approval before reading credentials", async () => {
+        const request = createRequest(defaultFormFields);
+        request.headers.set("Origin", "https://attacker.example");
+        const response = await post(request);
+        expect(response.status).toBe(403);
+        expect(mockGetServerAuthToken).not.toHaveBeenCalled();
+        expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it("signs WooCommerce source selection after grant and PKCE checks without changing authorize parameters", async () => {
+        const redirectUri = "https://auth.example/api/oauth/client/redirect-broker/woocommerce";
+        const verifier = "x".repeat(43);
+        const challenge = await getS256Challenge(verifier);
+        mockConsent.mockResolvedValue({
+            clientId: defaultFormFields.client_id,
+            redirectUris: [redirectUri],
+            scopes: ["product-listings:write"],
+        });
+        mockFetch.mockImplementation(async (input: string) => {
+            const backend = new URL(input);
+            const callback = new URL(redirectUri);
+            callback.searchParams.set("code", "auth-code");
+            callback.searchParams.set("state", backend.searchParams.get("state") ?? "");
+            return new Response(null, { status: 302, headers: { Location: callback.toString() } });
+        });
+        const response = await post(
+            createRequest({
+                ...defaultFormFields,
+                redirect_uri: redirectUri,
+                scope: "product-listings:write",
+                code_challenge: challenge,
+                listing_source_id: "shop-1",
+                state: encodeOAuthClientBrokerState({
+                    redirectUri: "https://merchant.example/callback",
+                    codeVerifier: verifier,
+                    clientState: "csrf",
+                }),
+            }),
+        );
+        expect(response.status).toBe(302);
+        const callback = new URL(response.headers.get("Location") ?? "");
+        const signed = callback.searchParams.get("state") ?? "";
+        expect(
+            await verifyOAuthClientBrokerState(
+                signed,
+                "broker-secret",
+                `${defaultFormFields.client_id}\n${redirectUri}`,
+            ),
+        ).toEqual({
+            redirectUri: "https://merchant.example/callback",
+            codeVerifier: verifier,
+            clientState: "csrf",
+            listingSourceId: "shop-1",
+        });
+        const backend = new URL(mockFetch.mock.calls[0][0]);
+        expect(backend.searchParams.get("redirect_uri")).toBe(redirectUri);
+        expect(backend.searchParams.get("code_challenge")).toBe(challenge);
+        expect(backend.searchParams.has("listing_source_id")).toBe(false);
+        expect(response.headers.get("Location")).not.toContain("broker-secret");
+        expect(mockSources).toHaveBeenCalledWith(
+            expect.objectContaining({
+                headers: { Authorization: "Bearer access-token" },
+                cache: "no-store",
+            }),
+        );
+    });
+
+    it("rejects unregistered redirects and mismatched returned state", async () => {
+        expect(
+            (
+                await post(
+                    createRequest({
+                        ...defaultFormFields,
+                        redirect_uri: "https://attacker.example",
+                    }),
+                )
+            ).status,
+        ).toBe(400);
+        expect(mockFetch).not.toHaveBeenCalled();
+        mockFetch.mockResolvedValue(
+            new Response(null, {
+                status: 302,
+                headers: { Location: "https://client.example/callback?code=code&state=attacker" },
+            }),
+        );
+        expect((await post(createRequest(defaultFormFields))).status).toBe(502);
+    });
+
+    it("signs a WooCommerce denial without selecting a source or issuing an authorization code", async () => {
+        const redirectUri = "https://auth.example/api/oauth/client/redirect-broker/woocommerce";
+        const verifier = "x".repeat(43);
+        mockConsent.mockResolvedValue({
+            clientId: defaultFormFields.client_id,
+            redirectUris: [redirectUri],
+            scopes: ["product-listings:write", "watchlist:read"],
+        });
+        const response = await post(
+            createRequest({
+                ...defaultFormFields,
+                decision: "deny",
+                redirect_uri: redirectUri,
+                code_challenge: await getS256Challenge(verifier),
+                state: encodeOAuthClientBrokerState({
+                    redirectUri: "https://merchant.example/callback",
+                    codeVerifier: verifier,
+                    clientState: "csrf",
+                    listingSourceId: "ls_hint",
+                }),
+            }),
+        );
+        expect(response.status).toBe(302);
+        const callback = new URL(response.headers.get("Location") ?? "");
+        expect(callback.searchParams.get("error")).toBe("access_denied");
+        expect(
+            await verifyOAuthClientBrokerState(
+                callback.searchParams.get("state") ?? "",
+                "broker-secret",
+                `${defaultFormFields.client_id}\n${redirectUri}`,
+            ),
+        ).toEqual({
+            redirectUri: "https://merchant.example/callback",
+            codeVerifier: verifier,
+            clientState: "csrf",
+        });
+        expect(mockSources).not.toHaveBeenCalled();
+        expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it("rejects a missing source or mismatched PKCE verifier for WooCommerce before authorization", async () => {
+        const redirectUri = "https://auth.example/api/oauth/client/redirect-broker/woocommerce";
+        mockConsent.mockResolvedValue({
+            clientId: defaultFormFields.client_id,
+            redirectUris: [redirectUri],
+            scopes: ["product-listings:write", "watchlist:read"],
+        });
+        const fields = {
+            ...defaultFormFields,
+            redirect_uri: redirectUri,
+            state: encodeOAuthClientBrokerState({
+                redirectUri: "https://merchant.example/callback",
+                codeVerifier: "x".repeat(43),
+            }),
+        };
+        expect((await post(createRequest(fields))).status).toBe(400);
+        expect((await post(createRequest({ ...fields, listing_source_id: "shop-1" }))).status).toBe(
+            400,
+        );
+        expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it("rejects revoked source access before authorization", async () => {
+        mockSources.mockResolvedValue({ data: [] });
+        const response = await post(
+            createRequest({ ...defaultFormFields, listing_source_id: "ls_revoked" }),
+        );
+        expect(response.status).toBe(403);
+        expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it("validates redirects and scopes before denying without issuing a code", async () => {
+        const response = await post(createRequest({ ...defaultFormFields, decision: "deny" }));
+        expect(response.status).toBe(302);
+        const location = new URL(response.headers.get("Location") ?? "");
+        expect(location.searchParams.get("error")).toBe("access_denied");
+        expect(location.searchParams.get("state")).toBe(defaultFormFields.state);
+        expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it("rejects unsupported scopes instead of substituting permissions", async () => {
+        const response = await post(
+            createRequest({ ...defaultFormFields, scope: "products:write" }),
+        );
+        expect(response.status).toBe(400);
         expect(mockFetch).not.toHaveBeenCalled();
     });
 
@@ -107,7 +312,7 @@ describe("/api/oauth/authorize/approve", () => {
         });
     });
 
-    it("appends partner_shop_id to the browser redirect without sending it to the backend authorize request", async () => {
+    it("appends listing_source_id to the browser redirect without sending it to the backend authorize request", async () => {
         mockFetch.mockResolvedValue(
             new Response(null, {
                 status: 302,
@@ -120,19 +325,19 @@ describe("/api/oauth/authorize/approve", () => {
         const response = await post(
             createRequest({
                 ...defaultFormFields,
-                partner_shop_id: "shop-1",
+                listing_source_id: "shop-1",
             }),
         );
 
         expect(response.status).toBe(302);
         expect(response.headers.get("Location")).toBe(
-            "https://client.example/callback?code=auth-code&state=csrf-state-123&partner_shop_id=shop-1",
+            "https://client.example/callback?code=auth-code&state=csrf-state-123&listing_source_id=shop-1",
         );
 
         const [backendUrl] = mockFetch.mock.calls[0] as [string, RequestInit];
         const url = new URL(backendUrl);
         expect(url.searchParams.get("redirect_uri")).toBe(defaultFormFields.redirect_uri);
-        expect(url.searchParams.has("partner_shop_id")).toBe(false);
+        expect(url.searchParams.has("listing_source_id")).toBe(false);
     });
 
     it("does not add optional parameters when scope and state are omitted", async () => {
@@ -245,6 +450,7 @@ function createRequest(fields: Record<string, string | undefined>): Request {
 
     return new Request("https://auth.example/api/oauth/authorize/approve", {
         method: "POST",
+        headers: { Origin: "https://auth.example" },
         body: formData,
     });
 }

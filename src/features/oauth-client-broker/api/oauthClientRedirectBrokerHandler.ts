@@ -1,9 +1,11 @@
 import { env } from "@/env.ts";
+import { z } from "zod";
 import {
-    decodeOAuthClientBrokerState,
     setOAuthErrorOnRedirectUri,
     setThirdPartyExchangeCodeOnRedirectUri,
 } from "@/features/oauth-client-broker/lib/oauthClientBrokerState.ts";
+import { verifyOAuthClientBrokerState } from "@/features/oauth-client-broker/lib/signedOAuthClientBrokerState.ts";
+import { setListingSourceIdOnRedirectUri } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
 
 const DEFAULT_API_URL = "https://api.dev.aura-historia.com";
 const TOKEN_ENDPOINT = "/api/v1/oauth/token";
@@ -18,6 +20,11 @@ const BROKER_HANDLED_CALLBACK_PARAMS = new Set([
     "state",
     "third_party_exchange_code",
     "token",
+    "listing_source_id",
+    "partner_shop_id",
+    "shopid",
+    "client_secret",
+    "code_verifier",
 ]);
 
 interface OAuthBrokerConfig {
@@ -59,18 +66,40 @@ async function getOAuthClientRedirectBroker({
         return textResponse("Invalid OAuth broker callback.", 400);
     }
 
-    let brokerState: ReturnType<typeof decodeOAuthClientBrokerState>;
+    const brokerConfig = getOAuthBrokerConfig(app);
+    if (!brokerConfig) {
+        return textResponse("OAuth broker is not configured.", 500);
+    }
+
+    let brokerState: Awaited<ReturnType<typeof verifyOAuthClientBrokerState>>;
     try {
-        brokerState = decodeOAuthClientBrokerState(encodedState);
+        brokerState = await verifyOAuthClientBrokerState(
+            encodedState,
+            brokerConfig.clientSecret,
+            `${brokerConfig.clientId}\n${getBrokerRedirectUri(requestUrl)}`,
+        );
     } catch {
         return textResponse("Invalid OAuth broker state.", 400);
     }
+
+    const suppliedSourceIds = requestUrl.searchParams.getAll("listing_source_id");
+    if (
+        requestUrl.searchParams.has("partner_shop_id") ||
+        requestUrl.searchParams.has("shopId") ||
+        suppliedSourceIds.some((id) => id !== brokerState.listingSourceId)
+    ) {
+        return textResponse("Invalid OAuth broker source selection.", 400);
+    }
+    const finalRedirectUri = setListingSourceIdOnRedirectUri(
+        brokerState.redirectUri,
+        brokerState.listingSourceId,
+    );
 
     const forwardedParams = getForwardedOAuthRedirectParams(requestUrl.searchParams);
     const authorizationError = requestUrl.searchParams.get("error");
     if (authorizationError) {
         return redirectResponse(
-            setOAuthErrorOnRedirectUri(brokerState.redirectUri, authorizationError, {
+            setOAuthErrorOnRedirectUri(finalRedirectUri, authorizationError, {
                 errorDescription: requestUrl.searchParams.get("error_description") ?? undefined,
                 errorUri: requestUrl.searchParams.get("error_uri") ?? undefined,
                 clientState: brokerState.clientState,
@@ -82,17 +111,12 @@ async function getOAuthClientRedirectBroker({
     const authorizationCode = requestUrl.searchParams.get("code");
     if (!authorizationCode) {
         return redirectResponse(
-            setOAuthErrorOnRedirectUri(brokerState.redirectUri, "invalid_request", {
+            setOAuthErrorOnRedirectUri(finalRedirectUri, "invalid_request", {
                 errorDescription: "Missing OAuth authorization code.",
                 clientState: brokerState.clientState,
                 forwardedParams,
             }),
         );
-    }
-
-    const brokerConfig = getOAuthBrokerConfig(app);
-    if (!brokerConfig) {
-        return textResponse("OAuth broker is not configured.", 500);
     }
 
     const tokenResponse = await exchangeAuthorizationCode({
@@ -104,7 +128,7 @@ async function getOAuthClientRedirectBroker({
 
     if (!tokenResponse.ok) {
         return redirectResponse(
-            setOAuthErrorOnRedirectUri(brokerState.redirectUri, tokenResponse.error, {
+            setOAuthErrorOnRedirectUri(finalRedirectUri, tokenResponse.error, {
                 errorDescription: tokenResponse.errorDescription,
                 clientState: brokerState.clientState,
                 forwardedParams,
@@ -114,7 +138,7 @@ async function getOAuthClientRedirectBroker({
 
     return redirectResponse(
         setThirdPartyExchangeCodeOnRedirectUri(
-            brokerState.redirectUri,
+            finalRedirectUri,
             tokenResponse.thirdPartyExchangeCode,
             brokerState.clientState,
             forwardedParams,
@@ -241,7 +265,8 @@ function getThirdPartyExchangeCode(payload: unknown): string | undefined {
     }
 
     const value = (payload as Record<string, unknown>)[THIRD_PARTY_EXCHANGE_CODE_RESPONSE_FIELD];
-    return typeof value === "string" && value.length > 0 ? value : undefined;
+    const parsed = z.uuid().safeParse(value);
+    return parsed.success ? parsed.data : undefined;
 }
 
 function redirectResponse(location: string): Response {
