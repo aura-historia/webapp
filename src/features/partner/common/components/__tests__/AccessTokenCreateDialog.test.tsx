@@ -5,11 +5,13 @@ import { toast } from "sonner";
 import { AccessTokenCreateDialog } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
 
 const mockCreateAccessTokenMutate = vi.hoisted(() => vi.fn());
+const mockReset = vi.hoisted(() => vi.fn());
 
 vi.mock("@/features/partner/access-token-management/api/useAccessTokens.ts", () => ({
     useCreateAccessToken: () => ({
         mutate: mockCreateAccessTokenMutate,
         isPending: false,
+        reset: mockReset,
     }),
 }));
 
@@ -39,14 +41,14 @@ describe("AccessTokenCreateDialog", () => {
         render(<AccessTokenCreateDialog open onOpenChange={vi.fn()} />);
 
         await user.type(screen.getByLabelText("Name"), "Product sync");
-        await user.click(screen.getByLabelText("Produkte schreiben"));
+        await user.click(screen.getByLabelText("Produktangebote schreiben"));
         await user.type(screen.getByLabelText("Ablaufzeitpunkt"), "2026-08-01T12:00");
         await user.click(screen.getByRole("button", { name: "Token erstellen" }));
 
         expect(mockCreateAccessTokenMutate).toHaveBeenCalledWith(
             {
                 name: "Product sync",
-                scopes: ["products:write"],
+                scopes: ["product-listings:write"],
                 expiresAt: new Date("2026-08-01T12:00"),
             },
             { onSuccess: expect.any(Function) },
@@ -107,5 +109,9 @@ describe("AccessTokenCreateDialog", () => {
 
         expect(writeText).toHaveBeenCalledWith("aurahistoria_plaintext_token");
         expect(toast.success).toHaveBeenCalledWith("Zugriffstoken wurde kopiert.");
+
+        await user.click(screen.getByRole("button", { name: "Ich habe das Token gespeichert" }));
+        expect(mockReset).toHaveBeenCalledOnce();
+        expect(screen.queryByDisplayValue("aurahistoria_plaintext_token")).not.toBeInTheDocument();
     });
 });

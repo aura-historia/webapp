@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import type { GetAccessTokenData } from "@/client";
-import { mapToAccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
+import { mapToAccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
 
 const apiAccessToken: GetAccessTokenData = {
     accessTokenId: "token-123",
     name: "Product sync",
-    scope: ["products:write"],
+    scope: ["product-listings:write"],
     token: "aurahistoria_abcdefghijk_****",
     tokenType: "BEARER",
     expiresAt: "2026-08-01T12:00:00Z",
@@ -21,7 +21,7 @@ describe("mapToAccessToken", () => {
         expect(mapToAccessToken(apiAccessToken)).toEqual({
             id: "token-123",
             name: "Product sync",
-            scopes: ["products:write"],
+            scopes: ["product-listings:write"],
             maskedToken: "aurahistoria_abcdefghijk_****",
             tokenType: "BEARER",
             expiresAt: new Date("2026-08-01T12:00:00Z"),

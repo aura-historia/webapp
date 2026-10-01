@@ -2263,8 +2263,14 @@
         "token": "Token di accesso"
       },
       "scopeDescriptions": {
-        "shopsManage": "Gestisci le impostazioni del negozio e i flussi di lavoro correlati al negozio.",
-        "productsWrite": "Crea e aggiorna le inserzioni dei prodotti."
+        "productListingsWrite": "Creare, aggiornare o eliminare annunci di prodotti entro i permessi concessi al suo account.",
+        "usersRead": "Leggere i dati degli utenti e creare sessioni di pagamento o del portale di fatturazione Stripe per il suo account.",
+        "usersWrite": "Aggiornare i dati degli utenti ed eliminare definitivamente il suo account.",
+        "accessTokensRead": "Leggere i dettagli dei token di accesso entro i permessi concessi al suo account.",
+        "accessTokensWrite": "Creare, aggiornare o revocare token di accesso entro i permessi concessi al suo account.",
+        "searchFiltersWrite": "Creare, aggiornare o eliminare le sue ricerche salvate.",
+        "watchlistRead": "Leggere gli annunci nella sua lista di osservazione.",
+        "watchlistWrite": "Aggiungere o rimuovere annunci e aggiornare le impostazioni della sua lista di osservazione."
       },
       "validation": {
         "nameRequired": "Inserisci un nome per il token.",
@@ -2308,8 +2314,14 @@
     "noExpiration": "Non scade",
     "noScopes": "Nessuna autorizzazione",
     "scopes": {
-      "shopsManage": "Gestisci negozi",
-      "productsWrite": "Scrivi prodotti"
+      "productListingsWrite": "Scrivere annunci di prodotti",
+      "usersRead": "Leggere i dati degli utenti",
+      "usersWrite": "Aggiornare i dati degli utenti",
+      "accessTokensRead": "Leggere i token di accesso",
+      "accessTokensWrite": "Gestire i token di accesso",
+      "searchFiltersWrite": "Gestire le ricerche salvate",
+      "watchlistRead": "Leggere la lista di osservazione",
+      "watchlistWrite": "Gestire la lista di osservazione"
     }
   },
   "shopTypePossessive": {

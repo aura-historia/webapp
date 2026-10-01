@@ -417,7 +417,7 @@ export default function PartnerCustomIntegrationPage() {
                         name: t(
                             "partnerProgram.customIntegrationPage.guide.steps.requestKey.defaultTokenName",
                         ),
-                        scopes: ["products:write"],
+                        scopes: ["product-listings:write"],
                         expiresAt: "",
                     }}
                 />

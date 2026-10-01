@@ -20,7 +20,7 @@ import {
     type AccessTokenCreateFormData,
     createAccessTokenFormSchema,
 } from "@/features/partner/common/components/AccessTokenCreateForm.ts";
-import type { AccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
+import type { AccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
 
 interface AccessTokenEditDialogProps {
     readonly accessToken: AccessToken | null;
@@ -77,14 +77,19 @@ function AccessTokenEditDialogContent({
         },
     });
     const scopesField = useController({ control: form.control, name: "scopes" }).field;
+    const { dirtyFields } = form.formState;
 
     const handleSubmit = (values: AccessTokenCreateFormData) => {
         updateAccessToken.mutate(
             {
                 id: accessToken.id,
-                name: values.name.trim(),
-                scopes: values.scopes,
-                expiresAt: values.expiresAt ? new Date(values.expiresAt) : undefined,
+                name: dirtyFields.name ? values.name.trim() : undefined,
+                scopes: dirtyFields.scopes ? values.scopes : undefined,
+                expiresAt: dirtyFields.expiresAt
+                    ? values.expiresAt
+                        ? new Date(values.expiresAt)
+                        : null
+                    : undefined,
             },
             {
                 onSuccess: () => {
@@ -96,7 +101,10 @@ function AccessTokenEditDialogContent({
     };
 
     return (
-        <DialogContent className="sm:max-w-xl" showCloseButton={!updateAccessToken.isPending}>
+        <DialogContent
+            className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-xl"
+            showCloseButton={!updateAccessToken.isPending}
+        >
             <DialogHeader>
                 <DialogTitle>{t("partnerAccessTokens.edit.title")}</DialogTitle>
                 <DialogDescription>

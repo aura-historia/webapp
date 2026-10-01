@@ -1,9 +1,10 @@
-import type { AccessTokenScopeData, GetAccessTokenData } from "@/client";
+import type { GetAccessTokenData } from "@/client";
+import type { AccessTokenScope } from "./AccessTokenScope.ts";
 
 export type AccessToken = {
     readonly id: string;
     readonly name: string;
-    readonly scopes: AccessTokenScopeData[];
+    readonly scopes: AccessTokenScope[];
     readonly maskedToken: string;
     readonly tokenType: "BEARER";
     readonly expiresAt: Date | null;
@@ -20,7 +21,7 @@ export function mapToAccessToken(data: GetAccessTokenData): AccessToken {
     return {
         id: data.accessTokenId,
         name: data.name,
-        scopes: data.scope ?? [],
+        scopes: [...(data.scope ?? [])],
         maskedToken: data.token,
         tokenType: data.tokenType,
         expiresAt: data.expiresAt ? new Date(data.expiresAt) : null,

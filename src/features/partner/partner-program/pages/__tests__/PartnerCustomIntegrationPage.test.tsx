@@ -90,8 +90,13 @@ describe("PartnerCustomIntegrationPage", () => {
         fireEvent.click(screen.getByRole("button", { name: "Benutzer-Zugriffstoken erstellen" }));
 
         expect(screen.getByLabelText("Name")).toHaveValue("Produktsynchronisation per eigener API");
-        expect(screen.getByLabelText("Produkte schreiben")).toBeChecked();
-        expect(screen.getByLabelText("Shops verwalten")).not.toBeChecked();
+        expect(screen.getByLabelText("Produktangebote schreiben")).toBeChecked();
+        expect(
+            screen
+                .getAllByRole("checkbox")
+                .filter((checkbox) => checkbox.getAttribute("data-state") === "checked"),
+        ).toHaveLength(1);
+        expect(screen.queryByLabelText("Shops verwalten")).not.toBeInTheDocument();
     });
 
     it("adds approved partner-shop selection as the first step and keeps the choice locally", () => {
