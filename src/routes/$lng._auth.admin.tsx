@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { AdminLayout } from "@/features/admin/common/components/AdminLayout.tsx";
+import { AdminGuard } from "@/features/admin/common/components/AdminGuard.tsx";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 
 export const Route = createFileRoute("/$lng/_auth/admin")({
@@ -14,8 +14,9 @@ export const Route = createFileRoute("/$lng/_auth/admin")({
 
 function AdminRouteComponent() {
     return (
-        <AdminLayout>
+        {/* Temporarily suspend the dashboard shell while keeping admin access guarded. */}
+        <AdminGuard>
             <Outlet />
-        </AdminLayout>
+        </AdminGuard>
     );
 }
