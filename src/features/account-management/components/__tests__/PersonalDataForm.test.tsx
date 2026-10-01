@@ -40,11 +40,9 @@ describe("PersonalDataForm", () => {
         language: "en",
         currency: "EUR",
         unitSystem: "METRIC",
-        prohibitedContentConsent: false,
+        showUnassessedOrSensitiveContent: false,
         role: "USER",
         subscriptionType: "free",
-        created: new Date("2024-01-01T00:00:00Z"),
-        updated: new Date("2024-01-01T00:00:00Z"),
     };
 
     let mockMutate: ReturnType<typeof vi.fn>;
@@ -133,13 +131,25 @@ describe("PersonalDataForm", () => {
                     language: "en",
                     currency: "EUR",
                     unitSystem: "METRIC",
-                    prohibitedContentConsent: false,
                 },
                 expect.objectContaining({
                     onSuccess: expect.any(Function),
                 }),
             );
         });
+    });
+
+    it("sends an explicit visibility change", async () => {
+        const user = userEvent.setup();
+        renderWithQueryClient(<PersonalDataForm />);
+        await user.click(screen.getByRole("checkbox"));
+        await user.click(screen.getByRole("button", { name: /änderungen speichern/i }));
+        await waitFor(() =>
+            expect(mockMutate).toHaveBeenCalledWith(
+                expect.objectContaining({ showUnassessedOrSensitiveContent: true }),
+                expect.any(Object),
+            ),
+        );
     });
 
     it("should show success toast after successful update", async () => {

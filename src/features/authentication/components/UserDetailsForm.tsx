@@ -4,8 +4,8 @@ import { Trans, useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { Info } from "lucide-react";
 import { z } from "zod";
-import { LANGUAGES, mapToBackendLanguage, parseLanguage } from "@/data/internal/common/Language.ts";
-import { CURRENCIES, mapToBackendCurrency } from "@/data/internal/common/Currency.ts";
+import { LANGUAGES, parseLanguage } from "@/data/internal/common/Language.ts";
+import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";
 import { getAccountEditSchema } from "@/features/account-management/lib/validation.ts";
 import { useRegistrationAccount } from "@/features/authentication/hooks/useRegistrationAccount.ts";
@@ -61,7 +61,7 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
             currency: preferences.currency,
             unitSystem: preferences.unitSystem,
             newsletterConsent: true,
-            prohibitedContentConsent: false,
+            showUnassessedOrSensitiveContent: false,
         },
     });
 
@@ -77,8 +77,8 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
             email,
             firstName: data?.firstName || undefined,
             lastName: data?.lastName || undefined,
-            language: mapToBackendLanguage(data?.language ?? parseLanguage(i18n.language)),
-            currency: mapToBackendCurrency(data?.currency ?? preferences.currency),
+            language: data?.language ?? parseLanguage(i18n.language),
+            currency: data?.currency ?? preferences.currency,
         });
     };
 
@@ -90,7 +90,7 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
                 language: data.language || undefined,
                 currency: data.currency || undefined,
                 unitSystem: data.unitSystem || undefined,
-                prohibitedContentConsent: data.prohibitedContentConsent,
+                showUnassessedOrSensitiveContent: data.showUnassessedOrSensitiveContent,
             });
             await subscribeUserToNewsletter(data);
             onSuccess();
@@ -293,7 +293,7 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
 
                     <FormField
                         control={form.control}
-                        name="prohibitedContentConsent"
+                        name="showUnassessedOrSensitiveContent"
                         render={({ field }) => (
                             <FormItem className="space-y-2">
                                 <div className="flex items-center gap-2">
@@ -304,7 +304,7 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
                                         />
                                     </FormControl>
                                     <FormLabel className="inline-flex cursor-pointer items-center gap-1.5 font-medium leading-snug">
-                                        {t("auth.signUp.prohibitedContentConsentLabel")}
+                                        {t("auth.signUp.showUnassessedOrSensitiveContentLabel")}
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
@@ -316,7 +316,7 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
                                                 <TooltipContent className="max-w-xs">
                                                     <p>
                                                         {t(
-                                                            "auth.signUp.prohibitedContentConsentTooltip",
+                                                            "auth.signUp.showUnassessedOrSensitiveContentTooltip",
                                                         )}
                                                     </p>
                                                 </TooltipContent>

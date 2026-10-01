@@ -32,7 +32,7 @@ describe("NotificationCard", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         mockUseUserAccount.mockReturnValue({
-            data: { prohibitedContentConsent: false },
+            data: { showUnassessedOrSensitiveContent: false },
         });
         mockUseMarkNotificationSeen.mockReturnValue({
             isPending: false,

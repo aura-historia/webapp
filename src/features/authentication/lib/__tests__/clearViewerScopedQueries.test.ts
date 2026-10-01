@@ -10,6 +10,8 @@ describe("clearViewerScopedQueries", () => {
             ["search", { term: "chair" }],
             ["similarProductListings", "listing-1"],
             ["dealerProducts", "dealer-1"],
+            ["productListings", "recent"],
+            ["sourceProductListings", "source-1"],
             ["searchFilterMatchedProducts", "filter-1"],
             ["searchFilterPreviewProducts", "filter-1"],
             ["getNotifications", "user-1"],

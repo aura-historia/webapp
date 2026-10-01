@@ -241,8 +241,8 @@
       "unitSystemPlaceholder": "Select unit system",
       "saveButton": "Save Changes",
       "successMessage": "Personal data updated successfully",
-      "prohibitedContentConsentLabel": "Show products with § 86a StGB markings",
-      "prohibitedContentConsentTooltip": "Product images may contain symbols of unconstitutional or terrorist organizations, particularly those from the National Socialist era, as defined under § 86a StGB. By agreeing, you consent to us displaying such content to you."
+      "showUnassessedOrSensitiveContentLabel": "Show unassessed or sensitive content",
+      "showUnassessedOrSensitiveContentTooltip": "Show content that has not yet been assessed or is classified as sensitive. Images may include symbols covered by § 86a StGB. When disabled, these images remain hidden. Content redacted by the service remains unavailable."
     },
     "changePassword": {
       "title": "Change Password",
@@ -1209,8 +1209,8 @@
       "currency": "Currency",
       "unitSystem": "Unit system",
       "pleaseSelect": "Please select",
-      "prohibitedContentConsentLabel": "Show products with §86a StGB markings",
-      "prohibitedContentConsentTooltip": "Product images may contain symbols of unconstitutional or terrorist organizations, particularly those from the National Socialist era, as defined under §86a StGB. By agreeing, you consent to us displaying such content to you.",
+      "showUnassessedOrSensitiveContentLabel": "Show unassessed or sensitive content",
+      "showUnassessedOrSensitiveContentTooltip": "Show content that has not yet been assessed or is classified as sensitive. Images may include symbols covered by § 86a StGB. When disabled, these images remain hidden. Content redacted by the service remains unavailable.",
       "title": "Create an account",
       "subtitle": "Join Aura Historia to start tracking antiques",
       "passwordPlaceholder": "Create a password",

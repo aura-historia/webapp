@@ -1,4 +1,4 @@
-import type { ProductImageData } from "@/client";
+import type { ContentPolicyData, ProductListingImageData } from "@/client";
 
 export type ProductImage = {
     url?: URL;
@@ -7,8 +7,13 @@ export type ProductImage = {
 
 type ProhibitedContentType = "UNKNOWN" | "NONE" | "NAZI_GERMANY";
 
-export function isRestrictedImage(image: ProductImage, consentGiven: boolean): boolean {
-    return image.prohibitedContentType !== "NONE" && !consentGiven;
+export function isRestrictedImage(
+    image: ProductImage,
+    showUnassessedOrSensitiveContent: boolean,
+): boolean {
+    return (
+        !image.url || (image.prohibitedContentType !== "NONE" && !showUnassessedOrSensitiveContent)
+    );
 }
 
 /**
@@ -16,11 +21,11 @@ export function isRestrictedImage(image: ProductImage, consentGiven: boolean): b
  */
 export function sortImagesRestrictedLast(
     images: readonly ProductImage[],
-    consentGiven: boolean,
+    showUnassessedOrSensitiveContent: boolean,
 ): readonly ProductImage[] {
     return [...images].sort((a, b) => {
-        const aRestricted = isRestrictedImage(a, consentGiven) ? 1 : 0;
-        const bRestricted = isRestrictedImage(b, consentGiven) ? 1 : 0;
+        const aRestricted = isRestrictedImage(a, showUnassessedOrSensitiveContent) ? 1 : 0;
+        const bRestricted = isRestrictedImage(b, showUnassessedOrSensitiveContent) ? 1 : 0;
         return aRestricted - bRestricted;
     });
 }
@@ -45,8 +50,16 @@ export function filterDuplicateImages(images: readonly ProductImage[]): readonly
     });
 }
 
-export function mapToInternalProductImage(apiData: ProductImageData): ProductImage | undefined {
-    const prohibitedContentType = parseProhibitedContentType(apiData.prohibitedContent);
+export function mapToInternalProductImage(
+    apiData: ProductListingImageData,
+    contentPolicy?: ContentPolicyData | null,
+): ProductImage | undefined {
+    const prohibitedContentType =
+        contentPolicy?.decision === "ALLOWED"
+            ? "NONE"
+            : contentPolicy?.decision === "REQUIRES_CONSENT"
+              ? contentPolicy.category
+              : "UNKNOWN";
 
     if (!apiData.url) {
         return {
@@ -64,16 +77,4 @@ export function mapToInternalProductImage(apiData: ProductImageData): ProductIma
         url,
         prohibitedContentType,
     };
-}
-
-function parseProhibitedContentType(contentType?: string): ProhibitedContentType {
-    const uppercasedContentType = contentType?.toUpperCase() ?? "UNKNOWN";
-
-    switch (uppercasedContentType) {
-        case "NONE":
-        case "NAZI_GERMANY":
-            return uppercasedContentType;
-        default:
-            return "UNKNOWN";
-    }
 }

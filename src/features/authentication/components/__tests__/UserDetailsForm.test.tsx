@@ -76,7 +76,7 @@ describe("UserDetailsForm", () => {
                 language: "de",
                 currency: "EUR",
                 unitSystem: "METRIC",
-                prohibitedContentConsent: false,
+                showUnassessedOrSensitiveContent: false,
             });
         });
 

@@ -29,7 +29,7 @@ export function NotificationCard({ notification }: { readonly notification: Noti
     const markAsSeen = useMarkNotificationSeen();
     const deleteNotification = useDeleteNotification();
     const { data: userAccount } = useUserAccount();
-    const consentGiven = userAccount?.prohibitedContentConsent ?? false;
+    const consentGiven = userAccount?.showUnassessedOrSensitiveContent ?? false;
     const { payload, seen, notificationId } = notification;
     const changeParts = getNotificationChangeParts(payload, t, i18n.language);
     const productImage = isProductNotification(payload) ? payload.image : undefined;

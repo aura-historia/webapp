@@ -1,7 +1,7 @@
 import { renderHook, waitFor, act } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useUpdateUserAccount } from "../usePatchUserAccount.ts";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, QueryObserver } from "@tanstack/react-query";
 import { createElement } from "react";
 
 const mockUpdateUserAccount = vi.hoisted(() => vi.fn());
@@ -76,6 +76,61 @@ describe("useUpdateUserAccount", () => {
     });
 
     describe("Success Path", () => {
+        it("refetches mounted listing queries with the updated visibility", async () => {
+            let showSensitive = true;
+            const listingQuery = vi.fn(async () => ({
+                image: showSensitive ? "sensitive.jpg" : null,
+            }));
+            const observer = new QueryObserver(queryClient, {
+                queryKey: ["search", "chair"],
+                queryFn: listingQuery,
+            });
+            const unsubscribe = observer.subscribe(() => {});
+            await waitFor(() =>
+                expect(observer.getCurrentResult().data?.image).toBe("sensitive.jpg"),
+            );
+            mockUpdateUserAccount.mockImplementation(async () => {
+                showSensitive = false;
+                return { data: { showUnassessedOrSensitiveContent: false } };
+            });
+            const { result } = renderHook(() => useUpdateUserAccount(), {
+                wrapper: createWrapper(),
+            });
+            await act(async () => {
+                await result.current.mutateAsync({ showUnassessedOrSensitiveContent: false });
+            });
+            expect(listingQuery).toHaveBeenCalledTimes(2);
+            expect(observer.getCurrentResult().data?.image).toBeNull();
+            unsubscribe();
+        });
+        it("discards content-sensitive cache data and keeps the updated account and public data", async () => {
+            const updatedAccount = { showUnassessedOrSensitiveContent: false };
+            mockUpdateUserAccount.mockResolvedValue({ data: updatedAccount });
+            const affectedKeys = [
+                ["search", "chair"],
+                ["watchlist", "user"],
+                ["similarProductListings", "listing"],
+                ["dealerProducts", "source"],
+                ["productListings", "recent"],
+                ["sourceProductListings", "source"],
+                ["searchFilterMatchedProducts", "filter"],
+                ["searchFilterPreviewProducts", "filter"],
+                ["getNotifications", "user"],
+                [{ _id: "getProductListingByTitleSlug" }, "chair"],
+            ];
+            for (const key of affectedKeys)
+                queryClient.setQueryData(key, { image: "sensitive.jpg" });
+            queryClient.setQueryData(["publicCatalog"], { public: true });
+            const { result } = renderHook(() => useUpdateUserAccount(), {
+                wrapper: createWrapper(),
+            });
+            await act(async () => {
+                await result.current.mutateAsync(updatedAccount);
+            });
+            for (const key of affectedKeys) expect(queryClient.getQueryData(key)).toBeUndefined();
+            expect(queryClient.getQueryData(["userAccount"])).toEqual(updatedAccount);
+            expect(queryClient.getQueryData(["publicCatalog"])).toEqual({ public: true });
+        });
         it("should successfully update user account", async () => {
             const patchData = {
                 firstName: "Max",
@@ -218,7 +273,7 @@ describe("useUpdateUserAccount", () => {
             });
         });
 
-        it("should log error to console on failure", async () => {
+        it("does not log account API errors", async () => {
             const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
             mockUpdateUserAccount.mockResolvedValue({
@@ -241,10 +296,7 @@ describe("useUpdateUserAccount", () => {
             });
 
             await waitFor(() => {
-                expect(consoleErrorSpy).toHaveBeenCalledWith(
-                    "[useUpdateUserAccount]",
-                    expect.any(Error),
-                );
+                expect(consoleErrorSpy).not.toHaveBeenCalled();
             });
 
             consoleErrorSpy.mockRestore();

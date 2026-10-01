@@ -21,7 +21,7 @@ The German text is especially important for German-law alignment. Keep all local
 
 Run this checklist when code touches any of the following:
 
-- Account data: email, name, user ID, roles, subscription status, language, currency, content consent flags.
+- Account data: email, name, user ID, roles, subscription status, language, currency, measurement units, content visibility preferences.
 - Authentication/session behavior: AWS Amplify/Cognito, login, logout, session refresh, authorization guards.
 - Preferences and cookies: `user-preferences`, `i18next`, localStorage, sessionStorage, consent state.
 - Watchlists, saved searches/search filters, notifications, matching, product interactions, analytics events.
@@ -32,6 +32,10 @@ Run this checklist when code touches any of the following:
 - Logs or error reporting that may include personal data.
 
 ## Alignment rules
+
+- `showUnassessedOrSensitiveContent` is an account preference covering both unassessed and sensitive content. It is separate from tracking and external-map consent. Do not migrate an old restricted-symbol consent into this broader preference or persist it in browser preferences.
+- Treat missing content assessments as unassessed. Only `ALLOWED` content is displayed without the preference. Redacted image URLs remain unavailable even when the preference is enabled.
+- Account updates must discard and refetch cached personalized listings, watchlists, saved-search matches/previews, and notifications; merely marking them stale can retain previously visible images. Cancel in-flight queries before resetting these caches, and cancel and clear them on account deletion.
 
 - Data minimization: collect and send only fields needed for the feature.
 - Purpose limitation: use data only for purposes reflected in the privacy policy and user expectations.
