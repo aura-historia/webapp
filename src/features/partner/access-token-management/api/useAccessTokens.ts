@@ -21,7 +21,7 @@ import {
     mapToCreatedAccessToken,
     type AccessToken,
     type CreatedAccessToken,
-} from "@/features/partner/access-token-management/types/AccessToken.ts";
+} from "@/data/internal/access-tokens/AccessToken.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { toast } from "sonner";
 

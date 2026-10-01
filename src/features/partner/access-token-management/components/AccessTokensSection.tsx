@@ -24,7 +24,7 @@ import {
 } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
 import { AccessTokenCreateDialog } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
 import { AccessTokenEditDialog } from "@/features/partner/access-token-management/components/AccessTokenEditDialog.tsx";
-import type { AccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
+import type { AccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
 import { formatDateTime } from "@/lib/utils.ts";
 import { toast } from "sonner";
 

@@ -10,7 +10,7 @@ import {
     useDeleteAllAccessTokens,
     useUpdateAccessToken,
 } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
-import type { AccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
+import type { AccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
 
 const mockGetMyAccessTokens = vi.hoisted(() => vi.fn());
 const mockPostMyAccessToken = vi.hoisted(() => vi.fn());

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { GetAccessTokenData } from "@/client";
-import { mapToAccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
+import { mapToAccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
 
 const apiAccessToken: GetAccessTokenData = {
     accessTokenId: "token-123",

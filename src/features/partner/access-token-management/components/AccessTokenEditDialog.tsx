@@ -20,7 +20,7 @@ import {
     type AccessTokenCreateFormData,
     createAccessTokenFormSchema,
 } from "@/features/partner/common/components/AccessTokenCreateForm.ts";
-import type { AccessToken } from "@/features/partner/access-token-management/types/AccessToken.ts";
+import type { AccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
 
 interface AccessTokenEditDialogProps {
     readonly accessToken: AccessToken | null;
