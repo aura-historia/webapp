@@ -110,6 +110,8 @@ Quando vengono utilizzate funzionalità partner, shop o di amministrazione, poss
 - dati di accesso API o dati di amministrazione correlati
 - informazioni su ruoli e attivazioni
 
+Le candidature di collaborazione contengono l’identificativo di una fonte di offerte esistente oppure una proposta con il nome dell’operatore, telefono ed e-mail facoltativi, nome della fonte, URL e URL dell’immagine facoltativi e metodi di importazione richiesti. Le candidature non raccolgono indirizzi postali. Le proposte sono utilizzate per valutare la collaborazione; selezionare una fonte pubblica non concede accesso.
+
 **Finalità del trattamento:**
 
 - fornitura e personalizzazione del servizio

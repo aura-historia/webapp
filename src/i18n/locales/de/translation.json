@@ -1823,6 +1823,37 @@
       "inReview": "In Prüfung",
       "approved": "Genehmigt",
       "rejected": "Abgelehnt"
+    },
+    "proposals": {
+      "type": "Art des Vorschlags",
+      "existing": "Bestehende Angebotsquelle",
+      "proposed": "Angebotsquelle vorschlagen",
+      "description": "Reichen Sie einen Vorschlag zur Prüfung ein. Danach können Sie ihn einsehen oder zurückziehen.",
+      "selectionHint": "Die Auswahl einer öffentlichen Quelle beantragt eine Prüfung und gewährt keinen Zugriff.",
+      "immutable": "Eingereichte Vorschläge können nicht bearbeitet werden.",
+      "partyName": "Name des Betreibers",
+      "partyPhone": "Telefon (optional)",
+      "partyEmail": "E-Mail (optional)",
+      "sourceName": "Name der Angebotsquelle",
+      "sourceUrl": "Quellen-URL (optional)",
+      "sourceImage": "Bild-URL (optional)",
+      "methods": "Gewünschte Importmethoden",
+      "required": "Dieses Feld ist erforderlich.",
+      "nameTooLong": "Namen dürfen höchstens 255 UTF-8-Bytes umfassen.",
+      "withdraw": "Bewerbung zurückziehen",
+      "withdrawConfirm": "Diese Bewerbung zurückziehen? Der Vorschlag bleibt als zurückgezogen sichtbar.",
+      "withdrawn": "Zurückgezogen",
+      "conflict": "Die Bewerbung kann im aktuellen Status nicht geändert werden. Aktualisieren Sie den Status.",
+      "missing": "Bewerbung nicht gefunden oder nicht verfügbar.",
+      "clear": "Auswahl aufheben",
+      "noSources": "Keine Angebotsquellen gefunden.",
+      "noMethods": "Keine angefordert",
+      "ingestion": {
+        "WEB_CRAWL": "Web-Crawling",
+        "SHOPIFY": "Shopify",
+        "WOOCOMMERCE": "WooCommerce",
+        "PARTNER_API": "Partner-API"
+      }
     }
   },
   "adminDashboard": {

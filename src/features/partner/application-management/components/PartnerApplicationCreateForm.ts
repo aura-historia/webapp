@@ -1,124 +1,79 @@
-import { EDITABLE_SHOP_TYPES, parseShopDomains } from "@/features/shop/common/lib/shopFormUtils.ts";
-import type { StructuredAddressData } from "@/client";
 import type { TFunction } from "i18next";
 import { z } from "zod";
-
-export const PARTNER_APPLICATION_CREATE_DEFAULT_VALUES: PartnerApplicationCreateFormData = {
-    type: "NEW",
-    shopId: "",
-    shopName: "",
-    shopType: "MARKETPLACE",
-    shopDomains: "",
-    shopUrl: "",
-    shopImage: "",
-    shopPhone: "",
-    shopEmail: "",
-    addressline: "",
-    addresslineExtra: "",
-    locality: "",
-    region: "",
-    postalCode: "",
-    country: "",
-};
-
-function optionalUrlSchema(message: string) {
-    return z
-        .string()
-        .trim()
-        .refine((value) => value === "" || URL.canParse(value), message);
-}
-
-function optionalEmailSchema(message: string) {
-    const emailSchema = z.email();
-    return z
-        .string()
-        .trim()
-        .refine((value) => value === "" || emailSchema.safeParse(value).success, message);
-}
+import {
+    INGESTION_METHODS,
+    type PartnershipProposal,
+} from "@/data/internal/partner-application/OwnPartnershipApplication.ts";
 
 export function createPartnerApplicationFormSchema(t: TFunction) {
-    return z
-        .object({
-            type: z.enum(["NEW", "EXISTING"]),
-            shopId: z.string(),
-            shopName: z.string(),
-            shopType: z.enum(EDITABLE_SHOP_TYPES),
-            shopDomains: z.string(),
-            shopUrl: optionalUrlSchema(t("partnerApplications.create.validation.urlInvalid")),
-            shopImage: optionalUrlSchema(t("partnerApplications.create.validation.imageInvalid")),
-            shopPhone: z.string(),
-            shopEmail: optionalEmailSchema(t("partnerApplications.create.validation.emailInvalid")),
-            addressline: z.string().trim(),
-            addresslineExtra: z.string().trim(),
-            locality: z.string().trim(),
-            region: z.string().trim(),
-            postalCode: z.string().trim(),
-            country: z.string().trim(),
-        })
-        .superRefine((values, ctx) => {
-            if (values.type === "EXISTING" && values.shopId.trim() === "") {
-                ctx.addIssue({
-                    code: "custom",
-                    path: ["shopId"],
-                    message: t("partnerApplications.create.validation.shopIdRequired"),
-                });
-            }
-
-            if (values.type === "NEW") {
-                if (values.shopName.trim() === "") {
-                    ctx.addIssue({
-                        code: "custom",
-                        path: ["shopName"],
-                        message: t("partnerApplications.create.validation.shopNameRequired"),
-                    });
-                }
-
-                if (parseShopDomains(values.shopDomains).length === 0) {
-                    ctx.addIssue({
-                        code: "custom",
-                        path: ["shopDomains"],
-                        message: t("partnerApplications.create.validation.domainsRequired"),
-                    });
-                }
-            }
-        });
+    const requiredName = z
+        .string()
+        .trim()
+        .min(1, t("partnerApplications.proposals.required"))
+        .refine(
+            (value) => new TextEncoder().encode(value).length <= 255,
+            t("partnerApplications.proposals.nameTooLong"),
+        );
+    const optionalUrl = z
+        .string()
+        .trim()
+        .refine(
+            (value) => value === "" || (/^https?:\/\//i.test(value) && URL.canParse(value)),
+            t("partnerApplications.create.validation.urlInvalid"),
+        );
+    return z.discriminatedUnion("type", [
+        z.object({
+            type: z.literal("EXISTING_LISTING_SOURCE"),
+            listingSourceId: z.string().trim().min(1, t("partnerApplications.proposals.required")),
+        }),
+        z.object({
+            type: z.literal("PROPOSED_LISTING_SOURCE"),
+            partyName: requiredName,
+            partyPhone: z.string().trim(),
+            partyEmail: z
+                .string()
+                .trim()
+                .refine(
+                    (value) => value === "" || z.email().safeParse(value).success,
+                    t("partnerApplications.create.validation.emailInvalid"),
+                ),
+            sourceName: requiredName,
+            sourceUrl: optionalUrl,
+            sourceImage: optionalUrl,
+            requestedIngestionMethods: z.array(z.enum(INGESTION_METHODS)),
+        }),
+    ]);
 }
-
 export type PartnerApplicationCreateFormData = z.infer<
     ReturnType<typeof createPartnerApplicationFormSchema>
 >;
-
-export function optionalTrimmedValue(value: string): string | null {
-    const trimmedValue = value.trim();
-    return trimmedValue === "" ? null : trimmedValue;
-}
-
-type PartnerApplicationStructuredAddressFormData = Pick<
-    PartnerApplicationCreateFormData,
-    "addressline" | "addresslineExtra" | "locality" | "region" | "postalCode" | "country"
->;
-
-export function buildPartnerApplicationStructuredAddress(
-    values: PartnerApplicationStructuredAddressFormData,
-): StructuredAddressData | null {
-    const hasAddress =
-        values.addressline ||
-        values.addresslineExtra ||
-        values.locality ||
-        values.region ||
-        values.postalCode ||
-        values.country;
-
-    if (!hasAddress) {
-        return null;
-    }
-
+export const PARTNER_APPLICATION_CREATE_DEFAULT_VALUES: PartnerApplicationCreateFormData = {
+    type: "PROPOSED_LISTING_SOURCE",
+    partyName: "",
+    partyPhone: "",
+    partyEmail: "",
+    sourceName: "",
+    sourceUrl: "",
+    sourceImage: "",
+    requestedIngestionMethods: [],
+};
+export function buildApplicationProposal(
+    values: PartnerApplicationCreateFormData,
+): PartnershipProposal {
+    if (values.type === "EXISTING_LISTING_SOURCE")
+        return { type: values.type, listingSourceId: values.listingSourceId.trim() };
     return {
-        addressline: values.addressline || undefined,
-        addresslineExtra: values.addresslineExtra || undefined,
-        locality: values.locality || undefined,
-        region: values.region || undefined,
-        postalCode: values.postalCode || undefined,
-        country: (values.country || undefined) as StructuredAddressData["country"],
+        type: values.type,
+        party: {
+            name: values.partyName.trim(),
+            ...(values.partyPhone.trim() ? { phone: values.partyPhone.trim() } : {}),
+            ...(values.partyEmail.trim() ? { email: values.partyEmail.trim() } : {}),
+        },
+        listingSource: {
+            name: values.sourceName.trim(),
+            ...(values.sourceUrl.trim() ? { url: values.sourceUrl.trim() } : {}),
+            ...(values.sourceImage.trim() ? { image: values.sourceImage.trim() } : {}),
+            requestedIngestionMethods: [...values.requestedIngestionMethods],
+        },
     };
 }

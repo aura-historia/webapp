@@ -2055,6 +2055,37 @@
       "inReview": "En revisión",
       "approved": "Aprobado",
       "rejected": "Rechazado"
+    },
+    "proposals": {
+      "type": "Tipo de propuesta",
+      "existing": "Fuente de ofertas existente",
+      "proposed": "Proponer una fuente de ofertas",
+      "description": "Envíe una propuesta para su revisión. Una vez enviada, puede consultarla o retirarla.",
+      "selectionHint": "Seleccionar una fuente pública solicita una revisión; no concede acceso.",
+      "immutable": "Las propuestas enviadas no se pueden editar.",
+      "partyName": "Nombre del operador",
+      "partyPhone": "Teléfono (opcional)",
+      "partyEmail": "Correo electrónico (opcional)",
+      "sourceName": "Nombre de la fuente de ofertas",
+      "sourceUrl": "URL de la fuente (opcional)",
+      "sourceImage": "URL de la imagen (opcional)",
+      "methods": "Métodos de importación solicitados",
+      "required": "Este campo es obligatorio.",
+      "nameTooLong": "Los nombres no deben superar los 255 bytes UTF-8.",
+      "withdraw": "Retirar solicitud",
+      "withdrawConfirm": "¿Retirar esta solicitud? La propuesta seguirá visible como retirada.",
+      "withdrawn": "Retirada",
+      "conflict": "La solicitud no se puede cambiar en su estado actual. Actualice para ver el estado más reciente.",
+      "missing": "Solicitud no encontrada o no disponible.",
+      "clear": "Borrar selección",
+      "noSources": "No se encontraron fuentes de ofertas.",
+      "noMethods": "Ninguno solicitado",
+      "ingestion": {
+        "WEB_CRAWL": "Rastreo web",
+        "SHOPIFY": "Shopify",
+        "WOOCOMMERCE": "WooCommerce",
+        "PARTNER_API": "API para socios"
+      }
     }
   },
   "compareBarnebysPage": {

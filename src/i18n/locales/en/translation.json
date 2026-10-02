@@ -1823,6 +1823,37 @@
       "inReview": "In review",
       "approved": "Approved",
       "rejected": "Rejected"
+    },
+    "proposals": {
+      "type": "Proposal type",
+      "existing": "Existing listing source",
+      "proposed": "Propose a listing source",
+      "description": "Submit a proposal for review. Once submitted, it can be read or withdrawn.",
+      "selectionHint": "Selecting a public source requests review; it does not grant access.",
+      "immutable": "Submitted proposals cannot be edited.",
+      "partyName": "Party name",
+      "partyPhone": "Phone (optional)",
+      "partyEmail": "Email (optional)",
+      "sourceName": "Listing source name",
+      "sourceUrl": "Source URL (optional)",
+      "sourceImage": "Image URL (optional)",
+      "methods": "Requested ingestion methods",
+      "required": "This field is required.",
+      "nameTooLong": "Names must not exceed 255 UTF-8 bytes.",
+      "withdraw": "Withdraw application",
+      "withdrawConfirm": "Withdraw this application? The proposal will remain visible as withdrawn.",
+      "withdrawn": "Withdrawn",
+      "conflict": "The application cannot be changed in its current state. Refresh to see the latest status.",
+      "missing": "Application not found or unavailable.",
+      "clear": "Clear selection",
+      "noSources": "No listing sources found.",
+      "noMethods": "None requested",
+      "ingestion": {
+        "WEB_CRAWL": "Web crawling",
+        "SHOPIFY": "Shopify",
+        "WOOCOMMERCE": "WooCommerce",
+        "PARTNER_API": "Partner API"
+      }
     }
   },
   "adminDashboard": {

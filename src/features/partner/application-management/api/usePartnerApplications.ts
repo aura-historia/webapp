@@ -1,254 +1,127 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type {
-    PatchPartnerShopApplicationData,
-    PostPartnerShopApplicationPayloadData,
-    StructuredAddressData,
-} from "@/client";
 import {
-    deletePartnerApplication,
-    getPartnerApplication,
-    getPartnerApplications,
-    patchPartnerApplication,
-    postPartnerApplication,
+    deleteOwnPartnershipApplication,
+    getOwnPartnershipApplication,
+    getMyPartnershipApplications,
+    postPartnershipApplication,
 } from "@/client";
 import {
     mapToPartnerApplication,
+    mapToSubmitApplication,
     type PartnerApplication,
-} from "@/data/internal/partner-application/PartnerApplication.ts";
+    type PartnershipProposal,
+} from "@/data/internal/partner-application/OwnPartnershipApplication.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
-import { mapToBackendShopType, type ShopType } from "@/data/internal/shop/ShopType.ts";
-import { toast } from "sonner";
-import type { ShopPartnerStatus } from "@/data/internal/shop/ShopPartnerStatus.ts";
+import { useTranslation } from "react-i18next";
 
-export const PARTNER_APPLICATIONS_QUERY_KEY = ["partner-applications"] as const;
-
-export const partnerApplicationDetailQueryKey = (partnerApplicationId?: string) =>
-    [...PARTNER_APPLICATIONS_QUERY_KEY, "detail", partnerApplicationId] as const;
-
-export type CreatePartnerApplicationInput =
-    | {
-          readonly type: "EXISTING";
-          readonly shopId: string;
-      }
-    | {
-          readonly type: "NEW";
-          readonly shopName: string;
-          readonly shopType: ShopType;
-          readonly shopDomains: string[];
-          readonly shopUrl?: string | null;
-          readonly shopImage?: string | null;
-          readonly shopStructuredAddress?: StructuredAddressData | null;
-          readonly shopPhone?: string | null;
-          readonly shopEmail?: string | null;
-      };
-
-export type UpdatePartnerApplicationInput = PatchPartnerShopApplicationData & {
-    readonly partnerApplicationId: string;
-};
-
-export type PartnerApplicationShopSearchItem = {
-    readonly shopId: string;
-    readonly shopSlugId: string;
-    readonly name: string;
-    readonly partnerStatus: ShopPartnerStatus;
-};
-
-export function usePartnerApplications(enabled: boolean = true) {
-    const { getErrorMessage } = useApiError();
-
-    return useQuery<PartnerApplication[]>({
-        queryKey: PARTNER_APPLICATIONS_QUERY_KEY,
-        queryFn: async () => {
-            const response = await getPartnerApplications();
-            if (response.error) {
-                throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
-            }
-            return response.data.map(mapToPartnerApplication).sort((a, b) => {
-                return b.updated.getTime() - a.updated.getTime();
-            });
-        },
-        enabled,
-        staleTime: 30 * 1000,
-    });
-}
-
-export function usePartnerApplicationDetails(
-    partnerApplicationId?: string,
-    enabled: boolean = true,
-) {
-    const { getErrorMessage } = useApiError();
-
-    return useQuery<PartnerApplication>({
-        queryKey: partnerApplicationDetailQueryKey(partnerApplicationId),
-        queryFn: async () => {
-            if (!partnerApplicationId) {
-                throw new Error("Missing partner application id");
-            }
-
-            const response = await getPartnerApplication({
-                path: { partnerApplicationId },
-            });
-            if (response.error) {
-                throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
-            }
-            return mapToPartnerApplication(response.data);
-        },
-        enabled: enabled && Boolean(partnerApplicationId),
-        staleTime: 30 * 1000,
-    });
-}
-
-function mapCreateInputToPayload(
-    input: CreatePartnerApplicationInput,
-): PostPartnerShopApplicationPayloadData {
-    if (input.type === "EXISTING") {
-        return {
-            type: "EXISTING",
-            shopId: input.shopId,
-        };
+export const PARTNER_APPLICATIONS_QUERY_KEY = ["own-partnership-applications"] as const;
+export const partnerApplicationDetailQueryKey = (id?: string) =>
+    [...PARTNER_APPLICATIONS_QUERY_KEY, "detail", id] as const;
+export class ApplicationRequestError extends Error {
+    constructor(
+        message: string,
+        readonly status: number,
+    ) {
+        super(message);
     }
-
-    const shopType = mapToBackendShopType(input.shopType);
-    if (!shopType) {
-        throw new Error("Invalid shop type");
-    }
-
-    return {
-        type: "NEW",
-        shopName: input.shopName,
-        shopType,
-        shopDomains: input.shopDomains,
-        shopUrl: input.shopUrl,
-        shopImage: input.shopImage,
-        shopStructuredAddress: input.shopStructuredAddress ?? null,
-        shopPhone: input.shopPhone,
-        shopEmail: input.shopEmail,
+}
+function useApplicationError() {
+    const { getErrorMessage } = useApiError();
+    const { t } = useTranslation();
+    return (error: Parameters<typeof mapToInternalApiError>[0], status?: number) => {
+        const problem = mapToInternalApiError(error, status);
+        const message =
+            problem.status === 409
+                ? t("partnerApplications.proposals.conflict")
+                : problem.status === 404
+                  ? t("partnerApplications.proposals.missing")
+                  : getErrorMessage(problem);
+        return new ApplicationRequestError(message, problem.status);
     };
 }
-
+export function usePartnerApplications(enabled = true) {
+    const requestError = useApplicationError();
+    return useQuery({
+        queryKey: PARTNER_APPLICATIONS_QUERY_KEY,
+        enabled,
+        staleTime: 30_000,
+        queryFn: async () => {
+            const response = await getMyPartnershipApplications();
+            if (response.error || !response.data)
+                throw requestError(response.error, response.response?.status);
+            return response.data.map(mapToPartnerApplication);
+        },
+    });
+}
+export function usePartnerApplicationDetails(id?: string, enabled = true) {
+    const requestError = useApplicationError();
+    return useQuery({
+        queryKey: partnerApplicationDetailQueryKey(id),
+        enabled: enabled && Boolean(id),
+        staleTime: 30_000,
+        queryFn: async () => {
+            if (!id) throw new Error("Missing application ID");
+            const response = await getOwnPartnershipApplication({
+                path: { partnershipApplicationId: id },
+            });
+            if (response.error || !response.data)
+                throw requestError(response.error, response.response?.status);
+            return mapToPartnerApplication(response.data);
+        },
+    });
+}
 export function useCreatePartnerApplication() {
     const queryClient = useQueryClient();
-    const { getErrorMessage } = useApiError();
-
-    return useMutation<PartnerApplication, Error, CreatePartnerApplicationInput>({
-        mutationFn: async (input) => {
-            const response = await postPartnerApplication({
-                body: mapCreateInputToPayload(input),
+    const requestError = useApplicationError();
+    return useMutation({
+        mutationFn: async (proposal: PartnershipProposal) => {
+            const response = await postPartnershipApplication({
+                body: mapToSubmitApplication(proposal),
             });
-            if (response.error) {
-                throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
-            }
+            if (response.error || !response.data)
+                throw requestError(response.error, response.response?.status);
             return mapToPartnerApplication(response.data);
         },
-        onSuccess: (createdApplication) => {
+        onSuccess: (application) => {
             queryClient.setQueryData<PartnerApplication[]>(
                 PARTNER_APPLICATIONS_QUERY_KEY,
-                (currentApplications) => {
-                    if (!currentApplications) {
-                        return [createdApplication];
-                    }
-
-                    return [
-                        createdApplication,
-                        ...currentApplications.filter(
-                            (application) => application.id !== createdApplication.id,
-                        ),
-                    ].sort((a, b) => {
-                        return b.updated.getTime() - a.updated.getTime();
-                    });
-                },
+                (current) => [
+                    application,
+                    ...(current ?? []).filter((item) => item.id !== application.id),
+                ],
             );
-            queryClient.invalidateQueries({ queryKey: PARTNER_APPLICATIONS_QUERY_KEY });
-        },
-        onError: (error) => {
-            console.error("[useCreatePartnerApplication]", error);
-            toast.error(error.message);
+            queryClient.setQueryData(partnerApplicationDetailQueryKey(application.id), application);
+            void queryClient.invalidateQueries({ queryKey: PARTNER_APPLICATIONS_QUERY_KEY });
         },
     });
 }
-
-export function useDeletePartnerApplication() {
+export function useWithdrawPartnerApplication() {
     const queryClient = useQueryClient();
-    const { getErrorMessage } = useApiError();
-
-    return useMutation<void, Error, string>({
-        mutationFn: async (partnerApplicationId) => {
-            const response = await deletePartnerApplication({
-                path: { partnerApplicationId },
+    const requestError = useApplicationError();
+    return useMutation({
+        mutationFn: async (id: string) => {
+            const response = await deleteOwnPartnershipApplication({
+                path: { partnershipApplicationId: id },
             });
-            if (response.error) {
-                throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
-            }
+            if (response.error || response.response?.status !== 204)
+                throw requestError(response.error, response.response?.status);
         },
-        onSuccess: (_data, partnerApplicationId) => {
+        onSuccess: (_result, id) => {
+            const withdraw = (application: PartnerApplication): PartnerApplication =>
+                application.id === id ? { ...application, state: "WITHDRAWN" } : application;
             queryClient.setQueryData<PartnerApplication[]>(
                 PARTNER_APPLICATIONS_QUERY_KEY,
-                (currentApplications) =>
-                    currentApplications
-                        ?.filter((application) => application.id !== partnerApplicationId)
-                        .sort((a, b) => {
-                            return b.updated.getTime() - a.updated.getTime();
-                        }),
+                (current) => current?.map(withdraw),
             );
-            queryClient.removeQueries({
-                queryKey: partnerApplicationDetailQueryKey(partnerApplicationId),
-            });
-            queryClient.invalidateQueries({ queryKey: PARTNER_APPLICATIONS_QUERY_KEY });
-        },
-        onError: (error) => {
-            console.error("[useDeletePartnerApplication]", error);
-            toast.error(error.message);
-        },
-    });
-}
-
-export function useUpdatePartnerApplication() {
-    const queryClient = useQueryClient();
-    const { getErrorMessage } = useApiError();
-
-    return useMutation<PartnerApplication, Error, UpdatePartnerApplicationInput>({
-        mutationFn: async ({ partnerApplicationId, ...body }) => {
-            const response = await patchPartnerApplication({
-                path: { partnerApplicationId },
-                body,
-            });
-            if (response.error) {
-                throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
-            }
-            return mapToPartnerApplication(response.data);
-        },
-        onSuccess: (updatedApplication) => {
-            queryClient.setQueryData<PartnerApplication[]>(
-                PARTNER_APPLICATIONS_QUERY_KEY,
-                (currentApplications) => {
-                    if (!currentApplications) {
-                        return [updatedApplication];
-                    }
-
-                    return currentApplications
-                        .map((application) =>
-                            application.id === updatedApplication.id
-                                ? updatedApplication
-                                : application,
-                        )
-                        .sort((a, b) => {
-                            return b.updated.getTime() - a.updated.getTime();
-                        });
-                },
+            queryClient.setQueryData<PartnerApplication>(
+                partnerApplicationDetailQueryKey(id),
+                (current) => (current ? withdraw(current) : current),
             );
-            queryClient.setQueryData(
-                partnerApplicationDetailQueryKey(updatedApplication.id),
-                updatedApplication,
-            );
-            queryClient.invalidateQueries({ queryKey: PARTNER_APPLICATIONS_QUERY_KEY });
-            queryClient.invalidateQueries({
-                queryKey: partnerApplicationDetailQueryKey(updatedApplication.id),
-            });
+            void queryClient.invalidateQueries({ queryKey: PARTNER_APPLICATIONS_QUERY_KEY });
         },
-        onError: (error) => {
-            console.error("[useUpdatePartnerApplication]", error);
-            toast.error(error.message);
+        onError: () => {
+            void queryClient.invalidateQueries({ queryKey: PARTNER_APPLICATIONS_QUERY_KEY });
         },
     });
 }

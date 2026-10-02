@@ -110,6 +110,8 @@ Cuando se utilizan funciones para socios, tiendas o administración, también po
 - datos de acceso a API o datos de administración relacionados
 - información de rol y activación
 
+Las solicitudes de colaboración contienen el identificador de una fuente de ofertas existente o una propuesta con el nombre del operador, teléfono y correo electrónico opcionales, nombre de la fuente, URL e imagen opcionales y métodos de importación solicitados. Las solicitudes no recogen direcciones postales. Las propuestas se utilizan para evaluar la colaboración; seleccionar una fuente pública no concede acceso.
+
 **Finalidades del tratamiento:**
 
 - prestación y personalización del servicio

@@ -1,378 +1,158 @@
-import { createElement } from "react";
+import { createElement, type ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
     PARTNER_APPLICATIONS_QUERY_KEY,
     partnerApplicationDetailQueryKey,
     useCreatePartnerApplication,
-    useDeletePartnerApplication,
+    useWithdrawPartnerApplication,
     usePartnerApplicationDetails,
     usePartnerApplications,
-    useUpdatePartnerApplication,
-} from "@/features/partner/application-management/api/usePartnerApplications.ts";
-import { usePartnerApplicationShopSearch } from "@/features/partner/application-management/api/usePartnerApplicationShopSearch.ts";
+} from "../usePartnerApplications.ts";
+import { useApplicationListingSourceSearch } from "../useApplicationListingSourceSearch.ts";
 
-const mockGetPartnerApplications = vi.hoisted(() => vi.fn());
-const mockGetPartnerApplication = vi.hoisted(() => vi.fn());
-const mockPostPartnerApplication = vi.hoisted(() => vi.fn());
-const mockDeletePartnerApplication = vi.hoisted(() => vi.fn());
-const mockPatchPartnerApplication = vi.hoisted(() => vi.fn());
-const mockSimpleSearchShops = vi.hoisted(() => vi.fn());
-const mockGetErrorMessage = vi.hoisted(() => vi.fn());
-
+const api = vi.hoisted(() => ({
+    list: vi.fn(),
+    detail: vi.fn(),
+    create: vi.fn(),
+    withdraw: vi.fn(),
+    search: vi.fn(),
+}));
 vi.mock("@/client", () => ({
-    deletePartnerApplication: mockDeletePartnerApplication,
-    getPartnerApplication: mockGetPartnerApplication,
-    getPartnerApplications: mockGetPartnerApplications,
-    patchPartnerApplication: mockPatchPartnerApplication,
-    postPartnerApplication: mockPostPartnerApplication,
-    simpleSearchShops: mockSimpleSearchShops,
+    getMyPartnershipApplications: api.list,
+    getOwnPartnershipApplication: api.detail,
+    postPartnershipApplication: api.create,
+    deleteOwnPartnershipApplication: api.withdraw,
+    searchPublicListingSources: api.search,
 }));
-
 vi.mock("@/hooks/common/useApiError.ts", () => ({
-    useApiError: () => ({
-        getErrorMessage: mockGetErrorMessage,
-    }),
+    useApiError: () => ({ getErrorMessage: () => "Request failed" }),
 }));
-
-vi.mock("@/data/internal/hooks/ApiError.ts", () => ({
-    mapToInternalApiError: (error: unknown) => error,
-}));
-
-describe("usePartnerApplications", () => {
-    let queryClient: QueryClient;
-
-    const createWrapper =
-        () =>
-        ({ children }: { children: React.ReactNode }) =>
-            createElement(QueryClientProvider, { client: queryClient }, children);
-
+const application = {
+    id: "pa_1",
+    state: "SUBMITTED" as const,
+    proposal: { type: "EXISTING_LISTING_SOURCE" as const, listingSourceId: "ls_canonical" },
+};
+const response = (data: unknown, status = 200) => ({
+    data,
+    response: { status, ok: status < 400 },
+});
+describe("own application API", () => {
+    let client: QueryClient;
+    const wrapper = ({ children }: { children: ReactNode }) =>
+        createElement(QueryClientProvider, { client }, children);
     beforeEach(() => {
         vi.clearAllMocks();
-        queryClient = new QueryClient({
-            defaultOptions: { queries: { retry: false } },
+        client = new QueryClient({
+            defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
         });
-        mockGetErrorMessage.mockImplementation((error: unknown) =>
-            error && typeof error === "object" && "message" in error
-                ? String((error as { message?: unknown }).message)
-                : "Unknown error",
-        );
     });
-
-    it("maps the authenticated user's partner applications", async () => {
-        mockGetPartnerApplications.mockResolvedValue({
-            data: [
-                {
-                    id: "app-1",
-                    applicantUserId: "user-1",
-                    businessState: "SUBMITTED",
-                    executionState: "PROCESSING",
-                    payload: {
-                        type: "NEW",
-                        shopName: "Vintage Shop",
-                        shopType: "MARKETPLACE",
-                        shopDomains: ["vintage.example.com"],
-                    },
-                    created: "2024-01-01T00:00:00Z",
-                    updated: "2024-01-02T00:00:00Z",
-                },
-            ],
-            error: null,
-        });
-
-        const { result } = renderHook(() => usePartnerApplications(), {
-            wrapper: createWrapper(),
-        });
-
-        await waitFor(() => expect(result.current.isSuccess).toBe(true));
-
-        expect(result.current.data).toEqual([
-            expect.objectContaining({
-                id: "app-1",
-                businessState: "SUBMITTED",
-                executionState: "PROCESSING",
-                payload: expect.objectContaining({
-                    type: "NEW",
-                    shopName: "Vintage Shop",
-                }),
-            }),
-        ]);
+    it("loads minimal own applications without admin enrichment", async () => {
+        api.list.mockResolvedValue(response([application]));
+        const hook = renderHook(() => usePartnerApplications(), { wrapper });
+        await waitFor(() => expect(hook.result.current.data).toEqual([application]));
+        expect(api.detail).not.toHaveBeenCalled();
     });
-
-    it("surfaces mapped API errors", async () => {
-        mockGetPartnerApplications.mockResolvedValue({
-            data: null,
-            error: { message: "Load failed" },
-        });
-        mockGetErrorMessage.mockReturnValue("Load failed");
-
-        const { result } = renderHook(() => usePartnerApplications(), {
-            wrapper: createWrapper(),
-        });
-
-        await waitFor(() => expect(result.current.isError).toBe(true));
-
-        expect(result.current.error?.message).toBe("Load failed");
+    it("supports empty lists", async () => {
+        api.list.mockResolvedValue(response([]));
+        const hook = renderHook(() => usePartnerApplications(), { wrapper });
+        await waitFor(() => expect(hook.result.current.data).toEqual([]));
     });
-
-    it("loads a specific partner application from the detail endpoint", async () => {
-        mockGetPartnerApplication.mockResolvedValue({
-            data: {
-                id: "app-detail",
-                applicantUserId: "user-1",
-                businessState: "IN_REVIEW",
-                executionState: "WAITING",
-                payload: {
-                    type: "NEW",
-                    shopName: "Detail Shop",
-                    shopType: "COMMERCIAL_DEALER",
-                    shopDomains: ["detail.example.com"],
-                    shopUrl: "https://detail.example.com",
-                },
-                created: "2024-01-01T00:00:00Z",
-                updated: "2024-01-02T00:00:00Z",
+    it("reads a single own application", async () => {
+        api.detail.mockResolvedValue(response(application));
+        const hook = renderHook(() => usePartnerApplicationDetails("pa_1"), { wrapper });
+        await waitFor(() => expect(hook.result.current.data).toEqual(application));
+        expect(api.detail).toHaveBeenCalledWith({ path: { partnershipApplicationId: "pa_1" } });
+    });
+    it("does not request a missing ID", () => {
+        renderHook(() => usePartnerApplicationDetails(undefined), { wrapper });
+        expect(api.detail).not.toHaveBeenCalled();
+    });
+    it("presents missing applications without a fallback request", async () => {
+        api.detail.mockResolvedValue({
+            error: { status: 404 },
+            response: { status: 404, ok: false },
+        });
+        const hook = renderHook(() => usePartnerApplicationDetails("pa_missing"), { wrapper });
+        await waitFor(() => expect(hook.result.current.error).toMatchObject({ status: 404 }));
+        expect(api.list).not.toHaveBeenCalled();
+    });
+    it("submits a canonical existing-source ID inside proposal", async () => {
+        api.create.mockResolvedValue(response(application, 201));
+        const hook = renderHook(() => useCreatePartnerApplication(), { wrapper });
+        await act(async () => {
+            await hook.result.current.mutateAsync(application.proposal);
+        });
+        expect(api.create).toHaveBeenCalledWith({ body: { proposal: application.proposal } });
+        expect(client.getQueryData(partnerApplicationDetailQueryKey("pa_1"))).toEqual(application);
+    });
+    it("submits only defined proposed party/source fields", async () => {
+        const proposal = {
+            type: "PROPOSED_LISTING_SOURCE" as const,
+            party: { name: "Party", phone: "123", email: "contact@example.com" },
+            listingSource: {
+                name: "Source",
+                url: "https://example.com",
+                image: "https://example.com/image.png",
+                requestedIngestionMethods: ["PARTNER_API" as const],
             },
-            error: null,
+        };
+        api.create.mockResolvedValue(response({ ...application, proposal }, 201));
+        const hook = renderHook(() => useCreatePartnerApplication(), { wrapper });
+        await act(async () => {
+            await hook.result.current.mutateAsync(proposal);
         });
-
-        const { result } = renderHook(() => usePartnerApplicationDetails("app-detail"), {
-            wrapper: createWrapper(),
-        });
-
-        await waitFor(() => expect(result.current.isSuccess).toBe(true));
-
-        expect(mockGetPartnerApplication).toHaveBeenCalledWith({
-            path: { partnerApplicationId: "app-detail" },
-        });
-        expect(result.current.data).toEqual(
-            expect.objectContaining({
-                id: "app-detail",
-                businessState: "IN_REVIEW",
-                payload: expect.objectContaining({
-                    type: "NEW",
-                    shopName: "Detail Shop",
-                    shopUrl: "https://detail.example.com",
-                }),
-            }),
-        );
+        expect(api.create).toHaveBeenCalledWith({ body: { proposal } });
     });
-
-    it("creates a new partner application and refreshes the application list query", async () => {
-        const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-        queryClient.setQueryData(PARTNER_APPLICATIONS_QUERY_KEY, []);
-        mockPostPartnerApplication.mockResolvedValue({
-            data: {
-                id: "app-created",
-                applicantUserId: "user-1",
-                businessState: "SUBMITTED",
-                executionState: "PROCESSING",
-                payload: {
-                    type: "NEW",
-                    shopName: "Created Shop",
-                    shopType: "MARKETPLACE",
-                    shopDomains: ["created.example.com"],
-                },
-                created: "2024-02-01T00:00:00Z",
-                updated: "2024-02-01T00:00:00Z",
-            },
-            error: null,
+    it("withdraws through DELETE and retains WITHDRAWN in list and detail", async () => {
+        client.setQueryData(PARTNER_APPLICATIONS_QUERY_KEY, [application]);
+        client.setQueryData(partnerApplicationDetailQueryKey("pa_1"), application);
+        api.withdraw.mockResolvedValue(response(undefined, 204));
+        const hook = renderHook(() => useWithdrawPartnerApplication(), { wrapper });
+        await act(async () => {
+            await hook.result.current.mutateAsync("pa_1");
         });
-
-        const { result } = renderHook(() => useCreatePartnerApplication(), {
-            wrapper: createWrapper(),
-        });
-
-        result.current.mutate({
-            type: "NEW",
-            shopName: "Created Shop",
-            shopType: "MARKETPLACE",
-            shopDomains: ["created.example.com"],
-            shopUrl: null,
-            shopImage: null,
-            shopStructuredAddress: null,
-            shopPhone: null,
-            shopEmail: null,
-        });
-
-        await waitFor(() => expect(result.current.isSuccess).toBe(true));
-
-        expect(mockPostPartnerApplication).toHaveBeenCalledWith({
-            body: {
-                type: "NEW",
-                shopName: "Created Shop",
-                shopType: "MARKETPLACE",
-                shopDomains: ["created.example.com"],
-                shopUrl: null,
-                shopImage: null,
-                shopStructuredAddress: null,
-                shopPhone: null,
-                shopEmail: null,
-            },
-        });
-        expect(queryClient.getQueryData(PARTNER_APPLICATIONS_QUERY_KEY)).toEqual([
-            expect.objectContaining({ id: "app-created" }),
+        expect(api.withdraw).toHaveBeenCalledWith({ path: { partnershipApplicationId: "pa_1" } });
+        expect(client.getQueryData(PARTNER_APPLICATIONS_QUERY_KEY)).toEqual([
+            { ...application, state: "WITHDRAWN" },
         ]);
-        expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-            queryKey: PARTNER_APPLICATIONS_QUERY_KEY,
+        expect(client.getQueryData(partnerApplicationDetailQueryKey("pa_1"))).toEqual({
+            ...application,
+            state: "WITHDRAWN",
         });
     });
-
-    it("deletes a partner application and refreshes related queries", async () => {
-        const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-        queryClient.setQueryData(PARTNER_APPLICATIONS_QUERY_KEY, [
-            { id: "app-deleted" },
-            { id: "app-kept" },
-        ]);
-        mockDeletePartnerApplication.mockResolvedValue({
-            data: undefined,
-            error: null,
+    it("handles body-less 409 without claiming withdrawal", async () => {
+        client.setQueryData(PARTNER_APPLICATIONS_QUERY_KEY, [application]);
+        api.withdraw.mockResolvedValue({ response: { status: 409, ok: false } });
+        const hook = renderHook(() => useWithdrawPartnerApplication(), { wrapper });
+        await act(async () => {
+            await expect(hook.result.current.mutateAsync("pa_1")).rejects.toMatchObject({
+                status: 409,
+            });
         });
-
-        const { result } = renderHook(() => useDeletePartnerApplication(), {
-            wrapper: createWrapper(),
-        });
-
-        result.current.mutate("app-deleted");
-
-        await waitFor(() => expect(result.current.isSuccess).toBe(true));
-
-        expect(mockDeletePartnerApplication).toHaveBeenCalledWith({
-            path: { partnerApplicationId: "app-deleted" },
-        });
-        expect(queryClient.getQueryData(PARTNER_APPLICATIONS_QUERY_KEY)).toEqual([
-            { id: "app-kept" },
-        ]);
-        expect(
-            queryClient.getQueryState([...PARTNER_APPLICATIONS_QUERY_KEY, "detail", "app-deleted"]),
-        ).toBeUndefined();
-        expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-            queryKey: PARTNER_APPLICATIONS_QUERY_KEY,
-        });
+        expect(client.getQueryData(PARTNER_APPLICATIONS_QUERY_KEY)).toEqual([application]);
+        expect(client.getQueryState(PARTNER_APPLICATIONS_QUERY_KEY)?.isInvalidated).toBe(true);
     });
-
-    it("updates a partner application and refreshes related queries", async () => {
-        const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-        queryClient.setQueryData(PARTNER_APPLICATIONS_QUERY_KEY, [
-            {
-                id: "app-updated",
-                updated: new Date("2024-01-01T00:00:00Z"),
-            },
-        ]);
-        mockPatchPartnerApplication.mockResolvedValue({
-            data: {
-                id: "app-updated",
-                applicantUserId: "user-1",
-                businessState: "SUBMITTED",
-                executionState: "PROCESSING",
-                payload: {
-                    type: "NEW",
-                    shopName: "Updated Shop",
-                    shopType: "MARKETPLACE",
-                    shopDomains: ["updated.example.com"],
-                    shopPhone: "+49 30 123456",
-                },
-                created: "2024-01-01T00:00:00Z",
-                updated: "2024-01-03T00:00:00Z",
-            },
-            error: null,
-        });
-
-        const { result } = renderHook(() => useUpdatePartnerApplication(), {
-            wrapper: createWrapper(),
-        });
-
-        result.current.mutate({
-            partnerApplicationId: "app-updated",
-            shopName: "Updated Shop",
-            shopType: "MARKETPLACE",
-            shopDomains: ["updated.example.com"],
-            shopPhone: "+49 30 123456",
-        });
-
-        await waitFor(() => expect(result.current.isSuccess).toBe(true));
-
-        expect(mockPatchPartnerApplication).toHaveBeenCalledWith({
-            path: { partnerApplicationId: "app-updated" },
-            body: {
-                shopName: "Updated Shop",
-                shopType: "MARKETPLACE",
-                shopDomains: ["updated.example.com"],
-                shopPhone: "+49 30 123456",
-            },
-        });
-        expect(queryClient.getQueryData(PARTNER_APPLICATIONS_QUERY_KEY)).toEqual([
-            expect.objectContaining({
-                id: "app-updated",
-                payload: expect.objectContaining({
-                    type: "NEW",
-                    shopName: "Updated Shop",
-                }),
-            }),
-        ]);
-        expect(queryClient.getQueryData(partnerApplicationDetailQueryKey("app-updated"))).toEqual(
-            expect.objectContaining({ id: "app-updated" }),
-        );
-        expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-            queryKey: PARTNER_APPLICATIONS_QUERY_KEY,
-        });
-        expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-            queryKey: partnerApplicationDetailQueryKey("app-updated"),
-        });
-    });
-
-    it("searches shops for the existing shop picker", async () => {
-        mockSimpleSearchShops.mockResolvedValue({
-            data: {
+    it("maps public search into selection data with canonical ID", async () => {
+        api.search.mockResolvedValue(
+            response({
                 items: [
                     {
-                        shopId: "550e8400-e29b-41d4-a716-446655440000",
-                        shopSlugId: "aurora-antiques",
-                        name: "Aurora Antiques",
-                        shopType: "MARKETPLACE",
-                        partnerStatus: "SCRAPED",
-                        domains: ["aurora.example.com"],
-                        created: "2024-01-01T00:00:00Z",
-                        updated: "2024-01-02T00:00:00Z",
-                    },
-                    {
-                        shopId: "550e8400-e29b-41d4-a716-446655440001",
-                        shopSlugId: "partnered-shop",
-                        name: "Partnered Shop",
-                        shopType: "MARKETPLACE",
-                        partnerStatus: "PARTNERED",
-                        domains: ["partnered.example.com"],
-                        created: "2024-01-01T00:00:00Z",
-                        updated: "2024-01-02T00:00:00Z",
+                        listingSourceId: "ls_canonical",
+                        listingSourceSlugId: "navigation-slug",
+                        name: "Source",
+                        operator: { name: "Operator" },
                     },
                 ],
-                size: 2,
-            },
-            error: null,
-        });
-
-        const { result } = renderHook(() => usePartnerApplicationShopSearch("Aurora"), {
-            wrapper: createWrapper(),
-        });
-
-        await waitFor(() => expect(result.current.isSuccess).toBe(true));
-
-        expect(mockSimpleSearchShops).toHaveBeenCalledWith({
-            query: {
-                shopNameQuery: "Aurora",
-                partnerStatus: ["SCRAPED"],
-                sort: "score",
-                order: "asc",
-                size: 10,
-            },
-        });
-        expect(result.current.data).toEqual([
-            {
-                shopId: "550e8400-e29b-41d4-a716-446655440000",
-                shopSlugId: "aurora-antiques",
-                name: "Aurora Antiques",
-                partnerStatus: "SCRAPED",
-            },
-        ]);
+            }),
+        );
+        const hook = renderHook(() => useApplicationListingSourceSearch(" Source "), { wrapper });
+        await waitFor(() =>
+            expect(hook.result.current.data).toEqual([
+                { listingSourceId: "ls_canonical", name: "Source", operatorName: "Operator" },
+            ]),
+        );
+        expect(api.search).toHaveBeenCalledWith({ query: { query: "Source", size: 10 } });
     });
 });

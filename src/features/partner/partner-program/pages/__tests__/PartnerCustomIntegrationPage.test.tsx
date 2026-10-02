@@ -3,6 +3,17 @@ import { useState } from "react";
 import PartnerCustomIntegrationPage from "@/features/partner/partner-program/pages/PartnerCustomIntegrationPage.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, cleanup, fireEvent, screen } from "@testing-library/react";
+import type { PartnerApplication } from "@/data/internal/partner-application/OwnPartnershipApplication.ts";
+
+const applicationState = vi.hoisted(() => ({
+    data: [] as PartnerApplication[],
+    isPending: false,
+    isError: false,
+    refetch: vi.fn(),
+}));
+vi.mock("@/features/partner/application-management/api/usePartnerApplications.ts", () => ({
+    usePartnerApplications: () => applicationState,
+}));
 
 const authState = vi.hoisted(() => ({
     isAuthenticated: true,
@@ -89,6 +100,7 @@ describe("PartnerCustomIntegrationPage", () => {
     });
 
     beforeEach(async () => {
+        applicationState.data = [];
         vi.clearAllMocks();
         authState.isAuthenticated = true;
         authState.isResolved = true;
@@ -107,6 +119,71 @@ describe("PartnerCustomIntegrationPage", () => {
             renderWithRouter(<PartnerCustomIntegrationPage />);
         });
     });
+
+    it("shows pending existing-source proposals with an application-management link", async () => {
+        cleanup();
+        listingSourceState.data = [];
+        applicationState.data = [
+            {
+                id: "pa_existing",
+                state: "SUBMITTED",
+                proposal: { type: "EXISTING_LISTING_SOURCE", listingSourceId: "ls_canonical" },
+            },
+        ];
+        await act(async () => {
+            renderWithRouter(<PartnerCustomIntegrationPage />);
+        });
+        expect(screen.getByRole("link", { name: "ls_canonical" })).toHaveAttribute(
+            "href",
+            "/de/partners/applications",
+        );
+        expect(screen.queryByRole("radio")).not.toBeInTheDocument();
+    });
+
+    it("shows proposed source names without inventing source access", async () => {
+        cleanup();
+        listingSourceState.data = [];
+        applicationState.data = [
+            {
+                id: "pa_proposed",
+                state: "IN_REVIEW",
+                proposal: {
+                    type: "PROPOSED_LISTING_SOURCE",
+                    party: { name: "Operator" },
+                    listingSource: { name: "Proposed Source", requestedIngestionMethods: [] },
+                },
+            },
+        ];
+        await act(async () => {
+            renderWithRouter(<PartnerCustomIntegrationPage />);
+        });
+        expect(screen.getByRole("link", { name: "Proposed Source" })).toHaveAttribute(
+            "href",
+            "/de/partners/applications",
+        );
+        expect(screen.getByText("In Prüfung")).toBeInTheDocument();
+        expect(screen.queryByRole("radio")).not.toBeInTheDocument();
+    });
+
+    it.each(["APPROVED", "REJECTED", "WITHDRAWN"] as const)(
+        "does not treat %s applications as pending or granted sources",
+        async (state) => {
+            cleanup();
+            listingSourceState.data = [];
+            applicationState.data = [
+                {
+                    id: "pa_terminal",
+                    state,
+                    proposal: { type: "EXISTING_LISTING_SOURCE", listingSourceId: "ls_terminal" },
+                },
+            ];
+            await act(async () => {
+                renderWithRouter(<PartnerCustomIntegrationPage />);
+            });
+            expect(screen.queryByText("ls_terminal")).not.toBeInTheDocument();
+            expect(screen.queryByRole("radio")).not.toBeInTheDocument();
+        },
+    );
 
     it("links the primary CTA to access-token management", () => {
         expect(screen.getByRole("heading", { name: "Shop per API anbinden" })).toBeInTheDocument();
