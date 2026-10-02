@@ -2055,6 +2055,38 @@
       "inReview": "In revisione",
       "approved": "Approvata",
       "rejected": "Rifiutata"
+    },
+    "proposals": {
+      "type": "Tipo di proposta",
+      "existing": "Fonte di offerte esistente",
+      "proposed": "Proporre una fonte di offerte",
+      "description": "Invii una proposta per la valutazione. Dopo l’invio può consultarla o ritirarla.",
+      "selectionHint": "Selezionare una fonte pubblica richiede una valutazione; non concede accesso.",
+      "immutable": "Le proposte inviate non possono essere modificate.",
+      "partyName": "Nome dell’operatore",
+      "partyPhone": "Telefono (facoltativo)",
+      "partyEmail": "E-mail (facoltativa)",
+      "sourceName": "Nome della fonte di offerte",
+      "sourceUrl": "URL della fonte (facoltativo)",
+      "sourceImage": "URL dell’immagine (facoltativo)",
+      "methods": "Metodi di importazione richiesti",
+      "required": "Questo campo è obbligatorio.",
+      "nameTooLong": "I nomi non devono superare 255 byte UTF-8.",
+      "withdraw": "Ritirare la candidatura",
+      "withdrawConfirm": "Ritirare questa candidatura? La proposta resterà visibile come ritirata.",
+      "withdrawn": "Ritirata",
+      "conflict": "La candidatura non può essere modificata nel suo stato attuale. Aggiorni per vedere lo stato più recente.",
+      "missing": "Candidatura non trovata o non disponibile.",
+      "sourceUnavailable": "Questa fonte di offerte non è più disponibile. Selezioni un’altra fonte.",
+      "clear": "Cancella selezione",
+      "noSources": "Nessuna fonte di offerte trovata.",
+      "noMethods": "Nessuno richiesto",
+      "ingestion": {
+        "WEB_CRAWL": "Scansione web",
+        "SHOPIFY": "Shopify",
+        "WOOCOMMERCE": "WooCommerce",
+        "PARTNER_API": "API partner"
+      }
     }
   },
   "compareBarnebysPage": {

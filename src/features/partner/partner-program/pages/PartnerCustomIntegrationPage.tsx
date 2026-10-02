@@ -3,6 +3,7 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
+import { PendingPartnershipApplications } from "@/features/partner/application-management/components/PendingPartnershipApplications.tsx";
 import {
     type OwnListingSource,
     useOwnListingSources,
@@ -282,20 +283,25 @@ export default function PartnerCustomIntegrationPage() {
                                             </div>
 
                                             {step.key === "selectSource" && (
-                                                <ListingSourceRequirement
-                                                    isAuthenticated={isAuthenticated}
-                                                    isResolved={isResolved}
-                                                    isPending={areListingSourcesPending}
-                                                    isError={areListingSourcesError}
-                                                    listingSources={listingSources}
-                                                    selectedListingSourceId={
-                                                        effectiveSelectedListingSourceId
-                                                    }
-                                                    onSelectListingSource={
-                                                        setSelectedListingSourceId
-                                                    }
-                                                    onRetry={() => refetchListingSources()}
-                                                />
+                                                <>
+                                                    <ListingSourceRequirement
+                                                        isAuthenticated={isAuthenticated}
+                                                        isResolved={isResolved}
+                                                        isPending={areListingSourcesPending}
+                                                        isError={areListingSourcesError}
+                                                        listingSources={listingSources}
+                                                        selectedListingSourceId={
+                                                            effectiveSelectedListingSourceId
+                                                        }
+                                                        onSelectListingSource={
+                                                            setSelectedListingSourceId
+                                                        }
+                                                        onRetry={() => refetchListingSources()}
+                                                    />
+                                                    <PendingPartnershipApplications
+                                                        enabled={isAuthenticated && isResolved}
+                                                    />
+                                                </>
                                             )}
 
                                             {step.key === "requestKey" && (

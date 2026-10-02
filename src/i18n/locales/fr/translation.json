@@ -2055,6 +2055,38 @@
       "inReview": "En cours de révision",
       "approved": "Approuvé",
       "rejected": "Rejeté"
+    },
+    "proposals": {
+      "type": "Type de proposition",
+      "existing": "Source d’offres existante",
+      "proposed": "Proposer une source d’offres",
+      "description": "Soumettez une proposition pour examen. Une fois soumise, vous pouvez la consulter ou la retirer.",
+      "selectionHint": "Sélectionner une source publique demande un examen ; cela ne donne aucun accès.",
+      "immutable": "Les propositions soumises ne peuvent pas être modifiées.",
+      "partyName": "Nom de l’opérateur",
+      "partyPhone": "Téléphone (facultatif)",
+      "partyEmail": "E-mail (facultatif)",
+      "sourceName": "Nom de la source d’offres",
+      "sourceUrl": "URL de la source (facultatif)",
+      "sourceImage": "URL de l’image (facultatif)",
+      "methods": "Méthodes d’importation demandées",
+      "required": "Ce champ est obligatoire.",
+      "nameTooLong": "Les noms ne doivent pas dépasser 255 octets UTF-8.",
+      "withdraw": "Retirer la candidature",
+      "withdrawConfirm": "Retirer cette candidature ? La proposition restera visible comme retirée.",
+      "withdrawn": "Retirée",
+      "conflict": "La candidature ne peut pas être modifiée dans son état actuel. Actualisez pour voir le dernier statut.",
+      "missing": "Candidature introuvable ou indisponible.",
+      "sourceUnavailable": "Cette source d’offres n’est plus disponible. Veuillez sélectionner une autre source.",
+      "clear": "Effacer la sélection",
+      "noSources": "Aucune source d’offres trouvée.",
+      "noMethods": "Aucune demandée",
+      "ingestion": {
+        "WEB_CRAWL": "Exploration web",
+        "SHOPIFY": "Shopify",
+        "WOOCOMMERCE": "WooCommerce",
+        "PARTNER_API": "API partenaire"
+      }
     }
   },
   "compareBarnebysPage": {
