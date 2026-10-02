@@ -922,8 +922,8 @@
       "disclaimer": "Numbers reflect averages across active partner shops. Individual results may vary."
     },
     "integrations": {
-      "title": "Connect your shop in minutes",
-      "subtitle": "Pick the integration that fits your setup. Every option syncs in minutes – no code required.",
+      "title": "Connect your inventory",
+      "subtitle": "Choose a plugin or a custom integration with scoped access to your listing source.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
         "description": "Install our extension directly from the WordPress plugin directory.",
@@ -938,7 +938,7 @@
       },
       "customApi": {
         "title": "Custom API integration",
-        "description": "Connect a custom shop system with a scoped API key and batch product sync.",
+        "description": "Synchronize listings with a scoped access token and synchronous batches of up to 100 entries.",
         "cta": "View API docs",
         "badge": "For developers"
       }
@@ -1003,27 +1003,27 @@
       "hero": {
         "eyebrow": "Partner program · Custom API integration",
         "title": "Connect your shop with our API",
-        "subtitle": "Use the Partner API when your shop runs on a custom system or you want full control over the sync. Send product batches to Aura Historia, we process them in the background, and your products appear on your shop page shortly afterwards.",
+        "subtitle": "Connect your inventory through a granted listing source. Synchronous batches return completed write results; inspect failures before retrying.",
         "primaryCta": "Manage access tokens",
         "secondaryCta": "Open API documentation"
       },
       "concept": {
-        "title": "Built for asynchronous product imports",
-        "description": "The API confirms that your batch was received. Validation, processing, and publication happen afterwards in the background, so a 202 response means the import has started, not that every product is already visible.",
+        "title": "Synchronous listing batches",
+        "description": "POST, PATCH, PUT and DELETE complete writes synchronously. HTTP 200 contains only failed entries; [] means every entry succeeded, including an empty batch. Search visibility is a separate step.",
         "flowLabel": "Typical flow",
         "flow": {
-          "accepted": "202 Accepted · batch received",
-          "processing": "Products are processed in the background",
-          "visible": "Approved products appear a few minutes later"
+          "send": "Send up to 100 entries",
+          "completed": "HTTP 200 · writes completed",
+          "failures": "Inspect failures before retrying"
         },
         "benefits": {
-          "async": {
-            "title": "Handle imports asynchronously",
-            "description": "Send a batch, store the acceptance response, and check the result on your Aura Historia shop page once processing has finished."
+          "synchronous": {
+            "title": "Completed results",
+            "description": "Each entry has its own transaction. Successful writes remain committed when another entry fails."
           },
-          "polling": {
-            "title": "Start small, then keep syncing",
-            "description": "Use POST for your first product batch. Once the import works, keep your catalog current with PATCH updates or PUT upserts."
+          "retry": {
+            "title": "Retry precisely",
+            "description": "For a partial failure, correct and retry only failed entries where appropriate. If all entries fail, inspect the problem response."
           }
         }
       },
@@ -1031,17 +1031,17 @@
         "title": "What you need for the first sync",
         "subtitle": "These three pieces are enough to send a first, easy-to-check product batch.",
         "items": {
-          "apiKey": {
-            "title": "A user access token",
-            "description": "After your partner shop is approved, create the token yourself in the partner dashboard. Grant the “Write products” permission for product synchronization."
+          "accessToken": {
+            "title": "A scoped access token",
+            "description": "Use product-listings:write with a current grant for the target listing source. Keep credentials in your server environment."
           },
-          "shopId": {
-            "title": "Your Aura Historia shop ID",
-            "description": "Use the shop ID from your approved shop in every batch request so products are assigned to the correct shop."
+          "listingSourceId": {
+            "title": "The listingSourceId",
+            "description": "Use the canonical source ID in the request path and your own sourceListingId for each listing."
           },
-          "productBatch": {
-            "title": "A small product batch",
-            "description": "Begin with a few valid products so you can quickly verify the import, the data mapping, and the published result."
+          "listingBatch": {
+            "title": "A small listing batch",
+            "description": "Start with a few entries and inspect the response. Every method accepts at most 100 entries and allows []."
           }
         }
       },
@@ -1061,13 +1061,11 @@
             "retryCta": "Try again",
             "empty": "You currently have no listing-source access. A previous grant may have been revoked.",
             "applyCta": "Apply for a partner shop",
-            "selectionLabel": "Listing source for this integration",
-            "pendingLabel": "Pending partner applications",
-            "pendingHint": "You can continue once access to a listing source has been granted."
+            "selectionLabel": "Listing source for this integration"
           },
           "requestKey": {
             "title": "Create a user access token",
-            "description": "Sign in with the account associated with your approved partner shop and create a user access token. The form below already selects the permission required to synchronize products.",
+            "description": "Create a user access token with product-listings:write for an account currently granted access to the target listing source.",
             "focus": "Copy the token immediately: it is shown only once. Store it securely and send it as a Bearer token with every API request.",
             "cta": "Create user access token",
             "defaultTokenName": "Custom API product sync",
@@ -1076,19 +1074,15 @@
           },
           "preparePayload": {
             "title": "Prepare and send your first product request",
-            "description": "The request URL already contains the ID of the shop selected in Step 1. Replace YOUR_USER_ACCESS_TOKEN with the access token created in Step 2 and send a small product batch with POST.",
-            "focus": "The access token authorizes the request, and the prefilled shop ID assigns the products to the correct shop. A 202 response means background processing has started.",
+            "description": "The URL uses the selected listingSourceId. Replace YOUR_USER_ACCESS_TOKEN on your server and POST the example batch.",
+            "focus": "Check HTTP 200 and the failure array. Queue acceptance does not prove a successful listing write.",
             "visualTitle": "Prepare JSON payload",
             "visualCaption": "Batch structure and required fields"
           },
-          "verifyShop": {
-            "title": "Open your shop page and verify the result",
-            "description": "After processing, open your Aura Historia shop page. Your first synced products should appear there after a short delay.",
-            "focus": "The link opens the shop selected in Step 1 directly so you can verify the imported products.",
-            "cta": "Open my shop page",
-            "selectionRequired": "Select a partner shop first",
-            "visualTitle": "Verify shop page",
-            "visualCaption": "Product grid and shop header"
+          "verifyResults": {
+            "title": "Inspect the batch result",
+            "description": "A successful empty failure array is []. A partial result names only failed entries; an all-failure batch returns a problem response.",
+            "focus": "Store the response securely and retry only failures that can be corrected or retried."
           }
         }
       },
@@ -1096,6 +1090,36 @@
         "title": "Partner product API reference",
         "subtitle": "The embedded OpenAPI reference focuses on the batch endpoints you need for a custom integration.",
         "embedTitle": "Partner product API reference"
+      },
+      "contract": {
+        "batch": {
+          "title": "Batch outcomes",
+          "description": "POST/PATCH/PUT/DELETE: maxItems 100; [] returns HTTP 200 with []. Each entry runs in its own transaction. On partial success, HTTP 200 returns only failures as { listingSourceId, sourceListingId, error }. If every non-empty entry fails, the first failure becomes an application/problem+json response. Do not replay successful entries."
+        },
+        "create": {
+          "title": "Create fields and prices",
+          "description": "POST requires sourceListingId, url and images; include localized title and description when available (the current contract allows omission or null). Seller and address fields are not supported. Availability is nullable. Asking price is { type: MONETARY, currency: EUR, amount: 420000 } in minor currency units, or { type: ON_REQUEST }; null records no price."
+        },
+        "patch": {
+          "title": "PATCH: preserve or clear",
+          "description": "Omitted members preserve existing facts. null clears availability, price and each price estimate. url: null, images: null and auction: null are invalid (400 BAD_BODY_VALUE). images: [] clears images. The complete batch contract is validated before entry transactions begin."
+        },
+        "put": {
+          "title": "PUT: upsert semantics",
+          "description": "For existing listings, omit availability/prices to preserve, send null to clear or a value to set. Omit images to preserve, [] to clear, or an array to replace; null is invalid. Omit url or send null to preserve; a URL replaces it. title/description apply only on creation. New listings require sourceListingId, url and images; omitted/null availability and prices record no value."
+        },
+        "auction": {
+          "title": "Auction membership and lot timing",
+          "description": "Omit auction to preserve its context; auction: null is invalid. Within auction, auctionId must identify an existing auction for the same listing source: omit to preserve membership, null to clear, an ID to set. For lotNumber, cataloguePosition and each timing leaf (biddingOpens, scheduledCloses, reportedClosedAt), omit to preserve, null to clear, or supply a value to set. Timing values are RFC3339 instants."
+        },
+        "withdrawal": {
+          "title": "Batch withdrawal and restoration",
+          "description": "DELETE uses the same collection path with an array of { sourceListingId }. It withdraws listings and preserves their history. PUT restores a withdrawn listing before applying current facts. Inspect failures and retry only failed entries when appropriate."
+        },
+        "woocommerce": {
+          "title": "WooCommerce: server-to-server",
+          "description": "POST /api/v1/webhooks/woocommerce/{listingSourceId} requires bearer authorization, x-wc-webhook-topic and x-wc-webhook-signature (base64 HMAC-SHA256 over exact body bytes); x-wc-webhook-delivery-id is optional. Keep webhook secrets on the server; never send or expose them in a browser. HTTP 204 has no body and acknowledges confirmed admission or an authorized ignored status, not capture or search visibility. date_modified_gmt supports UTC without offset, Z or +00:00; other offsets are invalid. Delivery digest conflicts and source-order conflicts are checked downstream; a timestamp-free deletion can block restoration with WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Retry an uncertain admission unchanged, preserving delivery ID when supplied; investigate consumer failures before redrive."
+        }
       }
     },
     "finalCta": {

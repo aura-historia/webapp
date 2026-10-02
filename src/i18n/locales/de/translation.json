@@ -922,8 +922,8 @@
       "disclaimer": "Werte basieren auf Durchschnitten aktiver Partner-Shops. Individuelle Ergebnisse können abweichen."
     },
     "integrations": {
-      "title": "So einfach verbinden Sie Ihren Shop",
-      "subtitle": "Wählen Sie die Integration, die zu Ihrem Setup passt. Alle Wege führen in wenigen Minuten zur Live-Synchronisation – ohne dass Sie Code anfassen müssen.",
+      "title": "Ihren Bestand anbinden",
+      "subtitle": "Wählen Sie ein Plugin oder eine eigene Integration mit gezieltem Zugriff auf Ihre Angebotsquelle.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
         "description": "Installieren Sie unsere Erweiterung direkt über das WordPress-Plugin-Verzeichnis.",
@@ -938,7 +938,7 @@
       },
       "customApi": {
         "title": "Eigene API-Integration",
-        "description": "Binden Sie ein eigenes Shopsystem per API-Key und Produkt-Batch-Sync an.",
+        "description": "Synchronisieren Sie Angebote mit einem Zugriffstoken und synchronen Batches mit bis zu 100 Einträgen.",
         "cta": "API-Dokumentation ansehen",
         "badge": "Für Entwickler"
       }
@@ -1003,27 +1003,27 @@
       "hero": {
         "eyebrow": "Partnerprogramm · Eigene API-Integration",
         "title": "Shop per API anbinden",
-        "subtitle": "Nutzen Sie die Partner-API, wenn Ihr Shop auf einem eigenen System läuft oder Sie die Synchronisation vollständig steuern möchten. Sie senden Produkt-Batches an Aura Historia, wir verarbeiten sie im Hintergrund, und die Produkte erscheinen kurz darauf auf Ihrer Shop-Seite.",
+        "subtitle": "Binden Sie Ihren Bestand über eine freigegebene Angebotsquelle an. Synchrone Batches liefern abgeschlossene Schreibergebnisse; prüfen Sie Fehler vor einem erneuten Versuch.",
         "primaryCta": "Zugriffstoken verwalten",
         "secondaryCta": "API-Dokumentation öffnen"
       },
       "concept": {
-        "title": "Für asynchrone Produktimporte gebaut",
-        "description": "Die API bestätigt, dass Ihr Batch eingegangen ist. Validierung, Verarbeitung und Veröffentlichung laufen danach im Hintergrund. Eine 202-Antwort bedeutet also: Der Import wurde gestartet, nicht dass alle Produkte bereits sichtbar sind.",
+        "title": "Synchrone Angebots-Batches",
+        "description": "POST, PATCH, PUT und DELETE schließen Schreibvorgänge synchron ab. HTTP 200 enthält nur fehlgeschlagene Einträge; [] bedeutet vollständigen Erfolg, auch bei einem leeren Batch. Die Sichtbarkeit in der Suche ist ein separater Schritt.",
         "flowLabel": "Typischer Ablauf",
         "flow": {
-          "accepted": "202 Accepted · Batch empfangen",
-          "processing": "Produkte werden im Hintergrund verarbeitet",
-          "visible": "Freigegebene Produkte erscheinen wenige Minuten später"
+          "send": "Bis zu 100 Einträge senden",
+          "completed": "HTTP 200 · Schreibvorgänge abgeschlossen",
+          "failures": "Fehler vor erneutem Versuch prüfen"
         },
         "benefits": {
-          "async": {
-            "title": "Importe asynchron behandeln",
-            "description": "Senden Sie ein Batch, speichern Sie die Annahmeantwort und prüfen Sie das Ergebnis nach der Verarbeitung auf Ihrer Aura-Historia-Shop-Seite."
+          "synchronous": {
+            "title": "Abgeschlossene Ergebnisse",
+            "description": "Jeder Eintrag hat eine eigene Transaktion. Erfolgreiche Schreibvorgänge bleiben gespeichert, wenn ein anderer Eintrag fehlschlägt."
           },
-          "polling": {
-            "title": "Klein starten, dann aktuell halten",
-            "description": "Nutzen Sie POST für das erste Produkt-Batch. Sobald der Import funktioniert, halten Sie Ihren Katalog mit PATCH-Updates oder PUT-Upserts aktuell."
+          "retry": {
+            "title": "Gezielt erneut versuchen",
+            "description": "Bei Teilerfolg korrigieren und wiederholen Sie gegebenenfalls nur fehlgeschlagene Einträge. Wenn alle Einträge fehlschlagen, prüfen Sie die Problemantwort."
           }
         }
       },
@@ -1031,17 +1031,17 @@
         "title": "Was Sie für den ersten Sync brauchen",
         "subtitle": "Diese drei Angaben reichen aus, um ein erstes, gut prüfbares Produkt-Batch zu senden.",
         "items": {
-          "apiKey": {
-            "title": "Ein Benutzer-Zugriffstoken",
-            "description": "Nach der Freigabe Ihres Partner-Shops erstellen Sie das Token selbst im Partner-Dashboard. Vergeben Sie für die Produktsynchronisation die Berechtigung „Produkte schreiben“."
+          "accessToken": {
+            "title": "Ein Zugriffstoken mit passender Berechtigung",
+            "description": "Verwenden Sie product-listings:write mit einer aktuellen Freigabe für die Zielquelle. Bewahren Sie Zugangsdaten in Ihrer Serverumgebung auf."
           },
-          "shopId": {
-            "title": "Ihre Aura-Historia-Shop-ID",
-            "description": "Verwenden Sie die Shop-ID Ihres freigegebenen Shops in jedem Batch-Request, damit Produkte dem richtigen Shop zugeordnet werden."
+          "listingSourceId": {
+            "title": "Die listingSourceId",
+            "description": "Verwenden Sie die kanonische Quell-ID im Anfragepfad und Ihre eigene sourceListingId für jedes Angebot."
           },
-          "productBatch": {
-            "title": "Ein kleines Produkt-Batch",
-            "description": "Starten Sie mit wenigen validen Produkten, damit Sie Import, Datenzuordnung und veröffentlichtes Ergebnis schnell prüfen können."
+          "listingBatch": {
+            "title": "Ein kleiner Angebots-Batch",
+            "description": "Beginnen Sie mit wenigen Einträgen und prüfen Sie die Antwort. Jede Methode erlaubt höchstens 100 Einträge sowie []."
           }
         }
       },
@@ -1061,13 +1061,11 @@
             "retryCta": "Erneut versuchen",
             "empty": "Sie haben derzeit keinen Zugriff auf Angebotsquellen. Eine frühere Freigabe wurde möglicherweise widerrufen.",
             "applyCta": "Partner-Shop beantragen",
-            "selectionLabel": "Angebotsquelle für diese Integration",
-            "pendingLabel": "Offene Partner-Anträge",
-            "pendingHint": "Sie können fortfahren, sobald der Zugriff auf eine Angebotsquelle freigegeben wurde."
+            "selectionLabel": "Angebotsquelle für diese Integration"
           },
           "requestKey": {
             "title": "Benutzer-Zugriffstoken erstellen",
-            "description": "Melden Sie sich mit dem Konto an, das Ihrem freigegebenen Partner-Shop zugeordnet ist, und erstellen Sie ein Benutzer-Zugriffstoken. Im Formular unten ist die für die Produktsynchronisation benötigte Berechtigung bereits ausgewählt.",
+            "description": "Erstellen Sie ein Benutzer-Zugriffstoken mit product-listings:write für ein Konto mit aktueller Freigabe für die Zielquelle.",
             "focus": "Kopieren Sie das Token sofort, da es nur einmal angezeigt wird. Speichern Sie es sicher und senden Sie es bei jedem API-Request als Bearer-Token.",
             "cta": "Benutzer-Zugriffstoken erstellen",
             "defaultTokenName": "Produktsynchronisation per eigener API",
@@ -1076,19 +1074,15 @@
           },
           "preparePayload": {
             "title": "Ersten Produkt-Request vorbereiten und senden",
-            "description": "Die Request-URL enthält bereits die ID des in Schritt 1 ausgewählten Shops. Ersetzen Sie YOUR_USER_ACCESS_TOKEN durch das in Schritt 2 erstellte Zugriffstoken und senden Sie ein kleines Produkt-Batch per POST.",
-            "focus": "Das Zugriffstoken autorisiert den Request, die vorausgefüllte Shop-ID ordnet die Produkte dem richtigen Shop zu. Eine 202-Antwort bedeutet, dass die Verarbeitung im Hintergrund gestartet wurde.",
+            "description": "Die URL verwendet die ausgewählte listingSourceId. Ersetzen Sie YOUR_USER_ACCESS_TOKEN auf Ihrem Server und senden Sie den Beispiel-Batch per POST.",
+            "focus": "Prüfen Sie HTTP 200 und das Fehlerarray. Eine Warteschlangenannahme bestätigt keinen erfolgreichen Schreibvorgang.",
             "visualTitle": "JSON-Payload vorbereiten",
             "visualCaption": "Batch-Struktur und Pflichtfelder"
           },
-          "verifyShop": {
-            "title": "Shop-Seite öffnen und Ergebnis prüfen",
-            "description": "Öffnen Sie nach der Verarbeitung Ihre Aura-Historia-Shop-Seite. Die ersten synchronisierten Produkte sollten dort nach kurzer Verzögerung erscheinen.",
-            "focus": "Der Link führt direkt zu dem in Schritt 1 ausgewählten Shop, damit Sie die importierten Produkte prüfen können.",
-            "cta": "Meine Shop-Seite öffnen",
-            "selectionRequired": "Zuerst Partner-Shop auswählen",
-            "visualTitle": "Shop-Seite prüfen",
-            "visualCaption": "Produktgrid und Shop-Header"
+          "verifyResults": {
+            "title": "Batch-Ergebnis prüfen",
+            "description": "Ein leeres Fehlerarray [] bedeutet Erfolg. Bei Teilerfolg werden nur fehlgeschlagene Einträge genannt; ein vollständig fehlgeschlagener Batch liefert eine Problemantwort.",
+            "focus": "Bewahren Sie die Antwort sicher auf und wiederholen Sie nur korrigierbare oder erneut ausführbare Einträge."
           }
         }
       },
@@ -1096,6 +1090,36 @@
         "title": "Partner-Produkt-API-Referenz",
         "subtitle": "Die eingebettete OpenAPI-Referenz konzentriert sich auf die Batch-Endpunkte, die Sie für eine eigene Integration brauchen.",
         "embedTitle": "Partner-Produkt-API-Referenz"
+      },
+      "contract": {
+        "batch": {
+          "title": "Batch-Ergebnisse",
+          "description": "POST/PATCH/PUT/DELETE: maxItems 100; [] liefert HTTP 200 mit []. Jeder Eintrag läuft in einer eigenen Transaktion. Bei Teilerfolg liefert HTTP 200 nur Fehler als { listingSourceId, sourceListingId, error }. Scheitern alle Einträge eines nicht leeren Batches, wird der erste Fehler als application/problem+json zurückgegeben. Wiederholen Sie keine erfolgreichen Einträge."
+        },
+        "create": {
+          "title": "Erstellungsfelder und Preise",
+          "description": "POST erfordert sourceListingId, url und images; geben Sie lokalisierte title und description an, wenn vorhanden (der aktuelle Vertrag erlaubt Weglassen oder null). Verkäufer- und Adressfelder werden nicht unterstützt. availability darf null sein. Der Angebotspreis ist { type: MONETARY, currency: EUR, amount: 420000 } in kleinsten Währungseinheiten oder { type: ON_REQUEST }; null erfasst keinen Preis."
+        },
+        "patch": {
+          "title": "PATCH: beibehalten oder löschen",
+          "description": "Weggelassene Felder behalten bestehende Werte bei. null löscht availability, price und jede Preisschätzung. url: null, images: null und auction: null sind ungültig (400 BAD_BODY_VALUE). images: [] löscht Bilder. Der gesamte Batch-Vertrag wird vor Beginn der Einzeltransaktionen geprüft."
+        },
+        "put": {
+          "title": "PUT: Upsert-Semantik",
+          "description": "Bei bestehenden Angeboten: availability/Preise weglassen zum Beibehalten, null zum Löschen, Wert zum Setzen. images weglassen zum Beibehalten, [] zum Löschen, Array zum Ersetzen; null ist ungültig. url weglassen oder null behält die URL bei; ein Wert ersetzt sie. title/description gelten nur beim Erstellen. Neue Angebote erfordern sourceListingId, url und images; fehlende/null availability und Preise erfassen keinen Wert."
+        },
+        "auction": {
+          "title": "Auktionszuordnung und Loszeiten",
+          "description": "auction weglassen behält den Kontext bei; auction: null ist ungültig. auctionId muss eine bestehende Auktion derselben Angebotsquelle bezeichnen: weglassen behält die Zuordnung bei, null löscht sie, eine ID setzt sie. Für lotNumber, cataloguePosition und jedes Zeitfeld (biddingOpens, scheduledCloses, reportedClosedAt) gilt: weglassen zum Beibehalten, null zum Löschen, Wert zum Setzen. Zeiten sind RFC3339-Zeitpunkte."
+        },
+        "withdrawal": {
+          "title": "Batch-Rücknahme und Wiederherstellung",
+          "description": "DELETE verwendet denselben Sammlungspfad mit einem Array aus { sourceListingId }. Es nimmt Angebote zurück und erhält ihre Historie. PUT stellt ein zurückgenommenes Angebot vor Anwendung aktueller Werte wieder her. Prüfen Sie Fehler und wiederholen Sie gegebenenfalls nur fehlgeschlagene Einträge."
+        },
+        "woocommerce": {
+          "title": "WooCommerce: Server zu Server",
+          "description": "POST /api/v1/webhooks/woocommerce/{listingSourceId} erfordert Bearer-Autorisierung, x-wc-webhook-topic und x-wc-webhook-signature (Base64-HMAC-SHA256 über exakte Body-Bytes); x-wc-webhook-delivery-id ist optional. Webhook-Geheimnisse bleiben auf dem Server und dürfen nie im Browser gesendet oder angezeigt werden. HTTP 204 ohne Body bestätigt die Annahme oder einen autorisierten ignorierten Status, weder Erfassung noch Suchsichtbarkeit. date_modified_gmt erlaubt UTC ohne Offset, Z oder +00:00; andere Offsets sind ungültig. Digest- und Quellreihenfolgekonflikte werden nachgelagert geprüft; eine Löschung ohne Zeitstempel kann die Wiederherstellung mit WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS blockieren. Wiederholen Sie unklare Annahmen unverändert mit derselben vorhandenen Delivery-ID; prüfen Sie Consumer-Fehler vor erneuter Ausführung."
+        }
       }
     },
     "finalCta": {

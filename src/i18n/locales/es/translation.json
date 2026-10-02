@@ -922,8 +922,8 @@
       "disclaimer": "Las cifras son promedios de tiendas partner activas. Los resultados individuales pueden variar."
     },
     "integrations": {
-      "title": "Conecta tu tienda en minutos",
-      "subtitle": "Elige la integración que mejor encaja. Todas se sincronizan en minutos, sin tocar código.",
+      "title": "Conecte su inventario",
+      "subtitle": "Elija un plugin o una integración propia con acceso limitado a su fuente de anuncios.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
         "description": "Instala nuestra extensión directamente desde el directorio de plugins de WordPress.",
@@ -938,7 +938,7 @@
       },
       "customApi": {
         "title": "Integración API propia",
-        "description": "Conecta un sistema de tienda propio con una API key y sincronización de productos por lotes.",
+        "description": "Sincronice anuncios con un token de acceso limitado y lotes síncronos de hasta 100 entradas.",
         "cta": "Ver documentación API",
         "badge": "Para desarrolladores"
       }
@@ -1009,27 +1009,27 @@
       "hero": {
         "eyebrow": "Programa de partners · Integración API propia",
         "title": "Conecta tu tienda con nuestra API",
-        "subtitle": "Usa la API de partners si tu tienda funciona con un sistema propio o si quieres controlar por completo la sincronización. Envía lotes de productos a Aura Historia, los procesamos en segundo plano y los productos aparecen poco después en tu página de tienda.",
+        "subtitle": "Conecte su inventario mediante una fuente de anuncios autorizada. Los lotes síncronos devuelven resultados de escritura completados; revise los errores antes de reintentar.",
         "primaryCta": "Gestionar tokens de acceso",
         "secondaryCta": "Abrir documentación API"
       },
       "concept": {
-        "title": "Pensada para importaciones asíncronas de productos",
-        "description": "La API confirma que hemos recibido tu lote. La validación, el procesamiento y la publicación ocurren después en segundo plano. Una respuesta 202 significa que la importación ha empezado, no que todos los productos ya estén visibles.",
+        "title": "Lotes de anuncios síncronos",
+        "description": "POST, PATCH, PUT y DELETE completan las escrituras de forma síncrona. HTTP 200 contiene solo entradas fallidas; [] indica éxito total, incluso para un lote vacío. La visibilidad en búsquedas es un paso independiente.",
         "flowLabel": "Flujo habitual",
         "flow": {
-          "accepted": "202 Accepted · lote recibido",
-          "processing": "Los productos se procesan en segundo plano",
-          "visible": "Los productos aprobados aparecen unos minutos después"
+          "send": "Envíe hasta 100 entradas",
+          "completed": "HTTP 200 · escrituras completadas",
+          "failures": "Revise los errores antes de reintentar"
         },
         "benefits": {
-          "async": {
-            "title": "Gestiona las importaciones de forma asíncrona",
-            "description": "Envía un lote, guarda la respuesta de aceptación y revisa el resultado en tu página de tienda de Aura Historia cuando termine el procesamiento."
+          "synchronous": {
+            "title": "Resultados completados",
+            "description": "Cada entrada tiene su propia transacción. Las escrituras correctas permanecen confirmadas aunque otra entrada falle."
           },
-          "polling": {
-            "title": "Empieza pequeño y mantén el catálogo sincronizado",
-            "description": "Usa POST para tu primer lote de productos. Cuando la importación funcione, mantén el catálogo actualizado con cambios PATCH o upserts PUT."
+          "retry": {
+            "title": "Reintente de forma selectiva",
+            "description": "Ante un fallo parcial, corrija y reintente solo las entradas fallidas cuando corresponda. Si todas fallan, revise la respuesta de problema."
           }
         }
       },
@@ -1037,17 +1037,17 @@
         "title": "Qué necesitas para la primera sincronización",
         "subtitle": "Estos tres elementos bastan para enviar un primer lote de productos fácil de revisar.",
         "items": {
-          "apiKey": {
-            "title": "Un token de acceso de usuario",
-            "description": "Cuando se apruebe tu tienda partner, crea el token en el panel de partners. Concede el permiso «Escribir productos» para la sincronización."
+          "accessToken": {
+            "title": "Un token de acceso con permisos limitados",
+            "description": "Use product-listings:write con autorización vigente para la fuente de destino. Guarde las credenciales en su servidor."
           },
-          "shopId": {
-            "title": "Tu ID de tienda en Aura Historia",
-            "description": "Usa el ID de tu tienda aprobada en cada solicitud por lote para asignar los productos a la tienda correcta."
+          "listingSourceId": {
+            "title": "El listingSourceId",
+            "description": "Use el ID canónico de la fuente en la ruta y su propio sourceListingId para cada anuncio."
           },
-          "productBatch": {
-            "title": "Un lote pequeño de productos",
-            "description": "Empieza con pocos productos válidos para comprobar rápido la importación, el mapeo de datos y el resultado publicado."
+          "listingBatch": {
+            "title": "Un lote pequeño de anuncios",
+            "description": "Comience con pocas entradas y revise la respuesta. Cada método admite hasta 100 entradas y permite []."
           }
         }
       },
@@ -1067,13 +1067,11 @@
             "retryCta": "Intentar de nuevo",
             "empty": "Actualmente no tiene acceso a fuentes de anuncios. Es posible que se haya revocado un acceso anterior.",
             "applyCta": "Solicitar una tienda asociada",
-            "selectionLabel": "Fuente de anuncios para esta integración",
-            "pendingLabel": "Solicitudes de socio pendientes",
-            "pendingHint": "Podrá continuar cuando se le conceda acceso a una fuente de anuncios."
+            "selectionLabel": "Fuente de anuncios para esta integración"
           },
           "requestKey": {
             "title": "Crea un token de acceso de usuario",
-            "description": "Inicia sesión con la cuenta asociada a tu tienda partner aprobada y crea un token de acceso de usuario. El formulario ya selecciona el permiso necesario para sincronizar productos.",
+            "description": "Cree un token de usuario con product-listings:write para una cuenta con acceso vigente a la fuente de destino.",
             "focus": "Copia el token inmediatamente: solo se muestra una vez. Guárdalo de forma segura y envíalo como token Bearer en cada solicitud a la API.",
             "cta": "Crear token de acceso de usuario",
             "defaultTokenName": "Sincronización de productos por API propia",
@@ -1082,19 +1080,15 @@
           },
           "preparePayload": {
             "title": "Prepara y envía tu primera solicitud de productos",
-            "description": "La URL de la solicitud ya contiene el ID de la tienda seleccionada en el paso 1. Sustituye YOUR_USER_ACCESS_TOKEN por el token creado en el paso 2 y envía un lote pequeño con POST.",
-            "focus": "El token autoriza la solicitud y el ID de tienda predefinido asigna los productos a la tienda correcta. Una respuesta 202 significa que el procesamiento en segundo plano ha comenzado.",
+            "description": "La URL utiliza el listingSourceId seleccionado. Sustituya YOUR_USER_ACCESS_TOKEN en su servidor y envíe el lote de ejemplo con POST.",
+            "focus": "Compruebe HTTP 200 y el array de errores. La aceptación en una cola no demuestra una escritura correcta.",
             "visualTitle": "Preparar payload JSON",
             "visualCaption": "Estructura del lote y campos obligatorios"
           },
-          "verifyShop": {
-            "title": "Abre tu página de tienda y verifica el resultado",
-            "description": "Después del procesamiento, abre tu página de tienda en Aura Historia. Tus primeros productos sincronizados deberían aparecer allí tras una breve espera.",
-            "focus": "El enlace abre directamente la tienda seleccionada en el paso 1 para comprobar los productos importados.",
-            "cta": "Abrir mi página de tienda",
-            "selectionRequired": "Selecciona primero una tienda asociada",
-            "visualTitle": "Verificar página de tienda",
-            "visualCaption": "Grid de productos y cabecera de tienda"
+          "verifyResults": {
+            "title": "Revise el resultado del lote",
+            "description": "Un array de errores vacío [] indica éxito. Un resultado parcial enumera solo las entradas fallidas; un lote totalmente fallido devuelve una respuesta de problema.",
+            "focus": "Guarde la respuesta de forma segura y reintente solo los errores que puedan corregirse o repetirse."
           }
         }
       },
@@ -1102,6 +1096,36 @@
         "title": "Referencia de la API de productos partner",
         "subtitle": "La referencia OpenAPI integrada se centra en los endpoints por lote que necesitas para una integración propia.",
         "embedTitle": "Referencia de la API de productos partner"
+      },
+      "contract": {
+        "batch": {
+          "title": "Resultados de los lotes",
+          "description": "POST/PATCH/PUT/DELETE: maxItems 100; [] devuelve HTTP 200 con []. Cada entrada se ejecuta en su propia transacción. Con éxito parcial, HTTP 200 devuelve solo errores como { listingSourceId, sourceListingId, error }. Si todas las entradas de un lote no vacío fallan, el primer error se devuelve como application/problem+json. No repita las entradas correctas."
+        },
+        "create": {
+          "title": "Campos de creación y precios",
+          "description": "POST requiere sourceListingId, url e images; incluya title y description localizados cuando estén disponibles (el contrato actual permite omisión o null). No se admiten campos de vendedor ni dirección. availability puede ser null. El precio es { type: MONETARY, currency: EUR, amount: 420000 } en unidades monetarias menores, o { type: ON_REQUEST }; null no registra precio."
+        },
+        "patch": {
+          "title": "PATCH: conservar o borrar",
+          "description": "Los campos omitidos conservan los valores existentes. null borra availability, price y cada estimación de precio. url: null, images: null y auction: null son inválidos (400 BAD_BODY_VALUE). images: [] borra las imágenes. Se valida el contrato del lote completo antes de iniciar las transacciones."
+        },
+        "put": {
+          "title": "PUT: semántica de inserción o actualización",
+          "description": "En anuncios existentes, omita availability/precios para conservar, envíe null para borrar o un valor para establecer. Omita images para conservar, [] para borrar o un array para reemplazar; null es inválido. Omitir url o enviar null conserva la URL; un valor la reemplaza. title/description solo se aplican al crear. Los nuevos anuncios requieren sourceListingId, url e images; availability y precios omitidos/null no registran valor."
+        },
+        "auction": {
+          "title": "Pertenencia a subasta y horarios del lote",
+          "description": "Omitir auction conserva su contexto; auction: null es inválido. Dentro de auction, auctionId debe identificar una subasta existente de la misma fuente: omitir conserva la pertenencia, null la borra y un ID la establece. Para lotNumber, cataloguePosition y cada campo temporal (biddingOpens, scheduledCloses, reportedClosedAt), omita para conservar, null para borrar o un valor para establecer. Los tiempos son instantes RFC3339."
+        },
+        "withdrawal": {
+          "title": "Retirada por lotes y restauración",
+          "description": "DELETE usa la misma ruta de colección con un array de { sourceListingId }. Retira anuncios y conserva su historial. PUT restaura un anuncio retirado antes de aplicar los datos actuales. Revise los errores y reintente solo las entradas fallidas cuando corresponda."
+        },
+        "woocommerce": {
+          "title": "WooCommerce: de servidor a servidor",
+          "description": "POST /api/v1/webhooks/woocommerce/{listingSourceId} requiere autorización Bearer, x-wc-webhook-topic y x-wc-webhook-signature (HMAC-SHA256 en base64 sobre los bytes exactos del cuerpo); x-wc-webhook-delivery-id es opcional. Mantenga los secretos en el servidor; nunca los envíe ni exponga en un navegador. HTTP 204 sin cuerpo confirma admisión o un estado ignorado autorizado, no captura ni visibilidad. date_modified_gmt admite UTC sin desplazamiento, Z o +00:00; otros desplazamientos son inválidos. Los conflictos de digest y orden de origen se comprueban después; una eliminación sin fecha puede bloquear la restauración con WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Reintente una admisión incierta sin cambios, conservando el ID de entrega si existe; investigue los fallos del consumidor antes de reprocesar."
+        }
       }
     }
   },

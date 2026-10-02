@@ -15,6 +15,8 @@ This compares what is represented in the generated client with the supplied sche
 
 ## Deliverables
 
+- [Partner integration contract](partner-integration-contract.md): current synchronous batch and WooCommerce documentation, reference generation, field semantics and validation for MIG-13.
+
 - [All original issue drafts in one raw Markdown file](all-issues.md): the initial 25-issue planning snapshot. The backend-ready MIG-00 ticket in [issues/00.md](issues/00.md) supersedes its bundled MIG-00 entry.
 - [Field differences](field-differences.md): mechanical old-versus-new model fields, enum/union shapes, operation query/path/header/body changes, request requiredness, security metadata and response status/body contracts.
 - [Complete operation inventory](operation-inventory.md): every old operation mapped to its successor or explicit absence, every new capability, and exact old generated/new OpenAPI contracts.
