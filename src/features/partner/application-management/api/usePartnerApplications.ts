@@ -26,7 +26,7 @@ export class ApplicationRequestError extends Error {
         super(message);
     }
 }
-function useApplicationError() {
+function useApplicationError(missingKey = "partnerApplications.proposals.missing") {
     const { getErrorMessage } = useApiError();
     const { t } = useTranslation();
     return (error: Parameters<typeof mapToInternalApiError>[0], status?: number) => {
@@ -35,7 +35,7 @@ function useApplicationError() {
             problem.status === 409
                 ? t("partnerApplications.proposals.conflict")
                 : problem.status === 404
-                  ? t("partnerApplications.proposals.missing")
+                  ? t(missingKey)
                   : getErrorMessage(problem);
         return new ApplicationRequestError(message, problem.status);
     };
@@ -73,7 +73,7 @@ export function usePartnerApplicationDetails(id?: string, enabled = true) {
 }
 export function useCreatePartnerApplication() {
     const queryClient = useQueryClient();
-    const requestError = useApplicationError();
+    const requestError = useApplicationError("partnerApplications.proposals.sourceUnavailable");
     return useMutation({
         mutationFn: async (proposal: PartnershipProposal) => {
             const response = await postPartnershipApplication({

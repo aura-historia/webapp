@@ -87,7 +87,7 @@ export function PartnerApplicationCreateDialog({
                         {t("partnerApplications.proposals.description")}
                     </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={submit} className="grid gap-4">
+                <form noValidate onSubmit={submit} className="grid gap-4">
                     <fieldset disabled={mutation.isPending} className="grid gap-4">
                         <div className="grid gap-2">
                             <Label htmlFor="application-proposal-type">

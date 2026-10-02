@@ -11,6 +11,7 @@ import {
     usePartnerApplications,
 } from "../usePartnerApplications.ts";
 import { useApplicationListingSourceSearch } from "../useApplicationListingSourceSearch.ts";
+import testI18n from "@/i18n/i18nForTests";
 
 const api = vi.hoisted(() => ({
     list: vi.fn(),
@@ -75,9 +76,41 @@ describe("own application API", () => {
             response: { status: 404, ok: false },
         });
         const hook = renderHook(() => usePartnerApplicationDetails("pa_missing"), { wrapper });
-        await waitFor(() => expect(hook.result.current.error).toMatchObject({ status: 404 }));
+        await waitFor(() =>
+            expect(hook.result.current.error).toMatchObject({
+                status: 404,
+                message: testI18n.t("partnerApplications.proposals.missing"),
+            }),
+        );
         expect(api.list).not.toHaveBeenCalled();
     });
+    it.each([true, false])(
+        "asks for another source when creation returns 404 (problem body: %s)",
+        async (withProblemBody) => {
+            api.create.mockResolvedValue({
+                ...(withProblemBody
+                    ? {
+                          error: {
+                              status: 404,
+                              error: "PARTNERSHIP_APPLICATION_LISTING_SOURCE_NOT_FOUND",
+                          },
+                      }
+                    : {}),
+                response: { status: 404, ok: false },
+            });
+            const hook = renderHook(() => useCreatePartnerApplication(), { wrapper });
+            await act(async () => {
+                await expect(
+                    hook.result.current.mutateAsync(application.proposal),
+                ).rejects.toMatchObject({
+                    status: 404,
+                    message: testI18n.t("partnerApplications.proposals.sourceUnavailable"),
+                });
+            });
+            expect(client.getQueryData(PARTNER_APPLICATIONS_QUERY_KEY)).toBeUndefined();
+            expect(api.detail).not.toHaveBeenCalled();
+        },
+    );
     it("submits a canonical existing-source ID inside proposal", async () => {
         api.create.mockResolvedValue(response(application, 201));
         const hook = renderHook(() => useCreatePartnerApplication(), { wrapper });

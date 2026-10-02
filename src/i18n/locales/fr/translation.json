@@ -2077,6 +2077,7 @@
       "withdrawn": "Retirée",
       "conflict": "La candidature ne peut pas être modifiée dans son état actuel. Actualisez pour voir le dernier statut.",
       "missing": "Candidature introuvable ou indisponible.",
+      "sourceUnavailable": "Cette source d’offres n’est plus disponible. Veuillez sélectionner une autre source.",
       "clear": "Effacer la sélection",
       "noSources": "Aucune source d’offres trouvée.",
       "noMethods": "Aucune demandée",

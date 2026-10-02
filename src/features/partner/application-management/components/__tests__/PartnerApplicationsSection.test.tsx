@@ -2,6 +2,7 @@ import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PartnerApplicationsSection } from "../PartnerApplicationsSection.tsx";
+import testI18n from "@/i18n/i18nForTests";
 const mocks = vi.hoisted(() => ({
     list: vi.fn(),
     detail: vi.fn(),
@@ -91,6 +92,27 @@ describe("immutable application workflow", () => {
         render(<PartnerApplicationsSection />);
         await userEvent.click(screen.getByRole("button", { name: /Details/ }));
         expect(screen.getByRole("alert")).toHaveTextContent("Bewerbung nicht gefunden");
+    });
+    it.each([
+        ["E-Mail (optional)", "invalid-email", "emailInvalid"],
+        ["Quellen-URL (optional)", "invalid-url", "urlInvalid"],
+        ["Bild-URL (optional)", "invalid-url", "urlInvalid"],
+    ])("shows localized schema errors for invalid %s", async (label, value, validationKey) => {
+        render(<PartnerApplicationsSection />);
+        await userEvent.click(screen.getByRole("button", { name: /Neue|Neuer/ }));
+        await userEvent.type(screen.getByLabelText("Name des Betreibers"), "Operator");
+        await userEvent.type(screen.getByLabelText("Name der Angebotsquelle"), "Source");
+        const input = screen.getByLabelText(label) as HTMLInputElement;
+        expect(input.form?.noValidate).toBe(true);
+        await userEvent.type(input, value);
+        await userEvent.click(screen.getByRole("button", { name: "Antrag einreichen" }));
+        expect(
+            await screen.findByText(
+                testI18n.t(`partnerApplications.create.validation.${validationKey}`),
+            ),
+        ).toBeInTheDocument();
+        expect(input).toHaveAttribute("aria-invalid", "true");
+        expect(mocks.create).not.toHaveBeenCalled();
     });
     it("submits the proposed variant with omitted empty contacts", async () => {
         render(<PartnerApplicationsSection />);

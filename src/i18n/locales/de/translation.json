@@ -1845,6 +1845,7 @@
       "withdrawn": "Zurückgezogen",
       "conflict": "Die Bewerbung kann im aktuellen Status nicht geändert werden. Aktualisieren Sie den Status.",
       "missing": "Bewerbung nicht gefunden oder nicht verfügbar.",
+      "sourceUnavailable": "Diese Angebotsquelle ist nicht mehr verfügbar. Bitte wählen Sie eine andere Quelle.",
       "clear": "Auswahl aufheben",
       "noSources": "Keine Angebotsquellen gefunden.",
       "noMethods": "Keine angefordert",

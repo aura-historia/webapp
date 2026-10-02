@@ -2077,6 +2077,7 @@
       "withdrawn": "Retirada",
       "conflict": "La solicitud no se puede cambiar en su estado actual. Actualice para ver el estado más reciente.",
       "missing": "Solicitud no encontrada o no disponible.",
+      "sourceUnavailable": "Esta fuente de ofertas ya no está disponible. Seleccione otra fuente.",
       "clear": "Borrar selección",
       "noSources": "No se encontraron fuentes de ofertas.",
       "noMethods": "Ninguno solicitado",
