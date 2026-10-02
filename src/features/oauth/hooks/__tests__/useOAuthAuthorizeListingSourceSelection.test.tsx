@@ -19,63 +19,35 @@ const sources = [
 ];
 
 describe("listing-source selection", () => {
-    it("selects a single granted source, but emits no source when selection is disabled", () => {
-        const { result, rerender } = renderHook(
-            ({ required }) =>
-                useOAuthAuthorizeListingSourceSelection({
-                    searchParams: { ...params, requires_listing_source_id: required },
-                    listingSources: sources.slice(0, 1),
-                }),
-            { initialProps: { required: true } },
-        );
-        expect(result.current.listingSourceId).toBe("ls_first");
-        rerender({ required: false });
-        expect(result.current.listingSourceId).toBeUndefined();
-    });
-
-    it("does not substitute another source when selected access is revoked", () => {
-        const { result, rerender } = renderHook(
-            ({ listingSources }) =>
-                useOAuthAuthorizeListingSourceSelection({
-                    searchParams: params,
-                    listingSources,
-                }),
-            { initialProps: { listingSources: sources } },
-        );
-        act(() => result.current.selectListingSource("ls_second"));
-        rerender({ listingSources: sources.slice(0, 1) });
-        expect(result.current.listingSourceId).toBeUndefined();
-        rerender({ listingSources: [] });
-        expect(result.current.listingSourceId).toBeUndefined();
-    });
-
-    it("rejects a redirect hint outside current grants", () => {
+    it("selects the single granted source", () => {
         const { result } = renderHook(() =>
             useOAuthAuthorizeListingSourceSelection({
-                searchParams: {
-                    ...params,
-                    redirect_uri: `${params.redirect_uri}?listing_source_id=ls_attacker`,
-                },
+                searchParams: params,
                 listingSources: sources.slice(0, 1),
             }),
         );
-        expect(result.current.listingSourceId).toBeUndefined();
+        expect(result.current.listingSourceId).toBe("ls_first");
     });
 
-    it.each(["scope", "code_challenge", "state"] as const)(
-        "clears manual selection when %s changes",
-        (field) => {
-            const { result, rerender } = renderHook(
-                ({ searchParams }) =>
-                    useOAuthAuthorizeListingSourceSelection({
-                        searchParams,
-                        listingSources: sources,
-                    }),
-                { initialProps: { searchParams: params } },
-            );
-            act(() => result.current.selectListingSource("ls_second"));
-            rerender({ searchParams: { ...params, [field]: "changed" } });
-            expect(result.current.listingSourceId).toBeUndefined();
-        },
-    );
+    it("uses a selected canonical source ID", () => {
+        const { result } = renderHook(() =>
+            useOAuthAuthorizeListingSourceSelection({
+                searchParams: params,
+                listingSources: sources,
+            }),
+        );
+        act(() => result.current.selectListingSource("ls_second"));
+        expect(result.current.listingSourceId).toBe("ls_second");
+    });
+
+    it("clears manual selection when state changes", () => {
+        const { result, rerender } = renderHook(
+            ({ searchParams }) =>
+                useOAuthAuthorizeListingSourceSelection({ searchParams, listingSources: sources }),
+            { initialProps: { searchParams: params } },
+        );
+        act(() => result.current.selectListingSource("ls_second"));
+        rerender({ searchParams: { ...params, state: "changed" } });
+        expect(result.current.listingSourceId).toBeUndefined();
+    });
 });

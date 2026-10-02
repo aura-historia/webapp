@@ -43,10 +43,6 @@ describe("ordinary-user consent metadata adapter", () => {
         expect(mapped).not.toHaveProperty("client_id");
         expect(mapped.redirectUris).not.toBe(dto.redirect_uris);
     });
-    it("uses the server user's token per request", async () => {
-        await getOAuthConsentClient("oc_test", "user-access-token");
-        expect(get.mock.calls[0][0].auth).toBe("user-access-token");
-    });
     it("discards unexpected credentials before returning metadata", async () => {
         get.mockResolvedValue({
             data: { ...dto, client_secret: "private", client_id_issued_at: 42 },

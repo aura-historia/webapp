@@ -8,9 +8,7 @@ export function getSafeHttpsUrl(url: string | undefined): string | undefined {
 
     try {
         const parsedUrl = new URL(url);
-        return parsedUrl.protocol === "https:" && !parsedUrl.username && !parsedUrl.password
-            ? url
-            : undefined;
+        return parsedUrl.protocol === "https:" ? url : undefined;
     } catch {
         return undefined;
     }
@@ -30,8 +28,6 @@ export function setListingSourceIdOnRedirectUri(
 ): string {
     try {
         const url = new URL(redirectUri);
-        url.searchParams.delete("partner_shop_id");
-        url.searchParams.delete("shopId");
 
         if (listingSourceId) {
             url.searchParams.set(LISTING_SOURCE_ID_PARAM, listingSourceId);

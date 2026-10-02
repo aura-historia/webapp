@@ -7,17 +7,13 @@ import {
 import { env } from "@/env.ts";
 
 /** Ordinary-user consent read; replace transport when the generated operation is available. */
-export async function getOAuthConsentClient(
-    clientId: string,
-    accessToken?: string,
-): Promise<OAuthClient> {
+export async function getOAuthConsentClient(clientId: string): Promise<OAuthClient> {
     const result = await client
         .get<unknown, unknown>({
             baseUrl: env.VITE_API_URL ?? "https://api.dev.aura-historia.com",
             url: "/api/v1/oauth/clients/{clientId}",
             path: { clientId },
             security: [{ scheme: "bearer", type: "http" }],
-            ...(accessToken ? { auth: accessToken } : {}),
             cache: "no-store",
             redirect: "error",
             throwOnError: false,

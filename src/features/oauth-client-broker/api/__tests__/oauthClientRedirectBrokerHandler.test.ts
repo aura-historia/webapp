@@ -1,4 +1,3 @@
-import { signOAuthClientBrokerState } from "@/features/oauth-client-broker/lib/signedOAuthClientBrokerState.ts";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { encodeOAuthClientBrokerState } from "@/features/oauth-client-broker/lib/oauthClientBrokerState.ts";
 import { getWooCommerceOAuthClientRedirectBroker } from "../oauthClientRedirectBrokerHandler.ts";
@@ -44,7 +43,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
             }),
         );
 
-        const response = await get(await createBrokerRequest());
+        const response = await get(createBrokerRequest());
 
         expect(response.status).toBe(302);
         expect(response.headers.get("Cache-Control")).toBe("no-store");
@@ -97,9 +96,9 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         );
 
         const response = await get(
-            await createBrokerRequest({
+            createBrokerRequest({
                 extraParams: [
-                    ["listing_source_id", "ls_test"],
+                    ["listing_source_id", "shop-1"],
                     ["resource", "products"],
                     ["resource", "shops"],
                     ["iss", "https://api.test.example"],
@@ -116,7 +115,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         expect(redirectUrl.searchParams.get("third_party_exchange_code")).toBe(
             thirdPartyExchangeCode,
         );
-        expect(redirectUrl.searchParams.get("listing_source_id")).toBe("ls_test");
+        expect(redirectUrl.searchParams.get("listing_source_id")).toBe("shop-1");
         expect(redirectUrl.searchParams.getAll("resource")).toEqual(["products", "shops"]);
         expect(redirectUrl.searchParams.get("iss")).toBe("https://api.test.example");
         expect(redirectUrl.searchParams.get("state")).toBe("merchant-csrf-state");
@@ -137,27 +136,6 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         expect(mockFetch).not.toHaveBeenCalled();
     });
 
-    it("rejects an unsigned legacy callback without exchanging its code", async () => {
-        const response = await get(
-            await createBrokerRequest({
-                state: encodeOAuthClientBrokerState({
-                    redirectUri: "https://merchant.example/callback",
-                    codeVerifier,
-                }),
-            }),
-        );
-        expect(response.status).toBe(400);
-        expect(mockFetch).not.toHaveBeenCalled();
-    });
-
-    it("rejects a forged source selection outside signed state", async () => {
-        const response = await get(
-            await createBrokerRequest({ extraParams: [["listing_source_id", "ls_attacker"]] }),
-        );
-        expect(response.status).toBe(400);
-        expect(mockFetch).not.toHaveBeenCalled();
-    });
-
     it("rejects invalid broker state before exchanging a code", async () => {
         const response = await get(
             new Request(
@@ -172,12 +150,12 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
 
     it("redirects authorization endpoint errors to the final redirect target", async () => {
         const response = await get(
-            await createBrokerRequest({
+            createBrokerRequest({
                 code: undefined,
                 error: "access_denied",
                 error_description: "The user denied access.",
                 error_uri: "https://docs.example/access-denied",
-                extraParams: [["listing_source_id", "ls_test"]],
+                extraParams: [["listing_source_id", "shop-1"]],
             }),
         );
 
@@ -190,13 +168,13 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         expect(redirectUrl.searchParams.get("error_uri")).toBe(
             "https://docs.example/access-denied",
         );
-        expect(redirectUrl.searchParams.get("listing_source_id")).toBe("ls_test");
+        expect(redirectUrl.searchParams.get("listing_source_id")).toBe("shop-1");
         expect(redirectUrl.searchParams.get("state")).toBe("merchant-csrf-state");
     });
 
     it("redirects authorization endpoint errors without optional error fields", async () => {
         const response = await get(
-            await createBrokerRequest({
+            createBrokerRequest({
                 code: undefined,
                 error: "temporarily_unavailable",
             }),
@@ -213,7 +191,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
     });
 
     it("redirects missing authorization codes to the final target as OAuth errors", async () => {
-        const response = await get(await createBrokerRequest({ code: undefined }));
+        const response = await get(createBrokerRequest({ code: undefined }));
 
         expect(response.status).toBe(302);
         expect(mockFetch).not.toHaveBeenCalled();
@@ -228,7 +206,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
     it("returns a server error when broker credentials are not configured", async () => {
         mockEnv.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET = undefined;
 
-        const response = await get(await createBrokerRequest());
+        const response = await get(createBrokerRequest());
 
         expect(response.status).toBe(500);
         await expect(response.text()).resolves.toBe("OAuth broker is not configured.");
@@ -243,7 +221,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
             }),
         );
 
-        const response = await get(await createBrokerRequest());
+        const response = await get(createBrokerRequest());
 
         expect(response.status).toBe(302);
         const redirectUrl = new URL(getLocation(response));
@@ -257,7 +235,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
     it("redirects backend unauthorized token failures as server_error", async () => {
         mockFetch.mockResolvedValue(new Response("Unauthorized", { status: 401 }));
 
-        const response = await get(await createBrokerRequest());
+        const response = await get(createBrokerRequest());
 
         const redirectUrl = new URL(getLocation(response));
         expect(redirectUrl.searchParams.get("error")).toBe("server_error");
@@ -269,7 +247,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
     it("redirects network failures as server_error without exposing backend details", async () => {
         mockFetch.mockRejectedValue(new Error("Network details"));
 
-        const response = await get(await createBrokerRequest());
+        const response = await get(createBrokerRequest());
 
         expect(response.status).toBe(302);
         const redirectUrl = new URL(getLocation(response));
@@ -288,7 +266,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
             }),
         );
 
-        const response = await get(await createBrokerRequest());
+        const response = await get(createBrokerRequest());
 
         const redirectUrl = new URL(getLocation(response));
         expect(redirectUrl.searchParams.get("error")).toBe("server_error");
@@ -300,7 +278,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
     it("redirects non-object token JSON responses as server_error", async () => {
         mockFetch.mockResolvedValue(jsonResponse(null));
 
-        const response = await get(await createBrokerRequest());
+        const response = await get(createBrokerRequest());
 
         const redirectUrl = new URL(getLocation(response));
         expect(redirectUrl.searchParams.get("error")).toBe("server_error");
@@ -319,7 +297,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
             }),
         );
 
-        const response = await get(await createBrokerRequest());
+        const response = await get(createBrokerRequest());
 
         const redirectUrl = new URL(getLocation(response));
         expect(redirectUrl.searchParams.get("error")).toBe("server_error");
@@ -341,7 +319,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
             }),
         );
 
-        await get(await createBrokerRequest());
+        await get(createBrokerRequest());
 
         const [tokenUrl] = mockFetch.mock.calls[0] as [URL, RequestInit];
         expect(tokenUrl.toString()).toBe("https://api.dev.aura-historia.com/api/v1/oauth/token");
@@ -355,7 +333,7 @@ function get(
     return handler({ request });
 }
 
-async function createBrokerRequest(
+function createBrokerRequest(
     params: {
         readonly code?: string;
         readonly state?: string;
@@ -364,22 +342,17 @@ async function createBrokerRequest(
         readonly error_uri?: string;
         readonly extraParams?: ReadonlyArray<readonly [string, string]>;
     } = {},
-): Promise<Request> {
+): Request {
     const url = new URL("https://auth.example/api/oauth/client/redirect-broker/woocommerce");
     const code =
         params.code === undefined && !("code" in params) ? "authorization-code" : params.code;
     const state =
         params.state ??
-        (await signOAuthClientBrokerState(
-            {
-                redirectUri: "https://merchant.example/wp-admin/admin.php?page=aura",
-                codeVerifier,
-                clientState: "merchant-csrf-state",
-                listingSourceId: "ls_test",
-            },
-            "broker-client-secret",
-            "01970f22-2bf0-7000-8000-000000000010\nhttps://auth.example/api/oauth/client/redirect-broker/woocommerce",
-        ));
+        encodeOAuthClientBrokerState({
+            redirectUri: "https://merchant.example/wp-admin/admin.php?page=aura",
+            codeVerifier,
+            clientState: "merchant-csrf-state",
+        });
 
     if (code !== undefined) {
         url.searchParams.set("code", code);

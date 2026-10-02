@@ -8,6 +8,12 @@ import type { OAuthAuthorizeSearchParams } from "@/features/oauth/lib/oauthAutho
 import { OAuthConsentUnavailableError } from "@/features/oauth/api/oauthConsentMetadata.ts";
 import { ACCESS_TOKEN_SCOPES } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 
+const navigate = vi.hoisted(() => vi.fn());
+vi.mock("@tanstack/react-router", async (importOriginal) => ({
+    ...(await importOriginal<typeof import("@tanstack/react-router")>()),
+    useNavigate: () => navigate,
+}));
+
 const mockClientData = vi.hoisted(() => ({
     clientId: "01970f22-2bf0-7000-8000-000000000010",
     clientName: "Test Partner App",
@@ -171,7 +177,6 @@ describe("OAuthAuthorizePage", () => {
         const formData = new FormData(form);
         expect(Object.fromEntries(formData)).toEqual({
             lng: "de",
-            requires_listing_source_id: "false",
             response_type: "code",
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             redirect_uri: "https://client.example/callback",
@@ -182,23 +187,28 @@ describe("OAuthAuthorizePage", () => {
         });
     });
 
-    it("submits denial through the server form so redirects and broker state are validated", async () => {
-        await act(async () =>
-            renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
-        );
-        const deny = screen.getByRole("button", {
-            name: "Autorisierung für Test Partner App ablehnen",
-        });
-        expect(deny).toHaveAttribute("type", "submit");
-        expect(deny).toHaveAttribute("name", "decision");
-        expect(deny).toHaveAttribute("value", "deny");
-        const formId = deny.getAttribute("form");
-        expect(formId).toBeTruthy();
-        expect(document.getElementById(formId ?? "")).toHaveAttribute(
-            "action",
-            "/api/oauth/authorize/approve",
-        );
-    });
+    it.each(["merchant-state", undefined])(
+        "preserves client-side denial with state %s",
+        async (state) => {
+            await act(async () =>
+                renderWithRouter(
+                    <OAuthAuthorizePage searchParams={{ ...defaultSearchParams, state }} />,
+                ),
+            );
+            const deny = screen.getByRole("button", {
+                name: "Autorisierung für Test Partner App ablehnen",
+            });
+            expect(deny).toHaveAttribute("type", "button");
+            await userEvent.setup().click(deny);
+            const redirected = new URL(navigate.mock.calls[0][0].href);
+            expect(redirected.origin).toBe("https://client.example");
+            expect(redirected.pathname).toBe("/callback");
+            expect(redirected.searchParams.get("error")).toBe("access_denied");
+            expect(redirected.searchParams.get("state")).toBe(state ?? null);
+            expect(redirected.searchParams.has("listing_source_id")).toBe(false);
+        },
+    );
+
     it("shows skeleton when client data is loading", async () => {
         mockUseOAuthClient.mockReturnValue({
             data: undefined,

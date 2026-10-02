@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import { ShieldAlert } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardFooter } from "@/components/ui/card.tsx";
@@ -14,7 +15,6 @@ import { useOAuthAuthorizeListingSourceSelection } from "@/features/oauth/hooks/
 import { useOAuthClient } from "@/features/oauth/hooks/useOAuthClient.ts";
 import { useOAuthListingSources } from "@/features/oauth/hooks/useOAuthListingSources.ts";
 import type { OAuthAuthorizeSearchParams } from "@/features/oauth/lib/oauthAuthorizeSearchParams.ts";
-import { isValidOAuthConsentRequest } from "@/features/oauth/lib/oauthConsentValidation.ts";
 import { OAuthConsentUnavailableError } from "@/features/oauth/api/oauthConsentMetadata.ts";
 
 interface OAuthAuthorizePageProps {
@@ -23,6 +23,7 @@ interface OAuthAuthorizePageProps {
 
 export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const { data: client, isLoading, isError, error } = useOAuthClient(searchParams.client_id);
     const requiresListingSourceId = searchParams.requires_listing_source_id;
     const {
@@ -43,6 +44,14 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
         listingSources,
     });
 
+    const handleDeny = () => {
+        const url = new URL(searchParams.redirect_uri);
+        url.searchParams.set("error", "access_denied");
+        url.searchParams.set("error_description", "The user denied the authorization request");
+        if (searchParams.state) url.searchParams.set("state", searchParams.state);
+        navigate({ href: url.toString() });
+    };
+
     if (isLoading || (requiresListingSourceId && isListingSourcesLoading)) {
         return (
             <OAuthAuthorizePageContainer>
@@ -54,7 +63,7 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
         );
     }
 
-    if (isError || !client || !isValidOAuthConsentRequest(client, searchParams)) {
+    if (isError || !client) {
         const errorKey = error instanceof OAuthConsentUnavailableError ? "unavailable" : "error";
         return (
             <OAuthAuthorizeErrorCard
@@ -132,8 +141,11 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
                             denyAriaLabel={t("oauth.authorize.denyAriaLabel", {
                                 appName: client.clientName,
                             })}
-                            isApproveDisabled={requiresListingSourceId && !effectiveListingSourceId}
+                            isApproveDisabled={
+                                requiresListingSourceSelection && !effectiveListingSourceId
+                            }
                             listingSourceId={listingSourceId}
+                            onDeny={handleDeny}
                             searchParams={searchParams}
                         />
                     </CardFooter>

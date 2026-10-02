@@ -34,15 +34,10 @@ export function useOAuthAuthorizeListingSourceSelection({
             : redirectUriListingSourceId;
 
     const selectedListingSource = selectedListingSourceId
-        ? listingSources.find((shop) => shop.listingSourceId === selectedListingSourceId)
+        ? listingSources.find((source) => source.listingSourceId === selectedListingSourceId)
         : undefined;
-    const effectiveListingSource = requiresListingSourceId
-        ? selectedListingSourceId
-            ? selectedListingSource
-            : listingSources.length === 1
-              ? listingSources[0]
-              : undefined
-        : undefined;
+    const effectiveListingSource =
+        listingSources.length === 1 ? listingSources[0] : selectedListingSource;
     const listingSourceId = effectiveListingSource?.listingSourceId;
 
     return {
@@ -61,13 +56,5 @@ export function useOAuthAuthorizeListingSourceSelection({
 }
 
 function getAuthorizationRequestId(searchParams: OAuthAuthorizeSearchParams): string {
-    return JSON.stringify([
-        searchParams.client_id,
-        searchParams.redirect_uri,
-        searchParams.state,
-        searchParams.scope,
-        searchParams.code_challenge,
-        searchParams.code_challenge_method,
-        searchParams.requires_listing_source_id,
-    ]);
+    return `${searchParams.client_id}:${searchParams.redirect_uri}:${searchParams.state ?? ""}`;
 }

@@ -7,11 +7,6 @@ const CLIENT_STATE_PARAM = "state";
 export type OAuthRedirectForwardedParams = Iterable<readonly [string, string]>;
 
 const rawBrokerStateSchema = z.object({
-    version: z.literal(2).optional(),
-    listing_source_id: z.string().min(1).optional(),
-    listingSourceId: z.string().min(1).optional(),
-    shopId: z.never().optional(),
-    partner_shop_id: z.never().optional(),
     redirect_uri: z.string().optional(),
     redirectUri: z.string().optional(),
     code_verifier: z.string().optional(),
@@ -22,7 +17,6 @@ const rawBrokerStateSchema = z.object({
 });
 
 export interface OAuthClientBrokerState {
-    readonly listingSourceId?: string;
     readonly redirectUri: string;
     readonly codeVerifier: string;
     readonly clientState?: string;
@@ -30,24 +24,10 @@ export interface OAuthClientBrokerState {
 
 export function decodeOAuthClientBrokerState(encodedState: string): OAuthClientBrokerState {
     const decodedState = rawBrokerStateSchema.parse(decodeBase64UrlJson(encodedState));
-    for (const [left, right] of [
-        [decodedState.redirect_uri, decodedState.redirectUri],
-        [decodedState.code_verifier, decodedState.codeVerifier],
-        [decodedState.client_state, decodedState.clientState],
-        [decodedState.client_state ?? decodedState.clientState, decodedState.state],
-        [decodedState.listing_source_id, decodedState.listingSourceId],
-    ]) {
-        if (left !== undefined && right !== undefined && left !== right) {
-            throw new Error("Conflicting OAuth broker state aliases.");
-        }
-    }
     const redirectUri = decodedState.redirect_uri ?? decodedState.redirectUri;
     const codeVerifier = decodedState.code_verifier ?? decodedState.codeVerifier;
     const clientState = decodedState.client_state ?? decodedState.clientState ?? decodedState.state;
     const brokerState: OAuthClientBrokerState = {
-        ...((decodedState.listing_source_id ?? decodedState.listingSourceId) !== undefined
-            ? { listingSourceId: decodedState.listing_source_id ?? decodedState.listingSourceId }
-            : {}),
         redirectUri: validateBrokerRedirectUri(redirectUri),
         codeVerifier: validateCodeVerifier(codeVerifier),
     };
@@ -63,15 +43,10 @@ export function decodeOAuthClientBrokerState(encodedState: string): OAuthClientB
 }
 
 export function encodeOAuthClientBrokerState(state: OAuthClientBrokerState): string {
-    const rawState: Record<string, string | number> = {
-        version: 2,
+    const rawState: Record<string, string> = {
         redirect_uri: state.redirectUri,
         code_verifier: state.codeVerifier,
     };
-
-    if (state.listingSourceId !== undefined) {
-        rawState.listing_source_id = state.listingSourceId;
-    }
 
     if (state.clientState !== undefined) {
         rawState.client_state = state.clientState;
@@ -161,10 +136,6 @@ function validateBrokerRedirectUri(redirectUri: string | undefined): string {
 
     if (url.username || url.password) {
         throw new Error("OAuth broker state redirect_uri must not contain credentials.");
-    }
-
-    if (url.searchParams.has("shopId") || url.searchParams.has("partner_shop_id")) {
-        throw new Error("Legacy OAuth broker shop selection is not supported.");
     }
 
     if (url.protocol === "https:") {
