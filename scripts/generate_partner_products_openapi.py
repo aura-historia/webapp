@@ -4,6 +4,7 @@ import argparse
 import copy
 import hashlib
 import json
+import re
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -27,6 +28,14 @@ def fix_price_examples(value: object) -> None:
             fix_price_examples(child)
 
 
+def discriminator_ref(value: str) -> str:
+    if re.fullmatch(r"[A-Za-z0-9._-]+", value):
+        return f"#/components/schemas/{value}"
+    if re.fullmatch(r"#/components/schemas/[A-Za-z0-9._-]+", value):
+        return value
+    raise ValueError(f"Unsupported discriminator mapping reference: {value}")
+
+
 def component_refs(value: object) -> set[str]:
     refs: set[str] = set()
     if isinstance(value, dict):
@@ -36,7 +45,7 @@ def component_refs(value: object) -> set[str]:
                 raise ValueError(f"Unsupported reference: {ref}")
             refs.add(ref)
         for ref in value.get("discriminator", {}).get("mapping", {}).values():
-            refs.add(ref)
+            refs.add(discriminator_ref(ref))
         for child in value.values():
             refs.update(component_refs(child))
     elif isinstance(value, list):

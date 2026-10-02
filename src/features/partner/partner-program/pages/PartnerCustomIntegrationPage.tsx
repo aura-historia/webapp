@@ -350,15 +350,17 @@ export default function PartnerCustomIntegrationPage() {
                                 "woocommerce",
                             ] as const
                         ).map((topic) => (
-                            <Card key={topic}>
+                            <Card key={topic} className="min-w-0">
                                 <CardHeader>
                                     <CardTitle>
-                                        {t(
-                                            `partnerProgram.customIntegrationPage.contract.${topic}.title`,
-                                        )}
+                                        <h3>
+                                            {t(
+                                                `partnerProgram.customIntegrationPage.contract.${topic}.title`,
+                                            )}
+                                        </h3>
                                     </CardTitle>
                                 </CardHeader>
-                                <CardContent className="text-sm leading-6 text-muted-foreground">
+                                <CardContent className="min-w-0 wrap-anywhere text-sm leading-6 text-muted-foreground">
                                     {t(
                                         `partnerProgram.customIntegrationPage.contract.${topic}.description`,
                                     )}

@@ -215,6 +215,20 @@ describe("PartnerCustomIntegrationPage", () => {
         expect(screen.queryByText("Endpunkt separat öffnen")).not.toBeInTheDocument();
     });
 
+    it("exposes every contract topic through level-three heading navigation", () => {
+        for (const name of [
+            "Batch-Ergebnisse",
+            "Erstellungsfelder und Preise",
+            "PATCH: beibehalten oder löschen",
+            "PUT: Upsert-Semantik",
+            "Auktionszuordnung und Loszeiten",
+            "Batch-Rücknahme und Wiederherstellung",
+            "WooCommerce: Server zu Server",
+        ]) {
+            expect(screen.getByRole("heading", { level: 3, name })).toBeInTheDocument();
+        }
+    });
+
     it("uses the source collection path and avoids unsupported shop verification links", () => {
         fireEvent.click(screen.getByRole("radio", { name: "Zweiter Shop" }));
         expect(screen.getByTestId("partner-product-code-example")).toHaveTextContent(

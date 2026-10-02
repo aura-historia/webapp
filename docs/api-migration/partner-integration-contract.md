@@ -33,8 +33,17 @@ The subset contains POST/PATCH/PUT/DELETE on
 `/api/v1/webhooks/woocommerce/{listingSourceId}`. Separate `/async` batch endpoints are
 outside this guide. Unrelated account/admin/configuration components are removed.
 Scalar is documentation-only: request/client buttons are hidden and authentication
-persistence is disabled. No source webhook configuration or real credentials enter
-the page or public artifact.
+persistence is disabled. No source webhook configuration or real credentials are
+passed to the Scalar embed or included in the public reference artifact.
+
+The authenticated page can mount `AccessTokenCreateDialog`. After token creation,
+the dialog deliberately displays `createdAccessToken.plaintextToken` once and copies
+it to the clipboard only on the user's explicit action. The credential is held in
+client memory; closing the dialog clears its local credential state and resets the
+mutation state, and this page unmounts the closed dialog. This does not erase a token
+already copied to the clipboard. Keep the one-time credential out of logs, analytics,
+URLs, persistent browser storage, public HTML and shared caches. The Scalar-only
+assurance must not be applied to the whole page or token-creation response.
 
 ## Synchronous batches
 

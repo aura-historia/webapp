@@ -35,6 +35,32 @@ class ExtractPartnerSpecTests(unittest.TestCase):
         self.assertNotIn("type", example["priceEstimateMin"])
         self.assertNotIn("type", price)
 
+    def test_resolves_bare_and_local_discriminator_mapping_targets(self):
+        schema = self.spec["components"]["schemas"]["CreateProductListingData"]
+        schema["discriminator"] = {
+            "propertyName": "type",
+            "mapping": {
+                "bare": "DiscriminatorOnlyData",
+                "local": "#/components/schemas/LocalDiscriminatorOnlyData",
+            },
+        }
+        for name in ("DiscriminatorOnlyData", "LocalDiscriminatorOnlyData"):
+            self.spec["components"]["schemas"][name] = {
+                "type": "object", "properties": {"price": {"$ref": "#/components/schemas/PriceData"}},
+            }
+        result = extractor.extract_partner_spec(self.spec)
+        for name in ("DiscriminatorOnlyData", "LocalDiscriminatorOnlyData", "PriceData"):
+            self.assertIn(name, result["components"]["schemas"])
+        self.assertEqual(schema["discriminator"], result["components"]["schemas"]["CreateProductListingData"]["discriminator"])
+
+    def test_rejects_unsupported_discriminator_uri_forms(self):
+        for target in ("https://example.com/spec.yaml#/PriceData", "./spec.yaml#/PriceData",
+                       "spec.yaml#/components/schemas/PriceData", "#/definitions/PriceData",
+                       "#/components/securitySchemes/BearerAuth"):
+            with self.subTest(target=target):
+                with self.assertRaisesRegex(ValueError, "Unsupported discriminator mapping reference"):
+                    extractor.component_refs({"discriminator": {"mapping": {"price": target}}})
+
     def test_fails_if_a_required_method_or_component_is_missing(self):
         del self.spec["paths"][extractor.TARGET_PATH]["delete"]
         with self.assertRaises(KeyError):
