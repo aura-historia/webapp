@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { postOAuthAuthorizeApprove } from "../oauthAuthorizeApproveHandler.ts";
+import { OAuthConsentMetadataError } from "../oauthConsentMetadata.ts";
 import { encodeOAuthClientBrokerState } from "@/features/oauth-client-broker/lib/oauthClientBrokerState.ts";
 import {
     getS256Challenge,
@@ -11,7 +12,10 @@ const mockFetch = vi.hoisted(() => vi.fn());
 const mockConsent = vi.hoisted(() => vi.fn());
 const mockSources = vi.hoisted(() => vi.fn());
 
-vi.mock("../oauthConsentMetadata.ts", () => ({ getOAuthConsentClient: mockConsent }));
+vi.mock("../oauthConsentMetadata.ts", async (importOriginal) => ({
+    ...(await importOriginal<typeof import("../oauthConsentMetadata.ts")>()),
+    getOAuthConsentClient: mockConsent,
+}));
 vi.mock("@/client", () => ({ getMyListingSources: mockSources }));
 
 vi.mock("@/env.ts", () => ({
@@ -67,6 +71,16 @@ describe("/api/oauth/authorize/approve", () => {
         mockConsent.mockRejectedValue(new Error("No consent contract"));
         const response = await post(createRequest(defaultFormFields));
         expect(response.status).toBe(503);
+        expect(response.headers.get("Cache-Control")).toBe("no-store");
+        expect(mockFetch).not.toHaveBeenCalled();
+        expect(mockSources).not.toHaveBeenCalled();
+        expect(mockConsent).toHaveBeenCalledWith(defaultFormFields.client_id, "access-token");
+    });
+
+    it.each([400, 401, 403, 404])("stops approval on metadata HTTP %s", async (status) => {
+        mockConsent.mockRejectedValue(new OAuthConsentMetadataError(status));
+        const response = await post(createRequest(defaultFormFields));
+        expect(response.status).toBe(status);
         expect(response.headers.get("Cache-Control")).toBe("no-store");
         expect(mockFetch).not.toHaveBeenCalled();
         expect(mockSources).not.toHaveBeenCalled();

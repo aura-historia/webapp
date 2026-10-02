@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { mapToInternalOAuthClient, type OAuthClient } from "../OAuthClient.ts";
-import type { OAuthClientMetadataResponseData } from "@/client";
+import type { OAuthConsentMetadataDto } from "@/data/internal/oauth/OAuthClient.ts";
 
 describe("mapToInternalOAuthClient", () => {
     it("maps all fields from API response to internal model", () => {
-        const apiData: OAuthClientMetadataResponseData = {
+        const apiData: OAuthConsentMetadataDto & {
+            client_secret: string;
+            client_id_issued_at: number;
+        } = {
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             client_secret: "aurahistoria_oauth_client_secret_abcdefghijk_****",
             client_name: "Test OAuth App",
@@ -30,7 +33,10 @@ describe("mapToInternalOAuthClient", () => {
     });
 
     it("maps multiple scopes correctly", () => {
-        const apiData: OAuthClientMetadataResponseData = {
+        const apiData: OAuthConsentMetadataDto & {
+            client_secret: string;
+            client_id_issued_at: number;
+        } = {
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             client_secret: "masked",
             client_name: "Multi-Scope App",
@@ -50,7 +56,10 @@ describe("mapToInternalOAuthClient", () => {
     });
 
     it("handles empty scopes array", () => {
-        const apiData: OAuthClientMetadataResponseData = {
+        const apiData: OAuthConsentMetadataDto & {
+            client_secret: string;
+            client_id_issued_at: number;
+        } = {
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             client_secret: "masked",
             client_name: "No Scope App",
@@ -69,7 +78,10 @@ describe("mapToInternalOAuthClient", () => {
     });
 
     it("does not include client_secret or client_id_issued_at in internal model", () => {
-        const apiData: OAuthClientMetadataResponseData = {
+        const apiData: OAuthConsentMetadataDto & {
+            client_secret: string;
+            client_id_issued_at: number;
+        } = {
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             client_secret: "secret-value",
             client_name: "App",

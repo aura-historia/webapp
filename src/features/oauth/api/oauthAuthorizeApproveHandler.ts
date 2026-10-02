@@ -4,7 +4,7 @@ import { z } from "zod";
 import { isSupportedLanguage, localizePathname } from "@/i18n/routing.ts";
 import { getMyListingSources } from "@/client";
 import { mapToOAuthListingSource } from "@/data/internal/oauth/OAuthListingSource.ts";
-import { getOAuthConsentClient } from "./oauthConsentMetadata.ts";
+import { getOAuthConsentClient, OAuthConsentMetadataError } from "./oauthConsentMetadata.ts";
 import { isValidOAuthConsentRequest } from "@/features/oauth/lib/oauthConsentValidation.ts";
 import { decodeOAuthClientBrokerState } from "@/features/oauth-client-broker/lib/oauthClientBrokerState.ts";
 import {
@@ -68,8 +68,10 @@ export async function postOAuthAuthorizeApprove({ request }: { request: Request 
     const params = parseResult.data;
     let client: Awaited<ReturnType<typeof getOAuthConsentClient>>;
     try {
-        client = await getOAuthConsentClient(params.client_id);
-    } catch {
+        client = await getOAuthConsentClient(params.client_id, authToken);
+    } catch (error) {
+        if (error instanceof OAuthConsentMetadataError)
+            return textResponse("OAuth consent metadata request failed.", error.status);
         return textResponse("OAuth consent metadata is unavailable.", 503);
     }
     if (!isValidOAuthConsentRequest(client, params)) {
