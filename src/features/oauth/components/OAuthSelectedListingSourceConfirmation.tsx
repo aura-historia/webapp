@@ -16,6 +16,9 @@ export function OAuthSelectedListingSourceConfirmation({
                 {t("oauth.authorize.listingSources.selectedLabel")}
             </p>
             <p className="mt-1 text-sm font-medium">{listingSource.name}</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+                {t("oauth.authorize.listingSources.description")}
+            </p>
         </div>
     );
 }

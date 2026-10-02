@@ -2125,7 +2125,7 @@
       },
       "listingSources": {
         "title": "Select a listing source",
-        "description": "Choose the source to connect to WooCommerce. This selection does not limit the token’s permissions; access follows the requested scopes and your current source grants.",
+        "description": "Choose the source to connect to this application. This selection does not limit the token’s permissions; access follows the requested scopes and your current source grants.",
         "selectedLabel": "Selected listing source",
         "empty": {
           "title": "No listing source available",

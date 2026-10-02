@@ -23,9 +23,10 @@ The generated client on the migration base does not yet include this operation. 
 ## Scopes and listing-source routing
 
 - Consent displays requested scopes with the eight shared access-token scope definitions and localized descriptions. No registered scopes are silently added, and legacy scope names are not translated into new privileges.
-- `getMyListingSources` replaces partner-shop listing. Responses are mapped to internal source references before selection UI. Existing single-source selection and request-state reset behavior are preserved.
+- `getMyListingSources` replaces partner-shop listing. Reads use `cache: no-store` so the browser cannot reuse stale grants. Responses are mapped to internal source references before selection UI. Single-source selection is preserved; manual choices are discarded when the request identity changes, including when navigating back to an earlier request.
 - `requires_listing_source_id` replaces the partner-shop selection flag. The selected canonical `listingSourceId` is carried as `listing_source_id` on return links, without adding a backend OAuth authorize parameter.
 - Source selection is integration routing information, not source-scoped token authorization. Token permissions follow requested scopes and current backend grants.
+- Both single-source confirmation and multiple-source selection explain this permission distinction using integration-neutral copy. Selection is requested only by the explicit flag; a redirect pathname alone does not identify the WooCommerce broker.
 
 ## WooCommerce broker compatibility
 

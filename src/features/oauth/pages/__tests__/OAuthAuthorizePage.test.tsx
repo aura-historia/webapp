@@ -327,6 +327,10 @@ describe("OAuthAuthorizePage", () => {
             ),
         );
 
+        expect(
+            screen.getByText(/Diese Auswahl begrenzt die Token-Berechtigungen nicht/),
+        ).toBeInTheDocument();
+
         const approveButton = screen.getByRole("button", {
             name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
         });

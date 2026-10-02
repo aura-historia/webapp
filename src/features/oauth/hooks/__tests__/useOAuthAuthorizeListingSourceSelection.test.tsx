@@ -49,5 +49,9 @@ describe("listing-source selection", () => {
         act(() => result.current.selectListingSource("ls_second"));
         rerender({ searchParams: { ...params, state: "changed" } });
         expect(result.current.listingSourceId).toBeUndefined();
+        rerender({ searchParams: params });
+        expect(result.current.listingSourceId).toBeUndefined();
+        act(() => result.current.selectListingSource("ls_first"));
+        expect(result.current.listingSourceId).toBe("ls_first");
     });
 });

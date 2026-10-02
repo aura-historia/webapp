@@ -2125,7 +2125,7 @@
       },
       "listingSources": {
         "title": "Listing-Quelle auswählen",
-        "description": "Wählen Sie die Quelle für WooCommerce. Diese Auswahl begrenzt die Token-Berechtigungen nicht; der Zugriff richtet sich nach den angeforderten Berechtigungen und Ihren aktuellen Quellenfreigaben.",
+        "description": "Wählen Sie die Quelle, die Sie mit dieser Anwendung verbinden möchten. Diese Auswahl begrenzt die Token-Berechtigungen nicht; der Zugriff richtet sich nach den angeforderten Berechtigungen und Ihren aktuellen Quellenfreigaben.",
         "selectedLabel": "Ausgewählte Listing-Quelle",
         "empty": {
           "title": "Keine Listing-Quelle verfügbar",

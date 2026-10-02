@@ -1898,7 +1898,7 @@
       },
       "listingSources": {
         "title": "Seleccionar una fuente de anuncios",
-        "description": "Elija la fuente para conectar con WooCommerce. Esta selección no limita los permisos del token; el acceso depende de los permisos solicitados y de sus autorizaciones actuales sobre las fuentes.",
+        "description": "Elija la fuente que desea conectar con esta aplicación. Esta selección no limita los permisos del token; el acceso depende de los permisos solicitados y de sus autorizaciones actuales sobre las fuentes.",
         "selectedLabel": "Fuente de anuncios seleccionada",
         "empty": {
           "title": "No hay fuentes de anuncios disponibles",

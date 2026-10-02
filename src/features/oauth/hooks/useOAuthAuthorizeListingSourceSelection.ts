@@ -28,6 +28,10 @@ export function useOAuthAuthorizeListingSourceSelection({
         authorizationRequestId,
         listingSourceId: redirectUriListingSourceId,
     });
+    // Discard the previous request's choice before rendering the new request.
+    if (selection.authorizationRequestId !== authorizationRequestId) {
+        setSelection({ authorizationRequestId, listingSourceId: redirectUriListingSourceId });
+    }
     const selectedListingSourceId =
         selection.authorizationRequestId === authorizationRequestId
             ? selection.listingSourceId

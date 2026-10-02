@@ -1898,7 +1898,7 @@
       },
       "listingSources": {
         "title": "Sélectionner une source d’annonces",
-        "description": "Choisissez la source à connecter à WooCommerce. Ce choix ne limite pas les permissions du jeton ; l’accès dépend des permissions demandées et de vos autorisations actuelles sur les sources.",
+        "description": "Choisissez la source à connecter à cette application. Ce choix ne limite pas les permissions du jeton ; l’accès dépend des permissions demandées et de vos autorisations actuelles sur les sources.",
         "selectedLabel": "Source d’annonces sélectionnée",
         "empty": {
           "title": "Aucune source d’annonces disponible",

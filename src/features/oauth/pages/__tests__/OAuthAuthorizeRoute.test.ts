@@ -35,6 +35,19 @@ describe("_auth.oauth.authorize route", () => {
         expect(Route.options.ssr).toBe(false);
     });
 
+    it("does not infer source selection from an external broker-like pathname", () => {
+        const params = {
+            client_id: "oc_test",
+            redirect_uri: "https://external.example/api/oauth/client/redirect-broker/woocommerce",
+            code_challenge: "challenge",
+        };
+        expect(validateSearch(params).requires_listing_source_id).toBe(false);
+        expect(
+            validateSearch({ ...params, requires_listing_source_id: true })
+                .requires_listing_source_id,
+        ).toBe(true);
+    });
+
     it("validates search params with required fields", () => {
         expect(validateSearch).toBeDefined();
 

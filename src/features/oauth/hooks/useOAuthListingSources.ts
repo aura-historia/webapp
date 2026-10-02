@@ -15,7 +15,7 @@ export function useOAuthListingSources(enabled: boolean): UseQueryResult<OAuthLi
     return useQuery({
         queryKey: ["oauthListingSources"],
         queryFn: async () => {
-            const response = await getMyListingSources();
+            const response = await getMyListingSources({ cache: "no-store" });
 
             if (response.error) {
                 throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
