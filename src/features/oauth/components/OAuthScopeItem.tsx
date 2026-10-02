@@ -1,11 +1,17 @@
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge.tsx";
+import {
+    ACCESS_TOKEN_SCOPE_METADATA,
+    type AccessTokenScope,
+} from "@/data/internal/access-tokens/AccessTokenScope.ts";
 
 export function OAuthScopeItem({ scope }: { readonly scope: string }) {
     const { t } = useTranslation();
 
-    const scopeKey = scope.replace(":", "_");
-    const description = t(`oauth.scopes.${scopeKey}.description`, { defaultValue: "" });
+    const metadata = Object.hasOwn(ACCESS_TOKEN_SCOPE_METADATA, scope)
+        ? ACCESS_TOKEN_SCOPE_METADATA[scope as AccessTokenScope]
+        : undefined;
+    const description = metadata ? t(metadata.description) : "";
 
     return (
         <li className="rounded-sm border border-outline-variant/20 bg-surface-container-low p-3">

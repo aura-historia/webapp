@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { mapToInternalOAuthClient, type OAuthClient } from "../OAuthClient.ts";
-import type { OAuthClientMetadataResponseData } from "@/client";
+import { mapToInternalOAuthClient, type OAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
+import type { OAuthClientConsentMetadataData } from "@/client";
 
 describe("mapToInternalOAuthClient", () => {
     it("maps all fields from API response to internal model", () => {
-        const apiData: OAuthClientMetadataResponseData = {
+        const apiData: OAuthClientConsentMetadataData & {
+            client_secret: string;
+            client_id_issued_at: number;
+        } = {
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             client_secret: "aurahistoria_oauth_client_secret_abcdefghijk_****",
             client_name: "Test OAuth App",
@@ -13,7 +16,7 @@ describe("mapToInternalOAuthClient", () => {
             client_uri: "https://client.example",
             logo_uri: "https://client.example/logo.png",
             redirect_uris: ["https://client.example/callback"],
-            scope: ["products:write"],
+            scope: ["product-listings:write"],
             client_id_issued_at: 1748539200,
         };
 
@@ -26,11 +29,14 @@ describe("mapToInternalOAuthClient", () => {
         expect(result.clientUri).toBe("https://client.example");
         expect(result.logoUri).toBe("https://client.example/logo.png");
         expect(result.redirectUris).toEqual(["https://client.example/callback"]);
-        expect(result.scopes).toEqual(["products:write"]);
+        expect(result.scopes).toEqual(["product-listings:write"]);
     });
 
     it("maps multiple scopes correctly", () => {
-        const apiData: OAuthClientMetadataResponseData = {
+        const apiData: OAuthClientConsentMetadataData & {
+            client_secret: string;
+            client_id_issued_at: number;
+        } = {
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             client_secret: "masked",
             client_name: "Multi-Scope App",
@@ -39,18 +45,21 @@ describe("mapToInternalOAuthClient", () => {
             client_uri: "https://client.example",
             logo_uri: "https://client.example/logo.png",
             redirect_uris: ["https://client.example/callback", "https://client.example/auth"],
-            scope: ["products:write", "shops:manage"],
+            scope: ["product-listings:write", "watchlist:read"],
             client_id_issued_at: 1748539200,
         };
 
         const result = mapToInternalOAuthClient(apiData);
 
-        expect(result.scopes).toEqual(["products:write", "shops:manage"]);
+        expect(result.scopes).toEqual(["product-listings:write", "watchlist:read"]);
         expect(result.redirectUris).toHaveLength(2);
     });
 
     it("handles empty scopes array", () => {
-        const apiData: OAuthClientMetadataResponseData = {
+        const apiData: OAuthClientConsentMetadataData & {
+            client_secret: string;
+            client_id_issued_at: number;
+        } = {
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             client_secret: "masked",
             client_name: "No Scope App",
@@ -69,7 +78,10 @@ describe("mapToInternalOAuthClient", () => {
     });
 
     it("does not include client_secret or client_id_issued_at in internal model", () => {
-        const apiData: OAuthClientMetadataResponseData = {
+        const apiData: OAuthClientConsentMetadataData & {
+            client_secret: string;
+            client_id_issued_at: number;
+        } = {
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             client_secret: "secret-value",
             client_name: "App",
@@ -78,7 +90,7 @@ describe("mapToInternalOAuthClient", () => {
             client_uri: "https://client.example",
             logo_uri: "https://client.example/logo.png",
             redirect_uris: ["https://example.com/cb"],
-            scope: ["products:write"],
+            scope: ["product-listings:write"],
             client_id_issued_at: 1748539200,
         };
 

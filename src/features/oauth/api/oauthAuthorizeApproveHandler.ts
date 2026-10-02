@@ -1,5 +1,5 @@
 import { env } from "@/env.ts";
-import { setPartnerShopIdOnRedirectUri } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
+import { setListingSourceIdOnRedirectUri } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
 import { z } from "zod";
 import { isSupportedLanguage, localizePathname } from "@/i18n/routing.ts";
 
@@ -15,7 +15,7 @@ const oauthAuthorizeFormSchema = z.object({
     redirect_uri: z.string().min(1),
     scope: z.string().optional(),
     state: z.string().optional(),
-    partner_shop_id: z.string().optional(),
+    listing_source_id: z.string().optional(),
     code_challenge: z.string().min(1),
     code_challenge_method: z.literal("S256"),
 });
@@ -31,7 +31,7 @@ export async function postOAuthAuthorizeApprove({ request }: { request: Request 
         redirect_uri: getFormValue(formData, "redirect_uri"),
         scope: getFormValue(formData, "scope"),
         state: getFormValue(formData, "state"),
-        partner_shop_id: getFormValue(formData, "partner_shop_id"),
+        listing_source_id: getFormValue(formData, "listing_source_id"),
         code_challenge: getFormValue(formData, "code_challenge"),
         code_challenge_method: getFormValue(formData, "code_challenge_method"),
     });
@@ -57,7 +57,7 @@ export async function postOAuthAuthorizeApprove({ request }: { request: Request 
         const locationHeader = response.headers.get("Location");
         if (isRedirectResponse(response) && locationHeader) {
             return redirectResponse(
-                setPartnerShopIdOnRedirectUri(locationHeader, parseResult.data.partner_shop_id),
+                setListingSourceIdOnRedirectUri(locationHeader, parseResult.data.listing_source_id),
             );
         }
 

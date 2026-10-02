@@ -1,6 +1,7 @@
-import type { AccessTokenScopeData, OAuthClientMetadataResponseData } from "@/client";
+import type { OAuthClientConsentMetadataData } from "@/client";
+import type { AccessTokenScope } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 
-export type OAuthScope = "shops:manage" | "products:write";
+export type OAuthScope = AccessTokenScope;
 
 export type OAuthClient = {
     readonly clientId: string;
@@ -13,11 +14,7 @@ export type OAuthClient = {
     readonly scopes: readonly OAuthScope[];
 };
 
-function mapScope(scope: AccessTokenScopeData): OAuthScope {
-    return scope;
-}
-
-export function mapToInternalOAuthClient(data: OAuthClientMetadataResponseData): OAuthClient {
+export function mapToInternalOAuthClient(data: OAuthClientConsentMetadataData): OAuthClient {
     return {
         clientId: data.client_id,
         clientName: data.client_name,
@@ -25,7 +22,7 @@ export function mapToInternalOAuthClient(data: OAuthClientMetadataResponseData):
         policyUri: data.policy_uri,
         clientUri: data.client_uri,
         logoUri: data.logo_uri,
-        redirectUris: data.redirect_uris,
-        scopes: data.scope.map(mapScope),
+        redirectUris: [...data.redirect_uris],
+        scopes: [...data.scope],
     };
 }

@@ -1,5 +1,5 @@
 export const OAUTH_AUTHORIZE_APPROVE_ACTION = "/api/oauth/authorize/approve";
-const PARTNER_SHOP_ID_PARAM = "partner_shop_id";
+const LISTING_SOURCE_ID_PARAM = "listing_source_id";
 
 export function getSafeHttpsUrl(url: string | undefined): string | undefined {
     if (!url) {
@@ -14,25 +14,25 @@ export function getSafeHttpsUrl(url: string | undefined): string | undefined {
     }
 }
 
-export function getPartnerShopIdFromRedirectUri(redirectUri: string): string | undefined {
+export function getListingSourceIdFromRedirectUri(redirectUri: string): string | undefined {
     try {
-        return new URL(redirectUri).searchParams.get(PARTNER_SHOP_ID_PARAM) ?? undefined;
+        return new URL(redirectUri).searchParams.get(LISTING_SOURCE_ID_PARAM) ?? undefined;
     } catch {
         return undefined;
     }
 }
 
-export function setPartnerShopIdOnRedirectUri(
+export function setListingSourceIdOnRedirectUri(
     redirectUri: string,
-    partnerShopId: string | undefined,
+    listingSourceId: string | undefined,
 ): string {
     try {
         const url = new URL(redirectUri);
 
-        if (partnerShopId) {
-            url.searchParams.set(PARTNER_SHOP_ID_PARAM, partnerShopId);
+        if (listingSourceId) {
+            url.searchParams.set(LISTING_SOURCE_ID_PARAM, listingSourceId);
         } else {
-            url.searchParams.delete(PARTNER_SHOP_ID_PARAM);
+            url.searchParams.delete(LISTING_SOURCE_ID_PARAM);
         }
 
         return url.toString();

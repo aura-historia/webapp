@@ -15,7 +15,7 @@
   },
   "servers": [
     {
-      "url": "https://api.dev.aura-historia.com",
+      "url": "https://api.stage.aura-historia.com",
       "description": "Development environment"
     },
     {
@@ -296,7 +296,7 @@
       },
       "post": {
         "summary": "Batch create product-listings (Partner API)",
-        "description": "Creates one or more product-listings for a listing source using bearer authentication.\nThis endpoint is intended for partnerships and accepts:\n- a Cognito bearer token for the partner user linked to the listing source, or\n- an Aura Historia access token owned by that partner user.\n\nAura Historia access tokens on this endpoint must include the `product-listings:write` scope.\nAllowed callers are Aura Historia admins and users partnered with the target listing source.\n\nThe request body is an array of `CreateProductListingData` objects. Each entry is created\nsynchronously in its own PostgreSQL transaction.\n\nThe response returns HTTP 200 with failures as `{ listingSourceId, sourceListingId, error }` objects when\none or more entries succeed. `error` is the stable API error key for that entry. If every non-empty entry fails, the first failure is returned\nas a problem response. An empty array is accepted and returns `[]`.\n",
+        "description": "Creates one or more product-listings for a listing source using bearer authentication.\nThis endpoint is intended for partnerships and accepts:\n- a Cognito bearer token for the partner user linked to the listing source, or\n- an Aura Historia access token owned by that partner user.\n\nAura Historia access tokens on this endpoint must include the `product-listings:write` scope.\nAllowed callers are Aura Historia admins and users partnered with the target listing source.\n\nThe request body is an array of `CreateProductListingData` objects. Each entry is created\nsynchronously in its own PostgreSQL transaction.\nLocalized `title` and `description` are optional. Omit or send `null` when the source has no value to record.\n\nThe response returns HTTP 200 with failures as `{ listingSourceId, sourceListingId, error }` objects when\none or more entries succeed. `error` is the stable API error key for that entry. If every non-empty entry fails, the first failure is returned\nas a problem response. An empty array is accepted and returns `[]`.\n",
         "operationId": "postPartnerProductListings",
         "tags": [
           "ProductListings"
@@ -753,6 +753,19 @@
       }
     },
     "parameters": {
+      "AsyncProductListingIdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": false,
+        "description": "One value only; native duplicates and comma-joined values are invalid (`400 BAD_HEADER_VALUE`) before publication. Use 1\u2013128 visible ASCII bytes excluding comma. Supply the same key with the unchanged ordered batch for transport retries. If absent, a key is generated and returned on evaluated reports; it cannot be recovered if that response is lost.",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[\\x21-\\x2B\\x2D-\\x7E]{1,128}$"
+        },
+        "example": "catalog-sync-2026-09-29"
+      },
       "ProductListingIdPath": {
         "name": "productListingId",
         "in": "path",
@@ -761,6 +774,18 @@
         "schema": {
           "type": "string"
         }
+      }
+    },
+    "headers": {
+      "AsyncProductListingIdempotencyKey": {
+        "description": "Effective key, echoed on every evaluated report (including non-2xx); not guaranteed on pre-evaluation ApiError responses. CORS-exposed for browser clients.",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[\\x21-\\x2B\\x2D-\\x7E]{1,128}$"
+        },
+        "example": "catalog-sync-2026-09-29"
       }
     },
     "schemas": {
@@ -1265,9 +1290,9 @@
           },
           "size": {
             "type": "integer",
-            "minimum": 1,
+            "minimum": 0,
             "maximum": 100,
-            "description": "Requested page size after server-side clamping.",
+            "description": "Number of items returned in the current page.",
             "example": 21
           },
           "total": {
@@ -2791,7 +2816,7 @@
           "size": {
             "type": "integer",
             "minimum": 0,
-            "description": "Number of product-listings in the current page",
+            "description": "Number of search filters returned in the current page.",
             "example": 21
           },
           "total": {
@@ -2844,9 +2869,9 @@
           "size": {
             "type": "integer",
             "format": "int64",
-            "minimum": 1,
+            "minimum": 0,
             "maximum": 100,
-            "description": "Requested page size after server-side clamping.",
+            "description": "Number of items returned in the current page.",
             "example": 21
           },
           "searchAfter": {
@@ -3065,6 +3090,80 @@
             "nullable": true,
             "description": "Omit to leave unchanged. Send null to clear the expiration timestamp.",
             "example": "2026-07-31T00:00:00Z"
+          }
+        }
+      },
+      "OAuthClientConsentMetadataData": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Minimal secret-free OAuth client metadata returned to an authenticated user before consent.\n`client_id`, URLs, redirect URIs, and allowed scopes come from the persisted registration. Redirect URIs are returned as registered and must not be treated as a wildcard allowlist. `scope` contains allowed scopes only, not scopes the user has granted; an empty set is `[]`. This schema intentionally excludes client secrets, secret hashes or short-token material, bearer tokens, authorization codes, verifiers, timestamps, and audit data.\n",
+        "required": [
+          "client_id",
+          "client_name",
+          "tos_uri",
+          "policy_uri",
+          "client_uri",
+          "logo_uri",
+          "redirect_uris",
+          "scope"
+        ],
+        "properties": {
+          "client_id": {
+            "type": "string",
+            "description": "Canonical OAuthClient ID (`oc_` TypeID).",
+            "example": "oc_7b0gwc1x49e0mvbt3tfexfqgb5"
+          },
+          "client_name": {
+            "type": "string",
+            "description": "Display name stored for the OAuth client.",
+            "example": "Aura Historia WooCommerce"
+          },
+          "tos_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Terms-of-service URL stored for the OAuth client.",
+            "example": "https://integration.example/terms"
+          },
+          "policy_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Privacy-policy URL stored for the OAuth client.",
+            "example": "https://integration.example/privacy"
+          },
+          "client_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Homepage URL stored for the OAuth client.",
+            "example": "https://integration.example"
+          },
+          "logo_uri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Logo URL stored for the OAuth client.",
+            "example": "https://integration.example/logo.png"
+          },
+          "redirect_uris": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "Exact registered redirect URLs, including their registered query strings and other URI components.",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "example": [
+              "https://stage.aura-historia.com/api/oauth/client/redirect-broker/woocommerce"
+            ]
+          },
+          "scope": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "Allowed OAuth scopes; this does not mean that the user has granted them. Empty registrations return `[]`.",
+            "items": {
+              "$ref": "#/components/schemas/AccessTokenScopeData"
+            },
+            "example": [
+              "product-listings:write"
+            ]
           }
         }
       },
@@ -3298,9 +3397,9 @@
           "size": {
             "type": "integer",
             "format": "int64",
-            "minimum": 1,
+            "minimum": 0,
             "maximum": 100,
-            "description": "Requested page size after server-side clamping.",
+            "description": "Number of items returned in the current page.",
             "example": 21
           },
           "searchAfter": {
@@ -3698,9 +3797,9 @@
           },
           "size": {
             "type": "integer",
-            "minimum": 1,
+            "minimum": 0,
             "maximum": 100,
-            "description": "Requested page size after server-side clamping.",
+            "description": "Number of items returned in the current page.",
             "example": 21
           },
           "searchAfter": {
@@ -3803,9 +3902,9 @@
           },
           "size": {
             "type": "integer",
-            "minimum": 1,
+            "minimum": 0,
             "maximum": 100,
-            "description": "Effective page size after runtime defaulting and clamping.",
+            "description": "Number of items returned in the current page.",
             "example": 21
           },
           "searchAfter": {
@@ -3846,9 +3945,9 @@
           },
           "size": {
             "type": "integer",
-            "minimum": 1,
+            "minimum": 0,
             "maximum": 100,
-            "description": "Requested page size after server-side clamping.",
+            "description": "Number of items returned in the current page.",
             "example": 21
           },
           "searchAfter": {
@@ -4613,8 +4712,9 @@
           },
           "size": {
             "type": "integer",
-            "minimum": 1,
-            "maximum": 100
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Number of items returned in the current page."
           },
           "searchAfter": {
             "type": "array",
@@ -4634,8 +4734,6 @@
         "description": "Data for creating a single product via the partner batch-create endpoint.\n",
         "required": [
           "sourceListingId",
-          "title",
-          "description",
           "url",
           "images"
         ],
@@ -4646,10 +4744,22 @@
             "example": "baroque-violin-001"
           },
           "title": {
-            "$ref": "#/components/schemas/LocalizedTextData"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LocalizedTextData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional localized title. Omit or send `null` when no title is available."
           },
           "description": {
-            "$ref": "#/components/schemas/LocalizedTextData"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LocalizedTextData"
+              }
+            ],
+            "nullable": true,
+            "description": "Optional localized description. Omit or send `null` when no description is available."
           },
           "price": {
             "allOf": [
@@ -4715,6 +4825,68 @@
           }
         }
       },
+      "AsyncProductListingBatchReport": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Admission report, not a listing creation or update result. For every evaluated batch, acceptedCount plus the number of failures equals the original array length.",
+        "required": [
+          "submissionId",
+          "acceptedCount",
+          "failures"
+        ],
+        "properties": {
+          "submissionId": {
+            "type": "string",
+            "description": "Opaque correlation identifier only; not a status resource or batch deduplication token.",
+            "example": "plis1_example"
+          },
+          "acceptedCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Number of publisher-confirmed admitted entries; never includes unconfirmed sends."
+          },
+          "failures": {
+            "type": "array",
+            "maxItems": 100,
+            "description": "Exactly one per non-confirmed original entry, sorted by original zero-based index. Empty for fully admitted or empty batches.",
+            "items": {
+              "$ref": "#/components/schemas/AsyncProductListingBatchFailure"
+            }
+          }
+        }
+      },
+      "AsyncProductListingBatchFailure": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "index",
+          "error",
+          "retryable"
+        ],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 99,
+            "description": "Original zero-based batch position, authoritative even when sourceListingId cannot be echoed."
+          },
+          "sourceListingId": {
+            "type": "string",
+            "description": "Included only if present, valid, and safe to echo; omitted otherwise."
+          },
+          "error": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]*$",
+            "description": "Bounded safe code, never raw exception or payload text. Includes BAD_BODY_VALUE, PRODUCT_LISTING_INGESTION_PAYLOAD_TOO_LARGE, ENQUEUE_FAILED (definitely unsuccessful send), ENQUEUE_UNCONFIRMED (possibly queued), ENQUEUE_NOT_ATTEMPTED (budget before send), ENQUEUE_BLOCKED (eligible FIFO successor held), PRODUCT_LISTING_INGESTION_INTERNAL_ERROR, and applicable narrower item-validation codes.",
+            "example": "ENQUEUE_UNCONFIRMED"
+          },
+          "retryable": {
+            "type": "boolean",
+            "description": "Whether unchanged-whole-batch retry is appropriate; never permission to resubmit a compacted subset with the same key. Unconfirmed is retryable; validation and size errors are not. Blocked inherits its predecessor's retryability; deterministic configuration errors need repair."
+          }
+        }
+      },
       "PartnerProductListingBatchFailuresResponse": {
         "type": "array",
         "description": "Failed entries from a synchronous partner-product batch. This response body is returned\nwith HTTP 200 only when at least one entry in a non-empty batch succeeded.\n",
@@ -4765,14 +4937,14 @@
       "UpdateProductListingData": {
         "type": "object",
         "additionalProperties": false,
-        "description": "Data for synchronously updating one ProductListing. Omitted fields remain unchanged.\n`availability: null` clears the current assertion and `price: null` clears price. Omit `auction` to preserve\nits context; `auction: null`, `url: null`, and `images: null` are invalid. Send `images: []` to remove all images.\n",
+        "description": "Data for updating one ProductListing, synchronously or via async submission. Omitted fields remain unchanged.\n`availability: null` clears the current assertion and `price: null` clears price. Omit `auction` to preserve\nits context; `auction: null`, `url: null`, and `images: null` are invalid. Send `images: []` to remove all images.\n",
         "required": [
           "sourceListingId"
         ],
         "properties": {
           "sourceListingId": {
             "type": "string",
-            "description": "The listing source's own identifier for the product to update. Product existence is evaluated synchronously.",
+            "description": "The listing source's own identifier for the product to update. Product existence is evaluated synchronously on the synchronous route and downstream on the async route.",
             "example": "baroque-violin-001"
           },
           "price": {
@@ -4977,13 +5149,13 @@
           "description": {
             "type": "string",
             "nullable": true,
-            "description": "Optional HTML product description. The backend converts it to plain text for indexing.",
+            "description": "Optional WooCommerce product-description field. Accepted but ignored; it is not mapped to Aura's canonical description and is omitted from persisted source evidence.",
             "example": "<p>Hayde yallah test beschreibung</p>\n"
           },
           "short_description": {
             "type": "string",
             "nullable": true,
-            "description": "Optional HTML short description used when `description` is absent.",
+            "description": "Optional WooCommerce short-description field. Accepted but ignored; it is not mapped to Aura's canonical description and is omitted from persisted source evidence.",
             "example": "<p>Hayde yallah kurze test beschreibung</p>\n"
           },
           "price": {
@@ -5409,9 +5581,9 @@
           "size": {
             "type": "integer",
             "format": "int64",
-            "minimum": 1,
+            "minimum": 0,
             "maximum": 100,
-            "description": "Requested page size after server-side clamping.",
+            "description": "Number of items returned in the current page.",
             "example": 21
           },
           "searchAfter": {
@@ -5687,8 +5859,9 @@
           "size": {
             "type": "integer",
             "format": "int64",
-            "minimum": 1,
-            "maximum": 100
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Number of items returned in the current page."
           },
           "searchAfter": {
             "type": "array",
@@ -5786,9 +5959,9 @@
           },
           "size": {
             "type": "integer",
-            "minimum": 1,
+            "minimum": 0,
             "maximum": 50,
-            "description": "Accepted requested page size, not item count."
+            "description": "Number of items returned in the current page."
           },
           "searchAfter": {
             "type": "string",
@@ -5881,9 +6054,9 @@
           },
           "size": {
             "type": "integer",
-            "minimum": 1,
+            "minimum": 0,
             "maximum": 100,
-            "description": "Requested page size after server-side clamping.",
+            "description": "Number of items returned in the current page.",
             "example": 21
           },
           "searchAfter": {

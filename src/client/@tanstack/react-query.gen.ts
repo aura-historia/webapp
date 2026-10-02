@@ -3,8 +3,8 @@
 import { type DefaultError, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistProduct, adminCreateListingSource, adminCreateOAuthClient, adminCreateParty, adminDecidePartnershipApplication, adminDeleteListingSource, adminDeleteOAuthClient, adminDeleteParty, adminDeleteUser, adminDeleteUserAccessToken, adminDeleteUserAccessTokens, adminDissolvePartnership, adminGetListingSource, adminGetOAuthClient, adminGetPartnership, adminGetPartnershipApplication, adminGetParty, adminGetUser, adminGrantPartnershipListingSource, adminGrantPartnershipMembership, adminListOAuthClients, adminListUserAccessTokens, adminMarkPartnershipApplicationInReview, adminPatchOAuthClient, adminPatchUser, adminRevokePartnershipListingSource, adminRevokePartnershipMembership, adminRevokeUserSessions, adminSearchListingSources, adminSearchParties, adminSearchPartnershipApplications, adminSearchPartnerships, adminSearchUsers, adminSuspendUser, adminUnsuspendUser, adminUpdateListingSource, adminUpdateParty, createAdminAuction, createUserSearchFilter, deleteMyAccessToken, deleteNotification, deleteNotifications, deleteOwnPartnershipApplication, deletePartnerProductListings, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getAdminAuction, getAdminOverview, getAuction, getAuctionCatalogue, getMyAccessToken, getMyAccessTokens, getMyListingSources, getMyPartnershipApplications, getOwnPartnershipApplication, getProductListing, getProductListingByTitleSlug, getProductListingHistory, getPublicListingSourceBySlug, getSimilarProductListings, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProductListings, listAuctions, listNotifications, listSearchFilterMatches, oauthAuthorize, oauthIntrospect, oauthRevoke, oauthToken, oauthTokenByThirdPartyCode, type Options, patchMyAccessToken, patchPartnerProductListings, patchWatchlistProduct, postBillingCheckout, postBillingManage, postBillingPortal, postMyAccessToken, postPartnerProductListings, postPartnershipApplication, postWoocommerceWebhook, putNewsletterSubscription, putPartnerProductListings, searchPublicListingSources, simpleSearchProductListings, updateAdminAuction, updateAllNotificationsSeen, updateNotificationSeen, updateNotificationsSeen, updateSearchFilterMatchFeedback, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminCreateListingSourceData, AdminCreateListingSourceError, AdminCreateListingSourceResponse, AdminCreateOAuthClientData, AdminCreateOAuthClientError, AdminCreateOAuthClientResponse, AdminCreatePartyData, AdminCreatePartyError, AdminCreatePartyResponse, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationError, AdminDecidePartnershipApplicationResponse, AdminDeleteListingSourceData, AdminDeleteListingSourceError, AdminDeleteListingSourceResponse, AdminDeleteOAuthClientData, AdminDeleteOAuthClientError, AdminDeleteOAuthClientResponse, AdminDeletePartyData, AdminDeletePartyError, AdminDeletePartyResponse, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenError, AdminDeleteUserAccessTokenResponse, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensError, AdminDeleteUserAccessTokensResponse, AdminDeleteUserData, AdminDeleteUserError, AdminDeleteUserResponse, AdminDissolvePartnershipData, AdminDissolvePartnershipError, AdminDissolvePartnershipResponse, AdminGetListingSourceData, AdminGetListingSourceError, AdminGetListingSourceResponse, AdminGetOAuthClientData, AdminGetOAuthClientError, AdminGetOAuthClientResponse, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationError, AdminGetPartnershipApplicationResponse, AdminGetPartnershipData, AdminGetPartnershipError, AdminGetPartnershipResponse, AdminGetPartyData, AdminGetPartyError, AdminGetPartyResponse, AdminGetUserData, AdminGetUserError, AdminGetUserResponse, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceError, AdminGrantPartnershipListingSourceResponse, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipError, AdminGrantPartnershipMembershipResponse, AdminListOAuthClientsData, AdminListOAuthClientsError, AdminListOAuthClientsResponse, AdminListUserAccessTokensData, AdminListUserAccessTokensError, AdminListUserAccessTokensResponse, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewError, AdminMarkPartnershipApplicationInReviewResponse, AdminPatchOAuthClientData, AdminPatchOAuthClientError, AdminPatchOAuthClientResponse, AdminPatchUserData, AdminPatchUserError, AdminPatchUserResponse, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceError, AdminRevokePartnershipListingSourceResponse, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipError, AdminRevokePartnershipMembershipResponse, AdminRevokeUserSessionsData, AdminRevokeUserSessionsError, AdminRevokeUserSessionsResponse, AdminSearchListingSourcesData, AdminSearchListingSourcesError, AdminSearchListingSourcesResponse, AdminSearchPartiesData, AdminSearchPartiesError, AdminSearchPartiesResponse, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsError, AdminSearchPartnershipApplicationsResponse, AdminSearchPartnershipsData, AdminSearchPartnershipsError, AdminSearchPartnershipsResponse, AdminSearchUsersData, AdminSearchUsersError, AdminSearchUsersResponse, AdminSuspendUserData, AdminSuspendUserError, AdminSuspendUserResponse, AdminUnsuspendUserData, AdminUnsuspendUserError, AdminUnsuspendUserResponse, AdminUpdateListingSourceData, AdminUpdateListingSourceError, AdminUpdateListingSourceResponse, AdminUpdatePartyData, AdminUpdatePartyError, AdminUpdatePartyResponse, CreateAdminAuctionData, CreateAdminAuctionResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteMyAccessTokenData, DeleteMyAccessTokenError, DeleteMyAccessTokenResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeleteNotificationsData, DeleteNotificationsError, DeleteNotificationsResponse, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationError, DeleteOwnPartnershipApplicationResponse, DeletePartnerProductListingsData, DeletePartnerProductListingsError, DeletePartnerProductListingsResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetAdminAuctionData, GetAdminAuctionResponse, GetAdminOverviewData, GetAdminOverviewError, GetAdminOverviewResponse, GetAuctionCatalogueData, GetAuctionCatalogueResponse, GetAuctionData, GetAuctionResponse, GetMyAccessTokenData, GetMyAccessTokenError, GetMyAccessTokenResponse, GetMyAccessTokensData, GetMyAccessTokensError, GetMyAccessTokensResponse, GetMyListingSourcesData, GetMyListingSourcesError, GetMyListingSourcesResponse, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsError, GetMyPartnershipApplicationsResponse, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationError, GetOwnPartnershipApplicationResponse, GetProductListingByTitleSlugData, GetProductListingByTitleSlugError, GetProductListingByTitleSlugResponse, GetProductListingData, GetProductListingError, GetProductListingHistoryData, GetProductListingHistoryError, GetProductListingHistoryResponse, GetProductListingResponse, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugError, GetPublicListingSourceBySlugResponse, GetSimilarProductListingsData, GetSimilarProductListingsError, GetSimilarProductListingsResponse, GetUserAccountData, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductListingsData, GetWatchlistProductListingsError, GetWatchlistProductListingsResponse, ListAuctionsData, ListAuctionsResponse, ListNotificationsData, ListNotificationsError, ListNotificationsResponse, ListSearchFilterMatchesData, ListSearchFilterMatchesError, ListSearchFilterMatchesResponse, OauthAuthorizeData, OauthAuthorizeError, OauthIntrospectData, OauthIntrospectError, OauthIntrospectResponse, OauthRevokeData, OauthRevokeError, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeError, OauthTokenByThirdPartyCodeResponse, OauthTokenData, OauthTokenError, OauthTokenResponse, PatchMyAccessTokenData, PatchMyAccessTokenError, PatchMyAccessTokenResponse, PatchPartnerProductListingsData, PatchPartnerProductListingsError, PatchPartnerProductListingsResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostBillingCheckoutData2, PostBillingCheckoutError, PostBillingCheckoutResponse, PostBillingManageData, PostBillingManageError, PostBillingManageResponse, PostBillingPortalData, PostBillingPortalError, PostBillingPortalResponse, PostMyAccessTokenData, PostMyAccessTokenError, PostMyAccessTokenResponse, PostPartnerProductListingsData, PostPartnerProductListingsError, PostPartnerProductListingsResponse, PostPartnershipApplicationData, PostPartnershipApplicationError, PostPartnershipApplicationResponse, PostWoocommerceWebhookData, PostWoocommerceWebhookError, PostWoocommerceWebhookResponse, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductListingsData, PutPartnerProductListingsError, PutPartnerProductListingsResponse, SearchPublicListingSourcesData, SearchPublicListingSourcesError, SearchPublicListingSourcesResponse, SimpleSearchProductListingsData, SimpleSearchProductListingsError, SimpleSearchProductListingsResponse, UpdateAdminAuctionData, UpdateAdminAuctionResponse, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenError, UpdateAllNotificationsSeenResponse, UpdateNotificationSeenData2, UpdateNotificationSeenError, UpdateNotificationSeenResponse, UpdateNotificationsSeenData2, UpdateNotificationsSeenError, UpdateNotificationsSeenResponse, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackError, UpdateSearchFilterMatchFeedbackResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
+import { addWatchlistProduct, adminCreateListingSource, adminCreateOAuthClient, adminCreateParty, adminDecidePartnershipApplication, adminDeleteListingSource, adminDeleteOAuthClient, adminDeleteParty, adminDeleteUser, adminDeleteUserAccessToken, adminDeleteUserAccessTokens, adminDissolvePartnership, adminGetListingSource, adminGetOAuthClient, adminGetPartnership, adminGetPartnershipApplication, adminGetParty, adminGetUser, adminGrantPartnershipListingSource, adminGrantPartnershipMembership, adminListOAuthClients, adminListUserAccessTokens, adminMarkPartnershipApplicationInReview, adminPatchOAuthClient, adminPatchUser, adminRevokePartnershipListingSource, adminRevokePartnershipMembership, adminRevokeUserSessions, adminSearchListingSources, adminSearchParties, adminSearchPartnershipApplications, adminSearchPartnerships, adminSearchUsers, adminSuspendUser, adminUnsuspendUser, adminUpdateListingSource, adminUpdateParty, createAdminAuction, createUserSearchFilter, deleteAsyncPartnerProductListings, deleteMyAccessToken, deleteNotification, deleteNotifications, deleteOwnPartnershipApplication, deletePartnerProductListings, deleteUser, deleteUserSearchFilter, deleteWatchlistProduct, getAdminAuction, getAdminOverview, getAuction, getAuctionCatalogue, getHealth, getMyAccessToken, getMyAccessTokens, getMyListingSources, getMyPartnershipApplications, getOAuthConsentClient, getOwnPartnershipApplication, getProductListing, getProductListingByTitleSlug, getProductListingHistory, getPublicListingSourceBySlug, getReadiness, getSimilarProductListings, getUserAccount, getUserSearchFilter, getUserSearchFilters, getWatchlistProductListings, listAuctions, listNotifications, listSearchFilterMatches, oauthAuthorize, oauthIntrospect, oauthRevoke, oauthToken, oauthTokenByThirdPartyCode, type Options, patchAsyncPartnerProductListings, patchMyAccessToken, patchPartnerProductListings, patchWatchlistProduct, postAsyncPartnerProductListings, postBillingCheckout, postBillingManage, postBillingPortal, postMyAccessToken, postPartnerProductListings, postPartnershipApplication, postWoocommerceWebhook, putAsyncPartnerProductListings, putNewsletterSubscription, putPartnerProductListings, searchPublicListingSources, simpleSearchProductListings, updateAdminAuction, updateAllNotificationsSeen, updateNotificationSeen, updateNotificationsSeen, updateSearchFilterMatchFeedback, updateUserAccount, updateUserSearchFilter } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminCreateListingSourceData, AdminCreateListingSourceError, AdminCreateListingSourceResponse, AdminCreateOAuthClientData, AdminCreateOAuthClientError, AdminCreateOAuthClientResponse, AdminCreatePartyData, AdminCreatePartyError, AdminCreatePartyResponse, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationError, AdminDecidePartnershipApplicationResponse, AdminDeleteListingSourceData, AdminDeleteListingSourceError, AdminDeleteListingSourceResponse, AdminDeleteOAuthClientData, AdminDeleteOAuthClientError, AdminDeleteOAuthClientResponse, AdminDeletePartyData, AdminDeletePartyError, AdminDeletePartyResponse, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenError, AdminDeleteUserAccessTokenResponse, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensError, AdminDeleteUserAccessTokensResponse, AdminDeleteUserData, AdminDeleteUserError, AdminDeleteUserResponse, AdminDissolvePartnershipData, AdminDissolvePartnershipError, AdminDissolvePartnershipResponse, AdminGetListingSourceData, AdminGetListingSourceError, AdminGetListingSourceResponse, AdminGetOAuthClientData, AdminGetOAuthClientError, AdminGetOAuthClientResponse, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationError, AdminGetPartnershipApplicationResponse, AdminGetPartnershipData, AdminGetPartnershipError, AdminGetPartnershipResponse, AdminGetPartyData, AdminGetPartyError, AdminGetPartyResponse, AdminGetUserData, AdminGetUserError, AdminGetUserResponse, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceError, AdminGrantPartnershipListingSourceResponse, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipError, AdminGrantPartnershipMembershipResponse, AdminListOAuthClientsData, AdminListOAuthClientsError, AdminListOAuthClientsResponse, AdminListUserAccessTokensData, AdminListUserAccessTokensError, AdminListUserAccessTokensResponse, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewError, AdminMarkPartnershipApplicationInReviewResponse, AdminPatchOAuthClientData, AdminPatchOAuthClientError, AdminPatchOAuthClientResponse, AdminPatchUserData, AdminPatchUserError, AdminPatchUserResponse, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceError, AdminRevokePartnershipListingSourceResponse, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipError, AdminRevokePartnershipMembershipResponse, AdminRevokeUserSessionsData, AdminRevokeUserSessionsError, AdminRevokeUserSessionsResponse, AdminSearchListingSourcesData, AdminSearchListingSourcesError, AdminSearchListingSourcesResponse, AdminSearchPartiesData, AdminSearchPartiesError, AdminSearchPartiesResponse, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsError, AdminSearchPartnershipApplicationsResponse, AdminSearchPartnershipsData, AdminSearchPartnershipsError, AdminSearchPartnershipsResponse, AdminSearchUsersData, AdminSearchUsersError, AdminSearchUsersResponse, AdminSuspendUserData, AdminSuspendUserError, AdminSuspendUserResponse, AdminUnsuspendUserData, AdminUnsuspendUserError, AdminUnsuspendUserResponse, AdminUpdateListingSourceData, AdminUpdateListingSourceError, AdminUpdateListingSourceResponse, AdminUpdatePartyData, AdminUpdatePartyError, AdminUpdatePartyResponse, CreateAdminAuctionData, CreateAdminAuctionResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAsyncPartnerProductListingsData, DeleteAsyncPartnerProductListingsError, DeleteAsyncPartnerProductListingsResponse, DeleteMyAccessTokenData, DeleteMyAccessTokenError, DeleteMyAccessTokenResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeleteNotificationsData, DeleteNotificationsError, DeleteNotificationsResponse, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationError, DeleteOwnPartnershipApplicationResponse, DeletePartnerProductListingsData, DeletePartnerProductListingsError, DeletePartnerProductListingsResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, GetAdminAuctionData, GetAdminAuctionResponse, GetAdminOverviewData, GetAdminOverviewError, GetAdminOverviewResponse, GetAuctionCatalogueData, GetAuctionCatalogueResponse, GetAuctionData, GetAuctionResponse, GetHealthData, GetHealthResponse, GetMyAccessTokenData, GetMyAccessTokenError, GetMyAccessTokenResponse, GetMyAccessTokensData, GetMyAccessTokensError, GetMyAccessTokensResponse, GetMyListingSourcesData, GetMyListingSourcesError, GetMyListingSourcesResponse, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsError, GetMyPartnershipApplicationsResponse, GetOAuthConsentClientData, GetOAuthConsentClientError, GetOAuthConsentClientResponse, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationError, GetOwnPartnershipApplicationResponse, GetProductListingByTitleSlugData, GetProductListingByTitleSlugError, GetProductListingByTitleSlugResponse, GetProductListingData, GetProductListingError, GetProductListingHistoryData, GetProductListingHistoryError, GetProductListingHistoryResponse, GetProductListingResponse, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugError, GetPublicListingSourceBySlugResponse, GetReadinessData, GetReadinessResponse, GetSimilarProductListingsData, GetSimilarProductListingsError, GetSimilarProductListingsResponse, GetUserAccountData, GetUserAccountError, GetUserAccountResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductListingsData, GetWatchlistProductListingsError, GetWatchlistProductListingsResponse, ListAuctionsData, ListAuctionsResponse, ListNotificationsData, ListNotificationsError, ListNotificationsResponse, ListSearchFilterMatchesData, ListSearchFilterMatchesError, ListSearchFilterMatchesResponse, OauthAuthorizeData, OauthAuthorizeError, OauthIntrospectData, OauthIntrospectError, OauthIntrospectResponse, OauthRevokeData, OauthRevokeError, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeError, OauthTokenByThirdPartyCodeResponse, OauthTokenData, OauthTokenError, OauthTokenResponse, PatchAsyncPartnerProductListingsData, PatchAsyncPartnerProductListingsError, PatchAsyncPartnerProductListingsResponse, PatchMyAccessTokenData, PatchMyAccessTokenError, PatchMyAccessTokenResponse, PatchPartnerProductListingsData, PatchPartnerProductListingsError, PatchPartnerProductListingsResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostAsyncPartnerProductListingsData, PostAsyncPartnerProductListingsError, PostAsyncPartnerProductListingsResponse, PostBillingCheckoutData2, PostBillingCheckoutError, PostBillingCheckoutResponse, PostBillingManageData, PostBillingManageError, PostBillingManageResponse, PostBillingPortalData, PostBillingPortalError, PostBillingPortalResponse, PostMyAccessTokenData, PostMyAccessTokenError, PostMyAccessTokenResponse, PostPartnerProductListingsData, PostPartnerProductListingsError, PostPartnerProductListingsResponse, PostPartnershipApplicationData, PostPartnershipApplicationError, PostPartnershipApplicationResponse, PostWoocommerceWebhookData, PostWoocommerceWebhookError, PostWoocommerceWebhookResponse, PutAsyncPartnerProductListingsData, PutAsyncPartnerProductListingsError, PutAsyncPartnerProductListingsResponse, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductListingsData, PutPartnerProductListingsError, PutPartnerProductListingsResponse, SearchPublicListingSourcesData, SearchPublicListingSourcesError, SearchPublicListingSourcesResponse, SimpleSearchProductListingsData, SimpleSearchProductListingsError, SimpleSearchProductListingsResponse, UpdateAdminAuctionData, UpdateAdminAuctionResponse, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenError, UpdateAllNotificationsSeenResponse, UpdateNotificationSeenData2, UpdateNotificationSeenError, UpdateNotificationSeenResponse, UpdateNotificationsSeenData2, UpdateNotificationsSeenError, UpdateNotificationsSeenResponse, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackError, UpdateSearchFilterMatchFeedbackResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
   Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -38,6 +38,46 @@ const createQueryKey = <TOptions extends Options>(id: string, options?: TOptions
   }
   return [params];
 };
+
+export const getHealthQueryKey = (options?: Options<GetHealthData>) => createQueryKey('getHealth', options);
+
+/**
+ * Check process liveness
+ *
+ * Returns the fixed `ok` response without checking dependencies.
+ */
+export const getHealthOptions = (options?: Options<GetHealthData>) => queryOptions<GetHealthResponse, DefaultError, GetHealthResponse, ReturnType<typeof getHealthQueryKey>>({
+  queryFn: async ({ queryKey, signal }) => {
+    const { data } = await getHealth({
+      ...options,
+      ...queryKey[0],
+      signal,
+      throwOnError: true
+    });
+    return data;
+  },
+  queryKey: getHealthQueryKey(options)
+});
+
+export const getReadinessQueryKey = (options?: Options<GetReadinessData>) => createQueryKey('getReadiness', options);
+
+/**
+ * Check service readiness
+ *
+ * Returns no diagnostic body when readiness fails.
+ */
+export const getReadinessOptions = (options?: Options<GetReadinessData>) => queryOptions<GetReadinessResponse, DefaultError, GetReadinessResponse, ReturnType<typeof getReadinessQueryKey>>({
+  queryFn: async ({ queryKey, signal }) => {
+    const { data } = await getReadiness({
+      ...options,
+      ...queryKey[0],
+      signal,
+      throwOnError: true
+    });
+    return data;
+  },
+  queryKey: getReadinessQueryKey(options)
+});
 
 export const listAuctionsQueryKey = (options?: Options<ListAuctionsData>) => createQueryKey('listAuctions', options);
 
@@ -225,6 +265,7 @@ export const patchPartnerProductListingsMutation = (options?: Partial<Options<Pa
  *
  * The request body is an array of `CreateProductListingData` objects. Each entry is created
  * synchronously in its own PostgreSQL transaction.
+ * Localized `title` and `description` are optional. Omit or send `null` when the source has no value to record.
  *
  * The response returns HTTP 200 with failures as `{ listingSourceId, sourceListingId, error }` objects when
  * one or more entries succeed. `error` is the stable API error key for that entry. If every non-empty entry fails, the first failure is returned
@@ -288,6 +329,242 @@ export const putPartnerProductListingsMutation = (options?: Partial<Options<PutP
 };
 
 /**
+ * Submit a batch of product-listing withdrawals asynchronously (Partner API)
+ *
+ * Submits the same JSON array of up to 100 `WithdrawProductListingData` items as the
+ * synchronous DELETE, without changing that synchronous operation. Each item identifies
+ * a listing by `sourceListingId`; withdrawal is reversible, not physical deletion. Accepts
+ * a partner user's Cognito access JWT or Aura access token; delegated access requires
+ * `product-listings:write`. No client-supplied queue or authority metadata is accepted.
+ * After whole-request JSON/array/size validation, items are parsed and validated
+ * independently; invalid items do not prevent eligible siblings from being queued.
+ * Listing existence, partnership/source authority, lifecycle and other business conflicts
+ * are checked downstream, not as immediate item failures or a synchronous `404`.
+ *
+ * Only confirmed queue admission counts as accepted. `202` means admission, not an applied
+ * withdrawal, rollback, or immediate removal from public search. An unconfirmed send may
+ * already have been queued. `submissionId` is an opaque correlation identifier, not a job
+ * ID; there is no submission status endpoint, batch-level deduplication, or Location header.
+ * No synchronous deletion results or withdrawn listing IDs are returned.
+ *
+ * For a non-empty evaluated batch, at least one confirmed acceptance yields `202`, even
+ * with item failures. With zero accepted, an unconfirmed send or retryable send/deadline/FIFO
+ * blocked outcome yields `503`; otherwise internal/configuration failures yield `500`;
+ * otherwise all encoded-message-size failures yield `413`; remaining validation/value/size
+ * failures yield `400`. An empty array returns `202` after authentication and capability
+ * checks, with no sends. Every evaluated report uses the shared async batch JSON schema
+ * and echoes the effective `Idempotency-Key`, including non-2xx reports. Before evaluation,
+ * bad path/key, malformed JSON, non-array, empty text or over-100 array returns `400`;
+ * authentication `401`, insufficient capability `403`, whole-body/front-door limit `413`,
+ * and pre-evaluation internal/configuration or transient dependency failure `500` or `503`.
+ * These request-wide failures use `ApiError` and send nothing.
+ *
+ * Supply one `Idempotency-Key` for retries; a key is generated if omitted and echoed on
+ * evaluated responses. A lost response containing a generated key cannot be recovered.
+ * After transport uncertainty retry the exact unchanged ordered logical batch with the
+ * same key, including rejected items at their original zero-based indices; never compact,
+ * reorder or change its content under that key. Per-command downstream receipts deduplicate
+ * independently; the submission ID does not suppress the batch. Correct definitely invalid
+ * items separately with a new key, excluding accepted/uncertain siblings. A same-group
+ * eligible successor is blocked when its FIFO predecessor is unresolved; unrelated groups
+ * may still be accepted. FIFO covers shared-queue acceptance per group, not execution order.
+ *
+ */
+export const deleteAsyncPartnerProductListingsMutation = (options?: Partial<Options<DeleteAsyncPartnerProductListingsData>>): UseMutationOptions<DeleteAsyncPartnerProductListingsResponse, DeleteAsyncPartnerProductListingsError, Options<DeleteAsyncPartnerProductListingsData>> => {
+  const mutationOptions: UseMutationOptions<DeleteAsyncPartnerProductListingsResponse, DeleteAsyncPartnerProductListingsError, Options<DeleteAsyncPartnerProductListingsData>> = {
+    mutationFn: async (fnOptions) => {
+      const { data } = await deleteAsyncPartnerProductListings({
+        ...options,
+        ...fnOptions,
+        throwOnError: true
+      });
+      return data;
+    }
+  };
+  return mutationOptions;
+};
+
+/**
+ * Submit a batch of product-listing updates asynchronously (Partner API)
+ *
+ * Submits the same JSON array of up to 100 `UpdateProductListingData` items as the
+ * synchronous PATCH. Accepts a partner user's Cognito access JWT or Aura access token;
+ * delegated access requires `product-listings:write`. No client-supplied queue or authority
+ * metadata is accepted. After whole-request JSON/array/size validation, each item is parsed
+ * and validated independently; invalid items do not prevent eligible siblings from being
+ * queued. The synchronous PATCH field rules apply: omit fields to preserve them; `null`
+ * clears availability, price, price estimates and clearable nested auction leaves; omit
+ * `auction` to preserve its context, or send an object to patch it. `auction: null`,
+ * `url: null` and `images: null` are invalid; `images: []` clears images. Omit
+ * `auction.auctionId` to preserve membership, use `null` to clear it or an ID to set it.
+ * A syntactically valid but missing listing or Auction, partnership/source authority,
+ * lifecycle and other business conflicts are checked downstream, not reported as immediate
+ * item failures or a synchronous `404`. Admission does not guarantee the patch is applied.
+ *
+ * Only confirmed queue admission counts as accepted. `202` means admission, not update
+ * completion, rollback, or immediate search visibility. An unconfirmed send may already
+ * have been queued. `submissionId` is an opaque correlation identifier, not a job ID:
+ * there is no submission status endpoint, batch-level deduplication, or Location header.
+ * No updated listing IDs or synchronous mutation results are returned.
+ *
+ * For a non-empty evaluated batch, at least one confirmed acceptance yields `202`, even
+ * with item failures. With zero accepted, any unconfirmed send or retryable send/deadline/FIFO
+ * blocked outcome yields `503`; otherwise internal/configuration failures yield `500`;
+ * otherwise all encoded-message-size failures yield `413`; remaining validation/value/size
+ * failures yield `400`. An empty array returns `202` after authentication and capability
+ * checks, with no sends. Every evaluated report uses the shared async batch JSON schema
+ * and echoes the effective `Idempotency-Key`, including non-2xx reports. Before item
+ * evaluation, bad path/key, malformed JSON, non-array, empty text, or over-100 array
+ * returns `400`; authentication `401`, insufficient capability `403`, whole-body/front-door
+ * limit `413`, and pre-evaluation internal/configuration or transient dependency failure
+ * `500` or `503`. These request-wide failures use `ApiError` and send nothing.
+ *
+ * Supply one `Idempotency-Key` for retries; a key is generated if omitted and echoed on
+ * evaluated responses. A lost response containing a generated key cannot be recovered.
+ * After transport uncertainty retry the exact unchanged ordered logical batch with the
+ * same key, including previously rejected entries at their original zero-based indices;
+ * never compact, reorder, or change its content under that key. Per-command downstream
+ * receipts deduplicate independently; the submission ID does not suppress the batch.
+ * Correct definitely invalid items in a separate request with a new key and do not include
+ * accepted/uncertain siblings. A same-group eligible successor is blocked when its FIFO
+ * predecessor is unresolved; unrelated groups may still be accepted. FIFO covers
+ * shared-queue acceptance per group, not cross-group or execution order.
+ *
+ */
+export const patchAsyncPartnerProductListingsMutation = (options?: Partial<Options<PatchAsyncPartnerProductListingsData>>): UseMutationOptions<PatchAsyncPartnerProductListingsResponse, PatchAsyncPartnerProductListingsError, Options<PatchAsyncPartnerProductListingsData>> => {
+  const mutationOptions: UseMutationOptions<PatchAsyncPartnerProductListingsResponse, PatchAsyncPartnerProductListingsError, Options<PatchAsyncPartnerProductListingsData>> = {
+    mutationFn: async (fnOptions) => {
+      const { data } = await patchAsyncPartnerProductListings({
+        ...options,
+        ...fnOptions,
+        throwOnError: true
+      });
+      return data;
+    }
+  };
+  return mutationOptions;
+};
+
+/**
+ * Submit a batch of product-listing creates asynchronously (Partner API)
+ *
+ * Submits the same JSON array of create objects as the synchronous POST, with up to 100
+ * original entries. Accepts a partner user's Cognito access JWT or Aura access token;
+ * delegated access requires `product-listings:write`. No client-supplied queue or authority
+ * metadata is accepted. Each entry is parsed and validated independently after whole-request
+ * JSON/array/size validation; invalid entries do not prevent eligible siblings from being
+ * Existing create field rules apply (including optional `title` and `description`, omitted/null availability,
+ * optional pricing, and invalid outer `auction: null`). A syntactically valid missing Auction,
+ * existing listing key, partnership/source authority, lifecycle, and other business
+ * conflicts are decided downstream, not reported as immediate item failures.
+ *
+ * Only confirmed queue admission counts as accepted. `202` means admission, not creation,
+ * completion, rollback, or immediate search visibility. An unconfirmed send may already
+ * have been queued. `submissionId` is an opaque correlation identifier, not a job ID:
+ * there is no submission status endpoint, batch-level deduplication, or Location header.
+ * No created listing IDs or synchronous mutation results are returned.
+ *
+ * For a non-empty evaluated batch, at least one confirmed acceptance yields `202`, even
+ * with item failures. With zero accepted, any unconfirmed send or retryable send/deadline/FIFO
+ * blocked outcome yields `503`; otherwise internal/configuration failures yield `500`;
+ * otherwise all encoded-message-size failures yield `413`; remaining validation/value/size
+ * failures yield `400`. An empty array returns `202` after authentication and capability
+ * checks, with no sends. Every evaluated report uses the same JSON schema and echoes the
+ * effective `Idempotency-Key`, including non-2xx reports. Before item evaluation, bad
+ * path/key, malformed JSON, non-array, empty text, or over-100 array returns `400`;
+ * authentication `401`, insufficient capability `403`, whole-body/front-door limit `413`,
+ * and pre-evaluation internal/configuration or transient dependency failure `500` or `503`.
+ * These request-wide failures use `ApiError` and send nothing.
+ *
+ * Supply one `Idempotency-Key` for retries; a key is generated if omitted and echoed
+ * on evaluated responses. A lost response containing a generated key cannot be recovered.
+ * After transport uncertainty retry the exact unchanged ordered logical batch with the
+ * same key, including previously rejected entries at their original zero-based indices;
+ * never compact, reorder, or change its content under that key. Per-command downstream
+ * receipts deduplicate independently; the submission ID does not suppress the batch.
+ * Correct definitely invalid items in a separate request with a new key and do not include
+ * accepted/uncertain siblings. A same-group eligible successor is blocked when its FIFO
+ * predecessor is unresolved; unrelated groups may still be accepted. FIFO covers
+ * shared-queue acceptance per group, not cross-group or execution order.
+ *
+ */
+export const postAsyncPartnerProductListingsMutation = (options?: Partial<Options<PostAsyncPartnerProductListingsData>>): UseMutationOptions<PostAsyncPartnerProductListingsResponse, PostAsyncPartnerProductListingsError, Options<PostAsyncPartnerProductListingsData>> => {
+  const mutationOptions: UseMutationOptions<PostAsyncPartnerProductListingsResponse, PostAsyncPartnerProductListingsError, Options<PostAsyncPartnerProductListingsData>> = {
+    mutationFn: async (fnOptions) => {
+      const { data } = await postAsyncPartnerProductListings({
+        ...options,
+        ...fnOptions,
+        throwOnError: true
+      });
+      return data;
+    }
+  };
+  return mutationOptions;
+};
+
+/**
+ * Submit a batch of product-listing upserts asynchronously (Partner API)
+ *
+ * Submits the same JSON array of up to 100 `UpsertProductListingData` items as the
+ * synchronous PUT. Accepts a partner user's Cognito access JWT or Aura access token;
+ * delegated access requires `product-listings:write`. No client-supplied queue or authority
+ * metadata is accepted. After whole-request JSON/array/size validation, items are parsed
+ * and validated independently; invalid items do not prevent eligible siblings from being
+ * queued. For a new listing, omitted or null availability, price and estimates create no
+ * value; `auction` may be omitted or asserted as an object, not null. For an existing
+ * listing, omitted availability, price, estimates and auction facts preserve their values;
+ * null clears clearable values and nested auction leaves. `auction.auctionId` may be omitted
+ * to preserve membership, null to clear it or an ID to set it. `images: []` clears images,
+ * while `images: null` and `auction: null` are invalid. An omitted or null `url` preserves
+ * an existing URL; a URL value replaces it. Title and description apply on creation only.
+ * Auction existence, listing state, partnership/source authority, lifecycle and other
+ * business conflicts are decided downstream, not as an
+ * immediate item failure or synchronous `404`.
+ *
+ * Only confirmed queue admission counts as accepted. `202` means admission, not an applied
+ * upsert, rollback, or immediate search visibility. An unconfirmed send may already have
+ * been queued. `submissionId` is an opaque correlation identifier, not a job ID; there is
+ * no submission status endpoint, batch-level deduplication, or Location header. No created
+ * or updated listing IDs or synchronous mutation results are returned.
+ *
+ * For a non-empty evaluated batch, at least one confirmed acceptance yields `202`, even
+ * with item failures. With zero accepted, an unconfirmed send or retryable send/deadline/FIFO
+ * blocked outcome yields `503`; otherwise internal/configuration failures yield `500`;
+ * otherwise all encoded-message-size failures yield `413`; remaining validation/value/size
+ * failures yield `400`. An empty array returns `202` after authentication and capability
+ * checks, with no sends. Every evaluated report uses the shared async batch JSON schema
+ * and echoes the effective `Idempotency-Key`, including non-2xx reports. Before evaluation,
+ * bad path/key, malformed JSON, non-array, empty text or over-100 array returns `400`;
+ * authentication `401`, insufficient capability `403`, whole-body/front-door limit `413`,
+ * and pre-evaluation internal/configuration or transient dependency failure `500` or `503`.
+ * These request-wide failures use `ApiError` and send nothing.
+ *
+ * Supply one `Idempotency-Key` for retries; a key is generated if omitted and echoed on
+ * evaluated responses. A lost response containing a generated key cannot be recovered.
+ * After transport uncertainty retry the exact unchanged ordered logical batch with the
+ * same key, including rejected items at their original zero-based indices; never compact,
+ * reorder or change its content under that key. Per-command downstream receipts deduplicate
+ * independently; the submission ID does not suppress the batch. Correct definitely invalid
+ * items separately with a new key, excluding accepted/uncertain siblings. A same-group
+ * eligible successor is blocked when its FIFO predecessor is unresolved; unrelated groups
+ * may still be accepted. FIFO covers shared-queue acceptance per group, not execution order.
+ *
+ */
+export const putAsyncPartnerProductListingsMutation = (options?: Partial<Options<PutAsyncPartnerProductListingsData>>): UseMutationOptions<PutAsyncPartnerProductListingsResponse, PutAsyncPartnerProductListingsError, Options<PutAsyncPartnerProductListingsData>> => {
+  const mutationOptions: UseMutationOptions<PutAsyncPartnerProductListingsResponse, PutAsyncPartnerProductListingsError, Options<PutAsyncPartnerProductListingsData>> = {
+    mutationFn: async (fnOptions) => {
+      const { data } = await putAsyncPartnerProductListings({
+        ...options,
+        ...fnOptions,
+        throwOnError: true
+      });
+      return data;
+    }
+  };
+  return mutationOptions;
+};
+
+/**
  * Ingest a WooCommerce product webhook (Partner API)
  *
  * Accepts a single WooCommerce product webhook event for a partnership using bearer authentication.
@@ -298,17 +575,16 @@ export const putPartnerProductListingsMutation = (options?: Partial<Options<PutP
  * The caller must provide:
  * - the bearer token in the `Authorization` header,
  * - the WooCommerce topic in `x-wc-webhook-topic`, and
- * - the base64-encoded HMAC-SHA256 signature of the raw request body in `x-wc-webhook-signature`, and
+ * - the base64-encoded HMAC-SHA256 signature over the exact, untouched request body bytes in `x-wc-webhook-signature`, and
  * - optionally, the WooCommerce delivery identifier in `x-wc-webhook-delivery-id`.
  *
  * A supplied delivery identifier applies only when an event maps to raw capture. Its provider receipt retains only a
  * canonical semantic source-payload SHA-256 evidence digest for 90 days. A captured-observation retry with the same
- * digest receives `204`; reuse with different evidence returns `409 WOOCOMMERCE_PROVIDER_RECEIPT_DIGEST_CONFLICT`.
+ * digest may be deduplicated during downstream capture; reuse with different evidence fails in the consumer, not as an immediate HTTP `409`.
  * Logical receipt expiry permits a new receipt but never removes or rewrites a captured raw revision or its provenance.
  * A timestamp-free DELETE establishes a restore barrier. A later UPSERT without a provably newer `date_modified_gmt`
- * returns `409 WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS`; it creates neither a receipt nor a raw revision, so the
- * original request remains recoverable for reconciliation and retry.
- * Authorized ignored create/update events persist no receipt, even when they include a delivery identifier.
+ * fails during downstream capture (`WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS`), not as an immediate HTTP `409`. Admission does not create a provider receipt or raw revision; investigate the failed FIFO command before reconciliation or redrive.
+ * The service verifies the signature over untouched body bytes before JSON parsing, then submits mapped observations as `CAPTURE_RAW` to the shared FIFO after bearer/capability checks and source configuration lookup. The consumer checks the current partner/source grant for mapped observations; ignored no-ops check it immediately. Only a matching, confirmed queue acceptance permits `204`; rejected, oversized, unconfirmed, and not-attempted submissions are not acknowledged. The FIFO consumer later commits raw capture with the command receipt; provider receipt and source-order decisions occur during that capture. Authorized ignored create/update events are no-op `204` without queue send or receipt, even when they include a delivery identifier. Retry an uncertain submission with the same signed body, topic, source, actor and delivery identifier where provided; without a delivery identifier, retries cannot recover the original command identity after a lost reply and have no provider receipt-based deduplication guarantee. A lost reply may already have enqueued work; never infer rollback from a non-204.
  *
  * Topic-specific payload requirements:
  * - every topic requires `id`
@@ -343,7 +619,7 @@ export const getProductListingByTitleSlugQueryKey = (options: Options<GetProduct
 /**
  * Get a single product by title slug
  *
- * Retrieves an active ProductListing by its immutable Aura-owned `productListingTitleSlugId`, derived from its title. Withdrawn listings return `404 PRODUCT_LISTING_NOT_FOUND`; this endpoint never returns `410`.
+ * Retrieves an active ProductListing by its immutable Aura-owned `productListingTitleSlugId`, derived from its title. Withdrawn listings return `404 PRODUCT_LISTING_NOT_FOUND`; this endpoint never returns `410`. Anonymous successful 200 responses without Authorization use `public, max-age=0, s-maxage=120, stale-if-error=0`; any request with Authorization and all non-200 responses use `private, no-store`.
  */
 export const getProductListingByTitleSlugOptions = (options: Options<GetProductListingByTitleSlugData>) => queryOptions<GetProductListingByTitleSlugResponse, GetProductListingByTitleSlugError, GetProductListingByTitleSlugResponse, ReturnType<typeof getProductListingByTitleSlugQueryKey>>({
   queryFn: async ({ queryKey, signal }) => {
@@ -371,10 +647,10 @@ export const getProductListingQueryKey = (options: Options<GetProductListingData
  * `SALE` valuation remains present. Currency defaults to `EUR`.
  *
  * Anonymous responses use freshness caching only: no `ETag` or `Last-Modified` validator is emitted because
- * current display pricing may change when the selected persisted FX snapshot changes.
+ * current display pricing may change when the selected persisted FX snapshot changes. An anonymous successful 200 response without Authorization uses `public, max-age=0, s-maxage=120, stale-if-error=0`; any request with Authorization and all non-200 responses use `private, no-store`.
  *
  * Responses always contain `item`, the product data. A valid user or delegated-user bearer token
- * adds optional top-level `userState`; authenticated responses are not cached.
+ * adds optional top-level `userState`; credential-bearing responses are not cached.
  *
  */
 export const getProductListingOptions = (options: Options<GetProductListingData>) => queryOptions<GetProductListingResponse, GetProductListingError, GetProductListingResponse, ReturnType<typeof getProductListingQueryKey>>({
@@ -425,7 +701,7 @@ export const getSimilarProductListingsQueryKey = (options: Options<GetSimilarPro
  * Ready entries return `displayPrice` in the requested currency and `priceValuation` metadata.
  * Active ProductListings use one persisted snapshot pinned for the request; sold ProductListings use immutable
  * sale-time values. Every ready entry contains `item`; a valid user or delegated-user bearer token adds
- * `userState`. Personalized KNN results use `Cache-Control: no-store`.
+ * `userState`. Ready anonymous 200 responses without Authorization use `public, max-age=0, s-maxage=300, stale-if-error=0`; any request with Authorization uses `private, no-store`. The `202 EmbeddingPending` response and all errors are always `private, no-store`.
  *
  */
 export const getSimilarProductListingsOptions = (options: Options<GetSimilarProductListingsData>) => queryOptions<GetSimilarProductListingsResponse, GetSimilarProductListingsError, GetSimilarProductListingsResponse, ReturnType<typeof getSimilarProductListingsQueryKey>>({
@@ -446,7 +722,7 @@ export const simpleSearchProductListingsQueryKey = (options?: Options<SimpleSear
 /**
  * Simple product search via query parameters
  *
- * Performs canonical ProductListing search with query parameters. Text queries combine BM25 and embedding KNN retrieval when embedding generation succeeds; otherwise the backend falls back to BM25. Explicit non-score sorts use BM25. A valid bearer token adds user state and makes the response `Cache-Control: no-store`. `language` defaults to `en` and `currency` defaults to `EUR`.
+ * Performs canonical ProductListing search with query parameters. Text queries combine BM25 and embedding KNN retrieval when embedding generation succeeds; otherwise the backend falls back to BM25. Explicit non-score sorts use BM25. Any request with an Authorization header is private and not stored, including valid credentials that add user state. Anonymous successful 200 responses use `public, max-age=0, s-maxage=60, stale-if-error=0`; errors use `private, no-store`. `language` defaults to `en` and `currency` defaults to `EUR`.
  */
 export const simpleSearchProductListingsOptions = (options?: Options<SimpleSearchProductListingsData>) => queryOptions<SimpleSearchProductListingsResponse, SimpleSearchProductListingsError, SimpleSearchProductListingsResponse, ReturnType<typeof simpleSearchProductListingsQueryKey>>({
   queryFn: async ({ queryKey, signal }) => {
@@ -1586,7 +1862,11 @@ export const updateNotificationSeenMutation = (options?: Partial<Options<UpdateN
 /**
  * Upsert newsletter subscription
  *
- * Subscribes an email address to the Aura Historia newsletter mailing list.
+ * Upserts an email address and its supplied profile fields in the Aura Historia Loops newsletter list.
+ *
+ * Existing Loops opt-out state is preserved; this operation does not clear an opt-out or guarantee that the
+ * contact is eligible to receive marketing messages. A successful response means the provider accepted the
+ * subscription write only; it does not mean a message or campaign was sent or delivered.
  *
  * The endpoint accepts anonymous requests.
  * An optional Cognito JWT or Aura Historia access-token bearer credential may be supplied for authenticated calls.
@@ -1689,6 +1969,35 @@ export const adminUpdateListingSourceMutation = (options?: Partial<Options<Admin
   };
   return mutationOptions;
 };
+
+export const getOAuthConsentClientQueryKey = (options: Options<GetOAuthConsentClientData>) => createQueryKey('getOAuthConsentClient', options);
+
+/**
+ * Get OAuth client metadata for consent
+ *
+ * Reads the authoritative registered metadata for one OAuth client before the user begins or completes consent.
+ * This is a read only: it does not record consent, issue an authorization code or token, or grant privileges.
+ * Any signed-in ordinary user can read a registered client without the ADMIN role, client ownership, an existing
+ * client token, or a source partnership. Only a Cognito access JWT is accepted through `BearerAuth`; Cognito ID
+ * tokens, Aura opaque access tokens, and client-secret credentials are rejected. Centralized account restrictions
+ * continue to apply. Redirect URIs and allowed scopes are returned exactly as registered; `scope: []` means the
+ * client has no allowed scopes and does not imply user consent. `/api/v1/oauth/authorize` remains authoritative
+ * and revalidates registration, exact redirect URI, requested-scope subset, and S256 PKCE before issuing a code.
+ * Every success and error response uses `Cache-Control: no-store`.
+ *
+ */
+export const getOAuthConsentClientOptions = (options: Options<GetOAuthConsentClientData>) => queryOptions<GetOAuthConsentClientResponse, GetOAuthConsentClientError, GetOAuthConsentClientResponse, ReturnType<typeof getOAuthConsentClientQueryKey>>({
+  queryFn: async ({ queryKey, signal }) => {
+    const { data } = await getOAuthConsentClient({
+      ...options,
+      ...queryKey[0],
+      signal,
+      throwOnError: true
+    });
+    return data;
+  },
+  queryKey: getOAuthConsentClientQueryKey(options)
+});
 
 export const oauthAuthorizeQueryKey = (options: Options<OauthAuthorizeData>) => createQueryKey('oauthAuthorize', options);
 

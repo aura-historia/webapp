@@ -1892,30 +1892,26 @@
       "approveAriaLabel": "Autoriser {{appName}} à accéder à votre compte",
       "denyAriaLabel": "Refuser l'autorisation pour {{appName}}",
       "securityNote": "Vous pouvez révoquer cet accès à tout moment depuis les paramètres de votre compte. N'autorisez que les applications de confiance.",
-      "partnerShops": {
-        "title": "Choisir une boutique partenaire",
-        "description": "Sélectionnez la boutique partenaire pour laquelle cette application doit être autorisée.",
-        "selectedLabel": "Boutique partenaire sélectionnée",
-        "empty": {
-          "title": "Aucune boutique partenaire disponible",
-          "description": "Cette autorisation nécessite une boutique partenaire liée, mais aucune n'a été trouvée pour votre compte."
-        },
-        "loadError": {
-          "title": "Impossible de charger les boutiques partenaires",
-          "description": "Les boutiques partenaires disponibles n'ont pas pu être chargées pour le moment. Veuillez réessayer."
-        }
-      },
       "error": {
         "title": "Demande d'autorisation invalide",
         "description": "L'application n'a pas pu être identifiée. Le lien d'autorisation est peut-être invalide ou expiré. Veuillez réessayer depuis l'application."
-      }
-    },
-    "scopes": {
-      "products_write": {
-        "description": "Créer ou mettre à jour vos annonces produits."
       },
-      "shops_manage": {
-        "description": "Gérer les paramètres de votre boutique."
+      "listingSources": {
+        "title": "Sélectionner une source d’annonces",
+        "description": "Choisissez la source à connecter à cette application. Ce choix ne limite pas les permissions du jeton ; l’accès dépend des permissions demandées et de vos autorisations actuelles sur les sources.",
+        "selectedLabel": "Source d’annonces sélectionnée",
+        "empty": {
+          "title": "Aucune source d’annonces disponible",
+          "description": "Cette intégration nécessite un accès à une source d’annonces. Demandez un accès, puis recommencez l’autorisation."
+        },
+        "loadError": {
+          "title": "Impossible de charger les sources d’annonces",
+          "description": "Votre accès aux sources d’annonces n’a pas pu être vérifié. Veuillez réessayer."
+        }
+      },
+      "unavailable": {
+        "title": "Autorisation indisponible",
+        "description": "Les informations enregistrées de cette application ne peuvent pas être vérifiées actuellement. Veuillez réessayer plus tard."
       }
     }
   },

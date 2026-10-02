@@ -2119,30 +2119,26 @@
       "approveAriaLabel": "{{appName}} den Zugriff auf Ihr Konto erlauben",
       "denyAriaLabel": "Autorisierung für {{appName}} ablehnen",
       "securityNote": "Sie können diesen Zugriff jederzeit in Ihren Kontoeinstellungen widerrufen. Autorisieren Sie nur Anwendungen, denen Sie vertrauen.",
-      "partnerShops": {
-        "title": "Partner-Shop auswählen",
-        "description": "Wählen Sie den Partner-Shop aus, für den diese Anwendung autorisiert werden soll.",
-        "selectedLabel": "Ausgewählter Partner-Shop",
-        "empty": {
-          "title": "Kein Partner-Shop verfügbar",
-          "description": "Für diese Autorisierung ist ein verknüpfter Partner-Shop erforderlich, aber Ihrem Konto ist derzeit keiner zugeordnet."
-        },
-        "loadError": {
-          "title": "Partner-Shops konnten nicht geladen werden",
-          "description": "Die verfügbaren Partner-Shops konnten derzeit nicht geladen werden. Bitte versuchen Sie es erneut."
-        }
-      },
       "error": {
         "title": "Ungültige Autorisierungsanfrage",
         "description": "Die Anwendung konnte nicht identifiziert werden. Der Autorisierungslink ist möglicherweise ungültig oder abgelaufen. Bitte versuchen Sie es erneut über die Anwendung."
-      }
-    },
-    "scopes": {
-      "products_write": {
-        "description": "Produkte in Ihrem Namen erstellen oder aktualisieren."
       },
-      "shops_manage": {
-        "description": "Ihre Shop-Einstellungen verwalten."
+      "listingSources": {
+        "title": "Listing-Quelle auswählen",
+        "description": "Wählen Sie die Quelle, die Sie mit dieser Anwendung verbinden möchten. Diese Auswahl begrenzt die Token-Berechtigungen nicht; der Zugriff richtet sich nach den angeforderten Berechtigungen und Ihren aktuellen Quellenfreigaben.",
+        "selectedLabel": "Ausgewählte Listing-Quelle",
+        "empty": {
+          "title": "Keine Listing-Quelle verfügbar",
+          "description": "Für diese Integration benötigen Sie Zugriff auf eine Listing-Quelle. Beantragen Sie Zugriff und starten Sie die Autorisierung erneut."
+        },
+        "loadError": {
+          "title": "Listing-Quellen konnten nicht geladen werden",
+          "description": "Ihr Zugriff auf Listing-Quellen konnte nicht geprüft werden. Bitte versuchen Sie es erneut."
+        }
+      },
+      "unavailable": {
+        "title": "Autorisierung nicht verfügbar",
+        "description": "Die registrierten Angaben dieser Anwendung können derzeit nicht geprüft werden. Bitte versuchen Sie es später erneut."
       }
     }
   },
