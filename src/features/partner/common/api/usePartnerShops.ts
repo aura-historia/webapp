@@ -1,36 +1,26 @@
-import { getMyPartnerShops } from "@/client";
-import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
-import { useApiError } from "@/hooks/common/useApiError.ts";
-import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+import { useOwnListingSources } from "./useOwnListingSources.ts";
 
+/** @deprecated MIG-13 replaces the remaining custom-integration shop identifiers and examples. */
 export interface PartnerShop {
     readonly shopId: string;
     readonly shopSlugId: string;
     readonly name: string;
 }
 
-export const PARTNER_SHOPS_QUERY_KEY = ["partnerShops"] as const;
-
-export function usePartnerShops(enabled: boolean): UseQueryResult<PartnerShop[]> {
-    const { getErrorMessage } = useApiError();
-
-    return useQuery({
-        queryKey: PARTNER_SHOPS_QUERY_KEY,
-        queryFn: async () => {
-            const response = await getMyPartnerShops();
-
-            if (response.error) {
-                throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
-            }
-
-            return response.data.map((shop) => ({
-                shopId: shop.shopId,
-                shopSlugId: shop.shopSlugId,
-                name: shop.name,
-            }));
-        },
-        enabled,
-        retry: false,
-        staleTime: 5 * 60 * 1000,
-    });
+/** @deprecated Compatibility adapter for the custom-integration page, owned by MIG-13. */
+export function usePartnerShops(enabled: boolean) {
+    const query = useOwnListingSources(enabled);
+    return {
+        ...query,
+        data:
+            enabled && query.isSuccess
+                ? query.data.map(
+                      (source): PartnerShop => ({
+                          shopId: source.listingSourceId,
+                          shopSlugId: source.listingSourceSlugId,
+                          name: source.name,
+                      }),
+                  )
+                : undefined,
+    };
 }

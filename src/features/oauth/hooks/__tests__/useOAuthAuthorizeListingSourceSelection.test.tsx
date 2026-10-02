@@ -19,6 +19,30 @@ const sources = [
 ];
 
 describe("listing-source selection", () => {
+    it("does not retain a selected source when access is revoked", () => {
+        const { result, rerender } = renderHook(
+            ({ listingSources }) =>
+                useOAuthAuthorizeListingSourceSelection({ searchParams: params, listingSources }),
+            { initialProps: { listingSources: sources } },
+        );
+        act(() => result.current.selectListingSource("ls_second"));
+        expect(result.current.listingSourceId).toBe("ls_second");
+        rerender({ listingSources: [] });
+        expect(result.current.listingSourceId).toBeUndefined();
+        expect(result.current.effectiveListingSource).toBeUndefined();
+    });
+
+    it("rejects a choice that is absent from the current grant list", () => {
+        const { result } = renderHook(() =>
+            useOAuthAuthorizeListingSourceSelection({
+                searchParams: params,
+                listingSources: sources,
+            }),
+        );
+        act(() => result.current.selectListingSource("ls_ungranted"));
+        expect(result.current.listingSourceId).toBeUndefined();
+    });
+
     it("selects the single granted source", () => {
         const { result } = renderHook(() =>
             useOAuthAuthorizeListingSourceSelection({

@@ -74,7 +74,7 @@
       "title": "Zugriffstoken | Aura Historia"
     },
     "partnerShops": {
-      "title": "Meine Shops | Aura Historia"
+      "title": "Freigegebene Angebotsquellen | Aura Historia"
     },
     "compareBarnebys": {
       "title": "Aura Historia vs. Barnebys | Antiquitätensuche im Vergleich",
@@ -1588,28 +1588,19 @@
     "sidebarLabel": "Partner-Bereiche",
     "nav": {
       "applications": "Partner-Anträge",
-      "shops": "Meine Shops",
+      "shops": "Freigegebene Angebotsquellen",
       "accessTokens": "Zugriffstoken"
     }
   },
   "partnerShops": {
-    "title": "Meine Shops",
-    "description": "Alle Shops, die mit Ihrem Partnerkonto verknüpft sind.",
+    "title": "Freigegebene Angebotsquellen",
+    "description": "Quellen, auf die Sie derzeit Zugriff haben. Ein Eintrag bestätigt weder Eigentum noch Partnerstatus oder die Berechtigung, Quelldetails zu bearbeiten.",
     "actions": {
-      "retry": "Erneut versuchen",
-      "edit": "Bearbeiten"
+      "retry": "Erneut versuchen"
     },
-    "loading": "Ihre Shops werden geladen.",
-    "loadError": "Ihre Shops konnten nicht geladen werden.",
-    "empty": "Es sind noch keine Shops mit Ihrem Partnerkonto verknüpft.",
-    "updatedAt": "Aktualisiert am {{date}}",
-    "shopImageAlt": "Logo von {{shop}}",
-    "editAriaLabel": "{{shop}} bearbeiten",
-    "edit": {
-      "title": "Shop bearbeiten",
-      "description": "Bearbeiten Sie die Angaben zu {{shop}}.",
-      "success": "Shop wurde aktualisiert."
-    }
+    "loading": "Freigegebene Angebotsquellen werden geladen.",
+    "loadError": "Der Zugriff auf Angebotsquellen konnte nicht geprüft werden. Die Zugriffsrechte können sich geändert haben. Bitte versuchen Sie es erneut.",
+    "empty": "Sie haben derzeit keinen Zugriff auf Angebotsquellen. Eine frühere Freigabe wurde möglicherweise widerrufen."
   },
   "partnerAccessTokens": {
     "title": "Zugriffstoken",

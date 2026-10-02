@@ -25,6 +25,14 @@ vi.mock("@tanstack/react-router", () => ({
 }));
 
 describe("PartnerSidebar", () => {
+    it("labels granted sources and preserves the bookmarked portfolio URL", () => {
+        mockPathname.mockReturnValue("/de/partners/shops");
+        render(<PartnerSidebar />);
+        const link = screen.getByRole("link", { name: "Freigegebene Angebotsquellen" });
+        expect(link).toHaveAttribute("href", "/de/partners/shops");
+        expect(link).toHaveAttribute("aria-current", "page");
+    });
+
     it("links to partner applications and marks the route as active", () => {
         mockPathname.mockReturnValue("/de/partners/applications");
 

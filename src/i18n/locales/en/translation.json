@@ -74,7 +74,7 @@
       "title": "Access Tokens | Aura Historia"
     },
     "partnerShops": {
-      "title": "My Shops | Aura Historia"
+      "title": "Granted listing sources | Aura Historia"
     },
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Antiques Search Engine Comparison",
@@ -1588,28 +1588,19 @@
     "sidebarLabel": "Partner Sections",
     "nav": {
       "applications": "Applications",
-      "shops": "My Shops",
+      "shops": "Granted listing sources",
       "accessTokens": "Access tokens"
     }
   },
   "partnerShops": {
-    "title": "My Shops",
-    "description": "All shops linked to your partner account.",
+    "title": "Granted listing sources",
+    "description": "Sources you currently have access to. Being listed here does not establish ownership, partner status, or permission to edit source details.",
     "actions": {
-      "retry": "Retry",
-      "edit": "Edit"
+      "retry": "Retry"
     },
-    "loading": "Loading your shops.",
-    "loadError": "Your shops could not be loaded.",
-    "empty": "No shops are linked to your partner account yet.",
-    "updatedAt": "Updated on {{date}}",
-    "shopImageAlt": "Logo of {{shop}}",
-    "editAriaLabel": "Edit {{shop}}",
-    "edit": {
-      "title": "Edit shop",
-      "description": "Edit the details for {{shop}}.",
-      "success": "Shop was updated."
-    }
+    "loading": "Loading granted listing sources.",
+    "loadError": "Listing-source access could not be verified. Access may have changed. Please try again.",
+    "empty": "You currently have no listing-source access. A previous grant may have been revoked."
   },
   "partnerAccessTokens": {
     "title": "Access Tokens",

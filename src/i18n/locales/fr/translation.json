@@ -78,7 +78,7 @@
       "title": "Jetons d'accès | Aura Historia"
     },
     "partnerShops": {
-      "title": "Mes boutiques | Aura Historia"
+      "title": "Sources d’annonces accessibles | Aura Historia"
     }
   },
   "validation": {
@@ -1920,7 +1920,7 @@
     "sidebarLabel": "Sections partenaires",
     "nav": {
       "applications": "Candidatures",
-      "shops": "Mes boutiques",
+      "shops": "Sources d’annonces accessibles",
       "accessTokens": "Jetons d'accès"
     }
   },
@@ -2321,23 +2321,14 @@
     }
   },
   "partnerShops": {
-    "title": "Mes boutiques",
-    "description": "Toutes les boutiques liées à votre compte partenaire.",
+    "title": "Sources d’annonces accessibles",
+    "description": "Sources auxquelles vous avez actuellement accès. Leur présence ici ne confirme ni la propriété, ni le statut de partenaire, ni le droit de modifier les informations de la source.",
     "actions": {
-      "retry": "Réessayer",
-      "edit": "Modifier"
+      "retry": "Réessayer"
     },
-    "loading": "Chargement de vos boutiques.",
-    "loadError": "Vos boutiques n'ont pas pu être chargées.",
-    "empty": "Aucune boutique n'est encore liée à votre compte partenaire.",
-    "updatedAt": "Mis à jour le {{date}}",
-    "shopImageAlt": "Logo de {{shop}}",
-    "editAriaLabel": "Modifier {{shop}}",
-    "edit": {
-      "title": "Modifier la boutique",
-      "description": "Modifiez les informations de {{shop}}.",
-      "success": "La boutique a été mise à jour."
-    }
+    "loading": "Chargement des sources d’annonces accessibles.",
+    "loadError": "L’accès aux sources d’annonces n’a pas pu être vérifié. Les droits ont peut-être changé. Veuillez réessayer.",
+    "empty": "Vous n’avez actuellement accès à aucune source d’annonces. Un accès antérieur a peut-être été révoqué."
   },
   "shopTypePossessive": {
     "auctionHouse": "de cette maison de ventes",

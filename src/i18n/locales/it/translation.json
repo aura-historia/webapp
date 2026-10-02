@@ -78,7 +78,7 @@
       "title": "Token di accesso | Aura Historia"
     },
     "partnerShops": {
-      "title": "I miei negozi | Aura Historia"
+      "title": "Fonti di annunci con accesso concesso | Aura Historia"
     }
   },
   "validation": {
@@ -1920,7 +1920,7 @@
     "sidebarLabel": "Sezioni partner",
     "nav": {
       "applications": "Richieste",
-      "shops": "I miei negozi",
+      "shops": "Fonti di annunci con accesso concesso",
       "accessTokens": "Token di accesso"
     }
   },
@@ -2333,22 +2333,13 @@
     "marketplace": "questo marketplace"
   },
   "partnerShops": {
-    "title": "I miei negozi",
-    "description": "Tutti i negozi collegati al tuo account partner.",
+    "title": "Fonti di annunci con accesso concesso",
+    "description": "Fonti a cui ha attualmente accesso. La presenza in questo elenco non attesta la proprietà, lo stato di partner o il permesso di modificare i dettagli della fonte.",
     "actions": {
-      "retry": "Riprova",
-      "edit": "Modifica"
+      "retry": "Riprova"
     },
-    "loading": "Caricamento dei tuoi negozi in corso.",
-    "loadError": "Impossibile caricare i tuoi negozi.",
-    "empty": "Nessun negozio è ancora collegato al tuo account partner.",
-    "updatedAt": "Aggiornato il {{date}}",
-    "shopImageAlt": "Logo di {{shop}}",
-    "editAriaLabel": "Modifica {{shop}}",
-    "edit": {
-      "title": "Modifica negozio",
-      "description": "Modifica i dati di {{shop}}.",
-      "success": "Il negozio è stato aggiornato."
-    }
+    "loading": "Caricamento delle fonti di annunci accessibili.",
+    "loadError": "Non è stato possibile verificare l’accesso alle fonti di annunci. I permessi potrebbero essere cambiati. Riprovi.",
+    "empty": "Al momento non ha accesso a fonti di annunci. Un accesso precedente potrebbe essere stato revocato."
   }
 }

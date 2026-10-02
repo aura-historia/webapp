@@ -3,136 +3,100 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PartnerShopsSection } from "../PartnerShopsSection.tsx";
 
-const mockUseMyPartnerShops = vi.hoisted(() => vi.fn());
-
-vi.mock("@/features/partner/shop-management/api/useMyPartnerShops.ts", () => ({
-    useMyPartnerShops: mockUseMyPartnerShops,
+const state = vi.hoisted(() => ({
+    data: [
+        { listingSourceId: "ls_dealer", listingSourceSlugId: "dealer", name: "Aurora Antiques" },
+    ],
+    isPending: false,
+    isError: false,
+    refetch: vi.fn(),
+}));
+const auth = vi.hoisted(() => ({ isAuthenticated: true, isResolved: true }));
+const useSources = vi.hoisted(() => vi.fn());
+vi.mock("@/features/partner/common/api/useOwnListingSources.ts", () => ({
+    useOwnListingSources: useSources,
+}));
+vi.mock("@/features/authentication/hooks/useResolvedAuth.ts", () => ({
+    useResolvedAuth: () => auth,
 }));
 
-vi.mock("../PartnerShopEditDialog.tsx", () => ({
-    PartnerShopEditDialog: ({
-        shop,
-        open,
-        onOpenChange,
-    }: {
-        shop: { shopId: string } | null;
-        open: boolean;
-        onOpenChange: (open: boolean) => void;
-    }) =>
-        open ? (
-            <div>
-                edit-dialog:{shop?.shopId}
-                <button type="button" onClick={() => onOpenChange(false)}>
-                    close-edit-dialog
-                </button>
-            </div>
-        ) : null,
-}));
+const emptyMessage =
+    "Sie haben derzeit keinen Zugriff auf Angebotsquellen. Eine frühere Freigabe wurde möglicherweise widerrufen.";
 
-const baseShop = {
-    shopId: "shop-1",
-    shopSlugId: "aurora-antiques",
-    name: "Aurora Antiques",
-    shopType: "AUCTION_HOUSE" as const,
-    partnerStatus: "PARTNERED" as const,
-    image: "https://example.com/logo.png",
-    domains: ["aurora.example.com"],
-    url: "https://aurora.example.com",
-    created: new Date("2024-01-01T00:00:00Z"),
-    updated: new Date("2024-01-02T00:00:00Z"),
-};
-
-describe("PartnerShopsSection", () => {
+describe("granted-source portfolio", () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        auth.isAuthenticated = true;
+        auth.isResolved = true;
+        state.data = [
+            {
+                listingSourceId: "ls_dealer",
+                listingSourceSlugId: "dealer",
+                name: "Aurora Antiques",
+            },
+        ];
+        state.isPending = false;
+        state.isError = false;
+        useSources.mockReturnValue(state);
     });
 
-    it("renders the loading skeleton while pending", () => {
-        mockUseMyPartnerShops.mockReturnValue({
-            data: undefined,
-            isPending: true,
-            isError: false,
-            refetch: vi.fn(),
-        });
-
+    it("renders only minimal references with no edit controls or detail links", () => {
         render(<PartnerShopsSection />);
+        expect(
+            screen.getByRole("heading", { name: "Freigegebene Angebotsquellen" }),
+        ).toBeInTheDocument();
+        expect(screen.getByText("Aurora Antiques")).toBeInTheDocument();
+        expect(screen.getByText("ls_dealer")).toBeInTheDocument();
+        expect(screen.queryByRole("button")).not.toBeInTheDocument();
+        expect(screen.queryByRole("link")).not.toBeInTheDocument();
+        expect(screen.queryByRole("img")).not.toBeInTheDocument();
+        expect(useSources).toHaveBeenCalledWith(true);
+    });
 
+    it("renders a loading state while authentication resolves", () => {
+        auth.isAuthenticated = false;
+        auth.isResolved = false;
+        render(<PartnerShopsSection />);
+        expect(screen.getByRole("status")).toBeInTheDocument();
+        expect(screen.queryByText("Aurora Antiques")).not.toBeInTheDocument();
+        expect(useSources).toHaveBeenCalledWith(false);
+    });
+
+    it("renders a loading state during the first request", () => {
+        state.isPending = true;
+        render(<PartnerShopsSection />);
         expect(screen.getByRole("status")).toBeInTheDocument();
     });
 
-    it("renders an error state with retry", async () => {
-        const refetch = vi.fn();
-        mockUseMyPartnerShops.mockReturnValue({
-            data: undefined,
-            isPending: false,
-            isError: true,
-            refetch,
-        });
-        const user = userEvent.setup();
-
+    it("explains empty or revoked access", () => {
+        state.data = [];
         render(<PartnerShopsSection />);
-
-        await user.click(screen.getByRole("button", { name: /erneut versuchen/i }));
-        expect(refetch).toHaveBeenCalled();
+        expect(screen.getByText(emptyMessage)).toBeInTheDocument();
     });
 
-    it("renders an empty state when there are no shops", () => {
-        mockUseMyPartnerShops.mockReturnValue({
-            data: [],
-            isPending: false,
-            isError: false,
-            refetch: vi.fn(),
-        });
-
-        render(<PartnerShopsSection />);
-
-        expect(
-            screen.getByText("Es sind noch keine Shops mit Ihrem Partnerkonto verknüpft."),
-        ).toBeInTheDocument();
+    it("removes references when a refresh returns an empty grant list", () => {
+        const { rerender } = render(<PartnerShopsSection />);
+        state.data = [];
+        rerender(<PartnerShopsSection />);
+        expect(screen.queryByText("Aurora Antiques")).not.toBeInTheDocument();
+        expect(screen.getByText(emptyMessage)).toBeInTheDocument();
     });
 
-    it("renders shops and opens the edit dialog", async () => {
-        mockUseMyPartnerShops.mockReturnValue({
-            data: [baseShop],
-            isPending: false,
-            isError: false,
-            refetch: vi.fn(),
-        });
-        const user = userEvent.setup();
-
+    it("hides cached grants on a failed refresh and offers retry", async () => {
+        state.isError = true;
         render(<PartnerShopsSection />);
-
-        expect(screen.getByText("Aurora Antiques")).toBeInTheDocument();
-        expect(screen.getByText("aurora.example.com")).toBeInTheDocument();
-
-        await user.click(screen.getByRole("button", { name: /Aurora Antiques bearbeiten/i }));
-        expect(screen.getByText("edit-dialog:shop-1")).toBeInTheDocument();
-
-        await user.click(screen.getByText("close-edit-dialog"));
-        expect(screen.queryByText("edit-dialog:shop-1")).not.toBeInTheDocument();
+        expect(screen.getByRole("alert")).toBeInTheDocument();
+        expect(screen.queryByText("Aurora Antiques")).not.toBeInTheDocument();
+        await userEvent.setup().click(screen.getByRole("button", { name: "Erneut versuchen" }));
+        expect(state.refetch).toHaveBeenCalledOnce();
     });
 
-    it("renders a shop without domains, contact info, or address", () => {
-        mockUseMyPartnerShops.mockReturnValue({
-            data: [
-                {
-                    shopId: "shop-2",
-                    shopSlugId: "minimal-shop",
-                    name: "Minimal Shop",
-                    partnerStatus: "PARTNERED" as const,
-                    domains: [],
-                    created: new Date("2024-01-01T00:00:00Z"),
-                    updated: new Date("2024-01-02T00:00:00Z"),
-                },
-            ],
-            isPending: false,
-            isError: false,
-            refetch: vi.fn(),
-        });
-
-        render(<PartnerShopsSection />);
-
-        expect(screen.getByText("Minimal Shop")).toBeInTheDocument();
-        expect(screen.queryByRole("link")).not.toBeInTheDocument();
+    it("hides prior grants after sign-out", () => {
+        const { rerender } = render(<PartnerShopsSection />);
+        auth.isAuthenticated = false;
+        rerender(<PartnerShopsSection />);
+        expect(screen.queryByText("Aurora Antiques")).not.toBeInTheDocument();
+        expect(screen.getByText(emptyMessage)).toBeInTheDocument();
+        expect(useSources).toHaveBeenLastCalledWith(false);
     });
 });
