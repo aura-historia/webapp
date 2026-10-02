@@ -42,7 +42,7 @@ import { Route as LngAuthOauthAuthorizeRouteImport } from './routes/$lng._auth.o
 import { Route as LngAuthPartnersIndexRouteImport } from './routes/$lng._auth.partners.index'
 import { Route as LngAuthPartnersAccessTokensRouteImport } from './routes/$lng._auth.partners.access-tokens'
 import { Route as LngAuthPartnersApplicationsRouteImport } from './routes/$lng._auth.partners.applications'
-import { Route as LngAuthPartnersShopsRouteImport } from './routes/$lng._auth.partners.shops'
+import { Route as LngAuthPartnersListingSourcesRouteImport } from './routes/$lng._auth.partners.listing-sources'
 import { Route as LngShopsShopSlugIdIndexRouteImport } from './routes/$lng.shops.$shopSlugId.index'
 import { Route as ApiOauthAuthorizeApproveRouteImport } from './routes/api.oauth.authorize.approve'
 import { Route as LngAuthMeBillingManageRouteImport } from './routes/$lng._auth.me.billing.manage'
@@ -219,11 +219,12 @@ const LngAuthPartnersApplicationsRoute =
     path: '/applications',
     getParentRoute: () => LngAuthPartnersRoute,
   } as any)
-const LngAuthPartnersShopsRoute = LngAuthPartnersShopsRouteImport.update({
-  id: '/shops',
-  path: '/shops',
-  getParentRoute: () => LngAuthPartnersRoute,
-} as any)
+const LngAuthPartnersListingSourcesRoute =
+  LngAuthPartnersListingSourcesRouteImport.update({
+    id: '/listing-sources',
+    path: '/listing-sources',
+    getParentRoute: () => LngAuthPartnersRoute,
+  } as any)
 const LngShopsShopSlugIdIndexRoute = LngShopsShopSlugIdIndexRouteImport.update({
   id: '/shops/$shopSlugId/',
   path: '/shops/$shopSlugId/',
@@ -284,7 +285,7 @@ export interface FileRoutesByFullPath {
   '/$lng/oauth/authorize': typeof LngAuthOauthAuthorizeRoute
   '/$lng/partners/access-tokens': typeof LngAuthPartnersAccessTokensRoute
   '/$lng/partners/applications': typeof LngAuthPartnersApplicationsRoute
-  '/$lng/partners/shops': typeof LngAuthPartnersShopsRoute
+  '/$lng/partners/listing-sources': typeof LngAuthPartnersListingSourcesRoute
   '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
   '/$lng/admin/': typeof LngAuthAdminIndexRoute
   '/$lng/partners/': typeof LngAuthPartnersIndexRoute
@@ -320,7 +321,7 @@ export interface FileRoutesByTo {
   '/$lng/oauth/authorize': typeof LngAuthOauthAuthorizeRoute
   '/$lng/partners/access-tokens': typeof LngAuthPartnersAccessTokensRoute
   '/$lng/partners/applications': typeof LngAuthPartnersApplicationsRoute
-  '/$lng/partners/shops': typeof LngAuthPartnersShopsRoute
+  '/$lng/partners/listing-sources': typeof LngAuthPartnersListingSourcesRoute
   '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
   '/$lng/admin': typeof LngAuthAdminIndexRoute
   '/$lng/partners': typeof LngAuthPartnersIndexRoute
@@ -362,7 +363,7 @@ export interface FileRoutesById {
   '/$lng/_auth/oauth/authorize': typeof LngAuthOauthAuthorizeRoute
   '/$lng/_auth/partners/access-tokens': typeof LngAuthPartnersAccessTokensRoute
   '/$lng/_auth/partners/applications': typeof LngAuthPartnersApplicationsRoute
-  '/$lng/_auth/partners/shops': typeof LngAuthPartnersShopsRoute
+  '/$lng/_auth/partners/listing-sources': typeof LngAuthPartnersListingSourcesRoute
   '/api/oauth/authorize/approve': typeof ApiOauthAuthorizeApproveRoute
   '/$lng/_auth/admin/': typeof LngAuthAdminIndexRoute
   '/$lng/_auth/partners/': typeof LngAuthPartnersIndexRoute
@@ -404,7 +405,7 @@ export interface FileRouteTypes {
     | '/$lng/oauth/authorize'
     | '/$lng/partners/access-tokens'
     | '/$lng/partners/applications'
-    | '/$lng/partners/shops'
+    | '/$lng/partners/listing-sources'
     | '/api/oauth/authorize/approve'
     | '/$lng/admin/'
     | '/$lng/partners/'
@@ -440,7 +441,7 @@ export interface FileRouteTypes {
     | '/$lng/oauth/authorize'
     | '/$lng/partners/access-tokens'
     | '/$lng/partners/applications'
-    | '/$lng/partners/shops'
+    | '/$lng/partners/listing-sources'
     | '/api/oauth/authorize/approve'
     | '/$lng/admin'
     | '/$lng/partners'
@@ -481,7 +482,7 @@ export interface FileRouteTypes {
     | '/$lng/_auth/oauth/authorize'
     | '/$lng/_auth/partners/access-tokens'
     | '/$lng/_auth/partners/applications'
-    | '/$lng/_auth/partners/shops'
+    | '/$lng/_auth/partners/listing-sources'
     | '/api/oauth/authorize/approve'
     | '/$lng/_auth/admin/'
     | '/$lng/_auth/partners/'
@@ -730,11 +731,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LngAuthPartnersApplicationsRouteImport
       parentRoute: typeof LngAuthPartnersRoute
     }
-    '/$lng/_auth/partners/shops': {
-      id: '/$lng/_auth/partners/shops'
-      path: '/shops'
-      fullPath: '/$lng/partners/shops'
-      preLoaderRoute: typeof LngAuthPartnersShopsRouteImport
+    '/$lng/_auth/partners/listing-sources': {
+      id: '/$lng/_auth/partners/listing-sources'
+      path: '/listing-sources'
+      fullPath: '/$lng/partners/listing-sources'
+      preLoaderRoute: typeof LngAuthPartnersListingSourcesRouteImport
       parentRoute: typeof LngAuthPartnersRoute
     }
     '/$lng/shops/$shopSlugId/': {
@@ -800,14 +801,14 @@ const LngAuthAdminRouteWithChildren = LngAuthAdminRoute._addFileChildren(
 interface LngAuthPartnersRouteChildren {
   LngAuthPartnersAccessTokensRoute: typeof LngAuthPartnersAccessTokensRoute
   LngAuthPartnersApplicationsRoute: typeof LngAuthPartnersApplicationsRoute
-  LngAuthPartnersShopsRoute: typeof LngAuthPartnersShopsRoute
+  LngAuthPartnersListingSourcesRoute: typeof LngAuthPartnersListingSourcesRoute
   LngAuthPartnersIndexRoute: typeof LngAuthPartnersIndexRoute
 }
 
 const LngAuthPartnersRouteChildren: LngAuthPartnersRouteChildren = {
   LngAuthPartnersAccessTokensRoute: LngAuthPartnersAccessTokensRoute,
   LngAuthPartnersApplicationsRoute: LngAuthPartnersApplicationsRoute,
-  LngAuthPartnersShopsRoute: LngAuthPartnersShopsRoute,
+  LngAuthPartnersListingSourcesRoute: LngAuthPartnersListingSourcesRoute,
   LngAuthPartnersIndexRoute: LngAuthPartnersIndexRoute,
 }
 

@@ -23,7 +23,7 @@ This compares what is represented in the generated client with the supplied sche
 - Individual issue bodies are in `issues/00.md` through `issues/24.md`.
 - [Listing domain contracts](listing-domain-contracts.md): webapp summary/detail models, personalized state, identity/query-key rules, price/availability semantics, and resilient API error mapping.
 - [Own access-token contracts](access-token-contracts.md): scopes, asymmetric create/read/patch fields, partial edits, and one-time credential display.
-- [Granted listing-source contracts](own-listing-source-contracts.md): shared own-source types/query, access semantics, and partner portfolio URL compatibility.
+- [Granted listing-source contracts](own-listing-source-contracts.md): shared own-source types/query, access semantics, and the partner listing-source portfolio route.
 
 These are local drafts, not published GitHub issues. MIG IDs are dependency labels, not existing GitHub issue numbers. Copy a file's first heading into the GitHub title field and the remaining Markdown into the issue body.
 

@@ -73,7 +73,7 @@
     "partnerAccessTokens": {
       "title": "Zugriffstoken | Aura Historia"
     },
-    "partnerShops": {
+    "partnerListingSources": {
       "title": "Freigegebene Angebotsquellen | Aura Historia"
     },
     "compareBarnebys": {
@@ -1052,18 +1052,18 @@
         "endpointLabel": "Relevanter Endpunkt",
         "focusLabel": "Worauf Sie achten sollten",
         "steps": {
-          "selectShop": {
-            "title": "Freigegebenen Partner-Shop auswählen",
-            "description": "Für die API-Integration benötigt Ihr Konto mindestens einen freigegebenen Partner-Shop. Wählen Sie den Shop aus, dessen Produkte Sie synchronisieren möchten.",
-            "focus": "Die Shop-ID des ausgewählten Shops wird in den späteren Schritten für Ihre Produkt-Requests benötigt.",
-            "signInCta": "Anmelden und Partner-Shops prüfen",
-            "loadError": "Ihre freigegebenen Partner-Shops konnten nicht geladen werden.",
+          "selectSource": {
+            "title": "Freigegebene Angebotsquelle auswählen",
+            "description": "Wählen Sie für diese Integration eine Quelle aus, auf die Sie derzeit Zugriff haben. Der Zugriff bestätigt weder Eigentum noch die Berechtigung, Quelldetails zu bearbeiten.",
+            "focus": "Verwenden Sie die kanonische ID der Angebotsquelle für die Integration.",
+            "signInCta": "Anmelden und Quellenzugriff prüfen",
+            "loadError": "Der Zugriff auf Angebotsquellen konnte nicht geprüft werden.",
             "retryCta": "Erneut versuchen",
-            "empty": "Für dieses Konto ist noch kein Partner-Shop freigegeben. Stellen Sie zuerst einen Partner-Antrag; nach der Freigabe können Sie mit der Integration fortfahren.",
+            "empty": "Sie haben derzeit keinen Zugriff auf Angebotsquellen. Eine frühere Freigabe wurde möglicherweise widerrufen.",
             "applyCta": "Partner-Shop beantragen",
-            "selectionLabel": "Partner-Shop für diese Integration",
+            "selectionLabel": "Angebotsquelle für diese Integration",
             "pendingLabel": "Offene Partner-Anträge",
-            "pendingHint": "Die Integration kann fortgesetzt werden, sobald einer dieser Partner-Anträge freigegeben wurde."
+            "pendingHint": "Sie können fortfahren, sobald der Zugriff auf eine Angebotsquelle freigegeben wurde."
           },
           "requestKey": {
             "title": "Benutzer-Zugriffstoken erstellen",
@@ -1588,11 +1588,11 @@
     "sidebarLabel": "Partner-Bereiche",
     "nav": {
       "applications": "Partner-Anträge",
-      "shops": "Freigegebene Angebotsquellen",
+      "listingSources": "Freigegebene Angebotsquellen",
       "accessTokens": "Zugriffstoken"
     }
   },
-  "partnerShops": {
+  "partnerListingSources": {
     "title": "Freigegebene Angebotsquellen",
     "description": "Quellen, auf die Sie derzeit Zugriff haben. Ein Eintrag bestätigt weder Eigentum noch Partnerstatus oder die Berechtigung, Quelldetails zu bearbeiten.",
     "actions": {

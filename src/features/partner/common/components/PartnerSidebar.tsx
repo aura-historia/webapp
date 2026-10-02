@@ -10,8 +10,8 @@ const SIDEBAR_ITEMS = [
         icon: <FileText className="h-4 w-4" aria-hidden="true" />,
     },
     {
-        to: "/$lng/partners/shops",
-        labelKey: "partnerDashboard.nav.shops",
+        to: "/$lng/partners/listing-sources",
+        labelKey: "partnerDashboard.nav.listingSources",
         icon: <Store className="h-4 w-4" aria-hidden="true" />,
     },
     {

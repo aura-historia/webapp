@@ -73,7 +73,7 @@
     "partnerAccessTokens": {
       "title": "Access Tokens | Aura Historia"
     },
-    "partnerShops": {
+    "partnerListingSources": {
       "title": "Granted listing sources | Aura Historia"
     },
     "compareBarnebys": {
@@ -1052,18 +1052,18 @@
         "endpointLabel": "Relevant endpoint",
         "focusLabel": "What to check",
         "steps": {
-          "selectShop": {
-            "title": "Select an approved partner shop",
-            "description": "Your account needs at least one approved partner shop for the API integration. Select the shop whose products you want to synchronize.",
-            "focus": "You will need the selected shop's ID for product requests in the later steps.",
-            "signInCta": "Sign in and check partner shops",
-            "loadError": "Your approved partner shops could not be loaded.",
+          "selectSource": {
+            "title": "Select a granted listing source",
+            "description": "Select a source you currently have access to for this integration. Access does not establish ownership or permission to edit source details.",
+            "focus": "Use the canonical listing-source ID for the integration.",
+            "signInCta": "Sign in and check source access",
+            "loadError": "Listing-source access could not be verified.",
             "retryCta": "Try again",
-            "empty": "This account does not have an approved partner shop yet. Submit a partner application first; you can continue with the integration after approval.",
+            "empty": "You currently have no listing-source access. A previous grant may have been revoked.",
             "applyCta": "Apply for a partner shop",
-            "selectionLabel": "Partner shop for this integration",
+            "selectionLabel": "Listing source for this integration",
             "pendingLabel": "Pending partner applications",
-            "pendingHint": "You can continue with the integration once one of these partner applications has been approved."
+            "pendingHint": "You can continue once access to a listing source has been granted."
           },
           "requestKey": {
             "title": "Create a user access token",
@@ -1588,11 +1588,11 @@
     "sidebarLabel": "Partner Sections",
     "nav": {
       "applications": "Applications",
-      "shops": "Granted listing sources",
+      "listingSources": "Granted listing sources",
       "accessTokens": "Access tokens"
     }
   },
-  "partnerShops": {
+  "partnerListingSources": {
     "title": "Granted listing sources",
     "description": "Sources you currently have access to. Being listed here does not establish ownership, partner status, or permission to edit source details.",
     "actions": {

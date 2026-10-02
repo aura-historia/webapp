@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { PartnerShopsSection } from "../PartnerShopsSection.tsx";
+import { PartnerListingSourcesSection } from "../PartnerListingSourcesSection.tsx";
 
 const state = vi.hoisted(() => ({
     data: [
@@ -41,7 +41,7 @@ describe("granted-source portfolio", () => {
     });
 
     it("renders only minimal references with no edit controls or detail links", () => {
-        render(<PartnerShopsSection />);
+        render(<PartnerListingSourcesSection />);
         expect(
             screen.getByRole("heading", { name: "Freigegebene Angebotsquellen" }),
         ).toBeInTheDocument();
@@ -56,7 +56,7 @@ describe("granted-source portfolio", () => {
     it("renders a loading state while authentication resolves", () => {
         auth.isAuthenticated = false;
         auth.isResolved = false;
-        render(<PartnerShopsSection />);
+        render(<PartnerListingSourcesSection />);
         expect(screen.getByRole("status")).toBeInTheDocument();
         expect(screen.queryByText("Aurora Antiques")).not.toBeInTheDocument();
         expect(useSources).toHaveBeenCalledWith(false);
@@ -64,27 +64,27 @@ describe("granted-source portfolio", () => {
 
     it("renders a loading state during the first request", () => {
         state.isPending = true;
-        render(<PartnerShopsSection />);
+        render(<PartnerListingSourcesSection />);
         expect(screen.getByRole("status")).toBeInTheDocument();
     });
 
     it("explains empty or revoked access", () => {
         state.data = [];
-        render(<PartnerShopsSection />);
+        render(<PartnerListingSourcesSection />);
         expect(screen.getByText(emptyMessage)).toBeInTheDocument();
     });
 
     it("removes references when a refresh returns an empty grant list", () => {
-        const { rerender } = render(<PartnerShopsSection />);
+        const { rerender } = render(<PartnerListingSourcesSection />);
         state.data = [];
-        rerender(<PartnerShopsSection />);
+        rerender(<PartnerListingSourcesSection />);
         expect(screen.queryByText("Aurora Antiques")).not.toBeInTheDocument();
         expect(screen.getByText(emptyMessage)).toBeInTheDocument();
     });
 
     it("hides cached grants on a failed refresh and offers retry", async () => {
         state.isError = true;
-        render(<PartnerShopsSection />);
+        render(<PartnerListingSourcesSection />);
         expect(screen.getByRole("alert")).toBeInTheDocument();
         expect(screen.queryByText("Aurora Antiques")).not.toBeInTheDocument();
         await userEvent.setup().click(screen.getByRole("button", { name: "Erneut versuchen" }));
@@ -92,9 +92,9 @@ describe("granted-source portfolio", () => {
     });
 
     it("hides prior grants after sign-out", () => {
-        const { rerender } = render(<PartnerShopsSection />);
+        const { rerender } = render(<PartnerListingSourcesSection />);
         auth.isAuthenticated = false;
-        rerender(<PartnerShopsSection />);
+        rerender(<PartnerListingSourcesSection />);
         expect(screen.queryByText("Aurora Antiques")).not.toBeInTheDocument();
         expect(screen.getByText(emptyMessage)).toBeInTheDocument();
         expect(useSources).toHaveBeenLastCalledWith(false);

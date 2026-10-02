@@ -77,7 +77,7 @@
     "partnerAccessTokens": {
       "title": "Jetons d'accès | Aura Historia"
     },
-    "partnerShops": {
+    "partnerListingSources": {
       "title": "Sources d’annonces accessibles | Aura Historia"
     }
   },
@@ -1058,18 +1058,18 @@
         "endpointLabel": "Endpoint concerné",
         "focusLabel": "À vérifier",
         "steps": {
-          "selectShop": {
-            "title": "Sélectionner une boutique partenaire approuvée",
-            "description": "Votre compte doit disposer d’au moins une boutique partenaire approuvée pour utiliser l’intégration API. Sélectionnez la boutique dont vous souhaitez synchroniser les produits.",
-            "focus": "Vous aurez besoin de l’identifiant de la boutique sélectionnée pour les requêtes de produits des étapes suivantes.",
-            "signInCta": "Se connecter et vérifier les boutiques",
-            "loadError": "Impossible de charger vos boutiques partenaires approuvées.",
+          "selectSource": {
+            "title": "Sélectionner une source d’annonces accessible",
+            "description": "Sélectionnez une source à laquelle vous avez actuellement accès pour cette intégration. L’accès ne confirme ni la propriété ni le droit de modifier les informations de la source.",
+            "focus": "Utilisez l’identifiant canonique de la source d’annonces pour l’intégration.",
+            "signInCta": "Se connecter et vérifier l’accès aux sources",
+            "loadError": "L’accès aux sources d’annonces n’a pas pu être vérifié.",
             "retryCta": "Réessayer",
-            "empty": "Ce compte ne dispose pas encore de boutique partenaire approuvée. Envoyez d’abord une candidature partenaire ; vous pourrez poursuivre l’intégration après son approbation.",
+            "empty": "Vous n’avez actuellement accès à aucune source d’annonces. Un accès antérieur a peut-être été révoqué.",
             "applyCta": "Demander une boutique partenaire",
-            "selectionLabel": "Boutique partenaire pour cette intégration",
+            "selectionLabel": "Source d’annonces pour cette intégration",
             "pendingLabel": "Candidatures partenaires en attente",
-            "pendingHint": "Vous pourrez poursuivre l’intégration dès que l’une de ces candidatures partenaires aura été approuvée."
+            "pendingHint": "Vous pourrez continuer une fois l’accès à une source d’annonces accordé."
           },
           "requestKey": {
             "title": "Créer un jeton d’accès utilisateur",
@@ -1920,7 +1920,7 @@
     "sidebarLabel": "Sections partenaires",
     "nav": {
       "applications": "Candidatures",
-      "shops": "Sources d’annonces accessibles",
+      "listingSources": "Sources d’annonces accessibles",
       "accessTokens": "Jetons d'accès"
     }
   },
@@ -2320,7 +2320,7 @@
       "watchlistWrite": "Gérer la liste de suivi"
     }
   },
-  "partnerShops": {
+  "partnerListingSources": {
     "title": "Sources d’annonces accessibles",
     "description": "Sources auxquelles vous avez actuellement accès. Leur présence ici ne confirme ni la propriété, ni le statut de partenaire, ni le droit de modifier les informations de la source.",
     "actions": {

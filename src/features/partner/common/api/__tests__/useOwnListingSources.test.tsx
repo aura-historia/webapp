@@ -3,7 +3,6 @@ import { act, renderHook, waitFor } from "@testing-library/react";
 import { createElement, type ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useOwnListingSources, OWN_LISTING_SOURCES_QUERY_KEY } from "../useOwnListingSources.ts";
-import { usePartnerShops } from "../usePartnerShops.ts";
 
 const getSources = vi.hoisted(() => vi.fn());
 vi.mock("@/client", () => ({ getMyListingSources: getSources }));
@@ -63,35 +62,5 @@ describe("shared own listing sources", () => {
         await waitFor(() =>
             expect(client.getQueryData(OWN_LISTING_SOURCES_QUERY_KEY)).toBeUndefined(),
         );
-    });
-    it("adapts canonical IDs for the remaining custom-integration consumer", async () => {
-        getSources.mockResolvedValue({ data: [source] });
-        const { result } = renderHook(() => usePartnerShops(true), { wrapper });
-        await waitFor(() => expect(result.current.isSuccess).toBe(true));
-        expect(result.current.data).toEqual([
-            { shopId: "ls_granted", shopSlugId: "dealer", name: "Dealer" },
-        ]);
-    });
-    it("withholds custom-integration choices after a denied refresh", async () => {
-        getSources.mockResolvedValueOnce({ data: [source] }).mockResolvedValueOnce({
-            error: { status: 403, title: "Forbidden", error: "FORBIDDEN" },
-        });
-        const { result } = renderHook(() => usePartnerShops(true), { wrapper });
-        await waitFor(() => expect(result.current.isSuccess).toBe(true));
-        await act(async () => {
-            await result.current.refetch();
-        });
-        await waitFor(() => expect(result.current.isError).toBe(true));
-        expect(result.current.data).toBeUndefined();
-    });
-    it("withholds cached integration choices when disabled", async () => {
-        getSources.mockResolvedValue({ data: [source] });
-        const { result, rerender } = renderHook(({ enabled }) => usePartnerShops(enabled), {
-            wrapper,
-            initialProps: { enabled: true },
-        });
-        await waitFor(() => expect(result.current.isSuccess).toBe(true));
-        rerender({ enabled: false });
-        expect(result.current.data).toBeUndefined();
     });
 });
