@@ -3,7 +3,7 @@ import { ExternalLink, ShieldCheck } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { getSafeHttpsUrl } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
-import type { OAuthClient } from "@/features/oauth/types/OAuthClient.ts";
+import type { OAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
 
 interface OAuthAuthorizeClientSummaryProps {
     readonly client: OAuthClient;

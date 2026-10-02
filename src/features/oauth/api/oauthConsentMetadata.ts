@@ -1,4 +1,4 @@
-import type { OAuthClient } from "@/features/oauth/types/OAuthClient.ts";
+import type { OAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
 import { getOAuthConsentClient as getOAuthConsentClientDto } from "@/client";
 import { mapToInternalOAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
 import { env } from "@/env.ts";

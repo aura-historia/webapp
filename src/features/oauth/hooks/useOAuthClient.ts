@@ -1,6 +1,6 @@
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { getOAuthConsentClient } from "@/features/oauth/api/oauthConsentMetadata.ts";
-import type { OAuthClient } from "@/features/oauth/types/OAuthClient.ts";
+import type { OAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
 
 export function useOAuthClient(clientId: string | undefined): UseQueryResult<OAuthClient> {
     return useQuery({

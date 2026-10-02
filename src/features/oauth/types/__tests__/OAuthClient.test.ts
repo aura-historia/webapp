@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { mapToInternalOAuthClient, type OAuthClient } from "../OAuthClient.ts";
+import { mapToInternalOAuthClient, type OAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
 import type { OAuthClientConsentMetadataData } from "@/client";
 
 describe("mapToInternalOAuthClient", () => {
