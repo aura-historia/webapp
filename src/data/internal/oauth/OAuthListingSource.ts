@@ -1,10 +1,3 @@
-import type { AdministeredListingSourceData } from "@/client";
+import type { OwnListingSource } from "@/data/internal/listing-source/OwnListingSource.ts";
 
-export interface OAuthListingSource {
-    readonly listingSourceId: string;
-    readonly name: string;
-}
-
-export function mapToOAuthListingSource(data: AdministeredListingSourceData): OAuthListingSource {
-    return { listingSourceId: data.listingSourceId, name: data.name };
-}
+export type OAuthListingSource = Pick<OwnListingSource, "listingSourceId" | "name">;

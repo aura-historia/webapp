@@ -77,8 +77,8 @@
     "partnerAccessTokens": {
       "title": "Tokens de acceso | Aura Historia"
     },
-    "partnerShops": {
-      "title": "Mis tiendas | Aura Historia"
+    "partnerListingSources": {
+      "title": "Fuentes de anuncios con acceso concedido | Aura Historia"
     }
   },
   "validation": {
@@ -1058,18 +1058,18 @@
         "endpointLabel": "Endpoint relevante",
         "focusLabel": "Qué revisar",
         "steps": {
-          "selectShop": {
-            "title": "Seleccionar una tienda asociada aprobada",
-            "description": "Su cuenta necesita al menos una tienda asociada aprobada para usar la integración API. Seleccione la tienda cuyos productos desea sincronizar.",
-            "focus": "Necesitará el ID de la tienda seleccionada para las solicitudes de productos de los pasos siguientes.",
-            "signInCta": "Iniciar sesión y comprobar tiendas",
-            "loadError": "No se pudieron cargar sus tiendas asociadas aprobadas.",
+          "selectSource": {
+            "title": "Seleccionar una fuente de anuncios con acceso concedido",
+            "description": "Seleccione una fuente a la que tenga acceso actualmente para esta integración. El acceso no acredita propiedad ni permiso para editar los datos de la fuente.",
+            "focus": "Utilice el ID canónico de la fuente de anuncios para la integración.",
+            "signInCta": "Iniciar sesión y comprobar el acceso a fuentes",
+            "loadError": "No se pudo verificar el acceso a las fuentes de anuncios.",
             "retryCta": "Intentar de nuevo",
-            "empty": "Esta cuenta aún no tiene una tienda asociada aprobada. Envíe primero una solicitud de socio; podrá continuar con la integración después de su aprobación.",
+            "empty": "Actualmente no tiene acceso a fuentes de anuncios. Es posible que se haya revocado un acceso anterior.",
             "applyCta": "Solicitar una tienda asociada",
-            "selectionLabel": "Tienda asociada para esta integración",
+            "selectionLabel": "Fuente de anuncios para esta integración",
             "pendingLabel": "Solicitudes de socio pendientes",
-            "pendingHint": "Podrá continuar con la integración cuando se apruebe una de estas solicitudes de socio."
+            "pendingHint": "Podrá continuar cuando se le conceda acceso a una fuente de anuncios."
           },
           "requestKey": {
             "title": "Crea un token de acceso de usuario",
@@ -1920,7 +1920,7 @@
     "sidebarLabel": "Secciones de socios",
     "nav": {
       "applications": "Solicitudes",
-      "shops": "Mis tiendas",
+      "listingSources": "Fuentes de anuncios con acceso concedido",
       "accessTokens": "Tokens de acceso"
     }
   },
@@ -2332,23 +2332,14 @@
     "commercialDealer": "este vendedor",
     "marketplace": "este mercado"
   },
-  "partnerShops": {
-    "title": "Mis tiendas",
-    "description": "Todas las tiendas vinculadas a tu cuenta de socio.",
+  "partnerListingSources": {
+    "title": "Fuentes de anuncios con acceso concedido",
+    "description": "Fuentes a las que tiene acceso actualmente. Aparecer aquí no acredita propiedad, condición de socio ni permiso para editar los datos de la fuente.",
     "actions": {
-      "retry": "Reintentar",
-      "edit": "Editar"
+      "retry": "Reintentar"
     },
-    "loading": "Cargando tus tiendas.",
-    "loadError": "No se pudieron cargar tus tiendas.",
-    "empty": "Aún no hay tiendas vinculadas a tu cuenta de socio.",
-    "updatedAt": "Actualizado el {{date}}",
-    "shopImageAlt": "Logo de {{shop}}",
-    "editAriaLabel": "Editar {{shop}}",
-    "edit": {
-      "title": "Editar tienda",
-      "description": "Edita los datos de {{shop}}.",
-      "success": "La tienda se ha actualizado."
-    }
+    "loading": "Cargando fuentes de anuncios con acceso concedido.",
+    "loadError": "No se pudo verificar el acceso a las fuentes de anuncios. Los permisos pueden haber cambiado. Inténtelo de nuevo.",
+    "empty": "Actualmente no tiene acceso a fuentes de anuncios. Es posible que se haya revocado un acceso anterior."
   }
 }

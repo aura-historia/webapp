@@ -1,4 +1,5 @@
 import { vi } from "vitest";
+import { useState } from "react";
 import PartnerCustomIntegrationPage from "@/features/partner/partner-program/pages/PartnerCustomIntegrationPage.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, cleanup, fireEvent, screen } from "@testing-library/react";
@@ -8,10 +9,10 @@ const authState = vi.hoisted(() => ({
     isResolved: true,
 }));
 
-const partnerShopState = vi.hoisted(() => ({
+const listingSourceState = vi.hoisted(() => ({
     data: [
-        { shopId: "shop-1", shopSlugId: "erster-shop", name: "Erster Shop" },
-        { shopId: "shop-2", shopSlugId: "zweiter-shop", name: "Zweiter Shop" },
+        { listingSourceId: "shop-1", listingSourceSlugId: "erster-shop", name: "Erster Shop" },
+        { listingSourceId: "shop-2", listingSourceSlugId: "zweiter-shop", name: "Zweiter Shop" },
     ],
     isPending: false,
     isError: false,
@@ -42,8 +43,8 @@ vi.mock("@/features/authentication/hooks/useResolvedAuth.ts", () => ({
     useResolvedAuth: () => authState,
 }));
 
-vi.mock("@/features/partner/common/api/usePartnerShops.ts", () => ({
-    usePartnerShops: () => partnerShopState,
+vi.mock("@/features/partner/common/api/useOwnListingSources.ts", () => ({
+    useOwnListingSources: () => listingSourceState,
 }));
 
 vi.mock(
@@ -56,17 +57,72 @@ vi.mock(
     }),
 );
 
+function RefreshableIntegrationPage() {
+    const [, refresh] = useState(0);
+    return (
+        <>
+            <button type="button" onClick={() => refresh((value) => value + 1)}>
+                Refresh view
+            </button>
+            <PartnerCustomIntegrationPage />
+        </>
+    );
+}
+
 describe("PartnerCustomIntegrationPage", () => {
+    it("clears selection and source links when a grant is revoked", async () => {
+        cleanup();
+        await act(async () => {
+            renderWithRouter(<RefreshableIntegrationPage />);
+        });
+        fireEvent.click(screen.getByRole("radio", { name: "Zweiter Shop" }));
+        listingSourceState.data = [];
+        fireEvent.click(screen.getByRole("button", { name: "Refresh view" }));
+        expect(screen.queryByRole("radio")).not.toBeInTheDocument();
+        expect(
+            screen.queryByRole("link", { name: /Meine Shop-Seite öffnen/i }),
+        ).not.toBeInTheDocument();
+        expect(screen.getByTestId("partner-product-code-example")).not.toHaveTextContent(
+            "/shops/shop-2/products",
+        );
+        expect(
+            screen.getByText(
+                "Sie haben derzeit keinen Zugriff auf Angebotsquellen. Eine frühere Freigabe wurde möglicherweise widerrufen.",
+            ),
+        ).toBeInTheDocument();
+    });
+
+    it("withholds cached source choices and links after a denied refresh", async () => {
+        cleanup();
+        await act(async () => {
+            renderWithRouter(<RefreshableIntegrationPage />);
+        });
+        fireEvent.click(screen.getByRole("radio", { name: "Zweiter Shop" }));
+        listingSourceState.isError = true;
+        fireEvent.click(screen.getByRole("button", { name: "Refresh view" }));
+        expect(screen.queryByRole("radio")).not.toBeInTheDocument();
+        expect(
+            screen.queryByRole("link", { name: /Meine Shop-Seite öffnen/i }),
+        ).not.toBeInTheDocument();
+        expect(
+            screen.getByText("Der Zugriff auf Angebotsquellen konnte nicht geprüft werden."),
+        ).toBeInTheDocument();
+    });
+
     beforeEach(async () => {
         vi.clearAllMocks();
         authState.isAuthenticated = true;
         authState.isResolved = true;
-        partnerShopState.data = [
-            { shopId: "shop-1", shopSlugId: "erster-shop", name: "Erster Shop" },
-            { shopId: "shop-2", shopSlugId: "zweiter-shop", name: "Zweiter Shop" },
+        listingSourceState.data = [
+            { listingSourceId: "shop-1", listingSourceSlugId: "erster-shop", name: "Erster Shop" },
+            {
+                listingSourceId: "shop-2",
+                listingSourceSlugId: "zweiter-shop",
+                name: "Zweiter Shop",
+            },
         ];
-        partnerShopState.isPending = false;
-        partnerShopState.isError = false;
+        listingSourceState.isPending = false;
+        listingSourceState.isError = false;
         partnerApplicationState.data = [];
         partnerApplicationState.isPending = false;
         partnerApplicationState.isError = false;
@@ -99,9 +155,9 @@ describe("PartnerCustomIntegrationPage", () => {
         expect(screen.queryByLabelText("Shops verwalten")).not.toBeInTheDocument();
     });
 
-    it("adds approved partner-shop selection as the first step and keeps the choice locally", () => {
+    it("adds granted listing-source selection as the first step and keeps the choice locally", () => {
         expect(
-            screen.getByRole("heading", { name: "Freigegebenen Partner-Shop auswählen" }),
+            screen.getByRole("heading", { name: "Freigegebene Angebotsquelle auswählen" }),
         ).toBeInTheDocument();
 
         const selectedShop = screen.getByRole("radio", { name: "Zweiter Shop" });
@@ -114,10 +170,10 @@ describe("PartnerCustomIntegrationPage", () => {
         );
     });
 
-    it("selects the only approved shop by default", async () => {
+    it("selects the only granted source by default", async () => {
         cleanup();
-        partnerShopState.data = [
-            { shopId: "shop-1", shopSlugId: "erster-shop", name: "Erster Shop" },
+        listingSourceState.data = [
+            { listingSourceId: "shop-1", listingSourceSlugId: "erster-shop", name: "Erster Shop" },
         ];
 
         await act(async () => {
@@ -136,7 +192,7 @@ describe("PartnerCustomIntegrationPage", () => {
 
     it("offers the partner application form when the account has no approved shops", async () => {
         cleanup();
-        partnerShopState.data = [];
+        listingSourceState.data = [];
 
         await act(async () => {
             renderWithRouter(<PartnerCustomIntegrationPage />);
@@ -152,7 +208,7 @@ describe("PartnerCustomIntegrationPage", () => {
 
     it("shows pending partner applications by shop name", async () => {
         cleanup();
-        partnerShopState.data = [];
+        listingSourceState.data = [];
         partnerApplicationState.data = [
             {
                 id: "application-1",

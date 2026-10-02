@@ -27,8 +27,13 @@ describe("useOAuthListingSources", () => {
         });
         const { result } = renderHook(() => useOAuthListingSources(true), { wrapper });
         await waitFor(() => expect(result.current.isSuccess).toBe(true));
-        expect(result.current.data).toEqual([{ listingSourceId: "ls_test", name: "Dealer" }]);
-        expect(getSources).toHaveBeenCalledWith({ cache: "no-store" });
+        expect(result.current.data).toEqual([
+            { listingSourceId: "ls_test", listingSourceSlugId: "public-slug", name: "Dealer" },
+        ]);
+        expect(getSources).toHaveBeenCalledWith({
+            cache: "no-store",
+            signal: expect.any(AbortSignal),
+        });
     });
     it("keeps an empty grant list empty", async () => {
         getSources.mockResolvedValue({ data: [] });

@@ -77,8 +77,8 @@
     "partnerAccessTokens": {
       "title": "Token di accesso | Aura Historia"
     },
-    "partnerShops": {
-      "title": "I miei negozi | Aura Historia"
+    "partnerListingSources": {
+      "title": "Fonti di annunci con accesso concesso | Aura Historia"
     }
   },
   "validation": {
@@ -1058,18 +1058,18 @@
         "endpointLabel": "Endpoint rilevante",
         "focusLabel": "Cosa controllare",
         "steps": {
-          "selectShop": {
-            "title": "Seleziona uno shop partner approvato",
-            "description": "Il tuo account deve avere almeno uno shop partner approvato per usare l’integrazione API. Seleziona lo shop di cui vuoi sincronizzare i prodotti.",
-            "focus": "L’ID dello shop selezionato servirà per le richieste dei prodotti nei passaggi successivi.",
-            "signInCta": "Accedi e controlla gli shop partner",
-            "loadError": "Non è stato possibile caricare gli shop partner approvati.",
+          "selectSource": {
+            "title": "Selezionare una fonte di annunci accessibile",
+            "description": "Selezioni una fonte a cui ha attualmente accesso per questa integrazione. L’accesso non attesta la proprietà o il permesso di modificare i dettagli della fonte.",
+            "focus": "Utilizzi l’ID canonico della fonte di annunci per l’integrazione.",
+            "signInCta": "Accedi e verifica l’accesso alle fonti",
+            "loadError": "Non è stato possibile verificare l’accesso alle fonti di annunci.",
             "retryCta": "Riprova",
-            "empty": "Questo account non ha ancora uno shop partner approvato. Invia prima una candidatura partner; potrai continuare con l’integrazione dopo l’approvazione.",
+            "empty": "Al momento non ha accesso a fonti di annunci. Un accesso precedente potrebbe essere stato revocato.",
             "applyCta": "Richiedi uno shop partner",
-            "selectionLabel": "Shop partner per questa integrazione",
+            "selectionLabel": "Fonte di annunci per questa integrazione",
             "pendingLabel": "Candidature partner in attesa",
-            "pendingHint": "Potrai continuare con l’integrazione quando una di queste candidature partner sarà approvata."
+            "pendingHint": "Potrà continuare quando le sarà concesso l’accesso a una fonte di annunci."
           },
           "requestKey": {
             "title": "Crea un token di accesso utente",
@@ -1920,7 +1920,7 @@
     "sidebarLabel": "Sezioni partner",
     "nav": {
       "applications": "Richieste",
-      "shops": "I miei negozi",
+      "listingSources": "Fonti di annunci con accesso concesso",
       "accessTokens": "Token di accesso"
     }
   },
@@ -2332,23 +2332,14 @@
     "commercialDealer": "questo venditore",
     "marketplace": "questo marketplace"
   },
-  "partnerShops": {
-    "title": "I miei negozi",
-    "description": "Tutti i negozi collegati al tuo account partner.",
+  "partnerListingSources": {
+    "title": "Fonti di annunci con accesso concesso",
+    "description": "Fonti a cui ha attualmente accesso. La presenza in questo elenco non attesta la proprietà, lo stato di partner o il permesso di modificare i dettagli della fonte.",
     "actions": {
-      "retry": "Riprova",
-      "edit": "Modifica"
+      "retry": "Riprova"
     },
-    "loading": "Caricamento dei tuoi negozi in corso.",
-    "loadError": "Impossibile caricare i tuoi negozi.",
-    "empty": "Nessun negozio è ancora collegato al tuo account partner.",
-    "updatedAt": "Aggiornato il {{date}}",
-    "shopImageAlt": "Logo di {{shop}}",
-    "editAriaLabel": "Modifica {{shop}}",
-    "edit": {
-      "title": "Modifica negozio",
-      "description": "Modifica i dati di {{shop}}.",
-      "success": "Il negozio è stato aggiornato."
-    }
+    "loading": "Caricamento delle fonti di annunci accessibili.",
+    "loadError": "Non è stato possibile verificare l’accesso alle fonti di annunci. I permessi potrebbero essere cambiati. Riprovi.",
+    "empty": "Al momento non ha accesso a fonti di annunci. Un accesso precedente potrebbe essere stato revocato."
   }
 }

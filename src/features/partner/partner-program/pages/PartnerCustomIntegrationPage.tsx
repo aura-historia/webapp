@@ -7,9 +7,9 @@ import { usePartnerApplications } from "@/features/partner/application-managemen
 import { PartnerApplicationCreateDialog } from "@/features/partner/application-management/components/PartnerApplicationCreateDialog.tsx";
 import { BUSINESS_STATE_TRANSLATION_KEY } from "@/features/partner/application-management/lib/partnerApplicationHelpers.ts";
 import {
-    type PartnerShop,
-    usePartnerShops,
-} from "@/features/partner/common/api/usePartnerShops.ts";
+    type OwnListingSource,
+    useOwnListingSources,
+} from "@/features/partner/common/api/useOwnListingSources.ts";
 import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
 import { AccessTokenCreateDialog } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
@@ -19,7 +19,7 @@ import { ArrowRight, Clock3, Code2, ExternalLink, KeyRound, RefreshCw, Store } f
 import { lazy, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-type GuideStepKey = "selectShop" | "requestKey" | "preparePayload" | "verifyShop";
+type GuideStepKey = "selectSource" | "requestKey" | "preparePayload" | "verifyShop";
 
 type GuideStep = {
     readonly key: GuideStepKey;
@@ -29,7 +29,7 @@ type GuideStep = {
 
 const GUIDE_STEPS: readonly GuideStep[] = [
     {
-        key: "selectShop",
+        key: "selectSource",
         icon: Store,
     },
     {
@@ -56,16 +56,16 @@ const LazyPartnerProductsApiReference = lazy(
 
 export default function PartnerCustomIntegrationPage() {
     const { t } = useTranslation();
-    const [selectedPartnerShopId, setSelectedPartnerShopId] = useState<string>();
+    const [selectedListingSourceId, setSelectedListingSourceId] = useState<string>();
     const [partnerApplicationDialogOpen, setPartnerApplicationDialogOpen] = useState(false);
     const [createTokenDialogOpen, setCreateTokenDialogOpen] = useState(false);
     const { isAuthenticated, isResolved } = useResolvedAuth();
     const {
-        data: partnerShops = [],
-        isPending: arePartnerShopsPending,
-        isError: arePartnerShopsError,
-        refetch: refetchPartnerShops,
-    } = usePartnerShops(isAuthenticated);
+        data: grantedSources = [],
+        isPending: areListingSourcesPending,
+        isError: areListingSourcesError,
+        refetch: refetchListingSources,
+    } = useOwnListingSources(isAuthenticated);
     const {
         data: partnerApplications = [],
         isPending: arePartnerApplicationsPending,
@@ -77,10 +77,18 @@ export default function PartnerCustomIntegrationPage() {
             application.businessState === "SUBMITTED" || application.businessState === "IN_REVIEW",
     );
 
-    const effectiveSelectedPartnerShopId =
-        selectedPartnerShopId ?? (partnerShops.length === 1 ? partnerShops[0]?.shopId : undefined);
-    const selectedPartnerShop = effectiveSelectedPartnerShopId
-        ? partnerShops.find((shop) => shop.shopId === effectiveSelectedPartnerShopId)
+    const listingSources =
+        isAuthenticated && !areListingSourcesPending && !areListingSourcesError
+            ? grantedSources
+            : [];
+
+    const effectiveSelectedListingSourceId =
+        selectedListingSourceId ??
+        (listingSources.length === 1 ? listingSources[0]?.listingSourceId : undefined);
+    const selectedListingSource = effectiveSelectedListingSourceId
+        ? listingSources.find(
+              (source) => source.listingSourceId === effectiveSelectedListingSourceId,
+          )
         : undefined;
 
     return (
@@ -287,29 +295,31 @@ export default function PartnerCustomIntegrationPage() {
                                                 </p>
                                             </div>
 
-                                            {step.key === "selectShop" && (
-                                                <PartnerShopRequirement
+                                            {step.key === "selectSource" && (
+                                                <ListingSourceRequirement
                                                     isAuthenticated={isAuthenticated}
                                                     isResolved={isResolved}
-                                                    isPending={arePartnerShopsPending}
+                                                    isPending={areListingSourcesPending}
                                                     areApplicationsPending={
                                                         arePartnerApplicationsPending
                                                     }
                                                     isError={
-                                                        arePartnerShopsError ||
+                                                        areListingSourcesError ||
                                                         arePartnerApplicationsError
                                                     }
-                                                    partnerShops={partnerShops}
+                                                    listingSources={listingSources}
                                                     pendingApplications={pendingPartnerApplications}
-                                                    selectedPartnerShopId={
-                                                        effectiveSelectedPartnerShopId
+                                                    selectedListingSourceId={
+                                                        effectiveSelectedListingSourceId
                                                     }
-                                                    onSelectPartnerShop={setSelectedPartnerShopId}
+                                                    onSelectListingSource={
+                                                        setSelectedListingSourceId
+                                                    }
                                                     onApply={() =>
                                                         setPartnerApplicationDialogOpen(true)
                                                     }
                                                     onRetry={() => {
-                                                        refetchPartnerShops();
+                                                        refetchListingSources();
                                                         refetchPartnerApplications();
                                                     }}
                                                 />
@@ -325,7 +335,7 @@ export default function PartnerCustomIntegrationPage() {
 
                                             {step.key === "verifyShop" && (
                                                 <div className="space-y-3  border border-border/70 bg-background px-4 py-4">
-                                                    {selectedPartnerShop ? (
+                                                    {selectedListingSource ? (
                                                         <Button
                                                             asChild
                                                             size="lg"
@@ -336,7 +346,7 @@ export default function PartnerCustomIntegrationPage() {
                                                                 params={(current) => ({
                                                                     ...current,
                                                                     shopSlugId:
-                                                                        selectedPartnerShop.shopSlugId,
+                                                                        selectedListingSource.listingSourceSlugId,
                                                                 })}
                                                                 from="/$lng"
                                                             >
@@ -364,7 +374,7 @@ export default function PartnerCustomIntegrationPage() {
                                         {step.key === "preparePayload" && (
                                             <div className="flex-1">
                                                 <ProductRequestExample
-                                                    shopId={selectedPartnerShop?.shopId}
+                                                    shopId={selectedListingSource?.listingSourceId}
                                                 />
                                             </div>
                                         )}
@@ -475,35 +485,35 @@ function RequestAccessTokenAction({
     );
 }
 
-interface PartnerShopRequirementProps {
+interface ListingSourceRequirementProps {
     readonly isAuthenticated: boolean;
     readonly isResolved: boolean;
     readonly isPending: boolean;
     readonly areApplicationsPending: boolean;
     readonly isError: boolean;
-    readonly partnerShops: readonly PartnerShop[];
+    readonly listingSources: readonly OwnListingSource[];
     readonly pendingApplications: readonly PartnerApplication[];
-    readonly selectedPartnerShopId: string | undefined;
-    readonly onSelectPartnerShop: (partnerShopId: string) => void;
+    readonly selectedListingSourceId: string | undefined;
+    readonly onSelectListingSource: (listingSourceId: string) => void;
     readonly onApply: () => void;
     readonly onRetry: () => void;
 }
 
-function PartnerShopRequirement({
+function ListingSourceRequirement({
     isAuthenticated,
     isResolved,
     isPending,
     areApplicationsPending,
     isError,
-    partnerShops,
+    listingSources,
     pendingApplications,
-    selectedPartnerShopId,
-    onSelectPartnerShop,
+    selectedListingSourceId,
+    onSelectListingSource,
     onApply,
     onRetry,
-}: PartnerShopRequirementProps) {
+}: ListingSourceRequirementProps) {
     const { t } = useTranslation();
-    const translationBase = "partnerProgram.customIntegrationPage.guide.steps.selectShop";
+    const translationBase = "partnerProgram.customIntegrationPage.guide.steps.selectSource";
 
     if (!isResolved || (isAuthenticated && (isPending || areApplicationsPending))) {
         return (
@@ -537,7 +547,7 @@ function PartnerShopRequirement({
         );
     }
 
-    if (partnerShops.length === 0 && pendingApplications.length === 0) {
+    if (listingSources.length === 0 && pendingApplications.length === 0) {
         return (
             <div className="space-y-3 border border-primary/15 bg-primary/5 px-4 py-4">
                 <p className="text-sm leading-6 text-muted-foreground">
@@ -553,7 +563,7 @@ function PartnerShopRequirement({
 
     return (
         <div className="flex flex-col gap-3 border border-border/70 bg-background px-4 py-4">
-            {partnerShops.length > 0 && (
+            {listingSources.length > 0 && (
                 <>
                     <p className="text-sm font-medium text-primary">
                         {t(`${translationBase}.selectionLabel`)}
@@ -562,12 +572,12 @@ function PartnerShopRequirement({
                         <legend className="sr-only">
                             {t(`${translationBase}.selectionLabel`)}
                         </legend>
-                        {partnerShops.map((shop) => {
-                            const labelId = `custom-integration-partner-shop-${shop.shopId}`;
-                            const isSelected = selectedPartnerShopId === shop.shopId;
+                        {listingSources.map((source) => {
+                            const labelId = `custom-integration-listing-source-${source.listingSourceId}`;
+                            const isSelected = selectedListingSourceId === source.listingSourceId;
 
                             return (
-                                <label key={shop.shopId} className="cursor-pointer">
+                                <label key={source.listingSourceId} className="cursor-pointer">
                                     <div
                                         className={cn(
                                             "flex items-center gap-3 rounded-sm border border-outline-variant/20 p-3 transition-colors",
@@ -576,19 +586,23 @@ function PartnerShopRequirement({
                                     >
                                         <input
                                             type="radio"
-                                            name="custom_integration_partner_shop"
-                                            value={shop.shopId}
-                                            checked={selectedPartnerShopId === shop.shopId}
-                                            onChange={() => onSelectPartnerShop(shop.shopId)}
+                                            name="custom_integration_listing_source"
+                                            value={source.listingSourceId}
+                                            checked={
+                                                selectedListingSourceId === source.listingSourceId
+                                            }
+                                            onChange={() =>
+                                                onSelectListingSource(source.listingSourceId)
+                                            }
                                             aria-labelledby={labelId}
                                             className="size-4 shrink-0 accent-primary"
                                         />
                                         <div>
                                             <p id={labelId} className="font-medium">
-                                                {shop.name}
+                                                {source.name}
                                             </p>
                                             <p className="text-xs text-muted-foreground">
-                                                {shop.shopId}
+                                                {source.listingSourceId}
                                             </p>
                                         </div>
                                     </div>
@@ -621,7 +635,7 @@ function PartnerShopRequirement({
                 </div>
             )}
 
-            {partnerShops.length === 0 && (
+            {listingSources.length === 0 && (
                 <p className="text-sm leading-6 text-muted-foreground">
                     {t(`${translationBase}.pendingHint`)}
                 </p>
