@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { mapToInternalOAuthClient, type OAuthClient } from "../OAuthClient.ts";
-import type { OAuthConsentMetadataDto } from "@/data/internal/oauth/OAuthClient.ts";
+import type { OAuthClientConsentMetadataData } from "@/client";
 
 describe("mapToInternalOAuthClient", () => {
     it("maps all fields from API response to internal model", () => {
-        const apiData: OAuthConsentMetadataDto & {
+        const apiData: OAuthClientConsentMetadataData & {
             client_secret: string;
             client_id_issued_at: number;
         } = {
@@ -33,7 +33,7 @@ describe("mapToInternalOAuthClient", () => {
     });
 
     it("maps multiple scopes correctly", () => {
-        const apiData: OAuthConsentMetadataDto & {
+        const apiData: OAuthClientConsentMetadataData & {
             client_secret: string;
             client_id_issued_at: number;
         } = {
@@ -56,7 +56,7 @@ describe("mapToInternalOAuthClient", () => {
     });
 
     it("handles empty scopes array", () => {
-        const apiData: OAuthConsentMetadataDto & {
+        const apiData: OAuthClientConsentMetadataData & {
             client_secret: string;
             client_id_issued_at: number;
         } = {
@@ -78,7 +78,7 @@ describe("mapToInternalOAuthClient", () => {
     });
 
     it("does not include client_secret or client_id_issued_at in internal model", () => {
-        const apiData: OAuthConsentMetadataDto & {
+        const apiData: OAuthClientConsentMetadataData & {
             client_secret: string;
             client_id_issued_at: number;
         } = {

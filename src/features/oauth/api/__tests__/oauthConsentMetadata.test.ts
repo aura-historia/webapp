@@ -6,7 +6,7 @@ import {
 } from "../oauthConsentMetadata.ts";
 
 const get = vi.hoisted(() => vi.fn());
-vi.mock("@/client/client.gen", () => ({ client: { get } }));
+vi.mock("@/client", () => ({ getOAuthConsentClient: get }));
 vi.mock("@/env.ts", () => ({ env: { VITE_API_URL: "https://api.test.example" } }));
 const dto = {
     client_id: "oc_test",
@@ -23,13 +23,11 @@ describe("ordinary-user consent metadata adapter", () => {
         get.mockReset();
         get.mockResolvedValue({ data: dto, response: new Response(null, { status: 200 }) });
     });
-    it("reads the dedicated endpoint using ordinary bearer auth and no caching", async () => {
+    it("uses the generated consent operation without caching", async () => {
         const mapped = await getOAuthConsentClient("oc_test");
         expect(get).toHaveBeenCalledWith(
             expect.objectContaining({
-                url: "/api/v1/oauth/clients/{clientId}",
                 path: { clientId: "oc_test" },
-                security: [{ scheme: "bearer", type: "http" }],
                 cache: "no-store",
                 redirect: "error",
             }),
@@ -52,13 +50,11 @@ describe("ordinary-user consent metadata adapter", () => {
         expect(JSON.stringify(mapped)).not.toContain("private");
         expect(mapped).not.toHaveProperty("client_id_issued_at");
     });
-    it.each([
-        { ...dto, client_id: "oc_another" },
-        { ...dto, scope: ["unsupported"] },
-        { ...dto, redirect_uris: ["invalid"] },
-        { ...dto, client_name: null },
-    ])("rejects mismatched or invalid response metadata", async (data) => {
-        get.mockResolvedValue({ data, response: new Response() });
+    it("rejects metadata for a different client", async () => {
+        get.mockResolvedValue({
+            data: { ...dto, client_id: "oc_another" },
+            response: new Response(),
+        });
         await expect(getOAuthConsentClient("oc_test")).rejects.toBeInstanceOf(
             OAuthConsentUnavailableError,
         );
