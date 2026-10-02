@@ -19,17 +19,6 @@ const listingSourceState = vi.hoisted(() => ({
     refetch: vi.fn(),
 }));
 
-const partnerApplicationState = vi.hoisted(() => ({
-    data: [] as Array<{
-        id: string;
-        businessState: "SUBMITTED" | "IN_REVIEW";
-        payload: { shopName: string };
-    }>,
-    isPending: false,
-    isError: false,
-    refetch: vi.fn(),
-}));
-
 vi.mock(
     "@/features/partner/partner-program/components/api-reference/PartnerProductsApiReference.tsx",
     () => ({
@@ -46,16 +35,6 @@ vi.mock("@/features/authentication/hooks/useResolvedAuth.ts", () => ({
 vi.mock("@/features/partner/common/api/useOwnListingSources.ts", () => ({
     useOwnListingSources: () => listingSourceState,
 }));
-
-vi.mock(
-    "@/features/partner/application-management/api/usePartnerApplications.ts",
-    async (importOriginal) => ({
-        ...(await importOriginal<
-            typeof import("@/features/partner/application-management/api/usePartnerApplications.ts")
-        >()),
-        usePartnerApplications: () => partnerApplicationState,
-    }),
-);
 
 function RefreshableIntegrationPage() {
     const [, refresh] = useState(0);
@@ -83,7 +62,7 @@ describe("PartnerCustomIntegrationPage", () => {
             screen.queryByRole("link", { name: /Meine Shop-Seite öffnen/i }),
         ).not.toBeInTheDocument();
         expect(screen.getByTestId("partner-product-code-example")).not.toHaveTextContent(
-            "/shops/shop-2/products",
+            "/listing-sources/shop-2/product-listings",
         );
         expect(
             screen.getByText(
@@ -123,9 +102,6 @@ describe("PartnerCustomIntegrationPage", () => {
         ];
         listingSourceState.isPending = false;
         listingSourceState.isError = false;
-        partnerApplicationState.data = [];
-        partnerApplicationState.isPending = false;
-        partnerApplicationState.isError = false;
 
         await act(async () => {
             renderWithRouter(<PartnerCustomIntegrationPage />);
@@ -166,7 +142,7 @@ describe("PartnerCustomIntegrationPage", () => {
         expect(selectedShop).toBeChecked();
         expect(selectedShop).not.toHaveClass("sr-only");
         expect(screen.getByTestId("partner-product-code-example")).toHaveTextContent(
-            "/shops/shop-2/products",
+            "/listing-sources/shop-2/product-listings",
         );
     });
 
@@ -182,55 +158,27 @@ describe("PartnerCustomIntegrationPage", () => {
 
         expect(screen.getByRole("radio", { name: "Erster Shop" })).toBeChecked();
         expect(screen.getByTestId("partner-product-code-example")).toHaveTextContent(
-            "/shops/shop-1/products",
+            "/listing-sources/shop-1/product-listings",
         );
-        expect(screen.getByRole("link", { name: /Meine Shop-Seite öffnen/i })).toHaveAttribute(
+    });
+
+    it("links to application management when no sources are granted", async () => {
+        cleanup();
+        listingSourceState.data = [];
+        await act(async () => {
+            renderWithRouter(<PartnerCustomIntegrationPage />);
+        });
+        expect(screen.getByRole("link", { name: "Partner-Shop beantragen" })).toHaveAttribute(
             "href",
-            "/de/shops/erster-shop",
+            "/de/partners/applications",
         );
-    });
-
-    it("offers the partner application form when the account has no approved shops", async () => {
-        cleanup();
-        listingSourceState.data = [];
-
-        await act(async () => {
-            renderWithRouter(<PartnerCustomIntegrationPage />);
-        });
-
-        fireEvent.click(screen.getByRole("button", { name: "Partner-Shop beantragen" }));
-
-        expect(screen.getByRole("dialog")).toBeInTheDocument();
-        expect(
-            screen.getByRole("heading", { name: "Partnerantrag einreichen" }),
-        ).toBeInTheDocument();
-    });
-
-    it("shows pending partner applications by shop name", async () => {
-        cleanup();
-        listingSourceState.data = [];
-        partnerApplicationState.data = [
-            {
-                id: "application-1",
-                businessState: "IN_REVIEW",
-                payload: { shopName: "Antiquitäten am Markt" },
-            },
-        ];
-
-        await act(async () => {
-            renderWithRouter(<PartnerCustomIntegrationPage />);
-        });
-
-        expect(screen.getByText("Offene Partner-Anträge")).toBeInTheDocument();
-        expect(screen.getByText("Antiquitäten am Markt")).toBeInTheDocument();
-        expect(screen.getByText("In Prüfung")).toBeInTheDocument();
-        expect(screen.queryByRole("radio")).not.toBeInTheDocument();
+        expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
 
     it("shows a cURL example with highlighted token and unselected-shop placeholders", () => {
         expect(screen.getByTestId("partner-product-code-example")).toBeInTheDocument();
         expect(screen.getByText("YOUR_USER_ACCESS_TOKEN").tagName).toBe("MARK");
-        expect(screen.getByText("YOUR_SHOP_ID").tagName).toBe("MARK");
+        expect(screen.getByText("YOUR_LISTING_SOURCE_ID").tagName).toBe("MARK");
     });
 
     it("renders the cURL example for signed-out users", async () => {
@@ -250,9 +198,13 @@ describe("PartnerCustomIntegrationPage", () => {
         expect(screen.queryByText("Shop-Seite prüfen")).not.toBeInTheDocument();
     });
 
-    it("explains the asynchronous event-sink concept", () => {
-        expect(screen.getByText("Für asynchrone Produktimporte gebaut")).toBeInTheDocument();
-        expect(screen.getByText(/202 Accepted/i)).toBeInTheDocument();
+    it("explains completed synchronous batches and separate webhook admission", () => {
+        expect(screen.getByText("Synchrone Angebots-Batches")).toBeInTheDocument();
+        expect(screen.getByText(/HTTP 200 · Schreibvorgänge abgeschlossen/)).toBeInTheDocument();
+        expect(screen.getByText(/maxItems 100/)).toBeInTheDocument();
+        expect(screen.getByText(/x-wc-webhook-signature/)).toHaveTextContent("HTTP 204");
+        expect(screen.getByText(/auctionId muss/)).toHaveTextContent("derselben Angebotsquelle");
+        expect(screen.queryByText(/202 Accepted/)).not.toBeInTheDocument();
     });
 
     it("embeds the interactive partner API reference without redundant endpoint cards", () => {
@@ -263,12 +215,14 @@ describe("PartnerCustomIntegrationPage", () => {
         expect(screen.queryByText("Endpunkt separat öffnen")).not.toBeInTheDocument();
     });
 
-    it("links directly to the selected partner shop in the final step", () => {
+    it("uses the source collection path and avoids unsupported shop verification links", () => {
         fireEvent.click(screen.getByRole("radio", { name: "Zweiter Shop" }));
-
-        expect(screen.getByRole("link", { name: /Meine Shop-Seite öffnen/i })).toHaveAttribute(
-            "href",
-            "/de/shops/zweiter-shop",
+        expect(screen.getByTestId("partner-product-code-example")).toHaveTextContent(
+            "/listing-sources/shop-2/product-listings",
         );
+        expect(
+            screen.queryByRole("link", { name: /Meine Shop-Seite öffnen/i }),
+        ).not.toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: "Batch-Ergebnis prüfen" })).toBeInTheDocument();
     });
 });

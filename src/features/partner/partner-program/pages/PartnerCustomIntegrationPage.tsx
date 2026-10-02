@@ -3,23 +3,20 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
-import { usePartnerApplications } from "@/features/partner/application-management/api/usePartnerApplications.ts";
-import { PartnerApplicationCreateDialog } from "@/features/partner/application-management/components/PartnerApplicationCreateDialog.tsx";
-import { BUSINESS_STATE_TRANSLATION_KEY } from "@/features/partner/application-management/lib/partnerApplicationHelpers.ts";
 import {
     type OwnListingSource,
     useOwnListingSources,
 } from "@/features/partner/common/api/useOwnListingSources.ts";
-import type { PartnerApplication } from "@/data/internal/partner-application/PartnerApplication.ts";
 import { AccessTokenCreateDialog } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import { cn } from "@/lib/utils.ts";
+import { PARTNER_CREATE_EXAMPLE } from "../config/partnerRequestExamples.ts";
 import { ClientOnly, Link } from "@tanstack/react-router";
-import { ArrowRight, Clock3, Code2, ExternalLink, KeyRound, RefreshCw, Store } from "lucide-react";
+import { ArrowRight, Code2, ExternalLink, KeyRound, RefreshCw, Store } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-type GuideStepKey = "selectSource" | "requestKey" | "preparePayload" | "verifyShop";
+type GuideStepKey = "selectSource" | "requestKey" | "preparePayload" | "verifyResults";
 
 type GuideStep = {
     readonly key: GuideStepKey;
@@ -41,9 +38,9 @@ const GUIDE_STEPS: readonly GuideStep[] = [
         icon: Code2,
     },
     {
-        key: "verifyShop",
+        key: "verifyResults",
         icon: Store,
-        endpoint: "/shops/{shopSlugId}",
+        endpoint: "/api/v1/listing-sources/{listingSourceId}/product-listings",
     },
 ];
 
@@ -57,7 +54,6 @@ const LazyPartnerProductsApiReference = lazy(
 export default function PartnerCustomIntegrationPage() {
     const { t } = useTranslation();
     const [selectedListingSourceId, setSelectedListingSourceId] = useState<string>();
-    const [partnerApplicationDialogOpen, setPartnerApplicationDialogOpen] = useState(false);
     const [createTokenDialogOpen, setCreateTokenDialogOpen] = useState(false);
     const { isAuthenticated, isResolved } = useResolvedAuth();
     const {
@@ -66,21 +62,9 @@ export default function PartnerCustomIntegrationPage() {
         isError: areListingSourcesError,
         refetch: refetchListingSources,
     } = useOwnListingSources(isAuthenticated);
-    const {
-        data: partnerApplications = [],
-        isPending: arePartnerApplicationsPending,
-        isError: arePartnerApplicationsError,
-        refetch: refetchPartnerApplications,
-    } = usePartnerApplications(isAuthenticated);
-    const pendingPartnerApplications = partnerApplications.filter(
-        (application) =>
-            application.businessState === "SUBMITTED" || application.businessState === "IN_REVIEW",
-    );
 
     const listingSources =
-        isAuthenticated && !areListingSourcesPending && !areListingSourcesError
-            ? grantedSources
-            : [];
+        isAuthenticated && isResolved && !areListingSourcesError ? grantedSources : [];
 
     const effectiveSelectedListingSourceId =
         selectedListingSourceId ??
@@ -147,7 +131,7 @@ export default function PartnerCustomIntegrationPage() {
                                     {t("partnerProgram.customIntegrationPage.concept.flowLabel")}
                                 </p>
                                 <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                                    {(["accepted", "processing", "visible"] as const).map(
+                                    {(["send", "completed", "failures"] as const).map(
                                         (flowStep, index) => (
                                             <div
                                                 key={flowStep}
@@ -167,7 +151,7 @@ export default function PartnerCustomIntegrationPage() {
                                 </div>
                             </div>
                             <div className="grid gap-4 sm:grid-cols-2">
-                                {(["async", "polling"] as const).map((benefit) => (
+                                {(["synchronous", "retry"] as const).map((benefit) => (
                                     <div
                                         key={benefit}
                                         className="border border-border/70 bg-card px-5 py-4"
@@ -198,28 +182,30 @@ export default function PartnerCustomIntegrationPage() {
                             </p>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            {(["apiKey", "shopId", "productBatch"] as const).map((item) => (
-                                <div
-                                    key={item}
-                                    className="flex items-start gap-3  border border-border/70 px-4 py-4"
-                                >
-                                    <span className="mt-0.5 flex size-7 shrink-0 aspect-square items-center justify-center rounded-full bg-primary/10 text-sm font-medium text-primary">
-                                        ✓
-                                    </span>
-                                    <div>
-                                        <p className="font-medium text-primary">
-                                            {t(
-                                                `partnerProgram.customIntegrationPage.summary.items.${item}.title`,
-                                            )}
-                                        </p>
-                                        <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                                            {t(
-                                                `partnerProgram.customIntegrationPage.summary.items.${item}.description`,
-                                            )}
-                                        </p>
+                            {(["accessToken", "listingSourceId", "listingBatch"] as const).map(
+                                (item) => (
+                                    <div
+                                        key={item}
+                                        className="flex items-start gap-3  border border-border/70 px-4 py-4"
+                                    >
+                                        <span className="mt-0.5 flex size-7 shrink-0 aspect-square items-center justify-center rounded-full bg-primary/10 text-sm font-medium text-primary">
+                                            ✓
+                                        </span>
+                                        <div>
+                                            <p className="font-medium text-primary">
+                                                {t(
+                                                    `partnerProgram.customIntegrationPage.summary.items.${item}.title`,
+                                                )}
+                                            </p>
+                                            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                                                {t(
+                                                    `partnerProgram.customIntegrationPage.summary.items.${item}.description`,
+                                                )}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ),
+                            )}
                         </CardContent>
                     </Card>
                 </div>
@@ -300,28 +286,15 @@ export default function PartnerCustomIntegrationPage() {
                                                     isAuthenticated={isAuthenticated}
                                                     isResolved={isResolved}
                                                     isPending={areListingSourcesPending}
-                                                    areApplicationsPending={
-                                                        arePartnerApplicationsPending
-                                                    }
-                                                    isError={
-                                                        areListingSourcesError ||
-                                                        arePartnerApplicationsError
-                                                    }
+                                                    isError={areListingSourcesError}
                                                     listingSources={listingSources}
-                                                    pendingApplications={pendingPartnerApplications}
                                                     selectedListingSourceId={
                                                         effectiveSelectedListingSourceId
                                                     }
                                                     onSelectListingSource={
                                                         setSelectedListingSourceId
                                                     }
-                                                    onApply={() =>
-                                                        setPartnerApplicationDialogOpen(true)
-                                                    }
-                                                    onRetry={() => {
-                                                        refetchListingSources();
-                                                        refetchPartnerApplications();
-                                                    }}
+                                                    onRetry={() => refetchListingSources()}
                                                 />
                                             )}
 
@@ -333,48 +306,19 @@ export default function PartnerCustomIntegrationPage() {
                                                 />
                                             )}
 
-                                            {step.key === "verifyShop" && (
-                                                <div className="space-y-3  border border-border/70 bg-background px-4 py-4">
-                                                    {selectedListingSource ? (
-                                                        <Button
-                                                            asChild
-                                                            size="lg"
-                                                            className="w-full sm:w-auto"
-                                                        >
-                                                            <Link
-                                                                to="/$lng/shops/$shopSlugId"
-                                                                params={(current) => ({
-                                                                    ...current,
-                                                                    shopSlugId:
-                                                                        selectedListingSource.listingSourceSlugId,
-                                                                })}
-                                                                from="/$lng"
-                                                            >
-                                                                {t(`${translationBase}.cta`)}
-                                                                <ArrowRight aria-hidden="true" />
-                                                            </Link>
-                                                        </Button>
-                                                    ) : (
-                                                        <Button
-                                                            type="button"
-                                                            size="lg"
-                                                            className="w-full sm:w-auto"
-                                                            disabled
-                                                        >
-                                                            {t(
-                                                                `${translationBase}.selectionRequired`,
-                                                            )}
-                                                            <ArrowRight aria-hidden="true" />
-                                                        </Button>
-                                                    )}
-                                                </div>
+                                            {step.key === "verifyResults" && (
+                                                <pre className="overflow-x-auto border border-border bg-muted/50 p-4 text-sm">
+                                                    <code>{"HTTP 200\n[]"}</code>
+                                                </pre>
                                             )}
                                         </div>
 
                                         {step.key === "preparePayload" && (
                                             <div className="flex-1">
                                                 <ProductRequestExample
-                                                    shopId={selectedListingSource?.listingSourceId}
+                                                    listingSourceId={
+                                                        selectedListingSource?.listingSourceId
+                                                    }
                                                 />
                                             </div>
                                         )}
@@ -393,6 +337,35 @@ export default function PartnerCustomIntegrationPage() {
                         description={t("partnerProgram.customIntegrationPage.endpoints.subtitle")}
                         showDivider={false}
                     />
+
+                    <div className="mt-12 grid gap-4 md:grid-cols-2">
+                        {(
+                            [
+                                "batch",
+                                "create",
+                                "patch",
+                                "put",
+                                "auction",
+                                "withdrawal",
+                                "woocommerce",
+                            ] as const
+                        ).map((topic) => (
+                            <Card key={topic}>
+                                <CardHeader>
+                                    <CardTitle>
+                                        {t(
+                                            `partnerProgram.customIntegrationPage.contract.${topic}.title`,
+                                        )}
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="text-sm leading-6 text-muted-foreground">
+                                    {t(
+                                        `partnerProgram.customIntegrationPage.contract.${topic}.description`,
+                                    )}
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
 
                     <Card className="mt-16 py-0 overflow-hidden border border-border/60 bg-linear-to-b from-card via-background to-card/70 shadow-xs">
                         <div className="p-0">
@@ -432,10 +405,6 @@ export default function PartnerCustomIntegrationPage() {
                     }}
                 />
             )}
-            <PartnerApplicationCreateDialog
-                open={partnerApplicationDialogOpen}
-                onOpenChange={setPartnerApplicationDialogOpen}
-            />
         </div>
     );
 }
@@ -489,13 +458,10 @@ interface ListingSourceRequirementProps {
     readonly isAuthenticated: boolean;
     readonly isResolved: boolean;
     readonly isPending: boolean;
-    readonly areApplicationsPending: boolean;
     readonly isError: boolean;
     readonly listingSources: readonly OwnListingSource[];
-    readonly pendingApplications: readonly PartnerApplication[];
     readonly selectedListingSourceId: string | undefined;
     readonly onSelectListingSource: (listingSourceId: string) => void;
-    readonly onApply: () => void;
     readonly onRetry: () => void;
 }
 
@@ -503,19 +469,16 @@ function ListingSourceRequirement({
     isAuthenticated,
     isResolved,
     isPending,
-    areApplicationsPending,
     isError,
     listingSources,
-    pendingApplications,
     selectedListingSourceId,
     onSelectListingSource,
-    onApply,
     onRetry,
 }: ListingSourceRequirementProps) {
     const { t } = useTranslation();
     const translationBase = "partnerProgram.customIntegrationPage.guide.steps.selectSource";
 
-    if (!isResolved || (isAuthenticated && (isPending || areApplicationsPending))) {
+    if (!isResolved || (isAuthenticated && isPending)) {
         return (
             <div className="space-y-3 border border-border/70 bg-background px-4 py-4">
                 <Skeleton className="h-5 w-48" />
@@ -547,15 +510,17 @@ function ListingSourceRequirement({
         );
     }
 
-    if (listingSources.length === 0 && pendingApplications.length === 0) {
+    if (listingSources.length === 0) {
         return (
             <div className="space-y-3 border border-primary/15 bg-primary/5 px-4 py-4">
                 <p className="text-sm leading-6 text-muted-foreground">
                     {t(`${translationBase}.empty`)}
                 </p>
-                <Button type="button" size="lg" onClick={onApply}>
-                    <Store aria-hidden="true" />
-                    {t(`${translationBase}.applyCta`)}
+                <Button asChild size="lg">
+                    <Link to="/$lng/partners/applications" params={true} from="/$lng">
+                        <Store aria-hidden="true" />
+                        {t(`${translationBase}.applyCta`)}
+                    </Link>
                 </Button>
             </div>
         );
@@ -612,75 +577,34 @@ function ListingSourceRequirement({
                     </fieldset>
                 </>
             )}
-
-            {pendingApplications.length > 0 && (
-                <div className="flex flex-col gap-2">
-                    <p className="text-sm font-medium text-primary">
-                        {t(`${translationBase}.pendingLabel`)}
-                    </p>
-                    <ul className="flex flex-col gap-2">
-                        {pendingApplications.map((application) => (
-                            <li
-                                key={application.id}
-                                className="flex items-center justify-between gap-3 rounded-sm border border-dashed border-outline-variant/30 bg-muted/30 p-3"
-                            >
-                                <p className="font-medium">{application.payload.shopName}</p>
-                                <span className="flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
-                                    <Clock3 className="size-3.5" aria-hidden="true" />
-                                    {t(BUSINESS_STATE_TRANSLATION_KEY[application.businessState])}
-                                </span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-
-            {listingSources.length === 0 && (
-                <p className="text-sm leading-6 text-muted-foreground">
-                    {t(`${translationBase}.pendingHint`)}
-                </p>
-            )}
         </div>
     );
 }
 
-function ProductRequestExample({ shopId }: { readonly shopId: string | undefined }) {
-    const displayedShopId = shopId ?? "YOUR_SHOP_ID";
-
+function ProductRequestExample({
+    listingSourceId,
+}: {
+    readonly listingSourceId: string | undefined;
+}) {
     return (
         <pre
             data-testid="partner-product-code-example"
             className="max-w-full overflow-x-auto rounded-lg border border-border bg-muted/50 p-5 font-mono text-xs leading-6 text-foreground sm:text-sm"
         >
             <code>
-                curl --request POST \<br />
-                {"  "}--url &apos;https://api.aura-historia.com/api/v1/shops/
-                <mark className="rounded bg-amber-200 px-1 py-0.5 font-semibold text-amber-950">
-                    {displayedShopId}
+                {
+                    "curl --request POST \\\n  --url 'https://api.aura-historia.com/api/v1/listing-sources/"
+                }
+                <mark className="rounded bg-primary/15 px-1 py-0.5 font-semibold text-primary">
+                    {listingSourceId ?? "YOUR_LISTING_SOURCE_ID"}
                 </mark>
-                /products&apos; \<br />
-                {"  "}--header &apos;Authorization: Bearer{" "}
-                <mark className="rounded bg-amber-200 px-1 py-0.5 font-semibold text-amber-950">
+                {"/product-listings' \\\n  --header 'Authorization: Bearer "}
+                <mark className="rounded bg-primary/15 px-1 py-0.5 font-semibold text-primary">
                     YOUR_USER_ACCESS_TOKEN
                 </mark>
-                &apos; \<br />
-                {"  "}--header &apos;Content-Type: application/json&apos; \<br />
-                {"  "}--data &apos;[&#123;
-                <br />
-                {"    "}&quot;shopsProductId&quot;: &quot;demo-violin-001&quot;,
-                <br />
-                {"    "}&quot;title&quot;: &#123;&quot;text&quot;: &quot;Baroque Violin&quot;,
-                &quot;language&quot;: &quot;en&quot;&#125;,
-                <br />
-                {"    "}&quot;state&quot;: &quot;AVAILABLE&quot;,
-                <br />
-                {"    "}&quot;url&quot;:
-                &quot;https://example-shop.com/products/demo-violin-001&quot;,
-                <br />
-                {"    "}&quot;images&quot;:
-                [&quot;https://example-shop.com/images/demo-violin.jpg&quot;]
-                <br />
-                {"  "}&#125;]&apos;
+                {"' \\\n  --header 'Content-Type: application/json' \\\n  --data '"}
+                {JSON.stringify(PARTNER_CREATE_EXAMPLE, null, 2)}
+                {"'"}
             </code>
         </pre>
     );
