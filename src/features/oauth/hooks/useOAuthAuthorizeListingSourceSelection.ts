@@ -40,8 +40,11 @@ export function useOAuthAuthorizeListingSourceSelection({
     const selectedListingSource = selectedListingSourceId
         ? listingSources.find((source) => source.listingSourceId === selectedListingSourceId)
         : undefined;
-    const effectiveListingSource =
-        listingSources.length === 1 ? listingSources[0] : selectedListingSource;
+    const effectiveListingSource = requiresListingSourceId
+        ? listingSources.length === 1
+            ? listingSources[0]
+            : selectedListingSource
+        : undefined;
     const listingSourceId = effectiveListingSource?.listingSourceId;
 
     return {
@@ -60,5 +63,14 @@ export function useOAuthAuthorizeListingSourceSelection({
 }
 
 function getAuthorizationRequestId(searchParams: OAuthAuthorizeSearchParams): string {
-    return `${searchParams.client_id}:${searchParams.redirect_uri}:${searchParams.state ?? ""}`;
+    return JSON.stringify([
+        searchParams.client_id,
+        searchParams.redirect_uri,
+        searchParams.state,
+        searchParams.requires_listing_source_id,
+        searchParams.code_challenge,
+        searchParams.scope,
+        searchParams.response_type,
+        searchParams.code_challenge_method,
+    ]);
 }

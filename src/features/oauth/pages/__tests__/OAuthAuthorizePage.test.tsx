@@ -423,7 +423,11 @@ describe("OAuthAuthorizePage", () => {
         expect(formData.get("listing_source_id")).toBe("shop-2");
     });
 
-    it("clears a manual partner shop selection when the authorization request changes", async () => {
+    it.each([
+        { state: "next-csrf-state" },
+        { code_challenge: "next-challenge" },
+        { requires_listing_source_id: false },
+    ])("clears a manual partner shop selection when the request changes: %j", async (change) => {
         const user = userEvent.setup();
         let updateSearchParams: (searchParams: typeof defaultSearchParams) => void = () => {};
         mockUseOAuthListingSources.mockReturnValue({
@@ -456,12 +460,18 @@ describe("OAuthAuthorizePage", () => {
         act(() =>
             updateSearchParams({
                 ...defaultSearchParams,
-                state: "next-csrf-state",
                 requires_listing_source_id: true,
+                ...change,
             }),
         );
 
-        await waitFor(() => expect(approveButton).toBeDisabled());
+        await waitFor(() => {
+            if (change.requires_listing_source_id === false) {
+                expect(approveButton).toBeEnabled();
+            } else {
+                expect(approveButton).toBeDisabled();
+            }
+        });
         const form = approveButton.closest("form");
         if (!form) {
             throw new Error("Approve form not found");
