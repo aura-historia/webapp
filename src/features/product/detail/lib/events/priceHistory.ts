@@ -39,62 +39,81 @@ export function formatHistoryPrice(
     return formatHistoryMoney(value, locale);
 }
 
+type PriceHistoryBuilder = {
+    readonly seriesByCurrency: Map<string, PriceHistoryPoint[]>;
+    activeCurrency?: string;
+    latestMonetaryCurrency?: string;
+};
+
+function addPricePoint(
+    builder: PriceHistoryBuilder,
+    currency: string,
+    timestamp: number,
+    amount: number | null,
+): void {
+    if (!Number.isFinite(timestamp)) return;
+    const data = builder.seriesByCurrency.get(currency) ?? [];
+    data.push({
+        x: timestamp,
+        y: amount === null ? null : amount / 10 ** minorUnitDigits(currency),
+    });
+    builder.seriesByCurrency.set(currency, data);
+}
+
+function appendPriceChange(
+    builder: PriceHistoryBuilder,
+    change: Extract<ProductListingHistoryEntry["payload"], { kind: "CHANGED" }>["changes"][number],
+    timestamp: number,
+): void {
+    if (change.type !== "MAIN_PRICE_CHANGED") return;
+
+    const previousCurrency =
+        change.previous?.type === "MONETARY" ? change.previous.currency : builder.activeCurrency;
+    const current = change.current;
+    if (current?.type === "MONETARY") {
+        if (previousCurrency && previousCurrency !== current.currency) {
+            addPricePoint(builder, previousCurrency, timestamp, null);
+        }
+        addPricePoint(builder, current.currency, timestamp, current.amount);
+        builder.activeCurrency = current.currency;
+        builder.latestMonetaryCurrency = current.currency;
+        return;
+    }
+
+    if (previousCurrency) addPricePoint(builder, previousCurrency, timestamp, null);
+    builder.activeCurrency = undefined;
+}
+
+function appendHistoryEntry(builder: PriceHistoryBuilder, entry: ProductListingHistoryEntry): void {
+    const timestamp = entry.timestamp.getTime();
+    if (entry.payload.kind === "DISCOVERED") {
+        const initialPrice = entry.payload.discovery.pricing.price;
+        if (initialPrice?.type === "MONETARY") {
+            builder.activeCurrency = initialPrice.currency;
+            builder.latestMonetaryCurrency = initialPrice.currency;
+            addPricePoint(builder, initialPrice.currency, timestamp, initialPrice.amount);
+        }
+        return;
+    }
+
+    if (entry.payload.kind === "CHANGED") {
+        for (const change of entry.payload.changes) {
+            appendPriceChange(builder, change, timestamp);
+        }
+    }
+}
+
 export function getPriceHistorySeries(
     history: readonly ProductListingHistoryEntry[],
 ): PriceHistorySeries[] {
-    const seriesByCurrency = new Map<string, PriceHistoryPoint[]>();
-    let activeCurrency: string | undefined;
-    let latestMonetaryCurrency: string | undefined;
+    const builder: PriceHistoryBuilder = { seriesByCurrency: new Map() };
+    for (const entry of history) appendHistoryEntry(builder, entry);
 
-    const add = (currency: string, timestamp: number, amount: number | null) => {
-        if (!Number.isFinite(timestamp)) return;
-        const data = seriesByCurrency.get(currency) ?? [];
-        data.push({
-            x: timestamp,
-            y: amount === null ? null : amount / 10 ** minorUnitDigits(currency),
-        });
-        seriesByCurrency.set(currency, data);
-    };
-
-    for (const entry of history) {
-        if (entry.payload.kind === "DISCOVERED") {
-            const initialPrice = entry.payload.discovery.pricing.price;
-            if (initialPrice?.type === "MONETARY") {
-                activeCurrency = initialPrice.currency;
-                latestMonetaryCurrency = initialPrice.currency;
-                add(initialPrice.currency, entry.timestamp.getTime(), initialPrice.amount);
-            }
-            continue;
-        }
-
-        if (entry.payload.kind !== "CHANGED") continue;
-        for (const change of entry.payload.changes) {
-            if (change.type !== "MAIN_PRICE_CHANGED") continue;
-
-            const previousCurrency =
-                change.previous?.type === "MONETARY" ? change.previous.currency : activeCurrency;
-            const current = change.current;
-            const timestamp = entry.timestamp.getTime();
-
-            if (current?.type === "MONETARY") {
-                if (previousCurrency && previousCurrency !== current.currency) {
-                    add(previousCurrency, timestamp, null);
-                }
-                add(current.currency, timestamp, current.amount);
-                activeCurrency = current.currency;
-                latestMonetaryCurrency = current.currency;
-            } else {
-                if (previousCurrency) add(previousCurrency, timestamp, null);
-                activeCurrency = undefined;
-            }
-        }
-    }
-
-    const series = [...seriesByCurrency].map(([currency, data]) => ({ currency, data }));
-    if (!latestMonetaryCurrency) return series;
+    const series = [...builder.seriesByCurrency].map(([currency, data]) => ({ currency, data }));
+    if (!builder.latestMonetaryCurrency) return series;
 
     return [
-        ...series.filter(({ currency }) => currency !== latestMonetaryCurrency),
-        ...series.filter(({ currency }) => currency === latestMonetaryCurrency),
+        ...series.filter(({ currency }) => currency !== builder.latestMonetaryCurrency),
+        ...series.filter(({ currency }) => currency === builder.latestMonetaryCurrency),
     ];
 }

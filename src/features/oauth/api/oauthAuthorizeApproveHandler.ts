@@ -1,9 +1,9 @@
 import { env } from "@/env.ts";
+import { getApiBaseUrl } from "@/lib/apiBaseUrl.ts";
 import { setListingSourceIdOnRedirectUri } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
 import { z } from "zod";
 import { isSupportedLanguage, localizePathname } from "@/i18n/routing.ts";
 
-const DEFAULT_API_URL = "https://api.dev.aura-historia.com";
 const AUTHORIZE_ENDPOINT = "/api/v1/oauth/authorize";
 const LOGIN_PATH = "/login";
 const AUTHORIZE_PAGE_PATH = "/oauth/authorize";
@@ -73,7 +73,7 @@ function getFormValue(formData: FormData, key: string): string | undefined {
 }
 
 function buildBackendAuthorizeUrl(params: OAuthAuthorizeFormData): string {
-    const url = new URL(AUTHORIZE_ENDPOINT, env.VITE_API_URL ?? DEFAULT_API_URL);
+    const url = new URL(AUTHORIZE_ENDPOINT, getApiBaseUrl(env.VITE_API_URL));
     appendAuthorizeParams(url.searchParams, params);
     return url.toString();
 }

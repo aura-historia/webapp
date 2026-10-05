@@ -1,3 +1,4 @@
+import type { Currency } from "@/data/internal/common/Currency.ts";
 import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
 import { describe, expect, it } from "vitest";
 import { getPriceHistorySeries } from "../priceHistory.ts";
@@ -6,7 +7,7 @@ function discovery(
     eventId: string,
     timestamp: string,
     price:
-        | { readonly type: "MONETARY"; readonly amount: number; readonly currency: string }
+        | { readonly type: "MONETARY"; readonly amount: number; readonly currency: Currency }
         | { readonly type: "ON_REQUEST" }
         | null,
 ): ProductListingHistoryEntry {
@@ -34,11 +35,11 @@ function mainPriceChange(
     eventId: string,
     timestamp: string,
     previous:
-        | { readonly type: "MONETARY"; readonly amount: number; readonly currency: string }
+        | { readonly type: "MONETARY"; readonly amount: number; readonly currency: Currency }
         | { readonly type: "ON_REQUEST" }
         | null,
     current:
-        | { readonly type: "MONETARY"; readonly amount: number; readonly currency: string }
+        | { readonly type: "MONETARY"; readonly amount: number; readonly currency: Currency }
         | { readonly type: "ON_REQUEST" }
         | null,
 ): ProductListingHistoryEntry {

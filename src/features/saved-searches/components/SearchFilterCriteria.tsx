@@ -1,3 +1,4 @@
+import { CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge.tsx";
 import { FilterDetailRow } from "@/features/saved-searches/components/FilterDetailRow.tsx";
@@ -19,7 +20,8 @@ export function SearchFilterCriteriaBadges({ search }: Props) {
             {(search.priceFrom != null || search.priceTo != null) && (
                 <span className="inline-flex flex-wrap gap-1.5">
                     <Badge variant="outline">
-                        {search.priceFrom ?? "?"} – {search.priceTo ?? "?"} €
+                        {search.priceFrom ?? "?"} – {search.priceTo ?? "?"}{" "}
+                        {CURRENCY_SYMBOLS[search.currency ?? "EUR"]}
                     </Badge>
                 </span>
             )}

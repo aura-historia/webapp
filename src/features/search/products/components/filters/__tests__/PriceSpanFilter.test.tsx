@@ -29,6 +29,17 @@ const FormWrapper = ({
 };
 
 describe("PriceSpanFilter", () => {
+    it("uses the saved search currency when it differs from preferences", async () => {
+        await act(async () => {
+            renderWithRouter(
+                <FormWrapper>
+                    <PriceSpanFilter currency="USD" />
+                </FormWrapper>,
+            );
+        });
+        expect(screen.getAllByText("$")).toHaveLength(2);
+        expect(screen.queryByText("€")).not.toBeInTheDocument();
+    });
     it("renders with default price range values", async () => {
         await act(async () => {
             renderWithRouter(

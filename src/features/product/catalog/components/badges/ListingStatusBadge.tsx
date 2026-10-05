@@ -30,12 +30,14 @@ export function ListingStatusBadge({
     readonly className?: string;
 }) {
     const { t } = useTranslation();
-    const label =
-        lifecycle === "WITHDRAWN"
-            ? t("product.listingAvailability.withdrawn")
-            : availability && AVAILABILITY_KEYS[availability]
-              ? t(`product.listingAvailability.${AVAILABILITY_KEYS[availability]}`)
-              : t("product.listingAvailability.unknown");
+    let label: string;
+    if (lifecycle === "WITHDRAWN") {
+        label = t("product.listingAvailability.withdrawn");
+    } else if (availability && AVAILABILITY_KEYS[availability]) {
+        label = t(`product.listingAvailability.${AVAILABILITY_KEYS[availability]}`);
+    } else {
+        label = t("product.listingAvailability.unknown");
+    }
 
     if (!label) return null;
 

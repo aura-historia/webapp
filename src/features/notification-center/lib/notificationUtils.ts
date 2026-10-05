@@ -38,12 +38,13 @@ export function getNotificationChangeParts(
 
     if (payload.change.type === "PRICE_CHANGE") {
         const unknown = t("product.unknownPrice");
-        const displayPrice = (price: typeof payload.change.oldPrice) =>
-            price?.type === "MONETARY"
-                ? formatPrice({ amount: price.amount, currency: price.currency }, language)
-                : price?.type === "ON_REQUEST"
-                  ? t("product.history.values.onRequest")
-                  : unknown;
+        const displayPrice = (price: typeof payload.change.oldPrice) => {
+            if (price?.type === "MONETARY") {
+                return formatPrice({ amount: price.amount, currency: price.currency }, language);
+            }
+            if (price?.type === "ON_REQUEST") return t("product.history.values.onRequest");
+            return unknown;
+        };
 
         return {
             from: displayPrice(payload.change.oldPrice),

@@ -36,6 +36,7 @@ Run this checklist when code touches any of the following:
 - `showUnassessedOrSensitiveContent` is an account preference covering both unassessed and sensitive content. It is separate from tracking and external-map consent. Do not migrate an old restricted-symbol consent into this broader preference or persist it in browser preferences.
 - Treat missing content assessments as unassessed. Only `ALLOWED` content is displayed without the preference. Redacted image URLs remain unavailable even when the preference is enabled.
 - Account updates must discard and refetch cached personalized listings, watchlists, saved-search matches/previews, and notifications; merely marking them stale can retain previously visible images. Cancel in-flight queries before resetting these caches, and cancel and clear them on account deletion.
+- Sign-in, sign-out and viewer changes also remove own-source grants, partnership applications and access-token caches before refetching. Pending private reads must be aborted so late responses cannot repopulate a previous viewer's data. Public SEO images must be assessed ALLOWED, regardless of a signed-in viewer's content preference.
 
 - Data minimization: collect and send only fields needed for the feature.
 - Purpose limitation: use data only for purposes reflected in the privacy policy and user expectations.

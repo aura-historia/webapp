@@ -95,13 +95,13 @@ describe("immutable application workflow", () => {
     });
     it.each([
         ["E-Mail (optional)", "invalid-email", "emailInvalid"],
-        ["Quellen-URL (optional)", "invalid-url", "urlInvalid"],
+        ["Anbieter-URL (optional)", "invalid-url", "urlInvalid"],
         ["Bild-URL (optional)", "invalid-url", "urlInvalid"],
     ])("shows localized schema errors for invalid %s", async (label, value, validationKey) => {
         render(<PartnerApplicationsSection />);
         await userEvent.click(screen.getByRole("button", { name: /Neue|Neuer/ }));
         await userEvent.type(screen.getByLabelText("Name des Betreibers"), "Operator");
-        await userEvent.type(screen.getByLabelText("Name der Angebotsquelle"), "Source");
+        await userEvent.type(screen.getByLabelText("Name des Anbieters"), "Source");
         const input = screen.getByLabelText(label) as HTMLInputElement;
         expect(input.form?.noValidate).toBe(true);
         await userEvent.type(input, value);
@@ -118,7 +118,7 @@ describe("immutable application workflow", () => {
         render(<PartnerApplicationsSection />);
         await userEvent.click(screen.getByRole("button", { name: /Neue|Neuer/ }));
         await userEvent.type(screen.getByLabelText("Name des Betreibers"), "Operator");
-        await userEvent.type(screen.getByLabelText("Name der Angebotsquelle"), "New Source");
+        await userEvent.type(screen.getByLabelText("Name des Anbieters"), "New Source");
         await userEvent.click(screen.getByLabelText("Partner-API"));
         await userEvent.click(
             screen.getByRole("button", {
@@ -146,7 +146,7 @@ describe("immutable application workflow", () => {
             screen.getByLabelText("Art des Vorschlags"),
             "EXISTING_LISTING_SOURCE",
         );
-        await userEvent.type(screen.getByLabelText("Bestehende Angebotsquelle"), "Public");
+        await userEvent.type(screen.getByLabelText("Bestehender Anbieter"), "Public");
         await act(async () => {
             await new Promise((resolve) => setTimeout(resolve, 400));
         });

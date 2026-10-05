@@ -2,11 +2,12 @@ import type { OAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
 import { getOAuthConsentClient as getOAuthConsentClientDto } from "@/client";
 import { mapToInternalOAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
 import { env } from "@/env.ts";
+import { getApiBaseUrl } from "@/lib/apiBaseUrl.ts";
 
 /** Map the generated ordinary-user consent response before providing it to the application. */
 export async function getOAuthConsentClient(clientId: string): Promise<OAuthClient> {
     const result = await getOAuthConsentClientDto({
-        baseUrl: env.VITE_API_URL ?? "https://api.dev.aura-historia.com",
+        baseUrl: getApiBaseUrl(env.VITE_API_URL),
         path: { clientId },
         cache: "no-store",
         redirect: "error",
@@ -20,8 +21,7 @@ export async function getOAuthConsentClient(clientId: string): Promise<OAuthClie
         if (status >= 400 && status < 500) throw new OAuthConsentMetadataError(status);
         throw new OAuthConsentUnavailableError();
     }
-    if (!result.data || result.data.client_id !== clientId)
-        throw new OAuthConsentUnavailableError();
+    if (result.data?.client_id !== clientId) throw new OAuthConsentUnavailableError();
     return mapToInternalOAuthClient(result.data);
 }
 

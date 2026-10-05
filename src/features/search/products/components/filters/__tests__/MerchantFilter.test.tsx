@@ -77,8 +77,8 @@ describe("MerchantIncludeFilter", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Angebotsquelle einschließen")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Angebotsquellen suchen...")).toBeInTheDocument();
+        expect(screen.getByText("Anbieter einschließen")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Anbieter suchen...")).toBeInTheDocument();
     });
 
     it("allows entering search text in the input", async () => {
@@ -89,7 +89,7 @@ describe("MerchantIncludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Angebotsquellen suchen...");
+        const input = screen.getByPlaceholderText("Anbieter suchen...");
 
         await user.type(input, "Test");
 
@@ -121,7 +121,7 @@ describe("MerchantIncludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Angebotsquellen suchen...");
+        const input = screen.getByPlaceholderText("Anbieter suchen...");
         await user.type(input, "Source");
         const option = await screen.findByText("Source One");
         await user.click(option);
@@ -138,7 +138,7 @@ describe("MerchantIncludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Angebotsquellen suchen...");
+        const input = screen.getByPlaceholderText("Anbieter suchen...");
 
         await user.type(input, "Special & Chars");
 
@@ -153,7 +153,7 @@ describe("MerchantIncludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Angebotsquellen suchen...");
+        const input = screen.getByPlaceholderText("Anbieter suchen...");
 
         await user.type(input, "Initial Value");
         await user.clear(input);

@@ -125,12 +125,14 @@ export function mapListingImages(
     images: readonly ProductListingImageData[],
     contentPolicy: ContentPolicyData | null | undefined,
 ): readonly ProductImage[] {
-    const prohibitedContentType =
-        contentPolicy?.decision === "REQUIRES_CONSENT"
-            ? contentPolicy.category
-            : contentPolicy?.decision === "ALLOWED"
-              ? "NONE"
-              : "UNKNOWN";
+    let prohibitedContentType: ProductImage["prohibitedContentType"];
+    if (contentPolicy?.decision === "REQUIRES_CONSENT") {
+        prohibitedContentType = contentPolicy.category;
+    } else if (contentPolicy?.decision === "ALLOWED") {
+        prohibitedContentType = "NONE";
+    } else {
+        prohibitedContentType = "UNKNOWN";
+    }
 
     return images.map((image) => ({
         url: image.url ? mapListingUrl(image.url) : undefined,

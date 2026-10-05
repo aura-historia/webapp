@@ -85,6 +85,7 @@ describe("access-token wire contracts", () => {
     it("exports exactly the supported scopes with copy in all locales", () => {
         expect(ACCESS_TOKEN_SCOPES).toEqual([
             "product-listings:write",
+            "listing-sources:write",
             "users:read",
             "users:write",
             "access-tokens:read",

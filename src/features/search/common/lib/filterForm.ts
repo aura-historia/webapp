@@ -103,7 +103,7 @@ export function mapSearchFiltersToFormValues(filters: SearchFilterArguments): Fi
 export function mapFormValuesToSearchFilterArguments(
     data: FilterSchema,
     q: string,
-    existing: SearchFilterArguments = { q },
+    existing?: SearchFilterArguments,
 ): SearchFilterArguments {
     return {
         ...existing,

@@ -1,4 +1,5 @@
-import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
+import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
+import { makePublicListingSource } from "@/test/fixtures.ts";
 import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useShopSearch } from "@/features/search/shops/api/useShopSearch.ts";
@@ -30,35 +31,22 @@ vi.mock("lottie-react", () => ({
 
 const mockUseShopSearch = vi.mocked(useShopSearch);
 
-const buildShop = (overrides: Partial<ShopDetail> = {}): ShopDetail => ({
-    shopId: "shop-1",
-    shopSlugId: "example-shop",
-    name: "Example Shop",
-    shopType: "AUCTION_HOUSE",
-    partnerStatus: "PARTNERED",
-    image: undefined,
-    domains: ["example.com"],
-    created: new Date("2024-01-15T00:00:00.000Z"),
-    updated: new Date("2024-06-15T00:00:00.000Z"),
-    ...overrides,
-});
+const buildShop = makePublicListingSource;
 
 type ShopSearchMockOptions = {
-    shops?: ShopDetail[];
-    total?: number;
+    sources?: PublicListingSource[];
     isPending?: boolean;
     error?: Error | null;
 };
 
 function setShopSearchMock({
-    shops = [],
-    total,
+    sources = [],
     isPending = false,
     error = null,
 }: ShopSearchMockOptions = {}) {
     const pages = isPending
         ? undefined
-        : [{ shops, size: shops.length, total: total ?? shops.length, searchAfter: undefined }];
+        : [{ sources, size: sources.length, searchAfter: undefined }];
     mockUseShopSearch.mockReturnValue({
         data: pages ? { pages, pageParams: [undefined] } : undefined,
         isPending,
@@ -73,13 +61,6 @@ describe("ShopSearchResults", () => {
     beforeEach(() => {
         mockUseShopSearch.mockReset();
         setShopSearchMock();
-    });
-
-    it("renders a hint when the query is too short", () => {
-        renderWithQueryClient(<ShopSearchResults searchFilters={{ q: "ab" }} />);
-        expect(
-            screen.getByText("Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten."),
-        ).toBeInTheDocument();
     });
 
     it("renders skeletons while loading", () => {
@@ -99,28 +80,18 @@ describe("ShopSearchResults", () => {
         ).toBeInTheDocument();
     });
 
-    it("renders a no-results message when there are no shops", () => {
-        setShopSearchMock({ shops: [], total: 0 });
+    it("renders a no-results message when there are no sources", () => {
+        setShopSearchMock({ sources: [] });
         renderWithQueryClient(<ShopSearchResults searchFilters={{ q: "test" }} />);
         expect(screen.getByText("Keine Ergebnisse gefunden")).toBeInTheDocument();
     });
 
-    it("reports the total count through onTotalChange", () => {
-        const onTotalChange = vi.fn();
-        setShopSearchMock({ shops: [], total: 0 });
-        renderWithQueryClient(
-            <ShopSearchResults searchFilters={{ q: "test" }} onTotalChange={onTotalChange} />,
-        );
-        expect(onTotalChange).toHaveBeenCalledWith(0);
-    });
-
     it("renders one ShopCard per shop returned by the search", () => {
         setShopSearchMock({
-            shops: [
-                buildShop({ shopId: "shop-1", name: "Shop One" }),
-                buildShop({ shopId: "shop-2", name: "Shop Two", shopSlugId: "two" }),
+            sources: [
+                buildShop({ listingSourceId: "shop-1", name: "Shop One" }),
+                buildShop({ listingSourceId: "shop-2", name: "Shop Two", slugId: "two" }),
             ],
-            total: 2,
         });
         renderWithQueryClient(<ShopSearchResults searchFilters={{ q: "test" }} />);
         expect(screen.getByText("Shop One")).toBeInTheDocument();

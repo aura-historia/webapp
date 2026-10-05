@@ -52,6 +52,7 @@ import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterA
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { SearchFilterWizardConfirmStep } from "@/features/saved-searches/components/SearchFilterWizardConfirmStep.tsx";
 import type { Variants } from "motion";
+import type { Currency } from "@/data/internal/common/Currency.ts";
 
 const createNameSchema = (t: (key: string) => string) =>
     z.object({
@@ -83,7 +84,7 @@ type FilterStep = {
     readonly label: string;
     readonly desc: string;
     readonly restricted?: boolean;
-    readonly content: (disabled: boolean) => ReactNode;
+    readonly content: (disabled: boolean, currency: Currency) => ReactNode;
 };
 
 /**
@@ -95,9 +96,9 @@ const FILTER_STEPS: FilterStep[] = [
     {
         label: "searchFilter.wizard.step.priceStatus",
         desc: "searchFilter.wizard.step.priceStatusDescription",
-        content: () => (
+        content: (_disabled, currency) => (
             <>
-                <PriceSpanFilter />
+                <PriceSpanFilter currency={currency} />
                 <ProductStateFilter />
             </>
         ),
@@ -106,11 +107,7 @@ const FILTER_STEPS: FilterStep[] = [
         label: "searchFilter.wizard.step.shop",
         desc: "searchFilter.wizard.step.shopDescription",
         restricted: true,
-        content: (disabled) => (
-            <>
-                <MerchantFilters disabled={disabled} />
-            </>
-        ),
+        content: (disabled) => <MerchantFilters disabled={disabled} />,
     },
     {
         label: "searchFilter.wizard.step.date",
@@ -456,6 +453,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                     enhancedSearchDescription={nameForm.watch("enhancedSearchDescription")}
                     filters={{
                         ...filters,
+                        currency: filters.currency ?? preferences.currency,
                         q: nameForm.watch("queryTerms")[0] ?? "",
                         queryTerms: nameForm.watch("queryTerms"),
                     }}
@@ -471,7 +469,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                     optional
                     restricted={disabled}
                 />
-                {fs.content(disabled)}
+                {fs.content(disabled, filters.currency ?? preferences.currency)}
             </>
         );
     };

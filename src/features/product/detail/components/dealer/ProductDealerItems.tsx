@@ -66,7 +66,7 @@ export function ProductDealerItems({ source, excludeProductListingId }: ProductD
                             className="flex items-center gap-1 text-xs uppercase tracking-widest text-primary hover:underline"
                             from="/$lng"
                         >
-                            <span>{t("shop.card.viewShop")}</span>
+                            <span>{t("shop.card.viewSource")}</span>
                             <ArrowUpRight className="size-4" />
                         </Link>
                         <ProductCarouselNavButtons />

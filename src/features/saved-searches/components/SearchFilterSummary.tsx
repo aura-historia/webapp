@@ -1,3 +1,4 @@
+import { CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge.tsx";
 import {
@@ -84,7 +85,8 @@ export function SearchFilterSummary({ name, search, availability, showName = tru
                 {(search.priceFrom != null || search.priceTo != null) && (
                     <FilterDetailRowBadges label={t("search.filter.priceSpan")}>
                         <Badge variant="outline">
-                            {search.priceFrom ?? "?"} – {search.priceTo ?? "?"} €
+                            {search.priceFrom ?? "?"} – {search.priceTo ?? "?"}{" "}
+                            {CURRENCY_SYMBOLS[search.currency ?? "EUR"]}
                         </Badge>
                     </FilterDetailRowBadges>
                 )}

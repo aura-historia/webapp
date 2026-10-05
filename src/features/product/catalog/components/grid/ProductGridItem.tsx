@@ -9,6 +9,7 @@ import { H3 } from "@/components/typography/H3.tsx";
 import { PriceText } from "@/components/typography/PriceText.tsx";
 import { ImageWithFallback } from "@/components/ui/image-with-fallback.tsx";
 import { memo, useCallback } from "react";
+import type { ReactNode } from "react";
 import { useMarkNotificationsSeen } from "@/features/notification-center/api/useMarkNotificationsSeen.ts";
 import { cn } from "@/lib/utils.ts";
 import { isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
@@ -120,6 +121,31 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
         );
     }
 
+    const primaryImage = product.images[0];
+    let imageContent: ReactNode;
+    if (!primaryImage) {
+        imageContent = (
+            <div className="flex aspect-4/5 w-full flex-col items-center justify-center gap-2 bg-surface-container-low">
+                <ImageOff
+                    data-testid="placeholder-image"
+                    className="h-12 w-12 text-muted-foreground"
+                />
+                <p className="text-xs text-muted-foreground">{t("product.noImage")}</p>
+            </div>
+        );
+    } else if (isRestrictedImage(primaryImage, showSensitiveContent)) {
+        imageContent = <ProhibitedImagePlaceholder className="w-full aspect-4/5" />;
+    } else {
+        imageContent = (
+            <ImageWithFallback
+                className="aspect-4/5 w-full object-cover transition-opacity duration-300 ease-out group-hover:opacity-90"
+                src={primaryImage.url?.href}
+                alt={product.title ?? ""}
+                fallbackClassName="w-full aspect-4/5"
+            />
+        );
+    }
+
     return (
         <div className="relative h-full">
             {hasUnseenNotification && (
@@ -145,26 +171,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
                         className="absolute left-3 top-3 z-10"
                     />
 
-                    {product.images.length > 0 ? (
-                        isRestrictedImage(product.images[0], showSensitiveContent) ? (
-                            <ProhibitedImagePlaceholder className="w-full aspect-4/5" />
-                        ) : (
-                            <ImageWithFallback
-                                className="aspect-4/5 w-full object-cover transition-opacity duration-300 ease-out group-hover:opacity-90"
-                                src={product.images[0].url?.href}
-                                alt={product.title ?? ""}
-                                fallbackClassName="w-full aspect-4/5"
-                            />
-                        )
-                    ) : (
-                        <div className="flex aspect-4/5 w-full flex-col items-center justify-center gap-2 bg-surface-container-low">
-                            <ImageOff
-                                data-testid="placeholder-image"
-                                className="h-12 w-12 text-muted-foreground"
-                            />
-                            <p className="text-xs text-muted-foreground">{t("product.noImage")}</p>
-                        </div>
-                    )}
+                    {imageContent}
                 </ProductListingLink>
 
                 <div className="flex min-w-0 flex-1 flex-col gap-1">

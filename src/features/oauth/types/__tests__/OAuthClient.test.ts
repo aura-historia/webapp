@@ -45,13 +45,17 @@ describe("mapToInternalOAuthClient", () => {
             client_uri: "https://client.example",
             logo_uri: "https://client.example/logo.png",
             redirect_uris: ["https://client.example/callback", "https://client.example/auth"],
-            scope: ["product-listings:write", "watchlist:read"],
+            scope: ["product-listings:write", "listing-sources:write", "watchlist:read"],
             client_id_issued_at: 1748539200,
         };
 
         const result = mapToInternalOAuthClient(apiData);
 
-        expect(result.scopes).toEqual(["product-listings:write", "watchlist:read"]);
+        expect(result.scopes).toEqual([
+            "product-listings:write",
+            "listing-sources:write",
+            "watchlist:read",
+        ]);
         expect(result.redirectUris).toHaveLength(2);
     });
 

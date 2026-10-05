@@ -906,7 +906,7 @@ export type UserSearchFilterCollectionData = {
  * The value is one of the capabilities supported by the canonical access-token and OAuth flows.
  *
  */
-export type AccessTokenScopeData = 'product-listings:write' | 'users:read' | 'users:write' | 'access-tokens:read' | 'access-tokens:write' | 'search-filters:write' | 'watchlist:read' | 'watchlist:write';
+export type AccessTokenScopeData = 'product-listings:write' | 'listing-sources:write' | 'users:read' | 'users:write' | 'access-tokens:read' | 'access-tokens:write' | 'search-filters:write' | 'watchlist:read' | 'watchlist:write';
 
 /**
  * Token type returned for Aura Historia access tokens.
@@ -2630,7 +2630,21 @@ export type ListingSourcePresentationData = {
 
 export type ListingIngestionMethodData = 'WEB_CRAWL' | 'SHOPIFY' | 'WOOCOMMERCE' | 'PARTNER_API';
 
-export type ListingIngestionConfigurationData = {
+export type PutWoocommerceListingSourceIngestionConfigurationData = {
+  currency?: CurrencyData | null;
+  language?: LanguageData | null;
+};
+
+export type PutShopifyListingSourceIngestionConfigurationData = {
+  /**
+   * Valid Shopify store domain. Must be unique across ListingSources.
+   */
+  domain: string;
+  currency?: CurrencyData | null;
+  language?: LanguageData | null;
+};
+
+export type CreateListingIngestionConfigurationData = {
   type: 'UNCONFIGURED';
   ingestionMethod: ListingIngestionMethodData;
 } | {
@@ -2682,21 +2696,37 @@ export type CreateListingSourceData = {
    */
   name: string;
   operator: ListingSourceOperatorInputData;
-  ingestionConfiguration: Array<ListingIngestionConfigurationData>;
+  ingestionConfiguration: Array<CreateListingIngestionConfigurationData>;
   url?: string;
   image?: string;
   referralConfiguration?: ReferralConfigurationData;
 };
 
+export type UpdateListingIngestionConfigurationData = {
+  type: 'WEB_CRAWL';
+  fallbackCurrency?: string;
+} | {
+  type: 'SHOPIFY';
+  domain: string;
+  currency?: string;
+  language?: string;
+} | {
+  type: 'WOOCOMMERCE';
+  currency?: string;
+  language?: string;
+} | {
+  type: 'PARTNER_API';
+};
+
 /**
- * Omitted fields are unchanged. `null` clears only `woocommerceWebhookSecret`, `url`, `image`, and `referralConfiguration`.
+ * Omitted fields are unchanged. `null` clears only `url`, `image`, and `referralConfiguration`. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
  */
 export type UpdateListingSourceData = {
   /**
    * ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
    */
   name?: string;
-  ingestionConfiguration?: Array<ListingIngestionConfigurationData>;
+  ingestionConfiguration?: Array<UpdateListingIngestionConfigurationData>;
   url?: string | null;
   image?: string | null;
   referralConfiguration?: ReferralConfigurationData | null;
@@ -2914,35 +2944,82 @@ export type ProductListingSourceData = {
   slugId: string;
 };
 
+export type PutWoocommerceListingSourceIngestionConfigurationDataWritable = {
+  /**
+   * Required nonblank provider secret. Preserved exactly for HMAC verification and never returned.
+   */
+  webhookSecret: string;
+  currency?: CurrencyData | null;
+  language?: LanguageData | null;
+};
+
+export type CreateListingIngestionConfigurationDataWritable = {
+  type: 'UNCONFIGURED';
+  ingestionMethod: ListingIngestionMethodData;
+} | {
+  type: 'WEB_CRAWL';
+  /**
+   * Optional ISO 4217 fallback used only when crawler-extracted price text contains no currency hint.
+   */
+  fallbackCurrency?: string;
+} | {
+  type: 'SHOPIFY';
+  domain: string;
+  currency?: string;
+  language?: string;
+} | {
+  type: 'WOOCOMMERCE';
+  /**
+   * Required nonblank WooCommerce secret. Never returned or logged.
+   */
+  webhookSecret: string;
+  currency?: string;
+  language?: string;
+} | {
+  type: 'PARTNER_API';
+};
+
 export type CreateListingSourceDataWritable = {
   /**
    * ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
    */
   name: string;
   operator: ListingSourceOperatorInputData;
-  ingestionConfiguration: Array<ListingIngestionConfigurationData>;
-  /**
-   * Optional WooCommerce webhook secret. Accepted only when WOOCOMMERCE ingestion is configured; never returned or logged.
-   */
-  woocommerceWebhookSecret?: string;
+  ingestionConfiguration: Array<CreateListingIngestionConfigurationDataWritable>;
   url?: string;
   image?: string;
   referralConfiguration?: ReferralConfigurationData;
 };
 
+export type UpdateListingIngestionConfigurationDataWritable = {
+  type: 'WEB_CRAWL';
+  fallbackCurrency?: string;
+} | {
+  type: 'SHOPIFY';
+  domain: string;
+  currency?: string;
+  language?: string;
+} | {
+  type: 'WOOCOMMERCE';
+  /**
+   * Optional only when WooCommerce is already configured. Omission preserves the existing secret; a string rotates it. Null is invalid, and when adding WooCommerce a secret is required.
+   */
+  webhookSecret?: string;
+  currency?: string;
+  language?: string;
+} | {
+  type: 'PARTNER_API';
+};
+
 /**
- * Omitted fields are unchanged. `null` clears only `woocommerceWebhookSecret`, `url`, `image`, and `referralConfiguration`.
+ * Omitted fields are unchanged. `null` clears only `url`, `image`, and `referralConfiguration`. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
  */
 export type UpdateListingSourceDataWritable = {
   /**
    * ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
    */
   name?: string;
-  ingestionConfiguration?: Array<ListingIngestionConfigurationData>;
-  /**
-   * Optional WooCommerce webhook secret. Never returned or logged.
-   */
-  woocommerceWebhookSecret?: string | null;
+  ingestionConfiguration?: Array<UpdateListingIngestionConfigurationDataWritable>;
   url?: string | null;
   image?: string | null;
   referralConfiguration?: ReferralConfigurationData | null;
@@ -3235,6 +3312,122 @@ export type UpdateAdminAuctionResponses = {
 };
 
 export type UpdateAdminAuctionResponse = UpdateAdminAuctionResponses[keyof UpdateAdminAuctionResponses];
+
+export type PutWoocommerceListingSourceIngestionConfigurationData2 = {
+  body: PutWoocommerceListingSourceIngestionConfigurationDataWritable;
+  path: {
+    /**
+     * Strict `ls_` ListingSource TypeID.
+     */
+    listingSourceId: string;
+  };
+  query?: never;
+  url: '/api/v1/listing-sources/{listingSourceId}/ingestion-configurations/woocommerce';
+};
+
+export type PutWoocommerceListingSourceIngestionConfigurationErrors = {
+  /**
+   * Invalid ListingSource ID (`INVALID_OBJECT_ID`), or malformed JSON, unknown request property, or invalid request value (`BAD_BODY_VALUE`).
+   */
+  400: ApiError;
+  /**
+   * Missing or invalid bearer credential (`INVALID_CREDENTIALS`).
+   */
+  401: ApiError;
+  /**
+   * Delegated scope missing or Partnership write access denied (`FORBIDDEN`).
+   */
+  403: ApiError;
+  /**
+   * Authorized ListingSource no longer exists (`LISTING_SOURCE_NOT_FOUND`).
+   */
+  404: ApiError;
+  /**
+   * Optimistic concurrency conflict (`CONFLICT`).
+   */
+  409: ApiError;
+  /**
+   * Unexpected internal failure (`LISTING_SOURCE_INTERNAL_ERROR`).
+   */
+  500: ApiError;
+  /**
+   * Temporary authorization or persistence failure (`LISTING_SOURCE_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: ApiError;
+};
+
+export type PutWoocommerceListingSourceIngestionConfigurationError = PutWoocommerceListingSourceIngestionConfigurationErrors[keyof PutWoocommerceListingSourceIngestionConfigurationErrors];
+
+export type PutWoocommerceListingSourceIngestionConfigurationResponses = {
+  /**
+   * WooCommerce was newly enabled and configured. No response body is returned.
+   */
+  201: unknown;
+  /**
+   * Existing WooCommerce configuration was replaced or already matched. No response body is returned.
+   */
+  204: void;
+};
+
+export type PutWoocommerceListingSourceIngestionConfigurationResponse = PutWoocommerceListingSourceIngestionConfigurationResponses[keyof PutWoocommerceListingSourceIngestionConfigurationResponses];
+
+export type PutShopifyListingSourceIngestionConfigurationData2 = {
+  body: PutShopifyListingSourceIngestionConfigurationData;
+  path: {
+    /**
+     * Strict `ls_` ListingSource TypeID.
+     */
+    listingSourceId: string;
+  };
+  query?: never;
+  url: '/api/v1/listing-sources/{listingSourceId}/ingestion-configurations/shopify';
+};
+
+export type PutShopifyListingSourceIngestionConfigurationErrors = {
+  /**
+   * Invalid ListingSource ID (`INVALID_OBJECT_ID`), or malformed JSON, unknown request property, or invalid request value (`BAD_BODY_VALUE`).
+   */
+  400: ApiError;
+  /**
+   * Missing or invalid bearer credential (`INVALID_CREDENTIALS`).
+   */
+  401: ApiError;
+  /**
+   * Delegated scope missing or Partnership write access denied (`FORBIDDEN`).
+   */
+  403: ApiError;
+  /**
+   * Authorized ListingSource no longer exists (`LISTING_SOURCE_NOT_FOUND`).
+   */
+  404: ApiError;
+  /**
+   * Shopify domain uniqueness or optimistic concurrency conflict (`CONFLICT`).
+   */
+  409: ApiError;
+  /**
+   * Unexpected internal failure (`LISTING_SOURCE_INTERNAL_ERROR`).
+   */
+  500: ApiError;
+  /**
+   * Temporary authorization or persistence failure (`LISTING_SOURCE_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: ApiError;
+};
+
+export type PutShopifyListingSourceIngestionConfigurationError = PutShopifyListingSourceIngestionConfigurationErrors[keyof PutShopifyListingSourceIngestionConfigurationErrors];
+
+export type PutShopifyListingSourceIngestionConfigurationResponses = {
+  /**
+   * Shopify was newly enabled and configured. No response body is returned.
+   */
+  201: unknown;
+  /**
+   * Existing Shopify configuration was replaced or already matched. No response body is returned.
+   */
+  204: void;
+};
+
+export type PutShopifyListingSourceIngestionConfigurationResponse = PutShopifyListingSourceIngestionConfigurationResponses[keyof PutShopifyListingSourceIngestionConfigurationResponses];
 
 export type DeletePartnerProductListingsData = {
   /**
@@ -3716,7 +3909,7 @@ export type PostWoocommerceWebhookData = {
     'x-wc-webhook-topic': 'product.created' | 'product.updated' | 'product.deleted';
     /**
      * Base64-encoded HMAC-SHA256 signature of the raw HTTP request body, calculated with the
-     * listing source's configured `woocommerceWebhookSecret`.
+     * WooCommerce ingestion configuration's `webhookSecret`.
      *
      */
     'x-wc-webhook-signature': string;

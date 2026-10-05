@@ -1,5 +1,5 @@
 import { ShopCard } from "@/features/shop/profile/components/ShopCard.tsx";
-import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
+import { makePublicListingSource } from "@/test/fixtures.ts";
 import { act, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { renderWithRouter } from "@/test/utils.tsx";
@@ -37,58 +37,29 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     };
 });
 
-const buildShop = (overrides: Partial<ShopDetail> = {}): ShopDetail => ({
-    shopId: "shop-1",
-    shopSlugId: "example-shop",
-    name: "Example Shop",
-    shopType: "AUCTION_HOUSE",
-    partnerStatus: "PARTNERED",
-    image: undefined,
-    domains: ["example.com"],
-    created: new Date("2024-01-15T00:00:00.000Z"),
-    updated: new Date("2024-06-15T00:00:00.000Z"),
-    ...overrides,
-});
-
 describe("ShopCard", () => {
-    it("renders shop name and badges", async () => {
-        await act(async () => {
-            renderWithRouter(<ShopCard shop={buildShop()} />);
-        });
-
-        expect(screen.getByText("Example Shop")).toBeInTheDocument();
-        // shop type badge + partner status badge
-        expect(screen.getByText("Auktionshaus")).toBeInTheDocument();
-        expect(screen.getByText("Offizieller Partner")).toBeInTheDocument();
+    it("renders the source and public operator", async () => {
+        await act(async () => renderWithRouter(<ShopCard shop={makePublicListingSource()} />));
+        expect(screen.getByText("Antique Store")).toBeInTheDocument();
+        expect(screen.getByText(/Antique Operator/)).toBeInTheDocument();
     });
-
-    it("renders a placeholder icon when no image is provided", async () => {
-        await act(async () => {
-            renderWithRouter(<ShopCard shop={buildShop({ image: undefined })} />);
-        });
-        expect(screen.getByLabelText("Kein Logo verfügbar")).toBeInTheDocument();
+    it("links the title and action to the immutable source slug", async () => {
+        await act(async () => renderWithRouter(<ShopCard shop={makePublicListingSource()} />));
+        for (const link of screen.getAllByRole("link"))
+            expect(link).toHaveAttribute("href", "/de/shops/antique-store");
     });
-
-    it("renders the shop image when provided", async () => {
-        await act(async () => {
+    it("renders a public image when provided", async () => {
+        await act(async () =>
             renderWithRouter(
-                <ShopCard shop={buildShop({ image: "https://cdn.example.com/shop.png" })} />,
-            );
-        });
-        const image = screen.getByAltText("Logo von Example Shop") as HTMLImageElement;
-        expect(image).toBeInTheDocument();
-        expect(image.src).toBe("https://cdn.example.com/shop.png");
-    });
-
-    it("renders a link to the shop detail page", async () => {
-        await act(async () => {
-            renderWithRouter(<ShopCard shop={buildShop()} />);
-        });
-        const links = screen.getAllByRole("link");
-        expect(links.length).toBeGreaterThan(0);
-        // At least one link points to the shop detail route
-        expect(links.some((link) => link.getAttribute("href")?.includes("example-shop"))).toBe(
-            true,
+                <ShopCard
+                    shop={makePublicListingSource({ image: "https://example.com/source.jpg" })}
+                />,
+            ),
         );
+        expect(screen.getByRole("img")).toHaveAttribute("src", "https://example.com/source.jpg");
+    });
+    it("renders a placeholder when no image is present", async () => {
+        await act(async () => renderWithRouter(<ShopCard shop={makePublicListingSource()} />));
+        expect(screen.getByRole("img")).not.toHaveAttribute("src");
     });
 });

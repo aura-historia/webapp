@@ -34,6 +34,13 @@ const PROPOSED_FIELDS = [
     "sourceUrl",
     "sourceImage",
 ] as const;
+
+function getProposedFieldInputType(name: (typeof PROPOSED_FIELDS)[number]) {
+    if (name === "partyEmail") return "email";
+    if (name === "partyPhone") return "tel";
+    if (name === "sourceUrl" || name === "sourceImage") return "url";
+    return "text";
+}
 export function PartnerApplicationCreateDialog({
     open,
     onOpenChange,
@@ -144,16 +151,7 @@ export function PartnerApplicationCreateDialog({
                                         <Input
                                             id={`application-${name}`}
                                             {...form.register(name)}
-                                            type={
-                                                name === "partyEmail"
-                                                    ? "email"
-                                                    : name === "partyPhone"
-                                                      ? "tel"
-                                                      : name === "sourceUrl" ||
-                                                          name === "sourceImage"
-                                                        ? "url"
-                                                        : "text"
-                                            }
+                                            type={getProposedFieldInputType(name)}
                                             aria-required={
                                                 name === "partyName" || name === "sourceName"
                                             }

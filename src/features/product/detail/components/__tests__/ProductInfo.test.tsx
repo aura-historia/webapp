@@ -1,4 +1,8 @@
+import { makeProductListingDetail, makeProductListingUserState } from "@/test/fixtures.ts";
 import type React from "react";
+vi.mock("@/env", () => ({
+    env: { VITE_APP_URL: "https://aura-historia.com", VITE_FEATURE_LOGIN_ENABLED: false },
+}));
 
 vi.mock("lottie-react", () => ({
     Lottie: () => null,
@@ -37,10 +41,10 @@ vi.mock("@tanstack/react-router", async () => {
         },
         useParams: () => ({}),
         useRouteContext: () => ({ timeZone: "UTC" }),
+        useLocation: () => "/de/products/antique-chair",
     };
 });
 
-import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
 import { screen } from "@testing-library/react";
 import { ProductInfo } from "../ProductInfo.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
@@ -62,208 +66,113 @@ beforeAll(() => {
 });
 
 describe("ProductInfo", () => {
-    const mockProduct: ProductListingDetail = {
-        productId: "1",
-        productSlugId: "test-product-title",
-        eventId: "",
-        shopId: "",
-        shopSlugId: "test-shop",
-        shopsProductId: "",
-        shopName: "Test Shop",
-        sellerName: "Test Shop",
-        shopType: "AUCTION_HOUSE",
+    const product = makeProductListingDetail({
         title: "Test Product Title",
-        price: "99,99 €",
-        state: "AVAILABLE",
-        url: new URL("https://example.com"),
+        displayPrice: "99,99 €",
         viewUrl: new URL("https://affiliate.example.com/product"),
-        images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
-        created: new Date(),
-        updated: new Date(),
-    };
-
-    it("should render the product title, shop name, and price correctly", () => {
-        renderWithQueryClient(<ProductInfo product={mockProduct} />);
-        expect(screen.getByText("Test Product Title")).toBeInTheDocument();
-        expect(screen.getByText("Test Shop")).toBeInTheDocument();
-        expect(screen.getByText("99,99 €")).toBeInTheDocument();
     });
 
-    it("should link the shop name to the shop page", () => {
-        renderWithQueryClient(<ProductInfo product={mockProduct} />);
-
-        expect(screen.getByRole("link", { name: "Test Shop" })).toHaveAttribute(
+    it("renders the title, public source and display price", () => {
+        renderWithQueryClient(<ProductInfo product={product} />);
+        expect(screen.getByRole("heading", { name: "Test Product Title" })).toBeInTheDocument();
+        expect(screen.getByText("99,99 €")).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "Antique Store" })).toHaveAttribute(
             "href",
-            "/de/shops/test-shop",
+            "/de/shops/antique-store",
         );
     });
-
-    it("should link the shop name when a secondary seller is shown", () => {
+    it("uses the referral URL with a nofollow relationship", () => {
+        renderWithQueryClient(<ProductInfo product={product} />);
+        const link = screen.getByRole("link", { name: /Zur Seite des Anbieters/ });
+        expect(link).toHaveAttribute("href", product.viewUrl?.href);
+        expect(link).toHaveAttribute("rel", "nofollow noopener noreferrer");
+    });
+    it("falls back to the source URL", () => {
+        renderWithQueryClient(<ProductInfo product={{ ...product, viewUrl: undefined }} />);
+        expect(screen.getByRole("link", { name: /Zur Seite des Anbieters/ })).toHaveAttribute(
+            "href",
+            product.url?.href,
+        );
+    });
+    it("disables the merchant action for a withdrawn listing", () => {
+        renderWithQueryClient(<ProductInfo product={{ ...product, lifecycle: "WITHDRAWN" }} />);
+        expect(screen.getByRole("button", { name: /Zur Seite des Anbieters/ })).toBeDisabled();
+    });
+    it("disables the merchant action for a redacted URL", () => {
+        renderWithQueryClient(
+            <ProductInfo product={{ ...product, url: undefined, viewUrl: undefined }} />,
+        );
+        expect(screen.getByRole("button", { name: /Zur Seite des Anbieters/ })).toBeDisabled();
+    });
+    it("renders on-request prices", () => {
+        renderWithQueryClient(
+            <ProductInfo
+                product={{ ...product, price: { type: "ON_REQUEST" }, displayPrice: undefined }}
+            />,
+        );
+        expect(screen.getByText("Preis auf Anfrage")).toBeInTheDocument();
+    });
+    it("renders missing prices", () => {
+        renderWithQueryClient(
+            <ProductInfo product={{ ...product, price: undefined, displayPrice: undefined }} />,
+        );
+        expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
+    });
+    it("renders authoritative auction and lot names", () => {
         renderWithQueryClient(
             <ProductInfo
                 product={{
-                    ...mockProduct,
-                    shopName: "Main Shop",
-                    sellerName: "Secondary Seller",
-                    shopSlugId: "main-shop",
+                    ...product,
+                    auction: {
+                        auctionId: "auction-1",
+                        name: { text: "Winter Sale", language: "en" },
+                        schedule: {
+                            biddingOpens: null,
+                            liveStarts: null,
+                            lotsBeginClosing: null,
+                            scheduledEnd: null,
+                        },
+                    },
+                    lot: {
+                        lotNumber: "42",
+                        cataloguePosition: null,
+                        biddingOpens: null,
+                        scheduledCloses: null,
+                        reportedClosedAt: null,
+                    },
                 }}
             />,
         );
-
-        expect(screen.getByText("Secondary Seller")).toBeInTheDocument();
-        expect(screen.getByRole("link", { name: "Main Shop" })).toHaveAttribute(
-            "href",
-            "/de/shops/main-shop",
-        );
+        expect(screen.getByText("Winter Sale")).toBeInTheDocument();
+        expect(screen.getByText(/42/)).toBeInTheDocument();
     });
-
-    it("should render the shop type badge", () => {
-        renderWithQueryClient(<ProductInfo product={mockProduct} />);
-        expect(screen.getByText("Auktionshaus")).toBeInTheDocument();
-    });
-
-    it("should render the auction window badge when auction start is set", () => {
-        const productWithAuction = {
-            ...mockProduct,
-            auction: { start: new Date("2025-06-15T10:00:00Z") },
-        };
-        renderWithQueryClient(<ProductInfo product={productWithAuction} />);
-        expect(screen.getByText(/^ab /)).toBeInTheDocument();
-    });
-
-    it("should not render the auction window badge when no auction is set", () => {
-        renderWithQueryClient(<ProductInfo product={mockProduct} />);
-        expect(screen.queryByText(/^ab /)).not.toBeInTheDocument();
-        expect(screen.queryByText(/^bis /)).not.toBeInTheDocument();
-    });
-
-    it("should render 'Preis unbekannt' when price is not provided", () => {
-        const productWithoutPrice = { ...mockProduct, price: undefined };
-        renderWithQueryClient(<ProductInfo product={productWithoutPrice} />);
-        expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
-    });
-
-    it("should render the status badge with the correct status", () => {
-        renderWithQueryClient(<ProductInfo product={mockProduct} />);
-        expect(screen.getByText("Verfügbar")).toBeInTheDocument();
-    });
-
-    it("should render the button to the shop", () => {
-        renderWithQueryClient(<ProductInfo product={mockProduct} />);
-        expect(screen.getByText("Zur Seite des Händlers")).toBeInTheDocument();
-    });
-
-    it("should add nofollow rel to external merchant link", () => {
-        renderWithQueryClient(<ProductInfo product={mockProduct} />);
-
-        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
-            "rel",
-            "nofollow noopener noreferrer",
-        );
-    });
-
-    it("should prefer the product viewUrl for the merchant link", () => {
-        renderWithQueryClient(<ProductInfo product={mockProduct} />);
-
-        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
-            "href",
-            "https://affiliate.example.com/product",
-        );
-    });
-
-    it("should render merchant button as a link when state is not REMOVED", () => {
-        renderWithQueryClient(<ProductInfo product={mockProduct} />);
-        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toBeInTheDocument();
-    });
-
-    it("should disable merchant button when state is REMOVED", () => {
-        const removedProduct = { ...mockProduct, state: "REMOVED" as const };
-        renderWithQueryClient(<ProductInfo product={removedProduct} />);
-        expect(
-            screen.queryByRole("link", { name: "Zur Seite des Händlers" }),
-        ).not.toBeInTheDocument();
-        expect(screen.getByRole("button", { name: "Zur Seite des Händlers" })).toBeDisabled();
-    });
-
-    it("should render action buttons without fixed floating positioning", () => {
-        renderWithQueryClient(<ProductInfo product={mockProduct} />);
-
-        expect(document.querySelector(".fixed.top-24.right-4")).not.toBeInTheDocument();
-        const shareButtons = screen.getAllByRole("button");
-        expect(shareButtons.length).toBeGreaterThan(0);
-    });
-
-    describe("search filter info", () => {
-        const mockProductMatched: ProductListingDetail = {
-            ...mockProduct,
-            userData: {
-                watchlistData: { isWatching: false, isNotificationEnabled: false },
-                notificationData: { hasUnseenNotification: false },
-                restrictedContentData: { consentGiven: false },
-                searchFilterData: {
-                    matched: true,
-                    hidden: false,
-                    userSearchFilterId: "filter-123",
-                    userSearchFilterName: "Vintage Art Deco",
-                    matchReason: "Passt zum gesuchten Vintage Art Deco Stil.",
-                },
+    it("shows a matched search filter and reason", () => {
+        const userState = makeProductListingUserState({
+            searchFilter: {
+                matched: true,
+                hidden: false,
+                userSearchFilterId: "filter-1",
+                userSearchFilterName: "My filter",
+                matchReason: "Matching period",
             },
-        };
-
-        it("should render filter name as a link to the search filter", () => {
-            renderWithQueryClient(<ProductInfo product={mockProductMatched} />);
-            expect(screen.getByRole("link", { name: "Vintage Art Deco" })).toHaveAttribute(
-                "href",
-                "/de/me/search-filter/filter-123",
-            );
         });
-
-        it("should render the match reason immediately visible", () => {
-            renderWithQueryClient(<ProductInfo product={mockProductMatched} />);
-            expect(
-                screen.getByText("Passt zum gesuchten Vintage Art Deco Stil."),
-            ).toBeInTheDocument();
+        renderWithQueryClient(<ProductInfo product={{ ...product, userState }} />);
+        expect(screen.getByRole("link", { name: "My filter" })).toHaveAttribute(
+            "href",
+            "/de/me/search-filter/filter-1",
+        );
+        expect(screen.getByText("Matching period")).toBeInTheDocument();
+    });
+    it("does not show hidden filter details", () => {
+        const userState = makeProductListingUserState({
+            searchFilter: {
+                matched: true,
+                hidden: true,
+                userSearchFilterId: "filter-1",
+                userSearchFilterName: "My filter",
+            },
         });
-
-        it("should NOT render search filter info when not matched", () => {
-            renderWithQueryClient(<ProductInfo product={mockProduct} />);
-            expect(screen.queryByText("Suchauftrag")).not.toBeInTheDocument();
-        });
-
-        it("should NOT render search filter info when hidden", () => {
-            const hiddenProduct: ProductListingDetail = {
-                ...mockProduct,
-                userData: {
-                    watchlistData: { isWatching: false, isNotificationEnabled: false },
-                    notificationData: { hasUnseenNotification: false },
-                    restrictedContentData: { consentGiven: false },
-                    searchFilterData: { matched: true, hidden: true },
-                },
-            };
-            renderWithQueryClient(<ProductInfo product={hiddenProduct} />);
-            expect(screen.queryByText("Suchauftrag")).not.toBeInTheDocument();
-        });
-
-        it("should render filter name but NOT match reason when matchReason is absent", () => {
-            const productNoReason: ProductListingDetail = {
-                ...mockProduct,
-                userData: {
-                    watchlistData: { isWatching: false, isNotificationEnabled: false },
-                    notificationData: { hasUnseenNotification: false },
-                    restrictedContentData: { consentGiven: false },
-                    searchFilterData: {
-                        matched: true,
-                        hidden: false,
-                        userSearchFilterId: "filter-123",
-                        userSearchFilterName: "Vintage Art Deco",
-                    },
-                },
-            };
-            renderWithQueryClient(<ProductInfo product={productNoReason} />);
-            expect(screen.getByRole("link", { name: "Vintage Art Deco" })).toBeInTheDocument();
-            expect(
-                screen.queryByText("Passt zum gesuchten Vintage Art Deco Stil."),
-            ).not.toBeInTheDocument();
-        });
+        renderWithQueryClient(<ProductInfo product={{ ...product, userState }} />);
+        expect(screen.queryByText("My filter")).not.toBeInTheDocument();
     });
 });

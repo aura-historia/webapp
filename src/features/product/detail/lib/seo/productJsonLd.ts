@@ -49,7 +49,9 @@ export function generateProductJsonLd(
     };
     if (product.title) jsonLd.name = product.title;
 
-    const validImages = product.images.flatMap((image) => (image.url ? [image.url.href] : []));
+    const validImages = product.images.flatMap((image) =>
+        image.prohibitedContentType === "NONE" && image.url ? [image.url.href] : [],
+    );
     jsonLd.image = validImages.length > 0 ? validImages : [BANNER_IMAGE_URL];
 
     if (canonicalUrl) jsonLd.url = canonicalUrl;

@@ -28,6 +28,12 @@ const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 const EMPTY_RESULT: SearchResultData = { products: [], size: 0, total: 0, searchAfter: undefined };
 
+function getProductQuery(searchArgs: SearchFilterArguments): string[] {
+    if (searchArgs.queryTerms?.length) return searchArgs.queryTerms;
+    if (searchArgs.q) return [searchArgs.q];
+    return [];
+}
+
 function hasEmptyArrayFilter(args: SearchFilterArguments): boolean {
     return args.availability?.length === 0;
 }
@@ -108,11 +114,7 @@ export function useSearch(
                 query: {
                     language: parseLanguage(i18n.language),
                     currency: preferences.currency,
-                    productQuery: searchArgs.queryTerms?.length
-                        ? searchArgs.queryTerms
-                        : searchArgs.q
-                          ? [searchArgs.q]
-                          : [],
+                    productQuery: getProductQuery(searchArgs),
                     enhancedSearchDescription: searchArgs.enhancedSearchDescription,
                     excludeProductId: searchArgs.excludeProductId,
                     listingSourceId: searchArgs.listingSourceId,

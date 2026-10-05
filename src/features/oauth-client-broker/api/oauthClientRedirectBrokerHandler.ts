@@ -1,11 +1,11 @@
 import { env } from "@/env.ts";
+import { getApiBaseUrl } from "@/lib/apiBaseUrl.ts";
 import {
     decodeOAuthClientBrokerState,
     setOAuthErrorOnRedirectUri,
     setThirdPartyExchangeCodeOnRedirectUri,
 } from "@/features/oauth-client-broker/lib/oauthClientBrokerState.ts";
 
-const DEFAULT_API_URL = "https://api.dev.aura-historia.com";
 const TOKEN_ENDPOINT = "/api/v1/oauth/token";
 const THIRD_PARTY_EXCHANGE_CODE_RESPONSE_FIELD = "third_party_exchange_code";
 const BROKER_HANDLED_CALLBACK_PARAMS = new Set([
@@ -154,7 +154,7 @@ async function exchangeAuthorizationCode(
 
     let response: Response;
     try {
-        response = await fetch(new URL(TOKEN_ENDPOINT, env.VITE_API_URL ?? DEFAULT_API_URL), {
+        response = await fetch(new URL(TOKEN_ENDPOINT, getApiBaseUrl(env.VITE_API_URL)), {
             method: "POST",
             headers: {
                 Accept: "application/json",

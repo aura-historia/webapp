@@ -1,9 +1,9 @@
+import { makeProductListing } from "@/test/fixtures.ts";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { ProductDealerItems } from "../ProductDealerItems.tsx";
 import { useDealerProducts } from "@/features/product/detail/api/useDealerProducts.ts";
-import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import type React from "react";
 
 vi.mock("@/features/product/detail/api/useDealerProducts.ts", () => ({
@@ -25,8 +25,8 @@ vi.mock("embla-carousel-react", () => ({
     ],
 }));
 
-vi.mock("@/features/notification-center/api/useMarkNotificationSeen.ts", () => ({
-    useMarkNotificationSeen: () => ({ mutate: vi.fn() }),
+vi.mock("@/features/notification-center/api/useMarkNotificationsSeen.ts", () => ({
+    useMarkNotificationsSeen: () => ({ mutate: vi.fn() }),
 }));
 
 vi.mock("@tanstack/react-router", async (importOriginal) => {
@@ -64,29 +64,10 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
 
 const mockUseDealerProducts = vi.mocked(useDealerProducts);
 
-const baseProduct: ProductListing = {
-    productId: "p1",
-    productSlugId: "product-1",
-    eventId: "e1",
-    shopId: "s1",
-    shopSlugId: "shop-1",
-    shopsProductId: "si1",
-    shopName: "Test Shop",
-    sellerName: "Test Shop",
-    shopType: "AUCTION_HOUSE",
-    title: "Ancient Vase",
-    price: "100 €",
-    state: "AVAILABLE",
-    url: new URL("https://example.com"),
-    images: [],
-    created: new Date("2024-01-01"),
-    updated: new Date("2024-06-01"),
-};
-
+const baseProduct = makeProductListing({ title: "Ancient Vase" });
 const defaultProps = {
-    shopName: "Test Shop",
-    shopSlugId: "shop-1",
-    excludeProductId: "current-product",
+    source: { listingSourceId: "ls_01TESTSOURCE", slugId: "shop-1", name: "Test Shop" },
+    excludeProductListingId: "current-product",
 };
 
 describe("ProductDealerItems", () => {
@@ -132,8 +113,8 @@ describe("ProductDealerItems", () => {
     it("renders product cards and a link to the shop", () => {
         mockUseDealerProducts.mockReturnValue({
             data: [
-                { ...baseProduct, productId: "p1", title: "Ancient Vase" },
-                { ...baseProduct, productId: "p2", title: "Roman Coin" },
+                { ...baseProduct, productListingId: "p1", title: "Ancient Vase" },
+                { ...baseProduct, productListingId: "p2", title: "Roman Coin" },
             ],
             isLoading: false,
             isError: false,
@@ -144,13 +125,13 @@ describe("ProductDealerItems", () => {
 
         expect(screen.getByText("Ancient Vase")).toBeInTheDocument();
         expect(screen.getByText("Roman Coin")).toBeInTheDocument();
-        const shopLink = screen.getByText("Shop ansehen").closest("a");
+        const shopLink = screen.getByText("Anbieterprofil ansehen").closest("a");
         expect(shopLink).toHaveAttribute("href", "/de/shops/shop-1");
     });
 
     it("renders product cards in a carousel", () => {
         mockUseDealerProducts.mockReturnValue({
-            data: [{ ...baseProduct, productId: "p1", title: "Ancient Vase" }],
+            data: [{ ...baseProduct, productListingId: "p1", title: "Ancient Vase" }],
             isLoading: false,
             isError: false,
             error: null,
@@ -171,6 +152,6 @@ describe("ProductDealerItems", () => {
 
         renderWithQueryClient(<ProductDealerItems {...defaultProps} />);
 
-        expect(mockUseDealerProducts).toHaveBeenCalledWith("Test Shop", "current-product");
+        expect(mockUseDealerProducts).toHaveBeenCalledWith("ls_01TESTSOURCE", "current-product");
     });
 });

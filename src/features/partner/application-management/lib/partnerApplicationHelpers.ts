@@ -9,9 +9,7 @@ export const BUSINESS_STATE_TRANSLATION_KEY: Record<PartnerApplicationState, str
 export function businessStateVariant(
     state: PartnerApplicationState,
 ): "outline" | "destructive" | "secondary" {
-    return state === "REJECTED"
-        ? "destructive"
-        : state === "IN_REVIEW" || state === "WITHDRAWN"
-          ? "secondary"
-          : "outline";
+    if (state === "REJECTED") return "destructive";
+    if (state === "IN_REVIEW" || state === "WITHDRAWN") return "secondary";
+    return "outline";
 }

@@ -6,7 +6,7 @@
     "description": "Synchronous listing-source batch writes and server-to-server WooCommerce webhooks. Use product-listings:write and a current grant for the target listing source. Batch HTTP 200 reports completed writes; WooCommerce HTTP 204 only acknowledges confirmed admission or an authorized no-op, not completed ingestion."
   },
   "x-source-url": "https://raw.githubusercontent.com/aura-historia/backend/refs/heads/develop/docs/swagger.yaml",
-  "x-source-contract-sha256": "f2b7f38737be0559dcc43bf10388b9f439fa0b9853927d94d540e47b07e9da96",
+  "x-source-contract-sha256": "be2fd2114ae19c1e9fe2df35d4054efa07b032130dd52b1fde7793a55cdbbd7d",
   "servers": [
     {
       "url": "https://api.stage.aura-historia.com",
@@ -213,21 +213,6 @@
               }
             }
           },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "example": {
-                  "status": 500,
-                  "title": "Internal Server Error",
-                  "error": "PRODUCT_LISTING_INTERNAL_ERROR"
-                }
-              }
-            }
-          },
           "503": {
             "description": "Service unavailable \u2014 all entries encountered a temporary product-write failure",
             "content": {
@@ -239,6 +224,21 @@
                   "status": 503,
                   "title": "Service Unavailable",
                   "error": "PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 500,
+                  "title": "Internal Server Error",
+                  "error": "PRODUCT_LISTING_INTERNAL_ERROR"
                 }
               }
             }
@@ -430,21 +430,6 @@
               }
             }
           },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "example": {
-                  "status": 500,
-                  "title": "Internal Server Error",
-                  "error": "PRODUCT_LISTING_INTERNAL_ERROR"
-                }
-              }
-            }
-          },
           "503": {
             "description": "Service unavailable \u2014 all entries encountered a temporary product-write failure",
             "content": {
@@ -456,6 +441,21 @@
                   "status": 503,
                   "title": "Service Unavailable",
                   "error": "PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 500,
+                  "title": "Internal Server Error",
+                  "error": "PRODUCT_LISTING_INTERNAL_ERROR"
                 }
               }
             }
@@ -700,21 +700,6 @@
               }
             }
           },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "example": {
-                  "status": 500,
-                  "title": "Internal Server Error",
-                  "error": "PRODUCT_LISTING_INTERNAL_ERROR"
-                }
-              }
-            }
-          },
           "503": {
             "description": "Service unavailable \u2014 all entries encountered a temporary product-write failure",
             "content": {
@@ -726,6 +711,21 @@
                   "status": 503,
                   "title": "Service Unavailable",
                   "error": "PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 500,
+                  "title": "Internal Server Error",
+                  "error": "PRODUCT_LISTING_INTERNAL_ERROR"
                 }
               }
             }
@@ -844,8 +844,8 @@
               }
             }
           },
-          "500": {
-            "description": "Internal server error",
+          "503": {
+            "description": "Service unavailable \u2014 all entries encountered a temporary product-write failure.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -854,8 +854,8 @@
               }
             }
           },
-          "503": {
-            "description": "Service unavailable \u2014 all entries encountered a temporary product-write failure.",
+          "500": {
+            "description": "Internal server error",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -870,7 +870,7 @@
     "/api/v1/webhooks/woocommerce/{listingSourceId}": {
       "post": {
         "summary": "Ingest a WooCommerce product webhook (Partner API)",
-        "description": "Accepts a single WooCommerce product webhook event for a partnership using bearer authentication.\nThis endpoint is intended for partnerships and accepts:\n- a Cognito bearer token for the partner user linked to the listing source, or\n- an Aura Historia access token owned by that partner user.\n\nThe caller must provide:\n- the bearer token in the `Authorization` header,\n- the WooCommerce topic in `x-wc-webhook-topic`, and\n- the base64-encoded HMAC-SHA256 signature over the exact, untouched request body bytes in `x-wc-webhook-signature`, and\n- optionally, the WooCommerce delivery identifier in `x-wc-webhook-delivery-id`.\n\nA supplied delivery identifier applies only when an event maps to raw capture. Its provider receipt retains only a\ncanonical semantic source-payload SHA-256 evidence digest for 90 days. A captured-observation retry with the same\ndigest may be deduplicated during downstream capture; reuse with different evidence fails in the consumer, not as an immediate HTTP `409`.\nLogical receipt expiry permits a new receipt but never removes or rewrites a captured raw revision or its provenance.\nA timestamp-free DELETE establishes a restore barrier. A later UPSERT without a provably newer `date_modified_gmt`\nfails during downstream capture (`WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS`), not as an immediate HTTP `409`. Admission does not create a provider receipt or raw revision; investigate the failed FIFO command before reconciliation or redrive.\nThe service verifies the signature over untouched body bytes before JSON parsing, then submits mapped observations as `CAPTURE_RAW` to the shared FIFO after bearer/capability checks and source configuration lookup. The consumer checks the current partner/source grant for mapped observations; ignored no-ops check it immediately. Only a matching, confirmed queue acceptance permits `204`; rejected, oversized, unconfirmed, and not-attempted submissions are not acknowledged. The FIFO consumer later commits raw capture with the command receipt; provider receipt and source-order decisions occur during that capture. Authorized ignored create/update events are no-op `204` without queue send or receipt, even when they include a delivery identifier. Retry an uncertain submission with the same signed body, topic, source, actor and delivery identifier where provided; without a delivery identifier, retries cannot recover the original command identity after a lost reply and have no provider receipt-based deduplication guarantee. A lost reply may already have enqueued work; never infer rollback from a non-204.\n\nTopic-specific payload requirements:\n- every topic requires `id`\n- `product.created` and `product.updated` with `status: publish` capture an UPSERT and require nonblank\n`name` and `permalink`\n- `product.created` and `product.updated` with `status: trash`, `draft`, `pending`, or `private` capture a\nDELETE and require only `id`; missing or unsupported statuses are authorized ignored events and also require\nonly `id`\n- `product.deleted` captures a DELETE and requires only `id`\n\nThe listing source identified by `listingSourceId` must have a stored `woocommerceWebhookSecret`\nand a configured `woocommerceLanguage`.\nA nonblank `price` maps to a `SET` and requires the listing source to have `woocommerceCurrency` configured.\n",
+        "description": "Accepts a single WooCommerce product webhook event for a partnership using bearer authentication.\nThis endpoint is intended for partnerships and accepts:\n- a Cognito bearer token for the partner user linked to the listing source, or\n- an Aura Historia access token owned by that partner user.\n\nThe caller must provide:\n- the bearer token in the `Authorization` header,\n- the WooCommerce topic in `x-wc-webhook-topic`, and\n- the base64-encoded HMAC-SHA256 signature over the exact, untouched request body bytes in `x-wc-webhook-signature`, and\n- optionally, the WooCommerce delivery identifier in `x-wc-webhook-delivery-id`.\n\nA supplied delivery identifier applies only when an event maps to raw capture. Its provider receipt retains only a\ncanonical semantic source-payload SHA-256 evidence digest for 90 days. A captured-observation retry with the same\ndigest may be deduplicated during downstream capture; reuse with different evidence fails in the consumer, not as an immediate HTTP `409`.\nLogical receipt expiry permits a new receipt but never removes or rewrites a captured raw revision or its provenance.\nA timestamp-free DELETE establishes a restore barrier. A later UPSERT without a provably newer `date_modified_gmt`\nfails during downstream capture (`WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS`), not as an immediate HTTP `409`. Admission does not create a provider receipt or raw revision; investigate the failed FIFO command before reconciliation or redrive.\nThe service verifies the signature over untouched body bytes before JSON parsing, then submits mapped observations as `CAPTURE_RAW` to the shared FIFO after bearer/capability checks and source configuration lookup. The consumer checks the current partner/source grant for mapped observations; ignored no-ops check it immediately. Only a matching, confirmed queue acceptance permits `204`; rejected, oversized, unconfirmed, and not-attempted submissions are not acknowledged. The FIFO consumer later commits raw capture with the command receipt; provider receipt and source-order decisions occur during that capture. Authorized ignored create/update events are no-op `204` without queue send or receipt, even when they include a delivery identifier. Retry an uncertain submission with the same signed body, topic, source, actor and delivery identifier where provided; without a delivery identifier, retries cannot recover the original command identity after a lost reply and have no provider receipt-based deduplication guarantee. A lost reply may already have enqueued work; never infer rollback from a non-204.\n\nTopic-specific payload requirements:\n- every topic requires `id`\n- `product.created` and `product.updated` with `status: publish` capture an UPSERT and require nonblank\n`name` and `permalink`\n- `product.created` and `product.updated` with `status: trash`, `draft`, `pending`, or `private` capture a\nDELETE and require only `id`; missing or unsupported statuses are authorized ignored events and also require\nonly `id`\n- `product.deleted` captures a DELETE and requires only `id`\n\nThe listing source identified by `listingSourceId` must have a WooCommerce ingestion configuration\nwith a nonblank write-only `webhookSecret` and a configured language.\nA nonblank `price` maps to a `SET` and requires the listing source to have `woocommerceCurrency` configured.\n",
         "operationId": "postWoocommerceWebhook",
         "tags": [
           "ProductListings"
@@ -913,7 +913,7 @@
             "name": "x-wc-webhook-signature",
             "in": "header",
             "required": true,
-            "description": "Base64-encoded HMAC-SHA256 signature of the raw HTTP request body, calculated with the\nlisting source's configured `woocommerceWebhookSecret`.\n",
+            "description": "Base64-encoded HMAC-SHA256 signature of the raw HTTP request body, calculated with the\nWooCommerce ingestion configuration's `webhookSecret`.\n",
             "schema": {
               "type": "string"
             },
@@ -1181,42 +1181,6 @@
               }
             }
           },
-          "500": {
-            "description": "Internal server error \u2014 authentication/source lookup or a non-retryable ingestion setup/encoding failure prevented confirmed admission. A failed response never proves an attempted send was not queued. Uses `AUTH_INTERNAL_ERROR`, `LISTING_SOURCE_INTERNAL_ERROR`, or `PRODUCT_LISTING_INTERNAL_ERROR`.",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "examples": {
-                  "auth_internal_error": {
-                    "summary": "Authentication failed internally",
-                    "value": {
-                      "status": 500,
-                      "title": "Internal Server Error",
-                      "error": "AUTH_INTERNAL_ERROR"
-                    }
-                  },
-                  "listing_source_internal_error": {
-                    "summary": "ListingSource access failed internally",
-                    "value": {
-                      "status": 500,
-                      "title": "Internal Server Error",
-                      "error": "LISTING_SOURCE_INTERNAL_ERROR"
-                    }
-                  },
-                  "product_listing_internal_error": {
-                    "summary": "ProductListing ingestion admission failed internally",
-                    "value": {
-                      "status": 500,
-                      "title": "Internal Server Error",
-                      "error": "PRODUCT_LISTING_INTERNAL_ERROR"
-                    }
-                  }
-                }
-              }
-            }
-          },
           "503": {
             "description": "Service unavailable \u2014 authentication or source lookup is temporarily unavailable, or mapped command admission is rejected retryably, unconfirmed, or not attempted (including timeout). A send may already have succeeded when its acknowledgment was lost; retry unchanged. Uses `AUTH_TEMPORARILY_UNAVAILABLE`, `LISTING_SOURCE_TEMPORARILY_UNAVAILABLE`, or `PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`.",
             "content": {
@@ -1247,6 +1211,42 @@
                       "status": 503,
                       "title": "Service Unavailable",
                       "error": "PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error \u2014 authentication/source lookup or a non-retryable ingestion setup/encoding failure prevented confirmed admission. A failed response never proves an attempted send was not queued. Uses `AUTH_INTERNAL_ERROR`, `LISTING_SOURCE_INTERNAL_ERROR`, or `PRODUCT_LISTING_INTERNAL_ERROR`.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "examples": {
+                  "auth_internal_error": {
+                    "summary": "Authentication failed internally",
+                    "value": {
+                      "status": 500,
+                      "title": "Internal Server Error",
+                      "error": "AUTH_INTERNAL_ERROR"
+                    }
+                  },
+                  "listing_source_internal_error": {
+                    "summary": "ListingSource access failed internally",
+                    "value": {
+                      "status": 500,
+                      "title": "Internal Server Error",
+                      "error": "LISTING_SOURCE_INTERNAL_ERROR"
+                    }
+                  },
+                  "product_listing_internal_error": {
+                    "summary": "ProductListing ingestion admission failed internally",
+                    "value": {
+                      "status": 500,
+                      "title": "Internal Server Error",
+                      "error": "PRODUCT_LISTING_INTERNAL_ERROR"
                     }
                   }
                 }

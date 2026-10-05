@@ -26,7 +26,7 @@ function currencyMinorUnitFactor(currency: string): number {
         style: "currency",
         currency,
     }).resolvedOptions().maximumFractionDigits;
-    return 10 ** fractionDigits;
+    return 10 ** (fractionDigits ?? 2);
 }
 
 export function formatPrice(data: Price, locale?: string): string {

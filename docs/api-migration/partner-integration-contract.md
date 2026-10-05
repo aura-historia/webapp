@@ -10,10 +10,21 @@ application DTOs or embed the application form.
 
 ## Reference generation
 
-Backend `develop` was rechecked on 2026-10-02: `docs/swagger.yaml` Git blob
-`d83b75c7827b85031fa10db7c9e1dfd503f6f73a`. Its schemas match the component snapshot
-used by the migration client's generation. No client files were regenerated for this
-issue. The September 10 analysis is historical: the current create contract requires
+The generated client also includes optional provider setup at
+`PUT /api/v1/listing-sources/{listingSourceId}/ingestion-configurations/woocommerce`
+and `/shopify`. These server integration capabilities are outside the product guide
+and public reference; this migration adds no browser settings form. They require a
+Cognito user or delegated access token with `listing-sources:write`, plus partnership
+write access to the source. A PUT atomically enables/replaces the method; omitted or
+null currency/language clears those overrides. WooCommerce requires a nonblank,
+write-only `webhookSecret`; Shopify requires a unique valid store domain. Responses
+are bodyless 201 for enabling or 204 for replacement/no change, with `no-store`.
+Keep provider secrets server-side and out of logs, generated examples and caches.
+
+The October 2 check was superseded by the pinned October 5
+[integration contract](integration-release-gate.md), used by `pnpm openapi-ts`
+for both the client and this reference. The September 10 analysis is historical:
+the current create contract requires
 `sourceListingId`, `url`, and `images`, while localized `title` and `description` are
 optional and nullable. Supply both when available; do not make the public subset
 stricter than the backend.
@@ -91,7 +102,7 @@ The webhook path uses the canonical `listingSourceId`. Requests require bearer
 authorization, `x-wc-webhook-topic`, and `x-wc-webhook-signature`: a base64 HMAC-SHA256
 over the exact untouched request body bytes. `x-wc-webhook-delivery-id` is optional.
 The webhook secret and signature computation belong on the server/WooCommerce side;
-the browser must never receive or send the secret.
+the browser product guide and Scalar reference must never receive or send the secret.
 
 Every topic requires `id`. Created/updated events with `status: publish` require
 nonblank `name` and `permalink` and map to raw UPSERT capture. `trash`, `draft`, `pending`,

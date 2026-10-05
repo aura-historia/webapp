@@ -6,7 +6,11 @@ import { OAuthAuthorizePage } from "@/features/oauth/pages/OAuthAuthorizePage.ts
 import { renderWithRouter } from "@/test/utils.tsx";
 import type { OAuthAuthorizeSearchParams } from "@/features/oauth/lib/oauthAuthorizeSearchParams.ts";
 import { OAuthConsentUnavailableError } from "@/features/oauth/api/oauthConsentMetadata.ts";
-import { ACCESS_TOKEN_SCOPES } from "@/data/internal/access-tokens/AccessTokenScope.ts";
+import {
+    ACCESS_TOKEN_SCOPES,
+    ACCESS_TOKEN_SCOPE_METADATA,
+} from "@/data/internal/access-tokens/AccessTokenScope.ts";
+import testI18n from "@/i18n/i18nForTests.ts";
 
 const navigate = vi.hoisted(() => vi.fn());
 vi.mock("@tanstack/react-router", async (importOriginal) => ({
@@ -108,6 +112,11 @@ describe("OAuthAuthorizePage", () => {
     });
 
     it("displays requested scope tags with short descriptions", async () => {
+        mockUseOAuthClient.mockReturnValue({
+            data: { ...mockClientData, scopes: [...ACCESS_TOKEN_SCOPES] },
+            isLoading: false,
+            isError: false,
+        });
         await act(async () =>
             renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
         );
@@ -120,6 +129,7 @@ describe("OAuthAuthorizePage", () => {
         ).toBeInTheDocument();
         expect(screen.getByText("watchlist:read")).toBeInTheDocument();
         expect(screen.getByText("Die Angebote in Ihrer Merkliste lesen.")).toBeInTheDocument();
+        expect(screen.queryByText("listing-sources:write")).not.toBeInTheDocument();
     });
 
     it("displays the authorization description with app name", async () => {
@@ -269,8 +279,14 @@ describe("OAuthAuthorizePage", () => {
             ),
         );
         expect(screen.getAllByRole("listitem")).toHaveLength(ACCESS_TOKEN_SCOPES.length);
-        for (const scope of ACCESS_TOKEN_SCOPES)
+        for (const scope of ACCESS_TOKEN_SCOPES) {
             expect(screen.getByText(scope)).toBeInTheDocument();
+            expect(
+                screen
+                    .getByText(testI18n.t(ACCESS_TOKEN_SCOPE_METADATA[scope].description))
+                    .closest("li"),
+            ).toBe(screen.getByText(scope).closest("li"));
+        }
     });
 
     it("renders without scopes when scope param is missing", async () => {
@@ -328,7 +344,7 @@ describe("OAuthAuthorizePage", () => {
         );
 
         expect(
-            screen.getByText(/Diese Auswahl begrenzt die Token-Berechtigungen nicht/),
+            screen.getByText(/Diese Auswahl beschränkt die Token-Berechtigungen nicht/),
         ).toBeInTheDocument();
 
         const approveButton = screen.getByRole("button", {
@@ -342,7 +358,7 @@ describe("OAuthAuthorizePage", () => {
         const formData = new FormData(form);
         expect(formData.get("redirect_uri")).toBe("https://client.example/callback");
         expect(formData.get("listing_source_id")).toBe("shop-1");
-        expect(screen.getByText("Ausgewählte Listing-Quelle")).toBeInTheDocument();
+        expect(screen.getByText("Ausgewählter Anbieter")).toBeInTheDocument();
         expect(screen.getByText("Only Shop")).toBeInTheDocument();
     });
 
@@ -361,9 +377,9 @@ describe("OAuthAuthorizePage", () => {
             ),
         );
 
-        expect(screen.getByText("Keine Listing-Quelle verfügbar")).toBeInTheDocument();
+        expect(screen.getByText("Kein Anbieter verfügbar")).toBeInTheDocument();
         expect(
-            screen.getByText(/Für diese Integration benötigen Sie Zugriff auf eine Listing-Quelle/),
+            screen.getByText(/Für diese Integration benötigen Sie Zugriff auf einen Anbieter/),
         ).toBeInTheDocument();
     });
 

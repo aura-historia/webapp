@@ -2,7 +2,9 @@ import type { QueryClient, QueryKey } from "@tanstack/react-query";
 
 const viewerScopedQueryPrefixes = new Set([
     "oauthClient",
-    "oauthListingSources",
+    "ownListingSources",
+    "own-partnership-applications",
+    "access-tokens",
     "watchlist",
     "search",
     "similarProductListings",

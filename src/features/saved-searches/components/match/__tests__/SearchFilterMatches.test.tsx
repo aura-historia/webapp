@@ -6,13 +6,14 @@ import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import type React from "react";
 
 const mockUseSearchFilterMatchedProducts = vi.hoisted(() => vi.fn());
+const observedRef = vi.hoisted(() => vi.fn());
 
 vi.mock("@/features/saved-searches/api/useSearchFilterMatchedProducts.ts", () => ({
     useSearchFilterMatchedProducts: mockUseSearchFilterMatchedProducts,
 }));
 
 vi.mock("react-intersection-observer", () => ({
-    useInView: () => ({ ref: vi.fn(), inView: false }),
+    useInView: () => ({ ref: observedRef, inView: false }),
 }));
 
 vi.mock("lottie-react", () => ({
@@ -97,6 +98,20 @@ describe("SearchFilterMatches", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         setMatchesMock();
+    });
+
+    it("observes a sentinel before requesting the next page", () => {
+        setMatchesMock({ products: [buildProduct()], hasNextPage: true });
+        renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
+        expect(observedRef).toHaveBeenCalledWith(expect.any(HTMLElement));
+        expect(screen.queryByText("Alle Produkte geladen")).not.toBeInTheDocument();
+    });
+
+    it("keeps observing an empty page when its cursor has more matches", () => {
+        setMatchesMock({ products: [], hasNextPage: true });
+        renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
+        expect(observedRef).toHaveBeenCalledWith(expect.any(HTMLElement));
+        expect(screen.queryByText("Keine Treffer gefunden")).not.toBeInTheDocument();
     });
 
     describe("Loading state", () => {

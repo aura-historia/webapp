@@ -17,6 +17,10 @@ function renderDetails(search: SearchFilterArguments) {
 }
 
 describe("SearchFilterCriteriaBadges", () => {
+    it("uses the saved search currency rather than assuming euros", () => {
+        renderBadges({ q: "", priceFrom: 100, priceTo: 500, currency: "USD" });
+        expect(screen.getByText("100 – 500 $")).toBeInTheDocument();
+    });
     it("shows the price range badge", () => {
         renderBadges({ q: "", priceFrom: 100, priceTo: 500 });
         expect(screen.getByText("100 – 500 €")).toBeInTheDocument();
@@ -51,9 +55,9 @@ describe("SearchFilterCriteriaDetails", () => {
             listingSourceId: ["source-1"],
             excludeListingSourceId: ["source-2"],
         });
-        expect(screen.getByText("Angebotsquelle einschließen")).toBeInTheDocument();
-        expect(screen.getAllByText("1 Angebotsquelle ausgewählt")).toHaveLength(2);
-        expect(screen.getByText("Angebotsquelle ausschließen")).toBeInTheDocument();
+        expect(screen.getByText("Anbieter einschließen")).toBeInTheDocument();
+        expect(screen.getAllByText("1 Anbieter ausgewählt")).toHaveLength(2);
+        expect(screen.getByText("Anbieter ausschließen")).toBeInTheDocument();
     });
 
     it("shows the creation-date row when set", () => {
