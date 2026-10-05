@@ -13,8 +13,8 @@ export const Route = createFileRoute("/$lng/_auth/admin")({
 });
 
 function AdminRouteComponent() {
+    // Temporarily suspend the dashboard shell while keeping admin access guarded.
     return (
-        {/* Temporarily suspend the dashboard shell while keeping admin access guarded. */}
         <AdminGuard>
             <Outlet />
         </AdminGuard>
