@@ -110,7 +110,7 @@ Soweit Partner-, Shop- oder Administrationsfunktionen genutzt werden, können zu
 - API-Zugangsdaten bzw. deren Verwaltungsdaten
 - Rollen- und Freischaltungsinformationen
 
-Partnerschaftsbewerbungen enthalten entweder die Kennung einer bestehenden Angebotsquelle oder einen Vorschlag mit Betreibername, optionalen Telefon- und E-Mail-Kontaktdaten sowie Quellenname, optionaler URL und Bild-URL und gewünschten Importmethoden. Bewerbungen erfassen keine Postanschrift. Vorschläge werden zur Prüfung der Partnerschaft verwendet; die Auswahl einer öffentlichen Quelle gewährt keinen Zugriff.
+Partnerschaftsbewerbungen enthalten entweder die Kennung eines bestehenden Anbieters oder einen Vorschlag mit Betreibername, optionalen Telefon- und E-Mail-Kontaktdaten, dem Namen des Anbieters, optionaler URL, Bild-URL und gewünschten Importmethoden. Bewerbungen erfassen keine Postanschrift. Vorschläge werden zur Prüfung der Partnerschaft verwendet; die Auswahl eines öffentlichen Anbieters gewährt keinen Zugriff.
 
 **Zwecke der Verarbeitung:**
 

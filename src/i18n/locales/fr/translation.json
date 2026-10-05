@@ -78,7 +78,7 @@
       "title": "Jetons d'accès | Aura Historia"
     },
     "partnerListingSources": {
-      "title": "Sources d’annonces accessibles | Aura Historia"
+      "title": "Fournisseurs accessibles | Aura Historia"
     }
   },
   "validation": {
@@ -322,7 +322,7 @@
       "searchTypeLabel": "Type de recherche",
       "searchType": {
         "products": "Articles",
-        "shops": "Sources"
+        "shops": "Fournisseurs"
       }
     },
     "validation": {
@@ -335,14 +335,14 @@
       "to": "Au :",
       "productState": "Statut de l'annonce",
       "availability": "Disponibilité",
-      "listingSource": "Inclure une source d'annonces",
-      "listingSources": "Sources d'annonces",
-      "searchListingSources": "Rechercher des sources d'annonces...",
-      "noListingSourcesFound": "Aucune source d'annonces trouvée",
-      "excludeListingSource": "Exclure une source d'annonces",
-      "searchExcludeListingSources": "Rechercher des sources à exclure...",
-      "sourceCount_one": "{{count}} source sélectionnée",
-      "sourceCount_other": "{{count}} sources sélectionnées",
+      "listingSource": "Inclure un fournisseur",
+      "listingSources": "Fournisseurs",
+      "searchListingSources": "Rechercher des fournisseurs...",
+      "noListingSourcesFound": "Aucun fournisseur trouvé",
+      "excludeListingSource": "Exclure un fournisseur",
+      "searchExcludeListingSources": "Rechercher des fournisseurs à exclure...",
+      "sourceCount_one": "{{count}} fournisseur sélectionné",
+      "sourceCount_other": "{{count}} fournisseurs sélectionnés",
       "merchant": "Marchand",
       "searchMerchants": "Rechercher des marchands...",
       "noMerchantsFound": "Aucun marchand trouvé",
@@ -356,7 +356,7 @@
         "priceSpan": "Réinitialiser le filtre de fourchette de prix",
         "productState": "Réinitialiser le filtre de statut",
         "availability": "Réinitialiser le filtre de disponibilité",
-        "listingSources": "Réinitialiser les filtres de source",
+        "listingSources": "Réinitialiser les filtres de fournisseurs",
         "creationDate": "Réinitialiser le filtre de date de création",
         "updateDate": "Réinitialiser le filtre de date de mise à jour",
         "auctionDate": "Réinitialiser le filtre de date de vente aux enchères",
@@ -923,7 +923,7 @@
     },
     "integrations": {
       "title": "Connectez votre inventaire",
-      "subtitle": "Choisissez un plugin ou une intégration personnalisée avec un accès limité à votre source d’annonces.",
+      "subtitle": "Choisissez un plugin ou une intégration personnalisée avec un accès limité à votre fournisseur.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
         "description": "Installez notre extension directement depuis le répertoire des extensions WordPress.",
@@ -1009,7 +1009,7 @@
       "hero": {
         "eyebrow": "Programme partenaire · Intégration API personnalisée",
         "title": "Connectez votre boutique avec notre API",
-        "subtitle": "Connectez votre inventaire via une source d’annonces autorisée. Les lots synchrones renvoient les résultats des écritures terminées ; vérifiez les échecs avant de réessayer.",
+        "subtitle": "Connectez votre inventaire via un fournisseur auquel vous avez accordé l’accès. Les lots synchrones renvoient les résultats des écritures terminées ; vérifiez les échecs avant de réessayer.",
         "primaryCta": "Gérer les jetons d’accès",
         "secondaryCta": "Ouvrir la documentation API"
       },
@@ -1039,11 +1039,11 @@
         "items": {
           "accessToken": {
             "title": "Un jeton d’accès à portée limitée",
-            "description": "Utilisez product-listings:write avec une autorisation actuelle pour la source cible. Conservez les identifiants sur votre serveur."
+            "description": "Utilisez product-listings:write avec une autorisation actuelle pour le fournisseur cible. Conservez les identifiants sur votre serveur."
           },
           "listingSourceId": {
-            "title": "Le listingSourceId",
-            "description": "Utilisez l’identifiant canonique de la source dans le chemin et votre propre sourceListingId pour chaque annonce."
+            "title": "Identifiant du fournisseur (listingSourceId)",
+            "description": "Utilisez l’identifiant canonique du fournisseur dans le chemin de la requête et votre propre sourceListingId pour chaque annonce."
           },
           "listingBatch": {
             "title": "Un petit lot d’annonces",
@@ -1059,19 +1059,19 @@
         "focusLabel": "À vérifier",
         "steps": {
           "selectSource": {
-            "title": "Sélectionner une source d’annonces accessible",
-            "description": "Sélectionnez une source à laquelle vous avez actuellement accès pour cette intégration. L’accès ne confirme ni la propriété ni le droit de modifier les informations de la source.",
-            "focus": "Utilisez l’identifiant canonique de la source d’annonces pour l’intégration.",
-            "signInCta": "Se connecter et vérifier l’accès aux sources",
-            "loadError": "L’accès aux sources d’annonces n’a pas pu être vérifié.",
+            "title": "Sélectionner un fournisseur accessible",
+            "description": "Sélectionnez un fournisseur auquel vous avez actuellement accès pour cette intégration. L’accès ne confirme ni la propriété ni le droit de modifier les informations du fournisseur.",
+            "focus": "Utilisez l’identifiant canonique du fournisseur pour l’intégration.",
+            "signInCta": "Se connecter et vérifier l’accès au fournisseur",
+            "loadError": "L’accès au fournisseur n’a pas pu être vérifié.",
             "retryCta": "Réessayer",
-            "empty": "Vous n’avez actuellement accès à aucune source d’annonces. Un accès antérieur a peut-être été révoqué.",
+            "empty": "Vous n’avez actuellement accès à aucun fournisseur. Un accès antérieur a peut-être été révoqué.",
             "applyCta": "Demander une boutique partenaire",
-            "selectionLabel": "Source d’annonces pour cette intégration"
+            "selectionLabel": "Fournisseur pour cette intégration"
           },
           "requestKey": {
             "title": "Créer un jeton d’accès utilisateur",
-            "description": "Créez un jeton utilisateur avec product-listings:write pour un compte actuellement autorisé à accéder à la source cible.",
+            "description": "Créez un jeton d’accès utilisateur avec product-listings:write pour un compte autorisé à accéder actuellement au fournisseur cible.",
             "focus": "Copiez immédiatement le jeton : il n’est affiché qu’une seule fois. Conservez-le en lieu sûr et envoyez-le comme jeton Bearer avec chaque requête API.",
             "cta": "Créer un jeton d’accès utilisateur",
             "defaultTokenName": "Synchronisation produits par API personnalisée",
@@ -1080,7 +1080,7 @@
           },
           "preparePayload": {
             "title": "Préparer et envoyer votre première requête produit",
-            "description": "L’URL utilise le listingSourceId sélectionné. Remplacez YOUR_USER_ACCESS_TOKEN sur votre serveur et envoyez le lot d’exemple avec POST.",
+            "description": "L’URL utilise le listingSourceId du fournisseur sélectionné. Remplacez YOUR_USER_ACCESS_TOKEN sur votre serveur et envoyez le lot d’exemple avec POST.",
             "focus": "Vérifiez HTTP 200 et le tableau d’échecs. L’acceptation dans une file ne prouve pas la réussite d’une écriture.",
             "visualTitle": "Préparer le payload JSON",
             "visualCaption": "Structure du lot et champs requis"
@@ -1116,7 +1116,7 @@
         },
         "auction": {
           "title": "Appartenance à une vente et horaires du lot",
-          "description": "Omettre auction préserve son contexte ; auction: null est invalide. Dans auction, auctionId doit identifier une vente existante de la même source : omission pour conserver l’appartenance, null pour l’effacer, un ID pour la définir. Pour lotNumber, cataloguePosition et chaque champ horaire (biddingOpens, scheduledCloses, reportedClosedAt), omettez pour conserver, null pour effacer ou une valeur pour définir. Les horaires sont des instants RFC3339."
+          "description": "Omettre auction préserve son contexte ; auction: null est invalide. Dans auction, auctionId doit identifier une vente existante du même fournisseur : omission pour conserver l’appartenance, null pour l’effacer, un ID pour la définir. Pour lotNumber, cataloguePosition et chaque champ horaire (biddingOpens, scheduledCloses, reportedClosedAt), omettez pour conserver, null pour effacer ou une valeur pour définir. Les horaires sont des instants RFC3339."
         },
         "withdrawal": {
           "title": "Retrait par lots et restauration",
@@ -1428,7 +1428,7 @@
       "allLoaded_other": "Vous avez vu les {{count}} articles {{shopTypePossessive}}.",
       "noResults": {
         "title": "Aucun article trouvé",
-        "description": "Aucune annonce n’est actuellement associée à {{source}}."
+        "description": "Aucune annonce de {{source}} n’est actuellement disponible."
       },
       "error": {
         "title": "Impossible de charger les articles",
@@ -1921,16 +1921,16 @@
         "description": "L'application n'a pas pu être identifiée. Le lien d'autorisation est peut-être invalide ou expiré. Veuillez réessayer depuis l'application."
       },
       "listingSources": {
-        "title": "Sélectionner une source d’annonces",
-        "description": "Choisissez la source à connecter à cette application. Ce choix ne limite pas les permissions du jeton ; l’accès dépend des permissions demandées et de vos autorisations actuelles sur les sources.",
-        "selectedLabel": "Source d’annonces sélectionnée",
+        "title": "Sélectionner un fournisseur",
+        "description": "Choisissez le fournisseur à connecter à cette application. Ce choix ne limite pas les permissions du jeton ; l’accès dépend des permissions demandées et de vos autorisations actuelles pour ce fournisseur.",
+        "selectedLabel": "Fournisseur sélectionné",
         "empty": {
-          "title": "Aucune source d’annonces disponible",
-          "description": "Cette intégration nécessite un accès à une source d’annonces. Demandez un accès, puis recommencez l’autorisation."
+          "title": "Aucun fournisseur disponible",
+          "description": "Cette intégration nécessite un accès à un fournisseur. Demandez l’accès, puis recommencez l’autorisation."
         },
         "loadError": {
-          "title": "Impossible de charger les sources d’annonces",
-          "description": "Votre accès aux sources d’annonces n’a pas pu être vérifié. Veuillez réessayer."
+          "title": "Impossible de charger les fournisseurs",
+          "description": "L’accès à vos fournisseurs n’a pas pu être vérifié. Veuillez réessayer."
         }
       },
       "unavailable": {
@@ -1944,7 +1944,7 @@
     "sidebarLabel": "Sections partenaires",
     "nav": {
       "applications": "Candidatures",
-      "listingSources": "Sources d’annonces accessibles",
+      "listingSources": "Fournisseurs accessibles",
       "accessTokens": "Jetons d'accès"
     }
   },
@@ -2058,16 +2058,16 @@
     },
     "proposals": {
       "type": "Type de proposition",
-      "existing": "Source d’offres existante",
-      "proposed": "Proposer une source d’offres",
+      "existing": "Fournisseur existant",
+      "proposed": "Proposer un fournisseur",
       "description": "Soumettez une proposition pour examen. Une fois soumise, vous pouvez la consulter ou la retirer.",
-      "selectionHint": "Sélectionner une source publique demande un examen ; cela ne donne aucun accès.",
+      "selectionHint": "Proposer un fournisseur public demande un examen ; cela ne donne aucun accès.",
       "immutable": "Les propositions soumises ne peuvent pas être modifiées.",
       "partyName": "Nom de l’opérateur",
       "partyPhone": "Téléphone (facultatif)",
       "partyEmail": "E-mail (facultatif)",
-      "sourceName": "Nom de la source d’offres",
-      "sourceUrl": "URL de la source (facultatif)",
+      "sourceName": "Nom du fournisseur",
+      "sourceUrl": "URL du fournisseur (facultatif)",
       "sourceImage": "URL de l’image (facultatif)",
       "methods": "Méthodes d’importation demandées",
       "required": "Ce champ est obligatoire.",
@@ -2077,9 +2077,9 @@
       "withdrawn": "Retirée",
       "conflict": "La candidature ne peut pas être modifiée dans son état actuel. Actualisez pour voir le dernier statut.",
       "missing": "Candidature introuvable ou indisponible.",
-      "sourceUnavailable": "Cette source d’offres n’est plus disponible. Veuillez sélectionner une autre source.",
+      "sourceUnavailable": "Ce fournisseur n’est plus disponible. Veuillez en sélectionner un autre.",
       "clear": "Effacer la sélection",
-      "noSources": "Aucune source d’offres trouvée.",
+      "noSources": "Aucun fournisseur trouvé.",
       "noMethods": "Aucune demandée",
       "ingestion": {
         "WEB_CRAWL": "Exploration web",
@@ -2377,14 +2377,14 @@
     }
   },
   "partnerListingSources": {
-    "title": "Sources d’annonces accessibles",
-    "description": "Sources auxquelles vous avez actuellement accès. Leur présence ici ne confirme ni la propriété, ni le statut de partenaire, ni le droit de modifier les informations de la source.",
+    "title": "Fournisseurs accessibles",
+    "description": "Fournisseurs auxquels vous avez actuellement accès. Leur présence ici ne confirme ni la propriété, ni le statut de partenaire, ni le droit de modifier leurs informations.",
     "actions": {
       "retry": "Réessayer"
     },
-    "loading": "Chargement des sources d’annonces accessibles.",
-    "loadError": "L’accès aux sources d’annonces n’a pas pu être vérifié. Les droits ont peut-être changé. Veuillez réessayer.",
-    "empty": "Vous n’avez actuellement accès à aucune source d’annonces. Un accès antérieur a peut-être été révoqué."
+    "loading": "Chargement des fournisseurs accessibles.",
+    "loadError": "L’accès aux fournisseurs n’a pas pu être vérifié. Les droits ont peut-être changé. Veuillez réessayer.",
+    "empty": "Vous n’avez actuellement accès à aucun fournisseur. Un accès antérieur a peut-être été révoqué."
   },
   "shopTypePossessive": {
     "auctionHouse": "de cette maison de ventes",
