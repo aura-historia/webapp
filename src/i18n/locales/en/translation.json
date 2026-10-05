@@ -74,7 +74,7 @@
       "title": "Access Tokens | Aura Historia"
     },
     "partnerListingSources": {
-      "title": "Granted listing sources | Aura Historia"
+      "title": "Providers you can access | Aura Historia"
     },
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Antiques Search Engine Comparison",
@@ -322,7 +322,7 @@
       "searchTypeLabel": "Search type",
       "searchType": {
         "products": "Items",
-        "shops": "Sources"
+        "shops": "Providers"
       }
     },
     "validation": {
@@ -335,14 +335,14 @@
       "to": "To:",
       "productState": "Listing Status",
       "availability": "Availability",
-      "listingSource": "Include listing source",
-      "listingSources": "Listing sources",
-      "searchListingSources": "Search listing sources...",
-      "noListingSourcesFound": "No listing sources found",
-      "excludeListingSource": "Exclude listing source",
-      "searchExcludeListingSources": "Search sources to exclude...",
-      "sourceCount_one": "{{count}} source selected",
-      "sourceCount_other": "{{count}} sources selected",
+      "listingSource": "Include provider",
+      "listingSources": "Providers",
+      "searchListingSources": "Search providers...",
+      "noListingSourcesFound": "No providers found",
+      "excludeListingSource": "Exclude provider",
+      "searchExcludeListingSources": "Search providers to exclude...",
+      "sourceCount_one": "{{count}} provider selected",
+      "sourceCount_other": "{{count}} providers selected",
       "merchant": "Merchant",
       "merchants": "Merchants",
       "searchMerchants": "Search merchants...",
@@ -374,7 +374,7 @@
         "priceSpan": "Reset price range filter",
         "productState": "Reset status filter",
         "availability": "Reset availability filter",
-        "listingSources": "Reset listing source filters",
+        "listingSources": "Reset provider filters",
         "creationDate": "Reset creation date filter",
         "updateDate": "Reset update date filter",
         "auctionDate": "Reset auction date filter",
@@ -923,7 +923,7 @@
     },
     "integrations": {
       "title": "Connect your inventory",
-      "subtitle": "Choose a plugin or a custom integration with scoped access to your listing source.",
+      "subtitle": "Choose a plugin or a custom integration with scoped access to your provider.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
         "description": "Install our extension directly from the WordPress plugin directory.",
@@ -1003,7 +1003,7 @@
       "hero": {
         "eyebrow": "Partner program · Custom API integration",
         "title": "Connect your shop with our API",
-        "subtitle": "Connect your inventory through a granted listing source. Synchronous batches return completed write results; inspect failures before retrying.",
+        "subtitle": "Connect your inventory through a provider you have access to. Synchronous batches return completed write results; inspect failures before retrying.",
         "primaryCta": "Manage access tokens",
         "secondaryCta": "Open API documentation"
       },
@@ -1033,11 +1033,11 @@
         "items": {
           "accessToken": {
             "title": "A scoped access token",
-            "description": "Use product-listings:write with a current grant for the target listing source. Keep credentials in your server environment."
+            "description": "Use product-listings:write with a current grant for the target provider. Keep credentials in your server environment."
           },
           "listingSourceId": {
-            "title": "The listingSourceId",
-            "description": "Use the canonical source ID in the request path and your own sourceListingId for each listing."
+            "title": "Provider ID (listingSourceId)",
+            "description": "Use the provider's canonical ID in the request path and your own sourceListingId for each listing."
           },
           "listingBatch": {
             "title": "A small listing batch",
@@ -1053,19 +1053,19 @@
         "focusLabel": "What to check",
         "steps": {
           "selectSource": {
-            "title": "Select a granted listing source",
-            "description": "Select a source you currently have access to for this integration. Access does not establish ownership or permission to edit source details.",
-            "focus": "Use the canonical listing-source ID for the integration.",
-            "signInCta": "Sign in and check source access",
-            "loadError": "Listing-source access could not be verified.",
+            "title": "Select a provider you can access",
+            "description": "Select a provider you currently have access to for this integration. Access does not establish ownership or permission to edit provider details.",
+            "focus": "Use the provider's canonical ID for the integration.",
+            "signInCta": "Sign in and check provider access",
+            "loadError": "Provider access could not be verified.",
             "retryCta": "Try again",
-            "empty": "You currently have no listing-source access. A previous grant may have been revoked.",
+            "empty": "You currently have no access to providers. A previous grant may have been revoked.",
             "applyCta": "Apply for a partner shop",
-            "selectionLabel": "Listing source for this integration"
+            "selectionLabel": "Provider for this integration"
           },
           "requestKey": {
             "title": "Create a user access token",
-            "description": "Create a user access token with product-listings:write for an account currently granted access to the target listing source.",
+            "description": "Create a user access token with product-listings:write for an account currently granted access to the target provider.",
             "focus": "Copy the token immediately: it is shown only once. Store it securely and send it as a Bearer token with every API request.",
             "cta": "Create user access token",
             "defaultTokenName": "Custom API product sync",
@@ -1074,7 +1074,7 @@
           },
           "preparePayload": {
             "title": "Prepare and send your first product request",
-            "description": "The URL uses the selected listingSourceId. Replace YOUR_USER_ACCESS_TOKEN on your server and POST the example batch.",
+            "description": "The URL uses the selected provider's listingSourceId. Replace YOUR_USER_ACCESS_TOKEN on your server and POST the example batch.",
             "focus": "Check HTTP 200 and the failure array. Queue acceptance does not prove a successful listing write.",
             "visualTitle": "Prepare JSON payload",
             "visualCaption": "Batch structure and required fields"
@@ -1110,7 +1110,7 @@
         },
         "auction": {
           "title": "Auction membership and lot timing",
-          "description": "Omit auction to preserve its context; auction: null is invalid. Within auction, auctionId must identify an existing auction for the same listing source: omit to preserve membership, null to clear, an ID to set. For lotNumber, cataloguePosition and each timing leaf (biddingOpens, scheduledCloses, reportedClosedAt), omit to preserve, null to clear, or supply a value to set. Timing values are RFC3339 instants."
+          "description": "Omit auction to preserve its context; auction: null is invalid. Within auction, auctionId must identify an existing auction for the same provider: omit to preserve membership, null to clear, an ID to set. For lotNumber, cataloguePosition and each timing leaf (biddingOpens, scheduledCloses, reportedClosedAt), omit to preserve, null to clear, or supply a value to set. Timing values are RFC3339 instants."
         },
         "withdrawal": {
           "title": "Batch withdrawal and restoration",
@@ -1460,7 +1460,7 @@
       "allLoaded_other": "You have seen all {{count}} items {{shopTypePossessive}}.",
       "noResults": {
         "title": "No items found",
-        "description": "There are currently no listings associated with {{source}}."
+        "description": "There are currently no listings from {{source}}."
       },
       "error": {
         "title": "Could not load items",
@@ -1612,19 +1612,19 @@
     "sidebarLabel": "Partner Sections",
     "nav": {
       "applications": "Applications",
-      "listingSources": "Granted listing sources",
+      "listingSources": "Providers you can access",
       "accessTokens": "Access tokens"
     }
   },
   "partnerListingSources": {
-    "title": "Granted listing sources",
-    "description": "Sources you currently have access to. Being listed here does not establish ownership, partner status, or permission to edit source details.",
+    "title": "Providers you can access",
+    "description": "Providers you currently have access to. Being listed here does not establish ownership, partner status, or permission to edit provider details.",
     "actions": {
       "retry": "Retry"
     },
-    "loading": "Loading granted listing sources.",
-    "loadError": "Listing-source access could not be verified. Access may have changed. Please try again.",
-    "empty": "You currently have no listing-source access. A previous grant may have been revoked."
+    "loading": "Loading providers you can access.",
+    "loadError": "Provider access could not be verified. Access may have changed. Please try again.",
+    "empty": "You currently have no access to providers. A previous grant may have been revoked."
   },
   "partnerAccessTokens": {
     "title": "Access Tokens",
@@ -1826,16 +1826,16 @@
     },
     "proposals": {
       "type": "Proposal type",
-      "existing": "Existing listing source",
-      "proposed": "Propose a listing source",
+      "existing": "Existing provider",
+      "proposed": "Propose a provider",
       "description": "Submit a proposal for review. Once submitted, it can be read or withdrawn.",
-      "selectionHint": "Selecting a public source requests review; it does not grant access.",
+      "selectionHint": "Proposing a public provider requests a review; it does not grant access.",
       "immutable": "Submitted proposals cannot be edited.",
       "partyName": "Party name",
       "partyPhone": "Phone (optional)",
       "partyEmail": "Email (optional)",
-      "sourceName": "Listing source name",
-      "sourceUrl": "Source URL (optional)",
+      "sourceName": "Provider name",
+      "sourceUrl": "Provider URL (optional)",
       "sourceImage": "Image URL (optional)",
       "methods": "Requested ingestion methods",
       "required": "This field is required.",
@@ -1845,9 +1845,9 @@
       "withdrawn": "Withdrawn",
       "conflict": "The application cannot be changed in its current state. Refresh to see the latest status.",
       "missing": "Application not found or unavailable.",
-      "sourceUnavailable": "This listing source is no longer available. Please select another source.",
+      "sourceUnavailable": "This provider is no longer available. Please select another provider.",
       "clear": "Clear selection",
-      "noSources": "No listing sources found.",
+      "noSources": "No providers found.",
       "noMethods": "None requested",
       "ingestion": {
         "WEB_CRAWL": "Web crawling",
@@ -2171,16 +2171,16 @@
         "description": "The application could not be identified. The authorization link may be invalid or expired. Please try again from the application."
       },
       "listingSources": {
-        "title": "Select a listing source",
-        "description": "Choose the source to connect to this application. This selection does not limit the token’s permissions; access follows the requested scopes and your current source grants.",
-        "selectedLabel": "Selected listing source",
+        "title": "Select a provider",
+        "description": "Choose the provider to connect to this application. This selection does not limit the token's permissions; access follows the requested scopes and your current provider grants.",
+        "selectedLabel": "Selected provider",
         "empty": {
-          "title": "No listing source available",
-          "description": "This integration requires access to a listing source. Request access, then restart authorization."
+          "title": "No provider available",
+          "description": "This integration requires access to a provider. Request access, then restart authorization."
         },
         "loadError": {
-          "title": "Unable to load listing sources",
-          "description": "Your listing-source access could not be verified. Please try again."
+          "title": "Unable to load providers",
+          "description": "Your provider access could not be verified. Please try again."
         }
       },
       "unavailable": {

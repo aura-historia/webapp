@@ -78,7 +78,7 @@
       "title": "Token di accesso | Aura Historia"
     },
     "partnerListingSources": {
-      "title": "Fonti di annunci con accesso concesso | Aura Historia"
+      "title": "Fornitori accessibili | Aura Historia"
     }
   },
   "validation": {
@@ -322,7 +322,7 @@
       "searchTypeLabel": "Tipo di ricerca",
       "searchType": {
         "products": "Articoli",
-        "shops": "Fonti"
+        "shops": "Fornitori"
       }
     },
     "validation": {
@@ -335,14 +335,14 @@
       "to": "A:",
       "productState": "Stato dell'inserzione",
       "availability": "Disponibilità",
-      "listingSource": "Includi fonte delle inserzioni",
-      "listingSources": "Fonti delle inserzioni",
-      "searchListingSources": "Cerca fonti delle inserzioni...",
-      "noListingSourcesFound": "Nessuna fonte delle inserzioni trovata",
-      "excludeListingSource": "Escludi fonte delle inserzioni",
-      "searchExcludeListingSources": "Cerca fonti da escludere...",
-      "sourceCount_one": "{{count}} fonte selezionata",
-      "sourceCount_other": "{{count}} fonti selezionate",
+      "listingSource": "Includi fornitore",
+      "listingSources": "Fornitori",
+      "searchListingSources": "Cerca fornitori...",
+      "noListingSourcesFound": "Nessun fornitore trovato",
+      "excludeListingSource": "Escludi fornitore",
+      "searchExcludeListingSources": "Cerca fornitori da escludere...",
+      "sourceCount_one": "{{count}} fornitore selezionato",
+      "sourceCount_other": "{{count}} fornitori selezionati",
       "merchant": "Commerciante",
       "merchants": "Commercianti",
       "searchMerchants": "Cerca commercianti...",
@@ -370,7 +370,7 @@
         "priceSpan": "Reimposta filtro fascia di prezzo",
         "productState": "Reimposta filtro stato",
         "availability": "Reimposta filtro disponibilità",
-        "listingSources": "Reimposta filtri delle fonti",
+        "listingSources": "Reimposta i filtri dei fornitori",
         "creationDate": "Reimposta filtro data di creazione",
         "updateDate": "Reimposta filtro data di aggiornamento",
         "auctionDate": "Reimposta filtro data dell'asta",
@@ -923,7 +923,7 @@
     },
     "integrations": {
       "title": "Colleghi il suo inventario",
-      "subtitle": "Scelga un plugin o un’integrazione personalizzata con accesso limitato alla sua fonte di annunci.",
+      "subtitle": "Scelga un plugin o un’integrazione personalizzata con accesso limitato al suo fornitore.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
         "description": "Installa la nostra estensione direttamente dal repository plugin di WordPress.",
@@ -1009,7 +1009,7 @@
       "hero": {
         "eyebrow": "Programma partner · Integrazione API personalizzata",
         "title": "Collega il tuo shop con la nostra API",
-        "subtitle": "Colleghi il suo inventario tramite una fonte di annunci autorizzata. I batch sincroni restituiscono i risultati delle scritture completate; verifichi gli errori prima di riprovare.",
+        "subtitle": "Colleghi il suo inventario tramite un fornitore a cui è stato concesso l’accesso. I batch sincroni restituiscono i risultati delle scritture completate; verifichi gli errori prima di riprovare.",
         "primaryCta": "Gestisci i token di accesso",
         "secondaryCta": "Apri la documentazione API"
       },
@@ -1039,11 +1039,11 @@
         "items": {
           "accessToken": {
             "title": "Un token di accesso con ambito limitato",
-            "description": "Utilizzi product-listings:write con un’autorizzazione attuale per la fonte di destinazione. Conservi le credenziali sul server."
+            "description": "Utilizzi product-listings:write con un’autorizzazione attuale per il fornitore di destinazione. Conservi le credenziali sul server."
           },
           "listingSourceId": {
-            "title": "Il listingSourceId",
-            "description": "Utilizzi l’ID canonico della fonte nel percorso e il suo sourceListingId per ogni annuncio."
+            "title": "ID del fornitore (listingSourceId)",
+            "description": "Utilizzi l’ID canonico del fornitore nel percorso e il suo sourceListingId per ogni annuncio."
           },
           "listingBatch": {
             "title": "Un piccolo batch di annunci",
@@ -1059,19 +1059,19 @@
         "focusLabel": "Cosa controllare",
         "steps": {
           "selectSource": {
-            "title": "Selezionare una fonte di annunci accessibile",
-            "description": "Selezioni una fonte a cui ha attualmente accesso per questa integrazione. L’accesso non attesta la proprietà o il permesso di modificare i dettagli della fonte.",
-            "focus": "Utilizzi l’ID canonico della fonte di annunci per l’integrazione.",
-            "signInCta": "Accedi e verifica l’accesso alle fonti",
-            "loadError": "Non è stato possibile verificare l’accesso alle fonti di annunci.",
+            "title": "Selezionare un fornitore accessibile",
+            "description": "Selezioni un fornitore a cui ha attualmente accesso per questa integrazione. L’accesso non attesta la proprietà o il permesso di modificare i dati del fornitore.",
+            "focus": "Utilizzi l’ID canonico del fornitore per l’integrazione.",
+            "signInCta": "Accedi e verifica l’accesso al fornitore",
+            "loadError": "Non è stato possibile verificare l’accesso al fornitore.",
             "retryCta": "Riprova",
-            "empty": "Al momento non ha accesso a fonti di annunci. Un accesso precedente potrebbe essere stato revocato.",
+            "empty": "Al momento non ha accesso ad alcun fornitore. Un accesso precedente potrebbe essere stato revocato.",
             "applyCta": "Richiedi uno shop partner",
-            "selectionLabel": "Fonte di annunci per questa integrazione"
+            "selectionLabel": "Fornitore per questa integrazione"
           },
           "requestKey": {
             "title": "Crea un token di accesso utente",
-            "description": "Crei un token utente con product-listings:write per un account attualmente autorizzato ad accedere alla fonte di destinazione.",
+            "description": "Crei un token utente con product-listings:write per un account attualmente autorizzato ad accedere al fornitore di destinazione.",
             "focus": "Copia subito il token: viene mostrato una sola volta. Conservalo in modo sicuro e invialo come token Bearer con ogni richiesta API.",
             "cta": "Crea token di accesso utente",
             "defaultTokenName": "Sincronizzazione prodotti tramite API personalizzata",
@@ -1080,7 +1080,7 @@
           },
           "preparePayload": {
             "title": "Prepara e invia la prima richiesta prodotti",
-            "description": "L’URL utilizza il listingSourceId selezionato. Sostituisca YOUR_USER_ACCESS_TOKEN sul server e invii il batch di esempio con POST.",
+            "description": "L’URL utilizza il listingSourceId del fornitore selezionato. Sostituisca YOUR_USER_ACCESS_TOKEN sul server e invii il batch di esempio con POST.",
             "focus": "Verifichi HTTP 200 e l’array degli errori. L’accettazione in coda non conferma una scrittura riuscita.",
             "visualTitle": "Preparare il payload JSON",
             "visualCaption": "Struttura del batch e campi obbligatori"
@@ -1116,7 +1116,7 @@
         },
         "auction": {
           "title": "Associazione all’asta e orari del lotto",
-          "description": "Omettere auction conserva il contesto; auction: null non è valido. All’interno di auction, auctionId deve identificare un’asta esistente della stessa fonte: omissione per conservare l’associazione, null per cancellarla, un ID per impostarla. Per lotNumber, cataloguePosition e ogni campo temporale (biddingOpens, scheduledCloses, reportedClosedAt), ometta per conservare, null per cancellare o un valore per impostare. Gli orari sono istanti RFC3339."
+          "description": "Omettere auction conserva il contesto; auction: null non è valido. All’interno di auction, auctionId deve identificare un’asta esistente dello stesso fornitore: omissione per conservare l’associazione, null per cancellarla, un ID per impostarla. Per lotNumber, cataloguePosition e ogni campo temporale (biddingOpens, scheduledCloses, reportedClosedAt), ometta per conservare, null per cancellare o un valore per impostare. Gli orari sono istanti RFC3339."
         },
         "withdrawal": {
           "title": "Ritiro in batch e ripristino",
@@ -1428,7 +1428,7 @@
       "allLoaded_other": "Hai visto tutti i {{count}} articoli {{shopTypePossessive}}.",
       "noResults": {
         "title": "Nessun articolo trovato",
-        "description": "Al momento non ci sono annunci associati a {{source}}."
+        "description": "Al momento non ci sono annunci di {{source}}."
       },
       "error": {
         "title": "Impossibile caricare gli articoli",
@@ -1921,16 +1921,16 @@
         "description": "L'applicazione non è stata identificata. Il link di autorizzazione potrebbe essere non valido o scaduto. Riprova dall'applicazione."
       },
       "listingSources": {
-        "title": "Seleziona una fonte di annunci",
-        "description": "Scegli la fonte da collegare a questa applicazione. Questa selezione non limita i permessi del token; l’accesso dipende dai permessi richiesti e dalle autorizzazioni attuali sulle fonti.",
-        "selectedLabel": "Fonte di annunci selezionata",
+        "title": "Seleziona un fornitore",
+        "description": "Scelga il fornitore da collegare a questa applicazione. Questa selezione non limita i permessi del token; l’accesso dipende dai permessi richiesti e dalle autorizzazioni attuali per il fornitore.",
+        "selectedLabel": "Fornitore selezionato",
         "empty": {
-          "title": "Nessuna fonte di annunci disponibile",
-          "description": "Questa integrazione richiede l’accesso a una fonte di annunci. Richiedi l’accesso, poi riavvia l’autorizzazione."
+          "title": "Nessun fornitore disponibile",
+          "description": "Questa integrazione richiede l’accesso a un fornitore. Richieda l’accesso, poi riavvii l’autorizzazione."
         },
         "loadError": {
-          "title": "Impossibile caricare le fonti di annunci",
-          "description": "Non è stato possibile verificare il tuo accesso alle fonti di annunci. Riprova."
+          "title": "Impossibile caricare i fornitori",
+          "description": "Non è stato possibile verificare l’accesso ai fornitori. Riprovi."
         }
       },
       "unavailable": {
@@ -1944,7 +1944,7 @@
     "sidebarLabel": "Sezioni partner",
     "nav": {
       "applications": "Richieste",
-      "listingSources": "Fonti di annunci con accesso concesso",
+      "listingSources": "Fornitori accessibili",
       "accessTokens": "Token di accesso"
     }
   },
@@ -2058,16 +2058,16 @@
     },
     "proposals": {
       "type": "Tipo di proposta",
-      "existing": "Fonte di offerte esistente",
-      "proposed": "Proporre una fonte di offerte",
+      "existing": "Fornitore esistente",
+      "proposed": "Proporre un fornitore",
       "description": "Invii una proposta per la valutazione. Dopo l’invio può consultarla o ritirarla.",
-      "selectionHint": "Selezionare una fonte pubblica richiede una valutazione; non concede accesso.",
+      "selectionHint": "Proporre un fornitore pubblico richiede una valutazione; non concede accesso.",
       "immutable": "Le proposte inviate non possono essere modificate.",
       "partyName": "Nome dell’operatore",
       "partyPhone": "Telefono (facoltativo)",
       "partyEmail": "E-mail (facoltativa)",
-      "sourceName": "Nome della fonte di offerte",
-      "sourceUrl": "URL della fonte (facoltativo)",
+      "sourceName": "Nome del fornitore",
+      "sourceUrl": "URL del fornitore (facoltativo)",
       "sourceImage": "URL dell’immagine (facoltativo)",
       "methods": "Metodi di importazione richiesti",
       "required": "Questo campo è obbligatorio.",
@@ -2077,9 +2077,9 @@
       "withdrawn": "Ritirata",
       "conflict": "La candidatura non può essere modificata nel suo stato attuale. Aggiorni per vedere lo stato più recente.",
       "missing": "Candidatura non trovata o non disponibile.",
-      "sourceUnavailable": "Questa fonte di offerte non è più disponibile. Selezioni un’altra fonte.",
+      "sourceUnavailable": "Questo fornitore non è più disponibile. Selezioni un altro fornitore.",
       "clear": "Cancella selezione",
-      "noSources": "Nessuna fonte di offerte trovata.",
+      "noSources": "Nessun fornitore trovato.",
       "noMethods": "Nessuno richiesto",
       "ingestion": {
         "WEB_CRAWL": "Scansione web",
@@ -2389,13 +2389,13 @@
     "marketplace": "questo marketplace"
   },
   "partnerListingSources": {
-    "title": "Fonti di annunci con accesso concesso",
-    "description": "Fonti a cui ha attualmente accesso. La presenza in questo elenco non attesta la proprietà, lo stato di partner o il permesso di modificare i dettagli della fonte.",
+    "title": "Fornitori accessibili",
+    "description": "Fornitori a cui ha attualmente accesso. La presenza in questo elenco non attesta la proprietà, lo stato di partner o il permesso di modificarne i dati.",
     "actions": {
       "retry": "Riprova"
     },
-    "loading": "Caricamento delle fonti di annunci accessibili.",
-    "loadError": "Non è stato possibile verificare l’accesso alle fonti di annunci. I permessi potrebbero essere cambiati. Riprovi.",
-    "empty": "Al momento non ha accesso a fonti di annunci. Un accesso precedente potrebbe essere stato revocato."
+    "loading": "Caricamento dei fornitori accessibili.",
+    "loadError": "Non è stato possibile verificare l’accesso ai fornitori. I permessi potrebbero essere cambiati. Riprovi.",
+    "empty": "Al momento non ha accesso ad alcun fornitore. Un accesso precedente potrebbe essere stato revocato."
   }
 }

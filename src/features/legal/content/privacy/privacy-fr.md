@@ -110,7 +110,7 @@ Lorsque des fonctionnalités partenaires, boutique ou d’administration sont ut
 - des données d’accès API ou des données d’administration associées
 - des informations de rôle et d’activation
 
-Les candidatures de partenariat contiennent l’identifiant d’une source d’offres existante ou une proposition avec le nom de l’opérateur, des coordonnées téléphoniques et e-mail facultatives, le nom de la source, une URL et une URL d’image facultatives, ainsi que les méthodes d’importation demandées. Les candidatures ne recueillent pas d’adresse postale. Les propositions servent à examiner le partenariat ; sélectionner une source publique ne donne aucun accès.
+Les candidatures de partenariat contiennent l’identifiant d’un fournisseur existant ou une proposition avec le nom de l’opérateur, des coordonnées téléphoniques et e-mail facultatives, le nom du fournisseur, une URL et une URL d’image facultatives, ainsi que les méthodes d’importation demandées. Les candidatures ne recueillent pas d’adresse postale. Les propositions servent à examiner le partenariat ; sélectionner un fournisseur public ne donne aucun accès.
 
 **Finalités du traitement :**
 

@@ -110,7 +110,7 @@ Where partner, shop, or administration features are used, we may additionally pr
 - API access data or related administration data
 - role and activation information
 
-Partnership applications contain either an existing listing-source identifier or a proposal with a party name, optional phone and email contacts, and a source name, optional URL and image URL, and requested ingestion methods. Applications do not collect postal addresses. Proposals are used for partnership review; selecting a public source does not grant access.
+Partnership applications contain either an existing provider ID or a proposal with a party name, optional phone and email contacts, and a provider name, optional URL and image URL, and requested ingestion methods. Applications do not collect postal addresses. Proposals are used for partnership review; selecting a public provider does not grant access.
 
 **Purposes of processing:**
 

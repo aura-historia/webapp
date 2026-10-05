@@ -39,7 +39,7 @@ async function signOutMissingUserSession() {
 }
 
 client.setConfig({
-    baseUrl: env.VITE_API_URL ?? "https://api.dev.aura-historia.com",
+    baseUrl: env.VITE_API_URL ?? "https://api.stage.aura-historia.com",
     auth: async () => {
         if (import.meta.env.SSR) {
             return await getAuthToken();

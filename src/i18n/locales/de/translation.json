@@ -74,7 +74,7 @@
       "title": "Zugriffstoken | Aura Historia"
     },
     "partnerListingSources": {
-      "title": "Freigegebene Angebotsquellen | Aura Historia"
+      "title": "Freigegebene Anbieter | Aura Historia"
     },
     "compareBarnebys": {
       "title": "Aura Historia vs. Barnebys | Antiquitätensuche im Vergleich",
@@ -322,7 +322,7 @@
       "searchTypeLabel": "Suchtyp",
       "searchType": {
         "products": "Artikel",
-        "shops": "Quellen"
+        "shops": "Anbieter"
       }
     },
     "validation": {
@@ -335,14 +335,14 @@
       "to": "Bis:",
       "productState": "Anzeigenstatus",
       "availability": "Verfügbarkeit",
-      "listingSource": "Angebotsquelle einschließen",
-      "listingSources": "Angebotsquellen",
-      "searchListingSources": "Angebotsquellen suchen...",
-      "noListingSourcesFound": "Keine Angebotsquellen gefunden",
-      "excludeListingSource": "Angebotsquelle ausschließen",
-      "searchExcludeListingSources": "Auszuschließende Angebotsquellen suchen...",
-      "sourceCount_one": "{{count}} Angebotsquelle ausgewählt",
-      "sourceCount_other": "{{count}} Angebotsquellen ausgewählt",
+      "listingSource": "Anbieter einschließen",
+      "listingSources": "Anbieter",
+      "searchListingSources": "Anbieter suchen...",
+      "noListingSourcesFound": "Keine Anbieter gefunden",
+      "excludeListingSource": "Anbieter ausschließen",
+      "searchExcludeListingSources": "Anbieter zum Ausschließen suchen...",
+      "sourceCount_one": "{{count}} Anbieter ausgewählt",
+      "sourceCount_other": "{{count}} Anbieter ausgewählt",
       "merchant": "Händler",
       "merchants": "Händler",
       "searchMerchants": "Händler suchen...",
@@ -370,7 +370,7 @@
         "priceSpan": "Filter für die Preisspanne zurücksetzen",
         "productState": "Filter für den Status zurücksetzen",
         "availability": "Verfügbarkeitsfilter zurücksetzen",
-        "listingSources": "Angebotsquellenfilter zurücksetzen",
+        "listingSources": "Anbieterfilter zurücksetzen",
         "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
         "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
         "auctionDate": "Filter für das Auktionsdatum zurücksetzen",
@@ -923,7 +923,7 @@
     },
     "integrations": {
       "title": "Ihren Bestand anbinden",
-      "subtitle": "Wählen Sie ein Plugin oder eine eigene Integration mit gezieltem Zugriff auf Ihre Angebotsquelle.",
+      "subtitle": "Wählen Sie ein Plugin oder eine eigene Integration mit gezieltem Zugriff auf Ihren Anbieter.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
         "description": "Installieren Sie unsere Erweiterung direkt über das WordPress-Plugin-Verzeichnis.",
@@ -1003,7 +1003,7 @@
       "hero": {
         "eyebrow": "Partnerprogramm · Eigene API-Integration",
         "title": "Shop per API anbinden",
-        "subtitle": "Binden Sie Ihren Bestand über eine freigegebene Angebotsquelle an. Synchrone Batches liefern abgeschlossene Schreibergebnisse; prüfen Sie Fehler vor einem erneuten Versuch.",
+        "subtitle": "Binden Sie Ihren Bestand über einen freigegebenen Anbieter an. Synchrone Batches liefern abgeschlossene Schreibergebnisse; prüfen Sie Fehler vor einem erneuten Versuch.",
         "primaryCta": "Zugriffstoken verwalten",
         "secondaryCta": "API-Dokumentation öffnen"
       },
@@ -1033,11 +1033,11 @@
         "items": {
           "accessToken": {
             "title": "Ein Zugriffstoken mit passender Berechtigung",
-            "description": "Verwenden Sie product-listings:write mit einer aktuellen Freigabe für die Zielquelle. Bewahren Sie Zugangsdaten in Ihrer Serverumgebung auf."
+            "description": "Verwenden Sie product-listings:write mit einer aktuellen Freigabe für den Zielanbieter. Bewahren Sie Zugangsdaten in Ihrer Serverumgebung auf."
           },
           "listingSourceId": {
-            "title": "Die listingSourceId",
-            "description": "Verwenden Sie die kanonische Quell-ID im Anfragepfad und Ihre eigene sourceListingId für jedes Angebot."
+            "title": "Anbieter-ID (listingSourceId)",
+            "description": "Verwenden Sie die kanonische Anbieter-ID im Anfragepfad und Ihre eigene sourceListingId für jedes Angebot."
           },
           "listingBatch": {
             "title": "Ein kleiner Angebots-Batch",
@@ -1053,19 +1053,19 @@
         "focusLabel": "Worauf Sie achten sollten",
         "steps": {
           "selectSource": {
-            "title": "Freigegebene Angebotsquelle auswählen",
-            "description": "Wählen Sie für diese Integration eine Quelle aus, auf die Sie derzeit Zugriff haben. Der Zugriff bestätigt weder Eigentum noch die Berechtigung, Quelldetails zu bearbeiten.",
-            "focus": "Verwenden Sie die kanonische ID der Angebotsquelle für die Integration.",
-            "signInCta": "Anmelden und Quellenzugriff prüfen",
-            "loadError": "Der Zugriff auf Angebotsquellen konnte nicht geprüft werden.",
+            "title": "Freigegebenen Anbieter auswählen",
+            "description": "Wählen Sie für diese Integration einen Anbieter aus, auf den Sie derzeit Zugriff haben. Der Zugriff bestätigt weder Eigentum noch die Berechtigung, Anbieterdetails zu bearbeiten.",
+            "focus": "Verwenden Sie die kanonische Anbieter-ID für die Integration.",
+            "signInCta": "Anmelden und Anbieterzugriff prüfen",
+            "loadError": "Der Zugriff auf Anbieter konnte nicht geprüft werden.",
             "retryCta": "Erneut versuchen",
-            "empty": "Sie haben derzeit keinen Zugriff auf Angebotsquellen. Eine frühere Freigabe wurde möglicherweise widerrufen.",
+            "empty": "Sie haben derzeit keinen Zugriff auf Anbieter. Eine frühere Freigabe wurde möglicherweise widerrufen.",
             "applyCta": "Partner-Shop beantragen",
-            "selectionLabel": "Angebotsquelle für diese Integration"
+            "selectionLabel": "Anbieter für diese Integration"
           },
           "requestKey": {
             "title": "Benutzer-Zugriffstoken erstellen",
-            "description": "Erstellen Sie ein Benutzer-Zugriffstoken mit product-listings:write für ein Konto mit aktueller Freigabe für die Zielquelle.",
+            "description": "Erstellen Sie ein Benutzer-Zugriffstoken mit product-listings:write für ein Konto mit aktueller Freigabe für den Zielanbieter.",
             "focus": "Kopieren Sie das Token sofort, da es nur einmal angezeigt wird. Speichern Sie es sicher und senden Sie es bei jedem API-Request als Bearer-Token.",
             "cta": "Benutzer-Zugriffstoken erstellen",
             "defaultTokenName": "Produktsynchronisation per eigener API",
@@ -1074,7 +1074,7 @@
           },
           "preparePayload": {
             "title": "Ersten Produkt-Request vorbereiten und senden",
-            "description": "Die URL verwendet die ausgewählte listingSourceId. Ersetzen Sie YOUR_USER_ACCESS_TOKEN auf Ihrem Server und senden Sie den Beispiel-Batch per POST.",
+            "description": "Die URL verwendet die ausgewählte listingSourceId des Anbieters. Ersetzen Sie YOUR_USER_ACCESS_TOKEN auf Ihrem Server und senden Sie den Beispiel-Batch per POST.",
             "focus": "Prüfen Sie HTTP 200 und das Fehlerarray. Eine Warteschlangenannahme bestätigt keinen erfolgreichen Schreibvorgang.",
             "visualTitle": "JSON-Payload vorbereiten",
             "visualCaption": "Batch-Struktur und Pflichtfelder"
@@ -1110,7 +1110,7 @@
         },
         "auction": {
           "title": "Auktionszuordnung und Loszeiten",
-          "description": "auction weglassen behält den Kontext bei; auction: null ist ungültig. auctionId muss eine bestehende Auktion derselben Angebotsquelle bezeichnen: weglassen behält die Zuordnung bei, null löscht sie, eine ID setzt sie. Für lotNumber, cataloguePosition und jedes Zeitfeld (biddingOpens, scheduledCloses, reportedClosedAt) gilt: weglassen zum Beibehalten, null zum Löschen, Wert zum Setzen. Zeiten sind RFC3339-Zeitpunkte."
+          "description": "auction weglassen behält den Kontext bei; auction: null ist ungültig. auctionId muss eine bestehende Auktion desselben Anbieters bezeichnen: weglassen behält die Zuordnung bei, null löscht sie, eine ID setzt sie. Für lotNumber, cataloguePosition und jedes Zeitfeld (biddingOpens, scheduledCloses, reportedClosedAt) gilt: weglassen zum Beibehalten, null zum Löschen, Wert zum Setzen. Zeiten sind RFC3339-Zeitpunkte."
         },
         "withdrawal": {
           "title": "Batch-Rücknahme und Wiederherstellung",
@@ -1460,7 +1460,7 @@
       "allLoaded_other": "Sie haben alle {{count}} Artikel {{shopTypePossessive}} gesehen.",
       "noResults": {
         "title": "Keine Artikel gefunden",
-        "description": "Derzeit sind keine Angebote von {{source}} gelistet."
+        "description": "Derzeit sind keine Angebote bei {{source}} gelistet."
       },
       "error": {
         "title": "Artikel konnten nicht geladen werden",
@@ -1612,19 +1612,19 @@
     "sidebarLabel": "Partner-Bereiche",
     "nav": {
       "applications": "Partner-Anträge",
-      "listingSources": "Freigegebene Angebotsquellen",
+      "listingSources": "Freigegebene Anbieter",
       "accessTokens": "Zugriffstoken"
     }
   },
   "partnerListingSources": {
-    "title": "Freigegebene Angebotsquellen",
-    "description": "Quellen, auf die Sie derzeit Zugriff haben. Ein Eintrag bestätigt weder Eigentum noch Partnerstatus oder die Berechtigung, Quelldetails zu bearbeiten.",
+    "title": "Freigegebene Anbieter",
+    "description": "Anbieter, auf die Sie derzeit Zugriff haben. Ein Eintrag bestätigt weder Eigentum noch Partnerstatus oder die Berechtigung, Anbieterdetails zu bearbeiten.",
     "actions": {
       "retry": "Erneut versuchen"
     },
-    "loading": "Freigegebene Angebotsquellen werden geladen.",
-    "loadError": "Der Zugriff auf Angebotsquellen konnte nicht geprüft werden. Die Zugriffsrechte können sich geändert haben. Bitte versuchen Sie es erneut.",
-    "empty": "Sie haben derzeit keinen Zugriff auf Angebotsquellen. Eine frühere Freigabe wurde möglicherweise widerrufen."
+    "loading": "Freigegebene Anbieter werden geladen.",
+    "loadError": "Der Zugriff auf Anbieter konnte nicht geprüft werden. Die Zugriffsrechte können sich geändert haben. Bitte versuchen Sie es erneut.",
+    "empty": "Sie haben derzeit keinen Zugriff auf Anbieter. Eine frühere Freigabe wurde möglicherweise widerrufen."
   },
   "partnerAccessTokens": {
     "title": "Zugriffstoken",
@@ -1826,16 +1826,16 @@
     },
     "proposals": {
       "type": "Art des Vorschlags",
-      "existing": "Bestehende Angebotsquelle",
-      "proposed": "Angebotsquelle vorschlagen",
+      "existing": "Bestehender Anbieter",
+      "proposed": "Anbieter vorschlagen",
       "description": "Reichen Sie einen Vorschlag zur Prüfung ein. Danach können Sie ihn einsehen oder zurückziehen.",
-      "selectionHint": "Die Auswahl einer öffentlichen Quelle beantragt eine Prüfung und gewährt keinen Zugriff.",
+      "selectionHint": "Mit dem Vorschlag eines öffentlichen Anbieters beantragen Sie eine Prüfung; Zugriff wird dadurch nicht gewährt.",
       "immutable": "Eingereichte Vorschläge können nicht bearbeitet werden.",
       "partyName": "Name des Betreibers",
       "partyPhone": "Telefon (optional)",
       "partyEmail": "E-Mail (optional)",
-      "sourceName": "Name der Angebotsquelle",
-      "sourceUrl": "Quellen-URL (optional)",
+      "sourceName": "Name des Anbieters",
+      "sourceUrl": "Anbieter-URL (optional)",
       "sourceImage": "Bild-URL (optional)",
       "methods": "Gewünschte Importmethoden",
       "required": "Dieses Feld ist erforderlich.",
@@ -1845,9 +1845,9 @@
       "withdrawn": "Zurückgezogen",
       "conflict": "Die Bewerbung kann im aktuellen Status nicht geändert werden. Aktualisieren Sie den Status.",
       "missing": "Bewerbung nicht gefunden oder nicht verfügbar.",
-      "sourceUnavailable": "Diese Angebotsquelle ist nicht mehr verfügbar. Bitte wählen Sie eine andere Quelle.",
+      "sourceUnavailable": "Dieser Anbieter ist nicht mehr verfügbar. Bitte wählen Sie einen anderen Anbieter.",
       "clear": "Auswahl aufheben",
-      "noSources": "Keine Angebotsquellen gefunden.",
+      "noSources": "Keine Anbieter gefunden.",
       "noMethods": "Keine angefordert",
       "ingestion": {
         "WEB_CRAWL": "Web-Crawling",
@@ -2171,16 +2171,16 @@
         "description": "Die Anwendung konnte nicht identifiziert werden. Der Autorisierungslink ist möglicherweise ungültig oder abgelaufen. Bitte versuchen Sie es erneut über die Anwendung."
       },
       "listingSources": {
-        "title": "Listing-Quelle auswählen",
-        "description": "Wählen Sie die Quelle, die Sie mit dieser Anwendung verbinden möchten. Diese Auswahl begrenzt die Token-Berechtigungen nicht; der Zugriff richtet sich nach den angeforderten Berechtigungen und Ihren aktuellen Quellenfreigaben.",
-        "selectedLabel": "Ausgewählte Listing-Quelle",
+        "title": "Anbieter auswählen",
+        "description": "Wählen Sie den Anbieter, den Sie mit dieser Anwendung verbinden möchten. Diese Auswahl beschränkt die Token-Berechtigungen nicht; der Zugriff richtet sich nach den angeforderten Berechtigungen und Ihren aktuellen Anbieterfreigaben.",
+        "selectedLabel": "Ausgewählter Anbieter",
         "empty": {
-          "title": "Keine Listing-Quelle verfügbar",
-          "description": "Für diese Integration benötigen Sie Zugriff auf eine Listing-Quelle. Beantragen Sie Zugriff und starten Sie die Autorisierung erneut."
+          "title": "Kein Anbieter verfügbar",
+          "description": "Für diese Integration benötigen Sie Zugriff auf einen Anbieter. Beantragen Sie Zugriff und starten Sie die Autorisierung erneut."
         },
         "loadError": {
-          "title": "Listing-Quellen konnten nicht geladen werden",
-          "description": "Ihr Zugriff auf Listing-Quellen konnte nicht geprüft werden. Bitte versuchen Sie es erneut."
+          "title": "Anbieter konnten nicht geladen werden",
+          "description": "Ihr Zugriff auf Anbieter konnte nicht geprüft werden. Bitte versuchen Sie es erneut."
         }
       },
       "unavailable": {
