@@ -6,10 +6,9 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { formatCompactCurrency, formatDate, formatTimeWithSeconds } from "@/lib/utils.ts";
 import { getPriceHistorySeries } from "@/features/product/detail/lib/events/priceHistory.ts";
 import { useTranslation } from "react-i18next";
-import { useRouteContext } from "@tanstack/react-router";
+import { ClientOnly, useRouteContext } from "@tanstack/react-router";
 import type { TFunction } from "i18next";
 import Chart from "react-apexcharts";
-import { ClientOnly } from "@tanstack/react-router";
 
 interface ApexFormatterOpts {
     w?: {
@@ -351,11 +350,10 @@ export function ProductPriceChart({
                 </H2>
                 <div className="flex gap-4 flex-wrap items-end">
                     {currencies.length > 1 && (
-                        <div
-                            className="flex flex-wrap gap-3"
-                            role="group"
-                            aria-label={t("product.priceChart.currencySelectLabel")}
-                        >
+                        <fieldset className="flex flex-wrap gap-3">
+                            <legend className="sr-only">
+                                {t("product.priceChart.currencySelectLabel")}
+                            </legend>
                             {currencies.map((currency) => (
                                 <button
                                     type="button"
@@ -374,7 +372,7 @@ export function ProductPriceChart({
                                     {currency}
                                 </button>
                             ))}
-                        </div>
+                        </fieldset>
                     )}
                     {TIME_RANGES.map((timeRange) => (
                         <button

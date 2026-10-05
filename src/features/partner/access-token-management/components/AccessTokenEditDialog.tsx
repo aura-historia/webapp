@@ -80,16 +80,16 @@ function AccessTokenEditDialogContent({
     const { dirtyFields } = form.formState;
 
     const handleSubmit = (values: AccessTokenCreateFormData) => {
+        let expiresAt: Date | null | undefined;
+        if (dirtyFields.expiresAt) {
+            expiresAt = values.expiresAt ? new Date(values.expiresAt) : null;
+        }
         updateAccessToken.mutate(
             {
                 id: accessToken.id,
                 name: dirtyFields.name ? values.name.trim() : undefined,
                 scopes: dirtyFields.scopes ? values.scopes : undefined,
-                expiresAt: dirtyFields.expiresAt
-                    ? values.expiresAt
-                        ? new Date(values.expiresAt)
-                        : null
-                    : undefined,
+                expiresAt,
             },
             {
                 onSuccess: () => {

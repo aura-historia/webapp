@@ -54,12 +54,14 @@ export function mapToInternalProductImage(
     apiData: ProductListingImageData,
     contentPolicy?: ContentPolicyData | null,
 ): ProductImage | undefined {
-    const prohibitedContentType =
-        contentPolicy?.decision === "ALLOWED"
-            ? "NONE"
-            : contentPolicy?.decision === "REQUIRES_CONSENT"
-              ? contentPolicy.category
-              : "UNKNOWN";
+    let prohibitedContentType: ProductImage["prohibitedContentType"];
+    if (contentPolicy?.decision === "ALLOWED") {
+        prohibitedContentType = "NONE";
+    } else if (contentPolicy?.decision === "REQUIRES_CONSENT") {
+        prohibitedContentType = contentPolicy.category;
+    } else {
+        prohibitedContentType = "UNKNOWN";
+    }
 
     if (!apiData.url) {
         return {

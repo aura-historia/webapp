@@ -6,7 +6,7 @@ import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailabil
 export type SearchFilterData = {
     query: string;
     priceSpan?: { min?: number; max?: number };
-    availability?: SearchFilterArguments["availability"];
+    availability?: NonNullable<SearchFilterArguments["availability"]>;
     listingSourceId?: string[];
     excludeListingSourceId?: string[];
     listingSourceLabels?: string[];

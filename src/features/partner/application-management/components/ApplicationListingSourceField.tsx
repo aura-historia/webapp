@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { ReactNode } from "react";
 import { useDebounce } from "use-debounce";
 import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input.tsx";
@@ -23,6 +24,42 @@ export function ApplicationListingSourceField({
         isError,
         refetch,
     } = useApplicationListingSourceSearch(query);
+    let searchResults: ReactNode = null;
+    if (search.trim()) {
+        if (isError) {
+            searchResults = (
+                <div role="alert">
+                    {t("partnerApplications.loadError")}
+                    <Button type="button" onClick={() => refetch()}>
+                        {t("partnerApplications.actions.retry")}
+                    </Button>
+                </div>
+            );
+        } else if (isPending || query !== search.trim()) {
+            searchResults = <output>{t("partnerApplications.loading")}</output>;
+        } else if (sources.length === 0) {
+            searchResults = <p>{t("partnerApplications.proposals.noSources")}</p>;
+        } else {
+            searchResults = (
+                <ul className="max-h-64 overflow-y-auto border">
+                    {sources.map((source) => (
+                        <li key={source.listingSourceId}>
+                            <button
+                                type="button"
+                                className="w-full p-3 text-left hover:bg-muted focus-visible:outline focus-visible:outline-ring"
+                                onClick={() => {
+                                    onChange(source);
+                                    setSearch("");
+                                }}
+                            >
+                                {source.name} · {source.operatorName}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            );
+        }
+    }
     return (
         <div className="grid gap-2">
             <Label htmlFor="application-source-search">
@@ -47,36 +84,7 @@ export function ApplicationListingSourceField({
                     </Button>
                 </div>
             )}
-            {search.trim() &&
-                (isError ? (
-                    <div role="alert">
-                        {t("partnerApplications.loadError")}
-                        <Button type="button" onClick={() => refetch()}>
-                            {t("partnerApplications.actions.retry")}
-                        </Button>
-                    </div>
-                ) : isPending || query !== search.trim() ? (
-                    <p role="status">{t("partnerApplications.loading")}</p>
-                ) : sources.length === 0 ? (
-                    <p>{t("partnerApplications.proposals.noSources")}</p>
-                ) : (
-                    <ul className="max-h-64 overflow-y-auto border">
-                        {sources.map((source) => (
-                            <li key={source.listingSourceId}>
-                                <button
-                                    type="button"
-                                    className="w-full p-3 text-left hover:bg-muted focus-visible:outline focus-visible:outline-ring"
-                                    onClick={() => {
-                                        onChange(source);
-                                        setSearch("");
-                                    }}
-                                >
-                                    {source.name} · {source.operatorName}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                ))}
+            {searchResults}
         </div>
     );
 }

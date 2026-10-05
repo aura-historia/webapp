@@ -20,8 +20,7 @@ export async function getOAuthConsentClient(clientId: string): Promise<OAuthClie
         if (status >= 400 && status < 500) throw new OAuthConsentMetadataError(status);
         throw new OAuthConsentUnavailableError();
     }
-    if (!result.data || result.data.client_id !== clientId)
-        throw new OAuthConsentUnavailableError();
+    if (result.data?.client_id !== clientId) throw new OAuthConsentUnavailableError();
     return mapToInternalOAuthClient(result.data);
 }
 

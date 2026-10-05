@@ -31,12 +31,14 @@ function useApplicationError(missingKey = "partnerApplications.proposals.missing
     const { t } = useTranslation();
     return (error: Parameters<typeof mapToInternalApiError>[0], status?: number) => {
         const problem = mapToInternalApiError(error, status);
-        const message =
-            problem.status === 409
-                ? t("partnerApplications.proposals.conflict")
-                : problem.status === 404
-                  ? t(missingKey)
-                  : getErrorMessage(problem);
+        let message: string;
+        if (problem.status === 409) {
+            message = t("partnerApplications.proposals.conflict");
+        } else if (problem.status === 404) {
+            message = t(missingKey);
+        } else {
+            message = getErrorMessage(problem);
+        }
         return new ApplicationRequestError(message, problem.status);
     };
 }

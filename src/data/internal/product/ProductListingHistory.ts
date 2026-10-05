@@ -155,7 +155,11 @@ function mapChange(change: ProductListingHistoryChangeData): ProductListingHisto
             };
         default: {
             const sourceType = (change as { type?: unknown }).type;
-            return { type: "UNKNOWN", sourceType: String(sourceType ?? "unknown") };
+            const displaySourceType =
+                typeof sourceType === "string" || typeof sourceType === "number"
+                    ? String(sourceType)
+                    : "unknown";
+            return { type: "UNKNOWN", sourceType: displaySourceType };
         }
     }
 }

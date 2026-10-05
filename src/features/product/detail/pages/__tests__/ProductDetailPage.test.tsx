@@ -36,20 +36,13 @@ describe("ProductDetailPage", () => {
         expect(screen.getByText("ProductInfo: Test Product")).toBeInTheDocument();
     });
 
-    it("should render ProductPriceChart component", () => {
-        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
-        expect(screen.getByTestId("product-price-chart")).toBeInTheDocument();
-    });
-
-    it("should render ProductHistory component", () => {
-        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
-        expect(screen.getByTestId("product-history")).toBeInTheDocument();
-    });
-
-    it("should render ProductDealerItems component", () => {
-        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
-        expect(screen.getByTestId("product-dealer-items")).toBeInTheDocument();
-    });
+    it.each(["product-price-chart", "product-history", "product-dealer-items"])(
+        "should render %s component",
+        (testId) => {
+            renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
+            expect(screen.getByTestId(testId)).toBeInTheDocument();
+        },
+    );
 
     it("should render all components together", () => {
         renderWithQueryClient(<ProductDetailPage product={mockProduct} />);

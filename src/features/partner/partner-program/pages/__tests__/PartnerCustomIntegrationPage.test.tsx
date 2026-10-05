@@ -60,6 +60,27 @@ function RefreshableIntegrationPage() {
 }
 
 describe("PartnerCustomIntegrationPage", () => {
+    beforeEach(async () => {
+        applicationState.data = [];
+        vi.clearAllMocks();
+        authState.isAuthenticated = true;
+        authState.isResolved = true;
+        listingSourceState.data = [
+            { listingSourceId: "shop-1", listingSourceSlugId: "erster-shop", name: "Erster Shop" },
+            {
+                listingSourceId: "shop-2",
+                listingSourceSlugId: "zweiter-shop",
+                name: "Zweiter Shop",
+            },
+        ];
+        listingSourceState.isPending = false;
+        listingSourceState.isError = false;
+
+        await act(async () => {
+            renderWithRouter(<PartnerCustomIntegrationPage />);
+        });
+    });
+
     it("clears selection and source links when a grant is revoked", async () => {
         cleanup();
         await act(async () => {
@@ -97,27 +118,6 @@ describe("PartnerCustomIntegrationPage", () => {
         expect(
             screen.getByText("Der Zugriff auf Anbieter konnte nicht geprüft werden."),
         ).toBeInTheDocument();
-    });
-
-    beforeEach(async () => {
-        applicationState.data = [];
-        vi.clearAllMocks();
-        authState.isAuthenticated = true;
-        authState.isResolved = true;
-        listingSourceState.data = [
-            { listingSourceId: "shop-1", listingSourceSlugId: "erster-shop", name: "Erster Shop" },
-            {
-                listingSourceId: "shop-2",
-                listingSourceSlugId: "zweiter-shop",
-                name: "Zweiter Shop",
-            },
-        ];
-        listingSourceState.isPending = false;
-        listingSourceState.isError = false;
-
-        await act(async () => {
-            renderWithRouter(<PartnerCustomIntegrationPage />);
-        });
     });
 
     it("shows pending existing-source proposals with an application-management link", async () => {

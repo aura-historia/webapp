@@ -25,10 +25,19 @@ function toListingSearchQuery(
     language: string,
     currency: Currency,
 ): NonNullable<SimpleSearchProductListingsData["query"]> {
+    let productQuery: string[];
+    if (search.queryTerms?.length) {
+        productQuery = search.queryTerms;
+    } else if (search.q) {
+        productQuery = [search.q];
+    } else {
+        productQuery = [];
+    }
+
     return {
         language: parseLanguage(language),
         currency: parseCurrency(currency),
-        productQuery: search.queryTerms?.length ? search.queryTerms : search.q ? [search.q] : [],
+        productQuery,
         enhancedSearchDescription: search.enhancedSearchDescription,
         excludeProductId: search.excludeProductId,
         listingSourceId: search.listingSourceId,

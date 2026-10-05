@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import type { ReactNode } from "react";
 import { useFormContext } from "react-hook-form";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
@@ -27,6 +28,39 @@ export function SearchFilterWizardConfirmStep({ name, filters, enhancedSearchDes
     // Raw form values — reflect exactly what the user has checked (incl. "all selected"),
     // without waiting for SearchFilterFormProvider's debounce to sync them into `filters`.
     const formValues = useFormContext<FilterSchema>().watch();
+    let previewContent: ReactNode;
+    if (!previewable) {
+        previewContent = (
+            <p className="text-sm text-muted-foreground">
+                {t("searchFilters.preview.unavailable")}
+            </p>
+        );
+    } else if (preview.isPending) {
+        previewContent = (
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+            </div>
+        );
+    } else if (preview.error) {
+        previewContent = (
+            <output className="text-sm text-muted-foreground">
+                {t("searchFilters.preview.error")}
+            </output>
+        );
+    } else if (preview.data?.length) {
+        previewContent = (
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {preview.data.map((product) => (
+                    <ProductCard key={product.productListingId} product={product} />
+                ))}
+            </div>
+        );
+    } else {
+        previewContent = (
+            <p className="text-sm text-muted-foreground">{t("searchFilters.preview.empty")}</p>
+        );
+    }
 
     return (
         <div className="space-y-6">
@@ -51,30 +85,7 @@ export function SearchFilterWizardConfirmStep({ name, filters, enhancedSearchDes
                         {t("searchFilters.preview.description")}
                     </p>
                 </div>
-                {!previewable ? (
-                    <p className="text-sm text-muted-foreground">
-                        {t("searchFilters.preview.unavailable")}
-                    </p>
-                ) : preview.isPending ? (
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <ProductCardSkeleton />
-                        <ProductCardSkeleton />
-                    </div>
-                ) : preview.error ? (
-                    <p role="status" className="text-sm text-muted-foreground">
-                        {t("searchFilters.preview.error")}
-                    </p>
-                ) : preview.data?.length ? (
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                        {preview.data.map((product) => (
-                            <ProductCard key={product.productListingId} product={product} />
-                        ))}
-                    </div>
-                ) : (
-                    <p className="text-sm text-muted-foreground">
-                        {t("searchFilters.preview.empty")}
-                    </p>
-                )}
+                {previewContent}
             </section>
         </div>
     );

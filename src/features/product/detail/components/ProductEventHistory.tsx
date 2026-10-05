@@ -25,6 +25,7 @@ import {
 } from "@/features/product/detail/lib/events/eventFilters.ts";
 import { useTranslation } from "react-i18next";
 import { useRouteContext } from "@tanstack/react-router";
+import type { TFunction } from "i18next";
 
 interface ProductEventHistoryProps {
     readonly event: ProductListingHistoryEntry;
@@ -46,6 +47,138 @@ const AVAILABILITY_KEYS: Partial<Record<ListingAvailability, string>> = {
 } as const;
 
 type PriceLabel = ListingPrice | ListingPriceEstimate | null;
+type HistoryDescription = { readonly key: string; readonly text: string };
+type FormatPrice = (price: PriceLabel) => string;
+type FormatAvailability = (availability: ListingAvailability | null) => string;
+
+function formatAvailabilityLabel(availability: ListingAvailability | null, t: TFunction): string {
+    const key = availability ? (AVAILABILITY_KEYS[availability] ?? "unknown") : "unknown";
+    return t(`product.listingAvailability.${key}`);
+}
+
+function formatHistoryChange(
+    change: ProductListingHistoryChange,
+    t: TFunction,
+    formatPrice: FormatPrice,
+    formatAvailability: FormatAvailability,
+    language: string,
+    timeZone: string,
+): string {
+    switch (change.type) {
+        case "MAIN_PRICE_CHANGED":
+            return t("product.history.events.mainPriceChanged", {
+                previous: formatPrice(change.previous),
+                current: formatPrice(change.current),
+            });
+        case "MINIMUM_ESTIMATE_CHANGED":
+            return t("product.history.events.minimumEstimateChanged", {
+                previous: formatPrice(change.previous),
+                current: formatPrice(change.current),
+            });
+        case "MAXIMUM_ESTIMATE_CHANGED":
+            return t("product.history.events.maximumEstimateChanged", {
+                previous: formatPrice(change.previous),
+                current: formatPrice(change.current),
+            });
+        case "AVAILABILITY_CHANGED":
+            return t("product.history.events.availabilityChanged", {
+                previous: formatAvailability(change.previous),
+                current: formatAvailability(change.current),
+            });
+        case "URL_CHANGED":
+            return t("product.history.events.urlChanged");
+        case "IMAGES_CHANGED":
+            return t("product.history.events.imagesChangedWithCounts", {
+                previousCount: change.previousCount,
+                currentCount: change.currentCount,
+            });
+        case "AUCTION_CHANGED":
+            return t("product.history.events.auctionChanged");
+        case "WITHDRAWN":
+            return t("product.history.events.withdrawn", {
+                previousAvailability: formatAvailability(change.previousAvailability),
+            });
+        case "RESTORED":
+            return t("product.history.events.restored");
+        case "SALE_OBSERVED":
+            return t("product.history.events.saleObserved", {
+                observedAt: formatDateTime(change.observation.observedAt, language, timeZone),
+            });
+        case "SALE_OBSERVATION_RETRACTED":
+            return t("product.history.events.saleObservationRetracted", {
+                observedAt: formatDateTime(change.observation.observedAt, language, timeZone),
+            });
+        case "UNKNOWN":
+            return t("product.history.events.unknownChange");
+    }
+}
+
+function getDiscoveryDescriptions(
+    discovery: Extract<ProductListingHistoryEntry["payload"], { kind: "DISCOVERED" }>["discovery"],
+    filter: HistoryFilter,
+    t: TFunction,
+    formatPrice: FormatPrice,
+    formatAvailability: FormatAvailability,
+): HistoryDescription[] {
+    const descriptions: HistoryDescription[] = [];
+    const showPrice = filter === "all" || filter === "price";
+    const showAvailability = filter === "all" || filter === "availability";
+    const showDetails = filter === "all" || filter === "details";
+    if (filter === "all") {
+        descriptions.push({
+            key: "discovered",
+            text: t("product.history.events.listingDiscovered"),
+        });
+    }
+    if (showPrice && discovery.pricing.price) {
+        descriptions.push({
+            key: "initial-price",
+            text: t("product.history.events.initialPrice", {
+                price: formatPrice(discovery.pricing.price),
+            }),
+        });
+    }
+    if (showPrice && discovery.pricing.priceEstimateMin) {
+        descriptions.push({
+            key: "initial-minimum-estimate",
+            text: t("product.history.events.initialMinimumEstimate", {
+                price: formatPrice(discovery.pricing.priceEstimateMin),
+            }),
+        });
+    }
+    if (showPrice && discovery.pricing.priceEstimateMax) {
+        descriptions.push({
+            key: "initial-maximum-estimate",
+            text: t("product.history.events.initialMaximumEstimate", {
+                price: formatPrice(discovery.pricing.priceEstimateMax),
+            }),
+        });
+    }
+    if (showAvailability && discovery.availability !== null) {
+        descriptions.push({
+            key: "initial-availability",
+            text: t("product.history.events.initialAvailability", {
+                availability: formatAvailability(discovery.availability),
+            }),
+        });
+    }
+    if (showDetails && discovery.imageCount > 0) {
+        descriptions.push({
+            key: "initial-images",
+            text: t("product.history.events.initialImages", { count: discovery.imageCount }),
+        });
+    }
+    if (showDetails && discovery.url) {
+        descriptions.push({ key: "initial-url", text: t("product.history.events.initialUrl") });
+    }
+    if (showDetails && discovery.auction !== null) {
+        descriptions.push({
+            key: "discovery-auction",
+            text: t("product.history.events.initialAuction"),
+        });
+    }
+    return descriptions;
+}
 
 export function ProductEventHistory({ event, filter = "all" }: ProductEventHistoryProps) {
     const { t, i18n } = useTranslation();
@@ -61,135 +194,29 @@ export function ProductEventHistory({ event, filter = "all" }: ProductEventHisto
     };
 
     const formatAvailability = (availability: ListingAvailability | null) =>
-        availability
-            ? t(`product.listingAvailability.${AVAILABILITY_KEYS[availability] ?? "unknown"}`)
-            : t("product.listingAvailability.unknown");
+        formatAvailabilityLabel(availability, t);
 
-    const renderChange = (change: ProductListingHistoryChange): string => {
-        switch (change.type) {
-            case "MAIN_PRICE_CHANGED":
-                return t("product.history.events.mainPriceChanged", {
-                    previous: formatPrice(change.previous),
-                    current: formatPrice(change.current),
-                });
-            case "MINIMUM_ESTIMATE_CHANGED":
-                return t("product.history.events.minimumEstimateChanged", {
-                    previous: formatPrice(change.previous),
-                    current: formatPrice(change.current),
-                });
-            case "MAXIMUM_ESTIMATE_CHANGED":
-                return t("product.history.events.maximumEstimateChanged", {
-                    previous: formatPrice(change.previous),
-                    current: formatPrice(change.current),
-                });
-            case "AVAILABILITY_CHANGED":
-                return t("product.history.events.availabilityChanged", {
-                    previous: formatAvailability(change.previous),
-                    current: formatAvailability(change.current),
-                });
-            case "URL_CHANGED":
-                return t("product.history.events.urlChanged");
-            case "IMAGES_CHANGED":
-                return t("product.history.events.imagesChangedWithCounts", {
-                    previousCount: change.previousCount,
-                    currentCount: change.currentCount,
-                });
-            case "AUCTION_CHANGED":
-                return t("product.history.events.auctionChanged");
-            case "WITHDRAWN":
-                return t("product.history.events.withdrawn", {
-                    previousAvailability: formatAvailability(change.previousAvailability),
-                });
-            case "RESTORED":
-                return t("product.history.events.restored");
-            case "SALE_OBSERVED":
-                return t("product.history.events.saleObserved", {
-                    observedAt: formatDateTime(
-                        change.observation.observedAt,
-                        i18n.language,
-                        timeZone,
-                    ),
-                });
-            case "SALE_OBSERVATION_RETRACTED":
-                return t("product.history.events.saleObservationRetracted", {
-                    observedAt: formatDateTime(
-                        change.observation.observedAt,
-                        i18n.language,
-                        timeZone,
-                    ),
-                });
-            case "UNKNOWN":
-                return t("product.history.events.unknownChange");
-        }
-    };
-
-    const descriptions: { readonly key: string; readonly text: string }[] = [];
+    let descriptions: HistoryDescription[] = [];
     if (event.payload.kind === "DISCOVERED") {
-        const discovery = event.payload.discovery;
-        const showPrice = filter === "all" || filter === "price";
-        const showAvailability = filter === "all" || filter === "availability";
-        const showDetails = filter === "all" || filter === "details";
-        if (filter === "all") {
-            descriptions.push({
-                key: "discovered",
-                text: t("product.history.events.listingDiscovered"),
-            });
-        }
-        if (showPrice && discovery.pricing.price) {
-            descriptions.push({
-                key: "initial-price",
-                text: t("product.history.events.initialPrice", {
-                    price: formatPrice(discovery.pricing.price),
-                }),
-            });
-        }
-        if (showPrice && discovery.pricing.priceEstimateMin) {
-            descriptions.push({
-                key: "initial-minimum-estimate",
-                text: t("product.history.events.initialMinimumEstimate", {
-                    price: formatPrice(discovery.pricing.priceEstimateMin),
-                }),
-            });
-        }
-        if (showPrice && discovery.pricing.priceEstimateMax) {
-            descriptions.push({
-                key: "initial-maximum-estimate",
-                text: t("product.history.events.initialMaximumEstimate", {
-                    price: formatPrice(discovery.pricing.priceEstimateMax),
-                }),
-            });
-        }
-        if (showAvailability && discovery.availability !== null) {
-            descriptions.push({
-                key: "initial-availability",
-                text: t("product.history.events.initialAvailability", {
-                    availability: formatAvailability(discovery.availability),
-                }),
-            });
-        }
-        if (showDetails && discovery.imageCount > 0) {
-            descriptions.push({
-                key: "initial-images",
-                text: t("product.history.events.initialImages", { count: discovery.imageCount }),
-            });
-        }
-        if (showDetails && discovery.url) {
-            descriptions.push({
-                key: "initial-url",
-                text: t("product.history.events.initialUrl"),
-            });
-        }
-        if (showDetails && discovery.auction !== null) {
-            descriptions.push({
-                key: "discovery-auction",
-                text: t("product.history.events.initialAuction"),
-            });
-        }
+        descriptions = getDiscoveryDescriptions(
+            event.payload.discovery,
+            filter,
+            t,
+            formatPrice,
+            formatAvailability,
+        );
     } else if (event.payload.kind === "CHANGED") {
         descriptions.push(
             ...getVisibleHistoryChanges(event, filter).map((change) => ({
                 key: `${change.type}-${JSON.stringify(change)}`,
-                text: renderChange(change),
+                text: formatHistoryChange(
+                    change,
+                    t,
+                    formatPrice,
+                    formatAvailability,
+                    i18n.language,
+                    timeZone,
+                ),
             })),
         );
     } else {

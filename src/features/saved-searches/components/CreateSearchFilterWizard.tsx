@@ -107,11 +107,7 @@ const FILTER_STEPS: FilterStep[] = [
         label: "searchFilter.wizard.step.shop",
         desc: "searchFilter.wizard.step.shopDescription",
         restricted: true,
-        content: (disabled) => (
-            <>
-                <MerchantFilters disabled={disabled} />
-            </>
-        ),
+        content: (disabled) => <MerchantFilters disabled={disabled} />,
     },
     {
         label: "searchFilter.wizard.step.date",
