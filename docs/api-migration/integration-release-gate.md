@@ -70,10 +70,26 @@ Static output uses the explicit 40-page allowlist in `vite.config.ts`; authentic
 personalized, dynamic listing/source and deferred auction routes are excluded.
 All five locales have identical keys. The translation audit normalizes Windows paths
 and excludes test/generated fixtures before identifying unused runtime translations.
+Legacy shop/product API error labels are retired or renamed to the current listing/
+source codes; shared transport errors and the unknown-error fallback remain.
 
 ## Validation
 
 Required local release checks are `pnpm test --coverage`, `pnpm lint`,
 `pnpm exec biome ci .`, `pnpm exec tsc --noEmit`, `pnpm build`, and the partner
 reference extractor's Python unit tests. No E2E tests are run for this migration.
-Final outcomes are recorded in the PR after the entire integrated tree passes.
+Local validation on the branch including `develop` commit
+`64e3ea1912a4e1675a8c9b5e1db9f977207671a9` passed:
+
+- Full unit/component suite with coverage: 206 files, 1,586 tests passed; seven
+  pre-existing testimonial tests remain skipped. Line coverage is 90.82%.
+- TypeScript, `pnpm lint`, and the exact `pnpm exec biome ci .` check pass cleanly.
+- Production build and 40 allowlisted prerendered public pages succeed.
+- All six partner reference extractor tests pass; a second `pnpm openapi-ts` run
+  produces no client/reference diff, and inventory generation verifies all operations.
+- Canonical API error translation cleanup additionally passes 13 focused translation/
+  error-adapter tests. LF normalization is enforced by `.gitattributes` so the same
+  formatting checks work on Windows and CI.
+
+Hosted CI results are tracked on the final PR. No required checks were removed or
+weakened, and no E2E tests were run.
