@@ -26,13 +26,13 @@ describe("DiscoverSection", () => {
         });
 
         it("renders all highlights with fallback source count", () => {
-            expect(screen.getByText("Händler")).toBeInTheDocument();
+            expect(screen.getByText("Anbieter")).toBeInTheDocument();
             expect(screen.getByText("Marktüberblick abseits der großen Namen")).toBeInTheDocument();
             expect(screen.getByText("Recherche über Sprachgrenzen hinweg")).toBeInTheDocument();
         });
 
         it("renders highlight descriptions", () => {
-            expect(screen.getByText(/Entdecken Sie Händlerprofile/)).toBeInTheDocument();
+            expect(screen.getByText(/Entdecken Sie Anbieterprofile/)).toBeInTheDocument();
             expect(screen.getByText(/Neue Stücke, Preisbewegungen/)).toBeInTheDocument();
             expect(
                 screen.getByText(/die Begriffe internationaler Anbieter für Sie ein/),

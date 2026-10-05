@@ -110,7 +110,7 @@ describe("ProductCard", () => {
             renderWithRouter(<ProductCard product={mockProduct} />);
         });
         expect(screen.getByText("Details")).toBeInTheDocument();
-        expect(screen.getByText("Zur Seite des Händlers")).toBeInTheDocument();
+        expect(screen.getByText("Zur Seite des Anbieters")).toBeInTheDocument();
     });
 
     it("should add nofollow rel to external merchant link", async () => {
@@ -118,7 +118,7 @@ describe("ProductCard", () => {
             renderWithRouter(<ProductCard product={mockProduct} />);
         });
 
-        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
+        expect(screen.getByRole("link", { name: "Zur Seite des Anbieters" })).toHaveAttribute(
             "rel",
             "nofollow noopener noreferrer",
         );
@@ -129,7 +129,7 @@ describe("ProductCard", () => {
             renderWithRouter(<ProductCard product={mockProduct} />);
         });
 
-        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toHaveAttribute(
+        expect(screen.getByRole("link", { name: "Zur Seite des Anbieters" })).toHaveAttribute(
             "href",
             "https://affiliate.example.com/product",
         );
@@ -139,7 +139,7 @@ describe("ProductCard", () => {
         await act(() => {
             renderWithRouter(<ProductCard product={mockProduct} />);
         });
-        expect(screen.getByRole("link", { name: "Zur Seite des Händlers" })).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "Zur Seite des Anbieters" })).toBeInTheDocument();
     });
 
     it("should disable merchant button when state is REMOVED", async () => {
@@ -148,9 +148,9 @@ describe("ProductCard", () => {
             renderWithRouter(<ProductCard product={removedProduct} />);
         });
         expect(
-            screen.queryByRole("link", { name: "Zur Seite des Händlers" }),
+            screen.queryByRole("link", { name: "Zur Seite des Anbieters" }),
         ).not.toBeInTheDocument();
-        expect(screen.getByRole("button", { name: "Zur Seite des Händlers" })).toBeDisabled();
+        expect(screen.getByRole("button", { name: "Zur Seite des Anbieters" })).toBeDisabled();
     });
 
     describe("search filter highlight", () => {

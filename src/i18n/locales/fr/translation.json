@@ -385,14 +385,14 @@
       }
     },
     "shopResultsFor": "Résultats pour",
-    "publicSourcesBrowseTitle": "Marchands"
+    "publicSourcesBrowseTitle": "Fournisseurs"
   },
   "product": {
     "unknownPrice": "Prix inconnu",
     "untitled": "Lot sans titre",
     "saleObservationPrice": "Prix de vente observé",
     "details": "Détails",
-    "toMerchant": "Voir chez le marchand",
+    "toMerchant": "Voir chez le fournisseur",
     "noImage": "Aucune image disponible",
     "watchlist": {
       "add": "Ajouter à la liste de suivi",
@@ -455,10 +455,10 @@
       }
     },
     "dealer": {
-      "title": "Autres articles de ce vendeur",
+      "title": "Autres annonces de ce fournisseur",
       "error": {
         "title": "Erreur de chargement",
-        "description": "Impossible de charger d'autres articles de ce vendeur."
+        "description": "Impossible de charger d'autres annonces de ce fournisseur."
       }
     },
     "priceChart": {
@@ -526,8 +526,8 @@
     "p1": "Les antiquités sont bien en ligne, mais les pièces pertinentes restent dispersées entre sites de marchands, calendriers de ventes, places de marché et spécialistes locaux. Aura Historia réunit ces sources dans une plateforme calme et soignée.",
     "p2": "Pour les collectionneurs, décorateurs et professionnels, cela veut dire moins d’angles morts : plus de contexte et de meilleures chances de voir une pièce remarquable avant qu’elle ne disparaisse à nouveau.",
     "highlight1": {
-      "title": "Marchands",
-      "description": "Découvrez les profils des marchands et les annonces qui leur sont actuellement associées."
+      "title": "Fournisseurs",
+      "description": "Découvrez les profils des fournisseurs et les annonces qui leur sont actuellement associées."
     },
     "highlight2": {
       "title": "Veille du marché au-delà des grands noms",
@@ -1303,7 +1303,7 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Marchand",
+      "overviewTitle": "Profil du fournisseur",
       "imageAlt": "Image de {{shop}}",
       "operator": "Géré par {{operator}}",
       "visitWebsite": "Visiter le site web",
@@ -1322,7 +1322,7 @@
       }
     },
     "card": {
-      "viewSource": "Voir le profil du marchand"
+      "viewSource": "Voir le profil du fournisseur"
     }
   },
   "notifications": {

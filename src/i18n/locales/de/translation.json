@@ -385,14 +385,14 @@
       }
     },
     "shopResultsFor": "Ergebnisse für",
-    "publicSourcesBrowseTitle": "Händler"
+    "publicSourcesBrowseTitle": "Anbieter"
   },
   "product": {
     "unknownPrice": "Preis unbekannt",
     "untitled": "Unbenanntes Objekt",
     "saleObservationPrice": "Beobachteter Verkaufspreis",
     "details": "Details",
-    "toMerchant": "Zur Seite des Händlers",
+    "toMerchant": "Zur Seite des Anbieters",
     "noImage": "Kein Bild verfügbar",
     "watchlist": {
       "add": "Zur Merkliste hinzufügen",
@@ -460,10 +460,10 @@
       }
     },
     "dealer": {
-      "title": "Weitere Artikel von diesem Händler",
+      "title": "Weitere Artikel von diesem Anbieter",
       "error": {
         "title": "Fehler beim Laden",
-        "description": "Weitere Artikel von diesem Händler konnten nicht geladen werden."
+        "description": "Weitere Artikel von diesem Anbieter konnten nicht geladen werden."
       }
     },
     "auction": {
@@ -526,8 +526,8 @@
     "p1": "Antiquitäten findet man heutzutage zunehmend online. Doch relevante Stücke liegen verstreut: auf Händlerseiten, in Auktionskatalogen, auf Marktplätzen und bei lokalen Spezialisten. Aura Historia führt diese Quellen in einer ruhigen, kuratierten Plattform zusammen.",
     "p2": "Für Sammler, Interior-Profis und den Handel heißt das: weniger blinde Flecken, mehr Kontext und bessere Chancen, ein besonderes Objekt zu sehen, bevor es anderswo verschwindet.",
     "highlight1": {
-      "title": "Händler",
-      "description": "Entdecken Sie Händlerprofile und die aktuell zugeordneten Angebote."
+      "title": "Anbieter",
+      "description": "Entdecken Sie Anbieterprofile und die aktuell zugeordneten Angebote."
     },
     "highlight2": {
       "title": "Marktüberblick abseits der großen Namen",
@@ -1335,7 +1335,7 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Händlerprofil",
+      "overviewTitle": "Anbieterprofil",
       "imageAlt": "Bild für {{shop}}",
       "operator": "Betreiber: {{operator}}",
       "visitWebsite": "Website besuchen",
@@ -1354,7 +1354,7 @@
       }
     },
     "card": {
-      "viewSource": "Händlerprofil ansehen"
+      "viewSource": "Anbieterprofil ansehen"
     }
   },
   "searchFilter": {

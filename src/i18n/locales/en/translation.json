@@ -385,14 +385,14 @@
       }
     },
     "shopResultsFor": "Results for",
-    "publicSourcesBrowseTitle": "Merchants"
+    "publicSourcesBrowseTitle": "Providers"
   },
   "product": {
     "unknownPrice": "Price unknown",
     "untitled": "Untitled listing",
     "saleObservationPrice": "Observed sale price",
     "details": "Details",
-    "toMerchant": "Go to merchant",
+    "toMerchant": "Go to provider",
     "noImage": "No image available",
     "watchlist": {
       "add": "Add to watchlist",
@@ -460,10 +460,10 @@
       }
     },
     "dealer": {
-      "title": "More items from this dealer",
+      "title": "More listings from this provider",
       "error": {
         "title": "Error Loading",
-        "description": "More items from this dealer could not be loaded."
+        "description": "More listings from this provider could not be loaded."
       }
     },
     "auction": {
@@ -526,8 +526,8 @@
     "p1": "Antiques have moved online, but inventory remains split across dealer websites, auction calendars, marketplaces, and local shops. Aura Historia brings that scattered supply into one calm, curated platform view.",
     "p2": "For collectors, decorators, and the trade, that means fewer blind spots: more sources, more context, and a better chance of finding the object others have not noticed yet.",
     "highlight1": {
-      "title": "Merchants",
-      "description": "Explore merchant profiles and the listings currently associated with them."
+      "title": "Providers",
+      "description": "Explore provider profiles and the listings currently associated with them."
     },
     "highlight2": {
       "title": "Market Watch Beyond the Obvious",
@@ -1335,7 +1335,7 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Merchant",
+      "overviewTitle": "Provider profile",
       "imageAlt": "Image for {{shop}}",
       "operator": "Operated by {{operator}}",
       "visitWebsite": "Visit website",
@@ -1354,7 +1354,7 @@
       }
     },
     "card": {
-      "viewSource": "View merchant profile"
+      "viewSource": "View provider profile"
     }
   },
   "searchFilter": {

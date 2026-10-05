@@ -385,14 +385,14 @@
       }
     },
     "shopResultsFor": "Risultati per",
-    "publicSourcesBrowseTitle": "Commercianti"
+    "publicSourcesBrowseTitle": "Fornitori"
   },
   "product": {
     "unknownPrice": "Prezzo sconosciuto",
     "untitled": "Lotto senza titolo",
     "saleObservationPrice": "Prezzo di vendita osservato",
     "details": "Dettagli",
-    "toMerchant": "Vai al commerciante",
+    "toMerchant": "Vai al fornitore",
     "noImage": "Nessuna immagine disponibile",
     "watchlist": {
       "add": "Aggiungi alla lista di interesse",
@@ -455,10 +455,10 @@
       }
     },
     "dealer": {
-      "title": "Altri articoli di questo venditore",
+      "title": "Altri annunci di questo fornitore",
       "error": {
         "title": "Errore di caricamento",
-        "description": "Non è stato possibile caricare altri articoli di questo venditore."
+        "description": "Non è stato possibile caricare altri annunci di questo fornitore."
       }
     },
     "priceChart": {
@@ -526,8 +526,8 @@
     "p1": "L’antiquariato è ormai online, ma i pezzi rilevanti restano dispersi tra siti di commercianti, calendari d’asta, marketplace e specialisti locali. Aura Historia riunisce queste fonti in una piattaforma calma e curata.",
     "p2": "Per collezionisti, interior designer e professionisti significa meno punti ciechi: più contesto e migliori possibilità di vedere un pezzo speciale prima che scompaia di nuovo.",
     "highlight1": {
-      "title": "Commercianti",
-      "description": "Scopri i profili dei commercianti e gli annunci attualmente associati."
+      "title": "Fornitori",
+      "description": "Scopri i profili dei fornitori e gli annunci attualmente associati."
     },
     "highlight2": {
       "title": "Osservare il mercato oltre i nomi più noti",
@@ -1303,7 +1303,7 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Commerciante",
+      "overviewTitle": "Profilo del fornitore",
       "imageAlt": "Immagine di {{shop}}",
       "operator": "Gestito da {{operator}}",
       "visitWebsite": "Visita il sito web",
@@ -1322,7 +1322,7 @@
       }
     },
     "card": {
-      "viewSource": "Vedi il profilo del commerciante"
+      "viewSource": "Vedi il profilo del fornitore"
     }
   },
   "notifications": {

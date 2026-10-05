@@ -385,14 +385,14 @@
       }
     },
     "shopResultsFor": "Resultados para",
-    "publicSourcesBrowseTitle": "Comerciantes"
+    "publicSourcesBrowseTitle": "Proveedores"
   },
   "product": {
     "unknownPrice": "Precio desconocido",
     "untitled": "Lote sin título",
     "saleObservationPrice": "Precio de venta observado",
     "details": "Detalles",
-    "toMerchant": "Ir al vendedor",
+    "toMerchant": "Ir al proveedor",
     "noImage": "No hay imagen disponible",
     "watchlist": {
       "add": "Añadir a la lista de seguimiento",
@@ -455,10 +455,10 @@
       }
     },
     "dealer": {
-      "title": "Más artículos de este vendedor",
+      "title": "Más anuncios de este proveedor",
       "error": {
         "title": "Error de carga",
-        "description": "No se pudieron cargar más artículos de este vendedor."
+        "description": "No se pudieron cargar más anuncios de este proveedor."
       }
     },
     "priceChart": {
@@ -526,8 +526,8 @@
     "p1": "Las antigüedades ya están online, pero las piezas relevantes siguen repartidas entre webs de anticuarios, calendarios de subastas, marketplaces y especialistas locales. Aura Historia reúne esas fuentes en una plataforma serena y cuidada.",
     "p2": "Para coleccionistas, interioristas y profesionales, significa menos puntos ciegos: más contexto y más posibilidades de ver una pieza especial antes de que vuelva a desaparecer.",
     "highlight1": {
-      "title": "Comerciantes",
-      "description": "Explore perfiles de comerciantes y los anuncios que tienen asociados actualmente."
+      "title": "Proveedores",
+      "description": "Explore perfiles de proveedores y los anuncios que tienen asociados actualmente."
     },
     "highlight2": {
       "title": "Lectura del mercado más allá de los nombres obvios",
@@ -1303,7 +1303,7 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Comerciante",
+      "overviewTitle": "Perfil del proveedor",
       "imageAlt": "Imagen de {{shop}}",
       "operator": "Gestionado por {{operator}}",
       "visitWebsite": "Visitar el sitio web",
@@ -1322,7 +1322,7 @@
       }
     },
     "card": {
-      "viewSource": "Ver perfil del comerciante"
+      "viewSource": "Ver perfil del proveedor"
     }
   },
   "notifications": {

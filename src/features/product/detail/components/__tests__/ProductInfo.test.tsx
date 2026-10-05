@@ -83,26 +83,26 @@ describe("ProductInfo", () => {
     });
     it("uses the referral URL with a nofollow relationship", () => {
         renderWithQueryClient(<ProductInfo product={product} />);
-        const link = screen.getByRole("link", { name: /Zur Seite des Händlers/ });
+        const link = screen.getByRole("link", { name: /Zur Seite des Anbieters/ });
         expect(link).toHaveAttribute("href", product.viewUrl?.href);
         expect(link).toHaveAttribute("rel", "nofollow noopener noreferrer");
     });
     it("falls back to the source URL", () => {
         renderWithQueryClient(<ProductInfo product={{ ...product, viewUrl: undefined }} />);
-        expect(screen.getByRole("link", { name: /Zur Seite des Händlers/ })).toHaveAttribute(
+        expect(screen.getByRole("link", { name: /Zur Seite des Anbieters/ })).toHaveAttribute(
             "href",
             product.url?.href,
         );
     });
     it("disables the merchant action for a withdrawn listing", () => {
         renderWithQueryClient(<ProductInfo product={{ ...product, lifecycle: "WITHDRAWN" }} />);
-        expect(screen.getByRole("button", { name: /Zur Seite des Händlers/ })).toBeDisabled();
+        expect(screen.getByRole("button", { name: /Zur Seite des Anbieters/ })).toBeDisabled();
     });
     it("disables the merchant action for a redacted URL", () => {
         renderWithQueryClient(
             <ProductInfo product={{ ...product, url: undefined, viewUrl: undefined }} />,
         );
-        expect(screen.getByRole("button", { name: /Zur Seite des Händlers/ })).toBeDisabled();
+        expect(screen.getByRole("button", { name: /Zur Seite des Anbieters/ })).toBeDisabled();
     });
     it("renders on-request prices", () => {
         renderWithQueryClient(

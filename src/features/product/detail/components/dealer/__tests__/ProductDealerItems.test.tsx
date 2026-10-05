@@ -125,7 +125,7 @@ describe("ProductDealerItems", () => {
 
         expect(screen.getByText("Ancient Vase")).toBeInTheDocument();
         expect(screen.getByText("Roman Coin")).toBeInTheDocument();
-        const shopLink = screen.getByText("Händlerprofil ansehen").closest("a");
+        const shopLink = screen.getByText("Anbieterprofil ansehen").closest("a");
         expect(shopLink).toHaveAttribute("href", "/de/shops/shop-1");
     });
 

@@ -322,7 +322,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         await get(createBrokerRequest());
 
         const [tokenUrl] = mockFetch.mock.calls[0] as [URL, RequestInit];
-        expect(tokenUrl.toString()).toBe("https://api.dev.aura-historia.com/api/v1/oauth/token");
+        expect(tokenUrl.toString()).toBe("https://api.stage.aura-historia.com/api/v1/oauth/token");
     });
 });
 
