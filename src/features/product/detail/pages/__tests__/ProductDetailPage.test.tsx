@@ -1,3 +1,4 @@
+import { makeProductListingDetail } from "@/test/fixtures.ts";
 import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
 import { screen } from "@testing-library/react";
 import { ProductDetailPage } from "../ProductDetailPage.tsx";
@@ -18,10 +19,6 @@ vi.mock("@/features/product/detail/components/ProductHistory.tsx", () => ({
     ProductHistory: () => <div data-testid="product-history">ProductHistory</div>,
 }));
 
-vi.mock("@/features/product/detail/components/ProductLocationSection.tsx", () => ({
-    ProductLocationSection: () => <div data-testid="product-location">ProductLocationSection</div>,
-}));
-
 vi.mock("@/features/product/detail/components/similar/ProductSimilar.tsx", () => ({
     ProductSimilar: () => <div data-testid="product-similar">ProductSimilar</div>,
 }));
@@ -31,34 +28,12 @@ vi.mock("@/features/product/detail/components/dealer/ProductDealerItems.tsx", ()
 }));
 
 describe("ProductDetailPage", () => {
-    const mockProduct: ProductListingDetail = {
-        productId: "1",
-        productSlugId: "test-product",
-        eventId: "",
-        shopId: "",
-        shopSlugId: "test-shop",
-        shopsProductId: "",
-        shopName: "Test Shop",
-        sellerName: "Test Shop",
-        shopType: "AUCTION_HOUSE",
-        title: "Test Product",
-        price: "99€",
-        state: "AVAILABLE",
-        url: new URL("https://example.com"),
-        images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
-        created: new Date(),
-        updated: new Date(),
-    };
+    const mockProduct = makeProductListingDetail({ title: "Test Product" });
 
     it("should render ProductInfo component", () => {
         renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
         expect(screen.getByTestId("product-info")).toBeInTheDocument();
         expect(screen.getByText("ProductInfo: Test Product")).toBeInTheDocument();
-    });
-
-    it("should render ProductLocationSection component", () => {
-        renderWithQueryClient(<ProductDetailPage product={mockProduct} />);
-        expect(screen.getByTestId("product-location")).toBeInTheDocument();
     });
 
     it("should render ProductPriceChart component", () => {

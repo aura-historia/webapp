@@ -77,9 +77,9 @@ describe("MerchantExcludeFilter", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Angebotsquelle ausschließen")).toBeInTheDocument();
+        expect(screen.getByText("Anbieter ausschließen")).toBeInTheDocument();
         expect(
-            screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen..."),
+            screen.getByPlaceholderText("Anbieter zum Ausschließen suchen..."),
         ).toBeInTheDocument();
     });
 
@@ -91,7 +91,7 @@ describe("MerchantExcludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen...");
+        const input = screen.getByPlaceholderText("Anbieter zum Ausschließen suchen...");
 
         await user.type(input, "Test");
 
@@ -123,7 +123,7 @@ describe("MerchantExcludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen...");
+        const input = screen.getByPlaceholderText("Anbieter zum Ausschließen suchen...");
         await user.type(input, "Source");
         const option = await screen.findByText("Source One");
         await user.click(option);
@@ -140,7 +140,7 @@ describe("MerchantExcludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen...");
+        const input = screen.getByPlaceholderText("Anbieter zum Ausschließen suchen...");
 
         await user.type(input, "Special & Chars");
 
@@ -155,7 +155,7 @@ describe("MerchantExcludeFilter", () => {
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen...");
+        const input = screen.getByPlaceholderText("Anbieter zum Ausschließen suchen...");
 
         await user.type(input, "Initial Value");
         await user.clear(input);

@@ -81,6 +81,6 @@ describe("SearchFilterWizardConfirmStep", () => {
 
     it("shows selected listing source count", () => {
         renderConfirmStep("Filter", { q: "", listingSourceId: ["source-a", "source-b"] });
-        expect(screen.getByText("2 Angebotsquellen ausgewählt")).toBeInTheDocument();
+        expect(screen.getByText("2 Anbieter ausgewählt")).toBeInTheDocument();
     });
 });

@@ -3,7 +3,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import type { ShopType } from "@/data/internal/shop/ShopType.ts";
 import { expandFilterCard } from "@/test/utils.tsx";
 
 vi.mock("@/features/search/products/hooks/useFilterNavigation", () => ({
@@ -11,20 +10,13 @@ vi.mock("@/features/search/products/hooks/useFilterNavigation", () => ({
 }));
 
 // Wrapper component to provide form context for tests
-const FormWrapper = ({
-    children,
-    shopType = [],
-}: {
-    children: React.ReactNode;
-    shopType?: ShopType[];
-}) => {
+const FormWrapper = ({ children }: { children: React.ReactNode }) => {
     const methods = useForm({
         defaultValues: {
             auctionDate: {
                 from: undefined,
                 to: undefined,
             },
-            shopType,
         },
     });
     return <FormProvider {...methods}>{children}</FormProvider>;
@@ -43,9 +35,9 @@ describe("AuctionDateSpanFilter", () => {
         expect(screen.getAllByText("Beliebig")).toHaveLength(2);
     });
 
-    it("is enabled when no shop type is selected", () => {
+    it("allows date selection", () => {
         render(
-            <FormWrapper shopType={[]}>
+            <FormWrapper>
                 <AuctionDateSpanFilter />
             </FormWrapper>,
         );
@@ -58,25 +50,10 @@ describe("AuctionDateSpanFilter", () => {
         }
     });
 
-    it("is enabled when AUCTION_HOUSE is selected", () => {
-        render(
-            <FormWrapper shopType={["AUCTION_HOUSE"]}>
-                <AuctionDateSpanFilter />
-            </FormWrapper>,
-        );
-
-        expandFilterCard("Auktionsdatum");
-        const datePickers = screen.getAllByText("Beliebig");
-
-        for (const picker of datePickers) {
-            expect(picker.closest("button")).not.toBeDisabled();
-        }
-    });
-
-    it("has visual indication when disabled", () => {
+    it("has visual indication when the subscription disables it", () => {
         const { container } = render(
-            <FormWrapper shopType={["COMMERCIAL_DEALER"]}>
-                <AuctionDateSpanFilter />
+            <FormWrapper>
+                <AuctionDateSpanFilter disabled />
             </FormWrapper>,
         );
 
@@ -87,7 +64,7 @@ describe("AuctionDateSpanFilter", () => {
 
     it("opens calendar when from date picker is clicked and filter is enabled", async () => {
         render(
-            <FormWrapper shopType={["AUCTION_HOUSE"]}>
+            <FormWrapper>
                 <AuctionDateSpanFilter />
             </FormWrapper>,
         );

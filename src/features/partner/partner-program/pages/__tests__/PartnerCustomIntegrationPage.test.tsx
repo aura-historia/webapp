@@ -77,7 +77,7 @@ describe("PartnerCustomIntegrationPage", () => {
         );
         expect(
             screen.getByText(
-                "Sie haben derzeit keinen Zugriff auf Angebotsquellen. Eine frühere Freigabe wurde möglicherweise widerrufen.",
+                "Sie haben derzeit keinen Zugriff auf Anbieter. Eine frühere Freigabe wurde möglicherweise widerrufen.",
             ),
         ).toBeInTheDocument();
     });
@@ -95,7 +95,7 @@ describe("PartnerCustomIntegrationPage", () => {
             screen.queryByRole("link", { name: /Meine Shop-Seite öffnen/i }),
         ).not.toBeInTheDocument();
         expect(
-            screen.getByText("Der Zugriff auf Angebotsquellen konnte nicht geprüft werden."),
+            screen.getByText("Der Zugriff auf Anbieter konnte nicht geprüft werden."),
         ).toBeInTheDocument();
     });
 
@@ -210,7 +210,7 @@ describe("PartnerCustomIntegrationPage", () => {
 
     it("adds granted listing-source selection as the first step and keeps the choice locally", () => {
         expect(
-            screen.getByRole("heading", { name: "Freigegebene Angebotsquelle auswählen" }),
+            screen.getByRole("heading", { name: "Freigegebenen Anbieter auswählen" }),
         ).toBeInTheDocument();
 
         const selectedShop = screen.getByRole("radio", { name: "Zweiter Shop" });
@@ -280,7 +280,7 @@ describe("PartnerCustomIntegrationPage", () => {
         expect(screen.getByText(/HTTP 200 · Schreibvorgänge abgeschlossen/)).toBeInTheDocument();
         expect(screen.getByText(/maxItems 100/)).toBeInTheDocument();
         expect(screen.getByText(/x-wc-webhook-signature/)).toHaveTextContent("HTTP 204");
-        expect(screen.getByText(/auctionId muss/)).toHaveTextContent("derselben Angebotsquelle");
+        expect(screen.getByText(/auctionId muss/)).toHaveTextContent("desselben Anbieters");
         expect(screen.queryByText(/202 Accepted/)).not.toBeInTheDocument();
     });
 

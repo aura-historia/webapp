@@ -63,7 +63,7 @@ describe("SearchFilterSummary", () => {
 
     it("shows selected listing source count", () => {
         renderSummary("Filter", { q: "", listingSourceId: ["source-a", "source-b"] });
-        expect(screen.getByText("2 Angebotsquellen ausgewählt")).toBeInTheDocument();
+        expect(screen.getByText("2 Anbieter ausgewählt")).toBeInTheDocument();
     });
 
     it("shows the specific state, not the 'all' badge, when only one state is selected", () => {

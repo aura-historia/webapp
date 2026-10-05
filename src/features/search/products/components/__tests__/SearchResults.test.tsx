@@ -1,3 +1,4 @@
+import { makeProductListing, makeProductListingUserState } from "@/test/fixtures.ts";
 import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { screen, waitFor } from "@testing-library/react";
 import { beforeEach, vi } from "vitest";
@@ -134,30 +135,12 @@ describe("SearchResults", () => {
     });
 
     it("renders HiddenMatchCard instead of ProductCard when product is hidden", () => {
-        const hiddenProduct: ProductListing = {
-            productId: "00000000-0000-0000-0000-000000000000",
-            eventId: "e1",
-            shopId: "s1",
-            shopSlugId: "shop-1",
-            shopsProductId: "si1",
-            productSlugId: "hidden",
+        const hiddenProduct = makeProductListing({
             title: "Inhalt verborgen",
-            shopName: "Unbekannter Händler",
-            sellerName: "Unbekannter Händler",
-            shopType: "AUCTION_HOUSE",
-            price: undefined,
-            state: "AVAILABLE",
-            url: null,
-            images: [],
-            created: new Date(),
-            updated: new Date(),
-            userData: {
-                watchlistData: { isWatching: false, isNotificationEnabled: false },
-                notificationData: { hasUnseenNotification: false },
-                restrictedContentData: { consentGiven: false },
-                searchFilterData: { matched: true, hidden: true },
-            },
-        };
+            userState: makeProductListingUserState({
+                searchFilter: { matched: true, hidden: true },
+            }),
+        });
         setSearchMock({ products: [hiddenProduct] });
         renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
         expect(screen.getByText(/Verborgen/i)).toBeInTheDocument();
@@ -165,27 +148,12 @@ describe("SearchResults", () => {
     });
 
     it("renders a list of product cards when products are found", () => {
-        const base: Omit<ProductListing, "productId" | "title"> = {
-            eventId: "e1",
-            shopId: "s1",
-            shopSlugId: "shop-1",
-            shopsProductId: "si1",
-            productSlugId: "product-1",
-            shopName: "Shop 1",
-            sellerName: "Shop 1",
-            shopType: "AUCTION_HOUSE",
-            price: "10 €",
-            state: "AVAILABLE",
-            url: null,
-            images: [],
-            created: new Date(),
-            updated: new Date(),
-        } as const;
+        const base = makeProductListing();
 
         setSearchMock({
             products: [
-                { ...base, productId: "1", title: "Product 1" },
-                { ...base, productId: "2", title: "Product 2" },
+                { ...base, productListingId: "1", title: "Product 1" },
+                { ...base, productListingId: "2", title: "Product 2" },
             ],
         });
         renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
@@ -195,24 +163,7 @@ describe("SearchResults", () => {
 
     it("loads the next page when the cursor indicates more results even if total is reached", async () => {
         const fetchNextPage = vi.fn();
-        const product: ProductListing = {
-            eventId: "e1",
-            productId: "1",
-            shopId: "s1",
-            shopSlugId: "shop-1",
-            shopsProductId: "si1",
-            productSlugId: "product-1",
-            shopName: "Shop 1",
-            sellerName: "Shop 1",
-            shopType: "AUCTION_HOUSE",
-            title: "Product 1",
-            price: "10 €",
-            state: "AVAILABLE",
-            url: null,
-            images: [],
-            created: new Date(),
-            updated: new Date(),
-        };
+        const product = makeProductListing({ productListingId: "1", title: "Product 1" });
 
         intersectionState.inView = true;
         setSearchMock({

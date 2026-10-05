@@ -10,13 +10,11 @@ vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
 }));
 
 const baseUser: UserAccountData = {
-    userId: "u-1",
+    userId: "usr_01TESTUSER",
     email: "user@example.com",
-    prohibitedContentConsent: false,
+    showUnassessedOrSensitiveContent: false,
     role: "USER",
     subscriptionType: "free",
-    created: new Date("2024-01-01T00:00:00Z"),
-    updated: new Date("2024-01-01T00:00:00Z"),
 };
 
 describe("AdminGuard", () => {

@@ -8,7 +8,10 @@ describe("clearViewerScopedQueries", () => {
         const queryClient = new QueryClient();
         const viewerScopedQueryKeys = [
             ["oauthClient", "oc_test"],
-            ["oauthListingSources"],
+            ["ownListingSources"],
+            ["own-partnership-applications"],
+            ["own-partnership-applications", "detail", "application-1"],
+            ["access-tokens"],
             ["watchlist", "user-1"],
             ["search", { term: "chair" }],
             ["similarProductListings", "listing-1"],
@@ -49,5 +52,29 @@ describe("clearViewerScopedQueries", () => {
         }
         expect(queryClient.getQueryData(publicQueryKey)).toEqual({ publicData: true });
         expect(queryClient.getQueryData(publicDetailQueryKey)).toEqual({ publicData: true });
+    });
+
+    it("cancels pending private requests so late responses cannot restore the previous viewer", async () => {
+        const queryClient = new QueryClient();
+        const queryKey = ["own-partnership-applications", "detail", "application-1"];
+        let completeRequest!: (value: { privateEmail: string }) => void;
+        let requestSignal!: AbortSignal;
+        const request = queryClient
+            .fetchQuery({
+                queryKey,
+                queryFn: ({ signal }) => {
+                    requestSignal = signal;
+                    return new Promise<{ privateEmail: string }>((resolve) => {
+                        completeRequest = resolve;
+                    });
+                },
+            })
+            .catch(() => undefined);
+
+        clearViewerScopedQueries(queryClient);
+        expect(requestSignal.aborted).toBe(true);
+        completeRequest({ privateEmail: "previous-viewer@example.com" });
+        await request;
+        expect(queryClient.getQueryData(queryKey)).toBeUndefined();
     });
 });

@@ -73,6 +73,10 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
         );
     }
 
+    if (allProducts.length === 0 && hasNextPage) {
+        return <div ref={sentinelRef} aria-hidden className="h-px w-full" />;
+    }
+
     if (allProducts.length === 0) {
         return (
             <EmptyState

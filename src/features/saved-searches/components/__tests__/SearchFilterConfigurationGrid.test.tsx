@@ -41,9 +41,9 @@ describe("SearchFilterConfigurationGrid", () => {
 
     it("shows source filter counts without exposing opaque IDs", () => {
         renderGrid({ q: "", listingSourceId: ["ls_1"], excludeListingSourceId: ["ls_2", "ls_3"] });
-        expect(screen.getByText("Angebotsquelle einschließen")).toBeInTheDocument();
-        expect(screen.getByText("1 Angebotsquelle ausgewählt")).toBeInTheDocument();
-        expect(screen.getByText("2 Angebotsquellen ausgewählt")).toBeInTheDocument();
+        expect(screen.getByText("Anbieter einschließen")).toBeInTheDocument();
+        expect(screen.getByText("1 Anbieter ausgewählt")).toBeInTheDocument();
+        expect(screen.getByText("2 Anbieter ausgewählt")).toBeInTheDocument();
         expect(screen.queryByText("ls_1")).not.toBeInTheDocument();
     });
 

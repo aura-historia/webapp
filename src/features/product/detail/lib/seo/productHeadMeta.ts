@@ -17,7 +17,9 @@ export function generateProductHeadMeta(
     params: ProductHeadParams,
 ) {
     const productTitle = product?.title ?? i18n.getFixedT(params.lng)("product.untitled");
-    const productImage = product?.images.find((image) => image.url)?.url?.href ?? BANNER_IMAGE_URL;
+    const productImage =
+        product?.images.find((image) => image.prohibitedContentType === "NONE" && image.url)?.url
+            ?.href ?? BANNER_IMAGE_URL;
     const listingPath = getProductListingPath(params.productListingTitleSlugId);
     const productUrl = localizeUrl(new URL(listingPath, env.VITE_APP_URL).toString(), params.lng);
 

@@ -132,4 +132,20 @@ describe("productJsonLd", () => {
         expect(parsed.name).toBe("Antique Chair");
         expect(parsed.offers?.price).toBe(250);
     });
+
+    it("excludes sensitive and unassessed images from public structured data", () => {
+        const product = makeProduct({
+            images: [
+                {
+                    url: new URL("https://example.com/sensitive.jpg"),
+                    prohibitedContentType: "NAZI_GERMANY",
+                },
+                {
+                    url: new URL("https://example.com/unassessed.jpg"),
+                    prohibitedContentType: "UNKNOWN",
+                },
+            ],
+        });
+        expect(generateProductJsonLd(product).image).toEqual([BANNER_IMAGE_URL]);
+    });
 });

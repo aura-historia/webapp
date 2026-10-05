@@ -53,7 +53,7 @@ describe("MerchantFilters", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Angebotsquellen")).toBeInTheDocument();
+        expect(screen.getByText("Anbieter")).toBeInTheDocument();
     });
 
     it("renders MerchantIncludeFilter", () => {
@@ -63,8 +63,8 @@ describe("MerchantFilters", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Angebotsquelle einschließen")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Angebotsquellen suchen...")).toBeInTheDocument();
+        expect(screen.getByText("Anbieter einschließen")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Anbieter suchen...")).toBeInTheDocument();
     });
 
     it("renders MerchantExcludeFilter", () => {
@@ -74,9 +74,9 @@ describe("MerchantFilters", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Angebotsquelle ausschließen")).toBeInTheDocument();
+        expect(screen.getByText("Anbieter ausschließen")).toBeInTheDocument();
         expect(
-            screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen..."),
+            screen.getByPlaceholderText("Anbieter zum Ausschließen suchen..."),
         ).toBeInTheDocument();
     });
 
@@ -87,13 +87,13 @@ describe("MerchantFilters", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("Angebotsquelle einschließen")).toBeInTheDocument();
-        expect(screen.getByText("Angebotsquelle ausschließen")).toBeInTheDocument();
+        expect(screen.getByText("Anbieter einschließen")).toBeInTheDocument();
+        expect(screen.getByText("Anbieter ausschließen")).toBeInTheDocument();
 
         // Both search inputs should be present
-        expect(screen.getByPlaceholderText("Angebotsquellen suchen...")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Anbieter suchen...")).toBeInTheDocument();
         expect(
-            screen.getByPlaceholderText("Auszuschließende Angebotsquellen suchen..."),
+            screen.getByPlaceholderText("Anbieter zum Ausschließen suchen..."),
         ).toBeInTheDocument();
     });
 });

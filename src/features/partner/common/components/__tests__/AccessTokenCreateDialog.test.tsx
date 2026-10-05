@@ -39,6 +39,7 @@ describe("AccessTokenCreateDialog", () => {
     it("submits optional scopes and expiration", async () => {
         const user = userEvent.setup();
         render(<AccessTokenCreateDialog open onOpenChange={vi.fn()} />);
+        expect(screen.getByLabelText("Anbieterimport konfigurieren")).not.toBeChecked();
 
         await user.type(screen.getByLabelText("Name"), "Product sync");
         await user.click(screen.getByLabelText("Produktangebote schreiben"));
@@ -50,6 +51,23 @@ describe("AccessTokenCreateDialog", () => {
                 name: "Product sync",
                 scopes: ["product-listings:write"],
                 expiresAt: new Date("2026-08-01T12:00"),
+            },
+            { onSuccess: expect.any(Function) },
+        );
+    });
+
+    it("grants ingestion configuration access only when explicitly selected", async () => {
+        const user = userEvent.setup();
+        render(<AccessTokenCreateDialog open onOpenChange={vi.fn()} />);
+        await user.type(screen.getByLabelText("Name"), "Ingestion configuration");
+        await user.click(screen.getByLabelText("Anbieterimport konfigurieren"));
+        await user.click(screen.getByRole("button", { name: "Token erstellen" }));
+
+        expect(mockCreateAccessTokenMutate).toHaveBeenCalledWith(
+            {
+                name: "Ingestion configuration",
+                scopes: ["listing-sources:write"],
+                expiresAt: undefined,
             },
             { onSuccess: expect.any(Function) },
         );

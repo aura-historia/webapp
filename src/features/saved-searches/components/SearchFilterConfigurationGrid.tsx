@@ -1,3 +1,4 @@
+import { CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import {
@@ -94,7 +95,8 @@ export function SearchFilterConfigurationGrid({ search }: Props) {
             {hasPrice && (
                 <CriteriaTile icon={Coins} label={t("search.filter.priceSpan")}>
                     <Badge variant="outline">
-                        {search.priceFrom ?? "?"} – {search.priceTo ?? "?"} €
+                        {search.priceFrom ?? "?"} – {search.priceTo ?? "?"}{" "}
+                        {CURRENCY_SYMBOLS[search.currency ?? "EUR"]}
                     </Badge>
                 </CriteriaTile>
             )}

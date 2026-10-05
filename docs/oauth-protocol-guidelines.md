@@ -22,7 +22,7 @@ The generated `getOAuthConsentClient` operation supplies `OAuthClientConsentMeta
 
 ## Scopes and listing-source routing
 
-- Consent displays requested scopes with the eight shared access-token scope definitions and localized descriptions. No registered scopes are silently added, and legacy scope names are not translated into new privileges.
+- Consent displays requested scopes with the shared access-token scope definitions and localized descriptions, including optional `listing-sources:write` for provider ingestion configuration. No registered scopes are silently added, and legacy scope names are not translated into new privileges.
 - `getMyListingSources` replaces partner-shop listing. Reads use `cache: no-store` so the browser cannot reuse stale grants. Responses are mapped to internal source references before selection UI. Single-source selection is preserved; manual choices are discarded when the request identity changes, including when navigating back to an earlier request.
 - `requires_listing_source_id` replaces the partner-shop selection flag. The selected canonical `listingSourceId` is carried as `listing_source_id` on return links, without adding a backend OAuth authorize parameter.
 - Source selection is integration routing information, not source-scoped token authorization. Token permissions follow requested scopes and current backend grants.

@@ -2,6 +2,12 @@
 
 Analysis date: 2026-09-10.
 
+The final MIG-24 capture, scope decisions and validation are in
+[integration release gate](integration-release-gate.md) and the refreshed
+[complete operation/model inventory](integrated-inventory.md). `pnpm openapi-ts`
+now uses the pinned `swagger.integrated.yaml` for both client and partner reference;
+the inventories below describe the original planning snapshot.
+
 ## Sources and reproducibility
 
 - Target: https://raw.githubusercontent.com/aura-historia/backend/refs/heads/develop/docs/swagger.yaml

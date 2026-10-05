@@ -21,7 +21,7 @@ vi.mock("@/features/authentication/hooks/useResolvedAuth.ts", () => ({
 }));
 
 const emptyMessage =
-    "Sie haben derzeit keinen Zugriff auf Angebotsquellen. Eine frühere Freigabe wurde möglicherweise widerrufen.";
+    "Sie haben derzeit keinen Zugriff auf Anbieter. Eine frühere Freigabe wurde möglicherweise widerrufen.";
 
 describe("granted-source portfolio", () => {
     beforeEach(() => {
@@ -42,9 +42,7 @@ describe("granted-source portfolio", () => {
 
     it("renders only minimal references with no edit controls or detail links", () => {
         render(<PartnerListingSourcesSection />);
-        expect(
-            screen.getByRole("heading", { name: "Freigegebene Angebotsquellen" }),
-        ).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: "Freigegebene Anbieter" })).toBeInTheDocument();
         expect(screen.getByText("Aurora Antiques")).toBeInTheDocument();
         expect(screen.getByText("ls_dealer")).toBeInTheDocument();
         expect(screen.queryByRole("button")).not.toBeInTheDocument();

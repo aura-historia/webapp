@@ -2,6 +2,13 @@
 
 Apply this guide to admin routes, handlers, and features.
 
+The endpoint migration deliberately defers the admin dashboard. Its authenticated,
+noindex route placeholders retain `AdminGuard`; legacy feature implementations and
+DTOs are removed rather than compiled against incompatible endpoints. The generated
+admin SDK is not an implemented dashboard. Restore workflows only with current DTO
+mapping, tests and the authorization checks below. See
+[MIG-24 scope decisions](api-migration/integration-release-gate.md).
+
 ## Requirement
 
 - UI visibility, route guards, and hidden controls are not authorization boundaries.

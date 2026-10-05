@@ -14,7 +14,7 @@
         "format:fix": "biome format --write",
         "lint": "biome lint",
         "check": "biome check",
-        "openapi-ts": "openapi-ts && python scripts/generate_partner_products_openapi.py",
+        "openapi-ts": "openapi-ts && python scripts/generate_partner_products_openapi.py --input docs/api-migration/swagger.integrated.yaml",
         "prepare": "husky",
         "preview": "vite preview",
         "deploy": "wrangler deploy",

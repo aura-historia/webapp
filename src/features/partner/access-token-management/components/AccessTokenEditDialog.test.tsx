@@ -45,3 +45,22 @@ it("clears the existing expiry and last scope explicitly", async () => {
         expect.anything(),
     );
 });
+
+it("preserves an existing ingestion grant when changing only the name", async () => {
+    const user = userEvent.setup();
+    render(
+        <AccessTokenEditDialog
+            accessToken={{ ...accessToken, scopes: ["listing-sources:write"] }}
+            open
+            onOpenChange={vi.fn()}
+        />,
+    );
+    expect(screen.getByLabelText("Anbieterimport konfigurieren")).toBeChecked();
+    await user.clear(screen.getByLabelText("Name"));
+    await user.type(screen.getByLabelText("Name"), "Renamed");
+    await user.click(screen.getByRole("button", { name: "Änderungen speichern" }));
+    expect(mutate).toHaveBeenCalledWith(
+        { id: accessToken.id, name: "Renamed", scopes: undefined, expiresAt: undefined },
+        expect.anything(),
+    );
+});

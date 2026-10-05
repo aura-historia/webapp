@@ -1,7 +1,6 @@
 {
   "common": {
     "auraHistoria": "Aura Historia",
-    "infoButton": "Weitere Informationen",
     "unitSystemPrefix": "Einheiten",
     "currencySearchPlaceholder": "Währungen durchsuchen…",
     "currencySearchEmpty": "Keine Währung gefunden."
@@ -333,7 +332,6 @@
       "creationDate": "Hinzugefügt",
       "from": "Von:",
       "to": "Bis:",
-      "productState": "Anzeigenstatus",
       "availability": "Verfügbarkeit",
       "listingSource": "Anbieter einschließen",
       "listingSources": "Anbieter",
@@ -343,44 +341,22 @@
       "searchExcludeListingSources": "Anbieter zum Ausschließen suchen...",
       "sourceCount_one": "{{count}} Anbieter ausgewählt",
       "sourceCount_other": "{{count}} Anbieter ausgewählt",
-      "merchant": "Händler",
-      "merchants": "Händler",
-      "searchMerchants": "Händler suchen...",
-      "noMerchantsFound": "Keine Händler gefunden",
-      "excludeMerchant": "Händler ausschließen",
-      "searchExcludeMerchants": "Auszuschließende Händler suchen...",
-      "seller": "Verkäufer",
-      "sellers": "Verkäufer",
-      "searchSellers": "Verkäufer suchen...",
-      "noSellersFound": "Keine Verkäufer gefunden",
-      "excludeSeller": "Verkäufer ausschließen",
-      "searchExcludeSellers": "Auszuschließende Verkäufer suchen...",
-      "shopType": "Shop-Typ",
       "priceSpan": "Preisspanne",
       "min": "Min",
       "max": "Max",
       "priceSpanAria": "Preisspanne",
       "updateDate": "Aktualisiert",
       "auctionDate": "Auktionsdatum",
-      "auctionDateDisabledTooltip": "Nur für Auktionshäuser verfügbar",
       "anyDate": "Beliebig",
       "all": "Alle",
-      "select": "Auswählen",
       "resetTooltip": {
         "priceSpan": "Filter für die Preisspanne zurücksetzen",
-        "productState": "Filter für den Status zurücksetzen",
         "availability": "Verfügbarkeitsfilter zurücksetzen",
         "listingSources": "Anbieterfilter zurücksetzen",
         "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
         "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
-        "auctionDate": "Filter für das Auktionsdatum zurücksetzen",
-        "merchants": "Filter für die Händler zurücksetzen",
-        "sellers": "Filter für die Verkäufer zurücksetzen",
-        "shopType": "Filter für den Shop-Typ zurücksetzen",
-        "partnerStatus": "Partnerstatus-Filter zurücksetzen"
-      },
-      "partnerStatus": "Partnerstatus",
-      "requireSelection": "Mindestens 1 Auswahl erforderlich"
+        "auctionDate": "Filter für das Auktionsdatum zurücksetzen"
+      }
     },
     "messages": {
       "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",
@@ -402,18 +378,14 @@
       "relevance": "Relevanz",
       "creationDate": "Erstellungsdatum",
       "updateDate": "Zuletzt aktualisiert",
-      "price": "Preis",
       "order": {
         "label": "Reihenfolge:",
         "asc": "Aufsteigend",
         "desc": "Absteigend"
-      },
-      "name": "Name"
+      }
     },
     "shopResultsFor": "Ergebnisse für",
-    "publicSourcesBrowseTitle": "Händler",
-    "totalShopResults_one": "{{count}} Shop",
-    "totalShopResults_other": "{{count}} Shops"
+    "publicSourcesBrowseTitle": "Händler"
   },
   "product": {
     "unknownPrice": "Preis unbekannt",
@@ -421,20 +393,7 @@
     "saleObservationPrice": "Beobachteter Verkaufspreis",
     "details": "Details",
     "toMerchant": "Zur Seite des Händlers",
-    "soldOn": "auf",
     "noImage": "Kein Bild verfügbar",
-    "location": {
-      "eyebrow": "Standort",
-      "title": "Wo sich dieser Artikel befindet",
-      "description": "Adresse, an der sich dieser Artikel befindet, soweit öffentlich verfügbar.",
-      "noAddress": "Wir haben noch keine Adresse für diesen Artikel.",
-      "noLocation": "Wir haben noch keine Standortinformationen für diesen Artikel.",
-      "mapTitle": "Karte mit dem Standort von {{title}}",
-      "mapConsentTitle": "Karte erst nach Zustimmung laden",
-      "mapConsentDescription": "Die Karte wird von Google Maps bereitgestellt. Beim Laden können Daten wie Ihre IP-Adresse an Google übermittelt werden.",
-      "mapConsentButton": "Karte anzeigen",
-      "mapConsentSettings": "Cookie-Einstellungen"
-    },
     "watchlist": {
       "add": "Zur Merkliste hinzufügen",
       "remove": "Von der Merkliste entfernen"
@@ -472,17 +431,7 @@
         "details": "Details"
       },
       "events": {
-        "statusChanged": "Der Status wurde von {{oldState}} auf {{newState}} geändert.",
-        "priceDiscovered": "Preis entdeckt • {{price}}.",
-        "priceChanged": "Der Preis ist von {{oldPrice}} auf {{newPrice}} {{verb}}.",
-        "priceFallen": "gefallen",
-        "priceIncreased": "gestiegen",
-        "priceRemoved": "Preis entfernt • Letzter Preis: {{price}}.",
-        "created": "Im System erfasst",
-        "estimatePriceChanged": "Geschätzter Preisbereich aktualisiert.",
         "urlChanged": "Produkt-URL aktualisiert.",
-        "imagesChanged": "Bilder aktualisiert • {{count}} Bild(er).",
-        "auctionTimeChanged": "Auktionszeitraum aktualisiert.",
         "listingDiscoveredTitle": "Eintrag entdeckt",
         "listingChangedTitle": "Eintrag aktualisiert",
         "listingDiscovered": "Zuerst von Aura Historia erfasst.",
@@ -518,17 +467,7 @@
       }
     },
     "auction": {
-      "start": "ab {{date}}",
-      "end": "bis {{date}}",
-      "range": "{{start}} – {{end}}",
       "lotNumber": "Los {{lotNumber}}"
-    },
-    "priceEstimate": {
-      "tooltip": "Preisschätzung vom {{shopType}}",
-      "tooltipUnknown": "Preisschätzung",
-      "minOnly": "Mind. {{min}}",
-      "maxOnly": "Max. {{max}}",
-      "range": "{{min}} - {{max}}"
     },
     "priceChart": {
       "title": "Preisverlauf",
@@ -580,30 +519,6 @@
     "reserved": "Reserviert",
     "outOfStock": "Nicht auf Lager",
     "soldOut": "Ausverkauft"
-  },
-  "productState": {
-    "listed": "Gelistet",
-    "listedDescription": "Dieser Artikel ist sichtbar, steht aber noch nicht zum Kauf bereit.",
-    "available": "Verfügbar",
-    "availableDescription": "Dieser Artikel steht zum Kauf zur Verfügung.",
-    "reserved": "Reserviert",
-    "reservedDescription": "Dieser Artikel ist reserviert. Er könnte wieder verfügbar werden.",
-    "sold": "Verkauft",
-    "soldDescription": "Dieser Artikel wurde bereits verkauft.",
-    "removed": "Gelöscht",
-    "removedDescription": "Dieser Artikel wurde vom Händler entfernt und kann nicht mehr verfolgt werden.",
-    "unknown": "Unbekannt",
-    "unknownDescription": "Der aktuelle Verfügbarkeitsstatus dieses Artikels ist unklar."
-  },
-  "shopType": {
-    "auctionHouse": "Auktionshaus",
-    "auctionPlatform": "Auktionsplattform",
-    "commercialDealer": "Händler",
-    "marketplace": "Marktplatz"
-  },
-  "shopPartnerStatus": {
-    "partnered": "Offizieller Partner",
-    "scraped": "Öffentlich indexiert"
   },
   "discover": {
     "eyebrow": "Der Markt",
@@ -1175,7 +1090,6 @@
   "watchlist": {
     "title": "Meine Merkliste",
     "loginRequired": "Bitte melden Sie sich an, um die Merkliste nutzen zu können.",
-    "totalElements": "{{count}} Artikel",
     "loadingError": {
       "title": "Merkliste nicht erreichbar",
       "description": "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut."
@@ -1434,30 +1348,14 @@
   "shop": {
     "header": {
       "overviewTitle": "Händlerprofil",
-      "indexedItems": "Erfasste Objekte",
       "imageAlt": "Bild für {{shop}}",
       "operator": "Betreiber: {{operator}}",
       "visitWebsite": "Website besuchen",
       "noImage": "Kein Bild verfügbar",
-      "addedOn": "Hinzugefügt am {{date}}",
       "metaDescription": "Entdecken Sie {{shop}} auf Aura Historia."
-    },
-    "location": {
-      "eyebrow": "Standort",
-      "title": "Wo Sie {{shopTypeArticle}} finden",
-      "description": "Adresse und Kontaktinformationen von {{shop}}, soweit diese öffentlich verfügbar sind.",
-      "noAddress": "Wir haben noch keine Adresse für {{shopTypeArticle}}.",
-      "noLocation": "Wir haben noch keine Standortinformationen für {{shopTypeArticle}}.",
-      "mapTitle": "Karte mit dem Standort von {{shop}}",
-      "mapConsentTitle": "Karte erst nach Zustimmung laden",
-      "mapConsentDescription": "Die Karte wird von Google Maps bereitgestellt. Beim Laden können Daten wie Ihre IP-Adresse an Google übermittelt werden.",
-      "mapConsentButton": "Karte anzeigen",
-      "mapConsentSettings": "Cookie-Einstellungen"
     },
     "products": {
       "loadingMore": "Weitere Artikel werden geladen...",
-      "allLoaded_one": "Sie haben {{count}} Artikel {{shopTypePossessive}} gesehen.",
-      "allLoaded_other": "Sie haben alle {{count}} Artikel {{shopTypePossessive}} gesehen.",
       "noResults": {
         "title": "Keine Artikel gefunden",
         "description": "Derzeit sind keine Angebote bei {{source}} gelistet."
@@ -1469,14 +1367,6 @@
     },
     "card": {
       "viewSource": "Händlerprofil ansehen"
-    },
-    "typeFallback": "Händler",
-    "typePossessiveFallback": "dieses Händlers",
-    "typeArticleFallback": "diesen Händler",
-    "contact": {
-      "eyebrow": "Kontakt",
-      "email": "E-Mail",
-      "phone": "Telefon"
     }
   },
   "searchFilter": {
@@ -1662,7 +1552,8 @@
         "accessTokensWrite": "Zugriffstoken im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen, aktualisieren oder widerrufen.",
         "searchFiltersWrite": "Ihre gespeicherten Suchen erstellen, aktualisieren oder löschen.",
         "watchlistRead": "Die Angebote in Ihrer Merkliste lesen.",
-        "watchlistWrite": "Angebote hinzufügen oder entfernen und Ihre Merklisten-Einstellungen aktualisieren."
+        "watchlistWrite": "Angebote hinzufügen oder entfernen und Ihre Merklisten-Einstellungen aktualisieren.",
+        "listingSourcesWrite": "WooCommerce- und Shopify-Importeinstellungen für Anbieter aktivieren oder ersetzen, für die Ihr Konto Schreibzugriff hat. Dazu gehört das Festlegen oder Ersetzen des WooCommerce-Webhook-Geheimnisses."
       },
       "validation": {
         "nameRequired": "Bitte geben Sie einen Token-Namen ein.",
@@ -1713,111 +1604,31 @@
       "accessTokensWrite": "Zugriffstoken verwalten",
       "searchFiltersWrite": "Gespeicherte Suchen verwalten",
       "watchlistRead": "Merkliste lesen",
-      "watchlistWrite": "Merkliste verwalten"
+      "watchlistWrite": "Merkliste verwalten",
+      "listingSourcesWrite": "Anbieterimport konfigurieren"
     }
   },
   "partnerApplications": {
     "title": "Aktuelle Partneranträge",
-    "description": "Alle Partneranträge, die Sie für Shops eingereicht haben.",
     "actions": {
       "retry": "Erneut versuchen"
     },
     "create": {
       "open": "Neuer Antrag",
       "title": "Partnerantrag einreichen",
-      "description": "Beantragen Sie eine Partnerschaft für einen bestehenden Shop per ID oder erstellen Sie einen neuen Shop zur Prüfung.",
       "submit": "Antrag einreichen",
       "submitting": "Wird eingereicht…",
       "cancel": "Abbrechen",
       "success": "Partnerantrag eingereicht.",
-      "type": {
-        "new": "Neuer Shop",
-        "existing": "Bestehender Shop"
-      },
-      "fields": {
-        "type": "Antragstyp",
-        "shopId": "Shop",
-        "shopName": "Shop-Name",
-        "shopType": "Shop-Typ",
-        "shopDomains": "Domains",
-        "shopDomainsHint": "Trennen Sie Domains mit Zeilenumbrüchen, Kommas, Semikolons oder Leerzeichen. Domains werden vor dem Senden normalisiert.",
-        "shopUrl": "Primäre Shop-URL",
-        "shopImage": "Logo- oder Bild-URL",
-        "shopPhone": "Telefon",
-        "shopEmail": "E-Mail",
-        "address": "Adresse",
-        "addressline": "Adresszeile",
-        "addresslineExtra": "Adresszusatz",
-        "locality": "Ort",
-        "region": "Region",
-        "postalCode": "Postleitzahl",
-        "country": "Ländercode"
-      },
       "validation": {
-        "shopIdRequired": "Bitte wählen Sie einen bestehenden Shop aus.",
-        "shopNameRequired": "Bitte geben Sie den Shop-Namen ein.",
-        "domainsRequired": "Bitte geben Sie mindestens eine Domain ein.",
         "urlInvalid": "Bitte geben Sie eine gültige URL ein.",
-        "imageInvalid": "Bitte geben Sie eine gültige Bild-URL ein.",
         "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
-      },
-      "shopSearch": {
-        "placeholder": "Shops nach Namen suchen …",
-        "loading": "Shops werden gesucht.",
-        "empty": "Keine Shops gefunden.",
-        "clear": "Ausgewählten Shop entfernen"
       }
     },
     "loading": "Partneranträge werden geladen.",
     "loadError": "Ihre Partneranträge konnten nicht geladen werden.",
     "empty": "Sie haben noch keine Partneranträge eingereicht.",
-    "submittedAt": "Eingereicht am {{date}}",
-    "updatedAt": "Aktualisiert am {{date}}",
     "viewDetails": "Details ansehen",
-    "progress": {
-      "handedIn": "Eingereicht",
-      "checking": "In Prüfung",
-      "completed": "Abgeschlossen",
-      "approved": "Genehmigt",
-      "denied": "Abgelehnt"
-    },
-    "detail": {
-      "title": "Antragsdetails",
-      "description": "Prüfen Sie den aktuellen Status und die eingereichten Shop-Informationen.",
-      "loadError": "Dieser Partnerantrag konnte nicht geladen werden.",
-      "close": "Details schließen",
-      "edit": "Antrag bearbeiten",
-      "editCancel": "Abbrechen",
-      "editSave": "Änderungen speichern",
-      "editSuccess": "Partnerantrag wurde aktualisiert.",
-      "delete": "Antrag löschen",
-      "deleteSuccess": "Partnerantrag wurde gelöscht.",
-      "deleteConfirm": {
-        "title": "Diesen Partnerantrag löschen?",
-        "description": "Dieser ausstehende Antrag wird dauerhaft gelöscht und kann nicht wiederhergestellt werden.",
-        "cancel": "Abbrechen",
-        "confirm": "Löschen"
-      },
-      "progressLabel": "Antragsfortschritt",
-      "applicationSection": "Antrag",
-      "shopSection": "Shop-Informationen",
-      "createdAt": "Eingereicht",
-      "updatedAt": "Aktualisiert",
-      "shopName": "Shop-Name",
-      "shopType": "Shop-Typ",
-      "domains": "Domains",
-      "shopUrl": "Primäre URL",
-      "shopImage": "Bild-URL",
-      "shopPhone": "Telefon",
-      "shopEmail": "E-Mail",
-      "address": "Adresse",
-      "addressline": "Adresszeile",
-      "addresslineExtra": "Adresszusatz",
-      "locality": "Ort",
-      "region": "Region",
-      "postalCode": "Postleitzahl",
-      "country": "Ländercode"
-    },
     "businessState": {
       "submitted": "Eingereicht",
       "inReview": "In Prüfung",
@@ -1859,297 +1670,9 @@
   },
   "adminDashboard": {
     "loading": "Wird geladen…",
-    "sidebarLabel": "Admin-Bereiche",
     "forbidden": {
       "title": "Zugriff verweigert",
       "description": "Sie haben keine Berechtigung, das Admin-Dashboard anzuzeigen. Bitte melden Sie sich mit einem Administratorkonto an."
-    },
-    "nav": {
-      "overview": "Übersicht",
-      "shops": "Shops",
-      "partnerApplications": "Partner-Anträge",
-      "users": "Benutzer",
-      "oauthClients": "OAuth-Clients"
-    },
-    "overview": {
-      "title": "Admin-Dashboard",
-      "description": "Shops verwalten, Partneranträge prüfen und Benutzerkonten administrieren.",
-      "shops": {
-        "title": "Shops",
-        "description": "Shops durchsuchen und Metadaten bearbeiten."
-      },
-      "applications": {
-        "title": "Partner-Anträge",
-        "description": "Eingehende Partner-Anträge prüfen und entscheiden.",
-        "pendingCount_one": "{{count}} Antrag wartet auf Prüfung",
-        "pendingCount_other": "{{count}} Anträge warten auf Prüfung"
-      },
-      "users": {
-        "title": "Benutzer",
-        "description": "Konten suchen, Benutzerdetails prüfen und Rolle, Tarif, Einstellungen sowie Stripe-Zuordnungen verwalten.",
-        "totalCount_one": "{{count}} Benutzerkonto",
-        "totalCount_other": "{{count}} Benutzerkonten"
-      },
-      "oauthClients": {
-        "title": "OAuth-Clients",
-        "description": "Registrierte OAuth-Client-Anwendungen verwalten.",
-        "totalCount_one": "{{count}} OAuth-Client",
-        "totalCount_other": "{{count}} OAuth-Clients"
-      }
-    },
-    "actions": {
-      "edit": "Bearbeiten",
-      "save": "Speichern",
-      "cancel": "Abbrechen",
-      "close": "Schließen",
-      "retry": "Erneut versuchen"
-    },
-    "shops": {
-      "title": "Shops",
-      "description": "Shop-Katalog durchsuchen, neue Shops anlegen und Shop-Metadaten bearbeiten.",
-      "searchPlaceholder": "Shops nach Namen suchen…",
-      "loadError": "Shops konnten nicht geladen werden.",
-      "empty": "Keine Shops entsprechen dem aktuellen Filter.",
-      "totalCount_one": "{{count}} Shop",
-      "totalCount_other": "{{count}} Shops",
-      "updatedAt": "Aktualisiert {{date}}",
-      "shopImageAlt": "Logo von {{shop}}",
-      "editAriaLabel": "{{shop}} bearbeiten",
-      "filter": {
-        "all": "Alle"
-      },
-      "actions": {
-        "create": "Shop anlegen"
-      },
-      "fields": {
-        "name": "Shop-Name",
-        "shopId": "Shop-ID",
-        "shopType": "Shop-Typ",
-        "url": "Primäre Shop-URL",
-        "shopifyDomain": "Shopify-Domain",
-        "shopifyCurrency": "Shopify-Währung",
-        "shopifyLanguage": "Shopify-Sprache",
-        "woocommerceCurrency": "WooCommerce-Währung",
-        "woocommerceLanguage": "WooCommerce-Sprache",
-        "image": "Bild-URL",
-        "domains": "Domains",
-        "domainsHint": "Eine pro Zeile. Domains werden in Kleinbuchstaben ohne Schema oder Pfad normalisiert.",
-        "phone": "Telefon",
-        "email": "E-Mail",
-        "addressline": "Adresszeile",
-        "addresslineExtra": "Adresszeile 2",
-        "locality": "Stadt / Ort",
-        "region": "Region / Bundesland",
-        "postalCode": "Postleitzahl",
-        "country": "Land",
-        "countryHint": "Wählen Sie das Land der Shop-Adresse aus.",
-        "currencyPlaceholder": "Währung auswählen",
-        "currencyNone": "Keine Währung",
-        "languagePlaceholder": "Sprache auswählen",
-        "languageNone": "Keine Sprache",
-        "countryPlaceholder": "Land auswählen",
-        "countryNone": "Kein Land"
-      },
-      "create": {
-        "title": "Shop anlegen",
-        "description": "Einen neuen Shop-Datensatz anlegen. Der Slug wird automatisch aus dem Shop-Namen abgeleitet.",
-        "submit": "Shop anlegen",
-        "success": "Shop angelegt.",
-        "validation": {
-          "nameRequired": "Bitte geben Sie einen Shop-Namen ein.",
-          "nameTooLong": "Der Shop-Name darf nicht länger als 255 Zeichen sein.",
-          "domainsRequired": "Bitte geben Sie mindestens eine Domain ein.",
-          "urlInvalid": "Bitte geben Sie eine gültige Shop-URL ein.",
-          "imageInvalid": "Bitte geben Sie eine gültige Bild-URL ein.",
-          "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
-        }
-      },
-      "edit": {
-        "title": "Shop bearbeiten",
-        "description": "{{shop}} wird bearbeitet",
-        "success": "Shop aktualisiert."
-      },
-      "sections": {
-        "core": "Kerndaten",
-        "shopify": "Shopify",
-        "woocommerce": "WooCommerce",
-        "contact": "Kontakt",
-        "address": "Postanschrift"
-      }
-    },
-    "applications": {
-      "title": "Partner-Anträge",
-      "description": "Von Partnern eingereichte Anträge prüfen und genehmigen oder ablehnen.",
-      "loadError": "Partner-Anträge konnten nicht geladen werden.",
-      "empty": "Keine Anträge entsprechen dem aktuellen Filter.",
-      "submittedAt": "Eingereicht am {{date}}",
-      "updatedAt": "Aktualisiert am {{date}}",
-      "existingShop": "Bestehender Shop",
-      "tabs": {
-        "pending": "Offen",
-        "decided": "Entschieden",
-        "all": "Alle"
-      },
-      "businessState": {
-        "submitted": "Eingereicht",
-        "inReview": "In Prüfung",
-        "approved": "Genehmigt",
-        "rejected": "Abgelehnt"
-      },
-      "executionState": {
-        "processing": "In Verarbeitung",
-        "waiting": "Wartet auf Entscheidung",
-        "completed": "Abgeschlossen"
-      },
-      "payloadType": {
-        "new": "Neuer Shop",
-        "existing": "Bestehender Shop"
-      },
-      "actions": {
-        "approve": "Genehmigen",
-        "approveAriaLabel": "Antrag genehmigen",
-        "reject": "Ablehnen",
-        "rejectAriaLabel": "Antrag ablehnen",
-        "details": "Details"
-      },
-      "decision": {
-        "approveSuccess": "Antrag genehmigt.",
-        "rejectSuccess": "Antrag abgelehnt."
-      },
-      "fields": {
-        "shopName": "Shop-Name",
-        "shopType": "Shop-Typ",
-        "image": "Bild-URL",
-        "domains": "Domains",
-        "domainsHint": "Eine pro Zeile. Domains werden in Kleinbuchstaben ohne Schema oder Pfad normalisiert."
-      },
-      "edit": {
-        "title": "Antrag bearbeiten",
-        "description": "Antrags-Daten vor der Entscheidung aktualisieren.",
-        "success": "Antrag aktualisiert."
-      },
-      "detail": {
-        "title": "Details zum Partnerantrag",
-        "description": "Antragsdaten, Verarbeitungsstatus und das zugehörige Benutzerkonto prüfen.",
-        "applicationId": "Antrags-ID",
-        "payloadType": "Antragstyp",
-        "createdAt": "Erstellt",
-        "updatedAt": "Aktualisiert",
-        "shopSection": "Shop-Informationen",
-        "shopId": "Shop-ID",
-        "applicantSection": "Antragstellender Benutzer",
-        "applicantLoadError": "Der antragstellende Benutzer konnte nicht geladen werden.",
-        "openApplicant": "Benutzerprofil öffnen"
-      }
-    },
-    "users": {
-      "title": "Benutzer",
-      "description": "Benutzerkonten suchen, vollständige Details öffnen, Profil- und Abrechnungsdaten aktualisieren oder Konten löschen.",
-      "search": "Suchen",
-      "searchPlaceholder": "Alle Benutzerfelder durchsuchen…",
-      "emailSearchPlaceholder": "Nach E-Mail filtern…",
-      "nameSearchPlaceholder": "Nach Name filtern…",
-      "loadError": "Benutzer konnten nicht geladen werden.",
-      "empty": "Keine Benutzer passen zum aktuellen Filter.",
-      "totalCount_one": "{{count}} Benutzer",
-      "totalCount_other": "{{count}} Benutzer",
-      "updatedAt": "Aktualisiert {{date}}",
-      "filters": {
-        "allTiers": "Alle Tarife",
-        "allRoles": "Alle Rollen"
-      },
-      "sort": {
-        "label": "Benutzer sortieren",
-        "updated-desc": "Zuletzt aktualisiert",
-        "created-desc": "Neueste Konten",
-        "email-asc": "E-Mail A–Z",
-        "tier-asc": "Tarif A–Z",
-        "role-asc": "Rolle A–Z"
-      },
-      "fields": {
-        "email": "E-Mail",
-        "name": "Name",
-        "firstName": "Vorname",
-        "lastName": "Nachname",
-        "language": "Sprache",
-        "currency": "Währung",
-        "unitSystem": "Einheitensystem",
-        "tier": "Tarif",
-        "role": "Rolle",
-        "stripeCustomerId": "Stripe-Kundennummer",
-        "prohibitedContentConsent": "Zustimmung zu eingeschränkten Inhalten",
-        "prohibitedContentConsentHint": "Steuert, ob der Benutzer Produkte mit eingeschränkten Symbolen sehen darf.",
-        "notSet": "Nicht gesetzt"
-      },
-      "detail": {
-        "title": "Benutzerdetails",
-        "description": "Konto prüfen und administrativ verwaltete Felder aktualisieren.",
-        "loadError": "Dieser Benutzer konnte nicht geladen werden.",
-        "createdAt": "Erstellt {{date}}",
-        "updatedAt": "Aktualisiert {{date}}",
-        "updateSuccess": "Benutzer aktualisiert.",
-        "delete": "Benutzer löschen",
-        "deleteConfirm": "Benutzer {{email}} löschen? Dies kann nicht rückgängig gemacht werden.",
-        "deleteSuccess": "Benutzer gelöscht."
-      }
-    },
-    "oauthClients": {
-      "title": "OAuth-Clients",
-      "description": "Registrierte OAuth-Client-Anwendungen und ihre Metadaten verwalten.",
-      "loadError": "OAuth-Clients konnten nicht geladen werden.",
-      "empty": "Noch keine OAuth-Clients registriert.",
-      "clientId": "Client-ID",
-      "clientSecret": "Client-Secret",
-      "redirectUris": "Redirect-URIs",
-      "scope": "Scopes",
-      "logoAlt": "Logo von {{client}}",
-      "createdAt": "Erstellt {{date}}",
-      "editAriaLabel": "{{client}} bearbeiten",
-      "deleteAriaLabel": "{{client}} löschen",
-      "actions": {
-        "create": "Client anlegen",
-        "delete": "Löschen"
-      },
-      "deleteConfirm": "Möchten Sie den Client \"{{client}}\" wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
-      "deleteSuccess": "OAuth-Client gelöscht.",
-      "create": {
-        "title": "OAuth-Client anlegen",
-        "description": "Einen neuen OAuth-Client registrieren. Das Client-Secret wird nur einmal angezeigt.",
-        "submit": "Client anlegen",
-        "success": "OAuth-Client wurde erfolgreich angelegt.",
-        "confirmationTitle": "OAuth-Client erfolgreich angelegt",
-        "confirmationDescription": "Kopieren Sie die Client-ID und das Client-Secret und bewahren Sie beide sicher auf. Das Client-Secret wird nur einmal angezeigt.",
-        "validation": {
-          "nameRequired": "Bitte geben Sie einen Client-Namen ein.",
-          "nameTooLong": "Der Client-Name darf nicht länger als 255 Zeichen sein.",
-          "uriInvalid": "Bitte geben Sie eine gültige HTTPS-URL ein.",
-          "redirectUrisRequired": "Bitte geben Sie mindestens eine Redirect-URI ein.",
-          "redirectUriInvalid": "Jede Redirect-URI muss eine gültige HTTPS-URL sein."
-        }
-      },
-      "edit": {
-        "title": "OAuth-Client bearbeiten",
-        "description": "\"{{client}}\" wird bearbeitet",
-        "success": "OAuth-Client aktualisiert.",
-        "validation": {
-          "nameRequired": "Bitte geben Sie einen Client-Namen ein.",
-          "nameTooLong": "Der Client-Name darf nicht länger als 255 Zeichen sein.",
-          "uriInvalid": "Bitte geben Sie eine gültige HTTPS-URL ein.",
-          "redirectUrisRequired": "Bitte geben Sie mindestens eine Redirect-URI ein.",
-          "redirectUriInvalid": "Jede Redirect-URI muss eine gültige HTTPS-URL sein."
-        }
-      },
-      "fields": {
-        "clientName": "Client-Name",
-        "clientUri": "Client-URL",
-        "logoUri": "Logo-URL",
-        "tosUri": "AGB-URL",
-        "policyUri": "Datenschutzerklärungs-URL",
-        "redirectUris": "Redirect-URIs",
-        "redirectUrisHint": "Eine HTTPS-URI pro Zeile.",
-        "scope": "Scopes",
-        "scopeHint": "Wählen Sie die Scopes aus, die dieser Client anfordern darf."
-      }
     }
   },
   "oauth": {
@@ -2385,17 +1908,5 @@
       "description": "Wenn Ihre Suche die Orte einschließen soll, an denen Antiquitäten online tatsächlich angeboten werden, beginnen Sie mit Aura Historia.",
       "button": "Antiquitäten suchen"
     }
-  },
-  "shopTypePossessive": {
-    "auctionHouse": "dieses Auktionshauses",
-    "auctionPlatform": "dieser Auktionsplattform",
-    "commercialDealer": "dieses Händlers",
-    "marketplace": "dieses Marktplatzes"
-  },
-  "shopTypeArticle": {
-    "auctionHouse": "dieses Auktionshaus",
-    "auctionPlatform": "diese Auktionsplattform",
-    "commercialDealer": "diesen Händler",
-    "marketplace": "diesen Marktplatz"
   }
 }

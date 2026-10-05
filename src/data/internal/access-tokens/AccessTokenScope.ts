@@ -1,6 +1,7 @@
 /** Supported scope contract shared by own-token and OAuth UI. */
 export const ACCESS_TOKEN_SCOPES = [
     "product-listings:write",
+    "listing-sources:write",
     "users:read",
     "users:write",
     "access-tokens:read",
@@ -14,6 +15,7 @@ export type AccessTokenScope = (typeof ACCESS_TOKEN_SCOPES)[number];
 
 export const ACCESS_TOKEN_SCOPE_METADATA = {
     "product-listings:write": scopeMetadata("productListingsWrite"),
+    "listing-sources:write": scopeMetadata("listingSourcesWrite"),
     "users:read": scopeMetadata("usersRead"),
     "users:write": scopeMetadata("usersWrite"),
     "access-tokens:read": scopeMetadata("accessTokensRead"),

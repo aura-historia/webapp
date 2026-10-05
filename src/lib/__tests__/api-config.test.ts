@@ -66,7 +66,7 @@ describe("api-config", () => {
 
         expect(mockSetConfig).toHaveBeenCalledWith(
             expect.objectContaining({
-                baseUrl: "https://api.dev.aura-historia.com",
+                baseUrl: "https://api.stage.aura-historia.com",
             }),
         );
     });
@@ -120,8 +120,8 @@ describe("api-config", () => {
         const productNotFoundError = {
             status: 404,
             title: "Not Found",
-            error: "PRODUCT_NOT_FOUND",
-            detail: "Product not found",
+            error: "PRODUCT_LISTING_NOT_FOUND",
+            detail: "Product listing not found",
         };
 
         await expect(errorInterceptor(productNotFoundError)).resolves.toBe(productNotFoundError);

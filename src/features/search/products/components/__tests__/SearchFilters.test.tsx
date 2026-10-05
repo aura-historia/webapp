@@ -41,7 +41,6 @@ describe("SearchFilters", () => {
 
             await waitFor(() => {
                 const currentSearchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
-                console.log(currentSearchInput);
                 expect(currentSearchInput.value).toBe("new search query");
             });
         }, 10000);

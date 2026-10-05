@@ -57,6 +57,10 @@ export function SearchFilterMatches({ filterId }: Props) {
             );
         }
 
+        if (allProducts.length === 0 && hasNextPage) {
+            return <div ref={ref} aria-hidden className="h-px w-full" />;
+        }
+
         if (allProducts.length === 0) {
             return (
                 <EmptyState
@@ -92,13 +96,14 @@ export function SearchFilterMatches({ filterId }: Props) {
                     })}
                 </div>
                 {showLoaderRow && (
-                    <div ref={ref}>
+                    <div>
                         <ListLoaderRow
                             isFetchingNextPage={isFetchingNextPage}
                             totalCount={totalProducts}
                         />
                     </div>
                 )}
+                {hasNextPage && <div ref={ref} aria-hidden className="h-px w-full" />}
             </>
         );
     }

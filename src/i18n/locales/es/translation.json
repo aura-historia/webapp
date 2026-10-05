@@ -1,7 +1,6 @@
 {
   "common": {
     "auraHistoria": "Aura Historia",
-    "infoButton": "Más información",
     "unitSystemPrefix": "Unidades",
     "currencySearchPlaceholder": "Buscar divisas…",
     "currencySearchEmpty": "No se ha encontrado ninguna divisa."
@@ -333,7 +332,6 @@
       "creationDate": "Añadido",
       "from": "Desde:",
       "to": "Hasta:",
-      "productState": "Estado del anuncio",
       "availability": "Disponibilidad",
       "listingSource": "Incluir proveedor",
       "listingSources": "Proveedores",
@@ -343,9 +341,6 @@
       "searchExcludeListingSources": "Buscar proveedores que excluir...",
       "sourceCount_one": "{{count}} proveedor seleccionado",
       "sourceCount_other": "{{count}} proveedores seleccionados",
-      "merchant": "Vendedor",
-      "searchMerchants": "Buscar vendedores...",
-      "noMerchantsFound": "No se encontraron vendedores",
       "priceSpan": "Rango de precios",
       "min": "Mín",
       "max": "Máx",
@@ -354,33 +349,14 @@
       "anyDate": "Cualquiera",
       "resetTooltip": {
         "priceSpan": "Restablecer filtro de rango de precios",
-        "productState": "Restablecer filtro de estado",
         "availability": "Restablecer filtro de disponibilidad",
         "listingSources": "Restablecer filtros de proveedores",
         "creationDate": "Restablecer filtro de fecha de creación",
         "updateDate": "Restablecer filtro de fecha de actualización",
-        "auctionDate": "Restablecer filtro de fecha de subasta",
-        "merchants": "Restablecer filtros de comerciantes",
-        "sellers": "Restablecer filtros de vendedores",
-        "shopType": "Restablecer filtro de tipo de tienda",
-        "partnerStatus": "Restablecer filtro de estado de asociación"
+        "auctionDate": "Restablecer filtro de fecha de subasta"
       },
       "all": "Todo",
-      "select": "Seleccionar",
-      "merchants": "Comerciantes",
-      "excludeMerchant": "Excluir comerciante",
-      "searchExcludeMerchants": "Buscar comerciantes para excluir...",
-      "seller": "Vendedor",
-      "sellers": "Vendedores",
-      "searchSellers": "Buscar vendedores...",
-      "noSellersFound": "No se encontraron vendedores",
-      "excludeSeller": "Excluir vendedor",
-      "searchExcludeSellers": "Buscar vendedores para excluir...",
-      "shopType": "Tipo de tienda",
-      "auctionDate": "Fecha de subasta",
-      "auctionDateDisabledTooltip": "Solo disponible para casas de subastas",
-      "partnerStatus": "Estado de asociación",
-      "requireSelection": "Se requiere al menos 1 selección"
+      "auctionDate": "Fecha de subasta"
     },
     "messages": {
       "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
@@ -402,18 +378,14 @@
       "relevance": "Relevancia",
       "creationDate": "Fecha de creación",
       "updateDate": "Última actualización",
-      "price": "Precio",
       "order": {
         "label": "Orden:",
         "asc": "Ascendente",
         "desc": "Descendente"
-      },
-      "name": "Nombre"
+      }
     },
     "shopResultsFor": "Resultados para",
-    "publicSourcesBrowseTitle": "Comerciantes",
-    "totalShopResults_one": "{{count}} tienda",
-    "totalShopResults_other": "{{count}} tiendas"
+    "publicSourcesBrowseTitle": "Comerciantes"
   },
   "product": {
     "unknownPrice": "Precio desconocido",
@@ -421,20 +393,7 @@
     "saleObservationPrice": "Precio de venta observado",
     "details": "Detalles",
     "toMerchant": "Ir al vendedor",
-    "soldOn": "en",
     "noImage": "No hay imagen disponible",
-    "location": {
-      "eyebrow": "Ubicación",
-      "title": "Dónde se encuentra este artículo",
-      "description": "Dirección donde se encuentra este artículo, cuando esté disponible públicamente.",
-      "noAddress": "Aún no tenemos una dirección para este artículo.",
-      "noLocation": "Aún no tenemos información de ubicación para este artículo.",
-      "mapTitle": "Mapa que muestra la ubicación de {{title}}",
-      "mapConsentTitle": "Cargar el mapa tras su consentimiento",
-      "mapConsentDescription": "Este mapa lo proporciona Google Maps. Al cargarlo, datos como su dirección IP pueden transmitirse a Google.",
-      "mapConsentButton": "Mostrar mapa",
-      "mapConsentSettings": "Configuración de cookies"
-    },
     "watchlist": {
       "add": "Añadir a la lista de seguimiento",
       "remove": "Quitar de la lista de seguimiento"
@@ -467,17 +426,7 @@
         "details": "Detalles"
       },
       "events": {
-        "statusChanged": "Estado cambiado de {{oldState}} a {{newState}}.",
-        "priceDiscovered": "Precio descubierto • {{price}}.",
-        "priceChanged": "El precio ha {{verb}} de {{oldPrice}} a {{newPrice}}.",
-        "priceFallen": "bajado",
-        "priceIncreased": "subido",
-        "priceRemoved": "Precio eliminado • Último precio: {{price}}.",
-        "created": "Añadido al sistema",
-        "estimatePriceChanged": "Rango de precio estimado actualizado.",
         "urlChanged": "URL del producto actualizada.",
-        "imagesChanged": "Imágenes actualizadas • {{count}} imagen(es).",
-        "auctionTimeChanged": "Período de subasta actualizado.",
         "listingDiscoveredTitle": "Anuncio registrado",
         "listingChangedTitle": "Anuncio actualizado",
         "listingDiscovered": "Registrado por primera vez por Aura Historia.",
@@ -512,13 +461,6 @@
         "description": "No se pudieron cargar más artículos de este vendedor."
       }
     },
-    "priceEstimate": {
-      "tooltip": "Estimación de precio de {{shopType}}",
-      "tooltipUnknown": "Estimación de precio",
-      "minOnly": "Mín. {{min}}",
-      "maxOnly": "Máx. {{max}}",
-      "range": "{{min}} - {{max}}"
-    },
     "priceChart": {
       "title": "Historial de precios",
       "noData": "No hay datos de precios disponibles para este artículo.",
@@ -537,9 +479,6 @@
     },
     "unseenNotification": "Actualizado",
     "auction": {
-      "start": "desde {{date}}",
-      "end": "hasta {{date}}",
-      "range": "{{start}} – {{end}}",
       "lotNumber": "Lote {{lotNumber}}"
     },
     "searchFilter": {
@@ -580,30 +519,6 @@
     "reserved": "Reservado",
     "outOfStock": "Agotado temporalmente",
     "soldOut": "Agotado"
-  },
-  "productState": {
-    "listed": "Listado",
-    "available": "Disponible",
-    "reserved": "Reservado",
-    "sold": "Vendido",
-    "removed": "Eliminado",
-    "unknown": "Desconocido",
-    "listedDescription": "Este artículo es visible pero aún no está disponible para la compra.",
-    "availableDescription": "Este artículo está disponible para la compra.",
-    "reservedDescription": "Este artículo está actualmente reservado. Podría estar disponible nuevamente.",
-    "soldDescription": "Este artículo ya ha sido vendido.",
-    "removedDescription": "Este artículo fue retirado por el vendedor y ya no puede ser rastreado.",
-    "unknownDescription": "La disponibilidad actual de este artículo no está clara."
-  },
-  "shopType": {
-    "auctionHouse": "Casa de subastas",
-    "commercialDealer": "Vendedor",
-    "marketplace": "Mercado",
-    "auctionPlatform": "Plataforma de subastas"
-  },
-  "shopPartnerStatus": {
-    "partnered": "Socio oficial",
-    "scraped": "Indexado públicamente"
   },
   "discover": {
     "eyebrow": "El mercado",
@@ -1175,7 +1090,6 @@
   "watchlist": {
     "title": "Mi lista de seguimiento",
     "loginRequired": "Por favor, inicie sesión para usar la lista de seguimiento.",
-    "totalElements": "{{count}} artículos",
     "loadingError": {
       "title": "Lista no disponible",
       "description": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde."
@@ -1402,30 +1316,14 @@
   "shop": {
     "header": {
       "overviewTitle": "Comerciante",
-      "indexedItems": "Artículos indexados",
       "imageAlt": "Imagen de {{shop}}",
       "operator": "Gestionado por {{operator}}",
       "visitWebsite": "Visitar el sitio web",
       "noImage": "No hay imagen disponible",
-      "addedOn": "Añadido el {{date}}",
       "metaDescription": "Explore {{shop}} en Aura Historia."
-    },
-    "location": {
-      "eyebrow": "Ubicación",
-      "title": "Dónde encontrar {{shopTypeArticle}}",
-      "description": "Dirección e información de contacto de {{shop}}, cuando estén disponibles públicamente.",
-      "noAddress": "Aún no tenemos una dirección para {{shopTypeArticle}}.",
-      "noLocation": "Aún no tenemos información de ubicación para {{shopTypeArticle}}.",
-      "mapTitle": "Mapa que muestra la ubicación de {{shop}}",
-      "mapConsentTitle": "Cargar el mapa tras su consentimiento",
-      "mapConsentDescription": "Este mapa lo proporciona Google Maps. Al cargarlo, datos como su dirección IP pueden transmitirse a Google.",
-      "mapConsentButton": "Mostrar mapa",
-      "mapConsentSettings": "Configuración de cookies"
     },
     "products": {
       "loadingMore": "Cargando más artículos...",
-      "allLoaded_one": "Ha visto {{count}} artículo {{shopTypePossessive}}.",
-      "allLoaded_other": "Ha visto todos los {{count}} artículos {{shopTypePossessive}}.",
       "noResults": {
         "title": "No se encontraron artículos",
         "description": "Actualmente no hay anuncios de {{source}}."
@@ -1437,14 +1335,6 @@
     },
     "card": {
       "viewSource": "Ver perfil del comerciante"
-    },
-    "typeFallback": "vendedor",
-    "typePossessiveFallback": "de este vendedor",
-    "typeArticleFallback": "este vendedor",
-    "contact": {
-      "eyebrow": "Contacto",
-      "email": "Correo electrónico",
-      "phone": "Teléfono"
     }
   },
   "notifications": {
@@ -1481,297 +1371,9 @@
   },
   "adminDashboard": {
     "loading": "Cargando…",
-    "sidebarLabel": "Secciones de administración",
     "forbidden": {
       "title": "Acceso denegado",
       "description": "No tienes permiso para ver el panel de administración. Inicia sesión con una cuenta de administrador."
-    },
-    "nav": {
-      "overview": "Resumen",
-      "shops": "Tiendas",
-      "partnerApplications": "Solicitudes de socios",
-      "users": "Usuarios",
-      "oauthClients": "Clientes OAuth"
-    },
-    "overview": {
-      "title": "Panel de administración",
-      "description": "Gestiona tiendas, revisa solicitudes de socios y administra cuentas de usuario.",
-      "shops": {
-        "title": "Tiendas",
-        "description": "Explora, busca y edita los metadatos de las tiendas."
-      },
-      "applications": {
-        "title": "Solicitudes de socios",
-        "description": "Revisa y decide sobre las solicitudes entrantes.",
-        "pendingCount_one": "{{count}} solicitud pendiente de revisión",
-        "pendingCount_other": "{{count}} solicitudes pendientes de revisión"
-      },
-      "users": {
-        "title": "Usuarios",
-        "description": "Busca cuentas, revisa detalles de usuario y gestiona roles, planes, preferencias y asignaciones de Stripe.",
-        "totalCount_one": "{{count}} cuenta de usuario",
-        "totalCount_other": "{{count}} cuentas de usuario"
-      },
-      "oauthClients": {
-        "title": "Clientes OAuth",
-        "description": "Gestiona las aplicaciones cliente OAuth registradas.",
-        "totalCount_one": "{{count}} cliente OAuth",
-        "totalCount_other": "{{count}} clientes OAuth"
-      }
-    },
-    "actions": {
-      "edit": "Editar",
-      "save": "Guardar",
-      "cancel": "Cancelar",
-      "close": "Cerrar",
-      "retry": "Reintentar"
-    },
-    "shops": {
-      "title": "Tiendas",
-      "description": "Busca en el catálogo de tiendas, crea nuevas tiendas y edita sus metadatos.",
-      "searchPlaceholder": "Buscar tiendas por nombre…",
-      "loadError": "No se pudieron cargar las tiendas.",
-      "empty": "Ninguna tienda coincide con el filtro actual.",
-      "totalCount_one": "{{count}} tienda",
-      "totalCount_other": "{{count}} tiendas",
-      "updatedAt": "Actualizado {{date}}",
-      "shopImageAlt": "Logotipo de {{shop}}",
-      "editAriaLabel": "Editar {{shop}}",
-      "filter": {
-        "all": "Todas"
-      },
-      "actions": {
-        "create": "Crear tienda"
-      },
-      "fields": {
-        "name": "Nombre de la tienda",
-        "shopId": "ID de la tienda",
-        "shopType": "Tipo de tienda",
-        "url": "URL principal de la tienda",
-        "shopifyDomain": "Dominio de Shopify",
-        "shopifyCurrency": "Moneda de Shopify",
-        "shopifyLanguage": "Idioma de Shopify",
-        "woocommerceCurrency": "Moneda de WooCommerce",
-        "woocommerceLanguage": "Idioma de WooCommerce",
-        "image": "URL de imagen",
-        "domains": "Dominios",
-        "domainsHint": "Uno por línea. Los dominios se normalizan en minúsculas, sin esquema ni ruta.",
-        "phone": "Teléfono",
-        "email": "Correo electrónico",
-        "addressline": "Dirección",
-        "addresslineExtra": "Dirección línea 2",
-        "locality": "Ciudad / Localidad",
-        "region": "Región / Estado",
-        "postalCode": "Código postal",
-        "country": "País",
-        "countryHint": "Selecciona el país asociado a la dirección de la tienda.",
-        "currencyPlaceholder": "Seleccionar moneda",
-        "currencyNone": "Sin moneda",
-        "languagePlaceholder": "Seleccionar idioma",
-        "languageNone": "Sin idioma",
-        "countryPlaceholder": "Seleccionar país",
-        "countryNone": "Sin país"
-      },
-      "create": {
-        "title": "Crear tienda",
-        "description": "Añade un nuevo registro de tienda. El slug se deriva automáticamente del nombre de la tienda.",
-        "submit": "Crear tienda",
-        "success": "Tienda creada.",
-        "validation": {
-          "nameRequired": "Introduzca un nombre de tienda.",
-          "nameTooLong": "El nombre de la tienda no puede superar los 255 caracteres.",
-          "domainsRequired": "Introduzca al menos un dominio.",
-          "urlInvalid": "Introduzca una URL válida de la tienda.",
-          "imageInvalid": "Introduzca una URL de imagen válida.",
-          "emailInvalid": "Introduzca una dirección de correo electrónico válida."
-        }
-      },
-      "edit": {
-        "title": "Editar tienda",
-        "description": "Editando {{shop}}",
-        "success": "Tienda actualizada."
-      },
-      "sections": {
-        "core": "Datos principales",
-        "shopify": "Shopify",
-        "woocommerce": "WooCommerce",
-        "contact": "Contacto",
-        "address": "Dirección postal"
-      }
-    },
-    "applications": {
-      "title": "Solicitudes de socios",
-      "description": "Revisa las solicitudes de los socios y apruébalas o recházalas.",
-      "loadError": "No se pudieron cargar las solicitudes.",
-      "empty": "Ninguna solicitud coincide con el filtro actual.",
-      "submittedAt": "Enviada {{date}}",
-      "updatedAt": "Actualizada {{date}}",
-      "existingShop": "Tienda existente",
-      "tabs": {
-        "pending": "Pendientes",
-        "decided": "Decididas",
-        "all": "Todas"
-      },
-      "businessState": {
-        "submitted": "Enviada",
-        "inReview": "En revisión",
-        "approved": "Aprobada",
-        "rejected": "Rechazada"
-      },
-      "executionState": {
-        "processing": "Procesando",
-        "waiting": "Esperando decisión",
-        "completed": "Completada"
-      },
-      "payloadType": {
-        "new": "Nueva tienda",
-        "existing": "Tienda existente"
-      },
-      "actions": {
-        "approve": "Aprobar",
-        "approveAriaLabel": "Aprobar solicitud",
-        "reject": "Rechazar",
-        "rejectAriaLabel": "Rechazar solicitud",
-        "details": "Detalles"
-      },
-      "decision": {
-        "approveSuccess": "Solicitud aprobada.",
-        "rejectSuccess": "Solicitud rechazada."
-      },
-      "fields": {
-        "shopName": "Nombre de la tienda",
-        "shopType": "Tipo de tienda",
-        "image": "URL de imagen",
-        "domains": "Dominios",
-        "domainsHint": "Uno por línea. Los dominios se normalizan en minúsculas, sin esquema ni ruta."
-      },
-      "edit": {
-        "title": "Editar solicitud",
-        "description": "Actualiza los datos de la solicitud antes de decidir.",
-        "success": "Solicitud actualizada."
-      },
-      "detail": {
-        "title": "Detalles de la solicitud de socio",
-        "description": "Revisa los datos de la solicitud, el estado de procesamiento y la cuenta de usuario asociada.",
-        "applicationId": "ID de solicitud",
-        "payloadType": "Tipo de solicitud",
-        "createdAt": "Creada",
-        "updatedAt": "Actualizada",
-        "shopSection": "Información de la tienda",
-        "shopId": "ID de tienda",
-        "applicantSection": "Usuario solicitante",
-        "applicantLoadError": "No se pudo cargar el usuario solicitante.",
-        "openApplicant": "Abrir perfil de usuario"
-      }
-    },
-    "users": {
-      "title": "Usuarios",
-      "description": "Busca cuentas de usuario, abre detalles completos, actualiza datos de perfil y facturación o elimina cuentas.",
-      "search": "Buscar",
-      "searchPlaceholder": "Buscar en todos los campos de usuario…",
-      "emailSearchPlaceholder": "Filtrar por correo electrónico…",
-      "nameSearchPlaceholder": "Filtrar por nombre…",
-      "loadError": "No se pudieron cargar los usuarios.",
-      "empty": "Ningún usuario coincide con el filtro actual.",
-      "totalCount_one": "{{count}} usuario",
-      "totalCount_other": "{{count}} usuarios",
-      "updatedAt": "Actualizado {{date}}",
-      "filters": {
-        "allTiers": "Todos los planes",
-        "allRoles": "Todos los roles"
-      },
-      "sort": {
-        "label": "Ordenar usuarios",
-        "updated-desc": "Actualizados recientemente",
-        "created-desc": "Cuentas más recientes",
-        "email-asc": "Correo A–Z",
-        "tier-asc": "Plan A–Z",
-        "role-asc": "Rol A–Z"
-      },
-      "fields": {
-        "email": "Correo electrónico",
-        "name": "Nombre",
-        "firstName": "Nombre",
-        "lastName": "Apellido",
-        "language": "Idioma",
-        "currency": "Moneda",
-        "unitSystem": "Sistema de unidades",
-        "tier": "Plan",
-        "role": "Rol",
-        "stripeCustomerId": "ID de cliente de Stripe",
-        "prohibitedContentConsent": "Consentimiento para contenido restringido",
-        "prohibitedContentConsentHint": "Controla si el usuario puede ver productos con símbolos restringidos.",
-        "notSet": "No establecido"
-      },
-      "detail": {
-        "title": "Detalles del usuario",
-        "description": "Revisa la cuenta y actualiza los campos administrados.",
-        "loadError": "No se pudo cargar este usuario.",
-        "createdAt": "Creado {{date}}",
-        "updatedAt": "Actualizado {{date}}",
-        "updateSuccess": "Usuario actualizado.",
-        "delete": "Eliminar usuario",
-        "deleteConfirm": "¿Eliminar el usuario {{email}}? Esta acción no se puede deshacer.",
-        "deleteSuccess": "Usuario eliminado."
-      }
-    },
-    "oauthClients": {
-      "title": "Clientes OAuth",
-      "description": "Gestiona las aplicaciones cliente OAuth registradas y sus metadatos.",
-      "loadError": "No se pudieron cargar los clientes OAuth.",
-      "empty": "Todavía no hay clientes OAuth registrados.",
-      "clientId": "ID del cliente",
-      "clientSecret": "Secreto del cliente",
-      "redirectUris": "URI de redirección",
-      "scope": "Ámbitos",
-      "logoAlt": "Logotipo de {{client}}",
-      "createdAt": "Creado {{date}}",
-      "editAriaLabel": "Editar {{client}}",
-      "deleteAriaLabel": "Eliminar {{client}}",
-      "actions": {
-        "create": "Crear cliente",
-        "delete": "Eliminar"
-      },
-      "deleteConfirm": "¿Seguro que quieres eliminar el cliente \"{{client}}\"? Esta acción no se puede deshacer.",
-      "deleteSuccess": "Cliente OAuth eliminado.",
-      "create": {
-        "title": "Crear cliente OAuth",
-        "description": "Registra un nuevo cliente OAuth. El secreto del cliente solo se mostrará una vez.",
-        "submit": "Crear cliente",
-        "success": "Cliente OAuth creado.",
-        "confirmationTitle": "Cliente OAuth creado",
-        "confirmationDescription": "Copia el ID y el secreto del cliente y guárdalos en un lugar seguro. El secreto del cliente solo se muestra una vez.",
-        "validation": {
-          "nameRequired": "Introduce un nombre para el cliente.",
-          "nameTooLong": "El nombre del cliente no debe superar los 255 caracteres.",
-          "uriInvalid": "Introduce una URL HTTPS válida.",
-          "redirectUrisRequired": "Introduce al menos una URI de redirección.",
-          "redirectUriInvalid": "Cada URI de redirección debe ser una URL HTTPS válida."
-        }
-      },
-      "edit": {
-        "title": "Editar cliente OAuth",
-        "description": "Editando {{client}}",
-        "success": "Cliente OAuth actualizado.",
-        "validation": {
-          "nameRequired": "Introduce un nombre para el cliente.",
-          "nameTooLong": "El nombre del cliente no debe superar los 255 caracteres.",
-          "uriInvalid": "Introduce una URL HTTPS válida.",
-          "redirectUrisRequired": "Introduce al menos una URI de redirección.",
-          "redirectUriInvalid": "Cada URI de redirección debe ser una URL HTTPS válida."
-        }
-      },
-      "fields": {
-        "clientName": "Nombre del cliente",
-        "clientUri": "URL del cliente",
-        "logoUri": "URL del logotipo",
-        "tosUri": "URL de los términos del servicio",
-        "policyUri": "URL de la política de privacidad",
-        "redirectUris": "URI de redirección",
-        "redirectUrisHint": "Una URI HTTPS por línea.",
-        "scope": "Ámbitos",
-        "scopeHint": "Selecciona los ámbitos que este cliente puede solicitar."
-      }
     }
   },
   "searchFilter": {
@@ -1950,106 +1552,25 @@
   },
   "partnerApplications": {
     "title": "Solicitudes de Socios Actuales",
-    "description": "Todas las solicitudes de socio que has enviado para tiendas.",
     "actions": {
       "retry": "Reintentar"
     },
     "create": {
       "open": "Nueva solicitud",
       "title": "Enviar solicitud de socio",
-      "description": "Solicita una tienda existente por ID o crea una nueva tienda para revisión.",
       "submit": "Enviar solicitud",
       "submitting": "Enviando…",
       "cancel": "Cancelar",
       "success": "Solicitud de socio enviada.",
-      "type": {
-        "new": "Nueva tienda",
-        "existing": "Tienda existente"
-      },
-      "fields": {
-        "type": "Tipo de solicitud",
-        "shopId": "Tienda",
-        "shopName": "Nombre de la tienda",
-        "shopType": "Tipo de tienda",
-        "shopDomains": "Dominios",
-        "shopDomainsHint": "Separa los dominios con saltos de línea, comas, puntos y comas o espacios. Los dominios se normalizan antes del envío.",
-        "shopUrl": "URL principal de la tienda",
-        "shopImage": "URL del logo o imagen",
-        "shopPhone": "Teléfono",
-        "shopEmail": "Correo electrónico",
-        "address": "Dirección",
-        "addressline": "Línea de dirección",
-        "addresslineExtra": "Línea de dirección 2",
-        "locality": "Ciudad",
-        "region": "Región",
-        "postalCode": "Código postal",
-        "country": "Código del país"
-      },
       "validation": {
-        "shopIdRequired": "Por favor, selecciona una tienda existente.",
-        "shopNameRequired": "Por favor, ingresa el nombre de la tienda.",
-        "domainsRequired": "Por favor, ingresa al menos un dominio.",
         "urlInvalid": "Por favor, ingresa una URL válida.",
-        "imageInvalid": "Por favor, ingresa una URL de imagen válida.",
         "emailInvalid": "Por favor, ingresa una dirección de correo electrónico válida."
-      },
-      "shopSearch": {
-        "placeholder": "Buscar tiendas por nombre…",
-        "loading": "Buscando tiendas.",
-        "empty": "No se encontraron tiendas.",
-        "clear": "Borrar tienda seleccionada"
       }
     },
     "loading": "Cargando solicitudes de socios.",
     "loadError": "No se pudieron cargar tus solicitudes de socios.",
     "empty": "Aún no has enviado ninguna solicitud de socio.",
-    "submittedAt": "Enviado el {{date}}",
-    "updatedAt": "Actualizado el {{date}}",
     "viewDetails": "Ver detalles",
-    "progress": {
-      "handedIn": "Entregado",
-      "checking": "Revisando",
-      "completed": "Completado",
-      "approved": "Aprobado",
-      "denied": "Denegado"
-    },
-    "detail": {
-      "title": "Detalles de la solicitud",
-      "description": "Revisa el estado actual y la información de la tienda enviada.",
-      "loadError": "No se pudo cargar esta solicitud de socio.",
-      "close": "Cerrar detalles",
-      "edit": "Editar solicitud",
-      "editCancel": "Cancelar",
-      "editSave": "Guardar cambios",
-      "editSuccess": "Solicitud de socio actualizada.",
-      "delete": "Eliminar solicitud",
-      "deleteSuccess": "Solicitud de socio eliminada.",
-      "deleteConfirm": {
-        "title": "¿Eliminar esta solicitud de socio?",
-        "description": "Esta solicitud pendiente será eliminada permanentemente y no se podrá recuperar.",
-        "cancel": "Cancelar",
-        "confirm": "Eliminar"
-      },
-      "progressLabel": "Progreso de la solicitud",
-      "applicationSection": "Solicitud",
-      "shopSection": "Información de la tienda",
-      "createdAt": "Enviado",
-      "updatedAt": "Actualizado",
-      "shopName": "Nombre de la tienda",
-      "shopType": "Tipo de tienda",
-      "domains": "Dominios",
-      "shopUrl": "URL principal",
-      "shopImage": "URL de la imagen",
-      "shopPhone": "Teléfono",
-      "shopEmail": "Correo electrónico",
-      "address": "Dirección",
-      "addressline": "Línea de dirección",
-      "addresslineExtra": "Línea de dirección 2",
-      "locality": "Ciudad",
-      "region": "Región",
-      "postalCode": "Código postal",
-      "country": "Código del país"
-    },
     "businessState": {
       "submitted": "Enviado",
       "inReview": "En revisión",
@@ -2322,7 +1843,8 @@
         "accessTokensWrite": "Crear, actualizar o revocar tokens de acceso dentro de los permisos concedidos a su cuenta.",
         "searchFiltersWrite": "Crear, actualizar o eliminar sus búsquedas guardadas.",
         "watchlistRead": "Leer los anuncios de su lista de seguimiento.",
-        "watchlistWrite": "Añadir o eliminar anuncios y actualizar los ajustes de su lista de seguimiento."
+        "watchlistWrite": "Añadir o eliminar anuncios y actualizar los ajustes de su lista de seguimiento.",
+        "listingSourcesWrite": "Activar o sustituir la configuración de importación de WooCommerce y Shopify de los proveedores para los que su cuenta tiene acceso de escritura. Incluye establecer o sustituir el secreto del webhook de WooCommerce."
       },
       "validation": {
         "nameRequired": "Por favor, introduce un nombre para el token.",
@@ -2373,20 +1895,9 @@
       "accessTokensWrite": "Gestionar tokens de acceso",
       "searchFiltersWrite": "Gestionar búsquedas guardadas",
       "watchlistRead": "Leer la lista de seguimiento",
-      "watchlistWrite": "Gestionar la lista de seguimiento"
+      "watchlistWrite": "Gestionar la lista de seguimiento",
+      "listingSourcesWrite": "Configurar la importación de proveedores"
     }
-  },
-  "shopTypePossessive": {
-    "auctionHouse": "de esta casa de subastas",
-    "auctionPlatform": "de esta plataforma de subastas",
-    "commercialDealer": "de este vendedor",
-    "marketplace": "de este mercado"
-  },
-  "shopTypeArticle": {
-    "auctionHouse": "esta casa de subastas",
-    "auctionPlatform": "esta plataforma de subastas",
-    "commercialDealer": "este vendedor",
-    "marketplace": "este mercado"
   },
   "partnerListingSources": {
     "title": "Proveedores accesibles",

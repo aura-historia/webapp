@@ -134,6 +134,7 @@ function toTranslationMap(leaves: TranslationLeaf[]): Map<string, unknown> {
 function listRuntimeSourceFiles(directory: string): string[] {
     return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
         const path = join(directory, entry.name);
+        const normalizedPath = path.replaceAll("\\", "/");
 
         if (entry.isDirectory()) {
             return listRuntimeSourceFiles(path);
@@ -144,15 +145,16 @@ function listRuntimeSourceFiles(directory: string): string[] {
         }
 
         if (
-            path.includes("/src/i18n/locales/") ||
-            path.includes("/src/client/") ||
-            path.includes("/__tests__/") ||
+            normalizedPath.includes("/src/i18n/locales/") ||
+            normalizedPath.includes("/src/client/") ||
+            normalizedPath.includes("/__tests__/") ||
             path.endsWith(".test.ts") ||
             path.endsWith(".test.tsx") ||
             path.endsWith(".spec.ts") ||
             path.endsWith(".spec.tsx") ||
-            path.endsWith("/src/i18n/translations.test.ts") ||
-            path.endsWith("/src/routeTree.gen.ts")
+            normalizedPath.endsWith("/src/i18n/translations.test.ts") ||
+            normalizedPath.endsWith("/src/routeTree.gen.ts") ||
+            normalizedPath.includes("/src/test/")
         ) {
             return [];
         }
