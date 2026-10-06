@@ -4,6 +4,7 @@ import { parseListingAvailability } from "@/data/internal/product/ListingAvailab
 import type { ListingAvailability } from "@/data/internal/product/ProductListingDomain.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { SEARCH_RESULT_SORT_FIELDS, type SortMode } from "@/data/internal/search/SortMode.ts";
+import type { SearchUrlParams } from "@/features/search/products/lib/searchUrlParams.ts";
 
 export type RawSearchParams = {
     q?: string;
@@ -54,7 +55,9 @@ function parseSortOrder(order: string | undefined): SortMode["order"] {
     return order === "ASC" || order === "DESC" ? order : "DESC";
 }
 
-export function validateSearchParams(search: RawSearchParams): SearchFilterArguments {
+export function validateSearchParams(
+    search: Omit<RawSearchParams, keyof SearchSchemaInput>,
+): SearchFilterArguments {
     return {
         q: typeof search.q === "string" ? search.q : "",
         enhancedSearchDescription: search.enhancedSearchDescription,
@@ -77,14 +80,19 @@ export function validateSearchParams(search: RawSearchParams): SearchFilterArgum
     };
 }
 
-function serializeOptionalDate(date: Date | undefined): string | undefined {
-    return date?.toISOString();
+function serializeOptionalDate(date: Date | string | undefined): string | undefined {
+    return typeof date === "string" ? date : date?.toISOString();
+}
+
+/** Route search state must stay URL-safe so canonicalization is stable across reloads. */
+export function validateSearchUrlParams(search: RawSearchParams): SearchUrlParams {
+    return serializeSearchParams(validateSearchParams(search));
 }
 
 /** Converts validated search arguments back to URL-safe query values. */
 export function serializeSearchParams(
-    params: SearchFilterArguments,
-): Omit<RawSearchParams, keyof SearchSchemaInput> {
+    params: SearchFilterArguments | SearchUrlParams,
+): SearchUrlParams {
     return {
         q: params.q,
         enhancedSearchDescription: params.enhancedSearchDescription,

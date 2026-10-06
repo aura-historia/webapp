@@ -51,14 +51,12 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
 
     const filterSchema = useMemo(() => createFilterSchema(t), [t]);
 
-    // The `values` prop syncs URL→Form via an internal reset() call.
-    // reset() fires watch with {name: undefined}, which our guard in the watch handler skips.
-    // RHF's deepEqual compares Dates by getTime(), so identical dates don't trigger a reset.
-    // `keepDirtyValues` preserves in-progress user edits in debounced fields (price, year).
+    // Sync the URL as one reset. Retaining field refs or dirty values would emit
+    // individual watch events during reset and navigate with partially updated filters.
     const form = useForm<FilterSchema>({
         resolver: zodResolver(filterSchema),
         values: mapSearchFiltersToFormValues(searchFilters),
-        resetOptions: { keepDirtyValues: true },
+        resetOptions: { keepFieldsRef: false },
         mode: "onChange",
     });
 
@@ -112,6 +110,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
     }, [form, debouncedApplyFilters, filterSchema, applyFilters]);
 
     const handleResetAll = useCallback(() => {
+        debouncedApplyFilters.cancel();
         form.reset(FILTER_DEFAULTS);
         navigate({
             to: "/$lng/search",
@@ -119,7 +118,7 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                 q: getEffectiveQuery(),
             },
         });
-    }, [form, navigate, getEffectiveQuery]);
+    }, [form, navigate, getEffectiveQuery, debouncedApplyFilters]);
 
     return (
         <Form {...form}>

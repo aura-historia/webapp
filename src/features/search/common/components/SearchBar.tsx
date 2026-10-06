@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { useLocation, useNavigate, useRouterState, useSearch } from "@tanstack/react-router";
 import { Search, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils.ts";
-import { mapFiltersToUrlParams } from "@/features/search/products/lib/searchUrlParams.ts";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { z } from "zod";
@@ -25,7 +24,6 @@ import { toast } from "sonner";
 import { env } from "@/env.ts";
 import { useAnimatedPlaceholder } from "@/features/search/common/hooks/useAnimatedPlaceholder.ts";
 import { serializeSearchParams } from "@/features/search/products/lib/searchValidation.ts";
-import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { stripLanguageFromPathname } from "@/i18n/routing.ts";
 import {
     Select,
@@ -139,32 +137,10 @@ export function SearchBar({ type }: SearchBarProps) {
         }
         navigate({
             to: "/$lng/search",
-            search: (prev) => {
-                const currentParams = serializeSearchParams(prev as SearchFilterArguments);
-                return {
-                    ...currentParams,
-                    ...mapFiltersToUrlParams({
-                        query: values.query,
-                        priceSpan: {
-                            min: searchParams.priceFrom,
-                            max: searchParams.priceTo,
-                        },
-                        availability: searchParams.availability,
-                        creationDate: {
-                            from: searchParams.creationDateFrom,
-                            to: searchParams.creationDateTo,
-                        },
-                        updateDate: {
-                            from: searchParams.updateDateFrom,
-                            to: searchParams.updateDateTo,
-                        },
-                        listingSourceId: searchParams.listingSourceId,
-                        excludeListingSourceId: searchParams.excludeListingSourceId,
-                        listingSourceLabels: searchParams.listingSourceLabels,
-                        excludeListingSourceLabels: searchParams.excludeListingSourceLabels,
-                    }),
-                };
-            },
+            search: serializeSearchParams({
+                ...searchParams,
+                q: values.query,
+            }),
         });
     }
 
