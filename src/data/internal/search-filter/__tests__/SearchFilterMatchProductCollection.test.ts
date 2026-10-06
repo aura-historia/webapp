@@ -2,13 +2,13 @@ import { describe, expect, it, vi } from "vitest";
 import { mapToInternalSearchFilterMatchProductCollection } from "../SearchFilterMatchProductCollection.ts";
 import type { SearchFilterMatchProductCollectionData } from "@/client";
 
-vi.mock("@/data/internal/product/OverviewProduct.ts", () => ({
-    mapPersonalizedGetProductDataToOverviewProduct: vi.fn((item: { shopId: string }) => ({
-        shopId: item.shopId,
+vi.mock("@/data/internal/product/ProductListing.ts", () => ({
+    mapPersonalizedProductListingDetails: vi.fn((item: { productListingId: string }) => ({
+        productListingId: item.productListingId,
     })),
 }));
 
-const minimalItem = { shopId: "shop-1" };
+const minimalItem = { productListingId: "listing-1" };
 
 const baseCollection: SearchFilterMatchProductCollectionData = {
     items: [minimalItem as never],
@@ -24,17 +24,18 @@ describe("mapToInternalSearchFilterMatchProductCollection", () => {
     it("maps items array", () => {
         const result = mapToInternalSearchFilterMatchProductCollection(baseCollection, "de");
         expect(result.items).toHaveLength(1);
-        expect(result.items[0].shopId).toBe("shop-1");
+        expect(result.items[0].productListingId).toBe("listing-1");
     });
 
-    it("maps searchAfter when present", () => {
-        const data = { ...baseCollection, searchAfter: "cursor-abc" };
+    it("serializes the returned timestamp/listing cursor as a query value", () => {
+        const cursor: [string, string] = ["2026-09-20T12:00:00Z", "listing-1"];
+        const data = { ...baseCollection, searchAfter: cursor };
         const result = mapToInternalSearchFilterMatchProductCollection(data, "de");
-        expect(result.searchAfter).toBe("cursor-abc");
+        expect(result.searchAfter).toBe(JSON.stringify(cursor));
     });
 
-    it("maps searchAfter to undefined when null", () => {
-        const data = { ...baseCollection, searchAfter: null };
+    it("maps an omitted terminal cursor to undefined", () => {
+        const data = { ...baseCollection, searchAfter: undefined };
         const result = mapToInternalSearchFilterMatchProductCollection(data, "de");
         expect(result.searchAfter).toBeUndefined();
     });
@@ -46,7 +47,10 @@ describe("mapToInternalSearchFilterMatchProductCollection", () => {
     });
 
     it("maps total to undefined when null", () => {
-        const data = { ...baseCollection, total: null };
+        const data = {
+            ...baseCollection,
+            total: null,
+        } as unknown as SearchFilterMatchProductCollectionData;
         const result = mapToInternalSearchFilterMatchProductCollection(data, "de");
         expect(result.total).toBeUndefined();
     });

@@ -16,20 +16,21 @@ import { H2 } from "@/components/typography/H2.tsx";
 import { H3 } from "@/components/typography/H3.tsx";
 import { Card } from "@/components/ui/card.tsx";
 import { cn } from "@/lib/utils.ts";
-import { intlFormatDistance } from "date-fns";
-import { Link } from "@tanstack/react-router";
+import { ProductListingLink } from "@/features/product/catalog/components/ProductListingLink.tsx";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Check, ImageOff, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useRouteContext } from "@tanstack/react-router";
 
 export function NotificationCard({ notification }: { readonly notification: Notification }) {
     const { t, i18n } = useTranslation();
+    const { timeZone } = useRouteContext({ from: "__root__" });
     const markAsSeen = useMarkNotificationSeen();
     const deleteNotification = useDeleteNotification();
     const { data: userAccount } = useUserAccount();
-    const consentGiven = userAccount?.prohibitedContentConsent ?? false;
-    const { payload, seen, originEventId } = notification;
+    const consentGiven = userAccount?.showUnassessedOrSensitiveContent ?? false;
+    const { payload, seen, notificationId } = notification;
     const changeParts = getNotificationChangeParts(payload, t, i18n.language);
     const productImage = isProductNotification(payload) ? payload.image : undefined;
     const notificationImageUrl = isProductNotification(payload)
@@ -81,27 +82,23 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                             {getNotificationTypeLabel(payload, t)}
                         </span>
                         {isProductNotification(payload) ? (
-                            <Link
-                                to="/$lng/shops/$shopSlugId/products/$productSlugId"
-                                params={(current) => ({
-                                    ...current,
-                                    shopSlugId: payload.shopSlugId,
-                                    productSlugId: payload.productSlugId,
-                                })}
+                            <ProductListingLink
+                                productListingTitleSlugId={payload.productListingTitleSlugId}
                                 className="min-w-0 overflow-hidden"
-                                onClick={() => !seen && markAsSeen.mutate(originEventId)}
-                                from="/$lng"
+                                onClick={() => !seen && markAsSeen.mutate(notificationId)}
                             >
                                 <H2 className="overflow-ellipsis line-clamp-1 hover:underline">
-                                    {payload.productTitle}
+                                    {payload.productTitle ?? t("product.untitled")}
                                 </H2>
-                            </Link>
+                            </ProductListingLink>
                         ) : (
-                            <H2 className="overflow-ellipsis line-clamp-1">{payload.shopName}</H2>
+                            <H2 className="overflow-ellipsis line-clamp-1">
+                                {payload.listingSourceName}
+                            </H2>
                         )}
                         {isProductNotification(payload) && (
                             <H3 variant="muted" className="line-clamp-1 overflow-ellipsis">
-                                {payload.shopName}
+                                {payload.listingSourceName}
                             </H3>
                         )}
                     </div>
@@ -115,7 +112,7 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                                         size="icon"
                                         aria-label={t("notifications.markRead")}
                                         disabled={markAsSeen.isPending}
-                                        onClick={() => markAsSeen.mutate(originEventId)}
+                                        onClick={() => markAsSeen.mutate(notificationId)}
                                         className="size-10 text-muted-foreground hover:text-primary"
                                     >
                                         <Check className="size-5" />
@@ -131,7 +128,7 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                                     size="icon"
                                     aria-label={t("notifications.delete")}
                                     disabled={deleteNotification.isPending}
-                                    onClick={() => deleteNotification.mutate(originEventId)}
+                                    onClick={() => deleteNotification.mutate(notificationId)}
                                     className="size-10 text-muted-foreground hover:text-destructive"
                                 >
                                     <Trash2 className="size-5" />
@@ -152,13 +149,11 @@ export function NotificationCard({ notification }: { readonly notification: Noti
                             <span>{changeParts.to}</span>
                         </span>
                     )}
-                    <span
-                        className="text-base text-muted-foreground shrink-0 ml-auto"
-                        suppressHydrationWarning
-                    >
-                        {intlFormatDistance(notification.created, new Date(), {
-                            locale: i18n.language,
-                        })}
+                    <span className="text-base text-muted-foreground shrink-0 ml-auto">
+                        {new Intl.DateTimeFormat(i18n.language, {
+                            dateStyle: "medium",
+                            timeZone,
+                        }).format(notification.created)}
                     </span>
                 </div>
             </div>

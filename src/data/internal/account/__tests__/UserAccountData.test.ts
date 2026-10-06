@@ -1,23 +1,61 @@
 import { describe, expect, it } from "vitest";
 import { mapToBackendUserAccountPatch, mapToInternalUserAccount } from "../UserAccountData.ts";
-import type { GetUserAccountData } from "@/client";
+import type { OwnUserAccountData } from "@/client";
+import type { UserAccountPatchData } from "../UserAccountData.ts";
 
 describe("mapToInternalUserAccount", () => {
+    it("preserves nullable preferences and billing identity without audit fields", () => {
+        const account = mapToInternalUserAccount({
+            userId: "user-1",
+            email: "user@example.com",
+            tier: "FREE",
+            role: "USER",
+            firstName: null,
+            lastName: null,
+            language: null,
+            currency: null,
+            measurementUnit: null,
+            stripeCustomerId: null,
+            showUnassessedOrSensitiveContent: false,
+        });
+        expect(account).toMatchObject({
+            firstName: null,
+            lastName: null,
+            language: null,
+            currency: null,
+            unitSystem: null,
+            stripeCustomerId: null,
+            showUnassessedOrSensitiveContent: false,
+        });
+        expect(account).not.toHaveProperty("created");
+        expect(account).not.toHaveProperty("updated");
+        expect(account).not.toHaveProperty("structuredAddress");
+        expect(account).not.toHaveProperty("geoAddress");
+    });
+    it("maps measurement units and preserves a Stripe customer identifier", () => {
+        expect(
+            mapToInternalUserAccount({
+                userId: "u",
+                email: "u@example.com",
+                tier: "PRO",
+                role: "USER",
+                measurementUnit: "IMPERIAL",
+                stripeCustomerId: "cus_123",
+                showUnassessedOrSensitiveContent: true,
+            }),
+        ).toMatchObject({ unitSystem: "IMPERIAL", stripeCustomerId: "cus_123" });
+    });
     it("maps API tier to internal subscriptionType", () => {
-        const apiData: GetUserAccountData = {
+        const apiData: OwnUserAccountData = {
             userId: "user-1",
             email: "john@example.com",
             firstName: "John",
             lastName: "Doe",
             language: "en",
             currency: "EUR",
-            prohibitedContentConsent: true,
+            showUnassessedOrSensitiveContent: true,
             tier: "PRO",
             role: "USER",
-            createdBy: "SYSTEM",
-            updatedBy: "SYSTEM",
-            created: "2024-01-01T00:00:00.000Z",
-            updated: "2024-01-02T00:00:00.000Z",
         };
 
         const mappedData = mapToInternalUserAccount(apiData);
@@ -26,20 +64,16 @@ describe("mapToInternalUserAccount", () => {
     });
 
     it("falls back to free for unknown tiers", () => {
-        const apiData: GetUserAccountData = {
+        const apiData: OwnUserAccountData = {
             userId: "user-1",
             email: "john@example.com",
             firstName: "John",
             lastName: "Doe",
             language: "en",
             currency: "EUR",
-            prohibitedContentConsent: true,
-            tier: "INVALID" as unknown as GetUserAccountData["tier"],
+            showUnassessedOrSensitiveContent: true,
+            tier: "INVALID" as unknown as OwnUserAccountData["tier"],
             role: "USER",
-            createdBy: "SYSTEM",
-            updatedBy: "SYSTEM",
-            created: "2024-01-01T00:00:00.000Z",
-            updated: "2024-01-02T00:00:00.000Z",
         };
 
         const mappedData = mapToInternalUserAccount(apiData);
@@ -49,6 +83,42 @@ describe("mapToInternalUserAccount", () => {
 });
 
 describe("mapToBackendUserAccountPatch", () => {
+    it("omits unspecified fields including content visibility", () => {
+        expect(mapToBackendUserAccountPatch({})).toEqual({});
+        expect(mapToBackendUserAccountPatch({ firstName: "Jane" })).toEqual({ firstName: "Jane" });
+        expect(
+            mapToBackendUserAccountPatch({ showUnassessedOrSensitiveContent: undefined }),
+        ).toEqual({});
+    });
+    it.each([true, false])("preserves explicit visibility %s", (visibility) => {
+        expect(
+            mapToBackendUserAccountPatch({ showUnassessedOrSensitiveContent: visibility }),
+        ).toEqual({ showUnassessedOrSensitiveContent: visibility });
+    });
+    it("rejects null visibility before making an API request", () => {
+        expect(() =>
+            mapToBackendUserAccountPatch({
+                showUnassessedOrSensitiveContent: null,
+            } as unknown as UserAccountPatchData),
+        ).toThrow(TypeError);
+    });
+    it("preserves explicit null for clearable profile fields", () => {
+        expect(
+            mapToBackendUserAccountPatch({
+                firstName: null,
+                lastName: null,
+                language: null,
+                currency: null,
+                unitSystem: null,
+            }),
+        ).toEqual({
+            firstName: null,
+            lastName: null,
+            language: null,
+            currency: null,
+            measurementUnit: null,
+        });
+    });
     it("keeps existing patch mapping behavior", () => {
         const patchData = mapToBackendUserAccountPatch({
             firstName: "Jane",
@@ -56,7 +126,7 @@ describe("mapToBackendUserAccountPatch", () => {
             language: "de",
             currency: "USD",
             unitSystem: "IMPERIAL",
-            prohibitedContentConsent: false,
+            showUnassessedOrSensitiveContent: false,
         });
 
         expect(patchData).toEqual({
@@ -65,7 +135,7 @@ describe("mapToBackendUserAccountPatch", () => {
             language: "de",
             currency: "USD",
             measurementUnit: "IMPERIAL",
-            prohibitedContentConsent: false,
+            showUnassessedOrSensitiveContent: false,
         });
     });
 });

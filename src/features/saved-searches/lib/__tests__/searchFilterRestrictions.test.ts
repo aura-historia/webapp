@@ -4,18 +4,13 @@ import {
     stripRestrictedFilters,
 } from "../searchFilterRestrictions.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
+import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 const emptyArgs: SearchFilterArguments = { q: "" };
 
-const argsWithShopType: SearchFilterArguments = {
+const argsWithSource: SearchFilterArguments = {
     q: "",
-    shopType: ["AUCTION_HOUSE"], // not all → active
-};
-
-const argsWithMerchant: SearchFilterArguments = {
-    q: "",
-    merchant: ["Händler A"],
+    listingSourceId: ["source-1"],
 };
 
 const argsWithAuctionDate: SearchFilterArguments = {
@@ -25,16 +20,16 @@ const argsWithAuctionDate: SearchFilterArguments = {
 
 const argsAllDefaults: SearchFilterArguments = {
     q: "",
-    shopType: [...SHOP_TYPES],
+    availability: [...LISTING_AVAILABILITIES],
 };
 
 describe("getActiveRestrictedFilterLabels", () => {
     it("returns [] for pro user regardless of filters", () => {
-        expect(getActiveRestrictedFilterLabels(argsWithShopType, "pro")).toEqual([]);
+        expect(getActiveRestrictedFilterLabels(argsWithSource, "pro")).toEqual([]);
     });
 
     it("returns [] for ultimate user regardless of filters", () => {
-        expect(getActiveRestrictedFilterLabels(argsWithShopType, "ultimate")).toEqual([]);
+        expect(getActiveRestrictedFilterLabels(argsWithSource, "ultimate")).toEqual([]);
     });
 
     it("returns [] for free user with no restricted filters active", () => {
@@ -45,14 +40,9 @@ describe("getActiveRestrictedFilterLabels", () => {
         expect(getActiveRestrictedFilterLabels(argsAllDefaults, "free")).toEqual([]);
     });
 
-    it("returns label for shopType when active for free user", () => {
-        const labels = getActiveRestrictedFilterLabels(argsWithShopType, "free");
-        expect(labels).toContain("search.filter.shopType");
-    });
-
-    it("returns label for merchant when active for free user", () => {
-        const labels = getActiveRestrictedFilterLabels(argsWithMerchant, "free");
-        expect(labels).toContain("search.filter.merchants");
+    it("returns label for listing source when active for free user", () => {
+        const labels = getActiveRestrictedFilterLabels(argsWithSource, "free");
+        expect(labels).toContain("search.filter.listingSources");
     });
 
     it("returns label for auctionDate when active for free user", () => {
@@ -63,39 +53,32 @@ describe("getActiveRestrictedFilterLabels", () => {
     it("returns multiple labels when multiple restricted filters are active", () => {
         const args: SearchFilterArguments = {
             q: "",
-            shopType: ["AUCTION_HOUSE"],
-            merchant: ["Händler A"],
+            listingSourceId: ["source-1"],
         };
         const labels = getActiveRestrictedFilterLabels(args, "free");
-        expect(labels).toContain("search.filter.shopType");
-        expect(labels).toContain("search.filter.merchants");
+        expect(labels).toContain("search.filter.listingSources");
     });
 
     it("treats undefined subscriptionType as free (restricted)", () => {
-        const labels = getActiveRestrictedFilterLabels(argsWithShopType, undefined);
-        expect(labels).toContain("search.filter.shopType");
+        const labels = getActiveRestrictedFilterLabels(argsWithSource, undefined);
+        expect(labels).toContain("search.filter.listingSources");
     });
 });
 
 describe("stripRestrictedFilters", () => {
     it("returns args unchanged for pro user", () => {
-        const result = stripRestrictedFilters(argsWithShopType, "pro");
-        expect(result).toBe(argsWithShopType);
+        const result = stripRestrictedFilters(argsWithSource, "pro");
+        expect(result).toBe(argsWithSource);
     });
 
     it("returns args unchanged for ultimate user", () => {
-        const result = stripRestrictedFilters(argsWithShopType, "ultimate");
-        expect(result).toBe(argsWithShopType);
+        const result = stripRestrictedFilters(argsWithSource, "ultimate");
+        expect(result).toBe(argsWithSource);
     });
 
-    it("removes shopType for free user", () => {
-        const result = stripRestrictedFilters(argsWithShopType, "free");
-        expect(result.shopType).toBeUndefined();
-    });
-
-    it("removes merchant for free user", () => {
-        const result = stripRestrictedFilters(argsWithMerchant, "free");
-        expect(result.merchant).toBeUndefined();
+    it("removes listing sources for free user", () => {
+        const result = stripRestrictedFilters(argsWithSource, "free");
+        expect(result.listingSourceId).toBeUndefined();
     });
 
     it("removes auctionDateFrom for free user", () => {
@@ -107,22 +90,22 @@ describe("stripRestrictedFilters", () => {
         const args: SearchFilterArguments = {
             q: "Barock",
             priceFrom: 100,
-            shopType: ["AUCTION_HOUSE"],
+            listingSourceId: ["source-1"],
         };
         const result = stripRestrictedFilters(args, "free");
         expect(result.q).toBe("Barock");
         expect(result.priceFrom).toBe(100);
-        expect(result.shopType).toBeUndefined();
+        expect(result.listingSourceId).toBeUndefined();
     });
 
     it("does not mutate the original args object", () => {
-        const args: SearchFilterArguments = { q: "", shopType: ["AUCTION_HOUSE"] };
+        const args: SearchFilterArguments = { q: "", listingSourceId: ["source-1"] };
         stripRestrictedFilters(args, "free");
-        expect(args.shopType).toEqual(["AUCTION_HOUSE"]);
+        expect(args.listingSourceId).toEqual(["source-1"]);
     });
 
     it("treats undefined subscriptionType as free and strips restricted fields", () => {
-        const result = stripRestrictedFilters(argsWithShopType, undefined);
-        expect(result.shopType).toBeUndefined();
+        const result = stripRestrictedFilters(argsWithSource, undefined);
+        expect(result.listingSourceId).toBeUndefined();
     });
 });

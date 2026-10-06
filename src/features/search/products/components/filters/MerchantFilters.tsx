@@ -15,14 +15,14 @@ export function MerchantFilters({ disabled = false }: Props) {
     const { setValue } = useFormContext<FilterSchema>();
 
     const handleReset = () => {
-        setValue("merchant", FILTER_DEFAULTS.merchant);
-        setValue("excludeMerchant", FILTER_DEFAULTS.excludeMerchant);
+        setValue("listingSourceId", FILTER_DEFAULTS.listingSourceId);
+        setValue("excludeListingSourceId", FILTER_DEFAULTS.excludeListingSourceId);
     };
 
     return (
         <FilterCard
-            title={t("search.filter.merchants")}
-            resetTooltip={t("search.filter.resetTooltip.merchants")}
+            title={t("search.filter.listingSources")}
+            resetTooltip={t("search.filter.resetTooltip.listingSources")}
             onReset={handleReset}
             disabled={disabled}
         >

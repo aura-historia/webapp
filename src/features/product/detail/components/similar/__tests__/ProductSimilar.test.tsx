@@ -1,5 +1,7 @@
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import { render, screen } from "@testing-library/react";
+import { makeProductListing, makeProductListingUserState } from "@/test/fixtures.ts";
+import { renderWithQueryClient } from "@/test/utils.tsx";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
+import { screen } from "@testing-library/react";
 import { ProductSimilar } from "../ProductSimilar.tsx";
 import { vi } from "vitest";
 import type React from "react";
@@ -29,8 +31,8 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     };
 });
 
-vi.mock("@/features/notification-center/api/useMarkNotificationSeen.ts", () => ({
-    useMarkNotificationSeen: () => ({ mutate: vi.fn() }),
+vi.mock("@/features/notification-center/api/useMarkNotificationsSeen.ts", () => ({
+    useMarkNotificationsSeen: () => ({ mutate: vi.fn() }),
 }));
 
 vi.mock("@/features/product/detail/api/useSimilarProducts.ts", () => ({
@@ -40,71 +42,28 @@ vi.mock("@/features/product/detail/api/useSimilarProducts.ts", () => ({
 import { useSimilarProducts } from "@/features/product/detail/api/useSimilarProducts.ts";
 
 describe("ProductSimilar", () => {
-    const mockProducts: OverviewProduct[] = [
-        {
-            productId: "1",
-            productSlugId: "similar-product-1",
-            eventId: "",
-            shopId: "shop1",
-            shopSlugId: "shop-1",
-            shopsProductId: "item1",
-            shopName: "Shop 1",
-            sellerName: "Shop 1",
-            shopType: "AUCTION_HOUSE",
+    const mockProducts: ProductListing[] = [
+        makeProductListing({
+            productListingId: "1",
             title: "Similar Product 1",
-            price: "50€",
-            state: "AVAILABLE",
-            url: new URL("https://example.com/1"),
-            images: [
-                { url: new URL("https://example.com/image1.jpg"), prohibitedContentType: "NONE" },
-            ],
-            created: new Date(),
-            updated: new Date(),
-        },
-        {
-            productId: "2",
-            productSlugId: "similar-product-2",
-            eventId: "",
-            shopId: "shop2",
-            shopSlugId: "shop-2",
-            shopsProductId: "item2",
-            shopName: "Shop 2",
-            sellerName: "Shop 2",
-            shopType: "AUCTION_HOUSE",
+            formattedPrice: "50€",
+            source: { listingSourceId: "s1", slugId: "shop-1", name: "Shop 1" },
+        }),
+        makeProductListing({
+            productListingId: "2",
             title: "Similar Product 2",
-            price: "75€",
-            state: "AVAILABLE",
-            url: new URL("https://example.com/2"),
-            images: [
-                { url: new URL("https://example.com/image2.jpg"), prohibitedContentType: "NONE" },
-            ],
-            created: new Date(),
-            updated: new Date(),
-        },
-        {
-            productId: "3",
-            productSlugId: "similar-product-3",
-            eventId: "",
-            shopId: "shop3",
-            shopSlugId: "shop-3",
-            shopsProductId: "item3",
-            shopName: "Shop 3",
-            sellerName: "Shop 3",
-            shopType: "AUCTION_HOUSE",
+            formattedPrice: "75€",
+            source: { listingSourceId: "s2", slugId: "shop-2", name: "Shop 2" },
+        }),
+        makeProductListing({
+            productListingId: "3",
             title: "Similar Product 3",
             price: undefined,
-            state: "SOLD",
-            url: new URL("https://example.com/3"),
-            images: [],
-            created: new Date(),
-            updated: new Date(),
-        },
+            formattedPrice: undefined,
+            source: { listingSourceId: "s3", slugId: "shop-3", name: "Shop 3" },
+        }),
     ];
-
-    const defaultProps = {
-        shopId: "test-shop",
-        shopsProductId: "test-item",
-    };
+    const defaultProps = { productListingId: "test-listing" };
 
     afterEach(() => {
         vi.clearAllMocks();
@@ -118,7 +77,7 @@ describe("ProductSimilar", () => {
             error: null,
         } as never);
 
-        render(<ProductSimilar {...defaultProps} />);
+        renderWithQueryClient(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText("Ähnliche Artikel")).toBeInTheDocument();
         const skeleton = document.querySelector(".animate-pulse");
@@ -133,7 +92,7 @@ describe("ProductSimilar", () => {
             error: { message: "Failed to load similar products" },
         } as never);
 
-        render(<ProductSimilar {...defaultProps} />);
+        renderWithQueryClient(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText("Ähnliche Artikel")).toBeInTheDocument();
         expect(screen.getByText("Fehler beim Laden")).toBeInTheDocument();
@@ -148,7 +107,7 @@ describe("ProductSimilar", () => {
             error: {},
         } as never);
 
-        render(<ProductSimilar {...defaultProps} />);
+        renderWithQueryClient(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText("Fehler beim Laden")).toBeInTheDocument();
         expect(
@@ -164,7 +123,7 @@ describe("ProductSimilar", () => {
             error: null,
         } as never);
 
-        render(<ProductSimilar {...defaultProps} />);
+        renderWithQueryClient(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText("Ähnliche Artikel")).toBeInTheDocument();
         expect(screen.getByText("Wird vorbereitet")).toBeInTheDocument();
@@ -183,7 +142,7 @@ describe("ProductSimilar", () => {
             error: null,
         } as never);
 
-        render(<ProductSimilar {...defaultProps} />);
+        renderWithQueryClient(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText("Ähnliche Artikel")).toBeInTheDocument();
         expect(screen.getByText("Keine ähnlichen Artikel")).toBeInTheDocument();
@@ -200,22 +159,17 @@ describe("ProductSimilar", () => {
             error: null,
         } as never);
 
-        render(<ProductSimilar {...defaultProps} />);
+        renderWithQueryClient(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText("Keine ähnlichen Artikel")).toBeInTheDocument();
     });
 
     it("should render HiddenMatchCard instead of ProductGridItem when product is hidden", () => {
-        const hiddenProduct: OverviewProduct = {
-            ...mockProducts[0],
-            productId: "00000000-0000-0000-0000-000000000000",
-            userData: {
-                watchlistData: { isWatching: false, isNotificationEnabled: false },
-                notificationData: { hasUnseenNotification: false },
-                restrictedContentData: { consentGiven: false },
-                searchFilterData: { matched: true, hidden: true },
-            },
-        };
+        const hiddenProduct = makeProductListing({
+            userState: makeProductListingUserState({
+                searchFilter: { matched: true, hidden: true },
+            }),
+        });
         vi.mocked(useSimilarProducts).mockReturnValue({
             data: { isEmbeddingsPending: false, products: [hiddenProduct] },
             isLoading: false,
@@ -223,10 +177,10 @@ describe("ProductSimilar", () => {
             error: null,
         } as never);
 
-        render(<ProductSimilar {...defaultProps} />);
+        renderWithQueryClient(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText(/Verborgen/i)).toBeInTheDocument();
-        expect(screen.queryByText(mockProducts[0].title)).not.toBeInTheDocument();
+        expect(screen.queryByText(mockProducts[0].title ?? "")).not.toBeInTheDocument();
     });
 
     it("should render similar products correctly in grid", () => {
@@ -237,7 +191,7 @@ describe("ProductSimilar", () => {
             error: null,
         } as never);
 
-        render(<ProductSimilar {...defaultProps} />);
+        renderWithQueryClient(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText("Ähnliche Artikel")).toBeInTheDocument();
         expect(screen.getByText("Similar Product 1")).toBeInTheDocument();
@@ -256,7 +210,7 @@ describe("ProductSimilar", () => {
             error: null,
         } as never);
 
-        const { container } = render(<ProductSimilar {...defaultProps} />);
+        const { container } = renderWithQueryClient(<ProductSimilar {...defaultProps} />);
 
         expect(container.querySelector('[data-slot="carousel"]')).toBeInTheDocument();
     });
@@ -269,7 +223,7 @@ describe("ProductSimilar", () => {
             error: null,
         } as never);
 
-        render(<ProductSimilar {...defaultProps} />);
+        renderWithQueryClient(<ProductSimilar {...defaultProps} />);
 
         expect(screen.getByText("50€")).toBeInTheDocument();
         expect(screen.getByText("75€")).toBeInTheDocument();
@@ -284,7 +238,7 @@ describe("ProductSimilar", () => {
             error: null,
         } as never);
 
-        const { container } = render(<ProductSimilar {...defaultProps} />);
+        const { container } = renderWithQueryClient(<ProductSimilar {...defaultProps} />);
 
         const productLinks = container.querySelectorAll("a[to]");
         expect(productLinks.length).toBeGreaterThanOrEqual(mockProducts.length);

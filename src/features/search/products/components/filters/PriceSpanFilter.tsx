@@ -7,12 +7,13 @@ import { useTranslation } from "react-i18next";
 import { useFilterNavigation } from "@/features/search/products/hooks/useFilterNavigation.ts";
 import { FilterCard } from "@/features/search/common/components/filters/FilterCard.tsx";
 import { CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
+import type { Currency } from "@/data/internal/common/Currency.ts";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 10_000;
 
-export function PriceSpanFilter() {
+export function PriceSpanFilter({ currency }: { readonly currency?: Currency } = {}) {
     const { control, watch, setValue } = useFormContext<FilterSchema>();
     const { t } = useTranslation();
     const { preferences } = useUserPreferences();
@@ -26,7 +27,7 @@ export function PriceSpanFilter() {
     const sliderMin = typeof watchedMin === "number" ? watchedMin : PRICE_MIN;
     const sliderMax = typeof watchedMax === "number" ? watchedMax : PRICE_MAX;
 
-    const currencySymbol = CURRENCY_SYMBOLS[preferences.currency];
+    const currencySymbol = CURRENCY_SYMBOLS[currency ?? preferences.currency];
 
     // Prevent unnecessary form writes when slider values haven't logically changed
     const lastSlider = useRef<[number, number]>([sliderMin, sliderMax]);

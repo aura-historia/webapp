@@ -1,6 +1,6 @@
-import { simpleSearchProducts } from "@/client";
-import { mapPersonalizedGetProductSummaryDataToOverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import { simpleSearchProductListings } from "@/client";
+import { mapPersonalizedProductListingSummary } from "@/data/internal/product/ProductListing.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import {
     type InfiniteData,
     useInfiniteQuery,
@@ -11,34 +11,45 @@ import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useTranslation } from "react-i18next";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
+import {
+    mapListingSearchCursor,
+    serializeListingSearchCursor,
+    type ListingSearchCursor,
+} from "@/data/internal/search/SearchResultData.ts";
 
 const PAGE_SIZE = 20;
 
 export type ShopProductsPage = {
-    products: OverviewProduct[];
+    products: ProductListing[];
     total: number | undefined;
-    searchAfter: Array<unknown> | undefined;
+    searchAfter: ListingSearchCursor | undefined;
 };
 
 export function useShopProducts(
-    shopName: string,
+    listingSourceId: string,
 ): UseInfiniteQueryResult<InfiniteData<ShopProductsPage>> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
 
     return useInfiniteQuery({
-        queryKey: ["shopProducts", shopName, i18n.language],
+        queryKey: [
+            "sourceProductListings",
+            listingSourceId,
+            i18n.language,
+            preferences.currency,
+            PAGE_SIZE,
+        ],
         queryFn: async ({ pageParam }) => {
-            const result = await simpleSearchProducts({
+            const result = await simpleSearchProductListings({
                 query: {
                     language: parseLanguage(i18n.language),
                     currency: preferences.currency,
-                    searchAfter: pageParam,
+                    searchAfter: pageParam ? serializeListingSearchCursor(pageParam) : undefined,
                     size: PAGE_SIZE,
                     sort: "updated",
                     order: "desc",
-                    shopName: [shopName],
+                    listingSourceId: [listingSourceId],
                 },
             });
 
@@ -49,16 +60,13 @@ export function useShopProducts(
             return {
                 products:
                     result.data?.items?.map((product) =>
-                        mapPersonalizedGetProductSummaryDataToOverviewProduct(
-                            product,
-                            i18n.language,
-                        ),
+                        mapPersonalizedProductListingSummary(product, i18n.language),
                     ) ?? [],
                 total: result.data?.total ?? undefined,
-                searchAfter: result.data?.searchAfter ?? undefined,
+                searchAfter: mapListingSearchCursor(result.data?.searchAfter),
             };
         },
-        initialPageParam: undefined as Array<unknown> | undefined,
-        getNextPageParam: (lastPage) => lastPage.searchAfter ?? undefined,
+        initialPageParam: undefined as ListingSearchCursor | undefined,
+        getNextPageParam: (lastPage) => lastPage.searchAfter,
     });
 }

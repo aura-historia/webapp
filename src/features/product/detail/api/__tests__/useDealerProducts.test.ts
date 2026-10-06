@@ -3,11 +3,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { TestRouterWrapper } from "@/test/utils.tsx";
 import { useDealerProducts } from "../useDealerProducts.ts";
 
-const mockSimpleSearchProducts = vi.hoisted(() => vi.fn());
+const mockSimpleSearchProductListings = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
 
 vi.mock("@/client", () => ({
-    simpleSearchProducts: mockSimpleSearchProducts,
+    simpleSearchProductListings: mockSimpleSearchProductListings,
 }));
 
 vi.mock("@/hooks/common/useApiError.ts", () => ({
@@ -20,8 +20,8 @@ vi.mock("@/data/internal/hooks/ApiError.ts", () => ({
     mapToInternalApiError: (error: unknown) => error,
 }));
 
-vi.mock("@/data/internal/product/OverviewProduct.ts", () => ({
-    mapPersonalizedGetProductSummaryDataToOverviewProduct: (product: unknown) => product,
+vi.mock("@/data/internal/product/ProductListing.ts", () => ({
+    mapPersonalizedProductListingSummary: (product: unknown) => product,
 }));
 
 vi.mock("react-i18next", () => ({
@@ -45,7 +45,7 @@ describe("useDealerProducts", () => {
     });
 
     it("fetches and returns products for the given shop, excluding the current product", async () => {
-        mockSimpleSearchProducts.mockResolvedValue({
+        mockSimpleSearchProductListings.mockResolvedValue({
             data: {
                 items: [{ productId: "p1" }, { productId: "p2" }],
                 total: 2,
@@ -63,8 +63,8 @@ describe("useDealerProducts", () => {
         expect(result.current.data).toHaveLength(2);
     });
 
-    it("calls simpleSearchProducts with shopName, excludeProductId and defaults", async () => {
-        mockSimpleSearchProducts.mockResolvedValue({
+    it("calls simpleSearchProductListings with shopName, excludeProductId and defaults", async () => {
+        mockSimpleSearchProductListings.mockResolvedValue({
             data: { items: [], total: 0, searchAfter: undefined },
             error: null,
         });
@@ -73,23 +73,23 @@ describe("useDealerProducts", () => {
             wrapper: TestRouterWrapper,
         });
 
-        await waitFor(() => expect(mockSimpleSearchProducts).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(mockSimpleSearchProductListings).toHaveBeenCalledTimes(1));
 
-        expect(mockSimpleSearchProducts).toHaveBeenCalledWith({
+        expect(mockSimpleSearchProductListings).toHaveBeenCalledWith({
             query: expect.objectContaining({
                 language: "de",
                 currency: "EUR",
                 size: 8,
                 sort: "updated",
                 order: "desc",
-                shopName: ["Christie's"],
+                listingSourceId: ["Christie's"],
                 excludeProductId: ["current-product"],
             }),
         });
     });
 
     it("throws an error mapped via getErrorMessage when API returns an error", async () => {
-        mockSimpleSearchProducts.mockResolvedValue({
+        mockSimpleSearchProductListings.mockResolvedValue({
             data: null,
             error: { message: "Server Error" },
         });
@@ -105,7 +105,7 @@ describe("useDealerProducts", () => {
     });
 
     it("returns an empty array when items is undefined", async () => {
-        mockSimpleSearchProducts.mockResolvedValue({
+        mockSimpleSearchProductListings.mockResolvedValue({
             data: { items: undefined, total: 0, searchAfter: undefined },
             error: null,
         });

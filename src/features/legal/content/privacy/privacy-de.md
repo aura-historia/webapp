@@ -72,7 +72,7 @@ Wenn Sie ein Nutzerkonto anlegen oder verwenden, verarbeiten wir insbesondere:
 - Authentifizierungs- und Sitzungsinformationen
 - Vorname und Nachname, soweit angegeben
 - bevorzugte Sprache und Währung, soweit angegeben
-- Einwilligungsstatus für sensible Inhaltsdarstellungen (`prohibitedContentConsent`), soweit genutzt
+- Einstellung zur Anzeige ungeprüfter oder sensibler Inhalte (`showUnassessedOrSensitiveContent`)
 - Rollen-, Berechtigungs- und Abonnementstatus
 
 Die Authentifizierung erfolgt technisch über AWS Amplify bzw. Amazon Cognito.
@@ -109,6 +109,8 @@ Soweit Partner-, Shop- oder Administrationsfunktionen genutzt werden, können zu
 - Partnerbewerbungen und zugehörige Status- bzw. Prüfungsdaten
 - API-Zugangsdaten bzw. deren Verwaltungsdaten
 - Rollen- und Freischaltungsinformationen
+
+Partnerschaftsbewerbungen enthalten entweder die Kennung eines bestehenden Anbieters oder einen Vorschlag mit Betreibername, optionalen Telefon- und E-Mail-Kontaktdaten, dem Namen des Anbieters, optionaler URL, Bild-URL und gewünschten Importmethoden. Bewerbungen erfassen keine Postanschrift. Vorschläge werden zur Prüfung der Partnerschaft verwendet; die Auswahl eines öffentlichen Anbieters gewährt keinen Zugriff.
 
 **Zwecke der Verarbeitung:**
 

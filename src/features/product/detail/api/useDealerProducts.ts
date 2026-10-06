@@ -1,8 +1,8 @@
-import { simpleSearchProducts } from "@/client";
+import { simpleSearchProductListings } from "@/client";
 import {
-    mapPersonalizedGetProductSummaryDataToOverviewProduct,
-    type OverviewProduct,
-} from "@/data/internal/product/OverviewProduct.ts";
+    mapPersonalizedProductListingSummary,
+    type ProductListing,
+} from "@/data/internal/product/ProductListing.ts";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
@@ -13,9 +13,9 @@ import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferen
 const DEALER_PRODUCTS_SIZE = 8;
 
 export function useDealerProducts(
-    shopName: string,
-    excludeProductId: string,
-): UseQueryResult<OverviewProduct[]> {
+    listingSourceId: string,
+    excludeProductListingId: string,
+): UseQueryResult<ProductListing[]> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
@@ -23,21 +23,21 @@ export function useDealerProducts(
     return useQuery({
         queryKey: [
             "dealerProducts",
-            shopName,
-            excludeProductId,
+            listingSourceId,
+            excludeProductListingId,
             i18n.language,
             preferences.currency,
         ],
         queryFn: async () => {
-            const result = await simpleSearchProducts({
+            const result = await simpleSearchProductListings({
                 query: {
                     language: parseLanguage(i18n.language),
                     currency: preferences.currency,
                     size: DEALER_PRODUCTS_SIZE,
                     sort: "updated",
                     order: "desc",
-                    shopName: [shopName],
-                    excludeProductId: [excludeProductId],
+                    listingSourceId: [listingSourceId],
+                    excludeProductId: [excludeProductListingId],
                 },
             });
 
@@ -47,7 +47,7 @@ export function useDealerProducts(
 
             return (
                 result.data?.items?.map((product) =>
-                    mapPersonalizedGetProductSummaryDataToOverviewProduct(product, i18n.language),
+                    mapPersonalizedProductListingSummary(product, i18n.language),
                 ) ?? []
             );
         },

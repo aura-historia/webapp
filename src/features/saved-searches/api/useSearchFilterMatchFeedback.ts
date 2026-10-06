@@ -4,20 +4,17 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
+import { mapToInternalSearchFilterProductMatch } from "@/data/internal/search-filter/SearchFilterProductMatch.ts";
 
-export function useSearchFilterMatchFeedback(
-    filterId: string,
-    shopId: string,
-    shopsProductId: string,
-) {
+export function useSearchFilterMatchFeedback(filterId: string, productListingId: string) {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
     const { t } = useTranslation();
 
     return useMutation({
-        mutationFn: async (feedback: boolean) => {
+        mutationFn: async (feedback: boolean | null) => {
             const result = await updateSearchFilterMatchFeedback({
-                path: { userSearchFilterId: filterId, shopId, shopsProductId },
+                path: { userSearchFilterId: filterId, productListingId },
                 body: { feedback },
             });
 
@@ -25,7 +22,7 @@ export function useSearchFilterMatchFeedback(
                 throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
 
-            return result.data;
+            return mapToInternalSearchFilterProductMatch(result.data);
         },
         onError: (e) => {
             console.error("Error submitting match feedback:", e);

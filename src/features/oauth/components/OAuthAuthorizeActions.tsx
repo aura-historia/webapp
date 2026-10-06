@@ -9,7 +9,7 @@ interface OAuthAuthorizeActionsProps {
     readonly denyAriaLabel: string;
     readonly isApproveDisabled: boolean;
     readonly onDeny: () => void;
-    readonly partnerShopId: string | undefined;
+    readonly listingSourceId: string | undefined;
     readonly searchParams: OAuthAuthorizeSearchParams;
 }
 
@@ -18,7 +18,7 @@ export function OAuthAuthorizeActions({
     denyAriaLabel,
     isApproveDisabled,
     onDeny,
-    partnerShopId,
+    listingSourceId,
     searchParams,
 }: OAuthAuthorizeActionsProps) {
     const { t } = useTranslation();
@@ -41,8 +41,8 @@ export function OAuthAuthorizeActions({
                 {searchParams.state !== undefined && (
                     <input type="hidden" name="state" value={searchParams.state} />
                 )}
-                {partnerShopId !== undefined && (
-                    <input type="hidden" name="partner_shop_id" value={partnerShopId} />
+                {listingSourceId !== undefined && (
+                    <input type="hidden" name="listing_source_id" value={listingSourceId} />
                 )}
                 <input type="hidden" name="code_challenge" value={searchParams.code_challenge} />
                 <input

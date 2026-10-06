@@ -1,5 +1,4 @@
-import type { GetShopData } from "@/client";
-import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
+import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
 import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
 import { env } from "@/env.ts";
 import i18n from "@/i18n/i18n.ts";
@@ -19,128 +18,32 @@ type ShopHeadParams = {
     shopSlugId: string;
 };
 
-type PostalAddressJsonLd = {
-    "@type": "PostalAddress";
-    streetAddress?: string;
-    addressLocality?: string;
-    addressRegion?: string;
-    postalCode?: string;
-    addressCountry?: string;
-};
-
-type GeoCoordinatesJsonLd = {
-    "@type": "GeoCoordinates";
-    latitude: number;
-    longitude: number;
-};
-
-type ShopLocalBusinessJsonLd = {
-    "@type": "LocalBusiness";
-    name: string;
-    url?: string;
-    image: string;
-    address?: PostalAddressJsonLd;
-    geo?: GeoCoordinatesJsonLd;
-    telephone?: string;
-    email?: string;
-};
-
 type ShopCollectionPageJsonLd = {
     "@context": "https://schema.org/";
     "@type": "CollectionPage";
     name: string;
     url: string;
-    image: string;
-    dateCreated: string;
-    dateModified: string;
-    about?: ShopLocalBusinessJsonLd;
+    image?: string;
 };
 
-function buildStreetAddress(data: GetShopData) {
-    return [data.structuredAddress?.addressline, data.structuredAddress?.addresslineExtra]
-        .filter(Boolean)
-        .join(", ");
-}
-
-function generatePostalAddressJsonLd(data: GetShopData): PostalAddressJsonLd | undefined {
-    const streetAddress = buildStreetAddress(data);
-    const address = {
-        "@type": "PostalAddress" as const,
-        streetAddress: streetAddress || undefined,
-        addressLocality: data.structuredAddress?.locality,
-        addressRegion: data.structuredAddress?.region,
-        postalCode: data.structuredAddress?.postalCode,
-        addressCountry: data.structuredAddress?.country,
-    };
-
-    return Object.values(address).some((value) => value && value !== "PostalAddress")
-        ? address
-        : undefined;
-}
-
-function generateShopJsonLd(data: GetShopData, shopUrl: string): ShopCollectionPageJsonLd {
-    const address = generatePostalAddressJsonLd(data);
-    const geo = data.geoAddress
-        ? {
-              "@type": "GeoCoordinates" as const,
-              latitude: data.geoAddress.lat,
-              longitude: data.geoAddress.lon,
-          }
-        : undefined;
-    const about =
-        address || geo || data.phone || data.email
-            ? {
-                  "@type": "LocalBusiness" as const,
-                  name: data.name,
-                  url: data.url ?? data.viewUrl ?? shopUrl,
-                  image: data.image ?? BANNER_IMAGE_URL,
-                  address,
-                  geo,
-                  telephone: data.phone,
-                  email: data.email,
-              }
-            : undefined;
-
+function generateShopJsonLd(data: PublicListingSource, shopUrl: string): ShopCollectionPageJsonLd {
     return {
         "@context": "https://schema.org/",
         "@type": "CollectionPage",
         name: data.name,
         url: shopUrl,
-        image: data.image ?? BANNER_IMAGE_URL,
-        dateCreated: data.created,
-        dateModified: data.updated,
-        about,
+        image: data.image,
     };
 }
 
-function generateLocationMeta(loaderData: GetShopData | undefined) {
-    if (!loaderData?.geoAddress) {
-        return [];
-    }
-
-    const { lat, lon } = loaderData.geoAddress;
-    const placeName = loaderData.structuredAddress?.locality ?? loaderData.name;
-    const region = [loaderData.structuredAddress?.country, loaderData.structuredAddress?.region]
-        .filter(Boolean)
-        .join("-");
-
-    return [
-        { name: "geo.position", content: `${lat};${lon}` },
-        { name: "ICBM", content: `${lat}, ${lon}` },
-        { name: "geo.placename", content: placeName },
-        ...(region ? [{ name: "geo.region", content: region }] : []),
-    ];
-}
-
 /**
- * Generates head metadata (meta tags, Open Graph, Twitter Cards, canonical link, hreflang, and JSON-LD)
- * for a shop detail page using i18n for translations.
+ * Generates head metadata for a public listing-source page using its allowlisted fields.
  *
  * When `loaderData` is undefined (SSR fallback / error state) sensible defaults are used so
  * the page always emits valid, non-empty meta tags.
  */
 export function generateShopHeadMeta(
-    loaderData: GetShopData | undefined,
+    loaderData: PublicListingSource | undefined,
     params: ShopHeadParams,
 ): HeadMeta {
     const shopUrl = localizeUrl(
@@ -162,16 +65,15 @@ export function generateShopHeadMeta(
             { property: "og:description", content: description },
             { property: "og:type", content: "website" },
             { property: "og:url", content: shopUrl },
-            { property: "og:image", content: loaderData?.image ?? BANNER_IMAGE_URL },
+            ...(loaderData?.image ? [{ property: "og:image", content: loaderData.image }] : []),
             { property: "og:image:alt", content: name },
             // Twitter Card
             { name: "twitter:card", content: "summary_large_image" },
             { name: "twitter:title", content: name },
             { name: "twitter:description", content: description },
             { name: "twitter:url", content: shopUrl },
-            { name: "twitter:image", content: loaderData?.image ?? BANNER_IMAGE_URL },
+            ...(loaderData?.image ? [{ name: "twitter:image", content: loaderData.image }] : []),
             { name: "twitter:image:alt", content: name },
-            ...generateLocationMeta(loaderData),
         ],
         links: [{ rel: "canonical", href: shopUrl }, ...generateHreflangLinks(shopPath)],
         scripts: loaderData

@@ -21,14 +21,6 @@ describe("SearchFilters", () => {
                         <SearchFilters
                             searchFilters={{
                                 q: "original query",
-                                priceFrom: undefined,
-                                priceTo: undefined,
-                                allowedStates: undefined,
-                                creationDateFrom: undefined,
-                                creationDateTo: undefined,
-                                updateDateFrom: undefined,
-                                updateDateTo: undefined,
-                                merchant: undefined,
                             }}
                         />
                     </>,
@@ -49,7 +41,6 @@ describe("SearchFilters", () => {
 
             await waitFor(() => {
                 const currentSearchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
-                console.log(currentSearchInput);
                 expect(currentSearchInput.value).toBe("new search query");
             });
         }, 10000);
@@ -64,12 +55,6 @@ describe("SearchFilters", () => {
                                 q: "original query",
                                 priceFrom: 100,
                                 priceTo: 500,
-                                allowedStates: undefined,
-                                creationDateFrom: undefined,
-                                creationDateTo: undefined,
-                                updateDateFrom: undefined,
-                                updateDateTo: undefined,
-                                merchant: undefined,
                             }}
                         />
                     </>,
@@ -98,14 +83,6 @@ describe("SearchFilters", () => {
                         <SearchFilters
                             searchFilters={{
                                 q: "original query",
-                                priceFrom: undefined,
-                                priceTo: undefined,
-                                allowedStates: undefined,
-                                creationDateFrom: undefined,
-                                creationDateTo: undefined,
-                                updateDateFrom: undefined,
-                                updateDateTo: undefined,
-                                merchant: undefined,
                             }}
                         />
                     </>,
@@ -133,14 +110,6 @@ describe("SearchFilters", () => {
                         <SearchFilters
                             searchFilters={{
                                 q: "original query",
-                                priceFrom: undefined,
-                                priceTo: undefined,
-                                allowedStates: undefined,
-                                creationDateFrom: undefined,
-                                creationDateTo: undefined,
-                                updateDateFrom: undefined,
-                                updateDateTo: undefined,
-                                merchant: undefined,
                             }}
                         />
                     </>,

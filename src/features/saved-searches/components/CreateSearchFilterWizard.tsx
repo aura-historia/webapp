@@ -38,7 +38,6 @@ import {
     StepperTrigger,
 } from "@/components/ui/stepper.tsx";
 import { SearchFilterFormProvider } from "@/features/search/common/components/SearchFilterFormProvider.tsx";
-import { ShopTypeFilter } from "@/features/search/common/components/filters/ShopTypeFilter.tsx";
 import { AuctionDateSpanFilter } from "@/features/search/products/components/filters/AuctionDateSpanFilter.tsx";
 import { CreationDateSpanFilter } from "@/features/search/products/components/filters/CreationDateSpanFilter.tsx";
 import { MerchantFilters } from "@/features/search/products/components/filters/MerchantFilters.tsx";
@@ -50,8 +49,10 @@ import { useUpdateUserSearchFilter } from "@/features/saved-searches/api/useUpda
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { SearchFilterWizardConfirmStep } from "@/features/saved-searches/components/SearchFilterWizardConfirmStep.tsx";
 import type { Variants } from "motion";
+import type { Currency } from "@/data/internal/common/Currency.ts";
 
 const createNameSchema = (t: (key: string) => string) =>
     z.object({
@@ -83,7 +84,7 @@ type FilterStep = {
     readonly label: string;
     readonly desc: string;
     readonly restricted?: boolean;
-    readonly content: (disabled: boolean) => ReactNode;
+    readonly content: (disabled: boolean, currency: Currency) => ReactNode;
 };
 
 /**
@@ -95,9 +96,9 @@ const FILTER_STEPS: FilterStep[] = [
     {
         label: "searchFilter.wizard.step.priceStatus",
         desc: "searchFilter.wizard.step.priceStatusDescription",
-        content: () => (
+        content: (_disabled, currency) => (
             <>
-                <PriceSpanFilter />
+                <PriceSpanFilter currency={currency} />
                 <ProductStateFilter />
             </>
         ),
@@ -106,12 +107,7 @@ const FILTER_STEPS: FilterStep[] = [
         label: "searchFilter.wizard.step.shop",
         desc: "searchFilter.wizard.step.shopDescription",
         restricted: true,
-        content: (disabled) => (
-            <>
-                <ShopTypeFilter disabled={disabled} />
-                <MerchantFilters disabled={disabled} />
-            </>
-        ),
+        content: (disabled) => <MerchantFilters disabled={disabled} />,
     },
     {
         label: "searchFilter.wizard.step.date",
@@ -173,6 +169,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
     const isPending = isCreating || isUpdating;
 
     const { data: account } = useUserAccount();
+    const { preferences } = useUserPreferences();
     const isFree = !account || account.subscriptionType === "free";
     const isUltimate = account?.subscriptionType === "ultimate";
 
@@ -221,6 +218,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
         const description = enhancedSearchDescription || undefined;
         const search: SearchFilterArguments = {
             ...filters,
+            currency: filters.currency ?? preferences.currency,
             q: queryTerms[0] ?? "",
             queryTerms,
         };
@@ -253,7 +251,17 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                 callbacks,
             );
         }
-    }, [filter, createFilter, updateFilter, nameForm, filters, t, onOpenChange, mode]);
+    }, [
+        filter,
+        createFilter,
+        updateFilter,
+        nameForm,
+        filters,
+        preferences.currency,
+        t,
+        onOpenChange,
+        mode,
+    ]);
 
     /**
      * Step labels shown in the sidebar.
@@ -282,6 +290,16 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
     const handleContentKeyDown = useCallback(
         (e: React.KeyboardEvent) => {
             if (e.key !== "Enter" || (e.target as HTMLElement).tagName === "TEXTAREA") return;
+            const target = e.target;
+            if (
+                step === TOTAL_STEPS &&
+                target instanceof Element &&
+                target.closest(
+                    "a, button, input, select, [role='button'], [role='link'], [contenteditable='true']",
+                )
+            ) {
+                return;
+            }
             e.preventDefault();
             if (step < TOTAL_STEPS) {
                 handleNext();
@@ -432,8 +450,10 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
             return (
                 <SearchFilterWizardConfirmStep
                     name={nameForm.watch("name")}
+                    enhancedSearchDescription={nameForm.watch("enhancedSearchDescription")}
                     filters={{
                         ...filters,
+                        currency: filters.currency ?? preferences.currency,
                         q: nameForm.watch("queryTerms")[0] ?? "",
                         queryTerms: nameForm.watch("queryTerms"),
                     }}
@@ -449,7 +469,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                     optional
                     restricted={disabled}
                 />
-                {fs.content(disabled)}
+                {fs.content(disabled, filters.currency ?? preferences.currency)}
             </>
         );
     };

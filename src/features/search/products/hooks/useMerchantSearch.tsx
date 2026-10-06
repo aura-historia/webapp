@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { simpleSearchShopsOptions } from "@/client/@tanstack/react-query.gen.ts";
+import { searchPublicListingSourcesOptions } from "@/client/@tanstack/react-query.gen.ts";
 import { useState, useCallback, useMemo } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import type { MultiSelectOption } from "@/components/ui/multi-select.tsx";
+import { mapPublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
 
 const DEBOUNCE_DELAY_MS = 500;
 
@@ -10,8 +11,8 @@ export function useMerchantSearch() {
     const [searchQuery, setSearchQuery] = useState("");
     const [debouncedQuery, setDebouncedQuery] = useState("");
 
-    const { data: shopsData, isFetching } = useQuery({
-        ...simpleSearchShopsOptions({ query: { shopNameQuery: debouncedQuery } }),
+    const { data: sourcesData, isFetching } = useQuery({
+        ...searchPublicListingSourcesOptions({ query: { query: debouncedQuery } }),
         enabled: debouncedQuery.length > 0,
     });
 
@@ -28,12 +29,12 @@ export function useMerchantSearch() {
     );
 
     const shopOptions: MultiSelectOption[] = useMemo(() => {
-        if (!shopsData?.items) return [];
-        return shopsData.items.map((shop) => ({
-            value: shop.name,
-            label: shop.name,
+        if (!sourcesData?.items) return [];
+        return sourcesData.items.map(mapPublicListingSource).map((source) => ({
+            value: source.listingSourceId,
+            label: source.name,
         }));
-    }, [shopsData?.items]);
+    }, [sourcesData?.items]);
 
     return {
         shopOptions,

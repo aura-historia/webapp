@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { WatchlistPage } from "@/features/watchlist/pages/WatchlistPage.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 vi.mock("@tanstack/react-query", async (importOriginal) => {
@@ -35,48 +35,45 @@ vi.mock("lottie-react", () => ({
 vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
     useUserPreferences: () => ({ preferences: { currency: "EUR" }, updatePreferences: vi.fn() }),
 }));
+vi.mock("@/features/authentication/hooks/useResolvedAuth.ts", () => ({
+    useResolvedAuth: () => ({ user: { userId: "user-1" }, isLoading: false }),
+}));
 
 const mockUseInfiniteQuery = vi.mocked(useInfiniteQuery);
 
-const createMockProduct = (overrides: Partial<OverviewProduct> = {}): OverviewProduct => ({
-    productId: "item-1",
-    productSlugId: "test-product",
-    eventId: "event-1",
-    shopId: "shop-1",
-    shopSlugId: "test-shop",
-    shopsProductId: "shops-item-1",
-    shopName: "Test Shop",
-    sellerName: "Test Shop",
-    shopType: "AUCTION_HOUSE",
-    title: "Test Product",
-    price: "10 €",
-    state: "AVAILABLE",
-    url: null,
-    images: [],
-    created: new Date("2023-01-01"),
-    updated: new Date("2023-01-02"),
-    userData: {
-        watchlistData: {
-            isWatching: true,
-            isNotificationEnabled: false,
+const createMockProduct = (overrides: Partial<ProductListing> = {}): ProductListing =>
+    ({
+        productListingId: "listing-1",
+        productListingTitleSlugId: "test-product",
+        sourceListingId: "source-item-1",
+        source: { listingSourceId: "source-1", slugId: "test-source", name: "Test Source" },
+        title: "Test Product",
+        price: null,
+        formattedPrice: "10 €",
+        priceValuation: "CURRENT",
+        valuation: { type: "UNKNOWN" },
+        availability: null,
+        lifecycle: "ACTIVE",
+        url: undefined,
+        viewUrl: undefined,
+        images: [],
+        contentPolicy: null,
+        updated: new Date("2023-01-02"),
+        userState: {
+            watchlist: { watching: true, notifications: false },
+            contentVisibility: { showUnassessedOrSensitiveContent: false },
+            notification: { unseenNotificationIds: [], hasUnseenNotification: false },
+            searchFilter: { matched: false, hidden: false },
         },
-        notificationData: {
-            hasUnseenNotification: false,
-        },
-        restrictedContentData: {
-            consentGiven: false,
-        },
-    },
-    ...overrides,
-});
+        ...overrides,
+    }) as unknown as ProductListing;
 
 type InfiniteQueryMockOptions = {
-    products?: OverviewProduct[];
+    products?: ProductListing[];
     isPending?: boolean;
     error?: Error | null;
     hasNextPage?: boolean;
     isFetchingNextPage?: boolean;
-    total?: number;
 };
 
 function setInfiniteQueryMock({
@@ -85,7 +82,6 @@ function setInfiniteQueryMock({
     error = null,
     hasNextPage = false,
     isFetchingNextPage = false,
-    total = products.length,
 }: InfiniteQueryMockOptions = {}) {
     const pages = isPending
         ? undefined
@@ -93,7 +89,6 @@ function setInfiniteQueryMock({
               {
                   products: products,
                   size: products.length,
-                  total,
                   searchAfter: hasNextPage ? "next-page-token" : undefined,
               },
           ];
@@ -166,41 +161,27 @@ describe("WatchlistPage", () => {
     describe("Products Display", () => {
         it("should render watchlist products", () => {
             const products = [
-                createMockProduct({ productId: "1", title: "Product 1" }),
-                createMockProduct({ productId: "2", title: "Product 2" }),
+                createMockProduct({ productListingId: "1", title: "Product 1" }),
+                createMockProduct({ productListingId: "2", title: "Product 2" }),
             ];
-            setInfiniteQueryMock({ products: products, total: 2 });
+            setInfiniteQueryMock({ products });
             renderWithQueryClient(<WatchlistPage />);
 
             expect(screen.getByText("Product 1")).toBeInTheDocument();
             expect(screen.getByText("Product 2")).toBeInTheDocument();
         });
 
-        it("should render title and total count", () => {
-            const products = [createMockProduct(), createMockProduct({ productId: "2" })];
-            setInfiniteQueryMock({ products: products, total: 2 });
+        it("should render the title without assuming a total count", () => {
+            const products = [createMockProduct(), createMockProduct({ productListingId: "2" })];
+            setInfiniteQueryMock({ products });
             renderWithQueryClient(<WatchlistPage />);
 
             expect(screen.getByText("Meine Merkliste")).toBeInTheDocument();
-            expect(screen.getByText("2 Artikel")).toBeInTheDocument();
+            expect(screen.queryByText("2 Artikel")).not.toBeInTheDocument();
         });
 
         it("should ensure all products have isWatching set to true", () => {
-            const productWithoutWatchlistData = createMockProduct({
-                productId: "1",
-                userData: {
-                    watchlistData: {
-                        isWatching: false,
-                        isNotificationEnabled: false,
-                    },
-                    notificationData: {
-                        hasUnseenNotification: false,
-                    },
-                    restrictedContentData: {
-                        consentGiven: false,
-                    },
-                },
-            });
+            const productWithoutWatchlistData = createMockProduct({ productListingId: "1" });
             setInfiniteQueryMock({ products: [productWithoutWatchlistData] });
             renderWithQueryClient(<WatchlistPage />);
 
@@ -210,18 +191,12 @@ describe("WatchlistPage", () => {
 
         it("should preserve notification settings for watchlist products", () => {
             const productWithNotifications = createMockProduct({
-                productId: "1",
-                userData: {
-                    watchlistData: {
-                        isWatching: true,
-                        isNotificationEnabled: true,
-                    },
-                    notificationData: {
-                        hasUnseenNotification: false,
-                    },
-                    restrictedContentData: {
-                        consentGiven: false,
-                    },
+                productListingId: "1",
+                userState: {
+                    watchlist: { watching: true, notifications: true },
+                    contentVisibility: { showUnassessedOrSensitiveContent: false },
+                    notification: { unseenNotificationIds: [], hasUnseenNotification: false },
+                    searchFilter: { matched: false, hidden: false },
                 },
             });
             setInfiniteQueryMock({ products: [productWithNotifications] });
@@ -248,7 +223,6 @@ describe("WatchlistPage", () => {
                 products: [createMockProduct()],
                 hasNextPage: false,
                 isFetchingNextPage: false,
-                total: 1,
             });
             renderWithQueryClient(<WatchlistPage />);
 
@@ -259,14 +233,13 @@ describe("WatchlistPage", () => {
 
         it("should show 'all loaded' message with plural for multiple products", () => {
             const products = [
-                createMockProduct({ productId: "1" }),
-                createMockProduct({ productId: "2" }),
+                createMockProduct({ productListingId: "1" }),
+                createMockProduct({ productListingId: "2" }),
             ];
             setInfiniteQueryMock({
                 products: products,
                 hasNextPage: false,
                 isFetchingNextPage: false,
-                total: 2,
             });
             renderWithQueryClient(<WatchlistPage />);
 
@@ -280,7 +253,6 @@ describe("WatchlistPage", () => {
                 products: [createMockProduct()],
                 hasNextPage: false,
                 isFetchingNextPage: false,
-                total: 1,
             });
             renderWithQueryClient(<WatchlistPage />);
 
@@ -305,14 +277,14 @@ describe("WatchlistPage", () => {
 
     describe("Multiple Pages", () => {
         it("should flatten and display products from multiple pages", () => {
-            const page1Items = [createMockProduct({ productId: "1", title: "Product 1" })];
-            const page2Items = [createMockProduct({ productId: "2", title: "Product 2" })];
+            const page1Items = [createMockProduct({ productListingId: "1", title: "Product 1" })];
+            const page2Items = [createMockProduct({ productListingId: "2", title: "Product 2" })];
 
             mockUseInfiniteQuery.mockReturnValue({
                 data: {
                     pages: [
-                        { products: page1Items, size: 1, total: 2, searchAfter: "token1" },
-                        { products: page2Items, size: 1, total: 2, searchAfter: undefined },
+                        { products: page1Items, size: 1, searchAfter: "token1" },
+                        { products: page2Items, size: 1, searchAfter: undefined },
                     ],
                     pageParams: [undefined, "token1"],
                 },

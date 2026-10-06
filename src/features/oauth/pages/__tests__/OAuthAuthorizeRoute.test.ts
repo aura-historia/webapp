@@ -35,6 +35,19 @@ describe("_auth.oauth.authorize route", () => {
         expect(Route.options.ssr).toBe(false);
     });
 
+    it("does not infer source selection from an external broker-like pathname", () => {
+        const params = {
+            client_id: "oc_test",
+            redirect_uri: "https://external.example/api/oauth/client/redirect-broker/woocommerce",
+            code_challenge: "challenge",
+        };
+        expect(validateSearch(params).requires_listing_source_id).toBe(false);
+        expect(
+            validateSearch({ ...params, requires_listing_source_id: true })
+                .requires_listing_source_id,
+        ).toBe(true);
+    });
+
     it("validates search params with required fields", () => {
         expect(validateSearch).toBeDefined();
 
@@ -54,7 +67,7 @@ describe("_auth.oauth.authorize route", () => {
                 redirect_uri: "https://client.example/callback",
                 code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
                 code_challenge_method: "S256",
-                requires_partner_shop_id: false,
+                requires_listing_source_id: false,
             }),
         );
     });
@@ -130,7 +143,7 @@ describe("_auth.oauth.authorize route", () => {
         expect(result).toHaveProperty("code_challenge_method", "S256");
     });
 
-    it("defaults requires_partner_shop_id to false when not provided", () => {
+    it("defaults requires_listing_source_id to false when not provided", () => {
         const result = validateSearch({
             response_type: "code",
             client_id: "01970f22-2bf0-7000-8000-000000000010",
@@ -139,20 +152,20 @@ describe("_auth.oauth.authorize route", () => {
             code_challenge_method: "S256",
         });
 
-        expect(result).toHaveProperty("requires_partner_shop_id", false);
+        expect(result).toHaveProperty("requires_listing_source_id", false);
     });
 
-    it("parses requires_partner_shop_id from the route search", () => {
+    it("parses requires_listing_source_id from the route search", () => {
         const result = validateSearch({
             response_type: "code",
             client_id: "01970f22-2bf0-7000-8000-000000000010",
             redirect_uri: "https://client.example/callback",
             code_challenge: "test-challenge",
             code_challenge_method: "S256",
-            requires_partner_shop_id: "true",
+            requires_listing_source_id: "true",
         });
 
-        expect(result).toHaveProperty("requires_partner_shop_id", true);
+        expect(result).toHaveProperty("requires_listing_source_id", true);
     });
 
     it("renders the authorize page with route search params", () => {
@@ -164,7 +177,7 @@ describe("_auth.oauth.authorize route", () => {
             state: "csrf-token-xyz",
             code_challenge: "test-challenge",
             code_challenge_method: "S256",
-            requires_partner_shop_id: false,
+            requires_listing_source_id: false,
         };
         vi.spyOn(Route, "useSearch").mockReturnValue(searchParams);
 

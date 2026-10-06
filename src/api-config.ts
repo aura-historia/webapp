@@ -2,6 +2,7 @@ import { client } from "./client/client.gen";
 import { fetchAuthSession, signOut } from "aws-amplify/auth";
 import { env } from "@/env.ts";
 import { getAuthToken } from "@/lib/server/amplify.ts";
+import { getApiBaseUrl } from "@/lib/apiBaseUrl.ts";
 import type { ApiError } from "@/client";
 
 let pendingUserNotFoundSignOut: Promise<void> | undefined;
@@ -39,7 +40,7 @@ async function signOutMissingUserSession() {
 }
 
 client.setConfig({
-    baseUrl: env.VITE_API_URL ?? "https://api.dev.aura-historia.com",
+    baseUrl: getApiBaseUrl(env.VITE_API_URL),
     auth: async () => {
         if (import.meta.env.SSR) {
             return await getAuthToken();

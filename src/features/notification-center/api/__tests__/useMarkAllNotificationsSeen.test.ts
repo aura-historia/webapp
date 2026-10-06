@@ -7,7 +7,7 @@ const mockPatchAllNotifications = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
 
 vi.mock("@/client", () => ({
-    patchAllNotifications: mockPatchAllNotifications,
+    updateAllNotificationsSeen: mockPatchAllNotifications,
 }));
 
 vi.mock("@/hooks/common/useApiError.ts", () => ({
@@ -46,7 +46,7 @@ describe("useMarkAllNotificationsSeen", () => {
     });
 
     it("should call patchAllNotifications with seen: true", async () => {
-        mockPatchAllNotifications.mockResolvedValue({ data: { items: [], size: 0 }, error: null });
+        mockPatchAllNotifications.mockResolvedValue({ data: undefined, error: null });
 
         const { result } = renderHook(() => useMarkAllNotificationsSeen(), {
             wrapper: createWrapper(),
@@ -77,7 +77,7 @@ describe("useMarkAllNotificationsSeen", () => {
     });
 
     it("should invalidate getNotifications query on success", async () => {
-        mockPatchAllNotifications.mockResolvedValue({ data: { items: [], size: 0 }, error: null });
+        mockPatchAllNotifications.mockResolvedValue({ data: undefined, error: null });
 
         const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
 
@@ -91,6 +91,8 @@ describe("useMarkAllNotificationsSeen", () => {
             expect(result.current.isSuccess).toBe(true);
         });
 
-        expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["getNotifications"] });
+        expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["getNotifications", "user-1"] });
     });
 });
+
+vi.mock("aws-amplify/auth", () => ({ getCurrentUser: async () => ({ userId: "user-1" }) }));

@@ -10,14 +10,15 @@ import { useDeleteNotification } from "@/features/notification-center/api/useDel
 import { useMarkNotificationSeen } from "@/features/notification-center/api/useMarkNotificationSeen.ts";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
 import { cn } from "@/lib/utils.ts";
-import { intlFormatDistance } from "date-fns";
-import { Link } from "@tanstack/react-router";
+import { ProductListingLink } from "@/features/product/catalog/components/ProductListingLink.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Check, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useRouteContext } from "@tanstack/react-router";
 
 export function NotificationItem({ notification }: { readonly notification: Notification }) {
     const { t, i18n } = useTranslation();
+    const { timeZone } = useRouteContext({ from: "__root__" });
     const markAsSeen = useMarkNotificationSeen();
     const deleteNotification = useDeleteNotification();
     const { payload, seen } = notification;
@@ -47,7 +48,7 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                                         aria-label={t("notifications.markRead")}
                                         disabled={markAsSeen.isPending}
                                         onClick={() =>
-                                            markAsSeen.mutate(notification.originEventId)
+                                            markAsSeen.mutate(notification.notificationId)
                                         }
                                         className="shrink-0 size-5 rounded text-muted-foreground hover:text-primary"
                                     >
@@ -65,7 +66,7 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                                     aria-label={t("notifications.delete")}
                                     disabled={deleteNotification.isPending}
                                     onClick={() =>
-                                        deleteNotification.mutate(notification.originEventId)
+                                        deleteNotification.mutate(notification.notificationId)
                                     }
                                     className="shrink-0 size-5 rounded text-muted-foreground hover:text-destructive"
                                 >
@@ -76,22 +77,16 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                         </Tooltip>
                     </div>
                     {isProductNotification(payload) ? (
-                        <Link
-                            to="/$lng/shops/$shopSlugId/products/$productSlugId"
-                            params={(current) => ({
-                                ...current,
-                                shopSlugId: payload.shopSlugId,
-                                productSlugId: payload.productSlugId,
-                            })}
-                            onClick={() => !seen && markAsSeen.mutate(notification.originEventId)}
+                        <ProductListingLink
+                            productListingTitleSlugId={payload.productListingTitleSlugId}
+                            onClick={() => !seen && markAsSeen.mutate(notification.notificationId)}
                             className={cn(
                                 "mt-0.5 text-sm leading-snug hover:underline",
                                 seen ? "text-foreground/60" : "font-semibold",
                             )}
-                            from="/$lng"
                         >
-                            {payload.productTitle}
-                        </Link>
+                            {payload.productTitle ?? t("product.untitled")}
+                        </ProductListingLink>
                     ) : (
                         <span
                             className={cn(
@@ -99,11 +94,13 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                                 seen ? "text-foreground/60" : "font-semibold",
                             )}
                         >
-                            {payload.shopName}
+                            {payload.listingSourceName}
                         </span>
                     )}
                     {isProductNotification(payload) && (
-                        <span className="text-xs text-muted-foreground">{payload.shopName}</span>
+                        <span className="text-xs text-muted-foreground">
+                            {payload.listingSourceName}
+                        </span>
                     )}
                     <div className="flex items-center mt-1.5">
                         {changeParts && (
@@ -113,13 +110,11 @@ export function NotificationItem({ notification }: { readonly notification: Noti
                                 <span>{changeParts.to}</span>
                             </span>
                         )}
-                        <span
-                            className="ml-auto shrink-0 text-[11px] text-muted-foreground"
-                            suppressHydrationWarning
-                        >
-                            {intlFormatDistance(notification.created, new Date(), {
-                                locale: i18n.language,
-                            })}
+                        <span className="ml-auto shrink-0 text-[11px] text-muted-foreground">
+                            {new Intl.DateTimeFormat(i18n.language, {
+                                dateStyle: "medium",
+                                timeZone,
+                            }).format(notification.created)}
                         </span>
                     </div>
                 </div>

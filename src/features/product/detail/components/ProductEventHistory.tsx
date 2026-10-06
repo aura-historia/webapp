@@ -1,7 +1,12 @@
 import type {
-    ProductEvent,
-    ProductEstimatePriceChangedPayload,
-} from "@/data/internal/product/ProductDetails.ts";
+    ProductListingHistoryChange,
+    ProductListingHistoryEntry,
+} from "@/data/internal/product/ProductListingHistory.ts";
+import type {
+    ListingPrice,
+    ListingPriceEstimate,
+    ListingAvailability,
+} from "@/data/internal/product/ProductListingDomain.ts";
 import {
     TimelineItem,
     TimelineTitle,
@@ -9,46 +14,217 @@ import {
     TimelineTime,
     TimelineHeader,
 } from "@/components/ui/timeline.tsx";
-import { StatusBadge } from "@/features/product/catalog/components/badges/StatusBadge.tsx";
-import { PriceBadge } from "@/features/product/catalog/components/badges/PriceBadge.tsx";
-import { formatDate, formatTime } from "@/lib/utils.ts";
-import { formatStateName } from "@/features/product/detail/lib/events/eventUtils.ts";
+import { formatDate, formatDateTime, formatTime } from "@/lib/utils.ts";
 import {
-    isCreatedEvent,
-    isPriceChangedEvent,
-    isPriceDiscoveredEvent,
-    isPriceRemovedEvent,
-    isStateChangedEvent,
-    isEstimatePriceChangedEvent,
-    isUrlChangedEvent,
-    isImagesChangedEvent,
-    isAuctionTimeChangedEvent,
+    formatHistoryMoney,
+    formatHistoryPrice,
+} from "@/features/product/detail/lib/events/priceHistory.ts";
+import {
+    getVisibleHistoryChanges,
+    type HistoryFilter,
 } from "@/features/product/detail/lib/events/eventFilters.ts";
 import { useTranslation } from "react-i18next";
 import { useRouteContext } from "@tanstack/react-router";
-import { formatPrice } from "@/data/internal/price/Price.ts";
+import type { TFunction } from "i18next";
 
 interface ProductEventHistoryProps {
-    readonly event: ProductEvent;
+    readonly event: ProductListingHistoryEntry;
+    readonly filter?: HistoryFilter;
 }
 
-function formatEstimatePriceDetail(
-    payload: ProductEstimatePriceChangedPayload,
-    locale: string,
+const AVAILABILITY_KEYS: Partial<Record<ListingAvailability, string>> = {
+    AVAILABLE: "available",
+    IN_STOCK: "inStock",
+    LIMITED_AVAILABILITY: "limitedAvailability",
+    BACK_ORDER: "backOrder",
+    MADE_TO_ORDER: "madeToOrder",
+    PRE_ORDER: "preOrder",
+    PRE_SALE: "preSale",
+    UNAVAILABLE: "unavailable",
+    RESERVED: "reserved",
+    OUT_OF_STOCK: "outOfStock",
+    SOLD_OUT: "soldOut",
+} as const;
+
+type PriceLabel = ListingPrice | ListingPriceEstimate | null;
+type HistoryDescription = { readonly key: string; readonly text: string };
+type FormatPrice = (price: PriceLabel) => string;
+type FormatAvailability = (availability: ListingAvailability | null) => string;
+
+function formatAvailabilityLabel(availability: ListingAvailability | null, t: TFunction): string {
+    const key = availability ? (AVAILABILITY_KEYS[availability] ?? "unknown") : "unknown";
+    return t(`product.listingAvailability.${key}`);
+}
+
+function formatHistoryChange(
+    change: ProductListingHistoryChange,
+    t: TFunction,
+    formatPrice: FormatPrice,
+    formatAvailability: FormatAvailability,
+    language: string,
+    timeZone: string,
 ): string {
-    const parts: string[] = [];
-    if (payload.priceEstimateMin) {
-        parts.push(formatPrice(payload.priceEstimateMin, locale));
+    switch (change.type) {
+        case "MAIN_PRICE_CHANGED":
+            return t("product.history.events.mainPriceChanged", {
+                previous: formatPrice(change.previous),
+                current: formatPrice(change.current),
+            });
+        case "MINIMUM_ESTIMATE_CHANGED":
+            return t("product.history.events.minimumEstimateChanged", {
+                previous: formatPrice(change.previous),
+                current: formatPrice(change.current),
+            });
+        case "MAXIMUM_ESTIMATE_CHANGED":
+            return t("product.history.events.maximumEstimateChanged", {
+                previous: formatPrice(change.previous),
+                current: formatPrice(change.current),
+            });
+        case "AVAILABILITY_CHANGED":
+            return t("product.history.events.availabilityChanged", {
+                previous: formatAvailability(change.previous),
+                current: formatAvailability(change.current),
+            });
+        case "URL_CHANGED":
+            return t("product.history.events.urlChanged");
+        case "IMAGES_CHANGED":
+            return t("product.history.events.imagesChangedWithCounts", {
+                previousCount: change.previousCount,
+                currentCount: change.currentCount,
+            });
+        case "AUCTION_CHANGED":
+            return t("product.history.events.auctionChanged");
+        case "WITHDRAWN":
+            return t("product.history.events.withdrawn", {
+                previousAvailability: formatAvailability(change.previousAvailability),
+            });
+        case "RESTORED":
+            return t("product.history.events.restored");
+        case "SALE_OBSERVED":
+            return t("product.history.events.saleObserved", {
+                observedAt: formatDateTime(change.observation.observedAt, language, timeZone),
+            });
+        case "SALE_OBSERVATION_RETRACTED":
+            return t("product.history.events.saleObservationRetracted", {
+                observedAt: formatDateTime(change.observation.observedAt, language, timeZone),
+            });
+        case "UNKNOWN":
+            return t("product.history.events.unknownChange");
     }
-    if (payload.priceEstimateMax) {
-        parts.push(formatPrice(payload.priceEstimateMax, locale));
-    }
-    return parts.length > 0 ? ` • ${parts.join(" – ")}` : "";
 }
 
-export function ProductEventHistory({ event }: ProductEventHistoryProps) {
+function getDiscoveryDescriptions(
+    discovery: Extract<ProductListingHistoryEntry["payload"], { kind: "DISCOVERED" }>["discovery"],
+    filter: HistoryFilter,
+    t: TFunction,
+    formatPrice: FormatPrice,
+    formatAvailability: FormatAvailability,
+): HistoryDescription[] {
+    const descriptions: HistoryDescription[] = [];
+    const showPrice = filter === "all" || filter === "price";
+    const showAvailability = filter === "all" || filter === "availability";
+    const showDetails = filter === "all" || filter === "details";
+    if (filter === "all") {
+        descriptions.push({
+            key: "discovered",
+            text: t("product.history.events.listingDiscovered"),
+        });
+    }
+    if (showPrice && discovery.pricing.price) {
+        descriptions.push({
+            key: "initial-price",
+            text: t("product.history.events.initialPrice", {
+                price: formatPrice(discovery.pricing.price),
+            }),
+        });
+    }
+    if (showPrice && discovery.pricing.priceEstimateMin) {
+        descriptions.push({
+            key: "initial-minimum-estimate",
+            text: t("product.history.events.initialMinimumEstimate", {
+                price: formatPrice(discovery.pricing.priceEstimateMin),
+            }),
+        });
+    }
+    if (showPrice && discovery.pricing.priceEstimateMax) {
+        descriptions.push({
+            key: "initial-maximum-estimate",
+            text: t("product.history.events.initialMaximumEstimate", {
+                price: formatPrice(discovery.pricing.priceEstimateMax),
+            }),
+        });
+    }
+    if (showAvailability && discovery.availability !== null) {
+        descriptions.push({
+            key: "initial-availability",
+            text: t("product.history.events.initialAvailability", {
+                availability: formatAvailability(discovery.availability),
+            }),
+        });
+    }
+    if (showDetails && discovery.imageCount > 0) {
+        descriptions.push({
+            key: "initial-images",
+            text: t("product.history.events.initialImages", { count: discovery.imageCount }),
+        });
+    }
+    if (showDetails && discovery.url) {
+        descriptions.push({ key: "initial-url", text: t("product.history.events.initialUrl") });
+    }
+    if (showDetails && discovery.auction !== null) {
+        descriptions.push({
+            key: "discovery-auction",
+            text: t("product.history.events.initialAuction"),
+        });
+    }
+    return descriptions;
+}
+
+export function ProductEventHistory({ event, filter = "all" }: ProductEventHistoryProps) {
     const { t, i18n } = useTranslation();
     const { timeZone } = useRouteContext({ from: "__root__" });
+    const labels = {
+        onRequest: t("product.history.values.onRequest"),
+        notProvided: t("product.history.values.notProvided"),
+    };
+
+    const formatPrice = (price: PriceLabel) => {
+        if (price && "type" in price) return formatHistoryPrice(price, i18n.language, labels);
+        return price ? formatHistoryMoney(price, i18n.language) : labels.notProvided;
+    };
+
+    const formatAvailability = (availability: ListingAvailability | null) =>
+        formatAvailabilityLabel(availability, t);
+
+    let descriptions: HistoryDescription[] = [];
+    if (event.payload.kind === "DISCOVERED") {
+        descriptions = getDiscoveryDescriptions(
+            event.payload.discovery,
+            filter,
+            t,
+            formatPrice,
+            formatAvailability,
+        );
+    } else if (event.payload.kind === "CHANGED") {
+        descriptions.push(
+            ...getVisibleHistoryChanges(event, filter).map((change) => ({
+                key: `${change.type}-${JSON.stringify(change)}`,
+                text: formatHistoryChange(
+                    change,
+                    t,
+                    formatPrice,
+                    formatAvailability,
+                    i18n.language,
+                    timeZone,
+                ),
+            })),
+        );
+    } else {
+        descriptions.push({
+            key: "unknown",
+            text: t("product.history.events.unknownChange"),
+        });
+    }
 
     const timeBlock = (
         <TimelineTime>
@@ -59,162 +235,23 @@ export function ProductEventHistory({ event }: ProductEventHistoryProps) {
         </TimelineTime>
     );
 
-    if (isStateChangedEvent(event)) {
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>
-                        <StatusBadge status={event.payload.newState} />
-                    </TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>
-                    {t("product.history.events.statusChanged", {
-                        oldState: formatStateName(event.payload.oldState, t),
-                        newState: formatStateName(event.payload.newState, t),
-                    })}
+    if (descriptions.length === 0) return null;
+
+    return (
+        <TimelineItem>
+            <TimelineHeader>
+                {timeBlock}
+                <TimelineTitle>
+                    {event.eventType === "PRODUCT_LISTING_DISCOVERED"
+                        ? t("product.history.events.listingDiscoveredTitle")
+                        : t("product.history.events.listingChangedTitle")}
+                </TimelineTitle>
+            </TimelineHeader>
+            {descriptions.map((description) => (
+                <TimelineDescription key={`${event.eventId}-${description.key}`}>
+                    {description.text}
                 </TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    if (isPriceDiscoveredEvent(event)) {
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>
-                        <PriceBadge eventType="PRICE_DISCOVERED" />
-                    </TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>
-                    {t("product.history.events.priceDiscovered", {
-                        price: formatPrice(event.payload.newPrice, i18n.language),
-                    })}
-                </TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    if (isPriceChangedEvent(event)) {
-        const isDropped = event.payload.newPrice.amount < event.payload.oldPrice.amount;
-        const verb = isDropped
-            ? t("product.history.events.priceFallen")
-            : t("product.history.events.priceIncreased");
-
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>
-                        <PriceBadge eventType={isDropped ? "PRICE_DROPPED" : "PRICE_INCREASED"} />
-                    </TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>
-                    {t("product.history.events.priceChanged", {
-                        oldPrice: formatPrice(event.payload.oldPrice, i18n.language),
-                        newPrice: formatPrice(event.payload.newPrice, i18n.language),
-                        verb,
-                    })}
-                </TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    if (isPriceRemovedEvent(event)) {
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>
-                        <PriceBadge eventType="PRICE_REMOVED" />
-                    </TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>
-                    {t("product.history.events.priceRemoved", {
-                        price: formatPrice(event.payload.oldPrice, i18n.language),
-                    })}
-                </TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    if (isCreatedEvent(event)) {
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>
-                        <StatusBadge status={event.payload.state} />
-                    </TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>
-                    {t("product.history.events.created")}
-                    {event.payload.price
-                        ? ` • ${formatPrice(event.payload.price, i18n.language)}`
-                        : ""}
-                    .
-                </TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    if (isEstimatePriceChangedEvent(event)) {
-        const detail = formatEstimatePriceDetail(event.payload, i18n.language);
-
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>{t("product.history.filters.details")}</TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>
-                    {t("product.history.events.estimatePriceChanged")}
-                    {detail}
-                </TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    if (isUrlChangedEvent(event)) {
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>{t("product.history.filters.details")}</TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>{t("product.history.events.urlChanged")}</TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    if (isImagesChangedEvent(event)) {
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>{t("product.history.filters.details")}</TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>
-                    {t("product.history.events.imagesChanged", { count: event.payload.imageCount })}
-                </TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    if (isAuctionTimeChangedEvent(event)) {
-        return (
-            <TimelineItem>
-                <TimelineHeader>
-                    {timeBlock}
-                    <TimelineTitle>{t("product.history.filters.details")}</TimelineTitle>
-                </TimelineHeader>
-                <TimelineDescription>
-                    {t("product.history.events.auctionTimeChanged")}
-                </TimelineDescription>
-            </TimelineItem>
-        );
-    }
-
-    return null;
+            ))}
+        </TimelineItem>
+    );
 }

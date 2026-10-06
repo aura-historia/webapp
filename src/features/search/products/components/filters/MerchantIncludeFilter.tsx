@@ -1,4 +1,4 @@
-import { Controller, useFormContext, useFormState } from "react-hook-form";
+import { Controller, useFormContext, useFormState, useWatch } from "react-hook-form";
 import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { useTranslation } from "react-i18next";
 import { MultiSelect, type MultiSelectOption } from "@/components/ui/multi-select.tsx";
@@ -6,20 +6,24 @@ import { Label } from "@/components/ui/label.tsx";
 import { useMerchantSearch } from "@/features/search/products/hooks/useMerchantSearch.tsx";
 
 export function MerchantIncludeFilter() {
-    const { control } = useFormContext<FilterSchema>();
-    const { errors } = useFormState({ control, name: ["merchant"] });
+    const { control, setValue } = useFormContext<FilterSchema>();
+    const selectedLabels = useWatch({ control, name: "listingSourceLabels" });
+    const { errors } = useFormState({ control, name: ["listingSourceId"] });
     const { t } = useTranslation();
     const { shopOptions, handleSearchChange, isPending, searchQuery } = useMerchantSearch();
 
     return (
         <div className="space-y-2">
-            <Label>{t("search.filter.merchant")}</Label>
+            <Label>{t("search.filter.listingSource")}</Label>
             <Controller
-                name="merchant"
+                name="listingSourceId"
                 control={control}
                 render={({ field }) => {
                     const selectedOptions: MultiSelectOption[] = (field.value || []).map(
-                        (name: string) => ({ value: name, label: name }),
+                        (id: string, index: number) => ({
+                            value: id,
+                            label: selectedLabels?.[index] ?? id,
+                        }),
                     );
 
                     return (
@@ -28,17 +32,23 @@ export function MerchantIncludeFilter() {
                             value={selectedOptions}
                             onChange={(options) => {
                                 field.onChange(options.map((opt) => opt.value));
+                                setValue(
+                                    "listingSourceLabels",
+                                    options.map((option) => option.label),
+                                );
                             }}
                             onSearchChange={handleSearchChange}
-                            placeholder={t("search.filter.searchMerchants")}
+                            placeholder={t("search.filter.searchListingSources")}
                             isLoading={isPending && searchQuery.length > 0}
-                            emptyMessage={t("search.filter.noMerchantsFound")}
+                            emptyMessage={t("search.filter.noListingSourcesFound")}
                         />
                     );
                 }}
             />
-            {errors?.merchant && (
-                <p className="text-destructive text-sm mt-1">{errors.merchant.message ?? ""}</p>
+            {errors?.listingSourceId && (
+                <p className="text-destructive text-sm mt-1">
+                    {errors.listingSourceId.message ?? ""}
+                </p>
             )}
         </div>
     );

@@ -17,6 +17,8 @@ import {
 } from "react-share";
 import tick from "@/assets/lottie/tick.json";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "@tanstack/react-router";
+import { env } from "@/env.ts";
 
 type ProductSharerProps = {
     title: string;
@@ -27,7 +29,8 @@ type ProductSharerProps = {
 export function ProductSharer({ title, variant = "ghost", className }: ProductSharerProps) {
     const { t } = useTranslation();
     const [copied, setCopied] = useState(false);
-    const url = typeof window !== "undefined" ? window.location.href : "";
+    const pathname = useLocation({ select: (location) => location.pathname });
+    const url = new URL(pathname, env.VITE_APP_URL).toString();
 
     useEffect(() => {
         if (!copied) return;

@@ -38,6 +38,7 @@ import { SONNER_TOASTER_PROPS } from "@/lib/ui/sonnerToasterConfig";
 import { getServerUser } from "@/lib/server/amplify.ts";
 import { getLanguageFromPathname, isLocalizedAppPath, localizeHref } from "@/i18n/routing.ts";
 import { syncAmplifyTranslations } from "@/features/authentication/lib/amplifyI18nBridge.ts";
+import { clearViewerScopedQueries } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -194,12 +195,13 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     useEffect(() => {
         const hubListenerCancelToken = Hub.listen("auth", ({ payload }) => {
             if (payload.event === "signedIn" || payload.event === "signedOut") {
+                clearViewerScopedQueries(queryClient);
                 queryClient.refetchQueries();
             }
         });
 
         return () => hubListenerCancelToken();
-    }, [queryClient.refetchQueries]);
+    }, [queryClient]);
 
     return (
         <UserPreferencesProvider initialPreferences={initialPreferences} locale={i18n.language}>

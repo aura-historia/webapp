@@ -26,13 +26,13 @@ describe("DiscoverSection", () => {
         });
 
         it("renders all highlights with fallback source count", () => {
-            expect(screen.getByText("Hunderte indexierte Quellen")).toBeInTheDocument();
+            expect(screen.getByText("Anbieter")).toBeInTheDocument();
             expect(screen.getByText("Marktüberblick abseits der großen Namen")).toBeInTheDocument();
             expect(screen.getByText("Recherche über Sprachgrenzen hinweg")).toBeInTheDocument();
         });
 
         it("renders highlight descriptions", () => {
-            expect(screen.getByText(/Spezialisierte Händler, Auktionshäuser/)).toBeInTheDocument();
+            expect(screen.getByText(/Entdecken Sie Anbieterprofile/)).toBeInTheDocument();
             expect(screen.getByText(/Neue Stücke, Preisbewegungen/)).toBeInTheDocument();
             expect(
                 screen.getByText(/die Begriffe internationaler Anbieter für Sie ein/),
@@ -48,17 +48,6 @@ describe("DiscoverSection", () => {
             ).toBeInTheDocument();
             expect(screen.queryByAltText(/David Teniers/)).not.toBeInTheDocument();
             expect(screen.queryByText(/Archduke Leopold Wilhelm/)).not.toBeInTheDocument();
-        });
-    });
-
-    describe("live source count", () => {
-        it("shows live shop count in the first highlight title", async () => {
-            await act(async () => {
-                renderWithRouter(<DiscoverSection shopCount={1234} />);
-            });
-
-            expect(screen.getByText("Über 1234 indexierte Quellen")).toBeInTheDocument();
-            expect(screen.queryByText("Hunderte indexierte Quellen")).not.toBeInTheDocument();
         });
     });
 });

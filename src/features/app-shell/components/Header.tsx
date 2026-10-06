@@ -17,6 +17,7 @@ import {
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu.tsx";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
+import { clearViewerScopedQueries } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
@@ -70,6 +71,7 @@ export function Header() {
     });
 
     const {
+        user,
         isAuthenticated,
         isResolved: isAuthResolved,
         signOut: amplifySignOut,
@@ -160,10 +162,22 @@ export function Header() {
     }, [isLandingPage, pathname]);
 
     const queryClient = useQueryClient();
+    const previousUserIdRef = useRef<string | null | undefined>(undefined);
+
+    useEffect(() => {
+        if (!isAuthResolved) return;
+
+        const currentUserId = user?.userId ?? null;
+        const previousUserId = previousUserIdRef.current;
+        previousUserIdRef.current = currentUserId;
+        if (previousUserId === undefined || previousUserId === currentUserId) return;
+
+        clearViewerScopedQueries(queryClient);
+    }, [isAuthResolved, queryClient, user?.userId]);
 
     const signOut = async () => {
         await amplifySignOut();
-        queryClient.removeQueries({ queryKey: ["userAccount"] });
+        clearViewerScopedQueries(queryClient);
         await navigate({
             to: "/$lng",
         });

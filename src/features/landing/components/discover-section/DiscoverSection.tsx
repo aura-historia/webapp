@@ -5,11 +5,7 @@ import {
     DISCOVER_HIGHLIGHTS,
 } from "@/features/landing/components/discover-section/DiscoverSection.data.ts";
 
-type DiscoverSectionProps = {
-    readonly shopCount?: number;
-};
-
-export default function DiscoverSection({ shopCount }: DiscoverSectionProps) {
+export default function DiscoverSection() {
     const { t } = useTranslation();
 
     return (
@@ -32,12 +28,7 @@ export default function DiscoverSection({ shopCount }: DiscoverSectionProps) {
                             <div key={highlight.titleKey}>
                                 <div>
                                     <h3 className="mb-1 font-display text-xl font-normal text-primary">
-                                        {t(
-                                            highlight.titleFallbackKey && shopCount == null
-                                                ? highlight.titleFallbackKey
-                                                : highlight.titleKey,
-                                            shopCount == null ? undefined : { count: shopCount },
-                                        )}
+                                        {t(highlight.titleKey)}
                                     </h3>
                                     <p className="text-sm leading-6 text-secondary">
                                         {t(highlight.descKey)}

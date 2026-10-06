@@ -72,7 +72,7 @@ If you create or use a user account, we process in particular:
 - authentication and session information
 - first and last name where provided
 - preferred language and currency where provided
-- consent status for sensitive content displays (`prohibitedContentConsent`) where used
+- preference for showing unassessed or sensitive content (`showUnassessedOrSensitiveContent`)
 - roles, permissions, and subscription status
 
 Authentication is technically handled via AWS Amplify and Amazon Cognito.
@@ -109,6 +109,8 @@ Where partner, shop, or administration features are used, we may additionally pr
 - partner applications and related status or review data
 - API access data or related administration data
 - role and activation information
+
+Partnership applications contain either an existing provider ID or a proposal with a party name, optional phone and email contacts, and a provider name, optional URL and image URL, and requested ingestion methods. Applications do not collect postal addresses. Proposals are used for partnership review; selecting a public provider does not grant access.
 
 **Purposes of processing:**
 

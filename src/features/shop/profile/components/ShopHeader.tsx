@@ -1,33 +1,16 @@
 import { H1 } from "@/components/typography/H1.tsx";
 import { H2 } from "@/components/typography/H2.tsx";
-import { ShopTypeBadge } from "@/features/product/catalog/components/badges/ShopTypeBadge.tsx";
-import { ShopPartnerStatusBadge } from "@/features/shop/profile/components/badges/ShopPartnerStatusBadge.tsx";
-import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
-import { SHOP_TYPE_TRANSLATION_CONFIG } from "@/data/internal/shop/ShopType.ts";
+import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
 import { useTranslation } from "react-i18next";
 import { ArrowUpRight, ImageOff } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
 
 type ShopHeaderProps = {
-    readonly shop: ShopDetail;
-    readonly productCount?: number;
+    readonly shop: PublicListingSource;
 };
 
-export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
-    const { t, i18n } = useTranslation();
-
-    const formattedDate = new Intl.DateTimeFormat(i18n.language, {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    }).format(shop.created);
-
-    const formattedProductCount = new Intl.NumberFormat(i18n.language).format(productCount ?? 0);
-
-    const shopTypeName = shop.shopType
-        ? t(SHOP_TYPE_TRANSLATION_CONFIG[shop.shopType].translationKey)
-        : undefined;
-    const merchantUrl = shop.viewUrl ?? shop.url;
+export function ShopHeader({ shop }: ShopHeaderProps) {
+    const { t } = useTranslation();
 
     return (
         <header className="flex flex-col">
@@ -35,11 +18,6 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
                 <div className="absolute inset-0 bg-linear-to-t from-primary/85 via-primary/45 to-primary/15" />
                 <div className="relative mx-auto flex min-h-85 max-w-7xl items-end px-4 pb-10 pt-24 md:min-h-130 md:px-10 md:pb-16">
                     <div className="max-w-3xl space-y-3">
-                        {shopTypeName && (
-                            <p className="text-xs uppercase tracking-[0.2em] text-tertiary-fixed">
-                                {shopTypeName}
-                            </p>
-                        )}
                         <H1 className="text-5xl font-normal italic leading-tight text-primary-foreground md:text-7xl">
                             {shop.name}
                         </H1>
@@ -71,22 +49,10 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
                             {t("shop.header.overviewTitle")}
                         </H2>
                         <div className="flex flex-wrap items-center gap-2">
-                            <ShopTypeBadge shopType={shop.shopType} />
-                            <ShopPartnerStatusBadge partnerStatus={shop.partnerStatus} />
+                            {t("shop.header.operator", { operator: shop.operatorName })}
                         </div>
-                        <p className="text-sm text-muted-foreground">
-                            {t("shop.header.addedOn", { date: formattedDate })}
-                        </p>
                     </div>
-                    <div className="bg-surface-container-low p-5">
-                        <p className="font-display text-3xl italic text-primary md:text-4xl">
-                            {formattedProductCount}
-                        </p>
-                        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                            {t("shop.header.indexedItems")}
-                        </p>
-                    </div>
-                    {merchantUrl && (
+                    {shop.url && (
                         <div className="mt-auto">
                             <Button
                                 variant="default"
@@ -94,12 +60,12 @@ export function ShopHeader({ shop, productCount }: ShopHeaderProps) {
                                 asChild
                             >
                                 <a
-                                    href={merchantUrl}
+                                    href={shop.url}
                                     target="_blank"
                                     rel="nofollow noopener noreferrer"
                                 >
                                     <ArrowUpRight />
-                                    <span>{t("product.toMerchant")}</span>
+                                    <span>{t("shop.header.visitWebsite")}</span>
                                 </a>
                             </Button>
                         </div>

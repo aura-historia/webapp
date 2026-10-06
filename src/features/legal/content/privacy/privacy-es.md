@@ -72,7 +72,7 @@ Si crea o utiliza una cuenta de usuario, tratamos en particular:
 - información de autenticación y sesión
 - nombre y apellidos, cuando se proporcionen
 - idioma y moneda preferidos, cuando se proporcionen
-- estado de consentimiento para la visualización de contenidos sensibles (`prohibitedContentConsent`), cuando se utilice
+- preferencia para mostrar contenido sin evaluar o sensible (`showUnassessedOrSensitiveContent`)
 - roles, permisos y estado de suscripción
 
 La autenticación se gestiona técnicamente a través de AWS Amplify y Amazon Cognito.
@@ -109,6 +109,8 @@ Cuando se utilizan funciones para socios, tiendas o administración, también po
 - solicitudes de socio y datos relacionados de estado o revisión
 - datos de acceso a API o datos de administración relacionados
 - información de rol y activación
+
+Las solicitudes de colaboración contienen el identificador de una fuente de ofertas existente o una propuesta con el nombre del operador, teléfono y correo electrónico opcionales, nombre de la fuente, URL e imagen opcionales y métodos de importación solicitados. Las solicitudes no recogen direcciones postales. Las propuestas se utilizan para evaluar la colaboración; seleccionar una fuente pública no concede acceso.
 
 **Finalidades del tratamiento:**
 

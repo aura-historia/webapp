@@ -73,7 +73,7 @@ describe("useUserSearchFilters", () => {
         expect(result.current.data).toEqual(collectionData);
     });
 
-    it("calls the API with sort and order params", async () => {
+    it("uses the saved-filter collection endpoint without removed sort parameters", async () => {
         mockGetUserSearchFilters.mockResolvedValue({
             data: { items: [], from: 0, size: 0 },
             error: null,
@@ -82,11 +82,7 @@ describe("useUserSearchFilters", () => {
         renderHook(() => useUserSearchFilters(), { wrapper: createWrapper() });
 
         await waitFor(() => expect(mockGetUserSearchFilters).toHaveBeenCalledTimes(1));
-        expect(mockGetUserSearchFilters).toHaveBeenCalledWith(
-            expect.objectContaining({
-                query: expect.objectContaining({ sort: "created", order: "desc" }),
-            }),
-        );
+        expect(mockGetUserSearchFilters).toHaveBeenCalledWith();
     });
 
     it("caches data under the correct query key", async () => {

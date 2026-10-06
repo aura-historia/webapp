@@ -2,12 +2,12 @@
 
 ## What Aura Historia does
 
-Aura Historia is a refined global discovery platform for antiques, art, design objects, and related market intelligence. It aggregates and indexes objects from dealers, auction houses, shops, and marketplaces so users can search across sources, languages, and currencies from one place.
+Aura Historia is a refined global discovery platform for antiques, art, design objects, and related market intelligence. It indexes objects from public providers such as dealers, auction houses, and marketplaces so users can search across providers, languages, and currencies from one place. In user-facing copy, call these providers (German: “Anbieter”); retain “listing source” for technical identifiers and implementation terminology.
 
 The app currently emphasizes:
 
-- Global antiques and art discovery across trusted shops, dealers, auction houses, and marketplaces.
-- Recently added objects and shop discovery.
+- Global antiques and art discovery across public providers.
+- Recently added objects and provider discovery. Provider pages show the public provider summary and currently indexed listings; they do not provide provider classifications, addresses, partner status, or total listing counts.
 - Multilingual search/discovery and localized SEO.
 - Watchlists, saved search filters, notifications, and matching.
 - Partner/shop onboarding, product ingestion APIs, access tokens, OAuth flows, and admin review tools.
@@ -79,6 +79,15 @@ For partners:
 1. Present Aura Historia as a professional acquisition and discovery channel.
 2. Reduce fear of lock-in: free/commission-free where current product copy says so, easy integrations, API/OAuth options.
 3. Make setup, product sync, and token/OAuth security understandable.
+
+Custom partner integrations use granted listing sources and access tokens with
+`product-listings:write`. POST/PATCH/PUT/DELETE batches of up to 100 entries complete
+synchronously and return HTTP 200 with only failed entries; `[]` is full success,
+including empty batches. Avoid promises of queue acceptance, immediate search
+visibility, or publication within a fixed time. WooCommerce webhook HTTP 204 only
+acknowledges confirmed admission or an authorized no-op; secrets remain server-side.
+See [Partner integration contract](api-migration/partner-integration-contract.md) for
+field clearing, auction membership, withdrawal/restoration, and retry semantics.
 
 ## Product-writing checklist
 

@@ -1,4 +1,4 @@
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 import { vi } from "vitest";
@@ -6,36 +6,40 @@ import { ProductGridItem } from "../ProductGridItem.tsx";
 
 const mockMutate = vi.fn();
 
-vi.mock("@/features/notification-center/api/useMarkNotificationSeen.ts", () => ({
-    useMarkNotificationSeen: () => ({ mutate: mockMutate }),
+vi.mock("@/features/notification-center/api/useMarkNotificationsSeen.ts", () => ({
+    useMarkNotificationsSeen: () => ({ mutate: mockMutate }),
 }));
 
 describe("ProductGridItem", () => {
-    const mockProduct: OverviewProduct = {
-        created: new Date(),
-        eventId: "",
-        shopId: "",
-        shopSlugId: "sample-shop",
-        shopsProductId: "",
-        productId: "1",
-        productSlugId: "sample-product",
-        updated: new Date(),
+    const mockProduct: ProductListing = {
+        productListingId: "listing-1",
+        productListingTitleSlugId: "sample-product",
+        sourceListingId: "item-1",
+        source: { listingSourceId: "source-1", slugId: "sample-shop", name: "Sample Shop" },
+        updated: new Date("2026-09-10T10:00:00Z"),
         url: new URL("https://example.com"),
+        viewUrl: new URL("https://affiliate.example.com/product"),
         title: "Sample Product",
-        shopName: "Sample Shop",
-        sellerName: "Sample Shop",
-        shopType: "AUCTION_HOUSE",
-        state: "AVAILABLE",
-        price: "100€",
+        availability: "AVAILABLE",
+        lifecycle: "ACTIVE",
+        price: { type: "MONETARY", amount: 10000, currency: "EUR" },
+        formattedPrice: "100€",
+        priceValuation: "CURRENT",
+        valuation: { type: "CURRENT", fxRateId: "fx-1", capturedAt: new Date("2026-09-10") },
+        contentPolicy: { decision: "ALLOWED" },
         images: [{ url: new URL("https://example.com/image.jpg"), prohibitedContentType: "NONE" }],
     };
 
-    const mockProductWithUnseenNotification: OverviewProduct = {
+    const mockProductWithUnseenNotification: ProductListing = {
         ...mockProduct,
-        userData: {
-            watchlistData: { isWatching: true, isNotificationEnabled: true },
-            notificationData: { hasUnseenNotification: true, originEventId: "event-123" },
-            restrictedContentData: { consentGiven: false },
+        userState: {
+            watchlist: { watching: true, notifications: true },
+            notification: {
+                hasUnseenNotification: true,
+                unseenNotificationIds: ["notification-1", "notification-2"],
+            },
+            contentVisibility: { showUnassessedOrSensitiveContent: false },
+            searchFilter: { matched: false, hidden: false },
         },
     };
 
@@ -72,7 +76,7 @@ describe("ProductGridItem", () => {
             titleLink.click();
         });
 
-        expect(mockMutate).toHaveBeenCalledWith("event-123");
+        expect(mockMutate).toHaveBeenCalledWith(["notification-1", "notification-2"]);
     });
 
     it("does not mark notification as seen without unseen notification", async () => {

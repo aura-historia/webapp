@@ -8,24 +8,39 @@ export type ApiErrorData = {
     readonly source?: ApiErrorSourceData;
 };
 
-type ApiErrorSourceData = {
+export type ApiErrorSourceData = {
     readonly field: string;
-    readonly sourceType: "query" | "path" | "header" | "body";
+    readonly type: "QUERY" | "PATH" | "HEADER" | "BODY";
 };
 
-function mapApiErrorSource(apiSource: ApiErrorSource): ApiErrorSourceData {
+function mapApiErrorSource(apiSource: ApiErrorSource | undefined): ApiErrorSourceData | undefined {
+    if (!apiSource || typeof apiSource.field !== "string") return undefined;
+    if (!["QUERY", "PATH", "HEADER", "BODY"].includes(apiSource.type)) return undefined;
+
     return {
         field: apiSource.field,
-        sourceType: apiSource.sourceType,
+        type: apiSource.type,
     };
 }
 
-export function mapToInternalApiError(apiError: ApiError): ApiErrorData {
+/** Maps API problem details while providing a stable fallback for body-less failures. */
+export function mapToInternalApiError(
+    apiError: ApiError | null | undefined,
+    statusFallback = 500,
+): ApiErrorData {
+    if (!apiError || typeof apiError !== "object") {
+        return {
+            status: statusFallback,
+            title: "Unknown error",
+            error: "UNKNOWN_ERROR",
+        };
+    }
+
     return {
-        status: apiError.status,
-        title: apiError.title,
-        error: apiError.error,
-        detail: apiError.detail,
-        source: apiError.source ? mapApiErrorSource(apiError.source) : undefined,
+        status: typeof apiError.status === "number" ? apiError.status : statusFallback,
+        title: typeof apiError.title === "string" ? apiError.title : "Unknown error",
+        error: typeof apiError.error === "string" ? apiError.error : "UNKNOWN_ERROR",
+        detail: typeof apiError.detail === "string" ? apiError.detail : undefined,
+        source: mapApiErrorSource(apiError.source),
     };
 }

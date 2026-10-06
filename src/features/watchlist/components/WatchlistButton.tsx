@@ -8,8 +8,7 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils.ts";
 
 interface WatchlistButtonProps extends Omit<ComponentProps<typeof Button>, "onClick"> {
-    readonly shopId: string;
-    readonly shopsProductId: string;
+    readonly productListingId: string;
     readonly isWatching: boolean;
     readonly className?: string;
     readonly label?: string;
@@ -17,15 +16,14 @@ interface WatchlistButtonProps extends Omit<ComponentProps<typeof Button>, "onCl
 }
 
 export function WatchlistButton({
-    shopId,
-    shopsProductId,
+    productListingId,
     isWatching,
     className,
     label,
     showIcon = true,
     ...buttonProps
 }: WatchlistButtonProps) {
-    const watchlistMutation = useWatchlistMutation(shopId, shopsProductId);
+    const watchlistMutation = useWatchlistMutation(productListingId);
 
     const mutationType: WatchlistMutationType = isWatching
         ? "deleteFromWatchlist"

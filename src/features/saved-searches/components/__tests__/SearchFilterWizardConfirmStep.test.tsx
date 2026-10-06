@@ -1,13 +1,20 @@
 import { render, screen } from "@testing-library/react";
 import { FormProvider, useForm } from "react-hook-form";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { ReactNode } from "react";
 import { SearchFilterWizardConfirmStep } from "../SearchFilterWizardConfirmStep.tsx";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 
+const mockPreview = vi.hoisted(() => vi.fn(() => ({ isPending: false, error: null, data: [] })));
+
+vi.mock("@/features/saved-searches/api/useSearchFilterPreviewProducts.ts", () => ({
+    canPreviewSavedSearch: () => true,
+    useSearchFilterPreviewProducts: mockPreview,
+}));
+
 function FormWrapper({ children }: { children: ReactNode }) {
     const methods = useForm({
-        defaultValues: { shopType: [], productState: [] },
+        defaultValues: { availability: ["AVAILABLE"] },
     });
     return <FormProvider {...methods}>{children}</FormProvider>;
 }
@@ -21,6 +28,23 @@ function renderConfirmStep(name: string, filters: SearchFilterArguments) {
 }
 
 describe("SearchFilterWizardConfirmStep", () => {
+    it("includes the current enhanced description in the preview search", () => {
+        render(
+            <FormWrapper>
+                <SearchFilterWizardConfirmStep
+                    name="Filter"
+                    filters={{ q: "Tisch", enhancedSearchDescription: "Alte Möbel" }}
+                    enhancedSearchDescription="Aktuelle Beschreibung"
+                />
+            </FormWrapper>,
+        );
+
+        expect(mockPreview).toHaveBeenCalledWith(
+            expect.objectContaining({ enhancedSearchDescription: "Aktuelle Beschreibung" }),
+            true,
+        );
+    });
+
     it("shows the filter name", () => {
         renderConfirmStep("Barock Möbel", { q: "" });
         expect(screen.getByText("Barock Möbel")).toBeInTheDocument();
@@ -55,9 +79,8 @@ describe("SearchFilterWizardConfirmStep", () => {
         expect(screen.getByText("100 – 500 €")).toBeInTheDocument();
     });
 
-    it("shows merchant badges when merchant is set", () => {
-        renderConfirmStep("Filter", { q: "", merchant: ["Shop A", "Shop B"] });
-        expect(screen.getByText("Shop A")).toBeInTheDocument();
-        expect(screen.getByText("Shop B")).toBeInTheDocument();
+    it("shows selected listing source count", () => {
+        renderConfirmStep("Filter", { q: "", listingSourceId: ["source-a", "source-b"] });
+        expect(screen.getByText("2 Anbieter ausgewählt")).toBeInTheDocument();
     });
 });

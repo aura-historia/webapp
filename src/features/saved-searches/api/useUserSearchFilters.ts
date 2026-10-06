@@ -14,9 +14,7 @@ export function useUserSearchFilters(enabled = true): UseQueryResult<UserSearchF
         queryKey: ["userSearchFilters"],
         enabled,
         queryFn: async () => {
-            const result = await getUserSearchFilters({
-                query: { sort: "created", order: "desc" },
-            });
+            const result = await getUserSearchFilters();
 
             if (result.error) {
                 throw new Error(getErrorMessage(mapToInternalApiError(result.error)));

@@ -15,11 +15,9 @@ export function useDeleteUserAccount(): UseMutationResult<void, Error, void> {
                 throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
         },
-        onSuccess: () => {
+        onSuccess: async () => {
+            await queryClient.cancelQueries();
             queryClient.clear();
-        },
-        onError: (error) => {
-            console.error("[useDeleteUserAccount]", error);
         },
     });
 }

@@ -1,6 +1,5 @@
 import { ShopCard } from "@/features/shop/profile/components/ShopCard.tsx";
 import { ShopCardSkeleton } from "@/features/shop/profile/components/ShopCardSkeleton.tsx";
-import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
 import { useEffect } from "react";
 import { SearchX, ServerCrash } from "lucide-react";
 import { EmptyState } from "@/components/common/EmptyState.tsx";
@@ -9,11 +8,9 @@ import { useShopSearch } from "@/features/search/shops/api/useShopSearch.ts";
 import { useTranslation } from "react-i18next";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
 import { useInView } from "react-intersection-observer";
-import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 
 type ShopSearchResultsProps = {
     readonly searchFilters: ShopSearchFilterArguments;
-    readonly onTotalChange?: (total: number) => void;
 };
 
 const SKELETON_IDS = [
@@ -23,37 +20,19 @@ const SKELETON_IDS = [
     "shop-skeleton-4",
 ] as const;
 
-export function ShopSearchResults({ searchFilters, onTotalChange }: ShopSearchResultsProps) {
+export function ShopSearchResults({ searchFilters }: ShopSearchResultsProps) {
     const { ref: sentinelRef, inView } = useInView();
     const { t } = useTranslation();
-    const { data, isPending, error, fetchNextPage, isFetchingNextPage } =
+    const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useShopSearch(searchFilters);
 
-    const allShops = data?.pages.flatMap((page) => page.shops) ?? [];
-
-    const totalShops = data?.pages[0]?.total ?? 0;
-    const allLoaded = allShops.length >= totalShops && totalShops > 0;
+    const allSources = data?.pages.flatMap((page) => page.sources) ?? [];
 
     useEffect(() => {
-        if (onTotalChange) {
-            onTotalChange(totalShops);
-        }
-    }, [totalShops, onTotalChange]);
-
-    useEffect(() => {
-        if (
-            inView &&
-            !allLoaded &&
-            !isFetchingNextPage &&
-            searchFilters.q.length >= MIN_SEARCH_QUERY_LENGTH
-        ) {
+        if (inView && hasNextPage && !isFetchingNextPage) {
             fetchNextPage();
         }
-    }, [inView, allLoaded, isFetchingNextPage, fetchNextPage, searchFilters.q.length]);
-
-    if (searchFilters.q.length < MIN_SEARCH_QUERY_LENGTH) {
-        return <SectionInfoText>{t("search.messages.minQueryLength")}</SectionInfoText>;
-    }
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     if (isPending) {
         return (
@@ -66,7 +45,6 @@ export function ShopSearchResults({ searchFilters, onTotalChange }: ShopSearchRe
     }
 
     if (error) {
-        console.error(error);
         return (
             <EmptyState
                 icon={ServerCrash}
@@ -76,7 +54,11 @@ export function ShopSearchResults({ searchFilters, onTotalChange }: ShopSearchRe
         );
     }
 
-    if (allShops.length === 0) {
+    if (allSources.length === 0 && hasNextPage) {
+        return <div ref={sentinelRef} aria-hidden className="h-px w-full" />;
+    }
+
+    if (allSources.length === 0) {
         return (
             <EmptyState
                 icon={SearchX}
@@ -86,26 +68,23 @@ export function ShopSearchResults({ searchFilters, onTotalChange }: ShopSearchRe
         );
     }
 
-    const showLoaderRow = isFetchingNextPage || allLoaded;
+    const showLoaderRow = isFetchingNextPage || !hasNextPage;
 
     return (
         <div className="space-y-8">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                {allShops.map((shop) => (
-                    <ShopCard key={shop.shopId} shop={shop} />
+                {allSources.map((source) => (
+                    <ShopCard key={source.listingSourceId} shop={source} />
                 ))}
             </div>
 
             {showLoaderRow && (
                 <div>
-                    <ListLoaderRow
-                        isFetchingNextPage={isFetchingNextPage}
-                        totalCount={totalShops}
-                    />
+                    <ListLoaderRow isFetchingNextPage={isFetchingNextPage} />
                 </div>
             )}
 
-            {!allLoaded && <div ref={sentinelRef} aria-hidden className="h-px w-full" />}
+            {hasNextPage && <div ref={sentinelRef} aria-hidden className="h-px w-full" />}
         </div>
     );
 }

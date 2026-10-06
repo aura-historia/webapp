@@ -1,6 +1,6 @@
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import type { SubscriptionType } from "@/data/internal/account/SubscriptionType.ts";
-import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
+import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 type FilterGroup = {
     formFields: (keyof SearchFilterArguments)[];
@@ -8,8 +8,10 @@ type FilterGroup = {
 };
 
 const FILTER_GROUPS_RESTRICTED_FOR_FREE: FilterGroup[] = [
-    { formFields: ["shopType"], displayNameKey: "search.filter.shopType" },
-    { formFields: ["merchant", "excludeMerchant"], displayNameKey: "search.filter.merchants" },
+    {
+        formFields: ["listingSourceId", "excludeListingSourceId"],
+        displayNameKey: "search.filter.listingSources",
+    },
     {
         formFields: ["auctionDateFrom", "auctionDateTo"],
         displayNameKey: "search.filter.auctionDate",
@@ -24,7 +26,7 @@ const FILTER_GROUPS_RESTRICTED_FOR_FREE: FilterGroup[] = [
 // Default (= "no filter applied") values for array fields.
 // If the current value equals the full default, the filter is considered inactive.
 const FIELD_DEFAULTS: Partial<Record<keyof SearchFilterArguments, readonly unknown[]>> = {
-    shopType: SHOP_TYPES,
+    availability: LISTING_AVAILABILITIES,
 };
 
 /** Returns true if the given field has a non-default, non-empty value in the search args. */

@@ -8,7 +8,7 @@ import { EmptyState } from "@/components/common/EmptyState.tsx";
 import { useTranslation } from "react-i18next";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Link } from "@tanstack/react-router";
@@ -31,8 +31,8 @@ export function SearchFilterMatches({ filterId }: Props) {
         }
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-    const allProducts: OverviewProduct[] = data?.pages.flatMap((page) => [...page.items]) ?? [];
-    const totalProducts = data?.pages[0]?.total ?? 0;
+    const allProducts: ProductListing[] = data?.pages.flatMap((page) => [...page.items]) ?? [];
+    const totalProducts = data?.pages[0]?.total ?? allProducts.length;
     const allLoaded = !hasNextPage && allProducts.length > 0;
     const showLoaderRow = isFetchingNextPage || allLoaded;
 
@@ -57,6 +57,10 @@ export function SearchFilterMatches({ filterId }: Props) {
             );
         }
 
+        if (allProducts.length === 0 && hasNextPage) {
+            return <div ref={ref} aria-hidden className="h-px w-full" />;
+        }
+
         if (allProducts.length === 0) {
             return (
                 <EmptyState
@@ -76,9 +80,9 @@ export function SearchFilterMatches({ filterId }: Props) {
         return (
             <>
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                    {allProducts.map((product: OverviewProduct, index) => {
-                        const isHidden = product.userData?.searchFilterData?.hidden === true;
-                        const key = isHidden ? `hidden-${index}` : product.productId;
+                    {allProducts.map((product: ProductListing, index) => {
+                        const isHidden = product.userState?.searchFilter.hidden === true;
+                        const key = isHidden ? `hidden-${index}` : product.productListingId;
 
                         return isHidden ? (
                             <HiddenMatchCard key={key} />
@@ -92,13 +96,14 @@ export function SearchFilterMatches({ filterId }: Props) {
                     })}
                 </div>
                 {showLoaderRow && (
-                    <div ref={ref}>
+                    <div>
                         <ListLoaderRow
                             isFetchingNextPage={isFetchingNextPage}
                             totalCount={totalProducts}
                         />
                     </div>
                 )}
+                {hasNextPage && <div ref={ref} aria-hidden className="h-px w-full" />}
             </>
         );
     }

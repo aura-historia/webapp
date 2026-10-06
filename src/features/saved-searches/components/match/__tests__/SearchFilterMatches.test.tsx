@@ -2,17 +2,18 @@ import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { SearchFilterMatches } from "../SearchFilterMatches.tsx";
-import type { OverviewProduct } from "@/data/internal/product/OverviewProduct.ts";
+import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import type React from "react";
 
 const mockUseSearchFilterMatchedProducts = vi.hoisted(() => vi.fn());
+const observedRef = vi.hoisted(() => vi.fn());
 
 vi.mock("@/features/saved-searches/api/useSearchFilterMatchedProducts.ts", () => ({
     useSearchFilterMatchedProducts: mockUseSearchFilterMatchedProducts,
 }));
 
 vi.mock("react-intersection-observer", () => ({
-    useInView: () => ({ ref: vi.fn(), inView: false }),
+    useInView: () => ({ ref: observedRef, inView: false }),
 }));
 
 vi.mock("lottie-react", () => ({
@@ -20,7 +21,7 @@ vi.mock("lottie-react", () => ({
 }));
 
 vi.mock("@/features/saved-searches/components/match/SearchFilterMatchCard.tsx", () => ({
-    SearchFilterMatchCard: ({ product }: { product: OverviewProduct }) => (
+    SearchFilterMatchCard: ({ product }: { product: ProductListing }) => (
         <div data-testid="search-filter-match-card">{product.title}</div>
     ),
 }));
@@ -45,28 +46,23 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     };
 });
 
-const buildProduct = (overrides: Partial<OverviewProduct> = {}): OverviewProduct => ({
-    productId: "p1",
-    productSlugId: "product-1",
-    eventId: "e1",
-    shopId: "s1",
-    shopSlugId: "shop-1",
-    shopsProductId: "si1",
-    shopName: "Test Shop",
-    sellerName: "Test Shop",
-    shopType: "AUCTION_HOUSE",
+const buildProduct = (overrides: Partial<ProductListing> = {}): ProductListing => ({
+    productListingId: "p1",
+    source: { listingSourceId: "s1", name: "Test Shop", slugId: "shop-1" },
+    sourceListingId: "si1",
     title: "Antike Vase",
-    price: "100 €",
-    state: "AVAILABLE",
-    url: null,
+    priceValuation: "CURRENT",
+    valuation: { type: "CURRENT", fxRateId: "fx-1", capturedAt: new Date("2024-01-01") },
+    availability: "AVAILABLE",
+    lifecycle: "ACTIVE",
     images: [],
-    created: new Date("2024-01-01"),
+    contentPolicy: null,
     updated: new Date("2024-01-01"),
     ...overrides,
 });
 
 type MatchesMockOptions = {
-    products?: OverviewProduct[];
+    products?: ProductListing[];
     total?: number;
     isPending?: boolean;
     error?: Error | null;
@@ -102,6 +98,20 @@ describe("SearchFilterMatches", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         setMatchesMock();
+    });
+
+    it("observes a sentinel before requesting the next page", () => {
+        setMatchesMock({ products: [buildProduct()], hasNextPage: true });
+        renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
+        expect(observedRef).toHaveBeenCalledWith(expect.any(HTMLElement));
+        expect(screen.queryByText("Alle Produkte geladen")).not.toBeInTheDocument();
+    });
+
+    it("keeps observing an empty page when its cursor has more matches", () => {
+        setMatchesMock({ products: [], hasNextPage: true });
+        renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
+        expect(observedRef).toHaveBeenCalledWith(expect.any(HTMLElement));
+        expect(screen.queryByText("Keine Treffer gefunden")).not.toBeInTheDocument();
     });
 
     describe("Loading state", () => {
@@ -150,8 +160,8 @@ describe("SearchFilterMatches", () => {
         it("renders one match card per product", () => {
             setMatchesMock({
                 products: [
-                    buildProduct({ productId: "p1", title: "Vase 1" }),
-                    buildProduct({ productId: "p2", title: "Vase 2" }),
+                    buildProduct({ productListingId: "p1", title: "Vase 1" }),
+                    buildProduct({ productListingId: "p2", title: "Vase 2" }),
                 ],
                 total: 2,
             });
@@ -164,15 +174,18 @@ describe("SearchFilterMatches", () => {
         it("renders HiddenMatchCard instead of a product card for hidden products", () => {
             setMatchesMock({
                 products: [
-                    buildProduct({ productId: "p1", title: "Sichtbar" }),
+                    buildProduct({ productListingId: "p1", title: "Sichtbar" }),
                     buildProduct({
-                        productId: "p2",
+                        productListingId: "p2",
                         title: "Verborgen",
-                        userData: {
-                            watchlistData: { isWatching: false, isNotificationEnabled: false },
-                            notificationData: { hasUnseenNotification: false },
-                            restrictedContentData: { consentGiven: false },
-                            searchFilterData: { matched: true, hidden: true },
+                        userState: {
+                            watchlist: { watching: false, notifications: false },
+                            notification: {
+                                unseenNotificationIds: [],
+                                hasUnseenNotification: false,
+                            },
+                            contentVisibility: { showUnassessedOrSensitiveContent: false },
+                            searchFilter: { matched: true, hidden: true },
                         },
                     }),
                 ],

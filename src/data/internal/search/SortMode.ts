@@ -1,11 +1,6 @@
-import type { SortProductFieldData } from "@/client";
+import type { SortProductListingFieldData } from "@/client";
 
-export const SEARCH_RESULT_SORT_FIELDS = [
-    "RELEVANCE",
-    "PRICE",
-    "CREATION_DATE",
-    "UPDATE_DATE",
-] as const;
+export const SEARCH_RESULT_SORT_FIELDS = ["RELEVANCE", "CREATION_DATE", "UPDATE_DATE"] as const;
 
 export type SortMode = {
     field: (typeof SEARCH_RESULT_SORT_FIELDS)[number];
@@ -16,8 +11,6 @@ export function getSortModeFieldLabel(field: (typeof SEARCH_RESULT_SORT_FIELDS)[
     switch (field) {
         case "RELEVANCE":
             return "search.sortMode.relevance";
-        case "PRICE":
-            return "search.sortMode.price";
         case "CREATION_DATE":
             return "search.sortMode.creationDate";
         case "UPDATE_DATE":
@@ -28,18 +21,15 @@ export function getSortModeFieldLabel(field: (typeof SEARCH_RESULT_SORT_FIELDS)[
 }
 
 export function mapToBackendSortModeArguments(sortMode?: SortMode): {
-    sort: SortProductFieldData;
+    sort: SortProductListingFieldData;
     order: "asc" | "desc";
 } {
-    let sort: SortProductFieldData;
+    let sort: SortProductListingFieldData;
     let order: "asc" | "desc";
 
     switch (sortMode?.field) {
         case "RELEVANCE":
             sort = "score";
-            break;
-        case "PRICE":
-            sort = "price";
             break;
         case "CREATION_DATE":
             sort = "created";

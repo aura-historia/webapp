@@ -1,13 +1,11 @@
 import { CreationDateSpanFilter } from "@/features/search/products/components/filters/CreationDateSpanFilter.tsx";
 import { ProductStateFilter } from "@/features/search/products/components/filters/ProductStateFilter.tsx";
+import { MerchantFilters } from "@/features/search/products/components/filters/MerchantFilters.tsx";
 import { PriceSpanFilter } from "@/features/search/products/components/filters/PriceSpanFilter.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Form } from "@/components/ui/form.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { MerchantFilters } from "@/features/search/products/components/filters/MerchantFilters.tsx";
-import { SellerFilters } from "@/features/search/products/components/filters/SellerFilters.tsx";
-import { ShopTypeFilter } from "@/features/search/common/components/filters/ShopTypeFilter.tsx";
 import { useNavigate } from "@tanstack/react-router";
 import { useSearchQueryContext } from "@/features/search/common/hooks/useSearchQueryContext.tsx";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
@@ -73,15 +71,14 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
                     ...mapFiltersToUrlParams({
                         query: getEffectiveQuery(),
                         priceSpan: data.priceSpan,
-                        productState: data.productState,
+                        availability: data.availability,
+                        listingSourceId: data.listingSourceId,
+                        excludeListingSourceId: data.excludeListingSourceId,
+                        listingSourceLabels: data.listingSourceLabels,
+                        excludeListingSourceLabels: data.excludeListingSourceLabels,
                         creationDate: data.creationDate,
                         updateDate: data.updateDate,
                         auctionDate: data.auctionDate,
-                        merchant: data.merchant,
-                        excludeMerchant: data.excludeMerchant,
-                        seller: data.seller,
-                        excludeSeller: data.excludeSeller,
-                        shopType: data.shopType,
                     }),
                 }),
             });
@@ -129,12 +126,8 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
             <form className="space-y-4">
                 <div className="flex min-w-0 w-full flex-col gap-4 overflow-visible">
                     <ProductStateFilter />
-                    <PriceSpanFilter />
-                    <ShopTypeFilter
-                        onReset={() => form.setValue("shopType", FILTER_DEFAULTS.shopType)}
-                    />
                     <MerchantFilters />
-                    <SellerFilters />
+                    <PriceSpanFilter />
                     <AuctionDateSpanFilter />
                     <CreationDateSpanFilter />
                     <UpdateDateSpanFilter />

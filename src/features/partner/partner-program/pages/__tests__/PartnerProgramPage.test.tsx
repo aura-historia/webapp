@@ -16,7 +16,7 @@ describe("PartnerProgramPage", () => {
     it("renders all partner page section headings", () => {
         expect(screen.getByText("Warum Partner werden?")).toBeInTheDocument();
         expect(screen.getByText("Was unsere Partner erleben")).toBeInTheDocument();
-        expect(screen.getByText("So einfach verbinden Sie Ihren Shop")).toBeInTheDocument();
+        expect(screen.getByText("Ihren Bestand anbinden")).toBeInTheDocument();
         expect(screen.getByText("In drei Schritten online")).toBeInTheDocument();
         expect(screen.getByText("Häufige Fragen zum Partner-Programm")).toBeInTheDocument();
     });

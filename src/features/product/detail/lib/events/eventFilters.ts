@@ -1,186 +1,63 @@
 import type {
-    ProductEvent,
-    ProductCreatedPayload,
-    ProductStateChangedPayload,
-    ProductPriceChangedPayload,
-    ProductPriceDiscoveredPayload,
-    ProductPriceRemovedPayload,
-    ProductEstimatePriceChangedPayload,
-    ProductUrlChangedPayload,
-    ProductImagesChangedPayload,
-    ProductAuctionTimeChangedPayload,
-} from "@/data/internal/product/ProductDetails.ts";
-import type { StateEventType } from "./types.ts";
+    ProductListingHistoryChange,
+    ProductListingHistoryEntry,
+} from "@/data/internal/product/ProductListingHistory.ts";
 
-/**
- * Filter only CREATED events (where payload has state field and optional price)
- * This excludes state change events which have oldState/newState instead
- */
-export function isCreatedEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductCreatedPayload;
-    eventType: "CREATED";
-} {
+export type HistoryFilter = "all" | "price" | "availability" | "details";
+
+export function isPriceHistoryChange(change: ProductListingHistoryChange): boolean {
     return (
-        event.eventType === "CREATED" &&
-        typeof event.payload === "object" &&
-        event.payload !== null &&
-        "state" in event.payload &&
-        !("oldState" in event.payload) &&
-        !("newState" in event.payload)
+        change.type === "MAIN_PRICE_CHANGED" ||
+        change.type === "MINIMUM_ESTIMATE_CHANGED" ||
+        change.type === "MAXIMUM_ESTIMATE_CHANGED"
     );
 }
 
-/**
- * Filter only STATE CHANGED events (where payload has oldState and newState)
- * This excludes CREATED events which have only a state field
- */
-export function isStateChangedEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductStateChangedPayload;
-    eventType: StateEventType;
-} {
+export function isAvailabilityHistoryChange(change: ProductListingHistoryChange): boolean {
     return (
-        event.eventType === "STATE_CHANGED" &&
-        typeof event.payload === "object" &&
-        event.payload !== null &&
-        "oldState" in event.payload &&
-        "newState" in event.payload
+        change.type === "AVAILABILITY_CHANGED" ||
+        change.type === "WITHDRAWN" ||
+        change.type === "RESTORED"
     );
 }
 
-/**
- * Filter only PRICE CHANGED events (where payload has both oldPrice and newPrice)
- * This excludes PRICE_DISCOVERED (only newPrice) and PRICE_REMOVED (only oldPrice)
- */
-export function isPriceChangedEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductPriceChangedPayload;
-    eventType: "PRICE_CHANGED";
-} {
-    return (
-        event.eventType === "PRICE_CHANGED" &&
-        typeof event.payload === "object" &&
-        event.payload !== null &&
-        "oldPrice" in event.payload &&
-        event.payload.oldPrice != null &&
-        "newPrice" in event.payload &&
-        event.payload.newPrice != null
+export function matchesHistoryFilter(
+    entry: ProductListingHistoryEntry,
+    filter: HistoryFilter,
+): boolean {
+    if (filter === "all") return true;
+    if (entry.payload.kind === "UNKNOWN") return filter === "details";
+
+    if (entry.payload.kind === "DISCOVERED") {
+        const { discovery } = entry.payload;
+        if (filter === "price") {
+            return Boolean(
+                discovery.pricing.price ||
+                    discovery.pricing.priceEstimateMin ||
+                    discovery.pricing.priceEstimateMax,
+            );
+        }
+        if (filter === "availability") return discovery.availability !== null;
+        return discovery.imageCount > 0 || discovery.auction !== null || Boolean(discovery.url);
+    }
+
+    if (filter === "price") return entry.payload.changes.some(isPriceHistoryChange);
+    if (filter === "availability") return entry.payload.changes.some(isAvailabilityHistoryChange);
+    return entry.payload.changes.some(
+        (change) => !isPriceHistoryChange(change) && !isAvailabilityHistoryChange(change),
     );
 }
 
-/**
- * Filter only PRICE DISCOVERED events (where payload has only newPrice)
- * This excludes price change events which have both oldPrice and newPrice
- */
-export function isPriceDiscoveredEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductPriceDiscoveredPayload;
-    eventType: "PRICE_CHANGED";
-} {
-    return (
-        event.eventType === "PRICE_CHANGED" &&
-        typeof event.payload === "object" &&
-        event.payload !== null &&
-        "newPrice" in event.payload &&
-        event.payload.newPrice != null &&
-        !("oldPrice" in event.payload && event.payload.oldPrice != null)
-    );
-}
-
-/**
- * Filter only PRICE REMOVED events (where payload has only oldPrice)
- * This excludes price change events which have both oldPrice and newPrice
- */
-export function isPriceRemovedEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductPriceRemovedPayload;
-    eventType: "PRICE_CHANGED";
-} {
-    return (
-        event.eventType === "PRICE_CHANGED" &&
-        typeof event.payload === "object" &&
-        event.payload !== null &&
-        "oldPrice" in event.payload &&
-        event.payload.oldPrice != null &&
-        !("newPrice" in event.payload && event.payload.newPrice != null)
-    );
-}
-
-/**
- * Filter all price events (where payload has price-related fields)
- * This excludes state events which have state or oldState/newState fields
- */
-export function isPriceEvent(event: ProductEvent): event is ProductEvent & {
-    payload:
-        | ProductCreatedPayload
-        | ProductPriceChangedPayload
-        | ProductPriceDiscoveredPayload
-        | ProductPriceRemovedPayload;
-    eventType: "PRICE_CHANGED" | "CREATED";
-} {
-    return (
-        isCreatedEvent(event) ||
-        isPriceDiscoveredEvent(event) ||
-        isPriceChangedEvent(event) ||
-        isPriceRemovedEvent(event)
-    );
-}
-
-/**
- * Filter all state events (where payload has state-related fields)
- * This excludes price events which have price-related fields
- */
-export function isStateEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductCreatedPayload | ProductStateChangedPayload;
-    eventType: StateEventType | "CREATED";
-} {
-    return isCreatedEvent(event) || isStateChangedEvent(event);
-}
-
-/**
- * Filter ESTIMATE_PRICE_CHANGED events
- */
-export function isEstimatePriceChangedEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductEstimatePriceChangedPayload;
-    eventType: "ESTIMATE_PRICE_CHANGED";
-} {
-    return event.eventType === "ESTIMATE_PRICE_CHANGED";
-}
-
-/**
- * Filter URL_CHANGED events
- */
-export function isUrlChangedEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductUrlChangedPayload;
-    eventType: "URL_CHANGED";
-} {
-    return event.eventType === "URL_CHANGED";
-}
-
-/**
- * Filter IMAGES_CHANGED events
- */
-export function isImagesChangedEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductImagesChangedPayload;
-    eventType: "IMAGES_CHANGED";
-} {
-    return event.eventType === "IMAGES_CHANGED";
-}
-
-/**
- * Filter AUCTION_TIME_CHANGED events
- */
-export function isAuctionTimeChangedEvent(event: ProductEvent): event is ProductEvent & {
-    payload: ProductAuctionTimeChangedPayload;
-    eventType: "AUCTION_TIME_CHANGED";
-} {
-    return event.eventType === "AUCTION_TIME_CHANGED";
-}
-
-/**
- * Filter all detail events (the 4 event types for product attributes)
- */
-export function isDetailsEvent(event: ProductEvent): boolean {
-    return (
-        isEstimatePriceChangedEvent(event) ||
-        isUrlChangedEvent(event) ||
-        isImagesChangedEvent(event) ||
-        isAuctionTimeChangedEvent(event)
+export function getVisibleHistoryChanges(
+    entry: ProductListingHistoryEntry,
+    filter: HistoryFilter,
+): readonly ProductListingHistoryChange[] {
+    if (entry.payload.kind !== "CHANGED" || filter === "all") {
+        return entry.payload.kind === "CHANGED" ? entry.payload.changes : [];
+    }
+    if (filter === "price") return entry.payload.changes.filter(isPriceHistoryChange);
+    if (filter === "availability") return entry.payload.changes.filter(isAvailabilityHistoryChange);
+    return entry.payload.changes.filter(
+        (change) => !isPriceHistoryChange(change) && !isAvailabilityHistoryChange(change),
     );
 }

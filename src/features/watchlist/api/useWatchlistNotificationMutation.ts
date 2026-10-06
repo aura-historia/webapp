@@ -1,94 +1,67 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { patchWatchlistProduct, type PersonalizedGetProductData } from "@/client";
+import { patchWatchlistProduct } from "@/client";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import {
-    getProductBySlugQueryKey,
-    getProductQueryKey,
-} from "@/client/@tanstack/react-query.gen.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
-import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { useParams } from "@tanstack/react-router";
+import {
+    cancelWatchlistRelatedQueries,
+    invalidateWatchlistRelatedQueries,
+    restoreWatchlistListingCaches,
+    snapshotWatchlistListingCaches,
+    updateListingWatchlistState,
+    updateWatchlistListingCaches,
+} from "@/features/watchlist/api/watchlistCache.ts";
 
-export function useWatchlistNotificationMutation(shopId: string, shopsProductId: string) {
+class WatchlistRequestError extends Error {
+    constructor(
+        message: string,
+        readonly status?: number,
+    ) {
+        super(message);
+        this.name = "WatchlistRequestError";
+    }
+}
+
+export function useWatchlistNotificationMutation(productListingId: string) {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
-
-    const routeParams = useParams({ strict: false, shouldThrow: false });
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     return useMutation({
-        mutationFn: async (notificationsEnabled: boolean) => {
+        mutationFn: async (notifications: boolean) => {
             const result = await patchWatchlistProduct({
-                path: { shopId, shopsProductId },
-                body: { notifications: notificationsEnabled },
+                path: { productListingId },
+                body: { notifications },
             });
 
             if (result.error) {
-                if (result.response?.status === 401) {
-                    toast.info(t("watchlist.loginRequired"));
-                    return;
-                }
-                throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
-            }
-
-            return result.data;
-        },
-        onError: (e) => {
-            console.error("Error mutating watchlist:", e);
-            toast.error(e.message || t("watchlist.loadingError.description"));
-        },
-        onSuccess: async (data) => {
-            if (!data) return;
-
-            // Update product detail query
-            queryClient.setQueryData(
-                getProductQueryKey({
-                    query: { language: parseLanguage(i18n.language) },
-                    path: { shopId, shopsProductId },
-                }),
-                (old: PersonalizedGetProductData | undefined) =>
-                    old && {
-                        ...old,
-                        userState: {
-                            ...old.userState,
-                            watchlist: {
-                                watching: old.userState?.watchlist?.watching ?? true,
-                                notifications: data.userState?.watchlist.notifications,
-                            },
-                        },
-                    },
-            );
-
-            if (routeParams?.shopSlugId !== undefined && routeParams?.productSlugId !== undefined) {
-                // Update product detail query
-                queryClient.setQueryData(
-                    getProductBySlugQueryKey({
-                        query: { language: parseLanguage(i18n.language) },
-                        path: {
-                            shopSlugId: routeParams.shopSlugId,
-                            productSlugId: routeParams.productSlugId,
-                        },
-                    }),
-                    (old: PersonalizedGetProductData | undefined) =>
-                        old && {
-                            ...old,
-                            userState: {
-                                ...old.userState,
-                                watchlist: {
-                                    watching: old.userState?.watchlist?.watching ?? true,
-                                    notifications: data.userState?.watchlist.notifications,
-                                },
-                            },
-                        },
+                throw new WatchlistRequestError(
+                    getErrorMessage(mapToInternalApiError(result.error)),
+                    result.response?.status,
                 );
             }
 
-            await Promise.all([
-                queryClient.invalidateQueries({ queryKey: ["watchlist"] }),
-                queryClient.invalidateQueries({ queryKey: ["search"] }),
-            ]);
+            // The response is a watchlist entry, not a product listing.
+            return undefined;
         },
+        onMutate: async (notifications) => {
+            await cancelWatchlistRelatedQueries(queryClient);
+            const snapshots = snapshotWatchlistListingCaches(queryClient);
+            updateWatchlistListingCaches(queryClient, productListingId, (listing) =>
+                updateListingWatchlistState(listing, { notifications }),
+            );
+            return { snapshots };
+        },
+        onError: (error, _notifications, context) => {
+            restoreWatchlistListingCaches(queryClient, context?.snapshots);
+            if (error instanceof WatchlistRequestError && error.status === 401) {
+                toast.info(t("watchlist.loginRequired"));
+            } else {
+                console.error("Error mutating watchlist:", error);
+                toast.error(error.message || t("watchlist.loadingError.description"));
+            }
+        },
+        onSettled: async () => invalidateWatchlistRelatedQueries(queryClient),
     });
 }

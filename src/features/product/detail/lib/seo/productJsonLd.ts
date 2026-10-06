@@ -1,89 +1,82 @@
-import type { PersonalizedGetProductData } from "@/client";
+import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
+import type { ListingAvailability } from "@/data/internal/product/ProductListingDomain.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
+import { toMajorCurrencyAmount } from "@/data/internal/price/Price.ts";
 
 type ProductJsonLd = {
     "@context": "https://schema.org/";
     "@type": "Product";
-    name: string;
+    name?: string;
     image?: string[];
     url?: string;
-    sku?: string;
+    sku: string;
     offers?: {
         "@type": "Offer";
         priceCurrency: string;
         price: number;
-        availability: string;
+        availability?: string;
         url?: string;
-        seller?: {
-            "@type": "Organization";
-            name: string;
-        };
     };
     dateCreated?: string;
     dateModified?: string;
 };
 
-/**
- * Generates a JSON-LD structured data object for a product.
- * This follows Schema.org Product specification for SEO purposes.
- */
-export function generateProductJsonLd(apiData: PersonalizedGetProductData): ProductJsonLd {
-    const product = apiData.item;
-    const productUrl = product.viewUrl || product.url;
+const SCHEMA_AVAILABILITY: Partial<Record<ListingAvailability, string>> = {
+    AVAILABLE: "https://schema.org/InStock",
+    IN_STOCK: "https://schema.org/InStock",
+    LIMITED_AVAILABILITY: "https://schema.org/LimitedAvailability",
+    BACK_ORDER: "https://schema.org/BackOrder",
+    MADE_TO_ORDER: "https://schema.org/MadeToOrder",
+    PRE_ORDER: "https://schema.org/PreOrder",
+    UNAVAILABLE: "https://schema.org/OutOfStock",
+    OUT_OF_STOCK: "https://schema.org/OutOfStock",
+    SOLD_OUT: "https://schema.org/SoldOut",
+};
+
+export function generateProductJsonLd(
+    product: ProductListingDetail,
+    canonicalUrl?: string,
+): ProductJsonLd {
+    const listingPrice = product.pricing.display.price;
+    const offerAvailability = product.availability
+        ? SCHEMA_AVAILABILITY[product.availability]
+        : undefined;
 
     const jsonLd: ProductJsonLd = {
         "@context": "https://schema.org/",
         "@type": "Product",
-        name: product.title.text,
-        sku: `${product.shopId}-${product.shopsProductId}`,
+        sku: product.productListingId,
     };
+    if (product.title) jsonLd.name = product.title;
 
-    if (product.images && product.images.length > 0) {
-        const validImages = product.images
-            .filter((img) => img.prohibitedContent === "NONE")
-            .map((img) => img.url)
-            .filter((url) => url !== undefined);
-        jsonLd.image = validImages.length > 0 ? validImages : [BANNER_IMAGE_URL];
-    } else {
-        jsonLd.image = [BANNER_IMAGE_URL];
-    }
+    const validImages = product.images.flatMap((image) =>
+        image.prohibitedContentType === "NONE" && image.url ? [image.url.href] : [],
+    );
+    jsonLd.image = validImages.length > 0 ? validImages : [BANNER_IMAGE_URL];
 
-    if (productUrl) {
-        jsonLd.url = productUrl;
-    }
-
-    if (product.price?.offer) {
-        let availability: string;
-        if (product.state === "LISTED" || product.state === "AVAILABLE") {
-            availability = "https://schema.org/InStock";
-        } else if (product.state === "RESERVED") {
-            availability = "https://schema.org/LimitedAvailability";
-        } else if (product.state === "SOLD") {
-            availability = "https://schema.org/SoldOut";
-        } else {
-            availability = "https://schema.org/Discontinued";
-        }
-
+    if (canonicalUrl) jsonLd.url = canonicalUrl;
+    if (
+        listingPrice?.type === "MONETARY" &&
+        product.valuation.type === "CURRENT" &&
+        product.lifecycle === "ACTIVE"
+    ) {
         jsonLd.offers = {
             "@type": "Offer",
-            priceCurrency: product.price.offer.currency,
-            price: product.price.offer.amount / 100,
-            availability,
-            url: productUrl,
-            seller: {
-                "@type": "Organization",
-                name: product.shopName,
-            },
+            priceCurrency: listingPrice.currency,
+            price: toMajorCurrencyAmount(listingPrice.amount, listingPrice.currency),
+            url: product.viewUrl?.href ?? product.url?.href,
         };
+        if (offerAvailability) jsonLd.offers.availability = offerAvailability;
     }
 
+    jsonLd.dateCreated = product.created.toISOString();
+    jsonLd.dateModified = product.updated.toISOString();
     return jsonLd;
 }
 
-/**
- * Generates a JSON-LD script content string for embedding in a page's head.
- */
-export function generateProductJsonLdScript(apiData: PersonalizedGetProductData): string {
-    const jsonLd = generateProductJsonLd(apiData);
-    return JSON.stringify(jsonLd);
+export function generateProductJsonLdScript(
+    product: ProductListingDetail,
+    canonicalUrl?: string,
+): string {
+    return JSON.stringify(generateProductJsonLd(product, canonicalUrl));
 }

@@ -14,6 +14,7 @@ vi.mock("@/features/partner/access-token-management/api/useAccessTokens.ts", () 
     useCreateAccessToken: () => ({
         mutate: mockCreateAccessTokenMutate,
         isPending: false,
+        reset: vi.fn(),
     }),
     useUpdateAccessToken: () => ({
         mutate: mockUpdateAccessTokenMutate,
@@ -36,7 +37,7 @@ describe("AccessTokensSection", () => {
                 {
                     id: "token-12345678",
                     name: "Product sync",
-                    scopes: ["products:write"],
+                    scopes: ["product-listings:write"],
                     maskedToken: "aurahistoria_abcdefghijk_****",
                     tokenType: "BEARER",
                     expiresAt: null,
@@ -66,7 +67,7 @@ describe("AccessTokensSection", () => {
         expect(screen.getByRole("heading", { name: "Zugriffstoken" })).toBeInTheDocument();
         expect(screen.getByText("Product sync")).toBeInTheDocument();
         expect(screen.getByText("Shop administration")).toBeInTheDocument();
-        expect(screen.getByText("Produkte schreiben")).toBeInTheDocument();
+        expect(screen.getByText("Produktangebote schreiben")).toBeInTheDocument();
         expect(screen.getByText("Keine Berechtigungen")).toBeInTheDocument();
         expect(screen.getByText("aurahistoria_abcdefghijk_****")).toBeInTheDocument();
         expect(screen.getByText("Läuft nicht ab")).toBeInTheDocument();

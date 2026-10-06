@@ -8,10 +8,8 @@ interface ProhibitedImagePlaceholderProps {
 }
 
 /**
- * Placeholder displayed when a product image URL is omitted
- * because the image contains prohibited content (e.g. symbols
- * covered by German StGB §86a) and the user has not consented
- * to viewing such content.
+ * Placeholder for redacted images or unassessed/sensitive content
+ * hidden by the account visibility preference.
  */
 export function ProhibitedImagePlaceholder({
     className,

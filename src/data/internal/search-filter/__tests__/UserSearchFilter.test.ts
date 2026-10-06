@@ -7,7 +7,7 @@ import {
     mapSearchFilterArgumentsToProductSearchData,
 } from "../UserSearchFilter.ts";
 import type { UserSearchFilterData } from "@/client";
-import { SHOP_TYPES } from "@/data/internal/shop/ShopType.ts";
+import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 const baseFilterData: UserSearchFilterData = {
     userId: "user-1",
@@ -18,8 +18,10 @@ const baseFilterData: UserSearchFilterData = {
     search: {
         productQuery: ["Tisch"],
         price: { min: 1000, max: 5000 },
-        state: ["AVAILABLE"],
-        shopType: ["AUCTION_HOUSE"],
+        availability: ["AVAILABLE"],
+        orderability: ["ORDERABLE_NOW"],
+        includeUnspecifiedAvailability: false,
+        listingSourceId: ["source-1"],
     },
     createdBy: "SYSTEM",
     updatedBy: "SYSTEM",
@@ -53,9 +55,27 @@ describe("mapToInternalUserSearchFilter", () => {
         expect(result.search.priceTo).toBe(50);
     });
 
+    it("maps currency and converts minor units using that currency", () => {
+        const result = mapProductSearchDataToSearchFilterArguments({
+            currency: "JPY",
+            price: { min: 2500, max: 9000 },
+        });
+        expect(result.currency).toBe("JPY");
+        expect(result.priceFrom).toBe(2500);
+        expect(result.priceTo).toBe(9000);
+    });
+
     it("maps productQuery to q", () => {
         const result = mapToInternalUserSearchFilter(baseFilterData);
         expect(result.search.q).toBe("Tisch");
+    });
+
+    it("maps canonical availability and source IDs", () => {
+        const result = mapToInternalUserSearchFilter(baseFilterData);
+        expect(result.search.availability).toEqual(["AVAILABLE"]);
+        expect(result.search.orderability).toEqual(["ORDERABLE_NOW"]);
+        expect(result.search.includeUnspecifiedAvailability).toBe(false);
+        expect(result.search.listingSourceId).toEqual(["source-1"]);
     });
 
     it("maps optional enhancedSearchDescription", () => {
@@ -157,6 +177,18 @@ describe("mapSearchFilterArgumentsToProductSearchData", () => {
         expect(result.price?.max).toBe(10000);
     });
 
+    it("maps currency and converts amounts to currency minor units", () => {
+        const result = mapSearchFilterArgumentsToProductSearchData({
+            q: "",
+            currency: "JPY",
+            priceFrom: 2500,
+            priceTo: 9000,
+        });
+        expect(result.currency).toBe("JPY");
+        expect(result.price?.min).toBe(2500);
+        expect(result.price?.max).toBe(9000);
+    });
+
     it("omits price when neither priceFrom nor priceTo is set", () => {
         const result = mapSearchFilterArgumentsToProductSearchData({ q: "" });
         expect(result.price).toBeUndefined();
@@ -229,6 +261,44 @@ describe("mapToBackendPatchUserSearchFilter", () => {
     it("maps search when provided", () => {
         const result = mapToBackendPatchUserSearchFilter({ search: { q: "Lampe" } });
         expect(result.search?.productQuery).toEqual(["Lampe"]);
+        expect(result.search).toMatchObject({
+            availability: null,
+            orderability: null,
+            includeUnspecifiedAvailability: null,
+        });
+    });
+
+    it("sends the complete saved-search availability tuple when a subset is selected", () => {
+        const result = mapToBackendPatchUserSearchFilter({
+            search: {
+                q: "Lampe",
+                availability: ["IN_STOCK"],
+                orderability: ["ORDERABLE_NOW"],
+                includeUnspecifiedAvailability: false,
+            },
+        });
+
+        expect(result.search).toMatchObject({
+            availability: ["IN_STOCK"],
+            orderability: ["ORDERABLE_NOW"],
+            includeUnspecifiedAvailability: false,
+        });
+    });
+
+    it("clears the complete saved-search availability tuple when all values are selected", () => {
+        const result = mapToBackendPatchUserSearchFilter({
+            search: {
+                q: "Lampe",
+                orderability: ["ORDERABLE_NOW"],
+                includeUnspecifiedAvailability: false,
+            },
+        });
+
+        expect(result.search).toMatchObject({
+            availability: null,
+            orderability: null,
+            includeUnspecifiedAvailability: null,
+        });
     });
 
     it("creates a search object for enhancedSearchDescription alone when no other search criteria change", () => {
@@ -250,11 +320,18 @@ describe("mapToBackendPatchUserSearchFilter", () => {
 });
 
 describe("isDefaultOrEmpty behaviour in mapToBackendCreateUserSearchFilter", () => {
-    it("omits shopType when set to full defaults", () => {
+    it("preserves canonical listing availability and source IDs", () => {
         const result = mapToBackendCreateUserSearchFilter({
             name: "Test",
-            search: { q: "", shopType: [...SHOP_TYPES] },
+            search: {
+                q: "",
+                availability: [...LISTING_AVAILABILITIES],
+                listingSourceId: ["source-1"],
+            },
         });
-        expect(result.search.shopType).toBeUndefined();
+        expect(result.search.availability).toEqual([...LISTING_AVAILABILITIES]);
+        expect(result.search.orderability).toBeNull();
+        expect(result.search.includeUnspecifiedAvailability).toBeNull();
+        expect(result.search.listingSourceId).toEqual(["source-1"]);
     });
 });

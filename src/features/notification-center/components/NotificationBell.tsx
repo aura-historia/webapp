@@ -37,7 +37,7 @@ export function NotificationBell({ triggerClassName }: NotificationBellProps = {
     const deleteAllNotifications = useDeleteAllNotifications();
     const [open, setOpen] = useState(false);
 
-    const allNotifications = data?.pages[0]?.items ?? [];
+    const allNotifications = data?.pages.flatMap((page) => page.items) ?? [];
     const notifications = allNotifications.slice(0, 5);
     const hasUnseenNotifications = allNotifications.some((n) => !n.seen);
 

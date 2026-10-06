@@ -1,3 +1,7 @@
+import { act } from "react";
+vi.mock("@/env", () => ({
+    env: { VITE_APP_URL: "https://aura-historia.com", VITE_FEATURE_LOGIN_ENABLED: false },
+}));
 vi.mock("lottie-react", () => ({
     Lottie: () => null,
 }));
@@ -5,7 +9,7 @@ vi.mock("lottie-react", () => ({
 import { screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { ProductSharer } from "@/features/product/detail/components/ProductSharer.tsx";
-import { renderWithQueryClient } from "@/test/utils.tsx";
+import { renderWithRouter } from "@/test/utils.tsx";
 
 describe("ProductSharer", () => {
     const defaultProps = {
@@ -38,14 +42,14 @@ describe("ProductSharer", () => {
         }
     });
 
-    it("should render the share button", () => {
-        renderWithQueryClient(<ProductSharer {...defaultProps} />);
+    it("should render the share button", async () => {
+        await act(async () => renderWithRouter(<ProductSharer {...defaultProps} />));
         expect(screen.getByRole("button", { name: "Produkt teilen" })).toBeInTheDocument();
     });
 
     it("should open popover when share button is clicked", async () => {
         const user = userEvent.setup();
-        renderWithQueryClient(<ProductSharer {...defaultProps} />);
+        await act(async () => renderWithRouter(<ProductSharer {...defaultProps} />));
 
         await user.click(screen.getByRole("button", { name: "Produkt teilen" }));
 
@@ -59,7 +63,7 @@ describe("ProductSharer", () => {
 
     it("should show copied state temporarily", async () => {
         const user = userEvent.setup();
-        renderWithQueryClient(<ProductSharer {...defaultProps} />);
+        await act(async () => renderWithRouter(<ProductSharer {...defaultProps} />));
 
         await user.click(screen.getByRole("button", { name: "Produkt teilen" }));
         await user.click(screen.getByText("Link kopieren"));
@@ -74,16 +78,20 @@ describe("ProductSharer", () => {
         );
     });
 
-    it("should render with outline variant when specified", () => {
-        renderWithQueryClient(<ProductSharer {...defaultProps} variant="outline" />);
+    it("should render with outline variant when specified", async () => {
+        await act(async () =>
+            renderWithRouter(<ProductSharer {...defaultProps} variant="outline" />),
+        );
 
         const shareButton = screen.getByRole("button", { name: "Produkt teilen" });
         expect(shareButton.className).toContain("border");
     });
 
-    it("should apply custom className when provided", () => {
+    it("should apply custom className when provided", async () => {
         const customClass = "custom-test-class";
-        renderWithQueryClient(<ProductSharer {...defaultProps} className={customClass} />);
+        await act(async () =>
+            renderWithRouter(<ProductSharer {...defaultProps} className={customClass} />),
+        );
 
         const shareButton = screen.getByRole("button", { name: "Produkt teilen" });
         expect(shareButton.className).toContain(customClass);

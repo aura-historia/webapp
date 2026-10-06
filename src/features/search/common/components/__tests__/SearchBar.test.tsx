@@ -223,7 +223,7 @@ describe("SearchBar", () => {
                 });
             });
             const trigger = screen.getByTestId("search-type-select");
-            expect(trigger).toHaveTextContent("Shops");
+            expect(trigger).toHaveTextContent("Anbieter");
         });
 
         it("can switch between products and shops", async () => {
@@ -232,9 +232,9 @@ describe("SearchBar", () => {
             });
             const trigger = screen.getByTestId("search-type-select");
             await user.click(trigger);
-            const shopsOption = await screen.findByRole("option", { name: "Shops" });
+            const shopsOption = await screen.findByRole("option", { name: "Anbieter" });
             await user.click(shopsOption);
-            expect(trigger).toHaveTextContent("Shops");
+            expect(trigger).toHaveTextContent("Anbieter");
         });
 
         it("passes resetKey products to animated placeholder by default", async () => {

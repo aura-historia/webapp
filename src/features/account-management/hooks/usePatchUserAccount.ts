@@ -10,6 +10,7 @@ import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { toast } from "sonner";
 import { USER_ACCOUNT_QUERY_KEY } from "@/features/account-management/api/accountQueryKeys.ts";
+import { isViewerScopedQuery } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
 
 export function useUpdateUserAccount(): UseMutationResult<
     UserAccountData,
@@ -32,13 +33,18 @@ export function useUpdateUserAccount(): UseMutationResult<
             return mapToInternalUserAccount(updateResponse.data);
         },
 
-        onSuccess: (updatedData) => {
+        onSuccess: async (updatedData) => {
+            const affectedQueries = {
+                predicate: ({ queryKey }: { queryKey: readonly unknown[] }) =>
+                    queryKey[0] !== USER_ACCOUNT_QUERY_KEY[0] && isViewerScopedQuery(queryKey),
+            };
+            await queryClient.cancelQueries(affectedQueries);
             queryClient.setQueryData(USER_ACCOUNT_QUERY_KEY, updatedData);
-            queryClient.invalidateQueries();
+            // Invalidation alone keeps previously visible content in the cache during refetch.
+            await queryClient.resetQueries(affectedQueries);
         },
 
         onError: (error) => {
-            console.error("[useUpdateUserAccount]", error);
             toast.error(error.message);
         },
     });

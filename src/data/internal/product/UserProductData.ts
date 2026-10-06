@@ -1,55 +1,49 @@
-import type { ProductUserStateData } from "@/client";
+import type { ProductListingUserStateData } from "@/client";
 
-export type SearchFilterProductData = {
-    readonly matched: boolean;
-    readonly hidden: boolean;
-    readonly matchFeedback?: boolean;
-    readonly matchReason?: string;
-    readonly userSearchFilterId?: string;
-    readonly userSearchFilterName?: string;
+/** Viewer-specific listing state after converting the personalized API wrapper. */
+export type ProductListingUserState = {
+    readonly watchlist: {
+        readonly watching: boolean;
+        readonly notifications: boolean;
+    };
+    readonly contentVisibility: {
+        readonly showUnassessedOrSensitiveContent: boolean;
+    };
+    readonly notification: {
+        readonly unseenNotificationIds: readonly string[];
+        readonly hasUnseenNotification: boolean;
+    };
+    readonly searchFilter: {
+        readonly matched: boolean;
+        readonly hidden: boolean;
+        readonly userSearchFilterId?: string;
+        readonly userSearchFilterName?: string;
+        readonly matchReason?: string;
+        readonly matchFeedback?: boolean;
+    };
 };
 
-export type UserProductData = {
-    readonly watchlistData: WatchlistProductData;
-    readonly notificationData: NotificationProductData;
-    readonly restrictedContentData: UserRestrictedContentData;
-    readonly searchFilterData?: SearchFilterProductData;
-};
+/** Maps personalized viewer state and derives unread status from its ID collection. */
+export function mapProductListingUserState(
+    apiData: ProductListingUserStateData | null | undefined,
+): ProductListingUserState | null | undefined {
+    if (apiData == null) return apiData;
 
-type WatchlistProductData = {
-    isWatching: boolean;
-    isNotificationEnabled: boolean;
-};
+    const unseenNotificationIds = [...apiData.notification.unseenNotificationIds];
 
-type NotificationProductData = {
-    hasUnseenNotification: boolean;
-    originEventId?: string;
-};
-
-type UserRestrictedContentData = {
-    consentGiven: boolean;
-};
-
-export function mapToInternalUserProductData(apiData: ProductUserStateData): UserProductData {
     return {
-        watchlistData: {
-            isWatching: apiData.watchlist.watching ?? false,
-            isNotificationEnabled: apiData.watchlist.notifications ?? false,
+        watchlist: {
+            watching: apiData.watchlist.watching,
+            notifications: apiData.watchlist.notifications,
         },
-        notificationData: {
-            hasUnseenNotification: !(apiData.notification?.seen ?? true),
-            originEventId: apiData.notification?.originEventId,
+        contentVisibility: {
+            showUnassessedOrSensitiveContent:
+                apiData.contentVisibility.showUnassessedOrSensitiveContent,
         },
-        restrictedContentData: {
-            consentGiven: apiData.prohibitedContent.consent ?? false,
+        notification: {
+            unseenNotificationIds,
+            hasUnseenNotification: unseenNotificationIds.length > 0,
         },
-        searchFilterData: {
-            matched: apiData.searchFilter.matched,
-            hidden: apiData.searchFilter.hidden,
-            matchFeedback: apiData.searchFilter.matchFeedback,
-            matchReason: apiData.searchFilter.matchReason,
-            userSearchFilterId: apiData.searchFilter.userSearchFilterId,
-            userSearchFilterName: apiData.searchFilter.userSearchFilterName,
-        },
+        searchFilter: { ...apiData.searchFilter },
     };
 }

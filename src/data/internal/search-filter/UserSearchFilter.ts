@@ -1,14 +1,15 @@
 import type {
     UserSearchFilterData,
-    ProductSearchData,
+    ProductListingSearchData,
     PostUserSearchFilterData,
-    PatchProductSearchData,
+    PatchProductListingSearchData,
     PatchUserSearchFilterData,
 } from "@/client";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import { parseProductState, mapToBackendState } from "@/data/internal/product/ProductState.ts";
-import { parseShopType, mapToBackendShopType } from "@/data/internal/shop/ShopType.ts";
-import { FILTER_DEFAULTS } from "@/features/search/products/lib/filterDefaults.ts";
+import { mapToBackendCurrency, parseCurrency } from "@/data/internal/common/Currency.ts";
+import { toMajorCurrencyAmount, toMinorCurrencyAmount } from "@/data/internal/price/Price.ts";
+import { parseListingAvailability } from "@/data/internal/product/ListingAvailability.ts";
+import { parseListingOrderability } from "@/data/internal/product/ListingOrderability.ts";
 import {
     parseResourceState,
     type ResourceState,
@@ -42,43 +43,63 @@ export type UserSearchFilterPatchData = {
 };
 
 export function mapProductSearchDataToSearchFilterArguments(
-    data: ProductSearchData,
+    data: ProductListingSearchData,
 ): SearchFilterArguments {
     return {
         q: data.productQuery?.[0] ?? "",
+        currency: data.currency ? parseCurrency(data.currency) : undefined,
         queryTerms: data.productQuery,
-        priceFrom: data.price?.min == null ? undefined : data.price.min / 100,
-        priceTo: data.price?.max == null ? undefined : data.price.max / 100,
-        allowedStates: data.state?.map((s) => parseProductState(s)),
+        priceFrom:
+            data.price?.min == null
+                ? undefined
+                : toMajorCurrencyAmount(data.price.min, data.currency ?? "EUR"),
+        priceTo:
+            data.price?.max == null
+                ? undefined
+                : toMajorCurrencyAmount(data.price.max, data.currency ?? "EUR"),
+        enhancedSearchDescription: data.enhancedSearchDescription ?? undefined,
+        excludeProductId: data.excludeProductId,
+        listingSourceId: data.listingSourceId,
+        excludeListingSourceId: data.excludeListingSourceId ?? undefined,
+        auctionId: data.auctionId ?? undefined,
+        availability: parseListingAvailability(data.availability),
+        orderability: parseListingOrderability(data.orderability),
+        includeUnspecifiedAvailability: data.includeUnspecifiedAvailability,
         creationDateFrom: data.created?.min ? new Date(data.created.min) : undefined,
         creationDateTo: data.created?.max ? new Date(data.created.max) : undefined,
         updateDateFrom: data.updated?.min ? new Date(data.updated.min) : undefined,
         updateDateTo: data.updated?.max ? new Date(data.updated.max) : undefined,
-        auctionDateFrom: data.auctionStart?.min ? new Date(data.auctionStart.min) : undefined,
-        auctionDateTo: data.auctionStart?.max ? new Date(data.auctionStart.max) : undefined,
-        merchant: data.shopName,
-        excludeMerchant: data.excludeShopName,
-        seller: data.sellerName,
-        excludeSeller: data.excludeSellerName,
-        shopType: data.shopType
-            ?.map((t) => parseShopType(t))
-            .filter((shopType): shopType is NonNullable<typeof shopType> => shopType != null),
+        auctionDateFrom: data.lotBiddingOpens?.min ? new Date(data.lotBiddingOpens.min) : undefined,
+        auctionDateTo: data.lotBiddingOpens?.max ? new Date(data.lotBiddingOpens.max) : undefined,
     };
 }
 
 export function mapSearchFilterArgumentsToProductSearchData(
     args: SearchFilterArguments,
-): ProductSearchData {
+): ProductListingSearchData {
+    const availabilityCriteria = mapAvailabilityCriteria(args);
     return {
+        currency: args.currency ? (mapToBackendCurrency(args.currency) ?? undefined) : undefined,
         productQuery: args.queryTerms?.length ? args.queryTerms : args.q ? [args.q] : [],
         price:
             args.priceFrom != null || args.priceTo != null
                 ? {
-                      min: args.priceFrom == null ? undefined : args.priceFrom * 100,
-                      max: args.priceTo == null ? undefined : args.priceTo * 100,
+                      min:
+                          args.priceFrom == null
+                              ? undefined
+                              : toMinorCurrencyAmount(args.priceFrom, args.currency ?? "EUR"),
+                      max:
+                          args.priceTo == null
+                              ? undefined
+                              : toMinorCurrencyAmount(args.priceTo, args.currency ?? "EUR"),
                   }
                 : undefined,
-        state: args.allowedStates?.map((s) => mapToBackendState(s)),
+        enhancedSearchDescription: args.enhancedSearchDescription,
+        excludeProductId: args.excludeProductId,
+        listingSourceId: args.listingSourceId,
+        excludeListingSourceId: args.excludeListingSourceId,
+        auctionId: args.auctionId,
+        ...availabilityCriteria,
         created:
             args.creationDateFrom != null || args.creationDateTo != null
                 ? {
@@ -93,20 +114,55 @@ export function mapSearchFilterArgumentsToProductSearchData(
                       max: args.updateDateTo?.toISOString(),
                   }
                 : undefined,
-        auctionStart:
+        lotBiddingOpens:
             args.auctionDateFrom != null || args.auctionDateTo != null
                 ? {
                       min: args.auctionDateFrom?.toISOString(),
                       max: args.auctionDateTo?.toISOString(),
                   }
                 : undefined,
-        shopName: args.merchant,
-        excludeShopName: args.excludeMerchant,
-        sellerName: args.seller,
-        excludeSellerName: args.excludeSeller,
-        shopType: args.shopType
-            ?.map((t) => mapToBackendShopType(t))
-            .filter((t): t is NonNullable<typeof t> => t !== undefined),
+    };
+}
+
+function mapAvailabilityCriteria(
+    args: SearchFilterArguments,
+): Pick<
+    ProductListingSearchData,
+    "availability" | "orderability" | "includeUnspecifiedAvailability"
+> {
+    if (args.availability == null) {
+        return {
+            availability: null,
+            orderability: null,
+            includeUnspecifiedAvailability: null,
+        };
+    }
+
+    return {
+        availability: args.availability,
+        orderability: args.orderability ?? null,
+        includeUnspecifiedAvailability: args.includeUnspecifiedAvailability ?? null,
+    };
+}
+
+function mapSearchFilterArgumentsToPatchProductSearchData(
+    args: SearchFilterArguments,
+): PatchProductListingSearchData {
+    const mapped = mapSearchFilterArgumentsToProductSearchData(args);
+    return {
+        currency: mapped.currency,
+        productQuery: mapped.productQuery,
+        enhancedSearchDescription: mapped.enhancedSearchDescription ?? null,
+        listingSourceId: mapped.listingSourceId ?? null,
+        excludeListingSourceId: mapped.excludeListingSourceId ?? [],
+        auctionId: mapped.auctionId ?? [],
+        price: mapped.price ?? null,
+        availability: mapped.availability ?? null,
+        orderability: mapped.orderability ?? null,
+        includeUnspecifiedAvailability: mapped.includeUnspecifiedAvailability ?? null,
+        created: mapped.created ?? null,
+        updated: mapped.updated ?? null,
+        lotBiddingOpens: mapped.lotBiddingOpens ?? null,
     };
 }
 
@@ -124,31 +180,15 @@ export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserS
     };
 }
 
-/**
- * Problem: The search page automatically sets premium filter fields (shopType) as default values
- * in the URL – even if the user has never used these fields before. If these are included when saving,
- * the API rejects the request for FREE users with a 422 SEARCH_FILTER_RESTRICTED_FEATURE error.
- *
- * Solution: Fields that match their default values are omitted (undefined).
- * Empty arrays ([] = nothing selected) cannot occur in the wizard due to requireSelection enforcement.
- */
-
 export function mapToBackendCreateUserSearchFilter(
     data: UserSearchFilterCreateData,
 ): PostUserSearchFilterData {
     const search = mapSearchFilterArgumentsToProductSearchData(data.search);
-    const arraysEqual = <T>(a: T[], b: T[]): boolean =>
-        a.length === b.length && a.every((v) => b.includes(v));
-    const isDefaultOrEmpty = (value: unknown[] | undefined, defaults: unknown[]) =>
-        !value?.length || arraysEqual(value, defaults);
     return {
         name: data.name,
         search: {
             ...search,
             enhancedSearchDescription: data.enhancedSearchDescription,
-            shopType: isDefaultOrEmpty(data.search.shopType, FILTER_DEFAULTS.shopType)
-                ? undefined
-                : search.shopType,
         },
     };
 }
@@ -156,10 +196,13 @@ export function mapToBackendCreateUserSearchFilter(
 export function mapToBackendPatchUserSearchFilter(
     data: UserSearchFilterPatchData,
 ): PatchUserSearchFilterData {
-    let search: PatchProductSearchData | undefined;
+    let search: PatchProductListingSearchData | undefined;
 
     if (data.search) {
-        search = mapSearchFilterArgumentsToProductSearchData(data.search);
+        const mapped = mapSearchFilterArgumentsToPatchProductSearchData(data.search);
+        search = {
+            ...mapped,
+        };
     }
 
     if (data.enhancedSearchDescription !== undefined) {

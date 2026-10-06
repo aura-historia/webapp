@@ -37,7 +37,7 @@ describe("apiError", () => {
                 isApiNotFoundError({
                     status: 404,
                     title: "Not Found",
-                    error: "PRODUCT_NOT_FOUND",
+                    error: "PRODUCT_LISTING_NOT_FOUND",
                     detail: "Product not found",
                 }),
             ).toBe(true);

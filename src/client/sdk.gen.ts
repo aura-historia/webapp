@@ -2,383 +2,743 @@
 
 import { type Client, type ClientMeta, type Options as Options2, type RequestResult, type TDataShape, urlSearchParamsBodySerializer } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminGetPartnerApplicationData, AdminGetPartnerApplicationErrors, AdminGetPartnerApplicationResponses, AdminGetPartnerApplicationsData, AdminGetPartnerApplicationsErrors, AdminGetPartnerApplicationsResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminPatchPartnerApplicationData, AdminPatchPartnerApplicationErrors, AdminPatchPartnerApplicationResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminPostPartnerApplicationDecisionData, AdminPostPartnerApplicationDecisionErrors, AdminPostPartnerApplicationDecisionResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, ComplexSearchProductsData, ComplexSearchProductsErrors, ComplexSearchProductsResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAllNotificationsData, DeleteAllNotificationsErrors, DeleteAllNotificationsResponses, DeleteMyAccessTokenData, DeleteMyAccessTokenErrors, DeleteMyAccessTokenResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteOAuthClientData, DeleteOAuthClientErrors, DeleteOAuthClientResponses, DeletePartnerApplicationData, DeletePartnerApplicationErrors, DeletePartnerApplicationResponses, DeletePartnerProductData, DeletePartnerProductErrors, DeletePartnerProductResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetCategoriesData, GetCategoriesErrors, GetCategoriesResponses, GetCategoryByIdData, GetCategoryByIdErrors, GetCategoryByIdResponses, GetMyAccessTokenData, GetMyAccessTokenErrors, GetMyAccessTokenResponses, GetMyAccessTokensData, GetMyAccessTokensErrors, GetMyAccessTokensResponses, GetMyPartnerShopsData, GetMyPartnerShopsErrors, GetMyPartnerShopsResponses, GetNotificationsData, GetNotificationsErrors, GetNotificationsResponses, GetOAuthClientData, GetOAuthClientErrors, GetOAuthClientResponses, GetOAuthClientsData, GetOAuthClientsErrors, GetOAuthClientsResponses, GetPartnerApplicationData, GetPartnerApplicationErrors, GetPartnerApplicationResponses, GetPartnerApplicationsData, GetPartnerApplicationsErrors, GetPartnerApplicationsResponses, GetPeriodByIdData, GetPeriodByIdErrors, GetPeriodByIdResponses, GetPeriodsData, GetPeriodsErrors, GetPeriodsResponses, GetProductBySlugData, GetProductBySlugErrors, GetProductBySlugResponses, GetProductData2, GetProductErrors, GetProductHistoryData, GetProductHistoryErrors, GetProductHistoryResponses, GetProductResponses, GetSearchFilterMatchesData, GetSearchFilterMatchesErrors, GetSearchFilterMatchesResponses, GetSearchFilterPreviewProductsData, GetSearchFilterPreviewProductsErrors, GetSearchFilterPreviewProductsResponses, GetShopByDomainData, GetShopByDomainErrors, GetShopByDomainResponses, GetShopByIdData, GetShopByIdErrors, GetShopByIdResponses, GetShopBySlugData, GetShopBySlugErrors, GetShopBySlugResponses, GetSimilarProductsData, GetSimilarProductsErrors, GetSimilarProductsResponses, GetUserAccountData2, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductsData, GetWatchlistProductsErrors, GetWatchlistProductsResponses, OauthAuthorizeData, OauthAuthorizeErrors, OauthIntrospectData, OauthIntrospectErrors, OauthIntrospectResponses, OauthRevokeData, OauthRevokeErrors, OauthRevokeResponses, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeErrors, OauthTokenByThirdPartyCodeResponses, OauthTokenData, OauthTokenErrors, OauthTokenResponses, PatchAllNotificationsData, PatchAllNotificationsErrors, PatchAllNotificationsResponses, PatchMyAccessTokenData, PatchMyAccessTokenErrors, PatchMyAccessTokenResponses, PatchNotificationData2, PatchNotificationErrors, PatchNotificationResponses, PatchOAuthClientData, PatchOAuthClientErrors, PatchOAuthClientResponses, PatchPartnerApplicationData, PatchPartnerApplicationErrors, PatchPartnerApplicationResponses, PatchPartnerProductsData, PatchPartnerProductsErrors, PatchPartnerProductsResponses, PatchShopByIdData, PatchShopByIdErrors, PatchShopByIdResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostMyAccessTokenData, PostMyAccessTokenErrors, PostMyAccessTokenResponses, PostOAuthClientData, PostOAuthClientErrors, PostOAuthClientResponses, PostPartnerApplicationData, PostPartnerApplicationErrors, PostPartnerApplicationResponses, PostPartnerProductsData, PostPartnerProductsErrors, PostPartnerProductsResponses, PostShopData2, PostShopErrors, PostShopResponses, PostWoocommerceWebhookData, PostWoocommerceWebhookErrors, PostWoocommerceWebhookResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductsData, PutPartnerProductsErrors, PutPartnerProductsResponses, SearchCategoriesData, SearchCategoriesErrors, SearchCategoriesResponses, SearchPeriodsData, SearchPeriodsErrors, SearchPeriodsResponses, SearchShopsData, SearchShopsErrors, SearchShopsResponses, SimpleSearchProductsData, SimpleSearchProductsErrors, SimpleSearchProductsResponses, SimpleSearchShopsData, SimpleSearchShopsErrors, SimpleSearchShopsResponses, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackErrors, UpdateSearchFilterMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminCreateListingSourceData, AdminCreateListingSourceErrors, AdminCreateListingSourceResponses, AdminCreateOAuthClientData, AdminCreateOAuthClientErrors, AdminCreateOAuthClientResponses, AdminCreatePartyData, AdminCreatePartyErrors, AdminCreatePartyResponses, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationErrors, AdminDecidePartnershipApplicationResponses, AdminDeleteListingSourceData, AdminDeleteListingSourceErrors, AdminDeleteListingSourceResponses, AdminDeleteOAuthClientData, AdminDeleteOAuthClientErrors, AdminDeleteOAuthClientResponses, AdminDeletePartyData, AdminDeletePartyErrors, AdminDeletePartyResponses, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenErrors, AdminDeleteUserAccessTokenResponses, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensErrors, AdminDeleteUserAccessTokensResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminDissolvePartnershipData, AdminDissolvePartnershipErrors, AdminDissolvePartnershipResponses, AdminGetListingSourceData, AdminGetListingSourceErrors, AdminGetListingSourceResponses, AdminGetOAuthClientData, AdminGetOAuthClientErrors, AdminGetOAuthClientResponses, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationErrors, AdminGetPartnershipApplicationResponses, AdminGetPartnershipData, AdminGetPartnershipErrors, AdminGetPartnershipResponses, AdminGetPartyData, AdminGetPartyErrors, AdminGetPartyResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceErrors, AdminGrantPartnershipListingSourceResponses, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipErrors, AdminGrantPartnershipMembershipResponses, AdminListOAuthClientsData, AdminListOAuthClientsErrors, AdminListOAuthClientsResponses, AdminListUserAccessTokensData, AdminListUserAccessTokensErrors, AdminListUserAccessTokensResponses, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewErrors, AdminMarkPartnershipApplicationInReviewResponses, AdminPatchOAuthClientData, AdminPatchOAuthClientErrors, AdminPatchOAuthClientResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceErrors, AdminRevokePartnershipListingSourceResponses, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipErrors, AdminRevokePartnershipMembershipResponses, AdminRevokeUserSessionsData, AdminRevokeUserSessionsErrors, AdminRevokeUserSessionsResponses, AdminSearchListingSourcesData, AdminSearchListingSourcesErrors, AdminSearchListingSourcesResponses, AdminSearchPartiesData, AdminSearchPartiesErrors, AdminSearchPartiesResponses, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsErrors, AdminSearchPartnershipApplicationsResponses, AdminSearchPartnershipsData, AdminSearchPartnershipsErrors, AdminSearchPartnershipsResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, AdminSuspendUserData, AdminSuspendUserErrors, AdminSuspendUserResponses, AdminUnsuspendUserData, AdminUnsuspendUserErrors, AdminUnsuspendUserResponses, AdminUpdateListingSourceData, AdminUpdateListingSourceErrors, AdminUpdateListingSourceResponses, AdminUpdatePartyData, AdminUpdatePartyErrors, AdminUpdatePartyResponses, CreateAdminAuctionData, CreateAdminAuctionErrors, CreateAdminAuctionResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAsyncPartnerProductListingsData, DeleteAsyncPartnerProductListingsErrors, DeleteAsyncPartnerProductListingsResponses, DeleteMyAccessTokenData, DeleteMyAccessTokenErrors, DeleteMyAccessTokenResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteNotificationsData, DeleteNotificationsErrors, DeleteNotificationsResponses, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationErrors, DeleteOwnPartnershipApplicationResponses, DeletePartnerProductListingsData, DeletePartnerProductListingsErrors, DeletePartnerProductListingsResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetAdminAuctionData, GetAdminAuctionErrors, GetAdminAuctionResponses, GetAdminOverviewData, GetAdminOverviewErrors, GetAdminOverviewResponses, GetAuctionCatalogueData, GetAuctionCatalogueErrors, GetAuctionCatalogueResponses, GetAuctionData, GetAuctionErrors, GetAuctionResponses, GetHealthData, GetHealthResponses, GetMyAccessTokenData, GetMyAccessTokenErrors, GetMyAccessTokenResponses, GetMyAccessTokensData, GetMyAccessTokensErrors, GetMyAccessTokensResponses, GetMyListingSourcesData, GetMyListingSourcesErrors, GetMyListingSourcesResponses, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsErrors, GetMyPartnershipApplicationsResponses, GetOAuthConsentClientData, GetOAuthConsentClientErrors, GetOAuthConsentClientResponses, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationErrors, GetOwnPartnershipApplicationResponses, GetProductListingByTitleSlugData, GetProductListingByTitleSlugErrors, GetProductListingByTitleSlugResponses, GetProductListingData, GetProductListingErrors, GetProductListingHistoryData, GetProductListingHistoryErrors, GetProductListingHistoryResponses, GetProductListingResponses, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugErrors, GetPublicListingSourceBySlugResponses, GetReadinessData, GetReadinessErrors, GetReadinessResponses, GetSimilarProductListingsData, GetSimilarProductListingsErrors, GetSimilarProductListingsResponses, GetUserAccountData, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductListingsData, GetWatchlistProductListingsErrors, GetWatchlistProductListingsResponses, ListAuctionsData, ListAuctionsErrors, ListAuctionsResponses, ListNotificationsData, ListNotificationsErrors, ListNotificationsResponses, ListSearchFilterMatchesData, ListSearchFilterMatchesErrors, ListSearchFilterMatchesResponses, OauthAuthorizeData, OauthAuthorizeErrors, OauthIntrospectData, OauthIntrospectErrors, OauthIntrospectResponses, OauthRevokeData, OauthRevokeErrors, OauthRevokeResponses, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeErrors, OauthTokenByThirdPartyCodeResponses, OauthTokenData, OauthTokenErrors, OauthTokenResponses, PatchAsyncPartnerProductListingsData, PatchAsyncPartnerProductListingsErrors, PatchAsyncPartnerProductListingsResponses, PatchMyAccessTokenData, PatchMyAccessTokenErrors, PatchMyAccessTokenResponses, PatchPartnerProductListingsData, PatchPartnerProductListingsErrors, PatchPartnerProductListingsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostAsyncPartnerProductListingsData, PostAsyncPartnerProductListingsErrors, PostAsyncPartnerProductListingsResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostMyAccessTokenData, PostMyAccessTokenErrors, PostMyAccessTokenResponses, PostPartnerProductListingsData, PostPartnerProductListingsErrors, PostPartnerProductListingsResponses, PostPartnershipApplicationData, PostPartnershipApplicationErrors, PostPartnershipApplicationResponses, PostWoocommerceWebhookData, PostWoocommerceWebhookErrors, PostWoocommerceWebhookResponses, PutAsyncPartnerProductListingsData, PutAsyncPartnerProductListingsErrors, PutAsyncPartnerProductListingsResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductListingsData, PutPartnerProductListingsErrors, PutPartnerProductListingsResponses, PutShopifyListingSourceIngestionConfigurationData2, PutShopifyListingSourceIngestionConfigurationErrors, PutShopifyListingSourceIngestionConfigurationResponses, PutWoocommerceListingSourceIngestionConfigurationData2, PutWoocommerceListingSourceIngestionConfigurationErrors, PutWoocommerceListingSourceIngestionConfigurationResponses, SearchPublicListingSourcesData, SearchPublicListingSourcesErrors, SearchPublicListingSourcesResponses, SimpleSearchProductListingsData, SimpleSearchProductListingsErrors, SimpleSearchProductListingsResponses, UpdateAdminAuctionData, UpdateAdminAuctionErrors, UpdateAdminAuctionResponses, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenErrors, UpdateAllNotificationsSeenResponses, UpdateNotificationSeenData2, UpdateNotificationSeenErrors, UpdateNotificationSeenResponses, UpdateNotificationsSeenData2, UpdateNotificationsSeenErrors, UpdateNotificationsSeenResponses, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackErrors, UpdateSearchFilterMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
-    /**
-     * You can provide a client instance returned by `createClient()` instead of
-     * individual options. This might be also useful if you want to implement a
-     * custom client.
-     */
-    client?: Client;
-    /**
-     * You can pass arbitrary values through the `meta` object. This can be
-     * used to access values that aren't defined as part of the SDK function.
-     */
-    meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
+  /**
+   * You can provide a client instance returned by `createClient()` instead of
+   * individual options. This might be also useful if you want to implement a
+   * custom client.
+   */
+  client?: Client;
+  /**
+   * You can pass arbitrary values through the `meta` object. This can be
+   * used to access values that aren't defined as part of the SDK function.
+   */
+  meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
 /**
- * Batch update products (Partner API)
+ * Check process liveness
  *
- * Updates one or more existing products for a shop using bearer authentication.
- * This endpoint is intended for partner shops and accepts:
- * - a Cognito bearer token for the partner user linked to the shop, or
- * - an Aura Historia access token owned by that partner user.
- *
- * Aura Historia access tokens on this endpoint must include the `products:write` scope.
- *
- * The request body is an array of `PatchProductData` objects. Only the fields provided in
- * each entry are updated; omitted optional fields are left unchanged. Each entry is forwarded
- * individually to the asynchronous partner-product ingestion queue.
- *
- * The response returns HTTP 202 with an array containing only the `shopsProductId` values
- * that failed to be forwarded to the queue. An empty array indicates that all updates were
- * accepted for asynchronous processing. Because persistence happens asynchronously, acceptance
- * does not guarantee that the referenced product currently exists or that the update will
- * later succeed.
- *
+ * Returns the fixed `ok` response without checking dependencies.
  */
-export const patchPartnerProducts = <ThrowOnError extends boolean = false>(options: Options<PatchPartnerProductsData, ThrowOnError>): RequestResult<PatchPartnerProductsResponses, PatchPartnerProductsErrors, ThrowOnError> => (options.client ?? client).patch<PatchPartnerProductsResponses, PatchPartnerProductsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'AccessTokenAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/shops/{shopId}/products',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+export const getHealth = <ThrowOnError extends boolean = false>(options?: Options<GetHealthData, ThrowOnError>): RequestResult<GetHealthResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetHealthResponses, unknown, ThrowOnError>({ url: '/api/v1/health', ...options });
+
+/**
+ * Check service readiness
+ *
+ * Returns no diagnostic body when readiness fails.
+ */
+export const getReadiness = <ThrowOnError extends boolean = false>(options?: Options<GetReadinessData, ThrowOnError>): RequestResult<GetReadinessResponses, GetReadinessErrors, ThrowOnError> => (options?.client ?? client).get<GetReadinessResponses, GetReadinessErrors, ThrowOnError>({ url: '/api/v1/ready', ...options });
+
+/**
+ * List public Auctions
+ */
+export const listAuctions = <ThrowOnError extends boolean = false>(options?: Options<ListAuctionsData, ThrowOnError>): RequestResult<ListAuctionsResponses, ListAuctionsErrors, ThrowOnError> => (options?.client ?? client).get<ListAuctionsResponses, ListAuctionsErrors, ThrowOnError>({ url: '/api/v1/auctions', ...options });
+
+/**
+ * Get public Auction detail
+ */
+export const getAuction = <ThrowOnError extends boolean = false>(options: Options<GetAuctionData, ThrowOnError>): RequestResult<GetAuctionResponses, GetAuctionErrors, ThrowOnError> => (options.client ?? client).get<GetAuctionResponses, GetAuctionErrors, ThrowOnError>({ url: '/api/v1/auctions/{auctionId}', ...options });
+
+/**
+ * Get public Auction catalogue
+ */
+export const getAuctionCatalogue = <ThrowOnError extends boolean = false>(options: Options<GetAuctionCatalogueData, ThrowOnError>): RequestResult<GetAuctionCatalogueResponses, GetAuctionCatalogueErrors, ThrowOnError> => (options.client ?? client).get<GetAuctionCatalogueResponses, GetAuctionCatalogueErrors, ThrowOnError>({ url: '/api/v1/auctions/{auctionId}/product-listings', ...options });
+
+/**
+ * Create a source-scoped Auction (admin)
+ */
+export const createAdminAuction = <ThrowOnError extends boolean = false>(options: Options<CreateAdminAuctionData, ThrowOnError>): RequestResult<CreateAdminAuctionResponses, CreateAdminAuctionErrors, ThrowOnError> => (options.client ?? client).post<CreateAdminAuctionResponses, CreateAdminAuctionErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/auctions',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
- * Batch create products (Partner API)
- *
- * Creates one or more products for a shop using bearer authentication.
- * This endpoint is intended for partner shops and accepts:
- * - a Cognito bearer token for the partner user linked to the shop, or
- * - an Aura Historia access token owned by that partner user.
- *
- * Aura Historia access tokens on this endpoint must include the `products:write` scope.
- *
- * The request body is an array of `PostProductData` objects. Each entry is forwarded
- * individually to the asynchronous partner-product ingestion queue.
- *
- * The response returns HTTP 202 with an array containing only the `shopsProductId` values
- * that failed to be forwarded to the queue. An empty array indicates that all products were
- * accepted for asynchronous processing.
- *
+ * Get Auction administration detail
  */
-export const postPartnerProducts = <ThrowOnError extends boolean = false>(options: Options<PostPartnerProductsData, ThrowOnError>): RequestResult<PostPartnerProductsResponses, PostPartnerProductsErrors, ThrowOnError> => (options.client ?? client).post<PostPartnerProductsResponses, PostPartnerProductsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'AccessTokenAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/shops/{shopId}/products',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+export const getAdminAuction = <ThrowOnError extends boolean = false>(options: Options<GetAdminAuctionData, ThrowOnError>): RequestResult<GetAdminAuctionResponses, GetAdminAuctionErrors, ThrowOnError> => (options.client ?? client).get<GetAdminAuctionResponses, GetAdminAuctionErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/auctions/{auctionId}',
+  ...options
 });
 
 /**
- * Batch upsert products (Partner API)
+ * Update Auction metadata (admin)
+ */
+export const updateAdminAuction = <ThrowOnError extends boolean = false>(options: Options<UpdateAdminAuctionData, ThrowOnError>): RequestResult<UpdateAdminAuctionResponses, UpdateAdminAuctionErrors, ThrowOnError> => (options.client ?? client).patch<UpdateAdminAuctionResponses, UpdateAdminAuctionErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/auctions/{auctionId}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Replace WooCommerce ListingSource ingestion configuration
  *
- * Creates new products or updates existing ones for a shop in a single batch call,
- * using bearer authentication. This endpoint is intended for partner shops and accepts:
- * - a Cognito bearer token for the partner user linked to the shop, or
- * - an Aura Historia access token owned by that partner user.
- *
- * Aura Historia access tokens on this endpoint must include the `products:write` scope.
- *
- * The request body is an array of `PutProductData` objects. Each entry is forwarded
- * individually to the asynchronous partner-product ingestion queue as an upsert command.
- * When the queued command is later ingested:
- * - **New product** — a full product is created using all provided fields. Omitting
- * `title`, `url`, or `state` causes the backend to fall back to an empty title,
- * a placeholder URL, and `LISTED` respectively.
- * - **Existing product** — the backend applies `price`, `priceEstimateMin`,
- * `priceEstimateMax`, `state`, `url`, `images`, `auctionStart`, and `auctionEnd`.
- * `title`, `description`, `sellerName`, `structuredAddress`, and `geoAddress`
- * are ignored on the update path.
- * - On the update path, omitting or sending `null` for `price`, `priceEstimateMin`,
- * `priceEstimateMax`, `url`, `auctionStart`, or `auctionEnd` leaves the stored value
- * unchanged.
- * - On the update path, `images` always replaces the stored image set; omitting
- * `images` or sending `null` is treated as an empty list and therefore clears all
- * stored images.
- *
- * The response returns HTTP 202 with an array containing only the `shopsProductId` values
- * that failed to be forwarded to the queue. An empty array indicates that all upserts were
- * accepted for asynchronous processing.
+ * Creates or completely replaces the WooCommerce ingestion configuration for a ListingSource.
+ * The caller must be a Cognito-authenticated user or Aura access token owner with Partnership
+ * write access to the source. Delegated Aura access tokens require `listing-sources:write`.
+ * This PUT atomically enables WOOCOMMERCE when needed. The webhook secret is required,
+ * nonblank, write-only, and never returned. Omitted or null currency and language clear those
+ * optional values. Repeating the same request is safe.
  *
  */
-export const putPartnerProducts = <ThrowOnError extends boolean = false>(options: Options<PutPartnerProductsData, ThrowOnError>): RequestResult<PutPartnerProductsResponses, PutPartnerProductsErrors, ThrowOnError> => (options.client ?? client).put<PutPartnerProductsResponses, PutPartnerProductsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'AccessTokenAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/shops/{shopId}/products',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+export const putWoocommerceListingSourceIngestionConfiguration = <ThrowOnError extends boolean = false>(options: Options<PutWoocommerceListingSourceIngestionConfigurationData2, ThrowOnError>): RequestResult<PutWoocommerceListingSourceIngestionConfigurationResponses, PutWoocommerceListingSourceIngestionConfigurationErrors, ThrowOnError> => (options.client ?? client).put<PutWoocommerceListingSourceIngestionConfigurationResponses, PutWoocommerceListingSourceIngestionConfigurationErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listingSourceId}/ingestion-configurations/woocommerce',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Replace Shopify ListingSource ingestion configuration
+ *
+ * Creates or completely replaces the Shopify ingestion configuration for a ListingSource.
+ * The caller must be a Cognito-authenticated user or Aura access token owner with Partnership
+ * write access to the source. Delegated Aura access tokens require `listing-sources:write`.
+ * This PUT atomically enables SHOPIFY when needed. The domain is validated and remains unique
+ * across configured sources. Omitted or null currency and language clear those optional values.
+ * Repeating the same request is safe.
+ *
+ */
+export const putShopifyListingSourceIngestionConfiguration = <ThrowOnError extends boolean = false>(options: Options<PutShopifyListingSourceIngestionConfigurationData2, ThrowOnError>): RequestResult<PutShopifyListingSourceIngestionConfigurationResponses, PutShopifyListingSourceIngestionConfigurationErrors, ThrowOnError> => (options.client ?? client).put<PutShopifyListingSourceIngestionConfigurationResponses, PutShopifyListingSourceIngestionConfigurationErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listingSourceId}/ingestion-configurations/shopify',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Batch delete product-listings (Partner API)
+ *
+ * Soft-deletes product-listings for a listing source. Each entry writes its product lifecycle delete event and
+ * materialized PostgreSQL state synchronously in its own transaction.
+ *
+ * Allowed callers are Aura Historia admins and users partnered with the target listing source. Aura
+ * Historia access tokens must include the `product-listings:write` scope.
+ *
+ * The request body is an array of product identifiers. The response returns HTTP 200 with
+ * failures as `{ listingSourceId, sourceListingId, error }` objects when one or more entries succeed.
+ * `error` is the stable API error key for that entry. If every non-empty entry fails, the first
+ * failure is returned as a problem response. An empty array is accepted and returns `[]`.
+ *
+ */
+export const deletePartnerProductListings = <ThrowOnError extends boolean = false>(options: Options<DeletePartnerProductListingsData, ThrowOnError>): RequestResult<DeletePartnerProductListingsResponses, DeletePartnerProductListingsErrors, ThrowOnError> => (options.client ?? client).delete<DeletePartnerProductListingsResponses, DeletePartnerProductListingsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listingSourceId}/product-listings',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Batch update product-listings (Partner API)
+ *
+ * Updates one or more existing product-listings for a listing source using bearer authentication.
+ * This endpoint is intended for partnerships and accepts:
+ * - a Cognito bearer token for the partner user linked to the listing source, or
+ * - an Aura Historia access token owned by that partner user.
+ *
+ * Aura Historia access tokens on this endpoint must include the `product-listings:write` scope.
+ * Allowed callers are Aura Historia admins and users partnered with the target listing source.
+ *
+ * The request body is an array of `UpdateProductListingData` objects. Omitted fields are unchanged;
+ * `null` clears availability and price. Omit `auction` to preserve its context; `auction: null`, `url: null`,
+ * and `images: null` return `400 BAD_BODY_VALUE`; send `[]` to remove all images. Within an asserted `auction`,
+ * omit a leaf to preserve it, send `null` to clear a clearable lot/timing leaf, or send a value to set it.
+ * `auction.auctionId` must name an existing Auction for this ListingSource. Omit it to preserve membership, send
+ * `null` to clear membership, or send an ID to set it. The complete batch contract is
+ * validated before any entry is applied synchronously in its own PostgreSQL transaction.
+ *
+ * The response returns HTTP 200 with failures as `{ listingSourceId, sourceListingId, error }` objects when
+ * one or more entries succeed. `error` is the stable API error key for that entry. If every non-empty entry fails, the first failure is returned
+ * as a problem response. An empty array is accepted and returns `[]`.
+ *
+ */
+export const patchPartnerProductListings = <ThrowOnError extends boolean = false>(options: Options<PatchPartnerProductListingsData, ThrowOnError>): RequestResult<PatchPartnerProductListingsResponses, PatchPartnerProductListingsErrors, ThrowOnError> => (options.client ?? client).patch<PatchPartnerProductListingsResponses, PatchPartnerProductListingsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listingSourceId}/product-listings',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Batch create product-listings (Partner API)
+ *
+ * Creates one or more product-listings for a listing source using bearer authentication.
+ * This endpoint is intended for partnerships and accepts:
+ * - a Cognito bearer token for the partner user linked to the listing source, or
+ * - an Aura Historia access token owned by that partner user.
+ *
+ * Aura Historia access tokens on this endpoint must include the `product-listings:write` scope.
+ * Allowed callers are Aura Historia admins and users partnered with the target listing source.
+ *
+ * The request body is an array of `CreateProductListingData` objects. Each entry is created
+ * synchronously in its own PostgreSQL transaction.
+ * Localized `title` and `description` are optional. Omit or send `null` when the source has no value to record.
+ *
+ * The response returns HTTP 200 with failures as `{ listingSourceId, sourceListingId, error }` objects when
+ * one or more entries succeed. `error` is the stable API error key for that entry. If every non-empty entry fails, the first failure is returned
+ * as a problem response. An empty array is accepted and returns `[]`.
+ *
+ */
+export const postPartnerProductListings = <ThrowOnError extends boolean = false>(options: Options<PostPartnerProductListingsData, ThrowOnError>): RequestResult<PostPartnerProductListingsResponses, PostPartnerProductListingsErrors, ThrowOnError> => (options.client ?? client).post<PostPartnerProductListingsResponses, PostPartnerProductListingsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listingSourceId}/product-listings',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Batch upsert product-listings (Partner API)
+ *
+ * Creates new product-listings or updates existing ones for a listing source in a single batch call,
+ * using bearer authentication. This endpoint is intended for partnerships and accepts:
+ * - a Cognito bearer token for the partner user linked to the listing source, or
+ * - an Aura Historia access token owned by that partner user.
+ *
+ * Aura Historia access tokens on this endpoint must include the `product-listings:write` scope.
+ * Allowed callers are Aura Historia admins and users partnered with the target listing source.
+ *
+ * The request body is an array of `UpsertProductListingData` objects. Each entry is upserted
+ * synchronously in its own PostgreSQL transaction. For each entry:
+ * - **New listing** — omitted or `null` availability, price, and estimates create no value; `auction` is omitted or an asserted nested Auction/lot-facts patch (not `null`).
+ * - **Existing listing** — availability, price, and each price estimate
+ *   are tri-state: omitted preserves, `null` clears, and a concrete value replaces. Omit `auction` to preserve it; `auction: null` is invalid. Within an asserted Auction/lot-facts patch, each lot/timing leaf is tri-state: omit to preserve, `null` to clear clearable leaves, or provide a value to set. `auctionId` must name an existing Auction for this ListingSource; omit it to preserve membership, send `null` to clear it, or send an ID to set it. A withdrawn
+ *   listing is restored before current facts apply.
+ * - `title` and `description` apply only on creation. For an
+ *   existing listing they preserve current state and emit no current-state history event.
+ * - `images` is separate: omit to preserve, send `[]` to clear, or send an array to replace.
+ *   `null` is invalid. `url` is non-clearable: omit or send `null` to preserve it; send a URL
+ *   value to replace it.
+ *
+ * The response returns HTTP 200 with failures as `{ listingSourceId, sourceListingId, error }` objects when
+ * one or more entries succeed. `error` is the stable API error key for that entry. If every non-empty entry fails, the first failure is returned
+ * as a problem response. An empty array is accepted and returns `[]`.
+ *
+ */
+export const putPartnerProductListings = <ThrowOnError extends boolean = false>(options: Options<PutPartnerProductListingsData, ThrowOnError>): RequestResult<PutPartnerProductListingsResponses, PutPartnerProductListingsErrors, ThrowOnError> => (options.client ?? client).put<PutPartnerProductListingsResponses, PutPartnerProductListingsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listingSourceId}/product-listings',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Submit a batch of product-listing withdrawals asynchronously (Partner API)
+ *
+ * Submits the same JSON array of up to 100 `WithdrawProductListingData` items as the
+ * synchronous DELETE, without changing that synchronous operation. Each item identifies
+ * a listing by `sourceListingId`; withdrawal is reversible, not physical deletion. Accepts
+ * a partner user's Cognito access JWT or Aura access token; delegated access requires
+ * `product-listings:write`. No client-supplied queue or authority metadata is accepted.
+ * After whole-request JSON/array/size validation, items are parsed and validated
+ * independently; invalid items do not prevent eligible siblings from being queued.
+ * Listing existence, partnership/source authority, lifecycle and other business conflicts
+ * are checked downstream, not as immediate item failures or a synchronous `404`.
+ *
+ * Only confirmed queue admission counts as accepted. `202` means admission, not an applied
+ * withdrawal, rollback, or immediate removal from public search. An unconfirmed send may
+ * already have been queued. `submissionId` is an opaque correlation identifier, not a job
+ * ID; there is no submission status endpoint, batch-level deduplication, or Location header.
+ * No synchronous deletion results or withdrawn listing IDs are returned.
+ *
+ * For a non-empty evaluated batch, at least one confirmed acceptance yields `202`, even
+ * with item failures. With zero accepted, an unconfirmed send or retryable send/deadline/FIFO
+ * blocked outcome yields `503`; otherwise internal/configuration failures yield `500`;
+ * otherwise all encoded-message-size failures yield `413`; remaining validation/value/size
+ * failures yield `400`. An empty array returns `202` after authentication and capability
+ * checks, with no sends. Every evaluated report uses the shared async batch JSON schema
+ * and echoes the effective `Idempotency-Key`, including non-2xx reports. Before evaluation,
+ * bad path/key, malformed JSON, non-array, empty text or over-100 array returns `400`;
+ * authentication `401`, insufficient capability `403`, whole-body/front-door limit `413`,
+ * and pre-evaluation internal/configuration or transient dependency failure `500` or `503`.
+ * These request-wide failures use `ApiError` and send nothing.
+ *
+ * Supply one `Idempotency-Key` for retries; a key is generated if omitted and echoed on
+ * evaluated responses. A lost response containing a generated key cannot be recovered.
+ * After transport uncertainty retry the exact unchanged ordered logical batch with the
+ * same key, including rejected items at their original zero-based indices; never compact,
+ * reorder or change its content under that key. Per-command downstream receipts deduplicate
+ * independently; the submission ID does not suppress the batch. Correct definitely invalid
+ * items separately with a new key, excluding accepted/uncertain siblings. A same-group
+ * eligible successor is blocked when its FIFO predecessor is unresolved; unrelated groups
+ * may still be accepted. FIFO covers shared-queue acceptance per group, not execution order.
+ *
+ */
+export const deleteAsyncPartnerProductListings = <ThrowOnError extends boolean = false>(options: Options<DeleteAsyncPartnerProductListingsData, ThrowOnError>): RequestResult<DeleteAsyncPartnerProductListingsResponses, DeleteAsyncPartnerProductListingsErrors, ThrowOnError> => (options.client ?? client).delete<DeleteAsyncPartnerProductListingsResponses, DeleteAsyncPartnerProductListingsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/async',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Submit a batch of product-listing updates asynchronously (Partner API)
+ *
+ * Submits the same JSON array of up to 100 `UpdateProductListingData` items as the
+ * synchronous PATCH. Accepts a partner user's Cognito access JWT or Aura access token;
+ * delegated access requires `product-listings:write`. No client-supplied queue or authority
+ * metadata is accepted. After whole-request JSON/array/size validation, each item is parsed
+ * and validated independently; invalid items do not prevent eligible siblings from being
+ * queued. The synchronous PATCH field rules apply: omit fields to preserve them; `null`
+ * clears availability, price, price estimates and clearable nested auction leaves; omit
+ * `auction` to preserve its context, or send an object to patch it. `auction: null`,
+ * `url: null` and `images: null` are invalid; `images: []` clears images. Omit
+ * `auction.auctionId` to preserve membership, use `null` to clear it or an ID to set it.
+ * A syntactically valid but missing listing or Auction, partnership/source authority,
+ * lifecycle and other business conflicts are checked downstream, not reported as immediate
+ * item failures or a synchronous `404`. Admission does not guarantee the patch is applied.
+ *
+ * Only confirmed queue admission counts as accepted. `202` means admission, not update
+ * completion, rollback, or immediate search visibility. An unconfirmed send may already
+ * have been queued. `submissionId` is an opaque correlation identifier, not a job ID:
+ * there is no submission status endpoint, batch-level deduplication, or Location header.
+ * No updated listing IDs or synchronous mutation results are returned.
+ *
+ * For a non-empty evaluated batch, at least one confirmed acceptance yields `202`, even
+ * with item failures. With zero accepted, any unconfirmed send or retryable send/deadline/FIFO
+ * blocked outcome yields `503`; otherwise internal/configuration failures yield `500`;
+ * otherwise all encoded-message-size failures yield `413`; remaining validation/value/size
+ * failures yield `400`. An empty array returns `202` after authentication and capability
+ * checks, with no sends. Every evaluated report uses the shared async batch JSON schema
+ * and echoes the effective `Idempotency-Key`, including non-2xx reports. Before item
+ * evaluation, bad path/key, malformed JSON, non-array, empty text, or over-100 array
+ * returns `400`; authentication `401`, insufficient capability `403`, whole-body/front-door
+ * limit `413`, and pre-evaluation internal/configuration or transient dependency failure
+ * `500` or `503`. These request-wide failures use `ApiError` and send nothing.
+ *
+ * Supply one `Idempotency-Key` for retries; a key is generated if omitted and echoed on
+ * evaluated responses. A lost response containing a generated key cannot be recovered.
+ * After transport uncertainty retry the exact unchanged ordered logical batch with the
+ * same key, including previously rejected entries at their original zero-based indices;
+ * never compact, reorder, or change its content under that key. Per-command downstream
+ * receipts deduplicate independently; the submission ID does not suppress the batch.
+ * Correct definitely invalid items in a separate request with a new key and do not include
+ * accepted/uncertain siblings. A same-group eligible successor is blocked when its FIFO
+ * predecessor is unresolved; unrelated groups may still be accepted. FIFO covers
+ * shared-queue acceptance per group, not cross-group or execution order.
+ *
+ */
+export const patchAsyncPartnerProductListings = <ThrowOnError extends boolean = false>(options: Options<PatchAsyncPartnerProductListingsData, ThrowOnError>): RequestResult<PatchAsyncPartnerProductListingsResponses, PatchAsyncPartnerProductListingsErrors, ThrowOnError> => (options.client ?? client).patch<PatchAsyncPartnerProductListingsResponses, PatchAsyncPartnerProductListingsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/async',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Submit a batch of product-listing creates asynchronously (Partner API)
+ *
+ * Submits the same JSON array of create objects as the synchronous POST, with up to 100
+ * original entries. Accepts a partner user's Cognito access JWT or Aura access token;
+ * delegated access requires `product-listings:write`. No client-supplied queue or authority
+ * metadata is accepted. Each entry is parsed and validated independently after whole-request
+ * JSON/array/size validation; invalid entries do not prevent eligible siblings from being
+ * Existing create field rules apply (including optional `title` and `description`, omitted/null availability,
+ * optional pricing, and invalid outer `auction: null`). A syntactically valid missing Auction,
+ * existing listing key, partnership/source authority, lifecycle, and other business
+ * conflicts are decided downstream, not reported as immediate item failures.
+ *
+ * Only confirmed queue admission counts as accepted. `202` means admission, not creation,
+ * completion, rollback, or immediate search visibility. An unconfirmed send may already
+ * have been queued. `submissionId` is an opaque correlation identifier, not a job ID:
+ * there is no submission status endpoint, batch-level deduplication, or Location header.
+ * No created listing IDs or synchronous mutation results are returned.
+ *
+ * For a non-empty evaluated batch, at least one confirmed acceptance yields `202`, even
+ * with item failures. With zero accepted, any unconfirmed send or retryable send/deadline/FIFO
+ * blocked outcome yields `503`; otherwise internal/configuration failures yield `500`;
+ * otherwise all encoded-message-size failures yield `413`; remaining validation/value/size
+ * failures yield `400`. An empty array returns `202` after authentication and capability
+ * checks, with no sends. Every evaluated report uses the same JSON schema and echoes the
+ * effective `Idempotency-Key`, including non-2xx reports. Before item evaluation, bad
+ * path/key, malformed JSON, non-array, empty text, or over-100 array returns `400`;
+ * authentication `401`, insufficient capability `403`, whole-body/front-door limit `413`,
+ * and pre-evaluation internal/configuration or transient dependency failure `500` or `503`.
+ * These request-wide failures use `ApiError` and send nothing.
+ *
+ * Supply one `Idempotency-Key` for retries; a key is generated if omitted and echoed
+ * on evaluated responses. A lost response containing a generated key cannot be recovered.
+ * After transport uncertainty retry the exact unchanged ordered logical batch with the
+ * same key, including previously rejected entries at their original zero-based indices;
+ * never compact, reorder, or change its content under that key. Per-command downstream
+ * receipts deduplicate independently; the submission ID does not suppress the batch.
+ * Correct definitely invalid items in a separate request with a new key and do not include
+ * accepted/uncertain siblings. A same-group eligible successor is blocked when its FIFO
+ * predecessor is unresolved; unrelated groups may still be accepted. FIFO covers
+ * shared-queue acceptance per group, not cross-group or execution order.
+ *
+ */
+export const postAsyncPartnerProductListings = <ThrowOnError extends boolean = false>(options: Options<PostAsyncPartnerProductListingsData, ThrowOnError>): RequestResult<PostAsyncPartnerProductListingsResponses, PostAsyncPartnerProductListingsErrors, ThrowOnError> => (options.client ?? client).post<PostAsyncPartnerProductListingsResponses, PostAsyncPartnerProductListingsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/async',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Submit a batch of product-listing upserts asynchronously (Partner API)
+ *
+ * Submits the same JSON array of up to 100 `UpsertProductListingData` items as the
+ * synchronous PUT. Accepts a partner user's Cognito access JWT or Aura access token;
+ * delegated access requires `product-listings:write`. No client-supplied queue or authority
+ * metadata is accepted. After whole-request JSON/array/size validation, items are parsed
+ * and validated independently; invalid items do not prevent eligible siblings from being
+ * queued. For a new listing, omitted or null availability, price and estimates create no
+ * value; `auction` may be omitted or asserted as an object, not null. For an existing
+ * listing, omitted availability, price, estimates and auction facts preserve their values;
+ * null clears clearable values and nested auction leaves. `auction.auctionId` may be omitted
+ * to preserve membership, null to clear it or an ID to set it. `images: []` clears images,
+ * while `images: null` and `auction: null` are invalid. An omitted or null `url` preserves
+ * an existing URL; a URL value replaces it. Title and description apply on creation only.
+ * Auction existence, listing state, partnership/source authority, lifecycle and other
+ * business conflicts are decided downstream, not as an
+ * immediate item failure or synchronous `404`.
+ *
+ * Only confirmed queue admission counts as accepted. `202` means admission, not an applied
+ * upsert, rollback, or immediate search visibility. An unconfirmed send may already have
+ * been queued. `submissionId` is an opaque correlation identifier, not a job ID; there is
+ * no submission status endpoint, batch-level deduplication, or Location header. No created
+ * or updated listing IDs or synchronous mutation results are returned.
+ *
+ * For a non-empty evaluated batch, at least one confirmed acceptance yields `202`, even
+ * with item failures. With zero accepted, an unconfirmed send or retryable send/deadline/FIFO
+ * blocked outcome yields `503`; otherwise internal/configuration failures yield `500`;
+ * otherwise all encoded-message-size failures yield `413`; remaining validation/value/size
+ * failures yield `400`. An empty array returns `202` after authentication and capability
+ * checks, with no sends. Every evaluated report uses the shared async batch JSON schema
+ * and echoes the effective `Idempotency-Key`, including non-2xx reports. Before evaluation,
+ * bad path/key, malformed JSON, non-array, empty text or over-100 array returns `400`;
+ * authentication `401`, insufficient capability `403`, whole-body/front-door limit `413`,
+ * and pre-evaluation internal/configuration or transient dependency failure `500` or `503`.
+ * These request-wide failures use `ApiError` and send nothing.
+ *
+ * Supply one `Idempotency-Key` for retries; a key is generated if omitted and echoed on
+ * evaluated responses. A lost response containing a generated key cannot be recovered.
+ * After transport uncertainty retry the exact unchanged ordered logical batch with the
+ * same key, including rejected items at their original zero-based indices; never compact,
+ * reorder or change its content under that key. Per-command downstream receipts deduplicate
+ * independently; the submission ID does not suppress the batch. Correct definitely invalid
+ * items separately with a new key, excluding accepted/uncertain siblings. A same-group
+ * eligible successor is blocked when its FIFO predecessor is unresolved; unrelated groups
+ * may still be accepted. FIFO covers shared-queue acceptance per group, not execution order.
+ *
+ */
+export const putAsyncPartnerProductListings = <ThrowOnError extends boolean = false>(options: Options<PutAsyncPartnerProductListingsData, ThrowOnError>): RequestResult<PutAsyncPartnerProductListingsResponses, PutAsyncPartnerProductListingsErrors, ThrowOnError> => (options.client ?? client).put<PutAsyncPartnerProductListingsResponses, PutAsyncPartnerProductListingsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/async',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
  * Ingest a WooCommerce product webhook (Partner API)
  *
- * Accepts a single WooCommerce product webhook event for a partner shop using bearer authentication.
- * This endpoint is intended for partner shops and accepts:
- * - a Cognito bearer token for the partner user linked to the shop, or
+ * Accepts a single WooCommerce product webhook event for a partnership using bearer authentication.
+ * This endpoint is intended for partnerships and accepts:
+ * - a Cognito bearer token for the partner user linked to the listing source, or
  * - an Aura Historia access token owned by that partner user.
  *
  * The caller must provide:
  * - the bearer token in the `Authorization` header,
  * - the WooCommerce topic in `x-wc-webhook-topic`, and
- * - the base64-encoded HMAC-SHA256 signature of the raw request body in `x-wc-webhook-signature`.
+ * - the base64-encoded HMAC-SHA256 signature over the exact, untouched request body bytes in `x-wc-webhook-signature`, and
+ * - optionally, the WooCommerce delivery identifier in `x-wc-webhook-delivery-id`.
+ *
+ * A supplied delivery identifier applies only when an event maps to raw capture. Its provider receipt retains only a
+ * canonical semantic source-payload SHA-256 evidence digest for 90 days. A captured-observation retry with the same
+ * digest may be deduplicated during downstream capture; reuse with different evidence fails in the consumer, not as an immediate HTTP `409`.
+ * Logical receipt expiry permits a new receipt but never removes or rewrites a captured raw revision or its provenance.
+ * A timestamp-free DELETE establishes a restore barrier. A later UPSERT without a provably newer `date_modified_gmt`
+ * fails during downstream capture (`WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS`), not as an immediate HTTP `409`. Admission does not create a provider receipt or raw revision; investigate the failed FIFO command before reconciliation or redrive.
+ * The service verifies the signature over untouched body bytes before JSON parsing, then submits mapped observations as `CAPTURE_RAW` to the shared FIFO after bearer/capability checks and source configuration lookup. The consumer checks the current partner/source grant for mapped observations; ignored no-ops check it immediately. Only a matching, confirmed queue acceptance permits `204`; rejected, oversized, unconfirmed, and not-attempted submissions are not acknowledged. The FIFO consumer later commits raw capture with the command receipt; provider receipt and source-order decisions occur during that capture. Authorized ignored create/update events are no-op `204` without queue send or receipt, even when they include a delivery identifier. Retry an uncertain submission with the same signed body, topic, source, actor and delivery identifier where provided; without a delivery identifier, retries cannot recover the original command identity after a lost reply and have no provider receipt-based deduplication guarantee. A lost reply may already have enqueued work; never infer rollback from a non-204.
  *
  * Topic-specific payload requirements:
- * - `product.created` and `product.updated` require `id`, `name`, and `permalink`
- * - `product.deleted` requires only `id`
+ * - every topic requires `id`
+ * - `product.created` and `product.updated` with `status: publish` capture an UPSERT and require nonblank
+ * `name` and `permalink`
+ * - `product.created` and `product.updated` with `status: trash`, `draft`, `pending`, or `private` capture a
+ * DELETE and require only `id`; missing or unsupported statuses are authorized ignored events and also require
+ * only `id`
+ * - `product.deleted` captures a DELETE and requires only `id`
  *
- * The shop identified by `shopId` must have a stored `woocommerceWebhookSecret`
- * and a configured `woocommerceLanguage`.
- * If a non-empty `price` is sent, the shop must also have `woocommerceCurrency` configured.
+ * The listing source identified by `listingSourceId` must have a WooCommerce ingestion configuration
+ * with a nonblank write-only `webhookSecret` and a configured language.
+ * A nonblank `price` maps to a `SET` and requires the listing source to have `woocommerceCurrency` configured.
  *
  */
 export const postWoocommerceWebhook = <ThrowOnError extends boolean = false>(options: Options<PostWoocommerceWebhookData, ThrowOnError>): RequestResult<PostWoocommerceWebhookResponses, PostWoocommerceWebhookErrors, ThrowOnError> => (options.client ?? client).post<PostWoocommerceWebhookResponses, PostWoocommerceWebhookErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'AccessTokenAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/webhooks/woocommerce/{shopId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/webhooks/woocommerce/{listingSourceId}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
- * Delete product (Partner API)
+ * Get a single product by title slug
  *
- * Soft-deletes a product for a shop. The endpoint writes a product lifecycle delete event
- * and marks the materialized DynamoDB product record as `DELETED` before returning `200`.
- *
- * Allowed callers are Aura Historia admins and users partnered with the target shop.
- * Aura Historia access tokens must include the `products:write` scope.
- *
+ * Retrieves an active ProductListing by its immutable Aura-owned `productListingTitleSlugId`, derived from its title. Withdrawn listings return `404 PRODUCT_LISTING_NOT_FOUND`; this endpoint never returns `410`. Anonymous successful 200 responses without Authorization use `public, max-age=0, s-maxage=120, stale-if-error=0`; any request with Authorization and all non-200 responses use `private, no-store`.
  */
-export const deletePartnerProduct = <ThrowOnError extends boolean = false>(options: Options<DeletePartnerProductData, ThrowOnError>): RequestResult<DeletePartnerProductResponses, DeletePartnerProductErrors, ThrowOnError> => (options.client ?? client).delete<DeletePartnerProductResponses, DeletePartnerProductErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'AccessTokenAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/shops/{shopId}/products/{shopsProductId}',
-    ...options
+export const getProductListingByTitleSlug = <ThrowOnError extends boolean = false>(options: Options<GetProductListingByTitleSlugData, ThrowOnError>): RequestResult<GetProductListingByTitleSlugResponses, GetProductListingByTitleSlugErrors, ThrowOnError> => (options.client ?? client).get<GetProductListingByTitleSlugResponses, GetProductListingByTitleSlugErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/product-listings/by-slug/{productListingTitleSlugId}',
+  ...options
 });
 
 /**
  * Get a single product
  *
- * Retrieves a single product by its shop ID and shop's product ID.
- * Returns localized content based on the optional `language` query parameter and currency preferences.
+ * Retrieves a single product by its `productListingId`. Withdrawn listings return `404 PRODUCT_LISTING_NOT_FOUND`; this endpoint never returns `410`.
  *
- * **Personalization**: When authenticated (via optional Authorization header), the response includes
- * user-specific state such as whether the product is on the user's watchlist and notification preferences.
- * Anonymous requests receive product data without user state.
+ * `pricing.source` preserves seller-supplied source amounts and currencies. `pricing.display` contains
+ * HalfUp-converted amounts in the requested currency, and `pricing.valuation` identifies the persisted
+ * snapshot used. A sold Product may have no main price; then display prices are omitted while its immutable
+ * `SALE` valuation remains present. Currency defaults to `EUR`.
+ *
+ * Anonymous responses use freshness caching only: no `ETag` or `Last-Modified` validator is emitted because
+ * current display pricing may change when the selected persisted FX snapshot changes. An anonymous successful 200 response without Authorization uses `public, max-age=0, s-maxage=120, stale-if-error=0`; any request with Authorization and all non-200 responses use `private, no-store`.
+ *
+ * Responses always contain `item`, the product data. A valid user or delegated-user bearer token
+ * adds optional top-level `userState`; credential-bearing responses are not cached.
  *
  */
-export const getProduct = <ThrowOnError extends boolean = false>(options: Options<GetProductData2, ThrowOnError>): RequestResult<GetProductResponses, GetProductErrors, ThrowOnError> => (options.client ?? client).get<GetProductResponses, GetProductErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/shops/{shopId}/products/{shopsProductId}',
-    ...options
+export const getProductListing = <ThrowOnError extends boolean = false>(options: Options<GetProductListingData, ThrowOnError>): RequestResult<GetProductListingResponses, GetProductListingErrors, ThrowOnError> => (options.client ?? client).get<GetProductListingResponses, GetProductListingErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/product-listings/{productListingId}',
+  ...options
 });
 
 /**
- * Get a single product by slug
+ * Get ProductListing history
  *
- * Retrieves a single product by its shop slug ID and product slug ID.
- * Returns localized content based on the optional `language` query parameter and currency preferences.
- *
- * **Human-Readable Identifiers**: This endpoint uses slug-based identifiers which are human-readable
- * kebab-case strings. Shop slugs are derived from the shop name (e.g., "tech-store-premium"),
- * while product slugs combine the product title with a unique 6-character hexadecimal suffix
- * (e.g., "amazing-product-fa87c4").
- *
- * **Personalization**: When authenticated (via optional Authorization header), the response includes
- * user-specific state such as whether the product is on the user's watchlist and notification preferences.
- * Anonymous requests receive product data without user state.
+ * Retrieves immutable domain history for one ProductListing by `productListingId`.
+ * Each array item is one committed `PRODUCT_LISTING_DISCOVERED` or `PRODUCT_LISTING_CHANGED` event, ordered by occurrence time and event ID. A changed item contains a deterministic ordered `changes` array; it is never split into synthetic entries. Discovery exposes image count, never source image URLs.
+ * Price snapshots preserve stored source amounts and currencies. Sale observations retain their immutable source provenance. This endpoint performs no currency conversion.
  *
  */
-export const getProductBySlug = <ThrowOnError extends boolean = false>(options: Options<GetProductBySlugData, ThrowOnError>): RequestResult<GetProductBySlugResponses, GetProductBySlugErrors, ThrowOnError> => (options.client ?? client).get<GetProductBySlugResponses, GetProductBySlugErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/by-slug/shops/{shopSlugId}/products/{productSlugId}',
-    ...options
-});
+export const getProductListingHistory = <ThrowOnError extends boolean = false>(options: Options<GetProductListingHistoryData, ThrowOnError>): RequestResult<GetProductListingHistoryResponses, GetProductListingHistoryErrors, ThrowOnError> => (options.client ?? client).get<GetProductListingHistoryResponses, GetProductListingHistoryErrors, ThrowOnError>({ url: '/api/v1/product-listings/{productListingId}/history', ...options });
 
 /**
- * Get product event history
+ * Get similar product-listings
  *
- * Retrieves the event history for a specific product by its shop ID and shop's product ID.
- * Returns an array of events representing state changes, price changes, and other significant
- * product lifecycle events, ordered chronologically.
+ * Retrieves product-listings similar to the specified product using KNN search over text embeddings.
+ * When the product embedding is ready, the endpoint returns matching product-listings. If it is absent,
+ * the endpoint returns `202 Accepted` with a polling location.
  *
- * Returns localized content based on the optional `language` query parameter and currency preferences for
- * price information in the event payloads.
- *
- */
-export const getProductHistory = <ThrowOnError extends boolean = false>(options: Options<GetProductHistoryData, ThrowOnError>): RequestResult<GetProductHistoryResponses, GetProductHistoryErrors, ThrowOnError> => (options.client ?? client).get<GetProductHistoryResponses, GetProductHistoryErrors, ThrowOnError>({ url: '/api/v1/shops/{shopId}/products/{shopsProductId}/history', ...options });
-
-/**
- * Get similar products
- *
- * Retrieves products similar to the specified product using semantic search based on text embeddings.
- * Returns localized content based on the optional `language` query parameter and currency preferences.
- *
- * **Personalization**: When authenticated (via optional Authorization header), the response includes
- * user-specific state for each similar product (watchlist status, notifications).
- * Anonymous requests receive product data without user state.
- *
- * **Asynchronous Processing**: If the product's text embedding has not yet been computed (typically for
- * products created less than 24 hours ago), the endpoint returns 202 Accepted with a Location header
- * to poll. The embedding generation runs nightly via batch processing.
+ * Ready entries return `displayPrice` in the requested currency and `priceValuation` metadata.
+ * Active ProductListings use one persisted snapshot pinned for the request; sold ProductListings use immutable
+ * sale-time values. Every ready entry contains `item`; a valid user or delegated-user bearer token adds
+ * `userState`. Ready anonymous 200 responses without Authorization use `public, max-age=0, s-maxage=300, stale-if-error=0`; any request with Authorization uses `private, no-store`. The `202 EmbeddingPending` response and all errors are always `private, no-store`.
  *
  */
-export const getSimilarProducts = <ThrowOnError extends boolean = false>(options: Options<GetSimilarProductsData, ThrowOnError>): RequestResult<GetSimilarProductsResponses, GetSimilarProductsErrors, ThrowOnError> => (options.client ?? client).get<GetSimilarProductsResponses, GetSimilarProductsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/shops/{shopId}/products/{shopsProductId}/similar',
-    ...options
+export const getSimilarProductListings = <ThrowOnError extends boolean = false>(options: Options<GetSimilarProductListingsData, ThrowOnError>): RequestResult<GetSimilarProductListingsResponses, GetSimilarProductListingsErrors, ThrowOnError> => (options.client ?? client).get<GetSimilarProductListingsResponses, GetSimilarProductListingsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/product-listings/{productListingId}/similar',
+  ...options
 });
 
 /**
  * Simple product search via query parameters
  *
- * Performs product search using query parameters instead of a JSON request body.
- * This is the cache-friendly equivalent of `POST /api/v1/products/search`.
- * It supports sorting, cursor pagination, and product personalization (when authenticated).
- *
- * Required query parameters for this simple-search mode are:
- * - `language`
- * - `currency`
- *
- * Additional optional filters from `ProductSearchData` are also supported as query parameters
- * using the same field names:
- * - `excludeProductId`
- * - `shopName`
- * - `excludeShopName`
- * - `sellerName`
- * - `excludeSellerName`
- * - `shopSlugId`
- * - `excludeShopSlugId`
- * - `sellerSlugId`
- * - `excludeSellerSlugId`
- * - `shopType`
- * - `country`
- * - `continent`
- * - `geoAddress[lat]`, `geoAddress[lon]`, `geoAddress[distance][amount]`, `geoAddress[distance][unit]`
- * - `price[min]`, `price[max]`
- * - `state`
- * - `created[min]`, `created[max]`
- * - `updated[min]`, `updated[max]`
- * - `auctionStart[min]`, `auctionStart[max]`
- * - `auctionEnd[min]`, `auctionEnd[max]`
- *
+ * Performs canonical ProductListing search with query parameters. Text queries combine BM25 and embedding KNN retrieval when embedding generation succeeds; otherwise the backend falls back to BM25. Explicit non-score sorts use BM25. Any request with an Authorization header is private and not stored, including valid credentials that add user state. Anonymous successful 200 responses use `public, max-age=0, s-maxage=60, stale-if-error=0`; errors use `private, no-store`. `language` defaults to `en` and `currency` defaults to `EUR`.
  */
-export const simpleSearchProducts = <ThrowOnError extends boolean = false>(options: Options<SimpleSearchProductsData, ThrowOnError>): RequestResult<SimpleSearchProductsResponses, SimpleSearchProductsErrors, ThrowOnError> => (options.client ?? client).get<SimpleSearchProductsResponses, SimpleSearchProductsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/products',
-    ...options
-});
-
-/**
- * Complex product search
- *
- * Performs an advanced search for products using a comprehensive search filter.
- * This endpoint accepts a ProductSearchData object in the request body,
- * allowing for complex filtering by multiple criteria simultaneously.
- * Returns a paginated collection of products matching the search criteria.
- *
- * **Personalization**: When authenticated (via optional Authorization header), the response includes
- * user-specific state for each product such as whether it's on the user's watchlist and notification preferences.
- * Anonymous requests receive product data without user state.
- *
- */
-export const complexSearchProducts = <ThrowOnError extends boolean = false>(options: Options<ComplexSearchProductsData, ThrowOnError>): RequestResult<ComplexSearchProductsResponses, ComplexSearchProductsErrors, ThrowOnError> => (options.client ?? client).post<ComplexSearchProductsResponses, ComplexSearchProductsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/products/search',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+export const simpleSearchProductListings = <ThrowOnError extends boolean = false>(options?: Options<SimpleSearchProductListingsData, ThrowOnError>): RequestResult<SimpleSearchProductListingsResponses, SimpleSearchProductListingsErrors, ThrowOnError> => (options?.client ?? client).get<SimpleSearchProductListingsResponses, SimpleSearchProductListingsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/product-listings',
+  ...options
 });
 
 /**
  * List user search filters
  *
  * Retrieves all search filters for the authenticated user.
- * Results can be optionally sorted by creation date.
- * Requires valid Cognito JWT authentication.
+ * Uses the service's fixed collection ordering.
+ * Requires a Cognito JWT or an Aura access token with `search-filters:write`.
  *
  */
 export const getUserSearchFilters = <ThrowOnError extends boolean = false>(options?: Options<GetUserSearchFiltersData, ThrowOnError>): RequestResult<GetUserSearchFiltersResponses, GetUserSearchFiltersErrors, ThrowOnError> => (options?.client ?? client).get<GetUserSearchFiltersResponses, GetUserSearchFiltersErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/search-filters',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/search-filters',
+  ...options
 });
 
 /**
@@ -387,26 +747,30 @@ export const getUserSearchFilters = <ThrowOnError extends boolean = false>(optio
  * Creates a new search filter for the authenticated user.
  * The search filter configuration is provided in the request body.
  * Returns the created search filter with generated ID and metadata.
- * Requires valid Cognito JWT authentication.
+ * Requires a Cognito JWT or an Aura access token with `search-filters:write`.
  *
  * The number of allowed search filters and the set of usable search filter fields depend on the user's tier:
- * - `FREE`: Up to 1 search filter. Only the following filter fields are allowed: `productQuery`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+ * - `FREE`: Up to 1 search filter. Allowed fields are `productQuery`, `price`, `state`, `excludeProductId`, and `lifecycle`. Other fields are forbidden and return `SEARCH_FILTER_RESTRICTED_FEATURE`.
  * - `PRO`: Up to 5 search filters. All filter fields are allowed.
  * - `ULTIMATE`: Unlimited search filters. All filter fields are allowed.
  *
  */
 export const createUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<CreateUserSearchFilterData, ThrowOnError>): RequestResult<CreateUserSearchFilterResponses, CreateUserSearchFilterErrors, ThrowOnError> => (options.client ?? client).post<CreateUserSearchFilterResponses, CreateUserSearchFilterErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/search-filters',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/search-filters',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -414,17 +778,21 @@ export const createUserSearchFilter = <ThrowOnError extends boolean = false>(opt
  *
  * Deletes a specific search filter by its ID for the authenticated user.
  * The search filter must exist and belong to the authenticated user.
- * Requires valid Cognito JWT authentication.
+ * Requires a Cognito JWT or an Aura access token with `search-filters:write`.
  *
  */
 export const deleteUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<DeleteUserSearchFilterData, ThrowOnError>): RequestResult<DeleteUserSearchFilterResponses, DeleteUserSearchFilterErrors, ThrowOnError> => (options.client ?? client).delete<DeleteUserSearchFilterResponses, DeleteUserSearchFilterErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/search-filters/{userSearchFilterId}',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/search-filters/{userSearchFilterId}',
+  ...options
 });
 
 /**
@@ -432,98 +800,74 @@ export const deleteUserSearchFilter = <ThrowOnError extends boolean = false>(opt
  *
  * Retrieves a specific search filter by its ID for the authenticated user.
  * Returns the complete search filter configuration and metadata.
- * Requires valid Cognito JWT authentication.
+ * Requires a Cognito JWT or an Aura access token with `search-filters:write`.
  *
  */
 export const getUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<GetUserSearchFilterData, ThrowOnError>): RequestResult<GetUserSearchFilterResponses, GetUserSearchFilterErrors, ThrowOnError> => (options.client ?? client).get<GetUserSearchFilterResponses, GetUserSearchFilterErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/search-filters/{userSearchFilterId}',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/search-filters/{userSearchFilterId}',
+  ...options
 });
 
 /**
  * Update a search filter
  *
  * Updates a specific search filter by its ID for the authenticated user.
- * Allows partial updates - only provided fields will be modified.
- * If no fields are provided in the request body, returns the existing search filter unchanged.
- * Requires valid Cognito JWT authentication.
+ * Allows partial updates: omitted members remain unchanged, documented nullable criteria
+ * accept `null` to clear, and `null` for required scalars or collections returns `400 BAD_BODY_VALUE`.
+ * `{}` returns the existing search filter unchanged; an empty HTTP body is invalid.
+ * Requires a Cognito JWT or an Aura access token with `search-filters:write`.
  *
  * The set of usable search filter fields depends on the user's tier:
- * - `FREE`: Only the following filter fields are allowed: `productQuery`, `price`, `state`. All other fields are forbidden and will return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+ * - `FREE`: Allowed fields are `productQuery`, `price`, `state`, `excludeProductId`, and `lifecycle`. Other fields are forbidden and return `SEARCH_FILTER_RESTRICTED_FEATURE`.
  * - `PRO`: All filter fields are allowed.
  * - `ULTIMATE`: All filter fields are allowed.
  *
  */
 export const updateUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<UpdateUserSearchFilterData, ThrowOnError>): RequestResult<UpdateUserSearchFilterResponses, UpdateUserSearchFilterErrors, ThrowOnError> => (options.client ?? client).patch<UpdateUserSearchFilterResponses, UpdateUserSearchFilterErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/search-filters/{userSearchFilterId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/search-filters/{userSearchFilterId}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
- * Preview product matches for a saved search filter
+ * List persisted matches for a saved search filter
  *
- * Previews products that would match the authenticated user's saved search filter using the same
- * percolator-style query semantics used by search-filter product-match processing. The request only
- * controls response localization (`language`, `currency`).
- *
- * Client-driven pagination is not supported. The endpoint always returns a fixed preview of up to
- * 10 products and rejects `size` or `searchAfter` query parameters with `BAD_QUERY_PARAMETER_VALUE`.
- *
- * When the saved search filter contains `search.enhancedSearchDescription` and enhanced matching is available,
- * the backend re-evaluates each candidate product for this specific filter. Products rejected by enhanced
- * matching are omitted from the preview; accepted products expose the live result in
- * `userState.searchFilter`:
- * - `matched` (`true`)
- * - `hidden` (always `false` in this flow)
- * - optional `matchReason`
- *
- * In that enhanced flow, `userSearchFilterId`, `userSearchFilterName`, and `matchFeedback` are omitted
- * from `userState.searchFilter`.
- *
- * Requires valid Cognito JWT authentication.
- *
+ * Returns persisted product-listing matches associated with the authenticated user’s saved search filter. Results are read from stored match state and returned with cursor-based pagination in ascending persisted match-creation order. This endpoint does not execute a live search or preview the filter against current product listings.
+ * Requires a Cognito JWT or an Aura access token with `search-filters:write`.
  */
-export const getSearchFilterPreviewProducts = <ThrowOnError extends boolean = false>(options: Options<GetSearchFilterPreviewProductsData, ThrowOnError>): RequestResult<GetSearchFilterPreviewProductsResponses, GetSearchFilterPreviewProductsErrors, ThrowOnError> => (options.client ?? client).get<GetSearchFilterPreviewProductsResponses, GetSearchFilterPreviewProductsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/search-filters/{userSearchFilterId}/products',
-    ...options
-});
-
-/**
- * List products matched by a search filter
- *
- * Retrieves the persisted matched-product list for the given saved search filter and authenticated user.
- * Results are paginated using search-after cursor-based pagination sorted by match creation time.
- * Mirrors the behavior of `GET /api/v1/me/watchlist`.
- * Requires valid Cognito JWT authentication.
- *
- */
-export const getSearchFilterMatches = <ThrowOnError extends boolean = false>(options: Options<GetSearchFilterMatchesData, ThrowOnError>): RequestResult<GetSearchFilterMatchesResponses, GetSearchFilterMatchesErrors, ThrowOnError> => (options.client ?? client).get<GetSearchFilterMatchesResponses, GetSearchFilterMatchesErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/search-filters/{userSearchFilterId}/matches',
-    ...options
+export const listSearchFilterMatches = <ThrowOnError extends boolean = false>(options: Options<ListSearchFilterMatchesData, ThrowOnError>): RequestResult<ListSearchFilterMatchesResponses, ListSearchFilterMatchesErrors, ThrowOnError> => (options.client ?? client).get<ListSearchFilterMatchesResponses, ListSearchFilterMatchesErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/search-filters/{userSearchFilterId}/matches',
+  ...options
 });
 
 /**
@@ -531,8 +875,8 @@ export const getSearchFilterMatches = <ThrowOnError extends boolean = false>(opt
  *
  * Updates the authenticated user's feedback for a specific product match created by one of
  * their saved search filters.
- * The match is addressed by the search filter ID, shop ID, and shop-specific product ID.
- * Requires valid Cognito JWT authentication.
+ * The match is addressed by the search filter ID and canonical product ID.
+ * Requires a Cognito JWT or an Aura access token with `search-filters:write`.
  *
  * The request body itself is required and must be a JSON object, but the `feedback` field is optional:
  * - `{"feedback": true}` marks the match as relevant.
@@ -541,140 +885,564 @@ export const getSearchFilterMatches = <ThrowOnError extends boolean = false>(opt
  *
  */
 export const updateSearchFilterMatchFeedback = <ThrowOnError extends boolean = false>(options: Options<UpdateSearchFilterMatchFeedbackData, ThrowOnError>): RequestResult<UpdateSearchFilterMatchFeedbackResponses, UpdateSearchFilterMatchFeedbackErrors, ThrowOnError> => (options.client ?? client).patch<UpdateSearchFilterMatchFeedbackResponses, UpdateSearchFilterMatchFeedbackErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/search-filters/{userSearchFilterId}/matches/{shopId}/{shopsProductId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/search-filters/{userSearchFilterId}/matches/{productListingId}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
- * List user's watchlist products
+ * List user's watchlist product-listings
  *
- * Retrieves all products in the authenticated user's watchlist.
- * Results are paginated using search-after cursor-based pagination with timestamp.
- * Requires valid Cognito JWT authentication.
+ * Retrieves all product-listings in the authenticated user's watchlist in watchlist creation order.
+ * Each result contains current product data and complete user-specific state.
+ * Accepts Cognito JWT authentication or an Aura Historia access token with `watchlist:read`.
  *
  */
-export const getWatchlistProducts = <ThrowOnError extends boolean = false>(options?: Options<GetWatchlistProductsData, ThrowOnError>): RequestResult<GetWatchlistProductsResponses, GetWatchlistProductsErrors, ThrowOnError> => (options?.client ?? client).get<GetWatchlistProductsResponses, GetWatchlistProductsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/watchlist',
-    ...options
+export const getWatchlistProductListings = <ThrowOnError extends boolean = false>(options?: Options<GetWatchlistProductListingsData, ThrowOnError>): RequestResult<GetWatchlistProductListingsResponses, GetWatchlistProductListingsErrors, ThrowOnError> => (options?.client ?? client).get<GetWatchlistProductListingsResponses, GetWatchlistProductListingsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/watchlist',
+  ...options
 });
 
 /**
  * Add product to watchlist
  *
  * Adds a product to the authenticated user's watchlist.
- * The request body must contain the shop ID and shop's product ID.
- * Each user is limited to a maximum of 5 watchlist products. If the user already has 5 products
- * in their watchlist, adding another will result in a 422 Unprocessable Entity error.
- * Returns a 201 Created response with a Location header pointing to the created resource and the full personalized product data.
- * Requires valid Cognito JWT authentication.
+ * The request body requires canonical `productListingId` and may set `notifications`; notifications default to `true`.
+ * Active-entry quota depends on the user's tier: Free users may have 20, Pro users 100,
+ * and Ultimate users have no active-entry limit. Adding beyond the active quota returns
+ * a 422 Unprocessable Entity error.
+ * Returns the created `WatchlistEntryData`.
+ * Requires a Cognito JWT or an Aura access token with `watchlist:write`.
  *
  */
 export const addWatchlistProduct = <ThrowOnError extends boolean = false>(options: Options<AddWatchlistProductData, ThrowOnError>): RequestResult<AddWatchlistProductResponses, AddWatchlistProductErrors, ThrowOnError> => (options.client ?? client).post<AddWatchlistProductResponses, AddWatchlistProductErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/watchlist',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/watchlist',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Search ListingSources as admin
+ *
+ * Searches ListingSource records for authenticated administrators.
+ *
+ * `query` performs a case-insensitive substring search across the ListingSource name and
+ * stable slug, and also the operator Party name and slug. `name` restricts the substring
+ * match to the ListingSource name. `listingSourceId` and `listingSourceSlugId` are exact
+ * identity filters. `operatorPartyId` and `ingestionMethod` are exact filters.
+ *
+ * Results use deterministic cursor pagination. The default sort is `name` ascending;
+ * override it by providing both `sort` and `order`. Valid sort fields are `name`, `slug`,
+ * `created`, and `updated`; ListingSource ID is always the final deterministic tie-breaker.
+ * Page sizes are clamped to 1–100, with a default of 21. The returned ListingSource ID `searchAfter`
+ * cursor is omitted on the terminal page and should be sent with the same filters and sort.
+ * Responses always use `Cache-Control: no-store`.
+ *
+ * The result contains only safe business-resource fields: ListingSource identity and name,
+ * operator Party reference, active ingestion methods, presentation URLs, and referral summary.
+ * Provider credentials, webhook secrets, and crawler-local configuration are never returned.
+ *
+ */
+export const adminSearchListingSources = <ThrowOnError extends boolean = false>(options?: Options<AdminSearchListingSourcesData, ThrowOnError>): RequestResult<AdminSearchListingSourcesResponses, AdminSearchListingSourcesErrors, ThrowOnError> => (options?.client ?? client).get<AdminSearchListingSourcesResponses, AdminSearchListingSourcesErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/listing-sources',
+  ...options
+});
+
+/**
+ * Create a ListingSource as admin
+ *
+ * Creates a ListingSource for an authenticated administrator.
+ *
+ * `operator` accepts either an existing Party reference (`EXISTING` with `partyId`) or a
+ * new Party with name and optional contact details (`NEW`). Ingestion configuration,
+ * provider uniqueness, presentation, and referral validation remain service-owned.
+ * A WooCommerce ingestion configuration carries its required `webhookSecret` as a write-only
+ * member; it is never returned or logged.
+ *
+ */
+export const adminCreateListingSource = <ThrowOnError extends boolean = false>(options: Options<AdminCreateListingSourceData, ThrowOnError>): RequestResult<AdminCreateListingSourceResponses, AdminCreateListingSourceErrors, ThrowOnError> => (options.client ?? client).post<AdminCreateListingSourceResponses, AdminCreateListingSourceErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/listing-sources',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Search parties as admin
+ *
+ * Searches Party records for authenticated administrators.
+ *
+ * `query` performs a case-insensitive substring search across Party name, phone, and email.
+ * `name`, `phone`, and `email` restrict the substring match to one contact/name field.
+ * `created` and `updated` accept inclusive RFC3339 ranges using `min` and `max` query members.
+ *
+ * Results use deterministic cursor pagination. The default sort is `name` ascending;
+ * override it by providing both `sort` and `order`. Valid sort fields are `name`, `email`,
+ * `phone`, `created`, and `updated`; Party ID is always the final deterministic tie-breaker.
+ * Page sizes are clamped to 1–100, with a default of 21. The returned ListingSource ID `searchAfter`
+ * cursor is omitted on the terminal page and should be sent with the same filters and sort.
+ * Responses always use `Cache-Control: no-store` because contact data is returned.
+ *
+ */
+export const adminSearchParties = <ThrowOnError extends boolean = false>(options?: Options<AdminSearchPartiesData, ThrowOnError>): RequestResult<AdminSearchPartiesResponses, AdminSearchPartiesErrors, ThrowOnError> => (options?.client ?? client).get<AdminSearchPartiesResponses, AdminSearchPartiesErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/parties',
+  ...options
+});
+
+/**
+ * Create a Party as admin
+ *
+ * Creates a Party for an authenticated administrator.
+ *
+ * The request accepts only the Party name and optional phone/email contact information.
+ * Party names trim outer Unicode whitespace, reject blank values, and reject values over 255
+ * UTF-8 bytes. The Party slug is generated once from the canonical name and stable Party ID;
+ * it remains immutable if the Party is renamed later.
+ *
+ */
+export const adminCreateParty = <ThrowOnError extends boolean = false>(options: Options<AdminCreatePartyData, ThrowOnError>): RequestResult<AdminCreatePartyResponses, AdminCreatePartyErrors, ThrowOnError> => (options.client ?? client).post<AdminCreatePartyResponses, AdminCreatePartyErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/parties',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Hard-delete an unused Party as admin
+ *
+ * Deletes only an unused Party after commit. A Party with any ListingSource or retained
+ * Partnership, including `DISSOLVED`, returns `409 CONFLICT`; no dependent business or
+ * historical row is cascaded, detached, rewritten, or archived. Responses use
+ * `Cache-Control: no-store` and this operation accepts no request body.
+ *
+ */
+export const adminDeleteParty = <ThrowOnError extends boolean = false>(options: Options<AdminDeletePartyData, ThrowOnError>): RequestResult<AdminDeletePartyResponses, AdminDeletePartyErrors, ThrowOnError> => (options.client ?? client).delete<AdminDeletePartyResponses, AdminDeletePartyErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/parties/{partyId}',
+  ...options
+});
+
+/**
+ * Get a Party as admin
+ *
+ * Gets one Party for an authenticated administrator.
+ *
+ * `partyId` must be a valid Party ID. The response contains the Party identity, immutable slug,
+ * name, optional phone/email contact information, and creation/update timestamps.
+ * Responses always use `Cache-Control: no-store` because contact data is returned.
+ *
+ */
+export const adminGetParty = <ThrowOnError extends boolean = false>(options: Options<AdminGetPartyData, ThrowOnError>): RequestResult<AdminGetPartyResponses, AdminGetPartyErrors, ThrowOnError> => (options.client ?? client).get<AdminGetPartyResponses, AdminGetPartyErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/parties/{partyId}',
+  ...options
+});
+
+/**
+ * Update a Party as admin
+ *
+ * Updates the name and/or contact information for a Party for an authenticated administrator.
+ *
+ * Only `name`, `phone`, and `email` are supported. Omitted members remain unchanged;
+ * `null` clears `phone` or `email`; `name` is not nullable and `name: null` is rejected.
+ * Party names trim outer Unicode whitespace, reject blank values, and reject values over 255
+ * UTF-8 bytes. Renaming a Party never changes its immutable slug.
+ *
+ * The response is the resulting Party representation and uses `Cache-Control: no-store`
+ * because contact data is returned. An empty object is a valid no-op PATCH; an empty HTTP
+ * body is invalid.
+ *
+ */
+export const adminUpdateParty = <ThrowOnError extends boolean = false>(options: Options<AdminUpdatePartyData, ThrowOnError>): RequestResult<AdminUpdatePartyResponses, AdminUpdatePartyErrors, ThrowOnError> => (options.client ?? client).patch<AdminUpdatePartyResponses, AdminUpdatePartyErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/parties/{partyId}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
  * Search users as admin
  *
  * Searches users across all accounts for authenticated administrators.
- * Omitting all filters lists users using the default `email` ascending order.
- * Supplying any of `query`, `email`, `firstName`, or `lastName`
- * switches the default ordering to relevance (`score`) descending unless
- * both `sort` and `order` are explicitly provided.
- *
- * The generic `query` performs fuzzy matching across `email`, `firstName`,
- * `lastName`, and `stripeCustomerId`.
- * Structured-address filters are also available via `country`, `continent`, and `geoAddress`.
+ * Text filters use case-insensitive substring matching. `query` searches email,
+ * first name, and last name; `email`, `firstName`, and `lastName` restrict the
+ * match to one field. `tier` and `role` filters use exact values.
+ * Results use deterministic keyset pagination. The default sort is `name` ascending;
+ * override it by providing both `sort` and `order`. Every sort uses `userId` as a
+ * deterministic tie-breaker. This response always uses `Cache-Control: no-store`.
  *
  */
 export const adminSearchUsers = <ThrowOnError extends boolean = false>(options?: Options<AdminSearchUsersData, ThrowOnError>): RequestResult<AdminSearchUsersResponses, AdminSearchUsersErrors, ThrowOnError> => (options?.client ?? client).get<AdminSearchUsersResponses, AdminSearchUsersErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/users',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/users',
+  ...options
 });
 
 /**
  * Delete a user as admin
  *
  * Deletes a user account for authenticated administrators.
- * The backend first removes the user from Cognito and then deletes the persisted user record.
+ * Cognito JWTs and Aura Historia access tokens are accepted; delegated access tokens require `users:write`.
+ * The caller's persisted user role must be `ADMIN`; this authorization is enforced in the User service.
+ * PostgreSQL synchronously cascades user-owned access tokens, OAuth authorization codes, watchlist entries, saved-search filters and matches, notifications, partnership memberships, and partnership applications.
+ * The final active administrator cannot be deleted, including through a self-targeted admin request.
  *
  */
 export const adminDeleteUser = <ThrowOnError extends boolean = false>(options: Options<AdminDeleteUserData, ThrowOnError>): RequestResult<AdminDeleteUserResponses, AdminDeleteUserErrors, ThrowOnError> => (options.client ?? client).delete<AdminDeleteUserResponses, AdminDeleteUserErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/users/{userId}',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/users/{userId}',
+  ...options
 });
 
 /**
  * Get a user as admin
  *
  * Retrieves a single user account by user ID for authenticated administrators.
- * The response includes `Last-Modified` and `Cache-Control: no-store` headers.
+ * Cognito JWTs and Aura Historia access tokens are accepted; delegated access tokens require `users:read`.
+ * The response always sends `Cache-Control: no-store`.
  *
  */
 export const adminGetUser = <ThrowOnError extends boolean = false>(options: Options<AdminGetUserData, ThrowOnError>): RequestResult<AdminGetUserResponses, AdminGetUserErrors, ThrowOnError> => (options.client ?? client).get<AdminGetUserResponses, AdminGetUserErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/users/{userId}',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/users/{userId}',
+  ...options
 });
 
 /**
  * Update a user as admin
  *
  * Partially updates a user account for authenticated administrators.
+ * Cognito JWTs and Aura Historia access tokens are accepted; delegated access tokens require `users:write`.
+ * The caller's persisted user role must be `ADMIN`; this authorization is enforced in the service layer.
  * All request fields are optional, but the request body itself must be present and non-empty.
+ * Send only one logical change category per request: profile/preferences fields, `role`, or `tier`.
  * An empty JSON object (`{}`) is accepted and returns the existing user unchanged.
+ * Demoting the last active administrator is rejected with `409 CONFLICT`.
  *
  */
 export const adminPatchUser = <ThrowOnError extends boolean = false>(options: Options<AdminPatchUserData, ThrowOnError>): RequestResult<AdminPatchUserResponses, AdminPatchUserErrors, ThrowOnError> => (options.client ?? client).patch<AdminPatchUserResponses, AdminPatchUserErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/users/{userId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/users/{userId}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Reactivate a user as admin
+ *
+ * Removes the durable suspension state for the explicit target user. No request body is accepted.
+ *
+ * Cognito JWTs and Aura Historia access tokens are accepted. The caller's persisted user role
+ * must be `ADMIN`; delegated Aura Historia access tokens must also have `users:write`.
+ * Authorization is enforced in the User service, not only at the HTTP route.
+ *
+ * `userId` must be a valid User ID and the target user must exist. Reactivation is idempotent: a
+ * repeated request for an active user returns its active state without another write. The
+ * operation changes only suspension state; it preserves the user's profile, tier, role,
+ * credentials, and partnership relationships. Once committed, valid existing credentials can
+ * authenticate normally again. Every response sends `Cache-Control: no-store`.
+ *
+ */
+export const adminUnsuspendUser = <ThrowOnError extends boolean = false>(options: Options<AdminUnsuspendUserData, ThrowOnError>): RequestResult<AdminUnsuspendUserResponses, AdminUnsuspendUserErrors, ThrowOnError> => (options.client ?? client).delete<AdminUnsuspendUserResponses, AdminUnsuspendUserErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/users/{userId}/suspension',
+  ...options
+});
+
+/**
+ * Suspend a user as admin
+ *
+ * Suspends the explicit target user with an administrator-supplied reason.
+ *
+ * Cognito JWTs and Aura Historia access tokens are accepted. The caller's persisted user role
+ * must be `ADMIN`; delegated Aura Historia access tokens must also have `users:write`.
+ * Authorization is enforced in the User service, not only at the HTTP route.
+ *
+ * `userId` must be a valid User ID. `reason` is required, must not be empty or whitespace-only, and
+ * is limited to 1,000 bytes. It is emitted to structured operational logs, so it must not
+ * contain tokens, passwords, credentials, or other secrets. Common credential markers are
+ * rejected.
+ * Suspension is idempotent: a repeated request returns the target's suspended state. The final
+ * active administrator cannot be suspended. Once committed, a suspended user is rejected as
+ * `401 INVALID_CREDENTIALS` by all later Cognito JWT and Aura access-token authentication.
+ * Every response sends `Cache-Control: no-store`.
+ *
+ */
+export const adminSuspendUser = <ThrowOnError extends boolean = false>(options: Options<AdminSuspendUserData, ThrowOnError>): RequestResult<AdminSuspendUserResponses, AdminSuspendUserErrors, ThrowOnError> => (options.client ?? client).put<AdminSuspendUserResponses, AdminSuspendUserErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/users/{userId}/suspension',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Revoke a user's Cognito sessions as admin
+ *
+ * Invalidates the explicit target user's Cognito sessions with Cognito global sign-out. No request body is accepted.
+ *
+ * Cognito JWTs and Aura Historia access tokens are accepted. The caller's persisted user role
+ * must be `ADMIN`; delegated Aura Historia access tokens must also have `users:write`.
+ * Authorization and the target-user check are enforced in the User service, not only at the
+ * HTTP route. The PostgreSQL authorization check completes before the external Cognito call.
+ *
+ * `userId` must be a valid User ID and the target user must exist. Cognito global sign-out is safe to
+ * retry: it succeeds when there are no active sessions. The operation does not change the
+ * Aura user's profile, tier, role, suspension state, Aura access tokens, or partnerships.
+ * Every response sends `Cache-Control: no-store`.
+ *
+ */
+export const adminRevokeUserSessions = <ThrowOnError extends boolean = false>(options: Options<AdminRevokeUserSessionsData, ThrowOnError>): RequestResult<AdminRevokeUserSessionsResponses, AdminRevokeUserSessionsErrors, ThrowOnError> => (options.client ?? client).post<AdminRevokeUserSessionsResponses, AdminRevokeUserSessionsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/users/{userId}/sessions/revoke',
+  ...options
+});
+
+/**
+ * Revoke all of a user's Aura Historia access tokens as admin
+ *
+ * Revokes all Aura Historia access tokens owned by the target user in one atomic PostgreSQL transaction.
+ *
+ * Cognito JWTs and Aura Historia access tokens are accepted. The caller's persisted user role
+ * must be `ADMIN`; delegated Aura Historia access tokens must also have `access-tokens:write`.
+ * Authorization is enforced in the User service, not only at the HTTP route.
+ *
+ * `userId` must be a valid User ID and the target user must exist. An existing user with no tokens and
+ * a repeated request both return `204 No Content`; a missing target user returns `404 USER_NOT_FOUND`.
+ * Deletion is scoped to the target user, leaves unrelated users' tokens untouched, and committed
+ * deletion makes the revoked credentials fail authentication. It never reveals raw token values or hashes.
+ *
+ */
+export const adminDeleteUserAccessTokens = <ThrowOnError extends boolean = false>(options: Options<AdminDeleteUserAccessTokensData, ThrowOnError>): RequestResult<AdminDeleteUserAccessTokensResponses, AdminDeleteUserAccessTokensErrors, ThrowOnError> => (options.client ?? client).delete<AdminDeleteUserAccessTokensResponses, AdminDeleteUserAccessTokensErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/users/{userId}/access-tokens',
+  ...options
+});
+
+/**
+ * List a user's Aura Historia access-token metadata as admin
+ *
+ * Lists non-secret Aura Historia access-token metadata for the explicit target user.
+ *
+ * Cognito JWTs and Aura Historia access tokens are accepted. The caller's persisted user role
+ * must be `ADMIN`; delegated Aura Historia access tokens must also have `access-tokens:read`.
+ * Authorization is enforced in the User service, not only at the HTTP route.
+ *
+ * `userId` must be a valid User ID and the target user must exist. Expired and current tokens are included.
+ * Results use bounded keyset pagination in fixed `created ASC, AccessToken ID ASC` order.
+ * Page sizes are clamped to 1–100, with a default of 21. `searchAfter` is a JSON-encoded
+ * `[created RFC3339 timestamp, AccessToken ID]` cursor and is omitted on the terminal page.
+ * The cursor's creation timestamp is used only for continuation and is not returned as item metadata.
+ * Raw token values, token hashes, and masked token values are never returned.
+ *
+ */
+export const adminListUserAccessTokens = <ThrowOnError extends boolean = false>(options: Options<AdminListUserAccessTokensData, ThrowOnError>): RequestResult<AdminListUserAccessTokensResponses, AdminListUserAccessTokensErrors, ThrowOnError> => (options.client ?? client).get<AdminListUserAccessTokensResponses, AdminListUserAccessTokensErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/users/{userId}/access-tokens',
+  ...options
+});
+
+/**
+ * Revoke a user's Aura Historia access token as admin
+ *
+ * Revokes one Aura Historia access token for the target user.
+ *
+ * Cognito JWTs and Aura Historia access tokens are accepted. The caller's persisted user role
+ * must be `ADMIN`; delegated Aura Historia access tokens must also have `access-tokens:write`.
+ * Authorization is enforced in the User service, not only at the HTTP route.
+ *
+ * Both `userId` and `accessTokenId` must be valid User and AccessToken IDs, respectively. The database deletion is scoped by both
+ * identifiers, so an access-token ID belonging to another user cannot revoke that user's
+ * credential. The operation is idempotent: it returns `204 No Content` when the token was
+ * deleted, was already absent, or belongs to another user. It never reveals raw token values
+ * or hashes.
+ *
+ */
+export const adminDeleteUserAccessToken = <ThrowOnError extends boolean = false>(options: Options<AdminDeleteUserAccessTokenData, ThrowOnError>): RequestResult<AdminDeleteUserAccessTokenResponses, AdminDeleteUserAccessTokenErrors, ThrowOnError> => (options.client ?? client).delete<AdminDeleteUserAccessTokenResponses, AdminDeleteUserAccessTokenErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/users/{userId}/access-tokens/{accessTokenId}',
+  ...options
 });
 
 /**
@@ -682,35 +1450,40 @@ export const adminPatchUser = <ThrowOnError extends boolean = false>(options: Op
  *
  * Permanently deletes the authenticated user's account.
  * The deletion is performed synchronously and the access token is immediately invalidated upon success.
- * Requires valid Cognito JWT authentication.
+ * Cognito JWTs and Aura Historia access tokens are accepted; delegated access tokens require `users:write`.
+ * The last active administrator cannot be deleted.
  *
  */
 export const deleteUser = <ThrowOnError extends boolean = false>(options?: Options<DeleteUserData, ThrowOnError>): RequestResult<DeleteUserResponses, DeleteUserErrors, ThrowOnError> => (options?.client ?? client).delete<DeleteUserResponses, DeleteUserErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me',
+  ...options
 });
 
 /**
  * Get user account data
  *
  * Retrieves the authenticated user's account information including email, name, language and currency preferences,
- * the consent flag for displaying prohibited content, the user's subscription tier, and the user's role.
+ * the `showUnassessedOrSensitiveContent` preference, the user's subscription tier, and the user's role.
  * Requires valid Cognito JWT authentication.
  *
  */
-export const getUserAccount = <ThrowOnError extends boolean = false>(options?: Options<GetUserAccountData2, ThrowOnError>): RequestResult<GetUserAccountResponses, GetUserAccountErrors, ThrowOnError> => (options?.client ?? client).get<GetUserAccountResponses, GetUserAccountErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/account',
-    ...options
+export const getUserAccount = <ThrowOnError extends boolean = false>(options?: Options<GetUserAccountData, ThrowOnError>): RequestResult<GetUserAccountResponses, GetUserAccountErrors, ThrowOnError> => (options?.client ?? client).get<GetUserAccountResponses, GetUserAccountErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/account',
+  ...options
 });
 
 /**
@@ -724,17 +1497,17 @@ export const getUserAccount = <ThrowOnError extends boolean = false>(options?: O
  *
  */
 export const updateUserAccount = <ThrowOnError extends boolean = false>(options: Options<UpdateUserAccountData, ThrowOnError>): RequestResult<UpdateUserAccountResponses, UpdateUserAccountErrors, ThrowOnError> => (options.client ?? client).patch<UpdateUserAccountResponses, UpdateUserAccountErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/account',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/account',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -746,35 +1519,36 @@ export const updateUserAccount = <ThrowOnError extends boolean = false>(options:
  *
  */
 export const getMyAccessTokens = <ThrowOnError extends boolean = false>(options?: Options<GetMyAccessTokensData, ThrowOnError>): RequestResult<GetMyAccessTokensResponses, GetMyAccessTokensErrors, ThrowOnError> => (options?.client ?? client).get<GetMyAccessTokensResponses, GetMyAccessTokensErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/access-tokens',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/access-tokens',
+  ...options
 });
 
 /**
  * Update an Aura Historia access token
  *
- * Updates metadata for one access token owned by the authenticated user.
- * Omitted or `null` optional properties leave the existing value unchanged.
+ * Updates metadata for one access token owned by the authenticated user. Omitted properties
+ * remain unchanged; `expires: null` clears expiry. `name` and `scopes` reject `null`; use
+ * `scopes: []` to clear scopes.
  * Requires valid Cognito JWT authentication.
  *
  */
 export const patchMyAccessToken = <ThrowOnError extends boolean = false>(options: Options<PatchMyAccessTokenData, ThrowOnError>): RequestResult<PatchMyAccessTokenResponses, PatchMyAccessTokenErrors, ThrowOnError> => (options.client ?? client).patch<PatchMyAccessTokenResponses, PatchMyAccessTokenErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/access-tokens',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/access-tokens',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -786,17 +1560,17 @@ export const patchMyAccessToken = <ThrowOnError extends boolean = false>(options
  *
  */
 export const postMyAccessToken = <ThrowOnError extends boolean = false>(options: Options<PostMyAccessTokenData, ThrowOnError>): RequestResult<PostMyAccessTokenResponses, PostMyAccessTokenErrors, ThrowOnError> => (options.client ?? client).post<PostMyAccessTokenResponses, PostMyAccessTokenErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/access-tokens',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/access-tokens',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -804,17 +1578,22 @@ export const postMyAccessToken = <ThrowOnError extends boolean = false>(options:
  *
  * Deletes one access token owned by the authenticated user.
  * The token to delete is identified by the required `{accessTokenId}` path parameter.
- * Requires valid Cognito JWT authentication.
+ * Cognito JWTs and Aura Historia access tokens are accepted; delegated access tokens require `access-tokens:write`.
+ * The operation is idempotent: an already-revoked or missing token is a successful no-op and returns `204 No Content`.
  *
  */
 export const deleteMyAccessToken = <ThrowOnError extends boolean = false>(options: Options<DeleteMyAccessTokenData, ThrowOnError>): RequestResult<DeleteMyAccessTokenResponses, DeleteMyAccessTokenErrors, ThrowOnError> => (options.client ?? client).delete<DeleteMyAccessTokenResponses, DeleteMyAccessTokenErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/access-tokens/{accessTokenId}',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/access-tokens/{accessTokenId}',
+  ...options
 });
 
 /**
@@ -826,13 +1605,13 @@ export const deleteMyAccessToken = <ThrowOnError extends boolean = false>(option
  *
  */
 export const getMyAccessToken = <ThrowOnError extends boolean = false>(options: Options<GetMyAccessTokenData, ThrowOnError>): RequestResult<GetMyAccessTokenResponses, GetMyAccessTokenErrors, ThrowOnError> => (options.client ?? client).get<GetMyAccessTokenResponses, GetMyAccessTokenErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/access-tokens/{accessTokenId}',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/access-tokens/{accessTokenId}',
+  ...options
 });
 
 /**
@@ -841,23 +1620,24 @@ export const getMyAccessToken = <ThrowOnError extends boolean = false>(options: 
  * Creates a hosted Stripe Checkout session for the authenticated user to start a subscription.
  * The request body selects the desired subscription plan and billing cycle.
  * The backend first creates and persists a Stripe customer for the user, then creates a
- * subscription-mode Checkout session for that customer.
+ * subscription-mode Checkout session for that customer. Stripe and PostgreSQL are separate
+ * systems; an association remains persisted if later session creation fails.
  * This endpoint can only be used when the user does not already have a `stripe_customer_id`.
- * Requires valid Cognito JWT authentication.
+ * Requires Cognito JWT or Aura Historia access-token authentication. Delegated access tokens require `users:read`.
  *
  */
 export const postBillingCheckout = <ThrowOnError extends boolean = false>(options: Options<PostBillingCheckoutData2, ThrowOnError>): RequestResult<PostBillingCheckoutResponses, PostBillingCheckoutErrors, ThrowOnError> => (options.client ?? client).post<PostBillingCheckoutResponses, PostBillingCheckoutErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/billing/checkout',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/billing/checkout',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -866,17 +1646,17 @@ export const postBillingCheckout = <ThrowOnError extends boolean = false>(option
  * Creates a hosted Stripe customer-portal session for the authenticated user.
  * This endpoint does not accept a request body.
  * It can only be used when the user already has a persisted `stripe_customer_id`.
- * Requires valid Cognito JWT authentication.
+ * Requires Cognito JWT or Aura Historia access-token authentication. Delegated access tokens require `users:read`.
  *
  */
 export const postBillingPortal = <ThrowOnError extends boolean = false>(options?: Options<PostBillingPortalData, ThrowOnError>): RequestResult<PostBillingPortalResponses, PostBillingPortalErrors, ThrowOnError> => (options?.client ?? client).post<PostBillingPortalResponses, PostBillingPortalErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/billing/portal',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/billing/portal',
+  ...options
 });
 
 /**
@@ -892,21 +1672,21 @@ export const postBillingPortal = <ThrowOnError extends boolean = false>(options?
  * validates that the body is present and well-formed, but returns a portal session based on the
  * stored Stripe customer rather than purchasing a new plan.
  *
- * Requires valid Cognito JWT authentication.
+ * Requires Cognito JWT or Aura Historia access-token authentication. Delegated access tokens require `users:read`.
  *
  */
 export const postBillingManage = <ThrowOnError extends boolean = false>(options: Options<PostBillingManageData, ThrowOnError>): RequestResult<PostBillingManageResponses, PostBillingManageErrors, ThrowOnError> => (options.client ?? client).post<PostBillingManageResponses, PostBillingManageErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/billing/manage',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/billing/manage',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -918,13 +1698,13 @@ export const postBillingManage = <ThrowOnError extends boolean = false>(options:
  *
  */
 export const deleteWatchlistProduct = <ThrowOnError extends boolean = false>(options: Options<DeleteWatchlistProductData, ThrowOnError>): RequestResult<DeleteWatchlistProductResponses, DeleteWatchlistProductErrors, ThrowOnError> => (options.client ?? client).delete<DeleteWatchlistProductResponses, DeleteWatchlistProductErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/watchlist/{shopId}/{shopsProductId}',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/watchlist/{productListingId}',
+  ...options
 });
 
 /**
@@ -936,647 +1716,279 @@ export const deleteWatchlistProduct = <ThrowOnError extends boolean = false>(opt
  *
  */
 export const patchWatchlistProduct = <ThrowOnError extends boolean = false>(options: Options<PatchWatchlistProductData, ThrowOnError>): RequestResult<PatchWatchlistProductResponses, PatchWatchlistProductErrors, ThrowOnError> => (options.client ?? client).patch<PatchWatchlistProductResponses, PatchWatchlistProductErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/watchlist/{shopId}/{shopsProductId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/watchlist/{productListingId}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
  * Delete all notifications
- *
- * Deletes all notifications for the authenticated user.
- * Returns 204 No Content on success.
- * Requires valid Cognito JWT authentication.
- *
  */
-export const deleteAllNotifications = <ThrowOnError extends boolean = false>(options?: Options<DeleteAllNotificationsData, ThrowOnError>): RequestResult<DeleteAllNotificationsResponses, DeleteAllNotificationsErrors, ThrowOnError> => (options?.client ?? client).delete<DeleteAllNotificationsResponses, DeleteAllNotificationsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/notifications',
-    ...options
+export const deleteNotifications = <ThrowOnError extends boolean = false>(options?: Options<DeleteNotificationsData, ThrowOnError>): RequestResult<DeleteNotificationsResponses, DeleteNotificationsErrors, ThrowOnError> => (options?.client ?? client).delete<DeleteNotificationsResponses, DeleteNotificationsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/notifications',
+  ...options
 });
 
 /**
  * List user notifications
  *
- * Retrieves the authenticated user's notifications, sorted latest-first.
- * Results are paginated using search-after cursor-based pagination with an event ID cursor.
- * Requires valid Cognito JWT authentication.
+ * Retrieves the authenticated user’s canonical notifications in newest-first order.
+ * Watchlist price-change notifications preserve each event’s immutable source currency; no FX conversion
+ * is applied from the user’s preferences. Product image URLs are presented according to the authenticated
+ * user’s `showUnassessedOrSensitiveContent` preference.
  *
  */
-export const getNotifications = <ThrowOnError extends boolean = false>(options?: Options<GetNotificationsData, ThrowOnError>): RequestResult<GetNotificationsResponses, GetNotificationsErrors, ThrowOnError> => (options?.client ?? client).get<GetNotificationsResponses, GetNotificationsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/notifications',
-    ...options
+export const listNotifications = <ThrowOnError extends boolean = false>(options?: Options<ListNotificationsData, ThrowOnError>): RequestResult<ListNotificationsResponses, ListNotificationsErrors, ThrowOnError> => (options?.client ?? client).get<ListNotificationsResponses, ListNotificationsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/notifications',
+  ...options
 });
 
 /**
- * Update all notifications
+ * Update selected notification seen states
  *
- * Updates all notifications for the authenticated user.
- * Accepts an optional `PatchNotificationData` body. If the body is omitted or empty,
- * the update command defaults to no-op field values (e.g. `seen` remains unchanged).
- * Returns the first page of the updated notifications, localized by the given `language` and `currency` query parameters.
- * Requires valid Cognito JWT authentication.
- *
+ * Updates the seen state for the explicit canonical notification IDs in the request body.
  */
-export const patchAllNotifications = <ThrowOnError extends boolean = false>(options?: Options<PatchAllNotificationsData, ThrowOnError>): RequestResult<PatchAllNotificationsResponses, PatchAllNotificationsErrors, ThrowOnError> => (options?.client ?? client).patch<PatchAllNotificationsResponses, PatchAllNotificationsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/notifications',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+export const updateNotificationsSeen = <ThrowOnError extends boolean = false>(options: Options<UpdateNotificationsSeenData2, ThrowOnError>): RequestResult<UpdateNotificationsSeenResponses, UpdateNotificationsSeenErrors, ThrowOnError> => (options.client ?? client).patch<UpdateNotificationsSeenResponses, UpdateNotificationsSeenErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/notifications',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
- * Delete a single notification
- *
- * Deletes the notification identified by `eventId` for the authenticated user.
- * Returns 204 No Content on success.
- * Returns 404 if no notification with the given event ID exists for this user.
- * Requires valid Cognito JWT authentication.
- *
+ * Update all notification seen states
+ */
+export const updateAllNotificationsSeen = <ThrowOnError extends boolean = false>(options: Options<UpdateAllNotificationsSeenData, ThrowOnError>): RequestResult<UpdateAllNotificationsSeenResponses, UpdateAllNotificationsSeenErrors, ThrowOnError> => (options.client ?? client).patch<UpdateAllNotificationsSeenResponses, UpdateAllNotificationsSeenErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/notifications/all',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Delete one notification
  */
 export const deleteNotification = <ThrowOnError extends boolean = false>(options: Options<DeleteNotificationData, ThrowOnError>): RequestResult<DeleteNotificationResponses, DeleteNotificationErrors, ThrowOnError> => (options.client ?? client).delete<DeleteNotificationResponses, DeleteNotificationErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/notifications/{eventId}',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/notifications/{notificationId}',
+  ...options
 });
 
 /**
- * Update a single notification
- *
- * Updates the fields of a single notification identified by `eventId`.
- * The request body is required and must contain at least one field.
- * Returns the updated, localized notification.
- * Requires valid Cognito JWT authentication.
- *
+ * Update one notification seen state
  */
-export const patchNotification = <ThrowOnError extends boolean = false>(options: Options<PatchNotificationData2, ThrowOnError>): RequestResult<PatchNotificationResponses, PatchNotificationErrors, ThrowOnError> => (options.client ?? client).patch<PatchNotificationResponses, PatchNotificationErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/notifications/{eventId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+export const updateNotificationSeen = <ThrowOnError extends boolean = false>(options: Options<UpdateNotificationSeenData2, ThrowOnError>): RequestResult<UpdateNotificationSeenResponses, UpdateNotificationSeenErrors, ThrowOnError> => (options.client ?? client).patch<UpdateNotificationSeenResponses, UpdateNotificationSeenErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/notifications/{notificationId}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
  * Upsert newsletter subscription
  *
- * Subscribes an email address to the Aura Historia newsletter mailing list.
+ * Upserts an email address and its supplied profile fields in the Aura Historia Loops newsletter list.
+ *
+ * Existing Loops opt-out state is preserved; this operation does not clear an opt-out or guarantee that the
+ * contact is eligible to receive marketing messages. A successful response means the provider accepted the
+ * subscription write only; it does not mean a message or campaign was sent or delivered.
  *
  * The endpoint accepts anonymous requests.
- * An optional Cognito bearer token may be supplied for authenticated calls.
+ * An optional Cognito JWT or Aura Historia access-token bearer credential may be supplied for authenticated calls.
  * When authenticated, omitted optional profile fields (`firstName`, `lastName`, `language`, `currency`)
  * fall back to the authenticated user's stored account values; explicitly provided request values take precedence.
  *
  */
 export const putNewsletterSubscription = <ThrowOnError extends boolean = false>(options: Options<PutNewsletterSubscriptionData2, ThrowOnError>): RequestResult<PutNewsletterSubscriptionResponses, PutNewsletterSubscriptionErrors, ThrowOnError> => (options.client ?? client).put<PutNewsletterSubscriptionResponses, PutNewsletterSubscriptionErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/newsletter-subscriptions',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/newsletter-subscriptions',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
- * Simple shop search via query parameters
+ * Delete an unused ListingSource as admin
  *
- * Performs shop search using query parameters instead of a JSON request body.
- * This is the cache-friendly equivalent of `POST /api/v1/shops/search`.
- *
- * Authentication is optional on this endpoint:
- * - unauthenticated requests return cacheable shared responses
- * - authenticated Cognito JWT or Aura Historia access-token requests return `Cache-Control: no-store`
- *
- * All optional filters from `ShopSearchData` are supported as query parameters
- * using the same field names:
- * - `shopNameQuery`
- * - `shopType`
- * - `partnerStatus`
- * - `countries`
- * - `continents`
- * - `created[min]`, `created[max]`
- * - `updated[min]`, `updated[max]`
+ * Physically removes a ListingSource only when it has no ProductListings, raw-ingestion
+ * streams, approved PartnershipApplication reference, or retained existing-source proposal.
+ * The committed transaction explicitly removes its Partnership grants and owned ingestion
+ * configuration, including provider/webhook secrets. Enabled `WEB_CRAWL` is not a blocker:
+ * every new spider or scraper pass refreshes authoritative ListingSource scope before candidate
+ * selection, and a failed refresh skips that pass. Already-running work can race with deletion;
+ * the business raw-capture fence discards that missing-source result without recreating state.
+ * This operation does not retire or purge a used source. A repeated delete returns `404`.
  *
  */
-export const simpleSearchShops = <ThrowOnError extends boolean = false>(options?: Options<SimpleSearchShopsData, ThrowOnError>): RequestResult<SimpleSearchShopsResponses, SimpleSearchShopsErrors, ThrowOnError> => (options?.client ?? client).get<SimpleSearchShopsResponses, SimpleSearchShopsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'AccessTokenAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/shops',
-    ...options
+export const adminDeleteListingSource = <ThrowOnError extends boolean = false>(options: Options<AdminDeleteListingSourceData, ThrowOnError>): RequestResult<AdminDeleteListingSourceResponses, AdminDeleteListingSourceErrors, ThrowOnError> => (options.client ?? client).delete<AdminDeleteListingSourceResponses, AdminDeleteListingSourceErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/listing-sources/{listingSourceId}',
+  ...options
 });
 
 /**
- * Create a shop
+ * Get a ListingSource as admin
  *
- * Creates a new shop record and returns the created shop.
+ * Gets one ListingSource for an authenticated administrator.
  *
- * Requires a valid Cognito JWT and the `ADMIN` role.
- *
- * The request body uses `PostShopData`. The backend derives `shopSlugId` from `name`
- * and initializes newly created shops with `partnerStatus` set to `SCRAPED`.
+ * `listingSourceId` must be a valid ListingSource ID. The response uses the canonical ListingSource detail
+ * representation and never exposes provider credentials, webhook secrets, or crawler-local
+ * configuration.
  *
  */
-export const postShop = <ThrowOnError extends boolean = false>(options: Options<PostShopData2, ThrowOnError>): RequestResult<PostShopResponses, PostShopErrors, ThrowOnError> => (options.client ?? client).post<PostShopResponses, PostShopErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/shops',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+export const adminGetListingSource = <ThrowOnError extends boolean = false>(options: Options<AdminGetListingSourceData, ThrowOnError>): RequestResult<AdminGetListingSourceResponses, AdminGetListingSourceErrors, ThrowOnError> => (options.client ?? client).get<AdminGetListingSourceResponses, AdminGetListingSourceErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/listing-sources/{listingSourceId}',
+  ...options
 });
 
 /**
- * Get shop details by ID
+ * Update a ListingSource as admin
  *
- * Retrieves detailed information about a specific shop by its shop ID (UUID).
- * Returns complete shop metadata including name, domains, image, address/contact metadata, and timestamps.
+ * Updates one ListingSource for an authenticated administrator.
  *
- * Authentication is optional on this endpoint:
- * - unauthenticated requests return cacheable shared responses
- * - authenticated Cognito JWT or Aura Historia access-token requests return `Cache-Control: no-store`
+ * `listingSourceId` must be a valid ListingSource ID. Omitted members remain unchanged; `null` clears only
+ * `url`, `image`, and `referralConfiguration`. `name` and
+ * `ingestionConfiguration` are non-nullable and cannot be cleared. Supplying
+ * `ingestionConfiguration` replaces the whole configuration list and its methods must match
+ * the ListingSource ingestion methods. A WooCommerce entry may omit `webhookSecret` only when
+ * WooCommerce is already configured; omission preserves the existing secret, a string rotates
+ * it, and `null` is invalid. An empty object is a valid no-op PATCH; an empty HTTP body is invalid.
+ *
+ * Renaming a ListingSource never changes its immutable slug. The response contains only the
+ * stable ListingSource ID and slug. WooCommerce webhook secrets are write-only: they are
+ * never returned or logged.
  *
  */
-export const getShopById = <ThrowOnError extends boolean = false>(options: Options<GetShopByIdData, ThrowOnError>): RequestResult<GetShopByIdResponses, GetShopByIdErrors, ThrowOnError> => (options.client ?? client).get<GetShopByIdResponses, GetShopByIdErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'AccessTokenAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/shops/{shopId}',
-    ...options
+export const adminUpdateListingSource = <ThrowOnError extends boolean = false>(options: Options<AdminUpdateListingSourceData, ThrowOnError>): RequestResult<AdminUpdateListingSourceResponses, AdminUpdateListingSourceErrors, ThrowOnError> => (options.client ?? client).patch<AdminUpdateListingSourceResponses, AdminUpdateListingSourceErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/listing-sources/{listingSourceId}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
- * Update shop details
+ * Get OAuth client metadata for consent
  *
- * Updates mutable shop metadata for the specified shop.
- *
- * Requires either:
- * - a valid Cognito JWT for the partner user assigned to the shop or for an `ADMIN`, or
- * - a valid Aura Historia access token owned by the partner user assigned to the shop.
- *
- * The request body uses `PatchShopData`. Only fields present in the JSON body are applied;
- * omitted or `null` fields are left unchanged. The HTTP request body itself must not be absent
- * or an empty string; `{}` is valid.
- *
- */
-export const patchShopById = <ThrowOnError extends boolean = false>(options: Options<PatchShopByIdData, ThrowOnError>): RequestResult<PatchShopByIdResponses, PatchShopByIdErrors, ThrowOnError> => (options.client ?? client).patch<PatchShopByIdResponses, PatchShopByIdErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'AccessTokenAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/shops/{shopId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
- * Get shop details by slug
- *
- * Retrieves detailed information about a specific shop by its human-readable slug identifier.
- * Returns complete shop metadata including name, domains, image, address/contact metadata, and timestamps.
- *
- * Authentication is optional on this endpoint:
- * - unauthenticated requests return cacheable shared responses
- * - authenticated Cognito JWT or Aura Historia access-token requests return `Cache-Control: no-store`
- *
- * **Human-Readable Identifiers**: This endpoint uses slug-based identifiers which are human-readable
- * kebab-case strings derived from the shop name (e.g., "tech-store-premium" or "christies").
+ * Reads the authoritative registered metadata for one OAuth client before the user begins or completes consent.
+ * This is a read only: it does not record consent, issue an authorization code or token, or grant privileges.
+ * Any signed-in ordinary user can read a registered client without the ADMIN role, client ownership, an existing
+ * client token, or a source partnership. Only a Cognito access JWT is accepted through `BearerAuth`; Cognito ID
+ * tokens, Aura opaque access tokens, and client-secret credentials are rejected. Centralized account restrictions
+ * continue to apply. Redirect URIs and allowed scopes are returned exactly as registered; `scope: []` means the
+ * client has no allowed scopes and does not imply user consent. `/api/v1/oauth/authorize` remains authoritative
+ * and revalidates registration, exact redirect URI, requested-scope subset, and S256 PKCE before issuing a code.
+ * Every success and error response uses `Cache-Control: no-store`.
  *
  */
-export const getShopBySlug = <ThrowOnError extends boolean = false>(options: Options<GetShopBySlugData, ThrowOnError>): RequestResult<GetShopBySlugResponses, GetShopBySlugErrors, ThrowOnError> => (options.client ?? client).get<GetShopBySlugResponses, GetShopBySlugErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'AccessTokenAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/by-slug/shops/{shopSlugId}',
-    ...options
-});
-
-/**
- * Get shop details by domain
- *
- * Retrieves detailed information about a specific shop by one of its configured domains.
- * Returns complete shop metadata including name, domains, image, address/contact metadata, and timestamps.
- *
- * Authentication is optional on this endpoint:
- * - unauthenticated requests return cacheable shared responses
- * - authenticated Cognito JWT or Aura Historia access-token requests return `Cache-Control: no-store`
- *
- */
-export const getShopByDomain = <ThrowOnError extends boolean = false>(options: Options<GetShopByDomainData, ThrowOnError>): RequestResult<GetShopByDomainResponses, GetShopByDomainErrors, ThrowOnError> => (options.client ?? client).get<GetShopByDomainResponses, GetShopByDomainErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'AccessTokenAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/by-domain/shops/{shopDomain}',
-    ...options
-});
-
-/**
- * Search shops
- *
- * Performs an advanced search for shops using comprehensive filtering criteria.
- * This endpoint accepts a ShopSearchData object in the request body,
- * allowing for complex filtering by shop name, shop type, partner status,
- * countries, continents, and creation/update date ranges.
- * Returns a paginated collection of shops matching the search criteria.
- *
- */
-export const searchShops = <ThrowOnError extends boolean = false>(options: Options<SearchShopsData, ThrowOnError>): RequestResult<SearchShopsResponses, SearchShopsErrors, ThrowOnError> => (options.client ?? client).post<SearchShopsResponses, SearchShopsErrors, ThrowOnError>({
-    url: '/api/v1/shops/search',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
- * Get all categories or simple-search categories
- *
- * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
- *
- * Retrieves all product categories with localized names when no query parameters are supplied.
- * When query parameters are present, this endpoint performs simple category search and behaves
- * like `POST /api/v1/categories/search` using query-string input instead of a JSON body.
- *
- * For simple-search mode, use:
- * - `language` (optional, defaults to `en`)
- * - `nameQuery` (optional)
- * - `sort` and `order` (optional)
- *
- *
- * @deprecated
- */
-export const getCategories = <ThrowOnError extends boolean = false>(options?: Options<GetCategoriesData, ThrowOnError>): RequestResult<GetCategoriesResponses, GetCategoriesErrors, ThrowOnError> => (options?.client ?? client).get<GetCategoriesResponses, GetCategoriesErrors, ThrowOnError>({ url: '/api/v1/categories', ...options });
-
-/**
- * Get category details by ID
- *
- * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
- *
- * Retrieves detailed category information by its kebab-case category ID.
- * Localization is based on the optional `language` query parameter (defaults to `en`).
- *
- *
- * @deprecated
- */
-export const getCategoryById = <ThrowOnError extends boolean = false>(options: Options<GetCategoryByIdData, ThrowOnError>): RequestResult<GetCategoryByIdResponses, GetCategoryByIdErrors, ThrowOnError> => (options.client ?? client).get<GetCategoryByIdResponses, GetCategoryByIdErrors, ThrowOnError>({ url: '/api/v1/categories/{categoryId}', ...options });
-
-/**
- * Search categories
- *
- * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
- *
- * Searches categories using a localized name query.
- * Provide an optional language and optionally a nameQuery to filter results.
- *
- *
- * @deprecated
- */
-export const searchCategories = <ThrowOnError extends boolean = false>(options: Options<SearchCategoriesData, ThrowOnError>): RequestResult<SearchCategoriesResponses, SearchCategoriesErrors, ThrowOnError> => (options.client ?? client).post<SearchCategoriesResponses, SearchCategoriesErrors, ThrowOnError>({
-    url: '/api/v1/categories/search',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
- * Get all periods or simple-search periods
- *
- * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
- *
- * Retrieves all product periods with localized names when no query parameters are supplied.
- * When query parameters are present, this endpoint performs simple period search and behaves
- * like `POST /api/v1/periods/search` using query-string input instead of a JSON body.
- *
- * For simple-search mode, use:
- * - `language` (optional, defaults to `en`)
- * - `nameQuery` (optional)
- * - `sort` and `order` (optional)
- *
- *
- * @deprecated
- */
-export const getPeriods = <ThrowOnError extends boolean = false>(options?: Options<GetPeriodsData, ThrowOnError>): RequestResult<GetPeriodsResponses, GetPeriodsErrors, ThrowOnError> => (options?.client ?? client).get<GetPeriodsResponses, GetPeriodsErrors, ThrowOnError>({ url: '/api/v1/periods', ...options });
-
-/**
- * Get period details by ID
- *
- * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
- *
- * Retrieves detailed period information by its kebab-case period ID.
- * Localization is based on the optional `language` query parameter (defaults to `en`).
- *
- *
- * @deprecated
- */
-export const getPeriodById = <ThrowOnError extends boolean = false>(options: Options<GetPeriodByIdData, ThrowOnError>): RequestResult<GetPeriodByIdResponses, GetPeriodByIdErrors, ThrowOnError> => (options.client ?? client).get<GetPeriodByIdResponses, GetPeriodByIdErrors, ThrowOnError>({ url: '/api/v1/periods/{periodId}', ...options });
-
-/**
- * Search periods
- *
- * Disabled: currently not enabled in the backend. This contract remains documented for internal reference.
- *
- * Searches periods using a localized name query.
- * Provide an optional language and optionally a nameQuery to filter results.
- *
- *
- * @deprecated
- */
-export const searchPeriods = <ThrowOnError extends boolean = false>(options: Options<SearchPeriodsData, ThrowOnError>): RequestResult<SearchPeriodsResponses, SearchPeriodsErrors, ThrowOnError> => (options.client ?? client).post<SearchPeriodsResponses, SearchPeriodsErrors, ThrowOnError>({
-    url: '/api/v1/periods/search',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
- * List the authenticated user's partner shops
- *
- * Returns all shops currently linked to the authenticated user's `partnerShops` set.
- * Requires a valid Cognito JWT and always resolves shops for the current user only.
- *
- * Returns an empty array when the authenticated user currently has no linked partner shops.
- *
- */
-export const getMyPartnerShops = <ThrowOnError extends boolean = false>(options?: Options<GetMyPartnerShopsData, ThrowOnError>): RequestResult<GetMyPartnerShopsResponses, GetMyPartnerShopsErrors, ThrowOnError> => (options?.client ?? client).get<GetMyPartnerShopsResponses, GetMyPartnerShopsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/partner-shops',
-    ...options
-});
-
-/**
- * List user's partner shop applications
- *
- * Retrieves all partner shop applications submitted by the authenticated user.
- * Returns an empty array when no applications exist.
- * Requires valid Cognito JWT authentication.
- *
- */
-export const getPartnerApplications = <ThrowOnError extends boolean = false>(options?: Options<GetPartnerApplicationsData, ThrowOnError>): RequestResult<GetPartnerApplicationsResponses, GetPartnerApplicationsErrors, ThrowOnError> => (options?.client ?? client).get<GetPartnerApplicationsResponses, GetPartnerApplicationsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/partner-applications',
-    ...options
-});
-
-/**
- * Create a partner shop application
- *
- * Submits a new partner shop application for the authenticated user.
- * The application payload specifies either an existing shop (by `shopId`) or a new shop
- * (with name, type, domains, and optional metadata such as a primary URL, image, contact details,
- * address, and speciality keys).
- * The application is created with `businessState` `SUBMITTED` and `executionState` `PROCESSING`.
- * Both state fields are read-only and cannot be set by the client.
- * Returns the created application with HTTP 201.
- * Requires valid Cognito JWT authentication.
- *
- */
-export const postPartnerApplication = <ThrowOnError extends boolean = false>(options: Options<PostPartnerApplicationData, ThrowOnError>): RequestResult<PostPartnerApplicationResponses, PostPartnerApplicationErrors, ThrowOnError> => (options.client ?? client).post<PostPartnerApplicationResponses, PostPartnerApplicationErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/partner-applications',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
- * Delete a partner shop application
- *
- * Deletes the partner shop application identified by `partnerApplicationId` for the authenticated user.
- * Returns 204 No Content on success.
- * Returns 404 when no application with the given ID exists for this user.
- * Requires valid Cognito JWT authentication.
- *
- */
-export const deletePartnerApplication = <ThrowOnError extends boolean = false>(options: Options<DeletePartnerApplicationData, ThrowOnError>): RequestResult<DeletePartnerApplicationResponses, DeletePartnerApplicationErrors, ThrowOnError> => (options.client ?? client).delete<DeletePartnerApplicationResponses, DeletePartnerApplicationErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/partner-applications/{partnerApplicationId}',
-    ...options
-});
-
-/**
- * Get a specific partner shop application
- *
- * Retrieves a single partner shop application by its ID for the authenticated user.
- * Returns 404 when no application with the given ID exists for this user.
- * Requires valid Cognito JWT authentication.
- *
- */
-export const getPartnerApplication = <ThrowOnError extends boolean = false>(options: Options<GetPartnerApplicationData, ThrowOnError>): RequestResult<GetPartnerApplicationResponses, GetPartnerApplicationErrors, ThrowOnError> => (options.client ?? client).get<GetPartnerApplicationResponses, GetPartnerApplicationErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/partner-applications/{partnerApplicationId}',
-    ...options
-});
-
-/**
- * Update a partner shop application
- *
- * Updates the fields of a specific partner shop application identified by `partnerApplicationId`.
- * Only fields present in the request body are applied; omitted fields are left unchanged.
- * The `businessState` and `executionState` fields are **read-only** and cannot be updated through this endpoint.
- * The request body is required and must not be empty.
- * Returns the updated application.
- * Returns 404 when no application with the given ID exists for this user.
- * Requires valid Cognito JWT authentication.
- *
- */
-export const patchPartnerApplication = <ThrowOnError extends boolean = false>(options: Options<PatchPartnerApplicationData, ThrowOnError>): RequestResult<PatchPartnerApplicationResponses, PatchPartnerApplicationErrors, ThrowOnError> => (options.client ?? client).patch<PatchPartnerApplicationResponses, PatchPartnerApplicationErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/me/partner-applications/{partnerApplicationId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
- * List all partner shop applications
- *
- * Retrieves all partner shop applications across all users.
- * This endpoint is restricted to authenticated users with the `ADMIN` role.
- * Returns an empty array when no applications exist.
- *
- */
-export const adminGetPartnerApplications = <ThrowOnError extends boolean = false>(options?: Options<AdminGetPartnerApplicationsData, ThrowOnError>): RequestResult<AdminGetPartnerApplicationsResponses, AdminGetPartnerApplicationsErrors, ThrowOnError> => (options?.client ?? client).get<AdminGetPartnerApplicationsResponses, AdminGetPartnerApplicationsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/partner-applications',
-    ...options
-});
-
-/**
- * Get a specific partner shop application as admin
- *
- * Retrieves a single partner shop application by its ID across all users.
- * This endpoint is restricted to authenticated users with the `ADMIN` role.
- *
- */
-export const adminGetPartnerApplication = <ThrowOnError extends boolean = false>(options: Options<AdminGetPartnerApplicationData, ThrowOnError>): RequestResult<AdminGetPartnerApplicationResponses, AdminGetPartnerApplicationErrors, ThrowOnError> => (options.client ?? client).get<AdminGetPartnerApplicationResponses, AdminGetPartnerApplicationErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/partner-applications/{partnerApplicationId}',
-    ...options
-});
-
-/**
- * Update a partner shop application as admin
- *
- * Updates a specific partner shop application by ID across all users.
- * This endpoint is restricted to authenticated users with the `ADMIN` role.
- * Admins can update payload fields, but review decisions must be submitted through
- * `POST /api/v1/partner-applications/{partnerApplicationId}/decision`.
- * The request body is required and must not be empty.
- *
- */
-export const adminPatchPartnerApplication = <ThrowOnError extends boolean = false>(options: Options<AdminPatchPartnerApplicationData, ThrowOnError>): RequestResult<AdminPatchPartnerApplicationResponses, AdminPatchPartnerApplicationErrors, ThrowOnError> => (options.client ?? client).patch<AdminPatchPartnerApplicationResponses, AdminPatchPartnerApplicationErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/partner-applications/{partnerApplicationId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
- * Submit a partner shop application decision as admin
- *
- * Submits an `APPROVE` or `REJECT` decision for a specific partner shop application across all users.
- * This endpoint is restricted to authenticated users with the `ADMIN` role.
- * The targeted application must currently have `businessState` `IN_REVIEW`; otherwise the request fails with `409 Conflict`.
- * On success, the workflow resumes asynchronously and the returned application has `executionState` `PROCESSING`
- * while the decision is being applied.
- *
- */
-export const adminPostPartnerApplicationDecision = <ThrowOnError extends boolean = false>(options: Options<AdminPostPartnerApplicationDecisionData, ThrowOnError>): RequestResult<AdminPostPartnerApplicationDecisionResponses, AdminPostPartnerApplicationDecisionErrors, ThrowOnError> => (options.client ?? client).post<AdminPostPartnerApplicationDecisionResponses, AdminPostPartnerApplicationDecisionErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/partner-applications/{partnerApplicationId}/decision',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+export const getOAuthConsentClient = <ThrowOnError extends boolean = false>(options: Options<GetOAuthConsentClientData, ThrowOnError>): RequestResult<GetOAuthConsentClientResponses, GetOAuthConsentClientErrors, ThrowOnError> => (options.client ?? client).get<GetOAuthConsentClientResponses, GetOAuthConsentClientErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/oauth/clients/{clientId}',
+  ...options
 });
 
 /**
@@ -1588,17 +2000,18 @@ export const adminPostPartnerApplicationDecision = <ThrowOnError extends boolean
  *
  * On success the endpoint redirects (302) to the `redirect_uri` appending `code` and, if
  * supplied, `state` as query parameters. The single-use authorization code must be exchanged
- * for an access token via `POST /api/v1/oauth/token` before it expires.
+ * for an access token via `POST /api/v1/oauth/token` before it expires. A delegated caller
+ * must have `access-tokens:write` and every requested OAuth scope.
  *
  */
 export const oauthAuthorize = <ThrowOnError extends boolean = false>(options: Options<OauthAuthorizeData, ThrowOnError>): RequestResult<unknown, OauthAuthorizeErrors, ThrowOnError> => (options.client ?? client).get<unknown, OauthAuthorizeErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/oauth/authorize',
-    ...options
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/oauth/authorize',
+  ...options
 });
 
 /**
@@ -1618,13 +2031,13 @@ export const oauthAuthorize = <ThrowOnError extends boolean = false>(options: Op
  *
  */
 export const oauthToken = <ThrowOnError extends boolean = false>(options: Options<OauthTokenData, ThrowOnError>): RequestResult<OauthTokenResponses, OauthTokenErrors, ThrowOnError> => (options.client ?? client).post<OauthTokenResponses, OauthTokenErrors, ThrowOnError>({
-    ...urlSearchParamsBodySerializer,
-    url: '/api/v1/oauth/token',
-    ...options,
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        ...options.headers
-    }
+  ...urlSearchParamsBodySerializer,
+  url: '/api/v1/oauth/token',
+  ...options,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    ...options.headers
+  }
 });
 
 /**
@@ -1651,13 +2064,13 @@ export const oauthTokenByThirdPartyCode = <ThrowOnError extends boolean = false>
  *
  */
 export const oauthRevoke = <ThrowOnError extends boolean = false>(options: Options<OauthRevokeData, ThrowOnError>): RequestResult<OauthRevokeResponses, OauthRevokeErrors, ThrowOnError> => (options.client ?? client).post<OauthRevokeResponses, OauthRevokeErrors, ThrowOnError>({
-    ...urlSearchParamsBodySerializer,
-    url: '/api/v1/oauth/revoke',
-    ...options,
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        ...options.headers
-    }
+  ...urlSearchParamsBodySerializer,
+  url: '/api/v1/oauth/revoke',
+  ...options,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    ...options.headers
+  }
 });
 
 /**
@@ -1672,110 +2085,615 @@ export const oauthRevoke = <ThrowOnError extends boolean = false>(options: Optio
  *
  */
 export const oauthIntrospect = <ThrowOnError extends boolean = false>(options: Options<OauthIntrospectData, ThrowOnError>): RequestResult<OauthIntrospectResponses, OauthIntrospectErrors, ThrowOnError> => (options.client ?? client).post<OauthIntrospectResponses, OauthIntrospectErrors, ThrowOnError>({
-    ...urlSearchParamsBodySerializer,
-    url: '/api/v1/oauth/introspect',
-    ...options,
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        ...options.headers
-    }
+  ...urlSearchParamsBodySerializer,
+  url: '/api/v1/oauth/introspect',
+  ...options,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    ...options.headers
+  }
 });
 
 /**
- * List OAuth client metadata
+ * List OAuth client metadata for administration
  *
- * Lists registered OAuth client metadata records.
- * The returned `client_secret` value is masked and does not reveal the plaintext secret.
- * Requires valid Cognito JWT authentication.
+ * Lists registered OAuth client metadata for authenticated administrators.
+ *
+ * User and delegated-user principals must have the persisted `ADMIN` business role.
+ * Delegated Aura Historia access-token callers must also have the `access-tokens:read`
+ * capability. The OAuth protocol routes remain under `/api/v1/oauth`.
+ *
+ * Results use bounded keyset pagination in fixed `created` ascending, then OAuthClient ID ascending order. Page sizes are clamped to 1–100, with a default of 21. The
+ * `searchAfter` value is a JSON-encoded `[created RFC3339 timestamp, OAuthClient ID]`
+ * cursor; it is omitted on the terminal page and must be sent with the same filters.
+ *
+ * `clientId` is an exact OAuthClient ID filter. `name` is a case-insensitive substring filter.
+ * The response contains no plaintext client secret, secret hash, or masked secret value.
+ * Every success and error response uses `Cache-Control: no-store`.
  *
  */
-export const getOAuthClients = <ThrowOnError extends boolean = false>(options?: Options<GetOAuthClientsData, ThrowOnError>): RequestResult<GetOAuthClientsResponses, GetOAuthClientsErrors, ThrowOnError> => (options?.client ?? client).get<GetOAuthClientsResponses, GetOAuthClientsErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/oauth/clients',
-    ...options
+export const adminListOAuthClients = <ThrowOnError extends boolean = false>(options?: Options<AdminListOAuthClientsData, ThrowOnError>): RequestResult<AdminListOAuthClientsResponses, AdminListOAuthClientsErrors, ThrowOnError> => (options?.client ?? client).get<AdminListOAuthClientsResponses, AdminListOAuthClientsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/oauth-clients',
+  ...options
 });
 
 /**
- * Create OAuth client metadata
+ * Create OAuth client metadata for administration
  *
- * Creates a new OAuth client metadata record.
- * The plaintext `client_secret` is returned only in this create response; later reads return
- * a masked secret display value.
- * Requires valid Cognito JWT authentication and the `ADMIN` role.
+ * Creates a new OAuth client metadata record for an authenticated administrator.
+ *
+ * User and delegated-user principals must have the persisted `ADMIN` business role.
+ * Delegated Aura Historia access-token callers must also have the `access-tokens:write`
+ * capability. The plaintext `client_secret` is returned only in this create response and
+ * is never logged or returned by later reads.
+ *
+ * Redirect URIs must be non-empty HTTPS URLs without fragments. Requested scopes must be
+ * supported OAuth scopes.
  *
  */
-export const postOAuthClient = <ThrowOnError extends boolean = false>(options: Options<PostOAuthClientData, ThrowOnError>): RequestResult<PostOAuthClientResponses, PostOAuthClientErrors, ThrowOnError> => (options.client ?? client).post<PostOAuthClientResponses, PostOAuthClientErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/oauth/clients',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+export const adminCreateOAuthClient = <ThrowOnError extends boolean = false>(options: Options<AdminCreateOAuthClientData, ThrowOnError>): RequestResult<AdminCreateOAuthClientResponses, AdminCreateOAuthClientErrors, ThrowOnError> => (options.client ?? client).post<AdminCreateOAuthClientResponses, AdminCreateOAuthClientErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/oauth-clients',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
- * Delete OAuth client metadata
+ * Delete OAuth client metadata for administration
  *
- * Deletes one OAuth client metadata record.
- * Requires valid Cognito JWT authentication and the `ADMIN` role.
+ * Deletes one OAuth client metadata record for an authenticated administrator.
+ *
+ * User and delegated-user principals must have the persisted `ADMIN` business role.
+ * Delegated Aura Historia access-token callers must also have the `access-tokens:write`
+ * capability. Deletion atomically invalidates pending authorization codes, OAuth-issued
+ * Aura access tokens, and their one-time third-party exchange codes. The OAuth protocol
+ * routes remain under `/api/v1/oauth`; this administrative mutation is not a protocol route.
  *
  */
-export const deleteOAuthClient = <ThrowOnError extends boolean = false>(options: Options<DeleteOAuthClientData, ThrowOnError>): RequestResult<DeleteOAuthClientResponses, DeleteOAuthClientErrors, ThrowOnError> => (options.client ?? client).delete<DeleteOAuthClientResponses, DeleteOAuthClientErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/oauth/clients/{clientId}',
-    ...options
+export const adminDeleteOAuthClient = <ThrowOnError extends boolean = false>(options: Options<AdminDeleteOAuthClientData, ThrowOnError>): RequestResult<AdminDeleteOAuthClientResponses, AdminDeleteOAuthClientErrors, ThrowOnError> => (options.client ?? client).delete<AdminDeleteOAuthClientResponses, AdminDeleteOAuthClientErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/oauth-clients/{clientId}',
+  ...options
 });
 
 /**
- * Get OAuth client metadata
+ * Get OAuth client metadata for administration
  *
- * Retrieves one OAuth client metadata record.
- * The returned `client_secret` value is masked and does not reveal the plaintext secret.
- * Requires valid Cognito JWT authentication.
+ * Retrieves one OAuth client metadata record for an authenticated administrator.
+ *
+ * User and delegated-user principals must have the persisted `ADMIN` business role.
+ * Delegated Aura Historia access-token callers must also have the `access-tokens:read`
+ * capability. The response contains client metadata, redirect URIs, and scopes, but never
+ * a plaintext client secret, secret hash, or masked secret value. Every success and error
+ * response uses `Cache-Control: no-store`.
  *
  */
-export const getOAuthClient = <ThrowOnError extends boolean = false>(options: Options<GetOAuthClientData, ThrowOnError>): RequestResult<GetOAuthClientResponses, GetOAuthClientErrors, ThrowOnError> => (options.client ?? client).get<GetOAuthClientResponses, GetOAuthClientErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/oauth/clients/{clientId}',
-    ...options
+export const adminGetOAuthClient = <ThrowOnError extends boolean = false>(options: Options<AdminGetOAuthClientData, ThrowOnError>): RequestResult<AdminGetOAuthClientResponses, AdminGetOAuthClientErrors, ThrowOnError> => (options.client ?? client).get<AdminGetOAuthClientResponses, AdminGetOAuthClientErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/oauth-clients/{clientId}',
+  ...options
 });
 
 /**
- * Update OAuth client metadata
+ * Update OAuth client metadata for administration
  *
- * Updates one OAuth client metadata record.
- * Omitted or `null` optional properties leave the existing value unchanged.
- * The returned `client_secret` value is masked and does not reveal the plaintext secret.
- * Requires valid Cognito JWT authentication and the `ADMIN` role.
+ * Updates one OAuth client metadata record for an authenticated administrator.
+ *
+ * Omitted properties leave existing values unchanged; every explicit `null` is invalid
+ * because OAuth metadata is non-nullable; and `{}` is a valid no-op.
+ *
+ * User and delegated-user principals must have the persisted `ADMIN` business role.
+ * Delegated Aura Historia access-token callers must also have the `access-tokens:write`
+ * capability. Redirect URIs remain non-empty HTTPS URLs without fragments, and requested
+ * scopes must be supported OAuth scopes.
+ *
+ * The response is secret-free. This operation never exposes or rotates the client secret.
+ * Every success and error response uses `Cache-Control: no-store`.
  *
  */
-export const patchOAuthClient = <ThrowOnError extends boolean = false>(options: Options<PatchOAuthClientData, ThrowOnError>): RequestResult<PatchOAuthClientResponses, PatchOAuthClientErrors, ThrowOnError> => (options.client ?? client).patch<PatchOAuthClientResponses, PatchOAuthClientErrors, ThrowOnError>({
-    security: [{
-            key: 'BearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/api/v1/oauth/clients/{clientId}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+export const adminPatchOAuthClient = <ThrowOnError extends boolean = false>(options: Options<AdminPatchOAuthClientData, ThrowOnError>): RequestResult<AdminPatchOAuthClientResponses, AdminPatchOAuthClientErrors, ThrowOnError> => (options.client ?? client).patch<AdminPatchOAuthClientResponses, AdminPatchOAuthClientErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/oauth-clients/{clientId}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Search public ListingSources
+ *
+ * Anonymous, literal partial-name search and browse of every persisted ListingSource. Optional valid credentials never widen the public representation; invalid supplied credentials are rejected. Query values are NFC/Unicode-whitespace canonicalized. One scalar and punctuation-only input return a terminal empty collection.
+ */
+export const searchPublicListingSources = <ThrowOnError extends boolean = false>(options?: Options<SearchPublicListingSourcesData, ThrowOnError>): RequestResult<SearchPublicListingSourcesResponses, SearchPublicListingSourcesErrors, ThrowOnError> => (options?.client ?? client).get<SearchPublicListingSourcesResponses, SearchPublicListingSourcesErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources',
+  ...options
+});
+
+/**
+ * Get a public ListingSource by immutable slug
+ *
+ * Anonymous exact immutable-slug lookup. This route accepts no query parameters. Optional valid credentials never widen the public representation; invalid supplied credentials are rejected.
+ */
+export const getPublicListingSourceBySlug = <ThrowOnError extends boolean = false>(options: Options<GetPublicListingSourceBySlugData, ThrowOnError>): RequestResult<GetPublicListingSourceBySlugResponses, GetPublicListingSourceBySlugErrors, ThrowOnError> => (options.client ?? client).get<GetPublicListingSourceBySlugResponses, GetPublicListingSourceBySlugErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/by-slug/{listingSourceSlugId}',
+  ...options
+});
+
+/**
+ * List caller-administered ListingSources
+ */
+export const getMyListingSources = <ThrowOnError extends boolean = false>(options?: Options<GetMyListingSourcesData, ThrowOnError>): RequestResult<GetMyListingSourcesResponses, GetMyListingSourcesErrors, ThrowOnError> => (options?.client ?? client).get<GetMyListingSourcesResponses, GetMyListingSourcesErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/listing-sources',
+  ...options
+});
+
+/**
+ * List caller PartnershipApplications
+ */
+export const getMyPartnershipApplications = <ThrowOnError extends boolean = false>(options?: Options<GetMyPartnershipApplicationsData, ThrowOnError>): RequestResult<GetMyPartnershipApplicationsResponses, GetMyPartnershipApplicationsErrors, ThrowOnError> => (options?.client ?? client).get<GetMyPartnershipApplicationsResponses, GetMyPartnershipApplicationsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/partnership-applications',
+  ...options
+});
+
+/**
+ * Submit a PartnershipApplication
+ */
+export const postPartnershipApplication = <ThrowOnError extends boolean = false>(options: Options<PostPartnershipApplicationData, ThrowOnError>): RequestResult<PostPartnershipApplicationResponses, PostPartnershipApplicationErrors, ThrowOnError> => (options.client ?? client).post<PostPartnershipApplicationResponses, PostPartnershipApplicationErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/partnership-applications',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Withdraw a PartnershipApplication
+ */
+export const deleteOwnPartnershipApplication = <ThrowOnError extends boolean = false>(options: Options<DeleteOwnPartnershipApplicationData, ThrowOnError>): RequestResult<DeleteOwnPartnershipApplicationResponses, DeleteOwnPartnershipApplicationErrors, ThrowOnError> => (options.client ?? client).delete<DeleteOwnPartnershipApplicationResponses, DeleteOwnPartnershipApplicationErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/partnership-applications/{partnershipApplicationId}',
+  ...options
+});
+
+/**
+ * Get a caller PartnershipApplication
+ */
+export const getOwnPartnershipApplication = <ThrowOnError extends boolean = false>(options: Options<GetOwnPartnershipApplicationData, ThrowOnError>): RequestResult<GetOwnPartnershipApplicationResponses, GetOwnPartnershipApplicationErrors, ThrowOnError> => (options.client ?? client).get<GetOwnPartnershipApplicationResponses, GetOwnPartnershipApplicationErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/partnership-applications/{partnershipApplicationId}',
+  ...options
+});
+
+/**
+ * Get the administrator operational overview
+ *
+ * Returns a bounded landing-page summary for authenticated administrators. `schemaVersion` is
+ * required so clients can select a compatible response decoder. Every counter is read from
+ * authoritative PostgreSQL by one aggregate statement; OpenSearch and other rebuildable
+ * projections are not used.
+ *
+ * `listingSources.methodAssignments` counts source-method assignments, not distinct sources,
+ * so its values may sum to more than `listingSources.total`. ProductListing availability
+ * counts include only `ACTIVE` listings; `activeWithoutAvailability` identifies active rows
+ * without a current source availability assertion. Responses contain no PII, secrets, or
+ * embedded collections and always use `Cache-Control: no-store`.
+ *
+ */
+export const getAdminOverview = <ThrowOnError extends boolean = false>(options?: Options<GetAdminOverviewData, ThrowOnError>): RequestResult<GetAdminOverviewResponses, GetAdminOverviewErrors, ThrowOnError> => (options?.client ?? client).get<GetAdminOverviewResponses, GetAdminOverviewErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/overview',
+  ...options
+});
+
+/**
+ * List Partnerships for administration
+ *
+ * Lists active Partnerships for authenticated administrators.
+ *
+ * Results use bounded keyset cursor pagination in fixed `created` descending, then
+ * Partnership ID descending order. Page sizes are clamped to 1–100, with a default
+ * of 21. The returned `searchAfter` value is a JSON-encoded
+ * `[created RFC3339 timestamp, Partnership ID]` cursor; it is omitted on the terminal
+ * page and should be sent with the same filters for the next page.
+ *
+ * Optional `partyId`, `memberUserId`, and `listingSourceId` filters are exact object-ID
+ * matches and are combined when supplied. Each result is a safe summary containing
+ * the Partnership ID, Party ID/immutable slug/name, member count, ListingSource-grant
+ * count, and creation/update timestamps. Member identities, grant identities, Party
+ * contact data, persistence versions, provider credentials, webhook secrets, and
+ * crawler-local configuration are never returned. Responses always use
+ * `Cache-Control: no-store`.
+ *
+ */
+export const adminSearchPartnerships = <ThrowOnError extends boolean = false>(options?: Options<AdminSearchPartnershipsData, ThrowOnError>): RequestResult<AdminSearchPartnershipsResponses, AdminSearchPartnershipsErrors, ThrowOnError> => (options?.client ?? client).get<AdminSearchPartnershipsResponses, AdminSearchPartnershipsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/partnerships',
+  ...options
+});
+
+/**
+ * Dissolve a Partnership
+ *
+ * Semantically deletes a Partnership for an authenticated administrator. The Partnership row
+ * remains as a `DISSOLVED` historical reference for approved PartnershipApplications, while
+ * all current membership and ListingSource-grant rows are removed in the same PostgreSQL
+ * transaction. ListingSources, Parties, users, ProductListings, and applications are not
+ * deleted. Repeating a successful dissolution is an idempotent `204` no-op. No user can
+ * retain Partnership authorization after the transaction commits. All responses use
+ * `Cache-Control: no-store`.
+ *
+ */
+export const adminDissolvePartnership = <ThrowOnError extends boolean = false>(options: Options<AdminDissolvePartnershipData, ThrowOnError>): RequestResult<AdminDissolvePartnershipResponses, AdminDissolvePartnershipErrors, ThrowOnError> => (options.client ?? client).delete<AdminDissolvePartnershipResponses, AdminDissolvePartnershipErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/partnerships/{partnershipId}',
+  ...options
+});
+
+/**
+ * Get a Partnership for administration
+ *
+ * Returns one established Partnership for an authenticated administrator.
+ *
+ * The response includes the Partnership identity, its Party reference, current member user
+ * references, and current ListingSource grant references. Member and grant references are
+ * ordered by ID and each array is bounded to at most 100 entries. `memberCount` and
+ * `listingSourceGrantCount` are complete counts, including references beyond the bounded arrays.
+ *
+ * Missing Partnerships return `PARTNERSHIP_NOT_FOUND`. All success and error responses use
+ * `Cache-Control: no-store` because member user identifiers are returned.
+ *
+ */
+export const adminGetPartnership = <ThrowOnError extends boolean = false>(options: Options<AdminGetPartnershipData, ThrowOnError>): RequestResult<AdminGetPartnershipResponses, AdminGetPartnershipErrors, ThrowOnError> => (options.client ?? client).get<AdminGetPartnershipResponses, AdminGetPartnershipErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/partnerships/{partnershipId}',
+  ...options
+});
+
+/**
+ * Revoke a ListingSource from a Partnership
+ *
+ * Idempotently removes an existing ListingSource grant from an existing Partnership for an
+ * authenticated administrator. Only the targeted Partnership/ListingSource join row is
+ * removed; the Partnership, ListingSource, members, and historical PartnershipApplications
+ * are preserved. An absent grant is a successful no-op. The operation is committed in one
+ * PostgreSQL transaction and returns no response body. All success and error responses use
+ * `Cache-Control: no-store`.
+ *
+ */
+export const adminRevokePartnershipListingSource = <ThrowOnError extends boolean = false>(options: Options<AdminRevokePartnershipListingSourceData, ThrowOnError>): RequestResult<AdminRevokePartnershipListingSourceResponses, AdminRevokePartnershipListingSourceErrors, ThrowOnError> => (options.client ?? client).delete<AdminRevokePartnershipListingSourceResponses, AdminRevokePartnershipListingSourceErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}',
+  ...options
+});
+
+/**
+ * Grant a ListingSource to a Partnership
+ *
+ * Idempotently grants an existing ListingSource to an existing Partnership for an
+ * authenticated administrator. The Partnership and ListingSource must belong to the same
+ * Party; a mismatched Party is rejected with `409 CONFLICT`. An existing grant is a
+ * successful no-op. The operation is committed in one PostgreSQL transaction and returns no
+ * response body. All success and error responses use `Cache-Control: no-store`.
+ *
+ */
+export const adminGrantPartnershipListingSource = <ThrowOnError extends boolean = false>(options: Options<AdminGrantPartnershipListingSourceData, ThrowOnError>): RequestResult<AdminGrantPartnershipListingSourceResponses, AdminGrantPartnershipListingSourceErrors, ThrowOnError> => (options.client ?? client).put<AdminGrantPartnershipListingSourceResponses, AdminGrantPartnershipListingSourceErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}',
+  ...options
+});
+
+/**
+ * Revoke a user membership in a Partnership
+ *
+ * Idempotently removes the target user membership from the specified Partnership for an
+ * authenticated administrator. The target user and Partnership must already exist. A missing
+ * membership is a successful no-op. Only the membership row is removed; the user, Partnership,
+ * ListingSource, and historical PartnershipApplication records are preserved. The operation is
+ * committed in one PostgreSQL transaction and returns no response body. All success and error
+ * responses use `Cache-Control: no-store`.
+ *
+ */
+export const adminRevokePartnershipMembership = <ThrowOnError extends boolean = false>(options: Options<AdminRevokePartnershipMembershipData, ThrowOnError>): RequestResult<AdminRevokePartnershipMembershipResponses, AdminRevokePartnershipMembershipErrors, ThrowOnError> => (options.client ?? client).delete<AdminRevokePartnershipMembershipResponses, AdminRevokePartnershipMembershipErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/partnerships/{partnershipId}/members/{userId}',
+  ...options
+});
+
+/**
+ * Grant a user membership in a Partnership
+ *
+ * Idempotently grants the target user membership in the specified Partnership for an
+ * authenticated administrator. The target user and Partnership must already exist. An
+ * existing membership is a successful no-op. The operation is committed in one PostgreSQL
+ * transaction and returns no response body. All success and error responses use
+ * `Cache-Control: no-store`.
+ *
+ */
+export const adminGrantPartnershipMembership = <ThrowOnError extends boolean = false>(options: Options<AdminGrantPartnershipMembershipData, ThrowOnError>): RequestResult<AdminGrantPartnershipMembershipResponses, AdminGrantPartnershipMembershipErrors, ThrowOnError> => (options.client ?? client).put<AdminGrantPartnershipMembershipResponses, AdminGrantPartnershipMembershipErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/partnerships/{partnershipId}/members/{userId}',
+  ...options
+});
+
+/**
+ * Search PartnershipApplications for administration
+ *
+ * Searches PartnershipApplications for authenticated administrators.
+ *
+ * `state` and `proposalType` accept repeated exact canonical values. `applicantUserId`
+ * restricts the applicant. `listingSourceId` matches the approved ListingSource or an
+ * existing ListingSource proposed by the application. `created` and `updated` accept
+ * inclusive RFC3339 ranges using `min` and `max` query members.
+ *
+ * Results use deterministic keyset cursor pagination. The default sort is `created` descending;
+ * override it by providing both `sort` and `order`. Valid sort fields are `created` and `updated`;
+ * PartnershipApplication ID is always the final deterministic tie-breaker. Page sizes are clamped
+ * to 1–100, with a default of 21. The returned JSON `[timestamp, PartnershipApplication ID]` `searchAfter`
+ * cursor is omitted on the terminal page and must be sent with the same filters and sort.
+ * Results contain review-queue summary data only and never expose persistence version values.
+ * Responses always use `Cache-Control: no-store`.
+ *
+ */
+export const adminSearchPartnershipApplications = <ThrowOnError extends boolean = false>(options?: Options<AdminSearchPartnershipApplicationsData, ThrowOnError>): RequestResult<AdminSearchPartnershipApplicationsResponses, AdminSearchPartnershipApplicationsErrors, ThrowOnError> => (options?.client ?? client).get<AdminSearchPartnershipApplicationsResponses, AdminSearchPartnershipApplicationsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/partnership-applications',
+  ...options
+});
+
+/**
+ * Get a PartnershipApplication for administration
+ *
+ * Retrieves a single PartnershipApplication for authenticated administrators.
+ * The response includes the applicant, state, proposal, and nullable approval references. All responses send `Cache-Control: no-store`.
+ *
+ */
+export const adminGetPartnershipApplication = <ThrowOnError extends boolean = false>(options: Options<AdminGetPartnershipApplicationData, ThrowOnError>): RequestResult<AdminGetPartnershipApplicationResponses, AdminGetPartnershipApplicationErrors, ThrowOnError> => (options.client ?? client).get<AdminGetPartnershipApplicationResponses, AdminGetPartnershipApplicationErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/partnership-applications/{partnershipApplicationId}',
+  ...options
+});
+
+/**
+ * Mark a PartnershipApplication in review as admin
+ *
+ * Marks a PartnershipApplication in review for an authenticated administrator.
+ *
+ * This operation accepts no request body and only performs the domain-authoritative
+ * `SUBMITTED` to `IN_REVIEW` transition. It does not accept arbitrary state assignment.
+ * The response contains the resulting admin PartnershipApplication representation and
+ * responses always use `Cache-Control: no-store`.
+ *
+ */
+export const adminMarkPartnershipApplicationInReview = <ThrowOnError extends boolean = false>(options: Options<AdminMarkPartnershipApplicationInReviewData, ThrowOnError>): RequestResult<AdminMarkPartnershipApplicationInReviewResponses, AdminMarkPartnershipApplicationInReviewErrors, ThrowOnError> => (options.client ?? client).patch<AdminMarkPartnershipApplicationInReviewResponses, AdminMarkPartnershipApplicationInReviewErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/partnership-applications/{partnershipApplicationId}',
+  ...options
+});
+
+/**
+ * Decide a PartnershipApplication as admin
+ *
+ * Approves or rejects a PartnershipApplication for an authenticated administrator.
+ *
+ * The request accepts only `APPROVE` or `REJECT`; arbitrary state assignment is not supported.
+ * State-changing decisions follow the domain lifecycle and are accepted only from `IN_REVIEW`;
+ * terminal replays retain their existing idempotent behavior. Approval atomically creates or finds
+ * the Party and Partnership, grants membership and
+ * ListingSource access, updates the application, and creates the applicant notification.
+ * Rejection preserves the existing application and notification semantics. Responses always
+ * use `Cache-Control: no-store`.
+ *
+ */
+export const adminDecidePartnershipApplication = <ThrowOnError extends boolean = false>(options: Options<AdminDecidePartnershipApplicationData, ThrowOnError>): RequestResult<AdminDecidePartnershipApplicationResponses, AdminDecidePartnershipApplicationErrors, ThrowOnError> => (options.client ?? client).post<AdminDecidePartnershipApplicationResponses, AdminDecidePartnershipApplicationErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/partnership-applications/{partnershipApplicationId}/decision',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });

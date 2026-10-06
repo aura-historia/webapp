@@ -1,21 +1,13 @@
 import { H2 } from "@/components/typography/H2.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { ShopTypeBadge } from "@/features/product/catalog/components/badges/ShopTypeBadge.tsx";
-import { ShopPartnerStatusBadge } from "@/features/shop/profile/components/badges/ShopPartnerStatusBadge.tsx";
-import type { ShopDetail } from "@/data/internal/shop/ShopDetail.ts";
+import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, ImageOff } from "lucide-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
-function ShopCardComponent({ shop }: { readonly shop: ShopDetail }) {
-    const { t, i18n } = useTranslation();
-
-    const formattedDate = new Intl.DateTimeFormat(i18n.language, {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    }).format(shop.created);
+function ShopCardComponent({ shop }: { readonly shop: PublicListingSource }) {
+    const { t } = useTranslation();
 
     return (
         <article
@@ -26,7 +18,7 @@ function ShopCardComponent({ shop }: { readonly shop: ShopDetail }) {
         >
             <Link
                 to="/$lng/shops/$shopSlugId"
-                params={(current) => ({ ...current, shopSlugId: shop.shopSlugId })}
+                params={(current) => ({ ...current, shopSlugId: shop.slugId })}
                 className="block"
                 from="/$lng"
             >
@@ -53,7 +45,7 @@ function ShopCardComponent({ shop }: { readonly shop: ShopDetail }) {
                 <div className="min-w-0 space-y-1">
                     <Link
                         to="/$lng/shops/$shopSlugId"
-                        params={(current) => ({ ...current, shopSlugId: shop.shopSlugId })}
+                        params={(current) => ({ ...current, shopSlugId: shop.slugId })}
                         className="block"
                         from="/$lng"
                     >
@@ -61,23 +53,19 @@ function ShopCardComponent({ shop }: { readonly shop: ShopDetail }) {
                             {shop.name}
                         </H2>
                     </Link>
-                    <p className="text-xs text-muted-foreground">
-                        {t("shop.header.addedOn", { date: formattedDate })}
+                    <p className="text-sm text-muted-foreground">
+                        {t("shop.header.operator", { operator: shop.operatorName })}
                     </p>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                    <ShopTypeBadge shopType={shop.shopType} />
-                    <ShopPartnerStatusBadge partnerStatus={shop.partnerStatus} />
                 </div>
                 <div className="mt-auto flex flex-col gap-2 pt-3">
                     <Button asChild variant="outline" className="h-10 rounded-none">
                         <Link
                             to="/$lng/shops/$shopSlugId"
-                            params={(current) => ({ ...current, shopSlugId: shop.shopSlugId })}
+                            params={(current) => ({ ...current, shopSlugId: shop.slugId })}
                             from="/$lng"
                         >
                             <ArrowUpRight className="size-4" />
-                            <span>{t("shop.card.viewShop")}</span>
+                            <span>{t("shop.card.viewSource")}</span>
                         </Link>
                     </Button>
                 </div>

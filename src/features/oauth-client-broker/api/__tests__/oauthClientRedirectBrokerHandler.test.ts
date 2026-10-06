@@ -98,7 +98,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         const response = await get(
             createBrokerRequest({
                 extraParams: [
-                    ["partner_shop_id", "shop-1"],
+                    ["listing_source_id", "shop-1"],
                     ["resource", "products"],
                     ["resource", "shops"],
                     ["iss", "https://api.test.example"],
@@ -115,7 +115,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         expect(redirectUrl.searchParams.get("third_party_exchange_code")).toBe(
             thirdPartyExchangeCode,
         );
-        expect(redirectUrl.searchParams.get("partner_shop_id")).toBe("shop-1");
+        expect(redirectUrl.searchParams.get("listing_source_id")).toBe("shop-1");
         expect(redirectUrl.searchParams.getAll("resource")).toEqual(["products", "shops"]);
         expect(redirectUrl.searchParams.get("iss")).toBe("https://api.test.example");
         expect(redirectUrl.searchParams.get("state")).toBe("merchant-csrf-state");
@@ -155,7 +155,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
                 error: "access_denied",
                 error_description: "The user denied access.",
                 error_uri: "https://docs.example/access-denied",
-                extraParams: [["partner_shop_id", "shop-1"]],
+                extraParams: [["listing_source_id", "shop-1"]],
             }),
         );
 
@@ -168,7 +168,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         expect(redirectUrl.searchParams.get("error_uri")).toBe(
             "https://docs.example/access-denied",
         );
-        expect(redirectUrl.searchParams.get("partner_shop_id")).toBe("shop-1");
+        expect(redirectUrl.searchParams.get("listing_source_id")).toBe("shop-1");
         expect(redirectUrl.searchParams.get("state")).toBe("merchant-csrf-state");
     });
 
@@ -322,7 +322,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         await get(createBrokerRequest());
 
         const [tokenUrl] = mockFetch.mock.calls[0] as [URL, RequestInit];
-        expect(tokenUrl.toString()).toBe("https://api.dev.aura-historia.com/api/v1/oauth/token");
+        expect(tokenUrl.toString()).toBe("https://api.stage.aura-historia.com/api/v1/oauth/token");
     });
 });
 

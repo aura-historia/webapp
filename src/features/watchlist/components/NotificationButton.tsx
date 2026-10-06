@@ -5,22 +5,20 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils.ts";
 
 interface NotificationButtonProps extends Omit<ComponentProps<typeof Button>, "onClick"> {
-    readonly shopId: string;
-    readonly shopsProductId: string;
+    readonly productListingId: string;
     readonly isNotificationEnabled: boolean;
     readonly className?: string;
     readonly isVisible?: boolean;
 }
 
 export function NotificationButton({
-    shopId,
-    shopsProductId,
+    productListingId,
     isNotificationEnabled,
     className,
     isVisible = true,
     ...buttonProps
 }: NotificationButtonProps) {
-    const watchlistNotificationMutation = useWatchlistNotificationMutation(shopId, shopsProductId);
+    const watchlistNotificationMutation = useWatchlistNotificationMutation(productListingId);
 
     return (
         <Button

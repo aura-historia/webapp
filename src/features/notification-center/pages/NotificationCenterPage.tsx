@@ -49,9 +49,9 @@ export function NotificationCenterPage() {
     }
 
     const allNotifications = data?.pages.flatMap((p) => p.items) ?? [];
-    const total = data?.pages[0]?.total ?? 0;
+    const total = allNotifications.length;
     const hasUnseen = allNotifications.some((n) => !n.seen);
-    const allLoaded = allNotifications.length >= total && total > 0;
+    const allLoaded = !hasNextPage && total > 0;
     const showLoaderRow = isFetchingNextPage || allLoaded;
 
     if (allNotifications.length === 0) {
@@ -69,9 +69,11 @@ export function NotificationCenterPage() {
             <div className="flex flex-row items-start justify-between">
                 <div className="flex flex-col gap-1">
                     <H1>{t("notifications.title")}</H1>
-                    <span className="text-base text-muted-foreground">
-                        {t("notifications.totalElements", { count: total })}
-                    </span>
+                    {!hasNextPage && (
+                        <span className="text-base text-muted-foreground">
+                            {t("notifications.totalElements", { count: total })}
+                        </span>
+                    )}
                 </div>
                 <div className="flex items-center gap-2">
                     {hasUnseen && (

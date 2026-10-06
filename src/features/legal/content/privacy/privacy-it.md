@@ -72,7 +72,7 @@ Se create o utilizzate un account utente, trattiamo in particolare:
 - informazioni di autenticazione e sessione
 - nome e cognome, ove forniti
 - lingua e valuta preferite, ove fornite
-- stato del consenso per la visualizzazione di contenuti sensibili (`prohibitedContentConsent`), ove utilizzato
+- preferenza per la visualizzazione di contenuti non valutati o sensibili (`showUnassessedOrSensitiveContent`)
 - ruoli, autorizzazioni e stato dell’abbonamento
 
 L’autenticazione è gestita tecnicamente tramite AWS Amplify e Amazon Cognito.
@@ -109,6 +109,8 @@ Quando vengono utilizzate funzionalità partner, shop o di amministrazione, poss
 - candidature partner e relativi dati di stato o revisione
 - dati di accesso API o dati di amministrazione correlati
 - informazioni su ruoli e attivazioni
+
+Le candidature di collaborazione contengono l’identificativo di una fonte di offerte esistente oppure una proposta con il nome dell’operatore, telefono ed e-mail facoltativi, nome della fonte, URL e URL dell’immagine facoltativi e metodi di importazione richiesti. Le candidature non raccolgono indirizzi postali. Le proposte sono utilizzate per valutare la collaborazione; selezionare una fonte pubblica non concede accesso.
 
 **Finalità del trattamento:**
 
