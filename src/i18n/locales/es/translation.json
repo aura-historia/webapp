@@ -1534,7 +1534,7 @@
     "sidebarLabel": "Secciones de socios",
     "nav": {
       "applications": "Solicitudes",
-      "listingSources": "Proveedores accesibles",
+      "listingSources": "Proveedores aprobados",
       "accessTokens": "Tokens de acceso"
     }
   },
@@ -1821,6 +1821,13 @@
         "scopesHint": "Los permisos son opcionales. Concede solo los necesarios para la integración.",
         "expiration": "Expiración",
         "expirationHint": "Opcional. Los horarios se interpretan en tu zona horaria local.",
+        "chooseExpirationDate": "Elegir fecha",
+        "expirationTime": "Hora de caducidad",
+        "expirationHour": "Hora",
+        "expirationMinute": "Minuto",
+        "clearExpiration": "Eliminar caducidad",
+        "nextMonth": "Mes siguiente",
+        "previousMonth": "Mes anterior",
         "token": "Token de acceso"
       },
       "scopeDescriptions": {

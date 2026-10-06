@@ -7,17 +7,17 @@ const SIDEBAR_ITEMS = [
     {
         to: "/$lng/partners/applications",
         labelKey: "partnerDashboard.nav.applications",
-        icon: <FileText className="h-4 w-4" aria-hidden="true" />,
+        icon: <FileText className="h-4 w-4 shrink-0" aria-hidden="true" />,
     },
     {
         to: "/$lng/partners/listing-sources",
         labelKey: "partnerDashboard.nav.listingSources",
-        icon: <Store className="h-4 w-4" aria-hidden="true" />,
+        icon: <Store className="h-4 w-4 shrink-0" aria-hidden="true" />,
     },
     {
         to: "/$lng/partners/access-tokens",
         labelKey: "partnerDashboard.nav.accessTokens",
-        icon: <KeyRound className="h-4 w-4" aria-hidden="true" />,
+        icon: <KeyRound className="h-4 w-4 shrink-0" aria-hidden="true" />,
     },
 ] as const;
 
@@ -43,7 +43,7 @@ export function PartnerSidebar() {
                         key={item.to}
                         to={item.to}
                         className={cn(
-                            "flex shrink-0 items-center gap-2 rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors",
+                            "flex shrink-0 items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                             "hover:bg-muted hover:text-foreground",
                             isActive ? "bg-muted text-foreground" : "text-muted-foreground",
                         )}
@@ -52,7 +52,9 @@ export function PartnerSidebar() {
                         from="/$lng"
                     >
                         {item.icon}
-                        {t(item.labelKey)}
+                        <span className="min-w-0 whitespace-nowrap lg:whitespace-normal">
+                            {t(item.labelKey)}
+                        </span>
                     </Link>
                 );
             })}

@@ -1490,7 +1490,7 @@
     "sidebarLabel": "Partner Sections",
     "nav": {
       "applications": "Applications",
-      "listingSources": "Providers you can access",
+      "listingSources": "Approved providers",
       "accessTokens": "Access tokens"
     }
   },
@@ -1530,6 +1530,13 @@
         "scopesHint": "Permissions are optional. Grant only those required by the integration.",
         "expiration": "Expiration",
         "expirationHint": "Optional. Times are interpreted in your local time zone.",
+        "chooseExpirationDate": "Choose date",
+        "expirationTime": "Expiration time",
+        "expirationHour": "Hour",
+        "expirationMinute": "Minute",
+        "clearExpiration": "Clear expiration",
+        "nextMonth": "Next month",
+        "previousMonth": "Previous month",
         "token": "Access token"
       },
       "scopeDescriptions": {

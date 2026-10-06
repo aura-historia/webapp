@@ -1534,7 +1534,7 @@
     "sidebarLabel": "Sections partenaires",
     "nav": {
       "applications": "Candidatures",
-      "listingSources": "Fournisseurs accessibles",
+      "listingSources": "Fournisseurs approuvés",
       "accessTokens": "Jetons d'accès"
     }
   },
@@ -1821,6 +1821,13 @@
         "scopesHint": "Les autorisations sont facultatives. Accordez uniquement celles nécessaires à l'intégration.",
         "expiration": "Expiration",
         "expirationHint": "Facultatif. Les heures sont interprétées dans votre fuseau horaire local.",
+        "chooseExpirationDate": "Choisir une date",
+        "expirationTime": "Heure d’expiration",
+        "expirationHour": "Heure",
+        "expirationMinute": "Minute",
+        "clearExpiration": "Supprimer l’expiration",
+        "nextMonth": "Mois suivant",
+        "previousMonth": "Mois précédent",
         "token": "Jeton d'accès"
       },
       "scopeDescriptions": {

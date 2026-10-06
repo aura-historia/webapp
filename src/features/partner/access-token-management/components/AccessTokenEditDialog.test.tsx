@@ -27,6 +27,10 @@ it("renames without changing grants or truncating the existing expiry", async ()
     render(<AccessTokenEditDialog accessToken={accessToken} open onOpenChange={vi.fn()} />);
     await user.clear(screen.getByLabelText("Name"));
     await user.type(screen.getByLabelText("Name"), "Renamed");
+    await user.click(screen.getByLabelText("Ablaufzeitpunkt"));
+    await user.keyboard("{Escape}");
+    await user.click(screen.getByRole("combobox", { name: "Stunde" }));
+    await user.keyboard("{Escape}");
     await user.click(screen.getByRole("button", { name: "Änderungen speichern" }));
     expect(mutate).toHaveBeenCalledWith(
         { id: accessToken.id, name: "Renamed", scopes: undefined, expiresAt: undefined },
@@ -37,7 +41,7 @@ it("renames without changing grants or truncating the existing expiry", async ()
 it("clears the existing expiry and last scope explicitly", async () => {
     const user = userEvent.setup();
     render(<AccessTokenEditDialog accessToken={accessToken} open onOpenChange={vi.fn()} />);
-    await user.clear(screen.getByLabelText("Ablaufzeitpunkt"));
+    await user.click(screen.getByRole("button", { name: "Ablaufzeitpunkt entfernen" }));
     await user.click(screen.getByLabelText("Produktangebote schreiben"));
     await user.click(screen.getByRole("button", { name: "Änderungen speichern" }));
     expect(mutate).toHaveBeenCalledWith(

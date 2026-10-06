@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button.tsx";
+import { Checkbox } from "@/components/ui/checkbox.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import {
@@ -168,17 +169,24 @@ export function PartnerApplicationCreateDialog({
                                     </div>
                                 ))}
                                 <fieldset className="grid gap-2">
-                                    <legend>{t("partnerApplications.proposals.methods")}</legend>
+                                    <legend className="mb-2 text-sm font-medium leading-none">
+                                        {t("partnerApplications.proposals.methods")}
+                                    </legend>
                                     {INGESTION_METHODS.map((method) => (
-                                        <label key={method} className="flex items-center gap-2">
-                                            <input
-                                                type="checkbox"
+                                        <div
+                                            key={method}
+                                            className="flex items-center gap-3 border p-3"
+                                        >
+                                            <Checkbox
+                                                id={`application-ingestion-${method}`}
+                                                disabled={mutation.isPending}
                                                 checked={
                                                     methodsField.value?.includes(method) ?? false
                                                 }
-                                                onChange={(event) =>
+                                                onBlur={methodsField.onBlur}
+                                                onCheckedChange={(checked) =>
                                                     methodsField.onChange(
-                                                        event.target.checked
+                                                        checked === true
                                                             ? [
                                                                   ...(methodsField.value ?? []),
                                                                   method,
@@ -189,8 +197,15 @@ export function PartnerApplicationCreateDialog({
                                                     )
                                                 }
                                             />
-                                            {t(`partnerApplications.proposals.ingestion.${method}`)}
-                                        </label>
+                                            <Label
+                                                htmlFor={`application-ingestion-${method}`}
+                                                className="flex-1 cursor-pointer leading-normal"
+                                            >
+                                                {t(
+                                                    `partnerApplications.proposals.ingestion.${method}`,
+                                                )}
+                                            </Label>
+                                        </div>
                                     ))}
                                 </fieldset>
                             </>
