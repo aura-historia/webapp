@@ -1598,6 +1598,102 @@
       }
     }
   },
+  "adminApplications": {
+    "title": "Solicitudes de colaboración",
+    "description": "Revisa las propuestas enviadas, ponlas en revisión y registra una decisión.",
+    "loading": "Cargando solicitudes de colaboración.",
+    "loadingDetail": "Cargando solicitud.",
+    "loadError": "No se pudieron cargar las solicitudes de colaboración.",
+    "empty": "Ninguna solicitud coincide con estos filtros.",
+    "retry": "Reintentar",
+    "filters": {
+      "title": "Filtrar solicitudes",
+      "states": "Estado",
+      "proposalTypes": "Tipo de propuesta",
+      "applicantUserId": "ID de usuario del solicitante",
+      "listingSourceId": "ID de la fuente de anuncios",
+      "createdFrom": "Creada desde",
+      "createdTo": "Creada hasta",
+      "updatedFrom": "Actualizada desde",
+      "updatedTo": "Actualizada hasta",
+      "sort": "Ordenar por",
+      "apply": "Aplicar filtros",
+      "reset": "Restablecer"
+    },
+    "sort": {
+      "created_desc": "Más recientes primero",
+      "created_asc": "Más antiguas primero",
+      "updated_desc": "Actualizadas recientemente",
+      "updated_asc": "Actualizadas hace más tiempo"
+    },
+    "state": {
+      "SUBMITTED": "Enviada",
+      "IN_REVIEW": "En revisión",
+      "APPROVED": "Aprobada",
+      "REJECTED": "Rechazada",
+      "WITHDRAWN": "Retirada"
+    },
+    "proposalType": {
+      "EXISTING_LISTING_SOURCE": "Proveedor existente",
+      "PROPOSED_LISTING_SOURCE": "Proveedor propuesto"
+    },
+    "list": {
+      "applicant": "Solicitante {{id}}",
+      "created": "Creada el {{date}}",
+      "updated": "Actualizada el {{date}}",
+      "total_one": "{{count}} solicitud",
+      "total_other": "{{count}} solicitudes",
+      "loadMore": "Cargar más",
+      "loadingMore": "Cargando…"
+    },
+    "fields": {
+      "id": "ID de la solicitud",
+      "applicantUserId": "ID de usuario del solicitante",
+      "created": "Creada",
+      "updated": "Última actualización",
+      "approvedPartnershipId": "ID de la colaboración aprobada",
+      "approvedListingSourceId": "ID de la fuente de anuncios aprobada"
+    },
+    "links": {
+      "listingSources": "Abrir la administración de fuentes de anuncios"
+    },
+    "proposal": {
+      "title": "Propuesta",
+      "listingSourceId": "ID de la fuente de anuncios",
+      "partyName": "Nombre de la parte",
+      "partyPhone": "Teléfono",
+      "partyEmail": "Correo electrónico",
+      "sourceName": "Nombre del proveedor",
+      "sourceUrl": "URL del proveedor",
+      "sourceImage": "URL de la imagen",
+      "methods": "Métodos de importación solicitados"
+    },
+    "detail": {
+      "title": "Detalles de la solicitud",
+      "description": "Las propuestas no se pueden editar. Pon las solicitudes enviadas en revisión antes de aprobarlas o rechazarlas."
+    },
+    "actions": {
+      "details": "Ver detalles",
+      "markInReview": "Iniciar revisión",
+      "markInReviewHint": "Al iniciar la revisión, la solicitud pasa de Enviada a En revisión.",
+      "APPROVE": "Aprobar",
+      "REJECT": "Rechazar",
+      "cancel": "Cancelar",
+      "confirm": {
+        "APPROVE": "¿Aprobar esta solicitud? La aprobación crea o vincula la colaboración y concede acceso a la fuente de anuncios.",
+        "REJECT": "¿Rechazar esta solicitud? Se notificará al solicitante."
+      }
+    },
+    "success": {
+      "IN_REVIEW": "Solicitud puesta en revisión.",
+      "APPROVE": "Solicitud aprobada.",
+      "REJECT": "Solicitud rechazada."
+    },
+    "errors": {
+      "conflict": "Esta solicitud se ha modificado entretanto o ya no permite esta acción. Se ha cargado el estado actual.",
+      "missing": "Solicitud no encontrada o no disponible."
+    }
+  },
   "compareBarnebysPage": {
     "structuredData": {
       "about": {

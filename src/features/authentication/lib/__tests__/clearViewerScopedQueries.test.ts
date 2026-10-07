@@ -11,6 +11,7 @@ describe("clearViewerScopedQueries", () => {
             ["ownListingSources"],
             ["own-partnership-applications"],
             ["own-partnership-applications", "detail", "application-1"],
+            ["admin", "partnership-applications", "detail", "application-1"],
             ["access-tokens"],
             ["watchlist", "user-1"],
             ["search", { term: "chair" }],

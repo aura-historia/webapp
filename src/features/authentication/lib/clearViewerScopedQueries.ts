@@ -4,6 +4,7 @@ const viewerScopedQueryPrefixes = new Set([
     "oauthClient",
     "ownListingSources",
     "own-partnership-applications",
+    "admin",
     "access-tokens",
     "watchlist",
     "search",

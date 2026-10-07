@@ -16,7 +16,7 @@ Runtime references below exclude tests and generated files. A generated SDK capa
 | `adminCreateListingSource` | `POST /api/v1/admin/listing-sources` | changed | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminCreateOAuthClient` | `POST /api/v1/admin/oauth-clients` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminCreateParty` | `POST /api/v1/admin/parties` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `adminDecidePartnershipApplication` | `POST /api/v1/admin/partnership-applications/{partnershipApplicationId}/decision` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminDecidePartnershipApplication` | `POST /api/v1/admin/partnership-applications/{partnershipApplicationId}/decision` | retained | Integrated: `src/features/admin/partner-application-management/api/useAdminPartnershipApplications.ts` |
 | `adminDeleteListingSource` | `DELETE /api/v1/admin/listing-sources/{listingSourceId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminDeleteOAuthClient` | `DELETE /api/v1/admin/oauth-clients/{clientId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminDeleteParty` | `DELETE /api/v1/admin/parties/{partyId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
@@ -27,14 +27,14 @@ Runtime references below exclude tests and generated files. A generated SDK capa
 | `adminGetListingSource` | `GET /api/v1/admin/listing-sources/{listingSourceId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminGetOAuthClient` | `GET /api/v1/admin/oauth-clients/{clientId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminGetPartnership` | `GET /api/v1/admin/partnerships/{partnershipId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `adminGetPartnershipApplication` | `GET /api/v1/admin/partnership-applications/{partnershipApplicationId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminGetPartnershipApplication` | `GET /api/v1/admin/partnership-applications/{partnershipApplicationId}` | retained | Integrated: `src/features/admin/partner-application-management/api/useAdminPartnershipApplications.ts` |
 | `adminGetParty` | `GET /api/v1/admin/parties/{partyId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminGetUser` | `GET /api/v1/admin/users/{userId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminGrantPartnershipListingSource` | `PUT /api/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminGrantPartnershipMembership` | `PUT /api/v1/admin/partnerships/{partnershipId}/members/{userId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminListOAuthClients` | `GET /api/v1/admin/oauth-clients` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminListUserAccessTokens` | `GET /api/v1/admin/users/{userId}/access-tokens` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `adminMarkPartnershipApplicationInReview` | `PATCH /api/v1/admin/partnership-applications/{partnershipApplicationId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminMarkPartnershipApplicationInReview` | `PATCH /api/v1/admin/partnership-applications/{partnershipApplicationId}` | retained | Integrated: `src/features/admin/partner-application-management/api/useAdminPartnershipApplications.ts` |
 | `adminPatchOAuthClient` | `PATCH /api/v1/admin/oauth-clients/{clientId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminPatchUser` | `PATCH /api/v1/admin/users/{userId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminRevokePartnershipListingSource` | `DELETE /api/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
@@ -42,7 +42,7 @@ Runtime references below exclude tests and generated files. A generated SDK capa
 | `adminRevokeUserSessions` | `POST /api/v1/admin/users/{userId}/sessions/revoke` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminSearchListingSources` | `GET /api/v1/admin/listing-sources` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminSearchParties` | `GET /api/v1/admin/parties` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `adminSearchPartnershipApplications` | `GET /api/v1/admin/partnership-applications` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminSearchPartnershipApplications` | `GET /api/v1/admin/partnership-applications` | retained | Integrated: `src/features/admin/partner-application-management/api/useAdminPartnershipApplications.ts` |
 | `adminSearchPartnerships` | `GET /api/v1/admin/partnerships` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminSearchUsers` | `GET /api/v1/admin/users` | changed | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminSuspendUser` | `PUT /api/v1/admin/users/{userId}/suspension` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
