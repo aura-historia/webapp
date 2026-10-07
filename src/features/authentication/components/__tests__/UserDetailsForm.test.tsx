@@ -32,7 +32,7 @@ describe("UserDetailsForm", () => {
         mockSubscribe.mockResolvedValue(undefined);
     });
 
-    it("renders the newsletter consent checkbox checked by default on the personal details step", async () => {
+    it("renders the optional newsletter consent checkbox unchecked by default", async () => {
         await act(async () => {
             renderWithRouter(<UserDetailsForm email="user@example.com" onSuccess={vi.fn()} />);
         });
@@ -41,7 +41,7 @@ describe("UserDetailsForm", () => {
             name: newsletterCheckboxName,
         });
         expect(checkbox).toBeInTheDocument();
-        expect(checkbox).toBeChecked();
+        expect(checkbox).not.toBeChecked();
         expect(screen.getByRole("link", { name: "Datenschutzerklärung" })).toHaveAttribute(
             "href",
             "/de/privacy",
@@ -57,7 +57,7 @@ describe("UserDetailsForm", () => {
         expect(screen.getByRole("button", { name: "Währung" })).toHaveTextContent("EUR - Euro");
     });
 
-    it("subscribes to the newsletter with the default consent when the form is submitted", async () => {
+    it("subscribes to the newsletter only after the user opts in", async () => {
         const user = userEvent.setup();
         const onSuccess = vi.fn();
 
@@ -67,6 +67,7 @@ describe("UserDetailsForm", () => {
 
         await user.type(screen.getByLabelText("Vorname"), "Max");
         await user.type(screen.getByLabelText("Nachname"), "Mustermann");
+        await user.click(screen.getByRole("checkbox", { name: newsletterCheckboxName }));
         await user.click(screen.getByRole("button", { name: "Speichern und fortfahren" }));
 
         await waitFor(() => {
@@ -92,7 +93,7 @@ describe("UserDetailsForm", () => {
         expect(onSuccess).toHaveBeenCalled();
     });
 
-    it("doesnt subscribe to the newsletter when the user skips the personal details step with default consent enabled", async () => {
+    it("does not subscribe to the newsletter when the user skips the personal details step", async () => {
         const user = userEvent.setup();
         const onSuccess = vi.fn();
 
@@ -109,7 +110,7 @@ describe("UserDetailsForm", () => {
         expect(mockSubscribe).not.toHaveBeenCalled();
     });
 
-    it("does not subscribe when the user opts out before continuing", async () => {
+    it("does not subscribe when the user leaves the optional checkbox unchecked", async () => {
         const user = userEvent.setup();
         const onSuccess = vi.fn();
 
@@ -117,11 +118,6 @@ describe("UserDetailsForm", () => {
             renderWithRouter(<UserDetailsForm email="user@example.com" onSuccess={onSuccess} />);
         });
 
-        await user.click(
-            screen.getByRole("checkbox", {
-                name: newsletterCheckboxName,
-            }),
-        );
         await user.click(screen.getByRole("button", { name: "Speichern und fortfahren" }));
 
         await waitFor(() => {

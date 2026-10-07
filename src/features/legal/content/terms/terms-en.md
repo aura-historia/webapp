@@ -202,9 +202,7 @@ We may throttle, suspend, or revoke API access or comparable features for reason
 
 ## 11. Newsletter and Marketing Communications
 
-You will receive marketing emails only where you have expressly consented or where there is another valid legal basis.
-
-We use a **double opt-in process** for newsletter subscriptions. Delivery is carried out – where the feature is enabled – via **Zoho Campaigns**. You may unsubscribe at any time with effect for the future.
+You will receive marketing emails only if you choose to subscribe. Subscribing is separate from creating or using an account; signing in to Aura Historia does not by itself mean that you have agreed to receive marketing emails. You may unsubscribe at any time using the link in an email or withdraw your consent.
 
 There is no entitlement to receive any particular marketing communication.
 
@@ -289,4 +287,4 @@ If you are a merchant, a legal entity under public law, a special fund under pub
 
 ---
 
-*Status: 20 June 2026*
+*Status: 7 October 2026*

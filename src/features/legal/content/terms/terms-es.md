@@ -202,9 +202,7 @@ Podremos limitar, suspender o revocar el acceso a la API o a funciones comparabl
 
 ## 11. Boletines y comunicaciones de marketing
 
-Solo recibirá correos electrónicos de marketing cuando haya prestado su consentimiento expreso o exista otra base jurídica válida.
-
-Utilizamos un procedimiento de **double opt-in** para las suscripciones al boletín. El envío se realiza – cuando la función esté habilitada – a través de **Zoho Campaigns**. Puede darse de baja en cualquier momento con efecto futuro.
+Solo recibirá correos electrónicos de marketing si decide suscribirse. La suscripción es independiente de la creación o el uso de una cuenta; iniciar sesión en Aura Historia no significa por sí solo que haya aceptado recibir correos de marketing. Puede darse de baja en cualquier momento mediante el enlace incluido en un correo o retirar su consentimiento.
 
 No existe derecho a recibir una comunicación de marketing determinada.
 
@@ -289,4 +287,4 @@ Si usted es comerciante, una persona jurídica de derecho público, un patrimoni
 
 ---
 
-*Estado: 20.06.2026*
+*Estado: 07.10.2026*

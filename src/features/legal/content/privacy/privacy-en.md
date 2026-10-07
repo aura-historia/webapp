@@ -67,15 +67,14 @@ The processing serves the following purposes:
 If you create or use a user account, we process in particular:
 
 - email address
-- internal user identifier (user ID)
-- verification and login status
-- authentication and session information
 - first and last name where provided
 - preferred language and currency where provided
-- preference for showing unassessed or sensitive content (`showUnassessedOrSensitiveContent`)
+- account preferences
 - roles, permissions, and subscription status
 
-Authentication is technically handled via AWS Amplify and Amazon Cognito.
+You can also sign in with Google or Facebook (Meta). In that case, we receive account information from the provider you choose that is needed to authenticate you and create or associate your Aura Historia account. Depending on the provider and your settings with them, this may include your email address, name, and an identifier for your provider account. We use this information for sign-in and account management. Google and Meta also process information under their own privacy policies. These sign-in options are separate from Google Analytics, Google Maps, and Facebook links for sharing content.
+
+For more information, see [Google's Privacy Policy](https://policies.google.com/privacy) and [Meta's Privacy Policy](https://www.facebook.com/privacy/policy/).
 
 **Purposes of processing:**
 
@@ -110,7 +109,7 @@ Where partner, shop, or administration features are used, we may additionally pr
 - API access data or related administration data
 - role and activation information
 
-Partnership applications contain either an existing provider ID or a proposal with a party name, optional phone and email contacts, and a provider name, optional URL and image URL, and requested ingestion methods. Applications do not collect postal addresses. Proposals are used for partnership review; selecting a public provider does not grant access.
+If you explicitly authorize an external application, it can access the data or resources shown on the authorization screen. You may decline a request. After you approve it, the application may handle the data it receives under its own privacy policy. You can ask us to revoke an authorization; this does not delete data the application has already received. Contact us to request revocation, and contact the application provider about data it has already received.
 
 **Purposes of processing:**
 
@@ -155,15 +154,16 @@ Payment processing is carried out via [Stripe](https://stripe.com/) (Stripe Paym
 
 ## 7. Newsletter and Marketing Communications
 
-If you subscribe to our newsletter or otherwise grant consent to marketing communications, we process in particular:
+If you choose to receive marketing emails, we process in particular:
 
 - your email address
 - your first and last name, where provided
 - language and currency information, where provided
-- double opt-in evidence, in particular timestamp, IP address, and consent status
-- send, delivery, open, and click information where legally permissible
+- records of your subscription, confirmation, and later unsubscription
 
-For newsletter functions we use **Zoho Campaigns**, where enabled. Subscription becomes effective only after successful double opt-in confirmation. You may unsubscribe at any time with effect for the future.
+We use this information to send newsletters, personalized recommendations for relevant objects, and information about features and plans. We use **Loops** to manage subscriptions and send these emails.
+
+Subscribing is voluntary and separate from creating or using an account. Signing in to Aura Historia does not mean that you have agreed to receive marketing emails. If you opt in during account registration, we start sending after you verify your email address. A separate newsletter subscription starts after you confirm through the link we email you. You can unsubscribe at any time using the link in a marketing email or otherwise withdraw your consent.
 
 **Legal basis:**
 
@@ -175,16 +175,7 @@ Withdrawal of your consent does not affect the lawfulness of processing carried 
 
 ## 8. Cookies, Local Storage, and Session Storage
 
-We use technically necessary browser storage and, only where legally permissible and after your consent, optional services for analytics features and embedded external maps.
-
-At present, the following storage mechanisms are used in particular:
-
-- **`user-preferences` (cookie, up to 1 year):** stores functional preferences such as currency and the status of your choices for analytics/tracking and external maps; this is used to apply your settings consistently on the server and client side
-- **`aura-language` (cookie, up to 1 year):** stores the language you explicitly select so that a later visit without a language prefix opens in that language instead of relying on your browser settings
-- **`user-preferences` (local storage):** stores the same functional preferences locally in your browser until you delete them
-- **`auth.signUp.pendingEmail` (session storage):** temporarily stores your email address during a multi-step sign-up process and is typically deleted at the end of the browser session
-
-Additional technically necessary storage may be used by authentication, security, or consent mechanisms. The exact key names may change over time.
+We use technically necessary storage in your browser. We may store your selected language, functional preferences, and consent choices in cookies or local storage so we can remember and apply them on later visits. Sign-in and registration may also require temporary browser storage. Optional analytics features and external maps are used only where legally permitted and after your consent.
 
 **Legal bases:**
 
@@ -255,16 +246,9 @@ After review, we remove, block, or restrict content where legally required or wh
 
 ## 11. AI-Assisted Processing and No Automated Individual Decisions
 
-We may use automated and AI-assisted procedures, in particular for:
+Some features use automated or AI-assisted methods to organize content and find relevant search results. For enhanced matching of saved searches, we send the search description you enter, relevant listing descriptions, and sometimes an image to Cloudflare for assessment of possible matches. These inputs may contain personal data if they relate to an identifiable person.
 
-- classification and structuring of content
-- similarity search and ranking
-- safety and sensitivity filtering
-- extraction, enrichment, and contextualization of information
-
-These procedures serve the technical support of our service. We do not make decisions based solely on such processing that produce legal effects or similarly significantly affect you within the meaning of Art. 22 GDPR.
-
-Historical or sensitive content may additionally be subject to technical safeguards, warnings, or consent-based display restrictions.
+This processing supports search functionality. It does not make decisions based solely on automated processing that produce legal effects or similarly significantly affect you within the meaning of Art. 22 GDPR.
 
 **Legal bases:**
 
@@ -277,16 +261,17 @@ Historical or sensitive content may additionally be subject to technical safegua
 
 We use external service providers and infrastructure providers. Personal data may be transferred or disclosed to the following categories of recipients:
 
-- **Amazon Web Services (AWS) / Amazon Cognito** – in particular for registration, login, and authentication
-- **Cloudflare** – in particular for website delivery, performance, caching, security, and protection functions
-- **Hetzner Online GmbH** – where certain backend, hosting, or storage components are operated there
+- **Amazon Web Services (AWS)** – for registration and sign-in
+- **Cloudflare** – for website delivery and security, and enhanced matching of saved searches
+- **Hetzner Online GmbH** – where parts of our service are hosted there
 - **Stripe** – for payment processing, subscription management, checkout, and customer portal functions
-- **Zoho Campaigns** – where newsletter and marketing communication are enabled
-- **Google** – where Google Analytics, Consent Mode functions, or Google Maps are used
+- **Loops** – for newsletters and marketing emails
+- **Google** – if you use Google Analytics, Google Maps, or Google sign-in
+- **Meta/Facebook** – if you use Facebook sign-in
 - **additional technical, legal, tax, or organizational service providers** – where required for operations, support, security, compliance, or the enforcement of claims
 - **authorities, courts, and third parties** – where we are legally obliged to do so or where this is necessary to enforce legal claims
 
-Some of these recipients may process data outside the European Union or the European Economic Area, or access data from third countries. This applies in particular to global technology providers such as Google, Stripe, Cloudflare, AWS, or Zoho.
+Some of these providers may process data outside the European Union or European Economic Area, or access it from outside those areas. This may include Google, Meta/Facebook, AWS, Stripe, Cloudflare, and Loops.
 
 Where third-country transfers take place, we rely – depending on the provider and situation – in particular on:
 
@@ -294,7 +279,7 @@ Where third-country transfers take place, we rely – depending on the provider 
 - the European Commission's Standard Contractual Clauses,
 - supplementary contractual, technical, and organizational safeguards.
 
-Upon request, we will be happy to provide further information about the safeguards applicable in the individual case.
+Contact us for information about the safeguards applying to a particular transfer. Google Analytics and Google Maps are separate from Google sign-in; Facebook sign-in is separate from sharing content through Facebook.
 
 ---
 
@@ -306,12 +291,10 @@ The following criteria typically apply in particular:
 
 - **Account data:** until the account is deleted or the user relationship ends; thereafter deletion or blocking unless statutory retention obligations prevent this
 - **Contract, billing, and tax data:** for the duration of statutory commercial-law and tax-law retention periods
-- **Newsletter data and consent evidence:** until unsubscription or withdrawal and beyond that where necessary to document or defend legal claims
-- **Server, edge, and security logs:** for a limited period where necessary to ensure security, stability, and error analysis
+- **Newsletter data:** while you are subscribed; evidence of your consent and unsubscription may be kept longer where needed to document your choice and handle legal claims
+- **Technical and security data:** for as long as needed to protect and maintain the service or investigate an incident
 - **Data from public sources:** as long as required for documentation, research, or platform purposes, or until a justified deletion or blocking request must be complied with
 - **Browser storage:** until expiry of the relevant storage period or until you delete it yourself
-
-Backups and technical replicas may be overwritten only with a time delay for system reasons.
 
 ---
 
@@ -360,4 +343,4 @@ We may adapt these privacy notices where this becomes necessary due to legal, te
 
 ---
 
-*Status: 14 August 2026*
+*Status: 7 October 2026*
