@@ -100,8 +100,10 @@ export function PartnerApplicationDetailDialog({
                                     ) : null,
                                 )}
                                 <div>
-                                    <dt>{t("partnerApplications.proposals.methods")}</dt>
-                                    <dd>
+                                    <dt className="text-sm text-muted-foreground">
+                                        {t("partnerApplications.proposals.methods")}
+                                    </dt>
+                                    <dd className="break-all">
                                         {proposal.listingSource.requestedIngestionMethods
                                             .map((method) =>
                                                 t(
@@ -118,7 +120,9 @@ export function PartnerApplicationDetailDialog({
                             <div className="grid gap-3">
                                 {confirming ? (
                                     <>
-                                        <p>{t("partnerApplications.proposals.withdrawConfirm")}</p>
+                                        <p className="text-sm text-muted-foreground">
+                                            {t("partnerApplications.proposals.withdrawConfirm")}
+                                        </p>
                                         <div className="flex gap-2">
                                             <Button
                                                 variant="destructive"

@@ -28,7 +28,7 @@ describe("PartnerSidebar", () => {
     it("links granted sources to the listing-source portfolio", () => {
         mockPathname.mockReturnValue("/de/partners/listing-sources");
         render(<PartnerSidebar />);
-        const link = screen.getByRole("link", { name: "Freigegebene Anbieter" });
+        const link = screen.getByRole("link", { name: "Genehmigte Anbieter" });
         expect(link).toHaveAttribute("href", "/de/partners/listing-sources");
         expect(link).toHaveAttribute("aria-current", "page");
     });

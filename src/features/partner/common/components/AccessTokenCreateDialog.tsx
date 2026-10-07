@@ -29,6 +29,7 @@ import {
     createAccessTokenFormSchema,
 } from "@/features/partner/common/components/AccessTokenCreateForm.ts";
 import type { CreatedAccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
+import { AccessTokenExpirationField } from "./AccessTokenExpirationField.tsx";
 
 interface AccessTokenCreateDialogProps {
     readonly open: boolean;
@@ -146,25 +147,11 @@ export function AccessTokenCreateDialog({
                             onChange={scopesField.onChange}
                         />
 
-                        <div className="grid gap-2">
-                            <Label htmlFor="access-token-expiration">
-                                {t("partnerAccessTokens.create.fields.expiration")}
-                            </Label>
-                            <Input
-                                id="access-token-expiration"
-                                type="datetime-local"
-                                aria-invalid={Boolean(form.formState.errors.expiresAt)}
-                                {...form.register("expiresAt")}
-                            />
-                            <p className="text-sm text-muted-foreground">
-                                {t("partnerAccessTokens.create.fields.expirationHint")}
-                            </p>
-                            {form.formState.errors.expiresAt && (
-                                <p className="text-sm text-destructive">
-                                    {form.formState.errors.expiresAt.message}
-                                </p>
-                            )}
-                        </div>
+                        <AccessTokenExpirationField
+                            id="access-token-expiration"
+                            control={form.control}
+                            disabled={createAccessToken.isPending}
+                        />
 
                         <DialogFooter>
                             <Button

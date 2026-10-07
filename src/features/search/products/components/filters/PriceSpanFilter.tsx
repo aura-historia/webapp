@@ -2,7 +2,7 @@ import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { Input } from "@/components/ui/input.tsx";
 import { Slider } from "@/components/ui/slider.tsx";
 import { useEffect, useRef } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useFilterNavigation } from "@/features/search/products/hooks/useFilterNavigation.ts";
 import { FilterCard } from "@/features/search/common/components/filters/FilterCard.tsx";
@@ -14,12 +14,13 @@ const PRICE_MIN = 0;
 const PRICE_MAX = 10_000;
 
 export function PriceSpanFilter({ currency }: { readonly currency?: Currency } = {}) {
-    const { control, watch, setValue } = useFormContext<FilterSchema>();
+    const { watch, setValue } = useFormContext<FilterSchema>();
     const { t } = useTranslation();
     const { preferences } = useUserPreferences();
 
     const resetAndNavigate = useFilterNavigation();
 
+    // Read optional values directly: Controller can fall back to its initial value after reset.
     const watchedMin = watch("priceSpan.min");
     const watchedMax = watch("priceSpan.max");
     const watchedPriceSpan = watch("priceSpan");
@@ -93,57 +94,41 @@ export function PriceSpanFilter({ currency }: { readonly currency?: Currency } =
                     aria-label={t("search.filter.priceSpanAria")}
                 />
                 <div className="flex items-center gap-2">
-                    <Controller
-                        name="priceSpan.min"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="text"
-                                inputMode="numeric"
-                                pattern="[0-9]*"
-                                placeholder={t("search.filter.min")}
-                                className="h-9 rounded-none border-0 border-b border-outline-variant bg-transparent px-0 py-0 text-sm shadow-none focus-visible:border-primary focus-visible:ring-0"
-                                value={
-                                    field.value === undefined || field.value === null
-                                        ? ""
-                                        : String(field.value)
-                                }
-                                onChange={(e) =>
-                                    handleNumericChange(e.target.value, "priceSpan.min")
-                                }
-                                onBlur={() => {
-                                    sortInputFields();
-                                }}
-                            />
-                        )}
+                    <Input
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        placeholder={t("search.filter.min")}
+                        className="h-9 rounded-none border-0 border-b border-outline-variant bg-transparent px-0 py-0 text-sm shadow-none focus-visible:border-primary focus-visible:ring-0"
+                        value={
+                            watchedMin === undefined || watchedMin === null
+                                ? ""
+                                : String(watchedMin)
+                        }
+                        onChange={(e) => handleNumericChange(e.target.value, "priceSpan.min")}
+                        onBlur={() => {
+                            sortInputFields();
+                        }}
                     />
                     <span className="text-xs uppercase text-on-surface-variant">
                         {currencySymbol}
                     </span>
                     <span className="text-on-surface-variant">-</span>
-                    <Controller
-                        name="priceSpan.max"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="text"
-                                inputMode="numeric"
-                                pattern="[0-9]*"
-                                placeholder={t("search.filter.max")}
-                                className="h-9 rounded-none border-0 border-b border-outline-variant bg-transparent px-0 py-0 text-sm shadow-none focus-visible:border-primary focus-visible:ring-0"
-                                value={
-                                    field.value === undefined || field.value === null
-                                        ? ""
-                                        : String(field.value)
-                                }
-                                onChange={(e) =>
-                                    handleNumericChange(e.target.value, "priceSpan.max")
-                                }
-                                onBlur={() => {
-                                    sortInputFields();
-                                }}
-                            />
-                        )}
+                    <Input
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        placeholder={t("search.filter.max")}
+                        className="h-9 rounded-none border-0 border-b border-outline-variant bg-transparent px-0 py-0 text-sm shadow-none focus-visible:border-primary focus-visible:ring-0"
+                        value={
+                            watchedMax === undefined || watchedMax === null
+                                ? ""
+                                : String(watchedMax)
+                        }
+                        onChange={(e) => handleNumericChange(e.target.value, "priceSpan.max")}
+                        onBlur={() => {
+                            sortInputFields();
+                        }}
                     />
                     <span className="text-xs uppercase text-on-surface-variant">
                         {currencySymbol}

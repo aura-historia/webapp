@@ -1490,7 +1490,7 @@
     "sidebarLabel": "Partner-Bereiche",
     "nav": {
       "applications": "Partner-Anträge",
-      "listingSources": "Freigegebene Anbieter",
+      "listingSources": "Genehmigte Anbieter",
       "accessTokens": "Zugriffstoken"
     }
   },
@@ -1530,6 +1530,13 @@
         "scopesHint": "Berechtigungen sind optional. Vergeben Sie nur die für die Integration erforderlichen Rechte.",
         "expiration": "Ablaufzeitpunkt",
         "expirationHint": "Optional. Zeitangaben werden in Ihrer lokalen Zeitzone interpretiert.",
+        "chooseExpirationDate": "Datum wählen",
+        "expirationTime": "Ablaufzeit",
+        "expirationHour": "Stunde",
+        "expirationMinute": "Minute",
+        "clearExpiration": "Ablaufzeitpunkt entfernen",
+        "nextMonth": "Nächster Monat",
+        "previousMonth": "Vorheriger Monat",
         "token": "Zugriffstoken"
       },
       "scopeDescriptions": {

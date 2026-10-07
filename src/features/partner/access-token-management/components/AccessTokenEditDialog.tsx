@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { useUpdateAccessToken } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
 import { AccessTokenScopesField } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
+import { AccessTokenExpirationField } from "@/features/partner/common/components/AccessTokenExpirationField.tsx";
 import {
     type AccessTokenCreateFormData,
     createAccessTokenFormSchema,
@@ -137,25 +138,11 @@ function AccessTokenEditDialogContent({
 
                 <AccessTokenScopesField value={scopesField.value} onChange={scopesField.onChange} />
 
-                <div className="grid gap-2">
-                    <Label htmlFor="access-token-edit-expiration">
-                        {t("partnerAccessTokens.create.fields.expiration")}
-                    </Label>
-                    <Input
-                        id="access-token-edit-expiration"
-                        type="datetime-local"
-                        aria-invalid={Boolean(form.formState.errors.expiresAt)}
-                        {...form.register("expiresAt")}
-                    />
-                    <p className="text-sm text-muted-foreground">
-                        {t("partnerAccessTokens.create.fields.expirationHint")}
-                    </p>
-                    {form.formState.errors.expiresAt && (
-                        <p className="text-sm text-destructive">
-                            {form.formState.errors.expiresAt.message}
-                        </p>
-                    )}
-                </div>
+                <AccessTokenExpirationField
+                    id="access-token-edit-expiration"
+                    control={form.control}
+                    disabled={updateAccessToken.isPending}
+                />
 
                 <DialogFooter>
                     <Button

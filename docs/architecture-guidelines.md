@@ -36,6 +36,7 @@ src/features/<feature-name>/
 - Use TanStack Query for cache, mutation, and client interaction patterns.
 - Respect authenticated vs unauthenticated cache behavior. Do not cache personalized data as shared public data.
 - Parse language via existing language utilities and currency/preferences via existing preference helpers.
+- Keep route `validateSearch` output URL-safe (strings, numbers, booleans, and arrays). Product search uses `validateSearchUrlParams` for route state and `validateSearchParams` to map date strings to domain `Date` values at the page boundary. Returning `Date` objects from route validation can cause repeated canonical URL redirects.
 
 ## Generated code
 
@@ -71,4 +72,3 @@ Start with the narrowest relevant checks, then broaden when useful:
 - Lint/check changed code: `pnpm lint` or `pnpm check` when appropriate.
 - Build after routing/SSR/i18n changes: `pnpm build`.
 - Ignore E2E tests for now unless the user explicitly asks for them.
-

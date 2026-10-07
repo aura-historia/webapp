@@ -7,6 +7,7 @@ The October 1 check was superseded by the pinned October 5 [integration contract
 - Create and read use `scope` and `expiresAt`; patch uses `scopes` and `expires`.
 - Patch fields are optional. Omission preserves state, `scopes: []` clears permissions, and `expires: null` clears expiry. Null names/scopes are rejected before sending a request.
 - Edit submits only changed fields, preserving the original expiry precision and existing grants when renaming.
+- Create/edit expiry uses the shared styled calendar with localized dates and styled hour/minute selectors in local time. Expiry stays optional; clearing it omits expiry on create and explicitly clears it on edit. Opening the pickers alone does not change the expiry.
 - IDs, including `at_` IDs, are opaque strings. Deletion succeeds with 204 even when already absent.
 - New tokens default to no scopes. This is a fresh deployment with no existing users or tokens: only the supported scope enum is modeled, with no legacy/unknown-grant compatibility or migration. A name-only edit omits scopes; editing scopes replaces the entire grant set.
 - Scope descriptions disclose listing deletion, permanent account deletion, Stripe checkout/billing-portal session creation and provider ingestion configuration in all five locales. Create/edit dialogs scroll within the viewport so expiry and submission controls remain reachable with all supported scopes.

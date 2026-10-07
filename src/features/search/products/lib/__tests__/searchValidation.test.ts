@@ -1,8 +1,17 @@
 import { describe, expect, it } from "vitest";
+import {
+    createMemoryHistory,
+    createRootRoute,
+    createRoute,
+    createRouter,
+    defaultParseSearch,
+    defaultStringifySearch,
+} from "@tanstack/react-router";
 
 import {
     serializeSearchParams,
     validateSearchParams,
+    validateSearchUrlParams,
     type RawSearchParams,
 } from "@/features/search/products/lib/searchValidation.ts";
 
@@ -64,6 +73,64 @@ describe("validateSearchParams", () => {
         expect(result.priceFrom).toBeUndefined();
         expect(result.availability).toBeUndefined();
         expect(result.creationDateFrom).toBeUndefined();
+    });
+});
+
+describe("validateSearchUrlParams", () => {
+    it("keeps every date range URL-safe and stable after serialization and parsing", () => {
+        const raw = {
+            q: "chair",
+            creationDateFrom: "1900-01-01",
+            creationDateTo: "1950-12-31",
+            updateDateFrom: "2026-01-01T12:30:00.000Z",
+            updateDateTo: "2026-02-01",
+            auctionDateFrom: "2026-03-01",
+            auctionDateTo: "2026-04-01",
+            listingSourceId: ["ls_1"],
+            availability: ["IN_STOCK"],
+            priceFrom: 100,
+        } as RawSearchParams;
+        const validated = validateSearchUrlParams(raw);
+        const search = defaultStringifySearch(validated);
+        const roundTrip = validateSearchUrlParams(defaultParseSearch(search) as RawSearchParams);
+
+        expect(validated.creationDateFrom).toBe("1900-01-01T00:00:00.000Z");
+        expect(roundTrip).toEqual(validated);
+        expect(defaultStringifySearch(roundTrip)).toBe(search);
+        expect(validateSearchParams(roundTrip).creationDateFrom).toEqual(
+            new Date("1900-01-01T00:00:00.000Z"),
+        );
+    });
+
+    it.each([
+        "/de/search?q=chair&creationDateFrom=1900-01-01",
+        "/de/search?q=chair&auctionDateTo=%222026-04-01T00%3A00%3A00.000Z%22",
+        "/de/search?q=chair&priceFrom=invalid&updateDateFrom=invalid",
+    ])("stops server canonical redirects after normalizing %s", async (href) => {
+        const createSearchRouter = (entry: string) => {
+            const root = createRootRoute();
+            const search = createRoute({
+                getParentRoute: () => root,
+                path: "/$lng/search",
+                validateSearch: validateSearchUrlParams,
+            });
+            return createRouter({
+                routeTree: root.addChildren([search]),
+                history: createMemoryHistory({ initialEntries: [entry] }),
+                isServer: true,
+            });
+        };
+
+        const initial = createSearchRouter(href);
+        await initial.load();
+        const result = initial._serverResult;
+        expect(result?.type).toBe("redirect");
+        if (result?.type !== "redirect") throw new Error("Expected a canonical redirect");
+
+        const normalized = createSearchRouter(result.redirect.options.href as string);
+        await normalized.load();
+        expect(normalized._serverResult?.type).toBe("render");
+        expect(normalized.state.matches.every((match) => match.status === "success")).toBe(true);
     });
 });
 

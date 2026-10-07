@@ -38,20 +38,50 @@ describe("AccessTokenCreateDialog", () => {
 
     it("submits optional scopes and expiration", async () => {
         const user = userEvent.setup();
-        render(<AccessTokenCreateDialog open onOpenChange={vi.fn()} />);
+        render(
+            <AccessTokenCreateDialog
+                open
+                onOpenChange={vi.fn()}
+                defaultValues={{ name: "", scopes: [], expiresAt: "2026-08-01T00:00" }}
+            />,
+        );
         expect(screen.getByLabelText("Anbieterimport konfigurieren")).not.toBeChecked();
 
         await user.type(screen.getByLabelText("Name"), "Product sync");
         await user.click(screen.getByLabelText("Produktangebote schreiben"));
-        await user.type(screen.getByLabelText("Ablaufzeitpunkt"), "2026-08-01T12:00");
+        await user.click(screen.getByLabelText("Ablaufzeitpunkt"));
+        await user.click(screen.getByRole("button", { name: "Sonntag, 2. August 2026" }));
+        await user.click(screen.getByRole("combobox", { name: "Stunde" }));
+        await user.click(screen.getByRole("option", { name: "12" }));
+        await user.click(screen.getByRole("combobox", { name: "Minute" }));
+        await user.click(screen.getByRole("option", { name: "37" }));
         await user.click(screen.getByRole("button", { name: "Token erstellen" }));
 
         expect(mockCreateAccessTokenMutate).toHaveBeenCalledWith(
             {
                 name: "Product sync",
                 scopes: ["product-listings:write"],
-                expiresAt: new Date("2026-08-01T12:00"),
+                expiresAt: new Date("2026-08-02T12:37"),
             },
+            { onSuccess: expect.any(Function) },
+        );
+    });
+
+    it("clears a chosen expiration so creation remains optional", async () => {
+        const user = userEvent.setup();
+        render(
+            <AccessTokenCreateDialog
+                open
+                onOpenChange={vi.fn()}
+                defaultValues={{ name: "No expiry", scopes: [], expiresAt: "2026-08-01T12:00" }}
+            />,
+        );
+        await user.click(screen.getByRole("button", { name: "Ablaufzeitpunkt entfernen" }));
+        expect(screen.getByRole("combobox", { name: "Stunde" })).toBeDisabled();
+        expect(screen.getByRole("combobox", { name: "Minute" })).toBeDisabled();
+        await user.click(screen.getByRole("button", { name: "Token erstellen" }));
+        expect(mockCreateAccessTokenMutate).toHaveBeenCalledWith(
+            { name: "No expiry", scopes: [], expiresAt: undefined },
             { onSuccess: expect.any(Function) },
         );
     });
