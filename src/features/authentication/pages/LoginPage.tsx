@@ -5,9 +5,11 @@ type LoginPageProps = {
     readonly step: AuthStep;
     readonly onStepChange: (step: AuthStep) => void;
     readonly onComplete: () => void;
+    readonly locale: string;
+    readonly redirect?: string;
 };
 
-export function LoginPage({ step, onStepChange, onComplete }: LoginPageProps) {
+export function LoginPage({ step, onStepChange, onComplete, locale, redirect }: LoginPageProps) {
     const { t } = useTranslation();
 
     return (
@@ -29,7 +31,13 @@ export function LoginPage({ step, onStepChange, onComplete }: LoginPageProps) {
 
             {/* Right panel — auth form or completion state */}
             <div className="flex justify-center items-start lg:items-center px-6 lg:px-0 pb-12 lg:pb-0 w-full">
-                <AuthFlow step={step} onStepChange={onStepChange} onComplete={onComplete} />
+                <AuthFlow
+                    step={step}
+                    onStepChange={onStepChange}
+                    onComplete={onComplete}
+                    locale={locale}
+                    redirect={redirect}
+                />
             </div>
         </div>
     );

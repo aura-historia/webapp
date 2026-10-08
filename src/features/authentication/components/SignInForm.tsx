@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getAuthErrorMessage } from "@/features/authentication/lib/getAuthErrorMessage.ts";
 import { Spinner } from "@/components/ui/spinner";
+import { FederatedAuthOptions } from "@/features/authentication/components/FederatedAuthOptions.tsx";
 
 const signInSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
     z.object({
@@ -29,6 +30,8 @@ type SignInFormProps = {
     readonly onSwitchToResetPassword: () => void;
     readonly onConfirmationRequired: (email: string, password: string) => void;
     readonly onSuccess: () => void;
+    readonly locale: string;
+    readonly redirect?: string;
 };
 
 function isUserNotConfirmedError(err: unknown): boolean {
@@ -48,6 +51,8 @@ export function SignInForm({
     onSwitchToResetPassword,
     onConfirmationRequired,
     onSuccess,
+    locale,
+    redirect,
 }: SignInFormProps) {
     const { t } = useTranslation();
     const schema = signInSchema(t);
@@ -97,6 +102,8 @@ export function SignInForm({
                 <h1 className="font-display text-2xl text-primary">{t("auth.signIn.title")}</h1>
                 <p className="text-sm text-muted-foreground">{t("auth.signIn.subtitle")}</p>
             </div>
+
+            <FederatedAuthOptions intent="sign-in" locale={locale} redirect={redirect} />
 
             <Form {...form}>
                 <form

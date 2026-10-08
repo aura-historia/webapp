@@ -39,6 +39,7 @@ import { getServerUser } from "@/lib/server/amplify.ts";
 import { getLanguageFromPathname, isLocalizedAppPath, localizeHref } from "@/i18n/routing.ts";
 import { syncAmplifyTranslations } from "@/features/authentication/lib/amplifyI18nBridge.ts";
 import { clearViewerScopedQueries } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
+import { useFederatedAuthRedirectCompletion } from "@/features/authentication/hooks/useFederatedAuthRedirectCompletion.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -175,6 +176,7 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const { i18n } = useTranslation();
     const { initialPreferences } = Route.useRouteContext();
     const queryClient = useQueryClient();
+    useFederatedAuthRedirectCompletion();
 
     // Capture the consent value at first render so init runs only once.
     const initialConsentRef = useRef(initialPreferences?.trackingConsent);

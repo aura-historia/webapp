@@ -61,6 +61,28 @@ describe("useResolvedAuth", () => {
         expect(result.current.user).toEqual(clientUser);
     });
 
+    it("picks up the session when Amplify signs in after a federated redirect", async () => {
+        const { result } = renderHook(() => useResolvedAuth());
+        await waitFor(() => {
+            expect(result.current.isResolved).toBe(true);
+        });
+        expect(result.current.isAuthenticated).toBe(false);
+
+        // Amplify emits the regular signedIn event once the redirect callback stored tokens.
+        mockGetCurrentUser.mockResolvedValue(clientUser);
+        const [[, onAuthEvent]] = mockHubListen.mock.calls as unknown as [
+            [string, (input: { payload: { event: string } }) => void],
+        ];
+        act(() => {
+            onAuthEvent({ payload: { event: "signedIn" } });
+        });
+
+        await waitFor(() => {
+            expect(result.current.isAuthenticated).toBe(true);
+        });
+        expect(result.current.user).toEqual(clientUser);
+    });
+
     it("stays unresolved while client auth is loading", () => {
         mockGetCurrentUser.mockImplementation(() => new Promise(() => {}));
 

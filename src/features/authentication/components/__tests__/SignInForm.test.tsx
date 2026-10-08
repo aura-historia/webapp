@@ -4,10 +4,12 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mockSignIn = vi.hoisted(() => vi.fn());
 const mockResendSignUpCode = vi.hoisted(() => vi.fn());
+const mockSignInWithRedirect = vi.hoisted(() => vi.fn());
 
 vi.mock("aws-amplify/auth", () => ({
     signIn: mockSignIn,
     resendSignUpCode: mockResendSignUpCode,
+    signInWithRedirect: mockSignInWithRedirect,
 }));
 
 import { SignInForm } from "../SignInForm";
@@ -35,6 +37,7 @@ function renderSignInForm(overrides?: {
                 onSwitchToResetPassword={vi.fn()}
                 onConfirmationRequired={onConfirmationRequired}
                 onSuccess={onSuccess}
+                locale="de"
             />,
         ),
     };
@@ -126,5 +129,24 @@ describe("SignInForm", () => {
         await waitFor(() => {
             expect(onConfirmationRequired).toHaveBeenCalledWith("user@example.com", "Password1!");
         });
+    });
+
+    it("starts the Google redirect without submitting the native form", async () => {
+        mockSignInWithRedirect.mockResolvedValue(undefined);
+        const user = userEvent.setup();
+
+        let onSuccess: ReturnType<typeof vi.fn> | undefined;
+        await act(async () => {
+            ({ onSuccess } = renderSignInForm());
+        });
+        await user.click(screen.getByRole("button", { name: "Mit Google fortfahren" }));
+
+        await waitFor(() => {
+            expect(mockSignInWithRedirect).toHaveBeenCalledWith(
+                expect.objectContaining({ provider: "Google" }),
+            );
+        });
+        expect(mockSignIn).not.toHaveBeenCalled();
+        expect(onSuccess).not.toHaveBeenCalled();
     });
 });

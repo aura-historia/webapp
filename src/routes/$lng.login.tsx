@@ -68,6 +68,8 @@ function LoginRoutePage() {
     return (
         <LoginPage
             step={step}
+            locale={lng}
+            redirect={redirectParam}
             onStepChange={(newStep) => {
                 navigate({
                     from: "/$lng/login",
