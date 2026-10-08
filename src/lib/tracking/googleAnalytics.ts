@@ -4,7 +4,18 @@ import { env } from "@/env.ts";
 const TRACKING_TAG_STAGE = "G-25SPFBNNC2";
 const TRACKING_TAG = "G-HL1MJKQBZR";
 
-const FORBIDDEN_PARAMS = new Set(["token", "password", "email", "reset_key", "session_id"]);
+const FORBIDDEN_PARAMS = new Set([
+    "token",
+    "password",
+    "email",
+    "reset_key",
+    "session_id",
+    // OAuth callback parameters
+    "code",
+    "state",
+    "error",
+    "error_description",
+]);
 
 // Pages whose URL can carry a secret (e.g. a fragment capability) send no page views at all,
 // including under an unsupported language prefix.

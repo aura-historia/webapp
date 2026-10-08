@@ -1139,6 +1139,13 @@
     "goHome": "Ir a la página principal"
   },
   "auth": {
+    "federated": {
+      "or": "o",
+      "google": {
+        "continue": "Continuar con Google"
+      },
+      "redirectFailure": "No se pudo completar el inicio de sesión. Inténtelo de nuevo o inicie sesión con su correo electrónico."
+    },
     "subtitle": "Más de 120.000 antigüedades de 500 vendedores. Compare, guarde y siga precios en Aura Historia.",
     "signUp": {
       "firstName": "Nombre",

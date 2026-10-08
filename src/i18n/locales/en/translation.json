@@ -1139,6 +1139,13 @@
     "goHome": "Go to homepage"
   },
   "auth": {
+    "federated": {
+      "or": "or",
+      "google": {
+        "continue": "Continue with Google"
+      },
+      "redirectFailure": "Sign-in could not be completed. Please try again or sign in with your email address."
+    },
     "errors": {
       "UsernameExistsException": "An account with this email already exists.",
       "NotAuthorizedException": "Incorrect username or password.",

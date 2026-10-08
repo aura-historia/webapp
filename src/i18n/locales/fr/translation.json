@@ -1139,6 +1139,13 @@
     "goHome": "Retour à l'accueil"
   },
   "auth": {
+    "federated": {
+      "or": "ou",
+      "google": {
+        "continue": "Continuer avec Google"
+      },
+      "redirectFailure": "La connexion n’a pas pu aboutir. Veuillez réessayer ou vous connecter avec votre adresse e-mail."
+    },
     "subtitle": "Plus de 120 000 antiquités de 500 marchands. Comparez, sauvegardez et suivez les prix sur Aura Historia.",
     "signUp": {
       "firstName": "Prénom",

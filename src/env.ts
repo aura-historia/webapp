@@ -22,6 +22,22 @@ export const env = createEnv({
         VITE_USER_POOL_ID: z.string().min(1).optional().default(""),
         VITE_USER_POOL_CLIENT_ID: z.string().min(1).optional().default(""),
 
+        // Public Cognito OAuth app-client settings (no secrets). Redirect URLs must
+        // match the app client's registered callback/logout URLs exactly.
+        VITE_COGNITO_DOMAIN: z
+            .string()
+            .regex(/^[A-Za-z0-9.-]+$/, "Use the Cognito domain without a scheme or path")
+            .optional()
+            .default("auth.stage.aura-historia.com"),
+        VITE_COGNITO_REDIRECT_SIGN_IN: z
+            .url()
+            .optional()
+            .default("https://stage.aura-historia.com/"),
+        VITE_COGNITO_REDIRECT_SIGN_OUT: z
+            .url()
+            .optional()
+            .default("https://stage.aura-historia.com/"),
+
         // Feature flags - default to enabled if not set
         VITE_FEATURE_LOGIN_ENABLED: z
             .string()
