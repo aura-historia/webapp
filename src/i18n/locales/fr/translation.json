@@ -1435,7 +1435,8 @@
     },
     "detail": {
       "title": "Compte utilisateur",
-      "description": "Consultez les champs fournis par le service de compte et modifiez chaque catégorie séparément."
+      "description": "Consultez les champs fournis par le service de compte et modifiez chaque catégorie séparément.",
+      "close": "Fermer"
     },
     "delete": {
       "title": "Supprimer le compte",

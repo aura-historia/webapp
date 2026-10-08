@@ -1939,7 +1939,8 @@
     },
     "detail": {
       "title": "Benutzerkonto",
-      "description": "Prüfen Sie die vom Kontodienst bereitgestellten Felder und ändern Sie jede Kategorie separat."
+      "description": "Prüfen Sie die vom Kontodienst bereitgestellten Felder und ändern Sie jede Kategorie separat.",
+      "close": "Schließen"
     },
     "delete": {
       "title": "Konto löschen",

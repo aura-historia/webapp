@@ -53,6 +53,9 @@ describe("AdminUserDetailDialog", () => {
         expect(screen.queryByText(testI18n.t("adminUsers.sort.created"))).not.toBeInTheDocument();
         expect(screen.queryByText(testI18n.t("adminUsers.sort.updated"))).not.toBeInTheDocument();
         expect(screen.queryByText(/address/i)).not.toBeInTheDocument();
+        expect(
+            screen.getByRole("button", { name: testI18n.t("adminUsers.detail.close") }),
+        ).toBeInTheDocument();
         expect(api.get).toHaveBeenCalledWith({
             path: { userId: "opaque/user+01" },
             signal: expect.any(AbortSignal),

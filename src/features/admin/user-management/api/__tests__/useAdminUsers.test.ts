@@ -7,6 +7,8 @@ import { clearViewerScopedQueries } from "@/features/authentication/lib/clearVie
 import type { AdminUserFilters } from "../../lib/adminUserSearch.ts";
 import {
     adminUserDetailQueryKey,
+    adminUserListQueryOptions,
+    createAdminUserErrorFactory,
     useAdminUser,
     useAdminUsers,
     useDeleteAdminUser,
@@ -67,6 +69,20 @@ describe("admin user API", () => {
         client = new QueryClient({
             defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
         });
+    });
+
+    it("prefetches the first page with private query options for the route loader", async () => {
+        api.search.mockResolvedValueOnce(ok({ items: [summaryFixture], size: 1, total: 1 }));
+        const filters: AdminUserFilters = { sort: "name", order: "asc" };
+
+        const options = adminUserListQueryOptions(filters, createAdminUserErrorFactory(testI18n.t));
+
+        await client.prefetchInfiniteQuery(options);
+
+        expect(api.search).toHaveBeenCalledWith(
+            expect.objectContaining({ cache: "no-store", signal: expect.any(AbortSignal) }),
+        );
+        expect(client.getQueryData(options.queryKey)?.pages[0]?.items).toHaveLength(1);
     });
 
     it("uses declared query parameters and passes opaque cursors as returned", async () => {

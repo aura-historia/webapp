@@ -1435,7 +1435,8 @@
     },
     "detail": {
       "title": "Account utente",
-      "description": "Esamina i campi forniti dal servizio account e aggiorna separatamente ogni categoria."
+      "description": "Esamina i campi forniti dal servizio account e aggiorna separatamente ogni categoria.",
+      "close": "Chiudi"
     },
     "delete": {
       "title": "Elimina account",

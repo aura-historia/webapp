@@ -1939,7 +1939,8 @@
     },
     "detail": {
       "title": "User account",
-      "description": "Review the fields provided by the account service and update each change category separately."
+      "description": "Review the fields provided by the account service and update each change category separately.",
+      "close": "Close"
     },
     "delete": {
       "title": "Delete account",

@@ -59,7 +59,10 @@ export function AdminUserDetailDialog({
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
-            <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
+            <DialogContent
+                className="max-h-[90vh] max-w-3xl overflow-y-auto"
+                closeLabel={t("adminUsers.detail.close")}
+            >
                 <DialogHeader>
                     <DialogTitle>{t("adminUsers.detail.title")}</DialogTitle>
                     <DialogDescription>{t("adminUsers.detail.description")}</DialogDescription>

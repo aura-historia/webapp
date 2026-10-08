@@ -1435,7 +1435,8 @@
     },
     "detail": {
       "title": "Cuenta de usuario",
-      "description": "Revise los campos disponibles del servicio de cuentas y actualice cada categoría por separado."
+      "description": "Revise los campos disponibles del servicio de cuentas y actualice cada categoría por separado.",
+      "close": "Cerrar"
     },
     "delete": {
       "title": "Eliminar cuenta",

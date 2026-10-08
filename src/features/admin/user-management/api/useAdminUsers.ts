@@ -1,4 +1,10 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+    infiniteQueryOptions,
+    useInfiniteQuery,
+    useMutation,
+    useQuery,
+    useQueryClient,
+} from "@tanstack/react-query";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import {
@@ -71,15 +77,20 @@ function useAdminUserError() {
     return createAdminUserErrorFactory(t);
 }
 
-export function useAdminUsers(filters: AdminUserFilters) {
-    const requestError = useAdminUserError();
-    return useInfiniteQuery({
+type AdminUserErrorFactory = ReturnType<typeof createAdminUserErrorFactory>;
+
+export function adminUserListQueryOptions(
+    filters: AdminUserFilters,
+    requestError: AdminUserErrorFactory,
+) {
+    return infiniteQueryOptions({
         queryKey: adminUserListQueryKey(filters),
         initialPageParam: undefined as string | undefined,
         getNextPageParam: (page: AdminUserPage) => page.searchAfter,
-        staleTime: 0,
-        gcTime: 0,
-        queryFn: async ({ pageParam, signal }) => {
+        // Short-lived so a loader prefetch survives until the page mounts without refetching.
+        staleTime: 30_000,
+        gcTime: 60_000,
+        queryFn: async ({ pageParam, signal }): Promise<AdminUserPage> => {
             const response = await adminSearchUsers({
                 query: mapToAdminUserSearchQuery(filters, pageParam),
                 signal,
@@ -98,6 +109,11 @@ export function useAdminUsers(filters: AdminUserFilters) {
             };
         },
     });
+}
+
+export function useAdminUsers(filters: AdminUserFilters) {
+    const requestError = useAdminUserError();
+    return useInfiniteQuery(adminUserListQueryOptions(filters, requestError));
 }
 
 export function useAdminUser(userId?: string, enabled = true) {
