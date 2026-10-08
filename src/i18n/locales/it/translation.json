@@ -1112,6 +1112,9 @@
       "google": {
         "continue": "Continua con Google"
       },
+      "facebook": {
+        "continue": "Continua con Facebook"
+      },
       "redirectFailure": "Non è stato possibile completare l’accesso. Riprova oppure accedi con il tuo indirizzo e-mail."
     },
     "subtitle": "Oltre 120.000 oggetti d'antiquariato da 500 commercianti. Confronta, salva e monitora i prezzi su Aura Historia.",

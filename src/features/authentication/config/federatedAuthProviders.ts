@@ -1,6 +1,9 @@
 import type { SignInWithRedirectInput } from "aws-amplify/auth";
 import type { ComponentType, SVGProps } from "react";
-import { GoogleIcon } from "@/features/authentication/components/icons/ProviderIcons.tsx";
+import {
+    FacebookIcon,
+    GoogleIcon,
+} from "@/features/authentication/components/icons/ProviderIcons.tsx";
 
 export type FederatedAuthProvider = {
     readonly id: string;
@@ -17,5 +20,11 @@ export const FEDERATED_AUTH_PROVIDERS: readonly FederatedAuthProvider[] = [
         signInProvider: "Google",
         labelKey: "auth.federated.google.continue",
         icon: GoogleIcon,
+    },
+    {
+        id: "facebook",
+        signInProvider: "Facebook",
+        labelKey: "auth.federated.facebook.continue",
+        icon: FacebookIcon,
     },
 ];

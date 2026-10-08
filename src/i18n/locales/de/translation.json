@@ -1112,6 +1112,9 @@
       "google": {
         "continue": "Mit Google fortfahren"
       },
+      "facebook": {
+        "continue": "Mit Facebook fortfahren"
+      },
       "redirectFailure": "Die Anmeldung konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut oder melden Sie sich mit Ihrer E-Mail-Adresse an."
     },
     "subtitle": "Über 120.000 Antiquitäten von 500 Händlern. Vergleichen, speichern und Preise verfolgen bei Aura Historia.",
