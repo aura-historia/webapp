@@ -202,9 +202,7 @@ Wir dürfen API-Zugänge oder vergleichbare Funktionen aus Gründen der Sicherhe
 
 ## 11. Newsletter und Marketingkommunikation
 
-Marketing-E-Mails erhalten Sie nur, wenn Sie hierzu ausdrücklich eingewilligt haben oder eine gesetzliche Erlaubnis besteht.
-
-Für Newsletter-Anmeldungen nutzen wir ein **Double-Opt-In-Verfahren**. Der Versand erfolgt – soweit die Funktion aktiviert ist – über **Zoho Campaigns**. Eine Abmeldung ist jederzeit mit Wirkung für die Zukunft möglich.
+Marketing-E-Mails erhalten Sie nur, wenn Sie sich freiwillig dafür angemeldet haben. Die Anmeldung ist unabhängig von der Erstellung oder Nutzung eines Kontos; allein die Anmeldung bei Aura Historia bedeutet keine Einwilligung in Marketing-E-Mails. Sie können sich jederzeit über den Abmeldelink in einer E-Mail abmelden oder Ihre Einwilligung widerrufen.
 
 Ein Anspruch auf den Erhalt bestimmter Marketingkommunikation besteht nicht.
 
@@ -289,4 +287,4 @@ Sind Sie Kaufmann, juristische Person des öffentlichen Rechts oder öffentlich-
 
 ---
 
-*Stand: 20.06.2026*
+*Stand: 07.10.2026*

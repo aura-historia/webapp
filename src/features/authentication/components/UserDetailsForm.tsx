@@ -60,7 +60,7 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
             language: inferredLanguage,
             currency: preferences.currency,
             unitSystem: preferences.unitSystem,
-            newsletterConsent: true,
+            newsletterConsent: false,
             showUnassessedOrSensitiveContent: false,
         },
     });

@@ -67,15 +67,14 @@ El tratamiento sirve a las siguientes finalidades:
 Si crea o utiliza una cuenta de usuario, tratamos en particular:
 
 - dirección de correo electrónico
-- identificador interno de usuario (user ID)
-- estado de verificación e inicio de sesión
-- información de autenticación y sesión
 - nombre y apellidos, cuando se proporcionen
 - idioma y moneda preferidos, cuando se proporcionen
-- preferencia para mostrar contenido sin evaluar o sensible (`showUnassessedOrSensitiveContent`)
+- preferencias de la cuenta
 - roles, permisos y estado de suscripción
 
-La autenticación se gestiona técnicamente a través de AWS Amplify y Amazon Cognito.
+También puede iniciar sesión con Google o Facebook (Meta). En ese caso, recibimos del proveedor que elija la información de cuenta necesaria para autenticarle y crear o asociar su cuenta de Aura Historia. Según el proveedor y la configuración de su cuenta con este, puede incluir su correo electrónico, nombre e identificador de su cuenta en el proveedor. Utilizamos esta información para el inicio de sesión y la gestión de la cuenta. Google y Meta también tratan información conforme a sus propias políticas de privacidad. Estas opciones de inicio de sesión son independientes de Google Analytics, Google Maps y los enlaces de Facebook para compartir contenido.
+
+Para más información, consulte la [Política de privacidad de Google](https://policies.google.com/privacy) y la [Política de privacidad de Meta](https://www.facebook.com/privacy/policy/).
 
 **Finalidades del tratamiento:**
 
@@ -110,7 +109,7 @@ Cuando se utilizan funciones para socios, tiendas o administración, también po
 - datos de acceso a API o datos de administración relacionados
 - información de rol y activación
 
-Las solicitudes de colaboración contienen el identificador de una fuente de ofertas existente o una propuesta con el nombre del operador, teléfono y correo electrónico opcionales, nombre de la fuente, URL e imagen opcionales y métodos de importación solicitados. Las solicitudes no recogen direcciones postales. Las propuestas se utilizan para evaluar la colaboración; seleccionar una fuente pública no concede acceso.
+Si autoriza expresamente una aplicación externa, esta podrá acceder a los datos o recursos que se muestran en la pantalla de autorización. Puede rechazar la solicitud. Tras aprobarla, la aplicación podrá tratar los datos recibidos conforme a su propia política de privacidad. Puede pedirnos que revoquemos una autorización; esto no elimina los datos que la aplicación ya haya recibido. Contacte con nosotros para solicitar la revocación y con el proveedor de la aplicación respecto de los datos que ya recibió.
 
 **Finalidades del tratamiento:**
 
@@ -155,15 +154,16 @@ El procesamiento de pagos se realiza a través de [Stripe](https://stripe.com/) 
 
 ## 7. Boletín y comunicaciones de marketing
 
-Si se suscribe a nuestro boletín o concede de otro modo su consentimiento para comunicaciones de marketing, tratamos en particular:
+Si elige recibir correos electrónicos de marketing, tratamos en particular:
 
 - su dirección de correo electrónico
 - su nombre y apellidos, cuando se proporcionen
 - información sobre idioma y moneda, cuando se proporcione
-- pruebas del double opt-in, en particular fecha y hora, dirección IP y estado del consentimiento
-- información sobre envío, entrega, apertura y clics, cuando sea legalmente admisible
+- registros de su suscripción, confirmación y posterior baja
 
-Para las funciones de boletín utilizamos **Zoho Campaigns**, cuando esté habilitado. La suscripción solo surte efecto tras la confirmación correcta del double opt-in. Puede darse de baja en cualquier momento con efecto futuro.
+Utilizamos esta información para enviar boletines, recomendaciones personalizadas de objetos pertinentes e información sobre funciones y planes. Utilizamos **Loops** para gestionar las suscripciones y enviar estos correos.
+
+La suscripción es voluntaria e independiente de la creación o el uso de una cuenta. Iniciar sesión en Aura Historia no significa que haya aceptado recibir correos de marketing. Si acepta durante el registro de la cuenta, comenzaremos a enviar mensajes después de que verifique su dirección de correo electrónico. Una suscripción independiente al boletín comienza después de que confirme mediante el enlace que le enviamos por correo electrónico. Puede darse de baja en cualquier momento mediante el enlace incluido en un correo de marketing o retirar su consentimiento por otro medio.
 
 **Base jurídica:**
 
@@ -175,16 +175,7 @@ La retirada de su consentimiento no afecta a la licitud del tratamiento efectuad
 
 ## 8. Cookies, almacenamiento local y almacenamiento de sesión
 
-Utilizamos almacenamiento del navegador técnicamente necesario y, solo cuando sea legalmente admisible y tras su consentimiento, servicios opcionales para funciones de analítica y mapas externos integrados.
-
-Actualmente se utilizan en particular los siguientes mecanismos de almacenamiento:
-
-- **`user-preferences` (cookie, hasta 1 año):** almacena preferencias funcionales como la moneda y el estado de sus elecciones sobre analítica/seguimiento y mapas externos; se utiliza para aplicar sus ajustes de forma coherente del lado del servidor y del cliente
-- **`aura-language` (cookie, hasta 1 año):** almacena el idioma que usted selecciona expresamente para que una visita posterior sin prefijo de idioma se abra en ese idioma en lugar de depender de la configuración de su navegador
-- **`user-preferences` (local storage):** almacena las mismas preferencias funcionales localmente en su navegador hasta que usted las elimine
-- **`auth.signUp.pendingEmail` (session storage):** almacena temporalmente su dirección de correo electrónico durante un proceso de registro en varios pasos y normalmente se elimina al finalizar la sesión del navegador
-
-Pueden utilizarse almacenamientos técnicamente necesarios adicionales mediante mecanismos de autenticación, seguridad o consentimiento. Los nombres exactos de las claves pueden cambiar con el tiempo.
+Utilizamos almacenamiento técnicamente necesario en su navegador. Podemos guardar en cookies o almacenamiento local el idioma elegido, las preferencias funcionales y sus decisiones sobre el consentimiento para recordar y aplicar sus ajustes en visitas posteriores. El inicio de sesión y el registro también pueden requerir almacenamiento temporal en el navegador. Las funciones opcionales de analítica y los mapas externos solo se utilizan cuando la ley lo permite y tras su consentimiento.
 
 **Bases jurídicas:**
 
@@ -255,16 +246,9 @@ Tras la revisión, eliminaremos, bloquearemos o restringiremos contenidos cuando
 
 ## 11. Tratamiento asistido por IA y ausencia de decisiones individuales automatizadas
 
-Podemos utilizar procedimientos automatizados y asistidos por IA, en particular para:
+Algunas funciones utilizan procedimientos automatizados o asistidos por IA para organizar contenidos y encontrar resultados de búsqueda pertinentes. Para mejorar la búsqueda de coincidencias con búsquedas guardadas, enviamos a Cloudflare la descripción de búsqueda que usted introduce, descripciones pertinentes de anuncios y, en ocasiones, una imagen para evaluar posibles coincidencias. Estos datos pueden contener información personal si se refieren a una persona identificable.
 
-- clasificación y estructuración de contenidos
-- búsqueda de similitud y ranking
-- filtrado de seguridad y sensibilidad
-- extracción, enriquecimiento y contextualización de información
-
-Estos procedimientos sirven de apoyo técnico a nuestro servicio. No adoptamos decisiones basadas exclusivamente en dicho tratamiento que produzcan efectos jurídicos o le afecten significativamente de manera similar en el sentido del art. 22 RGPD.
-
-Los contenidos históricos o sensibles pueden estar además sujetos a salvaguardas técnicas, advertencias o restricciones de visualización basadas en el consentimiento.
+Este tratamiento sirve de apoyo a las búsquedas. No adoptamos decisiones basadas exclusivamente en dicho tratamiento que produzcan efectos jurídicos o le afecten significativamente de manera similar en el sentido del art. 22 RGPD.
 
 **Bases jurídicas:**
 
@@ -277,16 +261,17 @@ Los contenidos históricos o sensibles pueden estar además sujetos a salvaguard
 
 Utilizamos proveedores de servicios e infraestructura externos. Los datos personales pueden transferirse o revelarse a las siguientes categorías de destinatarios:
 
-- **Amazon Web Services (AWS) / Amazon Cognito** – en particular para registro, inicio de sesión y autenticación
-- **Cloudflare** – en particular para entrega del sitio web, rendimiento, caché, seguridad y funciones de protección
-- **Hetzner Online GmbH** – cuando determinados componentes de backend, hosting o almacenamiento se operen allí
+- **Amazon Web Services (AWS)** – para el registro y el inicio de sesión
+- **Cloudflare** – para la entrega y seguridad del sitio web y la mejora de coincidencias con búsquedas guardadas
+- **Hetzner Online GmbH** – cuando allí se alojen partes de nuestro servicio
 - **Stripe** – para procesamiento de pagos, gestión de suscripciones, checkout y portal del cliente
-- **Zoho Campaigns** – cuando estén habilitados el boletín y las comunicaciones de marketing
-- **Google** – cuando se utilicen Google Analytics, funciones de Consent Mode o Google Maps
+- **Loops** – para boletines y correos electrónicos de marketing
+- **Google** – si utiliza Google Analytics, Google Maps o el inicio de sesión con Google
+- **Meta/Facebook** – si utiliza el inicio de sesión con Facebook
 - **otros proveedores técnicos, jurídicos, fiscales u organizativos** – cuando sea necesario para operaciones, soporte, seguridad, cumplimiento o ejecución de reclamaciones
 - **autoridades, tribunales y terceros** – cuando estemos legalmente obligados a ello o sea necesario para hacer valer derechos legales
 
-Algunos de estos destinatarios pueden tratar datos fuera de la Unión Europea o del Espacio Económico Europeo, o acceder a los datos desde terceros países. Esto se aplica especialmente a proveedores tecnológicos globales como Google, Stripe, Cloudflare, AWS o Zoho.
+Algunos de estos proveedores pueden tratar datos fuera de la Unión Europea o del Espacio Económico Europeo, o acceder a ellos desde fuera de dichas zonas. Esto puede incluir a Google, Meta/Facebook, AWS, Stripe, Cloudflare y Loops.
 
 Cuando se produzcan transferencias a terceros países, nos basamos – según el proveedor y la situación – en particular en:
 
@@ -294,7 +279,7 @@ Cuando se produzcan transferencias a terceros países, nos basamos – según el
 - las cláusulas contractuales tipo de la Comisión Europea,
 - salvaguardas contractuales, técnicas y organizativas complementarias.
 
-A petición, le facilitaremos con gusto más información sobre las salvaguardas aplicables en el caso concreto.
+Contacte con nosotros para obtener información sobre las garantías aplicables a una transferencia concreta. Google Analytics y Google Maps son servicios distintos del inicio de sesión con Google; el inicio de sesión con Facebook es distinto de compartir contenido a través de Facebook.
 
 ---
 
@@ -306,12 +291,10 @@ Normalmente se aplican en particular los siguientes criterios:
 
 - **Datos de cuenta:** hasta la eliminación de la cuenta o el fin de la relación de usuario; posteriormente eliminación o bloqueo salvo que lo impidan obligaciones legales de conservación
 - **Datos contractuales, de facturación y fiscales:** durante el tiempo de las obligaciones legales de conservación mercantil y fiscal
-- **Datos del boletín y pruebas de consentimiento:** hasta la baja o retirada del consentimiento y, más allá, cuando sea necesario para documentar o defender reclamaciones legales
-- **Registros del servidor, edge y seguridad:** durante un período limitado cuando sea necesario para garantizar la seguridad, la estabilidad y el análisis de errores
+- **Datos del boletín:** mientras esté suscrito; las pruebas de su consentimiento y baja pueden conservarse más tiempo cuando sea necesario para documentar su elección y atender reclamaciones legales
+- **Datos técnicos y de seguridad:** durante el tiempo necesario para proteger y mantener el servicio o investigar un incidente
 - **Datos procedentes de fuentes públicas:** mientras sean necesarios para fines de documentación, investigación o plataforma, o hasta que deba atenderse una solicitud justificada de supresión o bloqueo
 - **Almacenamiento del navegador:** hasta la expiración del período correspondiente o hasta que usted lo elimine
-
-Las copias de seguridad y réplicas técnicas pueden sobrescribirse con retraso por motivos del sistema.
 
 ---
 
@@ -360,4 +343,4 @@ Podemos adaptar estas notas de privacidad cuando sea necesario por cambios legal
 
 ---
 
-*Estado: 14.08.2026*
+*Estado: 07.10.2026*

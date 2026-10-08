@@ -202,9 +202,7 @@ Possiamo limitare, sospendere o revocare l’accesso all’API o a funzionalità
 
 ## 11. Newsletter e comunicazioni di marketing
 
-Riceverete email di marketing solo se avete espresso un consenso esplicito o se sussiste un’altra valida base giuridica.
-
-Per le iscrizioni alla newsletter utilizziamo una procedura di **double opt-in**. L’invio avviene – ove la funzionalità sia attivata – tramite **Zoho Campaigns**. È possibile annullare l’iscrizione in qualsiasi momento con effetto per il futuro.
+Riceverete email di marketing solo se scegliete di iscrivervi. L’iscrizione è distinta dalla creazione o dall’utilizzo di un account; il solo accesso ad Aura Historia non significa che abbiate accettato di ricevere email di marketing. Potete annullare l’iscrizione in qualsiasi momento tramite il link contenuto in un’email o revocare il consenso.
 
 Non esiste alcun diritto a ricevere una specifica comunicazione di marketing.
 
@@ -289,4 +287,4 @@ Se siete commercianti, persone giuridiche di diritto pubblico, patrimoni separat
 
 ---
 
-*Stato: 20.06.2026*
+*Stato: 07.10.2026*

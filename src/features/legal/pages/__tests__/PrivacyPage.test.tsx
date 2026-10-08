@@ -20,7 +20,7 @@ vi.mock("react-i18next", () => ({
 
 const EXTERNAL_MAP_PRIVACY_EXPECTATIONS: Record<string, string[]> = {
     de: [
-        "externen Karten",
+        "externe Karten",
         "Google Maps",
         "Google Maps wird erst geladen",
         "keine Google-Maps-iframe-Verbindung",
@@ -166,11 +166,13 @@ describe("Privacy Page Logic", () => {
             }
         });
 
-        it("should mention Zoho Campaigns and Stripe in all locales", () => {
+        it("should mention Loops, both social sign-in providers, and Stripe in all locales", () => {
             const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
 
             for (const key of localeKeys) {
-                expect(PRIVACY_LOCALE_MAP[key]).toContain("Zoho Campaigns");
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Loops");
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Google");
+                expect(PRIVACY_LOCALE_MAP[key]).toContain("Facebook");
                 expect(PRIVACY_LOCALE_MAP[key]).toContain("Stripe");
             }
         });
