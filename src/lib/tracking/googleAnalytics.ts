@@ -6,6 +6,10 @@ const TRACKING_TAG = "G-HL1MJKQBZR";
 
 const FORBIDDEN_PARAMS = new Set(["token", "password", "email", "reset_key", "session_id"]);
 
+// Pages whose URL can carry a secret (e.g. a fragment capability) send no page views at all,
+// including under an unsupported language prefix.
+const UNTRACKED_PATH_SUFFIXES = ["/newsletter/confirm"] as const;
+
 const isRunningInProd = env.VITE_APP_URL === "https://aura-historia.com";
 
 class GoogleAnalytics {
@@ -82,13 +86,14 @@ class GoogleAnalytics {
      * No consent guard is applied here — page path and language are not personal
      * data, and GA4 Consent Mode handles compliance internally based on the
      * consent state set via init() / setConsent().
-     * Sensitive search parameters are stripped before sending.
+     * Sensitive search parameters are stripped before sending, and untracked pages are skipped.
      * @param path The current page path.
      * @param language The active UI language.
      * @param searchParams The current URL search parameters.
      */
     sendPageView(path: string, language: string, searchParams: Record<string, unknown>): void {
         if (import.meta.env.SSR) return;
+        if (isUntrackedPath(path)) return;
 
         const safeParams = Object.keys(searchParams).reduce(
             (acc, key) => {
@@ -107,6 +112,11 @@ class GoogleAnalytics {
             ...safeParams,
         });
     }
+}
+
+function isUntrackedPath(path: string): boolean {
+    const normalizedPath = path.toLowerCase().replace(/\/+$/, "");
+    return UNTRACKED_PATH_SUFFIXES.some((suffix) => normalizedPath.endsWith(suffix));
 }
 
 export const googleAnalytics = new GoogleAnalytics();

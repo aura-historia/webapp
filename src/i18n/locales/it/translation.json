@@ -78,6 +78,9 @@
     },
     "partnerListingSources": {
       "title": "Fornitori accessibili | Aura Historia"
+    },
+    "newsletterConfirm": {
+      "title": "Conferma l'iscrizione alla newsletter | Aura Historia"
     }
   },
   "validation": {
@@ -663,8 +666,8 @@
       "description": "Ricevi ogni settimana ritrovamenti selezionati, tendenze di mercato e approfondimenti esclusivi direttamente nella tua casella di posta.",
       "placeholder": "Il tuo indirizzo email",
       "button": "Iscriviti alla newsletter",
-      "privacy": "Iscrivendoti, accetti la nostra <privacyLink>informativa sulla privacy</privacyLink>. Puoi annullare l'iscrizione in qualsiasi momento.",
-      "successMessage": "Grazie per l'iscrizione! Conferma il tuo indirizzo email.",
+      "privacy": "Ti invieremo prima un link di conferma via email. L'iscrizione inizia solo dopo averlo confermato. Dettagli nella nostra <privacyLink>informativa sulla privacy</privacyLink>.",
+      "successMessage": "Controlla la tua casella di posta.",
       "benefit1": "Highlights personalizzati",
       "benefit2": "Nuove funzionalità & offerte",
       "benefit3": "Annulla l'iscrizione in qualsiasi momento",
@@ -675,8 +678,8 @@
       "emailLabel": "Indirizzo email",
       "emailRequired": "Inserisci un indirizzo email valido.",
       "eyebrow": "Newsletter",
-      "successEmailSent": "Un'email di conferma è stata inviata a {{email}}.",
-      "successTiming": "Potrebbe volerci qualche minuto prima che l'email arrivi."
+      "successEmailSent": "Se {{email}} può ricevere la nostra newsletter, invieremo un link di conferma a questo indirizzo. L'iscrizione inizia solo dopo che avrai aperto il link e confermato.",
+      "successTiming": "Potrebbero volerci alcuni minuti prima che l'email arrivi. Il link è valido per 24 ore."
     },
     "faq": {
       "title": "Domande frequenti",
@@ -770,6 +773,34 @@
       "billingNoteYearly": "al mese, fatturato annualmente, IVA inclusa",
       "getStartedFree": "Inizia gratis",
       "subscribe": "Abbonati"
+    }
+  },
+  "newsletter": {
+    "purpose": "Desidero ricevere email da Aura Historia con newsletter, consigli personalizzati sui prodotti e informazioni sulle funzionalità e sui piani di Aura Historia. Posso annullare l'iscrizione in qualsiasi momento.",
+    "privacy": "Maggiori informazioni sono disponibili nella nostra <privacyLink>informativa sulla privacy</privacyLink>.",
+    "confirmation": {
+      "eyebrow": "Newsletter",
+      "request": {
+        "title": "Conferma l'iscrizione alla newsletter",
+        "description": "Conferma di voler ricevere la newsletter di Aura Historia all'indirizzo email a cui è stato inviato questo link.",
+        "button": "Conferma iscrizione",
+        "temporaryError": "Non è stato possibile elaborare la tua conferma in questo momento. Riprova tra poco."
+      },
+      "confirmed": {
+        "title": "Conferma ricevuta",
+        "description": "Grazie. Abbiamo ricevuto la tua conferma. Potrebbero volerci alcuni minuti prima che diventi effettiva.",
+        "unsubscribe": "Puoi annullare l'iscrizione in qualsiasi momento tramite il link presente in ogni nostra newsletter."
+      },
+      "invalid": {
+        "title": "Questo link non può più essere utilizzato",
+        "description": "Il link di conferma potrebbe essere scaduto, essere stato sostituito da uno più recente o essere incompleto. Puoi richiedere una nuova email di conferma in qualsiasi momento."
+      },
+      "missing": {
+        "title": "Apri di nuovo il link dalla tua email",
+        "description": "Per la tua sicurezza, il link di conferma viene rimosso dalla barra degli indirizzi all'apertura di questa pagina e non viene salvato. Se hai ricaricato la pagina, apri di nuovo il link nella tua email o richiedi una nuova email di conferma."
+      },
+      "requestNew": "Richiedi una nuova email di conferma",
+      "backHome": "Torna ad Aura Historia"
     }
   },
   "partnerProgram": {
@@ -1060,7 +1091,6 @@
     "BAD_ORDER_VALUE": "Ordine di ordinamento non valido.",
     "WATCHLIST_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di articoli nella tua lista dei preferiti. Ci sono già 5/5 voci occupate.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di ricerche salvate. È possibile salvare un massimo di 5 ricerche.",
-    "INVALID_EMAIL": "L'indirizzo email non è valido o non è accettato dal nostro fornitore di newsletter.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Hai già un abbonamento attivo. Utilizza il portale clienti per gestirlo.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Non è stato trovato alcun abbonamento esistente. Avvia un nuovo processo di pagamento.",
     "unknown": "Si è verificato un errore imprevisto.",
@@ -1073,7 +1103,9 @@
     "ACCESS_TOKEN_NOT_FOUND": "La tua sessione è scaduta. Effettua di nuovo l'accesso.",
     "PRODUCT_LISTING_NOT_FOUND": "Questo articolo non è stato trovato.",
     "LISTING_SOURCE_NOT_FOUND": "Questo fornitore non è più disponibile.",
-    "UNKNOWN_ERROR": "Si è verificato un errore imprevisto."
+    "UNKNOWN_ERROR": "Si è verificato un errore imprevisto.",
+    "NEWSLETTER_TEMPORARILY_UNAVAILABLE": "Il servizio newsletter è temporaneamente non disponibile. Riprova tra qualche minuto.",
+    "NEWSLETTER_INTERNAL_ERROR": "Non è stato possibile elaborare la tua richiesta per la newsletter. Riprova più tardi."
   },
   "watchlist": {
     "title": "La mia lista dei preferiti",

@@ -78,6 +78,9 @@
     },
     "partnerListingSources": {
       "title": "Fournisseurs accessibles | Aura Historia"
+    },
+    "newsletterConfirm": {
+      "title": "Confirmer l'inscription à la newsletter | Aura Historia"
     }
   },
   "validation": {
@@ -663,8 +666,8 @@
       "description": "Recevez chaque semaine une sélection de trouvailles, les tendances du marché et des aperçus exclusifs directement dans votre boîte mail.",
       "placeholder": "Votre adresse e-mail",
       "button": "S'inscrire à la newsletter",
-      "privacy": "En vous inscrivant, vous acceptez notre <privacyLink>politique de confidentialité</privacyLink>. Vous pouvez vous désinscrire à tout moment.",
-      "successMessage": "Merci pour votre inscription ! Veuillez confirmer votre adresse e-mail.",
+      "privacy": "Nous vous enverrons d'abord un lien de confirmation par e-mail. Votre inscription ne commence qu'une fois ce lien confirmé. Plus de détails dans notre <privacyLink>politique de confidentialité</privacyLink>.",
+      "successMessage": "Veuillez consulter votre boîte de réception.",
       "benefit1": "Sélection personnalisée",
       "benefit2": "Nouvelles fonctionnalités & offres",
       "benefit3": "Désinscription à tout moment",
@@ -675,8 +678,8 @@
       "emailLabel": "Adresse e-mail",
       "emailRequired": "Veuillez saisir une adresse e-mail valide.",
       "eyebrow": "Newsletter",
-      "successEmailSent": "Un e-mail de confirmation a été envoyé à {{email}}.",
-      "successTiming": "L'e-mail peut mettre quelques minutes à arriver."
+      "successEmailSent": "Si {{email}} peut recevoir notre newsletter, nous y enverrons un lien de confirmation. Votre inscription ne commence qu'une fois le lien ouvert et confirmé.",
+      "successTiming": "L'e-mail peut mettre quelques minutes à arriver. Le lien est valable 24 heures."
     },
     "faq": {
       "title": "Questions fréquentes",
@@ -770,6 +773,34 @@
       "billingNoteYearly": "par mois, facturé annuellement, TVA incluse",
       "getStartedFree": "Commencer gratuitement",
       "subscribe": "S'abonner"
+    }
+  },
+  "newsletter": {
+    "purpose": "Je souhaite recevoir des e-mails d'Aura Historia contenant des newsletters, des recommandations de produits personnalisées et des informations sur les fonctionnalités et les formules d'Aura Historia. Je peux me désinscrire à tout moment.",
+    "privacy": "Plus d'informations sont disponibles dans notre <privacyLink>politique de confidentialité</privacyLink>.",
+    "confirmation": {
+      "eyebrow": "Newsletter",
+      "request": {
+        "title": "Confirmez votre inscription à la newsletter",
+        "description": "Veuillez confirmer que vous souhaitez recevoir la newsletter d'Aura Historia à l'adresse e-mail à laquelle ce lien a été envoyé.",
+        "button": "Confirmer l'inscription",
+        "temporaryError": "Votre confirmation n'a pas pu être traitée pour le moment. Veuillez réessayer dans un instant."
+      },
+      "confirmed": {
+        "title": "Confirmation reçue",
+        "description": "Merci. Nous avons bien reçu votre confirmation. Sa prise en compte peut prendre quelques minutes.",
+        "unsubscribe": "Vous pouvez vous désinscrire à tout moment grâce au lien présent dans chacune de nos newsletters."
+      },
+      "invalid": {
+        "title": "Ce lien ne peut plus être utilisé",
+        "description": "Le lien de confirmation a peut-être expiré, été remplacé par un lien plus récent ou être incomplet. Vous pouvez demander un nouvel e-mail de confirmation à tout moment."
+      },
+      "missing": {
+        "title": "Veuillez rouvrir le lien de votre e-mail",
+        "description": "Pour votre sécurité, le lien de confirmation est retiré de la barre d'adresse à l'ouverture de cette page et n'est pas enregistré. Si vous avez rechargé la page, rouvrez le lien de votre e-mail ou demandez un nouvel e-mail de confirmation."
+      },
+      "requestNew": "Demander un nouvel e-mail de confirmation",
+      "backHome": "Retour à Aura Historia"
     }
   },
   "partnerProgram": {
@@ -1061,7 +1092,6 @@
     "unknown": "Une erreur inattendue s'est produite.",
     "WATCHLIST_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum d'articles dans votre liste de suivi. Il y a déjà 5/5 entrées de liste de suivi occupées.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum de recherches sauvegardées. Un maximum de 5 recherches peut être sauvegardé.",
-    "INVALID_EMAIL": "L'adresse e-mail est invalide ou n'est pas acceptée par notre fournisseur de newsletter.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Vous avez déjà un abonnement actif. Veuillez utiliser le portail client pour le gérer.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Aucun abonnement existant n'a été trouvé. Veuillez démarrer un nouveau processus de paiement.",
     "SEARCH_FILTER_RESTRICTED_FEATURE": "Certains de vos filtres actifs sont uniquement disponibles pour les utilisateurs premium. Veuillez supprimer ces filtres ou mettre à niveau votre compte pour enregistrer un filtre de recherche.",
@@ -1073,7 +1103,9 @@
     "ACCESS_TOKEN_NOT_FOUND": "Votre session a expiré. Veuillez vous reconnecter.",
     "PRODUCT_LISTING_NOT_FOUND": "Cet article n'a pas été trouvé.",
     "LISTING_SOURCE_NOT_FOUND": "Ce fournisseur n’est plus disponible.",
-    "UNKNOWN_ERROR": "Une erreur inattendue s'est produite."
+    "UNKNOWN_ERROR": "Une erreur inattendue s'est produite.",
+    "NEWSLETTER_TEMPORARILY_UNAVAILABLE": "Le service de newsletter est temporairement indisponible. Veuillez réessayer dans quelques minutes.",
+    "NEWSLETTER_INTERNAL_ERROR": "Votre demande d'inscription à la newsletter n'a pas pu être traitée. Veuillez réessayer plus tard."
   },
   "watchlist": {
     "title": "Mes favoris",

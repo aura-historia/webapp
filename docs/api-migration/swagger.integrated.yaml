@@ -8700,27 +8700,18 @@ paths:
                 $ref: "#/components/schemas/ApiError"
   /api/v1/newsletter-subscriptions:
     put:
-      summary: Upsert newsletter subscription
-      description:
-        "Upserts an email address and its supplied profile fields in the Aura Historia Loops newsletter list.
+      summary: Request newsletter confirmation
+      description: |
+        Requests double opt-in confirmation for the submitted email and optional profile. The endpoint accepts
+        anonymous requests. An optional Cognito JWT or Aura Historia access-token bearer credential may be supplied;
+        an invalid supplied credential returns 401. For an authenticated user, omitted profile values can fall back
+        to that user's stored profile, but the credential never proves ownership of the submitted mailbox and never
+        skips confirmation, including when the submitted address exactly matches the caller's account email.
 
-
-        Existing Loops opt-out state is preserved; this operation does not clear an opt-out or guarantee that the
-
-        contact is eligible to receive marketing messages. A successful response means the provider accepted the
-
-        subscription write only; it does not mean a message or campaign was sent or delivered.
-
-
-        The endpoint accepts anonymous requests.
-
-        An optional Cognito JWT or Aura Historia access-token bearer credential may be supplied for authenticated calls.
-
-        When authenticated, omitted optional profile fields (`firstName`, `lastName`, `language`, `currency`)
-
-        fall back to the authenticated user's stored account values; explicitly provided request values take precedence.
-
-        "
+        The body is limited to 8 KiB. Every result is `Cache-Control: no-store`. Empty 204 means the request was
+        handled, including when rate suppression applies. It does not reveal account or pending-challenge state,
+        confirm a subscription, or mean that email was delivered or Loops was called. Loops synchronization occurs
+        asynchronously after confirmation.
       operationId: putNewsletterSubscription
       tags:
         - Newsletter
@@ -8729,18 +8720,18 @@ paths:
         - {}
       requestBody:
         required: true
-        description: Newsletter subscription data.
+        description: Newsletter confirmation request data.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/PutNewsletterSubscriptionData"
             examples:
               minimal:
-                summary: Subscribe with email only
+                summary: Request confirmation with email only
                 value:
                   email: collector@example.com
               complete:
-                summary: Subscribe with explicit profile values
+                summary: Request confirmation with explicit profile values
                 value:
                   email: collector@example.com
                   firstName: Ada
@@ -8749,20 +8740,21 @@ paths:
                   currency: EUR
       responses:
         "204":
-          description: Newsletter subscription write accepted by the provider. This does not confirm message or campaign delivery; existing Loops opt-out state is preserved.
+          description: Confirmation request handled. The requested mailbox may be pending, already confirmed, or rate suppressed.
           headers:
-            Access-Control-Allow-Origin:
-              description: CORS header
+            Cache-Control:
+              description: Shared caching is disabled for the response.
               schema:
                 type: string
-              example: "*"
+              example: no-store
         "400":
-          description:
-            "Bad request — the request body is missing, malformed, contains invalid field values,
-
-            or the newsletter provider rejects the submitted email address as invalid.
-
-            "
+          description: Missing, malformed, oversized, or invalid request body.
+          headers:
+            Cache-Control:
+              description: Shared caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
           content:
             application/problem+json:
               schema:
@@ -8774,21 +8766,36 @@ paths:
                     status: 400
                     title: Bad Request
                     error: BAD_BODY_VALUE
-                    detail: Body cannot be empty
                 invalid_body:
                   summary: Invalid request body
                   value:
                     status: 400
                     title: Bad Request
                     error: BAD_BODY_VALUE
-                invalid_email:
-                  summary: Newsletter provider rejected the email address
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: INVALID_EMAIL
+        "401":
+          description: A supplied bearer credential is invalid.
+          headers:
+            Cache-Control:
+              description: Shared caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 401
+                title: Unauthorized
+                error: INVALID_CREDENTIALS
         "503":
-          description: Newsletter provider temporarily unavailable
+          description: Newsletter persistence, confirmation-template retrieval, or SES is temporarily unavailable, SES throttling was rejected, or SES acceptance is ambiguous.
+          headers:
+            Cache-Control:
+              description: Shared caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
           content:
             application/problem+json:
               schema:
@@ -8798,7 +8805,103 @@ paths:
                 title: Service Unavailable
                 error: NEWSLETTER_TEMPORARILY_UNAVAILABLE
         "500":
-          description: Internal newsletter subscription failure
+          description: Internal/configuration failure, including a permanent definite SES rejection.
+          headers:
+            Cache-Control:
+              description: Shared caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 500
+                title: Internal Server Error
+                error: NEWSLETTER_INTERNAL_ERROR
+  /api/v1/newsletter-subscriptions/confirm:
+    post:
+      summary: Confirm a newsletter subscription
+      description: |
+        Confirms the newsletter subscription using the bearer capability in the JSON body. This anonymous route
+        accepts no Aura bearer credential. The body is limited to 8 KiB and the token to 512 bytes. Every result is
+        `Cache-Control: no-store`.
+
+        Empty 204 means the C09 confirmation, consent-state, and asynchronous Loops intent transaction committed;
+        replaying a retained confirmed token also returns 204 without another grant. It does not mean Loops accepted
+        or applied the later provider update. Tokens are not accepted in paths, query parameters, or GET requests.
+      operationId: confirmNewsletterSubscription
+      tags:
+        - Newsletter
+      security: []
+      requestBody:
+        required: true
+        description: The opaque confirmation capability.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfirmNewsletterSubscriptionData"
+            example:
+              token: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      responses:
+        "204":
+          description: Confirmation committed, or an already confirmed token was replayed.
+          headers:
+            Cache-Control:
+              description: Shared caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
+        "400":
+          description: Malformed, oversized, or wrong-shape body, or one generic invalid, unknown, expired, or invalidated confirmation result.
+          headers:
+            Cache-Control:
+              description: Shared caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              examples:
+                malformed_body:
+                  summary: Body does not match the token-only schema
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_BODY_VALUE
+                invalid_confirmation:
+                  summary: Invalid or unavailable confirmation capability
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: NEWSLETTER_CONFIRMATION_INVALID
+        "503":
+          description: Newsletter confirmation persistence is temporarily unavailable.
+          headers:
+            Cache-Control:
+              description: Shared caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 503
+                title: Service Unavailable
+                error: NEWSLETTER_TEMPORARILY_UNAVAILABLE
+        "500":
+          description: Internal confirmation-state failure.
+          headers:
+            Cache-Control:
+              description: Shared caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
           content:
             application/problem+json:
               schema:
@@ -15985,9 +16088,9 @@ components:
     PutNewsletterSubscriptionData:
       type: object
       description:
-        "Request body for creating or updating a newsletter subscription.
+        "Request body for requesting double opt-in confirmation for a newsletter subscription.
 
-        `email` is required; all other fields are optional and may be omitted or set to `null`.
+        `email` is required; `firstName`, `lastName`, `language`, and `currency` are optional and may be omitted or set to `null`.
 
         "
       required:
@@ -16020,6 +16123,18 @@ components:
             - $ref: "#/components/schemas/CurrencyData"
           nullable: true
           description: Optional preferred currency to sync with the subscription
+    ConfirmNewsletterSubscriptionData:
+      type: object
+      additionalProperties: false
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          minLength: 1
+          maxLength: 512
+          description: Opaque confirmation capability returned only in the confirmation email fragment.
+          example: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     UserTierData:
       type: string
       description:

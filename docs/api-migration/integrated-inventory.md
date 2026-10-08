@@ -2,8 +2,8 @@
 
 Generated with `pnpm exec python scripts/generate_migration_inventory.py` from the pinned integration contract. The September 10 inventories remain historical. See [integration release gate](integration-release-gate.md) for scope decisions and validation.
 
-- Contract bytes SHA-256: `b6962e36b828bfbeddfc5660fc07213a24aae3aa9f053d930ae2954e2adb3485`.
-- Current contract: 103 operations, 191 component schemas; every operation is generated.
+- Contract bytes SHA-256: `d110a79cd1086186d406db1ad3daa9b366df4c07a1a18475d6ac9077865226b6`.
+- Current contract: 104 operations, 192 component schemas; every operation is generated.
 - September 10 contract: 87 operations, 163 component schemas.
 
 ## Operation-to-feature checklist
@@ -49,6 +49,7 @@ Runtime references below exclude tests and generated files. A generated SDK capa
 | `adminUnsuspendUser` | `DELETE /api/v1/admin/users/{userId}/suspension` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminUpdateListingSource` | `PATCH /api/v1/admin/listing-sources/{listingSourceId}` | changed | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `adminUpdateParty` | `PATCH /api/v1/admin/parties/{partyId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `confirmNewsletterSubscription` | `POST /api/v1/newsletter-subscriptions/confirm` | added | Integrated: `src/features/newsletter/hooks/useNewsletterConfirmation.ts` |
 | `createAdminAuction` | `POST /api/v1/admin/auctions` | added | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
 | `createUserSearchFilter` | `POST /api/v1/me/search-filters` | retained | Integrated: `src/features/saved-searches/api/useCreateUserSearchFilter.ts` |
 | `deleteAsyncPartnerProductListings` | `DELETE /api/v1/listing-sources/{listingSourceId}/product-listings/async` | added | External partner ingestion; synchronous guide/reference (MIG-13), async SDK capability outside that guide |
@@ -92,7 +93,7 @@ Runtime references below exclude tests and generated files. A generated SDK capa
 | `patchAsyncPartnerProductListings` | `PATCH /api/v1/listing-sources/{listingSourceId}/product-listings/async` | added | External partner ingestion; synchronous guide/reference (MIG-13), async SDK capability outside that guide |
 | `patchMyAccessToken` | `PATCH /api/v1/me/access-tokens` | retained | Integrated: `src/features/partner/access-token-management/api/useAccessTokens.ts` |
 | `patchPartnerProductListings` | `PATCH /api/v1/listing-sources/{listingSourceId}/product-listings` | changed | External partner ingestion; synchronous guide/reference (MIG-13), async SDK capability outside that guide |
-| `patchWatchlistProduct` | `PATCH /api/v1/me/watchlist/{productListingId}` | retained | Integrated: `src/features/watchlist/api/useWatchlistNotificationMutation.ts`, `src/features/watchlist/api/useWatchlistStateMutation.ts` |
+| `patchWatchlistProduct` | `PATCH /api/v1/me/watchlist/{productListingId}` | retained | Integrated: `src/features/watchlist/api/useWatchlistStateMutation.ts`, `src/features/watchlist/api/useWatchlistNotificationMutation.ts` |
 | `postAsyncPartnerProductListings` | `POST /api/v1/listing-sources/{listingSourceId}/product-listings/async` | added | External partner ingestion; synchronous guide/reference (MIG-13), async SDK capability outside that guide |
 | `postBillingCheckout` | `POST /api/v1/me/billing/checkout` | retained | Preserved billing SDK contract; browser workflow uses postBillingManage |
 | `postBillingManage` | `POST /api/v1/me/billing/manage` | retained | Integrated: `src/features/billing/hooks/useStripeBilling.ts` |
@@ -246,6 +247,7 @@ Each model is retained, changed, or added relative to September 10. The pinned Y
 | `BillingCycleData` | retained | — | — | — |
 | `BillingPlanData` | retained | — | — | — |
 | `BillingSessionUrlData` | retained | `url` | `url` | — |
+| `ConfirmNewsletterSubscriptionData` | added | `token` | `token` | — |
 | `ContentPolicyData` | retained | — | — | — |
 | `ContentVisibilityUserStateData` | retained | `showUnassessedOrSensitiveContent` | `showUnassessedOrSensitiveContent` | — |
 | `CreateAuctionData` | added | `catalogueUrl`, `format`, `listingSourceId`, `name`, `reportedLotCount`, `reportedStatus`, `schedule`, `sourceAuctionId` | `listingSourceId`, `sourceAuctionId` | — |
@@ -354,7 +356,7 @@ Each model is retained, changed, or added relative to September 10. The pinned Y
 | `PublicListingSourceData` | added | `image`, `listingSourceId`, `listingSourceSlugId`, `name`, `operator`, `url` | `listingSourceId`, `listingSourceSlugId`, `name`, `operator` | — |
 | `PublicListingSourceOperatorData` | added | `name` | `name` | — |
 | `PublicListingSourceSearchCollectionData` | added | `items`, `searchAfter`, `size` | `items`, `size` | — |
-| `PutNewsletterSubscriptionData` | retained | `currency`, `email`, `firstName`, `language`, `lastName` | `email` | — |
+| `PutNewsletterSubscriptionData` | changed | `currency`, `email`, `firstName`, `language`, `lastName` | `email` | `description` |
 | `PutShopifyListingSourceIngestionConfigurationData` | added | `currency`, `domain`, `language` | `domain` | — |
 | `PutWoocommerceListingSourceIngestionConfigurationData` | added | `currency`, `language`, `webhookSecret` | `webhookSecret` | — |
 | `RangeQueryDateTime` | retained | `max`, `min` | — | — |

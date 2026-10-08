@@ -28,6 +28,7 @@ type PageMetaKey =
     | "searchFilters"
     | "notifications"
     | "consentSettings"
+    | "newsletterConfirm"
     | "partnerProgram"
     | "partnerApplications"
     | "partnerAccessTokens"
@@ -83,6 +84,9 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     consentSettings: {
         title: "meta.consentSettings.title",
         description: "meta.consentSettings.description",
+    },
+    newsletterConfirm: {
+        title: "meta.newsletterConfirm.title",
     },
     partnerProgram: {
         title: "meta.partnerProgram.title",
