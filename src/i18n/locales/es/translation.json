@@ -1426,7 +1426,8 @@
       "referralConfiguration": "Configuración de referidos",
       "created": "Creada",
       "updated": "Última actualización",
-      "notProvided": "No indicado"
+      "notProvided": "No indicado",
+      "referralUnavailable": "No disponible por ahora"
     },
     "methods": {
       "WEB_CRAWL": "Rastreo web",

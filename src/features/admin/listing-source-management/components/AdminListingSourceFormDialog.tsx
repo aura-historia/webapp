@@ -487,9 +487,11 @@ function CreateConfigurationEditor({
         <div className="grid gap-4 border bg-surface-container-low p-4">
             <div className="flex flex-wrap items-end gap-3">
                 <div className="grid min-w-56 flex-1 gap-2">
-                    <Label>{t("adminListingSources.fields.configurationType")}</Label>
+                    <Label htmlFor={`admin-source-${index}-configuration-type`}>
+                        {t("adminListingSources.fields.configurationType")}
+                    </Label>
                     <Select value={type} onValueChange={(value) => typeField.onChange(value)}>
-                        <SelectTrigger>
+                        <SelectTrigger id={`admin-source-${index}-configuration-type`}>
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -509,9 +511,11 @@ function CreateConfigurationEditor({
                 </div>
                 {type === "UNCONFIGURED" && (
                     <div className="grid min-w-56 flex-1 gap-2">
-                        <Label>{t("adminListingSources.fields.ingestionMethod")}</Label>
+                        <Label htmlFor={`admin-source-${index}-ingestion-method`}>
+                            {t("adminListingSources.fields.ingestionMethod")}
+                        </Label>
                         <Select value={methodField.value} onValueChange={methodField.onChange}>
-                            <SelectTrigger>
+                            <SelectTrigger id={`admin-source-${index}-ingestion-method`}>
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -699,12 +703,14 @@ function UpdateListingSourceForm({
                 <FormField
                     id="admin-listing-source-url"
                     label={t("adminListingSources.fields.url")}
+                    error={form.formState.errors.url?.message}
                 >
                     <Input id="admin-listing-source-url" type="url" {...form.register("url")} />
                 </FormField>
                 <FormField
                     id="admin-listing-source-image"
                     label={t("adminListingSources.fields.image")}
+                    error={form.formState.errors.image?.message}
                 >
                     <Input id="admin-listing-source-image" type="url" {...form.register("image")} />
                 </FormField>

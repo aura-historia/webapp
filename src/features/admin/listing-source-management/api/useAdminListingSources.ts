@@ -1,5 +1,6 @@
 import {
     infiniteQueryOptions,
+    type QueryKey,
     queryOptions,
     useInfiniteQuery,
     useMutation,
@@ -135,6 +136,26 @@ export function useAdminListingSource(id: string | undefined, enabled = true) {
     });
 }
 
+const PUBLIC_LISTING_SOURCE_QUERY_PREFIXES = new Set([
+    "publicListingSourceSearch",
+    "public-listing-source-selection",
+]);
+const PUBLIC_LISTING_SOURCE_QUERY_IDS = new Set([
+    "searchPublicListingSources",
+    "getPublicListingSourceBySlug",
+]);
+
+export function isPublicListingSourceQuery(queryKey: QueryKey): boolean {
+    const [head] = queryKey;
+    if (typeof head === "string") return PUBLIC_LISTING_SOURCE_QUERY_PREFIXES.has(head);
+    return (
+        typeof head === "object" &&
+        head !== null &&
+        "_id" in head &&
+        PUBLIC_LISTING_SOURCE_QUERY_IDS.has(String((head as { _id?: unknown })._id))
+    );
+}
+
 function invalidateListingSourceRelatedData(
     queryClient: ReturnType<typeof useQueryClient>,
     id?: string,
@@ -150,6 +171,10 @@ function invalidateListingSourceRelatedData(
     ] as const) {
         void queryClient.invalidateQueries({ queryKey });
     }
+    // Public search, merchant selection, and shop profiles cache source names and slugs.
+    void queryClient.invalidateQueries({
+        predicate: ({ queryKey }) => isPublicListingSourceQuery(queryKey),
+    });
 }
 
 export function useCreateAdminListingSource() {

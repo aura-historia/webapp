@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import testI18n from "@/i18n/i18nForTests";
 import {
     adminListingSourceDetailQueryKey,
+    isPublicListingSourceQuery,
     useAdminListingSource,
     useAdminListingSources,
     useCreateAdminListingSource,
@@ -242,6 +243,35 @@ describe("admin ListingSource API", () => {
             });
         });
         expect(hook.result.current.error?.message).not.toContain("private provider configuration");
+    });
+
+    it("invalidates cached public ListingSource data after a mutation", async () => {
+        const publicKeys = [
+            ["publicListingSourceSearch", "antique", 20],
+            ["public-listing-source-selection", "antique"],
+            [{ _id: "searchPublicListingSources", query: { query: "antique" } }],
+            [
+                {
+                    _id: "getPublicListingSourceBySlug",
+                    path: { listingSourceSlugId: "antique-house" },
+                },
+            ],
+        ];
+        const unrelatedKey = [{ _id: "getProductListing" }];
+        for (const queryKey of [...publicKeys, unrelatedKey]) {
+            client.setQueryData(queryKey, { cached: true });
+        }
+        api.remove.mockResolvedValueOnce({ data: undefined, response: { status: 204, ok: true } });
+        const hook = renderHook(() => useDeleteAdminListingSource(), { wrapper });
+        await act(async () => {
+            await hook.result.current.mutateAsync("ls_01SOURCE");
+        });
+        for (const queryKey of publicKeys) {
+            expect(client.getQueryState(queryKey)?.isInvalidated).toBe(true);
+        }
+        expect(client.getQueryState(unrelatedKey)?.isInvalidated).toBe(false);
+        expect(isPublicListingSourceQuery(["admin", "listing-sources"])).toBe(false);
+        expect(isPublicListingSourceQuery([null])).toBe(false);
     });
 
     it("reports authorization failures without exposing API details", async () => {

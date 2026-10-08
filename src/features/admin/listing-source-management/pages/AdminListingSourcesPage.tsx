@@ -71,7 +71,6 @@ function ListingSourceRow({
 export function AdminListingSourcesPage() {
     const { t } = useTranslation();
     const [filters, setFilters] = useState<AdminListingSourceFilters>({});
-    const [selectedSummary, setSelectedSummary] = useState<AdminListingSourceSummary>();
     const [selectedId, setSelectedId] = useState<string>();
     const [formOpen, setFormOpen] = useState(false);
     const [editingSource, setEditingSource] = useState<AdminListingSourceDetail>();
@@ -80,6 +79,9 @@ export function AdminListingSourcesPage() {
     const listingSourcesQuery = useAdminListingSources(filters);
     const sources = listingSourcesQuery.data?.pages.flatMap((page) => page.items) ?? [];
     const total = listingSourcesQuery.data?.pages[0]?.total;
+    // Referral data is only exposed on search summaries; read it from the live list cache so it
+    // refreshes after mutations instead of keeping a snapshot from when the dialog was opened.
+    const selectedSummary = sources.find((source) => source.listingSourceId === selectedId);
 
     let content: ReactNode;
     if (listingSourcesQuery.error && sources.length === 0) {
@@ -115,10 +117,7 @@ export function AdminListingSourcesPage() {
                         <ListingSourceRow
                             key={source.listingSourceId}
                             source={source}
-                            onOpen={() => {
-                                setSelectedSummary(source);
-                                setSelectedId(source.listingSourceId);
-                            }}
+                            onOpen={() => setSelectedId(source.listingSourceId)}
                         />
                     ))}
                 </ul>
@@ -177,10 +176,7 @@ export function AdminListingSourcesPage() {
                 summary={selectedSummary}
                 open={Boolean(selectedId)}
                 onOpenChange={(open) => {
-                    if (!open) {
-                        setSelectedId(undefined);
-                        setSelectedSummary(undefined);
-                    }
+                    if (!open) setSelectedId(undefined);
                 }}
                 onEdit={(source, referralConfiguration) => {
                     setEditingSource(source);
@@ -193,13 +189,8 @@ export function AdminListingSourcesPage() {
                 referralConfiguration={editingReferralConfiguration}
                 open={formOpen}
                 onOpenChange={(open) => setFormOpen(open)}
-                onCreated={(id) => {
-                    setSelectedSummary(undefined);
-                    setSelectedId(id);
-                }}
-                onUpdated={(id) => {
-                    setSelectedId(id);
-                }}
+                onCreated={setSelectedId}
+                onUpdated={setSelectedId}
             />
         </div>
     );
@@ -226,6 +217,11 @@ function AdminListingSourceDetailDialog({
     const deleteSource = useDeleteAdminListingSource();
     const [confirmDelete, setConfirmDelete] = useState(false);
     const source = detailQuery.data;
+    // A summary older than the detail predates a mutation, so its referral data is unknown.
+    const referralConfiguration =
+        source && summary && summary.updated.getTime() >= source.updated.getTime()
+            ? (summary.referralConfiguration ?? null)
+            : undefined;
 
     const close = (nextOpen: boolean) => {
         if (!nextOpen) {
@@ -308,11 +304,7 @@ function AdminListingSourceDetailDialog({
                         )}
                     </DetailRow>
                     <DetailRow label={t("adminListingSources.fields.referralConfiguration")}>
-                        {summary?.referralConfiguration?.type === "PARTNERIZE"
-                            ? t("adminListingSources.referral.partnerizeValue", {
-                                  camref: summary.referralConfiguration.camref,
-                              })
-                            : t("adminListingSources.fields.notProvided")}
+                        <ReferralConfigurationValue configuration={referralConfiguration} />
                     </DetailRow>
                     <DetailRow label={t("adminListingSources.fields.created")}>
                         <time dateTime={source.created.toISOString()}>
@@ -377,7 +369,7 @@ function AdminListingSourceDetailDialog({
                             type="button"
                             onClick={() => {
                                 close(false);
-                                onEdit(source, summary?.referralConfiguration);
+                                onEdit(source, referralConfiguration);
                             }}
                         >
                             {t("adminListingSources.actions.edit")}
@@ -401,6 +393,19 @@ function AdminListingSourceDetailDialog({
             </DialogContent>
         </Dialog>
     );
+}
+
+function ReferralConfigurationValue({
+    configuration,
+}: {
+    readonly configuration?: ReferralConfigurationData | null;
+}) {
+    const { t } = useTranslation();
+    if (configuration === undefined) return t("adminListingSources.fields.referralUnavailable");
+    if (configuration?.type === "PARTNERIZE") {
+        return t("adminListingSources.referral.partnerizeValue", { camref: configuration.camref });
+    }
+    return t("adminListingSources.fields.notProvided");
 }
 
 function DetailRow({ label, children }: { readonly label: string; readonly children: ReactNode }) {

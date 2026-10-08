@@ -1426,7 +1426,8 @@
       "referralConfiguration": "Configurazione referral",
       "created": "Creata",
       "updated": "Ultimo aggiornamento",
-      "notProvided": "Non indicato"
+      "notProvided": "Non indicato",
+      "referralUnavailable": "Al momento non disponibile"
     },
     "methods": {
       "WEB_CRAWL": "Scansione web",

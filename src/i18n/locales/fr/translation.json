@@ -1426,7 +1426,8 @@
       "referralConfiguration": "Configuration de parrainage",
       "created": "Créée le",
       "updated": "Dernière mise à jour",
-      "notProvided": "Non renseigné"
+      "notProvided": "Non renseigné",
+      "referralUnavailable": "Indisponible pour le moment"
     },
     "methods": {
       "WEB_CRAWL": "Exploration web",

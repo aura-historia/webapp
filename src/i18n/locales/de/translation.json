@@ -1930,7 +1930,8 @@
       "referralConfiguration": "Empfehlungskonfiguration",
       "created": "Erstellt",
       "updated": "Zuletzt aktualisiert",
-      "notProvided": "Nicht angegeben"
+      "notProvided": "Nicht angegeben",
+      "referralUnavailable": "Derzeit nicht verfügbar"
     },
     "methods": {
       "WEB_CRAWL": "Web-Crawl",
