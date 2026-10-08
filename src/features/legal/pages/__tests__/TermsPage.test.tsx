@@ -37,8 +37,8 @@ describe("TermsPage", () => {
         ).toBeInTheDocument();
     });
 
-    it("renders Zoho Campaigns content", () => {
-        expect(screen.getByText(/Zoho Campaigns/i)).toBeInTheDocument();
+    it("renders provider-neutral voluntary newsletter terms", () => {
+        expect(screen.getByText(/Marketing-E-Mails erhalten Sie nur, wenn/i)).toBeInTheDocument();
     });
 
     it("renders the provider legal form", () => {
@@ -78,9 +78,10 @@ describe("Terms Page Logic", () => {
         }
     });
 
-    it("contains Zoho Campaigns wording in all locales", () => {
+    it("keeps newsletter terms provider-neutral in all locales", () => {
         for (const content of Object.values(TERMS_LOCALE_MAP)) {
-            expect(content).toContain("Zoho Campaigns");
+            expect(content).not.toContain("Zoho Campaigns");
+            expect(content).not.toContain("Loops");
         }
     });
 

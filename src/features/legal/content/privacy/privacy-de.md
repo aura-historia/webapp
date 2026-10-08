@@ -67,15 +67,14 @@ Die Verarbeitung erfolgt zu folgenden Zwecken:
 Wenn Sie ein Nutzerkonto anlegen oder verwenden, verarbeiten wir insbesondere:
 
 - E-Mail-Adresse
-- interne Nutzerkennung (User ID)
-- Verifikations- und Anmeldestatus
-- Authentifizierungs- und Sitzungsinformationen
 - Vorname und Nachname, soweit angegeben
 - bevorzugte Sprache und Währung, soweit angegeben
-- Einstellung zur Anzeige ungeprüfter oder sensibler Inhalte (`showUnassessedOrSensitiveContent`)
+- Kontoeinstellungen
 - Rollen-, Berechtigungs- und Abonnementstatus
 
-Die Authentifizierung erfolgt technisch über AWS Amplify bzw. Amazon Cognito.
+Sie können sich auch mit Google oder Facebook (Meta) anmelden. In diesem Fall erhalten wir vom gewählten Anbieter die Kontoinformationen, die erforderlich sind, um Sie anzumelden und Ihr Aura-Historia-Konto zu erstellen oder zuzuordnen. Dazu können – abhängig vom Anbieter und Ihren dortigen Einstellungen – Ihre E-Mail-Adresse, Ihr Name und eine Kennung Ihres Kontos beim Anbieter gehören. Wir nutzen diese Angaben für die Anmeldung und Kontoverwaltung. Google und Meta verarbeiten Daten außerdem nach ihren eigenen Datenschutzbestimmungen. Diese Anmeldedienste sind von Google Analytics, Google Maps und Facebook-Links zum Teilen von Inhalten getrennt.
+
+Weitere Informationen finden Sie in der [Datenschutzerklärung von Google](https://policies.google.com/privacy) und der [Datenschutzrichtlinie von Meta](https://www.facebook.com/privacy/policy/).
 
 **Zwecke der Verarbeitung:**
 
@@ -110,7 +109,7 @@ Soweit Partner-, Shop- oder Administrationsfunktionen genutzt werden, können zu
 - API-Zugangsdaten bzw. deren Verwaltungsdaten
 - Rollen- und Freischaltungsinformationen
 
-Partnerschaftsbewerbungen enthalten entweder die Kennung eines bestehenden Anbieters oder einen Vorschlag mit Betreibername, optionalen Telefon- und E-Mail-Kontaktdaten, dem Namen des Anbieters, optionaler URL, Bild-URL und gewünschten Importmethoden. Bewerbungen erfassen keine Postanschrift. Vorschläge werden zur Prüfung der Partnerschaft verwendet; die Auswahl eines öffentlichen Anbieters gewährt keinen Zugriff.
+Wenn Sie eine externe Anwendung ausdrücklich autorisieren, kann sie auf die Daten oder Ressourcen zugreifen, die auf dem Freigabebildschirm angezeigt werden. Sie können eine Anfrage ablehnen. Nach einer Freigabe kann die Anwendung die erhaltenen Daten nach ihren eigenen Datenschutzbestimmungen verarbeiten. Sie können eine Freigabe widerrufen lassen; dies löscht keine Daten, die die Anwendung bereits erhalten hat. Für einen Widerruf kontaktieren Sie uns; wegen bereits übermittelter Daten wenden Sie sich bitte auch an den Anbieter der Anwendung.
 
 **Zwecke der Verarbeitung:**
 
@@ -155,15 +154,16 @@ Die Zahlungsabwicklung erfolgt über [Stripe](https://stripe.com/) (Stripe Payme
 
 ## 7. Newsletter und Marketingkommunikation
 
-Wenn Sie unseren Newsletter abonnieren oder uns anderweitig eine Einwilligung in Marketingkommunikation erteilen, verarbeiten wir insbesondere:
+Wenn Sie sich freiwillig für Marketing-E-Mails anmelden, verarbeiten wir insbesondere:
 
 - Ihre E-Mail-Adresse
 - optional Ihren Vor- und Nachnamen
 - optional Sprach- und Währungsinformationen
-- Double-Opt-In-Nachweise, insbesondere Zeitstempel, IP-Adresse und Einwilligungsstatus
-- Versand-, Zustell-, Öffnungs- und Klickinformationen, soweit dies rechtlich zulässig ist
+- Nachweise Ihrer Anmeldung, Bestätigung und späteren Abmeldung
 
-Für Newsletter-Funktionen nutzen wir – soweit aktiviert – **Zoho Campaigns**. Eine Anmeldung wird erst mit erfolgreichem Double-Opt-In wirksam. Eine Abmeldung ist jederzeit mit Wirkung für die Zukunft möglich.
+Wir verwenden diese Daten, um Ihnen Newsletter, personalisierte Empfehlungen zu passenden Objekten sowie Informationen zu Funktionen und Tarifen zu senden. Für den Versand und die Verwaltung der Abonnements nutzen wir **Loops**.
+
+Die Anmeldung ist freiwillig und unabhängig von der Erstellung oder Nutzung eines Kontos. Ihre Anmeldung bei Aura Historia bedeutet keine Einwilligung in Marketing-E-Mails. Wenn Sie bei der Kontoerstellung einwilligen, beginnt der Versand nach Bestätigung Ihrer E-Mail-Adresse. Bei einer gesonderten Newsletter-Anmeldung beginnt er nach Ihrer Bestätigung über den Link, den wir per E-Mail senden. Sie können sich jederzeit über den Abmeldelink in einer Marketing-E-Mail abmelden oder Ihre Einwilligung widerrufen.
 
 **Rechtsgrundlage:**
 
@@ -175,16 +175,7 @@ Der Widerruf Ihrer Einwilligung berührt die Rechtmäßigkeit der bis zum Widerr
 
 ## 8. Cookies, Local Storage und Session Storage
 
-Wir verwenden technisch erforderliche Browser-Speicherungen sowie – nur im zulässigen Umfang und nach Ihrer Einwilligung – optionale Dienste für Analysefunktionen und eingebettete externe Karten.
-
-Derzeit werden insbesondere folgende Speichermechanismen verwendet:
-
-- **`user-preferences` (Cookie, bis zu 1 Jahr):** speichert funktionale Präferenzen wie Währung sowie den Status Ihrer Entscheidungen zu Analytics/Tracking und externen Karten; dient dazu, Ihre Einstellungen server- und clientseitig konsistent anzuwenden
-- **`aura-language` (Cookie, bis zu 1 Jahr):** speichert die von Ihnen ausdrücklich gewählte Sprache, damit ein späterer Aufruf ohne Sprachpräfix in dieser Sprache statt anhand der Browsereinstellungen geöffnet wird
-- **`user-preferences` (Local Storage):** speichert dieselben funktionalen Präferenzen lokal im Browser, bis Sie diese löschen
-- **`auth.signUp.pendingEmail` (Session Storage):** speichert Ihre E-Mail-Adresse vorübergehend während eines mehrstufigen Registrierungsprozesses und wird typischerweise mit Ende der Browser-Sitzung gelöscht
-
-Zusätzlich können technisch erforderliche Speicherungen durch Authentifizierungs-, Sicherheits- oder Consent-Mechanismen eingesetzt werden. Deren konkrete Schlüsselnamen können sich im Zeitablauf ändern.
+Wir verwenden technisch erforderliche Speicherungen in Ihrem Browser. Sprache, funktionale Präferenzen und Ihre Einwilligungsentscheidungen können in Cookies oder lokalem Speicher abgelegt werden, damit wir Ihre Einstellungen bei späteren Besuchen berücksichtigen können. Für Anmeldung und Registrierung kann außerdem vorübergehend Speicherplatz im Browser erforderlich sein. Optionale Analysefunktionen und externe Karten setzen wir nur im rechtlich zulässigen Umfang und nach Ihrer Einwilligung ein.
 
 **Rechtsgrundlagen:**
 
@@ -255,16 +246,9 @@ Nach Prüfung entfernen, sperren oder beschränken wir Inhalte, soweit dies rech
 
 ## 11. KI-gestützte Verarbeitung und keine automatisierten Einzelentscheidungen
 
-Wir können automatisierte und KI-gestützte Verfahren einsetzen, insbesondere für:
+Einige Funktionen nutzen automatisierte oder KI-gestützte Verfahren, um Inhalte zu ordnen und passende Suchergebnisse zu finden. Für die erweiterte Zuordnung gespeicherter Suchen übermitteln wir die von Ihnen eingegebene Suchbeschreibung sowie passende Beschreibungstexte zu Angeboten und manchmal ein Bild an Cloudflare. Dort werden diese Angaben ausgewertet, um mögliche Treffer zu ermitteln. Die Angaben können personenbezogene Daten enthalten, wenn sie sich auf eine identifizierbare Person beziehen.
 
-- Klassifikation und Strukturierung von Inhalten
-- Ähnlichkeitssuche und Ranking
-- Sicherheits- und Sensitivitätsfilterung
-- Extraktion, Anreicherung und Kontextualisierung von Informationen
-
-Diese Verfahren dienen der technischen Unterstützung unseres Dienstes. Wir treffen auf ihrer Grundlage keine ausschließlich automatisierten Entscheidungen mit rechtlicher Wirkung oder in vergleichbarer Weise erheblichen Beeinträchtigungen im Sinne von Art. 22 DSGVO.
-
-Historische oder sensible Inhalte können durch technische Schutzmaßnahmen, Warnhinweise oder Zustimmungslösungen zusätzlich eingeschränkt werden.
+Diese Verarbeitung unterstützt die Suche und stellt keine ausschließlich automatisierte Entscheidung mit rechtlicher Wirkung oder ähnlich erheblicher Beeinträchtigung im Sinne von Art. 22 DSGVO dar.
 
 **Rechtsgrundlagen:**
 
@@ -277,16 +261,17 @@ Historische oder sensible Inhalte können durch technische Schutzmaßnahmen, War
 
 Wir setzen externe Dienstleister und Infrastrukturanbieter ein. Personenbezogene Daten können dabei an folgende Kategorien von Empfängern übermittelt oder offengelegt werden:
 
-- **Amazon Web Services (AWS) / Amazon Cognito** – insbesondere für Registrierung, Login und Authentifizierung
-- **Cloudflare** – insbesondere für Auslieferung, Performance, Caching, Sicherheits- und Schutzfunktionen der Website
-- **Hetzner Online GmbH** – soweit bestimmte Backend-, Hosting- oder Speicherkomponenten dort betrieben werden
+- **Amazon Web Services (AWS)** – für Registrierung und Anmeldung
+- **Cloudflare** – für Auslieferung und Sicherheit der Website sowie die erweiterte Zuordnung gespeicherter Suchen
+- **Hetzner Online GmbH** – soweit dort Teile unseres Dienstes gehostet werden
 - **Stripe** – für Zahlungsabwicklung, Abonnementverwaltung, Checkout- und Kundenportal
-- **Zoho Campaigns** – soweit Newsletter- und Marketingkommunikation aktiviert sind
-- **Google** – soweit Google Analytics, Consent-Mode-Funktionen oder Google Maps eingesetzt werden
+- **Loops** – für Newsletter und Marketing-E-Mails
+- **Google** – wenn Sie Google Analytics, Google Maps oder Google Login nutzen
+- **Meta/Facebook** – wenn Sie Facebook Login nutzen
 - **weitere technische, rechtliche, steuerliche oder organisatorische Dienstleister** – soweit dies für Betrieb, Support, Sicherheit, Compliance oder Durchsetzung von Ansprüchen erforderlich ist
 - **Behörden, Gerichte und Dritte** – soweit wir hierzu gesetzlich verpflichtet sind oder dies zur Rechtsdurchsetzung erforderlich ist
 
-Ein Teil dieser Empfänger kann Daten außerhalb der Europäischen Union bzw. des Europäischen Wirtschaftsraums verarbeiten oder aus Drittstaaten darauf zugreifen. Dies gilt insbesondere für global agierende Technologieanbieter wie Google, Stripe, Cloudflare, AWS oder Zoho.
+Einige dieser Anbieter können Daten außerhalb der Europäischen Union oder des Europäischen Wirtschaftsraums verarbeiten oder von dort darauf zugreifen. Dazu können Google, Meta/Facebook, AWS, Stripe, Cloudflare und Loops gehören.
 
 Soweit Drittlandtransfers stattfinden, stützen wir diese – je nach Anbieter und Konstellation – insbesondere auf:
 
@@ -294,7 +279,7 @@ Soweit Drittlandtransfers stattfinden, stützen wir diese – je nach Anbieter u
 - Standardvertragsklauseln der Europäischen Kommission,
 - ergänzende vertragliche, technische und organisatorische Schutzmaßnahmen.
 
-Auf Anfrage informieren wir Sie gerne näher über die im Einzelfall einschlägigen Schutzmechanismen.
+Auf Anfrage informieren wir Sie über die Schutzmaßnahmen, die für eine konkrete Übermittlung gelten. Google Analytics und Google Maps sind getrennte Dienste von Google Login; Facebook Login ist vom Teilen von Inhalten über Facebook getrennt.
 
 ---
 
@@ -306,12 +291,10 @@ Im Regelfall gelten insbesondere folgende Kriterien:
 
 - **Kontodaten:** bis zur Löschung des Kontos oder Beendigung des Nutzungsverhältnisses; anschließend Löschung oder Sperrung, soweit keine gesetzlichen Aufbewahrungspflichten entgegenstehen
 - **Vertrags-, Abrechnungs- und Steuerdaten:** für die Dauer gesetzlicher handels- und steuerrechtlicher Aufbewahrungsfristen
-- **Newsletter-Daten und Einwilligungsnachweise:** bis zur Abmeldung bzw. zum Widerruf und darüber hinaus, soweit erforderlich, zur Dokumentation und Abwehr von Rechtsansprüchen
-- **Server-, Edge- und Sicherheitslogs:** für einen begrenzten Zeitraum, soweit zur Gewährleistung von Sicherheit, Stabilität und Fehleranalyse erforderlich
+- **Newsletterdaten:** solange Sie angemeldet sind; Nachweise Ihrer Einwilligung und Abmeldung können darüber hinaus so lange aufbewahrt werden, wie dies erforderlich ist, um Ihre Wahl zu dokumentieren und Rechtsansprüche zu behandeln
+- **Technische und Sicherheitsdaten:** solange sie für den sicheren und stabilen Betrieb oder die Untersuchung eines Vorfalls erforderlich sind
 - **Daten aus öffentlichen Quellen:** solange dies für die Dokumentations-, Recherche- oder Plattformzwecke erforderlich ist oder bis einer berechtigten Löschungs- bzw. Sperrungsanforderung entsprochen werden muss
 - **Browser-Speicherungen:** bis zum Ablauf der jeweiligen Speicherdauer oder bis Sie diese selbst löschen
-
-Backups und technische Replikationen können aus Systemgründen zeitlich verzögert überschrieben werden.
 
 ---
 
@@ -360,4 +343,4 @@ Wir können diese Datenschutzhinweise anpassen, wenn dies aufgrund rechtlicher, 
 
 ---
 
-*Stand: 14.08.2026*
+*Stand: 07.10.2026*

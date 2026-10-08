@@ -202,9 +202,7 @@ Nous pouvons limiter, suspendre ou révoquer l’accès à l’API ou à des fon
 
 ## 11. Newsletter et communications marketing
 
-Vous ne recevrez des e-mails marketing que si vous y avez expressément consenti ou s’il existe une autre base juridique valable.
-
-Nous utilisons une procédure de **double opt-in** pour les inscriptions à la newsletter. L’envoi est assuré – lorsque la fonctionnalité est activée – via **Zoho Campaigns**. Vous pouvez vous désinscrire à tout moment pour l’avenir.
+Vous ne recevrez des e-mails marketing que si vous choisissez de vous inscrire. Cette inscription est distincte de la création ou de l’utilisation d’un compte ; le fait de vous connecter à Aura Historia ne signifie pas à lui seul que vous acceptez de recevoir des e-mails marketing. Vous pouvez vous désinscrire à tout moment au moyen du lien figurant dans un e-mail ou retirer votre consentement.
 
 Vous ne disposez d’aucun droit à recevoir une communication marketing déterminée.
 
@@ -289,4 +287,4 @@ Si vous êtes commerçant, personne morale de droit public, patrimoine spécial 
 
 ---
 
-*Version du 20.06.2026*
+*Version du 07.10.2026*
