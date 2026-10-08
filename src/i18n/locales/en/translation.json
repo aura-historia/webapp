@@ -1107,6 +1107,15 @@
     "goHome": "Go to homepage"
   },
   "auth": {
+    "federated": {
+      "or": "or",
+      "google": {
+        "continue": "Continue with Google"
+      },
+      "error": "Google sign-in could not be started. Please try again.",
+      "completionError": "Google sign-in could not be completed. Please try again.",
+      "emailUnavailable": "We could not retrieve the email for your account. Please sign in again."
+    },
     "errors": {
       "UsernameExistsException": "An account with this email already exists.",
       "NotAuthorizedException": "Incorrect username or password.",

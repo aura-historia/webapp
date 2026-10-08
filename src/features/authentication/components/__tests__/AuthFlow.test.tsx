@@ -58,7 +58,12 @@ describe("AuthFlow", () => {
 
         const { unmount } = await act(async () =>
             renderWithRouter(
-                <AuthFlow step="sign-up" onStepChange={onStepChange} onComplete={vi.fn()} />,
+                <AuthFlow
+                    step="sign-up"
+                    locale="de"
+                    onStepChange={onStepChange}
+                    onComplete={vi.fn()}
+                />,
             ),
         );
 
@@ -70,7 +75,12 @@ describe("AuthFlow", () => {
 
         await act(async () =>
             renderWithRouter(
-                <AuthFlow step="user-details" onStepChange={vi.fn()} onComplete={vi.fn()} />,
+                <AuthFlow
+                    step="user-details"
+                    locale="de"
+                    onStepChange={vi.fn()}
+                    onComplete={vi.fn()}
+                />,
             ),
         );
 
@@ -87,6 +97,7 @@ describe("AuthFlow", () => {
             return (
                 <AuthFlow
                     step={step}
+                    locale="de"
                     onStepChange={(newStep) => {
                         if (newStep === "sign-in" || newStep === "confirm") {
                             setStep(newStep);

@@ -77,6 +77,8 @@ If you create or use a user account, we process in particular:
 
 Authentication is technically handled via AWS Amplify and Amazon Cognito.
 
+You may choose to sign in or register with your Google account. If you do, Google is used as an identity provider through Amazon Cognito and sends the identity information needed for authentication, in particular your email address. Google processes the sign-in under its own privacy policy. Aura Historia uses the email address provided by Cognito for sign-in, account linking where applicable, and the existing registration process.
+
 **Purposes of processing:**
 
 - registration and login
@@ -282,7 +284,7 @@ We use external service providers and infrastructure providers. Personal data ma
 - **Hetzner Online GmbH** – where certain backend, hosting, or storage components are operated there
 - **Stripe** – for payment processing, subscription management, checkout, and customer portal functions
 - **Zoho Campaigns** – where newsletter and marketing communication are enabled
-- **Google** – where Google Analytics, Consent Mode functions, or Google Maps are used
+- **Google** – where you use Google sign-in or Google Analytics, Consent Mode functions, or Google Maps are used
 - **additional technical, legal, tax, or organizational service providers** – where required for operations, support, security, compliance, or the enforcement of claims
 - **authorities, courts, and third parties** – where we are legally obliged to do so or where this is necessary to enforce legal claims
 

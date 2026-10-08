@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getAuthErrorMessage } from "@/features/authentication/lib/getAuthErrorMessage.ts";
 import { Spinner } from "@/components/ui/spinner";
+import { FederatedAuthOptions } from "@/features/authentication/components/FederatedAuthOptions.tsx";
 
 const signUpSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
     z
@@ -40,9 +41,16 @@ type SignUpValues = z.infer<ReturnType<typeof signUpSchema>>;
 type SignUpFormProps = {
     readonly onSuccess: (email: string, password: string) => void;
     readonly onSwitchToSignIn: () => void;
+    readonly locale?: string;
+    readonly redirect?: string;
 };
 
-export function SignUpForm({ onSuccess, onSwitchToSignIn }: SignUpFormProps) {
+export function SignUpForm({
+    onSuccess,
+    onSwitchToSignIn,
+    locale = "en",
+    redirect,
+}: SignUpFormProps) {
     const { t } = useTranslation();
     const schema = signUpSchema(t);
 
@@ -71,6 +79,8 @@ export function SignUpForm({ onSuccess, onSwitchToSignIn }: SignUpFormProps) {
                 <h1 className="font-display text-2xl text-primary">{t("auth.signUp.title")}</h1>
                 <p className="text-sm text-muted-foreground">{t("auth.signUp.subtitle")}</p>
             </div>
+
+            <FederatedAuthOptions intent="sign-up" locale={locale} redirect={redirect} />
 
             <Form {...form}>
                 <form

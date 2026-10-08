@@ -1,6 +1,6 @@
 import { getCurrentUser, signOut as amplifySignOut } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type AuthUser = {
     userId: string;
@@ -16,15 +16,25 @@ type UseAuthReturn = {
 function useAuth(): UseAuthReturn {
     const [user, setUser] = useState<AuthUser | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const fetchSequenceRef = useRef(0);
 
     const fetchUser = useCallback(async () => {
+        const requestId = ++fetchSequenceRef.current;
         try {
             const currentUser = await getCurrentUser();
+            if (requestId !== fetchSequenceRef.current) {
+                return;
+            }
             setUser({ userId: currentUser.userId, username: currentUser.username });
         } catch {
+            if (requestId !== fetchSequenceRef.current) {
+                return;
+            }
             setUser(null);
         } finally {
-            setIsLoading(false);
+            if (requestId === fetchSequenceRef.current) {
+                setIsLoading(false);
+            }
         }
     }, []);
 
@@ -34,10 +44,12 @@ function useAuth(): UseAuthReturn {
         return Hub.listen("auth", ({ payload }) => {
             switch (payload.event) {
                 case "signedIn":
+                case "signInWithRedirect":
                 case "tokenRefresh":
                     fetchUser();
                     break;
                 case "signedOut":
+                    fetchSequenceRef.current += 1;
                     setUser(null);
                     setIsLoading(false);
                     break;
@@ -46,6 +58,7 @@ function useAuth(): UseAuthReturn {
     }, [fetchUser]);
 
     const signOut = useCallback(async () => {
+        fetchSequenceRef.current += 1;
         setUser(null);
         setIsLoading(false);
         await amplifySignOut();

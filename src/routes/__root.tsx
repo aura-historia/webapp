@@ -4,6 +4,7 @@ import {
     HeadContent,
     Scripts,
     redirect,
+    useNavigate,
     useLocation,
     useMatches,
 } from "@tanstack/react-router";
@@ -19,7 +20,8 @@ import { type QueryClient, useQueryClient } from "@tanstack/react-query";
 import type React from "react";
 import { useEffect, useRef } from "react";
 import { Hub } from "aws-amplify/utils";
-import { Toaster } from "sonner";
+import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth";
+import { Toaster, toast } from "sonner";
 import "@/lib/polyfills/url";
 import "@/amplify-config.ts";
 import "@/api-config.ts";
@@ -36,9 +38,17 @@ import { BANNER_IMAGE_URL, ICON_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { ConsentBanner } from "@/features/consent-management/components/ConsentBanner.tsx";
 import { SONNER_TOASTER_PROPS } from "@/lib/ui/sonnerToasterConfig";
 import { getServerUser } from "@/lib/server/amplify.ts";
-import { getLanguageFromPathname, isLocalizedAppPath, localizeHref } from "@/i18n/routing.ts";
+import {
+    getLanguageFromPathname,
+    isLocalizedAppPath,
+    isSupportedLanguage,
+    localizeHref,
+} from "@/i18n/routing.ts";
+import { DEFAULT_LANGUAGE } from "@/i18n/languages.ts";
 import { syncAmplifyTranslations } from "@/features/authentication/lib/amplifyI18nBridge.ts";
 import { clearViewerScopedQueries } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
+import { createFederatedAuthCompletionCoordinator } from "@/features/authentication/lib/federatedAuthCompletion.ts";
+import { storePendingEmail } from "@/features/authentication/components/pendingSignUpEmail.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -172,9 +182,24 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const matches = useMatches();
     const location = useLocation();
     const isLandingPage = matches.some((match) => match.routeId === "/$lng/");
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     const { initialPreferences } = Route.useRouteContext();
     const queryClient = useQueryClient();
+    const navigate = useNavigate({ from: "/$lng" });
+    const navigateRef = useRef(navigate);
+    const translationRef = useRef(t);
+    const localeRef = useRef(DEFAULT_LANGUAGE);
+    const authQueryRefreshRef = useRef<Promise<void> | null>(null);
+
+    navigateRef.current = navigate;
+    translationRef.current = t;
+    const routeLocale = getLanguageFromPathname(location.pathname);
+    const currentLocale = isSupportedLanguage(routeLocale)
+        ? routeLocale
+        : isSupportedLanguage(i18n.resolvedLanguage ?? i18n.language)
+          ? (i18n.resolvedLanguage ?? i18n.language)
+          : DEFAULT_LANGUAGE;
+    localeRef.current = currentLocale;
 
     // Capture the consent value at first render so init runs only once.
     const initialConsentRef = useRef(initialPreferences?.trackingConsent);
@@ -193,14 +218,89 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     }, [location, i18n.language]);
 
     useEffect(() => {
-        const hubListenerCancelToken = Hub.listen("auth", ({ payload }) => {
-            if (payload.event === "signedIn" || payload.event === "signedOut") {
-                clearViewerScopedQueries(queryClient);
-                queryClient.refetchQueries();
+        const completionCoordinator = createFederatedAuthCompletionCoordinator(async (state) => {
+            const locale = state?.locale ?? localeRef.current;
+            const navigateToDestination = async () => {
+                await navigateRef.current({
+                    href: state?.redirectPath
+                        ? localizeHref(state.redirectPath, locale)
+                        : `/${locale}`,
+                    viewTransition: true,
+                });
+            };
+
+            try {
+                // The redirect listener caches Cognito tokens before dispatching
+                // this event. Refresh user state and auth-dependent data before navigation.
+                await getCurrentUser();
+
+                const queryRefresh = authQueryRefreshRef.current;
+                if (queryRefresh) {
+                    await queryRefresh;
+                } else {
+                    await queryClient.refetchQueries();
+                }
+
+                if (state?.intent === "sign-up") {
+                    let email = "";
+                    try {
+                        email = (await fetchUserAttributes()).email?.trim() ?? "";
+                    } catch {
+                        // Do not surface Cognito response details or attributes.
+                    }
+
+                    if (email) {
+                        storePendingEmail(email);
+                        const search = new URLSearchParams({ mode: "user-details" });
+                        if (state.redirectPath) {
+                            search.set("redirect", state.redirectPath);
+                        }
+
+                        await navigateRef.current({
+                            href: `/${locale}/login?${search.toString()}`,
+                            viewTransition: true,
+                        });
+                        return;
+                    }
+
+                    toast.error(translationRef.current("auth.federated.emailUnavailable"));
+                }
+
+                await navigateToDestination();
+            } catch {
+                toast.error(translationRef.current("auth.federated.completionError"));
+                await navigateRef.current({ href: `/${locale}`, viewTransition: true });
             }
         });
 
-        return () => hubListenerCancelToken();
+        const hubListenerCancelToken = Hub.listen("auth", ({ payload }) => {
+            if (payload.event === "signedIn" || payload.event === "signedOut") {
+                clearViewerScopedQueries(queryClient);
+                authQueryRefreshRef.current = queryClient.refetchQueries();
+                if (payload.event === "signedOut") {
+                    authQueryRefreshRef.current = null;
+                    completionCoordinator.reset();
+                }
+            }
+
+            if (payload.event === "customOAuthState") {
+                completionCoordinator.receiveCustomState(payload.data);
+            }
+
+            if (payload.event === "signInWithRedirect") {
+                completionCoordinator.markRedirectCompleted();
+            }
+
+            if (payload.event === "signInWithRedirect_failure") {
+                completionCoordinator.reset();
+                toast.error(translationRef.current("auth.federated.completionError"));
+            }
+        });
+
+        return () => {
+            completionCoordinator.reset();
+            hubListenerCancelToken();
+        };
     }, [queryClient]);
 
     return (

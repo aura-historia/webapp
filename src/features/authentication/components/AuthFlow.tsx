@@ -14,11 +14,13 @@ export type AuthStep = "sign-in" | "sign-up" | "confirm" | "user-details" | "res
 type AuthFlowProps = {
     readonly step: AuthStep;
     readonly onStepChange: (step: AuthStep) => void;
+    readonly locale: string;
+    readonly redirect?: string;
     /** Called when the entire flow is complete (sign-in done, or user-details submitted/skipped). */
     readonly onComplete: () => void;
 };
 
-export function AuthFlow({ step, onStepChange, onComplete }: AuthFlowProps) {
+export function AuthFlow({ step, onStepChange, onComplete, locale, redirect }: AuthFlowProps) {
     // Stored between sign-up and confirm steps so we can auto-sign-in after confirm
     const [pendingEmail, setPendingEmail] = useState(getStoredPendingEmail);
     const [pendingPassword, setPendingPassword] = useState("");
@@ -36,6 +38,8 @@ export function AuthFlow({ step, onStepChange, onComplete }: AuthFlowProps) {
                         onStepChange("confirm");
                     }}
                     onSuccess={onComplete}
+                    locale={locale}
+                    redirect={redirect}
                 />
             )}
 
@@ -48,6 +52,8 @@ export function AuthFlow({ step, onStepChange, onComplete }: AuthFlowProps) {
                         setPendingPassword(password);
                         onStepChange("confirm");
                     }}
+                    locale={locale}
+                    redirect={redirect}
                 />
             )}
 

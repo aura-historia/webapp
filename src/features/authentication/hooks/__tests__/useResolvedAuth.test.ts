@@ -4,7 +4,15 @@ import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth
 
 const mockGetCurrentUser = vi.hoisted(() => vi.fn());
 const mockSignOut = vi.hoisted(() => vi.fn());
-const mockHubListen = vi.hoisted(() => vi.fn(() => vi.fn()));
+const mockHubSubscription = vi.hoisted(() => ({
+    callback: null as null | ((input: { payload: { event: string } }) => void),
+}));
+const mockHubListen = vi.hoisted(() =>
+    vi.fn((_channel: string, callback: (input: { payload: { event: string } }) => void) => {
+        mockHubSubscription.callback = callback;
+        return vi.fn();
+    }),
+);
 
 vi.mock("aws-amplify/auth", () => ({
     getCurrentUser: mockGetCurrentUser,
@@ -22,6 +30,7 @@ const clientUser = { userId: "client-user-id", username: "client-user" };
 describe("useResolvedAuth", () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        mockHubSubscription.callback = null;
         mockGetCurrentUser.mockRejectedValue(new Error("Not authenticated"));
     });
 
@@ -59,6 +68,25 @@ describe("useResolvedAuth", () => {
 
         expect(result.current.isResolved).toBe(true);
         expect(result.current.user).toEqual(clientUser);
+    });
+
+    it("refreshes the current user when a federated redirect completes", async () => {
+        mockGetCurrentUser.mockResolvedValue(clientUser);
+
+        const { result } = renderHook(() => useResolvedAuth());
+        await waitFor(() => {
+            expect(result.current.isAuthenticated).toBe(true);
+        });
+
+        const callsBeforeRedirectEvent = mockGetCurrentUser.mock.calls.length;
+        act(() => {
+            mockHubSubscription.callback?.({ payload: { event: "signInWithRedirect" } });
+        });
+
+        await waitFor(() => {
+            expect(mockGetCurrentUser).toHaveBeenCalledTimes(callsBeforeRedirectEvent + 1);
+        });
+        expect(result.current.isAuthenticated).toBe(true);
     });
 
     it("stays unresolved while client auth is loading", () => {

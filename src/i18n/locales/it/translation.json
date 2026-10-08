@@ -1107,6 +1107,15 @@
     "goHome": "Vai alla homepage"
   },
   "auth": {
+    "federated": {
+      "or": "oppure",
+      "google": {
+        "continue": "Continua con Google"
+      },
+      "error": "Non è stato possibile avviare l’accesso con Google. Riprova.",
+      "completionError": "Non è stato possibile completare l’accesso con Google. Riprova.",
+      "emailUnavailable": "Non è stato possibile recuperare l’e-mail del tuo account. Accedi di nuovo."
+    },
     "subtitle": "Oltre 120.000 oggetti d'antiquariato da 500 commercianti. Confronta, salva e monitora i prezzi su Aura Historia.",
     "signUp": {
       "firstName": "Nome",

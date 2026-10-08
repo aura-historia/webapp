@@ -1107,6 +1107,15 @@
     "goHome": "Zur Startseite"
   },
   "auth": {
+    "federated": {
+      "or": "oder",
+      "google": {
+        "continue": "Mit Google fortfahren"
+      },
+      "error": "Die Google-Anmeldung konnte nicht gestartet werden. Bitte versuchen Sie es erneut.",
+      "completionError": "Die Google-Anmeldung konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.",
+      "emailUnavailable": "Die E-Mail-Adresse Ihres Kontos konnte nicht abgerufen werden. Bitte melden Sie sich erneut an."
+    },
     "subtitle": "Über 120.000 Antiquitäten von 500 Händlern. Vergleichen, speichern und Preise verfolgen bei Aura Historia.",
     "signUp": {
       "firstName": "Vorname",

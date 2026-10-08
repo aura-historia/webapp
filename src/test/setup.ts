@@ -20,6 +20,9 @@ vi.mock("@/env", () => ({
     env: {
         VITE_USER_POOL_ID: "test-pool-id",
         VITE_USER_POOL_CLIENT_ID: "test-client-id",
+        VITE_COGNITO_DOMAIN: "auth.stage.aura-historia.com",
+        VITE_COGNITO_REDIRECT_SIGN_IN: "http://localhost:3000/",
+        VITE_COGNITO_REDIRECT_SIGN_OUT: "http://localhost:3000/",
         VITE_FEATURE_LOGIN_ENABLED: true,
         VITE_FEATURE_SEARCH_ENABLED: true,
     },

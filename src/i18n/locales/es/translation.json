@@ -1107,6 +1107,15 @@
     "goHome": "Ir a la página principal"
   },
   "auth": {
+    "federated": {
+      "or": "o",
+      "google": {
+        "continue": "Continuar con Google"
+      },
+      "error": "No se pudo iniciar el acceso con Google. Inténtelo de nuevo.",
+      "completionError": "No se pudo completar el acceso con Google. Inténtelo de nuevo.",
+      "emailUnavailable": "No pudimos recuperar el correo electrónico de su cuenta. Inicie sesión de nuevo."
+    },
     "subtitle": "Más de 120.000 antigüedades de 500 vendedores. Compare, guarde y siga precios en Aura Historia.",
     "signUp": {
       "firstName": "Nombre",
