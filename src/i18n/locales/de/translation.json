@@ -1868,139 +1868,151 @@
       "manageLink": "Organisationsverwaltung öffnen"
     }
   },
-  "adminUsers": {
-    "title": "Benutzerverwaltung",
-    "description": "Kontozusammenfassungen suchen, Kontodetails prüfen und Profil-, Rollen- und Tarifänderungen getrennt vornehmen.",
-    "loading": "Benutzer werden geladen…",
-    "loadingDetail": "Kontodetails werden geladen…",
-    "empty": "Keine Benutzer entsprechen diesen Filtern.",
+  "adminListingSources": {
+    "title": "Verwaltung der Listing-Quellen",
+    "description": "Verwalten Sie Listing-Quellen, ihre Betreiber, Präsentationsdaten und Importeinstellungen.",
+    "loading": "Listing-Quellen werden geladen.",
+    "loadingDetail": "Listing-Quelle wird geladen.",
+    "empty": "Keine Listing-Quelle entspricht diesen Filtern.",
     "filters": {
-      "title": "Benutzer filtern",
-      "query": "Name oder E-Mail",
-      "email": "E-Mail enthält",
-      "firstName": "Vorname enthält",
-      "lastName": "Nachname enthält",
-      "tier": "Tarif",
-      "role": "Rolle",
-      "createdFrom": "Erstellt ab",
-      "createdTo": "Erstellt bis",
-      "updatedFrom": "Aktualisiert ab",
-      "updatedTo": "Aktualisiert bis",
+      "title": "Listing-Quellen filtern",
+      "query": "Name oder Betreiber",
+      "name": "Quellenname",
+      "listingSourceId": "Listing-Quellen-ID",
+      "listingSourceSlugId": "Unveränderlicher Slug",
+      "operatorPartyId": "ID der Betreiberorganisation",
+      "ingestionMethod": "Importmethode",
+      "allMethods": "Alle Methoden",
       "sort": "Sortieren nach",
-      "order": "Reihenfolge",
       "apply": "Filter anwenden",
       "reset": "Zurücksetzen"
     },
     "sort": {
-      "name": "Name",
-      "email": "E-Mail",
-      "firstName": "Vorname",
-      "lastName": "Nachname",
-      "tier": "Tarif",
-      "role": "Rolle",
-      "created": "Erstellt",
-      "updated": "Aktualisiert"
-    },
-    "order": {
-      "asc": "Aufsteigend",
-      "desc": "Absteigend"
+      "name_asc": "Name, A bis Z",
+      "name_desc": "Name, Z bis A",
+      "slug_asc": "Slug, A bis Z",
+      "slug_desc": "Slug, Z bis A",
+      "created_asc": "Älteste zuerst",
+      "created_desc": "Neueste zuerst",
+      "updated_asc": "Am längsten nicht aktualisiert",
+      "updated_desc": "Zuletzt aktualisiert"
     },
     "list": {
-      "title": "Benutzer",
-      "loaded_one": "{{count}} Benutzer geladen",
-      "loaded_other": "{{count}} Benutzer geladen",
-      "total_one": "Insgesamt {{count}} passender Benutzer",
-      "total_other": "Insgesamt {{count}} passende Benutzer",
-      "loadMore": "Weitere laden",
-      "loadingMore": "Wird geladen…",
-      "openUser": "Konto von {{email}} anzeigen"
+      "operator": "Betreiber: {{name}}",
+      "noMethods": "Keine Importmethode",
+      "updated": "Aktualisiert {{date}}",
+      "total_one": "{{count}} Listing-Quelle",
+      "total_other": "{{count}} Listing-Quellen",
+      "loadMore": "Mehr laden",
+      "loadingMore": "Wird geladen…"
     },
     "fields": {
-      "userId": "Benutzer-ID",
+      "listingSourceId": "Listing-Quellen-ID",
+      "immutableSlug": "Unveränderlicher Slug",
+      "name": "Quellenname",
+      "operator": "Betreiberorganisation",
+      "operatorPartyId": "ID der Betreiberorganisation",
+      "operatorName": "Name der neuen Betreiberorganisation",
+      "phone": "Telefon",
       "email": "E-Mail",
-      "firstName": "Vorname",
-      "lastName": "Nachname",
-      "language": "Bevorzugte Sprache",
-      "currency": "Bevorzugte Währung",
-      "measurementUnit": "Maßeinheiten",
-      "showUnassessedOrSensitiveContent": "Nicht geprüfte oder sensible Inhalte anzeigen",
-      "role": "Rolle",
-      "tier": "Tarif"
+      "ingestionMethods": "Importmethoden",
+      "ingestionMethod": "Importmethode",
+      "ingestionConfiguration": "Importkonfiguration",
+      "configurationType": "Konfigurationstyp",
+      "fallbackCurrency": "Ersatzwährung (ISO 4217)",
+      "domain": "Shopify-Domain",
+      "currency": "Währung",
+      "language": "Sprache",
+      "webhookSecret": "WooCommerce-Webhook-Secret",
+      "url": "Präsentations-URL",
+      "image": "URL des Präsentationsbildes",
+      "partnerizeCamref": "Partnerize-Kampagnenreferenz (camref)",
+      "referralConfiguration": "Empfehlungskonfiguration",
+      "created": "Erstellt",
+      "updated": "Zuletzt aktualisiert",
+      "notProvided": "Nicht angegeben",
+      "referralUnavailable": "Derzeit nicht verfügbar"
     },
-    "profile": {
-      "title": "Profil und Einstellungen",
-      "sensitiveContentHelp": "Diese Einstellung steuert nicht geprüfte und sensible Inhalte. Vom Dienst geschwärzte Inhalte bleiben nicht verfügbar."
+    "methods": {
+      "WEB_CRAWL": "Web-Crawl",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "Partner-API"
     },
-    "role": {
-      "title": "Rolle"
+    "configurationTypes": {
+      "UNCONFIGURED": "Nicht konfiguriert",
+      "WEB_CRAWL": "Web-Crawl",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "Partner-API"
     },
-    "tier": {
-      "title": "Tarif"
+    "operator": {
+      "existing": "Bestehende Organisation auswählen",
+      "new": "Neue Organisation erstellen"
+    },
+    "referral": {
+      "keep": "Aktuelle Einstellung beibehalten",
+      "set": "Partnerize-Referenz festlegen",
+      "clear": "Empfehlungseinstellung löschen",
+      "partnerizeValue": "Partnerize · {{camref}}"
     },
     "detail": {
-      "title": "Benutzerkonto",
-      "description": "Prüfen Sie die vom Kontodienst bereitgestellten Felder und ändern Sie jede Kategorie separat.",
-      "close": "Schließen"
+      "title": "Details der Listing-Quelle",
+      "description": "Prüfen Sie Quellidentität, Betreiber und sichere Konfigurationsangaben. Anbieterschlüssel werden nie angezeigt."
     },
-    "delete": {
-      "title": "Konto löschen",
-      "description": "Beim Löschen eines Kontos werden auch zugehörige Zugriffstoken, gespeicherte Suchen, Merkliste-Einträge, Benachrichtigungen sowie verbundene Mitgliedschaften und Anträge entfernt.",
-      "confirm": "Das Löschen ist endgültig. Möchten Sie dieses Benutzerkonto löschen?"
+    "form": {
+      "createTitle": "Listing-Quelle erstellen",
+      "createDescription": "Erstellen Sie eine Quelle und wählen Sie Betreiber sowie Importkonfiguration.",
+      "editTitle": "Listing-Quelle bearbeiten",
+      "editDescription": "Ändern Sie Quelldaten. Betreiber und Quellen-Slug sind unveränderlich.",
+      "configurationDescription": "Fügen Sie für jede Importmethode eine Konfiguration hinzu. Nicht konfigurierte Einträge behalten die Methode ohne Anbietereinstellungen bei.",
+      "referralDescription": "Optionale Partnerize-Empfehlungsdaten. Hier werden keine Anbieterzugangsdaten gespeichert.",
+      "replaceConfiguration": "Importkonfiguration ersetzen",
+      "incompleteConfigurationNotice": "Die Lese-API gibt Konfigurationswerte nicht zurück. Lassen Sie diese Option aus, um aktuelle Einstellungen beizubehalten. Beim Aktivieren werden die Einstellungen aller aktiven Importmethoden ersetzt.",
+      "secretPreservationNotice": "Dieses Secret ist schreibgeschützt und wird nie zurückgegeben. Lassen Sie das Feld leer, um ein vorhandenes Secret beizubehalten; geben Sie einen Wert ein, um es zu setzen oder zu erneuern.",
+      "partnerApiConfiguration": "Die Partner-API-Konfiguration wird über den Partner-Integrationsablauf verwaltet."
     },
     "actions": {
+      "create": "Quelle erstellen",
+      "details": "Details anzeigen",
+      "edit": "Quelle bearbeiten",
+      "delete": "Quelle löschen",
       "retry": "Erneut versuchen",
-      "saveProfile": "Profil und Einstellungen speichern",
-      "saveRole": "Rolle speichern",
-      "saveTier": "Tarif speichern",
+      "cancel": "Abbrechen",
+      "save": "Änderungen speichern",
       "saving": "Wird gespeichert…",
-      "delete": "Konto löschen",
-      "confirmDelete": "Löschen bestätigen",
-      "deleting": "Wird gelöscht…",
-      "cancel": "Abbrechen"
+      "addMethod": "Importmethode hinzufügen",
+      "removeMethod": "Entfernen",
+      "confirmDelete": "Diese Listing-Quelle löschen? Quellen mit Listings oder bestehenden Beziehungen können nicht gelöscht werden. Zugehörige Partnerschaften und Anträge werden nicht entfernt.",
+      "confirmDeleteButton": "Quelle löschen",
+      "deleting": "Wird gelöscht…"
     },
     "success": {
-      "profileUpdated": "Profil und Einstellungen aktualisiert.",
-      "roleUpdated": "Rolle aktualisiert.",
-      "tierUpdated": "Tarif aktualisiert.",
-      "deleted": "Benutzerkonto gelöscht."
+      "created": "Listing-Quelle erstellt.",
+      "updated": "Listing-Quelle aktualisiert.",
+      "deleted": "Listing-Quelle gelöscht."
     },
     "errors": {
-      "forbidden": "Sie haben keine Berechtigung, Benutzerkonten zu verwalten.",
-      "missing": "Dieses Benutzerkonto wurde nicht gefunden oder ist nicht mehr verfügbar.",
-      "conflict": "Das Konto wurde vor Abschluss der Änderung geändert. Laden Sie die Details neu und versuchen Sie es erneut.",
-      "lastAdmin": "Mindestens ein aktiver Administrator muss bestehen bleiben. Das Konto wurde nicht geändert.",
-      "deleteConflict": "Dieses Konto kann im aktuellen Zustand nicht gelöscht werden. Mindestens ein aktiver Administrator muss bestehen bleiben.",
-      "invalid": "Prüfen Sie die Kontofelder und versuchen Sie es erneut.",
-      "requestFailed": "Die Benutzerkontoanfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+      "forbidden": "Sie dürfen Listing-Quellen nicht verwalten.",
+      "missing": "Listing-Quelle nicht gefunden oder nicht mehr verfügbar.",
+      "createConflict": "Die Quelle steht im Konflikt mit einer bestehenden Anbieterkonfiguration. Prüfen Sie die aktuellen Quellen und versuchen Sie es erneut.",
+      "updateConflict": "Diese Listing-Quelle wurde während der Bearbeitung geändert. Laden Sie die Details neu und versuchen Sie es erneut.",
+      "deleteConflict": "Diese Listing-Quelle hat Listings oder bestehende Beziehungen und konnte nicht gelöscht werden. Zugehörige Datensätze wurden nicht entfernt.",
+      "invalid": "Prüfen Sie Quelldaten und Importeinstellungen und versuchen Sie es erneut.",
+      "requestFailed": "Die Anfrage zur Listing-Quelle konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
     },
     "validation": {
+      "nameRequired": "Geben Sie einen Quellnamen ein.",
+      "nameTooLong": "Der Quellenname darf höchstens 255 UTF-8-Bytes lang sein.",
       "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
-      "nameTooLong": "Namen dürfen höchstens 64 Zeichen lang sein.",
-      "invalidDate": "Geben Sie ein gültiges Kalenderdatum ein.",
-      "invalidRange": "Das Startdatum muss am oder vor dem Enddatum liegen."
-    },
-    "options": {
-      "notSet": "Nicht festgelegt",
-      "roles": {
-        "USER": "Benutzer",
-        "ADMIN": "Administrator"
-      },
-      "tiers": {
-        "FREE": "Free",
-        "PRO": "Pro",
-        "ULTIMATE": "Ultimate"
-      },
-      "languages": {
-        "de": "Deutsch",
-        "en": "Englisch",
-        "es": "Spanisch",
-        "fr": "Französisch",
-        "it": "Italienisch"
-      },
-      "measurementUnits": {
-        "METRIC": "Metrisch",
-        "IMPERIAL": "Imperial"
-      }
+      "invalidUrl": "Geben Sie eine gültige HTTP- oder HTTPS-URL ein.",
+      "configurationRequired": "Fügen Sie mindestens eine Importkonfiguration hinzu.",
+      "operatorRequired": "Wählen Sie eine Betreiberorganisation aus.",
+      "operatorNameRequired": "Geben Sie den Namen der neuen Betreiberorganisation ein.",
+      "duplicateMethod": "Jede Importmethode kann nur einmal hinzugefügt werden.",
+      "shopifyDomainRequired": "Geben Sie die Shopify-Shop-Domain ein.",
+      "webhookSecretRequired": "Geben Sie das WooCommerce-Webhook-Secret ein.",
+      "camrefRequired": "Geben Sie die Partnerize-Kampagnenreferenz ein."
     }
   },
   "adminDashboard": {
@@ -2242,6 +2254,141 @@
       "title": "Barnebys ist stark bei Auktionen. Aura Historia ist für den Antiquitätenmarkt gebaut.",
       "description": "Wenn Ihre Suche die Orte einschließen soll, an denen Antiquitäten online tatsächlich angeboten werden, beginnen Sie mit Aura Historia.",
       "button": "Antiquitäten suchen"
+    }
+  },
+  "adminUsers": {
+    "title": "Benutzerverwaltung",
+    "description": "Kontozusammenfassungen suchen, Kontodetails prüfen und Profil-, Rollen- und Tarifänderungen getrennt vornehmen.",
+    "loading": "Benutzer werden geladen…",
+    "loadingDetail": "Kontodetails werden geladen…",
+    "empty": "Keine Benutzer entsprechen diesen Filtern.",
+    "filters": {
+      "title": "Benutzer filtern",
+      "query": "Name oder E-Mail",
+      "email": "E-Mail enthält",
+      "firstName": "Vorname enthält",
+      "lastName": "Nachname enthält",
+      "tier": "Tarif",
+      "role": "Rolle",
+      "createdFrom": "Erstellt ab",
+      "createdTo": "Erstellt bis",
+      "updatedFrom": "Aktualisiert ab",
+      "updatedTo": "Aktualisiert bis",
+      "sort": "Sortieren nach",
+      "order": "Reihenfolge",
+      "apply": "Filter anwenden",
+      "reset": "Zurücksetzen"
+    },
+    "sort": {
+      "name": "Name",
+      "email": "E-Mail",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "tier": "Tarif",
+      "role": "Rolle",
+      "created": "Erstellt",
+      "updated": "Aktualisiert"
+    },
+    "order": {
+      "asc": "Aufsteigend",
+      "desc": "Absteigend"
+    },
+    "list": {
+      "title": "Benutzer",
+      "loaded_one": "{{count}} Benutzer geladen",
+      "loaded_other": "{{count}} Benutzer geladen",
+      "total_one": "Insgesamt {{count}} passender Benutzer",
+      "total_other": "Insgesamt {{count}} passende Benutzer",
+      "loadMore": "Weitere laden",
+      "loadingMore": "Wird geladen…",
+      "openUser": "Konto von {{email}} anzeigen"
+    },
+    "fields": {
+      "userId": "Benutzer-ID",
+      "email": "E-Mail",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "language": "Bevorzugte Sprache",
+      "currency": "Bevorzugte Währung",
+      "measurementUnit": "Maßeinheiten",
+      "showUnassessedOrSensitiveContent": "Nicht geprüfte oder sensible Inhalte anzeigen",
+      "role": "Rolle",
+      "tier": "Tarif"
+    },
+    "profile": {
+      "title": "Profil und Einstellungen",
+      "sensitiveContentHelp": "Diese Einstellung steuert nicht geprüfte und sensible Inhalte. Vom Dienst geschwärzte Inhalte bleiben nicht verfügbar."
+    },
+    "role": {
+      "title": "Rolle"
+    },
+    "tier": {
+      "title": "Tarif"
+    },
+    "detail": {
+      "title": "Benutzerkonto",
+      "description": "Prüfen Sie die vom Kontodienst bereitgestellten Felder und ändern Sie jede Kategorie separat.",
+      "close": "Schließen"
+    },
+    "delete": {
+      "title": "Konto löschen",
+      "description": "Beim Löschen eines Kontos werden auch zugehörige Zugriffstoken, gespeicherte Suchen, Merkliste-Einträge, Benachrichtigungen sowie verbundene Mitgliedschaften und Anträge entfernt.",
+      "confirm": "Das Löschen ist endgültig. Möchten Sie dieses Benutzerkonto löschen?"
+    },
+    "actions": {
+      "retry": "Erneut versuchen",
+      "saveProfile": "Profil und Einstellungen speichern",
+      "saveRole": "Rolle speichern",
+      "saveTier": "Tarif speichern",
+      "saving": "Wird gespeichert…",
+      "delete": "Konto löschen",
+      "confirmDelete": "Löschen bestätigen",
+      "deleting": "Wird gelöscht…",
+      "cancel": "Abbrechen"
+    },
+    "success": {
+      "profileUpdated": "Profil und Einstellungen aktualisiert.",
+      "roleUpdated": "Rolle aktualisiert.",
+      "tierUpdated": "Tarif aktualisiert.",
+      "deleted": "Benutzerkonto gelöscht."
+    },
+    "errors": {
+      "forbidden": "Sie haben keine Berechtigung, Benutzerkonten zu verwalten.",
+      "missing": "Dieses Benutzerkonto wurde nicht gefunden oder ist nicht mehr verfügbar.",
+      "conflict": "Das Konto wurde vor Abschluss der Änderung geändert. Laden Sie die Details neu und versuchen Sie es erneut.",
+      "lastAdmin": "Mindestens ein aktiver Administrator muss bestehen bleiben. Das Konto wurde nicht geändert.",
+      "deleteConflict": "Dieses Konto kann im aktuellen Zustand nicht gelöscht werden. Mindestens ein aktiver Administrator muss bestehen bleiben.",
+      "invalid": "Prüfen Sie die Kontofelder und versuchen Sie es erneut.",
+      "requestFailed": "Die Benutzerkontoanfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+    },
+    "validation": {
+      "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
+      "nameTooLong": "Namen dürfen höchstens 64 Zeichen lang sein.",
+      "invalidDate": "Geben Sie ein gültiges Kalenderdatum ein.",
+      "invalidRange": "Das Startdatum muss am oder vor dem Enddatum liegen."
+    },
+    "options": {
+      "notSet": "Nicht festgelegt",
+      "roles": {
+        "USER": "Benutzer",
+        "ADMIN": "Administrator"
+      },
+      "tiers": {
+        "FREE": "Free",
+        "PRO": "Pro",
+        "ULTIMATE": "Ultimate"
+      },
+      "languages": {
+        "de": "Deutsch",
+        "en": "Englisch",
+        "es": "Spanisch",
+        "fr": "Französisch",
+        "it": "Italienisch"
+      },
+      "measurementUnits": {
+        "METRIC": "Metrisch",
+        "IMPERIAL": "Imperial"
+      }
     }
   }
 }

@@ -11,12 +11,16 @@ only with current DTO mapping, tests and the authorization checks below. See
 
 Restored workflows: partnership application review (MIG-16, see
 [admin partnership application review](api-migration/partnership-application-contracts.md#admin-partnership-application-review))
-Party management (MIG-17), and user management (MIG-20). Party contacts are
-available only through authenticated admin Party operations. User search and detail
-use separate summary and account DTO mappings; user reads and mutations use
-`Cache-Control: no-store` requests and private query keys. The shared admin shell and
-navigation remain deferred to MIG-24; individual workflow routes stay protected by
-`AdminGuard` and backend authorization.
+Party management (MIG-17), listing-source management (MIG-18), and user management
+(MIG-20). Party contacts are available only through the authenticated admin Party
+operations. Listing-source search/detail use their separate safe DTOs; the read API
+omits full ingestion configuration and never returns the write-only WooCommerce
+secret. Preserve unseen configuration by omitting it from updates, and require an
+explicit replacement action before sending new settings. The operator and source slug
+are immutable on update. User search and detail use separate summary and account DTO
+mappings; user reads and mutations use `Cache-Control: no-store` requests and private
+query keys. The shared admin shell and navigation remain deferred to MIG-24;
+individual workflow routes stay protected by `AdminGuard` and backend authorization.
 
 ## Requirement
 

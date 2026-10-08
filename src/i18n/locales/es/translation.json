@@ -1364,139 +1364,151 @@
     "totalElements_other": "{{count}} notificaciones",
     "showAll": "Mostrar todas las notificaciones"
   },
-  "adminUsers": {
-    "title": "Gestión de usuarios",
-    "description": "Busque resúmenes de cuentas, revise sus detalles y aplique por separado los cambios de perfil, rol y plan.",
-    "loading": "Cargando usuarios…",
-    "loadingDetail": "Cargando detalles de la cuenta…",
-    "empty": "Ningún usuario coincide con estos filtros.",
+  "adminListingSources": {
+    "title": "Gestión de fuentes de anuncios",
+    "description": "Gestione las fuentes, sus operadores, los datos de presentación y la configuración de ingestión.",
+    "loading": "Cargando fuentes de anuncios.",
+    "loadingDetail": "Cargando fuente de anuncios.",
+    "empty": "Ninguna fuente de anuncios coincide con estos filtros.",
     "filters": {
-      "title": "Filtrar usuarios",
-      "query": "Nombre o correo electrónico",
-      "email": "El correo contiene",
-      "firstName": "El nombre contiene",
-      "lastName": "El apellido contiene",
-      "tier": "Plan de suscripción",
-      "role": "Rol",
-      "createdFrom": "Creado desde",
-      "createdTo": "Creado hasta",
-      "updatedFrom": "Actualizado desde",
-      "updatedTo": "Actualizado hasta",
+      "title": "Filtrar fuentes de anuncios",
+      "query": "Nombre u operador",
+      "name": "Nombre de la fuente",
+      "listingSourceId": "ID de la fuente",
+      "listingSourceSlugId": "Slug inmutable",
+      "operatorPartyId": "ID de la organización operadora",
+      "ingestionMethod": "Método de ingestión",
+      "allMethods": "Todos los métodos",
       "sort": "Ordenar por",
-      "order": "Dirección",
       "apply": "Aplicar filtros",
       "reset": "Restablecer"
     },
     "sort": {
-      "name": "Nombre",
-      "email": "Correo electrónico",
-      "firstName": "Nombre",
-      "lastName": "Apellido",
-      "tier": "Plan de suscripción",
-      "role": "Rol",
-      "created": "Fecha de creación",
-      "updated": "Fecha de actualización"
-    },
-    "order": {
-      "asc": "Ascendente",
-      "desc": "Descendente"
+      "name_asc": "Nombre, A a Z",
+      "name_desc": "Nombre, Z a A",
+      "slug_asc": "Slug, A a Z",
+      "slug_desc": "Slug, Z a A",
+      "created_asc": "Más antiguas primero",
+      "created_desc": "Más recientes primero",
+      "updated_asc": "Menos actualizadas recientemente",
+      "updated_desc": "Actualizadas recientemente"
     },
     "list": {
-      "title": "Usuarios",
-      "loaded_one": "{{count}} usuario cargado",
-      "loaded_other": "{{count}} usuarios cargados",
-      "total_one": "{{count}} usuario coincidente en total",
-      "total_other": "{{count}} usuarios coincidentes en total",
+      "operator": "Operador: {{name}}",
+      "noMethods": "Sin método de ingestión",
+      "updated": "Actualizada {{date}}",
+      "total_one": "{{count}} fuente de anuncios",
+      "total_other": "{{count}} fuentes de anuncios",
       "loadMore": "Cargar más",
-      "loadingMore": "Cargando…",
-      "openUser": "Ver la cuenta de {{email}}"
+      "loadingMore": "Cargando…"
     },
     "fields": {
-      "userId": "ID de usuario",
+      "listingSourceId": "ID de la fuente",
+      "immutableSlug": "Slug inmutable",
+      "name": "Nombre de la fuente",
+      "operator": "Organización operadora",
+      "operatorPartyId": "ID de la organización operadora",
+      "operatorName": "Nombre del nuevo operador",
+      "phone": "Teléfono",
       "email": "Correo electrónico",
-      "firstName": "Nombre",
-      "lastName": "Apellido",
-      "language": "Idioma preferido",
-      "currency": "Moneda preferida",
-      "measurementUnit": "Unidades de medida",
-      "showUnassessedOrSensitiveContent": "Mostrar contenido sin evaluar o sensible",
-      "role": "Rol",
-      "tier": "Plan de suscripción"
+      "ingestionMethods": "Métodos de ingestión",
+      "ingestionMethod": "Método de ingestión",
+      "ingestionConfiguration": "Configuración de ingestión",
+      "configurationType": "Tipo de configuración",
+      "fallbackCurrency": "Moneda alternativa (ISO 4217)",
+      "domain": "Dominio de Shopify",
+      "currency": "Moneda",
+      "language": "Idioma",
+      "webhookSecret": "Secreto del webhook de WooCommerce",
+      "url": "URL de presentación",
+      "image": "URL de la imagen de presentación",
+      "partnerizeCamref": "Referencia de campaña de Partnerize (camref)",
+      "referralConfiguration": "Configuración de referidos",
+      "created": "Creada",
+      "updated": "Última actualización",
+      "notProvided": "No indicado",
+      "referralUnavailable": "No disponible por ahora"
     },
-    "profile": {
-      "title": "Perfil y preferencias",
-      "sensitiveContentHelp": "Esta preferencia controla el contenido sin evaluar y el sensible. El contenido ocultado por el servicio sigue sin estar disponible."
+    "methods": {
+      "WEB_CRAWL": "Rastreo web",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "API de socio"
     },
-    "role": {
-      "title": "Rol"
+    "configurationTypes": {
+      "UNCONFIGURED": "Sin configurar",
+      "WEB_CRAWL": "Rastreo web",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "API de socio"
     },
-    "tier": {
-      "title": "Plan de suscripción"
+    "operator": {
+      "existing": "Seleccionar una organización existente",
+      "new": "Crear una organización nueva"
+    },
+    "referral": {
+      "keep": "Mantener la configuración actual",
+      "set": "Configurar la referencia de Partnerize",
+      "clear": "Borrar la configuración de referidos",
+      "partnerizeValue": "Partnerize · {{camref}}"
     },
     "detail": {
-      "title": "Cuenta de usuario",
-      "description": "Revise los campos disponibles del servicio de cuentas y actualice cada categoría por separado.",
-      "close": "Cerrar"
+      "title": "Detalles de la fuente de anuncios",
+      "description": "Revise la identidad de la fuente, el operador y el resumen seguro de configuración. Nunca se muestran secretos del proveedor."
     },
-    "delete": {
-      "title": "Eliminar cuenta",
-      "description": "Al eliminar una cuenta también se eliminan sus tokens de acceso, búsquedas guardadas, elementos de la lista de seguimiento, notificaciones y membresías y solicitudes relacionadas.",
-      "confirm": "La eliminación es permanente. ¿Eliminar esta cuenta de usuario?"
+    "form": {
+      "createTitle": "Crear fuente de anuncios",
+      "createDescription": "Cree una fuente y elija su operador y configuración de ingestión.",
+      "editTitle": "Editar fuente de anuncios",
+      "editDescription": "Cambie los datos de la fuente. El operador y el slug son inmutables.",
+      "configurationDescription": "Añada una configuración por cada método de ingestión. Las entradas sin configurar conservan el método sin ajustes del proveedor.",
+      "referralDescription": "Datos opcionales de referidos de Partnerize. Aquí no se guardan credenciales del proveedor.",
+      "replaceConfiguration": "Reemplazar la configuración de ingestión",
+      "incompleteConfigurationNotice": "La API de lectura no devuelve los valores de configuración. Déjelo desactivado para conservar los ajustes actuales. Al activarlo se reemplazan los ajustes de todos los métodos activos.",
+      "secretPreservationNotice": "Este secreto solo se puede escribir y nunca se vuelve a leer. Déjelo vacío para conservar un secreto existente; escriba un valor para configurarlo o renovarlo.",
+      "partnerApiConfiguration": "La configuración de la API de socio se gestiona mediante el flujo de integración de socios."
     },
     "actions": {
-      "retry": "Intentar de nuevo",
-      "saveProfile": "Guardar perfil y preferencias",
-      "saveRole": "Guardar rol",
-      "saveTier": "Guardar plan",
+      "create": "Crear fuente",
+      "details": "Ver detalles",
+      "edit": "Editar fuente",
+      "delete": "Eliminar fuente",
+      "retry": "Reintentar",
+      "cancel": "Cancelar",
+      "save": "Guardar cambios",
       "saving": "Guardando…",
-      "delete": "Eliminar cuenta",
-      "confirmDelete": "Confirmar eliminación",
-      "deleting": "Eliminando…",
-      "cancel": "Cancelar"
+      "addMethod": "Añadir método de ingestión",
+      "removeMethod": "Quitar",
+      "confirmDelete": "¿Eliminar esta fuente? No se pueden eliminar las fuentes con anuncios o relaciones conservadas. No se eliminarán las colaboraciones ni las solicitudes relacionadas.",
+      "confirmDeleteButton": "Eliminar fuente",
+      "deleting": "Eliminando…"
     },
     "success": {
-      "profileUpdated": "Perfil y preferencias actualizados.",
-      "roleUpdated": "Rol actualizado.",
-      "tierUpdated": "Plan de suscripción actualizado.",
-      "deleted": "Cuenta de usuario eliminada."
+      "created": "Fuente de anuncios creada.",
+      "updated": "Fuente de anuncios actualizada.",
+      "deleted": "Fuente de anuncios eliminada."
     },
     "errors": {
-      "forbidden": "No tiene permiso para administrar cuentas de usuario.",
-      "missing": "No se encontró esta cuenta o ya no está disponible.",
-      "conflict": "La cuenta cambió antes de completar la actualización. Vuelva a cargar los detalles e inténtelo de nuevo.",
-      "lastAdmin": "Debe permanecer al menos un administrador activo. La cuenta no se modificó.",
-      "deleteConflict": "No se puede eliminar esta cuenta en su estado actual. Debe permanecer al menos un administrador activo.",
-      "invalid": "Revise los campos de la cuenta e inténtelo de nuevo.",
-      "requestFailed": "No se pudo completar la solicitud de la cuenta. Inténtelo de nuevo."
+      "forbidden": "No tiene permiso para gestionar fuentes de anuncios.",
+      "missing": "No se encontró la fuente o ya no está disponible.",
+      "createConflict": "La fuente entra en conflicto con una configuración de proveedor existente. Revise las fuentes actuales e inténtelo de nuevo.",
+      "updateConflict": "La fuente cambió mientras la editaba. Vuelva a cargar los detalles antes de intentarlo de nuevo.",
+      "deleteConflict": "La fuente tiene anuncios o relaciones conservadas y no se pudo eliminar. No se eliminaron registros relacionados.",
+      "invalid": "Revise los datos de la fuente y la configuración de ingestión e inténtelo de nuevo.",
+      "requestFailed": "No se pudo completar la solicitud de la fuente. Inténtelo de nuevo."
     },
     "validation": {
-      "invalidEmail": "Introduzca una dirección de correo electrónico válida.",
-      "nameTooLong": "Los nombres deben tener 64 caracteres o menos.",
-      "invalidDate": "Introduzca una fecha válida.",
-      "invalidRange": "La fecha inicial debe ser anterior o igual a la fecha final."
-    },
-    "options": {
-      "notSet": "Sin definir",
-      "roles": {
-        "USER": "Usuario",
-        "ADMIN": "Administrador"
-      },
-      "tiers": {
-        "FREE": "Free",
-        "PRO": "Pro",
-        "ULTIMATE": "Ultimate"
-      },
-      "languages": {
-        "de": "Alemán",
-        "en": "Inglés",
-        "es": "Español",
-        "fr": "Francés",
-        "it": "Italiano"
-      },
-      "measurementUnits": {
-        "METRIC": "Métrico",
-        "IMPERIAL": "Imperial"
-      }
+      "nameRequired": "Introduzca un nombre para la fuente.",
+      "nameTooLong": "El nombre no puede superar los 255 bytes UTF-8.",
+      "invalidEmail": "Introduzca un correo electrónico válido.",
+      "invalidUrl": "Introduzca una URL HTTP o HTTPS válida.",
+      "configurationRequired": "Añada al menos una configuración de ingestión.",
+      "operatorRequired": "Seleccione una organización operadora.",
+      "operatorNameRequired": "Introduzca el nombre de la nueva organización operadora.",
+      "duplicateMethod": "Cada método de ingestión solo se puede añadir una vez.",
+      "shopifyDomainRequired": "Introduzca el dominio de la tienda Shopify.",
+      "webhookSecretRequired": "Introduzca el secreto del webhook de WooCommerce.",
+      "camrefRequired": "Introduzca la referencia de campaña de Partnerize."
     }
   },
   "adminDashboard": {
@@ -2243,5 +2255,140 @@
     "loading": "Cargando proveedores accesibles.",
     "loadError": "No se pudo verificar el acceso a los proveedores. Es posible que los permisos hayan cambiado. Inténtelo de nuevo.",
     "empty": "Actualmente no tiene acceso a ningún proveedor. Es posible que se haya revocado una autorización anterior."
+  },
+  "adminUsers": {
+    "title": "Gestión de usuarios",
+    "description": "Busque resúmenes de cuentas, revise sus detalles y aplique por separado los cambios de perfil, rol y plan.",
+    "loading": "Cargando usuarios…",
+    "loadingDetail": "Cargando detalles de la cuenta…",
+    "empty": "Ningún usuario coincide con estos filtros.",
+    "filters": {
+      "title": "Filtrar usuarios",
+      "query": "Nombre o correo electrónico",
+      "email": "El correo contiene",
+      "firstName": "El nombre contiene",
+      "lastName": "El apellido contiene",
+      "tier": "Plan de suscripción",
+      "role": "Rol",
+      "createdFrom": "Creado desde",
+      "createdTo": "Creado hasta",
+      "updatedFrom": "Actualizado desde",
+      "updatedTo": "Actualizado hasta",
+      "sort": "Ordenar por",
+      "order": "Dirección",
+      "apply": "Aplicar filtros",
+      "reset": "Restablecer"
+    },
+    "sort": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "tier": "Plan de suscripción",
+      "role": "Rol",
+      "created": "Fecha de creación",
+      "updated": "Fecha de actualización"
+    },
+    "order": {
+      "asc": "Ascendente",
+      "desc": "Descendente"
+    },
+    "list": {
+      "title": "Usuarios",
+      "loaded_one": "{{count}} usuario cargado",
+      "loaded_other": "{{count}} usuarios cargados",
+      "total_one": "{{count}} usuario coincidente en total",
+      "total_other": "{{count}} usuarios coincidentes en total",
+      "loadMore": "Cargar más",
+      "loadingMore": "Cargando…",
+      "openUser": "Ver la cuenta de {{email}}"
+    },
+    "fields": {
+      "userId": "ID de usuario",
+      "email": "Correo electrónico",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "language": "Idioma preferido",
+      "currency": "Moneda preferida",
+      "measurementUnit": "Unidades de medida",
+      "showUnassessedOrSensitiveContent": "Mostrar contenido sin evaluar o sensible",
+      "role": "Rol",
+      "tier": "Plan de suscripción"
+    },
+    "profile": {
+      "title": "Perfil y preferencias",
+      "sensitiveContentHelp": "Esta preferencia controla el contenido sin evaluar y el sensible. El contenido ocultado por el servicio sigue sin estar disponible."
+    },
+    "role": {
+      "title": "Rol"
+    },
+    "tier": {
+      "title": "Plan de suscripción"
+    },
+    "detail": {
+      "title": "Cuenta de usuario",
+      "description": "Revise los campos disponibles del servicio de cuentas y actualice cada categoría por separado.",
+      "close": "Cerrar"
+    },
+    "delete": {
+      "title": "Eliminar cuenta",
+      "description": "Al eliminar una cuenta también se eliminan sus tokens de acceso, búsquedas guardadas, elementos de la lista de seguimiento, notificaciones y membresías y solicitudes relacionadas.",
+      "confirm": "La eliminación es permanente. ¿Eliminar esta cuenta de usuario?"
+    },
+    "actions": {
+      "retry": "Intentar de nuevo",
+      "saveProfile": "Guardar perfil y preferencias",
+      "saveRole": "Guardar rol",
+      "saveTier": "Guardar plan",
+      "saving": "Guardando…",
+      "delete": "Eliminar cuenta",
+      "confirmDelete": "Confirmar eliminación",
+      "deleting": "Eliminando…",
+      "cancel": "Cancelar"
+    },
+    "success": {
+      "profileUpdated": "Perfil y preferencias actualizados.",
+      "roleUpdated": "Rol actualizado.",
+      "tierUpdated": "Plan de suscripción actualizado.",
+      "deleted": "Cuenta de usuario eliminada."
+    },
+    "errors": {
+      "forbidden": "No tiene permiso para administrar cuentas de usuario.",
+      "missing": "No se encontró esta cuenta o ya no está disponible.",
+      "conflict": "La cuenta cambió antes de completar la actualización. Vuelva a cargar los detalles e inténtelo de nuevo.",
+      "lastAdmin": "Debe permanecer al menos un administrador activo. La cuenta no se modificó.",
+      "deleteConflict": "No se puede eliminar esta cuenta en su estado actual. Debe permanecer al menos un administrador activo.",
+      "invalid": "Revise los campos de la cuenta e inténtelo de nuevo.",
+      "requestFailed": "No se pudo completar la solicitud de la cuenta. Inténtelo de nuevo."
+    },
+    "validation": {
+      "invalidEmail": "Introduzca una dirección de correo electrónico válida.",
+      "nameTooLong": "Los nombres deben tener 64 caracteres o menos.",
+      "invalidDate": "Introduzca una fecha válida.",
+      "invalidRange": "La fecha inicial debe ser anterior o igual a la fecha final."
+    },
+    "options": {
+      "notSet": "Sin definir",
+      "roles": {
+        "USER": "Usuario",
+        "ADMIN": "Administrador"
+      },
+      "tiers": {
+        "FREE": "Free",
+        "PRO": "Pro",
+        "ULTIMATE": "Ultimate"
+      },
+      "languages": {
+        "de": "Alemán",
+        "en": "Inglés",
+        "es": "Español",
+        "fr": "Francés",
+        "it": "Italiano"
+      },
+      "measurementUnits": {
+        "METRIC": "Métrico",
+        "IMPERIAL": "Imperial"
+      }
+    }
   }
 }
