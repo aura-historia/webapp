@@ -2255,5 +2255,140 @@
       "description": "If your search should include the places where antiques are actually sold online, start with Aura Historia.",
       "button": "Start searching antiques"
     }
+  },
+  "adminUsers": {
+    "title": "User management",
+    "description": "Search account summaries, review account details, and make profile, role, and tier changes independently.",
+    "loading": "Loading users…",
+    "loadingDetail": "Loading account details…",
+    "empty": "No users match these filters.",
+    "filters": {
+      "title": "Filter users",
+      "query": "Name or email",
+      "email": "Email contains",
+      "firstName": "First name contains",
+      "lastName": "Last name contains",
+      "tier": "Subscription tier",
+      "role": "Role",
+      "createdFrom": "Created from",
+      "createdTo": "Created until",
+      "updatedFrom": "Updated from",
+      "updatedTo": "Updated until",
+      "sort": "Sort by",
+      "order": "Direction",
+      "apply": "Apply filters",
+      "reset": "Reset"
+    },
+    "sort": {
+      "name": "Name",
+      "email": "Email",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "tier": "Subscription tier",
+      "role": "Role",
+      "created": "Created",
+      "updated": "Updated"
+    },
+    "order": {
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "list": {
+      "title": "Users",
+      "loaded_one": "{{count}} user loaded",
+      "loaded_other": "{{count}} users loaded",
+      "total_one": "{{count}} matching user in total",
+      "total_other": "{{count}} matching users in total",
+      "loadMore": "Load more",
+      "loadingMore": "Loading…",
+      "openUser": "View account for {{email}}"
+    },
+    "fields": {
+      "userId": "User ID",
+      "email": "Email",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "language": "Preferred language",
+      "currency": "Preferred currency",
+      "measurementUnit": "Measurement units",
+      "showUnassessedOrSensitiveContent": "Show unassessed or sensitive content",
+      "role": "Role",
+      "tier": "Subscription tier"
+    },
+    "profile": {
+      "title": "Profile and preferences",
+      "sensitiveContentHelp": "This preference controls unassessed and sensitive content. Content redacted by the service remains unavailable."
+    },
+    "role": {
+      "title": "Role"
+    },
+    "tier": {
+      "title": "Subscription tier"
+    },
+    "detail": {
+      "title": "User account",
+      "description": "Review the fields provided by the account service and update each change category separately.",
+      "close": "Close"
+    },
+    "delete": {
+      "title": "Delete account",
+      "description": "Deleting an account also removes its access tokens, saved searches, watchlist entries, notifications, and related memberships and applications.",
+      "confirm": "This deletion is permanent. Delete this user account?"
+    },
+    "actions": {
+      "retry": "Try again",
+      "saveProfile": "Save profile and preferences",
+      "saveRole": "Save role",
+      "saveTier": "Save tier",
+      "saving": "Saving…",
+      "delete": "Delete account",
+      "confirmDelete": "Confirm deletion",
+      "deleting": "Deleting…",
+      "cancel": "Cancel"
+    },
+    "success": {
+      "profileUpdated": "Profile and preferences updated.",
+      "roleUpdated": "Role updated.",
+      "tierUpdated": "Subscription tier updated.",
+      "deleted": "User account deleted."
+    },
+    "errors": {
+      "forbidden": "You do not have permission to manage user accounts.",
+      "missing": "This user account was not found or is no longer available.",
+      "conflict": "This account changed before the update completed. Reload its details and try again.",
+      "lastAdmin": "At least one active administrator must remain. The account was not changed.",
+      "deleteConflict": "This account cannot be deleted in its current state. At least one active administrator must remain.",
+      "invalid": "Check the account fields and try again.",
+      "requestFailed": "The user account request could not be completed. Please try again."
+    },
+    "validation": {
+      "invalidEmail": "Enter a valid email address.",
+      "nameTooLong": "Names must be 64 characters or fewer.",
+      "invalidDate": "Enter a valid calendar date.",
+      "invalidRange": "The start date must be on or before the end date."
+    },
+    "options": {
+      "notSet": "Not set",
+      "roles": {
+        "USER": "User",
+        "ADMIN": "Administrator"
+      },
+      "tiers": {
+        "FREE": "Free",
+        "PRO": "Pro",
+        "ULTIMATE": "Ultimate"
+      },
+      "languages": {
+        "de": "German",
+        "en": "English",
+        "es": "Spanish",
+        "fr": "French",
+        "it": "Italian"
+      },
+      "measurementUnits": {
+        "METRIC": "Metric",
+        "IMPERIAL": "Imperial"
+      }
+    }
   }
 }

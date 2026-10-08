@@ -2255,5 +2255,140 @@
       "description": "Wenn Ihre Suche die Orte einschließen soll, an denen Antiquitäten online tatsächlich angeboten werden, beginnen Sie mit Aura Historia.",
       "button": "Antiquitäten suchen"
     }
+  },
+  "adminUsers": {
+    "title": "Benutzerverwaltung",
+    "description": "Kontozusammenfassungen suchen, Kontodetails prüfen und Profil-, Rollen- und Tarifänderungen getrennt vornehmen.",
+    "loading": "Benutzer werden geladen…",
+    "loadingDetail": "Kontodetails werden geladen…",
+    "empty": "Keine Benutzer entsprechen diesen Filtern.",
+    "filters": {
+      "title": "Benutzer filtern",
+      "query": "Name oder E-Mail",
+      "email": "E-Mail enthält",
+      "firstName": "Vorname enthält",
+      "lastName": "Nachname enthält",
+      "tier": "Tarif",
+      "role": "Rolle",
+      "createdFrom": "Erstellt ab",
+      "createdTo": "Erstellt bis",
+      "updatedFrom": "Aktualisiert ab",
+      "updatedTo": "Aktualisiert bis",
+      "sort": "Sortieren nach",
+      "order": "Reihenfolge",
+      "apply": "Filter anwenden",
+      "reset": "Zurücksetzen"
+    },
+    "sort": {
+      "name": "Name",
+      "email": "E-Mail",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "tier": "Tarif",
+      "role": "Rolle",
+      "created": "Erstellt",
+      "updated": "Aktualisiert"
+    },
+    "order": {
+      "asc": "Aufsteigend",
+      "desc": "Absteigend"
+    },
+    "list": {
+      "title": "Benutzer",
+      "loaded_one": "{{count}} Benutzer geladen",
+      "loaded_other": "{{count}} Benutzer geladen",
+      "total_one": "Insgesamt {{count}} passender Benutzer",
+      "total_other": "Insgesamt {{count}} passende Benutzer",
+      "loadMore": "Weitere laden",
+      "loadingMore": "Wird geladen…",
+      "openUser": "Konto von {{email}} anzeigen"
+    },
+    "fields": {
+      "userId": "Benutzer-ID",
+      "email": "E-Mail",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "language": "Bevorzugte Sprache",
+      "currency": "Bevorzugte Währung",
+      "measurementUnit": "Maßeinheiten",
+      "showUnassessedOrSensitiveContent": "Nicht geprüfte oder sensible Inhalte anzeigen",
+      "role": "Rolle",
+      "tier": "Tarif"
+    },
+    "profile": {
+      "title": "Profil und Einstellungen",
+      "sensitiveContentHelp": "Diese Einstellung steuert nicht geprüfte und sensible Inhalte. Vom Dienst geschwärzte Inhalte bleiben nicht verfügbar."
+    },
+    "role": {
+      "title": "Rolle"
+    },
+    "tier": {
+      "title": "Tarif"
+    },
+    "detail": {
+      "title": "Benutzerkonto",
+      "description": "Prüfen Sie die vom Kontodienst bereitgestellten Felder und ändern Sie jede Kategorie separat.",
+      "close": "Schließen"
+    },
+    "delete": {
+      "title": "Konto löschen",
+      "description": "Beim Löschen eines Kontos werden auch zugehörige Zugriffstoken, gespeicherte Suchen, Merkliste-Einträge, Benachrichtigungen sowie verbundene Mitgliedschaften und Anträge entfernt.",
+      "confirm": "Das Löschen ist endgültig. Möchten Sie dieses Benutzerkonto löschen?"
+    },
+    "actions": {
+      "retry": "Erneut versuchen",
+      "saveProfile": "Profil und Einstellungen speichern",
+      "saveRole": "Rolle speichern",
+      "saveTier": "Tarif speichern",
+      "saving": "Wird gespeichert…",
+      "delete": "Konto löschen",
+      "confirmDelete": "Löschen bestätigen",
+      "deleting": "Wird gelöscht…",
+      "cancel": "Abbrechen"
+    },
+    "success": {
+      "profileUpdated": "Profil und Einstellungen aktualisiert.",
+      "roleUpdated": "Rolle aktualisiert.",
+      "tierUpdated": "Tarif aktualisiert.",
+      "deleted": "Benutzerkonto gelöscht."
+    },
+    "errors": {
+      "forbidden": "Sie haben keine Berechtigung, Benutzerkonten zu verwalten.",
+      "missing": "Dieses Benutzerkonto wurde nicht gefunden oder ist nicht mehr verfügbar.",
+      "conflict": "Das Konto wurde vor Abschluss der Änderung geändert. Laden Sie die Details neu und versuchen Sie es erneut.",
+      "lastAdmin": "Mindestens ein aktiver Administrator muss bestehen bleiben. Das Konto wurde nicht geändert.",
+      "deleteConflict": "Dieses Konto kann im aktuellen Zustand nicht gelöscht werden. Mindestens ein aktiver Administrator muss bestehen bleiben.",
+      "invalid": "Prüfen Sie die Kontofelder und versuchen Sie es erneut.",
+      "requestFailed": "Die Benutzerkontoanfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+    },
+    "validation": {
+      "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
+      "nameTooLong": "Namen dürfen höchstens 64 Zeichen lang sein.",
+      "invalidDate": "Geben Sie ein gültiges Kalenderdatum ein.",
+      "invalidRange": "Das Startdatum muss am oder vor dem Enddatum liegen."
+    },
+    "options": {
+      "notSet": "Nicht festgelegt",
+      "roles": {
+        "USER": "Benutzer",
+        "ADMIN": "Administrator"
+      },
+      "tiers": {
+        "FREE": "Free",
+        "PRO": "Pro",
+        "ULTIMATE": "Ultimate"
+      },
+      "languages": {
+        "de": "Deutsch",
+        "en": "Englisch",
+        "es": "Spanisch",
+        "fr": "Französisch",
+        "it": "Italienisch"
+      },
+      "measurementUnits": {
+        "METRIC": "Metrisch",
+        "IMPERIAL": "Imperial"
+      }
+    }
   }
 }

@@ -213,6 +213,25 @@ describe("GoogleAnalytics.sendPageView", () => {
         });
     });
 
+    it("omits all search parameters from admin page views", async () => {
+        import.meta.env.SSR = false;
+        const ga = await freshGA();
+
+        ga.sendPageView("/de/admin/users", "de", {
+            userId: "opaque/user+01",
+            email: "ada@example.test",
+            query: "Ada Lovelace",
+            firstName: "Ada",
+            role: ["ADMIN"],
+        });
+
+        expect(ReactGA.send).toHaveBeenCalledWith({
+            hitType: "pageview",
+            page: "/de/admin/users",
+            language: "de",
+        });
+    });
+
     it("strips OAuth callback parameters from the payload", async () => {
         import.meta.env.SSR = false;
         const ga = await freshGA();

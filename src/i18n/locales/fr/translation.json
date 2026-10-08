@@ -2255,5 +2255,140 @@
     "loading": "Chargement des fournisseurs accessibles.",
     "loadError": "L’accès aux fournisseurs n’a pas pu être vérifié. Les droits ont peut-être changé. Veuillez réessayer.",
     "empty": "Vous n’avez actuellement accès à aucun fournisseur. Un accès antérieur a peut-être été révoqué."
+  },
+  "adminUsers": {
+    "title": "Gestion des utilisateurs",
+    "description": "Recherchez des résumés de compte, consultez les détails et modifiez séparément le profil, le rôle et l’offre.",
+    "loading": "Chargement des utilisateurs…",
+    "loadingDetail": "Chargement des détails du compte…",
+    "empty": "Aucun utilisateur ne correspond à ces filtres.",
+    "filters": {
+      "title": "Filtrer les utilisateurs",
+      "query": "Nom ou e-mail",
+      "email": "E-mail contenant",
+      "firstName": "Prénom contenant",
+      "lastName": "Nom contenant",
+      "tier": "Offre d’abonnement",
+      "role": "Rôle",
+      "createdFrom": "Créé à partir du",
+      "createdTo": "Créé jusqu’au",
+      "updatedFrom": "Modifié à partir du",
+      "updatedTo": "Modifié jusqu’au",
+      "sort": "Trier par",
+      "order": "Ordre",
+      "apply": "Appliquer les filtres",
+      "reset": "Réinitialiser"
+    },
+    "sort": {
+      "name": "Nom",
+      "email": "E-mail",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "tier": "Offre d’abonnement",
+      "role": "Rôle",
+      "created": "Date de création",
+      "updated": "Date de modification"
+    },
+    "order": {
+      "asc": "Croissant",
+      "desc": "Décroissant"
+    },
+    "list": {
+      "title": "Utilisateurs",
+      "loaded_one": "{{count}} utilisateur chargé",
+      "loaded_other": "{{count}} utilisateurs chargés",
+      "total_one": "{{count}} utilisateur correspondant au total",
+      "total_other": "{{count}} utilisateurs correspondants au total",
+      "loadMore": "Afficher plus",
+      "loadingMore": "Chargement…",
+      "openUser": "Voir le compte de {{email}}"
+    },
+    "fields": {
+      "userId": "ID utilisateur",
+      "email": "E-mail",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "language": "Langue préférée",
+      "currency": "Devise préférée",
+      "measurementUnit": "Unités de mesure",
+      "showUnassessedOrSensitiveContent": "Afficher les contenus non évalués ou sensibles",
+      "role": "Rôle",
+      "tier": "Offre d’abonnement"
+    },
+    "profile": {
+      "title": "Profil et préférences",
+      "sensitiveContentHelp": "Cette préférence concerne les contenus non évalués et sensibles. Les contenus masqués par le service restent indisponibles."
+    },
+    "role": {
+      "title": "Rôle"
+    },
+    "tier": {
+      "title": "Offre d’abonnement"
+    },
+    "detail": {
+      "title": "Compte utilisateur",
+      "description": "Consultez les champs fournis par le service de compte et modifiez chaque catégorie séparément.",
+      "close": "Fermer"
+    },
+    "delete": {
+      "title": "Supprimer le compte",
+      "description": "La suppression d’un compte efface aussi ses jetons d’accès, recherches enregistrées, éléments de liste de suivi, notifications, adhésions et demandes associées.",
+      "confirm": "Cette suppression est définitive. Supprimer ce compte utilisateur ?"
+    },
+    "actions": {
+      "retry": "Réessayer",
+      "saveProfile": "Enregistrer le profil et les préférences",
+      "saveRole": "Enregistrer le rôle",
+      "saveTier": "Enregistrer l’offre",
+      "saving": "Enregistrement…",
+      "delete": "Supprimer le compte",
+      "confirmDelete": "Confirmer la suppression",
+      "deleting": "Suppression…",
+      "cancel": "Annuler"
+    },
+    "success": {
+      "profileUpdated": "Profil et préférences mis à jour.",
+      "roleUpdated": "Rôle mis à jour.",
+      "tierUpdated": "Offre d’abonnement mise à jour.",
+      "deleted": "Compte utilisateur supprimé."
+    },
+    "errors": {
+      "forbidden": "Vous n’êtes pas autorisé à gérer les comptes utilisateur.",
+      "missing": "Ce compte utilisateur est introuvable ou n’est plus disponible.",
+      "conflict": "Ce compte a changé avant la fin de la mise à jour. Rechargez ses détails puis réessayez.",
+      "lastAdmin": "Au moins un administrateur actif doit être conservé. Le compte n’a pas été modifié.",
+      "deleteConflict": "Ce compte ne peut pas être supprimé dans son état actuel. Au moins un administrateur actif doit être conservé.",
+      "invalid": "Vérifiez les champs du compte puis réessayez.",
+      "requestFailed": "La demande concernant le compte n’a pas abouti. Veuillez réessayer."
+    },
+    "validation": {
+      "invalidEmail": "Saisissez une adresse e-mail valide.",
+      "nameTooLong": "Les noms ne peuvent pas dépasser 64 caractères.",
+      "invalidDate": "Saisissez une date valide.",
+      "invalidRange": "La date de début doit être antérieure ou égale à la date de fin."
+    },
+    "options": {
+      "notSet": "Non défini",
+      "roles": {
+        "USER": "Utilisateur",
+        "ADMIN": "Administrateur"
+      },
+      "tiers": {
+        "FREE": "Free",
+        "PRO": "Pro",
+        "ULTIMATE": "Ultimate"
+      },
+      "languages": {
+        "de": "Allemand",
+        "en": "Anglais",
+        "es": "Espagnol",
+        "fr": "Français",
+        "it": "Italien"
+      },
+      "measurementUnits": {
+        "METRIC": "Métrique",
+        "IMPERIAL": "Impérial"
+      }
+    }
   }
 }
