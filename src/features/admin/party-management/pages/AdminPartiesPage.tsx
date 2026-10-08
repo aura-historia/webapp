@@ -17,8 +17,8 @@ function PartyRow({ party, onOpen }: { readonly party: Party; readonly onOpen: (
             <div className="grid min-w-0 gap-1">
                 <p className="break-words font-medium">{party.name}</p>
                 <p className="break-all text-sm text-muted-foreground">
-                    {party.contact.phone ?? t("adminParties.fields.notProvided")}
-                    {party.contact.email && ` · ${party.contact.email}`}
+                    {[party.contact.phone, party.contact.email].filter(Boolean).join(" · ") ||
+                        t("adminParties.fields.notProvided")}
                 </p>
                 <p className="flex flex-wrap gap-x-3 text-xs text-muted-foreground">
                     <span className="break-all font-mono">{party.partyId}</span>

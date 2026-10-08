@@ -138,7 +138,7 @@ export function AdminPartyFiltersForm({
                     name="email"
                     label={t("adminParties.filters.email")}
                     register={form.register}
-                    type="email"
+                    inputMode="email"
                 />
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -213,17 +213,25 @@ function PartyTextFilter({
     label,
     register,
     type = "search",
+    inputMode,
 }: {
     readonly id: string;
     readonly name: "query" | "name" | "phone" | "email";
     readonly label: string;
     readonly register: UseFormRegister<FilterValues>;
-    readonly type?: "search" | "tel" | "email";
+    readonly type?: "search" | "tel";
+    readonly inputMode?: "email";
 }) {
     return (
         <div className="grid gap-2">
             <Label htmlFor={id}>{label}</Label>
-            <Input id={id} type={type} autoComplete="off" {...register(name)} />
+            <Input
+                id={id}
+                type={type}
+                inputMode={inputMode}
+                autoComplete="off"
+                {...register(name)}
+            />
         </div>
     );
 }

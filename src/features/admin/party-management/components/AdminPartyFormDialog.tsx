@@ -52,13 +52,14 @@ export function AdminPartyFormDialog({
     const { t } = useTranslation();
     const create = useCreateAdminParty();
     const update = useUpdateAdminParty();
+    const defaultValues: FormValues = {
+        name: party?.name ?? "",
+        phone: party?.contact.phone ?? "",
+        email: party?.contact.email ?? "",
+    };
     const form = useForm<FormValues>({
         resolver: zodResolver(partyFormSchema),
-        defaultValues: {
-            name: party?.name ?? "",
-            phone: party?.contact.phone ?? "",
-            email: party?.contact.email ?? "",
-        },
+        defaultValues,
     });
     const pending = create.isPending || update.isPending;
     const requestError = party ? update.error : create.error;
@@ -67,6 +68,9 @@ export function AdminPartyFormDialog({
         if (nextOpen) {
             create.reset();
             update.reset();
+        } else {
+            // The dialog stays mounted, so drop abandoned or submitted values before it reopens.
+            form.reset(defaultValues);
         }
         setShowRequestError(false);
         onOpenChange(nextOpen);

@@ -1,4 +1,11 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+    infiniteQueryOptions,
+    useInfiniteQuery,
+    useMutation,
+    useQuery,
+    useQueryClient,
+} from "@tanstack/react-query";
+import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import {
     adminCreateParty,
@@ -35,9 +42,13 @@ export class AdminPartyRequestError extends Error {
     }
 }
 
-function useAdminPartyError() {
-    const { t } = useTranslation();
-    return (status: number | undefined, operation: PartyRequestOperation) => {
+type AdminPartyErrorFactory = (
+    status: number | undefined,
+    operation: PartyRequestOperation,
+) => AdminPartyRequestError;
+
+export function createAdminPartyErrorFactory(t: TFunction): AdminPartyErrorFactory {
+    return (status, operation) => {
         const safeStatus = status ?? 500;
         let key: string;
         if (safeStatus === 401 || safeStatus === 403) {
@@ -60,15 +71,21 @@ function useAdminPartyError() {
     };
 }
 
+function useAdminPartyError() {
+    const { t } = useTranslation();
+    return createAdminPartyErrorFactory(t);
+}
+
 function invalidatePartyLists(queryClient: ReturnType<typeof useQueryClient>) {
     void queryClient.invalidateQueries({ queryKey: [...ADMIN_PARTIES_QUERY_KEY, "list"] });
 }
 
-export function useAdminParties(filters: AdminPartyFilters, enabled = true) {
-    const requestError = useAdminPartyError();
-    return useInfiniteQuery({
+export function adminPartyListQueryOptions(
+    filters: AdminPartyFilters,
+    requestError: AdminPartyErrorFactory,
+) {
+    return infiniteQueryOptions({
         queryKey: adminPartyListQueryKey(filters),
-        enabled,
         initialPageParam: undefined as string | undefined,
         getNextPageParam: (page: AdminPartyPage) => page.searchAfter,
         staleTime: 30_000,
@@ -82,6 +99,11 @@ export function useAdminParties(filters: AdminPartyFilters, enabled = true) {
             return mapToAdminPartyPage(response.data);
         },
     });
+}
+
+export function useAdminParties(filters: AdminPartyFilters, enabled = true) {
+    const requestError = useAdminPartyError();
+    return useInfiniteQuery({ ...adminPartyListQueryOptions(filters, requestError), enabled });
 }
 
 export function useAdminParty(id?: string, enabled = true) {

@@ -28,6 +28,13 @@ export function AdminPartyDetailDialog({
     const [confirmDelete, setConfirmDelete] = useState(false);
     const partyQuery = useAdminParty(partyId, open);
     const deleteParty = useDeleteAdminParty();
+    const handleOpenChange = (nextOpen: boolean) => {
+        if (!nextOpen) {
+            setConfirmDelete(false);
+            deleteParty.reset();
+        }
+        onOpenChange(nextOpen);
+    };
 
     let content: ReactNode;
     if (partyQuery.error) {
@@ -90,7 +97,7 @@ export function AdminPartyDetailDialog({
                                     deleteParty.mutate(party.partyId, {
                                         onSuccess: () => {
                                             toast.success(t("adminParties.success.deleted"));
-                                            onOpenChange(false);
+                                            handleOpenChange(false);
                                         },
                                     })
                                 }
@@ -121,7 +128,7 @@ export function AdminPartyDetailDialog({
                         </Button>
                         <Button
                             onClick={() => {
-                                onOpenChange(false);
+                                handleOpenChange(false);
                                 onEdit(party);
                             }}
                         >
@@ -134,16 +141,7 @@ export function AdminPartyDetailDialog({
     }
 
     return (
-        <Dialog
-            open={open}
-            onOpenChange={(nextOpen) => {
-                if (!nextOpen) {
-                    setConfirmDelete(false);
-                    deleteParty.reset();
-                }
-                onOpenChange(nextOpen);
-            }}
-        >
+        <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogContent className="max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>{t("adminParties.detail.title")}</DialogTitle>
