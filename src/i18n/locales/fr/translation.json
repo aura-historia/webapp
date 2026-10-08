@@ -1511,6 +1511,106 @@
       "camrefRequired": "Saisissez la référence de campagne Partnerize."
     }
   },
+  "adminPartnerships": {
+    "title": "Gestion des partenariats",
+    "description": "Gérez les adhésions aux partenariats et l'accès aux sources d'annonces.",
+    "loading": "Chargement des partenariats.",
+    "loadingDetail": "Chargement du partenariat.",
+    "empty": "Aucun partenariat actif ne correspond à ces filtres.",
+    "filters": {
+      "title": "Filtrer les partenariats",
+      "partyId": "Identifiant de l'organisation",
+      "memberUserId": "Identifiant du membre",
+      "listingSourceId": "Identifiant de la source",
+      "apply": "Appliquer les filtres",
+      "reset": "Réinitialiser"
+    },
+    "validation": {
+      "idTooLong": "L'identifiant ne peut pas dépasser 128 caractères.",
+      "requiredId": "Saisissez un identifiant."
+    },
+    "list": {
+      "members_one": "{{count}} membre",
+      "members_other": "{{count}} membres",
+      "listingSources_one": "{{count}} autorisation de source",
+      "listingSources_other": "{{count}} autorisations de source",
+      "loaded_one": "{{count}} partenariat chargé",
+      "loaded_other": "{{count}} partenariats chargés",
+      "loadMore": "Charger la suite",
+      "loadingMore": "Chargement…"
+    },
+    "fields": {
+      "created": "Créé",
+      "updated": "Mis à jour",
+      "party": "Organisation",
+      "partyId": "Identifiant de l'organisation",
+      "partySlugId": "Identifiant immuable de l'organisation",
+      "partnershipId": "Identifiant du partenariat",
+      "memberCount": "Membres (nombre total)",
+      "listingSourceGrantCount": "Autorisations de source (nombre total)"
+    },
+    "actions": {
+      "details": "Voir les détails",
+      "retry": "Réessayer",
+      "saving": "Enregistrement…",
+      "grantMembership": "Accorder l'adhésion",
+      "revokeMembership": "Révoquer l'adhésion",
+      "revoke": "Révoquer",
+      "grantSource": "Accorder l'accès",
+      "revokeSource": "Révoquer l'accès",
+      "cancel": "Annuler",
+      "dissolve": "Dissoudre le partenariat",
+      "dissolving": "Dissolution…",
+      "confirmDissolve": "Dissoudre le partenariat"
+    },
+    "detail": {
+      "title": "Détails du partenariat",
+      "description": "Les adhésions et les autorisations d'accès aux sources sont gérées séparément. Les nombres totaux peuvent dépasser les identifiants affichés.",
+      "members_one": "{{count}} membre",
+      "members_other": "{{count}} membres",
+      "listingSources_one": "{{count}} autorisation de source",
+      "listingSources_other": "{{count}} autorisations de source",
+      "referencesShown": "Identifiants affichés : {{shown}}. Nombre total : {{count}}.",
+      "noReferences": "Aucun identifiant n'a été renvoyé."
+    },
+    "members": {
+      "title": "Gérer les adhésions",
+      "description": "Accordez ou révoquez explicitement les adhésions. L'approbation d'une demande ne donne pas accès à elle seule.",
+      "userId": "Identifiant utilisateur"
+    },
+    "sources": {
+      "title": "Gérer l'accès aux sources",
+      "description": "Une source doit appartenir à la même organisation que ce partenariat. Le serveur le vérifiera de nouveau à l'enregistrement.",
+      "listingSourceId": "Identifiant de la source",
+      "checking": "Vérification de la source…",
+      "check": "Vérifier la source",
+      "sameParty": "{{name}} ({{listingSourceId}}) appartient à la même organisation que ce partenariat."
+    },
+    "success": {
+      "memberGranted": "Adhésion accordée.",
+      "memberRevoked": "Adhésion révoquée.",
+      "listingSourceGranted": "Accès à la source accordé.",
+      "listingSourceRevoked": "Accès à la source révoqué.",
+      "dissolved": "Partenariat dissous."
+    },
+    "errors": {
+      "forbidden": "Cette action nécessite un accès administrateur.",
+      "invalid": "Vérifiez les identifiants saisis.",
+      "missing": "Ce partenariat n'est plus disponible.",
+      "partyConflict": "Cette source appartient à une autre organisation. L'accès ne peut être accordé qu'à une source de l'organisation du partenariat.",
+      "conflict": "Le partenariat a été modifié pendant cette opération. Actualisez les détails et réessayez.",
+      "dissolveConflict": "Le partenariat a été modifié pendant cette opération. Actualisez les détails avant de réessayer.",
+      "dissolveFailed": "Le partenariat n'a pas pu être dissous. Vérifiez son état actuel et réessayez.",
+      "requestFailed": "La demande n'a pas pu aboutir. Actualisez les détails et réessayez.",
+      "referenceMissing": "Le partenariat ou l'identifiant indiqué est introuvable."
+    },
+    "dissolution": {
+      "title": "Dissoudre le partenariat",
+      "description": "La dissolution supprime les adhésions et les autorisations de source actuelles. L'organisation, les sources, les utilisateurs, les annonces et les demandes sont conservés.",
+      "confirmTitle": "Confirmer la dissolution",
+      "confirmDescription": "Dissoudre le partenariat avec {{name}} ? Ses adhésions et autorisations de source actuelles seront supprimées."
+    }
+  },
   "adminDashboard": {
     "loading": "Chargement…",
     "forbidden": {
