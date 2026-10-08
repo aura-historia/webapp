@@ -9,6 +9,10 @@ admin SDK is not an implemented dashboard. Restore workflows only with current D
 mapping, tests and the authorization checks below. See
 [MIG-24 scope decisions](api-migration/integration-release-gate.md).
 
+Restored workflows: partnership application review (MIG-16, see
+[admin partnership application review](api-migration/partnership-application-contracts.md#admin-partnership-application-review)).
+The admin shell and navigation remain deferred to MIG-24.
+
 ## Requirement
 
 - UI visibility, route guards, and hidden controls are not authorization boundaries.

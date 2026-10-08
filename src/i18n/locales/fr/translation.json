@@ -1605,6 +1605,102 @@
       }
     }
   },
+  "adminApplications": {
+    "title": "Demandes de partenariat",
+    "description": "Examinez les propositions soumises, passez-les en examen et enregistrez une décision.",
+    "loading": "Chargement des demandes de partenariat.",
+    "loadingDetail": "Chargement de la demande.",
+    "loadError": "Impossible de charger les demandes de partenariat.",
+    "empty": "Aucune demande ne correspond à ces filtres.",
+    "retry": "Réessayer",
+    "filters": {
+      "title": "Filtrer les demandes",
+      "states": "Statut",
+      "proposalTypes": "Type de proposition",
+      "applicantUserId": "ID utilisateur du demandeur",
+      "listingSourceId": "ID de la source d’annonces",
+      "createdFrom": "Créée à partir du",
+      "createdTo": "Créée jusqu’au",
+      "updatedFrom": "Mise à jour à partir du",
+      "updatedTo": "Mise à jour jusqu’au",
+      "sort": "Trier par",
+      "apply": "Appliquer les filtres",
+      "reset": "Réinitialiser"
+    },
+    "sort": {
+      "created_desc": "Plus récentes d’abord",
+      "created_asc": "Plus anciennes d’abord",
+      "updated_desc": "Récemment mises à jour",
+      "updated_asc": "Mises à jour le moins récemment"
+    },
+    "state": {
+      "SUBMITTED": "Soumise",
+      "IN_REVIEW": "En cours d’examen",
+      "APPROVED": "Approuvée",
+      "REJECTED": "Refusée",
+      "WITHDRAWN": "Retirée"
+    },
+    "proposalType": {
+      "EXISTING_LISTING_SOURCE": "Fournisseur existant",
+      "PROPOSED_LISTING_SOURCE": "Fournisseur proposé"
+    },
+    "list": {
+      "applicant": "Demandeur {{id}}",
+      "created": "Créée le {{date}}",
+      "updated": "Mise à jour le {{date}}",
+      "total_one": "{{count}} demande",
+      "total_other": "{{count}} demandes",
+      "loadMore": "Charger plus",
+      "loadingMore": "Chargement…"
+    },
+    "fields": {
+      "id": "ID de la demande",
+      "applicantUserId": "ID utilisateur du demandeur",
+      "created": "Créée",
+      "updated": "Dernière mise à jour",
+      "approvedPartnershipId": "ID du partenariat approuvé",
+      "approvedListingSourceId": "ID de la source d’annonces approuvée"
+    },
+    "links": {
+      "listingSources": "Ouvrir l’administration des sources d’annonces"
+    },
+    "proposal": {
+      "title": "Proposition",
+      "listingSourceId": "ID de la source d’annonces",
+      "partyName": "Nom de la partie",
+      "partyPhone": "Téléphone",
+      "partyEmail": "E-mail",
+      "sourceName": "Nom du fournisseur",
+      "sourceUrl": "URL du fournisseur",
+      "sourceImage": "URL de l’image",
+      "methods": "Méthodes d’import demandées"
+    },
+    "detail": {
+      "title": "Détails de la demande",
+      "description": "Les propositions ne peuvent pas être modifiées. Passez les demandes soumises en examen avant de les approuver ou de les refuser."
+    },
+    "actions": {
+      "details": "Voir les détails",
+      "markInReview": "Commencer l’examen",
+      "markInReviewHint": "Commencer l’examen fait passer cette demande de Soumise à En cours d’examen.",
+      "APPROVE": "Approuver",
+      "REJECT": "Refuser",
+      "cancel": "Annuler",
+      "confirm": {
+        "APPROVE": "Approuver cette demande ? L’approbation crée ou associe le partenariat et accorde l’accès à la source d’annonces.",
+        "REJECT": "Refuser cette demande ? Le demandeur sera informé."
+      }
+    },
+    "success": {
+      "IN_REVIEW": "Demande passée en examen.",
+      "APPROVE": "Demande approuvée.",
+      "REJECT": "Demande refusée."
+    },
+    "errors": {
+      "conflict": "Cette demande a été modifiée entre-temps ou ne permet plus cette action. Le statut actuel a été chargé.",
+      "missing": "Demande introuvable ou indisponible."
+    }
+  },
   "compareBarnebysPage": {
     "structuredData": {
       "about": {

@@ -31,7 +31,7 @@ import { Route as LngSearchShopsRouteImport } from './routes/$lng.search_.shops'
 import { Route as LngAuthAdminIndexRouteImport } from './routes/$lng._auth.admin.index'
 import { Route as LngAuthAdminOauthClientsRouteImport } from './routes/$lng._auth.admin.oauth-clients'
 import { Route as LngAuthAdminOverviewRouteImport } from './routes/$lng._auth.admin.overview'
-import { Route as LngAuthAdminPartnerApplicationsRouteImport } from './routes/$lng._auth.admin.partner-applications'
+import { Route as LngAuthAdminPartnershipApplicationsRouteImport } from './routes/$lng._auth.admin.partnership-applications'
 import { Route as LngAuthAdminShopsRouteImport } from './routes/$lng._auth.admin.shops'
 import { Route as LngAuthAdminUsersRouteImport } from './routes/$lng._auth.admin.users'
 import { Route as LngAuthMeAccountRouteImport } from './routes/$lng._auth.me.account'
@@ -161,10 +161,10 @@ const LngAuthAdminOverviewRoute = LngAuthAdminOverviewRouteImport.update({
   path: '/overview',
   getParentRoute: () => LngAuthAdminRoute,
 } as any)
-const LngAuthAdminPartnerApplicationsRoute =
-  LngAuthAdminPartnerApplicationsRouteImport.update({
-    id: '/partner-applications',
-    path: '/partner-applications',
+const LngAuthAdminPartnershipApplicationsRoute =
+  LngAuthAdminPartnershipApplicationsRouteImport.update({
+    id: '/partnership-applications',
+    path: '/partnership-applications',
     getParentRoute: () => LngAuthAdminRoute,
   } as any)
 const LngAuthAdminShopsRoute = LngAuthAdminShopsRouteImport.update({
@@ -275,7 +275,7 @@ export interface FileRoutesByFullPath {
   '/$lng/partner-program/': typeof LngPartnerProgramIndexRoute
   '/$lng/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
   '/$lng/admin/overview': typeof LngAuthAdminOverviewRoute
-  '/$lng/admin/partner-applications': typeof LngAuthAdminPartnerApplicationsRoute
+  '/$lng/admin/partnership-applications': typeof LngAuthAdminPartnershipApplicationsRoute
   '/$lng/admin/shops': typeof LngAuthAdminShopsRoute
   '/$lng/admin/users': typeof LngAuthAdminUsersRoute
   '/$lng/me/account': typeof LngAuthMeAccountRoute
@@ -311,7 +311,7 @@ export interface FileRoutesByTo {
   '/$lng/partner-program': typeof LngPartnerProgramIndexRoute
   '/$lng/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
   '/$lng/admin/overview': typeof LngAuthAdminOverviewRoute
-  '/$lng/admin/partner-applications': typeof LngAuthAdminPartnerApplicationsRoute
+  '/$lng/admin/partnership-applications': typeof LngAuthAdminPartnershipApplicationsRoute
   '/$lng/admin/shops': typeof LngAuthAdminShopsRoute
   '/$lng/admin/users': typeof LngAuthAdminUsersRoute
   '/$lng/me/account': typeof LngAuthMeAccountRoute
@@ -353,7 +353,7 @@ export interface FileRoutesById {
   '/$lng/partner-program/': typeof LngPartnerProgramIndexRoute
   '/$lng/_auth/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
   '/$lng/_auth/admin/overview': typeof LngAuthAdminOverviewRoute
-  '/$lng/_auth/admin/partner-applications': typeof LngAuthAdminPartnerApplicationsRoute
+  '/$lng/_auth/admin/partnership-applications': typeof LngAuthAdminPartnershipApplicationsRoute
   '/$lng/_auth/admin/shops': typeof LngAuthAdminShopsRoute
   '/$lng/_auth/admin/users': typeof LngAuthAdminUsersRoute
   '/$lng/_auth/me/account': typeof LngAuthMeAccountRoute
@@ -395,7 +395,7 @@ export interface FileRouteTypes {
     | '/$lng/partner-program/'
     | '/$lng/admin/oauth-clients'
     | '/$lng/admin/overview'
-    | '/$lng/admin/partner-applications'
+    | '/$lng/admin/partnership-applications'
     | '/$lng/admin/shops'
     | '/$lng/admin/users'
     | '/$lng/me/account'
@@ -431,7 +431,7 @@ export interface FileRouteTypes {
     | '/$lng/partner-program'
     | '/$lng/admin/oauth-clients'
     | '/$lng/admin/overview'
-    | '/$lng/admin/partner-applications'
+    | '/$lng/admin/partnership-applications'
     | '/$lng/admin/shops'
     | '/$lng/admin/users'
     | '/$lng/me/account'
@@ -472,7 +472,7 @@ export interface FileRouteTypes {
     | '/$lng/partner-program/'
     | '/$lng/_auth/admin/oauth-clients'
     | '/$lng/_auth/admin/overview'
-    | '/$lng/_auth/admin/partner-applications'
+    | '/$lng/_auth/admin/partnership-applications'
     | '/$lng/_auth/admin/shops'
     | '/$lng/_auth/admin/users'
     | '/$lng/_auth/me/account'
@@ -654,11 +654,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LngAuthAdminOverviewRouteImport
       parentRoute: typeof LngAuthAdminRoute
     }
-    '/$lng/_auth/admin/partner-applications': {
-      id: '/$lng/_auth/admin/partner-applications'
-      path: '/partner-applications'
-      fullPath: '/$lng/admin/partner-applications'
-      preLoaderRoute: typeof LngAuthAdminPartnerApplicationsRouteImport
+    '/$lng/_auth/admin/partnership-applications': {
+      id: '/$lng/_auth/admin/partnership-applications'
+      path: '/partnership-applications'
+      fullPath: '/$lng/admin/partnership-applications'
+      preLoaderRoute: typeof LngAuthAdminPartnershipApplicationsRouteImport
       parentRoute: typeof LngAuthAdminRoute
     }
     '/$lng/_auth/admin/shops': {
@@ -779,7 +779,7 @@ declare module '@tanstack/react-router' {
 interface LngAuthAdminRouteChildren {
   LngAuthAdminOauthClientsRoute: typeof LngAuthAdminOauthClientsRoute
   LngAuthAdminOverviewRoute: typeof LngAuthAdminOverviewRoute
-  LngAuthAdminPartnerApplicationsRoute: typeof LngAuthAdminPartnerApplicationsRoute
+  LngAuthAdminPartnershipApplicationsRoute: typeof LngAuthAdminPartnershipApplicationsRoute
   LngAuthAdminShopsRoute: typeof LngAuthAdminShopsRoute
   LngAuthAdminUsersRoute: typeof LngAuthAdminUsersRoute
   LngAuthAdminIndexRoute: typeof LngAuthAdminIndexRoute
@@ -788,7 +788,8 @@ interface LngAuthAdminRouteChildren {
 const LngAuthAdminRouteChildren: LngAuthAdminRouteChildren = {
   LngAuthAdminOauthClientsRoute: LngAuthAdminOauthClientsRoute,
   LngAuthAdminOverviewRoute: LngAuthAdminOverviewRoute,
-  LngAuthAdminPartnerApplicationsRoute: LngAuthAdminPartnerApplicationsRoute,
+  LngAuthAdminPartnershipApplicationsRoute:
+    LngAuthAdminPartnershipApplicationsRoute,
   LngAuthAdminShopsRoute: LngAuthAdminShopsRoute,
   LngAuthAdminUsersRoute: LngAuthAdminUsersRoute,
   LngAuthAdminIndexRoute: LngAuthAdminIndexRoute,

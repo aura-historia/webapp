@@ -1605,6 +1605,102 @@
       }
     }
   },
+  "adminApplications": {
+    "title": "Richieste di partnership",
+    "description": "Esamina le proposte inviate, mettile in revisione e registra una decisione.",
+    "loading": "Caricamento delle richieste di partnership.",
+    "loadingDetail": "Caricamento della richiesta.",
+    "loadError": "Impossibile caricare le richieste di partnership.",
+    "empty": "Nessuna richiesta corrisponde a questi filtri.",
+    "retry": "Riprova",
+    "filters": {
+      "title": "Filtra richieste",
+      "states": "Stato",
+      "proposalTypes": "Tipo di proposta",
+      "applicantUserId": "ID utente del richiedente",
+      "listingSourceId": "ID della fonte di annunci",
+      "createdFrom": "Creata dal",
+      "createdTo": "Creata fino al",
+      "updatedFrom": "Aggiornata dal",
+      "updatedTo": "Aggiornata fino al",
+      "sort": "Ordina per",
+      "apply": "Applica filtri",
+      "reset": "Reimposta"
+    },
+    "sort": {
+      "created_desc": "Più recenti prima",
+      "created_asc": "Meno recenti prima",
+      "updated_desc": "Aggiornate di recente",
+      "updated_asc": "Aggiornate meno di recente"
+    },
+    "state": {
+      "SUBMITTED": "Inviata",
+      "IN_REVIEW": "In revisione",
+      "APPROVED": "Approvata",
+      "REJECTED": "Rifiutata",
+      "WITHDRAWN": "Ritirata"
+    },
+    "proposalType": {
+      "EXISTING_LISTING_SOURCE": "Fornitore esistente",
+      "PROPOSED_LISTING_SOURCE": "Fornitore proposto"
+    },
+    "list": {
+      "applicant": "Richiedente {{id}}",
+      "created": "Creata il {{date}}",
+      "updated": "Aggiornata il {{date}}",
+      "total_one": "{{count}} richiesta",
+      "total_other": "{{count}} richieste",
+      "loadMore": "Carica altro",
+      "loadingMore": "Caricamento…"
+    },
+    "fields": {
+      "id": "ID della richiesta",
+      "applicantUserId": "ID utente del richiedente",
+      "created": "Creata",
+      "updated": "Ultimo aggiornamento",
+      "approvedPartnershipId": "ID della partnership approvata",
+      "approvedListingSourceId": "ID della fonte di annunci approvata"
+    },
+    "links": {
+      "listingSources": "Apri l’amministrazione delle fonti di annunci"
+    },
+    "proposal": {
+      "title": "Proposta",
+      "listingSourceId": "ID della fonte di annunci",
+      "partyName": "Nome della parte",
+      "partyPhone": "Telefono",
+      "partyEmail": "E-mail",
+      "sourceName": "Nome del fornitore",
+      "sourceUrl": "URL del fornitore",
+      "sourceImage": "URL dell’immagine",
+      "methods": "Metodi di importazione richiesti"
+    },
+    "detail": {
+      "title": "Dettagli della richiesta",
+      "description": "Le proposte non possono essere modificate. Metti in revisione le richieste inviate prima di approvarle o rifiutarle."
+    },
+    "actions": {
+      "details": "Vedi dettagli",
+      "markInReview": "Avvia revisione",
+      "markInReviewHint": "Avviando la revisione, la richiesta passa da Inviata a In revisione.",
+      "APPROVE": "Approva",
+      "REJECT": "Rifiuta",
+      "cancel": "Annulla",
+      "confirm": {
+        "APPROVE": "Approvare questa richiesta? L’approvazione crea o collega la partnership e concede l’accesso alla fonte di annunci.",
+        "REJECT": "Rifiutare questa richiesta? Il richiedente riceverà una notifica."
+      }
+    },
+    "success": {
+      "IN_REVIEW": "Richiesta messa in revisione.",
+      "APPROVE": "Richiesta approvata.",
+      "REJECT": "Richiesta rifiutata."
+    },
+    "errors": {
+      "conflict": "Questa richiesta è stata modificata nel frattempo o non consente più questa azione. È stato caricato lo stato attuale.",
+      "missing": "Richiesta non trovata o non disponibile."
+    }
+  },
   "compareBarnebysPage": {
     "structuredData": {
       "about": {

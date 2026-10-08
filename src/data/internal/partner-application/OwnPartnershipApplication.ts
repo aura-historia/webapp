@@ -41,7 +41,7 @@ export type ApplicationListingSource = {
     readonly operatorName: string;
 };
 
-function copyProposal(proposal: PartnershipProposal): PartnershipProposal {
+export function copyProposal(proposal: PartnershipProposal): PartnershipProposal {
     if (proposal.type === "EXISTING_LISTING_SOURCE")
         return { type: proposal.type, listingSourceId: proposal.listingSourceId };
     return {

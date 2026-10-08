@@ -64,7 +64,7 @@ def main():
     for name, (path, method, operation) in sorted(current_ops.items()):
         pattern = re.compile(r"\b" + re.escape(name) + r"(?:Options|InfiniteOptions|Mutation|MutationOptions|QueryKey)?\b")
         users = [file for file, content in sources.items() if pattern.search(content)]
-        if path.startswith("/api/v1/admin/"):
+        if path.startswith("/api/v1/admin/") and not users:
             status = "Deferred admin dashboard — MIG-16–23 / MIG-25; generated only"
         elif name in {"listAuctions", "getAuction", "getAuctionCatalogue"}:
             status = "Deferred standalone public auction pages — MIG-25; listing auction summaries retained"

@@ -1670,6 +1670,102 @@
       }
     }
   },
+  "adminApplications": {
+    "title": "Partnerschaftsanträge",
+    "description": "Eingereichte Vorschläge prüfen, in die Prüfung übernehmen und eine Entscheidung festhalten.",
+    "loading": "Partnerschaftsanträge werden geladen.",
+    "loadingDetail": "Antrag wird geladen.",
+    "loadError": "Partnerschaftsanträge konnten nicht geladen werden.",
+    "empty": "Keine Anträge entsprechen diesen Filtern.",
+    "retry": "Erneut versuchen",
+    "filters": {
+      "title": "Anträge filtern",
+      "states": "Status",
+      "proposalTypes": "Vorschlagsart",
+      "applicantUserId": "Nutzer-ID der antragstellenden Person",
+      "listingSourceId": "Listing-Quellen-ID",
+      "createdFrom": "Erstellt ab",
+      "createdTo": "Erstellt bis",
+      "updatedFrom": "Aktualisiert ab",
+      "updatedTo": "Aktualisiert bis",
+      "sort": "Sortieren nach",
+      "apply": "Filter anwenden",
+      "reset": "Zurücksetzen"
+    },
+    "sort": {
+      "created_desc": "Neueste zuerst",
+      "created_asc": "Älteste zuerst",
+      "updated_desc": "Zuletzt aktualisiert",
+      "updated_asc": "Am längsten nicht aktualisiert"
+    },
+    "state": {
+      "SUBMITTED": "Eingereicht",
+      "IN_REVIEW": "In Prüfung",
+      "APPROVED": "Angenommen",
+      "REJECTED": "Abgelehnt",
+      "WITHDRAWN": "Zurückgezogen"
+    },
+    "proposalType": {
+      "EXISTING_LISTING_SOURCE": "Bestehender Anbieter",
+      "PROPOSED_LISTING_SOURCE": "Vorgeschlagener Anbieter"
+    },
+    "list": {
+      "applicant": "Antragsteller:in {{id}}",
+      "created": "Erstellt am {{date}}",
+      "updated": "Aktualisiert am {{date}}",
+      "total_one": "{{count}} Antrag",
+      "total_other": "{{count}} Anträge",
+      "loadMore": "Mehr laden",
+      "loadingMore": "Wird geladen…"
+    },
+    "fields": {
+      "id": "Antrags-ID",
+      "applicantUserId": "Nutzer-ID der antragstellenden Person",
+      "created": "Erstellt",
+      "updated": "Zuletzt aktualisiert",
+      "approvedPartnershipId": "ID der genehmigten Partnerschaft",
+      "approvedListingSourceId": "ID der genehmigten Listing-Quelle"
+    },
+    "links": {
+      "listingSources": "Verwaltung der Listing-Quellen öffnen"
+    },
+    "proposal": {
+      "title": "Vorschlag",
+      "listingSourceId": "Listing-Quellen-ID",
+      "partyName": "Name der Partei",
+      "partyPhone": "Telefon",
+      "partyEmail": "E-Mail",
+      "sourceName": "Name des Anbieters",
+      "sourceUrl": "URL des Anbieters",
+      "sourceImage": "Bild-URL",
+      "methods": "Angefragte Importmethoden"
+    },
+    "detail": {
+      "title": "Antragsdetails",
+      "description": "Vorschläge können nicht bearbeitet werden. Übernehmen Sie eingereichte Anträge in die Prüfung, bevor Sie sie annehmen oder ablehnen."
+    },
+    "actions": {
+      "details": "Details ansehen",
+      "markInReview": "Prüfung starten",
+      "markInReviewHint": "Mit dem Start der Prüfung wechselt der Antrag von „Eingereicht“ zu „In Prüfung“.",
+      "APPROVE": "Annehmen",
+      "REJECT": "Ablehnen",
+      "cancel": "Abbrechen",
+      "confirm": {
+        "APPROVE": "Diesen Antrag annehmen? Die Annahme erstellt oder verknüpft die Partnerschaft und gewährt Zugriff auf die Listing-Quelle.",
+        "REJECT": "Diesen Antrag ablehnen? Die antragstellende Person wird benachrichtigt."
+      }
+    },
+    "success": {
+      "IN_REVIEW": "Antrag in die Prüfung übernommen.",
+      "APPROVE": "Antrag angenommen.",
+      "REJECT": "Antrag abgelehnt."
+    },
+    "errors": {
+      "conflict": "Dieser Antrag wurde zwischenzeitlich geändert oder lässt diese Aktion nicht mehr zu. Der aktuelle Status wurde geladen.",
+      "missing": "Antrag nicht gefunden oder nicht verfügbar."
+    }
+  },
   "adminDashboard": {
     "loading": "Wird geladen…",
     "forbidden": {

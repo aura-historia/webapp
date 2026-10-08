@@ -1670,6 +1670,102 @@
       }
     }
   },
+  "adminApplications": {
+    "title": "Partnership applications",
+    "description": "Review submitted proposals, move them into review, and record a decision.",
+    "loading": "Loading partnership applications.",
+    "loadingDetail": "Loading application.",
+    "loadError": "Could not load partnership applications.",
+    "empty": "No applications match these filters.",
+    "retry": "Retry",
+    "filters": {
+      "title": "Filter applications",
+      "states": "Status",
+      "proposalTypes": "Proposal type",
+      "applicantUserId": "Applicant user ID",
+      "listingSourceId": "Listing source ID",
+      "createdFrom": "Created from",
+      "createdTo": "Created until",
+      "updatedFrom": "Updated from",
+      "updatedTo": "Updated until",
+      "sort": "Sort by",
+      "apply": "Apply filters",
+      "reset": "Reset"
+    },
+    "sort": {
+      "created_desc": "Newest first",
+      "created_asc": "Oldest first",
+      "updated_desc": "Recently updated",
+      "updated_asc": "Least recently updated"
+    },
+    "state": {
+      "SUBMITTED": "Submitted",
+      "IN_REVIEW": "In review",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "WITHDRAWN": "Withdrawn"
+    },
+    "proposalType": {
+      "EXISTING_LISTING_SOURCE": "Existing provider",
+      "PROPOSED_LISTING_SOURCE": "Proposed provider"
+    },
+    "list": {
+      "applicant": "Applicant {{id}}",
+      "created": "Created {{date}}",
+      "updated": "Updated {{date}}",
+      "total_one": "{{count}} application",
+      "total_other": "{{count}} applications",
+      "loadMore": "Load more",
+      "loadingMore": "Loading…"
+    },
+    "fields": {
+      "id": "Application ID",
+      "applicantUserId": "Applicant user ID",
+      "created": "Created",
+      "updated": "Last updated",
+      "approvedPartnershipId": "Approved partnership ID",
+      "approvedListingSourceId": "Approved listing source ID"
+    },
+    "links": {
+      "listingSources": "Open listing source administration"
+    },
+    "proposal": {
+      "title": "Proposal",
+      "listingSourceId": "Listing source ID",
+      "partyName": "Party name",
+      "partyPhone": "Phone",
+      "partyEmail": "Email",
+      "sourceName": "Provider name",
+      "sourceUrl": "Provider URL",
+      "sourceImage": "Image URL",
+      "methods": "Requested ingestion methods"
+    },
+    "detail": {
+      "title": "Application details",
+      "description": "Proposals cannot be edited. Move submitted applications into review before approving or rejecting them."
+    },
+    "actions": {
+      "details": "View details",
+      "markInReview": "Start review",
+      "markInReviewHint": "Starting the review moves this application from Submitted to In review.",
+      "APPROVE": "Approve",
+      "REJECT": "Reject",
+      "cancel": "Cancel",
+      "confirm": {
+        "APPROVE": "Approve this application? Approval creates or links the partnership and grants access to the listing source.",
+        "REJECT": "Reject this application? The applicant will be notified."
+      }
+    },
+    "success": {
+      "IN_REVIEW": "Application moved into review.",
+      "APPROVE": "Application approved.",
+      "REJECT": "Application rejected."
+    },
+    "errors": {
+      "conflict": "This application was changed in the meantime or no longer allows this action. The latest status has been loaded.",
+      "missing": "Application not found or unavailable."
+    }
+  },
   "adminDashboard": {
     "loading": "Loading…",
     "forbidden": {
