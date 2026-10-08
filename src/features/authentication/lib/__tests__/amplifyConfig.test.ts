@@ -20,8 +20,8 @@ describe("Amplify configuration", () => {
         expect(amplifyConfig.Auth.Cognito.loginWith.oauth).toEqual({
             domain: "auth.stage.aura-historia.com",
             scopes: ["openid", "email", "profile"],
-            redirectSignIn: ["http://localhost:3000/"],
-            redirectSignOut: ["http://localhost:3000/"],
+            redirectSignIn: ["http://localhost:3000"],
+            redirectSignOut: ["http://localhost:3000"],
             responseType: "code",
         });
         expect(mockConfigure).toHaveBeenCalledWith(amplifyConfig, { ssr: true });

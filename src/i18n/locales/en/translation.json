@@ -1112,9 +1112,7 @@
       "google": {
         "continue": "Continue with Google"
       },
-      "error": "Google sign-in could not be started. Please try again.",
-      "completionError": "Google sign-in could not be completed. Please try again.",
-      "emailUnavailable": "We could not retrieve the email for your account. Please sign in again."
+      "redirectFailure": "Sign-in could not be completed. Please try again or sign in with your email address."
     },
     "errors": {
       "UsernameExistsException": "An account with this email already exists.",

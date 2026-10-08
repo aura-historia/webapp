@@ -3,9 +3,11 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mockSignUp = vi.hoisted(() => vi.fn());
+const mockSignInWithRedirect = vi.hoisted(() => vi.fn());
 
 vi.mock("aws-amplify/auth", () => ({
     signUp: mockSignUp,
+    signInWithRedirect: mockSignInWithRedirect,
 }));
 
 import { SignUpForm } from "../SignUpForm";
@@ -19,7 +21,9 @@ describe("SignUpForm", () => {
 
     it("does not render the newsletter opt-in checkbox", async () => {
         await act(async () => {
-            renderWithRouter(<SignUpForm onSuccess={vi.fn()} onSwitchToSignIn={vi.fn()} />);
+            renderWithRouter(
+                <SignUpForm onSuccess={vi.fn()} onSwitchToSignIn={vi.fn()} locale="de" />,
+            );
         });
 
         expect(
@@ -34,7 +38,9 @@ describe("SignUpForm", () => {
         const onSuccess = vi.fn();
 
         await act(async () => {
-            renderWithRouter(<SignUpForm onSuccess={onSuccess} onSwitchToSignIn={vi.fn()} />);
+            renderWithRouter(
+                <SignUpForm onSuccess={onSuccess} onSwitchToSignIn={vi.fn()} locale="de" />,
+            );
         });
 
         await user.type(screen.getByLabelText("E-Mail"), "user@example.com");
@@ -55,5 +61,27 @@ describe("SignUpForm", () => {
         });
 
         expect(onSuccess).toHaveBeenCalledWith("user@example.com", "Password1!");
+    });
+
+    it("starts the Google redirect with sign-up intent without calling native signUp", async () => {
+        mockSignInWithRedirect.mockResolvedValue(undefined);
+        const user = userEvent.setup();
+        const onSuccess = vi.fn();
+
+        await act(async () => {
+            renderWithRouter(
+                <SignUpForm onSuccess={onSuccess} onSwitchToSignIn={vi.fn()} locale="de" />,
+            );
+        });
+        await user.click(screen.getByRole("button", { name: "Mit Google fortfahren" }));
+
+        await waitFor(() => {
+            expect(mockSignInWithRedirect).toHaveBeenCalledTimes(1);
+        });
+        expect(JSON.parse(mockSignInWithRedirect.mock.calls[0][0].customState)).toMatchObject({
+            intent: "sign-up",
+        });
+        expect(mockSignUp).not.toHaveBeenCalled();
+        expect(onSuccess).not.toHaveBeenCalled();
     });
 });

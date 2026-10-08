@@ -77,8 +77,6 @@ Si crea o utiliza una cuenta de usuario, tratamos en particular:
 
 La autenticación se gestiona técnicamente a través de AWS Amplify y Amazon Cognito.
 
-Puede elegir iniciar sesión o registrarse con su cuenta de Google. En ese caso, Google se utiliza como proveedor de identidad a través de Amazon Cognito y transmite la información de identidad necesaria para la autenticación, en particular su dirección de correo electrónico. Google trata el inicio de sesión conforme a su propia política de privacidad. Aura Historia utiliza el correo electrónico proporcionado por Cognito para iniciar sesión, vincular cuentas cuando corresponda y continuar el proceso de registro existente.
-
 **Finalidades del tratamiento:**
 
 - registro e inicio de sesión
@@ -284,7 +282,7 @@ Utilizamos proveedores de servicios e infraestructura externos. Los datos person
 - **Hetzner Online GmbH** – cuando determinados componentes de backend, hosting o almacenamiento se operen allí
 - **Stripe** – para procesamiento de pagos, gestión de suscripciones, checkout y portal del cliente
 - **Zoho Campaigns** – cuando estén habilitados el boletín y las comunicaciones de marketing
-- **Google** – cuando utilice el acceso con Google o se utilicen Google Analytics, funciones de Consent Mode o Google Maps
+- **Google** – cuando se utilicen Google Analytics, funciones de Consent Mode o Google Maps
 - **otros proveedores técnicos, jurídicos, fiscales u organizativos** – cuando sea necesario para operaciones, soporte, seguridad, cumplimiento o ejecución de reclamaciones
 - **autoridades, tribunales y terceros** – cuando estemos legalmente obligados a ello o sea necesario para hacer valer derechos legales
 

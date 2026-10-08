@@ -63,6 +63,14 @@ VITE_USER_POOL_ID=your-cognito-user-pool-id
 VITE_USER_POOL_CLIENT_ID=your-cognito-user-pool-client-id
 ```
 
+Federated sign-in (e.g. Google) uses the Cognito OAuth domain and redirect URLs. They default to staging; locally, set the redirects to a URL registered on the Cognito app client exactly (no added or removed trailing slash):
+
+```dotenv
+VITE_COGNITO_DOMAIN=auth.stage.aura-historia.com
+VITE_COGNITO_REDIRECT_SIGN_IN=http://localhost:3000
+VITE_COGNITO_REDIRECT_SIGN_OUT=http://localhost:3000
+```
+
 Optional feature flags:
 
 ```dotenv

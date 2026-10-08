@@ -81,7 +81,7 @@ describe("FederatedAuthOptions", () => {
         await user.click(screen.getByRole("button", { name: "Mit Google fortfahren" }));
 
         expect(await screen.findByRole("alert")).toHaveTextContent(
-            "Die Google-Anmeldung konnte nicht gestartet werden. Bitte versuchen Sie es erneut.",
+            "Die Anmeldung konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut oder melden Sie sich mit Ihrer E-Mail-Adresse an.",
         );
         expect(screen.queryByText("sensitive sdk detail")).not.toBeInTheDocument();
     });

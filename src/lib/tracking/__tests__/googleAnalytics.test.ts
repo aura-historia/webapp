@@ -213,6 +213,24 @@ describe("GoogleAnalytics.sendPageView", () => {
         });
     });
 
+    it("strips OAuth callback parameters from the payload", async () => {
+        import.meta.env.SSR = false;
+        const ga = await freshGA();
+
+        ga.sendPageView("/en", "en", {
+            code: "authorization-code",
+            state: "opaque-state",
+            error: "access_denied",
+            error_description: "denied",
+        });
+
+        expect(ReactGA.send).toHaveBeenCalledWith({
+            hitType: "pageview",
+            page: "/en",
+            language: "en",
+        });
+    });
+
     it("strips forbidden parameters case-insensitively while keeping safe ones", async () => {
         import.meta.env.SSR = false;
         const ga = await freshGA();

@@ -41,16 +41,11 @@ type SignUpValues = z.infer<ReturnType<typeof signUpSchema>>;
 type SignUpFormProps = {
     readonly onSuccess: (email: string, password: string) => void;
     readonly onSwitchToSignIn: () => void;
-    readonly locale?: string;
+    readonly locale: string;
     readonly redirect?: string;
 };
 
-export function SignUpForm({
-    onSuccess,
-    onSwitchToSignIn,
-    locale = "en",
-    redirect,
-}: SignUpFormProps) {
+export function SignUpForm({ onSuccess, onSwitchToSignIn, locale, redirect }: SignUpFormProps) {
     const { t } = useTranslation();
     const schema = signUpSchema(t);
 

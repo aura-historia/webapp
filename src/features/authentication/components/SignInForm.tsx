@@ -30,7 +30,7 @@ type SignInFormProps = {
     readonly onSwitchToResetPassword: () => void;
     readonly onConfirmationRequired: (email: string, password: string) => void;
     readonly onSuccess: () => void;
-    readonly locale?: string;
+    readonly locale: string;
     readonly redirect?: string;
 };
 
@@ -51,7 +51,7 @@ export function SignInForm({
     onSwitchToResetPassword,
     onConfirmationRequired,
     onSuccess,
-    locale = "en",
+    locale,
     redirect,
 }: SignInFormProps) {
     const { t } = useTranslation();
