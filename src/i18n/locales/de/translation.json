@@ -2390,5 +2390,90 @@
         "IMPERIAL": "Imperial"
       }
     }
+  },
+  "adminOAuthClients": {
+    "title": "OAuth-Client-Verwaltung",
+    "description": "Prüfen Sie registrierte OAuth-Clients, ändern Sie Metadaten und erlaubte Berechtigungen oder legen Sie einen Client an.",
+    "loading": "OAuth-Clients werden geladen…",
+    "loadingDetail": "Clientdetails werden geladen…",
+    "empty": "Keine OAuth-Clients entsprechen diesen Filtern.",
+    "filters": {
+      "title": "OAuth-Clients filtern",
+      "clientId": "Exakte Client-ID",
+      "name": "Clientname enthält",
+      "apply": "Filter anwenden",
+      "reset": "Zurücksetzen"
+    },
+    "list": {
+      "total": "{{count}} passende OAuth-Clients",
+      "issued": "Ausgestellt am {{date}}",
+      "noScopes": "Keine Berechtigungen zugewiesen",
+      "loadMore": "Weitere laden",
+      "loadingMore": "Wird geladen…"
+    },
+    "fields": {
+      "name": "Clientname",
+      "clientId": "Client-ID",
+      "clientSecret": "Clientschlüssel",
+      "terms": "URL der Nutzungsbedingungen",
+      "privacy": "URL der Datenschutzerklärung",
+      "homepage": "Homepage-URL",
+      "logo": "Logo-URL",
+      "redirectUris": "Weiterleitungs-URIs",
+      "redirectUrisHelp": "Geben Sie pro Zeile eine HTTPS-Weiterleitungs-URI ein. Mindestens eine ist erforderlich; Fragmente sind nicht zulässig und jede URI muss eindeutig sein.",
+      "scopes": "Erlaubte Berechtigungen",
+      "scopesHelp": "Wählen Sie die Berechtigungen aus, die dieser Client anfordern darf. Wenn Sie keine auswählen, werden alle erlaubten Berechtigungen entfernt.",
+      "issuedAt": "Client-ID ausgestellt"
+    },
+    "detail": {
+      "title": "OAuth-Client",
+      "description": "Prüfen Sie registrierte Metadaten und Berechtigungen. Clientschlüssel sind hier nicht verfügbar."
+    },
+    "create": {
+      "title": "OAuth-Client anlegen",
+      "description": "Der Clientschlüssel wird nach dem Anlegen einmal angezeigt. Kopieren Sie ihn, bevor Sie diesen Dialog schließen.",
+      "secretTitle": "Client angelegt",
+      "secretDescription": "Dieser Klartextschlüssel ist nach dem Schließen des Dialogs nicht mehr verfügbar. Bewahren Sie ihn sicher auf."
+    },
+    "edit": {
+      "title": "OAuth-Client bearbeiten",
+      "description": "Es werden nur geänderte Felder gesendet. Wenn Sie alle Berechtigungen abwählen, werden die erlaubten Berechtigungen des Clients entfernt."
+    },
+    "delete": {
+      "title": "OAuth-Client löschen",
+      "description": "Beim Löschen dieses Clients werden auch ausstehende Autorisierungscodes und darüber ausgestellte Zugangsdaten ungültig.",
+      "confirm": "Löschen bestätigen"
+    },
+    "actions": {
+      "create": "Client anlegen",
+      "details": "Details anzeigen",
+      "edit": "Client bearbeiten",
+      "delete": "Client löschen",
+      "save": "Änderungen speichern",
+      "saving": "Wird gespeichert…",
+      "deleting": "Wird gelöscht…",
+      "cancel": "Abbrechen",
+      "close": "Schließen",
+      "retry": "Erneut versuchen"
+    },
+    "success": {
+      "updated": "OAuth-Client aktualisiert.",
+      "deleted": "OAuth-Client gelöscht."
+    },
+    "errors": {
+      "forbidden": "Sie dürfen OAuth-Clients nicht verwalten.",
+      "missing": "Dieser OAuth-Client wurde nicht gefunden oder ist nicht mehr verfügbar.",
+      "conflict": "Dieser OAuth-Client wurde geändert, bevor die Anfrage abgeschlossen war. Laden Sie die Details neu und versuchen Sie es erneut.",
+      "invalid": "Prüfen Sie die Angaben zum OAuth-Client und versuchen Sie es erneut.",
+      "requestFailed": "Die OAuth-Client-Anfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+    },
+    "validation": {
+      "required": "Geben Sie eine URL ein.",
+      "nameRequired": "Geben Sie einen Clientnamen ein.",
+      "httpsUrl": "Geben Sie eine gültige HTTPS-URL ein.",
+      "redirectRequired": "Geben Sie mindestens eine Weiterleitungs-URI ein.",
+      "redirectInvalid": "Jede Weiterleitungs-URI muss eine gültige HTTPS-URL ohne Fragment sein.",
+      "redirectDuplicate": "Weiterleitungs-URIs müssen eindeutig sein."
+    }
   }
 }

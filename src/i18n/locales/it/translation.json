@@ -2390,5 +2390,90 @@
         "IMPERIAL": "Imperiale"
       }
     }
+  },
+  "adminOAuthClients": {
+    "title": "Gestione dei client OAuth",
+    "description": "Esamina i client OAuth registrati, modifica i metadati e le autorizzazioni oppure crea un client.",
+    "loading": "Caricamento dei client OAuth…",
+    "loadingDetail": "Caricamento dei dettagli del client…",
+    "empty": "Nessun client OAuth corrisponde a questi filtri.",
+    "filters": {
+      "title": "Filtra i client OAuth",
+      "clientId": "ID esatto del client",
+      "name": "Nome del client contiene",
+      "apply": "Applica filtri",
+      "reset": "Reimposta"
+    },
+    "list": {
+      "total": "{{count}} client OAuth corrispondenti",
+      "issued": "Emesso il {{date}}",
+      "noScopes": "Nessuna autorizzazione assegnata",
+      "loadMore": "Carica altri",
+      "loadingMore": "Caricamento…"
+    },
+    "fields": {
+      "name": "Nome del client",
+      "clientId": "ID client",
+      "clientSecret": "Segreto del client",
+      "terms": "URL dei termini di servizio",
+      "privacy": "URL dell’informativa sulla privacy",
+      "homepage": "URL della pagina principale",
+      "logo": "URL del logo",
+      "redirectUris": "URI di reindirizzamento",
+      "redirectUrisHelp": "Inserisci un URI di reindirizzamento HTTPS per riga. Ne è richiesto almeno uno; i frammenti non sono consentiti e ogni URI deve essere univoco.",
+      "scopes": "Autorizzazioni consentite",
+      "scopesHelp": "Seleziona le capacità che questo client può richiedere. Se non selezioni nulla, tutte le autorizzazioni consentite verranno rimosse.",
+      "issuedAt": "ID client emesso"
+    },
+    "detail": {
+      "title": "Client OAuth",
+      "description": "Esamina i metadati e le autorizzazioni registrati. Il segreto del client non è disponibile qui."
+    },
+    "create": {
+      "title": "Crea un client OAuth",
+      "description": "Il segreto del client viene mostrato una sola volta dopo la creazione. Copialo prima di chiudere questa finestra.",
+      "secretTitle": "Client creato",
+      "secretDescription": "Questo segreto in chiaro non sarà più disponibile dopo la chiusura della finestra. Conservalo in modo sicuro prima di continuare."
+    },
+    "edit": {
+      "title": "Modifica il client OAuth",
+      "description": "Verranno inviati solo i campi modificati. Deselezionando tutte le autorizzazioni, verranno rimosse quelle consentite per il client."
+    },
+    "delete": {
+      "title": "Elimina il client OAuth",
+      "description": "L’eliminazione di questo client invalida anche i codici di autorizzazione in attesa e le credenziali emesse tramite esso.",
+      "confirm": "Conferma eliminazione"
+    },
+    "actions": {
+      "create": "Crea client",
+      "details": "Visualizza dettagli",
+      "edit": "Modifica client",
+      "delete": "Elimina client",
+      "save": "Salva modifiche",
+      "saving": "Salvataggio…",
+      "deleting": "Eliminazione…",
+      "cancel": "Annulla",
+      "close": "Chiudi",
+      "retry": "Riprova"
+    },
+    "success": {
+      "updated": "Client OAuth aggiornato.",
+      "deleted": "Client OAuth eliminato."
+    },
+    "errors": {
+      "forbidden": "Non hai l’autorizzazione per gestire i client OAuth.",
+      "missing": "Questo client OAuth non è stato trovato o non è più disponibile.",
+      "conflict": "Questo client OAuth è cambiato prima del completamento della richiesta. Ricarica i dettagli e riprova.",
+      "invalid": "Controlla i dati del client OAuth e riprova.",
+      "requestFailed": "Non è stato possibile completare la richiesta del client OAuth. Riprova."
+    },
+    "validation": {
+      "required": "Inserisci un URL.",
+      "nameRequired": "Inserisci il nome del client.",
+      "httpsUrl": "Inserisci un URL HTTPS valido.",
+      "redirectRequired": "Inserisci almeno un URI di reindirizzamento.",
+      "redirectInvalid": "Ogni URI di reindirizzamento deve essere un URL HTTPS valido senza frammento.",
+      "redirectDuplicate": "Gli URI di reindirizzamento devono essere univoci."
+    }
   }
 }
