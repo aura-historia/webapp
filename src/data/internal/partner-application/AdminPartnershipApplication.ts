@@ -106,14 +106,21 @@ export function encodeApplicationCursor(cursor: readonly [string, string]): stri
     return JSON.stringify([cursor[0], cursor[1]]);
 }
 
+/** True only for a real `YYYY-MM-DD` calendar day, rejecting values such as `2026-02-30`. */
+export function isCalendarDay(value: string): boolean {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+    const date = new Date(`${value}T00:00:00.000Z`);
+    return !Number.isNaN(date.getTime()) && date.toISOString().startsWith(value);
+}
+
 function dayBound(day: string | undefined, bound: "start" | "end"): string | undefined {
-    if (!day || !/^\d{4}-\d{2}-\d{2}$/.test(day)) return undefined;
+    if (!day || !isCalendarDay(day)) return undefined;
     return bound === "start" ? `${day}T00:00:00.000Z` : `${day}T23:59:59.999Z`;
 }
 
 function trimmed(value: string | undefined): string | undefined {
     const result = value?.trim();
-    return result ? result : undefined;
+    return result || undefined;
 }
 
 /** Builds the admin search query; the cursor must be sent with unchanged filters and sort. */

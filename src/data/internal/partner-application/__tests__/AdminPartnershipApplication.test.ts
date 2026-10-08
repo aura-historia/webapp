@@ -123,6 +123,22 @@ describe("mapToAdminApplicationSearchQuery", () => {
         });
     });
 
+    it.each(["2026-99-99", "2026-02-30", "2025-02-29"])(
+        "drops the impossible calendar day %s",
+        (day) => {
+            expect(mapToAdminApplicationSearchQuery({ createdFrom: day, updatedTo: day })).toEqual({
+                size: 21,
+            });
+        },
+    );
+
+    it("accepts a leap day", () => {
+        expect(mapToAdminApplicationSearchQuery({ createdFrom: "2028-02-29" })).toEqual({
+            size: 21,
+            "created[min]": "2028-02-29T00:00:00.000Z",
+        });
+    });
+
     it("drops blank IDs, malformed dates and an incomplete sort pair", () => {
         expect(
             mapToAdminApplicationSearchQuery({

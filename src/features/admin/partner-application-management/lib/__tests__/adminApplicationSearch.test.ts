@@ -40,4 +40,17 @@ describe("validateAdminApplicationSearch", () => {
             }),
         ).toEqual({});
     });
+
+    it("drops impossible calendar days", () => {
+        expect(
+            validateAdminApplicationSearch({ createdFrom: "2026-99-99", updatedTo: "2026-02-30" }),
+        ).toEqual({});
+    });
+
+    it.each([{ sort: "updated" }, { order: "asc" }])(
+        "drops an incomplete sort pair %o so the form matches the default order",
+        (search) => {
+            expect(validateAdminApplicationSearch(search)).toEqual({});
+        },
+    );
 });

@@ -63,9 +63,10 @@ export function useAdminPartnershipApplications(filters: AdminApplicationFilters
         initialPageParam: undefined as string | undefined,
         getNextPageParam: (page: AdminPartnershipApplicationPage) => page.searchAfter,
         staleTime: 30_000,
-        queryFn: async ({ pageParam }) => {
+        queryFn: async ({ pageParam, signal }) => {
             const response = await adminSearchPartnershipApplications({
                 query: mapToAdminApplicationSearchQuery(filters, pageParam),
+                signal,
             });
             if (response.error || !response.data)
                 throw requestError(response.error, response.response?.status);
@@ -80,10 +81,11 @@ export function useAdminPartnershipApplication(id?: string, enabled = true) {
         queryKey: adminApplicationDetailQueryKey(id),
         enabled: enabled && Boolean(id),
         staleTime: 30_000,
-        queryFn: async () => {
+        queryFn: async ({ signal }) => {
             if (!id) throw new Error("Missing application ID");
             const response = await adminGetPartnershipApplication({
                 path: { partnershipApplicationId: id },
+                signal,
             });
             if (response.error || !response.data)
                 throw requestError(response.error, response.response?.status);

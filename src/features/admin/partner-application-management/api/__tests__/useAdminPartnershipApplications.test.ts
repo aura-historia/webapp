@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import testI18n from "@/i18n/i18nForTests";
+import { clearViewerScopedQueries } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
 import {
     adminApplicationDetailQueryKey,
     adminApplicationListQueryKey,
@@ -71,6 +72,7 @@ describe("admin partnership application API", () => {
         await waitFor(() => expect(hook.result.current.data?.pages).toHaveLength(1));
         expect(api.search).toHaveBeenLastCalledWith({
             query: { size: 21, state: ["SUBMITTED"], sort: "created", order: "asc" },
+            signal: expect.any(AbortSignal),
         });
         expect(hook.result.current.hasNextPage).toBe(true);
 
@@ -85,6 +87,7 @@ describe("admin partnership application API", () => {
                 order: "asc",
                 searchAfter: '["2026-09-01T10:00:00Z","pa_1"]',
             },
+            signal: expect.any(AbortSignal),
         });
         await waitFor(() => expect(hook.result.current.hasNextPage).toBe(false));
     });
@@ -93,8 +96,29 @@ describe("admin partnership application API", () => {
         api.detail.mockResolvedValue(ok(detail));
         const hook = renderHook(() => useAdminPartnershipApplication("pa_1"), { wrapper });
         await waitFor(() => expect(hook.result.current.data?.id).toBe("pa_1"));
-        expect(api.detail).toHaveBeenCalledWith({ path: { partnershipApplicationId: "pa_1" } });
+        expect(api.detail).toHaveBeenCalledWith({
+            path: { partnershipApplicationId: "pa_1" },
+            signal: expect.any(AbortSignal),
+        });
         expect(hook.result.current.data).not.toHaveProperty("created");
+    });
+
+    it("aborts pending admin requests when viewer-scoped queries are cleared", async () => {
+        api.search.mockReturnValue(new Promise(() => {}));
+        api.detail.mockReturnValue(new Promise(() => {}));
+        renderHook(() => useAdminPartnershipApplications({}), { wrapper });
+        renderHook(() => useAdminPartnershipApplication("pa_1"), { wrapper });
+        await waitFor(() => expect(api.search).toHaveBeenCalled());
+        await waitFor(() => expect(api.detail).toHaveBeenCalled());
+        const searchSignal: AbortSignal = api.search.mock.calls[0][0].signal;
+        const detailSignal: AbortSignal = api.detail.mock.calls[0][0].signal;
+
+        await act(async () => {
+            clearViewerScopedQueries(client);
+        });
+
+        expect(searchSignal.aborted).toBe(true);
+        expect(detailSignal.aborted).toBe(true);
     });
 
     it("localizes a missing application", async () => {
