@@ -10,8 +10,11 @@ mapping, tests and the authorization checks below. See
 [MIG-24 scope decisions](api-migration/integration-release-gate.md).
 
 Restored workflows: partnership application review (MIG-16, see
-[admin partnership application review](api-migration/partnership-application-contracts.md#admin-partnership-application-review)).
-The admin shell and navigation remain deferred to MIG-24.
+[admin partnership application review](api-migration/partnership-application-contracts.md#admin-partnership-application-review))
+and Party management (MIG-17). Party contacts are available only through the
+authenticated admin Party operations. The shared admin shell and navigation
+remain deferred to MIG-24; individual workflow routes stay protected by
+`AdminGuard` and backend authorization.
 
 ## Requirement
 

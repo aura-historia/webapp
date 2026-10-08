@@ -1701,6 +1701,108 @@
       "missing": "Richiesta non trovata o non disponibile."
     }
   },
+  "adminParties": {
+    "title": "Gestione delle organizzazioni",
+    "description": "Gestisci le identità e i recapiti operativi delle organizzazioni collegate alle fonti e alle partnership.",
+    "loading": "Caricamento delle organizzazioni.",
+    "loadingDetail": "Caricamento dell’organizzazione.",
+    "empty": "Nessuna organizzazione corrisponde a questi filtri.",
+    "filters": {
+      "title": "Filtra le organizzazioni",
+      "query": "Nome o recapito",
+      "name": "Nome dell’organizzazione",
+      "phone": "Telefono",
+      "email": "E-mail",
+      "createdFrom": "Creata dal",
+      "createdTo": "Creata fino al",
+      "updatedFrom": "Modificata dal",
+      "updatedTo": "Modificata fino al",
+      "sort": "Ordina per",
+      "apply": "Applica filtri",
+      "reset": "Reimposta"
+    },
+    "sort": {
+      "name_asc": "Nome, dalla A alla Z",
+      "name_desc": "Nome, dalla Z alla A",
+      "email_asc": "E-mail, dalla A alla Z",
+      "email_desc": "E-mail, dalla Z alla A",
+      "phone_asc": "Telefono, dalla A alla Z",
+      "phone_desc": "Telefono, dalla Z alla A",
+      "created_asc": "Prima le più vecchie",
+      "created_desc": "Prima le più recenti",
+      "updated_asc": "Modificate meno di recente",
+      "updated_desc": "Modificate più di recente"
+    },
+    "list": {
+      "created": "Creata il {{date}}",
+      "updated": "Modificata il {{date}}",
+      "total_one": "{{count}} organizzazione",
+      "total_other": "{{count}} organizzazioni",
+      "loadMore": "Carica altro",
+      "loadingMore": "Caricamento…"
+    },
+    "fields": {
+      "partyId": "ID organizzazione",
+      "partySlugId": "Identificatore URL dell’organizzazione",
+      "name": "Nome",
+      "phone": "Telefono",
+      "email": "E-mail",
+      "created": "Creata il",
+      "updated": "Ultima modifica",
+      "notProvided": "Non indicato"
+    },
+    "detail": {
+      "title": "Dettagli dell’organizzazione",
+      "description": "Consulta l’identità canonica, i recapiti e le date del record."
+    },
+    "form": {
+      "createTitle": "Crea organizzazione",
+      "editTitle": "Modifica organizzazione",
+      "description": "Gestisci il nome dell’organizzazione e gli eventuali recapiti operativi."
+    },
+    "actions": {
+      "create": "Crea organizzazione",
+      "details": "Vedi dettagli",
+      "edit": "Modifica organizzazione",
+      "delete": "Elimina organizzazione",
+      "retry": "Riprova",
+      "cancel": "Annulla",
+      "save": "Salva modifiche",
+      "saving": "Salvataggio…",
+      "confirmDelete": "Eliminare questa organizzazione? Una fonte di annunci collegata o una partnership attiva può impedirne l’eliminazione. Questa azione non elimina record correlati.",
+      "confirmDeleteButton": "Elimina",
+      "deleting": "Eliminazione…"
+    },
+    "success": {
+      "created": "Organizzazione creata.",
+      "updated": "Organizzazione aggiornata.",
+      "deleted": "Organizzazione eliminata."
+    },
+    "errors": {
+      "forbidden": "Non hai l’autorizzazione per accedere ai recapiti dell’organizzazione.",
+      "missing": "Organizzazione non trovata o non più disponibile.",
+      "createConflict": "Non è stato possibile creare l’organizzazione perché l’identificatore generato è in conflitto con un record esistente. Controlla le organizzazioni presenti prima di riprovare.",
+      "updateConflict": "L’organizzazione è stata modificata mentre la stavi aggiornando. Chiudi il modulo e riapri i dettagli prima di modificarla di nuovo.",
+      "deleteConflict": "L’organizzazione potrebbe essere collegata a una fonte di annunci o a una partnership e non è stato possibile eliminarla. Nessun record correlato è stato eliminato.",
+      "invalid": "Controlla i dati dell’organizzazione e riprova.",
+      "requestFailed": "Non è stato possibile completare la richiesta. Riprova."
+    },
+    "validation": {
+      "nameRequired": "Inserisci il nome dell’organizzazione.",
+      "nameTooLong": "Il nome non può superare 255 byte UTF-8.",
+      "invalidEmail": "Inserisci un indirizzo e-mail valido.",
+      "invalidDate": "Inserisci una data di calendario valida."
+    },
+    "picker": {
+      "label": "Organizzazione che gestisce la fonte",
+      "selected": "Organizzazione selezionata",
+      "clear": "Rimuovi selezione",
+      "loading": "Ricerca delle organizzazioni…",
+      "noMatch": "Nessuna organizzazione esistente corrisponde alla ricerca. Creala nella gestione delle organizzazioni, poi torna qui per selezionarla.",
+      "searchPrompt": "Cerca organizzazioni esistenti per nome o recapito.",
+      "manageLink": "Apri la gestione delle organizzazioni"
+    }
+  },
   "compareBarnebysPage": {
     "structuredData": {
       "about": {

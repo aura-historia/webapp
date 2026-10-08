@@ -1766,6 +1766,108 @@
       "missing": "Application not found or unavailable."
     }
   },
+  "adminParties": {
+    "title": "Organization management",
+    "description": "Manage organization identities and operational contacts for source operators and partnerships.",
+    "loading": "Loading organizations.",
+    "loadingDetail": "Loading organization.",
+    "empty": "No organizations match these filters.",
+    "filters": {
+      "title": "Filter organizations",
+      "query": "Name or contact",
+      "name": "Organization name",
+      "phone": "Phone",
+      "email": "Email",
+      "createdFrom": "Created from",
+      "createdTo": "Created until",
+      "updatedFrom": "Updated from",
+      "updatedTo": "Updated until",
+      "sort": "Sort by",
+      "apply": "Apply filters",
+      "reset": "Reset"
+    },
+    "sort": {
+      "name_asc": "Name, A to Z",
+      "name_desc": "Name, Z to A",
+      "email_asc": "Email, A to Z",
+      "email_desc": "Email, Z to A",
+      "phone_asc": "Phone, A to Z",
+      "phone_desc": "Phone, Z to A",
+      "created_asc": "Oldest created first",
+      "created_desc": "Newest created first",
+      "updated_asc": "Least recently updated",
+      "updated_desc": "Most recently updated"
+    },
+    "list": {
+      "created": "Created {{date}}",
+      "updated": "Updated {{date}}",
+      "total_one": "{{count}} organization",
+      "total_other": "{{count}} organizations",
+      "loadMore": "Load more",
+      "loadingMore": "Loading…"
+    },
+    "fields": {
+      "partyId": "Organization ID",
+      "partySlugId": "Organization slug",
+      "name": "Name",
+      "phone": "Phone",
+      "email": "Email",
+      "created": "Created",
+      "updated": "Last updated",
+      "notProvided": "Not provided"
+    },
+    "detail": {
+      "title": "Organization details",
+      "description": "Review its canonical identity, contact details, and record dates."
+    },
+    "form": {
+      "createTitle": "Create organization",
+      "editTitle": "Edit organization",
+      "description": "Manage the organization name and its optional operational contact details."
+    },
+    "actions": {
+      "create": "Create organization",
+      "details": "View details",
+      "edit": "Edit organization",
+      "delete": "Delete organization",
+      "retry": "Retry",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saving": "Saving…",
+      "confirmDelete": "Delete this organization? A linked listing source or retained partnership can prevent deletion. Related records are not removed by this action.",
+      "confirmDeleteButton": "Delete",
+      "deleting": "Deleting…"
+    },
+    "success": {
+      "created": "Organization created.",
+      "updated": "Organization updated.",
+      "deleted": "Organization deleted."
+    },
+    "errors": {
+      "forbidden": "You do not have permission to access organization contact details.",
+      "missing": "Organization not found or no longer available.",
+      "createConflict": "This organization could not be created because its generated identifier conflicts with an existing record. Review the existing organizations before trying again.",
+      "updateConflict": "This organization changed while you were editing it. Close this form and reopen its details before editing again.",
+      "deleteConflict": "This organization may be linked to a listing source or partnership and could not be deleted. No related records were deleted.",
+      "invalid": "Check the organization details and try again.",
+      "requestFailed": "The organization request could not be completed. Please try again."
+    },
+    "validation": {
+      "nameRequired": "Enter an organization name.",
+      "nameTooLong": "The name must be 255 UTF-8 bytes or fewer.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidDate": "Enter a valid calendar date."
+    },
+    "picker": {
+      "label": "Source operator organization",
+      "selected": "Selected organization",
+      "clear": "Clear selection",
+      "loading": "Searching organizations…",
+      "noMatch": "No existing organization matches this search. Create one in organization management, then return to select it.",
+      "searchPrompt": "Search existing organizations by name or contact details.",
+      "manageLink": "Open organization management"
+    }
+  },
   "adminDashboard": {
     "loading": "Loading…",
     "forbidden": {

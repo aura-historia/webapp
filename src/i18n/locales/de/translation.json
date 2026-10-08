@@ -1766,6 +1766,108 @@
       "missing": "Antrag nicht gefunden oder nicht verfügbar."
     }
   },
+  "adminParties": {
+    "title": "Organisationsverwaltung",
+    "description": "Verwalten Sie Organisationsidentitäten und betriebliche Kontaktdaten für Quellenbetreiber und Partnerschaften.",
+    "loading": "Organisationen werden geladen.",
+    "loadingDetail": "Organisation wird geladen.",
+    "empty": "Keine Organisationen entsprechen diesen Filtern.",
+    "filters": {
+      "title": "Organisationen filtern",
+      "query": "Name oder Kontakt",
+      "name": "Organisationsname",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "createdFrom": "Erstellt ab",
+      "createdTo": "Erstellt bis",
+      "updatedFrom": "Geändert ab",
+      "updatedTo": "Geändert bis",
+      "sort": "Sortieren nach",
+      "apply": "Filter anwenden",
+      "reset": "Zurücksetzen"
+    },
+    "sort": {
+      "name_asc": "Name, A bis Z",
+      "name_desc": "Name, Z bis A",
+      "email_asc": "E-Mail, A bis Z",
+      "email_desc": "E-Mail, Z bis A",
+      "phone_asc": "Telefon, A bis Z",
+      "phone_desc": "Telefon, Z bis A",
+      "created_asc": "Älteste zuerst erstellt",
+      "created_desc": "Neueste zuerst erstellt",
+      "updated_asc": "Am längsten unverändert",
+      "updated_desc": "Zuletzt geändert"
+    },
+    "list": {
+      "created": "Erstellt {{date}}",
+      "updated": "Geändert {{date}}",
+      "total_one": "{{count}} Organisation",
+      "total_other": "{{count}} Organisationen",
+      "loadMore": "Mehr laden",
+      "loadingMore": "Wird geladen…"
+    },
+    "fields": {
+      "partyId": "Organisations-ID",
+      "partySlugId": "Organisations-Slug",
+      "name": "Name",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "created": "Erstellt",
+      "updated": "Zuletzt geändert",
+      "notProvided": "Nicht angegeben"
+    },
+    "detail": {
+      "title": "Organisationsdetails",
+      "description": "Prüfen Sie die kanonische Identität, Kontaktdaten und Erstellungsdaten."
+    },
+    "form": {
+      "createTitle": "Organisation erstellen",
+      "editTitle": "Organisation bearbeiten",
+      "description": "Verwalten Sie den Organisationsnamen und optionale betriebliche Kontaktdaten."
+    },
+    "actions": {
+      "create": "Organisation erstellen",
+      "details": "Details ansehen",
+      "edit": "Organisation bearbeiten",
+      "delete": "Organisation löschen",
+      "retry": "Erneut versuchen",
+      "cancel": "Abbrechen",
+      "save": "Änderungen speichern",
+      "saving": "Wird gespeichert…",
+      "confirmDelete": "Diese Organisation löschen? Eine verknüpfte Listing-Quelle oder bestehende Partnerschaft kann die Löschung verhindern. Zugehörige Datensätze werden durch diese Aktion nicht gelöscht.",
+      "confirmDeleteButton": "Löschen",
+      "deleting": "Wird gelöscht…"
+    },
+    "success": {
+      "created": "Organisation erstellt.",
+      "updated": "Organisation aktualisiert.",
+      "deleted": "Organisation gelöscht."
+    },
+    "errors": {
+      "forbidden": "Sie haben keine Berechtigung, die Kontaktdaten der Organisation aufzurufen.",
+      "missing": "Organisation nicht gefunden oder nicht mehr verfügbar.",
+      "createConflict": "Die Organisation konnte nicht erstellt werden, da ihre erzeugte Kennung mit einem bestehenden Datensatz kollidiert. Prüfen Sie die vorhandenen Organisationen und versuchen Sie es erneut.",
+      "updateConflict": "Diese Organisation wurde während Ihrer Bearbeitung geändert. Schließen Sie das Formular und öffnen Sie die Details erneut, bevor Sie sie bearbeiten.",
+      "deleteConflict": "Diese Organisation ist möglicherweise mit einer Listing-Quelle oder Partnerschaft verknüpft und konnte nicht gelöscht werden. Zugehörige Datensätze wurden nicht gelöscht.",
+      "invalid": "Prüfen Sie die Organisationsangaben und versuchen Sie es erneut.",
+      "requestFailed": "Die Organisationsanfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+    },
+    "validation": {
+      "nameRequired": "Geben Sie einen Organisationsnamen ein.",
+      "nameTooLong": "Der Name darf höchstens 255 UTF-8-Bytes umfassen.",
+      "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
+      "invalidDate": "Geben Sie ein gültiges Kalenderdatum ein."
+    },
+    "picker": {
+      "label": "Organisation des Quellenbetreibers",
+      "selected": "Ausgewählte Organisation",
+      "clear": "Auswahl aufheben",
+      "loading": "Organisationen werden gesucht…",
+      "noMatch": "Keine vorhandene Organisation entspricht der Suche. Erstellen Sie sie in der Organisationsverwaltung und kehren Sie dann zur Auswahl zurück.",
+      "searchPrompt": "Suchen Sie vorhandene Organisationen nach Name oder Kontaktdaten.",
+      "manageLink": "Organisationsverwaltung öffnen"
+    }
+  },
   "adminDashboard": {
     "loading": "Wird geladen…",
     "forbidden": {
