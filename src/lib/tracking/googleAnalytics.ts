@@ -101,15 +101,18 @@ class GoogleAnalytics {
     sendPageView(path: string, language: string, searchParams: Record<string, unknown>): void {
         if (import.meta.env.SSR) return;
 
-        const safeParams = Object.keys(searchParams).reduce(
-            (acc, key) => {
-                if (!FORBIDDEN_PARAMS.has(key.toLowerCase())) {
-                    acc[key] = searchParams[key];
-                }
-                return acc;
-            },
-            {} as Record<string, unknown>,
-        );
+        const isAdminPage = /(?:^|\/)admin(?:\/|$)/.test(path);
+        const safeParams = isAdminPage
+            ? {}
+            : Object.keys(searchParams).reduce(
+                  (acc, key) => {
+                      if (!FORBIDDEN_PARAMS.has(key.toLowerCase())) {
+                          acc[key] = searchParams[key];
+                      }
+                      return acc;
+                  },
+                  {} as Record<string, unknown>,
+              );
 
         ReactGA.send({
             hitType: "pageview",

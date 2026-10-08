@@ -1364,6 +1364,140 @@
     "totalElements_other": "{{count}} notifiche",
     "showAll": "Mostra tutte le notifiche"
   },
+  "adminUsers": {
+    "title": "Gestione utenti",
+    "description": "Cerca riepiloghi degli account, esamina i dettagli e modifica separatamente profilo, ruolo e piano.",
+    "loading": "Caricamento utenti…",
+    "loadingDetail": "Caricamento dettagli account…",
+    "empty": "Nessun utente corrisponde a questi filtri.",
+    "filters": {
+      "title": "Filtra utenti",
+      "query": "Nome o e-mail",
+      "email": "E-mail contiene",
+      "firstName": "Nome contiene",
+      "lastName": "Cognome contiene",
+      "tier": "Piano di abbonamento",
+      "role": "Ruolo",
+      "createdFrom": "Creato da",
+      "createdTo": "Creato fino al",
+      "updatedFrom": "Modificato da",
+      "updatedTo": "Modificato fino al",
+      "sort": "Ordina per",
+      "order": "Direzione",
+      "apply": "Applica filtri",
+      "reset": "Reimposta"
+    },
+    "sort": {
+      "name": "Nome",
+      "email": "E-mail",
+      "firstName": "Nome",
+      "lastName": "Cognome",
+      "tier": "Piano di abbonamento",
+      "role": "Ruolo",
+      "created": "Data di creazione",
+      "updated": "Data di modifica"
+    },
+    "order": {
+      "asc": "Crescente",
+      "desc": "Decrescente"
+    },
+    "list": {
+      "title": "Utenti",
+      "loaded_one": "{{count}} utente caricato",
+      "loaded_other": "{{count}} utenti caricati",
+      "total_one": "{{count}} utente corrispondente in totale",
+      "total_other": "{{count}} utenti corrispondenti in totale",
+      "loadMore": "Carica altri",
+      "loadingMore": "Caricamento…",
+      "openUser": "Visualizza l’account di {{email}}"
+    },
+    "fields": {
+      "userId": "ID utente",
+      "email": "E-mail",
+      "firstName": "Nome",
+      "lastName": "Cognome",
+      "language": "Lingua preferita",
+      "currency": "Valuta preferita",
+      "measurementUnit": "Unità di misura",
+      "showUnassessedOrSensitiveContent": "Mostrare contenuti non valutati o sensibili",
+      "role": "Ruolo",
+      "tier": "Piano di abbonamento"
+    },
+    "profile": {
+      "title": "Profilo e preferenze",
+      "sensitiveContentHelp": "Questa preferenza riguarda contenuti non valutati e sensibili. I contenuti oscurati dal servizio restano non disponibili."
+    },
+    "role": {
+      "title": "Ruolo"
+    },
+    "tier": {
+      "title": "Piano di abbonamento"
+    },
+    "detail": {
+      "title": "Account utente",
+      "description": "Esamina i campi forniti dal servizio account e aggiorna separatamente ogni categoria."
+    },
+    "delete": {
+      "title": "Elimina account",
+      "description": "L’eliminazione di un account rimuove anche i relativi token di accesso, ricerche salvate, elementi della lista di controllo, notifiche, iscrizioni e richieste correlate.",
+      "confirm": "L’eliminazione è definitiva. Eliminare questo account utente?"
+    },
+    "actions": {
+      "retry": "Riprova",
+      "saveProfile": "Salva profilo e preferenze",
+      "saveRole": "Salva ruolo",
+      "saveTier": "Salva piano",
+      "saving": "Salvataggio…",
+      "delete": "Elimina account",
+      "confirmDelete": "Conferma eliminazione",
+      "deleting": "Eliminazione…",
+      "cancel": "Annulla"
+    },
+    "success": {
+      "profileUpdated": "Profilo e preferenze aggiornati.",
+      "roleUpdated": "Ruolo aggiornato.",
+      "tierUpdated": "Piano di abbonamento aggiornato.",
+      "deleted": "Account utente eliminato."
+    },
+    "errors": {
+      "forbidden": "Non hai l’autorizzazione per gestire gli account utente.",
+      "missing": "Questo account utente non è stato trovato o non è più disponibile.",
+      "conflict": "L’account è cambiato prima del completamento dell’aggiornamento. Ricarica i dettagli e riprova.",
+      "lastAdmin": "Deve rimanere almeno un amministratore attivo. L’account non è stato modificato.",
+      "deleteConflict": "Impossibile eliminare l’account nel suo stato attuale. Deve rimanere almeno un amministratore attivo.",
+      "invalid": "Controlla i campi dell’account e riprova.",
+      "requestFailed": "Impossibile completare la richiesta dell’account. Riprova."
+    },
+    "validation": {
+      "invalidEmail": "Inserisci un indirizzo e-mail valido.",
+      "nameTooLong": "I nomi devono contenere al massimo 64 caratteri.",
+      "invalidDate": "Inserisci una data di calendario valida.",
+      "invalidRange": "La data iniziale deve precedere o coincidere con quella finale."
+    },
+    "options": {
+      "notSet": "Non impostato",
+      "roles": {
+        "USER": "Utente",
+        "ADMIN": "Amministratore"
+      },
+      "tiers": {
+        "FREE": "Free",
+        "PRO": "Pro",
+        "ULTIMATE": "Ultimate"
+      },
+      "languages": {
+        "de": "Tedesco",
+        "en": "Inglese",
+        "es": "Spagnolo",
+        "fr": "Francese",
+        "it": "Italiano"
+      },
+      "measurementUnits": {
+        "METRIC": "Metrico",
+        "IMPERIAL": "Imperiale"
+      }
+    }
+  },
   "adminDashboard": {
     "loading": "Caricamento…",
     "forbidden": {
