@@ -1868,6 +1868,152 @@
       "manageLink": "Open organization management"
     }
   },
+  "adminListingSources": {
+    "title": "Listing source management",
+    "description": "Manage listing sources, their operators, presentation details and ingestion settings.",
+    "loading": "Loading listing sources.",
+    "loadingDetail": "Loading listing source.",
+    "empty": "No listing sources match these filters.",
+    "filters": {
+      "title": "Filter listing sources",
+      "query": "Name or operator",
+      "name": "Source name",
+      "listingSourceId": "Listing source ID",
+      "listingSourceSlugId": "Immutable slug",
+      "operatorPartyId": "Operator organization ID",
+      "ingestionMethod": "Ingestion method",
+      "allMethods": "All methods",
+      "sort": "Sort by",
+      "apply": "Apply filters",
+      "reset": "Reset"
+    },
+    "sort": {
+      "name_asc": "Name, A to Z",
+      "name_desc": "Name, Z to A",
+      "slug_asc": "Slug, A to Z",
+      "slug_desc": "Slug, Z to A",
+      "created_asc": "Oldest created first",
+      "created_desc": "Newest created first",
+      "updated_asc": "Least recently updated",
+      "updated_desc": "Most recently updated"
+    },
+    "list": {
+      "operator": "Operator: {{name}}",
+      "noMethods": "No ingestion method",
+      "updated": "Updated {{date}}",
+      "total_one": "{{count}} listing source",
+      "total_other": "{{count}} listing sources",
+      "loadMore": "Load more",
+      "loadingMore": "Loading…"
+    },
+    "fields": {
+      "listingSourceId": "Listing source ID",
+      "immutableSlug": "Immutable slug",
+      "name": "Source name",
+      "operator": "Operator organization",
+      "operatorPartyId": "Operator organization ID",
+      "operatorName": "New operator name",
+      "phone": "Phone",
+      "email": "Email",
+      "ingestionMethods": "Ingestion methods",
+      "ingestionMethod": "Ingestion method",
+      "ingestionConfiguration": "Ingestion configuration",
+      "configurationType": "Configuration type",
+      "fallbackCurrency": "Fallback currency (ISO 4217)",
+      "domain": "Shopify domain",
+      "currency": "Currency",
+      "language": "Language",
+      "webhookSecret": "WooCommerce webhook secret",
+      "url": "Presentation URL",
+      "image": "Presentation image URL",
+      "partnerizeCamref": "Partnerize campaign reference (camref)",
+      "referralConfiguration": "Referral configuration",
+      "created": "Created",
+      "updated": "Last updated",
+      "notProvided": "Not provided"
+    },
+    "methods": {
+      "WEB_CRAWL": "Web crawl",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "Partner API"
+    },
+    "configurationTypes": {
+      "UNCONFIGURED": "Unconfigured",
+      "WEB_CRAWL": "Web crawl",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "Partner API"
+    },
+    "operator": {
+      "existing": "Select an existing organization",
+      "new": "Create a new organization"
+    },
+    "referral": {
+      "keep": "Keep current setting",
+      "set": "Set Partnerize reference",
+      "clear": "Clear referral setting",
+      "partnerizeValue": "Partnerize · {{camref}}"
+    },
+    "detail": {
+      "title": "Listing source details",
+      "description": "Review the source identity, operator and safe configuration summary. Provider secrets are never shown."
+    },
+    "form": {
+      "createTitle": "Create listing source",
+      "createDescription": "Create a source and choose its operator and ingestion configuration.",
+      "editTitle": "Edit listing source",
+      "editDescription": "Change source details. The operator and source slug are immutable.",
+      "configurationDescription": "Add one configuration for each ingestion method. Unconfigured entries preserve the method without provider settings.",
+      "referralDescription": "Optional Partnerize referral information. No provider credentials are stored here.",
+      "replaceConfiguration": "Replace ingestion configuration",
+      "incompleteConfigurationNotice": "The read API does not return configuration values. Leave this off to preserve the current settings. Turning it on replaces settings for every active ingestion method.",
+      "secretPreservationNotice": "This secret is write-only and is never read back. Leave it blank to preserve an existing secret; enter a value to set or rotate it.",
+      "partnerApiConfiguration": "Partner API configuration is managed through the partner integration workflow."
+    },
+    "actions": {
+      "create": "Create source",
+      "details": "View details",
+      "edit": "Edit source",
+      "delete": "Delete source",
+      "retry": "Retry",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saving": "Saving…",
+      "addMethod": "Add ingestion method",
+      "removeMethod": "Remove",
+      "confirmDelete": "Delete this listing source? Sources with listings or retained relationships cannot be deleted. Related partnerships and applications will not be removed.",
+      "confirmDeleteButton": "Delete source",
+      "deleting": "Deleting…"
+    },
+    "success": {
+      "created": "Listing source created.",
+      "updated": "Listing source updated.",
+      "deleted": "Listing source deleted."
+    },
+    "errors": {
+      "forbidden": "You do not have permission to manage listing sources.",
+      "missing": "Listing source not found or no longer available.",
+      "createConflict": "The source conflicts with existing provider configuration. Review the current sources before trying again.",
+      "updateConflict": "This listing source changed while you were editing it. Reload its details before trying again.",
+      "deleteConflict": "This listing source has listings or retained relationships and could not be deleted. No related records were removed.",
+      "invalid": "Check the listing source details and ingestion settings, then try again.",
+      "requestFailed": "The listing source request could not be completed. Please try again."
+    },
+    "validation": {
+      "nameRequired": "Enter a source name.",
+      "nameTooLong": "The source name must be 255 UTF-8 bytes or fewer.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidUrl": "Enter a valid HTTP or HTTPS URL.",
+      "configurationRequired": "Add at least one ingestion configuration.",
+      "operatorRequired": "Select an operator organization.",
+      "operatorNameRequired": "Enter the new operator organization name.",
+      "duplicateMethod": "Each ingestion method can only be added once.",
+      "shopifyDomainRequired": "Enter the Shopify store domain.",
+      "webhookSecretRequired": "Enter the WooCommerce webhook secret.",
+      "camrefRequired": "Enter the Partnerize campaign reference."
+    }
+  },
   "adminDashboard": {
     "loading": "Loading…",
     "forbidden": {

@@ -1868,6 +1868,152 @@
       "manageLink": "Organisationsverwaltung öffnen"
     }
   },
+  "adminListingSources": {
+    "title": "Verwaltung der Listing-Quellen",
+    "description": "Verwalten Sie Listing-Quellen, ihre Betreiber, Präsentationsdaten und Importeinstellungen.",
+    "loading": "Listing-Quellen werden geladen.",
+    "loadingDetail": "Listing-Quelle wird geladen.",
+    "empty": "Keine Listing-Quelle entspricht diesen Filtern.",
+    "filters": {
+      "title": "Listing-Quellen filtern",
+      "query": "Name oder Betreiber",
+      "name": "Quellenname",
+      "listingSourceId": "Listing-Quellen-ID",
+      "listingSourceSlugId": "Unveränderlicher Slug",
+      "operatorPartyId": "ID der Betreiberorganisation",
+      "ingestionMethod": "Importmethode",
+      "allMethods": "Alle Methoden",
+      "sort": "Sortieren nach",
+      "apply": "Filter anwenden",
+      "reset": "Zurücksetzen"
+    },
+    "sort": {
+      "name_asc": "Name, A bis Z",
+      "name_desc": "Name, Z bis A",
+      "slug_asc": "Slug, A bis Z",
+      "slug_desc": "Slug, Z bis A",
+      "created_asc": "Älteste zuerst",
+      "created_desc": "Neueste zuerst",
+      "updated_asc": "Am längsten nicht aktualisiert",
+      "updated_desc": "Zuletzt aktualisiert"
+    },
+    "list": {
+      "operator": "Betreiber: {{name}}",
+      "noMethods": "Keine Importmethode",
+      "updated": "Aktualisiert {{date}}",
+      "total_one": "{{count}} Listing-Quelle",
+      "total_other": "{{count}} Listing-Quellen",
+      "loadMore": "Mehr laden",
+      "loadingMore": "Wird geladen…"
+    },
+    "fields": {
+      "listingSourceId": "Listing-Quellen-ID",
+      "immutableSlug": "Unveränderlicher Slug",
+      "name": "Quellenname",
+      "operator": "Betreiberorganisation",
+      "operatorPartyId": "ID der Betreiberorganisation",
+      "operatorName": "Name der neuen Betreiberorganisation",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "ingestionMethods": "Importmethoden",
+      "ingestionMethod": "Importmethode",
+      "ingestionConfiguration": "Importkonfiguration",
+      "configurationType": "Konfigurationstyp",
+      "fallbackCurrency": "Ersatzwährung (ISO 4217)",
+      "domain": "Shopify-Domain",
+      "currency": "Währung",
+      "language": "Sprache",
+      "webhookSecret": "WooCommerce-Webhook-Secret",
+      "url": "Präsentations-URL",
+      "image": "URL des Präsentationsbildes",
+      "partnerizeCamref": "Partnerize-Kampagnenreferenz (camref)",
+      "referralConfiguration": "Empfehlungskonfiguration",
+      "created": "Erstellt",
+      "updated": "Zuletzt aktualisiert",
+      "notProvided": "Nicht angegeben"
+    },
+    "methods": {
+      "WEB_CRAWL": "Web-Crawl",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "Partner-API"
+    },
+    "configurationTypes": {
+      "UNCONFIGURED": "Nicht konfiguriert",
+      "WEB_CRAWL": "Web-Crawl",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "Partner-API"
+    },
+    "operator": {
+      "existing": "Bestehende Organisation auswählen",
+      "new": "Neue Organisation erstellen"
+    },
+    "referral": {
+      "keep": "Aktuelle Einstellung beibehalten",
+      "set": "Partnerize-Referenz festlegen",
+      "clear": "Empfehlungseinstellung löschen",
+      "partnerizeValue": "Partnerize · {{camref}}"
+    },
+    "detail": {
+      "title": "Details der Listing-Quelle",
+      "description": "Prüfen Sie Quellidentität, Betreiber und sichere Konfigurationsangaben. Anbieterschlüssel werden nie angezeigt."
+    },
+    "form": {
+      "createTitle": "Listing-Quelle erstellen",
+      "createDescription": "Erstellen Sie eine Quelle und wählen Sie Betreiber sowie Importkonfiguration.",
+      "editTitle": "Listing-Quelle bearbeiten",
+      "editDescription": "Ändern Sie Quelldaten. Betreiber und Quellen-Slug sind unveränderlich.",
+      "configurationDescription": "Fügen Sie für jede Importmethode eine Konfiguration hinzu. Nicht konfigurierte Einträge behalten die Methode ohne Anbietereinstellungen bei.",
+      "referralDescription": "Optionale Partnerize-Empfehlungsdaten. Hier werden keine Anbieterzugangsdaten gespeichert.",
+      "replaceConfiguration": "Importkonfiguration ersetzen",
+      "incompleteConfigurationNotice": "Die Lese-API gibt Konfigurationswerte nicht zurück. Lassen Sie diese Option aus, um aktuelle Einstellungen beizubehalten. Beim Aktivieren werden die Einstellungen aller aktiven Importmethoden ersetzt.",
+      "secretPreservationNotice": "Dieses Secret ist schreibgeschützt und wird nie zurückgegeben. Lassen Sie das Feld leer, um ein vorhandenes Secret beizubehalten; geben Sie einen Wert ein, um es zu setzen oder zu erneuern.",
+      "partnerApiConfiguration": "Die Partner-API-Konfiguration wird über den Partner-Integrationsablauf verwaltet."
+    },
+    "actions": {
+      "create": "Quelle erstellen",
+      "details": "Details anzeigen",
+      "edit": "Quelle bearbeiten",
+      "delete": "Quelle löschen",
+      "retry": "Erneut versuchen",
+      "cancel": "Abbrechen",
+      "save": "Änderungen speichern",
+      "saving": "Wird gespeichert…",
+      "addMethod": "Importmethode hinzufügen",
+      "removeMethod": "Entfernen",
+      "confirmDelete": "Diese Listing-Quelle löschen? Quellen mit Listings oder bestehenden Beziehungen können nicht gelöscht werden. Zugehörige Partnerschaften und Anträge werden nicht entfernt.",
+      "confirmDeleteButton": "Quelle löschen",
+      "deleting": "Wird gelöscht…"
+    },
+    "success": {
+      "created": "Listing-Quelle erstellt.",
+      "updated": "Listing-Quelle aktualisiert.",
+      "deleted": "Listing-Quelle gelöscht."
+    },
+    "errors": {
+      "forbidden": "Sie dürfen Listing-Quellen nicht verwalten.",
+      "missing": "Listing-Quelle nicht gefunden oder nicht mehr verfügbar.",
+      "createConflict": "Die Quelle steht im Konflikt mit einer bestehenden Anbieterkonfiguration. Prüfen Sie die aktuellen Quellen und versuchen Sie es erneut.",
+      "updateConflict": "Diese Listing-Quelle wurde während der Bearbeitung geändert. Laden Sie die Details neu und versuchen Sie es erneut.",
+      "deleteConflict": "Diese Listing-Quelle hat Listings oder bestehende Beziehungen und konnte nicht gelöscht werden. Zugehörige Datensätze wurden nicht entfernt.",
+      "invalid": "Prüfen Sie Quelldaten und Importeinstellungen und versuchen Sie es erneut.",
+      "requestFailed": "Die Anfrage zur Listing-Quelle konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+    },
+    "validation": {
+      "nameRequired": "Geben Sie einen Quellnamen ein.",
+      "nameTooLong": "Der Quellenname darf höchstens 255 UTF-8-Bytes lang sein.",
+      "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
+      "invalidUrl": "Geben Sie eine gültige HTTP- oder HTTPS-URL ein.",
+      "configurationRequired": "Fügen Sie mindestens eine Importkonfiguration hinzu.",
+      "operatorRequired": "Wählen Sie eine Betreiberorganisation aus.",
+      "operatorNameRequired": "Geben Sie den Namen der neuen Betreiberorganisation ein.",
+      "duplicateMethod": "Jede Importmethode kann nur einmal hinzugefügt werden.",
+      "shopifyDomainRequired": "Geben Sie die Shopify-Shop-Domain ein.",
+      "webhookSecretRequired": "Geben Sie das WooCommerce-Webhook-Secret ein.",
+      "camrefRequired": "Geben Sie die Partnerize-Kampagnenreferenz ein."
+    }
+  },
   "adminDashboard": {
     "loading": "Wird geladen…",
     "forbidden": {

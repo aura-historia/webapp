@@ -1364,6 +1364,152 @@
     "totalElements_other": "{{count}} notifiche",
     "showAll": "Mostra tutte le notifiche"
   },
+  "adminListingSources": {
+    "title": "Gestione delle fonti di annunci",
+    "description": "Gestisci le fonti, i relativi operatori, i dati di presentazione e le impostazioni di acquisizione.",
+    "loading": "Caricamento delle fonti di annunci.",
+    "loadingDetail": "Caricamento della fonte di annunci.",
+    "empty": "Nessuna fonte di annunci corrisponde a questi filtri.",
+    "filters": {
+      "title": "Filtra le fonti di annunci",
+      "query": "Nome o operatore",
+      "name": "Nome della fonte",
+      "listingSourceId": "ID della fonte",
+      "listingSourceSlugId": "Slug immutabile",
+      "operatorPartyId": "ID dell’organizzazione operatrice",
+      "ingestionMethod": "Metodo di acquisizione",
+      "allMethods": "Tutti i metodi",
+      "sort": "Ordina per",
+      "apply": "Applica filtri",
+      "reset": "Reimposta"
+    },
+    "sort": {
+      "name_asc": "Nome, dalla A alla Z",
+      "name_desc": "Nome, dalla Z alla A",
+      "slug_asc": "Slug, dalla A alla Z",
+      "slug_desc": "Slug, dalla Z alla A",
+      "created_asc": "Prima le più vecchie",
+      "created_desc": "Prima le più recenti",
+      "updated_asc": "Aggiornate meno di recente",
+      "updated_desc": "Aggiornate più di recente"
+    },
+    "list": {
+      "operator": "Operatore: {{name}}",
+      "noMethods": "Nessun metodo di acquisizione",
+      "updated": "Aggiornata {{date}}",
+      "total_one": "{{count}} fonte di annunci",
+      "total_other": "{{count}} fonti di annunci",
+      "loadMore": "Carica altro",
+      "loadingMore": "Caricamento…"
+    },
+    "fields": {
+      "listingSourceId": "ID della fonte",
+      "immutableSlug": "Slug immutabile",
+      "name": "Nome della fonte",
+      "operator": "Organizzazione operatrice",
+      "operatorPartyId": "ID dell’organizzazione operatrice",
+      "operatorName": "Nome del nuovo operatore",
+      "phone": "Telefono",
+      "email": "E-mail",
+      "ingestionMethods": "Metodi di acquisizione",
+      "ingestionMethod": "Metodo di acquisizione",
+      "ingestionConfiguration": "Configurazione di acquisizione",
+      "configurationType": "Tipo di configurazione",
+      "fallbackCurrency": "Valuta di ripiego (ISO 4217)",
+      "domain": "Dominio Shopify",
+      "currency": "Valuta",
+      "language": "Lingua",
+      "webhookSecret": "Segreto webhook WooCommerce",
+      "url": "URL di presentazione",
+      "image": "URL dell’immagine di presentazione",
+      "partnerizeCamref": "Riferimento campagna Partnerize (camref)",
+      "referralConfiguration": "Configurazione referral",
+      "created": "Creata",
+      "updated": "Ultimo aggiornamento",
+      "notProvided": "Non indicato"
+    },
+    "methods": {
+      "WEB_CRAWL": "Scansione web",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "API partner"
+    },
+    "configurationTypes": {
+      "UNCONFIGURED": "Non configurato",
+      "WEB_CRAWL": "Scansione web",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "API partner"
+    },
+    "operator": {
+      "existing": "Seleziona un’organizzazione esistente",
+      "new": "Crea una nuova organizzazione"
+    },
+    "referral": {
+      "keep": "Mantieni l’impostazione attuale",
+      "set": "Imposta il riferimento Partnerize",
+      "clear": "Cancella l’impostazione referral",
+      "partnerizeValue": "Partnerize · {{camref}}"
+    },
+    "detail": {
+      "title": "Dettagli della fonte di annunci",
+      "description": "Esamina l’identità della fonte, l’operatore e il riepilogo sicuro della configurazione. I segreti del fornitore non vengono mai mostrati."
+    },
+    "form": {
+      "createTitle": "Crea fonte di annunci",
+      "createDescription": "Crea una fonte e scegli l’operatore e la configurazione di acquisizione.",
+      "editTitle": "Modifica fonte di annunci",
+      "editDescription": "Modifica i dati della fonte. Operatore e slug sono immutabili.",
+      "configurationDescription": "Aggiungi una configurazione per ogni metodo di acquisizione. Le voci non configurate mantengono il metodo senza impostazioni del fornitore.",
+      "referralDescription": "Dati referral Partnerize facoltativi. Qui non vengono salvate credenziali del fornitore.",
+      "replaceConfiguration": "Sostituisci la configurazione di acquisizione",
+      "incompleteConfigurationNotice": "L’API di lettura non restituisce i valori di configurazione. Lascia l’opzione disattivata per mantenere le impostazioni attuali. Attivandola sostituirai le impostazioni di tutti i metodi attivi.",
+      "secretPreservationNotice": "Questo segreto è solo scrivibile e non viene mai letto di nuovo. Lascialo vuoto per mantenere un segreto esistente; inserisci un valore per impostarlo o ruotarlo.",
+      "partnerApiConfiguration": "La configurazione dell’API partner è gestita tramite il flusso di integrazione partner."
+    },
+    "actions": {
+      "create": "Crea fonte",
+      "details": "Visualizza dettagli",
+      "edit": "Modifica fonte",
+      "delete": "Elimina fonte",
+      "retry": "Riprova",
+      "cancel": "Annulla",
+      "save": "Salva modifiche",
+      "saving": "Salvataggio…",
+      "addMethod": "Aggiungi metodo di acquisizione",
+      "removeMethod": "Rimuovi",
+      "confirmDelete": "Eliminare questa fonte di annunci? Le fonti con annunci o relazioni conservate non possono essere eliminate. Le partnership e le richieste correlate non verranno rimosse.",
+      "confirmDeleteButton": "Elimina fonte",
+      "deleting": "Eliminazione…"
+    },
+    "success": {
+      "created": "Fonte di annunci creata.",
+      "updated": "Fonte di annunci aggiornata.",
+      "deleted": "Fonte di annunci eliminata."
+    },
+    "errors": {
+      "forbidden": "Non hai l’autorizzazione per gestire le fonti di annunci.",
+      "missing": "Fonte di annunci non trovata o non più disponibile.",
+      "createConflict": "La fonte è in conflitto con una configurazione del fornitore esistente. Esamina le fonti attuali e riprova.",
+      "updateConflict": "La fonte è stata modificata durante l’operazione. Ricarica i dettagli prima di riprovare.",
+      "deleteConflict": "La fonte ha annunci o relazioni conservate e non può essere eliminata. Non è stato rimosso alcun dato correlato.",
+      "invalid": "Controlla i dati della fonte e le impostazioni di acquisizione, quindi riprova.",
+      "requestFailed": "Non è stato possibile completare la richiesta della fonte. Riprova."
+    },
+    "validation": {
+      "nameRequired": "Inserisci il nome della fonte.",
+      "nameTooLong": "Il nome della fonte non può superare 255 byte UTF-8.",
+      "invalidEmail": "Inserisci un indirizzo e-mail valido.",
+      "invalidUrl": "Inserisci un URL HTTP o HTTPS valido.",
+      "configurationRequired": "Aggiungi almeno una configurazione di acquisizione.",
+      "operatorRequired": "Seleziona un’organizzazione operatrice.",
+      "operatorNameRequired": "Inserisci il nome della nuova organizzazione operatrice.",
+      "duplicateMethod": "Ogni metodo di acquisizione può essere aggiunto una sola volta.",
+      "shopifyDomainRequired": "Inserisci il dominio del negozio Shopify.",
+      "webhookSecretRequired": "Inserisci il segreto webhook WooCommerce.",
+      "camrefRequired": "Inserisci il riferimento campagna Partnerize."
+    }
+  },
   "adminDashboard": {
     "loading": "Caricamento…",
     "forbidden": {

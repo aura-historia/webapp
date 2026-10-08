@@ -1364,6 +1364,152 @@
     "totalElements_other": "{{count}} notificaciones",
     "showAll": "Mostrar todas las notificaciones"
   },
+  "adminListingSources": {
+    "title": "Gestión de fuentes de anuncios",
+    "description": "Gestione las fuentes, sus operadores, los datos de presentación y la configuración de ingestión.",
+    "loading": "Cargando fuentes de anuncios.",
+    "loadingDetail": "Cargando fuente de anuncios.",
+    "empty": "Ninguna fuente de anuncios coincide con estos filtros.",
+    "filters": {
+      "title": "Filtrar fuentes de anuncios",
+      "query": "Nombre u operador",
+      "name": "Nombre de la fuente",
+      "listingSourceId": "ID de la fuente",
+      "listingSourceSlugId": "Slug inmutable",
+      "operatorPartyId": "ID de la organización operadora",
+      "ingestionMethod": "Método de ingestión",
+      "allMethods": "Todos los métodos",
+      "sort": "Ordenar por",
+      "apply": "Aplicar filtros",
+      "reset": "Restablecer"
+    },
+    "sort": {
+      "name_asc": "Nombre, A a Z",
+      "name_desc": "Nombre, Z a A",
+      "slug_asc": "Slug, A a Z",
+      "slug_desc": "Slug, Z a A",
+      "created_asc": "Más antiguas primero",
+      "created_desc": "Más recientes primero",
+      "updated_asc": "Menos actualizadas recientemente",
+      "updated_desc": "Actualizadas recientemente"
+    },
+    "list": {
+      "operator": "Operador: {{name}}",
+      "noMethods": "Sin método de ingestión",
+      "updated": "Actualizada {{date}}",
+      "total_one": "{{count}} fuente de anuncios",
+      "total_other": "{{count}} fuentes de anuncios",
+      "loadMore": "Cargar más",
+      "loadingMore": "Cargando…"
+    },
+    "fields": {
+      "listingSourceId": "ID de la fuente",
+      "immutableSlug": "Slug inmutable",
+      "name": "Nombre de la fuente",
+      "operator": "Organización operadora",
+      "operatorPartyId": "ID de la organización operadora",
+      "operatorName": "Nombre del nuevo operador",
+      "phone": "Teléfono",
+      "email": "Correo electrónico",
+      "ingestionMethods": "Métodos de ingestión",
+      "ingestionMethod": "Método de ingestión",
+      "ingestionConfiguration": "Configuración de ingestión",
+      "configurationType": "Tipo de configuración",
+      "fallbackCurrency": "Moneda alternativa (ISO 4217)",
+      "domain": "Dominio de Shopify",
+      "currency": "Moneda",
+      "language": "Idioma",
+      "webhookSecret": "Secreto del webhook de WooCommerce",
+      "url": "URL de presentación",
+      "image": "URL de la imagen de presentación",
+      "partnerizeCamref": "Referencia de campaña de Partnerize (camref)",
+      "referralConfiguration": "Configuración de referidos",
+      "created": "Creada",
+      "updated": "Última actualización",
+      "notProvided": "No indicado"
+    },
+    "methods": {
+      "WEB_CRAWL": "Rastreo web",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "API de socio"
+    },
+    "configurationTypes": {
+      "UNCONFIGURED": "Sin configurar",
+      "WEB_CRAWL": "Rastreo web",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "API de socio"
+    },
+    "operator": {
+      "existing": "Seleccionar una organización existente",
+      "new": "Crear una organización nueva"
+    },
+    "referral": {
+      "keep": "Mantener la configuración actual",
+      "set": "Configurar la referencia de Partnerize",
+      "clear": "Borrar la configuración de referidos",
+      "partnerizeValue": "Partnerize · {{camref}}"
+    },
+    "detail": {
+      "title": "Detalles de la fuente de anuncios",
+      "description": "Revise la identidad de la fuente, el operador y el resumen seguro de configuración. Nunca se muestran secretos del proveedor."
+    },
+    "form": {
+      "createTitle": "Crear fuente de anuncios",
+      "createDescription": "Cree una fuente y elija su operador y configuración de ingestión.",
+      "editTitle": "Editar fuente de anuncios",
+      "editDescription": "Cambie los datos de la fuente. El operador y el slug son inmutables.",
+      "configurationDescription": "Añada una configuración por cada método de ingestión. Las entradas sin configurar conservan el método sin ajustes del proveedor.",
+      "referralDescription": "Datos opcionales de referidos de Partnerize. Aquí no se guardan credenciales del proveedor.",
+      "replaceConfiguration": "Reemplazar la configuración de ingestión",
+      "incompleteConfigurationNotice": "La API de lectura no devuelve los valores de configuración. Déjelo desactivado para conservar los ajustes actuales. Al activarlo se reemplazan los ajustes de todos los métodos activos.",
+      "secretPreservationNotice": "Este secreto solo se puede escribir y nunca se vuelve a leer. Déjelo vacío para conservar un secreto existente; escriba un valor para configurarlo o renovarlo.",
+      "partnerApiConfiguration": "La configuración de la API de socio se gestiona mediante el flujo de integración de socios."
+    },
+    "actions": {
+      "create": "Crear fuente",
+      "details": "Ver detalles",
+      "edit": "Editar fuente",
+      "delete": "Eliminar fuente",
+      "retry": "Reintentar",
+      "cancel": "Cancelar",
+      "save": "Guardar cambios",
+      "saving": "Guardando…",
+      "addMethod": "Añadir método de ingestión",
+      "removeMethod": "Quitar",
+      "confirmDelete": "¿Eliminar esta fuente? No se pueden eliminar las fuentes con anuncios o relaciones conservadas. No se eliminarán las colaboraciones ni las solicitudes relacionadas.",
+      "confirmDeleteButton": "Eliminar fuente",
+      "deleting": "Eliminando…"
+    },
+    "success": {
+      "created": "Fuente de anuncios creada.",
+      "updated": "Fuente de anuncios actualizada.",
+      "deleted": "Fuente de anuncios eliminada."
+    },
+    "errors": {
+      "forbidden": "No tiene permiso para gestionar fuentes de anuncios.",
+      "missing": "No se encontró la fuente o ya no está disponible.",
+      "createConflict": "La fuente entra en conflicto con una configuración de proveedor existente. Revise las fuentes actuales e inténtelo de nuevo.",
+      "updateConflict": "La fuente cambió mientras la editaba. Vuelva a cargar los detalles antes de intentarlo de nuevo.",
+      "deleteConflict": "La fuente tiene anuncios o relaciones conservadas y no se pudo eliminar. No se eliminaron registros relacionados.",
+      "invalid": "Revise los datos de la fuente y la configuración de ingestión e inténtelo de nuevo.",
+      "requestFailed": "No se pudo completar la solicitud de la fuente. Inténtelo de nuevo."
+    },
+    "validation": {
+      "nameRequired": "Introduzca un nombre para la fuente.",
+      "nameTooLong": "El nombre no puede superar los 255 bytes UTF-8.",
+      "invalidEmail": "Introduzca un correo electrónico válido.",
+      "invalidUrl": "Introduzca una URL HTTP o HTTPS válida.",
+      "configurationRequired": "Añada al menos una configuración de ingestión.",
+      "operatorRequired": "Seleccione una organización operadora.",
+      "operatorNameRequired": "Introduzca el nombre de la nueva organización operadora.",
+      "duplicateMethod": "Cada método de ingestión solo se puede añadir una vez.",
+      "shopifyDomainRequired": "Introduzca el dominio de la tienda Shopify.",
+      "webhookSecretRequired": "Introduzca el secreto del webhook de WooCommerce.",
+      "camrefRequired": "Introduzca la referencia de campaña de Partnerize."
+    }
+  },
   "adminDashboard": {
     "loading": "Cargando…",
     "forbidden": {

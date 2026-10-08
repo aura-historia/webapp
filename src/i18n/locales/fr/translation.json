@@ -1364,6 +1364,152 @@
     "totalElements_other": "{{count}} notifications",
     "showAll": "Afficher toutes les notifications"
   },
+  "adminListingSources": {
+    "title": "Gestion des sources d’annonces",
+    "description": "Gérez les sources, leurs opérateurs, leurs informations de présentation et leur configuration d’ingestion.",
+    "loading": "Chargement des sources d’annonces.",
+    "loadingDetail": "Chargement de la source d’annonces.",
+    "empty": "Aucune source d’annonces ne correspond à ces filtres.",
+    "filters": {
+      "title": "Filtrer les sources d’annonces",
+      "query": "Nom ou opérateur",
+      "name": "Nom de la source",
+      "listingSourceId": "ID de la source",
+      "listingSourceSlugId": "Slug immuable",
+      "operatorPartyId": "ID de l’organisation opératrice",
+      "ingestionMethod": "Méthode d’ingestion",
+      "allMethods": "Toutes les méthodes",
+      "sort": "Trier par",
+      "apply": "Appliquer les filtres",
+      "reset": "Réinitialiser"
+    },
+    "sort": {
+      "name_asc": "Nom, A à Z",
+      "name_desc": "Nom, Z à A",
+      "slug_asc": "Slug, A à Z",
+      "slug_desc": "Slug, Z à A",
+      "created_asc": "Plus anciennes d’abord",
+      "created_desc": "Plus récentes d’abord",
+      "updated_asc": "Mises à jour les plus anciennes",
+      "updated_desc": "Mises à jour les plus récentes"
+    },
+    "list": {
+      "operator": "Opérateur : {{name}}",
+      "noMethods": "Aucune méthode d’ingestion",
+      "updated": "Mise à jour le {{date}}",
+      "total_one": "{{count}} source d’annonces",
+      "total_other": "{{count}} sources d’annonces",
+      "loadMore": "Afficher davantage",
+      "loadingMore": "Chargement…"
+    },
+    "fields": {
+      "listingSourceId": "ID de la source",
+      "immutableSlug": "Slug immuable",
+      "name": "Nom de la source",
+      "operator": "Organisation opératrice",
+      "operatorPartyId": "ID de l’organisation opératrice",
+      "operatorName": "Nom du nouvel opérateur",
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "ingestionMethods": "Méthodes d’ingestion",
+      "ingestionMethod": "Méthode d’ingestion",
+      "ingestionConfiguration": "Configuration d’ingestion",
+      "configurationType": "Type de configuration",
+      "fallbackCurrency": "Devise de repli (ISO 4217)",
+      "domain": "Domaine Shopify",
+      "currency": "Devise",
+      "language": "Langue",
+      "webhookSecret": "Secret du webhook WooCommerce",
+      "url": "URL de présentation",
+      "image": "URL de l’image de présentation",
+      "partnerizeCamref": "Référence de campagne Partnerize (camref)",
+      "referralConfiguration": "Configuration de parrainage",
+      "created": "Créée le",
+      "updated": "Dernière mise à jour",
+      "notProvided": "Non renseigné"
+    },
+    "methods": {
+      "WEB_CRAWL": "Exploration web",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "API partenaire"
+    },
+    "configurationTypes": {
+      "UNCONFIGURED": "Non configurée",
+      "WEB_CRAWL": "Exploration web",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "API partenaire"
+    },
+    "operator": {
+      "existing": "Sélectionner une organisation existante",
+      "new": "Créer une nouvelle organisation"
+    },
+    "referral": {
+      "keep": "Conserver le réglage actuel",
+      "set": "Définir la référence Partnerize",
+      "clear": "Effacer le réglage de parrainage",
+      "partnerizeValue": "Partnerize · {{camref}}"
+    },
+    "detail": {
+      "title": "Détails de la source d’annonces",
+      "description": "Consultez l’identité de la source, son opérateur et le résumé de configuration autorisé. Les secrets des fournisseurs ne sont jamais affichés."
+    },
+    "form": {
+      "createTitle": "Créer une source d’annonces",
+      "createDescription": "Créez une source et choisissez son opérateur et sa configuration d’ingestion.",
+      "editTitle": "Modifier la source d’annonces",
+      "editDescription": "Modifiez les informations de la source. L’opérateur et le slug sont immuables.",
+      "configurationDescription": "Ajoutez une configuration pour chaque méthode d’ingestion. Les entrées non configurées conservent la méthode sans réglages fournisseur.",
+      "referralDescription": "Informations Partnerize facultatives. Aucun identifiant fournisseur n’est stocké ici.",
+      "replaceConfiguration": "Remplacer la configuration d’ingestion",
+      "incompleteConfigurationNotice": "L’API de lecture ne renvoie pas les valeurs de configuration. Laissez cette option désactivée pour conserver les réglages actuels. Son activation remplace ceux de chaque méthode active.",
+      "secretPreservationNotice": "Ce secret est accessible en écriture uniquement et n’est jamais relu. Laissez-le vide pour conserver un secret existant ; saisissez une valeur pour le définir ou le renouveler.",
+      "partnerApiConfiguration": "La configuration de l’API partenaire est gérée par le processus d’intégration partenaire."
+    },
+    "actions": {
+      "create": "Créer la source",
+      "details": "Afficher les détails",
+      "edit": "Modifier la source",
+      "delete": "Supprimer la source",
+      "retry": "Réessayer",
+      "cancel": "Annuler",
+      "save": "Enregistrer les modifications",
+      "saving": "Enregistrement…",
+      "addMethod": "Ajouter une méthode d’ingestion",
+      "removeMethod": "Retirer",
+      "confirmDelete": "Supprimer cette source d’annonces ? Les sources associées à des annonces ou à des relations conservées ne peuvent pas être supprimées. Les partenariats et demandes associés ne seront pas supprimés.",
+      "confirmDeleteButton": "Supprimer la source",
+      "deleting": "Suppression…"
+    },
+    "success": {
+      "created": "Source d’annonces créée.",
+      "updated": "Source d’annonces mise à jour.",
+      "deleted": "Source d’annonces supprimée."
+    },
+    "errors": {
+      "forbidden": "Vous n’êtes pas autorisé à gérer les sources d’annonces.",
+      "missing": "Source d’annonces introuvable ou indisponible.",
+      "createConflict": "La source entre en conflit avec une configuration fournisseur existante. Vérifiez les sources actuelles avant de réessayer.",
+      "updateConflict": "Cette source a changé pendant sa modification. Rechargez ses détails avant de réessayer.",
+      "deleteConflict": "Cette source est associée à des annonces ou à des relations conservées et n’a pas pu être supprimée. Aucun élément associé n’a été supprimé.",
+      "invalid": "Vérifiez les informations de la source et ses paramètres d’ingestion, puis réessayez.",
+      "requestFailed": "La demande concernant la source n’a pas abouti. Veuillez réessayer."
+    },
+    "validation": {
+      "nameRequired": "Saisissez un nom de source.",
+      "nameTooLong": "Le nom de la source ne peut pas dépasser 255 octets UTF-8.",
+      "invalidEmail": "Saisissez une adresse e-mail valide.",
+      "invalidUrl": "Saisissez une URL HTTP ou HTTPS valide.",
+      "configurationRequired": "Ajoutez au moins une configuration d’ingestion.",
+      "operatorRequired": "Sélectionnez une organisation opératrice.",
+      "operatorNameRequired": "Saisissez le nom de la nouvelle organisation opératrice.",
+      "duplicateMethod": "Chaque méthode d’ingestion ne peut être ajoutée qu’une fois.",
+      "shopifyDomainRequired": "Saisissez le domaine de la boutique Shopify.",
+      "webhookSecretRequired": "Saisissez le secret du webhook WooCommerce.",
+      "camrefRequired": "Saisissez la référence de campagne Partnerize."
+    }
+  },
   "adminDashboard": {
     "loading": "Chargement…",
     "forbidden": {
