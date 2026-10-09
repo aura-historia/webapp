@@ -54,6 +54,8 @@ Two distinct flows exist; the privacy policy's "Newsletter and Marketing Communi
 - No hidden escalation: do not add background tracking, enrichment, sharing, or profiling without explicit review.
 - Retention: do not create new persistent storage without considering retention and deletion behavior.
 - Security: never expose bearer tokens, Cognito/session details, OAuth secrets, or unmasked access tokens in UI, logs, URLs, or analytics.
+- Admin access-token views must use the secret-free admin DTO and must never render raw, masked, hashed, or short-token values. Keep the private token list keyed by its explicit target user and use no-store requests.
+- Suspension reasons are sent only to the authorized admin suspension request and are logged by the backend for operations. Explain this before submission, reject blank or oversized reasons, and do not persist or log them in the client.
 - User rights: account deletion, privacy settings, unsubscribe, consent settings, and preference changes must remain functional.
 
 ## Privacy review steps

@@ -2496,6 +2496,62 @@
       "invalid": "Check the account fields and try again.",
       "requestFailed": "The user account request could not be completed. Please try again."
     },
+    "security": {
+      "title": "Account security",
+      "suspension": {
+        "title": "Account suspension",
+        "description": "Suspension blocks this account from authenticating. It does not revoke Aura access tokens or dissolve partnerships. The account detail does not include suspension status.",
+        "stateUnknown": "The current status is not available from account details. A status appears here only after a confirmed suspension action.",
+        "confirmedSuspended": "The latest action response confirms that this account is suspended.",
+        "confirmedActive": "The latest action response confirms that this account is active.",
+        "reason": "Reason for suspension",
+        "reasonHelp": "The backend records this reason in operational logs. Do not include passwords, tokens, credentials, or other secrets. Maximum 1,000 UTF-8 bytes.",
+        "reasonRequired": "Enter a reason for suspension.",
+        "reasonTooLong": "The reason must be 1,000 UTF-8 bytes or fewer.",
+        "unsuspendDescription": "Reactivation restores authentication for valid credentials. It does not issue new credentials.",
+        "selfSuspended": "Your session is ending. An administrator must reactivate your account before you can sign in again.",
+        "suspended": "The suspension response confirmed that the account is suspended.",
+        "unsuspended": "The reactivation response confirmed that the account is active."
+      },
+      "sessions": {
+        "title": "Cognito sessions",
+        "description": "Revoke this user's Cognito sessions. This signs them out across devices but does not revoke Aura access tokens or dissolve partnerships.",
+        "confirm": "Revoke all Cognito sessions for this user? They will need to sign in again.",
+        "selfRevoked": "Your sessions were revoked. Sign in again to continue.",
+        "revoked": "Cognito sessions were revoked. Aura access tokens and partnerships were not changed."
+      },
+      "tokens": {
+        "title": "Aura Historia access tokens",
+        "description": "Review and revoke this user's Aura Historia access tokens. These actions do not revoke Cognito sessions or dissolve partnerships.",
+        "loading": "Loading access-token metadata…",
+        "loadingMore": "Loading…",
+        "loadMore": "Load more tokens",
+        "empty": "This user has no access-token metadata to show.",
+        "origin": "Origin: {{origin}}",
+        "expires": "Expires: {{expires}}",
+        "confirmAll": "Revoke every Aura Historia access token belonging to this user?",
+        "confirmSingle": "Revoke “{{name}}” for this user?",
+        "revoked": "The selected Aura Historia token is no longer present for this user.",
+        "allRevoked": "All Aura Historia access tokens are revoked, or none were present."
+      },
+      "actions": {
+        "suspend": "Suspend account",
+        "suspending": "Suspending…",
+        "unsuspend": "Reactivate account",
+        "unsuspending": "Reactivating…",
+        "revokeSessions": "Revoke Cognito sessions",
+        "confirmSessionRevocation": "Revoke sessions",
+        "confirmTokenRevocation": "Revoke token",
+        "confirmAllTokenRevocation": "Revoke all tokens",
+        "revokeToken": "Revoke",
+        "revokeAllTokens": "Revoke all Aura tokens",
+        "revoking": "Revoking…"
+      },
+      "errors": {
+        "conflict": "The security state changed before the action completed. Reload the account and try again.",
+        "invalid": "Check the security action and try again."
+      }
+    },
     "validation": {
       "invalidEmail": "Enter a valid email address.",
       "nameTooLong": "Names must be 64 characters or fewer.",

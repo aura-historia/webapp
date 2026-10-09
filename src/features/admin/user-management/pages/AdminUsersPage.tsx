@@ -6,6 +6,7 @@ import type { AdminUserSummary } from "@/data/internal/admin/AdminUser.ts";
 import type { AdminUserFilters } from "../lib/adminUserSearch.ts";
 import { useAdminUsers } from "../api/useAdminUsers.ts";
 import { AdminUserDetailDialog } from "../components/AdminUserDetailDialog.tsx";
+import { AdminUserSecurityControls } from "../components/AdminUserSecurityControls.tsx";
 import { AdminUserFiltersForm } from "../components/AdminUserFiltersForm.tsx";
 
 export function AdminUsersPage({
@@ -98,7 +99,15 @@ export function AdminUsersPage({
                 )}
             </section>
 
-            <AdminUserDetailDialog userId={selectedUserId} onOpenChange={onDetailOpenChange} />
+            <AdminUserDetailDialog
+                userId={selectedUserId}
+                onOpenChange={onDetailOpenChange}
+                securityActions={
+                    selectedUserId ? (
+                        <AdminUserSecurityControls key={selectedUserId} userId={selectedUserId} />
+                    ) : null
+                }
+            />
         </main>
     );
 }

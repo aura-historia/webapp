@@ -21,7 +21,13 @@ secret. Preserve unseen configuration by omitting it from updates, and require a
 explicit replacement action before sending new settings. The operator and source slug
 are immutable on update. User search and detail use separate summary and account DTO
 mappings; user reads and mutations use `Cache-Control: no-store` requests and private
-query keys. All OAuth client requests use `Cache-Control: no-store`; list, detail and
+query keys. User security controls map suspension, Cognito session revocation, and Aura access-token
+metadata/revocation separately. The account detail DTO does not expose suspension state, so show only
+the state confirmed by a suspend/unsuspend response. Session revocation does not revoke Aura access
+tokens or dissolve partnerships. Admin token metadata must remain secret-free, target-user query keys
+must include the selected user ID, and token revocation requests must include that same explicit user
+ID. Suspension reasons are required operational-log input: validate the UTF-8 byte limit and do not
+retain or log the reason in the client. All OAuth client requests use `Cache-Control: no-store`; list, detail and
 update use secret-free DTOs. Creation alone returns a plaintext client secret, shown once
 and cleared when the dialog closes. The shared admin shell and navigation remain deferred to MIG-24;
 individual workflow routes stay protected by `AdminGuard` and backend authorization.
