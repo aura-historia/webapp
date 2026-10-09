@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -14,102 +15,158 @@ import {
     type AdminOverview,
     type AdminOverviewBreakdown,
 } from "@/data/internal/admin/AdminOverview.ts";
+import type { AdminSectionRoute } from "@/features/admin/common/components/AdminSidebar.tsx";
+import { cn } from "@/lib/utils.ts";
 import { useAdminOverview } from "../api/useAdminOverview.ts";
 
-type AdminSectionRoute =
-    | "/$lng/admin/users"
-    | "/$lng/admin/partnership-applications"
-    | "/$lng/admin/parties"
-    | "/$lng/admin/partnerships"
-    | "/$lng/admin/shops"
-    | "/$lng/admin/auctions"
-    | "/$lng/admin/oauth-clients";
-
-type CountRow = { readonly label: string; readonly value: number };
-
-function useCountFormatter(language: string) {
-    const formatter = new Intl.NumberFormat(language);
-    return (value: number) => formatter.format(value);
-}
-
-function CountList({
-    title,
-    note,
-    rows,
-    format,
-}: {
-    readonly title?: string;
-    readonly note?: string;
-    readonly rows: readonly CountRow[];
-    readonly format: (value: number) => string;
-}) {
-    return (
-        <div className="grid gap-2">
-            {title && <h3 className="text-sm font-medium">{title}</h3>}
-            {note && <p className="text-xs text-muted-foreground">{note}</p>}
-            <dl className="grid gap-1 text-sm">
-                {rows.map((row) => (
-                    <div key={row.label} className="flex items-baseline justify-between gap-3">
-                        <dt className="text-muted-foreground">{row.label}</dt>
-                        <dd className="font-medium tabular-nums">{format(row.value)}</dd>
-                    </div>
-                ))}
-            </dl>
-        </div>
-    );
-}
-
-function OverviewCard({
-    id,
-    title,
-    total,
-    totalLabel,
-    format,
-    language,
-    to,
-    linkLabel,
-    children,
-}: {
-    readonly id: string;
-    readonly title: string;
-    readonly total: number;
-    readonly totalLabel: string;
-    readonly format: (value: number) => string;
-    readonly language: string;
-    readonly to?: AdminSectionRoute;
-    readonly linkLabel?: string;
-    readonly children?: ReactNode;
-}) {
-    const titleId = `admin-overview-${id}-title`;
-    return (
-        <section className="grid content-start gap-4 border bg-card p-5" aria-labelledby={titleId}>
-            <div className="grid gap-1">
-                <h2 id={titleId} className="font-display text-xl italic">
-                    {title}
-                </h2>
-                <p className="flex items-baseline gap-2">
-                    <span className="text-3xl font-medium tabular-nums">{format(total)}</span>
-                    <span className="text-sm text-muted-foreground">{totalLabel}</span>
-                </p>
-            </div>
-            {children}
-            {to && linkLabel && (
-                <Button asChild variant="outline" className="w-fit">
-                    <Link to={to} params={{ lng: language }}>
-                        {linkLabel}
-                    </Link>
-                </Button>
-            )}
-        </section>
-    );
-}
+type Format = (value: number) => string;
+type CountRow = { readonly id: string; readonly label: string; readonly value: number };
 
 function rowsFor<Key extends string>(
     values: AdminOverviewBreakdown<Key>,
     keys: readonly Key[],
     label: (key: Key) => string,
 ): CountRow[] {
-    return keys.map((key) => ({ label: label(key), value: values[key] }));
+    return keys.map((key) => ({ id: key, label: label(key), value: values[key] }));
+}
+
+function SummaryTile({
+    label,
+    value,
+    detail,
+    format,
+    to,
+    language,
+}: {
+    readonly label: string;
+    readonly value: number;
+    readonly detail?: string;
+    readonly format: Format;
+    readonly to?: AdminSectionRoute;
+    readonly language: string;
+}) {
+    const body = (
+        <>
+            <span className="hyphens-auto break-words text-sm text-muted-foreground">{label}</span>
+            <span className="font-display text-3xl tabular-nums">{format(value)}</span>
+            {detail && <span className="text-xs text-muted-foreground">{detail}</span>}
+        </>
+    );
+    const className = "flex h-full flex-col gap-1 border border-border bg-card p-4";
+
+    return (
+        <li className="min-w-0">
+            {to ? (
+                <Link
+                    to={to}
+                    params={{ lng: language }}
+                    className={cn(
+                        className,
+                        "transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    )}
+                >
+                    {body}
+                </Link>
+            ) : (
+                <div className={className}>{body}</div>
+            )}
+        </li>
+    );
+}
+
+/**
+ * Rows with a share bar. `base` is the population each value is measured against; values
+ * are shown as reported and never summed.
+ */
+function Breakdown({
+    title,
+    note,
+    rows,
+    base,
+    format,
+    columns = 1,
+}: {
+    readonly title: string;
+    readonly note?: string;
+    readonly rows: readonly CountRow[];
+    readonly base: number;
+    readonly format: Format;
+    readonly columns?: 1 | 2;
+}) {
+    return (
+        <div className="grid content-start gap-3">
+            <div className="grid gap-0.5">
+                <h3 className="text-xs font-medium tracking-wider text-muted-foreground uppercase">
+                    {title}
+                </h3>
+                {note && <p className="text-xs text-muted-foreground">{note}</p>}
+            </div>
+            <dl className={cn("grid gap-x-8 gap-y-2.5", columns === 2 && "sm:grid-cols-2")}>
+                {rows.map((row) => {
+                    const share = base > 0 ? Math.min(row.value / base, 1) : 0;
+                    return (
+                        <div key={row.id} className="grid gap-1">
+                            <div
+                                className={cn(
+                                    "flex items-baseline justify-between gap-3 text-sm",
+                                    row.value === 0 && "text-muted-foreground",
+                                )}
+                            >
+                                <dt>{row.label}</dt>
+                                <dd className="font-medium tabular-nums">{format(row.value)}</dd>
+                            </div>
+                            <div className="h-0.5 bg-surface-container-high" aria-hidden="true">
+                                <div
+                                    className="h-full bg-primary/70"
+                                    style={{ width: `${share * 100}%` }}
+                                />
+                            </div>
+                        </div>
+                    );
+                })}
+            </dl>
+        </div>
+    );
+}
+
+function Panel({
+    id,
+    title,
+    action,
+    children,
+    className,
+}: {
+    readonly id: string;
+    readonly title: string;
+    readonly action?: { readonly to: AdminSectionRoute; readonly label: string; language: string };
+    readonly children: ReactNode;
+    readonly className?: string;
+}) {
+    const titleId = `admin-overview-${id}-title`;
+    return (
+        <section
+            aria-labelledby={titleId}
+            className={cn("flex flex-col gap-5 border border-border bg-card p-5", className)}
+        >
+            <h2 id={titleId} className="font-display text-xl italic">
+                {title}
+            </h2>
+            {children}
+            {action && (
+                // Pinned to the panel foot so links line up across equal-height panels.
+                <footer className="mt-auto border-t border-border pt-4">
+                    <Link
+                        to={action.to}
+                        params={{ lng: action.language }}
+                        className="inline-flex items-center gap-1 text-sm text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                        {action.label}
+                        <ArrowRight className="size-3.5" aria-hidden="true" />
+                    </Link>
+                </footer>
+            )}
+        </section>
+    );
 }
 
 function OverviewContent({
@@ -120,146 +177,214 @@ function OverviewContent({
     readonly language: string;
 }) {
     const { t } = useTranslation();
-    const format = useCountFormatter(language);
+    const formatter = new Intl.NumberFormat(language);
+    const format: Format = (value) => formatter.format(value);
     const { users, partnershipApplications, parties, partnerships, listingSources } = overview;
     const { productListings } = overview;
+    const applicationStates = partnershipApplications.byState;
+    const detail = (key: string, value: number) => `${t(key)}: ${format(value)}`;
 
     return (
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            <OverviewCard
-                id="users"
-                title={t("adminOverview.users.title")}
-                total={users.total}
-                totalLabel={t("adminOverview.totalLabel")}
-                format={format}
-                language={language}
-                to="/$lng/admin/users"
-                linkLabel={t("adminOverview.users.link")}
+        <div className="grid gap-6">
+            <ul
+                aria-label={t("adminOverview.summary.label")}
+                className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6"
             >
-                <CountList
-                    title={t("adminOverview.users.byTier")}
-                    rows={rowsFor(users.byTier, ADMIN_USER_TIER_KEYS, (key) =>
-                        t(`adminOverview.users.tiers.${key}`),
+                <SummaryTile
+                    label={t("adminOverview.users.title")}
+                    value={users.total}
+                    detail={detail("adminOverview.users.roles.admin", users.byRole.admin)}
+                    format={format}
+                    to="/$lng/admin/users"
+                    language={language}
+                />
+                <SummaryTile
+                    label={t("adminOverview.applications.title")}
+                    value={partnershipApplications.total}
+                    // Submitted and in-review are distinct states, so their sum is exact.
+                    detail={detail(
+                        "adminOverview.summary.awaitingReview",
+                        applicationStates.submitted + applicationStates.inReview,
                     )}
                     format={format}
+                    to="/$lng/admin/partnership-applications"
+                    language={language}
                 />
-                <CountList
-                    title={t("adminOverview.users.byRole")}
-                    rows={rowsFor(users.byRole, ADMIN_USER_ROLE_KEYS, (key) =>
-                        t(`adminOverview.users.roles.${key}`),
+                <SummaryTile
+                    label={t("adminOverview.partnerships.title")}
+                    value={partnerships.total}
+                    format={format}
+                    to="/$lng/admin/partnerships"
+                    language={language}
+                />
+                <SummaryTile
+                    label={t("adminOverview.parties.title")}
+                    value={parties.total}
+                    format={format}
+                    to="/$lng/admin/parties"
+                    language={language}
+                />
+                <SummaryTile
+                    label={t("adminOverview.listingSources.title")}
+                    value={listingSources.total}
+                    detail={detail(
+                        "adminOverview.listingSources.withoutIngestionMethod",
+                        listingSources.withoutIngestionMethod,
                     )}
                     format={format}
+                    to="/$lng/admin/shops"
+                    language={language}
                 />
-            </OverviewCard>
-
-            <OverviewCard
-                id="applications"
-                title={t("adminOverview.applications.title")}
-                total={partnershipApplications.total}
-                totalLabel={t("adminOverview.totalLabel")}
-                format={format}
-                language={language}
-                to="/$lng/admin/partnership-applications"
-                linkLabel={t("adminOverview.applications.link")}
-            >
-                <CountList
-                    title={t("adminOverview.applications.byState")}
-                    rows={rowsFor(
-                        partnershipApplications.byState,
-                        ADMIN_APPLICATION_STATE_KEYS,
-                        (key) => t(`adminOverview.applications.states.${key}`),
+                <SummaryTile
+                    label={t("adminOverview.productListings.title")}
+                    value={productListings.total}
+                    detail={detail(
+                        "adminOverview.productListings.lifecycle.active",
+                        productListings.byLifecycle.active,
                     )}
                     format={format}
+                    language={language}
                 />
-            </OverviewCard>
+            </ul>
 
-            <OverviewCard
-                id="listing-sources"
-                title={t("adminOverview.listingSources.title")}
-                total={listingSources.total}
-                totalLabel={t("adminOverview.totalLabel")}
-                format={format}
-                language={language}
-                to="/$lng/admin/shops"
-                linkLabel={t("adminOverview.listingSources.link")}
-            >
-                <CountList
-                    rows={[
-                        {
-                            label: t("adminOverview.listingSources.withoutIngestionMethod"),
-                            value: listingSources.withoutIngestionMethod,
-                        },
-                    ]}
-                    format={format}
-                />
-                <CountList
-                    title={t("adminOverview.listingSources.methodAssignments")}
-                    note={t("adminOverview.listingSources.methodAssignmentsNote")}
-                    rows={rowsFor(
-                        listingSources.methodAssignments,
-                        ADMIN_INGESTION_METHOD_KEYS,
-                        (key) => t(`adminOverview.listingSources.methods.${key}`),
-                    )}
-                    format={format}
-                />
-            </OverviewCard>
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                <Panel
+                    id="users"
+                    title={t("adminOverview.users.title")}
+                    action={{
+                        to: "/$lng/admin/users",
+                        label: t("adminOverview.users.link"),
+                        language,
+                    }}
+                >
+                    <div className="grid gap-6">
+                        <Breakdown
+                            title={t("adminOverview.users.byTier")}
+                            rows={rowsFor(users.byTier, ADMIN_USER_TIER_KEYS, (key) =>
+                                t(`adminOverview.users.tiers.${key}`),
+                            )}
+                            base={users.total}
+                            format={format}
+                        />
+                        <Breakdown
+                            title={t("adminOverview.users.byRole")}
+                            rows={rowsFor(users.byRole, ADMIN_USER_ROLE_KEYS, (key) =>
+                                t(`adminOverview.users.roles.${key}`),
+                            )}
+                            base={users.total}
+                            format={format}
+                        />
+                    </div>
+                </Panel>
 
-            <OverviewCard
-                id="parties"
-                title={t("adminOverview.parties.title")}
-                total={parties.total}
-                totalLabel={t("adminOverview.totalLabel")}
-                format={format}
-                language={language}
-                to="/$lng/admin/parties"
-                linkLabel={t("adminOverview.parties.link")}
-            />
+                <Panel
+                    id="applications"
+                    title={t("adminOverview.applications.title")}
+                    action={{
+                        to: "/$lng/admin/partnership-applications",
+                        label: t("adminOverview.applications.link"),
+                        language,
+                    }}
+                >
+                    <Breakdown
+                        title={t("adminOverview.applications.byState")}
+                        rows={rowsFor(applicationStates, ADMIN_APPLICATION_STATE_KEYS, (key) =>
+                            t(`adminOverview.applications.states.${key}`),
+                        )}
+                        base={partnershipApplications.total}
+                        format={format}
+                    />
+                </Panel>
 
-            <OverviewCard
-                id="partnerships"
-                title={t("adminOverview.partnerships.title")}
-                total={partnerships.total}
-                totalLabel={t("adminOverview.totalLabel")}
-                format={format}
-                language={language}
-                to="/$lng/admin/partnerships"
-                linkLabel={t("adminOverview.partnerships.link")}
-            />
+                <Panel
+                    id="listing-sources"
+                    title={t("adminOverview.listingSources.title")}
+                    action={{
+                        to: "/$lng/admin/shops",
+                        label: t("adminOverview.listingSources.link"),
+                        language,
+                    }}
+                >
+                    <Breakdown
+                        title={t("adminOverview.listingSources.methodAssignments")}
+                        note={t("adminOverview.listingSources.methodAssignmentsNote")}
+                        rows={[
+                            ...rowsFor(
+                                listingSources.methodAssignments,
+                                ADMIN_INGESTION_METHOD_KEYS,
+                                (key) => t(`adminOverview.listingSources.methods.${key}`),
+                            ),
+                            {
+                                id: "withoutIngestionMethod",
+                                label: t("adminOverview.listingSources.withoutIngestionMethod"),
+                                value: listingSources.withoutIngestionMethod,
+                            },
+                        ]}
+                        base={listingSources.total}
+                        format={format}
+                    />
+                </Panel>
 
-            <OverviewCard
-                id="product-listings"
-                title={t("adminOverview.productListings.title")}
-                total={productListings.total}
-                totalLabel={t("adminOverview.totalLabel")}
-                format={format}
-                language={language}
-            >
-                <CountList
-                    title={t("adminOverview.productListings.byLifecycle")}
-                    rows={rowsFor(
-                        productListings.byLifecycle,
-                        ADMIN_LISTING_LIFECYCLE_KEYS,
-                        (key) => t(`adminOverview.productListings.lifecycle.${key}`),
-                    )}
-                    format={format}
-                />
-                <CountList
-                    title={t("adminOverview.productListings.activeAvailability")}
-                    note={t("adminOverview.productListings.activeAvailabilityNote")}
-                    rows={[
-                        ...rowsFor(
-                            productListings.activeAvailability,
-                            ADMIN_LISTING_AVAILABILITY_KEYS,
-                            (key) => t(`adminOverview.productListings.availability.${key}`),
-                        ),
-                        {
-                            label: t("adminOverview.productListings.activeWithoutAvailability"),
-                            value: productListings.activeWithoutAvailability,
-                        },
-                    ]}
-                    format={format}
-                />
-            </OverviewCard>
+                <Panel
+                    id="product-listings"
+                    title={t("adminOverview.productListings.title")}
+                    className="md:col-span-2 xl:col-span-3"
+                >
+                    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+                        <Breakdown
+                            title={t("adminOverview.productListings.byLifecycle")}
+                            rows={rowsFor(
+                                productListings.byLifecycle,
+                                ADMIN_LISTING_LIFECYCLE_KEYS,
+                                (key) => t(`adminOverview.productListings.lifecycle.${key}`),
+                            )}
+                            base={productListings.total}
+                            format={format}
+                        />
+                        <Breakdown
+                            title={t("adminOverview.productListings.activeAvailability")}
+                            note={t("adminOverview.productListings.activeAvailabilityNote")}
+                            rows={[
+                                ...rowsFor(
+                                    productListings.activeAvailability,
+                                    ADMIN_LISTING_AVAILABILITY_KEYS,
+                                    (key) => t(`adminOverview.productListings.availability.${key}`),
+                                ),
+                                {
+                                    id: "activeWithoutAvailability",
+                                    label: t(
+                                        "adminOverview.productListings.activeWithoutAvailability",
+                                    ),
+                                    value: productListings.activeWithoutAvailability,
+                                },
+                            ]}
+                            base={productListings.byLifecycle.active}
+                            format={format}
+                            columns={2}
+                        />
+                    </div>
+                </Panel>
+            </div>
+        </div>
+    );
+}
+
+function OverviewSkeleton() {
+    const { t } = useTranslation();
+    return (
+        <div className="grid gap-6" aria-busy="true">
+            <output className="sr-only">{t("adminOverview.loading")}</output>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
+                {[0, 1, 2, 3, 4, 5].map((index) => (
+                    <Skeleton key={index} className="h-24 w-full" />
+                ))}
+            </div>
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                {[0, 1, 2].map((index) => (
+                    <Skeleton key={index} className="h-72 w-full" />
+                ))}
+                <Skeleton className="h-80 w-full md:col-span-2 xl:col-span-3" />
+            </div>
         </div>
     );
 }
@@ -291,46 +416,16 @@ export function AdminOverviewPage({ language }: { readonly language: string }) {
             </div>
         );
     } else {
-        content = (
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3" aria-busy="true">
-                <output className="sr-only">{t("adminOverview.loading")}</output>
-                {[0, 1, 2, 3, 4, 5].map((index) => (
-                    <Skeleton key={index} className="h-48 w-full" />
-                ))}
-            </div>
-        );
+        content = <OverviewSkeleton />;
     }
 
-    const otherSections: { to: AdminSectionRoute; label: string }[] = [
-        { to: "/$lng/admin/auctions", label: t("adminOverview.otherSections.auctions") },
-        { to: "/$lng/admin/oauth-clients", label: t("adminOverview.otherSections.oauthClients") },
-    ];
-
     return (
-        <main className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-8 sm:px-6">
+        <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-8 sm:px-6">
             <header className="grid gap-1">
                 <H1>{t("adminOverview.title")}</H1>
                 <p className="max-w-3xl text-muted-foreground">{t("adminOverview.description")}</p>
             </header>
-
             {content}
-
-            <nav aria-labelledby="admin-overview-other-title" className="grid gap-3">
-                <h2 id="admin-overview-other-title" className="font-display text-xl italic">
-                    {t("adminOverview.otherSections.title")}
-                </h2>
-                <ul className="flex flex-wrap gap-2">
-                    {otherSections.map((section) => (
-                        <li key={section.to}>
-                            <Button asChild variant="outline">
-                                <Link to={section.to} params={{ lng: language }}>
-                                    {section.label}
-                                </Link>
-                            </Button>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
-        </main>
+        </div>
     );
 }

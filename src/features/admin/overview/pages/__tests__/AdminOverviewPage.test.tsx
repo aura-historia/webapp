@@ -29,6 +29,12 @@ function card(titleKey: string) {
     return screen.getByRole("region", { name: t(titleKey) });
 }
 
+function summaryTile(labelKey: string) {
+    const totals = screen.getByRole("list", { name: t("adminOverview.summary.label") });
+    const label = within(totals).getByText(t(labelKey));
+    return label.closest("li") as HTMLElement;
+}
+
 function countFor(region: HTMLElement, labelKey: string) {
     const term = within(region).getByText(t(labelKey), { selector: "dt" });
     return term.nextElementSibling?.textContent;
@@ -39,21 +45,37 @@ describe("AdminOverviewPage", () => {
         vi.clearAllMocks();
     });
 
-    it("renders aggregate totals, breakdowns and explicit zero counts", () => {
+    function renderLoaded() {
         api.useAdminOverview.mockReturnValue({ data: overview, error: null, isPending: false });
-
         render(<AdminOverviewPage language="de" />);
+    }
+
+    it("summarises each aggregate total, including zero", () => {
+        renderLoaded();
+
+        expect(within(summaryTile("adminOverview.users.title")).getByText("12")).toBeTruthy();
+        expect(
+            within(summaryTile("adminOverview.applications.title")).getByText(
+                `${t("adminOverview.summary.awaitingReview")}: 3`,
+            ),
+        ).toBeTruthy();
+        expect(within(summaryTile("adminOverview.parties.title")).getByText("0")).toBeTruthy();
+        expect(within(summaryTile("adminOverview.partnerships.title")).getByText("2")).toBeTruthy();
+        expect(
+            within(summaryTile("adminOverview.productListings.title")).getByText("40"),
+        ).toBeTruthy();
+    });
+
+    it("renders breakdowns with explicit zero counts", () => {
+        renderLoaded();
 
         const users = card("adminOverview.users.title");
-        expect(within(users).getByText("12")).toBeTruthy();
         expect(countFor(users, "adminOverview.users.tiers.free")).toBe("9");
         expect(countFor(users, "adminOverview.users.roles.admin")).toBe("1");
 
         const applications = card("adminOverview.applications.title");
         expect(countFor(applications, "adminOverview.applications.states.inReview")).toBe("1");
         expect(countFor(applications, "adminOverview.applications.states.rejected")).toBe("0");
-
-        expect(within(card("adminOverview.parties.title")).getByText("0")).toBeTruthy();
 
         const listings = card("adminOverview.productListings.title");
         expect(countFor(listings, "adminOverview.productListings.lifecycle.withdrawn")).toBe("10");
@@ -63,37 +85,46 @@ describe("AdminOverviewPage", () => {
         );
     });
 
-    it("shows overlapping method assignments next to the distinct source total", () => {
-        api.useAdminOverview.mockReturnValue({ data: overview, error: null, isPending: false });
+    it("shows overlapping method assignments without summing them into a source total", () => {
+        renderLoaded();
 
-        render(<AdminOverviewPage language="de" />);
-
+        expect(
+            within(summaryTile("adminOverview.listingSources.title")).getByText("3"),
+        ).toBeTruthy();
         const sources = card("adminOverview.listingSources.title");
-        // Three sources, four assignments: the total is shown as reported, not summed.
-        expect(within(sources).getByText("3")).toBeTruthy();
+        // Three sources, four assignments: no summed figure appears.
         expect(within(sources).queryByText("4")).toBeNull();
         expect(countFor(sources, "adminOverview.listingSources.methods.webCrawl")).toBe("2");
         expect(countFor(sources, "adminOverview.listingSources.methods.partnerApi")).toBe("1");
+        expect(countFor(sources, "adminOverview.listingSources.withoutIngestionMethod")).toBe("1");
         expect(
             within(sources).getByText(t("adminOverview.listingSources.methodAssignmentsNote")),
         ).toBeTruthy();
     });
 
-    it("links every section to its migrated admin route", () => {
-        api.useAdminOverview.mockReturnValue({ data: overview, error: null, isPending: false });
+    it("links totals and panels to their migrated admin routes", () => {
+        renderLoaded();
 
-        render(<AdminOverviewPage language="de" />);
+        const tiles: [string, string][] = [
+            ["adminOverview.users.title", "/de/admin/users"],
+            ["adminOverview.applications.title", "/de/admin/partnership-applications"],
+            ["adminOverview.partnerships.title", "/de/admin/partnerships"],
+            ["adminOverview.parties.title", "/de/admin/parties"],
+            ["adminOverview.listingSources.title", "/de/admin/shops"],
+        ];
+        for (const [key, href] of tiles) {
+            expect(within(summaryTile(key)).getByRole("link").getAttribute("href")).toBe(href);
+        }
+        expect(
+            within(summaryTile("adminOverview.productListings.title")).queryByRole("link"),
+        ).toBeNull();
 
-        const expected: [string, string][] = [
+        const panels: [string, string][] = [
             ["adminOverview.users.link", "/de/admin/users"],
             ["adminOverview.applications.link", "/de/admin/partnership-applications"],
             ["adminOverview.listingSources.link", "/de/admin/shops"],
-            ["adminOverview.parties.link", "/de/admin/parties"],
-            ["adminOverview.partnerships.link", "/de/admin/partnerships"],
-            ["adminOverview.otherSections.auctions", "/de/admin/auctions"],
-            ["adminOverview.otherSections.oauthClients", "/de/admin/oauth-clients"],
         ];
-        for (const [key, href] of expected) {
+        for (const [key, href] of panels) {
             expect(screen.getByRole("link", { name: t(key) }).getAttribute("href")).toBe(href);
         }
     });
@@ -139,6 +170,6 @@ describe("AdminOverviewPage", () => {
         render(<AdminOverviewPage language="de" />);
 
         expect(screen.getByRole("alert").textContent).toBe(t("adminOverview.errors.stale"));
-        expect(within(card("adminOverview.users.title")).getByText("12")).toBeTruthy();
+        expect(within(summaryTile("adminOverview.users.title")).getByText("12")).toBeTruthy();
     });
 });

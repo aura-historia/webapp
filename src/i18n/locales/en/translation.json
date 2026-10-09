@@ -2243,8 +2243,26 @@
         "soldOut": "Sold out"
       }
     },
-    "otherSections": {
-      "title": "Other admin sections",
+    "summary": {
+      "label": "Totals",
+      "awaitingReview": "Awaiting review"
+    }
+  },
+  "adminNavigation": {
+    "label": "Admin sections",
+    "groups": {
+      "general": "General",
+      "partners": "Partners",
+      "catalogue": "Catalogue",
+      "integrations": "Integrations"
+    },
+    "items": {
+      "overview": "Overview",
+      "users": "Users",
+      "applications": "Applications",
+      "partnerships": "Partnerships",
+      "organizations": "Organizations",
+      "listingSources": "Listing sources",
       "auctions": "Auctions",
       "oauthClients": "OAuth clients"
     }

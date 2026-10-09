@@ -1739,8 +1739,26 @@
         "soldOut": "Vendido"
       }
     },
-    "otherSections": {
-      "title": "Otras secciones de administración",
+    "summary": {
+      "label": "Totales",
+      "awaitingReview": "Pendientes de revisión"
+    }
+  },
+  "adminNavigation": {
+    "label": "Secciones de administración",
+    "groups": {
+      "general": "General",
+      "partners": "Socios",
+      "catalogue": "Catálogo",
+      "integrations": "Integraciones"
+    },
+    "items": {
+      "overview": "Resumen",
+      "users": "Usuarios",
+      "applications": "Solicitudes",
+      "partnerships": "Colaboraciones",
+      "organizations": "Organizaciones",
+      "listingSources": "Fuentes de anuncios",
       "auctions": "Subastas",
       "oauthClients": "Clientes OAuth"
     }
