@@ -2060,6 +2060,8 @@
       "grantMembership": "Mitgliedschaft vergeben",
       "revokeMembership": "Mitgliedschaft entziehen",
       "revoke": "Entziehen",
+      "revokeMemberFor": "Mitgliedschaft für User-ID {{id}} entziehen",
+      "revokeSourceFor": "Zugriff auf Anbieter-ID {{id}} entziehen",
       "grantSource": "Zugriff vergeben",
       "revokeSource": "Zugriff entziehen",
       "cancel": "Abbrechen",
@@ -2075,7 +2077,8 @@
       "listingSources_one": "{{count}} Anbieterzugriff",
       "listingSources_other": "{{count}} Anbieterzugriffe",
       "referencesShown": "Angezeigte Kennungen: {{shown}}. Vollständige Anzahl: {{count}}.",
-      "noReferences": "Keine Kennungen geladen."
+      "noReferences": "Keine Kennungen geladen.",
+      "close": "Schließen"
     },
     "members": {
       "title": "Mitgliedschaften verwalten",

@@ -1556,6 +1556,8 @@
       "grantMembership": "Concedi appartenenza",
       "revokeMembership": "Revoca appartenenza",
       "revoke": "Revoca",
+      "revokeMemberFor": "Revoca appartenenza dell'utente {{id}}",
+      "revokeSourceFor": "Revoca accesso alla fonte annunci {{id}}",
       "grantSource": "Concedi accesso",
       "revokeSource": "Revoca accesso",
       "cancel": "Annulla",
@@ -1571,7 +1573,8 @@
       "listingSources_one": "{{count}} accesso fonte",
       "listingSources_other": "{{count}} accessi fonte",
       "referencesShown": "Identificativi mostrati: {{shown}}. Conteggio completo: {{count}}.",
-      "noReferences": "Nessun identificativo restituito."
+      "noReferences": "Nessun identificativo restituito.",
+      "close": "Chiudi"
     },
     "members": {
       "title": "Gestisci le appartenenze",

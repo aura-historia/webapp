@@ -1556,6 +1556,8 @@
       "grantMembership": "Accorder l'adhésion",
       "revokeMembership": "Révoquer l'adhésion",
       "revoke": "Révoquer",
+      "revokeMemberFor": "Révoquer l'adhésion de l'utilisateur {{id}}",
+      "revokeSourceFor": "Révoquer l'accès à la source {{id}}",
       "grantSource": "Accorder l'accès",
       "revokeSource": "Révoquer l'accès",
       "cancel": "Annuler",
@@ -1571,7 +1573,8 @@
       "listingSources_one": "{{count}} autorisation de source",
       "listingSources_other": "{{count}} autorisations de source",
       "referencesShown": "Identifiants affichés : {{shown}}. Nombre total : {{count}}.",
-      "noReferences": "Aucun identifiant n'a été renvoyé."
+      "noReferences": "Aucun identifiant n'a été renvoyé.",
+      "close": "Fermer"
     },
     "members": {
       "title": "Gérer les adhésions",

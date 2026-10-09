@@ -2060,6 +2060,8 @@
       "grantMembership": "Grant membership",
       "revokeMembership": "Revoke membership",
       "revoke": "Revoke",
+      "revokeMemberFor": "Revoke membership for user {{id}}",
+      "revokeSourceFor": "Revoke access to listing source {{id}}",
       "grantSource": "Grant access",
       "revokeSource": "Revoke access",
       "cancel": "Cancel",
@@ -2075,7 +2077,8 @@
       "listingSources_one": "{{count}} source grant",
       "listingSources_other": "{{count}} source grants",
       "referencesShown": "Identifiers shown: {{shown}}. Complete count: {{count}}.",
-      "noReferences": "No identifiers were returned."
+      "noReferences": "No identifiers were returned.",
+      "close": "Close"
     },
     "members": {
       "title": "Manage memberships",

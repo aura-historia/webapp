@@ -51,12 +51,14 @@ function PartnershipReferenceList({
     count,
     ids,
     onRevoke,
+    revokeLabel,
     isRevoking,
 }: {
     readonly title: string;
     readonly count: number;
     readonly ids: readonly string[];
     readonly onRevoke: (id: string) => void;
+    readonly revokeLabel: (id: string) => string;
     readonly isRevoking: boolean;
 }) {
     const { t } = useTranslation();
@@ -83,6 +85,7 @@ function PartnershipReferenceList({
                                 variant="outline"
                                 size="sm"
                                 disabled={isRevoking}
+                                aria-label={revokeLabel(id)}
                                 onClick={() => onRevoke(id)}
                             >
                                 {t("adminPartnerships.actions.revoke")}
@@ -282,7 +285,10 @@ export function AdminPartnershipDetailDialog({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-4xl">
+            <DialogContent
+                className="max-h-[90vh] overflow-y-auto sm:max-w-4xl"
+                closeLabel={t("adminPartnerships.detail.close")}
+            >
                 <DialogHeader>
                     <DialogTitle>
                         {partnership?.party.name ?? t("adminPartnerships.detail.title")}
@@ -316,6 +322,9 @@ export function AdminPartnershipDetailDialog({
                                 count={partnership.memberCount}
                                 ids={partnership.memberUserIds}
                                 onRevoke={revokeMember}
+                                revokeLabel={(id) =>
+                                    t("adminPartnerships.actions.revokeMemberFor", { id })
+                                }
                                 isRevoking={memberMutationPending}
                             />
                             <PartnershipReferenceList
@@ -325,6 +334,9 @@ export function AdminPartnershipDetailDialog({
                                 count={partnership.listingSourceGrantCount}
                                 ids={partnership.listingSourceIds}
                                 onRevoke={revokeListingSource}
+                                revokeLabel={(id) =>
+                                    t("adminPartnerships.actions.revokeSourceFor", { id })
+                                }
                                 isRevoking={sourceMutationPending}
                             />
                         </div>
@@ -351,9 +363,18 @@ export function AdminPartnershipDetailDialog({
                                         autoComplete="off"
                                         spellCheck={false}
                                         aria-invalid={Boolean(memberForm.formState.errors.id)}
+                                        aria-describedby={
+                                            memberForm.formState.errors.id
+                                                ? "admin-partnership-member-id-error"
+                                                : undefined
+                                        }
                                     />
                                     {memberForm.formState.errors.id && (
-                                        <p className="text-sm text-destructive">
+                                        <p
+                                            id="admin-partnership-member-id-error"
+                                            role="alert"
+                                            className="text-sm text-destructive"
+                                        >
                                             {memberForm.formState.errors.id.message}
                                         </p>
                                     )}
@@ -403,9 +424,18 @@ export function AdminPartnershipDetailDialog({
                                         aria-invalid={Boolean(
                                             listingSourceForm.formState.errors.id,
                                         )}
+                                        aria-describedby={
+                                            listingSourceForm.formState.errors.id
+                                                ? "admin-partnership-listing-source-id-error"
+                                                : undefined
+                                        }
                                     />
                                     {listingSourceForm.formState.errors.id && (
-                                        <p className="text-sm text-destructive">
+                                        <p
+                                            id="admin-partnership-listing-source-id-error"
+                                            role="alert"
+                                            className="text-sm text-destructive"
+                                        >
                                             {listingSourceForm.formState.errors.id.message}
                                         </p>
                                     )}

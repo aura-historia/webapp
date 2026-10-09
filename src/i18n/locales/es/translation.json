@@ -1556,6 +1556,8 @@
       "grantMembership": "Conceder membresía",
       "revokeMembership": "Revocar membresía",
       "revoke": "Revocar",
+      "revokeMemberFor": "Revocar membresía del usuario {{id}}",
+      "revokeSourceFor": "Revocar acceso a la fuente de anuncios {{id}}",
       "grantSource": "Conceder acceso",
       "revokeSource": "Revocar acceso",
       "cancel": "Cancelar",
@@ -1571,7 +1573,8 @@
       "listingSources_one": "{{count}} acceso a fuentes",
       "listingSources_other": "{{count}} accesos a fuentes",
       "referencesShown": "Identificadores mostrados: {{shown}}. Recuento completo: {{count}}.",
-      "noReferences": "No se han devuelto identificadores."
+      "noReferences": "No se han devuelto identificadores.",
+      "close": "Cerrar"
     },
     "members": {
       "title": "Gestionar membresías",
