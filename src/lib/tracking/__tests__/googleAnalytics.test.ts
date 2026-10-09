@@ -213,6 +213,20 @@ describe("GoogleAnalytics.sendPageView", () => {
         });
     });
 
+    it.each([
+        "/en/newsletter/confirm",
+        "/de/newsletter/confirm/",
+        "/xx/newsletter/confirm",
+        "/en/xx/newsletter/confirm",
+    ])("sends no page view for the newsletter confirmation page %s", async (path) => {
+        import.meta.env.SSR = false;
+        const ga = await freshGA();
+
+        ga.sendPageView(path, "en", {});
+
+        expect(ReactGA.send).not.toHaveBeenCalled();
+    });
+
     it("omits all search parameters from admin page views", async () => {
         import.meta.env.SSR = false;
         const ga = await freshGA();

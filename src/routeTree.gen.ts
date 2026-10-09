@@ -23,6 +23,7 @@ import { Route as LngTermsAndConditionsRouteImport } from './routes/$lng.terms-a
 import { Route as LngAuthAdminRouteImport } from './routes/$lng._auth.admin'
 import { Route as LngAuthPartnersRouteImport } from './routes/$lng._auth.partners'
 import { Route as LngCompareBarnebysRouteImport } from './routes/$lng.compare.barnebys'
+import { Route as LngNewsletterConfirmRouteImport } from './routes/$lng.newsletter.confirm'
 import { Route as LngPartnerProgramIndexRouteImport } from './routes/$lng.partner-program.index'
 import { Route as LngPartnerProgramApplyRouteImport } from './routes/$lng.partner-program.apply'
 import { Route as LngPartnerProgramCustomIntegrationRouteImport } from './routes/$lng.partner-program.custom-integration'
@@ -118,6 +119,11 @@ const LngAuthPartnersRoute = LngAuthPartnersRouteImport.update({
 const LngCompareBarnebysRoute = LngCompareBarnebysRouteImport.update({
   id: '/compare/barnebys',
   path: '/compare/barnebys',
+  getParentRoute: () => LngRoute,
+} as any)
+const LngNewsletterConfirmRoute = LngNewsletterConfirmRouteImport.update({
+  id: '/newsletter/confirm',
+  path: '/newsletter/confirm',
   getParentRoute: () => LngRoute,
 } as any)
 const LngPartnerProgramIndexRoute = LngPartnerProgramIndexRouteImport.update({
@@ -281,6 +287,7 @@ export interface FileRoutesByFullPath {
   '/$lng/admin': typeof LngAuthAdminRouteWithChildren
   '/$lng/partners': typeof LngAuthPartnersRouteWithChildren
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
+  '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
   '/$lng/products/$productListingTitleSlugId': typeof LngProductsProductListingTitleSlugIdRoute
@@ -319,6 +326,7 @@ export interface FileRoutesByTo {
   '/$lng/search': typeof LngSearchRoute
   '/$lng/terms-and-conditions': typeof LngTermsAndConditionsRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
+  '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
   '/$lng/products/$productListingTitleSlugId': typeof LngProductsProductListingTitleSlugIdRoute
@@ -363,6 +371,7 @@ export interface FileRoutesById {
   '/$lng/_auth/admin': typeof LngAuthAdminRouteWithChildren
   '/$lng/_auth/partners': typeof LngAuthPartnersRouteWithChildren
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
+  '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
   '/$lng/products/$productListingTitleSlugId': typeof LngProductsProductListingTitleSlugIdRoute
@@ -407,6 +416,7 @@ export interface FileRouteTypes {
     | '/$lng/admin'
     | '/$lng/partners'
     | '/$lng/compare/barnebys'
+    | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
     | '/$lng/products/$productListingTitleSlugId'
@@ -445,6 +455,7 @@ export interface FileRouteTypes {
     | '/$lng/search'
     | '/$lng/terms-and-conditions'
     | '/$lng/compare/barnebys'
+    | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
     | '/$lng/products/$productListingTitleSlugId'
@@ -488,6 +499,7 @@ export interface FileRouteTypes {
     | '/$lng/_auth/admin'
     | '/$lng/_auth/partners'
     | '/$lng/compare/barnebys'
+    | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
     | '/$lng/products/$productListingTitleSlugId'
@@ -621,6 +633,13 @@ declare module '@tanstack/react-router' {
       path: '/compare/barnebys'
       fullPath: '/$lng/compare/barnebys'
       preLoaderRoute: typeof LngCompareBarnebysRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/newsletter/confirm': {
+      id: '/$lng/newsletter/confirm'
+      path: '/newsletter/confirm'
+      fullPath: '/$lng/newsletter/confirm'
+      preLoaderRoute: typeof LngNewsletterConfirmRouteImport
       parentRoute: typeof LngRoute
     }
     '/$lng/partner-program/': {
@@ -915,6 +934,7 @@ interface LngRouteChildren {
   LngTermsAndConditionsRoute: typeof LngTermsAndConditionsRoute
   LngIndexRoute: typeof LngIndexRoute
   LngCompareBarnebysRoute: typeof LngCompareBarnebysRoute
+  LngNewsletterConfirmRoute: typeof LngNewsletterConfirmRoute
   LngProductsProductListingTitleSlugIdRoute: typeof LngProductsProductListingTitleSlugIdRoute
   LngSearchShopsRoute: typeof LngSearchShopsRoute
   LngShopsShopSlugIdIndexRoute: typeof LngShopsShopSlugIdIndexRoute
@@ -932,6 +952,7 @@ const LngRouteChildren: LngRouteChildren = {
   LngTermsAndConditionsRoute: LngTermsAndConditionsRoute,
   LngIndexRoute: LngIndexRoute,
   LngCompareBarnebysRoute: LngCompareBarnebysRoute,
+  LngNewsletterConfirmRoute: LngNewsletterConfirmRoute,
   LngProductsProductListingTitleSlugIdRoute:
     LngProductsProductListingTitleSlugIdRoute,
   LngSearchShopsRoute: LngSearchShopsRoute,
