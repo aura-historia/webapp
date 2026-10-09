@@ -30,6 +30,7 @@ import {
     mapToListingSourceReference,
     mapToAdminListingSourceSearchQuery,
 } from "@/data/internal/listing-source/AdminListingSource.ts";
+import { ADMIN_OVERVIEW_QUERY_KEY } from "@/features/admin/overview/api/useAdminOverview.ts";
 
 export const ADMIN_LISTING_SOURCES_QUERY_KEY = ["admin", "listing-sources"] as const;
 export const adminListingSourceListQueryKey = (filters: AdminListingSourceFilters) =>
@@ -167,7 +168,7 @@ function invalidateListingSourceRelatedData(
     for (const queryKey of [
         ["admin", "partnership-applications"],
         ["admin", "partnerships"],
-        ["admin", "overview"],
+        ADMIN_OVERVIEW_QUERY_KEY,
     ] as const) {
         void queryClient.invalidateQueries({ queryKey });
     }

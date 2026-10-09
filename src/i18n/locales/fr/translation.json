@@ -1655,6 +1655,113 @@
       "description": "Vous n'avez pas la permission de voir le tableau de bord administrateur. Connectez-vous avec un compte administrateur."
     }
   },
+  "adminOverview": {
+    "title": "Vue d’ensemble de l’administration",
+    "description": "Chiffres actuels de la plateforme issus de la base de données de référence. Les valeurs correspondent au moment du chargement de la page.",
+    "loading": "Chargement de la vue d’ensemble.",
+    "actions": {
+      "retry": "Réessayer"
+    },
+    "errors": {
+      "forbidden": "Vous n’êtes pas autorisé à consulter la vue d’ensemble de l’administration.",
+      "unavailable": "La vue d’ensemble est temporairement indisponible. Veuillez réessayer dans quelques instants.",
+      "requestFailed": "La vue d’ensemble n’a pas pu être chargée.",
+      "stale": "Les derniers chiffres n’ont pas pu être actualisés. Les valeurs affichées peuvent être obsolètes."
+    },
+    "users": {
+      "title": "Utilisateurs",
+      "link": "Gérer les utilisateurs",
+      "byTier": "Par offre",
+      "byRole": "Par rôle",
+      "tiers": {
+        "free": "Free",
+        "pro": "Pro",
+        "ultimate": "Ultimate"
+      },
+      "roles": {
+        "user": "Utilisateur",
+        "admin": "Administrateur"
+      }
+    },
+    "applications": {
+      "title": "Demandes de partenariat",
+      "link": "Examiner les demandes",
+      "byState": "Par statut",
+      "states": {
+        "submitted": "Soumise",
+        "inReview": "En cours d’examen",
+        "approved": "Approuvée",
+        "rejected": "Refusée",
+        "withdrawn": "Retirée"
+      }
+    },
+    "listingSources": {
+      "title": "Sources d’annonces",
+      "link": "Gérer les sources d’annonces",
+      "withoutIngestionMethod": "Sans méthode d’importation",
+      "methodAssignments": "Méthodes d’importation attribuées",
+      "methodAssignmentsNote": "Une source peut utiliser plusieurs méthodes ; les attributions peuvent donc dépasser le nombre de sources.",
+      "methods": {
+        "webCrawl": "Exploration web",
+        "shopify": "Shopify",
+        "woocommerce": "WooCommerce",
+        "partnerApi": "API partenaire"
+      }
+    },
+    "parties": {
+      "title": "Organisations"
+    },
+    "partnerships": {
+      "title": "Partenariats"
+    },
+    "productListings": {
+      "title": "Annonces de produits",
+      "byLifecycle": "Par cycle de vie",
+      "lifecycle": {
+        "active": "Actives",
+        "withdrawn": "Retirées"
+      },
+      "activeAvailability": "Disponibilité des annonces actives",
+      "activeAvailabilityNote": "Seules les annonces actives sont comptées.",
+      "activeWithoutAvailability": "Aucune disponibilité indiquée",
+      "availability": {
+        "available": "Disponible",
+        "inStock": "En stock",
+        "limitedAvailability": "Disponibilité limitée",
+        "backOrder": "Disponible sur commande différée",
+        "madeToOrder": "Fabriqué sur commande",
+        "preOrder": "Précommande",
+        "preSale": "Prévente",
+        "unavailable": "Indisponible",
+        "reserved": "Réservé",
+        "outOfStock": "Rupture de stock",
+        "soldOut": "Épuisé"
+      }
+    },
+    "summary": {
+      "label": "Totaux",
+      "awaitingReview": "En attente d’examen"
+    }
+  },
+  "adminNavigation": {
+    "label": "Sections d’administration",
+    "groups": {
+      "general": "Général",
+      "partners": "Partenaires",
+      "catalogue": "Catalogue",
+      "integrations": "Intégrations"
+    },
+    "items": {
+      "overview": "Vue d’ensemble",
+      "users": "Utilisateurs",
+      "applications": "Demandes",
+      "partnerships": "Partenariats",
+      "organizations": "Organisations",
+      "listingSources": "Sources d’annonces",
+      "auctions": "Enchères",
+      "oauthClients": "Clients OAuth"
+    }
+  },
   "searchFilter": {
     "saveButton": "Enregistrer le filtre de recherche",
     "saveSuccess": "Filtre de recherche enregistré avec succès !",

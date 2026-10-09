@@ -1655,6 +1655,113 @@
       "description": "No tienes permiso para ver el panel de administración. Inicia sesión con una cuenta de administrador."
     }
   },
+  "adminOverview": {
+    "title": "Resumen de administración",
+    "description": "Cifras actuales de la plataforma procedentes de la base de datos de referencia. Los valores reflejan el momento en que se carga la página.",
+    "loading": "Cargando el resumen de administración.",
+    "actions": {
+      "retry": "Reintentar"
+    },
+    "errors": {
+      "forbidden": "No tiene permiso para ver el resumen de administración.",
+      "unavailable": "El resumen de administración no está disponible temporalmente. Inténtelo de nuevo en breve.",
+      "requestFailed": "No se pudo cargar el resumen de administración.",
+      "stale": "No se pudieron actualizar las cifras más recientes. Los valores mostrados pueden estar desactualizados."
+    },
+    "users": {
+      "title": "Usuarios",
+      "link": "Gestionar usuarios",
+      "byTier": "Por plan",
+      "byRole": "Por rol",
+      "tiers": {
+        "free": "Free",
+        "pro": "Pro",
+        "ultimate": "Ultimate"
+      },
+      "roles": {
+        "user": "Usuario",
+        "admin": "Administrador"
+      }
+    },
+    "applications": {
+      "title": "Solicitudes de colaboración",
+      "link": "Revisar solicitudes",
+      "byState": "Por estado",
+      "states": {
+        "submitted": "Enviada",
+        "inReview": "En revisión",
+        "approved": "Aprobada",
+        "rejected": "Rechazada",
+        "withdrawn": "Retirada"
+      }
+    },
+    "listingSources": {
+      "title": "Fuentes de anuncios",
+      "link": "Gestionar fuentes de anuncios",
+      "withoutIngestionMethod": "Sin método de importación",
+      "methodAssignments": "Asignaciones de métodos de importación",
+      "methodAssignmentsNote": "Una fuente puede usar varios métodos, por lo que las asignaciones pueden superar el número de fuentes.",
+      "methods": {
+        "webCrawl": "Rastreo web",
+        "shopify": "Shopify",
+        "woocommerce": "WooCommerce",
+        "partnerApi": "API de socio"
+      }
+    },
+    "parties": {
+      "title": "Organizaciones"
+    },
+    "partnerships": {
+      "title": "Colaboraciones"
+    },
+    "productListings": {
+      "title": "Anuncios de productos",
+      "byLifecycle": "Por ciclo de vida",
+      "lifecycle": {
+        "active": "Activos",
+        "withdrawn": "Retirados"
+      },
+      "activeAvailability": "Disponibilidad de anuncios activos",
+      "activeAvailabilityNote": "Solo incluye anuncios activos.",
+      "activeWithoutAvailability": "Sin disponibilidad indicada",
+      "availability": {
+        "available": "Disponible",
+        "inStock": "En existencias",
+        "limitedAvailability": "Disponibilidad limitada",
+        "backOrder": "Disponible bajo pedido pendiente",
+        "madeToOrder": "Fabricado por encargo",
+        "preOrder": "Pedido anticipado",
+        "preSale": "Preventa",
+        "unavailable": "No disponible",
+        "reserved": "Reservado",
+        "outOfStock": "Agotado temporalmente",
+        "soldOut": "Vendido"
+      }
+    },
+    "summary": {
+      "label": "Totales",
+      "awaitingReview": "Pendientes de revisión"
+    }
+  },
+  "adminNavigation": {
+    "label": "Secciones de administración",
+    "groups": {
+      "general": "General",
+      "partners": "Socios",
+      "catalogue": "Catálogo",
+      "integrations": "Integraciones"
+    },
+    "items": {
+      "overview": "Resumen",
+      "users": "Usuarios",
+      "applications": "Solicitudes",
+      "partnerships": "Colaboraciones",
+      "organizations": "Organizaciones",
+      "listingSources": "Fuentes de anuncios",
+      "auctions": "Subastas",
+      "oauthClients": "Clientes OAuth"
+    }
+  },
   "searchFilter": {
     "saveButton": "Guardar Filtro de Búsqueda",
     "saveSuccess": "¡Filtro de búsqueda guardado exitosamente!",

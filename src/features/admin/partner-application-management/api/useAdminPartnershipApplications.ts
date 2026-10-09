@@ -15,6 +15,7 @@ import {
     mapToAdminPartnershipApplication,
     mapToAdminPartnershipApplicationPage,
 } from "@/data/internal/partner-application/AdminPartnershipApplication.ts";
+import { ADMIN_OVERVIEW_QUERY_KEY } from "@/features/admin/overview/api/useAdminOverview.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 
@@ -25,7 +26,7 @@ export const adminApplicationDetailQueryKey = (id?: string) =>
     [...ADMIN_APPLICATIONS_QUERY_KEY, "detail", id] as const;
 /** Caches whose contents an application transition can change. */
 export const ADMIN_APPLICATION_DEPENDENT_QUERY_KEYS = [
-    ["admin", "overview"],
+    ADMIN_OVERVIEW_QUERY_KEY,
     ["admin", "partnerships"],
     ["admin", "listing-sources"],
 ] as const;

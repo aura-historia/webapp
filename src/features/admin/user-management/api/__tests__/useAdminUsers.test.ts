@@ -221,6 +221,7 @@ describe("admin user API", () => {
 
     it("sends role, tier, and profile changes in separate patch requests", async () => {
         api.patch.mockResolvedValue(ok(detailFixture));
+        const invalidate = vi.spyOn(client, "invalidateQueries");
         const role = renderHook(() => useUpdateAdminUserRole(), { wrapper });
         const tier = renderHook(() => useUpdateAdminUserTier(), { wrapper });
         const profile = renderHook(() => useUpdateAdminUserProfile(), { wrapper });
@@ -255,6 +256,8 @@ describe("admin user API", () => {
             body: { firstName: null, email: "ada.new@example.test" },
             cache: "no-store",
         });
+        // Role and tier changes move users between overview aggregates.
+        expect(invalidate).toHaveBeenCalledWith({ queryKey: ["admin", "overview"] });
     });
 
     it("surfaces last-active-admin conflicts for role demotion and deletion", async () => {
@@ -297,11 +300,13 @@ describe("admin user API", () => {
 
     it("accepts a bodyless 204 delete response", async () => {
         api.remove.mockResolvedValue({ data: undefined, response: { status: 204, ok: true } });
+        const invalidate = vi.spyOn(client, "invalidateQueries");
         const remove = renderHook(() => useDeleteAdminUser(), { wrapper });
         await act(async () => {
             await expect(remove.result.current.mutateAsync("opaque/user+01")).resolves.toBe(
                 "opaque/user+01",
             );
         });
+        expect(invalidate).toHaveBeenCalledWith({ queryKey: ["admin", "overview"] });
     });
 });

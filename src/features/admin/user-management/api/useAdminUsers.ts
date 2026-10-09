@@ -20,6 +20,7 @@ import {
     type AdminUserAccount,
     type AdminUserProfilePatch,
 } from "@/data/internal/admin/AdminUser.ts";
+import { ADMIN_OVERVIEW_QUERY_KEY } from "@/features/admin/overview/api/useAdminOverview.ts";
 import { type AdminUserFilters, mapToAdminUserSearchQuery } from "../lib/adminUserSearch.ts";
 
 export const ADMIN_USERS_QUERY_KEY = ["admin", "users"] as const;
@@ -149,6 +150,7 @@ function useAdminUserMutationCache() {
     return {
         onSuccess: async (account: AdminUserAccount) => {
             queryClient.setQueryData(adminUserDetailQueryKey(account.userId), account);
+            void queryClient.invalidateQueries({ queryKey: ADMIN_OVERVIEW_QUERY_KEY });
             // Profile, role, and tier fields may affect active filters or sorting. Restart from page one.
             await queryClient.resetQueries({ queryKey: [...ADMIN_USERS_QUERY_KEY, "list"] });
         },
@@ -229,6 +231,7 @@ export function useDeleteAdminUser() {
         },
         onSuccess: async (userId) => {
             queryClient.removeQueries({ queryKey: adminUserDetailQueryKey(userId) });
+            void queryClient.invalidateQueries({ queryKey: ADMIN_OVERVIEW_QUERY_KEY });
             await queryClient.resetQueries({ queryKey: [...ADMIN_USERS_QUERY_KEY, "list"] });
         },
         onError: async (error, userId) => {
