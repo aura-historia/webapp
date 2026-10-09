@@ -1657,7 +1657,6 @@
     "title": "Vue d’ensemble de l’administration",
     "description": "Chiffres actuels de la plateforme issus de la base de données de référence. Les valeurs correspondent au moment du chargement de la page.",
     "loading": "Chargement de la vue d’ensemble.",
-    "totalLabel": "au total",
     "actions": {
       "retry": "Réessayer"
     },
@@ -1708,12 +1707,10 @@
       }
     },
     "parties": {
-      "title": "Organisations",
-      "link": "Gérer les organisations"
+      "title": "Organisations"
     },
     "partnerships": {
-      "title": "Partenariats",
-      "link": "Gérer les partenariats"
+      "title": "Partenariats"
     },
     "productListings": {
       "title": "Annonces de produits",

@@ -1657,7 +1657,6 @@
     "title": "Resumen de administración",
     "description": "Cifras actuales de la plataforma procedentes de la base de datos de referencia. Los valores reflejan el momento en que se carga la página.",
     "loading": "Cargando el resumen de administración.",
-    "totalLabel": "en total",
     "actions": {
       "retry": "Reintentar"
     },
@@ -1708,12 +1707,10 @@
       }
     },
     "parties": {
-      "title": "Organizaciones",
-      "link": "Gestionar organizaciones"
+      "title": "Organizaciones"
     },
     "partnerships": {
-      "title": "Colaboraciones",
-      "link": "Gestionar colaboraciones"
+      "title": "Colaboraciones"
     },
     "productListings": {
       "title": "Anuncios de productos",

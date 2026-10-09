@@ -1657,7 +1657,6 @@
     "title": "Panoramica amministrazione",
     "description": "Dati attuali della piattaforma provenienti dal database di riferimento. I valori si riferiscono al momento del caricamento della pagina.",
     "loading": "Caricamento della panoramica amministrazione.",
-    "totalLabel": "in totale",
     "actions": {
       "retry": "Riprova"
     },
@@ -1708,12 +1707,10 @@
       }
     },
     "parties": {
-      "title": "Organizzazioni",
-      "link": "Gestisci organizzazioni"
+      "title": "Organizzazioni"
     },
     "partnerships": {
-      "title": "Partnership",
-      "link": "Gestisci partnership"
+      "title": "Partnership"
     },
     "productListings": {
       "title": "Annunci di prodotti",

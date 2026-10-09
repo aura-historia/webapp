@@ -2161,7 +2161,6 @@
     "title": "Admin overview",
     "description": "Current platform counts from the authoritative database. Figures are a snapshot taken when the page loads.",
     "loading": "Loading admin overview.",
-    "totalLabel": "in total",
     "actions": {
       "retry": "Try again"
     },
@@ -2212,12 +2211,10 @@
       }
     },
     "parties": {
-      "title": "Organizations",
-      "link": "Manage organizations"
+      "title": "Organizations"
     },
     "partnerships": {
-      "title": "Partnerships",
-      "link": "Manage partnerships"
+      "title": "Partnerships"
     },
     "productListings": {
       "title": "Product listings",

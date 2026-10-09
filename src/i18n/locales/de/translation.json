@@ -2161,7 +2161,6 @@
     "title": "Admin-Übersicht",
     "description": "Aktuelle Plattformzahlen aus der maßgeblichen Datenbank. Die Werte sind eine Momentaufnahme zum Zeitpunkt des Seitenaufrufs.",
     "loading": "Admin-Übersicht wird geladen.",
-    "totalLabel": "insgesamt",
     "actions": {
       "retry": "Erneut versuchen"
     },
@@ -2212,12 +2211,10 @@
       }
     },
     "parties": {
-      "title": "Organisationen",
-      "link": "Organisationen verwalten"
+      "title": "Organisationen"
     },
     "partnerships": {
-      "title": "Partnerschaften",
-      "link": "Partnerschaften verwalten"
+      "title": "Partnerschaften"
     },
     "productListings": {
       "title": "Produkteinträge",
