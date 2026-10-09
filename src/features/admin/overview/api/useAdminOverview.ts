@@ -22,17 +22,16 @@ export class AdminOverviewRequestError extends Error {
 type AdminOverviewErrorFactory = (status: number | undefined) => AdminOverviewRequestError;
 
 export function createAdminOverviewErrorFactory(t: TFunction): AdminOverviewErrorFactory {
-    return (status) => {
-        const safeStatus = status ?? 500;
+    return (status = 500) => {
         let key: string;
-        if (safeStatus === 401 || safeStatus === 403) {
+        if (status === 401 || status === 403) {
             key = "adminOverview.errors.forbidden";
-        } else if (safeStatus === 503) {
+        } else if (status === 503) {
             key = "adminOverview.errors.unavailable";
         } else {
             key = "adminOverview.errors.requestFailed";
         }
-        return new AdminOverviewRequestError(t(key), safeStatus);
+        return new AdminOverviewRequestError(t(key), status);
     };
 }
 
