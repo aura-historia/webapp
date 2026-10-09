@@ -1144,6 +1144,9 @@
       "google": {
         "continue": "Continue with Google"
       },
+      "facebook": {
+        "continue": "Continue with Facebook"
+      },
       "redirectFailure": "Sign-in could not be completed. Please try again or sign in with your email address."
     },
     "errors": {

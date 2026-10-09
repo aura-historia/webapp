@@ -12,6 +12,13 @@ describe("FEDERATED_AUTH_PROVIDERS", () => {
         expect(google?.labelKey).toBe("auth.federated.google.continue");
     });
 
+    it("maps Facebook to the Amplify built-in Facebook provider", () => {
+        const facebook = FEDERATED_AUTH_PROVIDERS.find((provider) => provider.id === "facebook");
+
+        expect(facebook?.signInProvider).toBe("Facebook");
+        expect(facebook?.labelKey).toBe("auth.federated.facebook.continue");
+    });
+
     it("uses unique provider ids", () => {
         const ids = FEDERATED_AUTH_PROVIDERS.map((provider) => provider.id);
 

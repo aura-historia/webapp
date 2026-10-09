@@ -46,6 +46,44 @@ describe("FederatedAuthOptions", () => {
         expect(screen.getByText("oder")).toBeInTheDocument();
     });
 
+    it("renders Facebook with its localized accessible label", async () => {
+        await act(async () => {
+            renderWithRouter(<FederatedAuthOptions intent="sign-in" locale="de" />);
+        });
+
+        expect(screen.getByRole("button", { name: "Mit Google fortfahren" })).toBeInTheDocument();
+        const facebookButton = screen.getByRole("button", { name: "Mit Facebook fortfahren" });
+        expect(facebookButton).toBeInTheDocument();
+        expect(facebookButton.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
+    });
+
+    it("starts Cognito Facebook redirect with the validated signup context", async () => {
+        const user = userEvent.setup();
+        await act(async () => {
+            renderWithRouter(
+                <FederatedAuthOptions
+                    intent="sign-up"
+                    locale="fr"
+                    redirect="/de/me/watchlist?sort=recent"
+                />,
+            );
+        });
+
+        await user.click(screen.getByRole("button", { name: "Mit Facebook fortfahren" }));
+
+        await waitFor(() => {
+            expect(mockSignInWithRedirect).toHaveBeenCalledTimes(1);
+        });
+        const [options] = mockSignInWithRedirect.mock.calls[0];
+        expect(options.provider).toBe("Facebook");
+        expect(parseFederatedAuthState(options.customState)).toEqual({
+            version: 1,
+            intent: "sign-up",
+            locale: "fr",
+            redirectPath: "/de/me/watchlist?sort=recent",
+        });
+    });
+
     it("shows the spinner and disables provider options while redirect starts", async () => {
         let resolveRedirect: (() => void) | undefined;
         mockSignInWithRedirect.mockImplementation(
@@ -61,13 +99,20 @@ describe("FederatedAuthOptions", () => {
         });
 
         const button = screen.getByRole("button", { name: "Mit Google fortfahren" });
+        const facebookButton = screen.getByRole("button", {
+            name: "Mit Facebook fortfahren",
+        });
         await user.click(button);
 
         expect(button).toBeDisabled();
+        expect(facebookButton).toBeDisabled();
         expect(screen.getByRole("status")).toBeInTheDocument();
+        await user.click(facebookButton);
+        expect(mockSignInWithRedirect).toHaveBeenCalledTimes(1);
 
         await act(async () => resolveRedirect?.());
         expect(button).toBeEnabled();
+        expect(facebookButton).toBeEnabled();
     });
 
     it("shows a localized generic error if the redirect cannot start", async () => {
