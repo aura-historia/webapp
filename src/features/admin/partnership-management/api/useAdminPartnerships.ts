@@ -25,6 +25,7 @@ import {
     mapToAdminPartnershipPage,
     mapToAdminPartnershipSearchQuery,
 } from "@/data/internal/partnership/AdminPartnership.ts";
+import { ADMIN_OVERVIEW_QUERY_KEY } from "@/features/admin/overview/api/useAdminOverview.ts";
 import { OWN_LISTING_SOURCES_QUERY_KEY } from "@/features/partner/common/api/useOwnListingSources.ts";
 
 export const ADMIN_PARTNERSHIPS_QUERY_KEY = ["admin", "partnerships"] as const;
@@ -163,7 +164,7 @@ async function invalidatePartnershipState(
 
     await Promise.all([
         queryClient.invalidateQueries({ queryKey: ADMIN_PARTNERSHIPS_QUERY_KEY }),
-        queryClient.invalidateQueries({ queryKey: ["admin", "overview"] }),
+        queryClient.invalidateQueries({ queryKey: ADMIN_OVERVIEW_QUERY_KEY }),
         queryClient.invalidateQueries({ queryKey: OWN_LISTING_SOURCES_QUERY_KEY }),
     ]);
 }

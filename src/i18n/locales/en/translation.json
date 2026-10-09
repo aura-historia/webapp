@@ -2160,6 +2160,113 @@
       "description": "You do not have permission to view the admin dashboard. Please sign in with an administrator account."
     }
   },
+  "adminOverview": {
+    "title": "Admin overview",
+    "description": "Current platform counts from the authoritative database. Figures are a snapshot taken when the page loads.",
+    "loading": "Loading admin overview.",
+    "actions": {
+      "retry": "Try again"
+    },
+    "errors": {
+      "forbidden": "You do not have permission to view the admin overview.",
+      "unavailable": "The admin overview is temporarily unavailable. Please try again shortly.",
+      "requestFailed": "The admin overview could not be loaded.",
+      "stale": "The latest counts could not be refreshed. The figures shown may be out of date."
+    },
+    "users": {
+      "title": "Users",
+      "link": "Manage users",
+      "byTier": "By tier",
+      "byRole": "By role",
+      "tiers": {
+        "free": "Free",
+        "pro": "Pro",
+        "ultimate": "Ultimate"
+      },
+      "roles": {
+        "user": "User",
+        "admin": "Administrator"
+      }
+    },
+    "applications": {
+      "title": "Partnership applications",
+      "link": "Review applications",
+      "byState": "By state",
+      "states": {
+        "submitted": "Submitted",
+        "inReview": "In review",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "withdrawn": "Withdrawn"
+      }
+    },
+    "listingSources": {
+      "title": "Listing sources",
+      "link": "Manage listing sources",
+      "withoutIngestionMethod": "Without ingestion method",
+      "methodAssignments": "Ingestion method assignments",
+      "methodAssignmentsNote": "A source can use several methods, so assignments may exceed the number of sources.",
+      "methods": {
+        "webCrawl": "Web crawl",
+        "shopify": "Shopify",
+        "woocommerce": "WooCommerce",
+        "partnerApi": "Partner API"
+      }
+    },
+    "parties": {
+      "title": "Organizations"
+    },
+    "partnerships": {
+      "title": "Partnerships"
+    },
+    "productListings": {
+      "title": "Product listings",
+      "byLifecycle": "By lifecycle",
+      "lifecycle": {
+        "active": "Active",
+        "withdrawn": "Withdrawn"
+      },
+      "activeAvailability": "Availability of active listings",
+      "activeAvailabilityNote": "Counts include active listings only.",
+      "activeWithoutAvailability": "No availability reported",
+      "availability": {
+        "available": "Available",
+        "inStock": "In stock",
+        "limitedAvailability": "Limited availability",
+        "backOrder": "Back order",
+        "madeToOrder": "Made to order",
+        "preOrder": "Pre-order",
+        "preSale": "Pre-sale",
+        "unavailable": "Unavailable",
+        "reserved": "Reserved",
+        "outOfStock": "Out of stock",
+        "soldOut": "Sold out"
+      }
+    },
+    "summary": {
+      "label": "Totals",
+      "awaitingReview": "Awaiting review"
+    }
+  },
+  "adminNavigation": {
+    "label": "Admin sections",
+    "groups": {
+      "general": "General",
+      "partners": "Partners",
+      "catalogue": "Catalogue",
+      "integrations": "Integrations"
+    },
+    "items": {
+      "overview": "Overview",
+      "users": "Users",
+      "applications": "Applications",
+      "partnerships": "Partnerships",
+      "organizations": "Organizations",
+      "listingSources": "Listing sources",
+      "auctions": "Auctions",
+      "oauthClients": "OAuth clients"
+    }
+  },
   "oauth": {
     "authorize": {
       "title": "Authorize Application",

@@ -146,7 +146,7 @@ describe("admin Party API", () => {
         expect(hook.result.current.error?.message).not.toContain("info@example.test");
     });
 
-    it("creates only supplied contacts and refreshes the list", async () => {
+    it("creates only supplied contacts and refreshes the list and overview", async () => {
         api.create.mockResolvedValue(ok(partyDto, 201));
         const invalidate = vi.spyOn(client, "invalidateQueries");
         const hook = renderHook(() => useCreateAdminParty(), { wrapper });
@@ -162,6 +162,7 @@ describe("admin Party API", () => {
             body: { name: "Atelier Bleu", email: "info@example.test" },
         });
         expect(invalidate).toHaveBeenCalledWith({ queryKey: ["admin", "parties", "list"] });
+        expect(invalidate).toHaveBeenCalledWith({ queryKey: ["admin", "overview"] });
         expect(createdId).toBe("party_01");
     });
 
@@ -182,11 +183,13 @@ describe("admin Party API", () => {
 
     it("accepts a bodyless 204 delete response", async () => {
         api.remove.mockResolvedValue({ data: undefined, response: { status: 204, ok: true } });
+        const invalidate = vi.spyOn(client, "invalidateQueries");
         const hook = renderHook(() => useDeleteAdminParty(), { wrapper });
         await act(async () => {
             await expect(hook.result.current.mutateAsync("party_01")).resolves.toBe("party_01");
         });
         expect(api.remove).toHaveBeenCalledWith({ path: { partyId: "party_01" } });
+        expect(invalidate).toHaveBeenCalledWith({ queryKey: ["admin", "overview"] });
     });
 
     it("reports delete conflicts without implying related records were removed", async () => {
