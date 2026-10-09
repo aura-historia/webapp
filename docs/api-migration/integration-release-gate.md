@@ -41,11 +41,13 @@ issue's earlier seven-operation follow-up count.
 
 ## Scope decisions
 
-- Admin dashboard migration is explicitly deferred by the user. Existing guarded,
-  authenticated, noindex, non-prerendered admin route placeholders remain. The
-  unregistered legacy dashboard implementation, DTOs, tests and locale namespaces
-  are removed; backend authorization is unchanged. Admin capabilities in the SDK
-  are deferred to MIG-16–23/MIG-25, rather than represented as implemented UI.
+- The shared admin dashboard shell and navigation remain deferred by the user to
+  MIG-24. Individual guarded, authenticated, noindex workflows have been restored
+  incrementally: partnership application review (MIG-16), Party management
+  (MIG-17), listing-source management (MIG-18), partnership membership and
+  source-grant management (MIG-19), and user management (MIG-20). Each workflow
+  uses mapped DTOs and backend authorization; generated admin SDK operations that
+  do not belong to these workflows remain API capabilities rather than implemented UI.
 - Standalone public auction browsing/detail/catalogue pages are explicitly deferred
   by the user to MIG-25. Listing-level auction summaries and typed history remain
   in the migrated product experience. The three public auction SDK operations are

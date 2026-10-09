@@ -2047,6 +2047,109 @@
       "camrefRequired": "Enter the Partnerize campaign reference."
     }
   },
+  "adminPartnerships": {
+    "title": "Partnership management",
+    "description": "Manage partnership memberships and access to listing sources.",
+    "loading": "Loading partnerships.",
+    "loadingDetail": "Loading partnership.",
+    "empty": "No active partnerships match these filters.",
+    "filters": {
+      "title": "Filter partnerships",
+      "partyId": "Party ID",
+      "memberUserId": "Member user ID",
+      "listingSourceId": "Listing source ID",
+      "apply": "Apply filters",
+      "reset": "Reset"
+    },
+    "validation": {
+      "idTooLong": "An identifier must be 128 characters or fewer.",
+      "requiredId": "Enter an identifier."
+    },
+    "list": {
+      "members_one": "{{count}} member",
+      "members_other": "{{count}} members",
+      "listingSources_one": "{{count}} source grant",
+      "listingSources_other": "{{count}} source grants",
+      "loaded_one": "{{count}} partnership loaded",
+      "loaded_other": "{{count}} partnerships loaded",
+      "loadMore": "Load more",
+      "loadingMore": "Loading…"
+    },
+    "fields": {
+      "created": "Created",
+      "updated": "Last updated",
+      "party": "Party",
+      "partyId": "Party ID",
+      "partySlugId": "Immutable party slug",
+      "partnershipId": "Partnership ID",
+      "memberCount": "Members (complete count)",
+      "listingSourceGrantCount": "Listing source grants (complete count)"
+    },
+    "actions": {
+      "details": "View details",
+      "retry": "Retry",
+      "saving": "Saving…",
+      "grantMembership": "Grant membership",
+      "revokeMembership": "Revoke membership",
+      "revoke": "Revoke",
+      "revokeMemberFor": "Revoke membership for user {{id}}",
+      "revokeSourceFor": "Revoke access to listing source {{id}}",
+      "grantSource": "Grant access",
+      "revokeSource": "Revoke access",
+      "cancel": "Cancel",
+      "dissolve": "Dissolve partnership",
+      "dissolving": "Dissolving…",
+      "confirmDissolve": "Dissolve partnership"
+    },
+    "detail": {
+      "title": "Partnership details",
+      "description": "Memberships and listing source grants are managed separately. Complete counts may exceed the identifiers shown.",
+      "members_one": "{{count}} member",
+      "members_other": "{{count}} members",
+      "listingSources_one": "{{count}} source grant",
+      "listingSources_other": "{{count}} source grants",
+      "referencesShown": "Identifiers shown: {{shown}}. Complete count: {{count}}.",
+      "noReferences": "No identifiers were returned.",
+      "close": "Close"
+    },
+    "members": {
+      "title": "Manage memberships",
+      "description": "Grant or revoke membership explicitly. Approval of an application alone does not grant access.",
+      "userId": "User ID"
+    },
+    "sources": {
+      "title": "Manage listing source access",
+      "description": "A listing source must belong to the same party as this partnership. The server checks this again when the grant is saved.",
+      "listingSourceId": "Listing source ID",
+      "checking": "Checking listing source…",
+      "check": "Check source",
+      "sameParty": "{{name}} ({{listingSourceId}}) belongs to the same party as this partnership."
+    },
+    "success": {
+      "memberGranted": "Membership granted.",
+      "memberRevoked": "Membership revoked.",
+      "listingSourceGranted": "Listing source access granted.",
+      "listingSourceRevoked": "Listing source access revoked.",
+      "dissolved": "Partnership dissolved."
+    },
+    "errors": {
+      "forbidden": "Administrator access is required for this action.",
+      "invalid": "Check the identifiers you entered.",
+      "missing": "This partnership is no longer available.",
+      "partyConflict": "This listing source belongs to a different party. Access can only be granted to a source that belongs to the partnership's party.",
+      "conflict": "The partnership changed during this request. Refresh the details and try again.",
+      "dissolveConflict": "The partnership changed during this request. Refresh the details before trying again.",
+      "dissolveFailed": "The partnership could not be dissolved. Review its current state and try again.",
+      "requestFailed": "The request could not be completed. Refresh the details and try again.",
+      "referenceMissing": "The partnership or referenced identifier could not be found."
+    },
+    "dissolution": {
+      "title": "Dissolve partnership",
+      "description": "Dissolving removes current memberships and listing source grants. The party, listing sources, users, listings, and applications remain.",
+      "confirmTitle": "Confirm dissolution",
+      "confirmDescription": "Dissolve the partnership with {{name}}? Its current memberships and listing source grants will be removed."
+    }
+  },
   "adminDashboard": {
     "loading": "Loading…",
     "forbidden": {

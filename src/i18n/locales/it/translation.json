@@ -1543,6 +1543,109 @@
       "camrefRequired": "Inserisci il riferimento campagna Partnerize."
     }
   },
+  "adminPartnerships": {
+    "title": "Gestione delle partnership",
+    "description": "Gestisci le appartenenze alle partnership e l'accesso alle fonti di annunci.",
+    "loading": "Caricamento delle partnership.",
+    "loadingDetail": "Caricamento della partnership.",
+    "empty": "Nessuna partnership attiva corrisponde a questi filtri.",
+    "filters": {
+      "title": "Filtra le partnership",
+      "partyId": "ID organizzazione",
+      "memberUserId": "ID utente membro",
+      "listingSourceId": "ID fonte annunci",
+      "apply": "Applica filtri",
+      "reset": "Reimposta"
+    },
+    "validation": {
+      "idTooLong": "L'identificativo non può superare 128 caratteri.",
+      "requiredId": "Inserisci un identificativo."
+    },
+    "list": {
+      "members_one": "{{count}} membro",
+      "members_other": "{{count}} membri",
+      "listingSources_one": "{{count}} accesso fonte",
+      "listingSources_other": "{{count}} accessi fonte",
+      "loaded_one": "Caricata {{count}} partnership",
+      "loaded_other": "Caricate {{count}} partnership",
+      "loadMore": "Carica altro",
+      "loadingMore": "Caricamento…"
+    },
+    "fields": {
+      "created": "Creata",
+      "updated": "Ultimo aggiornamento",
+      "party": "Organizzazione",
+      "partyId": "ID organizzazione",
+      "partySlugId": "Identificativo immutabile dell'organizzazione",
+      "partnershipId": "ID partnership",
+      "memberCount": "Membri (conteggio completo)",
+      "listingSourceGrantCount": "Accessi alle fonti (conteggio completo)"
+    },
+    "actions": {
+      "details": "Vedi dettagli",
+      "retry": "Riprova",
+      "saving": "Salvataggio…",
+      "grantMembership": "Concedi appartenenza",
+      "revokeMembership": "Revoca appartenenza",
+      "revoke": "Revoca",
+      "revokeMemberFor": "Revoca appartenenza dell'utente {{id}}",
+      "revokeSourceFor": "Revoca accesso alla fonte annunci {{id}}",
+      "grantSource": "Concedi accesso",
+      "revokeSource": "Revoca accesso",
+      "cancel": "Annulla",
+      "dissolve": "Dissolvi partnership",
+      "dissolving": "Dissoluzione…",
+      "confirmDissolve": "Dissolvi partnership"
+    },
+    "detail": {
+      "title": "Dettagli partnership",
+      "description": "Le appartenenze e gli accessi alle fonti si gestiscono separatamente. I conteggi completi possono superare gli identificativi visualizzati.",
+      "members_one": "{{count}} membro",
+      "members_other": "{{count}} membri",
+      "listingSources_one": "{{count}} accesso fonte",
+      "listingSources_other": "{{count}} accessi fonte",
+      "referencesShown": "Identificativi mostrati: {{shown}}. Conteggio completo: {{count}}.",
+      "noReferences": "Nessun identificativo restituito.",
+      "close": "Chiudi"
+    },
+    "members": {
+      "title": "Gestisci le appartenenze",
+      "description": "Concedi o revoca le appartenenze in modo esplicito. L'approvazione di una richiesta, da sola, non concede accesso.",
+      "userId": "ID utente"
+    },
+    "sources": {
+      "title": "Gestisci l'accesso alle fonti",
+      "description": "Una fonte deve appartenere alla stessa organizzazione della partnership. Il server verifica nuovamente il requisito al salvataggio.",
+      "listingSourceId": "ID fonte annunci",
+      "checking": "Verifica della fonte…",
+      "check": "Verifica fonte",
+      "sameParty": "{{name}} ({{listingSourceId}}) appartiene alla stessa organizzazione della partnership."
+    },
+    "success": {
+      "memberGranted": "Appartenenza concessa.",
+      "memberRevoked": "Appartenenza revocata.",
+      "listingSourceGranted": "Accesso alla fonte concesso.",
+      "listingSourceRevoked": "Accesso alla fonte revocato.",
+      "dissolved": "Partnership dissolta."
+    },
+    "errors": {
+      "forbidden": "Per questa azione è necessario l'accesso amministrativo.",
+      "invalid": "Controlla gli identificativi inseriti.",
+      "missing": "Questa partnership non è più disponibile.",
+      "partyConflict": "La fonte appartiene a un'altra organizzazione. L'accesso può essere concesso solo a una fonte dell'organizzazione della partnership.",
+      "conflict": "La partnership è cambiata durante la richiesta. Aggiorna i dettagli e riprova.",
+      "dissolveConflict": "La partnership è cambiata durante la richiesta. Aggiorna i dettagli prima di riprovare.",
+      "dissolveFailed": "Non è stato possibile dissolvere la partnership. Verifica lo stato attuale e riprova.",
+      "requestFailed": "Non è stato possibile completare la richiesta. Aggiorna i dettagli e riprova.",
+      "referenceMissing": "La partnership o l'identificativo indicato non è stato trovato."
+    },
+    "dissolution": {
+      "title": "Dissolvi la partnership",
+      "description": "La dissoluzione rimuove le appartenenze e gli accessi alle fonti attuali. Organizzazione, fonti, utenti, annunci e richieste restano invariati.",
+      "confirmTitle": "Conferma la dissoluzione",
+      "confirmDescription": "Dissolvere la partnership con {{name}}? Le appartenenze e gli accessi alle fonti attuali verranno rimossi."
+    }
+  },
   "adminDashboard": {
     "loading": "Caricamento…",
     "forbidden": {

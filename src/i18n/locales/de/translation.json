@@ -2047,6 +2047,109 @@
       "camrefRequired": "Geben Sie die Partnerize-Kampagnenreferenz ein."
     }
   },
+  "adminPartnerships": {
+    "title": "Partnerschaftsverwaltung",
+    "description": "Verwalten Sie Partnerschaftsmitgliedschaften und den Zugriff auf Anbieter.",
+    "loading": "Partnerschaften werden geladen.",
+    "loadingDetail": "Partnerschaft wird geladen.",
+    "empty": "Keine aktiven Partnerschaften entsprechen diesen Filtern.",
+    "filters": {
+      "title": "Partnerschaften filtern",
+      "partyId": "Organisations-ID",
+      "memberUserId": "Mitglieds-User-ID",
+      "listingSourceId": "Anbieter-ID",
+      "apply": "Filter anwenden",
+      "reset": "Zurücksetzen"
+    },
+    "validation": {
+      "idTooLong": "Die Kennung darf höchstens 128 Zeichen enthalten.",
+      "requiredId": "Geben Sie eine Kennung ein."
+    },
+    "list": {
+      "members_one": "{{count}} Mitglied",
+      "members_other": "{{count}} Mitglieder",
+      "listingSources_one": "{{count}} Anbieterzugriff",
+      "listingSources_other": "{{count}} Anbieterzugriffe",
+      "loaded_one": "{{count}} Partnerschaft geladen",
+      "loaded_other": "{{count}} Partnerschaften geladen",
+      "loadMore": "Weitere laden",
+      "loadingMore": "Wird geladen…"
+    },
+    "fields": {
+      "created": "Erstellt",
+      "updated": "Zuletzt aktualisiert",
+      "party": "Organisation",
+      "partyId": "Organisations-ID",
+      "partySlugId": "Unveränderliche Organisationskennung",
+      "partnershipId": "Partnerschafts-ID",
+      "memberCount": "Mitglieder (vollständige Anzahl)",
+      "listingSourceGrantCount": "Anbieterzugriffe (vollständige Anzahl)"
+    },
+    "actions": {
+      "details": "Details anzeigen",
+      "retry": "Erneut versuchen",
+      "saving": "Wird gespeichert…",
+      "grantMembership": "Mitgliedschaft vergeben",
+      "revokeMembership": "Mitgliedschaft entziehen",
+      "revoke": "Entziehen",
+      "revokeMemberFor": "Mitgliedschaft für User-ID {{id}} entziehen",
+      "revokeSourceFor": "Zugriff auf Anbieter-ID {{id}} entziehen",
+      "grantSource": "Zugriff vergeben",
+      "revokeSource": "Zugriff entziehen",
+      "cancel": "Abbrechen",
+      "dissolve": "Partnerschaft auflösen",
+      "dissolving": "Wird aufgelöst…",
+      "confirmDissolve": "Partnerschaft auflösen"
+    },
+    "detail": {
+      "title": "Partnerschaftsdetails",
+      "description": "Mitgliedschaften und Anbieterzugriffe werden separat verwaltet. Die vollständigen Zahlen können über den angezeigten Kennungen liegen.",
+      "members_one": "{{count}} Mitglied",
+      "members_other": "{{count}} Mitglieder",
+      "listingSources_one": "{{count}} Anbieterzugriff",
+      "listingSources_other": "{{count}} Anbieterzugriffe",
+      "referencesShown": "Angezeigte Kennungen: {{shown}}. Vollständige Anzahl: {{count}}.",
+      "noReferences": "Keine Kennungen geladen.",
+      "close": "Schließen"
+    },
+    "members": {
+      "title": "Mitgliedschaften verwalten",
+      "description": "Mitgliedschaften werden ausdrücklich vergeben oder entzogen. Eine Antragsgenehmigung allein gewährt keinen Zugriff.",
+      "userId": "User-ID"
+    },
+    "sources": {
+      "title": "Anbieterzugriffe verwalten",
+      "description": "Ein Anbieter muss derselben Organisation wie diese Partnerschaft angehören. Der Server prüft dies beim Speichern erneut.",
+      "listingSourceId": "Anbieter-ID",
+      "checking": "Anbieter wird geprüft…",
+      "check": "Anbieter prüfen",
+      "sameParty": "{{name}} ({{listingSourceId}}) gehört zur selben Organisation wie diese Partnerschaft."
+    },
+    "success": {
+      "memberGranted": "Mitgliedschaft vergeben.",
+      "memberRevoked": "Mitgliedschaft entzogen.",
+      "listingSourceGranted": "Anbieterzugriff vergeben.",
+      "listingSourceRevoked": "Anbieterzugriff entzogen.",
+      "dissolved": "Partnerschaft aufgelöst."
+    },
+    "errors": {
+      "forbidden": "Für diese Aktion ist eine Administratorberechtigung erforderlich.",
+      "invalid": "Prüfen Sie die angegebenen Kennungen.",
+      "missing": "Diese Partnerschaft ist nicht mehr verfügbar.",
+      "partyConflict": "Der Anbieter gehört zu einer anderen Organisation als diese Partnerschaft. Zugriff kann nur für Anbieter derselben Organisation vergeben werden.",
+      "conflict": "Die Partnerschaft wurde parallel geändert. Aktualisieren Sie die Details und versuchen Sie es erneut.",
+      "dissolveConflict": "Die Partnerschaft wurde parallel geändert. Aktualisieren Sie die Details, bevor Sie es erneut versuchen.",
+      "dissolveFailed": "Die Partnerschaft konnte nicht aufgelöst werden. Prüfen Sie den aktuellen Status und versuchen Sie es erneut.",
+      "requestFailed": "Die Anfrage konnte nicht abgeschlossen werden. Aktualisieren Sie die Details und versuchen Sie es erneut.",
+      "referenceMissing": "Die Partnerschaft oder die angegebene Kennung wurde nicht gefunden."
+    },
+    "dissolution": {
+      "title": "Partnerschaft auflösen",
+      "description": "Beim Auflösen werden aktuelle Mitgliedschaften und Anbieterzugriffe entfernt. Organisation, Anbieter, Benutzer, Angebote und Anträge bleiben erhalten.",
+      "confirmTitle": "Auflösung bestätigen",
+      "confirmDescription": "Möchten Sie die Partnerschaft mit {{name}} auflösen? Die aktuellen Mitgliedschaften und Anbieterzugriffe werden entfernt."
+    }
+  },
   "adminDashboard": {
     "loading": "Wird geladen…",
     "forbidden": {

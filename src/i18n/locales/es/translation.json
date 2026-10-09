@@ -1543,6 +1543,109 @@
       "camrefRequired": "Introduzca la referencia de campaña de Partnerize."
     }
   },
+  "adminPartnerships": {
+    "title": "Gestión de asociaciones",
+    "description": "Gestione las membresías de las asociaciones y el acceso a las fuentes de anuncios.",
+    "loading": "Cargando asociaciones.",
+    "loadingDetail": "Cargando asociación.",
+    "empty": "Ninguna asociación activa coincide con estos filtros.",
+    "filters": {
+      "title": "Filtrar asociaciones",
+      "partyId": "ID de organización",
+      "memberUserId": "ID de usuario miembro",
+      "listingSourceId": "ID de fuente de anuncios",
+      "apply": "Aplicar filtros",
+      "reset": "Restablecer"
+    },
+    "validation": {
+      "idTooLong": "El identificador no puede superar los 128 caracteres.",
+      "requiredId": "Introduzca un identificador."
+    },
+    "list": {
+      "members_one": "{{count}} miembro",
+      "members_other": "{{count}} miembros",
+      "listingSources_one": "{{count}} acceso a fuentes",
+      "listingSources_other": "{{count}} accesos a fuentes",
+      "loaded_one": "Se ha cargado {{count}} asociación",
+      "loaded_other": "Se han cargado {{count}} asociaciones",
+      "loadMore": "Cargar más",
+      "loadingMore": "Cargando…"
+    },
+    "fields": {
+      "created": "Creada",
+      "updated": "Última actualización",
+      "party": "Organización",
+      "partyId": "ID de organización",
+      "partySlugId": "Identificador inmutable de organización",
+      "partnershipId": "ID de asociación",
+      "memberCount": "Miembros (recuento completo)",
+      "listingSourceGrantCount": "Accesos a fuentes (recuento completo)"
+    },
+    "actions": {
+      "details": "Ver detalles",
+      "retry": "Reintentar",
+      "saving": "Guardando…",
+      "grantMembership": "Conceder membresía",
+      "revokeMembership": "Revocar membresía",
+      "revoke": "Revocar",
+      "revokeMemberFor": "Revocar membresía del usuario {{id}}",
+      "revokeSourceFor": "Revocar acceso a la fuente de anuncios {{id}}",
+      "grantSource": "Conceder acceso",
+      "revokeSource": "Revocar acceso",
+      "cancel": "Cancelar",
+      "dissolve": "Disolver asociación",
+      "dissolving": "Disolviendo…",
+      "confirmDissolve": "Disolver asociación"
+    },
+    "detail": {
+      "title": "Detalles de la asociación",
+      "description": "Las membresías y los accesos a fuentes se gestionan por separado. Los recuentos completos pueden superar los identificadores mostrados.",
+      "members_one": "{{count}} miembro",
+      "members_other": "{{count}} miembros",
+      "listingSources_one": "{{count}} acceso a fuentes",
+      "listingSources_other": "{{count}} accesos a fuentes",
+      "referencesShown": "Identificadores mostrados: {{shown}}. Recuento completo: {{count}}.",
+      "noReferences": "No se han devuelto identificadores.",
+      "close": "Cerrar"
+    },
+    "members": {
+      "title": "Gestionar membresías",
+      "description": "Conceda o revoque la membresía de forma explícita. La aprobación de una solicitud no concede acceso por sí sola.",
+      "userId": "ID de usuario"
+    },
+    "sources": {
+      "title": "Gestionar acceso a fuentes",
+      "description": "La fuente debe pertenecer a la misma organización que la asociación. El servidor vuelve a comprobarlo al guardar el acceso.",
+      "listingSourceId": "ID de fuente de anuncios",
+      "checking": "Comprobando la fuente…",
+      "check": "Comprobar fuente",
+      "sameParty": "{{name}} ({{listingSourceId}}) pertenece a la misma organización que esta asociación."
+    },
+    "success": {
+      "memberGranted": "Membresía concedida.",
+      "memberRevoked": "Membresía revocada.",
+      "listingSourceGranted": "Acceso a la fuente concedido.",
+      "listingSourceRevoked": "Acceso a la fuente revocado.",
+      "dissolved": "Asociación disuelta."
+    },
+    "errors": {
+      "forbidden": "Se requiere acceso de administrador para esta acción.",
+      "invalid": "Compruebe los identificadores introducidos.",
+      "missing": "Esta asociación ya no está disponible.",
+      "partyConflict": "La fuente pertenece a otra organización. Solo se puede conceder acceso a una fuente de la organización de la asociación.",
+      "conflict": "La asociación cambió durante la solicitud. Actualice los detalles e inténtelo de nuevo.",
+      "dissolveConflict": "La asociación cambió durante la solicitud. Actualice los detalles antes de volver a intentarlo.",
+      "dissolveFailed": "No se pudo disolver la asociación. Revise su estado actual e inténtelo de nuevo.",
+      "requestFailed": "No se pudo completar la solicitud. Actualice los detalles e inténtelo de nuevo.",
+      "referenceMissing": "No se encontró la asociación o el identificador indicado."
+    },
+    "dissolution": {
+      "title": "Disolver asociación",
+      "description": "Al disolverla se eliminan las membresías y los accesos actuales a fuentes. Se conservan la organización, las fuentes, los usuarios, los anuncios y las solicitudes.",
+      "confirmTitle": "Confirmar disolución",
+      "confirmDescription": "¿Desea disolver la asociación con {{name}}? Se eliminarán sus membresías y accesos actuales a fuentes."
+    }
+  },
   "adminDashboard": {
     "loading": "Cargando…",
     "forbidden": {
