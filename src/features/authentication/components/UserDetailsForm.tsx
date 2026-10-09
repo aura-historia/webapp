@@ -1,15 +1,15 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Trans, useTranslation } from "react-i18next";
-import { Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { Info } from "lucide-react";
-import { z } from "zod";
 import { LANGUAGES, parseLanguage } from "@/data/internal/common/Language.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";
-import { getAccountEditSchema } from "@/features/account-management/lib/validation.ts";
+import {
+    type AccountEditFormData,
+    getAccountEditSchema,
+} from "@/features/account-management/lib/validation.ts";
 import { useRegistrationAccount } from "@/features/authentication/hooks/useRegistrationAccount.ts";
-import { useNewsletterSubscription } from "@/features/newsletter/api/useNewsletterSubscription.ts";
 import { useRegistrationPreferences } from "@/features/authentication/hooks/useRegistrationPreferences.ts";
 import {
     Form,
@@ -34,25 +34,16 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { SearchableCurrencySelect } from "@/components/common/SearchableCurrencySelect.tsx";
 
 type UserDetailsFormProps = {
-    readonly email: string;
     readonly onSuccess: () => void;
 };
 
-function getUserDetailsSchema(t: ReturnType<typeof useTranslation>["t"]) {
-    return getAccountEditSchema(t).extend({
-        newsletterConsent: z.boolean(),
-    });
-}
-
-type UserDetailsFormValues = z.infer<ReturnType<typeof getUserDetailsSchema>>;
-
-export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
+export function UserDetailsForm({ onSuccess }: UserDetailsFormProps) {
     const { t, i18n } = useTranslation();
-    const schema = getUserDetailsSchema(t);
+    const schema = getAccountEditSchema(t);
     const { preferences } = useRegistrationPreferences();
     const inferredLanguage = parseLanguage(i18n.resolvedLanguage ?? i18n.language);
 
-    const form = useForm<UserDetailsFormValues>({
+    const form = useForm<AccountEditFormData>({
         resolver: zodResolver(schema),
         defaultValues: {
             firstName: "",
@@ -60,29 +51,13 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
             language: inferredLanguage,
             currency: preferences.currency,
             unitSystem: preferences.unitSystem,
-            newsletterConsent: false,
             showUnassessedOrSensitiveContent: false,
         },
     });
 
     const { mutateAsync: updateAccount, isPending } = useRegistrationAccount();
-    const { mutateAsync: subscribe, isPending: isNewsletterPending } = useNewsletterSubscription();
 
-    const subscribeUserToNewsletter = async (data?: UserDetailsFormValues) => {
-        if (!data?.newsletterConsent) {
-            return;
-        }
-
-        await subscribe({
-            email,
-            firstName: data?.firstName || undefined,
-            lastName: data?.lastName || undefined,
-            language: data?.language ?? parseLanguage(i18n.language),
-            currency: data?.currency ?? preferences.currency,
-        });
-    };
-
-    const onSubmit = async (data: UserDetailsFormValues) => {
+    const onSubmit = async (data: AccountEditFormData) => {
         try {
             await updateAccount({
                 firstName: data.firstName || undefined,
@@ -92,7 +67,6 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
                 unitSystem: data.unitSystem || undefined,
                 showUnassessedOrSensitiveContent: data.showUnassessedOrSensitiveContent,
             });
-            await subscribeUserToNewsletter(data);
             onSuccess();
         } catch (err) {
             const message = err instanceof Error ? err.message : t("apiErrors.unknown");
@@ -255,44 +229,6 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
 
                     <FormField
                         control={form.control}
-                        name="newsletterConsent"
-                        render={({ field }) => (
-                            <FormItem className="space-y-2">
-                                <div className="flex items-start gap-3">
-                                    <FormControl>
-                                        <Checkbox
-                                            checked={field.value}
-                                            onCheckedChange={(checked) =>
-                                                field.onChange(checked === true)
-                                            }
-                                            className="mt-1 shrink-0"
-                                        />
-                                    </FormControl>
-                                    <div className="flex-1">
-                                        <FormLabel className="block cursor-pointer text-sm font-normal leading-relaxed">
-                                            <Trans
-                                                i18nKey="auth.userDetails.newsletterConsentText"
-                                                components={{
-                                                    privacyLink: (
-                                                        <Link
-                                                            to="/$lng/privacy"
-                                                            className="underline underline-offset-2"
-                                                            params={true}
-                                                            from="/$lng"
-                                                        />
-                                                    ),
-                                                }}
-                                            />
-                                        </FormLabel>
-                                    </div>
-                                </div>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        control={form.control}
                         name="showUnassessedOrSensitiveContent"
                         render={({ field }) => (
                             <FormItem className="space-y-2">
@@ -337,12 +273,10 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
 
                     <Button
                         type="submit"
-                        disabled={form.formState.isSubmitting || isPending || isNewsletterPending}
+                        disabled={form.formState.isSubmitting || isPending}
                         className="mt-2 w-full"
                     >
-                        {(form.formState.isSubmitting || isPending || isNewsletterPending) && (
-                            <Spinner />
-                        )}
+                        {(form.formState.isSubmitting || isPending) && <Spinner />}
                         {t("auth.userDetails.submit")}
                     </Button>
 
@@ -350,7 +284,7 @@ export function UserDetailsForm({ email, onSuccess }: UserDetailsFormProps) {
                         type="button"
                         variant="link"
                         onClick={handleSkip}
-                        disabled={form.formState.isSubmitting || isPending || isNewsletterPending}
+                        disabled={form.formState.isSubmitting || isPending}
                         className="h-auto p-0 text-sm text-muted-foreground"
                     >
                         {t("auth.userDetails.skip")}

@@ -3,7 +3,6 @@ import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const userDetailsSpy = vi.hoisted(() => vi.fn());
 const confirmationSpy = vi.hoisted(() => vi.fn());
 
 vi.mock("@/features/authentication/components/SignInForm.tsx", () => ({
@@ -32,10 +31,9 @@ vi.mock("@/features/authentication/components/ConfirmSignUpForm.tsx", () => ({
 }));
 
 vi.mock("@/features/authentication/components/UserDetailsForm.tsx", () => ({
-    UserDetailsForm: ({ email }: { email: string }) => {
-        userDetailsSpy(email);
-        return <div>{email}</div>;
-    },
+    UserDetailsForm: ({ onSuccess }: { onSuccess: () => void }) => (
+        <Button onClick={onSuccess}>user-details</Button>
+    ),
 }));
 
 vi.mock("@/features/authentication/components/ResetPasswordForm.tsx", () => ({
@@ -52,26 +50,37 @@ describe("AuthFlow", () => {
         window.sessionStorage.clear();
     });
 
-    it("restores the pending signup email after remounting on the user-details step", async () => {
+    it("restores only the pending signup email after remounting on the confirm step", async () => {
         const user = userEvent.setup();
-        const onStepChange = vi.fn();
 
         const { unmount } = await act(async () =>
             renderWithRouter(
-                <AuthFlow
-                    step="sign-up"
-                    locale="de"
-                    onStepChange={onStepChange}
-                    onComplete={vi.fn()}
-                />,
+                <AuthFlow step="sign-up" locale="de" onStepChange={vi.fn()} onComplete={vi.fn()} />,
             ),
         );
 
         await user.click(screen.getByRole("button", { name: "sign-up" }));
 
         expect(window.sessionStorage.getItem("auth.signUp.pendingEmail")).toBe("user@example.com");
+        expect(window.sessionStorage).toHaveLength(1);
+        expect(window.localStorage.getItem("auth.signUp.pendingEmail")).toBeNull();
 
         unmount();
+        confirmationSpy.mockClear();
+
+        await act(async () =>
+            renderWithRouter(
+                <AuthFlow step="confirm" locale="de" onStepChange={vi.fn()} onComplete={vi.fn()} />,
+            ),
+        );
+
+        expect(confirmationSpy).toHaveBeenCalledWith("user@example.com", "");
+    });
+
+    it("clears the pending signup email when user details are completed", async () => {
+        const user = userEvent.setup();
+        const onComplete = vi.fn();
+        window.sessionStorage.setItem("auth.signUp.pendingEmail", "user@example.com");
 
         await act(async () =>
             renderWithRouter(
@@ -79,13 +88,15 @@ describe("AuthFlow", () => {
                     step="user-details"
                     locale="de"
                     onStepChange={vi.fn()}
-                    onComplete={vi.fn()}
+                    onComplete={onComplete}
                 />,
             ),
         );
 
-        expect(userDetailsSpy).toHaveBeenCalledWith("user@example.com");
-        expect(screen.getByText("user@example.com")).toBeInTheDocument();
+        await user.click(screen.getByRole("button", { name: "user-details" }));
+
+        expect(onComplete).toHaveBeenCalled();
+        expect(window.sessionStorage.getItem("auth.signUp.pendingEmail")).toBeNull();
     });
 
     it("moves an unconfirmed sign-in to email confirmation with its credentials", async () => {
