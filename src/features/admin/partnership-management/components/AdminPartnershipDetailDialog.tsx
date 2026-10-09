@@ -282,7 +282,7 @@ export function AdminPartnershipDetailDialog({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
+            <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-4xl">
                 <DialogHeader>
                     <DialogTitle>
                         {partnership?.party.name ?? t("adminPartnerships.detail.title")}
@@ -335,7 +335,7 @@ export function AdminPartnershipDetailDialog({
                                 {t("adminPartnerships.members.description")}
                             </p>
                             <form
-                                className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto_auto] sm:items-end"
+                                className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end"
                                 onSubmit={(event) => {
                                     event.preventDefault();
                                     void grantMember(event);
@@ -358,19 +358,21 @@ export function AdminPartnershipDetailDialog({
                                         </p>
                                     )}
                                 </div>
-                                <Button type="submit" disabled={memberMutationPending}>
-                                    {grantMembership.isPending
-                                        ? t("adminPartnerships.actions.saving")
-                                        : t("adminPartnerships.actions.grantMembership")}
-                                </Button>
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    disabled={memberMutationPending}
-                                    onClick={() => void revokeMemberById()}
-                                >
-                                    {t("adminPartnerships.actions.revokeMembership")}
-                                </Button>
+                                <div className="flex flex-wrap gap-2">
+                                    <Button type="submit" disabled={memberMutationPending}>
+                                        {grantMembership.isPending
+                                            ? t("adminPartnerships.actions.saving")
+                                            : t("adminPartnerships.actions.grantMembership")}
+                                    </Button>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        disabled={memberMutationPending}
+                                        onClick={() => void revokeMemberById()}
+                                    >
+                                        {t("adminPartnerships.actions.revokeMembership")}
+                                    </Button>
+                                </div>
                             </form>
                             <ErrorNotice error={grantMembership.error ?? revokeMembership.error} />
                         </section>
@@ -381,7 +383,7 @@ export function AdminPartnershipDetailDialog({
                                 {t("adminPartnerships.sources.description")}
                             </p>
                             <form
-                                className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto_auto_auto] sm:items-end"
+                                className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end"
                                 onSubmit={(event) => {
                                     event.preventDefault();
                                     void checkListingSource(event);
@@ -408,35 +410,37 @@ export function AdminPartnershipDetailDialog({
                                         </p>
                                     )}
                                 </div>
-                                <Button
-                                    type="submit"
-                                    variant="outline"
-                                    disabled={listingSourceQuery.isFetching}
-                                >
-                                    {listingSourceQuery.isFetching
-                                        ? t("adminPartnerships.sources.checking")
-                                        : t("adminPartnerships.sources.check")}
-                                </Button>
-                                <Button
-                                    type="button"
-                                    disabled={
-                                        !sourceIsCheckedForCurrentValue ||
-                                        !listingSourceMatchesParty ||
-                                        listingSourceQuery.isPending ||
-                                        sourceMutationPending
-                                    }
-                                    onClick={() => void grantSource()}
-                                >
-                                    {t("adminPartnerships.actions.grantSource")}
-                                </Button>
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    disabled={sourceMutationPending}
-                                    onClick={() => void revokeSourceById()}
-                                >
-                                    {t("adminPartnerships.actions.revokeSource")}
-                                </Button>
+                                <div className="flex flex-wrap gap-2">
+                                    <Button
+                                        type="submit"
+                                        variant="outline"
+                                        disabled={listingSourceQuery.isFetching}
+                                    >
+                                        {listingSourceQuery.isFetching
+                                            ? t("adminPartnerships.sources.checking")
+                                            : t("adminPartnerships.sources.check")}
+                                    </Button>
+                                    <Button
+                                        type="button"
+                                        disabled={
+                                            !sourceIsCheckedForCurrentValue ||
+                                            !listingSourceMatchesParty ||
+                                            listingSourceQuery.isPending ||
+                                            sourceMutationPending
+                                        }
+                                        onClick={() => void grantSource()}
+                                    >
+                                        {t("adminPartnerships.actions.grantSource")}
+                                    </Button>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        disabled={sourceMutationPending}
+                                        onClick={() => void revokeSourceById()}
+                                    >
+                                        {t("adminPartnerships.actions.revokeSource")}
+                                    </Button>
+                                </div>
                             </form>
                             {listingSourceQuery.isPending && checkedListingSourceId && (
                                 <p role="status" className="text-sm text-muted-foreground">
