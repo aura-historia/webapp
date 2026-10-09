@@ -2525,5 +2525,91 @@
         "IMPERIAL": "Impérial"
       }
     }
+  },
+  "adminOAuthClients": {
+    "title": "Gestion des clients OAuth",
+    "description": "Consultez les clients OAuth enregistrés, modifiez leurs métadonnées et autorisations ou créez un client.",
+    "loading": "Chargement des clients OAuth…",
+    "loadingDetail": "Chargement des détails du client…",
+    "empty": "Aucun client OAuth ne correspond à ces filtres.",
+    "filters": {
+      "title": "Filtrer les clients OAuth",
+      "clientId": "ID exact du client",
+      "name": "Nom du client contient",
+      "apply": "Appliquer les filtres",
+      "reset": "Réinitialiser"
+    },
+    "list": {
+      "total_one": "{{count}} client OAuth correspondant",
+      "total_other": "{{count}} clients OAuth correspondants",
+      "issued": "Émis le {{date}}",
+      "noScopes": "Aucune autorisation attribuée",
+      "loadMore": "Charger plus",
+      "loadingMore": "Chargement…"
+    },
+    "fields": {
+      "name": "Nom du client",
+      "clientId": "ID du client",
+      "clientSecret": "Secret du client",
+      "terms": "URL des conditions d’utilisation",
+      "privacy": "URL de la politique de confidentialité",
+      "homepage": "URL de la page d’accueil",
+      "logo": "URL du logo",
+      "redirectUris": "URI de redirection",
+      "redirectUrisHelp": "Saisissez une URI de redirection HTTPS par ligne. Au moins une est requise ; les fragments sont interdits et chaque URI doit être unique.",
+      "scopes": "Autorisations autorisées",
+      "scopesHelp": "Sélectionnez les capacités que ce client peut demander. Si aucune n’est sélectionnée, toutes ses autorisations seront supprimées.",
+      "issuedAt": "ID client émis le"
+    },
+    "detail": {
+      "title": "Client OAuth",
+      "description": "Consultez les métadonnées et autorisations enregistrées. Le secret du client n’est pas disponible ici."
+    },
+    "create": {
+      "title": "Créer un client OAuth",
+      "description": "Le secret du client ne s’affiche qu’une seule fois après sa création. Copiez-le avant de fermer cette fenêtre.",
+      "secretTitle": "Client créé",
+      "secretDescription": "Ce secret en texte clair ne sera plus disponible après la fermeture de cette fenêtre. Conservez-le en lieu sûr avant de continuer."
+    },
+    "edit": {
+      "title": "Modifier le client OAuth",
+      "description": "Seuls les champs modifiés seront envoyés. Désélectionner toutes les autorisations supprime celles qui sont autorisées pour ce client."
+    },
+    "delete": {
+      "title": "Supprimer le client OAuth",
+      "description": "La suppression de ce client invalide également ses codes d’autorisation en attente et les identifiants qu’il a émis.",
+      "confirm": "Confirmer la suppression"
+    },
+    "actions": {
+      "create": "Créer le client",
+      "details": "Voir les détails",
+      "edit": "Modifier le client",
+      "delete": "Supprimer le client",
+      "save": "Enregistrer les modifications",
+      "saving": "Enregistrement…",
+      "deleting": "Suppression…",
+      "cancel": "Annuler",
+      "close": "Fermer",
+      "retry": "Réessayer"
+    },
+    "success": {
+      "updated": "Client OAuth mis à jour.",
+      "deleted": "Client OAuth supprimé."
+    },
+    "errors": {
+      "forbidden": "Vous n’êtes pas autorisé à gérer les clients OAuth.",
+      "missing": "Ce client OAuth est introuvable ou n’est plus disponible.",
+      "conflict": "Ce client OAuth a changé avant la fin de la requête. Rechargez ses détails et réessayez.",
+      "invalid": "Vérifiez les informations du client OAuth et réessayez.",
+      "requestFailed": "La requête du client OAuth n’a pas abouti. Veuillez réessayer."
+    },
+    "validation": {
+      "required": "Saisissez une URL.",
+      "nameRequired": "Saisissez un nom de client.",
+      "httpsUrl": "Saisissez une URL HTTPS valide.",
+      "redirectRequired": "Saisissez au moins une URI de redirection.",
+      "redirectInvalid": "Chaque URI de redirection doit être une URL HTTPS valide sans fragment.",
+      "redirectDuplicate": "Les URI de redirection doivent être uniques."
+    }
   }
 }

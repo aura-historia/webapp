@@ -2525,5 +2525,91 @@
         "IMPERIAL": "Imperial"
       }
     }
+  },
+  "adminOAuthClients": {
+    "title": "OAuth client management",
+    "description": "Review registered OAuth clients, update metadata and allowed scopes, or create a client.",
+    "loading": "Loading OAuth clients…",
+    "loadingDetail": "Loading client details…",
+    "empty": "No OAuth clients match these filters.",
+    "filters": {
+      "title": "Filter OAuth clients",
+      "clientId": "Exact client ID",
+      "name": "Client name contains",
+      "apply": "Apply filters",
+      "reset": "Reset"
+    },
+    "list": {
+      "total_one": "{{count}} matching OAuth client",
+      "total_other": "{{count}} matching OAuth clients",
+      "issued": "Issued {{date}}",
+      "noScopes": "No scopes assigned",
+      "loadMore": "Load more",
+      "loadingMore": "Loading…"
+    },
+    "fields": {
+      "name": "Client name",
+      "clientId": "Client ID",
+      "clientSecret": "Client secret",
+      "terms": "Terms of service URL",
+      "privacy": "Privacy policy URL",
+      "homepage": "Homepage URL",
+      "logo": "Logo URL",
+      "redirectUris": "Redirect URIs",
+      "redirectUrisHelp": "Enter one HTTPS redirect URI per line. At least one is required; fragments are not allowed and each URI must be unique.",
+      "scopes": "Allowed scopes",
+      "scopesHelp": "Select the capabilities this client may request. Leave all unchecked to clear its allowed scopes.",
+      "issuedAt": "Client ID issued"
+    },
+    "detail": {
+      "title": "OAuth client",
+      "description": "Review registered metadata and permissions. Client secrets are never available here."
+    },
+    "create": {
+      "title": "Create OAuth client",
+      "description": "The client secret is shown once after creation. Copy it before closing this dialog.",
+      "secretTitle": "Client created",
+      "secretDescription": "This plaintext secret will not be available after this dialog closes. Store it securely before proceeding."
+    },
+    "edit": {
+      "title": "Edit OAuth client",
+      "description": "Only changed fields will be sent. Clearing all scopes removes the client's allowed scopes."
+    },
+    "delete": {
+      "title": "Delete OAuth client",
+      "description": "Deleting this client also invalidates its pending authorization codes and credentials issued through it.",
+      "confirm": "Confirm deletion"
+    },
+    "actions": {
+      "create": "Create client",
+      "details": "View details",
+      "edit": "Edit client",
+      "delete": "Delete client",
+      "save": "Save changes",
+      "saving": "Saving…",
+      "deleting": "Deleting…",
+      "cancel": "Cancel",
+      "close": "Close",
+      "retry": "Try again"
+    },
+    "success": {
+      "updated": "OAuth client updated.",
+      "deleted": "OAuth client deleted."
+    },
+    "errors": {
+      "forbidden": "You do not have permission to manage OAuth clients.",
+      "missing": "This OAuth client was not found or is no longer available.",
+      "conflict": "This OAuth client changed before the request completed. Reload its details and try again.",
+      "invalid": "Check the OAuth client details and try again.",
+      "requestFailed": "The OAuth client request could not be completed. Please try again."
+    },
+    "validation": {
+      "required": "Enter a URL.",
+      "nameRequired": "Enter a client name.",
+      "httpsUrl": "Enter a valid HTTPS URL.",
+      "redirectRequired": "Enter at least one redirect URI.",
+      "redirectInvalid": "Each redirect URI must be a valid HTTPS URL without a fragment.",
+      "redirectDuplicate": "Redirect URIs must be unique."
+    }
   }
 }
