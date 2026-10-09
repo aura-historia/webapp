@@ -1702,6 +1702,351 @@
       }
     }
   },
+  "adminApplications": {
+    "title": "Partnership applications",
+    "description": "Review submitted proposals, move them into review, and record a decision.",
+    "loading": "Loading partnership applications.",
+    "loadingDetail": "Loading application.",
+    "loadError": "Could not load partnership applications.",
+    "empty": "No applications match these filters.",
+    "retry": "Retry",
+    "filters": {
+      "title": "Filter applications",
+      "states": "Status",
+      "proposalTypes": "Proposal type",
+      "applicantUserId": "Applicant user ID",
+      "listingSourceId": "Listing source ID",
+      "createdFrom": "Created from",
+      "createdTo": "Created until",
+      "updatedFrom": "Updated from",
+      "updatedTo": "Updated until",
+      "sort": "Sort by",
+      "apply": "Apply filters",
+      "reset": "Reset"
+    },
+    "sort": {
+      "created_desc": "Newest first",
+      "created_asc": "Oldest first",
+      "updated_desc": "Recently updated",
+      "updated_asc": "Least recently updated"
+    },
+    "state": {
+      "SUBMITTED": "Submitted",
+      "IN_REVIEW": "In review",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "WITHDRAWN": "Withdrawn"
+    },
+    "proposalType": {
+      "EXISTING_LISTING_SOURCE": "Existing provider",
+      "PROPOSED_LISTING_SOURCE": "Proposed provider"
+    },
+    "list": {
+      "applicant": "Applicant {{id}}",
+      "created": "Created {{date}}",
+      "updated": "Updated {{date}}",
+      "total_one": "{{count}} application",
+      "total_other": "{{count}} applications",
+      "loadMore": "Load more",
+      "loadingMore": "Loading…"
+    },
+    "fields": {
+      "id": "Application ID",
+      "applicantUserId": "Applicant user ID",
+      "created": "Created",
+      "updated": "Last updated",
+      "approvedPartnershipId": "Approved partnership ID",
+      "approvedListingSourceId": "Approved listing source ID"
+    },
+    "links": {
+      "listingSources": "Open listing source administration"
+    },
+    "proposal": {
+      "title": "Proposal",
+      "listingSourceId": "Listing source ID",
+      "partyName": "Party name",
+      "partyPhone": "Phone",
+      "partyEmail": "Email",
+      "sourceName": "Provider name",
+      "sourceUrl": "Provider URL",
+      "sourceImage": "Image URL",
+      "methods": "Requested ingestion methods"
+    },
+    "detail": {
+      "title": "Application details",
+      "description": "Proposals cannot be edited. Move submitted applications into review before approving or rejecting them."
+    },
+    "actions": {
+      "details": "View details",
+      "markInReview": "Start review",
+      "markInReviewHint": "Starting the review moves this application from Submitted to In review.",
+      "APPROVE": "Approve",
+      "REJECT": "Reject",
+      "cancel": "Cancel",
+      "confirm": {
+        "APPROVE": "Approve this application? Approval creates or links the partnership and grants access to the listing source.",
+        "REJECT": "Reject this application? The applicant will be notified."
+      }
+    },
+    "success": {
+      "IN_REVIEW": "Application moved into review.",
+      "APPROVE": "Application approved.",
+      "REJECT": "Application rejected."
+    },
+    "errors": {
+      "conflict": "This application was changed in the meantime or no longer allows this action. The latest status has been loaded.",
+      "missing": "Application not found or unavailable."
+    }
+  },
+  "adminParties": {
+    "title": "Organization management",
+    "description": "Manage organization identities and operational contacts for source operators and partnerships.",
+    "loading": "Loading organizations.",
+    "loadingDetail": "Loading organization.",
+    "empty": "No organizations match these filters.",
+    "filters": {
+      "title": "Filter organizations",
+      "query": "Name or contact",
+      "name": "Organization name",
+      "phone": "Phone",
+      "email": "Email",
+      "createdFrom": "Created from",
+      "createdTo": "Created until",
+      "updatedFrom": "Updated from",
+      "updatedTo": "Updated until",
+      "sort": "Sort by",
+      "apply": "Apply filters",
+      "reset": "Reset"
+    },
+    "sort": {
+      "name_asc": "Name, A to Z",
+      "name_desc": "Name, Z to A",
+      "email_asc": "Email, A to Z",
+      "email_desc": "Email, Z to A",
+      "phone_asc": "Phone, A to Z",
+      "phone_desc": "Phone, Z to A",
+      "created_asc": "Oldest created first",
+      "created_desc": "Newest created first",
+      "updated_asc": "Least recently updated",
+      "updated_desc": "Most recently updated"
+    },
+    "list": {
+      "created": "Created {{date}}",
+      "updated": "Updated {{date}}",
+      "total_one": "{{count}} organization",
+      "total_other": "{{count}} organizations",
+      "loadMore": "Load more",
+      "loadingMore": "Loading…"
+    },
+    "fields": {
+      "partyId": "Organization ID",
+      "partySlugId": "Organization slug",
+      "name": "Name",
+      "phone": "Phone",
+      "email": "Email",
+      "created": "Created",
+      "updated": "Last updated",
+      "notProvided": "Not provided"
+    },
+    "detail": {
+      "title": "Organization details",
+      "description": "Review its canonical identity, contact details, and record dates."
+    },
+    "form": {
+      "createTitle": "Create organization",
+      "editTitle": "Edit organization",
+      "description": "Manage the organization name and its optional operational contact details."
+    },
+    "actions": {
+      "create": "Create organization",
+      "details": "View details",
+      "edit": "Edit organization",
+      "delete": "Delete organization",
+      "retry": "Retry",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saving": "Saving…",
+      "confirmDelete": "Delete this organization? A linked listing source or retained partnership can prevent deletion. Related records are not removed by this action.",
+      "confirmDeleteButton": "Delete",
+      "deleting": "Deleting…"
+    },
+    "success": {
+      "created": "Organization created.",
+      "updated": "Organization updated.",
+      "deleted": "Organization deleted."
+    },
+    "errors": {
+      "forbidden": "You do not have permission to access organization contact details.",
+      "missing": "Organization not found or no longer available.",
+      "createConflict": "This organization could not be created because its generated identifier conflicts with an existing record. Review the existing organizations before trying again.",
+      "updateConflict": "This organization changed while you were editing it. Close this form and reopen its details before editing again.",
+      "deleteConflict": "This organization may be linked to a listing source or partnership and could not be deleted. No related records were deleted.",
+      "invalid": "Check the organization details and try again.",
+      "requestFailed": "The organization request could not be completed. Please try again."
+    },
+    "validation": {
+      "nameRequired": "Enter an organization name.",
+      "nameTooLong": "The name must be 255 UTF-8 bytes or fewer.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidDate": "Enter a valid calendar date."
+    },
+    "picker": {
+      "label": "Source operator organization",
+      "selected": "Selected organization",
+      "clear": "Clear selection",
+      "loading": "Searching organizations…",
+      "noMatch": "No existing organization matches this search. Create one in organization management, then return to select it.",
+      "searchPrompt": "Search existing organizations by name or contact details.",
+      "manageLink": "Open organization management"
+    }
+  },
+  "adminListingSources": {
+    "title": "Listing source management",
+    "description": "Manage listing sources, their operators, presentation details and ingestion settings.",
+    "loading": "Loading listing sources.",
+    "loadingDetail": "Loading listing source.",
+    "empty": "No listing sources match these filters.",
+    "filters": {
+      "title": "Filter listing sources",
+      "query": "Name or operator",
+      "name": "Source name",
+      "listingSourceId": "Listing source ID",
+      "listingSourceSlugId": "Immutable slug",
+      "operatorPartyId": "Operator organization ID",
+      "ingestionMethod": "Ingestion method",
+      "allMethods": "All methods",
+      "sort": "Sort by",
+      "apply": "Apply filters",
+      "reset": "Reset"
+    },
+    "sort": {
+      "name_asc": "Name, A to Z",
+      "name_desc": "Name, Z to A",
+      "slug_asc": "Slug, A to Z",
+      "slug_desc": "Slug, Z to A",
+      "created_asc": "Oldest created first",
+      "created_desc": "Newest created first",
+      "updated_asc": "Least recently updated",
+      "updated_desc": "Most recently updated"
+    },
+    "list": {
+      "operator": "Operator: {{name}}",
+      "noMethods": "No ingestion method",
+      "updated": "Updated {{date}}",
+      "total_one": "{{count}} listing source",
+      "total_other": "{{count}} listing sources",
+      "loadMore": "Load more",
+      "loadingMore": "Loading…"
+    },
+    "fields": {
+      "listingSourceId": "Listing source ID",
+      "immutableSlug": "Immutable slug",
+      "name": "Source name",
+      "operator": "Operator organization",
+      "operatorPartyId": "Operator organization ID",
+      "operatorName": "New operator name",
+      "phone": "Phone",
+      "email": "Email",
+      "ingestionMethods": "Ingestion methods",
+      "ingestionMethod": "Ingestion method",
+      "ingestionConfiguration": "Ingestion configuration",
+      "configurationType": "Configuration type",
+      "fallbackCurrency": "Fallback currency (ISO 4217)",
+      "domain": "Shopify domain",
+      "currency": "Currency",
+      "language": "Language",
+      "webhookSecret": "WooCommerce webhook secret",
+      "url": "Presentation URL",
+      "image": "Presentation image URL",
+      "partnerizeCamref": "Partnerize campaign reference (camref)",
+      "referralConfiguration": "Referral configuration",
+      "created": "Created",
+      "updated": "Last updated",
+      "notProvided": "Not provided",
+      "referralUnavailable": "Currently unavailable"
+    },
+    "methods": {
+      "WEB_CRAWL": "Web crawl",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "Partner API"
+    },
+    "configurationTypes": {
+      "UNCONFIGURED": "Unconfigured",
+      "WEB_CRAWL": "Web crawl",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "Partner API"
+    },
+    "operator": {
+      "existing": "Select an existing organization",
+      "new": "Create a new organization"
+    },
+    "referral": {
+      "keep": "Keep current setting",
+      "set": "Set Partnerize reference",
+      "clear": "Clear referral setting",
+      "partnerizeValue": "Partnerize · {{camref}}"
+    },
+    "detail": {
+      "title": "Listing source details",
+      "description": "Review the source identity, operator and safe configuration summary. Provider secrets are never shown."
+    },
+    "form": {
+      "createTitle": "Create listing source",
+      "createDescription": "Create a source and choose its operator and ingestion configuration.",
+      "editTitle": "Edit listing source",
+      "editDescription": "Change source details. The operator and source slug are immutable.",
+      "configurationDescription": "Add one configuration for each ingestion method. Unconfigured entries preserve the method without provider settings.",
+      "referralDescription": "Optional Partnerize referral information. No provider credentials are stored here.",
+      "replaceConfiguration": "Replace ingestion configuration",
+      "incompleteConfigurationNotice": "The read API does not return configuration values. Leave this off to preserve the current settings. Turning it on replaces settings for every active ingestion method.",
+      "secretPreservationNotice": "This secret is write-only and is never read back. Leave it blank to preserve an existing secret; enter a value to set or rotate it.",
+      "partnerApiConfiguration": "Partner API configuration is managed through the partner integration workflow."
+    },
+    "actions": {
+      "create": "Create source",
+      "details": "View details",
+      "edit": "Edit source",
+      "delete": "Delete source",
+      "retry": "Retry",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saving": "Saving…",
+      "addMethod": "Add ingestion method",
+      "removeMethod": "Remove",
+      "confirmDelete": "Delete this listing source? Sources with listings or retained relationships cannot be deleted. Related partnerships and applications will not be removed.",
+      "confirmDeleteButton": "Delete source",
+      "deleting": "Deleting…"
+    },
+    "success": {
+      "created": "Listing source created.",
+      "updated": "Listing source updated.",
+      "deleted": "Listing source deleted."
+    },
+    "errors": {
+      "forbidden": "You do not have permission to manage listing sources.",
+      "missing": "Listing source not found or no longer available.",
+      "createConflict": "The source conflicts with existing provider configuration. Review the current sources before trying again.",
+      "updateConflict": "This listing source changed while you were editing it. Reload its details before trying again.",
+      "deleteConflict": "This listing source has listings or retained relationships and could not be deleted. No related records were removed.",
+      "invalid": "Check the listing source details and ingestion settings, then try again.",
+      "requestFailed": "The listing source request could not be completed. Please try again."
+    },
+    "validation": {
+      "nameRequired": "Enter a source name.",
+      "nameTooLong": "The source name must be 255 UTF-8 bytes or fewer.",
+      "invalidEmail": "Enter a valid email address.",
+      "invalidUrl": "Enter a valid HTTP or HTTPS URL.",
+      "configurationRequired": "Add at least one ingestion configuration.",
+      "operatorRequired": "Select an operator organization.",
+      "operatorNameRequired": "Enter the new operator organization name.",
+      "duplicateMethod": "Each ingestion method can only be added once.",
+      "shopifyDomainRequired": "Enter the Shopify store domain.",
+      "webhookSecretRequired": "Enter the WooCommerce webhook secret.",
+      "camrefRequired": "Enter the Partnerize campaign reference."
+    }
+  },
   "adminDashboard": {
     "loading": "Loading…",
     "forbidden": {
@@ -1941,6 +2286,141 @@
       "title": "Barnebys is good for auctions. Aura Historia is built for the antiques market.",
       "description": "If your search should include the places where antiques are actually sold online, start with Aura Historia.",
       "button": "Start searching antiques"
+    }
+  },
+  "adminUsers": {
+    "title": "User management",
+    "description": "Search account summaries, review account details, and make profile, role, and tier changes independently.",
+    "loading": "Loading users…",
+    "loadingDetail": "Loading account details…",
+    "empty": "No users match these filters.",
+    "filters": {
+      "title": "Filter users",
+      "query": "Name or email",
+      "email": "Email contains",
+      "firstName": "First name contains",
+      "lastName": "Last name contains",
+      "tier": "Subscription tier",
+      "role": "Role",
+      "createdFrom": "Created from",
+      "createdTo": "Created until",
+      "updatedFrom": "Updated from",
+      "updatedTo": "Updated until",
+      "sort": "Sort by",
+      "order": "Direction",
+      "apply": "Apply filters",
+      "reset": "Reset"
+    },
+    "sort": {
+      "name": "Name",
+      "email": "Email",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "tier": "Subscription tier",
+      "role": "Role",
+      "created": "Created",
+      "updated": "Updated"
+    },
+    "order": {
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "list": {
+      "title": "Users",
+      "loaded_one": "{{count}} user loaded",
+      "loaded_other": "{{count}} users loaded",
+      "total_one": "{{count}} matching user in total",
+      "total_other": "{{count}} matching users in total",
+      "loadMore": "Load more",
+      "loadingMore": "Loading…",
+      "openUser": "View account for {{email}}"
+    },
+    "fields": {
+      "userId": "User ID",
+      "email": "Email",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "language": "Preferred language",
+      "currency": "Preferred currency",
+      "measurementUnit": "Measurement units",
+      "showUnassessedOrSensitiveContent": "Show unassessed or sensitive content",
+      "role": "Role",
+      "tier": "Subscription tier"
+    },
+    "profile": {
+      "title": "Profile and preferences",
+      "sensitiveContentHelp": "This preference controls unassessed and sensitive content. Content redacted by the service remains unavailable."
+    },
+    "role": {
+      "title": "Role"
+    },
+    "tier": {
+      "title": "Subscription tier"
+    },
+    "detail": {
+      "title": "User account",
+      "description": "Review the fields provided by the account service and update each change category separately.",
+      "close": "Close"
+    },
+    "delete": {
+      "title": "Delete account",
+      "description": "Deleting an account also removes its access tokens, saved searches, watchlist entries, notifications, and related memberships and applications.",
+      "confirm": "This deletion is permanent. Delete this user account?"
+    },
+    "actions": {
+      "retry": "Try again",
+      "saveProfile": "Save profile and preferences",
+      "saveRole": "Save role",
+      "saveTier": "Save tier",
+      "saving": "Saving…",
+      "delete": "Delete account",
+      "confirmDelete": "Confirm deletion",
+      "deleting": "Deleting…",
+      "cancel": "Cancel"
+    },
+    "success": {
+      "profileUpdated": "Profile and preferences updated.",
+      "roleUpdated": "Role updated.",
+      "tierUpdated": "Subscription tier updated.",
+      "deleted": "User account deleted."
+    },
+    "errors": {
+      "forbidden": "You do not have permission to manage user accounts.",
+      "missing": "This user account was not found or is no longer available.",
+      "conflict": "This account changed before the update completed. Reload its details and try again.",
+      "lastAdmin": "At least one active administrator must remain. The account was not changed.",
+      "deleteConflict": "This account cannot be deleted in its current state. At least one active administrator must remain.",
+      "invalid": "Check the account fields and try again.",
+      "requestFailed": "The user account request could not be completed. Please try again."
+    },
+    "validation": {
+      "invalidEmail": "Enter a valid email address.",
+      "nameTooLong": "Names must be 64 characters or fewer.",
+      "invalidDate": "Enter a valid calendar date.",
+      "invalidRange": "The start date must be on or before the end date."
+    },
+    "options": {
+      "notSet": "Not set",
+      "roles": {
+        "USER": "User",
+        "ADMIN": "Administrator"
+      },
+      "tiers": {
+        "FREE": "Free",
+        "PRO": "Pro",
+        "ULTIMATE": "Ultimate"
+      },
+      "languages": {
+        "de": "German",
+        "en": "English",
+        "es": "Spanish",
+        "fr": "French",
+        "it": "Italian"
+      },
+      "measurementUnits": {
+        "METRIC": "Metric",
+        "IMPERIAL": "Imperial"
+      }
     }
   }
 }

@@ -1396,6 +1396,153 @@
     "totalElements_other": "{{count}} notifiche",
     "showAll": "Mostra tutte le notifiche"
   },
+  "adminListingSources": {
+    "title": "Gestione delle fonti di annunci",
+    "description": "Gestisci le fonti, i relativi operatori, i dati di presentazione e le impostazioni di acquisizione.",
+    "loading": "Caricamento delle fonti di annunci.",
+    "loadingDetail": "Caricamento della fonte di annunci.",
+    "empty": "Nessuna fonte di annunci corrisponde a questi filtri.",
+    "filters": {
+      "title": "Filtra le fonti di annunci",
+      "query": "Nome o operatore",
+      "name": "Nome della fonte",
+      "listingSourceId": "ID della fonte",
+      "listingSourceSlugId": "Slug immutabile",
+      "operatorPartyId": "ID dell’organizzazione operatrice",
+      "ingestionMethod": "Metodo di acquisizione",
+      "allMethods": "Tutti i metodi",
+      "sort": "Ordina per",
+      "apply": "Applica filtri",
+      "reset": "Reimposta"
+    },
+    "sort": {
+      "name_asc": "Nome, dalla A alla Z",
+      "name_desc": "Nome, dalla Z alla A",
+      "slug_asc": "Slug, dalla A alla Z",
+      "slug_desc": "Slug, dalla Z alla A",
+      "created_asc": "Prima le più vecchie",
+      "created_desc": "Prima le più recenti",
+      "updated_asc": "Aggiornate meno di recente",
+      "updated_desc": "Aggiornate più di recente"
+    },
+    "list": {
+      "operator": "Operatore: {{name}}",
+      "noMethods": "Nessun metodo di acquisizione",
+      "updated": "Aggiornata {{date}}",
+      "total_one": "{{count}} fonte di annunci",
+      "total_other": "{{count}} fonti di annunci",
+      "loadMore": "Carica altro",
+      "loadingMore": "Caricamento…"
+    },
+    "fields": {
+      "listingSourceId": "ID della fonte",
+      "immutableSlug": "Slug immutabile",
+      "name": "Nome della fonte",
+      "operator": "Organizzazione operatrice",
+      "operatorPartyId": "ID dell’organizzazione operatrice",
+      "operatorName": "Nome del nuovo operatore",
+      "phone": "Telefono",
+      "email": "E-mail",
+      "ingestionMethods": "Metodi di acquisizione",
+      "ingestionMethod": "Metodo di acquisizione",
+      "ingestionConfiguration": "Configurazione di acquisizione",
+      "configurationType": "Tipo di configurazione",
+      "fallbackCurrency": "Valuta di ripiego (ISO 4217)",
+      "domain": "Dominio Shopify",
+      "currency": "Valuta",
+      "language": "Lingua",
+      "webhookSecret": "Segreto webhook WooCommerce",
+      "url": "URL di presentazione",
+      "image": "URL dell’immagine di presentazione",
+      "partnerizeCamref": "Riferimento campagna Partnerize (camref)",
+      "referralConfiguration": "Configurazione referral",
+      "created": "Creata",
+      "updated": "Ultimo aggiornamento",
+      "notProvided": "Non indicato",
+      "referralUnavailable": "Al momento non disponibile"
+    },
+    "methods": {
+      "WEB_CRAWL": "Scansione web",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "API partner"
+    },
+    "configurationTypes": {
+      "UNCONFIGURED": "Non configurato",
+      "WEB_CRAWL": "Scansione web",
+      "SHOPIFY": "Shopify",
+      "WOOCOMMERCE": "WooCommerce",
+      "PARTNER_API": "API partner"
+    },
+    "operator": {
+      "existing": "Seleziona un’organizzazione esistente",
+      "new": "Crea una nuova organizzazione"
+    },
+    "referral": {
+      "keep": "Mantieni l’impostazione attuale",
+      "set": "Imposta il riferimento Partnerize",
+      "clear": "Cancella l’impostazione referral",
+      "partnerizeValue": "Partnerize · {{camref}}"
+    },
+    "detail": {
+      "title": "Dettagli della fonte di annunci",
+      "description": "Esamina l’identità della fonte, l’operatore e il riepilogo sicuro della configurazione. I segreti del fornitore non vengono mai mostrati."
+    },
+    "form": {
+      "createTitle": "Crea fonte di annunci",
+      "createDescription": "Crea una fonte e scegli l’operatore e la configurazione di acquisizione.",
+      "editTitle": "Modifica fonte di annunci",
+      "editDescription": "Modifica i dati della fonte. Operatore e slug sono immutabili.",
+      "configurationDescription": "Aggiungi una configurazione per ogni metodo di acquisizione. Le voci non configurate mantengono il metodo senza impostazioni del fornitore.",
+      "referralDescription": "Dati referral Partnerize facoltativi. Qui non vengono salvate credenziali del fornitore.",
+      "replaceConfiguration": "Sostituisci la configurazione di acquisizione",
+      "incompleteConfigurationNotice": "L’API di lettura non restituisce i valori di configurazione. Lascia l’opzione disattivata per mantenere le impostazioni attuali. Attivandola sostituirai le impostazioni di tutti i metodi attivi.",
+      "secretPreservationNotice": "Questo segreto è solo scrivibile e non viene mai letto di nuovo. Lascialo vuoto per mantenere un segreto esistente; inserisci un valore per impostarlo o ruotarlo.",
+      "partnerApiConfiguration": "La configurazione dell’API partner è gestita tramite il flusso di integrazione partner."
+    },
+    "actions": {
+      "create": "Crea fonte",
+      "details": "Visualizza dettagli",
+      "edit": "Modifica fonte",
+      "delete": "Elimina fonte",
+      "retry": "Riprova",
+      "cancel": "Annulla",
+      "save": "Salva modifiche",
+      "saving": "Salvataggio…",
+      "addMethod": "Aggiungi metodo di acquisizione",
+      "removeMethod": "Rimuovi",
+      "confirmDelete": "Eliminare questa fonte di annunci? Le fonti con annunci o relazioni conservate non possono essere eliminate. Le partnership e le richieste correlate non verranno rimosse.",
+      "confirmDeleteButton": "Elimina fonte",
+      "deleting": "Eliminazione…"
+    },
+    "success": {
+      "created": "Fonte di annunci creata.",
+      "updated": "Fonte di annunci aggiornata.",
+      "deleted": "Fonte di annunci eliminata."
+    },
+    "errors": {
+      "forbidden": "Non hai l’autorizzazione per gestire le fonti di annunci.",
+      "missing": "Fonte di annunci non trovata o non più disponibile.",
+      "createConflict": "La fonte è in conflitto con una configurazione del fornitore esistente. Esamina le fonti attuali e riprova.",
+      "updateConflict": "La fonte è stata modificata durante l’operazione. Ricarica i dettagli prima di riprovare.",
+      "deleteConflict": "La fonte ha annunci o relazioni conservate e non può essere eliminata. Non è stato rimosso alcun dato correlato.",
+      "invalid": "Controlla i dati della fonte e le impostazioni di acquisizione, quindi riprova.",
+      "requestFailed": "Non è stato possibile completare la richiesta della fonte. Riprova."
+    },
+    "validation": {
+      "nameRequired": "Inserisci il nome della fonte.",
+      "nameTooLong": "Il nome della fonte non può superare 255 byte UTF-8.",
+      "invalidEmail": "Inserisci un indirizzo e-mail valido.",
+      "invalidUrl": "Inserisci un URL HTTP o HTTPS valido.",
+      "configurationRequired": "Aggiungi almeno una configurazione di acquisizione.",
+      "operatorRequired": "Seleziona un’organizzazione operatrice.",
+      "operatorNameRequired": "Inserisci il nome della nuova organizzazione operatrice.",
+      "duplicateMethod": "Ogni metodo di acquisizione può essere aggiunto una sola volta.",
+      "shopifyDomainRequired": "Inserisci il dominio del negozio Shopify.",
+      "webhookSecretRequired": "Inserisci il segreto webhook WooCommerce.",
+      "camrefRequired": "Inserisci il riferimento campagna Partnerize."
+    }
+  },
   "adminDashboard": {
     "loading": "Caricamento…",
     "forbidden": {
@@ -1635,6 +1782,204 @@
         "WOOCOMMERCE": "WooCommerce",
         "PARTNER_API": "API partner"
       }
+    }
+  },
+  "adminApplications": {
+    "title": "Richieste di partnership",
+    "description": "Esamina le proposte inviate, mettile in revisione e registra una decisione.",
+    "loading": "Caricamento delle richieste di partnership.",
+    "loadingDetail": "Caricamento della richiesta.",
+    "loadError": "Impossibile caricare le richieste di partnership.",
+    "empty": "Nessuna richiesta corrisponde a questi filtri.",
+    "retry": "Riprova",
+    "filters": {
+      "title": "Filtra richieste",
+      "states": "Stato",
+      "proposalTypes": "Tipo di proposta",
+      "applicantUserId": "ID utente del richiedente",
+      "listingSourceId": "ID della fonte di annunci",
+      "createdFrom": "Creata dal",
+      "createdTo": "Creata fino al",
+      "updatedFrom": "Aggiornata dal",
+      "updatedTo": "Aggiornata fino al",
+      "sort": "Ordina per",
+      "apply": "Applica filtri",
+      "reset": "Reimposta"
+    },
+    "sort": {
+      "created_desc": "Più recenti prima",
+      "created_asc": "Meno recenti prima",
+      "updated_desc": "Aggiornate di recente",
+      "updated_asc": "Aggiornate meno di recente"
+    },
+    "state": {
+      "SUBMITTED": "Inviata",
+      "IN_REVIEW": "In revisione",
+      "APPROVED": "Approvata",
+      "REJECTED": "Rifiutata",
+      "WITHDRAWN": "Ritirata"
+    },
+    "proposalType": {
+      "EXISTING_LISTING_SOURCE": "Fornitore esistente",
+      "PROPOSED_LISTING_SOURCE": "Fornitore proposto"
+    },
+    "list": {
+      "applicant": "Richiedente {{id}}",
+      "created": "Creata il {{date}}",
+      "updated": "Aggiornata il {{date}}",
+      "total_one": "{{count}} richiesta",
+      "total_other": "{{count}} richieste",
+      "loadMore": "Carica altro",
+      "loadingMore": "Caricamento…"
+    },
+    "fields": {
+      "id": "ID della richiesta",
+      "applicantUserId": "ID utente del richiedente",
+      "created": "Creata",
+      "updated": "Ultimo aggiornamento",
+      "approvedPartnershipId": "ID della partnership approvata",
+      "approvedListingSourceId": "ID della fonte di annunci approvata"
+    },
+    "links": {
+      "listingSources": "Apri l’amministrazione delle fonti di annunci"
+    },
+    "proposal": {
+      "title": "Proposta",
+      "listingSourceId": "ID della fonte di annunci",
+      "partyName": "Nome della parte",
+      "partyPhone": "Telefono",
+      "partyEmail": "E-mail",
+      "sourceName": "Nome del fornitore",
+      "sourceUrl": "URL del fornitore",
+      "sourceImage": "URL dell’immagine",
+      "methods": "Metodi di importazione richiesti"
+    },
+    "detail": {
+      "title": "Dettagli della richiesta",
+      "description": "Le proposte non possono essere modificate. Metti in revisione le richieste inviate prima di approvarle o rifiutarle."
+    },
+    "actions": {
+      "details": "Vedi dettagli",
+      "markInReview": "Avvia revisione",
+      "markInReviewHint": "Avviando la revisione, la richiesta passa da Inviata a In revisione.",
+      "APPROVE": "Approva",
+      "REJECT": "Rifiuta",
+      "cancel": "Annulla",
+      "confirm": {
+        "APPROVE": "Approvare questa richiesta? L’approvazione crea o collega la partnership e concede l’accesso alla fonte di annunci.",
+        "REJECT": "Rifiutare questa richiesta? Il richiedente riceverà una notifica."
+      }
+    },
+    "success": {
+      "IN_REVIEW": "Richiesta messa in revisione.",
+      "APPROVE": "Richiesta approvata.",
+      "REJECT": "Richiesta rifiutata."
+    },
+    "errors": {
+      "conflict": "Questa richiesta è stata modificata nel frattempo o non consente più questa azione. È stato caricato lo stato attuale.",
+      "missing": "Richiesta non trovata o non disponibile."
+    }
+  },
+  "adminParties": {
+    "title": "Gestione delle organizzazioni",
+    "description": "Gestisci le identità e i recapiti operativi delle organizzazioni collegate alle fonti e alle partnership.",
+    "loading": "Caricamento delle organizzazioni.",
+    "loadingDetail": "Caricamento dell’organizzazione.",
+    "empty": "Nessuna organizzazione corrisponde a questi filtri.",
+    "filters": {
+      "title": "Filtra le organizzazioni",
+      "query": "Nome o recapito",
+      "name": "Nome dell’organizzazione",
+      "phone": "Telefono",
+      "email": "E-mail",
+      "createdFrom": "Creata dal",
+      "createdTo": "Creata fino al",
+      "updatedFrom": "Modificata dal",
+      "updatedTo": "Modificata fino al",
+      "sort": "Ordina per",
+      "apply": "Applica filtri",
+      "reset": "Reimposta"
+    },
+    "sort": {
+      "name_asc": "Nome, dalla A alla Z",
+      "name_desc": "Nome, dalla Z alla A",
+      "email_asc": "E-mail, dalla A alla Z",
+      "email_desc": "E-mail, dalla Z alla A",
+      "phone_asc": "Telefono, dalla A alla Z",
+      "phone_desc": "Telefono, dalla Z alla A",
+      "created_asc": "Prima le più vecchie",
+      "created_desc": "Prima le più recenti",
+      "updated_asc": "Modificate meno di recente",
+      "updated_desc": "Modificate più di recente"
+    },
+    "list": {
+      "created": "Creata il {{date}}",
+      "updated": "Modificata il {{date}}",
+      "total_one": "{{count}} organizzazione",
+      "total_other": "{{count}} organizzazioni",
+      "loadMore": "Carica altro",
+      "loadingMore": "Caricamento…"
+    },
+    "fields": {
+      "partyId": "ID organizzazione",
+      "partySlugId": "Identificatore URL dell’organizzazione",
+      "name": "Nome",
+      "phone": "Telefono",
+      "email": "E-mail",
+      "created": "Creata il",
+      "updated": "Ultima modifica",
+      "notProvided": "Non indicato"
+    },
+    "detail": {
+      "title": "Dettagli dell’organizzazione",
+      "description": "Consulta l’identità canonica, i recapiti e le date del record."
+    },
+    "form": {
+      "createTitle": "Crea organizzazione",
+      "editTitle": "Modifica organizzazione",
+      "description": "Gestisci il nome dell’organizzazione e gli eventuali recapiti operativi."
+    },
+    "actions": {
+      "create": "Crea organizzazione",
+      "details": "Vedi dettagli",
+      "edit": "Modifica organizzazione",
+      "delete": "Elimina organizzazione",
+      "retry": "Riprova",
+      "cancel": "Annulla",
+      "save": "Salva modifiche",
+      "saving": "Salvataggio…",
+      "confirmDelete": "Eliminare questa organizzazione? Una fonte di annunci collegata o una partnership attiva può impedirne l’eliminazione. Questa azione non elimina record correlati.",
+      "confirmDeleteButton": "Elimina",
+      "deleting": "Eliminazione…"
+    },
+    "success": {
+      "created": "Organizzazione creata.",
+      "updated": "Organizzazione aggiornata.",
+      "deleted": "Organizzazione eliminata."
+    },
+    "errors": {
+      "forbidden": "Non hai l’autorizzazione per accedere ai recapiti dell’organizzazione.",
+      "missing": "Organizzazione non trovata o non più disponibile.",
+      "createConflict": "Non è stato possibile creare l’organizzazione perché l’identificatore generato è in conflitto con un record esistente. Controlla le organizzazioni presenti prima di riprovare.",
+      "updateConflict": "L’organizzazione è stata modificata mentre la stavi aggiornando. Chiudi il modulo e riapri i dettagli prima di modificarla di nuovo.",
+      "deleteConflict": "L’organizzazione potrebbe essere collegata a una fonte di annunci o a una partnership e non è stato possibile eliminarla. Nessun record correlato è stato eliminato.",
+      "invalid": "Controlla i dati dell’organizzazione e riprova.",
+      "requestFailed": "Non è stato possibile completare la richiesta. Riprova."
+    },
+    "validation": {
+      "nameRequired": "Inserisci il nome dell’organizzazione.",
+      "nameTooLong": "Il nome non può superare 255 byte UTF-8.",
+      "invalidEmail": "Inserisci un indirizzo e-mail valido.",
+      "invalidDate": "Inserisci una data di calendario valida."
+    },
+    "picker": {
+      "label": "Organizzazione che gestisce la fonte",
+      "selected": "Organizzazione selezionata",
+      "clear": "Rimuovi selezione",
+      "loading": "Ricerca delle organizzazioni…",
+      "noMatch": "Nessuna organizzazione esistente corrisponde alla ricerca. Creala nella gestione delle organizzazioni, poi torna qui per selezionarla.",
+      "searchPrompt": "Cerca organizzazioni esistenti per nome o recapito.",
+      "manageLink": "Apri la gestione delle organizzazioni"
     }
   },
   "compareBarnebysPage": {
@@ -1942,5 +2287,140 @@
     "loading": "Caricamento dei fornitori accessibili.",
     "loadError": "Non è stato possibile verificare l’accesso ai fornitori. I permessi potrebbero essere cambiati. Riprovi.",
     "empty": "Al momento non ha accesso ad alcun fornitore. Un accesso precedente potrebbe essere stato revocato."
+  },
+  "adminUsers": {
+    "title": "Gestione utenti",
+    "description": "Cerca riepiloghi degli account, esamina i dettagli e modifica separatamente profilo, ruolo e piano.",
+    "loading": "Caricamento utenti…",
+    "loadingDetail": "Caricamento dettagli account…",
+    "empty": "Nessun utente corrisponde a questi filtri.",
+    "filters": {
+      "title": "Filtra utenti",
+      "query": "Nome o e-mail",
+      "email": "E-mail contiene",
+      "firstName": "Nome contiene",
+      "lastName": "Cognome contiene",
+      "tier": "Piano di abbonamento",
+      "role": "Ruolo",
+      "createdFrom": "Creato da",
+      "createdTo": "Creato fino al",
+      "updatedFrom": "Modificato da",
+      "updatedTo": "Modificato fino al",
+      "sort": "Ordina per",
+      "order": "Direzione",
+      "apply": "Applica filtri",
+      "reset": "Reimposta"
+    },
+    "sort": {
+      "name": "Nome",
+      "email": "E-mail",
+      "firstName": "Nome",
+      "lastName": "Cognome",
+      "tier": "Piano di abbonamento",
+      "role": "Ruolo",
+      "created": "Data di creazione",
+      "updated": "Data di modifica"
+    },
+    "order": {
+      "asc": "Crescente",
+      "desc": "Decrescente"
+    },
+    "list": {
+      "title": "Utenti",
+      "loaded_one": "{{count}} utente caricato",
+      "loaded_other": "{{count}} utenti caricati",
+      "total_one": "{{count}} utente corrispondente in totale",
+      "total_other": "{{count}} utenti corrispondenti in totale",
+      "loadMore": "Carica altri",
+      "loadingMore": "Caricamento…",
+      "openUser": "Visualizza l’account di {{email}}"
+    },
+    "fields": {
+      "userId": "ID utente",
+      "email": "E-mail",
+      "firstName": "Nome",
+      "lastName": "Cognome",
+      "language": "Lingua preferita",
+      "currency": "Valuta preferita",
+      "measurementUnit": "Unità di misura",
+      "showUnassessedOrSensitiveContent": "Mostrare contenuti non valutati o sensibili",
+      "role": "Ruolo",
+      "tier": "Piano di abbonamento"
+    },
+    "profile": {
+      "title": "Profilo e preferenze",
+      "sensitiveContentHelp": "Questa preferenza riguarda contenuti non valutati e sensibili. I contenuti oscurati dal servizio restano non disponibili."
+    },
+    "role": {
+      "title": "Ruolo"
+    },
+    "tier": {
+      "title": "Piano di abbonamento"
+    },
+    "detail": {
+      "title": "Account utente",
+      "description": "Esamina i campi forniti dal servizio account e aggiorna separatamente ogni categoria.",
+      "close": "Chiudi"
+    },
+    "delete": {
+      "title": "Elimina account",
+      "description": "L’eliminazione di un account rimuove anche i relativi token di accesso, ricerche salvate, elementi della lista di controllo, notifiche, iscrizioni e richieste correlate.",
+      "confirm": "L’eliminazione è definitiva. Eliminare questo account utente?"
+    },
+    "actions": {
+      "retry": "Riprova",
+      "saveProfile": "Salva profilo e preferenze",
+      "saveRole": "Salva ruolo",
+      "saveTier": "Salva piano",
+      "saving": "Salvataggio…",
+      "delete": "Elimina account",
+      "confirmDelete": "Conferma eliminazione",
+      "deleting": "Eliminazione…",
+      "cancel": "Annulla"
+    },
+    "success": {
+      "profileUpdated": "Profilo e preferenze aggiornati.",
+      "roleUpdated": "Ruolo aggiornato.",
+      "tierUpdated": "Piano di abbonamento aggiornato.",
+      "deleted": "Account utente eliminato."
+    },
+    "errors": {
+      "forbidden": "Non hai l’autorizzazione per gestire gli account utente.",
+      "missing": "Questo account utente non è stato trovato o non è più disponibile.",
+      "conflict": "L’account è cambiato prima del completamento dell’aggiornamento. Ricarica i dettagli e riprova.",
+      "lastAdmin": "Deve rimanere almeno un amministratore attivo. L’account non è stato modificato.",
+      "deleteConflict": "Impossibile eliminare l’account nel suo stato attuale. Deve rimanere almeno un amministratore attivo.",
+      "invalid": "Controlla i campi dell’account e riprova.",
+      "requestFailed": "Impossibile completare la richiesta dell’account. Riprova."
+    },
+    "validation": {
+      "invalidEmail": "Inserisci un indirizzo e-mail valido.",
+      "nameTooLong": "I nomi devono contenere al massimo 64 caratteri.",
+      "invalidDate": "Inserisci una data di calendario valida.",
+      "invalidRange": "La data iniziale deve precedere o coincidere con quella finale."
+    },
+    "options": {
+      "notSet": "Non impostato",
+      "roles": {
+        "USER": "Utente",
+        "ADMIN": "Amministratore"
+      },
+      "tiers": {
+        "FREE": "Free",
+        "PRO": "Pro",
+        "ULTIMATE": "Ultimate"
+      },
+      "languages": {
+        "de": "Tedesco",
+        "en": "Inglese",
+        "es": "Spagnolo",
+        "fr": "Francese",
+        "it": "Italiano"
+      },
+      "measurementUnits": {
+        "METRIC": "Metrico",
+        "IMPERIAL": "Imperiale"
+      }
+    }
   }
 }

@@ -106,15 +106,18 @@ class GoogleAnalytics {
         if (import.meta.env.SSR) return;
         if (isUntrackedPath(path)) return;
 
-        const safeParams = Object.keys(searchParams).reduce(
-            (acc, key) => {
-                if (!FORBIDDEN_PARAMS.has(key.toLowerCase())) {
-                    acc[key] = searchParams[key];
-                }
-                return acc;
-            },
-            {} as Record<string, unknown>,
-        );
+        const isAdminPage = /(?:^|\/)admin(?:\/|$)/.test(path);
+        const safeParams = isAdminPage
+            ? {}
+            : Object.keys(searchParams).reduce(
+                  (acc, key) => {
+                      if (!FORBIDDEN_PARAMS.has(key.toLowerCase())) {
+                          acc[key] = searchParams[key];
+                      }
+                      return acc;
+                  },
+                  {} as Record<string, unknown>,
+              );
 
         ReactGA.send({
             hitType: "pageview",
