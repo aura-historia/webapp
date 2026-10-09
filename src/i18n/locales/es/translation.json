@@ -504,12 +504,6 @@
       "withdrawn": "Retirado"
     }
   },
-  "priceBadge": {
-    "discovered": "Precio descubierto",
-    "dropped": "Precio rebajado",
-    "increased": "Precio aumentado",
-    "removed": "Precio eliminado"
-  },
   "listingAvailability": {
     "available": "Disponible",
     "inStock": "En existencias",
