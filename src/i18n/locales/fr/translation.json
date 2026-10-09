@@ -81,6 +81,21 @@
     },
     "newsletterConfirm": {
       "title": "Confirmer l'inscription à la newsletter | Aura Historia"
+    },
+    "auctions": {
+      "title": "Répertoire des ventes | Aura Historia",
+      "description": "Consultez les ventes et catalogues des maisons de ventes référencées par Aura Historia."
+    },
+    "auctionDetail": {
+      "title": "Catalogue de vente | Aura Historia",
+      "titleWithName": "{{name}} | Catalogue de vente",
+      "description": "Consultez cette vente et ses lots publiés par {{source}} sur Aura Historia."
+    },
+    "adminAuctions": {
+      "title": "Gestion des ventes | Aura Historia"
+    },
+    "adminAuctionCreate": {
+      "title": "Créer une vente | Aura Historia"
     }
   },
   "validation": {
@@ -123,7 +138,9 @@
     "partnerDashboard": "Tableau de bord partenaire",
     "collection": "Collection",
     "workspace": "Espace professionnel",
-    "accountNavigation": "Navigation du compte"
+    "accountNavigation": "Navigation du compte",
+    "auctions": "Ventes aux enchères",
+    "adminAuctions": "Gestion des ventes"
   },
   "footer": {
     "brandName": "Aura Historia",
@@ -161,7 +178,8 @@
     },
     "compareLinks": {
       "barnebys": "Barnebys"
-    }
+    },
+    "auctions": "Répertoire des ventes"
   },
   "aboutPage": {
     "hero": {
@@ -482,7 +500,8 @@
     },
     "unseenNotification": "Mis à jour",
     "auction": {
-      "lotNumber": "Lot {{lotNumber}}"
+      "view": "Voir la vente",
+      "section": "Informations sur la vente et le lot"
     },
     "searchFilter": {
       "matchedBadge": "Correspondance",
@@ -2610,6 +2629,157 @@
       "redirectRequired": "Saisissez au moins une URI de redirection.",
       "redirectInvalid": "Chaque URI de redirection doit être une URL HTTPS valide sans fragment.",
       "redirectDuplicate": "Les URI de redirection doivent être uniques."
+    }
+  },
+  "auctions": {
+    "title": "Ventes aux enchères",
+    "description": "Consultez les horaires et catalogues publics des maisons de ventes référencées.",
+    "loading": "Chargement des ventes…",
+    "empty": "Aucune vente publique ne correspond à ces filtres.",
+    "results": "Résultats du répertoire des ventes",
+    "nameNotProvided": "Nom de la vente non renseigné",
+    "statusNotReported": "Statut non communiqué",
+    "count": "{{count}}",
+    "fields": {
+      "format": "Format",
+      "reportedStatus": "Statut communiqué",
+      "reportedLotCount": "Nombre de lots communiqué",
+      "visibleListings": "Lots visibles",
+      "added": "Ajoutée"
+    },
+    "formats": {
+      "LIVE": "Vente en direct",
+      "TIMED": "Vente chronométrée"
+    },
+    "reportedStatuses": {
+      "SCHEDULED": "Prévue",
+      "IN_PROGRESS": "En cours",
+      "ENDED": "Terminée",
+      "POSTPONED": "Reportée",
+      "CANCELLED": "Annulée"
+    },
+    "schedule": {
+      "biddingOpens": "Ouverture des enchères",
+      "liveStarts": "Début en direct",
+      "lotsBeginClosing": "Début de clôture des lots",
+      "scheduledEnd": "Fin prévue"
+    },
+    "filters": {
+      "title": "Filtrer les ventes",
+      "listingSourceId": "ID de la source",
+      "format": "Format",
+      "reportedStatus": "Statut communiqué",
+      "exactTime": "Horaire exact",
+      "exactTimeHelp": "Choisissez un événement de calendrier et une plage UTC complète.",
+      "timeRole": "Événement de calendrier",
+      "from": "Du (UTC)",
+      "to": "Au (UTC)",
+      "invalidDateTime": "Saisissez une date et une heure valides.",
+      "timeRoleRequired": "Choisissez un événement de calendrier.",
+      "completeRangeRequired": "Saisissez les deux bornes de la plage horaire.",
+      "clear": "Effacer les filtres",
+      "apply": "Appliquer les filtres",
+      "any": "Tous"
+    },
+    "actions": {
+      "retry": "Réessayer",
+      "loadingMore": "Chargement…",
+      "loadMore": "Afficher plus",
+      "viewCatalogue": "Voir la vente et le catalogue",
+      "backToDirectory": "Retour aux ventes",
+      "openSourceCatalogue": "Ouvrir le catalogue de la source",
+      "openAuctionPage": "Ouvrir la page de la vente"
+    },
+    "catalogue": {
+      "title": "Catalogue",
+      "visibleCount": "{{count}} lots visibles dans ce catalogue",
+      "empty": "Aucun lot visible n’est associé à cette vente."
+    },
+    "lot": {
+      "lotNumber": "Numéro de lot",
+      "cataloguePosition": "Position dans le catalogue",
+      "biddingOpens": "Ouverture des enchères du lot",
+      "scheduledCloses": "Clôture prévue du lot",
+      "reportedClosedAt": "Clôture signalée"
+    },
+    "errors": {
+      "missing": "Cette vente est introuvable ou n’est plus disponible.",
+      "invalidRequest": "La requête de vente n’est pas valide.",
+      "requestFailed": "Impossible de charger les ventes. Veuillez réessayer."
+    }
+  },
+  "adminAuctions": {
+    "title": "Gestion des ventes",
+    "description": "Créez des fiches de vente et actualisez les informations communiquées. La source et l’identité de la vente chez la source ne peuvent plus être modifiées après création.",
+    "create": {
+      "title": "Créer une vente",
+      "description": "Associez la vente à une source autorisée et indiquez son identifiant chez cette source.",
+      "blankFieldsHelp": "Laissez les champs facultatifs vides si la source n’a pas communiqué ces informations."
+    },
+    "open": {
+      "title": "Ouvrir une fiche de vente",
+      "description": "Ouvrez une fiche si vous connaissez l’ID de la vente.",
+      "browsePrefix": "Pour trouver l’ID d’une vente publique, consultez le",
+      "browseLink": "répertoire des ventes."
+    },
+    "sourceSearch": {
+      "prompt": "Recherchez une source par son nom ou son ID.",
+      "loading": "Recherche des sources…",
+      "noResults": "Aucune source ne correspond à cette recherche."
+    },
+    "fields": {
+      "listingSource": "Source",
+      "searchListingSources": "Rechercher des sources",
+      "listingSourceId": "ID de la source",
+      "sourceAuctionId": "ID de vente chez la source",
+      "sourceAuctionIdHelp": "Utilisez l’identifiant donné à cette vente par la source sélectionnée.",
+      "auctionId": "ID de la vente",
+      "name": "Nom de la vente",
+      "nameLanguage": "Langue du nom",
+      "catalogueUrl": "URL du catalogue",
+      "format": "Format",
+      "reportedStatus": "Statut communiqué",
+      "reportedLotCount": "Nombre de lots communiqué",
+      "schedule": "Calendrier",
+      "scheduleHelp": "Saisissez toutes les dates et heures en UTC.",
+      "notSet": "Non renseigné",
+      "created": "Créée",
+      "updated": "Mise à jour"
+    },
+    "detail": {
+      "title": "Fiche de vente",
+      "description": "Modifiez les informations communiquées sur la vente. L’identité de la vente et de sa source est immuable.",
+      "blankFieldsHelp": "Les valeurs vides effacent les informations correspondantes, y compris chaque horaire."
+    },
+    "actions": {
+      "create": "Créer la vente",
+      "creating": "Création…",
+      "open": "Ouvrir la fiche",
+      "changeSource": "Changer de source",
+      "loadMore": "Afficher plus de sources",
+      "loadingMore": "Chargement…",
+      "retry": "Réessayer",
+      "cancel": "Annuler",
+      "save": "Enregistrer les modifications",
+      "saving": "Enregistrement…",
+      "loadLatest": "Charger la fiche à jour"
+    },
+    "errors": {
+      "forbidden": "Vous n’êtes pas autorisé à gérer les ventes.",
+      "missing": "Cette fiche de vente est introuvable ou n’est plus disponible.",
+      "duplicateSourceKey": "Une vente existe déjà pour cette source et cet identifiant source.",
+      "staleVersion": "Cette vente a été modifiée pendant votre saisie.",
+      "staleVersionHelp": "La version actuelle a été récupérée sur le serveur. Votre brouillon reste affiché ; chargez la dernière version pour le remplacer avant un nouvel enregistrement.",
+      "invalid": "Vérifiez les informations de la vente puis réessayez.",
+      "requestFailed": "La requête de vente n’a pas abouti. Veuillez réessayer."
+    },
+    "validation": {
+      "sourceRequired": "Sélectionnez une source.",
+      "sourceAuctionIdRequired": "Saisissez l’identifiant de vente chez la source.",
+      "sourceAuctionIdTooLong": "L’identifiant source ne peut pas dépasser 512 octets UTF-8.",
+      "invalidUrl": "Saisissez une URL HTTP ou HTTPS valide.",
+      "invalidLotCount": "Saisissez un nombre entier entre 0 et 4 294 967 295.",
+      "invalidDateTime": "Saisissez une date et une heure UTC valides."
     }
   }
 }

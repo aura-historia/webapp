@@ -41,17 +41,24 @@ issue's earlier seven-operation follow-up count.
 
 ## Scope decisions
 
-- The shared admin dashboard shell and navigation remain deferred by the user to
-  MIG-24. Individual guarded, authenticated, noindex workflows have been restored
+- The shared admin dashboard shell remains deferred by the user to MIG-24. Individual
+  guarded, authenticated, noindex workflows have been restored
   incrementally: partnership application review (MIG-16), Party management
   (MIG-17), listing-source management (MIG-18), partnership membership and
-  source-grant management (MIG-19), and user management (MIG-20). Each workflow
+  source-grant management (MIG-19), user management (MIG-20), and auction management
+  (MIG-25). Each workflow
   uses mapped DTOs and backend authorization; generated admin SDK operations that
   do not belong to these workflows remain API capabilities rather than implemented UI.
-- Standalone public auction browsing/detail/catalogue pages are explicitly deferred
-  by the user to MIG-25. Listing-level auction summaries and typed history remain
-  in the migrated product experience. The three public auction SDK operations are
-  generated, with this UI gap recorded in the inventory.
+- Public auction browsing, detail and catalogue pages are implemented in MIG-25 with
+  the three public auction operations. Directory filters scope JSON cursors, and the
+  catalogue passes its complete returned cursor unchanged as JSON. Catalogue listings
+  use the mapped product presentation and preserve nullable auction and lot facts. Its
+  optional per-viewer listing state uses viewer-partitioned query keys that are removed
+  on identity changes.
+  Admin create/read/update use the three admin auction operations, authorized source
+  selection, immutable source identity, no-store requests and authoritative refetch on
+  stale `expectedVersion` conflicts. Partner auction membership and lot-write semantics
+  remain coordinated with MIG-13.
 - Partner ingestion configuration and async batches are external API capabilities,
   outside the synchronous product integration guide. They are generated; optional
   `listing-sources:write` is selectable and described in token/OAuth consent without
@@ -77,13 +84,17 @@ application and access-token caches; destroying queries aborts pending private r
 so late responses cannot repopulate them. Amplify auth events clear these caches
 before refetching. Public source data and immutable history keep their safe boundaries.
 
+Auction directory/detail responses follow the backend's public cache contract. Admin
+auction reads and writes use private, no-store requests; admin routes remain guarded and
+noindex. Public auction routes stay outside the static prerender allowlist.
+
 OAuth PKCE/state/redirect behavior, billing via `postBillingManage`, and newsletter
 subscription retain their established contracts. Token scope defaults remain empty;
 the integration guide preselects only `product-listings:write`. No new processor,
 persistent browser data or analytics payload is introduced.
 
 Static output uses the explicit 40-page allowlist in `vite.config.ts`; authenticated,
-personalized, dynamic listing/source and deferred auction routes are excluded.
+personalized, dynamic listing/source and auction routes are excluded.
 All five locales have identical keys. The translation audit normalizes Windows paths
 and excludes test/generated fixtures before identifying unused runtime translations.
 Legacy shop/product API error labels are retired or renamed to the current listing/

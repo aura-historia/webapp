@@ -81,6 +81,21 @@
     },
     "newsletterConfirm": {
       "title": "Newsletter-Anmeldung bestätigen | Aura Historia"
+    },
+    "auctions": {
+      "title": "Auktionsverzeichnis | Aura Historia",
+      "description": "Entdecken Sie Auktionen und Kataloge von bei Aura Historia erfassten Auktionshäusern."
+    },
+    "auctionDetail": {
+      "title": "Auktionskatalog | Aura Historia",
+      "titleWithName": "{{name}} | Auktionskatalog",
+      "description": "Entdecken Sie diese Auktion und ihre erfassten Lose von {{source}} auf Aura Historia."
+    },
+    "adminAuctions": {
+      "title": "Auktionsverwaltung | Aura Historia"
+    },
+    "adminAuctionCreate": {
+      "title": "Auktion anlegen | Aura Historia"
     }
   },
   "validation": {
@@ -123,7 +138,9 @@
     "partnerDashboard": "Partner-Dashboard",
     "collection": "Sammlung",
     "workspace": "Arbeitsbereich",
-    "accountNavigation": "Kontonavigation"
+    "accountNavigation": "Kontonavigation",
+    "auctions": "Auktionen",
+    "adminAuctions": "Auktionsverwaltung"
   },
   "footer": {
     "brandName": "Aura Historia",
@@ -161,7 +178,8 @@
     },
     "compareLinks": {
       "barnebys": "Barnebys"
-    }
+    },
+    "auctions": "Auktionsverzeichnis"
   },
   "aboutPage": {
     "hero": {
@@ -470,7 +488,8 @@
       }
     },
     "auction": {
-      "lotNumber": "Los {{lotNumber}}"
+      "view": "Auktion ansehen",
+      "section": "Auktions- und Losangaben"
     },
     "priceChart": {
       "title": "Preisverlauf",
@@ -2610,6 +2629,157 @@
       "redirectRequired": "Geben Sie mindestens eine Weiterleitungs-URI ein.",
       "redirectInvalid": "Jede Weiterleitungs-URI muss eine gültige HTTPS-URL ohne Fragment sein.",
       "redirectDuplicate": "Weiterleitungs-URIs müssen eindeutig sein."
+    }
+  },
+  "auctions": {
+    "title": "Auktionen",
+    "description": "Entdecken Sie öffentliche Auktionstermine und Kataloge erfasster Auktionshäuser.",
+    "loading": "Auktionen werden geladen…",
+    "empty": "Keine öffentlichen Auktionen entsprechen diesen Filtern.",
+    "results": "Ergebnisse des Auktionsverzeichnisses",
+    "nameNotProvided": "Kein Auktionsname angegeben",
+    "statusNotReported": "Kein Status gemeldet",
+    "count": "{{count}}",
+    "fields": {
+      "format": "Format",
+      "reportedStatus": "Gemeldeter Status",
+      "reportedLotCount": "Gemeldete Losanzahl",
+      "visibleListings": "Sichtbare Angebote",
+      "added": "Hinzugefügt"
+    },
+    "formats": {
+      "LIVE": "Live-Auktion",
+      "TIMED": "Zeitauktion"
+    },
+    "reportedStatuses": {
+      "SCHEDULED": "Geplant",
+      "IN_PROGRESS": "Läuft",
+      "ENDED": "Beendet",
+      "POSTPONED": "Verschoben",
+      "CANCELLED": "Abgesagt"
+    },
+    "schedule": {
+      "biddingOpens": "Gebotsbeginn",
+      "liveStarts": "Live-Start",
+      "lotsBeginClosing": "Beginn des Losabschlusses",
+      "scheduledEnd": "Geplantes Ende"
+    },
+    "filters": {
+      "title": "Auktionen filtern",
+      "listingSourceId": "Listing-Source-ID",
+      "format": "Format",
+      "reportedStatus": "Gemeldeter Status",
+      "exactTime": "Genaue Terminangabe",
+      "exactTimeHelp": "Wählen Sie ein Terminmerkmal und einen vollständigen UTC-Zeitraum.",
+      "timeRole": "Terminmerkmal",
+      "from": "Von (UTC)",
+      "to": "Bis (UTC)",
+      "invalidDateTime": "Geben Sie ein gültiges Datum und eine Uhrzeit ein.",
+      "timeRoleRequired": "Wählen Sie ein Terminmerkmal.",
+      "completeRangeRequired": "Geben Sie Anfang und Ende des Zeitraums ein.",
+      "clear": "Filter löschen",
+      "apply": "Filter anwenden",
+      "any": "Beliebig"
+    },
+    "actions": {
+      "retry": "Erneut versuchen",
+      "loadingMore": "Wird geladen…",
+      "loadMore": "Weitere laden",
+      "viewCatalogue": "Auktion und Katalog ansehen",
+      "backToDirectory": "Zurück zu den Auktionen",
+      "openSourceCatalogue": "Quellkatalog öffnen",
+      "openAuctionPage": "Auktionsseite öffnen"
+    },
+    "catalogue": {
+      "title": "Katalog",
+      "visibleCount": "{{count}} sichtbare Angebote in diesem Katalog",
+      "empty": "Dieser Auktion sind keine sichtbaren Angebote zugeordnet."
+    },
+    "lot": {
+      "lotNumber": "Losnummer",
+      "cataloguePosition": "Katalogposition",
+      "biddingOpens": "Gebotsbeginn des Loses",
+      "scheduledCloses": "Geplanter Abschluss des Loses",
+      "reportedClosedAt": "Gemeldeter Abschlusszeitpunkt"
+    },
+    "errors": {
+      "missing": "Diese Auktion wurde nicht gefunden oder ist nicht mehr verfügbar.",
+      "invalidRequest": "Die Auktionsanfrage ist ungültig.",
+      "requestFailed": "Auktionen konnten nicht geladen werden. Bitte versuchen Sie es erneut."
+    }
+  },
+  "adminAuctions": {
+    "title": "Auktionsverwaltung",
+    "description": "Legen Sie Auktionen an und aktualisieren Sie gemeldete Angaben. Listing-Source und Quell-Auktionskennung bleiben nach dem Anlegen unveränderlich.",
+    "create": {
+      "title": "Auktion anlegen",
+      "description": "Ordnen Sie die Auktion einer autorisierten Listing-Source zu und geben Sie deren Quellkennung an.",
+      "blankFieldsHelp": "Lassen Sie optionale Felder leer, wenn die Quelle dazu keine Angaben gemacht hat."
+    },
+    "open": {
+      "title": "Auktionsdatensatz öffnen",
+      "description": "Öffnen Sie einen Datensatz, wenn Ihnen die Auktions-ID bekannt ist.",
+      "browsePrefix": "Eine öffentliche Auktions-ID finden Sie im",
+      "browseLink": "Auktionsverzeichnis."
+    },
+    "sourceSearch": {
+      "prompt": "Suchen Sie eine Listing-Source nach Name oder ID.",
+      "loading": "Listing-Sources werden gesucht…",
+      "noResults": "Keine Listing-Sources entsprechen dieser Suche."
+    },
+    "fields": {
+      "listingSource": "Listing-Source",
+      "searchListingSources": "Listing-Sources suchen",
+      "listingSourceId": "Listing-Source-ID",
+      "sourceAuctionId": "Quell-Auktionskennung",
+      "sourceAuctionIdHelp": "Verwenden Sie die Kennung, mit der die ausgewählte Listing-Source diese Auktion führt.",
+      "auctionId": "Auktions-ID",
+      "name": "Auktionsname",
+      "nameLanguage": "Sprache des Namens",
+      "catalogueUrl": "Katalog-URL",
+      "format": "Format",
+      "reportedStatus": "Gemeldeter Status",
+      "reportedLotCount": "Gemeldete Losanzahl",
+      "schedule": "Zeitplan",
+      "scheduleHelp": "Geben Sie alle Datums- und Uhrzeitangaben in UTC ein.",
+      "notSet": "Nicht angegeben",
+      "created": "Angelegt",
+      "updated": "Aktualisiert"
+    },
+    "detail": {
+      "title": "Auktionsdatensatz",
+      "description": "Aktualisieren Sie gemeldete Auktionsangaben. Auktions- und Listing-Source-Identität können nicht geändert werden.",
+      "blankFieldsHelp": "Leere Werte löschen die entsprechenden Angaben, einschließlich einzelner Zeitplanwerte."
+    },
+    "actions": {
+      "create": "Auktion anlegen",
+      "creating": "Wird angelegt…",
+      "open": "Datensatz öffnen",
+      "changeSource": "Listing-Source ändern",
+      "loadMore": "Weitere Sources laden",
+      "loadingMore": "Wird geladen…",
+      "retry": "Erneut versuchen",
+      "cancel": "Abbrechen",
+      "save": "Änderungen speichern",
+      "saving": "Wird gespeichert…",
+      "loadLatest": "Aktuellen Datensatz laden"
+    },
+    "errors": {
+      "forbidden": "Sie dürfen Auktionen nicht verwalten.",
+      "missing": "Dieser Auktionsdatensatz wurde nicht gefunden oder ist nicht mehr verfügbar.",
+      "duplicateSourceKey": "Für diese Listing-Source und Quell-Auktionskennung besteht bereits eine Auktion.",
+      "staleVersion": "Diese Auktion wurde während Ihrer Bearbeitung geändert.",
+      "staleVersionHelp": "Der aktuelle Datensatz wurde vom Server abgerufen. Ihr Entwurf bleibt erhalten. Laden Sie den aktuellen Datensatz, um ihn vor dem erneuten Speichern zu übernehmen.",
+      "invalid": "Prüfen Sie die Auktionsangaben und versuchen Sie es erneut.",
+      "requestFailed": "Die Auktionsanfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+    },
+    "validation": {
+      "sourceRequired": "Wählen Sie eine Listing-Source aus.",
+      "sourceAuctionIdRequired": "Geben Sie eine Quell-Auktionskennung ein.",
+      "sourceAuctionIdTooLong": "Die Quell-Auktionskennung darf höchstens 512 UTF-8-Bytes umfassen.",
+      "invalidUrl": "Geben Sie eine gültige HTTP- oder HTTPS-URL ein.",
+      "invalidLotCount": "Geben Sie eine ganze Zahl von 0 bis 4.294.967.295 ein.",
+      "invalidDateTime": "Geben Sie ein gültiges Datum und eine Uhrzeit in UTC ein."
     }
   }
 }

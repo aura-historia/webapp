@@ -22,6 +22,8 @@ import { Route as LngSearchRouteImport } from './routes/$lng.search'
 import { Route as LngTermsAndConditionsRouteImport } from './routes/$lng.terms-and-conditions'
 import { Route as LngAuthAdminRouteImport } from './routes/$lng._auth.admin'
 import { Route as LngAuthPartnersRouteImport } from './routes/$lng._auth.partners'
+import { Route as LngAuctionsIndexRouteImport } from './routes/$lng.auctions.index'
+import { Route as LngAuctionsAuctionIdRouteImport } from './routes/$lng.auctions.$auctionId'
 import { Route as LngCompareBarnebysRouteImport } from './routes/$lng.compare.barnebys'
 import { Route as LngNewsletterConfirmRouteImport } from './routes/$lng.newsletter.confirm'
 import { Route as LngPartnerProgramIndexRouteImport } from './routes/$lng.partner-program.index'
@@ -30,6 +32,7 @@ import { Route as LngPartnerProgramCustomIntegrationRouteImport } from './routes
 import { Route as LngProductsProductListingTitleSlugIdRouteImport } from './routes/$lng.products.$productListingTitleSlugId'
 import { Route as LngSearchShopsRouteImport } from './routes/$lng.search_.shops'
 import { Route as LngAuthAdminIndexRouteImport } from './routes/$lng._auth.admin.index'
+import { Route as LngAuthAdminAuctionsRouteImport } from './routes/$lng._auth.admin.auctions'
 import { Route as LngAuthAdminOauthClientsRouteImport } from './routes/$lng._auth.admin.oauth-clients'
 import { Route as LngAuthAdminOverviewRouteImport } from './routes/$lng._auth.admin.overview'
 import { Route as LngAuthAdminPartiesRouteImport } from './routes/$lng._auth.admin.parties'
@@ -48,6 +51,8 @@ import { Route as LngAuthPartnersApplicationsRouteImport } from './routes/$lng._
 import { Route as LngAuthPartnersListingSourcesRouteImport } from './routes/$lng._auth.partners.listing-sources'
 import { Route as LngShopsShopSlugIdIndexRouteImport } from './routes/$lng.shops.$shopSlugId.index'
 import { Route as ApiOauthAuthorizeApproveRouteImport } from './routes/api.oauth.authorize.approve'
+import { Route as LngAuthAdminAuctionsAuctionIdRouteImport } from './routes/$lng._auth.admin.auctions.$auctionId'
+import { Route as LngAuthAdminAuctionsNewRouteImport } from './routes/$lng._auth.admin.auctions.new'
 import { Route as LngAuthMeBillingManageRouteImport } from './routes/$lng._auth.me.billing.manage'
 import { Route as LngAuthMeSearchFilterFilterIdRouteImport } from './routes/$lng._auth.me.search-filter.$filterId'
 import { Route as ApiOauthClientRedirectBrokerWoocommerceRouteImport } from './routes/api.oauth.client_.redirect-broker.woocommerce'
@@ -116,6 +121,16 @@ const LngAuthPartnersRoute = LngAuthPartnersRouteImport.update({
   path: '/partners',
   getParentRoute: () => LngAuthRoute,
 } as any)
+const LngAuctionsIndexRoute = LngAuctionsIndexRouteImport.update({
+  id: '/auctions/',
+  path: '/auctions/',
+  getParentRoute: () => LngRoute,
+} as any)
+const LngAuctionsAuctionIdRoute = LngAuctionsAuctionIdRouteImport.update({
+  id: '/auctions/$auctionId',
+  path: '/auctions/$auctionId',
+  getParentRoute: () => LngRoute,
+} as any)
 const LngCompareBarnebysRoute = LngCompareBarnebysRouteImport.update({
   id: '/compare/barnebys',
   path: '/compare/barnebys',
@@ -156,6 +171,11 @@ const LngSearchShopsRoute = LngSearchShopsRouteImport.update({
 const LngAuthAdminIndexRoute = LngAuthAdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => LngAuthAdminRoute,
+} as any)
+const LngAuthAdminAuctionsRoute = LngAuthAdminAuctionsRouteImport.update({
+  id: '/auctions',
+  path: '/auctions',
   getParentRoute: () => LngAuthAdminRoute,
 } as any)
 const LngAuthAdminOauthClientsRoute =
@@ -255,6 +275,17 @@ const ApiOauthAuthorizeApproveRoute =
     path: '/api/oauth/authorize/approve',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LngAuthAdminAuctionsAuctionIdRoute =
+  LngAuthAdminAuctionsAuctionIdRouteImport.update({
+    id: '/$auctionId',
+    path: '/$auctionId',
+    getParentRoute: () => LngAuthAdminAuctionsRoute,
+  } as any)
+const LngAuthAdminAuctionsNewRoute = LngAuthAdminAuctionsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => LngAuthAdminAuctionsRoute,
+} as any)
 const LngAuthMeBillingManageRoute = LngAuthMeBillingManageRouteImport.update({
   id: '/me/billing/manage',
   path: '/me/billing/manage',
@@ -286,13 +317,16 @@ export interface FileRoutesByFullPath {
   '/$lng/': typeof LngIndexRoute
   '/$lng/admin': typeof LngAuthAdminRouteWithChildren
   '/$lng/partners': typeof LngAuthPartnersRouteWithChildren
+  '/$lng/auctions/$auctionId': typeof LngAuctionsAuctionIdRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
   '/$lng/products/$productListingTitleSlugId': typeof LngProductsProductListingTitleSlugIdRoute
   '/$lng/search/shops': typeof LngSearchShopsRoute
+  '/$lng/auctions/': typeof LngAuctionsIndexRoute
   '/$lng/partner-program/': typeof LngPartnerProgramIndexRoute
+  '/$lng/admin/auctions': typeof LngAuthAdminAuctionsRouteWithChildren
   '/$lng/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
   '/$lng/admin/overview': typeof LngAuthAdminOverviewRoute
   '/$lng/admin/parties': typeof LngAuthAdminPartiesRoute
@@ -312,6 +346,8 @@ export interface FileRoutesByFullPath {
   '/$lng/admin/': typeof LngAuthAdminIndexRoute
   '/$lng/partners/': typeof LngAuthPartnersIndexRoute
   '/$lng/shops/$shopSlugId/': typeof LngShopsShopSlugIdIndexRoute
+  '/$lng/admin/auctions/$auctionId': typeof LngAuthAdminAuctionsAuctionIdRoute
+  '/$lng/admin/auctions/new': typeof LngAuthAdminAuctionsNewRoute
   '/$lng/me/billing/manage': typeof LngAuthMeBillingManageRoute
   '/$lng/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
   '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
@@ -325,13 +361,16 @@ export interface FileRoutesByTo {
   '/$lng/privacy': typeof LngPrivacyRoute
   '/$lng/search': typeof LngSearchRoute
   '/$lng/terms-and-conditions': typeof LngTermsAndConditionsRoute
+  '/$lng/auctions/$auctionId': typeof LngAuctionsAuctionIdRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
   '/$lng/products/$productListingTitleSlugId': typeof LngProductsProductListingTitleSlugIdRoute
   '/$lng/search/shops': typeof LngSearchShopsRoute
+  '/$lng/auctions': typeof LngAuctionsIndexRoute
   '/$lng/partner-program': typeof LngPartnerProgramIndexRoute
+  '/$lng/admin/auctions': typeof LngAuthAdminAuctionsRouteWithChildren
   '/$lng/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
   '/$lng/admin/overview': typeof LngAuthAdminOverviewRoute
   '/$lng/admin/parties': typeof LngAuthAdminPartiesRoute
@@ -351,6 +390,8 @@ export interface FileRoutesByTo {
   '/$lng/admin': typeof LngAuthAdminIndexRoute
   '/$lng/partners': typeof LngAuthPartnersIndexRoute
   '/$lng/shops/$shopSlugId': typeof LngShopsShopSlugIdIndexRoute
+  '/$lng/admin/auctions/$auctionId': typeof LngAuthAdminAuctionsAuctionIdRoute
+  '/$lng/admin/auctions/new': typeof LngAuthAdminAuctionsNewRoute
   '/$lng/me/billing/manage': typeof LngAuthMeBillingManageRoute
   '/$lng/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
   '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
@@ -370,13 +411,16 @@ export interface FileRoutesById {
   '/$lng/': typeof LngIndexRoute
   '/$lng/_auth/admin': typeof LngAuthAdminRouteWithChildren
   '/$lng/_auth/partners': typeof LngAuthPartnersRouteWithChildren
+  '/$lng/auctions/$auctionId': typeof LngAuctionsAuctionIdRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
   '/$lng/products/$productListingTitleSlugId': typeof LngProductsProductListingTitleSlugIdRoute
   '/$lng/search_/shops': typeof LngSearchShopsRoute
+  '/$lng/auctions/': typeof LngAuctionsIndexRoute
   '/$lng/partner-program/': typeof LngPartnerProgramIndexRoute
+  '/$lng/_auth/admin/auctions': typeof LngAuthAdminAuctionsRouteWithChildren
   '/$lng/_auth/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
   '/$lng/_auth/admin/overview': typeof LngAuthAdminOverviewRoute
   '/$lng/_auth/admin/parties': typeof LngAuthAdminPartiesRoute
@@ -396,6 +440,8 @@ export interface FileRoutesById {
   '/$lng/_auth/admin/': typeof LngAuthAdminIndexRoute
   '/$lng/_auth/partners/': typeof LngAuthPartnersIndexRoute
   '/$lng/shops/$shopSlugId/': typeof LngShopsShopSlugIdIndexRoute
+  '/$lng/_auth/admin/auctions/$auctionId': typeof LngAuthAdminAuctionsAuctionIdRoute
+  '/$lng/_auth/admin/auctions/new': typeof LngAuthAdminAuctionsNewRoute
   '/$lng/_auth/me/billing/manage': typeof LngAuthMeBillingManageRoute
   '/$lng/_auth/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
   '/api/oauth/client_/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
@@ -415,13 +461,16 @@ export interface FileRouteTypes {
     | '/$lng/'
     | '/$lng/admin'
     | '/$lng/partners'
+    | '/$lng/auctions/$auctionId'
     | '/$lng/compare/barnebys'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
     | '/$lng/products/$productListingTitleSlugId'
     | '/$lng/search/shops'
+    | '/$lng/auctions/'
     | '/$lng/partner-program/'
+    | '/$lng/admin/auctions'
     | '/$lng/admin/oauth-clients'
     | '/$lng/admin/overview'
     | '/$lng/admin/parties'
@@ -441,6 +490,8 @@ export interface FileRouteTypes {
     | '/$lng/admin/'
     | '/$lng/partners/'
     | '/$lng/shops/$shopSlugId/'
+    | '/$lng/admin/auctions/$auctionId'
+    | '/$lng/admin/auctions/new'
     | '/$lng/me/billing/manage'
     | '/$lng/me/search-filter/$filterId'
     | '/api/oauth/client/redirect-broker/woocommerce'
@@ -454,13 +505,16 @@ export interface FileRouteTypes {
     | '/$lng/privacy'
     | '/$lng/search'
     | '/$lng/terms-and-conditions'
+    | '/$lng/auctions/$auctionId'
     | '/$lng/compare/barnebys'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
     | '/$lng/products/$productListingTitleSlugId'
     | '/$lng/search/shops'
+    | '/$lng/auctions'
     | '/$lng/partner-program'
+    | '/$lng/admin/auctions'
     | '/$lng/admin/oauth-clients'
     | '/$lng/admin/overview'
     | '/$lng/admin/parties'
@@ -480,6 +534,8 @@ export interface FileRouteTypes {
     | '/$lng/admin'
     | '/$lng/partners'
     | '/$lng/shops/$shopSlugId'
+    | '/$lng/admin/auctions/$auctionId'
+    | '/$lng/admin/auctions/new'
     | '/$lng/me/billing/manage'
     | '/$lng/me/search-filter/$filterId'
     | '/api/oauth/client/redirect-broker/woocommerce'
@@ -498,13 +554,16 @@ export interface FileRouteTypes {
     | '/$lng/'
     | '/$lng/_auth/admin'
     | '/$lng/_auth/partners'
+    | '/$lng/auctions/$auctionId'
     | '/$lng/compare/barnebys'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
     | '/$lng/products/$productListingTitleSlugId'
     | '/$lng/search_/shops'
+    | '/$lng/auctions/'
     | '/$lng/partner-program/'
+    | '/$lng/_auth/admin/auctions'
     | '/$lng/_auth/admin/oauth-clients'
     | '/$lng/_auth/admin/overview'
     | '/$lng/_auth/admin/parties'
@@ -524,6 +583,8 @@ export interface FileRouteTypes {
     | '/$lng/_auth/admin/'
     | '/$lng/_auth/partners/'
     | '/$lng/shops/$shopSlugId/'
+    | '/$lng/_auth/admin/auctions/$auctionId'
+    | '/$lng/_auth/admin/auctions/new'
     | '/$lng/_auth/me/billing/manage'
     | '/$lng/_auth/me/search-filter/$filterId'
     | '/api/oauth/client_/redirect-broker/woocommerce'
@@ -628,6 +689,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LngAuthPartnersRouteImport
       parentRoute: typeof LngAuthRoute
     }
+    '/$lng/auctions/': {
+      id: '/$lng/auctions/'
+      path: '/auctions'
+      fullPath: '/$lng/auctions/'
+      preLoaderRoute: typeof LngAuctionsIndexRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/auctions/$auctionId': {
+      id: '/$lng/auctions/$auctionId'
+      path: '/auctions/$auctionId'
+      fullPath: '/$lng/auctions/$auctionId'
+      preLoaderRoute: typeof LngAuctionsAuctionIdRouteImport
+      parentRoute: typeof LngRoute
+    }
     '/$lng/compare/barnebys': {
       id: '/$lng/compare/barnebys'
       path: '/compare/barnebys'
@@ -682,6 +757,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/$lng/admin/'
       preLoaderRoute: typeof LngAuthAdminIndexRouteImport
+      parentRoute: typeof LngAuthAdminRoute
+    }
+    '/$lng/_auth/admin/auctions': {
+      id: '/$lng/_auth/admin/auctions'
+      path: '/auctions'
+      fullPath: '/$lng/admin/auctions'
+      preLoaderRoute: typeof LngAuthAdminAuctionsRouteImport
       parentRoute: typeof LngAuthAdminRoute
     }
     '/$lng/_auth/admin/oauth-clients': {
@@ -810,6 +892,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiOauthAuthorizeApproveRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$lng/_auth/admin/auctions/$auctionId': {
+      id: '/$lng/_auth/admin/auctions/$auctionId'
+      path: '/$auctionId'
+      fullPath: '/$lng/admin/auctions/$auctionId'
+      preLoaderRoute: typeof LngAuthAdminAuctionsAuctionIdRouteImport
+      parentRoute: typeof LngAuthAdminAuctionsRoute
+    }
+    '/$lng/_auth/admin/auctions/new': {
+      id: '/$lng/_auth/admin/auctions/new'
+      path: '/new'
+      fullPath: '/$lng/admin/auctions/new'
+      preLoaderRoute: typeof LngAuthAdminAuctionsNewRouteImport
+      parentRoute: typeof LngAuthAdminAuctionsRoute
+    }
     '/$lng/_auth/me/billing/manage': {
       id: '/$lng/_auth/me/billing/manage'
       path: '/me/billing/manage'
@@ -834,7 +930,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface LngAuthAdminAuctionsRouteChildren {
+  LngAuthAdminAuctionsAuctionIdRoute: typeof LngAuthAdminAuctionsAuctionIdRoute
+  LngAuthAdminAuctionsNewRoute: typeof LngAuthAdminAuctionsNewRoute
+}
+
+const LngAuthAdminAuctionsRouteChildren: LngAuthAdminAuctionsRouteChildren = {
+  LngAuthAdminAuctionsAuctionIdRoute: LngAuthAdminAuctionsAuctionIdRoute,
+  LngAuthAdminAuctionsNewRoute: LngAuthAdminAuctionsNewRoute,
+}
+
+const LngAuthAdminAuctionsRouteWithChildren =
+  LngAuthAdminAuctionsRoute._addFileChildren(LngAuthAdminAuctionsRouteChildren)
+
 interface LngAuthAdminRouteChildren {
+  LngAuthAdminAuctionsRoute: typeof LngAuthAdminAuctionsRouteWithChildren
   LngAuthAdminOauthClientsRoute: typeof LngAuthAdminOauthClientsRoute
   LngAuthAdminOverviewRoute: typeof LngAuthAdminOverviewRoute
   LngAuthAdminPartiesRoute: typeof LngAuthAdminPartiesRoute
@@ -846,6 +956,7 @@ interface LngAuthAdminRouteChildren {
 }
 
 const LngAuthAdminRouteChildren: LngAuthAdminRouteChildren = {
+  LngAuthAdminAuctionsRoute: LngAuthAdminAuctionsRouteWithChildren,
   LngAuthAdminOauthClientsRoute: LngAuthAdminOauthClientsRoute,
   LngAuthAdminOverviewRoute: LngAuthAdminOverviewRoute,
   LngAuthAdminPartiesRoute: LngAuthAdminPartiesRoute,
@@ -933,10 +1044,12 @@ interface LngRouteChildren {
   LngSearchRoute: typeof LngSearchRoute
   LngTermsAndConditionsRoute: typeof LngTermsAndConditionsRoute
   LngIndexRoute: typeof LngIndexRoute
+  LngAuctionsAuctionIdRoute: typeof LngAuctionsAuctionIdRoute
   LngCompareBarnebysRoute: typeof LngCompareBarnebysRoute
   LngNewsletterConfirmRoute: typeof LngNewsletterConfirmRoute
   LngProductsProductListingTitleSlugIdRoute: typeof LngProductsProductListingTitleSlugIdRoute
   LngSearchShopsRoute: typeof LngSearchShopsRoute
+  LngAuctionsIndexRoute: typeof LngAuctionsIndexRoute
   LngShopsShopSlugIdIndexRoute: typeof LngShopsShopSlugIdIndexRoute
 }
 
@@ -951,11 +1064,13 @@ const LngRouteChildren: LngRouteChildren = {
   LngSearchRoute: LngSearchRoute,
   LngTermsAndConditionsRoute: LngTermsAndConditionsRoute,
   LngIndexRoute: LngIndexRoute,
+  LngAuctionsAuctionIdRoute: LngAuctionsAuctionIdRoute,
   LngCompareBarnebysRoute: LngCompareBarnebysRoute,
   LngNewsletterConfirmRoute: LngNewsletterConfirmRoute,
   LngProductsProductListingTitleSlugIdRoute:
     LngProductsProductListingTitleSlugIdRoute,
   LngSearchShopsRoute: LngSearchShopsRoute,
+  LngAuctionsIndexRoute: LngAuctionsIndexRoute,
   LngShopsShopSlugIdIndexRoute: LngShopsShopSlugIdIndexRoute,
 }
 

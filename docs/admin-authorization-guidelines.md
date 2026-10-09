@@ -2,19 +2,22 @@
 
 Apply this guide to admin routes, handlers, and features.
 
-The endpoint migration defers the shared admin dashboard shell and navigation to
-MIG-24. Authenticated, noindex workflow routes retain `AdminGuard`; legacy feature
-implementations and DTOs are removed rather than compiled against incompatible
-endpoints. The generated admin SDK is not an implemented dashboard. Restore workflows
-only with current DTO mapping, tests and the authorization checks below. See
+The endpoint migration defers the shared admin dashboard shell to MIG-24. Authenticated,
+noindex workflow routes retain `AdminGuard`; legacy feature implementations and DTOs
+are removed rather than compiled against incompatible endpoints. Generated operations
+alone do not implement a dashboard. Restore workflows only with current DTO mapping,
+tests and the authorization checks below. See
 [MIG-24 scope decisions](api-migration/integration-release-gate.md).
 
 Restored workflows: OAuth client management (MIG-22), partnership application review
 (MIG-16, see [admin partnership application review](api-migration/partnership-application-contracts.md#admin-partnership-application-review)),
 Party management (MIG-17), listing-source management (MIG-18), partnership membership
 and source-grant management (MIG-19, see
-[admin partnership management](api-migration/admin-partnership-management.md)), and user
-management (MIG-20). Party contacts are available only through the authenticated admin Party
+[admin partnership management](api-migration/admin-partnership-management.md)), user
+management (MIG-20), and auction management (MIG-25). Auction create and update use
+`Cache-Control: no-store`; listing-source association and source auction identity are
+immutable on update, and an `expectedVersion` conflict refetches the authoritative
+record. Party contacts are available only through the authenticated admin Party
 operations. Listing-source search/detail use their separate safe DTOs; the read API
 omits full ingestion configuration and never returns the write-only WooCommerce
 secret. Preserve unseen configuration by omitting it from updates, and require an
@@ -23,7 +26,7 @@ are immutable on update. User search and detail use separate summary and account
 mappings; user reads and mutations use `Cache-Control: no-store` requests and private
 query keys. All OAuth client requests use `Cache-Control: no-store`; list, detail and
 update use secret-free DTOs. Creation alone returns a plaintext client secret, shown once
-and cleared when the dialog closes. The shared admin shell and navigation remain deferred to MIG-24;
+and cleared when the dialog closes. The shared admin shell remains deferred to MIG-24;
 individual workflow routes stay protected by `AdminGuard` and backend authorization.
 
 ## Requirement

@@ -12,6 +12,7 @@ describe("clearViewerScopedQueries", () => {
             ["own-partnership-applications"],
             ["own-partnership-applications", "detail", "application-1"],
             ["admin", "partnership-applications", "detail", "application-1"],
+            ["auctionCatalogues", "auc_1", "en", "EUR", "user-1"],
             ["access-tokens"],
             ["watchlist", "user-1"],
             ["search", { term: "chair" }],
@@ -38,12 +39,14 @@ describe("clearViewerScopedQueries", () => {
             }),
         ] as const;
         const publicQueryKey = ["publicCatalog"] as const;
+        const publicAuctionDirectoryQueryKey = ["auctions", "public", "directory", {}] as const;
         const publicDetailQueryKey = [{ _id: "getShopDetail" }, "shop-1"] as const;
 
         for (const queryKey of viewerScopedQueryKeys) {
             queryClient.setQueryData(queryKey, { viewerData: true });
         }
         queryClient.setQueryData(publicQueryKey, { publicData: true });
+        queryClient.setQueryData(publicAuctionDirectoryQueryKey, { publicData: true });
         queryClient.setQueryData(publicDetailQueryKey, { publicData: true });
 
         clearViewerScopedQueries(queryClient);
@@ -52,6 +55,9 @@ describe("clearViewerScopedQueries", () => {
             expect(queryClient.getQueryData(queryKey)).toBeUndefined();
         }
         expect(queryClient.getQueryData(publicQueryKey)).toEqual({ publicData: true });
+        expect(queryClient.getQueryData(publicAuctionDirectoryQueryKey)).toEqual({
+            publicData: true,
+        });
         expect(queryClient.getQueryData(publicDetailQueryKey)).toEqual({ publicData: true });
     });
 

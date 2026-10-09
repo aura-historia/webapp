@@ -24,7 +24,7 @@ Run this checklist when code touches any of the following:
 - Account data: email, name, user ID, roles, subscription status, language, currency, measurement units, content visibility preferences.
 - Authentication/session behavior: AWS Amplify/Cognito, login, logout, session refresh, authorization guards.
 - Preferences and cookies: `user-preferences`, `i18next`, localStorage, sessionStorage, consent state.
-- Watchlists, saved searches/search filters, notifications, matching, product interactions, analytics events.
+- Watchlists, saved searches/search filters, notifications, matching, product interactions, personalized auction catalogues, analytics events.
 - Newsletter or marketing consent, including double opt-in evidence.
 - Partner/shop/admin data: shop metadata, domains, addresses, contact fields, partner applications, API access tokens, OAuth clients.
 - Payment/subscription metadata and Stripe-related behavior.
@@ -35,8 +35,8 @@ Run this checklist when code touches any of the following:
 
 - `showUnassessedOrSensitiveContent` is an account preference covering both unassessed and sensitive content. It is separate from tracking and external-map consent. Do not migrate an old restricted-symbol consent into this broader preference or persist it in browser preferences.
 - Treat missing content assessments as unassessed. Only `ALLOWED` content is displayed without the preference. Redacted image URLs remain unavailable even when the preference is enabled.
-- Account updates must discard and refetch cached personalized listings, watchlists, saved-search matches/previews, and notifications; merely marking them stale can retain previously visible images. Cancel in-flight queries before resetting these caches, and cancel and clear them on account deletion.
-- Sign-in, sign-out and viewer changes also remove own-source grants, partnership applications and access-token caches before refetching. Pending private reads must be aborted so late responses cannot repopulate a previous viewer's data. Public SEO images must be assessed ALLOWED, regardless of a signed-in viewer's content preference.
+- Account updates must discard and refetch cached personalized listings, auction catalogues, watchlists, saved-search matches/previews, and notifications; merely marking them stale can retain previously visible images. Cancel in-flight queries before resetting these caches, and cancel and clear them on account deletion.
+- Sign-in, sign-out and viewer changes also remove own-source grants, partnership applications, access-token and auction catalogue caches before refetching. Pending private reads must be aborted so late responses cannot repopulate a previous viewer's data. Public SEO images must be assessed ALLOWED, regardless of a signed-in viewer's content preference.
 
 ### Newsletter consent
 

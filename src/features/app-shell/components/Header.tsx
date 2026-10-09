@@ -260,6 +260,24 @@ export function Header() {
                                             {t("header.searchFilters")}
                                         </Link>
                                     </NavigationMenuLink>
+                                    <NavigationMenuLink
+                                        asChild
+                                        active={routePathname.startsWith("/auctions")}
+                                    >
+                                        <Link
+                                            to="/$lng/auctions"
+                                            className="h-10 flex-row items-center px-3 py-2"
+                                            aria-current={
+                                                routePathname.startsWith("/auctions")
+                                                    ? "page"
+                                                    : undefined
+                                            }
+                                            params={true}
+                                            from="/$lng"
+                                        >
+                                            {t("header.auctions")}
+                                        </Link>
+                                    </NavigationMenuLink>
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
 
@@ -321,6 +339,26 @@ export function Header() {
                                                 from="/$lng"
                                             >
                                                 {t("header.admin")}
+                                            </Link>
+                                        </NavigationMenuLink>
+                                    )}
+                                    {isAdmin && (
+                                        <NavigationMenuLink
+                                            asChild
+                                            active={routePathname.startsWith("/admin/auctions")}
+                                        >
+                                            <Link
+                                                to="/$lng/admin/auctions"
+                                                className="h-10 flex-row items-center px-3 py-2"
+                                                aria-current={
+                                                    routePathname.startsWith("/admin/auctions")
+                                                        ? "page"
+                                                        : undefined
+                                                }
+                                                params={true}
+                                                from="/$lng"
+                                            >
+                                                {t("header.adminAuctions")}
                                             </Link>
                                         </NavigationMenuLink>
                                     )}
@@ -438,6 +476,14 @@ export function Header() {
 
         return (
             <div className="flex items-center gap-3">
+                <Link
+                    to="/$lng/auctions"
+                    params={true}
+                    from="/$lng"
+                    className="hidden text-sm text-primary underline-offset-4 hover:underline lg:inline"
+                >
+                    {t("header.auctions")}
+                </Link>
                 <Button asChild variant="default">
                     <Link
                         to="/$lng/login"
@@ -566,6 +612,15 @@ export function Header() {
                                             </DropdownMenuItem>
                                             <DropdownMenuItem asChild>
                                                 <Link
+                                                    to="/$lng/auctions"
+                                                    params={true}
+                                                    from="/$lng"
+                                                >
+                                                    {t("header.auctions")}
+                                                </Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem asChild>
+                                                <Link
                                                     to="/$lng/partners/applications"
                                                     params={true}
                                                     from="/$lng"
@@ -590,6 +645,17 @@ export function Header() {
                                                         from="/$lng"
                                                     >
                                                         {t("header.admin")}
+                                                    </Link>
+                                                </DropdownMenuItem>
+                                            )}
+                                            {isAdmin && (
+                                                <DropdownMenuItem asChild>
+                                                    <Link
+                                                        to="/$lng/admin/auctions"
+                                                        params={true}
+                                                        from="/$lng"
+                                                    >
+                                                        {t("header.adminAuctions")}
                                                     </Link>
                                                 </DropdownMenuItem>
                                             )}

@@ -34,7 +34,11 @@ type PageMetaKey =
     | "partnerAccessTokens"
     | "partnerListingSources"
     | "compareBarnebys"
-    | "admin";
+    | "admin"
+    | "auctions"
+    | "auctionDetail"
+    | "adminAuctions"
+    | "adminAuctionCreate";
 
 const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string }> = {
     home: {
@@ -108,6 +112,20 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     admin: {
         title: "meta.admin.title",
     },
+    auctions: {
+        title: "meta.auctions.title",
+        description: "meta.auctions.description",
+    },
+    auctionDetail: {
+        title: "meta.auctionDetail.title",
+        description: "meta.auctionDetail.description",
+    },
+    adminAuctions: {
+        title: "meta.adminAuctions.title",
+    },
+    adminAuctionCreate: {
+        title: "meta.adminAuctionCreate.title",
+    },
 };
 
 type PageMetaOptions = {
@@ -121,6 +139,10 @@ type PageMetaOptions = {
     type?: string;
     /** Whether to add noindex, nofollow meta tag */
     noIndex?: boolean;
+    /** Optional localized overrides for data-backed pages. */
+    title?: string;
+    description?: string;
+    language?: string;
 };
 
 /**
@@ -128,12 +150,21 @@ type PageMetaOptions = {
  * Uses i18n translations for title and description.
  */
 export function generatePageHeadMeta(options: PageMetaOptions): HeadMeta {
-    const { pageKey, url, image = BANNER_IMAGE_URL, type = "website", noIndex = false } = options;
-    const localizedUrl = url ? localizeUrl(url, i18n.resolvedLanguage ?? i18n.language) : undefined;
+    const {
+        pageKey,
+        url,
+        image = BANNER_IMAGE_URL,
+        type = "website",
+        noIndex = false,
+        language,
+    } = options;
+    const locale = language ?? i18n.resolvedLanguage ?? i18n.language;
+    const t = i18n.getFixedT(locale);
+    const localizedUrl = url ? localizeUrl(url, locale) : undefined;
 
     const keys = PAGE_META_KEYS[pageKey];
-    const title = i18n.t(keys.title);
-    const description = keys.description ? i18n.t(keys.description) : undefined;
+    const title = options.title ?? t(keys.title);
+    const description = options.description ?? (keys.description ? t(keys.description) : undefined);
 
     const meta: HeadMeta["meta"] = [
         { title },

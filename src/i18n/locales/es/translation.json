@@ -81,6 +81,21 @@
     },
     "newsletterConfirm": {
       "title": "Confirmar la suscripción al boletín | Aura Historia"
+    },
+    "auctions": {
+      "title": "Directorio de subastas | Aura Historia",
+      "description": "Explore subastas y catálogos de casas de subastas indexadas por Aura Historia."
+    },
+    "auctionDetail": {
+      "title": "Catálogo de subasta | Aura Historia",
+      "titleWithName": "{{name}} | Catálogo de subasta",
+      "description": "Explore esta subasta y sus lotes publicados de {{source}} en Aura Historia."
+    },
+    "adminAuctions": {
+      "title": "Gestión de subastas | Aura Historia"
+    },
+    "adminAuctionCreate": {
+      "title": "Crear subasta | Aura Historia"
     }
   },
   "validation": {
@@ -123,7 +138,9 @@
     "partnerDashboard": "Panel de socios",
     "collection": "Colección",
     "workspace": "Espacio profesional",
-    "accountNavigation": "Navegación de la cuenta"
+    "accountNavigation": "Navegación de la cuenta",
+    "auctions": "Subastas",
+    "adminAuctions": "Gestión de subastas"
   },
   "footer": {
     "brandName": "Aura Historia",
@@ -161,7 +178,8 @@
     },
     "compareLinks": {
       "barnebys": "Barnebys"
-    }
+    },
+    "auctions": "Directorio de subastas"
   },
   "aboutPage": {
     "hero": {
@@ -482,7 +500,8 @@
     },
     "unseenNotification": "Actualizado",
     "auction": {
-      "lotNumber": "Lote {{lotNumber}}"
+      "view": "Ver subasta",
+      "section": "Datos de subasta y lote"
     },
     "searchFilter": {
       "matchedBadge": "Coincidencia",
@@ -2610,6 +2629,157 @@
       "redirectRequired": "Introduzca al menos una URI de redirección.",
       "redirectInvalid": "Cada URI de redirección debe ser una URL HTTPS válida sin fragmento.",
       "redirectDuplicate": "Las URI de redirección deben ser únicas."
+    }
+  },
+  "auctions": {
+    "title": "Subastas",
+    "description": "Explore horarios y catálogos públicos de las casas de subastas indexadas.",
+    "loading": "Cargando subastas…",
+    "empty": "Ninguna subasta pública coincide con estos filtros.",
+    "results": "Resultados del directorio de subastas",
+    "nameNotProvided": "Nombre de subasta no indicado",
+    "statusNotReported": "Estado no comunicado",
+    "count": "{{count}}",
+    "fields": {
+      "format": "Formato",
+      "reportedStatus": "Estado comunicado",
+      "reportedLotCount": "Número de lotes comunicado",
+      "visibleListings": "Lotes visibles",
+      "added": "Añadida"
+    },
+    "formats": {
+      "LIVE": "Subasta en directo",
+      "TIMED": "Subasta por tiempo"
+    },
+    "reportedStatuses": {
+      "SCHEDULED": "Programada",
+      "IN_PROGRESS": "En curso",
+      "ENDED": "Finalizada",
+      "POSTPONED": "Aplazada",
+      "CANCELLED": "Cancelada"
+    },
+    "schedule": {
+      "biddingOpens": "Apertura de pujas",
+      "liveStarts": "Inicio en directo",
+      "lotsBeginClosing": "Inicio del cierre de lotes",
+      "scheduledEnd": "Fin previsto"
+    },
+    "filters": {
+      "title": "Filtrar subastas",
+      "listingSourceId": "ID de la fuente de anuncios",
+      "format": "Formato",
+      "reportedStatus": "Estado comunicado",
+      "exactTime": "Hora exacta del calendario",
+      "exactTimeHelp": "Elija un dato del calendario y un intervalo UTC completo.",
+      "timeRole": "Dato del calendario",
+      "from": "Desde (UTC)",
+      "to": "Hasta (UTC)",
+      "invalidDateTime": "Introduzca una fecha y hora válidas.",
+      "timeRoleRequired": "Elija un dato del calendario.",
+      "completeRangeRequired": "Introduzca ambos extremos del intervalo.",
+      "clear": "Borrar filtros",
+      "apply": "Aplicar filtros",
+      "any": "Cualquiera"
+    },
+    "actions": {
+      "retry": "Intentar de nuevo",
+      "loadingMore": "Cargando…",
+      "loadMore": "Cargar más",
+      "viewCatalogue": "Ver subasta y catálogo",
+      "backToDirectory": "Volver a las subastas",
+      "openSourceCatalogue": "Abrir catálogo de la fuente",
+      "openAuctionPage": "Abrir página de la subasta"
+    },
+    "catalogue": {
+      "title": "Catálogo",
+      "visibleCount": "{{count}} lotes visibles en este catálogo",
+      "empty": "No hay lotes visibles asignados a esta subasta."
+    },
+    "lot": {
+      "lotNumber": "Número de lote",
+      "cataloguePosition": "Posición en el catálogo",
+      "biddingOpens": "Apertura de pujas del lote",
+      "scheduledCloses": "Cierre previsto del lote",
+      "reportedClosedAt": "Cierre comunicado"
+    },
+    "errors": {
+      "missing": "No se encontró esta subasta o ya no está disponible.",
+      "invalidRequest": "La solicitud de subasta no es válida.",
+      "requestFailed": "No se pudieron cargar las subastas. Inténtelo de nuevo."
+    }
+  },
+  "adminAuctions": {
+    "title": "Gestión de subastas",
+    "description": "Cree registros de subasta y actualice sus datos comunicados. La fuente y la identidad de la subasta en origen no se pueden cambiar después de crear el registro.",
+    "create": {
+      "title": "Crear una subasta",
+      "description": "Asocie la subasta a una fuente autorizada e indique su identidad en esa fuente.",
+      "blankFieldsHelp": "Deje vacíos los campos opcionales cuando la fuente no haya facilitado esos datos."
+    },
+    "open": {
+      "title": "Abrir un registro de subasta",
+      "description": "Abra un registro si conoce el ID de la subasta.",
+      "browsePrefix": "Para encontrar un ID de subasta pública, consulte el",
+      "browseLink": "directorio de subastas."
+    },
+    "sourceSearch": {
+      "prompt": "Busque una fuente por nombre o ID.",
+      "loading": "Buscando fuentes…",
+      "noResults": "No hay fuentes que coincidan con esta búsqueda."
+    },
+    "fields": {
+      "listingSource": "Fuente de anuncios",
+      "searchListingSources": "Buscar fuentes",
+      "listingSourceId": "ID de la fuente",
+      "sourceAuctionId": "ID de subasta en origen",
+      "sourceAuctionIdHelp": "Use el identificador con el que la fuente seleccionada reconoce esta subasta.",
+      "auctionId": "ID de subasta",
+      "name": "Nombre de la subasta",
+      "nameLanguage": "Idioma del nombre",
+      "catalogueUrl": "URL del catálogo",
+      "format": "Formato",
+      "reportedStatus": "Estado comunicado",
+      "reportedLotCount": "Número de lotes comunicado",
+      "schedule": "Calendario",
+      "scheduleHelp": "Introduzca todas las fechas y horas en UTC.",
+      "notSet": "Sin especificar",
+      "created": "Creado",
+      "updated": "Actualizado"
+    },
+    "detail": {
+      "title": "Registro de subasta",
+      "description": "Actualice los datos comunicados de la subasta. No se pueden cambiar la subasta ni la fuente asociada.",
+      "blankFieldsHelp": "Los valores vacíos borran los datos correspondientes, incluidos los horarios individuales."
+    },
+    "actions": {
+      "create": "Crear subasta",
+      "creating": "Creando…",
+      "open": "Abrir registro",
+      "changeSource": "Cambiar fuente",
+      "loadMore": "Cargar más fuentes",
+      "loadingMore": "Cargando…",
+      "retry": "Intentar de nuevo",
+      "cancel": "Cancelar",
+      "save": "Guardar cambios",
+      "saving": "Guardando…",
+      "loadLatest": "Cargar registro actualizado"
+    },
+    "errors": {
+      "forbidden": "No tiene permiso para gestionar subastas.",
+      "missing": "No se encontró este registro de subasta o ya no está disponible.",
+      "duplicateSourceKey": "Ya existe una subasta para esta fuente y este ID de origen.",
+      "staleVersion": "La subasta cambió mientras la editaba.",
+      "staleVersionHelp": "Se han vuelto a obtener los datos actuales del servidor. Su borrador sigue arriba; cargue el registro actualizado para sustituirlo antes de volver a guardar.",
+      "invalid": "Revise los datos de la subasta e inténtelo de nuevo.",
+      "requestFailed": "No se pudo completar la solicitud. Inténtelo de nuevo."
+    },
+    "validation": {
+      "sourceRequired": "Seleccione una fuente.",
+      "sourceAuctionIdRequired": "Introduzca el ID de la subasta en origen.",
+      "sourceAuctionIdTooLong": "El ID de origen no puede superar 512 bytes UTF-8.",
+      "invalidUrl": "Introduzca una URL HTTP o HTTPS válida.",
+      "invalidLotCount": "Introduzca un número entero entre 0 y 4.294.967.295.",
+      "invalidDateTime": "Introduzca una fecha y hora válidas en UTC."
     }
   }
 }
