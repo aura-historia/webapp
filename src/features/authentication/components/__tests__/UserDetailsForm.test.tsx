@@ -23,51 +23,44 @@ import { UserDetailsForm } from "../UserDetailsForm";
 import { renderWithRouter } from "@/test/utils";
 
 describe("UserDetailsForm", () => {
-    const newsletterCheckboxName = /Ich möchte den Aura Historia Newsletter/i;
-
     beforeEach(() => {
         vi.clearAllMocks();
         localStorage.clear();
         mockUpdateAccount.mockResolvedValue(undefined);
-        mockSubscribe.mockResolvedValue(undefined);
+        mockSubscribe.mockRejectedValue(new Error("Newsletter provider unavailable"));
     });
 
-    it("renders the optional newsletter consent checkbox unchecked by default", async () => {
+    it("does not offer a newsletter or marketing checkbox after registration", async () => {
         await act(async () => {
-            renderWithRouter(<UserDetailsForm email="user@example.com" onSuccess={vi.fn()} />);
+            renderWithRouter(<UserDetailsForm onSuccess={vi.fn()} />);
         });
 
-        const checkbox = screen.getByRole("checkbox", {
-            name: newsletterCheckboxName,
-        });
-        expect(checkbox).toBeInTheDocument();
-        expect(checkbox).not.toBeChecked();
-        expect(screen.getByRole("link", { name: "Datenschutzerklärung" })).toHaveAttribute(
-            "href",
-            "/de/privacy",
-        );
+        expect(screen.getAllByRole("checkbox")).toHaveLength(1);
+        expect(
+            screen.getByRole("checkbox", { name: /Ungeprüfte oder sensible Inhalte anzeigen/ }),
+        ).not.toBeChecked();
+        expect(screen.queryByText(/Newsletter/)).not.toBeInTheDocument();
     });
 
     it("preselects the inferred language and preferred currency", async () => {
         await act(async () => {
-            renderWithRouter(<UserDetailsForm email="user@example.com" onSuccess={vi.fn()} />);
+            renderWithRouter(<UserDetailsForm onSuccess={vi.fn()} />);
         });
 
         expect(screen.getByRole("combobox", { name: "Sprache" })).toHaveTextContent("Deutsch");
         expect(screen.getByRole("button", { name: "Währung" })).toHaveTextContent("EUR - Euro");
     });
 
-    it("subscribes to the newsletter only after the user opts in", async () => {
+    it("saves the profile and completes without requesting a newsletter subscription", async () => {
         const user = userEvent.setup();
         const onSuccess = vi.fn();
 
         await act(async () => {
-            renderWithRouter(<UserDetailsForm email="user@example.com" onSuccess={onSuccess} />);
+            renderWithRouter(<UserDetailsForm onSuccess={onSuccess} />);
         });
 
         await user.type(screen.getByLabelText("Vorname"), "Max");
         await user.type(screen.getByLabelText("Nachname"), "Mustermann");
-        await user.click(screen.getByRole("checkbox", { name: newsletterCheckboxName }));
         await user.click(screen.getByRole("button", { name: "Speichern und fortfahren" }));
 
         await waitFor(() => {
@@ -81,24 +74,16 @@ describe("UserDetailsForm", () => {
             });
         });
 
-        expect(mockSubscribe).toHaveBeenCalledWith(
-            expect.objectContaining({
-                email: "user@example.com",
-                firstName: "Max",
-                lastName: "Mustermann",
-                language: "de",
-                currency: "EUR",
-            }),
-        );
         expect(onSuccess).toHaveBeenCalled();
+        expect(mockSubscribe).not.toHaveBeenCalled();
     });
 
-    it("does not subscribe to the newsletter when the user skips the personal details step", async () => {
+    it("completes on skip without saving or requesting a newsletter subscription", async () => {
         const user = userEvent.setup();
         const onSuccess = vi.fn();
 
         await act(async () => {
-            renderWithRouter(<UserDetailsForm email="user@example.com" onSuccess={onSuccess} />);
+            renderWithRouter(<UserDetailsForm onSuccess={onSuccess} />);
         });
 
         await user.click(screen.getByRole("button", { name: "Vorerst überspringen" }));
@@ -107,24 +92,23 @@ describe("UserDetailsForm", () => {
             expect(onSuccess).toHaveBeenCalled();
         });
 
+        expect(mockUpdateAccount).not.toHaveBeenCalled();
         expect(mockSubscribe).not.toHaveBeenCalled();
     });
 
-    it("does not subscribe when the user leaves the optional checkbox unchecked", async () => {
+    it("shows the profile error without completing when saving fails", async () => {
+        mockUpdateAccount.mockRejectedValue(new Error("Profile could not be saved"));
         const user = userEvent.setup();
         const onSuccess = vi.fn();
 
         await act(async () => {
-            renderWithRouter(<UserDetailsForm email="user@example.com" onSuccess={onSuccess} />);
+            renderWithRouter(<UserDetailsForm onSuccess={onSuccess} />);
         });
 
         await user.click(screen.getByRole("button", { name: "Speichern und fortfahren" }));
 
-        await waitFor(() => {
-            expect(mockUpdateAccount).toHaveBeenCalled();
-        });
-
+        expect(await screen.findByText("Profile could not be saved")).toBeInTheDocument();
+        expect(onSuccess).not.toHaveBeenCalled();
         expect(mockSubscribe).not.toHaveBeenCalled();
-        expect(onSuccess).toHaveBeenCalled();
     });
 });

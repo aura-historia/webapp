@@ -67,7 +67,6 @@ export function AuthFlow({ step, onStepChange, onComplete, locale, redirect }: A
 
             {step === "user-details" && (
                 <UserDetailsForm
-                    email={pendingEmail}
                     onSuccess={() => {
                         storePendingEmail("");
                         onComplete();
