@@ -78,6 +78,9 @@
     "compareBarnebys": {
       "title": "Aura Historia vs. Barnebys | Antiquitätensuche im Vergleich",
       "description": "Aura Historia und Barnebys im Vergleich: Quellenabdeckung, mehrsprachige Suche, schnelle Benachrichtigungen und KI-gestützte Marktbeobachtung für Antiquitäten."
+    },
+    "newsletterConfirm": {
+      "title": "Newsletter-Anmeldung bestätigen | Aura Historia"
     }
   },
   "validation": {
@@ -663,8 +666,8 @@
       "description": "Erhalten Sie wöchentlich ausgewählte Fundstücke, Markttrends und exklusive Einblicke direkt in Ihr Postfach.",
       "placeholder": "Ihre E-Mail-Adresse",
       "button": "Zum Newsletter anmelden",
-      "privacy": "Mit der Anmeldung stimmen Sie unserer <privacyLink>Datenschutzerklärung</privacyLink> zu. Sie können sich jederzeit abmelden.",
-      "successMessage": "Vielen Dank für Ihre Anmeldung! Bitte bestätigen Sie Ihre E-Mail-Adresse.",
+      "privacy": "Wir senden Ihnen zunächst einen Bestätigungslink per E-Mail. Ihr Abonnement beginnt erst, wenn Sie ihn bestätigen. Details in unserer <privacyLink>Datenschutzerklärung</privacyLink>.",
+      "successMessage": "Bitte prüfen Sie Ihr Postfach.",
       "benefit1": "Persönliche Highlights",
       "benefit2": "Neue Features & Angebote",
       "benefit3": "Jederzeit abbestellbar",
@@ -675,8 +678,8 @@
       "emailLabel": "E-Mail-Adresse",
       "emailRequired": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
       "eyebrow": "Newsletter",
-      "successEmailSent": "Eine Bestätigungs-E-Mail wurde an {{email}} gesendet.",
-      "successTiming": "Es kann einige Minuten dauern, bis die E-Mail bei Ihnen eintrifft."
+      "successEmailSent": "Sofern {{email}} unseren Newsletter empfangen kann, senden wir einen Bestätigungslink an diese Adresse. Ihr Abonnement beginnt erst, wenn Sie den Link öffnen und bestätigen.",
+      "successTiming": "Es kann einige Minuten dauern, bis die E-Mail eintrifft. Der Link ist 24 Stunden gültig."
     },
     "faq": {
       "title": "Häufige Fragen",
@@ -770,6 +773,34 @@
       "billingNoteYearly": "pro Monat, jährlich abgerechnet, inkl. MwSt.",
       "getStartedFree": "Kostenlos starten",
       "subscribe": "Abonnieren"
+    }
+  },
+  "newsletter": {
+    "purpose": "Ich möchte E-Mails von Aura Historia mit Newslettern, personalisierten Produktempfehlungen sowie Informationen zu Funktionen und Tarifen von Aura Historia erhalten. Ich kann mich jederzeit abmelden.",
+    "privacy": "Weitere Informationen finden Sie in unserer <privacyLink>Datenschutzerklärung</privacyLink>.",
+    "confirmation": {
+      "eyebrow": "Newsletter",
+      "request": {
+        "title": "Newsletter-Anmeldung bestätigen",
+        "description": "Bitte bestätigen Sie, dass Sie den Aura Historia Newsletter an die E-Mail-Adresse erhalten möchten, an die dieser Link gesendet wurde.",
+        "button": "Anmeldung bestätigen",
+        "temporaryError": "Ihre Bestätigung konnte gerade nicht verarbeitet werden. Bitte versuchen Sie es gleich noch einmal."
+      },
+      "confirmed": {
+        "title": "Bestätigung erhalten",
+        "description": "Vielen Dank. Wir haben Ihre Bestätigung erhalten. Es kann einige Minuten dauern, bis sie wirksam wird.",
+        "unsubscribe": "Sie können sich jederzeit über den Link in jedem unserer Newsletter abmelden."
+      },
+      "invalid": {
+        "title": "Dieser Link kann nicht mehr verwendet werden",
+        "description": "Der Bestätigungslink ist möglicherweise abgelaufen, wurde durch einen neueren ersetzt oder ist unvollständig. Sie können jederzeit eine neue Bestätigungs-E-Mail anfordern."
+      },
+      "missing": {
+        "title": "Bitte öffnen Sie den Link aus Ihrer E-Mail erneut",
+        "description": "Zu Ihrer Sicherheit wird der Bestätigungslink beim Öffnen dieser Seite aus der Adresszeile entfernt und nicht gespeichert. Falls Sie die Seite neu geladen haben, öffnen Sie den Link in Ihrer E-Mail erneut oder fordern Sie eine neue Bestätigungs-E-Mail an."
+      },
+      "requestNew": "Neue Bestätigungs-E-Mail anfordern",
+      "backHome": "Zurück zu Aura Historia"
     }
   },
   "partnerProgram": {
@@ -1060,7 +1091,6 @@
     "BAD_ORDER_VALUE": "Ungültige Sortierreihenfolge.",
     "WATCHLIST_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an Artikeln auf Ihrer Merkliste erreicht. Es können maximal 5 Artikel gespeichert werden.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an Suchaufträgen für Ihren Account erreicht.",
-    "INVALID_EMAIL": "Die E-Mail-Adresse ist ungültig oder wird von unserem Newsletter-Anbieter nicht akzeptiert.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Sie haben bereits ein aktives Abonnement. Bitte nutzen Sie das Kundenportal zur Verwaltung.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Es wurde kein bestehendes Abonnement gefunden. Bitte starten Sie einen neuen Checkout.",
     "unknown": "Ein unerwarteter Fehler ist aufgetreten.",
@@ -1073,7 +1103,9 @@
     "ACCESS_TOKEN_NOT_FOUND": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
     "PRODUCT_LISTING_NOT_FOUND": "Dieser Artikel wurde nicht gefunden.",
     "LISTING_SOURCE_NOT_FOUND": "Dieser Anbieter ist nicht mehr verfügbar.",
-    "UNKNOWN_ERROR": "Ein unerwarteter Fehler ist aufgetreten."
+    "UNKNOWN_ERROR": "Ein unerwarteter Fehler ist aufgetreten.",
+    "NEWSLETTER_TEMPORARILY_UNAVAILABLE": "Der Newsletter-Dienst ist vorübergehend nicht erreichbar. Bitte versuchen Sie es in einigen Minuten erneut.",
+    "NEWSLETTER_INTERNAL_ERROR": "Ihre Newsletter-Anfrage konnte nicht verarbeitet werden. Bitte versuchen Sie es später erneut."
   },
   "watchlist": {
     "title": "Meine Merkliste",
@@ -2013,6 +2045,109 @@
       "shopifyDomainRequired": "Geben Sie die Shopify-Shop-Domain ein.",
       "webhookSecretRequired": "Geben Sie das WooCommerce-Webhook-Secret ein.",
       "camrefRequired": "Geben Sie die Partnerize-Kampagnenreferenz ein."
+    }
+  },
+  "adminPartnerships": {
+    "title": "Partnerschaftsverwaltung",
+    "description": "Verwalten Sie Partnerschaftsmitgliedschaften und den Zugriff auf Anbieter.",
+    "loading": "Partnerschaften werden geladen.",
+    "loadingDetail": "Partnerschaft wird geladen.",
+    "empty": "Keine aktiven Partnerschaften entsprechen diesen Filtern.",
+    "filters": {
+      "title": "Partnerschaften filtern",
+      "partyId": "Organisations-ID",
+      "memberUserId": "Mitglieds-User-ID",
+      "listingSourceId": "Anbieter-ID",
+      "apply": "Filter anwenden",
+      "reset": "Zurücksetzen"
+    },
+    "validation": {
+      "idTooLong": "Die Kennung darf höchstens 128 Zeichen enthalten.",
+      "requiredId": "Geben Sie eine Kennung ein."
+    },
+    "list": {
+      "members_one": "{{count}} Mitglied",
+      "members_other": "{{count}} Mitglieder",
+      "listingSources_one": "{{count}} Anbieterzugriff",
+      "listingSources_other": "{{count}} Anbieterzugriffe",
+      "loaded_one": "{{count}} Partnerschaft geladen",
+      "loaded_other": "{{count}} Partnerschaften geladen",
+      "loadMore": "Weitere laden",
+      "loadingMore": "Wird geladen…"
+    },
+    "fields": {
+      "created": "Erstellt",
+      "updated": "Zuletzt aktualisiert",
+      "party": "Organisation",
+      "partyId": "Organisations-ID",
+      "partySlugId": "Unveränderliche Organisationskennung",
+      "partnershipId": "Partnerschafts-ID",
+      "memberCount": "Mitglieder (vollständige Anzahl)",
+      "listingSourceGrantCount": "Anbieterzugriffe (vollständige Anzahl)"
+    },
+    "actions": {
+      "details": "Details anzeigen",
+      "retry": "Erneut versuchen",
+      "saving": "Wird gespeichert…",
+      "grantMembership": "Mitgliedschaft vergeben",
+      "revokeMembership": "Mitgliedschaft entziehen",
+      "revoke": "Entziehen",
+      "revokeMemberFor": "Mitgliedschaft für User-ID {{id}} entziehen",
+      "revokeSourceFor": "Zugriff auf Anbieter-ID {{id}} entziehen",
+      "grantSource": "Zugriff vergeben",
+      "revokeSource": "Zugriff entziehen",
+      "cancel": "Abbrechen",
+      "dissolve": "Partnerschaft auflösen",
+      "dissolving": "Wird aufgelöst…",
+      "confirmDissolve": "Partnerschaft auflösen"
+    },
+    "detail": {
+      "title": "Partnerschaftsdetails",
+      "description": "Mitgliedschaften und Anbieterzugriffe werden separat verwaltet. Die vollständigen Zahlen können über den angezeigten Kennungen liegen.",
+      "members_one": "{{count}} Mitglied",
+      "members_other": "{{count}} Mitglieder",
+      "listingSources_one": "{{count}} Anbieterzugriff",
+      "listingSources_other": "{{count}} Anbieterzugriffe",
+      "referencesShown": "Angezeigte Kennungen: {{shown}}. Vollständige Anzahl: {{count}}.",
+      "noReferences": "Keine Kennungen geladen.",
+      "close": "Schließen"
+    },
+    "members": {
+      "title": "Mitgliedschaften verwalten",
+      "description": "Mitgliedschaften werden ausdrücklich vergeben oder entzogen. Eine Antragsgenehmigung allein gewährt keinen Zugriff.",
+      "userId": "User-ID"
+    },
+    "sources": {
+      "title": "Anbieterzugriffe verwalten",
+      "description": "Ein Anbieter muss derselben Organisation wie diese Partnerschaft angehören. Der Server prüft dies beim Speichern erneut.",
+      "listingSourceId": "Anbieter-ID",
+      "checking": "Anbieter wird geprüft…",
+      "check": "Anbieter prüfen",
+      "sameParty": "{{name}} ({{listingSourceId}}) gehört zur selben Organisation wie diese Partnerschaft."
+    },
+    "success": {
+      "memberGranted": "Mitgliedschaft vergeben.",
+      "memberRevoked": "Mitgliedschaft entzogen.",
+      "listingSourceGranted": "Anbieterzugriff vergeben.",
+      "listingSourceRevoked": "Anbieterzugriff entzogen.",
+      "dissolved": "Partnerschaft aufgelöst."
+    },
+    "errors": {
+      "forbidden": "Für diese Aktion ist eine Administratorberechtigung erforderlich.",
+      "invalid": "Prüfen Sie die angegebenen Kennungen.",
+      "missing": "Diese Partnerschaft ist nicht mehr verfügbar.",
+      "partyConflict": "Der Anbieter gehört zu einer anderen Organisation als diese Partnerschaft. Zugriff kann nur für Anbieter derselben Organisation vergeben werden.",
+      "conflict": "Die Partnerschaft wurde parallel geändert. Aktualisieren Sie die Details und versuchen Sie es erneut.",
+      "dissolveConflict": "Die Partnerschaft wurde parallel geändert. Aktualisieren Sie die Details, bevor Sie es erneut versuchen.",
+      "dissolveFailed": "Die Partnerschaft konnte nicht aufgelöst werden. Prüfen Sie den aktuellen Status und versuchen Sie es erneut.",
+      "requestFailed": "Die Anfrage konnte nicht abgeschlossen werden. Aktualisieren Sie die Details und versuchen Sie es erneut.",
+      "referenceMissing": "Die Partnerschaft oder die angegebene Kennung wurde nicht gefunden."
+    },
+    "dissolution": {
+      "title": "Partnerschaft auflösen",
+      "description": "Beim Auflösen werden aktuelle Mitgliedschaften und Anbieterzugriffe entfernt. Organisation, Anbieter, Benutzer, Angebote und Anträge bleiben erhalten.",
+      "confirmTitle": "Auflösung bestätigen",
+      "confirmDescription": "Möchten Sie die Partnerschaft mit {{name}} auflösen? Die aktuellen Mitgliedschaften und Anbieterzugriffe werden entfernt."
     }
   },
   "adminDashboard": {

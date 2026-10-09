@@ -4,15 +4,6 @@ import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useNewsletterSubscription } from "@/features/newsletter/api/useNewsletterSubscription.ts";
 
-const mockToast = vi.hoisted(() => ({
-    success: vi.fn(),
-    error: vi.fn(),
-}));
-
-vi.mock("sonner", () => ({
-    toast: mockToast,
-}));
-
 vi.mock("@/features/newsletter/api/useNewsletterSubscription.ts", () => ({
     useNewsletterSubscription: vi.fn(() => ({
         mutateAsync: vi.fn().mockResolvedValue(undefined),
@@ -61,13 +52,20 @@ describe("NewsletterSection", () => {
         expect(screen.getByText("Jederzeit abbestellbar")).toBeInTheDocument();
     });
 
-    it("renders the privacy notice", () => {
-        expect(screen.getByText(/Mit der Anmeldung stimmen Sie unserer/i)).toBeInTheDocument();
-        expect(screen.getByText(/jederzeit abmelden/i)).toBeInTheDocument();
+    it("renders the purpose and double opt-in notice with the privacy link", () => {
+        expect(
+            screen.getByText(
+                "Ich möchte E-Mails von Aura Historia mit Newslettern, personalisierten Produktempfehlungen sowie Informationen zu Funktionen und Tarifen von Aura Historia erhalten. Ich kann mich jederzeit abmelden.",
+            ),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText(/Ihr Abonnement beginnt erst, wenn Sie ihn bestätigen/i),
+        ).toBeInTheDocument();
         expect(screen.getByRole("link", { name: "Datenschutzerklärung" })).toHaveAttribute(
             "href",
             "/de/privacy",
         );
+        expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
     });
 
     it("shows validation error when submitting without email", async () => {
@@ -82,62 +80,31 @@ describe("NewsletterSection", () => {
         });
     });
 
-    it("shows the signed-up email and timing note after successful submission", async () => {
+    it("asks the user to check their inbox without announcing a completed subscription", async () => {
         const user = userEvent.setup();
         const testEmail = "max.mustermann@example.com";
 
         await user.type(screen.getByPlaceholderText("Ihre E-Mail-Adresse"), testEmail);
         await user.click(screen.getByRole("button", { name: "Zum Newsletter anmelden" }));
 
-        await waitFor(() => {
-            expect(
-                screen.getByText(`Eine Bestätigungs-E-Mail wurde an ${testEmail} gesendet.`),
-            ).toBeInTheDocument();
-        });
-
-        expect(
-            screen.getByText("Es kann einige Minuten dauern, bis die E-Mail bei Ihnen eintrifft."),
-        ).toBeInTheDocument();
+        const status = await screen.findByRole("status");
+        expect(status).toHaveTextContent("Bitte prüfen Sie Ihr Postfach.");
+        expect(status).toHaveTextContent(
+            `Sofern ${testEmail} unseren Newsletter empfangen kann, senden wir einen Bestätigungslink an diese Adresse.`,
+        );
+        expect(status).toHaveTextContent("Der Link ist 24 Stunden gültig.");
+        expect(status).not.toHaveTextContent(/Vielen Dank für Ihre Anmeldung/);
     });
 });
 
-describe("NewsletterSection error handling", () => {
-    it("shows INVALID_EMAIL error toast when the provider rejects the email address", async () => {
-        vi.mocked(useNewsletterSubscription).mockReturnValue({
-            mutateAsync: vi
-                .fn()
-                .mockRejectedValue(
-                    new Error(
-                        "Die E-Mail-Adresse ist ungültig oder wird von unserem Newsletter-Anbieter nicht akzeptiert.",
-                    ),
-                ),
-            isPending: false,
-        } as unknown as ReturnType<typeof useNewsletterSubscription>);
-
-        await act(async () => {
-            renderWithRouter(<NewsletterSection />);
-        });
-
-        const user = userEvent.setup();
-        await user.type(screen.getByPlaceholderText("Ihre E-Mail-Adresse"), "test@example.com");
-        await user.click(screen.getByRole("button", { name: "Zum Newsletter anmelden" }));
-
-        await waitFor(() => {
-            expect(mockToast.error).toHaveBeenCalledWith(
-                "Die E-Mail-Adresse ist ungültig oder wird von unserem Newsletter-Anbieter nicht akzeptiert.",
-            );
-        });
+describe("NewsletterSection request handling", () => {
+    afterEach(() => {
+        vi.mocked(useNewsletterSubscription).mockReset();
     });
 
-    it("shows a server error toast for unexpected 5xx failures", async () => {
+    async function renderWithSubscription(mutateAsync: ReturnType<typeof vi.fn>) {
         vi.mocked(useNewsletterSubscription).mockReturnValue({
-            mutateAsync: vi
-                .fn()
-                .mockRejectedValue(
-                    new Error(
-                        "Es ist ein interner Serverfehler aufgetreten. Bitte versuchen Sie es später erneut.",
-                    ),
-                ),
+            mutateAsync,
             isPending: false,
         } as unknown as ReturnType<typeof useNewsletterSubscription>);
 
@@ -147,12 +114,56 @@ describe("NewsletterSection error handling", () => {
 
         const user = userEvent.setup();
         await user.type(screen.getByPlaceholderText("Ihre E-Mail-Adresse"), "test@example.com");
-        await user.click(screen.getByRole("button", { name: "Zum Newsletter anmelden" }));
+        return user;
+    }
 
-        await waitFor(() => {
-            expect(mockToast.error).toHaveBeenCalledWith(
-                "Es ist ein interner Serverfehler aufgetreten. Bitte versuchen Sie es später erneut.",
-            );
-        });
+    it("submits one request while a submission is pending", async () => {
+        let resolveRequest: () => void = () => {};
+        const mutateAsync = vi.fn(
+            () =>
+                new Promise<void>((resolve) => {
+                    resolveRequest = resolve;
+                }),
+        );
+        const user = await renderWithSubscription(mutateAsync);
+        const button = screen.getByRole("button", { name: "Zum Newsletter anmelden" });
+
+        await user.click(button);
+        await user.dblClick(button);
+        await user.keyboard("{Enter}");
+
+        expect(mutateAsync).toHaveBeenCalledTimes(1);
+        expect(mutateAsync).toHaveBeenCalledWith(
+            expect.objectContaining({ email: "test@example.com", language: "de" }),
+        );
+
+        await act(async () => resolveRequest());
+        expect(await screen.findByRole("status")).toBeInTheDocument();
+    });
+
+    it("announces a temporary failure inline and keeps the form for a deliberate retry", async () => {
+        const mutateAsync = vi
+            .fn()
+            .mockRejectedValueOnce(
+                new Error(
+                    "Der Newsletter-Dienst ist vorübergehend nicht erreichbar. Bitte versuchen Sie es in einigen Minuten erneut.",
+                ),
+            )
+            .mockResolvedValueOnce(undefined);
+        const user = await renderWithSubscription(mutateAsync);
+        const button = screen.getByRole("button", { name: "Zum Newsletter anmelden" });
+
+        await user.click(button);
+
+        expect(await screen.findByRole("alert")).toHaveTextContent(
+            "Der Newsletter-Dienst ist vorübergehend nicht erreichbar.",
+        );
+        expect(screen.getByPlaceholderText("Ihre E-Mail-Adresse")).toHaveValue("test@example.com");
+        expect(mutateAsync).toHaveBeenCalledTimes(1);
+
+        await user.click(button);
+
+        expect(await screen.findByRole("status")).toBeInTheDocument();
+        expect(mutateAsync).toHaveBeenCalledTimes(2);
     });
 });

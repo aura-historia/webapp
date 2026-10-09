@@ -10,9 +10,11 @@ only with current DTO mapping, tests and the authorization checks below. See
 [MIG-24 scope decisions](api-migration/integration-release-gate.md).
 
 Restored workflows: OAuth client management (MIG-22), partnership application review
-(MIG-16; see [admin partnership application review](api-migration/partnership-application-contracts.md#admin-partnership-application-review)),
-party management (MIG-17), listing-source management (MIG-18), and user management
-(MIG-20). Party contacts are available only through the authenticated admin Party
+(MIG-16, see [admin partnership application review](api-migration/partnership-application-contracts.md#admin-partnership-application-review)),
+Party management (MIG-17), listing-source management (MIG-18), partnership membership
+and source-grant management (MIG-19, see
+[admin partnership management](api-migration/admin-partnership-management.md)), and user
+management (MIG-20). Party contacts are available only through the authenticated admin Party
 operations. Listing-source search/detail use their separate safe DTOs; the read API
 omits full ingestion configuration and never returns the write-only WooCommerce
 secret. Preserve unseen configuration by omitting it from updates, and require an

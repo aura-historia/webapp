@@ -1825,8 +1825,8 @@ export type BillingSessionUrlData = {
 };
 
 /**
- * Request body for creating or updating a newsletter subscription.
- * `email` is required; all other fields are optional and may be omitted or set to `null`.
+ * Request body for requesting double opt-in confirmation for a newsletter subscription.
+ * `email` is required; `firstName`, `lastName`, `language`, and `currency` are optional and may be omitted or set to `null`.
  *
  */
 export type PutNewsletterSubscriptionData = {
@@ -1850,6 +1850,13 @@ export type PutNewsletterSubscriptionData = {
    * Optional preferred currency to sync with the subscription
    */
   currency?: CurrencyData | null;
+};
+
+export type ConfirmNewsletterSubscriptionData = {
+  /**
+   * Opaque confirmation capability returned only in the confirmation email fragment.
+   */
+  token: string;
 };
 
 /**
@@ -6553,7 +6560,7 @@ export type UpdateNotificationSeenResponse = UpdateNotificationSeenResponses[key
 
 export type PutNewsletterSubscriptionData2 = {
   /**
-   * Newsletter subscription data.
+   * Newsletter confirmation request data.
    */
   body: PutNewsletterSubscriptionData;
   path?: never;
@@ -6563,17 +6570,19 @@ export type PutNewsletterSubscriptionData2 = {
 
 export type PutNewsletterSubscriptionErrors = {
   /**
-   * Bad request — the request body is missing, malformed, contains invalid field values,
-   * or the newsletter provider rejects the submitted email address as invalid.
-   *
+   * Missing, malformed, oversized, or invalid request body.
    */
   400: ApiError;
   /**
-   * Internal newsletter subscription failure
+   * A supplied bearer credential is invalid.
+   */
+  401: ApiError;
+  /**
+   * Internal/configuration failure, including a permanent definite SES rejection.
    */
   500: ApiError;
   /**
-   * Newsletter provider temporarily unavailable
+   * Newsletter persistence, confirmation-template retrieval, or SES is temporarily unavailable, SES throttling was rejected, or SES acceptance is ambiguous.
    */
   503: ApiError;
 };
@@ -6582,12 +6591,48 @@ export type PutNewsletterSubscriptionError = PutNewsletterSubscriptionErrors[key
 
 export type PutNewsletterSubscriptionResponses = {
   /**
-   * Newsletter subscription write accepted by the provider. This does not confirm message or campaign delivery; existing Loops opt-out state is preserved.
+   * Confirmation request handled. The requested mailbox may be pending, already confirmed, or rate suppressed.
    */
   204: void;
 };
 
 export type PutNewsletterSubscriptionResponse = PutNewsletterSubscriptionResponses[keyof PutNewsletterSubscriptionResponses];
+
+export type ConfirmNewsletterSubscriptionData2 = {
+  /**
+   * The opaque confirmation capability.
+   */
+  body: ConfirmNewsletterSubscriptionData;
+  path?: never;
+  query?: never;
+  url: '/api/v1/newsletter-subscriptions/confirm';
+};
+
+export type ConfirmNewsletterSubscriptionErrors = {
+  /**
+   * Malformed, oversized, or wrong-shape body, or one generic invalid, unknown, expired, or invalidated confirmation result.
+   */
+  400: ApiError;
+  /**
+   * Internal confirmation-state failure.
+   */
+  500: ApiError;
+  /**
+   * Newsletter confirmation persistence is temporarily unavailable.
+   */
+  503: ApiError;
+};
+
+export type ConfirmNewsletterSubscriptionError = ConfirmNewsletterSubscriptionErrors[keyof ConfirmNewsletterSubscriptionErrors];
+
+export type ConfirmNewsletterSubscriptionResponses = {
+  /**
+   * Confirmation committed, or an already confirmed token was replayed.
+   */
+  204: void;
+};
+
+export type ConfirmNewsletterSubscriptionResponse = ConfirmNewsletterSubscriptionResponses[keyof ConfirmNewsletterSubscriptionResponses];
 
 export type AdminDeleteListingSourceData = {
   body?: never;

@@ -78,6 +78,9 @@
     },
     "partnerListingSources": {
       "title": "Fornitori accessibili | Aura Historia"
+    },
+    "newsletterConfirm": {
+      "title": "Conferma l'iscrizione alla newsletter | Aura Historia"
     }
   },
   "validation": {
@@ -663,8 +666,8 @@
       "description": "Ricevi ogni settimana ritrovamenti selezionati, tendenze di mercato e approfondimenti esclusivi direttamente nella tua casella di posta.",
       "placeholder": "Il tuo indirizzo email",
       "button": "Iscriviti alla newsletter",
-      "privacy": "Iscrivendoti, accetti la nostra <privacyLink>informativa sulla privacy</privacyLink>. Puoi annullare l'iscrizione in qualsiasi momento.",
-      "successMessage": "Grazie per l'iscrizione! Conferma il tuo indirizzo email.",
+      "privacy": "Ti invieremo prima un link di conferma via email. L'iscrizione inizia solo dopo averlo confermato. Dettagli nella nostra <privacyLink>informativa sulla privacy</privacyLink>.",
+      "successMessage": "Controlla la tua casella di posta.",
       "benefit1": "Highlights personalizzati",
       "benefit2": "Nuove funzionalità & offerte",
       "benefit3": "Annulla l'iscrizione in qualsiasi momento",
@@ -675,8 +678,8 @@
       "emailLabel": "Indirizzo email",
       "emailRequired": "Inserisci un indirizzo email valido.",
       "eyebrow": "Newsletter",
-      "successEmailSent": "Un'email di conferma è stata inviata a {{email}}.",
-      "successTiming": "Potrebbe volerci qualche minuto prima che l'email arrivi."
+      "successEmailSent": "Se {{email}} può ricevere la nostra newsletter, invieremo un link di conferma a questo indirizzo. L'iscrizione inizia solo dopo che avrai aperto il link e confermato.",
+      "successTiming": "Potrebbero volerci alcuni minuti prima che l'email arrivi. Il link è valido per 24 ore."
     },
     "faq": {
       "title": "Domande frequenti",
@@ -770,6 +773,34 @@
       "billingNoteYearly": "al mese, fatturato annualmente, IVA inclusa",
       "getStartedFree": "Inizia gratis",
       "subscribe": "Abbonati"
+    }
+  },
+  "newsletter": {
+    "purpose": "Desidero ricevere email da Aura Historia con newsletter, consigli personalizzati sui prodotti e informazioni sulle funzionalità e sui piani di Aura Historia. Posso annullare l'iscrizione in qualsiasi momento.",
+    "privacy": "Maggiori informazioni sono disponibili nella nostra <privacyLink>informativa sulla privacy</privacyLink>.",
+    "confirmation": {
+      "eyebrow": "Newsletter",
+      "request": {
+        "title": "Conferma l'iscrizione alla newsletter",
+        "description": "Conferma di voler ricevere la newsletter di Aura Historia all'indirizzo email a cui è stato inviato questo link.",
+        "button": "Conferma iscrizione",
+        "temporaryError": "Non è stato possibile elaborare la tua conferma in questo momento. Riprova tra poco."
+      },
+      "confirmed": {
+        "title": "Conferma ricevuta",
+        "description": "Grazie. Abbiamo ricevuto la tua conferma. Potrebbero volerci alcuni minuti prima che diventi effettiva.",
+        "unsubscribe": "Puoi annullare l'iscrizione in qualsiasi momento tramite il link presente in ogni nostra newsletter."
+      },
+      "invalid": {
+        "title": "Questo link non può più essere utilizzato",
+        "description": "Il link di conferma potrebbe essere scaduto, essere stato sostituito da uno più recente o essere incompleto. Puoi richiedere una nuova email di conferma in qualsiasi momento."
+      },
+      "missing": {
+        "title": "Apri di nuovo il link dalla tua email",
+        "description": "Per la tua sicurezza, il link di conferma viene rimosso dalla barra degli indirizzi all'apertura di questa pagina e non viene salvato. Se hai ricaricato la pagina, apri di nuovo il link nella tua email o richiedi una nuova email di conferma."
+      },
+      "requestNew": "Richiedi una nuova email di conferma",
+      "backHome": "Torna ad Aura Historia"
     }
   },
   "partnerProgram": {
@@ -1060,7 +1091,6 @@
     "BAD_ORDER_VALUE": "Ordine di ordinamento non valido.",
     "WATCHLIST_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di articoli nella tua lista dei preferiti. Ci sono già 5/5 voci occupate.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di ricerche salvate. È possibile salvare un massimo di 5 ricerche.",
-    "INVALID_EMAIL": "L'indirizzo email non è valido o non è accettato dal nostro fornitore di newsletter.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Hai già un abbonamento attivo. Utilizza il portale clienti per gestirlo.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Non è stato trovato alcun abbonamento esistente. Avvia un nuovo processo di pagamento.",
     "unknown": "Si è verificato un errore imprevisto.",
@@ -1073,7 +1103,9 @@
     "ACCESS_TOKEN_NOT_FOUND": "La tua sessione è scaduta. Effettua di nuovo l'accesso.",
     "PRODUCT_LISTING_NOT_FOUND": "Questo articolo non è stato trovato.",
     "LISTING_SOURCE_NOT_FOUND": "Questo fornitore non è più disponibile.",
-    "UNKNOWN_ERROR": "Si è verificato un errore imprevisto."
+    "UNKNOWN_ERROR": "Si è verificato un errore imprevisto.",
+    "NEWSLETTER_TEMPORARILY_UNAVAILABLE": "Il servizio newsletter è temporaneamente non disponibile. Riprova tra qualche minuto.",
+    "NEWSLETTER_INTERNAL_ERROR": "Non è stato possibile elaborare la tua richiesta per la newsletter. Riprova più tardi."
   },
   "watchlist": {
     "title": "La mia lista dei preferiti",
@@ -1509,6 +1541,109 @@
       "shopifyDomainRequired": "Inserisci il dominio del negozio Shopify.",
       "webhookSecretRequired": "Inserisci il segreto webhook WooCommerce.",
       "camrefRequired": "Inserisci il riferimento campagna Partnerize."
+    }
+  },
+  "adminPartnerships": {
+    "title": "Gestione delle partnership",
+    "description": "Gestisci le appartenenze alle partnership e l'accesso alle fonti di annunci.",
+    "loading": "Caricamento delle partnership.",
+    "loadingDetail": "Caricamento della partnership.",
+    "empty": "Nessuna partnership attiva corrisponde a questi filtri.",
+    "filters": {
+      "title": "Filtra le partnership",
+      "partyId": "ID organizzazione",
+      "memberUserId": "ID utente membro",
+      "listingSourceId": "ID fonte annunci",
+      "apply": "Applica filtri",
+      "reset": "Reimposta"
+    },
+    "validation": {
+      "idTooLong": "L'identificativo non può superare 128 caratteri.",
+      "requiredId": "Inserisci un identificativo."
+    },
+    "list": {
+      "members_one": "{{count}} membro",
+      "members_other": "{{count}} membri",
+      "listingSources_one": "{{count}} accesso fonte",
+      "listingSources_other": "{{count}} accessi fonte",
+      "loaded_one": "Caricata {{count}} partnership",
+      "loaded_other": "Caricate {{count}} partnership",
+      "loadMore": "Carica altro",
+      "loadingMore": "Caricamento…"
+    },
+    "fields": {
+      "created": "Creata",
+      "updated": "Ultimo aggiornamento",
+      "party": "Organizzazione",
+      "partyId": "ID organizzazione",
+      "partySlugId": "Identificativo immutabile dell'organizzazione",
+      "partnershipId": "ID partnership",
+      "memberCount": "Membri (conteggio completo)",
+      "listingSourceGrantCount": "Accessi alle fonti (conteggio completo)"
+    },
+    "actions": {
+      "details": "Vedi dettagli",
+      "retry": "Riprova",
+      "saving": "Salvataggio…",
+      "grantMembership": "Concedi appartenenza",
+      "revokeMembership": "Revoca appartenenza",
+      "revoke": "Revoca",
+      "revokeMemberFor": "Revoca appartenenza dell'utente {{id}}",
+      "revokeSourceFor": "Revoca accesso alla fonte annunci {{id}}",
+      "grantSource": "Concedi accesso",
+      "revokeSource": "Revoca accesso",
+      "cancel": "Annulla",
+      "dissolve": "Dissolvi partnership",
+      "dissolving": "Dissoluzione…",
+      "confirmDissolve": "Dissolvi partnership"
+    },
+    "detail": {
+      "title": "Dettagli partnership",
+      "description": "Le appartenenze e gli accessi alle fonti si gestiscono separatamente. I conteggi completi possono superare gli identificativi visualizzati.",
+      "members_one": "{{count}} membro",
+      "members_other": "{{count}} membri",
+      "listingSources_one": "{{count}} accesso fonte",
+      "listingSources_other": "{{count}} accessi fonte",
+      "referencesShown": "Identificativi mostrati: {{shown}}. Conteggio completo: {{count}}.",
+      "noReferences": "Nessun identificativo restituito.",
+      "close": "Chiudi"
+    },
+    "members": {
+      "title": "Gestisci le appartenenze",
+      "description": "Concedi o revoca le appartenenze in modo esplicito. L'approvazione di una richiesta, da sola, non concede accesso.",
+      "userId": "ID utente"
+    },
+    "sources": {
+      "title": "Gestisci l'accesso alle fonti",
+      "description": "Una fonte deve appartenere alla stessa organizzazione della partnership. Il server verifica nuovamente il requisito al salvataggio.",
+      "listingSourceId": "ID fonte annunci",
+      "checking": "Verifica della fonte…",
+      "check": "Verifica fonte",
+      "sameParty": "{{name}} ({{listingSourceId}}) appartiene alla stessa organizzazione della partnership."
+    },
+    "success": {
+      "memberGranted": "Appartenenza concessa.",
+      "memberRevoked": "Appartenenza revocata.",
+      "listingSourceGranted": "Accesso alla fonte concesso.",
+      "listingSourceRevoked": "Accesso alla fonte revocato.",
+      "dissolved": "Partnership dissolta."
+    },
+    "errors": {
+      "forbidden": "Per questa azione è necessario l'accesso amministrativo.",
+      "invalid": "Controlla gli identificativi inseriti.",
+      "missing": "Questa partnership non è più disponibile.",
+      "partyConflict": "La fonte appartiene a un'altra organizzazione. L'accesso può essere concesso solo a una fonte dell'organizzazione della partnership.",
+      "conflict": "La partnership è cambiata durante la richiesta. Aggiorna i dettagli e riprova.",
+      "dissolveConflict": "La partnership è cambiata durante la richiesta. Aggiorna i dettagli prima di riprovare.",
+      "dissolveFailed": "Non è stato possibile dissolvere la partnership. Verifica lo stato attuale e riprova.",
+      "requestFailed": "Non è stato possibile completare la richiesta. Aggiorna i dettagli e riprova.",
+      "referenceMissing": "La partnership o l'identificativo indicato non è stato trovato."
+    },
+    "dissolution": {
+      "title": "Dissolvi la partnership",
+      "description": "La dissoluzione rimuove le appartenenze e gli accessi alle fonti attuali. Organizzazione, fonti, utenti, annunci e richieste restano invariati.",
+      "confirmTitle": "Conferma la dissoluzione",
+      "confirmDescription": "Dissolvere la partnership con {{name}}? Le appartenenze e gli accessi alle fonti attuali verranno rimossi."
     }
   },
   "adminDashboard": {

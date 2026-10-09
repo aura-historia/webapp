@@ -78,6 +78,9 @@
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Antiques Search Engine Comparison",
       "description": "Compare Aura Historia with Barnebys for antiques search, source coverage, multilingual discovery, near real-time alerts, and AI-assisted market monitoring."
+    },
+    "newsletterConfirm": {
+      "title": "Confirm newsletter subscription | Aura Historia"
     }
   },
   "validation": {
@@ -663,8 +666,8 @@
       "description": "Receive weekly curated finds, market trends, and exclusive insights directly in your inbox.",
       "placeholder": "Your email address",
       "button": "Sign up for newsletter",
-      "privacy": "By subscribing, you agree to our <privacyLink>privacy policy</privacyLink>. You can unsubscribe at any time.",
-      "successMessage": "Thank you for subscribing! Please confirm your email address.",
+      "privacy": "We will first email you a confirmation link. Your subscription starts only once you confirm it. Details in our <privacyLink>privacy policy</privacyLink>.",
+      "successMessage": "Please check your inbox.",
       "benefit1": "Personalised highlights",
       "benefit2": "New features & offers",
       "benefit3": "Unsubscribe anytime",
@@ -675,8 +678,8 @@
       "emailLabel": "Email Address",
       "emailRequired": "Please enter a valid email address.",
       "eyebrow": "Newsletter",
-      "successEmailSent": "A confirmation email has been sent to {{email}}.",
-      "successTiming": "It may take a few minutes for the email to arrive."
+      "successEmailSent": "If {{email}} can receive our newsletter, we will send a confirmation link to it. Your subscription starts only once you open the link and confirm.",
+      "successTiming": "The email may take a few minutes to arrive. The link is valid for 24 hours."
     },
     "faq": {
       "title": "Frequently asked questions",
@@ -770,6 +773,34 @@
       "billingNoteYearly": "per month, billed yearly, incl. VAT",
       "getStartedFree": "Get Started Free",
       "subscribe": "Subscribe"
+    }
+  },
+  "newsletter": {
+    "purpose": "I would like to receive email from Aura Historia with newsletters, personalized product recommendations, and information about Aura Historia features and plans. I can unsubscribe at any time.",
+    "privacy": "More information is available in our <privacyLink>privacy policy</privacyLink>.",
+    "confirmation": {
+      "eyebrow": "Newsletter",
+      "request": {
+        "title": "Confirm your newsletter subscription",
+        "description": "Please confirm that you would like to receive the Aura Historia newsletter at the email address this link was sent to.",
+        "button": "Confirm subscription",
+        "temporaryError": "Your confirmation could not be processed right now. Please try again in a moment."
+      },
+      "confirmed": {
+        "title": "Confirmation received",
+        "description": "Thank you. We have received your confirmation. It may take a few minutes to take effect.",
+        "unsubscribe": "You can unsubscribe at any time using the link in any of our newsletters."
+      },
+      "invalid": {
+        "title": "This link can no longer be used",
+        "description": "The confirmation link may have expired, been replaced by a newer one, or be incomplete. You can request a new confirmation email at any time."
+      },
+      "missing": {
+        "title": "Please open the link from your email again",
+        "description": "For your security, the confirmation link is removed from the address bar once this page opens and is not stored. If you reloaded the page, open the link in your email again or request a new confirmation email."
+      },
+      "requestNew": "Request a new confirmation email",
+      "backHome": "Back to Aura Historia"
     }
   },
   "partnerProgram": {
@@ -1060,7 +1091,6 @@
     "BAD_ORDER_VALUE": "Invalid sort order.",
     "WATCHLIST_QUOTA_EXCEEDED": "You've reached the maximum number of items on your watchlist. There are already 5/5 watchlist entries occupied.",
     "SEARCH_FILTER_QUOTA_EXCEEDED": "You have reached the maximum number of saved search filters for your account.",
-    "INVALID_EMAIL": "The email address is invalid or not accepted by our newsletter provider.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "You already have an active subscription. Please use the customer portal to manage it.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No existing subscription was found. Please start a new checkout.",
     "SEARCH_FILTER_RESTRICTED_FEATURE": "Some of your active filters are only available for premium users. Please remove these filters or upgrade your account to save a search filter.",
@@ -1073,7 +1103,9 @@
     "unknown": "An unexpected error occurred.",
     "PRODUCT_LISTING_NOT_FOUND": "This item was not found.",
     "LISTING_SOURCE_NOT_FOUND": "This provider is no longer available.",
-    "UNKNOWN_ERROR": "An unexpected error occurred."
+    "UNKNOWN_ERROR": "An unexpected error occurred.",
+    "NEWSLETTER_TEMPORARILY_UNAVAILABLE": "The newsletter service is temporarily unavailable. Please try again in a few minutes.",
+    "NEWSLETTER_INTERNAL_ERROR": "Your newsletter request could not be processed. Please try again later."
   },
   "watchlist": {
     "title": "My Watchlist",
@@ -2013,6 +2045,109 @@
       "shopifyDomainRequired": "Enter the Shopify store domain.",
       "webhookSecretRequired": "Enter the WooCommerce webhook secret.",
       "camrefRequired": "Enter the Partnerize campaign reference."
+    }
+  },
+  "adminPartnerships": {
+    "title": "Partnership management",
+    "description": "Manage partnership memberships and access to listing sources.",
+    "loading": "Loading partnerships.",
+    "loadingDetail": "Loading partnership.",
+    "empty": "No active partnerships match these filters.",
+    "filters": {
+      "title": "Filter partnerships",
+      "partyId": "Party ID",
+      "memberUserId": "Member user ID",
+      "listingSourceId": "Listing source ID",
+      "apply": "Apply filters",
+      "reset": "Reset"
+    },
+    "validation": {
+      "idTooLong": "An identifier must be 128 characters or fewer.",
+      "requiredId": "Enter an identifier."
+    },
+    "list": {
+      "members_one": "{{count}} member",
+      "members_other": "{{count}} members",
+      "listingSources_one": "{{count}} source grant",
+      "listingSources_other": "{{count}} source grants",
+      "loaded_one": "{{count}} partnership loaded",
+      "loaded_other": "{{count}} partnerships loaded",
+      "loadMore": "Load more",
+      "loadingMore": "Loading…"
+    },
+    "fields": {
+      "created": "Created",
+      "updated": "Last updated",
+      "party": "Party",
+      "partyId": "Party ID",
+      "partySlugId": "Immutable party slug",
+      "partnershipId": "Partnership ID",
+      "memberCount": "Members (complete count)",
+      "listingSourceGrantCount": "Listing source grants (complete count)"
+    },
+    "actions": {
+      "details": "View details",
+      "retry": "Retry",
+      "saving": "Saving…",
+      "grantMembership": "Grant membership",
+      "revokeMembership": "Revoke membership",
+      "revoke": "Revoke",
+      "revokeMemberFor": "Revoke membership for user {{id}}",
+      "revokeSourceFor": "Revoke access to listing source {{id}}",
+      "grantSource": "Grant access",
+      "revokeSource": "Revoke access",
+      "cancel": "Cancel",
+      "dissolve": "Dissolve partnership",
+      "dissolving": "Dissolving…",
+      "confirmDissolve": "Dissolve partnership"
+    },
+    "detail": {
+      "title": "Partnership details",
+      "description": "Memberships and listing source grants are managed separately. Complete counts may exceed the identifiers shown.",
+      "members_one": "{{count}} member",
+      "members_other": "{{count}} members",
+      "listingSources_one": "{{count}} source grant",
+      "listingSources_other": "{{count}} source grants",
+      "referencesShown": "Identifiers shown: {{shown}}. Complete count: {{count}}.",
+      "noReferences": "No identifiers were returned.",
+      "close": "Close"
+    },
+    "members": {
+      "title": "Manage memberships",
+      "description": "Grant or revoke membership explicitly. Approval of an application alone does not grant access.",
+      "userId": "User ID"
+    },
+    "sources": {
+      "title": "Manage listing source access",
+      "description": "A listing source must belong to the same party as this partnership. The server checks this again when the grant is saved.",
+      "listingSourceId": "Listing source ID",
+      "checking": "Checking listing source…",
+      "check": "Check source",
+      "sameParty": "{{name}} ({{listingSourceId}}) belongs to the same party as this partnership."
+    },
+    "success": {
+      "memberGranted": "Membership granted.",
+      "memberRevoked": "Membership revoked.",
+      "listingSourceGranted": "Listing source access granted.",
+      "listingSourceRevoked": "Listing source access revoked.",
+      "dissolved": "Partnership dissolved."
+    },
+    "errors": {
+      "forbidden": "Administrator access is required for this action.",
+      "invalid": "Check the identifiers you entered.",
+      "missing": "This partnership is no longer available.",
+      "partyConflict": "This listing source belongs to a different party. Access can only be granted to a source that belongs to the partnership's party.",
+      "conflict": "The partnership changed during this request. Refresh the details and try again.",
+      "dissolveConflict": "The partnership changed during this request. Refresh the details before trying again.",
+      "dissolveFailed": "The partnership could not be dissolved. Review its current state and try again.",
+      "requestFailed": "The request could not be completed. Refresh the details and try again.",
+      "referenceMissing": "The partnership or referenced identifier could not be found."
+    },
+    "dissolution": {
+      "title": "Dissolve partnership",
+      "description": "Dissolving removes current memberships and listing source grants. The party, listing sources, users, listings, and applications remain.",
+      "confirmTitle": "Confirm dissolution",
+      "confirmDescription": "Dissolve the partnership with {{name}}? Its current memberships and listing source grants will be removed."
     }
   },
   "adminDashboard": {
