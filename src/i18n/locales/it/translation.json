@@ -2405,7 +2405,8 @@
       "reset": "Reimposta"
     },
     "list": {
-      "total": "{{count}} client OAuth corrispondenti",
+      "total_one": "{{count}} client OAuth corrispondente",
+      "total_other": "{{count}} client OAuth corrispondenti",
       "issued": "Emesso il {{date}}",
       "noScopes": "Nessuna autorizzazione assegnata",
       "loadMore": "Carica altri",

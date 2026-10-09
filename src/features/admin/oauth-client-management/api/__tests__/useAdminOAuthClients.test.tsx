@@ -2,8 +2,11 @@ import { createElement, type ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import testI18n from "@/i18n/i18nForTests";
 import {
+    AdminOAuthClientRequestError,
     adminOAuthClientDetailQueryKey,
+    createAdminOAuthClientErrorFactory,
     useAdminOAuthClient,
     useAdminOAuthClients,
     useCreateAdminOAuthClient,
@@ -38,6 +41,11 @@ const clientDto = {
     client_id_issued_at: 1_759_000_000,
 };
 const ok = (data: unknown, status = 200) => ({ data, response: { status, ok: true } });
+const failed = (status: number) => ({
+    data: undefined,
+    error: { detail: "internal backend detail" },
+    response: { status, ok: false },
+});
 const noSecretInput = {
     clientName: "Cabinet integration",
     tosUri: "https://cabinet.example/terms",
@@ -189,5 +197,98 @@ describe("admin OAuth client API", () => {
             path: { clientId: "oc_test123" },
             cache: "no-store",
         });
+    });
+
+    it.each([
+        [401, "adminOAuthClients.errors.forbidden"],
+        [403, "adminOAuthClients.errors.forbidden"],
+        [404, "adminOAuthClients.errors.missing"],
+        [409, "adminOAuthClients.errors.conflict"],
+        [400, "adminOAuthClients.errors.invalid"],
+        [500, "adminOAuthClients.errors.requestFailed"],
+        [undefined, "adminOAuthClients.errors.requestFailed"],
+    ])("maps status %s to a safe translated error", (status, key) => {
+        const error = createAdminOAuthClientErrorFactory(testI18n.t)(status, "list");
+
+        expect(error).toBeInstanceOf(AdminOAuthClientRequestError);
+        expect(error.message).toBe(testI18n.t(key));
+        expect(error.status).toBe(status ?? 500);
+    });
+
+    it("surfaces list and detail failures without backend details", async () => {
+        api.list.mockResolvedValue(failed(403));
+        api.detail.mockResolvedValue(failed(404));
+
+        const list = renderHook(() => useAdminOAuthClients({}), { wrapper });
+        const detail = renderHook(() => useAdminOAuthClient("oc_missing"), { wrapper });
+
+        await waitFor(() => expect(list.result.current.error).toMatchObject({ status: 403 }));
+        await waitFor(() => expect(detail.result.current.error).toMatchObject({ status: 404 }));
+        expect(detail.result.current.error?.message).not.toContain("internal backend detail");
+    });
+
+    it("does not request details without a client id", () => {
+        const hook = renderHook(() => useAdminOAuthClient(undefined), { wrapper });
+
+        expect(hook.result.current.fetchStatus).toBe("idle");
+        expect(api.detail).not.toHaveBeenCalled();
+    });
+
+    it("rejects failed creates", async () => {
+        api.create.mockResolvedValue(failed(400));
+        const hook = renderHook(() => useCreateAdminOAuthClient(), { wrapper });
+
+        await act(async () => {
+            await expect(hook.result.current.mutateAsync(noSecretInput)).rejects.toMatchObject({
+                status: 400,
+            });
+        });
+    });
+
+    it.each([
+        ["update", 409],
+        ["delete", 404],
+    ] as const)("refreshes stale state when %s fails with %s", async (operation, status) => {
+        const invalidate = vi.spyOn(client, "invalidateQueries");
+        const reset = vi.spyOn(client, "resetQueries");
+        api.update.mockResolvedValue(failed(status));
+        api.remove.mockResolvedValue(failed(status));
+        const update = renderHook(() => useUpdateAdminOAuthClient(), { wrapper });
+        const remove = renderHook(() => useDeleteAdminOAuthClient(), { wrapper });
+
+        await act(async () => {
+            const request =
+                operation === "update"
+                    ? update.result.current.mutateAsync({
+                          clientId: "oc_test123",
+                          patch: { clientName: "Renamed" },
+                      })
+                    : remove.result.current.mutateAsync("oc_test123");
+            await expect(request).rejects.toMatchObject({ status });
+        });
+
+        expect(invalidate).toHaveBeenCalledWith({
+            queryKey: adminOAuthClientDetailQueryKey("oc_test123"),
+        });
+        expect(reset).toHaveBeenCalledWith({ queryKey: ["admin", "oauth-clients", "list"] });
+    });
+
+    it("does not refresh stale state for other failures", async () => {
+        const invalidate = vi.spyOn(client, "invalidateQueries");
+        api.update.mockResolvedValue(failed(500));
+        api.remove.mockResolvedValue(failed(500));
+        const update = renderHook(() => useUpdateAdminOAuthClient(), { wrapper });
+        const remove = renderHook(() => useDeleteAdminOAuthClient(), { wrapper });
+
+        await act(async () => {
+            await expect(
+                update.result.current.mutateAsync({ clientId: "oc_test123", patch: {} }),
+            ).rejects.toMatchObject({ status: 500 });
+            await expect(remove.result.current.mutateAsync("oc_test123")).rejects.toMatchObject({
+                status: 500,
+            });
+        });
+
+        expect(invalidate).not.toHaveBeenCalled();
     });
 });

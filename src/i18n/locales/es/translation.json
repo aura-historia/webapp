@@ -2405,7 +2405,8 @@
       "reset": "Restablecer"
     },
     "list": {
-      "total": "{{count}} clientes OAuth coincidentes",
+      "total_one": "{{count}} cliente OAuth coincidente",
+      "total_other": "{{count}} clientes OAuth coincidentes",
       "issued": "Emitido el {{date}}",
       "noScopes": "Sin permisos asignados",
       "loadMore": "Cargar más",

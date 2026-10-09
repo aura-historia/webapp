@@ -208,12 +208,17 @@ function AdminOAuthClientDetailDialog({
     readonly onEdit: (client: AdminOAuthClient) => void;
     readonly onDeleted: () => void;
 }) {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const query = useAdminOAuthClient(clientId, open);
     const deletion = useDeleteAdminOAuthClient();
     const [confirmDelete, setConfirmDelete] = useState(false);
     const client = query.data;
-    const issueDate = client ? new Date(client.clientIdIssuedAt * 1000) : undefined;
+
+    // A failed deletion belongs to the client it was attempted on, not the next one opened.
+    const handleOpenChange = (nextOpen: boolean) => {
+        if (!nextOpen) deletion.reset();
+        onOpenChange(nextOpen);
+    };
 
     const confirmDeletion = async () => {
         if (!clientId) return;
@@ -229,7 +234,7 @@ function AdminOAuthClientDetailDialog({
 
     return (
         <>
-            <Dialog open={open} onOpenChange={onOpenChange}>
+            <Dialog open={open} onOpenChange={handleOpenChange}>
                 <DialogContent
                     className="max-h-[90vh] overflow-y-auto sm:max-w-2xl"
                     closeLabel={t("adminOAuthClients.actions.close")}
@@ -240,64 +245,7 @@ function AdminOAuthClientDetailDialog({
                             {t("adminOAuthClients.detail.description")}
                         </DialogDescription>
                     </DialogHeader>
-                    {query.isPending ? (
-                        <p role="status" className="text-muted-foreground">
-                            {t("adminOAuthClients.loadingDetail")}
-                        </p>
-                    ) : query.error ? (
-                        <div className="grid justify-items-start gap-3" role="alert">
-                            <p className="text-muted-foreground">{query.error.message}</p>
-                            <Button variant="outline" onClick={() => query.refetch()}>
-                                {t("adminOAuthClients.actions.retry")}
-                            </Button>
-                        </div>
-                    ) : client ? (
-                        <dl className="grid gap-4 sm:grid-cols-2">
-                            <DetailValue label={t("adminOAuthClients.fields.name")}>
-                                {client.clientName}
-                            </DetailValue>
-                            <DetailValue label={t("adminOAuthClients.fields.clientId")}>
-                                <span className="break-all font-mono">{client.clientId}</span>
-                            </DetailValue>
-                            <DetailValue label={t("adminOAuthClients.fields.terms")}>
-                                <span className="break-all">{client.tosUri}</span>
-                            </DetailValue>
-                            <DetailValue label={t("adminOAuthClients.fields.privacy")}>
-                                <span className="break-all">{client.policyUri}</span>
-                            </DetailValue>
-                            <DetailValue label={t("adminOAuthClients.fields.homepage")}>
-                                <span className="break-all">{client.clientUri}</span>
-                            </DetailValue>
-                            <DetailValue label={t("adminOAuthClients.fields.logo")}>
-                                <span className="break-all">{client.logoUri}</span>
-                            </DetailValue>
-                            <DetailValue label={t("adminOAuthClients.fields.issuedAt")}>
-                                {issueDate && formatDateTime(issueDate, i18n.language, "UTC")}
-                            </DetailValue>
-                            <DetailValue label={t("adminOAuthClients.fields.scopes")}>
-                                {client.scopes.length ? (
-                                    <ul className="grid gap-1">
-                                        {client.scopes.map((scope) => (
-                                            <li key={scope}>
-                                                {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    t("adminOAuthClients.list.noScopes")
-                                )}
-                            </DetailValue>
-                            <DetailValue label={t("adminOAuthClients.fields.redirectUris")}>
-                                <ul className="grid gap-1">
-                                    {client.redirectUris.map((uri) => (
-                                        <li key={uri} className="break-all font-mono text-xs">
-                                            {uri}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </DetailValue>
-                        </dl>
-                    ) : null}
+                    <AdminOAuthClientDetailContent query={query} />
 
                     {deletion.error && (
                         <p role="alert" className="text-sm text-destructive">
@@ -313,7 +261,13 @@ function AdminOAuthClientDetailDialog({
                             >
                                 {t("adminOAuthClients.actions.delete")}
                             </Button>
-                            <Button type="button" onClick={() => onEdit(client)}>
+                            <Button
+                                type="button"
+                                onClick={() => {
+                                    deletion.reset();
+                                    onEdit(client);
+                                }}
+                            >
                                 {t("adminOAuthClients.actions.edit")}
                             </Button>
                         </DialogFooter>
@@ -347,6 +301,79 @@ function AdminOAuthClientDetailDialog({
                 </AlertDialogContent>
             </AlertDialog>
         </>
+    );
+}
+
+function AdminOAuthClientDetailContent({
+    query,
+}: {
+    readonly query: ReturnType<typeof useAdminOAuthClient>;
+}) {
+    const { t, i18n } = useTranslation();
+    if (query.isPending) {
+        return (
+            <output className="block text-muted-foreground">
+                {t("adminOAuthClients.loadingDetail")}
+            </output>
+        );
+    }
+    if (query.error) {
+        return (
+            <div className="grid justify-items-start gap-3" role="alert">
+                <p className="text-muted-foreground">{query.error.message}</p>
+                <Button variant="outline" onClick={() => query.refetch()}>
+                    {t("adminOAuthClients.actions.retry")}
+                </Button>
+            </div>
+        );
+    }
+    const client = query.data;
+    if (!client) return null;
+    const issueDate = new Date(client.clientIdIssuedAt * 1000);
+    return (
+        <dl className="grid gap-4 sm:grid-cols-2">
+            <DetailValue label={t("adminOAuthClients.fields.name")}>
+                {client.clientName}
+            </DetailValue>
+            <DetailValue label={t("adminOAuthClients.fields.clientId")}>
+                <span className="break-all font-mono">{client.clientId}</span>
+            </DetailValue>
+            <DetailValue label={t("adminOAuthClients.fields.terms")}>
+                <span className="break-all">{client.tosUri}</span>
+            </DetailValue>
+            <DetailValue label={t("adminOAuthClients.fields.privacy")}>
+                <span className="break-all">{client.policyUri}</span>
+            </DetailValue>
+            <DetailValue label={t("adminOAuthClients.fields.homepage")}>
+                <span className="break-all">{client.clientUri}</span>
+            </DetailValue>
+            <DetailValue label={t("adminOAuthClients.fields.logo")}>
+                <span className="break-all">{client.logoUri}</span>
+            </DetailValue>
+            <DetailValue label={t("adminOAuthClients.fields.issuedAt")}>
+                {formatDateTime(issueDate, i18n.language, "UTC")}
+            </DetailValue>
+            <DetailValue label={t("adminOAuthClients.fields.scopes")}>
+                {client.scopes.length ? (
+                    <ul className="grid gap-1">
+                        {client.scopes.map((scope) => (
+                            <li key={scope}>{t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}</li>
+                        ))}
+                    </ul>
+                ) : (
+                    t("adminOAuthClients.list.noScopes")
+                )}
+            </DetailValue>
+            <DetailValue label={t("adminOAuthClients.fields.redirectUris")}>
+                <ul className="grid gap-1">
+                    {client.redirectUris.map((uri) => (
+                        <li key={uri} className="break-all font-mono text-xs">
+                            {uri}
+                        </li>
+                    ))}
+                </ul>
+            </DetailValue>
+        </dl>
     );
 }
 

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -146,6 +146,12 @@ export function AdminOAuthClientFormDialog({
         readonly clientSecret: string;
     }>();
     const [requestError, setRequestError] = useState<string>();
+    const { reset: resetForm } = form;
+
+    useEffect(() => {
+        // Reused instances must edit the latest client record, not the metadata from first mount.
+        if (open) resetForm(defaults(client));
+    }, [open, client, resetForm]);
 
     const clearDialogState = () => {
         setCreatedClient(undefined);
@@ -186,6 +192,14 @@ export function AdminOAuthClientFormDialog({
             requestPendingRef.current = false;
         }
     });
+
+    const isSaving = create.isPending || update.isPending;
+    const submitLabelKey =
+        mode === "create" ? "adminOAuthClients.actions.create" : "adminOAuthClients.actions.save";
+    const redirectUrisError = form.formState.errors.redirectUrisText?.message;
+    const redirectUrisDescribedBy = redirectUrisError
+        ? "admin-oauth-redirect-uris-help admin-oauth-redirect-uris-error"
+        : "admin-oauth-redirect-uris-help";
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -287,23 +301,22 @@ export function AdminOAuthClientFormDialog({
                                 rows={3}
                                 autoComplete="off"
                                 aria-invalid={Boolean(form.formState.errors.redirectUrisText)}
-                                aria-describedby={
-                                    form.formState.errors.redirectUrisText
-                                        ? "admin-oauth-redirect-uris-error"
-                                        : undefined
-                                }
+                                aria-describedby={redirectUrisDescribedBy}
                                 {...form.register("redirectUrisText")}
                             />
-                            <p className="text-xs text-muted-foreground">
+                            <p
+                                id="admin-oauth-redirect-uris-help"
+                                className="text-xs text-muted-foreground"
+                            >
                                 {t("adminOAuthClients.fields.redirectUrisHelp")}
                             </p>
-                            {form.formState.errors.redirectUrisText?.message && (
+                            {redirectUrisError && (
                                 <p
                                     id="admin-oauth-redirect-uris-error"
                                     className="text-sm text-destructive"
                                     role="alert"
                                 >
-                                    {t(form.formState.errors.redirectUrisText.message)}
+                                    {t(redirectUrisError)}
                                 </p>
                             )}
                         </div>
@@ -338,19 +351,11 @@ export function AdminOAuthClientFormDialog({
                             </Button>
                             <Button
                                 type="submit"
-                                disabled={
-                                    create.isPending ||
-                                    update.isPending ||
-                                    (mode === "edit" && !isDirty)
-                                }
+                                disabled={isSaving || (mode === "edit" && !isDirty)}
                             >
-                                {create.isPending || update.isPending
+                                {isSaving
                                     ? t("adminOAuthClients.actions.saving")
-                                    : t(
-                                          mode === "create"
-                                              ? "adminOAuthClients.actions.create"
-                                              : "adminOAuthClients.actions.save",
-                                      )}
+                                    : t(submitLabelKey)}
                             </Button>
                         </DialogFooter>
                     </form>

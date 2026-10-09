@@ -2405,7 +2405,8 @@
       "reset": "Zurücksetzen"
     },
     "list": {
-      "total": "{{count}} passende OAuth-Clients",
+      "total_one": "{{count}} passender OAuth-Client",
+      "total_other": "{{count}} passende OAuth-Clients",
       "issued": "Ausgestellt am {{date}}",
       "noScopes": "Keine Berechtigungen zugewiesen",
       "loadMore": "Weitere laden",

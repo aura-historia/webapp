@@ -2405,7 +2405,8 @@
       "reset": "Reset"
     },
     "list": {
-      "total": "{{count}} matching OAuth clients",
+      "total_one": "{{count}} matching OAuth client",
+      "total_other": "{{count}} matching OAuth clients",
       "issued": "Issued {{date}}",
       "noScopes": "No scopes assigned",
       "loadMore": "Load more",
