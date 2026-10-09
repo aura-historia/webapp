@@ -213,7 +213,7 @@ export function AdminApplicationDetailDialog({
                                 {application.approvedListingSourceId}
                             </span>
                             <Link
-                                to="/$lng/admin/shops"
+                                to="/$lng/admin/listing-sources"
                                 params={true}
                                 from="/$lng"
                                 className="text-sm text-primary underline-offset-4 hover:underline"

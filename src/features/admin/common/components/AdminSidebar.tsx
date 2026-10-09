@@ -18,7 +18,7 @@ export type AdminSectionRoute =
     | "/$lng/admin/partnership-applications"
     | "/$lng/admin/partnerships"
     | "/$lng/admin/parties"
-    | "/$lng/admin/shops"
+    | "/$lng/admin/listing-sources"
     | "/$lng/admin/auctions"
     | "/$lng/admin/oauth-clients";
 
@@ -69,7 +69,7 @@ export const ADMIN_NAV_GROUPS: readonly AdminNavGroup[] = [
         labelKey: "adminNavigation.groups.catalogue",
         items: [
             {
-                to: "/$lng/admin/shops",
+                to: "/$lng/admin/listing-sources",
                 labelKey: "adminNavigation.items.listingSources",
                 icon: Store,
             },

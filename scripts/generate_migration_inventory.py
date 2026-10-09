@@ -64,9 +64,7 @@ def main():
     for name, (path, method, operation) in sorted(current_ops.items()):
         pattern = re.compile(r"\b" + re.escape(name) + r"(?:Options|InfiniteOptions|Mutation|MutationOptions|QueryKey)?\b")
         users = [file for file, content in sources.items() if pattern.search(content)]
-        if path.startswith("/api/v1/admin/") and not users:
-            status = "Deferred admin dashboard — MIG-16–23 / MIG-25; generated only"
-        elif name in {"listAuctions", "getAuction", "getAuctionCatalogue"}:
+        if name in {"listAuctions", "getAuction", "getAuctionCatalogue"}:
             status = "Deferred standalone public auction pages — MIG-25; listing auction summaries retained"
         elif users:
             status = "Integrated: " + ", ".join(f"`{file}`" for file in users)
@@ -117,7 +115,7 @@ def main():
     generated_types = set(re.findall(r"export type (\w+) =", (ROOT / "src/client/types.gen.ts").read_text(encoding="utf-8")))
     for name in sorted(contracts["oldGeneratedTypes"]):
         target = contracts["modelMapping"].get(name, name)
-        disposition = f"`{target}`" if target in generated_types else "Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner"
+        disposition = f"`{target}`" if target in generated_types else "Removed legacy DTO/helper; migrated feature/domain mapping"
         lines.append(f"| `{name}` | {disposition} |")
     (DOCS / "integrated-inventory.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"Accounted for {len(current_ops)} operations, {len(schemas)} models and all baseline declarations.")

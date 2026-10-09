@@ -230,14 +230,6 @@ export function createDefaultConfiguration(
     };
 }
 
-export function getConfiguredIngestionMethod(
-    configuration: AdminListingSourceConfigurationFields,
-): ListingIngestionMethodData {
-    return configuration.type === "UNCONFIGURED"
-        ? configuration.ingestionMethod
-        : configuration.type;
-}
-
 function optionalValue(value: string): string | undefined {
     return value.trim() || undefined;
 }

@@ -14,43 +14,43 @@ Runtime references below exclude tests and generated files. A generated SDK capa
 |---|---|---|---|
 | `addWatchlistProduct` | `POST /api/v1/me/watchlist` | retained | Integrated: `src/features/watchlist/api/useWatchlistMutation.ts` |
 | `adminCreateListingSource` | `POST /api/v1/admin/listing-sources` | changed | Integrated: `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
-| `adminCreateOAuthClient` | `POST /api/v1/admin/oauth-clients` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminCreateOAuthClient` | `POST /api/v1/admin/oauth-clients` | retained | Integrated: `src/features/admin/oauth-client-management/api/useAdminOAuthClients.ts` |
 | `adminCreateParty` | `POST /api/v1/admin/parties` | retained | Integrated: `src/features/admin/party-management/api/useAdminParties.ts` |
 | `adminDecidePartnershipApplication` | `POST /api/v1/admin/partnership-applications/{partnershipApplicationId}/decision` | retained | Integrated: `src/features/admin/partner-application-management/api/useAdminPartnershipApplications.ts` |
 | `adminDeleteListingSource` | `DELETE /api/v1/admin/listing-sources/{listingSourceId}` | retained | Integrated: `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
-| `adminDeleteOAuthClient` | `DELETE /api/v1/admin/oauth-clients/{clientId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminDeleteOAuthClient` | `DELETE /api/v1/admin/oauth-clients/{clientId}` | retained | Integrated: `src/features/admin/oauth-client-management/api/useAdminOAuthClients.ts` |
 | `adminDeleteParty` | `DELETE /api/v1/admin/parties/{partyId}` | retained | Integrated: `src/features/admin/party-management/api/useAdminParties.ts` |
 | `adminDeleteUser` | `DELETE /api/v1/admin/users/{userId}` | retained | Integrated: `src/features/admin/user-management/api/useAdminUsers.ts` |
-| `adminDeleteUserAccessToken` | `DELETE /api/v1/admin/users/{userId}/access-tokens/{accessTokenId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `adminDeleteUserAccessTokens` | `DELETE /api/v1/admin/users/{userId}/access-tokens` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminDeleteUserAccessToken` | `DELETE /api/v1/admin/users/{userId}/access-tokens/{accessTokenId}` | retained | Integrated: `src/features/admin/user-management/api/useAdminUserSecurity.ts` |
+| `adminDeleteUserAccessTokens` | `DELETE /api/v1/admin/users/{userId}/access-tokens` | retained | Integrated: `src/features/admin/user-management/api/useAdminUserSecurity.ts` |
 | `adminDissolvePartnership` | `DELETE /api/v1/admin/partnerships/{partnershipId}` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
 | `adminGetListingSource` | `GET /api/v1/admin/listing-sources/{listingSourceId}` | retained | Integrated: `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
-| `adminGetOAuthClient` | `GET /api/v1/admin/oauth-clients/{clientId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminGetOAuthClient` | `GET /api/v1/admin/oauth-clients/{clientId}` | retained | Integrated: `src/features/admin/oauth-client-management/api/useAdminOAuthClients.ts` |
 | `adminGetPartnership` | `GET /api/v1/admin/partnerships/{partnershipId}` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
 | `adminGetPartnershipApplication` | `GET /api/v1/admin/partnership-applications/{partnershipApplicationId}` | retained | Integrated: `src/features/admin/partner-application-management/api/useAdminPartnershipApplications.ts` |
 | `adminGetParty` | `GET /api/v1/admin/parties/{partyId}` | retained | Integrated: `src/features/admin/party-management/api/useAdminParties.ts` |
 | `adminGetUser` | `GET /api/v1/admin/users/{userId}` | retained | Integrated: `src/features/admin/user-management/api/useAdminUsers.ts` |
 | `adminGrantPartnershipListingSource` | `PUT /api/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
 | `adminGrantPartnershipMembership` | `PUT /api/v1/admin/partnerships/{partnershipId}/members/{userId}` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
-| `adminListOAuthClients` | `GET /api/v1/admin/oauth-clients` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `adminListUserAccessTokens` | `GET /api/v1/admin/users/{userId}/access-tokens` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminListOAuthClients` | `GET /api/v1/admin/oauth-clients` | retained | Integrated: `src/features/admin/oauth-client-management/api/useAdminOAuthClients.ts` |
+| `adminListUserAccessTokens` | `GET /api/v1/admin/users/{userId}/access-tokens` | retained | Integrated: `src/features/admin/user-management/api/useAdminUserSecurity.ts` |
 | `adminMarkPartnershipApplicationInReview` | `PATCH /api/v1/admin/partnership-applications/{partnershipApplicationId}` | retained | Integrated: `src/features/admin/partner-application-management/api/useAdminPartnershipApplications.ts` |
-| `adminPatchOAuthClient` | `PATCH /api/v1/admin/oauth-clients/{clientId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminPatchOAuthClient` | `PATCH /api/v1/admin/oauth-clients/{clientId}` | retained | Integrated: `src/features/admin/oauth-client-management/api/useAdminOAuthClients.ts` |
 | `adminPatchUser` | `PATCH /api/v1/admin/users/{userId}` | retained | Integrated: `src/features/admin/user-management/api/useAdminUsers.ts` |
 | `adminRevokePartnershipListingSource` | `DELETE /api/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
 | `adminRevokePartnershipMembership` | `DELETE /api/v1/admin/partnerships/{partnershipId}/members/{userId}` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
-| `adminRevokeUserSessions` | `POST /api/v1/admin/users/{userId}/sessions/revoke` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `adminSearchListingSources` | `GET /api/v1/admin/listing-sources` | retained | Integrated: `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
+| `adminRevokeUserSessions` | `POST /api/v1/admin/users/{userId}/sessions/revoke` | retained | Integrated: `src/features/admin/user-management/api/useAdminUserSecurity.ts` |
+| `adminSearchListingSources` | `GET /api/v1/admin/listing-sources` | retained | Integrated: `src/features/admin/listing-source-management/api/useAdminListingSources.ts`, `src/features/admin/auction-management/api/useAdminAuctions.ts` |
 | `adminSearchParties` | `GET /api/v1/admin/parties` | retained | Integrated: `src/features/admin/party-management/api/useAdminParties.ts` |
 | `adminSearchPartnershipApplications` | `GET /api/v1/admin/partnership-applications` | retained | Integrated: `src/features/admin/partner-application-management/api/useAdminPartnershipApplications.ts` |
 | `adminSearchPartnerships` | `GET /api/v1/admin/partnerships` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
 | `adminSearchUsers` | `GET /api/v1/admin/users` | changed | Integrated: `src/features/admin/user-management/api/useAdminUsers.ts`, `src/features/admin/user-management/lib/adminUserSearch.ts` |
-| `adminSuspendUser` | `PUT /api/v1/admin/users/{userId}/suspension` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `adminUnsuspendUser` | `DELETE /api/v1/admin/users/{userId}/suspension` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminSuspendUser` | `PUT /api/v1/admin/users/{userId}/suspension` | retained | Integrated: `src/features/admin/user-management/api/useAdminUserSecurity.ts` |
+| `adminUnsuspendUser` | `DELETE /api/v1/admin/users/{userId}/suspension` | retained | Integrated: `src/features/admin/user-management/api/useAdminUserSecurity.ts` |
 | `adminUpdateListingSource` | `PATCH /api/v1/admin/listing-sources/{listingSourceId}` | changed | Integrated: `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
 | `adminUpdateParty` | `PATCH /api/v1/admin/parties/{partyId}` | retained | Integrated: `src/features/admin/party-management/api/useAdminParties.ts` |
 | `confirmNewsletterSubscription` | `POST /api/v1/newsletter-subscriptions/confirm` | added | Integrated: `src/features/newsletter/hooks/useNewsletterConfirmation.ts` |
-| `createAdminAuction` | `POST /api/v1/admin/auctions` | added | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `createAdminAuction` | `POST /api/v1/admin/auctions` | added | Integrated: `src/features/admin/auction-management/api/useAdminAuctions.ts` |
 | `createUserSearchFilter` | `POST /api/v1/me/search-filters` | retained | Integrated: `src/features/saved-searches/api/useCreateUserSearchFilter.ts` |
 | `deleteAsyncPartnerProductListings` | `DELETE /api/v1/listing-sources/{listingSourceId}/product-listings/async` | added | External partner ingestion; synchronous guide/reference (MIG-13), async SDK capability outside that guide |
 | `deleteMyAccessToken` | `DELETE /api/v1/me/access-tokens/{accessTokenId}` | retained | Integrated: `src/features/partner/access-token-management/api/useAccessTokens.ts` |
@@ -58,11 +58,11 @@ Runtime references below exclude tests and generated files. A generated SDK capa
 | `deleteNotifications` | `DELETE /api/v1/me/notifications` | retained | Integrated: `src/features/notification-center/api/useDeleteAllNotifications.ts` |
 | `deleteOwnPartnershipApplication` | `DELETE /api/v1/me/partnership-applications/{partnershipApplicationId}` | retained | Integrated: `src/features/partner/application-management/api/usePartnerApplications.ts` |
 | `deletePartnerProductListings` | `DELETE /api/v1/listing-sources/{listingSourceId}/product-listings` | retained | External partner ingestion; synchronous guide/reference (MIG-13), async SDK capability outside that guide |
-| `deleteUser` | `DELETE /api/v1/me` | retained | Integrated: `src/features/admin/user-management/components/AdminUserDetailDialog.tsx`, `src/features/account-management/hooks/useDeleteUserAccount.ts` |
+| `deleteUser` | `DELETE /api/v1/me` | retained | Integrated: `src/features/account-management/hooks/useDeleteUserAccount.ts` |
 | `deleteUserSearchFilter` | `DELETE /api/v1/me/search-filters/{userSearchFilterId}` | retained | Integrated: `src/features/saved-searches/api/useDeleteUserSearchFilter.ts` |
 | `deleteWatchlistProduct` | `DELETE /api/v1/me/watchlist/{productListingId}` | retained | Integrated: `src/features/watchlist/api/useWatchlistMutation.ts` |
-| `getAdminAuction` | `GET /api/v1/admin/auctions/{auctionId}` | added | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `getAdminOverview` | `GET /api/v1/admin/overview` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `getAdminAuction` | `GET /api/v1/admin/auctions/{auctionId}` | added | Integrated: `src/features/admin/auction-management/api/useAdminAuctions.ts` |
+| `getAdminOverview` | `GET /api/v1/admin/overview` | retained | Integrated: `src/features/admin/overview/api/useAdminOverview.ts` |
 | `getAuction` | `GET /api/v1/auctions/{auctionId}` | added | Deferred standalone public auction pages — MIG-25; listing auction summaries retained |
 | `getAuctionCatalogue` | `GET /api/v1/auctions/{auctionId}/product-listings` | added | Deferred standalone public auction pages — MIG-25; listing auction summaries retained |
 | `getHealth` | `GET /api/v1/health` | added | Infrastructure probes; SDK only, no browser workflow |
@@ -109,7 +109,7 @@ Runtime references below exclude tests and generated files. A generated SDK capa
 | `putWoocommerceListingSourceIngestionConfiguration` | `PUT /api/v1/listing-sources/{listingSourceId}/ingestion-configurations/woocommerce` | added | External provider setup; SDK and explicit listing-sources:write permission (MIG-11/12), no settings UI |
 | `searchPublicListingSources` | `GET /api/v1/listing-sources` | added | Integrated: `src/features/search/shops/api/useShopSearch.ts`, `src/features/search/products/hooks/useMerchantSearch.tsx`, `src/features/partner/application-management/api/useApplicationListingSourceSearch.ts`, `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
 | `simpleSearchProductListings` | `GET /api/v1/product-listings` | changed | Integrated: `src/features/shop/profile/hooks/useShopProducts.ts`, `src/features/search/products/hooks/useSearch.ts`, `src/features/saved-searches/api/useSearchFilterPreviewProducts.ts`, `src/features/product/detail/api/useDealerProducts.ts`, `src/features/landing/components/recently-added-section/RecentlyAddedClientSection.tsx`, `src/features/authentication/lib/clearViewerScopedQueries.ts` |
-| `updateAdminAuction` | `PATCH /api/v1/admin/auctions/{auctionId}` | added | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `updateAdminAuction` | `PATCH /api/v1/admin/auctions/{auctionId}` | added | Integrated: `src/features/admin/auction-management/api/useAdminAuctions.ts` |
 | `updateAllNotificationsSeen` | `PATCH /api/v1/me/notifications/all` | retained | Integrated: `src/features/notification-center/api/useMarkAllNotificationsSeen.ts` |
 | `updateNotificationSeen` | `PATCH /api/v1/me/notifications/{notificationId}` | retained | Integrated: `src/features/notification-center/api/useMarkNotificationSeen.ts` |
 | `updateNotificationsSeen` | `PATCH /api/v1/me/notifications` | retained | Integrated: `src/features/notification-center/api/useMarkNotificationsSeen.ts` |
@@ -425,37 +425,37 @@ Baseline generated helper types and operations are not OpenAPI component schemas
 | `AdminDeleteUserErrors` | `AdminDeleteUserErrors` |
 | `AdminDeleteUserResponse` | `AdminDeleteUserResponse` |
 | `AdminDeleteUserResponses` | `AdminDeleteUserResponses` |
-| `AdminGetPartnerApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminGetPartnerApplicationError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminGetPartnerApplicationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminGetPartnerApplicationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminGetPartnerApplicationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminGetPartnerApplicationsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminGetPartnerApplicationsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminGetPartnerApplicationsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminGetPartnerApplicationsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminGetPartnerApplicationsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `AdminGetPartnerApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminGetPartnerApplicationError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminGetPartnerApplicationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminGetPartnerApplicationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminGetPartnerApplicationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminGetPartnerApplicationsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminGetPartnerApplicationsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminGetPartnerApplicationsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminGetPartnerApplicationsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminGetPartnerApplicationsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `AdminGetUserData` | `AdminGetUserData` |
 | `AdminGetUserError` | `AdminGetUserError` |
 | `AdminGetUserErrors` | `AdminGetUserErrors` |
 | `AdminGetUserResponse` | `AdminGetUserResponse` |
 | `AdminGetUserResponses` | `AdminGetUserResponses` |
-| `AdminPatchPartnerApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminPatchPartnerApplicationError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminPatchPartnerApplicationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminPatchPartnerApplicationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminPatchPartnerApplicationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminPatchPartnerShopApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `AdminPatchPartnerApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminPatchPartnerApplicationError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminPatchPartnerApplicationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminPatchPartnerApplicationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminPatchPartnerApplicationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminPatchPartnerShopApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `AdminPatchUserData` | `AdminPatchUserData` |
 | `AdminPatchUserError` | `AdminPatchUserError` |
 | `AdminPatchUserErrors` | `AdminPatchUserErrors` |
 | `AdminPatchUserResponse` | `AdminPatchUserResponse` |
 | `AdminPatchUserResponses` | `AdminPatchUserResponses` |
-| `AdminPostPartnerApplicationDecisionData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminPostPartnerApplicationDecisionError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminPostPartnerApplicationDecisionErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminPostPartnerApplicationDecisionResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AdminPostPartnerApplicationDecisionResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `AdminPostPartnerApplicationDecisionData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminPostPartnerApplicationDecisionError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminPostPartnerApplicationDecisionErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminPostPartnerApplicationDecisionResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AdminPostPartnerApplicationDecisionResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `AdminSearchUsersData` | `AdminSearchUsersData` |
 | `AdminSearchUsersError` | `AdminSearchUsersError` |
 | `AdminSearchUsersErrors` | `AdminSearchUsersErrors` |
@@ -463,31 +463,31 @@ Baseline generated helper types and operations are not OpenAPI component schemas
 | `AdminSearchUsersResponses` | `AdminSearchUsersResponses` |
 | `ApiError` | `ApiError` |
 | `ApiErrorSource` | `ApiErrorSource` |
-| `ApprovedPartnerApplicationPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `AuctionData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `ApprovedPartnerApplicationPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `AuctionData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `BillingCycleData` | `BillingCycleData` |
 | `BillingPlanData` | `BillingPlanData` |
 | `BillingSessionUrlData` | `BillingSessionUrlData` |
-| `CategorySearchData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `CategorySearchData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `ClientOptions` | `ClientOptions` |
-| `ComplexSearchProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `ComplexSearchProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `ComplexSearchProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `ComplexSearchProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `ComplexSearchProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `ContinentData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `CountryCodeData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `ComplexSearchProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `ComplexSearchProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `ComplexSearchProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `ComplexSearchProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `ComplexSearchProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `ContinentData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `CountryCodeData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `CreateUserSearchFilterData` | `CreateUserSearchFilterData` |
 | `CreateUserSearchFilterError` | `CreateUserSearchFilterError` |
 | `CreateUserSearchFilterErrors` | `CreateUserSearchFilterErrors` |
 | `CreateUserSearchFilterResponse` | `CreateUserSearchFilterResponse` |
 | `CreateUserSearchFilterResponses` | `CreateUserSearchFilterResponses` |
 | `CurrencyData` | `CurrencyData` |
-| `DeleteAllNotificationsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeleteAllNotificationsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeleteAllNotificationsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeleteAllNotificationsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeleteAllNotificationsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `DeleteAllNotificationsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeleteAllNotificationsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeleteAllNotificationsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeleteAllNotificationsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeleteAllNotificationsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `DeleteMyAccessTokenData` | `DeleteMyAccessTokenData` |
 | `DeleteMyAccessTokenError` | `DeleteMyAccessTokenError` |
 | `DeleteMyAccessTokenErrors` | `DeleteMyAccessTokenErrors` |
@@ -498,21 +498,21 @@ Baseline generated helper types and operations are not OpenAPI component schemas
 | `DeleteNotificationErrors` | `DeleteNotificationErrors` |
 | `DeleteNotificationResponse` | `DeleteNotificationResponse` |
 | `DeleteNotificationResponses` | `DeleteNotificationResponses` |
-| `DeleteOAuthClientData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeleteOAuthClientError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeleteOAuthClientErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeleteOAuthClientResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeleteOAuthClientResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeletePartnerApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeletePartnerApplicationError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeletePartnerApplicationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeletePartnerApplicationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeletePartnerApplicationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeletePartnerProductData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeletePartnerProductError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeletePartnerProductErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeletePartnerProductResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DeletePartnerProductResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `DeleteOAuthClientData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeleteOAuthClientError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeleteOAuthClientErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeleteOAuthClientResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeleteOAuthClientResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeletePartnerApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeletePartnerApplicationError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeletePartnerApplicationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeletePartnerApplicationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeletePartnerApplicationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeletePartnerProductData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeletePartnerProductError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeletePartnerProductErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeletePartnerProductResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DeletePartnerProductResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `DeleteUserData` | `DeleteUserData` |
 | `DeleteUserError` | `DeleteUserError` |
 | `DeleteUserErrors` | `DeleteUserErrors` |
@@ -528,24 +528,24 @@ Baseline generated helper types and operations are not OpenAPI component schemas
 | `DeleteWatchlistProductErrors` | `DeleteWatchlistProductErrors` |
 | `DeleteWatchlistProductResponse` | `DeleteWatchlistProductResponse` |
 | `DeleteWatchlistProductResponses` | `DeleteWatchlistProductResponses` |
-| `DistanceData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `DistanceUnitData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `ExecutionStateData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GeoAddressData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GeoDistanceQueryData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `DistanceData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `DistanceUnitData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `ExecutionStateData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GeoAddressData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GeoDistanceQueryData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `GetAccessTokenData` | `GetAccessTokenData` |
-| `GetCategoriesData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetCategoriesError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetCategoriesErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetCategoriesResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetCategoriesResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetCategoryByIdData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetCategoryByIdError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetCategoryByIdErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetCategoryByIdResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetCategoryByIdResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetCategoryData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetCategorySummaryData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `GetCategoriesData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetCategoriesError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetCategoriesErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetCategoriesResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetCategoriesResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetCategoryByIdData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetCategoryByIdError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetCategoryByIdErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetCategoryByIdResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetCategoryByIdResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetCategoryData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetCategorySummaryData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `GetMyAccessTokenData` | `GetMyAccessTokenData` |
 | `GetMyAccessTokenError` | `GetMyAccessTokenError` |
 | `GetMyAccessTokenErrors` | `GetMyAccessTokenErrors` |
@@ -556,102 +556,102 @@ Baseline generated helper types and operations are not OpenAPI component schemas
 | `GetMyAccessTokensErrors` | `GetMyAccessTokensErrors` |
 | `GetMyAccessTokensResponse` | `GetMyAccessTokensResponse` |
 | `GetMyAccessTokensResponses` | `GetMyAccessTokensResponses` |
-| `GetMyPartnerShopsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetMyPartnerShopsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetMyPartnerShopsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetMyPartnerShopsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetMyPartnerShopsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `GetMyPartnerShopsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetMyPartnerShopsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetMyPartnerShopsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetMyPartnerShopsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetMyPartnerShopsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `GetNotificationData` | `NotificationData` |
-| `GetNotificationsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetNotificationsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetNotificationsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetNotificationsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetNotificationsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetOAuthClientData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetOAuthClientError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetOAuthClientErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetOAuthClientResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetOAuthClientResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetOAuthClientsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetOAuthClientsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetOAuthClientsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetOAuthClientsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetOAuthClientsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPartnerApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPartnerApplicationError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPartnerApplicationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPartnerApplicationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPartnerApplicationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPartnerApplicationsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPartnerApplicationsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPartnerApplicationsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPartnerApplicationsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPartnerApplicationsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `GetNotificationsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetNotificationsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetNotificationsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetNotificationsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetNotificationsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetOAuthClientData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetOAuthClientError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetOAuthClientErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetOAuthClientResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetOAuthClientResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetOAuthClientsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetOAuthClientsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetOAuthClientsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetOAuthClientsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetOAuthClientsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPartnerApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPartnerApplicationError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPartnerApplicationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPartnerApplicationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPartnerApplicationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPartnerApplicationsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPartnerApplicationsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPartnerApplicationsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPartnerApplicationsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPartnerApplicationsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `GetPartnerShopApplicationData` | `OwnPartnershipApplicationData` |
-| `GetPartnerShopApplicationPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPeriodByIdData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPeriodByIdError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPeriodByIdErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPeriodByIdResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPeriodByIdResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPeriodData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPeriodSummaryData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPeriodsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPeriodsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPeriodsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPeriodsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetPeriodsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetProductBySlugData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetProductBySlugError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetProductBySlugErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetProductBySlugResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetProductBySlugResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `GetPartnerShopApplicationPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPeriodByIdData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPeriodByIdError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPeriodByIdErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPeriodByIdResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPeriodByIdResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPeriodData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPeriodSummaryData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPeriodsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPeriodsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPeriodsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPeriodsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetPeriodsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetProductBySlugData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetProductBySlugError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetProductBySlugErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetProductBySlugResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetProductBySlugResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `GetProductData` | `ProductListingDetailsData` |
-| `GetProductData2` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetProductError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetProductErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `GetProductData2` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetProductError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetProductErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `GetProductEventData` | `ProductListingHistoryEntryData` |
-| `GetProductHistoryData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetProductHistoryError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetProductHistoryErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetProductHistoryResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetProductHistoryResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetProductResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetProductResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `GetProductHistoryData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetProductHistoryError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetProductHistoryErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetProductHistoryResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetProductHistoryResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetProductResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetProductResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `GetProductSummaryData` | `ProductListingSummaryData` |
-| `GetSearchFilterMatchesData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetSearchFilterMatchesError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetSearchFilterMatchesErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetSearchFilterMatchesResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetSearchFilterMatchesResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetSearchFilterPreviewProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetSearchFilterPreviewProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetSearchFilterPreviewProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetSearchFilterPreviewProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetSearchFilterPreviewProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopByDomainData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopByDomainError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopByDomainErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopByDomainResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopByDomainResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopByIdData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopByIdError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopByIdErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopByIdResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopByIdResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopBySlugData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopBySlugError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopBySlugErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopBySlugResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetShopBySlugResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `GetSearchFilterMatchesData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetSearchFilterMatchesError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetSearchFilterMatchesErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetSearchFilterMatchesResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetSearchFilterMatchesResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetSearchFilterPreviewProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetSearchFilterPreviewProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetSearchFilterPreviewProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetSearchFilterPreviewProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetSearchFilterPreviewProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopByDomainData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopByDomainError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopByDomainErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopByDomainResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopByDomainResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopByIdData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopByIdError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopByIdErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopByIdResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopByIdResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopBySlugData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopBySlugError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopBySlugErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopBySlugResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetShopBySlugResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `GetShopData` | `ListingSourceData` |
-| `GetSimilarProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetSimilarProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetSimilarProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetSimilarProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetSimilarProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `GetSimilarProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetSimilarProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetSimilarProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetSimilarProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetSimilarProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `GetUserAccountData` | `OwnUserAccountData` |
-| `GetUserAccountData2` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `GetUserAccountData2` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `GetUserAccountError` | `GetUserAccountError` |
 | `GetUserAccountErrors` | `GetUserAccountErrors` |
 | `GetUserAccountResponse` | `GetUserAccountResponse` |
@@ -666,11 +666,11 @@ Baseline generated helper types and operations are not OpenAPI component schemas
 | `GetUserSearchFiltersErrors` | `GetUserSearchFiltersErrors` |
 | `GetUserSearchFiltersResponse` | `GetUserSearchFiltersResponse` |
 | `GetUserSearchFiltersResponses` | `GetUserSearchFiltersResponses` |
-| `GetWatchlistProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetWatchlistProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetWatchlistProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetWatchlistProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `GetWatchlistProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `GetWatchlistProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetWatchlistProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetWatchlistProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetWatchlistProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `GetWatchlistProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `LanguageData` | `LanguageData` |
 | `LocalizedTextData` | `LocalizedTextData` |
 | `MeasurementUnitData` | `MeasurementUnitData` |
@@ -705,54 +705,54 @@ Baseline generated helper types and operations are not OpenAPI component schemas
 | `OauthTokenResponse` | `OauthTokenResponse` |
 | `OauthTokenResponses` | `OauthTokenResponses` |
 | `PartnerApplicationNotificationPayloadData` | `PartnershipApplicationNotificationPayloadData` |
-| `PartnerApplicationPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `PartnerApplicationPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `PartnerProductEnqueueFailuresResponse` | `PartnerProductListingBatchFailuresResponse` |
-| `PartnerShopApplicationDecisionData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `PartnerShopApplicationDecisionData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `PartnerShopApplicationStateData` | `PartnershipApplicationStateData` |
 | `PatchAccessTokenData` | `PatchAccessTokenData` |
 | `PatchAdminUserData` | `PatchAdminUserData` |
-| `PatchAllNotificationsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchAllNotificationsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchAllNotificationsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchAllNotificationsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchAllNotificationsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `PatchAllNotificationsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchAllNotificationsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchAllNotificationsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchAllNotificationsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchAllNotificationsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `PatchMyAccessTokenData` | `PatchMyAccessTokenData` |
 | `PatchMyAccessTokenError` | `PatchMyAccessTokenError` |
 | `PatchMyAccessTokenErrors` | `PatchMyAccessTokenErrors` |
 | `PatchMyAccessTokenResponse` | `PatchMyAccessTokenResponse` |
 | `PatchMyAccessTokenResponses` | `PatchMyAccessTokenResponses` |
 | `PatchNotificationData` | `UpdateNotificationSeenData` |
-| `PatchNotificationData2` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchNotificationError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchNotificationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchNotificationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchNotificationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchOAuthClientData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchOAuthClientError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchOAuthClientErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchOAuthClientResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchOAuthClientResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchPartnerApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchPartnerApplicationError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchPartnerApplicationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchPartnerApplicationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchPartnerApplicationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchPartnerProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchPartnerProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchPartnerProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchPartnerProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchPartnerProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchPartnerShopApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `PatchNotificationData2` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchNotificationError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchNotificationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchNotificationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchNotificationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchOAuthClientData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchOAuthClientError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchOAuthClientErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchOAuthClientResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchOAuthClientResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchPartnerApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchPartnerApplicationError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchPartnerApplicationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchPartnerApplicationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchPartnerApplicationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchPartnerProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchPartnerProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchPartnerProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchPartnerProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchPartnerProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchPartnerShopApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `PatchProductData` | `UpdateProductListingData` |
 | `PatchProductSearchData` | `PatchProductListingSearchData` |
 | `PatchResourceStateData` | `PatchResourceStateData` |
-| `PatchShopByIdData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchShopByIdError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchShopByIdErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchShopByIdResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PatchShopByIdResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `PatchShopByIdData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchShopByIdError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchShopByIdErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchShopByIdResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PatchShopByIdResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `PatchShopData` | `UpdateListingSourceData` |
-| `PatchShopDataWritable` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `PatchShopDataWritable` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `PatchUserAccountData` | `PatchUserAccountData` |
 | `PatchUserSearchFilterData` | `PatchUserSearchFilterData` |
 | `PatchUserSearchFilterMatchData` | `PatchUserSearchFilterMatchData` |
@@ -761,7 +761,7 @@ Baseline generated helper types and operations are not OpenAPI component schemas
 | `PatchWatchlistProductErrors` | `PatchWatchlistProductErrors` |
 | `PatchWatchlistProductResponse` | `PatchWatchlistProductResponse` |
 | `PatchWatchlistProductResponses` | `PatchWatchlistProductResponses` |
-| `PeriodSearchData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `PeriodSearchData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `PersonalizedGetProductData` | `PersonalizedProductListingDetailsData` |
 | `PersonalizedGetProductSummaryData` | `PersonalizedProductListingSummaryData` |
 | `PersonalizedProductSearchResultData` | `ProductListingSearchResultData` |
@@ -787,49 +787,49 @@ Baseline generated helper types and operations are not OpenAPI component schemas
 | `PostMyAccessTokenErrors` | `PostMyAccessTokenErrors` |
 | `PostMyAccessTokenResponse` | `PostMyAccessTokenResponse` |
 | `PostMyAccessTokenResponses` | `PostMyAccessTokenResponses` |
-| `PostOAuthClientData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostOAuthClientError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostOAuthClientErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostOAuthClientResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostOAuthClientResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostPartnerApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostPartnerApplicationError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostPartnerApplicationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostPartnerApplicationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostPartnerApplicationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostPartnerProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostPartnerProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostPartnerProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostPartnerProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostPartnerProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `PostOAuthClientData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostOAuthClientError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostOAuthClientErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostOAuthClientResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostOAuthClientResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostPartnerApplicationData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostPartnerApplicationError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostPartnerApplicationErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostPartnerApplicationResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostPartnerApplicationResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostPartnerProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostPartnerProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostPartnerProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostPartnerProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostPartnerProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `PostPartnerShopApplicationDecisionData` | `DecidePartnershipApplicationData` |
 | `PostPartnerShopApplicationPayloadData` | `SubmitPartnershipApplicationData` |
 | `PostProductData` | `CreateProductListingData` |
 | `PostShopData` | `CreateListingSourceData` |
-| `PostShopData2` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostShopDataWritable` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostShopError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostShopErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostShopResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PostShopResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `PostShopData2` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostShopDataWritable` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostShopError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostShopErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostShopResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PostShopResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `PostUserSearchFilterData` | `PostUserSearchFilterData` |
 | `PostWoocommerceWebhookData` | `PostWoocommerceWebhookData` |
 | `PostWoocommerceWebhookError` | `PostWoocommerceWebhookError` |
 | `PostWoocommerceWebhookErrors` | `PostWoocommerceWebhookErrors` |
 | `PostWoocommerceWebhookResponses` | `PostWoocommerceWebhookResponses` |
-| `PriceChangeWatchlistPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `PriceChangeWatchlistPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `PriceData` | `PriceData` |
 | `PriceEstimateData` | `PriceEstimateData` |
 | `PricingData` | `PricingData` |
-| `ProductCreatedEventPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `ProductEventAuctionTimeChangedPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `ProductEventEstimatePriceChangedPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `ProductEventImagesChangedPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `ProductCreatedEventPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `ProductEventAuctionTimeChangedPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `ProductEventEstimatePriceChangedPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `ProductEventImagesChangedPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `ProductEventPayloadData` | `ProductListingHistoryPayloadData` |
-| `ProductEventPriceChangedPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `ProductEventStateChangedPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `ProductEventPriceChangedPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `ProductEventStateChangedPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `ProductEventTypeData` | `ProductListingHistoryEntryTypeData` |
-| `ProductEventUrlChangedPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `ProductEventUrlChangedPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `ProductImageData` | `ProductListingImageData` |
 | `ProductKeyData` | `PostWatchlistData` |
 | `ProductLifecycleData` | `ListingLifecycleData` |
@@ -844,61 +844,61 @@ Baseline generated helper types and operations are not OpenAPI component schemas
 | `PutNewsletterSubscriptionErrors` | `PutNewsletterSubscriptionErrors` |
 | `PutNewsletterSubscriptionResponse` | `PutNewsletterSubscriptionResponse` |
 | `PutNewsletterSubscriptionResponses` | `PutNewsletterSubscriptionResponses` |
-| `PutPartnerProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PutPartnerProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PutPartnerProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PutPartnerProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `PutPartnerProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `PutPartnerProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PutPartnerProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PutPartnerProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PutPartnerProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `PutPartnerProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `PutProductData` | `UpsertProductListingData` |
 | `RangeQueryDateTime` | `RangeQueryDateTime` |
-| `RangeQueryInt32` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `RangeQueryInt32` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `RangeQueryUInt64` | `RangeQueryUInt64` |
-| `RejectedPartnerApplicationPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `RejectedPartnerApplicationPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `ResourceStateData` | `ResourceStateData` |
-| `SearchCategoriesData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SearchCategoriesError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SearchCategoriesErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SearchCategoriesResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SearchCategoriesResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `SearchCategoriesData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SearchCategoriesError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SearchCategoriesErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SearchCategoriesResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SearchCategoriesResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `SearchFilterMatchProductCollectionData` | `SearchFilterMatchProductCollectionData` |
 | `SearchFilterNotificationPayloadData` | `SearchFilterNotificationPayloadData` |
-| `SearchFilterPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `SearchFilterPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `SearchFilterProductMatchData` | `SearchFilterProductMatchData` |
 | `SearchFilterUserStateData` | `SearchFilterUserStateData` |
-| `SearchPeriodsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SearchPeriodsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SearchPeriodsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SearchPeriodsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SearchPeriodsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SearchShopsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SearchShopsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SearchShopsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SearchShopsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SearchShopsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `ShopPartnerStatusData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `ShopSearchData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `SearchPeriodsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SearchPeriodsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SearchPeriodsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SearchPeriodsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SearchPeriodsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SearchShopsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SearchShopsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SearchShopsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SearchShopsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SearchShopsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `ShopPartnerStatusData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `ShopSearchData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `ShopSearchResultData` | `ListingSourceSearchCollectionData` |
-| `ShopTypeData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SimpleSearchProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SimpleSearchProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SimpleSearchProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SimpleSearchProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SimpleSearchProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SimpleSearchShopsData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SimpleSearchShopsError` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SimpleSearchShopsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SimpleSearchShopsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SimpleSearchShopsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SortCategoryFieldData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SortPeriodFieldData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `ShopTypeData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SimpleSearchProductsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SimpleSearchProductsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SimpleSearchProductsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SimpleSearchProductsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SimpleSearchProductsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SimpleSearchShopsData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SimpleSearchShopsError` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SimpleSearchShopsErrors` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SimpleSearchShopsResponse` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SimpleSearchShopsResponses` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SortCategoryFieldData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SortPeriodFieldData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `SortProductFieldData` | `SortProductListingFieldData` |
-| `SortSearchFilterMatchFieldData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `SortSearchFilterMatchFieldData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `SortShopFieldData` | `SortListingSourceFieldData` |
 | `SortUserFieldData` | `SortUserFieldData` |
-| `SortUserSearchFilterFieldData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `SortWatchlistProductFieldData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `StateChangeWatchlistPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
-| `StructuredAddressData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `SortUserSearchFilterFieldData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `SortWatchlistProductFieldData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `StateChangeWatchlistPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
+| `StructuredAddressData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `UpdateSearchFilterMatchFeedbackData` | `UpdateSearchFilterMatchFeedbackData` |
 | `UpdateSearchFilterMatchFeedbackError` | `UpdateSearchFilterMatchFeedbackError` |
 | `UpdateSearchFilterMatchFeedbackErrors` | `UpdateSearchFilterMatchFeedbackErrors` |
@@ -916,13 +916,13 @@ Baseline generated helper types and operations are not OpenAPI component schemas
 | `UpdateUserSearchFilterResponses` | `UpdateUserSearchFilterResponses` |
 | `UserCollectionData` | `UserCollectionData` |
 | `UserRoleData` | `UserRoleData` |
-| `UserSearchData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `UserSearchData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `UserSearchFilterCollectionData` | `UserSearchFilterCollectionData` |
 | `UserSearchFilterData` | `UserSearchFilterData` |
 | `UserTierData` | `UserTierData` |
-| `WatchlistCollectionData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `WatchlistCollectionData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `WatchlistNotificationPayloadData` | `WatchlistNotificationPayloadData` |
-| `WatchlistPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping or deferred admin owner |
+| `WatchlistPayloadData` | Removed legacy DTO/helper; migrated feature/domain mapping |
 | `WatchlistProductPatch` | `WatchlistProductPatch` |
 | `WatchlistUserStateData` | `WatchlistUserStateData` |
 | `WoocommerceProductWebhookDeleteData` | `WoocommerceProductWebhookDeleteData` |

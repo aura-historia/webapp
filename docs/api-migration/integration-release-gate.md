@@ -41,14 +41,17 @@ issue's earlier seven-operation follow-up count.
 
 ## Scope decisions
 
-- The shared admin shell and sidebar navigation are restored (`AdminLayout`), rendered
-  inside `AdminGuard`. Individual guarded, authenticated, noindex workflows have been restored
-  incrementally: partnership application review (MIG-16), Party management
-  (MIG-17), listing-source management (MIG-18), partnership membership and
-  source-grant management (MIG-19), user management (MIG-20), and auction management
-  (MIG-25). Each workflow
-  uses mapped DTOs and backend authorization; generated admin SDK operations that
-  do not belong to these workflows remain API capabilities rather than implemented UI.
+- The admin dashboard is fully migrated. The shared admin shell and sidebar navigation
+  (`AdminLayout`) render inside `AdminGuard`, and every guarded, authenticated, noindex
+  workflow is restored: partnership application review (MIG-16), Party management
+  (MIG-17), listing-source management (MIG-18, `/admin/listing-sources`), partnership
+  membership and source-grant management (MIG-19), user management (MIG-20), user
+  suspension/session/token controls (MIG-21), OAuth client management (MIG-22), the
+  aggregate overview (MIG-23) and auction management (MIG-25). Each workflow uses mapped
+  DTOs and backend authorization. Every `/api/v1/admin/` operation has a runtime consumer;
+  the inventory generator fails on an unreferenced admin operation instead of recording
+  it as deferred. No legacy admin shop, partner-application or OAuth-client UI, DTO,
+  route or translation remains.
 - Standalone public auction browsing/detail/catalogue pages remain deferred to
   aura-historia/webapp#1060. Listing-level auction summaries and typed history remain
   in the migrated product experience. The three public auction SDK operations are

@@ -110,7 +110,7 @@ describe("AdminOverviewPage", () => {
             ["adminOverview.applications.title", "/de/admin/partnership-applications"],
             ["adminOverview.partnerships.title", "/de/admin/partnerships"],
             ["adminOverview.parties.title", "/de/admin/parties"],
-            ["adminOverview.listingSources.title", "/de/admin/shops"],
+            ["adminOverview.listingSources.title", "/de/admin/listing-sources"],
         ];
         for (const [key, href] of tiles) {
             expect(within(summaryTile(key)).getByRole("link").getAttribute("href")).toBe(href);
@@ -122,7 +122,7 @@ describe("AdminOverviewPage", () => {
         const panels: [string, string][] = [
             ["adminOverview.users.link", "/de/admin/users"],
             ["adminOverview.applications.link", "/de/admin/partnership-applications"],
-            ["adminOverview.listingSources.link", "/de/admin/shops"],
+            ["adminOverview.listingSources.link", "/de/admin/listing-sources"],
         ];
         for (const [key, href] of panels) {
             expect(screen.getByRole("link", { name: t(key) }).getAttribute("href")).toBe(href);
