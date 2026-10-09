@@ -41,10 +41,10 @@ listing link. Notification dates use localized calendar dates with the root rout
 server-resolved visitor timezone (UTC fallback). SSR and the first client render
 share that timezone; rendering does not read the browser timezone or current clock.
 
-Partnership snapshots retain the canonical application ID for the application
-migration to consume. The existing notification UI displays their decisions; it
+Partnership snapshots retain the canonical application ID for application
+consumers. The notification UI displays their decisions; it
 does not invent routes for application details.
 
-This migration uses the existing account notification purpose described in all
-five privacy-policy locales. It adds no persistent browser storage, processors,
+Notifications use the existing account notification purpose described in all
+five privacy-policy locales. They add no persistent browser storage, processors,
 tracking, retention changes, or public caching of personalized responses.

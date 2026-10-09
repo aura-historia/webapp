@@ -20,9 +20,12 @@ Refined global discovery for antiques, art, design objects, dealers, and auction
 - Product copy: `docs/product-context.md`
 - User data: `docs/privacy-policy-alignment.md`
 - Feature, route, or data design: `docs/architecture-guidelines.md`
+- API client generation, backend contract changes, or DTO mapping: `docs/api-contracts.md`
+- Partner integration guide, API reference, or product-sync copy: `docs/partner-integration.md`
 - SSR or browser-only work: `docs/hydration-guidelines.md`
 - OAuth: `docs/oauth-protocol-guidelines.md`
 - Admin authorization: `docs/admin-authorization-guidelines.md`
+- Admin application review or partnership management: `docs/admin-workflows.md`
 - Landing-page prerendering: `docs/landing-page-prerendering-guidelines.md`
 - Terms, imprint, or privacy translations: `docs/legal-content-guidelines.md`
 
