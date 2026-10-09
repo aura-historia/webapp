@@ -202,4 +202,27 @@ describe("AdminUserSecurityControls", () => {
         expect(mocks.signOut).not.toHaveBeenCalled();
         expect(screen.queryByText(/raw-token|masked-token|token-hash/i)).not.toBeInTheDocument();
     });
+
+    it("moves focus into a revocation confirmation and restores it to the trigger on cancel", async () => {
+        const user = userEvent.setup();
+        render(<AdminUserSecurityControls userId="usr_target" />, { wrapper });
+        const triggerName = testI18n.t("adminUsers.security.actions.revokeToken");
+
+        await user.click(screen.getByRole("button", { name: triggerName }));
+
+        expect(
+            screen.getByRole("group", {
+                name: testI18n.t("adminUsers.security.tokens.confirmSingle", {
+                    name: "Catalog integration",
+                }),
+            }),
+        ).toHaveFocus();
+
+        await user.click(
+            screen.getByRole("button", { name: testI18n.t("adminUsers.actions.cancel") }),
+        );
+
+        expect(screen.getByRole("button", { name: triggerName })).toHaveFocus();
+        expect(mocks.revokeToken).not.toHaveBeenCalled();
+    });
 });

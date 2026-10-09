@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
@@ -24,6 +24,8 @@ import {
     utf8ByteLength,
 } from "../lib/adminUserSecurityValidation.ts";
 
+type ConfirmationKey = "sessions" | "revoke-all" | `revoke:${string}`;
+
 type PendingAction =
     | "suspend"
     | "unsuspend"
@@ -46,9 +48,24 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
     const [pending, setPending] = useState<PendingAction>(null);
     const [requestError, setRequestError] = useState<string>();
     const [confirmedSuspension, setConfirmedSuspension] = useState<boolean | null>(null);
-    const [confirmation, setConfirmation] = useState<
-        "sessions" | "revoke-all" | `revoke:${string}` | null
-    >(null);
+    const [confirmation, setConfirmation] = useState<ConfirmationKey | null>(null);
+    const sectionRef = useRef<HTMLElement>(null);
+    const [restoreFocusTo, setRestoreFocusTo] = useState<ConfirmationKey | null>(null);
+
+    useEffect(() => {
+        if (!restoreFocusTo) return;
+        sectionRef.current
+            ?.querySelector<HTMLElement>(
+                `[data-confirmation-trigger="${CSS.escape(restoreFocusTo)}"]`,
+            )
+            ?.focus();
+        setRestoreFocusTo(null);
+    }, [restoreFocusTo]);
+
+    const cancelConfirmation = () => {
+        setRestoreFocusTo(confirmation);
+        setConfirmation(null);
+    };
 
     const reasonSchema = z.object({
         reason: z
@@ -186,7 +203,11 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
     const actionsDisabled = pending !== null;
 
     return (
-        <section className="grid gap-6 border-y py-5" aria-label={t("adminUsers.security.title")}>
+        <section
+            ref={sectionRef}
+            className="grid gap-6 border-y py-5"
+            aria-label={t("adminUsers.security.title")}
+        >
             <div className="grid gap-5">
                 <div className="grid gap-2">
                     <h3 className="font-semibold">{t("adminUsers.security.suspension.title")}</h3>
@@ -274,7 +295,7 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
                         confirmLabel={t("adminUsers.security.actions.confirmSessionRevocation")}
                         disabled={actionsDisabled}
                         onConfirm={() => void runSessionRevocation()}
-                        onCancel={() => setConfirmation(null)}
+                        onCancel={cancelConfirmation}
                     />
                 ) : (
                     <div>
@@ -282,6 +303,7 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
                             type="button"
                             variant="outline"
                             disabled={actionsDisabled}
+                            data-confirmation-trigger="sessions"
                             onClick={() => setConfirmation("sessions")}
                         >
                             {t("adminUsers.security.actions.revokeSessions")}
@@ -306,13 +328,14 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
                             )}
                             disabled={actionsDisabled}
                             onConfirm={() => void runAllTokenRevocation()}
-                            onCancel={() => setConfirmation(null)}
+                            onCancel={cancelConfirmation}
                         />
                     ) : (
                         <Button
                             type="button"
                             variant="destructive"
                             disabled={actionsDisabled}
+                            data-confirmation-trigger="revoke-all"
                             onClick={() => setConfirmation("revoke-all")}
                         >
                             {pending === "revoke-all"
@@ -399,7 +422,7 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
                                             onConfirm={() =>
                                                 void runTokenRevocation(token.accessTokenId)
                                             }
-                                            onCancel={() => setConfirmation(null)}
+                                            onCancel={cancelConfirmation}
                                         />
                                     )}
                                 </div>
@@ -409,6 +432,7 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
                                         size="sm"
                                         variant="outline"
                                         disabled={actionsDisabled}
+                                        data-confirmation-trigger={`revoke:${token.accessTokenId}`}
                                         onClick={() =>
                                             setConfirmation(`revoke:${token.accessTokenId}`)
                                         }
@@ -461,9 +485,25 @@ function Confirmation({
     readonly onCancel: () => void;
 }) {
     const { t } = useTranslation();
+    const promptId = useId();
+    const groupRef = useRef<HTMLDivElement>(null);
+
+    // The trigger unmounts when the confirmation opens, so move focus here and announce the prompt.
+    useEffect(() => {
+        groupRef.current?.focus();
+    }, []);
+
     return (
-        <div className="grid gap-2 sm:col-span-2">
-            <p className="text-sm">{prompt}</p>
+        <div
+            ref={groupRef}
+            role="group"
+            aria-labelledby={promptId}
+            tabIndex={-1}
+            className="grid gap-2 outline-none sm:col-span-2"
+        >
+            <p id={promptId} className="text-sm">
+                {prompt}
+            </p>
             <div className="flex flex-wrap gap-2">
                 <Button type="button" variant="destructive" disabled={disabled} onClick={onConfirm}>
                     {confirmLabel}
