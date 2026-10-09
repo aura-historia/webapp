@@ -324,26 +324,6 @@ export function Header() {
                                             </Link>
                                         </NavigationMenuLink>
                                     )}
-                                    {isAdmin && (
-                                        <NavigationMenuLink
-                                            asChild
-                                            active={routePathname.startsWith("/admin/auctions")}
-                                        >
-                                            <Link
-                                                to="/$lng/admin/auctions"
-                                                className="h-10 flex-row items-center px-3 py-2"
-                                                aria-current={
-                                                    routePathname.startsWith("/admin/auctions")
-                                                        ? "page"
-                                                        : undefined
-                                                }
-                                                params={true}
-                                                from="/$lng"
-                                            >
-                                                {t("header.adminAuctions")}
-                                            </Link>
-                                        </NavigationMenuLink>
-                                    )}
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
                         </NavigationMenuList>
@@ -610,17 +590,6 @@ export function Header() {
                                                         from="/$lng"
                                                     >
                                                         {t("header.admin")}
-                                                    </Link>
-                                                </DropdownMenuItem>
-                                            )}
-                                            {isAdmin && (
-                                                <DropdownMenuItem asChild>
-                                                    <Link
-                                                        to="/$lng/admin/auctions"
-                                                        params={true}
-                                                        from="/$lng"
-                                                    >
-                                                        {t("header.adminAuctions")}
                                                     </Link>
                                                 </DropdownMenuItem>
                                             )}

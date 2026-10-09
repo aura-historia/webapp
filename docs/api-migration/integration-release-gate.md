@@ -41,8 +41,8 @@ issue's earlier seven-operation follow-up count.
 
 ## Scope decisions
 
-- The shared admin dashboard shell remains deferred by the user to MIG-24. Individual
-  guarded, authenticated, noindex workflows have been restored
+- The shared admin dashboard shell and navigation remain deferred by the user to
+  MIG-24. Individual guarded, authenticated, noindex workflows have been restored
   incrementally: partnership application review (MIG-16), Party management
   (MIG-17), listing-source management (MIG-18), partnership membership and
   source-grant management (MIG-19), user management (MIG-20), and auction management

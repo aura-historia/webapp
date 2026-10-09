@@ -2,11 +2,11 @@
 
 Apply this guide to admin routes, handlers, and features.
 
-The endpoint migration defers the shared admin dashboard shell to MIG-24. Authenticated,
-noindex workflow routes retain `AdminGuard`; legacy feature implementations and DTOs
-are removed rather than compiled against incompatible endpoints. Generated operations
-alone do not implement a dashboard. Restore workflows only with current DTO mapping,
-tests and the authorization checks below. See
+The endpoint migration defers the shared admin dashboard shell and navigation to
+MIG-24. Authenticated, noindex workflow routes retain `AdminGuard`; legacy feature
+implementations and DTOs are removed rather than compiled against incompatible
+endpoints. The generated admin SDK is not an implemented dashboard. Restore workflows
+only with current DTO mapping, tests and the authorization checks below. See
 [MIG-24 scope decisions](api-migration/integration-release-gate.md).
 
 Restored workflows: OAuth client management (MIG-22), partnership application review
@@ -26,7 +26,7 @@ are immutable on update. User search and detail use separate summary and account
 mappings; user reads and mutations use `Cache-Control: no-store` requests and private
 query keys. All OAuth client requests use `Cache-Control: no-store`; list, detail and
 update use secret-free DTOs. Creation alone returns a plaintext client secret, shown once
-and cleared when the dialog closes. The shared admin shell remains deferred to MIG-24;
+and cleared when the dialog closes. The shared admin shell and navigation remain deferred to MIG-24;
 individual workflow routes stay protected by `AdminGuard` and backend authorization.
 
 ## Requirement
