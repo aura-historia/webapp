@@ -38,6 +38,15 @@ Run this checklist when code touches any of the following:
 - Account updates must discard and refetch cached personalized listings, watchlists, saved-search matches/previews, and notifications; merely marking them stale can retain previously visible images. Cancel in-flight queries before resetting these caches, and cancel and clear them on account deletion.
 - Sign-in, sign-out and viewer changes also remove own-source grants, partnership applications and access-token caches before refetching. Pending private reads must be aborted so late responses cannot repopulate a previous viewer's data. Public SEO images must be assessed ALLOWED, regardless of a signed-in viewer's content preference.
 
+### Newsletter consent
+
+Two distinct flows exist; the privacy policy's "Newsletter and Marketing Communications" section describes both.
+
+- **Native signup** ([#1035](https://github.com/aura-historia/webapp/issues/1035)): the only registration-time choice is an optional, unchecked checkbox, stored by the backend with the account. Do not call the standalone newsletter request for it, and never use a prechecked post-registration shortcut.
+- **Standalone double opt-in:** every other request (landing-page form; anonymous, signed in, or federated sign-in) calls `PUT /api/v1/newsletter-subscriptions`. An empty 204 means only that the request was handled. The UI asks the user to check their inbox, does not claim a subscription or delivered email, does not reveal rate suppression or account state, and never sets a local `marketingEmailConsent` value. A verified account email is not a bypass. Use the shared one-purpose wording (`newsletter.purpose`) with the privacy link; there is no checkbox on a dedicated request form.
+- **Confirmation:** the email links to `/$lng/newsletter/confirm#token=…`. The page is public, request-time SSR, `no-store`, `no-referrer`, noindex, not prerendered and excluded from analytics page views. The fragment is read only after hydration, then removed with `replaceState` and kept only in hook memory: never in storage, query keys, logs, titles, analytics or rendered text. A reload therefore needs the email link again. Nothing is posted on load, prefetch or GET; only the explicit "Confirm subscription" action posts the token, without a bearer credential. A 204 means "confirmation received" (provider sync is asynchronous, and replaying a used link also returns 204), so the copy must not claim delivery or a re-subscription. Afterwards the account query is invalidated and refetched. Temporary failures allow a deliberate retry with the same token; an invalid link offers a new standalone request.
+- Pending means a confirmation email was requested. Confirmed is decided by the backend only, and the current value is read from the account's read-only `marketingEmailConsent`.
+
 - Data minimization: collect and send only fields needed for the feature.
 - Purpose limitation: use data only for purposes reflected in the privacy policy and user expectations.
 - Consent: optional analytics/tracking or non-essential terminal storage must remain gated by valid consent.

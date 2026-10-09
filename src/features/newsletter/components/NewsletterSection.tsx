@@ -2,10 +2,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trans, useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
-import { toast } from "sonner";
 import { z } from "zod";
-import { CheckCircle } from "lucide-react";
-import { useState } from "react";
+import { CheckCircle, MailCheck } from "lucide-react";
+import { useRef, useState } from "react";
 
 import {
     Form,
@@ -39,8 +38,8 @@ type NewsletterFormData = z.infer<ReturnType<typeof getNewsletterSchema>>;
 export default function NewsletterSection() {
     const { t, i18n } = useTranslation();
     const { preferences } = useUserPreferences();
-    const [isSuccess, setIsSuccess] = useState(false);
-    const [subscribedEmail, setSubscribedEmail] = useState("");
+    const [requestedEmail, setRequestedEmail] = useState<string | null>(null);
+    const isSubmittingRef = useRef(false);
 
     const schema = getNewsletterSchema(t);
 
@@ -55,8 +54,12 @@ export default function NewsletterSection() {
 
     const { mutateAsync: subscribe, isPending } = useNewsletterSubscription();
 
+    // Every request, signed in or not, only asks the backend to send a double opt-in email.
+    // Account consent is not touched here; it changes only after the emailed link is confirmed.
     const onSubmit = async (data: NewsletterFormData) => {
-        setSubscribedEmail(data.email);
+        if (isSubmittingRef.current) return;
+        isSubmittingRef.current = true;
+
         try {
             await subscribe({
                 email: data.email,
@@ -65,13 +68,18 @@ export default function NewsletterSection() {
                 language: parseLanguage(i18n.language),
                 currency: preferences.currency,
             });
-            setIsSuccess(true);
-            toast.success(t("landingPage.newsletter.successMessage"));
+            setRequestedEmail(data.email);
             form.reset();
         } catch (error) {
-            toast.error(error instanceof Error ? error.message : t("apiErrors.unknown"));
+            form.setError("root", {
+                message: error instanceof Error ? error.message : t("apiErrors.unknown"),
+            });
+        } finally {
+            isSubmittingRef.current = false;
         }
     };
+
+    const isBusy = isPending || form.formState.isSubmitting;
 
     return (
         <section
@@ -128,17 +136,23 @@ export default function NewsletterSection() {
                     {/* Right column — form card */}
                     <div className="mx-auto w-full max-w-lg lg:mx-0 lg:ml-auto">
                         <div className="border border-primary-foreground/10 bg-primary-foreground/6 p-8 backdrop-blur-sm sm:p-10">
-                            {isSuccess ? (
-                                <div className="flex flex-col items-center gap-5 py-8 text-center">
+                            {requestedEmail !== null ? (
+                                <div
+                                    role="status"
+                                    className="flex flex-col items-center gap-5 py-8 text-center"
+                                >
                                     <div className="flex size-16 items-center justify-center bg-primary-foreground/10">
-                                        <CheckCircle className="size-8 text-tertiary-fixed-dim" />
+                                        <MailCheck
+                                            aria-hidden="true"
+                                            className="size-8 text-tertiary-fixed-dim"
+                                        />
                                     </div>
                                     <p className="font-display text-xl font-normal italic text-primary-foreground">
                                         {t("landingPage.newsletter.successMessage")}
                                     </p>
                                     <p className="text-sm text-primary-foreground/80">
                                         {t("landingPage.newsletter.successEmailSent", {
-                                            email: subscribedEmail,
+                                            email: requestedEmail,
                                         })}
                                     </p>
                                     <p className="text-xs text-primary-foreground/60">
@@ -150,6 +164,7 @@ export default function NewsletterSection() {
                                     <form
                                         onSubmit={form.handleSubmit(onSubmit)}
                                         className="space-y-5"
+                                        noValidate
                                     >
                                         <FormField
                                             control={form.control}
@@ -224,12 +239,26 @@ export default function NewsletterSection() {
                                             />
                                         </div>
 
+                                        {form.formState.errors.root && (
+                                            <p
+                                                role="alert"
+                                                className="rounded-sm bg-destructive/20 px-3 py-2 text-sm text-destructive-foreground"
+                                            >
+                                                {form.formState.errors.root.message}
+                                            </p>
+                                        )}
+
+                                        <p className="text-xs leading-relaxed text-primary-foreground/70">
+                                            {t("newsletter.purpose")}
+                                        </p>
+
                                         <Button
                                             type="submit"
-                                            disabled={isPending}
+                                            disabled={isBusy}
+                                            aria-busy={isBusy}
                                             className="h-12 w-full bg-tertiary text-tertiary-foreground text-base font-medium shadow-sm hover:bg-tertiary-fixed-dim"
                                         >
-                                            {isPending && <Spinner className="mr-2" />}
+                                            {isBusy && <Spinner className="mr-2" />}
                                             {t("landingPage.newsletter.button")}
                                         </Button>
 
