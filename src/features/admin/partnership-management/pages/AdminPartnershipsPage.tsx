@@ -140,17 +140,14 @@ export function AdminPartnershipsPage() {
                 />
                 {content}
             </section>
-            {selectedPartnershipId && (
-                <AdminPartnershipDetailDialog
-                    key={selectedPartnershipId}
-                    partnershipId={selectedPartnershipId}
-                    open
-                    onOpenChange={(open) => {
-                        if (!open) setSelectedPartnershipId(undefined);
-                    }}
-                    onDissolved={() => setSelectedPartnershipId(undefined)}
-                />
-            )}
+            <AdminPartnershipDetailDialog
+                partnershipId={selectedPartnershipId}
+                open={Boolean(selectedPartnershipId)}
+                onOpenChange={(open) => {
+                    if (!open) setSelectedPartnershipId(undefined);
+                }}
+                onDissolved={() => setSelectedPartnershipId(undefined)}
+            />
         </div>
     );
 }

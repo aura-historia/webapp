@@ -152,7 +152,6 @@ export function AdminPartnershipApplicationsSection({
             />
             {content}
             <AdminApplicationDetailDialog
-                key={selectedId}
                 applicationId={selectedId}
                 timestamps={selected}
                 open={Boolean(selectedId)}
