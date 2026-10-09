@@ -18,6 +18,7 @@ import {
 import type { AdminSectionRoute } from "@/features/admin/common/components/AdminSidebar.tsx";
 import { cn } from "@/lib/utils.ts";
 import { useAdminOverview } from "../api/useAdminOverview.ts";
+import { AdminServiceStatusPanel } from "../components/AdminServiceStatusPanel.tsx";
 
 type Format = (value: number) => string;
 type CountRow = { readonly id: string; readonly label: string; readonly value: number };
@@ -425,6 +426,8 @@ export function AdminOverviewPage({ language }: { readonly language: string }) {
                 <H1>{t("adminOverview.title")}</H1>
                 <p className="max-w-3xl text-muted-foreground">{t("adminOverview.description")}</p>
             </header>
+            {/* Independent of the counters, so it stays visible when the overview cannot load. */}
+            <AdminServiceStatusPanel language={language} />
             {content}
         </div>
     );

@@ -70,8 +70,6 @@ def main():
             status = "Deferred standalone public auction pages — MIG-25; listing auction summaries retained"
         elif users:
             status = "Integrated: " + ", ".join(f"`{file}`" for file in users)
-        elif name in {"getHealth", "getReadiness"}:
-            status = "Infrastructure probes; SDK only, no browser workflow"
         elif "PartnerProductListings" in name or name == "postWoocommerceWebhook":
             status = "External partner ingestion; synchronous guide/reference (MIG-13), async SDK capability outside that guide"
         elif "IngestionConfiguration" in name:

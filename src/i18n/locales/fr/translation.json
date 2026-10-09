@@ -1138,6 +1138,18 @@
     "description": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard.",
     "goHome": "Retour à l'accueil"
   },
+  "serviceStatus": {
+    "notice": {
+      "maintenance": {
+        "title": "Maintenance en cours.",
+        "description": "Certaines fonctionnalités peuvent être momentanément indisponibles."
+      },
+      "disruption": {
+        "title": "Perturbation du service.",
+        "description": "Certaines fonctionnalités peuvent être momentanément indisponibles."
+      }
+    }
+  },
   "auth": {
     "federated": {
       "or": "ou",
@@ -1673,6 +1685,33 @@
       "unavailable": "La vue d’ensemble est temporairement indisponible. Veuillez réessayer dans quelques instants.",
       "requestFailed": "La vue d’ensemble n’a pas pu être chargée.",
       "stale": "Les derniers chiffres n’ont pas pu être actualisés. Les valeurs affichées peuvent être obsolètes."
+    },
+    "serviceStatus": {
+      "title": "État du service",
+      "description": "Vérifié depuis ce navigateur auprès des points de terminaison publics de santé de l’API. Le même résultat détermine l’avis affiché aux visiteurs.",
+      "check": "Vérifier maintenant",
+      "loading": "Vérification de l’état du service.",
+      "noResponse": "Aucune réponse",
+      "checkedAt": "Dernière vérification à {{time}}.",
+      "availability": {
+        "operational": "Opérationnel",
+        "maintenance": "Maintenance",
+        "disruption": "Perturbation"
+      },
+      "visitorNotice": {
+        "operational": "Les visiteurs ne voient aucun avis.",
+        "maintenance": "Les visiteurs voient l’avis de maintenance.",
+        "disruption": "Les visiteurs voient l’avis de perturbation."
+      },
+      "probes": {
+        "liveness": "API",
+        "readiness": "Base de données et recherche"
+      },
+      "probeStates": {
+        "available": "Disponible",
+        "maintenance": "Maintenance",
+        "unavailable": "Indisponible"
+      }
     },
     "users": {
       "title": "Utilisateurs",

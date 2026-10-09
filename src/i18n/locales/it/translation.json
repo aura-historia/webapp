@@ -1138,6 +1138,18 @@
     "description": "Si è verificato un errore imprevisto. Riprova più tardi.",
     "goHome": "Vai alla homepage"
   },
+  "serviceStatus": {
+    "notice": {
+      "maintenance": {
+        "title": "Manutenzione in corso.",
+        "description": "Alcune funzionalità potrebbero non essere al momento disponibili."
+      },
+      "disruption": {
+        "title": "Disservizio in corso.",
+        "description": "Alcune funzionalità potrebbero non essere al momento disponibili."
+      }
+    }
+  },
   "auth": {
     "federated": {
       "or": "oppure",
@@ -1673,6 +1685,33 @@
       "unavailable": "La panoramica amministrazione è temporaneamente non disponibile. Riprova tra poco.",
       "requestFailed": "Impossibile caricare la panoramica amministrazione.",
       "stale": "Non è stato possibile aggiornare i dati più recenti. I valori mostrati potrebbero non essere aggiornati."
+    },
+    "serviceStatus": {
+      "title": "Stato del servizio",
+      "description": "Verificato da questo browser tramite gli endpoint pubblici di stato dell’API. Lo stesso risultato determina quale avviso vedono i visitatori.",
+      "check": "Verifica ora",
+      "loading": "Verifica dello stato del servizio in corso.",
+      "noResponse": "Nessuna risposta",
+      "checkedAt": "Ultima verifica alle {{time}}.",
+      "availability": {
+        "operational": "Operativo",
+        "maintenance": "Manutenzione",
+        "disruption": "Disservizio"
+      },
+      "visitorNotice": {
+        "operational": "I visitatori non vedono alcun avviso.",
+        "maintenance": "I visitatori vedono l’avviso di manutenzione.",
+        "disruption": "I visitatori vedono l’avviso di disservizio."
+      },
+      "probes": {
+        "liveness": "API",
+        "readiness": "Database e ricerca"
+      },
+      "probeStates": {
+        "available": "Disponibile",
+        "maintenance": "Manutenzione",
+        "unavailable": "Non disponibile"
+      }
     },
     "users": {
       "title": "Utenti",

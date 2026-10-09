@@ -15,6 +15,7 @@ import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import { Footer } from "@/features/app-shell/components/Footer.tsx";
 import { Header } from "@/features/app-shell/components/Header.tsx";
 import { NavigationProgress } from "@/features/app-shell/components/NavigationProgress.tsx";
+import { ServiceStatusBanner } from "@/features/service-status/components/ServiceStatusBanner.tsx";
 import { type QueryClient, useQueryClient } from "@tanstack/react-query";
 import type React from "react";
 import { useEffect, useRef } from "react";
@@ -214,6 +215,8 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                 <body className="bg-background">
                     <NavigationProgress />
                     <div className={"min-h-screen flex flex-col"}>
+                        {/* Above the sticky header so the landing hero's -mt-20 still tucks under it. */}
+                        <ServiceStatusBanner />
                         <Header />
                         <main className={isLandingPage ? "flex-1 -mt-20" : "flex-1"}>
                             {children}

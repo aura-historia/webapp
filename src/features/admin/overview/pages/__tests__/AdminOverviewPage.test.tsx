@@ -9,6 +9,9 @@ import { AdminOverviewPage } from "../AdminOverviewPage.tsx";
 
 const api = vi.hoisted(() => ({ useAdminOverview: vi.fn() }));
 vi.mock("../../api/useAdminOverview.ts", () => ({ useAdminOverview: api.useAdminOverview }));
+vi.mock("../../components/AdminServiceStatusPanel.tsx", () => ({
+    AdminServiceStatusPanel: () => <div data-testid="service-status-panel" />,
+}));
 
 vi.mock("@tanstack/react-router", () => ({
     Link: ({
@@ -154,6 +157,8 @@ describe("AdminOverviewPage", () => {
             t("adminOverview.errors.unavailable"),
         );
         expect(screen.queryByText("0")).toBeNull();
+        // Service status does not depend on the counters loading.
+        expect(screen.getByTestId("service-status-panel")).toBeTruthy();
         await userEvent.click(
             screen.getByRole("button", { name: t("adminOverview.actions.retry") }),
         );

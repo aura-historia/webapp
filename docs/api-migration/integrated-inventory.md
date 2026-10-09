@@ -14,43 +14,43 @@ Runtime references below exclude tests and generated files. A generated SDK capa
 |---|---|---|---|
 | `addWatchlistProduct` | `POST /api/v1/me/watchlist` | retained | Integrated: `src/features/watchlist/api/useWatchlistMutation.ts` |
 | `adminCreateListingSource` | `POST /api/v1/admin/listing-sources` | changed | Integrated: `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
-| `adminCreateOAuthClient` | `POST /api/v1/admin/oauth-clients` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminCreateOAuthClient` | `POST /api/v1/admin/oauth-clients` | retained | Integrated: `src/features/admin/oauth-client-management/api/useAdminOAuthClients.ts` |
 | `adminCreateParty` | `POST /api/v1/admin/parties` | retained | Integrated: `src/features/admin/party-management/api/useAdminParties.ts` |
 | `adminDecidePartnershipApplication` | `POST /api/v1/admin/partnership-applications/{partnershipApplicationId}/decision` | retained | Integrated: `src/features/admin/partner-application-management/api/useAdminPartnershipApplications.ts` |
 | `adminDeleteListingSource` | `DELETE /api/v1/admin/listing-sources/{listingSourceId}` | retained | Integrated: `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
-| `adminDeleteOAuthClient` | `DELETE /api/v1/admin/oauth-clients/{clientId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminDeleteOAuthClient` | `DELETE /api/v1/admin/oauth-clients/{clientId}` | retained | Integrated: `src/features/admin/oauth-client-management/api/useAdminOAuthClients.ts` |
 | `adminDeleteParty` | `DELETE /api/v1/admin/parties/{partyId}` | retained | Integrated: `src/features/admin/party-management/api/useAdminParties.ts` |
 | `adminDeleteUser` | `DELETE /api/v1/admin/users/{userId}` | retained | Integrated: `src/features/admin/user-management/api/useAdminUsers.ts` |
-| `adminDeleteUserAccessToken` | `DELETE /api/v1/admin/users/{userId}/access-tokens/{accessTokenId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `adminDeleteUserAccessTokens` | `DELETE /api/v1/admin/users/{userId}/access-tokens` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminDeleteUserAccessToken` | `DELETE /api/v1/admin/users/{userId}/access-tokens/{accessTokenId}` | retained | Integrated: `src/features/admin/user-management/api/useAdminUserSecurity.ts` |
+| `adminDeleteUserAccessTokens` | `DELETE /api/v1/admin/users/{userId}/access-tokens` | retained | Integrated: `src/features/admin/user-management/api/useAdminUserSecurity.ts` |
 | `adminDissolvePartnership` | `DELETE /api/v1/admin/partnerships/{partnershipId}` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
 | `adminGetListingSource` | `GET /api/v1/admin/listing-sources/{listingSourceId}` | retained | Integrated: `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
-| `adminGetOAuthClient` | `GET /api/v1/admin/oauth-clients/{clientId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminGetOAuthClient` | `GET /api/v1/admin/oauth-clients/{clientId}` | retained | Integrated: `src/features/admin/oauth-client-management/api/useAdminOAuthClients.ts` |
 | `adminGetPartnership` | `GET /api/v1/admin/partnerships/{partnershipId}` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
 | `adminGetPartnershipApplication` | `GET /api/v1/admin/partnership-applications/{partnershipApplicationId}` | retained | Integrated: `src/features/admin/partner-application-management/api/useAdminPartnershipApplications.ts` |
 | `adminGetParty` | `GET /api/v1/admin/parties/{partyId}` | retained | Integrated: `src/features/admin/party-management/api/useAdminParties.ts` |
 | `adminGetUser` | `GET /api/v1/admin/users/{userId}` | retained | Integrated: `src/features/admin/user-management/api/useAdminUsers.ts` |
 | `adminGrantPartnershipListingSource` | `PUT /api/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
 | `adminGrantPartnershipMembership` | `PUT /api/v1/admin/partnerships/{partnershipId}/members/{userId}` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
-| `adminListOAuthClients` | `GET /api/v1/admin/oauth-clients` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `adminListUserAccessTokens` | `GET /api/v1/admin/users/{userId}/access-tokens` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminListOAuthClients` | `GET /api/v1/admin/oauth-clients` | retained | Integrated: `src/features/admin/oauth-client-management/api/useAdminOAuthClients.ts` |
+| `adminListUserAccessTokens` | `GET /api/v1/admin/users/{userId}/access-tokens` | retained | Integrated: `src/features/admin/user-management/api/useAdminUserSecurity.ts` |
 | `adminMarkPartnershipApplicationInReview` | `PATCH /api/v1/admin/partnership-applications/{partnershipApplicationId}` | retained | Integrated: `src/features/admin/partner-application-management/api/useAdminPartnershipApplications.ts` |
-| `adminPatchOAuthClient` | `PATCH /api/v1/admin/oauth-clients/{clientId}` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminPatchOAuthClient` | `PATCH /api/v1/admin/oauth-clients/{clientId}` | retained | Integrated: `src/features/admin/oauth-client-management/api/useAdminOAuthClients.ts` |
 | `adminPatchUser` | `PATCH /api/v1/admin/users/{userId}` | retained | Integrated: `src/features/admin/user-management/api/useAdminUsers.ts` |
 | `adminRevokePartnershipListingSource` | `DELETE /api/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
 | `adminRevokePartnershipMembership` | `DELETE /api/v1/admin/partnerships/{partnershipId}/members/{userId}` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
-| `adminRevokeUserSessions` | `POST /api/v1/admin/users/{userId}/sessions/revoke` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `adminSearchListingSources` | `GET /api/v1/admin/listing-sources` | retained | Integrated: `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
+| `adminRevokeUserSessions` | `POST /api/v1/admin/users/{userId}/sessions/revoke` | retained | Integrated: `src/features/admin/user-management/api/useAdminUserSecurity.ts` |
+| `adminSearchListingSources` | `GET /api/v1/admin/listing-sources` | retained | Integrated: `src/features/admin/listing-source-management/api/useAdminListingSources.ts`, `src/features/admin/auction-management/api/useAdminAuctions.ts` |
 | `adminSearchParties` | `GET /api/v1/admin/parties` | retained | Integrated: `src/features/admin/party-management/api/useAdminParties.ts` |
 | `adminSearchPartnershipApplications` | `GET /api/v1/admin/partnership-applications` | retained | Integrated: `src/features/admin/partner-application-management/api/useAdminPartnershipApplications.ts` |
 | `adminSearchPartnerships` | `GET /api/v1/admin/partnerships` | retained | Integrated: `src/features/admin/partnership-management/api/useAdminPartnerships.ts` |
 | `adminSearchUsers` | `GET /api/v1/admin/users` | changed | Integrated: `src/features/admin/user-management/api/useAdminUsers.ts`, `src/features/admin/user-management/lib/adminUserSearch.ts` |
-| `adminSuspendUser` | `PUT /api/v1/admin/users/{userId}/suspension` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `adminUnsuspendUser` | `DELETE /api/v1/admin/users/{userId}/suspension` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `adminSuspendUser` | `PUT /api/v1/admin/users/{userId}/suspension` | retained | Integrated: `src/features/admin/user-management/api/useAdminUserSecurity.ts` |
+| `adminUnsuspendUser` | `DELETE /api/v1/admin/users/{userId}/suspension` | retained | Integrated: `src/features/admin/user-management/api/useAdminUserSecurity.ts` |
 | `adminUpdateListingSource` | `PATCH /api/v1/admin/listing-sources/{listingSourceId}` | changed | Integrated: `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
 | `adminUpdateParty` | `PATCH /api/v1/admin/parties/{partyId}` | retained | Integrated: `src/features/admin/party-management/api/useAdminParties.ts` |
 | `confirmNewsletterSubscription` | `POST /api/v1/newsletter-subscriptions/confirm` | added | Integrated: `src/features/newsletter/hooks/useNewsletterConfirmation.ts` |
-| `createAdminAuction` | `POST /api/v1/admin/auctions` | added | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `createAdminAuction` | `POST /api/v1/admin/auctions` | added | Integrated: `src/features/admin/auction-management/api/useAdminAuctions.ts` |
 | `createUserSearchFilter` | `POST /api/v1/me/search-filters` | retained | Integrated: `src/features/saved-searches/api/useCreateUserSearchFilter.ts` |
 | `deleteAsyncPartnerProductListings` | `DELETE /api/v1/listing-sources/{listingSourceId}/product-listings/async` | added | External partner ingestion; synchronous guide/reference (MIG-13), async SDK capability outside that guide |
 | `deleteMyAccessToken` | `DELETE /api/v1/me/access-tokens/{accessTokenId}` | retained | Integrated: `src/features/partner/access-token-management/api/useAccessTokens.ts` |
@@ -58,25 +58,25 @@ Runtime references below exclude tests and generated files. A generated SDK capa
 | `deleteNotifications` | `DELETE /api/v1/me/notifications` | retained | Integrated: `src/features/notification-center/api/useDeleteAllNotifications.ts` |
 | `deleteOwnPartnershipApplication` | `DELETE /api/v1/me/partnership-applications/{partnershipApplicationId}` | retained | Integrated: `src/features/partner/application-management/api/usePartnerApplications.ts` |
 | `deletePartnerProductListings` | `DELETE /api/v1/listing-sources/{listingSourceId}/product-listings` | retained | External partner ingestion; synchronous guide/reference (MIG-13), async SDK capability outside that guide |
-| `deleteUser` | `DELETE /api/v1/me` | retained | Integrated: `src/features/admin/user-management/components/AdminUserDetailDialog.tsx`, `src/features/account-management/hooks/useDeleteUserAccount.ts` |
+| `deleteUser` | `DELETE /api/v1/me` | retained | Integrated: `src/features/account-management/hooks/useDeleteUserAccount.ts`, `src/features/admin/user-management/components/AdminUserDetailDialog.tsx` |
 | `deleteUserSearchFilter` | `DELETE /api/v1/me/search-filters/{userSearchFilterId}` | retained | Integrated: `src/features/saved-searches/api/useDeleteUserSearchFilter.ts` |
 | `deleteWatchlistProduct` | `DELETE /api/v1/me/watchlist/{productListingId}` | retained | Integrated: `src/features/watchlist/api/useWatchlistMutation.ts` |
-| `getAdminAuction` | `GET /api/v1/admin/auctions/{auctionId}` | added | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
-| `getAdminOverview` | `GET /api/v1/admin/overview` | retained | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `getAdminAuction` | `GET /api/v1/admin/auctions/{auctionId}` | added | Integrated: `src/features/admin/auction-management/api/useAdminAuctions.ts` |
+| `getAdminOverview` | `GET /api/v1/admin/overview` | retained | Integrated: `src/features/admin/overview/api/useAdminOverview.ts` |
 | `getAuction` | `GET /api/v1/auctions/{auctionId}` | added | Deferred standalone public auction pages — MIG-25; listing auction summaries retained |
 | `getAuctionCatalogue` | `GET /api/v1/auctions/{auctionId}/product-listings` | added | Deferred standalone public auction pages — MIG-25; listing auction summaries retained |
-| `getHealth` | `GET /api/v1/health` | added | Infrastructure probes; SDK only, no browser workflow |
+| `getHealth` | `GET /api/v1/health` | added | Integrated: `src/features/service-status/api/serviceStatusQuery.ts` |
 | `getMyAccessToken` | `GET /api/v1/me/access-tokens/{accessTokenId}` | retained | Own-token detail SDK; UI uses own-token collection (MIG-11) |
 | `getMyAccessTokens` | `GET /api/v1/me/access-tokens` | retained | Integrated: `src/features/partner/access-token-management/api/useAccessTokens.ts` |
 | `getMyListingSources` | `GET /api/v1/me/listing-sources` | retained | Integrated: `src/features/partner/common/api/useOwnListingSources.ts` |
 | `getMyPartnershipApplications` | `GET /api/v1/me/partnership-applications` | retained | Integrated: `src/features/partner/application-management/api/usePartnerApplications.ts` |
 | `getOAuthConsentClient` | `GET /api/v1/oauth/clients/{clientId}` | added | Integrated: `src/features/oauth/api/oauthConsentMetadata.ts`, `src/features/oauth/hooks/useOAuthClient.ts` |
 | `getOwnPartnershipApplication` | `GET /api/v1/me/partnership-applications/{partnershipApplicationId}` | retained | Integrated: `src/features/partner/application-management/api/usePartnerApplications.ts` |
-| `getProductListing` | `GET /api/v1/product-listings/{productListingId}` | changed | Integrated: `src/features/watchlist/api/watchlistCache.ts`, `src/features/authentication/lib/clearViewerScopedQueries.ts` |
-| `getProductListingByTitleSlug` | `GET /api/v1/product-listings/by-slug/{productListingTitleSlugId}` | changed | Integrated: `src/routes/$lng.products.$productListingTitleSlugId.tsx`, `src/features/watchlist/api/watchlistCache.ts`, `src/features/authentication/lib/clearViewerScopedQueries.ts` |
+| `getProductListing` | `GET /api/v1/product-listings/{productListingId}` | changed | Integrated: `src/features/authentication/lib/clearViewerScopedQueries.ts`, `src/features/watchlist/api/watchlistCache.ts` |
+| `getProductListingByTitleSlug` | `GET /api/v1/product-listings/by-slug/{productListingTitleSlugId}` | changed | Integrated: `src/routes/$lng.products.$productListingTitleSlugId.tsx`, `src/features/authentication/lib/clearViewerScopedQueries.ts`, `src/features/watchlist/api/watchlistCache.ts` |
 | `getProductListingHistory` | `GET /api/v1/product-listings/{productListingId}/history` | changed | Integrated: `src/features/product/detail/api/productListingHistoryQuery.ts` |
 | `getPublicListingSourceBySlug` | `GET /api/v1/listing-sources/by-slug/{listingSourceSlugId}` | added | Integrated: `src/routes/$lng.shops.$shopSlugId.index.tsx`, `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
-| `getReadiness` | `GET /api/v1/ready` | added | Infrastructure probes; SDK only, no browser workflow |
+| `getReadiness` | `GET /api/v1/ready` | added | Integrated: `src/features/service-status/api/serviceStatusQuery.ts` |
 | `getSimilarProductListings` | `GET /api/v1/product-listings/{productListingId}/similar` | changed | Integrated: `src/features/product/detail/api/useSimilarProducts.ts` |
 | `getUserAccount` | `GET /api/v1/me/account` | retained | Integrated: `src/features/account-management/hooks/useUserAccount.ts` |
 | `getUserSearchFilter` | `GET /api/v1/me/search-filters/{userSearchFilterId}` | retained | Integrated: `src/features/saved-searches/api/useUserSearchFilter.ts` |
@@ -93,7 +93,7 @@ Runtime references below exclude tests and generated files. A generated SDK capa
 | `patchAsyncPartnerProductListings` | `PATCH /api/v1/listing-sources/{listingSourceId}/product-listings/async` | added | External partner ingestion; synchronous guide/reference (MIG-13), async SDK capability outside that guide |
 | `patchMyAccessToken` | `PATCH /api/v1/me/access-tokens` | retained | Integrated: `src/features/partner/access-token-management/api/useAccessTokens.ts` |
 | `patchPartnerProductListings` | `PATCH /api/v1/listing-sources/{listingSourceId}/product-listings` | changed | External partner ingestion; synchronous guide/reference (MIG-13), async SDK capability outside that guide |
-| `patchWatchlistProduct` | `PATCH /api/v1/me/watchlist/{productListingId}` | retained | Integrated: `src/features/watchlist/api/useWatchlistNotificationMutation.ts`, `src/features/watchlist/api/useWatchlistStateMutation.ts` |
+| `patchWatchlistProduct` | `PATCH /api/v1/me/watchlist/{productListingId}` | retained | Integrated: `src/features/watchlist/api/useWatchlistStateMutation.ts`, `src/features/watchlist/api/useWatchlistNotificationMutation.ts` |
 | `postAsyncPartnerProductListings` | `POST /api/v1/listing-sources/{listingSourceId}/product-listings/async` | added | External partner ingestion; synchronous guide/reference (MIG-13), async SDK capability outside that guide |
 | `postBillingCheckout` | `POST /api/v1/me/billing/checkout` | retained | Preserved billing SDK contract; browser workflow uses postBillingManage |
 | `postBillingManage` | `POST /api/v1/me/billing/manage` | retained | Integrated: `src/features/billing/hooks/useStripeBilling.ts` |
@@ -107,9 +107,9 @@ Runtime references below exclude tests and generated files. A generated SDK capa
 | `putPartnerProductListings` | `PUT /api/v1/listing-sources/{listingSourceId}/product-listings` | changed | External partner ingestion; synchronous guide/reference (MIG-13), async SDK capability outside that guide |
 | `putShopifyListingSourceIngestionConfiguration` | `PUT /api/v1/listing-sources/{listingSourceId}/ingestion-configurations/shopify` | added | External provider setup; SDK and explicit listing-sources:write permission (MIG-11/12), no settings UI |
 | `putWoocommerceListingSourceIngestionConfiguration` | `PUT /api/v1/listing-sources/{listingSourceId}/ingestion-configurations/woocommerce` | added | External provider setup; SDK and explicit listing-sources:write permission (MIG-11/12), no settings UI |
-| `searchPublicListingSources` | `GET /api/v1/listing-sources` | added | Integrated: `src/features/search/shops/api/useShopSearch.ts`, `src/features/search/products/hooks/useMerchantSearch.tsx`, `src/features/partner/application-management/api/useApplicationListingSourceSearch.ts`, `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
-| `simpleSearchProductListings` | `GET /api/v1/product-listings` | changed | Integrated: `src/features/shop/profile/hooks/useShopProducts.ts`, `src/features/search/products/hooks/useSearch.ts`, `src/features/saved-searches/api/useSearchFilterPreviewProducts.ts`, `src/features/product/detail/api/useDealerProducts.ts`, `src/features/landing/components/recently-added-section/RecentlyAddedClientSection.tsx`, `src/features/authentication/lib/clearViewerScopedQueries.ts` |
-| `updateAdminAuction` | `PATCH /api/v1/admin/auctions/{auctionId}` | added | Deferred admin dashboard — MIG-16–23 / MIG-25; generated only |
+| `searchPublicListingSources` | `GET /api/v1/listing-sources` | added | Integrated: `src/features/partner/application-management/api/useApplicationListingSourceSearch.ts`, `src/features/search/shops/api/useShopSearch.ts`, `src/features/search/products/hooks/useMerchantSearch.tsx`, `src/features/admin/listing-source-management/api/useAdminListingSources.ts` |
+| `simpleSearchProductListings` | `GET /api/v1/product-listings` | changed | Integrated: `src/features/landing/components/recently-added-section/RecentlyAddedClientSection.tsx`, `src/features/product/detail/api/useDealerProducts.ts`, `src/features/saved-searches/api/useSearchFilterPreviewProducts.ts`, `src/features/search/products/hooks/useSearch.ts`, `src/features/authentication/lib/clearViewerScopedQueries.ts`, `src/features/shop/profile/hooks/useShopProducts.ts` |
+| `updateAdminAuction` | `PATCH /api/v1/admin/auctions/{auctionId}` | added | Integrated: `src/features/admin/auction-management/api/useAdminAuctions.ts` |
 | `updateAllNotificationsSeen` | `PATCH /api/v1/me/notifications/all` | retained | Integrated: `src/features/notification-center/api/useMarkAllNotificationsSeen.ts` |
 | `updateNotificationSeen` | `PATCH /api/v1/me/notifications/{notificationId}` | retained | Integrated: `src/features/notification-center/api/useMarkNotificationSeen.ts` |
 | `updateNotificationsSeen` | `PATCH /api/v1/me/notifications` | retained | Integrated: `src/features/notification-center/api/useMarkNotificationsSeen.ts` |
