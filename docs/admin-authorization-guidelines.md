@@ -14,7 +14,12 @@ Restored workflows: OAuth client management (MIG-22), partnership application re
 Party management (MIG-17), listing-source management (MIG-18), partnership membership
 and source-grant management (MIG-19, see
 [admin partnership management](api-migration/admin-partnership-management.md)), user
-management (MIG-20), and auction management (MIG-25). Auction create and update use
+management (MIG-20), auction management (MIG-25), and the admin overview (MIG-23). The
+overview reads only the `getAdminOverview` aggregate with a `no-store` request under the
+private `["admin", "overview"]` query key; it never derives totals from paginated
+collections, shows loading and error states instead of zero for unavailable counts, and
+labels ingestion method assignments as overlapping rather than summing them into a source
+total. Admin mutations that change any aggregate invalidate that key. Auction create and update use
 `Cache-Control: no-store`; listing-source association and source auction identity are
 immutable on update, and an `expectedVersion` conflict refetches the authoritative
 record. Party contacts are available only through the authenticated admin Party

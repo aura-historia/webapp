@@ -1653,6 +1653,98 @@
       "description": "Non hai il permesso di visualizzare il pannello di amministrazione. Accedi con un account amministratore."
     }
   },
+  "adminOverview": {
+    "title": "Panoramica amministrazione",
+    "description": "Dati attuali della piattaforma provenienti dal database di riferimento. I valori si riferiscono al momento del caricamento della pagina.",
+    "loading": "Caricamento della panoramica amministrazione.",
+    "totalLabel": "in totale",
+    "actions": {
+      "retry": "Riprova"
+    },
+    "errors": {
+      "forbidden": "Non hai l’autorizzazione per visualizzare la panoramica amministrazione.",
+      "unavailable": "La panoramica amministrazione è temporaneamente non disponibile. Riprova tra poco.",
+      "requestFailed": "Impossibile caricare la panoramica amministrazione.",
+      "stale": "Non è stato possibile aggiornare i dati più recenti. I valori mostrati potrebbero non essere aggiornati."
+    },
+    "users": {
+      "title": "Utenti",
+      "link": "Gestisci utenti",
+      "byTier": "Per piano",
+      "byRole": "Per ruolo",
+      "tiers": {
+        "free": "Free",
+        "pro": "Pro",
+        "ultimate": "Ultimate"
+      },
+      "roles": {
+        "user": "Utente",
+        "admin": "Amministratore"
+      }
+    },
+    "applications": {
+      "title": "Richieste di partnership",
+      "link": "Esamina richieste",
+      "byState": "Per stato",
+      "states": {
+        "submitted": "Inviata",
+        "inReview": "In revisione",
+        "approved": "Approvata",
+        "rejected": "Rifiutata",
+        "withdrawn": "Ritirata"
+      }
+    },
+    "listingSources": {
+      "title": "Fonti di annunci",
+      "link": "Gestisci fonti di annunci",
+      "withoutIngestionMethod": "Senza metodo di importazione",
+      "methodAssignments": "Metodi di importazione assegnati",
+      "methodAssignmentsNote": "Una fonte può usare più metodi, quindi le assegnazioni possono superare il numero di fonti.",
+      "methods": {
+        "webCrawl": "Scansione web",
+        "shopify": "Shopify",
+        "woocommerce": "WooCommerce",
+        "partnerApi": "API partner"
+      }
+    },
+    "parties": {
+      "title": "Parti",
+      "link": "Gestisci parti"
+    },
+    "partnerships": {
+      "title": "Partnership",
+      "link": "Gestisci partnership"
+    },
+    "productListings": {
+      "title": "Annunci di prodotti",
+      "byLifecycle": "Per ciclo di vita",
+      "lifecycle": {
+        "active": "Attivi",
+        "withdrawn": "Ritirati"
+      },
+      "activeAvailability": "Disponibilità degli annunci attivi",
+      "activeAvailabilityNote": "Sono inclusi solo gli annunci attivi.",
+      "activeWithoutAvailability": "Nessuna disponibilità indicata",
+      "availability": {
+        "available": "Disponibile",
+        "inStock": "Disponibile in magazzino",
+        "limitedAvailability": "Disponibilità limitata",
+        "backOrder": "Disponibile su ordinazione differita",
+        "madeToOrder": "Realizzato su ordinazione",
+        "preOrder": "Preordine",
+        "preSale": "Prevendita",
+        "unavailable": "Non disponibile",
+        "reserved": "Riservato",
+        "outOfStock": "Non disponibile in magazzino",
+        "soldOut": "Esaurito"
+      }
+    },
+    "otherSections": {
+      "title": "Altre sezioni di amministrazione",
+      "auctions": "Aste",
+      "oauthClients": "Client OAuth"
+    }
+  },
   "searchFilter": {
     "saveButton": "Salva filtro di ricerca",
     "saveSuccess": "Filtro di ricerca salvato con successo!",

@@ -24,6 +24,7 @@ import {
     mapToAdminPartySearchQuery,
     mapToParty,
 } from "@/data/internal/party/Party.ts";
+import { ADMIN_OVERVIEW_QUERY_KEY } from "@/features/admin/overview/api/useAdminOverview.ts";
 
 export const ADMIN_PARTIES_QUERY_KEY = ["admin", "parties"] as const;
 export const adminPartyListQueryKey = (filters: AdminPartyFilters) =>
@@ -135,6 +136,7 @@ export function useCreateAdminParty() {
         },
         onSuccess: () => {
             invalidatePartyLists(queryClient);
+            void queryClient.invalidateQueries({ queryKey: ADMIN_OVERVIEW_QUERY_KEY });
         },
         onError: (error) => {
             if (error instanceof AdminPartyRequestError && error.status === 409)
@@ -187,6 +189,7 @@ export function useDeleteAdminParty() {
         onSuccess: (partyId) => {
             queryClient.removeQueries({ queryKey: adminPartyDetailQueryKey(partyId) });
             invalidatePartyLists(queryClient);
+            void queryClient.invalidateQueries({ queryKey: ADMIN_OVERVIEW_QUERY_KEY });
         },
         onError: (error, partyId) => {
             if (error instanceof AdminPartyRequestError && error.status === 409) {

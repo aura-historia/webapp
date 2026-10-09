@@ -2157,6 +2157,98 @@
       "description": "Sie haben keine Berechtigung, das Admin-Dashboard anzuzeigen. Bitte melden Sie sich mit einem Administratorkonto an."
     }
   },
+  "adminOverview": {
+    "title": "Admin-Übersicht",
+    "description": "Aktuelle Plattformzahlen aus der maßgeblichen Datenbank. Die Werte sind eine Momentaufnahme zum Zeitpunkt des Seitenaufrufs.",
+    "loading": "Admin-Übersicht wird geladen.",
+    "totalLabel": "insgesamt",
+    "actions": {
+      "retry": "Erneut versuchen"
+    },
+    "errors": {
+      "forbidden": "Sie sind nicht berechtigt, die Admin-Übersicht anzuzeigen.",
+      "unavailable": "Die Admin-Übersicht ist vorübergehend nicht verfügbar. Bitte versuchen Sie es in Kürze erneut.",
+      "requestFailed": "Die Admin-Übersicht konnte nicht geladen werden.",
+      "stale": "Die aktuellen Zahlen konnten nicht aktualisiert werden. Die angezeigten Werte sind möglicherweise veraltet."
+    },
+    "users": {
+      "title": "Benutzer",
+      "link": "Benutzer verwalten",
+      "byTier": "Nach Tarif",
+      "byRole": "Nach Rolle",
+      "tiers": {
+        "free": "Free",
+        "pro": "Pro",
+        "ultimate": "Ultimate"
+      },
+      "roles": {
+        "user": "Benutzer",
+        "admin": "Administrator"
+      }
+    },
+    "applications": {
+      "title": "Partnerschaftsanträge",
+      "link": "Anträge prüfen",
+      "byState": "Nach Status",
+      "states": {
+        "submitted": "Eingereicht",
+        "inReview": "In Prüfung",
+        "approved": "Angenommen",
+        "rejected": "Abgelehnt",
+        "withdrawn": "Zurückgezogen"
+      }
+    },
+    "listingSources": {
+      "title": "Listing-Quellen",
+      "link": "Listing-Quellen verwalten",
+      "withoutIngestionMethod": "Ohne Erfassungsmethode",
+      "methodAssignments": "Zuordnungen von Erfassungsmethoden",
+      "methodAssignmentsNote": "Eine Quelle kann mehrere Methoden nutzen; die Zuordnungen können daher die Anzahl der Quellen übersteigen.",
+      "methods": {
+        "webCrawl": "Web-Crawl",
+        "shopify": "Shopify",
+        "woocommerce": "WooCommerce",
+        "partnerApi": "Partner-API"
+      }
+    },
+    "parties": {
+      "title": "Parteien",
+      "link": "Parteien verwalten"
+    },
+    "partnerships": {
+      "title": "Partnerschaften",
+      "link": "Partnerschaften verwalten"
+    },
+    "productListings": {
+      "title": "Produkteinträge",
+      "byLifecycle": "Nach Lebenszyklus",
+      "lifecycle": {
+        "active": "Aktiv",
+        "withdrawn": "Zurückgezogen"
+      },
+      "activeAvailability": "Verfügbarkeit aktiver Einträge",
+      "activeAvailabilityNote": "Berücksichtigt nur aktive Einträge.",
+      "activeWithoutAvailability": "Keine Verfügbarkeit angegeben",
+      "availability": {
+        "available": "Verfügbar",
+        "inStock": "Auf Lager",
+        "limitedAvailability": "Begrenzt verfügbar",
+        "backOrder": "Nachbestellung möglich",
+        "madeToOrder": "Auf Bestellung gefertigt",
+        "preOrder": "Vorbestellung",
+        "preSale": "Vorverkauf",
+        "unavailable": "Nicht verfügbar",
+        "reserved": "Reserviert",
+        "outOfStock": "Nicht auf Lager",
+        "soldOut": "Ausverkauft"
+      }
+    },
+    "otherSections": {
+      "title": "Weitere Admin-Bereiche",
+      "auctions": "Auktionen",
+      "oauthClients": "OAuth-Clients"
+    }
+  },
   "oauth": {
     "authorize": {
       "title": "Anwendung autorisieren",
