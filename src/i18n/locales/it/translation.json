@@ -2496,6 +2496,62 @@
       "invalid": "Controlla i campi dell’account e riprova.",
       "requestFailed": "Impossibile completare la richiesta dell’account. Riprova."
     },
+    "security": {
+      "title": "Sicurezza dell’account",
+      "suspension": {
+        "title": "Sospensione dell’account",
+        "description": "La sospensione impedisce l’autenticazione di questo account. Non revoca i token di accesso Aura né scioglie le partnership. I dettagli dell’account non includono lo stato di sospensione.",
+        "stateUnknown": "Lo stato attuale non è disponibile nei dettagli dell’account. Qui viene mostrato solo dopo la conferma di un’azione.",
+        "confirmedSuspended": "L’ultima risposta dell’azione conferma che l’account è sospeso.",
+        "confirmedActive": "L’ultima risposta dell’azione conferma che l’account è attivo.",
+        "reason": "Motivo della sospensione",
+        "reasonHelp": "Il backend registra questo motivo nei log operativi. Non includere password, token, credenziali o altri segreti. Massimo 1.000 byte UTF-8.",
+        "reasonRequired": "Inserisci un motivo per la sospensione.",
+        "reasonTooLong": "Il motivo deve contenere al massimo 1.000 byte UTF-8.",
+        "unsuspendDescription": "La riattivazione ripristina l’autenticazione con credenziali valide. Non crea nuove credenziali.",
+        "selfSuspended": "La sessione verrà chiusa. Un amministratore dovrà riattivare l’account prima che tu possa accedere di nuovo.",
+        "suspended": "La risposta ha confermato la sospensione dell’account.",
+        "unsuspended": "La risposta ha confermato che l’account è di nuovo attivo."
+      },
+      "sessions": {
+        "title": "Sessioni Cognito",
+        "description": "Revoca le sessioni Cognito di questo utente e lo disconnette da tutti i dispositivi. Non revoca i token di accesso Aura né scioglie le partnership.",
+        "confirm": "Revocare tutte le sessioni Cognito di questo utente? Dovrà accedere di nuovo.",
+        "selfRevoked": "Le tue sessioni sono state revocate. Accedi di nuovo per continuare.",
+        "revoked": "Le sessioni Cognito sono state revocate. I token di accesso Aura e le partnership non sono stati modificati."
+      },
+      "tokens": {
+        "title": "Token di accesso Aura Historia",
+        "description": "Esamina e revoca i token di accesso Aura Historia di questo utente. Queste azioni non revocano le sessioni Cognito né sciolgono le partnership.",
+        "loading": "Caricamento metadati dei token di accesso…",
+        "loadingMore": "Caricamento…",
+        "loadMore": "Carica altri token",
+        "empty": "Non sono disponibili metadati dei token di accesso per questo utente.",
+        "origin": "Origine: {{origin}}",
+        "expires": "Scadenza: {{expires}}",
+        "confirmAll": "Revocare tutti i token di accesso Aura Historia di questo utente?",
+        "confirmSingle": "Revocare «{{name}}» per questo utente?",
+        "revoked": "Il token Aura Historia selezionato non è più presente per questo utente.",
+        "allRevoked": "Tutti i token di accesso Aura Historia sono revocati oppure non erano presenti."
+      },
+      "actions": {
+        "suspend": "Sospendi account",
+        "suspending": "Sospensione…",
+        "unsuspend": "Riattiva account",
+        "unsuspending": "Riattivazione…",
+        "revokeSessions": "Revoca sessioni Cognito",
+        "confirmSessionRevocation": "Revoca sessioni",
+        "confirmTokenRevocation": "Revoca token",
+        "confirmAllTokenRevocation": "Revoca tutti i token",
+        "revokeToken": "Revoca",
+        "revokeAllTokens": "Revoca tutti i token Aura",
+        "revoking": "Revoca in corso…"
+      },
+      "errors": {
+        "conflict": "Lo stato di sicurezza è cambiato prima del completamento dell’azione. Ricarica l’account e riprova.",
+        "invalid": "Controlla l’azione di sicurezza e riprova."
+      }
+    },
     "validation": {
       "invalidEmail": "Inserisci un indirizzo e-mail valido.",
       "nameTooLong": "I nomi devono contenere al massimo 64 caratteri.",

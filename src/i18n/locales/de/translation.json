@@ -2496,6 +2496,62 @@
       "invalid": "Prüfen Sie die Kontofelder und versuchen Sie es erneut.",
       "requestFailed": "Die Benutzerkontoanfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
     },
+    "security": {
+      "title": "Kontosicherheit",
+      "suspension": {
+        "title": "Kontosperrung",
+        "description": "Eine Sperrung verhindert die Authentifizierung dieses Kontos. Aura-Zugriffstoken werden nicht widerrufen und Partnerschaften nicht aufgelöst. Die Kontodetails enthalten keinen Sperrstatus.",
+        "stateUnknown": "Der aktuelle Status ist in den Kontodetails nicht verfügbar. Hier wird ein Status nur nach einer bestätigten Sperraktion angezeigt.",
+        "confirmedSuspended": "Die letzte Aktionsantwort bestätigt, dass dieses Konto gesperrt ist.",
+        "confirmedActive": "Die letzte Aktionsantwort bestätigt, dass dieses Konto aktiv ist.",
+        "reason": "Grund der Sperrung",
+        "reasonHelp": "Das Backend schreibt diesen Grund in Betriebsprotokolle. Geben Sie keine Passwörter, Token, Zugangsdaten oder sonstigen Geheimnisse an. Höchstens 1.000 UTF-8-Bytes.",
+        "reasonRequired": "Geben Sie einen Grund für die Sperrung an.",
+        "reasonTooLong": "Der Grund darf höchstens 1.000 UTF-8-Bytes umfassen.",
+        "unsuspendDescription": "Die Reaktivierung ermöglicht die Anmeldung mit gültigen Zugangsdaten. Sie stellt keine neuen Zugangsdaten aus.",
+        "selfSuspended": "Ihre Sitzung wird beendet. Ein Administrator muss Ihr Konto reaktivieren, bevor Sie sich wieder anmelden können.",
+        "suspended": "Die Antwort bestätigt, dass das Konto gesperrt ist.",
+        "unsuspended": "Die Antwort bestätigt, dass das Konto wieder aktiv ist."
+      },
+      "sessions": {
+        "title": "Cognito-Sitzungen",
+        "description": "Widerruft die Cognito-Sitzungen dieses Benutzers und meldet ihn auf allen Geräten ab. Aura-Zugriffstoken werden nicht widerrufen und Partnerschaften nicht aufgelöst.",
+        "confirm": "Alle Cognito-Sitzungen dieses Benutzers widerrufen? Er muss sich erneut anmelden.",
+        "selfRevoked": "Ihre Sitzungen wurden widerrufen. Melden Sie sich erneut an, um fortzufahren.",
+        "revoked": "Cognito-Sitzungen wurden widerrufen. Aura-Zugriffstoken und Partnerschaften blieben unverändert."
+      },
+      "tokens": {
+        "title": "Aura-Historia-Zugriffstoken",
+        "description": "Prüfen und widerrufen Sie die Aura-Historia-Zugriffstoken dieses Benutzers. Dadurch werden weder Cognito-Sitzungen widerrufen noch Partnerschaften aufgelöst.",
+        "loading": "Zugriffstoken-Metadaten werden geladen…",
+        "loadingMore": "Wird geladen…",
+        "loadMore": "Weitere Token laden",
+        "empty": "Für diesen Benutzer sind keine Zugriffstoken-Metadaten vorhanden.",
+        "origin": "Herkunft: {{origin}}",
+        "expires": "Läuft ab: {{expires}}",
+        "confirmAll": "Alle Aura-Historia-Zugriffstoken dieses Benutzers widerrufen?",
+        "confirmSingle": "„{{name}}“ für diesen Benutzer widerrufen?",
+        "revoked": "Das ausgewählte Aura-Historia-Token ist für diesen Benutzer nicht mehr vorhanden.",
+        "allRevoked": "Alle Aura-Historia-Zugriffstoken sind widerrufen oder waren nicht vorhanden."
+      },
+      "actions": {
+        "suspend": "Konto sperren",
+        "suspending": "Wird gesperrt…",
+        "unsuspend": "Konto reaktivieren",
+        "unsuspending": "Wird reaktiviert…",
+        "revokeSessions": "Cognito-Sitzungen widerrufen",
+        "confirmSessionRevocation": "Sitzungen widerrufen",
+        "confirmTokenRevocation": "Token widerrufen",
+        "confirmAllTokenRevocation": "Alle Token widerrufen",
+        "revokeToken": "Widerrufen",
+        "revokeAllTokens": "Alle Aura-Token widerrufen",
+        "revoking": "Wird widerrufen…"
+      },
+      "errors": {
+        "conflict": "Der Sicherheitsstatus hat sich vor Abschluss der Aktion geändert. Laden Sie das Konto neu und versuchen Sie es erneut.",
+        "invalid": "Prüfen Sie die Sicherheitsaktion und versuchen Sie es erneut."
+      }
+    },
     "validation": {
       "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
       "nameTooLong": "Namen dürfen höchstens 64 Zeichen lang sein.",

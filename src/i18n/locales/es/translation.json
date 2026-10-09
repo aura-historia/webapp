@@ -2496,6 +2496,62 @@
       "invalid": "Revise los campos de la cuenta e inténtelo de nuevo.",
       "requestFailed": "No se pudo completar la solicitud de la cuenta. Inténtelo de nuevo."
     },
+    "security": {
+      "title": "Seguridad de la cuenta",
+      "suspension": {
+        "title": "Suspensión de la cuenta",
+        "description": "La suspensión impide que esta cuenta se autentique. No revoca los tokens de acceso de Aura ni disuelve las asociaciones. Los detalles de la cuenta no incluyen el estado de suspensión.",
+        "stateUnknown": "Los detalles de la cuenta no muestran el estado actual. Aquí solo aparece un estado después de que una acción lo confirme.",
+        "confirmedSuspended": "La respuesta de la última acción confirma que esta cuenta está suspendida.",
+        "confirmedActive": "La respuesta de la última acción confirma que esta cuenta está activa.",
+        "reason": "Motivo de la suspensión",
+        "reasonHelp": "El backend registra este motivo en los registros operativos. No incluya contraseñas, tokens, credenciales ni otros secretos. Máximo: 1.000 bytes UTF-8.",
+        "reasonRequired": "Indique un motivo para la suspensión.",
+        "reasonTooLong": "El motivo no puede superar los 1.000 bytes UTF-8.",
+        "unsuspendDescription": "La reactivación permite autenticar credenciales válidas. No emite credenciales nuevas.",
+        "selfSuspended": "Su sesión se cerrará. Un administrador debe reactivar su cuenta antes de que pueda volver a iniciar sesión.",
+        "suspended": "La respuesta confirmó que la cuenta está suspendida.",
+        "unsuspended": "La respuesta confirmó que la cuenta vuelve a estar activa."
+      },
+      "sessions": {
+        "title": "Sesiones de Cognito",
+        "description": "Revoca las sesiones de Cognito de este usuario y cierra su sesión en todos los dispositivos. No revoca los tokens de acceso de Aura ni disuelve las asociaciones.",
+        "confirm": "¿Revocar todas las sesiones de Cognito de este usuario? Tendrá que iniciar sesión de nuevo.",
+        "selfRevoked": "Se revocaron sus sesiones. Inicie sesión de nuevo para continuar.",
+        "revoked": "Se revocaron las sesiones de Cognito. Los tokens de acceso de Aura y las asociaciones no cambiaron."
+      },
+      "tokens": {
+        "title": "Tokens de acceso de Aura Historia",
+        "description": "Consulte y revoque los tokens de acceso de Aura Historia de este usuario. Estas acciones no revocan sesiones de Cognito ni disuelven asociaciones.",
+        "loading": "Cargando metadatos de tokens de acceso…",
+        "loadingMore": "Cargando…",
+        "loadMore": "Cargar más tokens",
+        "empty": "No hay metadatos de tokens de acceso para este usuario.",
+        "origin": "Origen: {{origin}}",
+        "expires": "Caduca: {{expires}}",
+        "confirmAll": "¿Revocar todos los tokens de acceso de Aura Historia de este usuario?",
+        "confirmSingle": "¿Revocar «{{name}}» para este usuario?",
+        "revoked": "El token de Aura Historia seleccionado ya no está disponible para este usuario.",
+        "allRevoked": "Se revocaron todos los tokens de acceso de Aura Historia o no había ninguno."
+      },
+      "actions": {
+        "suspend": "Suspender cuenta",
+        "suspending": "Suspendiendo…",
+        "unsuspend": "Reactivar cuenta",
+        "unsuspending": "Reactivando…",
+        "revokeSessions": "Revocar sesiones de Cognito",
+        "confirmSessionRevocation": "Revocar sesiones",
+        "confirmTokenRevocation": "Revocar token",
+        "confirmAllTokenRevocation": "Revocar todos los tokens",
+        "revokeToken": "Revocar",
+        "revokeAllTokens": "Revocar todos los tokens de Aura",
+        "revoking": "Revocando…"
+      },
+      "errors": {
+        "conflict": "El estado de seguridad cambió antes de completar la acción. Vuelva a cargar la cuenta e inténtelo de nuevo.",
+        "invalid": "Revise la acción de seguridad e inténtelo de nuevo."
+      }
+    },
     "validation": {
       "invalidEmail": "Introduzca una dirección de correo electrónico válida.",
       "nameTooLong": "Los nombres deben tener 64 caracteres o menos.",

@@ -60,7 +60,7 @@ export function AdminUserDetailDialog({
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogContent
-                className="max-h-[90vh] max-w-3xl overflow-y-auto"
+                className="max-h-[90vh] overflow-y-auto sm:max-w-3xl"
                 closeLabel={t("adminUsers.detail.close")}
             >
                 <DialogHeader>
@@ -127,9 +127,9 @@ function AdminUserDetails({
 }) {
     const { t } = useTranslation();
     return (
-        <div className="grid gap-6">
+        <div className="grid min-w-0 gap-6">
             <section className="grid gap-2 border-b pb-4">
-                <h3 className="font-semibold">{account.email}</h3>
+                <h3 className="font-semibold break-all">{account.email}</h3>
                 <p className="text-xs text-muted-foreground">
                     {t("adminUsers.fields.userId")}:{" "}
                     <code className="break-all">{account.userId}</code>

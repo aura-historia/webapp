@@ -2496,6 +2496,62 @@
       "invalid": "Vérifiez les champs du compte puis réessayez.",
       "requestFailed": "La demande concernant le compte n’a pas abouti. Veuillez réessayer."
     },
+    "security": {
+      "title": "Sécurité du compte",
+      "suspension": {
+        "title": "Suspension du compte",
+        "description": "La suspension empêche ce compte de s’authentifier. Elle ne révoque pas les jetons d’accès Aura et ne dissout pas les partenariats. Les détails du compte n’indiquent pas l’état de suspension.",
+        "stateUnknown": "L’état actuel n’est pas disponible dans les détails du compte. Un état ne s’affiche ici qu’après confirmation d’une action.",
+        "confirmedSuspended": "La dernière réponse de l’action confirme que ce compte est suspendu.",
+        "confirmedActive": "La dernière réponse de l’action confirme que ce compte est actif.",
+        "reason": "Motif de la suspension",
+        "reasonHelp": "Le backend inscrit ce motif dans les journaux opérationnels. N’incluez aucun mot de passe, jeton, identifiant secret ou autre secret. 1 000 octets UTF-8 maximum.",
+        "reasonRequired": "Saisissez un motif de suspension.",
+        "reasonTooLong": "Le motif ne peut pas dépasser 1 000 octets UTF-8.",
+        "unsuspendDescription": "La réactivation rétablit l’authentification des identifiants valides. Elle ne crée pas de nouveaux identifiants.",
+        "selfSuspended": "Votre session va prendre fin. Un administrateur devra réactiver votre compte avant une nouvelle connexion.",
+        "suspended": "La réponse confirme que le compte est suspendu.",
+        "unsuspended": "La réponse confirme que le compte est de nouveau actif."
+      },
+      "sessions": {
+        "title": "Sessions Cognito",
+        "description": "Révoque les sessions Cognito de cet utilisateur et le déconnecte sur tous ses appareils. Les jetons d’accès Aura ne sont pas révoqués et les partenariats ne sont pas dissous.",
+        "confirm": "Révoquer toutes les sessions Cognito de cet utilisateur ? Il devra se reconnecter.",
+        "selfRevoked": "Vos sessions ont été révoquées. Reconnectez-vous pour continuer.",
+        "revoked": "Les sessions Cognito ont été révoquées. Les jetons d’accès Aura et les partenariats n’ont pas changé."
+      },
+      "tokens": {
+        "title": "Jetons d’accès Aura Historia",
+        "description": "Consultez et révoquez les jetons d’accès Aura Historia de cet utilisateur. Ces actions ne révoquent pas les sessions Cognito et ne dissolvent pas les partenariats.",
+        "loading": "Chargement des métadonnées des jetons d’accès…",
+        "loadingMore": "Chargement…",
+        "loadMore": "Charger plus de jetons",
+        "empty": "Aucune métadonnée de jeton d’accès n’est disponible pour cet utilisateur.",
+        "origin": "Origine : {{origin}}",
+        "expires": "Expire le : {{expires}}",
+        "confirmAll": "Révoquer tous les jetons d’accès Aura Historia de cet utilisateur ?",
+        "confirmSingle": "Révoquer « {{name}} » pour cet utilisateur ?",
+        "revoked": "Le jeton Aura Historia sélectionné n’est plus présent pour cet utilisateur.",
+        "allRevoked": "Tous les jetons d’accès Aura Historia sont révoqués, ou aucun n’était présent."
+      },
+      "actions": {
+        "suspend": "Suspendre le compte",
+        "suspending": "Suspension…",
+        "unsuspend": "Réactiver le compte",
+        "unsuspending": "Réactivation…",
+        "revokeSessions": "Révoquer les sessions Cognito",
+        "confirmSessionRevocation": "Révoquer les sessions",
+        "confirmTokenRevocation": "Révoquer le jeton",
+        "confirmAllTokenRevocation": "Révoquer tous les jetons",
+        "revokeToken": "Révoquer",
+        "revokeAllTokens": "Révoquer tous les jetons Aura",
+        "revoking": "Révocation…"
+      },
+      "errors": {
+        "conflict": "L’état de sécurité a changé avant la fin de l’action. Rechargez le compte puis réessayez.",
+        "invalid": "Vérifiez l’action de sécurité puis réessayez."
+      }
+    },
     "validation": {
       "invalidEmail": "Saisissez une adresse e-mail valide.",
       "nameTooLong": "Les noms ne peuvent pas dépasser 64 caractères.",
