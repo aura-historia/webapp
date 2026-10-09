@@ -45,13 +45,21 @@ issue's earlier seven-operation follow-up count.
   MIG-24. Individual guarded, authenticated, noindex workflows have been restored
   incrementally: partnership application review (MIG-16), Party management
   (MIG-17), listing-source management (MIG-18), partnership membership and
-  source-grant management (MIG-19), and user management (MIG-20). Each workflow
+  source-grant management (MIG-19), user management (MIG-20), and auction management
+  (MIG-25). Each workflow
   uses mapped DTOs and backend authorization; generated admin SDK operations that
   do not belong to these workflows remain API capabilities rather than implemented UI.
-- Standalone public auction browsing/detail/catalogue pages are explicitly deferred
-  by the user to MIG-25. Listing-level auction summaries and typed history remain
+- Standalone public auction browsing/detail/catalogue pages remain deferred to
+  aura-historia/webapp#1060. Listing-level auction summaries and typed history remain
   in the migrated product experience. The three public auction SDK operations are
-  generated, with this UI gap recorded in the inventory.
+  generated, with this UI gap recorded in the inventory. Ordering the public directory
+  by schedule depends on aura-historia/backend#1991.
+- Admin auction create/read/update (MIG-25) use the three admin auction operations,
+  authorized source selection, immutable source identity, no-store requests and
+  authoritative refetch on stale `expectedVersion` conflicts. Without an admin search
+  operation, existing auctions are opened by ID; admin search is requested in
+  aura-historia/backend#1991. Partner auction membership and lot-write semantics remain
+  coordinated with MIG-13.
 - Partner ingestion configuration and async batches are external API capabilities,
   outside the synchronous product integration guide. They are generated; optional
   `listing-sources:write` is selectable and described in token/OAuth consent without
@@ -76,6 +84,9 @@ Identity changes remove listing, account, watchlist, match, notification, own-so
 application and access-token caches; destroying queries aborts pending private reads
 so late responses cannot repopulate them. Amplify auth events clear these caches
 before refetching. Public source data and immutable history keep their safe boundaries.
+
+Admin auction reads and writes use private, no-store requests; admin routes remain guarded
+and noindex.
 
 OAuth PKCE/state/redirect behavior, billing via `postBillingManage`, and newsletter
 subscription retain their established contracts. Token scope defaults remain empty;

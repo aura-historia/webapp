@@ -2667,5 +2667,99 @@
       "redirectInvalid": "Chaque URI de redirection doit être une URL HTTPS valide sans fragment.",
       "redirectDuplicate": "Les URI de redirection doivent être uniques."
     }
+  },
+  "adminAuctions": {
+    "title": "Gestion des ventes",
+    "description": "Créez des fiches de vente et actualisez les informations communiquées. La source et l’identité de la vente chez la source ne peuvent plus être modifiées après création.",
+    "create": {
+      "title": "Créer une vente",
+      "description": "Associez la vente à une source autorisée et indiquez son identifiant chez cette source.",
+      "blankFieldsHelp": "Laissez les champs facultatifs vides si la source n’a pas communiqué ces informations."
+    },
+    "open": {
+      "title": "Ouvrir une fiche de vente",
+      "description": "Ouvrez une fiche si vous connaissez l’ID de la vente."
+    },
+    "sourceSearch": {
+      "prompt": "Recherchez par nom ou slug de la source ou de son opérateur, ou collez un ID de source.",
+      "loading": "Recherche des sources…",
+      "noResults": "Aucune source ne correspond à cette recherche.",
+      "operatedBy": "Exploitée par {{name}}",
+      "results": "Sources correspondantes"
+    },
+    "fields": {
+      "listingSource": "Source",
+      "searchListingSources": "Rechercher des sources",
+      "listingSourceId": "ID de la source",
+      "sourceAuctionId": "ID de vente chez la source",
+      "sourceAuctionIdHelp": "Utilisez l’identifiant donné à cette vente par la source sélectionnée.",
+      "auctionId": "ID de la vente",
+      "name": "Nom de la vente",
+      "nameLanguage": "Langue du nom",
+      "catalogueUrl": "URL du catalogue",
+      "format": "Format",
+      "reportedStatus": "Statut communiqué",
+      "reportedLotCount": "Nombre de lots communiqué",
+      "schedule": "Calendrier",
+      "scheduleHelp": "Saisissez toutes les dates et heures en UTC.",
+      "notSet": "Non renseigné",
+      "created": "Créée",
+      "updated": "Mise à jour"
+    },
+    "detail": {
+      "title": "Fiche de vente",
+      "description": "Modifiez les informations communiquées sur la vente. L’identité de la vente et de sa source est immuable.",
+      "blankFieldsHelp": "Les valeurs vides effacent les informations correspondantes, y compris chaque horaire."
+    },
+    "actions": {
+      "create": "Créer la vente",
+      "creating": "Création…",
+      "open": "Ouvrir la fiche",
+      "loadMore": "Afficher plus de sources",
+      "loadingMore": "Chargement…",
+      "retry": "Réessayer",
+      "cancel": "Annuler",
+      "save": "Enregistrer les modifications",
+      "saving": "Enregistrement…",
+      "loadLatest": "Charger la fiche à jour",
+      "backToOverview": "Retour à la gestion des ventes",
+      "clearSource": "Effacer la sélection"
+    },
+    "errors": {
+      "forbidden": "Vous n’êtes pas autorisé à gérer les ventes.",
+      "missing": "Cette fiche de vente est introuvable ou n’est plus disponible.",
+      "duplicateSourceKey": "Une vente existe déjà pour cette source et cet identifiant source.",
+      "staleVersion": "Cette vente a été modifiée pendant votre saisie.",
+      "staleVersionHelp": "La version actuelle a été récupérée sur le serveur. Votre brouillon reste affiché ; chargez la dernière version pour le remplacer avant un nouvel enregistrement.",
+      "invalid": "Vérifiez les informations de la vente puis réessayez.",
+      "requestFailed": "La requête de vente n’a pas abouti. Veuillez réessayer.",
+      "sourceMissing": "La source sélectionnée est introuvable.",
+      "invalidId": "Cet identifiant de vente n’est pas valide. Les identifiants commencent par « auc_ »."
+    },
+    "validation": {
+      "sourceRequired": "Sélectionnez une source.",
+      "sourceAuctionIdRequired": "Saisissez l’identifiant de vente chez la source.",
+      "sourceAuctionIdTooLong": "L’identifiant source ne peut pas dépasser 512 octets UTF-8.",
+      "invalidUrl": "Saisissez une URL HTTP ou HTTPS valide.",
+      "invalidLotCount": "Saisissez un nombre entier entre 0 et 4 294 967 295.",
+      "invalidDateTime": "Saisissez une date et une heure UTC valides."
+    },
+    "formats": {
+      "LIVE": "Vente en direct",
+      "TIMED": "Vente chronométrée"
+    },
+    "reportedStatuses": {
+      "SCHEDULED": "Prévue",
+      "IN_PROGRESS": "En cours",
+      "ENDED": "Terminée",
+      "POSTPONED": "Reportée",
+      "CANCELLED": "Annulée"
+    },
+    "schedule": {
+      "biddingOpens": "Ouverture des enchères",
+      "liveStarts": "Début en direct",
+      "lotsBeginClosing": "Début de clôture des lots",
+      "scheduledEnd": "Fin prévue"
+    }
   }
 }

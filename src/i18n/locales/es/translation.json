@@ -2667,5 +2667,99 @@
       "redirectInvalid": "Cada URI de redirección debe ser una URL HTTPS válida sin fragmento.",
       "redirectDuplicate": "Las URI de redirección deben ser únicas."
     }
+  },
+  "adminAuctions": {
+    "title": "Gestión de subastas",
+    "description": "Cree registros de subasta y actualice sus datos comunicados. La fuente y la identidad de la subasta en origen no se pueden cambiar después de crear el registro.",
+    "create": {
+      "title": "Crear una subasta",
+      "description": "Asocie la subasta a una fuente autorizada e indique su identidad en esa fuente.",
+      "blankFieldsHelp": "Deje vacíos los campos opcionales cuando la fuente no haya facilitado esos datos."
+    },
+    "open": {
+      "title": "Abrir un registro de subasta",
+      "description": "Abra un registro si conoce el ID de la subasta."
+    },
+    "sourceSearch": {
+      "prompt": "Busque por nombre o slug de la fuente o de su operador, o pegue un ID de fuente.",
+      "loading": "Buscando fuentes…",
+      "noResults": "No hay fuentes que coincidan con esta búsqueda.",
+      "operatedBy": "Gestionada por {{name}}",
+      "results": "Fuentes encontradas"
+    },
+    "fields": {
+      "listingSource": "Fuente de anuncios",
+      "searchListingSources": "Buscar fuentes",
+      "listingSourceId": "ID de la fuente",
+      "sourceAuctionId": "ID de subasta en origen",
+      "sourceAuctionIdHelp": "Use el identificador con el que la fuente seleccionada reconoce esta subasta.",
+      "auctionId": "ID de subasta",
+      "name": "Nombre de la subasta",
+      "nameLanguage": "Idioma del nombre",
+      "catalogueUrl": "URL del catálogo",
+      "format": "Formato",
+      "reportedStatus": "Estado comunicado",
+      "reportedLotCount": "Número de lotes comunicado",
+      "schedule": "Calendario",
+      "scheduleHelp": "Introduzca todas las fechas y horas en UTC.",
+      "notSet": "Sin especificar",
+      "created": "Creado",
+      "updated": "Actualizado"
+    },
+    "detail": {
+      "title": "Registro de subasta",
+      "description": "Actualice los datos comunicados de la subasta. No se pueden cambiar la subasta ni la fuente asociada.",
+      "blankFieldsHelp": "Los valores vacíos borran los datos correspondientes, incluidos los horarios individuales."
+    },
+    "actions": {
+      "create": "Crear subasta",
+      "creating": "Creando…",
+      "open": "Abrir registro",
+      "loadMore": "Cargar más fuentes",
+      "loadingMore": "Cargando…",
+      "retry": "Intentar de nuevo",
+      "cancel": "Cancelar",
+      "save": "Guardar cambios",
+      "saving": "Guardando…",
+      "loadLatest": "Cargar registro actualizado",
+      "backToOverview": "Volver a la gestión de subastas",
+      "clearSource": "Quitar selección"
+    },
+    "errors": {
+      "forbidden": "No tiene permiso para gestionar subastas.",
+      "missing": "No se encontró este registro de subasta o ya no está disponible.",
+      "duplicateSourceKey": "Ya existe una subasta para esta fuente y este ID de origen.",
+      "staleVersion": "La subasta cambió mientras la editaba.",
+      "staleVersionHelp": "Se han vuelto a obtener los datos actuales del servidor. Su borrador sigue arriba; cargue el registro actualizado para sustituirlo antes de volver a guardar.",
+      "invalid": "Revise los datos de la subasta e inténtelo de nuevo.",
+      "requestFailed": "No se pudo completar la solicitud. Inténtelo de nuevo.",
+      "sourceMissing": "No se encontró la fuente de anuncios seleccionada.",
+      "invalidId": "Este ID de subasta no es válido. Los ID de subasta empiezan por «auc_»."
+    },
+    "validation": {
+      "sourceRequired": "Seleccione una fuente.",
+      "sourceAuctionIdRequired": "Introduzca el ID de la subasta en origen.",
+      "sourceAuctionIdTooLong": "El ID de origen no puede superar 512 bytes UTF-8.",
+      "invalidUrl": "Introduzca una URL HTTP o HTTPS válida.",
+      "invalidLotCount": "Introduzca un número entero entre 0 y 4.294.967.295.",
+      "invalidDateTime": "Introduzca una fecha y hora válidas en UTC."
+    },
+    "formats": {
+      "LIVE": "Subasta en directo",
+      "TIMED": "Subasta por tiempo"
+    },
+    "reportedStatuses": {
+      "SCHEDULED": "Programada",
+      "IN_PROGRESS": "En curso",
+      "ENDED": "Finalizada",
+      "POSTPONED": "Aplazada",
+      "CANCELLED": "Cancelada"
+    },
+    "schedule": {
+      "biddingOpens": "Apertura de pujas",
+      "liveStarts": "Inicio en directo",
+      "lotsBeginClosing": "Inicio del cierre de lotes",
+      "scheduledEnd": "Fin previsto"
+    }
   }
 }

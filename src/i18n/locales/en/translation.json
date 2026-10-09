@@ -2667,5 +2667,99 @@
       "redirectInvalid": "Each redirect URI must be a valid HTTPS URL without a fragment.",
       "redirectDuplicate": "Redirect URIs must be unique."
     }
+  },
+  "adminAuctions": {
+    "title": "Auction management",
+    "description": "Create auction records and update their reported metadata. The listing source and source auction identity remain fixed after creation.",
+    "create": {
+      "title": "Create an auction",
+      "description": "Associate the auction with an authorized listing source and enter its source identity.",
+      "blankFieldsHelp": "Leave optional fields empty when the source has not provided those values."
+    },
+    "open": {
+      "title": "Open an auction record",
+      "description": "Open a record when you know its auction ID."
+    },
+    "sourceSearch": {
+      "prompt": "Search by listing source or operator name or slug, or paste a listing source ID.",
+      "loading": "Searching listing sources…",
+      "noResults": "No listing sources match this search.",
+      "operatedBy": "Operated by {{name}}",
+      "results": "Matching listing sources"
+    },
+    "fields": {
+      "listingSource": "Listing source",
+      "searchListingSources": "Search listing sources",
+      "listingSourceId": "Listing source ID",
+      "sourceAuctionId": "Source auction ID",
+      "sourceAuctionIdHelp": "Use the identifier assigned to this auction by the selected listing source.",
+      "auctionId": "Auction ID",
+      "name": "Auction name",
+      "nameLanguage": "Name language",
+      "catalogueUrl": "Catalogue URL",
+      "format": "Format",
+      "reportedStatus": "Reported status",
+      "reportedLotCount": "Reported lot count",
+      "schedule": "Schedule",
+      "scheduleHelp": "Enter all date and time values in UTC.",
+      "notSet": "Not specified",
+      "created": "Created",
+      "updated": "Updated"
+    },
+    "detail": {
+      "title": "Auction record",
+      "description": "Update reported auction metadata. Auction and listing source identity cannot be changed.",
+      "blankFieldsHelp": "Empty values clear the corresponding metadata, including each schedule time."
+    },
+    "actions": {
+      "create": "Create auction",
+      "creating": "Creating…",
+      "open": "Open record",
+      "loadMore": "Load more sources",
+      "loadingMore": "Loading…",
+      "retry": "Try again",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saving": "Saving…",
+      "loadLatest": "Load latest record",
+      "backToOverview": "Back to auction management",
+      "clearSource": "Clear selection"
+    },
+    "errors": {
+      "forbidden": "You do not have permission to manage auctions.",
+      "missing": "This auction record was not found or is no longer available.",
+      "duplicateSourceKey": "An auction already exists for this listing source and source auction ID.",
+      "staleVersion": "This auction changed while you were editing it.",
+      "staleVersionHelp": "The current server record has been fetched. Your draft remains above; load the latest record to replace it before saving again.",
+      "invalid": "Check the auction details and try again.",
+      "requestFailed": "The auction request could not be completed. Please try again.",
+      "sourceMissing": "The selected listing source was not found.",
+      "invalidId": "This auction ID is not valid. Auction IDs start with “auc_”."
+    },
+    "validation": {
+      "sourceRequired": "Select a listing source.",
+      "sourceAuctionIdRequired": "Enter a source auction ID.",
+      "sourceAuctionIdTooLong": "The source auction ID must be no more than 512 UTF-8 bytes.",
+      "invalidUrl": "Enter a valid HTTP or HTTPS URL.",
+      "invalidLotCount": "Enter a whole number from 0 to 4,294,967,295.",
+      "invalidDateTime": "Enter a valid date and time in UTC."
+    },
+    "formats": {
+      "LIVE": "Live auction",
+      "TIMED": "Timed auction"
+    },
+    "reportedStatuses": {
+      "SCHEDULED": "Scheduled",
+      "IN_PROGRESS": "In progress",
+      "ENDED": "Ended",
+      "POSTPONED": "Postponed",
+      "CANCELLED": "Cancelled"
+    },
+    "schedule": {
+      "biddingOpens": "Bidding opens",
+      "liveStarts": "Live start",
+      "lotsBeginClosing": "Lots begin closing",
+      "scheduledEnd": "Scheduled end"
+    }
   }
 }

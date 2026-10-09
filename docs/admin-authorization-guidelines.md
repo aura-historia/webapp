@@ -13,8 +13,11 @@ Restored workflows: OAuth client management (MIG-22), partnership application re
 (MIG-16, see [admin partnership application review](api-migration/partnership-application-contracts.md#admin-partnership-application-review)),
 Party management (MIG-17), listing-source management (MIG-18), partnership membership
 and source-grant management (MIG-19, see
-[admin partnership management](api-migration/admin-partnership-management.md)), and user
-management (MIG-20). Party contacts are available only through the authenticated admin Party
+[admin partnership management](api-migration/admin-partnership-management.md)), user
+management (MIG-20), and auction management (MIG-25). Auction create and update use
+`Cache-Control: no-store`; listing-source association and source auction identity are
+immutable on update, and an `expectedVersion` conflict refetches the authoritative
+record. Party contacts are available only through the authenticated admin Party
 operations. Listing-source search/detail use their separate safe DTOs; the read API
 omits full ingestion configuration and never returns the write-only WooCommerce
 secret. Preserve unseen configuration by omitting it from updates, and require an
