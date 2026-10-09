@@ -1230,7 +1230,13 @@
       "title": "Complétez votre profil",
       "subtitle": "Ces informations sont facultatives — vous pouvez les mettre à jour à tout moment",
       "submit": "Enregistrer et continuer",
-      "skip": "Ignorer pour l'instant"
+      "skip": "Ignorer pour l'instant",
+      "newsletter": {
+        "doubleOptIn": "Nous enverrons d'abord un lien de confirmation à {{email}}. Votre inscription ne commence qu'une fois ce lien confirmé. Plus d'informations sont disponibles dans notre <privacyLink>politique de confidentialité</privacyLink>.",
+        "requestedTitle": "Veuillez consulter votre boîte de réception.",
+        "requestedDescription": "Si {{email}} peut recevoir notre newsletter, nous y enverrons un lien de confirmation. Votre inscription ne commence qu'une fois le lien ouvert et confirmé.",
+        "requestFailed": "Vos informations ont été enregistrées, mais la confirmation de la newsletter n'a pas pu être demandée. Veuillez réessayer ou ignorer cette étape pour l'instant."
+      }
     },
     "errors": {
       "UsernameExistsException": "Un compte avec cette adresse e-mail existe déjà.",

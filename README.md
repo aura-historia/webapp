@@ -73,6 +73,8 @@ VITE_COGNITO_REDIRECT_SIGN_IN=http://localhost:3000
 VITE_COGNITO_REDIRECT_SIGN_OUT=http://localhost:3000
 ```
 
+After a federated redirect, the app reads email, names and the `identities` claim from the ID token, so the `openid email profile` scopes suffice; it does not call `fetchUserAttributes`, which would also need `aws.cognito.signin.user.admin`.
+
 Optional feature flags:
 
 ```dotenv

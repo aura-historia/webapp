@@ -1230,7 +1230,13 @@
       "title": "Completa tu perfil",
       "subtitle": "Estos datos son opcionales — puedes actualizarlos en cualquier momento",
       "submit": "Guardar y continuar",
-      "skip": "Omitir por ahora"
+      "skip": "Omitir por ahora",
+      "newsletter": {
+        "doubleOptIn": "Primero enviaremos un enlace de confirmación a {{email}}. Su suscripción solo comienza cuando lo confirme. Encontrará más información en nuestra <privacyLink>política de privacidad</privacyLink>.",
+        "requestedTitle": "Revise su bandeja de entrada.",
+        "requestedDescription": "Si {{email}} puede recibir nuestro boletín, le enviaremos un enlace de confirmación a esa dirección. Su suscripción solo comienza cuando abra el enlace y confirme.",
+        "requestFailed": "Sus datos se han guardado, pero no se ha podido solicitar la confirmación del boletín. Inténtelo de nuevo u omita este paso por ahora."
+      }
     },
     "errors": {
       "UsernameExistsException": "Ya existe una cuenta con este correo electrónico.",
