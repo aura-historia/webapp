@@ -81,21 +81,6 @@
     },
     "newsletterConfirm": {
       "title": "Confirm newsletter subscription | Aura Historia"
-    },
-    "auctions": {
-      "title": "Auction Directory | Aura Historia",
-      "description": "Explore auctions and catalogues from auction houses indexed by Aura Historia."
-    },
-    "auctionDetail": {
-      "title": "Auction Catalogue | Aura Historia",
-      "titleWithName": "{{name}} | Auction Catalogue",
-      "description": "Explore this auction and its listed lots from {{source}} on Aura Historia."
-    },
-    "adminAuctions": {
-      "title": "Auction Management | Aura Historia"
-    },
-    "adminAuctionCreate": {
-      "title": "Create Auction | Aura Historia"
     }
   },
   "validation": {
@@ -139,7 +124,6 @@
     "collection": "Collection",
     "workspace": "Workspace",
     "accountNavigation": "Account navigation",
-    "auctions": "Auctions",
     "adminAuctions": "Auction management"
   },
   "footer": {
@@ -178,8 +162,7 @@
     },
     "compareLinks": {
       "barnebys": "Barnebys"
-    },
-    "auctions": "Auction directory"
+    }
   },
   "aboutPage": {
     "hero": {
@@ -488,8 +471,7 @@
       }
     },
     "auction": {
-      "view": "View auction",
-      "section": "Auction and lot details"
+      "lotNumber": "Lot {{lotNumber}}"
     },
     "priceChart": {
       "title": "Price History",
@@ -2631,83 +2613,6 @@
       "redirectDuplicate": "Redirect URIs must be unique."
     }
   },
-  "auctions": {
-    "title": "Auctions",
-    "description": "Explore public auction schedules and catalogues from indexed auction houses.",
-    "loading": "Loading auctions…",
-    "empty": "No public auctions match these filters.",
-    "results": "Auction directory results",
-    "nameNotProvided": "Auction name not provided",
-    "statusNotReported": "Status not reported",
-    "count": "{{count}}",
-    "fields": {
-      "format": "Format",
-      "reportedStatus": "Reported status",
-      "reportedLotCount": "Reported lot count",
-      "visibleListings": "Visible listings",
-      "added": "Added"
-    },
-    "formats": {
-      "LIVE": "Live auction",
-      "TIMED": "Timed auction"
-    },
-    "reportedStatuses": {
-      "SCHEDULED": "Scheduled",
-      "IN_PROGRESS": "In progress",
-      "ENDED": "Ended",
-      "POSTPONED": "Postponed",
-      "CANCELLED": "Cancelled"
-    },
-    "schedule": {
-      "biddingOpens": "Bidding opens",
-      "liveStarts": "Live start",
-      "lotsBeginClosing": "Lots begin closing",
-      "scheduledEnd": "Scheduled end"
-    },
-    "filters": {
-      "title": "Filter auctions",
-      "listingSourceId": "Listing source ID",
-      "format": "Format",
-      "reportedStatus": "Reported status",
-      "exactTime": "Exact schedule time",
-      "exactTimeHelp": "Choose a schedule field and a complete UTC time range.",
-      "timeRole": "Schedule field",
-      "from": "From (UTC)",
-      "to": "To (UTC)",
-      "invalidDateTime": "Enter a valid date and time.",
-      "timeRoleRequired": "Choose a schedule field.",
-      "completeRangeRequired": "Enter both ends of the time range.",
-      "clear": "Clear filters",
-      "apply": "Apply filters",
-      "any": "Any"
-    },
-    "actions": {
-      "retry": "Try again",
-      "loadingMore": "Loading…",
-      "loadMore": "Load more",
-      "viewCatalogue": "View auction and catalogue",
-      "backToDirectory": "Back to auctions",
-      "openSourceCatalogue": "Open source catalogue",
-      "openAuctionPage": "Open auction page"
-    },
-    "catalogue": {
-      "title": "Catalogue",
-      "visibleCount": "{{count}} visible listings in this catalogue",
-      "empty": "No visible listings are assigned to this auction."
-    },
-    "lot": {
-      "lotNumber": "Lot number",
-      "cataloguePosition": "Catalogue position",
-      "biddingOpens": "Lot bidding opens",
-      "scheduledCloses": "Lot scheduled to close",
-      "reportedClosedAt": "Reported closed at"
-    },
-    "errors": {
-      "missing": "This auction was not found or is no longer available.",
-      "invalidRequest": "The auction request is invalid.",
-      "requestFailed": "Auctions could not be loaded. Please try again."
-    }
-  },
   "adminAuctions": {
     "title": "Auction management",
     "description": "Create auction records and update their reported metadata. The listing source and source auction identity remain fixed after creation.",
@@ -2718,9 +2623,7 @@
     },
     "open": {
       "title": "Open an auction record",
-      "description": "Open a record when you know its auction ID.",
-      "browsePrefix": "To find a public auction ID,",
-      "browseLink": "browse the auction directory."
+      "description": "Open a record when you know its auction ID."
     },
     "sourceSearch": {
       "prompt": "Search for a listing source by name or ID.",
@@ -2762,7 +2665,8 @@
       "cancel": "Cancel",
       "save": "Save changes",
       "saving": "Saving…",
-      "loadLatest": "Load latest record"
+      "loadLatest": "Load latest record",
+      "backToOverview": "Back to auction management"
     },
     "errors": {
       "forbidden": "You do not have permission to manage auctions.",
@@ -2771,7 +2675,9 @@
       "staleVersion": "This auction changed while you were editing it.",
       "staleVersionHelp": "The current server record has been fetched. Your draft remains above; load the latest record to replace it before saving again.",
       "invalid": "Check the auction details and try again.",
-      "requestFailed": "The auction request could not be completed. Please try again."
+      "requestFailed": "The auction request could not be completed. Please try again.",
+      "sourceMissing": "The selected listing source was not found.",
+      "invalidId": "This auction ID is not valid. Auction IDs start with “auc_”."
     },
     "validation": {
       "sourceRequired": "Select a listing source.",
@@ -2780,6 +2686,23 @@
       "invalidUrl": "Enter a valid HTTP or HTTPS URL.",
       "invalidLotCount": "Enter a whole number from 0 to 4,294,967,295.",
       "invalidDateTime": "Enter a valid date and time in UTC."
+    },
+    "formats": {
+      "LIVE": "Live auction",
+      "TIMED": "Timed auction"
+    },
+    "reportedStatuses": {
+      "SCHEDULED": "Scheduled",
+      "IN_PROGRESS": "In progress",
+      "ENDED": "Ended",
+      "POSTPONED": "Postponed",
+      "CANCELLED": "Cancelled"
+    },
+    "schedule": {
+      "biddingOpens": "Bidding opens",
+      "liveStarts": "Live start",
+      "lotsBeginClosing": "Lots begin closing",
+      "scheduledEnd": "Scheduled end"
     }
   }
 }

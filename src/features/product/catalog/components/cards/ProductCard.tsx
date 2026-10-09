@@ -19,7 +19,6 @@ import { cn } from "@/lib/utils.ts";
 
 function ProductCardComponent({ product }: { readonly product: ProductListing }) {
     const { t } = useTranslation();
-    const auctionId = product.auctionId;
     const unseenNotificationIds = product.userState?.notification.unseenNotificationIds ?? [];
     const hasUnseenNotification = unseenNotificationIds.length > 0;
     const markSeen = useMarkNotificationsSeen();
@@ -126,16 +125,6 @@ function ProductCardComponent({ product }: { readonly product: ProductListing })
                         lifecycle={product.lifecycle}
                         className="text-[10px]"
                     />
-                    {auctionId && (
-                        <Link
-                            to="/$lng/auctions/$auctionId"
-                            params={(current) => ({ ...current, auctionId })}
-                            from="/$lng"
-                            className="inline-flex items-center border border-outline-variant/40 px-2 py-1 text-[10px] uppercase tracking-[0.08em] text-primary underline-offset-4 hover:underline"
-                        >
-                            {t("product.auction.view")}
-                        </Link>
-                    )}
                 </div>
 
                 <div className="mt-5 flex flex-1 flex-col justify-end gap-3">

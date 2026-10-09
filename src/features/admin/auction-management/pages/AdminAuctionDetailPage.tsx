@@ -2,17 +2,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Link } from "@tanstack/react-router";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { formatDateTime } from "@/lib/utils.ts";
 import {
-    AuctionRequestError,
+    AdminAuctionRequestError,
     mapAdminAuctionFormValues,
     useAdminAuction,
     useUpdateAdminAuction,
     type AuctionUpdateValues,
-} from "../api/useAuctions.ts";
+} from "../api/useAdminAuctions.ts";
 import { AuctionMetadataFields } from "../components/AuctionMetadataFields.tsx";
 import { auctionMetadataSchema } from "../lib/auctionForm.ts";
 
@@ -40,9 +41,11 @@ export function AdminAuctionDetailPage({
 
     if (auctionQuery.error || !auctionQuery.data) {
         const isMissing =
-            auctionQuery.error instanceof AuctionRequestError && auctionQuery.error.status === 404;
+            auctionQuery.error instanceof AdminAuctionRequestError &&
+            auctionQuery.error.status === 404;
         return (
             <main className="mx-auto grid w-full max-w-4xl justify-items-start gap-4 px-4 py-10 sm:px-6">
+                <BackToAuctions language={language} />
                 <H1>
                     {isMissing
                         ? t("adminAuctions.errors.missing")
@@ -83,7 +86,8 @@ function AdminAuctionUpdateForm({
     });
     const updateAuction = useUpdateAdminAuction(auction.auctionId);
     const staleError =
-        updateAuction.error instanceof AuctionRequestError && updateAuction.error.status === 409
+        updateAuction.error instanceof AdminAuctionRequestError &&
+        updateAuction.error.status === 409
             ? updateAuction.error
             : undefined;
 
@@ -98,6 +102,7 @@ function AdminAuctionUpdateForm({
     return (
         <main className="mx-auto grid w-full max-w-4xl gap-8 px-4 py-10 sm:px-6">
             <header className="grid gap-2">
+                <BackToAuctions language={language} />
                 <H1>{t("adminAuctions.detail.title")}</H1>
                 <p className="max-w-3xl text-muted-foreground">
                     {t("adminAuctions.detail.description")}
@@ -172,6 +177,19 @@ function AdminAuctionUpdateForm({
                 </div>
             </form>
         </main>
+    );
+}
+
+function BackToAuctions({ language }: { readonly language: string }) {
+    const { t } = useTranslation();
+    return (
+        <Link
+            to="/$lng/admin/auctions"
+            params={{ lng: language }}
+            className="w-fit text-sm text-primary underline-offset-4 hover:underline"
+        >
+            {t("adminAuctions.actions.backToOverview")}
+        </Link>
     );
 }
 

@@ -3,17 +3,17 @@ import { useNavigate } from "@tanstack/react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import type { AuctionMetadataValues } from "../api/useAuctions.ts";
+import type { AuctionMetadataValues } from "../api/useAdminAuctions.ts";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import type { AdminListingSourceSummary } from "@/data/internal/listing-source/AdminListingSource.ts";
 import {
-    AuctionRequestError,
+    AdminAuctionRequestError,
     useAdminAuctionListingSources,
     useCreateAdminAuction,
-} from "../api/useAuctions.ts";
+} from "../api/useAdminAuctions.ts";
 import { AuctionMetadataFields } from "../components/AuctionMetadataFields.tsx";
 import {
     auctionMetadataSchema,
@@ -211,7 +211,7 @@ export function AdminAuctionCreatePage({ language }: { readonly language: string
                 </p>
                 {createAuction.error && (
                     <p role="alert" className="text-sm text-destructive">
-                        {createAuction.error instanceof AuctionRequestError
+                        {createAuction.error instanceof AdminAuctionRequestError
                             ? createAuction.error.message
                             : t("adminAuctions.errors.requestFailed")}
                     </p>

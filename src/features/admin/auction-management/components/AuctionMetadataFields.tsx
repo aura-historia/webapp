@@ -9,24 +9,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select.tsx";
-import type { AuctionMetadataValues } from "../api/useAuctions.ts";
+import type { AuctionMetadataValues } from "../api/useAdminAuctions.ts";
+import { AUCTION_NAME_LANGUAGES } from "../lib/auctionForm.ts";
 
-const AUCTION_LANGUAGES = [
-    "de",
-    "en",
-    "es",
-    "fr",
-    "it",
-    "zh",
-    "pt",
-    "pl",
-    "tr",
-    "nl",
-    "cs",
-    "ja",
-    "ru",
-    "ar",
-] as const;
 const FORMATS = ["LIVE", "TIMED"] as const;
 const REPORTED_STATUSES = ["SCHEDULED", "IN_PROGRESS", "ENDED", "POSTPONED", "CANCELLED"] as const;
 
@@ -57,7 +42,7 @@ export function AuctionMetadataFields({
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                            {AUCTION_LANGUAGES.map((code) => (
+                            {AUCTION_NAME_LANGUAGES.map((code) => (
                                 <SelectItem key={code} value={code}>
                                     {code.toUpperCase()}
                                 </SelectItem>
@@ -93,7 +78,7 @@ export function AuctionMetadataFields({
                             </SelectItem>
                             {FORMATS.map((value) => (
                                 <SelectItem key={value} value={value}>
-                                    {t(`auctions.formats.${value}`)}
+                                    {t(`adminAuctions.formats.${value}`)}
                                 </SelectItem>
                             ))}
                         </SelectContent>
@@ -116,7 +101,7 @@ export function AuctionMetadataFields({
                             </SelectItem>
                             {REPORTED_STATUSES.map((value) => (
                                 <SelectItem key={value} value={value}>
-                                    {t(`auctions.reportedStatuses.${value}`)}
+                                    {t(`adminAuctions.reportedStatuses.${value}`)}
                                 </SelectItem>
                             ))}
                         </SelectContent>
@@ -147,25 +132,25 @@ export function AuctionMetadataFields({
                 <div className="grid gap-4 sm:grid-cols-2">
                     <UtcDateTimeField
                         id="auction-bidding-opens"
-                        label={t("auctions.schedule.biddingOpens")}
+                        label={t("adminAuctions.schedule.biddingOpens")}
                         register={form.register("biddingOpens")}
                         error={form.formState.errors.biddingOpens?.message}
                     />
                     <UtcDateTimeField
                         id="auction-live-starts"
-                        label={t("auctions.schedule.liveStarts")}
+                        label={t("adminAuctions.schedule.liveStarts")}
                         register={form.register("liveStarts")}
                         error={form.formState.errors.liveStarts?.message}
                     />
                     <UtcDateTimeField
                         id="auction-lots-begin-closing"
-                        label={t("auctions.schedule.lotsBeginClosing")}
+                        label={t("adminAuctions.schedule.lotsBeginClosing")}
                         register={form.register("lotsBeginClosing")}
                         error={form.formState.errors.lotsBeginClosing?.message}
                     />
                     <UtcDateTimeField
                         id="auction-scheduled-end"
-                        label={t("auctions.schedule.scheduledEnd")}
+                        label={t("adminAuctions.schedule.scheduledEnd")}
                         register={form.register("scheduledEnd")}
                         error={form.formState.errors.scheduledEnd?.message}
                     />

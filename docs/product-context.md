@@ -8,7 +8,6 @@ The app currently emphasizes:
 
 - Global antiques and art discovery across public providers.
 - Recently added objects and provider discovery. Provider pages show the public provider summary and currently indexed listings; they do not provide provider classifications, addresses, partner status, or total listing counts.
-- Public auction discovery, source-reported schedules and statuses, and catalogues ordered by the backend cursor. Missing auction or lot facts remain absent.
 - Multilingual search/discovery and localized SEO.
 - Watchlists, saved search filters, notifications, and matching.
 - Partner/shop onboarding, product ingestion APIs, access tokens, OAuth flows, and admin review tools.

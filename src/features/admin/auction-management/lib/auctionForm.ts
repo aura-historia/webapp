@@ -1,8 +1,9 @@
 import { z } from "zod";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
-import type { AuctionCreateValues, AuctionMetadataValues } from "../api/useAuctions.ts";
+import type { AuctionCreateValues, AuctionMetadataValues } from "../api/useAdminAuctions.ts";
 
-const languages = [
+/** Languages the backend accepts for localized auction names. */
+export const AUCTION_NAME_LANGUAGES = [
     "de",
     "en",
     "es",
@@ -46,7 +47,7 @@ function isValidLotCount(value: string) {
 
 export const auctionMetadataSchema = z.object({
     name: z.string(),
-    nameLanguage: z.enum(languages),
+    nameLanguage: z.enum(AUCTION_NAME_LANGUAGES),
     catalogueUrl: z.string().refine(isHttpUrlOrEmpty, "adminAuctions.validation.invalidUrl"),
     format: z.enum(formats),
     reportedStatus: z.enum(statuses),

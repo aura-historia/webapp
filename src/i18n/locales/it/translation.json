@@ -81,21 +81,6 @@
     },
     "newsletterConfirm": {
       "title": "Conferma l'iscrizione alla newsletter | Aura Historia"
-    },
-    "auctions": {
-      "title": "Elenco delle aste | Aura Historia",
-      "description": "Esplora aste e cataloghi delle case d’asta indicizzate da Aura Historia."
-    },
-    "auctionDetail": {
-      "title": "Catalogo d’asta | Aura Historia",
-      "titleWithName": "{{name}} | Catalogo d’asta",
-      "description": "Esplora quest’asta e i lotti pubblicati da {{source}} su Aura Historia."
-    },
-    "adminAuctions": {
-      "title": "Gestione aste | Aura Historia"
-    },
-    "adminAuctionCreate": {
-      "title": "Crea asta | Aura Historia"
     }
   },
   "validation": {
@@ -139,7 +124,6 @@
     "collection": "Collezione",
     "workspace": "Area professionale",
     "accountNavigation": "Navigazione account",
-    "auctions": "Aste",
     "adminAuctions": "Gestione aste"
   },
   "footer": {
@@ -178,8 +162,7 @@
     },
     "compareLinks": {
       "barnebys": "Barnebys"
-    },
-    "auctions": "Elenco delle aste"
+    }
   },
   "aboutPage": {
     "hero": {
@@ -500,8 +483,7 @@
     },
     "unseenNotification": "Aggiornato",
     "auction": {
-      "view": "Visualizza asta",
-      "section": "Informazioni su asta e lotto"
+      "lotNumber": "Lotto {{lotNumber}}"
     },
     "searchFilter": {
       "matchedBadge": "Corrispondenza",
@@ -2631,83 +2613,6 @@
       "redirectDuplicate": "Gli URI di reindirizzamento devono essere univoci."
     }
   },
-  "auctions": {
-    "title": "Aste",
-    "description": "Esplora programmi e cataloghi pubblici delle case d’asta indicizzate.",
-    "loading": "Caricamento delle aste…",
-    "empty": "Nessuna asta pubblica corrisponde a questi filtri.",
-    "results": "Risultati dell’elenco delle aste",
-    "nameNotProvided": "Nome dell’asta non indicato",
-    "statusNotReported": "Stato non comunicato",
-    "count": "{{count}}",
-    "fields": {
-      "format": "Formato",
-      "reportedStatus": "Stato comunicato",
-      "reportedLotCount": "Numero di lotti comunicato",
-      "visibleListings": "Lotti visibili",
-      "added": "Aggiunta"
-    },
-    "formats": {
-      "LIVE": "Asta dal vivo",
-      "TIMED": "Asta a tempo"
-    },
-    "reportedStatuses": {
-      "SCHEDULED": "Programmato",
-      "IN_PROGRESS": "In corso",
-      "ENDED": "Terminato",
-      "POSTPONED": "Rinviato",
-      "CANCELLED": "Annullato"
-    },
-    "schedule": {
-      "biddingOpens": "Apertura delle offerte",
-      "liveStarts": "Inizio dal vivo",
-      "lotsBeginClosing": "Inizio chiusura dei lotti",
-      "scheduledEnd": "Fine prevista"
-    },
-    "filters": {
-      "title": "Filtra le aste",
-      "listingSourceId": "ID della fonte",
-      "format": "Formato",
-      "reportedStatus": "Stato comunicato",
-      "exactTime": "Orario esatto",
-      "exactTimeHelp": "Scegli un evento del programma e un intervallo UTC completo.",
-      "timeRole": "Evento del programma",
-      "from": "Da (UTC)",
-      "to": "A (UTC)",
-      "invalidDateTime": "Inserisci una data e un orario validi.",
-      "timeRoleRequired": "Scegli un evento del programma.",
-      "completeRangeRequired": "Inserisci entrambi i limiti dell’intervallo.",
-      "clear": "Cancella filtri",
-      "apply": "Applica filtri",
-      "any": "Qualsiasi"
-    },
-    "actions": {
-      "retry": "Riprova",
-      "loadingMore": "Caricamento…",
-      "loadMore": "Carica altri",
-      "viewCatalogue": "Visualizza asta e catalogo",
-      "backToDirectory": "Torna alle aste",
-      "openSourceCatalogue": "Apri il catalogo della fonte",
-      "openAuctionPage": "Apri la pagina dell’asta"
-    },
-    "catalogue": {
-      "title": "Catalogo",
-      "visibleCount": "{{count}} lotti visibili in questo catalogo",
-      "empty": "Non ci sono lotti visibili associati a quest’asta."
-    },
-    "lot": {
-      "lotNumber": "Numero del lotto",
-      "cataloguePosition": "Posizione nel catalogo",
-      "biddingOpens": "Apertura offerte del lotto",
-      "scheduledCloses": "Chiusura prevista del lotto",
-      "reportedClosedAt": "Chiusura comunicata"
-    },
-    "errors": {
-      "missing": "L’asta non è stata trovata o non è più disponibile.",
-      "invalidRequest": "La richiesta dell’asta non è valida.",
-      "requestFailed": "Impossibile caricare le aste. Riprova."
-    }
-  },
   "adminAuctions": {
     "title": "Gestione aste",
     "description": "Crea record d’asta e aggiorna i dati comunicati. La fonte e l’identità dell’asta presso la fonte non possono essere modificate dopo la creazione.",
@@ -2718,9 +2623,7 @@
     },
     "open": {
       "title": "Apri un record d’asta",
-      "description": "Apri un record se conosci l’ID dell’asta.",
-      "browsePrefix": "Per trovare l’ID di un’asta pubblica, consulta l’",
-      "browseLink": "elenco delle aste."
+      "description": "Apri un record se conosci l’ID dell’asta."
     },
     "sourceSearch": {
       "prompt": "Cerca una fonte per nome o ID.",
@@ -2762,7 +2665,8 @@
       "cancel": "Annulla",
       "save": "Salva modifiche",
       "saving": "Salvataggio…",
-      "loadLatest": "Carica il record aggiornato"
+      "loadLatest": "Carica il record aggiornato",
+      "backToOverview": "Torna alla gestione delle aste"
     },
     "errors": {
       "forbidden": "Non hai l’autorizzazione per gestire le aste.",
@@ -2771,7 +2675,9 @@
       "staleVersion": "L’asta è cambiata durante la modifica.",
       "staleVersionHelp": "Il record aggiornato è stato recuperato dal server. La bozza resta visibile; carica l’ultima versione per sostituirla prima di salvare di nuovo.",
       "invalid": "Controlla i dati dell’asta e riprova.",
-      "requestFailed": "La richiesta dell’asta non è stata completata. Riprova."
+      "requestFailed": "La richiesta dell’asta non è stata completata. Riprova.",
+      "sourceMissing": "La fonte delle inserzioni selezionata non è stata trovata.",
+      "invalidId": "Questo ID asta non è valido. Gli ID asta iniziano con «auc_»."
     },
     "validation": {
       "sourceRequired": "Seleziona una fonte.",
@@ -2780,6 +2686,23 @@
       "invalidUrl": "Inserisci un URL HTTP o HTTPS valido.",
       "invalidLotCount": "Inserisci un numero intero da 0 a 4.294.967.295.",
       "invalidDateTime": "Inserisci una data e un orario UTC validi."
+    },
+    "formats": {
+      "LIVE": "Asta dal vivo",
+      "TIMED": "Asta a tempo"
+    },
+    "reportedStatuses": {
+      "SCHEDULED": "Programmato",
+      "IN_PROGRESS": "In corso",
+      "ENDED": "Terminato",
+      "POSTPONED": "Rinviato",
+      "CANCELLED": "Annullato"
+    },
+    "schedule": {
+      "biddingOpens": "Apertura delle offerte",
+      "liveStarts": "Inizio dal vivo",
+      "lotsBeginClosing": "Inizio chiusura dei lotti",
+      "scheduledEnd": "Fine prevista"
     }
   }
 }

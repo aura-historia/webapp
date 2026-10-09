@@ -141,16 +141,6 @@ export function Footer() {
                                     </Link>
                                 </li>
                             ))}
-                            <li>
-                                <Link
-                                    to="/$lng/auctions"
-                                    className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                    params={true}
-                                    from="/$lng"
-                                >
-                                    {t("footer.auctions")}
-                                </Link>
-                            </li>
                         </ul>
                     </div>
 

@@ -30,17 +30,10 @@ export function AdminAuctionsPage({ language }: { readonly language: string }) {
                         {t("adminAuctions.create.description")}
                     </p>
                 </div>
-                <Button
-                    type="button"
-                    className="w-fit"
-                    onClick={() =>
-                        navigate({
-                            to: "/$lng/admin/auctions/new",
-                            params: { lng: language },
-                        })
-                    }
-                >
-                    {t("adminAuctions.actions.create")}
+                <Button asChild className="w-fit">
+                    <Link to="/$lng/admin/auctions/new" params={{ lng: language }}>
+                        {t("adminAuctions.actions.create")}
+                    </Link>
                 </Button>
             </section>
 
@@ -75,6 +68,8 @@ export function AdminAuctionsPage({ language }: { readonly language: string }) {
                         <Input
                             id="admin-auction-id"
                             autoComplete="off"
+                            spellCheck={false}
+                            placeholder="auc_…"
                             value={auctionId}
                             onChange={(event) => setAuctionId(event.currentTarget.value)}
                         />
@@ -83,17 +78,6 @@ export function AdminAuctionsPage({ language }: { readonly language: string }) {
                         {t("adminAuctions.actions.open")}
                     </Button>
                 </form>
-                <p className="text-sm text-muted-foreground">
-                    {t("adminAuctions.open.browsePrefix")}{" "}
-                    <Link
-                        to="/$lng/auctions"
-                        params={{ lng: language }}
-                        from="/$lng"
-                        className="text-primary underline-offset-4 hover:underline"
-                    >
-                        {t("adminAuctions.open.browseLink")}
-                    </Link>
-                </p>
             </section>
         </main>
     );

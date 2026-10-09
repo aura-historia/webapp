@@ -13,7 +13,6 @@ import { H1 } from "@/components/typography/H1.tsx";
 import { Link } from "@tanstack/react-router";
 import { ListingStatusBadge } from "@/features/product/catalog/components/badges/ListingStatusBadge.tsx";
 import { PriceValuationBadge } from "@/features/product/catalog/components/badges/PriceValuationBadge.tsx";
-import { AuctionListingFacts } from "@/features/auction-discovery/components/AuctionListingFacts.tsx";
 
 export function ProductInfo({ product }: { readonly product: ProductListingDetail }) {
     const { t } = useTranslation();
@@ -49,6 +48,18 @@ export function ProductInfo({ product }: { readonly product: ProductListingDetai
                             availability={product.availability}
                             lifecycle={product.lifecycle}
                         />
+                        {product.auction?.name?.text && (
+                            <span className="text-xs uppercase tracking-widest text-muted-foreground">
+                                {product.auction.name.text}
+                            </span>
+                        )}
+                        {product.lot?.lotNumber && (
+                            <span className="text-xs uppercase tracking-widest text-muted-foreground">
+                                {t("product.auction.lotNumber", {
+                                    lotNumber: product.lot.lotNumber,
+                                })}
+                            </span>
+                        )}
                     </div>
                     <div className="ml-auto shrink-0 self-start">
                         <div className="hidden gap-2 md:flex">
@@ -158,7 +169,6 @@ export function ProductInfo({ product }: { readonly product: ProductListingDetai
                         showIcon={false}
                     />
                 </div>
-                <AuctionListingFacts auction={product.auction} lot={product.lot} />
             </div>
         </section>
     );

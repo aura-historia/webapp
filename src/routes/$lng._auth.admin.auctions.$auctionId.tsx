@@ -1,14 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AdminAuctionDetailPage } from "@/features/auction-discovery/pages/AdminAuctionDetailPage.tsx";
-import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
+import { AdminAuctionDetailPage } from "@/features/admin/auction-management/pages/AdminAuctionDetailPage.tsx";
 
 export const Route = createFileRoute("/$lng/_auth/admin/auctions/$auctionId")({
-    head: ({ params }) =>
-        generatePageHeadMeta({
-            pageKey: "adminAuctions",
-            noIndex: true,
-            language: params.lng,
-        }),
     component: AdminAuctionDetailRoute,
 });
 
