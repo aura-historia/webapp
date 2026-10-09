@@ -1230,7 +1230,13 @@
       "title": "Completa il tuo profilo",
       "subtitle": "Questi dati sono facoltativi — puoi aggiornarli in qualsiasi momento",
       "submit": "Salva e continua",
-      "skip": "Salta per ora"
+      "skip": "Salta per ora",
+      "newsletter": {
+        "doubleOptIn": "Invieremo prima un link di conferma a {{email}}. L'iscrizione inizia solo dopo averlo confermato. Maggiori informazioni sono disponibili nella nostra <privacyLink>informativa sulla privacy</privacyLink>.",
+        "requestedTitle": "Controlla la tua casella di posta.",
+        "requestedDescription": "Se {{email}} può ricevere la nostra newsletter, invieremo un link di conferma a questo indirizzo. L'iscrizione inizia solo dopo che avrai aperto il link e confermato.",
+        "requestFailed": "I tuoi dati sono stati salvati, ma non è stato possibile richiedere la conferma della newsletter. Riprova o salta questo passaggio per ora."
+      }
     },
     "errors": {
       "UsernameExistsException": "Un account con questo indirizzo e-mail esiste già.",
