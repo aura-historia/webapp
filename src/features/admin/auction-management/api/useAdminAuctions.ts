@@ -106,12 +106,24 @@ export function useAdminAuction(auctionId: string) {
     return useQuery(adminAuctionDetailQueryOptions(auctionId, useAdminAuctionRequestError()));
 }
 
+const LISTING_SOURCE_ID_PATTERN = /^ls_[0-9a-z]{26}$/;
+
+/**
+ * The text `query` matches source and operator names and slugs, never IDs, so a pasted
+ * listing source ID is sent as the exact ID filter instead.
+ */
+export function mapListingSourceSelectionQuery(searchText: string) {
+    return LISTING_SOURCE_ID_PATTERN.test(searchText)
+        ? { listingSourceId: searchText }
+        : { query: searchText };
+}
+
 export function adminAuctionListingSourceOptions(
-    queryText: string,
+    searchText: string,
     requestError: AdminAuctionErrorFactory,
 ) {
     return infiniteQueryOptions({
-        queryKey: [...ADMIN_AUCTIONS_QUERY_KEY, "listing-source-selection", queryText] as const,
+        queryKey: [...ADMIN_AUCTIONS_QUERY_KEY, "listing-source-selection", searchText] as const,
         initialPageParam: undefined as string | undefined,
         getNextPageParam: (page: ReturnType<typeof mapToAdminListingSourcePage>) =>
             page.searchAfter,
@@ -120,7 +132,7 @@ export function adminAuctionListingSourceOptions(
         queryFn: async ({ pageParam, signal }) => {
             const response = await adminSearchListingSources({
                 query: {
-                    query: queryText,
+                    ...mapListingSourceSelectionQuery(searchText),
                     size: ADMIN_LISTING_SOURCE_PAGE_SIZE,
                     searchAfter: pageParam,
                 },

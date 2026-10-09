@@ -98,6 +98,11 @@ describe("AdminAuctionCreatePage", () => {
         listingSourceId: "ls_01",
         listingSourceSlugId: "antique-house",
         name: "Antique House",
+        operator: {
+            partyId: "pty_01",
+            partySlugId: "antique-house-ltd",
+            name: "Antique House Ltd",
+        },
     };
 
     beforeEach(() => {
@@ -130,7 +135,7 @@ describe("AdminAuctionCreatePage", () => {
         fireEvent.change(screen.getByLabelText(t("adminAuctions.fields.searchListingSources")), {
             target: { value: "antique" },
         });
-        fireEvent.click(screen.getByRole("button", { name: /Antique House/ }));
+        fireEvent.click(await screen.findByRole("button", { name: /Antique House/ }));
         fireEvent.change(screen.getByLabelText(t("adminAuctions.fields.sourceAuctionId")), {
             target: { value: " sale-2026 " },
         });

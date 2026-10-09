@@ -2625,9 +2625,11 @@
       "description": "Open a record when you know its auction ID."
     },
     "sourceSearch": {
-      "prompt": "Search for a listing source by name or ID.",
+      "prompt": "Search by listing source or operator name or slug, or paste a listing source ID.",
       "loading": "Searching listing sources…",
-      "noResults": "No listing sources match this search."
+      "noResults": "No listing sources match this search.",
+      "operatedBy": "Operated by {{name}}",
+      "results": "Matching listing sources"
     },
     "fields": {
       "listingSource": "Listing source",
@@ -2657,7 +2659,6 @@
       "create": "Create auction",
       "creating": "Creating…",
       "open": "Open record",
-      "changeSource": "Change listing source",
       "loadMore": "Load more sources",
       "loadingMore": "Loading…",
       "retry": "Try again",
@@ -2665,7 +2666,8 @@
       "save": "Save changes",
       "saving": "Saving…",
       "loadLatest": "Load latest record",
-      "backToOverview": "Back to auction management"
+      "backToOverview": "Back to auction management",
+      "clearSource": "Clear selection"
     },
     "errors": {
       "forbidden": "You do not have permission to manage auctions.",

@@ -2625,9 +2625,11 @@
       "description": "Ouvrez une fiche si vous connaissez l’ID de la vente."
     },
     "sourceSearch": {
-      "prompt": "Recherchez une source par son nom ou son ID.",
+      "prompt": "Recherchez par nom ou slug de la source ou de son opérateur, ou collez un ID de source.",
       "loading": "Recherche des sources…",
-      "noResults": "Aucune source ne correspond à cette recherche."
+      "noResults": "Aucune source ne correspond à cette recherche.",
+      "operatedBy": "Exploitée par {{name}}",
+      "results": "Sources correspondantes"
     },
     "fields": {
       "listingSource": "Source",
@@ -2657,7 +2659,6 @@
       "create": "Créer la vente",
       "creating": "Création…",
       "open": "Ouvrir la fiche",
-      "changeSource": "Changer de source",
       "loadMore": "Afficher plus de sources",
       "loadingMore": "Chargement…",
       "retry": "Réessayer",
@@ -2665,7 +2666,8 @@
       "save": "Enregistrer les modifications",
       "saving": "Enregistrement…",
       "loadLatest": "Charger la fiche à jour",
-      "backToOverview": "Retour à la gestion des ventes"
+      "backToOverview": "Retour à la gestion des ventes",
+      "clearSource": "Effacer la sélection"
     },
     "errors": {
       "forbidden": "Vous n’êtes pas autorisé à gérer les ventes.",

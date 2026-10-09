@@ -9,6 +9,7 @@ import {
     buildUpdateAuctionData,
     createAdminAuctionErrorFactory,
     mapAdminAuctionFormValues,
+    mapListingSourceSelectionQuery,
     useAdminAuction,
     useAdminAuctionListingSources,
     useCreateAdminAuction,
@@ -223,6 +224,14 @@ describe("admin auction queries", () => {
                 cache: "no-store",
             }),
         );
+    });
+
+    it("sends a pasted listing source ID as the exact ID filter", () => {
+        expect(mapListingSourceSelectionQuery("ls_6rd827eqfefsva9teecmwa3ate")).toEqual({
+            listingSourceId: "ls_6rd827eqfefsva9teecmwa3ate",
+        });
+        expect(mapListingSourceSelectionQuery("ls_partial")).toEqual({ query: "ls_partial" });
+        expect(mapListingSourceSelectionQuery("Dorotheum")).toEqual({ query: "Dorotheum" });
     });
 
     it("caches the created auction for its detail page", async () => {

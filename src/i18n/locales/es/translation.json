@@ -2625,9 +2625,11 @@
       "description": "Abra un registro si conoce el ID de la subasta."
     },
     "sourceSearch": {
-      "prompt": "Busque una fuente por nombre o ID.",
+      "prompt": "Busque por nombre o slug de la fuente o de su operador, o pegue un ID de fuente.",
       "loading": "Buscando fuentes…",
-      "noResults": "No hay fuentes que coincidan con esta búsqueda."
+      "noResults": "No hay fuentes que coincidan con esta búsqueda.",
+      "operatedBy": "Gestionada por {{name}}",
+      "results": "Fuentes encontradas"
     },
     "fields": {
       "listingSource": "Fuente de anuncios",
@@ -2657,7 +2659,6 @@
       "create": "Crear subasta",
       "creating": "Creando…",
       "open": "Abrir registro",
-      "changeSource": "Cambiar fuente",
       "loadMore": "Cargar más fuentes",
       "loadingMore": "Cargando…",
       "retry": "Intentar de nuevo",
@@ -2665,7 +2666,8 @@
       "save": "Guardar cambios",
       "saving": "Guardando…",
       "loadLatest": "Cargar registro actualizado",
-      "backToOverview": "Volver a la gestión de subastas"
+      "backToOverview": "Volver a la gestión de subastas",
+      "clearSource": "Quitar selección"
     },
     "errors": {
       "forbidden": "No tiene permiso para gestionar subastas.",

@@ -2625,9 +2625,11 @@
       "description": "Öffnen Sie einen Datensatz, wenn Ihnen die Auktions-ID bekannt ist."
     },
     "sourceSearch": {
-      "prompt": "Suchen Sie eine Listing-Source nach Name oder ID.",
+      "prompt": "Suchen Sie nach Name oder Slug der Listing-Source oder ihres Betreibers, oder fügen Sie eine Listing-Source-ID ein.",
       "loading": "Listing-Sources werden gesucht…",
-      "noResults": "Keine Listing-Sources entsprechen dieser Suche."
+      "noResults": "Keine Listing-Sources entsprechen dieser Suche.",
+      "operatedBy": "Betrieben von {{name}}",
+      "results": "Gefundene Listing-Sources"
     },
     "fields": {
       "listingSource": "Listing-Source",
@@ -2657,7 +2659,6 @@
       "create": "Auktion anlegen",
       "creating": "Wird angelegt…",
       "open": "Datensatz öffnen",
-      "changeSource": "Listing-Source ändern",
       "loadMore": "Weitere Sources laden",
       "loadingMore": "Wird geladen…",
       "retry": "Erneut versuchen",
@@ -2665,7 +2666,8 @@
       "save": "Änderungen speichern",
       "saving": "Wird gespeichert…",
       "loadLatest": "Aktuellen Datensatz laden",
-      "backToOverview": "Zurück zur Auktionsverwaltung"
+      "backToOverview": "Zurück zur Auktionsverwaltung",
+      "clearSource": "Auswahl aufheben"
     },
     "errors": {
       "forbidden": "Sie dürfen Auktionen nicht verwalten.",

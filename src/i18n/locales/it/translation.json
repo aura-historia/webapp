@@ -2625,9 +2625,11 @@
       "description": "Apri un record se conosci l’ID dell’asta."
     },
     "sourceSearch": {
-      "prompt": "Cerca una fonte per nome o ID.",
+      "prompt": "Cerca per nome o slug della fonte o del suo gestore, oppure incolla un ID fonte.",
       "loading": "Ricerca delle fonti…",
-      "noResults": "Nessuna fonte corrisponde alla ricerca."
+      "noResults": "Nessuna fonte corrisponde alla ricerca.",
+      "operatedBy": "Gestita da {{name}}",
+      "results": "Fonti trovate"
     },
     "fields": {
       "listingSource": "Fonte delle inserzioni",
@@ -2657,7 +2659,6 @@
       "create": "Crea asta",
       "creating": "Creazione…",
       "open": "Apri record",
-      "changeSource": "Cambia fonte",
       "loadMore": "Carica altre fonti",
       "loadingMore": "Caricamento…",
       "retry": "Riprova",
@@ -2665,7 +2666,8 @@
       "save": "Salva modifiche",
       "saving": "Salvataggio…",
       "loadLatest": "Carica il record aggiornato",
-      "backToOverview": "Torna alla gestione delle aste"
+      "backToOverview": "Torna alla gestione delle aste",
+      "clearSource": "Annulla selezione"
     },
     "errors": {
       "forbidden": "Non hai l’autorizzazione per gestire le aste.",

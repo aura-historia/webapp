@@ -9,11 +9,8 @@ import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import type { AdminListingSourceSummary } from "@/data/internal/listing-source/AdminListingSource.ts";
-import {
-    AdminAuctionRequestError,
-    useAdminAuctionListingSources,
-    useCreateAdminAuction,
-} from "../api/useAdminAuctions.ts";
+import { AdminAuctionRequestError, useCreateAdminAuction } from "../api/useAdminAuctions.ts";
+import { AuctionListingSourcePicker } from "../components/AuctionListingSourcePicker.tsx";
 import { AuctionMetadataFields } from "../components/AuctionMetadataFields.tsx";
 import {
     auctionMetadataSchema,
@@ -28,19 +25,11 @@ export function AdminAuctionCreatePage({ language }: { readonly language: string
         resolver: zodResolver(auctionMetadataSchema),
         defaultValues: createDefaultAuctionMetadata(language),
     });
-    const [sourceQuery, setSourceQuery] = useState("");
     const [selectedSource, setSelectedSource] = useState<AdminListingSourceSummary>();
     const [sourceAuctionId, setSourceAuctionId] = useState("");
     const [sourceError, setSourceError] = useState<string>();
     const [sourceAuctionIdError, setSourceAuctionIdError] = useState<string>();
-    const sourceSearch = useAdminAuctionListingSources(sourceQuery);
     const createAuction = useCreateAdminAuction();
-    const sources = sourceSearch.data?.pages.flatMap((page) => page.items) ?? [];
-
-    const selectSource = (source?: AdminListingSourceSummary) => {
-        setSelectedSource(source);
-        setSourceError(source ? undefined : "adminAuctions.validation.sourceRequired");
-    };
 
     return (
         <main className="mx-auto grid w-full max-w-4xl gap-8 px-4 py-10 sm:px-6">
@@ -79,108 +68,14 @@ export function AdminAuctionCreatePage({ language }: { readonly language: string
                     }
                 })}
             >
-                <fieldset className="grid gap-3">
-                    <legend className="font-medium">
-                        {t("adminAuctions.fields.listingSource")}
-                    </legend>
-                    {selectedSource ? (
-                        <div className="grid gap-2 border bg-surface-container-low p-4">
-                            <p className="font-medium">{selectedSource.name}</p>
-                            <p className="break-all font-mono text-xs text-muted-foreground">
-                                {selectedSource.listingSourceId}
-                            </p>
-                            <Button
-                                type="button"
-                                variant="outline"
-                                className="w-fit"
-                                onClick={() => selectSource()}
-                            >
-                                {t("adminAuctions.actions.changeSource")}
-                            </Button>
-                        </div>
-                    ) : (
-                        <>
-                            <div className="grid gap-2">
-                                <Label htmlFor="auction-source-search">
-                                    {t("adminAuctions.fields.searchListingSources")}
-                                </Label>
-                                <Input
-                                    id="auction-source-search"
-                                    type="search"
-                                    autoComplete="off"
-                                    value={sourceQuery}
-                                    onChange={(event) => setSourceQuery(event.currentTarget.value)}
-                                />
-                            </div>
-                            {sourceQuery.trim() === "" ? (
-                                <p className="text-sm text-muted-foreground">
-                                    {t("adminAuctions.sourceSearch.prompt")}
-                                </p>
-                            ) : sourceSearch.isPending ? (
-                                <p role="status" className="text-sm text-muted-foreground">
-                                    {t("adminAuctions.sourceSearch.loading")}
-                                </p>
-                            ) : sourceSearch.error ? (
-                                <div className="grid justify-items-start gap-2" role="alert">
-                                    <p className="text-sm text-destructive">
-                                        {sourceSearch.error.message}
-                                    </p>
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        onClick={() => sourceSearch.refetch()}
-                                    >
-                                        {t("adminAuctions.actions.retry")}
-                                    </Button>
-                                </div>
-                            ) : sources.length === 0 ? (
-                                <p className="text-sm text-muted-foreground">
-                                    {t("adminAuctions.sourceSearch.noResults")}
-                                </p>
-                            ) : (
-                                <>
-                                    <ul className="grid gap-2">
-                                        {sources.map((source) => (
-                                            <li key={source.listingSourceId}>
-                                                <button
-                                                    type="button"
-                                                    className="grid w-full gap-1 border bg-surface-container-low p-3 text-left outline-none transition-colors hover:bg-surface-container focus-visible:ring-2 focus-visible:ring-ring"
-                                                    onClick={() => selectSource(source)}
-                                                >
-                                                    <span className="font-medium">
-                                                        {source.name}
-                                                    </span>
-                                                    <span className="break-all font-mono text-xs text-muted-foreground">
-                                                        {source.listingSourceId} ·{" "}
-                                                        {source.listingSourceSlugId}
-                                                    </span>
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    {sourceSearch.hasNextPage && (
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            className="justify-self-center"
-                                            disabled={sourceSearch.isFetchingNextPage}
-                                            onClick={() => sourceSearch.fetchNextPage()}
-                                        >
-                                            {sourceSearch.isFetchingNextPage
-                                                ? t("adminAuctions.actions.loadingMore")
-                                                : t("adminAuctions.actions.loadMore")}
-                                        </Button>
-                                    )}
-                                </>
-                            )}
-                        </>
-                    )}
-                    {sourceError && (
-                        <p role="alert" className="text-sm text-destructive">
-                            {t(sourceError)}
-                        </p>
-                    )}
-                </fieldset>
+                <AuctionListingSourcePicker
+                    value={selectedSource}
+                    onChange={(source) => {
+                        setSelectedSource(source);
+                        if (source) setSourceError(undefined);
+                    }}
+                    error={sourceError}
+                />
 
                 <div className="grid gap-2">
                     <Label htmlFor="auction-source-auction-id">
