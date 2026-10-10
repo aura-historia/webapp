@@ -1132,6 +1132,18 @@
     "description": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
     "goHome": "Zur Startseite"
   },
+  "serviceStatus": {
+    "notice": {
+      "maintenance": {
+        "title": "Wartungsarbeiten im Gange.",
+        "description": "Einige Funktionen sind derzeit möglicherweise nicht verfügbar."
+      },
+      "disruption": {
+        "title": "Technische Störung.",
+        "description": "Einige Funktionen sind derzeit möglicherweise nicht verfügbar."
+      }
+    }
+  },
   "auth": {
     "federated": {
       "or": "oder",
@@ -2171,6 +2183,33 @@
       "unavailable": "Die Admin-Übersicht ist vorübergehend nicht verfügbar. Bitte versuchen Sie es in Kürze erneut.",
       "requestFailed": "Die Admin-Übersicht konnte nicht geladen werden.",
       "stale": "Die aktuellen Zahlen konnten nicht aktualisiert werden. Die angezeigten Werte sind möglicherweise veraltet."
+    },
+    "serviceStatus": {
+      "title": "Systemstatus",
+      "description": "Von diesem Browser aus über die öffentlichen Health-Endpunkte der API geprüft. Dasselbe Ergebnis bestimmt, welchen Hinweis Besucher sehen.",
+      "check": "Jetzt prüfen",
+      "loading": "Systemstatus wird geprüft.",
+      "noResponse": "Keine Antwort",
+      "checkedAt": "Zuletzt geprüft um {{time}}.",
+      "availability": {
+        "operational": "Betriebsbereit",
+        "maintenance": "Wartung",
+        "disruption": "Störung"
+      },
+      "visitorNotice": {
+        "operational": "Besucher sehen keinen Hinweis.",
+        "maintenance": "Besucher sehen den Wartungshinweis.",
+        "disruption": "Besucher sehen den Störungshinweis."
+      },
+      "probes": {
+        "liveness": "API",
+        "readiness": "Datenbank und Suche"
+      },
+      "probeStates": {
+        "available": "Verfügbar",
+        "maintenance": "Wartung",
+        "unavailable": "Nicht verfügbar"
+      }
     },
     "users": {
       "title": "Benutzer",

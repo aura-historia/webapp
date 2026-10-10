@@ -44,7 +44,8 @@ To adopt a backend revision:
   [backend#1991](https://github.com/aura-historia/backend/issues/1991).
 - Partner async ingestion batches and provider ingestion configuration are external API
   capabilities, not browser workflows (see [partner integration](partner-integration.md)).
-- `getHealth`/`getReadiness` are infrastructure probes. `getMyAccessToken` is unused; the UI reads
+- `getHealth`/`getReadiness` drive the maintenance and disruption notice (see
+  [service status](service-status.md)). `getMyAccessToken` is unused; the UI reads
   the own-token collection. Billing uses `postBillingManage`; `postBillingCheckout` and
   `postBillingPortal` remain SDK-only.
 - Legacy product URL routes are intentional redirects. Removed shop metadata, taxonomy,

@@ -1132,6 +1132,18 @@
     "description": "An unexpected error occurred. Please try again later.",
     "goHome": "Go to homepage"
   },
+  "serviceStatus": {
+    "notice": {
+      "maintenance": {
+        "title": "Maintenance in progress.",
+        "description": "Some features may currently be unavailable."
+      },
+      "disruption": {
+        "title": "Service disruption.",
+        "description": "Some features may currently be unavailable."
+      }
+    }
+  },
   "auth": {
     "federated": {
       "or": "or",
@@ -2171,6 +2183,33 @@
       "unavailable": "The admin overview is temporarily unavailable. Please try again shortly.",
       "requestFailed": "The admin overview could not be loaded.",
       "stale": "The latest counts could not be refreshed. The figures shown may be out of date."
+    },
+    "serviceStatus": {
+      "title": "Service status",
+      "description": "Checked from this browser against the public API health endpoints. The same result determines which notice visitors see.",
+      "check": "Check now",
+      "loading": "Checking service status.",
+      "noResponse": "No response",
+      "checkedAt": "Last checked at {{time}}.",
+      "availability": {
+        "operational": "Operational",
+        "maintenance": "Maintenance",
+        "disruption": "Disruption"
+      },
+      "visitorNotice": {
+        "operational": "Visitors see no notice.",
+        "maintenance": "Visitors see the maintenance notice.",
+        "disruption": "Visitors see the disruption notice."
+      },
+      "probes": {
+        "liveness": "API",
+        "readiness": "Database and search"
+      },
+      "probeStates": {
+        "available": "Available",
+        "maintenance": "Maintenance",
+        "unavailable": "Unavailable"
+      }
     },
     "users": {
       "title": "Users",

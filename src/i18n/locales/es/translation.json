@@ -1132,6 +1132,18 @@
     "description": "Se produjo un error inesperado. Por favor, inténtelo de nuevo más tarde.",
     "goHome": "Ir a la página principal"
   },
+  "serviceStatus": {
+    "notice": {
+      "maintenance": {
+        "title": "Mantenimiento en curso.",
+        "description": "Es posible que algunas funciones no estén disponibles en este momento."
+      },
+      "disruption": {
+        "title": "Incidencia en el servicio.",
+        "description": "Es posible que algunas funciones no estén disponibles en este momento."
+      }
+    }
+  },
   "auth": {
     "federated": {
       "or": "o",
@@ -1667,6 +1679,33 @@
       "unavailable": "El resumen de administración no está disponible temporalmente. Inténtelo de nuevo en breve.",
       "requestFailed": "No se pudo cargar el resumen de administración.",
       "stale": "No se pudieron actualizar las cifras más recientes. Los valores mostrados pueden estar desactualizados."
+    },
+    "serviceStatus": {
+      "title": "Estado del servicio",
+      "description": "Comprobado desde este navegador mediante los endpoints públicos de estado de la API. El mismo resultado determina qué aviso ven los visitantes.",
+      "check": "Comprobar ahora",
+      "loading": "Comprobando el estado del servicio.",
+      "noResponse": "Sin respuesta",
+      "checkedAt": "Última comprobación: {{time}}.",
+      "availability": {
+        "operational": "Operativo",
+        "maintenance": "Mantenimiento",
+        "disruption": "Incidencia"
+      },
+      "visitorNotice": {
+        "operational": "Los visitantes no ven ningún aviso.",
+        "maintenance": "Los visitantes ven el aviso de mantenimiento.",
+        "disruption": "Los visitantes ven el aviso de incidencia."
+      },
+      "probes": {
+        "liveness": "API",
+        "readiness": "Base de datos y búsqueda"
+      },
+      "probeStates": {
+        "available": "Disponible",
+        "maintenance": "Mantenimiento",
+        "unavailable": "No disponible"
+      }
     },
     "users": {
       "title": "Usuarios",
