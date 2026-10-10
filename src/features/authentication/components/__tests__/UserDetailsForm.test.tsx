@@ -121,6 +121,22 @@ describe("UserDetailsForm", () => {
             expect(mockSubscribe).not.toHaveBeenCalled();
         });
 
+        it("offers every supported currency and saves a newly supported one", async () => {
+            const user = userEvent.setup();
+            await renderUserDetailsForm();
+
+            await user.click(screen.getByRole("button", { name: "Währung" }));
+            expect(screen.getAllByRole("option")).toHaveLength(29);
+            await user.click(screen.getByRole("option", { name: "SEK - Schwedische Krone" }));
+            await user.click(screen.getByRole("button", { name: "Speichern und fortfahren" }));
+
+            await waitFor(() => {
+                expect(mockUpdateAccount).toHaveBeenCalledWith(
+                    expect.objectContaining({ currency: "SEK" }),
+                );
+            });
+        });
+
         it("completes on skip without saving or requesting a newsletter subscription", async () => {
             const user = userEvent.setup();
             const onSuccess = vi.fn();

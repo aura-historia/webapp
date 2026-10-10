@@ -131,4 +131,125 @@ describe("SearchableCurrencySelect", () => {
         expect(screen.getByRole("combobox", { name: "Search currencies" })).toHaveValue("");
         expect(screen.getAllByRole("option")).toHaveLength(options.length);
     });
+
+    describe("with the extended currency catalogue", () => {
+        const extendedOptions = [
+            ...options,
+            { value: "SEK", label: "Swedish Krona", searchTerms: ["SEK"] },
+            { value: "KRW", label: "South Korean Won", searchTerms: ["₩"] },
+            { value: "TWD", label: "New Taiwan Dollar", searchTerms: ["NT$"] },
+            { value: "THB", label: "Thai Baht", searchTerms: ["฿"] },
+        ] as const;
+
+        function renderExtended(onValueChange = vi.fn(), value = "EUR") {
+            render(
+                <SearchableCurrencySelect
+                    options={extendedOptions}
+                    value={value}
+                    onValueChange={onValueChange}
+                    placeholder="Select currency"
+                    searchPlaceholder="Search currencies"
+                    emptyMessage="No currencies found"
+                />,
+            );
+            return onValueChange;
+        }
+
+        it("selects a new currency option by click", async () => {
+            const user = userEvent.setup();
+            const onValueChange = renderExtended();
+
+            await user.click(screen.getByRole("button", { name: "Select currency" }));
+            await user.click(screen.getByRole("option", { name: "South Korean Won" }));
+
+            expect(onValueChange).toHaveBeenCalledWith("KRW");
+            expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+        });
+
+        it("marks a new currency as selected when it is the current value", async () => {
+            const user = userEvent.setup();
+            renderExtended(vi.fn(), "SEK");
+
+            await user.click(screen.getByRole("button", { name: "Select currency" }));
+
+            expect(screen.getByRole("option", { name: "Swedish Krona" })).toHaveAttribute(
+                "aria-selected",
+                "true",
+            );
+            expect(screen.getByRole("option", { name: "Euro" })).toHaveAttribute(
+                "aria-selected",
+                "false",
+            );
+        });
+
+        it("matches a new currency by its lowercase ISO code and selects it with Enter", async () => {
+            const user = userEvent.setup();
+            const onValueChange = renderExtended();
+
+            await user.click(screen.getByRole("button", { name: "Select currency" }));
+            await user.type(screen.getByRole("combobox", { name: "Search currencies" }), "sek");
+
+            expect(screen.getAllByRole("option")).toHaveLength(1);
+            await user.keyboard("{Enter}");
+
+            expect(onValueChange).toHaveBeenCalledWith("SEK");
+        });
+
+        it("matches a new currency by its symbol search term", async () => {
+            const user = userEvent.setup();
+            const onValueChange = renderExtended();
+
+            await user.click(screen.getByRole("button", { name: "Select currency" }));
+            await user.type(screen.getByRole("combobox", { name: "Search currencies" }), "฿");
+            await user.keyboard("{Enter}");
+
+            expect(onValueChange).toHaveBeenCalledWith("THB");
+        });
+
+        it("navigates with arrow keys across new options and selects with Enter", async () => {
+            const user = userEvent.setup();
+            const onValueChange = renderExtended();
+
+            await user.click(screen.getByRole("button", { name: "Select currency" }));
+            const search = screen.getByRole("combobox", { name: "Search currencies" });
+            await user.type(search, "dollar");
+
+            // US Dollar, Canadian Dollar, New Taiwan Dollar
+            expect(screen.getAllByRole("option")).toHaveLength(3);
+            await user.keyboard("{ArrowDown}{ArrowDown}");
+            expect(search).toHaveAttribute(
+                "aria-activedescendant",
+                screen.getByRole("option", { name: "New Taiwan Dollar" }).id,
+            );
+
+            // Clamped at the last match
+            await user.keyboard("{ArrowDown}");
+            expect(search).toHaveAttribute(
+                "aria-activedescendant",
+                screen.getByRole("option", { name: "New Taiwan Dollar" }).id,
+            );
+
+            await user.keyboard("{Enter}");
+
+            expect(onValueChange).toHaveBeenCalledWith("TWD");
+        });
+
+        it("shows the empty message and ignores Enter when nothing matches", async () => {
+            const user = userEvent.setup();
+            const onValueChange = renderExtended();
+
+            await user.click(screen.getByRole("button", { name: "Select currency" }));
+            const search = screen.getByRole("combobox", { name: "Search currencies" });
+            await user.type(search, "xyz");
+
+            expect(screen.queryAllByRole("option")).toHaveLength(0);
+            expect(screen.getByText("No currencies found")).toBeInTheDocument();
+            expect(search).not.toHaveAttribute("aria-activedescendant");
+
+            await user.keyboard("{Enter}");
+
+            expect(onValueChange).not.toHaveBeenCalled();
+            expect(screen.getByRole("listbox")).toBeInTheDocument();
+        });
+    });
 });

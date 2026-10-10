@@ -1,3 +1,4 @@
+import { currencyFormatOptions, toMajorCurrencyAmount } from "@/data/internal/price/Price.ts";
 import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
 import type {
     ListingPrice,
@@ -10,23 +11,10 @@ export type PriceHistorySeries = {
     readonly data: readonly PriceHistoryPoint[];
 };
 
-function minorUnitDigits(currency: string, locale = "en"): number {
-    try {
-        return (
-            new Intl.NumberFormat(locale, { style: "currency", currency }).resolvedOptions()
-                .maximumFractionDigits ?? 2
-        );
-    } catch {
-        return 2;
-    }
-}
-
 export function formatHistoryMoney(value: ListingPriceEstimate, locale: string): string {
-    const digits = minorUnitDigits(value.currency, locale);
-    return new Intl.NumberFormat(locale, {
-        style: "currency",
-        currency: value.currency,
-    }).format(value.amount / 10 ** digits);
+    return new Intl.NumberFormat(locale, currencyFormatOptions(value.currency)).format(
+        toMajorCurrencyAmount(value.amount, value.currency),
+    );
 }
 
 export function formatHistoryPrice(
@@ -55,7 +43,7 @@ function addPricePoint(
     const data = builder.seriesByCurrency.get(currency) ?? [];
     data.push({
         x: timestamp,
-        y: amount === null ? null : amount / 10 ** minorUnitDigits(currency),
+        y: amount === null ? null : toMajorCurrencyAmount(amount, currency),
     });
     builder.seriesByCurrency.set(currency, data);
 }

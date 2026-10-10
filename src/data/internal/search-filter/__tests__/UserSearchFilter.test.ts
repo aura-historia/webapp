@@ -335,3 +335,38 @@ describe("isDefaultOrEmpty behaviour in mapToBackendCreateUserSearchFilter", () 
         expect(result.search.listingSourceId).toEqual(["source-1"]);
     });
 });
+
+describe("search filter currency round trips", () => {
+    it.each([
+        // [currency, stored minor units, expected major amount in the form]
+        ["KRW", 12345, 12345],
+        ["SEK", 12345, 123.45],
+        ["HUF", 12345, 123.45],
+    ] as const)(
+        "reads and writes %s prices with the backend exponent",
+        (currency, minor, major) => {
+            const filter = mapToInternalUserSearchFilter({
+                ...baseFilterData,
+                search: {
+                    ...baseFilterData.search,
+                    currency,
+                    price: { min: minor, max: minor * 2 },
+                },
+            });
+            expect(filter.search.currency).toBe(currency);
+            expect(filter.search.priceFrom).toBe(major);
+            expect(filter.search.priceTo).toBe(major * 2);
+
+            const created = mapToBackendCreateUserSearchFilter({
+                name: filter.name,
+                search: filter.search,
+            });
+            expect(created.search.currency).toBe(currency);
+            expect(created.search.price).toEqual({ min: minor, max: minor * 2 });
+
+            const patched = mapToBackendPatchUserSearchFilter({ search: filter.search });
+            expect(patched.search?.currency).toBe(currency);
+            expect(patched.search?.price).toEqual({ min: minor, max: minor * 2 });
+        },
+    );
+});

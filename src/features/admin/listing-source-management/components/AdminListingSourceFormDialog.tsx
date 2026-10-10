@@ -24,6 +24,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select.tsx";
+import { toSupportedCurrency } from "@/data/internal/common/Currency.ts";
 import {
     ADMIN_LISTING_SOURCE_INGESTION_METHODS,
     type AdminListingSourceCreateValues,
@@ -57,6 +58,35 @@ function isOptionalHttpUrl(value: string) {
 const presentationUrlSchema = z.string().refine(isOptionalHttpUrl, {
     message: "adminListingSources.validation.invalidUrl",
 });
+
+const UNSUPPORTED_CURRENCY_MESSAGE = "adminListingSources.validation.unsupportedCurrency";
+
+/** Empty means "not configured"; anything else must be a supported ISO 4217 code. */
+function isOptionalSupportedCurrency(value: string): boolean {
+    return !value.trim() || toSupportedCurrency(value) !== undefined;
+}
+
+function currencyFieldFor(method: string): "fallbackCurrency" | "currency" | undefined {
+    if (method === "WEB_CRAWL") return "fallbackCurrency";
+    if (method === "SHOPIFY" || method === "WOOCOMMERCE") return "currency";
+    return undefined;
+}
+
+function addCurrencyIssues(
+    configuration: { readonly fallbackCurrency: string; readonly currency: string },
+    method: string,
+    index: number,
+    context: z.RefinementCtx,
+) {
+    const field = currencyFieldFor(method);
+    if (field && !isOptionalSupportedCurrency(configuration[field])) {
+        context.addIssue({
+            code: "custom",
+            path: ["configurations", index, field],
+            message: UNSUPPORTED_CURRENCY_MESSAGE,
+        });
+    }
+}
 
 const configurationFieldsSchema = z.object({
     type: z.enum(["UNCONFIGURED", "WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE", "PARTNER_API"]),
@@ -134,6 +164,7 @@ const createFormSchema = z
                     message: "adminListingSources.validation.webhookSecretRequired",
                 });
             }
+            addCurrencyIssues(configuration, configuration.type, index, context);
         });
     });
 
@@ -179,6 +210,7 @@ const updateFormSchema = z
                         message: "adminListingSources.validation.shopifyDomainRequired",
                     });
                 }
+                addCurrencyIssues(configuration, configuration.ingestionMethod, index, context);
             });
         }
     });
@@ -473,6 +505,8 @@ function CreateConfigurationEditor({
     readonly errors?: {
         readonly domain?: { readonly message?: string };
         readonly webhookSecret?: { readonly message?: string };
+        readonly fallbackCurrency?: { readonly message?: string };
+        readonly currency?: { readonly message?: string };
     };
     readonly canRemove: boolean;
     readonly onRemove: () => void;
@@ -538,10 +572,12 @@ function CreateConfigurationEditor({
                 <FormField
                     id={`admin-source-${index}-fallback-currency`}
                     label={t("adminListingSources.fields.fallbackCurrency")}
+                    error={errors?.fallbackCurrency?.message}
                 >
                     <Input
                         id={`admin-source-${index}-fallback-currency`}
                         maxLength={3}
+                        aria-invalid={Boolean(errors?.fallbackCurrency?.message)}
                         {...register(`${base}.fallbackCurrency`)}
                     />
                 </FormField>
@@ -560,6 +596,7 @@ function CreateConfigurationEditor({
                         label={t("adminListingSources.fields.currency")}
                         name={`${base}.currency`}
                         register={register}
+                        error={errors?.currency?.message}
                     />
                     <ConfigurationTextField
                         id={`admin-source-${index}-language`}
@@ -585,6 +622,7 @@ function CreateConfigurationEditor({
                         label={t("adminListingSources.fields.currency")}
                         name={`${base}.currency`}
                         register={register}
+                        error={errors?.currency?.message}
                     />
                     <ConfigurationTextField
                         id={`admin-source-${index}-language`}
@@ -814,6 +852,8 @@ function UpdateConfigurationEditor({
     readonly error?: {
         readonly domain?: { readonly message?: string };
         readonly webhookSecret?: { readonly message?: string };
+        readonly fallbackCurrency?: { readonly message?: string };
+        readonly currency?: { readonly message?: string };
     };
 }) {
     const { t } = useTranslation();
@@ -827,10 +867,12 @@ function UpdateConfigurationEditor({
                 <FormField
                     id={`admin-source-update-${index}-fallback`}
                     label={t("adminListingSources.fields.fallbackCurrency")}
+                    error={error?.fallbackCurrency?.message}
                 >
                     <Input
                         id={`admin-source-update-${index}-fallback`}
                         maxLength={3}
+                        aria-invalid={Boolean(error?.fallbackCurrency?.message)}
                         {...register(`${prefix}.fallbackCurrency`)}
                     />
                 </FormField>
@@ -849,6 +891,7 @@ function UpdateConfigurationEditor({
                         label={t("adminListingSources.fields.currency")}
                         name={`${prefix}.currency`}
                         register={register}
+                        error={error?.currency?.message}
                     />
                     <ConfigurationTextField
                         id={`admin-source-update-${index}-language`}
@@ -877,6 +920,7 @@ function UpdateConfigurationEditor({
                             label={t("adminListingSources.fields.currency")}
                             name={`${prefix}.currency`}
                             register={register}
+                            error={error?.currency?.message}
                         />
                         <ConfigurationTextField
                             id={`admin-source-update-${index}-language`}

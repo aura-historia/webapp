@@ -13,6 +13,7 @@ import type {
     UpdateListingIngestionConfigurationDataWritable,
     UpdateListingSourceDataWritable,
 } from "@/client";
+import { type Currency, toSupportedCurrency } from "@/data/internal/common/Currency.ts";
 
 export const ADMIN_LISTING_SOURCE_INGESTION_METHODS = [
     "WEB_CRAWL",
@@ -234,6 +235,15 @@ function optionalValue(value: string): string | undefined {
     return value.trim() || undefined;
 }
 
+/** Empty input stays omitted; supported codes are canonicalised; anything else is rejected. */
+function optionalCurrencyValue(value: string): Currency | undefined {
+    const trimmed = optionalValue(value);
+    if (trimmed === undefined) return undefined;
+    const currency = toSupportedCurrency(trimmed);
+    if (!currency) throw new Error(`Unsupported listing source currency: ${trimmed}`);
+    return currency;
+}
+
 function mapCreateConfiguration(
     configuration: AdminListingSourceConfigurationFields,
 ): CreateListingIngestionConfigurationDataWritable {
@@ -241,32 +251,26 @@ function mapCreateConfiguration(
         return { type: "UNCONFIGURED", ingestionMethod: configuration.ingestionMethod };
     }
     if (configuration.type === "WEB_CRAWL") {
-        return {
-            type: "WEB_CRAWL",
-            ...(optionalValue(configuration.fallbackCurrency)
-                ? { fallbackCurrency: optionalValue(configuration.fallbackCurrency) }
-                : {}),
-        };
+        const fallbackCurrency = optionalCurrencyValue(configuration.fallbackCurrency);
+        return { type: "WEB_CRAWL", ...(fallbackCurrency ? { fallbackCurrency } : {}) };
     }
     if (configuration.type === "SHOPIFY") {
+        const currency = optionalCurrencyValue(configuration.currency);
         return {
             type: "SHOPIFY",
             domain: configuration.domain.trim(),
-            ...(optionalValue(configuration.currency)
-                ? { currency: optionalValue(configuration.currency) }
-                : {}),
+            ...(currency ? { currency } : {}),
             ...(optionalValue(configuration.language)
                 ? { language: optionalValue(configuration.language) }
                 : {}),
         };
     }
     if (configuration.type === "WOOCOMMERCE") {
+        const currency = optionalCurrencyValue(configuration.currency);
         return {
             type: "WOOCOMMERCE",
             webhookSecret: configuration.webhookSecret.trim(),
-            ...(optionalValue(configuration.currency)
-                ? { currency: optionalValue(configuration.currency) }
-                : {}),
+            ...(currency ? { currency } : {}),
             ...(optionalValue(configuration.language)
                 ? { language: optionalValue(configuration.language) }
                 : {}),
@@ -306,12 +310,12 @@ function mapUpdateConfiguration(
     configuration: AdminListingSourceUpdateConfigurationFields,
 ): UpdateListingIngestionConfigurationDataWritable {
     if (configuration.ingestionMethod === "WEB_CRAWL") {
-        const fallbackCurrency = optionalValue(configuration.fallbackCurrency);
+        const fallbackCurrency = optionalCurrencyValue(configuration.fallbackCurrency);
         return { type: "WEB_CRAWL", ...(fallbackCurrency ? { fallbackCurrency } : {}) };
     }
     if (configuration.ingestionMethod === "SHOPIFY") {
         const domain = configuration.domain.trim();
-        const currency = optionalValue(configuration.currency);
+        const currency = optionalCurrencyValue(configuration.currency);
         const language = optionalValue(configuration.language);
         return {
             type: "SHOPIFY",
@@ -322,7 +326,7 @@ function mapUpdateConfiguration(
     }
     if (configuration.ingestionMethod === "WOOCOMMERCE") {
         const webhookSecret = optionalValue(configuration.webhookSecret);
-        const currency = optionalValue(configuration.currency);
+        const currency = optionalCurrencyValue(configuration.currency);
         const language = optionalValue(configuration.language);
         return {
             type: "WOOCOMMERCE",

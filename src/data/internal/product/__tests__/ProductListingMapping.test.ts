@@ -351,4 +351,57 @@ describe("ProductListing mappers", () => {
         expect(result.price).toBeUndefined();
         expect(result.displayPrice).toBeUndefined();
     });
+
+    it("formats new display currencies from summary and detail payloads with their own exponent", () => {
+        const normalise = (value?: string) => value?.replace(/[\u00a0\u202f]/g, " ");
+        const krw = mapPersonalizedProductListingSummary(
+            personalized({
+                ...baseSummary,
+                displayPrice: { type: "MONETARY", amount: 12345, currency: "KRW" },
+            }),
+            "en-US",
+        );
+        expect(krw.price).toEqual({ type: "MONETARY", amount: 12345, currency: "KRW" });
+        expect(normalise(krw.formattedPrice)).toBe("₩12,345");
+
+        const sek = mapToProductListingDetail(
+            personalized({
+                ...baseDetails,
+                pricing: {
+                    ...baseDetails.pricing,
+                    display: { price: { type: "MONETARY", amount: 12345, currency: "SEK" } },
+                },
+            }),
+            "en-US",
+        );
+        expect(normalise(sek.displayPrice)).toBe("SEK 123.45");
+    });
+
+    it("keeps an unavailable historical display conversion absent instead of using the source price", () => {
+        // A sold listing requested in SEK whose sale-time FX snapshot cannot produce a display amount.
+        const details: ProductListingDetailsData = {
+            ...baseDetails,
+            pricing: {
+                source: { price: { type: "MONETARY", amount: 250000, currency: "EUR" } },
+                display: {},
+                valuation: {
+                    type: "SALE_OBSERVATION",
+                    fxRateId: "fx_sale",
+                    capturedAt: "2026-08-31T00:00:00Z",
+                    observedAt: "2026-08-30T00:00:00Z",
+                },
+            },
+        };
+        const result = mapToProductListingDetail({ item: details }, "de");
+
+        expect(result.pricing.source.price).toEqual({
+            type: "MONETARY",
+            amount: 250000,
+            currency: "EUR",
+        });
+        expect(result.pricing.display.price).toBeUndefined();
+        expect(result.price).toBeUndefined();
+        expect(result.displayPrice).toBeUndefined();
+        expect(result.priceValuation).toBe("SALE_OBSERVATION");
+    });
 });

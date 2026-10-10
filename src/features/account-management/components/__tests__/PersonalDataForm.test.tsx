@@ -139,6 +139,23 @@ describe("PersonalDataForm", () => {
         });
     });
 
+    it("offers every supported currency and submits a newly supported one", async () => {
+        const user = userEvent.setup();
+        renderWithQueryClient(<PersonalDataForm />);
+
+        await user.click(screen.getByRole("button", { name: "Währung" }));
+        expect(screen.getAllByRole("option")).toHaveLength(29);
+        await user.click(screen.getByRole("option", { name: "SEK - Schwedische Krone" }));
+        await user.click(screen.getByRole("button", { name: /änderungen speichern/i }));
+
+        await waitFor(() =>
+            expect(mockMutate).toHaveBeenCalledWith(
+                expect.objectContaining({ currency: "SEK" }),
+                expect.any(Object),
+            ),
+        );
+    });
+
     it("sends an explicit visibility change", async () => {
         const user = userEvent.setup();
         renderWithQueryClient(<PersonalDataForm />);

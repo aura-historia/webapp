@@ -148,4 +148,44 @@ describe("productJsonLd", () => {
         });
         expect(generateProductJsonLd(product).image).toEqual([BANNER_IMAGE_URL]);
     });
+
+    it.each([
+        ["KRW", 12_345, 12_345],
+        ["SEK", 12_345, 123.45],
+        ["HUF", 12_345, 123.45],
+    ] as const)(
+        "publishes %s offer prices in major units with a matching currency",
+        (currency, amount, major) => {
+            const source: ListingPrice = { type: "MONETARY", amount: 50_000, currency: "EUR" };
+            const display: ListingPrice = { type: "MONETARY", amount, currency };
+            const base = makeProduct();
+            const product = makeProduct({
+                price: display,
+                pricing: {
+                    source: { price: source },
+                    display: { price: display },
+                    valuation: base.valuation,
+                },
+            });
+
+            const offers = generateProductJsonLd(product).offers;
+            expect(offers?.priceCurrency).toBe(currency);
+            expect(offers?.price).toBe(major);
+        },
+    );
+
+    it("omits offers when the requested display price is missing instead of using the source price", () => {
+        const source: ListingPrice = { type: "MONETARY", amount: 50_000, currency: "EUR" };
+        const base = makeProduct();
+        for (const displayPrice of [null, undefined]) {
+            const product = makeProduct({
+                pricing: {
+                    source: { price: source },
+                    display: { price: displayPrice },
+                    valuation: base.valuation,
+                },
+            });
+            expect(generateProductJsonLd(product).offers).toBeUndefined();
+        }
+    });
 });

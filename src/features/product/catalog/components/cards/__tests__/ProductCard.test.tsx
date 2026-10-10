@@ -1,4 +1,7 @@
-import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
+import {
+    mapPersonalizedProductListingSummary,
+    type ProductListing,
+} from "@/data/internal/product/ProductListing.ts";
 import { act, screen } from "@testing-library/react";
 import { ProductCard } from "../ProductCard.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
@@ -38,6 +41,54 @@ describe("ProductCard", () => {
         expect(screen.getByText("Sample Shop")).toBeInTheDocument();
         expect(screen.getByText("100€")).toBeInTheDocument();
     });
+
+    it.each([
+        ["KRW", 1_500_000, "1.500.000 ₩"],
+        ["SEK", 1_234_550, "12.345,50 SEK"],
+    ] as const)(
+        "renders a mapped %s display price without EUR substitution",
+        async (currency, amount, text) => {
+            const product = mapPersonalizedProductListingSummary(
+                {
+                    item: {
+                        productListingId: "listing-1",
+                        productListingTitleSlugId: "sample-product",
+                        eventId: "evt-1",
+                        source: {
+                            listingSourceId: "source-1",
+                            slugId: "sample-shop",
+                            name: "Sample Shop",
+                        },
+                        sourceListingId: "item-1",
+                        title: { text: "Sample Product", language: "de" },
+                        displayPrice: { type: "MONETARY", amount, currency },
+                        priceValuation: {
+                            type: "CURRENT",
+                            fxRateId: "fx-1",
+                            capturedAt: "2026-09-10T00:00:00Z",
+                        },
+                        availability: "AVAILABLE",
+                        lifecycle: "ACTIVE",
+                        url: "https://example.com",
+                        viewUrl: "https://example.com",
+                        images: [],
+                        updated: "2026-09-10T10:00:00Z",
+                    },
+                },
+                "de",
+            );
+            let container!: HTMLElement;
+            await act(() => {
+                ({ container } = renderWithRouter(<ProductCard product={product} />));
+            });
+
+            const content = (container.textContent ?? "").replace(/[\u00a0\u202f]/g, " ");
+            expect(content).toContain(text);
+            expect(content).not.toContain("undefined");
+            expect(content).not.toContain("€");
+            expect(content).not.toContain("Preis unbekannt");
+        },
+    );
 
     it("should not render the legacy reference label", async () => {
         await act(() => {

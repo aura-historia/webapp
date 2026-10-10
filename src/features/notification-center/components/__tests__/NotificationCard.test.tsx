@@ -106,6 +106,35 @@ describe("NotificationCard", () => {
                 expect(document.querySelector("img")).not.toBeInTheDocument();
             });
 
+            it.each([
+                ["KRW", 1_500_000, 1_250_000, "1.500.000 ₩", "1.250.000 ₩"],
+                ["SEK", 1_234_550, 999_905, "12.345,50 SEK", "9.999,05 SEK"],
+            ] as const)(
+                "renders %s price changes in the payload currency",
+                async (currency, oldAmount, newAmount, oldText, newText) => {
+                    const value = notification({
+                        payload: {
+                            ...watchlistPayload,
+                            change: {
+                                type: "PRICE_CHANGE",
+                                oldPrice: { type: "MONETARY", amount: oldAmount, currency },
+                                newPrice: { type: "MONETARY", amount: newAmount, currency },
+                            },
+                        },
+                    });
+                    let container!: HTMLElement;
+                    await act(async () => {
+                        ({ container } = renderWithRouter(<Component notification={value} />));
+                    });
+                    const text = (container.textContent ?? "").replace(/[\u00a0\u202f]/g, " ");
+                    expect(text).toContain(oldText);
+                    expect(text).toContain(newText);
+                    expect(text).not.toContain("undefined");
+                    expect(text).not.toContain("€");
+                    expect(text).not.toContain("EUR");
+                },
+            );
+
             it("marks and deletes using notification ID", async () => {
                 await act(async () => {
                     renderWithRouter(<Component notification={notification()} />);

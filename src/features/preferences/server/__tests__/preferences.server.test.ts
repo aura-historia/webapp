@@ -45,4 +45,38 @@ describe("getServerPreferences", () => {
 
         expect(result).toEqual({});
     });
+
+    it.each(["ZAR", "SEK", "DKK", "NOK", "KRW", "INR", "TWD", "HUF", "RON", "MXN", "THB"])(
+        "keeps the newly supported currency %s from the cookie",
+        async (currency) => {
+            vi.mocked(getCookie).mockReturnValue(
+                encodeURIComponent(JSON.stringify({ currency, unitSystem: "METRIC" })),
+            );
+
+            const result = await getServerPreferences();
+
+            expect(result).toEqual({ currency, unitSystem: "METRIC" });
+        },
+    );
+
+    it.each(["XYZ", "sek", "krw", "", "EURO"])(
+        "drops the unsupported currency %j but keeps other preferences",
+        async (currency) => {
+            vi.mocked(getCookie).mockReturnValue(
+                encodeURIComponent(JSON.stringify({ currency, trackingConsent: true })),
+            );
+
+            const result = await getServerPreferences();
+
+            expect(result).toEqual({ trackingConsent: true });
+        },
+    );
+
+    it("drops a non-string currency value", async () => {
+        vi.mocked(getCookie).mockReturnValue(JSON.stringify({ currency: 978 }));
+
+        const result = await getServerPreferences();
+
+        expect(result).toEqual({});
+    });
 });

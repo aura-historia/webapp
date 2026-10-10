@@ -87,6 +87,12 @@ function priceChange(
     };
 }
 
+function yAxisLabel(value: number): string {
+    const yaxis = lastOptions?.yaxis;
+    const label = (Array.isArray(yaxis) ? yaxis[0] : yaxis)?.labels?.formatter?.(value);
+    return String(label).replace(/[\u00a0\u202f]/g, " ");
+}
+
 describe("ProductPriceChart", () => {
     beforeEach(() => {
         mockZoomX.mockClear();
@@ -238,5 +244,45 @@ describe("ProductPriceChart", () => {
                 max: new Date("2026-01-01T00:00:00Z").getTime(),
             },
         });
+    });
+
+    it("plots KRW and SEK histories in major units without double scaling", async () => {
+        const user = userEvent.setup();
+        render(
+            <ProductPriceChart
+                history={[
+                    discovery("1", "2026-01-01T00:00:00Z", {
+                        type: "MONETARY",
+                        amount: 12345,
+                        currency: "KRW",
+                    }),
+                    priceChange(
+                        "2",
+                        "2026-01-02T00:00:00Z",
+                        { type: "MONETARY", amount: 12345, currency: "KRW" },
+                        { type: "MONETARY", amount: 12345, currency: "SEK" },
+                    ),
+                ]}
+            />,
+        );
+
+        const series = screen.getByTestId("chart-series");
+        expect(
+            JSON.parse(series.textContent ?? "[]")[0].data.map(
+                (point: { y: number | null }) => point.y,
+            ),
+        ).toEqual([123.45]);
+        const sekLabel = yAxisLabel(123.45);
+        expect(sekLabel).toMatch(/^123[.,]5 SEK$/);
+
+        await user.click(screen.getByRole("button", { name: /KRW/ }));
+        expect(
+            JSON.parse(series.textContent ?? "[]")[0].data.map(
+                (point: { y: number | null }) => point.y,
+            ),
+        ).toEqual([12345, null]);
+        const krwLabel = yAxisLabel(12345);
+        expect(krwLabel).toContain("₩");
+        expect(krwLabel).not.toContain("€");
     });
 });

@@ -159,4 +159,81 @@ describe("useUserPreferences", () => {
         ); // Unchanged
         expect(googleAnalytics.setConsent).not.toHaveBeenCalled();
     });
+
+    describe("extended currencies", () => {
+        function readPreferencesCookie(): Record<string, unknown> {
+            const entry = document.cookie
+                .split("; ")
+                .find((part) => part.startsWith("user-preferences="));
+            if (!entry) return {};
+            return JSON.parse(decodeURIComponent(entry.slice("user-preferences=".length)));
+        }
+
+        function makeWrapper(
+            initialPreferences?: React.ComponentProps<
+                typeof UserPreferencesProvider
+            >["initialPreferences"],
+            locale = "de-DE",
+        ) {
+            return ({ children }: { children: React.ReactNode }) => (
+                <UserPreferencesProvider initialPreferences={initialPreferences} locale={locale}>
+                    {children}
+                </UserPreferencesProvider>
+            );
+        }
+
+        it.each(["SEK", "KRW"] as const)(
+            "persists %s to localStorage and the cookie and restores it after reload",
+            async (currency) => {
+                const first = renderHook(() => useUserPreferences(), { wrapper });
+
+                await act(async () => {
+                    first.result.current.updatePreferences({ currency });
+                });
+
+                expect(first.result.current.preferences.currency).toBe(currency);
+                expect(JSON.parse(localStorage.getItem("user-preferences") ?? "{}").currency).toBe(
+                    currency,
+                );
+                expect(readPreferencesCookie().currency).toBe(currency);
+
+                first.unmount();
+
+                const reloaded = renderHook(() => useUserPreferences(), { wrapper });
+
+                expect(reloaded.result.current.preferences.currency).toBe(currency);
+            },
+        );
+
+        it("restores a stored new currency instead of the locale-inferred one", () => {
+            localStorage.setItem("user-preferences", JSON.stringify({ currency: "KRW" }));
+
+            const { result } = renderHook(() => useUserPreferences(), {
+                wrapper: makeWrapper(undefined, "de-DE"),
+            });
+
+            expect(result.current.preferences.currency).toBe("KRW");
+        });
+
+        it("lets server (cookie) preferences win over localStorage for new currencies", () => {
+            localStorage.setItem("user-preferences", JSON.stringify({ currency: "KRW" }));
+
+            const { result } = renderHook(() => useUserPreferences(), {
+                wrapper: makeWrapper({ currency: "SEK" }),
+            });
+
+            expect(result.current.preferences.currency).toBe("SEK");
+        });
+
+        it.each([
+            ["sv-SE", "SEK"],
+            ["ko-KR", "KRW"],
+        ] as const)("infers %s to %s when nothing is stored", (locale, currency) => {
+            const { result } = renderHook(() => useUserPreferences(), {
+                wrapper: makeWrapper(undefined, locale),
+            });
+
+            expect(result.current.preferences.currency).toBe(currency);
+        });
+    });
 });
