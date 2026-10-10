@@ -2465,7 +2465,7 @@
       "fields": {
         "name": "Nome",
         "scopes": "Autorizzazioni",
-        "scopesHint": "Le autorizzazioni sono opzionali. Concedi solo quelle necessarie per l'integrazione.",
+        "scopesHint": "Le autorizzazioni sono opzionali e indipendenti: un’autorizzazione di scrittura non include l’accesso in lettura. Concedi solo quelle necessarie per l'integrazione.",
         "expiration": "Scadenza",
         "expirationHint": "Opzionale. Gli orari sono interpretati nel tuo fuso orario locale.",
         "chooseExpirationDate": "Scegli una data",
@@ -2478,15 +2478,28 @@
         "token": "Token di accesso"
       },
       "scopeDescriptions": {
-        "productListingsWrite": "Creare, aggiornare o eliminare annunci di prodotti entro i permessi concessi al suo account.",
         "usersRead": "Leggere i dati degli utenti e creare sessioni di pagamento o del portale di fatturazione Stripe per il suo account.",
         "usersWrite": "Aggiornare i dati degli utenti ed eliminare definitivamente il suo account.",
         "accessTokensRead": "Leggere i dettagli dei token di accesso entro i permessi concessi al suo account.",
         "accessTokensWrite": "Creare, aggiornare o revocare token di accesso entro i permessi concessi al suo account.",
-        "searchFiltersWrite": "Creare, aggiornare o eliminare le sue ricerche salvate.",
+        "searchFiltersRead": "Leggere le sue ricerche salvate e i relativi risultati memorizzati.",
+        "searchFiltersWrite": "Creare, aggiornare o eliminare le sue ricerche salvate. Non include la lettura.",
+        "notificationsRead": "Leggere le sue notifiche private.",
+        "notificationsWrite": "Segnare le sue notifiche come viste o eliminarle. Non include la lettura.",
         "watchlistRead": "Leggere gli annunci nella sua lista di osservazione.",
         "watchlistWrite": "Aggiungere o rimuovere annunci e aggiornare le impostazioni della sua lista di osservazione.",
-        "listingSourcesWrite": "Attivare o sostituire le impostazioni di importazione WooCommerce e Shopify dei fornitori per cui il suo account dispone di accesso in scrittura. Include l’impostazione o la sostituzione del segreto del webhook WooCommerce."
+        "productListingsWrite": "Creare, aggiornare o eliminare annunci di prodotti entro i permessi concessi al suo account.",
+        "listingSourcesRead": "Leggere i dati non pubblici delle fonti di annunci entro i permessi concessi al suo account, ad esempio le fonti che amministra.",
+        "listingSourcesWrite": "Attivare o sostituire le impostazioni di importazione WooCommerce e Shopify, incluso il segreto del webhook WooCommerce, delle fonti per cui il suo account dispone di accesso in scrittura. Se l’account dispone di accesso amministratore, anche creare, aggiornare o eliminare fonti di annunci.",
+        "partnershipApplicationsRead": "Leggere le proprie richieste di partnership e, se l’account dispone di accesso amministratore, le richieste in revisione.",
+        "partnershipApplicationsWrite": "Inviare o ritirare le proprie richieste di partnership e, se l’account dispone di accesso amministratore, esaminare e decidere le richieste.",
+        "auctionsRead": "Leggere i dati amministrativi delle aste se l’account dispone di accesso amministratore. Le pagine pubbliche delle aste non richiedono questa autorizzazione.",
+        "auctionsWrite": "Creare o aggiornare aste se l’account dispone di accesso amministratore.",
+        "partiesRead": "Leggere i record delle organizzazioni se l’account dispone di accesso amministratore.",
+        "partiesWrite": "Creare, aggiornare o eliminare record delle organizzazioni se l’account dispone di accesso amministratore.",
+        "partnershipsRead": "Leggere le partnership se l’account dispone di accesso amministratore.",
+        "partnershipsWrite": "Modificare o sciogliere partnership e concedere o revocare i relativi membri e fonti di annunci se l’account dispone di accesso amministratore.",
+        "adminOverviewRead": "Leggere la panoramica operativa dell’amministrazione se l’account dispone di accesso amministratore."
       },
       "validation": {
         "nameRequired": "Inserisci un nome per il token.",
@@ -2530,15 +2543,34 @@
     "noExpiration": "Non scade",
     "noScopes": "Nessuna autorizzazione",
     "scopes": {
-      "productListingsWrite": "Scrivere annunci di prodotti",
       "usersRead": "Leggere i dati degli utenti",
       "usersWrite": "Aggiornare i dati degli utenti",
       "accessTokensRead": "Leggere i token di accesso",
       "accessTokensWrite": "Gestire i token di accesso",
+      "searchFiltersRead": "Leggere le ricerche salvate",
       "searchFiltersWrite": "Gestire le ricerche salvate",
+      "notificationsRead": "Leggere le notifiche",
+      "notificationsWrite": "Gestire le notifiche",
       "watchlistRead": "Leggere la lista di osservazione",
       "watchlistWrite": "Gestire la lista di osservazione",
-      "listingSourcesWrite": "Configurare l’importazione dei fornitori"
+      "productListingsWrite": "Scrivere annunci di prodotti",
+      "listingSourcesRead": "Leggere le fonti di annunci",
+      "listingSourcesWrite": "Gestire le fonti di annunci",
+      "partnershipApplicationsRead": "Leggere le richieste di partnership",
+      "partnershipApplicationsWrite": "Gestire le richieste di partnership",
+      "auctionsRead": "Leggere le aste",
+      "auctionsWrite": "Gestire le aste",
+      "partiesRead": "Leggere le organizzazioni",
+      "partiesWrite": "Gestire le organizzazioni",
+      "partnershipsRead": "Leggere le partnership",
+      "partnershipsWrite": "Gestire le partnership",
+      "adminOverviewRead": "Leggere la panoramica amministrazione"
+    },
+    "scopeGroups": {
+      "account": "Account e token di accesso",
+      "collecting": "Ricerche salvate, notifiche e lista di osservazione",
+      "partner": "Annunci, fonti e richieste",
+      "administration": "Amministrazione (solo account amministratore)"
     }
   },
   "partnerListingSources": {
@@ -2774,7 +2806,7 @@
       "redirectUris": "URI di reindirizzamento",
       "redirectUrisHelp": "Inserisci un URI di reindirizzamento HTTPS per riga. Ne è richiesto almeno uno; i frammenti non sono consentiti e ogni URI deve essere univoco.",
       "scopes": "Autorizzazioni consentite",
-      "scopesHelp": "Seleziona le capacità che questo client può richiedere. Se non selezioni nulla, tutte le autorizzazioni consentite verranno rimosse.",
+      "scopesHelp": "Seleziona le capacità che questo client può richiedere. Le autorizzazioni di lettura e scrittura sono indipendenti. Se non selezioni nulla, tutte le autorizzazioni consentite verranno rimosse.",
       "issuedAt": "ID client emesso"
     },
     "detail": {

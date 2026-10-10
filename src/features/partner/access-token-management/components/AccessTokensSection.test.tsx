@@ -37,7 +37,11 @@ describe("AccessTokensSection", () => {
                 {
                     id: "token-12345678",
                     name: "Product sync",
-                    scopes: ["product-listings:write"],
+                    scopes: [
+                        "product-listings:write",
+                        "search-filters:read",
+                        "admin-overview:read",
+                    ],
                     maskedToken: "aurahistoria_abcdefghijk_****",
                     tokenType: "BEARER",
                     expiresAt: null,
@@ -68,6 +72,8 @@ describe("AccessTokensSection", () => {
         expect(screen.getByText("Product sync")).toBeInTheDocument();
         expect(screen.getByText("Shop administration")).toBeInTheDocument();
         expect(screen.getByText("Produktangebote schreiben")).toBeInTheDocument();
+        expect(screen.getByText("Gespeicherte Suchen lesen")).toBeInTheDocument();
+        expect(screen.getByText("Admin-Übersicht lesen")).toBeInTheDocument();
         expect(screen.getByText("Keine Berechtigungen")).toBeInTheDocument();
         expect(screen.getByText("aurahistoria_abcdefghijk_****")).toBeInTheDocument();
         expect(screen.getByText("Läuft nicht ab")).toBeInTheDocument();

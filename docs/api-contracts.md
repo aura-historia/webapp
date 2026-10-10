@@ -15,13 +15,19 @@ admin workflows in [admin workflows](admin-workflows.md).
   `ConfirmNewsletterSubscriptionData`) were replaced byte-for-byte from backend commit
   `2bb418631263a270becb784352c21b412f05bfea`. The `CurrencyData` schema (29-currency enum and
   descriptions) was replaced byte-for-byte from backend commit
-  `9dbbd433ffc0913adec7784b0f0134b448729aef` ([backend#1996](https://github.com/aura-historia/backend/pull/1996));
-  no other schema was taken from that revision. File SHA-256:
-  `c0dd6897f40621e003eb1d45db5841a527bede4b8972526ba2d98ad9ea5f9172`; canonical parsed-JSON SHA-256
+  `9dbbd433ffc0913adec7784b0f0134b448729aef` ([backend#1996](https://github.com/aura-historia/backend/pull/1996)),
+  as was the `AccessTokenScopeData` schema (22-scope enum from
+  [backend#1991](https://github.com/aura-historia/backend/pull/1991) and
+  [backend#1994](https://github.com/aura-historia/backend/pull/1994)); no other schema was taken
+  from that revision. File SHA-256:
+  `1a991b33805497bb89d4fb3da5fb67964676bdaf259799ffdb2628c3a120d4c0`; canonical parsed-JSON SHA-256
   (recorded as `x-source-contract-sha256` in the partner reference):
-  `62e6b3187d433235e1f33908bb17143fcebef89f1ff1592a4c3163a46dd0ae2c`.
+  `761f35c7b97c4bd939a743c7fd9e8428ab8be8f42a6105253b500f32ec5998ef`.
 - Later backend changes are deliberately not adopted yet: own access-token DTOs, search-filter
-  match reasons, account `marketingEmailConsent`, and the server-to-server Loops webhook.
+  match reasons, account `marketingEmailConsent`, the server-to-server Loops webhook, the admin
+  auction list/search operations from backend#1991, and the per-operation scope wording in
+  backend#1994 operation descriptions (the backend remains authoritative for which scope each
+  operation requires).
 - Tooling: the pinned `@hey-api/openapi-ts 0.0.0-next-20260824173136` with Python/PyYAML for the
   partner reference. Keep the `./` prefix on the config input; without it the generator reads
   `openapi/swagger.yaml` as a Hey API registry shorthand. A rerun against an unchanged capture
@@ -128,12 +134,25 @@ stable error codes, never raw server detail.
   preserves state, `scopes: []` clears permissions and `expires: null` clears expiry. Null names
   or scopes are rejected before sending. Edits submit only changed fields.
 - New tokens default to no scopes; editing scopes replaces the whole grant set. Only the
-  supported scope enum is modeled (`ACCESS_TOKEN_SCOPES`, `ACCESS_TOKEN_SCOPE_METADATA`), with
-  localized descriptions in every locale that disclose deletion, billing and ingestion-configuration
-  capabilities.
+  supported scope enum is modeled: `ACCESS_TOKEN_SCOPES` mirrors the 22 backend
+  `AccessTokenScopeData` values exactly (no aliases or remapping), `ACCESS_TOKEN_SCOPE_METADATA`
+  supplies localized labels and descriptions in every locale that disclose deletion, billing,
+  dissolution and ingestion-configuration capabilities, and `ACCESS_TOKEN_SCOPE_GROUPS` groups them
+  by domain for display only. A registry test fails when the enum and the registry drift.
+- Read and write scopes are independent capabilities: a write scope never implies its read
+  sibling (for example, `search-filters:write` does not read saved searches; use
+  `search-filters:read`). The UI never couples or auto-selects them, and an expanded registry never
+  broadens existing tokens or OAuth client registrations.
+- A scope only narrows what a credential may do. Administrative scopes (`auctions:*`,
+  `parties:*`, `partnerships:*`, `admin-overview:read`, and the administrator parts of
+  `listing-sources:*` and `partnership-applications:*`) succeed only for accounts that already
+  have administrator access; ListingSource and Partnership access still applies. Copy must not
+  imply that a scope grants a role, and the frontend never emulates backend authorization.
 - `listing-sources:write` enables or replaces WooCommerce/Shopify ingestion configuration, including
-  a write-only webhook secret, only for sources with partnership write access. It is opt-in; the
-  integration guide preselects only `product-listings:write`.
+  a write-only webhook secret, for sources with partnership write access, and also covers
+  administrator ListingSource create/update/delete. `listing-sources:read` covers private
+  ListingSource reads. Both are opt-in; the integration guide preselects only
+  `product-listings:write`.
 - Only the create result contains plaintext. Hold it for the confirmation dialog only: never in the
   token-list cache, logs or storage, and discard it when the dialog closes.
 

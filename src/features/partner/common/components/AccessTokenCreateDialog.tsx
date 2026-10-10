@@ -5,6 +5,7 @@ import { useController, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import {
+    ACCESS_TOKEN_SCOPE_GROUPS,
     ACCESS_TOKEN_SCOPE_METADATA,
     type AccessTokenScope,
 } from "@/data/internal/access-tokens/AccessTokenScope.ts";
@@ -24,7 +25,6 @@ import { Spinner } from "@/components/ui/spinner.tsx";
 import { useCreateAccessToken } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
 import {
     ACCESS_TOKEN_CREATE_DEFAULT_VALUES,
-    ACCESS_TOKEN_SCOPES,
     type AccessTokenCreateFormData,
     createAccessTokenFormSchema,
 } from "@/features/partner/common/components/AccessTokenCreateForm.ts";
@@ -193,38 +193,48 @@ export function AccessTokenScopesField({
             <p className="text-sm text-muted-foreground">
                 {t("partnerAccessTokens.create.fields.scopesHint")}
             </p>
-            <div className="grid gap-2 pt-1">
-                {ACCESS_TOKEN_SCOPES.map((scope) => {
-                    const checked = value.includes(scope);
-                    const inputId = `access-token-scope-${scope}`;
+            <div className="grid gap-4 pt-1">
+                {ACCESS_TOKEN_SCOPE_GROUPS.map((group) => (
+                    <fieldset key={group.label} className="grid gap-2">
+                        <legend className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                            {t(group.label)}
+                        </legend>
+                        {group.scopes.map((scope) => {
+                            const checked = value.includes(scope);
+                            const inputId = `access-token-scope-${scope}`;
 
-                    return (
-                        <div key={scope} className="flex items-start gap-3 rounded-md border p-3">
-                            <Checkbox
-                                id={inputId}
-                                checked={checked}
-                                onCheckedChange={(nextChecked) => {
-                                    onChange(
-                                        nextChecked === true
-                                            ? [...new Set([...value, scope])]
-                                            : value.filter((entry) => entry !== scope),
-                                    );
-                                }}
-                            />
-                            <div className="grid gap-1">
-                                <label
-                                    htmlFor={inputId}
-                                    className="text-sm font-medium leading-none"
+                            return (
+                                <div
+                                    key={scope}
+                                    className="flex items-start gap-3 rounded-md border p-3"
                                 >
-                                    {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
-                                </label>
-                                <p className="text-xs text-muted-foreground">
-                                    {t(ACCESS_TOKEN_SCOPE_METADATA[scope].description)}
-                                </p>
-                            </div>
-                        </div>
-                    );
-                })}
+                                    <Checkbox
+                                        id={inputId}
+                                        checked={checked}
+                                        onCheckedChange={(nextChecked) => {
+                                            onChange(
+                                                nextChecked === true
+                                                    ? [...new Set([...value, scope])]
+                                                    : value.filter((entry) => entry !== scope),
+                                            );
+                                        }}
+                                    />
+                                    <div className="grid gap-1">
+                                        <label
+                                            htmlFor={inputId}
+                                            className="text-sm font-medium leading-none"
+                                        >
+                                            {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
+                                        </label>
+                                        <p className="text-xs text-muted-foreground">
+                                            {t(ACCESS_TOKEN_SCOPE_METADATA[scope].description)}
+                                        </p>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </fieldset>
+                ))}
             </div>
         </fieldset>
     );

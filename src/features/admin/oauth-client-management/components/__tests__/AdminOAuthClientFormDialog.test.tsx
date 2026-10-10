@@ -2,6 +2,11 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { useState } from "react";
 import type { AdminOAuthClient } from "@/data/internal/admin/AdminOAuthClient.ts";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import {
+    ACCESS_TOKEN_SCOPE_GROUPS,
+    ACCESS_TOKEN_SCOPE_METADATA,
+    ACCESS_TOKEN_SCOPES,
+} from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import testI18n from "@/i18n/i18nForTests";
 import { AdminOAuthClientFormDialog } from "../AdminOAuthClientFormDialog.tsx";
 
@@ -49,12 +54,12 @@ const existingClient = {
     clientIdIssuedAt: 1_759_000_000,
 };
 
-function EditHarness() {
+function EditHarness({ client = existingClient }: { readonly client?: AdminOAuthClient }) {
     const [open, setOpen] = useState(true);
     return (
         <AdminOAuthClientFormDialog
             mode="edit"
-            client={existingClient}
+            client={client}
             open={open}
             onOpenChange={setOpen}
         />
@@ -134,6 +139,71 @@ describe("AdminOAuthClientFormDialog", () => {
             }),
         ).toBeTruthy();
         expect(screen.queryByText("plaintext-once")).toBeNull();
+    });
+
+    it("offers every supported scope grouped, labelled and unselected by default", () => {
+        render(<Harness />);
+
+        for (const group of ACCESS_TOKEN_SCOPE_GROUPS) {
+            expect(screen.getByText(testI18n.t(group.label))).toBeTruthy();
+        }
+        for (const scope of ACCESS_TOKEN_SCOPES) {
+            const checkbox = screen.getByDisplayValue(scope) as HTMLInputElement;
+            expect(checkbox.checked).toBe(false);
+            expect(
+                checkbox
+                    .closest("label")
+                    ?.textContent?.includes(testI18n.t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)),
+            ).toBe(true);
+        }
+    });
+
+    it("creates a client with exactly the selected new scopes", async () => {
+        render(<Harness />);
+
+        const values: Record<string, string> = {
+            [testI18n.t("adminOAuthClients.fields.name")]: "Cabinet integration",
+            [testI18n.t("adminOAuthClients.fields.terms")]: "https://cabinet.example/terms",
+            [testI18n.t("adminOAuthClients.fields.privacy")]: "https://cabinet.example/privacy",
+            [testI18n.t("adminOAuthClients.fields.homepage")]: "https://cabinet.example",
+            [testI18n.t("adminOAuthClients.fields.logo")]: "https://cabinet.example/logo.svg",
+            [testI18n.t("adminOAuthClients.fields.redirectUris")]:
+                "https://cabinet.example/oauth/callback",
+        };
+        for (const [label, value] of Object.entries(values)) {
+            fireEvent.change(screen.getByLabelText(label), { target: { value } });
+        }
+        fireEvent.click(screen.getByDisplayValue("search-filters:write"));
+        fireEvent.click(screen.getByDisplayValue("auctions:read"));
+        fireEvent.click(
+            screen.getByRole("button", { name: testI18n.t("adminOAuthClients.actions.create") }),
+        );
+
+        await waitFor(() => expect(api.create).toHaveBeenCalledTimes(1));
+        expect([...api.create.mock.calls[0][0].scopes].sort()).toEqual([
+            "auctions:read",
+            "search-filters:write",
+        ]);
+    });
+
+    it("adds and removes new scopes without touching unrelated fields", async () => {
+        render(
+            <EditHarness
+                client={{ ...existingClient, scopes: ["access-tokens:read", "notifications:read"] }}
+            />,
+        );
+
+        fireEvent.click(screen.getByDisplayValue("notifications:read"));
+        fireEvent.click(screen.getByDisplayValue("partnerships:write"));
+        fireEvent.click(
+            screen.getByRole("button", { name: testI18n.t("adminOAuthClients.actions.save") }),
+        );
+
+        await waitFor(() => expect(api.update).toHaveBeenCalledTimes(1));
+        const { clientId, patch } = api.update.mock.calls[0][0];
+        expect(clientId).toBe("oc_test123");
+        expect(Object.keys(patch)).toEqual(["scopes"]);
+        expect([...patch.scopes].sort()).toEqual(["access-tokens:read", "partnerships:write"]);
     });
 
     it("omits untouched patch fields and keeps an empty scope list as an intentional change", async () => {

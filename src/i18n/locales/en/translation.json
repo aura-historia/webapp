@@ -1591,7 +1591,7 @@
       "fields": {
         "name": "Name",
         "scopes": "Permissions",
-        "scopesHint": "Permissions are optional. Grant only those required by the integration.",
+        "scopesHint": "Permissions are optional and independent: a write permission does not include read access. Grant only those required by the integration.",
         "expiration": "Expiration",
         "expirationHint": "Optional. Times are interpreted in your local time zone.",
         "chooseExpirationDate": "Choose date",
@@ -1604,15 +1604,28 @@
         "token": "Access token"
       },
       "scopeDescriptions": {
-        "productListingsWrite": "Create, update or delete product listings within the access granted to your account.",
         "usersRead": "Read user data and create Stripe checkout or billing-portal sessions for your account.",
         "usersWrite": "Update user data and permanently delete your account.",
         "accessTokensRead": "Read access-token details within the access granted to your account.",
         "accessTokensWrite": "Create, update or revoke access tokens within the access granted to your account.",
-        "searchFiltersWrite": "Create, update or delete your saved searches.",
+        "searchFiltersRead": "Read your saved searches and their stored matches.",
+        "searchFiltersWrite": "Create, update or delete your saved searches. Does not include reading them.",
+        "notificationsRead": "Read your private notifications.",
+        "notificationsWrite": "Mark your notifications as seen or delete them. Does not include reading them.",
         "watchlistRead": "Read the listings in your watchlist.",
         "watchlistWrite": "Add or remove listings and update your watchlist settings.",
-        "listingSourcesWrite": "Enable or replace WooCommerce and Shopify ingestion settings for providers your account can write to. Includes setting or replacing the WooCommerce webhook secret."
+        "productListingsWrite": "Create, update or delete product listings within the access granted to your account.",
+        "listingSourcesRead": "Read non-public listing-source data within the access granted to your account, such as sources you administer.",
+        "listingSourcesWrite": "Enable or replace WooCommerce and Shopify ingestion settings, including the WooCommerce webhook secret, for sources your account can write to. If the account has administrator access, also create, update or delete listing sources.",
+        "partnershipApplicationsRead": "Read your own partnership applications and, if the account has administrator access, applications under review.",
+        "partnershipApplicationsWrite": "Submit or withdraw your own partnership applications and, if the account has administrator access, review and decide applications.",
+        "auctionsRead": "Read administrative auction data if the account has administrator access. Public auction pages do not need this permission.",
+        "auctionsWrite": "Create or update auctions if the account has administrator access.",
+        "partiesRead": "Read organization records if the account has administrator access.",
+        "partiesWrite": "Create, update or delete organization records if the account has administrator access.",
+        "partnershipsRead": "Read partnerships if the account has administrator access.",
+        "partnershipsWrite": "Change or dissolve partnerships and grant or revoke their members and listing sources if the account has administrator access.",
+        "adminOverviewRead": "Read the operational admin overview if the account has administrator access."
       },
       "validation": {
         "nameRequired": "Please enter a token name.",
@@ -1656,15 +1669,34 @@
     "noExpiration": "Does not expire",
     "noScopes": "No scopes",
     "scopes": {
-      "productListingsWrite": "Write product listings",
       "usersRead": "Read user data",
       "usersWrite": "Update user data",
       "accessTokensRead": "Read access tokens",
       "accessTokensWrite": "Manage access tokens",
+      "searchFiltersRead": "Read saved searches",
       "searchFiltersWrite": "Manage saved searches",
+      "notificationsRead": "Read notifications",
+      "notificationsWrite": "Manage notifications",
       "watchlistRead": "Read watchlist",
       "watchlistWrite": "Manage watchlist",
-      "listingSourcesWrite": "Configure provider ingestion"
+      "productListingsWrite": "Write product listings",
+      "listingSourcesRead": "Read listing sources",
+      "listingSourcesWrite": "Manage listing sources",
+      "partnershipApplicationsRead": "Read partnership applications",
+      "partnershipApplicationsWrite": "Manage partnership applications",
+      "auctionsRead": "Read auctions",
+      "auctionsWrite": "Manage auctions",
+      "partiesRead": "Read organizations",
+      "partiesWrite": "Manage organizations",
+      "partnershipsRead": "Read partnerships",
+      "partnershipsWrite": "Manage partnerships",
+      "adminOverviewRead": "Read admin overview"
+    },
+    "scopeGroups": {
+      "account": "Account and access tokens",
+      "collecting": "Saved searches, notifications and watchlist",
+      "partner": "Listings, sources and applications",
+      "administration": "Administration (administrator accounts only)"
     }
   },
   "partnerApplications": {
@@ -2774,7 +2806,7 @@
       "redirectUris": "Redirect URIs",
       "redirectUrisHelp": "Enter one HTTPS redirect URI per line. At least one is required; fragments are not allowed and each URI must be unique.",
       "scopes": "Allowed scopes",
-      "scopesHelp": "Select the capabilities this client may request. Leave all unchecked to clear its allowed scopes.",
+      "scopesHelp": "Select the capabilities this client may request. Read and write scopes are independent. Leave all unchecked to clear its allowed scopes.",
       "issuedAt": "Client ID issued"
     },
     "detail": {
