@@ -5,6 +5,7 @@ import {
     createAWSCredentialsAndIdentityIdProvider,
     createUserPoolsTokenProvider,
     type CookieStorage,
+    type ContextSpec,
 } from "aws-amplify/adapter-core";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth/server";
 import { amplifyConfig } from "@/amplify-config";
@@ -48,7 +49,7 @@ function createCookieStorageAdapter(): CookieStorage.Adapter {
  * Creates the necessary token and credentials providers from cookies.
  */
 async function runAmplifyServerContext<T>(
-    operation: (contextSpec: { token: { value: symbol } }) => Promise<T>,
+    operation: (contextSpec: ContextSpec) => Promise<T>,
 ): Promise<T> {
     const cookieAdapter = createCookieStorageAdapter();
     const keyValueStorage = createKeyValueStorageFromCookieStorageAdapter(cookieAdapter);
