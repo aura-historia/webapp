@@ -86,7 +86,7 @@ synchronously and return HTTP 200 with only failed entries; `[]` is full success
 including empty batches. Avoid promises of queue acceptance, immediate search
 visibility, or publication within a fixed time. WooCommerce webhook HTTP 204 only
 acknowledges confirmed admission or an authorized no-op; secrets remain server-side.
-See [Partner integration contract](api-migration/partner-integration-contract.md) for
+See [Partner integration](partner-integration.md) for
 field clearing, auction membership, withdrawal/restoration, and retry semantics.
 
 ## Product-writing checklist

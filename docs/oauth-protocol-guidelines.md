@@ -14,7 +14,7 @@ Apply this guide to changes under `src/features/oauth`.
 - Make scope and consent screens accurately reflect requested permissions.
 - Require explicit security/product review before changing a protocol invariant.
 
-## Ordinary-user consent metadata (MIG-12)
+## Ordinary-user consent metadata
 
 Backend issue [#1926](https://github.com/aura-historia/backend/issues/1926) supplies `GET /api/v1/oauth/clients/{clientId}` for signed-in ordinary users authenticated with a Cognito access JWT. Its secret-free response contains client identity, public URLs, registered redirects and allowed scopes. The consent hook reads this endpoint with the shared API client's ordinary-user authentication and maps the response to the internal OAuth model before UI use.
 
@@ -30,8 +30,8 @@ The generated `getOAuthConsentClient` operation supplies `OAuthClientConsentMeta
 
 ## WooCommerce broker compatibility
 
-The migration preserves existing base64url JSON state (`redirect_uri`, `code_verifier`, optional `client_state`) and its existing aliases. The authorization handler forwards state unchanged. The broker continues to exchange codes server-side, forward additional callback parameters (including `listing_source_id`) and return only the third-party exchange code to the merchant. Denial continues to navigate from the consent page with `access_denied` and the original state.
+The broker uses base64url JSON state (`redirect_uri`, `code_verifier`, optional `client_state`) and its existing aliases. The authorization handler forwards state unchanged. The broker exchanges codes server-side, forwards additional callback parameters (including `listing_source_id`) and returns only the third-party exchange code to the merchant. Denial navigates from the consent page with `access_denied` and the original state.
 
 No signed envelope, lifetime, new callback rejection policy or server-side denial flow is introduced here. Broker integrity and approval/callback hardening are tracked separately in [#1025](https://github.com/aura-historia/webapp/issues/1025).
 
-Privacy review: the migration processes existing account source grants and OAuth routing/permission data. It adds no processor, analytics destination or persistent browser storage. The partner/API and security-data sections of the privacy policy in all five locales continue to cover this processing; consent copy explains that source selection does not restrict token permissions.
+Privacy review: this flow processes existing account source grants and OAuth routing/permission data. It adds no processor, analytics destination or persistent browser storage. The partner/API and security-data sections of the privacy policy in all five locales continue to cover this processing; consent copy explains that source selection does not restrict token permissions.

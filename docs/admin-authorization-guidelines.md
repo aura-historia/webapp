@@ -4,18 +4,13 @@ Apply this guide to admin routes, handlers, and features.
 
 The admin route renders `AdminLayout` (section sidebar plus the active workflow) only
 after `AdminGuard` confirms the ADMIN role. Navigation visibility is not authorization:
-authenticated, noindex workflow routes retain `AdminGuard`; legacy feature
-implementations and DTOs are removed rather than compiled against incompatible
-endpoints. The generated admin SDK is not an implemented dashboard. Restore workflows
-only with current DTO mapping, tests and the authorization checks below. See
-[MIG-24 scope decisions](api-migration/integration-release-gate.md).
+authenticated, noindex workflow routes retain `AdminGuard`. Add admin workflows only
+with current DTO mapping, tests and the authorization checks below.
 
-Restored workflows: OAuth client management (MIG-22), partnership application review
-(MIG-16, see [admin partnership application review](api-migration/partnership-application-contracts.md#admin-partnership-application-review)),
-Party management (MIG-17), listing-source management (MIG-18), partnership membership
-and source-grant management (MIG-19, see
-[admin partnership management](api-migration/admin-partnership-management.md)), user
-management (MIG-20), auction management (MIG-25), and the admin overview (MIG-23). The
+Workflows: OAuth client management, partnership application review and partnership
+membership/source-grant management (see [admin workflows](admin-workflows.md)), Party
+management, listing-source management, user management with security controls, auction
+management, and the admin overview. The
 overview reads only the `getAdminOverview` aggregate with a `no-store` request under the
 private `["admin", "overview"]` query key; it never derives totals from paginated
 collections, shows loading and error states instead of zero for unavailable counts, and

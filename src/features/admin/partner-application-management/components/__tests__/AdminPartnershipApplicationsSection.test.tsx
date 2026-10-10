@@ -34,7 +34,7 @@ vi.mock("../../api/useAdminPartnershipApplications.ts", () => ({
 }));
 vi.mock("@tanstack/react-router", () => ({
     Link: ({ children, className }: { children: ReactNode; className?: string }) => (
-        <a href="/admin/shops" className={className}>
+        <a href="/admin/listing-sources" className={className}>
             {children}
         </a>
     ),

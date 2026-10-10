@@ -30,12 +30,12 @@ import { Route as LngPartnerProgramCustomIntegrationRouteImport } from './routes
 import { Route as LngProductsProductListingTitleSlugIdRouteImport } from './routes/$lng.products.$productListingTitleSlugId'
 import { Route as LngSearchShopsRouteImport } from './routes/$lng.search_.shops'
 import { Route as LngAuthAdminIndexRouteImport } from './routes/$lng._auth.admin.index'
+import { Route as LngAuthAdminListingSourcesRouteImport } from './routes/$lng._auth.admin.listing-sources'
 import { Route as LngAuthAdminOauthClientsRouteImport } from './routes/$lng._auth.admin.oauth-clients'
 import { Route as LngAuthAdminOverviewRouteImport } from './routes/$lng._auth.admin.overview'
 import { Route as LngAuthAdminPartiesRouteImport } from './routes/$lng._auth.admin.parties'
 import { Route as LngAuthAdminPartnershipApplicationsRouteImport } from './routes/$lng._auth.admin.partnership-applications'
 import { Route as LngAuthAdminPartnershipsRouteImport } from './routes/$lng._auth.admin.partnerships'
-import { Route as LngAuthAdminShopsRouteImport } from './routes/$lng._auth.admin.shops'
 import { Route as LngAuthAdminUsersRouteImport } from './routes/$lng._auth.admin.users'
 import { Route as LngAuthMeAccountRouteImport } from './routes/$lng._auth.me.account'
 import { Route as LngAuthMeNotificationsRouteImport } from './routes/$lng._auth.me.notifications'
@@ -161,6 +161,12 @@ const LngAuthAdminIndexRoute = LngAuthAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LngAuthAdminRoute,
 } as any)
+const LngAuthAdminListingSourcesRoute =
+  LngAuthAdminListingSourcesRouteImport.update({
+    id: '/listing-sources',
+    path: '/listing-sources',
+    getParentRoute: () => LngAuthAdminRoute,
+  } as any)
 const LngAuthAdminOauthClientsRoute =
   LngAuthAdminOauthClientsRouteImport.update({
     id: '/oauth-clients',
@@ -189,11 +195,6 @@ const LngAuthAdminPartnershipsRoute =
     path: '/partnerships',
     getParentRoute: () => LngAuthAdminRoute,
   } as any)
-const LngAuthAdminShopsRoute = LngAuthAdminShopsRouteImport.update({
-  id: '/shops',
-  path: '/shops',
-  getParentRoute: () => LngAuthAdminRoute,
-} as any)
 const LngAuthAdminUsersRoute = LngAuthAdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -313,12 +314,12 @@ export interface FileRoutesByFullPath {
   '/$lng/products/$productListingTitleSlugId': typeof LngProductsProductListingTitleSlugIdRoute
   '/$lng/search/shops': typeof LngSearchShopsRoute
   '/$lng/partner-program/': typeof LngPartnerProgramIndexRoute
+  '/$lng/admin/listing-sources': typeof LngAuthAdminListingSourcesRoute
   '/$lng/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
   '/$lng/admin/overview': typeof LngAuthAdminOverviewRoute
   '/$lng/admin/parties': typeof LngAuthAdminPartiesRoute
   '/$lng/admin/partnership-applications': typeof LngAuthAdminPartnershipApplicationsRoute
   '/$lng/admin/partnerships': typeof LngAuthAdminPartnershipsRoute
-  '/$lng/admin/shops': typeof LngAuthAdminShopsRoute
   '/$lng/admin/users': typeof LngAuthAdminUsersRoute
   '/$lng/me/account': typeof LngAuthMeAccountRoute
   '/$lng/me/notifications': typeof LngAuthMeNotificationsRoute
@@ -355,12 +356,12 @@ export interface FileRoutesByTo {
   '/$lng/products/$productListingTitleSlugId': typeof LngProductsProductListingTitleSlugIdRoute
   '/$lng/search/shops': typeof LngSearchShopsRoute
   '/$lng/partner-program': typeof LngPartnerProgramIndexRoute
+  '/$lng/admin/listing-sources': typeof LngAuthAdminListingSourcesRoute
   '/$lng/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
   '/$lng/admin/overview': typeof LngAuthAdminOverviewRoute
   '/$lng/admin/parties': typeof LngAuthAdminPartiesRoute
   '/$lng/admin/partnership-applications': typeof LngAuthAdminPartnershipApplicationsRoute
   '/$lng/admin/partnerships': typeof LngAuthAdminPartnershipsRoute
-  '/$lng/admin/shops': typeof LngAuthAdminShopsRoute
   '/$lng/admin/users': typeof LngAuthAdminUsersRoute
   '/$lng/me/account': typeof LngAuthMeAccountRoute
   '/$lng/me/notifications': typeof LngAuthMeNotificationsRoute
@@ -403,12 +404,12 @@ export interface FileRoutesById {
   '/$lng/products/$productListingTitleSlugId': typeof LngProductsProductListingTitleSlugIdRoute
   '/$lng/search_/shops': typeof LngSearchShopsRoute
   '/$lng/partner-program/': typeof LngPartnerProgramIndexRoute
+  '/$lng/_auth/admin/listing-sources': typeof LngAuthAdminListingSourcesRoute
   '/$lng/_auth/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
   '/$lng/_auth/admin/overview': typeof LngAuthAdminOverviewRoute
   '/$lng/_auth/admin/parties': typeof LngAuthAdminPartiesRoute
   '/$lng/_auth/admin/partnership-applications': typeof LngAuthAdminPartnershipApplicationsRoute
   '/$lng/_auth/admin/partnerships': typeof LngAuthAdminPartnershipsRoute
-  '/$lng/_auth/admin/shops': typeof LngAuthAdminShopsRoute
   '/$lng/_auth/admin/users': typeof LngAuthAdminUsersRoute
   '/$lng/_auth/me/account': typeof LngAuthMeAccountRoute
   '/$lng/_auth/me/notifications': typeof LngAuthMeNotificationsRoute
@@ -451,12 +452,12 @@ export interface FileRouteTypes {
     | '/$lng/products/$productListingTitleSlugId'
     | '/$lng/search/shops'
     | '/$lng/partner-program/'
+    | '/$lng/admin/listing-sources'
     | '/$lng/admin/oauth-clients'
     | '/$lng/admin/overview'
     | '/$lng/admin/parties'
     | '/$lng/admin/partnership-applications'
     | '/$lng/admin/partnerships'
-    | '/$lng/admin/shops'
     | '/$lng/admin/users'
     | '/$lng/me/account'
     | '/$lng/me/notifications'
@@ -493,12 +494,12 @@ export interface FileRouteTypes {
     | '/$lng/products/$productListingTitleSlugId'
     | '/$lng/search/shops'
     | '/$lng/partner-program'
+    | '/$lng/admin/listing-sources'
     | '/$lng/admin/oauth-clients'
     | '/$lng/admin/overview'
     | '/$lng/admin/parties'
     | '/$lng/admin/partnership-applications'
     | '/$lng/admin/partnerships'
-    | '/$lng/admin/shops'
     | '/$lng/admin/users'
     | '/$lng/me/account'
     | '/$lng/me/notifications'
@@ -540,12 +541,12 @@ export interface FileRouteTypes {
     | '/$lng/products/$productListingTitleSlugId'
     | '/$lng/search_/shops'
     | '/$lng/partner-program/'
+    | '/$lng/_auth/admin/listing-sources'
     | '/$lng/_auth/admin/oauth-clients'
     | '/$lng/_auth/admin/overview'
     | '/$lng/_auth/admin/parties'
     | '/$lng/_auth/admin/partnership-applications'
     | '/$lng/_auth/admin/partnerships'
-    | '/$lng/_auth/admin/shops'
     | '/$lng/_auth/admin/users'
     | '/$lng/_auth/me/account'
     | '/$lng/_auth/me/notifications'
@@ -722,6 +723,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LngAuthAdminIndexRouteImport
       parentRoute: typeof LngAuthAdminRoute
     }
+    '/$lng/_auth/admin/listing-sources': {
+      id: '/$lng/_auth/admin/listing-sources'
+      path: '/listing-sources'
+      fullPath: '/$lng/admin/listing-sources'
+      preLoaderRoute: typeof LngAuthAdminListingSourcesRouteImport
+      parentRoute: typeof LngAuthAdminRoute
+    }
     '/$lng/_auth/admin/oauth-clients': {
       id: '/$lng/_auth/admin/oauth-clients'
       path: '/oauth-clients'
@@ -755,13 +763,6 @@ declare module '@tanstack/react-router' {
       path: '/partnerships'
       fullPath: '/$lng/admin/partnerships'
       preLoaderRoute: typeof LngAuthAdminPartnershipsRouteImport
-      parentRoute: typeof LngAuthAdminRoute
-    }
-    '/$lng/_auth/admin/shops': {
-      id: '/$lng/_auth/admin/shops'
-      path: '/shops'
-      fullPath: '/$lng/admin/shops'
-      preLoaderRoute: typeof LngAuthAdminShopsRouteImport
       parentRoute: typeof LngAuthAdminRoute
     }
     '/$lng/_auth/admin/users': {
@@ -894,12 +895,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface LngAuthAdminRouteChildren {
+  LngAuthAdminListingSourcesRoute: typeof LngAuthAdminListingSourcesRoute
   LngAuthAdminOauthClientsRoute: typeof LngAuthAdminOauthClientsRoute
   LngAuthAdminOverviewRoute: typeof LngAuthAdminOverviewRoute
   LngAuthAdminPartiesRoute: typeof LngAuthAdminPartiesRoute
   LngAuthAdminPartnershipApplicationsRoute: typeof LngAuthAdminPartnershipApplicationsRoute
   LngAuthAdminPartnershipsRoute: typeof LngAuthAdminPartnershipsRoute
-  LngAuthAdminShopsRoute: typeof LngAuthAdminShopsRoute
   LngAuthAdminUsersRoute: typeof LngAuthAdminUsersRoute
   LngAuthAdminIndexRoute: typeof LngAuthAdminIndexRoute
   LngAuthAdminAuctionsAuctionIdRoute: typeof LngAuthAdminAuctionsAuctionIdRoute
@@ -908,13 +909,13 @@ interface LngAuthAdminRouteChildren {
 }
 
 const LngAuthAdminRouteChildren: LngAuthAdminRouteChildren = {
+  LngAuthAdminListingSourcesRoute: LngAuthAdminListingSourcesRoute,
   LngAuthAdminOauthClientsRoute: LngAuthAdminOauthClientsRoute,
   LngAuthAdminOverviewRoute: LngAuthAdminOverviewRoute,
   LngAuthAdminPartiesRoute: LngAuthAdminPartiesRoute,
   LngAuthAdminPartnershipApplicationsRoute:
     LngAuthAdminPartnershipApplicationsRoute,
   LngAuthAdminPartnershipsRoute: LngAuthAdminPartnershipsRoute,
-  LngAuthAdminShopsRoute: LngAuthAdminShopsRoute,
   LngAuthAdminUsersRoute: LngAuthAdminUsersRoute,
   LngAuthAdminIndexRoute: LngAuthAdminIndexRoute,
   LngAuthAdminAuctionsAuctionIdRoute: LngAuthAdminAuctionsAuctionIdRoute,

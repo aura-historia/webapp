@@ -26,7 +26,7 @@ Run this checklist when code touches any of the following:
 - Preferences and cookies: `user-preferences`, `i18next`, localStorage, sessionStorage, consent state.
 - Watchlists, saved searches/search filters, notifications, matching, product interactions, analytics events.
 - Newsletter or marketing consent, including double opt-in evidence.
-- Partner/shop/admin data: shop metadata, domains, addresses, contact fields, partner applications, API access tokens, OAuth clients.
+- Partner/listing-source/admin data: listing-source and Party (operator) details, contact fields, partnership applications and memberships, auctions, API access tokens, OAuth clients, suspensions.
 - Payment/subscription metadata and Stripe-related behavior.
 - Tracking, analytics, embedded third-party content, maps, pixels, or new outbound processors.
 - Logs or error reporting that may include personal data.

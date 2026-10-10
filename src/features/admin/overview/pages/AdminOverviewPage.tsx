@@ -232,7 +232,7 @@ function OverviewContent({
                         listingSources.withoutIngestionMethod,
                     )}
                     format={format}
-                    to="/$lng/admin/shops"
+                    to="/$lng/admin/listing-sources"
                     language={language}
                 />
                 <SummaryTile
@@ -300,7 +300,7 @@ function OverviewContent({
                     id="listing-sources"
                     title={t("adminOverview.listingSources.title")}
                     action={{
-                        to: "/$lng/admin/shops",
+                        to: "/$lng/admin/listing-sources",
                         label: t("adminOverview.listingSources.link"),
                         language,
                     }}

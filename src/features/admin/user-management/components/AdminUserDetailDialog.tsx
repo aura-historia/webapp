@@ -36,13 +36,13 @@ export function AdminUserDetailDialog({
     const open = Boolean(userId);
     const [displayedUserId, releaseUserId] = useRetainedDialogValue(userId, open);
     const user = useAdminUser(displayedUserId, open);
-    const deleteUser = useDeleteAdminUser();
+    const deleteAdminUser = useDeleteAdminUser();
     const patchPending = useIsMutating({ mutationKey: ADMIN_USER_PATCH_MUTATION_KEY }) > 0;
     const [confirmDelete, setConfirmDelete] = useState(false);
 
     const handleOpenChange = (nextOpen: boolean) => {
         if (!nextOpen) {
-            deleteUser.reset();
+            deleteAdminUser.reset();
             setConfirmDelete(false);
         }
         onOpenChange(nextOpen);
@@ -50,7 +50,7 @@ export function AdminUserDetailDialog({
 
     const handleDelete = async (account: AdminUserAccount) => {
         try {
-            await deleteUser.mutateAsync(account.userId);
+            await deleteAdminUser.mutateAsync(account.userId);
             toast.success(t("adminUsers.success.deleted"));
             setConfirmDelete(false);
             onOpenChange(false);
@@ -87,12 +87,12 @@ export function AdminUserDetailDialog({
                     <AdminUserDetails
                         account={user.data}
                         confirmDelete={confirmDelete}
-                        deletePending={deleteUser.isPending}
+                        deletePending={deleteAdminUser.isPending}
                         patchPending={patchPending}
-                        deleteError={deleteUser.error?.message}
+                        deleteError={deleteAdminUser.error?.message}
                         securityActions={renderSecurityActions?.(user.data.userId)}
                         onConfirmDelete={() => {
-                            deleteUser.reset();
+                            deleteAdminUser.reset();
                             setConfirmDelete(true);
                         }}
                         onCancelDelete={() => setConfirmDelete(false)}
