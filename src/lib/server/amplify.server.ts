@@ -1,6 +1,6 @@
 import { getCookies, setCookie, deleteCookie } from "@tanstack/react-start/server";
+import { createAmplifyContext } from "aws-amplify";
 import {
-    runWithAmplifyServerContext,
     createKeyValueStorageFromCookieStorageAdapter,
     createAWSCredentialsAndIdentityIdProvider,
     createUserPoolsTokenProvider,
@@ -44,46 +44,41 @@ function createCookieStorageAdapter(): CookieStorage.Adapter {
 }
 
 /**
- * Runs an Amplify operation within a server context.
- * Creates the necessary token and credentials providers from cookies.
+ * Creates a request-scoped Amplify context backed by the request's cookies.
+ * Build a new context per request; never cache or share it across requests.
  */
-async function runAmplifyServerContext<T>(
-    operation: (contextSpec: { token: { value: symbol } }) => Promise<T>,
-): Promise<T> {
+function createServerAmplifyContext() {
     const cookieAdapter = createCookieStorageAdapter();
     const keyValueStorage = createKeyValueStorageFromCookieStorageAdapter(cookieAdapter);
 
-    const credentialsProvider = createAWSCredentialsAndIdentityIdProvider(
-        amplifyConfig.Auth,
-        keyValueStorage,
-    );
-    const tokenProvider = createUserPoolsTokenProvider(amplifyConfig.Auth, keyValueStorage);
-
-    return runWithAmplifyServerContext(
-        amplifyConfig,
-        { Auth: { credentialsProvider, tokenProvider } },
-        operation,
-    );
+    // Always pass the cookie-backed providers: the defaults use browser storage.
+    return createAmplifyContext(amplifyConfig, {
+        Auth: {
+            credentialsProvider: createAWSCredentialsAndIdentityIdProvider(
+                amplifyConfig.Auth,
+                keyValueStorage,
+            ),
+            tokenProvider: createUserPoolsTokenProvider(amplifyConfig.Auth, keyValueStorage),
+        },
+    });
 }
 
 export async function getServerUserSession() {
-    return runAmplifyServerContext(async (contextSpec) => {
-        try {
-            const user = await getCurrentUser(contextSpec);
-            return { user, authenticated: true as const };
-        } catch {
-            return { user: null, authenticated: false as const };
-        }
-    });
+    const context = createServerAmplifyContext();
+    try {
+        const user = await getCurrentUser(context);
+        return { user, authenticated: true as const };
+    } catch {
+        return { user: null, authenticated: false as const };
+    }
 }
 
 export async function getServerAuthToken(): Promise<string | undefined> {
-    return runAmplifyServerContext(async (contextSpec) => {
-        try {
-            const session = await fetchAuthSession(contextSpec);
-            return session.tokens?.accessToken?.toString();
-        } catch {
-            return undefined;
-        }
-    });
+    const context = createServerAmplifyContext();
+    try {
+        const session = await fetchAuthSession(context);
+        return session.tokens?.accessToken?.toString();
+    } catch {
+        return undefined;
+    }
 }

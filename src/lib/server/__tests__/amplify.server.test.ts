@@ -5,11 +5,11 @@ import {
     createAWSCredentialsAndIdentityIdProvider,
     createKeyValueStorageFromCookieStorageAdapter,
     createUserPoolsTokenProvider,
-    runWithAmplifyServerContext,
 } from "aws-amplify/adapter-core";
+import { createAmplifyContext } from "aws-amplify";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth/server";
 
-const mockContextSpec = vi.hoisted(() => ({ token: { value: Symbol("token") } }));
+const mockAmplifyContext = vi.hoisted(() => ({ token: { value: Symbol("token") } }));
 
 vi.mock("@tanstack/react-start/server", () => ({
     getCookies: vi.fn(),
@@ -28,9 +28,10 @@ vi.mock("aws-amplify/adapter-core", () => ({
         return "key-value-storage";
     }),
     createUserPoolsTokenProvider: vi.fn(() => "token-provider"),
-    runWithAmplifyServerContext: vi.fn((_config, _providers, operation) =>
-        operation(mockContextSpec),
-    ),
+}));
+
+vi.mock("aws-amplify", () => ({
+    createAmplifyContext: vi.fn(() => mockAmplifyContext),
 }));
 
 vi.mock("aws-amplify/auth/server", () => ({
@@ -60,7 +61,7 @@ describe("Amplify server helpers", () => {
             user: { username: "test-user", userId: "test-user-id" },
             authenticated: true,
         });
-        expect(getCurrentUser).toHaveBeenCalledWith(mockContextSpec);
+        expect(getCurrentUser).toHaveBeenCalledWith(mockAmplifyContext);
         expectAmplifyServerContextWasConfigured();
     });
 
@@ -85,7 +86,7 @@ describe("Amplify server helpers", () => {
         const result = await getServerAuthToken();
 
         expect(result).toBe("access-token");
-        expect(fetchAuthSession).toHaveBeenCalledWith(mockContextSpec);
+        expect(fetchAuthSession).toHaveBeenCalledWith(mockAmplifyContext);
         expectAmplifyServerContextWasConfigured();
     });
 
@@ -119,7 +120,8 @@ function expectAmplifyServerContextWasConfigured() {
         { userPoolId: "test-pool" },
         "key-value-storage",
     );
-    expect(runWithAmplifyServerContext).toHaveBeenCalledWith(
+    expect(createAmplifyContext).toHaveBeenCalledTimes(1);
+    expect(createAmplifyContext).toHaveBeenCalledWith(
         { Auth: { userPoolId: "test-pool" } },
         {
             Auth: {
@@ -127,6 +129,5 @@ function expectAmplifyServerContextWasConfigured() {
                 tokenProvider: "token-provider",
             },
         },
-        expect.any(Function),
     );
 }
