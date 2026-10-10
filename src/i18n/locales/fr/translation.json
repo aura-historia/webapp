@@ -1216,7 +1216,18 @@
       "SAR": "SAR - Riyal saoudien",
       "HKD": "HKD - Dollar de Hong Kong",
       "SGD": "SGD - Dollar de Singapour",
-      "CHF": "CHF - Franc suisse"
+      "CHF": "CHF - Franc suisse",
+      "ZAR": "ZAR - Rand sud-africain",
+      "SEK": "SEK - Couronne suédoise",
+      "DKK": "DKK - Couronne danoise",
+      "NOK": "NOK - Couronne norvégienne",
+      "KRW": "KRW - Won sud-coréen",
+      "INR": "INR - Roupie indienne",
+      "TWD": "TWD - Nouveau dollar de Taïwan",
+      "HUF": "HUF - Forint hongrois",
+      "RON": "RON - Leu roumain",
+      "MXN": "MXN - Peso mexicain",
+      "THB": "THB - Baht thaïlandais"
     },
     "unitSystems": {
       "METRIC": "Métrique",
@@ -1554,7 +1565,8 @@
       "duplicateMethod": "Chaque méthode d’ingestion ne peut être ajoutée qu’une fois.",
       "shopifyDomainRequired": "Saisissez le domaine de la boutique Shopify.",
       "webhookSecretRequired": "Saisissez le secret du webhook WooCommerce.",
-      "camrefRequired": "Saisissez la référence de campagne Partnerize."
+      "camrefRequired": "Saisissez la référence de campagne Partnerize.",
+      "unsupportedCurrency": "Saisissez un code de devise ISO 4217 pris en charge, par exemple EUR ou SEK."
     }
   },
   "adminPartnerships": {

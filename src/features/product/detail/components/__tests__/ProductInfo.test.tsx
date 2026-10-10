@@ -48,6 +48,8 @@ vi.mock("@tanstack/react-router", async () => {
 import { screen } from "@testing-library/react";
 import { ProductInfo } from "../ProductInfo.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
+import { mapToProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
+import { generateProductJsonLd } from "@/features/product/detail/lib/seo/productJsonLd.ts";
 
 beforeAll(() => {
     Object.defineProperty(window, "matchMedia", {
@@ -118,6 +120,51 @@ describe("ProductInfo", () => {
         );
         expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
     });
+    it("renders an unavailable historical SEK conversion as unknown, not as 0, EUR or the source amount", () => {
+        const sold = mapToProductListingDetail(
+            {
+                item: {
+                    productListingId: "listing-sold",
+                    eventId: "evt-1",
+                    source: {
+                        listingSourceId: "source-1",
+                        name: "Antique Store",
+                        slugId: "antique-store",
+                    },
+                    sourceListingId: "item-1",
+                    title: { text: "Sold Chair", language: "de" },
+                    pricing: {
+                        source: { price: { type: "MONETARY", amount: 250000, currency: "EUR" } },
+                        display: {},
+                        valuation: {
+                            type: "SALE_OBSERVATION",
+                            fxRateId: "fx_sale",
+                            capturedAt: "2026-08-31T00:00:00Z",
+                            observedAt: "2026-08-30T00:00:00Z",
+                        },
+                    },
+                    availability: "SOLD_OUT",
+                    lifecycle: "ACTIVE",
+                    url: "https://example.com/chair",
+                    viewUrl: "https://example.com/chair",
+                    images: [],
+                    auction: null,
+                    lot: null,
+                    created: "2026-08-01T00:00:00Z",
+                    updated: "2026-09-01T00:00:00Z",
+                },
+            },
+            "de",
+        );
+
+        const { container } = renderWithQueryClient(<ProductInfo product={sold} />);
+        expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
+        const content = container.textContent ?? "";
+        expect(content).not.toMatch(/€|EUR|SEK|2\.500|0,00/);
+        expect(content).not.toContain("undefined");
+        expect(generateProductJsonLd(sold).offers).toBeUndefined();
+    });
+
     it("renders authoritative auction and lot names", () => {
         renderWithQueryClient(
             <ProductInfo

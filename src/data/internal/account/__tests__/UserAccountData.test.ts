@@ -45,6 +45,32 @@ describe("mapToInternalUserAccount", () => {
             }),
         ).toMatchObject({ unitSystem: "IMPERIAL", stripeCustomerId: "cus_123" });
     });
+    it.each(["KRW", "SEK", "ZAR", "JPY", "THB"] as const)(
+        "maps the backend currency %s unchanged",
+        (currency) => {
+            expect(
+                mapToInternalUserAccount({
+                    userId: "u",
+                    email: "u@example.com",
+                    tier: "FREE",
+                    role: "USER",
+                    currency,
+                    showUnassessedOrSensitiveContent: false,
+                }).currency,
+            ).toBe(currency);
+        },
+    );
+    it("keeps an absent currency absent instead of defaulting it", () => {
+        expect(
+            mapToInternalUserAccount({
+                userId: "u",
+                email: "u@example.com",
+                tier: "FREE",
+                role: "USER",
+                showUnassessedOrSensitiveContent: false,
+            }).currency,
+        ).toBeUndefined();
+    });
     it("maps API tier to internal subscriptionType", () => {
         const apiData: OwnUserAccountData = {
             userId: "user-1",
@@ -118,6 +144,15 @@ describe("mapToBackendUserAccountPatch", () => {
             currency: null,
             measurementUnit: null,
         });
+    });
+    it.each(["KRW", "SEK", "ZAR", "INR", "MXN"] as const)(
+        "sends the new currency %s unchanged",
+        (currency) => {
+            expect(mapToBackendUserAccountPatch({ currency })).toEqual({ currency });
+        },
+    );
+    it("omits an undefined currency from the patch", () => {
+        expect(mapToBackendUserAccountPatch({ currency: undefined })).toEqual({});
     });
     it("keeps existing patch mapping behavior", () => {
         const patchData = mapToBackendUserAccountPatch({

@@ -13,8 +13,12 @@ export interface PricingTier {
     readonly descKey: string;
     readonly features: readonly PricingFeature[];
     readonly priceLabelKey?: string;
-    readonly prices?: Readonly<Record<Currency, number>>;
-    readonly yearlyPrices?: Readonly<Record<Currency, number>>;
+    /**
+     * Configured subscription prices (major units). Listing currencies without a configured
+     * price fall back to the "coming soon" label; never derive these from listing FX.
+     */
+    readonly prices?: Readonly<Partial<Record<Currency, number>>>;
+    readonly yearlyPrices?: Readonly<Partial<Record<Currency, number>>>;
     readonly isHighlighted?: boolean;
 }
 

@@ -364,9 +364,20 @@ export type LanguageData = 'de' | 'en' | 'fr' | 'es' | 'it' | 'zh' | 'pt' | 'pl'
  * - HKD: Hong Kong Dollar
  * - SGD: Singapore Dollar
  * - CHF: Swiss Franc
+ * - ZAR: South African Rand
+ * - SEK: Swedish Krona
+ * - DKK: Danish Krone
+ * - NOK: Norwegian Krone
+ * - KRW: South Korean Won
+ * - INR: Indian Rupee
+ * - TWD: New Taiwan Dollar
+ * - HUF: Hungarian Forint
+ * - RON: Romanian Leu
+ * - MXN: Mexican Peso
+ * - THB: Thai Baht
  *
  */
-export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD' | 'CNY' | 'BRL' | 'PLN' | 'TRY' | 'JPY' | 'CZK' | 'RUB' | 'AED' | 'SAR' | 'HKD' | 'SGD' | 'CHF';
+export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD' | 'CNY' | 'BRL' | 'PLN' | 'TRY' | 'JPY' | 'CZK' | 'RUB' | 'AED' | 'SAR' | 'HKD' | 'SGD' | 'CHF' | 'ZAR' | 'SEK' | 'DKK' | 'NOK' | 'KRW' | 'INR' | 'TWD' | 'HUF' | 'RON' | 'MXN' | 'THB';
 
 /**
  * User preference for distance/size presentation:

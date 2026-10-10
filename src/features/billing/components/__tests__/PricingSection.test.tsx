@@ -1,10 +1,31 @@
 import PricingSection from "@/features/billing/components/PricingSection.tsx";
 import { PRICING_TIERS } from "@/features/billing/components/PricingSection.data.ts";
-import { CURRENCIES } from "@/data/internal/common/Currency.ts";
+import { CURRENCIES, type Currency } from "@/data/internal/common/Currency.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
+
+const CONFIGURED_BILLING_CURRENCIES = [
+    "EUR",
+    "GBP",
+    "USD",
+    "AUD",
+    "CAD",
+    "NZD",
+    "CNY",
+    "BRL",
+    "PLN",
+    "TRY",
+    "JPY",
+    "CZK",
+    "RUB",
+    "AED",
+    "SAR",
+    "HKD",
+    "SGD",
+    "CHF",
+];
 
 type MockAuthUser = { userId: string; username: string } | null;
 
@@ -268,15 +289,34 @@ describe("PricingSection", () => {
         }
     });
 
-    it("defines pricing for every supported currency on paid tiers", () => {
+    it("configures the same existing subscription currencies on every paid tier", () => {
         for (const tier of PRICING_TIERS.filter((pricingTier) => pricingTier.prices)) {
-            expect(Object.keys(tier.prices ?? {})).toEqual(CURRENCIES);
+            expect(Object.keys(tier.prices ?? {})).toEqual(CONFIGURED_BILLING_CURRENCIES);
+            expect(Object.keys(tier.yearlyPrices ?? {})).toEqual(CONFIGURED_BILLING_CURRENCIES);
         }
     });
 
-    it("defines yearly pricing for every supported currency on paid tiers", () => {
-        for (const tier of PRICING_TIERS.filter((pricingTier) => pricingTier.yearlyPrices)) {
-            expect(Object.keys(tier.yearlyPrices ?? {})).toEqual(CURRENCIES);
+    it("does not configure subscription prices for newly supported listing currencies", () => {
+        const configured = new Set<string>(CONFIGURED_BILLING_CURRENCIES);
+        const unpriced = CURRENCIES.filter((currency) => !configured.has(currency));
+        expect(unpriced).toEqual([
+            "ZAR",
+            "SEK",
+            "DKK",
+            "NOK",
+            "KRW",
+            "INR",
+            "TWD",
+            "HUF",
+            "RON",
+            "MXN",
+            "THB",
+        ]);
+        for (const tier of PRICING_TIERS) {
+            for (const currency of unpriced) {
+                expect(tier.prices?.[currency]).toBeUndefined();
+                expect(tier.yearlyPrices?.[currency]).toBeUndefined();
+            }
         }
     });
 
@@ -285,9 +325,6 @@ describe("PricingSection", () => {
             (pricingTier) => pricingTier.prices && pricingTier.yearlyPrices,
         )) {
             const { prices, yearlyPrices } = tier;
-            expect(prices).toBeDefined();
-            expect(yearlyPrices).toBeDefined();
-
             if (!prices || !yearlyPrices) {
                 continue;
             }
@@ -295,10 +332,48 @@ describe("PricingSection", () => {
             for (const currency of CURRENCIES) {
                 const monthly = prices[currency];
                 const yearly = yearlyPrices[currency];
+                if (monthly === undefined || yearly === undefined) continue;
                 // Yearly should be 10x monthly (rounded)
                 expect(yearly).toBeCloseTo(monthly * 10, 0);
             }
         }
+    });
+});
+
+describe("PricingSection currency preference", () => {
+    const renderWithCurrency = async (currency: Currency) => {
+        localStorage.setItem("user-preferences", JSON.stringify({ currency }));
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+    };
+
+    afterEach(() => {
+        localStorage.clear();
+    });
+
+    it.each(["SEK", "KRW"] as const)(
+        "shows the coming-soon fallback for unpriced %s instead of a formatted amount",
+        async (currency) => {
+            await renderWithCurrency(currency);
+
+            expect(await screen.findAllByText("In Kürze")).toHaveLength(2);
+            expect(screen.queryByText(/NaN|undefined/)).not.toBeInTheDocument();
+            expect(screen.queryByText(/€/)).not.toBeInTheDocument();
+        },
+    );
+
+    it("keeps formatting configured prices for an existing currency", async () => {
+        await renderWithCurrency("CHF");
+
+        const yearlyPerMonth = new Intl.NumberFormat("de", {
+            style: "currency",
+            currency: "CHF",
+        }).format(159 / 12);
+        expect(
+            await screen.findByText((_, element) => element?.textContent === yearlyPerMonth),
+        ).toBeInTheDocument();
+        expect(screen.queryByText("In Kürze")).not.toBeInTheDocument();
     });
 });
 

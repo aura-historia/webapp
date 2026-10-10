@@ -13,10 +13,13 @@ admin workflows in [admin workflows](admin-workflows.md).
   `39d993e0ed775e65065c61fa885e791ee706d49c`). The newsletter operations and schemas
   (`/api/v1/newsletter-subscriptions`, `/confirm`, `PutNewsletterSubscriptionData`,
   `ConfirmNewsletterSubscriptionData`) were replaced byte-for-byte from backend commit
-  `2bb418631263a270becb784352c21b412f05bfea`. File SHA-256:
-  `d110a79cd1086186d406db1ad3daa9b366df4c07a1a18475d6ac9077865226b6`; canonical parsed-JSON SHA-256
+  `2bb418631263a270becb784352c21b412f05bfea`. The `CurrencyData` schema (29-currency enum and
+  descriptions) was replaced byte-for-byte from backend commit
+  `9dbbd433ffc0913adec7784b0f0134b448729aef` ([backend#1996](https://github.com/aura-historia/backend/pull/1996));
+  no other schema was taken from that revision. File SHA-256:
+  `c0dd6897f40621e003eb1d45db5841a527bede4b8972526ba2d98ad9ea5f9172`; canonical parsed-JSON SHA-256
   (recorded as `x-source-contract-sha256` in the partner reference):
-  `b61048108a908ce22825e9fa92ca7094ff474d2836efc296b2d6901d18b67af6`.
+  `62e6b3187d433235e1f33908bb17143fcebef89f1ff1592a4c3163a46dd0ae2c`.
 - Later backend changes are deliberately not adopted yet: own access-token DTOs, search-filter
   match reasons, account `marketingEmailConsent`, and the server-to-server Loops webhook.
 - Tooling: the pinned `@hey-api/openapi-ts 0.0.0-next-20260824173136` with Python/PyYAML for the
@@ -68,6 +71,14 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
   sellers, auctions or sale facts.
 - Monetary and on-request prices are separate union members; a missing price stays `null`.
   Valuation keeps `CURRENT` or `SALE_OBSERVATION` with its FX and timestamp metadata.
+- Amounts are integer minor units. `CURRENCY_MINOR_UNIT_EXPONENTS` in
+  `src/data/internal/common/Currency.ts` is the only scaling policy (JPY and KRW 0, every other
+  supported currency, including HUF and TWD, 2); never derive it from `Intl`, which reports cash
+  digits for some currencies. History and notification prices keep their own currency; the app
+  performs no FX conversion. A historical sale that the backend cannot project into a newer
+  currency stays absent or surfaces the backend error; never substitute `0`, EUR or another rate.
+- `parseCurrency` is a preference helper with an EUR fallback. Validate other inputs, such as
+  listing-source currency fields, with `toSupportedCurrency` and reject unsupported codes.
 - Availability is the nullable 11-value enum plus `UNKNOWN` for unexpected values. Lifecycle is
   independently `ACTIVE` or `WITHDRAWN` (with an `UNKNOWN` fallback); withdrawal, out-of-stock
   and sale are not equated.

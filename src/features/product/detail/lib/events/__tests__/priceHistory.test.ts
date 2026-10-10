@@ -1,7 +1,7 @@
 import type { Currency } from "@/data/internal/common/Currency.ts";
 import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
 import { describe, expect, it } from "vitest";
-import { getPriceHistorySeries } from "../priceHistory.ts";
+import { formatHistoryMoney, formatHistoryPrice, getPriceHistorySeries } from "../priceHistory.ts";
 
 function discovery(
     eventId: string,
@@ -145,5 +145,105 @@ describe("getPriceHistorySeries", () => {
         ]);
 
         expect(series.at(-1)?.currency).toBe("EUR");
+    });
+
+    it.each([
+        ["HUF", 12345, 123.45],
+        ["TWD", 12345, 123.45],
+        ["SEK", 12345, 123.45],
+        ["KRW", 12345, 12345],
+    ] as const)("scales %s history amounts with the backend exponent", (currency, amount, y) => {
+        const series = getPriceHistorySeries([
+            discovery("1", "2026-01-01T00:00:00Z", { type: "MONETARY", amount, currency }),
+        ]);
+
+        expect(series).toEqual([
+            { currency, data: [{ x: new Date("2026-01-01T00:00:00Z").getTime(), y }] },
+        ]);
+    });
+
+    it("keeps new-currency series separate without converting and preserves null gaps", () => {
+        const series = getPriceHistorySeries([
+            discovery("1", "2026-01-01T00:00:00Z", {
+                type: "MONETARY",
+                amount: 1500000,
+                currency: "KRW",
+            }),
+            mainPriceChange(
+                "2",
+                "2026-01-02T00:00:00Z",
+                { type: "MONETARY", amount: 1500000, currency: "KRW" },
+                { type: "ON_REQUEST" },
+            ),
+            mainPriceChange(
+                "3",
+                "2026-01-03T00:00:00Z",
+                { type: "ON_REQUEST" },
+                { type: "MONETARY", amount: 1250050, currency: "HUF" },
+            ),
+            mainPriceChange(
+                "4",
+                "2026-01-04T00:00:00Z",
+                { type: "MONETARY", amount: 1250050, currency: "HUF" },
+                { type: "MONETARY", amount: 99950, currency: "SEK" },
+            ),
+        ]);
+
+        const t = (day: number) => new Date(`2026-01-0${day}T00:00:00Z`).getTime();
+        expect(series).toEqual([
+            {
+                currency: "KRW",
+                data: [
+                    { x: t(1), y: 1500000 },
+                    { x: t(2), y: null },
+                ],
+            },
+            {
+                currency: "HUF",
+                data: [
+                    { x: t(3), y: 12500.5 },
+                    { x: t(4), y: null },
+                ],
+            },
+            { currency: "SEK", data: [{ x: t(4), y: 999.5 }] },
+        ]);
+    });
+});
+
+describe("formatHistoryMoney", () => {
+    const normalise = (value: string) => value.replace(/[\u00a0\u202f]/g, " ");
+
+    it("shows HUF with two fraction digits from integer minor units", () => {
+        const formatted = formatHistoryMoney({ amount: 12345, currency: "HUF" }, "en-US");
+        expect(normalise(formatted)).toMatch(/^HUF 123\.45$/);
+    });
+
+    it("shows HUF with two fraction digits in a German locale", () => {
+        const formatted = normalise(formatHistoryMoney({ amount: 100, currency: "HUF" }, "de-DE"));
+        expect(formatted).toMatch(/^1,00 (HUF|Ft)$/);
+    });
+
+    it("shows TWD with two fraction digits and KRW without fraction digits", () => {
+        expect(normalise(formatHistoryMoney({ amount: 12345, currency: "TWD" }, "en-US"))).toBe(
+            "NT$123.45",
+        );
+        expect(normalise(formatHistoryMoney({ amount: 12345, currency: "KRW" }, "en-US"))).toBe(
+            "₩12,345",
+        );
+    });
+
+    it("labels on-request and missing prices instead of formatting an amount", () => {
+        const labels = { onRequest: "On request", notProvided: "Not provided" };
+        expect(formatHistoryPrice({ type: "ON_REQUEST" }, "en-US", labels)).toBe("On request");
+        expect(formatHistoryPrice(null, "en-US", labels)).toBe("Not provided");
+        expect(
+            normalise(
+                formatHistoryPrice(
+                    { type: "MONETARY", amount: 12345, currency: "SEK" },
+                    "en-US",
+                    labels,
+                ),
+            ),
+        ).toBe("SEK 123.45");
     });
 });

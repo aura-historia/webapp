@@ -92,4 +92,39 @@ describe("admin user DTO mapping", () => {
         expect(patch).not.toHaveProperty("stripeCustomerId");
         expect(patch).not.toHaveProperty("structuredAddress");
     });
+
+    it.each(["KRW", "SEK", "ZAR"] as const)(
+        "maps and patches the backend currency %s unchanged",
+        (currency) => {
+            const account = mapToAdminUserAccount({ ...detailFixture, currency });
+            expect(account.currency).toBe(currency);
+
+            const formValues = toAdminUserProfileFormValues(account);
+            expect(formValues.currency).toBe(currency);
+            expect(mapToAdminUserProfilePatch(account, formValues)).toEqual({});
+
+            const fromEuro = mapToAdminUserAccount(detailFixture);
+            expect(
+                mapToAdminUserProfilePatch(fromEuro, {
+                    ...toAdminUserProfileFormValues(fromEuro),
+                    currency,
+                }),
+            ).toEqual({ currency });
+        },
+    );
+
+    it("clears a new currency with an explicit null and keeps an unset currency unset", () => {
+        const account = mapToAdminUserAccount({ ...detailFixture, currency: "SEK" });
+        expect(
+            mapToAdminUserProfilePatch(account, {
+                ...toAdminUserProfileFormValues(account),
+                currency: "",
+            }),
+        ).toEqual({ currency: null });
+
+        const unset = mapToAdminUserAccount({ ...detailFixture, currency: null });
+        expect(unset.currency).toBeNull();
+        expect(toAdminUserProfileFormValues(unset).currency).toBe("");
+        expect(mapToAdminUserProfilePatch(unset, toAdminUserProfileFormValues(unset))).toEqual({});
+    });
 });

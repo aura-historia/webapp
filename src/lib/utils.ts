@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { CURRENCY_SYMBOLS, type Currency } from "@/data/internal/common/Currency.ts";
+import { replaceCurrencyCodeWithSymbol } from "@/data/internal/price/Price.ts";
 import type { CheckedState } from "@radix-ui/react-checkbox";
 
 export function cn(...inputs: ClassValue[]) {
@@ -53,8 +53,7 @@ export function formatCompactCurrency(value: number, currency: string, locale: s
         maximumFractionDigits: 1,
     }).format(value);
 
-    const sym = CURRENCY_SYMBOLS[currency as Currency];
-    return sym ? formatted.replace(currency, sym) : formatted;
+    return replaceCurrencyCodeWithSymbol(formatted, currency);
 }
 
 export function formatShortDate(date: Date, locale?: string, timeZone?: string): string {

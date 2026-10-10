@@ -77,4 +77,87 @@ describe("AdminListingSourceFormDialog", () => {
             }),
         ).toBeTruthy();
     });
+
+    describe("currency validation in the edit form", () => {
+        const multiMethodSource: AdminListingSourceDetail = {
+            ...source,
+            ingestionMethods: ["WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE"],
+        };
+
+        function fillReplacementConfiguration(currencies: readonly [string, string, string]) {
+            fireEvent.click(screen.getByRole("checkbox"));
+            fireEvent.change(
+                screen.getByLabelText(testI18n.t("adminListingSources.fields.fallbackCurrency")),
+                { target: { value: currencies[0] } },
+            );
+            fireEvent.change(
+                screen.getByLabelText(testI18n.t("adminListingSources.fields.domain")),
+                { target: { value: "store.example" } },
+            );
+            const currencyInputs = screen.getAllByLabelText(
+                testI18n.t("adminListingSources.fields.currency"),
+            );
+            expect(currencyInputs).toHaveLength(2);
+            currencyInputs.forEach((input, index) => {
+                fireEvent.change(input, { target: { value: currencies[index + 1] } });
+            });
+            fireEvent.click(
+                screen.getByRole("button", {
+                    name: testI18n.t("adminListingSources.actions.save"),
+                }),
+            );
+        }
+
+        it("shows the unsupported-currency message on each invalid field and does not submit", async () => {
+            renderDialog({ source: multiMethodSource });
+            fillReplacementConfiguration(["XYZ", "ABC", "EURO"]);
+
+            await waitFor(() =>
+                expect(
+                    screen.getAllByText(
+                        testI18n.t("adminListingSources.validation.unsupportedCurrency"),
+                    ),
+                ).toHaveLength(3),
+            );
+            expect(
+                screen.getByLabelText(testI18n.t("adminListingSources.fields.fallbackCurrency")),
+            ).toHaveAttribute("aria-invalid", "true");
+            expect(api.update.mutate).not.toHaveBeenCalled();
+        });
+
+        it("submits newly supported and empty currencies", async () => {
+            renderDialog({ source: multiMethodSource });
+            fillReplacementConfiguration(["SEK", " krw ", ""]);
+
+            await waitFor(() => expect(api.update.mutate).toHaveBeenCalledTimes(1));
+            expect(
+                screen.queryByText(
+                    testI18n.t("adminListingSources.validation.unsupportedCurrency"),
+                ),
+            ).not.toBeInTheDocument();
+            expect(api.update.mutate).toHaveBeenCalledWith(
+                {
+                    source: multiMethodSource,
+                    values: expect.objectContaining({
+                        replaceIngestionConfiguration: true,
+                        configurations: [
+                            expect.objectContaining({
+                                ingestionMethod: "WEB_CRAWL",
+                                fallbackCurrency: "SEK",
+                            }),
+                            expect.objectContaining({
+                                ingestionMethod: "SHOPIFY",
+                                currency: " krw ",
+                            }),
+                            expect.objectContaining({
+                                ingestionMethod: "WOOCOMMERCE",
+                                currency: "",
+                            }),
+                        ],
+                    }),
+                },
+                expect.any(Object),
+            );
+        });
+    });
 });

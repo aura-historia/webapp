@@ -8,6 +8,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mockSearchListings = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
+const mockPreferences = vi.hoisted(() => ({ currency: "EUR" }));
 
 vi.mock("@/client", () => ({ simpleSearchProductListings: mockSearchListings }));
 vi.mock("@/hooks/common/useApiError.ts", () => ({
@@ -22,7 +23,7 @@ vi.mock("@/data/internal/product/ProductListing.ts", () => ({
 vi.mock("react-i18next", () => ({ useTranslation: () => ({ i18n: { language: "de" } }) }));
 vi.mock("@/env.ts", () => ({ env: { VITE_FEATURE_SEARCH_ENABLED: true } }));
 vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
-    useUserPreferences: () => ({ preferences: { currency: "EUR" } }),
+    useUserPreferences: () => ({ preferences: mockPreferences }),
 }));
 
 describe("useSearch", () => {
@@ -36,6 +37,7 @@ describe("useSearch", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         mockSearchListings.mockReset();
+        mockPreferences.currency = "EUR";
         queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
         mockGetErrorMessage.mockReturnValue("Unknown error");
         mockSearchListings.mockResolvedValue({
@@ -145,6 +147,71 @@ describe("useSearch", () => {
         expect(mockSearchListings.mock.calls[1]?.[0].query.searchAfter).toBe(
             JSON.stringify(cursor),
         );
+    });
+
+    it("sends zero-exponent KRW price bounds without minor-unit scaling", async () => {
+        mockPreferences.currency = "KRW";
+
+        renderHook(() => useSearch({ q: "vase", priceFrom: 12345, priceTo: 99999 }), {
+            wrapper: createWrapper(),
+        });
+        await waitFor(() => expect(mockSearchListings).toHaveBeenCalledTimes(1));
+
+        const query = mockSearchListings.mock.calls[0][0].query;
+        expect(query.currency).toBe("KRW");
+        expect(query.price).toEqual({ min: 12345, max: 99999 });
+    });
+
+    it.each([
+        ["SEK", 123.45, 12345],
+        ["HUF", 123.45, 12345],
+        ["TWD", 0.1, 10],
+    ])("scales %s price bounds by 100 into integer minor units", async (currency, from, min) => {
+        mockPreferences.currency = currency;
+
+        renderHook(() => useSearch({ q: "vase", priceFrom: from }), { wrapper: createWrapper() });
+        await waitFor(() => expect(mockSearchListings).toHaveBeenCalledTimes(1));
+
+        const query = mockSearchListings.mock.calls[0][0].query;
+        expect(query.currency).toBe(currency);
+        expect(query.price).toEqual({ min, max: undefined });
+        expect(Number.isInteger(query.price.min)).toBe(true);
+    });
+
+    it("restarts pagination without the previous currency's cursor when the currency changes", async () => {
+        const eurCursor = { fxRateId: "fx_eur", searchAfter: ["score", "pl_123", 17] };
+        mockSearchListings.mockImplementation(async ({ query }) => ({
+            data: {
+                items: [],
+                size: 30,
+                searchAfter: query.currency === "EUR" ? eurCursor : null,
+            },
+            error: null,
+        }));
+
+        const { result, rerender } = renderHook(() => useSearch({ q: "vase", priceFrom: 10 }), {
+            wrapper: createWrapper(),
+        });
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+        expect(result.current.data?.pages[0]?.searchAfter).toEqual(eurCursor);
+
+        mockPreferences.currency = "SEK";
+        rerender();
+
+        await waitFor(() => expect(mockSearchListings).toHaveBeenCalledTimes(2));
+        const sekQuery = mockSearchListings.mock.calls[1]?.[0].query;
+        expect(sekQuery.currency).toBe("SEK");
+        expect(sekQuery.searchAfter).toBeUndefined();
+        expect(sekQuery.price).toEqual({ min: 1000, max: undefined });
+
+        await waitFor(() => expect(result.current.data?.pages).toHaveLength(1));
+        expect(result.current.data?.pages[0]?.searchAfter).toBeUndefined();
+        expect(
+            queryClient
+                .getQueryCache()
+                .findAll({ queryKey: ["search"] })
+                .map((q) => q.queryKey[3]),
+        ).toEqual(["EUR", "SEK"]);
     });
 
     it("maps API errors to the internal error message", async () => {

@@ -96,6 +96,32 @@ describe("AdminUserDetailDialog", () => {
         });
     });
 
+    it("offers every supported currency and patches a newly supported one", async () => {
+        const user = userEvent.setup();
+        api.get.mockResolvedValue({ data: account, response: { status: 200, ok: true } });
+        api.patch.mockResolvedValue({
+            data: { ...account, currency: "SEK" },
+            response: { status: 200, ok: true },
+        });
+        renderDialog();
+
+        const currency = await screen.findByLabelText(testI18n.t("adminUsers.fields.currency"));
+        // 29 currencies plus the "not set" option.
+        expect(currency.querySelectorAll("option")).toHaveLength(30);
+        await user.selectOptions(currency, "SEK");
+        await user.click(
+            screen.getByRole("button", { name: testI18n.t("adminUsers.actions.saveProfile") }),
+        );
+
+        await waitFor(() =>
+            expect(api.patch).toHaveBeenCalledWith({
+                path: { userId: "usr_01" },
+                body: { currency: "SEK" },
+                cache: "no-store",
+            }),
+        );
+    });
+
     it("renders the security controls for the displayed user", async () => {
         api.get.mockResolvedValue({ data: account, response: { status: 200, ok: true } });
         const renderSecurityActions = vi.fn((userId: string) => <p>controls for {userId}</p>);

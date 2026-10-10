@@ -255,4 +255,160 @@ describe("admin ListingSource mapping and request builders", () => {
         });
         expect(Object.hasOwn(reference, "operator")).toBe(false);
     });
+
+    describe("currency configuration", () => {
+        const createBase = {
+            name: "Source",
+            operatorType: "EXISTING" as const,
+            operatorPartyId: "party_01",
+            operatorName: "",
+            operatorPhone: "",
+            operatorEmail: "",
+            url: "",
+            image: "",
+            partnerizeCamref: "",
+        };
+        const allMethods = ["WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE"] as const;
+        const multiMethodDetail: AdminListingSourceDetail = {
+            ...detail,
+            ingestionMethods: [...allMethods],
+        };
+
+        function createConfigurations(currencies: readonly [string, string, string]) {
+            return [
+                {
+                    ...createDefaultConfiguration("WEB_CRAWL"),
+                    fallbackCurrency: currencies[0],
+                },
+                {
+                    ...createDefaultConfiguration("SHOPIFY", "SHOPIFY"),
+                    domain: "store.example",
+                    currency: currencies[1],
+                },
+                {
+                    ...createDefaultConfiguration("WOOCOMMERCE", "WOOCOMMERCE"),
+                    webhookSecret: "secret",
+                    currency: currencies[2],
+                },
+            ];
+        }
+
+        const emptyUpdateFields = {
+            fallbackCurrency: "",
+            domain: "",
+            currency: "",
+            language: "",
+            webhookSecret: "",
+        };
+
+        function updateValues(currencies: readonly [string, string, string]) {
+            return {
+                name: detail.name,
+                url: detail.presentation.url ?? "",
+                image: "",
+                referralAction: "KEEP" as const,
+                partnerizeCamref: "",
+                replaceIngestionConfiguration: true,
+                configurations: [
+                    {
+                        ...emptyUpdateFields,
+                        ingestionMethod: "WEB_CRAWL" as const,
+                        fallbackCurrency: currencies[0],
+                    },
+                    {
+                        ...emptyUpdateFields,
+                        ingestionMethod: "SHOPIFY" as const,
+                        domain: "store.example",
+                        currency: currencies[1],
+                    },
+                    {
+                        ...emptyUpdateFields,
+                        ingestionMethod: "WOOCOMMERCE" as const,
+                        currency: currencies[2],
+                    },
+                ],
+            };
+        }
+
+        it("preserves newly supported codes in create configurations", () => {
+            expect(
+                buildCreateAdminListingSourceData({
+                    ...createBase,
+                    configurations: createConfigurations(["SEK", "KRW", "ZAR"]),
+                }).ingestionConfiguration,
+            ).toEqual([
+                { type: "WEB_CRAWL", fallbackCurrency: "SEK" },
+                { type: "SHOPIFY", domain: "store.example", currency: "KRW" },
+                { type: "WOOCOMMERCE", webhookSecret: "secret", currency: "ZAR" },
+            ]);
+        });
+
+        it("preserves newly supported codes in update configurations", () => {
+            expect(
+                buildUpdateAdminListingSourceData(
+                    multiMethodDetail,
+                    updateValues(["SEK", "KRW", "ZAR"]),
+                ).ingestionConfiguration,
+            ).toEqual([
+                { type: "WEB_CRAWL", fallbackCurrency: "SEK" },
+                { type: "SHOPIFY", domain: "store.example", currency: "KRW" },
+                { type: "WOOCOMMERCE", currency: "ZAR" },
+            ]);
+        });
+
+        it("canonicalises lowercase padded codes on create and update", () => {
+            expect(
+                buildCreateAdminListingSourceData({
+                    ...createBase,
+                    configurations: createConfigurations([" sek ", " krw", "zar "]),
+                }).ingestionConfiguration,
+            ).toEqual([
+                { type: "WEB_CRAWL", fallbackCurrency: "SEK" },
+                { type: "SHOPIFY", domain: "store.example", currency: "KRW" },
+                { type: "WOOCOMMERCE", webhookSecret: "secret", currency: "ZAR" },
+            ]);
+            expect(
+                buildUpdateAdminListingSourceData(
+                    multiMethodDetail,
+                    updateValues([" sek ", " krw", "zar "]),
+                ).ingestionConfiguration,
+            ).toEqual([
+                { type: "WEB_CRAWL", fallbackCurrency: "SEK" },
+                { type: "SHOPIFY", domain: "store.example", currency: "KRW" },
+                { type: "WOOCOMMERCE", currency: "ZAR" },
+            ]);
+        });
+
+        it("omits empty or blank currencies on create and update", () => {
+            const created = buildCreateAdminListingSourceData({
+                ...createBase,
+                configurations: createConfigurations(["", " ", ""]),
+            }).ingestionConfiguration;
+            const updated = buildUpdateAdminListingSourceData(
+                multiMethodDetail,
+                updateValues([" ", "", " "]),
+            ).ingestionConfiguration;
+            for (const configuration of [...created, ...(updated ?? [])]) {
+                expect(configuration).not.toHaveProperty("currency");
+                expect(configuration).not.toHaveProperty("fallbackCurrency");
+            }
+        });
+
+        it.each([0, 1, 2])(
+            "rejects an unsupported code in configuration %i instead of coercing it to EUR",
+            (index) => {
+                const currencies: [string, string, string] = ["SEK", "KRW", "ZAR"];
+                currencies[index] = "XYZ";
+                expect(() =>
+                    buildCreateAdminListingSourceData({
+                        ...createBase,
+                        configurations: createConfigurations(currencies),
+                    }),
+                ).toThrow("Unsupported listing source currency: XYZ");
+                expect(() =>
+                    buildUpdateAdminListingSourceData(multiMethodDetail, updateValues(currencies)),
+                ).toThrow("Unsupported listing source currency: XYZ");
+            },
+        );
+    });
 });

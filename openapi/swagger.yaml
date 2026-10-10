@@ -13815,6 +13815,17 @@ components:
         - HKD
         - SGD
         - CHF
+        - ZAR
+        - SEK
+        - DKK
+        - NOK
+        - KRW
+        - INR
+        - TWD
+        - HUF
+        - RON
+        - MXN
+        - THB
       description: "Supported currencies (ISO 4217 codes):
 
         - EUR: Euro
@@ -13852,6 +13863,28 @@ components:
         - SGD: Singapore Dollar
 
         - CHF: Swiss Franc
+
+        - ZAR: South African Rand
+
+        - SEK: Swedish Krona
+
+        - DKK: Danish Krone
+
+        - NOK: Norwegian Krone
+
+        - KRW: South Korean Won
+
+        - INR: Indian Rupee
+
+        - TWD: New Taiwan Dollar
+
+        - HUF: Hungarian Forint
+
+        - RON: Romanian Leu
+
+        - MXN: Mexican Peso
+
+        - THB: Thai Baht
 
         "
       default: EUR
