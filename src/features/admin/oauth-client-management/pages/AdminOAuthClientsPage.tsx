@@ -9,6 +9,7 @@ import type {
     AdminOAuthClient,
     AdminOAuthClientFilters,
 } from "@/data/internal/admin/AdminOAuthClient.ts";
+import { useRetainedDialogValue } from "@/hooks/common/useRetainedDialogValue.ts";
 import { formatDateTime } from "@/lib/utils.ts";
 import {
     AlertDialog,
@@ -25,6 +26,7 @@ import {
     DialogDescription,
     DialogFooter,
     DialogHeader,
+    DialogLoadingState,
     DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import {
@@ -196,7 +198,7 @@ function OAuthClientRow({
 }
 
 function AdminOAuthClientDetailDialog({
-    clientId,
+    clientId: requestedClientId,
     open,
     onOpenChange,
     onEdit,
@@ -209,6 +211,7 @@ function AdminOAuthClientDetailDialog({
     readonly onDeleted: () => void;
 }) {
     const { t } = useTranslation();
+    const [clientId, releaseClientId] = useRetainedDialogValue(requestedClientId, open);
     const query = useAdminOAuthClient(clientId, open);
     const deletion = useDeleteAdminOAuthClient();
     const [confirmDelete, setConfirmDelete] = useState(false);
@@ -236,8 +239,9 @@ function AdminOAuthClientDetailDialog({
         <>
             <Dialog open={open} onOpenChange={handleOpenChange}>
                 <DialogContent
-                    className="max-h-[90vh] overflow-y-auto sm:max-w-2xl"
+                    className="flex h-[min(90vh,32rem)] flex-col overflow-y-auto sm:max-w-2xl"
                     closeLabel={t("adminOAuthClients.actions.close")}
+                    onCloseAutoFocus={releaseClientId}
                 >
                     <DialogHeader>
                         <DialogTitle>{t("adminOAuthClients.detail.title")}</DialogTitle>
@@ -253,7 +257,7 @@ function AdminOAuthClientDetailDialog({
                         </p>
                     )}
                     {client && (
-                        <DialogFooter className="flex-wrap sm:justify-between">
+                        <DialogFooter className="mt-auto flex-wrap sm:justify-between">
                             <Button
                                 type="button"
                                 variant="destructive"
@@ -311,11 +315,7 @@ function AdminOAuthClientDetailContent({
 }) {
     const { t, i18n } = useTranslation();
     if (query.isPending) {
-        return (
-            <output className="block text-muted-foreground">
-                {t("adminOAuthClients.loadingDetail")}
-            </output>
-        );
+        return <DialogLoadingState>{t("adminOAuthClients.loadingDetail")}</DialogLoadingState>;
     }
     if (query.error) {
         return (

@@ -8,12 +8,14 @@ import {
     DialogContent,
     DialogDescription,
     DialogHeader,
+    DialogLoadingState,
     DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import {
     applicationName,
     canWithdrawApplication,
 } from "@/data/internal/partner-application/OwnPartnershipApplication.ts";
+import { useRetainedDialogValue } from "@/hooks/common/useRetainedDialogValue.ts";
 import {
     usePartnerApplicationDetails,
     useWithdrawPartnerApplication,
@@ -24,7 +26,7 @@ import {
 } from "../lib/partnerApplicationHelpers.ts";
 
 export function PartnerApplicationDetailDialog({
-    applicationId,
+    applicationId: requestedApplicationId,
     open,
     onOpenChange,
 }: {
@@ -33,6 +35,10 @@ export function PartnerApplicationDetailDialog({
     readonly onOpenChange: (open: boolean) => void;
 }) {
     const { t } = useTranslation();
+    const [applicationId, releaseApplicationId] = useRetainedDialogValue(
+        requestedApplicationId,
+        open,
+    );
     const {
         data: application,
         isPending,
@@ -59,11 +65,16 @@ export function PartnerApplicationDetailDialog({
             </div>
         );
     } else if (isPending) {
-        applicationContent = <output>{t("partnerApplications.loading")}</output>;
+        applicationContent = (
+            <DialogLoadingState>{t("partnerApplications.loading")}</DialogLoadingState>
+        );
     }
     return (
         <Dialog open={open} onOpenChange={changeOpen}>
-            <DialogContent className="max-h-[90vh] overflow-y-auto">
+            <DialogContent
+                className="flex h-[min(90vh,44rem)] flex-col overflow-y-auto"
+                onCloseAutoFocus={releaseApplicationId}
+            >
                 <DialogHeader>
                     <DialogTitle>{t("partnerApplications.viewDetails")}</DialogTitle>
                     <DialogDescription>

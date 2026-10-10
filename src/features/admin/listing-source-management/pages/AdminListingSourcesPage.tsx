@@ -10,6 +10,7 @@ import type {
     AdminListingSourceSummary,
 } from "@/data/internal/listing-source/AdminListingSource.ts";
 import type { ReferralConfigurationData } from "@/client";
+import { useRetainedDialogValue } from "@/hooks/common/useRetainedDialogValue.ts";
 import { formatDateTime } from "@/lib/utils.ts";
 import {
     useAdminListingSources,
@@ -23,6 +24,7 @@ import {
     DialogContent,
     DialogDescription,
     DialogHeader,
+    DialogLoadingState,
     DialogTitle,
 } from "@/components/ui/dialog.tsx";
 
@@ -197,8 +199,8 @@ export function AdminListingSourcesPage() {
 }
 
 function AdminListingSourceDetailDialog({
-    listingSourceId,
-    summary,
+    listingSourceId: requestedListingSourceId,
+    summary: requestedSummary,
     open,
     onOpenChange,
     onEdit,
@@ -213,6 +215,11 @@ function AdminListingSourceDetailDialog({
     ) => void;
 }) {
     const { t, i18n } = useTranslation();
+    const [listingSourceId, releaseListingSourceId] = useRetainedDialogValue(
+        requestedListingSourceId,
+        open,
+    );
+    const [summary, releaseSummary] = useRetainedDialogValue(requestedSummary, open);
     const detailQuery = useAdminListingSource(listingSourceId, open);
     const deleteSource = useDeleteAdminListingSource();
     const [confirmDelete, setConfirmDelete] = useState(false);
@@ -242,7 +249,7 @@ function AdminListingSourceDetailDialog({
             </div>
         );
     } else if (detailQuery.isPending || !source) {
-        content = <output>{t("adminListingSources.loadingDetail")}</output>;
+        content = <DialogLoadingState>{t("adminListingSources.loadingDetail")}</DialogLoadingState>;
     } else {
         content = (
             <div className="grid gap-5">
@@ -382,7 +389,13 @@ function AdminListingSourceDetailDialog({
 
     return (
         <Dialog open={open} onOpenChange={close}>
-            <DialogContent className="max-h-[90vh] overflow-y-auto">
+            <DialogContent
+                className="flex h-[min(90vh,40rem)] flex-col overflow-y-auto"
+                onCloseAutoFocus={() => {
+                    releaseListingSourceId();
+                    releaseSummary();
+                }}
+            >
                 <DialogHeader>
                     <DialogTitle>{t("adminListingSources.detail.title")}</DialogTitle>
                     <DialogDescription>

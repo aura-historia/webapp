@@ -102,11 +102,9 @@ export function AdminUsersPage({
             <AdminUserDetailDialog
                 userId={selectedUserId}
                 onOpenChange={onDetailOpenChange}
-                securityActions={
-                    selectedUserId ? (
-                        <AdminUserSecurityControls key={selectedUserId} userId={selectedUserId} />
-                    ) : null
-                }
+                renderSecurityActions={(userId) => (
+                    <AdminUserSecurityControls key={userId} userId={userId} />
+                )}
             />
         </main>
     );
