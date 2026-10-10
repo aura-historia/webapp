@@ -8,10 +8,11 @@ import {
     DialogContent,
     DialogDescription,
     DialogHeader,
+    DialogLoadingState,
     DialogTitle,
 } from "@/components/ui/dialog.tsx";
-import { Spinner } from "@/components/ui/spinner.tsx";
 import type { AdminUserAccount } from "@/data/internal/admin/AdminUser.ts";
+import { useRetainedDialogValue } from "@/hooks/common/useRetainedDialogValue.ts";
 import {
     ADMIN_USER_PATCH_MUTATION_KEY,
     useAdminUser,
@@ -24,23 +25,24 @@ import { AdminUserTierForm } from "./AdminUserTierForm.tsx";
 export function AdminUserDetailDialog({
     userId,
     onOpenChange,
-    securityActions,
+    renderSecurityActions,
 }: {
     readonly userId?: string;
     readonly onOpenChange: (open: boolean) => void;
     /** Extension slot for the separately owned suspension/session/token controls. */
-    readonly securityActions?: ReactNode;
+    readonly renderSecurityActions?: (userId: string) => ReactNode;
 }) {
     const { t } = useTranslation();
     const open = Boolean(userId);
-    const user = useAdminUser(userId, open);
-    const deleteUser = useDeleteAdminUser();
+    const [displayedUserId, releaseUserId] = useRetainedDialogValue(userId, open);
+    const user = useAdminUser(displayedUserId, open);
+    const deleteAdminUser = useDeleteAdminUser();
     const patchPending = useIsMutating({ mutationKey: ADMIN_USER_PATCH_MUTATION_KEY }) > 0;
     const [confirmDelete, setConfirmDelete] = useState(false);
 
     const handleOpenChange = (nextOpen: boolean) => {
         if (!nextOpen) {
-            deleteUser.reset();
+            deleteAdminUser.reset();
             setConfirmDelete(false);
         }
         onOpenChange(nextOpen);
@@ -48,7 +50,7 @@ export function AdminUserDetailDialog({
 
     const handleDelete = async (account: AdminUserAccount) => {
         try {
-            await deleteUser.mutateAsync(account.userId);
+            await deleteAdminUser.mutateAsync(account.userId);
             toast.success(t("adminUsers.success.deleted"));
             setConfirmDelete(false);
             onOpenChange(false);
@@ -60,18 +62,16 @@ export function AdminUserDetailDialog({
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogContent
-                className="max-h-[90vh] overflow-y-auto sm:max-w-3xl"
+                className="flex h-[90vh] flex-col overflow-y-auto sm:max-w-3xl"
                 closeLabel={t("adminUsers.detail.close")}
+                onCloseAutoFocus={releaseUserId}
             >
                 <DialogHeader>
                     <DialogTitle>{t("adminUsers.detail.title")}</DialogTitle>
                     <DialogDescription>{t("adminUsers.detail.description")}</DialogDescription>
                 </DialogHeader>
                 {user.isLoading && (
-                    <div className="flex justify-center py-12" role="status" aria-live="polite">
-                        <span className="sr-only">{t("adminUsers.loadingDetail")}</span>
-                        <Spinner />
-                    </div>
+                    <DialogLoadingState>{t("adminUsers.loadingDetail")}</DialogLoadingState>
                 )}
                 {user.isError && (
                     <div className="grid gap-3" role="alert">
@@ -87,12 +87,12 @@ export function AdminUserDetailDialog({
                     <AdminUserDetails
                         account={user.data}
                         confirmDelete={confirmDelete}
-                        deletePending={deleteUser.isPending}
+                        deletePending={deleteAdminUser.isPending}
                         patchPending={patchPending}
-                        deleteError={deleteUser.error?.message}
-                        securityActions={securityActions}
+                        deleteError={deleteAdminUser.error?.message}
+                        securityActions={renderSecurityActions?.(user.data.userId)}
                         onConfirmDelete={() => {
-                            deleteUser.reset();
+                            deleteAdminUser.reset();
                             setConfirmDelete(true);
                         }}
                         onCancelDelete={() => setConfirmDelete(false)}

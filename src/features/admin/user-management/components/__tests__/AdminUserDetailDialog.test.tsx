@@ -1,7 +1,8 @@
 import { createElement } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import userEvent from "@testing-library/user-event";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import testI18n from "@/i18n/i18nForTests";
 import { AdminUserDetailDialog } from "../AdminUserDetailDialog.tsx";
 
@@ -12,7 +13,39 @@ vi.mock("@/client", () => ({
     adminDeleteUser: api.remove,
 }));
 
+const account = {
+    userId: "usr_01",
+    email: "ada@example.test",
+    firstName: "Ada",
+    lastName: "Lovelace",
+    language: "en",
+    currency: "EUR",
+    measurementUnit: "METRIC",
+    showUnassessedOrSensitiveContent: false,
+    tier: "FREE",
+    role: "USER",
+};
+
+function renderDialog(props: Partial<Parameters<typeof AdminUserDetailDialog>[0]> = {}) {
+    const client = new QueryClient({
+        defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
+    });
+    const onOpenChange = vi.fn();
+    render(
+        createElement(
+            QueryClientProvider,
+            { client },
+            <AdminUserDetailDialog userId="usr_01" onOpenChange={onOpenChange} {...props} />,
+        ),
+    );
+    return { onOpenChange };
+}
+
 describe("AdminUserDetailDialog", () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
     it("renders documented account fields without legacy audit or address fields", async () => {
         api.get.mockResolvedValue({
             data: {
@@ -61,5 +94,50 @@ describe("AdminUserDetailDialog", () => {
             signal: expect.any(AbortSignal),
             cache: "no-store",
         });
+    });
+
+    it("renders the security controls for the displayed user", async () => {
+        api.get.mockResolvedValue({ data: account, response: { status: 200, ok: true } });
+        const renderSecurityActions = vi.fn((userId: string) => <p>controls for {userId}</p>);
+
+        renderDialog({ renderSecurityActions });
+
+        expect(await screen.findByText("controls for usr_01")).toBeInTheDocument();
+        expect(renderSecurityActions).toHaveBeenCalledWith("usr_01");
+    });
+
+    it("deletes the user after confirmation and closes the dialog", async () => {
+        const user = userEvent.setup();
+        api.get.mockResolvedValue({ data: account, response: { status: 200, ok: true } });
+        api.remove.mockResolvedValue({ response: { status: 204, ok: true } });
+        const { onOpenChange } = renderDialog();
+
+        await user.click(
+            await screen.findByRole("button", { name: testI18n.t("adminUsers.actions.delete") }),
+        );
+        await user.click(
+            screen.getByRole("button", { name: testI18n.t("adminUsers.actions.confirmDelete") }),
+        );
+
+        await waitFor(() => expect(onOpenChange).toHaveBeenCalledWith(false));
+        expect(api.remove).toHaveBeenCalledWith({ path: { userId: "usr_01" }, cache: "no-store" });
+    });
+
+    it("keeps the dialog open and shows the error when deletion fails", async () => {
+        const user = userEvent.setup();
+        api.get.mockResolvedValue({ data: account, response: { status: 200, ok: true } });
+        api.remove.mockResolvedValue({ error: {}, response: { status: 500, ok: false } });
+        const { onOpenChange } = renderDialog();
+
+        await user.click(
+            await screen.findByRole("button", { name: testI18n.t("adminUsers.actions.delete") }),
+        );
+        await user.click(
+            screen.getByRole("button", { name: testI18n.t("adminUsers.actions.confirmDelete") }),
+        );
+
+        await waitFor(() => expect(api.remove).toHaveBeenCalledTimes(1));
+        expect(await screen.findByRole("alert")).toBeInTheDocument();
+        expect(onOpenChange).not.toHaveBeenCalled();
     });
 });

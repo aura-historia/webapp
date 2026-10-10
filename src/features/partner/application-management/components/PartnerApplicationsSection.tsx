@@ -93,7 +93,6 @@ export function PartnerApplicationsSection() {
             {applicationContent}
             <PartnerApplicationCreateDialog open={creating} onOpenChange={setCreating} />
             <PartnerApplicationDetailDialog
-                key={selectedId}
                 applicationId={selectedId}
                 open={Boolean(selectedId)}
                 onOpenChange={(next) => {

@@ -35,7 +35,7 @@ describe("AdminSidebar", () => {
             ["adminNavigation.items.applications", "/fr/admin/partnership-applications"],
             ["adminNavigation.items.partnerships", "/fr/admin/partnerships"],
             ["adminNavigation.items.organizations", "/fr/admin/parties"],
-            ["adminNavigation.items.listingSources", "/fr/admin/shops"],
+            ["adminNavigation.items.listingSources", "/fr/admin/listing-sources"],
             ["adminNavigation.items.auctions", "/fr/admin/auctions"],
             ["adminNavigation.items.oauthClients", "/fr/admin/oauth-clients"],
         ];

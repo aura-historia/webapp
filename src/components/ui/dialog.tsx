@@ -1,6 +1,6 @@
 import type * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { XIcon } from "lucide-react";
+import { Loader2Icon, XIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -102,6 +102,27 @@ function DialogTitle({ className, ...props }: React.ComponentProps<typeof Dialog
     );
 }
 
+/**
+ * Loading placeholder for dialogs that fetch their content after opening. It fills the
+ * remaining height of a fixed-height `DialogContent`, so the dialog keeps its size when
+ * the content arrives.
+ */
+function DialogLoadingState({ className, children, ...props }: React.ComponentProps<"output">) {
+    return (
+        <output
+            data-slot="dialog-loading-state"
+            className={cn(
+                "text-muted-foreground flex flex-1 flex-col items-center justify-center gap-3 py-12 text-sm",
+                className,
+            )}
+            {...props}
+        >
+            <Loader2Icon className="size-5 animate-spin" aria-hidden="true" />
+            {children}
+        </output>
+    );
+}
+
 function DialogDescription({
     className,
     ...props
@@ -122,6 +143,7 @@ export {
     DialogDescription,
     DialogFooter,
     DialogHeader,
+    DialogLoadingState,
     DialogOverlay,
     DialogPortal,
     DialogTitle,
