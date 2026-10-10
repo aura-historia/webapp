@@ -1,5 +1,4 @@
 import { useNavigate } from "@tanstack/react-router";
-import { fetchUserAttributes } from "aws-amplify/auth";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -8,6 +7,7 @@ import {
     type FederatedAuthRedirectResult,
     federatedAuthRedirect,
 } from "@/features/authentication/lib/federatedAuthRedirect.ts";
+import { readFederatedIdentity } from "@/features/authentication/lib/federatedIdentity.ts";
 import { localizeHref } from "@/i18n/routing.ts";
 
 type CompletionContext = {
@@ -29,23 +29,18 @@ async function completeFederatedAuthRedirect(
     const { state } = result;
     const locale = state?.locale ?? language;
 
-    // Sign-up intent reuses the optional native onboarding step. Without a mapped
-    // email that step cannot run, so continue straight to the destination.
-    if (state?.intent === "sign-up") {
-        const email = await fetchUserAttributes().then(
-            (attributes) => attributes.email,
-            () => undefined,
-        );
-
-        if (email) {
-            storePendingEmail(email);
-            const search = new URLSearchParams({ mode: "user-details" });
-            if (state.redirectPath) {
-                search.set("redirect", state.redirectPath);
-            }
-            await navigate({ href: `/${locale}/login?${search}`, replace: true });
-            return;
+    // New users continue with the onboarding step shared with native sign-up, whichever
+    // button they used. Without a mapped email that step cannot run, so continue straight
+    // to the destination.
+    const identity = await readFederatedIdentity();
+    if (identity?.email && (identity.isNewUser || state?.intent === "sign-up")) {
+        storePendingEmail(identity.email);
+        const search = new URLSearchParams({ mode: "user-details" });
+        if (state?.redirectPath) {
+            search.set("redirect", state.redirectPath);
         }
+        await navigate({ href: `/${locale}/login?${search}`, replace: true });
+        return;
     }
 
     await navigate({

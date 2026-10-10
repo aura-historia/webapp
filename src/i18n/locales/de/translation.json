@@ -1223,9 +1223,14 @@
     "userDetails": {
       "title": "Profil vervollständigen",
       "subtitle": "Diese Angaben sind optional — Sie können sie jederzeit später aktualisieren",
-      "newsletterConsentText": "Ich möchte den Aura Historia Newsletter per E-Mail mit ausgewählten Antiquitäten, Markttrends und Angeboten erhalten. Meine Einwilligung kann ich jederzeit mit Wirkung für die Zukunft widerrufen. Weitere Informationen finde ich in der <privacyLink>Datenschutzerklärung</privacyLink>.",
       "submit": "Speichern und fortfahren",
-      "skip": "Vorerst überspringen"
+      "skip": "Vorerst überspringen",
+      "newsletter": {
+        "doubleOptIn": "Wir senden zunächst einen Bestätigungslink an {{email}}. Ihr Abonnement beginnt erst, wenn Sie ihn bestätigen. Weitere Informationen finden Sie in unserer <privacyLink>Datenschutzerklärung</privacyLink>.",
+        "requestedTitle": "Bitte prüfen Sie Ihr Postfach.",
+        "requestedDescription": "Sofern {{email}} unseren Newsletter empfangen kann, senden wir einen Bestätigungslink an diese Adresse. Ihr Abonnement beginnt erst, wenn Sie den Link öffnen und bestätigen.",
+        "requestFailed": "Ihre Angaben wurden gespeichert, die Newsletter-Bestätigung konnte jedoch nicht angefordert werden. Bitte versuchen Sie es erneut oder überspringen Sie diesen Schritt vorerst."
+      }
     },
     "errors": {
       "UsernameExistsException": "Ein Konto mit dieser E-Mail-Adresse existiert bereits.",

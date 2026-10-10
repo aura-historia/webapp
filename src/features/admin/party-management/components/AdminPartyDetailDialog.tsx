@@ -7,9 +7,11 @@ import {
     DialogContent,
     DialogDescription,
     DialogHeader,
+    DialogLoadingState,
     DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import type { Party } from "@/data/internal/party/Party.ts";
+import { useRetainedDialogValue } from "@/hooks/common/useRetainedDialogValue.ts";
 import { formatDateTime } from "@/lib/utils.ts";
 import { useAdminParty, useDeleteAdminParty } from "../api/useAdminParties.ts";
 
@@ -26,7 +28,8 @@ export function AdminPartyDetailDialog({
 }) {
     const { t, i18n } = useTranslation();
     const [confirmDelete, setConfirmDelete] = useState(false);
-    const partyQuery = useAdminParty(partyId, open);
+    const [displayedPartyId, releasePartyId] = useRetainedDialogValue(partyId, open);
+    const partyQuery = useAdminParty(displayedPartyId, open);
     const deleteParty = useDeleteAdminParty();
     const handleOpenChange = (nextOpen: boolean) => {
         if (!nextOpen) {
@@ -51,7 +54,7 @@ export function AdminPartyDetailDialog({
             </div>
         );
     } else if (partyQuery.isPending || !partyQuery.data) {
-        content = <output>{t("adminParties.loadingDetail")}</output>;
+        content = <DialogLoadingState>{t("adminParties.loadingDetail")}</DialogLoadingState>;
     } else {
         const party = partyQuery.data;
         content = (
@@ -142,7 +145,10 @@ export function AdminPartyDetailDialog({
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
-            <DialogContent className="max-h-[90vh] overflow-y-auto">
+            <DialogContent
+                className="flex h-[min(90vh,30rem)] flex-col overflow-y-auto"
+                onCloseAutoFocus={releasePartyId}
+            >
                 <DialogHeader>
                     <DialogTitle>{t("adminParties.detail.title")}</DialogTitle>
                     <DialogDescription>{t("adminParties.detail.description")}</DialogDescription>

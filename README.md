@@ -63,6 +63,8 @@ VITE_USER_POOL_ID=your-cognito-user-pool-id
 VITE_USER_POOL_CLIENT_ID=your-cognito-user-pool-client-id
 ```
 
+Native sign-up writes the optional marketing choice to the immutable `custom:marketing_consent` attribute, so the user pool must define it and the app client must be allowed to write it; otherwise Cognito rejects every native sign-up.
+
 Federated sign-in (e.g. Google) uses the Cognito OAuth domain and redirect URLs. They default to staging; locally, set the redirects to a URL registered on the Cognito app client exactly (no added or removed trailing slash):
 
 ```dotenv
@@ -70,6 +72,8 @@ VITE_COGNITO_DOMAIN=auth.stage.aura-historia.com
 VITE_COGNITO_REDIRECT_SIGN_IN=http://localhost:3000
 VITE_COGNITO_REDIRECT_SIGN_OUT=http://localhost:3000
 ```
+
+After a federated redirect, the app reads email, names and the `identities` claim from the ID token, so the `openid email profile` scopes suffice; it does not call `fetchUserAttributes`, which would also need `aws.cognito.signin.user.admin`.
 
 Optional feature flags:
 

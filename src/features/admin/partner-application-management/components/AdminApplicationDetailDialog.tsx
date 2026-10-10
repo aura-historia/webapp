@@ -9,6 +9,7 @@ import {
     DialogContent,
     DialogDescription,
     DialogHeader,
+    DialogLoadingState,
     DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import {
@@ -18,6 +19,7 @@ import {
     canDecideApplication,
     canMarkApplicationInReview,
 } from "@/data/internal/partner-application/AdminPartnershipApplication.ts";
+import { useRetainedDialogValue } from "@/hooks/common/useRetainedDialogValue.ts";
 import { formatDateTime } from "@/lib/utils.ts";
 import {
     useAdminPartnershipApplication,
@@ -141,8 +143,8 @@ function ApplicationActions({
 }
 
 export function AdminApplicationDetailDialog({
-    applicationId,
-    timestamps,
+    applicationId: requestedApplicationId,
+    timestamps: requestedTimestamps,
     open,
     onOpenChange,
 }: {
@@ -152,6 +154,11 @@ export function AdminApplicationDetailDialog({
     readonly onOpenChange: (open: boolean) => void;
 }) {
     const { t, i18n } = useTranslation();
+    const [applicationId, releaseApplicationId] = useRetainedDialogValue(
+        requestedApplicationId,
+        open,
+    );
+    const [timestamps, releaseTimestamps] = useRetainedDialogValue(requestedTimestamps, open);
     const {
         data: application,
         isPending,
@@ -170,7 +177,7 @@ export function AdminApplicationDetailDialog({
             </div>
         );
     } else if (isPending || !application) {
-        content = <output>{t("adminApplications.loadingDetail")}</output>;
+        content = <DialogLoadingState>{t("adminApplications.loadingDetail")}</DialogLoadingState>;
     } else {
         content = (
             <div className="grid gap-5">
@@ -236,7 +243,13 @@ export function AdminApplicationDetailDialog({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
+            <DialogContent
+                className="flex h-[min(90vh,40rem)] flex-col overflow-y-auto sm:max-w-2xl"
+                onCloseAutoFocus={() => {
+                    releaseApplicationId();
+                    releaseTimestamps();
+                }}
+            >
                 <DialogHeader>
                     <DialogTitle>{t("adminApplications.detail.title")}</DialogTitle>
                     <DialogDescription>

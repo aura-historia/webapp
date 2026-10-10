@@ -1237,9 +1237,14 @@
     "userDetails": {
       "title": "Complete your profile",
       "subtitle": "These details are optional — you can always update them later",
-      "newsletterConsentText": "I would like to receive the Aura Historia newsletter by email with selected antiques, market trends, and offers. I can revoke my consent at any time. More information is available in the <privacyLink>privacy policy</privacyLink>.",
       "submit": "Save and continue",
-      "skip": "Skip for now"
+      "skip": "Skip for now",
+      "newsletter": {
+        "doubleOptIn": "We will first email a confirmation link to {{email}}. Your subscription starts only once you confirm it. More information is available in our <privacyLink>privacy policy</privacyLink>.",
+        "requestedTitle": "Please check your inbox.",
+        "requestedDescription": "If {{email}} can receive our newsletter, we will send a confirmation link to it. Your subscription starts only once you open the link and confirm.",
+        "requestFailed": "Your details have been saved, but the newsletter confirmation could not be requested. Please try again or skip this step for now."
+      }
     },
     "resetPassword": {
       "title": "Reset Password",

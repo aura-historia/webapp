@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { FederatedAuthRedirectResult } from "@/features/authentication/lib/federatedAuthRedirect.ts";
 
 const mockNavigate = vi.hoisted(() => vi.fn());
-const mockFetchUserAttributes = vi.hoisted(() => vi.fn());
+const mockReadFederatedIdentity = vi.hoisted(() => vi.fn());
 const mockToastError = vi.hoisted(() => vi.fn());
 const mockStorePendingEmail = vi.hoisted(() => vi.fn());
 const mockSubscription = vi.hoisted(() => ({
@@ -14,8 +14,8 @@ vi.mock("@tanstack/react-router", () => ({
     useNavigate: () => mockNavigate,
 }));
 
-vi.mock("aws-amplify/auth", () => ({
-    fetchUserAttributes: mockFetchUserAttributes,
+vi.mock("@/features/authentication/lib/federatedIdentity.ts", () => ({
+    readFederatedIdentity: mockReadFederatedIdentity,
 }));
 
 vi.mock("sonner", () => ({
@@ -48,9 +48,13 @@ describe("useFederatedAuthRedirectCompletion", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         mockSubscription.subscriber = null;
+        mockReadFederatedIdentity.mockResolvedValue({
+            email: "user@example.com",
+            isNewUser: false,
+        });
     });
 
-    it("sends sign-in intent to the original localized destination", async () => {
+    it("sends a returning user to the original localized destination", async () => {
         emit({
             status: "success",
             state: {
@@ -67,10 +71,46 @@ describe("useFederatedAuthRedirectCompletion", () => {
                 replace: true,
             });
         });
-        expect(mockFetchUserAttributes).not.toHaveBeenCalled();
+        expect(mockStorePendingEmail).not.toHaveBeenCalled();
     });
 
-    it("falls back to the localized home page without a valid state", async () => {
+    it("routes a new user through the user-details step even from the sign-in button", async () => {
+        mockReadFederatedIdentity.mockResolvedValue({
+            email: "new@example.com",
+            isNewUser: true,
+        });
+
+        emit({
+            status: "success",
+            state: { version: 1, intent: "sign-in", locale: "fr", redirectPath: "/fr/search" },
+        });
+
+        await waitFor(() => {
+            expect(mockNavigate).toHaveBeenCalledWith({
+                href: "/fr/login?mode=user-details&redirect=%2Ffr%2Fsearch",
+                replace: true,
+            });
+        });
+        expect(mockStorePendingEmail).toHaveBeenCalledWith("new@example.com");
+    });
+
+    it("routes a new user through the user-details step without a valid state", async () => {
+        mockReadFederatedIdentity.mockResolvedValue({
+            email: "new@example.com",
+            isNewUser: true,
+        });
+
+        emit({ status: "success", state: null });
+
+        await waitFor(() => {
+            expect(mockNavigate).toHaveBeenCalledWith({
+                href: "/de/login?mode=user-details",
+                replace: true,
+            });
+        });
+    });
+
+    it("falls back to the localized home page for a returning user without a valid state", async () => {
         emit({ status: "success", state: null });
 
         await waitFor(() => {
@@ -79,8 +119,6 @@ describe("useFederatedAuthRedirectCompletion", () => {
     });
 
     it("routes sign-up intent through the user-details step", async () => {
-        mockFetchUserAttributes.mockResolvedValue({ email: "user@example.com" });
-
         emit({
             status: "success",
             state: { version: 1, intent: "sign-up", locale: "it", redirectPath: "/it/me" },
@@ -95,8 +133,8 @@ describe("useFederatedAuthRedirectCompletion", () => {
         expect(mockStorePendingEmail).toHaveBeenCalledWith("user@example.com");
     });
 
-    it("skips user details when the mapped email is unavailable", async () => {
-        mockFetchUserAttributes.mockRejectedValue(new Error("raw Cognito detail"));
+    it("skips user details when the federated identity is unavailable", async () => {
+        mockReadFederatedIdentity.mockResolvedValue(null);
 
         emit({ status: "success", state: { version: 1, intent: "sign-up", locale: "en" } });
 
@@ -105,6 +143,17 @@ describe("useFederatedAuthRedirectCompletion", () => {
         });
         expect(mockStorePendingEmail).not.toHaveBeenCalled();
         expect(mockToastError).not.toHaveBeenCalled();
+    });
+
+    it("skips user details for a new user without a mapped email", async () => {
+        mockReadFederatedIdentity.mockResolvedValue({ isNewUser: true });
+
+        emit({ status: "success", state: { version: 1, intent: "sign-up", locale: "en" } });
+
+        await waitFor(() => {
+            expect(mockNavigate).toHaveBeenCalledWith({ href: "/en", replace: true });
+        });
+        expect(mockStorePendingEmail).not.toHaveBeenCalled();
     });
 
     it("returns to the localized login page with a generic error on failure", async () => {
@@ -119,5 +168,6 @@ describe("useFederatedAuthRedirectCompletion", () => {
             "Die Anmeldung konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut oder melden Sie sich mit Ihrer E-Mail-Adresse an.",
         );
         expect(consoleError).not.toHaveBeenCalled();
+        expect(mockReadFederatedIdentity).not.toHaveBeenCalled();
     });
 });

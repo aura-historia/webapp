@@ -2,17 +2,20 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { signUp } from "aws-amplify/auth";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
+import { Link } from "@tanstack/react-router";
 
 import {
     Form,
     FormControl,
+    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { getAuthErrorMessage } from "@/features/authentication/lib/getAuthErrorMessage.ts";
 import { Spinner } from "@/components/ui/spinner";
@@ -30,6 +33,7 @@ const signUpSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
                 .regex(/\d/, t("amplify.passwordMustHaveNumeric"))
                 .regex(/[^A-Za-z0-9]/, t("amplify.passwordMustHaveSymbol")),
             confirmPassword: z.string().min(1, t("validation.password.required")),
+            marketingConsent: z.boolean(),
         })
         .refine((data) => data.password === data.confirmPassword, {
             message: t("validation.password.mismatch"),
@@ -51,17 +55,26 @@ export function SignUpForm({ onSuccess, onSwitchToSignIn, locale, redirect }: Si
 
     const form = useForm<SignUpValues>({
         resolver: zodResolver(schema),
-        defaultValues: { email: "", password: "", confirmPassword: "" },
+        defaultValues: { email: "", password: "", confirmPassword: "", marketingConsent: false },
     });
 
     const onSubmit = async (data: SignUpValues) => {
+        const email = data.email.trim();
+
         try {
+            // The immutable Cognito attribute records only this signup request; the backend
+            // applies it after verified confirmation, so no newsletter request is sent here.
             await signUp({
-                username: data.email.trim(),
+                username: email,
                 password: data.password,
-                options: { userAttributes: { email: data.email.trim() } },
+                options: {
+                    userAttributes: {
+                        email,
+                        "custom:marketing_consent": data.marketingConsent ? "true" : "false",
+                    },
+                },
             });
-            onSuccess(data.email.trim(), data.password);
+            onSuccess(email, data.password);
         } catch (err) {
             const message = getAuthErrorMessage(err, t);
             form.setError("root", { message });
@@ -139,6 +152,44 @@ export function SignUpForm({ onSuccess, onSwitchToSignIn, locale, redirect }: Si
                                     />
                                 </FormControl>
                                 <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="marketingConsent"
+                        render={({ field }) => (
+                            <FormItem className="flex items-start gap-3">
+                                <FormControl>
+                                    <Checkbox
+                                        checked={field.value}
+                                        onCheckedChange={(checked) =>
+                                            field.onChange(checked === true)
+                                        }
+                                        className="mt-0.5 shrink-0"
+                                    />
+                                </FormControl>
+                                <div className="flex flex-1 flex-col gap-1">
+                                    <FormLabel className="block cursor-pointer text-sm font-normal leading-relaxed">
+                                        {t("newsletter.purpose")}
+                                    </FormLabel>
+                                    <FormDescription className="text-xs leading-relaxed">
+                                        <Trans
+                                            i18nKey="newsletter.privacy"
+                                            components={{
+                                                privacyLink: (
+                                                    <Link
+                                                        to="/$lng/privacy"
+                                                        className="underline underline-offset-2"
+                                                        params={true}
+                                                        from="/$lng"
+                                                    />
+                                                ),
+                                            }}
+                                        />
+                                    </FormDescription>
+                                </div>
                             </FormItem>
                         )}
                     />

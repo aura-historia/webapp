@@ -10,6 +10,7 @@ import {
     DialogContent,
     DialogDescription,
     DialogHeader,
+    DialogLoadingState,
     DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import {
@@ -33,6 +34,7 @@ import {
     useRevokeAdminPartnershipMembership,
 } from "../api/useAdminPartnerships.ts";
 import type { AdminPartnershipDetails } from "@/data/internal/partnership/AdminPartnership.ts";
+import { useRetainedDialogValue } from "@/hooks/common/useRetainedDialogValue.ts";
 import { formatDateTime } from "@/lib/utils.ts";
 
 type IdFormValues = { id: string };
@@ -148,14 +150,50 @@ function PartnershipFacts({ partnership }: { readonly partnership: AdminPartners
 }
 
 export function AdminPartnershipDetailDialog({
-    partnershipId,
+    partnershipId: requestedPartnershipId,
     open,
     onOpenChange,
     onDissolved,
 }: {
-    readonly partnershipId: string;
+    readonly partnershipId?: string;
     readonly open: boolean;
     readonly onOpenChange: (open: boolean) => void;
+    readonly onDissolved: () => void;
+}) {
+    const { t } = useTranslation();
+    const [partnershipId, releasePartnershipId] = useRetainedDialogValue(
+        requestedPartnershipId,
+        open,
+    );
+
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent
+                className="flex h-[90vh] flex-col overflow-y-auto sm:max-w-4xl"
+                closeLabel={t("adminPartnerships.detail.close")}
+                onCloseAutoFocus={releasePartnershipId}
+            >
+                {partnershipId && (
+                    // Keyed so member and source forms never carry over to another partnership.
+                    <AdminPartnershipDetailContent
+                        key={partnershipId}
+                        partnershipId={partnershipId}
+                        open={open}
+                        onDissolved={onDissolved}
+                    />
+                )}
+            </DialogContent>
+        </Dialog>
+    );
+}
+
+function AdminPartnershipDetailContent({
+    partnershipId,
+    open,
+    onDissolved,
+}: {
+    readonly partnershipId: string;
+    readonly open: boolean;
     readonly onDissolved: () => void;
 }) {
     const { t } = useTranslation();
@@ -284,279 +322,261 @@ export function AdminPartnershipDetailDialog({
     };
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent
-                className="max-h-[90vh] overflow-y-auto sm:max-w-4xl"
-                closeLabel={t("adminPartnerships.detail.close")}
-            >
-                <DialogHeader>
-                    <DialogTitle>
-                        {partnership?.party.name ?? t("adminPartnerships.detail.title")}
-                    </DialogTitle>
-                    <DialogDescription>
-                        {t("adminPartnerships.detail.description")}
-                    </DialogDescription>
-                </DialogHeader>
-                {detailQuery.error ? (
-                    <div role="alert" className="grid justify-items-start gap-3">
-                        <p>{detailQuery.error.message}</p>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => detailQuery.refetch()}
-                        >
-                            {t("adminPartnerships.actions.retry")}
-                        </Button>
+        <>
+            <DialogHeader>
+                <DialogTitle>
+                    {partnership?.party.name ?? t("adminPartnerships.detail.title")}
+                </DialogTitle>
+                <DialogDescription>{t("adminPartnerships.detail.description")}</DialogDescription>
+            </DialogHeader>
+            {detailQuery.error ? (
+                <div role="alert" className="grid justify-items-start gap-3">
+                    <p>{detailQuery.error.message}</p>
+                    <Button type="button" variant="outline" onClick={() => detailQuery.refetch()}>
+                        {t("adminPartnerships.actions.retry")}
+                    </Button>
+                </div>
+            ) : detailQuery.isPending || !partnership ? (
+                <DialogLoadingState>{t("adminPartnerships.loadingDetail")}</DialogLoadingState>
+            ) : (
+                <div className="grid gap-6">
+                    <PartnershipFacts partnership={partnership} />
+
+                    <div className="grid gap-6 lg:grid-cols-2">
+                        <PartnershipReferenceList
+                            title={t("adminPartnerships.detail.members", {
+                                count: partnership.memberCount,
+                            })}
+                            count={partnership.memberCount}
+                            ids={partnership.memberUserIds}
+                            onRevoke={revokeMember}
+                            revokeLabel={(id) =>
+                                t("adminPartnerships.actions.revokeMemberFor", { id })
+                            }
+                            isRevoking={memberMutationPending}
+                        />
+                        <PartnershipReferenceList
+                            title={t("adminPartnerships.detail.listingSources", {
+                                count: partnership.listingSourceGrantCount,
+                            })}
+                            count={partnership.listingSourceGrantCount}
+                            ids={partnership.listingSourceIds}
+                            onRevoke={revokeListingSource}
+                            revokeLabel={(id) =>
+                                t("adminPartnerships.actions.revokeSourceFor", { id })
+                            }
+                            isRevoking={sourceMutationPending}
+                        />
                     </div>
-                ) : detailQuery.isPending || !partnership ? (
-                    <output>{t("adminPartnerships.loadingDetail")}</output>
-                ) : (
-                    <div className="grid gap-6">
-                        <PartnershipFacts partnership={partnership} />
 
-                        <div className="grid gap-6 lg:grid-cols-2">
-                            <PartnershipReferenceList
-                                title={t("adminPartnerships.detail.members", {
-                                    count: partnership.memberCount,
-                                })}
-                                count={partnership.memberCount}
-                                ids={partnership.memberUserIds}
-                                onRevoke={revokeMember}
-                                revokeLabel={(id) =>
-                                    t("adminPartnerships.actions.revokeMemberFor", { id })
-                                }
-                                isRevoking={memberMutationPending}
-                            />
-                            <PartnershipReferenceList
-                                title={t("adminPartnerships.detail.listingSources", {
-                                    count: partnership.listingSourceGrantCount,
-                                })}
-                                count={partnership.listingSourceGrantCount}
-                                ids={partnership.listingSourceIds}
-                                onRevoke={revokeListingSource}
-                                revokeLabel={(id) =>
-                                    t("adminPartnerships.actions.revokeSourceFor", { id })
-                                }
-                                isRevoking={sourceMutationPending}
-                            />
-                        </div>
-
-                        <section className="grid gap-3 border bg-surface-container-low p-4">
-                            <h3 className="font-medium">{t("adminPartnerships.members.title")}</h3>
-                            <p className="text-sm text-muted-foreground">
-                                {t("adminPartnerships.members.description")}
-                            </p>
-                            <form
-                                className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end"
-                                onSubmit={(event) => {
-                                    event.preventDefault();
-                                    void grantMember(event);
-                                }}
-                            >
-                                <div className="grid gap-2">
-                                    <Label htmlFor="admin-partnership-member-id">
-                                        {t("adminPartnerships.members.userId")}
-                                    </Label>
-                                    <Input
-                                        id="admin-partnership-member-id"
-                                        {...memberForm.register("id")}
-                                        autoComplete="off"
-                                        spellCheck={false}
-                                        aria-invalid={Boolean(memberForm.formState.errors.id)}
-                                        aria-describedby={
-                                            memberForm.formState.errors.id
-                                                ? "admin-partnership-member-id-error"
-                                                : undefined
-                                        }
-                                    />
-                                    {memberForm.formState.errors.id && (
-                                        <p
-                                            id="admin-partnership-member-id-error"
-                                            role="alert"
-                                            className="text-sm text-destructive"
-                                        >
-                                            {memberForm.formState.errors.id.message}
-                                        </p>
-                                    )}
-                                </div>
-                                <div className="flex flex-wrap gap-2">
-                                    <Button type="submit" disabled={memberMutationPending}>
-                                        {grantMembership.isPending
-                                            ? t("adminPartnerships.actions.saving")
-                                            : t("adminPartnerships.actions.grantMembership")}
-                                    </Button>
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        disabled={memberMutationPending}
-                                        onClick={() => void revokeMemberById()}
+                    <section className="grid gap-3 border bg-surface-container-low p-4">
+                        <h3 className="font-medium">{t("adminPartnerships.members.title")}</h3>
+                        <p className="text-sm text-muted-foreground">
+                            {t("adminPartnerships.members.description")}
+                        </p>
+                        <form
+                            className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end"
+                            onSubmit={(event) => {
+                                event.preventDefault();
+                                void grantMember(event);
+                            }}
+                        >
+                            <div className="grid gap-2">
+                                <Label htmlFor="admin-partnership-member-id">
+                                    {t("adminPartnerships.members.userId")}
+                                </Label>
+                                <Input
+                                    id="admin-partnership-member-id"
+                                    {...memberForm.register("id")}
+                                    autoComplete="off"
+                                    spellCheck={false}
+                                    aria-invalid={Boolean(memberForm.formState.errors.id)}
+                                    aria-describedby={
+                                        memberForm.formState.errors.id
+                                            ? "admin-partnership-member-id-error"
+                                            : undefined
+                                    }
+                                />
+                                {memberForm.formState.errors.id && (
+                                    <p
+                                        id="admin-partnership-member-id-error"
+                                        role="alert"
+                                        className="text-sm text-destructive"
                                     >
-                                        {t("adminPartnerships.actions.revokeMembership")}
-                                    </Button>
-                                </div>
-                            </form>
-                            <ErrorNotice error={grantMembership.error ?? revokeMembership.error} />
-                        </section>
-
-                        <section className="grid gap-3 border bg-surface-container-low p-4">
-                            <h3 className="font-medium">{t("adminPartnerships.sources.title")}</h3>
-                            <p className="text-sm text-muted-foreground">
-                                {t("adminPartnerships.sources.description")}
-                            </p>
-                            <form
-                                className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end"
-                                onSubmit={(event) => {
-                                    event.preventDefault();
-                                    void checkListingSource(event);
-                                }}
-                            >
-                                <div className="grid gap-2">
-                                    <Label htmlFor="admin-partnership-listing-source-id">
-                                        {t("adminPartnerships.sources.listingSourceId")}
-                                    </Label>
-                                    <Input
-                                        id="admin-partnership-listing-source-id"
-                                        {...listingSourceForm.register("id", {
-                                            onChange: () => setCheckedListingSourceId(undefined),
-                                        })}
-                                        autoComplete="off"
-                                        spellCheck={false}
-                                        aria-invalid={Boolean(
-                                            listingSourceForm.formState.errors.id,
-                                        )}
-                                        aria-describedby={
-                                            listingSourceForm.formState.errors.id
-                                                ? "admin-partnership-listing-source-id-error"
-                                                : undefined
-                                        }
-                                    />
-                                    {listingSourceForm.formState.errors.id && (
-                                        <p
-                                            id="admin-partnership-listing-source-id-error"
-                                            role="alert"
-                                            className="text-sm text-destructive"
-                                        >
-                                            {listingSourceForm.formState.errors.id.message}
-                                        </p>
-                                    )}
-                                </div>
-                                <div className="flex flex-wrap gap-2">
-                                    <Button
-                                        type="submit"
-                                        variant="outline"
-                                        disabled={listingSourceQuery.isFetching}
-                                    >
-                                        {listingSourceQuery.isFetching
-                                            ? t("adminPartnerships.sources.checking")
-                                            : t("adminPartnerships.sources.check")}
-                                    </Button>
-                                    <Button
-                                        type="button"
-                                        disabled={
-                                            !sourceIsCheckedForCurrentValue ||
-                                            !listingSourceMatchesParty ||
-                                            listingSourceQuery.isPending ||
-                                            sourceMutationPending
-                                        }
-                                        onClick={() => void grantSource()}
-                                    >
-                                        {t("adminPartnerships.actions.grantSource")}
-                                    </Button>
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        disabled={sourceMutationPending}
-                                        onClick={() => void revokeSourceById()}
-                                    >
-                                        {t("adminPartnerships.actions.revokeSource")}
-                                    </Button>
-                                </div>
-                            </form>
-                            {listingSourceQuery.isPending && checkedListingSourceId && (
-                                <p role="status" className="text-sm text-muted-foreground">
-                                    {t("adminPartnerships.sources.checking")}
-                                </p>
-                            )}
-                            {listingSourceQuery.error && checkedListingSourceId && (
-                                <ErrorNotice error={listingSourceQuery.error} />
-                            )}
-                            {listingSourceQuery.data &&
-                                sourceIsCheckedForCurrentValue &&
-                                (listingSourceMatchesParty ? (
-                                    <p className="text-sm text-muted-foreground">
-                                        {t("adminPartnerships.sources.sameParty", {
-                                            name: listingSourceQuery.data.name,
-                                            listingSourceId:
-                                                listingSourceQuery.data.listingSourceId,
-                                        })}
+                                        {memberForm.formState.errors.id.message}
                                     </p>
-                                ) : (
-                                    <p role="alert" className="text-sm text-destructive">
-                                        {t("adminPartnerships.errors.partyConflict")}
-                                    </p>
-                                ))}
-                            <ErrorNotice
-                                error={
-                                    grantListingSource.error ?? revokeListingSourceMutation.error
-                                }
-                            />
-                        </section>
-
-                        <section className="grid gap-3 border border-destructive/30 p-4">
-                            <h3 className="font-medium">
-                                {t("adminPartnerships.dissolution.title")}
-                            </h3>
-                            <p className="text-sm text-muted-foreground">
-                                {t("adminPartnerships.dissolution.description")}
-                            </p>
-                            <AlertDialog
-                                open={confirmDissolveOpen}
-                                onOpenChange={(nextOpen) => {
-                                    if (nextOpen) dissolvePartnership.reset();
-                                    setConfirmDissolveOpen(nextOpen);
-                                }}
-                            >
+                                )}
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                                <Button type="submit" disabled={memberMutationPending}>
+                                    {grantMembership.isPending
+                                        ? t("adminPartnerships.actions.saving")
+                                        : t("adminPartnerships.actions.grantMembership")}
+                                </Button>
                                 <Button
                                     type="button"
-                                    variant="destructive"
-                                    disabled={memberMutationPending || sourceMutationPending}
-                                    onClick={() => setConfirmDissolveOpen(true)}
+                                    variant="outline"
+                                    disabled={memberMutationPending}
+                                    onClick={() => void revokeMemberById()}
                                 >
-                                    {t("adminPartnerships.actions.dissolve")}
+                                    {t("adminPartnerships.actions.revokeMembership")}
                                 </Button>
-                                <AlertDialogContent>
-                                    <AlertDialogHeader>
-                                        <AlertDialogTitle>
-                                            {t("adminPartnerships.dissolution.confirmTitle")}
-                                        </AlertDialogTitle>
-                                        <AlertDialogDescription>
-                                            {t("adminPartnerships.dissolution.confirmDescription", {
-                                                name: partnership.party.name,
-                                            })}
-                                        </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <ErrorNotice error={dissolvePartnership.error} />
-                                    <AlertDialogFooter>
-                                        <AlertDialogCancel disabled={dissolvePartnership.isPending}>
-                                            {t("adminPartnerships.actions.cancel")}
-                                        </AlertDialogCancel>
-                                        <Button
-                                            type="button"
-                                            variant="destructive"
-                                            disabled={dissolvePartnership.isPending}
-                                            onClick={() => void dissolve()}
-                                        >
-                                            {dissolvePartnership.isPending
-                                                ? t("adminPartnerships.actions.dissolving")
-                                                : t("adminPartnerships.actions.confirmDissolve")}
-                                        </Button>
-                                    </AlertDialogFooter>
-                                </AlertDialogContent>
-                            </AlertDialog>
-                        </section>
-                    </div>
-                )}
-            </DialogContent>
-        </Dialog>
+                            </div>
+                        </form>
+                        <ErrorNotice error={grantMembership.error ?? revokeMembership.error} />
+                    </section>
+
+                    <section className="grid gap-3 border bg-surface-container-low p-4">
+                        <h3 className="font-medium">{t("adminPartnerships.sources.title")}</h3>
+                        <p className="text-sm text-muted-foreground">
+                            {t("adminPartnerships.sources.description")}
+                        </p>
+                        <form
+                            className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end"
+                            onSubmit={(event) => {
+                                event.preventDefault();
+                                void checkListingSource(event);
+                            }}
+                        >
+                            <div className="grid gap-2">
+                                <Label htmlFor="admin-partnership-listing-source-id">
+                                    {t("adminPartnerships.sources.listingSourceId")}
+                                </Label>
+                                <Input
+                                    id="admin-partnership-listing-source-id"
+                                    {...listingSourceForm.register("id", {
+                                        onChange: () => setCheckedListingSourceId(undefined),
+                                    })}
+                                    autoComplete="off"
+                                    spellCheck={false}
+                                    aria-invalid={Boolean(listingSourceForm.formState.errors.id)}
+                                    aria-describedby={
+                                        listingSourceForm.formState.errors.id
+                                            ? "admin-partnership-listing-source-id-error"
+                                            : undefined
+                                    }
+                                />
+                                {listingSourceForm.formState.errors.id && (
+                                    <p
+                                        id="admin-partnership-listing-source-id-error"
+                                        role="alert"
+                                        className="text-sm text-destructive"
+                                    >
+                                        {listingSourceForm.formState.errors.id.message}
+                                    </p>
+                                )}
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                                <Button
+                                    type="submit"
+                                    variant="outline"
+                                    disabled={listingSourceQuery.isFetching}
+                                >
+                                    {listingSourceQuery.isFetching
+                                        ? t("adminPartnerships.sources.checking")
+                                        : t("adminPartnerships.sources.check")}
+                                </Button>
+                                <Button
+                                    type="button"
+                                    disabled={
+                                        !sourceIsCheckedForCurrentValue ||
+                                        !listingSourceMatchesParty ||
+                                        listingSourceQuery.isPending ||
+                                        sourceMutationPending
+                                    }
+                                    onClick={() => void grantSource()}
+                                >
+                                    {t("adminPartnerships.actions.grantSource")}
+                                </Button>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    disabled={sourceMutationPending}
+                                    onClick={() => void revokeSourceById()}
+                                >
+                                    {t("adminPartnerships.actions.revokeSource")}
+                                </Button>
+                            </div>
+                        </form>
+                        {listingSourceQuery.isPending && checkedListingSourceId && (
+                            <p role="status" className="text-sm text-muted-foreground">
+                                {t("adminPartnerships.sources.checking")}
+                            </p>
+                        )}
+                        {listingSourceQuery.error && checkedListingSourceId && (
+                            <ErrorNotice error={listingSourceQuery.error} />
+                        )}
+                        {listingSourceQuery.data &&
+                            sourceIsCheckedForCurrentValue &&
+                            (listingSourceMatchesParty ? (
+                                <p className="text-sm text-muted-foreground">
+                                    {t("adminPartnerships.sources.sameParty", {
+                                        name: listingSourceQuery.data.name,
+                                        listingSourceId: listingSourceQuery.data.listingSourceId,
+                                    })}
+                                </p>
+                            ) : (
+                                <p role="alert" className="text-sm text-destructive">
+                                    {t("adminPartnerships.errors.partyConflict")}
+                                </p>
+                            ))}
+                        <ErrorNotice
+                            error={grantListingSource.error ?? revokeListingSourceMutation.error}
+                        />
+                    </section>
+
+                    <section className="grid gap-3 border border-destructive/30 p-4">
+                        <h3 className="font-medium">{t("adminPartnerships.dissolution.title")}</h3>
+                        <p className="text-sm text-muted-foreground">
+                            {t("adminPartnerships.dissolution.description")}
+                        </p>
+                        <AlertDialog
+                            open={confirmDissolveOpen}
+                            onOpenChange={(nextOpen) => {
+                                if (nextOpen) dissolvePartnership.reset();
+                                setConfirmDissolveOpen(nextOpen);
+                            }}
+                        >
+                            <Button
+                                type="button"
+                                variant="destructive"
+                                disabled={memberMutationPending || sourceMutationPending}
+                                onClick={() => setConfirmDissolveOpen(true)}
+                            >
+                                {t("adminPartnerships.actions.dissolve")}
+                            </Button>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>
+                                        {t("adminPartnerships.dissolution.confirmTitle")}
+                                    </AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        {t("adminPartnerships.dissolution.confirmDescription", {
+                                            name: partnership.party.name,
+                                        })}
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <ErrorNotice error={dissolvePartnership.error} />
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel disabled={dissolvePartnership.isPending}>
+                                        {t("adminPartnerships.actions.cancel")}
+                                    </AlertDialogCancel>
+                                    <Button
+                                        type="button"
+                                        variant="destructive"
+                                        disabled={dissolvePartnership.isPending}
+                                        onClick={() => void dissolve()}
+                                    >
+                                        {dissolvePartnership.isPending
+                                            ? t("adminPartnerships.actions.dissolving")
+                                            : t("adminPartnerships.actions.confirmDissolve")}
+                                    </Button>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                    </section>
+                </div>
+            )}
+        </>
     );
 }
