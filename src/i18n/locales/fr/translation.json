@@ -2465,7 +2465,7 @@
       "fields": {
         "name": "Nom",
         "scopes": "Autorisations",
-        "scopesHint": "Les autorisations sont facultatives. Accordez uniquement celles nécessaires à l'intégration.",
+        "scopesHint": "Les autorisations sont facultatives et indépendantes : une autorisation d’écriture n’inclut pas l’accès en lecture. Accordez uniquement celles nécessaires à l'intégration.",
         "expiration": "Expiration",
         "expirationHint": "Facultatif. Les heures sont interprétées dans votre fuseau horaire local.",
         "chooseExpirationDate": "Choisir une date",
@@ -2478,15 +2478,28 @@
         "token": "Jeton d'accès"
       },
       "scopeDescriptions": {
-        "productListingsWrite": "Créer, mettre à jour ou supprimer des annonces de produits dans les limites des droits accordés à votre compte.",
         "usersRead": "Lire les données des utilisateurs et créer des sessions de paiement ou du portail de facturation Stripe pour votre compte.",
         "usersWrite": "Mettre à jour les données des utilisateurs et supprimer définitivement votre compte.",
         "accessTokensRead": "Lire les détails des jetons d’accès dans les limites des droits accordés à votre compte.",
         "accessTokensWrite": "Créer, mettre à jour ou révoquer des jetons d’accès dans les limites des droits accordés à votre compte.",
-        "searchFiltersWrite": "Créer, mettre à jour ou supprimer vos recherches enregistrées.",
+        "searchFiltersRead": "Lire vos recherches enregistrées et leurs résultats mémorisés.",
+        "searchFiltersWrite": "Créer, mettre à jour ou supprimer vos recherches enregistrées. N’inclut pas leur lecture.",
+        "notificationsRead": "Lire vos notifications privées.",
+        "notificationsWrite": "Marquer vos notifications comme vues ou les supprimer. N’inclut pas leur lecture.",
         "watchlistRead": "Lire les annonces de votre liste de suivi.",
         "watchlistWrite": "Ajouter ou retirer des annonces et mettre à jour les paramètres de votre liste de suivi.",
-        "listingSourcesWrite": "Activer ou remplacer les paramètres d’import WooCommerce et Shopify des fournisseurs pour lesquels votre compte dispose d’un accès en écriture. Inclut la définition ou le remplacement du secret du webhook WooCommerce."
+        "productListingsWrite": "Créer, mettre à jour ou supprimer des annonces de produits dans les limites des droits accordés à votre compte.",
+        "listingSourcesRead": "Lire les données non publiques des sources d’annonces dans les limites des droits accordés à votre compte, par exemple les sources que vous administrez.",
+        "listingSourcesWrite": "Activer ou remplacer les paramètres d’import WooCommerce et Shopify, y compris le secret du webhook WooCommerce, des sources pour lesquelles votre compte dispose d’un accès en écriture. Si le compte dispose d’un accès administrateur, également créer, mettre à jour ou supprimer des sources d’annonces.",
+        "partnershipApplicationsRead": "Lire vos propres demandes de partenariat et, si le compte dispose d’un accès administrateur, les demandes en cours d’examen.",
+        "partnershipApplicationsWrite": "Soumettre ou retirer vos propres demandes de partenariat et, si le compte dispose d’un accès administrateur, examiner les demandes et statuer.",
+        "auctionsRead": "Lire les données administratives des ventes si le compte dispose d’un accès administrateur. Les pages publiques des ventes ne nécessitent pas cette autorisation.",
+        "auctionsWrite": "Créer ou mettre à jour des ventes si le compte dispose d’un accès administrateur.",
+        "partiesRead": "Lire les fiches d’organisations si le compte dispose d’un accès administrateur.",
+        "partiesWrite": "Créer, mettre à jour ou supprimer des fiches d’organisations si le compte dispose d’un accès administrateur.",
+        "partnershipsRead": "Lire les partenariats si le compte dispose d’un accès administrateur.",
+        "partnershipsWrite": "Modifier ou dissoudre des partenariats et accorder ou retirer leurs membres et sources d’annonces si le compte dispose d’un accès administrateur.",
+        "adminOverviewRead": "Lire la vue d’ensemble opérationnelle de l’administration si le compte dispose d’un accès administrateur."
       },
       "validation": {
         "nameRequired": "Veuillez entrer un nom de jeton.",
@@ -2530,15 +2543,34 @@
     "noExpiration": "N'expire pas",
     "noScopes": "Aucune autorisation",
     "scopes": {
-      "productListingsWrite": "Écrire des annonces de produits",
       "usersRead": "Lire les données des utilisateurs",
       "usersWrite": "Mettre à jour les données des utilisateurs",
       "accessTokensRead": "Lire les jetons d’accès",
       "accessTokensWrite": "Gérer les jetons d’accès",
+      "searchFiltersRead": "Lire les recherches enregistrées",
       "searchFiltersWrite": "Gérer les recherches enregistrées",
+      "notificationsRead": "Lire les notifications",
+      "notificationsWrite": "Gérer les notifications",
       "watchlistRead": "Lire la liste de suivi",
       "watchlistWrite": "Gérer la liste de suivi",
-      "listingSourcesWrite": "Configurer l’import des fournisseurs"
+      "productListingsWrite": "Écrire des annonces de produits",
+      "listingSourcesRead": "Lire les sources d’annonces",
+      "listingSourcesWrite": "Gérer les sources d’annonces",
+      "partnershipApplicationsRead": "Lire les demandes de partenariat",
+      "partnershipApplicationsWrite": "Gérer les demandes de partenariat",
+      "auctionsRead": "Lire les ventes",
+      "auctionsWrite": "Gérer les ventes",
+      "partiesRead": "Lire les organisations",
+      "partiesWrite": "Gérer les organisations",
+      "partnershipsRead": "Lire les partenariats",
+      "partnershipsWrite": "Gérer les partenariats",
+      "adminOverviewRead": "Lire la vue d’ensemble de l’administration"
+    },
+    "scopeGroups": {
+      "account": "Compte et jetons d’accès",
+      "collecting": "Recherches enregistrées, notifications et liste de suivi",
+      "partner": "Annonces, sources et demandes",
+      "administration": "Administration (comptes administrateurs uniquement)"
     }
   },
   "partnerListingSources": {
@@ -2774,7 +2806,7 @@
       "redirectUris": "URI de redirection",
       "redirectUrisHelp": "Saisissez une URI de redirection HTTPS par ligne. Au moins une est requise ; les fragments sont interdits et chaque URI doit être unique.",
       "scopes": "Autorisations autorisées",
-      "scopesHelp": "Sélectionnez les capacités que ce client peut demander. Si aucune n’est sélectionnée, toutes ses autorisations seront supprimées.",
+      "scopesHelp": "Sélectionnez les capacités que ce client peut demander. Les autorisations de lecture et d’écriture sont indépendantes. Si aucune n’est sélectionnée, toutes ses autorisations seront supprimées.",
       "issuedAt": "ID client émis le"
     },
     "detail": {

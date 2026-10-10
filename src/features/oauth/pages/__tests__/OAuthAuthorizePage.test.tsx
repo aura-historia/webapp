@@ -289,6 +289,34 @@ describe("OAuthAuthorizePage", () => {
         }
     });
 
+    it("shows read and write scopes independently and unknown scopes without a description", async () => {
+        mockUseOAuthClient.mockImplementation(() => ({
+            data: { ...mockClientData, scopes: ["search-filters:write", "auctions:read"] },
+            isLoading: false,
+            isError: false,
+        }));
+        await act(async () =>
+            renderWithRouter(
+                <OAuthAuthorizePage
+                    searchParams={{
+                        ...defaultSearchParams,
+                        scope: "search-filters:write auctions:read future:read",
+                    }}
+                />,
+            ),
+        );
+        const items = screen.getAllByRole("listitem");
+        expect(items.map((item) => item.querySelector('[data-slot="badge"]')?.textContent)).toEqual(
+            ["search-filters:write", "auctions:read", "future:read"],
+        );
+        expect(screen.queryByText("search-filters:read")).not.toBeInTheDocument();
+        expect(screen.queryByText("auctions:write")).not.toBeInTheDocument();
+        expect(
+            screen.getByText(testI18n.t(ACCESS_TOKEN_SCOPE_METADATA["auctions:read"].description)),
+        ).toBeInTheDocument();
+        expect(items[2].textContent).toBe("future:read");
+    });
+
     it("renders without scopes when scope param is missing", async () => {
         const searchParamsWithoutScope = {
             ...defaultSearchParams,

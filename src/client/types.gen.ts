@@ -917,7 +917,7 @@ export type UserSearchFilterCollectionData = {
  * The value is one of the capabilities supported by the canonical access-token and OAuth flows.
  *
  */
-export type AccessTokenScopeData = 'product-listings:write' | 'listing-sources:write' | 'users:read' | 'users:write' | 'access-tokens:read' | 'access-tokens:write' | 'search-filters:write' | 'watchlist:read' | 'watchlist:write';
+export type AccessTokenScopeData = 'auctions:read' | 'auctions:write' | 'listing-sources:read' | 'parties:read' | 'parties:write' | 'partnership-applications:read' | 'partnership-applications:write' | 'partnerships:read' | 'partnerships:write' | 'admin-overview:read' | 'search-filters:read' | 'notifications:read' | 'notifications:write' | 'product-listings:write' | 'listing-sources:write' | 'users:read' | 'users:write' | 'access-tokens:read' | 'access-tokens:write' | 'search-filters:write' | 'watchlist:read' | 'watchlist:write';
 
 /**
  * Token type returned for Aura Historia access tokens.

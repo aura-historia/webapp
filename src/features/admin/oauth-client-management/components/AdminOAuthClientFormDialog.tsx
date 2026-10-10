@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import type { AccessTokenScope } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import {
+    ACCESS_TOKEN_SCOPE_GROUPS,
     ACCESS_TOKEN_SCOPE_METADATA,
     ACCESS_TOKEN_SCOPES,
 } from "@/data/internal/access-tokens/AccessTokenScope.ts";
@@ -328,11 +329,18 @@ export function AdminOAuthClientFormDialog({
                             <p className="text-xs text-muted-foreground">
                                 {t("adminOAuthClients.fields.scopesHelp")}
                             </p>
-                            <div className="grid gap-2 sm:grid-cols-2">
-                                {ACCESS_TOKEN_SCOPES.map((scope) => (
-                                    <ScopeCheckbox key={scope} form={form} scope={scope} />
-                                ))}
-                            </div>
+                            {ACCESS_TOKEN_SCOPE_GROUPS.map((group) => (
+                                <fieldset key={group.label} className="grid gap-2">
+                                    <legend className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                        {t(group.label)}
+                                    </legend>
+                                    <div className="grid gap-2 sm:grid-cols-2">
+                                        {group.scopes.map((scope) => (
+                                            <ScopeCheckbox key={scope} form={form} scope={scope} />
+                                        ))}
+                                    </div>
+                                </fieldset>
+                            ))}
                         </fieldset>
 
                         {requestError && (

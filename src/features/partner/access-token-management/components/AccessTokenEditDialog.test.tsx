@@ -59,12 +59,40 @@ it("preserves an existing ingestion grant when changing only the name", async ()
             onOpenChange={vi.fn()}
         />,
     );
-    expect(screen.getByLabelText("Anbieterimport konfigurieren")).toBeChecked();
+    expect(screen.getByLabelText("Listing-Quellen verwalten")).toBeChecked();
     await user.clear(screen.getByLabelText("Name"));
     await user.type(screen.getByLabelText("Name"), "Renamed");
     await user.click(screen.getByRole("button", { name: "Änderungen speichern" }));
     expect(mutate).toHaveBeenCalledWith(
         { id: accessToken.id, name: "Renamed", scopes: undefined, expiresAt: undefined },
+        expect.anything(),
+    );
+});
+
+it("renders newly supported grants and replaces them only when edited", async () => {
+    const user = userEvent.setup();
+    render(
+        <AccessTokenEditDialog
+            accessToken={{ ...accessToken, scopes: ["auctions:read", "notifications:write"] }}
+            open
+            onOpenChange={vi.fn()}
+        />,
+    );
+    expect(screen.getByLabelText("Auktionen lesen")).toBeChecked();
+    expect(screen.getByLabelText("Benachrichtigungen verwalten")).toBeChecked();
+    expect(screen.getByLabelText("Auktionen verwalten")).not.toBeChecked();
+    expect(screen.getByLabelText("Benachrichtigungen lesen")).not.toBeChecked();
+
+    await user.click(screen.getByLabelText("Auktionen lesen"));
+    await user.click(screen.getByLabelText("Partnerschaften verwalten"));
+    await user.click(screen.getByRole("button", { name: "Änderungen speichern" }));
+    expect(mutate).toHaveBeenCalledWith(
+        {
+            id: accessToken.id,
+            name: undefined,
+            scopes: ["notifications:write", "partnerships:write"],
+            expiresAt: undefined,
+        },
         expect.anything(),
     );
 });

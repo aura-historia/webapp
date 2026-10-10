@@ -1591,7 +1591,7 @@
       "fields": {
         "name": "Name",
         "scopes": "Berechtigungen",
-        "scopesHint": "Berechtigungen sind optional. Vergeben Sie nur die für die Integration erforderlichen Rechte.",
+        "scopesHint": "Berechtigungen sind optional und unabhängig voneinander: Eine Schreibberechtigung umfasst keinen Lesezugriff. Vergeben Sie nur die für die Integration erforderlichen Rechte.",
         "expiration": "Ablaufzeitpunkt",
         "expirationHint": "Optional. Zeitangaben werden in Ihrer lokalen Zeitzone interpretiert.",
         "chooseExpirationDate": "Datum wählen",
@@ -1604,15 +1604,28 @@
         "token": "Zugriffstoken"
       },
       "scopeDescriptions": {
-        "productListingsWrite": "Produktangebote im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen, aktualisieren oder löschen.",
         "usersRead": "Benutzerdaten lesen und Stripe-Checkout- oder Abrechnungsportal-Sitzungen für Ihr Konto erstellen.",
         "usersWrite": "Benutzerdaten aktualisieren und Ihr Konto dauerhaft löschen.",
         "accessTokensRead": "Details zu Zugriffstoken im Rahmen der Ihrem Konto gewährten Zugriffsrechte lesen.",
         "accessTokensWrite": "Zugriffstoken im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen, aktualisieren oder widerrufen.",
-        "searchFiltersWrite": "Ihre gespeicherten Suchen erstellen, aktualisieren oder löschen.",
+        "searchFiltersRead": "Ihre gespeicherten Suchen und deren gespeicherte Treffer lesen.",
+        "searchFiltersWrite": "Ihre gespeicherten Suchen erstellen, aktualisieren oder löschen. Umfasst nicht das Lesen.",
+        "notificationsRead": "Ihre privaten Benachrichtigungen lesen.",
+        "notificationsWrite": "Ihre Benachrichtigungen als gesehen markieren oder löschen. Umfasst nicht das Lesen.",
         "watchlistRead": "Die Angebote in Ihrer Merkliste lesen.",
         "watchlistWrite": "Angebote hinzufügen oder entfernen und Ihre Merklisten-Einstellungen aktualisieren.",
-        "listingSourcesWrite": "WooCommerce- und Shopify-Importeinstellungen für Anbieter aktivieren oder ersetzen, für die Ihr Konto Schreibzugriff hat. Dazu gehört das Festlegen oder Ersetzen des WooCommerce-Webhook-Geheimnisses."
+        "productListingsWrite": "Produktangebote im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen, aktualisieren oder löschen.",
+        "listingSourcesRead": "Nicht öffentliche Daten von Listing-Quellen im Rahmen der Ihrem Konto gewährten Zugriffsrechte lesen, etwa von Quellen, die Sie verwalten.",
+        "listingSourcesWrite": "WooCommerce- und Shopify-Importeinstellungen einschließlich des WooCommerce-Webhook-Geheimnisses für Quellen aktivieren oder ersetzen, für die Ihr Konto Schreibzugriff hat. Hat das Konto Administratorzugriff, zusätzlich Listing-Quellen erstellen, aktualisieren oder löschen.",
+        "partnershipApplicationsRead": "Ihre eigenen Partnerschaftsanträge lesen und, wenn das Konto Administratorzugriff hat, Anträge in Prüfung.",
+        "partnershipApplicationsWrite": "Eigene Partnerschaftsanträge einreichen oder zurückziehen und, wenn das Konto Administratorzugriff hat, Anträge prüfen und entscheiden.",
+        "auctionsRead": "Administrative Auktionsdaten lesen, wenn das Konto Administratorzugriff hat. Öffentliche Auktionsseiten benötigen diese Berechtigung nicht.",
+        "auctionsWrite": "Auktionen erstellen oder aktualisieren, wenn das Konto Administratorzugriff hat.",
+        "partiesRead": "Organisationsdatensätze lesen, wenn das Konto Administratorzugriff hat.",
+        "partiesWrite": "Organisationsdatensätze erstellen, aktualisieren oder löschen, wenn das Konto Administratorzugriff hat.",
+        "partnershipsRead": "Partnerschaften lesen, wenn das Konto Administratorzugriff hat.",
+        "partnershipsWrite": "Partnerschaften ändern oder auflösen sowie Mitglieder und Listing-Quellen freigeben oder entziehen, wenn das Konto Administratorzugriff hat.",
+        "adminOverviewRead": "Die operative Admin-Übersicht lesen, wenn das Konto Administratorzugriff hat."
       },
       "validation": {
         "nameRequired": "Bitte geben Sie einen Token-Namen ein.",
@@ -1656,15 +1669,34 @@
     "noExpiration": "Läuft nicht ab",
     "noScopes": "Keine Berechtigungen",
     "scopes": {
-      "productListingsWrite": "Produktangebote schreiben",
       "usersRead": "Benutzerdaten lesen",
       "usersWrite": "Benutzerdaten aktualisieren",
       "accessTokensRead": "Zugriffstoken lesen",
       "accessTokensWrite": "Zugriffstoken verwalten",
+      "searchFiltersRead": "Gespeicherte Suchen lesen",
       "searchFiltersWrite": "Gespeicherte Suchen verwalten",
+      "notificationsRead": "Benachrichtigungen lesen",
+      "notificationsWrite": "Benachrichtigungen verwalten",
       "watchlistRead": "Merkliste lesen",
       "watchlistWrite": "Merkliste verwalten",
-      "listingSourcesWrite": "Anbieterimport konfigurieren"
+      "productListingsWrite": "Produktangebote schreiben",
+      "listingSourcesRead": "Listing-Quellen lesen",
+      "listingSourcesWrite": "Listing-Quellen verwalten",
+      "partnershipApplicationsRead": "Partnerschaftsanträge lesen",
+      "partnershipApplicationsWrite": "Partnerschaftsanträge verwalten",
+      "auctionsRead": "Auktionen lesen",
+      "auctionsWrite": "Auktionen verwalten",
+      "partiesRead": "Organisationen lesen",
+      "partiesWrite": "Organisationen verwalten",
+      "partnershipsRead": "Partnerschaften lesen",
+      "partnershipsWrite": "Partnerschaften verwalten",
+      "adminOverviewRead": "Admin-Übersicht lesen"
+    },
+    "scopeGroups": {
+      "account": "Konto und Zugriffstoken",
+      "collecting": "Gespeicherte Suchen, Benachrichtigungen und Merkliste",
+      "partner": "Angebote, Quellen und Anträge",
+      "administration": "Administration (nur Administratorkonten)"
     }
   },
   "partnerApplications": {
@@ -2774,7 +2806,7 @@
       "redirectUris": "Weiterleitungs-URIs",
       "redirectUrisHelp": "Geben Sie pro Zeile eine HTTPS-Weiterleitungs-URI ein. Mindestens eine ist erforderlich; Fragmente sind nicht zulässig und jede URI muss eindeutig sein.",
       "scopes": "Erlaubte Berechtigungen",
-      "scopesHelp": "Wählen Sie die Berechtigungen aus, die dieser Client anfordern darf. Wenn Sie keine auswählen, werden alle erlaubten Berechtigungen entfernt.",
+      "scopesHelp": "Wählen Sie die Berechtigungen aus, die dieser Client anfordern darf. Lese- und Schreibberechtigungen sind unabhängig voneinander. Wenn Sie keine auswählen, werden alle erlaubten Berechtigungen entfernt.",
       "issuedAt": "Client-ID ausgestellt"
     },
     "detail": {

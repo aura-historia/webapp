@@ -2465,7 +2465,7 @@
       "fields": {
         "name": "Nombre",
         "scopes": "Permisos",
-        "scopesHint": "Los permisos son opcionales. Concede solo los necesarios para la integración.",
+        "scopesHint": "Los permisos son opcionales e independientes: un permiso de escritura no incluye acceso de lectura. Concede solo los necesarios para la integración.",
         "expiration": "Expiración",
         "expirationHint": "Opcional. Los horarios se interpretan en tu zona horaria local.",
         "chooseExpirationDate": "Elegir fecha",
@@ -2478,15 +2478,28 @@
         "token": "Token de acceso"
       },
       "scopeDescriptions": {
-        "productListingsWrite": "Crear, actualizar o eliminar anuncios de productos dentro de los permisos concedidos a su cuenta.",
         "usersRead": "Leer datos de usuarios y crear sesiones de pago o del portal de facturación de Stripe para su cuenta.",
         "usersWrite": "Actualizar datos de usuarios y eliminar permanentemente su cuenta.",
         "accessTokensRead": "Leer detalles de tokens de acceso dentro de los permisos concedidos a su cuenta.",
         "accessTokensWrite": "Crear, actualizar o revocar tokens de acceso dentro de los permisos concedidos a su cuenta.",
-        "searchFiltersWrite": "Crear, actualizar o eliminar sus búsquedas guardadas.",
+        "searchFiltersRead": "Leer sus búsquedas guardadas y sus coincidencias almacenadas.",
+        "searchFiltersWrite": "Crear, actualizar o eliminar sus búsquedas guardadas. No incluye su lectura.",
+        "notificationsRead": "Leer sus notificaciones privadas.",
+        "notificationsWrite": "Marcar sus notificaciones como vistas o eliminarlas. No incluye su lectura.",
         "watchlistRead": "Leer los anuncios de su lista de seguimiento.",
         "watchlistWrite": "Añadir o eliminar anuncios y actualizar los ajustes de su lista de seguimiento.",
-        "listingSourcesWrite": "Activar o sustituir la configuración de importación de WooCommerce y Shopify de los proveedores para los que su cuenta tiene acceso de escritura. Incluye establecer o sustituir el secreto del webhook de WooCommerce."
+        "productListingsWrite": "Crear, actualizar o eliminar anuncios de productos dentro de los permisos concedidos a su cuenta.",
+        "listingSourcesRead": "Leer datos no públicos de fuentes de anuncios dentro de los permisos concedidos a su cuenta, como las fuentes que administra.",
+        "listingSourcesWrite": "Activar o sustituir la configuración de importación de WooCommerce y Shopify, incluido el secreto del webhook de WooCommerce, de las fuentes para las que su cuenta tiene acceso de escritura. Si la cuenta tiene acceso de administrador, también crear, actualizar o eliminar fuentes de anuncios.",
+        "partnershipApplicationsRead": "Leer sus propias solicitudes de colaboración y, si la cuenta tiene acceso de administrador, las solicitudes en revisión.",
+        "partnershipApplicationsWrite": "Enviar o retirar sus propias solicitudes de colaboración y, si la cuenta tiene acceso de administrador, revisar y resolver solicitudes.",
+        "auctionsRead": "Leer datos administrativos de subastas si la cuenta tiene acceso de administrador. Las páginas públicas de subastas no requieren este permiso.",
+        "auctionsWrite": "Crear o actualizar subastas si la cuenta tiene acceso de administrador.",
+        "partiesRead": "Leer registros de organizaciones si la cuenta tiene acceso de administrador.",
+        "partiesWrite": "Crear, actualizar o eliminar registros de organizaciones si la cuenta tiene acceso de administrador.",
+        "partnershipsRead": "Leer asociaciones si la cuenta tiene acceso de administrador.",
+        "partnershipsWrite": "Modificar o disolver asociaciones y conceder o revocar sus miembros y fuentes de anuncios si la cuenta tiene acceso de administrador.",
+        "adminOverviewRead": "Leer el resumen operativo de administración si la cuenta tiene acceso de administrador."
       },
       "validation": {
         "nameRequired": "Por favor, introduce un nombre para el token.",
@@ -2530,15 +2543,34 @@
     "noExpiration": "No expira",
     "noScopes": "Sin permisos",
     "scopes": {
-      "productListingsWrite": "Escribir anuncios de productos",
       "usersRead": "Leer datos de usuarios",
       "usersWrite": "Actualizar datos de usuarios",
       "accessTokensRead": "Leer tokens de acceso",
       "accessTokensWrite": "Gestionar tokens de acceso",
+      "searchFiltersRead": "Leer búsquedas guardadas",
       "searchFiltersWrite": "Gestionar búsquedas guardadas",
+      "notificationsRead": "Leer notificaciones",
+      "notificationsWrite": "Gestionar notificaciones",
       "watchlistRead": "Leer la lista de seguimiento",
       "watchlistWrite": "Gestionar la lista de seguimiento",
-      "listingSourcesWrite": "Configurar la importación de proveedores"
+      "productListingsWrite": "Escribir anuncios de productos",
+      "listingSourcesRead": "Leer fuentes de anuncios",
+      "listingSourcesWrite": "Gestionar fuentes de anuncios",
+      "partnershipApplicationsRead": "Leer solicitudes de colaboración",
+      "partnershipApplicationsWrite": "Gestionar solicitudes de colaboración",
+      "auctionsRead": "Leer subastas",
+      "auctionsWrite": "Gestionar subastas",
+      "partiesRead": "Leer organizaciones",
+      "partiesWrite": "Gestionar organizaciones",
+      "partnershipsRead": "Leer asociaciones",
+      "partnershipsWrite": "Gestionar asociaciones",
+      "adminOverviewRead": "Leer el resumen de administración"
+    },
+    "scopeGroups": {
+      "account": "Cuenta y tokens de acceso",
+      "collecting": "Búsquedas guardadas, notificaciones y lista de seguimiento",
+      "partner": "Anuncios, fuentes y solicitudes",
+      "administration": "Administración (solo cuentas de administrador)"
     }
   },
   "partnerListingSources": {
@@ -2774,7 +2806,7 @@
       "redirectUris": "URI de redirección",
       "redirectUrisHelp": "Introduzca una URI de redirección HTTPS por línea. Se requiere al menos una; no se permiten fragmentos y cada URI debe ser única.",
       "scopes": "Permisos permitidos",
-      "scopesHelp": "Seleccione las capacidades que puede solicitar este cliente. Si no selecciona ninguna, se eliminarán todos sus permisos permitidos.",
+      "scopesHelp": "Seleccione las capacidades que puede solicitar este cliente. Los permisos de lectura y escritura son independientes. Si no selecciona ninguna, se eliminarán todos sus permisos permitidos.",
       "issuedAt": "ID del cliente emitido"
     },
     "detail": {
