@@ -454,7 +454,10 @@
       },
       "values": {
         "onRequest": "Prezzo su richiesta",
-        "notProvided": "Non indicato"
+        "notProvided": "Non indicato",
+        "converted": "{{display}} (indicato a {{source}})",
+        "sourceOnly": "{{price}} (prezzo originale; nessun tasso storico in {{currency}})",
+        "fxProvenance": "Gli importi in {{currency}} usano il tasso di cambio registrato il {{capturedAt}}."
       }
     },
     "dealer": {
@@ -477,8 +480,12 @@
         "1y": "1A",
         "all": "Tutto"
       },
-      "currencySelectLabel": "Valuta di origine",
-      "currencySelect": "Mostra lo storico dei prezzi in {{currency}}"
+      "currencyViewLabel": "Visualizzazione valuta",
+      "currencySelect": "Mostra i prezzi originali dell’annuncio in {{currency}}",
+      "displayOption": "{{currency}} convertito",
+      "displaySelect": "Mostra lo storico dei prezzi in {{currency}} ai tassi di cambio storici",
+      "displaySeriesName": "Prezzo in {{currency}} (tassi storici)",
+      "displayNote": "Convertito al tasso di cambio registrato al momento di ogni variazione di prezzo o prima. Le interruzioni indicano prezzi senza tasso registrato o senza prezzo pubblico."
     },
     "unseenNotification": "Aggiornato",
     "auction": {

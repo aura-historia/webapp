@@ -459,7 +459,10 @@
       },
       "values": {
         "onRequest": "Price on request",
-        "notProvided": "Not provided"
+        "notProvided": "Not provided",
+        "converted": "{{display}} (listed at {{source}})",
+        "sourceOnly": "{{price}} (original price; no historical {{currency}} rate)",
+        "fxProvenance": "{{currency}} amounts use the exchange rate recorded on {{capturedAt}}."
       }
     },
     "dealer": {
@@ -485,8 +488,12 @@
         "1y": "1Y",
         "all": "All"
       },
-      "currencySelectLabel": "Source currency",
-      "currencySelect": "Show price history in {{currency}}"
+      "currencyViewLabel": "Currency view",
+      "currencySelect": "Show original listing prices in {{currency}}",
+      "displayOption": "{{currency}} converted",
+      "displaySelect": "Show price history converted to {{currency}} at historical exchange rates",
+      "displaySeriesName": "Price in {{currency}} (historical rates)",
+      "displayNote": "Converted using the exchange rate recorded at or before each price change. Gaps mark prices without a recorded rate or without a public price."
     },
     "listingAvailability": {
       "available": "Available",

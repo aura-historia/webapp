@@ -1,6 +1,9 @@
 import type { Currency } from "@/data/internal/common/Currency.ts";
 import type { ApexOptions } from "apexcharts";
-import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
+import type {
+    HistoryListingPrice,
+    ProductListingHistoryEntry,
+} from "@/data/internal/product/ProductListingHistory.ts";
 import { render, screen } from "@testing-library/react";
 import { ProductPriceChart } from "../ProductPriceChart.tsx";
 import { vi } from "vitest";
@@ -38,10 +41,7 @@ vi.mock("react-apexcharts", () => ({
 function discovery(
     eventId: string,
     timestamp: string,
-    price:
-        | { readonly type: "MONETARY"; readonly amount: number; readonly currency: Currency }
-        | { readonly type: "ON_REQUEST" }
-        | null,
+    price: HistoryListingPrice | null,
 ): ProductListingHistoryEntry {
     return {
         eventType: "PRODUCT_LISTING_DISCOVERED",
@@ -66,14 +66,8 @@ function discovery(
 function priceChange(
     eventId: string,
     timestamp: string,
-    previous:
-        | { readonly type: "MONETARY"; readonly amount: number; readonly currency: Currency }
-        | { readonly type: "ON_REQUEST" }
-        | null,
-    current:
-        | { readonly type: "MONETARY"; readonly amount: number; readonly currency: Currency }
-        | { readonly type: "ON_REQUEST" }
-        | null,
+    previous: HistoryListingPrice | null,
+    current: HistoryListingPrice | null,
 ): ProductListingHistoryEntry {
     return {
         eventType: "PRODUCT_LISTING_CHANGED",
@@ -284,5 +278,118 @@ describe("ProductPriceChart", () => {
         const krwLabel = yAxisLabel(12345);
         expect(krwLabel).toContain("₩");
         expect(krwLabel).not.toContain("€");
+    });
+
+    describe("requested-currency view", () => {
+        const projected = (
+            amount: number,
+            currency: Currency,
+            display: { readonly amount: number; readonly currency: Currency },
+        ): HistoryListingPrice => ({
+            type: "MONETARY",
+            amount,
+            currency,
+            display: { ...display, fxRateId: "fx_1", capturedAt: new Date("2026-01-01T00:00:00Z") },
+        });
+        const history = [
+            discovery(
+                "1",
+                "2026-01-01T00:00:00Z",
+                projected(3000, "EUR", { amount: 15000, currency: "RON" }),
+            ),
+            priceChange(
+                "2",
+                "2026-01-02T00:00:00Z",
+                projected(3000, "EUR", { amount: 15000, currency: "RON" }),
+                { type: "MONETARY", amount: 29999, currency: "SEK" },
+            ),
+            priceChange(
+                "3",
+                "2026-01-03T00:00:00Z",
+                { type: "MONETARY", amount: 29999, currency: "SEK" },
+                projected(19999, "SEK", { amount: 9500, currency: "RON" }),
+            ),
+        ];
+        const plotted = () =>
+            JSON.parse(screen.getByTestId("chart-series").textContent ?? "[]")[0].data.map(
+                (point: { y: number | null }) => point.y,
+            );
+
+        it("defaults to the backend projections with gaps where a projection is missing", () => {
+            render(<ProductPriceChart history={history} displayCurrency="RON" />);
+
+            expect(plotted()).toEqual([150, null, 95]);
+            expect(
+                screen.getByRole("button", {
+                    name: "Preisverlauf in RON zu historischen Wechselkursen anzeigen",
+                }),
+            ).toHaveAttribute("aria-pressed", "true");
+            expect(screen.getByText("RON umgerechnet")).toBeInTheDocument();
+            expect(screen.getByText(/Lücken markieren Preise/)).toBeInTheDocument();
+            expect(yAxisLabel(150)).toMatch(/RON|lei/);
+        });
+
+        it("keeps the source-currency views available and accurate", async () => {
+            const user = userEvent.setup();
+            render(<ProductPriceChart history={history} displayCurrency="RON" />);
+
+            await user.click(screen.getByRole("button", { name: /SEK/ }));
+            expect(plotted()).toEqual([299.99, 199.99]);
+            expect(screen.queryByText(/Lücken markieren Preise/)).not.toBeInTheDocument();
+
+            await user.click(screen.getByRole("button", { name: /EUR/ }));
+            expect(plotted()).toEqual([30, null]);
+        });
+
+        it("offers only source views when no projection matches the requested currency", () => {
+            render(<ProductPriceChart history={history} displayCurrency="KRW" />);
+
+            expect(plotted()).toEqual([299.99, 199.99]);
+            expect(screen.queryByText(/umgerechnet/)).not.toBeInTheDocument();
+        });
+
+        it("shows a history priced only in the requested currency as its complete source series", () => {
+            // The first price predates any FX snapshot, so only the later one carries a projection.
+            render(
+                <ProductPriceChart
+                    history={[
+                        discovery("1", "2026-01-01T00:00:00Z", {
+                            type: "MONETARY",
+                            amount: 3000,
+                            currency: "EUR",
+                        }),
+                        priceChange(
+                            "2",
+                            "2026-01-02T00:00:00Z",
+                            { type: "MONETARY", amount: 3000, currency: "EUR" },
+                            projected(2500, "EUR", { amount: 2500, currency: "EUR" }),
+                        ),
+                    ]}
+                    displayCurrency="EUR"
+                />,
+            );
+
+            expect(plotted()).toEqual([30, 25]);
+            expect(screen.queryByText(/umgerechnet/)).not.toBeInTheDocument();
+            expect(screen.queryByText(/Lücken markieren Preise/)).not.toBeInTheDocument();
+        });
+
+        it("plots zero-decimal KRW projections without double scaling", () => {
+            render(
+                <ProductPriceChart
+                    history={[
+                        discovery(
+                            "1",
+                            "2026-01-01T00:00:00Z",
+                            projected(3000, "EUR", { amount: 44123, currency: "KRW" }),
+                        ),
+                    ]}
+                    displayCurrency="KRW"
+                />,
+            );
+
+            expect(plotted()).toEqual([44123]);
+            expect(yAxisLabel(44123)).toContain("₩");
+        });
     });
 });

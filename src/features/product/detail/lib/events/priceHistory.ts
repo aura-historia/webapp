@@ -1,9 +1,12 @@
+import type { Currency } from "@/data/internal/common/Currency.ts";
 import { currencyFormatOptions, toMajorCurrencyAmount } from "@/data/internal/price/Price.ts";
-import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
 import type {
-    ListingPrice,
-    ListingPriceEstimate,
-} from "@/data/internal/product/ProductListingDomain.ts";
+    HistoricalDisplayPrice,
+    HistoryListingPrice,
+    HistoryPriceEstimate,
+    ProductListingHistoryEntry,
+} from "@/data/internal/product/ProductListingHistory.ts";
+import type { ListingPriceEstimate } from "@/data/internal/product/ProductListingDomain.ts";
 
 export type PriceHistoryPoint = { readonly x: number; readonly y: number | null };
 export type PriceHistorySeries = {
@@ -11,20 +14,23 @@ export type PriceHistorySeries = {
     readonly data: readonly PriceHistoryPoint[];
 };
 
+/**
+ * Returns the backend's historical projection of a source value into `currency`, or `undefined`
+ * when none applies: no currency was requested, the value is on request or missing, or the backend
+ * had no snapshot or quote for it. A projection into a different currency is never used.
+ */
+export function getHistoryDisplayPrice(
+    value: HistoryListingPrice | HistoryPriceEstimate | null | undefined,
+    currency: Currency | undefined,
+): HistoricalDisplayPrice | undefined {
+    if (!value || !currency || ("type" in value && value.type !== "MONETARY")) return undefined;
+    return value.display?.currency === currency ? value.display : undefined;
+}
+
 export function formatHistoryMoney(value: ListingPriceEstimate, locale: string): string {
     return new Intl.NumberFormat(locale, currencyFormatOptions(value.currency)).format(
         toMajorCurrencyAmount(value.amount, value.currency),
     );
-}
-
-export function formatHistoryPrice(
-    value: ListingPrice | null,
-    locale: string,
-    labels: { readonly onRequest: string; readonly notProvided: string },
-): string {
-    if (value === null) return labels.notProvided;
-    if (value.type === "ON_REQUEST") return labels.onRequest;
-    return formatHistoryMoney(value, locale);
 }
 
 type PriceHistoryBuilder = {
@@ -104,4 +110,47 @@ export function getPriceHistorySeries(
         ...series.filter(({ currency }) => currency !== builder.latestMonetaryCurrency),
         ...series.filter(({ currency }) => currency === builder.latestMonetaryCurrency),
     ];
+}
+
+function appendDisplayPoint(
+    data: PriceHistoryPoint[],
+    timestamp: number,
+    price: HistoryListingPrice | null | undefined,
+    currency: Currency,
+): void {
+    if (!Number.isFinite(timestamp)) return;
+    const display = getHistoryDisplayPrice(price, currency);
+    data.push({
+        x: timestamp,
+        y: display ? toMajorCurrencyAmount(display.amount, display.currency) : null,
+    });
+}
+
+/**
+ * Builds one series in the requested display currency from the backend's per-entry historical
+ * projections only. A source-currency change continues the same series because each point carries
+ * its own projection. A missing projection, on-request or removed price is a gap; source amounts are
+ * never plotted on this axis. Returns `undefined` when no point could be projected.
+ */
+export function getDisplayPriceHistorySeries(
+    history: readonly ProductListingHistoryEntry[],
+    currency: Currency | undefined,
+): PriceHistorySeries | undefined {
+    if (!currency) return undefined;
+    const data: PriceHistoryPoint[] = [];
+    for (const entry of history) {
+        const timestamp = entry.timestamp.getTime();
+        if (entry.payload.kind === "DISCOVERED") {
+            const initialPrice = entry.payload.discovery.pricing.price;
+            if (initialPrice) appendDisplayPoint(data, timestamp, initialPrice, currency);
+        } else if (entry.payload.kind === "CHANGED") {
+            for (const change of entry.payload.changes) {
+                if (change.type === "MAIN_PRICE_CHANGED") {
+                    appendDisplayPoint(data, timestamp, change.current, currency);
+                }
+            }
+        }
+    }
+
+    return data.some(({ y }) => y !== null) ? { currency, data } : undefined;
 }

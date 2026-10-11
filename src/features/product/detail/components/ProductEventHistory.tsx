@@ -1,12 +1,12 @@
+import type { Currency } from "@/data/internal/common/Currency.ts";
 import type {
+    HistoricalDisplayPrice,
+    HistoryListingPrice,
+    HistoryPriceEstimate,
     ProductListingHistoryChange,
     ProductListingHistoryEntry,
 } from "@/data/internal/product/ProductListingHistory.ts";
-import type {
-    ListingPrice,
-    ListingPriceEstimate,
-    ListingAvailability,
-} from "@/data/internal/product/ProductListingDomain.ts";
+import type { ListingAvailability } from "@/data/internal/product/ProductListingDomain.ts";
 import {
     TimelineItem,
     TimelineTitle,
@@ -17,7 +17,7 @@ import {
 import { formatDate, formatDateTime, formatTime } from "@/lib/utils.ts";
 import {
     formatHistoryMoney,
-    formatHistoryPrice,
+    getHistoryDisplayPrice,
 } from "@/features/product/detail/lib/events/priceHistory.ts";
 import {
     getVisibleHistoryChanges,
@@ -30,6 +30,8 @@ import type { TFunction } from "i18next";
 interface ProductEventHistoryProps {
     readonly event: ProductListingHistoryEntry;
     readonly filter?: HistoryFilter;
+    /** Requested display currency; omit to show source values only. */
+    readonly displayCurrency?: Currency;
 }
 
 const AVAILABILITY_KEYS: Partial<Record<ListingAvailability, string>> = {
@@ -46,7 +48,7 @@ const AVAILABILITY_KEYS: Partial<Record<ListingAvailability, string>> = {
     SOLD_OUT: "soldOut",
 } as const;
 
-type PriceLabel = ListingPrice | ListingPriceEstimate | null;
+type PriceLabel = HistoryListingPrice | HistoryPriceEstimate | null;
 type HistoryDescription = { readonly key: string; readonly text: string };
 type FormatPrice = (price: PriceLabel) => string;
 type FormatAvailability = (availability: ListingAvailability | null) => string;
@@ -180,7 +182,44 @@ function getDiscoveryDescriptions(
     return descriptions;
 }
 
-export function ProductEventHistory({ event, filter = "all" }: ProductEventHistoryProps) {
+function getVisiblePriceValues(
+    event: ProductListingHistoryEntry,
+    filter: HistoryFilter,
+): readonly PriceLabel[] {
+    if (filter !== "all" && filter !== "price") return [];
+    if (event.payload.kind === "DISCOVERED") {
+        const { price, priceEstimateMin, priceEstimateMax } = event.payload.discovery.pricing;
+        return [price ?? null, priceEstimateMin ?? null, priceEstimateMax ?? null];
+    }
+    return getVisibleHistoryChanges(event, filter).flatMap((change) =>
+        change.type === "MAIN_PRICE_CHANGED" ||
+        change.type === "MINIMUM_ESTIMATE_CHANGED" ||
+        change.type === "MAXIMUM_ESTIMATE_CHANGED"
+            ? [change.previous, change.current]
+            : [],
+    );
+}
+
+/** One provenance line per historical FX snapshot behind a converted value in this entry. */
+function getConversionSnapshots(
+    values: readonly PriceLabel[],
+    displayCurrency: Currency | undefined,
+): HistoricalDisplayPrice[] {
+    const snapshots = new Map<string, HistoricalDisplayPrice>();
+    for (const value of values) {
+        const display = getHistoryDisplayPrice(value, displayCurrency);
+        if (display && value && "currency" in value && value.currency !== display.currency) {
+            snapshots.set(display.fxRateId, display);
+        }
+    }
+    return [...snapshots.values()];
+}
+
+export function ProductEventHistory({
+    event,
+    filter = "all",
+    displayCurrency,
+}: ProductEventHistoryProps) {
     const { t, i18n } = useTranslation();
     const { timeZone } = useRouteContext({ from: "__root__" });
     const labels = {
@@ -189,8 +228,22 @@ export function ProductEventHistory({ event, filter = "all" }: ProductEventHisto
     };
 
     const formatPrice = (price: PriceLabel) => {
-        if (price && "type" in price) return formatHistoryPrice(price, i18n.language, labels);
-        return price ? formatHistoryMoney(price, i18n.language) : labels.notProvided;
+        if (price === null) return labels.notProvided;
+        if ("type" in price && price.type === "ON_REQUEST") return labels.onRequest;
+        const source = formatHistoryMoney(price, i18n.language);
+        if (!displayCurrency || price.currency === displayCurrency) return source;
+
+        const display = getHistoryDisplayPrice(price, displayCurrency);
+        if (!display) {
+            return t("product.history.values.sourceOnly", {
+                price: source,
+                currency: displayCurrency,
+            });
+        }
+        return t("product.history.values.converted", {
+            display: formatHistoryMoney(display, i18n.language),
+            source,
+        });
     };
 
     const formatAvailability = (availability: ListingAvailability | null) =>
@@ -224,6 +277,21 @@ export function ProductEventHistory({ event, filter = "all" }: ProductEventHisto
             key: "unknown",
             text: t("product.history.events.unknownChange"),
         });
+    }
+
+    if (descriptions.length > 0) {
+        for (const snapshot of getConversionSnapshots(
+            getVisiblePriceValues(event, filter),
+            displayCurrency,
+        )) {
+            descriptions.push({
+                key: `fx-${snapshot.fxRateId}`,
+                text: t("product.history.values.fxProvenance", {
+                    currency: snapshot.currency,
+                    capturedAt: formatDateTime(snapshot.capturedAt, i18n.language, timeZone),
+                }),
+            });
+        }
     }
 
     const timeBlock = (

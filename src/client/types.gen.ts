@@ -300,6 +300,45 @@ export type ProductListingPriceData = {
 };
 
 /**
+ * HalfUp display amount in requested currency minor units (JPY/KRW 0 decimals, others 2). Omitted when the snapshot or a required quote is unavailable, including in a complete legacy 19-currency snapshot.
+ */
+export type ProductListingHistoryPriceDisplayData = PriceData & {
+  /**
+   * Immutable FX snapshot selected at or before the entry timestamp.
+   */
+  fxRateId: string;
+  /**
+   * Capture time of that snapshot, never after the history entry timestamp.
+   */
+  capturedAt: string;
+};
+
+/**
+ * Unchanged source estimate with optional historical display projection.
+ */
+export type ProductListingHistoryEstimateData = PriceData & {
+  display?: ProductListingHistoryPriceDisplayData;
+};
+
+/**
+ * Unchanged source main price; only monetary values can have historical display projections.
+ */
+export type ProductListingHistoryMainPriceData = {
+  type: 'MONETARY';
+  currency: CurrencyData;
+  amount: number;
+  display?: ProductListingHistoryPriceDisplayData;
+} | {
+  type: 'ON_REQUEST';
+};
+
+export type ProductListingHistoryPricingData = {
+  price?: ProductListingHistoryMainPriceData | null;
+  priceEstimateMin?: ProductListingHistoryEstimateData | null;
+  priceEstimateMax?: ProductListingHistoryEstimateData | null;
+};
+
+/**
  * One immutable committed ProductListing domain-history entry.
  */
 export type ProductListingHistoryEntryData = {
@@ -532,9 +571,12 @@ export type ProductListingHistoryPayloadData = ProductListingDiscoveryHistoryPay
 export type ProductListingDiscoveryHistoryPayloadData = {
   listingSourceId: string;
   sourceListingId: string;
+  /**
+   * Normalized discovery title, with legacy constructor trailing whitespace presented trimmed without rewriting the stored event.
+   */
   title?: LocalizedTextData;
   description?: LocalizedTextData;
-  pricing: ProductListingPricingData;
+  pricing: ProductListingHistoryPricingData;
   availability: ListingAvailabilityData | null;
   url: string;
   imageCount: number;
@@ -555,14 +597,14 @@ export type ProductListingHistoryChangeData = ProductListingMainPriceHistoryChan
 
 export type ProductListingMainPriceHistoryChangeData = {
   type: 'MAIN_PRICE_CHANGED';
-  previous: ProductListingPriceData | null;
-  current: ProductListingPriceData | null;
+  previous: ProductListingHistoryMainPriceData | null;
+  current: ProductListingHistoryMainPriceData | null;
 };
 
 export type ProductListingPriceHistoryChangeData = {
   type: 'MINIMUM_ESTIMATE_CHANGED' | 'MAXIMUM_ESTIMATE_CHANGED';
-  previous: PriceData | null;
-  current: PriceData | null;
+  previous: ProductListingHistoryEstimateData | null;
+  current: ProductListingHistoryEstimateData | null;
 };
 
 export type ProductListingAvailabilityHistoryChangeData = {
@@ -4097,13 +4139,18 @@ export type GetProductListingHistoryData = {
      */
     productListingId: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Optional display currency for historical monetary values; omitted means source values only.
+     */
+    currency?: CurrencyData;
+  };
   url: '/api/v1/product-listings/{productListingId}/history';
 };
 
 export type GetProductListingHistoryErrors = {
   /**
-   * Bad request - Invalid parameters
+   * Bad request - Invalid parameters, including unsupported currency (BAD_QUERY_PARAMETER_VALUE)
    */
   400: ApiError;
   /**
@@ -4111,7 +4158,7 @@ export type GetProductListingHistoryErrors = {
    */
   404: ApiError;
   /**
-   * ProductListing history contains invalid stored event data
+   * ProductListing history contains invalid stored event/FX data or a price conversion overflowed
    */
   500: ApiError;
   /**

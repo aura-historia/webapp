@@ -1,17 +1,40 @@
 import type {
     ProductListingHistoryChangeData,
     ProductListingHistoryEntryData,
+    ProductListingHistoryEstimateData,
+    ProductListingHistoryMainPriceData,
+    ProductListingHistoryPriceDisplayData,
     ProductListingAuctionFactsData,
-    PriceData,
 } from "@/client";
+import { toSupportedCurrency, type Currency } from "@/data/internal/common/Currency.ts";
 import {
     mapListingAvailability,
-    mapListingPrice,
-    mapListingPriceEstimate,
     type ListingAvailability,
-    type ListingPrice,
     type ListingPriceEstimate,
+    type MonetaryListingPrice,
+    type OnRequestListingPrice,
 } from "@/data/internal/product/ProductListingDomain.ts";
+
+/**
+ * Backend projection of one historical source value into the requested display currency, using
+ * the latest persisted FX snapshot captured at or before the history entry. It never replaces the
+ * source value; the app performs no conversion of its own.
+ */
+export type HistoricalDisplayPrice = {
+    /** Amount in minor units of `currency`. */
+    readonly amount: number;
+    readonly currency: Currency;
+    readonly fxRateId: string;
+    readonly capturedAt: Date;
+};
+
+export type HistoryMonetaryPrice = MonetaryListingPrice & {
+    readonly display?: HistoricalDisplayPrice;
+};
+export type HistoryListingPrice = HistoryMonetaryPrice | OnRequestListingPrice;
+export type HistoryPriceEstimate = ListingPriceEstimate & {
+    readonly display?: HistoricalDisplayPrice;
+};
 
 export type ListingAuctionFacts = {
     readonly auctionId?: string;
@@ -28,9 +51,9 @@ export type ProductListingDiscovery = {
     readonly title?: { readonly text: string; readonly language: string };
     readonly description?: { readonly text: string; readonly language: string };
     readonly pricing: {
-        readonly price?: ListingPrice | null;
-        readonly priceEstimateMin?: ListingPriceEstimate | null;
-        readonly priceEstimateMax?: ListingPriceEstimate | null;
+        readonly price?: HistoryListingPrice | null;
+        readonly priceEstimateMin?: HistoryPriceEstimate | null;
+        readonly priceEstimateMax?: HistoryPriceEstimate | null;
     };
     readonly availability: ListingAvailability | null;
     readonly url: string;
@@ -41,13 +64,13 @@ export type ProductListingDiscovery = {
 export type ProductListingHistoryChange =
     | {
           readonly type: "MAIN_PRICE_CHANGED";
-          readonly previous: ListingPrice | null;
-          readonly current: ListingPrice | null;
+          readonly previous: HistoryListingPrice | null;
+          readonly current: HistoryListingPrice | null;
       }
     | {
           readonly type: "MINIMUM_ESTIMATE_CHANGED" | "MAXIMUM_ESTIMATE_CHANGED";
-          readonly previous: ListingPriceEstimate | null;
-          readonly current: ListingPriceEstimate | null;
+          readonly previous: HistoryPriceEstimate | null;
+          readonly current: HistoryPriceEstimate | null;
       }
     | {
           readonly type: "AVAILABILITY_CHANGED";
@@ -86,8 +109,45 @@ export type ProductListingHistoryEntry = {
     readonly payload: ProductListingHistoryPayload;
 };
 
-function mapMoney(value: PriceData | null): ListingPriceEstimate | null {
-    return mapListingPriceEstimate(value) ?? null;
+/** Drops a projection that cannot be represented truthfully instead of coercing it. */
+function mapDisplay(
+    display: ProductListingHistoryPriceDisplayData | undefined,
+): HistoricalDisplayPrice | undefined {
+    if (!display) return undefined;
+    const currency = toSupportedCurrency(display.currency);
+    const capturedAt = new Date(display.capturedAt);
+    if (
+        !currency ||
+        !Number.isSafeInteger(display.amount) ||
+        display.amount < 0 ||
+        !display.fxRateId ||
+        Number.isNaN(capturedAt.getTime())
+    ) {
+        return undefined;
+    }
+    return { amount: display.amount, currency, fxRateId: display.fxRateId, capturedAt };
+}
+
+function mapPrice(
+    value: ProductListingHistoryMainPriceData | null | undefined,
+): HistoryListingPrice | null {
+    if (value == null) return null;
+    if (value.type === "ON_REQUEST") return { type: "ON_REQUEST" };
+    const display = mapDisplay(value.display);
+    return {
+        type: "MONETARY",
+        amount: value.amount,
+        currency: value.currency,
+        ...(display && { display }),
+    };
+}
+
+function mapMoney(
+    value: ProductListingHistoryEstimateData | null | undefined,
+): HistoryPriceEstimate | null {
+    if (value == null) return null;
+    const display = mapDisplay(value.display);
+    return { amount: value.amount, currency: value.currency, ...(display && { display }) };
 }
 
 function mapAuction(value: ProductListingAuctionFactsData | null): ListingAuctionFacts | null {
@@ -107,8 +167,8 @@ function mapChange(change: ProductListingHistoryChangeData): ProductListingHisto
         case "MAIN_PRICE_CHANGED":
             return {
                 type: change.type,
-                previous: mapListingPrice(change.previous) ?? null,
-                current: mapListingPrice(change.current) ?? null,
+                previous: mapPrice(change.previous),
+                current: mapPrice(change.current),
             };
         case "MINIMUM_ESTIMATE_CHANGED":
         case "MAXIMUM_ESTIMATE_CHANGED":
@@ -173,9 +233,9 @@ function mapDiscovery(
         title: data.title,
         description: data.description,
         pricing: {
-            price: mapListingPrice(data.pricing.price ?? null) ?? null,
-            priceEstimateMin: mapMoney(data.pricing.priceEstimateMin ?? null),
-            priceEstimateMax: mapMoney(data.pricing.priceEstimateMax ?? null),
+            price: mapPrice(data.pricing.price),
+            priceEstimateMin: mapMoney(data.pricing.priceEstimateMin),
+            priceEstimateMax: mapMoney(data.pricing.priceEstimateMax),
         },
         availability: mapListingAvailability(data.availability),
         url: data.url,

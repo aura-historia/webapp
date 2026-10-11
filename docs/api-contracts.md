@@ -19,10 +19,17 @@ admin workflows in [admin workflows](admin-workflows.md).
   as was the `AccessTokenScopeData` schema (22-scope enum from
   [backend#1991](https://github.com/aura-historia/backend/pull/1991) and
   [backend#1994](https://github.com/aura-historia/backend/pull/1994)); no other schema was taken
-  from that revision. File SHA-256:
-  `1a991b33805497bb89d4fb3da5fb67964676bdaf259799ffdb2628c3a120d4c0`; canonical parsed-JSON SHA-256
+  from that revision. The `getProductListingHistory` operation, the history sentence in the API
+  description, `ProductListingDiscoveryHistoryPayloadData`, `ProductListingMainPriceHistoryChangeData`,
+  `ProductListingPriceHistoryChangeData` and the new `ProductListingHistoryPriceDisplayData`,
+  `ProductListingHistoryEstimateData`, `ProductListingHistoryMainPriceData` and
+  `ProductListingHistoryPricingData` schemas were replaced byte-for-byte from backend commit
+  `c77155fd7872461b41ccedbdd36492bf9595dbb1` (blob `0473dc5ee2529cb4b5378789d152f6111466fda1`,
+  [backend#2019](https://github.com/aura-historia/backend/pull/2019)); nothing else was taken from
+  that revision. File SHA-256:
+  `f9749aec83af53f819f723cb0d60bc28243cdd8dc83c5d8e595348753b5df543`; canonical parsed-JSON SHA-256
   (recorded as `x-source-contract-sha256` in the partner reference):
-  `761f35c7b97c4bd939a743c7fd9e8428ab8be8f42a6105253b500f32ec5998ef`.
+  `62ed713fdcb276d89ca35476c6e4a66c354c22ddf5837317a37d8df60ae96835`.
 - Later backend changes are deliberately not adopted yet: own access-token DTOs, search-filter
   match reasons, account `marketingEmailConsent`, the server-to-server Loops webhook, the admin
   auction list/search operations from backend#1991, and the per-operation scope wording in
@@ -80,9 +87,9 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
 - Amounts are integer minor units. `CURRENCY_MINOR_UNIT_EXPONENTS` in
   `src/data/internal/common/Currency.ts` is the only scaling policy (JPY and KRW 0, every other
   supported currency, including HUF and TWD, 2); never derive it from `Intl`, which reports cash
-  digits for some currencies. History and notification prices keep their own currency; the app
-  performs no FX conversion. A historical sale that the backend cannot project into a newer
-  currency stays absent or surfaces the backend error; never substitute `0`, EUR or another rate.
+  digits for some currencies. Notification prices keep their own currency; the app performs no FX
+  conversion. A historical sale that the backend cannot project into a newer currency stays absent
+  or surfaces the backend error; never substitute `0`, EUR or another rate.
 - `parseCurrency` is a preference helper with an EUR fallback. Validate other inputs, such as
   listing-source currency fields, with `toSupportedCurrency` and reject unsupported codes.
 - Availability is the nullable 11-value enum plus `UNKNOWN` for unexpected values. Lifecycle is
@@ -90,6 +97,23 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
   and sale are not equated.
 - `mapProductListingUserState` maps the optional `userState`; `hasUnseenNotification` derives
   from a non-empty unseen-notification ID array.
+
+### Listing history
+
+- `getProductListingHistory` takes an optional `currency`. The product page requests the preferred
+  currency; omitting it returns source values only. `productListingHistoryQueryOptions` forwards the
+  currency in the generated query key, so source-only and each currency are separate cache entries
+  and a preference change never shows history for another currency.
+- Monetary history values keep their source `amount`/`currency` and may carry a backend `display`
+  projection (`amount`, `currency`, `fxRateId`, `capturedAt`) from the latest snapshot at or before
+  the entry. The mapper keeps both on discovery prices/estimates and both sides of price and
+  estimate changes, and drops a malformed or unsupported projection rather than coercing it.
+- A missing projection is normal (no snapshot or quote, including legacy 19-currency snapshots).
+  The timeline then shows the labelled source amount; converted values show their source amount
+  and snapshot capture time. The chart offers one requested-currency series built only from
+  `display` values, with gaps for missing projections and on-request or null prices, next to the
+  unchanged source-currency series. Never plot source amounts on the requested-currency axis. A
+  history priced only in the requested currency shows just its source series.
 
 ### Identity, cursors and caches
 

@@ -1,10 +1,15 @@
 import { useRef, useMemo, useState, useEffect } from "react";
 import type { ApexOptions } from "apexcharts";
+import type { Currency } from "@/data/internal/common/Currency.ts";
 import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 
 import { formatCompactCurrency, formatDate, formatTimeWithSeconds } from "@/lib/utils.ts";
-import { getPriceHistorySeries } from "@/features/product/detail/lib/events/priceHistory.ts";
+import {
+    getDisplayPriceHistorySeries,
+    getPriceHistorySeries,
+    type PriceHistoryPoint,
+} from "@/features/product/detail/lib/events/priceHistory.ts";
 import { useTranslation } from "react-i18next";
 import { ClientOnly, useRouteContext } from "@tanstack/react-router";
 import type { TFunction } from "i18next";
@@ -42,6 +47,17 @@ type ZoomRange = {
     };
 };
 
+/**
+ * A selectable chart view: either one source-currency series, or the single series of backend
+ * historical projections into the requested display currency. Views never share an axis.
+ */
+type PriceChartView = {
+    readonly key: string;
+    readonly kind: "source" | "display";
+    readonly currency: string;
+    readonly data: readonly PriceHistoryPoint[];
+};
+
 const isZoomableChart = (chart: unknown): chart is ZoomableChartHandle => {
     return (
         typeof chart === "object" &&
@@ -53,24 +69,40 @@ const isZoomableChart = (chart: unknown): chart is ZoomableChartHandle => {
 
 export function ProductPriceChart({
     history,
+    displayCurrency,
 }: {
     readonly history?: readonly ProductListingHistoryEntry[];
+    /** Requested display currency; omit to offer source-currency views only. */
+    readonly displayCurrency?: Currency;
 }) {
     const { t, i18n } = useTranslation();
     const { timeZone } = useRouteContext({ from: "__root__" });
     const chartRef = useRef<ApexCharts | null>(null);
     const [selectedTimeRange, setSelectedTimeRange] = useState<number | null>(null);
-    const [selectedCurrencyOverride, setSelectedCurrencyOverride] = useState<string>();
+    const [selectedViewOverride, setSelectedViewOverride] = useState<string>();
 
     const TIME_RANGES = useMemo(() => createTimeRanges(t), [t]);
-    const currencySeries = getPriceHistorySeries(history ?? []);
-    const currencies = currencySeries.map(({ currency }) => currency);
-    const selectedCurrency =
-        (selectedCurrencyOverride && currencies.includes(selectedCurrencyOverride)
-            ? selectedCurrencyOverride
-            : undefined) ?? currencies.at(-1);
-    const priceData =
-        currencySeries.find(({ currency }) => currency === selectedCurrency)?.data ?? [];
+    const sourceSeries = getPriceHistorySeries(history ?? []);
+    // A history priced only in the requested currency already is that view; its same-currency
+    // projections would only duplicate it, with gaps before the first FX snapshot.
+    const displaySeries = sourceSeries.some(({ currency }) => currency !== displayCurrency)
+        ? getDisplayPriceHistorySeries(history ?? [], displayCurrency)
+        : undefined;
+    const displayView: PriceChartView | undefined = displaySeries && {
+        key: `display:${displaySeries.currency}`,
+        kind: "display",
+        ...displaySeries,
+    };
+    const sourceViews: PriceChartView[] = sourceSeries.map((series) => ({
+        key: `source:${series.currency}`,
+        kind: "source",
+        ...series,
+    }));
+    const views = displayView ? [displayView, ...sourceViews] : sourceViews;
+    const selectedView =
+        views.find(({ key }) => key === selectedViewOverride) ?? displayView ?? sourceViews.at(-1);
+    const selectedCurrency = selectedView?.currency;
+    const priceData = selectedView?.data ?? [];
 
     /**
      *  Determines the earliest (`minTimestamp`) and latest (`maxTimestamp`) timestamps from the existing price data.
@@ -135,7 +167,10 @@ export function ProductPriceChart({
      */
     const series = [
         {
-            name: t("product.priceChart.seriesName", { currency: selectedCurrency }),
+            name:
+                selectedView?.kind === "display"
+                    ? t("product.priceChart.displaySeriesName", { currency: selectedCurrency })
+                    : t("product.priceChart.seriesName", { currency: selectedCurrency }),
             data: [...priceData],
         },
     ];
@@ -349,27 +384,37 @@ export function ProductPriceChart({
                     {t("product.priceChart.title")}
                 </H2>
                 <div className="flex gap-4 flex-wrap items-end">
-                    {currencies.length > 1 && (
+                    {views.length > 1 && (
                         <fieldset className="flex flex-wrap gap-3">
                             <legend className="sr-only">
-                                {t("product.priceChart.currencySelectLabel")}
+                                {t("product.priceChart.currencyViewLabel")}
                             </legend>
-                            {currencies.map((currency) => (
+                            {views.map((view) => (
                                 <button
                                     type="button"
-                                    key={currency}
-                                    aria-pressed={currency === selectedCurrency}
-                                    aria-label={t("product.priceChart.currencySelect", {
-                                        currency,
-                                    })}
-                                    onClick={() => setSelectedCurrencyOverride(currency)}
+                                    key={view.key}
+                                    aria-pressed={view.key === selectedView?.key}
+                                    aria-label={
+                                        view.kind === "display"
+                                            ? t("product.priceChart.displaySelect", {
+                                                  currency: view.currency,
+                                              })
+                                            : t("product.priceChart.currencySelect", {
+                                                  currency: view.currency,
+                                              })
+                                    }
+                                    onClick={() => setSelectedViewOverride(view.key)}
                                     className={`border-b pb-1 text-xs tracking-widest uppercase transition-colors duration-300 ease-out ${
-                                        currency === selectedCurrency
+                                        view.key === selectedView?.key
                                             ? "border-primary text-primary"
                                             : "border-transparent text-muted-foreground hover:text-primary"
                                     }`}
                                 >
-                                    {currency}
+                                    {view.kind === "display"
+                                        ? t("product.priceChart.displayOption", {
+                                              currency: view.currency,
+                                          })
+                                        : view.currency}
                                 </button>
                             ))}
                         </fieldset>
@@ -406,6 +451,11 @@ export function ProductPriceChart({
                     />
                 </ClientOnly>
             </div>
+            {selectedView?.kind === "display" && (
+                <p className="text-xs text-muted-foreground">
+                    {t("product.priceChart.displayNote")}
+                </p>
+            )}
         </section>
     );
 }

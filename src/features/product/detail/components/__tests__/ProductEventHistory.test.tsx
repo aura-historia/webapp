@@ -164,4 +164,180 @@ describe("ProductEventHistory", () => {
         expect(screen.getByText(/product.history.values.onRequest/)).toBeInTheDocument();
         expect(screen.getByText(/product.listingAvailability.available/)).toBeInTheDocument();
     });
+
+    describe("historical display projections", () => {
+        const capturedAt = new Date("2026-09-01T10:00:00Z");
+        const projectedChange: ProductListingHistoryEntry = {
+            eventType: "PRODUCT_LISTING_CHANGED",
+            productListingId: "plist_123",
+            eventId: "event-projected",
+            timestamp: new Date("2026-09-01T10:15:00Z"),
+            payload: {
+                kind: "CHANGED",
+                changes: [
+                    {
+                        type: "MAIN_PRICE_CHANGED",
+                        previous: {
+                            type: "MONETARY",
+                            amount: 3000,
+                            currency: "EUR",
+                            display: {
+                                amount: 15000,
+                                currency: "RON",
+                                fxRateId: "fx_1",
+                                capturedAt,
+                            },
+                        },
+                        current: {
+                            type: "MONETARY",
+                            amount: 29999,
+                            currency: "SEK",
+                            display: {
+                                amount: 15000,
+                                currency: "RON",
+                                fxRateId: "fx_1",
+                                capturedAt,
+                            },
+                        },
+                    },
+                ],
+            },
+        };
+        const normalise = (value: string | null) => value?.replace(/[\u00a0\u202f]/g, " ");
+
+        it("shows the requested-currency value with its source and snapshot", () => {
+            render(<ProductEventHistory event={projectedChange} displayCurrency="RON" />);
+
+            const [change, provenance] = screen
+                .getAllByTestId("timeline-description")
+                .map((element) => normalise(element.textContent));
+            expect(change).toBe(
+                "product.history.events.mainPriceChanged " +
+                    "product.history.values.converted RON 150.00 €30.00 " +
+                    "product.history.values.converted RON 150.00 SEK 299.99",
+            );
+            expect(provenance).toMatch(/^product\.history\.values\.fxProvenance RON .*2026/);
+        });
+
+        it("labels a source value without a historical rate and never shows a converted amount", () => {
+            const legacyChange: ProductListingHistoryEntry = {
+                ...projectedChange,
+                payload: {
+                    kind: "CHANGED",
+                    changes: [
+                        {
+                            type: "MAXIMUM_ESTIMATE_CHANGED",
+                            previous: { amount: 12345, currency: "SEK" },
+                            current: null,
+                        },
+                    ],
+                },
+            };
+
+            render(<ProductEventHistory event={legacyChange} displayCurrency="RON" />);
+
+            const descriptions = screen.getAllByTestId("timeline-description");
+            expect(descriptions).toHaveLength(1);
+            expect(normalise(descriptions[0]?.textContent ?? null)).toBe(
+                "product.history.events.maximumEstimateChanged " +
+                    "product.history.values.sourceOnly SEK 123.45 RON " +
+                    "product.history.values.notProvided",
+            );
+        });
+
+        it("shows a source value already in the requested currency unchanged", () => {
+            const sameCurrency: ProductListingHistoryEntry = {
+                ...projectedChange,
+                payload: {
+                    kind: "CHANGED",
+                    changes: [
+                        {
+                            type: "MAIN_PRICE_CHANGED",
+                            previous: { type: "ON_REQUEST" },
+                            current: {
+                                type: "MONETARY",
+                                amount: 4567,
+                                currency: "JPY",
+                                display: {
+                                    amount: 4567,
+                                    currency: "JPY",
+                                    fxRateId: "fx_1",
+                                    capturedAt,
+                                },
+                            },
+                        },
+                    ],
+                },
+            };
+
+            render(<ProductEventHistory event={sameCurrency} displayCurrency="JPY" />);
+
+            const descriptions = screen.getAllByTestId("timeline-description");
+            expect(descriptions).toHaveLength(1);
+            expect(normalise(descriptions[0]?.textContent ?? null)).toBe(
+                "product.history.events.mainPriceChanged product.history.values.onRequest ¥4,567",
+            );
+        });
+
+        it("shows zero-decimal KRW projections for discovery estimates", () => {
+            const projectedDiscovery: ProductListingHistoryEntry = {
+                eventType: "PRODUCT_LISTING_DISCOVERED",
+                productListingId: "plist_123",
+                eventId: "event-discovered",
+                timestamp: capturedAt,
+                payload: {
+                    kind: "DISCOVERED",
+                    discovery: {
+                        listingSourceId: "lsource_123",
+                        sourceListingId: "source-item-1",
+                        pricing: {
+                            price: null,
+                            priceEstimateMin: {
+                                amount: 120000,
+                                currency: "EUR",
+                                display: {
+                                    amount: 1764920,
+                                    currency: "KRW",
+                                    fxRateId: "fx_1",
+                                    capturedAt,
+                                },
+                            },
+                        },
+                        availability: null,
+                        url: "",
+                        imageCount: 0,
+                        auction: null,
+                    },
+                },
+            };
+
+            render(
+                <ProductEventHistory
+                    event={projectedDiscovery}
+                    filter="price"
+                    displayCurrency="KRW"
+                />,
+            );
+
+            const texts = screen
+                .getAllByTestId("timeline-description")
+                .map((element) => normalise(element.textContent));
+            expect(texts[0]).toBe(
+                "product.history.events.initialMinimumEstimate " +
+                    "product.history.values.converted ₩1,764,920 €1,200.00",
+            );
+            expect(texts[1]).toMatch(/^product\.history\.values\.fxProvenance KRW /);
+            expect(texts).toHaveLength(2);
+        });
+
+        it("keeps source-only rendering when no display currency is requested", () => {
+            render(<ProductEventHistory event={projectedChange} />);
+
+            const descriptions = screen.getAllByTestId("timeline-description");
+            expect(descriptions).toHaveLength(1);
+            expect(normalise(descriptions[0]?.textContent ?? null)).toBe(
+                "product.history.events.mainPriceChanged €30.00 SEK 299.99",
+            );
+        });
+    });
 });

@@ -11,12 +11,34 @@ vi.mock("@/features/product/detail/components/ProductInfo.tsx", () => ({
     ),
 }));
 
+const mocks = vi.hoisted(() => ({
+    currency: "EUR",
+    useOptionalProductListingHistory: vi.fn((_id?: string, _currency?: string) => ({
+        data: undefined,
+    })),
+}));
+
+vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
+    useUserPreferences: () => ({
+        preferences: { currency: mocks.currency, unitSystem: "METRIC" },
+        updatePreferences: vi.fn(),
+    }),
+}));
+
+vi.mock("@/features/product/detail/api/productListingHistoryQuery.ts", () => ({
+    useOptionalProductListingHistory: mocks.useOptionalProductListingHistory,
+}));
+
 vi.mock("@/features/product/detail/components/ProductPriceChart.tsx", () => ({
-    ProductPriceChart: () => <div data-testid="product-price-chart">ProductPriceChart</div>,
+    ProductPriceChart: ({ displayCurrency }: { displayCurrency?: string }) => (
+        <div data-testid="product-price-chart">ProductPriceChart {displayCurrency}</div>
+    ),
 }));
 
 vi.mock("@/features/product/detail/components/ProductHistory.tsx", () => ({
-    ProductHistory: () => <div data-testid="product-history">ProductHistory</div>,
+    ProductHistory: ({ displayCurrency }: { displayCurrency?: string }) => (
+        <div data-testid="product-history">ProductHistory {displayCurrency}</div>
+    ),
 }));
 
 vi.mock("@/features/product/detail/components/similar/ProductSimilar.tsx", () => ({
@@ -29,6 +51,22 @@ vi.mock("@/features/product/detail/components/dealer/ProductDealerItems.tsx", ()
 
 describe("ProductDetailPage", () => {
     const mockProduct = makeProductListingDetail({ title: "Test Product" });
+
+    beforeEach(() => {
+        mocks.currency = "EUR";
+        mocks.useOptionalProductListingHistory.mockClear();
+    });
+
+    it("requests and displays history in the preferred currency", () => {
+        mocks.currency = "RON";
+        renderWithQueryClient(
+            <ProductDetailPage product={mockProduct} productListingId="pl_123" />,
+        );
+
+        expect(mocks.useOptionalProductListingHistory).toHaveBeenCalledWith("pl_123", "RON");
+        expect(screen.getByTestId("product-price-chart")).toHaveTextContent("RON");
+        expect(screen.getByTestId("product-history")).toHaveTextContent("RON");
+    });
 
     it("should render ProductInfo component", () => {
         renderWithQueryClient(<ProductDetailPage product={mockProduct} />);

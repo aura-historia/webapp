@@ -26,7 +26,7 @@ info:
     \ and saved-search match reads accept optional **`language`** and\n  **`currency`** parameters. Currency defaults to `EUR`.\
     \ Detail pricing contains the seller's source\n  amounts, converted display amounts, and FX valuation metadata. Active\
     \ product-listings use the latest persisted\n  snapshot; sold product-listings use their immutable sale snapshot. Product\
-    \ history remains immutable, source-only,\n  and is not localized.\n- Request-wide errors are returned as **`application/problem+json`**\
+    \ history preserves immutable source values and accepts optional `currency` for historical FX display projections.\n  History text is not localized.\n- Request-wide errors are returned as **`application/problem+json`**\
     \ using a consistent RFC 9457-style structure\n  with `status`, `title`, `error`, optional `source`, and optional `detail`\n\
     - Many list and search endpoints use **cursor-based pagination** via `searchAfter`\n- Origin API responses include\
     \ server-generated `X-Request-Id` and `X-Correlation-Id` headers. Clients may send `X-Correlation-Id` to preserve a trace\
@@ -2453,7 +2453,18 @@ paths:
         entries. Discovery exposes image count, never source image URLs.
 
         Price snapshots preserve stored source amounts and currencies. Sale observations retain
-        their immutable source provenance. This endpoint performs no currency conversion.
+        their immutable source provenance. Without `currency`, the response is unchanged.
+        With `currency`, each monetary discovery price/estimate and each previous/current price/estimate
+        change value may include `display` with `currency`, `amount`, `fxRateId` and `capturedAt`.
+        The snapshot is the latest persisted capture at or before this entry's `timestamp`, including
+        an exact capture-time match. Both sides of a change use that entry's snapshot, even if the
+        source currency changed. Conversion uses HalfUp rounding and the requested currency's minor-unit
+        exponent (JPY and KRW: 0; all others: 2). Same-currency amounts retain the snapshot provenance.
+        Missing snapshots or source/target quotes omit `display` for that value; the response still
+        succeeds, and consumers fall back to the labelled source value. ON_REQUEST and null values
+        receive no display projection. No later snapshot, current rates or provider calls are used.
+        Source values, event order and the changes array remain intact. Currency query variants
+        are included in the shared edge cache key.
 
         "
       operationId: getProductListingHistory
@@ -2467,6 +2478,12 @@ paths:
           schema:
             type: string
             example: pl_5xdb465tg1enarx2knf04mxbxj
+        - name: currency
+          in: query
+          required: false
+          description: Optional display currency for historical monetary values; omitted means source values only.
+          schema:
+            $ref: "#/components/schemas/CurrencyData"
       responses:
         "200":
           description: Anonymous successful 200 responses without Authorization use `public, max-age=0, s-maxage=300, stale-if-error=0`; any request with Authorization and all errors use `private, no-store`.
@@ -2493,9 +2510,10 @@ paths:
                         sourceListingId: source-6ba7b810
                         pricing:
                           price:
+                            type: MONETARY
                             currency: EUR
                             amount: 3000
-                        availability: IN_STOCK
+                        availability: AVAILABLE
                         url: https://listing-source.example/product-listings/6ba7b810
                         imageCount: 3
                         auction:
@@ -2512,17 +2530,47 @@ paths:
                         changes:
                           - type: MAIN_PRICE_CHANGED
                             previous:
+                              type: MONETARY
                               currency: EUR
                               amount: 3000
                             current:
+                              type: MONETARY
                               currency: EUR
                               amount: 2999
                           - type: AVAILABILITY_CHANGED
-                            previous: IN_STOCK
+                            previous: AVAILABLE
                             current: SOLD_OUT
                       timestamp: "2026-09-01T10:15:00Z"
+                historical_display:
+                  summary: A price change requested in RON, using the snapshot at the event timestamp
+                  value:
+                    - eventType: PRODUCT_LISTING_CHANGED
+                      productListingId: pl_5xdb465tg1enarx2knf04mxbxj
+                      eventId: evt_2mdmwstjvvfn3rmbakmarshhqg
+                      payload:
+                        changes:
+                          - type: MAIN_PRICE_CHANGED
+                            previous:
+                              type: MONETARY
+                              currency: EUR
+                              amount: 3000
+                              display:
+                                currency: RON
+                                amount: 15000
+                                fxRateId: fx_0cwktgjtwnf4tb6hf2f8zm0x5k
+                                capturedAt: "2026-09-01T10:00:00Z"
+                            current:
+                              type: MONETARY
+                              currency: SEK
+                              amount: 29999
+                              display:
+                                currency: RON
+                                amount: 15000
+                                fxRateId: fx_0cwktgjtwnf4tb6hf2f8zm0x5k
+                                capturedAt: "2026-09-01T10:00:00Z"
+                      timestamp: "2026-09-01T10:15:00Z"
         "400":
-          description: Bad request - Invalid parameters
+          description: Bad request - Invalid parameters, including unsupported currency (BAD_QUERY_PARAMETER_VALUE)
           content:
             application/problem+json:
               schema:
@@ -2548,7 +2596,7 @@ paths:
                 title: Service Unavailable
                 error: PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE
         "500":
-          description: ProductListing history contains invalid stored event data
+          description: ProductListing history contains invalid stored event/FX data or a price conversion overflowed
           content:
             application/problem+json:
               schema:
@@ -13711,6 +13759,73 @@ components:
             type:
               type: string
               enum: [ON_REQUEST]
+    ProductListingHistoryPriceDisplayData:
+      allOf:
+        - $ref: "#/components/schemas/PriceData"
+        - type: object
+          required:
+            - fxRateId
+            - capturedAt
+          properties:
+            fxRateId:
+              type: string
+              description: Immutable FX snapshot selected at or before the entry timestamp.
+            capturedAt:
+              type: string
+              format: date-time
+              description: Capture time of that snapshot, never after the history entry timestamp.
+      description: HalfUp display amount in requested currency minor units (JPY/KRW 0 decimals, others 2). Omitted when the snapshot or a required quote is unavailable, including in a complete legacy 19-currency snapshot.
+    ProductListingHistoryEstimateData:
+      allOf:
+        - $ref: "#/components/schemas/PriceData"
+        - type: object
+          properties:
+            display:
+              $ref: "#/components/schemas/ProductListingHistoryPriceDisplayData"
+      description: Unchanged source estimate with optional historical display projection.
+    ProductListingHistoryMainPriceData:
+      oneOf:
+        - type: object
+          required:
+            - type
+            - currency
+            - amount
+          additionalProperties: false
+          properties:
+            type:
+              type: string
+              enum: [MONETARY]
+            currency:
+              $ref: "#/components/schemas/CurrencyData"
+            amount:
+              type: integer
+              minimum: 0
+            display:
+              $ref: "#/components/schemas/ProductListingHistoryPriceDisplayData"
+        - type: object
+          required:
+            - type
+          additionalProperties: false
+          properties:
+            type:
+              type: string
+              enum: [ON_REQUEST]
+      description: Unchanged source main price; only monetary values can have historical display projections.
+    ProductListingHistoryPricingData:
+      type: object
+      properties:
+        price:
+          allOf:
+            - $ref: "#/components/schemas/ProductListingHistoryMainPriceData"
+          nullable: true
+        priceEstimateMin:
+          allOf:
+            - $ref: "#/components/schemas/ProductListingHistoryEstimateData"
+          nullable: true
+        priceEstimateMax:
+          allOf:
+            - $ref: "#/components/schemas/ProductListingHistoryEstimateData"
+          nullable: true
     ProductListingHistoryEntryData:
       type: object
       description: One immutable committed ProductListing domain-history entry.
@@ -14144,11 +14259,13 @@ components:
         sourceListingId:
           type: string
         title:
-          $ref: "#/components/schemas/LocalizedTextData"
+          description: Normalized discovery title, with legacy constructor trailing whitespace presented trimmed without rewriting the stored event.
+          allOf:
+            - $ref: "#/components/schemas/LocalizedTextData"
         description:
           $ref: "#/components/schemas/LocalizedTextData"
         pricing:
-          $ref: "#/components/schemas/ProductListingPricingData"
+          $ref: "#/components/schemas/ProductListingHistoryPricingData"
         availability:
           allOf:
             - $ref: "#/components/schemas/ListingAvailabilityData"
@@ -14200,11 +14317,11 @@ components:
             - MAIN_PRICE_CHANGED
         previous:
           allOf:
-            - $ref: "#/components/schemas/ProductListingPriceData"
+            - $ref: "#/components/schemas/ProductListingHistoryMainPriceData"
           nullable: true
         current:
           allOf:
-            - $ref: "#/components/schemas/ProductListingPriceData"
+            - $ref: "#/components/schemas/ProductListingHistoryMainPriceData"
           nullable: true
     ProductListingPriceHistoryChangeData:
       type: object
@@ -14220,11 +14337,11 @@ components:
             - MAXIMUM_ESTIMATE_CHANGED
         previous:
           allOf:
-            - $ref: "#/components/schemas/PriceData"
+            - $ref: "#/components/schemas/ProductListingHistoryEstimateData"
           nullable: true
         current:
           allOf:
-            - $ref: "#/components/schemas/PriceData"
+            - $ref: "#/components/schemas/ProductListingHistoryEstimateData"
           nullable: true
     ProductListingAvailabilityHistoryChangeData:
       type: object
