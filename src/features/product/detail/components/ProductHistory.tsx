@@ -1,3 +1,4 @@
+import type { Currency } from "@/data/internal/common/Currency.ts";
 import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
 import { H2 } from "@/components/typography/H2.tsx";
 import { Timeline } from "@/components/ui/timeline.tsx";
@@ -12,6 +13,7 @@ import type { TFunction } from "i18next";
 
 interface ProductHistoryProps {
     readonly history?: readonly ProductListingHistoryEntry[];
+    readonly displayCurrency?: Currency;
 }
 
 const createFilterOptions = (t: TFunction) => {
@@ -23,7 +25,7 @@ const createFilterOptions = (t: TFunction) => {
     ] as const;
 };
 
-export function ProductHistory({ history }: ProductHistoryProps) {
+export function ProductHistory({ history, displayCurrency }: ProductHistoryProps) {
     const { t } = useTranslation();
     const sectionHeadingClass =
         "font-display text-2xl font-normal uppercase tracking-[-0.02em] text-primary";
@@ -111,6 +113,7 @@ export function ProductHistory({ history }: ProductHistoryProps) {
                                 key={event.eventId}
                                 event={event}
                                 filter={activeFilter}
+                                displayCurrency={displayCurrency}
                             />
                         ))}
                 </Timeline>

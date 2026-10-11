@@ -459,7 +459,10 @@
       },
       "values": {
         "onRequest": "Preis auf Anfrage",
-        "notProvided": "Nicht angegeben"
+        "notProvided": "Nicht angegeben",
+        "converted": "{{display}} (angegeben mit {{source}})",
+        "sourceOnly": "{{price}} (Originalpreis; kein historischer {{currency}}-Kurs)",
+        "fxProvenance": "{{currency}}-Beträge nutzen den am {{capturedAt}} erfassten Wechselkurs."
       }
     },
     "dealer": {
@@ -485,8 +488,12 @@
         "1y": "1J",
         "all": "Alle"
       },
-      "currencySelectLabel": "Quellwährung",
-      "currencySelect": "Preisverlauf in {{currency}} anzeigen"
+      "currencyViewLabel": "Währungsansicht",
+      "currencySelect": "Originale Angebotspreise in {{currency}} anzeigen",
+      "displayOption": "{{currency}} umgerechnet",
+      "displaySelect": "Preisverlauf in {{currency}} zu historischen Wechselkursen anzeigen",
+      "displaySeriesName": "Preis in {{currency}} (historische Kurse)",
+      "displayNote": "Umgerechnet mit dem Wechselkurs, der zum Zeitpunkt der jeweiligen Preisänderung oder davor erfasst wurde. Lücken markieren Preise ohne erfassten Kurs oder ohne öffentlichen Preis."
     },
     "listingAvailability": {
       "available": "Verfügbar",

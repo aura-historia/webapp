@@ -1,15 +1,20 @@
 import type { Currency } from "@/data/internal/common/Currency.ts";
-import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
+import type {
+    HistoryListingPrice,
+    ProductListingHistoryEntry,
+} from "@/data/internal/product/ProductListingHistory.ts";
 import { describe, expect, it } from "vitest";
-import { formatHistoryMoney, formatHistoryPrice, getPriceHistorySeries } from "../priceHistory.ts";
+import {
+    formatHistoryMoney,
+    getDisplayPriceHistorySeries,
+    getHistoryDisplayPrice,
+    getPriceHistorySeries,
+} from "../priceHistory.ts";
 
 function discovery(
     eventId: string,
     timestamp: string,
-    price:
-        | { readonly type: "MONETARY"; readonly amount: number; readonly currency: Currency }
-        | { readonly type: "ON_REQUEST" }
-        | null,
+    price: HistoryListingPrice | null,
 ): ProductListingHistoryEntry {
     return {
         eventType: "PRODUCT_LISTING_DISCOVERED",
@@ -34,14 +39,8 @@ function discovery(
 function mainPriceChange(
     eventId: string,
     timestamp: string,
-    previous:
-        | { readonly type: "MONETARY"; readonly amount: number; readonly currency: Currency }
-        | { readonly type: "ON_REQUEST" }
-        | null,
-    current:
-        | { readonly type: "MONETARY"; readonly amount: number; readonly currency: Currency }
-        | { readonly type: "ON_REQUEST" }
-        | null,
+    previous: HistoryListingPrice | null,
+    current: HistoryListingPrice | null,
 ): ProductListingHistoryEntry {
     return {
         eventType: "PRODUCT_LISTING_CHANGED",
@@ -210,6 +209,179 @@ describe("getPriceHistorySeries", () => {
     });
 });
 
+const snapshotAt = new Date("2026-01-01T00:00:00Z");
+
+function projected(
+    amount: number,
+    currency: Currency,
+    display: { readonly amount: number; readonly currency: Currency; readonly fxRateId?: string },
+): HistoryListingPrice {
+    return {
+        type: "MONETARY",
+        amount,
+        currency,
+        display: { fxRateId: "fx_1", capturedAt: snapshotAt, ...display },
+    };
+}
+
+describe("getHistoryDisplayPrice", () => {
+    it("returns only a projection into the requested currency", () => {
+        const price = projected(3000, "EUR", { amount: 15000, currency: "RON" });
+
+        expect(getHistoryDisplayPrice(price, "RON")).toEqual({
+            amount: 15000,
+            currency: "RON",
+            fxRateId: "fx_1",
+            capturedAt: snapshotAt,
+        });
+        expect(getHistoryDisplayPrice(price, "EUR")).toBeUndefined();
+        expect(getHistoryDisplayPrice(price, undefined)).toBeUndefined();
+        expect(getHistoryDisplayPrice({ type: "ON_REQUEST" }, "RON")).toBeUndefined();
+        expect(getHistoryDisplayPrice(null, "RON")).toBeUndefined();
+    });
+});
+
+describe("getDisplayPriceHistorySeries", () => {
+    const t = (day: number) => new Date(`2026-01-0${day}T00:00:00Z`).getTime();
+
+    it("keeps a same-currency projection and its snapshot amount", () => {
+        expect(
+            getDisplayPriceHistorySeries(
+                [
+                    discovery(
+                        "1",
+                        "2026-01-01T00:00:00Z",
+                        projected(2999, "EUR", { amount: 2999, currency: "EUR" }),
+                    ),
+                ],
+                "EUR",
+            ),
+        ).toEqual({ currency: "EUR", data: [{ x: t(1), y: 29.99 }] });
+    });
+
+    it("continues one requested-currency series across a source-currency change", () => {
+        const series = getDisplayPriceHistorySeries(
+            [
+                discovery(
+                    "1",
+                    "2026-01-01T00:00:00Z",
+                    projected(3000, "EUR", { amount: 14925, currency: "RON" }),
+                ),
+                mainPriceChange(
+                    "2",
+                    "2026-01-02T00:00:00Z",
+                    projected(3000, "EUR", { amount: 15000, currency: "RON", fxRateId: "fx_2" }),
+                    projected(29999, "SEK", { amount: 15000, currency: "RON", fxRateId: "fx_2" }),
+                ),
+            ],
+            "RON",
+        );
+
+        expect(series).toEqual({
+            currency: "RON",
+            data: [
+                { x: t(1), y: 149.25 },
+                { x: t(2), y: 150 },
+            ],
+        });
+    });
+
+    it("leaves gaps for missing projections and on-request prices instead of source amounts", () => {
+        // The second entry predates any snapshot with a RON quote (e.g. a legacy 19-currency one).
+        const series = getDisplayPriceHistorySeries(
+            [
+                discovery(
+                    "1",
+                    "2026-01-01T00:00:00Z",
+                    projected(3000, "EUR", { amount: 15000, currency: "RON" }),
+                ),
+                mainPriceChange(
+                    "2",
+                    "2026-01-02T00:00:00Z",
+                    projected(3000, "EUR", { amount: 15000, currency: "RON" }),
+                    { type: "MONETARY", amount: 2500, currency: "EUR" },
+                ),
+                mainPriceChange(
+                    "3",
+                    "2026-01-03T00:00:00Z",
+                    { type: "MONETARY", amount: 2500, currency: "EUR" },
+                    { type: "ON_REQUEST" },
+                ),
+                mainPriceChange("4", "2026-01-04T00:00:00Z", { type: "ON_REQUEST" }, null),
+                mainPriceChange(
+                    "5",
+                    "2026-01-05T00:00:00Z",
+                    null,
+                    projected(2000, "EUR", { amount: 10000, currency: "RON" }),
+                ),
+            ],
+            "RON",
+        );
+
+        expect(series?.data.map(({ y }) => y)).toEqual([150, null, null, null, 100]);
+        expect(series?.data.some(({ y }) => y === 0 || y === 25)).toBe(false);
+    });
+
+    it.each([
+        ["JPY", 4567, 4567],
+        ["KRW", 44123, 44123],
+        ["RON", 12345, 123.45],
+        ["SEK", 12345, 123.45],
+    ] as const)("scales a %s projection once with its own exponent", (currency, amount, y) => {
+        const series = getDisplayPriceHistorySeries(
+            [discovery("1", "2026-01-01T00:00:00Z", projected(3000, "EUR", { amount, currency }))],
+            currency,
+        );
+
+        expect(series).toEqual({ currency, data: [{ x: t(1), y }] });
+    });
+
+    it("has no series without a projection into the requested currency", () => {
+        const history = [
+            discovery("1", "2026-01-01T00:00:00Z", {
+                type: "MONETARY",
+                amount: 3000,
+                currency: "EUR",
+            }),
+            discovery(
+                "2",
+                "2026-01-02T00:00:00Z",
+                projected(3000, "EUR", { amount: 15000, currency: "RON" }),
+            ),
+        ];
+
+        expect(getDisplayPriceHistorySeries(history, "KRW")).toBeUndefined();
+        expect(getDisplayPriceHistorySeries(history, undefined)).toBeUndefined();
+    });
+
+    it("leaves the source-currency series unchanged by projections", () => {
+        const history = [
+            discovery(
+                "1",
+                "2026-01-01T00:00:00Z",
+                projected(3000, "EUR", { amount: 15000, currency: "RON" }),
+            ),
+            mainPriceChange(
+                "2",
+                "2026-01-02T00:00:00Z",
+                projected(3000, "EUR", { amount: 15000, currency: "RON" }),
+                projected(29999, "SEK", { amount: 15000, currency: "RON" }),
+            ),
+        ];
+
+        expect(getPriceHistorySeries(history)).toEqual([
+            {
+                currency: "EUR",
+                data: [
+                    { x: t(1), y: 30 },
+                    { x: t(2), y: null },
+                ],
+            },
+            { currency: "SEK", data: [{ x: t(2), y: 299.99 }] },
+        ]);
+    });
+});
+
 describe("formatHistoryMoney", () => {
     const normalise = (value: string) => value.replace(/[\u00a0\u202f]/g, " ");
 
@@ -230,20 +402,5 @@ describe("formatHistoryMoney", () => {
         expect(normalise(formatHistoryMoney({ amount: 12345, currency: "KRW" }, "en-US"))).toBe(
             "₩12,345",
         );
-    });
-
-    it("labels on-request and missing prices instead of formatting an amount", () => {
-        const labels = { onRequest: "On request", notProvided: "Not provided" };
-        expect(formatHistoryPrice({ type: "ON_REQUEST" }, "en-US", labels)).toBe("On request");
-        expect(formatHistoryPrice(null, "en-US", labels)).toBe("Not provided");
-        expect(
-            normalise(
-                formatHistoryPrice(
-                    { type: "MONETARY", amount: 12345, currency: "SEK" },
-                    "en-US",
-                    labels,
-                ),
-            ),
-        ).toBe("SEK 123.45");
     });
 });

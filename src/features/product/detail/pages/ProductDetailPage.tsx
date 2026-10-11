@@ -6,6 +6,7 @@ import { ProductHistory } from "@/features/product/detail/components/ProductHist
 import { ProductInfo } from "@/features/product/detail/components/ProductInfo.tsx";
 import { ProductSimilar } from "@/features/product/detail/components/similar/ProductSimilar.tsx";
 import { ProductDealerItems } from "@/features/product/detail/components/dealer/ProductDealerItems.tsx";
+import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 
 export function ProductDetailPage({
     product,
@@ -16,7 +17,8 @@ export function ProductDetailPage({
     readonly productListingId?: string;
     readonly history?: readonly ProductListingHistoryEntry[];
 }) {
-    const historyQuery = useOptionalProductListingHistory(productListingId);
+    const { preferences } = useUserPreferences();
+    const historyQuery = useOptionalProductListingHistory(productListingId, preferences.currency);
     const listingHistory = history ?? historyQuery.data;
 
     return (
@@ -27,12 +29,16 @@ export function ProductDetailPage({
                 <ProductPriceChart
                     key={productListingId ?? product.productListingId}
                     history={listingHistory}
+                    displayCurrency={preferences.currency}
                 />
             </div>
 
             <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
                 <div className="lg:col-span-4">
-                    <ProductHistory history={listingHistory} />
+                    <ProductHistory
+                        history={listingHistory}
+                        displayCurrency={preferences.currency}
+                    />
                 </div>
                 <div className="lg:col-span-8">
                     <ProductSimilar productListingId={product.productListingId} />
