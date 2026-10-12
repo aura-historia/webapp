@@ -1106,7 +1106,17 @@
     "LISTING_SOURCE_NOT_FOUND": "Dieser Anbieter ist nicht mehr verfügbar.",
     "UNKNOWN_ERROR": "Ein unerwarteter Fehler ist aufgetreten.",
     "NEWSLETTER_TEMPORARILY_UNAVAILABLE": "Der Newsletter-Dienst ist vorübergehend nicht erreichbar. Bitte versuchen Sie es in einigen Minuten erneut.",
-    "NEWSLETTER_INTERNAL_ERROR": "Ihre Newsletter-Anfrage konnte nicht verarbeitet werden. Bitte versuchen Sie es später erneut."
+    "NEWSLETTER_INTERNAL_ERROR": "Ihre Newsletter-Anfrage konnte nicht verarbeitet werden. Bitte versuchen Sie es später erneut.",
+    "ADDRESS_BOOK_INTERNAL_ERROR": "Ihre gespeicherten Adressen konnten nicht verarbeitet werden. Bitte versuchen Sie es später erneut.",
+    "ADDRESS_BOOK_TEMPORARILY_UNAVAILABLE": "Gespeicherte Adressen sind vorübergehend nicht verfügbar. Bitte versuchen Sie es in einigen Minuten erneut.",
+    "BAD_HEADER_VALUE": "Die Anfrage konnte nicht verarbeitet werden. Bitte versuchen Sie es erneut.",
+    "INVALID_CREDENTIALS": "Ihre Anmeldung ist nicht mehr gültig. Bitte melden Sie sich erneut an.",
+    "LISTING_SOURCE_INTERNAL_ERROR": "Die Angebotsquelle konnte nicht verarbeitet werden. Bitte versuchen Sie es später erneut.",
+    "LISTING_SOURCE_TEMPORARILY_UNAVAILABLE": "Angebotsquellen sind vorübergehend nicht verfügbar. Bitte versuchen Sie es in einigen Minuten erneut.",
+    "PARTY_INTERNAL_ERROR": "Die Unternehmensangaben konnten nicht verarbeitet werden. Bitte versuchen Sie es später erneut.",
+    "PARTY_NOT_FOUND": "Dieses Unternehmen oder dieser Standort wurde nicht gefunden.",
+    "PARTY_TEMPORARILY_UNAVAILABLE": "Unternehmensangaben sind vorübergehend nicht verfügbar. Bitte versuchen Sie es in einigen Minuten erneut.",
+    "USER_ADDRESS_NOT_FOUND": "Diese gespeicherte Adresse wurde nicht gefunden."
   },
   "watchlist": {
     "title": "Meine Merkliste",
@@ -2969,6 +2979,8 @@
       "browserLocation": "Ihr Browser fragt, ob Sie Ihren aktuellen Standort freigeben möchten. Wir verwenden ihn nur für diese Suche und speichern ihn nur, wenn Sie die Suche speichern.",
       "publicPartySite": "Aktive Standorte sind öffentlich: Der genaue geografische Punkt sowie Land und Region können in Suchergebnissen erscheinen und für die Umkreissuche verwendet werden. Die vollständige Adresse, Nachweise und Verwaltungsangaben sehen nur berechtigte Personen. Legen Sie einen Standort still, um ihn aus öffentlichen Ergebnissen zu entfernen; die Aktualisierung kann kurze Zeit dauern.",
       "privacy": "Weitere Informationen finden Sie in unserer <privacyLink>Datenschutzerklärung</privacyLink>."
-    }
+    },
+    "coordinates": "{{latitude}}; {{longitude}}",
+    "nauticalMiles": "{{value}} sm"
   }
 }

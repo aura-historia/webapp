@@ -405,3 +405,39 @@ describe("ProductListing mappers", () => {
         expect(result.priceValuation).toBe("SALE_OBSERVATION");
     });
 });
+
+describe("listing geography", () => {
+    it("maps advertised-inventory geography from geographic search summaries", () => {
+        const result = mapPersonalizedProductListingSummary(
+            personalized({
+                ...baseSummary,
+                geography: {
+                    locationId: "ploc_opaque:01",
+                    basis: "SOURCE_DEFAULT_DERIVED",
+                    referenceRelease: "iso-codes-4.20.1",
+                    country: "DE",
+                    subdivision: "DE-BY",
+                    point: { latitude: 0, longitude: 0 },
+                    precision: "STREET",
+                    distanceKm: 12.34,
+                },
+            }),
+            "en",
+        );
+        expect(result.geography).toEqual({
+            locationId: "ploc_opaque:01",
+            basis: "SOURCE_DEFAULT_DERIVED",
+            referenceRelease: "iso-codes-4.20.1",
+            country: "DE",
+            subdivision: "DE-BY",
+            position: { point: { latitude: 0, longitude: 0 }, precision: "STREET" },
+            distanceKm: 12.34,
+        });
+    });
+
+    it("keeps missing geography absent", () => {
+        expect(
+            mapPersonalizedProductListingSummary(personalized(baseSummary), "en"),
+        ).not.toHaveProperty("geography");
+    });
+});

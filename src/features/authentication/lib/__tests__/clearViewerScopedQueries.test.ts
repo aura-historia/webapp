@@ -25,6 +25,11 @@ describe("clearViewerScopedQueries", () => {
             ["userAccount", "user-1"],
             ["userSearchFilters", "user-1"],
             ["userSearchFilter", "filter-1"],
+            ["userAddresses", "viewer-1", "page", null],
+            ["browsingDestination", "viewer-1"],
+            ["partyLocations", "viewer-1", "pty_1", "page", null],
+            ["sourceLocationDefault", "viewer-1", "ls_1"],
+            ["partyLocationDiscovery", { origin: { latitude: 48.1, longitude: 11.5 } }],
             [{ _id: "getProductListingByTitleSlug" }, "chair"],
             [{ _id: "getProductListing" }, "listing-1"],
             simpleSearchProductListingsQueryKey({

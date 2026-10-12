@@ -1106,7 +1106,17 @@
     "LISTING_SOURCE_NOT_FOUND": "Este proveedor ya no está disponible.",
     "UNKNOWN_ERROR": "Se produjo un error inesperado.",
     "NEWSLETTER_TEMPORARILY_UNAVAILABLE": "El servicio del boletín no está disponible temporalmente. Vuelva a intentarlo en unos minutos.",
-    "NEWSLETTER_INTERNAL_ERROR": "No se ha podido procesar su solicitud del boletín. Vuelva a intentarlo más tarde."
+    "NEWSLETTER_INTERNAL_ERROR": "No se ha podido procesar su solicitud del boletín. Vuelva a intentarlo más tarde.",
+    "ADDRESS_BOOK_INTERNAL_ERROR": "No se pudieron procesar sus direcciones guardadas. Por favor, inténtelo de nuevo más tarde.",
+    "ADDRESS_BOOK_TEMPORARILY_UNAVAILABLE": "Las direcciones guardadas no están disponibles temporalmente. Vuelva a intentarlo en unos minutos.",
+    "BAD_HEADER_VALUE": "No se pudo procesar la solicitud. Por favor, inténtelo de nuevo.",
+    "INVALID_CREDENTIALS": "Su sesión ya no es válida. Por favor, inicie sesión de nuevo.",
+    "LISTING_SOURCE_INTERNAL_ERROR": "No se pudo procesar la fuente de anuncios. Por favor, inténtelo de nuevo más tarde.",
+    "LISTING_SOURCE_TEMPORARILY_UNAVAILABLE": "Las fuentes de anuncios no están disponibles temporalmente. Vuelva a intentarlo en unos minutos.",
+    "PARTY_INTERNAL_ERROR": "No se pudieron procesar los datos de la empresa. Por favor, inténtelo de nuevo más tarde.",
+    "PARTY_NOT_FOUND": "No se encontró esta empresa o ubicación.",
+    "PARTY_TEMPORARILY_UNAVAILABLE": "Los datos de la empresa no están disponibles temporalmente. Vuelva a intentarlo en unos minutos.",
+    "USER_ADDRESS_NOT_FOUND": "No se encontró esta dirección guardada."
   },
   "watchlist": {
     "title": "Mi lista de seguimiento",
@@ -2969,6 +2979,8 @@
       "browserLocation": "Su navegador le preguntará si desea compartir su ubicación actual. La utilizamos solo para esta búsqueda y solo la almacenamos si guarda la búsqueda.",
       "publicPartySite": "Las ubicaciones activas son públicas: el punto geográfico exacto, el país y la región pueden aparecer en los resultados de búsqueda y utilizarse para búsquedas por radio. La dirección completa, los justificantes y los datos de gestión solo son visibles para personas autorizadas. Retire una ubicación para eliminarla de los resultados públicos; la actualización puede tardar un poco.",
       "privacy": "Encontrará más información en nuestra <privacyLink>política de privacidad</privacyLink>."
-    }
+    },
+    "coordinates": "{{latitude}}; {{longitude}}",
+    "nauticalMiles": "{{value}} M"
   }
 }

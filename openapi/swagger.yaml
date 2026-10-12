@@ -2713,11 +2713,23 @@ paths:
         KNN retrieval when embedding generation succeeds; otherwise the backend falls back to BM25. Explicit non-score sorts
         use BM25. Any request with an Authorization header is private and not stored, including valid credentials that add
         user state. Anonymous successful 200 responses use `public, max-age=0, s-maxage=60, stale-if-error=0`; errors use `private, no-store`.
-        `language` defaults to `en` and `currency` defaults to `EUR`."
+        Geographic predicates are AND; values in each country or subdivision set are OR.
+        Missing geography never matches. Radius is inclusive in its supplied unit to the same recorded
+        point used by distance ordering. Numeric origins never resolve from addresses/preferences.
+        Distance ordering conflicts with sort and uses lexical
+        text matching. Geographic responses are private, no-store and use eventually consistent
+        OpenSearch projections; location updates can briefly lag in items, ordering, total and
+        continuation. `language` defaults to `en` and `currency` defaults to `EUR`."
       operationId: simpleSearchProductListings
       tags:
         - ProductListings
       parameters:
+        - name: geography
+          in: query
+          style: deepObject
+          explode: true
+          description: Advertised item geography; source defaults do not confirm individual physical custody.
+          schema: {$ref: '#/components/schemas/GeographicSearchData'}
         - name: language
           in: query
           required: false
@@ -13142,6 +13154,2640 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+  /api/v1/me/addresses:
+    post:
+      summary: Save a private address
+      operationId: createUserAddress
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        description: Opaque owner-scoped creation retry key. Reuse with the original body to recover the server-generated ID. Different keys permit equal-content bookmarks.
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: '^[A-Za-z0-9_.:-]+$'
+      tags:
+      - Users
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      description: Requires the current unsuspended owner. Delegated credentials require users:write. Success and
+        errors are no-store. The server generates addressId. The body contains label/geography; exactly one valid Idempotency-Key
+        header identifies retries within this owner. Same-key original creation content returns the same entry's current view (201), including after edits.
+        Changed creation content or a deleted entry conflicts. Saving does not synchronously geocode or select a preferred address.
+      responses:
+        '201':
+          description: Successful private operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAddress'
+        '400':
+          description: Invalid body (BAD_BODY_VALUE), including a caller-supplied addressId, or missing, repeated or invalid Idempotency-Key (BAD_HEADER_VALUE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer credential required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Current user or delegated scope is not permitted (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Address/owner not found (USER_ADDRESS_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale version or conflicting creation key (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (ADDRESS_BOOK_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Storage or transaction unavailable (ADDRESS_BOOK_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserAddress'
+    get:
+      summary: Paginate own private addresses
+      operationId: listUserAddresses
+      tags:
+      - Users
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      description: Requires the current unsuspended owner. Delegated credentials require users:read. Success and errors
+        are no-store. Current geocoding state and eligible accepted results are included using bounded batch hydration.
+      responses:
+        '200':
+          description: Successful private operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAddressPage'
+        '400':
+          description: Invalid body, query or strict object ID.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer credential required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Current user or delegated scope is not permitted (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Address/owner not found (USER_ADDRESS_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale version or conflicting creation key (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (ADDRESS_BOOK_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Storage or transaction unavailable (ADDRESS_BOOK_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      parameters:
+      - in: query
+        name: after
+        schema:
+          $ref: '#/components/schemas/UserAddressId'
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+  /api/v1/me/addresses/{address_id}:
+    get:
+      summary: Read an own private address
+      operationId: getUserAddress
+      tags:
+      - Users
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      description: 'Requires the current unsuspended owner. Delegated credentials require users:read. Success and
+        errors are no-store. '
+      responses:
+        '200':
+          description: Successful private operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAddress'
+        '400':
+          description: Invalid body, query or strict object ID.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer credential required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Current user or delegated scope is not permitted (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Address/owner not found (USER_ADDRESS_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale version or conflicting creation key (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (ADDRESS_BOOK_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Storage or transaction unavailable (ADDRESS_BOOK_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      parameters:
+      - in: path
+        name: address_id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserAddressId'
+    put:
+      summary: Replace an own private address
+      operationId: updateUserAddress
+      tags:
+      - Users
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      description: Requires the current unsuspended owner. Delegated credentials require users:write. Success and
+        errors are no-store. Full replacement preserves ID. Geographic changes increment inputRevision and fence old
+        enrichment. Label-only changes preserve resolution input. No-op writes require current version and preserve
+        versions.
+      responses:
+        '200':
+          description: Successful private operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAddress'
+        '400':
+          description: Invalid body, query or strict object ID.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer credential required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Current user or delegated scope is not permitted (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Address/owner not found (USER_ADDRESS_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale version or conflicting creation key (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (ADDRESS_BOOK_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Storage or transaction unavailable (ADDRESS_BOOK_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserAddress'
+      parameters:
+      - in: path
+        name: address_id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserAddressId'
+    delete:
+      summary: Erase an own private address
+      operationId: deleteUserAddress
+      tags:
+      - Users
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      description: Requires the current unsuspended owner. Delegated credentials require users:write. Success and
+        errors are no-store. Erases text/enrichment/pending binding. Deleting the preferred address clears only that
+        preference atomically; no alternative is selected.
+      responses:
+        '204':
+          description: Successful private operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+        '400':
+          description: Invalid body, query or strict object ID.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer credential required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Current user or delegated scope is not permitted (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Address/owner not found (USER_ADDRESS_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale version or conflicting creation key (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (ADDRESS_BOOK_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Storage or transaction unavailable (ADDRESS_BOOK_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserAddressExpectedVersion'
+      parameters:
+      - in: path
+        name: address_id
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserAddressId'
+  /api/v1/me/browsing-destination:
+    get:
+      summary: Read own browsing destination
+      operationId: getBrowsingDestination
+      tags:
+      - Users
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      description: Requires the current unsuspended owner. Delegated credentials require users:read. Success and errors
+        are no-store. An untouched preference has version 1 and NONE.
+      responses:
+        '200':
+          description: Successful private operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowsingDestinationView'
+        '400':
+          description: Invalid body, query or strict object ID.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer credential required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Current user or delegated scope is not permitted (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Address/owner not found (USER_ADDRESS_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale version or conflicting creation key (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (ADDRESS_BOOK_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Storage or transaction unavailable (ADDRESS_BOOK_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+    put:
+      summary: Select or clear browsing destination
+      operationId: setBrowsingDestination
+      tags:
+      - Users
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      description: Requires the current unsuspended owner. Delegated credentials require users:write. Success and
+        errors are no-store. Atomic mutually exclusive preference. NONE clears. ADDRESS must belong to current owner.
+        COUNTRY_POSTAL needs no full address. At most one address is preferred.
+      responses:
+        '200':
+          description: Successful private operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowsingDestinationView'
+        '400':
+          description: Invalid body, query or strict object ID.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer credential required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Current user or delegated scope is not permitted (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Address/owner not found (USER_ADDRESS_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale version or conflicting creation key (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (ADDRESS_BOOK_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Storage or transaction unavailable (ADDRESS_BOOK_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetBrowsingDestination'
+  /api/v1/party-locations:
+    get:
+      summary: Discover public Party locations
+      operationId: discoverPartyLocations
+      tags: [Parties]
+      security: []
+      description: >-
+        Location-oriented discovery of eligible active Party sites. Multiple matching sites of
+        one Party intentionally appear as separate locations. Country/subdivision predicates
+        need no coordinates. Radius or distance ordering requires an explicit numeric origin.
+        Strict proximity requires PREMISES precision; approximate mode retains coarse labels.
+        Ordered by distance when requested, then native location UUID ascending; otherwise
+        UUID ascending. Reads current PostgreSQL locations independently of listing projection catch-up.
+        All responses are private, no-store. Management evidence, addresses and revisions stay private.
+      parameters:
+        - name: geography
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/GeographicSearchData'
+        - name: size
+          in: query
+          schema: {type: integer, minimum: 1, maximum: 100, default: 21}
+        - name: searchAfter
+          in: query
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/PartyLocationDiscoveryCursorData'
+      responses:
+        '200':
+          description: Matching public locations.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, size]
+                properties:
+                  items:
+                    type: array
+                    items: {$ref: '#/components/schemas/PublicPartyLocationData'}
+                  size: {type: integer}
+                  searchAfter: {$ref: '#/components/schemas/PartyLocationDiscoveryCursorData'}
+        '400':
+          description: Invalid geographic predicates, origin or continuation (BAD_QUERY_PARAMETER_VALUE).
+          content:
+            application/problem+json:
+              schema: {$ref: '#/components/schemas/ApiError'}
+        '503':
+          description: Location read unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+          content:
+            application/problem+json:
+              schema: {$ref: '#/components/schemas/ApiError'}
+  /api/v1/parties/{party_id}/locations:
+    post:
+      operationId: createPartyLocation
+      summary: Create a Party location
+      tags:
+      - Party
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: party_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^pty_
+        description: Strict Party TypeID.
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[A-Za-z0-9_.:-]+$
+        description: Exactly one key. Stable per Party and trusted caller identity; matching retries converge, conflicting
+          command reuse returns 409.
+      responses:
+        '201':
+          description: Created location; matching retries replay the original creation result.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+            Location:
+              schema:
+                type: string
+              description: Protected PartyLocation detail path.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartyLocationData'
+        '400':
+          description: Invalid body/header/path/query (BAD_BODY_VALUE, BAD_HEADER_VALUE, INVALID_OBJECT_ID or BAD_QUERY_PARAMETER_VALUE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Party or eligible location not found (PARTY_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence/transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing credential scope or Party-location management authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale or exhausted revision, retired-site correction or conflicting idempotency reuse (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      description: Delegated credentials require parties:write. Use cases require administrator/internal authority,
+        membership in this Party's active partnership, or an explicit location management grant.
+        Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived
+        authority; independent explicit grants survive. Listing-write scope does not confer access.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePartyLocationData'
+    get:
+      operationId: listPartyLocations
+      summary: List protected Party locations
+      tags:
+      - Party
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: party_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^pty_
+        description: Strict Party TypeID.
+      - name: after
+        in: query
+        schema:
+          $ref: '#/components/schemas/PartyLocationId'
+        description: Exclusive ascending UUID keyset continuation; use previous next in the same Party/view.
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+      responses:
+        '200':
+          description: Successful PartyLocation operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartyLocationsPage'
+        '400':
+          description: Invalid body/header/path/query (BAD_BODY_VALUE, BAD_HEADER_VALUE, INVALID_OBJECT_ID or BAD_QUERY_PARAMETER_VALUE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Party or eligible location not found (PARTY_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence/transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing credential scope or Party-location management authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      description: Delegated credentials require parties:read. Use cases require administrator/internal authority,
+        membership in this Party's active partnership, or an explicit location management grant.
+        Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived
+        authority; independent explicit grants survive. Listing-write scope does not confer access.
+  /api/v1/parties/{party_id}/locations/{location_id}:
+    get:
+      operationId: getPartyLocation
+      summary: Get a protected Party location
+      tags:
+      - Party
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: party_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^pty_
+        description: Strict Party TypeID.
+      - name: location_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/PartyLocationId'
+      responses:
+        '200':
+          description: Successful PartyLocation operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartyLocationData'
+        '400':
+          description: Invalid body/header/path/query (BAD_BODY_VALUE, BAD_HEADER_VALUE, INVALID_OBJECT_ID or BAD_QUERY_PARAMETER_VALUE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Party or eligible location not found (PARTY_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence/transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing credential scope or Party-location management authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      description: Delegated credentials require parties:read. Use cases require administrator/internal authority,
+        membership in this Party's active partnership, or an explicit location management grant.
+        Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived
+        authority; independent explicit grants survive. Listing-write scope does not confer access.
+    patch:
+      operationId: correctPartyLocation
+      summary: Correct the same identified site
+      tags:
+      - Party
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: party_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^pty_
+        description: Strict Party TypeID.
+      - name: location_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/PartyLocationId'
+      responses:
+        '200':
+          description: Successful PartyLocation operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartyLocationData'
+        '400':
+          description: Invalid body/header/path/query (BAD_BODY_VALUE, BAD_HEADER_VALUE, INVALID_OBJECT_ID or BAD_QUERY_PARAMETER_VALUE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Party or eligible location not found (PARTY_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence/transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing credential scope or Party-location management authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale or exhausted revision, retired-site correction or conflicting idempotency reuse (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      description: Delegated credentials require parties:write. Use cases require administrator/internal authority,
+        membership in this Party's active partnership, or an explicit location management grant.
+        Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived
+        authority; independent explicit grants survive. Listing-write scope does not confer access.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CorrectPartyLocationData'
+  /api/v1/parties/{party_id}/locations/{location_id}/lifecycle:
+    put:
+      operationId: setPartyLocationLifecycle
+      summary: Retire or explicitly restore a Party location
+      tags:
+      - Party
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: party_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^pty_
+        description: Strict Party TypeID.
+      - name: location_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/PartyLocationId'
+      responses:
+        '200':
+          description: Successful PartyLocation operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartyLocationData'
+        '400':
+          description: Invalid body/header/path/query (BAD_BODY_VALUE, BAD_HEADER_VALUE, INVALID_OBJECT_ID or BAD_QUERY_PARAMETER_VALUE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Party or eligible location not found (PARTY_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence/transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing credential scope or Party-location management authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale or exhausted revision, retired-site correction or conflicting idempotency reuse (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      description: Delegated credentials require parties:write. Use cases require administrator/internal authority,
+        membership in this Party's active partnership, or an explicit location management grant.
+        Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived
+        authority; independent explicit grants survive. Listing-write scope does not confer access.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetPartyLocationLifecycleData'
+  /api/v1/admin/parties/{party_id}/location-managers/{user_id}:
+    put:
+      operationId: setPartyLocationManagementGrant
+      summary: Grant or revoke Party location management
+      tags:
+      - Party
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: party_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^pty_
+        description: Strict Party TypeID.
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^usr_
+      responses:
+        '400':
+          description: Invalid body/header/path/query (BAD_BODY_VALUE, BAD_HEADER_VALUE, INVALID_OBJECT_ID or BAD_QUERY_PARAMETER_VALUE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Party or eligible location not found (PARTY_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence/transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing credential scope or administrator authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale or exhausted revision, retired-site correction or conflicting idempotency reuse (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '204':
+          description: Grant state applied.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+      description: Administrator/internal callers only, including parties:write for delegated credentials. An ordinary
+        location manager cannot grant privileges. Revocation serializes against protected location operations.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartyLocationManagementGrantData'
+  /api/v1/listing-sources/{listing_source_id}/location-default:
+    get:
+      summary: Get source location default
+      operationId: getSourceLocationDefault
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Strict ls_ UUIDv7 ListingSource TypeID.
+      description: Requires an unsuspended administrator, or membership in the operator
+        Party active partnership with this exact source grant. Trusted service/system
+        use cases are also supported. Delegated callers additionally need listing-sources:read.
+        Assignment does not mutate Party locations or attribute a listing seller. Protected
+        reads retain private/retired references for traceability but return no location
+        address/point. All responses are no-store. Current-revision no-ops preserve
+        revisions; stale retries conflict.
+      responses:
+        '200':
+          description: Protected default configuration with evidence and expected-revision
+            token, without a copied location address or point.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceLocationDefaultData'
+        '400':
+          description: Invalid body/path (BAD_BODY_VALUE or INVALID_OBJECT_ID).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing scope or current source management authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Source (LISTING_SOURCE_NOT_FOUND) or operator-owned location
+            (PARTY_NOT_FOUND) does not exist.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale/exhausted revision, retired selection or applicability
+            change without an assignment (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (LISTING_SOURCE_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence or transaction unavailable (LISTING_SOURCE_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+    put:
+      summary: Assign or replace source location default
+      operationId: assignSourceLocationDefault
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Strict ls_ UUIDv7 ListingSource TypeID.
+      description: Requires an unsuspended administrator, or membership in the operator
+        Party active partnership with this exact source grant. Trusted service/system
+        use cases are also supported. Delegated callers additionally need listing-sources:write.
+        Assignment does not mutate Party locations or attribute a listing seller. Protected
+        reads retain private/retired references for traceability but return no location
+        address/point. All responses are no-store. Current-revision no-ops preserve
+        revisions; stale retries conflict.
+      responses:
+        '200':
+          description: Protected default configuration with evidence and expected-revision
+            token, without a copied location address or point.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceLocationDefaultData'
+        '400':
+          description: Invalid body/path (BAD_BODY_VALUE or INVALID_OBJECT_ID).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing scope or current source management authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Source (LISTING_SOURCE_NOT_FOUND) or operator-owned location
+            (PARTY_NOT_FOUND) does not exist.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale/exhausted revision, retired selection or applicability
+            change without an assignment (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (LISTING_SOURCE_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence or transaction unavailable (LISTING_SOURCE_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignSourceLocationDefaultData'
+    patch:
+      summary: Change source location applicability
+      operationId: changeSourceLocationDefaultApplicability
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Strict ls_ UUIDv7 ListingSource TypeID.
+      description: Requires an unsuspended administrator, or membership in the operator
+        Party active partnership with this exact source grant. Trusted service/system
+        use cases are also supported. Delegated callers additionally need listing-sources:write.
+        Assignment does not mutate Party locations or attribute a listing seller. Protected
+        reads retain private/retired references for traceability but return no location
+        address/point. All responses are no-store. Current-revision no-ops preserve
+        revisions; stale retries conflict.
+      responses:
+        '200':
+          description: Protected default configuration with evidence and expected-revision
+            token, without a copied location address or point.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceLocationDefaultData'
+        '400':
+          description: Invalid body/path (BAD_BODY_VALUE or INVALID_OBJECT_ID).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing scope or current source management authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Source (LISTING_SOURCE_NOT_FOUND) or operator-owned location
+            (PARTY_NOT_FOUND) does not exist.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale/exhausted revision, retired selection or applicability
+            change without an assignment (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (LISTING_SOURCE_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence or transaction unavailable (LISTING_SOURCE_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeSourceLocationDefaultApplicabilityData'
+    delete:
+      summary: Clear source location default
+      operationId: clearSourceLocationDefault
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Strict ls_ UUIDv7 ListingSource TypeID.
+      description: Requires an unsuspended administrator, or membership in the operator
+        Party active partnership with this exact source grant. Trusted service/system
+        use cases are also supported. Delegated callers additionally need listing-sources:write.
+        Assignment does not mutate Party locations or attribute a listing seller. Protected
+        reads retain private/retired references for traceability but return no location
+        address/point. All responses are no-store. Current-revision no-ops preserve
+        revisions; stale retries conflict.
+      responses:
+        '200':
+          description: Protected default configuration with evidence and expected-revision
+            token, without a copied location address or point.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceLocationDefaultData'
+        '400':
+          description: Invalid body/path (BAD_BODY_VALUE or INVALID_OBJECT_ID).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing scope or current source management authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Source (LISTING_SOURCE_NOT_FOUND) or operator-owned location
+            (PARTY_NOT_FOUND) does not exist.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale/exhausted revision, retired selection or applicability
+            change without an assignment (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (LISTING_SOURCE_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence or transaction unavailable (LISTING_SOURCE_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClearSourceLocationDefaultData'
+  /api/v1/admin/listing-sources/{listing_source_id}/location-default:
+    get:
+      summary: Get source location default as administrator
+      operationId: adminGetSourceLocationDefault
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Strict ls_ UUIDv7 ListingSource TypeID.
+      description: Requires an unsuspended administrator. Operator-partnership membership
+        or a source grant alone does not authorize this admin route. Trusted service/system
+        use cases are also supported. Delegated callers additionally need listing-sources:read.
+        Assignment does not mutate Party locations or attribute a listing seller. Protected
+        reads retain private/retired references for traceability but return no location
+        address/point. All responses are no-store. Current-revision no-ops preserve
+        revisions; stale retries conflict.
+      responses:
+        '200':
+          description: Protected default configuration with evidence and expected-revision
+            token, without a copied location address or point.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceLocationDefaultData'
+        '400':
+          description: Invalid body/path (BAD_BODY_VALUE or INVALID_OBJECT_ID).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing scope or current unsuspended administrator authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Source (LISTING_SOURCE_NOT_FOUND) or operator-owned location
+            (PARTY_NOT_FOUND) does not exist.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale/exhausted revision, retired selection or applicability
+            change without an assignment (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (LISTING_SOURCE_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence or transaction unavailable (LISTING_SOURCE_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+    put:
+      summary: Assign or replace source location default as administrator
+      operationId: adminAssignSourceLocationDefault
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Strict ls_ UUIDv7 ListingSource TypeID.
+      description: Requires an unsuspended administrator. Operator-partnership membership
+        or a source grant alone does not authorize this admin route. Trusted service/system
+        use cases are also supported. Delegated callers additionally need listing-sources:write.
+        Assignment does not mutate Party locations or attribute a listing seller. Protected
+        reads retain private/retired references for traceability but return no location
+        address/point. All responses are no-store. Current-revision no-ops preserve
+        revisions; stale retries conflict.
+      responses:
+        '200':
+          description: Protected default configuration with evidence and expected-revision
+            token, without a copied location address or point.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceLocationDefaultData'
+        '400':
+          description: Invalid body/path (BAD_BODY_VALUE or INVALID_OBJECT_ID).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing scope or current unsuspended administrator authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Source (LISTING_SOURCE_NOT_FOUND) or operator-owned location
+            (PARTY_NOT_FOUND) does not exist.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale/exhausted revision, retired selection or applicability
+            change without an assignment (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (LISTING_SOURCE_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence or transaction unavailable (LISTING_SOURCE_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignSourceLocationDefaultData'
+    patch:
+      summary: Change source location applicability as administrator
+      operationId: adminChangeSourceLocationDefaultApplicability
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Strict ls_ UUIDv7 ListingSource TypeID.
+      description: Requires an unsuspended administrator. Operator-partnership membership
+        or a source grant alone does not authorize this admin route. Trusted service/system
+        use cases are also supported. Delegated callers additionally need listing-sources:write.
+        Assignment does not mutate Party locations or attribute a listing seller. Protected
+        reads retain private/retired references for traceability but return no location
+        address/point. All responses are no-store. Current-revision no-ops preserve
+        revisions; stale retries conflict.
+      responses:
+        '200':
+          description: Protected default configuration with evidence and expected-revision
+            token, without a copied location address or point.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceLocationDefaultData'
+        '400':
+          description: Invalid body/path (BAD_BODY_VALUE or INVALID_OBJECT_ID).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing scope or current unsuspended administrator authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Source (LISTING_SOURCE_NOT_FOUND) or operator-owned location
+            (PARTY_NOT_FOUND) does not exist.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale/exhausted revision, retired selection or applicability
+            change without an assignment (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (LISTING_SOURCE_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence or transaction unavailable (LISTING_SOURCE_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeSourceLocationDefaultApplicabilityData'
+    delete:
+      summary: Clear source location default as administrator
+      operationId: adminClearSourceLocationDefault
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Strict ls_ UUIDv7 ListingSource TypeID.
+      description: Requires an unsuspended administrator. Operator-partnership membership
+        or a source grant alone does not authorize this admin route. Trusted service/system
+        use cases are also supported. Delegated callers additionally need listing-sources:write.
+        Assignment does not mutate Party locations or attribute a listing seller. Protected
+        reads retain private/retired references for traceability but return no location
+        address/point. All responses are no-store. Current-revision no-ops preserve
+        revisions; stale retries conflict.
+      responses:
+        '200':
+          description: Protected default configuration with evidence and expected-revision
+            token, without a copied location address or point.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceLocationDefaultData'
+        '400':
+          description: Invalid body/path (BAD_BODY_VALUE or INVALID_OBJECT_ID).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing scope or current unsuspended administrator authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Source (LISTING_SOURCE_NOT_FOUND) or operator-owned location
+            (PARTY_NOT_FOUND) does not exist.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale/exhausted revision, retired selection or applicability
+            change without an assignment (CONFLICT).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (LISTING_SOURCE_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence or transaction unavailable (LISTING_SOURCE_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClearSourceLocationDefaultData'
 components:
   securitySchemes:
     BearerAuth:
@@ -13276,6 +15922,9 @@ components:
         updated:
           type: string
           format: date-time
+        geography:
+          description: Advertised inventory geography on geographic search summaries; selected by the backend from eligible source evidence.
+          allOf: [{$ref: '#/components/schemas/ListingGeographyData'}]
     ProductListingSummaryPriceValuationData:
       oneOf:
         - type: object
@@ -14588,6 +17237,8 @@ components:
           allOf: &id010
             - $ref: "#/components/schemas/RangeQueryDateTime"
           nullable: true
+        geography:
+          $ref: '#/components/schemas/GeographicSearchData'
     PostUserSearchFilterData:
       type: object
       description: Request body for creating a new search filter
@@ -14736,6 +17387,10 @@ components:
         lotScheduledCloses:
           allOf: *id010
           nullable: true
+        geography:
+          nullable: true
+          allOf: [{$ref: '#/components/schemas/GeographicSearchData'}]
+          description: Omitted leaves the private snapshot unchanged; null clears; an object replaces the complete geography predicate.
     UserSearchFilterData:
       type: object
       description: Complete user search filter with metadata
@@ -18268,6 +20923,763 @@ components:
           type: string
         slugId:
           type: string
+    UserAddressId:
+      type: string
+      pattern: ^uaddr_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      description: Strict server-generated UUIDv7 UserAddress TypeID, returned on creation. No bare UUID or owner input.
+    UserAddressLabel:
+      type: string
+      minLength: 1
+      maxLength: 128
+      description: Nonblank private label, at most 128 UTF-8 bytes, without control characters.
+    UserAddressGeography:
+      allOf:
+      - $ref: '#/components/schemas/PartyLocationGeography'
+      - type: object
+        required:
+        - addressText
+        properties:
+          addressText:
+            type: string
+            nullable: false
+            minLength: 1
+            maxLength: 4096
+      description: Verbatim free-text geographic assertions. addressText is required and non-null; no parsed street
+        or PlaceId. Provider-derived values remain separate.
+    CreateUserAddress:
+      type: object
+      additionalProperties: false
+      required:
+      - label
+      - geography
+      properties:
+        label:
+          $ref: '#/components/schemas/UserAddressLabel'
+        geography:
+          $ref: '#/components/schemas/UserAddressGeography'
+    UpdateUserAddress:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedVersion
+      - label
+      - geography
+      properties:
+        expectedVersion:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        label:
+          $ref: '#/components/schemas/UserAddressLabel'
+        geography:
+          $ref: '#/components/schemas/UserAddressGeography'
+    UserAddressExpectedVersion:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedVersion
+      properties:
+        expectedVersion:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+    UserAddress:
+      type: object
+      additionalProperties: false
+      required:
+      - addressId
+      - label
+      - geography
+      - inputRevision
+      - version
+      - preferred
+      - resolution
+      properties:
+        addressId:
+          $ref: '#/components/schemas/UserAddressId'
+        label:
+          $ref: '#/components/schemas/UserAddressLabel'
+        geography:
+          $ref: '#/components/schemas/UserAddressGeography'
+        inputRevision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        version:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        preferred:
+          type: boolean
+        resolution:
+          $ref: '#/components/schemas/UserAddressResolution'
+    UserAddressPage:
+      type: object
+      additionalProperties: false
+      required:
+      - items
+      - next
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserAddress'
+          maxItems: 100
+        next:
+          allOf:
+          - $ref: '#/components/schemas/UserAddressId'
+          nullable: true
+    BrowsingDestination:
+      oneOf:
+      - type: object
+        additionalProperties: false
+        required:
+        - kind
+        properties:
+          kind:
+            type: string
+            enum:
+            - NONE
+      - type: object
+        additionalProperties: false
+        required:
+        - kind
+        - addressId
+        properties:
+          kind:
+            type: string
+            enum:
+            - ADDRESS
+          addressId:
+            $ref: '#/components/schemas/UserAddressId'
+      - type: object
+        additionalProperties: false
+        required:
+        - kind
+        - country
+        properties:
+          kind:
+            type: string
+            enum:
+            - COUNTRY_POSTAL
+          country:
+            type: string
+            pattern: ^[A-Z]{2}$
+            description: Current ISO alpha-2 assertion; never inferred from language/currency/IP.
+          postalCode:
+            type: string
+            nullable: true
+            minLength: 1
+            maxLength: 64
+            description: Optional verbatim postal assertion, at most 64 UTF-8 bytes.
+      description: Exclusive browsing selector. An ADDRESS reference must belong to the current user. No shipping, billing
+        or residence assertion.
+    BrowsingDestinationView:
+      type: object
+      additionalProperties: false
+      required:
+      - version
+      - destination
+      properties:
+        version:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        destination:
+          $ref: '#/components/schemas/BrowsingDestination'
+    SetBrowsingDestination:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedVersion
+      - destination
+      properties:
+        expectedVersion:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        destination:
+          $ref: '#/components/schemas/BrowsingDestination'
+    UserAddressDerivedGeography:
+      type: object
+      additionalProperties: false
+      required:
+      - geography
+      - position
+      properties:
+        geography:
+          allOf:
+          - $ref: '#/components/schemas/PartyLocationGeography'
+          nullable: true
+        position:
+          allOf:
+          - $ref: '#/components/schemas/PartyLocationPosition'
+          nullable: true
+    UserAddressResolution:
+      type: object
+      additionalProperties: false
+      description: Current backend geocoding state, returned with address CRUD/list reads. A unique compatible premises result can supply a point
+        automatically. Coarse results can supply administrative geography only. Expired or revoked evidence is UNAVAILABLE and suppressed. This is
+        browsing enrichment, not address or delivery verification.
+      required:
+      - status
+      - derived
+      - attribution
+      properties:
+        status:
+          type: string
+          enum:
+          - PENDING
+          - ACCEPTED
+          - AMBIGUOUS
+          - NO_MATCH
+          - FAILED
+          - BLOCKED
+          - UNAVAILABLE
+        derived:
+          allOf:
+          - $ref: '#/components/schemas/UserAddressDerivedGeography'
+          nullable: true
+        attribution:
+          allOf:
+          - $ref: '#/components/schemas/UserAddressAttribution'
+          nullable: true
+    UserAddressAttribution:
+      type: object
+      additionalProperties: false
+      required:
+      - provider
+      - attributionUrl
+      description: Display the attribution when showing accepted provider-derived geography.
+      properties:
+        provider:
+          type: string
+        attributionUrl:
+          type: string
+          format: uri
+    SourceLocationDefaultEvidence:
+      type: object
+      additionalProperties: false
+      required:
+      - reference
+      - scope
+      properties:
+        reference:
+          type: string
+          minLength: 1
+          maxLength: 2048
+          description: Nonblank opaque source-scoped observation, at most 2048 UTF-8 bytes,
+            without control or line-separator characters. Never fetched.
+        scope:
+          type: string
+          enum:
+          - ASSOCIATED_BUSINESS
+          - ADVERTISED_INVENTORY
+    SourceLocationDefaultAssignment:
+      type: object
+      additionalProperties: false
+      required:
+      - partyLocationId
+      properties:
+        partyLocationId:
+          $ref: '#/components/schemas/PartyLocationId'
+        businessAssociation:
+          allOf:
+          - $ref: '#/components/schemas/SourceLocationDefaultEvidence'
+          nullable: true
+          description: Explicit associated-business evidence; scope must be ASSOCIATED_BUSINESS.
+        advertisedInventory:
+          allOf:
+          - $ref: '#/components/schemas/SourceLocationDefaultEvidence'
+          nullable: true
+          description: Explicit inventory evidence; scope must be ADVERTISED_INVENTORY.
+            Business, legal or correspondence evidence alone never establishes this meaning.
+    SourceLocationDefaultData:
+      type: object
+      additionalProperties: false
+      required:
+      - listingSourceId
+      - revision
+      - assignment
+      - eligibility
+      properties:
+        listingSourceId:
+          type: string
+          pattern: ^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$
+        revision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+          description: Expected source-default revision; an untouched source has revision
+            1. Stale writes conflict, including no-ops.
+        assignment:
+          allOf:
+          - $ref: '#/components/schemas/SourceLocationDefaultAssignment'
+          nullable: true
+        eligibility:
+          type: string
+          enum:
+          - ACTIVE
+          - RETIRED
+          nullable: true
+          description: Current eligibility of the retained reference, null if no assignment.
+            Retirement preserves the reference but disables inherited geography.
+    AssignSourceLocationDefaultData:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedRevision
+      - partyLocationId
+      properties:
+        expectedRevision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+          description: Expected source-default revision; an untouched source has revision
+            1. Stale writes conflict, including no-ops.
+        partyLocationId:
+          $ref: '#/components/schemas/PartyLocationId'
+        businessAssociation:
+          allOf:
+          - $ref: '#/components/schemas/SourceLocationDefaultEvidence'
+          nullable: true
+          description: Explicit associated-business evidence; scope must be ASSOCIATED_BUSINESS.
+        advertisedInventory:
+          allOf:
+          - $ref: '#/components/schemas/SourceLocationDefaultEvidence'
+          nullable: true
+          description: Explicit inventory evidence; scope must be ADVERTISED_INVENTORY.
+            Business, legal or correspondence evidence alone never establishes this meaning.
+      description: Replaces the one reference and both applicability meanings atomically.
+        Omitted/null evidence means absent, including on replacement. No automatic location
+        selection.
+    ChangeSourceLocationDefaultApplicabilityData:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedRevision
+      properties:
+        expectedRevision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+          description: Expected source-default revision; an untouched source has revision
+            1. Stale writes conflict, including no-ops.
+        businessAssociation:
+          allOf:
+          - $ref: '#/components/schemas/SourceLocationDefaultEvidence'
+          nullable: true
+          description: Omitted retains the assertion; null removes it; set requires ASSOCIATED_BUSINESS
+            scope.
+        advertisedInventory:
+          allOf:
+          - $ref: '#/components/schemas/SourceLocationDefaultEvidence'
+          nullable: true
+          description: Omitted retains the assertion; null removes it; set requires ADVERTISED_INVENTORY
+            scope.
+      description: Changes applicability on the existing, active reference without changing
+        its location ID.
+    ClearSourceLocationDefaultData:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedRevision
+      properties:
+        expectedRevision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+          description: Expected source-default revision; an untouched source has revision
+            1. Stale writes conflict, including no-ops.
+    PartyLocationId:
+      type: string
+      pattern: ^ploc_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      description: Strict UUIDv7 PartyLocation TypeID; bare UUIDs and foreign prefixes are rejected.
+    PartyLocationGeography:
+      type: object
+      additionalProperties: false
+      required:
+      - referenceRelease
+      properties:
+        referenceRelease:
+          type: string
+          enum:
+          - iso-codes-4.20.1
+        addressText:
+          type: string
+          maxLength: 4096
+          description: Verbatim free-text assertion; at most 4096 UTF-8 bytes. No geocoding or postal inference.
+          nullable: true
+        country:
+          type: string
+          pattern: ^[A-Z]{2}$
+          description: Exact current ISO alpha-2 country in the named immutable release.
+          nullable: true
+        subdivision:
+          type: string
+          description: Complete ISO 3166-2 code in the named release; must agree with country when supplied.
+          nullable: true
+        postalCode:
+          type: string
+          maxLength: 64
+          description: Single-line verbatim postal assertion, at most 64 UTF-8 bytes.
+          nullable: true
+      description: Partial caller assertions. At least one geographic field must be present and nonblank. Coordinates
+        are separate. No synchronous geocoding.
+    PartyLocationPosition:
+      type: object
+      additionalProperties: false
+      required:
+      - latitudeDegrees
+      - longitudeDegrees
+      - precision
+      properties:
+        latitudeDegrees:
+          type: number
+          minimum: -90
+          maximum: 90
+        longitudeDegrees:
+          type: number
+          minimum: -180
+          maximum: 180
+        precision:
+          type: string
+          enum:
+          - PREMISES
+          - STREET
+          - LOCALITY
+          - REPRESENTATIVE
+        accuracyMetres:
+          type: number
+          minimum: 0
+          nullable: true
+      description: Finite caller-asserted WGS84 coordinates with explicit precision. Not geocoder-derived evidence;
+        (0,0) is valid.
+    PartyLocationEvidence:
+      type: object
+      additionalProperties: false
+      required:
+      - reference
+      - scope
+      properties:
+        reference:
+          type: string
+          minLength: 1
+          maxLength: 2048
+          description: Opaque nonblank single-line evidence/source reference; never fetched. At most 2048 UTF-8 bytes.
+        observedAt:
+          type: string
+          format: date-time
+          nullable: true
+        scope:
+          type: string
+          enum:
+          - SITE_DESCRIPTION
+          - REGISTERED_ADDRESS
+          - CORRESPONDENCE_ADDRESS
+          description: Declared assertion scope; never caller identity, authorization or trust.
+    ExpectedPartyLocation:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - revision
+      properties:
+        id:
+          $ref: '#/components/schemas/PartyLocationId'
+        revision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+    CreatePartyLocationData:
+      type: object
+      additionalProperties: false
+      required:
+      - label
+      properties:
+        label:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Trimmed nonblank single-line label, at most 255 UTF-8 bytes. Never establishes site identity.
+        roles:
+          type: array
+          maxItems: 4
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - BUSINESS_PREMISES
+            - WAREHOUSE
+            - REGISTERED_ADDRESS
+            - CORRESPONDENCE
+          description: Business use of a site. No assertion about listing stock, dispatch or pickup.
+          default: []
+        geography:
+          allOf:
+          - $ref: '#/components/schemas/PartyLocationGeography'
+          nullable: true
+        position:
+          allOf:
+          - $ref: '#/components/schemas/PartyLocationPosition'
+          nullable: true
+        evidence:
+          allOf:
+          - $ref: '#/components/schemas/PartyLocationEvidence'
+          nullable: true
+        relocates:
+          allOf:
+          - $ref: '#/components/schemas/ExpectedPartyLocation'
+          nullable: true
+      description: Create an independently identified site with exact public geography. Optional relocates creates a new identity and retires the
+        referenced active site atomically; its Party and revision must match.
+    CorrectPartyLocationData:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedRevision
+      - correction
+      properties:
+        label:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Trimmed nonblank single-line label, at most 255 UTF-8 bytes. Never establishes site identity.
+        roles:
+          type: array
+          maxItems: 4
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - BUSINESS_PREMISES
+            - WAREHOUSE
+            - REGISTERED_ADDRESS
+            - CORRESPONDENCE
+          description: Business use of a site. No assertion about listing stock, dispatch or pickup.
+        geography:
+          allOf:
+          - $ref: '#/components/schemas/PartyLocationGeography'
+          nullable: true
+        position:
+          allOf:
+          - $ref: '#/components/schemas/PartyLocationPosition'
+          nullable: true
+        evidence:
+          allOf:
+          - $ref: '#/components/schemas/PartyLocationEvidence'
+          nullable: true
+        expectedRevision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        correction:
+          type: string
+          enum:
+          - SAME_SITE
+      description: Same physical site correction only. Omitted members remain unchanged. Geography/position/evidence
+        null clears; non-null geographic objects replace the complete partial assertion. Label and roles
+        reject null. Roles [] clears the set. No-op at the current revision emits no change signal. Relocation uses
+        create with relocates.
+    SetPartyLocationLifecycleData:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedRevision
+      - lifecycle
+      properties:
+        expectedRevision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        lifecycle:
+          type: string
+          enum:
+          - ACTIVE
+          - RETIRED
+      description: Explicit retirement (RETIRED) or restore (ACTIVE), with CAS. Retains references/history and never
+        auto-selects replacements.
+    PartyLocationData:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - partyId
+      - label
+      - roles
+      - lifecycle
+      - revision
+      - inputRevision
+      properties:
+        id:
+          $ref: '#/components/schemas/PartyLocationId'
+        partyId:
+          type: string
+          pattern: ^pty_
+        label:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Trimmed nonblank single-line label, at most 255 UTF-8 bytes. Never establishes site identity.
+        roles:
+          type: array
+          maxItems: 4
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - BUSINESS_PREMISES
+            - WAREHOUSE
+            - REGISTERED_ADDRESS
+            - CORRESPONDENCE
+          description: Business use of a site. No assertion about listing stock, dispatch or pickup.
+        geography:
+          $ref: '#/components/schemas/PartyLocationGeography'
+        position:
+          $ref: '#/components/schemas/PartyLocationPosition'
+        lifecycle:
+          type: string
+          enum:
+          - ACTIVE
+          - RETIRED
+        revision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        inputRevision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        evidence:
+          $ref: '#/components/schemas/PartyLocationEvidence'
+    PartyLocationsPage:
+      type: object
+      additionalProperties: false
+      required:
+      - items
+      - next
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartyLocationData'
+        next:
+          allOf:
+          - $ref: '#/components/schemas/PartyLocationId'
+          nullable: true
+          description: Last returned ID when another row exists; supply as after. Null when exhausted.
+    PartyLocationManagementGrantData:
+      type: object
+      additionalProperties: false
+      required:
+      - granted
+      properties:
+        granted:
+          type: boolean
+          description: true grants explicit management/private reads; false removes only the explicit grant. Active partnership membership independently authorizes access. Same-state commands are no-ops.
+    GeographicOriginData:
+      type: object
+      additionalProperties: false
+      required: [latitude, longitude]
+      description: Explicit finite numeric WGS 84 coordinates in degrees; no text, address or preference resolution.
+      properties:
+        latitude: {type: number, minimum: -90, maximum: 90}
+        longitude: {type: number, minimum: -180, maximum: 180}
+    GeographicRadiusData:
+      type: object
+      additionalProperties: false
+      required: [amount, unit]
+      description: >-
+        Finite positive radius in the supplied unit, equivalent to at most 20000 kilometres.
+        The supplied amount and unit are preserved in private saved-filter snapshots.
+      properties:
+        amount: {type: number, minimum: 0, exclusiveMinimum: true, example: 25}
+        unit:
+          type: string
+          enum: [KILOMETERS, MILES, METERS, YARDS, FEET, INCHES, CENTIMETERS, MILLIMETERS, NAUTICAL_MILES]
+          example: KILOMETERS
+      example: {amount: 25, unit: KILOMETERS}
+    GeographicSearchData:
+      type: object
+      additionalProperties: false
+      description: >-
+        At least one country, subdivision, radius or distance order is required. Sets are OR;
+        distinct geographic predicates are AND. Subdivisions must belong to a supplied country
+        when countries is nonempty. Absence excludes a result. Radius and ordering require an
+        explicit numeric origin; an origin or approximate mode without proximity is invalid.
+        Strict proximity admits PREMISES only; approximate also admits STREET, LOCALITY and
+        REPRESENTATIVE. Distance ordering is incompatible
+        with the existing sort. Saved filters retain a private immutable snapshot until replaced.
+      properties:
+        countries:
+          type: array
+          maxItems: 100
+          uniqueItems: true
+          items: {type: string, pattern: '^[A-Z]{2}$'}
+          example: [DE]
+        subdivisions:
+          type: array
+          maxItems: 100
+          uniqueItems: true
+          items: {type: string}
+          example: [DE-BY]
+        origin: {$ref: '#/components/schemas/GeographicOriginData'}
+        radius: {$ref: '#/components/schemas/GeographicRadiusData'}
+        mode: {type: string, enum: [STRICT, APPROXIMATE], default: STRICT}
+        distanceOrder: {type: string, enum: [ASC, DESC]}
+    ListingGeographyData:
+      type: object
+      required: [locationId, basis, referenceRelease]
+      description: >-
+        Public advertised-inventory geography selected by the backend. Distance is to recorded
+        evidence, not verified object position or journey distance. Display is rounded to
+        0.1 km for premises, 1 km for street and 10 km for locality/representative evidence.
+      properties:
+        locationId: {type: string}
+        basis: {type: string, enum: [SOURCE_DEFAULT_DERIVED]}
+        referenceRelease: {type: string}
+        country: {type: string}
+        subdivision: {type: string}
+        point: {$ref: '#/components/schemas/GeographicOriginData'}
+        precision: {type: string, enum: [PREMISES, STREET, LOCALITY, REPRESENTATIVE]}
+        distanceKm: {type: number, minimum: 0}
+    PartyLocationDiscoveryCursorData:
+      type: object
+      additionalProperties: false
+      required: [locationId]
+      description: Repeat with the same query. distanceKm is required exactly when ordering by distance; it is an unrounded continuation value.
+      properties:
+        locationId: {type: string}
+        distanceKm: {type: number, minimum: 0}
+    PublicPartyLocationData:
+      type: object
+      required: [partyId, partyName, locationId, label, basis]
+      properties:
+        partyId: {type: string}
+        partyName: {type: string}
+        locationId: {type: string}
+        label: {type: string}
+        basis: {type: string, enum: [CALLER_ASSERTED, ACCEPTED_DERIVED, MIXED_ASSERTED_AND_DERIVED]}
+        country: {type: string}
+        subdivision: {type: string}
+        point: {$ref: '#/components/schemas/GeographicOriginData'}
+        precision: {type: string, enum: [PREMISES, STREET, LOCALITY, REPRESENTATIVE]}
+        distanceKm: {type: number, minimum: 0, description: Rounded display distance following evidence precision.}
 x-tagGroups:
   - name: Operations
     tags:

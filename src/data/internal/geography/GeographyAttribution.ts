@@ -1,3 +1,5 @@
+import type { UserAddressAttribution } from "@/client";
+
 /**
  * Provider attribution for retained, provider-derived geography.
  * Display it wherever accepted provider-derived geography is shown.
@@ -5,15 +7,6 @@
 export type GeographyAttribution = {
     readonly provider: string;
     readonly url: string;
-};
-
-/**
- * Shape of the backend `UserAddressAttribution` schema. Replace with the generated DTO type
- * once the geography contract is adopted (see docs/api-contracts.md).
- */
-type GeographyAttributionInput = {
-    readonly provider: string;
-    readonly attributionUrl: string;
 };
 
 // The Amazon Location Service attribution page that the backend geography contract requires
@@ -24,7 +17,7 @@ export const AMAZON_LOCATION_ATTRIBUTION: GeographyAttribution = {
 };
 
 export function mapToGeographyAttribution(
-    attribution: GeographyAttributionInput | null | undefined,
+    attribution: UserAddressAttribution | null | undefined,
 ): GeographyAttribution | undefined {
     const provider = attribution?.provider.trim();
     if (!attribution || !provider || !isHttpsUrl(attribution.attributionUrl)) {
