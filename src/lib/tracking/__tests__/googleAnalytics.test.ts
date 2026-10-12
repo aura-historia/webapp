@@ -285,6 +285,30 @@ describe("GoogleAnalytics.sendPageView", () => {
         });
     });
 
+    it("strips address and coordinate parameters, including nested ones", async () => {
+        import.meta.env.SSR = false;
+        const ga = await freshGA();
+
+        ga.sendPageView("/de/search", "de", {
+            q: "chair",
+            lat: 51.34,
+            LONGITUDE: 12.37,
+            postal_code: "04275",
+            addressId: "address-1",
+            filter: { geography: { origin: { latitude: 51.34, longitude: 12.37 } } },
+            radiusFilter: [{ kind: "RADIUS", origin: { lat: 51.34, lng: 12.37 } }],
+            radiusKm: 25,
+        });
+
+        expect(ReactGA.send).toHaveBeenCalledWith({
+            hitType: "pageview",
+            page: "/de/search",
+            language: "de",
+            q: "chair",
+            radiusKm: 25,
+        });
+    });
+
     it("does nothing when SSR is true", async () => {
         import.meta.env.SSR = true;
         const ga = await freshGA();

@@ -58,6 +58,11 @@ To adopt a backend revision:
   `getAuctionCatalogue` are generated only. Listing-level auction summaries and typed history are
   implemented. Ordering the public directory by schedule and an admin auction search depend on
   [backend#1991](https://github.com/aura-historia/backend/issues/1991).
+- The geography contract ([backend#2031](https://github.com/aura-historia/backend/pull/2031): user
+  addresses, browsing destination, Party locations, geographic search) is not adopted yet.
+  `mapToGeographyAttribution` in `src/data/internal/geography` already mirrors the
+  `UserAddressAttribution` shape; switch its input to the generated type on adoption. Privacy
+  rules for these slices are in [privacy alignment](privacy-policy-alignment.md#geography).
 - Partner async ingestion batches and provider ingestion configuration are external API
   capabilities, not browser workflows (see [partner integration](partner-integration.md)).
 - `getHealth`/`getReadiness` drive the maintenance and disruption notice (see

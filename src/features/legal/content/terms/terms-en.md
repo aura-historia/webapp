@@ -44,6 +44,7 @@ Our services may include in particular:
 
 - search, filtering, and analysis functions,
 - watchlists, notifications, and saved search filters,
+- geographic search and location features, such as distances and radius search,
 - free or paid digital access,
 - AI-assisted or editorially prepared information,
 - partner, shop, or API features where offered.
@@ -51,6 +52,8 @@ Our services may include in particular:
 The specific scope of features depends on the current service description, the selected plan, the technical state of the platform, and any applicable legal or regulatory requirements.
 
 We do not owe any specific economic success, any specific market availability of individual content or items, or the complete, correct, or up-to-date reflection of external data sources at all times.
+
+Distances, locations, and regional assignments are based on information from users and providers and on geodata services. Distances are straight-line approximations, not travel routes. This information does not confirm an address or the location of an object, nor its deliverability, collection, or shipping. Geographic data come from Amazon Location Service and its data providers; the required source and copyright notices are available on the [Amazon Location Service attribution page](https://docs.aws.amazon.com/location/latest/developerguide/data-attribution.html).
 
 ---
 
@@ -196,6 +199,8 @@ The technical ability to generate or use Access Tokens does not grant broader us
 
 To the extent legally permissible, business customers and partners shall indemnify us against third-party claims, damages, regulatory measures, and reasonable legal defense costs arising from their culpable breach of these token obligations or from unlawful use of Access Tokens by persons or systems to whom they made Access Tokens available.
 
+If partners add locations for their business, the exact geographic point as well as the country and region of active locations may be displayed publicly and used for radius searches and to associate listings. There is no setting that excludes active locations from this publication; partners can retire a location instead. The full address entered, supporting evidence, and management details are not displayed publicly. A location on file does not establish inventory or a shipping or collection point.
+
 We may throttle, suspend, or revoke API access or comparable features for reasons of security, stability, legal compliance, or abuse prevention.
 
 ---
@@ -287,4 +292,4 @@ If you are a merchant, a legal entity under public law, a special fund under pub
 
 ---
 
-*Status: 7 October 2026*
+*Status: 12 October 2026*

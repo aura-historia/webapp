@@ -34,6 +34,7 @@ Je nach Nutzung können insbesondere folgende Kategorien betroffen sein:
 - Vertrags-, Abrechnungs- und Zahlungsmetadaten
 - Nutzungs-, Log- und Gerätedaten
 - Inhalts- und Interaktionsdaten innerhalb des Dienstes
+- Adress- und Standortdaten, soweit Sie geografische Funktionen nutzen
 - Daten aus öffentlich zugänglichen Quellen einschließlich historischer oder antiquarischer Inhalte
 
 ---
@@ -104,7 +105,7 @@ Im Rahmen der Nutzung unseres Dienstes können wir weitere Daten verarbeiten, in
 
 Soweit Partner-, Shop- oder Administrationsfunktionen genutzt werden, können zusätzlich verarbeitet werden:
 
-- Shop-, Domain-, Kontakt- und Adressdaten
+- Shop-, Domain-, Kontakt- und Adressdaten einschließlich der Standorte von Händlern und Auktionshäusern
 - Partnerbewerbungen und zugehörige Status- bzw. Prüfungsdaten
 - API-Zugangsdaten bzw. deren Verwaltungsdaten
 - Rollen- und Freischaltungsinformationen
@@ -125,7 +126,44 @@ Wenn Sie eine externe Anwendung ausdrücklich autorisieren, kann sie auf die Dat
 
 ---
 
-## 6. Kostenpflichtige Leistungen, Abonnements und Zahlungsabwicklung
+## 6. Adressen, Suchstandorte und geografische Funktionen
+
+Wenn Sie geografische Funktionen nutzen, verarbeiten wir je nach Funktion insbesondere:
+
+- Adressen, die Sie in Ihrem Konto speichern, mit Bezeichnung, Adresstext, Land, Region und Postleitzahl, soweit angegeben
+- daraus abgeleitete geografische Angaben wie Land, Region, Koordinaten und deren Genauigkeit sowie den Bearbeitungsstatus
+- Ihren gewählten Suchstandort, also eine gespeicherte Adresse oder ein Land mit optionaler Postleitzahl
+- Koordinaten, die Sie für eine Umkreissuche verwenden oder in einer gespeicherten Suche hinterlegen
+- Ihren aktuellen Standort, wenn Sie ihn ausdrücklich über Ihren Browser freigeben
+
+**Gespeicherte Adressen und Suchstandort:** Ihre gespeicherten Adressen und Ihr Suchstandort sind privat und nur für Ihr Konto bestimmt. Wir verwenden sie, um Entfernungen und regionale Ergebnisse für Sie zu ermitteln. Sie dienen nicht der Prüfung Ihres Wohnsitzes, Ihrer Rechnungsanschrift, Ihrer Staatsangehörigkeit oder der Lieferbarkeit von Objekten. Aus Sprache, Währung oder IP-Adresse leiten wir keinen Suchstandort ab.
+
+**Geokodierung:** Nachdem Sie eine Adresse gespeichert oder geändert haben, ermitteln wir ihre geografische Lage zeitversetzt im Hintergrund. Dazu übermitteln wir den Adresstext sowie Ihre Angaben zu Land, Region und Postleitzahl an Amazon Location Service von Amazon Web Services (AWS), den wir über die Region Frankfurt (eu-central-1) nutzen. Amazon Location Service greift auf Daten von Datenlieferanten zurück; deren Verarbeitung kann auch außerhalb dieser Region erfolgen. Wir speichern das Ergebnis nur, soweit die Bedingungen des Anbieters dies erlauben, und verwenden es ausschließlich für Ihr Konto, auch wenn andere Nutzer dieselbe Adresse speichern. Einen genauen Punkt übernehmen wir nur bei einem eindeutigen Ergebnis. Bis die Ermittlung abgeschlossen ist oder wenn kein eindeutiges Ergebnis vorliegt, bleibt die Adresse ohne genauen Punkt nutzbar; Sie können sie jederzeit korrigieren. Die Geokodierung ist keine Prüfung Ihrer Adresse.
+
+**Standortfreigabe im Browser:** Ihren aktuellen Standort fragen wir nur ab, wenn Sie dies ausdrücklich auslösen. Ihr Browser bittet Sie zuvor um Erlaubnis; Sie können diese verweigern oder in den Browsereinstellungen widerrufen. Wir verwenden die Koordinaten für die jeweilige Suche und speichern sie nur, wenn Sie die Suche speichern.
+
+**Gespeicherte Suchen mit Standort:** Enthält eine gespeicherte Suche einen Umkreis, speichern wir die dafür verwendeten Koordinaten als private Kopie. Diese ändert sich nicht, wenn Sie später eine Adresse bearbeiten oder löschen. Sie entfernen sie, indem Sie die gespeicherte Suche ändern oder löschen.
+
+**Keine Weitergabe an Analysedienste:** Adressen und Koordinaten übermitteln wir nicht an Google Analytics und nehmen sie nicht in Diagnoseprotokolle auf. Für Standortfunktionen ist keine Einwilligung in Analyse/Tracking oder externe Karten erforderlich; Ihre Entscheidungen in den Consent-Einstellungen bleiben unverändert.
+
+**Öffentliche Standorte von Händlern und Auktionshäusern:** Händler, Auktionshäuser und andere Anbieter können Standorte ihres Unternehmens hinterlegen. Für aktive Standorte können wir den genauen geografischen Punkt sowie Land und Region öffentlich anzeigen und für die Umkreissuche und die Zuordnung von Angeboten verwenden. Die vollständige eingegebene Adresse, Nachweise und Verwaltungsangaben bleiben geschützt und sind nur berechtigten Personen zugänglich. Stillgelegte Standorte werden nicht mehr öffentlich angezeigt; bis alle Suchergebnisse aktualisiert sind, kann dies kurze Zeit dauern. Private Adressen von Nutzern werden nie als öffentliche Standorte verwendet.
+
+**Quellenangaben:** Geografische Daten stammen von Amazon Location Service und dessen Datenlieferanten. Die erforderlichen Quellen- und Urheberhinweise finden Sie auf der [Attributionsseite von Amazon Location Service](https://docs.aws.amazon.com/location/latest/developerguide/data-attribution.html).
+
+**Zwecke der Verarbeitung:**
+
+- Ermittlung von Entfernungen sowie regionale Suche und Filterung
+- Umkreissuche und Benachrichtigungen zu gespeicherten Suchen
+- standortbezogene Auffindbarkeit von Händlern, Auktionshäusern und ihren Angeboten
+
+**Rechtsgrundlagen:**
+
+- **Art. 6 Abs. 1 lit. b DSGVO** – Bereitstellung der von Ihnen genutzten Adress-, Standort-, Such- und Partnerfunktionen
+- **Art. 6 Abs. 1 lit. f DSGVO** – berechtigtes Interesse an der standortbezogenen Auffindbarkeit von Händlern, Auktionshäusern und Angeboten
+
+---
+
+## 7. Kostenpflichtige Leistungen, Abonnements und Zahlungsabwicklung
 
 Wenn Sie kostenpflichtige digitale Leistungen oder Abonnements buchen, verarbeiten wir insbesondere:
 
@@ -152,7 +190,7 @@ Die Zahlungsabwicklung erfolgt über [Stripe](https://stripe.com/) (Stripe Payme
 
 ---
 
-## 7. Newsletter und Marketingkommunikation
+## 8. Newsletter und Marketingkommunikation
 
 Wenn Sie sich freiwillig für Marketing-E-Mails anmelden, verarbeiten wir insbesondere:
 
@@ -173,7 +211,7 @@ Der Widerruf Ihrer Einwilligung berührt die Rechtmäßigkeit der bis zum Widerr
 
 ---
 
-## 8. Cookies, Local Storage und Session Storage
+## 9. Cookies, Local Storage und Session Storage
 
 Wir verwenden technisch erforderliche Speicherungen in Ihrem Browser. Sprache, funktionale Präferenzen und Ihre Einwilligungsentscheidungen können in Cookies oder lokalem Speicher abgelegt werden, damit wir Ihre Einstellungen bei späteren Besuchen berücksichtigen können. Für Anmeldung und Registrierung kann außerdem vorübergehend Speicherplatz im Browser erforderlich sein. Optionale Analysefunktionen und externe Karten setzen wir nur im rechtlich zulässigen Umfang und nach Ihrer Einwilligung ein.
 
@@ -184,7 +222,7 @@ Wir verwenden technisch erforderliche Speicherungen in Ihrem Browser. Sprache, f
 
 ---
 
-## 9. Einwilligungsmanagement, Google Analytics und externe Karten
+## 10. Einwilligungsmanagement, Google Analytics und externe Karten
 
 Unsere Website verwendet ein Consent-Banner und gesonderte Consent-Einstellungen. Optionale Analysefunktionen und externe Inhalte werden nur im rechtlich zulässigen Umfang und nach Ihrer Einwilligung aktiviert. Sie können für Analyse/Tracking und externe Karten getrennte Entscheidungen treffen.
 
@@ -212,7 +250,7 @@ Weitere Informationen finden Sie in der [Datenschutzerklärung von Google](https
 
 ---
 
-## 10. Öffentlich zugängliche Quellen, Web-Scraping und historische Inhalte
+## 11. Öffentlich zugängliche Quellen, Web-Scraping und historische Inhalte
 
 Unsere Plattform verarbeitet auch Informationen aus öffentlich zugänglichen Quellen im Internet. Hierzu können – je nach Quelle – insbesondere gehören:
 
@@ -244,7 +282,7 @@ Nach Prüfung entfernen, sperren oder beschränken wir Inhalte, soweit dies rech
 
 ---
 
-## 11. KI-gestützte Verarbeitung und keine automatisierten Einzelentscheidungen
+## 12. KI-gestützte Verarbeitung und keine automatisierten Einzelentscheidungen
 
 Einige Funktionen nutzen automatisierte oder KI-gestützte Verfahren, um Inhalte zu ordnen und passende Suchergebnisse zu finden. Für die erweiterte Zuordnung gespeicherter Suchen übermitteln wir die von Ihnen eingegebene Suchbeschreibung sowie passende Beschreibungstexte zu Angeboten und manchmal ein Bild an Cloudflare. Dort werden diese Angaben ausgewertet, um mögliche Treffer zu ermitteln. Die Angaben können personenbezogene Daten enthalten, wenn sie sich auf eine identifizierbare Person beziehen.
 
@@ -257,11 +295,11 @@ Diese Verarbeitung unterstützt die Suche und stellt keine ausschließlich autom
 
 ---
 
-## 12. Empfänger, Dienstleister und Drittlandtransfers
+## 13. Empfänger, Dienstleister und Drittlandtransfers
 
 Wir setzen externe Dienstleister und Infrastrukturanbieter ein. Personenbezogene Daten können dabei an folgende Kategorien von Empfängern übermittelt oder offengelegt werden:
 
-- **Amazon Web Services (AWS)** – für Registrierung und Anmeldung
+- **Amazon Web Services (AWS)** – für Registrierung und Anmeldung sowie für die Geokodierung von Adressen (Amazon Location Service)
 - **Cloudflare** – für Auslieferung und Sicherheit der Website sowie die erweiterte Zuordnung gespeicherter Suchen
 - **Hetzner Online GmbH** – soweit dort Teile unseres Dienstes gehostet werden
 - **Stripe** – für Zahlungsabwicklung, Abonnementverwaltung, Checkout- und Kundenportal
@@ -283,13 +321,14 @@ Auf Anfrage informieren wir Sie über die Schutzmaßnahmen, die für eine konkre
 
 ---
 
-## 13. Speicherdauer
+## 14. Speicherdauer
 
 Wir speichern personenbezogene Daten nur so lange, wie dies für die jeweiligen Zwecke erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen.
 
 Im Regelfall gelten insbesondere folgende Kriterien:
 
 - **Kontodaten:** bis zur Löschung des Kontos oder Beendigung des Nutzungsverhältnisses; anschließend Löschung oder Sperrung, soweit keine gesetzlichen Aufbewahrungspflichten entgegenstehen
+- **Adressen und Suchstandort:** bis Sie die Adresse oder den Suchstandort entfernen oder Ihr Konto löschen. Beim Löschen einer Adresse entfernen wir ihre Bezeichnung und Adressangaben; nutzt keine andere Ihrer Adressen dieselbe Eingabe, löschen wir auch die an Amazon Location Service übermittelten Angaben und das Ergebnis aus unserem Bestand. Frühere Fassungen bewahren wir nicht als Verlauf auf. Eine bereits laufende Anfrage an Amazon Location Service lässt sich nicht zurückrufen; ihr Ergebnis wird nach der Löschung aber nicht mehr gespeichert. Koordinaten in gespeicherten Suchen bleiben bis zur Änderung oder Löschung der Suche oder Ihres Kontos gespeichert. Aus Datensicherungen werden diese Daten nach Ablauf des jeweiligen Sicherungszeitraums entfernt.
 - **Vertrags-, Abrechnungs- und Steuerdaten:** für die Dauer gesetzlicher handels- und steuerrechtlicher Aufbewahrungsfristen
 - **Newsletterdaten:** solange Sie angemeldet sind; Nachweise Ihrer Einwilligung und Abmeldung können darüber hinaus so lange aufbewahrt werden, wie dies erforderlich ist, um Ihre Wahl zu dokumentieren und Rechtsansprüche zu behandeln
 - **Technische und Sicherheitsdaten:** solange sie für den sicheren und stabilen Betrieb oder die Untersuchung eines Vorfalls erforderlich sind
@@ -298,7 +337,7 @@ Im Regelfall gelten insbesondere folgende Kriterien:
 
 ---
 
-## 14. Rechte der betroffenen Personen
+## 15. Rechte der betroffenen Personen
 
 Sie haben nach Maßgabe der gesetzlichen Voraussetzungen insbesondere folgende Rechte:
 
@@ -322,7 +361,7 @@ Bitte beachten Sie, dass eine Löschung nicht möglich ist, soweit oder solange 
 
 ---
 
-## 15. Beschwerderecht bei der Aufsichtsbehörde
+## 16. Beschwerderecht bei der Aufsichtsbehörde
 
 Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren. Zuständig für uns ist insbesondere:
 
@@ -337,10 +376,10 @@ Sie können sich außerdem an jede andere zuständige Aufsichtsbehörde wenden, 
 
 ---
 
-## 16. Änderungen dieser Datenschutzhinweise
+## 17. Änderungen dieser Datenschutzhinweise
 
 Wir können diese Datenschutzhinweise anpassen, wenn dies aufgrund rechtlicher, technischer, organisatorischer oder inhaltlicher Änderungen erforderlich wird. Maßgeblich ist die jeweils auf unserer Website veröffentlichte Fassung.
 
 ---
 
-*Stand: 07.10.2026*
+*Stand: 12.10.2026*

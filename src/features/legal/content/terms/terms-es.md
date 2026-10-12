@@ -44,6 +44,7 @@ Nuestros servicios pueden incluir en particular:
 
 - funciones de búsqueda, filtrado y análisis,
 - watchlists, notificaciones y filtros de búsqueda guardados,
+- funciones geográficas de búsqueda y ubicación, como distancias y búsqueda por radio,
 - acceso digital gratuito o de pago,
 - información preparada editorialmente o asistida por IA,
 - funciones para socios, tiendas o API, cuando se ofrezcan.
@@ -51,6 +52,8 @@ Nuestros servicios pueden incluir en particular:
 El alcance concreto de las funciones depende de la descripción actual del servicio, del plan seleccionado, del estado técnico de la plataforma y de los requisitos legales o regulatorios aplicables.
 
 No garantizamos un éxito económico específico, una disponibilidad concreta de contenidos u objetos individuales ni que las fuentes de datos externas se reflejen siempre de forma completa, correcta o actualizada.
+
+Las distancias, ubicaciones y asignaciones regionales se basan en datos de usuarios y proveedores, así como en servicios de datos geográficos. Las distancias son aproximaciones en línea recta, no rutas de desplazamiento. Estos datos no confirman una dirección ni la ubicación de un objeto, ni tampoco su disponibilidad de envío, recogida o expedición. Los datos geográficos proceden de Amazon Location Service y de sus proveedores de datos; los avisos de fuentes y derechos de autor necesarios están disponibles en la [página de atribución de Amazon Location Service](https://docs.aws.amazon.com/location/latest/developerguide/data-attribution.html).
 
 ---
 
@@ -196,6 +199,8 @@ La posibilidad técnica de generar o utilizar Tokens de acceso no concede derech
 
 En la medida legalmente permitida, los clientes empresariales y socios nos mantendrán indemnes frente a reclamaciones de terceros, daños, medidas regulatorias y costes razonables de defensa jurídica derivados de un incumplimiento culpable de estas obligaciones sobre tokens o del uso ilícito de Tokens de acceso por personas o sistemas a los que hayan puesto dichos Tokens de acceso a disposición.
 
+Si los socios registran ubicaciones de su empresa, el punto geográfico exacto, así como el país y la región de las ubicaciones activas, pueden mostrarse públicamente y utilizarse para búsquedas por radio y para asociar anuncios. No existe ningún ajuste que excluya de esta publicación las ubicaciones activas; en su lugar, los socios pueden retirar una ubicación. La dirección completa introducida, los justificantes y los datos de gestión no se muestran públicamente. Una ubicación registrada no acredita existencias ni un punto de envío o recogida.
+
 Podremos limitar, suspender o revocar el acceso a la API o a funciones comparables por motivos de seguridad, estabilidad, cumplimiento legal o prevención de abusos.
 
 ---
@@ -287,4 +292,4 @@ Si usted es comerciante, una persona jurídica de derecho público, un patrimoni
 
 ---
 
-*Estado: 07.10.2026*
+*Estado: 12.10.2026*
