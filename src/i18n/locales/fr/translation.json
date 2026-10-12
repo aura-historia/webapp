@@ -2879,15 +2879,34 @@
   },
   "adminAuctions": {
     "title": "Gestion des ventes",
-    "description": "Créez des fiches de vente et actualisez les informations communiquées. La source et l’identité de la vente chez la source ne peuvent plus être modifiées après création.",
+    "description": "Recherchez, créez et actualisez des fiches de vente. La source et l’identité de la vente chez la source ne peuvent plus être modifiées après création.",
     "create": {
       "title": "Créer une vente",
       "description": "Associez la vente à une source autorisée et indiquez son identifiant chez cette source.",
       "blankFieldsHelp": "Laissez les champs facultatifs vides si la source n’a pas communiqué ces informations."
     },
-    "open": {
-      "title": "Ouvrir une fiche de vente",
-      "description": "Ouvrez une fiche si vous connaissez l’ID de la vente."
+    "list": {
+      "title": "Répertoire des ventes",
+      "description": "Toutes les fiches de vente, y compris celles sans annonce visible. Recherchez par nom ou ID de vente chez la source, ou par clé source exacte.",
+      "loading": "Chargement des ventes…",
+      "empty": "Aucune vente ne correspond à ces filtres.",
+      "end": "Aucune autre vente.",
+      "loadMore": "Afficher plus de ventes",
+      "noName": "Aucun nom communiqué",
+      "openLabel": "Ouvrir la fiche : {{label}}"
+    },
+    "filters": {
+      "title": "Filtres des ventes",
+      "query": "Nom ou ID de vente chez la source",
+      "queryHelp": "Correspond à une partie du nom ou de l’ID de vente chez la source, sans tenir compte de la casse.",
+      "listingSourceIdHelp": "ID exact de la source.",
+      "sourceAuctionIdHelp": "Clé exacte. Combinez-la avec l’ID de la source pour retrouver la fiche existante après un conflit.",
+      "allFormats": "Tous les formats",
+      "allStatuses": "Tous les statuts",
+      "sort": "Trier par",
+      "pageSize": "Par page",
+      "apply": "Appliquer les filtres",
+      "reset": "Réinitialiser"
     },
     "sourceSearch": {
       "prompt": "Recherchez par nom ou slug de la source ou de son opérateur, ou collez un ID de source.",
@@ -2932,7 +2951,8 @@
       "saving": "Enregistrement…",
       "loadLatest": "Charger la fiche à jour",
       "backToOverview": "Retour à la gestion des ventes",
-      "clearSource": "Effacer la sélection"
+      "clearSource": "Effacer la sélection",
+      "findExisting": "Retrouver la vente existante"
     },
     "errors": {
       "forbidden": "Vous n’êtes pas autorisé à gérer les ventes.",
@@ -2943,7 +2963,9 @@
       "invalid": "Vérifiez les informations de la vente puis réessayez.",
       "requestFailed": "La requête de vente n’a pas abouti. Veuillez réessayer.",
       "sourceMissing": "La source sélectionnée est introuvable.",
-      "invalidId": "Cet identifiant de vente n’est pas valide. Les identifiants commencent par « auc_ »."
+      "invalidId": "Cet identifiant de vente n’est pas valide. Les identifiants commencent par « auc_ ».",
+      "invalidSearch": "Ces filtres n’ont pas pu être appliqués. Vérifiez les ID et réessayez.",
+      "unavailable": "Les fiches de vente sont temporairement indisponibles. Veuillez réessayer dans un instant."
     },
     "validation": {
       "sourceRequired": "Sélectionnez une source.",
@@ -2963,6 +2985,14 @@
       "ENDED": "Terminée",
       "POSTPONED": "Reportée",
       "CANCELLED": "Annulée"
+    },
+    "sort": {
+      "updated_desc": "Mises à jour récemment",
+      "updated_asc": "Mises à jour il y a le plus longtemps",
+      "created_desc": "Plus récentes d’abord",
+      "created_asc": "Plus anciennes d’abord",
+      "name_asc": "Nom A–Z",
+      "name_desc": "Nom Z–A"
     },
     "schedule": {
       "biddingOpens": "Ouverture des enchères",

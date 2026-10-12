@@ -4,6 +4,7 @@ import { createElement } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mapAdminAuction } from "@/data/internal/auction/AdminAuction.ts";
 import {
+    ADMIN_AUCTION_LIST_QUERY_KEY,
     adminAuctionDetailQueryKey,
     buildCreateAuctionData,
     buildUpdateAuctionData,
@@ -12,12 +13,14 @@ import {
     mapListingSourceSelectionQuery,
     useAdminAuction,
     useAdminAuctionListingSources,
+    useAdminAuctions,
     useCreateAdminAuction,
     useUpdateAdminAuction,
     type AdminAuctionOperation,
     type AuctionCreateValues,
     type AuctionMetadataValues,
 } from "../useAdminAuctions.ts";
+import type { AdminAuctionFilters } from "../../lib/adminAuctionSearch.ts";
 import {
     auctionCreateSchema,
     auctionMetadataSchema,
@@ -28,6 +31,7 @@ const auctionApi = vi.hoisted(() => ({
     getAdminAuction: vi.fn(),
     updateAdminAuction: vi.fn(),
     adminSearchListingSources: vi.fn(),
+    adminSearchAuctions: vi.fn(),
     createAdminAuction: vi.fn(),
 }));
 
@@ -179,7 +183,11 @@ describe("admin auction queries", () => {
         [404, "create", "adminAuctions.errors.sourceMissing"],
         [409, "create", "adminAuctions.errors.duplicateSourceKey"],
         [409, "update", "adminAuctions.errors.staleVersion"],
-        [503, "update", "adminAuctions.errors.requestFailed"],
+        [503, "update", "adminAuctions.errors.unavailable"],
+        [400, "search", "adminAuctions.errors.invalidSearch"],
+        [403, "search", "adminAuctions.errors.forbidden"],
+        [503, "search", "adminAuctions.errors.unavailable"],
+        [500, "search", "adminAuctions.errors.requestFailed"],
         [undefined, "sourceSearch", "adminAuctions.errors.requestFailed"],
     ])("maps status %s on %s to localized copy", (status, operation, key) => {
         const error = createAdminAuctionErrorFactory(((k: string) => k) as never)(
@@ -202,6 +210,122 @@ describe("admin auction queries", () => {
             expect(result.current.error?.message).toBe("adminAuctions.errors.missing"),
         );
         expect(result.current.error?.message).not.toContain("private backend diagnostic");
+    });
+
+    it("pages admin auctions with the returned cursor verbatim and no-store", async () => {
+        auctionApi.adminSearchAuctions
+            .mockResolvedValueOnce({
+                data: { items: [adminAuction(1)], size: 1, searchAfter: "cursor+/=1" },
+                error: null,
+            })
+            .mockResolvedValueOnce({
+                data: { items: [{ ...adminAuction(1), auctionId: "auc_02" }], size: 1 },
+                error: null,
+            });
+        const filters: AdminAuctionFilters = { query: "sale", sort: "name", order: "asc" };
+        const { result } = renderHook(() => useAdminAuctions(filters), { wrapper });
+
+        await waitFor(() => expect(result.current.hasNextPage).toBe(true));
+        expect(auctionApi.adminSearchAuctions).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+                query: { query: "sale", sort: "name", order: "asc", size: 25 },
+                cache: "no-store",
+            }),
+        );
+
+        await act(async () => {
+            await result.current.fetchNextPage();
+        });
+
+        expect(auctionApi.adminSearchAuctions).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+                query: {
+                    query: "sale",
+                    sort: "name",
+                    order: "asc",
+                    size: 25,
+                    searchAfter: "cursor+/=1",
+                },
+                cache: "no-store",
+            }),
+        );
+        await waitFor(() => expect(result.current.hasNextPage).toBe(false));
+        expect(result.current.data?.pages.flatMap((page) => page.items)).toHaveLength(2);
+    });
+
+    it("starts a changed filter, sort or size scope without a cursor", async () => {
+        auctionApi.adminSearchAuctions.mockResolvedValue({
+            data: { items: [adminAuction(1)], size: 1, searchAfter: "cursor-1" },
+            error: null,
+        });
+        const { result, rerender } = renderHook(
+            ({ filters }: { filters: AdminAuctionFilters }) => useAdminAuctions(filters),
+            { initialProps: { filters: {} }, wrapper },
+        );
+        await waitFor(() => expect(result.current.hasNextPage).toBe(true));
+        await act(async () => {
+            await result.current.fetchNextPage();
+        });
+
+        for (const filters of [
+            { format: "LIVE" },
+            { format: "LIVE", sort: "created", order: "asc" },
+            { format: "LIVE", sort: "created", order: "asc", size: 50 },
+        ] as const) {
+            auctionApi.adminSearchAuctions.mockClear();
+            rerender({ filters });
+            await waitFor(() => expect(auctionApi.adminSearchAuctions).toHaveBeenCalledTimes(1));
+            expect(auctionApi.adminSearchAuctions.mock.calls[0]?.[0].query).not.toHaveProperty(
+                "searchAfter",
+            );
+        }
+    });
+
+    it("hides API response details from admin search errors", async () => {
+        auctionApi.adminSearchAuctions.mockResolvedValueOnce({
+            data: null,
+            error: { detail: "cursor scope mismatch for ls_secret" },
+            response: { status: 400 },
+        });
+        const { result } = renderHook(() => useAdminAuctions({}), { wrapper });
+
+        await waitFor(() =>
+            expect(result.current.error?.message).toBe("adminAuctions.errors.invalidSearch"),
+        );
+        expect(result.current.error?.message).not.toContain("ls_secret");
+    });
+
+    it.each([
+        ["created", 201],
+        ["conflicting", 409],
+    ] as const)("refreshes admin auction lists after a %s create", async (_label, status) => {
+        auctionApi.createAdminAuction.mockResolvedValue(
+            status === 201
+                ? { data: adminAuction(1), error: null }
+                : { data: null, error: {}, response: { status } },
+        );
+        const invalidate = vi.spyOn(queryClient, "invalidateQueries");
+        const { result } = renderHook(() => useCreateAdminAuction(), { wrapper });
+
+        await act(async () => {
+            await result.current
+                .mutateAsync({ ...blankValues, listingSourceId: "ls_01", sourceAuctionId: "sale" })
+                .catch(() => undefined);
+        });
+
+        expect(invalidate).toHaveBeenCalledWith({ queryKey: ADMIN_AUCTION_LIST_QUERY_KEY });
+    });
+
+    it("refreshes admin auction lists after an update", async () => {
+        auctionApi.updateAdminAuction.mockResolvedValue({ data: adminAuction(2), error: null });
+        const invalidate = vi.spyOn(queryClient, "invalidateQueries");
+        const { result } = renderHook(() => useUpdateAdminAuction("auc_01"), { wrapper });
+
+        await act(async () => {
+            await result.current.mutateAsync({ values: blankValues, expectedVersion: 1 });
+        });
+
+        expect(invalidate).toHaveBeenCalledWith({ queryKey: ADMIN_AUCTION_LIST_QUERY_KEY });
     });
 
     it("searches listing sources only once a query is entered, without caching", async () => {
