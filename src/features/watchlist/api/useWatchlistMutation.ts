@@ -4,27 +4,26 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import {
-    cancelWatchlistRelatedQueries,
-    invalidateWatchlistRelatedQueries,
-    removeListingFromWatchlistCache,
-    restoreWatchlistListingCaches,
-    snapshotWatchlistListingCaches,
-    updateListingWatchlistState,
-    updateWatchlistListingCaches,
-} from "@/features/watchlist/api/watchlistCache.ts";
+    findMutationViewer,
+    isCurrentViewer,
+} from "@/features/authentication/lib/mutationViewer.ts";
+import {
+    cancelListingQueries,
+    invalidateListingQueries,
+    patchListingUserState,
+    removeListingFromQueries,
+    withWatchlistState,
+} from "@/features/product/catalog/lib/listingUserStateCache.ts";
+import {
+    WatchlistRequestError,
+    watchlistMutationKeys,
+    watchlistMutationScope,
+    type WatchlistMutationType,
+} from "@/features/watchlist/api/watchlistMutationState.ts";
 
-export type WatchlistMutationType = "addToWatchlist" | "deleteFromWatchlist";
-
-class WatchlistRequestError extends Error {
-    constructor(
-        message: string,
-        readonly status?: number,
-    ) {
-        super(message);
-        this.name = "WatchlistRequestError";
-    }
-}
+export type { WatchlistMutationType } from "@/features/watchlist/api/watchlistMutationState.ts";
 
 export function useWatchlistMutation(productListingId: string) {
     const queryClient = useQueryClient();
@@ -32,6 +31,10 @@ export function useWatchlistMutation(productListingId: string) {
     const { t } = useTranslation();
 
     return useMutation({
+        mutationKey: watchlistMutationKeys.membership(productListingId),
+        scope: watchlistMutationScope(productListingId),
+        // Pending state is shown by `useListingWatchlistState`; caches change only once confirmed.
+        onMutate: findMutationViewer,
         mutationFn: async (mutationType: WatchlistMutationType) => {
             const result =
                 mutationType === "deleteFromWatchlist"
@@ -48,23 +51,26 @@ export function useWatchlistMutation(productListingId: string) {
             // Mutation DTOs describe only a watchlist entry. Keep them out of listing caches.
             return undefined;
         },
-        onMutate: async (mutationType) => {
-            await cancelWatchlistRelatedQueries(queryClient);
-            const snapshots = snapshotWatchlistListingCaches(queryClient);
+        onSuccess: async (_data, mutationType, viewerId) => {
+            await cancelListingQueries(queryClient, viewerId);
+            // A viewer change while awaiting must not write into the next viewer's caches.
+            if (!(await isCurrentViewer(viewerId))) return;
             const watching = mutationType === "addToWatchlist";
-
-            updateWatchlistListingCaches(queryClient, productListingId, (listing) => {
-                return updateListingWatchlistState(listing, { watching });
-            });
-            if (mutationType === "deleteFromWatchlist") {
-                removeListingFromWatchlistCache(queryClient, productListingId);
+            patchListingUserState(
+                queryClient,
+                { productListingId },
+                withWatchlistState({ watching }),
+                viewerId,
+            );
+            if (!watching) {
+                removeListingFromQueries(
+                    queryClient,
+                    productListingQueryKeys.watchlistOf(viewerId),
+                    productListingId,
+                );
             }
-
-            return { snapshots };
         },
-        onError: (error, _mutationType, context) => {
-            restoreWatchlistListingCaches(queryClient, context?.snapshots);
-
+        onError: (error) => {
             if (error instanceof WatchlistRequestError && error.status === 401) {
                 toast.info(t("watchlist.loginRequired"));
             } else if (
@@ -77,6 +83,7 @@ export function useWatchlistMutation(productListingId: string) {
                 toast.error(error.message || t("watchlist.loadingError.description"));
             }
         },
-        onSettled: async () => invalidateWatchlistRelatedQueries(queryClient),
+        onSettled: (_data, _error, _mutationType, viewerId) =>
+            invalidateListingQueries(queryClient, viewerId),
     });
 }

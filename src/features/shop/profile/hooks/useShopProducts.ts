@@ -1,3 +1,4 @@
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import { simpleSearchProductListings } from "@/client";
 import { mapPersonalizedProductListingSummary } from "@/data/internal/product/ProductListing.ts";
 import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
@@ -33,13 +34,10 @@ export function useShopProducts(
     const { preferences } = useUserPreferences();
 
     return useInfiniteQuery({
-        queryKey: [
-            "sourceProductListings",
-            listingSourceId,
-            i18n.language,
-            preferences.currency,
-            PAGE_SIZE,
-        ],
+        queryKey: productListingQueryKeys.source(listingSourceId, PAGE_SIZE, {
+            language: parseLanguage(i18n.language),
+            currency: preferences.currency,
+        }),
         queryFn: async ({ pageParam }) => {
             const result = await simpleSearchProductListings({
                 query: {

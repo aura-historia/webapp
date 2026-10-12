@@ -1,3 +1,4 @@
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import {
     getSimilarProductListings,
     type ApiError,
@@ -71,7 +72,10 @@ export function useSimilarProducts(productListingId: string): UseQueryResult<Sim
     const language = parseLanguage(i18n.language);
 
     return useQuery({
-        queryKey: ["similarProductListings", productListingId, language, preferences.currency],
+        queryKey: productListingQueryKeys.similar(productListingId, {
+            language,
+            currency: preferences.currency,
+        }),
         queryFn: async ({ signal, client: queryClient, queryKey }) => {
             const previous = queryClient.getQueryData<SimilarProductsData>(queryKey);
 

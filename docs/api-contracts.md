@@ -119,16 +119,31 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
 
 - Prefixed IDs (listing, source, FX, user, `at_` tokens) are opaque strings. Never parse them as
   UUIDs or extract slugs from them.
-- Use `productListingQueryKeys`. Include a non-secret `viewerCacheKey` whenever a query can
-  contain account-specific state, so one viewer's state never shares an entry with another's or
-  with anonymous data.
+- Every query that caches listings (search, detail, landing, similar, dealer, shop, watchlist,
+  saved-search matches and previews) uses a `productListingQueryKeys` key under the single
+  `["productListings"]` root. Never key listing data with generated `*QueryKey` helpers or ad-hoc
+  prefixes. Include a non-secret `viewerCacheKey` when a key is partitioned per account (the
+  watchlist), so one viewer's state never shares an entry with another's or with anonymous data.
+- Listing `userState` is a copy embedded in every cached listing. Change it only through
+  `patchListingUserState` (`src/features/product/catalog/lib/listingUserStateCache.ts`), which
+  updates mapped listings, infinite pages and the raw `{ item, userState }` detail DTO alike, and
+  skips other viewers' partitions. Apply it after the backend confirms the write, then invalidate
+  the listing root.
+- Pending watchlist writes are shown through `useListingWatchlistState`, which overlays this
+  listing's pending mutations on the cached state; caches are not rewritten optimistically, so a
+  failed write has nothing to roll back and cannot undo another listing's change. Writes to one
+  listing share a mutation `scope` and run in order.
+- The product detail cache keeps the raw personalized DTO so SSR dehydration stays serializable;
+  map it at the page boundary.
 - Search preserves the complete FX-pinned `searchAfter` object as one JSON query value and resets
   it when criteria or currency change. Watchlist and match cursors are endpoint-specific tuple or
   string formats; there is no universal cursor type. Saved-match pagination stops on an absent
   cursor.
-- Sign-in, sign-out and viewer changes remove listing, account, watchlist, match, notification,
-  own-source, application, access-token and `admin` caches, aborting pending private reads so late
-  responses cannot repopulate them. See [privacy alignment](privacy-policy-alignment.md).
+- Sign-in, sign-out and viewer changes remove listing (the whole `["productListings"]` root),
+  account, notification, saved-search, own-source, application, access-token and `admin` caches,
+  aborting pending private reads so late responses cannot repopulate them. Pending listing writes
+  are removed from the mutation cache, and a write that settles after a viewer change does not
+  touch the next viewer's caches. See [privacy alignment](privacy-policy-alignment.md).
 
 ### Errors
 

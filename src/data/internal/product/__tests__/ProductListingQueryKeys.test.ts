@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { getProductListingIdentity, productListingQueryKeys } from "../ProductListingQueryKeys.ts";
 
 describe("ProductListing identity and query keys", () => {
+    const context = { language: "en", currency: "EUR" } as const;
+
     it("preserves prefixed IDs as opaque strings", () => {
         expect(
             getProductListingIdentity({
@@ -16,29 +18,50 @@ describe("ProductListing identity and query keys", () => {
         });
     });
 
-    it("isolates personalized listing data by viewer cache key", () => {
-        const context = { language: "en", currency: "EUR" } as const;
+    it("places every listing query under one root", () => {
+        const keys = [
+            productListingQueryKeys.detailBySlug("vase", context),
+            productListingQueryKeys.search({ q: "vase" }, context),
+            productListingQueryKeys.recentlyAdded(context),
+            productListingQueryKeys.similar("plist_01", context),
+            productListingQueryKeys.dealer("ls_01", "plist_01", context),
+            productListingQueryKeys.source("ls_01", 20, context),
+            productListingQueryKeys.watchlist({ ...context, viewerCacheKey: "account-1" }),
+            productListingQueryKeys.savedSearchMatchesPage("sf_01", context),
+            productListingQueryKeys.savedSearchPreview({ q: "vase" }, context),
+        ];
 
-        expect(productListingQueryKeys.detail("plist_01", context)).not.toEqual(
-            productListingQueryKeys.detail("plist_01", { ...context, viewerCacheKey: "account-1" }),
+        for (const key of keys) {
+            expect(key.slice(0, 1)).toEqual(productListingQueryKeys.all);
+        }
+    });
+
+    it("isolates watchlist data by viewer cache key", () => {
+        expect(productListingQueryKeys.watchlist(context)).not.toEqual(
+            productListingQueryKeys.watchlist({ ...context, viewerCacheKey: "account-1" }),
         );
         expect(
-            productListingQueryKeys.detail("plist_01", { ...context, viewerCacheKey: "account-1" }),
+            productListingQueryKeys.watchlist({ ...context, viewerCacheKey: "account-1" }),
         ).not.toEqual(
-            productListingQueryKeys.detail("plist_01", { ...context, viewerCacheKey: "account-2" }),
+            productListingQueryKeys.watchlist({ ...context, viewerCacheKey: "account-2" }),
+        );
+        expect(
+            productListingQueryKeys.watchlist({ ...context, viewerCacheKey: "account-1" }),
+        ).toEqual([...productListingQueryKeys.watchlistOf("account-1"), "en", "EUR"]);
+    });
+
+    it("includes locale and currency in presentation keys", () => {
+        expect(productListingQueryKeys.detailBySlug("vase", context)).not.toEqual(
+            productListingQueryKeys.detailBySlug("vase", { ...context, language: "de" }),
+        );
+        expect(productListingQueryKeys.similar("plist_01", context)).not.toEqual(
+            productListingQueryKeys.similar("plist_01", { ...context, currency: "USD" }),
         );
     });
 
-    it("includes locale and currency in presentation keys and separates history", () => {
+    it("lets saved-search match pages be addressed by filter", () => {
         expect(
-            productListingQueryKeys.summary("plist_01", { language: "en", currency: "EUR" }),
-        ).not.toEqual(
-            productListingQueryKeys.summary("plist_01", { language: "de", currency: "EUR" }),
-        );
-        expect(productListingQueryKeys.history("plist_01")).toEqual([
-            "productListings",
-            "history",
-            "plist_01",
-        ]);
+            productListingQueryKeys.savedSearchMatchesPage("sf_01", context).slice(0, 3),
+        ).toEqual(productListingQueryKeys.savedSearchMatches("sf_01"));
     });
 });

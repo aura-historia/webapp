@@ -13,6 +13,15 @@ vi.mock("@/hooks/common/useApiError", () => ({
     useApiError: () => ({ getErrorMessage: mockGetErrorMessage }),
 }));
 vi.mock("@/data/internal/hooks/ApiError", () => ({ mapToInternalApiError: (e: unknown) => e }));
+const mockPatchListingUserState = vi.hoisted(() => vi.fn());
+const mockInvalidateListingQueries = vi.hoisted(() => vi.fn());
+vi.mock("@/features/product/catalog/lib/listingUserStateCache.ts", async (importOriginal) => ({
+    ...(await importOriginal<
+        typeof import("@/features/product/catalog/lib/listingUserStateCache.ts")
+    >()),
+    patchListingUserState: mockPatchListingUserState,
+    invalidateListingQueries: mockInvalidateListingQueries,
+}));
 vi.mock("@tanstack/react-query", async (importOriginal) => {
     const actual = await importOriginal<typeof import("@tanstack/react-query")>();
     return {
@@ -87,8 +96,41 @@ describe("useDeleteUserSearchFilter", () => {
             expect.objectContaining({ queryKey: ["userSearchFilter", "filter-99"] }),
         );
         expect(mockRemoveQueries).toHaveBeenCalledWith(
-            expect.objectContaining({ queryKey: ["searchFilterMatchedProducts", "filter-99"] }),
+            expect.objectContaining({
+                queryKey: ["productListings", "savedSearchMatches", "filter-99"],
+            }),
         );
+    });
+
+    it("clears the deleted filter's match state from cached listings and refetches them", async () => {
+        mockDeleteUserSearchFilter.mockResolvedValue({ error: null });
+
+        const { result } = renderHook(() => useDeleteUserSearchFilter(), {
+            wrapper: createWrapper(),
+        });
+
+        await act(async () => {
+            result.current.mutate("filter-99");
+        });
+
+        expect(mockPatchListingUserState).toHaveBeenCalledWith(
+            expect.anything(),
+            "allListings",
+            expect.any(Function),
+        );
+        const update = mockPatchListingUserState.mock.calls[0][2];
+        const state = {
+            watchlist: { watching: false, notifications: false },
+            notification: { unseenNotificationIds: [] },
+            searchFilter: {
+                matched: true,
+                hidden: false,
+                userSearchFilterId: "filter-99",
+                userSearchFilterName: "Vases",
+            },
+        };
+        expect(update(state).searchFilter).toEqual({ matched: false, hidden: false });
+        expect(mockInvalidateListingQueries).toHaveBeenCalled();
     });
 
     it("sets isError when API returns error", async () => {

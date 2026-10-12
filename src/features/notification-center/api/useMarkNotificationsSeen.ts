@@ -3,14 +3,15 @@ import { updateNotificationsSeen } from "@/client";
 import { toast } from "sonner";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
-import { commitNotificationMutation, getNotificationMutationViewer } from "./notificationCache.ts";
+import { getMutationViewer } from "@/features/authentication/lib/mutationViewer.ts";
+import { commitNotificationMutation } from "./notificationCache.ts";
 
 /** Explicit selected-bulk operation; mark-all uses its dedicated endpoint. */
 export function useMarkNotificationsSeen() {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
     return useMutation({
-        onMutate: getNotificationMutationViewer,
+        onMutate: getMutationViewer,
         mutationFn: async (notificationIds: readonly string[]) => {
             if (notificationIds.length === 0) return;
             const result = await updateNotificationsSeen({

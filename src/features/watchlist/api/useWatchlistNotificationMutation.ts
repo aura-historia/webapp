@@ -5,23 +5,20 @@ import { useTranslation } from "react-i18next";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import {
-    cancelWatchlistRelatedQueries,
-    invalidateWatchlistRelatedQueries,
-    restoreWatchlistListingCaches,
-    snapshotWatchlistListingCaches,
-    updateListingWatchlistState,
-    updateWatchlistListingCaches,
-} from "@/features/watchlist/api/watchlistCache.ts";
-
-class WatchlistRequestError extends Error {
-    constructor(
-        message: string,
-        readonly status?: number,
-    ) {
-        super(message);
-        this.name = "WatchlistRequestError";
-    }
-}
+    findMutationViewer,
+    isCurrentViewer,
+} from "@/features/authentication/lib/mutationViewer.ts";
+import {
+    cancelListingQueries,
+    invalidateListingQueries,
+    patchListingUserState,
+    withWatchlistState,
+} from "@/features/product/catalog/lib/listingUserStateCache.ts";
+import {
+    WatchlistRequestError,
+    watchlistMutationKeys,
+    watchlistMutationScope,
+} from "@/features/watchlist/api/watchlistMutationState.ts";
 
 export function useWatchlistNotificationMutation(productListingId: string) {
     const queryClient = useQueryClient();
@@ -29,6 +26,10 @@ export function useWatchlistNotificationMutation(productListingId: string) {
     const { t } = useTranslation();
 
     return useMutation({
+        mutationKey: watchlistMutationKeys.notifications(productListingId),
+        scope: watchlistMutationScope(productListingId),
+        // Pending state is shown by `useListingWatchlistState`; caches change only once confirmed.
+        onMutate: findMutationViewer,
         mutationFn: async (notifications: boolean) => {
             const result = await patchWatchlistProduct({
                 path: { productListingId },
@@ -45,16 +46,18 @@ export function useWatchlistNotificationMutation(productListingId: string) {
             // The response is a watchlist entry, not a product listing.
             return undefined;
         },
-        onMutate: async (notifications) => {
-            await cancelWatchlistRelatedQueries(queryClient);
-            const snapshots = snapshotWatchlistListingCaches(queryClient);
-            updateWatchlistListingCaches(queryClient, productListingId, (listing) =>
-                updateListingWatchlistState(listing, { notifications }),
+        onSuccess: async (_data, notifications, viewerId) => {
+            await cancelListingQueries(queryClient, viewerId);
+            // A viewer change while awaiting must not write into the next viewer's caches.
+            if (!(await isCurrentViewer(viewerId))) return;
+            patchListingUserState(
+                queryClient,
+                { productListingId },
+                withWatchlistState({ notifications }),
+                viewerId,
             );
-            return { snapshots };
         },
-        onError: (error, _notifications, context) => {
-            restoreWatchlistListingCaches(queryClient, context?.snapshots);
+        onError: (error) => {
             if (error instanceof WatchlistRequestError && error.status === 401) {
                 toast.info(t("watchlist.loginRequired"));
             } else {
@@ -62,6 +65,7 @@ export function useWatchlistNotificationMutation(productListingId: string) {
                 toast.error(error.message || t("watchlist.loadingError.description"));
             }
         },
-        onSettled: async () => invalidateWatchlistRelatedQueries(queryClient),
+        onSettled: (_data, _error, _notifications, viewerId) =>
+            invalidateListingQueries(queryClient, viewerId),
     });
 }

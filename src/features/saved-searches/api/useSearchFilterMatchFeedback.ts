@@ -5,6 +5,11 @@ import { useTranslation } from "react-i18next";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { mapToInternalSearchFilterProductMatch } from "@/data/internal/search-filter/SearchFilterProductMatch.ts";
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
+import {
+    patchListingUserState,
+    withSearchFilterMatchFeedback,
+} from "@/features/product/catalog/lib/listingUserStateCache.ts";
 
 export function useSearchFilterMatchFeedback(filterId: string, productListingId: string) {
     const queryClient = useQueryClient();
@@ -28,9 +33,14 @@ export function useSearchFilterMatchFeedback(filterId: string, productListingId:
             console.error("Error submitting match feedback:", e);
             toast.error(e.message ?? t("searchFilters.feedbackError"));
         },
-        onSuccess: () => {
+        onSuccess: (match) => {
+            patchListingUserState(
+                queryClient,
+                { productListingId },
+                withSearchFilterMatchFeedback(filterId, match.feedback),
+            );
             queryClient.invalidateQueries({
-                queryKey: ["searchFilterMatchedProducts", filterId],
+                queryKey: productListingQueryKeys.savedSearchMatches(filterId),
             });
         },
     });

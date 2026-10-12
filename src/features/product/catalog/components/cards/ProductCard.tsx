@@ -9,6 +9,7 @@ import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { NotificationButton } from "@/features/watchlist/components/NotificationButton.tsx";
 import { WatchlistButton } from "@/features/watchlist/components/WatchlistButton.tsx";
+import { useListingWatchlistState } from "@/features/watchlist/api/watchlistMutationState.ts";
 import { ProductCardImageCarousel } from "@/features/product/catalog/components/media/ProductCardImageCarousel.tsx";
 import { ProductListingLink } from "@/features/product/catalog/components/ProductListingLink.tsx";
 import { ListingStatusBadge } from "@/features/product/catalog/components/badges/ListingStatusBadge.tsx";
@@ -31,8 +32,10 @@ function ProductCardComponent({ product }: { readonly product: ProductListing })
     const merchantUrl = product.viewUrl?.href ?? product.url?.href;
     const showSensitiveContent =
         product.userState?.contentVisibility.showUnassessedOrSensitiveContent ?? false;
-    const isWatching = product.userState?.watchlist.watching ?? false;
-    const isNotificationEnabled = product.userState?.watchlist.notifications ?? false;
+    const { watching: isWatching, notifications: isNotificationEnabled } = useListingWatchlistState(
+        product.productListingId,
+        product.userState?.watchlist,
+    );
     const priceLabel =
         product.formattedPrice ??
         (product.price?.type === "ON_REQUEST"

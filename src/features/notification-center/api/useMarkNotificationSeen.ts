@@ -4,14 +4,15 @@ import { toast } from "sonner";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 
-import { commitNotificationMutation, getNotificationMutationViewer } from "./notificationCache.ts";
+import { getMutationViewer } from "@/features/authentication/lib/mutationViewer.ts";
+import { commitNotificationMutation } from "./notificationCache.ts";
 
 export function useMarkNotificationSeen() {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
 
     return useMutation({
-        onMutate: getNotificationMutationViewer,
+        onMutate: getMutationViewer,
         mutationFn: async (notificationId: string) => {
             const result = await updateNotificationSeen({
                 path: { notificationId },

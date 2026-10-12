@@ -1,3 +1,4 @@
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import { simpleSearchProductListings, type SimpleSearchProductListingsData } from "@/client";
 import { mapPersonalizedProductListingSummary } from "@/data/internal/product/ProductListing.ts";
 import {
@@ -105,7 +106,10 @@ export function useSearch(
     delete searchCriteria.includeUnspecifiedAvailability;
 
     return useInfiniteQuery({
-        queryKey: ["search", searchCriteria, i18n.language, preferences.currency],
+        queryKey: productListingQueryKeys.search(searchCriteria, {
+            language: parseLanguage(i18n.language),
+            currency: preferences.currency,
+        }),
         enabled: isSearchEnabled && searchArgs.q.length >= MIN_SEARCH_QUERY_LENGTH,
         queryFn: async ({ pageParam }) => {
             if (hasEmptyArrayFilter(searchArgs)) return EMPTY_RESULT;
