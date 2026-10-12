@@ -34,6 +34,7 @@ Según el uso que haga del servicio, esto puede incluir en particular:
 - metadatos contractuales, de facturación y de pago
 - datos de uso, registros y dispositivo
 - datos de contenido e interacción dentro del servicio
+- datos de dirección y ubicación, cuando utilice funciones geográficas
 - datos procedentes de fuentes accesibles públicamente, incluidos contenidos históricos o de antigüedades
 
 ---
@@ -104,7 +105,7 @@ Cuando utiliza nuestro servicio, podemos tratar datos adicionales, en particular
 
 Cuando se utilizan funciones para socios, tiendas o administración, también podemos tratar:
 
-- datos de tienda, dominio, contacto y dirección
+- datos de tienda, dominio, contacto y dirección, incluidas las ubicaciones de comerciantes y casas de subastas
 - solicitudes de socio y datos relacionados de estado o revisión
 - datos de acceso a API o datos de administración relacionados
 - información de rol y activación
@@ -125,7 +126,44 @@ Si autoriza expresamente una aplicación externa, esta podrá acceder a los dato
 
 ---
 
-## 6. Servicios de pago, suscripciones y procesamiento de pagos
+## 6. Direcciones, ubicaciones de búsqueda y funciones geográficas
+
+Cuando utiliza funciones geográficas, tratamos en particular, según la función:
+
+- direcciones que guarda en su cuenta, con denominación, texto de la dirección, país, región y código postal, cuando se indiquen
+- datos geográficos derivados de ellas, como país, región, coordenadas y su precisión, así como el estado del procesamiento
+- la ubicación de búsqueda que elija, es decir, una dirección guardada o un país con código postal opcional
+- coordenadas que utilice para una búsqueda por radio o que conserve en una búsqueda guardada
+- su ubicación actual, si la comparte expresamente a través de su navegador
+
+**Direcciones guardadas y ubicación de búsqueda:** Sus direcciones guardadas y su ubicación de búsqueda son privadas y están destinadas únicamente a su cuenta. Las utilizamos para determinar distancias y resultados regionales para usted. No sirven para verificar su domicilio, su dirección de facturación, su nacionalidad ni si los objetos pueden enviarse. No deducimos ninguna ubicación de búsqueda de su idioma, su moneda o su dirección IP.
+
+**Geocodificación:** Después de que guarde o modifique una dirección, determinamos su ubicación geográfica en segundo plano y con cierto retraso. Para ello, enviamos el texto de la dirección y sus datos de país, región y código postal a Amazon Location Service de Amazon Web Services (AWS), que utilizamos a través de la región de Fráncfort (eu-central-1). Amazon Location Service se basa en datos de proveedores de datos, cuyo tratamiento también puede realizarse fuera de esta región. Solo almacenamos el resultado cuando las condiciones del proveedor lo permiten y lo utilizamos exclusivamente para su cuenta, aunque otros usuarios guarden la misma dirección. Solo adoptamos un punto exacto a partir de un resultado inequívoco. Hasta que concluya la determinación, o si no hay un resultado inequívoco, la dirección sigue pudiendo utilizarse sin un punto exacto; puede corregirla en cualquier momento. La geocodificación no verifica su dirección.
+
+**Compartir la ubicación del navegador:** Solo solicitamos su ubicación actual cuando usted lo activa expresamente. Su navegador le pide permiso previamente; puede denegarlo o revocarlo en la configuración del navegador. Utilizamos las coordenadas para la búsqueda correspondiente y solo las almacenamos si guarda la búsqueda.
+
+**Búsquedas guardadas con ubicación:** Si una búsqueda guardada incluye un radio, almacenamos las coordenadas utilizadas como copia privada. Esta copia no cambia si posteriormente modifica o elimina una dirección. Puede eliminarla modificando o eliminando la búsqueda guardada.
+
+**Sin transmisión a servicios de análisis:** No transmitimos direcciones ni coordenadas a Google Analytics ni las incluimos en registros de diagnóstico. Las funciones de ubicación no requieren consentimiento para análisis/seguimiento ni para mapas externos; sus decisiones en los ajustes de consentimiento no cambian.
+
+**Ubicaciones públicas de comerciantes y casas de subastas:** Los comerciantes, las casas de subastas y otros proveedores pueden registrar ubicaciones de su empresa. Para las ubicaciones activas, podemos mostrar públicamente el punto geográfico exacto, así como el país y la región, y utilizarlos para búsquedas por radio y para asociar anuncios. La dirección completa introducida, los justificantes y los datos de gestión permanecen protegidos y solo son accesibles para personas autorizadas. Las ubicaciones retiradas dejan de mostrarse públicamente; puede transcurrir un breve tiempo hasta que se actualicen todos los resultados de búsqueda. Las direcciones privadas de los usuarios nunca se utilizan como ubicaciones públicas.
+
+**Atribución:** Los datos geográficos proceden de Amazon Location Service y de sus proveedores de datos. Los avisos de fuentes y derechos de autor necesarios están disponibles en la [página de atribución de Amazon Location Service](https://docs.aws.amazon.com/location/latest/developerguide/data-attribution.html).
+
+**Finalidades del tratamiento:**
+
+- determinación de distancias, así como búsqueda y filtrado regionales
+- búsquedas por radio y notificaciones de búsquedas guardadas
+- visibilidad por ubicación de comerciantes, casas de subastas y sus anuncios
+
+**Bases jurídicas:**
+
+- **Art. 6 apdo. 1 letra b RGPD** – prestación de las funciones de dirección, ubicación, búsqueda y socios que utiliza
+- **Art. 6 apdo. 1 letra f RGPD** – interés legítimo en la visibilidad por ubicación de comerciantes, casas de subastas y anuncios
+
+---
+
+## 7. Servicios de pago, suscripciones y procesamiento de pagos
 
 Si adquiere servicios digitales de pago o suscripciones, tratamos en particular:
 
@@ -152,7 +190,7 @@ El procesamiento de pagos se realiza a través de [Stripe](https://stripe.com/) 
 
 ---
 
-## 7. Boletín y comunicaciones de marketing
+## 8. Boletín y comunicaciones de marketing
 
 Si elige recibir correos electrónicos de marketing, tratamos en particular:
 
@@ -173,7 +211,7 @@ La retirada de su consentimiento no afecta a la licitud del tratamiento efectuad
 
 ---
 
-## 8. Cookies, almacenamiento local y almacenamiento de sesión
+## 9. Cookies, almacenamiento local y almacenamiento de sesión
 
 Utilizamos almacenamiento técnicamente necesario en su navegador. Podemos guardar en cookies o almacenamiento local el idioma elegido, las preferencias funcionales y sus decisiones sobre el consentimiento para recordar y aplicar sus ajustes en visitas posteriores. El inicio de sesión y el registro también pueden requerir almacenamiento temporal en el navegador. Las funciones opcionales de analítica y los mapas externos solo se utilizan cuando la ley lo permite y tras su consentimiento.
 
@@ -184,7 +222,7 @@ Utilizamos almacenamiento técnicamente necesario en su navegador. Podemos guard
 
 ---
 
-## 9. Gestión del consentimiento, Google Analytics y mapas externos
+## 10. Gestión del consentimiento, Google Analytics y mapas externos
 
 Nuestro sitio web utiliza un banner de consentimiento y ajustes específicos de consentimiento. Las funciones opcionales de analítica y los contenidos externos solo se activan en la medida legalmente permitida y tras su consentimiento. Puede decidir por separado sobre analítica/seguimiento y mapas externos.
 
@@ -212,7 +250,7 @@ Para más información, consulte la [Política de Privacidad de Google](https://
 
 ---
 
-## 10. Fuentes accesibles públicamente, web scraping y contenidos históricos
+## 11. Fuentes accesibles públicamente, web scraping y contenidos históricos
 
 Nuestra plataforma también trata información procedente de fuentes accesibles públicamente en internet. Según la fuente, esto puede incluir en particular:
 
@@ -244,7 +282,7 @@ Tras la revisión, eliminaremos, bloquearemos o restringiremos contenidos cuando
 
 ---
 
-## 11. Tratamiento asistido por IA y ausencia de decisiones individuales automatizadas
+## 12. Tratamiento asistido por IA y ausencia de decisiones individuales automatizadas
 
 Algunas funciones utilizan procedimientos automatizados o asistidos por IA para organizar contenidos y encontrar resultados de búsqueda pertinentes. Para mejorar la búsqueda de coincidencias con búsquedas guardadas, enviamos a Cloudflare la descripción de búsqueda que usted introduce, descripciones pertinentes de anuncios y, en ocasiones, una imagen para evaluar posibles coincidencias. Estos datos pueden contener información personal si se refieren a una persona identificable.
 
@@ -257,11 +295,11 @@ Este tratamiento sirve de apoyo a las búsquedas. No adoptamos decisiones basada
 
 ---
 
-## 12. Destinatarios, proveedores de servicios y transferencias a terceros países
+## 13. Destinatarios, proveedores de servicios y transferencias a terceros países
 
 Utilizamos proveedores de servicios e infraestructura externos. Los datos personales pueden transferirse o revelarse a las siguientes categorías de destinatarios:
 
-- **Amazon Web Services (AWS)** – para el registro y el inicio de sesión
+- **Amazon Web Services (AWS)** – para el registro y el inicio de sesión, así como para la geocodificación de direcciones (Amazon Location Service)
 - **Cloudflare** – para la entrega y seguridad del sitio web y la mejora de coincidencias con búsquedas guardadas
 - **Hetzner Online GmbH** – cuando allí se alojen partes de nuestro servicio
 - **Stripe** – para procesamiento de pagos, gestión de suscripciones, checkout y portal del cliente
@@ -283,13 +321,14 @@ Contacte con nosotros para obtener información sobre las garantías aplicables 
 
 ---
 
-## 13. Duración del almacenamiento
+## 14. Duración del almacenamiento
 
 Conservamos los datos personales solo durante el tiempo necesario para las finalidades respectivas o mientras existan obligaciones legales de conservación.
 
 Normalmente se aplican en particular los siguientes criterios:
 
 - **Datos de cuenta:** hasta la eliminación de la cuenta o el fin de la relación de usuario; posteriormente eliminación o bloqueo salvo que lo impidan obligaciones legales de conservación
+- **Direcciones y ubicación de búsqueda:** hasta que elimine la dirección o la ubicación de búsqueda o elimine su cuenta. Al eliminar una dirección, suprimimos su denominación y sus datos de dirección; si ninguna otra de sus direcciones utiliza los mismos datos, también suprimimos de nuestros registros los datos enviados a Amazon Location Service y el resultado. No conservamos versiones anteriores como historial. Una solicitud ya en curso a Amazon Location Service no puede retirarse, pero su resultado ya no se almacena tras la eliminación. Las coordenadas de las búsquedas guardadas se conservan hasta que modifique o elimine la búsqueda o su cuenta. Estos datos se eliminan de las copias de seguridad al expirar el período de copia correspondiente.
 - **Datos contractuales, de facturación y fiscales:** durante el tiempo de las obligaciones legales de conservación mercantil y fiscal
 - **Datos del boletín:** mientras esté suscrito; las pruebas de su consentimiento y baja pueden conservarse más tiempo cuando sea necesario para documentar su elección y atender reclamaciones legales
 - **Datos técnicos y de seguridad:** durante el tiempo necesario para proteger y mantener el servicio o investigar un incidente
@@ -298,7 +337,7 @@ Normalmente se aplican en particular los siguientes criterios:
 
 ---
 
-## 14. Derechos de las personas afectadas
+## 15. Derechos de las personas afectadas
 
 Sujeto a los requisitos legales, usted dispone en particular de los siguientes derechos:
 
@@ -322,7 +361,7 @@ Tenga en cuenta que la eliminación no es posible en la medida o durante el tiem
 
 ---
 
-## 15. Derecho a presentar una reclamación ante una autoridad de control
+## 16. Derecho a presentar una reclamación ante una autoridad de control
 
 Tiene derecho a presentar una reclamación ante una autoridad de control de protección de datos. La autoridad particularmente competente para nosotros es:
 
@@ -337,10 +376,10 @@ También puede dirigirse a cualquier otra autoridad de control competente, en pa
 
 ---
 
-## 16. Cambios en estas notas de privacidad
+## 17. Cambios en estas notas de privacidad
 
 Podemos adaptar estas notas de privacidad cuando sea necesario por cambios legales, técnicos, organizativos o de contenido. Será determinante la versión publicada en nuestro sitio web.
 
 ---
 
-*Estado: 07.10.2026*
+*Estado: 12.10.2026*

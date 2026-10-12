@@ -1106,7 +1106,17 @@
     "LISTING_SOURCE_NOT_FOUND": "Questo fornitore non è più disponibile.",
     "UNKNOWN_ERROR": "Si è verificato un errore imprevisto.",
     "NEWSLETTER_TEMPORARILY_UNAVAILABLE": "Il servizio newsletter è temporaneamente non disponibile. Riprova tra qualche minuto.",
-    "NEWSLETTER_INTERNAL_ERROR": "Non è stato possibile elaborare la tua richiesta per la newsletter. Riprova più tardi."
+    "NEWSLETTER_INTERNAL_ERROR": "Non è stato possibile elaborare la tua richiesta per la newsletter. Riprova più tardi.",
+    "ADDRESS_BOOK_INTERNAL_ERROR": "Non è stato possibile elaborare i tuoi indirizzi salvati. Riprova più tardi.",
+    "ADDRESS_BOOK_TEMPORARILY_UNAVAILABLE": "Gli indirizzi salvati non sono temporaneamente disponibili. Riprova tra qualche minuto.",
+    "BAD_HEADER_VALUE": "Non è stato possibile elaborare la richiesta. Riprova.",
+    "INVALID_CREDENTIALS": "Il tuo accesso non è più valido. Accedi di nuovo.",
+    "LISTING_SOURCE_INTERNAL_ERROR": "Non è stato possibile elaborare la fonte degli annunci. Riprova più tardi.",
+    "LISTING_SOURCE_TEMPORARILY_UNAVAILABLE": "Le fonti degli annunci non sono temporaneamente disponibili. Riprova tra qualche minuto.",
+    "PARTY_INTERNAL_ERROR": "Non è stato possibile elaborare i dati dell'attività. Riprova più tardi.",
+    "PARTY_NOT_FOUND": "Questa attività o sede non è stata trovata.",
+    "PARTY_TEMPORARILY_UNAVAILABLE": "I dati dell'attività non sono temporaneamente disponibili. Riprova tra qualche minuto.",
+    "USER_ADDRESS_NOT_FOUND": "Questo indirizzo salvato non è stato trovato."
   },
   "watchlist": {
     "title": "La mia lista dei preferiti",
@@ -2869,15 +2879,34 @@
   },
   "adminAuctions": {
     "title": "Gestione aste",
-    "description": "Crea record d’asta e aggiorna i dati comunicati. La fonte e l’identità dell’asta presso la fonte non possono essere modificate dopo la creazione.",
+    "description": "Cerca, crea e aggiorna i record d’asta. La fonte e l’identità dell’asta presso la fonte non possono essere modificate dopo la creazione.",
     "create": {
       "title": "Crea un’asta",
       "description": "Associa l’asta a una fonte autorizzata e inserisci la sua identità presso tale fonte.",
       "blankFieldsHelp": "Lascia vuoti i campi facoltativi se la fonte non ha fornito quei dati."
     },
-    "open": {
-      "title": "Apri un record d’asta",
-      "description": "Apri un record se conosci l’ID dell’asta."
+    "list": {
+      "title": "Elenco delle aste",
+      "description": "Tutti i record d’asta, anche quelli senza inserzioni visibili. Cerca per nome o ID dell’asta presso la fonte, oppure per chiave della fonte esatta.",
+      "loading": "Caricamento delle aste…",
+      "empty": "Nessuna asta corrisponde a questi filtri.",
+      "end": "Non ci sono altre aste.",
+      "loadMore": "Carica altre aste",
+      "noName": "Nessun nome comunicato",
+      "openLabel": "Apri record: {{label}}"
+    },
+    "filters": {
+      "title": "Filtri delle aste",
+      "query": "Nome o ID dell’asta presso la fonte",
+      "queryHelp": "Trova parte del nome o dell’ID dell’asta presso la fonte, senza distinguere maiuscole e minuscole.",
+      "listingSourceIdHelp": "ID esatto della fonte.",
+      "sourceAuctionIdHelp": "Chiave esatta. Combinala con l’ID della fonte per trovare il record esistente dopo un conflitto.",
+      "allFormats": "Tutti i formati",
+      "allStatuses": "Tutti gli stati",
+      "sort": "Ordina per",
+      "pageSize": "Per pagina",
+      "apply": "Applica filtri",
+      "reset": "Reimposta"
     },
     "sourceSearch": {
       "prompt": "Cerca per nome o slug della fonte o del suo gestore, oppure incolla un ID fonte.",
@@ -2922,7 +2951,8 @@
       "saving": "Salvataggio…",
       "loadLatest": "Carica il record aggiornato",
       "backToOverview": "Torna alla gestione delle aste",
-      "clearSource": "Annulla selezione"
+      "clearSource": "Annulla selezione",
+      "findExisting": "Trova l’asta esistente"
     },
     "errors": {
       "forbidden": "Non hai l’autorizzazione per gestire le aste.",
@@ -2933,7 +2963,9 @@
       "invalid": "Controlla i dati dell’asta e riprova.",
       "requestFailed": "La richiesta dell’asta non è stata completata. Riprova.",
       "sourceMissing": "La fonte delle inserzioni selezionata non è stata trovata.",
-      "invalidId": "Questo ID asta non è valido. Gli ID asta iniziano con «auc_»."
+      "invalidId": "Questo ID asta non è valido. Gli ID asta iniziano con «auc_».",
+      "invalidSearch": "Non è stato possibile applicare questi filtri. Controlla gli ID e riprova.",
+      "unavailable": "I record d’asta non sono temporaneamente disponibili. Riprova tra poco."
     },
     "validation": {
       "sourceRequired": "Seleziona una fonte.",
@@ -2954,11 +2986,31 @@
       "POSTPONED": "Rinviato",
       "CANCELLED": "Annullato"
     },
+    "sort": {
+      "updated_desc": "Aggiornate di recente",
+      "updated_asc": "Aggiornate meno di recente",
+      "created_desc": "Più recenti prima",
+      "created_asc": "Meno recenti prima",
+      "name_asc": "Nome A–Z",
+      "name_desc": "Nome Z–A"
+    },
     "schedule": {
       "biddingOpens": "Apertura delle offerte",
       "liveStarts": "Inizio dal vivo",
       "lotsBeginClosing": "Inizio chiusura dei lotti",
       "scheduledEnd": "Fine prevista"
     }
+  },
+  "geography": {
+    "attribution": "Dati di posizione: <providerLink>{{provider}}</providerLink>",
+    "disclosure": {
+      "privateAddress": "Gli indirizzi salvati sono privati e destinati solo al vostro account. Li utilizziamo per mostrare distanze e risultati regionali, non per verificare la vostra residenza o la possibilità di consegnare oggetti. Dopo il salvataggio determiniamo la posizione in background con Amazon Location Service. Fino ad allora, o in assenza di un risultato univoco, l’indirizzo resta utilizzabile senza un punto preciso.",
+      "savedOrigin": "Salvando questa ricerca conserviamo una copia privata della sua posizione di ricerca. Le modifiche successive ai vostri indirizzi non la spostano. Modificate o cancellate la ricerca salvata per rimuoverla.",
+      "browserLocation": "Il browser vi chiederà se volete condividere la vostra posizione attuale. La utilizziamo solo per questa ricerca e la memorizziamo solo se salvate la ricerca.",
+      "publicPartySite": "Le sedi attive sono pubbliche: il punto geografico esatto, il paese e la regione possono comparire nei risultati di ricerca ed essere utilizzati per le ricerche per raggio. L’indirizzo completo, le prove e i dati di gestione sono visibili solo alle persone autorizzate. Dismettete una sede per rimuoverla dai risultati pubblici; l’aggiornamento può richiedere un breve tempo.",
+      "privacy": "Maggiori informazioni sono disponibili nella nostra <privacyLink>informativa sulla privacy</privacyLink>."
+    },
+    "coordinates": "{{latitude}}; {{longitude}}",
+    "nauticalMiles": "{{value}} NM"
   }
 }

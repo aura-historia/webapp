@@ -5,7 +5,8 @@ Refined global discovery for antiques, art, design objects, dealers, and auction
 ## Rules
 
 - Use `pnpm` only. Do not run E2E tests unless asked.
-- Never hand-edit generated code: `src/routeTree.gen.ts`, `src/client/**`.
+- Never hand-edit generated code: `src/routeTree.gen.ts`, `src/client/**`,
+  `src/data/internal/geography/reference/isoCodes.gen.ts`.
 - Add every user-facing string to all locales: `de`, `en`, `es`, `fr`, `it`.
 - Update relevant docs when a change affects their guidance, contracts, or described behaviour.
 - Keep routes thin. Put durable workflows in `src/features/`; reuse existing UI and hooks first.

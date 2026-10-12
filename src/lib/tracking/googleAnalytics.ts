@@ -17,6 +17,29 @@ const FORBIDDEN_PARAMS = new Set([
     "error_description",
 ]);
 
+// Addresses and coordinates must never reach analytics. Keys are compared case-insensitively
+// without separators, and a parameter is dropped if any nested key matches.
+const GEOGRAPHIC_PARAMS = new Set([
+    "lat",
+    "lng",
+    "lon",
+    "latitude",
+    "longitude",
+    "coordinates",
+    "coords",
+    "position",
+    "origin",
+    "address",
+    "addressid",
+    "addresstext",
+    "postalcode",
+    "postcode",
+    "zip",
+    "geography",
+    "geolocation",
+    "destination",
+]);
+
 // Pages whose URL can carry a secret (e.g. a fragment capability) send no page views at all,
 // including under an unsupported language prefix.
 const UNTRACKED_PATH_SUFFIXES = ["/newsletter/confirm"] as const;
@@ -97,7 +120,8 @@ class GoogleAnalytics {
      * No consent guard is applied here — page path and language are not personal
      * data, and GA4 Consent Mode handles compliance internally based on the
      * consent state set via init() / setConsent().
-     * Sensitive search parameters are stripped before sending, and untracked pages are skipped.
+     * Sensitive and geographic search parameters are stripped before sending, and untracked
+     * pages are skipped.
      * @param path The current page path.
      * @param language The active UI language.
      * @param searchParams The current URL search parameters.
@@ -111,7 +135,10 @@ class GoogleAnalytics {
             ? {}
             : Object.keys(searchParams).reduce(
                   (acc, key) => {
-                      if (!FORBIDDEN_PARAMS.has(key.toLowerCase())) {
+                      if (
+                          !FORBIDDEN_PARAMS.has(key.toLowerCase()) &&
+                          !containsGeographicParam(key, searchParams[key])
+                      ) {
                           acc[key] = searchParams[key];
                       }
                       return acc;
@@ -126,6 +153,17 @@ class GoogleAnalytics {
             ...safeParams,
         });
     }
+}
+
+function containsGeographicParam(key: string, value: unknown): boolean {
+    if (GEOGRAPHIC_PARAMS.has(key.toLowerCase().replace(/[-_]/g, ""))) return true;
+    if (Array.isArray(value)) return value.some((item) => containsGeographicParam("", item));
+    if (value !== null && typeof value === "object") {
+        return Object.entries(value).some(([nestedKey, nestedValue]) =>
+            containsGeographicParam(nestedKey, nestedValue),
+        );
+    }
+    return false;
 }
 
 function isUntrackedPath(path: string): boolean {

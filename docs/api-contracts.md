@@ -26,15 +26,38 @@ admin workflows in [admin workflows](admin-workflows.md).
   `ProductListingHistoryPricingData` schemas were replaced byte-for-byte from backend commit
   `c77155fd7872461b41ccedbdd36492bf9595dbb1` (blob `0473dc5ee2529cb4b5378789d152f6111466fda1`,
   [backend#2019](https://github.com/aura-historia/backend/pull/2019)); nothing else was taken from
-  that revision. File SHA-256:
-  `f9749aec83af53f819f723cb0d60bc28243cdd8dc83c5d8e595348753b5df543`; canonical parsed-JSON SHA-256
-  (recorded as `x-source-contract-sha256` in the partner reference):
-  `62ed713fdcb276d89ca35476c6e4a66c354c22ddf5837317a37d8df60ae96835`.
-- Later backend changes are deliberately not adopted yet: own access-token DTOs, search-filter
-  match reasons, account `marketingEmailConsent`, the server-to-server Loops webhook, the admin
-  auction list/search operations from backend#1991, and the per-operation scope wording in
-  backend#1994 operation descriptions (the backend remains authoritative for which scope each
-  operation requires).
+  that revision. The geography contract was taken byte-for-byte from the merge commit of
+  [backend#2031](https://github.com/aura-historia/backend/pull/2031),
+  `7684dd41cc5ddb1bb99fec40af4d670f0f5b9830` (`docs/swagger.yaml` blob
+  `66ff0170e3262aa0b5cf86914595c7e5eefc1183`, file SHA-256
+  `ba3dfa02ef63224b5f4a855506b786dc3abc2a03e47ba3b013b9eb430193fa41`): the path items
+  `/api/v1/product-listings` (the `geography` deep-object parameter and description),
+  `/api/v1/me/addresses`, `/api/v1/me/addresses/{address_id}`, `/api/v1/me/browsing-destination`,
+  `/api/v1/party-locations`, `/api/v1/parties/{party_id}/locations`,
+  `/api/v1/parties/{party_id}/locations/{location_id}`, `.../lifecycle`,
+  `/api/v1/admin/parties/{party_id}/location-managers/{user_id}` and both
+  `/location-default` paths; the changed `ProductListingSearchData`,
+  `PatchProductListingSearchData` and `ProductListingSummaryData` schemas; and the 37 new geography
+  schemas (`GeographicSearchData` and its origin/radius, `ListingGeographyData`, the `UserAddress*`,
+  `BrowsingDestination*`, `PartyLocation*`, `PublicPartyLocationData`, `*SourceLocationDefault*`
+  schemas). From the same revision, the `get` operation (`adminSearchAuctions`) of
+  `/api/v1/admin/auctions` and the `AdminAuctionSearchCollectionData` schema were added
+  byte-for-byte for [#1096](https://github.com/aura-historia/webapp/issues/1096); the sibling
+  `post`, the admin auction detail path and their delegated-scope descriptions were left
+  unchanged. Nothing else was taken from that revision. File SHA-256:
+  `c1a52662a4dbd4f6b806f6c835923a07a96e915b3a47af202095ceddc327599f` (Git blob
+  `49e5948574cca9f44579ee0fd650be6d401f1205`); canonical parsed-JSON SHA-256 (recorded as
+  `x-source-contract-sha256` in the partner reference):
+  `349bb9d38bed276412020c7e396fa8e3e5ecb582853f571e60fda21c44e668a6`.
+- Later backend changes are deliberately not adopted yet. Reviewed against `7684dd41`, they are:
+  own access-token DTOs (`OwnAccessTokenData`, `CreatedAccessTokenData`, `PostAccessTokenData`
+  with `scopes`/`expires`, and `AccessTokenAuth` on the own-token operations), removal of the
+  search-filter match reasons (`matchReason`, `enhancedMatchReason`), account
+  `marketingEmailConsent` and the read-only admin email, the server-to-server Loops webhook, the
+  scheduled public-directory cursor from backend#1991, the `productTitle` description, the `401 INVALID_CREDENTIALS` examples, and the
+  per-operation delegated-scope wording and `403` responses from backend#1994 (the backend remains
+  authoritative for which scope each operation requires). Adopting the access-token and
+  match-reason changes requires mapper and UI work; do it in a separate change.
 - Tooling: the pinned `@hey-api/openapi-ts 0.0.0-next-20260824173136` with Python/PyYAML for the
   partner reference. Keep the `./` prefix on the config input; without it the generator reads
   `openapi/swagger.yaml` as a Hey API registry shorthand. A rerun against an unchanged capture
@@ -56,8 +79,21 @@ To adopt a backend revision:
 - Public auction browsing, detail and catalogue pages are deferred to
   [#1060](https://github.com/aura-historia/webapp/issues/1060); `listAuctions`, `getAuction` and
   `getAuctionCatalogue` are generated only. Listing-level auction summaries and typed history are
-  implemented. Ordering the public directory by schedule and an admin auction search depend on
-  [backend#1991](https://github.com/aura-historia/backend/issues/1991).
+  implemented. Ordering the public directory by schedule depends on
+  [backend#1991](https://github.com/aura-historia/backend/issues/1991). The admin auction search
+  is consumed by the admin auction directory (see [admin workflows](admin-workflows.md#auction-directory)).
+- The geography contract ([backend#2031](https://github.com/aura-historia/backend/pull/2031)) is
+  adopted with shared models and mappers only ([#1076](https://github.com/aura-historia/webapp/issues/1076)).
+  Every geography operation is generated-only until its feature slice consumes it: the user
+  address book (`listUserAddresses`, `createUserAddress`, `getUserAddress`, `updateUserAddress`,
+  `deleteUserAddress`), the browsing destination (`getBrowsingDestination`,
+  `setBrowsingDestination`), Party-location management (`listPartyLocations`,
+  `createPartyLocation`, `getPartyLocation`, `correctPartyLocation`, `setPartyLocationLifecycle`,
+  `setPartyLocationManagementGrant`), public discovery (`discoverPartyLocations`) and source
+  defaults (`getSourceLocationDefault`, `assignSourceLocationDefault`,
+  `changeSourceLocationDefaultApplicability`, `clearSourceLocationDefault` and their `admin*`
+  counterparts). Listing search does not send `geography` yet. Privacy rules for these slices
+  are in [privacy alignment](privacy-policy-alignment.md#geography).
 - Partner async ingestion batches and provider ingestion configuration are external API
   capabilities, not browser workflows (see [partner integration](partner-integration.md)).
 - `getHealth`/`getReadiness` drive the maintenance and disruption notice (see
@@ -144,6 +180,61 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
   aborting pending private reads so late responses cannot repopulate them. Pending listing writes
   are removed from the mutation cache, and a write that settles after a viewer change does not
   touch the next viewer's caches. See [privacy alignment](privacy-policy-alignment.md).
+
+### Geography
+
+Shared models live in `src/data/internal/geography`; formatting helpers in
+`src/features/geography/lib/formatGeography.ts`. Product UI stays in the feature slices.
+
+- **Reference data:** country and subdivision codes are validated against the vendored Debian
+  `iso-codes-4.20.1` release (`reference/iso-codes-4.20.1`, the same snapshot and SHA-256 hashes as
+  the backend, with its LGPL-2.1-or-later license and notices). `python3
+  scripts/generate_geography_reference.py` regenerates
+  `src/data/internal/geography/reference/isoCodes.gen.ts` (do not edit it);
+  `--check` and the script tests fail when the tables or sources drift. A new release needs a new
+  snapshot, not a replacement. Countries are exact uppercase alpha-2 codes and subdivisions
+  complete ISO 3166-2 codes; no trimming, case folding, aliases or alpha-3. Country names come from
+  `Intl.DisplayNames` with the route language and fall back to the code.
+- **Assertions and derived data:** `GeographicAssertions` holds caller-asserted, verbatim text and
+  codes; absent and null facts stay absent. A `UserAddress` keeps its asserted `geography`
+  separate from `resolution` (status, provider-derived geography and position, attribution). Party
+  `geography` and `position` are caller assertions; public discovery keeps its `basis`, and
+  listing geography is always `SOURCE_DEFAULT_DERIVED`, never verified custody.
+- **Unsupported values:** an unknown release, code, unit, precision, role, scope or kind is never
+  coerced. Listing geography with an unknown basis or release is dropped; individual facts are
+  omitted. Management views set `hasUnsupportedValues` so replacing writes do not erase omitted
+  values. A saved-search predicate with any unrecognized value maps to `UNSUPPORTED_GEOGRAPHY`
+  rather than a narrower predicate.
+- **Positions and distances:** coordinates must be finite and in range, `(0, 0)` is valid, and a
+  point always has explicit precision. Radii keep their supplied amount and unit (positive, at
+  most 20,000 km equivalent). `roundDisplayDistanceKm` rounds distance to evidence (0.1 km
+  premises, 1 km street, 10 km otherwise); never round a continuation value.
+- **Search predicate:** listing search, saved searches and Party-location discovery share one
+  `GeographicSearch`; `validateGeographicSearch` mirrors the backend rules (set limits,
+  subdivisions within supplied countries, numeric origin for radius or distance order, no origin
+  or mode without proximity). Distance ordering replaces the ordinary `sort`. Saved searches map
+  `geography` separately from `SearchFilterArguments`: omit it in a patch to keep the private
+  snapshot, send `null` to clear and a complete predicate to replace it.
+- **Query serialization:** the generated client serializes only one object level, so pass
+  `listingGeographyQuerySerializer` (listing search; `searchAfter` stays a JSON string) or
+  `partyLocationDiscoveryQuerySerializer` (`geography` and `searchAfter` deep objects) as
+  `querySerializer`. They emit indexed brackets, e.g. `geography[countries][0]=DE`, as the backend
+  parser expects.
+- **Cursors and revisions:** address and Party-location pages return `next` (send as `after`;
+  stop when absent). The discovery `searchAfter` is `{ locationId, distanceKm? }` with an
+  unrounded distance; send it back unchanged with the same query. Address and destination writes
+  carry `expectedVersion`; Party-location and source-default writes `expectedRevision`. A `409
+  CONFLICT` means stale state: refetch, never retry blindly.
+- **Idempotency:** `createUserAddress` and `createPartyLocation` require an `Idempotency-Key`.
+  Create one with `createIdempotencyKey` per submission, reuse it only for retries of the
+  unchanged command and discard it after a definite outcome.
+- **Commands:** source-default evidence is opaque text whose scope follows the field; omitted
+  applicability retains, `null` removes. Party-location corrections keep omitted members, `null`
+  clears geography, position or evidence, and `roles: []` clears roles. The location-management
+  grant is an explicit admin `PUT` of `{ granted }`, independent of partnership membership.
+- **Caches:** use `geographyQueryKeys`. Their roots are viewer-scoped and removed on viewer
+  changes; private reads use `cache: "no-store"`, the query `signal` and no retries. Geographic
+  listing searches and discovery responses are private and `no-store`, including anonymous ones.
 
 ### Errors
 

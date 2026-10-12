@@ -190,6 +190,27 @@ describe("Privacy Page Logic", () => {
             }
         });
 
+        it("should document geocoding and geographic data attribution in every locale", () => {
+            for (const content of Object.values(PRIVACY_LOCALE_MAP)) {
+                expect(content).toContain("Amazon Location Service");
+                expect(content).toContain("eu-central-1");
+                expect(content).toContain("Google Analytics");
+                expect(content).toContain(
+                    "(https://docs.aws.amazon.com/location/latest/developerguide/data-attribution.html)",
+                );
+            }
+        });
+
+        it("should keep the same numbered sections in every locale", () => {
+            const sectionNumbers = (content: string) =>
+                [...content.matchAll(/^## (\d+)\. /gm)].map((match) => Number(match[1]));
+            const expected = Array.from({ length: 17 }, (_, index) => index + 1);
+
+            for (const content of Object.values(PRIVACY_LOCALE_MAP)) {
+                expect(sectionNumbers(content)).toEqual(expected);
+            }
+        });
+
         it("should document Google Maps as a recipient in every locale", () => {
             const localeKeys = Object.keys(PRIVACY_LOCALE_MAP);
 

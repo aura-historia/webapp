@@ -44,6 +44,7 @@ I nostri servizi possono includere in particolare:
 
 - funzioni di ricerca, filtro e analisi,
 - watchlist, notifiche e filtri di ricerca salvati,
+- funzionalità geografiche di ricerca e posizione, come distanze e ricerca per raggio,
 - accesso digitale gratuito o a pagamento,
 - informazioni elaborate a livello editoriale o con il supporto dell’IA,
 - funzionalità partner, shop o API, ove offerte.
@@ -51,6 +52,8 @@ I nostri servizi possono includere in particolare:
 La portata concreta delle funzionalità dipende dalla descrizione attuale del servizio, dal piano selezionato, dallo stato tecnico della piattaforma e dagli eventuali requisiti legali o regolatori applicabili.
 
 Non garantiamo alcun successo economico specifico, alcuna disponibilità determinata di singoli contenuti o oggetti né una rappresentazione sempre completa, corretta o aggiornata di fonti di dati esterne.
+
+Distanze, sedi e attribuzioni regionali si basano su dati di utenti e fornitori nonché su servizi di dati geografici. Le distanze sono approssimazioni in linea d’aria e non percorsi. Tali dati non confermano né un indirizzo né la posizione di un oggetto, né la sua consegna, il ritiro o la spedizione. I dati geografici provengono da Amazon Location Service e dai suoi fornitori di dati; le indicazioni di fonte e di copyright richieste sono disponibili nella [pagina di attribuzione di Amazon Location Service](https://docs.aws.amazon.com/location/latest/developerguide/data-attribution.html).
 
 ---
 
@@ -196,6 +199,8 @@ La possibilità tecnica di generare o utilizzare Token di accesso non conferisce
 
 Nella misura consentita dalla legge, i clienti business e i partner ci terranno indenni da pretese di terzi, danni, provvedimenti regolatori e costi ragionevoli di difesa legale derivanti da una violazione colposa di questi obblighi relativi ai token o dall’uso illecito di Token di accesso da parte di persone o sistemi ai quali abbiano messo a disposizione tali Token di accesso.
 
+Se i partner registrano sedi della propria attività, il punto geografico esatto nonché il paese e la regione delle sedi attive possono essere mostrati pubblicamente e utilizzati per le ricerche per raggio e per associare annunci. Non esiste un’impostazione che escluda le sedi attive da questa pubblicazione; i partner possono invece dismettere una sede. L’indirizzo completo inserito, le prove e i dati di gestione non vengono mostrati pubblicamente. Una sede registrata non attesta giacenze né un luogo di spedizione o di ritiro.
+
 Possiamo limitare, sospendere o revocare l’accesso all’API o a funzionalità comparabili per ragioni di sicurezza, stabilità, conformità legale o prevenzione degli abusi.
 
 ---
@@ -287,4 +292,4 @@ Se siete commercianti, persone giuridiche di diritto pubblico, patrimoni separat
 
 ---
 
-*Stato: 07.10.2026*
+*Stato: 12.10.2026*

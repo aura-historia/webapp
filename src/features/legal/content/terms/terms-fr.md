@@ -44,6 +44,7 @@ Nos services peuvent notamment inclure :
 
 - des fonctions de recherche, de filtrage et d’analyse,
 - des watchlists, notifications et filtres de recherche enregistrés,
+- des fonctionnalités géographiques de recherche et de localisation, telles que les distances et la recherche par rayon,
 - un accès numérique gratuit ou payant,
 - des informations préparées de manière éditoriale ou assistée par l’IA,
 - des fonctionnalités partenaires, boutique ou API lorsqu’elles sont proposées.
@@ -51,6 +52,8 @@ Nos services peuvent notamment inclure :
 L’étendue concrète des fonctionnalités dépend de la description actuelle du service, du plan choisi, de l’état technique de la plateforme et des exigences légales ou réglementaires applicables.
 
 Nous ne garantissons aucun succès économique déterminé, aucune disponibilité précise de contenus ou d’objets particuliers, ni une représentation toujours complète, correcte ou à jour des sources de données externes.
+
+Les distances, sites et rattachements régionaux reposent sur des informations fournies par les utilisateurs et les fournisseurs ainsi que sur des services de géodonnées. Les distances sont des approximations à vol d’oiseau et non des itinéraires. Ces informations ne confirment ni une adresse ni l’emplacement d’un objet, ni sa livraison, son retrait ou son expédition. Les données géographiques proviennent d’Amazon Location Service et de ses fournisseurs de données ; les mentions de sources et de droits d’auteur requises figurent sur la [page d’attribution d’Amazon Location Service](https://docs.aws.amazon.com/location/latest/developerguide/data-attribution.html).
 
 ---
 
@@ -196,6 +199,8 @@ La possibilité technique de générer ou d’utiliser des Jetons d’accès ne 
 
 Dans la mesure permise par la loi, les clients professionnels et partenaires nous indemnisent contre les réclamations de tiers, dommages, mesures réglementaires et frais raisonnables de défense juridique résultant d’un manquement fautif à ces obligations relatives aux jetons ou d’une utilisation illicite de Jetons d’accès par des personnes ou systèmes auxquels ils ont mis ces Jetons d’accès à disposition.
 
+Lorsque des partenaires enregistrent des sites de leur entreprise, le point géographique exact ainsi que le pays et la région des sites actifs peuvent être affichés publiquement et utilisés pour les recherches par rayon et pour associer des annonces. Aucun paramètre ne permet d’exclure les sites actifs de cette publication ; les partenaires peuvent en revanche retirer un site. L’adresse complète saisie, les justificatifs et les données de gestion ne sont pas affichés publiquement. Un site enregistré n’établit ni un stock ni un lieu d’expédition ou de retrait.
+
 Nous pouvons limiter, suspendre ou révoquer l’accès à l’API ou à des fonctionnalités comparables pour des raisons de sécurité, de stabilité, de conformité juridique ou de prévention des abus.
 
 ---
@@ -287,4 +292,4 @@ Si vous êtes commerçant, personne morale de droit public, patrimoine spécial 
 
 ---
 
-*Version du 07.10.2026*
+*Version du 12.10.2026*

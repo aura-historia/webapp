@@ -1106,7 +1106,17 @@
     "LISTING_SOURCE_NOT_FOUND": "This provider is no longer available.",
     "UNKNOWN_ERROR": "An unexpected error occurred.",
     "NEWSLETTER_TEMPORARILY_UNAVAILABLE": "The newsletter service is temporarily unavailable. Please try again in a few minutes.",
-    "NEWSLETTER_INTERNAL_ERROR": "Your newsletter request could not be processed. Please try again later."
+    "NEWSLETTER_INTERNAL_ERROR": "Your newsletter request could not be processed. Please try again later.",
+    "ADDRESS_BOOK_INTERNAL_ERROR": "Your saved addresses could not be processed. Please try again later.",
+    "ADDRESS_BOOK_TEMPORARILY_UNAVAILABLE": "Saved addresses are temporarily unavailable. Please try again in a few minutes.",
+    "BAD_HEADER_VALUE": "The request could not be processed. Please try again.",
+    "INVALID_CREDENTIALS": "Your sign-in is no longer valid. Please sign in again.",
+    "LISTING_SOURCE_INTERNAL_ERROR": "The listing source could not be processed. Please try again later.",
+    "LISTING_SOURCE_TEMPORARILY_UNAVAILABLE": "Listing sources are temporarily unavailable. Please try again in a few minutes.",
+    "PARTY_INTERNAL_ERROR": "The business details could not be processed. Please try again later.",
+    "PARTY_NOT_FOUND": "This business or location could not be found.",
+    "PARTY_TEMPORARILY_UNAVAILABLE": "Business details are temporarily unavailable. Please try again in a few minutes.",
+    "USER_ADDRESS_NOT_FOUND": "This saved address could not be found."
   },
   "watchlist": {
     "title": "My Watchlist",
@@ -2869,15 +2879,34 @@
   },
   "adminAuctions": {
     "title": "Auction management",
-    "description": "Create auction records and update their reported metadata. The listing source and source auction identity remain fixed after creation.",
+    "description": "Find, create and update auction records. The listing source and source auction identity remain fixed after creation.",
     "create": {
       "title": "Create an auction",
       "description": "Associate the auction with an authorized listing source and enter its source identity.",
       "blankFieldsHelp": "Leave optional fields empty when the source has not provided those values."
     },
-    "open": {
-      "title": "Open an auction record",
-      "description": "Open a record when you know its auction ID."
+    "list": {
+      "title": "Auction directory",
+      "description": "All auction records, including those without visible listings. Search by name or source auction ID, or look up an exact source key.",
+      "loading": "Loading auctions…",
+      "empty": "No auctions match these filters.",
+      "end": "No further auctions.",
+      "loadMore": "Load more auctions",
+      "noName": "No name reported",
+      "openLabel": "Open record: {{label}}"
+    },
+    "filters": {
+      "title": "Auction filters",
+      "query": "Name or source auction ID",
+      "queryHelp": "Matches part of the name or source auction ID, ignoring case.",
+      "listingSourceIdHelp": "Exact listing source ID.",
+      "sourceAuctionIdHelp": "Exact key. Combine with the listing source ID to find an existing record after a conflict.",
+      "allFormats": "All formats",
+      "allStatuses": "All statuses",
+      "sort": "Sort by",
+      "pageSize": "Per page",
+      "apply": "Apply filters",
+      "reset": "Reset"
     },
     "sourceSearch": {
       "prompt": "Search by listing source or operator name or slug, or paste a listing source ID.",
@@ -2922,7 +2951,8 @@
       "saving": "Saving…",
       "loadLatest": "Load latest record",
       "backToOverview": "Back to auction management",
-      "clearSource": "Clear selection"
+      "clearSource": "Clear selection",
+      "findExisting": "Find the existing auction"
     },
     "errors": {
       "forbidden": "You do not have permission to manage auctions.",
@@ -2933,7 +2963,9 @@
       "invalid": "Check the auction details and try again.",
       "requestFailed": "The auction request could not be completed. Please try again.",
       "sourceMissing": "The selected listing source was not found.",
-      "invalidId": "This auction ID is not valid. Auction IDs start with “auc_”."
+      "invalidId": "This auction ID is not valid. Auction IDs start with “auc_”.",
+      "invalidSearch": "These filters could not be applied. Check the IDs and try again.",
+      "unavailable": "Auction records are temporarily unavailable. Please try again shortly."
     },
     "validation": {
       "sourceRequired": "Select a listing source.",
@@ -2954,11 +2986,31 @@
       "POSTPONED": "Postponed",
       "CANCELLED": "Cancelled"
     },
+    "sort": {
+      "updated_desc": "Recently updated",
+      "updated_asc": "Least recently updated",
+      "created_desc": "Newest first",
+      "created_asc": "Oldest first",
+      "name_asc": "Name A–Z",
+      "name_desc": "Name Z–A"
+    },
     "schedule": {
       "biddingOpens": "Bidding opens",
       "liveStarts": "Live start",
       "lotsBeginClosing": "Lots begin closing",
       "scheduledEnd": "Scheduled end"
     }
+  },
+  "geography": {
+    "attribution": "Location data: <providerLink>{{provider}}</providerLink>",
+    "disclosure": {
+      "privateAddress": "Saved addresses are private to your account. We use them to show distances and regional results, not to verify your residence or whether objects can be delivered. After you save, we determine the location in the background using Amazon Location Service. Until then, or if there is no clear match, the address remains usable without a precise point.",
+      "savedOrigin": "Saving this search keeps a private copy of its search location. Later changes to your addresses do not move it. Change or delete the saved search to remove it.",
+      "browserLocation": "Your browser will ask whether to share your current location. We use it only for this search and store it only if you save the search.",
+      "publicPartySite": "Active locations are public: the exact geographic point, country and region can appear in search results and be used for radius searches. The full address, supporting evidence and management details are visible only to authorized people. Retire a location to remove it from public results; the update can take a short time.",
+      "privacy": "More information is available in our <privacyLink>privacy policy</privacyLink>."
+    },
+    "coordinates": "{{latitude}}, {{longitude}}",
+    "nauticalMiles": "{{value}} nmi"
   }
 }

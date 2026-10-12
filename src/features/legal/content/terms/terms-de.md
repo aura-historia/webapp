@@ -44,6 +44,7 @@ Unsere Leistungen können insbesondere umfassen:
 
 - Such-, Filter- und Analysefunktionen,
 - Merkliste / Watchlist, Benachrichtigungen und gespeicherte Suchfilter,
+- geografische Such- und Standortfunktionen, etwa Entfernungen und Umkreissuche,
 - kostenlose oder kostenpflichtige digitale Zugänge,
 - KI-gestützt oder redaktionell aufbereitete Informationen,
 - Partner-, Shop- oder API-Funktionen, soweit angeboten.
@@ -51,6 +52,8 @@ Unsere Leistungen können insbesondere umfassen:
 Der konkrete Funktionsumfang richtet sich nach der jeweils aktuellen Leistungsbeschreibung, dem gewählten Tarif, dem technischen Stand der Plattform sowie etwaigen gesetzlichen oder regulatorischen Anforderungen.
 
 Wir schulden keinen bestimmten wirtschaftlichen Erfolg, keine bestimmte Marktverfügbarkeit einzelner Inhalte oder Objekte und keine jederzeit vollständige, richtige oder aktuelle Abbildung externer Datenquellen.
+
+Entfernungen, Standorte und regionale Zuordnungen beruhen auf Angaben von Nutzern und Anbietern sowie auf Geodatendiensten. Entfernungen sind Näherungswerte in Luftlinie und keine Wegstrecken. Diese Angaben bestätigen weder eine Adresse noch den Standort eines Objekts, dessen Lieferbarkeit, Abholung oder Versand. Geografische Daten stammen von Amazon Location Service und dessen Datenlieferanten; die erforderlichen Quellen- und Urheberhinweise finden Sie auf der [Attributionsseite von Amazon Location Service](https://docs.aws.amazon.com/location/latest/developerguide/data-attribution.html).
 
 ---
 
@@ -196,6 +199,8 @@ Die technische Möglichkeit, Access Tokens zu erzeugen oder zu verwenden, begrü
 
 Soweit gesetzlich zulässig, stellen Geschäftskunden und Partner uns von Ansprüchen Dritter, Schäden, behördlichen Maßnahmen und angemessenen Rechtsverteidigungskosten frei, die aus einer schuldhaften Verletzung dieser Token-Pflichten oder einer rechtswidrigen Nutzung von Access Tokens durch Personen oder Systeme entstehen, denen sie Access Tokens bereitgestellt haben.
 
+Wenn Partner Standorte ihres Unternehmens hinterlegen, können für aktive Standorte der genaue geografische Punkt sowie Land und Region öffentlich angezeigt und für die Umkreissuche und die Zuordnung von Angeboten verwendet werden. Eine Einstellung, die diese Veröffentlichung für aktive Standorte ausschließt, gibt es nicht; Partner können einen Standort stattdessen stilllegen. Die vollständige eingegebene Adresse, Nachweise und Verwaltungsangaben werden nicht öffentlich angezeigt. Ein hinterlegter Standort belegt keinen Warenbestand und keinen Versand- oder Abholort.
+
 Wir dürfen API-Zugänge oder vergleichbare Funktionen aus Gründen der Sicherheit, Stabilität, Rechtskonformität oder Missbrauchsprävention drosseln, sperren oder widerrufen.
 
 ---
@@ -287,4 +292,4 @@ Sind Sie Kaufmann, juristische Person des öffentlichen Rechts oder öffentlich-
 
 ---
 
-*Stand: 07.10.2026*
+*Stand: 12.10.2026*
