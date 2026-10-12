@@ -14,6 +14,15 @@ vi.mock("@/hooks/common/useApiError", () => ({
 }));
 vi.mock("@/data/internal/hooks/ApiError", () => ({ mapToInternalApiError: (e: unknown) => e }));
 vi.mock("sonner", () => ({ toast: { error: mockToastError } }));
+const mockPatchListingUserState = vi.hoisted(() => vi.fn());
+const mockInvalidateListingQueries = vi.hoisted(() => vi.fn());
+vi.mock("@/features/product/catalog/lib/listingUserStateCache.ts", async (importOriginal) => ({
+    ...(await importOriginal<
+        typeof import("@/features/product/catalog/lib/listingUserStateCache.ts")
+    >()),
+    patchListingUserState: mockPatchListingUserState,
+    invalidateListingQueries: mockInvalidateListingQueries,
+}));
 vi.mock("@tanstack/react-query", async (importOriginal) => {
     const actual = await importOriginal<typeof import("@tanstack/react-query")>();
     return { ...actual, useQueryClient: () => ({ invalidateQueries: mockInvalidateQueries }) };
@@ -80,6 +89,38 @@ describe("useUpdateUserSearchFilter", () => {
         expect(mockInvalidateQueries).toHaveBeenCalledWith(
             expect.objectContaining({ queryKey: ["userSearchFilter", "filter-1"] }),
         );
+    });
+
+    it("renames the filter in cached listing match state", async () => {
+        mockUpdateUserSearchFilter.mockResolvedValue({ data: mockResponseData, error: null });
+
+        const { result } = renderHook(() => useUpdateUserSearchFilter(), {
+            wrapper: createWrapper(),
+        });
+
+        await act(async () => {
+            result.current.mutate({ id: "filter-1", patch: { name: "Geändert" } });
+        });
+
+        await waitFor(() => expect(mockPatchListingUserState).toHaveBeenCalled());
+        const [, target, update] = mockPatchListingUserState.mock.calls[0];
+        expect(target).toBe("allListings");
+        const state = {
+            watchlist: { watching: false, notifications: false },
+            notification: { unseenNotificationIds: [] },
+            searchFilter: {
+                matched: true,
+                hidden: false,
+                userSearchFilterId: "filter-1",
+                userSearchFilterName: "Alt",
+            },
+        };
+        expect(update(state).searchFilter.userSearchFilterName).toBe("Geändert");
+        const otherFilter = {
+            ...state,
+            searchFilter: { ...state.searchFilter, userSearchFilterId: "filter-2" },
+        };
+        expect(update(otherFilter)).toBe(otherFilter);
     });
 
     it("returns mapped filter on success", async () => {

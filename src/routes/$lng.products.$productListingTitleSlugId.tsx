@@ -1,6 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getProductListingByTitleSlugOptions } from "@/client/@tanstack/react-query.gen";
+import { productListingDetailQueryOptions } from "@/features/product/detail/api/productListingDetailQuery.ts";
 import { mapToProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
 import { ProductDetailPage } from "@/features/product/detail/pages/ProductDetailPage.tsx";
 import { ProductDetailPageSkeleton } from "@/features/product/detail/components/ProductDetailPageSkeleton.tsx";
@@ -17,12 +17,9 @@ export const Route = createFileRoute("/$lng/products/$productListingTitleSlugId"
     }) => {
         const productData = await queryClient
             .ensureQueryData(
-                getProductListingByTitleSlugOptions({
-                    query: {
-                        language: parseLanguage(lng),
-                        currency: initialPreferences.currency,
-                    },
-                    path: { productListingTitleSlugId },
+                productListingDetailQueryOptions(productListingTitleSlugId, {
+                    language: parseLanguage(lng),
+                    currency: initialPreferences.currency,
                 }),
             )
             .catch((error) => {
@@ -47,12 +44,9 @@ function ProductDetailComponent() {
     const { preferences } = useUserPreferences();
 
     const { data: apiData } = useSuspenseQuery(
-        getProductListingByTitleSlugOptions({
-            query: {
-                language: parseLanguage(i18n.language),
-                currency: preferences.currency,
-            },
-            path: { productListingTitleSlugId },
+        productListingDetailQueryOptions(productListingTitleSlugId, {
+            language: parseLanguage(i18n.language),
+            currency: preferences.currency,
         }),
     );
 

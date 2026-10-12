@@ -1,3 +1,4 @@
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import { simpleSearchProductListings } from "@/client";
 import {
     mapPersonalizedProductListingSummary,
@@ -21,13 +22,10 @@ export function useDealerProducts(
     const { preferences } = useUserPreferences();
 
     return useQuery({
-        queryKey: [
-            "dealerProducts",
-            listingSourceId,
-            excludeProductListingId,
-            i18n.language,
-            preferences.currency,
-        ],
+        queryKey: productListingQueryKeys.dealer(listingSourceId, excludeProductListingId, {
+            language: parseLanguage(i18n.language),
+            currency: preferences.currency,
+        }),
         queryFn: async () => {
             const result = await simpleSearchProductListings({
                 query: {

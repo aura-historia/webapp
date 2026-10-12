@@ -35,7 +35,7 @@ vi.mock("sonner", () => ({ toast: { error: vi.fn() } }));
 describe("204 notification mutations", () => {
     let client: QueryClient;
     const key = ["getNotifications", "user-1", "en"];
-    const listingKey = ["search", "query"];
+    const listingKey = ["productListings", "search", "query"];
     const wrapper = ({ children }: { children: ReactNode }) =>
         createElement(QueryClientProvider, { client }, children);
     const cachedItems = () =>
@@ -97,10 +97,8 @@ describe("204 notification mutations", () => {
     });
 
     it("updates nested saved-search pages and generated detail wrappers", async () => {
-        const detailKey = [
-            { _id: "getProductListingByTitleSlug", path: { productListingTitleSlugId: "vase" } },
-        ];
-        const matchKey = ["searchFilterMatchedProducts", "filter-1"];
+        const detailKey = ["productListings", "detail", "vase", "en", "EUR"];
+        const matchKey = ["productListings", "savedSearchMatches", "filter-1", "en", "EUR"];
         const state = {
             notification: { unseenNotificationIds: ["notification-1", "notification-2"] },
         };
@@ -127,7 +125,6 @@ describe("204 notification mutations", () => {
             ],
             pageParams: [undefined],
         });
-        const invalidate = vi.spyOn(client, "invalidateQueries");
         const { result } = renderHook(() => useMarkNotificationsSeen(), { wrapper });
         await act(() => result.current.mutateAsync(["notification-1", "notification-2"]));
         expect(client.getQueryData(detailKey)).toEqual({
@@ -150,17 +147,16 @@ describe("204 notification mutations", () => {
                 },
             ],
         });
-        expect(invalidate).toHaveBeenCalledWith({ queryKey: detailKey, exact: true });
-        expect(invalidate).toHaveBeenCalledWith({ queryKey: matchKey, exact: true });
+        expect(client.getQueryState(detailKey)?.isInvalidated).toBe(true);
+        expect(client.getQueryState(matchKey)?.isInvalidated).toBe(true);
     });
 
     it("updates and invalidates shop-profile listing unread state", async () => {
-        const shopKey = ["sourceProductListings", "source-1", "en", "USD", 20];
+        const shopKey = ["productListings", "source", "source-1", 20, "en", "USD"];
         client.setQueryData(shopKey, {
             pages: [client.getQueryData(listingKey)],
             pageParams: [undefined],
         });
-        const invalidate = vi.spyOn(client, "invalidateQueries");
         const { result } = renderHook(() => useMarkNotificationsSeen(), { wrapper });
         await act(() => result.current.mutateAsync(["notification-1", "notification-2"]));
         expect(client.getQueryData(shopKey)).toMatchObject({
@@ -179,13 +175,13 @@ describe("204 notification mutations", () => {
                 },
             ],
         });
-        expect(invalidate).toHaveBeenCalledWith({ queryKey: shopKey, exact: true });
+        expect(client.getQueryState(shopKey)?.isInvalidated).toBe(true);
     });
 
     it("leaves other viewers' partitioned caches unchanged", async () => {
         const otherKey = ["getNotifications", "user-2", "en"];
-        const otherWatchlistKey = ["watchlist", "user-2", "en", "USD"];
-        const otherListingKey = ["productListings", "summary", "en", "USD", "viewer", "user-2"];
+        const otherWatchlistKey = ["productListings", "watchlist", "viewer", "user-2", "en", "USD"];
+        const otherListingKey = ["productListings", "search", "query", "viewer", "user-2"];
         client.setQueryData(otherKey, client.getQueryData(key));
         client.setQueryData(otherWatchlistKey, client.getQueryData(listingKey));
         client.setQueryData(otherListingKey, client.getQueryData(listingKey));

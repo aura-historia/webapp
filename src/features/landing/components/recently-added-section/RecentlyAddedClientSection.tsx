@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ClientOnly } from "@tanstack/react-router";
-import { simpleSearchProductListingsOptions } from "@/client/@tanstack/react-query.gen.ts";
+import { simpleSearchProductListings } from "@/client";
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
 import RecentlyAddedSection from "@/features/landing/components/recently-added-section/RecentlyAddedSection.tsx";
 import { RecentlyAddedSectionSkeleton } from "@/features/landing/components/recently-added-section/RecentlyAddedSectionSkeleton.tsx";
@@ -21,21 +22,29 @@ export function RecentlyAddedClientSection() {
 function RecentlyAddedContent() {
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
-    const { data, isPending } = useQuery(
-        simpleSearchProductListingsOptions({
-            query: {
-                sort: "created",
-                order: "desc",
-                size: 12,
-                language: parseLanguage(i18n.language),
-                currency: preferences.currency,
-            },
+    const language = parseLanguage(i18n.language);
+    const { data: products = [], isPending } = useQuery({
+        queryKey: productListingQueryKeys.recentlyAdded({
+            language,
+            currency: preferences.currency,
         }),
-    );
-
-    const products = (data?.items ?? []).map((product) =>
-        mapPersonalizedProductListingSummary(product, i18n.language),
-    );
+        queryFn: async ({ signal }) => {
+            const { data } = await simpleSearchProductListings({
+                query: {
+                    sort: "created",
+                    order: "desc",
+                    size: 12,
+                    language,
+                    currency: preferences.currency,
+                },
+                signal,
+                throwOnError: true,
+            });
+            return data.items.map((product) =>
+                mapPersonalizedProductListingSummary(product, i18n.language),
+            );
+        },
+    });
 
     if (isPending) return <RecentlyAddedSectionSkeleton />;
     if (products.length === 0) return null;

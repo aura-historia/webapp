@@ -1,3 +1,4 @@
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import { simpleSearchProductListings, type SimpleSearchProductListingsData } from "@/client";
 import {
     mapPersonalizedProductListingSummary,
@@ -92,7 +93,10 @@ export function useSearchFilterPreviewProducts(
     const previewable = canPreviewSavedSearch(search);
 
     return useQuery({
-        queryKey: ["searchFilterPreviewProducts", search, i18n.language, preferences.currency],
+        queryKey: productListingQueryKeys.savedSearchPreview(search, {
+            language: parseLanguage(i18n.language),
+            currency: preferences.currency,
+        }),
         enabled: enabled && previewable,
         queryFn: async () => {
             if (search.availability?.length === 0) return [];

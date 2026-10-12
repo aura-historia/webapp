@@ -1,3 +1,4 @@
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import { listSearchFilterMatches } from "@/client";
 import {
     mapToInternalSearchFilterMatchProductCollection,
@@ -24,7 +25,10 @@ export function useSearchFilterMatchedProducts(
     const { preferences } = useUserPreferences();
 
     return useInfiniteQuery({
-        queryKey: ["searchFilterMatchedProducts", id, i18n.language, preferences.currency],
+        queryKey: productListingQueryKeys.savedSearchMatchesPage(id, {
+            language: parseLanguage(i18n.language),
+            currency: preferences.currency,
+        }),
         enabled: !!id,
         queryFn: async ({ pageParam }) => {
             const result = await listSearchFilterMatches({

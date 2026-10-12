@@ -3,11 +3,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useUpdateUserAccount } from "../usePatchUserAccount.ts";
 import { QueryClient, QueryClientProvider, QueryObserver } from "@tanstack/react-query";
 import { createElement } from "react";
-import { simpleSearchProductListingsQueryKey } from "@/client/@tanstack/react-query.gen.ts";
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 
-const recentlyAddedQueryKey = simpleSearchProductListingsQueryKey({
-    query: { sort: "created", order: "desc", size: 12, language: "de", currency: "EUR" },
-});
+const listingContext = { language: "de", currency: "EUR" } as const;
+const recentlyAddedQueryKey = productListingQueryKeys.recentlyAdded(listingContext);
 
 const mockUpdateUserAccount = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn());
@@ -82,7 +81,7 @@ describe("useUpdateUserAccount", () => {
 
     describe("Success Path", () => {
         it.each([
-            ["search", ["search", "chair"]],
+            ["search", productListingQueryKeys.search({ q: "chair" }, listingContext)],
             ["recently added", recentlyAddedQueryKey],
         ] as const)(
             "refetches mounted %s queries with the updated visibility",
@@ -119,16 +118,15 @@ describe("useUpdateUserAccount", () => {
             const updatedAccount = { showUnassessedOrSensitiveContent: false };
             mockUpdateUserAccount.mockResolvedValue({ data: updatedAccount });
             const affectedKeys = [
-                ["search", "chair"],
-                ["watchlist", "user"],
-                ["similarProductListings", "listing"],
-                ["dealerProducts", "source"],
-                ["productListings", "recent"],
-                ["sourceProductListings", "source"],
-                ["searchFilterMatchedProducts", "filter"],
-                ["searchFilterPreviewProducts", "filter"],
+                productListingQueryKeys.search({ q: "chair" }, listingContext),
+                productListingQueryKeys.watchlist({ ...listingContext, viewerCacheKey: "user" }),
+                productListingQueryKeys.similar("listing", listingContext),
+                productListingQueryKeys.dealer("source", "listing", listingContext),
+                productListingQueryKeys.source("source", 20, listingContext),
+                productListingQueryKeys.savedSearchMatchesPage("filter", listingContext),
+                productListingQueryKeys.savedSearchPreview({ q: "chair" }, listingContext),
+                productListingQueryKeys.detailBySlug("chair", listingContext),
                 ["getNotifications", "user"],
-                [{ _id: "getProductListingByTitleSlug" }, "chair"],
                 recentlyAddedQueryKey,
             ];
             for (const key of affectedKeys)

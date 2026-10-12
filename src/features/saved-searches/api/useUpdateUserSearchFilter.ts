@@ -9,6 +9,10 @@ import {
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { useMutation, useQueryClient, type UseMutationResult } from "@tanstack/react-query";
+import {
+    patchListingUserState,
+    withSearchFilterName,
+} from "@/features/product/catalog/lib/listingUserStateCache.ts";
 
 type UpdateUserSearchFilterVariables = {
     id: string;
@@ -39,6 +43,11 @@ export function useUpdateUserSearchFilter(): UseMutationResult<
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ["userSearchFilters"] });
             queryClient.invalidateQueries({ queryKey: ["userSearchFilter", data.id] });
+            patchListingUserState(
+                queryClient,
+                "allListings",
+                withSearchFilterName(data.id, data.name),
+            );
         },
         onError: (error) => {
             toast.error(error.message);
