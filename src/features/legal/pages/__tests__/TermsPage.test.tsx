@@ -91,6 +91,15 @@ describe("Terms Page Logic", () => {
         }
     });
 
+    it("links the geographic data attribution page in all locales", () => {
+        for (const content of Object.values(TERMS_LOCALE_MAP)) {
+            expect(content).toContain("Amazon Location Service");
+            expect(content).toContain(
+                "(https://docs.aws.amazon.com/location/latest/developerguide/data-attribution.html)",
+            );
+        }
+    });
+
     it("contains the provider legal form in all locales", () => {
         for (const content of Object.values(TERMS_LOCALE_MAP)) {
             expect(content).toContain("Julian Bruder Einzelunternehmen");

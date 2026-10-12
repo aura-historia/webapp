@@ -2960,5 +2960,15 @@
       "lotsBeginClosing": "Beginn des Losabschlusses",
       "scheduledEnd": "Geplantes Ende"
     }
+  },
+  "geography": {
+    "attribution": "Standortdaten: <providerLink>{{provider}}</providerLink>",
+    "disclosure": {
+      "privateAddress": "Gespeicherte Adressen sind privat und nur für Ihr Konto bestimmt. Wir verwenden sie, um Entfernungen und regionale Ergebnisse anzuzeigen, nicht um Ihren Wohnsitz oder die Lieferbarkeit von Objekten zu prüfen. Nach dem Speichern ermitteln wir die Lage im Hintergrund mit Amazon Location Service. Bis dahin oder ohne eindeutiges Ergebnis bleibt die Adresse ohne genauen Punkt nutzbar.",
+      "savedOrigin": "Mit dieser Suche speichern wir eine private Kopie ihres Suchstandorts. Spätere Änderungen an Ihren Adressen verschieben ihn nicht. Ändern oder löschen Sie die gespeicherte Suche, um ihn zu entfernen.",
+      "browserLocation": "Ihr Browser fragt, ob Sie Ihren aktuellen Standort freigeben möchten. Wir verwenden ihn nur für diese Suche und speichern ihn nur, wenn Sie die Suche speichern.",
+      "publicPartySite": "Aktive Standorte sind öffentlich: Der genaue geografische Punkt sowie Land und Region können in Suchergebnissen erscheinen und für die Umkreissuche verwendet werden. Die vollständige Adresse, Nachweise und Verwaltungsangaben sehen nur berechtigte Personen. Legen Sie einen Standort still, um ihn aus öffentlichen Ergebnissen zu entfernen; die Aktualisierung kann kurze Zeit dauern.",
+      "privacy": "Weitere Informationen finden Sie in unserer <privacyLink>Datenschutzerklärung</privacyLink>."
+    }
   }
 }

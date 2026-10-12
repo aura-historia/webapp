@@ -2960,5 +2960,15 @@
       "lotsBeginClosing": "Inizio chiusura dei lotti",
       "scheduledEnd": "Fine prevista"
     }
+  },
+  "geography": {
+    "attribution": "Dati di posizione: <providerLink>{{provider}}</providerLink>",
+    "disclosure": {
+      "privateAddress": "Gli indirizzi salvati sono privati e destinati solo al vostro account. Li utilizziamo per mostrare distanze e risultati regionali, non per verificare la vostra residenza o la possibilità di consegnare oggetti. Dopo il salvataggio determiniamo la posizione in background con Amazon Location Service. Fino ad allora, o in assenza di un risultato univoco, l’indirizzo resta utilizzabile senza un punto preciso.",
+      "savedOrigin": "Salvando questa ricerca conserviamo una copia privata della sua posizione di ricerca. Le modifiche successive ai vostri indirizzi non la spostano. Modificate o cancellate la ricerca salvata per rimuoverla.",
+      "browserLocation": "Il browser vi chiederà se volete condividere la vostra posizione attuale. La utilizziamo solo per questa ricerca e la memorizziamo solo se salvate la ricerca.",
+      "publicPartySite": "Le sedi attive sono pubbliche: il punto geografico esatto, il paese e la regione possono comparire nei risultati di ricerca ed essere utilizzati per le ricerche per raggio. L’indirizzo completo, le prove e i dati di gestione sono visibili solo alle persone autorizzate. Dismettete una sede per rimuoverla dai risultati pubblici; l’aggiornamento può richiedere un breve tempo.",
+      "privacy": "Maggiori informazioni sono disponibili nella nostra <privacyLink>informativa sulla privacy</privacyLink>."
+    }
   }
 }

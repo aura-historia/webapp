@@ -34,6 +34,7 @@ Depending on your use, this may include in particular:
 - contract, billing, and payment metadata
 - usage, log, and device data
 - content and interaction data within the service
+- address and location data where you use geographic features
 - data from publicly accessible sources, including historical or antiquarian content
 
 ---
@@ -104,7 +105,7 @@ When you use our service, we may process additional data, in particular:
 
 Where partner, shop, or administration features are used, we may additionally process:
 
-- shop, domain, contact, and address data
+- shop, domain, contact, and address data, including the locations of dealers and auction houses
 - partner applications and related status or review data
 - API access data or related administration data
 - role and activation information
@@ -125,7 +126,44 @@ If you explicitly authorize an external application, it can access the data or r
 
 ---
 
-## 6. Paid Services, Subscriptions, and Payment Processing
+## 6. Addresses, Search Locations, and Geographic Features
+
+When you use geographic features, we process in particular, depending on the feature:
+
+- addresses you save in your account, with label, address text, country, region, and postal code where provided
+- geographic information derived from them, such as country, region, coordinates and their precision, and the processing status
+- your selected search location, meaning a saved address or a country with an optional postal code
+- coordinates you use for a radius search or keep in a saved search
+- your current location if you explicitly share it through your browser
+
+**Saved addresses and search location:** Your saved addresses and your search location are private and intended for your account only. We use them to determine distances and regional results for you. They are not used to verify your residence, billing address, nationality, or whether objects can be delivered. We do not derive a search location from your language, currency, or IP address.
+
+**Geocoding:** After you save or change an address, we determine its geographic location in the background, with a delay. To do so, we send the address text and your country, region, and postal code details to Amazon Location Service provided by Amazon Web Services (AWS), which we use through the Frankfurt region (eu-central-1). Amazon Location Service relies on data from data providers, whose processing may also take place outside this region. We store the result only where the provider's terms permit it and use it exclusively for your account, even if other users save the same address. We adopt a precise point only from an unambiguous result. Until the lookup is complete, or if there is no unambiguous result, the address remains usable without a precise point; you can correct it at any time. Geocoding does not verify your address.
+
+**Browser location sharing:** We request your current location only when you explicitly trigger it. Your browser asks for your permission first; you can refuse or withdraw it in your browser settings. We use the coordinates for the search in question and store them only if you save the search.
+
+**Saved searches with a location:** If a saved search includes a radius, we store the coordinates used for it as a private copy. This copy does not change if you later edit or delete an address. You remove it by changing or deleting the saved search.
+
+**Not shared with analytics services:** We do not send addresses or coordinates to Google Analytics and do not include them in diagnostic logs. Location features do not require consent to analytics/tracking or external maps; your choices in the consent settings remain unchanged.
+
+**Public locations of dealers and auction houses:** Dealers, auction houses, and other providers can add locations for their business. For active locations, we may publicly display the exact geographic point as well as the country and region, and use them for radius searches and to associate listings. The full address entered, supporting evidence, and management details remain protected and are accessible only to authorized persons. Retired locations are no longer shown publicly; it may take a short time until all search results are updated. Private user addresses are never used as public locations.
+
+**Attribution:** Geographic data come from Amazon Location Service and its data providers. The required source and copyright notices are available on the [Amazon Location Service attribution page](https://docs.aws.amazon.com/location/latest/developerguide/data-attribution.html).
+
+**Purposes of processing:**
+
+- determining distances, and regional search and filtering
+- radius searches and notifications for saved searches
+- location-based discoverability of dealers, auction houses, and their listings
+
+**Legal bases:**
+
+- **Art. 6 para. 1 lit. b GDPR** – provision of the address, location, search, and partner features you use
+- **Art. 6 para. 1 lit. f GDPR** – legitimate interest in the location-based discoverability of dealers, auction houses, and listings
+
+---
+
+## 7. Paid Services, Subscriptions, and Payment Processing
 
 If you purchase paid digital services or subscriptions, we process in particular:
 
@@ -152,7 +190,7 @@ Payment processing is carried out via [Stripe](https://stripe.com/) (Stripe Paym
 
 ---
 
-## 7. Newsletter and Marketing Communications
+## 8. Newsletter and Marketing Communications
 
 If you choose to receive marketing emails, we process in particular:
 
@@ -173,7 +211,7 @@ Withdrawal of your consent does not affect the lawfulness of processing carried 
 
 ---
 
-## 8. Cookies, Local Storage, and Session Storage
+## 9. Cookies, Local Storage, and Session Storage
 
 We use technically necessary storage in your browser. We may store your selected language, functional preferences, and consent choices in cookies or local storage so we can remember and apply them on later visits. Sign-in and registration may also require temporary browser storage. Optional analytics features and external maps are used only where legally permitted and after your consent.
 
@@ -184,7 +222,7 @@ We use technically necessary storage in your browser. We may store your selected
 
 ---
 
-## 9. Consent Management, Google Analytics, and External Maps
+## 10. Consent Management, Google Analytics, and External Maps
 
 Our website uses a consent banner and separate consent settings. Optional analytics features and external content are activated only to the extent legally permissible and after your consent. You can make separate choices for analytics/tracking and external maps.
 
@@ -212,7 +250,7 @@ For further information, please refer to [Google's Privacy Policy](https://polic
 
 ---
 
-## 10. Publicly Accessible Sources, Web Scraping, and Historical Content
+## 11. Publicly Accessible Sources, Web Scraping, and Historical Content
 
 Our platform also processes information from publicly accessible sources on the internet. Depending on the source, this may in particular include:
 
@@ -244,7 +282,7 @@ After review, we remove, block, or restrict content where legally required or wh
 
 ---
 
-## 11. AI-Assisted Processing and No Automated Individual Decisions
+## 12. AI-Assisted Processing and No Automated Individual Decisions
 
 Some features use automated or AI-assisted methods to organize content and find relevant search results. For enhanced matching of saved searches, we send the search description you enter, relevant listing descriptions, and sometimes an image to Cloudflare for assessment of possible matches. These inputs may contain personal data if they relate to an identifiable person.
 
@@ -257,11 +295,11 @@ This processing supports search functionality. It does not make decisions based 
 
 ---
 
-## 12. Recipients, Service Providers, and Third-Country Transfers
+## 13. Recipients, Service Providers, and Third-Country Transfers
 
 We use external service providers and infrastructure providers. Personal data may be transferred or disclosed to the following categories of recipients:
 
-- **Amazon Web Services (AWS)** – for registration and sign-in
+- **Amazon Web Services (AWS)** – for registration and sign-in, and for geocoding addresses (Amazon Location Service)
 - **Cloudflare** – for website delivery and security, and enhanced matching of saved searches
 - **Hetzner Online GmbH** – where parts of our service are hosted there
 - **Stripe** – for payment processing, subscription management, checkout, and customer portal functions
@@ -283,13 +321,14 @@ Contact us for information about the safeguards applying to a particular transfe
 
 ---
 
-## 13. Storage Duration
+## 14. Storage Duration
 
 We store personal data only for as long as required for the respective purposes or as long as statutory retention obligations apply.
 
 The following criteria typically apply in particular:
 
 - **Account data:** until the account is deleted or the user relationship ends; thereafter deletion or blocking unless statutory retention obligations prevent this
+- **Addresses and search location:** until you remove the address or search location or delete your account. When you delete an address, we remove its label and address details; if none of your other addresses uses the same input, we also delete the details sent to Amazon Location Service and the result from our records. We do not keep earlier versions as history. A request already in progress at Amazon Location Service cannot be recalled, but its result is no longer stored after deletion. Coordinates in saved searches remain stored until you change or delete the search or your account. These data are removed from backups when the relevant backup period expires.
 - **Contract, billing, and tax data:** for the duration of statutory commercial-law and tax-law retention periods
 - **Newsletter data:** while you are subscribed; evidence of your consent and unsubscription may be kept longer where needed to document your choice and handle legal claims
 - **Technical and security data:** for as long as needed to protect and maintain the service or investigate an incident
@@ -298,7 +337,7 @@ The following criteria typically apply in particular:
 
 ---
 
-## 14. Rights of Data Subjects
+## 15. Rights of Data Subjects
 
 Subject to the statutory requirements, you have in particular the following rights:
 
@@ -322,7 +361,7 @@ Please note that deletion is not possible to the extent or for as long as we sti
 
 ---
 
-## 15. Right to Lodge a Complaint with a Supervisory Authority
+## 16. Right to Lodge a Complaint with a Supervisory Authority
 
 You have the right to lodge a complaint with a data protection supervisory authority. The authority particularly competent for us is:
 
@@ -337,10 +376,10 @@ You may also contact any other competent supervisory authority, in particular th
 
 ---
 
-## 16. Changes to These Privacy Notices
+## 17. Changes to These Privacy Notices
 
 We may adapt these privacy notices where this becomes necessary due to legal, technical, organizational, or content-related changes. The version published on our website shall be authoritative.
 
 ---
 
-*Status: 7 October 2026*
+*Status: 12 October 2026*

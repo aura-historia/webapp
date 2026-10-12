@@ -2960,5 +2960,15 @@
       "lotsBeginClosing": "Lots begin closing",
       "scheduledEnd": "Scheduled end"
     }
+  },
+  "geography": {
+    "attribution": "Location data: <providerLink>{{provider}}</providerLink>",
+    "disclosure": {
+      "privateAddress": "Saved addresses are private to your account. We use them to show distances and regional results, not to verify your residence or whether objects can be delivered. After you save, we determine the location in the background using Amazon Location Service. Until then, or if there is no clear match, the address remains usable without a precise point.",
+      "savedOrigin": "Saving this search keeps a private copy of its search location. Later changes to your addresses do not move it. Change or delete the saved search to remove it.",
+      "browserLocation": "Your browser will ask whether to share your current location. We use it only for this search and store it only if you save the search.",
+      "publicPartySite": "Active locations are public: the exact geographic point, country and region can appear in search results and be used for radius searches. The full address, supporting evidence and management details are visible only to authorized people. Retire a location to remove it from public results; the update can take a short time.",
+      "privacy": "More information is available in our <privacyLink>privacy policy</privacyLink>."
+    }
   }
 }
