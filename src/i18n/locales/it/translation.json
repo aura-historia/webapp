@@ -2879,15 +2879,34 @@
   },
   "adminAuctions": {
     "title": "Gestione aste",
-    "description": "Crea record d’asta e aggiorna i dati comunicati. La fonte e l’identità dell’asta presso la fonte non possono essere modificate dopo la creazione.",
+    "description": "Cerca, crea e aggiorna i record d’asta. La fonte e l’identità dell’asta presso la fonte non possono essere modificate dopo la creazione.",
     "create": {
       "title": "Crea un’asta",
       "description": "Associa l’asta a una fonte autorizzata e inserisci la sua identità presso tale fonte.",
       "blankFieldsHelp": "Lascia vuoti i campi facoltativi se la fonte non ha fornito quei dati."
     },
-    "open": {
-      "title": "Apri un record d’asta",
-      "description": "Apri un record se conosci l’ID dell’asta."
+    "list": {
+      "title": "Elenco delle aste",
+      "description": "Tutti i record d’asta, anche quelli senza inserzioni visibili. Cerca per nome o ID dell’asta presso la fonte, oppure per chiave della fonte esatta.",
+      "loading": "Caricamento delle aste…",
+      "empty": "Nessuna asta corrisponde a questi filtri.",
+      "end": "Non ci sono altre aste.",
+      "loadMore": "Carica altre aste",
+      "noName": "Nessun nome comunicato",
+      "openLabel": "Apri record: {{label}}"
+    },
+    "filters": {
+      "title": "Filtri delle aste",
+      "query": "Nome o ID dell’asta presso la fonte",
+      "queryHelp": "Trova parte del nome o dell’ID dell’asta presso la fonte, senza distinguere maiuscole e minuscole.",
+      "listingSourceIdHelp": "ID esatto della fonte.",
+      "sourceAuctionIdHelp": "Chiave esatta. Combinala con l’ID della fonte per trovare il record esistente dopo un conflitto.",
+      "allFormats": "Tutti i formati",
+      "allStatuses": "Tutti gli stati",
+      "sort": "Ordina per",
+      "pageSize": "Per pagina",
+      "apply": "Applica filtri",
+      "reset": "Reimposta"
     },
     "sourceSearch": {
       "prompt": "Cerca per nome o slug della fonte o del suo gestore, oppure incolla un ID fonte.",
@@ -2932,7 +2951,8 @@
       "saving": "Salvataggio…",
       "loadLatest": "Carica il record aggiornato",
       "backToOverview": "Torna alla gestione delle aste",
-      "clearSource": "Annulla selezione"
+      "clearSource": "Annulla selezione",
+      "findExisting": "Trova l’asta esistente"
     },
     "errors": {
       "forbidden": "Non hai l’autorizzazione per gestire le aste.",
@@ -2943,7 +2963,9 @@
       "invalid": "Controlla i dati dell’asta e riprova.",
       "requestFailed": "La richiesta dell’asta non è stata completata. Riprova.",
       "sourceMissing": "La fonte delle inserzioni selezionata non è stata trovata.",
-      "invalidId": "Questo ID asta non è valido. Gli ID asta iniziano con «auc_»."
+      "invalidId": "Questo ID asta non è valido. Gli ID asta iniziano con «auc_».",
+      "invalidSearch": "Non è stato possibile applicare questi filtri. Controlla gli ID e riprova.",
+      "unavailable": "I record d’asta non sono temporaneamente disponibili. Riprova tra poco."
     },
     "validation": {
       "sourceRequired": "Seleziona una fonte.",
@@ -2963,6 +2985,14 @@
       "ENDED": "Terminato",
       "POSTPONED": "Rinviato",
       "CANCELLED": "Annullato"
+    },
+    "sort": {
+      "updated_desc": "Aggiornate di recente",
+      "updated_asc": "Aggiornate meno di recente",
+      "created_desc": "Più recenti prima",
+      "created_asc": "Meno recenti prima",
+      "name_asc": "Nome A–Z",
+      "name_desc": "Nome Z–A"
     },
     "schedule": {
       "biddingOpens": "Apertura delle offerte",

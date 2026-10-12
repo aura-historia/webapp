@@ -2911,6 +2911,18 @@ export type PublicAuctionSourceData = {
   slugId: string;
 };
 
+export type AdminAuctionSearchCollectionData = {
+  items: Array<AuctionAdminData>;
+  /**
+   * Number of items returned on this page.
+   */
+  size: number;
+  /**
+   * Opaque cursor, omitted on the terminal page.
+   */
+  searchAfter?: string;
+};
+
 export type PublicAuctionDirectoryCursorData = {
   created: string;
   auctionId: string;
@@ -3622,6 +3634,69 @@ export type GetAuctionCatalogueResponses = {
 };
 
 export type GetAuctionCatalogueResponse = GetAuctionCatalogueResponses[keyof GetAuctionCatalogueResponses];
+
+export type AdminSearchAuctionsData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * NUL-free, case-insensitive literal substring of the localized Auction name or sourceAuctionId.
+     */
+    query?: string;
+    listingSourceId?: string;
+    /**
+     * Exact source-scoped Auction key, trimmed as on create. Combine with listingSourceId to locate a create conflict.
+     */
+    sourceAuctionId?: string;
+    format?: AuctionFormatData;
+    reportedStatus?: AuctionReportedStatusData;
+    /**
+     * Supply both sort and order to override the default updated/descending ordering.
+     */
+    sort?: 'name' | 'created' | 'updated';
+    /**
+     * Supply both sort and order to override the default updated/descending ordering.
+     */
+    order?: 'asc' | 'desc';
+    /**
+     * Requested page limit, clamped to 1–100.
+     */
+    size?: number;
+    /**
+     * Opaque cursor from the preceding page. Filters, sort and order must match the request that issued it.
+     */
+    searchAfter?: string;
+  };
+  url: '/api/v1/admin/auctions';
+};
+
+export type AdminSearchAuctionsErrors = {
+  /**
+   * Invalid filter, sort, or cursor (`BAD_QUERY_PARAMETER_VALUE`, `BAD_SORT_VALUE`, or `INVALID_OBJECT_ID`).
+   */
+  400: unknown;
+  /**
+   * Missing or invalid credentials (`INVALID_CREDENTIALS`).
+   */
+  401: unknown;
+  /**
+   * Administrator authority and delegated `auctions:read` capability required (`FORBIDDEN`).
+   */
+  403: unknown;
+  /**
+   * Auction search temporarily unavailable (`AUCTION_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: unknown;
+};
+
+export type AdminSearchAuctionsResponses = {
+  /**
+   * All matching Auctions, regardless of status or visible listing count. Always `Cache-Control: no-store`.
+   */
+  200: AdminAuctionSearchCollectionData;
+};
+
+export type AdminSearchAuctionsResponse = AdminSearchAuctionsResponses[keyof AdminSearchAuctionsResponses];
 
 export type CreateAdminAuctionData = {
   body: CreateAuctionData;

@@ -186,6 +186,76 @@ paths:
         "400": { description: Invalid Auction ID or cursor. }
         "404": { description: Auction missing (`AUCTION_NOT_FOUND`). }
   /api/v1/admin/auctions:
+    get:
+      summary: Search Auctions for administration
+      operationId: adminSearchAuctions
+      description: Administrator authority is required. Delegated Aura access tokens also require `auctions:read`; Cognito users do not require a delegated scope. Success and errors are always `no-store`.
+      tags: [Auctions]
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - name: query
+          in: query
+          description: NUL-free, case-insensitive literal substring of the localized Auction name or sourceAuctionId.
+          schema: { type: string }
+        - { name: listingSourceId, in: query, schema: { type: string } }
+        - name: sourceAuctionId
+          in: query
+          description: Exact source-scoped Auction key, trimmed as on create. Combine with listingSourceId to locate a create conflict.
+          schema: { type: string }
+        - {
+            name: format,
+            in: query,
+            schema: { $ref: "#/components/schemas/AuctionFormatData" },
+          }
+        - {
+            name: reportedStatus,
+            in: query,
+            schema: { $ref: "#/components/schemas/AuctionReportedStatusData" },
+          }
+        - name: sort
+          in: query
+          description: Supply both sort and order to override the default updated/descending ordering.
+          schema:
+            { type: string, enum: [name, created, updated], default: updated }
+        - name: order
+          in: query
+          description: Supply both sort and order to override the default updated/descending ordering.
+          schema: { type: string, enum: [asc, desc], default: desc }
+        - name: size
+          in: query
+          description: Requested page limit, clamped to 1–100.
+          schema: { type: integer, minimum: 1, maximum: 100, default: 21 }
+        - name: searchAfter
+          in: query
+          description: Opaque cursor from the preceding page. Filters, sort and order must match the request that issued it.
+          schema: { type: string }
+      responses:
+        "200":
+          description: "All matching Auctions, regardless of status or visible listing count. Always `Cache-Control: no-store`."
+          headers:
+            Cache-Control:
+              description: Always `no-store`.
+              schema: { type: string, example: no-store }
+          content:
+            application/json:
+              schema:
+                {
+                  $ref: "#/components/schemas/AdminAuctionSearchCollectionData",
+                }
+        "400":
+          description: Invalid filter, sort, or cursor (`BAD_QUERY_PARAMETER_VALUE`, `BAD_SORT_VALUE`, or `INVALID_OBJECT_ID`).
+        "401":
+          {
+            description: Missing or invalid credentials (`INVALID_CREDENTIALS`).,
+          }
+        "403":
+          description: Administrator authority and delegated `auctions:read` capability required (`FORBIDDEN`).
+        "503":
+          {
+            description: Auction search temporarily unavailable (`AUCTION_TEMPORARILY_UNAVAILABLE`).,
+          }
     post:
       summary: Create a source-scoped Auction (admin)
       operationId: createAdminAuction
@@ -20746,6 +20816,20 @@ components:
           type: string
         slugId:
           type: string
+    AdminAuctionSearchCollectionData:
+      type: object
+      additionalProperties: false
+      required: [items, size]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/AuctionAdminData" }
+        size:
+          type: integer
+          description: Number of items returned on this page.
+        searchAfter:
+          type: string
+          description: Opaque cursor, omitted on the terminal page.
     PublicAuctionDirectoryCursorData:
       type: object
       additionalProperties: false

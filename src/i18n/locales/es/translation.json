@@ -2879,15 +2879,34 @@
   },
   "adminAuctions": {
     "title": "Gestión de subastas",
-    "description": "Cree registros de subasta y actualice sus datos comunicados. La fuente y la identidad de la subasta en origen no se pueden cambiar después de crear el registro.",
+    "description": "Busque, cree y actualice registros de subasta. La fuente y la identidad de la subasta en origen no se pueden cambiar después de crear el registro.",
     "create": {
       "title": "Crear una subasta",
       "description": "Asocie la subasta a una fuente autorizada e indique su identidad en esa fuente.",
       "blankFieldsHelp": "Deje vacíos los campos opcionales cuando la fuente no haya facilitado esos datos."
     },
-    "open": {
-      "title": "Abrir un registro de subasta",
-      "description": "Abra un registro si conoce el ID de la subasta."
+    "list": {
+      "title": "Directorio de subastas",
+      "description": "Todos los registros de subasta, también los que no tienen anuncios visibles. Busque por nombre o ID de subasta en origen, o por una clave de origen exacta.",
+      "loading": "Cargando subastas…",
+      "empty": "Ninguna subasta coincide con estos filtros.",
+      "end": "No hay más subastas.",
+      "loadMore": "Cargar más subastas",
+      "noName": "Sin nombre comunicado",
+      "openLabel": "Abrir registro: {{label}}"
+    },
+    "filters": {
+      "title": "Filtros de subastas",
+      "query": "Nombre o ID de subasta en origen",
+      "queryHelp": "Coincide con parte del nombre o del ID de subasta en origen, sin distinguir mayúsculas.",
+      "listingSourceIdHelp": "ID exacto de la fuente.",
+      "sourceAuctionIdHelp": "Clave exacta. Combínela con el ID de la fuente para encontrar el registro existente tras un conflicto.",
+      "allFormats": "Todos los formatos",
+      "allStatuses": "Todos los estados",
+      "sort": "Ordenar por",
+      "pageSize": "Por página",
+      "apply": "Aplicar filtros",
+      "reset": "Restablecer"
     },
     "sourceSearch": {
       "prompt": "Busque por nombre o slug de la fuente o de su operador, o pegue un ID de fuente.",
@@ -2932,7 +2951,8 @@
       "saving": "Guardando…",
       "loadLatest": "Cargar registro actualizado",
       "backToOverview": "Volver a la gestión de subastas",
-      "clearSource": "Quitar selección"
+      "clearSource": "Quitar selección",
+      "findExisting": "Buscar la subasta existente"
     },
     "errors": {
       "forbidden": "No tiene permiso para gestionar subastas.",
@@ -2943,7 +2963,9 @@
       "invalid": "Revise los datos de la subasta e inténtelo de nuevo.",
       "requestFailed": "No se pudo completar la solicitud. Inténtelo de nuevo.",
       "sourceMissing": "No se encontró la fuente de anuncios seleccionada.",
-      "invalidId": "Este ID de subasta no es válido. Los ID de subasta empiezan por «auc_»."
+      "invalidId": "Este ID de subasta no es válido. Los ID de subasta empiezan por «auc_».",
+      "invalidSearch": "No se pudieron aplicar estos filtros. Compruebe los ID e inténtelo de nuevo.",
+      "unavailable": "Los registros de subasta no están disponibles temporalmente. Inténtelo de nuevo en unos momentos."
     },
     "validation": {
       "sourceRequired": "Seleccione una fuente.",
@@ -2963,6 +2985,14 @@
       "ENDED": "Finalizada",
       "POSTPONED": "Aplazada",
       "CANCELLED": "Cancelada"
+    },
+    "sort": {
+      "updated_desc": "Actualizadas recientemente",
+      "updated_asc": "Actualizadas hace más tiempo",
+      "created_desc": "Más recientes primero",
+      "created_asc": "Más antiguas primero",
+      "name_asc": "Nombre A–Z",
+      "name_desc": "Nombre Z–A"
     },
     "schedule": {
       "biddingOpens": "Apertura de pujas",

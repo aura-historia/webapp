@@ -2879,15 +2879,34 @@
   },
   "adminAuctions": {
     "title": "Auktionsverwaltung",
-    "description": "Legen Sie Auktionen an und aktualisieren Sie gemeldete Angaben. Listing-Source und Quell-Auktionskennung bleiben nach dem Anlegen unveränderlich.",
+    "description": "Auktionsdatensätze finden, anlegen und aktualisieren. Listing-Source und Quell-Auktionskennung bleiben nach dem Anlegen unveränderlich.",
     "create": {
       "title": "Auktion anlegen",
       "description": "Ordnen Sie die Auktion einer autorisierten Listing-Source zu und geben Sie deren Quellkennung an.",
       "blankFieldsHelp": "Lassen Sie optionale Felder leer, wenn die Quelle dazu keine Angaben gemacht hat."
     },
-    "open": {
-      "title": "Auktionsdatensatz öffnen",
-      "description": "Öffnen Sie einen Datensatz, wenn Ihnen die Auktions-ID bekannt ist."
+    "list": {
+      "title": "Auktionsverzeichnis",
+      "description": "Alle Auktionsdatensätze, auch ohne sichtbare Listings. Suchen Sie nach Name oder Quell-Auktionskennung oder nach einem exakten Quellschlüssel.",
+      "loading": "Auktionen werden geladen…",
+      "empty": "Keine Auktionen entsprechen diesen Filtern.",
+      "end": "Keine weiteren Auktionen.",
+      "loadMore": "Weitere Auktionen laden",
+      "noName": "Kein Name angegeben",
+      "openLabel": "Datensatz öffnen: {{label}}"
+    },
+    "filters": {
+      "title": "Auktionsfilter",
+      "query": "Name oder Quell-Auktionskennung",
+      "queryHelp": "Findet Teile des Namens oder der Quell-Auktionskennung, ohne Beachtung der Groß- und Kleinschreibung.",
+      "listingSourceIdHelp": "Exakte Listing-Source-ID.",
+      "sourceAuctionIdHelp": "Exakter Schlüssel. Zusammen mit der Listing-Source-ID finden Sie nach einem Konflikt den bestehenden Datensatz.",
+      "allFormats": "Alle Formate",
+      "allStatuses": "Alle Status",
+      "sort": "Sortieren nach",
+      "pageSize": "Pro Seite",
+      "apply": "Filter anwenden",
+      "reset": "Zurücksetzen"
     },
     "sourceSearch": {
       "prompt": "Suchen Sie nach Name oder Slug der Listing-Source oder ihres Betreibers, oder fügen Sie eine Listing-Source-ID ein.",
@@ -2932,7 +2951,8 @@
       "saving": "Wird gespeichert…",
       "loadLatest": "Aktuellen Datensatz laden",
       "backToOverview": "Zurück zur Auktionsverwaltung",
-      "clearSource": "Auswahl aufheben"
+      "clearSource": "Auswahl aufheben",
+      "findExisting": "Bestehende Auktion finden"
     },
     "errors": {
       "forbidden": "Sie dürfen Auktionen nicht verwalten.",
@@ -2943,7 +2963,9 @@
       "invalid": "Prüfen Sie die Auktionsangaben und versuchen Sie es erneut.",
       "requestFailed": "Die Auktionsanfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.",
       "sourceMissing": "Die ausgewählte Listing-Source wurde nicht gefunden.",
-      "invalidId": "Diese Auktions-ID ist ungültig. Auktions-IDs beginnen mit „auc_“."
+      "invalidId": "Diese Auktions-ID ist ungültig. Auktions-IDs beginnen mit „auc_“.",
+      "invalidSearch": "Diese Filter konnten nicht angewendet werden. Prüfen Sie die IDs und versuchen Sie es erneut.",
+      "unavailable": "Auktionsdatensätze sind vorübergehend nicht verfügbar. Bitte versuchen Sie es in Kürze erneut."
     },
     "validation": {
       "sourceRequired": "Wählen Sie eine Listing-Source aus.",
@@ -2963,6 +2985,14 @@
       "ENDED": "Beendet",
       "POSTPONED": "Verschoben",
       "CANCELLED": "Abgesagt"
+    },
+    "sort": {
+      "updated_desc": "Zuletzt aktualisiert",
+      "updated_asc": "Am längsten nicht aktualisiert",
+      "created_desc": "Neueste zuerst",
+      "created_asc": "Älteste zuerst",
+      "name_asc": "Name A–Z",
+      "name_desc": "Name Z–A"
     },
     "schedule": {
       "biddingOpens": "Gebotsbeginn",

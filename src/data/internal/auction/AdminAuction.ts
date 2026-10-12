@@ -1,4 +1,5 @@
 import type {
+    AdminAuctionSearchCollectionData,
     AuctionAdminData,
     AuctionFormatData,
     AuctionReportedStatusData,
@@ -51,5 +52,19 @@ export function mapAdminAuction(data: AuctionAdminData): AdminAuction {
         expectedVersion: data.expectedVersion,
         created: new Date(data.created),
         updated: new Date(data.updated),
+    };
+}
+
+export type AdminAuctionPage = {
+    readonly items: readonly AdminAuction[];
+    /** Opaque cursor; pass it back unchanged with the same filters, sort, order and size. */
+    readonly searchAfter?: string;
+};
+
+/** The search page reports no total; its `size` is only the returned item count. */
+export function mapAdminAuctionPage(data: AdminAuctionSearchCollectionData): AdminAuctionPage {
+    return {
+        items: data.items.map(mapAdminAuction),
+        ...(data.searchAfter !== undefined && { searchAfter: data.searchAfter }),
     };
 }

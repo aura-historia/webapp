@@ -49,10 +49,31 @@ Route: `/$lng/admin/partnerships`.
   Dissolution requires explicit confirmation; it removes memberships and grants but keeps history,
   party, users, sources, listings and applications.
 
+## Auction directory
+
+Routes: `/$lng/admin/auctions` (directory), `/new` (create) and `/$auctionId` (record).
+
+- `adminSearchAuctions` returns every auction regardless of status or visible listings.
+  `mapAdminAuctionPage` reuses `mapAdminAuction` and keeps only items and the opaque
+  `searchAfter`; the response `size` is the returned item count, never a total.
+- Filters live in URL search params: `query` (case-insensitive literal substring of the name or
+  `sourceAuctionId`), exact `listingSource` (sent as `listingSourceId`; product search already
+  uses that URL key as a list), exact trimmed `sourceAuctionId`, `format`, `reportedStatus`, and
+  `size` (1–100, default 25). `sort` (`name`, `created`, `updated`) and `order` are kept and sent
+  only together; the default `updated desc` is omitted. Route validation drops unknown values.
+- The list query key holds every filter, the sort and the size, so a changed scope starts without
+  a cursor. `searchAfter` is resent verbatim with that scope and never shared with the public
+  auction directory.
+- Rows show the reported name (or a "no name reported" label), source auction ID, listing source
+  ID, auction ID, format, reported status and UTC created/updated times, and link to the record.
+  Missing schedules, statuses, lot counts and totals are not inferred. There is no open-by-ID
+  form; `/$lng/admin/auctions/$auctionId` still opens any record by URL.
+- A create `409` links to the directory filtered by the submitted listing source and source
+  auction ID. Create, update and their `409` responses invalidate `["admin", "auctions", "list"]`.
+  Search `400` (filter or cursor), `401`/`403` and `503` map to localized copy.
+
 ## Other workflows
 
 Party management, listing-source management (`/$lng/admin/listing-sources`), user management and
-security controls, OAuth client management, auction management and the aggregate overview are
-described in the [admin authorization guidelines](admin-authorization-guidelines.md). Admin
-auctions are opened by ID until an admin auction search exists
-([backend#1991](https://github.com/aura-historia/backend/issues/1991)).
+security controls, OAuth client management and the aggregate overview are described in the
+[admin authorization guidelines](admin-authorization-guidelines.md).

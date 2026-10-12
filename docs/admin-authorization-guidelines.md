@@ -15,8 +15,8 @@ overview reads only the `getAdminOverview` aggregate with a `no-store` request u
 private `["admin", "overview"]` query key; it never derives totals from paginated
 collections, shows loading and error states instead of zero for unavailable counts, and
 labels ingestion method assignments as overlapping rather than summing them into a source
-total. Admin mutations that change any aggregate invalidate that key. Auction create and update use
-`Cache-Control: no-store`; listing-source association and source auction identity are
+total. Admin mutations that change any aggregate invalidate that key. Auction search, read,
+create and update use `Cache-Control: no-store`; listing-source association and source auction identity are
 immutable on update, and an `expectedVersion` conflict refetches the authoritative
 record. Party contacts are available only through the authenticated admin Party
 operations. Listing-source search/detail use their separate safe DTOs; the read API
