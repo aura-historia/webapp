@@ -15,6 +15,12 @@ import {
     type ResourceState,
     type PatchResourceState,
 } from "@/data/internal/common/ResourceState.ts";
+import {
+    mapToBackendGeographicSearch,
+    mapToGeographicSearch,
+    type GeographicSearch,
+    type UnsupportedGeography,
+} from "@/data/internal/geography/GeographicSearch.ts";
 
 export type UserSearchFilter = {
     readonly userId: string;
@@ -24,6 +30,11 @@ export type UserSearchFilter = {
     readonly notifications: boolean;
     readonly state: ResourceState;
     readonly search: SearchFilterArguments;
+    /**
+     * Private, immutable geography snapshot. Address or preference edits never move it; only
+     * replacing or clearing it does. `UNSUPPORTED` means a stored predicate this app cannot show.
+     */
+    readonly geography?: GeographicSearch | UnsupportedGeography;
     readonly created: Date;
     readonly updated: Date;
 };
@@ -32,6 +43,7 @@ export type UserSearchFilterCreateData = {
     readonly name: string;
     readonly enhancedSearchDescription?: string;
     readonly search: SearchFilterArguments;
+    readonly geography?: GeographicSearch;
 };
 
 export type UserSearchFilterPatchData = {
@@ -40,6 +52,8 @@ export type UserSearchFilterPatchData = {
     readonly notifications?: boolean;
     readonly state?: PatchResourceState;
     readonly search?: SearchFilterArguments;
+    /** Omit to keep the stored snapshot, `null` clears it and a value replaces it as a whole. */
+    readonly geography?: GeographicSearch | null;
 };
 
 export function mapProductSearchDataToSearchFilterArguments(
@@ -167,6 +181,7 @@ function mapSearchFilterArgumentsToPatchProductSearchData(
 }
 
 export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserSearchFilter {
+    const geography = mapToGeographicSearch(data.search.geography);
     return {
         userId: data.userId,
         id: data.userSearchFilterId,
@@ -175,6 +190,7 @@ export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserS
         notifications: data.notifications,
         state: parseResourceState(data.state),
         search: mapProductSearchDataToSearchFilterArguments(data.search),
+        ...(geography ? { geography } : {}),
         created: new Date(data.created),
         updated: new Date(data.updated),
     };
@@ -189,6 +205,7 @@ export function mapToBackendCreateUserSearchFilter(
         search: {
             ...search,
             enhancedSearchDescription: data.enhancedSearchDescription,
+            ...(data.geography ? { geography: mapToBackendGeographicSearch(data.geography) } : {}),
         },
     };
 }
@@ -210,6 +227,13 @@ export function mapToBackendPatchUserSearchFilter(
             search = {};
         }
         search.enhancedSearchDescription = data.enhancedSearchDescription;
+    }
+
+    if (data.geography !== undefined) {
+        search = {
+            ...search,
+            geography: data.geography && mapToBackendGeographicSearch(data.geography),
+        };
     }
 
     return {

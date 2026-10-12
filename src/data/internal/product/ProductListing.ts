@@ -29,6 +29,10 @@ import {
     type ListingPriceValuation,
     type PriceValuationType,
 } from "@/data/internal/product/ProductListingDomain.ts";
+import {
+    mapToListingGeography,
+    type ListingGeography,
+} from "@/data/internal/geography/ListingGeography.ts";
 
 /** Card/search projection of a listing; use ProductListingDetail for detail contracts. */
 export type ProductListing = {
@@ -52,6 +56,8 @@ export type ProductListing = {
     readonly updated: Date;
     readonly userState?: ProductListingUserState | null;
     readonly auctionId?: string;
+    /** Advertised-inventory geography, returned only on geographic search summaries. */
+    readonly geography?: ListingGeography;
 };
 
 function mapSummaryFields(
@@ -60,6 +66,7 @@ function mapSummaryFields(
     locale: string,
 ): ProductListing {
     const displayPrice = mapListingPrice(item.displayPrice);
+    const geography = mapToListingGeography(item.geography);
 
     return {
         productListingId: item.productListingId,
@@ -80,6 +87,7 @@ function mapSummaryFields(
         updated: new Date(item.updated),
         userState: mapProductListingUserState(userState),
         auctionId: item.auctionId,
+        ...(geography ? { geography } : {}),
     };
 }
 

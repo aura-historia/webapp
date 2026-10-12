@@ -2,7 +2,7 @@
 
 import { type Client, type ClientMeta, type Options as Options2, type RequestResult, type TDataShape, urlSearchParamsBodySerializer } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminCreateListingSourceData, AdminCreateListingSourceErrors, AdminCreateListingSourceResponses, AdminCreateOAuthClientData, AdminCreateOAuthClientErrors, AdminCreateOAuthClientResponses, AdminCreatePartyData, AdminCreatePartyErrors, AdminCreatePartyResponses, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationErrors, AdminDecidePartnershipApplicationResponses, AdminDeleteListingSourceData, AdminDeleteListingSourceErrors, AdminDeleteListingSourceResponses, AdminDeleteOAuthClientData, AdminDeleteOAuthClientErrors, AdminDeleteOAuthClientResponses, AdminDeletePartyData, AdminDeletePartyErrors, AdminDeletePartyResponses, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenErrors, AdminDeleteUserAccessTokenResponses, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensErrors, AdminDeleteUserAccessTokensResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminDissolvePartnershipData, AdminDissolvePartnershipErrors, AdminDissolvePartnershipResponses, AdminGetListingSourceData, AdminGetListingSourceErrors, AdminGetListingSourceResponses, AdminGetOAuthClientData, AdminGetOAuthClientErrors, AdminGetOAuthClientResponses, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationErrors, AdminGetPartnershipApplicationResponses, AdminGetPartnershipData, AdminGetPartnershipErrors, AdminGetPartnershipResponses, AdminGetPartyData, AdminGetPartyErrors, AdminGetPartyResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceErrors, AdminGrantPartnershipListingSourceResponses, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipErrors, AdminGrantPartnershipMembershipResponses, AdminListOAuthClientsData, AdminListOAuthClientsErrors, AdminListOAuthClientsResponses, AdminListUserAccessTokensData, AdminListUserAccessTokensErrors, AdminListUserAccessTokensResponses, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewErrors, AdminMarkPartnershipApplicationInReviewResponses, AdminPatchOAuthClientData, AdminPatchOAuthClientErrors, AdminPatchOAuthClientResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceErrors, AdminRevokePartnershipListingSourceResponses, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipErrors, AdminRevokePartnershipMembershipResponses, AdminRevokeUserSessionsData, AdminRevokeUserSessionsErrors, AdminRevokeUserSessionsResponses, AdminSearchListingSourcesData, AdminSearchListingSourcesErrors, AdminSearchListingSourcesResponses, AdminSearchPartiesData, AdminSearchPartiesErrors, AdminSearchPartiesResponses, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsErrors, AdminSearchPartnershipApplicationsResponses, AdminSearchPartnershipsData, AdminSearchPartnershipsErrors, AdminSearchPartnershipsResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, AdminSuspendUserData, AdminSuspendUserErrors, AdminSuspendUserResponses, AdminUnsuspendUserData, AdminUnsuspendUserErrors, AdminUnsuspendUserResponses, AdminUpdateListingSourceData, AdminUpdateListingSourceErrors, AdminUpdateListingSourceResponses, AdminUpdatePartyData, AdminUpdatePartyErrors, AdminUpdatePartyResponses, ConfirmNewsletterSubscriptionData2, ConfirmNewsletterSubscriptionErrors, ConfirmNewsletterSubscriptionResponses, CreateAdminAuctionData, CreateAdminAuctionErrors, CreateAdminAuctionResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAsyncPartnerProductListingsData, DeleteAsyncPartnerProductListingsErrors, DeleteAsyncPartnerProductListingsResponses, DeleteMyAccessTokenData, DeleteMyAccessTokenErrors, DeleteMyAccessTokenResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteNotificationsData, DeleteNotificationsErrors, DeleteNotificationsResponses, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationErrors, DeleteOwnPartnershipApplicationResponses, DeletePartnerProductListingsData, DeletePartnerProductListingsErrors, DeletePartnerProductListingsResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, GetAdminAuctionData, GetAdminAuctionErrors, GetAdminAuctionResponses, GetAdminOverviewData, GetAdminOverviewErrors, GetAdminOverviewResponses, GetAuctionCatalogueData, GetAuctionCatalogueErrors, GetAuctionCatalogueResponses, GetAuctionData, GetAuctionErrors, GetAuctionResponses, GetHealthData, GetHealthResponses, GetMyAccessTokenData, GetMyAccessTokenErrors, GetMyAccessTokenResponses, GetMyAccessTokensData, GetMyAccessTokensErrors, GetMyAccessTokensResponses, GetMyListingSourcesData, GetMyListingSourcesErrors, GetMyListingSourcesResponses, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsErrors, GetMyPartnershipApplicationsResponses, GetOAuthConsentClientData, GetOAuthConsentClientErrors, GetOAuthConsentClientResponses, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationErrors, GetOwnPartnershipApplicationResponses, GetProductListingByTitleSlugData, GetProductListingByTitleSlugErrors, GetProductListingByTitleSlugResponses, GetProductListingData, GetProductListingErrors, GetProductListingHistoryData, GetProductListingHistoryErrors, GetProductListingHistoryResponses, GetProductListingResponses, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugErrors, GetPublicListingSourceBySlugResponses, GetReadinessData, GetReadinessErrors, GetReadinessResponses, GetSimilarProductListingsData, GetSimilarProductListingsErrors, GetSimilarProductListingsResponses, GetUserAccountData, GetUserAccountErrors, GetUserAccountResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductListingsData, GetWatchlistProductListingsErrors, GetWatchlistProductListingsResponses, ListAuctionsData, ListAuctionsErrors, ListAuctionsResponses, ListNotificationsData, ListNotificationsErrors, ListNotificationsResponses, ListSearchFilterMatchesData, ListSearchFilterMatchesErrors, ListSearchFilterMatchesResponses, OauthAuthorizeData, OauthAuthorizeErrors, OauthIntrospectData, OauthIntrospectErrors, OauthIntrospectResponses, OauthRevokeData, OauthRevokeErrors, OauthRevokeResponses, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeErrors, OauthTokenByThirdPartyCodeResponses, OauthTokenData, OauthTokenErrors, OauthTokenResponses, PatchAsyncPartnerProductListingsData, PatchAsyncPartnerProductListingsErrors, PatchAsyncPartnerProductListingsResponses, PatchMyAccessTokenData, PatchMyAccessTokenErrors, PatchMyAccessTokenResponses, PatchPartnerProductListingsData, PatchPartnerProductListingsErrors, PatchPartnerProductListingsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostAsyncPartnerProductListingsData, PostAsyncPartnerProductListingsErrors, PostAsyncPartnerProductListingsResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostMyAccessTokenData, PostMyAccessTokenErrors, PostMyAccessTokenResponses, PostPartnerProductListingsData, PostPartnerProductListingsErrors, PostPartnerProductListingsResponses, PostPartnershipApplicationData, PostPartnershipApplicationErrors, PostPartnershipApplicationResponses, PostWoocommerceWebhookData, PostWoocommerceWebhookErrors, PostWoocommerceWebhookResponses, PutAsyncPartnerProductListingsData, PutAsyncPartnerProductListingsErrors, PutAsyncPartnerProductListingsResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductListingsData, PutPartnerProductListingsErrors, PutPartnerProductListingsResponses, PutShopifyListingSourceIngestionConfigurationData2, PutShopifyListingSourceIngestionConfigurationErrors, PutShopifyListingSourceIngestionConfigurationResponses, PutWoocommerceListingSourceIngestionConfigurationData2, PutWoocommerceListingSourceIngestionConfigurationErrors, PutWoocommerceListingSourceIngestionConfigurationResponses, SearchPublicListingSourcesData, SearchPublicListingSourcesErrors, SearchPublicListingSourcesResponses, SimpleSearchProductListingsData, SimpleSearchProductListingsErrors, SimpleSearchProductListingsResponses, UpdateAdminAuctionData, UpdateAdminAuctionErrors, UpdateAdminAuctionResponses, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenErrors, UpdateAllNotificationsSeenResponses, UpdateNotificationSeenData2, UpdateNotificationSeenErrors, UpdateNotificationSeenResponses, UpdateNotificationsSeenData2, UpdateNotificationsSeenErrors, UpdateNotificationsSeenResponses, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackErrors, UpdateSearchFilterMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminAssignSourceLocationDefaultData, AdminAssignSourceLocationDefaultErrors, AdminAssignSourceLocationDefaultResponses, AdminChangeSourceLocationDefaultApplicabilityData, AdminChangeSourceLocationDefaultApplicabilityErrors, AdminChangeSourceLocationDefaultApplicabilityResponses, AdminClearSourceLocationDefaultData, AdminClearSourceLocationDefaultErrors, AdminClearSourceLocationDefaultResponses, AdminCreateListingSourceData, AdminCreateListingSourceErrors, AdminCreateListingSourceResponses, AdminCreateOAuthClientData, AdminCreateOAuthClientErrors, AdminCreateOAuthClientResponses, AdminCreatePartyData, AdminCreatePartyErrors, AdminCreatePartyResponses, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationErrors, AdminDecidePartnershipApplicationResponses, AdminDeleteListingSourceData, AdminDeleteListingSourceErrors, AdminDeleteListingSourceResponses, AdminDeleteOAuthClientData, AdminDeleteOAuthClientErrors, AdminDeleteOAuthClientResponses, AdminDeletePartyData, AdminDeletePartyErrors, AdminDeletePartyResponses, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenErrors, AdminDeleteUserAccessTokenResponses, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensErrors, AdminDeleteUserAccessTokensResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminDissolvePartnershipData, AdminDissolvePartnershipErrors, AdminDissolvePartnershipResponses, AdminGetListingSourceData, AdminGetListingSourceErrors, AdminGetListingSourceResponses, AdminGetOAuthClientData, AdminGetOAuthClientErrors, AdminGetOAuthClientResponses, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationErrors, AdminGetPartnershipApplicationResponses, AdminGetPartnershipData, AdminGetPartnershipErrors, AdminGetPartnershipResponses, AdminGetPartyData, AdminGetPartyErrors, AdminGetPartyResponses, AdminGetSourceLocationDefaultData, AdminGetSourceLocationDefaultErrors, AdminGetSourceLocationDefaultResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceErrors, AdminGrantPartnershipListingSourceResponses, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipErrors, AdminGrantPartnershipMembershipResponses, AdminListOAuthClientsData, AdminListOAuthClientsErrors, AdminListOAuthClientsResponses, AdminListUserAccessTokensData, AdminListUserAccessTokensErrors, AdminListUserAccessTokensResponses, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewErrors, AdminMarkPartnershipApplicationInReviewResponses, AdminPatchOAuthClientData, AdminPatchOAuthClientErrors, AdminPatchOAuthClientResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceErrors, AdminRevokePartnershipListingSourceResponses, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipErrors, AdminRevokePartnershipMembershipResponses, AdminRevokeUserSessionsData, AdminRevokeUserSessionsErrors, AdminRevokeUserSessionsResponses, AdminSearchListingSourcesData, AdminSearchListingSourcesErrors, AdminSearchListingSourcesResponses, AdminSearchPartiesData, AdminSearchPartiesErrors, AdminSearchPartiesResponses, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsErrors, AdminSearchPartnershipApplicationsResponses, AdminSearchPartnershipsData, AdminSearchPartnershipsErrors, AdminSearchPartnershipsResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, AdminSuspendUserData, AdminSuspendUserErrors, AdminSuspendUserResponses, AdminUnsuspendUserData, AdminUnsuspendUserErrors, AdminUnsuspendUserResponses, AdminUpdateListingSourceData, AdminUpdateListingSourceErrors, AdminUpdateListingSourceResponses, AdminUpdatePartyData, AdminUpdatePartyErrors, AdminUpdatePartyResponses, AssignSourceLocationDefaultData2, AssignSourceLocationDefaultErrors, AssignSourceLocationDefaultResponses, ChangeSourceLocationDefaultApplicabilityData2, ChangeSourceLocationDefaultApplicabilityErrors, ChangeSourceLocationDefaultApplicabilityResponses, ClearSourceLocationDefaultData2, ClearSourceLocationDefaultErrors, ClearSourceLocationDefaultResponses, ConfirmNewsletterSubscriptionData2, ConfirmNewsletterSubscriptionErrors, ConfirmNewsletterSubscriptionResponses, CorrectPartyLocationData2, CorrectPartyLocationErrors, CorrectPartyLocationResponses, CreateAdminAuctionData, CreateAdminAuctionErrors, CreateAdminAuctionResponses, CreatePartyLocationData2, CreatePartyLocationErrors, CreatePartyLocationResponses, CreateUserAddressData, CreateUserAddressErrors, CreateUserAddressResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAsyncPartnerProductListingsData, DeleteAsyncPartnerProductListingsErrors, DeleteAsyncPartnerProductListingsResponses, DeleteMyAccessTokenData, DeleteMyAccessTokenErrors, DeleteMyAccessTokenResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteNotificationsData, DeleteNotificationsErrors, DeleteNotificationsResponses, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationErrors, DeleteOwnPartnershipApplicationResponses, DeletePartnerProductListingsData, DeletePartnerProductListingsErrors, DeletePartnerProductListingsResponses, DeleteUserAddressData, DeleteUserAddressErrors, DeleteUserAddressResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, DiscoverPartyLocationsData, DiscoverPartyLocationsErrors, DiscoverPartyLocationsResponses, GetAdminAuctionData, GetAdminAuctionErrors, GetAdminAuctionResponses, GetAdminOverviewData, GetAdminOverviewErrors, GetAdminOverviewResponses, GetAuctionCatalogueData, GetAuctionCatalogueErrors, GetAuctionCatalogueResponses, GetAuctionData, GetAuctionErrors, GetAuctionResponses, GetBrowsingDestinationData, GetBrowsingDestinationErrors, GetBrowsingDestinationResponses, GetHealthData, GetHealthResponses, GetMyAccessTokenData, GetMyAccessTokenErrors, GetMyAccessTokenResponses, GetMyAccessTokensData, GetMyAccessTokensErrors, GetMyAccessTokensResponses, GetMyListingSourcesData, GetMyListingSourcesErrors, GetMyListingSourcesResponses, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsErrors, GetMyPartnershipApplicationsResponses, GetOAuthConsentClientData, GetOAuthConsentClientErrors, GetOAuthConsentClientResponses, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationErrors, GetOwnPartnershipApplicationResponses, GetPartyLocationData, GetPartyLocationErrors, GetPartyLocationResponses, GetProductListingByTitleSlugData, GetProductListingByTitleSlugErrors, GetProductListingByTitleSlugResponses, GetProductListingData, GetProductListingErrors, GetProductListingHistoryData, GetProductListingHistoryErrors, GetProductListingHistoryResponses, GetProductListingResponses, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugErrors, GetPublicListingSourceBySlugResponses, GetReadinessData, GetReadinessErrors, GetReadinessResponses, GetSimilarProductListingsData, GetSimilarProductListingsErrors, GetSimilarProductListingsResponses, GetSourceLocationDefaultData, GetSourceLocationDefaultErrors, GetSourceLocationDefaultResponses, GetUserAccountData, GetUserAccountErrors, GetUserAccountResponses, GetUserAddressData, GetUserAddressErrors, GetUserAddressResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductListingsData, GetWatchlistProductListingsErrors, GetWatchlistProductListingsResponses, ListAuctionsData, ListAuctionsErrors, ListAuctionsResponses, ListNotificationsData, ListNotificationsErrors, ListNotificationsResponses, ListPartyLocationsData, ListPartyLocationsErrors, ListPartyLocationsResponses, ListSearchFilterMatchesData, ListSearchFilterMatchesErrors, ListSearchFilterMatchesResponses, ListUserAddressesData, ListUserAddressesErrors, ListUserAddressesResponses, OauthAuthorizeData, OauthAuthorizeErrors, OauthIntrospectData, OauthIntrospectErrors, OauthIntrospectResponses, OauthRevokeData, OauthRevokeErrors, OauthRevokeResponses, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeErrors, OauthTokenByThirdPartyCodeResponses, OauthTokenData, OauthTokenErrors, OauthTokenResponses, PatchAsyncPartnerProductListingsData, PatchAsyncPartnerProductListingsErrors, PatchAsyncPartnerProductListingsResponses, PatchMyAccessTokenData, PatchMyAccessTokenErrors, PatchMyAccessTokenResponses, PatchPartnerProductListingsData, PatchPartnerProductListingsErrors, PatchPartnerProductListingsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostAsyncPartnerProductListingsData, PostAsyncPartnerProductListingsErrors, PostAsyncPartnerProductListingsResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostMyAccessTokenData, PostMyAccessTokenErrors, PostMyAccessTokenResponses, PostPartnerProductListingsData, PostPartnerProductListingsErrors, PostPartnerProductListingsResponses, PostPartnershipApplicationData, PostPartnershipApplicationErrors, PostPartnershipApplicationResponses, PostWoocommerceWebhookData, PostWoocommerceWebhookErrors, PostWoocommerceWebhookResponses, PutAsyncPartnerProductListingsData, PutAsyncPartnerProductListingsErrors, PutAsyncPartnerProductListingsResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductListingsData, PutPartnerProductListingsErrors, PutPartnerProductListingsResponses, PutShopifyListingSourceIngestionConfigurationData2, PutShopifyListingSourceIngestionConfigurationErrors, PutShopifyListingSourceIngestionConfigurationResponses, PutWoocommerceListingSourceIngestionConfigurationData2, PutWoocommerceListingSourceIngestionConfigurationErrors, PutWoocommerceListingSourceIngestionConfigurationResponses, SearchPublicListingSourcesData, SearchPublicListingSourcesErrors, SearchPublicListingSourcesResponses, SetBrowsingDestinationData, SetBrowsingDestinationErrors, SetBrowsingDestinationResponses, SetPartyLocationLifecycleData2, SetPartyLocationLifecycleErrors, SetPartyLocationLifecycleResponses, SetPartyLocationManagementGrantData, SetPartyLocationManagementGrantErrors, SetPartyLocationManagementGrantResponses, SimpleSearchProductListingsData, SimpleSearchProductListingsErrors, SimpleSearchProductListingsResponses, UpdateAdminAuctionData, UpdateAdminAuctionErrors, UpdateAdminAuctionResponses, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenErrors, UpdateAllNotificationsSeenResponses, UpdateNotificationSeenData2, UpdateNotificationSeenErrors, UpdateNotificationSeenResponses, UpdateNotificationsSeenData2, UpdateNotificationsSeenErrors, UpdateNotificationsSeenResponses, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackErrors, UpdateSearchFilterMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserAddressData, UpdateUserAddressErrors, UpdateUserAddressResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
   /**
@@ -707,7 +707,7 @@ export const getSimilarProductListings = <ThrowOnError extends boolean = false>(
 /**
  * Simple product search via query parameters
  *
- * Performs canonical ProductListing search with query parameters. Text queries combine BM25 and embedding KNN retrieval when embedding generation succeeds; otherwise the backend falls back to BM25. Explicit non-score sorts use BM25. Any request with an Authorization header is private and not stored, including valid credentials that add user state. Anonymous successful 200 responses use `public, max-age=0, s-maxage=60, stale-if-error=0`; errors use `private, no-store`. `language` defaults to `en` and `currency` defaults to `EUR`.
+ * Performs canonical ProductListing search with query parameters. Text queries combine BM25 and embedding KNN retrieval when embedding generation succeeds; otherwise the backend falls back to BM25. Explicit non-score sorts use BM25. Any request with an Authorization header is private and not stored, including valid credentials that add user state. Anonymous successful 200 responses use `public, max-age=0, s-maxage=60, stale-if-error=0`; errors use `private, no-store`. Geographic predicates are AND; values in each country or subdivision set are OR. Missing geography never matches. Radius is inclusive in its supplied unit to the same recorded point used by distance ordering. Numeric origins never resolve from addresses/preferences. Distance ordering conflicts with sort and uses lexical text matching. Geographic responses are private, no-store and use eventually consistent OpenSearch projections; location updates can briefly lag in items, ordering, total and continuation. `language` defaults to `en` and `currency` defaults to `EUR`.
  */
 export const simpleSearchProductListings = <ThrowOnError extends boolean = false>(options?: Options<SimpleSearchProductListingsData, ThrowOnError>): RequestResult<SimpleSearchProductListingsResponses, SimpleSearchProductListingsErrors, ThrowOnError> => (options?.client ?? client).get<SimpleSearchProductListingsResponses, SimpleSearchProductListingsErrors, ThrowOnError>({
   security: [{
@@ -2712,6 +2712,468 @@ export const adminDecidePartnershipApplication = <ThrowOnError extends boolean =
       type: 'http'
     }],
   url: '/api/v1/admin/partnership-applications/{partnershipApplicationId}/decision',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Paginate own private addresses
+ *
+ * Requires the current unsuspended owner. Delegated credentials require users:read. Success and errors are no-store. Current geocoding state and eligible accepted results are included using bounded batch hydration.
+ */
+export const listUserAddresses = <ThrowOnError extends boolean = false>(options?: Options<ListUserAddressesData, ThrowOnError>): RequestResult<ListUserAddressesResponses, ListUserAddressesErrors, ThrowOnError> => (options?.client ?? client).get<ListUserAddressesResponses, ListUserAddressesErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/addresses',
+  ...options
+});
+
+/**
+ * Save a private address
+ *
+ * Requires the current unsuspended owner. Delegated credentials require users:write. Success and errors are no-store. The server generates addressId. The body contains label/geography; exactly one valid Idempotency-Key header identifies retries within this owner. Same-key original creation content returns the same entry's current view (201), including after edits. Changed creation content or a deleted entry conflicts. Saving does not synchronously geocode or select a preferred address.
+ */
+export const createUserAddress = <ThrowOnError extends boolean = false>(options: Options<CreateUserAddressData, ThrowOnError>): RequestResult<CreateUserAddressResponses, CreateUserAddressErrors, ThrowOnError> => (options.client ?? client).post<CreateUserAddressResponses, CreateUserAddressErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/addresses',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Erase an own private address
+ *
+ * Requires the current unsuspended owner. Delegated credentials require users:write. Success and errors are no-store. Erases text/enrichment/pending binding. Deleting the preferred address clears only that preference atomically; no alternative is selected.
+ */
+export const deleteUserAddress = <ThrowOnError extends boolean = false>(options: Options<DeleteUserAddressData, ThrowOnError>): RequestResult<DeleteUserAddressResponses, DeleteUserAddressErrors, ThrowOnError> => (options.client ?? client).delete<DeleteUserAddressResponses, DeleteUserAddressErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/addresses/{address_id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Read an own private address
+ *
+ * Requires the current unsuspended owner. Delegated credentials require users:read. Success and errors are no-store.
+ */
+export const getUserAddress = <ThrowOnError extends boolean = false>(options: Options<GetUserAddressData, ThrowOnError>): RequestResult<GetUserAddressResponses, GetUserAddressErrors, ThrowOnError> => (options.client ?? client).get<GetUserAddressResponses, GetUserAddressErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/addresses/{address_id}',
+  ...options
+});
+
+/**
+ * Replace an own private address
+ *
+ * Requires the current unsuspended owner. Delegated credentials require users:write. Success and errors are no-store. Full replacement preserves ID. Geographic changes increment inputRevision and fence old enrichment. Label-only changes preserve resolution input. No-op writes require current version and preserve versions.
+ */
+export const updateUserAddress = <ThrowOnError extends boolean = false>(options: Options<UpdateUserAddressData, ThrowOnError>): RequestResult<UpdateUserAddressResponses, UpdateUserAddressErrors, ThrowOnError> => (options.client ?? client).put<UpdateUserAddressResponses, UpdateUserAddressErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/addresses/{address_id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Read own browsing destination
+ *
+ * Requires the current unsuspended owner. Delegated credentials require users:read. Success and errors are no-store. An untouched preference has version 1 and NONE.
+ */
+export const getBrowsingDestination = <ThrowOnError extends boolean = false>(options?: Options<GetBrowsingDestinationData, ThrowOnError>): RequestResult<GetBrowsingDestinationResponses, GetBrowsingDestinationErrors, ThrowOnError> => (options?.client ?? client).get<GetBrowsingDestinationResponses, GetBrowsingDestinationErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/browsing-destination',
+  ...options
+});
+
+/**
+ * Select or clear browsing destination
+ *
+ * Requires the current unsuspended owner. Delegated credentials require users:write. Success and errors are no-store. Atomic mutually exclusive preference. NONE clears. ADDRESS must belong to current owner. COUNTRY_POSTAL needs no full address. At most one address is preferred.
+ */
+export const setBrowsingDestination = <ThrowOnError extends boolean = false>(options: Options<SetBrowsingDestinationData, ThrowOnError>): RequestResult<SetBrowsingDestinationResponses, SetBrowsingDestinationErrors, ThrowOnError> => (options.client ?? client).put<SetBrowsingDestinationResponses, SetBrowsingDestinationErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/me/browsing-destination',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Discover public Party locations
+ *
+ * Location-oriented discovery of eligible active Party sites. Multiple matching sites of one Party intentionally appear as separate locations. Country/subdivision predicates need no coordinates. Radius or distance ordering requires an explicit numeric origin. Strict proximity requires PREMISES precision; approximate mode retains coarse labels. Ordered by distance when requested, then native location UUID ascending; otherwise UUID ascending. Reads current PostgreSQL locations independently of listing projection catch-up. All responses are private, no-store. Management evidence, addresses and revisions stay private.
+ */
+export const discoverPartyLocations = <ThrowOnError extends boolean = false>(options: Options<DiscoverPartyLocationsData, ThrowOnError>): RequestResult<DiscoverPartyLocationsResponses, DiscoverPartyLocationsErrors, ThrowOnError> => (options.client ?? client).get<DiscoverPartyLocationsResponses, DiscoverPartyLocationsErrors, ThrowOnError>({ url: '/api/v1/party-locations', ...options });
+
+/**
+ * List protected Party locations
+ *
+ * Delegated credentials require parties:read. Use cases require administrator/internal authority, membership in this Party's active partnership, or an explicit location management grant. Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived authority; independent explicit grants survive. Listing-write scope does not confer access.
+ */
+export const listPartyLocations = <ThrowOnError extends boolean = false>(options: Options<ListPartyLocationsData, ThrowOnError>): RequestResult<ListPartyLocationsResponses, ListPartyLocationsErrors, ThrowOnError> => (options.client ?? client).get<ListPartyLocationsResponses, ListPartyLocationsErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/parties/{party_id}/locations',
+  ...options
+});
+
+/**
+ * Create a Party location
+ *
+ * Delegated credentials require parties:write. Use cases require administrator/internal authority, membership in this Party's active partnership, or an explicit location management grant. Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived authority; independent explicit grants survive. Listing-write scope does not confer access.
+ */
+export const createPartyLocation = <ThrowOnError extends boolean = false>(options: Options<CreatePartyLocationData2, ThrowOnError>): RequestResult<CreatePartyLocationResponses, CreatePartyLocationErrors, ThrowOnError> => (options.client ?? client).post<CreatePartyLocationResponses, CreatePartyLocationErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/parties/{party_id}/locations',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Get a protected Party location
+ *
+ * Delegated credentials require parties:read. Use cases require administrator/internal authority, membership in this Party's active partnership, or an explicit location management grant. Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived authority; independent explicit grants survive. Listing-write scope does not confer access.
+ */
+export const getPartyLocation = <ThrowOnError extends boolean = false>(options: Options<GetPartyLocationData, ThrowOnError>): RequestResult<GetPartyLocationResponses, GetPartyLocationErrors, ThrowOnError> => (options.client ?? client).get<GetPartyLocationResponses, GetPartyLocationErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/parties/{party_id}/locations/{location_id}',
+  ...options
+});
+
+/**
+ * Correct the same identified site
+ *
+ * Delegated credentials require parties:write. Use cases require administrator/internal authority, membership in this Party's active partnership, or an explicit location management grant. Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived authority; independent explicit grants survive. Listing-write scope does not confer access.
+ */
+export const correctPartyLocation = <ThrowOnError extends boolean = false>(options: Options<CorrectPartyLocationData2, ThrowOnError>): RequestResult<CorrectPartyLocationResponses, CorrectPartyLocationErrors, ThrowOnError> => (options.client ?? client).patch<CorrectPartyLocationResponses, CorrectPartyLocationErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/parties/{party_id}/locations/{location_id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Retire or explicitly restore a Party location
+ *
+ * Delegated credentials require parties:write. Use cases require administrator/internal authority, membership in this Party's active partnership, or an explicit location management grant. Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived authority; independent explicit grants survive. Listing-write scope does not confer access.
+ */
+export const setPartyLocationLifecycle = <ThrowOnError extends boolean = false>(options: Options<SetPartyLocationLifecycleData2, ThrowOnError>): RequestResult<SetPartyLocationLifecycleResponses, SetPartyLocationLifecycleErrors, ThrowOnError> => (options.client ?? client).put<SetPartyLocationLifecycleResponses, SetPartyLocationLifecycleErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/parties/{party_id}/locations/{location_id}/lifecycle',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Grant or revoke Party location management
+ *
+ * Administrator/internal callers only, including parties:write for delegated credentials. An ordinary location manager cannot grant privileges. Revocation serializes against protected location operations.
+ */
+export const setPartyLocationManagementGrant = <ThrowOnError extends boolean = false>(options: Options<SetPartyLocationManagementGrantData, ThrowOnError>): RequestResult<SetPartyLocationManagementGrantResponses, SetPartyLocationManagementGrantErrors, ThrowOnError> => (options.client ?? client).put<SetPartyLocationManagementGrantResponses, SetPartyLocationManagementGrantErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/parties/{party_id}/location-managers/{user_id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Clear source location default
+ *
+ * Requires an unsuspended administrator, or membership in the operator Party active partnership with this exact source grant. Trusted service/system use cases are also supported. Delegated callers additionally need listing-sources:write. Assignment does not mutate Party locations or attribute a listing seller. Protected reads retain private/retired references for traceability but return no location address/point. All responses are no-store. Current-revision no-ops preserve revisions; stale retries conflict.
+ */
+export const clearSourceLocationDefault = <ThrowOnError extends boolean = false>(options: Options<ClearSourceLocationDefaultData2, ThrowOnError>): RequestResult<ClearSourceLocationDefaultResponses, ClearSourceLocationDefaultErrors, ThrowOnError> => (options.client ?? client).delete<ClearSourceLocationDefaultResponses, ClearSourceLocationDefaultErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/location-default',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Get source location default
+ *
+ * Requires an unsuspended administrator, or membership in the operator Party active partnership with this exact source grant. Trusted service/system use cases are also supported. Delegated callers additionally need listing-sources:read. Assignment does not mutate Party locations or attribute a listing seller. Protected reads retain private/retired references for traceability but return no location address/point. All responses are no-store. Current-revision no-ops preserve revisions; stale retries conflict.
+ */
+export const getSourceLocationDefault = <ThrowOnError extends boolean = false>(options: Options<GetSourceLocationDefaultData, ThrowOnError>): RequestResult<GetSourceLocationDefaultResponses, GetSourceLocationDefaultErrors, ThrowOnError> => (options.client ?? client).get<GetSourceLocationDefaultResponses, GetSourceLocationDefaultErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/location-default',
+  ...options
+});
+
+/**
+ * Change source location applicability
+ *
+ * Requires an unsuspended administrator, or membership in the operator Party active partnership with this exact source grant. Trusted service/system use cases are also supported. Delegated callers additionally need listing-sources:write. Assignment does not mutate Party locations or attribute a listing seller. Protected reads retain private/retired references for traceability but return no location address/point. All responses are no-store. Current-revision no-ops preserve revisions; stale retries conflict.
+ */
+export const changeSourceLocationDefaultApplicability = <ThrowOnError extends boolean = false>(options: Options<ChangeSourceLocationDefaultApplicabilityData2, ThrowOnError>): RequestResult<ChangeSourceLocationDefaultApplicabilityResponses, ChangeSourceLocationDefaultApplicabilityErrors, ThrowOnError> => (options.client ?? client).patch<ChangeSourceLocationDefaultApplicabilityResponses, ChangeSourceLocationDefaultApplicabilityErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/location-default',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Assign or replace source location default
+ *
+ * Requires an unsuspended administrator, or membership in the operator Party active partnership with this exact source grant. Trusted service/system use cases are also supported. Delegated callers additionally need listing-sources:write. Assignment does not mutate Party locations or attribute a listing seller. Protected reads retain private/retired references for traceability but return no location address/point. All responses are no-store. Current-revision no-ops preserve revisions; stale retries conflict.
+ */
+export const assignSourceLocationDefault = <ThrowOnError extends boolean = false>(options: Options<AssignSourceLocationDefaultData2, ThrowOnError>): RequestResult<AssignSourceLocationDefaultResponses, AssignSourceLocationDefaultErrors, ThrowOnError> => (options.client ?? client).put<AssignSourceLocationDefaultResponses, AssignSourceLocationDefaultErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/location-default',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Clear source location default as administrator
+ *
+ * Requires an unsuspended administrator. Operator-partnership membership or a source grant alone does not authorize this admin route. Trusted service/system use cases are also supported. Delegated callers additionally need listing-sources:write. Assignment does not mutate Party locations or attribute a listing seller. Protected reads retain private/retired references for traceability but return no location address/point. All responses are no-store. Current-revision no-ops preserve revisions; stale retries conflict.
+ */
+export const adminClearSourceLocationDefault = <ThrowOnError extends boolean = false>(options: Options<AdminClearSourceLocationDefaultData, ThrowOnError>): RequestResult<AdminClearSourceLocationDefaultResponses, AdminClearSourceLocationDefaultErrors, ThrowOnError> => (options.client ?? client).delete<AdminClearSourceLocationDefaultResponses, AdminClearSourceLocationDefaultErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/listing-sources/{listing_source_id}/location-default',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Get source location default as administrator
+ *
+ * Requires an unsuspended administrator. Operator-partnership membership or a source grant alone does not authorize this admin route. Trusted service/system use cases are also supported. Delegated callers additionally need listing-sources:read. Assignment does not mutate Party locations or attribute a listing seller. Protected reads retain private/retired references for traceability but return no location address/point. All responses are no-store. Current-revision no-ops preserve revisions; stale retries conflict.
+ */
+export const adminGetSourceLocationDefault = <ThrowOnError extends boolean = false>(options: Options<AdminGetSourceLocationDefaultData, ThrowOnError>): RequestResult<AdminGetSourceLocationDefaultResponses, AdminGetSourceLocationDefaultErrors, ThrowOnError> => (options.client ?? client).get<AdminGetSourceLocationDefaultResponses, AdminGetSourceLocationDefaultErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/listing-sources/{listing_source_id}/location-default',
+  ...options
+});
+
+/**
+ * Change source location applicability as administrator
+ *
+ * Requires an unsuspended administrator. Operator-partnership membership or a source grant alone does not authorize this admin route. Trusted service/system use cases are also supported. Delegated callers additionally need listing-sources:write. Assignment does not mutate Party locations or attribute a listing seller. Protected reads retain private/retired references for traceability but return no location address/point. All responses are no-store. Current-revision no-ops preserve revisions; stale retries conflict.
+ */
+export const adminChangeSourceLocationDefaultApplicability = <ThrowOnError extends boolean = false>(options: Options<AdminChangeSourceLocationDefaultApplicabilityData, ThrowOnError>): RequestResult<AdminChangeSourceLocationDefaultApplicabilityResponses, AdminChangeSourceLocationDefaultApplicabilityErrors, ThrowOnError> => (options.client ?? client).patch<AdminChangeSourceLocationDefaultApplicabilityResponses, AdminChangeSourceLocationDefaultApplicabilityErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/listing-sources/{listing_source_id}/location-default',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Assign or replace source location default as administrator
+ *
+ * Requires an unsuspended administrator. Operator-partnership membership or a source grant alone does not authorize this admin route. Trusted service/system use cases are also supported. Delegated callers additionally need listing-sources:write. Assignment does not mutate Party locations or attribute a listing seller. Protected reads retain private/retired references for traceability but return no location address/point. All responses are no-store. Current-revision no-ops preserve revisions; stale retries conflict.
+ */
+export const adminAssignSourceLocationDefault = <ThrowOnError extends boolean = false>(options: Options<AdminAssignSourceLocationDefaultData, ThrowOnError>): RequestResult<AdminAssignSourceLocationDefaultResponses, AdminAssignSourceLocationDefaultErrors, ThrowOnError> => (options.client ?? client).put<AdminAssignSourceLocationDefaultResponses, AdminAssignSourceLocationDefaultErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/admin/listing-sources/{listing_source_id}/location-default',
   ...options,
   headers: {
     'Content-Type': 'application/json',

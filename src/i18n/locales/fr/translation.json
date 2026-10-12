@@ -1106,7 +1106,17 @@
     "LISTING_SOURCE_NOT_FOUND": "Ce fournisseur n’est plus disponible.",
     "UNKNOWN_ERROR": "Une erreur inattendue s'est produite.",
     "NEWSLETTER_TEMPORARILY_UNAVAILABLE": "Le service de newsletter est temporairement indisponible. Veuillez réessayer dans quelques minutes.",
-    "NEWSLETTER_INTERNAL_ERROR": "Votre demande d'inscription à la newsletter n'a pas pu être traitée. Veuillez réessayer plus tard."
+    "NEWSLETTER_INTERNAL_ERROR": "Votre demande d'inscription à la newsletter n'a pas pu être traitée. Veuillez réessayer plus tard.",
+    "ADDRESS_BOOK_INTERNAL_ERROR": "Vos adresses enregistrées n'ont pas pu être traitées. Veuillez réessayer plus tard.",
+    "ADDRESS_BOOK_TEMPORARILY_UNAVAILABLE": "Les adresses enregistrées sont temporairement indisponibles. Veuillez réessayer dans quelques minutes.",
+    "BAD_HEADER_VALUE": "La requête n'a pas pu être traitée. Veuillez réessayer.",
+    "INVALID_CREDENTIALS": "Votre connexion n'est plus valide. Veuillez vous reconnecter.",
+    "LISTING_SOURCE_INTERNAL_ERROR": "La source d'annonces n'a pas pu être traitée. Veuillez réessayer plus tard.",
+    "LISTING_SOURCE_TEMPORARILY_UNAVAILABLE": "Les sources d'annonces sont temporairement indisponibles. Veuillez réessayer dans quelques minutes.",
+    "PARTY_INTERNAL_ERROR": "Les informations de l'entreprise n'ont pas pu être traitées. Veuillez réessayer plus tard.",
+    "PARTY_NOT_FOUND": "Cette entreprise ou cet emplacement est introuvable.",
+    "PARTY_TEMPORARILY_UNAVAILABLE": "Les informations de l'entreprise sont temporairement indisponibles. Veuillez réessayer dans quelques minutes.",
+    "USER_ADDRESS_NOT_FOUND": "Cette adresse enregistrée est introuvable."
   },
   "watchlist": {
     "title": "Mes favoris",
@@ -2969,6 +2979,8 @@
       "browserLocation": "Votre navigateur vous demandera si vous souhaitez partager votre position actuelle. Nous l’utilisons uniquement pour cette recherche et ne l’enregistrons que si vous enregistrez la recherche.",
       "publicPartySite": "Les sites actifs sont publics : le point géographique exact, le pays et la région peuvent apparaître dans les résultats de recherche et être utilisés pour les recherches par rayon. L’adresse complète, les justificatifs et les données de gestion ne sont visibles que par les personnes autorisées. Retirez un site pour le supprimer des résultats publics ; la mise à jour peut prendre un court délai.",
       "privacy": "Plus d'informations sont disponibles dans notre <privacyLink>politique de confidentialité</privacyLink>."
-    }
+    },
+    "coordinates": "{{latitude}} ; {{longitude}}",
+    "nauticalMiles": "{{value}} NM"
   }
 }

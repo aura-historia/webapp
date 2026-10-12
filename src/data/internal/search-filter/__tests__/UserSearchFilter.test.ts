@@ -6,7 +6,11 @@ import {
     mapProductSearchDataToSearchFilterArguments,
     mapSearchFilterArgumentsToProductSearchData,
 } from "../UserSearchFilter.ts";
-import type { UserSearchFilterData } from "@/client";
+import type { GeographicSearchData, UserSearchFilterData } from "@/client";
+import {
+    mapToGeographicSearch,
+    type GeographicSearch,
+} from "@/data/internal/geography/GeographicSearch.ts";
 import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 const baseFilterData: UserSearchFilterData = {
@@ -369,4 +373,68 @@ describe("search filter currency round trips", () => {
             expect(patched.search?.price).toEqual({ min: minor, max: minor * 2 });
         },
     );
+});
+
+function toGeographicSearch(data: GeographicSearchData): GeographicSearch {
+    const search = mapToGeographicSearch(data);
+    if (!search || search === "UNSUPPORTED") throw new Error("Invalid test geography");
+    return search;
+}
+
+describe("saved-search geography", () => {
+    const geography = {
+        countries: ["DE"],
+        subdivisions: ["DE-BY"],
+        origin: { latitude: 48.137, longitude: 11.575 },
+        radius: { amount: 25, unit: "MILES" as const },
+        mode: "APPROXIMATE" as const,
+    };
+
+    it("maps the stored snapshot and preserves the supplied radius unit", () => {
+        const result = mapToInternalUserSearchFilter({
+            ...baseFilterData,
+            search: { ...baseFilterData.search, geography },
+        });
+        expect(result.geography).toEqual(geography);
+    });
+
+    it("keeps an absent snapshot absent", () => {
+        expect(mapToInternalUserSearchFilter(baseFilterData)).not.toHaveProperty("geography");
+    });
+
+    it("marks a snapshot with unrecognized values as unsupported instead of narrowing it", () => {
+        const result = mapToInternalUserSearchFilter({
+            ...baseFilterData,
+            search: { ...baseFilterData.search, geography: { countries: ["DE", "XX"] } },
+        });
+        expect(result.geography).toBe("UNSUPPORTED");
+    });
+
+    it("sends geography on create only when supplied", () => {
+        const search = { q: "Tisch" };
+        expect(mapToBackendCreateUserSearchFilter({ name: "A", search }).search).not.toHaveProperty(
+            "geography",
+        );
+        const result = mapToBackendCreateUserSearchFilter({
+            name: "A",
+            search,
+            geography: toGeographicSearch(geography),
+        });
+        expect(result.search.geography).toEqual(geography);
+    });
+
+    it("omits geography from patches that do not change it, so the snapshot stays unchanged", () => {
+        const result = mapToBackendPatchUserSearchFilter({ search: { q: "Lampe" } });
+        expect(result.search).not.toHaveProperty("geography");
+    });
+
+    it("sends null to clear and a complete predicate to replace the snapshot", () => {
+        expect(mapToBackendPatchUserSearchFilter({ geography: null }).search).toEqual({
+            geography: null,
+        });
+        const replaced = mapToBackendPatchUserSearchFilter({
+            geography: toGeographicSearch({ countries: ["FR"] }),
+        });
+        expect(replaced.search?.geography).toEqual({ countries: ["FR"] });
+    });
 });

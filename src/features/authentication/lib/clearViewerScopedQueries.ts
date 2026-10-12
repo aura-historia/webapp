@@ -1,6 +1,8 @@
 import type { QueryClient, QueryKey } from "@tanstack/react-query";
+import { GEOGRAPHY_VIEWER_SCOPED_QUERY_ROOTS } from "@/data/internal/geography/GeographyQueryKeys.ts";
 
-const viewerScopedQueryPrefixes = new Set([
+const viewerScopedQueryPrefixes = new Set<string>([
+    ...GEOGRAPHY_VIEWER_SCOPED_QUERY_ROOTS,
     "oauthClient",
     "ownListingSources",
     "own-partnership-applications",

@@ -1106,7 +1106,17 @@
     "LISTING_SOURCE_NOT_FOUND": "Questo fornitore non è più disponibile.",
     "UNKNOWN_ERROR": "Si è verificato un errore imprevisto.",
     "NEWSLETTER_TEMPORARILY_UNAVAILABLE": "Il servizio newsletter è temporaneamente non disponibile. Riprova tra qualche minuto.",
-    "NEWSLETTER_INTERNAL_ERROR": "Non è stato possibile elaborare la tua richiesta per la newsletter. Riprova più tardi."
+    "NEWSLETTER_INTERNAL_ERROR": "Non è stato possibile elaborare la tua richiesta per la newsletter. Riprova più tardi.",
+    "ADDRESS_BOOK_INTERNAL_ERROR": "Non è stato possibile elaborare i tuoi indirizzi salvati. Riprova più tardi.",
+    "ADDRESS_BOOK_TEMPORARILY_UNAVAILABLE": "Gli indirizzi salvati non sono temporaneamente disponibili. Riprova tra qualche minuto.",
+    "BAD_HEADER_VALUE": "Non è stato possibile elaborare la richiesta. Riprova.",
+    "INVALID_CREDENTIALS": "Il tuo accesso non è più valido. Accedi di nuovo.",
+    "LISTING_SOURCE_INTERNAL_ERROR": "Non è stato possibile elaborare la fonte degli annunci. Riprova più tardi.",
+    "LISTING_SOURCE_TEMPORARILY_UNAVAILABLE": "Le fonti degli annunci non sono temporaneamente disponibili. Riprova tra qualche minuto.",
+    "PARTY_INTERNAL_ERROR": "Non è stato possibile elaborare i dati dell'attività. Riprova più tardi.",
+    "PARTY_NOT_FOUND": "Questa attività o sede non è stata trovata.",
+    "PARTY_TEMPORARILY_UNAVAILABLE": "I dati dell'attività non sono temporaneamente disponibili. Riprova tra qualche minuto.",
+    "USER_ADDRESS_NOT_FOUND": "Questo indirizzo salvato non è stato trovato."
   },
   "watchlist": {
     "title": "La mia lista dei preferiti",
@@ -2969,6 +2979,8 @@
       "browserLocation": "Il browser vi chiederà se volete condividere la vostra posizione attuale. La utilizziamo solo per questa ricerca e la memorizziamo solo se salvate la ricerca.",
       "publicPartySite": "Le sedi attive sono pubbliche: il punto geografico esatto, il paese e la regione possono comparire nei risultati di ricerca ed essere utilizzati per le ricerche per raggio. L’indirizzo completo, le prove e i dati di gestione sono visibili solo alle persone autorizzate. Dismettete una sede per rimuoverla dai risultati pubblici; l’aggiornamento può richiedere un breve tempo.",
       "privacy": "Maggiori informazioni sono disponibili nella nostra <privacyLink>informativa sulla privacy</privacyLink>."
-    }
+    },
+    "coordinates": "{{latitude}}; {{longitude}}",
+    "nauticalMiles": "{{value}} NM"
   }
 }
