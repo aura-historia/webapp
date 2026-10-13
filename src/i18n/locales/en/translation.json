@@ -1977,6 +1977,49 @@
     "page": {
       "back": "Back to organizations",
       "deleteTitle": "Delete {{name}}?"
+    },
+    "locationAccess": {
+      "title": "Location management access",
+      "description": "Grant a user explicit authority to view and manage every business location of {{name}}, including private details. This grant is independent from active partnership membership and listing-source grants; it neither adds nor removes either.",
+      "managersTitle": "Current location managers",
+      "managersDescription": "Users who can currently view and manage these locations, with each reason for their access. Suspended accounts are not listed, and the administrator role alone does not add a user here.",
+      "empty": "No user currently has an explicit grant or active partnership membership for this organization.",
+      "access": {
+        "explicit": "Explicit grant",
+        "partnership": "Partnership membership",
+        "partnerships": "Partnerships:"
+      },
+      "revokeFor": "Revoke the explicit grant for {{user}}",
+      "state": {
+        "checking": "Checking current access…",
+        "none": "{{user}} has no explicit grant and no active partnership membership for this organization.",
+        "explicit": "{{user}} has an explicit grant for this organization’s locations.",
+        "partnership": "{{user}} can already manage these locations through active partnership membership. An explicit grant would keep that access if the membership ends.",
+        "both": "{{user}} has an explicit grant and active partnership membership. Revoking the grant leaves access through the membership in place."
+      },
+      "userLabel": "User account",
+      "grant": "Grant location access",
+      "revoke": "Revoke location access",
+      "confirmGrantTitle": "Grant location access?",
+      "confirmGrant": "{{user}} will be able to view and manage every location of {{name}}, including private details, until the grant is revoked. Partnership membership and listing-source grants are not changed.",
+      "confirmGrantButton": "Grant access",
+      "confirmRevokeTitle": "Revoke location access?",
+      "confirmRevoke": "This removes only the explicit grant for {{user}} on {{name}}. If {{user}} is a member of an active partnership for this organization, that membership still permits managing its locations.",
+      "confirmRevokeButton": "Revoke grant",
+      "granted": "Explicit location access to {{name}} is granted to {{user}}.",
+      "revoked": "The explicit location access grant for {{user}} on {{name}} was removed. Access through active partnership membership, if any, is unchanged.",
+      "errors": {
+        "forbidden": "You do not have permission to change location access for this organization.",
+        "missing": "This organization or the selected user is no longer available. Nothing was changed.",
+        "conflict": "This change conflicted with another change to the organization’s locations. Nothing was changed; please try again.",
+        "invalid": "The organization or user was not accepted. Select the user again and retry.",
+        "unavailable": "Location access cannot be changed right now. Please try again shortly.",
+        "requestFailed": "The location access change could not be confirmed. Please try again.",
+        "readForbidden": "You do not have permission to view location managers for this organization.",
+        "readMissing": "This organization is no longer available.",
+        "readFailed": "Location managers could not be loaded. Please try again."
+      },
+      "changeTitle": "Change a user’s explicit grant"
     }
   },
   "adminListingSources": {
@@ -2794,6 +2837,14 @@
         "METRIC": "Metric",
         "IMPERIAL": "Imperial"
       }
+    },
+    "picker": {
+      "selected": "Selected user",
+      "clear": "Choose a different user",
+      "loading": "Searching users…",
+      "noMatch": "No user account matches this search.",
+      "searchPrompt": "Search existing user accounts by email or name.",
+      "results": "Matching user accounts"
     }
   },
   "adminOAuthClients": {

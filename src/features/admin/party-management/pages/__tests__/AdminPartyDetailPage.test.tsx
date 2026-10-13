@@ -23,6 +23,11 @@ vi.mock("../../components/AdminPartyFormDialog.tsx", () => ({
     AdminPartyFormDialog: ({ open, party }: { open: boolean; party: { name: string } }) =>
         open ? <div role="dialog">edit form for {party.name}</div> : null,
 }));
+vi.mock("../../components/AdminPartyLocationAccessSection.tsx", () => ({
+    AdminPartyLocationAccessSection: ({ party }: { party: { name: string } }) => (
+        <section>location access for {party.name}</section>
+    ),
+}));
 vi.mock("@/features/party-locations/components/PartyLocationWorkspace.tsx", () => ({
     PartyLocationWorkspace: (props: { scope: unknown }) => {
         mocks.workspace(props.scope);
@@ -60,6 +65,7 @@ describe("AdminPartyDetailPage", () => {
         expect(screen.getByText("info@example.test")).toBeInTheDocument();
         expect(screen.getByText("atelier-bleu")).toBeInTheDocument();
         expect(screen.getByText("locations")).toBeInTheDocument();
+        expect(screen.getByText("location access for Atelier Bleu")).toBeInTheDocument();
         expect(mocks.workspace).toHaveBeenCalledWith({
             viewerCacheKey: "admin-1",
             partyId: "pty_1",
@@ -117,5 +123,6 @@ describe("AdminPartyDetailPage", () => {
 
         expect(screen.getByText(t("adminParties.errors.missing"))).toBeInTheDocument();
         expect(mocks.workspace).not.toHaveBeenCalled();
+        expect(screen.queryByText(/location access for/)).toBeNull();
     });
 });

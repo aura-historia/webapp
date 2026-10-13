@@ -2265,6 +2265,49 @@
     "page": {
       "back": "Torna alle organizzazioni",
       "deleteTitle": "Eliminare {{name}}?"
+    },
+    "locationAccess": {
+      "title": "Accesso alla gestione delle sedi",
+      "description": "Concedi a un account l’autorizzazione esplicita a visualizzare e gestire tutte le sedi commerciali di {{name}}, inclusi i dati privati. Questa autorizzazione è indipendente dall’appartenenza a una partnership attiva e dalle autorizzazioni sulle fonti di annunci; non ne aggiunge né ne rimuove alcuna.",
+      "managersTitle": "Gestori attuali delle sedi",
+      "managersDescription": "Account che possono attualmente visualizzare e gestire queste sedi, con ciascun motivo del loro accesso. Gli account sospesi non sono elencati e il solo ruolo di amministratore non aggiunge nessuno qui.",
+      "empty": "Attualmente nessun account ha un’autorizzazione esplicita o un’appartenenza a una partnership attiva per questa organizzazione.",
+      "access": {
+        "explicit": "Autorizzazione esplicita",
+        "partnership": "Appartenenza a una partnership",
+        "partnerships": "Partnership:"
+      },
+      "revokeFor": "Revoca l’autorizzazione esplicita di {{user}}",
+      "state": {
+        "checking": "Verifica dell’accesso attuale…",
+        "none": "{{user}} non ha un’autorizzazione esplicita né un’appartenenza a una partnership attiva per questa organizzazione.",
+        "explicit": "{{user}} ha un’autorizzazione esplicita per le sedi di questa organizzazione.",
+        "partnership": "{{user}} può già gestire queste sedi tramite l’appartenenza a una partnership attiva. Un’autorizzazione esplicita manterrebbe tale accesso se l’appartenenza termina.",
+        "both": "{{user}} ha un’autorizzazione esplicita e un’appartenenza a una partnership attiva. Revocando l’autorizzazione, l’accesso tramite l’appartenenza resta invariato."
+      },
+      "userLabel": "Account utente",
+      "grant": "Concedi accesso alle sedi",
+      "revoke": "Revoca accesso alle sedi",
+      "confirmGrantTitle": "Concedere l’accesso alle sedi?",
+      "confirmGrant": "{{user}} potrà visualizzare e gestire tutte le sedi di {{name}}, inclusi i dati privati, finché l’autorizzazione non verrà revocata. Le appartenenze alle partnership e le autorizzazioni sulle fonti di annunci non cambiano.",
+      "confirmGrantButton": "Concedi accesso",
+      "confirmRevokeTitle": "Revocare l’accesso alle sedi?",
+      "confirmRevoke": "Viene rimossa solo l’autorizzazione esplicita di {{user}} per {{name}}. Se {{user}} è membro di una partnership attiva di questa organizzazione, tale appartenenza consente comunque di gestirne le sedi.",
+      "confirmRevokeButton": "Revoca autorizzazione",
+      "granted": "L’accesso esplicito alle sedi di {{name}} è stato concesso a {{user}}.",
+      "revoked": "L’autorizzazione esplicita di accesso alle sedi di {{name}} per {{user}} è stata rimossa. L’accesso tramite l’appartenenza a una partnership attiva resta invariato.",
+      "errors": {
+        "forbidden": "Non hai l’autorizzazione per modificare l’accesso alle sedi di questa organizzazione.",
+        "missing": "Questa organizzazione o l’account selezionato non è più disponibile. Non è stato modificato nulla.",
+        "conflict": "Questa modifica è in conflitto con un’altra modifica alle sedi dell’organizzazione. Non è stato modificato nulla; riprova.",
+        "invalid": "L’organizzazione o l’account non è stato accettato. Seleziona di nuovo l’account e riprova.",
+        "unavailable": "Al momento non è possibile modificare l’accesso alle sedi. Riprova tra poco.",
+        "requestFailed": "Non è stato possibile confermare la modifica dell’accesso alle sedi. Riprova.",
+        "readForbidden": "Non hai l’autorizzazione per visualizzare i gestori delle sedi di questa organizzazione.",
+        "readMissing": "Questa organizzazione non è più disponibile.",
+        "readFailed": "Non è stato possibile caricare i gestori delle sedi. Riprova."
+      },
+      "changeTitle": "Modifica l’autorizzazione esplicita di un account"
     }
   },
   "compareBarnebysPage": {
@@ -2794,6 +2837,14 @@
         "METRIC": "Metrico",
         "IMPERIAL": "Imperiale"
       }
+    },
+    "picker": {
+      "selected": "Account selezionato",
+      "clear": "Scegli un altro account",
+      "loading": "Ricerca degli account…",
+      "noMatch": "Nessun account utente corrisponde a questa ricerca.",
+      "searchPrompt": "Cerca account utente esistenti per email o nome.",
+      "results": "Account utente trovati"
     }
   },
   "adminOAuthClients": {

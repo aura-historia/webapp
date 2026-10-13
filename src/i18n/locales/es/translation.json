@@ -2265,6 +2265,49 @@
     "page": {
       "back": "Volver a organizaciones",
       "deleteTitle": "¿Eliminar {{name}}?"
+    },
+    "locationAccess": {
+      "title": "Acceso a la gestión de ubicaciones",
+      "description": "Concede a una cuenta autoridad explícita para ver y gestionar todas las ubicaciones comerciales de {{name}}, incluidos los datos privados. Esta autorización es independiente de la membresía en una asociación activa y de las autorizaciones de fuentes de anuncios; no añade ni elimina ninguna de ellas.",
+      "managersTitle": "Gestores actuales de ubicaciones",
+      "managersDescription": "Cuentas que actualmente pueden ver y gestionar estas ubicaciones, con cada motivo de su acceso. Las cuentas suspendidas no aparecen, y el rol de administrador por sí solo no añade a nadie aquí.",
+      "empty": "Ninguna cuenta tiene actualmente una autorización explícita ni una membresía en una asociación activa de esta organización.",
+      "access": {
+        "explicit": "Autorización explícita",
+        "partnership": "Membresía en asociación",
+        "partnerships": "Asociaciones:"
+      },
+      "revokeFor": "Revocar la autorización explícita de {{user}}",
+      "state": {
+        "checking": "Comprobando el acceso actual…",
+        "none": "{{user}} no tiene autorización explícita ni membresía en una asociación activa de esta organización.",
+        "explicit": "{{user}} tiene una autorización explícita para las ubicaciones de esta organización.",
+        "partnership": "{{user}} ya puede gestionar estas ubicaciones mediante una membresía en una asociación activa. Una autorización explícita mantendría ese acceso si la membresía termina.",
+        "both": "{{user}} tiene una autorización explícita y una membresía en una asociación activa. Si se revoca la autorización, el acceso mediante la membresía se mantiene."
+      },
+      "userLabel": "Cuenta de usuario",
+      "grant": "Conceder acceso a ubicaciones",
+      "revoke": "Revocar acceso a ubicaciones",
+      "confirmGrantTitle": "¿Conceder acceso a ubicaciones?",
+      "confirmGrant": "{{user}} podrá ver y gestionar todas las ubicaciones de {{name}}, incluidos los datos privados, hasta que se revoque la autorización. Las membresías en asociaciones y las autorizaciones de fuentes de anuncios no cambian.",
+      "confirmGrantButton": "Conceder acceso",
+      "confirmRevokeTitle": "¿Revocar acceso a ubicaciones?",
+      "confirmRevoke": "Esto elimina solo la autorización explícita de {{user}} para {{name}}. Si {{user}} es miembro de una asociación activa de esta organización, esa membresía sigue permitiendo gestionar sus ubicaciones.",
+      "confirmRevokeButton": "Revocar autorización",
+      "granted": "Se ha concedido a {{user}} acceso explícito a las ubicaciones de {{name}}.",
+      "revoked": "Se ha retirado la autorización explícita de acceso a las ubicaciones de {{name}} para {{user}}. El acceso mediante una membresía en una asociación activa no cambia.",
+      "errors": {
+        "forbidden": "No tienes permiso para cambiar el acceso a las ubicaciones de esta organización.",
+        "missing": "Esta organización o la cuenta seleccionada ya no está disponible. No se ha cambiado nada.",
+        "conflict": "Este cambio entró en conflicto con otro cambio en las ubicaciones de la organización. No se ha cambiado nada; inténtalo de nuevo.",
+        "invalid": "No se aceptó la organización o la cuenta. Vuelve a seleccionar la cuenta e inténtalo de nuevo.",
+        "unavailable": "Ahora no se puede cambiar el acceso a las ubicaciones. Inténtalo de nuevo en unos momentos.",
+        "requestFailed": "No se pudo confirmar el cambio de acceso a las ubicaciones. Inténtalo de nuevo.",
+        "readForbidden": "No tienes permiso para ver los gestores de ubicaciones de esta organización.",
+        "readMissing": "Esta organización ya no está disponible.",
+        "readFailed": "No se pudieron cargar los gestores de ubicaciones. Inténtalo de nuevo."
+      },
+      "changeTitle": "Cambiar la autorización explícita de una cuenta"
     }
   },
   "compareBarnebysPage": {
@@ -2794,6 +2837,14 @@
         "METRIC": "Métrico",
         "IMPERIAL": "Imperial"
       }
+    },
+    "picker": {
+      "selected": "Cuenta seleccionada",
+      "clear": "Elegir otra cuenta",
+      "loading": "Buscando cuentas…",
+      "noMatch": "Ninguna cuenta de usuario coincide con esta búsqueda.",
+      "searchPrompt": "Busca cuentas de usuario existentes por correo electrónico o nombre.",
+      "results": "Cuentas de usuario encontradas"
     }
   },
   "adminOAuthClients": {

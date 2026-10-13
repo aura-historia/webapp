@@ -21,6 +21,10 @@ updates:
       time: "06:00"
     # Limit open PRs to reduce noise
     open-pull-requests-limit: 5
+    ignore:
+      # The client generator is pinned deliberately (docs/api-contracts.md); 0.99.0 fails under
+      # TypeScript 7. Bump it by hand and confirm an unchanged contract regenerates without a diff.
+      - dependency-name: "@hey-api/openapi-ts"
     # Group related updates together to reduce PR count
     groups:
       # Wrangler and the Vite plugin must stay compatible

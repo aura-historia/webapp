@@ -3328,6 +3328,41 @@ export type PartyLocationsPage = {
   next: PartyLocationId | null;
 };
 
+export type PartyLocationManagersPage = {
+  items: Array<PartyLocationManagerData>;
+  /**
+   * Number of returned users.
+   */
+  size: number;
+  /**
+   * Last returned User TypeID, omitted on the terminal page.
+   */
+  searchAfter?: string;
+};
+
+export type PartyLocationManagerData = {
+  userId: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  /**
+   * Independent reasons, EXPLICIT before PARTNERSHIP when both exist.
+   */
+  access: Array<PartyLocationManagerExplicitAccess | PartyLocationManagerPartnershipAccess>;
+};
+
+export type PartyLocationManagerExplicitAccess = {
+  type: 'EXPLICIT';
+};
+
+export type PartyLocationManagerPartnershipAccess = {
+  type: 'PARTNERSHIP';
+  /**
+   * Active Partnerships for this Party, ordered by underlying UUID ascending.
+   */
+  partnershipIds: Array<string>;
+};
+
 export type PartyLocationManagementGrantData = {
   /**
    * true grants explicit management/private reads; false removes only the explicit grant. Active partnership membership independently authorizes access. Same-state commands are no-ops.
@@ -9512,6 +9547,73 @@ export type SetPartyLocationLifecycleResponses = {
 };
 
 export type SetPartyLocationLifecycleResponse = SetPartyLocationLifecycleResponses[keyof SetPartyLocationLifecycleResponses];
+
+export type ListPartyLocationManagersData = {
+  body?: never;
+  path: {
+    /**
+     * Strict Party TypeID.
+     */
+    party_id: string;
+  };
+  query?: {
+    /**
+     * Exact strict User TypeID. A user with no current access yields an empty page.
+     */
+    userId?: string;
+    /**
+     * Include users with this access reason; each item still reports all current reasons.
+     */
+    access?: 'EXPLICIT' | 'PARTNERSHIP';
+    /**
+     * Requested page size, clamped to 1–100. Defaults to 21.
+     */
+    size?: number;
+    /**
+     * Strict User TypeID from the previous page. Continue with the same Party and filters.
+     */
+    searchAfter?: string;
+  };
+  url: '/api/v1/admin/parties/{party_id}/location-managers';
+};
+
+export type ListPartyLocationManagersErrors = {
+  /**
+   * Invalid IDs or query (INVALID_OBJECT_ID or BAD_QUERY_PARAMETER_VALUE).
+   */
+  400: ApiError;
+  /**
+   * Bearer authentication required (INVALID_CREDENTIALS).
+   */
+  401: ApiError;
+  /**
+   * Missing parties:read scope or current administrator authority (FORBIDDEN).
+   */
+  403: ApiError;
+  /**
+   * Unknown Party (PARTY_NOT_FOUND).
+   */
+  404: ApiError;
+  /**
+   * Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+   */
+  500: ApiError;
+  /**
+   * Persistence or transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+   */
+  503: ApiError;
+};
+
+export type ListPartyLocationManagersError = ListPartyLocationManagersErrors[keyof ListPartyLocationManagersErrors];
+
+export type ListPartyLocationManagersResponses = {
+  /**
+   * Current location managers; size is the number of returned users.
+   */
+  200: PartyLocationManagersPage;
+};
+
+export type ListPartyLocationManagersResponse = ListPartyLocationManagersResponses[keyof ListPartyLocationManagersResponses];
 
 export type SetPartyLocationManagementGrantData = {
   body: PartyLocationManagementGrantData;
