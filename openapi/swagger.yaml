@@ -185,6 +185,202 @@ paths:
                 $ref: "#/components/schemas/PublicAuctionCatalogueData"
         "400": { description: Invalid Auction ID or cursor. }
         "404": { description: Auction missing (`AUCTION_NOT_FOUND`). }
+  /api/v1/admin/product-listings:
+    get:
+      summary: Search ProductListings for administration
+      operationId: searchAdminProductListings
+      description: >-
+        Administrator authority is required; delegated Aura tokens additionally require `product-listings:read`. Cognito administrators need no delegated scope or Partnership grant. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness.
+        Live keyset pagination includes both lifecycle states by default. Source-local identity alone is not globally unique. Text query is bounded literal matching over original title/source-local ID; no total count is returned. Cursors are bound to normalized filters and sort/order, with listing ID breaking timestamp ties.
+      tags: [ProductListings]
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - { name: listingSourceId, in: query, schema: { type: string }, description: Strict ListingSource TypeID. }
+        - { name: sourceListingId, in: query, schema: { type: string, maxLength: 512 }, description: Exact case-sensitive source-local identity after outer whitespace trimming. }
+        - { name: lifecycle, in: query, schema: { $ref: "#/components/schemas/ListingLifecycleData" } }
+        - { name: availability, in: query, schema: { $ref: "#/components/schemas/ListingAvailabilityData" } }
+        - { name: auctionId, in: query, schema: { type: string }, description: Strict Auction TypeID. }
+        - { name: query, in: query, schema: { type: string, maxLength: 512 }, description: At most 512 UTF-8 bytes and NUL-free; outer whitespace and case normalized. Percent/underscore are literal. }
+        - { name: sort, in: query, schema: { type: string, enum: [created, updated], default: updated } }
+        - { name: order, in: query, schema: { type: string, enum: [asc, desc], default: desc } }
+        - { name: size, in: query, schema: { type: integer, default: 21 }, description: Clamped to 1–100. }
+        - { name: searchAfter, in: query, schema: { type: string }, description: Opaque cursor returned by this normalized filter/sort scope. }
+      responses:
+        "200":
+          description: Lightweight summary page; Cache-Control is private, no-store.
+          content: { application/json: { schema: { $ref: "#/components/schemas/AdminProductListingPage" } } }
+        "400":
+          description: Invalid ID, directory query or scoped cursor (`BAD_QUERY_PARAMETER_VALUE`, `INVALID_OBJECT_ID`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "401":
+          description: Missing/invalid credential (`INVALID_CREDENTIALS`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "403":
+          description: Persisted administrator authority or delegated capability missing (`FORBIDDEN`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "503":
+          description: Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "500":
+          description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+  /api/v1/admin/product-listings/{productListingId}:
+    get:
+      summary: Inspect authoritative ProductListing facts
+      operationId: getAdminProductListing
+      description: >-
+        Administrator authority is required; delegated Aura tokens additionally require `product-listings:read`. Cognito administrators need no delegated scope or Partnership grant. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness.
+        Original title/description, slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
+      tags: [ProductListings]
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ProductListingIdPath"
+      responses:
+        "200":
+          description: Original retained listing facts and expectedVersion; Cache-Control is private, no-store.
+          content: { application/json: { schema: { $ref: "#/components/schemas/AdminProductListingDetails" } } }
+        "400":
+          description: Invalid ProductListing ID (`INVALID_OBJECT_ID`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "401":
+          description: Missing/invalid credential (`INVALID_CREDENTIALS`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "403":
+          description: Persisted administrator authority or delegated capability missing (`FORBIDDEN`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "404":
+          description: Target listing not found (`PRODUCT_LISTING_NOT_FOUND`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "503":
+          description: Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "500":
+          description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+    patch:
+      summary: Update an existing active ProductListing
+      operationId: updateAdminProductListing
+      description: >-
+        Administrator authority is required; delegated Aura tokens additionally require `product-listings:write`. Cognito administrators need no delegated scope or Partnership grant. All responses/errors use `private, no-store`. State and the ordinary change event commit together; indexing, embeddings, notifications and cache convergence are asynchronous. Later ingestion may overwrite edits or restore withdrawal. Refetch/reconcile after a lost response; do not automatically retry with a different version.
+        Never creates or restores a listing. The required expectedVersion is checked before changes and again through compare-and-set persistence. Availability edits do not fabricate sale observations. No-op preserves version/timestamps and emits no event. Unknown/read-only fields and nested unknown fields are rejected.
+      tags: [ProductListings]
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ProductListingIdPath"
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: "#/components/schemas/UpdateAdminProductListing" } } }
+      responses:
+        "200":
+          description: Committed resulting/current version and CHANGED or UNCHANGED; Cache-Control is private, no-store.
+          content: { application/json: { schema: { $ref: "#/components/schemas/AdminProductListingMutation" } } }
+        "400":
+          description: Invalid ID, JSON, expectedVersion, unknown/read-only field or invalid field/null value (`BAD_BODY_VALUE`, `INVALID_OBJECT_ID`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "401":
+          description: Missing/invalid credential (`INVALID_CREDENTIALS`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "403":
+          description: Persisted administrator authority or delegated capability missing (`FORBIDDEN`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "404":
+          description: Target listing or referenced Auction not found (`PRODUCT_LISTING_NOT_FOUND`, `AUCTION_NOT_FOUND`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "409":
+          description: Stale expectedVersion/racing write (`PRODUCT_LISTING_CONCURRENCY_CONFLICT`), PATCH of withdrawn listing (`PRODUCT_LISTING_WITHDRAWN`), or cross-source Auction reference (`CONFLICT`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "503":
+          description: Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "500":
+          description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+    delete:
+      summary: Withdraw a retained ProductListing
+      operationId: withdrawAdminProductListing
+      description: >-
+        Administrator authority is required; delegated Aura tokens additionally require `product-listings:write`. Cognito administrators need no delegated scope or Partnership grant. All responses/errors use `private, no-store`. State and the ordinary change event commit together; indexing, embeddings, notifications and cache convergence are asynchronous. Later ingestion may overwrite edits or restore withdrawal. Refetch/reconcile after a lost response; do not automatically retry with a different version.
+        DELETE withdraws rather than physically purging identity, history or watchlist state. Availability is cleared; sale observation is retained. Already withdrawn is a no-op only with a matching current version; stale versions still conflict.
+      tags: [ProductListings]
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ProductListingIdPath"
+        - name: expectedVersion
+          in: query
+          required: true
+          schema: { type: integer, format: int64, minimum: 1, maximum: 9223372036854775807 }
+      responses:
+        "204": { description: "Withdrawal committed or unchanged; Cache-Control is private, no-store." }
+        "400":
+          description: Invalid ID or missing/invalid expectedVersion query parameter (`BAD_QUERY_PARAMETER_VALUE`, `INVALID_OBJECT_ID`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "401":
+          description: Missing/invalid credential (`INVALID_CREDENTIALS`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "403":
+          description: Persisted administrator authority or delegated capability missing (`FORBIDDEN`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "404":
+          description: Target listing not found (`PRODUCT_LISTING_NOT_FOUND`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "409":
+          description: Stale expectedVersion or racing write (`PRODUCT_LISTING_CONCURRENCY_CONFLICT`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "503":
+          description: Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "500":
+          description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+  /api/v1/admin/product-listings/{productListingId}/restore:
+    post:
+      summary: Explicitly restore a retained ProductListing
+      operationId: restoreAdminProductListing
+      description: >-
+        Administrator authority is required; delegated Aura tokens additionally require `product-listings:write`. Cognito administrators need no delegated scope or Partnership grant. All responses/errors use `private, no-store`. State and the ordinary change event commit together; indexing, embeddings, notifications and cache convergence are asynchronous. Later ingestion may overwrite edits or restore withdrawal. Refetch/reconcile after a lost response; do not automatically retry with a different version.
+        Restores to ACTIVE with unknown availability; no former availability is reconstructed. Already active is a no-op only with a matching current version. Missing retained identity is never created.
+      tags: [ProductListings]
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ProductListingIdPath"
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: "#/components/schemas/AdminProductListingVersion" } } }
+      responses:
+        "200":
+          description: Committed resulting/current version and CHANGED or UNCHANGED; Cache-Control is private, no-store.
+          content: { application/json: { schema: { $ref: "#/components/schemas/AdminProductListingMutation" } } }
+        "400":
+          description: Invalid ID, JSON or missing/invalid expectedVersion; unknown fields are rejected (`BAD_BODY_VALUE`, `INVALID_OBJECT_ID`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "401":
+          description: Missing/invalid credential (`INVALID_CREDENTIALS`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "403":
+          description: Persisted administrator authority or delegated capability missing (`FORBIDDEN`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "404":
+          description: Target listing not found (`PRODUCT_LISTING_NOT_FOUND`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "409":
+          description: Stale expectedVersion or racing write (`PRODUCT_LISTING_CONCURRENCY_CONFLICT`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "503":
+          description: Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "500":
+          description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+          content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
   /api/v1/admin/auctions:
     get:
       summary: Search Auctions for administration
@@ -16077,6 +16273,159 @@ components:
 
         "
       example: SYSTEM
+    AdminProductListingVersion:
+      type: object
+      additionalProperties: false
+      required: [expectedVersion]
+      properties:
+        expectedVersion: { type: integer, format: int64, minimum: 1, maximum: 9223372036854775807 }
+    UpdateAdminProductListing:
+      type: object
+      additionalProperties: false
+      required: [expectedVersion]
+      description: Omission preserves. Monetary amounts are nonnegative minor units, at most 9223372036854775807. Null clears price, each estimate and availability. URL/images/whole auction cannot be null. Title/description and every field outside this whitelist are read-only.
+      properties:
+        expectedVersion: { type: integer, format: int64, minimum: 1, maximum: 9223372036854775807 }
+        price:
+          nullable: true
+          allOf: [{ $ref: "#/components/schemas/AdminProductListingPrice" }]
+        priceEstimateMin:
+          nullable: true
+          allOf: [{ $ref: "#/components/schemas/AdminProductListingMonetaryPrice" }]
+        priceEstimateMax:
+          nullable: true
+          allOf: [{ $ref: "#/components/schemas/AdminProductListingMonetaryPrice" }]
+        availability:
+          nullable: true
+          allOf: [{ $ref: "#/components/schemas/ListingAvailabilityData" }]
+        url: { type: string, format: uri, description: Value replaces; null rejected. }
+        images:
+          type: array
+          description: Ordered replacement using existing normalized URL identity; empty array empties it. Null rejected.
+          items: { type: string, format: uri }
+        auction:
+          $ref: "#/components/schemas/AdminProductListingAuctionPatch"
+    AdminProductListingPrice:
+      oneOf:
+        - type: object
+          additionalProperties: false
+          required: [type, currency, amount]
+          properties:
+            type: { type: string, enum: [MONETARY] }
+            currency: { $ref: "#/components/schemas/CurrencyData" }
+            amount: { type: integer, minimum: 0, maximum: 9223372036854775807 }
+        - type: object
+          additionalProperties: false
+          required: [type]
+          properties:
+            type: { type: string, enum: [ON_REQUEST] }
+    AdminProductListingMonetaryPrice:
+      type: object
+      additionalProperties: false
+      required: [currency, amount]
+      properties:
+        currency: { $ref: "#/components/schemas/CurrencyData" }
+        amount: { type: integer, minimum: 0, maximum: 9223372036854775807 }
+    AdminProductListingAuctionPatch:
+      type: object
+      additionalProperties: false
+      description: Merge omitted lot facts. Null auctionId detaches membership only; an all-empty result normalizes to absence. Whole auction null is rejected. Auction must exist for this ListingSource.
+      properties:
+        auctionId: { type: string, nullable: true }
+        lotNumber: { type: string, nullable: true, maxLength: 128, description: Nonblank and NUL-free after outer whitespace trimming; bounded to 128 UTF-8 bytes. }
+        cataloguePosition: { type: integer, minimum: 1, maximum: 4294967295, nullable: true }
+        timing:
+          type: object
+          nullable: true
+          additionalProperties: false
+          description: Omitted/null container preserves every instant; clear optional instants individually.
+          properties:
+            biddingOpens: { type: string, format: date-time, nullable: true }
+            scheduledCloses: { type: string, format: date-time, nullable: true }
+            reportedClosedAt: { type: string, format: date-time, nullable: true }
+    AdminProductListingMutation:
+      type: object
+      required: [productListingId, expectedVersion, outcome]
+      properties:
+        productListingId: { type: string }
+        expectedVersion: { type: integer, format: int64, minimum: 1 }
+        outcome: { type: string, enum: [CHANGED, UNCHANGED] }
+    AdminProductListingSummary:
+      type: object
+      required: [productListingId, productListingTitleSlugId, source, sourceListingId, title, price, priceEstimateMin, priceEstimateMax, availability, lifecycle, auctionId, expectedVersion, created, updated]
+      properties:
+        productListingId: { type: string }
+        productListingTitleSlugId: { type: string, readOnly: true }
+        source: { $ref: "#/components/schemas/ProductListingSourceData" }
+        sourceListingId: { type: string, readOnly: true }
+        title:
+          nullable: true
+          readOnly: true
+          allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
+        price:
+          nullable: true
+          allOf: [{ $ref: "#/components/schemas/ProductListingPriceData" }]
+        priceEstimateMin:
+          nullable: true
+          allOf: [{ $ref: "#/components/schemas/PriceData" }]
+        priceEstimateMax:
+          nullable: true
+          allOf: [{ $ref: "#/components/schemas/PriceData" }]
+        availability:
+          nullable: true
+          allOf: [{ $ref: "#/components/schemas/ListingAvailabilityData" }]
+        lifecycle: { $ref: "#/components/schemas/ListingLifecycleData" }
+        auctionId: { type: string, nullable: true }
+        expectedVersion: { type: integer, format: int64, minimum: 1 }
+        created: { type: string, format: date-time, readOnly: true }
+        updated: { type: string, format: date-time, readOnly: true }
+    AdminProductListingDetails:
+      allOf:
+        - $ref: "#/components/schemas/AdminProductListingSummary"
+        - type: object
+          required: [description, url, images, auction, saleObservation]
+          properties:
+            description:
+              nullable: true
+              readOnly: true
+              allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
+            url: { type: string, format: uri }
+            images:
+              type: array
+              description: Privileged canonical URLs. Preview respects sensitive/unassessed status; public visibility is unchanged.
+              items: { type: string, format: uri }
+            auction:
+              nullable: true
+              allOf: [{ $ref: "#/components/schemas/AdminProductListingAuction" }]
+            saleObservation:
+              type: object
+              nullable: true
+              readOnly: true
+              required: [observedAt, fxRateId]
+              properties:
+                observedAt: { type: string, format: date-time }
+                fxRateId: { type: string }
+    AdminProductListingAuction:
+      type: object
+      required: [auctionId, lotNumber, cataloguePosition, timing]
+      properties:
+        auctionId: { type: string, nullable: true }
+        lotNumber: { type: string, nullable: true }
+        cataloguePosition: { type: integer, minimum: 1, maximum: 4294967295, nullable: true }
+        timing:
+          type: object
+          required: [biddingOpens, scheduledCloses, reportedClosedAt]
+          properties:
+            biddingOpens: { type: string, format: date-time, nullable: true }
+            scheduledCloses: { type: string, format: date-time, nullable: true }
+            reportedClosedAt: { type: string, format: date-time, nullable: true }
+    AdminProductListingPage:
+      type: object
+      required: [items, size]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/AdminProductListingSummary" } }
+        size: { type: integer, minimum: 0, maximum: 100 }
+        searchAfter: { type: string, description: Omitted on the final page. }
     ProductListingSummaryData:
       type: object
       description: Lightweight ProductListing summary for search and similar-listing results.
@@ -17830,6 +18179,7 @@ components:
         - search-filters:read
         - notifications:read
         - notifications:write
+        - product-listings:read
         - product-listings:write
         - listing-sources:write
         - users:read

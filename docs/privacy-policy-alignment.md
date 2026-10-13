@@ -26,7 +26,7 @@ Run this checklist when code touches any of the following:
 - Preferences and cookies: `user-preferences`, `i18next`, localStorage, sessionStorage, consent state.
 - Watchlists, saved searches/search filters, notifications, matching, product interactions, analytics events.
 - Newsletter or marketing consent, including double opt-in evidence.
-- Partner/listing-source/admin data: listing-source and Party (operator) details, contact fields, partnership applications and memberships, auctions, API access tokens, OAuth clients, suspensions.
+- Partner/listing-source/admin data: listing-source and Party (operator) details, contact fields, partnership applications and memberships, auctions, admin product listing records, API access tokens, OAuth clients, suspensions.
 - Payment/subscription metadata and Stripe-related behavior.
 - Private addresses, the browsing destination, saved-search origins, browser location, and Party locations (see [Geography](#geography)).
 - Tracking, analytics, embedded third-party content, maps, pixels, or new outbound processors.
@@ -70,6 +70,7 @@ Sources: the backend [geography contract](https://github.com/aura-historia/backe
 - Retention: do not create new persistent storage without considering retention and deletion behavior.
 - Security: never expose bearer tokens, Cognito/session details, OAuth secrets, or unmasked access tokens in UI, logs, URLs, or analytics.
 - Admin access-token views must use the secret-free admin DTO and must never render raw, masked, hashed, or short-token values. Keep the private token list keyed by its explicit target user and use no-store requests.
+- Admin product listing images are privileged, unassessed source URLs. Load a preview from the source host only after an explicit request for that image, with `no-referrer`; never render them automatically or reuse them in public or shared caches.
 - Suspension reasons are sent only to the authorized admin suspension request and are logged by the backend for operations. Explain this before submission, reject blank or oversized reasons, and do not persist or log them in the client.
 - User rights: account deletion, privacy settings, unsubscribe, consent settings, and preference changes must remain functional.
 

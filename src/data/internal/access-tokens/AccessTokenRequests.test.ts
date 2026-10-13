@@ -17,10 +17,11 @@ import es from "@/i18n/locales/es/translation.json";
 import fr from "@/i18n/locales/fr/translation.json";
 import itLocale from "@/i18n/locales/it/translation.json";
 
-/** Canonical backend `AccessTokenScopeData` enum (backend#1991, backend#1994). */
+/** Canonical backend `AccessTokenScopeData` enum (backend#1991, backend#1994, backend#2043). */
 const BACKEND_SCOPES = [
     "auctions:read",
     "auctions:write",
+    "product-listings:read",
     "product-listings:write",
     "listing-sources:read",
     "listing-sources:write",

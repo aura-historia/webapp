@@ -8,6 +8,7 @@ import {
     Handshake,
     KeyRound,
     LayoutDashboard,
+    Package,
     Store,
     Users,
 } from "lucide-react";
@@ -20,6 +21,7 @@ export type AdminSectionRoute =
     | "/$lng/admin/parties"
     | "/$lng/admin/listing-sources"
     | "/$lng/admin/auctions"
+    | "/$lng/admin/product-listings"
     | "/$lng/admin/oauth-clients";
 
 type AdminNavItem = {
@@ -74,6 +76,11 @@ export const ADMIN_NAV_GROUPS: readonly AdminNavGroup[] = [
                 icon: Store,
             },
             { to: "/$lng/admin/auctions", labelKey: "adminNavigation.items.auctions", icon: Gavel },
+            {
+                to: "/$lng/admin/product-listings",
+                labelKey: "adminNavigation.items.productListings",
+                icon: Package,
+            },
         ],
     },
     {

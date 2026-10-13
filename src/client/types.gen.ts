@@ -11,6 +11,120 @@ export type ClientOptions = {
  */
 export type ActorData = 'SYSTEM' | string;
 
+export type AdminProductListingVersion = {
+  expectedVersion: number;
+};
+
+/**
+ * Omission preserves. Monetary amounts are nonnegative minor units, at most 9223372036854775807. Null clears price, each estimate and availability. URL/images/whole auction cannot be null. Title/description and every field outside this whitelist are read-only.
+ */
+export type UpdateAdminProductListing = {
+  expectedVersion: number;
+  price?: AdminProductListingPrice | null;
+  priceEstimateMin?: AdminProductListingMonetaryPrice | null;
+  priceEstimateMax?: AdminProductListingMonetaryPrice | null;
+  availability?: ListingAvailabilityData | null;
+  /**
+   * Value replaces; null rejected.
+   */
+  url?: string;
+  /**
+   * Ordered replacement using existing normalized URL identity; empty array empties it. Null rejected.
+   */
+  images?: Array<string>;
+  auction?: AdminProductListingAuctionPatch;
+};
+
+export type AdminProductListingPrice = {
+  type: 'MONETARY';
+  currency: CurrencyData;
+  amount: number;
+} | {
+  type: 'ON_REQUEST';
+};
+
+export type AdminProductListingMonetaryPrice = {
+  currency: CurrencyData;
+  amount: number;
+};
+
+/**
+ * Merge omitted lot facts. Null auctionId detaches membership only; an all-empty result normalizes to absence. Whole auction null is rejected. Auction must exist for this ListingSource.
+ */
+export type AdminProductListingAuctionPatch = {
+  auctionId?: string | null;
+  /**
+   * Nonblank and NUL-free after outer whitespace trimming; bounded to 128 UTF-8 bytes.
+   */
+  lotNumber?: string | null;
+  cataloguePosition?: number | null;
+  /**
+   * Omitted/null container preserves every instant; clear optional instants individually.
+   */
+  timing?: {
+    biddingOpens?: string | null;
+    scheduledCloses?: string | null;
+    reportedClosedAt?: string | null;
+  } | null;
+};
+
+export type AdminProductListingMutation = {
+  productListingId: string;
+  expectedVersion: number;
+  outcome: 'CHANGED' | 'UNCHANGED';
+};
+
+export type AdminProductListingSummary = {
+  productListingId: string;
+  readonly productListingTitleSlugId: string;
+  source: ProductListingSourceData;
+  readonly sourceListingId: string;
+  title: LocalizedTextData | null;
+  price: ProductListingPriceData | null;
+  priceEstimateMin: PriceData | null;
+  priceEstimateMax: PriceData | null;
+  availability: ListingAvailabilityData | null;
+  lifecycle: ListingLifecycleData;
+  auctionId: string | null;
+  expectedVersion: number;
+  readonly created: string;
+  readonly updated: string;
+};
+
+export type AdminProductListingDetails = AdminProductListingSummary & {
+  description: LocalizedTextData | null;
+  url: string;
+  /**
+   * Privileged canonical URLs. Preview respects sensitive/unassessed status; public visibility is unchanged.
+   */
+  images: Array<string>;
+  auction: AdminProductListingAuction | null;
+  readonly saleObservation: {
+    observedAt: string;
+    fxRateId: string;
+  } | null;
+};
+
+export type AdminProductListingAuction = {
+  auctionId: string | null;
+  lotNumber: string | null;
+  cataloguePosition: number | null;
+  timing: {
+    biddingOpens: string | null;
+    scheduledCloses: string | null;
+    reportedClosedAt: string | null;
+  };
+};
+
+export type AdminProductListingPage = {
+  items: Array<AdminProductListingSummary>;
+  size: number;
+  /**
+   * Omitted on the final page.
+   */
+  searchAfter?: string;
+};
+
 /**
  * Lightweight ProductListing summary for search and similar-listing results.
  */
@@ -968,7 +1082,7 @@ export type UserSearchFilterCollectionData = {
  * The value is one of the capabilities supported by the canonical access-token and OAuth flows.
  *
  */
-export type AccessTokenScopeData = 'auctions:read' | 'auctions:write' | 'listing-sources:read' | 'parties:read' | 'parties:write' | 'partnership-applications:read' | 'partnership-applications:write' | 'partnerships:read' | 'partnerships:write' | 'admin-overview:read' | 'search-filters:read' | 'notifications:read' | 'notifications:write' | 'product-listings:write' | 'listing-sources:write' | 'users:read' | 'users:write' | 'access-tokens:read' | 'access-tokens:write' | 'search-filters:write' | 'watchlist:read' | 'watchlist:write';
+export type AccessTokenScopeData = 'auctions:read' | 'auctions:write' | 'listing-sources:read' | 'parties:read' | 'parties:write' | 'partnership-applications:read' | 'partnership-applications:write' | 'partnerships:read' | 'partnerships:write' | 'admin-overview:read' | 'search-filters:read' | 'notifications:read' | 'notifications:write' | 'product-listings:read' | 'product-listings:write' | 'listing-sources:write' | 'users:read' | 'users:write' | 'access-tokens:read' | 'access-tokens:write' | 'search-filters:write' | 'watchlist:read' | 'watchlist:write';
 
 /**
  * Token type returned for Aura Historia access tokens.
@@ -3436,6 +3550,36 @@ export type PublicPartyLocationData = {
   distanceKm?: number;
 };
 
+export type AdminProductListingSummaryWritable = {
+  productListingId: string;
+  source: ProductListingSourceData;
+  price: ProductListingPriceData | null;
+  priceEstimateMin: PriceData | null;
+  priceEstimateMax: PriceData | null;
+  availability: ListingAvailabilityData | null;
+  lifecycle: ListingLifecycleData;
+  auctionId: string | null;
+  expectedVersion: number;
+};
+
+export type AdminProductListingDetailsWritable = AdminProductListingSummaryWritable & {
+  url: string;
+  /**
+   * Privileged canonical URLs. Preview respects sensitive/unassessed status; public visibility is unchanged.
+   */
+  images: Array<string>;
+  auction: AdminProductListingAuction | null;
+};
+
+export type AdminProductListingPageWritable = {
+  items: Array<AdminProductListingSummaryWritable>;
+  size: number;
+  /**
+   * Omitted on the final page.
+   */
+  searchAfter?: string;
+};
+
 export type PutWoocommerceListingSourceIngestionConfigurationDataWritable = {
   /**
    * Required nonblank provider secret. Preserved exactly for HMAC verification and never returned.
@@ -3669,6 +3813,290 @@ export type GetAuctionCatalogueResponses = {
 };
 
 export type GetAuctionCatalogueResponse = GetAuctionCatalogueResponses[keyof GetAuctionCatalogueResponses];
+
+export type SearchAdminProductListingsData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Strict ListingSource TypeID.
+     */
+    listingSourceId?: string;
+    /**
+     * Exact case-sensitive source-local identity after outer whitespace trimming.
+     */
+    sourceListingId?: string;
+    lifecycle?: ListingLifecycleData;
+    availability?: ListingAvailabilityData;
+    /**
+     * Strict Auction TypeID.
+     */
+    auctionId?: string;
+    /**
+     * At most 512 UTF-8 bytes and NUL-free; outer whitespace and case normalized. Percent/underscore are literal.
+     */
+    query?: string;
+    sort?: 'created' | 'updated';
+    order?: 'asc' | 'desc';
+    /**
+     * Clamped to 1–100.
+     */
+    size?: number;
+    /**
+     * Opaque cursor returned by this normalized filter/sort scope.
+     */
+    searchAfter?: string;
+  };
+  url: '/api/v1/admin/product-listings';
+};
+
+export type SearchAdminProductListingsErrors = {
+  /**
+   * Invalid ID, directory query or scoped cursor (`BAD_QUERY_PARAMETER_VALUE`, `INVALID_OBJECT_ID`).
+   */
+  400: ApiError;
+  /**
+   * Missing/invalid credential (`INVALID_CREDENTIALS`).
+   */
+  401: ApiError;
+  /**
+   * Persisted administrator authority or delegated capability missing (`FORBIDDEN`).
+   */
+  403: ApiError;
+  /**
+   * Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+   */
+  500: ApiError;
+  /**
+   * Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: ApiError;
+};
+
+export type SearchAdminProductListingsError = SearchAdminProductListingsErrors[keyof SearchAdminProductListingsErrors];
+
+export type SearchAdminProductListingsResponses = {
+  /**
+   * Lightweight summary page; Cache-Control is private, no-store.
+   */
+  200: AdminProductListingPage;
+};
+
+export type SearchAdminProductListingsResponse = SearchAdminProductListingsResponses[keyof SearchAdminProductListingsResponses];
+
+export type WithdrawAdminProductListingData = {
+  body?: never;
+  path: {
+    /**
+     * Strict `pl_` UUIDv7 ProductListing TypeID.
+     */
+    productListingId: string;
+  };
+  query: {
+    expectedVersion: number;
+  };
+  url: '/api/v1/admin/product-listings/{productListingId}';
+};
+
+export type WithdrawAdminProductListingErrors = {
+  /**
+   * Invalid ID or missing/invalid expectedVersion query parameter (`BAD_QUERY_PARAMETER_VALUE`, `INVALID_OBJECT_ID`).
+   */
+  400: ApiError;
+  /**
+   * Missing/invalid credential (`INVALID_CREDENTIALS`).
+   */
+  401: ApiError;
+  /**
+   * Persisted administrator authority or delegated capability missing (`FORBIDDEN`).
+   */
+  403: ApiError;
+  /**
+   * Target listing not found (`PRODUCT_LISTING_NOT_FOUND`).
+   */
+  404: ApiError;
+  /**
+   * Stale expectedVersion or racing write (`PRODUCT_LISTING_CONCURRENCY_CONFLICT`).
+   */
+  409: ApiError;
+  /**
+   * Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+   */
+  500: ApiError;
+  /**
+   * Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: ApiError;
+};
+
+export type WithdrawAdminProductListingError = WithdrawAdminProductListingErrors[keyof WithdrawAdminProductListingErrors];
+
+export type WithdrawAdminProductListingResponses = {
+  /**
+   * Withdrawal committed or unchanged; Cache-Control is private, no-store.
+   */
+  204: void;
+};
+
+export type WithdrawAdminProductListingResponse = WithdrawAdminProductListingResponses[keyof WithdrawAdminProductListingResponses];
+
+export type GetAdminProductListingData = {
+  body?: never;
+  path: {
+    /**
+     * Strict `pl_` UUIDv7 ProductListing TypeID.
+     */
+    productListingId: string;
+  };
+  query?: never;
+  url: '/api/v1/admin/product-listings/{productListingId}';
+};
+
+export type GetAdminProductListingErrors = {
+  /**
+   * Invalid ProductListing ID (`INVALID_OBJECT_ID`).
+   */
+  400: ApiError;
+  /**
+   * Missing/invalid credential (`INVALID_CREDENTIALS`).
+   */
+  401: ApiError;
+  /**
+   * Persisted administrator authority or delegated capability missing (`FORBIDDEN`).
+   */
+  403: ApiError;
+  /**
+   * Target listing not found (`PRODUCT_LISTING_NOT_FOUND`).
+   */
+  404: ApiError;
+  /**
+   * Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+   */
+  500: ApiError;
+  /**
+   * Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: ApiError;
+};
+
+export type GetAdminProductListingError = GetAdminProductListingErrors[keyof GetAdminProductListingErrors];
+
+export type GetAdminProductListingResponses = {
+  /**
+   * Original retained listing facts and expectedVersion; Cache-Control is private, no-store.
+   */
+  200: AdminProductListingDetails;
+};
+
+export type GetAdminProductListingResponse = GetAdminProductListingResponses[keyof GetAdminProductListingResponses];
+
+export type UpdateAdminProductListingData = {
+  body: UpdateAdminProductListing;
+  path: {
+    /**
+     * Strict `pl_` UUIDv7 ProductListing TypeID.
+     */
+    productListingId: string;
+  };
+  query?: never;
+  url: '/api/v1/admin/product-listings/{productListingId}';
+};
+
+export type UpdateAdminProductListingErrors = {
+  /**
+   * Invalid ID, JSON, expectedVersion, unknown/read-only field or invalid field/null value (`BAD_BODY_VALUE`, `INVALID_OBJECT_ID`).
+   */
+  400: ApiError;
+  /**
+   * Missing/invalid credential (`INVALID_CREDENTIALS`).
+   */
+  401: ApiError;
+  /**
+   * Persisted administrator authority or delegated capability missing (`FORBIDDEN`).
+   */
+  403: ApiError;
+  /**
+   * Target listing or referenced Auction not found (`PRODUCT_LISTING_NOT_FOUND`, `AUCTION_NOT_FOUND`).
+   */
+  404: ApiError;
+  /**
+   * Stale expectedVersion/racing write (`PRODUCT_LISTING_CONCURRENCY_CONFLICT`), PATCH of withdrawn listing (`PRODUCT_LISTING_WITHDRAWN`), or cross-source Auction reference (`CONFLICT`).
+   */
+  409: ApiError;
+  /**
+   * Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+   */
+  500: ApiError;
+  /**
+   * Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: ApiError;
+};
+
+export type UpdateAdminProductListingError = UpdateAdminProductListingErrors[keyof UpdateAdminProductListingErrors];
+
+export type UpdateAdminProductListingResponses = {
+  /**
+   * Committed resulting/current version and CHANGED or UNCHANGED; Cache-Control is private, no-store.
+   */
+  200: AdminProductListingMutation;
+};
+
+export type UpdateAdminProductListingResponse = UpdateAdminProductListingResponses[keyof UpdateAdminProductListingResponses];
+
+export type RestoreAdminProductListingData = {
+  body: AdminProductListingVersion;
+  path: {
+    /**
+     * Strict `pl_` UUIDv7 ProductListing TypeID.
+     */
+    productListingId: string;
+  };
+  query?: never;
+  url: '/api/v1/admin/product-listings/{productListingId}/restore';
+};
+
+export type RestoreAdminProductListingErrors = {
+  /**
+   * Invalid ID, JSON or missing/invalid expectedVersion; unknown fields are rejected (`BAD_BODY_VALUE`, `INVALID_OBJECT_ID`).
+   */
+  400: ApiError;
+  /**
+   * Missing/invalid credential (`INVALID_CREDENTIALS`).
+   */
+  401: ApiError;
+  /**
+   * Persisted administrator authority or delegated capability missing (`FORBIDDEN`).
+   */
+  403: ApiError;
+  /**
+   * Target listing not found (`PRODUCT_LISTING_NOT_FOUND`).
+   */
+  404: ApiError;
+  /**
+   * Stale expectedVersion or racing write (`PRODUCT_LISTING_CONCURRENCY_CONFLICT`).
+   */
+  409: ApiError;
+  /**
+   * Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+   */
+  500: ApiError;
+  /**
+   * Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: ApiError;
+};
+
+export type RestoreAdminProductListingError = RestoreAdminProductListingErrors[keyof RestoreAdminProductListingErrors];
+
+export type RestoreAdminProductListingResponses = {
+  /**
+   * Committed resulting/current version and CHANGED or UNCHANGED; Cache-Control is private, no-store.
+   */
+  200: AdminProductListingMutation;
+};
+
+export type RestoreAdminProductListingResponse = RestoreAdminProductListingResponses[keyof RestoreAdminProductListingResponses];
 
 export type AdminSearchAuctionsData = {
   body?: never;

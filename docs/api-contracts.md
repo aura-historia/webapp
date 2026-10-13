@@ -50,11 +50,22 @@ admin workflows in [admin workflows](admin-workflows.md).
   and `PartyLocationManagerPartnershipAccess` schemas were added byte-for-byte from the merge
   commit of [backend#2045](https://github.com/aura-historia/backend/pull/2045),
   `ce50dd94dc9c9651d74ad363c9906311f7cc6cd2` (`docs/swagger.yaml` blob
-  `6640ef291229521782996e9120483ae7ff0dbd38`); nothing else was taken from that revision. File
-  SHA-256: `b8252ad30b4ffae6e7b5003d3f9d6fcdd06263ad338717e693dcd82342d7c74e` (Git blob
-  `308e2db170ff6b574a9b71de2fdf02e01be2fcb4`); canonical parsed-JSON SHA-256 (recorded as
+  `6640ef291229521782996e9120483ae7ff0dbd38`); nothing else was taken from that revision. For
+  [#1101](https://github.com/aura-historia/webapp/issues/1101), the admin ProductListing path
+  items `/api/v1/admin/product-listings`, `/api/v1/admin/product-listings/{productListingId}` and
+  `.../restore`, the `AdminProductListingVersion`, `UpdateAdminProductListing`,
+  `AdminProductListingPrice`, `AdminProductListingMonetaryPrice`,
+  `AdminProductListingAuctionPatch`, `AdminProductListingMutation`, `AdminProductListingSummary`,
+  `AdminProductListingDetails`, `AdminProductListingAuction` and `AdminProductListingPage` schemas,
+  and the `product-listings:read` value of `AccessTokenScopeData` were added byte-for-byte from the
+  merge commit of [backend#2043](https://github.com/aura-historia/backend/pull/2043),
+  `91c7f6f7a32b6528f0cf3738877f6a7aa579df0f` (`docs/swagger.yaml` blob
+  `e6f0035b5c170d85cae7aa3d60b27963889c1d39`, identical at the issue's `1280fd55`); that change
+  touched nothing else, and nothing else was taken from that revision. File SHA-256:
+  `058f348f2873d5e485ea35919ca800f17ffd8398aab37e0d4414f26d5c8362c9` (Git blob
+  `baa5f45b124914732d19bd0bbc835e235d458cc6`); canonical parsed-JSON SHA-256 (recorded as
   `x-source-contract-sha256` in the partner reference):
-  `9df3e01cb7a15e8221887fb61a2aa9be0c22156826479487b90d91340c085d26`.
+  `3ab4bc64778e516a26d11ec33295a20025d7a64a19bc975782b34ac72fbad74f`.
 - Later backend changes are deliberately not adopted yet. Reviewed against `7684dd41`, they are:
   own access-token DTOs (`OwnAccessTokenData`, `CreatedAccessTokenData`, `PostAccessTokenData`
   with `scopes`/`expires`, and `AccessTokenAuth` on the own-token operations), removal of the
@@ -107,6 +118,11 @@ To adopt a backend revision:
   `changeSourceLocationDefaultApplicability`, `clearSourceLocationDefault` and their `admin*`
   counterparts). Listing search does not send `geography` yet. Privacy rules for these slices
   are in [privacy alignment](privacy-policy-alignment.md#geography).
+- The admin ProductListing operations (`searchAdminProductListings`, `getAdminProductListing`,
+  `updateAdminProductListing`, `withdrawAdminProductListing`, `restoreAdminProductListing`) are
+  consumed by the admin product listing workspace
+  ([#1101](https://github.com/aura-historia/webapp/issues/1101); see
+  [admin workflows](admin-workflows.md#product-listing-administration)).
 - Partner async ingestion batches and provider ingestion configuration are external API
   capabilities, not browser workflows (see [partner integration](partner-integration.md)).
 - `getHealth`/`getReadiness` drive the maintenance and disruption notice (see
@@ -126,6 +142,13 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
 - `ProductListing` is the card/search projection: canonical `productListingId`, source-owned
   `sourceListingId`, nested source identity, optional public slug and summary `auctionId`,
   availability, lifecycle, content policy and summary valuation metadata.
+- `AdminProductListingSummary`/`AdminProductListingDetail`
+  (`src/data/internal/product/AdminProductListing.ts`) are the authoritative admin projection,
+  including withdrawn listings: source-currency price and estimates without display conversion,
+  original localized text, `expectedVersion`, nullable lot facts that may exist without an
+  `auctionId`, and canonical image URLs kept as privileged plain strings. Edits go through
+  `AdminProductListingPatch` and `mapToBackendAdminProductListingPatch`, which copies only present
+  members (omitted preserves, `null` clears); the detail DTO is never round-tripped.
 - `ProductListingDetail` is a distinct detail contract. `pricing` keeps source and display prices
   and the valuation snapshot; `auction` and `lot` are independently nullable, and a lot never
   creates or supplies a parent auction.
@@ -277,7 +300,7 @@ stable error codes, never raw server detail.
   preserves state, `scopes: []` clears permissions and `expires: null` clears expiry. Null names
   or scopes are rejected before sending. Edits submit only changed fields.
 - New tokens default to no scopes; editing scopes replaces the whole grant set. Only the
-  supported scope enum is modeled: `ACCESS_TOKEN_SCOPES` mirrors the 22 backend
+  supported scope enum is modeled: `ACCESS_TOKEN_SCOPES` mirrors the 23 backend
   `AccessTokenScopeData` values exactly (no aliases or remapping), `ACCESS_TOKEN_SCOPE_METADATA`
   supplies localized labels and descriptions in every locale that disclose deletion, billing,
   dissolution and ingestion-configuration capabilities, and `ACCESS_TOKEN_SCOPE_GROUPS` groups them
@@ -287,10 +310,12 @@ stable error codes, never raw server detail.
   `search-filters:read`). The UI never couples or auto-selects them, and an expanded registry never
   broadens existing tokens or OAuth client registrations.
 - A scope only narrows what a credential may do. Administrative scopes (`auctions:*`,
-  `parties:*`, `partnerships:*`, `admin-overview:read`, and the administrator parts of
-  `listing-sources:*` and `partnership-applications:*`) succeed only for accounts that already
-  have administrator access; ListingSource and Partnership access still applies. Copy must not
-  imply that a scope grants a role, and the frontend never emulates backend authorization.
+  `parties:*`, `partnerships:*`, `admin-overview:read`, `product-listings:read`, and the
+  administrator parts of `product-listings:write`, `listing-sources:*` and
+  `partnership-applications:*`) succeed only for accounts that already have administrator access;
+  ListingSource and Partnership access still applies where an operation requires it (the admin
+  ProductListing operations need none). Copy must not imply that a scope grants a role, and the
+  frontend never emulates backend authorization.
 - `listing-sources:write` enables or replaces WooCommerce/Shopify ingestion configuration, including
   a write-only webhook secret, for sources with partnership write access, and also covers
   administrator ListingSource create/update/delete. `listing-sources:read` covers private
