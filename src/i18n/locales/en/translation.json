@@ -1981,7 +1981,22 @@
     "locationAccess": {
       "title": "Location management access",
       "description": "Grant a user explicit authority to view and manage every business location of {{name}}, including private details. This grant is independent from active partnership membership and listing-source grants; it neither adds nor removes either.",
-      "noList": "Current grants are not listed here. Each action confirms only that the grant was set or removed for the selected user.",
+      "managersTitle": "Current location managers",
+      "managersDescription": "Users who can currently view and manage these locations, with each reason for their access. Suspended accounts are not listed, and the administrator role alone does not add a user here.",
+      "empty": "No user currently has an explicit grant or active partnership membership for this organization.",
+      "access": {
+        "explicit": "Explicit grant",
+        "partnership": "Partnership membership",
+        "partnerships": "Partnerships:"
+      },
+      "revokeFor": "Revoke the explicit grant for {{user}}",
+      "state": {
+        "checking": "Checking current access…",
+        "none": "{{user}} has no explicit grant and no active partnership membership for this organization.",
+        "explicit": "{{user}} has an explicit grant for this organization’s locations.",
+        "partnership": "{{user}} can already manage these locations through active partnership membership. An explicit grant would keep that access if the membership ends.",
+        "both": "{{user}} has an explicit grant and active partnership membership. Revoking the grant leaves access through the membership in place."
+      },
       "userLabel": "User account",
       "grant": "Grant location access",
       "revoke": "Revoke location access",
@@ -1999,8 +2014,12 @@
         "conflict": "This change conflicted with another change to the organization’s locations. Nothing was changed; please try again.",
         "invalid": "The organization or user was not accepted. Select the user again and retry.",
         "unavailable": "Location access cannot be changed right now. Please try again shortly.",
-        "requestFailed": "The location access change could not be confirmed. Please try again."
-      }
+        "requestFailed": "The location access change could not be confirmed. Please try again.",
+        "readForbidden": "You do not have permission to view location managers for this organization.",
+        "readMissing": "This organization is no longer available.",
+        "readFailed": "Location managers could not be loaded. Please try again."
+      },
+      "changeTitle": "Change a user’s explicit grant"
     }
   },
   "adminListingSources": {

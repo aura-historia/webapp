@@ -44,11 +44,17 @@ admin workflows in [admin workflows](admin-workflows.md).
   `/api/v1/admin/auctions` and the `AdminAuctionSearchCollectionData` schema were added
   byte-for-byte for [#1096](https://github.com/aura-historia/webapp/issues/1096); the sibling
   `post`, the admin auction detail path and their delegated-scope descriptions were left
-  unchanged. Nothing else was taken from that revision. File SHA-256:
-  `c1a52662a4dbd4f6b806f6c835923a07a96e915b3a47af202095ceddc327599f` (Git blob
-  `49e5948574cca9f44579ee0fd650be6d401f1205`); canonical parsed-JSON SHA-256 (recorded as
+  unchanged. Nothing else was taken from that revision. The `get` operation
+  (`listPartyLocationManagers`) of `/api/v1/admin/parties/{party_id}/location-managers` and the
+  `PartyLocationManagersPage`, `PartyLocationManagerData`, `PartyLocationManagerExplicitAccess`
+  and `PartyLocationManagerPartnershipAccess` schemas were added byte-for-byte from the merge
+  commit of [backend#2045](https://github.com/aura-historia/backend/pull/2045),
+  `ce50dd94dc9c9651d74ad363c9906311f7cc6cd2` (`docs/swagger.yaml` blob
+  `6640ef291229521782996e9120483ae7ff0dbd38`); nothing else was taken from that revision. File
+  SHA-256: `b8252ad30b4ffae6e7b5003d3f9d6fcdd06263ad338717e693dcd82342d7c74e` (Git blob
+  `308e2db170ff6b574a9b71de2fdf02e01be2fcb4`); canonical parsed-JSON SHA-256 (recorded as
   `x-source-contract-sha256` in the partner reference):
-  `349bb9d38bed276412020c7e396fa8e3e5ecb582853f571e60fda21c44e668a6`.
+  `9df3e01cb7a15e8221887fb61a2aa9be0c22156826479487b90d91340c085d26`.
 - Later backend changes are deliberately not adopted yet. Reviewed against `7684dd41`, they are:
   own access-token DTOs (`OwnAccessTokenData`, `CreatedAccessTokenData`, `PostAccessTokenData`
   with `scopes`/`expires`, and `AccessTokenAuth` on the own-token operations), removal of the
@@ -58,7 +64,8 @@ admin workflows in [admin workflows](admin-workflows.md).
   per-operation delegated-scope wording and `403` responses from backend#1994 (the backend remains
   authoritative for which scope each operation requires). Adopting the access-token and
   match-reason changes requires mapper and UI work; do it in a separate change.
-- Tooling: the pinned `@hey-api/openapi-ts 0.0.0-next-20260824173136` with Python/PyYAML for the
+- Tooling: the pinned `@hey-api/openapi-ts 0.0.0-next-20260824173136` (Dependabot ignores it;
+  `0.99.0` fails under TypeScript 7) with Python/PyYAML for the
   partner reference. Keep the `./` prefix on the config input; without it the generator reads
   `openapi/swagger.yaml` as a Hey API registry shorthand. A rerun against an unchanged capture
   must produce no diff (on Windows, ignore CRLF-only changes to the partner reference).
@@ -88,7 +95,8 @@ To adopt a backend revision:
   `correctPartyLocation`, `setPartyLocationLifecycle`) is consumed by the shared
   `src/features/party-locations` workspace ([#1085](https://github.com/aura-historia/webapp/issues/1085);
   see [admin workflows](admin-workflows.md#party-detail-and-business-locations)). The
-  location-management grant (`setPartyLocationManagementGrant`) is consumed by the admin Party page
+  location-management grant and its directory (`setPartyLocationManagementGrant`,
+  `listPartyLocationManagers`) are consumed by the admin Party page
   ([#1086](https://github.com/aura-historia/webapp/issues/1086); see
   [admin workflows](admin-workflows.md#party-location-management-grants)). Every other geography
   operation is generated-only until its feature slice consumes it: the user

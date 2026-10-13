@@ -1981,7 +1981,22 @@
     "locationAccess": {
       "title": "Zugriff auf die Standortverwaltung",
       "description": "Erteilen Sie einem Konto die ausdrückliche Befugnis, alle Geschäftsstandorte von {{name}} einschließlich privater Angaben einzusehen und zu verwalten. Diese Freigabe ist unabhängig von einer aktiven Partnerschaftsmitgliedschaft und von Freigaben für Angebotsquellen; sie fügt keine davon hinzu und entfernt keine.",
-      "noList": "Bestehende Freigaben werden hier nicht aufgeführt. Jede Aktion bestätigt nur, dass die Freigabe für das ausgewählte Konto erteilt oder entfernt wurde.",
+      "managersTitle": "Aktuelle Standortverwaltung",
+      "managersDescription": "Konten, die diese Standorte derzeit einsehen und verwalten können, jeweils mit dem Grund für ihren Zugriff. Gesperrte Konten werden nicht aufgeführt, und die Administratorrolle allein führt nicht zu einem Eintrag.",
+      "empty": "Derzeit hat kein Konto eine ausdrückliche Freigabe oder eine aktive Partnerschaftsmitgliedschaft für diese Organisation.",
+      "access": {
+        "explicit": "Ausdrückliche Freigabe",
+        "partnership": "Partnerschaftsmitgliedschaft",
+        "partnerships": "Partnerschaften:"
+      },
+      "revokeFor": "Ausdrückliche Freigabe für {{user}} entziehen",
+      "state": {
+        "checking": "Aktueller Zugriff wird geprüft…",
+        "none": "{{user}} hat weder eine ausdrückliche Freigabe noch eine aktive Partnerschaftsmitgliedschaft für diese Organisation.",
+        "explicit": "{{user}} hat eine ausdrückliche Freigabe für die Standorte dieser Organisation.",
+        "partnership": "{{user}} kann diese Standorte bereits über eine aktive Partnerschaftsmitgliedschaft verwalten. Eine ausdrückliche Freigabe würde diesen Zugriff erhalten, wenn die Mitgliedschaft endet.",
+        "both": "{{user}} hat eine ausdrückliche Freigabe und eine aktive Partnerschaftsmitgliedschaft. Wird die Freigabe entzogen, bleibt der Zugriff über die Mitgliedschaft bestehen."
+      },
       "userLabel": "Benutzerkonto",
       "grant": "Standortzugriff erteilen",
       "revoke": "Standortzugriff entziehen",
@@ -1999,8 +2014,12 @@
         "conflict": "Diese Änderung stand im Konflikt mit einer anderen Änderung an den Standorten der Organisation. Es wurde nichts geändert; bitte versuchen Sie es erneut.",
         "invalid": "Organisation oder Konto wurden nicht akzeptiert. Wählen Sie das Konto erneut aus und versuchen Sie es noch einmal.",
         "unavailable": "Der Standortzugriff kann gerade nicht geändert werden. Bitte versuchen Sie es in Kürze erneut.",
-        "requestFailed": "Die Änderung des Standortzugriffs konnte nicht bestätigt werden. Bitte versuchen Sie es erneut."
-      }
+        "requestFailed": "Die Änderung des Standortzugriffs konnte nicht bestätigt werden. Bitte versuchen Sie es erneut.",
+        "readForbidden": "Sie haben keine Berechtigung, die Standortverwaltung dieser Organisation einzusehen.",
+        "readMissing": "Diese Organisation ist nicht mehr verfügbar.",
+        "readFailed": "Die Standortverwaltung konnte nicht geladen werden. Bitte versuchen Sie es erneut."
+      },
+      "changeTitle": "Ausdrückliche Freigabe eines Kontos ändern"
     }
   },
   "adminListingSources": {

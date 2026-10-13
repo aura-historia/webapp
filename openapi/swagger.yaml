@@ -14720,6 +14720,159 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SetPartyLocationLifecycleData'
+  /api/v1/admin/parties/{party_id}/location-managers:
+    get:
+      operationId: listPartyLocationManagers
+      summary: List current Party location managers
+      tags:
+      - Party
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      description: >-
+        Administrator-only directory of current explicit grantees and members of active
+        Partnerships for this Party. Delegated credentials also require parties:read.
+        Suspended/deleted users, revoked grants and dissolved Partnerships are excluded.
+        Each user appears once with all independent access reasons; an access filter
+        selects users without removing their other reasons. Revoking an explicit grant
+        leaves Partnership access intact. Administrator role alone does not create a row.
+        Identity is limited to userId, email and optional firstName/lastName. Grant timestamps
+        are not stored or returned. Results use keyset pagination ordered by underlying
+        user UUID ascending; searchAfter is the last returned strict User TypeID only when
+        another row exists. Pages reflect current state, so changes between requests may
+        change membership. All responses use Cache-Control: no-store.
+      parameters:
+      - name: party_id
+        in: path
+        required: true
+        description: Strict Party TypeID.
+        schema:
+          type: string
+          pattern: ^pty_
+      - name: userId
+        in: query
+        description: Exact strict User TypeID. A user with no current access yields an empty page.
+        schema:
+          type: string
+          pattern: ^usr_
+      - name: access
+        in: query
+        description: Include users with this access reason; each item still reports all current reasons.
+        schema:
+          type: string
+          enum: [EXPLICIT, PARTNERSHIP]
+      - name: size
+        in: query
+        description: Requested page size, clamped to 1–100. Defaults to 21.
+        schema:
+          type: integer
+          minimum: 0
+          default: 21
+      - name: searchAfter
+        in: query
+        description: Strict User TypeID from the previous page. Continue with the same Party and filters.
+        schema:
+          type: string
+          pattern: ^usr_
+      responses:
+        '200':
+          description: Current location managers; size is the number of returned users.
+          headers:
+            Cache-Control:
+              schema: {type: string, enum: [no-store]}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartyLocationManagersPage'
+              examples:
+                mixedAccess:
+                  summary: Independent explicit, Partnership and combined access
+                  value:
+                    items:
+                    - userId: usr_01h455vb4pex5vy7enb1p677vn
+                      email: explicit@example.test
+                      access: [{type: EXPLICIT}]
+                    - userId: usr_01h455vb4pex5vy7enb1p677vp
+                      email: member@example.test
+                      firstName: Ada
+                      access:
+                      - type: PARTNERSHIP
+                        partnershipIds: [psh_01h455vb4pex5vy7enb1p677vn]
+                    - userId: usr_01h455vb4pex5vy7enb1p677vq
+                      email: both@example.test
+                      firstName: Grace
+                      lastName: Hopper
+                      access:
+                      - type: EXPLICIT
+                      - type: PARTNERSHIP
+                        partnershipIds: [psh_01h455vb4pex5vy7enb1p677vn]
+                    size: 3
+                nonterminal:
+                  summary: A page with another authorized user after it
+                  value:
+                    items:
+                    - userId: usr_01h455vb4pex5vy7enb1p677vn
+                      email: explicit@example.test
+                      access: [{type: EXPLICIT}]
+                    size: 1
+                    searchAfter: usr_01h455vb4pex5vy7enb1p677vn
+                noAccess:
+                  summary: Selected user has no current access
+                  value: {items: [], size: 0}
+        '400':
+          description: Invalid IDs or query (INVALID_OBJECT_ID or BAD_QUERY_PARAMETER_VALUE).
+          headers:
+            Cache-Control:
+              schema: {type: string, enum: [no-store]}
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Bearer authentication required (INVALID_CREDENTIALS).
+          headers:
+            Cache-Control:
+              schema: {type: string, enum: [no-store]}
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing parties:read scope or current administrator authority (FORBIDDEN).
+          headers:
+            Cache-Control:
+              schema: {type: string, enum: [no-store]}
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Unknown Party (PARTY_NOT_FOUND).
+          headers:
+            Cache-Control:
+              schema: {type: string, enum: [no-store]}
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Persistence or transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+          headers:
+            Cache-Control:
+              schema: {type: string, enum: [no-store]}
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+          headers:
+            Cache-Control:
+              schema: {type: string, enum: [no-store]}
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
   /api/v1/admin/parties/{party_id}/location-managers/{user_id}:
     put:
       operationId: setPartyLocationManagementGrant
@@ -21667,6 +21820,81 @@ components:
           - $ref: '#/components/schemas/PartyLocationId'
           nullable: true
           description: Last returned ID when another row exists; supply as after. Null when exhausted.
+    PartyLocationManagersPage:
+      type: object
+      additionalProperties: false
+      required: [items, size]
+      properties:
+        items:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/PartyLocationManagerData'
+        size:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Number of returned users.
+        searchAfter:
+          type: string
+          pattern: ^usr_
+          description: Last returned User TypeID, omitted on the terminal page.
+    PartyLocationManagerData:
+      type: object
+      additionalProperties: false
+      required: [userId, email, access]
+      properties:
+        userId:
+          type: string
+          pattern: ^usr_
+        email:
+          type: string
+          format: email
+        firstName:
+          type: string
+          maxLength: 64
+        lastName:
+          type: string
+          maxLength: 64
+        access:
+          type: array
+          minItems: 1
+          maxItems: 2
+          uniqueItems: true
+          description: Independent reasons, EXPLICIT before PARTNERSHIP when both exist.
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/PartyLocationManagerExplicitAccess'
+            - $ref: '#/components/schemas/PartyLocationManagerPartnershipAccess'
+            discriminator:
+              propertyName: type
+              mapping:
+                EXPLICIT: '#/components/schemas/PartyLocationManagerExplicitAccess'
+                PARTNERSHIP: '#/components/schemas/PartyLocationManagerPartnershipAccess'
+    PartyLocationManagerExplicitAccess:
+      type: object
+      additionalProperties: false
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [EXPLICIT]
+    PartyLocationManagerPartnershipAccess:
+      type: object
+      additionalProperties: false
+      required: [type, partnershipIds]
+      properties:
+        type:
+          type: string
+          enum: [PARTNERSHIP]
+        partnershipIds:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          description: Active Partnerships for this Party, ordered by underlying UUID ascending.
+          items:
+            type: string
+            pattern: ^psh_
     PartyLocationManagementGrantData:
       type: object
       additionalProperties: false

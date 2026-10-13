@@ -111,16 +111,23 @@ Routes: `/$lng/admin/parties` (directory) and `/$lng/admin/parties/$partyId` (or
 
 Route: `/$lng/admin/parties/$partyId` (below the business locations).
 
-- `setPartyLocationManagementGrant` sends `{ granted: true | false }` for the page's Party and a
-  user chosen with `AdminUserPicker` (`adminSearchUsers`; free text is never sent as a user ID).
-  Both actions need confirmation and use `Cache-Control: no-store`.
+- `listPartyLocationManagers` lists the users who can currently manage the Party's locations, each
+  once with independent reasons: an explicit grant and/or membership in active Partnerships (with
+  their IDs). Suspended/deleted users, revoked grants, dissolved Partnerships and the administrator
+  role alone add no row. Reads are `no-store`, cancellable, not retried and keyset-paged under
+  `["admin", "partyLocationManagers", partyId]`, which viewer changes clear.
+- `setPartyLocationManagementGrant` sends `{ granted: true | false }` for the page's Party and
+  either a listed manager (revoke only, shown only for an explicit grant) or a user chosen with
+  `AdminUserPicker` (`adminSearchUsers`; free text is never sent as a user ID). For a picked user
+  the section reads that user's current access (`userId` filter) and offers only the applicable
+  action. Both actions need confirmation and use `Cache-Control: no-store`.
 - The grant covers every location of the Party and is independent from active partnership
   membership and listing-source grants. Revocation removes only the explicit grant; the copy never
-  says the user lost access, because membership can still permit management.
-- The contract has no manager list or grant-state read. The section shows no managers and no
-  current state; after a `204` it reports only the confirmed command for the selected user.
-- Errors use fixed, status-based copy. Success, `404` and `409` invalidate every cached
-  `partyLocations` read of the Party; a `404` also refetches the Party detail.
+  says the user lost access, because membership can still permit management. Partnership access is
+  changed on the partnership, never here.
+- Errors use fixed, status-based copy. Success, `404` and `409` invalidate the Party's manager
+  reads and every cached `partyLocations` read of the Party; a `404` also refetches the Party
+  detail.
 - The control lives in the admin Party feature only; the shared `party-locations` workspace that
   ordinary location managers use never renders it. A link to a manager-facing Party-location
   workspace will be offered once that route exists

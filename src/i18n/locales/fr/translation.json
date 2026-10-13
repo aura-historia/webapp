@@ -2269,7 +2269,22 @@
     "locationAccess": {
       "title": "Accès à la gestion des sites",
       "description": "Accordez à un compte l’autorisation explicite de consulter et de gérer tous les sites d’activité de {{name}}, y compris les informations privées. Cette autorisation est indépendante de l’adhésion à un partenariat actif et des autorisations de sources d’annonces ; elle n’en ajoute ni n’en retire aucune.",
-      "noList": "Les autorisations existantes ne sont pas répertoriées ici. Chaque action confirme uniquement que l’autorisation a été accordée ou retirée pour le compte sélectionné.",
+      "managersTitle": "Gestionnaires actuels des sites",
+      "managersDescription": "Comptes pouvant actuellement consulter et gérer ces sites, avec chaque motif de leur accès. Les comptes suspendus ne sont pas listés, et le rôle d’administrateur seul n’ajoute personne ici.",
+      "empty": "Aucun compte ne dispose actuellement d’une autorisation explicite ni d’une adhésion à un partenariat actif pour cette organisation.",
+      "access": {
+        "explicit": "Autorisation explicite",
+        "partnership": "Adhésion à un partenariat",
+        "partnerships": "Partenariats :"
+      },
+      "revokeFor": "Révoquer l’autorisation explicite de {{user}}",
+      "state": {
+        "checking": "Vérification de l’accès actuel…",
+        "none": "{{user}} n’a ni autorisation explicite ni adhésion à un partenariat actif pour cette organisation.",
+        "explicit": "{{user}} dispose d’une autorisation explicite pour les sites de cette organisation.",
+        "partnership": "{{user}} peut déjà gérer ces sites grâce à une adhésion à un partenariat actif. Une autorisation explicite conserverait cet accès si l’adhésion prend fin.",
+        "both": "{{user}} dispose d’une autorisation explicite et d’une adhésion à un partenariat actif. Révoquer l’autorisation laisse l’accès par l’adhésion en place."
+      },
       "userLabel": "Compte utilisateur",
       "grant": "Accorder l’accès aux sites",
       "revoke": "Révoquer l’accès aux sites",
@@ -2287,8 +2302,12 @@
         "conflict": "Cette modification est entrée en conflit avec une autre modification des sites de l’organisation. Rien n’a été modifié ; veuillez réessayer.",
         "invalid": "L’organisation ou le compte n’a pas été accepté. Sélectionnez de nouveau le compte et réessayez.",
         "unavailable": "L’accès aux sites ne peut pas être modifié pour le moment. Veuillez réessayer dans un instant.",
-        "requestFailed": "La modification de l’accès aux sites n’a pas pu être confirmée. Veuillez réessayer."
-      }
+        "requestFailed": "La modification de l’accès aux sites n’a pas pu être confirmée. Veuillez réessayer.",
+        "readForbidden": "Vous n’êtes pas autorisé à consulter les gestionnaires des sites de cette organisation.",
+        "readMissing": "Cette organisation n’est plus disponible.",
+        "readFailed": "Les gestionnaires des sites n’ont pas pu être chargés. Veuillez réessayer."
+      },
+      "changeTitle": "Modifier l’autorisation explicite d’un compte"
     }
   },
   "compareBarnebysPage": {

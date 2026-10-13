@@ -6,7 +6,7 @@
     "description": "Synchronous listing-source batch writes and server-to-server WooCommerce webhooks. Use product-listings:write and a current grant for the target listing source. Batch HTTP 200 reports completed writes; WooCommerce HTTP 204 only acknowledges confirmed admission or an authorized no-op, not completed ingestion."
   },
   "x-source-url": "https://raw.githubusercontent.com/aura-historia/backend/refs/heads/develop/docs/swagger.yaml",
-  "x-source-contract-sha256": "349bb9d38bed276412020c7e396fa8e3e5ecb582853f571e60fda21c44e668a6",
+  "x-source-contract-sha256": "9df3e01cb7a15e8221887fb61a2aa9be0c22156826479487b90d91340c085d26",
   "servers": [
     {
       "url": "https://api.stage.aura-historia.com",
