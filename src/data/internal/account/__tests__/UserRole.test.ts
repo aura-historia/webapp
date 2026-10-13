@@ -23,6 +23,7 @@ describe("mapToInternalUserAccount", () => {
         userId: "u-1",
         email: "user@example.com",
         showUnassessedOrSensitiveContent: false,
+        marketingEmailConsent: false,
         tier: "FREE",
         role: "USER",
     };

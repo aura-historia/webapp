@@ -1631,8 +1631,8 @@
         "notificationsWrite": "Mark your notifications as seen or delete them. Does not include reading them.",
         "watchlistRead": "Read the listings in your watchlist.",
         "watchlistWrite": "Add or remove listings and update your watchlist settings.",
-        "productListingsWrite": "Create, update or delete product listings within the access granted to your account. With administrator access, this also covers administrative edits, withdrawals and restorations.",
-        "productListingsRead": "Read authoritative product listing records, including withdrawn listings, if the account has administrator access. Public listing pages do not need this permission.",
+        "productListingsWrite": "Create, update, withdraw, restore or delete product listings within the access granted to your account, such as sources you administer. With administrator access, this covers all listings.",
+        "productListingsRead": "Read authoritative product listing records, including withdrawn listings, within the access granted to your account, such as sources you administer. With administrator access, this covers all listings. Public listing pages do not need this permission.",
         "listingSourcesRead": "Read non-public listing-source data within the access granted to your account, such as sources you administer.",
         "listingSourcesWrite": "Enable or replace WooCommerce and Shopify ingestion settings, including the WooCommerce webhook secret, for sources your account can write to. If the account has administrator access, also create, update or delete listing sources.",
         "partnershipApplicationsRead": "Read your own partnership applications and, if the account has administrator access, applications under review.",
@@ -1681,9 +1681,8 @@
     "loading": "Loading access tokens.",
     "loadError": "Could not load your access tokens.",
     "empty": "You have not saved any access tokens yet.",
-    "createdAt": "Created {{date}}",
-    "updatedAt": "Updated {{date}}",
     "expiresAt": "Expires {{date}}",
+    "expiredAt": "Expired {{date}}",
     "noExpiration": "Does not expire",
     "noScopes": "No scopes",
     "scopes": {
@@ -2700,7 +2699,6 @@
     },
     "fields": {
       "userId": "User ID",
-      "email": "Email",
       "firstName": "First name",
       "lastName": "Last name",
       "language": "Preferred language",
@@ -2813,7 +2811,6 @@
       }
     },
     "validation": {
-      "invalidEmail": "Enter a valid email address.",
       "nameTooLong": "Names must be 64 characters or fewer.",
       "invalidDate": "Enter a valid calendar date.",
       "invalidRange": "The start date must be on or before the end date."

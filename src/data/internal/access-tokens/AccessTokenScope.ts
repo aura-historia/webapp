@@ -14,6 +14,7 @@ export const ACCESS_TOKEN_SCOPES = [
     "notifications:write",
     "watchlist:read",
     "watchlist:write",
+    "product-listings:read",
     "product-listings:write",
     "listing-sources:read",
     "listing-sources:write",
@@ -26,7 +27,6 @@ export const ACCESS_TOKEN_SCOPES = [
     "partnerships:read",
     "partnerships:write",
     "admin-overview:read",
-    "product-listings:read",
 ] as const;
 
 export type AccessTokenScope = (typeof ACCESS_TOKEN_SCOPES)[number];
@@ -51,6 +51,7 @@ export const ACCESS_TOKEN_SCOPE_GROUPS = [
     {
         label: "partnerAccessTokens.scopeGroups.partner",
         scopes: [
+            "product-listings:read",
             "product-listings:write",
             "listing-sources:read",
             "listing-sources:write",
@@ -68,7 +69,6 @@ export const ACCESS_TOKEN_SCOPE_GROUPS = [
             "partnerships:read",
             "partnerships:write",
             "admin-overview:read",
-            "product-listings:read",
         ],
     },
 ] as const satisfies readonly { label: string; scopes: readonly AccessTokenScope[] }[];

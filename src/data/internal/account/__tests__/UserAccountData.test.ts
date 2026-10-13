@@ -17,6 +17,7 @@ describe("mapToInternalUserAccount", () => {
             measurementUnit: null,
             stripeCustomerId: null,
             showUnassessedOrSensitiveContent: false,
+            marketingEmailConsent: false,
         });
         expect(account).toMatchObject({
             firstName: null,
@@ -31,6 +32,7 @@ describe("mapToInternalUserAccount", () => {
         expect(account).not.toHaveProperty("updated");
         expect(account).not.toHaveProperty("structuredAddress");
         expect(account).not.toHaveProperty("geoAddress");
+        expect(account).not.toHaveProperty("marketingEmailConsent");
     });
     it("maps measurement units and preserves a Stripe customer identifier", () => {
         expect(
@@ -42,6 +44,7 @@ describe("mapToInternalUserAccount", () => {
                 measurementUnit: "IMPERIAL",
                 stripeCustomerId: "cus_123",
                 showUnassessedOrSensitiveContent: true,
+                marketingEmailConsent: false,
             }),
         ).toMatchObject({ unitSystem: "IMPERIAL", stripeCustomerId: "cus_123" });
     });
@@ -56,6 +59,7 @@ describe("mapToInternalUserAccount", () => {
                     role: "USER",
                     currency,
                     showUnassessedOrSensitiveContent: false,
+                    marketingEmailConsent: false,
                 }).currency,
             ).toBe(currency);
         },
@@ -68,6 +72,7 @@ describe("mapToInternalUserAccount", () => {
                 tier: "FREE",
                 role: "USER",
                 showUnassessedOrSensitiveContent: false,
+                marketingEmailConsent: false,
             }).currency,
         ).toBeUndefined();
     });
@@ -80,6 +85,7 @@ describe("mapToInternalUserAccount", () => {
             language: "en",
             currency: "EUR",
             showUnassessedOrSensitiveContent: true,
+            marketingEmailConsent: false,
             tier: "PRO",
             role: "USER",
         };
@@ -98,6 +104,7 @@ describe("mapToInternalUserAccount", () => {
             language: "en",
             currency: "EUR",
             showUnassessedOrSensitiveContent: true,
+            marketingEmailConsent: false,
             tier: "INVALID" as unknown as OwnUserAccountData["tier"],
             role: "USER",
         };

@@ -13,11 +13,7 @@ const accessToken: AccessToken = {
     id: "at_01jopaque",
     name: "Sync",
     scopes: ["product-listings:write"],
-    maskedToken: "aurahistoria_prefix_****",
-    tokenType: "BEARER",
     expiresAt: new Date("2026-10-01T12:34:56.789Z"),
-    created: new Date("2026-09-01T00:00:00Z"),
-    updated: new Date("2026-09-01T00:00:00Z"),
 };
 
 beforeEach(() => vi.clearAllMocks());

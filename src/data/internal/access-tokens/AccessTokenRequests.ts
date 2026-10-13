@@ -25,8 +25,8 @@ export function mapToCreateAccessTokenRequest(input: CreateAccessTokenInput): Po
     const values = editableFields.extend({ expiresAt: z.date().optional() }).parse(input);
     return {
         name: values.name,
-        ...(values.scopes.length > 0 ? { scope: values.scopes } : {}),
-        ...(values.expiresAt !== undefined ? { expiresAt: values.expiresAt.toISOString() } : {}),
+        scopes: values.scopes,
+        ...(values.expiresAt !== undefined ? { expires: values.expiresAt.toISOString() } : {}),
     };
 }
 

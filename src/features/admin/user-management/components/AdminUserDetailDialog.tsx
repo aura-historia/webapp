@@ -138,7 +138,6 @@ function AdminUserDetails({
 
             <AdminUserProfileForm
                 key={JSON.stringify([
-                    account.email,
                     account.firstName,
                     account.lastName,
                     account.language,

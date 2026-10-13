@@ -43,7 +43,6 @@ export type AdminUserAccount = {
 };
 
 export type AdminUserProfileFormValues = {
-    readonly email: string;
     readonly firstName: string;
     readonly lastName: string;
     readonly language: Language | "";
@@ -89,7 +88,6 @@ export function toAdminUserProfileFormValues(
     account: AdminUserAccount,
 ): AdminUserProfileFormValues {
     return {
-        email: account.email,
         firstName: account.firstName ?? "",
         lastName: account.lastName ?? "",
         language: account.language ?? "",
@@ -105,14 +103,12 @@ export function mapToAdminUserProfilePatch(
     values: AdminUserProfileFormValues,
 ): AdminUserProfilePatch {
     const patch: AdminUserProfilePatch = {};
-    const email = values.email.trim();
     const firstName = values.firstName.trim() || null;
     const lastName = values.lastName.trim() || null;
     const language = mapToBackendLanguage(values.language || undefined);
     const currency = mapToBackendCurrency(values.currency || undefined);
     const measurementUnit = mapToBackendUnitSystem(values.measurementUnit || undefined);
 
-    if (email !== account.email) patch.email = email;
     if (firstName !== (account.firstName ?? null)) patch.firstName = firstName;
     if (lastName !== (account.lastName ?? null)) patch.lastName = lastName;
     if (language !== (account.language ?? null)) patch.language = language;

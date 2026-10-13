@@ -179,6 +179,9 @@ export type ProductListingDetailsData = {
   eventId: string;
   source: ProductListingSourceData;
   sourceListingId: string;
+  /**
+   * Original normalized title. Truncation ellipses remain stable; legacy constructor trailing whitespace is presented trimmed.
+   */
   productTitle?: LocalizedTextData | null;
   productDescription?: LocalizedTextData | null;
   title?: LocalizedTextData | null;
@@ -336,7 +339,7 @@ export type NotificationUserStateData = {
 /**
  * User's saved-search-filter match state for a product.
  * When `matched` is `true`, at least one of the user's saved search filters matched this product.
- * `userSearchFilterId`, `userSearchFilterName`, `matchReason`, and `matchFeedback` are only
+ * `userSearchFilterId`, `userSearchFilterName`, and `matchFeedback` are only
  * present when `matched` is `true`.
  * Defaults to `matched: false` when the user has no saved search filters or none of them matched.
  * When `hidden` is `true`, the match exceeds the user's monthly search-filter match quota and the
@@ -371,13 +374,6 @@ export type SearchFilterUserStateData = {
    *
    */
   userSearchFilterName?: string;
-  /**
-   * A human-readable explanation of why the saved search filter matched this product.
-   * Only set for AI-enhanced filters (i.e. those with `search.enhancedSearchDescription`).
-   * Present only when `matched` is `true` and an enhanced match reason exists; omitted otherwise.
-   *
-   */
-  matchReason?: string;
   /**
    * Optional feedback previously recorded by the authenticated user for this saved-search match.
    * Present only when `matched` is `true` and feedback has been explicitly stored for the match.
@@ -1010,10 +1006,6 @@ export type SearchFilterProductMatchData = {
    */
   originEventId: string;
   /**
-   * Enhanced-match explanation, when matching supplied one.
-   */
-  enhancedMatchReason?: string;
-  /**
    * Optional feedback recorded by the user for this saved-search match.
    */
   feedback?: boolean;
@@ -1148,12 +1140,15 @@ export type AdminAccessTokenData = {
 };
 
 /**
- * Access-token read model.
- * `POST /api/v1/me/access-tokens` returns the plaintext bearer token once;
- * list/get/update endpoints return the masked display value instead.
+ * Secret-free metadata for an access token owned by the authenticated user.
+ * List, get, and update responses omit the bearer token entirely; the plaintext is only returned by the create operation.
  *
  */
-export type GetAccessTokenData = {
+export type OwnAccessTokenData = {
+  /**
+   * User who owns the access token.
+   */
+  userId: string;
   /**
    * Unique identifier of the access token.
    */
@@ -1163,38 +1158,43 @@ export type GetAccessTokenData = {
    */
   name: string;
   /**
-   * Granted access-token scopes. Omitted when the token has no scopes.
+   * Granted access-token scopes. An empty scope set is returned as an empty array.
    */
-  scope?: Array<AccessTokenScopeData>;
+  scopes: Array<AccessTokenScopeData>;
   /**
-   * Plaintext or masked bearer token value.
-   * Create responses return the full token once; subsequent reads return a masked value such as `aurahistoria_abcdefghijk_****`.
-   *
+   * Origin recorded by the access-token model.
    */
-  token: string;
-  tokenType: AccessTokenTypeData;
+  origin: string;
   /**
-   * Optional absolute expiration timestamp in RFC 3339 format.
+   * Optional RFC3339 expiration timestamp; omitted when the token does not expire and returned for expired and current tokens.
    */
-  expiresAt?: string | null;
-  /**
-   * Optional non-negative number of seconds remaining until expiry.
-   */
-  expiresIn?: number | null;
-  createdBy: ActorData;
-  updatedBy: ActorData;
-  /**
-   * Timestamp when the access token was created.
-   */
-  created: string;
-  /**
-   * Timestamp when the access token metadata was last updated.
-   */
-  updated: string;
+  expires?: string;
 };
 
 /**
- * Request body for creating an Aura Historia access token.
+ * Minimal access-token creation result. The plaintext bearer token is returned only once.
+ * Subsequent list, get, and update operations return secret-free metadata without any token value.
+ *
+ */
+export type CreatedAccessTokenData = {
+  /**
+   * User who owns the access token.
+   */
+  userId: string;
+  /**
+   * Unique identifier of the created access token.
+   */
+  accessTokenId: string;
+  /**
+   * Plaintext bearer token. Store it securely; it cannot be retrieved again.
+   */
+  accessToken: string;
+};
+
+/**
+ * Request body for creating an Aura Historia access token. `scopes` is required, including
+ * when the requested scope set is empty. `expires` is optional.
+ *
  */
 export type PostAccessTokenData = {
   /**
@@ -1202,13 +1202,13 @@ export type PostAccessTokenData = {
    */
   name: string;
   /**
-   * Optional scopes granted to the access token. Defaults to an empty set.
+   * Required scopes granted to the access token. Send an empty array for no scopes.
    */
-  scope?: Array<AccessTokenScopeData>;
+  scopes: Array<AccessTokenScopeData>;
   /**
-   * Optional expiration timestamp in RFC 3339 format.
+   * Optional RFC3339 expiration timestamp.
    */
-  expiresAt?: string | null;
+  expires?: string | null;
 };
 
 /**
@@ -1851,6 +1851,10 @@ export type OwnUserAccountData = {
    * Stored preference for showing unassessed or sensitive content.
    */
   showUnassessedOrSensitiveContent: boolean;
+  /**
+   * Whether the current account email has an active grant for email marketing.
+   */
+  readonly marketingEmailConsent: boolean;
   tier: UserTierData;
   role: UserRoleData;
   /**
@@ -1859,9 +1863,7 @@ export type OwnUserAccountData = {
   stripeCustomerId?: string | null;
 };
 
-export type AdminUserAccountData = OwnUserAccountData & {
-  [key: string]: unknown;
-};
+export type AdminUserAccountData = OwnUserAccountData;
 
 /**
  * Required administrator-supplied explanation for suspending a user.
@@ -1898,20 +1900,16 @@ export type UnsuspendUserResponseData = {
 /**
  * Partial admin-only user update payload.
  * All fields are optional. Omitted fields remain unchanged.
- * Only one logical change category may be sent per request: profile/preferences fields, `role`, or `tier`.
+ * Only one logical change category may be sent per request: profile/preferences fields, `role`, or `tier`. `marketingEmailConsent` is read-only and cannot be changed through this payload. The canonical account email is read-only.
  *
  */
 export type PatchAdminUserData = {
   /**
-   * New email address. Null is invalid.
-   */
-  email?: string;
-  /**
-   * New first name.
+   * New first name (truncated to 64 Unicode characters).
    */
   firstName?: string | null;
   /**
-   * New last name.
+   * New last name (truncated to 64 Unicode characters).
    */
   lastName?: string | null;
   /**
@@ -1942,16 +1940,16 @@ export type PatchAdminUserData = {
 
 /**
  * Partial user account update data.
- * All fields are optional - only provided fields will be updated.
+ * All fields are optional - only provided fields will be updated. `marketingEmailConsent` is read-only and cannot be changed through this payload. The canonical account email is read-only.
  *
  */
 export type PatchUserAccountData = {
   /**
-   * New first name (max 64 characters)
+   * New first name (truncated to 64 Unicode characters)
    */
   firstName?: string | null;
   /**
-   * New last name (max 64 characters)
+   * New last name (truncated to 64 Unicode characters)
    */
   lastName?: string | null;
   /**
@@ -3040,6 +3038,10 @@ export type AdminAuctionSearchCollectionData = {
 export type PublicAuctionDirectoryCursorData = {
   created: string;
   auctionId: string;
+  /**
+   * Present for scheduled sorting; null if the selected role instant is missing. Omitted for created sorting.
+   */
+  scheduled?: string | null;
   scope: PublicAuctionDirectoryCursorScopeData;
 };
 
@@ -3048,6 +3050,14 @@ export type PublicAuctionDirectoryCursorScopeData = {
   format: AuctionFormatData | null;
   reportedStatus: AuctionReportedStatusData | null;
   timeRole: 'BIDDING_OPENS' | 'LIVE_STARTS' | 'LOTS_BEGIN_CLOSING' | 'SCHEDULED_END';
+  /**
+   * Omitted for the default created ordering.
+   */
+  sort?: 'scheduled';
+  /**
+   * Omitted for the default created/descending ordering.
+   */
+  order?: 'asc' | 'desc';
   from: string | null;
   to: string | null;
 };
@@ -3580,6 +3590,37 @@ export type AdminProductListingPageWritable = {
   searchAfter?: string;
 };
 
+/**
+ * User-owned account information for `/api/v1/me/account`. Role, tier, and Stripe customer ID are read-only here.
+ */
+export type OwnUserAccountDataWritable = {
+  /**
+   * Unique identifier for the user.
+   */
+  userId: string;
+  /**
+   * User's email address.
+   */
+  email: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  language?: LanguageData | null;
+  currency?: CurrencyData | null;
+  measurementUnit?: MeasurementUnitData | null;
+  /**
+   * Stored preference for showing unassessed or sensitive content.
+   */
+  showUnassessedOrSensitiveContent: boolean;
+  tier: UserTierData;
+  role: UserRoleData;
+  /**
+   * Persisted Stripe customer identifier, omitted when absent.
+   */
+  stripeCustomerId?: string | null;
+};
+
+export type AdminUserAccountDataWritable = OwnUserAccountDataWritable;
+
 export type PutWoocommerceListingSourceIngestionConfigurationDataWritable = {
   /**
    * Required nonblank provider secret. Preserved exactly for HMAC verification and never returned.
@@ -3720,9 +3761,17 @@ export type ListAuctionsData = {
     timeRole?: 'BIDDING_OPENS' | 'LIVE_STARTS' | 'LOTS_BEGIN_CLOSING' | 'SCHEDULED_END';
     from?: string;
     to?: string;
+    /**
+     * `created` sorts by creation time; `scheduled` requires `timeRole` and sorts on that role's instant, with missing instants last when no window is specified.
+     */
+    sort?: 'created' | 'scheduled';
+    /**
+     * Defaults to `desc` for created and `asc` for scheduled.
+     */
+    order?: 'asc' | 'desc';
     pageSize?: number;
     /**
-     * Complete returned JSON cursor. Its scope must exactly match the source, format, reported-status, and exact-time filters of this request.
+     * Complete returned JSON cursor. Its scope must match the source, format, reported-status, exact-time filters, sort and order of this request.
      */
     searchAfter?: string;
   };
@@ -3738,7 +3787,7 @@ export type ListAuctionsErrors = {
 
 export type ListAuctionsResponses = {
   /**
-   * Bounded newest-first Auction directory. Anonymous successful 200 responses without Authorization use `public, max-age=0, s-maxage=60, stale-if-error=0`; requests with any Authorization header and all non-200 responses use `private, no-store`.
+   * Bounded Auction directory, newest-created-first by default. Scheduled order uses the chosen role instant, with Auction ID as the final tie-breaker. Anonymous successful 200 responses without Authorization use `public, max-age=0, s-maxage=60, stale-if-error=0`; requests with any Authorization header and all non-200 responses use `private, no-store`.
    */
   200: PublicAuctionDirectoryData;
 };
@@ -4226,7 +4275,7 @@ export type GetAdminAuctionErrors = {
    */
   401: unknown;
   /**
-   * Administrator authority required (`FORBIDDEN`).
+   * Administrator authority and delegated `auctions:read` capability required (`FORBIDDEN`).
    */
   403: unknown;
   /**
@@ -4467,6 +4516,77 @@ export type DeletePartnerProductListingsResponses = {
 
 export type DeletePartnerProductListingsResponse = DeletePartnerProductListingsResponses[keyof DeletePartnerProductListingsResponses];
 
+export type ListPartnerProductListingsData = {
+  body?: never;
+  path: {
+    /**
+     * Strict ListingSource TypeID authorized by Partnership grant.
+     */
+    listingSourceId: string;
+  };
+  query?: {
+    /**
+     * Exact case-sensitive source-local identity after outer whitespace trimming.
+     */
+    sourceListingId?: string;
+    lifecycle?: ListingLifecycleData;
+    availability?: ListingAvailabilityData;
+    /**
+     * Strict Auction TypeID.
+     */
+    auctionId?: string;
+    /**
+     * At most 512 UTF-8 bytes and NUL-free; outer whitespace and case normalized. Percent/underscore are literal.
+     */
+    query?: string;
+    sort?: 'created' | 'updated';
+    order?: 'asc' | 'desc';
+    /**
+     * Clamped to 1–100.
+     */
+    size?: number;
+    /**
+     * Opaque cursor returned by this normalized filter/sort scope.
+     */
+    searchAfter?: string;
+  };
+  url: '/api/v1/listing-sources/{listingSourceId}/product-listings';
+};
+
+export type ListPartnerProductListingsErrors = {
+  /**
+   * Invalid ID, directory query or scoped cursor (`BAD_QUERY_PARAMETER_VALUE`, `INVALID_OBJECT_ID`).
+   */
+  400: ApiError;
+  /**
+   * Missing/invalid credential (`INVALID_CREDENTIALS`).
+   */
+  401: ApiError;
+  /**
+   * Partnership source grant or delegated capability missing (`FORBIDDEN`).
+   */
+  403: ApiError;
+  /**
+   * Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+   */
+  500: ApiError;
+  /**
+   * Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: ApiError;
+};
+
+export type ListPartnerProductListingsError = ListPartnerProductListingsErrors[keyof ListPartnerProductListingsErrors];
+
+export type ListPartnerProductListingsResponses = {
+  /**
+   * Lightweight summary page; Cache-Control is private, no-store.
+   */
+  200: AdminProductListingPage;
+};
+
+export type ListPartnerProductListingsResponse = ListPartnerProductListingsResponses[keyof ListPartnerProductListingsResponses];
+
 export type PatchPartnerProductListingsData = {
   /**
    * Array of at most 100 product updates to apply synchronously. May be empty.
@@ -4637,6 +4757,236 @@ export type PutPartnerProductListingsResponses = {
 };
 
 export type PutPartnerProductListingsResponse = PutPartnerProductListingsResponses[keyof PutPartnerProductListingsResponses];
+
+export type WithdrawPartnerProductListingData = {
+  body?: never;
+  path: {
+    /**
+     * Strict ListingSource TypeID authorized by Partnership grant.
+     */
+    listingSourceId: string;
+    /**
+     * Strict Aura ProductListing TypeID.
+     */
+    productListingId: string;
+  };
+  query: {
+    expectedVersion: number;
+  };
+  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}';
+};
+
+export type WithdrawPartnerProductListingErrors = {
+  /**
+   * Invalid ID or missing/invalid expectedVersion query parameter (`BAD_QUERY_PARAMETER_VALUE`, `INVALID_OBJECT_ID`).
+   */
+  400: ApiError;
+  /**
+   * Missing/invalid credential (`INVALID_CREDENTIALS`).
+   */
+  401: ApiError;
+  /**
+   * Partnership source grant or delegated capability missing (`FORBIDDEN`).
+   */
+  403: ApiError;
+  /**
+   * Target listing not present under the authorized path ListingSource (`PRODUCT_LISTING_NOT_FOUND`).
+   */
+  404: ApiError;
+  /**
+   * Stale expectedVersion or racing write (`PRODUCT_LISTING_CONCURRENCY_CONFLICT`).
+   */
+  409: ApiError;
+  /**
+   * Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+   */
+  500: ApiError;
+  /**
+   * Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: ApiError;
+};
+
+export type WithdrawPartnerProductListingError = WithdrawPartnerProductListingErrors[keyof WithdrawPartnerProductListingErrors];
+
+export type WithdrawPartnerProductListingResponses = {
+  /**
+   * Withdrawal committed or unchanged; Cache-Control is private, no-store.
+   */
+  204: void;
+};
+
+export type WithdrawPartnerProductListingResponse = WithdrawPartnerProductListingResponses[keyof WithdrawPartnerProductListingResponses];
+
+export type GetPartnerProductListingData = {
+  body?: never;
+  path: {
+    /**
+     * Strict ListingSource TypeID authorized by Partnership grant.
+     */
+    listingSourceId: string;
+    /**
+     * Strict Aura ProductListing TypeID.
+     */
+    productListingId: string;
+  };
+  query?: never;
+  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}';
+};
+
+export type GetPartnerProductListingErrors = {
+  /**
+   * Invalid ListingSource or ProductListing ID (`INVALID_OBJECT_ID`).
+   */
+  400: ApiError;
+  /**
+   * Missing/invalid credential (`INVALID_CREDENTIALS`).
+   */
+  401: ApiError;
+  /**
+   * Partnership source grant or delegated capability missing (`FORBIDDEN`).
+   */
+  403: ApiError;
+  /**
+   * Target listing not present under the authorized path ListingSource (`PRODUCT_LISTING_NOT_FOUND`).
+   */
+  404: ApiError;
+  /**
+   * Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+   */
+  500: ApiError;
+  /**
+   * Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: ApiError;
+};
+
+export type GetPartnerProductListingError = GetPartnerProductListingErrors[keyof GetPartnerProductListingErrors];
+
+export type GetPartnerProductListingResponses = {
+  /**
+   * Original retained listing facts and expectedVersion; Cache-Control is private, no-store.
+   */
+  200: AdminProductListingDetails;
+};
+
+export type GetPartnerProductListingResponse = GetPartnerProductListingResponses[keyof GetPartnerProductListingResponses];
+
+export type UpdatePartnerProductListingData = {
+  body: UpdateAdminProductListing;
+  path: {
+    /**
+     * Strict ListingSource TypeID authorized by Partnership grant.
+     */
+    listingSourceId: string;
+    /**
+     * Strict Aura ProductListing TypeID.
+     */
+    productListingId: string;
+  };
+  query?: never;
+  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}';
+};
+
+export type UpdatePartnerProductListingErrors = {
+  /**
+   * Invalid ID, JSON, expectedVersion, unknown/read-only field or invalid field/null value (`BAD_BODY_VALUE`, `INVALID_OBJECT_ID`).
+   */
+  400: ApiError;
+  /**
+   * Missing/invalid credential (`INVALID_CREDENTIALS`).
+   */
+  401: ApiError;
+  /**
+   * Partnership source grant or delegated capability missing (`FORBIDDEN`).
+   */
+  403: ApiError;
+  /**
+   * Target listing not present under the authorized path ListingSource, or referenced Auction not found (`PRODUCT_LISTING_NOT_FOUND`, `AUCTION_NOT_FOUND`).
+   */
+  404: ApiError;
+  /**
+   * Stale expectedVersion/racing write (`PRODUCT_LISTING_CONCURRENCY_CONFLICT`), PATCH of withdrawn listing (`PRODUCT_LISTING_WITHDRAWN`), or cross-source Auction reference (`CONFLICT`).
+   */
+  409: ApiError;
+  /**
+   * Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+   */
+  500: ApiError;
+  /**
+   * Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: ApiError;
+};
+
+export type UpdatePartnerProductListingError = UpdatePartnerProductListingErrors[keyof UpdatePartnerProductListingErrors];
+
+export type UpdatePartnerProductListingResponses = {
+  /**
+   * Committed resulting/current version and CHANGED or UNCHANGED; Cache-Control is private, no-store.
+   */
+  200: AdminProductListingMutation;
+};
+
+export type UpdatePartnerProductListingResponse = UpdatePartnerProductListingResponses[keyof UpdatePartnerProductListingResponses];
+
+export type RestorePartnerProductListingData = {
+  body: AdminProductListingVersion;
+  path: {
+    /**
+     * Strict ListingSource TypeID authorized by Partnership grant.
+     */
+    listingSourceId: string;
+    /**
+     * Strict Aura ProductListing TypeID.
+     */
+    productListingId: string;
+  };
+  query?: never;
+  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}/restore';
+};
+
+export type RestorePartnerProductListingErrors = {
+  /**
+   * Invalid ID, JSON or missing/invalid expectedVersion; unknown fields are rejected (`BAD_BODY_VALUE`, `INVALID_OBJECT_ID`).
+   */
+  400: ApiError;
+  /**
+   * Missing/invalid credential (`INVALID_CREDENTIALS`).
+   */
+  401: ApiError;
+  /**
+   * Partnership source grant or delegated capability missing (`FORBIDDEN`).
+   */
+  403: ApiError;
+  /**
+   * Target listing not present under the authorized path ListingSource (`PRODUCT_LISTING_NOT_FOUND`).
+   */
+  404: ApiError;
+  /**
+   * Stale expectedVersion or racing write (`PRODUCT_LISTING_CONCURRENCY_CONFLICT`).
+   */
+  409: ApiError;
+  /**
+   * Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+   */
+  500: ApiError;
+  /**
+   * Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: ApiError;
+};
+
+export type RestorePartnerProductListingError = RestorePartnerProductListingErrors[keyof RestorePartnerProductListingErrors];
+
+export type RestorePartnerProductListingResponses = {
+  /**
+   * Committed resulting/current version and CHANGED or UNCHANGED; Cache-Control is private, no-store.
+   */
+  200: AdminProductListingMutation;
+};
+
+export type RestorePartnerProductListingResponse = RestorePartnerProductListingResponses[keyof RestorePartnerProductListingResponses];
 
 export type DeleteAsyncPartnerProductListingsData = {
   /**
@@ -4957,6 +5307,92 @@ export type PostWoocommerceWebhookResponses = {
 };
 
 export type PostWoocommerceWebhookResponse = PostWoocommerceWebhookResponses[keyof PostWoocommerceWebhookResponses];
+
+export type PostLoopsPreferenceWebhookData = {
+  /**
+   * Loops webhook payload. The service verifies the signature before parsing or mapping the selected event.
+   */
+  body: {
+    webhookSchemaVersion: string;
+    /**
+     * Supported event names are listed in the operation description; verified unknown names are ignored and receipted.
+     */
+    eventName: string;
+    /**
+     * Provider event time in Unix seconds.
+     */
+    eventTime: number;
+    /**
+     * Required for supported contact and email events; verified unknown event names may be safely ignored without it.
+     */
+    contactIdentity?: {
+      id: string;
+      email: string;
+    };
+    /**
+     * Required for supported contact.mailingList events; only the configured marketing list affects consent.
+     */
+    mailingList?: {
+      id: string;
+    };
+    [key: string]: unknown;
+  };
+  headers: {
+    /**
+     * Loops delivery identifier used for committed receipt deduplication.
+     */
+    'webhook-id': string;
+    /**
+     * Unix timestamp covered by the Loops signature; stale proofs are rejected.
+     */
+    'webhook-timestamp': string;
+    /**
+     * Loops HMAC-SHA256 signature over delivery ID, timestamp, and exact raw body bytes.
+     */
+    'webhook-signature': string;
+  };
+  path?: never;
+  query?: never;
+  url: '/api/v1/webhooks/loops';
+};
+
+export type PostLoopsPreferenceWebhookErrors = {
+  /**
+   * Malformed body/event, unsupported payload schema version, or invalid authenticated event time. Uses `LOOPS_WEBHOOK_INVALID_BODY`.
+   */
+  400: ApiError;
+  /**
+   * Missing, invalid, stale, or ambiguous Loops proof. The response does not distinguish authentication failures. Uses `LOOPS_WEBHOOK_UNAUTHORIZED`.
+   */
+  401: ApiError;
+  /**
+   * A verified delivery identifier was previously committed with different body bytes. Uses `LOOPS_WEBHOOK_CONFLICT`.
+   */
+  409: ApiError;
+  /**
+   * Request body exceeds 64 KiB. Uses `LOOPS_WEBHOOK_PAYLOAD_TOO_LARGE`.
+   */
+  413: ApiError;
+  /**
+   * Redacted internal signing-secret or cryptographic configuration failure. Uses `LOOPS_WEBHOOK_INTERNAL_ERROR`.
+   */
+  500: ApiError;
+  /**
+   * Temporary persistence/provider-reader failure or exceeded processing budget. Retry the delivery. Uses `LOOPS_WEBHOOK_TEMPORARILY_UNAVAILABLE`.
+   */
+  503: ApiError;
+};
+
+export type PostLoopsPreferenceWebhookError = PostLoopsPreferenceWebhookErrors[keyof PostLoopsPreferenceWebhookErrors];
+
+export type PostLoopsPreferenceWebhookResponses = {
+  /**
+   * Authenticated event receipt and required local effects committed, or identical duplicate/safe ignore. No response body.
+   */
+  204: void;
+};
+
+export type PostLoopsPreferenceWebhookResponse = PostLoopsPreferenceWebhookResponses[keyof PostLoopsPreferenceWebhookResponses];
 
 export type GetProductListingByTitleSlugData = {
   body?: never;
@@ -5335,7 +5771,7 @@ export type GetUserSearchFiltersErrors = {
    */
   401: ApiError;
   /**
-   * Forbidden - Aura access token lacks the required `search-filters:write` scope
+   * Forbidden - Aura access token lacks the required `search-filters:read` scope
    */
   403: ApiError;
   /**
@@ -5471,7 +5907,7 @@ export type GetUserSearchFilterErrors = {
    */
   401: ApiError;
   /**
-   * Forbidden - Aura access token lacks the required `search-filters:write` scope
+   * Forbidden - Aura access token lacks the required `search-filters:read` scope
    */
   403: ApiError;
   /**
@@ -5588,7 +6024,7 @@ export type ListSearchFilterMatchesErrors = {
    */
   401: ApiError;
   /**
-   * Forbidden - Aura access token lacks the required `search-filters:write` scope
+   * Forbidden - Aura access token lacks the required `search-filters:read` scope
    */
   403: ApiError;
   /**
@@ -6911,7 +7347,7 @@ export type GetMyAccessTokensData = {
 
 export type GetMyAccessTokensErrors = {
   /**
-   * Unauthorized - invalid or missing JWT token
+   * Unauthorized - invalid or missing bearer credentials
    */
   401: ApiError;
   /**
@@ -6930,7 +7366,7 @@ export type GetMyAccessTokensResponses = {
   /**
    * Access tokens retrieved successfully
    */
-  200: Array<GetAccessTokenData>;
+  200: Array<OwnAccessTokenData>;
 };
 
 export type GetMyAccessTokensResponse = GetMyAccessTokensResponses[keyof GetMyAccessTokensResponses];
@@ -6951,7 +7387,7 @@ export type PatchMyAccessTokenErrors = {
    */
   400: ApiError;
   /**
-   * Unauthorized - invalid or missing JWT token
+   * Unauthorized - invalid or missing bearer credentials
    */
   401: ApiError;
   /**
@@ -6970,7 +7406,7 @@ export type PatchMyAccessTokenResponses = {
   /**
    * Access token updated successfully
    */
-  200: GetAccessTokenData;
+  200: OwnAccessTokenData;
 };
 
 export type PatchMyAccessTokenResponse = PatchMyAccessTokenResponses[keyof PatchMyAccessTokenResponses];
@@ -6991,7 +7427,7 @@ export type PostMyAccessTokenErrors = {
    */
   400: ApiError;
   /**
-   * Unauthorized - invalid or missing JWT token
+   * Unauthorized - invalid or missing bearer credentials
    */
   401: ApiError;
   /**
@@ -7010,7 +7446,7 @@ export type PostMyAccessTokenResponses = {
   /**
    * Access token created successfully
    */
-  201: GetAccessTokenData;
+  201: CreatedAccessTokenData;
 };
 
 export type PostMyAccessTokenResponse = PostMyAccessTokenResponses[keyof PostMyAccessTokenResponses];
@@ -7033,7 +7469,7 @@ export type DeleteMyAccessTokenErrors = {
    */
   400: ApiError;
   /**
-   * Unauthorized - invalid or missing JWT token
+   * Unauthorized - invalid or missing bearer credentials
    */
   401: ApiError;
   /**
@@ -7071,7 +7507,7 @@ export type GetMyAccessTokenErrors = {
    */
   400: ApiError;
   /**
-   * Unauthorized - invalid or missing JWT token
+   * Unauthorized - invalid or missing bearer credentials
    */
   401: ApiError;
   /**
@@ -7090,7 +7526,7 @@ export type GetMyAccessTokenResponses = {
   /**
    * Access token retrieved successfully
    */
-  200: GetAccessTokenData;
+  200: OwnAccessTokenData;
 };
 
 export type GetMyAccessTokenResponse = GetMyAccessTokenResponses[keyof GetMyAccessTokenResponses];
@@ -7343,6 +7779,10 @@ export type DeleteNotificationsErrors = {
    */
   401: ApiError;
   /**
+   * Forbidden - required delegated scope missing
+   */
+  403: ApiError;
+  /**
    * Notifications are temporarily unavailable
    */
   503: ApiError;
@@ -7383,6 +7823,10 @@ export type ListNotificationsErrors = {
    */
   401: ApiError;
   /**
+   * Forbidden - required delegated scope missing
+   */
+  403: ApiError;
+  /**
    * Notifications are temporarily unavailable
    */
   503: ApiError;
@@ -7416,6 +7860,10 @@ export type UpdateNotificationsSeenErrors = {
    */
   401: ApiError;
   /**
+   * Forbidden - required delegated scope missing
+   */
+  403: ApiError;
+  /**
    * Notifications are temporarily unavailable
    */
   503: ApiError;
@@ -7448,6 +7896,10 @@ export type UpdateAllNotificationsSeenErrors = {
    * Invalid or missing bearer credential
    */
   401: ApiError;
+  /**
+   * Forbidden - required delegated scope missing
+   */
+  403: ApiError;
   /**
    * Notifications are temporarily unavailable
    */
@@ -7483,6 +7935,10 @@ export type DeleteNotificationErrors = {
    * Invalid or missing bearer credential
    */
   401: ApiError;
+  /**
+   * Forbidden - required delegated scope missing
+   */
+  403: ApiError;
   /**
    * Notification not found
    */
@@ -7522,6 +7978,10 @@ export type UpdateNotificationSeenErrors = {
    * Invalid or missing bearer credential
    */
   401: ApiError;
+  /**
+   * Forbidden - required delegated scope missing
+   */
+  403: ApiError;
   /**
    * Notification not found
    */

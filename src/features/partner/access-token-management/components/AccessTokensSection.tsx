@@ -1,6 +1,6 @@
 import { ACCESS_TOKEN_SCOPE_METADATA } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import { Clock3, KeyRound, Pencil, Plus, RefreshCw, SearchX, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge.tsx";
 import {
@@ -34,7 +34,26 @@ export function AccessTokensSection() {
     const [editTarget, setEditTarget] = useState<AccessToken | null>(null);
     const [deleteTarget, setDeleteTarget] = useState<AccessToken | null>(null);
     const [deleteAllOpen, setDeleteAllOpen] = useState(false);
-    const { data: accessTokens = [], isPending, isError, refetch } = useAccessTokens();
+    const {
+        data: accessTokens = [],
+        dataUpdatedAt,
+        isPending,
+        isError,
+        refetch,
+    } = useAccessTokens();
+    // The list includes expired tokens. Expiry depends on the clock, so it is resolved after mount
+    // and on each refetch rather than during render.
+    const [now, setNow] = useState<number | null>(null);
+    useEffect(() => {
+        if (dataUpdatedAt > 0) setNow(Date.now());
+    }, [dataUpdatedAt]);
+    const isExpired = (accessToken: AccessToken) =>
+        now !== null && accessToken.expiresAt !== null && accessToken.expiresAt.getTime() <= now;
+    const sortedAccessTokens = [...accessTokens].sort(
+        (first, second) =>
+            Number(isExpired(first)) - Number(isExpired(second)) ||
+            first.name.localeCompare(second.name, i18n.language),
+    );
     const deleteAccessToken = useDeleteAccessToken();
     const deleteAllAccessTokens = useDeleteAllAccessTokens();
 
@@ -70,10 +89,11 @@ export function AccessTokensSection() {
 
         return (
             <ul className="flex flex-col gap-4">
-                {accessTokens.map((accessToken) => (
+                {sortedAccessTokens.map((accessToken) => (
                     <AccessTokenListItem
                         key={accessToken.id}
                         accessToken={accessToken}
+                        expired={isExpired(accessToken)}
                         locale={i18n.language}
                         onEdit={() => setEditTarget(accessToken)}
                         onDelete={() => setDeleteTarget(accessToken)}
@@ -206,12 +226,14 @@ function AccessTokensLayout({
 
 function AccessTokenListItem({
     accessToken,
+    expired,
     locale,
     onEdit,
     onDelete,
     actionsDisabled,
 }: {
     readonly accessToken: AccessToken;
+    readonly expired: boolean;
     readonly locale: string;
     readonly onEdit: () => void;
     readonly onDelete: () => void;
@@ -230,49 +252,39 @@ function AccessTokenListItem({
                     <span className="truncate font-medium" title={accessToken.name}>
                         {accessToken.name}
                     </span>
-                    <Badge
-                        variant="outline"
-                        className="border-primary/30 bg-primary/10 text-primary"
-                    >
-                        <Clock3 className="h-3 w-3" aria-hidden="true" />
-                        {accessToken.expiresAt
-                            ? t("partnerAccessTokens.expiresAt", {
-                                  date: formatDateTime(accessToken.expiresAt, locale),
-                              })
-                            : t("partnerAccessTokens.noExpiration")}
-                    </Badge>
+                    {expired && accessToken.expiresAt ? (
+                        <Badge variant="outline" className="text-muted-foreground">
+                            <Clock3 className="h-3 w-3" aria-hidden="true" />
+                            {t("partnerAccessTokens.expiredAt", {
+                                date: formatDateTime(accessToken.expiresAt, locale),
+                            })}
+                        </Badge>
+                    ) : (
+                        <Badge
+                            variant="outline"
+                            className="border-primary/30 bg-primary/10 text-primary"
+                        >
+                            <Clock3 className="h-3 w-3" aria-hidden="true" />
+                            {accessToken.expiresAt
+                                ? t("partnerAccessTokens.expiresAt", {
+                                      date: formatDateTime(accessToken.expiresAt, locale),
+                                  })
+                                : t("partnerAccessTokens.noExpiration")}
+                        </Badge>
+                    )}
                 </div>
             </div>
 
-            <code className="w-fit max-w-full overflow-hidden text-ellipsis whitespace-nowrap bg-muted px-2 py-1 text-xs">
-                {accessToken.maskedToken}
-            </code>
-
-            <div className="flex justify-between items-end">
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-                    <span>
-                        {t("partnerAccessTokens.createdAt", {
-                            date: formatDateTime(accessToken.created, locale),
-                        })}
-                    </span>
-                    <span>
-                        {t("partnerAccessTokens.updatedAt", {
-                            date: formatDateTime(accessToken.updated, locale),
-                        })}
-                    </span>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                    {accessToken.scopes.length > 0 ? (
-                        accessToken.scopes.map((scope) => (
-                            <Badge key={scope} variant="secondary">
-                                {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
-                            </Badge>
-                        ))
-                    ) : (
-                        <Badge variant="outline">{t("partnerAccessTokens.noScopes")}</Badge>
-                    )}
-                </div>
+            <div className="flex flex-wrap gap-2">
+                {accessToken.scopes.length > 0 ? (
+                    accessToken.scopes.map((scope) => (
+                        <Badge key={scope} variant="secondary">
+                            {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
+                        </Badge>
+                    ))
+                ) : (
+                    <Badge variant="outline">{t("partnerAccessTokens.noScopes")}</Badge>
+                )}
             </div>
 
             <div className="mt-2 flex w-full gap-2 md:absolute md:top-4 md:right-4 md:mt-0 md:w-auto">

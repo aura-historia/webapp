@@ -7,7 +7,6 @@ export type SearchFilterProductMatch = {
     readonly userSearchFilterName?: string;
     readonly productListingId: string;
     readonly originEventId: string;
-    readonly enhancedMatchReason?: string;
     readonly feedback?: boolean;
     readonly created: Date;
     readonly updated: Date;
@@ -22,7 +21,6 @@ export function mapToInternalSearchFilterProductMatch(
         userSearchFilterName: data.userSearchFilterName,
         productListingId: data.productListingId,
         originEventId: data.originEventId,
-        enhancedMatchReason: data.enhancedMatchReason,
         feedback: data.feedback,
         created: new Date(data.created),
         updated: new Date(data.updated),

@@ -124,7 +124,7 @@ describe("OAuthAuthorizePage", () => {
         expect(screen.getByText("product-listings:write")).toBeInTheDocument();
         expect(
             screen.getByText(
-                "Produktangebote im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen, aktualisieren oder löschen. Mit Administratorzugriff umfasst dies auch administrative Änderungen, das Zurückziehen und das Wiederherstellen.",
+                "Produktangebote im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen, aktualisieren, zurückziehen, wiederherstellen oder löschen, etwa von Quellen, die Sie verwalten. Mit Administratorzugriff umfasst dies alle Angebote.",
             ),
         ).toBeInTheDocument();
         expect(screen.getByText("watchlist:read")).toBeInTheDocument();

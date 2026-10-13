@@ -22,6 +22,7 @@ const account = {
     currency: "EUR",
     measurementUnit: "METRIC",
     showUnassessedOrSensitiveContent: false,
+    marketingEmailConsent: false,
     tier: "FREE",
     role: "USER",
 };
@@ -57,6 +58,7 @@ describe("AdminUserDetailDialog", () => {
                 currency: "EUR",
                 measurementUnit: "METRIC",
                 showUnassessedOrSensitiveContent: true,
+                marketingEmailConsent: false,
                 tier: "PRO",
                 role: "USER",
                 created: "2020-01-01T00:00:00.000Z",
@@ -77,9 +79,11 @@ describe("AdminUserDetailDialog", () => {
             ),
         );
 
+        // The canonical account email is read-only for administrators.
         await waitFor(() =>
-            expect(screen.getByDisplayValue("ada@example.test")).toBeInTheDocument(),
+            expect(screen.getByRole("heading", { name: "ada@example.test" })).toBeInTheDocument(),
         );
+        expect(screen.queryByDisplayValue("ada@example.test")).not.toBeInTheDocument();
         expect(screen.getByText("opaque/user+01")).toBeInTheDocument();
         expect(screen.getByLabelText(testI18n.t("adminUsers.fields.language"))).toHaveValue("en");
         expect(screen.getByLabelText(testI18n.t("adminUsers.fields.currency"))).toHaveValue("EUR");

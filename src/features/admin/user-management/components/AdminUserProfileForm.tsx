@@ -19,7 +19,6 @@ import {
 import { ADMIN_USER_PATCH_MUTATION_KEY, useUpdateAdminUserProfile } from "../api/useAdminUsers.ts";
 
 const profileSchema = z.object({
-    email: z.email("adminUsers.validation.invalidEmail"),
     firstName: z.string().trim().max(64, "adminUsers.validation.nameTooLong"),
     lastName: z.string().trim().max(64, "adminUsers.validation.nameTooLong"),
     language: z.union([z.enum(LANGUAGES), z.literal("")]),
@@ -56,22 +55,6 @@ export function AdminUserProfileForm({ account }: { readonly account: AdminUserA
         <form noValidate onSubmit={form.handleSubmit(submit)} className="grid gap-4">
             <h3 className="font-semibold">{t("adminUsers.profile.title")}</h3>
             <div className="grid gap-4 sm:grid-cols-2">
-                <FormField
-                    id="admin-user-email"
-                    label={t("adminUsers.fields.email")}
-                    error={form.formState.errors.email?.message}
-                >
-                    <Input
-                        id="admin-user-email"
-                        type="email"
-                        autoComplete="email"
-                        aria-invalid={Boolean(form.formState.errors.email)}
-                        aria-describedby={
-                            form.formState.errors.email ? "admin-user-email-error" : undefined
-                        }
-                        {...form.register("email")}
-                    />
-                </FormField>
                 <FormField
                     id="admin-user-first-name"
                     label={t("adminUsers.fields.firstName")}

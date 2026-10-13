@@ -2554,8 +2554,8 @@
         "notificationsWrite": "Marquer vos notifications comme vues ou les supprimer. N’inclut pas leur lecture.",
         "watchlistRead": "Lire les annonces de votre liste de suivi.",
         "watchlistWrite": "Ajouter ou retirer des annonces et mettre à jour les paramètres de votre liste de suivi.",
-        "productListingsWrite": "Créer, mettre à jour ou supprimer des annonces de produits dans les limites des droits accordés à votre compte. Avec un accès administrateur, cela couvre aussi les modifications administratives, les retraits et les rétablissements.",
-        "productListingsRead": "Lire les fiches de référence des annonces de produits, y compris les annonces retirées, si le compte dispose d’un accès administrateur. Les pages publiques des annonces ne nécessitent pas cette autorisation.",
+        "productListingsWrite": "Créer, mettre à jour, retirer, rétablir ou supprimer des annonces de produits dans les limites des droits accordés à votre compte, par exemple celles des sources que vous administrez. Avec un accès administrateur, cela couvre toutes les annonces.",
+        "productListingsRead": "Lire les fiches de référence des annonces de produits, y compris les annonces retirées, dans les limites des droits accordés à votre compte, par exemple celles des sources que vous administrez. Avec un accès administrateur, cela couvre toutes les annonces. Les pages publiques des annonces ne nécessitent pas cette autorisation.",
         "listingSourcesRead": "Lire les données non publiques des sources d’annonces dans les limites des droits accordés à votre compte, par exemple les sources que vous administrez.",
         "listingSourcesWrite": "Activer ou remplacer les paramètres d’import WooCommerce et Shopify, y compris le secret du webhook WooCommerce, des sources pour lesquelles votre compte dispose d’un accès en écriture. Si le compte dispose d’un accès administrateur, également créer, mettre à jour ou supprimer des sources d’annonces.",
         "partnershipApplicationsRead": "Lire vos propres demandes de partenariat et, si le compte dispose d’un accès administrateur, les demandes en cours d’examen.",
@@ -2604,9 +2604,8 @@
     "loading": "Chargement des jetons d'accès.",
     "loadError": "Impossible de charger vos jetons d'accès.",
     "empty": "Vous n'avez encore enregistré aucun jeton d'accès.",
-    "createdAt": "Créé le {{date}}",
-    "updatedAt": "Mis à jour le {{date}}",
     "expiresAt": "Expire le {{date}}",
+    "expiredAt": "Expiré le {{date}}",
     "noExpiration": "N'expire pas",
     "noScopes": "Aucune autorisation",
     "scopes": {
@@ -2700,7 +2699,6 @@
     },
     "fields": {
       "userId": "ID utilisateur",
-      "email": "E-mail",
       "firstName": "Prénom",
       "lastName": "Nom",
       "language": "Langue préférée",
@@ -2813,7 +2811,6 @@
       }
     },
     "validation": {
-      "invalidEmail": "Saisissez une adresse e-mail valide.",
       "nameTooLong": "Les noms ne peuvent pas dépasser 64 caractères.",
       "invalidDate": "Saisissez une date valide.",
       "invalidRange": "La date de début doit être antérieure ou égale à la date de fin."

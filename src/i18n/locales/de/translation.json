@@ -1631,8 +1631,8 @@
         "notificationsWrite": "Ihre Benachrichtigungen als gesehen markieren oder löschen. Umfasst nicht das Lesen.",
         "watchlistRead": "Die Angebote in Ihrer Merkliste lesen.",
         "watchlistWrite": "Angebote hinzufügen oder entfernen und Ihre Merklisten-Einstellungen aktualisieren.",
-        "productListingsWrite": "Produktangebote im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen, aktualisieren oder löschen. Mit Administratorzugriff umfasst dies auch administrative Änderungen, das Zurückziehen und das Wiederherstellen.",
-        "productListingsRead": "Maßgebliche Datensätze von Produktangeboten lesen, einschließlich zurückgezogener Angebote, wenn das Konto Administratorzugriff hat. Öffentliche Angebotsseiten benötigen diese Berechtigung nicht.",
+        "productListingsWrite": "Produktangebote im Rahmen der Ihrem Konto gewährten Zugriffsrechte erstellen, aktualisieren, zurückziehen, wiederherstellen oder löschen, etwa von Quellen, die Sie verwalten. Mit Administratorzugriff umfasst dies alle Angebote.",
+        "productListingsRead": "Maßgebliche Datensätze von Produktangeboten, einschließlich zurückgezogener Angebote, im Rahmen der Ihrem Konto gewährten Zugriffsrechte lesen, etwa von Quellen, die Sie verwalten. Mit Administratorzugriff umfasst dies alle Angebote. Öffentliche Angebotsseiten benötigen diese Berechtigung nicht.",
         "listingSourcesRead": "Nicht öffentliche Daten von Listing-Quellen im Rahmen der Ihrem Konto gewährten Zugriffsrechte lesen, etwa von Quellen, die Sie verwalten.",
         "listingSourcesWrite": "WooCommerce- und Shopify-Importeinstellungen einschließlich des WooCommerce-Webhook-Geheimnisses für Quellen aktivieren oder ersetzen, für die Ihr Konto Schreibzugriff hat. Hat das Konto Administratorzugriff, zusätzlich Listing-Quellen erstellen, aktualisieren oder löschen.",
         "partnershipApplicationsRead": "Ihre eigenen Partnerschaftsanträge lesen und, wenn das Konto Administratorzugriff hat, Anträge in Prüfung.",
@@ -1681,9 +1681,8 @@
     "loading": "Zugriffstoken werden geladen.",
     "loadError": "Ihre Zugriffstoken konnten nicht geladen werden.",
     "empty": "Sie haben noch keine Zugriffstoken gespeichert.",
-    "createdAt": "Erstellt am {{date}}",
-    "updatedAt": "Aktualisiert am {{date}}",
     "expiresAt": "Läuft ab am {{date}}",
+    "expiredAt": "Abgelaufen am {{date}}",
     "noExpiration": "Läuft nicht ab",
     "noScopes": "Keine Berechtigungen",
     "scopes": {
@@ -2700,7 +2699,6 @@
     },
     "fields": {
       "userId": "Benutzer-ID",
-      "email": "E-Mail",
       "firstName": "Vorname",
       "lastName": "Nachname",
       "language": "Bevorzugte Sprache",
@@ -2813,7 +2811,6 @@
       }
     },
     "validation": {
-      "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
       "nameTooLong": "Namen dürfen höchstens 64 Zeichen lang sein.",
       "invalidDate": "Geben Sie ein gültiges Kalenderdatum ein.",
       "invalidRange": "Das Startdatum muss am oder vor dem Enddatum liegen."
