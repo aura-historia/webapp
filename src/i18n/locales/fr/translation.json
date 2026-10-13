@@ -2265,6 +2265,30 @@
     "page": {
       "back": "Retour aux organisations",
       "deleteTitle": "Supprimer {{name}} ?"
+    },
+    "locationAccess": {
+      "title": "Accès à la gestion des sites",
+      "description": "Accordez à un compte l’autorisation explicite de consulter et de gérer tous les sites d’activité de {{name}}, y compris les informations privées. Cette autorisation est indépendante de l’adhésion à un partenariat actif et des autorisations de sources d’annonces ; elle n’en ajoute ni n’en retire aucune.",
+      "noList": "Les autorisations existantes ne sont pas répertoriées ici. Chaque action confirme uniquement que l’autorisation a été accordée ou retirée pour le compte sélectionné.",
+      "userLabel": "Compte utilisateur",
+      "grant": "Accorder l’accès aux sites",
+      "revoke": "Révoquer l’accès aux sites",
+      "confirmGrantTitle": "Accorder l’accès aux sites ?",
+      "confirmGrant": "{{user}} pourra consulter et gérer tous les sites de {{name}}, y compris les informations privées, jusqu’à la révocation de l’autorisation. Les adhésions aux partenariats et les autorisations de sources d’annonces ne sont pas modifiées.",
+      "confirmGrantButton": "Accorder l’accès",
+      "confirmRevokeTitle": "Révoquer l’accès aux sites ?",
+      "confirmRevoke": "Seule l’autorisation explicite de {{user}} pour {{name}} est retirée. Si {{user}} est membre d’un partenariat actif de cette organisation, cette adhésion permet toujours de gérer ses sites.",
+      "confirmRevokeButton": "Révoquer l’autorisation",
+      "granted": "L’accès explicite aux sites de {{name}} est accordé à {{user}}.",
+      "revoked": "L’autorisation explicite d’accès aux sites de {{name}} pour {{user}} a été retirée. Un accès par une adhésion à un partenariat actif reste inchangé.",
+      "errors": {
+        "forbidden": "Vous n’êtes pas autorisé à modifier l’accès aux sites de cette organisation.",
+        "missing": "Cette organisation ou le compte sélectionné n’est plus disponible. Rien n’a été modifié.",
+        "conflict": "Cette modification est entrée en conflit avec une autre modification des sites de l’organisation. Rien n’a été modifié ; veuillez réessayer.",
+        "invalid": "L’organisation ou le compte n’a pas été accepté. Sélectionnez de nouveau le compte et réessayez.",
+        "unavailable": "L’accès aux sites ne peut pas être modifié pour le moment. Veuillez réessayer dans un instant.",
+        "requestFailed": "La modification de l’accès aux sites n’a pas pu être confirmée. Veuillez réessayer."
+      }
     }
   },
   "compareBarnebysPage": {
@@ -2794,6 +2818,14 @@
         "METRIC": "Métrique",
         "IMPERIAL": "Impérial"
       }
+    },
+    "picker": {
+      "selected": "Compte sélectionné",
+      "clear": "Choisir un autre compte",
+      "loading": "Recherche de comptes…",
+      "noMatch": "Aucun compte utilisateur ne correspond à cette recherche.",
+      "searchPrompt": "Recherchez des comptes utilisateur existants par e-mail ou par nom.",
+      "results": "Comptes utilisateur trouvés"
     }
   },
   "adminOAuthClients": {

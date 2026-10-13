@@ -87,12 +87,14 @@ To adopt a backend revision:
   Party-location management (`listPartyLocations`, `createPartyLocation`, `getPartyLocation`,
   `correctPartyLocation`, `setPartyLocationLifecycle`) is consumed by the shared
   `src/features/party-locations` workspace ([#1085](https://github.com/aura-historia/webapp/issues/1085);
-  see [admin workflows](admin-workflows.md#party-detail-and-business-locations)). Every other geography
+  see [admin workflows](admin-workflows.md#party-detail-and-business-locations)). The
+  location-management grant (`setPartyLocationManagementGrant`) is consumed by the admin Party page
+  ([#1086](https://github.com/aura-historia/webapp/issues/1086); see
+  [admin workflows](admin-workflows.md#party-location-management-grants)). Every other geography
   operation is generated-only until its feature slice consumes it: the user
   address book (`listUserAddresses`, `createUserAddress`, `getUserAddress`, `updateUserAddress`,
   `deleteUserAddress`), the browsing destination (`getBrowsingDestination`,
-  `setBrowsingDestination`), the location-management grant
-  (`setPartyLocationManagementGrant`), public discovery (`discoverPartyLocations`) and source
+  `setBrowsingDestination`), public discovery (`discoverPartyLocations`) and source
   defaults (`getSourceLocationDefault`, `assignSourceLocationDefault`,
   `changeSourceLocationDefaultApplicability`, `clearSourceLocationDefault` and their `admin*`
   counterparts). Listing search does not send `geography` yet. Privacy rules for these slices

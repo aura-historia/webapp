@@ -112,9 +112,9 @@ export function adminUserListQueryOptions(
     });
 }
 
-export function useAdminUsers(filters: AdminUserFilters) {
+export function useAdminUsers(filters: AdminUserFilters, enabled = true) {
     const requestError = useAdminUserError();
-    return useInfiniteQuery(adminUserListQueryOptions(filters, requestError));
+    return useInfiniteQuery({ ...adminUserListQueryOptions(filters, requestError), enabled });
 }
 
 export function useAdminUser(userId?: string, enabled = true) {

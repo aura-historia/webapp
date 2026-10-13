@@ -107,6 +107,25 @@ Routes: `/$lng/admin/parties` (directory) and `/$lng/admin/parties/$partyId` (or
   revision) or "discard draft". `401`/`403`/`404` reset the Party's cached locations and hide
   loaded content.
 
+## Party-location management grants
+
+Route: `/$lng/admin/parties/$partyId` (below the business locations).
+
+- `setPartyLocationManagementGrant` sends `{ granted: true | false }` for the page's Party and a
+  user chosen with `AdminUserPicker` (`adminSearchUsers`; free text is never sent as a user ID).
+  Both actions need confirmation and use `Cache-Control: no-store`.
+- The grant covers every location of the Party and is independent from active partnership
+  membership and listing-source grants. Revocation removes only the explicit grant; the copy never
+  says the user lost access, because membership can still permit management.
+- The contract has no manager list or grant-state read. The section shows no managers and no
+  current state; after a `204` it reports only the confirmed command for the selected user.
+- Errors use fixed, status-based copy. Success, `404` and `409` invalidate every cached
+  `partyLocations` read of the Party; a `404` also refetches the Party detail.
+- The control lives in the admin Party feature only; the shared `party-locations` workspace that
+  ordinary location managers use never renders it. A link to a manager-facing Party-location
+  workspace will be offered once that route exists
+  ([#1084](https://github.com/aura-historia/webapp/issues/1084)).
+
 ## Other workflows
 
 Party management, listing-source management (`/$lng/admin/listing-sources`), user management and

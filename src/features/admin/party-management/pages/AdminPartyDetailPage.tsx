@@ -21,8 +21,12 @@ import { PartyLocationWorkspace } from "@/features/party-locations/components/Pa
 import { formatDateTime } from "@/lib/utils.ts";
 import { useAdminParty, useDeleteAdminParty } from "../api/useAdminParties.ts";
 import { AdminPartyFormDialog } from "../components/AdminPartyFormDialog.tsx";
+import { AdminPartyLocationAccessSection } from "../components/AdminPartyLocationAccessSection.tsx";
 
-/** One organization with its identity, contact details and business locations on one page. */
+/**
+ * One organization with its identity, contact details, business locations and explicit
+ * location-management access on one page.
+ */
 export function AdminPartyDetailPage({
     partyId,
     language,
@@ -75,6 +79,7 @@ export function AdminPartyDetailPage({
                 ) : (
                     <Skeleton className="h-48 w-full" />
                 ))}
+            {party && <AdminPartyLocationAccessSection party={party} />}
         </div>
     );
 }
