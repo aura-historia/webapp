@@ -1,3 +1,4 @@
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import { getWatchlistProductListings } from "@/client";
 import { mapPersonalizedProductListingDetails } from "@/data/internal/product/ProductListing.ts";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -10,14 +11,6 @@ import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth
 
 const PAGE_SIZE = 20;
 
-export function getWatchlistQueryKey(
-    viewerCacheKey: string | undefined,
-    language: string,
-    currency: string,
-) {
-    return ["watchlist", viewerCacheKey ?? "anonymous", language, currency] as const;
-}
-
 export function useWatchlist() {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
@@ -25,7 +18,11 @@ export function useWatchlist() {
     const { user, isLoading: isAuthLoading } = useResolvedAuth();
 
     return useInfiniteQuery({
-        queryKey: getWatchlistQueryKey(user?.userId, i18n.language, preferences.currency),
+        queryKey: productListingQueryKeys.watchlist({
+            language: parseLanguage(i18n.language),
+            currency: preferences.currency,
+            viewerCacheKey: user?.userId,
+        }),
         enabled: !isAuthLoading && Boolean(user),
         queryFn: async ({ pageParam }) => {
             const result = await getWatchlistProductListings({

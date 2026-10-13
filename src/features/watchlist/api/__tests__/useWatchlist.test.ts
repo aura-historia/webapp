@@ -2,7 +2,14 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { getWatchlistQueryKey, useWatchlist } from "../useWatchlist.ts";
+import { useWatchlist } from "../useWatchlist.ts";
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
+
+const getWatchlistQueryKey = (
+    viewerCacheKey: string | undefined,
+    language: "en",
+    currency: "EUR" | "KRW" | "SEK",
+) => productListingQueryKeys.watchlist({ language, currency, viewerCacheKey });
 
 const mockGetWatchlist = vi.hoisted(() => vi.fn());
 const mockPreferences = vi.hoisted(() => ({ currency: "EUR" }));

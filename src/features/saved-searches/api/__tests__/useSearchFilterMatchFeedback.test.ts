@@ -25,6 +25,15 @@ vi.mock("sonner", () => ({
     toast: mockToast,
 }));
 
+const mockPatchListingUserState = vi.hoisted(() => vi.fn());
+const mockInvalidateListingQueries = vi.hoisted(() => vi.fn());
+vi.mock("@/features/product/catalog/lib/listingUserStateCache.ts", async (importOriginal) => ({
+    ...(await importOriginal<
+        typeof import("@/features/product/catalog/lib/listingUserStateCache.ts")
+    >()),
+    patchListingUserState: mockPatchListingUserState,
+    invalidateListingQueries: mockInvalidateListingQueries,
+}));
 vi.mock("@tanstack/react-query", async (importOriginal) => {
     const actual = await importOriginal<typeof import("@tanstack/react-query")>();
     return {
@@ -115,8 +124,27 @@ describe("useSearchFilterMatchFeedback", () => {
         await act(async () => result.current.mutateAsync(true));
 
         expect(mockInvalidateQueries).toHaveBeenCalledWith(
-            expect.objectContaining({ queryKey: ["searchFilterMatchedProducts", "f-1"] }),
+            expect.objectContaining({ queryKey: ["productListings", "savedSearchMatches", "f-1"] }),
         );
+    });
+
+    it("applies the confirmed feedback to every cached copy of the matched listing", async () => {
+        mockUpdateFeedback.mockResolvedValue({ data: matchData, error: null });
+
+        const { result } = renderHook(() => useSearchFilterMatchFeedback("f-1", "listing-1"), {
+            wrapper: createWrapper(),
+        });
+
+        await act(async () => result.current.mutateAsync(false));
+
+        const [, target, update] = mockPatchListingUserState.mock.calls[0];
+        expect(target).toEqual({ productListingId: "listing-1" });
+        const state = {
+            watchlist: { watching: false, notifications: false },
+            notification: { unseenNotificationIds: [] },
+            searchFilter: { matched: true, hidden: false, userSearchFilterId: "f-1" },
+        };
+        expect(update(state).searchFilter.matchFeedback).toBe(false);
     });
 
     it("shows toast error when API returns error", async () => {

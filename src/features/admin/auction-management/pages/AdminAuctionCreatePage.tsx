@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -30,6 +30,16 @@ export function AdminAuctionCreatePage({ language }: { readonly language: string
     const [sourceError, setSourceError] = useState<string>();
     const [sourceAuctionIdError, setSourceAuctionIdError] = useState<string>();
     const createAuction = useCreateAdminAuction();
+    // A duplicate key can be looked up exactly by the submitted source and source auction ID.
+    const conflictingKey =
+        createAuction.error instanceof AdminAuctionRequestError &&
+        createAuction.error.status === 409 &&
+        createAuction.variables
+            ? {
+                  listingSource: createAuction.variables.listingSourceId,
+                  sourceAuctionId: createAuction.variables.sourceAuctionId.trim(),
+              }
+            : undefined;
 
     return (
         <main className="mx-auto grid w-full max-w-4xl gap-8 px-4 py-10 sm:px-6">
@@ -105,11 +115,23 @@ export function AdminAuctionCreatePage({ language }: { readonly language: string
                     {t("adminAuctions.create.blankFieldsHelp")}
                 </p>
                 {createAuction.error && (
-                    <p role="alert" className="text-sm text-destructive">
-                        {createAuction.error instanceof AdminAuctionRequestError
-                            ? createAuction.error.message
-                            : t("adminAuctions.errors.requestFailed")}
-                    </p>
+                    <div role="alert" className="grid justify-items-start gap-2">
+                        <p className="text-sm text-destructive">
+                            {createAuction.error instanceof AdminAuctionRequestError
+                                ? createAuction.error.message
+                                : t("adminAuctions.errors.requestFailed")}
+                        </p>
+                        {conflictingKey && (
+                            <Link
+                                to="/$lng/admin/auctions"
+                                params={{ lng: language }}
+                                search={conflictingKey}
+                                className="text-sm text-primary underline underline-offset-4"
+                            >
+                                {t("adminAuctions.actions.findExisting")}
+                            </Link>
+                        )}
+                    </div>
                 )}
                 <div className="flex flex-wrap justify-end gap-2">
                     <Button

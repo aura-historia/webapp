@@ -40,18 +40,21 @@ admin workflows in [admin workflows](admin-workflows.md).
   `PatchProductListingSearchData` and `ProductListingSummaryData` schemas; and the 37 new geography
   schemas (`GeographicSearchData` and its origin/radius, `ListingGeographyData`, the `UserAddress*`,
   `BrowsingDestination*`, `PartyLocation*`, `PublicPartyLocationData`, `*SourceLocationDefault*`
-  schemas). Nothing else was taken from that revision. File SHA-256:
-  `31fcff35482db1c856110ab0cbcbbfefc82c9374be5964c69dde63b5f0381b60` (Git blob
-  `2f9c172d0ed9d626c25e683224760f9c716ec4a9`); canonical parsed-JSON SHA-256 (recorded as
+  schemas). From the same revision, the `get` operation (`adminSearchAuctions`) of
+  `/api/v1/admin/auctions` and the `AdminAuctionSearchCollectionData` schema were added
+  byte-for-byte for [#1096](https://github.com/aura-historia/webapp/issues/1096); the sibling
+  `post`, the admin auction detail path and their delegated-scope descriptions were left
+  unchanged. Nothing else was taken from that revision. File SHA-256:
+  `c1a52662a4dbd4f6b806f6c835923a07a96e915b3a47af202095ceddc327599f` (Git blob
+  `49e5948574cca9f44579ee0fd650be6d401f1205`); canonical parsed-JSON SHA-256 (recorded as
   `x-source-contract-sha256` in the partner reference):
-  `66fe1b1dce23cc0ae93849e0dd622f75f5b80fea0f050b6589b4b11ff4846374`.
+  `349bb9d38bed276412020c7e396fa8e3e5ecb582853f571e60fda21c44e668a6`.
 - Later backend changes are deliberately not adopted yet. Reviewed against `7684dd41`, they are:
   own access-token DTOs (`OwnAccessTokenData`, `CreatedAccessTokenData`, `PostAccessTokenData`
   with `scopes`/`expires`, and `AccessTokenAuth` on the own-token operations), removal of the
   search-filter match reasons (`matchReason`, `enhancedMatchReason`), account
   `marketingEmailConsent` and the read-only admin email, the server-to-server Loops webhook, the
-  admin auction search (`adminSearchAuctions`) and scheduled public-directory cursor from
-  backend#1991, the `productTitle` description, the `401 INVALID_CREDENTIALS` examples, and the
+  scheduled public-directory cursor from backend#1991, the `productTitle` description, the `401 INVALID_CREDENTIALS` examples, and the
   per-operation delegated-scope wording and `403` responses from backend#1994 (the backend remains
   authoritative for which scope each operation requires). Adopting the access-token and
   match-reason changes requires mapper and UI work; do it in a separate change.
@@ -76,8 +79,9 @@ To adopt a backend revision:
 - Public auction browsing, detail and catalogue pages are deferred to
   [#1060](https://github.com/aura-historia/webapp/issues/1060); `listAuctions`, `getAuction` and
   `getAuctionCatalogue` are generated only. Listing-level auction summaries and typed history are
-  implemented. Ordering the public directory by schedule and an admin auction search depend on
-  [backend#1991](https://github.com/aura-historia/backend/issues/1991).
+  implemented. Ordering the public directory by schedule depends on
+  [backend#1991](https://github.com/aura-historia/backend/issues/1991). The admin auction search
+  is consumed by the admin auction directory (see [admin workflows](admin-workflows.md#auction-directory)).
 - The geography contract ([backend#2031](https://github.com/aura-historia/backend/pull/2031)) is
   adopted with shared models and mappers only ([#1076](https://github.com/aura-historia/webapp/issues/1076)).
   Every geography operation is generated-only until its feature slice consumes it: the user
@@ -151,16 +155,31 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
 
 - Prefixed IDs (listing, source, FX, user, `at_` tokens) are opaque strings. Never parse them as
   UUIDs or extract slugs from them.
-- Use `productListingQueryKeys`. Include a non-secret `viewerCacheKey` whenever a query can
-  contain account-specific state, so one viewer's state never shares an entry with another's or
-  with anonymous data.
+- Every query that caches listings (search, detail, landing, similar, dealer, shop, watchlist,
+  saved-search matches and previews) uses a `productListingQueryKeys` key under the single
+  `["productListings"]` root. Never key listing data with generated `*QueryKey` helpers or ad-hoc
+  prefixes. Include a non-secret `viewerCacheKey` when a key is partitioned per account (the
+  watchlist), so one viewer's state never shares an entry with another's or with anonymous data.
+- Listing `userState` is a copy embedded in every cached listing. Change it only through
+  `patchListingUserState` (`src/features/product/catalog/lib/listingUserStateCache.ts`), which
+  updates mapped listings, infinite pages and the raw `{ item, userState }` detail DTO alike, and
+  skips other viewers' partitions. Apply it after the backend confirms the write, then invalidate
+  the listing root.
+- Pending watchlist writes are shown through `useListingWatchlistState`, which overlays this
+  listing's pending mutations on the cached state; caches are not rewritten optimistically, so a
+  failed write has nothing to roll back and cannot undo another listing's change. Writes to one
+  listing share a mutation `scope` and run in order.
+- The product detail cache keeps the raw personalized DTO so SSR dehydration stays serializable;
+  map it at the page boundary.
 - Search preserves the complete FX-pinned `searchAfter` object as one JSON query value and resets
   it when criteria or currency change. Watchlist and match cursors are endpoint-specific tuple or
   string formats; there is no universal cursor type. Saved-match pagination stops on an absent
   cursor.
-- Sign-in, sign-out and viewer changes remove listing, account, watchlist, match, notification,
-  own-source, application, access-token and `admin` caches, aborting pending private reads so late
-  responses cannot repopulate them. See [privacy alignment](privacy-policy-alignment.md).
+- Sign-in, sign-out and viewer changes remove listing (the whole `["productListings"]` root),
+  account, notification, saved-search, own-source, application, access-token and `admin` caches,
+  aborting pending private reads so late responses cannot repopulate them. Pending listing writes
+  are removed from the mutation cache, and a write that settles after a viewer change does not
+  touch the next viewer's caches. See [privacy alignment](privacy-policy-alignment.md).
 
 ### Geography
 

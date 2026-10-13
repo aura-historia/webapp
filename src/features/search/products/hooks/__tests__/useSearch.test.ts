@@ -209,8 +209,8 @@ describe("useSearch", () => {
         expect(
             queryClient
                 .getQueryCache()
-                .findAll({ queryKey: ["search"] })
-                .map((q) => q.queryKey[3]),
+                .findAll({ queryKey: ["productListings", "search"] })
+                .map((q) => q.queryKey[4]),
         ).toEqual(["EUR", "SEK"]);
     });
 

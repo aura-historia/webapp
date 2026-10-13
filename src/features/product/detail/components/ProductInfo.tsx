@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { ProductSharer } from "@/features/product/detail/components/ProductSharer.tsx";
 import { NotificationButton } from "@/features/watchlist/components/NotificationButton.tsx";
 import { WatchlistButton } from "@/features/watchlist/components/WatchlistButton.tsx";
+import { useListingWatchlistState } from "@/features/watchlist/api/watchlistMutationState.ts";
 import { H1 } from "@/components/typography/H1.tsx";
 import { Link } from "@tanstack/react-router";
 import { ListingStatusBadge } from "@/features/product/catalog/components/badges/ListingStatusBadge.tsx";
@@ -16,8 +17,10 @@ import { PriceValuationBadge } from "@/features/product/catalog/components/badge
 
 export function ProductInfo({ product }: { readonly product: ProductListingDetail }) {
     const { t } = useTranslation();
-    const isWatching = product.userState?.watchlist.watching ?? false;
-    const notificationsEnabled = product.userState?.watchlist.notifications ?? false;
+    const { watching: isWatching, notifications: notificationsEnabled } = useListingWatchlistState(
+        product.productListingId,
+        product.userState?.watchlist,
+    );
     const isWithdrawn = product.lifecycle === "WITHDRAWN";
     const merchantUrl = product.viewUrl?.href ?? product.url?.href;
     const searchFilterData = product.userState?.searchFilter;

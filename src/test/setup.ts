@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom";
+import "@testing-library/jest-dom/vitest";
 import testI18n from "@/i18n/i18nForTests";
 import { beforeEach, vi } from "vitest";
 

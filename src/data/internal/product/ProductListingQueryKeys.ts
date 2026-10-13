@@ -1,4 +1,5 @@
-import type { CurrencyData, LanguageData } from "@/client";
+import type { Currency } from "@/data/internal/common/Currency.ts";
+import type { Language } from "@/data/internal/common/Language.ts";
 
 export type ProductListingIdentity = {
     readonly productListingId: string;
@@ -7,8 +8,16 @@ export type ProductListingIdentity = {
 };
 
 export type ProductListingQueryContext = {
-    readonly language: LanguageData;
-    readonly currency: CurrencyData;
+    readonly language: Language;
+    readonly currency: Currency;
+};
+
+export type ProductListingDetailQueryContext = {
+    readonly language: Language;
+    readonly currency: Currency | undefined;
+};
+
+export type ViewerProductListingQueryContext = ProductListingQueryContext & {
     /** Stable, non-secret cache partition for a signed-in account. Omit for anonymous data. */
     readonly viewerCacheKey?: string;
 };
@@ -30,39 +39,78 @@ function viewerPartition(
     return viewerCacheKey === undefined ? ["anonymous"] : ["viewer", viewerCacheKey];
 }
 
-/** Stable query keys for listing data, with viewer state isolated by account cache partition. */
+const all = ["productListings"] as const;
+
+/**
+ * Every query whose data contains listings, and therefore personalized `userState`, lives under
+ * one root. Cache updates, invalidation and viewer clearing address listings through `all`.
+ */
 export const productListingQueryKeys = {
-    all: ["productListings"] as const,
-    summaries(context: ProductListingQueryContext) {
+    all,
+    /** The SSR loader may lack a preferred currency; the API then uses its default. */
+    detailBySlug(productListingTitleSlugId: string, context: ProductListingDetailQueryContext) {
         return [
-            ...this.all,
-            "summary",
-            context.language,
-            context.currency,
-            ...viewerPartition(context.viewerCacheKey),
-        ] as const;
-    },
-    summary(productListingId: string, context: ProductListingQueryContext) {
-        return [
-            ...this.all,
-            "summary",
-            productListingId,
-            context.language,
-            context.currency,
-            ...viewerPartition(context.viewerCacheKey),
-        ] as const;
-    },
-    detail(productListingId: string, context: ProductListingQueryContext) {
-        return [
-            ...this.all,
+            ...all,
             "detail",
-            productListingId,
+            productListingTitleSlugId,
             context.language,
             context.currency,
-            ...viewerPartition(context.viewerCacheKey),
         ] as const;
     },
-    history(productListingId: string) {
-        return [...this.all, "history", productListingId] as const;
+    search(criteria: object, context: ProductListingQueryContext) {
+        return [...all, "search", criteria, context.language, context.currency] as const;
+    },
+    recentlyAdded(context: ProductListingQueryContext) {
+        return [...all, "recentlyAdded", context.language, context.currency] as const;
+    },
+    similar(productListingId: string, context: ProductListingQueryContext) {
+        return [...all, "similar", productListingId, context.language, context.currency] as const;
+    },
+    dealer(
+        listingSourceId: string,
+        excludeProductListingId: string,
+        context: ProductListingQueryContext,
+    ) {
+        return [
+            ...all,
+            "dealer",
+            listingSourceId,
+            excludeProductListingId,
+            context.language,
+            context.currency,
+        ] as const;
+    },
+    source(listingSourceId: string, pageSize: number, context: ProductListingQueryContext) {
+        return [
+            ...all,
+            "source",
+            listingSourceId,
+            pageSize,
+            context.language,
+            context.currency,
+        ] as const;
+    },
+    watchlistOf(viewerCacheKey: string | undefined) {
+        return [...all, "watchlist", ...viewerPartition(viewerCacheKey)] as const;
+    },
+    watchlist(context: ViewerProductListingQueryContext) {
+        return [
+            ...this.watchlistOf(context.viewerCacheKey),
+            context.language,
+            context.currency,
+        ] as const;
+    },
+    savedSearchMatches(userSearchFilterId: string) {
+        return [...all, "savedSearchMatches", userSearchFilterId] as const;
+    },
+    savedSearchMatchesPage(userSearchFilterId: string, context: ProductListingQueryContext) {
+        return [
+            ...this.savedSearchMatches(userSearchFilterId),
+            context.language,
+            context.currency,
+        ] as const;
+    },
+    savedSearchPreview(search: object, context: ProductListingQueryContext) {
+        return [...all, "savedSearchPreview", search, context.language, context.currency] as const;
     },
 };

@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import { useWatchlistNotificationMutation } from "../useWatchlistNotificationMutation.ts";
 
 const mockPatch = vi.hoisted(() => vi.fn());
@@ -17,6 +18,7 @@ vi.mock("@/data/internal/hooks/ApiError.ts", () => ({
     mapToInternalApiError: (error: unknown) => error,
 }));
 vi.mock("react-i18next", () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
+vi.mock("aws-amplify/auth", () => ({ getCurrentUser: async () => ({ userId: "user-1" }) }));
 
 const listing = {
     productListingId: "listing-1",
@@ -33,7 +35,11 @@ const listing = {
 describe("useWatchlistNotificationMutation", () => {
     let queryClient: QueryClient;
     const productListingId = "listing-1";
-    const key = ["watchlist", "user-1", "en", "EUR"];
+    const key = productListingQueryKeys.watchlist({
+        language: "en",
+        currency: "EUR",
+        viewerCacheKey: "user-1",
+    });
     const wrapper = ({ children }: { children: React.ReactNode }) =>
         createElement(QueryClientProvider, { client: queryClient }, children);
 
@@ -49,7 +55,7 @@ describe("useWatchlistNotificationMutation", () => {
         mockErrorMessage.mockImplementation((error) => error?.message ?? "Unknown error");
     });
 
-    it("updates notification state optimistically and sends the canonical path", async () => {
+    it("applies the confirmed notification state and sends the canonical path", async () => {
         mockPatch.mockResolvedValue({
             data: { userId: "user-1", productListingId, notifications: true, state: "ACTIVE" },
             error: null,
@@ -71,7 +77,7 @@ describe("useWatchlistNotificationMutation", () => {
         expect(cached?.pages[0].products[0]).toHaveProperty("source");
     });
 
-    it("rolls back a failed notification change", async () => {
+    it("leaves cached state untouched when the change fails", async () => {
         mockPatch.mockResolvedValue({
             data: null,
             error: { message: "Unavailable" },

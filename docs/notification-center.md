@@ -21,14 +21,15 @@ marks all of its `unseenNotificationIds` through the selected-bulk
 (`PATCH /me/notifications/all`); delete-all uses the collection DELETE.
 
 Mutation endpoints return 204 with no notification body. After success, the hooks
-update loaded notification pages and listing unread projections, then invalidate
-related queries, including generated detail-query keys and saved-search matches.
+update loaded notification pages and listing unread projections through
+`patchListingUserState`, then invalidate the notification query and the
+`["productListings"]` root, which covers every listing view including product detail,
+the landing page and saved-search matches.
 Requests that fail leave caches untouched, so no optimistic rollback is necessary.
 Each mutation captures its initiating account before sending the request. Cache
 commits are discarded if that account is no longer active, including after pending
 queries have been cancelled. Notification and other viewer-partitioned caches are
-updated and invalidated only for that account. Shop-profile `sourceProductListings`
-caches are included in unread-state updates and invalidation.
+updated and invalidated only for that account.
 
 Pagination serializes the returned `[created timestamp, notification ID]` tuple as
 JSON for the next request and stops for absent or repeated cursors. Page sizes do

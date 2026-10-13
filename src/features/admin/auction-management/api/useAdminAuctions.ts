@@ -1,5 +1,6 @@
 import {
     infiniteQueryOptions,
+    type QueryClient,
     queryOptions,
     useInfiniteQuery,
     useMutation,
@@ -9,6 +10,7 @@ import {
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import {
+    adminSearchAuctions,
     adminSearchListingSources,
     createAdminAuction,
     getAdminAuction,
@@ -22,13 +24,26 @@ import {
     mapToAdminListingSourcePage,
 } from "@/data/internal/listing-source/AdminListingSource.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { mapAdminAuction, type AdminAuction } from "@/data/internal/auction/AdminAuction.ts";
+import {
+    mapAdminAuction,
+    mapAdminAuctionPage,
+    type AdminAuction,
+    type AdminAuctionPage,
+} from "@/data/internal/auction/AdminAuction.ts";
+import {
+    mapToAdminAuctionSearchQuery,
+    type AdminAuctionFilters,
+} from "../lib/adminAuctionSearch.ts";
 
 export const ADMIN_AUCTIONS_QUERY_KEY = ["admin", "auctions"] as const;
 export const adminAuctionDetailQueryKey = (auctionId: string) =>
     [...ADMIN_AUCTIONS_QUERY_KEY, "detail", auctionId] as const;
+export const ADMIN_AUCTION_LIST_QUERY_KEY = [...ADMIN_AUCTIONS_QUERY_KEY, "list"] as const;
+/** Every filter, the sort and the page size are part of the key, so a scope change never reuses a cursor. */
+export const adminAuctionListQueryKey = (filters: AdminAuctionFilters) =>
+    [...ADMIN_AUCTION_LIST_QUERY_KEY, filters] as const;
 
-export type AdminAuctionOperation = "read" | "sourceSearch" | "create" | "update";
+export type AdminAuctionOperation = "read" | "search" | "sourceSearch" | "create" | "update";
 
 export class AdminAuctionRequestError extends Error {
     constructor(
@@ -56,10 +71,11 @@ function errorKey(status: number, operation: AdminAuctionOperation): string {
     if (status === 409 && operation === "create") return "adminAuctions.errors.duplicateSourceKey";
     if (status === 409 && operation === "update") return "adminAuctions.errors.staleVersion";
     if (status === 400) {
-        return operation === "read"
-            ? "adminAuctions.errors.invalidId"
-            : "adminAuctions.errors.invalid";
+        if (operation === "read") return "adminAuctions.errors.invalidId";
+        if (operation === "search") return "adminAuctions.errors.invalidSearch";
+        return "adminAuctions.errors.invalid";
     }
+    if (status === 503) return "adminAuctions.errors.unavailable";
     return "adminAuctions.errors.requestFailed";
 }
 
@@ -104,6 +120,38 @@ export function adminAuctionDetailQueryOptions(
 
 export function useAdminAuction(auctionId: string) {
     return useQuery(adminAuctionDetailQueryOptions(auctionId, useAdminAuctionRequestError()));
+}
+
+export function adminAuctionListQueryOptions(
+    filters: AdminAuctionFilters,
+    requestError: AdminAuctionErrorFactory,
+) {
+    return infiniteQueryOptions({
+        queryKey: adminAuctionListQueryKey(filters),
+        initialPageParam: undefined as string | undefined,
+        getNextPageParam: (page: AdminAuctionPage) => page.searchAfter,
+        staleTime: 0,
+        gcTime: 0,
+        queryFn: async ({ pageParam, signal }) => {
+            const response = await adminSearchAuctions({
+                query: mapToAdminAuctionSearchQuery(filters, pageParam),
+                signal,
+                cache: "no-store",
+            });
+            if (response.error || !response.data) {
+                throw requestError(response.response?.status, "search");
+            }
+            return mapAdminAuctionPage(response.data);
+        },
+    });
+}
+
+export function useAdminAuctions(filters: AdminAuctionFilters) {
+    return useInfiniteQuery(adminAuctionListQueryOptions(filters, useAdminAuctionRequestError()));
+}
+
+function refreshAdminAuctionLists(queryClient: QueryClient) {
+    void queryClient.invalidateQueries({ queryKey: ADMIN_AUCTION_LIST_QUERY_KEY });
 }
 
 const LISTING_SOURCE_ID_PATTERN = /^ls_[0-9a-z]{26}$/;
@@ -277,6 +325,13 @@ export function useCreateAdminAuction() {
         },
         onSuccess: (auction) => {
             queryClient.setQueryData(adminAuctionDetailQueryKey(auction.auctionId), auction);
+            refreshAdminAuctionLists(queryClient);
+        },
+        onError: (error) => {
+            // A duplicate key means a record exists that a cached directory page may not show.
+            if (error instanceof AdminAuctionRequestError && error.status === 409) {
+                refreshAdminAuctionLists(queryClient);
+            }
         },
     });
 }
@@ -305,9 +360,11 @@ export function useUpdateAdminAuction(auctionId: string) {
         },
         onSuccess: (auction) => {
             queryClient.setQueryData(adminAuctionDetailQueryKey(auction.auctionId), auction);
+            refreshAdminAuctionLists(queryClient);
         },
         onError: async (error) => {
             if (error instanceof AdminAuctionRequestError && error.status === 409) {
+                refreshAdminAuctionLists(queryClient);
                 // A stale version must never be retried against a cached admin record.
                 await queryClient.invalidateQueries({
                     queryKey: adminAuctionDetailQueryKey(auctionId),
