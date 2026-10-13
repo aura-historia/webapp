@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { type ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -129,14 +130,25 @@ export function AdminPartyDetailDialog({
                         >
                             {t("adminParties.actions.delete")}
                         </Button>
-                        <Button
-                            onClick={() => {
-                                handleOpenChange(false);
-                                onEdit(party);
-                            }}
-                        >
-                            {t("adminParties.actions.edit")}
-                        </Button>
+                        <div className="flex flex-wrap gap-2">
+                            <Button variant="outline" asChild>
+                                <Link
+                                    to="/$lng/admin/parties/$partyId/locations"
+                                    from="/$lng"
+                                    params={(previous) => ({ ...previous, partyId: party.partyId })}
+                                >
+                                    {t("adminParties.actions.locations")}
+                                </Link>
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    handleOpenChange(false);
+                                    onEdit(party);
+                                }}
+                            >
+                                {t("adminParties.actions.edit")}
+                            </Button>
+                        </div>
                     </div>
                 )}
             </div>

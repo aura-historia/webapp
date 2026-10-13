@@ -8,9 +8,9 @@ authenticated, noindex workflow routes retain `AdminGuard`. Add admin workflows 
 with current DTO mapping, tests and the authorization checks below.
 
 Workflows: OAuth client management, partnership application review and partnership
-membership/source-grant management (see [admin workflows](admin-workflows.md)), Party
-management, listing-source management, user management with security controls, auction
-management, and the admin overview. The
+membership/source-grant management and Party business locations (see
+[admin workflows](admin-workflows.md)), Party management, listing-source management, user
+management with security controls, auction management, and the admin overview. The
 overview reads only the `getAdminOverview` aggregate with a `no-store` request under the
 private `["admin", "overview"]` query key; it never derives totals from paginated
 collections, shows loading and error states instead of zero for unavailable counts, and

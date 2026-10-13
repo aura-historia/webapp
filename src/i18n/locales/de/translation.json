@@ -1942,7 +1942,8 @@
       "saving": "Wird gespeichert…",
       "confirmDelete": "Diese Organisation löschen? Eine verknüpfte Listing-Quelle oder bestehende Partnerschaft kann die Löschung verhindern. Zugehörige Datensätze werden durch diese Aktion nicht gelöscht.",
       "confirmDeleteButton": "Löschen",
-      "deleting": "Wird gelöscht…"
+      "deleting": "Wird gelöscht…",
+      "locations": "Standorte verwalten"
     },
     "success": {
       "created": "Organisation erstellt.",
@@ -1972,6 +1973,11 @@
       "noMatch": "Keine vorhandene Organisation entspricht der Suche. Erstellen Sie sie in der Organisationsverwaltung und kehren Sie dann zur Auswahl zurück.",
       "searchPrompt": "Suchen Sie vorhandene Organisationen nach Name oder Kontaktdaten.",
       "manageLink": "Organisationsverwaltung öffnen"
+    },
+    "locations": {
+      "back": "Zurück zu den Organisationen",
+      "title": "Geschäftsstandorte",
+      "owner": "Standorte von {{name}}"
     }
   },
   "adminListingSources": {
@@ -3012,5 +3018,166 @@
     },
     "coordinates": "{{latitude}}; {{longitude}}",
     "nauticalMiles": "{{value}} sm"
+  },
+  "partyLocations": {
+    "title": "Standorte",
+    "description": "Jeder Standort hat eine eigene Identität. Korrigieren Sie die Angaben eines Standorts, verlegen Sie ihn bei einem Umzug des Geschäfts oder legen Sie ihn still, wenn er nicht mehr genutzt wird.",
+    "list": {
+      "label": "Standorte",
+      "loading": "Standorte werden geladen.",
+      "empty": "Für diese Organisation sind noch keine Standorte erfasst.",
+      "loadMore": "Mehr laden",
+      "loadingMore": "Wird geladen…"
+    },
+    "detail": {
+      "loading": "Standort wird geladen.",
+      "empty": "Wählen Sie einen Standort, um seine Angaben und Aktionen zu sehen.",
+      "unsupportedValues": "Einige gespeicherte Werte verwenden einen Code oder ein Format, das diese Anwendung nicht anzeigen kann. Sie werden hier daher nicht angezeigt.",
+      "confirmRetire": "Diesen Standort stilllegen?",
+      "confirmRestore": "Diesen Standort reaktivieren?"
+    },
+    "eligibility": {
+      "ACTIVE": "Aktiv und öffentlich: Der genaue Punkt sowie Land und Region können in Suchergebnissen und Umkreissuchen erscheinen.",
+      "RETIRED": "Stillgelegt: erscheint nicht in öffentlichen Ergebnissen und liefert keine übernommene Angebotsgeografie.",
+      "UNKNOWN": "Dieser Standort hat einen Status, den diese Anwendung nicht kennt. Daher werden keine Aktionen angeboten."
+    },
+    "lifecycle": {
+      "ACTIVE": "Aktiv",
+      "RETIRED": "Stillgelegt",
+      "UNKNOWN": "Unbekannter Status"
+    },
+    "roles": {
+      "BUSINESS_PREMISES": "Geschäftsräume",
+      "WAREHOUSE": "Lager",
+      "REGISTERED_ADDRESS": "Eingetragene Anschrift",
+      "CORRESPONDENCE": "Korrespondenzanschrift"
+    },
+    "precisions": {
+      "PREMISES": "Gebäude",
+      "STREET": "Straße",
+      "LOCALITY": "Ort",
+      "REPRESENTATIVE": "Repräsentativer Punkt"
+    },
+    "evidenceScopes": {
+      "SITE_DESCRIPTION": "Standortbeschreibung",
+      "REGISTERED_ADDRESS": "Eingetragene Anschrift",
+      "CORRESPONDENCE_ADDRESS": "Korrespondenzanschrift"
+    },
+    "sections": {
+      "geography": "Adresse und Region",
+      "position": "Geografischer Punkt",
+      "evidence": "Nachweis"
+    },
+    "fields": {
+      "label": "Bezeichnung",
+      "roles": "Geschäftliche Rollen",
+      "addressText": "Adresse",
+      "country": "Land",
+      "subdivision": "Region (ISO 3166-2)",
+      "postalCode": "Postleitzahl",
+      "latitude": "Breitengrad (Dezimalgrad)",
+      "longitude": "Längengrad (Dezimalgrad)",
+      "coordinates": "Koordinaten",
+      "precision": "Genauigkeitsstufe",
+      "accuracyMetres": "Genauigkeit (Meter)",
+      "evidenceReference": "Nachweisreferenz",
+      "evidenceScope": "Nachweisumfang",
+      "evidenceObservedOn": "Festgestellt am (UTC)",
+      "locationId": "Standort-ID",
+      "notAsserted": "Nicht angegeben",
+      "noRoles": "Keine Rollen",
+      "noGeography": "Keine Adresse oder Region angegeben"
+    },
+    "hints": {
+      "roles": "Rollen beschreiben, wie das Geschäft diesen Standort nutzt. Sie sagen nichts darüber aus, wo Objekte gelagert, versendet oder abgeholt werden.",
+      "geography": "Alle Felder sind optional und werden genau so gespeichert, wie sie eingegeben wurden. Die Adresse wird beim Speichern weder geprüft noch geokodiert.",
+      "position": "Optional. Ein Punkt benötigt seine Genauigkeitsstufe; die Anzahl der Nachkommastellen sagt nichts über die Genauigkeit aus.",
+      "evidence": "Optionale Referenz auf die Quelle dieser Angaben, etwa eine Dokumentnummer oder Webadresse. Sie wird als Text gespeichert und nie aufgerufen.",
+      "chooseCountry": "Wählen Sie zuerst ein Land"
+    },
+    "consequences": {
+      "correct": "Eine Korrektur behält die Identität dieses Standorts bei. Listing-Quellen, die ihn als Standard verwenden, behalten ihn; ihre übernommene Angebotsgeografie folgt nach kurzer Zeit den korrigierten Angaben.",
+      "relocate": "Eine Verlegung legt einen neuen Standort mit eigener Identität an und legt diesen im selben Schritt still. Listing-Quellen, die diesen Standort als Standard verwenden, werden nicht umgestellt: Sie behalten den Verweis auf den stillgelegten Standort und liefern keine übernommene Angebotsgeografie, bis ausdrücklich ein Standard gewählt wird.",
+      "retire": "Der Standort verschwindet aus öffentlichen Ergebnissen und liefert keine übernommene Angebotsgeografie mehr; das kann kurze Zeit dauern. Listing-Quellen, die ihn als Standard verwenden, behalten den Verweis zur Nachvollziehbarkeit; es wird kein anderer Standort automatisch gewählt.",
+      "restore": "Der Standort wird wieder öffentlich: Sein genauer Punkt sowie Land und Region können in Suchergebnissen erscheinen. Listing-Quellen, die ihn weiterhin als Standard verwenden, liefern nach kurzer Zeit wieder übernommene Angebotsgeografie."
+    },
+    "editor": {
+      "create": {
+        "title": "Standort hinzufügen",
+        "description": "Erfassen Sie einen Geschäftsstandort dieser Organisation. Unvollständige Angaben sind zulässig.",
+        "submit": "Standort hinzufügen"
+      },
+      "correct": {
+        "title": "Standort korrigieren",
+        "description": "Berichtigen Sie die Angaben zu diesem selben physischen Standort. Unveränderte Abschnitte bleiben erhalten; leeren Sie alle Felder eines Abschnitts, um ihn zu entfernen.",
+        "submit": "Korrektur speichern"
+      },
+      "relocate": {
+        "title": "Standort verlegen",
+        "description": "Verwenden Sie dies, wenn das Geschäft an einen anderen Ort umgezogen ist. Geben Sie die Angaben des neuen Standorts ein.",
+        "submit": "Verlegung prüfen"
+      },
+      "unsupportedValues": "Dieser Standort enthält gespeicherte Werte, die diese Anwendung nicht anzeigen kann. Unveränderte Abschnitte behalten sie; wenn Sie einen Abschnitt ändern oder leeren, werden sie ersetzt.",
+      "noChanges": "Es gibt keine Änderungen zum Speichern.",
+      "stale": {
+        "correct": "Dieser Standort wurde geändert, während Sie ihn bearbeitet haben. Ihr Entwurf bleibt erhalten. Übernehmen Sie nur Ihre Änderungen in die neueste Fassung oder verwerfen Sie Ihren Entwurf und beginnen Sie mit der neuesten Fassung.",
+        "relocate": "Dieser Standort wurde geändert, während Sie die Verlegung vorbereitet haben. Ihr Entwurf bleibt erhalten. Fahren Sie mit der neuesten Fassung fort oder verwerfen Sie Ihren Entwurf."
+      },
+      "staleInactive": "Dieser Standort ist nicht mehr aktiv und kann daher nicht mehr korrigiert oder verlegt werden. Schließen Sie diesen Dialog, um ihn zu prüfen.",
+      "keepDraft": "Entwurf behalten",
+      "discardDraft": "Entwurf verwerfen",
+      "confirmRelocation": "Den neuen Standort anlegen und den bisherigen im selben Schritt stilllegen?"
+    },
+    "actions": {
+      "create": "Standort hinzufügen",
+      "correct": "Korrigieren",
+      "relocate": "Verlegen",
+      "retire": "Stilllegen",
+      "restore": "Reaktivieren",
+      "confirmRetire": "Standort stilllegen",
+      "confirmRestore": "Standort reaktivieren",
+      "confirmRelocate": "Verlegen und stilllegen",
+      "back": "Zurück",
+      "cancel": "Abbrechen",
+      "saving": "Wird gespeichert…",
+      "retry": "Erneut versuchen"
+    },
+    "selector": {
+      "empty": "Diese Organisation hat keine aktiven Standorte."
+    },
+    "success": {
+      "created": "Standort hinzugefügt.",
+      "relocated": "Neuer Standort angelegt; der bisherige Standort wurde stillgelegt.",
+      "corrected": "Standort korrigiert.",
+      "unchanged": "Keine Änderung nötig; der Standort hatte diese Angaben bereits.",
+      "retired": "Standort stillgelegt.",
+      "restored": "Standort reaktiviert."
+    },
+    "errors": {
+      "forbidden": "Sie sind nicht berechtigt, die Standorte dieser Organisation zu verwalten.",
+      "missing": "Diese Organisation oder dieser Standort wurde nicht gefunden oder ist nicht mehr verfügbar.",
+      "invalid": "Prüfen Sie die Standortangaben und versuchen Sie es erneut.",
+      "conflict": "Dieser Standort wurde geändert oder ist nicht mehr aktiv. Die neueste Fassung wurde geladen; prüfen Sie sie, bevor Sie es erneut versuchen.",
+      "createConflict": "Der Standort konnte nicht hinzugefügt werden, weil die Anfrage im Widerspruch zu einer früheren steht. Prüfen Sie die Standorte, bevor Sie es erneut versuchen.",
+      "createIndefinite": "Wir konnten nicht bestätigen, ob der Standort gespeichert wurde. Senden Sie das Formular unverändert erneut, um es sicher zu wiederholen; dabei entsteht kein Duplikat.",
+      "unavailable": "Die Standortverwaltung ist vorübergehend nicht verfügbar. Bitte versuchen Sie es in Kürze erneut.",
+      "requestFailed": "Die Anfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+    },
+    "validation": {
+      "labelRequired": "Geben Sie eine Bezeichnung ein.",
+      "labelInvalid": "Die Bezeichnung muss einzeilig sein und darf höchstens 255 UTF-8-Bytes umfassen.",
+      "addressTextTooLong": "Die Adresse darf höchstens 4096 UTF-8-Bytes umfassen.",
+      "postalCodeInvalid": "Die Postleitzahl muss einzeilig sein und darf höchstens 64 UTF-8-Bytes umfassen.",
+      "countryInvalid": "Wählen Sie ein Land aus der Liste.",
+      "subdivisionInvalid": "Wählen Sie eine Region aus der Liste.",
+      "subdivisionMismatch": "Die Region muss zum ausgewählten Land gehören.",
+      "latitudeInvalid": "Geben Sie einen Breitengrad zwischen -90 und 90 ein.",
+      "longitudeInvalid": "Geben Sie einen Längengrad zwischen -180 und 180 ein.",
+      "precisionRequired": "Wählen Sie die Genauigkeitsstufe dieses Punkts.",
+      "accuracyInvalid": "Geben Sie eine Genauigkeit von 0 Metern oder mehr ein.",
+      "evidenceReferenceRequired": "Geben Sie eine Nachweisreferenz ein oder leeren Sie das Datum.",
+      "evidenceReferenceInvalid": "Die Referenz muss einzeilig sein und darf höchstens 2048 UTF-8-Bytes umfassen.",
+      "observedOnInvalid": "Geben Sie ein gültiges Kalenderdatum ein."
+    }
   }
 }

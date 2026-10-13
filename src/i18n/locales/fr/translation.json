@@ -2230,7 +2230,8 @@
       "saving": "Enregistrement…",
       "confirmDelete": "Supprimer cette organisation ? Une source d’annonces ou un partenariat conservé peut empêcher sa suppression. Cette action ne supprime aucun dossier associé.",
       "confirmDeleteButton": "Supprimer",
-      "deleting": "Suppression…"
+      "deleting": "Suppression…",
+      "locations": "Gérer les sites"
     },
     "success": {
       "created": "Organisation créée.",
@@ -2260,6 +2261,11 @@
       "noMatch": "Aucune organisation existante ne correspond. Créez-la dans la gestion des organisations, puis revenez la sélectionner.",
       "searchPrompt": "Recherchez des organisations par nom ou coordonnées.",
       "manageLink": "Ouvrir la gestion des organisations"
+    },
+    "locations": {
+      "back": "Retour aux organisations",
+      "title": "Sites commerciaux",
+      "owner": "Sites de {{name}}"
     }
   },
   "compareBarnebysPage": {
@@ -3012,5 +3018,166 @@
     },
     "coordinates": "{{latitude}} ; {{longitude}}",
     "nauticalMiles": "{{value}} NM"
+  },
+  "partyLocations": {
+    "title": "Sites",
+    "description": "Chaque site possède sa propre identité. Corrigez les informations d’un site, déplacez-le lorsque l’activité déménage ou retirez-le lorsqu’il n’est plus utilisé.",
+    "list": {
+      "label": "Sites",
+      "loading": "Chargement des sites.",
+      "empty": "Aucun site n’a encore été enregistré pour cette organisation.",
+      "loadMore": "Afficher la suite",
+      "loadingMore": "Chargement…"
+    },
+    "detail": {
+      "loading": "Chargement du site.",
+      "empty": "Sélectionnez un site pour consulter ses informations et ses actions.",
+      "unsupportedValues": "Certaines valeurs enregistrées utilisent un code ou un format que cette application ne peut pas afficher ; elles n’apparaissent donc pas ici.",
+      "confirmRetire": "Retirer ce site ?",
+      "confirmRestore": "Rétablir ce site ?"
+    },
+    "eligibility": {
+      "ACTIVE": "Actif et public : son point exact, son pays et sa région peuvent apparaître dans les résultats de recherche et les recherches par rayon.",
+      "RETIRED": "Retiré : n’apparaît pas dans les résultats publics et ne fournit aucune géographie héritée aux annonces.",
+      "UNKNOWN": "Ce site a un statut que cette application ne reconnaît pas ; aucune action n’est donc proposée."
+    },
+    "lifecycle": {
+      "ACTIVE": "Actif",
+      "RETIRED": "Retiré",
+      "UNKNOWN": "Statut inconnu"
+    },
+    "roles": {
+      "BUSINESS_PREMISES": "Locaux commerciaux",
+      "WAREHOUSE": "Entrepôt",
+      "REGISTERED_ADDRESS": "Siège social",
+      "CORRESPONDENCE": "Adresse de correspondance"
+    },
+    "precisions": {
+      "PREMISES": "Bâtiment",
+      "STREET": "Rue",
+      "LOCALITY": "Localité",
+      "REPRESENTATIVE": "Point représentatif"
+    },
+    "evidenceScopes": {
+      "SITE_DESCRIPTION": "Description du site",
+      "REGISTERED_ADDRESS": "Siège social",
+      "CORRESPONDENCE_ADDRESS": "Adresse de correspondance"
+    },
+    "sections": {
+      "geography": "Adresse et région",
+      "position": "Point géographique",
+      "evidence": "Justificatif"
+    },
+    "fields": {
+      "label": "Libellé",
+      "roles": "Fonctions commerciales",
+      "addressText": "Adresse",
+      "country": "Pays",
+      "subdivision": "Région (ISO 3166-2)",
+      "postalCode": "Code postal",
+      "latitude": "Latitude (degrés décimaux)",
+      "longitude": "Longitude (degrés décimaux)",
+      "coordinates": "Coordonnées",
+      "precision": "Niveau de précision",
+      "accuracyMetres": "Exactitude (mètres)",
+      "evidenceReference": "Référence du justificatif",
+      "evidenceScope": "Portée du justificatif",
+      "evidenceObservedOn": "Constaté le (UTC)",
+      "locationId": "ID du site",
+      "notAsserted": "Non renseigné",
+      "noRoles": "Aucune fonction",
+      "noGeography": "Aucune adresse ni région renseignée"
+    },
+    "hints": {
+      "roles": "Les fonctions décrivent l’usage que l’activité fait de ce site. Elles n’indiquent pas où les objets sont conservés, expédiés ou retirés.",
+      "geography": "Tous les champs sont facultatifs et enregistrés tels que saisis. L’adresse n’est ni vérifiée ni géocodée lors de l’enregistrement.",
+      "position": "Facultatif. Un point nécessite son niveau de précision ; le nombre de décimales n’indique pas l’exactitude.",
+      "evidence": "Référence facultative à la source de ces informations, par exemple un numéro de document ou une adresse web. Elle est enregistrée sous forme de texte et n’est jamais ouverte.",
+      "chooseCountry": "Choisissez d’abord un pays"
+    },
+    "consequences": {
+      "correct": "La correction conserve l’identité de ce site. Les sources d’annonces qui l’utilisent par défaut le conservent, et leur géographie héritée suit les informations corrigées après un court délai.",
+      "relocate": "Le déplacement crée un nouveau site doté de sa propre identité et retire celui-ci dans la même opération. Les sources d’annonces qui utilisent ce site par défaut ne sont pas déplacées : elles conservent la référence retirée et ne fournissent aucune géographie héritée tant qu’un site par défaut n’a pas été choisi explicitement.",
+      "retire": "Le site disparaît des résultats publics et ne fournit plus de géographie héritée aux annonces ; cela peut prendre un court délai. Les sources d’annonces qui l’utilisent par défaut conservent la référence pour assurer la traçabilité, et aucun autre site n’est sélectionné automatiquement.",
+      "restore": "Le site redevient public : son point exact, son pays et sa région peuvent apparaître dans les résultats de recherche. Les sources d’annonces qui le référencent encore par défaut fournissent de nouveau une géographie héritée après un court délai."
+    },
+    "editor": {
+      "create": {
+        "title": "Ajouter un site",
+        "description": "Enregistrez un site commercial de cette organisation. Les informations partielles sont acceptées.",
+        "submit": "Ajouter le site"
+      },
+      "correct": {
+        "title": "Corriger le site",
+        "description": "Corrigez les informations de ce même site physique. Les sections inchangées sont conservées ; vider tous les champs d’une section la supprime.",
+        "submit": "Enregistrer la correction"
+      },
+      "relocate": {
+        "title": "Déplacer le site",
+        "description": "Utilisez cette option lorsque l’activité a déménagé. Saisissez les informations du nouveau site.",
+        "submit": "Vérifier le déplacement"
+      },
+      "unsupportedValues": "Ce site contient des valeurs enregistrées que cette application ne peut pas afficher. Les sections que vous ne modifiez pas les conservent ; modifier ou vider une section les remplace.",
+      "noChanges": "Aucune modification à enregistrer.",
+      "stale": {
+        "correct": "Ce site a été modifié pendant votre saisie. Votre brouillon est conservé. Appliquez uniquement vos modifications à la dernière version, ou abandonnez votre brouillon et repartez de la dernière version.",
+        "relocate": "Ce site a été modifié pendant que vous prépariez le déplacement. Votre brouillon est conservé. Poursuivez avec la dernière version ou abandonnez votre brouillon."
+      },
+      "staleInactive": "Ce site n’est plus actif et ne peut donc plus être corrigé ni déplacé. Fermez cette fenêtre pour le consulter.",
+      "keepDraft": "Conserver mon brouillon",
+      "discardDraft": "Abandonner mon brouillon",
+      "confirmRelocation": "Créer le nouveau site et retirer le site actuel dans la même opération ?"
+    },
+    "actions": {
+      "create": "Ajouter un site",
+      "correct": "Corriger",
+      "relocate": "Déplacer",
+      "retire": "Retirer",
+      "restore": "Rétablir",
+      "confirmRetire": "Retirer le site",
+      "confirmRestore": "Rétablir le site",
+      "confirmRelocate": "Déplacer et retirer",
+      "back": "Retour",
+      "cancel": "Annuler",
+      "saving": "Enregistrement…",
+      "retry": "Réessayer"
+    },
+    "selector": {
+      "empty": "Cette organisation n’a aucun site actif."
+    },
+    "success": {
+      "created": "Site ajouté.",
+      "relocated": "Nouveau site créé ; le site précédent a été retiré.",
+      "corrected": "Site corrigé.",
+      "unchanged": "Aucune modification n’était nécessaire ; le site contenait déjà ces informations.",
+      "retired": "Site retiré.",
+      "restored": "Site rétabli."
+    },
+    "errors": {
+      "forbidden": "Vous n’êtes pas autorisé à gérer les sites de cette organisation.",
+      "missing": "Cette organisation ou ce site est introuvable ou n’est plus disponible.",
+      "invalid": "Vérifiez les informations du site et réessayez.",
+      "conflict": "Ce site a été modifié ou n’est plus actif. La dernière version a été chargée ; consultez-la avant de réessayer.",
+      "createConflict": "Le site n’a pas pu être ajouté, car la demande entre en conflit avec une demande antérieure. Consultez les sites avant de réessayer.",
+      "createIndefinite": "Nous n’avons pas pu confirmer l’enregistrement du site. Envoyez de nouveau le formulaire sans modification pour réessayer en toute sécurité ; aucun doublon ne sera créé.",
+      "unavailable": "La gestion des sites est temporairement indisponible. Veuillez réessayer dans quelques instants.",
+      "requestFailed": "La demande n’a pas pu aboutir. Veuillez réessayer."
+    },
+    "validation": {
+      "labelRequired": "Saisissez un libellé.",
+      "labelInvalid": "Le libellé doit tenir sur une seule ligne et ne pas dépasser 255 octets UTF-8.",
+      "addressTextTooLong": "L’adresse ne doit pas dépasser 4096 octets UTF-8.",
+      "postalCodeInvalid": "Le code postal doit tenir sur une seule ligne et ne pas dépasser 64 octets UTF-8.",
+      "countryInvalid": "Choisissez un pays dans la liste.",
+      "subdivisionInvalid": "Choisissez une région dans la liste.",
+      "subdivisionMismatch": "La région doit appartenir au pays sélectionné.",
+      "latitudeInvalid": "Saisissez une latitude comprise entre -90 et 90.",
+      "longitudeInvalid": "Saisissez une longitude comprise entre -180 et 180.",
+      "precisionRequired": "Choisissez le niveau de précision de ce point.",
+      "accuracyInvalid": "Saisissez une exactitude de 0 mètre ou plus.",
+      "evidenceReferenceRequired": "Saisissez une référence de justificatif ou effacez la date.",
+      "evidenceReferenceInvalid": "La référence doit tenir sur une seule ligne et ne pas dépasser 2048 octets UTF-8.",
+      "observedOnInvalid": "Saisissez une date valide."
+    }
   }
 }

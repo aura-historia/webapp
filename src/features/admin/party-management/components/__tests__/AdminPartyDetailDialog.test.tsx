@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import testI18n from "@/i18n/i18nForTests";
 import { AdminPartyDetailDialog } from "../AdminPartyDetailDialog.tsx";
@@ -9,6 +9,30 @@ const api = vi.hoisted(() => ({
     useDeleteAdminParty: vi.fn(),
 }));
 vi.mock("../../api/useAdminParties.ts", () => api);
+vi.mock("@tanstack/react-router", () => ({
+    Link: ({
+        children,
+        to,
+        params,
+        className,
+    }: {
+        children: ReactNode;
+        to: string;
+        params: (previous: Record<string, string>) => Record<string, string>;
+        className?: string;
+    }) => {
+        const resolved = params({ lng: "en" });
+        const href = Object.entries(resolved).reduce(
+            (path, [name, value]) => path.replace(`$${name}`, value),
+            to,
+        );
+        return (
+            <a href={href} className={className}>
+                {children}
+            </a>
+        );
+    },
+}));
 
 const party = {
     partyId: "party_canonical_1",
@@ -68,5 +92,15 @@ describe("AdminPartyDetailDialog", () => {
         expect(
             screen.getByRole("button", { name: testI18n.t("adminParties.actions.delete") }),
         ).toBeTruthy();
+    });
+
+    it("links to the Party's business locations", () => {
+        render(<Harness />);
+
+        fireEvent.click(screen.getByRole("button", { name: "open" }));
+
+        expect(
+            screen.getByRole("link", { name: testI18n.t("adminParties.actions.locations") }),
+        ).toHaveAttribute("href", "/en/admin/parties/party_canonical_1/locations");
     });
 });

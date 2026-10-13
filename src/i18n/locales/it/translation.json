@@ -2230,7 +2230,8 @@
       "saving": "Salvataggio…",
       "confirmDelete": "Eliminare questa organizzazione? Una fonte di annunci collegata o una partnership attiva può impedirne l’eliminazione. Questa azione non elimina record correlati.",
       "confirmDeleteButton": "Elimina",
-      "deleting": "Eliminazione…"
+      "deleting": "Eliminazione…",
+      "locations": "Gestisci sedi"
     },
     "success": {
       "created": "Organizzazione creata.",
@@ -2260,6 +2261,11 @@
       "noMatch": "Nessuna organizzazione esistente corrisponde alla ricerca. Creala nella gestione delle organizzazioni, poi torna qui per selezionarla.",
       "searchPrompt": "Cerca organizzazioni esistenti per nome o recapito.",
       "manageLink": "Apri la gestione delle organizzazioni"
+    },
+    "locations": {
+      "back": "Torna alle organizzazioni",
+      "title": "Sedi commerciali",
+      "owner": "Sedi di {{name}}"
     }
   },
   "compareBarnebysPage": {
@@ -3012,5 +3018,166 @@
     },
     "coordinates": "{{latitude}}; {{longitude}}",
     "nauticalMiles": "{{value}} NM"
+  },
+  "partyLocations": {
+    "title": "Sedi",
+    "description": "Ogni sede ha una propria identità. Correggete i dati di una sede, trasferitela quando l’attività si sposta oppure dismettetela quando non è più utilizzata.",
+    "list": {
+      "label": "Sedi",
+      "loading": "Caricamento delle sedi.",
+      "empty": "Per questa organizzazione non è ancora stata registrata alcuna sede.",
+      "loadMore": "Carica altro",
+      "loadingMore": "Caricamento…"
+    },
+    "detail": {
+      "loading": "Caricamento della sede.",
+      "empty": "Selezionate una sede per vederne i dati e le azioni.",
+      "unsupportedValues": "Alcuni valori salvati usano un codice o un formato che questa applicazione non può visualizzare, quindi non sono mostrati qui.",
+      "confirmRetire": "Dismettere questa sede?",
+      "confirmRestore": "Ripristinare questa sede?"
+    },
+    "eligibility": {
+      "ACTIVE": "Attiva e pubblica: il punto esatto, il paese e la regione possono comparire nei risultati di ricerca e nelle ricerche per raggio.",
+      "RETIRED": "Dismessa: non compare nei risultati pubblici e non fornisce geografia ereditata agli annunci.",
+      "UNKNOWN": "Questa sede ha uno stato che questa applicazione non riconosce, quindi non sono disponibili azioni."
+    },
+    "lifecycle": {
+      "ACTIVE": "Attiva",
+      "RETIRED": "Dismessa",
+      "UNKNOWN": "Stato sconosciuto"
+    },
+    "roles": {
+      "BUSINESS_PREMISES": "Locali commerciali",
+      "WAREHOUSE": "Magazzino",
+      "REGISTERED_ADDRESS": "Sede legale",
+      "CORRESPONDENCE": "Indirizzo di corrispondenza"
+    },
+    "precisions": {
+      "PREMISES": "Edificio",
+      "STREET": "Via",
+      "LOCALITY": "Località",
+      "REPRESENTATIVE": "Punto rappresentativo"
+    },
+    "evidenceScopes": {
+      "SITE_DESCRIPTION": "Descrizione della sede",
+      "REGISTERED_ADDRESS": "Sede legale",
+      "CORRESPONDENCE_ADDRESS": "Indirizzo di corrispondenza"
+    },
+    "sections": {
+      "geography": "Indirizzo e regione",
+      "position": "Punto geografico",
+      "evidence": "Prova"
+    },
+    "fields": {
+      "label": "Nome",
+      "roles": "Funzioni commerciali",
+      "addressText": "Indirizzo",
+      "country": "Paese",
+      "subdivision": "Regione (ISO 3166-2)",
+      "postalCode": "Codice postale",
+      "latitude": "Latitudine (gradi decimali)",
+      "longitude": "Longitudine (gradi decimali)",
+      "coordinates": "Coordinate",
+      "precision": "Livello di precisione",
+      "accuracyMetres": "Accuratezza (metri)",
+      "evidenceReference": "Riferimento della prova",
+      "evidenceScope": "Ambito della prova",
+      "evidenceObservedOn": "Rilevato il (UTC)",
+      "locationId": "ID della sede",
+      "notAsserted": "Non indicato",
+      "noRoles": "Nessuna funzione",
+      "noGeography": "Nessun indirizzo o regione indicati"
+    },
+    "hints": {
+      "roles": "Le funzioni descrivono come l’attività utilizza questa sede. Non indicano dove gli oggetti sono custoditi, da dove vengono spediti o dove vengono ritirati.",
+      "geography": "Tutti i campi sono facoltativi e vengono salvati esattamente come inseriti. L’indirizzo non viene verificato né geocodificato al salvataggio.",
+      "position": "Facoltativo. Un punto richiede il proprio livello di precisione; il numero di cifre decimali non indica l’accuratezza.",
+      "evidence": "Riferimento facoltativo alla fonte di questi dati, ad esempio un numero di documento o un indirizzo web. Viene salvato come testo e non viene mai aperto.",
+      "chooseCountry": "Scegliete prima un paese"
+    },
+    "consequences": {
+      "correct": "La correzione mantiene l’identità di questa sede. Le fonti di annunci che la usano come predefinita la mantengono, e la loro geografia ereditata segue i dati corretti dopo un breve intervallo.",
+      "relocate": "Il trasferimento crea una nuova sede con una propria identità e dismette questa nello stesso passaggio. Le fonti di annunci che usano questa sede come predefinita non vengono spostate: mantengono il riferimento alla sede dismessa e non forniscono geografia ereditata finché non viene scelta esplicitamente una predefinita.",
+      "retire": "La sede esce dai risultati pubblici e non fornisce più geografia ereditata agli annunci; può richiedere un breve tempo. Le fonti di annunci che la usano come predefinita mantengono il riferimento per la tracciabilità e nessun’altra sede viene selezionata automaticamente.",
+      "restore": "La sede torna pubblica: il punto esatto, il paese e la regione possono comparire nei risultati di ricerca. Le fonti di annunci che la indicano ancora come predefinita tornano a fornire geografia ereditata dopo un breve intervallo."
+    },
+    "editor": {
+      "create": {
+        "title": "Aggiungi sede",
+        "description": "Registrate una sede commerciale di questa organizzazione. Sono ammessi dati parziali.",
+        "submit": "Aggiungi sede"
+      },
+      "correct": {
+        "title": "Correggi sede",
+        "description": "Correggete i dati di questa stessa sede fisica. Le sezioni non modificate restano invariate; svuotando tutti i campi di una sezione la si rimuove.",
+        "submit": "Salva correzione"
+      },
+      "relocate": {
+        "title": "Trasferisci sede",
+        "description": "Usate questa opzione quando l’attività si è spostata in un altro luogo. Inserite i dati della nuova sede.",
+        "submit": "Verifica trasferimento"
+      },
+      "unsupportedValues": "Questa sede contiene valori salvati che questa applicazione non può visualizzare. Le sezioni che non modificate li mantengono; modificando o svuotando una sezione vengono sostituiti.",
+      "noChanges": "Non ci sono modifiche da salvare.",
+      "stale": {
+        "correct": "Questa sede è stata modificata mentre la stavate modificando. La vostra bozza è conservata. Applicate solo le vostre modifiche alla versione più recente, oppure scartate la bozza e ripartite dalla versione più recente.",
+        "relocate": "Questa sede è stata modificata mentre preparavate il trasferimento. La vostra bozza è conservata. Proseguite con la versione più recente oppure scartate la bozza."
+      },
+      "staleInactive": "Questa sede non è più attiva, quindi non può più essere corretta o trasferita. Chiudete questa finestra per esaminarla.",
+      "keepDraft": "Mantieni la bozza",
+      "discardDraft": "Scarta la bozza",
+      "confirmRelocation": "Creare la nuova sede e dismettere quella attuale nello stesso passaggio?"
+    },
+    "actions": {
+      "create": "Aggiungi sede",
+      "correct": "Correggi",
+      "relocate": "Trasferisci",
+      "retire": "Dismetti",
+      "restore": "Ripristina",
+      "confirmRetire": "Dismetti sede",
+      "confirmRestore": "Ripristina sede",
+      "confirmRelocate": "Trasferisci e dismetti",
+      "back": "Indietro",
+      "cancel": "Annulla",
+      "saving": "Salvataggio…",
+      "retry": "Riprova"
+    },
+    "selector": {
+      "empty": "Questa organizzazione non ha sedi attive."
+    },
+    "success": {
+      "created": "Sede aggiunta.",
+      "relocated": "Nuova sede creata; la sede precedente è stata dismessa.",
+      "corrected": "Sede corretta.",
+      "unchanged": "Nessuna modifica necessaria; la sede aveva già questi dati.",
+      "retired": "Sede dismessa.",
+      "restored": "Sede ripristinata."
+    },
+    "errors": {
+      "forbidden": "Non avete l’autorizzazione per gestire le sedi di questa organizzazione.",
+      "missing": "Questa organizzazione o sede non è stata trovata o non è più disponibile.",
+      "invalid": "Controllate i dati della sede e riprovate.",
+      "conflict": "Questa sede è cambiata o non è più attiva. È stata caricata la versione più recente; esaminatela prima di riprovare.",
+      "createConflict": "Non è stato possibile aggiungere la sede perché la richiesta è in conflitto con una precedente. Esaminate le sedi prima di riprovare.",
+      "createIndefinite": "Non è stato possibile confermare se la sede è stata salvata. Inviate di nuovo senza modifiche per riprovare in sicurezza; non verrà creato un duplicato.",
+      "unavailable": "La gestione delle sedi è temporaneamente non disponibile. Riprovate tra poco.",
+      "requestFailed": "Non è stato possibile completare la richiesta. Riprovate."
+    },
+    "validation": {
+      "labelRequired": "Inserite un nome.",
+      "labelInvalid": "Il nome deve occupare una sola riga e non superare 255 byte UTF-8.",
+      "addressTextTooLong": "L’indirizzo non deve superare 4096 byte UTF-8.",
+      "postalCodeInvalid": "Il codice postale deve occupare una sola riga e non superare 64 byte UTF-8.",
+      "countryInvalid": "Scegliete un paese dall’elenco.",
+      "subdivisionInvalid": "Scegliete una regione dall’elenco.",
+      "subdivisionMismatch": "La regione deve appartenere al paese selezionato.",
+      "latitudeInvalid": "Inserite una latitudine compresa tra -90 e 90.",
+      "longitudeInvalid": "Inserite una longitudine compresa tra -180 e 180.",
+      "precisionRequired": "Scegliete il livello di precisione di questo punto.",
+      "accuracyInvalid": "Inserite un’accuratezza di 0 metri o più.",
+      "evidenceReferenceRequired": "Inserite un riferimento della prova o cancellate la data.",
+      "evidenceReferenceInvalid": "Il riferimento deve occupare una sola riga e non superare 2048 byte UTF-8.",
+      "observedOnInvalid": "Inserite una data valida."
+    }
   }
 }

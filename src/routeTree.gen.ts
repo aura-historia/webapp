@@ -33,7 +33,6 @@ import { Route as LngAuthAdminIndexRouteImport } from './routes/$lng._auth.admin
 import { Route as LngAuthAdminListingSourcesRouteImport } from './routes/$lng._auth.admin.listing-sources'
 import { Route as LngAuthAdminOauthClientsRouteImport } from './routes/$lng._auth.admin.oauth-clients'
 import { Route as LngAuthAdminOverviewRouteImport } from './routes/$lng._auth.admin.overview'
-import { Route as LngAuthAdminPartiesRouteImport } from './routes/$lng._auth.admin.parties'
 import { Route as LngAuthAdminPartnershipApplicationsRouteImport } from './routes/$lng._auth.admin.partnership-applications'
 import { Route as LngAuthAdminPartnershipsRouteImport } from './routes/$lng._auth.admin.partnerships'
 import { Route as LngAuthAdminUsersRouteImport } from './routes/$lng._auth.admin.users'
@@ -51,9 +50,11 @@ import { Route as ApiOauthAuthorizeApproveRouteImport } from './routes/api.oauth
 import { Route as LngAuthAdminAuctionsIndexRouteImport } from './routes/$lng._auth.admin.auctions.index'
 import { Route as LngAuthAdminAuctionsAuctionIdRouteImport } from './routes/$lng._auth.admin.auctions.$auctionId'
 import { Route as LngAuthAdminAuctionsNewRouteImport } from './routes/$lng._auth.admin.auctions.new'
+import { Route as LngAuthAdminPartiesIndexRouteImport } from './routes/$lng._auth.admin.parties.index'
 import { Route as LngAuthMeBillingManageRouteImport } from './routes/$lng._auth.me.billing.manage'
 import { Route as LngAuthMeSearchFilterFilterIdRouteImport } from './routes/$lng._auth.me.search-filter.$filterId'
 import { Route as ApiOauthClientRedirectBrokerWoocommerceRouteImport } from './routes/api.oauth.client_.redirect-broker.woocommerce'
+import { Route as LngAuthAdminPartiesPartyIdLocationsRouteImport } from './routes/$lng._auth.admin.parties.$partyId.locations'
 
 const LngRoute = LngRouteImport.update({
   id: '/$lng',
@@ -178,11 +179,6 @@ const LngAuthAdminOverviewRoute = LngAuthAdminOverviewRouteImport.update({
   path: '/overview',
   getParentRoute: () => LngAuthAdminRoute,
 } as any)
-const LngAuthAdminPartiesRoute = LngAuthAdminPartiesRouteImport.update({
-  id: '/parties',
-  path: '/parties',
-  getParentRoute: () => LngAuthAdminRoute,
-} as any)
 const LngAuthAdminPartnershipApplicationsRoute =
   LngAuthAdminPartnershipApplicationsRouteImport.update({
     id: '/partnership-applications',
@@ -276,6 +272,12 @@ const LngAuthAdminAuctionsNewRoute = LngAuthAdminAuctionsNewRouteImport.update({
   path: '/auctions/new',
   getParentRoute: () => LngAuthAdminRoute,
 } as any)
+const LngAuthAdminPartiesIndexRoute =
+  LngAuthAdminPartiesIndexRouteImport.update({
+    id: '/parties/',
+    path: '/parties/',
+    getParentRoute: () => LngAuthAdminRoute,
+  } as any)
 const LngAuthMeBillingManageRoute = LngAuthMeBillingManageRouteImport.update({
   id: '/me/billing/manage',
   path: '/me/billing/manage',
@@ -292,6 +294,12 @@ const ApiOauthClientRedirectBrokerWoocommerceRoute =
     id: '/api/oauth/client_/redirect-broker/woocommerce',
     path: '/api/oauth/client/redirect-broker/woocommerce',
     getParentRoute: () => rootRouteImport,
+  } as any)
+const LngAuthAdminPartiesPartyIdLocationsRoute =
+  LngAuthAdminPartiesPartyIdLocationsRouteImport.update({
+    id: '/parties/$partyId/locations',
+    path: '/parties/$partyId/locations',
+    getParentRoute: () => LngAuthAdminRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -317,7 +325,6 @@ export interface FileRoutesByFullPath {
   '/$lng/admin/listing-sources': typeof LngAuthAdminListingSourcesRoute
   '/$lng/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
   '/$lng/admin/overview': typeof LngAuthAdminOverviewRoute
-  '/$lng/admin/parties': typeof LngAuthAdminPartiesRoute
   '/$lng/admin/partnership-applications': typeof LngAuthAdminPartnershipApplicationsRoute
   '/$lng/admin/partnerships': typeof LngAuthAdminPartnershipsRoute
   '/$lng/admin/users': typeof LngAuthAdminUsersRoute
@@ -339,6 +346,8 @@ export interface FileRoutesByFullPath {
   '/$lng/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
   '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
   '/$lng/admin/auctions/': typeof LngAuthAdminAuctionsIndexRoute
+  '/$lng/admin/parties/': typeof LngAuthAdminPartiesIndexRoute
+  '/$lng/admin/parties/$partyId/locations': typeof LngAuthAdminPartiesPartyIdLocationsRoute
 }
 export interface FileRoutesByTo {
   '/$lng': typeof LngIndexRoute
@@ -359,7 +368,6 @@ export interface FileRoutesByTo {
   '/$lng/admin/listing-sources': typeof LngAuthAdminListingSourcesRoute
   '/$lng/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
   '/$lng/admin/overview': typeof LngAuthAdminOverviewRoute
-  '/$lng/admin/parties': typeof LngAuthAdminPartiesRoute
   '/$lng/admin/partnership-applications': typeof LngAuthAdminPartnershipApplicationsRoute
   '/$lng/admin/partnerships': typeof LngAuthAdminPartnershipsRoute
   '/$lng/admin/users': typeof LngAuthAdminUsersRoute
@@ -381,6 +389,8 @@ export interface FileRoutesByTo {
   '/$lng/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
   '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
   '/$lng/admin/auctions': typeof LngAuthAdminAuctionsIndexRoute
+  '/$lng/admin/parties': typeof LngAuthAdminPartiesIndexRoute
+  '/$lng/admin/parties/$partyId/locations': typeof LngAuthAdminPartiesPartyIdLocationsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -407,7 +417,6 @@ export interface FileRoutesById {
   '/$lng/_auth/admin/listing-sources': typeof LngAuthAdminListingSourcesRoute
   '/$lng/_auth/admin/oauth-clients': typeof LngAuthAdminOauthClientsRoute
   '/$lng/_auth/admin/overview': typeof LngAuthAdminOverviewRoute
-  '/$lng/_auth/admin/parties': typeof LngAuthAdminPartiesRoute
   '/$lng/_auth/admin/partnership-applications': typeof LngAuthAdminPartnershipApplicationsRoute
   '/$lng/_auth/admin/partnerships': typeof LngAuthAdminPartnershipsRoute
   '/$lng/_auth/admin/users': typeof LngAuthAdminUsersRoute
@@ -429,6 +438,8 @@ export interface FileRoutesById {
   '/$lng/_auth/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
   '/api/oauth/client_/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
   '/$lng/_auth/admin/auctions/': typeof LngAuthAdminAuctionsIndexRoute
+  '/$lng/_auth/admin/parties/': typeof LngAuthAdminPartiesIndexRoute
+  '/$lng/_auth/admin/parties/$partyId/locations': typeof LngAuthAdminPartiesPartyIdLocationsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -455,7 +466,6 @@ export interface FileRouteTypes {
     | '/$lng/admin/listing-sources'
     | '/$lng/admin/oauth-clients'
     | '/$lng/admin/overview'
-    | '/$lng/admin/parties'
     | '/$lng/admin/partnership-applications'
     | '/$lng/admin/partnerships'
     | '/$lng/admin/users'
@@ -477,6 +487,8 @@ export interface FileRouteTypes {
     | '/$lng/me/search-filter/$filterId'
     | '/api/oauth/client/redirect-broker/woocommerce'
     | '/$lng/admin/auctions/'
+    | '/$lng/admin/parties/'
+    | '/$lng/admin/parties/$partyId/locations'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/$lng'
@@ -497,7 +509,6 @@ export interface FileRouteTypes {
     | '/$lng/admin/listing-sources'
     | '/$lng/admin/oauth-clients'
     | '/$lng/admin/overview'
-    | '/$lng/admin/parties'
     | '/$lng/admin/partnership-applications'
     | '/$lng/admin/partnerships'
     | '/$lng/admin/users'
@@ -519,6 +530,8 @@ export interface FileRouteTypes {
     | '/$lng/me/search-filter/$filterId'
     | '/api/oauth/client/redirect-broker/woocommerce'
     | '/$lng/admin/auctions'
+    | '/$lng/admin/parties'
+    | '/$lng/admin/parties/$partyId/locations'
   id:
     | '__root__'
     | '/$lng'
@@ -544,7 +557,6 @@ export interface FileRouteTypes {
     | '/$lng/_auth/admin/listing-sources'
     | '/$lng/_auth/admin/oauth-clients'
     | '/$lng/_auth/admin/overview'
-    | '/$lng/_auth/admin/parties'
     | '/$lng/_auth/admin/partnership-applications'
     | '/$lng/_auth/admin/partnerships'
     | '/$lng/_auth/admin/users'
@@ -566,6 +578,8 @@ export interface FileRouteTypes {
     | '/$lng/_auth/me/search-filter/$filterId'
     | '/api/oauth/client_/redirect-broker/woocommerce'
     | '/$lng/_auth/admin/auctions/'
+    | '/$lng/_auth/admin/parties/'
+    | '/$lng/_auth/admin/parties/$partyId/locations'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -744,13 +758,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LngAuthAdminOverviewRouteImport
       parentRoute: typeof LngAuthAdminRoute
     }
-    '/$lng/_auth/admin/parties': {
-      id: '/$lng/_auth/admin/parties'
-      path: '/parties'
-      fullPath: '/$lng/admin/parties'
-      preLoaderRoute: typeof LngAuthAdminPartiesRouteImport
-      parentRoute: typeof LngAuthAdminRoute
-    }
     '/$lng/_auth/admin/partnership-applications': {
       id: '/$lng/_auth/admin/partnership-applications'
       path: '/partnership-applications'
@@ -870,6 +877,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LngAuthAdminAuctionsNewRouteImport
       parentRoute: typeof LngAuthAdminRoute
     }
+    '/$lng/_auth/admin/parties/': {
+      id: '/$lng/_auth/admin/parties/'
+      path: '/parties'
+      fullPath: '/$lng/admin/parties/'
+      preLoaderRoute: typeof LngAuthAdminPartiesIndexRouteImport
+      parentRoute: typeof LngAuthAdminRoute
+    }
     '/$lng/_auth/me/billing/manage': {
       id: '/$lng/_auth/me/billing/manage'
       path: '/me/billing/manage'
@@ -891,6 +905,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiOauthClientRedirectBrokerWoocommerceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$lng/_auth/admin/parties/$partyId/locations': {
+      id: '/$lng/_auth/admin/parties/$partyId/locations'
+      path: '/parties/$partyId/locations'
+      fullPath: '/$lng/admin/parties/$partyId/locations'
+      preLoaderRoute: typeof LngAuthAdminPartiesPartyIdLocationsRouteImport
+      parentRoute: typeof LngAuthAdminRoute
+    }
   }
 }
 
@@ -898,7 +919,6 @@ interface LngAuthAdminRouteChildren {
   LngAuthAdminListingSourcesRoute: typeof LngAuthAdminListingSourcesRoute
   LngAuthAdminOauthClientsRoute: typeof LngAuthAdminOauthClientsRoute
   LngAuthAdminOverviewRoute: typeof LngAuthAdminOverviewRoute
-  LngAuthAdminPartiesRoute: typeof LngAuthAdminPartiesRoute
   LngAuthAdminPartnershipApplicationsRoute: typeof LngAuthAdminPartnershipApplicationsRoute
   LngAuthAdminPartnershipsRoute: typeof LngAuthAdminPartnershipsRoute
   LngAuthAdminUsersRoute: typeof LngAuthAdminUsersRoute
@@ -906,13 +926,14 @@ interface LngAuthAdminRouteChildren {
   LngAuthAdminAuctionsAuctionIdRoute: typeof LngAuthAdminAuctionsAuctionIdRoute
   LngAuthAdminAuctionsNewRoute: typeof LngAuthAdminAuctionsNewRoute
   LngAuthAdminAuctionsIndexRoute: typeof LngAuthAdminAuctionsIndexRoute
+  LngAuthAdminPartiesIndexRoute: typeof LngAuthAdminPartiesIndexRoute
+  LngAuthAdminPartiesPartyIdLocationsRoute: typeof LngAuthAdminPartiesPartyIdLocationsRoute
 }
 
 const LngAuthAdminRouteChildren: LngAuthAdminRouteChildren = {
   LngAuthAdminListingSourcesRoute: LngAuthAdminListingSourcesRoute,
   LngAuthAdminOauthClientsRoute: LngAuthAdminOauthClientsRoute,
   LngAuthAdminOverviewRoute: LngAuthAdminOverviewRoute,
-  LngAuthAdminPartiesRoute: LngAuthAdminPartiesRoute,
   LngAuthAdminPartnershipApplicationsRoute:
     LngAuthAdminPartnershipApplicationsRoute,
   LngAuthAdminPartnershipsRoute: LngAuthAdminPartnershipsRoute,
@@ -921,6 +942,9 @@ const LngAuthAdminRouteChildren: LngAuthAdminRouteChildren = {
   LngAuthAdminAuctionsAuctionIdRoute: LngAuthAdminAuctionsAuctionIdRoute,
   LngAuthAdminAuctionsNewRoute: LngAuthAdminAuctionsNewRoute,
   LngAuthAdminAuctionsIndexRoute: LngAuthAdminAuctionsIndexRoute,
+  LngAuthAdminPartiesIndexRoute: LngAuthAdminPartiesIndexRoute,
+  LngAuthAdminPartiesPartyIdLocationsRoute:
+    LngAuthAdminPartiesPartyIdLocationsRoute,
 }
 
 const LngAuthAdminRouteWithChildren = LngAuthAdminRoute._addFileChildren(

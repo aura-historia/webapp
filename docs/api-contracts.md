@@ -83,13 +83,16 @@ To adopt a backend revision:
   [backend#1991](https://github.com/aura-historia/backend/issues/1991). The admin auction search
   is consumed by the admin auction directory (see [admin workflows](admin-workflows.md#auction-directory)).
 - The geography contract ([backend#2031](https://github.com/aura-historia/backend/pull/2031)) is
-  adopted with shared models and mappers only ([#1076](https://github.com/aura-historia/webapp/issues/1076)).
-  Every geography operation is generated-only until its feature slice consumes it: the user
+  adopted with shared models and mappers ([#1076](https://github.com/aura-historia/webapp/issues/1076)).
+  Party-location management (`listPartyLocations`, `createPartyLocation`, `getPartyLocation`,
+  `correctPartyLocation`, `setPartyLocationLifecycle`) is consumed by the shared
+  `src/features/party-locations` workspace ([#1085](https://github.com/aura-historia/webapp/issues/1085);
+  see [admin workflows](admin-workflows.md#party-business-locations)). Every other geography
+  operation is generated-only until its feature slice consumes it: the user
   address book (`listUserAddresses`, `createUserAddress`, `getUserAddress`, `updateUserAddress`,
   `deleteUserAddress`), the browsing destination (`getBrowsingDestination`,
-  `setBrowsingDestination`), Party-location management (`listPartyLocations`,
-  `createPartyLocation`, `getPartyLocation`, `correctPartyLocation`, `setPartyLocationLifecycle`,
-  `setPartyLocationManagementGrant`), public discovery (`discoverPartyLocations`) and source
+  `setBrowsingDestination`), the location-management grant
+  (`setPartyLocationManagementGrant`), public discovery (`discoverPartyLocations`) and source
   defaults (`getSourceLocationDefault`, `assignSourceLocationDefault`,
   `changeSourceLocationDefaultApplicability`, `clearSourceLocationDefault` and their `admin*`
   counterparts). Listing search does not send `geography` yet. Privacy rules for these slices
