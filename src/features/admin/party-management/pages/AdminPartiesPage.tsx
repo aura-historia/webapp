@@ -1,3 +1,4 @@
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { H1 } from "@/components/typography/H1.tsx";
@@ -6,11 +7,10 @@ import { Skeleton } from "@/components/ui/skeleton.tsx";
 import type { AdminPartyFilters, Party } from "@/data/internal/party/Party.ts";
 import { formatDateTime } from "@/lib/utils.ts";
 import { useAdminParties } from "../api/useAdminParties.ts";
-import { AdminPartyDetailDialog } from "../components/AdminPartyDetailDialog.tsx";
 import { AdminPartyFiltersForm } from "../components/AdminPartyFiltersForm.tsx";
 import { AdminPartyFormDialog } from "../components/AdminPartyFormDialog.tsx";
 
-function PartyRow({ party, onOpen }: { readonly party: Party; readonly onOpen: () => void }) {
+function PartyRow({ party }: { readonly party: Party }) {
     const { t, i18n } = useTranslation();
     return (
         <li className="flex flex-wrap items-center justify-between gap-3 border bg-surface-container-low p-4">
@@ -34,8 +34,15 @@ function PartyRow({ party, onOpen }: { readonly party: Party; readonly onOpen: (
                     </span>
                 </p>
             </div>
-            <Button type="button" variant="outline" onClick={onOpen}>
-                {t("adminParties.actions.details")}
+            <Button variant="outline" asChild>
+                <Link
+                    to="/$lng/admin/parties/$partyId"
+                    from="/$lng"
+                    params={(previous) => ({ ...previous, partyId: party.partyId })}
+                    aria-label={t("adminParties.actions.detailsFor", { name: party.name })}
+                >
+                    {t("adminParties.actions.details")}
+                </Link>
             </Button>
         </li>
     );
@@ -44,9 +51,8 @@ function PartyRow({ party, onOpen }: { readonly party: Party; readonly onOpen: (
 export function AdminPartiesPage() {
     const { t } = useTranslation();
     const [filters, setFilters] = useState<AdminPartyFilters>({});
-    const [selectedId, setSelectedId] = useState<string>();
     const [formOpen, setFormOpen] = useState(false);
-    const [editingParty, setEditingParty] = useState<Party>();
+    const navigate = useNavigate({ from: "/$lng" });
     const partiesQuery = useAdminParties(filters);
     const parties = partiesQuery.data?.pages.flatMap((page) => page.items) ?? [];
     const total = partiesQuery.data?.pages[0]?.total;
@@ -82,11 +88,7 @@ export function AdminPartiesPage() {
                 )}
                 <ul className="grid gap-2">
                     {parties.map((party) => (
-                        <PartyRow
-                            key={party.partyId}
-                            party={party}
-                            onOpen={() => setSelectedId(party.partyId)}
-                        />
+                        <PartyRow key={party.partyId} party={party} />
                     ))}
                 </ul>
                 {partiesQuery.error && (
@@ -119,13 +121,7 @@ export function AdminPartiesPage() {
                         <H1 id="admin-parties-title">{t("adminParties.title")}</H1>
                         <p className="text-muted-foreground">{t("adminParties.description")}</p>
                     </div>
-                    <Button
-                        type="button"
-                        onClick={() => {
-                            setEditingParty(undefined);
-                            setFormOpen(true);
-                        }}
-                    >
+                    <Button type="button" onClick={() => setFormOpen(true)}>
                         {t("adminParties.actions.create")}
                     </Button>
                 </header>
@@ -136,26 +132,15 @@ export function AdminPartiesPage() {
                 />
                 {content}
             </section>
-            <AdminPartyDetailDialog
-                partyId={selectedId}
-                open={Boolean(selectedId)}
-                onOpenChange={(open) => {
-                    if (!open) setSelectedId(undefined);
-                }}
-                onEdit={(party) => {
-                    setEditingParty(party);
-                    setFormOpen(true);
-                }}
-            />
             <AdminPartyFormDialog
-                key={
-                    editingParty
-                        ? `${editingParty.partyId}:${editingParty.updated.toISOString()}`
-                        : "new"
-                }
-                party={editingParty}
                 open={formOpen}
-                onOpenChange={(open) => setFormOpen(open)}
+                onOpenChange={setFormOpen}
+                onCreated={(partyId) =>
+                    navigate({
+                        to: "/$lng/admin/parties/$partyId",
+                        params: (previous) => ({ ...previous, partyId }),
+                    })
+                }
             />
         </div>
     );

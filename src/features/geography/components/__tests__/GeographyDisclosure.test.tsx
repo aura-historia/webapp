@@ -11,7 +11,7 @@ describe("GeographyDisclosure", () => {
         ["privateAddress", "Gespeicherte Adressen sind privat"],
         ["savedOrigin", "private Kopie ihres Suchstandorts"],
         ["browserLocation", "Ihr Browser fragt"],
-        ["publicPartySite", "Aktive Standorte sind öffentlich"],
+        ["publicPartyLocation", "Aktive Standorte sind öffentlich"],
     ])("renders the %s copy with the privacy link", async (kind, expectedText) => {
         await act(async () => {
             renderWithRouter(<GeographyDisclosure kind={kind} />);

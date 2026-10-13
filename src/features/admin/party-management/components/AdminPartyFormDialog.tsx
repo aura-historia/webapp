@@ -44,10 +44,12 @@ export function AdminPartyFormDialog({
     party,
     open,
     onOpenChange,
+    onCreated,
 }: {
     readonly party?: Party;
     readonly open: boolean;
     readonly onOpenChange: (open: boolean) => void;
+    readonly onCreated?: (partyId: string) => void;
 }) {
     const { t } = useTranslation();
     const create = useCreateAdminParty();
@@ -100,9 +102,10 @@ export function AdminPartyFormDialog({
 
         create.mutate(formValues, {
             onError: () => setShowRequestError(true),
-            onSuccess: () => {
+            onSuccess: (partyId) => {
                 toast.success(t("adminParties.success.created"));
                 handleOpenChange(false);
+                onCreated?.(partyId);
             },
         });
     };

@@ -18,11 +18,13 @@ export const geographyQueryKeys = {
         return ["browsingDestination", viewerCacheKey] as const;
     },
     partyLocations: ["partyLocations"] as const,
-    partyLocationPage(viewerCacheKey: string, partyId: string, after?: string) {
-        return [...this.partyLocations, viewerCacheKey, partyId, "page", after ?? null] as const;
+    /** Every cached read of one Party's locations for one viewer. */
+    partyLocationScope(viewerCacheKey: string, partyId: string) {
+        return [...this.partyLocations, viewerCacheKey, partyId] as const;
     },
-    partyLocation(viewerCacheKey: string, partyId: string, locationId: string) {
-        return [...this.partyLocations, viewerCacheKey, partyId, "detail", locationId] as const;
+    /** Keyset pages (`after` → `next`) of one Party's locations. */
+    partyLocationList(viewerCacheKey: string, partyId: string) {
+        return [...this.partyLocationScope(viewerCacheKey, partyId), "list"] as const;
     },
     sourceLocationDefault(viewerCacheKey: string, listingSourceId: string) {
         return ["sourceLocationDefault", viewerCacheKey, listingSourceId] as const;

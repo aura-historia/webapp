@@ -235,12 +235,12 @@ describe("Party locations", () => {
     it("creates relocations and lifecycle and grant commands explicitly", () => {
         expect(
             mapToBackendCreatePartyLocation({
-                label: "New site",
+                label: "New location",
                 geography: { country: DE },
                 relocates: { id: "ploc_1", revision: 4 },
             }),
         ).toEqual({
-            label: "New site",
+            label: "New location",
             geography: { referenceRelease: RELEASE, country: "DE" },
             relocates: { id: "ploc_1", revision: 4 },
         });
@@ -255,13 +255,13 @@ describe("Party locations", () => {
         expect(validatePartyLocationInput({ label: "x".repeat(256) })).toBe("LABEL_INVALID");
         expect(
             validatePartyLocationInput({
-                label: "Site",
+                label: "Location",
                 position: { point: { latitude: 0, longitude: 200 }, precision: "PREMISES" },
             }),
         ).toBe("POSITION_INVALID");
         expect(
             validatePartyLocationInput({
-                label: "Site",
+                label: "Location",
                 evidence: { reference: "a\nb", scope: "SITE_DESCRIPTION" },
             }),
         ).toBe("EVIDENCE_INVALID");

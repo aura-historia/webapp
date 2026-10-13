@@ -2230,7 +2230,8 @@
       "saving": "Guardando…",
       "confirmDelete": "¿Eliminar esta organización? Una fuente de anuncios vinculada o una colaboración vigente puede impedirlo. Esta acción no elimina registros relacionados.",
       "confirmDeleteButton": "Eliminar",
-      "deleting": "Eliminando…"
+      "deleting": "Eliminando…",
+      "detailsFor": "Ver detalles de {{name}}"
     },
     "success": {
       "created": "Organización creada.",
@@ -2241,8 +2242,8 @@
       "forbidden": "No tienes permiso para acceder a los datos de contacto de la organización.",
       "missing": "No se ha encontrado la organización o ya no está disponible.",
       "createConflict": "No se pudo crear la organización porque el identificador generado entra en conflicto con un registro existente. Revisa las organizaciones existentes antes de volver a intentarlo.",
-      "updateConflict": "La organización cambió mientras la editabas. Cierra este formulario y vuelve a abrir los detalles antes de editarla de nuevo.",
-      "deleteConflict": "La organización puede estar vinculada a una fuente de anuncios o colaboración y no se pudo eliminar. No se eliminaron registros relacionados.",
+      "updateConflict": "La organización cambió mientras la editabas. Cierra este formulario y vuelve a abrirlo para editar la versión más reciente.",
+      "deleteConflict": "No se pudo eliminar esta organización porque puede tener todavía ubicaciones registradas o estar vinculada a una fuente de anuncios o una colaboración. No se ha eliminado ningún registro relacionado.",
       "invalid": "Revisa los datos de la organización e inténtalo de nuevo.",
       "requestFailed": "No se pudo completar la solicitud. Inténtalo de nuevo."
     },
@@ -2260,6 +2261,10 @@
       "noMatch": "No hay ninguna organización existente que coincida. Créala en la gestión de organizaciones y vuelve para seleccionarla.",
       "searchPrompt": "Busca organizaciones existentes por nombre o datos de contacto.",
       "manageLink": "Abrir gestión de organizaciones"
+    },
+    "page": {
+      "back": "Volver a organizaciones",
+      "deleteTitle": "¿Eliminar {{name}}?"
     }
   },
   "compareBarnebysPage": {
@@ -3007,10 +3012,170 @@
       "privateAddress": "Las direcciones guardadas son privadas y solo están destinadas a su cuenta. Las utilizamos para mostrar distancias y resultados regionales, no para verificar su domicilio ni si los objetos pueden enviarse. Después de guardarla, determinamos la ubicación en segundo plano con Amazon Location Service. Hasta entonces, o si no hay un resultado inequívoco, la dirección sigue pudiendo utilizarse sin un punto exacto.",
       "savedOrigin": "Al guardar esta búsqueda, conservamos una copia privada de su ubicación de búsqueda. Los cambios posteriores en sus direcciones no la desplazan. Modifique o elimine la búsqueda guardada para eliminarla.",
       "browserLocation": "Su navegador le preguntará si desea compartir su ubicación actual. La utilizamos solo para esta búsqueda y solo la almacenamos si guarda la búsqueda.",
-      "publicPartySite": "Las ubicaciones activas son públicas: el punto geográfico exacto, el país y la región pueden aparecer en los resultados de búsqueda y utilizarse para búsquedas por radio. La dirección completa, los justificantes y los datos de gestión solo son visibles para personas autorizadas. Retire una ubicación para eliminarla de los resultados públicos; la actualización puede tardar un poco.",
+      "publicPartyLocation": "Las ubicaciones activas son públicas: el punto geográfico exacto, el país y la región pueden aparecer en los resultados de búsqueda y utilizarse para búsquedas por radio. La dirección completa, los justificantes y los datos de gestión solo son visibles para personas autorizadas. Retire una ubicación para eliminarla de los resultados públicos; la actualización puede tardar un poco.",
       "privacy": "Encontrará más información en nuestra <privacyLink>política de privacidad</privacyLink>."
     },
     "coordinates": "{{latitude}}; {{longitude}}",
     "nauticalMiles": "{{value}} M"
+  },
+  "partyLocations": {
+    "title": "Ubicaciones",
+    "description": "Cada ubicación tiene su propia identidad. Corrija los datos de una ubicación, trasládela cuando el negocio se mude o retírela cuando ya no se utilice.",
+    "list": {
+      "loading": "Cargando ubicaciones.",
+      "empty": "Todavía no se ha registrado ninguna ubicación para esta organización.",
+      "loadMore": "Cargar más",
+      "loadingMore": "Cargando…"
+    },
+    "detail": {
+      "unsupportedValues": "Algunos valores guardados usan un código o formato que esta aplicación no puede mostrar, por lo que no aparecen aquí."
+    },
+    "eligibility": {
+      "ACTIVE": "Activa y pública: su punto exacto, país y región pueden aparecer en resultados de búsqueda y búsquedas por radio.",
+      "RETIRED": "Retirada: no aparece en resultados públicos y no aporta geografía heredada a los anuncios.",
+      "UNKNOWN": "Esta ubicación tiene un estado que esta aplicación no reconoce, por lo que no se ofrecen acciones."
+    },
+    "lifecycle": {
+      "ACTIVE": "Activa",
+      "RETIRED": "Retirada",
+      "UNKNOWN": "Estado desconocido"
+    },
+    "roles": {
+      "BUSINESS_PREMISES": "Local comercial",
+      "WAREHOUSE": "Almacén",
+      "REGISTERED_ADDRESS": "Domicilio social",
+      "CORRESPONDENCE": "Dirección de correspondencia"
+    },
+    "precisions": {
+      "PREMISES": "Inmueble",
+      "STREET": "Calle",
+      "LOCALITY": "Localidad",
+      "REPRESENTATIVE": "Punto representativo"
+    },
+    "evidenceScopes": {
+      "SITE_DESCRIPTION": "Descripción de la ubicación",
+      "REGISTERED_ADDRESS": "Domicilio social",
+      "CORRESPONDENCE_ADDRESS": "Dirección de correspondencia"
+    },
+    "sections": {
+      "geography": "Dirección y región",
+      "position": "Punto geográfico",
+      "evidence": "Justificante"
+    },
+    "fields": {
+      "label": "Nombre",
+      "roles": "Funciones comerciales",
+      "addressText": "Dirección",
+      "country": "País",
+      "subdivision": "Región (ISO 3166-2)",
+      "postalCode": "Código postal",
+      "latitude": "Latitud (grados decimales)",
+      "longitude": "Longitud (grados decimales)",
+      "coordinates": "Coordenadas",
+      "precision": "Nivel de precisión",
+      "accuracyMetres": "Exactitud (metros)",
+      "evidenceReference": "Referencia del justificante",
+      "evidenceScope": "Alcance del justificante",
+      "evidenceObservedOn": "Constatado el (UTC)",
+      "locationId": "ID de la ubicación",
+      "notAsserted": "No indicado",
+      "noRoles": "Sin funciones",
+      "noGeography": "No se ha indicado dirección ni región"
+    },
+    "hints": {
+      "roles": "Las funciones describen cómo usa el negocio esta ubicación. No indican dónde se guardan, desde dónde se envían ni dónde se recogen los objetos.",
+      "geography": "Todos los campos son opcionales y se guardan tal como se introducen. La dirección no se verifica ni se geocodifica al guardar.",
+      "position": "Opcional. Un punto necesita su nivel de precisión; el número de decimales no indica exactitud.",
+      "evidence": "Referencia opcional al origen de estos datos, como un número de documento o una dirección web. Se guarda como texto y nunca se abre.",
+      "chooseCountry": "Elija primero un país"
+    },
+    "consequences": {
+      "correct": "La corrección conserva la identidad de esta ubicación. Las fuentes de anuncios que la usan como predeterminada la mantienen, y su geografía heredada sigue los datos corregidos tras un breve intervalo.",
+      "relocate": "El traslado crea una nueva ubicación con identidad propia y retira esta en el mismo paso. Las fuentes de anuncios que usan esta ubicación como predeterminada no se trasladan: conservan la referencia retirada y no aportan geografía heredada hasta que se elija expresamente una predeterminada.",
+      "retire": "La ubicación deja de aparecer en resultados públicos y ya no aporta geografía heredada a los anuncios; esto puede tardar un poco. Las fuentes de anuncios que la usan como predeterminada conservan la referencia para su trazabilidad, y no se selecciona automáticamente otra ubicación.",
+      "restore": "La ubicación vuelve a ser pública: su punto exacto, país y región pueden aparecer en resultados de búsqueda. Las fuentes de anuncios que aún la tienen como predeterminada vuelven a aportar geografía heredada tras un breve intervalo."
+    },
+    "editor": {
+      "create": {
+        "title": "Añadir ubicación",
+        "description": "Registre una ubicación comercial de esta organización. Se admiten datos parciales.",
+        "submit": "Añadir ubicación"
+      },
+      "correct": {
+        "title": "Corregir ubicación",
+        "description": "Corrija los datos de esta misma ubicación física. Las secciones sin cambios se conservan; vaciar todos los campos de una sección la elimina.",
+        "submit": "Guardar corrección"
+      },
+      "relocate": {
+        "title": "Trasladar ubicación",
+        "description": "Úselo cuando el negocio se haya mudado a otro lugar. Introduzca los datos de la nueva ubicación.",
+        "submit": "Revisar traslado"
+      },
+      "unsupportedValues": "Esta ubicación tiene valores guardados que esta aplicación no puede mostrar. Las secciones que no cambie los conservan; si cambia o vacía una sección, se sustituyen.",
+      "noChanges": "No hay cambios que guardar.",
+      "stale": {
+        "correct": "Esta ubicación se modificó mientras la editaba. Su borrador se conserva. Aplique solo sus cambios a la versión más reciente, o descarte su borrador y empiece desde la versión más reciente.",
+        "relocate": "Esta ubicación se modificó mientras preparaba el traslado. Su borrador se conserva. Continúe con la versión más reciente o descarte su borrador."
+      },
+      "staleInactive": "Esta ubicación ya no está activa, por lo que ya no se puede corregir ni trasladar. Cierre este cuadro de diálogo para revisarla.",
+      "keepDraft": "Conservar mi borrador",
+      "discardDraft": "Descartar mi borrador",
+      "confirmRelocation": "¿Crear la nueva ubicación y retirar la actual en el mismo paso?"
+    },
+    "actions": {
+      "create": "Añadir ubicación",
+      "correct": "Corregir",
+      "relocate": "Trasladar",
+      "retire": "Retirar",
+      "restore": "Restablecer",
+      "confirmRetire": "Retirar ubicación",
+      "confirmRestore": "Restablecer ubicación",
+      "confirmRelocate": "Trasladar y retirar",
+      "back": "Volver",
+      "cancel": "Cancelar",
+      "saving": "Guardando…",
+      "retry": "Reintentar"
+    },
+    "selector": {
+      "empty": "Esta organización no tiene ubicaciones activas."
+    },
+    "success": {
+      "created": "Ubicación añadida.",
+      "relocated": "Se ha creado la nueva ubicación; la anterior se ha retirado.",
+      "corrected": "Ubicación corregida.",
+      "unchanged": "No hacía falta ningún cambio; la ubicación ya tenía estos datos.",
+      "retired": "Ubicación retirada.",
+      "restored": "Ubicación restablecida."
+    },
+    "errors": {
+      "forbidden": "No tiene permiso para gestionar las ubicaciones de esta organización.",
+      "missing": "No se ha encontrado esta organización o ubicación, o ya no está disponible.",
+      "invalid": "Revise los datos de la ubicación e inténtelo de nuevo.",
+      "conflict": "Esta ubicación ha cambiado o ya no está activa. Se ha cargado la versión más reciente; revísela antes de volver a intentarlo.",
+      "createConflict": "No se pudo añadir la ubicación porque la solicitud entra en conflicto con otra anterior. Revise las ubicaciones antes de volver a intentarlo.",
+      "createIndefinite": "No hemos podido confirmar si la ubicación se guardó. Vuelva a enviar sin cambios para reintentarlo con seguridad; no se creará un duplicado.",
+      "unavailable": "La gestión de ubicaciones no está disponible temporalmente. Inténtelo de nuevo en breve.",
+      "requestFailed": "No se pudo completar la solicitud. Inténtelo de nuevo."
+    },
+    "validation": {
+      "labelRequired": "Introduzca un nombre.",
+      "labelInvalid": "El nombre debe ocupar una sola línea y tener como máximo 255 bytes UTF-8.",
+      "addressTextTooLong": "La dirección puede tener como máximo 4096 bytes UTF-8.",
+      "postalCodeInvalid": "El código postal debe ocupar una sola línea y tener como máximo 64 bytes UTF-8.",
+      "countryInvalid": "Elija un país de la lista.",
+      "subdivisionInvalid": "Elija una región de la lista.",
+      "subdivisionMismatch": "La región debe pertenecer al país seleccionado.",
+      "latitudeInvalid": "Introduzca una latitud entre -90 y 90.",
+      "longitudeInvalid": "Introduzca una longitud entre -180 y 180.",
+      "precisionRequired": "Elija el nivel de precisión de este punto.",
+      "accuracyInvalid": "Introduzca una exactitud de 0 metros o más.",
+      "evidenceReferenceRequired": "Introduzca una referencia del justificante o borre la fecha.",
+      "evidenceReferenceInvalid": "La referencia debe ocupar una sola línea y tener como máximo 2048 bytes UTF-8.",
+      "observedOnInvalid": "Introduzca una fecha válida."
+    },
+    "confirm": {
+      "retireTitle": "¿Retirar «{{label}}»?",
+      "restoreTitle": "¿Restablecer «{{label}}»?"
+    }
   }
 }
