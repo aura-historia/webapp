@@ -10,10 +10,11 @@ vi.mock("aws-amplify", () => ({
 
 vi.mock("aws-amplify/auth/enable-oauth-listener", () => ({}));
 
-import { amplifyConfig } from "@/amplify-config.ts";
-
 describe("Amplify configuration", () => {
-    it("keeps native login and configures Cognito authorization-code OAuth from env", () => {
+    it("keeps native login and configures Cognito authorization-code OAuth from env", async () => {
+        // Amplify is configured at import time; import here so Vitest's per-test mock clearing doesn't wipe the call.
+        const { amplifyConfig } = await import("@/amplify-config.ts");
+
         expect(amplifyConfig.Auth.Cognito.userPoolId).toBe("test-pool-id");
         expect(amplifyConfig.Auth.Cognito.userPoolClientId).toBe("test-client-id");
         expect(amplifyConfig.Auth.Cognito.loginWith.email).toBe(true);
