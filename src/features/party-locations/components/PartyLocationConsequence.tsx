@@ -5,7 +5,7 @@ export type PartyLocationAction = "correct" | "relocate" | "retire" | "restore";
 
 /**
  * What an action means for public discovery, inherited listing geography and the listing-source
- * defaults that reference the site. No action ever selects another default automatically.
+ * defaults that reference the location. No action ever selects another default automatically.
  */
 export function PartyLocationConsequence({
     action,

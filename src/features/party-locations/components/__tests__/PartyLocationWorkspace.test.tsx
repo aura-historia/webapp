@@ -8,14 +8,12 @@ import { PartyLocationWorkspace } from "../PartyLocationWorkspace.tsx";
 
 const api = vi.hoisted(() => ({
     list: vi.fn(),
-    get: vi.fn(),
     create: vi.fn(),
     correct: vi.fn(),
     lifecycle: vi.fn(),
 }));
 vi.mock("@/client", () => ({
     listPartyLocations: api.list,
-    getPartyLocation: api.get,
     createPartyLocation: api.create,
     correctPartyLocation: api.correct,
     setPartyLocationLifecycle: api.lifecycle,
@@ -39,6 +37,9 @@ const dto = (patch: Partial<PartyLocationData> = {}): PartyLocationData => ({
 });
 const ok = (data: unknown, status = 200) => ({ data, response: { status } });
 const failure = (status: number) => ({ error: {}, response: { status } });
+/** Serves these locations from now on, as the backend would after a change. */
+const serve = (...items: PartyLocationData[]) =>
+    api.list.mockResolvedValue(ok({ items, next: null }));
 
 function renderWorkspace() {
     const client = new QueryClient();
@@ -49,32 +50,34 @@ function renderWorkspace() {
     );
 }
 
-async function openSite() {
+async function renderLoaded() {
     renderWorkspace();
-    fireEvent.click(await screen.findByRole("button", { name: /Showroom/ }));
     return screen.findByRole("heading", { name: "Showroom" });
 }
 
 describe("PartyLocationWorkspace", () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        api.list.mockResolvedValue(ok({ items: [dto()], next: null }));
-        api.get.mockResolvedValue(ok(dto()));
+        serve(dto());
     });
 
-    it("hides sites when the viewer is not authorized", async () => {
+    it("hides locations when the viewer is not authorized", async () => {
         api.list.mockResolvedValue(failure(403));
         renderWorkspace();
 
         expect(await screen.findByText(t("partyLocations.errors.forbidden"))).toBeInTheDocument();
-        expect(screen.queryByRole("button", { name: /Showroom/ })).toBeNull();
+        expect(screen.queryByRole("heading", { name: "Showroom" })).toBeNull();
     });
 
     it("retires and restores only after confirmation, at the shown revision", async () => {
+        const respond = (patch: Partial<PartyLocationData>) => async () => {
+            serve(dto(patch));
+            return ok(dto(patch));
+        };
         api.lifecycle
-            .mockResolvedValueOnce(ok(dto({ lifecycle: "RETIRED", revision: 4 })))
-            .mockResolvedValueOnce(ok(dto({ lifecycle: "ACTIVE", revision: 5 })));
-        await openSite();
+            .mockImplementationOnce(respond({ lifecycle: "RETIRED", revision: 4 }))
+            .mockImplementationOnce(respond({ lifecycle: "ACTIVE", revision: 5 }));
+        await renderLoaded();
         expect(screen.getByText(t("partyLocations.eligibility.ACTIVE"))).toBeInTheDocument();
 
         fireEvent.click(screen.getByRole("button", { name: t("partyLocations.actions.retire") }));
@@ -92,6 +95,12 @@ describe("PartyLocationWorkspace", () => {
         expect(screen.queryByRole("button", { name: t("partyLocations.actions.correct") })).toBe(
             null,
         );
+        // Focus moves to the action that replaced the retire button, not to the document body.
+        await waitFor(() =>
+            expect(
+                screen.getByRole("button", { name: t("partyLocations.actions.restore") }),
+            ).toHaveFocus(),
+        );
 
         fireEvent.click(screen.getByRole("button", { name: t("partyLocations.actions.restore") }));
         fireEvent.click(
@@ -105,15 +114,17 @@ describe("PartyLocationWorkspace", () => {
     });
 
     it("relocates to a new identity only after confirmation", async () => {
-        api.create.mockResolvedValue(
-            ok(dto({ id: "ploc_2", label: "New showroom", revision: 1 }), 201),
-        );
-        await openSite();
+        const created = dto({ id: "ploc_2", label: "New showroom", revision: 1 });
+        api.create.mockImplementationOnce(async () => {
+            serve(dto({ lifecycle: "RETIRED", revision: 4 }), created);
+            return ok(created, 201);
+        });
+        await renderLoaded();
 
         fireEvent.click(screen.getByRole("button", { name: t("partyLocations.actions.relocate") }));
         expect(screen.getByText(t("partyLocations.consequences.relocate"))).toBeInTheDocument();
         expect(
-            screen.getByText(t("geography.disclosure.publicPartySite"), { exact: false }),
+            screen.getByText(t("geography.disclosure.publicPartyLocation"), { exact: false }),
         ).toBeInTheDocument();
         const label = screen.getByLabelText(t("partyLocations.fields.label"));
         expect(label).toHaveValue("Showroom");
@@ -142,19 +153,21 @@ describe("PartyLocationWorkspace", () => {
         });
         expect(request.headers["Idempotency-Key"]).toEqual(expect.any(String));
         expect(await screen.findByRole("heading", { name: "New showroom" })).toBeInTheDocument();
+        // The previous location stays listed, retired, next to the new one.
+        expect(
+            await screen.findByText(t("partyLocations.eligibility.RETIRED")),
+        ).toBeInTheDocument();
     });
 
     it("keeps the draft after a conflict and applies only its changes to the latest revision", async () => {
         // Another manager added a role before this correction reached the backend.
         api.correct
             .mockImplementationOnce(async () => {
-                api.get.mockResolvedValue(
-                    ok(dto({ revision: 5, roles: ["BUSINESS_PREMISES", "WAREHOUSE"] })),
-                );
+                serve(dto({ revision: 5, roles: ["BUSINESS_PREMISES", "WAREHOUSE"] }));
                 return failure(409);
             })
             .mockResolvedValueOnce(ok(dto({ label: "Renamed", revision: 6 })));
-        await openSite();
+        await renderLoaded();
 
         fireEvent.click(screen.getByRole("button", { name: t("partyLocations.actions.correct") }));
         const label = screen.getByLabelText(t("partyLocations.fields.label"));
@@ -192,10 +205,10 @@ describe("PartyLocationWorkspace", () => {
 
     it("discards the draft after a conflict and restarts from the latest revision", async () => {
         api.correct.mockImplementationOnce(async () => {
-            api.get.mockResolvedValue(ok(dto({ label: "Gallery", revision: 5 })));
+            serve(dto({ label: "Gallery", revision: 5 }));
             return failure(409);
         });
-        await openSite();
+        await renderLoaded();
 
         fireEvent.click(screen.getByRole("button", { name: t("partyLocations.actions.correct") }));
         const label = screen.getByLabelText(t("partyLocations.fields.label"));
@@ -218,12 +231,12 @@ describe("PartyLocationWorkspace", () => {
         expect(api.correct).toHaveBeenCalledTimes(1);
     });
 
-    it("blocks a kept draft once the site is no longer active", async () => {
+    it("blocks a kept draft once the location is no longer active", async () => {
         api.correct.mockImplementationOnce(async () => {
-            api.get.mockResolvedValue(ok(dto({ lifecycle: "RETIRED", revision: 4 })));
+            serve(dto({ lifecycle: "RETIRED", revision: 4 }));
             return failure(409);
         });
-        await openSite();
+        await renderLoaded();
 
         fireEvent.click(screen.getByRole("button", { name: t("partyLocations.actions.correct") }));
         fireEvent.change(screen.getByLabelText(t("partyLocations.fields.label")), {
@@ -244,12 +257,12 @@ describe("PartyLocationWorkspace", () => {
         ).toBeDisabled();
     });
 
-    it("refetches the site instead of retrying a conflicting lifecycle change", async () => {
+    it("refetches the location instead of retrying a conflicting lifecycle change", async () => {
         api.lifecycle.mockImplementationOnce(async () => {
-            api.get.mockResolvedValue(ok(dto({ label: "Gallery", revision: 4 })));
+            serve(dto({ label: "Gallery", revision: 4 }));
             return failure(409);
         });
-        await openSite();
+        await renderLoaded();
 
         fireEvent.click(screen.getByRole("button", { name: t("partyLocations.actions.retire") }));
         fireEvent.click(
@@ -263,7 +276,7 @@ describe("PartyLocationWorkspace", () => {
     });
 
     it("does not send a correction without changes", async () => {
-        await openSite();
+        await renderLoaded();
 
         fireEvent.click(screen.getByRole("button", { name: t("partyLocations.actions.correct") }));
         fireEvent.click(

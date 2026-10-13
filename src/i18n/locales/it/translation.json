@@ -2231,7 +2231,7 @@
       "confirmDelete": "Eliminare questa organizzazione? Una fonte di annunci collegata o una partnership attiva può impedirne l’eliminazione. Questa azione non elimina record correlati.",
       "confirmDeleteButton": "Elimina",
       "deleting": "Eliminazione…",
-      "locations": "Gestisci sedi"
+      "detailsFor": "Vedi dettagli di {{name}}"
     },
     "success": {
       "created": "Organizzazione creata.",
@@ -2242,8 +2242,8 @@
       "forbidden": "Non hai l’autorizzazione per accedere ai recapiti dell’organizzazione.",
       "missing": "Organizzazione non trovata o non più disponibile.",
       "createConflict": "Non è stato possibile creare l’organizzazione perché l’identificatore generato è in conflitto con un record esistente. Controlla le organizzazioni presenti prima di riprovare.",
-      "updateConflict": "L’organizzazione è stata modificata mentre la stavi aggiornando. Chiudi il modulo e riapri i dettagli prima di modificarla di nuovo.",
-      "deleteConflict": "L’organizzazione potrebbe essere collegata a una fonte di annunci o a una partnership e non è stato possibile eliminarla. Nessun record correlato è stato eliminato.",
+      "updateConflict": "L’organizzazione è stata modificata mentre la stavi aggiornando. Chiudi il modulo e riaprilo per modificare la versione più recente.",
+      "deleteConflict": "Non è stato possibile eliminare questa organizzazione perché potrebbe avere ancora sedi registrate o essere collegata a una fonte di annunci o a una partnership. Nessun record correlato è stato eliminato.",
       "invalid": "Controlla i dati dell’organizzazione e riprova.",
       "requestFailed": "Non è stato possibile completare la richiesta. Riprova."
     },
@@ -2262,10 +2262,9 @@
       "searchPrompt": "Cerca organizzazioni esistenti per nome o recapito.",
       "manageLink": "Apri la gestione delle organizzazioni"
     },
-    "locations": {
+    "page": {
       "back": "Torna alle organizzazioni",
-      "title": "Sedi commerciali",
-      "owner": "Sedi di {{name}}"
+      "deleteTitle": "Eliminare {{name}}?"
     }
   },
   "compareBarnebysPage": {
@@ -3013,7 +3012,7 @@
       "privateAddress": "Gli indirizzi salvati sono privati e destinati solo al vostro account. Li utilizziamo per mostrare distanze e risultati regionali, non per verificare la vostra residenza o la possibilità di consegnare oggetti. Dopo il salvataggio determiniamo la posizione in background con Amazon Location Service. Fino ad allora, o in assenza di un risultato univoco, l’indirizzo resta utilizzabile senza un punto preciso.",
       "savedOrigin": "Salvando questa ricerca conserviamo una copia privata della sua posizione di ricerca. Le modifiche successive ai vostri indirizzi non la spostano. Modificate o cancellate la ricerca salvata per rimuoverla.",
       "browserLocation": "Il browser vi chiederà se volete condividere la vostra posizione attuale. La utilizziamo solo per questa ricerca e la memorizziamo solo se salvate la ricerca.",
-      "publicPartySite": "Le sedi attive sono pubbliche: il punto geografico esatto, il paese e la regione possono comparire nei risultati di ricerca ed essere utilizzati per le ricerche per raggio. L’indirizzo completo, le prove e i dati di gestione sono visibili solo alle persone autorizzate. Dismettete una sede per rimuoverla dai risultati pubblici; l’aggiornamento può richiedere un breve tempo.",
+      "publicPartyLocation": "Le sedi attive sono pubbliche: il punto geografico esatto, il paese e la regione possono comparire nei risultati di ricerca ed essere utilizzati per le ricerche per raggio. L’indirizzo completo, le prove e i dati di gestione sono visibili solo alle persone autorizzate. Dismettete una sede per rimuoverla dai risultati pubblici; l’aggiornamento può richiedere un breve tempo.",
       "privacy": "Maggiori informazioni sono disponibili nella nostra <privacyLink>informativa sulla privacy</privacyLink>."
     },
     "coordinates": "{{latitude}}; {{longitude}}",
@@ -3023,18 +3022,13 @@
     "title": "Sedi",
     "description": "Ogni sede ha una propria identità. Correggete i dati di una sede, trasferitela quando l’attività si sposta oppure dismettetela quando non è più utilizzata.",
     "list": {
-      "label": "Sedi",
       "loading": "Caricamento delle sedi.",
       "empty": "Per questa organizzazione non è ancora stata registrata alcuna sede.",
       "loadMore": "Carica altro",
       "loadingMore": "Caricamento…"
     },
     "detail": {
-      "loading": "Caricamento della sede.",
-      "empty": "Selezionate una sede per vederne i dati e le azioni.",
-      "unsupportedValues": "Alcuni valori salvati usano un codice o un formato che questa applicazione non può visualizzare, quindi non sono mostrati qui.",
-      "confirmRetire": "Dismettere questa sede?",
-      "confirmRestore": "Ripristinare questa sede?"
+      "unsupportedValues": "Alcuni valori salvati usano un codice o un formato che questa applicazione non può visualizzare, quindi non sono mostrati qui."
     },
     "eligibility": {
       "ACTIVE": "Attiva e pubblica: il punto esatto, il paese e la regione possono comparire nei risultati di ricerca e nelle ricerche per raggio.",
@@ -3178,6 +3172,10 @@
       "evidenceReferenceRequired": "Inserite un riferimento della prova o cancellate la data.",
       "evidenceReferenceInvalid": "Il riferimento deve occupare una sola riga e non superare 2048 byte UTF-8.",
       "observedOnInvalid": "Inserite una data valida."
+    },
+    "confirm": {
+      "retireTitle": "Dismettere «{{label}}»?",
+      "restoreTitle": "Ripristinare «{{label}}»?"
     }
   }
 }

@@ -32,14 +32,14 @@ describe("PartyLocationSelector", () => {
         });
     });
 
-    it("offers only active sites and selects none by default", async () => {
+    it("offers only active locations and selects none by default", async () => {
         const onChange = vi.fn();
         render(
             <QueryClientProvider client={new QueryClient()}>
                 <PartyLocationSelector
                     scope={{ viewerCacheKey: "user-1", partyId: "pty_1" }}
-                    name="default-site"
-                    legend="Default site"
+                    name="default-location"
+                    legend="Default location"
                     onChange={onChange}
                 />
             </QueryClientProvider>,

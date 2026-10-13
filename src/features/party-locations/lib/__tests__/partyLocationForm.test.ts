@@ -11,7 +11,7 @@ import {
     toRelocationFormValues,
 } from "../partyLocationForm.ts";
 
-const site: PartyLocation = {
+const partyLocation: PartyLocation = {
     id: "ploc_1",
     partyId: "pty_1",
     label: "Showroom",
@@ -48,7 +48,7 @@ const issues = (input: PartyLocationFormValues) => {
 };
 
 describe("partyLocationFormSchema", () => {
-    it("accepts a label-only site, (0, 0) and a comma decimal separator", () => {
+    it("accepts a label-only location, (0, 0) and a comma decimal separator", () => {
         expect(issues(values())).toEqual([]);
         expect(issues(values({ latitude: "0", longitude: "0", precision: "LOCALITY" }))).toEqual(
             [],
@@ -87,7 +87,7 @@ describe("partyLocationFormSchema", () => {
 });
 
 describe("buildCreatePartyLocationInput", () => {
-    it("keeps partial and unresolved sites partial", () => {
+    it("keeps partial and unresolved locations partial", () => {
         expect(buildCreatePartyLocationInput(values({ label: "  Depot  " }))).toEqual({
             label: "Depot",
             roles: [],
@@ -130,8 +130,8 @@ describe("buildCreatePartyLocationInput", () => {
         });
     });
 
-    it("starts a relocation with only the label and roles of the old site", () => {
-        expect(toRelocationFormValues(site)).toEqual({
+    it("starts a relocation with only the label and roles of the old location", () => {
+        expect(toRelocationFormValues(partyLocation)).toEqual({
             ...toPartyLocationFormValues(),
             label: "Showroom",
             roles: ["BUSINESS_PREMISES"],
@@ -140,14 +140,18 @@ describe("buildCreatePartyLocationInput", () => {
 });
 
 describe("buildCorrectPartyLocationInput", () => {
-    it("sends nothing when the draft matches the site, including the observed day", () => {
-        expect(buildCorrectPartyLocationInput(toPartyLocationFormValues(site), site, 4)).toBe(
-            undefined,
-        );
+    it("sends nothing when the draft matches the location, including the observed day", () => {
         expect(
             buildCorrectPartyLocationInput(
-                { ...toPartyLocationFormValues(site), latitude: "48.1390" },
-                site,
+                toPartyLocationFormValues(partyLocation),
+                partyLocation,
+                4,
+            ),
+        ).toBe(undefined);
+        expect(
+            buildCorrectPartyLocationInput(
+                { ...toPartyLocationFormValues(partyLocation), latitude: "48.1390" },
+                partyLocation,
                 4,
             ),
         ).toBeUndefined();
@@ -157,14 +161,14 @@ describe("buildCorrectPartyLocationInput", () => {
         expect(
             buildCorrectPartyLocationInput(
                 {
-                    ...toPartyLocationFormValues(site),
+                    ...toPartyLocationFormValues(partyLocation),
                     label: "Main showroom",
                     latitude: "",
                     longitude: "",
                     precision: "",
                     roles: [],
                 },
-                site,
+                partyLocation,
                 4,
             ),
         ).toEqual({ expectedRevision: 4, label: "Main showroom", roles: [], position: null });
@@ -173,8 +177,8 @@ describe("buildCorrectPartyLocationInput", () => {
     it("replaces the complete geography assertion when one of its fields changes", () => {
         expect(
             buildCorrectPartyLocationInput(
-                { ...toPartyLocationFormValues(site), postalCode: "80331" },
-                site,
+                { ...toPartyLocationFormValues(partyLocation), postalCode: "80331" },
+                partyLocation,
                 4,
             ),
         ).toEqual({
@@ -190,7 +194,7 @@ describe("buildCorrectPartyLocationInput", () => {
 
     it("keeps values it cannot display by omitting unchanged groups", () => {
         const withUnsupported: PartyLocation = {
-            ...site,
+            ...partyLocation,
             geography: { addressText: "Somewhere", hasUnsupportedValues: true },
             hasUnsupportedValues: true,
         };
@@ -205,8 +209,8 @@ describe("buildCorrectPartyLocationInput", () => {
 
     it("applies a kept draft to a newer revision without reverting concurrent changes", () => {
         // The draft began at revision 4; another manager then changed the position (revision 5).
-        const draft = { ...toPartyLocationFormValues(site), label: "Renamed" };
-        expect(buildCorrectPartyLocationInput(draft, site, 5)).toEqual({
+        const draft = { ...toPartyLocationFormValues(partyLocation), label: "Renamed" };
+        expect(buildCorrectPartyLocationInput(draft, partyLocation, 5)).toEqual({
             expectedRevision: 5,
             label: "Renamed",
         });

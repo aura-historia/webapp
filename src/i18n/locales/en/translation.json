@@ -1943,7 +1943,7 @@
       "confirmDelete": "Delete this organization? A linked listing source or retained partnership can prevent deletion. Related records are not removed by this action.",
       "confirmDeleteButton": "Delete",
       "deleting": "Deleting…",
-      "locations": "Manage locations"
+      "detailsFor": "View details for {{name}}"
     },
     "success": {
       "created": "Organization created.",
@@ -1954,8 +1954,8 @@
       "forbidden": "You do not have permission to access organization contact details.",
       "missing": "Organization not found or no longer available.",
       "createConflict": "This organization could not be created because its generated identifier conflicts with an existing record. Review the existing organizations before trying again.",
-      "updateConflict": "This organization changed while you were editing it. Close this form and reopen its details before editing again.",
-      "deleteConflict": "This organization may be linked to a listing source or partnership and could not be deleted. No related records were deleted.",
+      "updateConflict": "This organization changed while you were editing it. Close this form and open it again to edit the latest version.",
+      "deleteConflict": "This organization could not be deleted because it may still have recorded locations or be linked to a listing source or partnership. No related records were deleted.",
       "invalid": "Check the organization details and try again.",
       "requestFailed": "The organization request could not be completed. Please try again."
     },
@@ -1974,10 +1974,9 @@
       "searchPrompt": "Search existing organizations by name or contact details.",
       "manageLink": "Open organization management"
     },
-    "locations": {
+    "page": {
       "back": "Back to organizations",
-      "title": "Business locations",
-      "owner": "Sites of {{name}}"
+      "deleteTitle": "Delete {{name}}?"
     }
   },
   "adminListingSources": {
@@ -3013,33 +3012,28 @@
       "privateAddress": "Saved addresses are private to your account. We use them to show distances and regional results, not to verify your residence or whether objects can be delivered. After you save, we determine the location in the background using Amazon Location Service. Until then, or if there is no clear match, the address remains usable without a precise point.",
       "savedOrigin": "Saving this search keeps a private copy of its search location. Later changes to your addresses do not move it. Change or delete the saved search to remove it.",
       "browserLocation": "Your browser will ask whether to share your current location. We use it only for this search and store it only if you save the search.",
-      "publicPartySite": "Active locations are public: the exact geographic point, country and region can appear in search results and be used for radius searches. The full address, supporting evidence and management details are visible only to authorized people. Retire a location to remove it from public results; the update can take a short time.",
+      "publicPartyLocation": "Active locations are public: the exact geographic point, country and region can appear in search results and be used for radius searches. The full address, supporting evidence and management details are visible only to authorized people. Retire a location to remove it from public results; the update can take a short time.",
       "privacy": "More information is available in our <privacyLink>privacy policy</privacyLink>."
     },
     "coordinates": "{{latitude}}, {{longitude}}",
     "nauticalMiles": "{{value}} nmi"
   },
   "partyLocations": {
-    "title": "Sites",
-    "description": "Each site has its own identity. Correct a site's details, relocate it when the business moves, or retire it when the site is no longer used.",
+    "title": "Locations",
+    "description": "Each location has its own identity. Correct a location's details, relocate it when the business moves, or retire it when the location is no longer used.",
     "list": {
-      "label": "Sites",
-      "loading": "Loading sites.",
-      "empty": "No sites have been recorded for this organization yet.",
+      "loading": "Loading locations.",
+      "empty": "No locations have been recorded for this organization yet.",
       "loadMore": "Load more",
       "loadingMore": "Loading…"
     },
     "detail": {
-      "loading": "Loading site.",
-      "empty": "Select a site to review its details and actions.",
-      "unsupportedValues": "Some stored values use a code or format this app cannot display, so they are not shown here.",
-      "confirmRetire": "Retire this site?",
-      "confirmRestore": "Restore this site?"
+      "unsupportedValues": "Some stored values use a code or format this app cannot display, so they are not shown here."
     },
     "eligibility": {
       "ACTIVE": "Active and public: its exact point, country and region can appear in search results and radius searches.",
       "RETIRED": "Retired: not shown in public results and supplies no inherited listing geography.",
-      "UNKNOWN": "This site has a status this app does not recognize, so no actions are offered."
+      "UNKNOWN": "This location has a status this app does not recognize, so no actions are offered."
     },
     "lifecycle": {
       "ACTIVE": "Active",
@@ -3059,7 +3053,7 @@
       "REPRESENTATIVE": "Representative point"
     },
     "evidenceScopes": {
-      "SITE_DESCRIPTION": "Site description",
+      "SITE_DESCRIPTION": "Location description",
       "REGISTERED_ADDRESS": "Registered address",
       "CORRESPONDENCE_ADDRESS": "Correspondence address"
     },
@@ -3083,59 +3077,59 @@
       "evidenceReference": "Evidence reference",
       "evidenceScope": "Evidence scope",
       "evidenceObservedOn": "Observed on (UTC)",
-      "locationId": "Site ID",
+      "locationId": "Location ID",
       "notAsserted": "Not provided",
       "noRoles": "No roles",
       "noGeography": "No address or region provided"
     },
     "hints": {
-      "roles": "Roles describe how the business uses this site. They do not state where objects are kept, shipped from or collected.",
+      "roles": "Roles describe how the business uses this location. They do not state where objects are kept, shipped from or collected.",
       "geography": "All fields are optional and stored exactly as entered. The address is not verified or geocoded when you save.",
       "position": "Optional. A point needs its precision; the number of decimal places does not indicate accuracy.",
       "evidence": "Optional reference to the source of these details, such as a document number or web address. It is stored as text and never opened.",
       "chooseCountry": "Choose a country first"
     },
     "consequences": {
-      "correct": "Correction keeps this site's identity. Listing sources that use it as their default keep it, and their inherited listing geography follows the corrected details after a short delay.",
-      "relocate": "Relocation creates a new site with its own identity and retires this one in the same step. Listing sources that use this site as their default are not moved: they keep the retired reference and supply no inherited listing geography until a default is chosen explicitly.",
-      "retire": "The site leaves public results and no longer supplies inherited listing geography; this can take a short time. Listing sources that use it as their default keep the reference for traceability, and no other site is selected automatically.",
-      "restore": "The site becomes public again: its exact point, country and region can appear in search results. Listing sources that still reference it as their default supply inherited listing geography again after a short delay."
+      "correct": "Correction keeps this location's identity. Listing sources that use it as their default keep it, and their inherited listing geography follows the corrected details after a short delay.",
+      "relocate": "Relocation creates a new location with its own identity and retires this one in the same step. Listing sources that use this location as their default are not moved: they keep the retired reference and supply no inherited listing geography until a default is chosen explicitly.",
+      "retire": "The location leaves public results and no longer supplies inherited listing geography; this can take a short time. Listing sources that use it as their default keep the reference for traceability, and no other location is selected automatically.",
+      "restore": "The location becomes public again: its exact point, country and region can appear in search results. Listing sources that still reference it as their default supply inherited listing geography again after a short delay."
     },
     "editor": {
       "create": {
-        "title": "Add site",
-        "description": "Record a business site for this organization. Partial details are allowed.",
-        "submit": "Add site"
+        "title": "Add location",
+        "description": "Record a business location for this organization. Partial details are allowed.",
+        "submit": "Add location"
       },
       "correct": {
-        "title": "Correct site",
-        "description": "Fix the details of this same physical site. Unchanged sections are kept; clearing all fields of a section removes it.",
+        "title": "Correct location",
+        "description": "Fix the details of this same physical location. Unchanged sections are kept; clearing all fields of a section removes it.",
         "submit": "Save correction"
       },
       "relocate": {
-        "title": "Relocate site",
-        "description": "Use this when the business has moved to a different place. Enter the details of the new site.",
+        "title": "Relocate this location",
+        "description": "Use this when the business has moved to a different place. Enter the details of the new location.",
         "submit": "Review relocation"
       },
-      "unsupportedValues": "This site has stored values this app cannot display. Sections you leave unchanged keep them; changing or clearing a section replaces them.",
+      "unsupportedValues": "This location has stored values this app cannot display. Sections you leave unchanged keep them; changing or clearing a section replaces them.",
       "noChanges": "There are no changes to save.",
       "stale": {
-        "correct": "This site was changed while you were editing. Your draft is kept. Apply only your changes to the latest version, or discard your draft and start from the latest version.",
-        "relocate": "This site was changed while you were preparing the relocation. Your draft is kept. Continue with the latest version, or discard your draft."
+        "correct": "This location was changed while you were editing. Your draft is kept. Apply only your changes to the latest version, or discard your draft and start from the latest version.",
+        "relocate": "This location was changed while you were preparing the relocation. Your draft is kept. Continue with the latest version, or discard your draft."
       },
-      "staleInactive": "This site is no longer active, so it can no longer be corrected or relocated. Close this dialog to review it.",
+      "staleInactive": "This location is no longer active, so it can no longer be corrected or relocated. Close this dialog to review it.",
       "keepDraft": "Keep my draft",
       "discardDraft": "Discard my draft",
-      "confirmRelocation": "Create the new site and retire the current one in the same step?"
+      "confirmRelocation": "Create the new location and retire the current one in the same step?"
     },
     "actions": {
-      "create": "Add site",
+      "create": "Add location",
       "correct": "Correct",
       "relocate": "Relocate",
       "retire": "Retire",
       "restore": "Restore",
-      "confirmRetire": "Retire site",
-      "confirmRestore": "Restore site",
+      "confirmRetire": "Retire location",
+      "confirmRestore": "Restore location",
       "confirmRelocate": "Relocate and retire",
       "back": "Back",
       "cancel": "Cancel",
@@ -3143,24 +3137,24 @@
       "retry": "Retry"
     },
     "selector": {
-      "empty": "This organization has no active sites."
+      "empty": "This organization has no active locations."
     },
     "success": {
-      "created": "Site added.",
-      "relocated": "New site created; the previous site has been retired.",
-      "corrected": "Site corrected.",
-      "unchanged": "No change was needed; the site already had these details.",
-      "retired": "Site retired.",
-      "restored": "Site restored."
+      "created": "Location added.",
+      "relocated": "New location created; the previous location has been retired.",
+      "corrected": "Location corrected.",
+      "unchanged": "No change was needed; the location already had these details.",
+      "retired": "Location retired.",
+      "restored": "Location restored."
     },
     "errors": {
-      "forbidden": "You do not have permission to manage this organization's sites.",
-      "missing": "This organization or site was not found or is no longer available.",
-      "invalid": "Check the site details and try again.",
-      "conflict": "This site has changed or is no longer active. The latest version has been loaded; review it before trying again.",
-      "createConflict": "This site could not be added because the request conflicts with an earlier one. Review the sites before trying again.",
-      "createIndefinite": "We could not confirm whether the site was saved. Submit again without changes to retry safely; this will not create a duplicate.",
-      "unavailable": "Site management is temporarily unavailable. Please try again shortly.",
+      "forbidden": "You do not have permission to manage this organization's locations.",
+      "missing": "This organization or location was not found or is no longer available.",
+      "invalid": "Check the location details and try again.",
+      "conflict": "This location has changed or is no longer active. The latest version has been loaded; review it before trying again.",
+      "createConflict": "This location could not be added because the request conflicts with an earlier one. Review the locations before trying again.",
+      "createIndefinite": "We could not confirm whether the location was saved. Submit again without changes to retry safely; this will not create a duplicate.",
+      "unavailable": "Location management is temporarily unavailable. Please try again shortly.",
       "requestFailed": "The request could not be completed. Please try again."
     },
     "validation": {
@@ -3178,6 +3172,10 @@
       "evidenceReferenceRequired": "Enter an evidence reference or clear the date.",
       "evidenceReferenceInvalid": "The reference must be a single line of 2048 UTF-8 bytes or fewer.",
       "observedOnInvalid": "Enter a valid calendar date."
+    },
+    "confirm": {
+      "retireTitle": "Retire “{{label}}”?",
+      "restoreTitle": "Restore “{{label}}”?"
     }
   }
 }

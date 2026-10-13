@@ -10,8 +10,8 @@ import {
 import { formatPartyLocationRegion } from "../lib/partyLocationSummary.ts";
 
 /**
- * Chooses one active site of a Party, for example as a listing-source default. Retired sites are
- * not offered. Nothing is preselected: callers keep the current choice in `value`.
+ * Chooses one active location of a Party, for example as a listing-source default. Retired
+ * locations are not offered. Nothing is preselected: callers keep the current choice in `value`.
  */
 export function PartyLocationSelector({
     scope,

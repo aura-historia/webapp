@@ -1943,7 +1943,7 @@
       "confirmDelete": "Diese Organisation löschen? Eine verknüpfte Listing-Quelle oder bestehende Partnerschaft kann die Löschung verhindern. Zugehörige Datensätze werden durch diese Aktion nicht gelöscht.",
       "confirmDeleteButton": "Löschen",
       "deleting": "Wird gelöscht…",
-      "locations": "Standorte verwalten"
+      "detailsFor": "Details ansehen: {{name}}"
     },
     "success": {
       "created": "Organisation erstellt.",
@@ -1954,8 +1954,8 @@
       "forbidden": "Sie haben keine Berechtigung, die Kontaktdaten der Organisation aufzurufen.",
       "missing": "Organisation nicht gefunden oder nicht mehr verfügbar.",
       "createConflict": "Die Organisation konnte nicht erstellt werden, da ihre erzeugte Kennung mit einem bestehenden Datensatz kollidiert. Prüfen Sie die vorhandenen Organisationen und versuchen Sie es erneut.",
-      "updateConflict": "Diese Organisation wurde während Ihrer Bearbeitung geändert. Schließen Sie das Formular und öffnen Sie die Details erneut, bevor Sie sie bearbeiten.",
-      "deleteConflict": "Diese Organisation ist möglicherweise mit einer Listing-Quelle oder Partnerschaft verknüpft und konnte nicht gelöscht werden. Zugehörige Datensätze wurden nicht gelöscht.",
+      "updateConflict": "Diese Organisation wurde während Ihrer Bearbeitung geändert. Schließen Sie das Formular und öffnen Sie es erneut, um die aktuelle Fassung zu bearbeiten.",
+      "deleteConflict": "Diese Organisation konnte nicht gelöscht werden, weil sie möglicherweise noch erfasste Standorte hat oder mit einer Listing-Quelle oder Partnerschaft verknüpft ist. Zugehörige Datensätze wurden nicht gelöscht.",
       "invalid": "Prüfen Sie die Organisationsangaben und versuchen Sie es erneut.",
       "requestFailed": "Die Organisationsanfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
     },
@@ -1974,10 +1974,9 @@
       "searchPrompt": "Suchen Sie vorhandene Organisationen nach Name oder Kontaktdaten.",
       "manageLink": "Organisationsverwaltung öffnen"
     },
-    "locations": {
+    "page": {
       "back": "Zurück zu den Organisationen",
-      "title": "Geschäftsstandorte",
-      "owner": "Standorte von {{name}}"
+      "deleteTitle": "{{name}} löschen?"
     }
   },
   "adminListingSources": {
@@ -3013,7 +3012,7 @@
       "privateAddress": "Gespeicherte Adressen sind privat und nur für Ihr Konto bestimmt. Wir verwenden sie, um Entfernungen und regionale Ergebnisse anzuzeigen, nicht um Ihren Wohnsitz oder die Lieferbarkeit von Objekten zu prüfen. Nach dem Speichern ermitteln wir die Lage im Hintergrund mit Amazon Location Service. Bis dahin oder ohne eindeutiges Ergebnis bleibt die Adresse ohne genauen Punkt nutzbar.",
       "savedOrigin": "Mit dieser Suche speichern wir eine private Kopie ihres Suchstandorts. Spätere Änderungen an Ihren Adressen verschieben ihn nicht. Ändern oder löschen Sie die gespeicherte Suche, um ihn zu entfernen.",
       "browserLocation": "Ihr Browser fragt, ob Sie Ihren aktuellen Standort freigeben möchten. Wir verwenden ihn nur für diese Suche und speichern ihn nur, wenn Sie die Suche speichern.",
-      "publicPartySite": "Aktive Standorte sind öffentlich: Der genaue geografische Punkt sowie Land und Region können in Suchergebnissen erscheinen und für die Umkreissuche verwendet werden. Die vollständige Adresse, Nachweise und Verwaltungsangaben sehen nur berechtigte Personen. Legen Sie einen Standort still, um ihn aus öffentlichen Ergebnissen zu entfernen; die Aktualisierung kann kurze Zeit dauern.",
+      "publicPartyLocation": "Aktive Standorte sind öffentlich: Der genaue geografische Punkt sowie Land und Region können in Suchergebnissen erscheinen und für die Umkreissuche verwendet werden. Die vollständige Adresse, Nachweise und Verwaltungsangaben sehen nur berechtigte Personen. Legen Sie einen Standort still, um ihn aus öffentlichen Ergebnissen zu entfernen; die Aktualisierung kann kurze Zeit dauern.",
       "privacy": "Weitere Informationen finden Sie in unserer <privacyLink>Datenschutzerklärung</privacyLink>."
     },
     "coordinates": "{{latitude}}; {{longitude}}",
@@ -3023,18 +3022,13 @@
     "title": "Standorte",
     "description": "Jeder Standort hat eine eigene Identität. Korrigieren Sie die Angaben eines Standorts, verlegen Sie ihn bei einem Umzug des Geschäfts oder legen Sie ihn still, wenn er nicht mehr genutzt wird.",
     "list": {
-      "label": "Standorte",
       "loading": "Standorte werden geladen.",
       "empty": "Für diese Organisation sind noch keine Standorte erfasst.",
       "loadMore": "Mehr laden",
       "loadingMore": "Wird geladen…"
     },
     "detail": {
-      "loading": "Standort wird geladen.",
-      "empty": "Wählen Sie einen Standort, um seine Angaben und Aktionen zu sehen.",
-      "unsupportedValues": "Einige gespeicherte Werte verwenden einen Code oder ein Format, das diese Anwendung nicht anzeigen kann. Sie werden hier daher nicht angezeigt.",
-      "confirmRetire": "Diesen Standort stilllegen?",
-      "confirmRestore": "Diesen Standort reaktivieren?"
+      "unsupportedValues": "Einige gespeicherte Werte verwenden einen Code oder ein Format, das diese Anwendung nicht anzeigen kann. Sie werden hier daher nicht angezeigt."
     },
     "eligibility": {
       "ACTIVE": "Aktiv und öffentlich: Der genaue Punkt sowie Land und Region können in Suchergebnissen und Umkreissuchen erscheinen.",
@@ -3178,6 +3172,10 @@
       "evidenceReferenceRequired": "Geben Sie eine Nachweisreferenz ein oder leeren Sie das Datum.",
       "evidenceReferenceInvalid": "Die Referenz muss einzeilig sein und darf höchstens 2048 UTF-8-Bytes umfassen.",
       "observedOnInvalid": "Geben Sie ein gültiges Kalenderdatum ein."
+    },
+    "confirm": {
+      "retireTitle": "„{{label}}“ stilllegen?",
+      "restoreTitle": "„{{label}}“ reaktivieren?"
     }
   }
 }

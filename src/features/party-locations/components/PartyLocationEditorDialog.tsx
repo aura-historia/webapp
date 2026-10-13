@@ -57,9 +57,10 @@ const SELECT_CLASS =
 const DISCLOSURE_ID = "party-location-public-disclosure";
 
 /**
- * Create, same-site correction and relocation of one Party site. Pass a fresh `key` per intent.
- * `current` is the latest authoritative state of the edited site: when it moves past the revision
- * the draft is based on, submission waits for the user to keep or discard the draft explicitly.
+ * Create, same-location correction and relocation of one Party location. Pass a fresh `key` per
+ * intent. `current` is the latest authoritative state of the edited location: when it moves past
+ * the revision the draft is based on, submission waits for the user to keep or discard the draft
+ * explicitly.
  */
 export function PartyLocationEditorDialog({
     scope,
@@ -74,11 +75,11 @@ export function PartyLocationEditorDialog({
     readonly current?: PartyLocation;
     readonly open: boolean;
     readonly onOpenChange: (open: boolean) => void;
-    readonly onSaved: (location: PartyLocation) => void;
+    readonly onSaved?: (location: PartyLocation) => void;
 }) {
     const { t } = useTranslation();
     const existing = intent.kind === "create" ? undefined : intent.location;
-    // The site as it was when this draft began; corrections send only changes relative to it.
+    // The location as it was when this draft began; corrections send only changes relative to it.
     const [original, setOriginal] = useState(existing);
     const [baseRevision, setBaseRevision] = useState(existing?.revision);
     const [pendingRelocation, setPendingRelocation] = useState<CreatePartyLocationInput>();
@@ -123,7 +124,7 @@ export function PartyLocationEditorDialog({
                             : "partyLocations.success.created",
                     ),
                 );
-                onSaved(location);
+                onSaved?.(location);
                 onOpenChange(false);
             },
             onError: () => setPendingRelocation(undefined),
@@ -153,7 +154,7 @@ export function PartyLocationEditorDialog({
                 onSuccess: ({ location, unchanged }) => {
                     if (unchanged) toast.info(t("partyLocations.success.unchanged"));
                     else toast.success(t("partyLocations.success.corrected"));
-                    onSaved(location);
+                    onSaved?.(location);
                     onOpenChange(false);
                 },
             },
@@ -194,7 +195,7 @@ export function PartyLocationEditorDialog({
                     aria-describedby={DISCLOSURE_ID}
                 >
                     <GeographyDisclosure
-                        kind="publicPartySite"
+                        kind="publicPartyLocation"
                         id={DISCLOSURE_ID}
                         className="border bg-surface-container-low p-3"
                     />

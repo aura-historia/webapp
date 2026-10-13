@@ -163,7 +163,7 @@ export function toPartyLocationFormValues(location?: PartyLocation): PartyLocati
     };
 }
 
-/** Relocation starts a new site: only the label and business roles carry over. */
+/** Relocation starts a new location: only the label and business roles carry over. */
 export function toRelocationFormValues(location: PartyLocation): PartyLocationFormValues {
     return { ...toPartyLocationFormValues(), label: location.label, roles: [...location.roles] };
 }
@@ -232,10 +232,10 @@ const same = (left: unknown, right: unknown) =>
     JSON.stringify(left ?? null) === JSON.stringify(right ?? null);
 
 /**
- * Same-site correction containing only the groups the draft changed relative to `original`, the
- * site as it was when editing began. Unchanged groups are omitted so concurrent edits and values
- * this app cannot display stay intact; a cleared group is sent as `null`. Returns `undefined`
- * when nothing changed.
+ * Same-location correction containing only the groups the draft changed relative to `original`,
+ * the location as it was when editing began. Unchanged groups are omitted so concurrent edits and
+ * values this app cannot display stay intact; a cleared group is sent as `null`. Returns
+ * `undefined` when nothing changed.
  */
 export function buildCorrectPartyLocationInput(
     values: PartyLocationFormValues,

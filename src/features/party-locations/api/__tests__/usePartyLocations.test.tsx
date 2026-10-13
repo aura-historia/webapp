@@ -1,31 +1,28 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { type InfiniteData, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { PartyLocationData } from "@/client";
 import { geographyQueryKeys } from "@/data/internal/geography/GeographyQueryKeys.ts";
-import type { PartyLocation } from "@/data/internal/geography/PartyLocation.ts";
+import type { PartyLocation, PartyLocationPage } from "@/data/internal/geography/PartyLocation.ts";
 import testI18n from "@/i18n/i18nForTests";
 import { isViewerScopedQuery } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
 import {
     PartyLocationRequestError,
     useCorrectPartyLocation,
     useCreatePartyLocation,
-    usePartyLocation,
     usePartyLocationList,
     useSetPartyLocationLifecycle,
 } from "../usePartyLocations.ts";
 
 const api = vi.hoisted(() => ({
     list: vi.fn(),
-    get: vi.fn(),
     create: vi.fn(),
     correct: vi.fn(),
     lifecycle: vi.fn(),
 }));
 vi.mock("@/client", () => ({
     listPartyLocations: api.list,
-    getPartyLocation: api.get,
     createPartyLocation: api.create,
     correctPartyLocation: api.correct,
     setPartyLocationLifecycle: api.lifecycle,
@@ -47,7 +44,7 @@ const failure = (status?: number) => ({
     error: { title: "Problem", detail: "Marienplatz 1" },
     response: status === undefined ? undefined : { status },
 });
-const site = (patch: Partial<PartyLocation> = {}): PartyLocation => ({
+const partyLocation = (patch: Partial<PartyLocation> = {}): PartyLocation => ({
     id: "ploc_1",
     partyId: "pty_1",
     label: "Showroom",
@@ -64,6 +61,17 @@ describe("Party-location API", () => {
     const wrapper = ({ children }: { children: ReactNode }) => (
         <QueryClientProvider client={client}>{children}</QueryClientProvider>
     );
+
+    const listKey = geographyQueryKeys.partyLocationList("user-1", "pty_1");
+    const seedList = () =>
+        client.setQueryData<InfiniteData<PartyLocationPage, string | undefined>>(listKey, {
+            pages: [{ items: [partyLocation()] }],
+            pageParams: [undefined],
+        });
+    const loadedItems = () =>
+        client
+            .getQueryData<InfiniteData<PartyLocationPage, string | undefined>>(listKey)
+            ?.pages.flatMap((page) => page.items);
 
     beforeEach(() => {
         vi.clearAllMocks();
@@ -98,24 +106,25 @@ describe("Party-location API", () => {
     });
 
     it("shows fixed copy instead of problem details and does not retry reads", async () => {
-        api.get.mockResolvedValue(failure(403));
-        const hook = renderHook(() => usePartyLocation(scope, "ploc_1"), { wrapper });
+        api.list.mockResolvedValue(failure(403));
+        const hook = renderHook(() => usePartyLocationList(scope), { wrapper });
 
         await waitFor(() => expect(hook.result.current.error).toBeTruthy());
-        expect(api.get).toHaveBeenCalledTimes(1);
+        expect(api.list).toHaveBeenCalledTimes(1);
         expect(hook.result.current.error?.message).not.toContain("Marienplatz");
         expect(hook.result.current.error).toMatchObject({ status: 403, isAccessLoss: true });
     });
 
-    it("rejects a site that belongs to another Party", async () => {
-        api.get.mockResolvedValue(ok(dto({ partyId: "pty_other" })));
-        const hook = renderHook(() => usePartyLocation(scope, "ploc_1"), { wrapper });
+    it("rejects a page with a location of another Party", async () => {
+        api.list.mockResolvedValue(ok({ items: [dto({ partyId: "pty_other" })], next: null }));
+        const hook = renderHook(() => usePartyLocationList(scope), { wrapper });
 
         await waitFor(() => expect(hook.result.current.error).toBeTruthy());
         expect(hook.result.current.data).toBeUndefined();
     });
 
     it("reuses the creation key only while the unchanged command has no definite outcome", async () => {
+        seedList();
         api.create
             .mockResolvedValueOnce(failure())
             .mockResolvedValueOnce(failure(503))
@@ -145,9 +154,7 @@ describe("Party-location API", () => {
             body: { label: "Depot" },
             cache: "no-store",
         });
-        expect(
-            client.getQueryData(geographyQueryKeys.partyLocation("user-1", "pty_1", "ploc_2")),
-        ).toMatchObject({ id: "ploc_2" });
+        expect(client.getQueryState(listKey)?.isInvalidated).toBe(true);
     });
 
     it("reports an unknown creation outcome only when the outcome is indefinite", async () => {
@@ -180,10 +187,9 @@ describe("Party-location API", () => {
         );
     });
 
-    it("sends relocation with the expected revision and refreshes the retired site", async () => {
-        client.setQueryData(geographyQueryKeys.partyLocation("user-1", "pty_1", "ploc_1"), site());
+    it("sends relocation with the expected revision and refreshes the list", async () => {
+        seedList();
         api.create.mockResolvedValue(ok(dto({ id: "ploc_2", revision: 1 }), 201));
-        api.get.mockResolvedValue(ok(dto({ lifecycle: "RETIRED", revision: 4 })));
         const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
 
         await act(() =>
@@ -197,13 +203,11 @@ describe("Party-location API", () => {
             label: "New showroom",
             relocates: { id: "ploc_1", revision: 3 },
         });
-        expect(
-            client.getQueryState(geographyQueryKeys.partyLocation("user-1", "pty_1", "ploc_1"))
-                ?.isInvalidated,
-        ).toBe(true);
+        expect(client.getQueryState(listKey)?.isInvalidated).toBe(true);
     });
 
     it("reports an unchanged correction separately from a change", async () => {
+        seedList();
         api.correct
             .mockResolvedValueOnce(ok(dto({ revision: 3 })))
             .mockResolvedValueOnce(ok(dto({ revision: 4, label: "Renamed" })));
@@ -229,11 +233,31 @@ describe("Party-location API", () => {
             body: { expectedRevision: 3, correction: "SAME_SITE", label: "Showroom" },
             cache: "no-store",
         });
+        // The saved location replaces the loaded one before the list refetch completes.
+        expect(loadedItems()).toEqual([expect.objectContaining({ label: "Renamed", revision: 4 })]);
     });
 
-    it("refetches the authoritative site after a conflict", async () => {
-        const key = geographyQueryKeys.partyLocation("user-1", "pty_1", "ploc_1");
-        client.setQueryData(key, site());
+    it("keeps a newer loaded revision when an older response arrives", async () => {
+        client.setQueryData<InfiniteData<PartyLocationPage, string | undefined>>(listKey, {
+            pages: [{ items: [partyLocation({ label: "Gallery", revision: 5 })] }],
+            pageParams: [undefined],
+        });
+        api.correct.mockResolvedValue(ok(dto({ revision: 4, label: "Renamed" })));
+        const hook = renderHook(() => useCorrectPartyLocation(scope), { wrapper });
+
+        await act(() =>
+            hook.result.current.mutateAsync({
+                locationId: "ploc_1",
+                input: { expectedRevision: 3, label: "Renamed" },
+            }),
+        );
+
+        expect(loadedItems()).toEqual([expect.objectContaining({ label: "Gallery", revision: 5 })]);
+        expect(client.getQueryState(listKey)?.isInvalidated).toBe(true);
+    });
+
+    it("refetches the authoritative locations after a conflict", async () => {
+        seedList();
         api.correct.mockResolvedValue(failure(409));
         const hook = renderHook(() => useCorrectPartyLocation(scope), { wrapper });
 
@@ -248,19 +272,18 @@ describe("Party-location API", () => {
             expect(hook.result.current.error).toBeInstanceOf(PartyLocationRequestError),
         );
         expect(hook.result.current.error).toMatchObject({ isConflict: true });
-        expect(client.getQueryState(key)?.isInvalidated).toBe(true);
-        expect(client.getQueryData(key)).toMatchObject({ revision: 3 });
+        expect(client.getQueryState(listKey)?.isInvalidated).toBe(true);
+        expect(loadedItems()).toEqual([expect.objectContaining({ revision: 3 })]);
     });
 
-    it("discards cached sites of the Party when authorization is lost", async () => {
-        const key = geographyQueryKeys.partyLocation("user-1", "pty_1", "ploc_1");
-        client.setQueryData(key, site());
+    it("discards cached locations of the Party when authorization is lost", async () => {
+        seedList();
         api.lifecycle.mockResolvedValue(failure(403));
         const hook = renderHook(() => useSetPartyLocationLifecycle(scope), { wrapper });
 
         await act(() =>
             hook.result.current
-                .mutateAsync({ location: site(), lifecycle: "RETIRED" })
+                .mutateAsync({ location: partyLocation(), lifecycle: "RETIRED" })
                 .catch(() => undefined),
         );
 
@@ -268,6 +291,6 @@ describe("Party-location API", () => {
             expectedRevision: 3,
             lifecycle: "RETIRED",
         });
-        expect(client.getQueryData(key)).toBeUndefined();
+        expect(client.getQueryData(listKey)).toBeUndefined();
     });
 });

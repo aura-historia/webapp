@@ -7,13 +7,13 @@ import { cn } from "@/lib/utils.ts";
  * - `privateAddress`: address book forms (private, asynchronous geocoding, no verification).
  * - `savedOrigin`: saving a search that contains a radius origin.
  * - `browserLocation`: next to the explicit "use my location" action.
- * - `publicPartySite`: Party location forms (active sites are public).
+ * - `publicPartyLocation`: Party location forms (active locations are public).
  */
 export type GeographyDisclosureKind =
     | "privateAddress"
     | "savedOrigin"
     | "browserLocation"
-    | "publicPartySite";
+    | "publicPartyLocation";
 
 interface GeographyDisclosureProps {
     readonly kind: GeographyDisclosureKind;

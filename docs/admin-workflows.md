@@ -72,33 +72,40 @@ Routes: `/$lng/admin/auctions` (directory), `/new` (create) and `/$auctionId` (r
   auction ID. Create, update and their `409` responses invalidate `["admin", "auctions", "list"]`.
   Search `400` (filter or cursor), `401`/`403` and `503` map to localized copy.
 
-## Party business locations
+## Party detail and business locations
 
-Route: `/$lng/admin/parties/$partyId/locations`, opened from the Party detail dialog.
+Routes: `/$lng/admin/parties` (directory) and `/$lng/admin/parties/$partyId` (organization page).
 
+- Directory rows link to the organization page; creating an organization opens its page. The page
+  shows the identity and contact details with edit (dialog) and delete (confirmation dialog;
+  success returns to the directory), followed by every business location. Recorded locations
+  block deletion; the `409` copy says so.
 - Administrators use the same protected Party-location operations as authorized Party managers;
-  there are no admin-specific location reads or writes. The reusable list, detail, editor and
-  active-site selector live in `src/features/party-locations` and take a
-  `{ viewerCacheKey, partyId }` scope. The route has no loader: reads run on the client with
-  `no-store`, the query signal and no retries under the viewer-scoped `partyLocations` root.
-- Sites may be partial or unresolved. The editor keeps address and postal text verbatim, offers
-  ISO countries and subdivisions from the pinned release, requires explicit precision for a point,
-  and stores evidence as an opaque reference. Roles describe business use only. The
-  `publicPartySite` disclosure appears on every form, and the detail states whether a site is
-  publicly eligible.
-- Correction (`SAME_SITE`), relocation, retirement and restoration are separate actions.
-  Relocation is a create with `relocates` (new ID; the old site is retired atomically) and needs
-  confirmation, as do lifecycle changes. Each action shows its consequence for public results,
-  inherited listing geography and source defaults that reference the site; nothing selects another
-  default.
-- Corrections send only the groups the draft changed relative to the site as it was when editing
-  began; a cleared group is `null`, and unchanged groups (including values the app cannot
+  there are no admin-specific location reads or writes. The workspace, location cards, editor
+  and active-location selector live in `src/features/party-locations` and take a
+  `{ viewerCacheKey, partyId }` scope. The route has no loader: location reads run on the client
+  with `no-store`, the query signal and no retries under the viewer-scoped `partyLocations` root.
+  List pages carry every protected field, so cards render from the list and saved locations
+  replace their loaded entry before the list refetches.
+- Locations may be partial or unresolved. The editor keeps address and postal text verbatim,
+  offers ISO countries and subdivisions from the pinned release, requires explicit precision for
+  a point, and stores evidence as an opaque reference. Roles describe business use only. The
+  `publicPartyLocation` disclosure appears on every form, and each card states whether the
+  location is publicly eligible.
+- Correction (`SAME_SITE`), relocation, retirement and restoration are separate actions on each
+  card. Relocation is a create with `relocates` (new ID; the old location is retired atomically)
+  and needs confirmation, as do lifecycle changes. Each action shows its consequence for public
+  results, inherited listing geography and source defaults that reference the location; nothing
+  selects another default.
+- Corrections send only the groups the draft changed relative to the location as it was when
+  editing began; a cleared group is `null`, and unchanged groups (including values the app cannot
   display) are omitted. An empty diff is not sent; a response at the same revision is reported as
   unchanged.
 - Creates keep one `Idempotency-Key` per unchanged command until the outcome is definite (network
-  failure, `408`, `429` and `5xx` keep it). A `409` refetches the Party's sites; the editor keeps
-  the draft and requires an explicit "keep draft" (reapply its own changes at the latest revision)
-  or "discard draft". `401`/`403`/`404` reset the Party's cached sites and hide loaded content.
+  failure, `408`, `429` and `5xx` keep it). A `409` refetches the Party's locations; the editor
+  keeps the draft and requires an explicit "keep draft" (reapply its own changes at the latest
+  revision) or "discard draft". `401`/`403`/`404` reset the Party's cached locations and hide
+  loaded content.
 
 ## Other workflows
 

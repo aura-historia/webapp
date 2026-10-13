@@ -2231,7 +2231,7 @@
       "confirmDelete": "Supprimer cette organisation ? Une source d’annonces ou un partenariat conservé peut empêcher sa suppression. Cette action ne supprime aucun dossier associé.",
       "confirmDeleteButton": "Supprimer",
       "deleting": "Suppression…",
-      "locations": "Gérer les sites"
+      "detailsFor": "Voir les détails de {{name}}"
     },
     "success": {
       "created": "Organisation créée.",
@@ -2242,8 +2242,8 @@
       "forbidden": "Vous n’êtes pas autorisé à consulter les coordonnées de cette organisation.",
       "missing": "Organisation introuvable ou indisponible.",
       "createConflict": "L’organisation n’a pas pu être créée, car son identifiant généré entre en conflit avec un dossier existant. Vérifiez les organisations existantes avant de réessayer.",
-      "updateConflict": "Cette organisation a été modifiée pendant votre saisie. Fermez ce formulaire et rouvrez ses détails avant de la modifier.",
-      "deleteConflict": "Cette organisation est peut-être liée à une source d’annonces ou à un partenariat et n’a pas pu être supprimée. Aucun dossier associé n’a été supprimé.",
+      "updateConflict": "Cette organisation a été modifiée pendant votre saisie. Fermez ce formulaire et rouvrez-le pour modifier la version la plus récente.",
+      "deleteConflict": "Cette organisation n’a pas pu être supprimée, car elle a peut-être encore des sites enregistrés ou est liée à une source d’annonces ou à un partenariat. Aucun dossier associé n’a été supprimé.",
       "invalid": "Vérifiez les informations de l’organisation, puis réessayez.",
       "requestFailed": "La demande concernant l’organisation n’a pas abouti. Veuillez réessayer."
     },
@@ -2262,10 +2262,9 @@
       "searchPrompt": "Recherchez des organisations par nom ou coordonnées.",
       "manageLink": "Ouvrir la gestion des organisations"
     },
-    "locations": {
+    "page": {
       "back": "Retour aux organisations",
-      "title": "Sites commerciaux",
-      "owner": "Sites de {{name}}"
+      "deleteTitle": "Supprimer {{name}} ?"
     }
   },
   "compareBarnebysPage": {
@@ -3013,7 +3012,7 @@
       "privateAddress": "Les adresses enregistrées sont privées et réservées à votre compte. Nous les utilisons pour afficher des distances et des résultats régionaux, et non pour vérifier votre domicile ou la possibilité de livrer des objets. Après l’enregistrement, nous déterminons la position en arrière-plan avec Amazon Location Service. D’ici là, ou en l’absence de résultat univoque, l’adresse reste utilisable sans point précis.",
       "savedOrigin": "En enregistrant cette recherche, nous conservons une copie privée de son lieu de recherche. Les modifications ultérieures de vos adresses ne le déplacent pas. Modifiez ou supprimez la recherche enregistrée pour le retirer.",
       "browserLocation": "Votre navigateur vous demandera si vous souhaitez partager votre position actuelle. Nous l’utilisons uniquement pour cette recherche et ne l’enregistrons que si vous enregistrez la recherche.",
-      "publicPartySite": "Les sites actifs sont publics : le point géographique exact, le pays et la région peuvent apparaître dans les résultats de recherche et être utilisés pour les recherches par rayon. L’adresse complète, les justificatifs et les données de gestion ne sont visibles que par les personnes autorisées. Retirez un site pour le supprimer des résultats publics ; la mise à jour peut prendre un court délai.",
+      "publicPartyLocation": "Les sites actifs sont publics : le point géographique exact, le pays et la région peuvent apparaître dans les résultats de recherche et être utilisés pour les recherches par rayon. L’adresse complète, les justificatifs et les données de gestion ne sont visibles que par les personnes autorisées. Retirez un site pour le supprimer des résultats publics ; la mise à jour peut prendre un court délai.",
       "privacy": "Plus d'informations sont disponibles dans notre <privacyLink>politique de confidentialité</privacyLink>."
     },
     "coordinates": "{{latitude}} ; {{longitude}}",
@@ -3023,18 +3022,13 @@
     "title": "Sites",
     "description": "Chaque site possède sa propre identité. Corrigez les informations d’un site, déplacez-le lorsque l’activité déménage ou retirez-le lorsqu’il n’est plus utilisé.",
     "list": {
-      "label": "Sites",
       "loading": "Chargement des sites.",
       "empty": "Aucun site n’a encore été enregistré pour cette organisation.",
       "loadMore": "Afficher la suite",
       "loadingMore": "Chargement…"
     },
     "detail": {
-      "loading": "Chargement du site.",
-      "empty": "Sélectionnez un site pour consulter ses informations et ses actions.",
-      "unsupportedValues": "Certaines valeurs enregistrées utilisent un code ou un format que cette application ne peut pas afficher ; elles n’apparaissent donc pas ici.",
-      "confirmRetire": "Retirer ce site ?",
-      "confirmRestore": "Rétablir ce site ?"
+      "unsupportedValues": "Certaines valeurs enregistrées utilisent un code ou un format que cette application ne peut pas afficher ; elles n’apparaissent donc pas ici."
     },
     "eligibility": {
       "ACTIVE": "Actif et public : son point exact, son pays et sa région peuvent apparaître dans les résultats de recherche et les recherches par rayon.",
@@ -3178,6 +3172,10 @@
       "evidenceReferenceRequired": "Saisissez une référence de justificatif ou effacez la date.",
       "evidenceReferenceInvalid": "La référence doit tenir sur une seule ligne et ne pas dépasser 2048 octets UTF-8.",
       "observedOnInvalid": "Saisissez une date valide."
+    },
+    "confirm": {
+      "retireTitle": "Retirer « {{label}} » ?",
+      "restoreTitle": "Rétablir « {{label}} » ?"
     }
   }
 }

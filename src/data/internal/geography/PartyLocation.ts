@@ -40,7 +40,7 @@ export const PARTY_LOCATION_ROLES = [
     "REGISTERED_ADDRESS",
     "CORRESPONDENCE",
 ] as const satisfies readonly PartyLocationData["roles"][number][];
-/** Business use of a site; never a claim about stock, dispatch or pickup. */
+/** Business use of a location; never a claim about stock, dispatch or pickup. */
 export type PartyLocationRole = (typeof PARTY_LOCATION_ROLES)[number];
 
 export const PARTY_LOCATION_LIFECYCLES = ["ACTIVE", "RETIRED"] as const;
@@ -64,8 +64,9 @@ export type PartyLocationEvidence = {
 };
 
 /**
- * Protected management view of one Party site. `geography` and `position` are caller assertions,
- * not geocoder output. `revision` is the expected revision for every protected mutation.
+ * Protected management view of one Party location. `geography` and `position` are caller
+ * assertions, not geocoder output. `revision` is the expected revision for every protected
+ * mutation.
  */
 export type PartyLocation = {
     readonly id: string;
@@ -103,13 +104,13 @@ export type CreatePartyLocationInput = {
     readonly geography?: GeographicAssertionsInput;
     readonly position?: GeographicPosition;
     readonly evidence?: PartyLocationEvidenceInput;
-    /** Relocation: creates a new site and retires this one atomically. */
+    /** Relocation: creates a new location and retires this one atomically. */
     readonly relocates?: { readonly id: string; readonly revision: number };
 };
 
 /**
- * Same-site correction. Omitted members stay unchanged; `null` clears geography, position or
- * evidence; `roles: []` clears all roles. Label and roles cannot be null.
+ * Same-location correction (`SAME_SITE`). Omitted members stay unchanged; `null` clears
+ * geography, position or evidence; `roles: []` clears all roles. Label and roles cannot be null.
  */
 export type CorrectPartyLocationInput = {
     readonly expectedRevision: number;
@@ -263,7 +264,10 @@ export const PUBLIC_PARTY_LOCATION_BASES = [
 ] as const satisfies readonly PublicPartyLocationData["basis"][];
 export type PublicPartyLocationBasis = (typeof PUBLIC_PARTY_LOCATION_BASES)[number] | "UNKNOWN";
 
-/** Public discovery result: no raw address, evidence or revision. Sites of one Party stay separate. */
+/**
+ * Public discovery result: no raw address, evidence or revision. Locations of one Party stay
+ * separate.
+ */
 export type PublicPartyLocation = {
     readonly partyId: string;
     readonly partyName: string;
