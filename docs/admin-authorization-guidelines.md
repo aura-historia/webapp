@@ -11,15 +11,18 @@ Workflows: OAuth client management, partnership application review and partnersh
 membership/source-grant management, Party business locations and Party-location management
 grants (see
 [admin workflows](admin-workflows.md)), Party management, listing-source management, user
-management with security controls, auction management, and the admin overview. The
+management with security controls, auction management, product listing administration (see
+[admin workflows](admin-workflows.md#product-listing-administration)), and the admin overview. The
 overview reads only the `getAdminOverview` aggregate with a `no-store` request under the
 private `["admin", "overview"]` query key; it never derives totals from paginated
 collections, shows loading and error states instead of zero for unavailable counts, and
 labels ingestion method assignments as overlapping rather than summing them into a source
 total. Admin mutations that change any aggregate invalidate that key. Auction search, read,
-create and update use `Cache-Control: no-store`; listing-source association and source auction identity are
-immutable on update, and an `expectedVersion` conflict refetches the authoritative
-record. Party contacts are available only through the authenticated admin Party
+create and update use `Cache-Control: no-store`; product listing search, detail, edit, withdrawal
+and restoration do too, show canonical image URLs only as deliberate previews, and never treat a
+delegated `product-listings:*` scope as administrator access. For auctions, listing-source
+association and source auction identity are immutable on update. An `expectedVersion` conflict
+refetches the authoritative record. Party contacts are available only through the authenticated admin Party
 operations. Listing-source search/detail use their separate safe DTOs; the read API
 omits full ingestion configuration and never returns the write-only WooCommerce
 secret. Preserve unseen configuration by omitting it from updates, and require an

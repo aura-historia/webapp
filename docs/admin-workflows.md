@@ -72,6 +72,64 @@ Routes: `/$lng/admin/auctions` (directory), `/new` (create) and `/$auctionId` (r
   auction ID. Create, update and their `409` responses invalidate `["admin", "auctions", "list"]`.
   Search `400` (filter or cursor), `401`/`403` and `503` map to localized copy.
 
+## Product listing administration
+
+Routes: `/$lng/admin/product-listings` (directory) and `/$lng/admin/product-listings/$productListingId`
+(record).
+
+- The five admin ProductListing operations read and change authoritative facts, including retained
+  `WITHDRAWN` listings. They need administrator authority but no Partnership; delegated tokens also
+  need `product-listings:read`/`:write`. `AdminProductListing.ts` maps summary, detail, page and
+  mutation DTOs separately from public listing models; prices stay in the source currency. Every
+  request is `no-store`; reads forward the query signal and are not retried, and
+  `["admin", "product-listings", …]` queries have `gcTime: 0`.
+- Filters live in URL search params: `query` (literal substring of the original title or source
+  listing ID, at most 512 bytes), `listingSource`, exact `sourceListingId`, `lifecycle` (absent
+  includes both states), `availabilityCode`, `auction`, `sort` (`created`, `updated`) with `order`
+  (sent only together; the default `updated desc` is omitted) and `size` (1–100, default 25).
+  `listingSource`, `auction` and `availabilityCode` map to `listingSourceId`, `auctionId` and
+  `availability`; product search declares those keys as lists. The list query key holds every
+  filter, sort and size, so a changed scope starts without a cursor; `searchAfter` is resent
+  verbatim. No total is shown, and the source listing ID is labelled as unique only within its
+  source.
+- Rows show the title (or "no title recorded"), lifecycle, source name and ID, source listing ID,
+  listing ID, availability, source-currency price and estimates, and UTC timestamps, and link to
+  the record. The record adds the slug, version, original title and description with their
+  language, sale observation and original URL as read-only facts; active listings link to their
+  public page.
+- The edit form covers only price (amount, on request or cleared), estimates, availability, URL,
+  ordered images and auction membership with lot facts. The PATCH contains only groups that differ
+  from the record as the draft began: omitted groups are kept, cleared optional values are `null`,
+  an empty image list empties the collection, detaching sends only `auctionId: null`, and each
+  timing instant clears on its own. Decimal input converts exactly to minor units with
+  `CURRENCY_MINOR_UNIT_EXPONENTS`; extra decimals, thousands separators and unsafe integers are
+  rejected, not rounded, and a new amount needs an explicit currency unless the listing already
+  has one. Only changed groups are validated. Auctions are chosen from `adminSearchAuctions` scoped
+  to the listing's source; the backend still rejects a missing (`AUCTION_NOT_FOUND`) or
+  cross-source (`409 CONFLICT`) reference.
+- Every command submits the version its form or confirmation was loaded with. A `409
+  PRODUCT_LISTING_CONCURRENCY_CONFLICT`, `409 PRODUCT_LISTING_WITHDRAWN`, `404` or an unknown
+  outcome (no response, `408`, `429`, `5xx`) refetches the record before the command settles;
+  nothing is resubmitted automatically. While a newer version is loaded and the draft has changes,
+  saving waits for an explicit "keep my changes" (reapply only the edited groups to the latest
+  version) or "discard"; a form without changes adopts the newer record. After a lost response,
+  keeping a draft that already committed produces no changes. Success uses the returned version
+  and outcome (`CHANGED`/`UNCHANGED`) and invalidates the directory and `["admin", "overview"]`.
+- Withdraw (`DELETE` with `expectedVersion` in the query, `204`) and restore (`POST` with
+  `expectedVersion` in the body) each need confirmation showing the version captured when it
+  opened. Withdrawal retains the listing, history, watchlist state and sale observation and clears
+  availability; restoration returns it to active with unspecified availability. Withdrawn or
+  unrecognized lifecycles lock editing; the draft stays until the listing is restored.
+- Canonical image URLs are privileged and carry no assessment in this contract. They are listed as
+  URLs; each preview loads only on an explicit request for the URL entered at that moment, with
+  `no-referrer`. Editing that URL hides the preview, and nothing renders automatically.
+- A success confirms the authoritative commit only. Public search, listing pages, notifications
+  and caches converge asynchronously, and later accepted ingestion can overwrite edits or restore a
+  withdrawal. The UI says so and never presents these actions as permanent overrides or
+  takedowns. Creation, bulk actions and permanent purge are not part of this workflow.
+- Errors use fixed copy chosen by status and stable error code; problem details are never shown.
+  `401`/`403`, `404` and invalid IDs hide previously loaded content.
+
 ## Party detail and business locations
 
 Routes: `/$lng/admin/parties` (directory) and `/$lng/admin/parties/$partyId` (organization page).
