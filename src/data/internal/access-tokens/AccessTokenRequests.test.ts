@@ -48,7 +48,7 @@ describe("access-token wire contracts", () => {
     const id = "at_01jopaque-token-id";
     const expiresAt = new Date("2026-10-01T12:34:56.789Z");
 
-    it("uses singular scope and expiresAt only on create", () => {
+    it("uses plural scopes and expires on create", () => {
         expect(
             mapToCreateAccessTokenRequest({
                 name: "Sync",
@@ -57,18 +57,19 @@ describe("access-token wire contracts", () => {
             }),
         ).toEqual({
             name: "Sync",
-            scope: [...ACCESS_TOKEN_SCOPES],
-            expiresAt: expiresAt.toISOString(),
+            scopes: [...ACCESS_TOKEN_SCOPES],
+            expires: expiresAt.toISOString(),
         });
     });
 
-    it("keeps empty create defaults unprivileged", () => {
+    it("sends an explicit empty scope set on create", () => {
         expect(mapToCreateAccessTokenRequest({ name: "Sync", scopes: [] })).toEqual({
             name: "Sync",
+            scopes: [],
         });
     });
 
-    it("uses plural scopes and expires only on patch", () => {
+    it("uses plural scopes and expires on patch", () => {
         expect(
             mapToUpdateAccessTokenRequest({
                 id,
@@ -123,7 +124,7 @@ describe("access-token wire contracts", () => {
     ])("sends selected scopes exactly without adding read or write siblings: %j", ({ scopes }) => {
         expect(mapToCreateAccessTokenRequest({ name: "Sync", scopes })).toEqual({
             name: "Sync",
-            scope: scopes,
+            scopes,
         });
         expect(mapToUpdateAccessTokenRequest({ id, scopes })).toEqual({
             accessTokenId: id,

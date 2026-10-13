@@ -216,7 +216,6 @@ describe("ProductCard", () => {
                     hidden: false,
                     userSearchFilterId: "filter-123",
                     userSearchFilterName: "Vintage Art Deco",
-                    matchReason: "Passt zum gesuchten Vintage Art Deco Stil.",
                 },
             },
         } satisfies ProductListing;

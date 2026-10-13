@@ -158,30 +158,11 @@ describe("AccessTokenCreateDialog", () => {
             (
                 _input: unknown,
                 options?: {
-                    onSuccess?: (createdToken: {
-                        accessToken: {
-                            id: string;
-                            name: string;
-                            scopes: never[];
-                            tokenType: "BEARER";
-                            expiresAt: null;
-                            created: Date;
-                            updated: Date;
-                        };
-                        plaintextToken: string;
-                    }) => void;
+                    onSuccess?: (createdToken: { id: string; plaintextToken: string }) => void;
                 },
             ) => {
                 options?.onSuccess?.({
-                    accessToken: {
-                        id: "token-1",
-                        name: "Product sync",
-                        scopes: [],
-                        tokenType: "BEARER",
-                        expiresAt: null,
-                        created: new Date("2026-07-06T10:00:00Z"),
-                        updated: new Date("2026-07-06T10:00:00Z"),
-                    },
+                    id: "token-1",
                     plaintextToken: "aurahistoria_plaintext_token",
                 });
             },

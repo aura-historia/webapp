@@ -38,9 +38,7 @@ export function useAccessTokens() {
                 throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
             }
 
-            return response.data
-                .map(mapToAccessToken)
-                .sort((first, second) => second.created.getTime() - first.created.getTime());
+            return response.data.map(mapToAccessToken);
         },
         staleTime: 30 * 1000,
     });

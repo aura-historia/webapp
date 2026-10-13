@@ -193,14 +193,13 @@ describe("ProductInfo", () => {
         expect(screen.getByText("Winter Sale")).toBeInTheDocument();
         expect(screen.getByText(/42/)).toBeInTheDocument();
     });
-    it("shows a matched search filter and reason", () => {
+    it("shows the matched search filter", () => {
         const userState = makeProductListingUserState({
             searchFilter: {
                 matched: true,
                 hidden: false,
                 userSearchFilterId: "filter-1",
                 userSearchFilterName: "My filter",
-                matchReason: "Matching period",
             },
         });
         renderWithQueryClient(<ProductInfo product={{ ...product, userState }} />);
@@ -208,7 +207,6 @@ describe("ProductInfo", () => {
             "href",
             "/de/me/search-filter/filter-1",
         );
-        expect(screen.getByText("Matching period")).toBeInTheDocument();
     });
     it("does not show hidden filter details", () => {
         const userState = makeProductListingUserState({

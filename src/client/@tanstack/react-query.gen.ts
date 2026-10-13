@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addWatchlistProduct, adminAssignSourceLocationDefault, adminChangeSourceLocationDefaultApplicability, adminClearSourceLocationDefault, adminCreateListingSource, adminCreateOAuthClient, adminCreateParty, adminDecidePartnershipApplication, adminDeleteListingSource, adminDeleteOAuthClient, adminDeleteParty, adminDeleteUser, adminDeleteUserAccessToken, adminDeleteUserAccessTokens, adminDissolvePartnership, adminGetListingSource, adminGetOAuthClient, adminGetPartnership, adminGetPartnershipApplication, adminGetParty, adminGetSourceLocationDefault, adminGetUser, adminGrantPartnershipListingSource, adminGrantPartnershipMembership, adminListOAuthClients, adminListUserAccessTokens, adminMarkPartnershipApplicationInReview, adminPatchOAuthClient, adminPatchUser, adminRevokePartnershipListingSource, adminRevokePartnershipMembership, adminRevokeUserSessions, adminSearchAuctions, adminSearchListingSources, adminSearchParties, adminSearchPartnershipApplications, adminSearchPartnerships, adminSearchUsers, adminSuspendUser, adminUnsuspendUser, adminUpdateListingSource, adminUpdateParty, assignSourceLocationDefault, changeSourceLocationDefaultApplicability, clearSourceLocationDefault, confirmNewsletterSubscription, correctPartyLocation, createAdminAuction, createPartyLocation, createUserAddress, createUserSearchFilter, deleteAsyncPartnerProductListings, deleteMyAccessToken, deleteNotification, deleteNotifications, deleteOwnPartnershipApplication, deletePartnerProductListings, deleteUser, deleteUserAddress, deleteUserSearchFilter, deleteWatchlistProduct, discoverPartyLocations, getAdminAuction, getAdminOverview, getAdminProductListing, getAuction, getAuctionCatalogue, getBrowsingDestination, getHealth, getMyAccessToken, getMyAccessTokens, getMyListingSources, getMyPartnershipApplications, getOAuthConsentClient, getOwnPartnershipApplication, getPartyLocation, getProductListing, getProductListingByTitleSlug, getProductListingHistory, getPublicListingSourceBySlug, getReadiness, getSimilarProductListings, getSourceLocationDefault, getUserAccount, getUserAddress, getUserSearchFilter, getUserSearchFilters, getWatchlistProductListings, listAuctions, listNotifications, listPartyLocationManagers, listPartyLocations, listSearchFilterMatches, listUserAddresses, oauthAuthorize, oauthIntrospect, oauthRevoke, oauthToken, oauthTokenByThirdPartyCode, type Options, patchAsyncPartnerProductListings, patchMyAccessToken, patchPartnerProductListings, patchWatchlistProduct, postAsyncPartnerProductListings, postBillingCheckout, postBillingManage, postBillingPortal, postMyAccessToken, postPartnerProductListings, postPartnershipApplication, postWoocommerceWebhook, putAsyncPartnerProductListings, putNewsletterSubscription, putPartnerProductListings, putShopifyListingSourceIngestionConfiguration, putWoocommerceListingSourceIngestionConfiguration, restoreAdminProductListing, searchAdminProductListings, searchPublicListingSources, setBrowsingDestination, setPartyLocationLifecycle, setPartyLocationManagementGrant, simpleSearchProductListings, updateAdminAuction, updateAdminProductListing, updateAllNotificationsSeen, updateNotificationSeen, updateNotificationsSeen, updateSearchFilterMatchFeedback, updateUserAccount, updateUserAddress, updateUserSearchFilter, withdrawAdminProductListing } from '../sdk.gen';
-import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminAssignSourceLocationDefaultData, AdminAssignSourceLocationDefaultError, AdminAssignSourceLocationDefaultResponse, AdminChangeSourceLocationDefaultApplicabilityData, AdminChangeSourceLocationDefaultApplicabilityError, AdminChangeSourceLocationDefaultApplicabilityResponse, AdminClearSourceLocationDefaultData, AdminClearSourceLocationDefaultError, AdminClearSourceLocationDefaultResponse, AdminCreateListingSourceData, AdminCreateListingSourceError, AdminCreateListingSourceResponse, AdminCreateOAuthClientData, AdminCreateOAuthClientError, AdminCreateOAuthClientResponse, AdminCreatePartyData, AdminCreatePartyError, AdminCreatePartyResponse, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationError, AdminDecidePartnershipApplicationResponse, AdminDeleteListingSourceData, AdminDeleteListingSourceError, AdminDeleteListingSourceResponse, AdminDeleteOAuthClientData, AdminDeleteOAuthClientError, AdminDeleteOAuthClientResponse, AdminDeletePartyData, AdminDeletePartyError, AdminDeletePartyResponse, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenError, AdminDeleteUserAccessTokenResponse, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensError, AdminDeleteUserAccessTokensResponse, AdminDeleteUserData, AdminDeleteUserError, AdminDeleteUserResponse, AdminDissolvePartnershipData, AdminDissolvePartnershipError, AdminDissolvePartnershipResponse, AdminGetListingSourceData, AdminGetListingSourceError, AdminGetListingSourceResponse, AdminGetOAuthClientData, AdminGetOAuthClientError, AdminGetOAuthClientResponse, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationError, AdminGetPartnershipApplicationResponse, AdminGetPartnershipData, AdminGetPartnershipError, AdminGetPartnershipResponse, AdminGetPartyData, AdminGetPartyError, AdminGetPartyResponse, AdminGetSourceLocationDefaultData, AdminGetSourceLocationDefaultError, AdminGetSourceLocationDefaultResponse, AdminGetUserData, AdminGetUserError, AdminGetUserResponse, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceError, AdminGrantPartnershipListingSourceResponse, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipError, AdminGrantPartnershipMembershipResponse, AdminListOAuthClientsData, AdminListOAuthClientsError, AdminListOAuthClientsResponse, AdminListUserAccessTokensData, AdminListUserAccessTokensError, AdminListUserAccessTokensResponse, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewError, AdminMarkPartnershipApplicationInReviewResponse, AdminPatchOAuthClientData, AdminPatchOAuthClientError, AdminPatchOAuthClientResponse, AdminPatchUserData, AdminPatchUserError, AdminPatchUserResponse, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceError, AdminRevokePartnershipListingSourceResponse, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipError, AdminRevokePartnershipMembershipResponse, AdminRevokeUserSessionsData, AdminRevokeUserSessionsError, AdminRevokeUserSessionsResponse, AdminSearchAuctionsData, AdminSearchAuctionsResponse, AdminSearchListingSourcesData, AdminSearchListingSourcesError, AdminSearchListingSourcesResponse, AdminSearchPartiesData, AdminSearchPartiesError, AdminSearchPartiesResponse, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsError, AdminSearchPartnershipApplicationsResponse, AdminSearchPartnershipsData, AdminSearchPartnershipsError, AdminSearchPartnershipsResponse, AdminSearchUsersData, AdminSearchUsersError, AdminSearchUsersResponse, AdminSuspendUserData, AdminSuspendUserError, AdminSuspendUserResponse, AdminUnsuspendUserData, AdminUnsuspendUserError, AdminUnsuspendUserResponse, AdminUpdateListingSourceData, AdminUpdateListingSourceError, AdminUpdateListingSourceResponse, AdminUpdatePartyData, AdminUpdatePartyError, AdminUpdatePartyResponse, AssignSourceLocationDefaultData2, AssignSourceLocationDefaultError, AssignSourceLocationDefaultResponse, ChangeSourceLocationDefaultApplicabilityData2, ChangeSourceLocationDefaultApplicabilityError, ChangeSourceLocationDefaultApplicabilityResponse, ClearSourceLocationDefaultData2, ClearSourceLocationDefaultError, ClearSourceLocationDefaultResponse, ConfirmNewsletterSubscriptionData2, ConfirmNewsletterSubscriptionError, ConfirmNewsletterSubscriptionResponse, CorrectPartyLocationData2, CorrectPartyLocationError, CorrectPartyLocationResponse, CreateAdminAuctionData, CreateAdminAuctionResponse, CreatePartyLocationData2, CreatePartyLocationError, CreatePartyLocationResponse, CreateUserAddressData, CreateUserAddressError, CreateUserAddressResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAsyncPartnerProductListingsData, DeleteAsyncPartnerProductListingsError, DeleteAsyncPartnerProductListingsResponse, DeleteMyAccessTokenData, DeleteMyAccessTokenError, DeleteMyAccessTokenResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeleteNotificationsData, DeleteNotificationsError, DeleteNotificationsResponse, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationError, DeleteOwnPartnershipApplicationResponse, DeletePartnerProductListingsData, DeletePartnerProductListingsError, DeletePartnerProductListingsResponse, DeleteUserAddressData, DeleteUserAddressError, DeleteUserAddressResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, DiscoverPartyLocationsData, DiscoverPartyLocationsError, DiscoverPartyLocationsResponse, GetAdminAuctionData, GetAdminAuctionResponse, GetAdminOverviewData, GetAdminOverviewError, GetAdminOverviewResponse, GetAdminProductListingData, GetAdminProductListingError, GetAdminProductListingResponse, GetAuctionCatalogueData, GetAuctionCatalogueResponse, GetAuctionData, GetAuctionResponse, GetBrowsingDestinationData, GetBrowsingDestinationError, GetBrowsingDestinationResponse, GetHealthData, GetHealthResponse, GetMyAccessTokenData, GetMyAccessTokenError, GetMyAccessTokenResponse, GetMyAccessTokensData, GetMyAccessTokensError, GetMyAccessTokensResponse, GetMyListingSourcesData, GetMyListingSourcesError, GetMyListingSourcesResponse, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsError, GetMyPartnershipApplicationsResponse, GetOAuthConsentClientData, GetOAuthConsentClientError, GetOAuthConsentClientResponse, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationError, GetOwnPartnershipApplicationResponse, GetPartyLocationData, GetPartyLocationError, GetPartyLocationResponse, GetProductListingByTitleSlugData, GetProductListingByTitleSlugError, GetProductListingByTitleSlugResponse, GetProductListingData, GetProductListingError, GetProductListingHistoryData, GetProductListingHistoryError, GetProductListingHistoryResponse, GetProductListingResponse, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugError, GetPublicListingSourceBySlugResponse, GetReadinessData, GetReadinessResponse, GetSimilarProductListingsData, GetSimilarProductListingsError, GetSimilarProductListingsResponse, GetSourceLocationDefaultData, GetSourceLocationDefaultError, GetSourceLocationDefaultResponse, GetUserAccountData, GetUserAccountError, GetUserAccountResponse, GetUserAddressData, GetUserAddressError, GetUserAddressResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductListingsData, GetWatchlistProductListingsError, GetWatchlistProductListingsResponse, ListAuctionsData, ListAuctionsResponse, ListNotificationsData, ListNotificationsError, ListNotificationsResponse, ListPartyLocationManagersData, ListPartyLocationManagersError, ListPartyLocationManagersResponse, ListPartyLocationsData, ListPartyLocationsError, ListPartyLocationsResponse, ListSearchFilterMatchesData, ListSearchFilterMatchesError, ListSearchFilterMatchesResponse, ListUserAddressesData, ListUserAddressesError, ListUserAddressesResponse, OauthAuthorizeData, OauthAuthorizeError, OauthIntrospectData, OauthIntrospectError, OauthIntrospectResponse, OauthRevokeData, OauthRevokeError, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeError, OauthTokenByThirdPartyCodeResponse, OauthTokenData, OauthTokenError, OauthTokenResponse, PartyLocationId, PatchAsyncPartnerProductListingsData, PatchAsyncPartnerProductListingsError, PatchAsyncPartnerProductListingsResponse, PatchMyAccessTokenData, PatchMyAccessTokenError, PatchMyAccessTokenResponse, PatchPartnerProductListingsData, PatchPartnerProductListingsError, PatchPartnerProductListingsResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostAsyncPartnerProductListingsData, PostAsyncPartnerProductListingsError, PostAsyncPartnerProductListingsResponse, PostBillingCheckoutData2, PostBillingCheckoutError, PostBillingCheckoutResponse, PostBillingManageData, PostBillingManageError, PostBillingManageResponse, PostBillingPortalData, PostBillingPortalError, PostBillingPortalResponse, PostMyAccessTokenData, PostMyAccessTokenError, PostMyAccessTokenResponse, PostPartnerProductListingsData, PostPartnerProductListingsError, PostPartnerProductListingsResponse, PostPartnershipApplicationData, PostPartnershipApplicationError, PostPartnershipApplicationResponse, PostWoocommerceWebhookData, PostWoocommerceWebhookError, PostWoocommerceWebhookResponse, PutAsyncPartnerProductListingsData, PutAsyncPartnerProductListingsError, PutAsyncPartnerProductListingsResponse, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductListingsData, PutPartnerProductListingsError, PutPartnerProductListingsResponse, PutShopifyListingSourceIngestionConfigurationData2, PutShopifyListingSourceIngestionConfigurationError, PutShopifyListingSourceIngestionConfigurationResponse, PutWoocommerceListingSourceIngestionConfigurationData2, PutWoocommerceListingSourceIngestionConfigurationError, PutWoocommerceListingSourceIngestionConfigurationResponse, RestoreAdminProductListingData, RestoreAdminProductListingError, RestoreAdminProductListingResponse, SearchAdminProductListingsData, SearchAdminProductListingsError, SearchAdminProductListingsResponse, SearchPublicListingSourcesData, SearchPublicListingSourcesError, SearchPublicListingSourcesResponse, SetBrowsingDestinationData, SetBrowsingDestinationError, SetBrowsingDestinationResponse, SetPartyLocationLifecycleData2, SetPartyLocationLifecycleError, SetPartyLocationLifecycleResponse, SetPartyLocationManagementGrantData, SetPartyLocationManagementGrantError, SetPartyLocationManagementGrantResponse, SimpleSearchProductListingsData, SimpleSearchProductListingsError, SimpleSearchProductListingsResponse, UpdateAdminAuctionData, UpdateAdminAuctionResponse, UpdateAdminProductListingData, UpdateAdminProductListingError, UpdateAdminProductListingResponse, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenError, UpdateAllNotificationsSeenResponse, UpdateNotificationSeenData2, UpdateNotificationSeenError, UpdateNotificationSeenResponse, UpdateNotificationsSeenData2, UpdateNotificationsSeenError, UpdateNotificationsSeenResponse, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackError, UpdateSearchFilterMatchFeedbackResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserAddressData, UpdateUserAddressError, UpdateUserAddressResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse, UserAddressId, WithdrawAdminProductListingData, WithdrawAdminProductListingError, WithdrawAdminProductListingResponse } from '../types.gen';
+import { addWatchlistProduct, adminAssignSourceLocationDefault, adminChangeSourceLocationDefaultApplicability, adminClearSourceLocationDefault, adminCreateListingSource, adminCreateOAuthClient, adminCreateParty, adminDecidePartnershipApplication, adminDeleteListingSource, adminDeleteOAuthClient, adminDeleteParty, adminDeleteUser, adminDeleteUserAccessToken, adminDeleteUserAccessTokens, adminDissolvePartnership, adminGetListingSource, adminGetOAuthClient, adminGetPartnership, adminGetPartnershipApplication, adminGetParty, adminGetSourceLocationDefault, adminGetUser, adminGrantPartnershipListingSource, adminGrantPartnershipMembership, adminListOAuthClients, adminListUserAccessTokens, adminMarkPartnershipApplicationInReview, adminPatchOAuthClient, adminPatchUser, adminRevokePartnershipListingSource, adminRevokePartnershipMembership, adminRevokeUserSessions, adminSearchAuctions, adminSearchListingSources, adminSearchParties, adminSearchPartnershipApplications, adminSearchPartnerships, adminSearchUsers, adminSuspendUser, adminUnsuspendUser, adminUpdateListingSource, adminUpdateParty, assignSourceLocationDefault, changeSourceLocationDefaultApplicability, clearSourceLocationDefault, confirmNewsletterSubscription, correctPartyLocation, createAdminAuction, createPartyLocation, createUserAddress, createUserSearchFilter, deleteAsyncPartnerProductListings, deleteMyAccessToken, deleteNotification, deleteNotifications, deleteOwnPartnershipApplication, deletePartnerProductListings, deleteUser, deleteUserAddress, deleteUserSearchFilter, deleteWatchlistProduct, discoverPartyLocations, getAdminAuction, getAdminOverview, getAdminProductListing, getAuction, getAuctionCatalogue, getBrowsingDestination, getHealth, getMyAccessToken, getMyAccessTokens, getMyListingSources, getMyPartnershipApplications, getOAuthConsentClient, getOwnPartnershipApplication, getPartnerProductListing, getPartyLocation, getProductListing, getProductListingByTitleSlug, getProductListingHistory, getPublicListingSourceBySlug, getReadiness, getSimilarProductListings, getSourceLocationDefault, getUserAccount, getUserAddress, getUserSearchFilter, getUserSearchFilters, getWatchlistProductListings, listAuctions, listNotifications, listPartnerProductListings, listPartyLocationManagers, listPartyLocations, listSearchFilterMatches, listUserAddresses, oauthAuthorize, oauthIntrospect, oauthRevoke, oauthToken, oauthTokenByThirdPartyCode, type Options, patchAsyncPartnerProductListings, patchMyAccessToken, patchPartnerProductListings, patchWatchlistProduct, postAsyncPartnerProductListings, postBillingCheckout, postBillingManage, postBillingPortal, postLoopsPreferenceWebhook, postMyAccessToken, postPartnerProductListings, postPartnershipApplication, postWoocommerceWebhook, putAsyncPartnerProductListings, putNewsletterSubscription, putPartnerProductListings, putShopifyListingSourceIngestionConfiguration, putWoocommerceListingSourceIngestionConfiguration, restoreAdminProductListing, restorePartnerProductListing, searchAdminProductListings, searchPublicListingSources, setBrowsingDestination, setPartyLocationLifecycle, setPartyLocationManagementGrant, simpleSearchProductListings, updateAdminAuction, updateAdminProductListing, updateAllNotificationsSeen, updateNotificationSeen, updateNotificationsSeen, updatePartnerProductListing, updateSearchFilterMatchFeedback, updateUserAccount, updateUserAddress, updateUserSearchFilter, withdrawAdminProductListing, withdrawPartnerProductListing } from '../sdk.gen';
+import type { AddWatchlistProductData, AddWatchlistProductError, AddWatchlistProductResponse, AdminAssignSourceLocationDefaultData, AdminAssignSourceLocationDefaultError, AdminAssignSourceLocationDefaultResponse, AdminChangeSourceLocationDefaultApplicabilityData, AdminChangeSourceLocationDefaultApplicabilityError, AdminChangeSourceLocationDefaultApplicabilityResponse, AdminClearSourceLocationDefaultData, AdminClearSourceLocationDefaultError, AdminClearSourceLocationDefaultResponse, AdminCreateListingSourceData, AdminCreateListingSourceError, AdminCreateListingSourceResponse, AdminCreateOAuthClientData, AdminCreateOAuthClientError, AdminCreateOAuthClientResponse, AdminCreatePartyData, AdminCreatePartyError, AdminCreatePartyResponse, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationError, AdminDecidePartnershipApplicationResponse, AdminDeleteListingSourceData, AdminDeleteListingSourceError, AdminDeleteListingSourceResponse, AdminDeleteOAuthClientData, AdminDeleteOAuthClientError, AdminDeleteOAuthClientResponse, AdminDeletePartyData, AdminDeletePartyError, AdminDeletePartyResponse, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenError, AdminDeleteUserAccessTokenResponse, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensError, AdminDeleteUserAccessTokensResponse, AdminDeleteUserData, AdminDeleteUserError, AdminDeleteUserResponse, AdminDissolvePartnershipData, AdminDissolvePartnershipError, AdminDissolvePartnershipResponse, AdminGetListingSourceData, AdminGetListingSourceError, AdminGetListingSourceResponse, AdminGetOAuthClientData, AdminGetOAuthClientError, AdminGetOAuthClientResponse, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationError, AdminGetPartnershipApplicationResponse, AdminGetPartnershipData, AdminGetPartnershipError, AdminGetPartnershipResponse, AdminGetPartyData, AdminGetPartyError, AdminGetPartyResponse, AdminGetSourceLocationDefaultData, AdminGetSourceLocationDefaultError, AdminGetSourceLocationDefaultResponse, AdminGetUserData, AdminGetUserError, AdminGetUserResponse, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceError, AdminGrantPartnershipListingSourceResponse, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipError, AdminGrantPartnershipMembershipResponse, AdminListOAuthClientsData, AdminListOAuthClientsError, AdminListOAuthClientsResponse, AdminListUserAccessTokensData, AdminListUserAccessTokensError, AdminListUserAccessTokensResponse, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewError, AdminMarkPartnershipApplicationInReviewResponse, AdminPatchOAuthClientData, AdminPatchOAuthClientError, AdminPatchOAuthClientResponse, AdminPatchUserData, AdminPatchUserError, AdminPatchUserResponse, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceError, AdminRevokePartnershipListingSourceResponse, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipError, AdminRevokePartnershipMembershipResponse, AdminRevokeUserSessionsData, AdminRevokeUserSessionsError, AdminRevokeUserSessionsResponse, AdminSearchAuctionsData, AdminSearchAuctionsResponse, AdminSearchListingSourcesData, AdminSearchListingSourcesError, AdminSearchListingSourcesResponse, AdminSearchPartiesData, AdminSearchPartiesError, AdminSearchPartiesResponse, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsError, AdminSearchPartnershipApplicationsResponse, AdminSearchPartnershipsData, AdminSearchPartnershipsError, AdminSearchPartnershipsResponse, AdminSearchUsersData, AdminSearchUsersError, AdminSearchUsersResponse, AdminSuspendUserData, AdminSuspendUserError, AdminSuspendUserResponse, AdminUnsuspendUserData, AdminUnsuspendUserError, AdminUnsuspendUserResponse, AdminUpdateListingSourceData, AdminUpdateListingSourceError, AdminUpdateListingSourceResponse, AdminUpdatePartyData, AdminUpdatePartyError, AdminUpdatePartyResponse, AssignSourceLocationDefaultData2, AssignSourceLocationDefaultError, AssignSourceLocationDefaultResponse, ChangeSourceLocationDefaultApplicabilityData2, ChangeSourceLocationDefaultApplicabilityError, ChangeSourceLocationDefaultApplicabilityResponse, ClearSourceLocationDefaultData2, ClearSourceLocationDefaultError, ClearSourceLocationDefaultResponse, ConfirmNewsletterSubscriptionData2, ConfirmNewsletterSubscriptionError, ConfirmNewsletterSubscriptionResponse, CorrectPartyLocationData2, CorrectPartyLocationError, CorrectPartyLocationResponse, CreateAdminAuctionData, CreateAdminAuctionResponse, CreatePartyLocationData2, CreatePartyLocationError, CreatePartyLocationResponse, CreateUserAddressData, CreateUserAddressError, CreateUserAddressResponse, CreateUserSearchFilterData, CreateUserSearchFilterError, CreateUserSearchFilterResponse, DeleteAsyncPartnerProductListingsData, DeleteAsyncPartnerProductListingsError, DeleteAsyncPartnerProductListingsResponse, DeleteMyAccessTokenData, DeleteMyAccessTokenError, DeleteMyAccessTokenResponse, DeleteNotificationData, DeleteNotificationError, DeleteNotificationResponse, DeleteNotificationsData, DeleteNotificationsError, DeleteNotificationsResponse, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationError, DeleteOwnPartnershipApplicationResponse, DeletePartnerProductListingsData, DeletePartnerProductListingsError, DeletePartnerProductListingsResponse, DeleteUserAddressData, DeleteUserAddressError, DeleteUserAddressResponse, DeleteUserData, DeleteUserError, DeleteUserResponse, DeleteUserSearchFilterData, DeleteUserSearchFilterError, DeleteUserSearchFilterResponse, DeleteWatchlistProductData, DeleteWatchlistProductError, DeleteWatchlistProductResponse, DiscoverPartyLocationsData, DiscoverPartyLocationsError, DiscoverPartyLocationsResponse, GetAdminAuctionData, GetAdminAuctionResponse, GetAdminOverviewData, GetAdminOverviewError, GetAdminOverviewResponse, GetAdminProductListingData, GetAdminProductListingError, GetAdminProductListingResponse, GetAuctionCatalogueData, GetAuctionCatalogueResponse, GetAuctionData, GetAuctionResponse, GetBrowsingDestinationData, GetBrowsingDestinationError, GetBrowsingDestinationResponse, GetHealthData, GetHealthResponse, GetMyAccessTokenData, GetMyAccessTokenError, GetMyAccessTokenResponse, GetMyAccessTokensData, GetMyAccessTokensError, GetMyAccessTokensResponse, GetMyListingSourcesData, GetMyListingSourcesError, GetMyListingSourcesResponse, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsError, GetMyPartnershipApplicationsResponse, GetOAuthConsentClientData, GetOAuthConsentClientError, GetOAuthConsentClientResponse, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationError, GetOwnPartnershipApplicationResponse, GetPartnerProductListingData, GetPartnerProductListingError, GetPartnerProductListingResponse, GetPartyLocationData, GetPartyLocationError, GetPartyLocationResponse, GetProductListingByTitleSlugData, GetProductListingByTitleSlugError, GetProductListingByTitleSlugResponse, GetProductListingData, GetProductListingError, GetProductListingHistoryData, GetProductListingHistoryError, GetProductListingHistoryResponse, GetProductListingResponse, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugError, GetPublicListingSourceBySlugResponse, GetReadinessData, GetReadinessResponse, GetSimilarProductListingsData, GetSimilarProductListingsError, GetSimilarProductListingsResponse, GetSourceLocationDefaultData, GetSourceLocationDefaultError, GetSourceLocationDefaultResponse, GetUserAccountData, GetUserAccountError, GetUserAccountResponse, GetUserAddressData, GetUserAddressError, GetUserAddressResponse, GetUserSearchFilterData, GetUserSearchFilterError, GetUserSearchFilterResponse, GetUserSearchFiltersData, GetUserSearchFiltersError, GetUserSearchFiltersResponse, GetWatchlistProductListingsData, GetWatchlistProductListingsError, GetWatchlistProductListingsResponse, ListAuctionsData, ListAuctionsResponse, ListNotificationsData, ListNotificationsError, ListNotificationsResponse, ListPartnerProductListingsData, ListPartnerProductListingsError, ListPartnerProductListingsResponse, ListPartyLocationManagersData, ListPartyLocationManagersError, ListPartyLocationManagersResponse, ListPartyLocationsData, ListPartyLocationsError, ListPartyLocationsResponse, ListSearchFilterMatchesData, ListSearchFilterMatchesError, ListSearchFilterMatchesResponse, ListUserAddressesData, ListUserAddressesError, ListUserAddressesResponse, OauthAuthorizeData, OauthAuthorizeError, OauthIntrospectData, OauthIntrospectError, OauthIntrospectResponse, OauthRevokeData, OauthRevokeError, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeError, OauthTokenByThirdPartyCodeResponse, OauthTokenData, OauthTokenError, OauthTokenResponse, PartyLocationId, PatchAsyncPartnerProductListingsData, PatchAsyncPartnerProductListingsError, PatchAsyncPartnerProductListingsResponse, PatchMyAccessTokenData, PatchMyAccessTokenError, PatchMyAccessTokenResponse, PatchPartnerProductListingsData, PatchPartnerProductListingsError, PatchPartnerProductListingsResponse, PatchWatchlistProductData, PatchWatchlistProductError, PatchWatchlistProductResponse, PostAsyncPartnerProductListingsData, PostAsyncPartnerProductListingsError, PostAsyncPartnerProductListingsResponse, PostBillingCheckoutData2, PostBillingCheckoutError, PostBillingCheckoutResponse, PostBillingManageData, PostBillingManageError, PostBillingManageResponse, PostBillingPortalData, PostBillingPortalError, PostBillingPortalResponse, PostLoopsPreferenceWebhookData, PostLoopsPreferenceWebhookError, PostLoopsPreferenceWebhookResponse, PostMyAccessTokenData, PostMyAccessTokenError, PostMyAccessTokenResponse, PostPartnerProductListingsData, PostPartnerProductListingsError, PostPartnerProductListingsResponse, PostPartnershipApplicationData, PostPartnershipApplicationError, PostPartnershipApplicationResponse, PostWoocommerceWebhookData, PostWoocommerceWebhookError, PostWoocommerceWebhookResponse, PutAsyncPartnerProductListingsData, PutAsyncPartnerProductListingsError, PutAsyncPartnerProductListingsResponse, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionError, PutNewsletterSubscriptionResponse, PutPartnerProductListingsData, PutPartnerProductListingsError, PutPartnerProductListingsResponse, PutShopifyListingSourceIngestionConfigurationData2, PutShopifyListingSourceIngestionConfigurationError, PutShopifyListingSourceIngestionConfigurationResponse, PutWoocommerceListingSourceIngestionConfigurationData2, PutWoocommerceListingSourceIngestionConfigurationError, PutWoocommerceListingSourceIngestionConfigurationResponse, RestoreAdminProductListingData, RestoreAdminProductListingError, RestoreAdminProductListingResponse, RestorePartnerProductListingData, RestorePartnerProductListingError, RestorePartnerProductListingResponse, SearchAdminProductListingsData, SearchAdminProductListingsError, SearchAdminProductListingsResponse, SearchPublicListingSourcesData, SearchPublicListingSourcesError, SearchPublicListingSourcesResponse, SetBrowsingDestinationData, SetBrowsingDestinationError, SetBrowsingDestinationResponse, SetPartyLocationLifecycleData2, SetPartyLocationLifecycleError, SetPartyLocationLifecycleResponse, SetPartyLocationManagementGrantData, SetPartyLocationManagementGrantError, SetPartyLocationManagementGrantResponse, SimpleSearchProductListingsData, SimpleSearchProductListingsError, SimpleSearchProductListingsResponse, UpdateAdminAuctionData, UpdateAdminAuctionResponse, UpdateAdminProductListingData, UpdateAdminProductListingError, UpdateAdminProductListingResponse, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenError, UpdateAllNotificationsSeenResponse, UpdateNotificationSeenData2, UpdateNotificationSeenError, UpdateNotificationSeenResponse, UpdateNotificationsSeenData2, UpdateNotificationsSeenError, UpdateNotificationsSeenResponse, UpdatePartnerProductListingData, UpdatePartnerProductListingError, UpdatePartnerProductListingResponse, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackError, UpdateSearchFilterMatchFeedbackResponse, UpdateUserAccountData, UpdateUserAccountError, UpdateUserAccountResponse, UpdateUserAddressData, UpdateUserAddressError, UpdateUserAddressResponse, UpdateUserSearchFilterData, UpdateUserSearchFilterError, UpdateUserSearchFilterResponse, UserAddressId, WithdrawAdminProductListingData, WithdrawAdminProductListingError, WithdrawAdminProductListingResponse, WithdrawPartnerProductListingData, WithdrawPartnerProductListingError, WithdrawPartnerProductListingResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
   Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -252,6 +252,8 @@ export const adminSearchAuctionsOptions = (options?: Options<AdminSearchAuctions
 
 /**
  * Create a source-scoped Auction (admin)
+ *
+ * Delegated Aura access tokens require `auctions:write`; missing scope returns `403 FORBIDDEN`.
  */
 export const createAdminAuctionMutation = (options?: Partial<Options<CreateAdminAuctionData>>): UseMutationOptions<CreateAdminAuctionResponse, DefaultError, Options<CreateAdminAuctionData>> => {
   const mutationOptions: UseMutationOptions<CreateAdminAuctionResponse, DefaultError, Options<CreateAdminAuctionData>> = {
@@ -271,6 +273,8 @@ export const getAdminAuctionQueryKey = (options: Options<GetAdminAuctionData>) =
 
 /**
  * Get Auction administration detail
+ *
+ * Administrator authority is required. Delegated Aura access tokens also require `auctions:read`; Cognito users do not require a delegated scope. Success and errors are always `no-store`.
  */
 export const getAdminAuctionOptions = (options: Options<GetAdminAuctionData>) => queryOptions<GetAdminAuctionResponse, DefaultError, GetAdminAuctionResponse, ReturnType<typeof getAdminAuctionQueryKey>>({
   queryFn: async ({ queryKey, signal }) => {
@@ -287,6 +291,8 @@ export const getAdminAuctionOptions = (options: Options<GetAdminAuctionData>) =>
 
 /**
  * Update Auction metadata (admin)
+ *
+ * Delegated Aura access tokens require `auctions:write`; missing scope returns `403 FORBIDDEN`.
  */
 export const updateAdminAuctionMutation = (options?: Partial<Options<UpdateAdminAuctionData>>): UseMutationOptions<UpdateAdminAuctionResponse, DefaultError, Options<UpdateAdminAuctionData>> => {
   const mutationOptions: UseMutationOptions<UpdateAdminAuctionResponse, DefaultError, Options<UpdateAdminAuctionData>> = {
@@ -380,6 +386,26 @@ export const deletePartnerProductListingsMutation = (options?: Partial<Options<D
   };
   return mutationOptions;
 };
+
+export const listPartnerProductListingsQueryKey = (options: Options<ListPartnerProductListingsData>) => createQueryKey('listPartnerProductListings', options);
+
+/**
+ * List ProductListings for an administered ListingSource
+ *
+ * An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:read`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness. Live keyset pagination includes both lifecycle states by default. Source-local identity alone is not globally unique. Text query is bounded literal matching over original title/source-local ID; no total count is returned. Cursors are bound to normalized filters and sort/order, with listing ID breaking timestamp ties.
+ */
+export const listPartnerProductListingsOptions = (options: Options<ListPartnerProductListingsData>) => queryOptions<ListPartnerProductListingsResponse, ListPartnerProductListingsError, ListPartnerProductListingsResponse, ReturnType<typeof listPartnerProductListingsQueryKey>>({
+  queryFn: async ({ queryKey, signal }) => {
+    const { data } = await listPartnerProductListings({
+      ...options,
+      ...queryKey[0],
+      signal,
+      throwOnError: true
+    });
+    return data;
+  },
+  queryKey: listPartnerProductListingsQueryKey(options)
+});
 
 /**
  * Batch update product-listings (Partner API)
@@ -485,6 +511,83 @@ export const putPartnerProductListingsMutation = (options?: Partial<Options<PutP
   const mutationOptions: UseMutationOptions<PutPartnerProductListingsResponse, PutPartnerProductListingsError, Options<PutPartnerProductListingsData>> = {
     mutationFn: async (fnOptions) => {
       const { data } = await putPartnerProductListings({
+        ...options,
+        ...fnOptions,
+        throwOnError: true
+      });
+      return data;
+    }
+  };
+  return mutationOptions;
+};
+
+/**
+ * Withdraw a retained ProductListing
+ *
+ * An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:write`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. All responses/errors use `private, no-store`. State and the ordinary change event commit together; indexing, embeddings, notifications and cache convergence are asynchronous. Later ingestion may overwrite edits or restore withdrawal. Refetch/reconcile after a lost response; do not automatically retry with a different version. DELETE withdraws rather than physically purging identity, history or watchlist state. Availability is cleared; sale observation is retained. Already withdrawn is a no-op only with a matching current version; stale versions still conflict.
+ */
+export const withdrawPartnerProductListingMutation = (options?: Partial<Options<WithdrawPartnerProductListingData>>): UseMutationOptions<WithdrawPartnerProductListingResponse, WithdrawPartnerProductListingError, Options<WithdrawPartnerProductListingData>> => {
+  const mutationOptions: UseMutationOptions<WithdrawPartnerProductListingResponse, WithdrawPartnerProductListingError, Options<WithdrawPartnerProductListingData>> = {
+    mutationFn: async (fnOptions) => {
+      const { data } = await withdrawPartnerProductListing({
+        ...options,
+        ...fnOptions,
+        throwOnError: true
+      });
+      return data;
+    }
+  };
+  return mutationOptions;
+};
+
+export const getPartnerProductListingQueryKey = (options: Options<GetPartnerProductListingData>) => createQueryKey('getPartnerProductListing', options);
+
+/**
+ * Inspect authoritative ProductListing facts
+ *
+ * An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:read`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness. Original title/description, slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
+ */
+export const getPartnerProductListingOptions = (options: Options<GetPartnerProductListingData>) => queryOptions<GetPartnerProductListingResponse, GetPartnerProductListingError, GetPartnerProductListingResponse, ReturnType<typeof getPartnerProductListingQueryKey>>({
+  queryFn: async ({ queryKey, signal }) => {
+    const { data } = await getPartnerProductListing({
+      ...options,
+      ...queryKey[0],
+      signal,
+      throwOnError: true
+    });
+    return data;
+  },
+  queryKey: getPartnerProductListingQueryKey(options)
+});
+
+/**
+ * Update an existing active ProductListing
+ *
+ * An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:write`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. All responses/errors use `private, no-store`. State and the ordinary change event commit together; indexing, embeddings, notifications and cache convergence are asynchronous. Later ingestion may overwrite edits or restore withdrawal. Refetch/reconcile after a lost response; do not automatically retry with a different version. Never creates or restores a listing. The required expectedVersion is checked before changes and again through compare-and-set persistence. Availability edits do not fabricate sale observations. No-op preserves version/timestamps and emits no event. Unknown/read-only fields and nested unknown fields are rejected.
+ */
+export const updatePartnerProductListingMutation = (options?: Partial<Options<UpdatePartnerProductListingData>>): UseMutationOptions<UpdatePartnerProductListingResponse, UpdatePartnerProductListingError, Options<UpdatePartnerProductListingData>> => {
+  const mutationOptions: UseMutationOptions<UpdatePartnerProductListingResponse, UpdatePartnerProductListingError, Options<UpdatePartnerProductListingData>> = {
+    mutationFn: async (fnOptions) => {
+      const { data } = await updatePartnerProductListing({
+        ...options,
+        ...fnOptions,
+        throwOnError: true
+      });
+      return data;
+    }
+  };
+  return mutationOptions;
+};
+
+/**
+ * Explicitly restore a retained ProductListing
+ *
+ * An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:write`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. All responses/errors use `private, no-store`. State and the ordinary change event commit together; indexing, embeddings, notifications and cache convergence are asynchronous. Later ingestion may overwrite edits or restore withdrawal. Refetch/reconcile after a lost response; do not automatically retry with a different version. Restores to ACTIVE with unknown availability; no former availability is reconstructed. Already active is a no-op only with a matching current version. Missing retained identity is never created.
+ */
+export const restorePartnerProductListingMutation = (options?: Partial<Options<RestorePartnerProductListingData>>): UseMutationOptions<RestorePartnerProductListingResponse, RestorePartnerProductListingError, Options<RestorePartnerProductListingData>> => {
+  const mutationOptions: UseMutationOptions<RestorePartnerProductListingResponse, RestorePartnerProductListingError, Options<RestorePartnerProductListingData>> = {
+    mutationFn: async (fnOptions) => {
+      const { data } = await restorePartnerProductListing({
         ...options,
         ...fnOptions,
         throwOnError: true
@@ -781,6 +884,26 @@ export const postWoocommerceWebhookMutation = (options?: Partial<Options<PostWoo
   return mutationOptions;
 };
 
+/**
+ * Apply a signed Loops preference webhook
+ *
+ * Accepts one Loops webhook signed over the exact received body bytes. No Aura/Cognito bearer is required; `webhook-id`, `webhook-timestamp`, and `webhook-signature` must form a valid, recent Loops proof. The request body is limited to 64 KiB. The currently supported `webhookSchemaVersion` is `1.0.0`. Supported `eventName` values are `contact.unsubscribed`, `contact.deleted`, `email.unsubscribed`, `contact.mailingList.subscribed`, `contact.mailingList.unsubscribed`, `email.resubscribed`, `email.hardBounced`, and `email.spamReported`. A verified unknown event name is receipted as ignored; malformed events and unsupported payload schema versions return an error for provider retry.
+ * `204` means the receipt and any local preference effects committed, or the authenticated delivery was an identical duplicate or a safely ignored event. It does not mean a marketing message was sent or delivered. Conflicting delivery identity returns `409`; temporary database/provider-reader failure or the 10-second processing budget returns retryable `503`. All responses are `no-store`.
+ */
+export const postLoopsPreferenceWebhookMutation = (options?: Partial<Options<PostLoopsPreferenceWebhookData>>): UseMutationOptions<PostLoopsPreferenceWebhookResponse, PostLoopsPreferenceWebhookError, Options<PostLoopsPreferenceWebhookData>> => {
+  const mutationOptions: UseMutationOptions<PostLoopsPreferenceWebhookResponse, PostLoopsPreferenceWebhookError, Options<PostLoopsPreferenceWebhookData>> = {
+    mutationFn: async (fnOptions) => {
+      const { data } = await postLoopsPreferenceWebhook({
+        ...options,
+        ...fnOptions,
+        throwOnError: true
+      });
+      return data;
+    }
+  };
+  return mutationOptions;
+};
+
 export const getProductListingByTitleSlugQueryKey = (options: Options<GetProductListingByTitleSlugData>) => createQueryKey('getProductListingByTitleSlug', options);
 
 /**
@@ -909,9 +1032,9 @@ export const getUserSearchFiltersQueryKey = (options?: Options<GetUserSearchFilt
 /**
  * List user search filters
  *
- * Retrieves all search filters for the authenticated user.
+ * Delegated Aura access tokens require `search-filters:read`; missing scope returns `403 FORBIDDEN`. Retrieves all search filters for the authenticated user.
  * Uses the service's fixed collection ordering.
- * Requires a Cognito JWT or an Aura access token with `search-filters:write`.
+ * Requires a Cognito JWT or an Aura access token with `search-filters:read`.
  *
  */
 export const getUserSearchFiltersOptions = (options?: Options<GetUserSearchFiltersData>) => queryOptions<GetUserSearchFiltersResponse, GetUserSearchFiltersError, GetUserSearchFiltersResponse, ReturnType<typeof getUserSearchFiltersQueryKey>>({
@@ -982,9 +1105,9 @@ export const getUserSearchFilterQueryKey = (options: Options<GetUserSearchFilter
 /**
  * Get a specific search filter
  *
- * Retrieves a specific search filter by its ID for the authenticated user.
+ * Delegated Aura access tokens require `search-filters:read`; missing scope returns `403 FORBIDDEN`. Retrieves a specific search filter by its ID for the authenticated user.
  * Returns the complete search filter configuration and metadata.
- * Requires a Cognito JWT or an Aura access token with `search-filters:write`.
+ * Requires a Cognito JWT or an Aura access token with `search-filters:read`.
  *
  */
 export const getUserSearchFilterOptions = (options: Options<GetUserSearchFilterData>) => queryOptions<GetUserSearchFilterResponse, GetUserSearchFilterError, GetUserSearchFilterResponse, ReturnType<typeof getUserSearchFilterQueryKey>>({
@@ -1034,8 +1157,9 @@ export const listSearchFilterMatchesQueryKey = (options: Options<ListSearchFilte
 /**
  * List persisted matches for a saved search filter
  *
- * Returns persisted product-listing matches associated with the authenticated user’s saved search filter. Results are read from stored match state and returned with cursor-based pagination in ascending persisted match-creation order. This endpoint does not execute a live search or preview the filter against current product listings.
- * Requires a Cognito JWT or an Aura access token with `search-filters:write`.
+ * Delegated Aura access tokens require `search-filters:read`; missing scope returns `403 FORBIDDEN`. Returns persisted product-listing matches associated with the authenticated user’s saved search filter. Results are read from stored match state and returned with cursor-based pagination in ascending persisted match-creation order. This endpoint does not execute a live search or preview the filter against current product listings.
+ * New matches are discovered only by scheduled matching of active enhanced filters, subject to product-search projection lag. Non-enhanced filters do not discover new matches; their historical matches remain available. Match discovery and notifications are not synchronous with listing changes or filter creation.
+ * Requires a Cognito JWT or an Aura access token with `search-filters:read`.
  */
 export const listSearchFilterMatchesOptions = (options: Options<ListSearchFilterMatchesData>) => queryOptions<ListSearchFilterMatchesResponse, ListSearchFilterMatchesError, ListSearchFilterMatchesResponse, ReturnType<typeof listSearchFilterMatchesQueryKey>>({
   queryFn: async ({ queryKey, signal }) => {
@@ -1132,6 +1256,7 @@ export const adminSearchListingSourcesQueryKey = (options?: Options<AdminSearchL
 /**
  * Search ListingSources as admin
  *
+ * Delegated Aura access tokens require `listing-sources:read`; missing scope returns `403 FORBIDDEN`.
  * Searches ListingSource records for authenticated administrators.
  *
  * `query` performs a case-insensitive substring search across the ListingSource name and
@@ -1167,6 +1292,7 @@ export const adminSearchListingSourcesOptions = (options?: Options<AdminSearchLi
 /**
  * Create a ListingSource as admin
  *
+ * Delegated Aura access tokens require `listing-sources:write`; missing scope returns `403 FORBIDDEN`.
  * Creates a ListingSource for an authenticated administrator.
  *
  * `operator` accepts either an existing Party reference (`EXISTING` with `partyId`) or a
@@ -1195,6 +1321,7 @@ export const adminSearchPartiesQueryKey = (options?: Options<AdminSearchPartiesD
 /**
  * Search parties as admin
  *
+ * Delegated Aura access tokens require `parties:read`; missing scope returns `403 FORBIDDEN`.
  * Searches Party records for authenticated administrators.
  *
  * `query` performs a case-insensitive substring search across Party name, phone, and email.
@@ -1225,6 +1352,7 @@ export const adminSearchPartiesOptions = (options?: Options<AdminSearchPartiesDa
 /**
  * Create a Party as admin
  *
+ * Delegated Aura access tokens require `parties:write`; missing scope returns `403 FORBIDDEN`.
  * Creates a Party for an authenticated administrator.
  *
  * The request accepts only the Party name and optional phone/email contact information.
@@ -1250,6 +1378,7 @@ export const adminCreatePartyMutation = (options?: Partial<Options<AdminCreatePa
 /**
  * Hard-delete an unused Party as admin
  *
+ * Delegated Aura access tokens require `parties:write`; missing scope returns `403 FORBIDDEN`.
  * Deletes only an unused Party after commit. A Party with any ListingSource or retained
  * Partnership, including `DISSOLVED`, returns `409 CONFLICT`; no dependent business or
  * historical row is cascaded, detached, rewritten, or archived. Responses use
@@ -1275,6 +1404,7 @@ export const adminGetPartyQueryKey = (options: Options<AdminGetPartyData>) => cr
 /**
  * Get a Party as admin
  *
+ * Delegated Aura access tokens require `parties:read`; missing scope returns `403 FORBIDDEN`.
  * Gets one Party for an authenticated administrator.
  *
  * `partyId` must be a valid Party ID. The response contains the Party identity, immutable slug,
@@ -1298,6 +1428,7 @@ export const adminGetPartyOptions = (options: Options<AdminGetPartyData>) => que
 /**
  * Update a Party as admin
  *
+ * Delegated Aura access tokens require `parties:write`; missing scope returns `403 FORBIDDEN`.
  * Updates the name and/or contact information for a Party for an authenticated administrator.
  *
  * Only `name`, `phone`, and `email` are supported. Omitted members remain unchanged;
@@ -1683,9 +1814,9 @@ export const getMyAccessTokensQueryKey = (options?: Options<GetMyAccessTokensDat
 /**
  * List Aura Historia access tokens
  *
- * Lists the authenticated user's non-expired Aura Historia access tokens.
- * The `token` field is masked on this endpoint and does not reveal the plaintext bearer token again.
- * Requires valid Cognito JWT authentication.
+ * Lists all of the authenticated user's persisted Aura Historia access tokens, including expired and current tokens.
+ * The response contains secret-free metadata only. It does not return plaintext or masked token values.
+ * Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require the delegated `access-tokens:read` capability.
  *
  */
 export const getMyAccessTokensOptions = (options?: Options<GetMyAccessTokensData>) => queryOptions<GetMyAccessTokensResponse, GetMyAccessTokensError, GetMyAccessTokensResponse, ReturnType<typeof getMyAccessTokensQueryKey>>({
@@ -1706,8 +1837,8 @@ export const getMyAccessTokensOptions = (options?: Options<GetMyAccessTokensData
  *
  * Updates metadata for one access token owned by the authenticated user. Omitted properties
  * remain unchanged; `expires: null` clears expiry. `name` and `scopes` reject `null`; use
- * `scopes: []` to clear scopes.
- * Requires valid Cognito JWT authentication.
+ * `scopes: []` to clear scopes. The response contains secret-free metadata only and never returns plaintext or masked token values.
+ * Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require the delegated `access-tokens:write` capability.
  *
  */
 export const patchMyAccessTokenMutation = (options?: Partial<Options<PatchMyAccessTokenData>>): UseMutationOptions<PatchMyAccessTokenResponse, PatchMyAccessTokenError, Options<PatchMyAccessTokenData>> => {
@@ -1728,8 +1859,8 @@ export const patchMyAccessTokenMutation = (options?: Partial<Options<PatchMyAcce
  * Create an Aura Historia access token
  *
  * Creates a new Aura Historia access token for the authenticated user.
- * The plaintext bearer token is returned only in this create response; later reads return a masked token value.
- * Requires valid Cognito JWT authentication.
+ * The response includes the plaintext bearer token once. List, get, and update responses contain only secret-free metadata and never return the bearer token again.
+ * Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require the delegated `access-tokens:write` capability.
  *
  */
 export const postMyAccessTokenMutation = (options?: Partial<Options<PostMyAccessTokenData>>): UseMutationOptions<PostMyAccessTokenResponse, PostMyAccessTokenError, Options<PostMyAccessTokenData>> => {
@@ -1774,9 +1905,9 @@ export const getMyAccessTokenQueryKey = (options: Options<GetMyAccessTokenData>)
 /**
  * Get one Aura Historia access token
  *
- * Retrieves one non-expired Aura Historia access token owned by the authenticated user.
- * The `token` field is masked on this endpoint and does not reveal the plaintext bearer token again.
- * Requires valid Cognito JWT authentication.
+ * Retrieves one persisted Aura Historia access token owned by the authenticated user, including expired and current tokens.
+ * The response contains secret-free metadata only. It does not return plaintext or masked token values.
+ * Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require the delegated `access-tokens:read` capability.
  *
  */
 export const getMyAccessTokenOptions = (options: Options<GetMyAccessTokenData>) => queryOptions<GetMyAccessTokenResponse, GetMyAccessTokenError, GetMyAccessTokenResponse, ReturnType<typeof getMyAccessTokenQueryKey>>({
@@ -1917,6 +2048,8 @@ export const patchWatchlistProductMutation = (options?: Partial<Options<PatchWat
 
 /**
  * Delete all notifications
+ *
+ * Delegated Aura access tokens require `notifications:write`; missing scope returns `403 FORBIDDEN`.
  */
 export const deleteNotificationsMutation = (options?: Partial<Options<DeleteNotificationsData>>): UseMutationOptions<DeleteNotificationsResponse, DeleteNotificationsError, Options<DeleteNotificationsData>> => {
   const mutationOptions: UseMutationOptions<DeleteNotificationsResponse, DeleteNotificationsError, Options<DeleteNotificationsData>> = {
@@ -1937,7 +2070,7 @@ export const listNotificationsQueryKey = (options?: Options<ListNotificationsDat
 /**
  * List user notifications
  *
- * Retrieves the authenticated user’s canonical notifications in newest-first order.
+ * Delegated Aura access tokens require `notifications:read`; missing scope returns `403 FORBIDDEN`. Retrieves the authenticated user’s canonical notifications in newest-first order.
  * Watchlist price-change notifications preserve each event’s immutable source currency; no FX conversion
  * is applied from the user’s preferences. Product image URLs are presented according to the authenticated
  * user’s `showUnassessedOrSensitiveContent` preference.
@@ -1959,7 +2092,7 @@ export const listNotificationsOptions = (options?: Options<ListNotificationsData
 /**
  * Update selected notification seen states
  *
- * Updates the seen state for the explicit canonical notification IDs in the request body.
+ * Delegated Aura access tokens require `notifications:write`; missing scope returns `403 FORBIDDEN`. Updates the seen state for the explicit canonical notification IDs in the request body.
  */
 export const updateNotificationsSeenMutation = (options?: Partial<Options<UpdateNotificationsSeenData2>>): UseMutationOptions<UpdateNotificationsSeenResponse, UpdateNotificationsSeenError, Options<UpdateNotificationsSeenData2>> => {
   const mutationOptions: UseMutationOptions<UpdateNotificationsSeenResponse, UpdateNotificationsSeenError, Options<UpdateNotificationsSeenData2>> = {
@@ -1977,6 +2110,8 @@ export const updateNotificationsSeenMutation = (options?: Partial<Options<Update
 
 /**
  * Update all notification seen states
+ *
+ * Delegated Aura access tokens require `notifications:write`; missing scope returns `403 FORBIDDEN`.
  */
 export const updateAllNotificationsSeenMutation = (options?: Partial<Options<UpdateAllNotificationsSeenData>>): UseMutationOptions<UpdateAllNotificationsSeenResponse, UpdateAllNotificationsSeenError, Options<UpdateAllNotificationsSeenData>> => {
   const mutationOptions: UseMutationOptions<UpdateAllNotificationsSeenResponse, UpdateAllNotificationsSeenError, Options<UpdateAllNotificationsSeenData>> = {
@@ -1994,6 +2129,8 @@ export const updateAllNotificationsSeenMutation = (options?: Partial<Options<Upd
 
 /**
  * Delete one notification
+ *
+ * Delegated Aura access tokens require `notifications:write`; missing scope returns `403 FORBIDDEN`.
  */
 export const deleteNotificationMutation = (options?: Partial<Options<DeleteNotificationData>>): UseMutationOptions<DeleteNotificationResponse, DeleteNotificationError, Options<DeleteNotificationData>> => {
   const mutationOptions: UseMutationOptions<DeleteNotificationResponse, DeleteNotificationError, Options<DeleteNotificationData>> = {
@@ -2011,6 +2148,8 @@ export const deleteNotificationMutation = (options?: Partial<Options<DeleteNotif
 
 /**
  * Update one notification seen state
+ *
+ * Delegated Aura access tokens require `notifications:write`; missing scope returns `403 FORBIDDEN`.
  */
 export const updateNotificationSeenMutation = (options?: Partial<Options<UpdateNotificationSeenData2>>): UseMutationOptions<UpdateNotificationSeenResponse, UpdateNotificationSeenError, Options<UpdateNotificationSeenData2>> => {
   const mutationOptions: UseMutationOptions<UpdateNotificationSeenResponse, UpdateNotificationSeenError, Options<UpdateNotificationSeenData2>> = {
@@ -2084,6 +2223,7 @@ export const confirmNewsletterSubscriptionMutation = (options?: Partial<Options<
 /**
  * Delete an unused ListingSource as admin
  *
+ * Delegated Aura access tokens require `listing-sources:write`; missing scope returns `403 FORBIDDEN`.
  * Physically removes a ListingSource only when it has no ProductListings, raw-ingestion
  * streams, approved PartnershipApplication reference, or retained existing-source proposal.
  * The committed transaction explicitly removes its Partnership grants and owned ingestion
@@ -2113,6 +2253,7 @@ export const adminGetListingSourceQueryKey = (options: Options<AdminGetListingSo
 /**
  * Get a ListingSource as admin
  *
+ * Delegated Aura access tokens require `listing-sources:read`; missing scope returns `403 FORBIDDEN`.
  * Gets one ListingSource for an authenticated administrator.
  *
  * `listingSourceId` must be a valid ListingSource ID. The response uses the canonical ListingSource detail
@@ -2136,6 +2277,7 @@ export const adminGetListingSourceOptions = (options: Options<AdminGetListingSou
 /**
  * Update a ListingSource as admin
  *
+ * Delegated Aura access tokens require `listing-sources:write`; missing scope returns `403 FORBIDDEN`.
  * Updates one ListingSource for an authenticated administrator.
  *
  * `listingSourceId` must be a valid ListingSource ID. Omitted members remain unchanged; `null` clears only
@@ -2516,6 +2658,8 @@ export const getMyListingSourcesQueryKey = (options?: Options<GetMyListingSource
 
 /**
  * List caller-administered ListingSources
+ *
+ * Delegated Aura access tokens require `listing-sources:read`; missing scope returns `403 FORBIDDEN`.
  */
 export const getMyListingSourcesOptions = (options?: Options<GetMyListingSourcesData>) => queryOptions<GetMyListingSourcesResponse, GetMyListingSourcesError, GetMyListingSourcesResponse, ReturnType<typeof getMyListingSourcesQueryKey>>({
   queryFn: async ({ queryKey, signal }) => {
@@ -2534,6 +2678,8 @@ export const getMyPartnershipApplicationsQueryKey = (options?: Options<GetMyPart
 
 /**
  * List caller PartnershipApplications
+ *
+ * Delegated Aura access tokens require `partnership-applications:read`; missing scope returns `403 FORBIDDEN`.
  */
 export const getMyPartnershipApplicationsOptions = (options?: Options<GetMyPartnershipApplicationsData>) => queryOptions<GetMyPartnershipApplicationsResponse, GetMyPartnershipApplicationsError, GetMyPartnershipApplicationsResponse, ReturnType<typeof getMyPartnershipApplicationsQueryKey>>({
   queryFn: async ({ queryKey, signal }) => {
@@ -2550,6 +2696,8 @@ export const getMyPartnershipApplicationsOptions = (options?: Options<GetMyPartn
 
 /**
  * Submit a PartnershipApplication
+ *
+ * Delegated Aura access tokens require `partnership-applications:write`; missing scope returns `403 FORBIDDEN`.
  */
 export const postPartnershipApplicationMutation = (options?: Partial<Options<PostPartnershipApplicationData>>): UseMutationOptions<PostPartnershipApplicationResponse, PostPartnershipApplicationError, Options<PostPartnershipApplicationData>> => {
   const mutationOptions: UseMutationOptions<PostPartnershipApplicationResponse, PostPartnershipApplicationError, Options<PostPartnershipApplicationData>> = {
@@ -2567,6 +2715,8 @@ export const postPartnershipApplicationMutation = (options?: Partial<Options<Pos
 
 /**
  * Withdraw a PartnershipApplication
+ *
+ * Delegated Aura access tokens require `partnership-applications:write`; missing scope returns `403 FORBIDDEN`.
  */
 export const deleteOwnPartnershipApplicationMutation = (options?: Partial<Options<DeleteOwnPartnershipApplicationData>>): UseMutationOptions<DeleteOwnPartnershipApplicationResponse, DeleteOwnPartnershipApplicationError, Options<DeleteOwnPartnershipApplicationData>> => {
   const mutationOptions: UseMutationOptions<DeleteOwnPartnershipApplicationResponse, DeleteOwnPartnershipApplicationError, Options<DeleteOwnPartnershipApplicationData>> = {
@@ -2586,6 +2736,8 @@ export const getOwnPartnershipApplicationQueryKey = (options: Options<GetOwnPart
 
 /**
  * Get a caller PartnershipApplication
+ *
+ * Delegated Aura access tokens require `partnership-applications:read`; missing scope returns `403 FORBIDDEN`.
  */
 export const getOwnPartnershipApplicationOptions = (options: Options<GetOwnPartnershipApplicationData>) => queryOptions<GetOwnPartnershipApplicationResponse, GetOwnPartnershipApplicationError, GetOwnPartnershipApplicationResponse, ReturnType<typeof getOwnPartnershipApplicationQueryKey>>({
   queryFn: async ({ queryKey, signal }) => {
@@ -2605,6 +2757,7 @@ export const getAdminOverviewQueryKey = (options?: Options<GetAdminOverviewData>
 /**
  * Get the administrator operational overview
  *
+ * Delegated Aura access tokens require `admin-overview:read`; missing scope returns `403 FORBIDDEN`.
  * Returns a bounded landing-page summary for authenticated administrators. `schemaVersion` is
  * required so clients can select a compatible response decoder. Every counter is read from
  * authoritative PostgreSQL by one aggregate statement; OpenSearch and other rebuildable
@@ -2635,6 +2788,7 @@ export const adminSearchPartnershipsQueryKey = (options?: Options<AdminSearchPar
 /**
  * List Partnerships for administration
  *
+ * Delegated Aura access tokens require `partnerships:read`; missing scope returns `403 FORBIDDEN`.
  * Lists active Partnerships for authenticated administrators.
  *
  * Results use bounded keyset cursor pagination in fixed `created` descending, then
@@ -2668,6 +2822,7 @@ export const adminSearchPartnershipsOptions = (options?: Options<AdminSearchPart
 /**
  * Dissolve a Partnership
  *
+ * Delegated Aura access tokens require `partnerships:write`; missing scope returns `403 FORBIDDEN`.
  * Semantically deletes a Partnership for an authenticated administrator. The Partnership row
  * remains as a `DISSOLVED` historical reference for approved PartnershipApplications, while
  * all current membership and ListingSource-grant rows are removed in the same PostgreSQL
@@ -2696,6 +2851,7 @@ export const adminGetPartnershipQueryKey = (options: Options<AdminGetPartnership
 /**
  * Get a Partnership for administration
  *
+ * Delegated Aura access tokens require `partnerships:read`; missing scope returns `403 FORBIDDEN`.
  * Returns one established Partnership for an authenticated administrator.
  *
  * The response includes the Partnership identity, its Party reference, current member user
@@ -2723,6 +2879,7 @@ export const adminGetPartnershipOptions = (options: Options<AdminGetPartnershipD
 /**
  * Revoke a ListingSource from a Partnership
  *
+ * Delegated Aura access tokens require `partnerships:write`; missing scope returns `403 FORBIDDEN`.
  * Idempotently removes an existing ListingSource grant from an existing Partnership for an
  * authenticated administrator. Only the targeted Partnership/ListingSource join row is
  * removed; the Partnership, ListingSource, members, and historical PartnershipApplications
@@ -2748,6 +2905,7 @@ export const adminRevokePartnershipListingSourceMutation = (options?: Partial<Op
 /**
  * Grant a ListingSource to a Partnership
  *
+ * Delegated Aura access tokens require `partnerships:write`; missing scope returns `403 FORBIDDEN`.
  * Idempotently grants an existing ListingSource to an existing Partnership for an
  * authenticated administrator. The Partnership and ListingSource must belong to the same
  * Party; a mismatched Party is rejected with `409 CONFLICT`. An existing grant is a
@@ -2772,6 +2930,7 @@ export const adminGrantPartnershipListingSourceMutation = (options?: Partial<Opt
 /**
  * Revoke a user membership in a Partnership
  *
+ * Delegated Aura access tokens require `partnerships:write`; missing scope returns `403 FORBIDDEN`.
  * Idempotently removes the target user membership from the specified Partnership for an
  * authenticated administrator. The target user and Partnership must already exist. A missing
  * membership is a successful no-op. Only the membership row is removed; the user, Partnership,
@@ -2797,6 +2956,7 @@ export const adminRevokePartnershipMembershipMutation = (options?: Partial<Optio
 /**
  * Grant a user membership in a Partnership
  *
+ * Delegated Aura access tokens require `partnerships:write`; missing scope returns `403 FORBIDDEN`.
  * Idempotently grants the target user membership in the specified Partnership for an
  * authenticated administrator. The target user and Partnership must already exist. An
  * existing membership is a successful no-op. The operation is committed in one PostgreSQL
@@ -2823,6 +2983,7 @@ export const adminSearchPartnershipApplicationsQueryKey = (options?: Options<Adm
 /**
  * Search PartnershipApplications for administration
  *
+ * Delegated Aura access tokens require `partnership-applications:read`; missing scope returns `403 FORBIDDEN`.
  * Searches PartnershipApplications for authenticated administrators.
  *
  * `state` and `proposalType` accept repeated exact canonical values. `applicantUserId`
@@ -2857,7 +3018,7 @@ export const adminGetPartnershipApplicationQueryKey = (options: Options<AdminGet
 /**
  * Get a PartnershipApplication for administration
  *
- * Retrieves a single PartnershipApplication for authenticated administrators.
+ * Delegated Aura access tokens require `partnership-applications:read`; missing scope returns `403 FORBIDDEN`. Retrieves a single PartnershipApplication for authenticated administrators.
  * The response includes the applicant, state, proposal, and nullable approval references. All responses send `Cache-Control: no-store`.
  *
  */
@@ -2877,6 +3038,7 @@ export const adminGetPartnershipApplicationOptions = (options: Options<AdminGetP
 /**
  * Mark a PartnershipApplication in review as admin
  *
+ * Delegated Aura access tokens require `partnership-applications:write`; missing scope returns `403 FORBIDDEN`.
  * Marks a PartnershipApplication in review for an authenticated administrator.
  *
  * This operation accepts no request body and only performs the domain-authoritative
@@ -2902,6 +3064,7 @@ export const adminMarkPartnershipApplicationInReviewMutation = (options?: Partia
 /**
  * Decide a PartnershipApplication as admin
  *
+ * Delegated Aura access tokens require `partnership-applications:write`; missing scope returns `403 FORBIDDEN`.
  * Approves or rejects a PartnershipApplication for an authenticated administrator.
  *
  * The request accepts only `APPROVE` or `REJECT`; arbitrary state assignment is not supported.

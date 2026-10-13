@@ -118,11 +118,6 @@ export function ProductInfo({ product }: { readonly product: ProductListingDetai
                                 {searchFilterData.userSearchFilterName}
                             </Link>
                         </p>
-                        {searchFilterData.matchReason && (
-                            <p className="mt-1 text-sm italic text-on-surface/80">
-                                {searchFilterData.matchReason}
-                            </p>
-                        )}
                     </div>
                 )}
 

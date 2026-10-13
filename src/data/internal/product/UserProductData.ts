@@ -18,7 +18,6 @@ export type ProductListingUserState = {
         readonly hidden: boolean;
         readonly userSearchFilterId?: string;
         readonly userSearchFilterName?: string;
-        readonly matchReason?: string;
         readonly matchFeedback?: boolean;
     };
 };

@@ -7,10 +7,9 @@ import { useTranslation } from "react-i18next";
 type Props = {
     readonly filterId: string;
     readonly filterName?: string;
-    readonly matchReason?: string;
 };
 
-export function SearchFilterMatchBadge({ filterId, filterName, matchReason }: Props) {
+export function SearchFilterMatchBadge({ filterId, filterName }: Props) {
     const { t } = useTranslation();
 
     return (
@@ -27,12 +26,9 @@ export function SearchFilterMatchBadge({ filterId, filterName, matchReason }: Pr
                     </Badge>
                 </Link>
             </TooltipTrigger>
-            {(filterName ?? matchReason) && (
-                <TooltipContent className="max-w-64 flex flex-col gap-1">
-                    {filterName && <span className="font-semibold">{filterName}</span>}
-                    {matchReason && (
-                        <span className="text-sm text-muted-foreground">{matchReason}</span>
-                    )}
+            {filterName && (
+                <TooltipContent className="max-w-64">
+                    <span className="font-semibold">{filterName}</span>
                 </TooltipContent>
             )}
         </Tooltip>

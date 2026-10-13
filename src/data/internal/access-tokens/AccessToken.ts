@@ -1,40 +1,31 @@
-import type { GetAccessTokenData } from "@/client";
+import type { CreatedAccessTokenData, OwnAccessTokenData } from "@/client";
 import type { AccessTokenScope } from "./AccessTokenScope.ts";
 
+/** Secret-free own-token metadata; the backend returns no token value or audit dates after creation. */
 export type AccessToken = {
     readonly id: string;
     readonly name: string;
     readonly scopes: AccessTokenScope[];
-    readonly maskedToken: string;
-    readonly tokenType: "BEARER";
     readonly expiresAt: Date | null;
-    readonly created: Date;
-    readonly updated: Date;
 };
 
 export type CreatedAccessToken = {
-    readonly accessToken: Omit<AccessToken, "maskedToken">;
+    readonly id: string;
     readonly plaintextToken: string;
 };
 
-export function mapToAccessToken(data: GetAccessTokenData): AccessToken {
+export function mapToAccessToken(data: OwnAccessTokenData): AccessToken {
     return {
         id: data.accessTokenId,
         name: data.name,
-        scopes: [...(data.scope ?? [])],
-        maskedToken: data.token,
-        tokenType: data.tokenType,
-        expiresAt: data.expiresAt ? new Date(data.expiresAt) : null,
-        created: new Date(data.created),
-        updated: new Date(data.updated),
+        scopes: [...data.scopes],
+        expiresAt: data.expires ? new Date(data.expires) : null,
     };
 }
 
-export function mapToCreatedAccessToken(data: GetAccessTokenData): CreatedAccessToken {
-    const { maskedToken: plaintextToken, ...accessToken } = mapToAccessToken(data);
-
+export function mapToCreatedAccessToken(data: CreatedAccessTokenData): CreatedAccessToken {
     return {
-        accessToken,
-        plaintextToken,
+        id: data.accessTokenId,
+        plaintextToken: data.accessToken,
     };
 }

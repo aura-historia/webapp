@@ -2554,8 +2554,8 @@
         "notificationsWrite": "Segnare le sue notifiche come viste o eliminarle. Non include la lettura.",
         "watchlistRead": "Leggere gli annunci nella sua lista di osservazione.",
         "watchlistWrite": "Aggiungere o rimuovere annunci e aggiornare le impostazioni della sua lista di osservazione.",
-        "productListingsWrite": "Creare, aggiornare o eliminare annunci di prodotti entro i permessi concessi al suo account. Con accesso amministratore, comprende anche modifiche amministrative, ritiri e ripristini.",
-        "productListingsRead": "Leggere i record di riferimento degli annunci di prodotti, compresi quelli ritirati, se l’account dispone di accesso amministratore. Le pagine pubbliche degli annunci non richiedono questa autorizzazione.",
+        "productListingsWrite": "Creare, aggiornare, ritirare, ripristinare o eliminare annunci di prodotti entro i permessi concessi al suo account, ad esempio quelli delle fonti che amministra. Con accesso amministratore, comprende tutti gli annunci.",
+        "productListingsRead": "Leggere i record di riferimento degli annunci di prodotti, compresi quelli ritirati, entro i permessi concessi al suo account, ad esempio quelli delle fonti che amministra. Con accesso amministratore, comprende tutti gli annunci. Le pagine pubbliche degli annunci non richiedono questa autorizzazione.",
         "listingSourcesRead": "Leggere i dati non pubblici delle fonti di annunci entro i permessi concessi al suo account, ad esempio le fonti che amministra.",
         "listingSourcesWrite": "Attivare o sostituire le impostazioni di importazione WooCommerce e Shopify, incluso il segreto del webhook WooCommerce, delle fonti per cui il suo account dispone di accesso in scrittura. Se l’account dispone di accesso amministratore, anche creare, aggiornare o eliminare fonti di annunci.",
         "partnershipApplicationsRead": "Leggere le proprie richieste di partnership e, se l’account dispone di accesso amministratore, le richieste in revisione.",
@@ -2604,9 +2604,8 @@
     "loading": "Caricamento dei token di accesso in corso.",
     "loadError": "Impossibile caricare i tuoi token di accesso.",
     "empty": "Non hai ancora salvato alcun token di accesso.",
-    "createdAt": "Creato il {{date}}",
-    "updatedAt": "Aggiornato il {{date}}",
     "expiresAt": "Scade il {{date}}",
+    "expiredAt": "Scaduto il {{date}}",
     "noExpiration": "Non scade",
     "noScopes": "Nessuna autorizzazione",
     "scopes": {
@@ -2700,7 +2699,6 @@
     },
     "fields": {
       "userId": "ID utente",
-      "email": "E-mail",
       "firstName": "Nome",
       "lastName": "Cognome",
       "language": "Lingua preferita",
@@ -2813,7 +2811,6 @@
       }
     },
     "validation": {
-      "invalidEmail": "Inserisci un indirizzo e-mail valido.",
       "nameTooLong": "I nomi devono contenere al massimo 64 caratteri.",
       "invalidDate": "Inserisci una data di calendario valida.",
       "invalidRange": "La data iniziale deve precedere o coincidere con quella finale."

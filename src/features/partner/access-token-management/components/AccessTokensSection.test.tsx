@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AccessTokensSection } from "@/features/partner/access-token-management/components/AccessTokensSection.tsx";
@@ -42,21 +42,13 @@ describe("AccessTokensSection", () => {
                         "search-filters:read",
                         "admin-overview:read",
                     ],
-                    maskedToken: "aurahistoria_abcdefghijk_****",
-                    tokenType: "BEARER",
                     expiresAt: null,
-                    created: new Date("2026-07-01T12:00:00Z"),
-                    updated: new Date("2026-07-02T12:00:00Z"),
                 },
                 {
                     id: "token-87654321",
                     name: "Shop administration",
                     scopes: [],
-                    maskedToken: "aurahistoria_zyxwvutsrqp_****",
-                    tokenType: "BEARER",
-                    expiresAt: new Date("2026-08-01T12:00:00Z"),
-                    created: new Date("2026-06-01T12:00:00Z"),
-                    updated: new Date("2026-06-02T12:00:00Z"),
+                    expiresAt: new Date("2099-08-01T12:00:00Z"),
                 },
             ],
             isPending: false,
@@ -75,7 +67,6 @@ describe("AccessTokensSection", () => {
         expect(screen.getByText("Gespeicherte Suchen lesen")).toBeInTheDocument();
         expect(screen.getByText("Admin-Übersicht lesen")).toBeInTheDocument();
         expect(screen.getByText("Keine Berechtigungen")).toBeInTheDocument();
-        expect(screen.getByText("aurahistoria_abcdefghijk_****")).toBeInTheDocument();
         expect(screen.getByText("Läuft nicht ab")).toBeInTheDocument();
         const expirationBadge = screen.getByText(/Läuft ab am/).closest('[data-slot="badge"]');
         expect(expirationBadge).toHaveClass("bg-primary/10", "text-primary");
@@ -94,7 +85,7 @@ describe("AccessTokensSection", () => {
         ).toBeInTheDocument();
     });
 
-    it("opens the edit dialog without displaying the token value", async () => {
+    it("opens the edit dialog with the current name", async () => {
         const user = userEvent.setup();
         render(<AccessTokensSection />);
 
@@ -108,9 +99,6 @@ describe("AccessTokensSection", () => {
             screen.getByRole("heading", { name: "Zugriffstoken bearbeiten" }),
         ).toBeInTheDocument();
         expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue("Product sync");
-        expect(
-            within(screen.getByRole("dialog")).queryByText("aurahistoria_abcdefghijk_****"),
-        ).not.toBeInTheDocument();
     });
 
     it("requires confirmation before deleting one access token", async () => {
@@ -155,6 +143,38 @@ describe("AccessTokensSection", () => {
             ["token-12345678", "token-87654321"],
             expect.objectContaining({ onSuccess: expect.any(Function) }),
         );
+    });
+
+    it("marks expired tokens and lists them after active ones", () => {
+        mockUseAccessTokens.mockReturnValue({
+            data: [
+                {
+                    id: "token-expired",
+                    name: "Archived sync",
+                    scopes: [],
+                    expiresAt: new Date("2020-01-01T00:00:00Z"),
+                },
+                {
+                    id: "token-active",
+                    name: "Product sync",
+                    scopes: [],
+                    expiresAt: null,
+                },
+            ],
+            dataUpdatedAt: 1,
+            isPending: false,
+            isError: false,
+            refetch: vi.fn(),
+        });
+
+        render(<AccessTokensSection />);
+
+        const items = screen.getAllByRole("listitem");
+        expect(items[0]).toHaveTextContent("Product sync");
+        expect(items[1]).toHaveTextContent("Archived sync");
+        const expiredBadge = screen.getByText(/Abgelaufen am/).closest('[data-slot="badge"]');
+        expect(expiredBadge).not.toHaveClass("bg-primary/10");
+        expect(screen.queryByText(/Läuft ab am/)).not.toBeInTheDocument();
     });
 
     it("renders the empty state", () => {

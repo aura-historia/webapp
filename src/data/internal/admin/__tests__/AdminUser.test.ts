@@ -24,6 +24,7 @@ const detailFixture = {
     currency: "EUR" as const,
     measurementUnit: "METRIC" as const,
     showUnassessedOrSensitiveContent: true,
+    marketingEmailConsent: false,
     tier: "PRO" as const,
     role: "USER" as const,
     created: "2020-01-01T00:00:00.000Z",
@@ -75,14 +76,12 @@ describe("admin user DTO mapping", () => {
         const formValues = toAdminUserProfileFormValues(account);
         const patch = mapToAdminUserProfilePatch(account, {
             ...formValues,
-            email: "ada.new@example.test",
             lastName: "",
             currency: "GBP",
             showUnassessedOrSensitiveContent: false,
         });
 
         expect(patch).toEqual({
-            email: "ada.new@example.test",
             lastName: null,
             currency: "GBP",
             showUnassessedOrSensitiveContent: false,

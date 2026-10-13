@@ -47,6 +47,7 @@ const detailFixture = {
     currency: "EUR",
     measurementUnit: "METRIC",
     showUnassessedOrSensitiveContent: true,
+    marketingEmailConsent: false,
     tier: "PRO",
     role: "USER",
     created: "2020-01-01T00:00:00.000Z",
@@ -237,7 +238,7 @@ describe("admin user API", () => {
             });
             await profile.result.current.mutateAsync({
                 userId: "opaque/user+01",
-                patch: { firstName: null, email: "ada.new@example.test" },
+                patch: { firstName: null, currency: "GBP" },
             });
         });
 
@@ -253,7 +254,7 @@ describe("admin user API", () => {
         });
         expect(api.patch).toHaveBeenNthCalledWith(3, {
             path: { userId: "opaque/user+01" },
-            body: { firstName: null, email: "ada.new@example.test" },
+            body: { firstName: null, currency: "GBP" },
             cache: "no-store",
         });
         // Role and tier changes move users between overview aggregates.

@@ -56,29 +56,23 @@ describe("useAccessTokens", () => {
         });
     });
 
-    it("loads, maps, and sorts the authenticated user's access tokens", async () => {
+    it("loads and maps the authenticated user's access tokens in backend order", async () => {
         mockGetMyAccessTokens.mockResolvedValue({
             data: [
                 {
-                    accessTokenId: "older-token",
-                    name: "Older token",
-                    token: "aurahistoria_older_****",
-                    tokenType: "BEARER",
-                    createdBy: "user-1",
-                    updatedBy: "user-1",
-                    created: "2026-06-01T12:00:00Z",
-                    updated: "2026-06-01T12:00:00Z",
-                },
-                {
+                    userId: "user-1",
                     accessTokenId: "newer-token",
                     name: "Newer token",
-                    scope: ["product-listings:write"],
-                    token: "aurahistoria_newer_****",
-                    tokenType: "BEARER",
-                    createdBy: "user-1",
-                    updatedBy: "user-1",
-                    created: "2026-07-01T12:00:00Z",
-                    updated: "2026-07-01T12:00:00Z",
+                    scopes: ["product-listings:write"],
+                    origin: "User",
+                    expires: "2026-08-01T12:00:00Z",
+                },
+                {
+                    userId: "user-1",
+                    accessTokenId: "older-token",
+                    name: "Older token",
+                    scopes: [],
+                    origin: "User",
                 },
             ],
             error: null,
@@ -95,11 +89,15 @@ describe("useAccessTokens", () => {
             "newer-token",
             "older-token",
         ]);
-        expect(result.current.data?.[0]).toMatchObject({
-            name: "Newer token",
-            scopes: ["product-listings:write"],
-            created: new Date("2026-07-01T12:00:00Z"),
-        });
+        expect(result.current.data).toEqual([
+            {
+                id: "newer-token",
+                name: "Newer token",
+                scopes: ["product-listings:write"],
+                expiresAt: new Date("2026-08-01T12:00:00Z"),
+            },
+            { id: "older-token", name: "Older token", scopes: [], expiresAt: null },
+        ]);
     });
 
     it("surfaces mapped API errors", async () => {
@@ -122,16 +120,9 @@ describe("useAccessTokens", () => {
         const invalidateQueries = vi.spyOn(queryClient, "invalidateQueries");
         mockPostMyAccessToken.mockResolvedValue({
             data: {
+                userId: "user-1",
                 accessTokenId: "created-token",
-                name: "Product sync",
-                scope: ["product-listings:write"],
-                token: "aurahistoria_plaintext_token",
-                tokenType: "BEARER",
-                expiresAt: "2026-08-01T10:00:00.000Z",
-                createdBy: "user-1",
-                updatedBy: "user-1",
-                created: "2026-07-06T10:00:00Z",
-                updated: "2026-07-06T10:00:00Z",
+                accessToken: "aurahistoria_plaintext_token",
             },
             error: null,
         });
@@ -151,16 +142,13 @@ describe("useAccessTokens", () => {
         expect(mockPostMyAccessToken).toHaveBeenCalledWith({
             body: {
                 name: "Product sync",
-                scope: ["product-listings:write"],
-                expiresAt: "2026-08-01T10:00:00.000Z",
+                scopes: ["product-listings:write"],
+                expires: "2026-08-01T10:00:00.000Z",
             },
         });
-        expect(result.current.data).toMatchObject({
+        expect(result.current.data).toEqual({
+            id: "created-token",
             plaintextToken: "aurahistoria_plaintext_token",
-            accessToken: {
-                id: "created-token",
-                name: "Product sync",
-            },
         });
         expect(invalidateQueries).toHaveBeenCalledWith({
             queryKey: ACCESS_TOKENS_QUERY_KEY,
@@ -170,17 +158,12 @@ describe("useAccessTokens", () => {
         await waitFor(() => expect(queryClient.getMutationCache().getAll()).toHaveLength(0));
     });
 
-    it("omits optional create fields when they are empty", async () => {
+    it("sends an explicit empty scope set and omits an absent expiry", async () => {
         mockPostMyAccessToken.mockResolvedValue({
             data: {
+                userId: "user-1",
                 accessTokenId: "created-token",
-                name: "Unscoped token",
-                token: "aurahistoria_plaintext_token",
-                tokenType: "BEARER",
-                createdBy: "user-1",
-                updatedBy: "user-1",
-                created: "2026-07-06T10:00:00Z",
-                updated: "2026-07-06T10:00:00Z",
+                accessToken: "aurahistoria_plaintext_token",
             },
             error: null,
         });
@@ -198,6 +181,7 @@ describe("useAccessTokens", () => {
         expect(mockPostMyAccessToken).toHaveBeenCalledWith({
             body: {
                 name: "Unscoped token",
+                scopes: [],
             },
         });
     });
@@ -208,25 +192,17 @@ describe("useAccessTokens", () => {
                 id: "token-123",
                 name: "Old name",
                 scopes: [],
-                maskedToken: "aurahistoria_old_****",
-                tokenType: "BEARER",
                 expiresAt: null,
-                created: new Date("2026-07-01T10:00:00Z"),
-                updated: new Date("2026-07-01T10:00:00Z"),
             },
         ]);
         mockPatchMyAccessToken.mockResolvedValue({
             data: {
+                userId: "user-1",
                 accessTokenId: "token-123",
                 name: "Product sync",
-                scope: ["product-listings:write"],
-                token: "aurahistoria_obfuscated_****",
-                tokenType: "BEARER",
-                expiresAt: "2026-08-01T10:00:00.000Z",
-                createdBy: "user-1",
-                updatedBy: "user-1",
-                created: "2026-07-01T10:00:00Z",
-                updated: "2026-07-06T10:00:00Z",
+                scopes: ["product-listings:write"],
+                origin: "User",
+                expires: "2026-08-01T10:00:00.000Z",
             },
             error: null,
         });
@@ -252,12 +228,14 @@ describe("useAccessTokens", () => {
                 expires: "2026-08-01T10:00:00.000Z",
             },
         });
-        expect(queryClient.getQueryData<AccessToken[]>(ACCESS_TOKENS_QUERY_KEY)?.[0]).toMatchObject(
+        expect(queryClient.getQueryData<AccessToken[]>(ACCESS_TOKENS_QUERY_KEY)).toEqual([
             {
+                id: "token-123",
                 name: "Product sync",
-                maskedToken: "aurahistoria_obfuscated_****",
+                scopes: ["product-listings:write"],
+                expiresAt: new Date("2026-08-01T10:00:00.000Z"),
             },
-        );
+        ]);
     });
 
     it("deletes one access token and removes it from the cache", async () => {
@@ -312,12 +290,11 @@ describe("useAccessTokens", () => {
     ])("sends partial edits without changing omitted fields: %j", async (input, body) => {
         mockPatchMyAccessToken.mockResolvedValue({
             data: {
+                userId: "user-1",
                 accessTokenId: "at_opaque",
                 name: "Renamed",
-                token: "prefix_****",
-                tokenType: "BEARER",
-                created: "2026-07-01T10:00:00Z",
-                updated: "2026-07-01T10:00:00Z",
+                scopes: [],
+                origin: "User",
             },
         });
         const { result } = renderHook(() => useUpdateAccessToken(), { wrapper: createWrapper() });

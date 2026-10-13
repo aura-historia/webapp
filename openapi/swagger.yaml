@@ -31,7 +31,7 @@ info:
     - Many list and search endpoints use **cursor-based pagination** via `searchAfter`\n- Origin API responses include\
     \ server-generated `X-Request-Id` and `X-Correlation-Id` headers. Clients may send `X-Correlation-Id` to preserve a trace\
     \ only when it is a 1–128-character ASCII value containing letters, digits, `.`, `_`, or `-`; invalid values are replaced.\
-    \ Both headers are CORS-exposed; CloudFront removes them from viewer responses on the six cache-enabled discovery behaviors so shared cache hits cannot replay origin IDs.\n- Requests are limited to 1 MiB and time out after 30 seconds.\n- `GET /api/v1/health` is a\
+    \ Both headers are CORS-exposed; CloudFront removes them from viewer responses on the six cache-enabled discovery behaviors so shared cache hits cannot replay origin IDs.\n- Requests are limited to 1 MiB and time out after 30 seconds.\n- `POST /api/v1/webhooks/loops` is limited to 64 KiB and has a 10-second processing budget; it requires a valid Loops signature but no Aura bearer.\n- `GET /api/v1/health` is a\
     \ process liveness check. `GET /api/v1/ready` returns `204` only when the configured PostgreSQL and OpenSearch dependencies are\
     \ reachable; it otherwise returns `503`.\n- WooCommerce webhook ingestion responds with **`204 No Content`** after\
     \ signed validation. A mapped raw-capture command receives `204` only after confirmed shared FIFO admission; authorized ignored create/update status events are no-op `204`. Queue admission is not raw capture, provider receipt persistence, canonical normalization, or search visibility. Capture conflicts are handled by the consumer, not returned synchronously; existing partner Product batch writes remain synchronous.\n\n## Environment\
@@ -117,6 +117,14 @@ paths:
           }
         - { name: from, in: query, schema: { type: string, format: date-time } }
         - { name: to, in: query, schema: { type: string, format: date-time } }
+        - name: sort
+          in: query
+          description: "`created` sorts by creation time; `scheduled` requires `timeRole` and sorts on that role's instant, with missing instants last when no window is specified."
+          schema: { type: string, enum: [created, scheduled], default: created }
+        - name: order
+          in: query
+          description: Defaults to `desc` for created and `asc` for scheduled.
+          schema: { type: string, enum: [asc, desc] }
         - {
             name: pageSize,
             in: query,
@@ -124,11 +132,11 @@ paths:
           }
         - name: searchAfter
           in: query
-          description: Complete returned JSON cursor. Its scope must exactly match the source, format, reported-status, and exact-time filters of this request.
+          description: Complete returned JSON cursor. Its scope must match the source, format, reported-status, exact-time filters, sort and order of this request.
           schema: { type: string }
       responses:
         "200":
-          description: "Bounded newest-first Auction directory. Anonymous successful 200 responses without Authorization use `public, max-age=0, s-maxage=60, stale-if-error=0`; requests with any Authorization header and all non-200 responses use `private, no-store`."
+          description: "Bounded Auction directory, newest-created-first by default. Scheduled order uses the chosen role instant, with Auction ID as the final tie-breaker. Anonymous successful 200 responses without Authorization use `public, max-age=0, s-maxage=60, stale-if-error=0`; requests with any Authorization header and all non-200 responses use `private, no-store`."
           content:
             application/json:
               schema:
@@ -454,6 +462,7 @@ paths:
           }
     post:
       summary: Create a source-scoped Auction (admin)
+      description: Delegated Aura access tokens require `auctions:write`; missing scope returns `403 FORBIDDEN`.
       operationId: createAdminAuction
       tags: [Auctions]
       security:
@@ -498,6 +507,7 @@ paths:
     get:
       summary: Get Auction administration detail
       operationId: getAdminAuction
+      description: Administrator authority is required. Delegated Aura access tokens also require `auctions:read`; Cognito users do not require a delegated scope. Success and errors are always `no-store`.
       tags: [Auctions]
       security:
         - BearerAuth: []
@@ -524,7 +534,8 @@ paths:
           {
             description: Missing or invalid credentials (`INVALID_CREDENTIALS`).,
           }
-        "403": { description: Administrator authority required (`FORBIDDEN`). }
+        "403":
+          description: Administrator authority and delegated `auctions:read` capability required (`FORBIDDEN`).
         "404": { description: Auction missing (`AUCTION_NOT_FOUND`). }
         "503":
           {
@@ -532,6 +543,7 @@ paths:
           }
     patch:
       summary: Update Auction metadata (admin)
+      description: Delegated Aura access tokens require `auctions:write`; missing scope returns `403 FORBIDDEN`.
       operationId: updateAdminAuction
       tags: [Auctions]
       security:
@@ -759,6 +771,46 @@ paths:
                 $ref: "#/components/schemas/ApiError"
 
   /api/v1/listing-sources/{listingSourceId}/product-listings:
+    get:
+      summary: List ProductListings for an administered ListingSource
+      operationId: listPartnerProductListings
+      description: >-
+        An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:read`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness.
+        Live keyset pagination includes both lifecycle states by default. Source-local identity alone is not globally unique. Text query is bounded literal matching over original title/source-local ID; no total count is returned. Cursors are bound to normalized filters and sort/order, with listing ID breaking timestamp ties.
+      tags: [ProductListings]
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - { name: listingSourceId, in: path, required: true, schema: { type: string }, description: Strict ListingSource TypeID authorized by Partnership grant. }
+        - { name: sourceListingId, in: query, schema: { type: string, maxLength: 512 }, description: Exact case-sensitive source-local identity after outer whitespace trimming. }
+        - { name: lifecycle, in: query, schema: { $ref: "#/components/schemas/ListingLifecycleData" } }
+        - { name: availability, in: query, schema: { $ref: "#/components/schemas/ListingAvailabilityData" } }
+        - { name: auctionId, in: query, schema: { type: string }, description: Strict Auction TypeID. }
+        - { name: query, in: query, schema: { type: string, maxLength: 512 }, description: At most 512 UTF-8 bytes and NUL-free; outer whitespace and case normalized. Percent/underscore are literal. }
+        - { name: sort, in: query, schema: { type: string, enum: [created, updated], default: updated } }
+        - { name: order, in: query, schema: { type: string, enum: [asc, desc], default: desc } }
+        - { name: size, in: query, schema: { type: integer, default: 21 }, description: Clamped to 1–100. }
+        - { name: searchAfter, in: query, schema: { type: string }, description: Opaque cursor returned by this normalized filter/sort scope. }
+      responses:
+        "200":
+          description: Lightweight summary page; Cache-Control is private, no-store.
+          content: { application/json: { schema: { $ref: "#/components/schemas/AdminProductListingPage" } } }
+        "400":
+          description: Invalid ID, directory query or scoped cursor (`BAD_QUERY_PARAMETER_VALUE`, `INVALID_OBJECT_ID`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "401":
+          description: Missing/invalid credential (`INVALID_CREDENTIALS`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "403":
+          description: Partnership source grant or delegated capability missing (`FORBIDDEN`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "503":
+          description: Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "500":
+          description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
     post:
       summary: Batch create product-listings (Partner API)
       description:
@@ -1444,6 +1496,165 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+  /api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}:
+    get:
+      summary: Inspect authoritative ProductListing facts
+      operationId: getPartnerProductListing
+      description: >-
+        An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:read`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness.
+        Original title/description, slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
+      tags: [ProductListings]
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - { name: listingSourceId, in: path, required: true, schema: { type: string }, description: Strict ListingSource TypeID authorized by Partnership grant. }
+        - { name: productListingId, in: path, required: true, schema: { type: string }, description: Strict Aura ProductListing TypeID. }
+      responses:
+        "200":
+          description: Original retained listing facts and expectedVersion; Cache-Control is private, no-store.
+          content: { application/json: { schema: { $ref: "#/components/schemas/AdminProductListingDetails" } } }
+        "400":
+          description: Invalid ListingSource or ProductListing ID (`INVALID_OBJECT_ID`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "401":
+          description: Missing/invalid credential (`INVALID_CREDENTIALS`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "403":
+          description: Partnership source grant or delegated capability missing (`FORBIDDEN`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "404":
+          description: Target listing not present under the authorized path ListingSource (`PRODUCT_LISTING_NOT_FOUND`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "503":
+          description: Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "500":
+          description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+    patch:
+      summary: Update an existing active ProductListing
+      operationId: updatePartnerProductListing
+      description: >-
+        An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:write`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. All responses/errors use `private, no-store`. State and the ordinary change event commit together; indexing, embeddings, notifications and cache convergence are asynchronous. Later ingestion may overwrite edits or restore withdrawal. Refetch/reconcile after a lost response; do not automatically retry with a different version.
+        Never creates or restores a listing. The required expectedVersion is checked before changes and again through compare-and-set persistence. Availability edits do not fabricate sale observations. No-op preserves version/timestamps and emits no event. Unknown/read-only fields and nested unknown fields are rejected.
+      tags: [ProductListings]
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - { name: listingSourceId, in: path, required: true, schema: { type: string }, description: Strict ListingSource TypeID authorized by Partnership grant. }
+        - { name: productListingId, in: path, required: true, schema: { type: string }, description: Strict Aura ProductListing TypeID. }
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: "#/components/schemas/UpdateAdminProductListing" } } }
+      responses:
+        "200":
+          description: Committed resulting/current version and CHANGED or UNCHANGED; Cache-Control is private, no-store.
+          content: { application/json: { schema: { $ref: "#/components/schemas/AdminProductListingMutation" } } }
+        "400":
+          description: Invalid ID, JSON, expectedVersion, unknown/read-only field or invalid field/null value (`BAD_BODY_VALUE`, `INVALID_OBJECT_ID`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "401":
+          description: Missing/invalid credential (`INVALID_CREDENTIALS`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "403":
+          description: Partnership source grant or delegated capability missing (`FORBIDDEN`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "404":
+          description: Target listing not present under the authorized path ListingSource, or referenced Auction not found (`PRODUCT_LISTING_NOT_FOUND`, `AUCTION_NOT_FOUND`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "409":
+          description: Stale expectedVersion/racing write (`PRODUCT_LISTING_CONCURRENCY_CONFLICT`), PATCH of withdrawn listing (`PRODUCT_LISTING_WITHDRAWN`), or cross-source Auction reference (`CONFLICT`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "503":
+          description: Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "500":
+          description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+    delete:
+      summary: Withdraw a retained ProductListing
+      operationId: withdrawPartnerProductListing
+      description: >-
+        An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:write`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. All responses/errors use `private, no-store`. State and the ordinary change event commit together; indexing, embeddings, notifications and cache convergence are asynchronous. Later ingestion may overwrite edits or restore withdrawal. Refetch/reconcile after a lost response; do not automatically retry with a different version.
+        DELETE withdraws rather than physically purging identity, history or watchlist state. Availability is cleared; sale observation is retained. Already withdrawn is a no-op only with a matching current version; stale versions still conflict.
+      tags: [ProductListings]
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - { name: listingSourceId, in: path, required: true, schema: { type: string }, description: Strict ListingSource TypeID authorized by Partnership grant. }
+        - { name: productListingId, in: path, required: true, schema: { type: string }, description: Strict Aura ProductListing TypeID. }
+        - name: expectedVersion
+          in: query
+          required: true
+          schema: { type: integer, format: int64, minimum: 1, maximum: 9223372036854775807 }
+      responses:
+        "204": { description: "Withdrawal committed or unchanged; Cache-Control is private, no-store." }
+        "400":
+          description: Invalid ID or missing/invalid expectedVersion query parameter (`BAD_QUERY_PARAMETER_VALUE`, `INVALID_OBJECT_ID`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "401":
+          description: Missing/invalid credential (`INVALID_CREDENTIALS`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "403":
+          description: Partnership source grant or delegated capability missing (`FORBIDDEN`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "404":
+          description: Target listing not present under the authorized path ListingSource (`PRODUCT_LISTING_NOT_FOUND`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "409":
+          description: Stale expectedVersion or racing write (`PRODUCT_LISTING_CONCURRENCY_CONFLICT`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "503":
+          description: Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "500":
+          description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+  /api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}/restore:
+    post:
+      summary: Explicitly restore a retained ProductListing
+      operationId: restorePartnerProductListing
+      description: >-
+        An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:write`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. All responses/errors use `private, no-store`. State and the ordinary change event commit together; indexing, embeddings, notifications and cache convergence are asynchronous. Later ingestion may overwrite edits or restore withdrawal. Refetch/reconcile after a lost response; do not automatically retry with a different version.
+        Restores to ACTIVE with unknown availability; no former availability is reconstructed. Already active is a no-op only with a matching current version. Missing retained identity is never created.
+      tags: [ProductListings]
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - { name: listingSourceId, in: path, required: true, schema: { type: string }, description: Strict ListingSource TypeID authorized by Partnership grant. }
+        - { name: productListingId, in: path, required: true, schema: { type: string }, description: Strict Aura ProductListing TypeID. }
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: "#/components/schemas/AdminProductListingVersion" } } }
+      responses:
+        "200":
+          description: Committed resulting/current version and CHANGED or UNCHANGED; Cache-Control is private, no-store.
+          content: { application/json: { schema: { $ref: "#/components/schemas/AdminProductListingMutation" } } }
+        "400":
+          description: Invalid ID, JSON or missing/invalid expectedVersion; unknown fields are rejected (`BAD_BODY_VALUE`, `INVALID_OBJECT_ID`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "401":
+          description: Missing/invalid credential (`INVALID_CREDENTIALS`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "403":
+          description: Partnership source grant or delegated capability missing (`FORBIDDEN`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "404":
+          description: Target listing not present under the authorized path ListingSource (`PRODUCT_LISTING_NOT_FOUND`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "409":
+          description: Stale expectedVersion or racing write (`PRODUCT_LISTING_CONCURRENCY_CONFLICT`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "503":
+          description: Temporary authorization/read/persistence dependency failure (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
+        "500":
+          description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
+          content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
   /api/v1/listing-sources/{listingSourceId}/product-listings/async:
     post:
       summary: Submit a batch of product-listing creates asynchronously (Partner API)
@@ -2519,6 +2730,149 @@ paths:
                     status: 500
                     title: Internal Server Error
                     error: PRODUCT_LISTING_INTERNAL_ERROR
+  /api/v1/webhooks/loops:
+    post:
+      summary: Apply a signed Loops preference webhook
+      description: >-
+        Accepts one Loops webhook signed over the exact received body bytes. No Aura/Cognito bearer is required;
+        `webhook-id`, `webhook-timestamp`, and `webhook-signature` must form a valid, recent Loops proof. The
+        request body is limited to 64 KiB. The currently supported `webhookSchemaVersion` is `1.0.0`. Supported
+        `eventName` values are `contact.unsubscribed`, `contact.deleted`, `email.unsubscribed`,
+        `contact.mailingList.subscribed`, `contact.mailingList.unsubscribed`, `email.resubscribed`,
+        `email.hardBounced`, and `email.spamReported`. A verified unknown event name is receipted as ignored;
+        malformed events and unsupported payload schema versions return an error for provider retry.
+
+        `204` means the receipt and any local preference effects committed, or the authenticated delivery was an
+        identical duplicate or a safely ignored event. It does not mean a marketing message was sent or delivered.
+        Conflicting delivery identity returns `409`; temporary database/provider-reader failure or the 10-second
+        processing budget returns retryable `503`. All responses are `no-store`.
+      operationId: postLoopsPreferenceWebhook
+      tags: [Newsletter]
+      security: []
+      parameters:
+        - name: webhook-id
+          in: header
+          required: true
+          description: Loops delivery identifier used for committed receipt deduplication.
+          schema: { type: string, minLength: 1, maxLength: 256 }
+        - name: webhook-timestamp
+          in: header
+          required: true
+          description: Unix timestamp covered by the Loops signature; stale proofs are rejected.
+          schema: { type: string, pattern: "^[0-9]{1,20}$" }
+        - name: webhook-signature
+          in: header
+          required: true
+          description: Loops HMAC-SHA256 signature over delivery ID, timestamp, and exact raw body bytes.
+          schema: { type: string, maxLength: 8192 }
+      requestBody:
+        required: true
+        description: Loops webhook payload. The service verifies the signature before parsing or mapping the selected event.
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [webhookSchemaVersion, eventName, eventTime]
+              properties:
+                webhookSchemaVersion: { type: string, example: "1.0.0" }
+                eventName:
+                  type: string
+                  description: Supported event names are listed in the operation description; verified unknown names are ignored and receipted.
+                eventTime:
+                  {
+                    type: integer,
+                    format: int64,
+                    description: Provider event time in Unix seconds.,
+                  }
+                contactIdentity:
+                  type: object
+                  description: Required for supported contact and email events; verified unknown event names may be safely ignored without it.
+                  required: [id, email]
+                  properties:
+                    id: { type: string }
+                    email: { type: string }
+                mailingList:
+                  type: object
+                  description: Required for supported contact.mailingList events; only the configured marketing list affects consent.
+                  required: [id]
+                  properties:
+                    id: { type: string }
+              additionalProperties: true
+            example:
+              webhookSchemaVersion: "1.0.0"
+              eventName: email.unsubscribed
+              eventTime: 1791373200
+              contactIdentity:
+                id: contact_fixture
+                email: person@example.test
+      responses:
+        "204":
+          description: Authenticated event receipt and required local effects committed, or identical duplicate/safe ignore. No response body.
+          headers:
+            Cache-Control:
+              schema: { type: string, example: "private, no-store" }
+        "400":
+          description: Malformed body/event, unsupported payload schema version, or invalid authenticated event time. Uses `LOOPS_WEBHOOK_INVALID_BODY`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example:
+                {
+                  status: 400,
+                  title: Bad Request,
+                  error: LOOPS_WEBHOOK_INVALID_BODY,
+                }
+        "401":
+          description: Missing, invalid, stale, or ambiguous Loops proof. The response does not distinguish authentication failures. Uses `LOOPS_WEBHOOK_UNAUTHORIZED`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example:
+                {
+                  status: 401,
+                  title: Unauthorized,
+                  error: LOOPS_WEBHOOK_UNAUTHORIZED,
+                }
+        "409":
+          description: A verified delivery identifier was previously committed with different body bytes. Uses `LOOPS_WEBHOOK_CONFLICT`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example:
+                { status: 409, title: Conflict, error: LOOPS_WEBHOOK_CONFLICT }
+        "413":
+          description: Request body exceeds 64 KiB. Uses `LOOPS_WEBHOOK_PAYLOAD_TOO_LARGE`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example:
+                {
+                  status: 413,
+                  title: Payload Too Large,
+                  error: LOOPS_WEBHOOK_PAYLOAD_TOO_LARGE,
+                }
+        "500":
+          description: Redacted internal signing-secret or cryptographic configuration failure. Uses `LOOPS_WEBHOOK_INTERNAL_ERROR`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example:
+                {
+                  status: 500,
+                  title: Internal Server Error,
+                  error: LOOPS_WEBHOOK_INTERNAL_ERROR,
+                }
+        "503":
+          description: Temporary persistence/provider-reader failure or exceeded processing budget. Retry the delivery. Uses `LOOPS_WEBHOOK_TEMPORARILY_UNAVAILABLE`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example:
+                {
+                  status: 503,
+                  title: Service Unavailable,
+                  error: LOOPS_WEBHOOK_TEMPORARILY_UNAVAILABLE,
+                }
   /api/v1/product-listings/by-slug/{productListingTitleSlugId}:
     get:
       summary: Get a single product by title slug
@@ -3338,11 +3692,11 @@ paths:
   /api/v1/me/search-filters:
     get:
       summary: List user search filters
-      description: "Retrieves all search filters for the authenticated user.
+      description: "Delegated Aura access tokens require `search-filters:read`; missing scope returns `403 FORBIDDEN`. Retrieves all search filters for the authenticated user.
 
         Uses the service's fixed collection ordering.
 
-        Requires a Cognito JWT or an Aura access token with `search-filters:write`.
+        Requires a Cognito JWT or an Aura access token with `search-filters:read`.
 
         "
       operationId: getUserSearchFilters
@@ -3400,7 +3754,7 @@ paths:
                 title: Unauthorized
                 error: INVALID_CREDENTIALS
         "403":
-          description: Forbidden - Aura access token lacks the required `search-filters:write` scope
+          description: Forbidden - Aura access token lacks the required `search-filters:read` scope
           content:
             application/problem+json:
               schema:
@@ -3610,11 +3964,11 @@ paths:
     get:
       summary: Get a specific search filter
       description:
-        "Retrieves a specific search filter by its ID for the authenticated user.
+        "Delegated Aura access tokens require `search-filters:read`; missing scope returns `403 FORBIDDEN`. Retrieves a specific search filter by its ID for the authenticated user.
 
         Returns the complete search filter configuration and metadata.
 
-        Requires a Cognito JWT or an Aura access token with `search-filters:write`.
+        Requires a Cognito JWT or an Aura access token with `search-filters:read`.
 
         "
       operationId: getUserSearchFilter
@@ -3713,7 +4067,7 @@ paths:
                 title: Unauthorized
                 error: INVALID_CREDENTIALS
         "403":
-          description: Forbidden - Aura access token lacks the required `search-filters:write` scope
+          description: Forbidden - Aura access token lacks the required `search-filters:read` scope
           content:
             application/problem+json:
               schema:
@@ -4085,12 +4439,18 @@ paths:
     get:
       summary: List persisted matches for a saved search filter
       description: >-
+        Delegated Aura access tokens require `search-filters:read`; missing scope returns `403 FORBIDDEN`.
         Returns persisted product-listing matches associated with the authenticated user’s saved
         search filter. Results are read from stored match state and returned with cursor-based
         pagination in ascending persisted match-creation order. This endpoint does not execute a
         live search or preview the filter against current product listings.
 
-        Requires a Cognito JWT or an Aura access token with `search-filters:write`.
+        New matches are discovered only by scheduled matching of active enhanced filters, subject
+        to product-search projection lag. Non-enhanced filters do not discover new matches;
+        their historical matches remain available. Match discovery and notifications are not
+        synchronous with listing changes or filter creation.
+
+        Requires a Cognito JWT or an Aura access token with `search-filters:read`.
       operationId: listSearchFilterMatches
       tags:
         - Search Filters
@@ -4216,7 +4576,7 @@ paths:
                 title: Unauthorized
                 error: INVALID_CREDENTIALS
         "403":
-          description: Forbidden - Aura access token lacks the required `search-filters:write` scope
+          description: Forbidden - Aura access token lacks the required `search-filters:read` scope
           content:
             application/problem+json:
               schema:
@@ -4772,6 +5132,7 @@ paths:
     post:
       summary: Create a ListingSource as admin
       description: |
+        Delegated Aura access tokens require `listing-sources:write`; missing scope returns `403 FORBIDDEN`.
         Creates a ListingSource for an authenticated administrator.
 
         `operator` accepts either an existing Party reference (`EXISTING` with `partyId`) or a
@@ -4851,6 +5212,7 @@ paths:
     get:
       summary: Search ListingSources as admin
       description: |
+        Delegated Aura access tokens require `listing-sources:read`; missing scope returns `403 FORBIDDEN`.
         Searches ListingSource records for authenticated administrators.
 
         `query` performs a case-insensitive substring search across the ListingSource name and
@@ -5070,6 +5432,7 @@ paths:
     post:
       summary: Create a Party as admin
       description: |
+        Delegated Aura access tokens require `parties:write`; missing scope returns `403 FORBIDDEN`.
         Creates a Party for an authenticated administrator.
 
         The request accepts only the Party name and optional phone/email contact information.
@@ -5196,6 +5559,7 @@ paths:
     get:
       summary: Search parties as admin
       description: |
+        Delegated Aura access tokens require `parties:read`; missing scope returns `403 FORBIDDEN`.
         Searches Party records for authenticated administrators.
 
         `query` performs a case-insensitive substring search across Party name, phone, and email.
@@ -5428,6 +5792,7 @@ paths:
     delete:
       summary: Hard-delete an unused Party as admin
       description: |
+        Delegated Aura access tokens require `parties:write`; missing scope returns `403 FORBIDDEN`.
         Deletes only an unused Party after commit. A Party with any ListingSource or retained
         Partnership, including `DISSOLVED`, returns `409 CONFLICT`; no dependent business or
         historical row is cascaded, detached, rewritten, or archived. Responses use
@@ -5500,6 +5865,7 @@ paths:
     patch:
       summary: Update a Party as admin
       description: |
+        Delegated Aura access tokens require `parties:write`; missing scope returns `403 FORBIDDEN`.
         Updates the name and/or contact information for a Party for an authenticated administrator.
 
         Only `name`, `phone`, and `email` are supported. Omitted members remain unchanged;
@@ -5674,6 +6040,7 @@ paths:
     get:
       summary: Get a Party as admin
       description: |
+        Delegated Aura access tokens require `parties:read`; missing scope returns `403 FORBIDDEN`.
         Gets one Party for an authenticated administrator.
 
         `partyId` must be a valid Party ID. The response contains the Party identity, immutable slug,
@@ -7629,9 +7996,11 @@ paths:
       description:
         "Creates a new Aura Historia access token for the authenticated user.
 
-        The plaintext bearer token is returned only in this create response; later reads return a masked token value.
+        The response includes the plaintext bearer token once. List, get, and update responses contain only
+        secret-free metadata and never return the bearer token again.
 
-        Requires valid Cognito JWT authentication.
+        Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require
+        the delegated `access-tokens:write` capability.
 
         "
       operationId: postMyAccessToken
@@ -7639,6 +8008,7 @@ paths:
         - User Account
       security:
         - BearerAuth: []
+        - AccessTokenAuth: []
       requestBody:
         required: true
         description: Access-token creation payload.
@@ -7648,9 +8018,9 @@ paths:
               $ref: "#/components/schemas/PostAccessTokenData"
             example:
               name: Partner product sync
-              scope:
+              scopes:
                 - product-listings:write
-              expiresAt: "2026-06-30T00:00:00Z"
+              expires: "2026-06-30T00:00:00Z"
       responses:
         "201":
           description: Access token created successfully
@@ -7668,18 +8038,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetAccessTokenData"
+                $ref: "#/components/schemas/CreatedAccessTokenData"
               example:
+                userId: usr_5pvhvpxyhve6ts31n9x8c2y513
                 accessTokenId: at_4ck23tcv0meqqrbyjaka24ra6g
-                name: Partner product sync
-                scope:
-                  - product-listings:write
-                token: aurahistoria_abcdefghijk_abcdefghijklmnopqrstuvwxyz1234567
-                tokenType: BEARER
-                expiresAt: "2026-06-30T00:00:00Z"
-                expiresIn: 2851200
-                created: "2026-05-28T06:30:00Z"
-                updated: "2026-05-28T06:30:00Z"
+                accessToken: aurahistoria_abcdefghijk_abcdefghijklmnopqrstuvwxyz1234567
         "400":
           description: Bad request - missing, empty, or invalid JSON body
           content:
@@ -7693,16 +8056,16 @@ paths:
                     status: 400
                     title: Bad Request
                     error: BAD_BODY_VALUE
-                    detail: Body cannot be empty
+                    detail: Request body is required.
                 invalid_scope:
                   summary: Unsupported access-token scope value
                   value:
                     status: 400
                     title: Bad Request
                     error: BAD_BODY_VALUE
-                    detail: "unknown scope `product-listings_write`, expected one of: product-listings:write, listing-sources:write, users:read, users:write, access-tokens:read, access-tokens:write, search-filters:write, watchlist:read, watchlist:write"
+                    detail: "Unsupported scope 'unsupported:scope'."
         "401":
-          description: Unauthorized - invalid or missing JWT token
+          description: Unauthorized - invalid or missing bearer credentials
           content:
             application/problem+json:
               schema:
@@ -7710,7 +8073,11 @@ paths:
               example:
                 status: 401
                 title: Unauthorized
-                error: UNAUTHORIZED
+                error: INVALID_CREDENTIALS
+                source:
+                  field: Authorization
+                  type: HEADER
+                detail: Bearer token is invalid.
         "404":
           description: User not found
           content:
@@ -7734,11 +8101,12 @@ paths:
     get:
       summary: List Aura Historia access tokens
       description:
-        "Lists the authenticated user's non-expired Aura Historia access tokens.
+        "Lists all of the authenticated user's persisted Aura Historia access tokens, including expired and current tokens.
 
-        The `token` field is masked on this endpoint and does not reveal the plaintext bearer token again.
+        The response contains secret-free metadata only. It does not return plaintext or masked token values.
 
-        Requires valid Cognito JWT authentication.
+        Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require
+        the delegated `access-tokens:read` capability.
 
         "
       operationId: getMyAccessTokens
@@ -7746,6 +8114,7 @@ paths:
         - User Account
       security:
         - BearerAuth: []
+        - AccessTokenAuth: []
       responses:
         "200":
           description: Access tokens retrieved successfully
@@ -7765,26 +8134,23 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/GetAccessTokenData"
+                  $ref: "#/components/schemas/OwnAccessTokenData"
               examples:
                 one_token:
-                  summary: One non-expired access token
+                  summary: One persisted access token
                   value:
-                    - accessTokenId: at_4ck23tcv0meqqrbyjaka24ra6g
+                    - userId: usr_5pvhvpxyhve6ts31n9x8c2y513
+                      accessTokenId: at_4ck23tcv0meqqrbyjaka24ra6g
                       name: Partner product sync
-                      scope:
+                      scopes:
                         - product-listings:write
-                      token: aurahistoria_abcdefghijk_****
-                      tokenType: BEARER
-                      expiresAt: "2026-06-30T00:00:00Z"
-                      expiresIn: 2851200
-                      created: "2026-05-28T06:30:00Z"
-                      updated: "2026-05-28T06:30:00Z"
+                      origin: User
+                      expires: "2026-06-30T00:00:00Z"
                 no_tokens:
-                  summary: No non-expired access tokens exist
+                  summary: No persisted access tokens exist
                   value: []
         "401":
-          description: Unauthorized - invalid or missing JWT token
+          description: Unauthorized - invalid or missing bearer credentials
           content:
             application/problem+json:
               schema:
@@ -7792,7 +8158,11 @@ paths:
               example:
                 status: 401
                 title: Unauthorized
-                error: UNAUTHORIZED
+                error: INVALID_CREDENTIALS
+                source:
+                  field: Authorization
+                  type: HEADER
+                detail: Bearer token is invalid.
         "404":
           description: User not found
           content:
@@ -7820,9 +8190,11 @@ paths:
 
         remain unchanged; `expires: null` clears expiry. `name` and `scopes` reject `null`; use
 
-        `scopes: []` to clear scopes.
+        `scopes: []` to clear scopes. The response contains secret-free metadata only and never returns
+        plaintext or masked token values.
 
-        Requires valid Cognito JWT authentication.
+        Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require
+        the delegated `access-tokens:write` capability.
 
         "
       operationId: patchMyAccessToken
@@ -7830,6 +8202,7 @@ paths:
         - User Account
       security:
         - BearerAuth: []
+        - AccessTokenAuth: []
       requestBody:
         required: true
         description: Partial access-token update payload.
@@ -7860,18 +8233,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetAccessTokenData"
+                $ref: "#/components/schemas/OwnAccessTokenData"
               example:
+                userId: usr_5pvhvpxyhve6ts31n9x8c2y513
                 accessTokenId: at_4ck23tcv0meqqrbyjaka24ra6g
                 name: Renamed partner sync token
-                scope:
+                scopes:
                   - product-listings:write
-                token: aurahistoria_abcdefghijk_****
-                tokenType: BEARER
-                expiresAt: "2026-07-31T00:00:00Z"
-                expiresIn: 5529600
-                created: "2026-05-28T06:30:00Z"
-                updated: "2026-05-28T07:00:00Z"
+                origin: User
+                expires: "2026-07-31T00:00:00Z"
         "400":
           description: Bad request - missing, empty, or invalid JSON body
           content:
@@ -7885,7 +8255,7 @@ paths:
                     status: 400
                     title: Bad Request
                     error: BAD_BODY_VALUE
-                    detail: Body cannot be empty
+                    detail: Request body is required.
                 invalid_access_token_id:
                   summary: Invalid access token identifier in request body
                   value:
@@ -7897,7 +8267,7 @@ paths:
                       type: BODY
                     detail: must be a valid AccessToken ID
         "401":
-          description: Unauthorized - invalid or missing JWT token
+          description: Unauthorized - invalid or missing bearer credentials
           content:
             application/problem+json:
               schema:
@@ -7905,7 +8275,11 @@ paths:
               example:
                 status: 401
                 title: Unauthorized
-                error: UNAUTHORIZED
+                error: INVALID_CREDENTIALS
+                source:
+                  field: Authorization
+                  type: HEADER
+                detail: Bearer token is invalid.
         "404":
           description: Access token not found
           content:
@@ -7930,11 +8304,13 @@ paths:
     get:
       summary: Get one Aura Historia access token
       description:
-        "Retrieves one non-expired Aura Historia access token owned by the authenticated user.
+        "Retrieves one persisted Aura Historia access token owned by the authenticated user, including expired and
+        current tokens.
 
-        The `token` field is masked on this endpoint and does not reveal the plaintext bearer token again.
+        The response contains secret-free metadata only. It does not return plaintext or masked token values.
 
-        Requires valid Cognito JWT authentication.
+        Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require
+        the delegated `access-tokens:read` capability.
 
         "
       operationId: getMyAccessToken
@@ -7942,6 +8318,7 @@ paths:
         - User Account
       security:
         - BearerAuth: []
+        - AccessTokenAuth: []
       parameters:
         - name: accessTokenId
           in: path
@@ -7967,18 +8344,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetAccessTokenData"
+                $ref: "#/components/schemas/OwnAccessTokenData"
               example:
+                userId: usr_5pvhvpxyhve6ts31n9x8c2y513
                 accessTokenId: at_4ck23tcv0meqqrbyjaka24ra6g
                 name: Partner product sync
-                scope:
+                scopes:
                   - product-listings:write
-                token: aurahistoria_abcdefghijk_****
-                tokenType: BEARER
-                expiresAt: "2026-06-30T00:00:00Z"
-                expiresIn: 2851200
-                created: "2026-05-28T06:30:00Z"
-                updated: "2026-05-28T06:30:00Z"
+                origin: User
+                expires: "2026-06-30T00:00:00Z"
         "400":
           description: Bad request - invalid or missing access-token path parameter
           content:
@@ -8007,7 +8381,7 @@ paths:
                       type: PATH
                     detail: must be a valid AccessToken ID
         "401":
-          description: Unauthorized - invalid or missing JWT token
+          description: Unauthorized - invalid or missing bearer credentials
           content:
             application/problem+json:
               schema:
@@ -8015,7 +8389,11 @@ paths:
               example:
                 status: 401
                 title: Unauthorized
-                error: UNAUTHORIZED
+                error: INVALID_CREDENTIALS
+                source:
+                  field: Authorization
+                  type: HEADER
+                detail: Bearer token is invalid.
         "404":
           description: Access token not found
           content:
@@ -8098,7 +8476,7 @@ paths:
                       type: PATH
                     detail: must be a valid AccessToken ID
         "401":
-          description: Unauthorized - invalid or missing JWT token
+          description: Unauthorized - invalid or missing bearer credentials
           content:
             application/problem+json:
               schema:
@@ -8106,7 +8484,11 @@ paths:
               example:
                 status: 401
                 title: Unauthorized
-                error: UNAUTHORIZED
+                error: INVALID_CREDENTIALS
+                source:
+                  field: Authorization
+                  type: HEADER
+                detail: Bearer token is invalid.
         "500":
           description: Internal server error
           content:
@@ -8775,7 +9157,7 @@ paths:
     get:
       summary: List user notifications
       description:
-        "Retrieves the authenticated user’s canonical notifications in newest-first order.
+        "Delegated Aura access tokens require `notifications:read`; missing scope returns `403 FORBIDDEN`. Retrieves the authenticated user’s canonical notifications in newest-first order.
 
         Watchlist price-change notifications preserve each event’s immutable source currency; no FX conversion
 
@@ -8828,6 +9210,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Forbidden - required delegated scope missing
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "401":
           description: Invalid or missing bearer credential
           content:
@@ -8842,7 +9230,7 @@ paths:
                 $ref: "#/components/schemas/ApiError"
     patch:
       summary: Update selected notification seen states
-      description: Updates the seen state for the explicit canonical notification IDs in the request body.
+      description: Delegated Aura access tokens require `notifications:write`; missing scope returns `403 FORBIDDEN`. Updates the seen state for the explicit canonical notification IDs in the request body.
       operationId: updateNotificationsSeen
       tags:
         - Notifications
@@ -8864,6 +9252,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Forbidden - required delegated scope missing
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "401":
           description: Invalid or missing bearer credential
           content:
@@ -8878,6 +9272,7 @@ paths:
                 $ref: "#/components/schemas/ApiError"
     delete:
       summary: Delete all notifications
+      description: Delegated Aura access tokens require `notifications:write`; missing scope returns `403 FORBIDDEN`.
       operationId: deleteNotifications
       tags:
         - Notifications
@@ -8887,6 +9282,12 @@ paths:
       responses:
         "204":
           description: Notifications deleted.
+        "403":
+          description: Forbidden - required delegated scope missing
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "401":
           description: Invalid or missing bearer credential
           content:
@@ -8902,6 +9303,7 @@ paths:
   /api/v1/me/notifications/all:
     patch:
       summary: Update all notification seen states
+      description: Delegated Aura access tokens require `notifications:write`; missing scope returns `403 FORBIDDEN`.
       operationId: updateAllNotificationsSeen
       tags:
         - Notifications
@@ -8923,6 +9325,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Forbidden - required delegated scope missing
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "401":
           description: Invalid or missing bearer credential
           content:
@@ -8938,6 +9346,7 @@ paths:
   /api/v1/me/notifications/{notificationId}:
     patch:
       summary: Update one notification seen state
+      description: Delegated Aura access tokens require `notifications:write`; missing scope returns `403 FORBIDDEN`.
       operationId: updateNotificationSeen
       tags:
         - Notifications
@@ -8965,6 +9374,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Forbidden - required delegated scope missing
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "401":
           description: Invalid or missing bearer credential
           content:
@@ -8985,6 +9400,7 @@ paths:
                 $ref: "#/components/schemas/ApiError"
     delete:
       summary: Delete one notification
+      description: Delegated Aura access tokens require `notifications:write`; missing scope returns `403 FORBIDDEN`.
       operationId: deleteNotification
       tags:
         - Notifications
@@ -9002,6 +9418,12 @@ paths:
           description: Notification deleted.
         "400":
           description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Forbidden - required delegated scope missing
           content:
             application/problem+json:
               schema:
@@ -9240,6 +9662,7 @@ paths:
     get:
       summary: Get a ListingSource as admin
       description: |
+        Delegated Aura access tokens require `listing-sources:read`; missing scope returns `403 FORBIDDEN`.
         Gets one ListingSource for an authenticated administrator.
 
         `listingSourceId` must be a valid ListingSource ID. The response uses the canonical ListingSource detail
@@ -9303,6 +9726,7 @@ paths:
     patch:
       summary: Update a ListingSource as admin
       description: |
+        Delegated Aura access tokens require `listing-sources:write`; missing scope returns `403 FORBIDDEN`.
         Updates one ListingSource for an authenticated administrator.
 
         `listingSourceId` must be a valid ListingSource ID. Omitted members remain unchanged; `null` clears only
@@ -9460,6 +9884,7 @@ paths:
     delete:
       summary: Delete an unused ListingSource as admin
       description: |
+        Delegated Aura access tokens require `listing-sources:write`; missing scope returns `403 FORBIDDEN`.
         Physically removes a ListingSource only when it has no ProductListings, raw-ingestion
         streams, approved PartnershipApplication reference, or retained existing-source proposal.
         The committed transaction explicitly removes its Partnership grants and owned ingestion
@@ -11367,6 +11792,7 @@ paths:
   /api/v1/me/listing-sources:
     get:
       summary: List caller-administered ListingSources
+      description: Delegated Aura access tokens require `listing-sources:read`; missing scope returns `403 FORBIDDEN`.
       operationId: getMyListingSources
       tags:
         - ListingSources
@@ -11409,6 +11835,7 @@ paths:
   /api/v1/me/partnership-applications:
     get:
       summary: List caller PartnershipApplications
+      description: Delegated Aura access tokens require `partnership-applications:read`; missing scope returns `403 FORBIDDEN`.
       operationId: getMyPartnershipApplications
       tags:
         - PartnershipApplications
@@ -11450,6 +11877,7 @@ paths:
         - AccessTokenAuth: []
     post:
       summary: Submit a PartnershipApplication
+      description: Delegated Aura access tokens require `partnership-applications:write`; missing scope returns `403 FORBIDDEN`.
       operationId: postPartnershipApplication
       tags:
         - PartnershipApplications
@@ -11508,6 +11936,7 @@ paths:
   /api/v1/me/partnership-applications/{partnershipApplicationId}:
     get:
       summary: Get a caller PartnershipApplication
+      description: Delegated Aura access tokens require `partnership-applications:read`; missing scope returns `403 FORBIDDEN`.
       operationId: getOwnPartnershipApplication
       tags:
         - PartnershipApplications
@@ -11565,6 +11994,7 @@ paths:
         - AccessTokenAuth: []
     delete:
       summary: Withdraw a PartnershipApplication
+      description: Delegated Aura access tokens require `partnership-applications:write`; missing scope returns `403 FORBIDDEN`.
       operationId: deleteOwnPartnershipApplication
       tags:
         - PartnershipApplications
@@ -11626,6 +12056,7 @@ paths:
     get:
       summary: Get the administrator operational overview
       description: |
+        Delegated Aura access tokens require `admin-overview:read`; missing scope returns `403 FORBIDDEN`.
         Returns a bounded landing-page summary for authenticated administrators. `schemaVersion` is
         required so clients can select a compatible response decoder. Every counter is read from
         authoritative PostgreSQL by one aggregate statement; OpenSearch and other rebuildable
@@ -11723,6 +12154,7 @@ paths:
     get:
       summary: List Partnerships for administration
       description: |
+        Delegated Aura access tokens require `partnerships:read`; missing scope returns `403 FORBIDDEN`.
         Lists active Partnerships for authenticated administrators.
 
         Results use bounded keyset cursor pagination in fixed `created` descending, then
@@ -11897,6 +12329,7 @@ paths:
     get:
       summary: Get a Partnership for administration
       description: |
+        Delegated Aura access tokens require `partnerships:read`; missing scope returns `403 FORBIDDEN`.
         Returns one established Partnership for an authenticated administrator.
 
         The response includes the Partnership identity, its Party reference, current member user
@@ -12052,6 +12485,7 @@ paths:
     delete:
       summary: Dissolve a Partnership
       description: |
+        Delegated Aura access tokens require `partnerships:write`; missing scope returns `403 FORBIDDEN`.
         Semantically deletes a Partnership for an authenticated administrator. The Partnership row
         remains as a `DISSOLVED` historical reference for approved PartnershipApplications, while
         all current membership and ListingSource-grant rows are removed in the same PostgreSQL
@@ -12123,6 +12557,7 @@ paths:
     put:
       summary: Grant a ListingSource to a Partnership
       description: |
+        Delegated Aura access tokens require `partnerships:write`; missing scope returns `403 FORBIDDEN`.
         Idempotently grants an existing ListingSource to an existing Partnership for an
         authenticated administrator. The Partnership and ListingSource must belong to the same
         Party; a mismatched Party is rejected with `409 CONFLICT`. An existing grant is a
@@ -12299,6 +12734,7 @@ paths:
     delete:
       summary: Revoke a ListingSource from a Partnership
       description: |
+        Delegated Aura access tokens require `partnerships:write`; missing scope returns `403 FORBIDDEN`.
         Idempotently removes an existing ListingSource grant from an existing Partnership for an
         authenticated administrator. Only the targeted Partnership/ListingSource join row is
         removed; the Partnership, ListingSource, members, and historical PartnershipApplications
@@ -12460,6 +12896,7 @@ paths:
     put:
       summary: Grant a user membership in a Partnership
       description: |
+        Delegated Aura access tokens require `partnerships:write`; missing scope returns `403 FORBIDDEN`.
         Idempotently grants the target user membership in the specified Partnership for an
         authenticated administrator. The target user and Partnership must already exist. An
         existing membership is a successful no-op. The operation is committed in one PostgreSQL
@@ -12619,6 +13056,7 @@ paths:
     delete:
       summary: Revoke a user membership in a Partnership
       description: |
+        Delegated Aura access tokens require `partnerships:write`; missing scope returns `403 FORBIDDEN`.
         Idempotently removes the target user membership from the specified Partnership for an
         authenticated administrator. The target user and Partnership must already exist. A missing
         membership is a successful no-op. Only the membership row is removed; the user, Partnership,
@@ -12780,6 +13218,7 @@ paths:
     get:
       summary: Search PartnershipApplications for administration
       description: |
+        Delegated Aura access tokens require `partnership-applications:read`; missing scope returns `403 FORBIDDEN`.
         Searches PartnershipApplications for authenticated administrators.
 
         `state` and `proposalType` accept repeated exact canonical values. `applicantUserId`
@@ -13057,7 +13496,7 @@ paths:
     get:
       summary: Get a PartnershipApplication for administration
       description:
-        "Retrieves a single PartnershipApplication for authenticated administrators.
+        "Delegated Aura access tokens require `partnership-applications:read`; missing scope returns `403 FORBIDDEN`. Retrieves a single PartnershipApplication for authenticated administrators.
 
         The response includes the applicant, state, proposal, and nullable approval references. All responses send `Cache-Control: no-store`.
 
@@ -13173,6 +13612,7 @@ paths:
     patch:
       summary: Mark a PartnershipApplication in review as admin
       description: |
+        Delegated Aura access tokens require `partnership-applications:write`; missing scope returns `403 FORBIDDEN`.
         Marks a PartnershipApplication in review for an authenticated administrator.
 
         This operation accepts no request body and only performs the domain-authoritative
@@ -13294,6 +13734,7 @@ paths:
     post:
       summary: Decide a PartnershipApplication as admin
       description: |
+        Delegated Aura access tokens require `partnership-applications:write`; missing scope returns `403 FORBIDDEN`.
         Approves or rejects a PartnershipApplication for an authenticated administrator.
 
         The request accepts only `APPROVE` or `REJECT`; arbitrary state assignment is not supported.
@@ -16567,6 +17008,7 @@ components:
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
           nullable: true
+          description: Original normalized title. Truncation ellipses remain stable; legacy constructor trailing whitespace is presented trimmed.
         productDescription:
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
@@ -16849,7 +17291,7 @@ components:
 
         When `matched` is `true`, at least one of the user's saved search filters matched this product.
 
-        `userSearchFilterId`, `userSearchFilterName`, `matchReason`, and `matchFeedback` are only
+        `userSearchFilterId`, `userSearchFilterName`, and `matchFeedback` are only
 
         present when `matched` is `true`.
 
@@ -16907,17 +17349,6 @@ components:
 
             "
           example: Vintage Art Deco
-        matchReason:
-          type: string
-          description:
-            "A human-readable explanation of why the saved search filter matched this product.
-
-            Only set for AI-enhanced filters (i.e. those with `search.enhancedSearchDescription`).
-
-            Present only when `matched` is `true` and an enhanced match reason exists; omitted otherwise.
-
-            "
-          example: Product matches the vintage Art Deco style described in your search filter.
         matchFeedback:
           type: boolean
           description:
@@ -18084,10 +18515,6 @@ components:
           type: string
           description: Product event that produced this match.
           example: evt_08nrsmex2je2dvsyh01v2kh78a
-        enhancedMatchReason:
-          type: string
-          description: Enhanced-match explanation, when matching supplied one.
-          example: The product matches the saved enhanced description.
         feedback:
           type: boolean
           description: Optional feedback recorded by the user for this saved-search match.
@@ -18288,25 +18715,26 @@ components:
           description: Optional RFC3339 expiration timestamp; expired and current tokens are both listed.
           nullable: true
           example: "2026-09-30T00:00:00Z"
-    GetAccessTokenData:
+    OwnAccessTokenData:
       type: object
-      description: "Access-token read model.
+      description:
+        "Secret-free metadata for an access token owned by the authenticated user.
 
-        `POST /api/v1/me/access-tokens` returns the plaintext bearer token once;
-
-        list/get/update endpoints return the masked display value instead.
+        List, get, and update responses omit the bearer token entirely; the plaintext is only returned by
+        the create operation.
 
         "
       required:
+        - userId
         - accessTokenId
         - name
-        - token
-        - tokenType
-        - createdBy
-        - updatedBy
-        - created
-        - updated
+        - scopes
+        - origin
       properties:
+        userId:
+          type: string
+          description: User who owns the access token.
+          example: usr_5pvhvpxyhve6ts31n9x8c2y513
         accessTokenId:
           type: string
           description: Unique identifier of the access token.
@@ -18316,76 +18744,78 @@ components:
           maxLength: 128
           description: User-defined display name of the access token.
           example: Partner product sync
-        scope:
+        scopes:
           type: array
           items:
             $ref: "#/components/schemas/AccessTokenScopeData"
           uniqueItems: true
-          description: Granted access-token scopes. Omitted when the token has no scopes.
+          description: Granted access-token scopes. An empty scope set is returned as an empty array.
           example:
             - product-listings:write
-        token:
+        origin:
           type: string
-          description: "Plaintext or masked bearer token value.
-
-            Create responses return the full token once; subsequent reads return a masked value such as `aurahistoria_abcdefghijk_****`.
-
-            "
-          example: aurahistoria_abcdefghijk_****
-        tokenType:
-          $ref: "#/components/schemas/AccessTokenTypeData"
-        expiresAt:
+          description: Origin recorded by the access-token model.
+          example: User
+        expires:
           type: string
           format: date-time
-          nullable: true
-          description: Optional absolute expiration timestamp in RFC 3339 format.
+          description: Optional RFC3339 expiration timestamp; omitted when the token does not expire and returned for expired and current tokens.
           example: "2026-06-30T00:00:00Z"
-        expiresIn:
-          type: integer
-          minimum: 0
-          nullable: true
-          description: Optional non-negative number of seconds remaining until expiry.
-          example: 2851200
-        createdBy:
-          $ref: "#/components/schemas/ActorData"
-          description: Actor who created this access token
-        updatedBy:
-          $ref: "#/components/schemas/ActorData"
-          description: Actor who last updated this access token
-        created:
+    CreatedAccessTokenData:
+      type: object
+      description:
+        "Minimal access-token creation result. The plaintext bearer token is returned only once.
+
+        Subsequent list, get, and update operations return secret-free metadata without any token value.
+
+        "
+      required:
+        - userId
+        - accessTokenId
+        - accessToken
+      properties:
+        userId:
           type: string
-          format: date-time
-          description: Timestamp when the access token was created.
-          example: "2026-05-28T06:30:00Z"
-        updated:
+          description: User who owns the access token.
+          example: usr_5pvhvpxyhve6ts31n9x8c2y513
+        accessTokenId:
           type: string
-          format: date-time
-          description: Timestamp when the access token metadata was last updated.
-          example: "2026-05-28T07:00:00Z"
+          description: Unique identifier of the created access token.
+          example: at_4ck23tcv0meqqrbyjaka24ra6g
+        accessToken:
+          type: string
+          description: Plaintext bearer token. Store it securely; it cannot be retrieved again.
+          example: aurahistoria_abcdefghijk_abcdefghijklmnopqrstuvwxyz1234567
     PostAccessTokenData:
       type: object
-      description: Request body for creating an Aura Historia access token.
+      description:
+        "Request body for creating an Aura Historia access token. `scopes` is required, including
+
+        when the requested scope set is empty. `expires` is optional.
+
+        "
       required:
         - name
+        - scopes
       properties:
         name:
           type: string
           maxLength: 128
           description: User-defined display name of the new access token.
           example: Partner product sync
-        scope:
+        scopes:
           type: array
           items:
             $ref: "#/components/schemas/AccessTokenScopeData"
           uniqueItems: true
-          description: Optional scopes granted to the access token. Defaults to an empty set.
+          description: Required scopes granted to the access token. Send an empty array for no scopes.
           example:
             - product-listings:write
-        expiresAt:
+        expires:
           type: string
           format: date-time
           nullable: true
-          description: Optional expiration timestamp in RFC 3339 format.
+          description: Optional RFC3339 expiration timestamp.
           example: "2026-06-30T00:00:00Z"
     PatchAccessTokenData:
       type: object
@@ -19259,6 +19689,7 @@ components:
         - userId
         - email
         - showUnassessedOrSensitiveContent
+        - marketingEmailConsent
         - tier
         - role
       properties:
@@ -19292,6 +19723,10 @@ components:
         showUnassessedOrSensitiveContent:
           type: boolean
           description: Stored preference for showing unassessed or sensitive content.
+        marketingEmailConsent:
+          type: boolean
+          readOnly: true
+          description: Whether the current account email has an active grant for email marketing.
         tier:
           $ref: "#/components/schemas/UserTierData"
         role:
@@ -19351,24 +19786,22 @@ components:
         All fields are optional. Omitted fields remain unchanged.
 
         Only one logical change category may be sent per request: profile/preferences fields, `role`, or `tier`.
+        `marketingEmailConsent` is read-only and cannot be changed through this payload.
+        The canonical account email is read-only.
 
         "
       properties:
-        email:
-          type: string
-          format: email
-          description: New email address. Null is invalid.
         firstName:
           type: string
           maxLength: 64
           nullable: true
-          description: New first name.
+          description: New first name (truncated to 64 Unicode characters).
           example: Ada
         lastName:
           type: string
           maxLength: 64
           nullable: true
-          description: New last name.
+          description: New last name (truncated to 64 Unicode characters).
           example: Lovelace
         language:
           allOf:
@@ -19404,6 +19837,8 @@ components:
       description: "Partial user account update data.
 
         All fields are optional - only provided fields will be updated.
+        `marketingEmailConsent` is read-only and cannot be changed through this payload.
+        The canonical account email is read-only.
 
         "
       properties:
@@ -19411,13 +19846,13 @@ components:
           type: string
           maxLength: 64
           nullable: true
-          description: New first name (max 64 characters)
+          description: New first name (truncated to 64 Unicode characters)
           example: Jane
         lastName:
           type: string
           maxLength: 64
           nullable: true
-          description: New last name (max 64 characters)
+          description: New last name (truncated to 64 Unicode characters)
           example: Smith
         language:
           allOf:
@@ -21343,6 +21778,11 @@ components:
           format: date-time
         auctionId:
           type: string
+        scheduled:
+          type: string
+          format: date-time
+          nullable: true
+          description: Present for scheduled sorting; null if the selected role instant is missing. Omitted for created sorting.
         scope:
           $ref: "#/components/schemas/PublicAuctionDirectoryCursorScopeData"
     PublicAuctionDirectoryCursorScopeData:
@@ -21365,6 +21805,14 @@ components:
           type: string
           enum: [BIDDING_OPENS, LIVE_STARTS, LOTS_BEGIN_CLOSING, SCHEDULED_END]
           nullable: true
+        sort:
+          type: string
+          enum: [scheduled]
+          description: Omitted for the default created ordering.
+        order:
+          type: string
+          enum: [asc, desc]
+          description: Omitted for the default created/descending ordering.
         from:
           type: string
           format: date-time

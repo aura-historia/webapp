@@ -9,72 +9,25 @@ admin workflows in [admin workflows](admin-workflows.md).
 - `pnpm openapi-ts` generates `src/client/**` and the public partner reference
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
-- The pinned capture is backend `develop/docs/swagger.yaml` from 2026-10-05 (Git blob
-  `39d993e0ed775e65065c61fa885e791ee706d49c`). The newsletter operations and schemas
-  (`/api/v1/newsletter-subscriptions`, `/confirm`, `PutNewsletterSubscriptionData`,
-  `ConfirmNewsletterSubscriptionData`) were replaced byte-for-byte from backend commit
-  `2bb418631263a270becb784352c21b412f05bfea`. The `CurrencyData` schema (29-currency enum and
-  descriptions) was replaced byte-for-byte from backend commit
-  `9dbbd433ffc0913adec7784b0f0134b448729aef` ([backend#1996](https://github.com/aura-historia/backend/pull/1996)),
-  as was the `AccessTokenScopeData` schema (22-scope enum from
-  [backend#1991](https://github.com/aura-historia/backend/pull/1991) and
-  [backend#1994](https://github.com/aura-historia/backend/pull/1994)); no other schema was taken
-  from that revision. The `getProductListingHistory` operation, the history sentence in the API
-  description, `ProductListingDiscoveryHistoryPayloadData`, `ProductListingMainPriceHistoryChangeData`,
-  `ProductListingPriceHistoryChangeData` and the new `ProductListingHistoryPriceDisplayData`,
-  `ProductListingHistoryEstimateData`, `ProductListingHistoryMainPriceData` and
-  `ProductListingHistoryPricingData` schemas were replaced byte-for-byte from backend commit
-  `c77155fd7872461b41ccedbdd36492bf9595dbb1` (blob `0473dc5ee2529cb4b5378789d152f6111466fda1`,
-  [backend#2019](https://github.com/aura-historia/backend/pull/2019)); nothing else was taken from
-  that revision. The geography contract was taken byte-for-byte from the merge commit of
-  [backend#2031](https://github.com/aura-historia/backend/pull/2031),
-  `7684dd41cc5ddb1bb99fec40af4d670f0f5b9830` (`docs/swagger.yaml` blob
-  `66ff0170e3262aa0b5cf86914595c7e5eefc1183`, file SHA-256
-  `ba3dfa02ef63224b5f4a855506b786dc3abc2a03e47ba3b013b9eb430193fa41`): the path items
-  `/api/v1/product-listings` (the `geography` deep-object parameter and description),
-  `/api/v1/me/addresses`, `/api/v1/me/addresses/{address_id}`, `/api/v1/me/browsing-destination`,
-  `/api/v1/party-locations`, `/api/v1/parties/{party_id}/locations`,
-  `/api/v1/parties/{party_id}/locations/{location_id}`, `.../lifecycle`,
-  `/api/v1/admin/parties/{party_id}/location-managers/{user_id}` and both
-  `/location-default` paths; the changed `ProductListingSearchData`,
-  `PatchProductListingSearchData` and `ProductListingSummaryData` schemas; and the 37 new geography
-  schemas (`GeographicSearchData` and its origin/radius, `ListingGeographyData`, the `UserAddress*`,
-  `BrowsingDestination*`, `PartyLocation*`, `PublicPartyLocationData`, `*SourceLocationDefault*`
-  schemas). From the same revision, the `get` operation (`adminSearchAuctions`) of
-  `/api/v1/admin/auctions` and the `AdminAuctionSearchCollectionData` schema were added
-  byte-for-byte for [#1096](https://github.com/aura-historia/webapp/issues/1096); the sibling
-  `post`, the admin auction detail path and their delegated-scope descriptions were left
-  unchanged. Nothing else was taken from that revision. The `get` operation
-  (`listPartyLocationManagers`) of `/api/v1/admin/parties/{party_id}/location-managers` and the
-  `PartyLocationManagersPage`, `PartyLocationManagerData`, `PartyLocationManagerExplicitAccess`
-  and `PartyLocationManagerPartnershipAccess` schemas were added byte-for-byte from the merge
-  commit of [backend#2045](https://github.com/aura-historia/backend/pull/2045),
-  `ce50dd94dc9c9651d74ad363c9906311f7cc6cd2` (`docs/swagger.yaml` blob
-  `6640ef291229521782996e9120483ae7ff0dbd38`); nothing else was taken from that revision. For
-  [#1101](https://github.com/aura-historia/webapp/issues/1101), the admin ProductListing path
-  items `/api/v1/admin/product-listings`, `/api/v1/admin/product-listings/{productListingId}` and
-  `.../restore`, the `AdminProductListingVersion`, `UpdateAdminProductListing`,
-  `AdminProductListingPrice`, `AdminProductListingMonetaryPrice`,
-  `AdminProductListingAuctionPatch`, `AdminProductListingMutation`, `AdminProductListingSummary`,
-  `AdminProductListingDetails`, `AdminProductListingAuction` and `AdminProductListingPage` schemas,
-  and the `product-listings:read` value of `AccessTokenScopeData` were added byte-for-byte from the
-  merge commit of [backend#2043](https://github.com/aura-historia/backend/pull/2043),
-  `91c7f6f7a32b6528f0cf3738877f6a7aa579df0f` (`docs/swagger.yaml` blob
-  `e6f0035b5c170d85cae7aa3d60b27963889c1d39`, identical at the issue's `1280fd55`); that change
-  touched nothing else, and nothing else was taken from that revision. File SHA-256:
-  `058f348f2873d5e485ea35919ca800f17ffd8398aab37e0d4414f26d5c8362c9` (Git blob
-  `baa5f45b124914732d19bd0bbc835e235d458cc6`); canonical parsed-JSON SHA-256 (recorded as
-  `x-source-contract-sha256` in the partner reference):
-  `3ab4bc64778e516a26d11ec33295a20025d7a64a19bc975782b34ac72fbad74f`.
-- Later backend changes are deliberately not adopted yet. Reviewed against `7684dd41`, they are:
-  own access-token DTOs (`OwnAccessTokenData`, `CreatedAccessTokenData`, `PostAccessTokenData`
-  with `scopes`/`expires`, and `AccessTokenAuth` on the own-token operations), removal of the
-  search-filter match reasons (`matchReason`, `enhancedMatchReason`), account
-  `marketingEmailConsent` and the read-only admin email, the server-to-server Loops webhook, the
-  scheduled public-directory cursor from backend#1991, the `productTitle` description, the `401 INVALID_CREDENTIALS` examples, and the
-  per-operation delegated-scope wording and `403` responses from backend#1994 (the backend remains
-  authoritative for which scope each operation requires). Adopting the access-token and
-  match-reason changes requires mapper and UI work; do it in a separate change.
+- The pinned capture is the complete backend `docs/swagger.yaml` at `develop` commit
+  `769bd6f0ac66fd2d4a606737f1ebe9e6d0a7072c` (2026-10-13,
+  [backend#2051](https://github.com/aura-historia/backend/pull/2051)), taken byte-for-byte with no
+  local edits for [#1108](https://github.com/aura-historia/webapp/issues/1108). Git blob
+  `c5d5da853c005de3e042ff9a0e854069da8b4215`; file SHA-256
+  `a00b2018d10f996a94b540338e392a366d9a3bf7e5d530f71ee7cc0141eb2575`; canonical parsed-JSON
+  SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
+  `49fb4901ab37d9f374f94bc984539ae8ea4fce7359f99fd741331597d514f665`. It replaced a 2026-10-05
+  capture that had individual operations and schemas grafted in from later backend commits;
+  adopt whole captures, not partial ones.
+- Adopting that capture brought in the changes the previous capture deferred: the own
+  access-token DTOs (the list now includes expired tokens) and `AccessTokenAuth` on the own-token
+  operations, removal of the search-filter match reasons (`matchReason`, `enhancedMatchReason`),
+  account `marketingEmailConsent`, the read-only admin email, the server-to-server Loops webhook,
+  the scheduled public-directory cursor with `sort`/`order` on `listAuctions`, the partner
+  single-listing operations, `403` responses on the notification operations, description wording
+  and the `401 INVALID_CREDENTIALS` examples. Their consumers and decisions are recorded below.
+  The extra security scheme and the `403` responses need no client change: the browser sends its
+  Cognito bearer, and errors already go through `mapToInternalApiError`.
 - Tooling: the pinned `@hey-api/openapi-ts 0.0.0-next-20260824173136` (Dependabot ignores it;
   `0.99.0` fails under TypeScript 7) with Python/PyYAML for the
   partner reference. Keep the `./` prefix on the config input; without it the generator reads
@@ -97,8 +50,9 @@ To adopt a backend revision:
 - Public auction browsing, detail and catalogue pages are deferred to
   [#1060](https://github.com/aura-historia/webapp/issues/1060); `listAuctions`, `getAuction` and
   `getAuctionCatalogue` are generated only. Listing-level auction summaries and typed history are
-  implemented. Ordering the public directory by schedule depends on
-  [backend#1991](https://github.com/aura-historia/backend/issues/1991). The admin auction search
+  implemented. The contract includes the schedule-ordered directory (`sort`/`order` on
+  `listAuctions`, `PublicAuctionDirectoryCursorData.scheduled`) from
+  [backend#1991](https://github.com/aura-historia/backend/issues/1991) for that work. The admin auction search
   is consumed by the admin auction directory (see [admin workflows](admin-workflows.md#auction-directory)).
 - The geography contract ([backend#2031](https://github.com/aura-historia/backend/pull/2031)) is
   adopted with shared models and mappers ([#1076](https://github.com/aura-historia/webapp/issues/1076)).
@@ -125,6 +79,14 @@ To adopt a backend revision:
   [admin workflows](admin-workflows.md#product-listing-administration)).
 - Partner async ingestion batches and provider ingestion configuration are external API
   capabilities, not browser workflows (see [partner integration](partner-integration.md)).
+- The partner single-listing operations (`listPartnerProductListings`, `getPartnerProductListing`,
+  `updatePartnerProductListing`, `withdrawPartnerProductListing`, `restorePartnerProductListing`)
+  are generated-only: there is no partner listing workspace yet, and the public partner reference
+  still covers only the batch writes and the WooCommerce webhook. They need an active Partnership
+  grant for the source; administrator role alone does not grant access.
+- `postLoopsPreferenceWebhook` is a signed server-to-server endpoint; the browser never calls it.
+- `OwnUserAccountData.marketingEmailConsent` is not mapped; no account view shows consent yet (see
+  [privacy alignment](privacy-policy-alignment.md#newsletter-consent)).
 - `getHealth`/`getReadiness` drive the maintenance and disruption notice (see
   [service status](service-status.md)). `getMyAccessToken` is unused; the UI reads
   the own-token collection. Billing uses `postBillingManage`; `postBillingCheckout` and
@@ -281,7 +243,10 @@ stable error codes, never raw server detail.
 ## Account preferences
 
 - `mapToInternalUserAccount` keeps nullable or absent names, language, currency, measurement units
-  and Stripe customer identity. The account has no audit dates or addresses.
+  and Stripe customer identity. The account has no audit dates or addresses. The email and
+  `marketingEmailConsent` are read-only, and the backend truncates names to 64 characters.
+- The admin user profile form never edits the email: `PatchAdminUserData` has no email member,
+  and the dialog shows the canonical address as read-only text.
 - `mapToBackendUserAccountPatch` preserves omitted fields and explicit nulls for clearable
   preferences. `showUnassessedOrSensitiveContent` accepts only a boolean: omission leaves it
   unchanged and null is rejected before sending. Registration sends the chosen value explicitly.
@@ -296,9 +261,15 @@ stable error codes, never raw server detail.
 
 - Own-token DTOs are mapped in `src/data/internal/access-tokens`. Admin token metadata uses a
   separate, secret-free DTO and must not reuse the own-token read model.
-- Create and read use `scope` and `expiresAt`; patch uses `scopes` and `expires`. Omission
-  preserves state, `scopes: []` clears permissions and `expires: null` clears expiry. Null names
-  or scopes are rejected before sending. Edits submit only changed fields.
+- Create, read and patch all use `scopes` and `expires`. Create always sends `scopes`, including
+  `[]`, and omits `expires` for a token without expiry. On patch, omission preserves state,
+  `scopes: []` clears permissions and `expires: null` clears expiry. Null names or scopes are
+  rejected before sending. Edits submit only changed fields.
+- `OwnAccessTokenData` is secret-free and has no masked value, token type or audit timestamps;
+  `AccessToken` keeps only ID, name, scopes and expiry. The list includes expired tokens: the
+  section resolves expiry against the clock after mount (never during render), marks expired
+  tokens and lists active tokens first, then by name.
+  `CreatedAccessTokenData` carries only the ID and the one-time plaintext.
 - New tokens default to no scopes; editing scopes replaces the whole grant set. Only the
   supported scope enum is modeled: `ACCESS_TOKEN_SCOPES` mirrors the 23 backend
   `AccessTokenScopeData` values exactly (no aliases or remapping), `ACCESS_TOKEN_SCOPE_METADATA`
@@ -310,9 +281,11 @@ stable error codes, never raw server detail.
   `search-filters:read`). The UI never couples or auto-selects them, and an expanded registry never
   broadens existing tokens or OAuth client registrations.
 - A scope only narrows what a credential may do. Administrative scopes (`auctions:*`,
-  `parties:*`, `partnerships:*`, `admin-overview:read`, `product-listings:read`, and the
-  administrator parts of `product-listings:write`, `listing-sources:*` and
-  `partnership-applications:*`) succeed only for accounts that already have administrator access;
+  `parties:*`, `partnerships:*`, `admin-overview:read`, and the administrator parts of
+  `product-listings:*`, `listing-sources:*` and `partnership-applications:*`) succeed only for
+  accounts that already have administrator access. `product-listings:read` also covers partner
+  single-listing reads for sources with an active Partnership grant, so it is grouped with the
+  partner scopes;
   ListingSource and Partnership access still applies where an operation requires it (the admin
   ProductListing operations need none). Copy must not imply that a scope grants a role, and the
   frontend never emulates backend authorization.

@@ -72,7 +72,6 @@ function ProductCardComponent({ product }: { readonly product: ProductListing })
                         <SearchFilterMatchBadge
                             filterId={matchedFilterId}
                             filterName={searchFilterData?.userSearchFilterName}
-                            matchReason={searchFilterData?.matchReason ?? undefined}
                         />
                     </div>
                 )}
