@@ -2169,6 +2169,107 @@
       "webhookSecretRequired": "Geben Sie das WooCommerce-Webhook-Secret ein.",
       "camrefRequired": "Geben Sie die Partnerize-Kampagnenreferenz ein.",
       "unsupportedCurrency": "Geben Sie einen unterstützten ISO-4217-Währungscode ein, z. B. EUR oder SEK."
+    },
+    "locationDefault": {
+      "title": "Standardstandort",
+      "description": "Der eine Standort, der den Angeboten dieser Quelle ihre quellenabgeleitete Geografie liefert. Wählbar sind nur aktive Standorte der Betreiberorganisation.",
+      "loading": "Standardstandort wird geladen.",
+      "propagation": "Änderungen am Standard werden sofort gespeichert. Suchergebnisse und Angebotsgeografie werden asynchron aktualisiert; das kann kurze Zeit dauern. Wird ein Standort stillgelegt oder verlegt, wird dieser Standard nie automatisch auf einen anderen Standort umgestellt.",
+      "unsupportedValues": "Einige gespeicherte Nachweise haben ein Format, das diese App nicht anzeigen kann; sie werden hier nicht gezeigt.",
+      "fields": {
+        "location": "Standort",
+        "noDefault": "Kein Standardstandort",
+        "locationDetailsUnavailable": "Die Standortdetails sind hier nicht geladen. Öffnen Sie die Standorte des Betreibers, um sie zu prüfen.",
+        "notAsserted": "Nicht angegeben",
+        "asserted": "Angegeben",
+        "evidence": "Nachweis: {{reference}}",
+        "evidenceReference": "Nachweisreferenz",
+        "revision": "Revision"
+      },
+      "effect": {
+        "none": "Es ist kein Standardstandort festgelegt. Angebote dieser Quelle haben keine quellenabgeleitete Geografie.",
+        "inherits": "Angebote dieser Quelle übernehmen ihre Geografie von diesem Standort: Land, Region und Punkt können sie in der geografischen Suche verorten. Dies ist von der Quelle abgeleitet und nicht für jedes Objekt geprüft.",
+        "noInventory": "Angebotener Bestand ist nicht angegeben, daher liefert dieser Standort keine Angebotsgeografie. Eine reine Geschäftsverbindung verortet einzelne Angebote nie an diesem Standort.",
+        "retired": "Der referenzierte Standort ist stillgelegt. Der Verweis bleibt zur Nachvollziehbarkeit erhalten, liefert aber keine Angebotsgeografie, und es wurde kein anderer Standort automatisch gewählt. Wählen Sie einen anderen Standort oder entfernen Sie den Standard.",
+        "unknown": "Der Status des Standorts wird nicht erkannt, daher kann seine Wirkung auf die Angebotsgeografie nicht angezeigt werden."
+      },
+      "applicability": {
+        "legend": "Geltung",
+        "hint": "Jede Aussage ist unabhängig und benötigt eine eigene Nachweisreferenz. Nur angebotener Bestand verortet die Angebote dieser Quelle an dem Standort.",
+        "evidenceHint": "Erforderlich. Eine Referenz auf die Quelle dieser Aussage, etwa eine Dokumentnummer oder Webadresse. Sie wird als Text gespeichert und nie aufgerufen.",
+        "advertisedInventory": {
+          "label": "Angebotener Bestand",
+          "description": "Die von dieser Quelle angebotenen Objekte befinden sich an diesem Standort. Ihre Angebote übernehmen dann die Geografie des Standorts."
+        },
+        "businessAssociation": {
+          "label": "Verbundenes Geschäft",
+          "description": "Das Geschäft hinter dieser Quelle wird von diesem Standort aus betrieben. Für sich genommen verortet das keine einzelnen Angebote an diesem Standort."
+        }
+      },
+      "assign": {
+        "title": "Standardstandort zuweisen",
+        "replaceTitle": "Standardstandort ersetzen",
+        "description": "Wählen Sie einen aktiven Standort der Betreiberorganisation und geben Sie an, welche Geltung zutrifft.",
+        "replaceDescription": "Beim Ersetzen werden der Standort und beide Geltungsaussagen gemeinsam festgelegt. Die bisherigen Aussagen werden nicht übernommen; geben Sie sie erneut an, wenn sie für den neuen Standort zutreffen.",
+        "unsupportedValues": "Der aktuelle Standard enthält gespeicherte Nachweise, die diese App nicht anzeigen kann. Beim Ersetzen werden sie entfernt.",
+        "locationLegend": "Standort"
+      },
+      "applicabilityForm": {
+        "title": "Geltung bearbeiten",
+        "description": "Ändern Sie die Aussagen zum aktuellen Standort, ohne den Standort selbst zu ändern.",
+        "unsupportedValues": "Einige gespeicherte Nachweise können nicht angezeigt werden. Unveränderte Aussagen behalten sie; eine geänderte Aussage ersetzt sie.",
+        "noChanges": "Es gibt keine Änderungen zum Speichern."
+      },
+      "clear": {
+        "confirm": "Standardstandort entfernen? Angebote dieser Quelle verlieren die davon übernommene Geografie, sobald die Suche aktualisiert ist. Es wird kein anderer Standort gewählt.",
+        "confirmRetired": "Stillgelegten Verweis entfernen? Er liefert derzeit keine Angebotsgeografie; durch das Entfernen wird er von dieser Quelle gelöst. Es wird kein anderer Standort gewählt."
+      },
+      "stale": {
+        "assign": "Der Standard wurde während Ihrer Bearbeitung geändert; oben sehen Sie die neueste Version. Behalten Sie Ihren Entwurf, um ihn auf die neueste Version anzuwenden, oder verwerfen Sie ihn.",
+        "applicability": "Der Standard wurde während Ihrer Bearbeitung geändert; oben sehen Sie die neueste Version. Behalten Sie Ihren Entwurf, um nur Ihre Änderungen auf die neueste Version anzuwenden, oder verwerfen Sie ihn.",
+        "applicabilityUnavailable": "Der Standard verweist nicht mehr auf denselben aktiven Standort, daher kann seine Geltung hier nicht geändert werden. Verwerfen Sie Ihren Entwurf und prüfen Sie oben die neueste Version.",
+        "clear": "Der Standard wurde nach Ihrem Start geändert; oben sehen Sie die neueste Version. Prüfen Sie sie und bestätigen Sie erneut, oder brechen Sie ab.",
+        "alreadyCleared": "Der Standard wurde bereits entfernt. Es gibt nichts mehr zu entfernen."
+      },
+      "links": {
+        "operatorLocations": "Standorte von {{name}} verwalten",
+        "operatorLocationsHint": "Standorte auf der Seite der Betreiberorganisation hinzufügen, korrigieren, verlegen, stilllegen oder wiederherstellen."
+      },
+      "actions": {
+        "assign": "Standort zuweisen",
+        "replace": "Standort ersetzen",
+        "editApplicability": "Geltung bearbeiten",
+        "clear": "Standard entfernen",
+        "confirmAssign": "Standort zuweisen",
+        "confirmReplace": "Standort ersetzen",
+        "saveApplicability": "Geltung speichern",
+        "confirmClear": "Standard entfernen",
+        "clearing": "Wird entfernt…",
+        "keepDraft": "Entwurf behalten",
+        "discardDraft": "Entwurf verwerfen",
+        "reviewLatest": "Neueste Version verwenden"
+      },
+      "success": {
+        "assigned": "Standardstandort zugewiesen. Suchergebnisse werden in Kürze aktualisiert.",
+        "replaced": "Standardstandort ersetzt. Suchergebnisse werden in Kürze aktualisiert.",
+        "applicability": "Geltung gespeichert. Suchergebnisse werden in Kürze aktualisiert.",
+        "cleared": "Standardstandort entfernt. Suchergebnisse werden in Kürze aktualisiert."
+      },
+      "validation": {
+        "locationRequired": "Wählen Sie einen Standort.",
+        "locationInactive": "Der gewählte Standort ist nicht mehr aktiv. Wählen Sie einen anderen Standort.",
+        "evidenceRequired": "Geben Sie eine Nachweisreferenz für diese Aussage ein.",
+        "evidenceInvalid": "Die Nachweisreferenz muss eine einzelne Zeile mit höchstens 2048 UTF-8-Bytes sein."
+      },
+      "errors": {
+        "forbidden": "Sie sind nicht berechtigt, den Standardstandort dieser Quelle zu verwalten.",
+        "missing": "Diese Listing-Quelle wurde nicht gefunden oder ist nicht mehr verfügbar.",
+        "locationUnavailable": "Der gewählte Standort existiert nicht oder gehört nicht zum Betreiber dieser Quelle. Die aktuellen Standorte wurden geladen; wählen Sie erneut.",
+        "conflict": "Der Standard wurde geändert, oder der gewählte Standort ist nicht mehr aktiv. Die neueste Version wurde geladen; prüfen Sie sie, bevor Sie es erneut versuchen.",
+        "invalid": "Prüfen Sie den Standort und die Nachweisreferenzen und versuchen Sie es erneut.",
+        "unavailable": "Standardstandorte sind vorübergehend nicht verfügbar. Bitte versuchen Sie es in Kürze erneut.",
+        "requestFailed": "Die Anfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+      }
     }
   },
   "adminPartnerships": {

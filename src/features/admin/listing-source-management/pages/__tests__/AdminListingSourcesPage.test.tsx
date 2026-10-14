@@ -12,6 +12,7 @@ const api = vi.hoisted(() => ({
     useAdminListingSource: vi.fn(),
     useDeleteAdminListingSource: vi.fn(),
     formDialog: vi.fn(),
+    locationDefaultSection: vi.fn(),
 }));
 vi.mock("../../api/useAdminListingSources.ts", () => ({
     useAdminListingSources: api.useAdminListingSources,
@@ -20,6 +21,12 @@ vi.mock("../../api/useAdminListingSources.ts", () => ({
 }));
 vi.mock("../../components/AdminListingSourceFiltersForm.tsx", () => ({
     AdminListingSourceFiltersForm: () => null,
+}));
+vi.mock("../../components/AdminSourceLocationDefaultSection.tsx", () => ({
+    AdminSourceLocationDefaultSection: (props: unknown) => {
+        api.locationDefaultSection(props);
+        return null;
+    },
 }));
 vi.mock("../../components/AdminListingSourceFormDialog.tsx", () => ({
     AdminListingSourceFormDialog: (props: unknown) => {
@@ -100,6 +107,17 @@ describe("AdminListingSourcesPage", () => {
                 open: true,
             }),
         );
+    });
+
+    it("manages the default location of the loaded source in its details", () => {
+        mockList([summary]);
+        mockDetail(detail);
+        render(<AdminListingSourcesPage />);
+        expect(api.locationDefaultSection).not.toHaveBeenCalled();
+
+        openDetails();
+
+        expect(api.locationDefaultSection).toHaveBeenLastCalledWith({ source: detail });
     });
 
     it("reports a missing referral as not provided when the summary is current", () => {

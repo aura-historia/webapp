@@ -2169,6 +2169,107 @@
       "webhookSecretRequired": "Enter the WooCommerce webhook secret.",
       "camrefRequired": "Enter the Partnerize campaign reference.",
       "unsupportedCurrency": "Enter a supported ISO 4217 currency code, such as EUR or SEK."
+    },
+    "locationDefault": {
+      "title": "Default location",
+      "description": "The one location that supplies source-derived geography to this source's listings. Only active locations of the operator organization can be chosen.",
+      "loading": "Loading the default location.",
+      "propagation": "Changes to the default are saved at once. Search results and listing geography update asynchronously and can take a short time. Retiring or relocating a location never moves this default to another location automatically.",
+      "unsupportedValues": "Some stored evidence uses a format this app cannot display, so it is not shown here.",
+      "fields": {
+        "location": "Location",
+        "noDefault": "No default location",
+        "locationDetailsUnavailable": "Location details are not loaded here. Open the operator's locations to review them.",
+        "notAsserted": "Not asserted",
+        "asserted": "Asserted",
+        "evidence": "Evidence: {{reference}}",
+        "evidenceReference": "Evidence reference",
+        "revision": "Revision"
+      },
+      "effect": {
+        "none": "No default location is set. Listings from this source have no source-derived geography.",
+        "inherits": "Listings from this source take their geography from this location: its country, region and point can place them in geographic search. This is derived from the source, not verified for each object.",
+        "noInventory": "Advertised inventory is not asserted, so this location supplies no listing geography. A business association alone never places individual listings at the site.",
+        "retired": "The referenced location is retired. The reference is kept for traceability but supplies no listing geography, and no other location was selected automatically. Choose another location or clear the default.",
+        "unknown": "The location's status is not recognized, so its effect on listing geography cannot be shown."
+      },
+      "applicability": {
+        "legend": "Applicability",
+        "hint": "Each statement is independent and needs its own evidence reference. Only advertised inventory places this source's listings at the location.",
+        "evidenceHint": "Required. A reference to the source of this statement, such as a document number or web address. It is stored as text and never opened.",
+        "advertisedInventory": {
+          "label": "Advertised inventory",
+          "description": "The objects this source advertises are held at this location. Its listings then inherit the location's geography."
+        },
+        "businessAssociation": {
+          "label": "Associated business",
+          "description": "The business behind this source operates from this location. On its own, this does not place individual listings at the site."
+        }
+      },
+      "assign": {
+        "title": "Assign default location",
+        "replaceTitle": "Replace default location",
+        "description": "Choose an active location of the operator organization and state which applicability applies.",
+        "replaceDescription": "Replacing sets the location and both applicability statements together. The current statements are not carried over; assert them again if they apply to the new location.",
+        "unsupportedValues": "The current default has stored evidence this app cannot display. Replacing removes it.",
+        "locationLegend": "Location"
+      },
+      "applicabilityForm": {
+        "title": "Edit applicability",
+        "description": "Change the statements for the current location without changing the location itself.",
+        "unsupportedValues": "Some stored evidence cannot be displayed. Statements you leave unchanged keep it; changing a statement replaces it.",
+        "noChanges": "There are no changes to save."
+      },
+      "clear": {
+        "confirm": "Clear the default location? Listings from this source lose the geography inherited from it once search has updated. No other location is selected.",
+        "confirmRetired": "Clear the retired reference? It currently supplies no listing geography; clearing removes it from this source. No other location is selected."
+      },
+      "stale": {
+        "assign": "The default changed while you were editing; the latest version is shown above. Keep your draft to apply it to the latest version, or discard it.",
+        "applicability": "The default changed while you were editing; the latest version is shown above. Keep your draft to apply only your changes to the latest version, or discard it.",
+        "applicabilityUnavailable": "The default no longer references the same active location, so its applicability cannot be changed here. Discard your draft and review the latest version above.",
+        "clear": "The default changed after you started; the latest version is shown above. Review it and confirm again, or cancel.",
+        "alreadyCleared": "The default has already been cleared. There is nothing left to clear."
+      },
+      "links": {
+        "operatorLocations": "Manage locations of {{name}}",
+        "operatorLocationsHint": "Add, correct, relocate, retire or restore locations on the operator organization's page."
+      },
+      "actions": {
+        "assign": "Assign location",
+        "replace": "Replace location",
+        "editApplicability": "Edit applicability",
+        "clear": "Clear default",
+        "confirmAssign": "Assign location",
+        "confirmReplace": "Replace location",
+        "saveApplicability": "Save applicability",
+        "confirmClear": "Clear default",
+        "clearing": "Clearing…",
+        "keepDraft": "Keep my draft",
+        "discardDraft": "Discard my draft",
+        "reviewLatest": "Use the latest version"
+      },
+      "success": {
+        "assigned": "Default location assigned. Search results update shortly.",
+        "replaced": "Default location replaced. Search results update shortly.",
+        "applicability": "Applicability saved. Search results update shortly.",
+        "cleared": "Default location cleared. Search results update shortly."
+      },
+      "validation": {
+        "locationRequired": "Choose a location.",
+        "locationInactive": "The chosen location is no longer active. Choose another location.",
+        "evidenceRequired": "Enter an evidence reference for this statement.",
+        "evidenceInvalid": "The evidence reference must be a single line of 2048 UTF-8 bytes or fewer."
+      },
+      "errors": {
+        "forbidden": "You do not have permission to manage this source's default location.",
+        "missing": "This listing source was not found or is no longer available.",
+        "locationUnavailable": "The chosen location does not exist or does not belong to this source's operator. The current locations have been loaded; choose again.",
+        "conflict": "The default changed, or the chosen location is no longer active. The latest version has been loaded; review it before trying again.",
+        "invalid": "Check the location and evidence references, then try again.",
+        "unavailable": "Default locations are temporarily unavailable. Please try again shortly.",
+        "requestFailed": "The request could not be completed. Please try again."
+      }
     }
   },
   "adminPartnerships": {

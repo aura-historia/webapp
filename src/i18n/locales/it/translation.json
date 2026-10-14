@@ -1584,6 +1584,107 @@
       "webhookSecretRequired": "Inserisci il segreto webhook WooCommerce.",
       "camrefRequired": "Inserisci il riferimento campagna Partnerize.",
       "unsupportedCurrency": "Inserisci un codice valuta ISO 4217 supportato, ad esempio EUR o SEK."
+    },
+    "locationDefault": {
+      "title": "Sede predefinita",
+      "description": "L’unica sede che fornisce agli annunci di questa fonte la geografia derivata dalla fonte. Si possono scegliere solo sedi attive dell’organizzazione che gestisce la fonte.",
+      "loading": "Caricamento della sede predefinita.",
+      "propagation": "Le modifiche alla sede predefinita vengono salvate subito. I risultati di ricerca e la geografia degli annunci si aggiornano in modo asincrono e possono richiedere un breve tempo. Dismettere o trasferire una sede non sposta mai automaticamente questa impostazione su un’altra sede.",
+      "unsupportedValues": "Alcune prove salvate usano un formato che questa app non può mostrare, quindi non sono visualizzate qui.",
+      "fields": {
+        "location": "Sede",
+        "noDefault": "Nessuna sede predefinita",
+        "locationDetailsUnavailable": "I dettagli della sede non sono caricati qui. Apri le sedi del gestore per verificarli.",
+        "notAsserted": "Non dichiarato",
+        "asserted": "Dichiarato",
+        "evidence": "Prova: {{reference}}",
+        "evidenceReference": "Riferimento della prova",
+        "revision": "Revisione"
+      },
+      "effect": {
+        "none": "Non è impostata alcuna sede predefinita. Gli annunci di questa fonte non hanno geografia derivata dalla fonte.",
+        "inherits": "Gli annunci di questa fonte prendono la geografia da questa sede: paese, regione e punto possono collocarli nella ricerca geografica. È derivata dalla fonte e non verificata per ogni oggetto.",
+        "noInventory": "L’inventario offerto non è dichiarato, quindi questa sede non fornisce geografia agli annunci. Un semplice legame commerciale non colloca mai singoli annunci nella sede.",
+        "retired": "La sede referenziata è dismessa. Il riferimento è mantenuto per la tracciabilità ma non fornisce geografia agli annunci e nessun’altra sede è stata selezionata automaticamente. Scegli un’altra sede o rimuovi l’impostazione predefinita.",
+        "unknown": "Lo stato della sede non è riconosciuto, quindi il suo effetto sulla geografia degli annunci non può essere mostrato."
+      },
+      "applicability": {
+        "legend": "Applicabilità",
+        "hint": "Ogni dichiarazione è indipendente e richiede un proprio riferimento della prova. Solo l’inventario offerto colloca gli annunci di questa fonte nella sede.",
+        "evidenceHint": "Obbligatorio. Un riferimento alla fonte di questa dichiarazione, ad esempio un numero di documento o un indirizzo web. Viene salvato come testo e non viene mai aperto.",
+        "advertisedInventory": {
+          "label": "Inventario offerto",
+          "description": "Gli oggetti offerti da questa fonte si trovano in questa sede. I suoi annunci ereditano quindi la geografia della sede."
+        },
+        "businessAssociation": {
+          "label": "Attività associata",
+          "description": "L’attività dietro questa fonte opera da questa sede. Da sola, questa dichiarazione non colloca singoli annunci nella sede."
+        }
+      },
+      "assign": {
+        "title": "Assegna sede predefinita",
+        "replaceTitle": "Sostituisci sede predefinita",
+        "description": "Scegli una sede attiva dell’organizzazione che gestisce la fonte e indica quale applicabilità vale.",
+        "replaceDescription": "La sostituzione imposta insieme la sede ed entrambe le dichiarazioni di applicabilità. Le dichiarazioni attuali non vengono mantenute; dichiarale di nuovo se valgono per la nuova sede.",
+        "unsupportedValues": "L’impostazione attuale contiene prove salvate che questa app non può mostrare. La sostituzione le rimuove.",
+        "locationLegend": "Sede"
+      },
+      "applicabilityForm": {
+        "title": "Modifica applicabilità",
+        "description": "Modifica le dichiarazioni per la sede attuale senza cambiare la sede.",
+        "unsupportedValues": "Alcune prove salvate non possono essere mostrate. Le dichiarazioni non modificate le mantengono; modificare una dichiarazione le sostituisce.",
+        "noChanges": "Non ci sono modifiche da salvare."
+      },
+      "clear": {
+        "confirm": "Rimuovere la sede predefinita? Gli annunci di questa fonte perdono la geografia ereditata da essa quando la ricerca si aggiorna. Nessun’altra sede viene selezionata.",
+        "confirmRetired": "Rimuovere il riferimento dismesso? Al momento non fornisce geografia agli annunci; rimuovendolo viene scollegato da questa fonte. Nessun’altra sede viene selezionata."
+      },
+      "stale": {
+        "assign": "La sede predefinita è cambiata durante la modifica; sopra è mostrata la versione più recente. Mantieni la bozza per applicarla alla versione più recente oppure scartala.",
+        "applicability": "La sede predefinita è cambiata durante la modifica; sopra è mostrata la versione più recente. Mantieni la bozza per applicare solo le tue modifiche alla versione più recente oppure scartala.",
+        "applicabilityUnavailable": "La sede predefinita non fa più riferimento alla stessa sede attiva, quindi la sua applicabilità non può essere modificata qui. Scarta la bozza e verifica sopra la versione più recente.",
+        "clear": "La sede predefinita è cambiata dopo l’inizio dell’operazione; sopra è mostrata la versione più recente. Verificala e conferma di nuovo, oppure annulla.",
+        "alreadyCleared": "La sede predefinita è già stata rimossa. Non c’è più nulla da rimuovere."
+      },
+      "links": {
+        "operatorLocations": "Gestisci le sedi di {{name}}",
+        "operatorLocationsHint": "Aggiungi, correggi, trasferisci, dismetti o ripristina sedi nella pagina dell’organizzazione che gestisce la fonte."
+      },
+      "actions": {
+        "assign": "Assegna sede",
+        "replace": "Sostituisci sede",
+        "editApplicability": "Modifica applicabilità",
+        "clear": "Rimuovi predefinita",
+        "confirmAssign": "Assegna sede",
+        "confirmReplace": "Sostituisci sede",
+        "saveApplicability": "Salva applicabilità",
+        "confirmClear": "Rimuovi predefinita",
+        "clearing": "Rimozione…",
+        "keepDraft": "Mantieni la bozza",
+        "discardDraft": "Scarta la bozza",
+        "reviewLatest": "Usa la versione più recente"
+      },
+      "success": {
+        "assigned": "Sede predefinita assegnata. I risultati di ricerca si aggiorneranno a breve.",
+        "replaced": "Sede predefinita sostituita. I risultati di ricerca si aggiorneranno a breve.",
+        "applicability": "Applicabilità salvata. I risultati di ricerca si aggiorneranno a breve.",
+        "cleared": "Sede predefinita rimossa. I risultati di ricerca si aggiorneranno a breve."
+      },
+      "validation": {
+        "locationRequired": "Scegli una sede.",
+        "locationInactive": "La sede scelta non è più attiva. Scegli un’altra sede.",
+        "evidenceRequired": "Inserisci un riferimento della prova per questa dichiarazione.",
+        "evidenceInvalid": "Il riferimento della prova deve essere una sola riga di massimo 2048 byte UTF-8."
+      },
+      "errors": {
+        "forbidden": "Non hai l’autorizzazione per gestire la sede predefinita di questa fonte.",
+        "missing": "Questa fonte di annunci non è stata trovata o non è più disponibile.",
+        "locationUnavailable": "La sede scelta non esiste o non appartiene al gestore di questa fonte. Le sedi attuali sono state caricate; scegli di nuovo.",
+        "conflict": "La sede predefinita è cambiata oppure la sede scelta non è più attiva. La versione più recente è stata caricata; verificala prima di riprovare.",
+        "invalid": "Controlla la sede e i riferimenti delle prove, poi riprova.",
+        "unavailable": "Le sedi predefinite non sono temporaneamente disponibili. Riprova a breve.",
+        "requestFailed": "Non è stato possibile completare la richiesta. Riprova."
+      }
     }
   },
   "adminPartnerships": {
