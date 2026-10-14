@@ -191,6 +191,42 @@ Route: `/$lng/admin/parties/$partyId` (below the business locations).
   workspace will be offered once that route exists
   ([#1084](https://github.com/aura-historia/webapp/issues/1084)).
 
+## Listing-source default locations
+
+Route: `/$lng/admin/listing-sources` (the source detail dialog, below the source actions).
+
+- The admin-specific operations (`adminGetSourceLocationDefault`, `adminAssignSourceLocationDefault`,
+  `adminChangeSourceLocationDefaultApplicability`, `adminClearSourceLocationDefault`) need
+  administrator authority; operator membership or a source grant is not enough. Reads and writes
+  are `no-store`; the read forwards the query signal, is not retried and lives under
+  `["admin", "sourceLocationDefault", listingSourceId]`, which viewer changes clear.
+- The read carries only the location reference, applicability evidence, eligibility and revision,
+  never an address or point. The section shows the revision, both assertions and the reference's
+  eligibility; the label and region appear only when the operator's loaded Party locations contain
+  the location, otherwise just its ID. Absent and retired references are shown as such.
+- Assignment chooses from `PartyLocationSelector` scoped to the source's operator Party, which
+  offers only active locations; a selection that a refetch shows as retired or missing is rejected
+  rather than moved. Creating, correcting, relocating and retiring locations happen on the
+  operator's organization page, which the section links to.
+- Advertised inventory and associated business are independent assertions, each with its own
+  opaque evidence reference (single line, at most 2048 UTF-8 bytes, sent verbatim). Only advertised
+  inventory on an active location supplies source-derived listing geography; the copy says that a
+  business association alone never places individual listings at the site.
+- Assigning or replacing sends the location and both assertions (an unasserted one as `null`); a
+  replacement starts with empty assertions. Editing applicability is offered only for an active
+  reference and sends only the assertions the draft changed (`null` removes), so evidence the app
+  cannot display is kept; an empty diff is not sent. Clearing needs confirmation and stays
+  available for retired references.
+- Every command sends the revision its form or confirmation was opened with. Any failure other
+  than validation refetches the default and the operator's locations; `404` also refetches the
+  source detail, whose operator may have changed (`PARTY_NOT_FOUND` reports a missing or foreign
+  location). When a newer revision loads, submitting waits for an explicit "keep my draft"
+  (applicability reapplies only the draft's own changes) or "discard"; nothing is resubmitted
+  automatically. `401`/`403` reset the default and hide loaded content.
+- Success stores the returned revision (never over a newer one) and refetches the viewer's own
+  source-default read. The copy states that search results and listing geography converge
+  asynchronously and that retirement or relocation never moves the default automatically.
+
 ## Other workflows
 
 Party management, listing-source management (`/$lng/admin/listing-sources`), user management and

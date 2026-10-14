@@ -1584,6 +1584,107 @@
       "webhookSecretRequired": "Saisissez le secret du webhook WooCommerce.",
       "camrefRequired": "Saisissez la référence de campagne Partnerize.",
       "unsupportedCurrency": "Saisissez un code de devise ISO 4217 pris en charge, par exemple EUR ou SEK."
+    },
+    "locationDefault": {
+      "title": "Site par défaut",
+      "description": "Le site unique qui fournit aux annonces de cette source leur géographie dérivée de la source. Seuls les sites actifs de l’organisation exploitante peuvent être choisis.",
+      "loading": "Chargement du site par défaut.",
+      "propagation": "Les modifications du site par défaut sont enregistrées immédiatement. Les résultats de recherche et la géographie des annonces sont mis à jour de manière asynchrone, ce qui peut prendre un court délai. Le retrait ou le déménagement d’un site ne déplace jamais automatiquement ce site par défaut vers un autre site.",
+      "unsupportedValues": "Certains justificatifs enregistrés utilisent un format que cette application ne peut pas afficher ; ils ne sont pas présentés ici.",
+      "fields": {
+        "location": "Site",
+        "noDefault": "Aucun site par défaut",
+        "locationDetailsUnavailable": "Les détails du site ne sont pas chargés ici. Ouvrez les sites de l’exploitant pour les consulter.",
+        "notAsserted": "Non déclaré",
+        "asserted": "Déclaré",
+        "evidence": "Justificatif : {{reference}}",
+        "evidenceReference": "Référence du justificatif",
+        "revision": "Révision"
+      },
+      "effect": {
+        "none": "Aucun site par défaut n’est défini. Les annonces de cette source n’ont pas de géographie dérivée de la source.",
+        "inherits": "Les annonces de cette source reprennent la géographie de ce site : son pays, sa région et son point peuvent les situer dans la recherche géographique. Cette information est dérivée de la source et n’est pas vérifiée pour chaque objet.",
+        "noInventory": "Le stock proposé n’est pas déclaré ; ce site ne fournit donc aucune géographie aux annonces. Un simple lien commercial ne situe jamais des annonces individuelles sur ce site.",
+        "retired": "Le site référencé est retiré. La référence est conservée pour assurer la traçabilité mais ne fournit aucune géographie aux annonces, et aucun autre site n’a été sélectionné automatiquement. Choisissez un autre site ou supprimez le site par défaut.",
+        "unknown": "Le statut du site n’est pas reconnu ; son effet sur la géographie des annonces ne peut donc pas être affiché."
+      },
+      "applicability": {
+        "legend": "Portée",
+        "hint": "Chaque déclaration est indépendante et nécessite sa propre référence de justificatif. Seul le stock proposé situe les annonces de cette source sur le site.",
+        "evidenceHint": "Obligatoire. Une référence à la source de cette déclaration, par exemple un numéro de document ou une adresse web. Elle est enregistrée sous forme de texte et n’est jamais ouverte.",
+        "advertisedInventory": {
+          "label": "Stock proposé",
+          "description": "Les objets proposés par cette source se trouvent sur ce site. Ses annonces reprennent alors la géographie du site."
+        },
+        "businessAssociation": {
+          "label": "Activité associée",
+          "description": "L’activité derrière cette source est exercée depuis ce site. À elle seule, cette déclaration ne situe pas des annonces individuelles sur le site."
+        }
+      },
+      "assign": {
+        "title": "Attribuer un site par défaut",
+        "replaceTitle": "Remplacer le site par défaut",
+        "description": "Choisissez un site actif de l’organisation exploitante et indiquez la portée applicable.",
+        "replaceDescription": "Le remplacement définit ensemble le site et les deux déclarations de portée. Les déclarations actuelles ne sont pas reprises ; déclarez-les de nouveau si elles s’appliquent au nouveau site.",
+        "unsupportedValues": "Le site par défaut actuel comporte des justificatifs enregistrés que cette application ne peut pas afficher. Le remplacement les supprime.",
+        "locationLegend": "Site"
+      },
+      "applicabilityForm": {
+        "title": "Modifier la portée",
+        "description": "Modifiez les déclarations pour le site actuel sans changer le site lui-même.",
+        "unsupportedValues": "Certains justificatifs enregistrés ne peuvent pas être affichés. Les déclarations inchangées les conservent ; une déclaration modifiée les remplace.",
+        "noChanges": "Aucune modification à enregistrer."
+      },
+      "clear": {
+        "confirm": "Supprimer le site par défaut ? Les annonces de cette source perdent la géographie qui en est héritée dès que la recherche est mise à jour. Aucun autre site n’est sélectionné.",
+        "confirmRetired": "Supprimer la référence retirée ? Elle ne fournit actuellement aucune géographie aux annonces ; la suppression la retire de cette source. Aucun autre site n’est sélectionné."
+      },
+      "stale": {
+        "assign": "Le site par défaut a été modifié pendant votre saisie ; la dernière version est affichée ci-dessus. Conservez votre brouillon pour l’appliquer à la dernière version, ou abandonnez-le.",
+        "applicability": "Le site par défaut a été modifié pendant votre saisie ; la dernière version est affichée ci-dessus. Conservez votre brouillon pour n’appliquer que vos modifications à la dernière version, ou abandonnez-le.",
+        "applicabilityUnavailable": "Le site par défaut ne référence plus le même site actif ; sa portée ne peut donc pas être modifiée ici. Abandonnez votre brouillon et consultez la dernière version ci-dessus.",
+        "clear": "Le site par défaut a été modifié après le début de votre action ; la dernière version est affichée ci-dessus. Vérifiez-la et confirmez de nouveau, ou annulez.",
+        "alreadyCleared": "Le site par défaut a déjà été supprimé. Il n’y a plus rien à supprimer."
+      },
+      "links": {
+        "operatorLocations": "Gérer les sites de {{name}}",
+        "operatorLocationsHint": "Ajoutez, corrigez, déménagez, retirez ou restaurez des sites sur la page de l’organisation exploitante."
+      },
+      "actions": {
+        "assign": "Attribuer un site",
+        "replace": "Remplacer le site",
+        "editApplicability": "Modifier la portée",
+        "clear": "Supprimer le site par défaut",
+        "confirmAssign": "Attribuer le site",
+        "confirmReplace": "Remplacer le site",
+        "saveApplicability": "Enregistrer la portée",
+        "confirmClear": "Supprimer le site par défaut",
+        "clearing": "Suppression…",
+        "keepDraft": "Conserver mon brouillon",
+        "discardDraft": "Abandonner mon brouillon",
+        "reviewLatest": "Utiliser la dernière version"
+      },
+      "success": {
+        "assigned": "Site par défaut attribué. Les résultats de recherche seront bientôt mis à jour.",
+        "replaced": "Site par défaut remplacé. Les résultats de recherche seront bientôt mis à jour.",
+        "applicability": "Portée enregistrée. Les résultats de recherche seront bientôt mis à jour.",
+        "cleared": "Site par défaut supprimé. Les résultats de recherche seront bientôt mis à jour."
+      },
+      "validation": {
+        "locationRequired": "Choisissez un site.",
+        "locationInactive": "Le site choisi n’est plus actif. Choisissez un autre site.",
+        "evidenceRequired": "Saisissez une référence de justificatif pour cette déclaration.",
+        "evidenceInvalid": "La référence du justificatif doit tenir sur une seule ligne de 2048 octets UTF-8 au maximum."
+      },
+      "errors": {
+        "forbidden": "Vous n’êtes pas autorisé à gérer le site par défaut de cette source.",
+        "missing": "Cette source d’annonces est introuvable ou n’est plus disponible.",
+        "locationUnavailable": "Le site choisi n’existe pas ou n’appartient pas à l’exploitant de cette source. Les sites actuels ont été chargés ; choisissez de nouveau.",
+        "conflict": "Le site par défaut a été modifié, ou le site choisi n’est plus actif. La dernière version a été chargée ; consultez-la avant de réessayer.",
+        "invalid": "Vérifiez le site et les références des justificatifs, puis réessayez.",
+        "unavailable": "Les sites par défaut sont temporairement indisponibles. Veuillez réessayer dans quelques instants.",
+        "requestFailed": "La demande n’a pas pu aboutir. Veuillez réessayer."
+      }
     }
   },
   "adminPartnerships": {

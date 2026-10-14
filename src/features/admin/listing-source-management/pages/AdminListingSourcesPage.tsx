@@ -19,6 +19,7 @@ import {
 } from "../api/useAdminListingSources.ts";
 import { AdminListingSourceFiltersForm } from "../components/AdminListingSourceFiltersForm.tsx";
 import { AdminListingSourceFormDialog } from "../components/AdminListingSourceFormDialog.tsx";
+import { AdminSourceLocationDefaultSection } from "../components/AdminSourceLocationDefaultSection.tsx";
 import {
     Dialog,
     DialogContent,
@@ -383,6 +384,7 @@ function AdminListingSourceDetailDialog({
                         </Button>
                     </div>
                 )}
+                <AdminSourceLocationDefaultSection source={source} />
             </div>
         );
     }
@@ -390,7 +392,7 @@ function AdminListingSourceDetailDialog({
     return (
         <Dialog open={open} onOpenChange={close}>
             <DialogContent
-                className="flex h-[min(90vh,40rem)] flex-col overflow-y-auto"
+                className="flex h-[min(90vh,40rem)] flex-col overflow-y-auto sm:max-w-2xl"
                 onCloseAutoFocus={() => {
                     releaseListingSourceId();
                     releaseSummary();

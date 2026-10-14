@@ -1584,6 +1584,107 @@
       "webhookSecretRequired": "Introduzca el secreto del webhook de WooCommerce.",
       "camrefRequired": "Introduzca la referencia de campaña de Partnerize.",
       "unsupportedCurrency": "Introduzca un código de moneda ISO 4217 admitido, por ejemplo EUR o SEK."
+    },
+    "locationDefault": {
+      "title": "Ubicación predeterminada",
+      "description": "La única ubicación que aporta a los anuncios de esta fuente su geografía derivada de la fuente. Solo se pueden elegir ubicaciones activas de la organización operadora.",
+      "loading": "Cargando la ubicación predeterminada.",
+      "propagation": "Los cambios en la ubicación predeterminada se guardan de inmediato. Los resultados de búsqueda y la geografía de los anuncios se actualizan de forma asíncrona y pueden tardar un poco. Retirar o trasladar una ubicación nunca cambia automáticamente esta ubicación predeterminada por otra.",
+      "unsupportedValues": "Algunos justificantes guardados tienen un formato que esta aplicación no puede mostrar, por lo que no aparecen aquí.",
+      "fields": {
+        "location": "Ubicación",
+        "noDefault": "Sin ubicación predeterminada",
+        "locationDetailsUnavailable": "Los detalles de la ubicación no están cargados aquí. Abra las ubicaciones del operador para revisarlos.",
+        "notAsserted": "No declarado",
+        "asserted": "Declarado",
+        "evidence": "Justificante: {{reference}}",
+        "evidenceReference": "Referencia del justificante",
+        "revision": "Revisión"
+      },
+      "effect": {
+        "none": "No hay ninguna ubicación predeterminada. Los anuncios de esta fuente no tienen geografía derivada de la fuente.",
+        "inherits": "Los anuncios de esta fuente toman su geografía de esta ubicación: su país, región y punto pueden situarlos en la búsqueda geográfica. Se deriva de la fuente y no se verifica para cada objeto.",
+        "noInventory": "El inventario ofrecido no está declarado, por lo que esta ubicación no aporta geografía a los anuncios. Un vínculo comercial por sí solo nunca sitúa anuncios individuales en la ubicación.",
+        "retired": "La ubicación referenciada está retirada. La referencia se conserva para su trazabilidad, pero no aporta geografía a los anuncios y no se ha seleccionado automáticamente otra ubicación. Elija otra ubicación o elimine la predeterminada.",
+        "unknown": "No se reconoce el estado de la ubicación, por lo que no se puede mostrar su efecto en la geografía de los anuncios."
+      },
+      "applicability": {
+        "legend": "Aplicabilidad",
+        "hint": "Cada declaración es independiente y necesita su propia referencia de justificante. Solo el inventario ofrecido sitúa los anuncios de esta fuente en la ubicación.",
+        "evidenceHint": "Obligatorio. Una referencia al origen de esta declaración, como un número de documento o una dirección web. Se guarda como texto y nunca se abre.",
+        "advertisedInventory": {
+          "label": "Inventario ofrecido",
+          "description": "Los objetos que ofrece esta fuente se encuentran en esta ubicación. Sus anuncios heredan entonces la geografía de la ubicación."
+        },
+        "businessAssociation": {
+          "label": "Negocio asociado",
+          "description": "El negocio detrás de esta fuente opera desde esta ubicación. Por sí solo, esto no sitúa anuncios individuales en la ubicación."
+        }
+      },
+      "assign": {
+        "title": "Asignar ubicación predeterminada",
+        "replaceTitle": "Sustituir ubicación predeterminada",
+        "description": "Elija una ubicación activa de la organización operadora e indique qué aplicabilidad corresponde.",
+        "replaceDescription": "Al sustituirla se establecen a la vez la ubicación y ambas declaraciones de aplicabilidad. Las declaraciones actuales no se conservan; vuelva a declararlas si corresponden a la nueva ubicación.",
+        "unsupportedValues": "La ubicación predeterminada actual tiene justificantes guardados que esta aplicación no puede mostrar. Al sustituirla se eliminan.",
+        "locationLegend": "Ubicación"
+      },
+      "applicabilityForm": {
+        "title": "Editar aplicabilidad",
+        "description": "Cambie las declaraciones de la ubicación actual sin cambiar la ubicación.",
+        "unsupportedValues": "Algunos justificantes guardados no se pueden mostrar. Las declaraciones que no cambie los conservan; cambiar una declaración los sustituye.",
+        "noChanges": "No hay cambios que guardar."
+      },
+      "clear": {
+        "confirm": "¿Eliminar la ubicación predeterminada? Los anuncios de esta fuente pierden la geografía heredada de ella cuando se actualice la búsqueda. No se selecciona otra ubicación.",
+        "confirmRetired": "¿Eliminar la referencia retirada? Actualmente no aporta geografía a los anuncios; al eliminarla se desvincula de esta fuente. No se selecciona otra ubicación."
+      },
+      "stale": {
+        "assign": "La ubicación predeterminada cambió mientras editaba; arriba se muestra la versión más reciente. Conserve su borrador para aplicarlo a la versión más reciente o descártelo.",
+        "applicability": "La ubicación predeterminada cambió mientras editaba; arriba se muestra la versión más reciente. Conserve su borrador para aplicar solo sus cambios a la versión más reciente o descártelo.",
+        "applicabilityUnavailable": "La ubicación predeterminada ya no hace referencia a la misma ubicación activa, por lo que su aplicabilidad no se puede cambiar aquí. Descarte su borrador y revise arriba la versión más reciente.",
+        "clear": "La ubicación predeterminada cambió después de que empezara; arriba se muestra la versión más reciente. Revísela y confirme de nuevo, o cancele.",
+        "alreadyCleared": "La ubicación predeterminada ya se eliminó. No queda nada que eliminar."
+      },
+      "links": {
+        "operatorLocations": "Gestionar ubicaciones de {{name}}",
+        "operatorLocationsHint": "Añada, corrija, traslade, retire o restaure ubicaciones en la página de la organización operadora."
+      },
+      "actions": {
+        "assign": "Asignar ubicación",
+        "replace": "Sustituir ubicación",
+        "editApplicability": "Editar aplicabilidad",
+        "clear": "Eliminar predeterminada",
+        "confirmAssign": "Asignar ubicación",
+        "confirmReplace": "Sustituir ubicación",
+        "saveApplicability": "Guardar aplicabilidad",
+        "confirmClear": "Eliminar predeterminada",
+        "clearing": "Eliminando…",
+        "keepDraft": "Conservar mi borrador",
+        "discardDraft": "Descartar mi borrador",
+        "reviewLatest": "Usar la versión más reciente"
+      },
+      "success": {
+        "assigned": "Ubicación predeterminada asignada. Los resultados de búsqueda se actualizarán en breve.",
+        "replaced": "Ubicación predeterminada sustituida. Los resultados de búsqueda se actualizarán en breve.",
+        "applicability": "Aplicabilidad guardada. Los resultados de búsqueda se actualizarán en breve.",
+        "cleared": "Ubicación predeterminada eliminada. Los resultados de búsqueda se actualizarán en breve."
+      },
+      "validation": {
+        "locationRequired": "Elija una ubicación.",
+        "locationInactive": "La ubicación elegida ya no está activa. Elija otra ubicación.",
+        "evidenceRequired": "Introduzca una referencia de justificante para esta declaración.",
+        "evidenceInvalid": "La referencia del justificante debe ser una sola línea de 2048 bytes UTF-8 como máximo."
+      },
+      "errors": {
+        "forbidden": "No tiene permiso para gestionar la ubicación predeterminada de esta fuente.",
+        "missing": "Esta fuente de anuncios no se encontró o ya no está disponible.",
+        "locationUnavailable": "La ubicación elegida no existe o no pertenece al operador de esta fuente. Se han cargado las ubicaciones actuales; elija de nuevo.",
+        "conflict": "La ubicación predeterminada cambió o la ubicación elegida ya no está activa. Se ha cargado la versión más reciente; revísela antes de volver a intentarlo.",
+        "invalid": "Revise la ubicación y las referencias de los justificantes y vuelva a intentarlo.",
+        "unavailable": "Las ubicaciones predeterminadas no están disponibles temporalmente. Vuelva a intentarlo en breve.",
+        "requestFailed": "No se pudo completar la solicitud. Vuelva a intentarlo."
+      }
     }
   },
   "adminPartnerships": {

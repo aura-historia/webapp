@@ -63,14 +63,18 @@ To adopt a backend revision:
   location-management grant and its directory (`setPartyLocationManagementGrant`,
   `listPartyLocationManagers`) are consumed by the admin Party page
   ([#1086](https://github.com/aura-historia/webapp/issues/1086); see
-  [admin workflows](admin-workflows.md#party-location-management-grants)). Every other geography
+  [admin workflows](admin-workflows.md#party-location-management-grants)). The admin source-default
+  operations (`adminGetSourceLocationDefault`, `adminAssignSourceLocationDefault`,
+  `adminChangeSourceLocationDefaultApplicability`, `adminClearSourceLocationDefault`) are consumed
+  by listing-source management ([#1088](https://github.com/aura-historia/webapp/issues/1088); see
+  [admin workflows](admin-workflows.md#listing-source-default-locations)). Every other geography
   operation is generated-only until its feature slice consumes it: the user
   address book (`listUserAddresses`, `createUserAddress`, `getUserAddress`, `updateUserAddress`,
   `deleteUserAddress`), the browsing destination (`getBrowsingDestination`,
-  `setBrowsingDestination`), public discovery (`discoverPartyLocations`) and source
+  `setBrowsingDestination`), public discovery (`discoverPartyLocations`) and the non-admin source
   defaults (`getSourceLocationDefault`, `assignSourceLocationDefault`,
-  `changeSourceLocationDefaultApplicability`, `clearSourceLocationDefault` and their `admin*`
-  counterparts). Listing search does not send `geography` yet. Privacy rules for these slices
+  `changeSourceLocationDefaultApplicability`, `clearSourceLocationDefault`). Listing search does
+  not send `geography` yet. Privacy rules for these slices
   are in [privacy alignment](privacy-policy-alignment.md#geography).
 - The admin ProductListing operations (`searchAdminProductListings`, `getAdminProductListing`,
   `updateAdminProductListing`, `withdrawAdminProductListing`, `restoreAdminProductListing`) are
