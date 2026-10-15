@@ -7,7 +7,7 @@ import {
     useQueryClient,
 } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
-import { useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
     correctPartyLocation,
@@ -15,7 +15,6 @@ import {
     listPartyLocations,
     setPartyLocationLifecycle,
 } from "@/client";
-import { createIdempotencyKey } from "@/data/internal/common/IdempotencyKey.ts";
 import { geographyQueryKeys } from "@/data/internal/geography/GeographyQueryKeys.ts";
 import {
     type CorrectPartyLocationInput,
@@ -54,7 +53,7 @@ export class PartyLocationRequestError extends Error {
         super(message);
     }
 
-    /** Stale revision, retired-location write or conflicting retry: refetch, never retry blindly. */
+    /** Stale revision or retired-location write: refetch, never retry blindly. */
     get isConflict() {
         return this.status === 409;
     }
@@ -64,7 +63,10 @@ export class PartyLocationRequestError extends Error {
         return this.status === 401 || this.status === 403 || this.status === 404;
     }
 
-    /** No definite outcome: an unchanged create may be retried with the same key. */
+    /**
+     * No definite outcome: a create or relocation may have been committed. Creates are not
+     * deduplicated, so refresh the locations before deliberately submitting again.
+     */
     get isIndefinite() {
         return isIndefiniteStatus(this.status);
     }
@@ -91,10 +93,14 @@ function errorKey(status: number | undefined, operation: PartyLocationOperation)
             ? "partyLocations.errors.createConflict"
             : "partyLocations.errors.conflict";
     }
-    if (status === 503) return "partyLocations.errors.unavailable";
-    if ((operation === "create" || operation === "relocate") && isIndefiniteStatus(status)) {
+    // A gateway can fail after the backend committed, so any indefinite create outcome is unknown.
+    if (operation === "create" && isIndefiniteStatus(status)) {
         return "partyLocations.errors.createIndefinite";
     }
+    if (operation === "relocate" && isIndefiniteStatus(status)) {
+        return "partyLocations.errors.relocateIndefinite";
+    }
+    if (status === 503) return "partyLocations.errors.unavailable";
     return "partyLocations.errors.requestFailed";
 }
 
@@ -193,43 +199,100 @@ export function usePartyLocationList(scope: PartyLocationScope) {
 }
 
 /**
- * Creates a location, or relocates one when `relocates` is set. One `Idempotency-Key` is kept per
- * unchanged command until its outcome is definite, so a retry after a lost response converges
- * on the original result instead of creating a duplicate location.
+ * Whether the authoritative locations were reloaded after a create or relocation with an unknown
+ * outcome. Another deliberate submission is offered only once they are `refreshed`.
+ */
+export type PartyLocationReconciliation =
+    | { readonly status: "idle" | "refreshing" | "failed" }
+    | { readonly status: "refreshed"; readonly locations: readonly PartyLocation[] };
+
+/**
+ * Creates a location, or relocates one when `relocates` is set. The backend assigns a new ID to
+ * every accepted create and ignores `Idempotency-Key`, so a create is never resubmitted
+ * automatically: the mutation does not retry, a submission is ignored while another is pending,
+ * and after an unknown outcome the locations are refreshed before the draft may be sent again.
+ * Equal label or address content cannot prove that a lost request succeeded.
  */
 export function useCreatePartyLocation(scope: PartyLocationScope) {
     const queryClient = useQueryClient();
     const requestError = usePartyLocationError();
-    const pendingCommand = useRef<{ readonly body: string; readonly key: string }>(undefined);
+    const inFlight = useRef(false);
+    // Ignores a refresh that finishes after a newer submission or a reset.
+    const generation = useRef(0);
+    const [reconciliation, setReconciliation] = useState<PartyLocationReconciliation>({
+        status: "idle",
+    });
 
-    return useMutation({
+    const refresh = useCallback(async () => {
+        const run = ++generation.current;
+        const settle = (next: PartyLocationReconciliation) => {
+            if (run === generation.current) setReconciliation(next);
+        };
+        settle({ status: "refreshing" });
+        try {
+            const data = await queryClient.fetchInfiniteQuery({
+                ...partyLocationListQueryOptions(scope, requestError),
+                staleTime: 0,
+            });
+            const locations = data.pages.flatMap((page) => page.items);
+            settle({ status: "refreshed", locations });
+        } catch (error) {
+            // Without the current locations the outcome stays unresolved.
+            if (error instanceof Error) handleMutationError(queryClient, scope, error);
+            settle({ status: "failed" });
+        }
+    }, [queryClient, scope, requestError]);
+
+    const mutation = useMutation({
+        // Never resubmit a create: a retry after a lost response can add a duplicate location.
+        retry: false,
         mutationFn: async (input: CreatePartyLocationInput) => {
             const operation = input.relocates ? "relocate" : "create";
             if (validatePartyLocationInput(input)) throw requestError(400, operation);
-            const body = mapToBackendCreatePartyLocation(input);
-            const serialized = JSON.stringify(body);
-            if (pendingCommand.current?.body !== serialized) {
-                pendingCommand.current = { body: serialized, key: createIdempotencyKey() };
-            }
             const response = await createPartyLocation({
                 path: { party_id: scope.partyId },
-                headers: { "Idempotency-Key": pendingCommand.current.key },
-                body,
+                body: mapToBackendCreatePartyLocation(input),
                 cache: "no-store",
             });
             if (response.error || !response.data) {
                 // A network failure has no response status and leaves the outcome unknown.
-                const error = requestError(response.response?.status, operation);
-                if (!error.isIndefinite) pendingCommand.current = undefined;
-                throw error;
+                throw requestError(response.response?.status, operation);
             }
-            pendingCommand.current = undefined;
             return requireLocation(response.data, scope, requestError, operation);
+        },
+        onMutate: () => {
+            generation.current++;
+            setReconciliation({ status: "idle" });
         },
         // A relocation also retires the old location; the list refetch shows both changes.
         onSuccess: (location) => storeLocation(queryClient, scope, location),
-        onError: (error) => handleMutationError(queryClient, scope, error),
+        onError: (error) => {
+            handleMutationError(queryClient, scope, error);
+            if (error instanceof PartyLocationRequestError && error.isIndefinite) void refresh();
+        },
+        onSettled: () => {
+            inFlight.current = false;
+        },
     });
+
+    // `mutateAsync` is not exposed: every submission goes through the single-flight guard.
+    const { mutate: submit, mutateAsync: _unguarded, reset: resetMutation, ...state } = mutation;
+    const mutate = useCallback<typeof submit>(
+        (input, options) => {
+            // Pending state renders asynchronously; the ref also stops a same-tick double submit.
+            if (inFlight.current) return;
+            inFlight.current = true;
+            submit(input, options);
+        },
+        [submit],
+    );
+    const reset = useCallback(() => {
+        resetMutation();
+        generation.current++;
+        setReconciliation({ status: "idle" });
+    }, [resetMutation]);
+
+    return { ...state, mutate, reset, reconciliation, refresh };
 }
 
 export type CorrectPartyLocationResult = {

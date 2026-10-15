@@ -159,11 +159,16 @@ Routes: `/$lng/admin/parties` (directory) and `/$lng/admin/parties/$partyId` (or
   editing began; a cleared group is `null`, and unchanged groups (including values the app cannot
   display) are omitted. An empty diff is not sent; a response at the same revision is reported as
   unchanged.
-- Creates keep one `Idempotency-Key` per unchanged command until the outcome is definite (network
-  failure, `408`, `429` and `5xx` keep it). A `409` refetches the Party's locations; the editor
-  keeps the draft and requires an explicit "keep draft" (reapply its own changes at the latest
-  revision) or "discard draft". `401`/`403`/`404` reset the Party's cached locations and hide
-  loaded content.
+- Creates and relocations send no `Idempotency-Key` and are never resubmitted automatically;
+  every accepted create gets a new ID, so equal content stays two locations. While a create is
+  pending, further submissions are ignored. After an unknown outcome (network failure, `408`,
+  `429`, `5xx`) the editor keeps the draft, says the location may have been saved, refreshes the
+  Party's locations and lists the active ones; submitting again is enabled only after that refresh
+  succeeds (a failed refresh offers "Refresh locations"). A `409` refetches the Party's locations;
+  the editor keeps the draft and requires an explicit "keep draft" (reapply its own changes at the
+  latest revision) or "discard draft". A stale relocation whose source is already retired cannot
+  be resubmitted, and source-default assignments stay a separate action. `401`/`403`/`404` reset
+  the Party's cached locations and hide loaded content.
 
 ## Party-location management grants
 

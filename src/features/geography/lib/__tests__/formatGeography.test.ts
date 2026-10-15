@@ -5,10 +5,6 @@ import {
     formatEvidenceDistanceKm,
     formatGeographicDistance,
 } from "@/features/geography/lib/formatGeography.ts";
-import {
-    createIdempotencyKey,
-    isValidIdempotencyKey,
-} from "@/data/internal/common/IdempotencyKey.ts";
 
 const t = ((key: string, values: Record<string, string>) =>
     `${key}:${JSON.stringify(values)}`) as unknown as TFunction;
@@ -37,16 +33,5 @@ describe("formatGeography", () => {
         expect(formatCoordinates({ latitude: -33.8688, longitude: 151.20929 }, "de", t)).toBe(
             'geography.coordinates:{"latitude":"-33,8688","longitude":"151,20929"}',
         );
-    });
-});
-
-describe("idempotency keys", () => {
-    it("creates distinct, header-safe keys", () => {
-        const first = createIdempotencyKey();
-        expect(isValidIdempotencyKey(first)).toBe(true);
-        expect(createIdempotencyKey()).not.toBe(first);
-        expect(isValidIdempotencyKey("a,b")).toBe(false);
-        expect(isValidIdempotencyKey("")).toBe(false);
-        expect(isValidIdempotencyKey("x".repeat(129))).toBe(false);
     });
 });

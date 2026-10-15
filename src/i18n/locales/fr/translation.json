@@ -3470,7 +3470,14 @@
       "staleInactive": "Ce site n’est plus actif et ne peut donc plus être corrigé ni déplacé. Fermez cette fenêtre pour le consulter.",
       "keepDraft": "Conserver mon brouillon",
       "discardDraft": "Abandonner mon brouillon",
-      "confirmRelocation": "Créer le nouveau site et retirer le site actuel dans la même opération ?"
+      "confirmRelocation": "Créer le nouveau site et retirer le site actuel dans la même opération ?",
+      "reconciliation": {
+        "refreshing": "Actualisation des sites…",
+        "refreshed": "Les sites ont été actualisés. Si la modification figure déjà dans la liste, fermez cette fenêtre au lieu d’envoyer de nouveau.",
+        "failed": "Les sites n’ont pas pu être actualisés ; on ignore donc toujours si la demande a été enregistrée. Actualisez-les avant d’envoyer de nouveau.",
+        "activeLocations": "Sites actifs actuels",
+        "noActiveLocations": "Cette organisation n’a aucun site actif."
+      }
     },
     "actions": {
       "create": "Ajouter un site",
@@ -3484,7 +3491,8 @@
       "back": "Retour",
       "cancel": "Annuler",
       "saving": "Enregistrement…",
-      "retry": "Réessayer"
+      "retry": "Réessayer",
+      "refresh": "Actualiser les sites"
     },
     "selector": {
       "empty": "Cette organisation n’a aucun site actif."
@@ -3502,8 +3510,9 @@
       "missing": "Cette organisation ou ce site est introuvable ou n’est plus disponible.",
       "invalid": "Vérifiez les informations du site et réessayez.",
       "conflict": "Ce site a été modifié ou n’est plus actif. La dernière version a été chargée ; consultez-la avant de réessayer.",
-      "createConflict": "Le site n’a pas pu être ajouté, car la demande entre en conflit avec une demande antérieure. Consultez les sites avant de réessayer.",
-      "createIndefinite": "Nous n’avons pas pu confirmer l’enregistrement du site. Envoyez de nouveau le formulaire sans modification pour réessayer en toute sécurité ; aucun doublon ne sera créé.",
+      "createConflict": "Le site n’a pas pu être ajouté en raison d’une modification contradictoire. Consultez les sites actuels avant de réessayer.",
+      "createIndefinite": "Nous n’avons pas pu confirmer l’ajout du site. Il a peut-être été enregistré. Votre brouillon est conservé ; consultez les sites actualisés avant d’envoyer de nouveau, car chaque nouvel envoi ajoute un site distinct.",
+      "relocateIndefinite": "Nous n’avons pas pu confirmer l’enregistrement du déplacement. Il a peut-être été effectué. Votre brouillon est conservé ; consultez les sites actualisés avant de réessayer.",
       "unavailable": "La gestion des sites est temporairement indisponible. Veuillez réessayer dans quelques instants.",
       "requestFailed": "La demande n’a pas pu aboutir. Veuillez réessayer."
     },

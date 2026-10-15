@@ -4,7 +4,11 @@ import type { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { PartyLocationData } from "@/client";
 import { geographyQueryKeys } from "@/data/internal/geography/GeographyQueryKeys.ts";
-import type { PartyLocation, PartyLocationPage } from "@/data/internal/geography/PartyLocation.ts";
+import type {
+    CreatePartyLocationInput,
+    PartyLocation,
+    PartyLocationPage,
+} from "@/data/internal/geography/PartyLocation.ts";
 import testI18n from "@/i18n/i18nForTests";
 import { isViewerScopedQuery } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
 import {
@@ -123,68 +127,124 @@ describe("Party-location API", () => {
         expect(hook.result.current.data).toBeUndefined();
     });
 
-    it("reuses the creation key only while the unchanged command has no definite outcome", async () => {
+    type CreateHook = { current: ReturnType<typeof useCreatePartyLocation> };
+    /** Submits through the hook's guarded `mutate` and resolves with the result or error. */
+    const submit = (hook: { result: CreateHook }, input: CreatePartyLocationInput) =>
+        act(
+            () =>
+                new Promise<unknown>((resolve) =>
+                    hook.result.current.mutate(input, {
+                        onSettled: (data, error) => resolve(error ?? data),
+                    }),
+                ),
+        );
+
+    it("sends creates without a key and keeps equal-content results distinct", async () => {
         seedList();
         api.create
-            .mockResolvedValueOnce(failure())
-            .mockResolvedValueOnce(failure(503))
-            .mockResolvedValueOnce(ok(dto({ id: "ploc_2", revision: 1 }), 201))
-            .mockResolvedValueOnce(failure(400))
-            .mockResolvedValueOnce(failure(400));
+            .mockResolvedValueOnce(ok(dto({ id: "ploc_2", label: "Depot", revision: 1 }), 201))
+            .mockResolvedValueOnce(ok(dto({ id: "ploc_3", label: "Depot", revision: 1 }), 201));
         const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
-        const create = async (label: string) => {
-            await act(() => hook.result.current.mutateAsync({ label }).catch(() => undefined));
-        };
-        const keyOf = (call: number) => api.create.mock.calls[call][0].headers["Idempotency-Key"];
 
-        await create("Depot");
-        await create("Depot");
-        await create("Depot");
-        await create("Depot");
-        await create("Depot");
+        const first = await submit(hook, { label: "Depot" });
+        const second = await submit(hook, { label: "Depot" });
 
-        expect(keyOf(0)).toMatch(/^[A-Za-z0-9_.:-]+$/);
-        expect(keyOf(1)).toBe(keyOf(0));
-        expect(keyOf(2)).toBe(keyOf(0));
-        // A completed create discards the key; a definite rejection does too.
-        expect(keyOf(3)).not.toBe(keyOf(2));
-        expect(keyOf(4)).not.toBe(keyOf(3));
-        expect(api.create.mock.calls[0][0]).toMatchObject({
-            path: { party_id: "pty_1" },
-            body: { label: "Depot" },
-            cache: "no-store",
-        });
+        expect(first).toMatchObject({ id: "ploc_2" });
+        expect(second).toMatchObject({ id: "ploc_3" });
+        expect(api.create).toHaveBeenCalledTimes(2);
+        for (const [request] of api.create.mock.calls) {
+            expect(request).toEqual({
+                path: { party_id: "pty_1" },
+                body: { label: "Depot" },
+                cache: "no-store",
+            });
+        }
         expect(client.getQueryState(listKey)?.isInvalidated).toBe(true);
     });
 
-    it("reports an unknown creation outcome only when the outcome is indefinite", async () => {
-        api.create.mockResolvedValueOnce(failure(502)).mockResolvedValueOnce(failure(422));
+    it("ignores another submission while a create is pending", async () => {
+        let respond: (value: unknown) => void = () => undefined;
+        api.create.mockReturnValueOnce(new Promise((resolve) => (respond = resolve)));
         const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
-        const errorOf = (label: string) =>
-            act(() => hook.result.current.mutateAsync({ label }).catch((error: unknown) => error));
 
-        expect(await errorOf("Depot")).toMatchObject({
+        act(() => {
+            hook.result.current.mutate({ label: "Depot" });
+            hook.result.current.mutate({ label: "Depot" });
+        });
+        await waitFor(() => expect(api.create).toHaveBeenCalledTimes(1));
+        await act(async () => respond(ok(dto({ id: "ploc_2", revision: 1 }), 201)));
+        await waitFor(() => expect(hook.result.current.isSuccess).toBe(true));
+
+        expect(api.create).toHaveBeenCalledTimes(1);
+    });
+
+    it("never resubmits after a lost response and refreshes the locations instead", async () => {
+        seedList();
+        api.create.mockResolvedValueOnce(failure());
+        api.list.mockResolvedValueOnce(
+            ok({ items: [dto(), dto({ id: "ploc_2", label: "Depot", revision: 1 })], next: null }),
+        );
+        const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
+
+        const error = await submit(hook, { label: "Depot" });
+
+        expect(error).toMatchObject({
             isIndefinite: true,
             message: testI18n.t("partyLocations.errors.createIndefinite"),
         });
-        expect(await errorOf("Depot")).toMatchObject({
+        await waitFor(() =>
+            expect(hook.result.current.reconciliation).toEqual({
+                status: "refreshed",
+                locations: [
+                    expect.objectContaining({ id: "ploc_1" }),
+                    expect.objectContaining({ id: "ploc_2" }),
+                ],
+            }),
+        );
+        expect(api.create).toHaveBeenCalledTimes(1);
+        expect(api.list).toHaveBeenCalledWith(expect.objectContaining({ cache: "no-store" }));
+    });
+
+    it("leaves the outcome unresolved when the refresh fails", async () => {
+        api.create.mockResolvedValueOnce(failure(504));
+        api.list
+            .mockResolvedValueOnce(failure(500))
+            .mockResolvedValueOnce(ok({ items: [dto()], next: null }));
+        const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
+
+        await submit(hook, { label: "Depot" });
+        await waitFor(() =>
+            expect(hook.result.current.reconciliation).toEqual({ status: "failed" }),
+        );
+
+        await act(() => hook.result.current.refresh());
+        expect(hook.result.current.reconciliation).toMatchObject({ status: "refreshed" });
+        expect(api.create).toHaveBeenCalledTimes(1);
+    });
+
+    it("reports an unknown outcome only when the outcome is indefinite", async () => {
+        api.list.mockResolvedValue(ok({ items: [], next: null }));
+        api.create
+            .mockResolvedValueOnce(failure(502))
+            .mockResolvedValueOnce(failure(503))
+            .mockResolvedValueOnce(failure(422));
+        const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
+
+        expect(await submit(hook, { label: "Depot" })).toMatchObject({
+            isIndefinite: true,
+            message: testI18n.t("partyLocations.errors.createIndefinite"),
+        });
+        expect(
+            await submit(hook, { label: "Depot", relocates: { id: "ploc_1", revision: 3 } }),
+        ).toMatchObject({
+            isIndefinite: true,
+            message: testI18n.t("partyLocations.errors.relocateIndefinite"),
+        });
+        expect(await submit(hook, { label: "Depot" })).toMatchObject({
             isIndefinite: false,
             message: testI18n.t("partyLocations.errors.requestFailed"),
         });
-    });
-
-    it("uses a new key when the command changes", async () => {
-        api.create.mockResolvedValue(failure());
-        const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
-
-        await act(() => hook.result.current.mutateAsync({ label: "Depot" }).catch(() => undefined));
-        await act(() =>
-            hook.result.current.mutateAsync({ label: "Depot 2" }).catch(() => undefined),
-        );
-
-        expect(api.create.mock.calls[1][0].headers["Idempotency-Key"]).not.toBe(
-            api.create.mock.calls[0][0].headers["Idempotency-Key"],
-        );
+        await waitFor(() => expect(hook.result.current.reconciliation.status).toBe("idle"));
     });
 
     it("sends relocation with the expected revision and refreshes the list", async () => {
@@ -192,17 +252,30 @@ describe("Party-location API", () => {
         api.create.mockResolvedValue(ok(dto({ id: "ploc_2", revision: 1 }), 201));
         const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
 
-        await act(() =>
-            hook.result.current.mutateAsync({
-                label: "New showroom",
-                relocates: { id: "ploc_1", revision: 3 },
-            }),
-        );
+        await submit(hook, { label: "New showroom", relocates: { id: "ploc_1", revision: 3 } });
 
         expect(api.create.mock.calls[0][0].body).toEqual({
             label: "New showroom",
             relocates: { id: "ploc_1", revision: 3 },
         });
+        expect(client.getQueryState(listKey)?.isInvalidated).toBe(true);
+    });
+
+    it("refetches instead of resubmitting a stale relocation", async () => {
+        seedList();
+        api.create.mockResolvedValueOnce(failure(409));
+        const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
+
+        const error = await submit(hook, {
+            label: "New showroom",
+            relocates: { id: "ploc_1", revision: 3 },
+        });
+
+        expect(error).toMatchObject({
+            isConflict: true,
+            message: testI18n.t("partyLocations.errors.conflict"),
+        });
+        expect(api.create).toHaveBeenCalledTimes(1);
         expect(client.getQueryState(listKey)?.isInvalidated).toBe(true);
     });
 
