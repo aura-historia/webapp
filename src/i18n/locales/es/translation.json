@@ -1244,7 +1244,8 @@
       "HUF": "HUF - Forinto húngaro",
       "RON": "RON - Leu rumano",
       "MXN": "MXN - Peso mexicano",
-      "THB": "THB - Baht tailandés"
+      "THB": "THB - Baht tailandés",
+      "ARS": "ARS - Peso argentino"
     },
     "unitSystems": {
       "METRIC": "Métrico",

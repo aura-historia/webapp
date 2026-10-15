@@ -46,7 +46,7 @@ describe("getServerPreferences", () => {
         expect(result).toEqual({});
     });
 
-    it.each(["ZAR", "SEK", "DKK", "NOK", "KRW", "INR", "TWD", "HUF", "RON", "MXN", "THB"])(
+    it.each(["ZAR", "SEK", "DKK", "NOK", "KRW", "INR", "TWD", "HUF", "RON", "MXN", "THB", "ARS"])(
         "keeps the newly supported currency %s from the cookie",
         async (currency) => {
             vi.mocked(getCookie).mockReturnValue(

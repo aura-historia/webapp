@@ -126,7 +126,7 @@ describe("UserDetailsForm", () => {
             await renderUserDetailsForm();
 
             await user.click(screen.getByRole("button", { name: "Währung" }));
-            expect(screen.getAllByRole("option")).toHaveLength(29);
+            expect(screen.getAllByRole("option")).toHaveLength(30);
             await user.click(screen.getByRole("option", { name: "SEK - Schwedische Krone" }));
             await user.click(screen.getByRole("button", { name: "Speichern und fortfahren" }));
 

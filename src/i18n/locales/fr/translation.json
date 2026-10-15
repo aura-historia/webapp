@@ -1244,7 +1244,8 @@
       "HUF": "HUF - Forint hongrois",
       "RON": "RON - Leu roumain",
       "MXN": "MXN - Peso mexicain",
-      "THB": "THB - Baht thaïlandais"
+      "THB": "THB - Baht thaïlandais",
+      "ARS": "ARS - Peso argentin"
     },
     "unitSystems": {
       "METRIC": "Métrique",

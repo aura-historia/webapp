@@ -22,6 +22,7 @@ describe("currency minor units", () => {
         ["SEK", 123.45],
         ["TWD", 123.45],
         ["HUF", 123.45],
+        ["ARS", 123.45],
     ] as const)("converts 12345 minor %s units to %s major units", (currency, major) => {
         expect(toMajorCurrencyAmount(12345, currency)).toBe(major);
     });
@@ -30,6 +31,7 @@ describe("currency minor units", () => {
         [12345, "KRW", 12345],
         [123.45, "INR", 12345],
         [123.45, "ZAR", 12345],
+        [123.45, "ARS", 12345],
     ] as const)("converts %s major %s units to %s minor units", (major, currency, minor) => {
         expect(toMinorCurrencyAmount(major, currency)).toBe(minor);
     });
@@ -81,6 +83,8 @@ describe("formatPrice", () => {
         ["TWD", 12345, "123,45 NT$"],
         ["ZAR", 12345, "123,45 R"],
         ["INR", 12345, "123,45 ₹"],
+        ["ARS", 12345, "123,45 AR$"],
+        ["ARS", 0, "0,00 AR$"],
     ] as const)("formats %s %s minor units in de-DE", (currency, amount, expected) => {
         expect(normalizeSpaces(formatPrice({ amount, currency }, locale))).toBe(expected);
     });

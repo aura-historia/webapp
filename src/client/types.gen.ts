@@ -528,9 +528,10 @@ export type LanguageData = 'de' | 'en' | 'fr' | 'es' | 'it' | 'zh' | 'pt' | 'pl'
  * - RON: Romanian Leu
  * - MXN: Mexican Peso
  * - THB: Thai Baht
+ * - ARS: Argentine Peso (2 minor-unit decimal places)
  *
  */
-export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD' | 'CNY' | 'BRL' | 'PLN' | 'TRY' | 'JPY' | 'CZK' | 'RUB' | 'AED' | 'SAR' | 'HKD' | 'SGD' | 'CHF' | 'ZAR' | 'SEK' | 'DKK' | 'NOK' | 'KRW' | 'INR' | 'TWD' | 'HUF' | 'RON' | 'MXN' | 'THB';
+export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD' | 'CNY' | 'BRL' | 'PLN' | 'TRY' | 'JPY' | 'CZK' | 'RUB' | 'AED' | 'SAR' | 'HKD' | 'SGD' | 'CHF' | 'ZAR' | 'SEK' | 'DKK' | 'NOK' | 'KRW' | 'INR' | 'TWD' | 'HUF' | 'RON' | 'MXN' | 'THB' | 'ARS';
 
 /**
  * User preference for distance/size presentation:

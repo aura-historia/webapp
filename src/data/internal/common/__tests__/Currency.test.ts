@@ -43,11 +43,12 @@ const EXPECTED_CURRENCIES = [
     "RON",
     "MXN",
     "THB",
+    "ARS",
 ] as const;
 
 describe("CURRENCIES", () => {
-    it("should contain exactly the 29 backend currencies in canonical order", () => {
-        expect(CURRENCIES).toHaveLength(29);
+    it("should contain exactly the 30 backend currencies in canonical order", () => {
+        expect(CURRENCIES).toHaveLength(30);
         expect(CURRENCIES).toEqual(EXPECTED_CURRENCIES);
         expect(new Set(CURRENCIES).size).toBe(CURRENCIES.length);
     });
@@ -89,6 +90,7 @@ describe("CURRENCY_SYMBOLS", () => {
         ["RON", "lei"],
         ["MXN", "MX$"],
         ["THB", "฿"],
+        ["ARS", "AR$"],
     ] as const)("should use %s -> %s", (currency, symbol) => {
         expect(CURRENCY_SYMBOLS[currency]).toBe(symbol);
     });
@@ -198,6 +200,7 @@ describe("inferCurrencyFromLocale", () => {
         ["ro-RO", "RON"],
         ["es-MX", "MXN"],
         ["th-TH", "THB"],
+        ["es-AR", "ARS"],
         ["en-ZA", "ZAR"],
     ] as const)("should infer the newly supported currency for %s", (locale, currency) => {
         expect(inferCurrencyFromLocale(locale)).toBe(currency);

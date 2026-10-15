@@ -11,12 +11,24 @@ admin workflows in [admin workflows](admin-workflows.md).
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop` commit
   `769bd6f0ac66fd2d4a606737f1ebe9e6d0a7072c` (2026-10-13,
-  [backend#2051](https://github.com/aura-historia/backend/pull/2051)), taken byte-for-byte with no
-  local edits for [#1108](https://github.com/aura-historia/webapp/issues/1108). Git blob
+  [backend#2051](https://github.com/aura-historia/backend/pull/2051)), taken byte-for-byte for
+  [#1108](https://github.com/aura-historia/webapp/issues/1108). Git blob
   `c5d5da853c005de3e042ff9a0e854069da8b4215`; file SHA-256
   `a00b2018d10f996a94b540338e392a366d9a3bf7e5d530f71ee7cc0141eb2575`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `49fb4901ab37d9f374f94bc984539ae8ea4fce7359f99fd741331597d514f665`. It replaced a 2026-10-05
+  `49fb4901ab37d9f374f94bc984539ae8ea4fce7359f99fd741331597d514f665`.
+- Recorded exception to whole-capture adoption ([#1112](https://github.com/aura-historia/webapp/issues/1112)):
+  `ARS` (Argentine Peso, 2 minor-unit decimals) and its description line were added to
+  `CurrencyData` exactly as in backend `develop` commit `e693d4251b3dd13e1480679d3b87306608918173`
+  ([backend#2096](https://github.com/aura-historia/backend/pull/2096)); nothing else from that
+  commit was taken. The intervening backend changes (`Idempotency-Key` dropped from
+  `createUserAddress` and `createPartyLocation`, which no longer deduplicate creates, and the
+  reworded saved-search matching description) are deferred to the next whole-capture adoption,
+  which must also update the Party-location create flow. The amended file has Git blob
+  `ab1f18d871982ff0f0dca36e743e0522ddac8335`; file SHA-256
+  `f8ef6027e76ad39d7f3d308ac6e88d8ac9086a2558ceffbaf02f3a8a505a2601`; canonical parsed-JSON
+  SHA-256 `4e935fd886d81fd3a3c5bc1d5e3030577e0cef6bb5a2bef7c77d83a9f3f6cb20`.
+- The pinned capture replaced a 2026-10-05
   capture that had individual operations and schemas grafted in from later backend commits;
   adopt whole captures, not partial ones.
 - Adopting that capture brought in the changes the previous capture deferred: the own
@@ -146,7 +158,7 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
   projection (`amount`, `currency`, `fxRateId`, `capturedAt`) from the latest snapshot at or before
   the entry. The mapper keeps both on discovery prices/estimates and both sides of price and
   estimate changes, and drops a malformed or unsupported projection rather than coercing it.
-- A missing projection is normal (no snapshot or quote, including legacy 19-currency snapshots).
+- A missing projection is normal (no snapshot or quote, including snapshots taken before a currency such as ARS was supported).
   The timeline then shows the labelled source amount; converted values show their source amount
   and snapshot capture time. The chart offers one requested-currency series built only from
   `display` values, with gaps for missing projections and on-request or null prices, next to the
