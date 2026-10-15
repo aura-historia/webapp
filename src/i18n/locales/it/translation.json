@@ -3503,7 +3503,7 @@
       "invalid": "Controllate i dati della sede e riprovate.",
       "conflict": "Questa sede è cambiata o non è più attiva. È stata caricata la versione più recente; esaminatela prima di riprovare.",
       "createConflict": "Non è stato possibile aggiungere la sede perché la richiesta è in conflitto con una precedente. Esaminate le sedi prima di riprovare.",
-      "createIndefinite": "Non è stato possibile confermare se la sede è stata salvata. L’elenco è stato aggiornato. Controllatelo prima di inviare di nuovo; un nuovo invio può creare un duplicato.",
+      "createIndefinite": "Non è stato possibile confermare se la sede è stata salvata. Inviate di nuovo senza modifiche per riprovare in sicurezza; non verrà creato un duplicato.",
       "unavailable": "La gestione delle sedi è temporaneamente non disponibile. Riprovate tra poco.",
       "requestFailed": "Non è stato possibile completare la richiesta. Riprovate."
     },

@@ -4445,11 +4445,9 @@ paths:
         pagination in ascending persisted match-creation order. This endpoint does not execute a
         live search or preview the filter against current product listings.
 
-        New matches are discovered by bounded scheduled matching of active ordinary and enhanced
-        filters, subject to product-search projection lag. Semantic candidates are individually
-        evaluated with evidence permitted by the saved filter’s plan; deterministic filters
-        require no model decision. Runs inspect up to 50 eligible candidates per filter and
-        do not guarantee exhaustive catalogue coverage. Match discovery and notifications are not
+        New matches are discovered only by scheduled matching of active enhanced filters, subject
+        to product-search projection lag. Non-enhanced filters do not discover new matches;
+        their historical matches remain available. Match discovery and notifications are not
         synchronous with listing changes or filter creation.
 
         Requires a Cognito JWT or an Aura access token with `search-filters:read`.
@@ -13867,17 +13865,25 @@ paths:
     post:
       summary: Save a private address
       operationId: createUserAddress
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        description: Opaque owner-scoped creation retry key. Reuse with the original body to recover the server-generated ID. Different keys permit equal-content bookmarks.
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: '^[A-Za-z0-9_.:-]+$'
       tags:
       - Users
       security:
       - BearerAuth: []
       - AccessTokenAuth: []
       description: Requires the current unsuspended owner. Delegated credentials require users:write. Success and
-        errors are no-store. Each accepted request generates a new addressId, even for equal label/geography.
-        Idempotency-Key headers are ignored, including invalid or repeated values; they are not echoed and provide
-        no deduplication or result recovery. Saving does not synchronously geocode or select a preferred address.
-        Automatic creation retries can produce duplicates. After an ambiguous timeout, refresh current addresses
-        and reconcile before creating again; address/label equality cannot identify the original request conclusively.
+        errors are no-store. The server generates addressId. The body contains label/geography; exactly one valid Idempotency-Key
+        header identifies retries within this owner. Same-key original creation content returns the same entry's current view (201), including after edits.
+        Changed creation content or a deleted entry conflicts. Saving does not synchronously geocode or select a preferred address.
       responses:
         '201':
           description: Successful private operation.
@@ -13892,7 +13898,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserAddress'
         '400':
-          description: Invalid body (BAD_BODY_VALUE), including a caller-supplied addressId.
+          description: Invalid body (BAD_BODY_VALUE), including a caller-supplied addressId, or missing, repeated or invalid Idempotency-Key (BAD_HEADER_VALUE).
           headers:
             Cache-Control:
               schema:
@@ -13940,7 +13946,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         '409':
-          description: Concurrent persistence conflict (CONFLICT).
+          description: Stale version or conflicting creation key (CONFLICT).
           headers:
             Cache-Control:
               schema:
@@ -14053,7 +14059,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         '409':
-          description: Stale version (CONFLICT).
+          description: Stale version or conflicting creation key (CONFLICT).
           headers:
             Cache-Control:
               schema:
@@ -14173,7 +14179,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         '409':
-          description: Stale version (CONFLICT).
+          description: Stale version or conflicting creation key (CONFLICT).
           headers:
             Cache-Control:
               schema:
@@ -14288,7 +14294,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         '409':
-          description: Stale version (CONFLICT).
+          description: Stale version or conflicting creation key (CONFLICT).
           headers:
             Cache-Control:
               schema:
@@ -14404,7 +14410,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         '409':
-          description: Stale version (CONFLICT).
+          description: Stale version or conflicting creation key (CONFLICT).
           headers:
             Cache-Control:
               schema:
@@ -14524,7 +14530,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         '409':
-          description: Stale version (CONFLICT).
+          description: Stale version or conflicting creation key (CONFLICT).
           headers:
             Cache-Control:
               schema:
@@ -14632,7 +14638,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         '409':
-          description: Stale version (CONFLICT).
+          description: Stale version or conflicting creation key (CONFLICT).
           headers:
             Cache-Control:
               schema:
@@ -14745,9 +14751,19 @@ paths:
           type: string
           pattern: ^pty_
         description: Strict Party TypeID.
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[A-Za-z0-9_.:-]+$
+        description: Exactly one key. Stable per Party and trusted caller identity; matching retries converge, conflicting
+          command reuse returns 409.
       responses:
         '201':
-          description: Created location with a new server-generated ID.
+          description: Created location; matching retries replay the original creation result.
           headers:
             Cache-Control:
               schema:
@@ -14763,7 +14779,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PartyLocationData'
         '400':
-          description: Invalid body/path (BAD_BODY_VALUE or INVALID_OBJECT_ID).
+          description: Invalid body/header/path/query (BAD_BODY_VALUE, BAD_HEADER_VALUE, INVALID_OBJECT_ID or BAD_QUERY_PARAMETER_VALUE).
           headers:
             Cache-Control:
               schema:
@@ -14835,7 +14851,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         '409':
-          description: Stale or exhausted relocation revision or retired relocation source (CONFLICT).
+          description: Stale or exhausted revision, retired-site correction or conflicting idempotency reuse (CONFLICT).
           headers:
             Cache-Control:
               schema:
@@ -14850,12 +14866,6 @@ paths:
         membership in this Party's active partnership, or an explicit location management grant.
         Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived
         authority; independent explicit grants survive. Listing-write scope does not confer access.
-        Each accepted ordinary create generates a new location ID, even for equal content. Idempotency-Key headers
-        are ignored, including invalid or repeated values; they are not echoed and provide no deduplication or result
-        recovery. Automatic creation retries can produce duplicates. After an ambiguous timeout, refresh locations
-        and reconcile before creating again; address/label equality cannot identify the original request conclusively.
-        Relocation atomically retires the old location and creates its replacement using the old expected revision.
-        Repeating a committed relocation with that revision returns 409 and creates no second replacement.
       requestBody:
         required: true
         content:
@@ -15197,7 +15207,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         '409':
-          description: Stale or exhausted revision or retired-site correction (CONFLICT).
+          description: Stale or exhausted revision, retired-site correction or conflicting idempotency reuse (CONFLICT).
           headers:
             Cache-Control:
               schema:
@@ -15326,7 +15336,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         '409':
-          description: Stale or exhausted revision or retired-site correction (CONFLICT).
+          description: Stale or exhausted revision, retired-site correction or conflicting idempotency reuse (CONFLICT).
           headers:
             Cache-Control:
               schema:
@@ -15597,7 +15607,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
         '409':
-          description: Stale or exhausted revision or retired-site correction (CONFLICT).
+          description: Stale or exhausted revision, retired-site correction or conflicting idempotency reuse (CONFLICT).
           headers:
             Cache-Control:
               schema:

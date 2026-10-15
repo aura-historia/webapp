@@ -3503,7 +3503,7 @@
       "invalid": "Check the location details and try again.",
       "conflict": "This location has changed or is no longer active. The latest version has been loaded; review it before trying again.",
       "createConflict": "This location could not be added because the request conflicts with an earlier one. Review the locations before trying again.",
-      "createIndefinite": "We could not confirm whether the location was saved. The list has been refreshed. Check it before submitting again; submitting again can create a duplicate.",
+      "createIndefinite": "We could not confirm whether the location was saved. Submit again without changes to retry safely; this will not create a duplicate.",
       "unavailable": "Location management is temporarily unavailable. Please try again shortly.",
       "requestFailed": "The request could not be completed. Please try again."
     },

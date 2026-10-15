@@ -1100,7 +1100,7 @@ export const updateUserSearchFilter = <ThrowOnError extends boolean = false>(opt
  * List persisted matches for a saved search filter
  *
  * Delegated Aura access tokens require `search-filters:read`; missing scope returns `403 FORBIDDEN`. Returns persisted product-listing matches associated with the authenticated user’s saved search filter. Results are read from stored match state and returned with cursor-based pagination in ascending persisted match-creation order. This endpoint does not execute a live search or preview the filter against current product listings.
- * New matches are discovered by bounded scheduled matching of active ordinary and enhanced filters, subject to product-search projection lag. Semantic candidates are individually evaluated with evidence permitted by the saved filter’s plan; deterministic filters require no model decision. Runs inspect up to 50 eligible candidates per filter and do not guarantee exhaustive catalogue coverage. Match discovery and notifications are not synchronous with listing changes or filter creation.
+ * New matches are discovered only by scheduled matching of active enhanced filters, subject to product-search projection lag. Non-enhanced filters do not discover new matches; their historical matches remain available. Match discovery and notifications are not synchronous with listing changes or filter creation.
  * Requires a Cognito JWT or an Aura access token with `search-filters:read`.
  */
 export const listSearchFilterMatches = <ThrowOnError extends boolean = false>(options: Options<ListSearchFilterMatchesData, ThrowOnError>): RequestResult<ListSearchFilterMatchesResponses, ListSearchFilterMatchesErrors, ThrowOnError> => (options.client ?? client).get<ListSearchFilterMatchesResponses, ListSearchFilterMatchesErrors, ThrowOnError>({
@@ -3043,7 +3043,7 @@ export const listUserAddresses = <ThrowOnError extends boolean = false>(options?
 /**
  * Save a private address
  *
- * Requires the current unsuspended owner. Delegated credentials require users:write. Success and errors are no-store. Each accepted request generates a new addressId, even for equal label/geography. Idempotency-Key headers are ignored, including invalid or repeated values; they are not echoed and provide no deduplication or result recovery. Saving does not synchronously geocode or select a preferred address. Automatic creation retries can produce duplicates. After an ambiguous timeout, refresh current addresses and reconcile before creating again; address/label equality cannot identify the original request conclusively.
+ * Requires the current unsuspended owner. Delegated credentials require users:write. Success and errors are no-store. The server generates addressId. The body contains label/geography; exactly one valid Idempotency-Key header identifies retries within this owner. Same-key original creation content returns the same entry's current view (201), including after edits. Changed creation content or a deleted entry conflicts. Saving does not synchronously geocode or select a preferred address.
  */
 export const createUserAddress = <ThrowOnError extends boolean = false>(options: Options<CreateUserAddressData, ThrowOnError>): RequestResult<CreateUserAddressResponses, CreateUserAddressErrors, ThrowOnError> => (options.client ?? client).post<CreateUserAddressResponses, CreateUserAddressErrors, ThrowOnError>({
   security: [{
@@ -3199,7 +3199,7 @@ export const listPartyLocations = <ThrowOnError extends boolean = false>(options
 /**
  * Create a Party location
  *
- * Delegated credentials require parties:write. Use cases require administrator/internal authority, membership in this Party's active partnership, or an explicit location management grant. Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived authority; independent explicit grants survive. Listing-write scope does not confer access. Each accepted ordinary create generates a new location ID, even for equal content. Idempotency-Key headers are ignored, including invalid or repeated values; they are not echoed and provide no deduplication or result recovery. Automatic creation retries can produce duplicates. After an ambiguous timeout, refresh locations and reconcile before creating again; address/label equality cannot identify the original request conclusively. Relocation atomically retires the old location and creates its replacement using the old expected revision. Repeating a committed relocation with that revision returns 409 and creates no second replacement.
+ * Delegated credentials require parties:write. Use cases require administrator/internal authority, membership in this Party's active partnership, or an explicit location management grant. Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived authority; independent explicit grants survive. Listing-write scope does not confer access.
  */
 export const createPartyLocation = <ThrowOnError extends boolean = false>(options: Options<CreatePartyLocationData2, ThrowOnError>): RequestResult<CreatePartyLocationResponses, CreatePartyLocationErrors, ThrowOnError> => (options.client ?? client).post<CreatePartyLocationResponses, CreatePartyLocationErrors, ThrowOnError>({
   security: [{

@@ -10,20 +10,25 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop` commit
-  `e693d4251b3dd13e1480679d3b87306608918173` (2026-10-15,
-  [backend#2096](https://github.com/aura-historia/backend/pull/2096)), taken byte-for-byte with no
-  local edits for [#1112](https://github.com/aura-historia/webapp/issues/1112). Git blob
-  `d069e8a39f14136facedf82cbd1f12774149753c`; file SHA-256
-  `ce19c97d577678fa9e023aa1feced72ac34396154fa031918a0982a3d810f1a3`; canonical parsed-JSON
+  `769bd6f0ac66fd2d4a606737f1ebe9e6d0a7072c` (2026-10-13,
+  [backend#2051](https://github.com/aura-historia/backend/pull/2051)), taken byte-for-byte for
+  [#1108](https://github.com/aura-historia/webapp/issues/1108). Git blob
+  `c5d5da853c005de3e042ff9a0e854069da8b4215`; file SHA-256
+  `a00b2018d10f996a94b540338e392a366d9a3bf7e5d530f71ee7cc0141eb2575`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `90a32cb7afaaed3fc12a30907eba7bfd32ce276d6a73bc9112696f44735ff2b5`.
-- Relative to the previous capture (`develop` commit `769bd6f0ac66fd2d4a606737f1ebe9e6d0a7072c`,
-  [#1108](https://github.com/aura-historia/webapp/issues/1108)) it adds `ARS` (2 minor-unit
-  decimals) to `CurrencyData`, drops the required `Idempotency-Key` header from
-  `createUserAddress` and `createPartyLocation` (both now mint a new ID per accepted request; see
-  [Geography](#geography)), and rewords the saved-search description: scheduled matching now covers
-  ordinary and enhanced filters, bounded per run. The wording change needs no client change.
-- The [#1108](https://github.com/aura-historia/webapp/issues/1108) capture replaced a 2026-10-05
+  `49fb4901ab37d9f374f94bc984539ae8ea4fce7359f99fd741331597d514f665`.
+- Recorded exception to whole-capture adoption ([#1112](https://github.com/aura-historia/webapp/issues/1112)):
+  `ARS` (Argentine Peso, 2 minor-unit decimals) and its description line were added to
+  `CurrencyData` exactly as in backend `develop` commit `e693d4251b3dd13e1480679d3b87306608918173`
+  ([backend#2096](https://github.com/aura-historia/backend/pull/2096)); nothing else from that
+  commit was taken. The intervening backend changes (`Idempotency-Key` dropped from
+  `createUserAddress` and `createPartyLocation`, which no longer deduplicate creates, and the
+  reworded saved-search matching description) are deferred to the next whole-capture adoption,
+  which must also update the Party-location create flow. The amended file has Git blob
+  `ab1f18d871982ff0f0dca36e743e0522ddac8335`; file SHA-256
+  `f8ef6027e76ad39d7f3d308ac6e88d8ac9086a2558ceffbaf02f3a8a505a2601`; canonical parsed-JSON
+  SHA-256 `4e935fd886d81fd3a3c5bc1d5e3030577e0cef6bb5a2bef7c77d83a9f3f6cb20`.
+- The pinned capture replaced a 2026-10-05
   capture that had individual operations and schemas grafted in from later backend commits;
   adopt whole captures, not partial ones.
 - Adopting that capture brought in the changes the previous capture deferred: the own
@@ -234,10 +239,9 @@ Shared models live in `src/data/internal/geography`; formatting helpers in
   unrounded distance; send it back unchanged with the same query. Address and destination writes
   carry `expectedVersion`; Party-location and source-default writes `expectedRevision`. A `409
   CONFLICT` means stale state: refetch, never retry blindly.
-- **No create deduplication:** `createUserAddress` and `createPartyLocation` ignore
-  `Idempotency-Key` and mint a new ID per accepted request, so never retry them automatically.
-  After an indefinite outcome, refetch and let the user reconcile before creating again. Repeating
-  a committed relocation with the same `expectedRevision` returns `409`.
+- **Idempotency:** `createUserAddress` and `createPartyLocation` require an `Idempotency-Key`.
+  Create one with `createIdempotencyKey` per submission, reuse it only for retries of the
+  unchanged command and discard it after a definite outcome.
 - **Commands:** source-default evidence is opaque text whose scope follows the field; omitted
   applicability retains, `null` removes. Party-location corrections keep omitted members, `null`
   clears geography, position or evidence, and `roles: []` clears roles. The location-management
