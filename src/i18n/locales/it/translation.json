@@ -3470,7 +3470,14 @@
       "staleInactive": "Questa sede non è più attiva, quindi non può più essere corretta o trasferita. Chiudete questa finestra per esaminarla.",
       "keepDraft": "Mantieni la bozza",
       "discardDraft": "Scarta la bozza",
-      "confirmRelocation": "Creare la nuova sede e dismettere quella attuale nello stesso passaggio?"
+      "confirmRelocation": "Creare la nuova sede e dismettere quella attuale nello stesso passaggio?",
+      "reconciliation": {
+        "refreshing": "Aggiornamento delle sedi…",
+        "refreshed": "Le sedi sono state aggiornate. Se la modifica è già presente nell’elenco, chiudete questa finestra invece di inviare di nuovo.",
+        "failed": "Non è stato possibile aggiornare le sedi, quindi non è ancora noto se la richiesta sia stata salvata. Aggiornatele prima di inviare di nuovo.",
+        "activeLocations": "Sedi attive attuali",
+        "noActiveLocations": "Questa organizzazione non ha sedi attive."
+      }
     },
     "actions": {
       "create": "Aggiungi sede",
@@ -3484,7 +3491,8 @@
       "back": "Indietro",
       "cancel": "Annulla",
       "saving": "Salvataggio…",
-      "retry": "Riprova"
+      "retry": "Riprova",
+      "refresh": "Aggiorna sedi"
     },
     "selector": {
       "empty": "Questa organizzazione non ha sedi attive."
@@ -3502,8 +3510,9 @@
       "missing": "Questa organizzazione o sede non è stata trovata o non è più disponibile.",
       "invalid": "Controllate i dati della sede e riprovate.",
       "conflict": "Questa sede è cambiata o non è più attiva. È stata caricata la versione più recente; esaminatela prima di riprovare.",
-      "createConflict": "Non è stato possibile aggiungere la sede perché la richiesta è in conflitto con una precedente. Esaminate le sedi prima di riprovare.",
-      "createIndefinite": "Non è stato possibile confermare se la sede è stata salvata. Inviate di nuovo senza modifiche per riprovare in sicurezza; non verrà creato un duplicato.",
+      "createConflict": "Non è stato possibile aggiungere la sede a causa di una modifica in conflitto. Esaminate le sedi attuali prima di riprovare.",
+      "createIndefinite": "Non è stato possibile confermare se la sede è stata aggiunta. Potrebbe essere stata salvata. La bozza viene mantenuta; esaminate le sedi aggiornate prima di inviare di nuovo, perché ogni nuovo invio aggiunge una sede distinta.",
+      "relocateIndefinite": "Non è stato possibile confermare se il trasferimento è stato salvato. Potrebbe essere stato completato. La bozza viene mantenuta; esaminate le sedi aggiornate prima di riprovare.",
       "unavailable": "La gestione delle sedi è temporaneamente non disponibile. Riprovate tra poco.",
       "requestFailed": "Non è stato possibile completare la richiesta. Riprovate."
     },

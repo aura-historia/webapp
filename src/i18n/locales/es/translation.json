@@ -3470,7 +3470,14 @@
       "staleInactive": "Esta ubicación ya no está activa, por lo que ya no se puede corregir ni trasladar. Cierre este cuadro de diálogo para revisarla.",
       "keepDraft": "Conservar mi borrador",
       "discardDraft": "Descartar mi borrador",
-      "confirmRelocation": "¿Crear la nueva ubicación y retirar la actual en el mismo paso?"
+      "confirmRelocation": "¿Crear la nueva ubicación y retirar la actual en el mismo paso?",
+      "reconciliation": {
+        "refreshing": "Actualizando las ubicaciones…",
+        "refreshed": "Las ubicaciones se han actualizado. Si el cambio ya aparece en la lista, cierre este cuadro de diálogo en lugar de volver a enviarlo.",
+        "failed": "No se pudieron actualizar las ubicaciones, por lo que sigue sin saberse si la solicitud se guardó. Actualícelas antes de volver a enviarla.",
+        "activeLocations": "Ubicaciones activas actuales",
+        "noActiveLocations": "Esta organización no tiene ubicaciones activas."
+      }
     },
     "actions": {
       "create": "Añadir ubicación",
@@ -3484,7 +3491,8 @@
       "back": "Volver",
       "cancel": "Cancelar",
       "saving": "Guardando…",
-      "retry": "Reintentar"
+      "retry": "Reintentar",
+      "refresh": "Actualizar ubicaciones"
     },
     "selector": {
       "empty": "Esta organización no tiene ubicaciones activas."
@@ -3502,8 +3510,9 @@
       "missing": "No se ha encontrado esta organización o ubicación, o ya no está disponible.",
       "invalid": "Revise los datos de la ubicación e inténtelo de nuevo.",
       "conflict": "Esta ubicación ha cambiado o ya no está activa. Se ha cargado la versión más reciente; revísela antes de volver a intentarlo.",
-      "createConflict": "No se pudo añadir la ubicación porque la solicitud entra en conflicto con otra anterior. Revise las ubicaciones antes de volver a intentarlo.",
-      "createIndefinite": "No hemos podido confirmar si la ubicación se guardó. Vuelva a enviar sin cambios para reintentarlo con seguridad; no se creará un duplicado.",
+      "createConflict": "No se pudo añadir la ubicación debido a un cambio en conflicto. Revise las ubicaciones actuales antes de volver a intentarlo.",
+      "createIndefinite": "No hemos podido confirmar si se añadió la ubicación. Es posible que se haya guardado. Su borrador se conserva; revise las ubicaciones actualizadas antes de volver a enviarlo, porque cada nuevo envío añade una ubicación distinta.",
+      "relocateIndefinite": "No hemos podido confirmar si se guardó el traslado. Es posible que se haya completado. Su borrador se conserva; revise las ubicaciones actualizadas antes de volver a intentarlo.",
       "unavailable": "La gestión de ubicaciones no está disponible temporalmente. Inténtelo de nuevo en breve.",
       "requestFailed": "No se pudo completar la solicitud. Inténtelo de nuevo."
     },

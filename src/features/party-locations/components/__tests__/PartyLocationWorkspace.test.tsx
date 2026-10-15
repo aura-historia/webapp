@@ -37,6 +37,8 @@ const dto = (patch: Partial<PartyLocationData> = {}): PartyLocationData => ({
 });
 const ok = (data: unknown, status = 200) => ({ data, response: { status } });
 const failure = (status: number) => ({ error: {}, response: { status } });
+/** A request whose response was lost: the backend may or may not have committed it. */
+const lost = () => ({ error: {}, response: undefined });
 /** Serves these locations from now on, as the backend would after a change. */
 const serve = (...items: PartyLocationData[]) =>
     api.list.mockResolvedValue(ok({ items, next: null }));
@@ -151,12 +153,113 @@ describe("PartyLocationWorkspace", () => {
             geography: { referenceRelease: "iso-codes-4.20.1", addressText: "Rue 1" },
             relocates: { id: "ploc_1", revision: 3 },
         });
-        expect(request.headers["Idempotency-Key"]).toEqual(expect.any(String));
+        expect(request).not.toHaveProperty("headers");
         expect(await screen.findByRole("heading", { name: "New showroom" })).toBeInTheDocument();
         // The previous location stays listed, retired, next to the new one.
         expect(
             await screen.findByText(t("partyLocations.eligibility.RETIRED")),
         ).toBeInTheDocument();
+    });
+
+    it("keeps the draft after an unknown create outcome and resubmits only after a refresh", async () => {
+        const depot = dto({ id: "ploc_2", label: "Depot", revision: 1 });
+        api.create
+            .mockImplementationOnce(async () => {
+                // The create was committed, but its response never arrived.
+                serve(dto(), depot);
+                return lost();
+            })
+            .mockResolvedValueOnce(ok(dto({ id: "ploc_3", label: "Depot", revision: 1 }), 201));
+        await renderLoaded();
+
+        fireEvent.click(screen.getByRole("button", { name: t("partyLocations.actions.create") }));
+        const label = screen.getByLabelText(t("partyLocations.fields.label"));
+        fireEvent.change(label, { target: { value: "Depot" } });
+        const submitButton = screen.getByRole("button", {
+            name: t("partyLocations.editor.create.submit"),
+        });
+        fireEvent.click(submitButton);
+
+        expect(
+            await screen.findByText(t("partyLocations.errors.createIndefinite")),
+        ).toBeInTheDocument();
+        expect(
+            await screen.findByText(t("partyLocations.editor.reconciliation.refreshed")),
+        ).toBeInTheDocument();
+        const refreshed = screen.getByRole("list", {
+            name: t("partyLocations.editor.reconciliation.activeLocations"),
+        });
+        expect(refreshed).toHaveTextContent("Depot");
+        expect(label).toHaveValue("Depot");
+        expect(api.create).toHaveBeenCalledTimes(1);
+
+        // Another create is a deliberate choice and yields a separate location.
+        await waitFor(() => expect(submitButton).toBeEnabled());
+        fireEvent.click(submitButton);
+        await waitFor(() => expect(api.create).toHaveBeenCalledTimes(2));
+        expect(api.create.mock.calls[1][0]).not.toHaveProperty("headers");
+    });
+
+    it("blocks another create while the refresh after an unknown outcome fails", async () => {
+        api.create.mockImplementationOnce(async () => {
+            api.list.mockResolvedValue(failure(500));
+            return lost();
+        });
+        await renderLoaded();
+
+        fireEvent.click(screen.getByRole("button", { name: t("partyLocations.actions.create") }));
+        fireEvent.change(screen.getByLabelText(t("partyLocations.fields.label")), {
+            target: { value: "Depot" },
+        });
+        const submitButton = screen.getByRole("button", {
+            name: t("partyLocations.editor.create.submit"),
+        });
+        fireEvent.click(submitButton);
+
+        expect(
+            await screen.findByText(t("partyLocations.editor.reconciliation.failed")),
+        ).toBeInTheDocument();
+        expect(submitButton).toBeDisabled();
+
+        serve(dto());
+        fireEvent.click(screen.getByRole("button", { name: t("partyLocations.actions.refresh") }));
+        expect(
+            await screen.findByText(t("partyLocations.editor.reconciliation.refreshed")),
+        ).toBeInTheDocument();
+        expect(submitButton).toBeEnabled();
+        expect(api.create).toHaveBeenCalledTimes(1);
+    });
+
+    it("keeps the relocation draft and does not resubmit after a stale-relocation conflict", async () => {
+        const replacement = dto({ id: "ploc_2", label: "New showroom", revision: 1 });
+        // The same relocation was already committed elsewhere at the expected revision.
+        api.create.mockImplementationOnce(async () => {
+            serve(dto({ lifecycle: "RETIRED", revision: 4 }), replacement);
+            return failure(409);
+        });
+        await renderLoaded();
+
+        fireEvent.click(screen.getByRole("button", { name: t("partyLocations.actions.relocate") }));
+        const label = screen.getByLabelText(t("partyLocations.fields.label"));
+        fireEvent.change(label, { target: { value: "New showroom" } });
+        fireEvent.click(
+            screen.getByRole("button", { name: t("partyLocations.editor.relocate.submit") }),
+        );
+        fireEvent.click(
+            await screen.findByRole("button", {
+                name: t("partyLocations.actions.confirmRelocate"),
+            }),
+        );
+
+        expect(
+            await screen.findByText(t("partyLocations.editor.staleInactive")),
+        ).toBeInTheDocument();
+        expect(label).toHaveValue("New showroom");
+        expect(
+            screen.getByRole("button", { name: t("partyLocations.editor.relocate.submit") }),
+        ).toBeDisabled();
+        expect(api.create).toHaveBeenCalledTimes(1);
+        expect(api.create.mock.calls[0][0].body.relocates).toEqual({ id: "ploc_1", revision: 3 });
     });
 
     it("keeps the draft after a conflict and applies only its changes to the latest revision", async () => {

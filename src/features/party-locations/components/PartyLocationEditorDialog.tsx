@@ -34,6 +34,8 @@ import { GeographyDisclosure } from "@/features/geography/components/GeographyDi
 import { formatCountryName } from "@/features/geography/lib/formatGeography.ts";
 import { handleCheckedChange } from "@/lib/utils.ts";
 import {
+    type PartyLocationReconciliation,
+    PartyLocationRequestError,
     type PartyLocationScope,
     useCorrectPartyLocation,
     useCreatePartyLocation,
@@ -46,6 +48,7 @@ import {
     toPartyLocationFormValues,
     toRelocationFormValues,
 } from "../lib/partyLocationForm.ts";
+import { formatPartyLocationRegion } from "../lib/partyLocationSummary.ts";
 import { PartyLocationConsequence } from "./PartyLocationConsequence.tsx";
 
 export type PartyLocationEditorIntent =
@@ -60,7 +63,8 @@ const DISCLOSURE_ID = "party-location-public-disclosure";
  * Create, same-location correction and relocation of one Party location. Pass a fresh `key` per
  * intent. `current` is the latest authoritative state of the edited location: when it moves past
  * the revision the draft is based on, submission waits for the user to keep or discard the draft
- * explicitly.
+ * explicitly. A create or relocation with an unknown outcome keeps the draft and waits for the
+ * refreshed locations before it can be submitted again; it is never resubmitted automatically.
  */
 export function PartyLocationEditorDialog({
     scope,
@@ -101,6 +105,12 @@ export function PartyLocationEditorDialog({
     const inactive = latest !== undefined && latest.lifecycle !== "ACTIVE";
     const pending = create.isPending || correct.isPending;
     const requestError = intent.kind === "correct" ? correct.error : create.error;
+    const indefinite =
+        intent.kind !== "correct" &&
+        create.error instanceof PartyLocationRequestError &&
+        create.error.isIndefinite;
+    // Another create is offered only after the authoritative locations were reloaded.
+    const unreconciled = indefinite && create.reconciliation.status !== "refreshed";
 
     const resetFeedback = () => {
         setNotice(undefined);
@@ -235,6 +245,12 @@ export function PartyLocationEditorDialog({
                             {requestError.message}
                         </p>
                     )}
+                    {indefinite && (
+                        <ReconciliationStatus
+                            reconciliation={create.reconciliation}
+                            onRefresh={() => void create.refresh()}
+                        />
+                    )}
                     {notice && <output className="text-sm text-muted-foreground">{notice}</output>}
                     {pendingRelocation ? (
                         <div className="grid gap-3 border border-destructive/40 bg-destructive/5 p-4">
@@ -245,7 +261,7 @@ export function PartyLocationEditorDialog({
                                 <Button
                                     type="button"
                                     variant="destructive"
-                                    disabled={pending || stale || inactive}
+                                    disabled={pending || stale || inactive || unreconciled}
                                     onClick={() => saveCreated(pendingRelocation)}
                                 >
                                     {pending
@@ -267,7 +283,10 @@ export function PartyLocationEditorDialog({
                             <Button type="button" variant="outline" onClick={close}>
                                 {t("partyLocations.actions.cancel")}
                             </Button>
-                            <Button type="submit" disabled={pending || stale || inactive}>
+                            <Button
+                                type="submit"
+                                disabled={pending || stale || inactive || unreconciled}
+                            >
                                 {pending
                                     ? t("partyLocations.actions.saving")
                                     : t(`partyLocations.editor.${intent.kind}.submit`)}
@@ -278,6 +297,68 @@ export function PartyLocationEditorDialog({
             </DialogContent>
         </Dialog>
     );
+}
+
+/**
+ * Progress of the refresh after an unknown create outcome. The refreshed active locations are
+ * listed for review without matching them to the draft: equal content cannot prove the original
+ * request succeeded.
+ */
+function ReconciliationStatus({
+    reconciliation,
+    onRefresh,
+}: {
+    readonly reconciliation: PartyLocationReconciliation;
+    readonly onRefresh: () => void;
+}) {
+    const { t, i18n } = useTranslation();
+    if (reconciliation.status === "refreshing") {
+        return (
+            <output className="text-sm text-muted-foreground">
+                {t("partyLocations.editor.reconciliation.refreshing")}
+            </output>
+        );
+    }
+    if (reconciliation.status === "refreshed") {
+        const active = reconciliation.locations.filter(
+            (location) => location.lifecycle === "ACTIVE",
+        );
+        return (
+            <div className="grid gap-2 border border-border bg-surface-container p-3 text-sm">
+                <output>{t("partyLocations.editor.reconciliation.refreshed")}</output>
+                {active.length > 0 ? (
+                    <ul
+                        className="grid gap-1"
+                        aria-label={t("partyLocations.editor.reconciliation.activeLocations")}
+                    >
+                        {active.map((location) => (
+                            <li key={location.id}>
+                                <span className="font-medium">{location.label}</span>{" "}
+                                <span className="text-muted-foreground">
+                                    {formatPartyLocationRegion(location, i18n.language, t)}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p className="text-muted-foreground">
+                        {t("partyLocations.editor.reconciliation.noActiveLocations")}
+                    </p>
+                )}
+            </div>
+        );
+    }
+    if (reconciliation.status === "failed") {
+        return (
+            <div role="alert" className="grid justify-items-start gap-2 text-sm">
+                <p>{t("partyLocations.editor.reconciliation.failed")}</p>
+                <Button type="button" variant="outline" onClick={onRefresh}>
+                    {t("partyLocations.actions.refresh")}
+                </Button>
+            </div>
+        );
+    }
+    return null;
 }
 
 function PartyLocationFields({

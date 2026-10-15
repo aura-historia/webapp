@@ -3470,7 +3470,14 @@
       "staleInactive": "Dieser Standort ist nicht mehr aktiv und kann daher nicht mehr korrigiert oder verlegt werden. Schließen Sie diesen Dialog, um ihn zu prüfen.",
       "keepDraft": "Entwurf behalten",
       "discardDraft": "Entwurf verwerfen",
-      "confirmRelocation": "Den neuen Standort anlegen und den bisherigen im selben Schritt stilllegen?"
+      "confirmRelocation": "Den neuen Standort anlegen und den bisherigen im selben Schritt stilllegen?",
+      "reconciliation": {
+        "refreshing": "Die Standorte werden aktualisiert …",
+        "refreshed": "Die Standorte wurden aktualisiert. Wenn die Änderung bereits aufgeführt ist, schließen Sie diesen Dialog, statt erneut zu senden.",
+        "failed": "Die Standorte konnten nicht aktualisiert werden, daher ist weiterhin unklar, ob die Anfrage gespeichert wurde. Aktualisieren Sie sie, bevor Sie erneut senden.",
+        "activeLocations": "Aktuelle aktive Standorte",
+        "noActiveLocations": "Diese Organisation hat keine aktiven Standorte."
+      }
     },
     "actions": {
       "create": "Standort hinzufügen",
@@ -3484,7 +3491,8 @@
       "back": "Zurück",
       "cancel": "Abbrechen",
       "saving": "Wird gespeichert…",
-      "retry": "Erneut versuchen"
+      "retry": "Erneut versuchen",
+      "refresh": "Standorte aktualisieren"
     },
     "selector": {
       "empty": "Diese Organisation hat keine aktiven Standorte."
@@ -3502,8 +3510,9 @@
       "missing": "Diese Organisation oder dieser Standort wurde nicht gefunden oder ist nicht mehr verfügbar.",
       "invalid": "Prüfen Sie die Standortangaben und versuchen Sie es erneut.",
       "conflict": "Dieser Standort wurde geändert oder ist nicht mehr aktiv. Die neueste Fassung wurde geladen; prüfen Sie sie, bevor Sie es erneut versuchen.",
-      "createConflict": "Der Standort konnte nicht hinzugefügt werden, weil die Anfrage im Widerspruch zu einer früheren steht. Prüfen Sie die Standorte, bevor Sie es erneut versuchen.",
-      "createIndefinite": "Wir konnten nicht bestätigen, ob der Standort gespeichert wurde. Senden Sie das Formular unverändert erneut, um es sicher zu wiederholen; dabei entsteht kein Duplikat.",
+      "createConflict": "Der Standort konnte wegen einer widersprüchlichen Änderung nicht hinzugefügt werden. Prüfen Sie die aktuellen Standorte, bevor Sie es erneut versuchen.",
+      "createIndefinite": "Wir konnten nicht bestätigen, ob der Standort hinzugefügt wurde. Er wurde möglicherweise gespeichert. Ihr Entwurf bleibt erhalten; prüfen Sie die aktualisierten Standorte, bevor Sie erneut senden, denn jede weitere Übermittlung legt einen eigenen Standort an.",
+      "relocateIndefinite": "Wir konnten nicht bestätigen, ob die Verlegung gespeichert wurde. Sie wurde möglicherweise abgeschlossen. Ihr Entwurf bleibt erhalten; prüfen Sie die aktualisierten Standorte, bevor Sie es erneut versuchen.",
       "unavailable": "Die Standortverwaltung ist vorübergehend nicht verfügbar. Bitte versuchen Sie es in Kürze erneut.",
       "requestFailed": "Die Anfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
     },

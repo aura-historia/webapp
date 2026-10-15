@@ -3470,7 +3470,14 @@
       "staleInactive": "This location is no longer active, so it can no longer be corrected or relocated. Close this dialog to review it.",
       "keepDraft": "Keep my draft",
       "discardDraft": "Discard my draft",
-      "confirmRelocation": "Create the new location and retire the current one in the same step?"
+      "confirmRelocation": "Create the new location and retire the current one in the same step?",
+      "reconciliation": {
+        "refreshing": "Refreshing the locations…",
+        "refreshed": "The locations have been refreshed. If the change is already listed, close this dialog instead of submitting again.",
+        "failed": "The locations could not be refreshed, so it is still unknown whether the request was saved. Refresh them before submitting again.",
+        "activeLocations": "Current active locations",
+        "noActiveLocations": "This organization has no active locations."
+      }
     },
     "actions": {
       "create": "Add location",
@@ -3484,7 +3491,8 @@
       "back": "Back",
       "cancel": "Cancel",
       "saving": "Saving…",
-      "retry": "Retry"
+      "retry": "Retry",
+      "refresh": "Refresh locations"
     },
     "selector": {
       "empty": "This organization has no active locations."
@@ -3502,8 +3510,9 @@
       "missing": "This organization or location was not found or is no longer available.",
       "invalid": "Check the location details and try again.",
       "conflict": "This location has changed or is no longer active. The latest version has been loaded; review it before trying again.",
-      "createConflict": "This location could not be added because the request conflicts with an earlier one. Review the locations before trying again.",
-      "createIndefinite": "We could not confirm whether the location was saved. Submit again without changes to retry safely; this will not create a duplicate.",
+      "createConflict": "This location could not be added because of a conflicting change. Review the current locations before trying again.",
+      "createIndefinite": "We could not confirm whether the location was added. It may have been saved. Your draft is kept; review the refreshed locations before submitting again, because another submission adds a separate location.",
+      "relocateIndefinite": "We could not confirm whether the relocation was saved. It may have been completed. Your draft is kept; review the refreshed locations before trying again.",
       "unavailable": "Location management is temporarily unavailable. Please try again shortly.",
       "requestFailed": "The request could not be completed. Please try again."
     },
