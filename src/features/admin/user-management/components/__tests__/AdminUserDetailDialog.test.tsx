@@ -110,8 +110,8 @@ describe("AdminUserDetailDialog", () => {
         renderDialog();
 
         const currency = await screen.findByLabelText(testI18n.t("adminUsers.fields.currency"));
-        // 29 currencies plus the "not set" option.
-        expect(currency.querySelectorAll("option")).toHaveLength(30);
+        // 30 currencies plus the "not set" option.
+        expect(currency.querySelectorAll("option")).toHaveLength(31);
         await user.selectOptions(currency, "SEK");
         await user.click(
             screen.getByRole("button", { name: testI18n.t("adminUsers.actions.saveProfile") }),

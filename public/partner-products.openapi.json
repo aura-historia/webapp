@@ -6,7 +6,7 @@
     "description": "Synchronous listing-source batch writes and server-to-server WooCommerce webhooks. Use product-listings:write and a current grant for the target listing source. Batch HTTP 200 reports completed writes; WooCommerce HTTP 204 only acknowledges confirmed admission or an authorized no-op, not completed ingestion."
   },
   "x-source-url": "https://raw.githubusercontent.com/aura-historia/backend/refs/heads/develop/docs/swagger.yaml",
-  "x-source-contract-sha256": "49fb4901ab37d9f374f94bc984539ae8ea4fce7359f99fd741331597d514f665",
+  "x-source-contract-sha256": "90a32cb7afaaed3fc12a30907eba7bfd32ce276d6a73bc9112696f44735ff2b5",
   "servers": [
     {
       "url": "https://api.stage.aura-historia.com",
@@ -1447,9 +1447,10 @@
           "HUF",
           "RON",
           "MXN",
-          "THB"
+          "THB",
+          "ARS"
         ],
-        "description": "Supported currencies (ISO 4217 codes):\n- EUR: Euro\n- GBP: British Pound\n- USD: US Dollar\n- AUD: Australian Dollar\n- CAD: Canadian Dollar\n- NZD: New Zealand Dollar\n- CNY: Chinese Yuan\n- BRL: Brazilian Real\n- PLN: Polish Z\u0142oty\n- TRY: Turkish Lira\n- JPY: Japanese Yen\n- CZK: Czech Koruna\n- RUB: Russian Ruble\n- AED: UAE Dirham\n- SAR: Saudi Riyal\n- HKD: Hong Kong Dollar\n- SGD: Singapore Dollar\n- CHF: Swiss Franc\n- ZAR: South African Rand\n- SEK: Swedish Krona\n- DKK: Danish Krone\n- NOK: Norwegian Krone\n- KRW: South Korean Won\n- INR: Indian Rupee\n- TWD: New Taiwan Dollar\n- HUF: Hungarian Forint\n- RON: Romanian Leu\n- MXN: Mexican Peso\n- THB: Thai Baht\n",
+        "description": "Supported currencies (ISO 4217 codes):\n- EUR: Euro\n- GBP: British Pound\n- USD: US Dollar\n- AUD: Australian Dollar\n- CAD: Canadian Dollar\n- NZD: New Zealand Dollar\n- CNY: Chinese Yuan\n- BRL: Brazilian Real\n- PLN: Polish Z\u0142oty\n- TRY: Turkish Lira\n- JPY: Japanese Yen\n- CZK: Czech Koruna\n- RUB: Russian Ruble\n- AED: UAE Dirham\n- SAR: Saudi Riyal\n- HKD: Hong Kong Dollar\n- SGD: Singapore Dollar\n- CHF: Swiss Franc\n- ZAR: South African Rand\n- SEK: Swedish Krona\n- DKK: Danish Krone\n- NOK: Norwegian Krone\n- KRW: South Korean Won\n- INR: Indian Rupee\n- TWD: New Taiwan Dollar\n- HUF: Hungarian Forint\n- RON: Romanian Leu\n- MXN: Mexican Peso\n- THB: Thai Baht\n- ARS: Argentine Peso (2 minor-unit decimal places)\n",
         "default": "EUR",
         "example": "EUR"
       },

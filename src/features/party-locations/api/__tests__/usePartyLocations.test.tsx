@@ -123,39 +123,38 @@ describe("Party-location API", () => {
         expect(hook.result.current.data).toBeUndefined();
     });
 
-    it("reuses the creation key only while the unchanged command has no definite outcome", async () => {
+    it("creates without an idempotency header and stores the new location", async () => {
         seedList();
-        api.create
-            .mockResolvedValueOnce(failure())
-            .mockResolvedValueOnce(failure(503))
-            .mockResolvedValueOnce(ok(dto({ id: "ploc_2", revision: 1 }), 201))
-            .mockResolvedValueOnce(failure(400))
-            .mockResolvedValueOnce(failure(400));
+        api.create.mockResolvedValueOnce(ok(dto({ id: "ploc_2", revision: 1 }), 201));
         const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
-        const create = async (label: string) => {
-            await act(() => hook.result.current.mutateAsync({ label }).catch(() => undefined));
-        };
-        const keyOf = (call: number) => api.create.mock.calls[call][0].headers["Idempotency-Key"];
 
-        await create("Depot");
-        await create("Depot");
-        await create("Depot");
-        await create("Depot");
-        await create("Depot");
+        await act(() => hook.result.current.mutateAsync({ label: "Depot" }));
 
-        expect(keyOf(0)).toMatch(/^[A-Za-z0-9_.:-]+$/);
-        expect(keyOf(1)).toBe(keyOf(0));
-        expect(keyOf(2)).toBe(keyOf(0));
-        // A completed create discards the key; a definite rejection does too.
-        expect(keyOf(3)).not.toBe(keyOf(2));
-        expect(keyOf(4)).not.toBe(keyOf(3));
-        expect(api.create.mock.calls[0][0]).toMatchObject({
+        const request = api.create.mock.calls[0][0];
+        expect(request).toMatchObject({
             path: { party_id: "pty_1" },
             body: { label: "Depot" },
             cache: "no-store",
         });
+        expect(request.headers).toBeUndefined();
         expect(client.getQueryState(listKey)?.isInvalidated).toBe(true);
     });
+
+    it.each([undefined, 503])(
+        "refetches the list for reconciliation after an indefinite create (%s)",
+        async (status) => {
+            seedList();
+            api.create.mockResolvedValueOnce(failure(status));
+            const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
+
+            await act(() =>
+                hook.result.current.mutateAsync({ label: "Depot" }).catch(() => undefined),
+            );
+
+            expect(api.create).toHaveBeenCalledTimes(1);
+            expect(client.getQueryState(listKey)?.isInvalidated).toBe(true);
+        },
+    );
 
     it("reports an unknown creation outcome only when the outcome is indefinite", async () => {
         api.create.mockResolvedValueOnce(failure(502)).mockResolvedValueOnce(failure(422));
@@ -171,20 +170,6 @@ describe("Party-location API", () => {
             isIndefinite: false,
             message: testI18n.t("partyLocations.errors.requestFailed"),
         });
-    });
-
-    it("uses a new key when the command changes", async () => {
-        api.create.mockResolvedValue(failure());
-        const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
-
-        await act(() => hook.result.current.mutateAsync({ label: "Depot" }).catch(() => undefined));
-        await act(() =>
-            hook.result.current.mutateAsync({ label: "Depot 2" }).catch(() => undefined),
-        );
-
-        expect(api.create.mock.calls[1][0].headers["Idempotency-Key"]).not.toBe(
-            api.create.mock.calls[0][0].headers["Idempotency-Key"],
-        );
     });
 
     it("sends relocation with the expected revision and refreshes the list", async () => {

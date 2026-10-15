@@ -1244,7 +1244,8 @@
       "HUF": "HUF - Ungarischer Forint",
       "RON": "RON - Rumänischer Leu",
       "MXN": "MXN - Mexikanischer Peso",
-      "THB": "THB - Thailändischer Baht"
+      "THB": "THB - Thailändischer Baht",
+      "ARS": "ARS - Argentinischer Peso"
     },
     "unitSystems": {
       "METRIC": "Metrisch",
@@ -3502,7 +3503,7 @@
       "invalid": "Prüfen Sie die Standortangaben und versuchen Sie es erneut.",
       "conflict": "Dieser Standort wurde geändert oder ist nicht mehr aktiv. Die neueste Fassung wurde geladen; prüfen Sie sie, bevor Sie es erneut versuchen.",
       "createConflict": "Der Standort konnte nicht hinzugefügt werden, weil die Anfrage im Widerspruch zu einer früheren steht. Prüfen Sie die Standorte, bevor Sie es erneut versuchen.",
-      "createIndefinite": "Wir konnten nicht bestätigen, ob der Standort gespeichert wurde. Senden Sie das Formular unverändert erneut, um es sicher zu wiederholen; dabei entsteht kein Duplikat.",
+      "createIndefinite": "Wir konnten nicht bestätigen, ob der Standort gespeichert wurde. Die Liste wurde neu geladen. Prüfen Sie sie, bevor Sie erneut senden; ein erneutes Senden kann ein Duplikat anlegen.",
       "unavailable": "Die Standortverwaltung ist vorübergehend nicht verfügbar. Bitte versuchen Sie es in Kürze erneut.",
       "requestFailed": "Die Anfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
     },

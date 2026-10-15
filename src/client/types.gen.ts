@@ -528,9 +528,10 @@ export type LanguageData = 'de' | 'en' | 'fr' | 'es' | 'it' | 'zh' | 'pt' | 'pl'
  * - RON: Romanian Leu
  * - MXN: Mexican Peso
  * - THB: Thai Baht
+ * - ARS: Argentine Peso (2 minor-unit decimal places)
  *
  */
-export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD' | 'CNY' | 'BRL' | 'PLN' | 'TRY' | 'JPY' | 'CZK' | 'RUB' | 'AED' | 'SAR' | 'HKD' | 'SGD' | 'CHF' | 'ZAR' | 'SEK' | 'DKK' | 'NOK' | 'KRW' | 'INR' | 'TWD' | 'HUF' | 'RON' | 'MXN' | 'THB';
+export type CurrencyData = 'EUR' | 'GBP' | 'USD' | 'AUD' | 'CAD' | 'NZD' | 'CNY' | 'BRL' | 'PLN' | 'TRY' | 'JPY' | 'CZK' | 'RUB' | 'AED' | 'SAR' | 'HKD' | 'SGD' | 'CHF' | 'ZAR' | 'SEK' | 'DKK' | 'NOK' | 'KRW' | 'INR' | 'TWD' | 'HUF' | 'RON' | 'MXN' | 'THB' | 'ARS';
 
 /**
  * User preference for distance/size presentation:
@@ -9792,7 +9793,7 @@ export type ListUserAddressesErrors = {
    */
   404: ApiError;
   /**
-   * Stale version or conflicting creation key (CONFLICT).
+   * Stale version (CONFLICT).
    */
   409: ApiError;
   /**
@@ -9818,12 +9819,6 @@ export type ListUserAddressesResponse = ListUserAddressesResponses[keyof ListUse
 
 export type CreateUserAddressData = {
   body: CreateUserAddress;
-  headers: {
-    /**
-     * Opaque owner-scoped creation retry key. Reuse with the original body to recover the server-generated ID. Different keys permit equal-content bookmarks.
-     */
-    'Idempotency-Key': string;
-  };
   path?: never;
   query?: never;
   url: '/api/v1/me/addresses';
@@ -9831,7 +9826,7 @@ export type CreateUserAddressData = {
 
 export type CreateUserAddressErrors = {
   /**
-   * Invalid body (BAD_BODY_VALUE), including a caller-supplied addressId, or missing, repeated or invalid Idempotency-Key (BAD_HEADER_VALUE).
+   * Invalid body (BAD_BODY_VALUE), including a caller-supplied addressId.
    */
   400: ApiError;
   /**
@@ -9847,7 +9842,7 @@ export type CreateUserAddressErrors = {
    */
   404: ApiError;
   /**
-   * Stale version or conflicting creation key (CONFLICT).
+   * Concurrent persistence conflict (CONFLICT).
    */
   409: ApiError;
   /**
@@ -9898,7 +9893,7 @@ export type DeleteUserAddressErrors = {
    */
   404: ApiError;
   /**
-   * Stale version or conflicting creation key (CONFLICT).
+   * Stale version (CONFLICT).
    */
   409: ApiError;
   /**
@@ -9949,7 +9944,7 @@ export type GetUserAddressErrors = {
    */
   404: ApiError;
   /**
-   * Stale version or conflicting creation key (CONFLICT).
+   * Stale version (CONFLICT).
    */
   409: ApiError;
   /**
@@ -10000,7 +9995,7 @@ export type UpdateUserAddressErrors = {
    */
   404: ApiError;
   /**
-   * Stale version or conflicting creation key (CONFLICT).
+   * Stale version (CONFLICT).
    */
   409: ApiError;
   /**
@@ -10049,7 +10044,7 @@ export type GetBrowsingDestinationErrors = {
    */
   404: ApiError;
   /**
-   * Stale version or conflicting creation key (CONFLICT).
+   * Stale version (CONFLICT).
    */
   409: ApiError;
   /**
@@ -10098,7 +10093,7 @@ export type SetBrowsingDestinationErrors = {
    */
   404: ApiError;
   /**
-   * Stale version or conflicting creation key (CONFLICT).
+   * Stale version (CONFLICT).
    */
   409: ApiError;
   /**
@@ -10217,12 +10212,6 @@ export type ListPartyLocationsResponse = ListPartyLocationsResponses[keyof ListP
 
 export type CreatePartyLocationData2 = {
   body: CreatePartyLocationData;
-  headers: {
-    /**
-     * Exactly one key. Stable per Party and trusted caller identity; matching retries converge, conflicting command reuse returns 409.
-     */
-    'Idempotency-Key': string;
-  };
   path: {
     /**
      * Strict Party TypeID.
@@ -10235,7 +10224,7 @@ export type CreatePartyLocationData2 = {
 
 export type CreatePartyLocationErrors = {
   /**
-   * Invalid body/header/path/query (BAD_BODY_VALUE, BAD_HEADER_VALUE, INVALID_OBJECT_ID or BAD_QUERY_PARAMETER_VALUE).
+   * Invalid body/path (BAD_BODY_VALUE or INVALID_OBJECT_ID).
    */
   400: ApiError;
   /**
@@ -10251,7 +10240,7 @@ export type CreatePartyLocationErrors = {
    */
   404: ApiError;
   /**
-   * Stale or exhausted revision, retired-site correction or conflicting idempotency reuse (CONFLICT).
+   * Stale or exhausted relocation revision or retired relocation source (CONFLICT).
    */
   409: ApiError;
   /**
@@ -10268,7 +10257,7 @@ export type CreatePartyLocationError = CreatePartyLocationErrors[keyof CreatePar
 
 export type CreatePartyLocationResponses = {
   /**
-   * Created location; matching retries replay the original creation result.
+   * Created location with a new server-generated ID.
    */
   201: PartyLocationData;
 };
@@ -10357,7 +10346,7 @@ export type CorrectPartyLocationErrors = {
    */
   404: ApiError;
   /**
-   * Stale or exhausted revision, retired-site correction or conflicting idempotency reuse (CONFLICT).
+   * Stale or exhausted revision or retired-site correction (CONFLICT).
    */
   409: ApiError;
   /**
@@ -10412,7 +10401,7 @@ export type SetPartyLocationLifecycleErrors = {
    */
   404: ApiError;
   /**
-   * Stale or exhausted revision, retired-site correction or conflicting idempotency reuse (CONFLICT).
+   * Stale or exhausted revision or retired-site correction (CONFLICT).
    */
   409: ApiError;
   /**
@@ -10534,7 +10523,7 @@ export type SetPartyLocationManagementGrantErrors = {
    */
   404: ApiError;
   /**
-   * Stale or exhausted revision, retired-site correction or conflicting idempotency reuse (CONFLICT).
+   * Stale or exhausted revision or retired-site correction (CONFLICT).
    */
   409: ApiError;
   /**

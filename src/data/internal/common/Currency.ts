@@ -31,6 +31,7 @@ export const CURRENCIES = [
     "RON",
     "MXN",
     "THB",
+    "ARS",
 ] as const satisfies readonly CurrencyData[];
 export type Currency = (typeof CURRENCIES)[number];
 
@@ -64,6 +65,7 @@ export const CURRENCY_SYMBOLS = {
     RON: "lei",
     MXN: "MX$",
     THB: "฿",
+    ARS: "AR$",
 } as const satisfies Record<Currency, string>;
 
 /**
@@ -101,6 +103,7 @@ export const CURRENCY_MINOR_UNIT_EXPONENTS = {
     RON: 2,
     MXN: 2,
     THB: 2,
+    ARS: 2,
 } as const satisfies Record<Currency, number>;
 
 export function isCurrency(value: unknown): value is Currency {

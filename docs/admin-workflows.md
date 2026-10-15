@@ -159,9 +159,10 @@ Routes: `/$lng/admin/parties` (directory) and `/$lng/admin/parties/$partyId` (or
   editing began; a cleared group is `null`, and unchanged groups (including values the app cannot
   display) are omitted. An empty diff is not sent; a response at the same revision is reported as
   unchanged.
-- Creates keep one `Idempotency-Key` per unchanged command until the outcome is definite (network
-  failure, `408`, `429` and `5xx` keep it). A `409` refetches the Party's locations; the editor
-  keeps the draft and requires an explicit "keep draft" (reapply its own changes at the latest
+- The backend does not deduplicate creates. When a create's outcome is indefinite (network failure,
+  `408`, `429` or `5xx`), the Party's locations are refetched and the editor tells the manager to
+  check the list before submitting again; a repeated relocation is rejected with `409`.
+- A `409` refetches the Party's locations; the editor keeps the draft and requires an explicit "keep draft" (reapply its own changes at the latest
   revision) or "discard draft". `401`/`403`/`404` reset the Party's cached locations and hide
   loaded content.
 

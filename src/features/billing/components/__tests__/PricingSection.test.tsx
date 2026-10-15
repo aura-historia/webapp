@@ -311,6 +311,7 @@ describe("PricingSection", () => {
             "RON",
             "MXN",
             "THB",
+            "ARS",
         ]);
         for (const tier of PRICING_TIERS) {
             for (const currency of unpriced) {

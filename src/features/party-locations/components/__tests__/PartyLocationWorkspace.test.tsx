@@ -151,7 +151,6 @@ describe("PartyLocationWorkspace", () => {
             geography: { referenceRelease: "iso-codes-4.20.1", addressText: "Rue 1" },
             relocates: { id: "ploc_1", revision: 3 },
         });
-        expect(request.headers["Idempotency-Key"]).toEqual(expect.any(String));
         expect(await screen.findByRole("heading", { name: "New showroom" })).toBeInTheDocument();
         // The previous location stays listed, retired, next to the new one.
         expect(

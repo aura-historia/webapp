@@ -168,7 +168,7 @@ describe("CurrencySelector", () => {
 
         const displayNames = new Intl.DisplayNames(["en"], { type: "currency" });
         const options = screen.getAllByRole("option");
-        expect(options).toHaveLength(29);
+        expect(options).toHaveLength(30);
         CURRENCIES.forEach((code, index) => {
             expect(options[index]).toHaveTextContent(CURRENCY_SYMBOLS[code]);
             expect(options[index]).toHaveTextContent(displayNames.of(code) ?? code);

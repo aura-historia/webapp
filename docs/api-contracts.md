@@ -10,13 +10,20 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop` commit
-  `769bd6f0ac66fd2d4a606737f1ebe9e6d0a7072c` (2026-10-13,
-  [backend#2051](https://github.com/aura-historia/backend/pull/2051)), taken byte-for-byte with no
-  local edits for [#1108](https://github.com/aura-historia/webapp/issues/1108). Git blob
-  `c5d5da853c005de3e042ff9a0e854069da8b4215`; file SHA-256
-  `a00b2018d10f996a94b540338e392a366d9a3bf7e5d530f71ee7cc0141eb2575`; canonical parsed-JSON
+  `e693d4251b3dd13e1480679d3b87306608918173` (2026-10-15,
+  [backend#2096](https://github.com/aura-historia/backend/pull/2096)), taken byte-for-byte with no
+  local edits for [#1112](https://github.com/aura-historia/webapp/issues/1112). Git blob
+  `d069e8a39f14136facedf82cbd1f12774149753c`; file SHA-256
+  `ce19c97d577678fa9e023aa1feced72ac34396154fa031918a0982a3d810f1a3`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `49fb4901ab37d9f374f94bc984539ae8ea4fce7359f99fd741331597d514f665`. It replaced a 2026-10-05
+  `90a32cb7afaaed3fc12a30907eba7bfd32ce276d6a73bc9112696f44735ff2b5`.
+- Relative to the previous capture (`develop` commit `769bd6f0ac66fd2d4a606737f1ebe9e6d0a7072c`,
+  [#1108](https://github.com/aura-historia/webapp/issues/1108)) it adds `ARS` (2 minor-unit
+  decimals) to `CurrencyData`, drops the required `Idempotency-Key` header from
+  `createUserAddress` and `createPartyLocation` (both now mint a new ID per accepted request; see
+  [Geography](#geography)), and rewords the saved-search description: scheduled matching now covers
+  ordinary and enhanced filters, bounded per run. The wording change needs no client change.
+- The [#1108](https://github.com/aura-historia/webapp/issues/1108) capture replaced a 2026-10-05
   capture that had individual operations and schemas grafted in from later backend commits;
   adopt whole captures, not partial ones.
 - Adopting that capture brought in the changes the previous capture deferred: the own
@@ -146,7 +153,7 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
   projection (`amount`, `currency`, `fxRateId`, `capturedAt`) from the latest snapshot at or before
   the entry. The mapper keeps both on discovery prices/estimates and both sides of price and
   estimate changes, and drops a malformed or unsupported projection rather than coercing it.
-- A missing projection is normal (no snapshot or quote, including legacy 19-currency snapshots).
+- A missing projection is normal (no snapshot or quote, including snapshots taken before a currency such as ARS was supported).
   The timeline then shows the labelled source amount; converted values show their source amount
   and snapshot capture time. The chart offers one requested-currency series built only from
   `display` values, with gaps for missing projections and on-request or null prices, next to the
@@ -227,9 +234,10 @@ Shared models live in `src/data/internal/geography`; formatting helpers in
   unrounded distance; send it back unchanged with the same query. Address and destination writes
   carry `expectedVersion`; Party-location and source-default writes `expectedRevision`. A `409
   CONFLICT` means stale state: refetch, never retry blindly.
-- **Idempotency:** `createUserAddress` and `createPartyLocation` require an `Idempotency-Key`.
-  Create one with `createIdempotencyKey` per submission, reuse it only for retries of the
-  unchanged command and discard it after a definite outcome.
+- **No create deduplication:** `createUserAddress` and `createPartyLocation` ignore
+  `Idempotency-Key` and mint a new ID per accepted request, so never retry them automatically.
+  After an indefinite outcome, refetch and let the user reconcile before creating again. Repeating
+  a committed relocation with the same `expectedRevision` returns `409`.
 - **Commands:** source-default evidence is opaque text whose scope follows the field; omitted
   applicability retains, `null` removes. Party-location corrections keep omitted members, `null`
   clears geography, position or evidence, and `roles: []` clears roles. The location-management

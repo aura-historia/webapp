@@ -1244,7 +1244,8 @@
       "HUF": "HUF - Forinto húngaro",
       "RON": "RON - Leu rumano",
       "MXN": "MXN - Peso mexicano",
-      "THB": "THB - Baht tailandés"
+      "THB": "THB - Baht tailandés",
+      "ARS": "ARS - Peso argentino"
     },
     "unitSystems": {
       "METRIC": "Métrico",
@@ -3502,7 +3503,7 @@
       "invalid": "Revise los datos de la ubicación e inténtelo de nuevo.",
       "conflict": "Esta ubicación ha cambiado o ya no está activa. Se ha cargado la versión más reciente; revísela antes de volver a intentarlo.",
       "createConflict": "No se pudo añadir la ubicación porque la solicitud entra en conflicto con otra anterior. Revise las ubicaciones antes de volver a intentarlo.",
-      "createIndefinite": "No hemos podido confirmar si la ubicación se guardó. Vuelva a enviar sin cambios para reintentarlo con seguridad; no se creará un duplicado.",
+      "createIndefinite": "No hemos podido confirmar si la ubicación se guardó. La lista se ha actualizado. Revísela antes de volver a enviar; un nuevo envío puede crear un duplicado.",
       "unavailable": "La gestión de ubicaciones no está disponible temporalmente. Inténtelo de nuevo en breve.",
       "requestFailed": "No se pudo completar la solicitud. Inténtelo de nuevo."
     },

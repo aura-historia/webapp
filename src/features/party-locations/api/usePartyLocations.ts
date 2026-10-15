@@ -7,7 +7,6 @@ import {
     useQueryClient,
 } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
-import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
     correctPartyLocation,
@@ -15,7 +14,6 @@ import {
     listPartyLocations,
     setPartyLocationLifecycle,
 } from "@/client";
-import { createIdempotencyKey } from "@/data/internal/common/IdempotencyKey.ts";
 import { geographyQueryKeys } from "@/data/internal/geography/GeographyQueryKeys.ts";
 import {
     type CorrectPartyLocationInput,
@@ -64,7 +62,7 @@ export class PartyLocationRequestError extends Error {
         return this.status === 401 || this.status === 403 || this.status === 404;
     }
 
-    /** No definite outcome: an unchanged create may be retried with the same key. */
+    /** No definite outcome: the write may have been applied, so refetch before submitting again. */
     get isIndefinite() {
         return isIndefiniteStatus(this.status);
     }
@@ -155,7 +153,8 @@ function handleMutationError(queryClient: QueryClient, scope: PartyLocationScope
     if (!(error instanceof PartyLocationRequestError)) return;
     const queryKey = geographyQueryKeys.partyLocationScope(scope.viewerCacheKey, scope.partyId);
     if (error.isAccessLoss) void queryClient.resetQueries({ queryKey });
-    else if (error.isConflict) void queryClient.invalidateQueries({ queryKey });
+    else if (error.isConflict || error.isIndefinite)
+        void queryClient.invalidateQueries({ queryKey });
 }
 
 export function partyLocationListQueryOptions(
@@ -193,37 +192,27 @@ export function usePartyLocationList(scope: PartyLocationScope) {
 }
 
 /**
- * Creates a location, or relocates one when `relocates` is set. One `Idempotency-Key` is kept per
- * unchanged command until its outcome is definite, so a retry after a lost response converges
- * on the original result instead of creating a duplicate location.
+ * Creates a location, or relocates one when `relocates` is set. The backend does not deduplicate
+ * creates, so an indefinite outcome refetches the list for the manager to reconcile before
+ * submitting again; a repeated relocation is rejected with `409`.
  */
 export function useCreatePartyLocation(scope: PartyLocationScope) {
     const queryClient = useQueryClient();
     const requestError = usePartyLocationError();
-    const pendingCommand = useRef<{ readonly body: string; readonly key: string }>(undefined);
 
     return useMutation({
         mutationFn: async (input: CreatePartyLocationInput) => {
             const operation = input.relocates ? "relocate" : "create";
             if (validatePartyLocationInput(input)) throw requestError(400, operation);
-            const body = mapToBackendCreatePartyLocation(input);
-            const serialized = JSON.stringify(body);
-            if (pendingCommand.current?.body !== serialized) {
-                pendingCommand.current = { body: serialized, key: createIdempotencyKey() };
-            }
             const response = await createPartyLocation({
                 path: { party_id: scope.partyId },
-                headers: { "Idempotency-Key": pendingCommand.current.key },
-                body,
+                body: mapToBackendCreatePartyLocation(input),
                 cache: "no-store",
             });
             if (response.error || !response.data) {
                 // A network failure has no response status and leaves the outcome unknown.
-                const error = requestError(response.response?.status, operation);
-                if (!error.isIndefinite) pendingCommand.current = undefined;
-                throw error;
+                throw requestError(response.response?.status, operation);
             }
-            pendingCommand.current = undefined;
             return requireLocation(response.data, scope, requestError, operation);
         },
         // A relocation also retires the old location; the list refetch shows both changes.

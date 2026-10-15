@@ -1244,7 +1244,8 @@
       "HUF": "HUF - Forint hongrois",
       "RON": "RON - Leu roumain",
       "MXN": "MXN - Peso mexicain",
-      "THB": "THB - Baht thaïlandais"
+      "THB": "THB - Baht thaïlandais",
+      "ARS": "ARS - Peso argentin"
     },
     "unitSystems": {
       "METRIC": "Métrique",
@@ -3502,7 +3503,7 @@
       "invalid": "Vérifiez les informations du site et réessayez.",
       "conflict": "Ce site a été modifié ou n’est plus actif. La dernière version a été chargée ; consultez-la avant de réessayer.",
       "createConflict": "Le site n’a pas pu être ajouté, car la demande entre en conflit avec une demande antérieure. Consultez les sites avant de réessayer.",
-      "createIndefinite": "Nous n’avons pas pu confirmer l’enregistrement du site. Envoyez de nouveau le formulaire sans modification pour réessayer en toute sécurité ; aucun doublon ne sera créé.",
+      "createIndefinite": "Nous n’avons pas pu confirmer l’enregistrement du site. La liste a été actualisée. Vérifiez-la avant de renvoyer le formulaire ; un nouvel envoi peut créer un doublon.",
       "unavailable": "La gestion des sites est temporairement indisponible. Veuillez réessayer dans quelques instants.",
       "requestFailed": "La demande n’a pas pu aboutir. Veuillez réessayer."
     },
