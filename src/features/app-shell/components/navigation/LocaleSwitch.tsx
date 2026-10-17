@@ -96,7 +96,7 @@ export function LocaleSwitch({ variant, className }: LocaleSwitchProps) {
                     emptyMessage: t("common.currencySearchEmpty"),
                 }}
                 triggerClassName={triggerClassName}
-                className="w-80"
+                className="w-[min(20rem,calc(100vw-2rem))]"
             />
             <PreferencePicker
                 label={t("common.unitSystemPrefix")}

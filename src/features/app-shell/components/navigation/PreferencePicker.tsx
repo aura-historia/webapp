@@ -144,7 +144,7 @@ export function PreferencePicker({
                     (search ? searchRef.current : listboxRef.current)?.focus();
                 }}
                 className={cn(
-                    "z-[70] flex w-72 flex-col gap-1.5 rounded-panel border-0 bg-surface-raised p-2 text-ink shadow-menu",
+                    "z-[70] flex w-[min(18rem,calc(100vw-2rem))] flex-col gap-1.5 rounded-panel border-0 bg-surface-raised p-2 text-ink shadow-menu",
                     className,
                 )}
             >
