@@ -1,17 +1,12 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
-import type { ChangeEvent, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { CURRENCIES, CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
-import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";
 import { env } from "@/env.ts";
 import { useUnseenNotificationCount } from "@/features/notification-center/hooks/useUnseenNotificationCount.ts";
-import { useCurrencyPreference } from "@/features/preferences/hooks/useCurrencyPreference.ts";
-import { useLanguageSwitch } from "@/features/preferences/hooks/useLanguageSwitch.ts";
-import { useUnitSystemPreference } from "@/features/preferences/hooks/useUnitSystemPreference.ts";
-import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { cn } from "@/lib/utils.ts";
+import { LocaleSwitch } from "./LocaleSwitch.tsx";
 import { MemberAvatar } from "./MemberAvatar.tsx";
 import {
     CONTACT_EMAIL,
@@ -42,35 +37,6 @@ interface MobileMenuProps {
     readonly focusSearch: boolean;
 }
 
-interface PreferencePillProps {
-    readonly label: string;
-    readonly displayValue: string;
-    readonly value: string;
-    readonly options: readonly { readonly value: string; readonly label: string }[];
-    readonly onChange: (value: string) => void;
-}
-
-/** A mono pill showing the current preference; a native select underneath picks a new one. */
-function PreferencePill({ label, displayValue, value, options, onChange }: PreferencePillProps) {
-    return (
-        <label className="relative inline-flex min-h-9 cursor-pointer items-center rounded-pill bg-surface-sunken px-3 font-mono text-[11px] tracking-[0.1em] text-ink-secondary uppercase has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass">
-            <span aria-hidden="true">{displayValue}</span>
-            <select
-                aria-label={label}
-                value={value}
-                onChange={(event: ChangeEvent<HTMLSelectElement>) => onChange(event.target.value)}
-                className="absolute inset-0 cursor-pointer appearance-none opacity-0"
-            >
-                {options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                        {option.label}
-                    </option>
-                ))}
-            </select>
-        </label>
-    );
-}
-
 function MenuSection({
     label,
     children,
@@ -97,11 +63,7 @@ export function MobileMenu({
 }: MobileMenuProps) {
     const { t } = useTranslation();
     const unseenCount = useUnseenNotificationCount();
-    const { language, switchLanguage } = useLanguageSwitch();
-    const { currency, setCurrency } = useCurrencyPreference();
-    const { unitSystem, setUnitSystem } = useUnitSystemPreference();
     const close = () => onOpenChange(false);
-    const currentLanguage = SUPPORTED_LANGUAGES.find((lang) => lang.code === language);
 
     return (
         <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
@@ -313,40 +275,7 @@ export function MobileMenu({
                         )}
 
                         <div className="mt-auto flex flex-col gap-3.5 border-t border-line pt-[18px]">
-                            <div className="flex flex-wrap gap-2">
-                                <PreferencePill
-                                    label={t("header.language")}
-                                    displayValue={currentLanguage?.name ?? language}
-                                    value={language}
-                                    options={SUPPORTED_LANGUAGES.map((lang) => ({
-                                        value: lang.code,
-                                        label: lang.name,
-                                    }))}
-                                    onChange={(value) => {
-                                        void switchLanguage(value);
-                                    }}
-                                />
-                                <PreferencePill
-                                    label={t("header.currency")}
-                                    displayValue={`${currency} ${CURRENCY_SYMBOLS[currency]}`}
-                                    value={currency}
-                                    options={CURRENCIES.map((code) => ({
-                                        value: code,
-                                        label: `${code} ${CURRENCY_SYMBOLS[code]}`,
-                                    }))}
-                                    onChange={setCurrency}
-                                />
-                                <PreferencePill
-                                    label={t("common.unitSystemPrefix")}
-                                    displayValue={t(`auth.unitSystems.${unitSystem}`)}
-                                    value={unitSystem}
-                                    options={UNIT_SYSTEMS.map((option) => ({
-                                        value: option,
-                                        label: t(`auth.unitSystems.${option}`),
-                                    }))}
-                                    onChange={setUnitSystem}
-                                />
-                            </div>
+                            <LocaleSwitch variant="pill" />
                             <a
                                 href={`mailto:${CONTACT_EMAIL}`}
                                 className={cn(

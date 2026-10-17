@@ -1,251 +1,193 @@
 import { Link } from "@tanstack/react-router";
+import { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
-import {
-    COMPARE_FOOTER_LINKS,
-    LANDING_PAGE_FOOTER_LINKS,
-    PARTNER_PROGRAM_FOOTER_LINKS,
+    FOOTER_GROUPS,
+    type FooterGroup,
+    type FooterLink as FooterLinkConfig,
     SOCIAL_LINKS,
 } from "@/features/app-shell/components/footer/Footer.data.ts";
-import { CurrencySelector } from "@/features/preferences/components/CurrencySelector.tsx";
-import { UnitSystemSelector } from "@/features/preferences/components/UnitSystemSelector.tsx";
-import { useLanguageSwitch } from "@/features/preferences/hooks/useLanguageSwitch.ts";
+import { LocaleSwitch } from "@/features/app-shell/components/navigation/LocaleSwitch.tsx";
+import {
+    CONTACT_EMAIL,
+    NAV_FOCUS_CLASS,
+} from "@/features/app-shell/components/navigation/navigationConfig.ts";
+import { Wordmark } from "@/features/app-shell/components/navigation/Wordmark.tsx";
+import { cn } from "@/lib/utils.ts";
 
-export function Footer() {
-    const { t, i18n } = useTranslation();
-    const { switchLanguage: handleLanguageChange } = useLanguageSwitch();
+const LINK_CLASS = cn("rounded-xs transition-colors hover:text-brass", NAV_FOCUS_CLASS);
 
-    const currentLanguage = SUPPORTED_LANGUAGES.find((lang) => lang.code === i18n.resolvedLanguage);
+function FooterLink({ link }: { readonly link: FooterLinkConfig }) {
+    const { t } = useTranslation();
+    const className = cn(LINK_CLASS, "flex min-h-10 items-center md:inline-flex md:min-h-0");
+
+    if (link.kind === "landing") {
+        return (
+            <Link
+                to="/$lng"
+                hash={link.fragment}
+                resetScroll={false}
+                params={true}
+                from="/$lng"
+                className={className}
+            >
+                {t(link.translationKey)}
+            </Link>
+        );
+    }
+
+    if (link.kind === "external") {
+        return (
+            <a href={link.href} target="_blank" rel="noopener noreferrer" className={className}>
+                {t(link.translationKey)}
+            </a>
+        );
+    }
 
     return (
-        <footer className="w-full border-t border-outline-variant/20 bg-surface-container-low">
-            <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-2 lg:grid-cols-4">
-                    {/* Spalte 1: Brand + Company + Contact */}
-                    <div className="flex flex-col gap-8">
-                        <p className="font-display text-3xl leading-8 text-primary-container">
-                            {t("footer.brandName")}
-                        </p>
+        <Link to={link.to} params={true} from="/$lng" className={className}>
+            {t(link.translationKey)}
+        </Link>
+    );
+}
 
-                        <div>
-                            <h3 className="font-display text-lg leading-7 text-primary-container">
-                                {t("footer.sections.company")}
-                            </h3>
-                            <ul className="mt-3 space-y-2">
-                                <li>
-                                    <Link
-                                        to="/$lng/about-us"
-                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                        params={true}
-                                        from="/$lng"
-                                    >
-                                        {t("footer.about")}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/$lng/imprint"
-                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                        params={true}
-                                        from="/$lng"
-                                    >
-                                        {t("footer.imprint")}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/$lng/privacy"
-                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                        params={true}
-                                        from="/$lng"
-                                    >
-                                        {t("footer.privacy")}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/$lng/terms-and-conditions"
-                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                        params={true}
-                                        from="/$lng"
-                                    >
-                                        {t("footer.terms")}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/$lng/consent-settings"
-                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                        params={true}
-                                        from="/$lng"
-                                    >
-                                        {t("footer.cookieSettings")}
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
+/**
+ * A link group: a `+` / `−` disclosure on phones, an always-open column from 768px.
+ * One list serves both layouts so no link is rendered twice.
+ */
+function FooterLinkGroup({
+    group,
+    isOpen,
+    onToggle,
+}: {
+    readonly group: FooterGroup;
+    readonly isOpen: boolean;
+    readonly onToggle: () => void;
+}) {
+    const { t } = useTranslation();
+    const panelId = useId();
+    const title = t(group.titleKey);
 
-                        <div>
-                            <h3 className="font-display text-lg leading-7 text-primary-container">
-                                {t("footer.sections.contact")}
-                            </h3>
-                            <ul className="mt-3 space-y-2">
-                                <li>
-                                    <a
-                                        href="mailto:contact@aura-historia.com"
-                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                    >
-                                        contact@aura-historia.com
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+    return (
+        <nav aria-label={title} className="border-b border-line md:border-0">
+            <button
+                type="button"
+                aria-expanded={isOpen}
+                aria-controls={panelId}
+                onClick={onToggle}
+                className={cn(
+                    "flex min-h-14 w-full cursor-pointer items-center justify-between font-mono text-eyebrow tracking-[0.16em] text-ink uppercase md:hidden",
+                    NAV_FOCUS_CLASS,
+                )}
+            >
+                {title}
+                <span aria-hidden="true" className="font-sans text-xl font-light tracking-normal">
+                    {isOpen ? "−" : "+"}
+                </span>
+            </button>
+            <span
+                aria-hidden="true"
+                className="mb-1 hidden font-mono text-kicker text-ink-muted uppercase md:block"
+            >
+                {title}
+            </span>
+            <ul
+                id={panelId}
+                className={cn(
+                    "grid-cols-2 gap-x-4 gap-y-1 pb-[18px] text-[15px] md:mt-3 md:flex md:flex-col md:gap-3 md:pb-0 md:text-body-sm",
+                    isOpen ? "grid" : "hidden",
+                )}
+            >
+                {group.links.map((link) => (
+                    <li key={link.translationKey}>
+                        <FooterLink link={link} />
+                    </li>
+                ))}
+            </ul>
+        </nav>
+    );
+}
+
+/** The site footer on the ink ground. */
+export function Footer() {
+    const { t } = useTranslation();
+    const [openGroup, setOpenGroup] = useState<FooterGroup["id"] | null>(null);
+
+    return (
+        <footer
+            data-theme="dark"
+            className="bg-surface px-(--page-gutter) pt-14 pb-8 text-ink-secondary md:pt-20"
+        >
+            <div className="mx-auto flex max-w-content flex-col gap-8 md:gap-16">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-4 md:gap-10">
+                    <div className="flex flex-col gap-3.5 md:gap-[18px]">
+                        <Link
+                            to="/$lng"
+                            params={true}
+                            from="/$lng"
+                            aria-label={t("header.home")}
+                            className={cn("self-start text-ink", LINK_CLASS)}
+                        >
+                            <Wordmark
+                                label={t("header.wordmark")}
+                                className="h-[38px] md:h-[41px]"
+                            />
+                        </Link>
+                        <p className="max-w-[260px] text-body-sm">{t("footer.tagline")}</p>
+                        <a
+                            href={`mailto:${CONTACT_EMAIL}`}
+                            className={cn(
+                                "inline-flex min-h-8 items-center self-start text-body-sm text-ink",
+                                LINK_CLASS,
+                            )}
+                        >
+                            {CONTACT_EMAIL}
+                        </a>
                     </div>
 
-                    {/* Spalte 2: Categories */}
-                    <div>
-                        <h3 className="font-display text-lg leading-7 text-primary-container">
-                            {t("footer.sections.discoverMore")}
-                        </h3>
-                        <ul className="mt-4 space-y-2">
-                            {LANDING_PAGE_FOOTER_LINKS.map((sectionLink) => (
-                                <li key={sectionLink.fragment}>
-                                    <Link
-                                        to="/$lng"
-                                        hash={sectionLink.fragment}
-                                        resetScroll={false}
-                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                        params={true}
-                                        from="/$lng"
-                                    >
-                                        {t(sectionLink.translationKey)}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
+                    <div className="border-t border-line md:contents">
+                        {FOOTER_GROUPS.map((group) => (
+                            <FooterLinkGroup
+                                key={group.id}
+                                group={group}
+                                isOpen={openGroup === group.id}
+                                onToggle={() =>
+                                    setOpenGroup((current) =>
+                                        current === group.id ? null : group.id,
+                                    )
+                                }
+                            />
+                        ))}
                     </div>
+                </div>
 
-                    {/* Spalte 3: Partner-Programm */}
-                    <div>
-                        <h3 className="font-display text-lg leading-7 text-primary-container">
-                            {t("footer.sections.partnerProgram")}
-                        </h3>
-                        <ul className="mt-4 space-y-2">
-                            {PARTNER_PROGRAM_FOOTER_LINKS.map((partnerLink) => (
-                                <li key={partnerLink.translationKey}>
-                                    <Link
-                                        to={partnerLink.href}
-                                        target={partnerLink.external ? "_blank" : undefined}
-                                        rel={
-                                            partnerLink.external ? "noopener noreferrer" : undefined
-                                        }
-                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                        params={true}
-                                        from="/$lng"
-                                    >
-                                        {t(partnerLink.translationKey)}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* Spalte 4: Compare */}
-                    <div>
-                        <h3 className="font-display text-lg leading-7 text-primary-container">
-                            {t("footer.sections.compare")}
-                        </h3>
-                        <ul className="mt-4 space-y-2">
-                            {COMPARE_FOOTER_LINKS.map((compareLink) => (
-                                <li key={compareLink.href}>
-                                    <Link
-                                        to={compareLink.href}
-                                        className="text-sm leading-5 tracking-[0.02em] text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
-                                        params={true}
-                                        from="/$lng"
-                                    >
-                                        {t(compareLink.translationKey)}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* Spalte 5: Follow Us */}
-                    <div>
-                        <h3 className="font-display text-lg leading-7 text-primary-container">
-                            {t("footer.sections.followUs")}
-                        </h3>
-                        <ul className="mt-4 grid grid-cols-4 gap-4">
+                <div className="flex flex-col gap-3.5 md:flex-row md:flex-wrap md:items-center md:justify-between md:gap-5 md:border-t md:border-line md:pt-6">
+                    <p className="order-last text-meta md:order-first">
+                        {t("footer.copyright", { year: new Date().getFullYear() })}
+                    </p>
+                    <nav aria-label={t("footer.socialNavigation")}>
+                        <ul className="flex flex-wrap gap-x-5 gap-y-1 text-body-sm md:text-meta">
                             {SOCIAL_LINKS.map((social) => (
                                 <li key={social.name}>
                                     <a
                                         href={social.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        aria-label={social.name}
-                                        className="flex size-10 items-center justify-center border border-outline-variant/20 text-primary/80 transition-colors duration-300 ease-out hover:text-primary"
+                                        className={cn(
+                                            "inline-flex min-h-9 items-center md:min-h-0",
+                                            LINK_CLASS,
+                                        )}
                                     >
-                                        <social.icon className="size-[1.05rem]" />
+                                        {social.name}
                                     </a>
                                 </li>
                             ))}
                         </ul>
-                    </div>
-                </div>
-
-                <div className="h-px w-full bg-surface-container-high/50" />
-
-                <div className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-sm leading-5 tracking-[0.02em] text-primary/80">
-                        {t("footer.copyright", {
-                            year: new Date().getFullYear(),
-                        })}
-                    </p>
-                    <div className="flex w-full flex-wrap items-center gap-4 sm:w-auto sm:justify-end">
-                        <CurrencySelector />
-                        <UnitSystemSelector />
-                        <Select
-                            defaultValue={i18n.language}
-                            value={i18n.language}
-                            onValueChange={handleLanguageChange}
-                        >
-                            <SelectTrigger className="h-8 gap-2 border-outline-variant/20 bg-transparent text-sm text-primary/80 transition-colors duration-300 ease-out hover:text-primary">
-                                <SelectValue>
-                                    {currentLanguage && (
-                                        <>
-                                            <currentLanguage.flag />
-                                            <span>{currentLanguage.name}</span>
-                                        </>
-                                    )}
-                                </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    {SUPPORTED_LANGUAGES.map((language) => (
-                                        <SelectItem
-                                            key={language.code}
-                                            value={language.code}
-                                            aria-label={t("footer.ariaSwitchToLanguage", {
-                                                language: language.name,
-                                            })}
-                                        >
-                                            <language.flag />
-                                            <span className="pl-2">{language.name}</span>
-                                        </SelectItem>
-                                    ))}
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                    </div>
+                    </nav>
+                    <LocaleSwitch
+                        variant="responsive"
+                        className="border-t border-line pt-5 md:border-0 md:pt-0"
+                    />
                 </div>
             </div>
         </footer>

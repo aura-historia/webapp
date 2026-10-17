@@ -146,24 +146,20 @@
     "searchPlaceholderShort": "Rechercher des objets",
     "searchSubmit": "Rechercher",
     "language": "Langue",
-    "currency": "Devise"
+    "currency": "Devise",
+    "preferences": "Langue, devise et unités"
   },
   "footer": {
-    "brandName": "Aura Historia",
     "about": "À propos",
-    "ariaSwitchToLanguage": "Changer de langue vers {{language}}",
     "imprint": "Mentions légales",
     "privacy": "Politique de confidentialité",
     "cookieSettings": "Paramètres des cookies",
     "terms": "CGV",
     "copyright": "© {{year}} Aura Historia",
     "sections": {
-      "company": "Entreprise",
-      "followUs": "Suivez-nous",
-      "contact": "Contact",
-      "discoverMore": "Explorer plus",
-      "partnerProgram": "Programme partenaires",
-      "compare": "Comparer"
+      "discover": "Découvrir",
+      "partners": "Partenaires",
+      "company": "Entreprise"
     },
     "landingPageLinks": {
       "recentlyAdded": "Derniers ajouts",
@@ -182,9 +178,9 @@
       "customApi": "Intégration personnalisée",
       "apply": "Postuler"
     },
-    "compareLinks": {
-      "barnebys": "Barnebys"
-    }
+    "tagline": "Le marché mondial des antiquités, en une seule recherche.",
+    "socialNavigation": "Réseaux sociaux",
+    "compareBarnebys": "Comparer : Barnebys"
   },
   "aboutPage": {
     "hero": {

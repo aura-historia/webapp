@@ -41,6 +41,7 @@ Use the token system in `src/styles.css`, which mirrors the design system's `tok
 
 - `Header` in `src/features/app-shell` picks the variant: the landing page gets `SiteHeader` (88px, site sections and calls to action, from 1024px), every other page gets the sticky `AppNavBar` (64px, global search, from 640px), and smaller screens get `MobileHeader` with the full-screen ink `MobileMenu`.
 - Site sections live in `navigation/navigationConfig.ts`; account shortcuts live in `AccountMenu` and `MobileMenu`.
+- `Footer` sits on the ink ground: wordmark, tagline and contact, then the Discover, Partners and Company groups from `footer/Footer.data.ts` (columns from 768px, one-at-a-time disclosures on phones), social links and `LocaleSwitch` (language, currency, units; shared with `MobileMenu`). Each switch opens a `PreferencePicker`: a parchment popover listbox with a mono title, an oxblood check on the selected row and, for currencies, a search field (design board "Nav · Locale pickers").
 - The design lays the landing header transparently over an ink hero (`tone="overlay"`); switch `LANDING_HEADER_TONE` once the hero moves to the ink ground.
 
 ## Layout and responsive behavior

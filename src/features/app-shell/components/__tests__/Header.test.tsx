@@ -287,7 +287,9 @@ describe("Header", () => {
             );
             expect(within(dialog).getByRole("link", { name: "Anmelden" })).toBeInTheDocument();
             expect(within(dialog).getByRole("search")).toBeInTheDocument();
-            expect(within(dialog).getByLabelText("Sprache")).toHaveValue("de");
+            expect(
+                within(dialog).getByRole("button", { name: "Sprache: Deutsch" }),
+            ).toBeInTheDocument();
         });
 
         it("focuses the search field when opened from the search button", async () => {
