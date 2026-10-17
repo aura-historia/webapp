@@ -1,5 +1,5 @@
 import { SearchFilters } from "@/features/search/products/components/SearchFilters.tsx";
-import { SearchBar } from "@/features/search/common/components/SearchBar.tsx";
+import { NavSearchField } from "@/features/app-shell/components/navigation/NavSearchField.tsx";
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -30,7 +30,7 @@ async function renderSearchPage(entry: string) {
         validateSearch: validateSearchUrlParams,
         component: () => (
             <>
-                <SearchBar type="small" />
+                <NavSearchField variant="compact" />
                 <SearchFilters searchFilters={validateSearchParams(search.useSearch())} />
             </>
         ),
@@ -129,7 +129,7 @@ describe("SearchFilters", () => {
         const router = await renderSearchPage(
             "/de/search?q=chair&creationDateFrom=1900-01-01&updateDateTo=2026-02-01&auctionDateFrom=2026-03-01&auctionDateTo=2026-04-01",
         );
-        const input = screen.getByPlaceholderText("Suche");
+        const input = screen.getByRole("searchbox");
         await user.clear(input);
         await user.type(input, "antique vase");
         fireEvent.submit(input.closest("form") as HTMLFormElement);
@@ -150,7 +150,7 @@ describe("SearchFilters", () => {
             await act(async () => {
                 renderWithRouter(
                     <>
-                        <SearchBar type="small" />
+                        <NavSearchField variant="compact" />
                         <SearchFilters
                             searchFilters={{
                                 q: "original query",
@@ -161,7 +161,7 @@ describe("SearchFilters", () => {
                 );
             });
 
-            const searchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
+            const searchInput = screen.getByRole("searchbox") as HTMLInputElement;
             expect(searchInput.value).toBe("original query");
 
             await user.clear(searchInput);
@@ -173,7 +173,7 @@ describe("SearchFilters", () => {
             await user.click(checkboxes[0]);
 
             await waitFor(() => {
-                const currentSearchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
+                const currentSearchInput = screen.getByRole("searchbox") as HTMLInputElement;
                 expect(currentSearchInput.value).toBe("new search query");
             });
         }, 10000);
@@ -182,7 +182,7 @@ describe("SearchFilters", () => {
             await act(async () => {
                 renderWithRouter(
                     <>
-                        <SearchBar type="small" />
+                        <NavSearchField variant="compact" />
                         <SearchFilters
                             searchFilters={{
                                 q: "original query",
@@ -195,7 +195,7 @@ describe("SearchFilters", () => {
                 );
             });
 
-            const searchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
+            const searchInput = screen.getByRole("searchbox") as HTMLInputElement;
             await user.clear(searchInput);
             await user.type(searchInput, "updated query");
 
@@ -203,7 +203,7 @@ describe("SearchFilters", () => {
             await user.click(resetButton);
 
             await waitFor(() => {
-                const currentSearchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
+                const currentSearchInput = screen.getByRole("searchbox") as HTMLInputElement;
                 expect(currentSearchInput.value).toBe("updated query");
             });
         }, 10000);
@@ -212,7 +212,7 @@ describe("SearchFilters", () => {
             await act(async () => {
                 renderWithRouter(
                     <>
-                        <SearchBar type="small" />
+                        <NavSearchField variant="compact" />
                         <SearchFilters
                             searchFilters={{
                                 q: "original query",
@@ -223,7 +223,7 @@ describe("SearchFilters", () => {
                 );
             });
 
-            const searchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
+            const searchInput = screen.getByRole("searchbox") as HTMLInputElement;
             await user.clear(searchInput);
 
             // Toggle a filter checkbox to trigger auto-apply with empty search bar
@@ -239,7 +239,7 @@ describe("SearchFilters", () => {
             await act(async () => {
                 renderWithRouter(
                     <>
-                        <SearchBar type="small" />
+                        <NavSearchField variant="compact" />
                         <SearchFilters
                             searchFilters={{
                                 q: "original query",
@@ -250,7 +250,7 @@ describe("SearchFilters", () => {
                 );
             });
 
-            const searchInput = screen.getByPlaceholderText("Suche") as HTMLInputElement;
+            const searchInput = screen.getByRole("searchbox") as HTMLInputElement;
             await user.clear(searchInput);
             await user.type(searchInput, "ab");
 

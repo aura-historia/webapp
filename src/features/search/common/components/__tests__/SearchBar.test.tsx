@@ -4,13 +4,6 @@ import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderWithRouter } from "@/test/utils.tsx";
-import { toast } from "sonner";
-
-vi.mock("sonner", () => ({
-    toast: {
-        warning: vi.fn(),
-    },
-}));
 
 vi.mock("@/features/search/common/hooks/useAnimatedPlaceholder.ts", () => ({
     useAnimatedPlaceholder: vi.fn(() => ""),
@@ -27,7 +20,7 @@ describe("SearchBar", () => {
     describe("Big variant", () => {
         it("should disable browser autofill heuristics for the search input", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"big"} />);
+                renderWithRouter(<SearchBar />);
             });
 
             const input = screen.getByLabelText("Suche");
@@ -37,7 +30,7 @@ describe("SearchBar", () => {
 
         it("should render the search bar with input and button", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"big"} />);
+                renderWithRouter(<SearchBar />);
             });
             expect(screen.getByLabelText("Suche")).toBeInTheDocument();
             expect(screen.getByRole("button", { name: /suchen/i })).toBeInTheDocument();
@@ -45,7 +38,7 @@ describe("SearchBar", () => {
 
         it("should render with larger input height and text size", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"big"} />);
+                renderWithRouter(<SearchBar />);
             });
             const input = screen.getByLabelText("Suche");
             const button = screen.getByRole("button", { name: /suchen/i });
@@ -56,7 +49,7 @@ describe("SearchBar", () => {
 
         it("should show button text on larger screens", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"big"} />);
+                renderWithRouter(<SearchBar />);
             });
             const buttonText = screen.getByText("Suchen");
             expect(buttonText).toBeInTheDocument();
@@ -65,7 +58,7 @@ describe("SearchBar", () => {
 
         it("should navigate to the search page with the correct query when input is valid", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"big"} />);
+                renderWithRouter(<SearchBar />);
             });
             const input = screen.getByLabelText("Suche");
             const button = screen.getByRole("button", { name: /suchen/i });
@@ -78,7 +71,7 @@ describe("SearchBar", () => {
 
         it("should not navigate when the input is less than 3 characters", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"big"} />);
+                renderWithRouter(<SearchBar />);
             });
 
             const input = screen.getByLabelText("Suche");
@@ -95,7 +88,7 @@ describe("SearchBar", () => {
 
         it("should clear the error message when the input becomes valid", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"big"} />);
+                renderWithRouter(<SearchBar />);
             });
 
             const input = screen.getByLabelText("Suche");
@@ -118,78 +111,14 @@ describe("SearchBar", () => {
         });
     });
 
-    describe("Small variant", () => {
-        it("should render the small search bar with input and button", async () => {
-            await act(async () => {
-                renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
-            });
-            expect(screen.getByPlaceholderText("Suche")).toBeInTheDocument();
-            expect(screen.getByRole("button")).toBeInTheDocument();
-        });
-
-        it("should render with smaller input height", async () => {
-            await act(async () => {
-                renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
-            });
-            const input = screen.getByPlaceholderText("Suche");
-            const button = screen.getByRole("button");
-
-            expect(input).toHaveClass("h-9");
-            expect(button).toHaveClass("h-9");
-        });
-
-        it("should not show button text", async () => {
-            await act(async () => {
-                renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
-            });
-            const buttonText = screen.queryByText("Suchen");
-            // Button text element exists but is hidden
-            expect(buttonText).toBeInTheDocument();
-            expect(buttonText).toHaveClass("hidden");
-            expect(buttonText).not.toHaveClass("sm:inline");
-        });
-
-        it("should navigate to the search page when form is submitted", async () => {
-            await act(async () => {
-                renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
-            });
-            const input = screen.getByPlaceholderText("Suche");
-            const button = screen.getByRole("button");
-
-            await user.type(input, "test query");
-            await user.click(button);
-
-            expect(screen.queryByText("Entdecken, vergleichen, sammeln-")).not.toBeInTheDocument();
-        });
-
-        it("should show toast warning for input less than 3 characters", async () => {
-            await act(async () => {
-                renderWithRouter(<SearchBar type={"small"} />, { initialEntries: ["/search"] });
-            });
-
-            const input = screen.getByPlaceholderText("Suche");
-            const button = screen.getByRole("button");
-
-            await user.type(input, "ab");
-            await user.click(button);
-
-            await waitFor(() => {
-                expect(toast.warning).toHaveBeenCalledWith(
-                    "Bitte geben Sie mindestens 3 Zeichen ein",
-                    expect.objectContaining({
-                        position: "top-center",
-                    }),
-                );
-            });
-        });
-
+    describe("Current query", () => {
         it("should populate input with current query from search params on /search page", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"small"} />, {
+                renderWithRouter(<SearchBar />, {
                     initialEntries: ["/search?q=existing+query"],
                 });
             });
-            const input = screen.getByPlaceholderText("Suche") as HTMLInputElement;
+            const input = screen.getByLabelText("Suche") as HTMLInputElement;
             expect(input.value).toBe("existing query");
         });
     });
@@ -197,7 +126,7 @@ describe("SearchBar", () => {
     describe("Behavior across routes", () => {
         it("should not populate input with query when not on /search page", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"big"} />, {
+                renderWithRouter(<SearchBar />, {
                     initialEntries: ["/test?q=some+query"],
                 });
             });
@@ -209,7 +138,7 @@ describe("SearchBar", () => {
     describe("Product/Shop type selector", () => {
         it("renders the search type selector defaulting to products", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"big"} />);
+                renderWithRouter(<SearchBar />);
             });
             const trigger = screen.getByTestId("search-type-select");
             expect(trigger).toBeInTheDocument();
@@ -218,7 +147,7 @@ describe("SearchBar", () => {
 
         it("defaults the selector to shops when rendered on the /search/shops page", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"small"} />, {
+                renderWithRouter(<SearchBar />, {
                     initialEntries: ["/search/shops?q=auction"],
                 });
             });
@@ -228,7 +157,7 @@ describe("SearchBar", () => {
 
         it("can switch between products and shops", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"big"} />);
+                renderWithRouter(<SearchBar />);
             });
             const trigger = screen.getByTestId("search-type-select");
             await user.click(trigger);
@@ -239,7 +168,7 @@ describe("SearchBar", () => {
 
         it("passes resetKey products to animated placeholder by default", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"big"} />);
+                renderWithRouter(<SearchBar />);
             });
             expect(vi.mocked(useAnimatedPlaceholder)).toHaveBeenCalledWith(
                 expect.objectContaining({ resetKey: "products" }),
@@ -248,7 +177,7 @@ describe("SearchBar", () => {
 
         it("passes resetKey shops to animated placeholder on shop search route", async () => {
             await act(async () => {
-                renderWithRouter(<SearchBar type={"big"} />, {
+                renderWithRouter(<SearchBar />, {
                     initialEntries: ["/search/shops"],
                 });
             });

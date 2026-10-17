@@ -143,7 +143,6 @@
     "menu": "Menu",
     "searchLabel": "Search the global market",
     "searchPlaceholder": "Search objects — era, maker, style…",
-    "searchPlaceholderShort": "Search objects",
     "searchSubmit": "Search",
     "language": "Language",
     "currency": "Currency",
@@ -299,7 +298,6 @@
     "totalResults_other": "{{count}} items",
     "bar": {
       "label": "Search",
-      "placeholderShort": "Search",
       "button": "Search",
       "placeholderExamplesProducts": [
         "Oil painting Mary Magdalene",

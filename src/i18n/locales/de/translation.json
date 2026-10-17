@@ -143,7 +143,6 @@
     "menu": "Menü",
     "searchLabel": "Den globalen Markt durchsuchen",
     "searchPlaceholder": "Objekte suchen – Epoche, Hersteller, Stil…",
-    "searchPlaceholderShort": "Objekte suchen",
     "searchSubmit": "Suchen",
     "language": "Sprache",
     "currency": "Währung",
@@ -299,7 +298,6 @@
     "totalResults_other": "{{count}} Artikel",
     "bar": {
       "label": "Suche",
-      "placeholderShort": "Suche",
       "button": "Suchen",
       "placeholderExamplesProducts": [
         "Ölgemälde Maria Magdalena",

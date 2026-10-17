@@ -143,7 +143,6 @@
     "menu": "Menu",
     "searchLabel": "Rechercher sur le marché mondial",
     "searchPlaceholder": "Rechercher des objets — époque, créateur, style…",
-    "searchPlaceholderShort": "Rechercher des objets",
     "searchSubmit": "Rechercher",
     "language": "Langue",
     "currency": "Devise",
@@ -299,7 +298,6 @@
     "totalResults_other": "{{count}} articles",
     "bar": {
       "label": "Recherche",
-      "placeholderShort": "Rechercher",
       "button": "Rechercher",
       "placeholderExamplesProducts": [
         "Peinture à l'huile Marie-Madeleine",

@@ -143,7 +143,6 @@
     "menu": "Menu",
     "searchLabel": "Cerca nel mercato globale",
     "searchPlaceholder": "Cerca oggetti — epoca, autore, stile…",
-    "searchPlaceholderShort": "Cerca oggetti",
     "searchSubmit": "Cerca",
     "language": "Lingua",
     "currency": "Valuta",
@@ -299,7 +298,6 @@
     "totalResults_other": "{{count}} articoli",
     "bar": {
       "label": "Cerca",
-      "placeholderShort": "Cerca",
       "button": "Cerca",
       "placeholderExamplesProducts": [
         "Dipinto a olio Maria Maddalena",

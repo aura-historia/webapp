@@ -143,7 +143,6 @@
     "menu": "Menú",
     "searchLabel": "Buscar en el mercado global",
     "searchPlaceholder": "Buscar objetos: época, autor, estilo…",
-    "searchPlaceholderShort": "Buscar objetos",
     "searchSubmit": "Buscar",
     "language": "Idioma",
     "currency": "Moneda",
@@ -299,7 +298,6 @@
     "totalResults_other": "{{count}} artículos",
     "bar": {
       "label": "Búsqueda",
-      "placeholderShort": "Buscar",
       "button": "Buscar",
       "placeholderExamplesProducts": [
         "Óleo de María Magdalena",
