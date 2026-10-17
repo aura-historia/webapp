@@ -37,6 +37,12 @@ Use the token system in `src/styles.css`, which mirrors the design system's `tok
 - Use existing typography components in `src/components/typography` for headings where appropriate.
 - Maintain named exports unless a local file pattern already uses default exports.
 
+## Navigation
+
+- `Header` in `src/features/app-shell` picks the variant: the landing page gets `SiteHeader` (88px, site sections and calls to action, from 1024px), every other page gets the sticky `AppNavBar` (64px, global search, from 640px), and smaller screens get `MobileHeader` with the full-screen ink `MobileMenu`.
+- Site sections live in `navigation/navigationConfig.ts`; account shortcuts live in `AccountMenu` and `MobileMenu`.
+- The design lays the landing header transparently over an ink hero (`tone="overlay"`); switch `LANDING_HEADER_TONE` once the hero moves to the ink ground.
+
 ## Layout and responsive behavior
 
 - Design mobile-first and test responsive breakpoints mentally when editing JSX/class names.

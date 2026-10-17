@@ -11,7 +11,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useLocation, useNavigate, useRouterState, useSearch } from "@tanstack/react-router";
 import { Search, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
@@ -23,8 +22,10 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { env } from "@/env.ts";
 import { useAnimatedPlaceholder } from "@/features/search/common/hooks/useAnimatedPlaceholder.ts";
-import { serializeSearchParams } from "@/features/search/products/lib/searchValidation.ts";
-import { stripLanguageFromPathname } from "@/i18n/routing.ts";
+import {
+    type SearchType,
+    useGlobalSearchSubmit,
+} from "@/features/search/common/hooks/useGlobalSearchSubmit.ts";
 import {
     Select,
     SelectContent,
@@ -33,8 +34,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-export const SEARCH_TYPES = ["products", "shops"] as const;
-export type SearchType = (typeof SEARCH_TYPES)[number];
 
 interface SearchBarProps {
     readonly type: "small" | "big";
@@ -56,29 +55,14 @@ export type SearchFormSchema = z.infer<ReturnType<typeof createSearchFormSchema>
 
 export function SearchBar({ type }: SearchBarProps) {
     const { t } = useTranslation();
-    const navigate = useNavigate({ from: "/$lng" });
-    const pathname = useLocation({
-        select: (location) => location.pathname,
-    });
-    const routePathname = stripLanguageFromPathname(pathname);
-    const isNavigating = useRouterState({ select: (s) => s.isLoading });
     const { setQuery } = useSearchQueryContext();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    // Reset isSubmitting when navigation completes
-    useEffect(() => {
-        if (!isNavigating && isSubmitting) {
-            setIsSubmitting(false);
-        }
-    }, [isNavigating, isSubmitting]);
-
-    const showLoading = isSubmitting && isNavigating;
-
-    const searchParams = useSearch({ strict: false });
-    const isOnProductSearch = routePathname === "/search";
-    const isOnShopSearch = routePathname === "/search/shops";
-    const currentQuery =
-        isOnProductSearch || isOnShopSearch ? (searchParams.q as string) || "" : "";
+    const {
+        currentQuery,
+        isOnProductSearch,
+        isOnShopSearch,
+        isPending: showLoading,
+        submit,
+    } = useGlobalSearchSubmit();
 
     // Default to "products" unless the user is currently on the shop search page.
     const [searchType, setSearchType] = useState<SearchType>(isOnShopSearch ? "shops" : "products");
@@ -125,23 +109,7 @@ export function SearchBar({ type }: SearchBarProps) {
     });
 
     function onSubmit(values: SearchFormSchema) {
-        setIsSubmitting(true);
-        if (searchType === "shops") {
-            navigate({
-                to: "/$lng/search/shops",
-                search: {
-                    q: values.query,
-                },
-            });
-            return;
-        }
-        navigate({
-            to: "/$lng/search",
-            search: serializeSearchParams({
-                ...searchParams,
-                q: values.query,
-            }),
-        });
+        submit(values.query, searchType);
     }
 
     return (

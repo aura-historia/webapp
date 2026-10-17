@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import {
     Select,
@@ -17,24 +17,13 @@ import {
 } from "@/features/app-shell/components/footer/Footer.data.ts";
 import { CurrencySelector } from "@/features/preferences/components/CurrencySelector.tsx";
 import { UnitSystemSelector } from "@/features/preferences/components/UnitSystemSelector.tsx";
-import { localizeHref } from "@/i18n/routing.ts";
-import { persistLanguagePreference } from "@/i18n/languagePreference.ts";
+import { useLanguageSwitch } from "@/features/preferences/hooks/useLanguageSwitch.ts";
 
 export function Footer() {
     const { t, i18n } = useTranslation();
-    const navigate = useNavigate({ from: "/$lng" });
-    const href = useLocation({ select: (location) => location.href });
+    const { switchLanguage: handleLanguageChange } = useLanguageSwitch();
 
     const currentLanguage = SUPPORTED_LANGUAGES.find((lang) => lang.code === i18n.resolvedLanguage);
-
-    const handleLanguageChange = async (languageCode: string) => {
-        persistLanguagePreference(languageCode);
-        await navigate({ href: localizeHref(href, languageCode) });
-
-        if (i18n.resolvedLanguage !== languageCode) {
-            await i18n.changeLanguage(languageCode);
-        }
-    };
 
     return (
         <footer className="w-full border-t border-outline-variant/20 bg-surface-container-low">

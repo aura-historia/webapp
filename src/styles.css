@@ -508,7 +508,7 @@ code {
 @supports (-webkit-touch-callout: none) {
     @media (hover: none) and (pointer: coarse) {
         .hero-section-safari-offset {
-            padding-top: calc(5rem + env(safe-area-inset-top));
+            padding-top: calc(3.75rem + env(safe-area-inset-top));
         }
     }
 }

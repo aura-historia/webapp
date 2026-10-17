@@ -223,10 +223,10 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                 <body className="bg-background">
                     <NavigationProgress />
                     <div className={"min-h-screen flex flex-col"}>
-                        {/* Above the sticky header so the landing hero's -mt-20 still tucks under it. */}
+                        {/* Above the header so the landing hero still tucks under the header bar. */}
                         <ServiceStatusBanner />
                         <Header />
-                        <main className={isLandingPage ? "flex-1 -mt-20" : "flex-1"}>
+                        <main className={isLandingPage ? "flex-1 -mt-15 lg:-mt-22" : "flex-1"}>
                             {children}
                         </main>
                         <Footer />
