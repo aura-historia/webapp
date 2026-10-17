@@ -12,6 +12,22 @@ Core signals:
 - Calm layouts with generous whitespace, strong hierarchy, and restrained motion.
 - Professional UI behavior: predictable, accessible, responsive, and fast.
 
+## Design sync
+
+The design should always match the implementation. Two Claude artifacts are the source of truth:
+
+- Aura Historia Redesign (screens, one board per component or state): https://claude.ai/artifact/QRhqGsVofXjs5c86d11mrV
+- Aura Historia Design System (tokens, component cards): https://claude.ai/artifact/LQaEJcAwBEbWWsynUxHcc1
+
+For every component you are asked to build or change:
+
+1. Read its board in the Redesign file and its card in the design system before writing code.
+2. Board missing (a state, a variant, a picker, an empty or error state): add a board to the Redesign file first, built only from design-system tokens and components, then implement it.
+3. Change request: update the board first, then the code, in the same task, so both match at the end.
+4. A change to tokens, type styles or a shared component is a design-system change: update the design system, then `src/styles.css` or the component, together.
+5. Only touch boards for the components in scope; do not redesign or "tidy" other boards or components.
+6. Mention the boards you added or changed in the commit or PR description.
+
 ## Tokens and styling
 
 Use the token system in `src/styles.css`, which mirrors the design system's `tokens.css`:
