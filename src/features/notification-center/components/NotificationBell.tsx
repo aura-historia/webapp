@@ -4,7 +4,7 @@ import { useDeleteAllNotifications } from "@/features/notification-center/api/us
 import { useNotifications } from "@/features/notification-center/api/useNotifications.ts";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
-import { Bell, BellRing, CheckCheck, Trash2 } from "lucide-react";
+import { Bell, CheckCheck, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { NotificationItem } from "./NotificationItem.tsx";
@@ -28,9 +28,18 @@ function NotificationSkeleton() {
 
 interface NotificationBellProps {
     readonly triggerClassName?: string;
+    /** `count` shows the unseen number on a pill; `dot` shows a small dot (compact phone bars). */
+    readonly badge?: "count" | "dot";
+    readonly badgeClassName?: string;
 }
 
-export function NotificationBell({ triggerClassName }: NotificationBellProps = {}) {
+const MAX_BADGE_COUNT = 9;
+
+export function NotificationBell({
+    triggerClassName,
+    badge = "count",
+    badgeClassName,
+}: NotificationBellProps = {}) {
     const { t } = useTranslation();
     const { data, isLoading } = useNotifications();
     const markAllAsSeen = useMarkAllNotificationsSeen();
@@ -39,26 +48,46 @@ export function NotificationBell({ triggerClassName }: NotificationBellProps = {
 
     const allNotifications = data?.pages.flatMap((page) => page.items) ?? [];
     const notifications = allNotifications.slice(0, 5);
-    const hasUnseenNotifications = allNotifications.some((n) => !n.seen);
+    const unseenCount = allNotifications.filter((n) => !n.seen).length;
+    const hasUnseenNotifications = unseenCount > 0;
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    className={cn("relative", triggerClassName)}
-                    aria-label={t("notifications.ariaLabel")}
+                <button
+                    type="button"
+                    className={cn(
+                        "relative inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-md text-ink-secondary transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass data-[state=open]:text-ink",
+                        triggerClassName,
+                    )}
+                    aria-label={
+                        hasUnseenNotifications
+                            ? t("header.alertsUnseen", { count: unseenCount })
+                            : t("notifications.ariaLabel")
+                    }
                 >
-                    {hasUnseenNotifications ? (
-                        <BellRing className="size-5" />
-                    ) : (
-                        <Bell className="size-5" />
+                    <Bell aria-hidden="true" className="size-[18px]" strokeWidth={1.8} />
+                    {hasUnseenNotifications && badge === "count" && (
+                        <span
+                            aria-hidden="true"
+                            className={cn(
+                                "pointer-events-none absolute top-1.5 right-1 inline-flex h-4 min-w-4 items-center justify-center rounded-pill bg-oxblood px-1 font-mono text-[10px] font-medium text-on-oxblood",
+                                badgeClassName,
+                            )}
+                        >
+                            {unseenCount > MAX_BADGE_COUNT ? `${MAX_BADGE_COUNT}+` : unseenCount}
+                        </span>
                     )}
-                    {hasUnseenNotifications && (
-                        <span className="pointer-events-none absolute right-1 top-1 size-2 rounded-full bg-primary" />
+                    {hasUnseenNotifications && badge === "dot" && (
+                        <span
+                            aria-hidden="true"
+                            className={cn(
+                                "pointer-events-none absolute top-2.5 right-2.5 size-2 rounded-full bg-brass shadow-[0_0_0_2px_var(--surface)]",
+                                badgeClassName,
+                            )}
+                        />
                     )}
-                </Button>
+                </button>
             </PopoverTrigger>
             <PopoverContent align="end" className="w-96 overflow-hidden rounded-none p-0">
                 <div className="flex items-center justify-between border-b bg-surface-container-low px-4 py-3">

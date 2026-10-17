@@ -111,36 +111,54 @@
     "title": "AGB"
   },
   "header": {
+    "mainNavigation": "Hauptnavigation",
+    "primaryNavigation": "Bereiche",
+    "accountNavigation": "Ihr Konto",
+    "home": "Aura Historia Startseite",
+    "wordmark": "Aura Historia",
+    "sections": {
+      "discover": "Entdecken",
+      "platform": "Plattform",
+      "agent": "Discovery Agent",
+      "dealers": "Für Händler",
+      "pricing": "Preise"
+    },
+    "signIn": "Anmelden",
+    "createAccount": "Konto erstellen",
+    "startSearching": "Suche starten",
     "watchlist": "Merkliste",
-    "myAccount": "Mein Account",
-    "admin": "Admin",
-    "editAccount": "Account bearbeiten",
-    "logout": "Ausloggen",
-    "hello": "Hallo",
-    "register": "Registrieren",
-    "login": "Einloggen",
-    "searchFilters": "Suchaufträge",
+    "alerts": "Benachrichtigungen",
+    "alertsUnseen_one": "Benachrichtigungen, {{count}} neu",
+    "alertsUnseen_other": "Benachrichtigungen, {{count}} neu",
+    "newCount": "{{count}} neu",
+    "searchAlerts": "Suchaufträge",
     "partnerDashboard": "Partner-Dashboard",
-    "collection": "Sammlung",
-    "workspace": "Arbeitsbereich",
-    "accountNavigation": "Kontonavigation"
+    "admin": "Admin",
+    "accountSettings": "Konto & Einstellungen",
+    "signOut": "Abmelden",
+    "accountMenu": "Kontomenü",
+    "yourAura": "Ihre Aura",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen",
+    "menu": "Menü",
+    "searchLabel": "Den globalen Markt durchsuchen",
+    "searchPlaceholder": "Objekte suchen – Epoche, Hersteller, Stil…",
+    "searchSubmit": "Suchen",
+    "language": "Sprache",
+    "currency": "Währung",
+    "preferences": "Sprache, Währung und Einheiten"
   },
   "footer": {
-    "brandName": "Aura Historia",
     "about": "Über uns",
-    "ariaSwitchToLanguage": "Zu {{language}} wechseln",
     "imprint": "Impressum",
     "privacy": "Datenschutzerklärung",
     "cookieSettings": "Cookie-Einstellungen",
     "terms": "AGB",
     "copyright": "© {{year}} Aura Historia",
     "sections": {
-      "company": "Unternehmen",
-      "followUs": "Folge uns",
-      "contact": "Kontakt",
-      "discoverMore": "Mehr entdecken",
-      "partnerProgram": "Partner-Programm",
-      "compare": "Vergleichen"
+      "discover": "Entdecken",
+      "partners": "Partner",
+      "company": "Unternehmen"
     },
     "landingPageLinks": {
       "recentlyAdded": "Neueste Zugänge",
@@ -159,9 +177,9 @@
       "customApi": "Eigene Integration",
       "apply": "Jetzt bewerben"
     },
-    "compareLinks": {
-      "barnebys": "Barnebys"
-    }
+    "tagline": "Der globale Antiquitätenmarkt in einer einzigen Suche.",
+    "socialNavigation": "Soziale Medien",
+    "compareBarnebys": "Vergleich: Barnebys"
   },
   "aboutPage": {
     "hero": {
@@ -280,7 +298,6 @@
     "totalResults_other": "{{count}} Artikel",
     "bar": {
       "label": "Suche",
-      "placeholderShort": "Suche",
       "button": "Suchen",
       "placeholderExamplesProducts": [
         "Ölgemälde Maria Magdalena",

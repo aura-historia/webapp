@@ -26,7 +26,7 @@ export default function HeroSection() {
                     {t("landingPage.subtitle")}
                 </p>
                 <Card className="mt-6 bg-surface-container p-2 hero-search-shadow sm:mt-8">
-                    <SearchBar type={"big"} />
+                    <SearchBar />
                 </Card>
             </div>
         </section>
