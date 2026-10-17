@@ -274,7 +274,7 @@ export function ProductPriceChart({
                 style: {
                     fontSize: "15px",
                     fontWeight: 500,
-                    fontFamily: '"Manrope Variable", sans-serif',
+                    fontFamily: '"Geist Variable", sans-serif',
                 },
             },
             min: minTimestamp,
@@ -287,7 +287,7 @@ export function ProductPriceChart({
                 style: {
                     fontSize: "15px",
                     fontWeight: 500,
-                    fontFamily: '"Manrope Variable", sans-serif',
+                    fontFamily: '"Geist Variable", sans-serif',
                 },
             },
         },
@@ -305,7 +305,7 @@ export function ProductPriceChart({
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,
-                                fontFamily: '"Manrope Variable", sans-serif',
+                                fontFamily: '"Geist Variable", sans-serif',
                             },
                         },
                     },
@@ -320,7 +320,7 @@ export function ProductPriceChart({
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,
-                                fontFamily: '"Manrope Variable", sans-serif',
+                                fontFamily: '"Geist Variable", sans-serif',
                             },
                             offsetX: -15,
                         },
@@ -336,7 +336,7 @@ export function ProductPriceChart({
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,
-                                fontFamily: '"Manrope Variable", sans-serif',
+                                fontFamily: '"Geist Variable", sans-serif',
                             },
                         },
                     },
@@ -351,7 +351,7 @@ export function ProductPriceChart({
                             style: {
                                 fontSize: "15px",
                                 fontWeight: 500,
-                                fontFamily: '"Manrope Variable", sans-serif',
+                                fontFamily: '"Geist Variable", sans-serif',
                             },
                             offsetX: -10,
                         },

@@ -8,8 +8,9 @@ import {
     useMatches,
 } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
-import manropeFontUrl from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
-import newsreaderFontUrl from "@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url";
+import geistFontUrl from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
+import newsreaderFontUrl from "@fontsource-variable/newsreader/files/newsreader-latin-opsz-normal.woff2?url";
+import newsreaderItalicFontUrl from "@fontsource-variable/newsreader/files/newsreader-latin-opsz-italic.woff2?url";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import { Footer } from "@/features/app-shell/components/Footer.tsx";
@@ -123,7 +124,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 },
                 {
                     rel: "preload",
-                    href: manropeFontUrl,
+                    href: geistFontUrl,
                     as: "font",
                     type: "font/woff2",
                     crossOrigin: "anonymous",
@@ -131,6 +132,13 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 {
                     rel: "preload",
                     href: newsreaderFontUrl,
+                    as: "font",
+                    type: "font/woff2",
+                    crossOrigin: "anonymous",
+                },
+                {
+                    rel: "preload",
+                    href: newsreaderItalicFontUrl,
                     as: "font",
                     type: "font/woff2",
                     crossOrigin: "anonymous",
