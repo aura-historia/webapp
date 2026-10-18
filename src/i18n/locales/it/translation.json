@@ -111,36 +111,54 @@
     "title": "Termini e condizioni"
   },
   "header": {
+    "mainNavigation": "Principale",
+    "primaryNavigation": "Sezioni",
+    "accountNavigation": "Il suo account",
+    "home": "Home di Aura Historia",
+    "wordmark": "Aura Historia",
+    "sections": {
+      "discover": "Scoprire",
+      "platform": "Piattaforma",
+      "agent": "Discovery Agent",
+      "dealers": "Per i mercanti",
+      "pricing": "Prezzi"
+    },
+    "signIn": "Accedi",
+    "createAccount": "Crea account",
+    "startSearching": "Inizia a cercare",
     "watchlist": "Lista dei preferiti",
-    "myAccount": "Il mio account",
-    "admin": "Admin",
-    "editAccount": "Modifica account",
-    "logout": "Esci",
-    "hello": "Ciao",
-    "register": "Registrati",
-    "login": "Accedi",
-    "searchFilters": "Filtri di ricerca",
+    "alerts": "Notifiche",
+    "alertsUnseen_one": "Notifiche, {{count}} nuova",
+    "alertsUnseen_other": "Notifiche, {{count}} nuove",
+    "newCount": "{{count}} nuove",
+    "searchAlerts": "Avvisi di ricerca",
     "partnerDashboard": "Dashboard partner",
-    "collection": "Collezione",
-    "workspace": "Area professionale",
-    "accountNavigation": "Navigazione account"
+    "admin": "Admin",
+    "accountSettings": "Account e impostazioni",
+    "signOut": "Esci",
+    "accountMenu": "Menu account",
+    "yourAura": "La sua Aura",
+    "openMenu": "Apri menu",
+    "closeMenu": "Chiudi menu",
+    "menu": "Menu",
+    "searchLabel": "Cerca nel mercato globale",
+    "searchPlaceholder": "Cerca oggetti — epoca, autore, stile…",
+    "searchSubmit": "Cerca",
+    "language": "Lingua",
+    "currency": "Valuta",
+    "preferences": "Lingua, valuta e unità"
   },
   "footer": {
-    "brandName": "Aura Historia",
     "about": "Chi siamo",
-    "ariaSwitchToLanguage": "Cambia lingua in {{language}}",
     "imprint": "Note legali",
     "privacy": "Informativa sulla privacy",
     "cookieSettings": "Impostazioni cookie",
     "terms": "Termini e condizioni",
     "copyright": "© {{year}} Aura Historia",
     "sections": {
-      "company": "Azienda",
-      "followUs": "Seguici",
-      "contact": "Contatto",
-      "discoverMore": "Scopri di più",
-      "partnerProgram": "Programma Partner",
-      "compare": "Confronta"
+      "discover": "Scoprire",
+      "partners": "Partner",
+      "company": "Azienda"
     },
     "landingPageLinks": {
       "recentlyAdded": "Ultimi arrivi",
@@ -159,9 +177,9 @@
       "customApi": "Integrazione personalizzata",
       "apply": "Candidati"
     },
-    "compareLinks": {
-      "barnebys": "Barnebys"
-    }
+    "tagline": "Il mercato globale dell'antiquariato, in un'unica ricerca.",
+    "socialNavigation": "Social media",
+    "compareBarnebys": "Confronto: Barnebys"
   },
   "aboutPage": {
     "hero": {
@@ -280,7 +298,6 @@
     "totalResults_other": "{{count}} articoli",
     "bar": {
       "label": "Cerca",
-      "placeholderShort": "Cerca",
       "button": "Cerca",
       "placeholderExamplesProducts": [
         "Dipinto a olio Maria Maddalena",

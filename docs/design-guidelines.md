@@ -2,20 +2,44 @@
 
 ## Design identity
 
-Aura Historia should feel like a modern digital cabinet of curiosities: refined, warm, trustworthy, and historically literate. The interface should combine SaaS clarity with a heritage art-market atmosphere.
+The look is **Catalogue × Terminal**: an auction catalogue's serif, parchment and oxblood, crossed with a data terminal's mono labels, hairlines and exact numbers. Calm, legible, never salesy. The source of truth is the Aura Historia Design System (tokens) and the Aura Historia Redesign (screens).
 
 Core signals:
 
-- Heritage colors: mahogany, parchment, warm taupe, muted gold.
-- Elegant typography: `Newsreader Variable` for display headings, `Manrope Variable` for body/UI.
+- Two grounds: parchment (light) for catalogue sections; ink (dark) for the hero, dealer section and footer. `oxblood` is the brand, `brass` the accent.
+- Typography: `Newsreader` (`font-serif`) for headlines, object titles, numbers and the wordmark; `Geist` (`font-sans`) for running copy and UI; `Geist Mono` (`font-mono`) for uppercase labels, eyebrows and tags.
+- Hairlines, not shadows: cards carry `shadow-ring`; drop shadows only for floating elements (`shadow-search`, `shadow-menu`).
 - Calm layouts with generous whitespace, strong hierarchy, and restrained motion.
 - Professional UI behavior: predictable, accessible, responsive, and fast.
 
+## Design sync
+
+The design should always match the implementation. Two Claude artifacts are the source of truth:
+
+- Aura Historia Redesign (screens, one board per component or state): https://claude.ai/artifact/QRhqGsVofXjs5c86d11mrV
+- Aura Historia Design System (tokens, component cards): https://claude.ai/artifact/LQaEJcAwBEbWWsynUxHcc1
+
+For every component you are asked to build or change:
+
+1. Read its board in the Redesign file and its card in the design system before writing code.
+2. Board missing (a state, a variant, a picker, an empty or error state): add a board to the Redesign file first, built only from design-system tokens and components, then implement it.
+3. Change request: update the board first, then the code, in the same task, so both match at the end.
+4. A change to tokens, type styles or a shared component is a design-system change: update the design system, then `src/styles.css` or the component, together.
+5. Only touch boards for the components in scope; do not redesign or "tidy" other boards or components.
+6. Mention the boards you added or changed in the commit or PR description.
+
 ## Tokens and styling
 
-Use the token system in `src/styles.css`:
+Use the token system in `src/styles.css`, which mirrors the design system's `tokens.css`:
 
-- Prefer semantic Tailwind tokens: `bg-background`, `bg-card`, `bg-surface-container`, `text-foreground`, `text-muted-foreground`, `text-primary`, `border-border`, `ring-ring`.
+- Colours: `surface`, `surface-raised`, `surface-sunken`, `surface-bar`, `image-ground`, `ink`, `ink-secondary`, `ink-muted`, `ink-placeholder`, `oxblood`, `on-oxblood*`, `brass`, `brass-ink`, `brass-light`, `sand`, `signal-live`, `line`, `line-subtle`, `line-strong`, `chip-on-image` (e.g. `bg-surface-raised`, `text-ink-muted`, `border-line`).
+- On parchment, brass is a fill, never text; use `brass-ink` for brass-coloured text. On ink, oxblood is only a fill carrying `on-oxblood` text.
+- Type styles: `text-display-hero`, `text-display-section`, `text-display-figure`, `text-display-rail`, `text-title-lg|md|sm`, `text-stat`, `text-question`, `text-object-title(-sm)`, `text-wordmark`, `text-lead`, `text-body(-lg|-sm)`, `text-meta`, `text-button`, `text-price`, `text-eyebrow`, `text-kicker`, `text-label`, `text-tag`. Each sets size, line height, weight and tracking; pair it with `font-serif`, `font-sans` or `font-mono`. Display sizes are fluid.
+- Radius grows with the object: `rounded-xs|sm|thumb|md|field|lg|panel|figure|card|pill`.
+- Spacing and layout: `--space-*` (design spacing), `max-w-content` (1280px), `--page-gutter`, `--section-padding`.
+- Dark ground: wrap a section in `data-theme="dark"` (and `data-theme="light"` to return); all tokens and utilities below it switch. `.dark` maps to the same values.
+- Legacy shadcn tokens (`bg-background`, `bg-card`, `bg-surface-container`, `text-primary`, `text-muted-foreground`, `border-border`, …) remain as aliases onto the new palette for existing components. Prefer the design-system tokens in new or redesigned components.
+- Fonts are self-hosted via Fontsource and imported in `src/styles.css`; the latin Geist and Newsreader (upright and italic) files are preloaded in `src/routes/__root.tsx`. Keep those preloads in sync when changing font files.
 - Do not hardcode new colors unless an exact asset/brand requirement exists. Add reusable tokens instead.
 - Preserve dark-mode compatibility when touching colors or contrast.
 - Use `cn` from `@/lib/utils` for class composition when variants/conditionals are needed.
@@ -28,6 +52,13 @@ Use the token system in `src/styles.css`:
 - Keep shared primitives generic in `src/components/ui`; put product/domain behavior in feature or domain components.
 - Use existing typography components in `src/components/typography` for headings where appropriate.
 - Maintain named exports unless a local file pattern already uses default exports.
+
+## Navigation
+
+- `Header` in `src/features/app-shell` picks the variant: the landing page gets `SiteHeader` (88px, site sections and calls to action, from 1024px), every other page gets the sticky `AppNavBar` (64px, global search, from 640px), and smaller screens get `MobileHeader` with the full-screen ink `MobileMenu`.
+- Site sections live in `navigation/navigationConfig.ts`; account shortcuts live in `AccountMenu` and `MobileMenu`.
+- `Footer` sits on the ink ground: wordmark, tagline and contact, then the Discover, Partners and Company groups from `footer/Footer.data.ts` (columns from 768px, one-at-a-time disclosures on phones), social links and `LocaleSwitch` (language, currency, units; shared with `MobileMenu`). Each switch opens a `PreferencePicker`: a parchment popover listbox with a mono title, an oxblood check on the selected row and, for currencies, a search field (design board "Nav · Locale pickers").
+- The design lays the landing header transparently over an ink hero (`tone="overlay"`); switch `LANDING_HEADER_TONE` once the hero moves to the ink ground.
 
 ## Layout and responsive behavior
 

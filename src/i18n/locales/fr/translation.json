@@ -111,36 +111,54 @@
     "title": "CGV"
   },
   "header": {
+    "mainNavigation": "Principale",
+    "primaryNavigation": "Rubriques",
+    "accountNavigation": "Votre compte",
+    "home": "Accueil Aura Historia",
+    "wordmark": "Aura Historia",
+    "sections": {
+      "discover": "Découvrir",
+      "platform": "Plateforme",
+      "agent": "Discovery Agent",
+      "dealers": "Pour les marchands",
+      "pricing": "Tarifs"
+    },
+    "signIn": "Se connecter",
+    "createAccount": "Créer un compte",
+    "startSearching": "Commencer la recherche",
     "watchlist": "Liste de surveillance",
-    "myAccount": "Mon compte",
-    "admin": "Admin",
-    "editAccount": "Modifier le compte",
-    "logout": "Se déconnecter",
-    "hello": "Bonjour",
-    "register": "S'inscrire",
-    "login": "Se connecter",
-    "searchFilters": "Filtres de recherche",
+    "alerts": "Notifications",
+    "alertsUnseen_one": "Notifications, {{count}} nouvelle",
+    "alertsUnseen_other": "Notifications, {{count}} nouvelles",
+    "newCount": "{{count}} nouv.",
+    "searchAlerts": "Alertes de recherche",
     "partnerDashboard": "Tableau de bord partenaire",
-    "collection": "Collection",
-    "workspace": "Espace professionnel",
-    "accountNavigation": "Navigation du compte"
+    "admin": "Admin",
+    "accountSettings": "Compte et paramètres",
+    "signOut": "Se déconnecter",
+    "accountMenu": "Menu du compte",
+    "yourAura": "Votre Aura",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "menu": "Menu",
+    "searchLabel": "Rechercher sur le marché mondial",
+    "searchPlaceholder": "Rechercher des objets — époque, créateur, style…",
+    "searchSubmit": "Rechercher",
+    "language": "Langue",
+    "currency": "Devise",
+    "preferences": "Langue, devise et unités"
   },
   "footer": {
-    "brandName": "Aura Historia",
     "about": "À propos",
-    "ariaSwitchToLanguage": "Changer de langue vers {{language}}",
     "imprint": "Mentions légales",
     "privacy": "Politique de confidentialité",
     "cookieSettings": "Paramètres des cookies",
     "terms": "CGV",
     "copyright": "© {{year}} Aura Historia",
     "sections": {
-      "company": "Entreprise",
-      "followUs": "Suivez-nous",
-      "contact": "Contact",
-      "discoverMore": "Explorer plus",
-      "partnerProgram": "Programme partenaires",
-      "compare": "Comparer"
+      "discover": "Découvrir",
+      "partners": "Partenaires",
+      "company": "Entreprise"
     },
     "landingPageLinks": {
       "recentlyAdded": "Derniers ajouts",
@@ -159,9 +177,9 @@
       "customApi": "Intégration personnalisée",
       "apply": "Postuler"
     },
-    "compareLinks": {
-      "barnebys": "Barnebys"
-    }
+    "tagline": "Le marché mondial des antiquités, en une seule recherche.",
+    "socialNavigation": "Réseaux sociaux",
+    "compareBarnebys": "Comparer : Barnebys"
   },
   "aboutPage": {
     "hero": {
@@ -280,7 +298,6 @@
     "totalResults_other": "{{count}} articles",
     "bar": {
       "label": "Recherche",
-      "placeholderShort": "Rechercher",
       "button": "Rechercher",
       "placeholderExamplesProducts": [
         "Peinture à l'huile Marie-Madeleine",

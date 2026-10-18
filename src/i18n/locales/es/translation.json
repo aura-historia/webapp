@@ -111,36 +111,54 @@
     "title": "Términos y condiciones"
   },
   "header": {
+    "mainNavigation": "Principal",
+    "primaryNavigation": "Secciones",
+    "accountNavigation": "Su cuenta",
+    "home": "Inicio de Aura Historia",
+    "wordmark": "Aura Historia",
+    "sections": {
+      "discover": "Descubrir",
+      "platform": "Plataforma",
+      "agent": "Discovery Agent",
+      "dealers": "Para comerciantes",
+      "pricing": "Precios"
+    },
+    "signIn": "Iniciar sesión",
+    "createAccount": "Crear cuenta",
+    "startSearching": "Empezar a buscar",
     "watchlist": "Lista de seguimiento",
-    "myAccount": "Mi cuenta",
-    "admin": "Admin",
-    "editAccount": "Editar cuenta",
-    "logout": "Cerrar sesión",
-    "hello": "Hola",
-    "register": "Registrarse",
-    "login": "Iniciar sesión",
-    "searchFilters": "Filtros de Búsqueda",
+    "alerts": "Notificaciones",
+    "alertsUnseen_one": "Notificaciones, {{count}} nueva",
+    "alertsUnseen_other": "Notificaciones, {{count}} nuevas",
+    "newCount": "{{count}} nuevas",
+    "searchAlerts": "Alertas de búsqueda",
     "partnerDashboard": "Panel de socios",
-    "collection": "Colección",
-    "workspace": "Espacio profesional",
-    "accountNavigation": "Navegación de la cuenta"
+    "admin": "Admin",
+    "accountSettings": "Cuenta y ajustes",
+    "signOut": "Cerrar sesión",
+    "accountMenu": "Menú de la cuenta",
+    "yourAura": "Su Aura",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "menu": "Menú",
+    "searchLabel": "Buscar en el mercado global",
+    "searchPlaceholder": "Buscar objetos: época, autor, estilo…",
+    "searchSubmit": "Buscar",
+    "language": "Idioma",
+    "currency": "Moneda",
+    "preferences": "Idioma, moneda y unidades"
   },
   "footer": {
-    "brandName": "Aura Historia",
     "about": "Sobre nosotros",
-    "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
     "imprint": "Aviso legal",
     "privacy": "Política de privacidad",
     "cookieSettings": "Configuración de cookies",
     "terms": "Términos y condiciones",
     "copyright": "© {{year}} Aura Historia",
     "sections": {
-      "company": "Empresa",
-      "followUs": "Síguenos",
-      "contact": "Contacto",
-      "discoverMore": "Descubrir más",
-      "partnerProgram": "Programa de Partners",
-      "compare": "Comparar"
+      "discover": "Descubrir",
+      "partners": "Socios",
+      "company": "Empresa"
     },
     "landingPageLinks": {
       "recentlyAdded": "Últimas incorporaciones",
@@ -159,9 +177,9 @@
       "customApi": "Integración propia",
       "apply": "Solicitar acceso"
     },
-    "compareLinks": {
-      "barnebys": "Barnebys"
-    }
+    "tagline": "El mercado mundial de antigüedades, en una sola búsqueda.",
+    "socialNavigation": "Redes sociales",
+    "compareBarnebys": "Comparar: Barnebys"
   },
   "aboutPage": {
     "hero": {
@@ -280,7 +298,6 @@
     "totalResults_other": "{{count}} artículos",
     "bar": {
       "label": "Búsqueda",
-      "placeholderShort": "Buscar",
       "button": "Buscar",
       "placeholderExamplesProducts": [
         "Óleo de María Magdalena",

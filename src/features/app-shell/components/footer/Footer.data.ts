@@ -1,148 +1,143 @@
-import {
-    FacebookIcon,
-    InstagramIcon,
-    LinkedInIcon,
-    PinterestIcon,
-    RedditIcon,
-    TikTokIcon,
-    XIcon,
-    YouTubeIcon,
-} from "@/components/icons/SocialIcons.tsx";
-import type { ComponentType, SVGProps } from "react";
 import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
 import {
     SHOPIFY_APP_STORE_URL,
     WORDPRESS_PLUGIN_DIRECTORY_URL,
 } from "@/features/partner/partner-program/config/partnerProgramLinks.ts";
 
+export type FooterRoute =
+    | "/$lng/partner-program"
+    | "/$lng/partners/applications"
+    | "/$lng/partner-program/custom-integration"
+    | "/$lng/about-us"
+    | "/$lng/imprint"
+    | "/$lng/privacy"
+    | "/$lng/terms-and-conditions"
+    | "/$lng/consent-settings"
+    | "/$lng/compare/barnebys";
+
+export type FooterLink =
+    | { readonly kind: "landing"; readonly translationKey: string; readonly fragment: string }
+    | { readonly kind: "route"; readonly translationKey: string; readonly to: FooterRoute }
+    | { readonly kind: "external"; readonly translationKey: string; readonly href: string };
+
+export interface FooterGroup {
+    readonly id: "discover" | "partners" | "company";
+    readonly titleKey: string;
+    readonly links: readonly FooterLink[];
+}
+
 export interface SocialLink {
-    name: string;
-    url: string;
-    icon: ComponentType<SVGProps<SVGSVGElement>>;
+    readonly name: string;
+    readonly url: string;
 }
 
-export interface LandingPageFooterLink {
-    translationKey: string;
-    fragment: string;
-}
-
-export interface PartnerProgramFooterLink {
-    translationKey: string;
-    href: string;
-    external?: boolean;
-}
-
-export interface CompareFooterLink {
-    translationKey: string;
-    href: string;
-}
-
-export const COMPARE_FOOTER_LINKS: CompareFooterLink[] = [
+export const FOOTER_GROUPS: readonly FooterGroup[] = [
     {
-        translationKey: "footer.compareLinks.barnebys",
-        href: "/$lng/compare/barnebys",
+        id: "discover",
+        titleKey: "footer.sections.discover",
+        links: [
+            {
+                kind: "landing",
+                translationKey: "footer.landingPageLinks.recentlyAdded",
+                fragment: LANDING_PAGE_FRAGMENTS.recentlyAdded,
+            },
+            {
+                kind: "landing",
+                translationKey: "footer.landingPageLinks.discover",
+                fragment: LANDING_PAGE_FRAGMENTS.discover,
+            },
+            {
+                kind: "landing",
+                translationKey: "footer.landingPageLinks.features",
+                fragment: LANDING_PAGE_FRAGMENTS.features,
+            },
+            {
+                kind: "landing",
+                translationKey: "footer.landingPageLinks.howItWorks",
+                fragment: LANDING_PAGE_FRAGMENTS.howItWorks,
+            },
+            {
+                kind: "landing",
+                translationKey: "footer.landingPageLinks.pricing",
+                fragment: LANDING_PAGE_FRAGMENTS.pricing,
+            },
+            {
+                kind: "landing",
+                translationKey: "footer.landingPageLinks.newsletter",
+                fragment: LANDING_PAGE_FRAGMENTS.newsletter,
+            },
+            {
+                kind: "landing",
+                translationKey: "footer.landingPageLinks.faq",
+                fragment: LANDING_PAGE_FRAGMENTS.faq,
+            },
+        ],
+    },
+    {
+        id: "partners",
+        titleKey: "footer.sections.partners",
+        links: [
+            {
+                kind: "route",
+                translationKey: "footer.partnerProgramLinks.overview",
+                to: "/$lng/partner-program",
+            },
+            {
+                kind: "route",
+                translationKey: "footer.partnerProgramLinks.dashboard",
+                to: "/$lng/partners/applications",
+            },
+            {
+                kind: "external",
+                translationKey: "footer.partnerProgramLinks.woocommerce",
+                href: WORDPRESS_PLUGIN_DIRECTORY_URL,
+            },
+            {
+                kind: "external",
+                translationKey: "footer.partnerProgramLinks.shopify",
+                href: SHOPIFY_APP_STORE_URL,
+            },
+            {
+                kind: "route",
+                translationKey: "footer.partnerProgramLinks.customApi",
+                to: "/$lng/partner-program/custom-integration",
+            },
+            {
+                kind: "route",
+                translationKey: "footer.partnerProgramLinks.apply",
+                to: "/$lng/partners/applications",
+            },
+        ],
+    },
+    {
+        id: "company",
+        titleKey: "footer.sections.company",
+        links: [
+            { kind: "route", translationKey: "footer.about", to: "/$lng/about-us" },
+            { kind: "route", translationKey: "footer.imprint", to: "/$lng/imprint" },
+            { kind: "route", translationKey: "footer.privacy", to: "/$lng/privacy" },
+            { kind: "route", translationKey: "footer.terms", to: "/$lng/terms-and-conditions" },
+            {
+                kind: "route",
+                translationKey: "footer.cookieSettings",
+                to: "/$lng/consent-settings",
+            },
+            {
+                kind: "route",
+                translationKey: "footer.compareBarnebys",
+                to: "/$lng/compare/barnebys",
+            },
+        ],
     },
 ];
 
-export const PARTNER_PROGRAM_FOOTER_LINKS: PartnerProgramFooterLink[] = [
-    {
-        translationKey: "footer.partnerProgramLinks.overview",
-        href: "/$lng/partner-program",
-    },
-    {
-        translationKey: "footer.partnerProgramLinks.dashboard",
-        href: "/$lng/partners/applications",
-    },
-    {
-        translationKey: "footer.partnerProgramLinks.woocommerce",
-        href: WORDPRESS_PLUGIN_DIRECTORY_URL,
-        external: true,
-    },
-    {
-        translationKey: "footer.partnerProgramLinks.shopify",
-        href: SHOPIFY_APP_STORE_URL,
-        external: true,
-    },
-    {
-        translationKey: "footer.partnerProgramLinks.customApi",
-        href: "/$lng/partner-program/custom-integration",
-    },
-    {
-        translationKey: "footer.partnerProgramLinks.apply",
-        href: "/$lng/partners/applications",
-    },
-];
-
-export const LANDING_PAGE_FOOTER_LINKS: LandingPageFooterLink[] = [
-    {
-        translationKey: "footer.landingPageLinks.recentlyAdded",
-        fragment: LANDING_PAGE_FRAGMENTS.recentlyAdded,
-    },
-    {
-        translationKey: "footer.landingPageLinks.discover",
-        fragment: LANDING_PAGE_FRAGMENTS.discover,
-    },
-    {
-        translationKey: "footer.landingPageLinks.features",
-        fragment: LANDING_PAGE_FRAGMENTS.features,
-    },
-    {
-        translationKey: "footer.landingPageLinks.howItWorks",
-        fragment: LANDING_PAGE_FRAGMENTS.howItWorks,
-    },
-    {
-        translationKey: "footer.landingPageLinks.pricing",
-        fragment: LANDING_PAGE_FRAGMENTS.pricing,
-    },
-    {
-        translationKey: "footer.landingPageLinks.newsletter",
-        fragment: LANDING_PAGE_FRAGMENTS.newsletter,
-    },
-    {
-        translationKey: "footer.landingPageLinks.faq",
-        fragment: LANDING_PAGE_FRAGMENTS.faq,
-    },
-];
-
-export const SOCIAL_LINKS: SocialLink[] = [
-    {
-        name: "X",
-        url: "https://x.com/aurahistoria",
-        icon: XIcon,
-    },
-    {
-        name: "Instagram",
-        url: "https://www.instagram.com/aura_historia/",
-        icon: InstagramIcon,
-    },
-    {
-        name: "LinkedIn",
-        url: "https://linkedin.com/company/aura-historia",
-        icon: LinkedInIcon,
-    },
-    {
-        name: "Facebook",
-        url: "https://www.facebook.com/people/Aura-Historia/61588345829308/",
-        icon: FacebookIcon,
-    },
-    {
-        name: "Pinterest",
-        url: "https://de.pinterest.com/0emdo9gqshbeqm1r18hqq0sm53s5gx/",
-        icon: PinterestIcon,
-    },
-    {
-        name: "Reddit",
-        url: "https://www.reddit.com/user/aura-historia/",
-        icon: RedditIcon,
-    },
-    {
-        name: "YouTube",
-        url: "https://www.youtube.com/@aurahistoria",
-        icon: YouTubeIcon,
-    },
-    {
-        name: "TikTok",
-        url: "https://www.tiktok.com/@aurahistoria",
-        icon: TikTokIcon,
-    },
+export const SOCIAL_LINKS: readonly SocialLink[] = [
+    { name: "Instagram", url: "https://www.instagram.com/aura_historia/" },
+    { name: "LinkedIn", url: "https://linkedin.com/company/aura-historia" },
+    { name: "X", url: "https://x.com/aurahistoria" },
+    { name: "Facebook", url: "https://www.facebook.com/people/Aura-Historia/61588345829308/" },
+    { name: "Pinterest", url: "https://de.pinterest.com/0emdo9gqshbeqm1r18hqq0sm53s5gx/" },
+    { name: "Reddit", url: "https://www.reddit.com/user/aura-historia/" },
+    { name: "YouTube", url: "https://www.youtube.com/@aurahistoria" },
+    { name: "TikTok", url: "https://www.tiktok.com/@aurahistoria" },
 ];

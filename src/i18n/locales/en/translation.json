@@ -111,36 +111,54 @@
     "title": "Terms & Conditions"
   },
   "header": {
+    "mainNavigation": "Main",
+    "primaryNavigation": "Primary",
+    "accountNavigation": "Your account",
+    "home": "Aura Historia home",
+    "wordmark": "Aura Historia",
+    "sections": {
+      "discover": "Discover",
+      "platform": "Platform",
+      "agent": "Discovery Agent",
+      "dealers": "For Dealers",
+      "pricing": "Pricing"
+    },
+    "signIn": "Sign in",
+    "createAccount": "Create account",
+    "startSearching": "Start searching",
     "watchlist": "Watchlist",
-    "searchFilters": "Search Filters",
-    "myAccount": "My Account",
-    "admin": "Admin",
-    "editAccount": "Edit Account",
-    "logout": "Logout",
-    "hello": "Hello",
-    "register": "Register",
-    "login": "Login",
+    "alerts": "Alerts",
+    "alertsUnseen_one": "Alerts, {{count}} new",
+    "alertsUnseen_other": "Alerts, {{count}} new",
+    "newCount": "{{count}} new",
+    "searchAlerts": "Search alerts",
     "partnerDashboard": "Partner dashboard",
-    "collection": "Collection",
-    "workspace": "Workspace",
-    "accountNavigation": "Account navigation"
+    "admin": "Admin",
+    "accountSettings": "Account & settings",
+    "signOut": "Sign out",
+    "accountMenu": "Account menu",
+    "yourAura": "Your Aura",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "menu": "Menu",
+    "searchLabel": "Search the global market",
+    "searchPlaceholder": "Search objects — era, maker, style…",
+    "searchSubmit": "Search",
+    "language": "Language",
+    "currency": "Currency",
+    "preferences": "Language, currency and units"
   },
   "footer": {
-    "brandName": "Aura Historia",
     "about": "About Us",
-    "ariaSwitchToLanguage": "Switch to language {{language}}",
     "imprint": "Imprint",
     "privacy": "Privacy Policy",
     "cookieSettings": "Cookie Settings",
     "terms": "Terms & Conditions",
     "copyright": "© {{year}} Aura Historia",
     "sections": {
-      "company": "Company",
-      "followUs": "Follow Us",
-      "contact": "Contact",
-      "discoverMore": "Discover More",
-      "partnerProgram": "Partner Program",
-      "compare": "Compare"
+      "discover": "Discover",
+      "partners": "Partners",
+      "company": "Company"
     },
     "landingPageLinks": {
       "recentlyAdded": "Recently Added",
@@ -159,9 +177,9 @@
       "customApi": "Custom integration",
       "apply": "Apply now"
     },
-    "compareLinks": {
-      "barnebys": "Barnebys"
-    }
+    "tagline": "The global antiques market, in a single search.",
+    "socialNavigation": "Social media",
+    "compareBarnebys": "Compare: Barnebys"
   },
   "aboutPage": {
     "hero": {
@@ -280,7 +298,6 @@
     "totalResults_other": "{{count}} items",
     "bar": {
       "label": "Search",
-      "placeholderShort": "Search",
       "button": "Search",
       "placeholderExamplesProducts": [
         "Oil painting Mary Magdalene",

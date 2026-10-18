@@ -9,6 +9,9 @@ Refined global discovery for antiques, art, design objects, dealers, and auction
   `src/data/internal/geography/reference/isoCodes.gen.ts`.
 - Add every user-facing string to all locales: `de`, `en`, `es`, `fr`, `it`.
 - Update relevant docs when a change affects their guidance, contracts, or described behaviour.
+- Keep UI in sync with the design file and design system. For components you are asked to work on:
+  implement them from the design; if the design is missing or a change is requested, update the design
+  file first, built from the design system. Leave other components alone. See `docs/design-guidelines.md`.
 - Keep routes thin. Put durable workflows in `src/features/`; reuse existing UI and hooks first.
 - Map generated API DTOs before deep UI use.
 - Use route loaders for first-paint or SEO data. Do not prerender dynamic, personalised, or authenticated routes.

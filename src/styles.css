@@ -1,5 +1,7 @@
-@import "@fontsource-variable/newsreader/index.css";
-@import "@fontsource-variable/manrope/index.css";
+@import "@fontsource-variable/newsreader/opsz.css";
+@import "@fontsource-variable/newsreader/opsz-italic.css";
+@import "@fontsource-variable/geist/wght.css";
+@import "@fontsource-variable/geist-mono/wght.css";
 
 @import "tailwindcss";
 
@@ -9,169 +11,404 @@
 
 body {
     @apply m-0;
-    font-family: "Manrope Variable", sans-serif;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-family: var(--font-mono);
 }
 
-:root {
-    /* ── Aura Heritage: Mahogany + Parchment + Gold ── */
+/*
+ * ── Aura Historia design system: Catalogue × Terminal ──
+ *
+ * The blocks below mirror the design system's tokens.css. Parchment (light) is the
+ * catalogue ground; Ink (dark) is the hero, dealer section and footer ground. Wrap a
+ * section in `data-theme="dark"` (or `data-theme="light"` to return to parchment) and
+ * every token and utility below it switches to that ground.
+ */
+
+/* Colour · Parchment (light) */
+:root,
+[data-theme="light"] {
+    color-scheme: light;
 
     /* Surfaces */
-    --background: #fcf9ef;
-    --foreground: #1c1c16;
-    --card: #f7f4e9;
-    --card-foreground: #1c1c16;
-    --popover: #ffffff;
-    --popover-foreground: #1c1c16;
+    --surface: #f4eee3;
+    --surface-raised: #fbf8f2;
+    --surface-sunken: #ede5d7;
+    --surface-bar: #f6f0e6;
+    --image-ground: #e6ddcd;
 
-    /* Primary – Deep Mahogany */
-    --primary: #42120f;
-    --primary-foreground: #ffffff;
-    --primary-hover: #5d2722;
-    --primary-container: #5d2722;
+    /* Text */
+    --ink: #170d0e;
+    --ink-secondary: #4f4441;
+    --ink-muted: #6b5e58;
+    --ink-placeholder: #746962;
 
-    /* Secondary – Warm Taupe */
-    --secondary: #675c57;
-    --secondary-foreground: #ffffff;
-    --secondary-container: #efdfd8;
-    --on-secondary-container: #5f544f;
+    /* Brand and accent */
+    --oxblood: #4a1520;
+    --on-oxblood: #fbf8f2;
+    --on-oxblood-muted: #e6d6cc;
+    --on-oxblood-placeholder: #b8a99d;
+    --brass: #b8935a;
+    --brass-ink: #7a5c30;
+    --brass-light: #e2c9a0;
+    --sand: #d9cdb8;
+    --signal-live: #9bc59d;
 
-    /* Tertiary – Gold */
-    --tertiary: #c09c55;
-    --tertiary-foreground: #ffffff;
-    --tertiary-fixed: #ffdea5;
-    --tertiary-fixed-dim: #e9c176;
+    /* Lines */
+    --line: rgba(23, 13, 14, 0.14);
+    --line-subtle: rgba(23, 13, 14, 0.08);
+    --line-strong: rgba(23, 13, 14, 0.25);
+    --chip-on-image: rgba(251, 248, 242, 0.94);
+
+    /* Theme-dependent shadows (`shadow-ring`, `shadow-field` utilities below) */
+    --shadow-ring: 0 0 0 1px rgba(23, 13, 14, 0.07);
+    --shadow-field: inset 0 0 0 1px rgba(23, 13, 14, 0.1);
+}
+
+/* Colour · Ink (dark) */
+.dark,
+[data-theme="dark"] {
+    color-scheme: dark;
+
+    /* Surfaces */
+    --surface: #170d0e;
+    --surface-raised: #2a0e12;
+    --surface-sunken: rgba(244, 238, 227, 0.06);
+    --surface-bar: #170d0e;
+    --image-ground: #e6ddcd;
+
+    /* Text */
+    --ink: #f4eee3;
+    --ink-secondary: #d8cabe;
+    --ink-muted: #a8988d;
+    --ink-placeholder: #958880;
+
+    /* Brand and accent */
+    --oxblood: #4a1520;
+    --on-oxblood: #fbf8f2;
+    --on-oxblood-muted: #e6d6cc;
+    --on-oxblood-placeholder: #b8a99d;
+    --brass: #b8935a;
+    --brass-ink: #b8935a;
+    --brass-light: #e2c9a0;
+    --sand: #d9cdb8;
+    --signal-live: #9bc59d;
+
+    /* Lines */
+    --line: rgba(244, 238, 227, 0.14);
+    --line-subtle: rgba(244, 238, 227, 0.1);
+    --line-strong: rgba(244, 238, 227, 0.3);
+    --chip-on-image: rgba(251, 248, 242, 0.94);
+
+    /* Theme-dependent shadows */
+    --shadow-ring: 0 0 0 1px rgba(244, 238, 227, 0.12);
+    --shadow-field: inset 0 0 0 1px rgba(244, 238, 227, 0.18);
+}
+
+/* Spacing and layout */
+:root {
+    --space-4: 4px;
+    --space-6: 6px;
+    --space-8: 8px;
+    --space-10: 10px;
+    --space-12: 12px;
+    --space-14: 14px;
+    --space-16: 16px;
+    --space-20: 20px;
+    --space-22: 22px;
+    --space-24: 24px;
+    --space-28: 28px;
+    --space-36: 36px;
+    --space-48: 48px;
+    --space-56: 56px;
+    --space-64: 64px;
+    --space-140: 140px;
+
+    --page-gutter: clamp(20px, 4vw, 48px);
+    --section-padding: clamp(80px, 10vw, 140px);
+}
+
+/*
+ * ── Legacy semantic aliases (shadcn + previous Heritage palette) ──
+ *
+ * Existing components still use these names. They now resolve to the design-system
+ * palette and are redeclared on every themed element so they follow `data-theme`.
+ * Prefer the design-system tokens above for new work; these aliases are removed as
+ * components move to the new design.
+ */
+:root,
+.dark,
+[data-theme] {
+    /* Surfaces */
+    --background: var(--surface);
+    --foreground: var(--ink);
+    --card: var(--surface-raised);
+    --card-foreground: var(--ink);
+    --popover: var(--surface-raised);
+    --popover-foreground: var(--ink);
+
+    /* Primary – Oxblood */
+    --primary: var(--oxblood);
+    --primary-foreground: var(--on-oxblood);
+    --primary-hover: color-mix(in srgb, var(--oxblood) 86%, var(--on-oxblood));
+    --primary-container: var(--oxblood);
+
+    /* Secondary */
+    --secondary: var(--ink-secondary);
+    --secondary-foreground: var(--surface-raised);
+    --secondary-container: var(--surface-sunken);
+    --on-secondary-container: var(--ink-secondary);
+
+    /* Tertiary – Brass */
+    --tertiary: var(--brass-ink);
+    --tertiary-foreground: var(--on-oxblood);
+    --tertiary-fixed: var(--brass-light);
+    --tertiary-fixed-dim: var(--brass);
 
     /* Muted / Accents */
-    --muted: #f1eee4;
-    --muted-foreground: #534341;
-    --accent: #efdfd8;
-    --accent-foreground: #1c1c16;
+    --muted: var(--surface-sunken);
+    --muted-foreground: var(--ink-muted);
+    --accent: var(--surface-sunken);
+    --accent-foreground: var(--ink);
 
     /* Feedback */
     --destructive: #ba1a1a;
     --destructive-foreground: #ffffff;
 
     /* Borders / Inputs */
-    --border: #d8c1bf;
-    --input: #d8c1bf;
-    --ring: #d8c1bf;
+    --border: var(--line);
+    --input: var(--line-strong);
+    --ring: var(--brass);
 
     /* Surface hierarchy */
-    --surface-container-lowest: #ffffff;
-    --surface-container-low: #f7f4e9;
-    --surface-container: #f1eee4;
-    --surface-container-high: #ebe8de;
-    --surface-container-highest: #e5e2d9;
-    --surface-dim: #dddad0;
-    --surface-bright: #fcf9ef;
-    --on-surface: #1c1c16;
-    --on-surface-variant: #534341;
-    --outline: #857371;
-    --outline-variant: #d8c1bf;
+    --surface-container-lowest: var(--surface-raised);
+    --surface-container-low: var(--surface-bar);
+    --surface-container: var(--surface-sunken);
+    --surface-container-high: var(--image-ground);
+    --surface-container-highest: var(--sand);
+    --surface-dim: var(--image-ground);
+    --surface-bright: var(--surface);
+    --on-surface: var(--ink);
+    --on-surface-variant: var(--ink-secondary);
+    --outline: var(--ink-placeholder);
+    --outline-variant: var(--line);
 
     /* Charts */
-    --chart-1: #42120f;
-    --chart-2: #c09c55;
-    --chart-3: #675c57;
-    --chart-4: #ffdea5;
-    --chart-5: #efdfd8;
+    --chart-1: var(--oxblood);
+    --chart-2: var(--brass);
+    --chart-3: var(--sand);
+    --chart-4: var(--ink-muted);
+    --chart-5: var(--brass-light);
 
-    /* Misc */
-    --radius: 0.25rem;
-    --sidebar: #f7f4e9;
-    --sidebar-foreground: #1c1c16;
-    --sidebar-primary: #42120f;
-    --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #efdfd8;
-    --sidebar-accent-foreground: #5f544f;
-    --sidebar-border: #d8c1bf;
-    --sidebar-ring: #857371;
-    --linear-gradient-main: linear-gradient(180deg, #42120f 0%, #5d2722 100%);
+    /* Sidebar */
+    --sidebar: var(--surface-raised);
+    --sidebar-foreground: var(--ink);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--surface-sunken);
+    --sidebar-accent-foreground: var(--ink-secondary);
+    --sidebar-border: var(--line);
+    --sidebar-ring: var(--brass);
+
+    --linear-gradient-main: linear-gradient(
+        180deg,
+        var(--oxblood) 0%,
+        color-mix(in srgb, var(--oxblood) 86%, var(--on-oxblood)) 100%
+    );
 }
 
-.dark {
-    /* ── Aura Heritage Dark: Warm Inverse Palette ── */
+/* On the ink ground, oxblood is only a fill, never text or a line: lift text-bearing aliases. */
+.dark,
+[data-theme="dark"] {
+    --primary: var(--brass-light);
+    --primary-foreground: var(--surface);
+    --primary-hover: color-mix(in srgb, var(--brass-light) 86%, var(--on-oxblood));
 
-    /* Surfaces */
-    --background: #1c1c16;
-    --foreground: #f4f1e7;
-    --card: #31312a;
-    --card-foreground: #f4f1e7;
-    --popover: #31312a;
-    --popover-foreground: #f4f1e7;
+    --secondary: var(--surface-raised);
+    --secondary-foreground: var(--ink);
 
-    /* Primary – light rose (inverse) */
-    --primary: #ffb4ab;
-    --primary-foreground: #390b09;
-    --primary-hover: #da8d84;
-    --primary-container: #703630;
+    --tertiary-foreground: var(--surface);
 
-    /* Secondary */
-    --secondary: #4f4540;
-    --secondary-foreground: #f4f1e7;
-    --secondary-container: #4f4540;
-    --on-secondary-container: #d2c4bd;
+    --accent: var(--surface-raised);
 
-    /* Tertiary */
-    --tertiary: #e9c176;
-    --tertiary-foreground: #261900;
-    --tertiary-fixed: #ffdea5;
-    --tertiary-fixed-dim: #e9c176;
-
-    /* Muted / Accents */
-    --muted: #31312a;
-    --muted-foreground: #d8c1bf;
-    --accent: #4f4540;
-    --accent-foreground: #f4f1e7;
-
-    /* Feedback */
     --destructive: #93000a;
     --destructive-foreground: #ffdad6;
 
-    /* Borders / Inputs */
-    --border: #534341;
-    --input: #534341;
-    --ring: #d8c1bf;
-    /* Surface hierarchy */
-    --surface-container-lowest: #1c1c16;
-    --surface-container-low: #252520;
-    --surface-container: #2a2a24;
-    --surface-container-high: #31312a;
-    --surface-container-highest: #3a3931;
-    --surface-dim: #1c1c16;
-    --surface-bright: #43423a;
-    --on-surface: #f4f1e7;
-    --on-surface-variant: #d8c1bf;
-    --outline: #a08d8b;
-    --outline-variant: #534341;
+    --surface-container-lowest: var(--surface);
+    --surface-container-low: color-mix(in srgb, var(--ink) 4%, var(--surface));
+    --surface-container: color-mix(in srgb, var(--ink) 6%, var(--surface));
+    --surface-container-high: var(--surface-raised);
+    --surface-container-highest: color-mix(in srgb, var(--ink) 10%, var(--surface));
+    --surface-dim: var(--surface);
+    --surface-bright: color-mix(in srgb, var(--ink) 14%, var(--surface));
 
-    /* Charts */
-    --chart-1: #ffb4ab;
-    --chart-2: #e9c176;
-    --chart-3: #d2c4bd;
-    --chart-4: #ffdea5;
-    --chart-5: #4f4540;
+    --chart-1: var(--brass-light);
+    --chart-5: var(--ink-secondary);
+}
 
-    /* Misc */
-    --sidebar: #31312a;
-    --sidebar-foreground: #f4f1e7;
-    --sidebar-primary: #ffb4ab;
-    --sidebar-primary-foreground: #390b09;
-    --sidebar-accent: #4f4540;
-    --sidebar-accent-foreground: #f4f1e7;
-    --sidebar-border: #534341;
-    --sidebar-ring: #857371;
+/* Static design-system tokens whose names match Tailwind namespaces; always emitted as CSS variables. */
+@theme static {
+    /* Families */
+    --font-serif: "Newsreader Variable", Newsreader, Georgia, serif;
+    --font-sans: "Geist Variable", Geist, "Helvetica Neue", system-ui, sans-serif;
+    --font-mono: "Geist Mono Variable", "Geist Mono", ui-monospace, Menlo, monospace;
+    --font-display: var(--font-serif);
+    --font-body: var(--font-sans);
+
+    /* Radius: grows with the object */
+    --radius-xs: 2px;
+    --radius-sm: 4px;
+    --radius-thumb: 6px;
+    --radius-md: 8px;
+    --radius-field: 10px;
+    --radius-lg: 12px;
+    --radius-panel: 14px;
+    --radius-figure: 16px;
+    --radius-card: 18px;
+    --radius-pill: 999px;
+
+    /* Shadow: hairlines, not shadows. Ring and field follow the theme, see @utility below. */
+    --shadow-search: 0 0 0 1px rgba(184, 147, 90, 0.45), 0 24px 60px rgba(0, 0, 0, 0.35);
+    --shadow-menu: 0 0 0 1px rgba(23, 13, 14, 0.08), 0 24px 60px rgba(0, 0, 0, 0.3);
+    --shadow-selected: 0 0 0 2px #4a1520;
+
+    /* Layout */
+    --container-content: 1280px;
+}
+
+/* Type styles: `text-<style>` sets size, line height, weight and tracking; pair with `font-serif`, `font-sans` or `font-mono`. */
+@theme {
+    --text-display-hero: clamp(48px, 7.6vw, 118px);
+    --text-display-hero--line-height: 0.98;
+    --text-display-hero--letter-spacing: -0.025em;
+    --text-display-hero--font-weight: 400;
+
+    --text-display-section: clamp(40px, 4.6vw, 68px);
+    --text-display-section--line-height: 1.02;
+    --text-display-section--letter-spacing: -0.02em;
+    --text-display-section--font-weight: 400;
+
+    --text-display-figure: clamp(56px, 6vw, 84px);
+    --text-display-figure--line-height: 1;
+    --text-display-figure--font-weight: 400;
+
+    --text-display-rail: 56px;
+    --text-display-rail--line-height: 1.04;
+    --text-display-rail--letter-spacing: -0.02em;
+    --text-display-rail--font-weight: 400;
+
+    --text-title-lg: clamp(28px, 2.6vw, 38px);
+    --text-title-lg--line-height: 1.1;
+    --text-title-lg--font-weight: 400;
+
+    --text-stat: 34px;
+    --text-stat--line-height: 1.1;
+    --text-stat--font-weight: 400;
+
+    --text-title-md: 26px;
+    --text-title-md--line-height: 1.15;
+    --text-title-md--font-weight: 400;
+
+    --text-title-sm: 24px;
+    --text-title-sm--line-height: 1.2;
+    --text-title-sm--font-weight: 500;
+
+    --text-question: 22px;
+    --text-question--line-height: 1.3;
+    --text-question--font-weight: 400;
+
+    --text-object-title: 19px;
+    --text-object-title--line-height: 1.25;
+    --text-object-title--font-weight: 400;
+
+    --text-object-title-sm: 16px;
+    --text-object-title-sm--line-height: 1.25;
+    --text-object-title-sm--font-weight: 400;
+
+    --text-wordmark: 19px;
+    --text-wordmark--line-height: 1;
+    --text-wordmark--letter-spacing: 0.22em;
+    --text-wordmark--font-weight: 400;
+
+    --text-lead: clamp(17px, 1.5vw, 20px);
+    --text-lead--line-height: 1.55;
+    --text-lead--font-weight: 400;
+
+    --text-body-lg: 18px;
+    --text-body-lg--line-height: 1.6;
+    --text-body-lg--font-weight: 400;
+
+    --text-body: 15px;
+    --text-body--line-height: 1.6;
+    --text-body--font-weight: 400;
+
+    --text-body-sm: 14px;
+    --text-body-sm--line-height: 1.6;
+    --text-body-sm--font-weight: 400;
+
+    --text-meta: 13px;
+    --text-meta--line-height: 1.4;
+    --text-meta--font-weight: 400;
+
+    --text-button: 15px;
+    --text-button--line-height: 1;
+    --text-button--font-weight: 500;
+
+    --text-price: 15px;
+    --text-price--line-height: 1.2;
+    --text-price--font-weight: 600;
+
+    --text-eyebrow: 12px;
+    --text-eyebrow--line-height: 1.4;
+    --text-eyebrow--letter-spacing: 0.2em;
+    --text-eyebrow--font-weight: 400;
+
+    --text-kicker: 11px;
+    --text-kicker--line-height: 1.4;
+    --text-kicker--letter-spacing: 0.16em;
+    --text-kicker--font-weight: 400;
+
+    --text-label: 11px;
+    --text-label--line-height: 1.4;
+    --text-label--letter-spacing: 0.14em;
+    --text-label--font-weight: 400;
+
+    --text-tag: 10px;
+    --text-tag--line-height: 1.2;
+    --text-tag--letter-spacing: 0.08em;
+    --text-tag--font-weight: 400;
 }
 
 @theme inline {
-    --text-foreground: var(--on-surface);
-    --text-muted-foreground: var(--on-surface-variant);
+    /* Design-system colours */
+    --color-surface: var(--surface);
+    --color-surface-raised: var(--surface-raised);
+    --color-surface-sunken: var(--surface-sunken);
+    --color-surface-bar: var(--surface-bar);
+    --color-image-ground: var(--image-ground);
+    --color-ink: var(--ink);
+    --color-ink-secondary: var(--ink-secondary);
+    --color-ink-muted: var(--ink-muted);
+    --color-ink-placeholder: var(--ink-placeholder);
+    --color-oxblood: var(--oxblood);
+    --color-on-oxblood: var(--on-oxblood);
+    --color-on-oxblood-muted: var(--on-oxblood-muted);
+    --color-on-oxblood-placeholder: var(--on-oxblood-placeholder);
+    --color-brass: var(--brass);
+    --color-brass-ink: var(--brass-ink);
+    --color-brass-light: var(--brass-light);
+    --color-sand: var(--sand);
+    --color-signal-live: var(--signal-live);
+    --color-line: var(--line);
+    --color-line-subtle: var(--line-subtle);
+    --color-line-strong: var(--line-strong);
+    --color-chip-on-image: var(--chip-on-image);
+
+    /* Legacy semantic colours */
     --color-background: var(--background);
     --color-background-accent: var(--surface-container-low);
     --color-foreground: var(--foreground);
@@ -205,7 +442,7 @@ code {
     --color-chart-4: var(--chart-4);
     --color-chart-5: var(--chart-5);
 
-    /* Surface hierarchy tokens */
+    /* Legacy surface hierarchy */
     --color-surface-container-lowest: var(--surface-container-lowest);
     --color-surface-container-low: var(--surface-container-low);
     --color-surface-container: var(--surface-container);
@@ -218,11 +455,6 @@ code {
     --color-outline: var(--outline);
     --color-outline-variant: var(--outline-variant);
 
-    --radius-sm: calc(var(--radius) - 2px);
-    --radius-md: var(--radius);
-    --radius-lg: calc(var(--radius) + 2px);
-    --radius-xl: calc(var(--radius) + 6px);
-
     --color-sidebar: var(--sidebar);
     --color-sidebar-foreground: var(--sidebar-foreground);
     --color-sidebar-primary: var(--sidebar-primary);
@@ -231,10 +463,6 @@ code {
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
-
-    /* Typography tokens */
-    --font-display: "Newsreader Variable", Georgia, serif;
-    --font-body: "Manrope Variable", system-ui, sans-serif;
 
     --animate-heart-bounce: heart-bounce 0.3s ease-in-out;
 
@@ -247,6 +475,15 @@ code {
             transform: scale(1.3);
         }
     }
+}
+
+/* Tailwind inlines @theme shadow values, so the theme-dependent shadows read their variable here. */
+@utility shadow-ring {
+    box-shadow: var(--shadow-ring);
+}
+
+@utility shadow-field {
+    box-shadow: var(--shadow-field);
 }
 
 @layer base {
@@ -271,7 +508,7 @@ code {
 @supports (-webkit-touch-callout: none) {
     @media (hover: none) and (pointer: coarse) {
         .hero-section-safari-offset {
-            padding-top: calc(5rem + env(safe-area-inset-top));
+            padding-top: calc(3.75rem + env(safe-area-inset-top));
         }
     }
 }
