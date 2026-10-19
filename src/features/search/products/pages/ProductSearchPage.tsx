@@ -77,7 +77,7 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
             <div className="mx-auto flex max-w-[1376px] items-start gap-14 px-[clamp(20px,4vw,48px)]">
                 <aside
                     aria-label={t("search.filters")}
-                    className="sticky top-16 hidden max-h-[calc(100dvh-64px)] w-[280px] shrink-0 overflow-y-auto py-10 pr-1 [scrollbar-color:var(--line)_transparent] [scrollbar-width:thin] lg:block"
+                    className="sticky top-16 -ml-1.5 hidden max-h-[calc(100dvh-64px)] w-[286px] shrink-0 overflow-y-auto py-10 pr-4 pl-1.5 [scrollbar-color:var(--line)_transparent] [scrollbar-gutter:stable] [scrollbar-width:thin] lg:block"
                 >
                     <SearchFilters searchFilters={searchArgs} variant="sidebar" />
                 </aside>

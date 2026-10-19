@@ -1,11 +1,17 @@
-import { ArrowDownWideNarrow, ChevronDown } from "lucide-react";
-import { useId } from "react";
+import { ArrowDownWideNarrow } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import {
     getSortModeFieldLabel,
     SEARCH_RESULT_SORT_FIELDS,
     type SortMode,
 } from "@/data/internal/search/SortMode.ts";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select.tsx";
 import { cn } from "@/lib/utils.ts";
 
 const FOCUS_CLASS =
@@ -22,49 +28,53 @@ type SearchSortControlsProps = {
 /** "Sort by" select and the ascending / descending switch. */
 export function SearchSortControls({ sortMode, onChange, layout }: SearchSortControlsProps) {
     const { t } = useTranslation();
-    const selectId = useId();
     const isCompact = layout === "compact";
     const isDescending = sortMode.order === "DESC";
     const orderLabel = t(isDescending ? "search.sortMode.order.desc" : "search.sortMode.order.asc");
 
     return (
         <>
-            <div
-                className={cn(
-                    "relative flex items-center focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-brass",
-                    PILL_CLASS,
-                    isCompact ? "h-11 min-w-0 flex-1" : "h-10",
-                )}
+            <Select
+                value={sortMode.field}
+                onValueChange={(field) =>
+                    onChange({ ...sortMode, field: field as SortMode["field"] })
+                }
             >
-                <label
-                    htmlFor={selectId}
-                    className="shrink-0 pt-px pl-4 font-mono text-tag leading-none tracking-[0.14em] whitespace-nowrap text-ink-muted uppercase"
-                >
-                    {t("search.sortMode.sortBy")}
-                </label>
-                <select
-                    id={selectId}
-                    value={sortMode.field}
-                    onChange={(event) =>
-                        onChange({ ...sortMode, field: event.target.value as SortMode["field"] })
-                    }
+                <SelectTrigger
                     className={cn(
-                        "h-full min-w-0 cursor-pointer appearance-none bg-transparent pr-9 pl-2 leading-none font-medium text-ink outline-none",
-                        isCompact ? "flex-1 text-base" : "text-sm",
+                        "cursor-pointer gap-2 border-0 bg-transparent pr-3.5 pl-4 font-medium text-ink dark:bg-transparent dark:hover:bg-transparent [&_svg:not([class*='text-'])]:text-ink-muted",
+                        "focus-visible:ring-0",
+                        PILL_CLASS,
+                        FOCUS_CLASS,
+                        isCompact
+                            ? "min-w-0 flex-1 text-base data-[size=default]:h-11"
+                            : "text-sm data-[size=default]:h-10",
                     )}
                 >
+                    <span className="shrink-0 pt-px font-mono text-tag leading-none font-normal tracking-[0.14em] whitespace-nowrap text-ink-muted uppercase">
+                        {t("search.sortMode.sortBy")}
+                    </span>
+                    <span className="min-w-0 flex-1 truncate text-left leading-none">
+                        <SelectValue />
+                    </span>
+                </SelectTrigger>
+                <SelectContent
+                    data-theme="light"
+                    align="end"
+                    sideOffset={6}
+                    className="z-[70] min-w-48 rounded-panel border-0 bg-surface-raised p-1 text-ink shadow-menu"
+                >
                     {SEARCH_RESULT_SORT_FIELDS.map((field) => (
-                        <option key={field} value={field}>
+                        <SelectItem
+                            key={field}
+                            value={field}
+                            className="min-h-11 cursor-pointer rounded-md px-2.5 pr-9 text-sm text-ink focus:bg-surface-sunken focus:text-ink data-[state=checked]:font-medium [&_svg:not([class*='text-'])]:text-oxblood"
+                        >
                             {t(getSortModeFieldLabel(field))}
-                        </option>
+                        </SelectItem>
                     ))}
-                </select>
-                <ChevronDown
-                    aria-hidden="true"
-                    strokeWidth={1.8}
-                    className="pointer-events-none absolute right-3.5 size-3.5 text-ink-muted"
-                />
-            </div>
+                </SelectContent>
+            </Select>
             <button
                 type="button"
                 onClick={() => onChange({ ...sortMode, order: isDescending ? "ASC" : "DESC" })}

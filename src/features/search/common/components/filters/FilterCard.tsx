@@ -120,7 +120,7 @@ export function FilterCard({
                         </Tooltip>
                     )}
                 </div>
-                <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+                <CollapsibleContent className="-mx-1.5 -mt-1.5 overflow-hidden px-1.5 pt-1.5 data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                     <div
                         className={cn(
                             "pb-5",
