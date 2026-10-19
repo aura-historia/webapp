@@ -271,7 +271,8 @@
         "met": "(respectée)",
         "notMet": "(non respectée)"
       },
-      "incorrectCurrentPassword": "Votre mot de passe actuel est incorrect."
+      "incorrectCurrentPassword": "Votre mot de passe actuel est incorrect.",
+      "attemptLimitExceeded": "Trop de tentatives. Veuillez patienter quelques minutes, puis réessayer."
     },
     "deleteAccount": {
       "title": "Supprimer le compte",

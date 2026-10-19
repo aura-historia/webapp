@@ -103,15 +103,16 @@ describe("ChangePasswordForm", () => {
         expect(mockToast.error).not.toHaveBeenCalled();
     });
 
-    it("translates other Cognito errors in a toast", async () => {
+    it("shows a translated toast when the attempt limit is exceeded", async () => {
         failWith("LimitExceededException", "Attempt limit exceeded, please try after some time.");
         await submitValidForm();
 
         await waitFor(() => {
             expect(mockToast.error).toHaveBeenCalledWith(
-                "Versuchslimit überschritten, bitte versuchen Sie es später erneut.",
+                "Zu viele Versuche. Bitte warten Sie einige Minuten und versuchen Sie es dann erneut.",
             );
         });
+        expect(screen.queryByText(/Attempt limit exceeded/)).not.toBeInTheDocument();
     });
 
     it("falls back to the generic message for unmapped errors", async () => {

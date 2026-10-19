@@ -23,7 +23,7 @@ import {
     LABEL_CLASS,
     PRIMARY_BUTTON_CLASS,
 } from "@/features/account-management/lib/accountStyles.ts";
-import { getAuthErrorMessage } from "@/features/authentication/lib/getAuthErrorMessage.ts";
+import { getChangePasswordError } from "@/features/account-management/lib/changePasswordError.ts";
 import { cn } from "@/lib/utils.ts";
 
 function getChangePasswordSchema(t: (key: string) => string) {
@@ -107,22 +107,12 @@ export function ChangePasswordForm() {
                     form.reset();
                 },
                 onError: (error) => {
-                    // Cognito reports a wrong current password as NotAuthorizedException.
-                    if (error.name === "NotAuthorizedException") {
-                        form.setError(
-                            "currentPassword",
-                            { message: t("account.changePassword.incorrectCurrentPassword") },
-                            { shouldFocus: true },
-                        );
+                    const { field, messageKey } = getChangePasswordError(error);
+                    if (field) {
+                        form.setError(field, { message: t(messageKey) }, { shouldFocus: true });
                         return;
                     }
-                    const message = getAuthErrorMessage(error, t);
-                    // Unmapped errors come back as Cognito's untranslated text.
-                    toast.error(
-                        message === error.message
-                            ? t("account.changePassword.errorMessage")
-                            : message,
-                    );
+                    toast.error(t(messageKey));
                 },
             },
         );

@@ -291,7 +291,8 @@
         "met": "(met)",
         "notMet": "(not met)"
       },
-      "incorrectCurrentPassword": "Your current password is incorrect."
+      "incorrectCurrentPassword": "Your current password is incorrect.",
+      "attemptLimitExceeded": "Too many attempts. Please wait a few minutes, then try again."
     },
     "deleteAccount": {
       "title": "Delete Account",

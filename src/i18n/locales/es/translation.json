@@ -271,7 +271,8 @@
         "met": "(cumplido)",
         "notMet": "(no cumplido)"
       },
-      "incorrectCurrentPassword": "Su contraseña actual no es correcta."
+      "incorrectCurrentPassword": "Su contraseña actual no es correcta.",
+      "attemptLimitExceeded": "Demasiados intentos. Espere unos minutos y vuelva a intentarlo."
     },
     "deleteAccount": {
       "title": "Eliminar cuenta",
