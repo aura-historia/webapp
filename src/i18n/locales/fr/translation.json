@@ -247,7 +247,10 @@
     }
   },
   "account": {
-    "title": "Mon compte",
+    "eyebrow": "Compte et paramètres",
+    "heading": "Mon <em>compte.</em>",
+    "signedInAs": "Connecté en tant que <email>{{email}}</email>",
+    "sectionsNav": "Sections du compte",
     "changePassword": {
       "title": "Modifier le mot de passe",
       "currentPasswordLabel": "Mot de passe actuel",
@@ -255,7 +258,20 @@
       "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
       "saveButton": "Enregistrer le mot de passe",
       "successMessage": "Mot de passe modifié avec succès !",
-      "errorMessage": "Erreur lors de la modification du mot de passe."
+      "errorMessage": "Erreur lors de la modification du mot de passe.",
+      "description": "Saisissez votre mot de passe actuel, puis choisissez-en un nouveau qui respecte toutes les règles.",
+      "policyTitle": "Règles du mot de passe",
+      "policyProgress": "{{met}} sur {{total}}",
+      "rules": {
+        "length": "Au moins 8 caractères",
+        "uppercase": "Une lettre majuscule",
+        "lowercase": "Une lettre minuscule",
+        "number": "Un chiffre",
+        "symbol": "Un symbole",
+        "met": "(respectée)",
+        "notMet": "(non respectée)"
+      },
+      "incorrectCurrentPassword": "Votre mot de passe actuel est incorrect."
     },
     "deleteAccount": {
       "title": "Supprimer le compte",
@@ -266,12 +282,14 @@
       "cancelButton": "Annuler",
       "confirmButton": "Oui, supprimer le compte",
       "successMessage": "Compte supprimé avec succès !",
-      "errorMessage": "Erreur lors de la suppression du compte."
+      "errorMessage": "Erreur lors de la suppression du compte.",
+      "closeButton": "Fermer"
     },
     "subscription": {
       "title": "Abonnement",
       "currentPlanLabel": "Plan actuel",
-      "manageButton": "Gerer l'abonnement"
+      "manageButton": "Gerer l'abonnement",
+      "description": "Modifiez votre offre, votre moyen de paiement ou vos coordonnées de facturation auprès de notre prestataire de paiement."
     },
     "personalData": {
       "title": "Données personnelles",
@@ -287,7 +305,11 @@
       "saveButton": "Enregistrer les modifications",
       "successMessage": "Données personnelles mises à jour avec succès",
       "showUnassessedOrSensitiveContentLabel": "Afficher les contenus non évalués ou sensibles",
-      "showUnassessedOrSensitiveContentTooltip": "Afficher les contenus qui n'ont pas encore été évalués ou qui sont classés comme sensibles. Les images peuvent inclure des symboles visés par le § 86a StGB. Lorsque cette option est désactivée, ces images restent masquées. Les contenus masqués par le service restent indisponibles."
+      "showUnassessedOrSensitiveContentTooltip": "Afficher les contenus qui n'ont pas encore été évalués ou qui sont classés comme sensibles. Les images peuvent inclure des symboles visés par le § 86a StGB. Lorsque cette option est désactivée, ces images restent masquées. Les contenus masqués par le service restent indisponibles.",
+      "description": "Votre nom, ainsi que la langue, la devise et les unités que nous utilisons sur Aura Historia.",
+      "profileGroup": "Profil",
+      "preferencesGroup": "Préférences",
+      "loading": "Chargement des données personnelles"
     }
   },
   "search": {

@@ -1,10 +1,15 @@
-import { H2 } from "@/components/typography/H2";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
-import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
-import { useStripeBilling } from "@/features/billing/hooks/useStripeBilling";
+import { ArrowUpRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Spinner } from "@/components/ui/spinner";
 import { SUBSCRIPTION_TYPE_TRANSLATION_KEYS } from "@/data/internal/account/SubscriptionType.ts";
+import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
+import {
+    CARD_CLASS,
+    GROUP_LABEL_CLASS,
+    SECONDARY_BUTTON_CLASS,
+} from "@/features/account-management/lib/accountStyles.ts";
+import { useStripeBilling } from "@/features/billing/hooks/useStripeBilling";
+import { cn } from "@/lib/utils.ts";
 
 export function SubscriptionPlanSection() {
     const { t } = useTranslation();
@@ -15,27 +20,32 @@ export function SubscriptionPlanSection() {
     const planName = t(SUBSCRIPTION_TYPE_TRANSLATION_KEYS[subscriptionType]);
 
     return (
-        <section className="flex flex-col gap-6">
-            <H2>{t("account.subscription.title")}</H2>
-            <div className="bg-background text-card-foreground rounded-sm border p-6 shadow-sm md:p-10">
-                <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-                    <div className="space-y-1">
-                        <p className="text-muted-foreground text-sm">
-                            {t("account.subscription.currentPlanLabel")}
-                        </p>
-                        <p className="text-xl font-semibold md:text-2xl">{planName}</p>
-                    </div>
-                    <Button
-                        type="button"
-                        className="w-full md:w-auto"
-                        onClick={() => void handleSubscribe("PRO", "YEARLY")}
-                        disabled={isLoading}
-                    >
-                        {isLoading && <Spinner aria-hidden="true" />}
-                        {t("account.subscription.manageButton")}
-                    </Button>
-                </div>
+        <div
+            className={cn(
+                CARD_CLASS,
+                "flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between",
+            )}
+        >
+            <div className="flex min-w-0 flex-col gap-1.5">
+                <span className={GROUP_LABEL_CLASS}>
+                    {t("account.subscription.currentPlanLabel")}
+                </span>
+                <span className="font-serif text-title-lg font-normal tracking-[-0.01em]">
+                    {planName}
+                </span>
             </div>
-        </section>
+            <button
+                type="button"
+                className={cn(SECONDARY_BUTTON_CLASS, "shrink-0")}
+                onClick={() => void handleSubscribe("PRO", "YEARLY")}
+                disabled={isLoading}
+            >
+                {isLoading && <Spinner aria-hidden="true" />}
+                {t("account.subscription.manageButton")}
+                {!isLoading && (
+                    <ArrowUpRight aria-hidden="true" className="size-4" strokeWidth={1.8} />
+                )}
+            </button>
+        </div>
     );
 }

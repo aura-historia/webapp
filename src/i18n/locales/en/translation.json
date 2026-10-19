@@ -247,7 +247,10 @@
     }
   },
   "account": {
-    "title": "My Account",
+    "eyebrow": "Account & settings",
+    "heading": "My <em>account.</em>",
+    "signedInAs": "Signed in as <email>{{email}}</email>",
+    "sectionsNav": "Account sections",
     "personalData": {
       "title": "Personal Data",
       "emailLabel": "Email",
@@ -262,7 +265,11 @@
       "saveButton": "Save Changes",
       "successMessage": "Personal data updated successfully",
       "showUnassessedOrSensitiveContentLabel": "Show unassessed or sensitive content",
-      "showUnassessedOrSensitiveContentTooltip": "Show content that has not yet been assessed or is classified as sensitive. Images may include symbols covered by § 86a StGB. When disabled, these images remain hidden. Content redacted by the service remains unavailable."
+      "showUnassessedOrSensitiveContentTooltip": "Show content that has not yet been assessed or is classified as sensitive. Images may include symbols covered by § 86a StGB. When disabled, these images remain hidden. Content redacted by the service remains unavailable.",
+      "description": "Your name, and the language, currency and units we use across Aura Historia.",
+      "profileGroup": "Profile",
+      "preferencesGroup": "Preferences",
+      "loading": "Loading personal data"
     },
     "changePassword": {
       "title": "Change Password",
@@ -271,7 +278,20 @@
       "confirmPasswordLabel": "Confirm New Password",
       "saveButton": "Save Password",
       "successMessage": "Password changed successfully!",
-      "errorMessage": "Error changing password."
+      "errorMessage": "Error changing password.",
+      "description": "Enter your current password, then choose a new one that meets every rule.",
+      "policyTitle": "Password policy",
+      "policyProgress": "{{met}} of {{total}}",
+      "rules": {
+        "length": "At least 8 characters",
+        "uppercase": "An uppercase letter",
+        "lowercase": "A lowercase letter",
+        "number": "A number",
+        "symbol": "A symbol",
+        "met": "(met)",
+        "notMet": "(not met)"
+      },
+      "incorrectCurrentPassword": "Your current password is incorrect."
     },
     "deleteAccount": {
       "title": "Delete Account",
@@ -282,12 +302,14 @@
       "cancelButton": "Cancel",
       "confirmButton": "Yes, delete account",
       "successMessage": "Account was deleted successfully!",
-      "errorMessage": "Error deleting account."
+      "errorMessage": "Error deleting account.",
+      "closeButton": "Close"
     },
     "subscription": {
       "title": "Subscription",
       "currentPlanLabel": "Current plan",
-      "manageButton": "Manage subscription"
+      "manageButton": "Manage subscription",
+      "description": "Change your plan, payment method or billing details with our payment provider."
     }
   },
   "search": {

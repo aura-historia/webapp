@@ -247,7 +247,10 @@
     }
   },
   "account": {
-    "title": "Mi cuenta",
+    "eyebrow": "Cuenta y ajustes",
+    "heading": "Mi <em>cuenta.</em>",
+    "signedInAs": "Sesión iniciada como <email>{{email}}</email>",
+    "sectionsNav": "Secciones de la cuenta",
     "changePassword": {
       "title": "Cambiar contraseña",
       "currentPasswordLabel": "Contraseña actual",
@@ -255,7 +258,20 @@
       "confirmPasswordLabel": "Confirmar nueva contraseña",
       "saveButton": "Guardar contraseña",
       "successMessage": "¡Contraseña cambiada con éxito!",
-      "errorMessage": "Error al cambiar la contraseña."
+      "errorMessage": "Error al cambiar la contraseña.",
+      "description": "Introduzca su contraseña actual y elija una nueva que cumpla todas las reglas.",
+      "policyTitle": "Política de contraseñas",
+      "policyProgress": "{{met}} de {{total}}",
+      "rules": {
+        "length": "Al menos 8 caracteres",
+        "uppercase": "Una letra mayúscula",
+        "lowercase": "Una letra minúscula",
+        "number": "Un número",
+        "symbol": "Un símbolo",
+        "met": "(cumplido)",
+        "notMet": "(no cumplido)"
+      },
+      "incorrectCurrentPassword": "Su contraseña actual no es correcta."
     },
     "deleteAccount": {
       "title": "Eliminar cuenta",
@@ -266,7 +282,8 @@
       "cancelButton": "Cancelar",
       "confirmButton": "Sí, eliminar cuenta",
       "successMessage": "¡Cuenta eliminada con éxito!",
-      "errorMessage": "Error al eliminar la cuenta."
+      "errorMessage": "Error al eliminar la cuenta.",
+      "closeButton": "Cerrar"
     },
     "personalData": {
       "title": "Datos Personales",
@@ -282,12 +299,17 @@
       "saveButton": "Guardar Cambios",
       "successMessage": "Datos personales actualizados con éxito",
       "showUnassessedOrSensitiveContentLabel": "Mostrar contenido sin evaluar o sensible",
-      "showUnassessedOrSensitiveContentTooltip": "Mostrar contenido que aún no se ha evaluado o se ha clasificado como sensible. Las imágenes pueden incluir símbolos contemplados en el § 86a StGB. Si se desactiva, estas imágenes permanecen ocultas. El contenido ocultado por el servicio sigue sin estar disponible."
+      "showUnassessedOrSensitiveContentTooltip": "Mostrar contenido que aún no se ha evaluado o se ha clasificado como sensible. Las imágenes pueden incluir símbolos contemplados en el § 86a StGB. Si se desactiva, estas imágenes permanecen ocultas. El contenido ocultado por el servicio sigue sin estar disponible.",
+      "description": "Su nombre y el idioma, la moneda y las unidades que usamos en Aura Historia.",
+      "profileGroup": "Perfil",
+      "preferencesGroup": "Preferencias",
+      "loading": "Cargando datos personales"
     },
     "subscription": {
       "title": "Suscripción",
       "currentPlanLabel": "Plan actual",
-      "manageButton": "Gestionar suscripción"
+      "manageButton": "Gestionar suscripción",
+      "description": "Cambie su plan, su método de pago o sus datos de facturación con nuestro proveedor de pagos."
     }
   },
   "search": {
