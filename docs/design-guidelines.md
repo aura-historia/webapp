@@ -84,6 +84,13 @@ Use the token system in `src/styles.css`, which mirrors the design system's `tok
 - Estimates come from `pricing.display` (`formatPriceEstimate`): a ruled "Estimate" row under a price, the large figure when there is no price, "From"/"Up to" with one end only. The description clamps behind Show more by its length, not a measurement, so server and client render alike; it is hidden when absent.
 - Price history is a raised panel with a stepped oxblood line; History uses the shared `Timeline`. Similar items and More listings from this provider reuse `SearchResultCard`; the provider rail sits on a raised band with a progress counter. Their states follow the board "Listing · Price history, history & carousel states".
 
+## Account
+
+- The account page follows the Redesign's Account page: a header (mono eyebrow, serif "My *account.*", the signed-in email), a jump nav to the four sections (pills on phones, a ruled row from 640px), then one `AccountSection` per section with its title and short description beside a raised card from 1024px, stacked above it below.
+- Personal data groups Profile (read-only email, first and last name) and Preferences (language, currency, units, the sensitive-content checkbox) behind one Save changes button. Preference fields open the shared `PreferencePicker` through its `triggerContent`, so they match the footer's locale pickers.
+- Change password shows a live policy checklist (oxblood check when met) under the new and confirm fields. Delete account uses an oxblood outline button and an oxblood confirm in the dialog; the dialog locks while the request runs.
+- Shared field, button and card classes live in `account-management/lib/accountStyles.ts`. Loading, validation, pending, picker and dialog states follow the board "Account · States".
+
 ## Layout and responsive behavior
 
 - Design mobile-first and test responsive breakpoints mentally when editing JSX/class names.

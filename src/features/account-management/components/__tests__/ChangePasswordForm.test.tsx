@@ -6,6 +6,9 @@ import { ChangePasswordForm } from "../ChangePasswordForm";
 import { renderWithRouter } from "@/test/utils";
 
 const mockMutate = vi.hoisted(() => vi.fn());
+const mockToast = vi.hoisted(() => ({ success: vi.fn(), error: vi.fn() }));
+
+vi.mock("sonner", () => ({ toast: mockToast }));
 
 vi.mock("@/features/account-management/hooks/useChangePassword.ts", () => ({
     useChangePassword: () => ({
@@ -19,16 +22,33 @@ describe("ChangePasswordForm", () => {
         vi.clearAllMocks();
     });
 
-    it("renders field-level password policy hints", async () => {
+    it("renders the password policy checklist", async () => {
         await act(async () => renderWithRouter(<ChangePasswordForm />));
 
-        expect(
-            screen.getByText("Passwort muss mindestens 8 Zeichen enthalten."),
-        ).toBeInTheDocument();
-        expect(screen.getByText("Passwort muss Großbuchstaben enthalten.")).toBeInTheDocument();
-        expect(screen.getByText("Passwort muss Kleinbuchstaben enthalten.")).toBeInTheDocument();
-        expect(screen.getByText("Passwort muss Zahlen enthalten.")).toBeInTheDocument();
-        expect(screen.getByText("Passwort muss Sonderzeichen enthalten.")).toBeInTheDocument();
+        expect(screen.getByText("Mindestens 8 Zeichen")).toBeInTheDocument();
+        expect(screen.getByText("Ein Großbuchstabe")).toBeInTheDocument();
+        expect(screen.getByText("Ein Kleinbuchstabe")).toBeInTheDocument();
+        expect(screen.getByText("Eine Zahl")).toBeInTheDocument();
+        expect(screen.getByText("Ein Sonderzeichen")).toBeInTheDocument();
+        expect(screen.getByText("0 von 5")).toBeInTheDocument();
+    });
+
+    it("describes the new password by the checklist and, when invalid, its error", async () => {
+        const user = userEvent.setup();
+        await act(async () => renderWithRouter(<ChangePasswordForm />));
+
+        const newPassword = screen.getByLabelText("Neues Passwort");
+        const checklistId = newPassword.getAttribute("aria-describedby") ?? "";
+        expect(document.getElementById(checklistId)).toHaveTextContent("Passwortrichtlinie");
+
+        await user.type(newPassword, "short");
+        await user.click(screen.getByRole("button", { name: "Passwort speichern" }));
+
+        const error = await screen.findByText("Passwort muss mindestens 8 Zeichen enthalten.");
+        expect(newPassword.getAttribute("aria-describedby")?.split(" ")).toEqual([
+            checklistId,
+            error.id,
+        ]);
     });
 
     it("validates password confirmation", async () => {
@@ -67,6 +87,58 @@ describe("ChangePasswordForm", () => {
                     onError: expect.any(Function),
                 }),
             );
+        });
+    });
+
+    const submitValidForm = async () => {
+        const user = userEvent.setup();
+        await act(async () => renderWithRouter(<ChangePasswordForm />));
+        await user.type(screen.getByLabelText("Aktuelles Passwort"), "WrongPassword1!");
+        await user.type(screen.getByLabelText("Neues Passwort"), "NewPassword1!");
+        await user.type(screen.getByLabelText("Neues Passwort bestätigen"), "NewPassword1!");
+        await user.click(screen.getByRole("button", { name: "Passwort speichern" }));
+    };
+
+    const failWith = (name: string, message: string) => {
+        mockMutate.mockImplementation((_data, options) => {
+            const error = new Error(message);
+            error.name = name;
+            options?.onError?.(error);
+        });
+    };
+
+    it("shows a translated field error when the current password is wrong", async () => {
+        failWith("NotAuthorizedException", "Incorrect username or password.");
+        await submitValidForm();
+
+        await waitFor(() => {
+            expect(
+                screen.getByText("Ihr aktuelles Passwort ist nicht korrekt."),
+            ).toBeInTheDocument();
+        });
+        expect(screen.getByLabelText("Aktuelles Passwort")).toHaveAttribute("aria-invalid", "true");
+        expect(screen.queryByText("Incorrect username or password.")).not.toBeInTheDocument();
+        expect(mockToast.error).not.toHaveBeenCalled();
+    });
+
+    it("shows a translated toast when the attempt limit is exceeded", async () => {
+        failWith("LimitExceededException", "Attempt limit exceeded, please try after some time.");
+        await submitValidForm();
+
+        await waitFor(() => {
+            expect(mockToast.error).toHaveBeenCalledWith(
+                "Zu viele Versuche. Bitte warten Sie einige Minuten und versuchen Sie es dann erneut.",
+            );
+        });
+        expect(screen.queryByText(/Attempt limit exceeded/)).not.toBeInTheDocument();
+    });
+
+    it("falls back to the generic message for unmapped errors", async () => {
+        failWith("SomethingElse", "Untranslated server text");
+        await submitValidForm();
+
+        await waitFor(() => {
+            expect(mockToast.error).toHaveBeenCalledWith("Fehler beim Ändern des Passworts.");
         });
     });
 });

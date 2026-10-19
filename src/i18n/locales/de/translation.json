@@ -247,7 +247,10 @@
     }
   },
   "account": {
-    "title": "Mein Account",
+    "eyebrow": "Account & Einstellungen",
+    "heading": "Mein <em>Account.</em>",
+    "signedInAs": "Angemeldet als <email>{{email}}</email>",
+    "sectionsNav": "Account-Bereiche",
     "personalData": {
       "title": "Persönliche Daten",
       "emailLabel": "E-Mail",
@@ -262,7 +265,11 @@
       "saveButton": "Änderungen speichern",
       "successMessage": "Persönliche Daten erfolgreich aktualisiert",
       "showUnassessedOrSensitiveContentLabel": "Ungeprüfte oder sensible Inhalte anzeigen",
-      "showUnassessedOrSensitiveContentTooltip": "Inhalte anzeigen, die noch nicht geprüft wurden oder als sensibel eingestuft sind. Bilder können Kennzeichen nach § 86a StGB enthalten. Wenn deaktiviert, bleiben diese Bilder verborgen. Vom Dienst ausgeblendete Inhalte bleiben nicht verfügbar."
+      "showUnassessedOrSensitiveContentTooltip": "Inhalte anzeigen, die noch nicht geprüft wurden oder als sensibel eingestuft sind. Bilder können Kennzeichen nach § 86a StGB enthalten. Wenn deaktiviert, bleiben diese Bilder verborgen. Vom Dienst ausgeblendete Inhalte bleiben nicht verfügbar.",
+      "description": "Ihr Name sowie die Sprache, Währung und Einheiten, die wir auf Aura Historia für Sie verwenden.",
+      "profileGroup": "Profil",
+      "preferencesGroup": "Einstellungen",
+      "loading": "Persönliche Daten werden geladen"
     },
     "changePassword": {
       "title": "Passwort ändern",
@@ -271,7 +278,21 @@
       "confirmPasswordLabel": "Neues Passwort bestätigen",
       "saveButton": "Passwort speichern",
       "successMessage": "Passwort erfolgreich geändert!",
-      "errorMessage": "Fehler beim Ändern des Passworts."
+      "errorMessage": "Fehler beim Ändern des Passworts.",
+      "description": "Geben Sie Ihr aktuelles Passwort ein und wählen Sie ein neues, das alle Regeln erfüllt.",
+      "policyTitle": "Passwortrichtlinie",
+      "policyProgress": "{{met}} von {{total}}",
+      "rules": {
+        "length": "Mindestens 8 Zeichen",
+        "uppercase": "Ein Großbuchstabe",
+        "lowercase": "Ein Kleinbuchstabe",
+        "number": "Eine Zahl",
+        "symbol": "Ein Sonderzeichen",
+        "met": "(erfüllt)",
+        "notMet": "(nicht erfüllt)"
+      },
+      "incorrectCurrentPassword": "Ihr aktuelles Passwort ist nicht korrekt.",
+      "attemptLimitExceeded": "Zu viele Versuche. Bitte warten Sie einige Minuten und versuchen Sie es dann erneut."
     },
     "deleteAccount": {
       "title": "Account löschen",
@@ -282,12 +303,14 @@
       "cancelButton": "Abbrechen",
       "confirmButton": "Ja, Account löschen",
       "successMessage": "Account wurde erfolgreich gelöscht!",
-      "errorMessage": "Fehler beim Löschen des Accounts."
+      "errorMessage": "Fehler beim Löschen des Accounts.",
+      "closeButton": "Schließen"
     },
     "subscription": {
       "title": "Abonnement",
       "currentPlanLabel": "Aktuelles Abo",
-      "manageButton": "Abo verwalten"
+      "manageButton": "Abo verwalten",
+      "description": "Ändern Sie Ihren Plan, Ihre Zahlungsmethode oder Rechnungsdaten bei unserem Zahlungsanbieter."
     }
   },
   "search": {

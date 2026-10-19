@@ -1,5 +1,13 @@
 import { Check, Search } from "lucide-react";
-import { type KeyboardEvent, useEffect, useId, useMemo, useRef, useState } from "react";
+import {
+    type KeyboardEvent,
+    type ReactNode,
+    useEffect,
+    useId,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
 import { cn } from "@/lib/utils.ts";
 
@@ -20,6 +28,8 @@ interface PreferencePickerProps {
     readonly options: readonly PreferenceOption[];
     readonly onChange: (value: string) => void;
     readonly triggerClassName: string;
+    /** Trigger content in place of the plain display value (form fields). */
+    readonly triggerContent?: ReactNode;
     /** Adds the search field above the list (currencies). */
     readonly search?: {
         readonly label: string;
@@ -49,6 +59,7 @@ export function PreferencePicker({
     options,
     onChange,
     triggerClassName,
+    triggerContent,
     search,
     className,
 }: PreferencePickerProps) {
@@ -132,7 +143,7 @@ export function PreferencePicker({
                 aria-label={`${label}: ${displayValue}`}
                 className={cn("cursor-pointer data-[state=open]:text-ink", triggerClassName)}
             >
-                {displayValue}
+                {triggerContent ?? displayValue}
             </PopoverTrigger>
             <PopoverContent
                 data-theme="light"
