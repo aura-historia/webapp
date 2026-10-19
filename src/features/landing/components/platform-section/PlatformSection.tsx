@@ -15,7 +15,11 @@ import {
     WatchlistDemo,
 } from "@/features/landing/components/platform-section/PlatformDemos.tsx";
 import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
+import { useMediaQuery } from "@/hooks/common/useMediaQuery.ts";
 import { cn } from "@/lib/utils.ts";
+
+/** Width from which the platform cards form the bento grid (matches `min-[920px]`). */
+const BENTO_QUERY = "(min-width: 920px)";
 
 interface FeatureCardProps {
     /** Translation prefix under `landingPage.platform`. */
@@ -54,6 +58,15 @@ function FeatureCard({ feature, demo, className }: FeatureCardProps) {
 /** III — The platform: the AI Discovery Agent, four everyday tools and market watch. */
 export function PlatformSection() {
     const { t } = useTranslation();
+    const isBento = useMediaQuery(BENTO_QUERY);
+    // Phones scroll the tool cards sideways, so the row is a keyboard-focusable region there.
+    const rowProps = isBento
+        ? {}
+        : {
+              role: "region",
+              "aria-label": t("landingPage.platform.moreToolsLabel"),
+              tabIndex: 0,
+          };
 
     return (
         <LandingSection
@@ -102,11 +115,9 @@ export function PlatformSection() {
                 <p className="mt-2 font-mono text-[10px] tracking-[0.16em] text-ink-muted uppercase min-[920px]:hidden">
                     {t("landingPage.platform.moreTools", { count: 4 })}
                 </p>
+                {/* A scrollable, focusable region on phones; from 920px its cards join the bento grid. */}
                 <div
-                    role="region"
-                    aria-label={t("landingPage.platform.moreToolsLabel")}
-                    // biome-ignore lint/a11y/noNoninteractiveTabindex: the scrollable row must be reachable by keyboard on phones.
-                    tabIndex={0}
+                    {...rowProps}
                     className={cn(
                         "-mx-(--page-gutter) flex snap-x snap-mandatory scroll-px-(--page-gutter) gap-3 overflow-x-auto px-(--page-gutter) pb-1 [scrollbar-width:none] min-[920px]:contents [&::-webkit-scrollbar]:hidden [&>article]:w-[290px] [&>article]:shrink-0 [&>article]:snap-start min-[920px]:[&>article]:col-span-2 min-[920px]:[&>article]:w-auto",
                         NAV_FOCUS_CLASS,
