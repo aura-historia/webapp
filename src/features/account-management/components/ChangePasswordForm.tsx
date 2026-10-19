@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check } from "lucide-react";
-import { useId, useMemo } from "react";
+import { type ReactElement, useId, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -12,6 +12,7 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
+    useFormField,
 } from "@/components/ui/form";
 import { Spinner } from "@/components/ui/spinner";
 import { useChangePassword } from "@/features/account-management/hooks/useChangePassword.ts";
@@ -46,6 +47,26 @@ function getChangePasswordSchema(t: (key: string) => string) {
 }
 
 type ChangePasswordFormData = z.infer<ReturnType<typeof getChangePasswordSchema>>;
+
+/**
+ * FormControl that describes the new password by the policy checklist (outside its FormItem)
+ * and, while invalid, by its validation message.
+ */
+function NewPasswordControl({
+    rulesId,
+    children,
+}: {
+    readonly rulesId: string;
+    readonly children: ReactElement;
+}) {
+    const { error, formMessageId } = useFormField();
+
+    return (
+        <FormControl aria-describedby={error ? `${rulesId} ${formMessageId}` : rulesId}>
+            {children}
+        </FormControl>
+    );
+}
 
 const PASSWORD_RULES = [
     {
@@ -156,15 +177,14 @@ export function ChangePasswordForm() {
                                     <FormLabel className={LABEL_CLASS}>
                                         {t("account.changePassword.newPasswordLabel")}
                                     </FormLabel>
-                                    <FormControl>
+                                    <NewPasswordControl rulesId={rulesId}>
                                         <input
                                             {...field}
                                             type="password"
                                             autoComplete="new-password"
-                                            aria-describedby={rulesId}
                                             className={FIELD_CLASS}
                                         />
-                                    </FormControl>
+                                    </NewPasswordControl>
                                     <FormMessage className={FIELD_MESSAGE_CLASS} />
                                 </FormItem>
                             )}

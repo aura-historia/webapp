@@ -33,6 +33,24 @@ describe("ChangePasswordForm", () => {
         expect(screen.getByText("0 von 5")).toBeInTheDocument();
     });
 
+    it("describes the new password by the checklist and, when invalid, its error", async () => {
+        const user = userEvent.setup();
+        await act(async () => renderWithRouter(<ChangePasswordForm />));
+
+        const newPassword = screen.getByLabelText("Neues Passwort");
+        const checklistId = newPassword.getAttribute("aria-describedby") ?? "";
+        expect(document.getElementById(checklistId)).toHaveTextContent("Passwortrichtlinie");
+
+        await user.type(newPassword, "short");
+        await user.click(screen.getByRole("button", { name: "Passwort speichern" }));
+
+        const error = await screen.findByText("Passwort muss mindestens 8 Zeichen enthalten.");
+        expect(newPassword.getAttribute("aria-describedby")?.split(" ")).toEqual([
+            checklistId,
+            error.id,
+        ]);
+    });
+
     it("validates password confirmation", async () => {
         const user = userEvent.setup();
         await act(async () => renderWithRouter(<ChangePasswordForm />));
