@@ -68,7 +68,7 @@ export function ProductDealerItems({ source, excludeProductListingId }: ProductD
                 <div className="mb-6 sm:mb-9">{heading}</div>
                 <div
                     aria-busy="true"
-                    className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+                    className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                 >
                     {SKELETON_IDS.map((skeletonId, index) => (
                         <div
@@ -76,6 +76,7 @@ export function ProductDealerItems({ source, excludeProductListingId }: ProductD
                             className={cn(
                                 index > 0 && "max-sm:hidden",
                                 index > 1 && "max-lg:hidden",
+                                index > 2 && "max-xl:hidden",
                             )}
                         >
                             <SearchResultCardSkeleton />

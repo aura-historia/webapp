@@ -46,6 +46,8 @@ vi.mock("@tanstack/react-router", async () => {
 });
 
 import { screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ProductInfo } from "../ProductInfo.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { mapToProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
@@ -278,5 +280,22 @@ describe("ProductInfo", () => {
     it("omits the description section when there is none", () => {
         renderWithQueryClient(<ProductInfo product={{ ...product, description: undefined }} />);
         expect(screen.queryByRole("heading", { name: "Beschreibung" })).not.toBeInTheDocument();
+    });
+    it("starts a newly shown listing with its description clamped", async () => {
+        const long = "Walnut. ".repeat(80);
+        const { rerender } = renderWithQueryClient(
+            <ProductInfo product={{ ...product, description: long }} />,
+        );
+        await userEvent.click(screen.getByRole("button", { name: /Mehr anzeigen/ }));
+        expect(screen.getByRole("button", { name: /Weniger anzeigen/ })).toBeInTheDocument();
+
+        rerender(
+            <QueryClientProvider client={new QueryClient()}>
+                <ProductInfo
+                    product={{ ...product, productListingId: "other-listing", description: long }}
+                />
+            </QueryClientProvider>,
+        );
+        expect(screen.getByRole("button", { name: /Mehr anzeigen/ })).toBeInTheDocument();
     });
 });

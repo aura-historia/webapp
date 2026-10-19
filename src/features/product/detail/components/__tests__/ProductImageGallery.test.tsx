@@ -106,4 +106,24 @@ describe("ProductImageGallery", () => {
         expect(getSwipeDots(9, 8).map((dot) => dot.index)).toEqual([4, 5, 6, 7, 8]);
         expect(getSwipeDots(9, 8)[4]).toMatchObject({ active: true, edge: false });
     });
+    it("should keep the show-all tile when the sixth image cannot be opened", () => {
+        const images = manyImages.map((image, index) =>
+            index === 5 ? { ...image, prohibitedContentType: "UNKNOWN" as const } : image,
+        );
+        render(<ProductImageGallery images={images} productId="1" />);
+        expect(
+            screen.getByRole("button", { name: "Alle 9 Bilder im Vollbild anzeigen" }),
+        ).toBeInTheDocument();
+    });
+
+    it("should drop the show-all tile when no image can be opened", () => {
+        const images = manyImages.map((image) => ({
+            ...image,
+            prohibitedContentType: "UNKNOWN" as const,
+        }));
+        render(<ProductImageGallery images={images} productId="1" />);
+        expect(
+            screen.queryByRole("button", { name: "Alle 9 Bilder im Vollbild anzeigen" }),
+        ).not.toBeInTheDocument();
+    });
 });

@@ -86,6 +86,7 @@ export function ProductInfo({ product }: { readonly product: ProductListingDetai
                                 )}
                             >
                                 <ToggleBellIcon
+                                    key={product.productListingId}
                                     on={notifications}
                                     className="size-[18px]"
                                     strokeWidth={1.7}
@@ -210,7 +211,13 @@ export function ProductInfo({ product }: { readonly product: ProductListingDetai
                     )}
                 </div>
 
-                {product.description && <ProductDescription description={product.description} />}
+                {product.description && (
+                    // Keyed by listing so a new listing starts clamped, not expanded.
+                    <ProductDescription
+                        key={product.productListingId}
+                        description={product.description}
+                    />
+                )}
             </div>
         </section>
     );

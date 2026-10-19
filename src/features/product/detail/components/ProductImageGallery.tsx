@@ -315,10 +315,20 @@ export function ProductImageGallery({
     };
 
     const hasMany = images.length > 1;
-    const overflowing = images.length > MAX_THUMBNAILS;
     const gridThumbnails = images.slice(0, MAX_THUMBNAILS);
     const canOpenCurrent = getLightboxIndex(currentImageIndex) >= 0;
     const lastTileIndex = MAX_THUMBNAILS - 1;
+    /**
+     * The "+N" tile opens the first image the lightbox can show from the tile on, else the first
+     * one anywhere; without any, the tile stays an ordinary thumbnail.
+     */
+    const isViewable = (index: number) => getLightboxIndex(index) >= 0;
+    const overflowTarget = (() => {
+        if (images.length <= MAX_THUMBNAILS) return -1;
+        const after = images.findIndex((_, index) => index >= lastTileIndex && isViewable(index));
+        return after >= 0 ? after : images.findIndex((_, index) => isViewable(index));
+    })();
+    const overflowing = overflowTarget >= 0;
 
     return (
         <>
@@ -445,7 +455,7 @@ export function ProductImageGallery({
                                         aria-label={t("product.gallery.showAll", {
                                             count: images.length,
                                         })}
-                                        onClick={() => openLightboxAt(idx)}
+                                        onClick={() => openLightboxAt(overflowTarget)}
                                         className={cn(
                                             "relative aspect-square cursor-pointer overflow-hidden rounded-md bg-image-ground",
                                             FOCUS_CLASS,
