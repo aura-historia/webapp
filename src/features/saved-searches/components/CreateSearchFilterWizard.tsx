@@ -38,12 +38,14 @@ import {
     StepperTrigger,
 } from "@/components/ui/stepper.tsx";
 import { SearchFilterFormProvider } from "@/features/search/common/components/SearchFilterFormProvider.tsx";
-import { AuctionDateSpanFilter } from "@/features/search/products/components/filters/AuctionDateSpanFilter.tsx";
-import { CreationDateSpanFilter } from "@/features/search/products/components/filters/CreationDateSpanFilter.tsx";
+import {
+    AuctionDateSpanFilter,
+    CreationDateSpanFilter,
+    UpdateDateSpanFilter,
+} from "@/features/search/products/components/filters/DateSpanFilter.tsx";
 import { MerchantFilters } from "@/features/search/products/components/filters/MerchantFilters.tsx";
 import { PriceSpanFilter } from "@/features/search/products/components/filters/PriceSpanFilter.tsx";
 import { ProductStateFilter } from "@/features/search/products/components/filters/ProductStateFilter.tsx";
-import { UpdateDateSpanFilter } from "@/features/search/products/components/filters/UpdateDateSpanFilter.tsx";
 import { useCreateUserSearchFilter } from "@/features/saved-searches/api/useCreateUserSearchFilter.ts";
 import { useUpdateUserSearchFilter } from "@/features/saved-searches/api/useUpdateUserSearchFilter.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";

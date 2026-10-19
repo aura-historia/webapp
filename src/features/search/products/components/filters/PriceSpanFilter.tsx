@@ -1,139 +1,101 @@
-import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
-import { Input } from "@/components/ui/input.tsx";
-import { Slider } from "@/components/ui/slider.tsx";
-import { useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useFilterNavigation } from "@/features/search/products/hooks/useFilterNavigation.ts";
-import { FilterCard } from "@/features/search/common/components/filters/FilterCard.tsx";
-import { CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
 import type { Currency } from "@/data/internal/common/Currency.ts";
+import { CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
+import { FilterCard } from "@/features/search/common/components/filters/FilterCard.tsx";
+import { usePriceFilterFormat } from "@/features/search/common/hooks/useFilterFormatters.ts";
+import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
+import { useFilterNavigation } from "@/features/search/products/hooks/useFilterNavigation.ts";
 
-const PRICE_MIN = 0;
-const PRICE_MAX = 10_000;
+type PriceField = "priceSpan.min" | "priceSpan.max";
 
 export function PriceSpanFilter({ currency }: { readonly currency?: Currency } = {}) {
     const { watch, setValue } = useFormContext<FilterSchema>();
     const { t } = useTranslation();
     const { preferences } = useUserPreferences();
-
+    const { formatPriceRange } = usePriceFilterFormat(currency);
     const resetAndNavigate = useFilterNavigation();
 
     // Read optional values directly: Controller can fall back to its initial value after reset.
-    const watchedMin = watch("priceSpan.min");
-    const watchedMax = watch("priceSpan.max");
-    const watchedPriceSpan = watch("priceSpan");
-
-    const sliderMin = typeof watchedMin === "number" ? watchedMin : PRICE_MIN;
-    const sliderMax = typeof watchedMax === "number" ? watchedMax : PRICE_MAX;
-
+    const min = watch("priceSpan.min");
+    const max = watch("priceSpan.max");
+    const isActive = typeof min === "number" || typeof max === "number";
     const currencySymbol = CURRENCY_SYMBOLS[currency ?? preferences.currency];
 
-    // Prevent unnecessary form writes when slider values haven't logically changed
-    const lastSlider = useRef<[number, number]>([sliderMin, sliderMax]);
-
-    useEffect(() => {
-        if (!watchedPriceSpan) {
-            lastSlider.current = [PRICE_MIN, PRICE_MAX];
-        }
-
-        lastSlider.current = [sliderMin, sliderMax];
-    }, [sliderMin, sliderMax, watchedPriceSpan]);
-
-    const handleNumericChange = (raw: string, fieldName: "priceSpan.min" | "priceSpan.max") => {
+    const handleNumericChange = (raw: string, fieldName: PriceField) => {
         if (raw === "") {
             setValue(fieldName, undefined, { shouldDirty: true, shouldValidate: true });
             return;
         }
         if (!/^\d+$/.test(raw)) return;
-        const num = Number(raw);
-        if (Number.isNaN(num)) return;
-        setValue(fieldName, num, { shouldDirty: true, shouldValidate: true });
+        setValue(fieldName, Number(raw), { shouldDirty: true, shouldValidate: true });
     };
 
-    function sortInputFields() {
-        if (
-            typeof watchedMin === "number" &&
-            typeof watchedMax === "number" &&
-            watchedMin > watchedMax
-        ) {
-            setValue("priceSpan.min", watchedMax, { shouldDirty: true, shouldValidate: true });
-            setValue("priceSpan.max", watchedMin, { shouldDirty: true, shouldValidate: true });
+    /** A minimum above the maximum swaps the two once the field is left. */
+    const sortInputFields = () => {
+        if (typeof min === "number" && typeof max === "number" && min > max) {
+            setValue("priceSpan.min", max, { shouldDirty: true, shouldValidate: true });
+            setValue("priceSpan.max", min, { shouldDirty: true, shouldValidate: true });
         }
-    }
+    };
+
+    const renderField = (
+        fieldName: PriceField,
+        value: number | undefined,
+        label: string,
+        aria: string,
+    ) => (
+        <label className="flex min-w-0 flex-col gap-1.5">
+            <span className="font-mono text-tag tracking-[0.14em] text-ink-muted uppercase">
+                {label}
+            </span>
+            <span className="flex h-12 items-center gap-1.5 rounded-md bg-surface-raised px-3 shadow-field focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-brass lg:h-10">
+                <span aria-hidden="true" className="text-body-sm text-ink-muted">
+                    {currencySymbol}
+                </span>
+                <input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    aria-label={aria}
+                    placeholder={label}
+                    value={value === undefined || value === null ? "" : String(value)}
+                    onChange={(event) => handleNumericChange(event.target.value, fieldName)}
+                    onBlur={sortInputFields}
+                    className="min-w-0 flex-1 bg-transparent text-base text-ink tabular-nums outline-none placeholder:text-ink-placeholder lg:text-sm"
+                />
+            </span>
+        </label>
+    );
 
     return (
         <FilterCard
-            title={t("search.filter.priceSpan")}
+            title={t("search.filter.priceRange")}
+            summary={isActive ? formatPriceRange(min, max) : undefined}
             resetTooltip={t("search.filter.resetTooltip.priceSpan")}
             onReset={() => resetAndNavigate("priceSpan")}
+            active={isActive}
         >
-            <div className="mt-2 flex flex-col gap-4">
-                <Slider
-                    className="z-0 px-1"
-                    value={[sliderMin, sliderMax]}
-                    min={PRICE_MIN}
-                    max={PRICE_MAX}
-                    step={10}
-                    onValueChange={([min, max]) => {
-                        const [prevMin, prevMax] = lastSlider.current;
-                        if (prevMin !== min) {
-                            setValue("priceSpan.min", min, {
-                                shouldDirty: true,
-                                shouldValidate: true,
-                            });
-                        }
-                        if (prevMax !== max) {
-                            setValue("priceSpan.max", max, {
-                                shouldDirty: true,
-                                shouldValidate: true,
-                            });
-                        }
-                    }}
-                    aria-label={t("search.filter.priceSpanAria")}
-                />
-                <div className="flex items-center gap-2">
-                    <Input
-                        type="text"
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        placeholder={t("search.filter.min")}
-                        className="h-9 rounded-none border-0 border-b border-outline-variant bg-transparent px-0 py-0 text-sm shadow-none focus-visible:border-primary focus-visible:ring-0"
-                        value={
-                            watchedMin === undefined || watchedMin === null
-                                ? ""
-                                : String(watchedMin)
-                        }
-                        onChange={(e) => handleNumericChange(e.target.value, "priceSpan.min")}
-                        onBlur={() => {
-                            sortInputFields();
-                        }}
-                    />
-                    <span className="text-xs uppercase text-on-surface-variant">
-                        {currencySymbol}
-                    </span>
-                    <span className="text-on-surface-variant">-</span>
-                    <Input
-                        type="text"
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        placeholder={t("search.filter.max")}
-                        className="h-9 rounded-none border-0 border-b border-outline-variant bg-transparent px-0 py-0 text-sm shadow-none focus-visible:border-primary focus-visible:ring-0"
-                        value={
-                            watchedMax === undefined || watchedMax === null
-                                ? ""
-                                : String(watchedMax)
-                        }
-                        onChange={(e) => handleNumericChange(e.target.value, "priceSpan.max")}
-                        onBlur={() => {
-                            sortInputFields();
-                        }}
-                    />
-                    <span className="text-xs uppercase text-on-surface-variant">
-                        {currencySymbol}
-                    </span>
-                </div>
+            <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-end gap-2 pt-1">
+                {renderField(
+                    "priceSpan.min",
+                    min,
+                    t("search.filter.min"),
+                    t("search.filter.minPrice"),
+                )}
+                <span
+                    aria-hidden="true"
+                    className="inline-flex h-12 items-center text-ink-muted lg:h-10"
+                >
+                    –
+                </span>
+                {renderField(
+                    "priceSpan.max",
+                    max,
+                    t("search.filter.max"),
+                    t("search.filter.maxPrice"),
+                )}
             </div>
         </FilterCard>
     );

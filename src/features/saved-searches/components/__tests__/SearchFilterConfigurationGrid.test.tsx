@@ -49,7 +49,7 @@ describe("SearchFilterConfigurationGrid", () => {
 
     it("shows a one-sided date range with the from label", () => {
         renderGrid({ q: "", creationDateFrom: new Date("2024-01-01") });
-        expect(screen.getByText(/Von:/)).toBeInTheDocument();
+        expect(screen.getByText(/Von /)).toBeInTheDocument();
     });
 
     it("shows a full date range", () => {

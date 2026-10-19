@@ -292,10 +292,7 @@
   },
   "search": {
     "filters": "Filters",
-    "resultsFor": "Search results for:",
     "resetAllFilters": "Reset all filters",
-    "totalResults_one": "{{count}} item",
-    "totalResults_other": "{{count}} items",
     "bar": {
       "placeholderExamplesProducts": [
         "Oil painting Mary Magdalene",
@@ -326,21 +323,20 @@
     },
     "filter": {
       "creationDate": "Added",
-      "from": "From:",
-      "to": "To:",
+      "from": "From",
+      "to": "To",
       "availability": "Availability",
       "listingSource": "Include provider",
       "listingSources": "Providers",
-      "searchListingSources": "Search providers...",
+      "searchListingSources": "Search providers",
       "noListingSourcesFound": "No providers found",
       "excludeListingSource": "Exclude provider",
-      "searchExcludeListingSources": "Search providers to exclude...",
+      "searchExcludeListingSources": "Search providers to exclude",
       "sourceCount_one": "{{count}} provider selected",
       "sourceCount_other": "{{count}} providers selected",
       "priceSpan": "Price Range",
       "min": "Min",
       "max": "Max",
-      "priceSpanAria": "Price Range",
       "updateDate": "Updated",
       "auctionDate": "Auction Date",
       "anyDate": "Any",
@@ -352,36 +348,94 @@
         "creationDate": "Reset creation date filter",
         "updateDate": "Reset update date filter",
         "auctionDate": "Reset auction date filter"
-      }
+      },
+      "includedSources": "Included providers",
+      "excludedSources": "Excluded providers",
+      "removeSource": "Remove {{label}}",
+      "minPrice": "Minimum price",
+      "maxPrice": "Maximum price",
+      "priceFromValue": "from {{value}}",
+      "priceToValue": "up to {{value}}",
+      "dateFromValue": "From {{date}}",
+      "dateToValue": "Until {{date}}",
+      "dateFromLabel": "{{filter}} from",
+      "dateToLabel": "{{filter}} to",
+      "clearDate": "Clear date",
+      "clearDateLabel": "Clear {{label}}",
+      "allSelected": "All",
+      "selectedOf": "{{selected}} of {{total}}",
+      "showAll": "Show all {{count}}",
+      "showFewer": "Show fewer",
+      "includeProviders": "Include providers",
+      "excludeProviders": "Exclude providers",
+      "priceRange": "Price range"
     },
     "messages": {
       "minQueryLength": "Please enter at least 3 characters to start the search.",
       "error": {
         "title": "Error loading results",
-        "description": "The search results could not be loaded. Please try again later."
+        "description": "The search results could not be loaded. Please try again later.",
+        "headline": "Error loading <em>results.</em>",
+        "retry": "Try again"
       },
       "noResults": {
         "title": "No results found",
-        "description": "Try adjusting your search term or filters."
+        "description": "Try adjusting your search term or filters.",
+        "headline": "No results <em>found.</em>",
+        "saveHint": "Save the search and we will email you when a match appears."
       },
-      "loadingMore": "Loading more results...",
+      "loadingMore": "Loading more results…",
       "allLoaded_one": "You have seen {{count}} result that matches your filters.",
       "allLoaded_other": "You have seen all {{count}} results that match your filters.",
-      "allLoadedFallback": "All search results loaded."
+      "allLoadedFallback": "All search results loaded.",
+      "loading": "Loading results",
+      "loadedOf": "{{loaded}} of {{total}}"
     },
     "sortMode": {
-      "sortBy": "Sort by:",
+      "sortBy": "Sort by",
       "relevance": "Relevance",
-      "creationDate": "Creation Date",
-      "updateDate": "Last Updated",
+      "creationDate": "Date added",
       "order": {
-        "label": "Order:",
         "asc": "Ascending",
-        "desc": "Descending"
-      }
+        "desc": "Descending",
+        "switchToAsc": "Order: descending. Switch to ascending",
+        "switchToDesc": "Order: ascending. Switch to descending"
+      },
+      "lastUpdated": "Last updated"
     },
     "shopResultsFor": "Results for",
-    "publicSourcesBrowseTitle": "Providers"
+    "publicSourcesBrowseTitle": "Providers",
+    "eyebrow": "Search results",
+    "resultsForQuery": "Results for <em>“{{query}}”</em>",
+    "totalObjects_one": "{{formattedCount}} object",
+    "totalObjects_other": "{{formattedCount}} objects",
+    "liveFiltersHint": "Filters apply as you change them",
+    "type": {
+      "label": "Search type",
+      "objects": "Objects",
+      "providers": "Providers"
+    },
+    "activeFilters": "Active filters",
+    "chip": {
+      "price": "Price",
+      "includeSource": "Provider",
+      "excludeSource": "Excluding",
+      "remove": "Remove filter: {{label}}"
+    },
+    "resetAll": "Reset all",
+    "showResults_one": "Show {{count}} result",
+    "showResults_other": "Show {{count}} results",
+    "showResultsFallback": "Show results",
+    "closeFilters": "Close filters",
+    "filtersWithCount_one": "Filters, {{count}} active",
+    "filtersWithCount_other": "Filters, {{count}} active",
+    "saveSearch": "Save search",
+    "scrollToTop": "Back to top",
+    "hiddenMatch": {
+      "label": "Hidden match",
+      "title": "This match is over your monthly quota",
+      "description": "Upgrade your account to see every result."
+    }
   },
   "product": {
     "unknownPrice": "Price unknown",
@@ -502,7 +556,12 @@
       "soldOut": "Sold out",
       "unknown": "Not reported",
       "withdrawn": "Withdrawn"
-    }
+    },
+    "previousImage": "Previous image",
+    "nextImage": "Next image",
+    "addToWatchlist": "Add to watchlist",
+    "removeFromWatchlist": "Remove from watchlist",
+    "watchlistNotifications": "Price and availability alerts"
   },
   "listingAvailability": {
     "available": "Available",
@@ -1502,12 +1561,11 @@
     }
   },
   "searchFilter": {
-    "saveButton": "Save Search Filter",
     "saveSuccess": "Search filter saved successfully!",
     "loginRequired": "Please log in or register to save search filters.",
     "quotaReached": "You have reached the maximum number of search filters. Upgrade your subscription for more.",
     "saveDialog": {
-      "title": "Save Search Filter",
+      "title": "Save search",
       "nameLabel": "Name",
       "namePlaceholder": "e.g. Mater Dolorosa Baroque Painting",
       "queryLabel_one": "Search Query",
@@ -1517,13 +1575,22 @@
       "ultimateOnly": "Available for Ultimate subscribers only",
       "cancelButton": "Cancel",
       "saveButton": "Save",
-      "restrictedFiltersHint": "These filters are unfortunately not available in your current subscription and cannot be saved. Upgrade your subscription to use them – or save the search filter without these filters.",
+      "restrictedFiltersHint": "Your plan saves the search term, availability and price range. These filters are not saved:",
       "resetAndSaveButton": "Save without these filters",
       "queryPlaceholder": "Type a search term and press Enter",
       "nameHint": "Give your search filter a unique name.",
       "queryHint": "One or more keywords matched against product titles. A single match is enough when several terms are given.",
       "removeQueryTerm": "Remove \"{{term}}\"",
-      "aiDescriptionHint": "Describe in detail what you are looking for – the AI will find better matches."
+      "aiDescriptionHint": "Describe in detail what you are looking for – the AI will find better matches.",
+      "description": "We email you when new objects match.",
+      "criteriaLabel": "Saved criteria",
+      "queryCriterion": "“{{query}}”",
+      "aiDescription": "AI description",
+      "optional": "(optional)",
+      "ultimateBadge": "Ultimate",
+      "restrictedEyebrow": "Pro & Ultimate",
+      "restrictedTitle": "Some filters need <em>Pro.</em>",
+      "close": "Close"
     },
     "wizard": {
       "title": "Create Search Filter",

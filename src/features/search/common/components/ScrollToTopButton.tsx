@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { ChevronUp } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils.ts";
 
-export function ScrollToTopButton() {
+/** Round "Back to top" button that appears once the page has scrolled 300px. */
+export function ScrollToTopButton({ className }: { readonly className?: string }) {
+    const { t } = useTranslation();
     const [showButton, setShowButton] = useState(false);
 
     useEffect(() => {
@@ -14,19 +17,20 @@ export function ScrollToTopButton() {
         return () => globalThis.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const scrollToTop = () => {
-        globalThis.scrollTo({ top: 0, behavior: "smooth" });
-    };
-
     if (!showButton) return null;
 
     return (
-        <Button
-            onClick={scrollToTop}
-            className="fixed bottom-8 right-8 rounded-full w-12 h-12 shadow-lg z-50"
-            size="icon"
+        <button
+            type="button"
+            aria-label={t("search.scrollToTop")}
+            onClick={() => globalThis.scrollTo({ top: 0, behavior: "smooth" })}
+            className={cn(
+                "inline-flex size-12 cursor-pointer items-center justify-center rounded-pill bg-surface-raised text-ink shadow-menu",
+                "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass",
+                className,
+            )}
         >
-            <ChevronUp className="h-6 w-6" />
-        </Button>
+            <ChevronUp aria-hidden="true" className="size-[18px]" strokeWidth={1.8} />
+        </button>
     );
 }

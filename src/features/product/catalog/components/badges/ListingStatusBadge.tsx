@@ -20,6 +20,16 @@ const AVAILABILITY_KEYS: Partial<Record<ListingAvailability, string>> = {
     SOLD_OUT: "soldOut",
 };
 
+/** Translation key of the status a listing shows: withdrawn, its availability, or not reported. */
+export function getListingStatusLabelKey(
+    availability: ListingAvailability | null,
+    lifecycle: ListingLifecycle,
+): string {
+    if (lifecycle === "WITHDRAWN") return "product.listingAvailability.withdrawn";
+    const key = availability ? AVAILABILITY_KEYS[availability] : undefined;
+    return key ? `product.listingAvailability.${key}` : "product.listingAvailability.unknown";
+}
+
 export function ListingStatusBadge({
     availability,
     lifecycle,
@@ -30,14 +40,7 @@ export function ListingStatusBadge({
     readonly className?: string;
 }) {
     const { t } = useTranslation();
-    let label: string;
-    if (lifecycle === "WITHDRAWN") {
-        label = t("product.listingAvailability.withdrawn");
-    } else if (availability && AVAILABILITY_KEYS[availability]) {
-        label = t(`product.listingAvailability.${AVAILABILITY_KEYS[availability]}`);
-    } else {
-        label = t("product.listingAvailability.unknown");
-    }
+    const label = t(getListingStatusLabelKey(availability, lifecycle));
 
     if (!label) return null;
 
