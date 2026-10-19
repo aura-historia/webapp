@@ -444,10 +444,6 @@
     "details": "Details",
     "toMerchant": "Zur Seite des Anbieters",
     "noImage": "Kein Bild verfügbar",
-    "watchlist": {
-      "add": "Zur Merkliste hinzufügen",
-      "remove": "Von der Merkliste entfernen"
-    },
     "unseenNotification": "Aktualisiert",
     "searchFilter": {
       "matchedBadge": "Treffer",
@@ -468,7 +464,9 @@
       "noData": {
         "title": "Keine ähnlichen Artikel",
         "description": "Für diesen Artikel wurden keine ähnlichen Produkte gefunden."
-      }
+      },
+      "previous": "Vorherige ähnliche Artikel",
+      "next": "Nächste ähnliche Artikel"
     },
     "history": {
       "title": "Historie",
@@ -510,14 +508,17 @@
         "converted": "{{display}} (angegeben mit {{source}})",
         "sourceOnly": "{{price}} (Originalpreis; kein historischer {{currency}}-Kurs)",
         "fxProvenance": "{{currency}}-Beträge nutzen den am {{capturedAt}} erfassten Wechselkurs."
-      }
+      },
+      "filterLabel": "Historie filtern"
     },
     "dealer": {
       "title": "Weitere Artikel von diesem Anbieter",
       "error": {
         "title": "Fehler beim Laden",
         "description": "Weitere Artikel von diesem Anbieter konnten nicht geladen werden."
-      }
+      },
+      "previous": "Vorherige Angebote dieses Anbieters",
+      "next": "Nächste Angebote dieses Anbieters"
     },
     "auction": {
       "lotNumber": "Los {{lotNumber}}"
@@ -540,7 +541,9 @@
       "displayOption": "{{currency}} umgerechnet",
       "displaySelect": "Preisverlauf in {{currency}} zu historischen Wechselkursen anzeigen",
       "displaySeriesName": "Preis in {{currency}} (historische Kurse)",
-      "displayNote": "Umgerechnet mit dem Wechselkurs, der zum Zeitpunkt der jeweiligen Preisänderung oder davor erfasst wurde. Lücken markieren Preise ohne erfassten Kurs oder ohne öffentlichen Preis."
+      "displayNote": "Umgerechnet mit dem Wechselkurs, der zum Zeitpunkt der jeweiligen Preisänderung oder davor erfasst wurde. Lücken markieren Preise ohne erfassten Kurs oder ohne öffentlichen Preis.",
+      "timeRangeLabel": "Zeitraum",
+      "resetZoom": "Zoom zurücksetzen"
     },
     "listingAvailability": {
       "available": "Verfügbar",
@@ -561,7 +564,31 @@
     "nextImage": "Nächstes Bild",
     "addToWatchlist": "Zur Merkliste hinzufügen",
     "removeFromWatchlist": "Von der Merkliste entfernen",
-    "watchlistNotifications": "Benachrichtigungen zu Preis und Verfügbarkeit"
+    "watchlistNotifications": "Benachrichtigungen zu Preis und Verfügbarkeit",
+    "estimate": {
+      "label": "Schätzung",
+      "range": "{{min}}–{{max}}",
+      "from": "Ab {{price}}",
+      "upTo": "Bis {{price}}"
+    },
+    "description": {
+      "title": "Beschreibung",
+      "showMore": "Mehr anzeigen",
+      "showLess": "Weniger anzeigen"
+    },
+    "withdrawnHint": "Dieses Angebot wurde von seiner Quelle zurückgezogen.",
+    "gallery": {
+      "openImage": "Bild {{index}} von {{count}} im Vollbild öffnen",
+      "imageAlt": "{{title}}, Bild {{index}}",
+      "showImage": "Bild {{index}} anzeigen",
+      "viewFullScreen": "Bilder im Vollbild ansehen",
+      "fullScreen": "Vollbild",
+      "chooseImage": "Bild auswählen",
+      "showAll": "Alle {{count}} Bilder im Vollbild anzeigen"
+    },
+    "carousel": {
+      "position": "{{range}} von {{total}}"
+    }
   },
   "listingAvailability": {
     "available": "Verfügbar",
@@ -1256,7 +1283,7 @@
   },
   "share": {
     "copyLink": "Link kopieren",
-    "copied": "Kopiert!",
+    "copied": "Link kopiert",
     "shareProduct": "Produkt teilen",
     "foundOnAuraHistoria": "Ich habe {{title}} auf Aura Historia gefunden! Das könnte interessant für dich sein!"
   },

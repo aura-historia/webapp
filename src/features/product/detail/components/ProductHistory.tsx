@@ -1,6 +1,5 @@
 import type { Currency } from "@/data/internal/common/Currency.ts";
 import type { ProductListingHistoryEntry } from "@/data/internal/product/ProductListingHistory.ts";
-import { H2 } from "@/components/typography/H2.tsx";
 import { Timeline } from "@/components/ui/timeline.tsx";
 import { useMemo, useState } from "react";
 import {
@@ -10,6 +9,8 @@ import {
 import { ProductEventHistory } from "@/features/product/detail/components/ProductEventHistory.tsx";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
+import { ProductSectionHeading } from "@/features/product/detail/components/ProductSectionHeading.tsx";
+import { cn } from "@/lib/utils.ts";
 
 interface ProductHistoryProps {
     readonly history?: readonly ProductListingHistoryEntry[];
@@ -25,10 +26,10 @@ const createFilterOptions = (t: TFunction) => {
     ] as const;
 };
 
+const HEADING_ID = "product-history-title";
+
 export function ProductHistory({ history, displayCurrency }: ProductHistoryProps) {
     const { t } = useTranslation();
-    const sectionHeadingClass =
-        "font-display text-2xl font-normal uppercase tracking-[-0.02em] text-primary";
 
     /**
      * Filter options for the event history timeline.
@@ -42,25 +43,55 @@ export function ProductHistory({ history, displayCurrency }: ProductHistoryProps
      */
     const [activeFilter, setActiveFilter] = useState<HistoryFilter>("all");
 
+    const heading = (
+        <div className="mb-3 sm:mb-4">
+            <ProductSectionHeading id={HEADING_ID} title={t("product.history.title")} />
+        </div>
+    );
+
     /**
-     * Renders buttons for each filter option with active state highlighting.
+     * Underlined tabs for each filter option.
      */
-    const filterButtons = (
-        <div className="flex gap-2 flex-wrap">
-            {FILTER_OPTIONS.map((option) => (
-                <button
-                    type="button"
-                    key={option.value}
-                    onClick={() => setActiveFilter(option.value)}
-                    className={`border-b pb-1 text-xs tracking-widest uppercase transition-colors duration-300 ease-out ${
-                        activeFilter === option.value
-                            ? "border-primary text-primary"
-                            : "border-transparent text-muted-foreground hover:text-primary"
-                    }`}
-                >
-                    {option.label}
-                </button>
-            ))}
+    const filterTabs = (
+        <div
+            role="group"
+            aria-label={t("product.history.filterLabel")}
+            className="flex gap-5 shadow-[inset_0_-1px_0_var(--color-line-subtle)]"
+        >
+            {FILTER_OPTIONS.map((option) => {
+                const selected = activeFilter === option.value;
+                return (
+                    <button
+                        type="button"
+                        aria-pressed={selected}
+                        key={option.value}
+                        onClick={() => setActiveFilter(option.value)}
+                        className={cn(
+                            "relative min-h-11 cursor-pointer text-body-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass",
+                            selected ? "font-semibold text-ink" : "text-ink-muted hover:text-ink",
+                        )}
+                    >
+                        {option.label}
+                        <span
+                            aria-hidden="true"
+                            className={cn(
+                                "absolute inset-x-0 bottom-0 h-0.5 rounded-xs",
+                                selected ? "bg-oxblood" : "bg-transparent",
+                            )}
+                        />
+                    </button>
+                );
+            })}
+        </div>
+    );
+
+    const emptyState = (text: string) => (
+        <div className="flex h-49 flex-col items-center justify-center gap-3 border-b border-line-subtle text-center">
+            <span
+                aria-hidden="true"
+                className="size-[11px] rounded-pill shadow-[inset_0_0_0_1.5px_var(--color-ink-muted)]"
+            />
+            <p className="text-body-sm text-ink-secondary">{text}</p>
         </div>
     );
 
@@ -69,9 +100,9 @@ export function ProductHistory({ history, displayCurrency }: ProductHistoryProps
      */
     if (!history || history.length === 0) {
         return (
-            <section className="flex min-w-0 flex-col gap-4">
-                <H2 className={sectionHeadingClass}>{t("product.history.title")}</H2>
-                <p className="text-sm text-muted-foreground">{t("product.history.noData")}</p>
+            <section aria-labelledby={HEADING_ID} className="flex min-w-0 flex-col">
+                {heading}
+                {emptyState(t("product.history.noData"))}
             </section>
         );
     }
@@ -81,30 +112,14 @@ export function ProductHistory({ history, displayCurrency }: ProductHistoryProps
      */
     const filteredEvents = history.filter((event) => matchesHistoryFilter(event, activeFilter));
 
-    /**
-     * Early return: Shows when there are no events for the specified filter.
-     */
-    if (filteredEvents.length === 0) {
-        return (
-            <section className="flex min-w-0 flex-col gap-4">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <H2 className={sectionHeadingClass}>{t("product.history.title")}</H2>
-                    {filterButtons}
-                </div>
-                <p className="text-sm text-muted-foreground">{t("product.history.noEvents")}</p>
-            </section>
-        );
-    }
-
     return (
-        <section className="flex h-full max-h-[500px] min-w-0 flex-col gap-6">
-            <div className="flex flex-col gap-4 w-full shrink-0">
-                <H2 className={sectionHeadingClass}>{t("product.history.title")}</H2>
-                {filterButtons}
-            </div>
-
-            <div className="flex-1 min-h-0 overflow-y-auto w-full px-1 pt-2">
-                <Timeline>
+        <section aria-labelledby={HEADING_ID} className="flex min-w-0 flex-col">
+            {heading}
+            {filterTabs}
+            {filteredEvents.length === 0 ? (
+                emptyState(t("product.history.noEvents"))
+            ) : (
+                <Timeline className="max-h-[500px] overflow-y-auto [scrollbar-width:thin]">
                     {filteredEvents
                         .slice()
                         .reverse()
@@ -117,7 +132,7 @@ export function ProductHistory({ history, displayCurrency }: ProductHistoryProps
                             />
                         ))}
                 </Timeline>
-            </div>
+            )}
         </section>
     );
 }

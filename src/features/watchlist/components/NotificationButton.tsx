@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button.tsx";
-import { Bell, BellRing } from "lucide-react";
 import { useWatchlistNotificationMutation } from "@/features/watchlist/api/useWatchlistNotificationMutation.ts";
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils.ts";
+import { ToggleBellIcon } from "@/components/common/ToggleBellIcon.tsx";
 
 interface NotificationButtonProps extends Omit<ComponentProps<typeof Button>, "onClick"> {
     readonly productListingId: string;
@@ -34,18 +34,12 @@ export function NotificationButton({
             }}
             disabled={watchlistNotificationMutation.isPending || !isVisible}
         >
-            <div className="relative size-5">
-                <Bell
-                    className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out ${
-                        isNotificationEnabled ? "opacity-0 scale-75" : "opacity-100 scale-100"
-                    } ${watchlistNotificationMutation.isPending ? "animate-heart-bounce" : ""}`}
-                />
-                <BellRing
-                    className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out fill-primary ${
-                        isNotificationEnabled ? "opacity-100 scale-100" : "opacity-0 scale-75"
-                    } ${watchlistNotificationMutation.isPending ? "animate-heart-bounce" : ""}`}
-                />
-            </div>
+            <ToggleBellIcon
+                on={isNotificationEnabled}
+                className="size-5"
+                filledClassName="fill-primary"
+                strokeWidth={2}
+            />
         </Button>
     );
 }

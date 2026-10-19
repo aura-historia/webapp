@@ -1,4 +1,4 @@
-import { screen, act, fireEvent } from "@testing-library/react";
+import { screen, act, fireEvent, render } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { NotificationButton } from "../NotificationButton.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
@@ -38,42 +38,28 @@ describe("NotificationButton", () => {
         expect(button).toBeInTheDocument();
     });
 
-    it("should show Bell icon when notifications are disabled", async () => {
+    it("should show the outline bell when notifications are disabled", async () => {
         await act(() => {
             renderWithQueryClient(
                 <NotificationButton {...defaultProps} isNotificationEnabled={false} />,
             );
         });
 
-        const button = screen.getByRole("button");
-        const svgElements = button.querySelectorAll("svg");
-
-        // First SVG (Bell) should be visible (opacity-100)
-        expect(svgElements[0]).toHaveClass("opacity-100");
-        expect(svgElements[0]).toHaveClass("scale-100");
-
-        // Second SVG (BellRing) should be hidden (opacity-0)
-        expect(svgElements[1]).toHaveClass("opacity-0");
-        expect(svgElements[1]).toHaveClass("scale-75");
+        const svgElements = screen.getByRole("button").querySelectorAll("svg");
+        expect(svgElements).toHaveLength(1);
+        expect(svgElements[0]).toHaveClass("lucide-bell");
     });
 
-    it("should show BellRing icon when notifications are enabled", async () => {
+    it("should show the ringing bell when notifications are enabled", async () => {
         await act(() => {
             renderWithQueryClient(
                 <NotificationButton {...defaultProps} isNotificationEnabled={true} />,
             );
         });
 
-        const button = screen.getByRole("button");
-        const svgElements = button.querySelectorAll("svg");
-
-        // First SVG (Bell) should be hidden (opacity-0)
-        expect(svgElements[0]).toHaveClass("opacity-0");
-        expect(svgElements[0]).toHaveClass("scale-75");
-
-        // Second SVG (BellRing) should be visible (opacity-100)
-        expect(svgElements[1]).toHaveClass("opacity-100");
-        expect(svgElements[1]).toHaveClass("scale-100");
+        const svgElements = screen.getByRole("button").querySelectorAll("svg");
+        expect(svgElements).toHaveLength(1);
+        expect(svgElements[0]).toHaveClass("lucide-bell-ring");
     });
 
     it("should call mutate with true when notifications are disabled", async () => {
@@ -138,21 +124,17 @@ describe("NotificationButton", () => {
         expect(button).toBeDisabled();
     });
 
-    it("should apply bounce animation to both icons when pending", async () => {
-        mockUseWatchlistNotificationMutation.mockReturnValue({
-            mutate: mockMutate,
-            isPending: true,
-        } as unknown as ReturnType<typeof useWatchlistNotificationMutation>);
+    it("should animate the bell when notifications are toggled, not on first render", async () => {
+        // The mutation hook is mocked, so a plain render keeps the same tree across the rerender.
+        const { rerender } = render(
+            <NotificationButton {...defaultProps} isNotificationEnabled={false} />,
+        );
+        expect(screen.getByRole("button").querySelector("svg")).not.toHaveClass(
+            "animate-bell-settle",
+        );
 
-        await act(() => {
-            renderWithQueryClient(<NotificationButton {...defaultProps} />);
-        });
-
-        const button = screen.getByRole("button");
-        const svgElements = button.querySelectorAll("svg");
-
-        expect(svgElements[0]).toHaveClass("animate-heart-bounce");
-        expect(svgElements[1]).toHaveClass("animate-heart-bounce");
+        rerender(<NotificationButton {...defaultProps} isNotificationEnabled={true} />);
+        expect(screen.getByRole("button").querySelector("svg")).toHaveClass("animate-bell-ring");
     });
 
     it("should pass the canonical listing ID to useWatchlistNotificationMutation", async () => {
@@ -179,17 +161,13 @@ describe("NotificationButton", () => {
         expect(button).toHaveClass("custom-class");
     });
 
-    it("should have filled BellRing icon when notifications are enabled", async () => {
+    it("should have a filled ringing bell when notifications are enabled", async () => {
         await act(() => {
             renderWithQueryClient(
                 <NotificationButton {...defaultProps} isNotificationEnabled={true} />,
             );
         });
 
-        const button = screen.getByRole("button");
-        const svgElements = button.querySelectorAll("svg");
-
-        // BellRing should have fill-foreground class
-        expect(svgElements[1]).toHaveClass("fill-primary");
+        expect(screen.getByRole("button").querySelector("svg")).toHaveClass("fill-primary");
     });
 });

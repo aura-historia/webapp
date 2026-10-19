@@ -1,124 +1,112 @@
-import { useSimilarProducts } from "@/features/product/detail/api/useSimilarProducts.ts";
-import { ProductGridItem } from "@/features/product/catalog/components/grid/ProductGridItem.tsx";
-import { ProductGridItemSkeleton } from "@/features/product/catalog/components/grid/ProductGridItemSkeleton.tsx";
-import { HiddenMatchCard } from "@/features/product/catalog/components/cards/HiddenMatchCard.tsx";
-import { ProductSectionHeading } from "@/features/product/detail/components/ProductSectionHeading.tsx";
-import { ProductCarouselNavButtons } from "@/features/product/detail/components/ProductCarouselNavButtons.tsx";
-import { H3 } from "@/components/typography/H3.tsx";
-import { useTranslation } from "react-i18next";
-import { AlertCircle, SearchX, RefreshCw } from "lucide-react";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
+import { AlertTriangle, RefreshCw, SearchX } from "lucide-react";
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
+import { useSimilarProducts } from "@/features/product/detail/api/useSimilarProducts.ts";
+import { ProductCarouselNavButtons } from "@/features/product/detail/components/ProductCarouselNavButtons.tsx";
+import { ProductRailState } from "@/features/product/detail/components/ProductRailState.tsx";
+import { ProductSectionHeading } from "@/features/product/detail/components/ProductSectionHeading.tsx";
+import { SearchResultCard } from "@/features/search/products/components/results/SearchResultCard.tsx";
+import {
+    SearchHiddenMatchCard,
+    SearchResultCardSkeleton,
+} from "@/features/search/products/components/results/SearchResultPlaceholders.tsx";
+
+const HEADING_ID = "product-similar-title";
+const ITEM_CLASS = "basis-[72%] pl-3 sm:basis-1/2 sm:pl-6 lg:basis-1/3";
 
 interface ProductSimilarProps {
     readonly productListingId: string;
 }
 
-function SimilarState({
-    title,
-    icon,
-    description,
-}: {
-    readonly title: string;
-    readonly icon: ReactNode;
-    readonly description: string;
-}) {
+function SimilarSection({ children }: { readonly children: ReactNode }) {
     return (
-        <div className="flex min-w-0 flex-col gap-4 bg-card p-6">
-            <div className="flex flex-col items-center gap-4 py-8">
-                {icon}
-                <div className="space-y-2 text-center">
-                    <H3>{title}</H3>
-                    <p className="text-base text-muted-foreground">{description}</p>
-                </div>
-            </div>
-        </div>
+        <section aria-labelledby={HEADING_ID} className="flex min-w-0 flex-col">
+            {children}
+        </section>
     );
 }
 
 export function ProductSimilar({ productListingId }: ProductSimilarProps) {
     const { t } = useTranslation();
     const { data, isLoading, isError, error } = useSimilarProducts(productListingId);
+    const heading = <ProductSectionHeading id={HEADING_ID} title={t("product.similar.title")} />;
 
     if (isLoading) {
         return (
-            <section className="flex max-h-[500px] min-w-0 flex-col gap-8 overflow-hidden">
-                <ProductSectionHeading title={t("product.similar.title")} />
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {["skeleton-1", "skeleton-2", "skeleton-3"].map((skeletonId) => (
-                        <ProductGridItemSkeleton key={skeletonId} />
+            <SimilarSection>
+                <div className="mb-5 sm:mb-6">{heading}</div>
+                <div
+                    aria-busy="true"
+                    className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                >
+                    {["skeleton-1", "skeleton-2", "skeleton-3"].map((skeletonId, index) => (
+                        <div key={skeletonId} className={index > 0 ? "max-sm:hidden" : undefined}>
+                            <SearchResultCardSkeleton />
+                        </div>
                     ))}
                 </div>
-            </section>
+            </SimilarSection>
         );
     }
 
-    if (isError) {
-        return (
-            <section className="flex max-h-[500px] min-w-0 flex-col gap-8 overflow-hidden">
-                <ProductSectionHeading title={t("product.similar.title")} />
-                <SimilarState
-                    title={t("product.similar.error.title")}
-                    icon={<AlertCircle className="h-16 w-16 text-muted-foreground" />}
-                    description={error?.message ?? t("product.similar.error.description")}
-                />
-            </section>
-        );
-    }
+    const state = isError
+        ? {
+              icon: AlertTriangle,
+              tone: "error" as const,
+              title: t("product.similar.error.title"),
+              description: error?.message ?? t("product.similar.error.description"),
+          }
+        : data?.isEmbeddingsPending
+          ? {
+                icon: RefreshCw,
+                tone: "neutral" as const,
+                spinning: true,
+                title: t("product.similar.embeddingsPending.title"),
+                description: t("product.similar.embeddingsPending.description"),
+            }
+          : !data?.products || data.products.length === 0
+            ? {
+                  icon: SearchX,
+                  tone: "muted" as const,
+                  title: t("product.similar.noData.title"),
+                  description: t("product.similar.noData.description"),
+              }
+            : undefined;
 
-    if (data?.isEmbeddingsPending) {
+    if (state || !data?.products) {
         return (
-            <section className="flex max-h-[500px] min-w-0 flex-col gap-8 overflow-hidden">
-                <ProductSectionHeading title={t("product.similar.title")} />
-                <SimilarState
-                    title={t("product.similar.embeddingsPending.title")}
-                    icon={
-                        <RefreshCw className="h-16 w-16 animate-[spin_2s_linear_infinite] text-muted-foreground" />
-                    }
-                    description={t("product.similar.embeddingsPending.description")}
-                />
-            </section>
-        );
-    }
-
-    if (!data?.products || data.products.length === 0) {
-        return (
-            <section className="flex max-h-[500px] min-w-0 flex-col gap-8 overflow-hidden">
-                <ProductSectionHeading title={t("product.similar.title")} />
-                <SimilarState
-                    title={t("product.similar.noData.title")}
-                    icon={<SearchX className="h-16 w-16 text-muted-foreground" />}
-                    description={t("product.similar.noData.description")}
-                />
-            </section>
+            <SimilarSection>
+                <div className="mb-5 sm:mb-6">{heading}</div>
+                {state && <ProductRailState {...state} />}
+            </SimilarSection>
         );
     }
 
     return (
-        <section className="flex max-h-[500px] min-w-0 flex-col gap-8 overflow-hidden">
+        <SimilarSection>
             <Carousel opts={{ align: "start" }} className="w-full min-w-0">
-                <div className="flex items-start justify-between gap-4">
-                    <ProductSectionHeading title={t("product.similar.title")} />
-                    <ProductCarouselNavButtons />
+                <div className="mb-5 flex items-center justify-between gap-4 sm:mb-6">
+                    {heading}
+                    <div className="max-sm:hidden">
+                        <ProductCarouselNavButtons
+                            previousLabel={t("product.similar.previous")}
+                            nextLabel={t("product.similar.next")}
+                        />
+                    </div>
                 </div>
-                <CarouselContent className="-ml-6 mt-6">
-                    {data.products.map((product) => {
-                        const isHidden = product.userState?.searchFilter.hidden === true;
-                        return (
-                            <CarouselItem
-                                key={product.productListingId}
-                                className="basis-full pl-6 sm:basis-1/2 lg:basis-1/3"
-                            >
-                                {isHidden ? (
-                                    <HiddenMatchCard />
-                                ) : (
-                                    <ProductGridItem product={product} />
-                                )}
-                            </CarouselItem>
-                        );
-                    })}
+                <CarouselContent className="-ml-3 sm:-ml-6">
+                    {data.products.map((product) => (
+                        <CarouselItem key={product.productListingId} className={ITEM_CLASS}>
+                            {product.userState?.searchFilter.hidden === true ? (
+                                <SearchHiddenMatchCard />
+                            ) : (
+                                <SearchResultCard product={product} firstImageOnly />
+                            )}
+                        </CarouselItem>
+                    ))}
                 </CarouselContent>
             </Carousel>
-        </section>
+        </SimilarSection>
     );
 }

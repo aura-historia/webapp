@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, Bell, BellRing, Bookmark } from "lucide-react";
+import { ArrowUpRight, Bookmark } from "lucide-react";
 import { memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
@@ -13,6 +13,7 @@ import { useListingWatchlistState } from "@/features/watchlist/api/watchlistMuta
 import { useWatchlistMutation } from "@/features/watchlist/api/useWatchlistMutation.ts";
 import { useWatchlistNotificationMutation } from "@/features/watchlist/api/useWatchlistNotificationMutation.ts";
 import { cn } from "@/lib/utils.ts";
+import { ToggleBellIcon } from "@/components/common/ToggleBellIcon.tsx";
 
 const FOCUS_CLASS =
     "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
@@ -39,7 +40,17 @@ function statusTone(product: ProductListing): "available" | "reserved" | "gone" 
     return "available";
 }
 
-function SearchResultCardComponent({ product }: { readonly product: ProductListing }) {
+function SearchResultCardComponent({
+    product,
+    firstImageOnly = false,
+}: {
+    readonly product: ProductListing;
+    /**
+     * Shows only the first photo, without its own image carousel. For cards inside a rail, where
+     * an inner swipe would fight the rail's own swipe.
+     */
+    readonly firstImageOnly?: boolean;
+}) {
     const { t } = useTranslation();
     const unseenNotificationIds = product.userState?.notification.unseenNotificationIds ?? [];
     const hasUnseenNotification = unseenNotificationIds.length > 0;
@@ -81,7 +92,7 @@ function SearchResultCardComponent({ product }: { readonly product: ProductListi
                 )}
             >
                 <SearchResultMedia
-                    images={product.images}
+                    images={firstImageOnly ? product.images.slice(0, 1) : product.images}
                     productListingTitleSlugId={product.productListingTitleSlugId}
                     showSensitiveContent={showSensitiveContent}
                     onProductClick={handleProductClick}
@@ -122,15 +133,7 @@ function SearchResultCardComponent({ product }: { readonly product: ProductListi
                             onClick={() => notificationMutation.mutate(!notifications)}
                             className={cn(IMAGE_BUTTON_CLASS, "bg-chip-on-image text-ink")}
                         >
-                            {notifications ? (
-                                <BellRing
-                                    aria-hidden="true"
-                                    className="size-4 fill-current"
-                                    strokeWidth={1.8}
-                                />
-                            ) : (
-                                <Bell aria-hidden="true" className="size-4" strokeWidth={1.8} />
-                            )}
+                            <ToggleBellIcon on={notifications} className="size-4" />
                         </button>
                     )}
                     <button

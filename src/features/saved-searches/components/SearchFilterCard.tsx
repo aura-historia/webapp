@@ -49,6 +49,7 @@ import {
     SearchFilterCriteriaBadges,
     SearchFilterCriteriaDetails,
 } from "@/features/saved-searches/components/SearchFilterCriteria.tsx";
+import { ToggleBellIcon } from "@/components/common/ToggleBellIcon.tsx";
 
 type Props = {
     readonly filter: UserSearchFilter;
@@ -172,14 +173,12 @@ export function SearchFilterCard({
                                 disabled={updateFilter.isPending || !isActive}
                                 onClick={handleNotificationsToggle}
                             >
-                                <div className="relative size-5">
-                                    <Bell
-                                        className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out ${filter.notifications ? "opacity-0 scale-75" : "opacity-100 scale-100"}`}
-                                    />
-                                    <BellRing
-                                        className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out fill-primary ${filter.notifications ? "opacity-100 scale-100" : "opacity-0 scale-75"}`}
-                                    />
-                                </div>
+                                <ToggleBellIcon
+                                    on={filter.notifications}
+                                    className="size-5"
+                                    filledClassName="fill-primary"
+                                    strokeWidth={2}
+                                />
                             </Button>
                         </TooltipTrigger>
                         <TooltipContent>{notificationsLabel}</TooltipContent>

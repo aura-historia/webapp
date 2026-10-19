@@ -1,20 +1,40 @@
-import { useDealerProducts } from "@/features/product/detail/api/useDealerProducts.ts";
-import { ProductGridItem } from "@/features/product/catalog/components/grid/ProductGridItem.tsx";
-import { ProductGridItemSkeleton } from "@/features/product/catalog/components/grid/ProductGridItemSkeleton.tsx";
-import { ProductSectionHeading } from "@/features/product/detail/components/ProductSectionHeading.tsx";
-import { ProductCarouselNavButtons } from "@/features/product/detail/components/ProductCarouselNavButtons.tsx";
-import { EmptyState } from "@/components/common/EmptyState.tsx";
-import { useTranslation } from "react-i18next";
-import { ArrowUpRight, ServerCrash } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { ArrowUpRight, ServerCrash } from "lucide-react";
+import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
 import type { ProductListingSource } from "@/data/internal/product/ProductListingSource.ts";
+import { useDealerProducts } from "@/features/product/detail/api/useDealerProducts.ts";
+import {
+    ProductCarouselNavButtons,
+    ProductCarouselProgress,
+} from "@/features/product/detail/components/ProductCarouselNavButtons.tsx";
+import { ProductRailState } from "@/features/product/detail/components/ProductRailState.tsx";
+import { ProductSectionHeading } from "@/features/product/detail/components/ProductSectionHeading.tsx";
+import { SearchResultCard } from "@/features/search/products/components/results/SearchResultCard.tsx";
+import { SearchResultCardSkeleton } from "@/features/search/products/components/results/SearchResultPlaceholders.tsx";
+import { cn } from "@/lib/utils.ts";
 
+const HEADING_ID = "product-dealer-title";
 const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"];
 
 interface ProductDealerItemsProps {
     readonly source: ProductListingSource;
     readonly excludeProductListingId: string;
+}
+
+/** The raised band at the foot of the page, wider than the content column. */
+function DealerBand({ children }: { readonly children: ReactNode }) {
+    return (
+        <section
+            aria-labelledby={HEADING_ID}
+            className="bg-surface-raised py-12 shadow-[inset_0_1px_0_var(--color-line-subtle)] sm:pt-22 sm:pb-30"
+        >
+            <div className="mx-auto w-full max-w-[calc(var(--container-content)+2*var(--page-gutter))] px-(--page-gutter)">
+                {children}
+            </div>
+        </section>
+    );
 }
 
 export function ProductDealerItems({ source, excludeProductListingId }: ProductDealerItemsProps) {
@@ -23,66 +43,93 @@ export function ProductDealerItems({ source, excludeProductListingId }: ProductD
         source.listingSourceId,
         excludeProductListingId,
     );
+    const heading = (
+        <ProductSectionHeading
+            id={HEADING_ID}
+            eyebrow={source.name}
+            title={t("product.dealer.title")}
+        />
+    );
+    const profileLink = (
+        <Link
+            to="/$lng/shops/$shopSlugId"
+            params={(current) => ({ ...current, shopSlugId: source.slugId })}
+            from="/$lng"
+            className="inline-flex min-h-11 items-center gap-1.5 self-start text-body-sm font-medium underline decoration-line-strong underline-offset-3 outline-none hover:text-brass-ink focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass"
+        >
+            {t("shop.card.viewSource")}
+            <ArrowUpRight aria-hidden="true" className="size-3.5" strokeWidth={1.8} />
+        </Link>
+    );
 
     if (isLoading) {
         return (
-            <section className="flex min-w-0 flex-col gap-8">
-                <ProductSectionHeading title={t("product.dealer.title")} />
-                <div className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-                    {SKELETON_IDS.map((skeletonId) => (
-                        <ProductGridItemSkeleton key={skeletonId} />
+            <DealerBand>
+                <div className="mb-6 sm:mb-9">{heading}</div>
+                <div
+                    aria-busy="true"
+                    className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+                >
+                    {SKELETON_IDS.map((skeletonId, index) => (
+                        <div
+                            key={skeletonId}
+                            className={cn(
+                                index > 0 && "max-sm:hidden",
+                                index > 1 && "max-lg:hidden",
+                            )}
+                        >
+                            <SearchResultCardSkeleton />
+                        </div>
                     ))}
                 </div>
-            </section>
+            </DealerBand>
         );
     }
 
     if (isError) {
         return (
-            <section className="flex min-w-0 flex-col gap-8">
-                <ProductSectionHeading title={t("product.dealer.title")} />
-                <EmptyState
+            <DealerBand>
+                <div className="mb-6 sm:mb-9">{heading}</div>
+                <ProductRailState
                     icon={ServerCrash}
+                    tone="error"
+                    raised
                     title={t("product.dealer.error.title")}
                     description={error?.message ?? t("product.dealer.error.description")}
                 />
-            </section>
+            </DealerBand>
         );
     }
 
-    if (!data || data.length === 0) {
-        return null;
-    }
+    if (!data || data.length === 0) return null;
 
     return (
-        <section className="flex min-w-0 flex-col gap-8">
+        <DealerBand>
             <Carousel opts={{ align: "start" }} className="w-full min-w-0">
-                <div className="flex items-start justify-between gap-4">
-                    <ProductSectionHeading title={t("product.dealer.title")} />
-                    <div className="flex shrink-0 items-center gap-4">
-                        <Link
-                            to="/$lng/shops/$shopSlugId"
-                            params={(current) => ({ ...current, shopSlugId: source.slugId })}
-                            className="flex items-center gap-1 text-xs uppercase tracking-widest text-primary hover:underline"
-                            from="/$lng"
-                        >
-                            <span>{t("shop.card.viewSource")}</span>
-                            <ArrowUpRight className="size-4" />
-                        </Link>
-                        <ProductCarouselNavButtons />
+                <div className="mb-5 flex flex-col gap-2.5 sm:mb-9 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-x-6 sm:gap-y-4">
+                    {heading}
+                    <div className="flex items-center gap-4">
+                        {profileLink}
+                        <div className="max-sm:hidden">
+                            <ProductCarouselNavButtons
+                                previousLabel={t("product.dealer.previous")}
+                                nextLabel={t("product.dealer.next")}
+                            />
+                        </div>
                     </div>
                 </div>
-                <CarouselContent className="-ml-6 mt-6">
+                <CarouselContent className="-ml-3 sm:-ml-6">
                     {data.map((product) => (
                         <CarouselItem
                             key={product.productListingId}
-                            className="basis-full pl-6 sm:basis-1/2 lg:basis-1/4"
+                            className="basis-[72%] pl-3 sm:basis-1/2 sm:pl-6 lg:basis-1/3 xl:basis-1/4"
                         >
-                            <ProductGridItem product={product} />
+                            <SearchResultCard product={product} firstImageOnly />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
+                <ProductCarouselProgress total={data.length} />
             </Carousel>
-        </section>
+        </DealerBand>
     );
 }
