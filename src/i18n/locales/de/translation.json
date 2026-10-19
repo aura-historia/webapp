@@ -292,10 +292,7 @@
   },
   "search": {
     "filters": "Filter",
-    "resultsFor": "Suchergebnisse für:",
     "resetAllFilters": "Alle Filter zurücksetzen",
-    "totalResults_one": "{{count}} Artikel",
-    "totalResults_other": "{{count}} Artikel",
     "bar": {
       "placeholderExamplesProducts": [
         "Ölgemälde Maria Magdalena",
@@ -326,21 +323,20 @@
     },
     "filter": {
       "creationDate": "Hinzugefügt",
-      "from": "Von:",
-      "to": "Bis:",
+      "from": "Von",
+      "to": "Bis",
       "availability": "Verfügbarkeit",
       "listingSource": "Anbieter einschließen",
       "listingSources": "Anbieter",
-      "searchListingSources": "Anbieter suchen...",
+      "searchListingSources": "Anbieter suchen",
       "noListingSourcesFound": "Keine Anbieter gefunden",
       "excludeListingSource": "Anbieter ausschließen",
-      "searchExcludeListingSources": "Anbieter zum Ausschließen suchen...",
+      "searchExcludeListingSources": "Auszuschließende Anbieter suchen",
       "sourceCount_one": "{{count}} Anbieter ausgewählt",
       "sourceCount_other": "{{count}} Anbieter ausgewählt",
       "priceSpan": "Preisspanne",
       "min": "Min",
       "max": "Max",
-      "priceSpanAria": "Preisspanne",
       "updateDate": "Aktualisiert",
       "auctionDate": "Auktionsdatum",
       "anyDate": "Beliebig",
@@ -352,36 +348,94 @@
         "creationDate": "Filter für das Erstellungsdatum zurücksetzen",
         "updateDate": "Filter für das Aktualisierungsdatum zurücksetzen",
         "auctionDate": "Filter für das Auktionsdatum zurücksetzen"
-      }
+      },
+      "includedSources": "Eingeschlossene Anbieter",
+      "excludedSources": "Ausgeschlossene Anbieter",
+      "removeSource": "{{label}} entfernen",
+      "minPrice": "Mindestpreis",
+      "maxPrice": "Höchstpreis",
+      "priceFromValue": "ab {{value}}",
+      "priceToValue": "bis {{value}}",
+      "dateFromValue": "Ab {{date}}",
+      "dateToValue": "Bis {{date}}",
+      "dateFromLabel": "{{filter}} von",
+      "dateToLabel": "{{filter}} bis",
+      "clearDate": "Datum löschen",
+      "clearDateLabel": "{{label}} löschen",
+      "allSelected": "Alle",
+      "selectedOf": "{{selected}} von {{total}}",
+      "showAll": "Alle {{count}} anzeigen",
+      "showFewer": "Weniger anzeigen",
+      "includeProviders": "Anbieter einschließen",
+      "excludeProviders": "Anbieter ausschließen",
+      "priceRange": "Preisspanne"
     },
     "messages": {
       "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",
       "error": {
         "title": "Fehler beim Laden",
-        "description": "Die Suchergebnisse konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+        "description": "Die Suchergebnisse konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+        "headline": "Fehler beim Laden der <em>Ergebnisse.</em>",
+        "retry": "Erneut versuchen"
       },
       "noResults": {
         "title": "Keine Ergebnisse gefunden",
-        "description": "Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen."
+        "description": "Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen.",
+        "headline": "Keine Ergebnisse <em>gefunden.</em>",
+        "saveHint": "Speichern Sie die Suche, und wir benachrichtigen Sie per E-Mail, sobald ein Treffer erscheint."
       },
-      "loadingMore": "Lade neue Ergebnisse...",
+      "loadingMore": "Weitere Ergebnisse werden geladen…",
       "allLoaded_one": "Sie haben {{count}} Ergebnis gesehen, das Ihren Filtern entspricht.",
       "allLoaded_other": "Sie haben alle {{count}} Ergebnisse gesehen, die Ihren Filtern entsprechen.",
-      "allLoadedFallback": "Alle Suchergebnisse geladen."
+      "allLoadedFallback": "Alle Suchergebnisse geladen.",
+      "loading": "Ergebnisse werden geladen",
+      "loadedOf": "{{loaded}} von {{total}}"
     },
     "sortMode": {
-      "sortBy": "Sortieren nach:",
+      "sortBy": "Sortieren nach",
       "relevance": "Relevanz",
-      "creationDate": "Erstellungsdatum",
-      "updateDate": "Zuletzt aktualisiert",
+      "creationDate": "Hinzugefügt am",
       "order": {
-        "label": "Reihenfolge:",
         "asc": "Aufsteigend",
-        "desc": "Absteigend"
-      }
+        "desc": "Absteigend",
+        "switchToAsc": "Reihenfolge: absteigend. Auf aufsteigend umstellen",
+        "switchToDesc": "Reihenfolge: aufsteigend. Auf absteigend umstellen"
+      },
+      "lastUpdated": "Zuletzt aktualisiert"
     },
     "shopResultsFor": "Ergebnisse für",
-    "publicSourcesBrowseTitle": "Anbieter"
+    "publicSourcesBrowseTitle": "Anbieter",
+    "eyebrow": "Suchergebnisse",
+    "resultsForQuery": "Ergebnisse für <em>„{{query}}“</em>",
+    "totalObjects_one": "{{formattedCount}} Objekt",
+    "totalObjects_other": "{{formattedCount}} Objekte",
+    "liveFiltersHint": "Filter wirken, sobald Sie sie ändern",
+    "type": {
+      "label": "Suchart",
+      "objects": "Objekte",
+      "providers": "Anbieter"
+    },
+    "activeFilters": "Aktive Filter",
+    "chip": {
+      "price": "Preis",
+      "includeSource": "Anbieter",
+      "excludeSource": "Ohne",
+      "remove": "Filter entfernen: {{label}}"
+    },
+    "resetAll": "Zurücksetzen",
+    "showResults_one": "{{count}} Ergebnis anzeigen",
+    "showResults_other": "{{count}} Ergebnisse anzeigen",
+    "showResultsFallback": "Ergebnisse anzeigen",
+    "closeFilters": "Filter schließen",
+    "filtersWithCount_one": "Filter, {{count}} aktiv",
+    "filtersWithCount_other": "Filter, {{count}} aktiv",
+    "saveSearch": "Suche speichern",
+    "scrollToTop": "Nach oben",
+    "hiddenMatch": {
+      "label": "Verborgener Treffer",
+      "title": "Dieser Treffer liegt über Ihrem Monatskontingent",
+      "description": "Upgraden Sie Ihr Konto, um alle Ergebnisse zu sehen."
+    }
   },
   "product": {
     "unknownPrice": "Preis unbekannt",
@@ -502,7 +556,12 @@
       "soldOut": "Ausverkauft",
       "unknown": "Nicht angegeben",
       "withdrawn": "Zurückgezogen"
-    }
+    },
+    "previousImage": "Vorheriges Bild",
+    "nextImage": "Nächstes Bild",
+    "addToWatchlist": "Zur Merkliste hinzufügen",
+    "removeFromWatchlist": "Von der Merkliste entfernen",
+    "watchlistNotifications": "Benachrichtigungen zu Preis und Verfügbarkeit"
   },
   "listingAvailability": {
     "available": "Verfügbar",
@@ -1502,12 +1561,11 @@
     }
   },
   "searchFilter": {
-    "saveButton": "Suchauftrag speichern",
     "saveSuccess": "Suchauftrag erfolgreich gespeichert!",
     "loginRequired": "Bitte melden Sie sich an oder registrieren Sie sich, um Suchaufträge zu speichern.",
     "quotaReached": "Sie haben die maximale Anzahl an Suchaufträgen erreicht. Upgraden Sie Ihr Abonnement für mehr.",
     "saveDialog": {
-      "title": "Suchauftrag speichern",
+      "title": "Suche speichern",
       "nameLabel": "Name des Suchauftrags",
       "namePlaceholder": "z. B. Mater Dolorosa Barockgemälde",
       "queryLabel_one": "Suchbegriff",
@@ -1517,13 +1575,22 @@
       "ultimateOnly": "Nur für Ultimate-Abonnenten verfügbar.",
       "cancelButton": "Abbrechen",
       "saveButton": "Speichern",
-      "restrictedFiltersHint": "Diese Filter sind in Ihrem aktuellen Abonnement leider nicht verfügbar und können nicht gespeichert werden. Upgraden Sie Ihr Abonnement, um sie zu nutzen – oder speichern Sie den Suchauftrag ohne diese Filter.",
+      "restrictedFiltersHint": "Ihr Tarif speichert Suchbegriff, Verfügbarkeit und Preisspanne. Diese Filter werden nicht gespeichert:",
       "resetAndSaveButton": "Ohne diese Filter speichern",
       "queryPlaceholder": "Suchbegriff eingeben und Enter drücken",
       "nameHint": "Geben Sie Ihrem Suchauftrag einen eindeutigen Namen.",
       "queryHint": "Ein oder mehrere Schlüsselwörter, die in Produkttiteln gesucht werden. Ein Treffer genügt bei mehreren Begriffen.",
       "removeQueryTerm": "„{{term}}\" entfernen",
-      "aiDescriptionHint": "Beschreiben Sie detailliert, was Sie suchen – die KI findet so passendere Treffer."
+      "aiDescriptionHint": "Beschreiben Sie detailliert, was Sie suchen – die KI findet so passendere Treffer.",
+      "description": "Wir benachrichtigen Sie per E-Mail, sobald neue Objekte passen.",
+      "criteriaLabel": "Gespeicherte Kriterien",
+      "queryCriterion": "„{{query}}“",
+      "aiDescription": "KI-Beschreibung",
+      "optional": "(optional)",
+      "ultimateBadge": "Ultimate",
+      "restrictedEyebrow": "Pro & Ultimate",
+      "restrictedTitle": "Einige Filter erfordern <em>Pro.</em>",
+      "close": "Schließen"
     },
     "wizard": {
       "title": "Neuen Suchauftrag anlegen",

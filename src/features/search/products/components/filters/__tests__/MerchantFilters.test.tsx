@@ -56,7 +56,7 @@ describe("MerchantFilters", () => {
         expect(screen.getByText("Anbieter")).toBeInTheDocument();
     });
 
-    it("renders MerchantIncludeFilter", () => {
+    it("renders the include-providers search", () => {
         render(
             <FormWrapper>
                 <MerchantFilters />
@@ -64,10 +64,10 @@ describe("MerchantFilters", () => {
         );
 
         expect(screen.getByText("Anbieter einschließen")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Anbieter suchen...")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Anbieter suchen")).toBeInTheDocument();
     });
 
-    it("renders MerchantExcludeFilter", () => {
+    it("renders the exclude-providers search", () => {
         render(
             <FormWrapper>
                 <MerchantFilters />
@@ -75,9 +75,7 @@ describe("MerchantFilters", () => {
         );
 
         expect(screen.getByText("Anbieter ausschließen")).toBeInTheDocument();
-        expect(
-            screen.getByPlaceholderText("Anbieter zum Ausschließen suchen..."),
-        ).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Auszuschließende Anbieter suchen")).toBeInTheDocument();
     });
 
     it("renders both merchant filters", () => {
@@ -91,9 +89,7 @@ describe("MerchantFilters", () => {
         expect(screen.getByText("Anbieter ausschließen")).toBeInTheDocument();
 
         // Both search inputs should be present
-        expect(screen.getByPlaceholderText("Anbieter suchen...")).toBeInTheDocument();
-        expect(
-            screen.getByPlaceholderText("Anbieter zum Ausschließen suchen..."),
-        ).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Anbieter suchen")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Auszuschließende Anbieter suchen")).toBeInTheDocument();
     });
 });

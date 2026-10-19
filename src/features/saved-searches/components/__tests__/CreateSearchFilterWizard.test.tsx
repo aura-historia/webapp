@@ -57,13 +57,9 @@ vi.mock("@/features/search/common/components/SearchFilterFormProvider.tsx", () =
 vi.mock("@/features/search/products/components/filters/MerchantFilters.tsx", () => ({
     MerchantFilters: () => <div data-testid="merchant-filter" />,
 }));
-vi.mock("@/features/search/products/components/filters/AuctionDateSpanFilter.tsx", () => ({
+vi.mock("@/features/search/products/components/filters/DateSpanFilter.tsx", () => ({
     AuctionDateSpanFilter: () => <div data-testid="auction-date-filter" />,
-}));
-vi.mock("@/features/search/products/components/filters/CreationDateSpanFilter.tsx", () => ({
     CreationDateSpanFilter: () => <div data-testid="creation-date-filter" />,
-}));
-vi.mock("@/features/search/products/components/filters/UpdateDateSpanFilter.tsx", () => ({
     UpdateDateSpanFilter: () => <div data-testid="update-date-filter" />,
 }));
 

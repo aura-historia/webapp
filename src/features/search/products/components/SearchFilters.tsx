@@ -1,17 +1,20 @@
-import { CreationDateSpanFilter } from "@/features/search/products/components/filters/CreationDateSpanFilter.tsx";
 import { ProductStateFilter } from "@/features/search/products/components/filters/ProductStateFilter.tsx";
 import { MerchantFilters } from "@/features/search/products/components/filters/MerchantFilters.tsx";
 import { PriceSpanFilter } from "@/features/search/products/components/filters/PriceSpanFilter.tsx";
-import { Button } from "@/components/ui/button.tsx";
 import { Form } from "@/components/ui/form.tsx";
+import { FILTER_FOCUS_CLASS } from "@/features/search/common/components/filters/FilterCard.tsx";
+import { cn } from "@/lib/utils.ts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "@tanstack/react-router";
 import { useSearchQueryContext } from "@/features/search/common/hooks/useSearchQueryContext.tsx";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useCallback, useEffect, useMemo } from "react";
-import { UpdateDateSpanFilter } from "@/features/search/products/components/filters/UpdateDateSpanFilter.tsx";
-import { AuctionDateSpanFilter } from "@/features/search/products/components/filters/AuctionDateSpanFilter.tsx";
+import {
+    AuctionDateSpanFilter,
+    CreationDateSpanFilter,
+    UpdateDateSpanFilter,
+} from "@/features/search/products/components/filters/DateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
 import { mapFiltersToUrlParams } from "@/features/search/products/lib/searchUrlParams.ts";
 import {
@@ -31,9 +34,24 @@ import {
 
 type SearchFilterProps = {
     readonly searchFilters: SearchFilterArguments;
+    /**
+     * `sidebar`: the desktop column, with its heading and a reset link.
+     * `sheet`: the phone drawer body, with a sticky footer to reset or close.
+     */
+    readonly variant?: "sidebar" | "sheet";
+    /** Total of the current results, for the drawer's "Show 1,284 results" button. */
+    readonly totalResults?: number;
+    /** Closes the drawer from its footer. */
+    readonly onShowResults?: () => void;
 };
 
-export function SearchFilters({ searchFilters }: SearchFilterProps) {
+/** The product filter form. Every change applies at once by updating the URL. */
+export function SearchFilters({
+    searchFilters,
+    variant = "sidebar",
+    totalResults,
+    onShowResults,
+}: SearchFilterProps) {
     const navigate = useNavigate({ from: "/$lng/search" });
     const { t } = useTranslation();
     const { getQuery } = useSearchQueryContext();
@@ -120,25 +138,68 @@ export function SearchFilters({ searchFilters }: SearchFilterProps) {
         });
     }, [form, navigate, getEffectiveQuery, debouncedApplyFilters]);
 
+    const groups = (
+        <div className="flex min-w-0 flex-col border-b border-line">
+            <ProductStateFilter />
+            <MerchantFilters />
+            <PriceSpanFilter />
+            <AuctionDateSpanFilter />
+            <CreationDateSpanFilter />
+            <UpdateDateSpanFilter />
+        </div>
+    );
+
+    if (variant === "sheet") {
+        return (
+            <Form {...form}>
+                <form className="flex min-h-0 flex-1 flex-col">
+                    <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-6">{groups}</div>
+                    <div className="flex shrink-0 gap-2.5 bg-surface px-5 pt-3 pb-6 shadow-[inset_0_1px_0_var(--line-subtle)]">
+                        <button
+                            type="button"
+                            onClick={handleResetAll}
+                            className={cn(
+                                "min-h-12 shrink-0 cursor-pointer rounded-pill px-[18px] py-2 text-button leading-tight text-ink shadow-[inset_0_0_0_1px_var(--line-strong)]",
+                                FILTER_FOCUS_CLASS,
+                            )}
+                        >
+                            {t("search.resetAll")}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={onShowResults}
+                            className={cn(
+                                "min-h-12 min-w-0 flex-1 cursor-pointer rounded-pill bg-ink px-[18px] py-2 text-button leading-tight text-surface",
+                                FILTER_FOCUS_CLASS,
+                            )}
+                        >
+                            {totalResults
+                                ? t("search.showResults", { count: totalResults })
+                                : t("search.showResultsFallback")}
+                        </button>
+                    </div>
+                </form>
+            </Form>
+        );
+    }
+
     return (
         <Form {...form}>
-            <form className="space-y-4">
-                <div className="flex min-w-0 w-full flex-col gap-4 overflow-visible">
-                    <ProductStateFilter />
-                    <MerchantFilters />
-                    <PriceSpanFilter />
-                    <AuctionDateSpanFilter />
-                    <CreationDateSpanFilter />
-                    <UpdateDateSpanFilter />
+            <form>
+                <div className="flex items-baseline justify-between gap-3 pb-4">
+                    <h2 className="font-serif text-title-md text-ink">{t("search.filters")}</h2>
+                    <button
+                        type="button"
+                        onClick={handleResetAll}
+                        className={cn(
+                            "min-h-8 cursor-pointer text-meta font-medium text-ink underline decoration-line-strong underline-offset-3 hover:text-brass-ink",
+                            FILTER_FOCUS_CLASS,
+                        )}
+                    >
+                        {t("search.resetAllFilters")}
+                    </button>
                 </div>
-                <Button
-                    type="button"
-                    variant="outline"
-                    className="w-full border-outline-variant text-primary uppercase text-sm shadow-none hover:bg-primary/8"
-                    onClick={handleResetAll}
-                >
-                    {t("search.resetAllFilters")}
-                </Button>
+                {groups}
             </form>
         </Form>
     );

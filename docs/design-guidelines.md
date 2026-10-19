@@ -19,6 +19,8 @@ The design should always match the implementation. Two Claude artifacts are the 
 - Aura Historia Redesign (screens, one board per component or state): https://claude.ai/artifact/QRhqGsVofXjs5c86d11mrV
 - Aura Historia Design System (tokens, component cards): https://claude.ai/artifact/LQaEJcAwBEbWWsynUxHcc1
 
+The Redesign file is split into pages: **Shared** (headers, app bars, menus, footer, locale pickers: boards reused across screens), **Landing Page**, **Search** (product search results on desktop and mobile, filter panel, result card, filter controls, states, save-search dialog), **Listing Detail** (product listing detail on desktop and mobile, loading skeleton, summary states and status badges, share menu, gallery states, lightbox, price history, history and carousel states) and **E-Mail**. Put a new board on the page of the screen it belongs to; a component used by several screens goes on Shared.
+
 For every component you are asked to build or change:
 
 1. Read its board in the Redesign file and its card in the design system before writing code.
@@ -66,6 +68,14 @@ Use the token system in `src/styles.css`, which mirrors the design system's `tok
 - Latest acquisitions and any other live inventory load after mount (see `docs/landing-page-prerendering-guidelines.md`). Use real listings only; the design system's sample photos are stand-ins for mockups and never marketing imagery.
 - Figures need a cited source. Do not ship bracketed placeholders such as the hero stat strip's "[X,XXX]"; leave the element out until the figure is confirmed.
 - Pricing is designed and built but stays hidden on the landing page until paid plans launch.
+
+## Product search
+
+- The search page follows the Redesign's Search page: from 1024px a sticky 280px filter sidebar beside the results; below it, a left drawer (`SearchFilterDrawer`) with the same `SearchFilters` in its `sheet` variant and a footer to reset or close. Phones add `MobileAppBar` (search field and a filter button with the active-filter count) under the header.
+- Filters apply as they change, through the URL. Applied filters also show as removable chips (`ActiveFilterChips`, from `lib/activeFilters.ts`), so they stay visible while the panel is closed.
+- Filter groups use `FilterCard`: a mono heading with a short value summary, a reset button only while the group is active, and a lock for plan-restricted groups in the saved-search wizard. The same filter components serve the search page and the wizard.
+- Results use `SearchResultCard` (square photo, provider in mono, serif title, availability dot, price, Details and Go to provider) in two columns, three from 1180px. Empty, error, short-query, loading and end-of-list states follow the board "Search · States".
+- `cn` knows the type-style utilities (`text-tag`, `text-meta`, …) as font sizes, so they combine safely with text colours.
 
 ## Layout and responsive behavior
 

@@ -229,7 +229,7 @@ describe("SearchFilterMatches", () => {
                 isFetchingNextPage: true,
             });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getByText("Lade neue Ergebnisse...")).toBeInTheDocument();
+            expect(screen.getByText("Weitere Ergebnisse werden geladen…")).toBeInTheDocument();
         });
     });
 });

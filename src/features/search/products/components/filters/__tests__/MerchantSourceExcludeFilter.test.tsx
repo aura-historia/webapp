@@ -1,6 +1,6 @@
-import { MerchantExcludeFilter } from "@/features/search/products/components/filters/MerchantExcludeFilter";
+import { MerchantSourceFilter } from "@/features/search/products/components/filters/MerchantSourceFilter.tsx";
 import { FormProvider, useForm, useFormContext, useWatch } from "react-hook-form";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import type React from "react";
@@ -65,7 +65,7 @@ const FormWrapper = ({
     );
 };
 
-describe("MerchantExcludeFilter", () => {
+describe("MerchantSourceFilter (exclude)", () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });
@@ -73,25 +73,23 @@ describe("MerchantExcludeFilter", () => {
     it("renders with correct heading and placeholder", () => {
         render(
             <FormWrapper>
-                <MerchantExcludeFilter />
+                <MerchantSourceFilter mode="exclude" />
             </FormWrapper>,
         );
 
         expect(screen.getByText("Anbieter ausschließen")).toBeInTheDocument();
-        expect(
-            screen.getByPlaceholderText("Anbieter zum Ausschließen suchen..."),
-        ).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Auszuschließende Anbieter suchen")).toBeInTheDocument();
     });
 
     it("allows entering search text in the input", async () => {
         render(
             <FormWrapper>
-                <MerchantExcludeFilter />
+                <MerchantSourceFilter mode="exclude" />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Anbieter zum Ausschließen suchen...");
+        const input = screen.getByPlaceholderText("Auszuschließende Anbieter suchen");
 
         await user.type(input, "Test");
 
@@ -106,7 +104,7 @@ describe("MerchantExcludeFilter", () => {
                     excludeListingSourceLabels: ["Existing Source"],
                 }}
             >
-                <MerchantExcludeFilter />
+                <MerchantSourceFilter mode="exclude" />
             </FormWrapper>,
         );
 
@@ -117,30 +115,34 @@ describe("MerchantExcludeFilter", () => {
     it("keeps the public name visible while storing the excluded source ID", async () => {
         render(
             <FormWrapper>
-                <MerchantExcludeFilter />
+                <MerchantSourceFilter mode="exclude" />
                 <SelectedIds />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Anbieter zum Ausschließen suchen...");
+        const input = screen.getByPlaceholderText("Auszuschließende Anbieter suchen");
         await user.type(input, "Source");
         const option = await screen.findByText("Source One");
         await user.click(option);
 
-        expect(screen.getByText("Source One")).toBeInTheDocument();
+        expect(
+            within(screen.getByRole("list", { name: "Ausgeschlossene Anbieter" })).getByText(
+                "Source One",
+            ),
+        ).toBeInTheDocument();
         expect(screen.getByTestId("selected-source-ids")).toHaveTextContent("ls_1");
     });
 
     it("handles special characters in search input", async () => {
         render(
             <FormWrapper>
-                <MerchantExcludeFilter />
+                <MerchantSourceFilter mode="exclude" />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Anbieter zum Ausschließen suchen...");
+        const input = screen.getByPlaceholderText("Auszuschließende Anbieter suchen");
 
         await user.type(input, "Special & Chars");
 
@@ -150,12 +152,12 @@ describe("MerchantExcludeFilter", () => {
     it("clears search input correctly", async () => {
         render(
             <FormWrapper>
-                <MerchantExcludeFilter />
+                <MerchantSourceFilter mode="exclude" />
             </FormWrapper>,
         );
 
         const user = userEvent.setup();
-        const input = screen.getByPlaceholderText("Anbieter zum Ausschließen suchen...");
+        const input = screen.getByPlaceholderText("Auszuschließende Anbieter suchen");
 
         await user.type(input, "Initial Value");
         await user.clear(input);
@@ -166,7 +168,7 @@ describe("MerchantExcludeFilter", () => {
     it("displays multiple selected merchants as badges", () => {
         render(
             <FormWrapper defaultValues={{ excludeListingSourceId: ["ls_1", "ls_2"] }}>
-                <MerchantExcludeFilter />
+                <MerchantSourceFilter mode="exclude" />
             </FormWrapper>,
         );
 

@@ -19,13 +19,14 @@ import {
     watchlistMutationKeys,
     watchlistMutationScope,
 } from "@/features/watchlist/api/watchlistMutationState.ts";
+import { useSignedInMutate } from "@/features/watchlist/api/useSignedInMutate.ts";
 
 export function useWatchlistNotificationMutation(productListingId: string) {
     const queryClient = useQueryClient();
     const { getErrorMessage } = useApiError();
     const { t } = useTranslation();
 
-    return useMutation({
+    const mutation = useMutation({
         mutationKey: watchlistMutationKeys.notifications(productListingId),
         scope: watchlistMutationScope(productListingId),
         // Pending state is shown by `useListingWatchlistState`; caches change only once confirmed.
@@ -68,4 +69,7 @@ export function useWatchlistNotificationMutation(productListingId: string) {
         onSettled: (_data, _error, _notifications, viewerId) =>
             invalidateListingQueries(queryClient, viewerId),
     });
+    const mutate = useSignedInMutate(mutation.mutate);
+
+    return { ...mutation, mutate };
 }

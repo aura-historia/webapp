@@ -15,8 +15,9 @@ interface NavSearchFieldProps {
     /**
      * `compact`: the app-bar field with a ⌘K hint.
      * `menu`: the larger field at the top of the phone menu, with an oxblood submit.
+     * `bar`: the compact field in the phone app bar, at 16px so iOS does not zoom.
      */
-    readonly variant: "compact" | "menu";
+    readonly variant: "compact" | "menu" | "bar";
     readonly onSubmitted?: () => void;
     readonly className?: string;
 }
@@ -121,7 +122,7 @@ export function NavSearchField({ variant, onSubmitted, className }: NavSearchFie
                 placeholder={isMenu ? t("header.searchLabel") : t("header.searchPlaceholder")}
                 className={cn(
                     "h-10 min-w-0 flex-1 border-0 bg-transparent text-ink outline-none placeholder:text-ink-placeholder disabled:opacity-35 [&::-webkit-search-cancel-button]:hidden",
-                    isMenu ? "text-base" : "text-sm",
+                    variant === "compact" ? "text-sm" : "text-base",
                 )}
             />
             {isMenu ? (
