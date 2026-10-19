@@ -19,7 +19,7 @@ The design should always match the implementation. Two Claude artifacts are the 
 - Aura Historia Redesign (screens, one board per component or state): https://claude.ai/artifact/QRhqGsVofXjs5c86d11mrV
 - Aura Historia Design System (tokens, component cards): https://claude.ai/artifact/LQaEJcAwBEbWWsynUxHcc1
 
-The Redesign file is split into pages: **Shared** (headers, app bars, menus, footer, locale pickers: boards reused across screens), **Landing Page**, **Search** (product search results on desktop and mobile, filter panel, result card, filter controls, states, save-search dialog), **Listing Detail** (product listing detail on desktop and mobile, loading skeleton, summary states and status badges, share menu, gallery states, lightbox, price history, history and carousel states) and **E-Mail**. Put a new board on the page of the screen it belongs to; a component used by several screens goes on Shared.
+The Redesign file is split into pages: **Shared** (headers, app bars, menus, footer, locale pickers: boards reused across screens), **Landing Page**, **Search** (product search results on desktop and mobile, filter panel, result card, filter controls, states, save-search dialog), **Listing Detail** (product listing detail on desktop and mobile, loading skeleton, summary states with status badges and optional price estimates, optional description, share menu, gallery states, lightbox, price history, history and carousel states), **Account** (profile page on desktop and mobile, one board each for the personal data, change password, subscription and delete account sections, and a states board for loading, validation, pending buttons, preference pickers, toasts and the delete dialog), **Watchlist** (watchlist page on desktop and mobile, built from the search result card, and a states board for loading, empty, error, loading more and list end) and **E-Mail**. Put a new board on the page of the screen it belongs to; a component used by several screens goes on Shared.
 
 For every component you are asked to build or change:
 
@@ -77,6 +77,13 @@ Use the token system in `src/styles.css`, which mirrors the design system's `tok
 - Results use `SearchResultCard` (square photo, provider in mono, serif title, availability dot, price, Details and Go to provider) in two columns, three from 1180px. Empty, error, short-query, loading and end-of-list states follow the board "Search · States".
 - `cn` knows the type-style utilities (`text-tag`, `text-meta`, …) as font sizes, so they combine safely with text colours.
 
+## Listing detail
+
+- The listing page follows the Redesign's Listing Detail page. From 1024px the gallery (a 4:5 frame showing each image uncropped on the image ground, counter chip, Full screen, six square thumbnails with a "+N" tile) sits beside the summary column; below that they stack, and a sticky `ProductActionBar` keeps the price, the watchlist toggle and Go to provider in reach.
+- The summary column holds the status pill (`ListingStatusPill`: ink dot offered, brass reserved, hollow ended, dashed not reported), the provider eyebrow, the serif title, the saved-search match, the price, the optional estimate and the optional description. It does not stick while scrolling.
+- Estimates come from `pricing.display` (`formatPriceEstimate`): a ruled "Estimate" row under a price, the large figure when there is no price, "From"/"Up to" with one end only. The description clamps behind Show more by its length, not a measurement, so server and client render alike; it is hidden when absent.
+- Price history is a raised panel with a stepped oxblood line; History uses the shared `Timeline`. Similar items and More listings from this provider reuse `SearchResultCard`; the provider rail sits on a raised band with a progress counter. Their states follow the board "Listing · Price history, history & carousel states".
+
 ## Layout and responsive behavior
 
 - Design mobile-first and test responsive breakpoints mentally when editing JSX/class names.
@@ -89,6 +96,7 @@ Use the token system in `src/styles.css`, which mirrors the design system's `tok
 
 - Motion should feel premium and purposeful, not flashy.
 - Respect reduced-motion expectations where interactions become substantial.
+- Every notification-alert toggle uses `ToggleBellIcon` (`src/components/common`): a decaying swing as alerts turn on, a small settle as they turn off, never on first render, and off under reduced motion.
 - Decorative images need `alt=""` and `aria-hidden="true"`; informative images need localized alt text.
 - Remote image changes should consider performance, dimensions, and cumulative layout shift.
 

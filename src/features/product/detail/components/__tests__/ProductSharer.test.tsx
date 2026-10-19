@@ -68,7 +68,7 @@ describe("ProductSharer", () => {
         await user.click(screen.getByRole("button", { name: "Produkt teilen" }));
         await user.click(screen.getByText("Link kopieren"));
 
-        expect(screen.getByText("Kopiert!")).toBeInTheDocument();
+        expect(screen.getByText("Link kopiert")).toBeInTheDocument();
 
         await waitFor(
             () => {
@@ -84,7 +84,9 @@ describe("ProductSharer", () => {
         );
 
         const shareButton = screen.getByRole("button", { name: "Produkt teilen" });
-        expect(shareButton.className).toContain("border");
+        expect(shareButton.className).toContain(
+            "shadow-[inset_0_0_0_1px_var(--color-line-strong)]",
+        );
     });
 
     it("should apply custom className when provided", async () => {

@@ -444,10 +444,6 @@
     "details": "Details",
     "toMerchant": "Go to provider",
     "noImage": "No image available",
-    "watchlist": {
-      "add": "Add to watchlist",
-      "remove": "Remove from watchlist"
-    },
     "unseenNotification": "Updated",
     "searchFilter": {
       "matchedBadge": "Match",
@@ -468,7 +464,9 @@
       "noData": {
         "title": "No Similar Items",
         "description": "No similar products were found for this item."
-      }
+      },
+      "previous": "Previous similar items",
+      "next": "Next similar items"
     },
     "history": {
       "title": "History",
@@ -510,14 +508,17 @@
         "converted": "{{display}} (listed at {{source}})",
         "sourceOnly": "{{price}} (original price; no historical {{currency}} rate)",
         "fxProvenance": "{{currency}} amounts use the exchange rate recorded on {{capturedAt}}."
-      }
+      },
+      "filterLabel": "Filter history"
     },
     "dealer": {
       "title": "More listings from this provider",
       "error": {
         "title": "Error Loading",
         "description": "More listings from this provider could not be loaded."
-      }
+      },
+      "previous": "Previous listings from this provider",
+      "next": "Next listings from this provider"
     },
     "auction": {
       "lotNumber": "Lot {{lotNumber}}"
@@ -540,7 +541,9 @@
       "displayOption": "{{currency}} converted",
       "displaySelect": "Show price history converted to {{currency}} at historical exchange rates",
       "displaySeriesName": "Price in {{currency}} (historical rates)",
-      "displayNote": "Converted using the exchange rate recorded at or before each price change. Gaps mark prices without a recorded rate or without a public price."
+      "displayNote": "Converted using the exchange rate recorded at or before each price change. Gaps mark prices without a recorded rate or without a public price.",
+      "timeRangeLabel": "Time range",
+      "resetZoom": "Reset zoom"
     },
     "listingAvailability": {
       "available": "Available",
@@ -561,7 +564,31 @@
     "nextImage": "Next image",
     "addToWatchlist": "Add to watchlist",
     "removeFromWatchlist": "Remove from watchlist",
-    "watchlistNotifications": "Price and availability alerts"
+    "watchlistNotifications": "Price and availability alerts",
+    "estimate": {
+      "label": "Estimate",
+      "range": "{{min}}–{{max}}",
+      "from": "From {{price}}",
+      "upTo": "Up to {{price}}"
+    },
+    "description": {
+      "title": "Description",
+      "showMore": "Show more",
+      "showLess": "Show less"
+    },
+    "withdrawnHint": "This listing was withdrawn by its source.",
+    "gallery": {
+      "openImage": "Open image {{index}} of {{count}} in full screen",
+      "imageAlt": "{{title}}, image {{index}}",
+      "showImage": "Show image {{index}}",
+      "viewFullScreen": "View images in full screen",
+      "fullScreen": "Full screen",
+      "chooseImage": "Choose image",
+      "showAll": "Show all {{count}} images in full screen"
+    },
+    "carousel": {
+      "position": "Showing {{range}} of {{total}}"
+    }
   },
   "listingAvailability": {
     "available": "Available",
@@ -1256,7 +1283,7 @@
   },
   "share": {
     "copyLink": "Copy link",
-    "copied": "Copied!",
+    "copied": "Link copied",
     "shareProduct": "Share product",
     "foundOnAuraHistoria": "I found {{title}} on Aura Historia! This might be interesting for you!"
   },

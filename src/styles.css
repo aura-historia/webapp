@@ -465,6 +465,42 @@ code {
     --color-sidebar-ring: var(--sidebar-ring);
 
     --animate-heart-bounce: heart-bounce 0.3s ease-in-out;
+    /* Notification bell: a decaying swing when alerts turn on, a small settle when they turn off. */
+    --animate-bell-ring: bell-ring 0.6s ease-in-out;
+    --animate-bell-settle: bell-settle 0.25s ease-out;
+
+    @keyframes bell-ring {
+        0%,
+        100% {
+            transform: rotate(0);
+        }
+        15% {
+            transform: rotate(14deg);
+        }
+        30% {
+            transform: rotate(-12deg);
+        }
+        45% {
+            transform: rotate(8deg);
+        }
+        60% {
+            transform: rotate(-5deg);
+        }
+        75% {
+            transform: rotate(2deg);
+        }
+    }
+
+    @keyframes bell-settle {
+        from {
+            transform: scale(0.8);
+            opacity: 0.4;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
 
     @keyframes heart-bounce {
         0%,

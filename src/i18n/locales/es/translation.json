@@ -444,10 +444,6 @@
     "details": "Detalles",
     "toMerchant": "Ir al proveedor",
     "noImage": "No hay imagen disponible",
-    "watchlist": {
-      "add": "Añadir a la lista de seguimiento",
-      "remove": "Quitar de la lista de seguimiento"
-    },
     "imageLoadError": "No se pudo cargar la imagen",
     "prohibitedImage": "Imagen oculta por restricciones de contenido",
     "similar": {
@@ -463,7 +459,9 @@
       "noData": {
         "title": "Sin artículos similares",
         "description": "No se encontraron productos similares para este artículo."
-      }
+      },
+      "previous": "Artículos similares anteriores",
+      "next": "Artículos similares siguientes"
     },
     "history": {
       "title": "Historial",
@@ -505,14 +503,17 @@
         "converted": "{{display}} (publicado a {{source}})",
         "sourceOnly": "{{price}} (precio original; sin tipo histórico para {{currency}})",
         "fxProvenance": "Los importes en {{currency}} usan el tipo de cambio registrado el {{capturedAt}}."
-      }
+      },
+      "filterLabel": "Filtrar historial"
     },
     "dealer": {
       "title": "Más anuncios de este proveedor",
       "error": {
         "title": "Error de carga",
         "description": "No se pudieron cargar más anuncios de este proveedor."
-      }
+      },
+      "previous": "Anuncios anteriores de este proveedor",
+      "next": "Anuncios siguientes de este proveedor"
     },
     "priceChart": {
       "title": "Historial de precios",
@@ -532,7 +533,9 @@
       "displayOption": "{{currency}} convertido",
       "displaySelect": "Mostrar el historial de precios en {{currency}} con tipos de cambio históricos",
       "displaySeriesName": "Precio en {{currency}} (tipos históricos)",
-      "displayNote": "Convertido con el tipo de cambio registrado en el momento de cada cambio de precio o antes. Los huecos indican precios sin tipo registrado o sin precio público."
+      "displayNote": "Convertido con el tipo de cambio registrado en el momento de cada cambio de precio o antes. Los huecos indican precios sin tipo registrado o sin precio público.",
+      "timeRangeLabel": "Periodo",
+      "resetZoom": "Restablecer zoom"
     },
     "unseenNotification": "Actualizado",
     "auction": {
@@ -561,7 +564,31 @@
     "nextImage": "Imagen siguiente",
     "addToWatchlist": "Añadir a la lista de seguimiento",
     "removeFromWatchlist": "Quitar de la lista de seguimiento",
-    "watchlistNotifications": "Avisos de precio y disponibilidad"
+    "watchlistNotifications": "Avisos de precio y disponibilidad",
+    "estimate": {
+      "label": "Estimación",
+      "range": "{{min}}–{{max}}",
+      "from": "Desde {{price}}",
+      "upTo": "Hasta {{price}}"
+    },
+    "description": {
+      "title": "Descripción",
+      "showMore": "Mostrar más",
+      "showLess": "Mostrar menos"
+    },
+    "withdrawnHint": "Su fuente ha retirado este anuncio.",
+    "gallery": {
+      "openImage": "Abrir la imagen {{index}} de {{count}} a pantalla completa",
+      "imageAlt": "{{title}}, imagen {{index}}",
+      "showImage": "Mostrar la imagen {{index}}",
+      "viewFullScreen": "Ver las imágenes a pantalla completa",
+      "fullScreen": "Pantalla completa",
+      "chooseImage": "Elegir imagen",
+      "showAll": "Mostrar las {{count}} imágenes a pantalla completa"
+    },
+    "carousel": {
+      "position": "{{range}} de {{total}}"
+    }
   },
   "listingAvailability": {
     "available": "Disponible",
@@ -1256,7 +1283,7 @@
   },
   "share": {
     "copyLink": "Copiar enlace",
-    "copied": "¡Copiado!",
+    "copied": "Enlace copiado",
     "shareProduct": "Compartir producto",
     "foundOnAuraHistoria": "¡He encontrado {{title}} en Aura Historia! ¡Podría interesarte!"
   },

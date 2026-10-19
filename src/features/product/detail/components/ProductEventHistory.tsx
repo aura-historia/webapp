@@ -297,9 +297,7 @@ export function ProductEventHistory({
     const timeBlock = (
         <TimelineTime>
             <span>{formatDate(event.timestamp, i18n.language, timeZone)}</span>
-            <span className="text-muted-foreground">
-                {formatTime(event.timestamp, i18n.language, timeZone)}
-            </span>
+            <span>{formatTime(event.timestamp, i18n.language, timeZone)}</span>
         </TimelineTime>
     );
 
