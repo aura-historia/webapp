@@ -75,15 +75,15 @@ describe("Header", () => {
             );
             expect(nav.getByRole("link", { name: "Plattform" })).toHaveAttribute(
                 "href",
-                "/de#discover",
+                "/de#platform",
             );
             expect(nav.getByRole("link", { name: "Discovery Agent" })).toHaveAttribute(
                 "href",
-                "/de#features",
+                "/de#agent",
             );
             expect(nav.getByRole("link", { name: "Für Händler" })).toHaveAttribute(
                 "href",
-                "/de/partner-program",
+                "/de#dealers",
             );
             expect(nav.getByRole("link", { name: "Preise" })).toHaveAttribute(
                 "href",
@@ -106,18 +106,20 @@ describe("Header", () => {
             expect(nav.queryByRole("search")).not.toBeInTheDocument();
         });
 
-        it("is not sticky so it scrolls away with the hero", async () => {
+        it("stays at the top on phones and scrolls away with the hero on desktop", async () => {
             setupViewer();
             await renderHeader("/");
 
-            expect(screen.getByRole("banner")).not.toHaveClass("sticky");
+            expect(screen.getByRole("banner")).toHaveClass("sticky", "lg:relative");
         });
 
-        it("uses the ink ground", async () => {
+        it("lies transparently over the ink hero", async () => {
             setupViewer();
             await renderHeader("/");
 
-            expect(desktopNavigation().parentElement).toHaveAttribute("data-theme", "dark");
+            const bar = desktopNavigation().parentElement;
+            expect(bar).toHaveAttribute("data-theme", "dark");
+            expect(bar).toHaveClass("bg-transparent");
         });
     });
 
@@ -283,7 +285,7 @@ describe("Header", () => {
             expect(dialog).toHaveAttribute("data-theme", "dark");
             expect(within(dialog).getByRole("link", { name: "Für Händler" })).toHaveAttribute(
                 "href",
-                "/de/partner-program",
+                "/de#dealers",
             );
             expect(within(dialog).getByRole("link", { name: "Anmelden" })).toBeInTheDocument();
             expect(within(dialog).getByRole("search")).toBeInTheDocument();

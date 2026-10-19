@@ -17,11 +17,8 @@ import { stripLanguageFromPathname } from "@/i18n/routing.ts";
 const isLoginEnabled = env.VITE_FEATURE_LOGIN_ENABLED;
 const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
-/**
- * The design lays the landing header transparently over an ink hero (`overlay`). The current
- * hero is still on parchment, so the landing page uses the solid ink bar until it moves.
- */
-const LANDING_HEADER_TONE: SiteHeaderTone = "dark";
+/** The landing header lies transparently over the ink hero, as in the design. */
+const LANDING_HEADER_TONE: SiteHeaderTone = "overlay";
 
 /**
  * Site navigation. The landing page gets the marketing header (sections and calls to action);
@@ -45,7 +42,7 @@ export function Header() {
 
     if (isLandingPage) {
         return (
-            <header className="relative z-50">
+            <header className="sticky top-0 z-50 lg:relative">
                 <SiteHeader
                     tone={LANDING_HEADER_TONE}
                     activeSection={activeSection}

@@ -18,38 +18,31 @@ describe("NewsletterSection", () => {
         });
     });
 
-    it("renders the section heading", () => {
-        expect(screen.getByText("Bleiben Sie informiert")).toBeInTheDocument();
-    });
+    it("renders the closing band on oxblood with its headline and intro", () => {
+        const heading = screen.getByRole("heading", { level: 2 });
 
-    it("renders the section description", () => {
+        expect(heading).toHaveTextContent("Die besten Funde, bevor sie weg sind.");
+        expect(heading.querySelector("em")).toHaveTextContent("bevor sie weg sind.");
+        expect(heading.closest("section")).toHaveClass("bg-oxblood");
         expect(
-            screen.getByText(
-                "Erhalten Sie wöchentlich ausgewählte Fundstücke, Markttrends und exklusive Einblicke direkt in Ihr Postfach.",
-            ),
+            screen.getByText(/Ausgewählte Objekte, Marktbewegungen und neue Funktionen/),
         ).toBeInTheDocument();
     });
 
     it("renders the email input field", () => {
-        expect(screen.getByPlaceholderText("Ihre E-Mail-Adresse")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("sie@beispiel.de")).toBeInTheDocument();
     });
 
     it("renders the first name input field", () => {
-        expect(screen.getByPlaceholderText("Ihr Vorname")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Vorname (optional)")).toBeInTheDocument();
     });
 
     it("renders the last name input field", () => {
-        expect(screen.getByPlaceholderText("Ihr Nachname")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Nachname (optional)")).toBeInTheDocument();
     });
 
     it("renders the subscribe button", () => {
-        expect(screen.getByRole("button", { name: "Zum Newsletter anmelden" })).toBeInTheDocument();
-    });
-
-    it("renders benefit items", () => {
-        expect(screen.getByText("Persönliche Highlights")).toBeInTheDocument();
-        expect(screen.getByText("Neue Features & Angebote")).toBeInTheDocument();
-        expect(screen.getByText("Jederzeit abbestellbar")).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Abonnieren" })).toBeInTheDocument();
     });
 
     it("renders the purpose and double opt-in notice with the privacy link", () => {
@@ -71,7 +64,7 @@ describe("NewsletterSection", () => {
     it("shows validation error when submitting without email", async () => {
         const user = userEvent.setup();
 
-        await user.click(screen.getByRole("button", { name: "Zum Newsletter anmelden" }));
+        await user.click(screen.getByRole("button", { name: "Abonnieren" }));
 
         await waitFor(() => {
             expect(
@@ -84,8 +77,8 @@ describe("NewsletterSection", () => {
         const user = userEvent.setup();
         const testEmail = "max.mustermann@example.com";
 
-        await user.type(screen.getByPlaceholderText("Ihre E-Mail-Adresse"), testEmail);
-        await user.click(screen.getByRole("button", { name: "Zum Newsletter anmelden" }));
+        await user.type(screen.getByPlaceholderText("sie@beispiel.de"), testEmail);
+        await user.click(screen.getByRole("button", { name: "Abonnieren" }));
 
         const status = await screen.findByRole("status");
         expect(status).toHaveTextContent("Bitte prüfen Sie Ihr Postfach.");
@@ -113,7 +106,7 @@ describe("NewsletterSection request handling", () => {
         });
 
         const user = userEvent.setup();
-        await user.type(screen.getByPlaceholderText("Ihre E-Mail-Adresse"), "test@example.com");
+        await user.type(screen.getByPlaceholderText("sie@beispiel.de"), "test@example.com");
         return user;
     }
 
@@ -126,7 +119,7 @@ describe("NewsletterSection request handling", () => {
                 }),
         );
         const user = await renderWithSubscription(mutateAsync);
-        const button = screen.getByRole("button", { name: "Zum Newsletter anmelden" });
+        const button = screen.getByRole("button", { name: "Abonnieren" });
 
         await user.click(button);
         await user.dblClick(button);
@@ -151,14 +144,14 @@ describe("NewsletterSection request handling", () => {
             )
             .mockResolvedValueOnce(undefined);
         const user = await renderWithSubscription(mutateAsync);
-        const button = screen.getByRole("button", { name: "Zum Newsletter anmelden" });
+        const button = screen.getByRole("button", { name: "Abonnieren" });
 
         await user.click(button);
 
         expect(await screen.findByRole("alert")).toHaveTextContent(
             "Der Newsletter-Dienst ist vorübergehend nicht erreichbar.",
         );
-        expect(screen.getByPlaceholderText("Ihre E-Mail-Adresse")).toHaveValue("test@example.com");
+        expect(screen.getByPlaceholderText("sie@beispiel.de")).toHaveValue("test@example.com");
         expect(mutateAsync).toHaveBeenCalledTimes(1);
 
         await user.click(button);

@@ -9,23 +9,23 @@ describe("HowItWorksSection", () => {
         });
     });
 
-    it("renders the section heading", () => {
-        expect(screen.getByText("Von der Idee zum besonderen Stück")).toBeInTheDocument();
+    it("renders the chapter heading", () => {
+        expect(screen.getByText("IV — So funktioniert's")).toBeInTheDocument();
+        expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
+            "Von der Neugier zum wohlüberlegten Erwerb.",
+        );
     });
 
-    it("renders the section subtitle", () => {
-        expect(
-            screen.getByText(
-                "Aura Historia führt verstreute Angebote aus Handel, Auktionen und spezialisierten Quellen zusammen – damit vielversprechende Stücke sichtbar bleiben.",
-            ),
-        ).toBeInTheDocument();
-    });
+    it("numbers the steps with Roman numerals in order", () => {
+        const steps = screen.getAllByRole("listitem");
 
-    it("renders all step numbers", () => {
-        expect(screen.getByText("1")).toBeInTheDocument();
-        expect(screen.getByText("2")).toBeInTheDocument();
-        expect(screen.getByText("3")).toBeInTheDocument();
-        expect(screen.getByText("4")).toBeInTheDocument();
+        expect(steps).toHaveLength(4);
+        expect(steps.map((step) => step.firstElementChild?.textContent)).toEqual([
+            "I",
+            "II",
+            "III",
+            "IV",
+        ]);
     });
 
     it("renders all step titles", () => {

@@ -44,12 +44,12 @@ export const FOOTER_GROUPS: readonly FooterGroup[] = [
             {
                 kind: "landing",
                 translationKey: "footer.landingPageLinks.discover",
-                fragment: LANDING_PAGE_FRAGMENTS.discover,
+                fragment: LANDING_PAGE_FRAGMENTS.platform,
             },
             {
                 kind: "landing",
                 translationKey: "footer.landingPageLinks.features",
-                fragment: LANDING_PAGE_FRAGMENTS.features,
+                fragment: LANDING_PAGE_FRAGMENTS.agent,
             },
             {
                 kind: "landing",

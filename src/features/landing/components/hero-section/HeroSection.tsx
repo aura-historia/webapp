@@ -1,33 +1,77 @@
-import { SearchBar } from "@/features/search/common/components/SearchBar.tsx";
-import { H1 } from "@/components/typography/H1.tsx";
-import { Card } from "@/components/ui/card.tsx";
 import { Trans, useTranslation } from "react-i18next";
+import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
+import { HeroSearch } from "@/features/landing/components/hero-section/HeroSearch.tsx";
+import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
 
+const COLUMN_IDS = Array.from({ length: 12 }, (_, index) => `column-${index}`);
+const COLUMN_CLASS = "border-l border-[rgba(244,238,227,0.045)] last:border-r";
+
+/** The film grain and faint 12-column hairline grid behind the hero, and nowhere else. */
+function HeroBackdrop() {
+    return (
+        <>
+            <svg
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 size-full opacity-[0.09]"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <filter id="hero-grain">
+                    <feTurbulence
+                        type="fractalNoise"
+                        baseFrequency="0.85"
+                        numOctaves={3}
+                        stitchTiles="stitch"
+                    />
+                    <feColorMatrix values="0 0 0 0 1  0 0 0 0 0.95  0 0 0 0 0.9  0 0 0 0.9 0" />
+                </filter>
+                <rect width="100%" height="100%" filter="url(#hero-grain)" />
+            </svg>
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 grid grid-cols-4 px-(--page-gutter) md:hidden"
+            >
+                {COLUMN_IDS.slice(0, 4).map((id) => (
+                    <div key={id} className={COLUMN_CLASS} />
+                ))}
+            </div>
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 mx-auto hidden max-w-content grid-cols-12 md:grid"
+            >
+                {COLUMN_IDS.map((id) => (
+                    <div key={id} className={COLUMN_CLASS} />
+                ))}
+            </div>
+        </>
+    );
+}
+
+/**
+ * The landing hero on the ink ground: headline, lead and the global search. The header sits
+ * over it (the page tucks the hero under the header bar), so the copy clears the header first.
+ */
 export default function HeroSection() {
     const { t } = useTranslation();
+
     return (
-        <section className="hero-section-safari-offset min-h-screen flex items-center justify-center relative overflow-hidden">
-            {/* Background image */}
-            <img
-                src="https://assets.aura-historia.com/webapp/landing-page/lorrain.webp"
-                alt=""
-                aria-hidden="true"
-                className="absolute inset-0 w-full h-full object-cover object-center opacity-50"
-            />
-
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-linear-to-b from-background/00 via-background/20 to-background" />
-
-            <div className="w-full max-w-4xl px-4 pt-8 relative z-10">
-                <H1 className="text-center hyphens-none text-4xl md:text-5xl lg:text-7xl leading-tight">
-                    <Trans i18nKey={"landingPage.titleFirstLine"} components={{ 1: <br /> }} />
-                </H1>
-                <p className="text-center text-lg md:text-xl text-foreground mt-6 max-w-2xl mx-auto">
-                    {t("landingPage.subtitle")}
+        <section
+            id={LANDING_PAGE_FRAGMENTS.hero}
+            aria-labelledby="hero-title"
+            data-theme="dark"
+            className="relative overflow-hidden bg-surface text-ink"
+        >
+            <HeroBackdrop />
+            <div className="relative mx-auto flex max-w-content flex-col gap-5 px-(--page-gutter) pt-[calc(60px+48px)] pb-16 sm:items-center sm:gap-7 sm:text-center lg:pt-[calc(88px+clamp(56px,8vw,104px))] lg:pb-[clamp(72px,9vw,128px)]">
+                <h1
+                    id="hero-title"
+                    className="max-w-[1100px] font-serif text-[46px] leading-none font-normal tracking-[-0.025em] text-balance sm:text-display-hero [&_em]:text-brass-light [&_em]:italic"
+                >
+                    <Trans i18nKey="landingPage.hero.title" components={HEADLINE_COMPONENTS} />
+                </h1>
+                <p className="max-w-[680px] text-base leading-[1.55] text-pretty text-ink-secondary sm:text-lead">
+                    {t("landingPage.hero.lead")}
                 </p>
-                <Card className="mt-6 bg-surface-container p-2 hero-search-shadow sm:mt-8">
-                    <SearchBar />
-                </Card>
+                <HeroSearch className="mt-1 max-w-[820px] sm:mt-3" />
             </div>
         </section>
     );

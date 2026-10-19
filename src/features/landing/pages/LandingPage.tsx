@@ -1,40 +1,32 @@
-import ArtworkStorySection from "@/features/landing/components/artwork-story-section/ArtworkStorySection.tsx";
-import DiscoverSection from "@/features/landing/components/discover-section/DiscoverSection.tsx";
+import PricingSection from "@/features/billing/components/PricingSection.tsx";
+import { DealersSection } from "@/features/landing/components/dealers-section/DealersSection.tsx";
 import FAQSection from "@/features/landing/components/faq-section/FAQSection.tsx";
-import FeaturesSection from "@/features/landing/components/features-section/FeaturesSection.tsx";
 import HeroSection from "@/features/landing/components/hero-section/HeroSection.tsx";
 import HowItWorksSection from "@/features/landing/components/how-it-works-section/HowItWorksSection.tsx";
-import { RecentlyAddedClientSection } from "@/features/landing/components/recently-added-section/RecentlyAddedClientSection.tsx";
-import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
-import PricingSection from "@/features/billing/components/PricingSection.tsx";
+import { LatestAcquisitionsSection } from "@/features/landing/components/latest-acquisitions-section/LatestAcquisitionsSection.tsx";
+import { OpportunitySection } from "@/features/landing/components/opportunity-section/OpportunitySection.tsx";
+import { PlatformSection } from "@/features/landing/components/platform-section/PlatformSection.tsx";
 import NewsletterSection from "@/features/newsletter/components/NewsletterSection.tsx";
 
+/**
+ * The landing page, chapter by chapter as in the design: hero, latest acquisitions,
+ * I–VII, and the closing newsletter band.
+ */
 export default function LandingPage() {
     return (
-        <div className="flex flex-col min-h-screen">
-            <div id={LANDING_PAGE_FRAGMENTS.hero} className="scroll-mt-24">
-                <HeroSection />
-            </div>
-            <ArtworkStorySection />
-            <RecentlyAddedClientSection />
-            <div id={LANDING_PAGE_FRAGMENTS.discover} className="scroll-mt-24">
-                <DiscoverSection />
-            </div>
-            <div id={LANDING_PAGE_FRAGMENTS.features} className="scroll-mt-24">
-                <FeaturesSection />
-            </div>
-            <div id={LANDING_PAGE_FRAGMENTS.howItWorks} className="scroll-mt-24">
-                <HowItWorksSection />
-            </div>
-            <div id={LANDING_PAGE_FRAGMENTS.pricing} className="scroll-mt-24" hidden>
+        <div className="flex flex-col">
+            <HeroSection />
+            <LatestAcquisitionsSection />
+            <OpportunitySection />
+            <PlatformSection />
+            <HowItWorksSection />
+            {/* Pricing stays hidden until paid plans launch. */}
+            <div hidden>
                 <PricingSection />
             </div>
-            <div id={LANDING_PAGE_FRAGMENTS.newsletter} className="scroll-mt-24">
-                <NewsletterSection />
-            </div>
-            <div id={LANDING_PAGE_FRAGMENTS.faq} className="scroll-mt-24">
-                <FAQSection />
-            </div>
+            <DealersSection />
+            <FAQSection />
+            <NewsletterSection />
         </div>
     );
 }

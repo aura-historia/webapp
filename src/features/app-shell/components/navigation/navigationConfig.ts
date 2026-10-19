@@ -28,19 +28,19 @@ export const SITE_SECTION_LINKS: readonly SiteSectionLink[] = [
         id: "platform",
         translationKey: "header.sections.platform",
         kind: "landing",
-        fragment: LANDING_PAGE_FRAGMENTS.discover,
+        fragment: LANDING_PAGE_FRAGMENTS.platform,
     },
     {
         id: "agent",
         translationKey: "header.sections.agent",
         kind: "landing",
-        fragment: LANDING_PAGE_FRAGMENTS.features,
+        fragment: LANDING_PAGE_FRAGMENTS.agent,
     },
     {
         id: "dealers",
         translationKey: "header.sections.dealers",
-        kind: "route",
-        to: "/$lng/partner-program",
+        kind: "landing",
+        fragment: LANDING_PAGE_FRAGMENTS.dealers,
     },
     {
         id: "pricing",
