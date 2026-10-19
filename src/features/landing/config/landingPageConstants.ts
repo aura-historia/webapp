@@ -1,1 +1,0 @@
-export const CAROUSEL_AUTOPLAY_DELAY_MS = 5000;

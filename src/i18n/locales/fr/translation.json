@@ -137,7 +137,7 @@
     "accountSettings": "Compte et paramètres",
     "signOut": "Se déconnecter",
     "accountMenu": "Menu du compte",
-    "yourAura": "Votre Aura",
+    "yourAura": "Votre Aura Historia",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu",
     "menu": "Menu",
@@ -297,8 +297,6 @@
     "totalResults_one": "{{count}} article",
     "totalResults_other": "{{count}} articles",
     "bar": {
-      "label": "Recherche",
-      "button": "Rechercher",
       "placeholderExamplesProducts": [
         "Peinture à l'huile Marie-Madeleine",
         "Service en porcelaine de Meissen",
@@ -320,29 +318,7 @@
         "Miroir Rococo",
         "Miniature persane",
         "Fauteuil Louis XV"
-      ],
-      "placeholderExamplesShops": [
-        "Sotheby's",
-        "Christie's",
-        "Drouot",
-        "Artcurial",
-        "Catawiki",
-        "1stDibs",
-        "LiveAuctioneers",
-        "Invaluable",
-        "Bonhams",
-        "Dorotheum",
-        "The Saleroom",
-        "Aguttes",
-        "Barnebys",
-        "Vinterior",
-        "Chairish"
-      ],
-      "searchTypeLabel": "Type de recherche",
-      "searchType": {
-        "products": "Articles",
-        "shops": "Fournisseurs"
-      }
+      ]
     },
     "validation": {
       "queryMinLength": "Veuillez saisir au moins 3 caractères",
@@ -541,108 +517,9 @@
     "outOfStock": "Rupture de stock",
     "soldOut": "Épuisé"
   },
-  "discover": {
-    "eyebrow": "Le marché",
-    "title": "Le marché des antiquités est mondial. La vision d’ensemble l’est rarement.",
-    "p1": "Les antiquités sont bien en ligne, mais les pièces pertinentes restent dispersées entre sites de marchands, calendriers de ventes, places de marché et spécialistes locaux. Aura Historia réunit ces sources dans une plateforme calme et soignée.",
-    "p2": "Pour les collectionneurs, décorateurs et professionnels, cela veut dire moins d’angles morts : plus de contexte et de meilleures chances de voir une pièce remarquable avant qu’elle ne disparaisse à nouveau.",
-    "highlight1": {
-      "title": "Fournisseurs",
-      "description": "Découvrez les profils des fournisseurs et les annonces qui leur sont actuellement associées."
-    },
-    "highlight2": {
-      "title": "Veille du marché au-delà des grands noms",
-      "description": "Nouvelles pièces, mouvements de prix et changements de disponibilité sont suivis afin que les occasions importantes apparaissent plus tôt."
-    },
-    "highlight3": {
-      "title": "Recherche par-delà les langues",
-      "description": "Cherchez dans votre langue ; Aura Historia aide à interpréter le vocabulaire des vendeurs internationaux."
-    },
-    "artworks": {
-      "watteau": {
-        "alt": "The Shop Sign of the Art Dealer Gersaint d’Antoine Watteau, scène raffinée dans l’intérieur d’un marchand d’art.",
-        "caption": "Antoine Watteau, The Shop Sign of the Art Dealer Gersaint, 1720–1721"
-      }
-    }
-  },
   "landingPage": {
-    "titleFirstLine": "Les pièces rares ne devraient pas dépendre<1/>du seul hasard",
-    "subtitle": "Aura Historia réunit marchands, maisons de vente, places de marché et inventaires spécialisés dans une plateforme mondiale d’antiquités, afin que les pièces remarquables restent visibles avant de disparaître à nouveau.",
-    "recentlyAdded": {
-      "eyebrow": "Ajoutés récemment",
-      "title": "Les dernières acquisitions",
-      "foundAt": "Trouvé chez {{shopName}}."
-    },
-    "artworkStories": {
-      "ariaLabel": "Thèse de plateforme d’Aura Historia",
-      "title": "Le marché mondial des antiquités en un coup d’œil",
-      "description": "Les pièces remarquables se trouvent rarement au même endroit. Elles apparaissent chez de petits marchands, dans des boutiques spécialisées, sur des places de marché et dans des calendriers de ventes — souvent avec des termes locaux et pour peu de temps. Aura Historia rend ce marché dispersé visible, compréhensible et observable.",
-      "connoisseurship": {
-        "eyebrow": "Regard du connaisseur, prolongé",
-        "title": "Voir les indices absents du titre",
-        "description": "Les Ambassadeurs de Holbein parlent de savoir, d’instruments et de perspective cachée. Dans les antiquités aussi, l’indice décisif se trouve souvent dans la source, la rubrique, l’évolution du prix, le statut ou le moment d’apparition — pas seulement dans le titre de l’annonce.",
-        "supporting": "Aura Historia rassemble ces signaux dans un espace de travail calme : trouver, comparer, enregistrer et ouvrir la source d’origine au bon moment, sans perdre le plaisir de la découverte.",
-        "imageAlt": "Le tableau The Ambassadors de Hans Holbein comme symbole d’érudition, d’instruments et de regard expert.",
-        "caption": "Hans Holbein le Jeune, The Ambassadors, 1533"
-      },
-      "globalCollecting": {
-        "eyebrow": "Inventaire mondial",
-        "title": "Le cabinet de curiosités est aujourd’hui dispersé",
-        "description": "The Paston Treasure rassemble objets de luxe, naturalia et raretés issus d’un réseau commercial mondial. Aujourd’hui, un tel cabinet n’occupe plus une seule pièce : il se répartit entre sites de marchands, places de marché, calendriers de ventes et spécialistes locaux.",
-        "supporting": "Aura Historia ne remplace pas ces sources. La plateforme vous y conduit après avoir indexé l’offre dispersée en continu, l’avoir ordonnée et l’avoir rendue observable selon vos intérêts.",
-        "imageAlt": "The Paston Treasure, une nature morte foisonnante d’objets de luxe et de raretés issus du commerce mondial.",
-        "caption": "The Paston Treasure, v. 1663"
-      }
-    },
-    "features": {
-      "eyebrow": "Fonctions de la plateforme",
-      "title": "Une plateforme pour celles et ceux qui regardent de plus près",
-      "subtitle": "Pensée pour collectionneurs, décorateurs et professionnels : un espace calme pour un marché mondial trop vaste, trop local et trop fragmenté pour être suivi par habitude.",
-      "note": "Aura Historia n’est pas une autre page centrée sur les enchères. Elle réunit marchands, boutiques spécialisées, places de marché et inventaire d’enchères dans un même champ de découverte.",
-      "marketScale": {
-        "title": "Un marché qui dépasse toute place de marché",
-        "description": "Aura Historia est conçue pour un marché mondial de l’art et des antiquités mesuré en dizaines de milliards de dollars et en dizaines de millions de transactions annuelles.",
-        "visual": {
-          "value": "$59,6 Md",
-          "label": "Ventes mondiales d’art et d’antiquités en 2025, sur 41,5 M de transactions."
-        }
-      },
-      "beyondAuction": {
-        "title": "Plus que des enchères",
-        "description": "Les enchères ne sont qu’une partie du marché. Aura Historia fait aussi apparaître marchands de confiance et petits spécialistes aux côtés des lots de vente, là où beaucoup de pièces pertinentes n’atteignent jamais les plateformes centrées sur les enchères.",
-        "visual": {
-          "value": "$34,8 / $20,7 Md",
-          "label": "Ventes de marchands contre ventes aux enchères publiques en 2025 ; les enchères privées ont ajouté un peu moins de $4,2 Md."
-        }
-      },
-      "translations": {
-        "title": "Trouver sans parler la langue du vendeur",
-        "description": "Cherchez dans votre langue. Aura Historia aide à interpréter titres internationaux, formulations de vendeurs et vocabulaire local du marché.",
-        "visual": {
-          "value": "13 362 + 81 256",
-          "label": "Boutiques d’antiquités aux États-Unis plus détaillants européens de seconde main et proches des antiquités — fragmentés par marchés et langues locales."
-        }
-      },
-      "watchlist": {
-        "title": "Liste de suivi privée",
-        "description": "Gardez en vue ce que vous avez déjà trouvé. Enregistrez des pièces discrètement et revenez lorsque prix, statut ou disponibilité méritent un second regard."
-      },
-      "personalFilter": {
-        "title": "Alertes de recherche",
-        "description": "Décrivez une fois ce que vous cherchez. Aura Historia surveille les inventaires nouveaux et mis à jour, puis remet les bonnes pièces sous vos yeux."
-      },
-      "history": {
-        "title": "Chronologie de l’objet",
-        "description": "Suivez la vie commerciale d’une annonce : indexée, mise aux enchères, vendue, retirée, republiée ou modifiée en prix — afin que les événements du marché restent visibles après la première découverte."
-      },
-      "aiSearchAgent": {
-        "title": "Agent de recherche IA",
-        "description": "Formulez un brief en langage naturel — époque, forme, catégorie, échelle, atmosphère, budget et usage prévu — et laissez l’agent surveiller patiemment le marché."
-      }
-    },
     "howItWorks": {
-      "title": "De la curiosité à l’acquisition réfléchie",
-      "subtitle": "Aura Historia réunit les offres dispersées de marchands, ventes et sources spécialisées afin que les pièces prometteuses restent visibles.",
+      "title": "De la curiosité à <em>l’acquisition réfléchie.</em>",
       "step1": {
         "title": "Décrire l’objet",
         "description": "Recherchez par époque, style, catégorie, artiste, région ou simplement par idée, dans la langue qui vous vient naturellement."
@@ -658,41 +535,20 @@
       "step4": {
         "title": "Agir au bon moment",
         "description": "Nous mettons en avant les changements de prix et de statut ainsi que les nouveaux objets pertinents ; vous ouvrez la source d’origine et décidez d’acheter, d’enchérir ou de demander plus d’informations."
-      }
-    },
-    "testimonials": {
-      "title": "Ce que disent nos utilisateurs",
-      "subtitle": "Découvrez comment nous aidons les collectionneurs à vivre leur passion.",
-      "testimonial1": {
-        "name": "Margarete W.",
-        "role": "Collectionne les meubles Art nouveau",
-        "quote": "Enfin une plateforme qui facilite la recherche de pièces rares. Les alertes de prix m'ont permis à plusieurs reprises de dénicher de véritables bonnes affaires."
       },
-      "testimonial2": {
-        "name": "Heinrich K.",
-        "role": "Antiquaire",
-        "quote": "En tant que marchand, j'utilise Aura Historia pour surveiller le marché. L'évolution des prix m'aide énormément à fixer mes propres tarifs."
-      },
-      "testimonial3": {
-        "name": "Elisabeth M.",
-        "role": "Collectionneuse amateur depuis 20 ans",
-        "quote": "Je suis impressionnée par la clarté de l'interface. Avant, je passais des heures à chercher sur différents sites de marchands. Maintenant, je trouve tout au même endroit."
-      }
+      "eyebrow": "IV — Comment ça marche"
     },
     "newsletter": {
-      "title": "Restez informé",
-      "description": "Recevez chaque semaine une sélection de trouvailles, les tendances du marché et des aperçus exclusifs directement dans votre boîte mail.",
-      "placeholder": "Votre adresse e-mail",
-      "button": "S'inscrire à la newsletter",
+      "title": "Les plus belles trouvailles, <em>avant qu’elles ne disparaissent.</em>",
+      "description": "Objets sélectionnés, mouvements du marché et nouvelles fonctionnalités, directement dans votre boîte de réception. Désabonnement à tout moment.",
+      "placeholder": "vous@exemple.fr",
+      "button": "S’abonner",
       "privacy": "Nous vous enverrons d'abord un lien de confirmation par e-mail. Votre inscription ne commence qu'une fois ce lien confirmé. Plus de détails dans notre <privacyLink>politique de confidentialité</privacyLink>.",
       "successMessage": "Veuillez consulter votre boîte de réception.",
-      "benefit1": "Sélection personnalisée",
-      "benefit2": "Nouvelles fonctionnalités & offres",
-      "benefit3": "Désinscription à tout moment",
       "firstNameLabel": "Prénom",
-      "firstNamePlaceholder": "Votre prénom",
+      "firstNamePlaceholder": "Prénom (facultatif)",
       "lastNameLabel": "Nom de famille",
-      "lastNamePlaceholder": "Votre nom de famille",
+      "lastNamePlaceholder": "Nom (facultatif)",
       "emailLabel": "Adresse e-mail",
       "emailRequired": "Veuillez saisir une adresse e-mail valide.",
       "eyebrow": "Newsletter",
@@ -700,8 +556,7 @@
       "successTiming": "L'e-mail peut mettre quelques minutes à arriver. Le lien est valable 24 heures."
     },
     "faq": {
-      "title": "Questions fréquentes",
-      "subtitle": "L’essentiel sur la manière dont Aura Historia rend le marché mondial des antiquités plus lisible.",
+      "title": "Posées, <em>et résolues.</em>",
       "items": {
         "howItWorks": {
           "question": "Qu’est-ce qu’Aura Historia ?",
@@ -739,10 +594,12 @@
           "question": "Aura Historia est-elle une base de données de prix ?",
           "answer": "Non. Les prix d’adjudication historiques peuvent être utiles, mais ils ne montrent pas automatiquement ce qui est disponible aujourd’hui. Aura Historia se concentre sur la disponibilité actuelle, le suivi et les signaux de marché au bon moment."
         }
-      }
+      },
+      "eyebrow": "VII — Questions",
+      "contact": "Une autre question ? Écrivez à <mail>{{email}}</mail>"
     },
     "pricing": {
-      "title": "Choisissez votre accès",
+      "title": "Choisissez votre <em>accès.</em>",
       "subtitle": "Commencez gratuitement. Changez de formule lorsque listes privées, alertes et veille du marché deviennent une part régulière de votre recherche.",
       "comingSoon": "Bientôt disponible",
       "mostPopular": "Le plus populaire",
@@ -783,14 +640,202 @@
           "aiAgent": "Agent de découverte IA"
         }
       },
-      "billingNote": "mensuel, TVA incluse",
       "monthly": "Mensuel",
       "yearly": "Annuel",
       "yearlySavings": "Économisez 2 mois",
       "billingNoteMonthly": "par mois, TVA incluse",
       "billingNoteYearly": "par mois, facturé annuellement, TVA incluse",
       "getStartedFree": "Commencer gratuitement",
-      "subscribe": "S'abonner"
+      "subscribe": "S'abonner",
+      "eyebrow": "V — Tarifs",
+      "alwaysFree": "Toujours gratuit",
+      "billingInterval": "Période de facturation",
+      "regularPrice": "Prix mensuel habituel :"
+    },
+    "hero": {
+      "title": "Le marché mondial des antiquités, <em>en une seule recherche.</em>",
+      "lead": "Aura Historia indexe marchands, maisons de ventes et vendeurs spécialisés du monde entier, pour que collectionneurs, décorateurs et professionnels trouvent la bonne pièce avant qu’elle ne disparaisse dans un autre silo.",
+      "searchLabel": "Rechercher sur le marché mondial",
+      "searchSubmit": "Rechercher sur le marché"
+    },
+    "latest": {
+      "eyebrow": "Nouveau dans l’index · Mis à jour chaque jour",
+      "title": "Dernières <em>acquisitions.</em>",
+      "viewAll": "Voir toutes les nouveautés",
+      "previous": "Objets précédents",
+      "next": "Objets suivants",
+      "region_one": "Dernières acquisitions, {{count}} objet",
+      "region_other": "Dernières acquisitions, {{count}} objets",
+      "counter": "{{range}} / {{total}}",
+      "auctionBadge": "Enchères"
+    },
+    "opportunity": {
+      "eyebrow": "II — L’opportunité",
+      "title": "Un marché de 59,6 milliards de dollars, encore exploré <em>un site web à la fois.</em>",
+      "body": "Les antiquités sont passées en ligne. Leur recherche, non. L’offre est dispersée entre sites de marchands, calendriers de ventes, places de marché et boutiques locales, chacun avec sa langue, ses termes et sa courte fenêtre. Aura Historia rassemble cette offre éparse en une vue calme et lisible.",
+      "cta": "Rechercher sur le marché",
+      "market": {
+        "label": "Ventes mondiales d’art et d’antiquités · 2025",
+        "value": "59,6 Md$",
+        "transactions": "sur <strong>41,5 M</strong> de transactions",
+        "segments": {
+          "dealer": {
+            "value": "34,8 Md$",
+            "label": "Ventes des marchands"
+          },
+          "publicAuction": {
+            "value": "20,7 Md$",
+            "label": "Ventes aux enchères publiques"
+          },
+          "privateAuction": {
+            "value": "4,2 Md$",
+            "label": "Ventes aux enchères privées"
+          }
+        },
+        "caption": "Les plateformes dédiées aux enchères ne voient qu’environ un tiers du marché. <strong>Aura Historia indexe aussi marchands, boutiques spécialisées et places de marché.</strong>",
+        "source": "Source : Art Basel / UBS"
+      },
+      "sellers": {
+        "value": "94 618",
+        "label": "Vendeurs indépendants · États-Unis + Europe",
+        "caption": "13 362 magasins d’antiquités aux États-Unis et 81 256 commerces apparentés en Europe, chacun avec son propre site, sa langue et son vocabulaire.",
+        "source": "Source : IBISWorld US · IBISWorld Europe"
+      }
+    },
+    "platform": {
+      "eyebrow": "III — La plateforme",
+      "title": "Conçue pour ceux qui <em>regardent de plus près.</em>",
+      "intro": "Un espace de travail rigoureux pour collectionneurs, décorateurs et professionnels, face à un marché trop vaste, trop local et trop fragmenté pour être suivi par habitude.",
+      "moreTools": "Autres outils · {{count}}",
+      "moreToolsLabel": "Autres outils de la plateforme",
+      "agent": {
+        "kicker": "AI Discovery Agent",
+        "title": "Décrivez-le une fois. L’agent veille sur le monde pour vous.",
+        "body": "Rédigez une demande avec vos propres mots (époque, forme, dimensions, ambiance, budget, usage prévu) et laissez l’agent parcourir le marché avec patience.",
+        "demoLabel": "Exemple de demande pour l’AI Discovery Agent et ses deux derniers résultats",
+        "review": "Consulter",
+        "examples": {
+          "gustavian": {
+            "brief": "« Une paire de chaises gustaviennes, peintes en gris, de préférence dans leur surface d’origine, à moins de 4 000 €, pour une salle à manger orientée au nord. »",
+            "chips": {
+              "region": "Suède · v. 1780–1810",
+              "form": "Sièges · paire",
+              "budget": "≤ 4 000 €",
+              "languages": "SV · DA · DE · EN"
+            },
+            "watching": "En veille · <strong>2 nouveaux résultats</strong> depuis lundi"
+          },
+          "meissen": {
+            "brief": "« Un service à café de Meissen pour six, au décor à l’oignon, complet avec tasses et soucoupes, à moins de 3 000 €, pour tous les jours. »",
+            "chips": {
+              "region": "Saxe · XIXe s.",
+              "form": "Porcelaine · service pour six",
+              "budget": "≤ 3 000 €",
+              "languages": "DE · EN · FR · NL"
+            },
+            "watching": "En veille · <strong>4 nouveaux résultats</strong> cette semaine"
+          },
+          "artDeco": {
+            "brief": "« Une lampe de table Art déco en bronze, française ou belge, avec abat-jour en verre, jusqu’à 2 500 €, pour un coin lecture. »",
+            "chips": {
+              "region": "France · Belgique · 1920–1935",
+              "form": "Luminaires · lampe de table",
+              "budget": "≤ 2 500 €",
+              "languages": "FR · NL · DE · EN"
+            },
+            "watching": "En veille · <strong>1 nouveau résultat</strong> aujourd’hui"
+          }
+        }
+      },
+      "languages": {
+        "kicker": "Toutes les langues",
+        "title": "Cherchez dans la vôtre. Trouvez dans la leur.",
+        "body": "Nous lisons les titres internationaux et le vocabulaire des marchands locaux, pour que vous n’ayez pas à apprendre la terminologie de chaque pays.",
+        "demoLabel": "Une recherche qui trouve de la porcelaine de Meissen en trois langues",
+        "query": "Service en porcelaine de Meissen"
+      },
+      "alerts": {
+        "kicker": "Alertes de recherche",
+        "title": "Soyez le premier quand elle refait surface.",
+        "body": "Décrivez une fois ce que vous cherchez. Nous surveillons l’offre nouvellement indexée et mise à jour et ramenons les bons objets sous vos yeux.",
+        "demoLabel": "Une alerte de recherche active pour des tableaux de maîtres anciens entre 5 000 € et 15 000 €",
+        "name": "Tableau de maître ancien",
+        "tags": {
+          "price": "5 000–15 000 €",
+          "available": "Disponible",
+          "dealers": "Marchands"
+        },
+        "matches": "3 nouveaux résultats cette semaine"
+      },
+      "watchlist": {
+        "kicker": "Liste de surveillance privée",
+        "title": "Ne perdez jamais une trouvaille de vue.",
+        "body": "Enregistrez discrètement. Revenez quand le prix, le statut ou la disponibilité justifient un second regard.",
+        "demoLabel": "Trois objets enregistrés avec des changements récents : prix baissé, remis en vente et vendu",
+        "items": {
+          "vanity": "Coiffeuse française, v. 1800",
+          "sideboard": "Buffet en noyer",
+          "dressingTable": "Coiffeuse Louis XV"
+        },
+        "status": {
+          "priceDrop": "−12 %",
+          "relisted": "Remis en vente",
+          "sold": "Vendu"
+        }
+      },
+      "timeline": {
+        "kicker": "Historique de l’objet",
+        "title": "Toute la vie commerciale d’un objet.",
+        "body": "Indexé, mis aux enchères, vendu, retiré, remis en vente, réévalué : chaque événement du marché reste visible après la première découverte.",
+        "demoLabel": "Historique d’une annonce : indexée, proposée aux enchères sans être vendue, remise en vente par un marchand",
+        "events": {
+          "indexed": {
+            "label": "Indexé",
+            "date": "Mars"
+          },
+          "auction": {
+            "label": "Proposé aux enchères · invendu",
+            "date": "Mai"
+          },
+          "relisted": {
+            "label": "Remis en vente par un marchand",
+            "date": "Sept"
+          }
+        }
+      },
+      "marketWatch": {
+        "kicker": "Veille du marché",
+        "title": "Voyez le marché bouger, pas seulement l’annonce.",
+        "body": "Nouveaux objets, mouvements de prix et changements de disponibilité sont suivis en continu, pour que les opportunités pertinentes soient plus faciles à repérer et à saisir à temps.",
+        "demoLabel": "Graphique de prix : le prix demandé médian baisse légèrement sur douze mois",
+        "measure": "Prix demandé médian",
+        "period": "12 mois"
+      }
+    },
+    "dealers": {
+      "eyebrow": "VI — Pour les marchands et maisons de ventes",
+      "title": "Placez votre inventaire là où les collectionneurs du monde entier <em>cherchent déjà.</em>",
+      "body": "Aura Historia ne remplace pas votre boutique : il lui envoie des acheteurs qualifiés. Connectez-vous une fois, et vos objets apparaissent auprès de collectionneurs qui cherchent dans leur propre langue.",
+      "apply": "Postuler au programme partenaire",
+      "overview": "Présentation du programme",
+      "links": {
+        "shopify": {
+          "title": "Application Shopify",
+          "description": "Synchronisez vos annonces directement depuis votre boutique Shopify."
+        },
+        "wordpress": {
+          "title": "Extension WordPress",
+          "description": "Connectez votre site WordPress en quelques minutes."
+        },
+        "custom": {
+          "title": "Intégration sur mesure",
+          "description": "Pour les maisons de ventes et les catalogues importants."
+        },
+        "dashboard": {
+          "title": "Tableau de bord partenaire",
+          "description": "Voyez comment les collectionneurs trouvent et suivent vos objets."
+        }
+      }
     }
   },
   "newsletter": {

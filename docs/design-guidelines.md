@@ -58,7 +58,14 @@ Use the token system in `src/styles.css`, which mirrors the design system's `tok
 - `Header` in `src/features/app-shell` picks the variant: the landing page gets `SiteHeader` (88px, site sections and calls to action, from 1024px), every other page gets the sticky `AppNavBar` (64px, global search, from 640px), and smaller screens get `MobileHeader` with the full-screen ink `MobileMenu`.
 - Site sections live in `navigation/navigationConfig.ts`; account shortcuts live in `AccountMenu` and `MobileMenu`.
 - `Footer` sits on the ink ground: wordmark, tagline and contact, then the Discover, Partners and Company groups from `footer/Footer.data.ts` (columns from 768px, one-at-a-time disclosures on phones), social links and `LocaleSwitch` (language, currency, units; shared with `MobileMenu`). Each switch opens a `PreferencePicker`: a parchment popover listbox with a mono title, an oxblood check on the selected row and, for currencies, a search field (design board "Nav · Locale pickers").
-- The design lays the landing header transparently over an ink hero (`tone="overlay"`); switch `LANDING_HEADER_TONE` once the hero moves to the ink ground.
+- The landing header lies transparently over the ink hero (`tone="overlay"`); it is sticky on phones and scrolls away with the hero from 1024px.
+
+## Landing page
+
+- The landing page follows the Redesign's chapters: hero (headline, lead, search), Latest acquisitions, II The opportunity, III The platform, IV How it works, V Pricing, VI For dealers, VII Questions, and the oxblood newsletter band. Chapter headings use `SectionHeading` (mono Roman-numeral eyebrow, serif headline whose closing phrase is `<em>`); grounds come from `LandingSection` and alternate parchment and ink.
+- Latest acquisitions and any other live inventory load after mount (see `docs/landing-page-prerendering-guidelines.md`). Use real listings only; the design system's sample photos are stand-ins for mockups and never marketing imagery.
+- Figures need a cited source. Do not ship bracketed placeholders such as the hero stat strip's "[X,XXX]"; leave the element out until the figure is confirmed.
+- Pricing is designed and built but stays hidden on the landing page until paid plans launch.
 
 ## Layout and responsive behavior
 

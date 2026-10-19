@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Trans, useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 import { z } from "zod";
-import { CheckCircle, MailCheck } from "lucide-react";
+import { MailCheck } from "lucide-react";
 import { useRef, useState } from "react";
 
 import {
@@ -14,10 +14,15 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { H2 } from "@/components/typography/H2.tsx";
+import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navigationConfig.ts";
+import { LandingSection } from "@/features/landing/components/common/LandingSection.tsx";
+import {
+    HEADLINE_COMPONENTS,
+    SectionHeading,
+} from "@/features/landing/components/common/SectionHeading.tsx";
+import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
+import { cn } from "@/lib/utils.ts";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { useNewsletterSubscription } from "@/features/newsletter/api/useNewsletterSubscription.ts";
@@ -81,209 +86,177 @@ export default function NewsletterSection() {
 
     const isBusy = isPending || form.formState.isSubmitting;
 
+    const fieldClass =
+        "h-[54px] min-w-0 rounded-lg border-0 bg-[rgba(23,13,14,0.35)] px-4 text-base text-ink shadow-field outline-none placeholder:text-on-oxblood-placeholder focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass aria-invalid:shadow-[inset_0_0_0_1px_var(--brass-light)]";
+
     return (
-        <section
-            className="relative overflow-hidden px-4 py-24 sm:px-8"
-            style={{ background: "var(--linear-gradient-main)" }}
-            aria-label={t("landingPage.newsletter.title")}
+        <LandingSection
+            ground="oxblood"
+            id={LANDING_PAGE_FRAGMENTS.newsletter}
+            labelledBy="newsletter-heading"
+            className="py-[clamp(64px,9vw,120px)]"
+            containerClassName="grid grid-cols-1 items-end gap-7 lg:grid-cols-2 lg:gap-12"
         >
-            {/* Decorative elements */}
-            <div
-                className="pointer-events-none absolute inset-0 opacity-[0.04]"
-                style={{
-                    backgroundImage:
-                        "radial-gradient(circle at 1px 1px, var(--tertiary-fixed) 1px, transparent 0)",
-                    backgroundSize: "40px 40px",
-                }}
+            <SectionHeading
+                id="newsletter-heading"
+                onInk
+                eyebrowClassName="text-brass-light"
+                eyebrow={t("landingPage.newsletter.eyebrow")}
+                title={
+                    <Trans
+                        i18nKey="landingPage.newsletter.title"
+                        components={HEADLINE_COMPONENTS}
+                    />
+                }
+                intro={
+                    <span className="text-on-oxblood-muted">
+                        {t("landingPage.newsletter.description")}
+                    </span>
+                }
             />
-            <div className="pointer-events-none absolute -left-32 -top-32 size-96 rounded-full bg-primary-container/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-32 -right-32 size-96 rounded-full bg-primary-container/20 blur-3xl" />
 
-            <div className="relative mx-auto max-w-7xl">
-                <div className="grid items-center gap-16 lg:grid-cols-2">
-                    {/* Left column — copy + benefits */}
-                    <div className="text-center lg:text-left">
-                        <p className="text-[10px] uppercase tracking-[2px] text-tertiary-fixed-dim">
-                            {t("landingPage.newsletter.eyebrow")}
-                        </p>
-
-                        <H2 className="mt-4 text-4xl font-normal italic leading-[1.1] text-primary-foreground sm:text-5xl">
-                            {t("landingPage.newsletter.title")}
-                        </H2>
-
-                        <div className="mx-auto mt-6 h-px w-16 bg-tertiary-fixed-dim/40 lg:mx-0" />
-
-                        <p className="mx-auto mt-6 max-w-md text-base leading-relaxed text-primary-foreground/75 lg:mx-0">
-                            {t("landingPage.newsletter.description")}
-                        </p>
-
-                        <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-4 lg:justify-start">
-                            <span className="flex items-center gap-2.5 text-sm text-primary-foreground/70">
-                                <CheckCircle className="size-3.5 text-tertiary-fixed-dim" />
-                                {t("landingPage.newsletter.benefit1")}
-                            </span>
-                            <span className="flex items-center gap-2.5 text-sm text-primary-foreground/70">
-                                <CheckCircle className="size-3.5 text-tertiary-fixed-dim" />
-                                {t("landingPage.newsletter.benefit2")}
-                            </span>
-                            <span className="flex items-center gap-2.5 text-sm text-primary-foreground/70">
-                                <CheckCircle className="size-3.5 text-tertiary-fixed-dim" />
-                                {t("landingPage.newsletter.benefit3")}
-                            </span>
+            {requestedEmail !== null ? (
+                <div
+                    role="status"
+                    className="flex flex-col gap-3 rounded-lg bg-[rgba(23,13,14,0.35)] p-6 shadow-field"
+                >
+                    <p className="flex items-center gap-3 font-serif text-title-sm font-normal italic">
+                        <MailCheck
+                            aria-hidden="true"
+                            className="size-6 shrink-0 text-brass-light"
+                            strokeWidth={1.6}
+                        />
+                        {t("landingPage.newsletter.successMessage")}
+                    </p>
+                    <p className="text-body-sm text-on-oxblood-muted">
+                        {t("landingPage.newsletter.successEmailSent", { email: requestedEmail })}
+                    </p>
+                    <p className="text-xs text-on-oxblood-muted">
+                        {t("landingPage.newsletter.successTiming")}
+                    </p>
+                </div>
+            ) : (
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="flex flex-col gap-3 sm:gap-3.5"
+                        noValidate
+                    >
+                        <div className="grid grid-cols-2 gap-2">
+                            <FormField
+                                control={form.control}
+                                name="firstName"
+                                render={({ field }) => (
+                                    <FormItem className="gap-0">
+                                        <FormLabel className="sr-only">
+                                            {t("landingPage.newsletter.firstNameLabel")}
+                                        </FormLabel>
+                                        <FormControl>
+                                            <input
+                                                autoComplete="given-name"
+                                                placeholder={t(
+                                                    "landingPage.newsletter.firstNamePlaceholder",
+                                                )}
+                                                className={cn(fieldClass, "w-full")}
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="lastName"
+                                render={({ field }) => (
+                                    <FormItem className="gap-0">
+                                        <FormLabel className="sr-only">
+                                            {t("landingPage.newsletter.lastNameLabel")}
+                                        </FormLabel>
+                                        <FormControl>
+                                            <input
+                                                autoComplete="family-name"
+                                                placeholder={t(
+                                                    "landingPage.newsletter.lastNamePlaceholder",
+                                                )}
+                                                className={cn(fieldClass, "w-full")}
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
                         </div>
-                    </div>
 
-                    {/* Right column — form card */}
-                    <div className="mx-auto w-full max-w-lg lg:mx-0 lg:ml-auto">
-                        <div className="border border-primary-foreground/10 bg-primary-foreground/6 p-8 backdrop-blur-sm sm:p-10">
-                            {requestedEmail !== null ? (
-                                <div
-                                    role="status"
-                                    className="flex flex-col items-center gap-5 py-8 text-center"
-                                >
-                                    <div className="flex size-16 items-center justify-center bg-primary-foreground/10">
-                                        <MailCheck
-                                            aria-hidden="true"
-                                            className="size-8 text-tertiary-fixed-dim"
-                                        />
-                                    </div>
-                                    <p className="font-display text-xl font-normal italic text-primary-foreground">
-                                        {t("landingPage.newsletter.successMessage")}
-                                    </p>
-                                    <p className="text-sm text-primary-foreground/80">
-                                        {t("landingPage.newsletter.successEmailSent", {
-                                            email: requestedEmail,
-                                        })}
-                                    </p>
-                                    <p className="text-xs text-primary-foreground/60">
-                                        {t("landingPage.newsletter.successTiming")}
-                                    </p>
-                                </div>
-                            ) : (
-                                <Form {...form}>
-                                    <form
-                                        onSubmit={form.handleSubmit(onSubmit)}
-                                        className="space-y-5"
-                                        noValidate
-                                    >
-                                        <FormField
-                                            control={form.control}
-                                            name="email"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel className="sr-only text-primary-foreground">
-                                                        {t("landingPage.newsletter.emailLabel")}
-                                                    </FormLabel>
-                                                    <FormControl>
-                                                        <div>
-                                                            <Input
-                                                                type="email"
-                                                                placeholder={t(
-                                                                    "landingPage.newsletter.placeholder",
-                                                                )}
-                                                                className="h-12 border-primary-foreground/15 bg-white/95 text-foreground shadow-sm placeholder:text-muted-foreground/60 focus-visible:border-tertiary-fixed-dim/50 focus-visible:ring-tertiary-fixed-dim/20"
-                                                                {...field}
-                                                            />
-                                                        </div>
-                                                    </FormControl>
-                                                    <FormMessage className="text-destructive-foreground" />
-                                                </FormItem>
-                                            )}
-                                        />
-
-                                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                            <FormField
-                                                control={form.control}
-                                                name="firstName"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel className="sr-only text-primary-foreground">
-                                                            {t(
-                                                                "landingPage.newsletter.firstNameLabel",
-                                                            )}
-                                                        </FormLabel>
-                                                        <FormControl>
-                                                            <Input
-                                                                placeholder={t(
-                                                                    "landingPage.newsletter.firstNamePlaceholder",
-                                                                )}
-                                                                className="h-12 border-primary-foreground/15 bg-white/95 text-foreground shadow-sm placeholder:text-muted-foreground/60 focus-visible:border-tertiary-fixed-dim/50 focus-visible:ring-tertiary-fixed-dim/20"
-                                                                {...field}
-                                                            />
-                                                        </FormControl>
-                                                    </FormItem>
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem className="gap-2">
+                                    <FormLabel className="sr-only">
+                                        {t("landingPage.newsletter.emailLabel")}
+                                    </FormLabel>
+                                    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-2">
+                                        <FormControl>
+                                            <input
+                                                type="email"
+                                                autoComplete="email"
+                                                aria-required="true"
+                                                placeholder={t(
+                                                    "landingPage.newsletter.placeholder",
                                                 )}
+                                                className={cn(fieldClass, "sm:flex-[1_1_220px]")}
+                                                {...field}
                                             />
-
-                                            <FormField
-                                                control={form.control}
-                                                name="lastName"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel className="sr-only text-primary-foreground">
-                                                            {t(
-                                                                "landingPage.newsletter.lastNameLabel",
-                                                            )}
-                                                        </FormLabel>
-                                                        <FormControl>
-                                                            <Input
-                                                                placeholder={t(
-                                                                    "landingPage.newsletter.lastNamePlaceholder",
-                                                                )}
-                                                                className="h-12 border-primary-foreground/15 bg-white/95 text-foreground shadow-sm placeholder:text-muted-foreground/60 focus-visible:border-tertiary-fixed-dim/50 focus-visible:ring-tertiary-fixed-dim/20"
-                                                                {...field}
-                                                            />
-                                                        </FormControl>
-                                                    </FormItem>
-                                                )}
-                                            />
-                                        </div>
-
-                                        {form.formState.errors.root && (
-                                            <p
-                                                role="alert"
-                                                className="rounded-sm bg-destructive/20 px-3 py-2 text-sm text-destructive-foreground"
-                                            >
-                                                {form.formState.errors.root.message}
-                                            </p>
-                                        )}
-
-                                        <p className="text-xs leading-relaxed text-primary-foreground/70">
-                                            {t("newsletter.purpose")}
-                                        </p>
-
-                                        <Button
+                                        </FormControl>
+                                        <button
                                             type="submit"
+                                            data-theme="light"
                                             disabled={isBusy}
                                             aria-busy={isBusy}
-                                            className="h-12 w-full bg-tertiary text-tertiary-foreground text-base font-medium shadow-sm hover:bg-tertiary-fixed-dim"
+                                            className={cn(
+                                                "inline-flex h-[54px] cursor-pointer items-center justify-center gap-2 rounded-pill bg-surface px-7 text-base font-medium text-ink transition-opacity hover:opacity-90 disabled:opacity-35 sm:rounded-lg sm:text-[15px]",
+                                                NAV_FOCUS_CLASS,
+                                            )}
                                         >
-                                            {isBusy && <Spinner className="mr-2" />}
+                                            {isBusy && <Spinner />}
                                             {t("landingPage.newsletter.button")}
-                                        </Button>
-
-                                        <p className="pt-1 text-center text-xs leading-relaxed text-primary-foreground/50">
-                                            <Trans
-                                                i18nKey="landingPage.newsletter.privacy"
-                                                components={{
-                                                    privacyLink: (
-                                                        <Link
-                                                            to="/$lng/privacy"
-                                                            className="underline underline-offset-2 hover:text-primary-foreground/80"
-                                                            params={true}
-                                                            from="/$lng"
-                                                        />
-                                                    ),
-                                                }}
-                                            />
-                                        </p>
-                                    </form>
-                                </Form>
+                                        </button>
+                                    </div>
+                                    <FormMessage className="text-brass-light" />
+                                </FormItem>
                             )}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                        />
+
+                        {form.formState.errors.root && (
+                            <p
+                                role="alert"
+                                className="rounded-md bg-[rgba(23,13,14,0.35)] px-3 py-2 text-sm text-brass-light"
+                            >
+                                {form.formState.errors.root.message}
+                            </p>
+                        )}
+
+                        <p className="text-xs leading-relaxed text-on-oxblood-muted">
+                            {t("newsletter.purpose")}
+                        </p>
+                        <p className="text-xs leading-relaxed text-on-oxblood-muted">
+                            <Trans
+                                i18nKey="landingPage.newsletter.privacy"
+                                components={{
+                                    privacyLink: (
+                                        <Link
+                                            to="/$lng/privacy"
+                                            className="underline underline-offset-3 hover:text-ink"
+                                            params={true}
+                                            from="/$lng"
+                                        />
+                                    ),
+                                }}
+                            />
+                        </p>
+                    </form>
+                </Form>
+            )}
+        </LandingSection>
     );
 }

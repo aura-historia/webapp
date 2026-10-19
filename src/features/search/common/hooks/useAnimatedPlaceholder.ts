@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useTypewriter } from "@/hooks/common/useTypewriter.ts";
 
 interface UseAnimatedPlaceholderOptions {
     /**
@@ -43,68 +43,12 @@ export function useAnimatedPlaceholder({
     enabled = true,
     resetKey,
 }: UseAnimatedPlaceholderOptions): string {
-    const [currentText, setCurrentText] = useState("");
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [isDeleting, setIsDeleting] = useState(false);
-    const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-
-    useEffect(() => {
-        if (resetKey === undefined) return;
-        setCurrentText("");
-        setCurrentIndex(0);
-        setIsDeleting(false);
-    }, [resetKey]);
-
-    useEffect(() => {
-        if (!enabled || examples.length === 0) {
-            setCurrentText("");
-            return;
-        }
-
-        const currentExample = examples[currentIndex];
-
-        const animate = () => {
-            if (!isDeleting) {
-                // Typing phase
-                if (currentText.length < currentExample.length) {
-                    setCurrentText(currentExample.slice(0, currentText.length + 1));
-                    timeoutRef.current = setTimeout(animate, typingSpeed);
-                } else {
-                    // Finished typing, wait before deleting
-                    timeoutRef.current = setTimeout(() => {
-                        setIsDeleting(true);
-                    }, delayBetweenExamples);
-                }
-            } else {
-                // Deleting phase
-                if (currentText.length > 0) {
-                    setCurrentText(currentText.slice(0, -1));
-                    timeoutRef.current = setTimeout(animate, deletingSpeed);
-                } else {
-                    // Finished deleting, move to next example
-                    setIsDeleting(false);
-                    setCurrentIndex((prevIndex) => (prevIndex + 1) % examples.length);
-                }
-            }
-        };
-
-        timeoutRef.current = setTimeout(animate, isDeleting ? deletingSpeed : typingSpeed);
-
-        return () => {
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
-        };
-    }, [
-        currentText,
-        currentIndex,
-        isDeleting,
+    return useTypewriter({
         examples,
         typingSpeed,
         deletingSpeed,
         delayBetweenExamples,
         enabled,
-    ]);
-
-    return currentText;
+        resetKey,
+    }).text;
 }

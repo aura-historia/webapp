@@ -107,7 +107,7 @@ describe("Footer", () => {
         );
         expect(discover.getByRole("link", { name: "Plattform" })).toHaveAttribute(
             "href",
-            "/de#discover",
+            "/de#platform",
         );
         expect(discover.getByRole("link", { name: "Preise" })).toHaveAttribute(
             "href",
