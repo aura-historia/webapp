@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Lock } from "lucide-react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils.ts";
 
@@ -67,5 +68,39 @@ export function SearchHiddenMatchCard() {
                 </Link>
             </div>
         </article>
+    );
+}
+
+export const RESULT_SECONDARY_BUTTON_CLASS =
+    "inline-flex h-11 cursor-pointer items-center justify-center rounded-pill px-5 text-sm font-medium text-ink shadow-[inset_0_0_0_1px_var(--line-strong)] outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+
+/** Centred empty or error state for a result list: icon, serif headline, copy and actions. */
+export function ResultStatePanel({
+    icon,
+    title,
+    description,
+    alert = false,
+    children,
+}: {
+    readonly icon: ReactNode;
+    readonly title: ReactNode;
+    readonly description: string;
+    readonly alert?: boolean;
+    readonly children?: ReactNode;
+}) {
+    return (
+        <div
+            role={alert ? "alert" : undefined}
+            className="flex flex-col items-center gap-4 px-4 py-16 text-center sm:py-24"
+        >
+            {icon}
+            <h2 className="font-serif text-[30px] leading-[1.15] font-normal [&_em]:italic">
+                {title}
+            </h2>
+            <p className="max-w-[400px] text-body text-ink-secondary">{description}</p>
+            {children && (
+                <div className="mt-2 flex flex-wrap justify-center gap-2.5">{children}</div>
+            )}
+        </div>
     );
 }

@@ -2,10 +2,6 @@ import { act } from "react";
 vi.mock("@/env", () => ({
     env: { VITE_APP_URL: "https://aura-historia.com", VITE_FEATURE_LOGIN_ENABLED: false },
 }));
-vi.mock("lottie-react", () => ({
-    Lottie: () => null,
-}));
-
 import { screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { ProductSharer } from "@/features/product/detail/components/ProductSharer.tsx";

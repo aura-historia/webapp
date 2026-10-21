@@ -468,6 +468,9 @@ code {
     /* Notification bell: a decaying swing when alerts turn on, a small settle when they turn off. */
     --animate-bell-ring: bell-ring 0.6s ease-in-out;
     --animate-bell-settle: bell-settle 0.25s ease-out;
+    /* List end: the oxblood check pops in, then its tick draws (path with pathLength="1"). */
+    --animate-check-pop: check-pop 0.36s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    --animate-check-draw: check-draw 0.32s ease-out 0.14s both;
 
     @keyframes bell-ring {
         0%,
@@ -499,6 +502,30 @@ code {
         to {
             transform: scale(1);
             opacity: 1;
+        }
+    }
+
+    @keyframes check-pop {
+        0% {
+            transform: scale(0.6);
+            opacity: 0;
+        }
+        60% {
+            transform: scale(1.08);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes check-draw {
+        from {
+            stroke-dashoffset: 1;
+        }
+        to {
+            stroke-dashoffset: 0;
         }
     }
 

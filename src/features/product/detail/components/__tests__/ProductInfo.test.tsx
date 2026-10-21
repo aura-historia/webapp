@@ -4,10 +4,6 @@ vi.mock("@/env", () => ({
     env: { VITE_APP_URL: "https://aura-historia.com", VITE_FEATURE_LOGIN_ENABLED: false },
 }));
 
-vi.mock("lottie-react", () => ({
-    Lottie: () => null,
-}));
-
 vi.mock("@tanstack/react-router", async () => {
     const actual =
         await vi.importActual<typeof import("@tanstack/react-router")>("@tanstack/react-router");

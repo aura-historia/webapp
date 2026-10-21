@@ -1290,18 +1290,22 @@
     "USER_ADDRESS_NOT_FOUND": "This saved address could not be found."
   },
   "watchlist": {
-    "title": "My Watchlist",
+    "heading": "My <em>watchlist.</em>",
+    "lead": "Objects you follow across the market. Turn on the bell to hear about price and availability changes.",
+    "loading": "Loading watchlist",
     "loginRequired": "Please log in to use the watchlist.",
     "loadingError": {
-      "title": "Watchlist unavailable",
-      "description": "The watchlist cannot be reached at this time. Please try again later."
+      "headline": "Watchlist <em>unavailable.</em>",
+      "description": "The watchlist cannot be reached at this time. Please try again later.",
+      "retry": "Try again"
     },
-    "loadingMore": "Loading more results...",
+    "loadingMore": "Loading more results…",
     "allLoaded_one": "You have seen {{count}} item from your watchlist.",
     "allLoaded_other": "You have seen all {{count}} items from your watchlist.",
     "noResults": {
-      "title": "No items found",
-      "description": "Add items to your watchlist to see them here."
+      "headline": "Your watchlist is <em>empty.</em>",
+      "description": "Use the bookmark on any listing to follow it here, with optional alerts for price and availability changes.",
+      "cta": "Search objects"
     }
   },
   "share": {

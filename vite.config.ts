@@ -49,9 +49,4 @@ export default defineConfig({
     resolve: {
         tsconfigPaths: true,
     },
-    legacy: {
-        // TODO: Wait for lottie to be updated
-        // https://github.com/Gamote/lottie-react/pull/131
-        inconsistentCjsInterop: true,
-    },
 });

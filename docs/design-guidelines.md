@@ -91,6 +91,11 @@ Use the token system in `src/styles.css`, which mirrors the design system's `tok
 - Change password shows a live policy checklist (oxblood check when met) under the new and confirm fields. Delete account uses an oxblood outline button and an oxblood confirm in the dialog; the dialog locks while the request runs.
 - Shared field, button and card classes live in `account-management/lib/accountStyles.ts`. Loading, validation, pending, picker and dialog states follow the board "Account · States".
 
+## Watchlist
+
+- The watchlist page follows the Redesign's Watchlist page: a ruled header (serif "My *watchlist.*" and a short lead, no eyebrow and no total, since the watchlist API returns none), then `SearchResultCard`s in two columns, three from 768px and four from 1180px. Each card keeps its bookmark and alert bell, so removing an item or toggling alerts works in place.
+- Loading, empty (with a Search objects link while search is enabled), error (with Try again) and list-end states follow the board "Watchlist · States" and reuse the search page's `ResultStatePanel` and `SearchResultCardSkeleton` and the shared `ListLoaderRow`.
+
 ## Layout and responsive behavior
 
 - Design mobile-first and test responsive breakpoints mentally when editing JSX/class names.
@@ -104,6 +109,7 @@ Use the token system in `src/styles.css`, which mirrors the design system's `tok
 - Motion should feel premium and purposeful, not flashy.
 - Respect reduced-motion expectations where interactions become substantial.
 - Every notification-alert toggle uses `ToggleBellIcon` (`src/components/common`): a decaying swing as alerts turn on, a small settle as they turn off, never on first render, and off under reduced motion.
+- Every infinite list ends with the shared `ListLoaderRow` (`src/components/common`): a hairline row with a spinner (and an optional mono progress counter) while the next page loads, then an oxblood check and the all-loaded message. The check pops in and its tick draws 500 ms after the row scrolls into view, once per mount, so readers actually see it; under reduced motion it shows at once.
 - Decorative images need `alt=""` and `aria-hidden="true"`; informative images need localized alt text.
 - Remote image changes should consider performance, dimensions, and cumulative layout shift.
 

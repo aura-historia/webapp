@@ -1290,18 +1290,22 @@
     "USER_ADDRESS_NOT_FOUND": "Cette adresse enregistrée est introuvable."
   },
   "watchlist": {
-    "title": "Mes favoris",
+    "heading": "Mes <em>favoris.</em>",
+    "lead": "Les objets que vous suivez sur le marché. Activez la cloche pour être informé des changements de prix et de disponibilité.",
+    "loading": "Chargement des favoris",
     "loginRequired": "Veuillez vous connecter pour utiliser la liste de favoris.",
     "loadingError": {
-      "title": "Liste inaccessible",
-      "description": "La liste de favoris est actuellement inaccessible. Veuillez réessayer plus tard."
+      "headline": "Liste <em>inaccessible.</em>",
+      "description": "La liste de favoris est actuellement inaccessible. Veuillez réessayer plus tard.",
+      "retry": "Réessayer"
     },
-    "loadingMore": "Chargement des résultats...",
+    "loadingMore": "Chargement des résultats…",
     "allLoaded_one": "Vous avez consulté {{count}} article de votre liste de favoris.",
     "allLoaded_other": "Vous avez consulté les {{count}} articles de votre liste de favoris.",
     "noResults": {
-      "title": "Aucun article trouvé",
-      "description": "Ajoutez des articles à votre liste de favoris pour les retrouver ici."
+      "headline": "Votre liste de favoris est <em>vide.</em>",
+      "description": "Utilisez le signet d’une annonce pour la suivre ici, avec des alertes facultatives sur les changements de prix et de disponibilité.",
+      "cta": "Rechercher des objets"
     }
   },
   "share": {

@@ -16,10 +16,6 @@ vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: observedRef, inView: false }),
 }));
 
-vi.mock("lottie-react", () => ({
-    Lottie: () => <div data-testid="lottie-animation" />,
-}));
-
 vi.mock("@/features/saved-searches/components/match/SearchFilterMatchCard.tsx", () => ({
     SearchFilterMatchCard: ({ product }: { product: ProductListing }) => (
         <div data-testid="search-filter-match-card">{product.title}</div>
@@ -218,7 +214,7 @@ describe("SearchFilterMatches", () => {
                 isFetchingNextPage: false,
             });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getByTestId("lottie-animation")).toBeInTheDocument();
+            expect(screen.getByTestId("list-loader-check")).toBeInTheDocument();
         });
 
         it("shows loading-more indicator when fetching the next page", () => {
