@@ -1290,18 +1290,22 @@
     "USER_ADDRESS_NOT_FOUND": "No se encontró esta dirección guardada."
   },
   "watchlist": {
-    "title": "Mi lista de seguimiento",
+    "heading": "Mi <em>lista de seguimiento.</em>",
+    "lead": "Objetos que sigue en el mercado. Active la campana para enterarse de cambios de precio y disponibilidad.",
+    "loading": "Cargando la lista de seguimiento",
     "loginRequired": "Por favor, inicie sesión para usar la lista de seguimiento.",
     "loadingError": {
-      "title": "Lista no disponible",
-      "description": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde."
+      "headline": "Lista <em>no disponible.</em>",
+      "description": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde.",
+      "retry": "Intentar de nuevo"
     },
-    "loadingMore": "Cargando más resultados...",
+    "loadingMore": "Cargando más resultados…",
     "allLoaded_one": "Ha visto {{count}} artículo de su lista de seguimiento.",
     "allLoaded_other": "Ha visto los {{count}} artículos de su lista de seguimiento.",
     "noResults": {
-      "title": "No se encontraron artículos",
-      "description": "Añada artículos a su lista de seguimiento para verlos aquí."
+      "headline": "Su lista de seguimiento está <em>vacía.</em>",
+      "description": "Use el marcador de cualquier anuncio para seguirlo aquí, con alertas opcionales de cambios de precio y disponibilidad.",
+      "cta": "Buscar objetos"
     }
   },
   "share": {

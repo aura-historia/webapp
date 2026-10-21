@@ -1290,18 +1290,22 @@
     "USER_ADDRESS_NOT_FOUND": "Questo indirizzo salvato non è stato trovato."
   },
   "watchlist": {
-    "title": "La mia lista dei preferiti",
+    "heading": "La mia <em>lista dei preferiti.</em>",
+    "lead": "Gli oggetti che segui sul mercato. Attiva la campanella per essere avvisato delle variazioni di prezzo e disponibilità.",
+    "loading": "Caricamento della lista dei preferiti",
     "loginRequired": "Effettua l'accesso per utilizzare la lista dei preferiti.",
     "loadingError": {
-      "title": "Lista non raggiungibile",
-      "description": "La lista dei preferiti non è raggiungibile al momento. Riprova più tardi."
+      "headline": "Lista <em>non raggiungibile.</em>",
+      "description": "La lista dei preferiti non è raggiungibile al momento. Riprova più tardi.",
+      "retry": "Riprova"
     },
-    "loadingMore": "Caricamento di altri risultati...",
+    "loadingMore": "Caricamento di altri risultati…",
     "allLoaded_one": "Hai visualizzato {{count}} articolo dalla tua lista dei preferiti.",
     "allLoaded_other": "Hai visualizzato tutti i {{count}} articoli dalla tua lista dei preferiti.",
     "noResults": {
-      "title": "Nessun articolo trovato",
-      "description": "Aggiungi articoli alla tua lista dei preferiti per vederli qui."
+      "headline": "La tua lista dei preferiti è <em>vuota.</em>",
+      "description": "Usa il segnalibro su qualsiasi annuncio per seguirlo qui, con avvisi facoltativi sulle variazioni di prezzo e disponibilità.",
+      "cta": "Cerca oggetti"
     }
   },
   "share": {

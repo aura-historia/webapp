@@ -25,10 +25,6 @@ vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: vi.fn(), inView: false }),
 }));
 
-vi.mock("lottie-react", () => ({
-    Lottie: () => <div data-testid="lottie-animation" />,
-}));
-
 const mockUseShopSearch = vi.mocked(useShopSearch);
 
 const buildShop = makePublicListingSource;

@@ -1290,18 +1290,22 @@
     "USER_ADDRESS_NOT_FOUND": "Diese gespeicherte Adresse wurde nicht gefunden."
   },
   "watchlist": {
-    "title": "Meine Merkliste",
+    "heading": "Meine <em>Merkliste.</em>",
+    "lead": "Objekte, denen Sie auf dem Markt folgen. Aktivieren Sie die Glocke, um über Preis- und Verfügbarkeitsänderungen informiert zu werden.",
+    "loading": "Merkliste wird geladen",
     "loginRequired": "Bitte melden Sie sich an, um die Merkliste nutzen zu können.",
     "loadingError": {
-      "title": "Merkliste nicht erreichbar",
-      "description": "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut."
+      "headline": "Merkliste <em>nicht erreichbar.</em>",
+      "description": "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
+      "retry": "Erneut versuchen"
     },
-    "loadingMore": "Lade neue Ergebnisse...",
+    "loadingMore": "Lade neue Ergebnisse…",
     "allLoaded_one": "Sie haben {{count}} Artikel Ihrer Merkliste gesehen.",
     "allLoaded_other": "Sie haben alle {{count}} Artikel Ihrer Merkliste gesehen.",
     "noResults": {
-      "title": "Keine Artikel gefunden",
-      "description": "Fügen Sie Artikel zur Merkliste hinzu, um sie hier anzusehen."
+      "headline": "Ihre Merkliste ist <em>leer.</em>",
+      "description": "Merken Sie sich ein Angebot mit dem Lesezeichen, um ihm hier zu folgen – auf Wunsch mit Benachrichtigungen zu Preis- und Verfügbarkeitsänderungen.",
+      "cta": "Objekte suchen"
     }
   },
   "share": {

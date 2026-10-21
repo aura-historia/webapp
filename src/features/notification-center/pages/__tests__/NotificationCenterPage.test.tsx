@@ -26,10 +26,6 @@ vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: vi.fn(), inView: false }),
 }));
 
-vi.mock("lottie-react", () => ({
-    Lottie: () => <div data-testid="lottie-animation" />,
-}));
-
 vi.mock("@/features/notification-center/components/NotificationCard.tsx", () => ({
     NotificationCard: ({ notification }: { notification: Notification }) => (
         <div data-testid="notification-card">{notification.notificationId}</div>

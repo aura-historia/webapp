@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { WatchlistPage } from "@/features/watchlist/pages/WatchlistPage.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
@@ -26,10 +26,6 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
 
 vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: vi.fn(), inView: false }),
-}));
-
-vi.mock("lottie-react", () => ({
-    Lottie: () => <div data-testid="lottie-animation" />,
 }));
 
 vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
@@ -82,7 +78,8 @@ function setInfiniteQueryMock({
     error = null,
     hasNextPage = false,
     isFetchingNextPage = false,
-}: InfiniteQueryMockOptions = {}) {
+    refetch = vi.fn(),
+}: InfiniteQueryMockOptions & { refetch?: () => void } = {}) {
     const pages = isPending
         ? undefined
         : [
@@ -100,6 +97,7 @@ function setInfiniteQueryMock({
         fetchNextPage: vi.fn(),
         hasNextPage,
         isFetchingNextPage,
+        refetch,
         // Add other required properties from useInfiniteQuery
         isError: !!error,
         isSuccess: !isPending && !error,
@@ -118,7 +116,7 @@ describe("WatchlistPage", () => {
             setInfiniteQueryMock({ isPending: true });
             renderWithQueryClient(<WatchlistPage />);
 
-            const skeletons = screen.getAllByTestId("product-card-skeleton");
+            const skeletons = screen.getAllByTestId("search-result-skeleton");
             expect(skeletons).toHaveLength(4);
         });
     });
@@ -128,12 +126,25 @@ describe("WatchlistPage", () => {
             setInfiniteQueryMock({ error: new Error("API Error") });
             renderWithQueryClient(<WatchlistPage />);
 
-            expect(screen.getByText("Merkliste nicht erreichbar")).toBeInTheDocument();
+            expect(screen.getByRole("alert")).toBeInTheDocument();
+            expect(
+                screen.getByRole("heading", { name: "Merkliste nicht erreichbar." }),
+            ).toBeInTheDocument();
             expect(
                 screen.getByText(
                     "Die Merkliste kann zurzeit nicht erreicht werden. Bitte versuchen Sie es später erneut.",
                 ),
             ).toBeInTheDocument();
+        });
+
+        it("should retry loading the watchlist", () => {
+            const refetch = vi.fn();
+            setInfiniteQueryMock({ error: new Error("API Error"), refetch });
+            renderWithQueryClient(<WatchlistPage />);
+
+            fireEvent.click(screen.getByRole("button", { name: "Erneut versuchen" }));
+
+            expect(refetch).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -142,18 +153,22 @@ describe("WatchlistPage", () => {
             setInfiniteQueryMock({ products: [] });
             renderWithQueryClient(<WatchlistPage />);
 
-            expect(screen.getByText("Keine Artikel gefunden")).toBeInTheDocument();
             expect(
-                screen.getByText("Fügen Sie Artikel zur Merkliste hinzu, um sie hier anzusehen."),
+                screen.getByRole("heading", { name: "Ihre Merkliste ist leer." }),
+            ).toBeInTheDocument();
+            expect(
+                screen.getByText(
+                    "Merken Sie sich ein Angebot mit dem Lesezeichen, um ihm hier zu folgen – auf Wunsch mit Benachrichtigungen zu Preis- und Verfügbarkeitsänderungen.",
+                ),
             ).toBeInTheDocument();
         });
 
-        it("should display search icon in empty state", () => {
+        it("should display bookmark icon in empty state", () => {
             setInfiniteQueryMock({ products: [] });
             const { container } = renderWithQueryClient(<WatchlistPage />);
 
             // Icon is an SVG with aria-hidden, so we check for its presence
-            const icon = container.querySelector("svg.lucide-search-x");
+            const icon = container.querySelector("svg.lucide-bookmark");
             expect(icon).toBeInTheDocument();
         });
     });
@@ -176,7 +191,9 @@ describe("WatchlistPage", () => {
             setInfiniteQueryMock({ products });
             renderWithQueryClient(<WatchlistPage />);
 
-            expect(screen.getByText("Meine Merkliste")).toBeInTheDocument();
+            expect(
+                screen.getByRole("heading", { level: 1, name: "Meine Merkliste." }),
+            ).toBeInTheDocument();
             expect(screen.queryByText("2 Artikel")).not.toBeInTheDocument();
         });
 
@@ -215,7 +232,7 @@ describe("WatchlistPage", () => {
             });
             renderWithQueryClient(<WatchlistPage />);
 
-            expect(screen.getByText("Lade neue Ergebnisse...")).toBeInTheDocument();
+            expect(screen.getByText("Lade neue Ergebnisse…")).toBeInTheDocument();
         });
 
         it("should show 'all loaded' message when no more pages", () => {
@@ -248,17 +265,6 @@ describe("WatchlistPage", () => {
             ).toBeInTheDocument();
         });
 
-        it("should display lottie animation when all products are loaded", () => {
-            setInfiniteQueryMock({
-                products: [createMockProduct()],
-                hasNextPage: false,
-                isFetchingNextPage: false,
-            });
-            renderWithQueryClient(<WatchlistPage />);
-
-            expect(screen.getByTestId("lottie-animation")).toBeInTheDocument();
-        });
-
         it("should show nothing when has next page but not fetching", () => {
             setInfiniteQueryMock({
                 products: [createMockProduct()],
@@ -268,7 +274,7 @@ describe("WatchlistPage", () => {
             renderWithQueryClient(<WatchlistPage />);
 
             // Should not show loading or completed state
-            expect(screen.queryByText("Lade neue Ergebnisse...")).not.toBeInTheDocument();
+            expect(screen.queryByText("Lade neue Ergebnisse…")).not.toBeInTheDocument();
             expect(
                 screen.queryByText(/Sie haben .* ihrer Merkliste gesehen./),
             ).not.toBeInTheDocument();

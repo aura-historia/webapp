@@ -169,8 +169,9 @@ function SearchResultCardComponent({
                     to="/$lng/shops/$shopSlugId"
                     params={(current) => ({ ...current, shopSlugId: product.source.slugId })}
                     from="/$lng"
+                    title={provider}
                     className={cn(
-                        "inline-flex min-h-5 min-w-0 self-start font-mono text-tag tracking-[0.14em] text-ink-muted uppercase hover:text-brass-ink",
+                        "inline-flex min-h-5 min-w-0 max-w-full self-start font-mono text-tag tracking-[0.14em] text-ink-muted uppercase hover:text-brass-ink",
                         FOCUS_CLASS,
                     )}
                 >
