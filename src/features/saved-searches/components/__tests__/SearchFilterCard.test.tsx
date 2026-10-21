@@ -1,10 +1,13 @@
-import { screen, act, fireEvent } from "@testing-library/react";
+import { act, fireEvent, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { SearchFilterCard } from "../SearchFilterCard.tsx";
+import { SearchFilterCard, SearchFilterRestingRow } from "../SearchFilterCard.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
+import { useUpdateUserSearchFilter } from "@/features/saved-searches/api/useUpdateUserSearchFilter.ts";
 
 const mockUpdateMutate = vi.fn();
+const mockDeleteMutate = vi.fn();
 
 vi.mock("@/features/saved-searches/api/useUpdateUserSearchFilter.ts", () => ({
     useUpdateUserSearchFilter: vi.fn(() => ({
@@ -12,6 +15,12 @@ vi.mock("@/features/saved-searches/api/useUpdateUserSearchFilter.ts", () => ({
         isPending: false,
     })),
 }));
+
+vi.mock("@/features/saved-searches/api/useDeleteUserSearchFilter.ts", () => ({
+    useDeleteUserSearchFilter: () => ({ mutate: mockDeleteMutate, isPending: false }),
+}));
+
+vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 
 vi.mock("@tanstack/react-query", async (importOriginal) => {
     const actual = await importOriginal<typeof import("@tanstack/react-query")>();
@@ -34,304 +43,220 @@ const mockFilter: UserSearchFilter = {
 
 const defaultProps = {
     filter: mockFilter,
-    isDeleting: false,
     canDuplicate: true,
-    onDelete: vi.fn(),
     onEdit: vi.fn(),
     onDuplicate: vi.fn(),
 };
+
+async function renderCard(props: Partial<typeof defaultProps> = {}) {
+    await act(() => {
+        renderWithRouter(<SearchFilterCard {...defaultProps} {...props} />);
+    });
+}
+
+async function renderRow(props: Partial<typeof defaultProps> = {}) {
+    await act(() => {
+        renderWithRouter(<SearchFilterRestingRow {...defaultProps} {...props} />);
+    });
+}
+
+async function openMenu(user: ReturnType<typeof userEvent.setup>) {
+    await user.click(screen.getByRole("button", { name: "Weitere Aktionen" }));
+    return screen.findByRole("menu");
+}
 
 describe("SearchFilterCard", () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });
 
-    it("renders a card-wide link to the filter's detail page", async () => {
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} />);
-        });
+    it("renders the live label and a name link to the filter's detail page", async () => {
+        await renderCard();
+        expect(screen.getByText("Live")).toBeInTheDocument();
         expect(screen.getByRole("link", { name: "Barock Möbel" })).toHaveAttribute(
             "href",
             "/de/me/search-filter/filter-1",
         );
     });
 
-    it("renders the filter name", async () => {
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} />);
+    it("renders the quoted search terms", async () => {
+        await renderCard({
+            filter: { ...mockFilter, search: { q: "Tisch", queryTerms: ["Tisch", "Stuhl"] } },
         });
-        expect(screen.getByText("Barock Möbel")).toBeInTheDocument();
+        expect(screen.getByText("“Tisch” · “Stuhl”")).toBeInTheDocument();
     });
 
-    it("renders the search query", async () => {
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} />);
+    it("renders the optional AI description", async () => {
+        await renderCard({
+            filter: { ...mockFilter, enhancedSearchDescription: "KI-Beschreibung Text" },
         });
-        expect(screen.getByText(/Tisch/)).toBeInTheDocument();
-    });
-
-    it("renders edit button", async () => {
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} />);
-        });
-        expect(screen.getByRole("button", { name: /Suchauftrag bearbeiten/i })).toBeInTheDocument();
-    });
-
-    it("renders delete button", async () => {
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} />);
-        });
-        expect(screen.getByRole("button", { name: /Suchauftrag l.schen/i })).toBeInTheDocument();
-    });
-
-    it("renders duplicate button", async () => {
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} />);
-        });
-        expect(
-            screen.getByRole("button", { name: /Suchauftrag duplizieren/i }),
-        ).toBeInTheDocument();
-    });
-
-    it("duplicate button is enabled when canDuplicate is true", async () => {
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} canDuplicate={true} />);
-        });
-        expect(screen.getByRole("button", { name: /Suchauftrag duplizieren/i })).not.toBeDisabled();
-    });
-
-    it("duplicate button is disabled when canDuplicate is false", async () => {
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} canDuplicate={false} />);
-        });
-        expect(screen.getByRole("button", { name: /Suchauftrag duplizieren/i })).toBeDisabled();
-    });
-
-    it("calls onEdit when edit button is clicked", async () => {
-        const onEdit = vi.fn();
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} onEdit={onEdit} />);
-        });
-        await act(() => {
-            fireEvent.click(screen.getByRole("button", { name: /Suchauftrag bearbeiten/i }));
-        });
-        expect(onEdit).toHaveBeenCalledWith(mockFilter);
-    });
-
-    it("calls onDuplicate when duplicate button is clicked", async () => {
-        const onDuplicate = vi.fn();
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} onDuplicate={onDuplicate} />);
-        });
-        await act(() => {
-            fireEvent.click(screen.getByRole("button", { name: /Suchauftrag duplizieren/i }));
-        });
-        expect(onDuplicate).toHaveBeenCalledWith(mockFilter);
-    });
-
-    it("delete button is disabled when isDeleting is true", async () => {
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} isDeleting={true} />);
-        });
-        expect(screen.getByRole("button", { name: /Suchauftrag l.schen/i })).toBeDisabled();
-    });
-
-    it("renders optional enhancedSearchDescription", async () => {
-        const filter = { ...mockFilter, enhancedSearchDescription: "KI-Beschreibung Text" };
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
-        });
+        expect(screen.getByText("KI")).toBeInTheDocument();
         expect(screen.getByText("KI-Beschreibung Text")).toBeInTheDocument();
     });
 
-    it("renders notification bell button", async () => {
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} />);
-        });
-        expect(
-            screen.getByRole("button", { name: /Keine Benachrichtigungen/i }),
-        ).toBeInTheDocument();
+    it("renders the criteria line with the availability fallback", async () => {
+        await renderCard();
+        expect(screen.getByText("Alle")).toBeInTheDocument();
     });
 
-    it("toggles notifications on bell click", async () => {
-        await act(() => {
-            renderWithRouter(<SearchFilterCard {...defaultProps} />);
-        });
-        const bellBtn = screen.getByRole("button", { name: /Keine Benachrichtigungen/i });
-        await act(() => {
-            fireEvent.click(bellBtn);
-        });
-        expect(mockUpdateMutate).toHaveBeenCalledWith(
-            expect.objectContaining({
-                id: "filter-1",
-                patch: { notifications: true },
-            }),
+    it("links to the matches and details", async () => {
+        await renderCard();
+        expect(screen.getByRole("link", { name: /Treffer & Details/ })).toHaveAttribute(
+            "href",
+            "/de/me/search-filter/filter-1",
         );
     });
 
-    describe("mobile dropdown", () => {
-        it("renders the more actions button", async () => {
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} />);
-            });
-            expect(screen.getByRole("button", { name: /Weitere Aktionen/i })).toBeInTheDocument();
+    it("pauses the filter", async () => {
+        await renderCard();
+        fireEvent.click(screen.getByRole("button", { name: "Barock Möbel pausieren" }));
+        expect(mockUpdateMutate).toHaveBeenCalledWith({
+            id: "filter-1",
+            patch: { state: "INACTIVE_BY_USER" },
         });
     });
 
-    describe("delete confirmation", () => {
-        it("opens the confirmation dialog when delete button is clicked", async () => {
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} />);
-            });
-            await act(() => {
-                fireEvent.click(screen.getByRole("button", { name: /Suchauftrag löschen/i }));
-            });
-            expect(screen.getByRole("alertdialog")).toBeInTheDocument();
-        });
-
-        it("calls onDelete with filter id when confirmed", async () => {
-            const onDelete = vi.fn();
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} onDelete={onDelete} />);
-            });
-            await act(() => {
-                fireEvent.click(screen.getByRole("button", { name: /Suchauftrag löschen/i }));
-            });
-            await act(() => {
-                fireEvent.click(screen.getByRole("button", { name: /Endgültig löschen/i }));
-            });
-            expect(onDelete).toHaveBeenCalledWith("filter-1");
+    it("toggles email alerts", async () => {
+        await renderCard();
+        const toggle = screen.getByRole("button", { name: "E-Mail-Hinweise aus" });
+        expect(toggle).toHaveAttribute("aria-pressed", "false");
+        fireEvent.click(toggle);
+        expect(mockUpdateMutate).toHaveBeenCalledWith({
+            id: "filter-1",
+            patch: { notifications: true },
         });
     });
 
-    describe("resource state", () => {
-        it("renders pause button when filter is ACTIVE", async () => {
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} />);
-            });
-            expect(screen.getByRole("button", { name: /Pausieren/i })).toBeInTheDocument();
+    it("shows email alerts as on when notifications are enabled", async () => {
+        await renderCard({ filter: { ...mockFilter, notifications: true } });
+        expect(screen.getByRole("button", { name: "E-Mail-Hinweise an" })).toHaveAttribute(
+            "aria-pressed",
+            "true",
+        );
+    });
+
+    it("disables pause and email alerts while an update is pending", async () => {
+        vi.mocked(useUpdateUserSearchFilter).mockReturnValueOnce({
+            mutate: mockUpdateMutate,
+            isPending: true,
+        } as unknown as ReturnType<typeof useUpdateUserSearchFilter>);
+        await renderCard();
+        expect(screen.getByRole("button", { name: "Barock Möbel pausieren" })).toBeDisabled();
+        expect(screen.getByRole("button", { name: "E-Mail-Hinweise aus" })).toBeDisabled();
+    });
+
+    describe("actions menu", () => {
+        it("calls onEdit from the menu", async () => {
+            const user = userEvent.setup();
+            const onEdit = vi.fn();
+            await renderCard({ onEdit });
+            await openMenu(user);
+            await user.click(screen.getByRole("menuitem", { name: "Suchauftrag bearbeiten" }));
+            expect(onEdit).toHaveBeenCalledWith(mockFilter);
         });
 
-        it("renders activate button when filter is INACTIVE_BY_USER", async () => {
-            const filter = { ...mockFilter, state: "INACTIVE_BY_USER" as const };
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
-            });
-            expect(screen.getByRole("button", { name: /Aktivieren/i })).toBeInTheDocument();
+        it("calls onDuplicate from the menu", async () => {
+            const user = userEvent.setup();
+            const onDuplicate = vi.fn();
+            await renderCard({ onDuplicate });
+            await openMenu(user);
+            await user.click(screen.getByRole("menuitem", { name: "Suchauftrag duplizieren" }));
+            expect(onDuplicate).toHaveBeenCalledWith(mockFilter);
         });
 
-        it("shows Pausiert badge when filter is INACTIVE_BY_USER", async () => {
-            const filter = { ...mockFilter, state: "INACTIVE_BY_USER" as const };
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
-            });
-            expect(screen.getByText("Pausiert")).toBeInTheDocument();
-        });
-
-        it("shows Gesperrt badge when filter is INACTIVE_BY_RESTRICTED_PLAN", async () => {
-            const filter = { ...mockFilter, state: "INACTIVE_BY_RESTRICTED_PLAN" as const };
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
-            });
-            expect(screen.getByText("Gesperrt")).toBeInTheDocument();
-        });
-
-        it("enables state toggle when INACTIVE_BY_RESTRICTED_PLAN", async () => {
-            const filter = { ...mockFilter, state: "INACTIVE_BY_RESTRICTED_PLAN" as const };
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
-            });
-            expect(screen.getByRole("button", { name: /Aktivieren/i })).not.toBeDisabled();
-        });
-
-        it("calls mutate with ACTIVE when activating an INACTIVE_BY_RESTRICTED_PLAN filter", async () => {
-            const filter = { ...mockFilter, state: "INACTIVE_BY_RESTRICTED_PLAN" as const };
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
-            });
-            await act(() => {
-                fireEvent.click(screen.getByRole("button", { name: /Aktivieren/i }));
-            });
-            expect(mockUpdateMutate).toHaveBeenCalledWith(
-                expect.objectContaining({
-                    id: "filter-1",
-                    patch: { state: "ACTIVE" },
-                }),
-            );
-        });
-
-        it("calls mutate with INACTIVE_BY_USER when pausing an ACTIVE filter", async () => {
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} />);
-            });
-            const pauseBtn = screen.getByRole("button", { name: /Pausieren/i });
-            await act(() => {
-                fireEvent.click(pauseBtn);
-            });
-            expect(mockUpdateMutate).toHaveBeenCalledWith(
-                expect.objectContaining({
-                    id: "filter-1",
-                    patch: { state: "INACTIVE_BY_USER" },
-                }),
-            );
-        });
-
-        it("calls mutate with ACTIVE when activating an INACTIVE_BY_USER filter", async () => {
-            const filter = { ...mockFilter, state: "INACTIVE_BY_USER" as const };
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
-            });
-            const activateBtn = screen.getByRole("button", { name: /Aktivieren/i });
-            await act(() => {
-                fireEvent.click(activateBtn);
-            });
-            expect(mockUpdateMutate).toHaveBeenCalledWith(
-                expect.objectContaining({
-                    id: "filter-1",
-                    patch: { state: "ACTIVE" },
-                }),
-            );
-        });
-
-        it("shows no state badge when filter is ACTIVE", async () => {
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} />);
-            });
-            expect(screen.queryByText("Pausiert")).not.toBeInTheDocument();
-            expect(screen.queryByText("Gesperrt")).not.toBeInTheDocument();
-        });
-
-        it("enables matching products button when filter is INACTIVE_BY_USER", async () => {
-            const filter = { ...mockFilter, state: "INACTIVE_BY_USER" as const };
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
-            });
-            expect(screen.getByRole("link", { name: /Treffer & Details/i })).toBeInTheDocument();
-        });
-
-        it("shows matching products link when filter is INACTIVE_BY_RESTRICTED_PLAN", async () => {
-            const filter = { ...mockFilter, state: "INACTIVE_BY_RESTRICTED_PLAN" as const };
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
-            });
-            expect(screen.getByRole("link", { name: /Treffer & Details/i })).toBeInTheDocument();
-        });
-
-        it("disables bell button when filter is INACTIVE_BY_USER", async () => {
-            const filter = { ...mockFilter, state: "INACTIVE_BY_USER" as const };
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} filter={filter} />);
-            });
+        it("disables duplicate with an upgrade hint when canDuplicate is false", async () => {
+            const user = userEvent.setup();
+            const onDuplicate = vi.fn();
+            await renderCard({ canDuplicate: false, onDuplicate });
+            await openMenu(user);
+            const item = screen.getByRole("menuitem", { name: "Suchauftrag duplizieren" });
+            expect(item).toHaveAttribute("aria-disabled", "true");
             expect(
-                screen.getByRole("button", { name: /Keine Benachrichtigungen/i }),
-            ).toBeDisabled();
+                screen.getByText("Upgraden Sie Ihr Konto, um mehr Suchaufträge zu erstellen"),
+            ).toBeInTheDocument();
+            await user.click(item);
+            expect(onDuplicate).not.toHaveBeenCalled();
         });
 
-        it("enables matching products button when filter is ACTIVE", async () => {
-            await act(() => {
-                renderWithRouter(<SearchFilterCard {...defaultProps} />);
-            });
-            expect(screen.getByRole("link", { name: /Treffer & Details/i })).toBeInTheDocument();
+        it("opens the delete dialog and deletes the filter when confirmed", async () => {
+            const user = userEvent.setup();
+            await renderCard();
+            await openMenu(user);
+            await user.click(screen.getByRole("menuitem", { name: "Suchauftrag löschen" }));
+            expect(await screen.findByRole("alertdialog")).toBeInTheDocument();
+            expect(screen.getByText('Suchauftrag "Barock Möbel" löschen?')).toBeInTheDocument();
+            await user.click(screen.getByRole("button", { name: "Endgültig löschen" }));
+            expect(mockDeleteMutate).toHaveBeenCalledWith("filter-1", expect.any(Object));
         });
+    });
+});
+
+describe("SearchFilterRestingRow", () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    describe("paused", () => {
+        const paused = { ...mockFilter, state: "INACTIVE_BY_USER" as const };
+
+        it("renders the paused state, name and note", async () => {
+            await renderRow({ filter: paused });
+            expect(screen.getByText("Von Ihnen pausiert")).toBeInTheDocument();
+            expect(screen.getByRole("link", { name: "Barock Möbel" })).toHaveAttribute(
+                "href",
+                "/de/me/search-filter/filter-1",
+            );
+            expect(
+                screen.getByText("Treffer von vor der Pause bleiben auf der Detailseite."),
+            ).toBeInTheDocument();
+        });
+
+        it("resumes the filter", async () => {
+            await renderRow({ filter: paused });
+            fireEvent.click(screen.getByRole("button", { name: "Fortsetzen" }));
+            expect(mockUpdateMutate).toHaveBeenCalledWith({
+                id: "filter-1",
+                patch: { state: "ACTIVE" },
+            });
+        });
+
+        it("does not offer an upgrade", async () => {
+            await renderRow({ filter: paused });
+            expect(
+                screen.queryByRole("link", { name: "Upgraden zum Fortsetzen" }),
+            ).not.toBeInTheDocument();
+        });
+    });
+
+    describe("locked by plan", () => {
+        const locked = { ...mockFilter, state: "INACTIVE_BY_RESTRICTED_PLAN" as const };
+
+        it("renders the locked state and note", async () => {
+            await renderRow({ filter: locked });
+            expect(screen.getByText("Durch Tarif gesperrt")).toBeInTheDocument();
+            expect(
+                screen.getByText(
+                    "Ihr Tarif umfasst diesen Suchauftrag nicht, daher sucht er keine Treffer mehr.",
+                ),
+            ).toBeInTheDocument();
+        });
+
+        it("links to pricing instead of resuming", async () => {
+            await renderRow({ filter: locked });
+            expect(screen.getByRole("link", { name: "Upgraden zum Fortsetzen" })).toHaveAttribute(
+                "href",
+                "/de#pricing",
+            );
+            expect(screen.queryByRole("button", { name: "Fortsetzen" })).not.toBeInTheDocument();
+        });
+    });
+
+    it("opens the actions menu", async () => {
+        const user = userEvent.setup();
+        const onEdit = vi.fn();
+        await renderRow({ filter: { ...mockFilter, state: "INACTIVE_BY_USER" }, onEdit });
+        await openMenu(user);
+        await user.click(screen.getByRole("menuitem", { name: "Suchauftrag bearbeiten" }));
+        expect(onEdit).toHaveBeenCalledWith({ ...mockFilter, state: "INACTIVE_BY_USER" });
     });
 });

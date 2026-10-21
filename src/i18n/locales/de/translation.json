@@ -1617,7 +1617,6 @@
       "namePlaceholder": "z. B. Mater Dolorosa Barockgemälde",
       "queryLabel_one": "Suchbegriff",
       "queryLabel_other": "Suchbegriffe",
-      "aiDescriptionLabel": "KI-gestützte Beschreibung (optional)",
       "aiDescriptionPlaceholder": "Jungfrau Maria Ölgemälde auf Leinwand, nicht Holz, Barockrahmen mit Blattgold auf Kreidegrund (Gesso). Das Motiv soll Mater Dolorosa sein. Signatur des Künstlers muss enthalten sein. Das Gemälde darf keine sichtbaren Beschädigungen enthalten und der Rahmen muss vollständig intakt sein. Falls das Gemälde aus dem spanischen Barock stammt, dann muss es mindestens 40x60 cm groß sein. Für den italienischen Barock muss das nicht gelten.",
       "ultimateOnly": "Nur für Ultimate-Abonnenten verfügbar.",
       "cancelButton": "Abbrechen",
@@ -1640,7 +1639,6 @@
       "close": "Schließen"
     },
     "wizard": {
-      "title": "Neuen Suchauftrag anlegen",
       "back": "Zurück",
       "next": "Weiter",
       "saveDirectly": "Speichern",
@@ -1648,29 +1646,40 @@
       "nameTooLong": "Der Name darf maximal 255 Zeichen lang sein.",
       "queryRequired": "Bitte geben Sie mindestens einen Suchbegriff ein.",
       "queryTermTooShort": "Jeder Suchbegriff muss mindestens 3 Zeichen lang sein.",
-      "noFiltersConfigured": "Keine zusätzlichen Filter konfiguriert.",
       "step": {
         "name": "Suchbegriff & Name",
-        "nameDescription": "Geben Sie Ihrem Suchauftrag einen Namen und geben Sie an, wonach Sie suchen – optional können Sie die Suche mit einer KI-gestützten Beschreibung noch weiter präzisieren.",
+        "nameDescription": "Geben Sie Ihrem Suchauftrag einen Namen und die Begriffe, nach denen er suchen soll.",
         "priceStatus": "Preis & Status",
         "shop": "Händler & Shop-Typ",
         "date": "Zeitraum",
         "confirm": "Zusammenfassung",
-        "confirmDescription": "Überprüfen Sie Ihre konfigurierten Suchkriterien und speichern Sie den Auftrag. Sie werden umgehend benachrichtigt, sobald ein passendes Objekt auf dem Markt erscheint.",
+        "confirmDescription": "Prüfen Sie Ihren Suchauftrag vor dem Speichern.",
         "priceStatusDescription": "Definieren Sie Ihren Preisrahmen und wählen Sie den gewünschten Anzeigenstatus – etwa ausschließlich verfügbare Objekte oder auch bereits versteigerte Stücke zur Marktrecherche.",
         "shopDescription": "Wählen Sie gezielt Anbietertypen – renommierte Auktionshäuser, spezialisierte Kunsthändler oder Marktplätze – und schließen Sie einzelne Häuser ein oder aus.",
         "dateDescription": "Grenzen Sie die Suche zeitlich ein – nach Auktionstermin, Datum der Erstveröffentlichung oder der letzten Aktualisierung des Inserats."
       },
       "titleEdit": "Suchauftrag bearbeiten",
-      "titleDuplicate": "Suchauftrag duplizieren"
+      "titleDuplicate": "Suchauftrag duplizieren",
+      "eyebrow": "Neuer Suchauftrag",
+      "eyebrowEdit": "Bearbeiten",
+      "eyebrowDuplicate": "Duplizieren",
+      "stepOf": "Schritt {{step}} von {{total}}",
+      "nextStep": "Weiter: {{label}}",
+      "stepsLabel": "Schritte",
+      "progressLabel": "Fortschritt",
+      "proTag": "Pro & Ultimate",
+      "lockedHint": "Ihr Tarif speichert Suchbegriff, Verfügbarkeit und Preisspanne.",
+      "any": "Beliebig",
+      "change": "Ändern",
+      "changeLabel": "{{label}} ändern",
+      "saveFinal": "Suchauftrag speichern",
+      "titleCreate": "Suchauftrag anlegen"
     },
     "optional": "optional",
     "upgradeRequired": "Nur für Pro & Ultimate",
     "upgradeNow": "Jetzt upgraden"
   },
   "searchFilters": {
-    "title": "Meine Suchaufträge",
-    "create": "Neuer Suchauftrag",
     "createUpgradeTooltip": "Upgraden Sie Ihr Konto, um mehr Suchaufträge zu erstellen",
     "duplicate": "Suchauftrag duplizieren",
     "duplicateNamePrefix": "Kopie von {{name}}",
@@ -1683,38 +1692,29 @@
       "cancel": "Abbrechen",
       "confirm": "Endgültig löschen"
     },
-    "notificationsOn": "Benachrichtigungen aktiv",
-    "notificationsOff": "Keine Benachrichtigungen",
-    "activate": "Aktivieren",
     "deactivate": "Pausieren",
     "moreActions": "Weitere Aktionen",
-    "stateInactiveByUser": "Pausiert",
-    "stateInactiveByPlan": "Gesperrt",
     "loadingError": {
-      "title": "Fehler beim Laden",
-      "description": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+      "description": "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+      "headline": "Suchaufträge <em>nicht verfügbar.</em>",
+      "retry": "Erneut versuchen"
     },
     "noResults": {
-      "title": "Keine Suchaufträge",
-      "description": "Speichern Sie eine Suche, um sie hier zu finden."
+      "description": "Sie haben noch keine Suchaufträge gespeichert. Speichern Sie eine Suche, und wir schreiben Ihnen, sobald neue Objekte passen.",
+      "headline": "Noch keine <em>Suchaufträge.</em>",
+      "searchCta": "Objekte suchen"
     },
     "noMatches": {
-      "title": "Keine Treffer gefunden",
-      "description": "Für diesen Suchauftrag gibt es momentan keine passenden Produkte.",
-      "editHint": "Zurück zu den Suchaufträgen"
+      "description": "Für diesen Suchauftrag wurden noch keine passenden Objekte gefunden. Passen Sie den Suchauftrag gegebenenfalls an.",
+      "headline": "Noch keine <em>Treffer.</em>",
+      "editCta": "Suchauftrag bearbeiten"
     },
-    "totalElements": "{{count}} Suchauftrag/-träge",
-    "totalElements_one": "{{count}} Suchauftrag",
-    "totalElements_other": "{{count}} Suchaufträge",
-    "matches": "Gefundene Produkte",
     "matchesCount_one": "{{count}} Produkt",
     "matchesCount_other": "{{count}} Produkte",
-    "matchesHint": "Hier werden Produkte angezeigt, die zuvor die Kriterien Ihres Suchauftrags erfüllt haben.",
+    "matchesHint": "Objekte, die seit dem Speichern zu diesem Suchauftrag gepasst haben. Markieren Sie Treffer als relevant oder nicht, um künftige Ergebnisse zu schärfen.",
     "matchesAndDetails": "Treffer & Details",
     "matchesAndDetailsShort": "Details",
-    "searchPlaceholder": "Suchaufträge durchsuchen …",
-    "showDetails": "Details anzeigen",
-    "noAdditionalCriteria": "Keine weiteren Kriterien konfiguriert.",
+    "searchPlaceholder": "Suchaufträge durchsuchen…",
     "info": {
       "creationDate": "Hinzufügedatum",
       "updateDate": "Aktualisierungsdatum",
@@ -1722,8 +1722,10 @@
     },
     "detail": {
       "eyebrow": "Suchauftrag",
-      "configurationTitle": "Ihre Filterkriterien",
-      "configurationHint": "Hier sehen Sie alle Einstellungen, die bestimmen, welche Treffer in diesem Suchauftrag gefunden werden."
+      "configurationTitle": "Ihre Suchkriterien",
+      "configurationHint": "Alle Einstellungen, die bestimmen, welche Objekte dieser Suchauftrag findet.",
+      "back": "Meine Suchaufträge",
+      "meta": "Angelegt {{created}} · Aktualisiert {{updated}}"
     },
     "hiddenMatch": {
       "title": "Verborgen",
@@ -1732,7 +1734,11 @@
     },
     "feedback": {
       "relevantHint": "Treffer ist relevant",
-      "notRelevantHint": "Treffer ist nicht relevant"
+      "notRelevantHint": "Treffer ist nicht relevant",
+      "question": "Relevant?",
+      "relevant": "Relevant",
+      "notRelevant": "Nicht relevant",
+      "groupLabel": "Rückmeldung zu diesem Treffer"
     },
     "feedbackError": "Feedback konnte nicht gespeichert werden.",
     "preview": {
@@ -1741,7 +1747,56 @@
       "unavailable": "Eine Vorschau ist nicht verfügbar, weil dieser Suchauftrag Kriterien enthält, die die Angebotssuche nicht abbilden kann.",
       "error": "Die Vorschau konnte nicht geladen werden.",
       "empty": "Derzeit entsprechen keine Angebote diesen Kriterien."
-    }
+    },
+    "searchLabel": "Ihre Suchaufträge durchsuchen",
+    "heading": "Meine <em>Suchaufträge.</em>",
+    "lead": "Gespeicherte Suchen, die den Markt weiter beobachten. Wir schreiben Ihnen, sobald neue Objekte passen.",
+    "loading": "Suchaufträge werden geladen",
+    "quota": "{{used}} von {{limit}} im Tarif „{{plan}}“",
+    "aiLabel": "KI",
+    "state": {
+      "live": "Live",
+      "active": "Aktiv",
+      "paused": "Von Ihnen pausiert",
+      "locked": "Durch Tarif gesperrt"
+    },
+    "watching": {
+      "heading": "Im <em>Einsatz.</em>",
+      "meta_one": "{{count}} aktiv · mit jedem neuen Angebot abgeglichen",
+      "meta_other": "{{count}} aktiv · mit jedem neuen Angebot abgeglichen",
+      "empty": "Gerade ist kein Suchauftrag im Einsatz. Setzen Sie unten einen fort oder legen Sie einen neuen an."
+    },
+    "resting": {
+      "heading": "Ruhend",
+      "meta_one": "{{count}} sucht keine Treffer",
+      "meta_other": "{{count}} suchen keine Treffer",
+      "emptyHeadline": "Nichts <em>ruht.</em>",
+      "empty": "Suchaufträge, die Sie pausieren oder die Ihr Tarif sperrt, warten hier, ohne nach Treffern zu suchen."
+    },
+    "pauseFilter": "{{name}} pausieren",
+    "resume": "Fortsetzen",
+    "upgradeToResume": "Upgraden zum Fortsetzen",
+    "pausedNote": "Treffer von vor der Pause bleiben auf der Detailseite.",
+    "lockedNote": "Ihr Tarif umfasst diesen Suchauftrag nicht, daher sucht er keine Treffer mehr.",
+    "emailAlertsOn": "E-Mail-Hinweise an",
+    "emailAlertsOff": "E-Mail-Hinweise aus",
+    "noNameMatch": {
+      "headline": "Kein Suchauftrag passt zu <em>„{{query}}“.</em>",
+      "description_one": "Prüfen Sie die Schreibweise oder leeren Sie die Suche, um Ihren Suchauftrag zu sehen.",
+      "description_other": "Prüfen Sie die Schreibweise oder leeren Sie die Suche, um alle {{count}} Suchaufträge zu sehen.",
+      "clear": "Suche leeren"
+    },
+    "matchesHeading": "Gefundene <em>Objekte.</em>",
+    "matchesLoading": "Treffer werden geladen",
+    "matchesLoadingMore": "Weitere Treffer werden geladen…",
+    "matchesProgress": "{{loaded}} von {{total}}",
+    "matchesAllLoaded_one": "Sie haben {{count}} Treffer gesehen.",
+    "matchesAllLoaded_other": "Sie haben alle {{count}} Treffer gesehen.",
+    "matchesError": {
+      "headline": "Treffer <em>nicht verfügbar.</em>",
+      "description": "Die Treffer konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+    },
+    "createCta": "Suchauftrag anlegen"
   },
   "partnerDashboard": {
     "title": "Partner-Dashboard",

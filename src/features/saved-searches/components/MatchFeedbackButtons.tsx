@@ -1,10 +1,8 @@
 import { ThumbsDown, ThumbsUp } from "lucide-react";
-import { Button } from "@/components/ui/button.tsx";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
-import { useSearchFilterMatchFeedback } from "@/features/saved-searches/api/useSearchFilterMatchFeedback.ts";
-import { cn } from "@/lib/utils.ts";
 import { useTranslation } from "react-i18next";
-import type { ComponentType, SVGProps } from "react";
+import { useSearchFilterMatchFeedback } from "@/features/saved-searches/api/useSearchFilterMatchFeedback.ts";
+import { FOCUS_CLASS } from "@/features/saved-searches/lib/searchFilterStyles.ts";
+import { cn } from "@/lib/utils.ts";
 
 type MatchFeedbackButtonsProps = {
     readonly filterId: string;
@@ -12,40 +10,15 @@ type MatchFeedbackButtonsProps = {
     readonly currentFeedback?: boolean;
 };
 
-type FeedbackButtonProps = {
-    readonly icon: ComponentType<SVGProps<SVGSVGElement>>;
-    readonly tooltip: string;
-    readonly active: boolean;
-    readonly activeClass: string;
-    readonly disabled: boolean;
-    readonly onClick: () => void;
-};
+const BUTTON_CLASS = cn(
+    "inline-flex size-10 cursor-pointer items-center justify-center rounded-pill transition-colors disabled:cursor-not-allowed",
+    FOCUS_CLASS,
+);
 
-function FeedbackButton({
-    icon: Icon,
-    tooltip,
-    active,
-    activeClass,
-    disabled,
-    onClick,
-}: FeedbackButtonProps) {
-    return (
-        <Tooltip>
-            <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" disabled={disabled} onClick={onClick}>
-                    <Icon
-                        className={cn(
-                            "size-4 transition-colors duration-200",
-                            active && activeClass,
-                        )}
-                    />
-                </Button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">{tooltip}</TooltipContent>
-        </Tooltip>
-    );
-}
-
+/**
+ * The ruled row under a match: whether it is relevant, with a pressed thumb per answer. Pressing
+ * the current answer again clears it.
+ */
 export function MatchFeedbackButtons({
     filterId,
     productListingId,
@@ -54,24 +27,53 @@ export function MatchFeedbackButtons({
     const { t } = useTranslation();
     const { mutate, isPending } = useSearchFilterMatchFeedback(filterId, productListingId);
 
+    let label = t("searchFilters.feedback.question");
+    if (currentFeedback === true) label = t("searchFilters.feedback.relevant");
+    if (currentFeedback === false) label = t("searchFilters.feedback.notRelevant");
+
     return (
-        <div className="flex items-center gap-1">
-            <FeedbackButton
-                icon={ThumbsUp}
-                tooltip={t("searchFilters.feedback.relevantHint")}
-                active={currentFeedback === true}
-                activeClass="fill-primary text-primary"
-                disabled={isPending}
-                onClick={() => mutate(currentFeedback === true ? null : true)}
-            />
-            <FeedbackButton
-                icon={ThumbsDown}
-                tooltip={t("searchFilters.feedback.notRelevantHint")}
-                active={currentFeedback === false}
-                activeClass="fill-destructive text-destructive"
-                disabled={isPending}
-                onClick={() => mutate(currentFeedback === false ? null : false)}
-            />
+        <div
+            role="group"
+            aria-label={t("searchFilters.feedback.groupLabel")}
+            className="flex items-center justify-between gap-2 border-t border-line-subtle"
+        >
+            <span className="font-mono text-tag tracking-[0.14em] text-ink-muted uppercase">
+                {label}
+            </span>
+            <span className="flex gap-1">
+                <button
+                    type="button"
+                    aria-label={t("searchFilters.feedback.relevantHint")}
+                    title={t("searchFilters.feedback.relevantHint")}
+                    aria-pressed={currentFeedback === true}
+                    disabled={isPending}
+                    onClick={() => mutate(currentFeedback === true ? null : true)}
+                    className={cn(
+                        BUTTON_CLASS,
+                        currentFeedback === true
+                            ? "bg-oxblood text-on-oxblood"
+                            : "text-ink hover:enabled:bg-surface-sunken",
+                    )}
+                >
+                    <ThumbsUp aria-hidden="true" className="size-4" strokeWidth={1.7} />
+                </button>
+                <button
+                    type="button"
+                    aria-label={t("searchFilters.feedback.notRelevantHint")}
+                    title={t("searchFilters.feedback.notRelevantHint")}
+                    aria-pressed={currentFeedback === false}
+                    disabled={isPending}
+                    onClick={() => mutate(currentFeedback === false ? null : false)}
+                    className={cn(
+                        BUTTON_CLASS,
+                        currentFeedback === false
+                            ? "bg-ink text-surface"
+                            : "text-ink hover:enabled:bg-surface-sunken",
+                    )}
+                >
+                    <ThumbsDown aria-hidden="true" className="size-4" strokeWidth={1.7} />
+                </button>
+            </span>
         </div>
     );
 }

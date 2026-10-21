@@ -2111,7 +2111,6 @@
       "namePlaceholder": "es. Mater Dolorosa dipinto barocco",
       "queryLabel_one": "Query di ricerca",
       "queryLabel_other": "Query di ricerca",
-      "aiDescriptionLabel": "Descrizione AI (opzionale)",
       "aiDescriptionPlaceholder": "Dipinto a olio della Vergine Maria su tela, non su legno, cornice barocca con foglia d'oro su base di gesso. Il motivo dovrebbe essere Mater Dolorosa. Deve essere inclusa la firma dell'artista. Il dipinto non deve presentare danni visibili e la cornice deve essere completamente integra. Se il dipinto è del barocco spagnolo, deve avere dimensioni di almeno 40x60 cm. Questo non si applica al barocco italiano.",
       "ultimateOnly": "Disponibile solo per abbonati Ultimate",
       "cancelButton": "Annulla",
@@ -2134,7 +2133,6 @@
       "close": "Chiudi"
     },
     "wizard": {
-      "title": "Crea filtro di ricerca",
       "back": "Indietro",
       "next": "Avanti",
       "saveDirectly": "Salva",
@@ -2142,10 +2140,9 @@
       "nameTooLong": "Il nome non deve superare i 255 caratteri",
       "queryRequired": "Inserisci almeno un termine di ricerca.",
       "queryTermTooShort": "Ogni termine di ricerca deve contenere almeno 3 caratteri.",
-      "noFiltersConfigured": "Nessun filtro configurato",
       "step": {
         "name": "Nome",
-        "nameDescription": "Dai un nome al tuo filtro di ricerca",
+        "nameDescription": "Dai un nome al tuo filtro di ricerca, poi le parole che deve cercare.",
         "priceStatus": "Prezzo e stato",
         "priceStatusDescription": "Definisci il tuo intervallo di prezzi e seleziona lo stato dell'annuncio desiderato – ad esempio solo articoli disponibili o anche pezzi già venduti all'asta per la ricerca di mercato.",
         "shop": "Negozio",
@@ -2153,18 +2150,30 @@
         "date": "Data",
         "dateDescription": "Restringi la ricerca per data – per data d'asta, data di prima pubblicazione o ultimo aggiornamento dell'inserzione.",
         "confirm": "Conferma",
-        "confirmDescription": "Rivedi il tuo filtro di ricerca prima di salvarlo"
+        "confirmDescription": "Controlla il tuo filtro di ricerca prima di salvarlo."
       },
       "titleEdit": "Modifica filtro di ricerca",
-      "titleDuplicate": "Duplica filtro di ricerca"
+      "titleDuplicate": "Duplica filtro di ricerca",
+      "eyebrow": "Nuovo filtro di ricerca",
+      "eyebrowEdit": "Modifica",
+      "eyebrowDuplicate": "Duplica",
+      "stepOf": "Passaggio {{step}} di {{total}}",
+      "nextStep": "Avanti: {{label}}",
+      "stepsLabel": "Passaggi",
+      "progressLabel": "Avanzamento",
+      "proTag": "Pro & Ultimate",
+      "lockedHint": "Il tuo piano salva il termine di ricerca, la disponibilità e la fascia di prezzo.",
+      "any": "Qualsiasi",
+      "change": "Modifica",
+      "changeLabel": "Modifica {{label}}",
+      "saveFinal": "Salva filtro di ricerca",
+      "titleCreate": "Crea filtro di ricerca"
     },
     "optional": "opzionale",
     "upgradeRequired": "Solo Pro & Ultimate",
     "upgradeNow": "Effettua l'upgrade ora"
   },
   "searchFilters": {
-    "title": "I miei filtri di ricerca",
-    "create": "Crea filtro di ricerca",
     "createUpgradeTooltip": "Effettua l'upgrade del tuo account per creare più filtri di ricerca",
     "duplicate": "Duplica filtro di ricerca",
     "duplicateNamePrefix": "Copia di {{name}}",
@@ -2177,38 +2186,29 @@
       "cancel": "Annulla",
       "confirm": "Elimina"
     },
-    "notificationsOn": "Notifiche attive",
-    "notificationsOff": "Notifiche inattive",
-    "activate": "Attiva",
     "deactivate": "Metti in pausa",
     "moreActions": "Altre azioni",
-    "stateInactiveByUser": "In pausa",
-    "stateInactiveByPlan": "Bloccato",
     "loadingError": {
-      "title": "Errore di caricamento",
-      "description": "I filtri di ricerca non possono essere caricati. Riprova più tardi."
+      "description": "I filtri di ricerca non possono essere caricati. Riprova più tardi.",
+      "headline": "Filtri di ricerca <em>non disponibili.</em>",
+      "retry": "Riprova"
     },
     "noResults": {
-      "title": "Nessun filtro di ricerca",
-      "description": "Non hai ancora salvato alcun filtro di ricerca."
+      "description": "Non hai ancora salvato alcun filtro di ricerca. Salva una ricerca e ti scriveremo quando compaiono nuovi oggetti corrispondenti.",
+      "headline": "Ancora nessun <em>filtro di ricerca.</em>",
+      "searchCta": "Cerca oggetti"
     },
     "noMatches": {
-      "title": "Nessuna corrispondenza",
-      "description": "Non sono stati trovati articoli corrispondenti per questo filtro di ricerca.",
-      "editHint": "Prova a modificare il filtro di ricerca."
+      "description": "Non sono ancora stati trovati oggetti per questo filtro di ricerca. Prova a modificare il filtro di ricerca.",
+      "headline": "Ancora nessuna <em>corrispondenza.</em>",
+      "editCta": "Modifica filtro di ricerca"
     },
-    "totalElements": "{{count}} filtro/i di ricerca",
-    "matches": "Prodotti Trovati",
     "matchesCount_one": "{{count}} prodotto",
     "matchesCount_other": "{{count}} prodotti",
-    "matchesHint": "Qui vengono mostrati i prodotti che in precedenza soddisfacevano i criteri del tuo filtro di ricerca.",
+    "matchesHint": "Oggetti che hanno corrisposto a questo filtro di ricerca da quando l’hai salvato. Indica se una corrispondenza è pertinente per affinare i risultati futuri.",
     "matchesAndDetails": "Corrispondenze e dettagli",
     "matchesAndDetailsShort": "Dettagli",
-    "totalElements_one": "{{count}} filtro di ricerca",
-    "totalElements_other": "{{count}} filtri di ricerca",
-    "searchPlaceholder": "Cerca filtri di ricerca...",
-    "showDetails": "Mostra dettagli",
-    "noAdditionalCriteria": "Nessun criterio aggiuntivo configurato.",
+    "searchPlaceholder": "Cerca filtri…",
     "info": {
       "creationDate": "Aggiunto",
       "updateDate": "Aggiornato",
@@ -2216,8 +2216,10 @@
     },
     "detail": {
       "eyebrow": "Filtro di Ricerca",
-      "configurationTitle": "I Tuoi Criteri di Filtro",
-      "configurationHint": "Qui puoi vedere tutte le impostazioni che determinano quali risultati vengono trovati per questo filtro di ricerca."
+      "configurationTitle": "I tuoi criteri di filtro",
+      "configurationHint": "Tutte le impostazioni che decidono quali oggetti trova questo filtro di ricerca.",
+      "back": "I miei filtri di ricerca",
+      "meta": "Aggiunto {{created}} · Aggiornato {{updated}}"
     },
     "hiddenMatch": {
       "title": "Nascosto",
@@ -2226,7 +2228,11 @@
     },
     "feedback": {
       "relevantHint": "La corrispondenza è rilevante",
-      "notRelevantHint": "La corrispondenza non è rilevante"
+      "notRelevantHint": "La corrispondenza non è rilevante",
+      "question": "Pertinente?",
+      "relevant": "Pertinente",
+      "notRelevant": "Non pertinente",
+      "groupLabel": "Valutazione di questa corrispondenza"
     },
     "feedbackError": "Impossibile salvare il feedback.",
     "preview": {
@@ -2235,7 +2241,56 @@
       "unavailable": "L’anteprima non è disponibile perché questo filtro contiene criteri che la ricerca degli annunci non può esprimere.",
       "error": "Impossibile caricare l’anteprima.",
       "empty": "Al momento nessun annuncio corrisponde a questi criteri."
-    }
+    },
+    "searchLabel": "Cerca nei tuoi filtri di ricerca",
+    "heading": "I miei <em>filtri di ricerca.</em>",
+    "lead": "Ricerche salvate che continuano a osservare il mercato. Ti scriviamo quando compaiono nuovi oggetti corrispondenti.",
+    "loading": "Caricamento dei filtri di ricerca",
+    "quota": "{{used}} di {{limit}} con il tuo piano {{plan}}",
+    "aiLabel": "IA",
+    "state": {
+      "live": "Live",
+      "active": "Attivo",
+      "paused": "Messo in pausa da te",
+      "locked": "Bloccato dal piano"
+    },
+    "watching": {
+      "heading": "In osservazione <em>ora.</em>",
+      "meta_one": "{{count}} attivo · confrontato con ogni nuovo annuncio",
+      "meta_other": "{{count}} attivi · confrontati con ogni nuovo annuncio",
+      "empty": "Al momento nulla è in osservazione. Riprendi un filtro di ricerca qui sotto o creane uno nuovo."
+    },
+    "resting": {
+      "heading": "A riposo",
+      "meta_one": "{{count}} non cerca corrispondenze",
+      "meta_other": "{{count}} non cercano corrispondenze",
+      "emptyHeadline": "Nulla è <em>a riposo.</em>",
+      "empty": "I filtri di ricerca che metti in pausa, o che il tuo piano blocca, restano qui senza cercare corrispondenze."
+    },
+    "pauseFilter": "Metti in pausa {{name}}",
+    "resume": "Riprendi",
+    "upgradeToResume": "Passa a un piano superiore per riprendere",
+    "pausedNote": "Le corrispondenze trovate prima della pausa restano nella sua pagina di dettaglio.",
+    "lockedNote": "Il tuo piano non include questo filtro di ricerca, quindi non cerca più corrispondenze.",
+    "emailAlertsOn": "Avvisi e-mail attivi",
+    "emailAlertsOff": "Avvisi e-mail disattivati",
+    "noNameMatch": {
+      "headline": "Nessun filtro di ricerca corrisponde a <em>«{{query}}».</em>",
+      "description_one": "Controlla l’ortografia o cancella la ricerca per vedere il tuo filtro di ricerca.",
+      "description_other": "Controlla l’ortografia o cancella la ricerca per vedere tutti i {{count}} filtri di ricerca.",
+      "clear": "Cancella ricerca"
+    },
+    "matchesHeading": "Prodotti <em>trovati.</em>",
+    "matchesLoading": "Caricamento delle corrispondenze",
+    "matchesLoadingMore": "Caricamento di altre corrispondenze…",
+    "matchesProgress": "{{loaded}} di {{total}}",
+    "matchesAllLoaded_one": "Hai visto {{count}} corrispondenza.",
+    "matchesAllLoaded_other": "Hai visto tutte le {{count}} corrispondenze.",
+    "matchesError": {
+      "headline": "Corrispondenze <em>non disponibili.</em>",
+      "description": "Non è stato possibile caricare le corrispondenze. Riprova più tardi."
+    },
+    "createCta": "Crea filtro di ricerca"
   },
   "oauth": {
     "authorize": {
