@@ -768,7 +768,24 @@
       "title": "Il mercato mondiale dell’antiquariato, <em>in un’unica ricerca.</em>",
       "lead": "Aura Historia indicizza antiquari, case d’asta e venditori specializzati di tutto il mondo, perché collezionisti, arredatori e professionisti trovino il pezzo giusto prima che scompaia in un altro silo.",
       "searchLabel": "Cerca nel mercato mondiale",
-      "searchSubmit": "Cerca nel mercato"
+      "searchSubmit": "Cerca nel mercato",
+      "stats": {
+        "sourcesIndexed_one": "Fonte indicizzata",
+        "sourcesIndexed_many": "Fonti indicizzate",
+        "sourcesIndexed_other": "Fonti indicizzate",
+        "liveObjects_one": "Oggetto attivo",
+        "liveObjects_many": "Oggetti attivi",
+        "liveObjects_other": "Oggetti attivi",
+        "countries_one": "Paese",
+        "countries_many": "Paesi",
+        "countries_other": "Paesi",
+        "languages_one": "Lingua compresa",
+        "languages_many": "Lingue comprese",
+        "languages_other": "Lingue comprese",
+        "languagesShort_one": "Lingua",
+        "languagesShort_many": "Lingue",
+        "languagesShort_other": "Lingue"
+      }
     },
     "latest": {
       "eyebrow": "Nuovo nell’indice · Aggiornato ogni giorno",

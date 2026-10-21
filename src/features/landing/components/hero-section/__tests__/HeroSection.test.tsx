@@ -3,6 +3,10 @@ import userEvent from "@testing-library/user-event";
 import HeroSection from "@/features/landing/components/hero-section/HeroSection.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 
+vi.mock("@/features/landing/hooks/usePublicOverview.ts", () => ({
+    usePublicOverview: () => ({ data: undefined, isPending: true }),
+}));
+
 describe("HeroSection", () => {
     beforeEach(async () => {
         await act(async () => {

@@ -2,7 +2,7 @@
 
 import { type Client, type ClientMeta, type Options as Options2, type RequestResult, type TDataShape, urlSearchParamsBodySerializer } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminAssignSourceLocationDefaultData, AdminAssignSourceLocationDefaultErrors, AdminAssignSourceLocationDefaultResponses, AdminChangeSourceLocationDefaultApplicabilityData, AdminChangeSourceLocationDefaultApplicabilityErrors, AdminChangeSourceLocationDefaultApplicabilityResponses, AdminClearSourceLocationDefaultData, AdminClearSourceLocationDefaultErrors, AdminClearSourceLocationDefaultResponses, AdminCreateListingSourceData, AdminCreateListingSourceErrors, AdminCreateListingSourceResponses, AdminCreateOAuthClientData, AdminCreateOAuthClientErrors, AdminCreateOAuthClientResponses, AdminCreatePartyData, AdminCreatePartyErrors, AdminCreatePartyResponses, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationErrors, AdminDecidePartnershipApplicationResponses, AdminDeleteListingSourceData, AdminDeleteListingSourceErrors, AdminDeleteListingSourceResponses, AdminDeleteOAuthClientData, AdminDeleteOAuthClientErrors, AdminDeleteOAuthClientResponses, AdminDeletePartyData, AdminDeletePartyErrors, AdminDeletePartyResponses, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenErrors, AdminDeleteUserAccessTokenResponses, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensErrors, AdminDeleteUserAccessTokensResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminDissolvePartnershipData, AdminDissolvePartnershipErrors, AdminDissolvePartnershipResponses, AdminGetListingSourceData, AdminGetListingSourceErrors, AdminGetListingSourceResponses, AdminGetOAuthClientData, AdminGetOAuthClientErrors, AdminGetOAuthClientResponses, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationErrors, AdminGetPartnershipApplicationResponses, AdminGetPartnershipData, AdminGetPartnershipErrors, AdminGetPartnershipResponses, AdminGetPartyData, AdminGetPartyErrors, AdminGetPartyResponses, AdminGetSourceLocationDefaultData, AdminGetSourceLocationDefaultErrors, AdminGetSourceLocationDefaultResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceErrors, AdminGrantPartnershipListingSourceResponses, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipErrors, AdminGrantPartnershipMembershipResponses, AdminListOAuthClientsData, AdminListOAuthClientsErrors, AdminListOAuthClientsResponses, AdminListUserAccessTokensData, AdminListUserAccessTokensErrors, AdminListUserAccessTokensResponses, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewErrors, AdminMarkPartnershipApplicationInReviewResponses, AdminPatchOAuthClientData, AdminPatchOAuthClientErrors, AdminPatchOAuthClientResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceErrors, AdminRevokePartnershipListingSourceResponses, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipErrors, AdminRevokePartnershipMembershipResponses, AdminRevokeUserSessionsData, AdminRevokeUserSessionsErrors, AdminRevokeUserSessionsResponses, AdminSearchAuctionsData, AdminSearchAuctionsErrors, AdminSearchAuctionsResponses, AdminSearchListingSourcesData, AdminSearchListingSourcesErrors, AdminSearchListingSourcesResponses, AdminSearchPartiesData, AdminSearchPartiesErrors, AdminSearchPartiesResponses, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsErrors, AdminSearchPartnershipApplicationsResponses, AdminSearchPartnershipsData, AdminSearchPartnershipsErrors, AdminSearchPartnershipsResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, AdminSuspendUserData, AdminSuspendUserErrors, AdminSuspendUserResponses, AdminUnsuspendUserData, AdminUnsuspendUserErrors, AdminUnsuspendUserResponses, AdminUpdateListingSourceData, AdminUpdateListingSourceErrors, AdminUpdateListingSourceResponses, AdminUpdatePartyData, AdminUpdatePartyErrors, AdminUpdatePartyResponses, AssignSourceLocationDefaultData2, AssignSourceLocationDefaultErrors, AssignSourceLocationDefaultResponses, ChangeSourceLocationDefaultApplicabilityData2, ChangeSourceLocationDefaultApplicabilityErrors, ChangeSourceLocationDefaultApplicabilityResponses, ClearSourceLocationDefaultData2, ClearSourceLocationDefaultErrors, ClearSourceLocationDefaultResponses, ConfirmNewsletterSubscriptionData2, ConfirmNewsletterSubscriptionErrors, ConfirmNewsletterSubscriptionResponses, CorrectPartyLocationData2, CorrectPartyLocationErrors, CorrectPartyLocationResponses, CreateAdminAuctionData, CreateAdminAuctionErrors, CreateAdminAuctionResponses, CreatePartyLocationData2, CreatePartyLocationErrors, CreatePartyLocationResponses, CreateUserAddressData, CreateUserAddressErrors, CreateUserAddressResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAsyncPartnerProductListingsData, DeleteAsyncPartnerProductListingsErrors, DeleteAsyncPartnerProductListingsResponses, DeleteMyAccessTokenData, DeleteMyAccessTokenErrors, DeleteMyAccessTokenResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteNotificationsData, DeleteNotificationsErrors, DeleteNotificationsResponses, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationErrors, DeleteOwnPartnershipApplicationResponses, DeletePartnerProductListingsData, DeletePartnerProductListingsErrors, DeletePartnerProductListingsResponses, DeleteUserAddressData, DeleteUserAddressErrors, DeleteUserAddressResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, DiscoverPartyLocationsData, DiscoverPartyLocationsErrors, DiscoverPartyLocationsResponses, GetAdminAuctionData, GetAdminAuctionErrors, GetAdminAuctionResponses, GetAdminOverviewData, GetAdminOverviewErrors, GetAdminOverviewResponses, GetAdminProductListingData, GetAdminProductListingErrors, GetAdminProductListingResponses, GetAuctionCatalogueData, GetAuctionCatalogueErrors, GetAuctionCatalogueResponses, GetAuctionData, GetAuctionErrors, GetAuctionResponses, GetBrowsingDestinationData, GetBrowsingDestinationErrors, GetBrowsingDestinationResponses, GetHealthData, GetHealthResponses, GetMyAccessTokenData, GetMyAccessTokenErrors, GetMyAccessTokenResponses, GetMyAccessTokensData, GetMyAccessTokensErrors, GetMyAccessTokensResponses, GetMyListingSourcesData, GetMyListingSourcesErrors, GetMyListingSourcesResponses, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsErrors, GetMyPartnershipApplicationsResponses, GetOAuthConsentClientData, GetOAuthConsentClientErrors, GetOAuthConsentClientResponses, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationErrors, GetOwnPartnershipApplicationResponses, GetPartnerProductListingData, GetPartnerProductListingErrors, GetPartnerProductListingResponses, GetPartyLocationData, GetPartyLocationErrors, GetPartyLocationResponses, GetProductListingByTitleSlugData, GetProductListingByTitleSlugErrors, GetProductListingByTitleSlugResponses, GetProductListingData, GetProductListingErrors, GetProductListingHistoryData, GetProductListingHistoryErrors, GetProductListingHistoryResponses, GetProductListingResponses, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugErrors, GetPublicListingSourceBySlugResponses, GetReadinessData, GetReadinessErrors, GetReadinessResponses, GetSimilarProductListingsData, GetSimilarProductListingsErrors, GetSimilarProductListingsResponses, GetSourceLocationDefaultData, GetSourceLocationDefaultErrors, GetSourceLocationDefaultResponses, GetUserAccountData, GetUserAccountErrors, GetUserAccountResponses, GetUserAddressData, GetUserAddressErrors, GetUserAddressResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductListingsData, GetWatchlistProductListingsErrors, GetWatchlistProductListingsResponses, ListAuctionsData, ListAuctionsErrors, ListAuctionsResponses, ListNotificationsData, ListNotificationsErrors, ListNotificationsResponses, ListPartnerProductListingsData, ListPartnerProductListingsErrors, ListPartnerProductListingsResponses, ListPartyLocationManagersData, ListPartyLocationManagersErrors, ListPartyLocationManagersResponses, ListPartyLocationsData, ListPartyLocationsErrors, ListPartyLocationsResponses, ListSearchFilterMatchesData, ListSearchFilterMatchesErrors, ListSearchFilterMatchesResponses, ListUserAddressesData, ListUserAddressesErrors, ListUserAddressesResponses, OauthAuthorizeData, OauthAuthorizeErrors, OauthIntrospectData, OauthIntrospectErrors, OauthIntrospectResponses, OauthRevokeData, OauthRevokeErrors, OauthRevokeResponses, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeErrors, OauthTokenByThirdPartyCodeResponses, OauthTokenData, OauthTokenErrors, OauthTokenResponses, PatchAsyncPartnerProductListingsData, PatchAsyncPartnerProductListingsErrors, PatchAsyncPartnerProductListingsResponses, PatchMyAccessTokenData, PatchMyAccessTokenErrors, PatchMyAccessTokenResponses, PatchPartnerProductListingsData, PatchPartnerProductListingsErrors, PatchPartnerProductListingsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostAsyncPartnerProductListingsData, PostAsyncPartnerProductListingsErrors, PostAsyncPartnerProductListingsResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostLoopsPreferenceWebhookData, PostLoopsPreferenceWebhookErrors, PostLoopsPreferenceWebhookResponses, PostMyAccessTokenData, PostMyAccessTokenErrors, PostMyAccessTokenResponses, PostPartnerProductListingsData, PostPartnerProductListingsErrors, PostPartnerProductListingsResponses, PostPartnershipApplicationData, PostPartnershipApplicationErrors, PostPartnershipApplicationResponses, PostWoocommerceWebhookData, PostWoocommerceWebhookErrors, PostWoocommerceWebhookResponses, PutAsyncPartnerProductListingsData, PutAsyncPartnerProductListingsErrors, PutAsyncPartnerProductListingsResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductListingsData, PutPartnerProductListingsErrors, PutPartnerProductListingsResponses, PutShopifyListingSourceIngestionConfigurationData2, PutShopifyListingSourceIngestionConfigurationErrors, PutShopifyListingSourceIngestionConfigurationResponses, PutWoocommerceListingSourceIngestionConfigurationData2, PutWoocommerceListingSourceIngestionConfigurationErrors, PutWoocommerceListingSourceIngestionConfigurationResponses, RestoreAdminProductListingData, RestoreAdminProductListingErrors, RestoreAdminProductListingResponses, RestorePartnerProductListingData, RestorePartnerProductListingErrors, RestorePartnerProductListingResponses, SearchAdminProductListingsData, SearchAdminProductListingsErrors, SearchAdminProductListingsResponses, SearchPublicListingSourcesData, SearchPublicListingSourcesErrors, SearchPublicListingSourcesResponses, SetBrowsingDestinationData, SetBrowsingDestinationErrors, SetBrowsingDestinationResponses, SetPartyLocationLifecycleData2, SetPartyLocationLifecycleErrors, SetPartyLocationLifecycleResponses, SetPartyLocationManagementGrantData, SetPartyLocationManagementGrantErrors, SetPartyLocationManagementGrantResponses, SimpleSearchProductListingsData, SimpleSearchProductListingsErrors, SimpleSearchProductListingsResponses, UpdateAdminAuctionData, UpdateAdminAuctionErrors, UpdateAdminAuctionResponses, UpdateAdminProductListingData, UpdateAdminProductListingErrors, UpdateAdminProductListingResponses, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenErrors, UpdateAllNotificationsSeenResponses, UpdateNotificationSeenData2, UpdateNotificationSeenErrors, UpdateNotificationSeenResponses, UpdateNotificationsSeenData2, UpdateNotificationsSeenErrors, UpdateNotificationsSeenResponses, UpdatePartnerProductListingData, UpdatePartnerProductListingErrors, UpdatePartnerProductListingResponses, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackErrors, UpdateSearchFilterMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserAddressData, UpdateUserAddressErrors, UpdateUserAddressResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses, WithdrawAdminProductListingData, WithdrawAdminProductListingErrors, WithdrawAdminProductListingResponses, WithdrawPartnerProductListingData, WithdrawPartnerProductListingErrors, WithdrawPartnerProductListingResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminAssignSourceLocationDefaultData, AdminAssignSourceLocationDefaultErrors, AdminAssignSourceLocationDefaultResponses, AdminChangeSourceLocationDefaultApplicabilityData, AdminChangeSourceLocationDefaultApplicabilityErrors, AdminChangeSourceLocationDefaultApplicabilityResponses, AdminClearSourceLocationDefaultData, AdminClearSourceLocationDefaultErrors, AdminClearSourceLocationDefaultResponses, AdminCreateListingSourceData, AdminCreateListingSourceErrors, AdminCreateListingSourceResponses, AdminCreateOAuthClientData, AdminCreateOAuthClientErrors, AdminCreateOAuthClientResponses, AdminCreatePartyData, AdminCreatePartyErrors, AdminCreatePartyResponses, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationErrors, AdminDecidePartnershipApplicationResponses, AdminDeleteListingSourceData, AdminDeleteListingSourceErrors, AdminDeleteListingSourceResponses, AdminDeleteOAuthClientData, AdminDeleteOAuthClientErrors, AdminDeleteOAuthClientResponses, AdminDeletePartyData, AdminDeletePartyErrors, AdminDeletePartyResponses, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenErrors, AdminDeleteUserAccessTokenResponses, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensErrors, AdminDeleteUserAccessTokensResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminDissolvePartnershipData, AdminDissolvePartnershipErrors, AdminDissolvePartnershipResponses, AdminGetListingSourceData, AdminGetListingSourceErrors, AdminGetListingSourceResponses, AdminGetOAuthClientData, AdminGetOAuthClientErrors, AdminGetOAuthClientResponses, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationErrors, AdminGetPartnershipApplicationResponses, AdminGetPartnershipData, AdminGetPartnershipErrors, AdminGetPartnershipResponses, AdminGetPartyData, AdminGetPartyErrors, AdminGetPartyResponses, AdminGetSourceLocationDefaultData, AdminGetSourceLocationDefaultErrors, AdminGetSourceLocationDefaultResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceErrors, AdminGrantPartnershipListingSourceResponses, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipErrors, AdminGrantPartnershipMembershipResponses, AdminListOAuthClientsData, AdminListOAuthClientsErrors, AdminListOAuthClientsResponses, AdminListUserAccessTokensData, AdminListUserAccessTokensErrors, AdminListUserAccessTokensResponses, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewErrors, AdminMarkPartnershipApplicationInReviewResponses, AdminPatchOAuthClientData, AdminPatchOAuthClientErrors, AdminPatchOAuthClientResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceErrors, AdminRevokePartnershipListingSourceResponses, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipErrors, AdminRevokePartnershipMembershipResponses, AdminRevokeUserSessionsData, AdminRevokeUserSessionsErrors, AdminRevokeUserSessionsResponses, AdminSearchAuctionsData, AdminSearchAuctionsErrors, AdminSearchAuctionsResponses, AdminSearchListingSourcesData, AdminSearchListingSourcesErrors, AdminSearchListingSourcesResponses, AdminSearchPartiesData, AdminSearchPartiesErrors, AdminSearchPartiesResponses, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsErrors, AdminSearchPartnershipApplicationsResponses, AdminSearchPartnershipsData, AdminSearchPartnershipsErrors, AdminSearchPartnershipsResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, AdminSuspendUserData, AdminSuspendUserErrors, AdminSuspendUserResponses, AdminUnsuspendUserData, AdminUnsuspendUserErrors, AdminUnsuspendUserResponses, AdminUpdateListingSourceData, AdminUpdateListingSourceErrors, AdminUpdateListingSourceResponses, AdminUpdatePartyData, AdminUpdatePartyErrors, AdminUpdatePartyResponses, AssignShippingDefaultData2, AssignShippingDefaultErrors, AssignShippingDefaultResponses, AssignSourceLocationDefaultData2, AssignSourceLocationDefaultErrors, AssignSourceLocationDefaultResponses, ChangeProductListingDeliveryData, ChangeProductListingDeliveryErrors, ChangeProductListingDeliveryResponses, ChangeSourceLocationDefaultApplicabilityData2, ChangeSourceLocationDefaultApplicabilityErrors, ChangeSourceLocationDefaultApplicabilityResponses, ClearShippingDefaultData2, ClearShippingDefaultErrors, ClearShippingDefaultResponses, ClearSourceLocationDefaultData2, ClearSourceLocationDefaultErrors, ClearSourceLocationDefaultResponses, ConfirmNewsletterSubscriptionData2, ConfirmNewsletterSubscriptionErrors, ConfirmNewsletterSubscriptionResponses, CorrectPartyLocationData2, CorrectPartyLocationErrors, CorrectPartyLocationResponses, CreateAdminAuctionData, CreateAdminAuctionErrors, CreateAdminAuctionResponses, CreatePartyLocationData2, CreatePartyLocationErrors, CreatePartyLocationResponses, CreateShippingProfileData2, CreateShippingProfileErrors, CreateShippingProfileResponses, CreateUserAddressData, CreateUserAddressErrors, CreateUserAddressResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAsyncPartnerProductListingsData, DeleteAsyncPartnerProductListingsErrors, DeleteAsyncPartnerProductListingsResponses, DeleteMyAccessTokenData, DeleteMyAccessTokenErrors, DeleteMyAccessTokenResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteNotificationsData, DeleteNotificationsErrors, DeleteNotificationsResponses, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationErrors, DeleteOwnPartnershipApplicationResponses, DeletePartnerProductListingsData, DeletePartnerProductListingsErrors, DeletePartnerProductListingsResponses, DeleteUserAddressData, DeleteUserAddressErrors, DeleteUserAddressResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, DiscoverPartyLocationsData, DiscoverPartyLocationsErrors, DiscoverPartyLocationsResponses, GetAdminAuctionData, GetAdminAuctionErrors, GetAdminAuctionResponses, GetAdminOverviewData, GetAdminOverviewErrors, GetAdminOverviewResponses, GetAdminProductListingData, GetAdminProductListingErrors, GetAdminProductListingResponses, GetAuctionCatalogueData, GetAuctionCatalogueErrors, GetAuctionCatalogueResponses, GetAuctionData, GetAuctionErrors, GetAuctionResponses, GetBrowsingDestinationData, GetBrowsingDestinationErrors, GetBrowsingDestinationResponses, GetHealthData, GetHealthResponses, GetMyAccessTokenData, GetMyAccessTokenErrors, GetMyAccessTokenResponses, GetMyAccessTokensData, GetMyAccessTokensErrors, GetMyAccessTokensResponses, GetMyListingSourcesData, GetMyListingSourcesErrors, GetMyListingSourcesResponses, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsErrors, GetMyPartnershipApplicationsResponses, GetOAuthConsentClientData, GetOAuthConsentClientErrors, GetOAuthConsentClientResponses, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationErrors, GetOwnPartnershipApplicationResponses, GetPartnerProductListingData, GetPartnerProductListingErrors, GetPartnerProductListingResponses, GetPartyLocationData, GetPartyLocationErrors, GetPartyLocationResponses, GetProductListingByTitleSlugData, GetProductListingByTitleSlugErrors, GetProductListingByTitleSlugResponses, GetProductListingData, GetProductListingDeliveryData, GetProductListingDeliveryErrors, GetProductListingDeliveryResponses, GetProductListingErrors, GetProductListingHistoryData, GetProductListingHistoryErrors, GetProductListingHistoryResponses, GetProductListingResponses, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugErrors, GetPublicListingSourceBySlugResponses, GetPublicOverviewData, GetPublicOverviewErrors, GetPublicOverviewResponses, GetReadinessData, GetReadinessErrors, GetReadinessResponses, GetShippingDefaultData, GetShippingDefaultErrors, GetShippingDefaultResponses, GetShippingProfileData, GetShippingProfileErrors, GetShippingProfileResponses, GetSimilarProductListingsData, GetSimilarProductListingsErrors, GetSimilarProductListingsResponses, GetSourceLocationDefaultData, GetSourceLocationDefaultErrors, GetSourceLocationDefaultResponses, GetUserAccountData, GetUserAccountErrors, GetUserAccountResponses, GetUserAddressData, GetUserAddressErrors, GetUserAddressResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductListingsData, GetWatchlistProductListingsErrors, GetWatchlistProductListingsResponses, ListAuctionsData, ListAuctionsErrors, ListAuctionsResponses, ListNotificationsData, ListNotificationsErrors, ListNotificationsResponses, ListPartnerProductListingsData, ListPartnerProductListingsErrors, ListPartnerProductListingsResponses, ListPartyLocationManagersData, ListPartyLocationManagersErrors, ListPartyLocationManagersResponses, ListPartyLocationsData, ListPartyLocationsErrors, ListPartyLocationsResponses, ListSearchFilterMatchesData, ListSearchFilterMatchesErrors, ListSearchFilterMatchesResponses, ListShippingProfilesData, ListShippingProfilesErrors, ListShippingProfilesResponses, ListUserAddressesData, ListUserAddressesErrors, ListUserAddressesResponses, OauthAuthorizeData, OauthAuthorizeErrors, OauthIntrospectData, OauthIntrospectErrors, OauthIntrospectResponses, OauthRevokeData, OauthRevokeErrors, OauthRevokeResponses, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeErrors, OauthTokenByThirdPartyCodeResponses, OauthTokenData, OauthTokenErrors, OauthTokenResponses, PatchAsyncPartnerProductListingsData, PatchAsyncPartnerProductListingsErrors, PatchAsyncPartnerProductListingsResponses, PatchMyAccessTokenData, PatchMyAccessTokenErrors, PatchMyAccessTokenResponses, PatchPartnerProductListingsData, PatchPartnerProductListingsErrors, PatchPartnerProductListingsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostAsyncPartnerProductListingsData, PostAsyncPartnerProductListingsErrors, PostAsyncPartnerProductListingsResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostLoopsPreferenceWebhookData, PostLoopsPreferenceWebhookErrors, PostLoopsPreferenceWebhookResponses, PostMyAccessTokenData, PostMyAccessTokenErrors, PostMyAccessTokenResponses, PostPartnerProductListingsData, PostPartnerProductListingsErrors, PostPartnerProductListingsResponses, PostPartnershipApplicationData, PostPartnershipApplicationErrors, PostPartnershipApplicationResponses, PostWoocommerceWebhookData, PostWoocommerceWebhookErrors, PostWoocommerceWebhookResponses, PutAsyncPartnerProductListingsData, PutAsyncPartnerProductListingsErrors, PutAsyncPartnerProductListingsResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductListingsData, PutPartnerProductListingsErrors, PutPartnerProductListingsResponses, PutShopifyListingSourceIngestionConfigurationData2, PutShopifyListingSourceIngestionConfigurationErrors, PutShopifyListingSourceIngestionConfigurationResponses, PutWoocommerceListingSourceIngestionConfigurationData2, PutWoocommerceListingSourceIngestionConfigurationErrors, PutWoocommerceListingSourceIngestionConfigurationResponses, ReplaceShippingProfileData2, ReplaceShippingProfileErrors, ReplaceShippingProfileResponses, RestoreAdminProductListingData, RestoreAdminProductListingErrors, RestoreAdminProductListingResponses, RestorePartnerProductListingData, RestorePartnerProductListingErrors, RestorePartnerProductListingResponses, RestoreShippingProfileData, RestoreShippingProfileErrors, RestoreShippingProfileResponses, RetireShippingProfileData, RetireShippingProfileErrors, RetireShippingProfileResponses, SearchAdminProductListingsData, SearchAdminProductListingsErrors, SearchAdminProductListingsResponses, SearchPublicListingSourcesData, SearchPublicListingSourcesErrors, SearchPublicListingSourcesResponses, SetBrowsingDestinationData, SetBrowsingDestinationErrors, SetBrowsingDestinationResponses, SetPartyLocationLifecycleData2, SetPartyLocationLifecycleErrors, SetPartyLocationLifecycleResponses, SetPartyLocationManagementGrantData, SetPartyLocationManagementGrantErrors, SetPartyLocationManagementGrantResponses, SimpleSearchProductListingsData, SimpleSearchProductListingsErrors, SimpleSearchProductListingsResponses, SubmitProductListingDeliveryData, SubmitProductListingDeliveryErrors, SubmitProductListingDeliveryResponses, UpdateAdminAuctionData, UpdateAdminAuctionErrors, UpdateAdminAuctionResponses, UpdateAdminProductListingData, UpdateAdminProductListingErrors, UpdateAdminProductListingResponses, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenErrors, UpdateAllNotificationsSeenResponses, UpdateNotificationSeenData2, UpdateNotificationSeenErrors, UpdateNotificationSeenResponses, UpdateNotificationsSeenData2, UpdateNotificationsSeenErrors, UpdateNotificationsSeenResponses, UpdatePartnerProductListingData, UpdatePartnerProductListingErrors, UpdatePartnerProductListingResponses, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackErrors, UpdateSearchFilterMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserAddressData, UpdateUserAddressErrors, UpdateUserAddressResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses, WithdrawAdminProductListingData, WithdrawAdminProductListingErrors, WithdrawAdminProductListingResponses, WithdrawPartnerProductListingData, WithdrawPartnerProductListingErrors, WithdrawPartnerProductListingResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
   /**
@@ -31,6 +31,32 @@ export const getHealth = <ThrowOnError extends boolean = false>(options?: Option
  * Returns no diagnostic body when readiness fails.
  */
 export const getReadiness = <ThrowOnError extends boolean = false>(options?: Options<GetReadinessData, ThrowOnError>): RequestResult<GetReadinessResponses, GetReadinessErrors, ThrowOnError> => (options?.client ?? client).get<GetReadinessResponses, GetReadinessErrors, ThrowOnError>({ url: '/api/v1/ready', ...options });
+
+/**
+ * Get public catalogue statistics
+ *
+ * Anonymous aggregate statistics for the public catalogue. Hourly maintenance recalculates
+ * every count together from authoritative PostgreSQL about every six hours, and reads return
+ * that stored calculation; `asOf` is its time. Including the 15-minute shared edge cache,
+ * figures are normally at most about seven hours old; a failed refresh keeps the previous
+ * calculation.
+ * There are no filters, personalization, or per-source, per-partner or per-user details.
+ * Credentials are neither required nor evaluated, and query strings never change the
+ * representation; send none, because each distinct query string is cached separately.
+ * Clients should not attach a bearer token; any `Authorization` header makes the response
+ * private.
+ *
+ * Counts cover ProductListings with lifecycle `ACTIVE`, whatever their availability.
+ * `sourcesIndexed` counts distinct ListingSources with at least one counted listing.
+ * `countries` counts distinct countries in the counted listings' effective advertised-inventory
+ * geography; business association and shipping destinations do not establish inventory location.
+ * `languages` counts the union of original title and description languages; generated
+ * translations and presentation fallbacks are excluded. `newObjectsLast7Days` counts listings
+ * whose `created` timestamp lies in the 168 hours ending at `asOf` (start exclusive, end inclusive).
+ * Effective geography and OpenSearch projections may lag PostgreSQL while they catch up.
+ *
+ */
+export const getPublicOverview = <ThrowOnError extends boolean = false>(options?: Options<GetPublicOverviewData, ThrowOnError>): RequestResult<GetPublicOverviewResponses, GetPublicOverviewErrors, ThrowOnError> => (options?.client ?? client).get<GetPublicOverviewResponses, GetPublicOverviewErrors, ThrowOnError>({ url: '/api/v1/overview', ...options });
 
 /**
  * List public Auctions
@@ -298,8 +324,8 @@ export const putShopifyListingSourceIngestionConfiguration = <ThrowOnError exten
  * Soft-deletes product-listings for a listing source. Each entry writes its product lifecycle delete event and
  * materialized PostgreSQL state synchronously in its own transaction.
  *
- * Allowed callers are Aura Historia admins and users partnered with the target listing source. Aura
- * Historia access tokens must include the `product-listings:write` scope.
+ * The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
+ * Aura Historia access tokens must include the `product-listings:write` scope.
  *
  * The request body is an array of product identifiers. The response returns HTTP 200 with
  * failures as `{ listingSourceId, sourceListingId, error }` objects when one or more entries succeed.
@@ -353,7 +379,7 @@ export const listPartnerProductListings = <ThrowOnError extends boolean = false>
  * - an Aura Historia access token owned by that partner user.
  *
  * Aura Historia access tokens on this endpoint must include the `product-listings:write` scope.
- * Allowed callers are Aura Historia admins and users partnered with the target listing source.
+ * The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
  *
  * The request body is an array of `UpdateProductListingData` objects. Omitted fields are unchanged;
  * `null` clears availability and price. Omit `auction` to preserve its context; `auction: null`, `url: null`,
@@ -395,7 +421,7 @@ export const patchPartnerProductListings = <ThrowOnError extends boolean = false
  * - an Aura Historia access token owned by that partner user.
  *
  * Aura Historia access tokens on this endpoint must include the `product-listings:write` scope.
- * Allowed callers are Aura Historia admins and users partnered with the target listing source.
+ * The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
  *
  * The request body is an array of `CreateProductListingData` objects. Each entry is created
  * synchronously in its own PostgreSQL transaction.
@@ -433,7 +459,9 @@ export const postPartnerProductListings = <ThrowOnError extends boolean = false>
  * - an Aura Historia access token owned by that partner user.
  *
  * Aura Historia access tokens on this endpoint must include the `product-listings:write` scope.
- * Allowed callers are Aura Historia admins and users partnered with the target listing source.
+ * The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access.
+ * Administrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run
+ * per entry, so an authenticated empty array returns `[]` without them.
  *
  * The request body is an array of `UpsertProductListingData` objects. Each entry is upserted
  * synchronously in its own PostgreSQL transaction. For each entry:
@@ -996,9 +1024,9 @@ export const getUserSearchFilters = <ThrowOnError extends boolean = false>(optio
  * Requires a Cognito JWT or an Aura access token with `search-filters:write`.
  *
  * The number of allowed search filters and the set of usable search filter fields depend on the user's tier:
- * - `FREE`: Up to 1 search filter. Allowed fields are `productQuery`, `price`, `state`, `excludeProductId`, and `lifecycle`. Other fields are forbidden and return `SEARCH_FILTER_RESTRICTED_FEATURE`.
- * - `PRO`: Up to 5 search filters. All filter fields are allowed.
- * - `ULTIMATE`: Unlimited search filters. All filter fields are allowed.
+ * - `FREE`: Up to 1 active search filter. Allowed search fields are `language`, `currency`, `productQuery`, `price`, `excludeProductListingId`, `availability`, `orderability`, and `includeUnspecifiedAvailability`. Other search fields, including `geography` and `shipping`, return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+ * - `PRO`: Up to 5 active search filters. All search fields, including `geography` and `shipping`, are allowed except `enhancedSearchDescription`.
+ * - `ULTIMATE`: Unlimited search filters. All search fields are allowed.
  *
  */
 export const createUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<CreateUserSearchFilterData, ThrowOnError>): RequestResult<CreateUserSearchFilterResponses, CreateUserSearchFilterErrors, ThrowOnError> => (options.client ?? client).post<CreateUserSearchFilterResponses, CreateUserSearchFilterErrors, ThrowOnError>({
@@ -1067,14 +1095,14 @@ export const getUserSearchFilter = <ThrowOnError extends boolean = false>(option
  * Update a search filter
  *
  * Updates a specific search filter by its ID for the authenticated user.
- * Allows partial updates: omitted members remain unchanged, documented nullable criteria
+ * Allows partial updates: omitted or null top-level members remain unchanged. Within `search`, documented nullable criteria
  * accept `null` to clear, and `null` for required scalars or collections returns `400 BAD_BODY_VALUE`.
  * `{}` returns the existing search filter unchanged; an empty HTTP body is invalid.
  * Requires a Cognito JWT or an Aura access token with `search-filters:write`.
  *
  * The set of usable search filter fields depends on the user's tier:
- * - `FREE`: Allowed fields are `productQuery`, `price`, `state`, `excludeProductId`, and `lifecycle`. Other fields are forbidden and return `SEARCH_FILTER_RESTRICTED_FEATURE`.
- * - `PRO`: All filter fields are allowed.
+ * - `FREE`: Allowed search fields are `language`, `currency`, `productQuery`, `price`, `excludeProductListingId`, `availability`, `orderability`, and `includeUnspecifiedAvailability`. Other search fields, including `geography` and `shipping`, return `SEARCH_FILTER_RESTRICTED_FEATURE` when added. Existing restricted criteria can be retained or cleared on inactive filters; activating a filter validates all its criteria against the current tier.
+ * - `PRO`: All search fields, including `geography` and `shipping`, are allowed except `enhancedSearchDescription`.
  * - `ULTIMATE`: All filter fields are allowed.
  *
  */
@@ -1443,6 +1471,7 @@ export const adminSearchUsers = <ThrowOnError extends boolean = false>(options?:
  * Cognito JWTs and Aura Historia access tokens are accepted; delegated access tokens require `users:write`.
  * The caller's persisted user role must be `ADMIN`; this authorization is enforced in the User service.
  * PostgreSQL synchronously cascades user-owned access tokens, OAuth authorization codes, watchlist entries, saved-search filters and matches, notifications, partnership memberships, and partnership applications.
+ * Backend authentication is immediately invalidated. The same transaction durably records a request for Cognito identity deletion; provider removal retries asynchronously. Until it completes, Cognito sign-in may still succeed and the signup address may remain reserved. After removal, the email can register a new account with a new identity; the deleted account cannot be recovered. Minimal identity fences prevent delayed registration callbacks from recreating the deleted account and support provider reconciliation.
  * The final active administrator cannot be deleted, including through a self-targeted admin request.
  *
  */
@@ -1582,7 +1611,11 @@ export const adminSuspendUser = <ThrowOnError extends boolean = false>(options: 
 /**
  * Revoke a user's Cognito sessions as admin
  *
- * Invalidates the explicit target user's Cognito sessions with Cognito global sign-out. No request body is accepted.
+ * Invalidates the explicit target user's sessions locally and requests Cognito global sign-out. No request body is accepted.
+ * The local cutoff is committed before the provider call and advanced again when it returns,
+ * including on provider failure. Local sessions may therefore remain revoked even if the response is an error.
+ * Cutoffs include a 60-second clock-skew allowance; fresh logins may be rejected for roughly
+ * a minute after the latest completion/retry. Token refresh does not bypass the cutoff.
  *
  * Cognito JWTs and Aura Historia access tokens are accepted. The caller's persisted user role
  * must be `ADMIN`; delegated Aura Historia access tokens must also have `users:write`.
@@ -1703,7 +1736,7 @@ export const adminDeleteUserAccessToken = <ThrowOnError extends boolean = false>
  * Delete authenticated user
  *
  * Permanently deletes the authenticated user's account.
- * The deletion is performed synchronously and the access token is immediately invalidated upon success.
+ * Business account deletion and backend credential invalidation are synchronous. The same transaction durably records a request for Cognito identity deletion; HTTP 204 confirms the commit, while provider removal retries asynchronously. Until it completes, Cognito sign-in may still succeed and the signup address may remain reserved. After removal, the email can register a new account with a new identity; the deleted account cannot be recovered. Minimal identity fences prevent delayed registration callbacks from recreating the deleted account and support provider reconciliation.
  * Cognito JWTs and Aura Historia access tokens are accepted; delegated access tokens require `users:write`.
  * The last active administrator cannot be deleted.
  *
@@ -1981,13 +2014,17 @@ export const deleteWatchlistProduct = <ThrowOnError extends boolean = false>(opt
  * Update watchlist product settings
  *
  * Updates settings for a specific watchlist product (e.g., toggle notifications or manually activate/deactivate the watchlist entry).
- * Returns the full personalized product data after applying the update.
- * Requires valid Cognito JWT authentication.
+ * Returns full personalized product data (`item` and `userState`) after applying the update, including for an empty `{}` no-op. `userState.watchlist.watching` reflects whether the entry is active, and `userState.watchlist.notifications` reflects the stored notification setting. Hidden and withdrawn listings retain their usual redaction.
+ * Requires a valid user bearer credential. Delegated credentials require `watchlist:write`; no additional read scope is required for the response. Responses are not cached.
  *
  */
 export const patchWatchlistProduct = <ThrowOnError extends boolean = false>(options: Options<PatchWatchlistProductData, ThrowOnError>): RequestResult<PatchWatchlistProductResponses, PatchWatchlistProductErrors, ThrowOnError> => (options.client ?? client).patch<PatchWatchlistProductResponses, PatchWatchlistProductErrors, ThrowOnError>({
   security: [{
       key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
       scheme: 'bearer',
       type: 'http'
     }],
@@ -2359,7 +2396,9 @@ export const oauthTokenByThirdPartyCode = <ThrowOnError extends boolean = false>
  *
  * Revokes an Aura Historia access token that was issued through the OAuth authorization code
  * flow (RFC 7009). The request body must be `application/x-www-form-urlencoded`. Client
- * authentication is performed via `client_id` / `client_secret` form fields.
+ * authentication is performed via `client_id` / `client_secret` form fields. The token must
+ * have been issued to that client; another client's token or a personal access token is
+ * rejected with `403 FORBIDDEN` and is not revoked.
  *
  * After revocation the token is immediately inactive and introspection will return
  * `active: false`. Attempting to revoke an unknown or already-revoked token is not an error.
@@ -3495,6 +3534,260 @@ export const adminAssignSourceLocationDefault = <ThrowOnError extends boolean = 
       type: 'http'
     }],
   url: '/api/v1/admin/listing-sources/{listing_source_id}/location-default',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * List source shipping profiles
+ *
+ * Requires an unsuspended administrator or an active partnership member of the operator Party with the exact source grant. Delegated credentials also require listing-sources:read for reads, listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors are no-store. Terms are advertised arrangements, never authorized quotes. Active and retired summaries in ascending UUID order. Use the final shippingProfileId as after to continue; an empty page is terminal. objectKey filters by stable authenticated producer identity and returns zero or one summary, including retired or manually taken-over profiles. No terms or evidence hydration.
+ */
+export const listShippingProfiles = <ThrowOnError extends boolean = false>(options: Options<ListShippingProfilesData, ThrowOnError>): RequestResult<ListShippingProfilesResponses, ListShippingProfilesErrors, ThrowOnError> => (options.client ?? client).get<ListShippingProfilesResponses, ListShippingProfilesErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles',
+  ...options
+});
+
+/**
+ * Create source shipping profile
+ *
+ * Requires an unsuspended administrator or an active partnership member of the operator Party with the exact source grant. Delegated credentials also require listing-sources:read for reads, listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors are no-store. Terms are advertised arrangements, never authorized quotes. Creation key is scoped to source and caller identity; matching original content/evidence returns the current profile without effects, differing content conflicts. Creation never selects a source default.
+ */
+export const createShippingProfile = <ThrowOnError extends boolean = false>(options: Options<CreateShippingProfileData2, ThrowOnError>): RequestResult<CreateShippingProfileResponses, CreateShippingProfileErrors, ThrowOnError> => (options.client ?? client).post<CreateShippingProfileResponses, CreateShippingProfileErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Retire shipping profile
+ *
+ * Requires an unsuspended administrator or an active partnership member of the operator Party with the exact source grant. Delegated credentials also require listing-sources:read for reads, listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors are no-store. Terms are advertised arrangements, never authorized quotes. Retirement retains terms, history, defaults and references. It does not assert no shipping. Repeat retirement is a no-op only at the current management revision.
+ */
+export const retireShippingProfile = <ThrowOnError extends boolean = false>(options: Options<RetireShippingProfileData, ThrowOnError>): RequestResult<RetireShippingProfileResponses, RetireShippingProfileErrors, ThrowOnError> => (options.client ?? client).delete<RetireShippingProfileResponses, RetireShippingProfileErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Get source shipping profile
+ *
+ * Requires an unsuspended administrator or an active partnership member of the operator Party with the exact source grant. Delegated credentials also require listing-sources:read for reads, listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors are no-store. Terms are advertised arrangements, never authorized quotes.
+ */
+export const getShippingProfile = <ThrowOnError extends boolean = false>(options: Options<GetShippingProfileData, ThrowOnError>): RequestResult<GetShippingProfileResponses, GetShippingProfileErrors, ThrowOnError> => (options.client ?? client).get<GetShippingProfileResponses, GetShippingProfileErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}',
+  ...options
+});
+
+/**
+ * Replace advertised profile content and evidence
+ *
+ * Requires an unsuspended administrator or an active partnership member of the operator Party with the exact source grant. Delegated credentials also require listing-sources:read for reads, listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors are no-store. Terms are advertised arrangements, never authorized quotes. CAS checks managementRevision, including semantic no-ops. Terms/lifecycle changes advance termsRevision; evidence-only corrections advance managementRevision independently. Explicit PartyLocation use asserts applicability and requires an active operator-owned location, without granting location-editing rights.
+ */
+export const replaceShippingProfile = <ThrowOnError extends boolean = false>(options: Options<ReplaceShippingProfileData2, ThrowOnError>): RequestResult<ReplaceShippingProfileResponses, ReplaceShippingProfileErrors, ThrowOnError> => (options.client ?? client).put<ReplaceShippingProfileResponses, ReplaceShippingProfileErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Restore shipping profile explicitly
+ *
+ * Requires an unsuspended administrator or an active partnership member of the operator Party with the exact source grant. Delegated credentials also require listing-sources:read for reads, listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors are no-store. Terms are advertised arrangements, never authorized quotes. Revalidates current referenced location eligibility. Does not select a default.
+ */
+export const restoreShippingProfile = <ThrowOnError extends boolean = false>(options: Options<RestoreShippingProfileData, ThrowOnError>): RequestResult<RestoreShippingProfileResponses, RestoreShippingProfileErrors, ThrowOnError> => (options.client ?? client).post<RestoreShippingProfileResponses, RestoreShippingProfileErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}/restore',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Clear source shipping default
+ *
+ * Requires an unsuspended administrator or an active partnership member of the operator Party with the exact source grant. Delegated credentials also require listing-sources:read for reads, listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors are no-store. Terms are advertised arrangements, never authorized quotes. Clear remains possible after profile retirement. CAS applies even when already clear; semantic no-op preserves the revision and emits no signal.
+ */
+export const clearShippingDefault = <ThrowOnError extends boolean = false>(options: Options<ClearShippingDefaultData2, ThrowOnError>): RequestResult<ClearShippingDefaultResponses, ClearShippingDefaultErrors, ThrowOnError> => (options.client ?? client).delete<ClearShippingDefaultResponses, ClearShippingDefaultErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/shipping-default',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Read explicit source shipping default
+ *
+ * Requires an unsuspended administrator or an active partnership member of the operator Party with the exact source grant. Delegated credentials also require listing-sources:read for reads, listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors are no-store. Terms are advertised arrangements, never authorized quotes.
+ */
+export const getShippingDefault = <ThrowOnError extends boolean = false>(options: Options<GetShippingDefaultData, ThrowOnError>): RequestResult<GetShippingDefaultResponses, GetShippingDefaultErrors, ThrowOnError> => (options.client ?? client).get<GetShippingDefaultResponses, GetShippingDefaultErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/shipping-default',
+  ...options
+});
+
+/**
+ * Assign active source shipping default
+ *
+ * Requires an unsuspended administrator or an active partnership member of the operator Party with the exact source grant. Delegated credentials also require listing-sources:read for reads, listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors are no-store. Terms are advertised arrangements, never authorized quotes. Requires the selected profile to belong to this source and remain active; repeat assignment revalidates eligibility and CAS.
+ */
+export const assignShippingDefault = <ThrowOnError extends boolean = false>(options: Options<AssignShippingDefaultData2, ThrowOnError>): RequestResult<AssignShippingDefaultResponses, AssignShippingDefaultErrors, ThrowOnError> => (options.client ?? client).put<AssignShippingDefaultResponses, AssignShippingDefaultErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/shipping-default',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Protected delivery configuration. Requires product-listings:read credential scope and current administrator or active operator Partnership source authority. Responses and errors are no-store. Returns retained configuration for active or withdrawn listings, without resolving effective delivery or revalidating current profile/location eligibility.
+ */
+export const getProductListingDelivery = <ThrowOnError extends boolean = false>(options: Options<GetProductListingDeliveryData, ThrowOnError>): RequestResult<GetProductListingDeliveryResponses, GetProductListingDeliveryErrors, ThrowOnError> => (options.client ?? client).get<GetProductListingDeliveryResponses, GetProductListingDeliveryErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery',
+  ...options
+});
+
+/**
+ * Revision-checked delivery command. Requires product-listings:write credential scope and current administrator or active operator Partnership source authority. Responses and errors are no-store. Commands never create or restore listings. Current references are validated at execution. SET/UNCHANGED/CLEAR and coherent whole-policy replacement preserve unrelated facts.
+ */
+export const changeProductListingDelivery = <ThrowOnError extends boolean = false>(options: Options<ChangeProductListingDeliveryData, ThrowOnError>): RequestResult<ChangeProductListingDeliveryResponses, ChangeProductListingDeliveryErrors, ThrowOnError> => (options.client ?? client).patch<ChangeProductListingDeliveryResponses, ChangeProductListingDeliveryErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
+});
+
+/**
+ * Asynchronous delivery admission. Requires product-listings:write credential scope for delegated credentials. Admission validates the typed command and confirms FIFO custody. Execution rechecks current administrator or active operator Partnership source authority, the original expectedVersion, active listing and current references. Responses and errors are no-store. Retry unchanged content with the returned Idempotency-Key.
+ */
+export const submitProductListingDelivery = <ThrowOnError extends boolean = false>(options: Options<SubmitProductListingDeliveryData, ThrowOnError>): RequestResult<SubmitProductListingDeliveryResponses, SubmitProductListingDeliveryErrors, ThrowOnError> => (options.client ?? client).post<SubmitProductListingDeliveryResponses, SubmitProductListingDeliveryErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }, {
+      key: 'AccessTokenAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/api/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery/async',
   ...options,
   headers: {
     'Content-Type': 'application/json',

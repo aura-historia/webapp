@@ -768,7 +768,19 @@
       "title": "The world's antiques market, <em>in a single search.</em>",
       "lead": "Aura Historia indexes dealers, auction houses and specialist sellers worldwide — so collectors, decorators and the trade find the right piece before it disappears into another silo.",
       "searchLabel": "Search the global market",
-      "searchSubmit": "Search the market"
+      "searchSubmit": "Search the market",
+      "stats": {
+        "sourcesIndexed_one": "Source indexed",
+        "sourcesIndexed_other": "Sources indexed",
+        "liveObjects_one": "Live object",
+        "liveObjects_other": "Live objects",
+        "countries_one": "Country",
+        "countries_other": "Countries",
+        "languages_one": "Language understood",
+        "languages_other": "Languages understood",
+        "languagesShort_one": "Language",
+        "languagesShort_other": "Languages"
+      }
     },
     "latest": {
       "eyebrow": "New to the index · Updated daily",

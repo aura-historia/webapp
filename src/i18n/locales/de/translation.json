@@ -768,7 +768,19 @@
       "title": "Der weltweite Antiquitätenmarkt, <em>in einer einzigen Suche.</em>",
       "lead": "Aura Historia erfasst Händler, Auktionshäuser und spezialisierte Anbieter weltweit – damit Sammler, Einrichter und der Handel das richtige Stück finden, bevor es in einem weiteren Silo verschwindet.",
       "searchLabel": "Den weltweiten Markt durchsuchen",
-      "searchSubmit": "Markt durchsuchen"
+      "searchSubmit": "Markt durchsuchen",
+      "stats": {
+        "sourcesIndexed_one": "Erfasste Quelle",
+        "sourcesIndexed_other": "Erfasste Quellen",
+        "liveObjects_one": "Aktives Objekt",
+        "liveObjects_other": "Aktive Objekte",
+        "countries_one": "Land",
+        "countries_other": "Länder",
+        "languages_one": "Erkannte Sprache",
+        "languages_other": "Erkannte Sprachen",
+        "languagesShort_one": "Sprache",
+        "languagesShort_other": "Sprachen"
+      }
     },
     "latest": {
       "eyebrow": "Neu im Index · Täglich aktualisiert",
