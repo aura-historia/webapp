@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { intlFormatDistance } from "date-fns";
 import { ArrowLeft, Lock, Pause, Pencil, Play, Trash2, TriangleAlert } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { ToggleBellIcon } from "@/components/common/ToggleBellIcon.tsx";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
@@ -37,6 +37,9 @@ export function SearchFilterDetailPage({ filterId }: Props) {
     const updateFilter = useUpdateUserSearchFilter();
     const [editOpen, setEditOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
+    // Relative dates depend on the current time, so they are only computed after hydration.
+    const [now, setNow] = useState<Date | null>(null);
+    useEffect(() => setNow(new Date()), []);
 
     const backLink = (
         <Link
@@ -92,8 +95,8 @@ export function SearchFilterDetailPage({ filterId }: Props) {
     let stateLabel = t("searchFilters.state.active");
     if (filter?.state === "INACTIVE_BY_USER") stateLabel = t("searchFilters.state.paused");
     if (isLocked) stateLabel = t("searchFilters.state.locked");
-    const formatAgo = (date: Date) =>
-        intlFormatDistance(date, new Date(), { locale: i18n.language });
+    const formatAgo = (date: Date, reference: Date) =>
+        intlFormatDistance(date, reference, { locale: i18n.language });
 
     return (
         <div className="w-full">
@@ -145,11 +148,12 @@ export function SearchFilterDetailPage({ filterId }: Props) {
                             <h1 className="font-serif text-[36px] leading-[1.04] font-normal tracking-[-0.02em] break-words sm:text-[clamp(40px,4.6vw,64px)]">
                                 {filter.name}
                             </h1>
-                            <p className="text-sm text-ink-muted" suppressHydrationWarning>
-                                {t("searchFilters.detail.meta", {
-                                    created: formatAgo(filter.created),
-                                    updated: formatAgo(filter.updated),
-                                })}
+                            <p className="min-h-[1lh] text-sm text-ink-muted">
+                                {now &&
+                                    t("searchFilters.detail.meta", {
+                                        created: formatAgo(filter.created, now),
+                                        updated: formatAgo(filter.updated, now),
+                                    })}
                             </p>
                         </div>
                         <div className="flex flex-wrap items-center gap-2">
