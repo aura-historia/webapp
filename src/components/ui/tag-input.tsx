@@ -1,7 +1,5 @@
 import { useState, type ComponentProps, type KeyboardEvent } from "react";
 import { X } from "lucide-react";
-import { Badge } from "@/components/ui/badge.tsx";
-import { Input } from "@/components/ui/input.tsx";
 import { cn } from "@/lib/utils.ts";
 
 export type TagInputProps = {
@@ -17,7 +15,8 @@ export type TagInputProps = {
 /**
  * Free-text tag input: type a term and press Enter (or comma) to add it as a chip.
  * Backspace on an empty input removes the last tag.
- * Forwards id, aria attributes, etc. to the inner text input so it works inside shadcn's FormControl.
+ * Chips sit inside the field, before the text input. Forwards id, aria attributes, etc. to the inner
+ * text input so it works inside shadcn's FormControl.
  */
 export function TagInput({
     value,
@@ -61,40 +60,48 @@ export function TagInput({
 
     return (
         <div className={cn("flex flex-col gap-2", className)}>
-            {value.length > 0 && (
-                <div className="flex flex-wrap gap-1.5">
-                    {value.map((tag) => (
-                        <Badge key={tag} variant="secondary" className="gap-1 py-1 pl-2.5 pr-1">
-                            {tag}
-                            <button
-                                type="button"
-                                onClick={() => removeTag(tag)}
-                                aria-label={removeTagLabel?.(tag) ?? tag}
-                                className="rounded-full p-0.5 hover:bg-muted-foreground/20"
-                            >
-                                <X className="h-3 w-3" aria-hidden="true" />
-                            </button>
-                        </Badge>
-                    ))}
-                </div>
-            )}
-            <Input
-                {...inputProps}
-                value={draft}
-                onChange={(e) => {
-                    setDraft(e.target.value);
-                    setTooShort(false);
-                }}
-                onKeyDown={handleKeyDown}
-                onBlur={() => {
-                    if (addTag(draft)) {
-                        setDraft("");
-                    }
-                }}
-                placeholder={placeholder}
-            />
+            <div
+                className={cn(
+                    "flex min-h-11 flex-wrap items-center gap-1.5 rounded-md bg-surface px-2 py-1.5 shadow-field",
+                    "focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-brass",
+                    "has-[input[aria-invalid=true]]:shadow-[inset_0_0_0_1.5px_var(--oxblood)]",
+                )}
+            >
+                {value.map((tag) => (
+                    <span
+                        key={tag}
+                        className="inline-flex h-8 items-center gap-1 rounded-pill bg-ink pr-1 pl-3 text-meta text-surface"
+                    >
+                        {tag}
+                        <button
+                            type="button"
+                            onClick={() => removeTag(tag)}
+                            aria-label={removeTagLabel?.(tag) ?? tag}
+                            className="inline-flex size-[26px] cursor-pointer items-center justify-center rounded-pill outline-none focus-visible:outline-2 focus-visible:outline-brass"
+                        >
+                            <X className="size-3" strokeWidth={2.2} aria-hidden="true" />
+                        </button>
+                    </span>
+                ))}
+                <input
+                    {...inputProps}
+                    value={draft}
+                    onChange={(e) => {
+                        setDraft(e.target.value);
+                        setTooShort(false);
+                    }}
+                    onKeyDown={handleKeyDown}
+                    onBlur={() => {
+                        if (addTag(draft)) {
+                            setDraft("");
+                        }
+                    }}
+                    placeholder={placeholder}
+                    className="h-8 min-w-[180px] flex-1 border-0 bg-transparent px-1.5 text-base text-ink outline-none placeholder:text-ink-placeholder sm:text-[15px]"
+                />
+            </div>
             {tooShort && minLengthMessage && (
-                <p className="text-destructive text-sm">{minLengthMessage}</p>
+                <p className="text-meta text-oxblood">{minLengthMessage}</p>
             )}
         </div>
     );

@@ -4,9 +4,9 @@ import { SearchFilterMatchCard } from "../SearchFilterMatchCard.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 
-vi.mock("@/features/product/catalog/components/cards/ProductCard.tsx", () => ({
-    ProductCard: ({ product }: { product: ProductListing }) => (
-        <div data-testid="product-card">{product.title}</div>
+vi.mock("@/features/search/products/components/results/SearchResultCard.tsx", () => ({
+    SearchResultCard: ({ product }: { product: ProductListing }) => (
+        <div data-testid="search-result-card">{product.title}</div>
     ),
 }));
 
@@ -39,19 +39,20 @@ const baseProduct: ProductListing = {
 };
 
 describe("SearchFilterMatchCard", () => {
-    it("renders the ProductCard", async () => {
+    it("renders the SearchResultCard", async () => {
         await act(() => {
             renderWithQueryClient(<SearchFilterMatchCard product={baseProduct} filterId="f-1" />);
         });
-        expect(screen.getByTestId("product-card")).toBeInTheDocument();
+        expect(screen.getByTestId("search-result-card")).toBeInTheDocument();
         expect(screen.getByText("Barocktisch")).toBeInTheDocument();
     });
 
-    it("renders MatchFeedbackButtons", async () => {
+    it("renders MatchFeedbackButtons below the card", async () => {
         await act(() => {
             renderWithQueryClient(<SearchFilterMatchCard product={baseProduct} filterId="f-1" />);
         });
-        expect(screen.getByTestId("feedback-buttons")).toBeInTheDocument();
+        const card = screen.getByTestId("search-result-card");
+        expect(card.nextElementSibling).toBe(screen.getByTestId("feedback-buttons"));
     });
 
     it("passes filterId to MatchFeedbackButtons", async () => {

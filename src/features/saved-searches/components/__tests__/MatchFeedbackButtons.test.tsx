@@ -70,24 +70,68 @@ describe("MatchFeedbackButtons", () => {
         }
     });
 
-    it("thumbs-up icon has active class when currentFeedback is true", async () => {
+    it("renders a labelled group asking whether the match is relevant", async () => {
+        await act(() => {
+            renderWithQueryClient(<MatchFeedbackButtons {...defaultProps} />);
+        });
+        expect(
+            screen.getByRole("group", { name: "Rückmeldung zu diesem Treffer" }),
+        ).toBeInTheDocument();
+        expect(screen.getByText("Relevant?")).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Treffer ist relevant" })).toHaveAttribute(
+            "aria-pressed",
+            "false",
+        );
+        expect(screen.getByRole("button", { name: "Treffer ist nicht relevant" })).toHaveAttribute(
+            "aria-pressed",
+            "false",
+        );
+    });
+
+    it("presses thumbs-up and labels the match relevant when currentFeedback is true", async () => {
         await act(() => {
             renderWithQueryClient(
                 <MatchFeedbackButtons {...defaultProps} currentFeedback={true} />,
             );
         });
-        const [thumbsUp] = screen.getAllByRole("button");
-        expect(thumbsUp.querySelector("svg")).toHaveClass("fill-primary");
+        expect(screen.getByRole("button", { name: "Treffer ist relevant" })).toHaveAttribute(
+            "aria-pressed",
+            "true",
+        );
+        expect(screen.getByRole("button", { name: "Treffer ist nicht relevant" })).toHaveAttribute(
+            "aria-pressed",
+            "false",
+        );
+        expect(screen.getByText("Relevant")).toBeInTheDocument();
     });
 
-    it("thumbs-down icon has active class when currentFeedback is false", async () => {
+    it("presses thumbs-down and labels the match not relevant when currentFeedback is false", async () => {
         await act(() => {
             renderWithQueryClient(
                 <MatchFeedbackButtons {...defaultProps} currentFeedback={false} />,
             );
         });
-        const [, thumbsDown] = screen.getAllByRole("button");
-        expect(thumbsDown.querySelector("svg")).toHaveClass("fill-destructive");
+        expect(screen.getByRole("button", { name: "Treffer ist nicht relevant" })).toHaveAttribute(
+            "aria-pressed",
+            "true",
+        );
+        expect(screen.getByRole("button", { name: "Treffer ist relevant" })).toHaveAttribute(
+            "aria-pressed",
+            "false",
+        );
+        expect(screen.getByText("Nicht relevant")).toBeInTheDocument();
+    });
+
+    it("switches directly from one answer to the other", async () => {
+        await act(() => {
+            renderWithQueryClient(
+                <MatchFeedbackButtons {...defaultProps} currentFeedback={true} />,
+            );
+        });
+        await act(() => {
+            fireEvent.click(screen.getByRole("button", { name: "Treffer ist nicht relevant" }));
+        });
+        expect(mockMutate).toHaveBeenCalledWith(false);
     });
 
     it("passes correct ids to useSearchFilterMatchFeedback", async () => {

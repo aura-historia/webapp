@@ -1617,7 +1617,6 @@
       "namePlaceholder": "e.g. Mater Dolorosa Baroque Painting",
       "queryLabel_one": "Search Query",
       "queryLabel_other": "Search Queries",
-      "aiDescriptionLabel": "AI Description (optional)",
       "aiDescriptionPlaceholder": "Virgin Mary oil painting on canvas, not wood, Baroque frame with gold leaf on chalk ground (gesso). The motif should be Mater Dolorosa. The artist's signature must be included. The painting must not contain any visible damage and the frame must be completely intact. If the painting is from the Spanish Baroque, it must be at least 40x60 cm in size. This does not apply to the Italian Baroque.",
       "ultimateOnly": "Available for Ultimate subscribers only",
       "cancelButton": "Cancel",
@@ -1640,7 +1639,6 @@
       "close": "Close"
     },
     "wizard": {
-      "title": "Create Search Filter",
       "back": "Back",
       "next": "Next",
       "saveDirectly": "Save",
@@ -1648,10 +1646,9 @@
       "nameTooLong": "Name must not exceed 255 characters",
       "queryRequired": "Please enter at least one search term.",
       "queryTermTooShort": "Each search term must contain at least 3 characters.",
-      "noFiltersConfigured": "No filters configured",
       "step": {
         "name": "Name",
-        "nameDescription": "Give your search filter a name",
+        "nameDescription": "Give your search filter a name, then the words it should look for.",
         "priceStatus": "Price & Status",
         "priceStatusDescription": "Define your price range and select the desired listing status – such as only available items, or also already auctioned pieces for market research.",
         "shop": "Shop",
@@ -1659,18 +1656,30 @@
         "date": "Date",
         "dateDescription": "Narrow down the search by time – by auction date, date of first publication, or the last update of the listing.",
         "confirm": "Confirm",
-        "confirmDescription": "Review your search filter before saving"
+        "confirmDescription": "Review your search filter before saving."
       },
       "titleEdit": "Edit search filter",
-      "titleDuplicate": "Duplicate search filter"
+      "titleDuplicate": "Duplicate search filter",
+      "eyebrow": "New search filter",
+      "eyebrowEdit": "Edit",
+      "eyebrowDuplicate": "Duplicate",
+      "stepOf": "Step {{step}} of {{total}}",
+      "nextStep": "Next: {{label}}",
+      "stepsLabel": "Steps",
+      "progressLabel": "Wizard progress",
+      "proTag": "Pro & Ultimate",
+      "lockedHint": "Your plan saves the search term, availability and price range.",
+      "any": "Any",
+      "change": "Change",
+      "changeLabel": "Change {{label}}",
+      "saveFinal": "Save search filter",
+      "titleCreate": "Create search filter"
     },
     "optional": "optional",
     "upgradeRequired": "Pro & Ultimate only",
     "upgradeNow": "Upgrade now"
   },
   "searchFilters": {
-    "title": "My Search Filters",
-    "create": "Create Search Filter",
     "createUpgradeTooltip": "Upgrade your account to create more search filters",
     "duplicate": "Duplicate search filter",
     "duplicateNamePrefix": "Copy of {{name}}",
@@ -1683,38 +1692,29 @@
       "cancel": "Cancel",
       "confirm": "Delete"
     },
-    "notificationsOn": "Notifications active",
-    "notificationsOff": "Notifications inactive",
-    "activate": "Activate",
     "deactivate": "Pause",
     "moreActions": "More actions",
-    "stateInactiveByUser": "Paused",
-    "stateInactiveByPlan": "Locked",
     "loadingError": {
-      "title": "Error loading filters",
-      "description": "Search filters could not be loaded. Please try again later."
+      "description": "Search filters could not be loaded. Please try again later.",
+      "headline": "Search filters <em>unavailable.</em>",
+      "retry": "Try again"
     },
     "noResults": {
-      "title": "No Search Filters",
-      "description": "You have not saved any search filters yet."
+      "description": "You have not saved any search filters yet. Save a search and we email you when new objects match.",
+      "headline": "No search filters <em>yet.</em>",
+      "searchCta": "Search objects"
     },
     "noMatches": {
-      "title": "No Matches",
-      "description": "No matching items have been found for this search filter yet.",
-      "editHint": "Try adjusting the search filter."
+      "description": "No matching items have been found for this search filter yet. Try adjusting the search filter.",
+      "headline": "No matches <em>yet.</em>",
+      "editCta": "Edit search filter"
     },
-    "totalElements": "{{count}} search filter(s)",
-    "totalElements_one": "{{count}} search filter",
-    "totalElements_other": "{{count}} search filters",
-    "matches": "Found Products",
     "matchesCount_one": "{{count}} product",
     "matchesCount_other": "{{count}} products",
-    "matchesHint": "Products that previously matched the criteria of your search filter are shown here.",
+    "matchesHint": "Objects that matched this search filter since you saved it. Mark a match as relevant or not to sharpen future results.",
     "matchesAndDetails": "Matches & Details",
     "matchesAndDetailsShort": "Details",
-    "searchPlaceholder": "Search filters...",
-    "showDetails": "Show details",
-    "noAdditionalCriteria": "No additional criteria configured.",
+    "searchPlaceholder": "Search filters…",
     "info": {
       "creationDate": "Added",
       "updateDate": "Updated",
@@ -1722,17 +1722,18 @@
     },
     "detail": {
       "eyebrow": "Search Filter",
-      "configurationTitle": "Your Filter Criteria",
-      "configurationHint": "Here you can see all the settings that determine which results are found for this search filter."
-    },
-    "hiddenMatch": {
-      "title": "Hidden",
-      "description": "This match exceeds your monthly quota and is hidden. Upgrade your account to see all results.",
-      "upgradeButton": "Upgrade now"
+      "configurationTitle": "Your filter criteria",
+      "configurationHint": "Every setting that decides which objects this search filter finds.",
+      "back": "My search filters",
+      "meta": "Added {{created}} · Updated {{updated}}"
     },
     "feedback": {
       "relevantHint": "Match is relevant",
-      "notRelevantHint": "Match is not relevant"
+      "notRelevantHint": "Match is not relevant",
+      "question": "Relevant?",
+      "relevant": "Relevant",
+      "notRelevant": "Not relevant",
+      "groupLabel": "Feedback on this match"
     },
     "feedbackError": "Failed to save feedback.",
     "preview": {
@@ -1741,7 +1742,56 @@
       "unavailable": "A preview is unavailable because this filter contains criteria that listing search cannot express.",
       "error": "The preview could not be loaded.",
       "empty": "No listings match these criteria right now."
-    }
+    },
+    "searchLabel": "Search your search filters",
+    "heading": "My <em>search filters.</em>",
+    "lead": "Saved searches that keep watching the market. We email you when new objects match.",
+    "loading": "Loading search filters",
+    "quota": "{{used}} of {{limit}} on your {{plan}} plan",
+    "aiLabel": "AI",
+    "state": {
+      "live": "Live",
+      "active": "Active",
+      "paused": "Paused by you",
+      "locked": "Locked by plan"
+    },
+    "watching": {
+      "heading": "Watching <em>now.</em>",
+      "meta_one": "{{count}} active · checked against every new listing",
+      "meta_other": "{{count}} active · checked against every new listing",
+      "empty": "Nothing is watching right now. Resume a search filter below or create a new one."
+    },
+    "resting": {
+      "heading": "Resting",
+      "meta_one": "{{count}} not looking for matches",
+      "meta_other": "{{count}} not looking for matches",
+      "emptyHeadline": "Nothing is <em>resting.</em>",
+      "empty": "Search filters you pause, or that your plan locks, wait here without looking for matches."
+    },
+    "pauseFilter": "Pause {{name}}",
+    "resume": "Resume",
+    "upgradeToResume": "Upgrade to resume",
+    "pausedNote": "Matches found before you paused stay on its detail page.",
+    "lockedNote": "Your plan does not cover this search filter, so it no longer looks for matches.",
+    "emailAlertsOn": "Email alerts on",
+    "emailAlertsOff": "Email alerts off",
+    "noNameMatch": {
+      "headline": "No search filter matches <em>“{{query}}”.</em>",
+      "description_one": "Check the spelling or clear the search to see your search filter.",
+      "description_other": "Check the spelling or clear the search to see all {{count}} search filters.",
+      "clear": "Clear search"
+    },
+    "matchesHeading": "Found <em>products.</em>",
+    "matchesLoading": "Loading matches",
+    "matchesLoadingMore": "Loading more matches…",
+    "matchesProgress": "{{loaded}} of {{total}}",
+    "matchesAllLoaded_one": "You have seen {{count}} match.",
+    "matchesAllLoaded_other": "You have seen all {{count}} matches.",
+    "matchesError": {
+      "headline": "Matches <em>unavailable.</em>",
+      "description": "The matches could not be loaded. Please try again later."
+    },
+    "createCta": "Create search filter"
   },
   "partnerDashboard": {
     "title": "Partner Dashboard",

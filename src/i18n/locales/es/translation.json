@@ -2111,7 +2111,6 @@
       "namePlaceholder": "Ej.: Pintura Barroca Mater Dolorosa",
       "queryLabel_one": "Consulta de Búsqueda",
       "queryLabel_other": "Consultas de Búsqueda",
-      "aiDescriptionLabel": "Descripción AI (opcional)",
       "aiDescriptionPlaceholder": "Pintura al óleo de la Virgen María sobre lienzo, no madera, marco barroco con pan de oro sobre base de yeso. El motivo debe ser Mater Dolorosa. La firma del artista debe estar incluida. La pintura no debe tener daños visibles y el marco debe estar completamente intacto. Si la pintura es del Barroco español, debe tener al menos 40x60 cm de tamaño. Esto no aplica al Barroco italiano.",
       "ultimateOnly": "Disponible solo para suscriptores Ultimate",
       "cancelButton": "Cancelar",
@@ -2134,7 +2133,6 @@
       "close": "Cerrar"
     },
     "wizard": {
-      "title": "Crear Filtro de Búsqueda",
       "back": "Atrás",
       "next": "Siguiente",
       "saveDirectly": "Guardar",
@@ -2142,10 +2140,9 @@
       "nameTooLong": "El nombre no debe exceder los 255 caracteres",
       "queryRequired": "Introduzca al menos un término de búsqueda.",
       "queryTermTooShort": "Cada término de búsqueda debe tener al menos 3 caracteres.",
-      "noFiltersConfigured": "No se han configurado filtros",
       "step": {
         "name": "Nombre",
-        "nameDescription": "Asigne un nombre a su filtro de búsqueda",
+        "nameDescription": "Dale un nombre a tu filtro de búsqueda y las palabras que debe buscar.",
         "priceStatus": "Precio y Estado",
         "priceStatusDescription": "Defina su rango de precios y seleccione el estado de publicación deseado – por ejemplo, solo artículos disponibles o también piezas ya subastadas para investigación de mercado.",
         "shop": "Tienda",
@@ -2153,18 +2150,30 @@
         "date": "Fecha",
         "dateDescription": "Acote la búsqueda por tiempo – por fecha de subasta, fecha de primera publicación o la última actualización del anuncio.",
         "confirm": "Confirmar",
-        "confirmDescription": "Revise su filtro de búsqueda antes de guardarlo"
+        "confirmDescription": "Revisa tu filtro de búsqueda antes de guardarlo."
       },
       "titleEdit": "Editar filtro de búsqueda",
-      "titleDuplicate": "Duplicar filtro de búsqueda"
+      "titleDuplicate": "Duplicar filtro de búsqueda",
+      "eyebrow": "Nuevo filtro de búsqueda",
+      "eyebrowEdit": "Editar",
+      "eyebrowDuplicate": "Duplicar",
+      "stepOf": "Paso {{step}} de {{total}}",
+      "nextStep": "Siguiente: {{label}}",
+      "stepsLabel": "Pasos",
+      "progressLabel": "Progreso",
+      "proTag": "Pro y Ultimate",
+      "lockedHint": "Tu plan guarda el término de búsqueda, la disponibilidad y el rango de precios.",
+      "any": "Cualquiera",
+      "change": "Cambiar",
+      "changeLabel": "Cambiar {{label}}",
+      "saveFinal": "Guardar filtro de búsqueda",
+      "titleCreate": "Crear filtro de búsqueda"
     },
     "optional": "opcional",
     "upgradeRequired": "Solo Pro y Ultimate",
     "upgradeNow": "Actualizar ahora"
   },
   "searchFilters": {
-    "title": "Mis Filtros de Búsqueda",
-    "create": "Crear Filtro de Búsqueda",
     "createUpgradeTooltip": "Actualice su cuenta para crear más filtros de búsqueda",
     "duplicate": "Duplicar filtro de búsqueda",
     "duplicateNamePrefix": "Copia de {{name}}",
@@ -2177,38 +2186,29 @@
       "cancel": "Cancelar",
       "confirm": "Eliminar"
     },
-    "notificationsOn": "Notificaciones activas",
-    "notificationsOff": "Notificaciones inactivas",
-    "activate": "Activar",
     "deactivate": "Pausar",
     "moreActions": "Más acciones",
-    "stateInactiveByUser": "En pausa",
-    "stateInactiveByPlan": "Bloqueado",
     "loadingError": {
-      "title": "Error de carga",
-      "description": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtelo de nuevo más tarde."
+      "description": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtelo de nuevo más tarde.",
+      "headline": "Filtros de búsqueda <em>no disponibles.</em>",
+      "retry": "Intentar de nuevo"
     },
     "noResults": {
-      "title": "Sin Filtros de Búsqueda",
-      "description": "Aún no ha guardado ningún filtro de búsqueda."
+      "description": "Todavía no has guardado ningún filtro de búsqueda. Guarda una búsqueda y te avisaremos por correo cuando aparezcan objetos nuevos que coincidan.",
+      "headline": "Aún no hay <em>filtros de búsqueda.</em>",
+      "searchCta": "Buscar objetos"
     },
     "noMatches": {
-      "title": "Sin Coincidencias",
-      "description": "Aún no se han encontrado artículos que coincidan con este filtro de búsqueda.",
-      "editHint": "Intente ajustar el filtro de búsqueda."
+      "description": "Todavía no se han encontrado objetos para este filtro de búsqueda. Prueba a ajustar el filtro de búsqueda.",
+      "headline": "Aún no hay <em>coincidencias.</em>",
+      "editCta": "Editar filtro de búsqueda"
     },
-    "totalElements": "{{count}} filtro(s) de búsqueda",
-    "matches": "Productos Encontrados",
     "matchesCount_one": "{{count}} producto",
     "matchesCount_other": "{{count}} productos",
-    "matchesHint": "Aquí se muestran los productos que anteriormente cumplieron los criterios de su filtro de búsqueda.",
+    "matchesHint": "Objetos que han coincidido con este filtro de búsqueda desde que lo guardaste. Marca una coincidencia como relevante o no para afinar los resultados futuros.",
     "matchesAndDetails": "Coincidencias y Detalles",
     "matchesAndDetailsShort": "Detalles",
-    "totalElements_one": "{{count}} filtro de búsqueda",
-    "totalElements_other": "{{count}} filtros de búsqueda",
-    "searchPlaceholder": "Buscar filtros de búsqueda...",
-    "showDetails": "Mostrar detalles",
-    "noAdditionalCriteria": "No se han configurado criterios adicionales.",
+    "searchPlaceholder": "Buscar filtros…",
     "info": {
       "creationDate": "Añadido",
       "updateDate": "Actualizado",
@@ -2216,17 +2216,18 @@
     },
     "detail": {
       "eyebrow": "Filtro de Búsqueda",
-      "configurationTitle": "Sus Criterios de Filtro",
-      "configurationHint": "Aquí puede ver todos los ajustes que determinan qué resultados se encuentran para este filtro de búsqueda."
-    },
-    "hiddenMatch": {
-      "title": "Oculto",
-      "description": "Esta coincidencia excede su cuota mensual y está oculta. Actualice su cuenta para ver todos los resultados.",
-      "upgradeButton": "Actualizar ahora"
+      "configurationTitle": "Tus criterios de filtro",
+      "configurationHint": "Todos los ajustes que deciden qué objetos encuentra este filtro de búsqueda.",
+      "back": "Mis filtros de búsqueda",
+      "meta": "Añadido {{created}} · Actualizado {{updated}}"
     },
     "feedback": {
       "relevantHint": "La coincidencia es relevante",
-      "notRelevantHint": "La coincidencia no es relevante"
+      "notRelevantHint": "La coincidencia no es relevante",
+      "question": "¿Relevante?",
+      "relevant": "Relevante",
+      "notRelevant": "No relevante",
+      "groupLabel": "Valoración de esta coincidencia"
     },
     "feedbackError": "No se pudo guardar el comentario.",
     "preview": {
@@ -2235,7 +2236,56 @@
       "unavailable": "La vista previa no está disponible porque este filtro contiene criterios que la búsqueda de anuncios no puede expresar.",
       "error": "No se pudo cargar la vista previa.",
       "empty": "Ahora mismo no hay anuncios que coincidan con estos criterios."
-    }
+    },
+    "searchLabel": "Buscar en tus filtros de búsqueda",
+    "heading": "Mis <em>filtros de búsqueda.</em>",
+    "lead": "Búsquedas guardadas que siguen vigilando el mercado. Te avisamos por correo cuando aparecen objetos nuevos que coinciden.",
+    "loading": "Cargando filtros de búsqueda",
+    "quota": "{{used}} de {{limit}} en tu plan {{plan}}",
+    "aiLabel": "IA",
+    "state": {
+      "live": "En vivo",
+      "active": "Activo",
+      "paused": "Pausado por ti",
+      "locked": "Bloqueado por el plan"
+    },
+    "watching": {
+      "heading": "Vigilando <em>ahora.</em>",
+      "meta_one": "{{count}} activo · comparado con cada anuncio nuevo",
+      "meta_other": "{{count}} activos · comparados con cada anuncio nuevo",
+      "empty": "Ahora mismo no hay nada vigilando. Reanuda un filtro de búsqueda abajo o crea uno nuevo."
+    },
+    "resting": {
+      "heading": "En reposo",
+      "meta_one": "{{count}} no busca coincidencias",
+      "meta_other": "{{count}} no buscan coincidencias",
+      "emptyHeadline": "Nada está <em>en reposo.</em>",
+      "empty": "Los filtros de búsqueda que pausas, o que tu plan bloquea, esperan aquí sin buscar coincidencias."
+    },
+    "pauseFilter": "Pausar {{name}}",
+    "resume": "Reanudar",
+    "upgradeToResume": "Mejora tu plan para reanudar",
+    "pausedNote": "Las coincidencias encontradas antes de la pausa siguen en su página de detalle.",
+    "lockedNote": "Tu plan no incluye este filtro de búsqueda, así que ya no busca coincidencias.",
+    "emailAlertsOn": "Avisos por correo activados",
+    "emailAlertsOff": "Avisos por correo desactivados",
+    "noNameMatch": {
+      "headline": "Ningún filtro de búsqueda coincide con <em>«{{query}}».</em>",
+      "description_one": "Revisa la ortografía o borra la búsqueda para ver tu filtro de búsqueda.",
+      "description_other": "Revisa la ortografía o borra la búsqueda para ver los {{count}} filtros de búsqueda.",
+      "clear": "Borrar búsqueda"
+    },
+    "matchesHeading": "Productos <em>encontrados.</em>",
+    "matchesLoading": "Cargando coincidencias",
+    "matchesLoadingMore": "Cargando más coincidencias…",
+    "matchesProgress": "{{loaded}} de {{total}}",
+    "matchesAllLoaded_one": "Has visto {{count}} coincidencia.",
+    "matchesAllLoaded_other": "Has visto las {{count}} coincidencias.",
+    "matchesError": {
+      "headline": "Coincidencias <em>no disponibles.</em>",
+      "description": "No se han podido cargar las coincidencias. Inténtalo de nuevo más tarde."
+    },
+    "createCta": "Crear filtro de búsqueda"
   },
   "oauth": {
     "authorize": {

@@ -2111,7 +2111,6 @@
       "namePlaceholder": "ex. Peinture baroque Mater Dolorosa",
       "queryLabel_one": "Requête de recherche",
       "queryLabel_other": "Requêtes de recherche",
-      "aiDescriptionLabel": "Description IA (facultatif)",
       "aiDescriptionPlaceholder": "Peinture à l'huile de la Vierge Marie sur toile, pas sur bois, cadre baroque avec feuille d'or sur fond de craie (gesso). Le motif doit être Mater Dolorosa. La signature de l'artiste doit être incluse. La peinture ne doit pas présenter de dommages visibles et le cadre doit être entièrement intact. Si la peinture est du baroque espagnol, elle doit mesurer au moins 40x60 cm. Cela ne s'applique pas au baroque italien.",
       "ultimateOnly": "Disponible uniquement pour les abonnés Ultimate",
       "cancelButton": "Annuler",
@@ -2134,7 +2133,6 @@
       "close": "Fermer"
     },
     "wizard": {
-      "title": "Créer un filtre de recherche",
       "back": "Retour",
       "next": "Suivant",
       "saveDirectly": "Enregistrer",
@@ -2142,10 +2140,9 @@
       "nameTooLong": "Le nom ne doit pas dépasser 255 caractères",
       "queryRequired": "Veuillez saisir au moins un terme de recherche.",
       "queryTermTooShort": "Chaque terme de recherche doit contenir au moins 3 caractères.",
-      "noFiltersConfigured": "Aucun filtre configuré",
       "step": {
         "name": "Nom",
-        "nameDescription": "Donnez un nom à votre filtre de recherche",
+        "nameDescription": "Donnez un nom à votre filtre de recherche, puis les mots qu’il doit rechercher.",
         "priceStatus": "Prix & Statut",
         "priceStatusDescription": "Définissez votre fourchette de prix et sélectionnez le statut d'annonce souhaité – par exemple, uniquement les articles disponibles ou aussi les pièces déjà vendues aux enchères pour la recherche de marché.",
         "shop": "Boutique",
@@ -2153,18 +2150,30 @@
         "date": "Date",
         "dateDescription": "Affinez la recherche par date – par date de vente aux enchères, date de première publication ou dernière mise à jour de l'annonce.",
         "confirm": "Confirmer",
-        "confirmDescription": "Vérifiez votre filtre de recherche avant de l'enregistrer"
+        "confirmDescription": "Vérifiez votre filtre de recherche avant de l’enregistrer."
       },
       "titleEdit": "Modifier le filtre de recherche",
-      "titleDuplicate": "Dupliquer le filtre de recherche"
+      "titleDuplicate": "Dupliquer le filtre de recherche",
+      "eyebrow": "Nouveau filtre de recherche",
+      "eyebrowEdit": "Modifier",
+      "eyebrowDuplicate": "Dupliquer",
+      "stepOf": "Étape {{step}} sur {{total}}",
+      "nextStep": "Ensuite : {{label}}",
+      "stepsLabel": "Étapes",
+      "progressLabel": "Progression",
+      "proTag": "Pro & Ultimate",
+      "lockedHint": "Votre formule enregistre le terme de recherche, la disponibilité et la fourchette de prix.",
+      "any": "Tous",
+      "change": "Modifier",
+      "changeLabel": "Modifier : {{label}}",
+      "saveFinal": "Enregistrer le filtre de recherche",
+      "titleCreate": "Créer un filtre de recherche"
     },
     "optional": "facultatif",
     "upgradeRequired": "Pro & Ultimate uniquement",
     "upgradeNow": "Mettez à niveau maintenant"
   },
   "searchFilters": {
-    "title": "Mes filtres de recherche",
-    "create": "Créer un filtre de recherche",
     "createUpgradeTooltip": "Mettez à niveau votre compte pour créer plus de filtres de recherche",
     "duplicate": "Dupliquer le filtre de recherche",
     "duplicateNamePrefix": "Copie de {{name}}",
@@ -2177,38 +2186,29 @@
       "cancel": "Annuler",
       "confirm": "Supprimer"
     },
-    "notificationsOn": "Notifications actives",
-    "notificationsOff": "Notifications inactives",
-    "activate": "Activer",
     "deactivate": "Mettre en pause",
     "moreActions": "Plus d'actions",
-    "stateInactiveByUser": "En pause",
-    "stateInactiveByPlan": "Verrouillé",
     "loadingError": {
-      "title": "Erreur de chargement",
-      "description": "Les filtres de recherche n'ont pas pu être chargés. Veuillez réessayer plus tard."
+      "description": "Les filtres de recherche n'ont pas pu être chargés. Veuillez réessayer plus tard.",
+      "headline": "Filtres de recherche <em>indisponibles.</em>",
+      "retry": "Réessayer"
     },
     "noResults": {
-      "title": "Aucun filtre de recherche",
-      "description": "Vous n'avez encore enregistré aucun filtre de recherche."
+      "description": "Vous n’avez encore enregistré aucun filtre de recherche. Enregistrez une recherche et nous vous écrirons dès que de nouveaux objets correspondent.",
+      "headline": "Pas encore de <em>filtres de recherche.</em>",
+      "searchCta": "Rechercher des objets"
     },
     "noMatches": {
-      "title": "Aucune correspondance",
-      "description": "Aucun élément correspondant n'a encore été trouvé pour ce filtre de recherche.",
-      "editHint": "Essayez d'ajuster le filtre de recherche."
+      "description": "Aucun objet correspondant n’a encore été trouvé pour ce filtre de recherche. Essayez d’ajuster le filtre de recherche.",
+      "headline": "Pas encore de <em>correspondances.</em>",
+      "editCta": "Modifier le filtre de recherche"
     },
-    "totalElements": "{{count}} filtre(s) de recherche",
-    "matches": "Produits Trouvés",
     "matchesCount_one": "{{count}} produit",
     "matchesCount_other": "{{count}} produits",
-    "matchesHint": "Les produits qui ont précédemment correspondu aux critères de votre filtre de recherche sont affichés ici.",
+    "matchesHint": "Les objets qui ont correspondu à ce filtre de recherche depuis son enregistrement. Indiquez si une correspondance est pertinente pour affiner les résultats à venir.",
     "matchesAndDetails": "Correspondances et détails",
     "matchesAndDetailsShort": "Détails",
-    "totalElements_one": "{{count}} filtre de recherche",
-    "totalElements_other": "{{count}} filtres de recherche",
-    "searchPlaceholder": "Rechercher des filtres...",
-    "showDetails": "Afficher les détails",
-    "noAdditionalCriteria": "Aucun critère supplémentaire configuré.",
+    "searchPlaceholder": "Rechercher des filtres…",
     "info": {
       "creationDate": "Ajouté",
       "updateDate": "Mis à jour",
@@ -2216,17 +2216,18 @@
     },
     "detail": {
       "eyebrow": "Filtre de Recherche",
-      "configurationTitle": "Vos Critères de Filtre",
-      "configurationHint": "Voici tous les réglages qui déterminent quels résultats sont trouvés pour ce filtre de recherche."
-    },
-    "hiddenMatch": {
-      "title": "Caché",
-      "description": "Cette correspondance dépasse votre quota mensuel et est masquée. Mettez à niveau votre compte pour voir tous les résultats.",
-      "upgradeButton": "Mettez à niveau maintenant"
+      "configurationTitle": "Vos critères de filtre",
+      "configurationHint": "Tous les réglages qui déterminent les objets que ce filtre de recherche trouve.",
+      "back": "Mes filtres de recherche",
+      "meta": "Ajouté {{created}} · Mis à jour {{updated}}"
     },
     "feedback": {
       "relevantHint": "La correspondance est pertinente",
-      "notRelevantHint": "La correspondance n'est pas pertinente"
+      "notRelevantHint": "La correspondance n'est pas pertinente",
+      "question": "Pertinent ?",
+      "relevant": "Pertinent",
+      "notRelevant": "Pas pertinent",
+      "groupLabel": "Avis sur cette correspondance"
     },
     "feedbackError": "Échec de l'enregistrement des commentaires.",
     "preview": {
@@ -2235,7 +2236,56 @@
       "unavailable": "L’aperçu est indisponible, car ce filtre contient des critères que la recherche d’annonces ne peut pas exprimer.",
       "error": "Impossible de charger l’aperçu.",
       "empty": "Aucune annonce ne correspond à ces critères pour le moment."
-    }
+    },
+    "searchLabel": "Rechercher dans vos filtres de recherche",
+    "heading": "Mes <em>filtres de recherche.</em>",
+    "lead": "Des recherches enregistrées qui continuent de surveiller le marché. Nous vous écrivons dès que de nouveaux objets correspondent.",
+    "loading": "Chargement des filtres de recherche",
+    "quota": "{{used}} sur {{limit}} avec votre formule {{plan}}",
+    "aiLabel": "IA",
+    "state": {
+      "live": "En direct",
+      "active": "Actif",
+      "paused": "Mis en pause par vous",
+      "locked": "Bloqué par la formule"
+    },
+    "watching": {
+      "heading": "En veille <em>maintenant.</em>",
+      "meta_one": "{{count}} actif · comparé à chaque nouvelle annonce",
+      "meta_other": "{{count}} actifs · comparés à chaque nouvelle annonce",
+      "empty": "Rien n’est en veille pour le moment. Reprenez un filtre de recherche ci-dessous ou créez-en un nouveau."
+    },
+    "resting": {
+      "heading": "En repos",
+      "meta_one": "{{count}} ne cherche pas de correspondances",
+      "meta_other": "{{count}} ne cherchent pas de correspondances",
+      "emptyHeadline": "Rien n’est <em>en repos.</em>",
+      "empty": "Les filtres de recherche que vous mettez en pause, ou que votre formule bloque, attendent ici sans chercher de correspondances."
+    },
+    "pauseFilter": "Mettre {{name}} en pause",
+    "resume": "Reprendre",
+    "upgradeToResume": "Changer de formule pour reprendre",
+    "pausedNote": "Les correspondances trouvées avant la pause restent sur sa page de détail.",
+    "lockedNote": "Votre formule n’inclut pas ce filtre de recherche, il ne cherche donc plus de correspondances.",
+    "emailAlertsOn": "Alertes e-mail activées",
+    "emailAlertsOff": "Alertes e-mail désactivées",
+    "noNameMatch": {
+      "headline": "Aucun filtre de recherche ne correspond à <em>« {{query}} ».</em>",
+      "description_one": "Vérifiez l’orthographe ou effacez la recherche pour voir votre filtre de recherche.",
+      "description_other": "Vérifiez l’orthographe ou effacez la recherche pour voir les {{count}} filtres de recherche.",
+      "clear": "Effacer la recherche"
+    },
+    "matchesHeading": "Produits <em>trouvés.</em>",
+    "matchesLoading": "Chargement des correspondances",
+    "matchesLoadingMore": "Chargement d’autres correspondances…",
+    "matchesProgress": "{{loaded}} sur {{total}}",
+    "matchesAllLoaded_one": "Vous avez vu {{count}} correspondance.",
+    "matchesAllLoaded_other": "Vous avez vu les {{count}} correspondances.",
+    "matchesError": {
+      "headline": "Correspondances <em>indisponibles.</em>",
+      "description": "Les correspondances n’ont pas pu être chargées. Veuillez réessayer plus tard."
+    },
+    "createCta": "Créer un filtre de recherche"
   },
   "oauth": {
     "authorize": {

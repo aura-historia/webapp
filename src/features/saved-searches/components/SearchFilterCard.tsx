@@ -1,352 +1,272 @@
+import { Link } from "@tanstack/react-router";
+import { ArrowRight, Lock, Pause, Play } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-    Bell,
-    BellRing,
-    Copy,
-    MoreVertical,
-    Pause,
-    Play,
-    ScanSearch,
-    Settings2,
-    Trash2,
-} from "lucide-react";
-import { Badge } from "@/components/ui/badge.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Card } from "@/components/ui/card.tsx";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from "@/components/ui/accordion.tsx";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu.tsx";
-import { H2 } from "@/components/typography/H2.tsx";
-import { H3 } from "@/components/typography/H3.tsx";
-import { Link } from "@tanstack/react-router";
-import { intlFormatDistance } from "date-fns";
-import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
-import { hasAdvancedFilterDetails } from "@/data/internal/search/SearchFilterArguments.ts";
-import { useUpdateUserSearchFilter } from "@/features/saved-searches/api/useUpdateUserSearchFilter.ts";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from "@/components/ui/alert-dialog.tsx";
-import {
-    SearchFilterCriteriaBadges,
-    SearchFilterCriteriaDetails,
-} from "@/features/saved-searches/components/SearchFilterCriteria.tsx";
 import { ToggleBellIcon } from "@/components/common/ToggleBellIcon.tsx";
+import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
+import { useUpdateUserSearchFilter } from "@/features/saved-searches/api/useUpdateUserSearchFilter.ts";
+import { DeleteSearchFilterDialog } from "@/features/saved-searches/components/DeleteSearchFilterDialog.tsx";
+import { SearchFilterActionsMenu } from "@/features/saved-searches/components/SearchFilterActionsMenu.tsx";
+import {
+    getQueryTerms,
+    useSearchFilterCriteria,
+} from "@/features/saved-searches/hooks/useSearchFilterCriteria.ts";
+import {
+    FOCUS_CLASS,
+    GHOST_PILL_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+} from "@/features/saved-searches/lib/searchFilterStyles.ts";
+import { cn } from "@/lib/utils.ts";
 
 type Props = {
     readonly filter: UserSearchFilter;
-    readonly isDeleting: boolean;
     readonly canDuplicate: boolean;
-    readonly onDelete: (id: string) => void;
     readonly onEdit: (filter: UserSearchFilter) => void;
     readonly onDuplicate: (filter: UserSearchFilter) => void;
 };
 
-export function SearchFilterCard({
+function formatTerms(terms: readonly string[]) {
+    return terms.map((term) => `“${term}”`).join(" · ");
+}
+
+function FilterNameLink({
     filter,
-    isDeleting,
-    canDuplicate,
-    onDelete,
-    onEdit,
-    onDuplicate,
-}: Props) {
-    const { t, i18n } = useTranslation();
-    const { search } = filter;
+    className,
+}: {
+    readonly filter: UserSearchFilter;
+    readonly className: string;
+}) {
+    return (
+        <Link
+            to="/$lng/me/search-filter/$filterId"
+            params={(current) => ({ ...current, filterId: filter.id })}
+            from="/$lng"
+            className={cn("group min-w-0 self-start rounded-xs", FOCUS_CLASS)}
+        >
+            <h3
+                id={`search-filter-${filter.id}`}
+                className={cn(
+                    "font-serif font-normal group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4",
+                    className,
+                )}
+            >
+                {filter.name}
+            </h3>
+        </Link>
+    );
+}
+
+/**
+ * An active search filter on the ink "Watching now" band: live label, name, search terms,
+ * criteria, the email-alert toggle and the way to its matches.
+ */
+export function SearchFilterCard({ filter, canDuplicate, onEdit, onDuplicate }: Props) {
+    const { t } = useTranslation();
     const updateFilter = useUpdateUserSearchFilter();
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
-    const queryTerms = search.queryTerms?.length ? search.queryTerms : search.q ? [search.q] : [];
-    const hasAdvancedFilters = hasAdvancedFilterDetails(search);
-    const notificationsLabel = filter.notifications
-        ? t("searchFilters.notificationsOn")
-        : t("searchFilters.notificationsOff");
-
-    const isActive = filter.state === "ACTIVE";
-    const isRestrictedByPlan = filter.state === "INACTIVE_BY_RESTRICTED_PLAN";
-    const stateToggleLabel = isActive ? t("searchFilters.deactivate") : t("searchFilters.activate");
-
-    const handleStateToggle = () =>
-        updateFilter.mutate({
-            id: filter.id,
-            patch: { state: isActive ? "INACTIVE_BY_USER" : "ACTIVE" },
-        });
-
-    const handleNotificationsToggle = () =>
-        updateFilter.mutate({
-            id: filter.id,
-            patch: { notifications: !filter.notifications },
-        });
+    const [deleteOpen, setDeleteOpen] = useState(false);
+    const criteria = useSearchFilterCriteria(filter.search);
+    const terms = getQueryTerms(filter.search);
 
     return (
-        <Card className="relative flex flex-col p-4 sm:p-6 gap-5 shadow-md min-w-0 h-full transition-colors hover:bg-accent">
-            <Link
-                to="/$lng/me/search-filter/$filterId"
-                params={(current) => ({ ...current, filterId: filter.id })}
-                className="absolute inset-0 z-0"
-                aria-label={filter.name}
-                from="/$lng"
-            />
-
-            <div className="flex justify-between gap-2">
-                <div className="flex flex-col gap-2 min-w-0 overflow-hidden">
-                    <H2 className="text-ellipsis line-clamp-1">{filter.name}</H2>
-                    <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-sm text-muted-foreground" suppressHydrationWarning>
-                            {intlFormatDistance(filter.created, new Date(), {
-                                locale: i18n.language,
-                            })}
-                        </span>
-                        {filter.state === "INACTIVE_BY_USER" && (
-                            <Badge variant="secondary" className="text-xs">
-                                {t("searchFilters.stateInactiveByUser")}
-                            </Badge>
-                        )}
-                        {isRestrictedByPlan && (
-                            <Badge variant="destructive" className="text-xs">
-                                {t("searchFilters.stateInactiveByPlan")}
-                            </Badge>
-                        )}
-                    </div>
-                    {queryTerms.length > 0 && (
-                        <H3 variant="muted" className="line-clamp-1 text-ellipsis">
-                            {queryTerms.map((term) => `„${term}"`).join(", ")}
-                        </H3>
-                    )}
-                    {filter.enhancedSearchDescription && (
-                        <p className="text-sm text-muted-foreground italic line-clamp-2">
-                            {filter.enhancedSearchDescription}
+        <article
+            aria-labelledby={`search-filter-${filter.id}`}
+            className="flex h-full min-w-0 flex-col gap-5 rounded-card bg-surface-raised px-5 pt-[22px] pb-2.5 text-ink shadow-ring sm:px-7 sm:pt-7 sm:pb-3"
+        >
+            <div className="flex items-start justify-between gap-4">
+                <div className="flex min-w-0 flex-col gap-2">
+                    <span className="inline-flex items-center gap-2 font-mono text-kicker tracking-[0.14em] text-signal-live uppercase">
+                        <span
+                            aria-hidden="true"
+                            className="size-[7px] rounded-pill bg-signal-live"
+                        />
+                        {t("searchFilters.state.live")}
+                    </span>
+                    <FilterNameLink
+                        filter={filter}
+                        className="text-[24px] leading-[1.12] tracking-[-0.01em] sm:text-[30px]"
+                    />
+                    {terms.length > 0 && (
+                        <p className="font-serif text-base leading-[1.4] text-brass-light italic">
+                            {formatTerms(terms)}
                         </p>
                     )}
                 </div>
+                <button
+                    type="button"
+                    aria-label={t("searchFilters.pauseFilter", { name: filter.name })}
+                    disabled={updateFilter.isPending}
+                    onClick={() =>
+                        updateFilter.mutate({ id: filter.id, patch: { state: "INACTIVE_BY_USER" } })
+                    }
+                    className={cn(SECONDARY_PILL_CLASS, "h-10 px-3 text-[13px] sm:pr-3.5 sm:pl-3")}
+                >
+                    <Pause aria-hidden="true" className="size-3.5" strokeWidth={1.8} />
+                    <span className="hidden sm:inline">{t("searchFilters.deactivate")}</span>
+                </button>
+            </div>
 
-                {/* Desktop: 5 icon buttons with tooltips */}
-                <div className="hidden sm:flex gap-1 shrink-0">
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                className="relative size-10 text-muted-foreground"
-                                aria-label={stateToggleLabel}
-                                disabled={updateFilter.isPending}
-                                onClick={handleStateToggle}
-                            >
-                                <div className="relative size-5">
-                                    <Pause
-                                        className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-75"}`}
-                                    />
-                                    <Play
-                                        className={`absolute inset-0 size-5 transition-all duration-300 ease-in-out ${isActive ? "opacity-0 scale-75" : "opacity-100 scale-100"}`}
-                                    />
-                                </div>
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>{stateToggleLabel}</TooltipContent>
-                    </Tooltip>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                className="relative z-10 size-10 text-muted-foreground"
-                                aria-label={notificationsLabel}
-                                disabled={updateFilter.isPending || !isActive}
-                                onClick={handleNotificationsToggle}
-                            >
-                                <ToggleBellIcon
-                                    on={filter.notifications}
-                                    className="size-5"
-                                    filledClassName="fill-primary"
-                                    strokeWidth={2}
-                                />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>{notificationsLabel}</TooltipContent>
-                    </Tooltip>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                className="relative z-10 size-10 text-muted-foreground hover:text-primary"
-                                aria-label={t("searchFilters.duplicate")}
-                                disabled={!canDuplicate}
-                                onClick={() => onDuplicate(filter)}
-                            >
-                                <Copy className="size-5" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            {canDuplicate
-                                ? t("searchFilters.duplicate")
-                                : t("searchFilters.createUpgradeTooltip")}
-                        </TooltipContent>
-                    </Tooltip>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                className="relative z-10 size-10 text-muted-foreground hover:text-primary"
-                                aria-label={t("searchFilters.edit")}
-                                onClick={() => onEdit(filter)}
-                            >
-                                <Settings2 className="size-5" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>{t("searchFilters.edit")}</TooltipContent>
-                    </Tooltip>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                className="relative z-10 size-10 text-muted-foreground hover:text-destructive"
-                                aria-label={t("searchFilters.delete")}
-                                disabled={isDeleting}
-                                onClick={() => setDeleteDialogOpen(true)}
-                            >
-                                <Trash2 className="size-5" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>{t("searchFilters.delete")}</TooltipContent>
-                    </Tooltip>
-                </div>
+            {filter.enhancedSearchDescription && (
+                <p className="line-clamp-2 text-meta leading-[1.55] text-ink-secondary">
+                    <span className="mr-1.5 font-mono text-tag tracking-[0.14em] text-brass-light">
+                        {t("searchFilters.aiLabel")}
+                    </span>
+                    {filter.enhancedSearchDescription}
+                </p>
+            )}
 
-                {/* Mobile: single ⋮ dropdown with labeled actions */}
-                <div className="relative z-10 sm:hidden shrink-0">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                className="size-10 text-muted-foreground"
-                                aria-label={t("searchFilters.moreActions")}
-                            >
-                                <MoreVertical className="size-5" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                                disabled={updateFilter.isPending}
-                                onClick={handleStateToggle}
-                            >
-                                {isActive ? (
-                                    <Pause className="size-4" />
-                                ) : (
-                                    <Play className="size-4" />
-                                )}
-                                {stateToggleLabel}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                                disabled={updateFilter.isPending || !isActive}
-                                onClick={handleNotificationsToggle}
-                            >
-                                {filter.notifications ? (
-                                    <Bell className="size-4" />
-                                ) : (
-                                    <BellRing className="size-4" />
-                                )}
-                                {notificationsLabel}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                                disabled={!canDuplicate}
-                                onClick={() => onDuplicate(filter)}
-                            >
-                                <Copy className="size-4" />
-                                {t("searchFilters.duplicate")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => onEdit(filter)}>
-                                <Settings2 className="size-4" />
-                                {t("searchFilters.edit")}
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                                className="text-destructive focus:text-destructive focus:bg-destructive/10"
-                                disabled={isDeleting}
-                                onClick={() => setDeleteDialogOpen(true)}
-                            >
-                                <Trash2 className="size-4" />
-                                {t("searchFilters.delete")}
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+            <p className="font-mono text-[11px] leading-[1.8] tracking-[0.06em] text-ink-secondary uppercase">
+                {criteria.map((criterion) => criterion.values.join(", ")).join(" · ")}
+            </p>
+
+            <div className="mt-auto flex items-center justify-between gap-2 border-t border-line-subtle pt-1">
+                <button
+                    type="button"
+                    aria-pressed={filter.notifications}
+                    disabled={updateFilter.isPending}
+                    onClick={() =>
+                        updateFilter.mutate({
+                            id: filter.id,
+                            patch: { notifications: !filter.notifications },
+                        })
+                    }
+                    className={cn(
+                        GHOST_PILL_CLASS,
+                        "-ml-2.5 h-10 px-2.5 text-[13px] font-normal",
+                        filter.notifications ? "text-ink" : "text-ink-muted",
+                    )}
+                >
+                    <ToggleBellIcon
+                        on={filter.notifications}
+                        className="size-[15px]"
+                        strokeWidth={1.7}
+                    />
+                    {filter.notifications
+                        ? t("searchFilters.emailAlertsOn")
+                        : t("searchFilters.emailAlertsOff")}
+                </button>
+                <div className="flex items-center gap-1">
+                    <Link
+                        to="/$lng/me/search-filter/$filterId"
+                        params={(current) => ({ ...current, filterId: filter.id })}
+                        from="/$lng"
+                        className={cn(
+                            "inline-flex min-h-11 items-center gap-1.5 rounded-xs px-2 text-sm font-medium hover:text-brass-light",
+                            FOCUS_CLASS,
+                        )}
+                    >
+                        <span className="sm:hidden">
+                            {t("searchFilters.matchesAndDetailsShort")}
+                        </span>
+                        <span className="hidden sm:inline">
+                            {t("searchFilters.matchesAndDetails")}
+                        </span>
+                        <ArrowRight aria-hidden="true" className="size-3.5" strokeWidth={1.8} />
+                    </Link>
+                    <SearchFilterActionsMenu
+                        className="-mr-3"
+                        canDuplicate={canDuplicate}
+                        onEdit={() => onEdit(filter)}
+                        onDuplicate={() => onDuplicate(filter)}
+                        onDelete={() => setDeleteOpen(true)}
+                    />
                 </div>
             </div>
 
-            <SearchFilterCriteriaBadges search={search} />
+            <DeleteSearchFilterDialog
+                filterId={filter.id}
+                filterName={filter.name}
+                open={deleteOpen}
+                onOpenChange={setDeleteOpen}
+            />
+        </article>
+    );
+}
 
-            {hasAdvancedFilters && (
-                <Accordion type="single" collapsible>
-                    <AccordionItem value="details" className="border-t border-b-0">
-                        <AccordionTrigger className="relative z-10 text-sm text-muted-foreground py-3 hover:no-underline">
-                            {t("searchFilters.showDetails")}
-                        </AccordionTrigger>
-                        <AccordionContent>
-                            <div className="pt-2">
-                                <SearchFilterCriteriaDetails search={search} />
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
-                </Accordion>
-            )}
+/**
+ * A paused or plan-locked search filter in the "Resting" list: why it is not watching, and how
+ * to resume it.
+ */
+export function SearchFilterRestingRow({ filter, canDuplicate, onEdit, onDuplicate }: Props) {
+    const { t } = useTranslation();
+    const updateFilter = useUpdateUserSearchFilter();
+    const [deleteOpen, setDeleteOpen] = useState(false);
+    const terms = getQueryTerms(filter.search);
+    const locked = filter.state === "INACTIVE_BY_RESTRICTED_PLAN";
 
-            <Button size="sm" className="relative z-10 gap-2 mt-auto text-xs sm:text-sm" asChild>
-                <Link
-                    to="/$lng/me/search-filter/$filterId"
-                    params={(current) => ({ ...current, filterId: filter.id })}
-                    from="/$lng"
-                >
-                    <ScanSearch className="size-4 shrink-0" />
-                    <span className="sm:hidden">{t("searchFilters.matchesAndDetailsShort")}</span>
-                    <span className="hidden sm:inline">{t("searchFilters.matchesAndDetails")}</span>
-                </Link>
-            </Button>
+    return (
+        <article
+            aria-labelledby={`search-filter-${filter.id}`}
+            className="grid grid-cols-1 gap-2.5 border-b border-line py-[18px] text-ink lg:grid-cols-[170px_minmax(0,1fr)_minmax(0,1fr)_auto] lg:items-center lg:gap-6"
+        >
+            <span
+                className={cn(
+                    "inline-flex items-center gap-2 font-mono text-kicker tracking-[0.14em] uppercase",
+                    locked ? "text-oxblood" : "text-ink-muted",
+                )}
+            >
+                {locked ? (
+                    <Lock aria-hidden="true" className="size-3.5" strokeWidth={2} />
+                ) : (
+                    <Pause aria-hidden="true" className="size-3.5" strokeWidth={2} />
+                )}
+                {locked ? t("searchFilters.state.locked") : t("searchFilters.state.paused")}
+            </span>
+            <div className="flex min-w-0 flex-col gap-1">
+                <FilterNameLink
+                    filter={filter}
+                    className="truncate text-[21px] leading-[1.2] text-ink-secondary"
+                />
+                {terms.length > 0 && (
+                    <span className="truncate font-serif text-sm text-ink-muted italic">
+                        {formatTerms(terms)}
+                    </span>
+                )}
+            </div>
+            <p className="text-meta leading-[1.5] text-ink-muted">
+                {locked ? t("searchFilters.lockedNote") : t("searchFilters.pausedNote")}
+            </p>
+            <div className="flex items-center justify-between gap-1 lg:justify-end">
+                {locked ? (
+                    <Link
+                        to="/$lng"
+                        hash="pricing"
+                        params={true}
+                        from="/$lng"
+                        className={cn(
+                            PRIMARY_PILL_CLASS,
+                            "h-10 bg-oxblood px-4 text-[13px] text-on-oxblood",
+                        )}
+                    >
+                        {t("searchFilters.upgradeToResume")}
+                    </Link>
+                ) : (
+                    <button
+                        type="button"
+                        disabled={updateFilter.isPending}
+                        onClick={() =>
+                            updateFilter.mutate({ id: filter.id, patch: { state: "ACTIVE" } })
+                        }
+                        className={cn(PRIMARY_PILL_CLASS, "h-10 pr-4 pl-3 text-[13px]")}
+                    >
+                        <Play aria-hidden="true" className="size-[13px]" strokeWidth={1.8} />
+                        {t("searchFilters.resume")}
+                    </button>
+                )}
+                <SearchFilterActionsMenu
+                    canDuplicate={canDuplicate}
+                    onEdit={() => onEdit(filter)}
+                    onDuplicate={() => onDuplicate(filter)}
+                    onDelete={() => setDeleteOpen(true)}
+                />
+            </div>
 
-            <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>
-                            {t("searchFilters.deleteConfirm.title", { name: filter.name })}
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                            {t("searchFilters.deleteConfirm.description")}
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>
-                            {t("searchFilters.deleteConfirm.cancel")}
-                        </AlertDialogCancel>
-                        <AlertDialogAction onClick={() => onDelete(filter.id)}>
-                            {t("searchFilters.deleteConfirm.confirm")}
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-        </Card>
+            <DeleteSearchFilterDialog
+                filterId={filter.id}
+                filterName={filter.name}
+                open={deleteOpen}
+                onOpenChange={setDeleteOpen}
+            />
+        </article>
     );
 }

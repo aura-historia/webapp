@@ -471,6 +471,18 @@ code {
     /* List end: the oxblood check pops in, then its tick draws (path with pathLength="1"). */
     --animate-check-pop: check-pop 0.36s cubic-bezier(0.2, 0.8, 0.2, 1) both;
     --animate-check-draw: check-draw 0.32s ease-out 0.14s both;
+    /* "Watching now" dot: a soft signal-live ring that spreads and fades. */
+    --animate-live-pulse: live-pulse 2.4s ease-out infinite;
+
+    @keyframes live-pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgb(155 197 157 / 0.55);
+        }
+        70%,
+        100% {
+            box-shadow: 0 0 0 8px rgb(155 197 157 / 0);
+        }
+    }
 
     @keyframes bell-ring {
         0%,
