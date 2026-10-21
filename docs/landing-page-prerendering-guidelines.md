@@ -1,12 +1,17 @@
 # Landing-Page Prerendering Guidelines
 
-Public landing pages may be prerendered, with this exception.
+Public landing pages may be prerendered, with these exceptions.
 
 ## Recently Added Products
 
 - Keep recently added products client-only. Do not embed this frequently changing inventory in prerendered or build-time HTML.
 - Prerender a matching skeleton or stable placeholder to reserve layout and avoid layout shift.
 - Load current products after mount. Do not turn this exception into a route loader merely to improve first paint.
+
+## Catalogue Statistics
+
+- Keep the hero stat strip client-only. The public overview counts are recalculated every few hours, so they never go into prerendered or build-time HTML.
+- Prerender the strip's skeleton to reserve its height, and load the counts after mount.
 
 ## Public Listing-Source Discovery
 

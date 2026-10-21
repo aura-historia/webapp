@@ -27,8 +27,6 @@ const baseFilterData: UserSearchFilterData = {
         includeUnspecifiedAvailability: false,
         listingSourceId: ["source-1"],
     },
-    createdBy: "SYSTEM",
-    updatedBy: "SYSTEM",
     created: "2024-01-15T10:00:00Z",
     updated: "2024-03-20T12:00:00Z",
 };

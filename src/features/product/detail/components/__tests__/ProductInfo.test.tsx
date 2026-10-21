@@ -160,6 +160,7 @@ describe("ProductInfo", () => {
                     lot: null,
                     created: "2026-08-01T00:00:00Z",
                     updated: "2026-09-01T00:00:00Z",
+                    shipping: null,
                 },
             },
             "de",

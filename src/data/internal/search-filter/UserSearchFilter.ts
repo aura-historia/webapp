@@ -72,7 +72,7 @@ export function mapProductSearchDataToSearchFilterArguments(
                 ? undefined
                 : toMajorCurrencyAmount(data.price.max, data.currency ?? "EUR"),
         enhancedSearchDescription: data.enhancedSearchDescription ?? undefined,
-        excludeProductId: data.excludeProductId,
+        excludeProductId: data.excludeProductListingId,
         listingSourceId: data.listingSourceId,
         excludeListingSourceId: data.excludeListingSourceId ?? undefined,
         auctionId: data.auctionId ?? undefined,
@@ -109,7 +109,7 @@ export function mapSearchFilterArgumentsToProductSearchData(
                   }
                 : undefined,
         enhancedSearchDescription: args.enhancedSearchDescription,
-        excludeProductId: args.excludeProductId,
+        excludeProductListingId: args.excludeProductId,
         listingSourceId: args.listingSourceId,
         excludeListingSourceId: args.excludeListingSourceId,
         auctionId: args.auctionId,

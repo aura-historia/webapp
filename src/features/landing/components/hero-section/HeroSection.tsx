@@ -1,6 +1,7 @@
 import { Trans, useTranslation } from "react-i18next";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
 import { HeroSearch } from "@/features/landing/components/hero-section/HeroSearch.tsx";
+import { HeroStats } from "@/features/landing/components/hero-section/HeroStats.tsx";
 import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
 
 const COLUMN_IDS = Array.from({ length: 12 }, (_, index) => `column-${index}`);
@@ -47,8 +48,9 @@ function HeroBackdrop() {
 }
 
 /**
- * The landing hero on the ink ground: headline, lead and the global search. The header sits
- * over it (the page tucks the hero under the header bar), so the copy clears the header first.
+ * The landing hero on the ink ground: headline, lead, the global search and the stat strip. The
+ * header sits over it (the page tucks the hero under the header bar), so the copy clears the
+ * header first.
  */
 export default function HeroSection() {
     const { t } = useTranslation();
@@ -72,6 +74,7 @@ export default function HeroSection() {
                     {t("landingPage.hero.lead")}
                 </p>
                 <HeroSearch className="mt-1 max-w-[820px] sm:mt-3" />
+                <HeroStats />
             </div>
         </section>
     );

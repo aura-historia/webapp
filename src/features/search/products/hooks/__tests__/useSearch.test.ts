@@ -104,7 +104,7 @@ describe("useSearch", () => {
             currency: "EUR",
             productQuery: ["antique", "vase"],
             enhancedSearchDescription: "blue porcelain",
-            excludeProductId: ["pl_123"],
+            excludeProductListingId: ["pl_123"],
             listingSourceId: ["ls_1", "ls_2"],
             excludeListingSourceId: ["ls_3"],
             size: 30,
