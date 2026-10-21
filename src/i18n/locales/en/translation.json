@@ -101,6 +101,10 @@
       "digitsOnly": "Code must contain only digits"
     }
   },
+  "legal": {
+    "eyebrow": "Legal",
+    "contents": "Contents"
+  },
   "imprint": {
     "title": "Imprint"
   },

@@ -101,6 +101,10 @@
       "digitsOnly": "Le code ne doit contenir que des chiffres"
     }
   },
+  "legal": {
+    "eyebrow": "Informations légales",
+    "contents": "Sommaire"
+  },
   "imprint": {
     "title": "Mentions légales"
   },

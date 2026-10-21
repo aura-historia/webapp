@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { TERMS_LOCALE_MAP } from "@/features/legal/content/terms/terms-asset-map.ts";
 import { TermsPage } from "../TermsPage.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
-import { act, screen } from "@testing-library/react";
+import { act, screen, within } from "@testing-library/react";
 
 vi.mock("react-i18next", () => ({
     useTranslation: () => ({
@@ -54,9 +54,14 @@ describe("TermsPage", () => {
         ).toBeInTheDocument();
     });
 
-    it("renders content within a Card component", () => {
-        const card = screen.getByText("AGB").closest(".gap-4");
-        expect(card).toBeInTheDocument();
+    it("links each section from the contents list", () => {
+        const [contents] = screen.getAllByRole("navigation", { name: "legal.contents" });
+        const firstLink = within(contents).getAllByRole("link")[0];
+        expect(firstLink).toHaveTextContent("Anbieter und Geltungsbereich");
+        expect(firstLink).toHaveAttribute("href", "#section-1");
+        expect(document.getElementById("section-1")).toHaveTextContent(
+            "Anbieter und Geltungsbereich",
+        );
     });
 });
 

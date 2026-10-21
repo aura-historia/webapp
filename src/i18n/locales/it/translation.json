@@ -101,6 +101,10 @@
       "digitsOnly": "Il codice deve contenere solo cifre"
     }
   },
+  "legal": {
+    "eyebrow": "Note legali",
+    "contents": "Indice"
+  },
   "imprint": {
     "title": "Note legali"
   },
