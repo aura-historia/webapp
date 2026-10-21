@@ -2221,11 +2221,6 @@
       "back": "I miei filtri di ricerca",
       "meta": "Aggiunto {{created}} · Aggiornato {{updated}}"
     },
-    "hiddenMatch": {
-      "title": "Nascosto",
-      "description": "Questa corrispondenza supera la tua quota mensile ed è nascosta. Effettua l'upgrade del tuo account per vedere tutti i risultati.",
-      "upgradeButton": "Effettua l'upgrade ora"
-    },
     "feedback": {
       "relevantHint": "La corrispondenza è rilevante",
       "notRelevantHint": "La corrispondenza non è rilevante",

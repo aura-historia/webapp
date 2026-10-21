@@ -26,14 +26,6 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     };
 });
 
-vi.mock("@/features/watchlist/components/NotificationButton", () => ({
-    NotificationButton: () => (
-        <button type="button" data-testid="notification-button">
-            Notification
-        </button>
-    ),
-}));
-
 const mockUseShopProducts = vi.mocked(useShopProducts);
 
 const baseProduct = makeProductListing({ title: "Ancient Vase" });

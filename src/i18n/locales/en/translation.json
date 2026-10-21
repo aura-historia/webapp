@@ -1727,11 +1727,6 @@
       "back": "My search filters",
       "meta": "Added {{created}} · Updated {{updated}}"
     },
-    "hiddenMatch": {
-      "title": "Hidden",
-      "description": "This match exceeds your monthly quota and is hidden. Upgrade your account to see all results.",
-      "upgradeButton": "Upgrade now"
-    },
     "feedback": {
       "relevantHint": "Match is relevant",
       "notRelevantHint": "Match is not relevant",

@@ -1727,11 +1727,6 @@
       "back": "Meine Suchaufträge",
       "meta": "Angelegt {{created}} · Aktualisiert {{updated}}"
     },
-    "hiddenMatch": {
-      "title": "Verborgen",
-      "description": "Dieses Match überschreitet Ihr monatliches Kontingent und ist ausgeblendet. Upgraden Sie Ihr Konto, um alle Treffer zu sehen.",
-      "upgradeButton": "Jetzt upgraden"
-    },
     "feedback": {
       "relevantHint": "Treffer ist relevant",
       "notRelevantHint": "Treffer ist nicht relevant",
