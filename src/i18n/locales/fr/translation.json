@@ -101,6 +101,10 @@
       "digitsOnly": "Le code ne doit contenir que des chiffres"
     }
   },
+  "legal": {
+    "eyebrow": "Informations légales",
+    "contents": "Sommaire"
+  },
   "imprint": {
     "title": "Mentions légales"
   },
@@ -184,18 +188,18 @@
   "aboutPage": {
     "hero": {
       "eyebrow": "À propos d’Aura Historia",
-      "title": "Nous apportons plus de lisibilité au marché des antiquités et de l’art.",
+      "title": "Nous apportons plus de lisibilité <em>au marché des antiquités et de l’art.</em>",
       "subtitle": "Aura Historia s’adresse aux collectionneurs et professionnels qui cherchent avec discernement, attachent de l’importance au contexte et veulent une lecture posée d’un marché international dispersé."
     },
     "mission": {
       "eyebrow": "Pourquoi nous existons",
-      "title": "Orienter sans simplifier le marché.",
+      "title": "Orienter <em>sans simplifier le marché.</em>",
       "p1": "Antiquités et œuvres d’art apparaissent souvent hors des circuits les plus évidents: chez des marchands spécialisés, dans de petites galeries, auprès de maisons de vente ou sur des places de marché façonnées par des vocabulaires et usages locaux.",
       "p2": "Nous construisons Aura Historia pour donner de l’ordre à cette recherche sans la transformer en expérience d’achat générique. L’objectif est clair: offrir plus de visibilité aux connaisseurs, faciliter la comparaison et préserver le lien avec la source d’origine."
     },
     "values": {
       "eyebrow": "Notre manière de travailler",
-      "title": "La retenue avant le bruit.",
+      "title": "La retenue <em>avant le bruit.</em>",
       "description": "Ces principes guident nos choix produit, notre langage et notre façon de traiter les sources.",
       "items": {
         "carefulClaims": {
@@ -214,7 +218,7 @@
     },
     "team": {
       "eyebrow": "Notre équipe",
-      "title": "Une petite équipe avec le temps long en tête.",
+      "title": "Une petite équipe <em>avec le temps long en tête.</em>",
       "description": "Derrière Aura Historia, une équipe qui associe produit, rigueur de recherche et intelligence de marché.",
       "email": "E-mail",
       "emailAria": "Envoyer un e-mail à {{name}}",

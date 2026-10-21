@@ -101,6 +101,10 @@
       "digitsOnly": "El código solo debe contener dígitos"
     }
   },
+  "legal": {
+    "eyebrow": "Información legal",
+    "contents": "Contenido"
+  },
   "imprint": {
     "title": "Aviso legal"
   },
@@ -184,18 +188,18 @@
   "aboutPage": {
     "hero": {
       "eyebrow": "Sobre Aura Historia",
-      "title": "Aportamos más claridad al mercado de antigüedades y arte.",
+      "title": "Aportamos más claridad al mercado <em>de antigüedades y arte.</em>",
       "subtitle": "Aura Historia nace para coleccionistas y profesionales que buscan con criterio, valoran el contexto y necesitan una lectura serena de un mercado internacional disperso."
     },
     "mission": {
       "eyebrow": "Por qué existimos",
-      "title": "Orientar sin simplificar el mercado.",
+      "title": "Orientar <em>sin simplificar el mercado.</em>",
       "p1": "Las antigüedades y el arte suelen aparecer fuera de los recorridos más evidentes: en comerciantes especializados, pequeñas galerías, casas de subastas y marketplaces marcados por vocabularios y prácticas de catalogación locales.",
       "p2": "Creamos Aura Historia para ordenar esa búsqueda sin convertirla en una experiencia de compra genérica. El objetivo es claro: dar más visibilidad a quienes conocen el mercado, facilitar la comparación y mantener siempre presente la fuente original."
     },
     "values": {
       "eyebrow": "Cómo trabajamos",
-      "title": "Sobriedad antes que ruido.",
+      "title": "Sobriedad <em>antes que ruido.</em>",
       "description": "Estos principios guían nuestras decisiones de producto, nuestro lenguaje y la forma en que tratamos las fuentes.",
       "items": {
         "carefulClaims": {
@@ -214,7 +218,7 @@
     },
     "team": {
       "eyebrow": "Nuestro equipo",
-      "title": "Un equipo pequeño con mirada de largo plazo.",
+      "title": "Un equipo pequeño <em>con mirada de largo plazo.</em>",
       "description": "Detrás de Aura Historia hay personas que combinan producto, rigor de investigación e inteligencia de mercado.",
       "email": "E-mail",
       "emailAria": "Enviar un e-mail a {{name}}",
