@@ -91,6 +91,13 @@ Use the token system in `src/styles.css`, which mirrors the design system's `tok
 - Change password shows a live policy checklist (oxblood check when met) under the new and confirm fields. Delete account uses an oxblood outline button and an oxblood confirm in the dialog; the dialog locks while the request runs.
 - Shared field, button and card classes live in `account-management/lib/accountStyles.ts`. Loading, validation, pending, picker and dialog states follow the board "Account · States".
 
+## Sign in and registration
+
+- The login route follows the Redesign's "Auth · …" boards on the Account page: from 1024px the promise (eyebrow, serif headline, lead) and a 440px form column share the parchment ground in two equal halves divided by a centred hairline; below that a short ink band sits above the sign-in and registration forms only. The app bar shows just the wordmark there.
+- Every step opens with `AuthFormHeader` (mono eyebrow, serif headline whose closing phrase is `<em>`, lead). Registration, verify email and complete profile carry `RegistrationSteps` (01 Account · 02 Verify · 03 Profile).
+- Fields sit on the parchment ground, so they and inset panels use `surface-raised` (`authentication/lib/authStyles.ts`). Passwords use `PasswordInput` (show/hide toggle); new passwords show the shared `PasswordPolicyChecklist`; codes use `CodeInput` (six boxes, serif lining figures); checkboxes use `CheckboxPanel`; form-level errors use `AuthFormAlert`. The profile step reuses the account page's `PreferenceField`.
+- The signed-out landing header and mobile menu lead with "Create account", which opens registration (`/login?mode=sign-up`). States follow the board "Auth · States".
+
 ## Watchlist
 
 - The watchlist page follows the Redesign's Watchlist page: a ruled header (serif "My *watchlist.*" and a short lead, no eyebrow and no total, since the watchlist API returns none), then `SearchResultCard`s in two columns, three from 768px and four from 1180px. Each card keeps its bookmark and alert bell, so removing an item or toggling alerts works in place.

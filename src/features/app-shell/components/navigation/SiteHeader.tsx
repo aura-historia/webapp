@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Bookmark } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { env } from "@/env.ts";
 import { NotificationBell } from "@/features/notification-center/components/NotificationBell.tsx";
 import { cn } from "@/lib/utils.ts";
 import { AccountMenu } from "./AccountMenu.tsx";
@@ -9,8 +8,6 @@ import { NAV_FOCUS_CLASS, SITE_SECTION_LINKS, type SiteSectionId } from "./navig
 import { SiteSectionLink } from "./SiteSectionLink.tsx";
 import type { NavigationViewer } from "./useNavigationViewer.ts";
 import { Wordmark } from "./Wordmark.tsx";
-
-const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 export type SiteHeaderTone = "overlay" | "dark" | "light";
 
@@ -103,19 +100,18 @@ export function SiteHeader({
                             >
                                 {t("header.signIn")}
                             </Link>
-                            {isSearchEnabled && (
-                                <Link
-                                    to="/$lng/search"
-                                    params={true}
-                                    from="/$lng"
-                                    className={cn(
-                                        "inline-flex h-11 items-center rounded-pill bg-ink px-5 font-medium whitespace-nowrap text-surface transition-opacity hover:opacity-90",
-                                        NAV_FOCUS_CLASS,
-                                    )}
-                                >
-                                    {t("header.startSearching")}
-                                </Link>
-                            )}
+                            <Link
+                                to="/$lng/login"
+                                search={{ redirect: viewer.redirect, mode: "sign-up" }}
+                                params={true}
+                                from="/$lng"
+                                className={cn(
+                                    "inline-flex h-11 items-center rounded-pill bg-ink px-5 font-medium whitespace-nowrap text-surface transition-opacity hover:opacity-90",
+                                    NAV_FOCUS_CLASS,
+                                )}
+                            >
+                                {t("header.createAccount")}
+                            </Link>
                         </div>
                     )}
 

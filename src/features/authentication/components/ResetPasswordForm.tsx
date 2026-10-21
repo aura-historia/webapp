@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { resetPassword, confirmResetPassword } from "aws-amplify/auth";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
+import { ArrowLeft } from "lucide-react";
+import { toast } from "sonner";
 import {
     Form,
     FormControl,
@@ -12,10 +14,24 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { getAuthErrorMessage } from "@/features/authentication/lib/getAuthErrorMessage.ts";
 import { Spinner } from "@/components/ui/spinner";
+import {
+    PasswordPolicyChecklist,
+    PasswordPolicyFormControl,
+} from "@/components/common/PasswordPolicyChecklist.tsx";
+import { AuthFormAlert } from "@/features/authentication/components/AuthFormAlert.tsx";
+import { AuthFormHeader } from "@/features/authentication/components/AuthFormHeader.tsx";
+import { CODE_LENGTH, CodeInput } from "@/features/authentication/components/CodeInput.tsx";
+import { PasswordInput } from "@/features/authentication/components/PasswordInput.tsx";
+import { FOCUS_CLASS } from "@/features/account-management/lib/accountStyles.ts";
+import {
+    AUTH_FIELD_CLASS,
+    AUTH_FIELD_MESSAGE_CLASS,
+    AUTH_LABEL_CLASS,
+    AUTH_PRIMARY_BUTTON_CLASS,
+} from "@/features/authentication/lib/authStyles.ts";
+import { cn } from "@/lib/utils.ts";
 
 const requestSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
     z.object({
@@ -27,7 +43,7 @@ const confirmSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
         .object({
             code: z
                 .string()
-                .length(6, t("validation.confirmCode.length"))
+                .length(CODE_LENGTH, t("validation.confirmCode.length"))
                 .regex(/^\d+$/, t("validation.confirmCode.digitsOnly")),
             password: z
                 .string()
@@ -51,6 +67,24 @@ type ResetPasswordFormProps = {
     readonly onSuccess: () => void;
 };
 
+function BackToSignInButton({ onClick }: { readonly onClick: () => void }) {
+    const { t } = useTranslation();
+
+    return (
+        <button
+            type="button"
+            onClick={onClick}
+            className={cn(
+                "-my-3 inline-flex min-h-11 cursor-pointer items-center gap-2 self-start rounded-xs text-body-sm text-ink-secondary transition-colors hover:text-ink",
+                FOCUS_CLASS,
+            )}
+        >
+            <ArrowLeft aria-hidden="true" className="size-4" strokeWidth={1.8} />
+            {t("auth.resetPassword.backToSignIn")}
+        </button>
+    );
+}
+
 type ResetPasswordConfirmStepProps = {
     readonly email: string;
     readonly onSwitchToSignIn: () => void;
@@ -64,11 +98,14 @@ function ResetPasswordConfirmStep({
 }: ResetPasswordConfirmStepProps) {
     const { t } = useTranslation();
     const schema = confirmSchema(t);
+    const checklistId = useId();
 
     const form = useForm<ConfirmValues>({
         resolver: zodResolver(schema),
         defaultValues: { code: "", password: "", confirmPassword: "" },
     });
+    const password = form.watch("password");
+    const isSubmitting = form.formState.isSubmitting;
 
     const onSubmit = async (data: ConfirmValues) => {
         try {
@@ -77,6 +114,7 @@ function ResetPasswordConfirmStep({
                 confirmationCode: data.code.trim(),
                 newPassword: data.password,
             });
+            toast.success(t("auth.resetPassword.success"));
             onSuccess();
         } catch (err) {
             const message = getAuthErrorMessage(err, t);
@@ -85,40 +123,39 @@ function ResetPasswordConfirmStep({
     };
 
     return (
-        <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-1">
-                <h1 className="font-display text-2xl text-primary">
-                    {t("auth.resetPassword.confirmTitle")}
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                    {t("auth.resetPassword.confirmSubtitle")}
-                </p>
-            </div>
+        <div className="flex flex-col gap-7">
+            <BackToSignInButton onClick={onSwitchToSignIn} />
+
+            <AuthFormHeader
+                eyebrow={t("auth.resetPassword.eyebrow")}
+                titleKey="auth.resetPassword.confirmTitle"
+                lead={
+                    <Trans
+                        i18nKey="auth.resetPassword.confirmSubtitle"
+                        values={{ email }}
+                        components={{ email: <span className="font-medium text-ink" /> }}
+                    />
+                }
+            />
 
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="flex flex-col gap-4"
+                    className="flex flex-col gap-5"
                     noValidate
                 >
                     <FormField
                         control={form.control}
                         name="code"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>{t("auth.resetPassword.codeLabel")}</FormLabel>
+                            <FormItem className="gap-2">
+                                <FormLabel className={AUTH_LABEL_CLASS}>
+                                    {t("auth.resetPassword.codeLabel")}
+                                </FormLabel>
                                 <FormControl>
-                                    <Input
-                                        {...field}
-                                        type="text"
-                                        inputMode="numeric"
-                                        autoComplete="one-time-code"
-                                        maxLength={6}
-                                        placeholder={t("auth.resetPassword.codePlaceholder")}
-                                        className="h-11 bg-transparent text-center tracking-[0.5em] text-lg"
-                                    />
+                                    <CodeInput {...field} disabled={isSubmitting} />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className={AUTH_FIELD_MESSAGE_CLASS} />
                             </FormItem>
                         )}
                     />
@@ -127,71 +164,64 @@ function ResetPasswordConfirmStep({
                         control={form.control}
                         name="password"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>{t("auth.resetPassword.newPasswordLabel")}</FormLabel>
-                                <FormControl>
-                                    <Input
+                            <FormItem className="gap-2">
+                                <FormLabel className={AUTH_LABEL_CLASS}>
+                                    {t("auth.resetPassword.newPasswordLabel")}
+                                </FormLabel>
+                                <PasswordPolicyFormControl checklistId={checklistId}>
+                                    <PasswordInput
                                         {...field}
-                                        type="password"
                                         autoComplete="new-password"
                                         placeholder={t("auth.resetPassword.newPasswordPlaceholder")}
-                                        className="h-11 bg-transparent"
+                                        disabled={isSubmitting}
                                     />
-                                </FormControl>
-                                <FormMessage />
+                                </PasswordPolicyFormControl>
+                                <FormMessage className={AUTH_FIELD_MESSAGE_CLASS} />
                             </FormItem>
                         )}
+                    />
+
+                    <PasswordPolicyChecklist
+                        id={checklistId}
+                        password={password}
+                        className="bg-surface-raised"
                     />
 
                     <FormField
                         control={form.control}
                         name="confirmPassword"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>
+                            <FormItem className="gap-2">
+                                <FormLabel className={AUTH_LABEL_CLASS}>
                                     {t("auth.resetPassword.newPasswordConfirmLabel")}
                                 </FormLabel>
                                 <FormControl>
-                                    <Input
+                                    <PasswordInput
                                         {...field}
-                                        type="password"
                                         autoComplete="new-password"
                                         placeholder={t("auth.signUp.confirmPasswordPlaceholder")}
-                                        className="h-11 bg-transparent"
+                                        disabled={isSubmitting}
                                     />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className={AUTH_FIELD_MESSAGE_CLASS} />
                             </FormItem>
                         )}
                     />
 
                     {form.formState.errors.root && (
-                        <p className="rounded-sm bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                            {form.formState.errors.root.message}
-                        </p>
+                        <AuthFormAlert>{form.formState.errors.root.message}</AuthFormAlert>
                     )}
 
-                    <Button
+                    <button
                         type="submit"
-                        disabled={form.formState.isSubmitting}
-                        className="mt-2 w-full"
+                        disabled={isSubmitting}
+                        className={cn(AUTH_PRIMARY_BUTTON_CLASS, "mt-1")}
                     >
-                        {form.formState.isSubmitting && <Spinner />}
+                        {isSubmitting && <Spinner aria-hidden="true" />}
                         {t("auth.resetPassword.confirmSubmit")}
-                    </Button>
+                    </button>
                 </form>
             </Form>
-
-            <p className="text-center text-sm text-muted-foreground">
-                <Button
-                    type="button"
-                    variant="link"
-                    onClick={onSwitchToSignIn}
-                    className="h-auto p-0 font-medium"
-                >
-                    {t("auth.resetPassword.backToSignIn")}
-                </Button>
-            </p>
         </div>
     );
 }
@@ -207,6 +237,7 @@ export function ResetPasswordForm({ onSwitchToSignIn, onSuccess }: ResetPassword
         resolver: zodResolver(reqSchema),
         defaultValues: { email: "" },
     });
+    const isSubmitting = requestForm.formState.isSubmitting;
 
     const onRequestSubmit = async (data: RequestValues) => {
         try {
@@ -219,80 +250,69 @@ export function ResetPasswordForm({ onSwitchToSignIn, onSuccess }: ResetPassword
         }
     };
 
-    if (step === "request") {
+    if (step === "confirm") {
         return (
-            <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-1">
-                    <h1 className="font-display text-2xl text-primary">
-                        {t("auth.resetPassword.title")}
-                    </h1>
-                    <p className="text-sm text-muted-foreground">
-                        {t("auth.resetPassword.subtitle")}
-                    </p>
-                </div>
-
-                <Form {...requestForm}>
-                    <form
-                        onSubmit={requestForm.handleSubmit(onRequestSubmit)}
-                        className="flex flex-col gap-4"
-                        noValidate
-                    >
-                        <FormField
-                            control={requestForm.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>{t("auth.resetPassword.emailLabel")}</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            type="email"
-                                            autoComplete="email"
-                                            placeholder={t("auth.resetPassword.emailPlaceholder")}
-                                            className="h-11 bg-transparent"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        {requestForm.formState.errors.root && (
-                            <p className="rounded-sm bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                                {requestForm.formState.errors.root.message}
-                            </p>
-                        )}
-
-                        <Button
-                            type="submit"
-                            disabled={requestForm.formState.isSubmitting}
-                            className="mt-2 w-full"
-                        >
-                            {requestForm.formState.isSubmitting && <Spinner />}
-                            {t("auth.resetPassword.submit")}
-                        </Button>
-                    </form>
-                </Form>
-
-                <p className="text-center text-sm text-muted-foreground">
-                    <Button
-                        type="button"
-                        variant="link"
-                        onClick={onSwitchToSignIn}
-                        className="h-auto p-0 font-medium"
-                    >
-                        {t("auth.resetPassword.backToSignIn")}
-                    </Button>
-                </p>
-            </div>
+            <ResetPasswordConfirmStep
+                email={email}
+                onSwitchToSignIn={onSwitchToSignIn}
+                onSuccess={onSuccess}
+            />
         );
     }
 
     return (
-        <ResetPasswordConfirmStep
-            email={email}
-            onSwitchToSignIn={onSwitchToSignIn}
-            onSuccess={onSuccess}
-        />
+        <div className="flex flex-col gap-7">
+            <BackToSignInButton onClick={onSwitchToSignIn} />
+
+            <AuthFormHeader
+                eyebrow={t("auth.resetPassword.eyebrow")}
+                titleKey="auth.resetPassword.title"
+                lead={t("auth.resetPassword.subtitle")}
+            />
+
+            <Form {...requestForm}>
+                <form
+                    onSubmit={requestForm.handleSubmit(onRequestSubmit)}
+                    className="flex flex-col gap-5"
+                    noValidate
+                >
+                    <FormField
+                        control={requestForm.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem className="gap-2">
+                                <FormLabel className={AUTH_LABEL_CLASS}>
+                                    {t("auth.resetPassword.emailLabel")}
+                                </FormLabel>
+                                <FormControl>
+                                    <input
+                                        {...field}
+                                        type="email"
+                                        autoComplete="email"
+                                        placeholder={t("auth.resetPassword.emailPlaceholder")}
+                                        disabled={isSubmitting}
+                                        className={AUTH_FIELD_CLASS}
+                                    />
+                                </FormControl>
+                                <FormMessage className={AUTH_FIELD_MESSAGE_CLASS} />
+                            </FormItem>
+                        )}
+                    />
+
+                    {requestForm.formState.errors.root && (
+                        <AuthFormAlert>{requestForm.formState.errors.root.message}</AuthFormAlert>
+                    )}
+
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className={cn(AUTH_PRIMARY_BUTTON_CLASS, "mt-1")}
+                    >
+                        {isSubmitting && <Spinner aria-hidden="true" />}
+                        {t("auth.resetPassword.submit")}
+                    </button>
+                </form>
+            </Form>
+        </div>
     );
 }

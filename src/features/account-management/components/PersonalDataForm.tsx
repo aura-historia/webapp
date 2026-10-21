@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, ChevronDown, Lock } from "lucide-react";
+import { Check, Lock } from "lucide-react";
 import { type ReactNode, useId, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -13,9 +13,10 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Spinner } from "@/components/ui/spinner";
-import { CURRENCIES, CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
-import { LANGUAGES } from "@/data/internal/common/Language.ts";
-import { UNIT_SYSTEMS, type UnitSystem } from "@/data/internal/common/UnitSystem.ts";
+import {
+    PreferenceField,
+    usePreferenceOptions,
+} from "@/features/account-management/components/PreferenceField.tsx";
 import { PersonalDataFormSkeleton } from "@/features/account-management/components/PersonalDataFormSkeleton.tsx";
 import { useUpdateUserAccount } from "@/features/account-management/hooks/usePatchUserAccount.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
@@ -23,7 +24,6 @@ import {
     CARD_CLASS,
     FIELD_CLASS,
     FIELD_MESSAGE_CLASS,
-    FOCUS_CLASS,
     FORM_FOOTER_CLASS,
     GROUP_LABEL_CLASS,
     LABEL_CLASS,
@@ -33,85 +33,7 @@ import {
     type AccountEditFormData,
     getAccountEditSchema,
 } from "@/features/account-management/lib/validation.ts";
-import {
-    type PreferenceOption,
-    PreferencePicker,
-} from "@/features/app-shell/components/navigation/PreferencePicker.tsx";
 import { cn } from "@/lib/utils.ts";
-
-const UNIT_DETAILS: Record<UnitSystem, string> = {
-    METRIC: "cm · kg",
-    IMPERIAL: "in · lb",
-};
-
-const PICKER_TRIGGER_CLASS = cn(
-    "flex h-12 w-full min-w-0 items-center gap-2 rounded-md bg-surface pr-3 pl-3.5 text-left text-[15px] text-ink shadow-field data-[state=open]:shadow-[inset_0_0_0_1.5px_var(--ink)]",
-    FOCUS_CLASS,
-);
-
-interface PreferenceFieldProps {
-    readonly label: string;
-    readonly placeholder: string;
-    readonly value: string | undefined;
-    readonly options: readonly PreferenceOption[];
-    readonly onChange: (value: string) => void;
-    readonly search?: { label: string; placeholder: string; emptyMessage: string };
-    readonly menuClassName?: string;
-}
-
-/** A form field that opens the shared preference picker (language, currency, units). */
-function PreferenceField({
-    label,
-    placeholder,
-    value,
-    options,
-    onChange,
-    search,
-    menuClassName,
-}: PreferenceFieldProps) {
-    const selected = options.find((option) => option.value === value);
-    const code = [selected?.code, selected?.detail].filter(Boolean).join(" ");
-
-    return (
-        <div className="flex min-w-0 flex-col gap-2">
-            <span aria-hidden="true" className={LABEL_CLASS}>
-                {label}
-            </span>
-            <PreferencePicker
-                label={label}
-                displayValue={selected?.label ?? placeholder}
-                value={value ?? ""}
-                options={options}
-                onChange={onChange}
-                search={search}
-                triggerClassName={PICKER_TRIGGER_CLASS}
-                className={menuClassName}
-                triggerContent={
-                    <>
-                        <span
-                            className={cn(
-                                "min-w-0 flex-1 truncate",
-                                !selected && "text-ink-placeholder",
-                            )}
-                        >
-                            {selected?.label ?? placeholder}
-                        </span>
-                        {code && (
-                            <span className="shrink-0 font-mono text-tag text-ink-muted uppercase">
-                                {code}
-                            </span>
-                        )}
-                        <ChevronDown
-                            aria-hidden="true"
-                            className="size-3.5 shrink-0 text-ink-muted"
-                            strokeWidth={1.8}
-                        />
-                    </>
-                }
-            />
-        </div>
-    );
-}
 
 function FieldGroup({ label, children }: { readonly label: string; readonly children: ReactNode }) {
     const labelId = useId();
@@ -126,7 +48,7 @@ function FieldGroup({ label, children }: { readonly label: string; readonly chil
 }
 
 export function PersonalDataForm() {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const { data: userAccount, isLoading } = useUserAccount();
     const { mutate: updateAccount, isPending } = useUpdateUserAccount();
     const emailId = useId();
@@ -148,35 +70,7 @@ export function PersonalDataForm() {
         },
     });
 
-    const languageOptions = useMemo<PreferenceOption[]>(
-        () =>
-            LANGUAGES.map((language) => ({
-                value: language,
-                label: t(`auth.languages.${language}`),
-                detail: language,
-            })),
-        [t],
-    );
-
-    const currencyOptions = useMemo<PreferenceOption[]>(() => {
-        const currencyNames = new Intl.DisplayNames([i18n.language], { type: "currency" });
-        return CURRENCIES.map((currency) => ({
-            value: currency,
-            code: currency,
-            label: currencyNames.of(currency) ?? currency,
-            detail: CURRENCY_SYMBOLS[currency],
-        }));
-    }, [i18n.language]);
-
-    const unitOptions = useMemo<PreferenceOption[]>(
-        () =>
-            UNIT_SYSTEMS.map((unitSystem) => ({
-                value: unitSystem,
-                label: t(`auth.unitSystems.${unitSystem}`),
-                detail: UNIT_DETAILS[unitSystem],
-            })),
-        [t],
-    );
+    const { languageOptions, currencyOptions, unitOptions } = usePreferenceOptions();
 
     const onSubmit = (data: AccountEditFormData) => {
         const { showUnassessedOrSensitiveContent, ...profile } = data;

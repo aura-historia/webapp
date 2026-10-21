@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { signInWithRedirect } from "aws-amplify/auth";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import {
     FEDERATED_AUTH_PROVIDERS,
@@ -11,6 +10,8 @@ import {
     createFederatedAuthState,
     type FederatedAuthIntent,
 } from "@/features/authentication/lib/federatedAuthState.ts";
+import { AuthFormAlert } from "@/features/authentication/components/AuthFormAlert.tsx";
+import { AUTH_OUTLINE_BUTTON_CLASS } from "@/features/authentication/lib/authStyles.ts";
 
 type FederatedAuthOptionsProps = {
     readonly intent: FederatedAuthIntent;
@@ -45,44 +46,37 @@ export function FederatedAuthOptions({ intent, locale, redirect }: FederatedAuth
     };
 
     return (
-        <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-7">
+            <div className="flex flex-col gap-2.5">
                 {FEDERATED_AUTH_PROVIDERS.map((provider) => {
                     const Icon = provider.icon;
 
                     return (
-                        <Button
+                        <button
                             key={provider.id}
                             type="button"
-                            variant="outline"
-                            className="h-11 w-full"
+                            className={AUTH_OUTLINE_BUTTON_CLASS}
                             disabled={pendingProviderId !== null}
+                            aria-busy={pendingProviderId === provider.id || undefined}
                             onClick={() => startRedirect(provider)}
                         >
                             {pendingProviderId === provider.id ? (
-                                <Spinner className="size-5" />
+                                <Spinner className="size-[18px]" />
                             ) : (
-                                <Icon className="size-5" />
+                                <Icon className="size-[18px]" />
                             )}
                             {t(provider.labelKey)}
-                        </Button>
+                        </button>
                     );
                 })}
             </div>
 
-            {hasError && (
-                <p
-                    role="alert"
-                    className="rounded-sm bg-destructive/10 px-3 py-2 text-sm text-destructive"
-                >
-                    {t("auth.federated.redirectFailure")}
-                </p>
-            )}
+            {hasError && <AuthFormAlert>{t("auth.federated.redirectFailure")}</AuthFormAlert>}
 
-            <div className="flex items-center gap-3 text-xs uppercase text-muted-foreground">
-                <div aria-hidden="true" className="h-px flex-1 bg-border" />
+            <div className="flex items-center gap-3 font-mono text-kicker text-ink-muted uppercase">
+                <div aria-hidden="true" className="h-px flex-1 bg-line" />
                 <span>{t("auth.federated.or")}</span>
-                <div aria-hidden="true" className="h-px flex-1 bg-border" />
+                <div aria-hidden="true" className="h-px flex-1 bg-line" />
             </div>
         </div>
     );

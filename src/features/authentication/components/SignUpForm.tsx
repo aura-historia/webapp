@@ -5,21 +5,36 @@ import { signUp } from "aws-amplify/auth";
 import { Trans, useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
 
+import { useId } from "react";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
+import {
+    PasswordPolicyChecklist,
+    PasswordPolicyFormControl,
+} from "@/components/common/PasswordPolicyChecklist.tsx";
 import { getAuthErrorMessage } from "@/features/authentication/lib/getAuthErrorMessage.ts";
 import { Spinner } from "@/components/ui/spinner";
 import { FederatedAuthOptions } from "@/features/authentication/components/FederatedAuthOptions.tsx";
+import { AuthFormAlert } from "@/features/authentication/components/AuthFormAlert.tsx";
+import { AuthFormHeader } from "@/features/authentication/components/AuthFormHeader.tsx";
+import { CheckboxPanel } from "@/features/authentication/components/CheckboxPanel.tsx";
+import { PasswordInput } from "@/features/authentication/components/PasswordInput.tsx";
+import { RegistrationSteps } from "@/features/authentication/components/RegistrationSteps.tsx";
+import {
+    AUTH_FIELD_CLASS,
+    AUTH_FIELD_MESSAGE_CLASS,
+    AUTH_FOOTER_CLASS,
+    AUTH_LABEL_CLASS,
+    AUTH_LINK_CLASS,
+    AUTH_PRIMARY_BUTTON_CLASS,
+} from "@/features/authentication/lib/authStyles.ts";
+import { cn } from "@/lib/utils.ts";
 
 const signUpSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
     z
@@ -58,6 +73,10 @@ export function SignUpForm({ onSuccess, onSwitchToSignIn, locale, redirect }: Si
         defaultValues: { email: "", password: "", confirmPassword: "", marketingConsent: false },
     });
 
+    const checklistId = useId();
+    const password = form.watch("password");
+    const isSubmitting = form.formState.isSubmitting;
+
     const onSubmit = async (data: SignUpValues) => {
         const email = data.email.trim();
 
@@ -82,36 +101,42 @@ export function SignUpForm({ onSuccess, onSwitchToSignIn, locale, redirect }: Si
     };
 
     return (
-        <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-1">
-                <h1 className="font-display text-2xl text-primary">{t("auth.signUp.title")}</h1>
-                <p className="text-sm text-muted-foreground">{t("auth.signUp.subtitle")}</p>
-            </div>
+        <div className="flex flex-col gap-7">
+            <RegistrationSteps current={1} />
+
+            <AuthFormHeader
+                eyebrow={t("auth.signUp.eyebrow")}
+                titleKey="auth.signUp.title"
+                lead={t("auth.signUp.subtitle")}
+            />
 
             <FederatedAuthOptions intent="sign-up" locale={locale} redirect={redirect} />
 
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="flex flex-col gap-4"
+                    className="flex flex-col gap-5"
                     noValidate
                 >
                     <FormField
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>{t("auth.signUp.email")}</FormLabel>
+                            <FormItem className="gap-2">
+                                <FormLabel className={AUTH_LABEL_CLASS}>
+                                    {t("auth.signUp.email")}
+                                </FormLabel>
                                 <FormControl>
-                                    <Input
+                                    <input
                                         {...field}
                                         type="email"
                                         autoComplete="email"
                                         placeholder={t("auth.signUp.emailPlaceholder")}
-                                        className="h-11 bg-transparent"
+                                        disabled={isSubmitting}
+                                        className={AUTH_FIELD_CLASS}
                                     />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className={AUTH_FIELD_MESSAGE_CLASS} />
                             </FormItem>
                         )}
                     />
@@ -120,38 +145,46 @@ export function SignUpForm({ onSuccess, onSwitchToSignIn, locale, redirect }: Si
                         control={form.control}
                         name="password"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>{t("auth.signUp.password")}</FormLabel>
-                                <FormControl>
-                                    <Input
+                            <FormItem className="gap-2">
+                                <FormLabel className={AUTH_LABEL_CLASS}>
+                                    {t("auth.signUp.password")}
+                                </FormLabel>
+                                <PasswordPolicyFormControl checklistId={checklistId}>
+                                    <PasswordInput
                                         {...field}
-                                        type="password"
                                         autoComplete="new-password"
                                         placeholder={t("auth.signUp.passwordPlaceholder")}
-                                        className="h-11 bg-transparent"
+                                        disabled={isSubmitting}
                                     />
-                                </FormControl>
-                                <FormMessage />
+                                </PasswordPolicyFormControl>
+                                <FormMessage className={AUTH_FIELD_MESSAGE_CLASS} />
                             </FormItem>
                         )}
+                    />
+
+                    <PasswordPolicyChecklist
+                        id={checklistId}
+                        password={password}
+                        className="bg-surface-raised"
                     />
 
                     <FormField
                         control={form.control}
                         name="confirmPassword"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>{t("auth.signUp.confirmPassword")}</FormLabel>
+                            <FormItem className="gap-2">
+                                <FormLabel className={AUTH_LABEL_CLASS}>
+                                    {t("auth.signUp.confirmPassword")}
+                                </FormLabel>
                                 <FormControl>
-                                    <Input
+                                    <PasswordInput
                                         {...field}
-                                        type="password"
                                         autoComplete="new-password"
                                         placeholder={t("auth.signUp.confirmPasswordPlaceholder")}
-                                        className="h-11 bg-transparent"
+                                        disabled={isSubmitting}
                                     />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className={AUTH_FIELD_MESSAGE_CLASS} />
                             </FormItem>
                         )}
                     />
@@ -160,67 +193,58 @@ export function SignUpForm({ onSuccess, onSwitchToSignIn, locale, redirect }: Si
                         control={form.control}
                         name="marketingConsent"
                         render={({ field }) => (
-                            <FormItem className="flex items-start gap-3">
-                                <FormControl>
-                                    <Checkbox
-                                        checked={field.value}
-                                        onCheckedChange={(checked) =>
-                                            field.onChange(checked === true)
-                                        }
-                                        className="mt-0.5 shrink-0"
-                                    />
-                                </FormControl>
-                                <div className="flex flex-1 flex-col gap-1">
-                                    <FormLabel className="block cursor-pointer text-sm font-normal leading-relaxed">
-                                        {t("newsletter.purpose")}
-                                    </FormLabel>
-                                    <FormDescription className="text-xs leading-relaxed">
+                            <FormItem className="gap-0">
+                                <CheckboxPanel
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                    onBlur={field.onBlur}
+                                    name={field.name}
+                                    inputRef={field.ref}
+                                    disabled={isSubmitting}
+                                    label={t("newsletter.purpose")}
+                                    description={
                                         <Trans
                                             i18nKey="newsletter.privacy"
                                             components={{
                                                 privacyLink: (
                                                     <Link
                                                         to="/$lng/privacy"
-                                                        className="underline underline-offset-2"
+                                                        className={cn(
+                                                            AUTH_LINK_CLASS,
+                                                            "font-normal",
+                                                        )}
                                                         params={true}
                                                         from="/$lng"
                                                     />
                                                 ),
                                             }}
                                         />
-                                    </FormDescription>
-                                </div>
+                                    }
+                                />
                             </FormItem>
                         )}
                     />
 
                     {form.formState.errors.root && (
-                        <p className="rounded-sm bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                            {form.formState.errors.root.message}
-                        </p>
+                        <AuthFormAlert>{form.formState.errors.root.message}</AuthFormAlert>
                     )}
 
-                    <Button
+                    <button
                         type="submit"
-                        disabled={form.formState.isSubmitting}
-                        className="mt-2 w-full"
+                        disabled={isSubmitting}
+                        className={cn(AUTH_PRIMARY_BUTTON_CLASS, "mt-1")}
                     >
-                        {form.formState.isSubmitting && <Spinner />}
+                        {isSubmitting && <Spinner aria-hidden="true" />}
                         {t("auth.signUp.submit")}
-                    </Button>
+                    </button>
                 </form>
             </Form>
 
-            <p className="text-center text-sm text-muted-foreground">
+            <p className={AUTH_FOOTER_CLASS}>
                 {t("auth.signUp.haveAccount")}{" "}
-                <Button
-                    type="button"
-                    variant="link"
-                    onClick={onSwitchToSignIn}
-                    className="h-auto p-0 font-medium"
-                >
+                <button type="button" onClick={onSwitchToSignIn} className={AUTH_LINK_CLASS}>
                     {t("auth.signUp.signInLink")}
-                </Button>
+                </button>
             </p>
         </div>
     );
