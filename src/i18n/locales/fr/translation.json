@@ -129,7 +129,6 @@
     },
     "signIn": "Se connecter",
     "createAccount": "Créer un compte",
-    "startSearching": "Commencer la recherche",
     "watchlist": "Liste de surveillance",
     "alerts": "Notifications",
     "alertsUnseen_one": "Notifications, {{count}} nouvelle",
@@ -1342,7 +1341,7 @@
   },
   "auth": {
     "federated": {
-      "or": "ou",
+      "or": "ou par e-mail",
       "google": {
         "continue": "Continuer avec Google"
       },
@@ -1351,41 +1350,42 @@
       },
       "redirectFailure": "La connexion n’a pas pu aboutir. Veuillez réessayer ou vous connecter avec votre adresse e-mail."
     },
-    "subtitle": "Plus de 120 000 antiquités de 500 marchands. Comparez, sauvegardez et suivez les prix sur Aura Historia.",
     "signUp": {
       "firstName": "Prénom",
       "firstNamePlaceholder": "Jean",
       "lastName": "Nom de famille",
       "lastNamePlaceholder": "Dupont",
       "email": "E-mail",
-      "emailPlaceholder": "votre.email@exemple.fr",
-      "password": "Mot de passe*",
-      "confirmPassword": "Confirmer le mot de passe*",
+      "emailPlaceholder": "vous@exemple.com",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
       "language": "Langue",
       "currency": "Devise",
       "unitSystem": "Système d'unités",
       "pleaseSelect": "Veuillez sélectionner",
       "showUnassessedOrSensitiveContentLabel": "Afficher les contenus non évalués ou sensibles",
       "showUnassessedOrSensitiveContentTooltip": "Afficher les contenus qui n'ont pas encore été évalués ou qui sont classés comme sensibles. Les images peuvent inclure des symboles visés par le § 86a StGB. Lorsque cette option est désactivée, ces images restent masquées. Les contenus masqués par le service restent indisponibles.",
-      "title": "Créer un compte",
-      "subtitle": "Rejoignez Aura Historia pour suivre les antiquités",
-      "passwordPlaceholder": "Créer un mot de passe",
+      "title": "Rejoignez Aura <em>Historia.</em>",
+      "subtitle": "Enregistrez des objets, suivez leurs prix et laissez vos recherches tourner pendant votre absence.",
+      "passwordPlaceholder": "Choisissez un mot de passe",
       "confirmPasswordPlaceholder": "Répétez votre mot de passe",
       "submit": "Créer un compte",
       "haveAccount": "Vous avez déjà un compte ?",
-      "signInLink": "Se connecter"
+      "signInLink": "Se connecter",
+      "eyebrow": "Créer un compte"
     },
     "signIn": {
       "email": "E-mail",
-      "emailPlaceholder": "votre.email@exemple.com",
+      "emailPlaceholder": "vous@exemple.com",
       "password": "Mot de passe",
-      "passwordPlaceholder": "Entrez votre mot de passe",
-      "title": "Bon retour",
-      "subtitle": "Connectez-vous à votre compte pour continuer",
+      "passwordPlaceholder": "Votre mot de passe",
+      "title": "Bon <em>retour.</em>",
+      "subtitle": "Connectez-vous pour retrouver votre liste de suivi, vos alertes de prix et vos recherches enregistrées.",
       "submit": "Se connecter",
-      "noAccount": "Pas encore de compte ?",
-      "signUpLink": "Créer un compte",
-      "forgotPassword": "Mot de passe oublié ?"
+      "noAccount": "Nouveau sur Aura Historia ?",
+      "signUpLink": "Créer votre compte",
+      "forgotPassword": "Mot de passe oublié ?",
+      "eyebrow": "Connexion"
     },
     "languages": {
       "de": "Allemand",
@@ -1394,55 +1394,25 @@
       "es": "Espagnol",
       "it": "Italien"
     },
-    "currencies": {
-      "EUR": "EUR - Euro",
-      "GBP": "GBP - Livre sterling",
-      "USD": "USD - Dollar américain",
-      "AUD": "AUD - Dollar australien",
-      "CAD": "CAD - Dollar canadien",
-      "NZD": "NZD - Dollar néo-zélandais",
-      "CNY": "CNY - Yuan chinois",
-      "BRL": "BRL - Réal brésilien",
-      "PLN": "PLN - Zloty polonais",
-      "TRY": "TRY - Livre turque",
-      "JPY": "JPY - Yen japonais",
-      "CZK": "CZK - Couronne tchèque",
-      "RUB": "RUB - Rouble russe",
-      "AED": "AED - Dirham des EAU",
-      "SAR": "SAR - Riyal saoudien",
-      "HKD": "HKD - Dollar de Hong Kong",
-      "SGD": "SGD - Dollar de Singapour",
-      "CHF": "CHF - Franc suisse",
-      "ZAR": "ZAR - Rand sud-africain",
-      "SEK": "SEK - Couronne suédoise",
-      "DKK": "DKK - Couronne danoise",
-      "NOK": "NOK - Couronne norvégienne",
-      "KRW": "KRW - Won sud-coréen",
-      "INR": "INR - Roupie indienne",
-      "TWD": "TWD - Nouveau dollar de Taïwan",
-      "HUF": "HUF - Forint hongrois",
-      "RON": "RON - Leu roumain",
-      "MXN": "MXN - Peso mexicain",
-      "THB": "THB - Baht thaïlandais",
-      "ARS": "ARS - Peso argentin"
-    },
     "unitSystems": {
       "METRIC": "Métrique",
       "IMPERIAL": "Impérial"
     },
     "confirm": {
-      "title": "Vérifiez votre e-mail",
-      "subtitle": "Nous avons envoyé un code à 6 chiffres à {{email}}",
+      "title": "Consultez votre <em>boîte de réception.</em>",
+      "subtitle": "Nous avons envoyé un code à 6 chiffres à <email>{{email}}</email>. Saisissez-le ci-dessous pour confirmer votre adresse.",
       "codeLabel": "Code de vérification",
       "submit": "Vérifier l'e-mail",
       "noCode": "Vous n'avez pas reçu de code ?",
       "resend": "Renvoyer le code",
       "resendSending": "Envoi en cours…",
-      "resendSent": "Code envoyé !"
+      "resendSent": "Nouveau code envoyé",
+      "eyebrow": "Vérifier l'e-mail",
+      "hint": "Il peut mettre une minute à arriver. Sinon, vérifiez votre dossier de courrier indésirable."
     },
     "userDetails": {
-      "title": "Complétez votre profil",
-      "subtitle": "Ces informations sont facultatives — vous pouvez les mettre à jour à tout moment",
+      "title": "Complétez votre <em>profil.</em>",
+      "subtitle": "Tout est facultatif. Vous pourrez le modifier plus tard dans Compte et paramètres.",
       "submit": "Enregistrer et continuer",
       "skip": "Ignorer pour l'instant",
       "newsletter": {
@@ -1450,37 +1420,56 @@
         "requestedTitle": "Veuillez consulter votre boîte de réception.",
         "requestedDescription": "Si {{email}} peut recevoir notre newsletter, nous y enverrons un lien de confirmation. Votre inscription ne commence qu'une fois le lien ouvert et confirmé.",
         "requestFailed": "Vos informations ont été enregistrées, mais la confirmation de la newsletter n'a pas pu être demandée. Veuillez réessayer ou ignorer cette étape pour l'instant."
-      }
+      },
+      "eyebrow": "Votre profil",
+      "nameGroup": "Nom",
+      "preferencesGroup": "Préférences"
     },
     "errors": {
       "UsernameExistsException": "Un compte avec cette adresse e-mail existe déjà.",
-      "NotAuthorizedException": "Nom d'utilisateur ou mot de passe incorrect.",
+      "NotAuthorizedException": "E-mail ou mot de passe incorrect.",
       "UserNotFoundException": "L'utilisateur n'existe pas.",
-      "CodeMismatchException": "Code de vérification non valide, veuillez réessayer.",
+      "CodeMismatchException": "Ce code n'est pas valide. Vérifiez l'e-mail et réessayez.",
       "LimitExceededException": "Limite de tentatives dépassée, veuillez réessayer plus tard.",
       "TooManyRequestsException": "Trop de requêtes, veuillez réessayer plus tard.",
       "InvalidPasswordException": "Le mot de passe n'est pas conforme. Il doit contenir au moins 8 caractères, un chiffre, une lettre minuscule et une lettre majuscule.",
-      "ExpiredCodeException": "Code non valide, veuillez en demander un nouveau.",
+      "ExpiredCodeException": "Ce code a expiré. Demandez un nouveau code.",
       "UserNotConfirmedException": "L'utilisateur n'est pas confirmé.",
       "InvalidParameterException": "Paramètre non valide fourni.",
       "EmptySignInUsername": "Veuillez entrer votre e-mail.",
       "EmptySignInPassword": "Veuillez entrer votre mot de passe."
     },
     "resetPassword": {
-      "title": "Réinitialiser le mot de passe",
-      "subtitle": "Entrez votre adresse e-mail pour recevoir un code de réinitialisation",
+      "title": "Mot de passe <em>oublié ?</em>",
+      "subtitle": "Saisissez l'adresse e-mail de votre compte et nous vous enverrons un code à 6 chiffres.",
       "emailLabel": "E-mail",
-      "emailPlaceholder": "votre.email@exemple.fr",
-      "submit": "Envoyer le code",
+      "emailPlaceholder": "vous@exemple.com",
+      "submit": "Envoyer le code de réinitialisation",
       "backToSignIn": "Retour à la connexion",
-      "confirmTitle": "Entrez le code de réinitialisation",
-      "confirmSubtitle": "Entrez le code envoyé à votre adresse e-mail et votre nouveau mot de passe",
+      "confirmTitle": "Choisissez un nouveau <em>mot de passe.</em>",
+      "confirmSubtitle": "Saisissez le code envoyé à <email>{{email}}</email>, puis votre nouveau mot de passe.",
       "codeLabel": "Code de réinitialisation",
-      "codePlaceholder": "123456",
       "newPasswordLabel": "Nouveau mot de passe",
       "newPasswordPlaceholder": "Entrez un nouveau mot de passe",
       "confirmSubmit": "Réinitialiser le mot de passe",
-      "newPasswordConfirmLabel": "Confirmer le nouveau mot de passe"
+      "newPasswordConfirmLabel": "Confirmer le nouveau mot de passe",
+      "eyebrow": "Réinitialisation",
+      "success": "Votre mot de passe a été réinitialisé. Connectez-vous avec votre nouveau mot de passe."
+    },
+    "page": {
+      "eyebrow": "L'index mondial des antiquités",
+      "heading": "Chaque marchand, chaque salle des ventes, <em>un seul compte.</em>",
+      "lead": "Aura Historia interroge en même temps marchands, maisons de vente et places de marché. Votre compte garde ce que vous trouvez."
+    },
+    "steps": {
+      "label": "Inscription, étape {{current}} sur {{total}}",
+      "account": "Compte",
+      "verify": "Vérification",
+      "profile": "Profil"
+    },
+    "password": {
+      "show": "Afficher le mot de passe",
+      "hide": "Masquer le mot de passe"
     }
   },
   "amplify": {

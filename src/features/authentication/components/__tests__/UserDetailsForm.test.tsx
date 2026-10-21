@@ -93,8 +93,8 @@ describe("UserDetailsForm", () => {
         it("preselects the inferred language and preferred currency", async () => {
             await renderUserDetailsForm();
 
-            expect(screen.getByRole("combobox", { name: "Sprache" })).toHaveTextContent("Deutsch");
-            expect(screen.getByRole("button", { name: "Währung" })).toHaveTextContent("EUR - Euro");
+            expect(screen.getByRole("button", { name: /^Sprache/ })).toHaveTextContent("Deutsch");
+            expect(screen.getByRole("button", { name: /^Währung/ })).toHaveTextContent("Euro");
         });
 
         it("saves the profile and completes without requesting a newsletter subscription", async () => {
@@ -125,9 +125,9 @@ describe("UserDetailsForm", () => {
             const user = userEvent.setup();
             await renderUserDetailsForm();
 
-            await user.click(screen.getByRole("button", { name: "Währung" }));
+            await user.click(screen.getByRole("button", { name: /^Währung/ }));
             expect(screen.getAllByRole("option")).toHaveLength(30);
-            await user.click(screen.getByRole("option", { name: "SEK - Schwedische Krone" }));
+            await user.click(screen.getByRole("option", { name: /Schwedische Krone/ }));
             await user.click(screen.getByRole("button", { name: "Speichern und fortfahren" }));
 
             await waitFor(() => {
@@ -189,10 +189,10 @@ describe("UserDetailsForm", () => {
 
             expect(screen.getByLabelText("Vorname")).toHaveValue("François");
             expect(screen.getByLabelText("Nachname")).toHaveValue("Müller");
-            expect(screen.getByRole("combobox", { name: "Sprache" })).toHaveTextContent(
+            expect(screen.getByRole("button", { name: /^Sprache/ })).toHaveTextContent(
                 "Französisch",
             );
-            expect(screen.getByRole("button", { name: "Währung" })).toHaveTextContent("EUR - Euro");
+            expect(screen.getByRole("button", { name: /^Währung/ })).toHaveTextContent("Euro");
 
             await user.click(screen.getByRole("button", { name: "Speichern und fortfahren" }));
 

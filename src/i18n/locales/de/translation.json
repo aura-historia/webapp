@@ -129,7 +129,6 @@
     },
     "signIn": "Anmelden",
     "createAccount": "Konto erstellen",
-    "startSearching": "Suche starten",
     "watchlist": "Merkliste",
     "alerts": "Benachrichtigungen",
     "alertsUnseen_one": "Benachrichtigungen, {{count}} neu",
@@ -1342,7 +1341,7 @@
   },
   "auth": {
     "federated": {
-      "or": "oder",
+      "or": "oder mit E-Mail",
       "google": {
         "continue": "Mit Google fortfahren"
       },
@@ -1351,41 +1350,42 @@
       },
       "redirectFailure": "Die Anmeldung konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut oder melden Sie sich mit Ihrer E-Mail-Adresse an."
     },
-    "subtitle": "Über 120.000 Antiquitäten von 500 Händlern. Vergleichen, speichern und Preise verfolgen bei Aura Historia.",
     "signUp": {
       "firstName": "Vorname",
       "firstNamePlaceholder": "Max",
       "lastName": "Nachname",
       "lastNamePlaceholder": "Mustermann",
       "email": "E-Mail",
-      "emailPlaceholder": "ihre.email@beispiel.de",
-      "password": "Passwort*",
-      "confirmPassword": "Passwort bestätigen*",
+      "emailPlaceholder": "sie@beispiel.de",
+      "password": "Passwort",
+      "confirmPassword": "Passwort bestätigen",
       "language": "Sprache",
       "currency": "Währung",
       "unitSystem": "Einheitensystem",
       "pleaseSelect": "Bitte wählen",
       "showUnassessedOrSensitiveContentLabel": "Ungeprüfte oder sensible Inhalte anzeigen",
       "showUnassessedOrSensitiveContentTooltip": "Inhalte anzeigen, die noch nicht geprüft wurden oder als sensibel eingestuft sind. Bilder können Kennzeichen nach § 86a StGB enthalten. Wenn deaktiviert, bleiben diese Bilder verborgen. Vom Dienst ausgeblendete Inhalte bleiben nicht verfügbar.",
-      "title": "Konto erstellen",
-      "subtitle": "Treten Sie Aura Historia bei, um Antiquitäten zu verfolgen",
-      "passwordPlaceholder": "Passwort erstellen",
+      "title": "Willkommen bei Aura <em>Historia.</em>",
+      "subtitle": "Merken Sie sich Objekte, verfolgen Sie ihre Preise und lassen Sie Ihre Suchen weiterlaufen, während Sie unterwegs sind.",
+      "passwordPlaceholder": "Passwort wählen",
       "confirmPasswordPlaceholder": "Passwort wiederholen",
       "submit": "Konto erstellen",
       "haveAccount": "Bereits ein Konto?",
-      "signInLink": "Anmelden"
+      "signInLink": "Anmelden",
+      "eyebrow": "Konto erstellen"
     },
     "signIn": {
       "email": "E-Mail",
-      "emailPlaceholder": "ihre.email@beispiel.de",
+      "emailPlaceholder": "sie@beispiel.de",
       "password": "Passwort",
-      "passwordPlaceholder": "Geben Sie Ihr Passwort ein",
-      "title": "Willkommen zurück",
-      "subtitle": "Melden Sie sich bei Ihrem Konto an",
+      "passwordPlaceholder": "Ihr Passwort",
+      "title": "Willkommen <em>zurück.</em>",
+      "subtitle": "Melden Sie sich an, um Ihre Merkliste, Preisalarme und gespeicherten Suchen zu sehen.",
       "submit": "Anmelden",
-      "noAccount": "Noch kein Konto?",
-      "signUpLink": "Jetzt registrieren",
-      "forgotPassword": "Passwort vergessen?"
+      "noAccount": "Neu bei Aura Historia?",
+      "signUpLink": "Konto erstellen",
+      "forgotPassword": "Passwort vergessen?",
+      "eyebrow": "Anmelden"
     },
     "languages": {
       "de": "Deutsch",
@@ -1394,55 +1394,25 @@
       "es": "Spanisch",
       "it": "Italienisch"
     },
-    "currencies": {
-      "EUR": "EUR - Euro",
-      "GBP": "GBP - Britisches Pfund",
-      "USD": "USD - US-Dollar",
-      "AUD": "AUD - Australischer Dollar",
-      "CAD": "CAD - Kanadischer Dollar",
-      "NZD": "NZD - Neuseeland-Dollar",
-      "CNY": "CNY - Chinesischer Yuan",
-      "BRL": "BRL - Brasilianischer Real",
-      "PLN": "PLN - Polnischer Zloty",
-      "TRY": "TRY - Türkische Lira",
-      "JPY": "JPY - Japanischer Yen",
-      "CZK": "CZK - Tschechische Krone",
-      "RUB": "RUB - Russischer Rubel",
-      "AED": "AED - VAE-Dirham",
-      "SAR": "SAR - Saudi-Riyal",
-      "HKD": "HKD - Hongkong-Dollar",
-      "SGD": "SGD - Singapur-Dollar",
-      "CHF": "CHF - Schweizer Franken",
-      "ZAR": "ZAR - Südafrikanischer Rand",
-      "SEK": "SEK - Schwedische Krone",
-      "DKK": "DKK - Dänische Krone",
-      "NOK": "NOK - Norwegische Krone",
-      "KRW": "KRW - Südkoreanischer Won",
-      "INR": "INR - Indische Rupie",
-      "TWD": "TWD - Neuer Taiwan-Dollar",
-      "HUF": "HUF - Ungarischer Forint",
-      "RON": "RON - Rumänischer Leu",
-      "MXN": "MXN - Mexikanischer Peso",
-      "THB": "THB - Thailändischer Baht",
-      "ARS": "ARS - Argentinischer Peso"
-    },
     "unitSystems": {
       "METRIC": "Metrisch",
       "IMPERIAL": "Imperial"
     },
     "confirm": {
-      "title": "E-Mail überprüfen",
-      "subtitle": "Wir haben einen 6-stelligen Code an {{email}} gesendet",
+      "title": "Prüfen Sie Ihr <em>Postfach.</em>",
+      "subtitle": "Wir haben einen 6-stelligen Code an <email>{{email}}</email> gesendet. Geben Sie ihn unten ein, um Ihre Adresse zu bestätigen.",
       "codeLabel": "Bestätigungscode",
       "submit": "E-Mail bestätigen",
       "noCode": "Keinen Code erhalten?",
       "resend": "Code erneut senden",
       "resendSending": "Wird gesendet…",
-      "resendSent": "Code gesendet!"
+      "resendSent": "Neuer Code gesendet",
+      "eyebrow": "E-Mail bestätigen",
+      "hint": "Es kann eine Minute dauern, bis er ankommt. Sehen Sie andernfalls in Ihrem Spam-Ordner nach."
     },
     "userDetails": {
-      "title": "Profil vervollständigen",
-      "subtitle": "Diese Angaben sind optional — Sie können sie jederzeit später aktualisieren",
+      "title": "Profil <em>vervollständigen.</em>",
+      "subtitle": "Alle Angaben sind freiwillig. Sie können sie später unter Account & Einstellungen ändern.",
       "submit": "Speichern und fortfahren",
       "skip": "Vorerst überspringen",
       "newsletter": {
@@ -1450,37 +1420,56 @@
         "requestedTitle": "Bitte prüfen Sie Ihr Postfach.",
         "requestedDescription": "Sofern {{email}} unseren Newsletter empfangen kann, senden wir einen Bestätigungslink an diese Adresse. Ihr Abonnement beginnt erst, wenn Sie den Link öffnen und bestätigen.",
         "requestFailed": "Ihre Angaben wurden gespeichert, die Newsletter-Bestätigung konnte jedoch nicht angefordert werden. Bitte versuchen Sie es erneut oder überspringen Sie diesen Schritt vorerst."
-      }
+      },
+      "eyebrow": "Ihr Profil",
+      "nameGroup": "Name",
+      "preferencesGroup": "Einstellungen"
     },
     "errors": {
       "UsernameExistsException": "Ein Konto mit dieser E-Mail-Adresse existiert bereits.",
-      "NotAuthorizedException": "Falscher Benutzername oder Passwort.",
+      "NotAuthorizedException": "Falsche E-Mail-Adresse oder falsches Passwort.",
       "UserNotFoundException": "Benutzer existiert nicht.",
-      "CodeMismatchException": "Ungültiger Bestätigungscode, bitte versuchen Sie es erneut.",
+      "CodeMismatchException": "Dieser Code ist ungültig. Prüfen Sie die E-Mail und versuchen Sie es erneut.",
       "LimitExceededException": "Versuchslimit überschritten, bitte versuchen Sie es später erneut.",
       "TooManyRequestsException": "Zu viele Anfragen, bitte versuchen Sie es später erneut.",
       "InvalidPasswordException": "Das Passwort entspricht nicht den Richtlinien. Es muss mindestens 8 Zeichen, eine Zahl, einen Kleinbuchstaben und einen Großbuchstaben enthalten.",
-      "ExpiredCodeException": "Ungültiger Code, bitte fordern Sie einen neuen Code an.",
+      "ExpiredCodeException": "Dieser Code ist abgelaufen. Fordern Sie einen neuen Code an.",
       "UserNotConfirmedException": "Benutzer ist nicht bestätigt.",
       "InvalidParameterException": "Ungültiger Parameter angegeben.",
       "EmptySignInUsername": "Bitte geben Sie Ihre E-Mail-Adresse ein.",
       "EmptySignInPassword": "Bitte geben Sie Ihr Passwort ein."
     },
     "resetPassword": {
-      "title": "Passwort zurücksetzen",
-      "subtitle": "Geben Sie Ihre E-Mail-Adresse ein, um einen Zurücksetzungscode zu erhalten",
+      "title": "Passwort <em>vergessen?</em>",
+      "subtitle": "Geben Sie die E-Mail-Adresse Ihres Kontos ein, und wir senden Ihnen einen 6-stelligen Code.",
       "emailLabel": "E-Mail",
-      "emailPlaceholder": "ihre.email@beispiel.de",
-      "submit": "Code senden",
+      "emailPlaceholder": "sie@beispiel.de",
+      "submit": "Reset-Code senden",
       "backToSignIn": "Zurück zur Anmeldung",
-      "confirmTitle": "Zurücksetzungscode eingeben",
-      "confirmSubtitle": "Geben Sie den an Ihre E-Mail gesendeten Code und Ihr neues Passwort ein",
+      "confirmTitle": "Neues Passwort <em>wählen.</em>",
+      "confirmSubtitle": "Geben Sie den Code ein, den wir an <email>{{email}}</email> gesendet haben, und anschließend Ihr neues Passwort.",
       "codeLabel": "Zurücksetzungscode",
-      "codePlaceholder": "123456",
       "newPasswordLabel": "Neues Passwort",
       "newPasswordConfirmLabel": "Neues Passwort bestätigen",
       "newPasswordPlaceholder": "Neues Passwort eingeben",
-      "confirmSubmit": "Passwort zurücksetzen"
+      "confirmSubmit": "Passwort zurücksetzen",
+      "eyebrow": "Passwort zurücksetzen",
+      "success": "Ihr Passwort wurde zurückgesetzt. Melden Sie sich mit dem neuen Passwort an."
+    },
+    "page": {
+      "eyebrow": "Der globale Antiquitätenindex",
+      "heading": "Jeder Händler, jedes Auktionshaus, <em>ein Konto.</em>",
+      "lead": "Aura Historia durchsucht Händler, Auktionshäuser und Marktplätze auf einmal. Ihr Konto bewahrt, was Sie finden."
+    },
+    "steps": {
+      "label": "Registrierung, Schritt {{current}} von {{total}}",
+      "account": "Konto",
+      "verify": "Bestätigen",
+      "profile": "Profil"
+    },
+    "password": {
+      "show": "Passwort anzeigen",
+      "hide": "Passwort verbergen"
     }
   },
   "amplify": {

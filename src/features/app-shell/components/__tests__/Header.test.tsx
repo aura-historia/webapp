@@ -91,7 +91,7 @@ describe("Header", () => {
             );
         });
 
-        it("shows sign in and the search call to action when signed out", async () => {
+        it("shows sign in and the create account call to action when signed out", async () => {
             setupViewer();
             await renderHeader("/");
             const nav = within(desktopNavigation());
@@ -99,9 +99,8 @@ describe("Header", () => {
             expect(nav.getByRole("link", { name: "Anmelden" }).getAttribute("href")).toContain(
                 "/de/login",
             );
-            expect(nav.getByRole("link", { name: "Suche starten" })).toHaveAttribute(
-                "href",
-                "/de/search",
+            expect(nav.getByRole("link", { name: "Konto erstellen" }).getAttribute("href")).toMatch(
+                /^\/de\/login\?.*mode=sign-up/,
             );
             expect(nav.queryByRole("search")).not.toBeInTheDocument();
         });
@@ -194,7 +193,7 @@ describe("Header", () => {
             await renderHeader("/");
 
             expect(screen.queryByRole("link", { name: "Anmelden" })).not.toBeInTheDocument();
-            expect(screen.queryByRole("link", { name: "Suche starten" })).not.toBeInTheDocument();
+            expect(screen.queryByRole("link", { name: "Konto erstellen" })).not.toBeInTheDocument();
         });
 
         it("shows the member's watchlist and account menu when signed in", async () => {

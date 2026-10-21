@@ -2,8 +2,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { confirmSignUp, resendSignUpCode, signIn } from "aws-amplify/auth";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useState } from "react";
+import { Check } from "lucide-react";
 import {
     Form,
     FormControl,
@@ -12,23 +13,29 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import { Button } from "@/components/ui/button";
 import { getAuthErrorMessage } from "@/features/authentication/lib/getAuthErrorMessage.ts";
 import { Spinner } from "@/components/ui/spinner";
+import { AuthFormAlert } from "@/features/authentication/components/AuthFormAlert.tsx";
+import { AuthFormHeader } from "@/features/authentication/components/AuthFormHeader.tsx";
+import { CODE_LENGTH, CodeInput } from "@/features/authentication/components/CodeInput.tsx";
+import { RegistrationSteps } from "@/features/authentication/components/RegistrationSteps.tsx";
+import {
+    AUTH_FIELD_MESSAGE_CLASS,
+    AUTH_FOOTER_CLASS,
+    AUTH_LABEL_CLASS,
+    AUTH_LINK_CLASS,
+    AUTH_PRIMARY_BUTTON_CLASS,
+} from "@/features/authentication/lib/authStyles.ts";
 
 const confirmSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
     z.object({
         code: z
             .string()
-            .length(6, t("validation.confirmCode.length"))
+            .length(CODE_LENGTH, t("validation.confirmCode.length"))
             .regex(/^\d+$/, t("validation.confirmCode.digitsOnly")),
     });
 
 type ConfirmValues = z.infer<ReturnType<typeof confirmSchema>>;
-
-const CONFIRM_CODE_LENGTH = 6;
-const CONFIRM_CODE_SLOT_INDICES = Array.from({ length: CONFIRM_CODE_LENGTH }, (_, index) => index);
 
 type ConfirmSignUpFormProps = {
     readonly email: string;
@@ -45,6 +52,7 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
         resolver: zodResolver(schema),
         defaultValues: { code: "" },
     });
+    const isSubmitting = form.formState.isSubmitting;
 
     const onSubmit = async (data: ConfirmValues) => {
         const confirmationCode = data.code.trim();
@@ -71,90 +79,92 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
         }
     };
 
-    const resendButtonText = {
-        idle: t("auth.confirm.resend"),
-        sending: t("auth.confirm.resendSending"),
-        sent: t("auth.confirm.resendSent"),
-    }[resendStatus];
-
     return (
-        <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-1">
-                <h1 className="font-display text-2xl text-primary">{t("auth.confirm.title")}</h1>
-                <p className="text-sm text-muted-foreground">
-                    {t("auth.confirm.subtitle", { email })}
-                </p>
-            </div>
+        <div className="flex flex-col gap-7">
+            <RegistrationSteps current={2} />
+
+            <AuthFormHeader
+                eyebrow={t("auth.confirm.eyebrow")}
+                titleKey="auth.confirm.title"
+                lead={
+                    <Trans
+                        i18nKey="auth.confirm.subtitle"
+                        values={{ email }}
+                        components={{ email: <span className="font-medium text-ink" /> }}
+                    />
+                }
+            />
 
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="flex flex-col gap-4"
+                    className="flex flex-col gap-6"
                     noValidate
                 >
                     <FormField
                         control={form.control}
                         name="code"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>{t("auth.confirm.codeLabel")}</FormLabel>
+                            <FormItem className="gap-2">
+                                <FormLabel className={AUTH_LABEL_CLASS}>
+                                    {t("auth.confirm.codeLabel")}
+                                </FormLabel>
                                 <FormControl>
-                                    <InputOTP
+                                    <CodeInput
                                         {...field}
-                                        maxLength={CONFIRM_CODE_LENGTH}
-                                        pattern="^\d+$"
-                                        autoComplete="one-time-code"
-                                        disabled={form.formState.isSubmitting}
-                                        containerClassName="justify-center"
+                                        disabled={isSubmitting}
                                         onComplete={() => {
                                             form.handleSubmit(onSubmit)();
                                         }}
-                                    >
-                                        <InputOTPGroup>
-                                            {CONFIRM_CODE_SLOT_INDICES.map((slotIndex) => (
-                                                <InputOTPSlot
-                                                    key={`confirm-code-slot-${slotIndex}`}
-                                                    index={slotIndex}
-                                                    className="h-11 w-11 bg-transparent text-lg"
-                                                />
-                                            ))}
-                                        </InputOTPGroup>
-                                    </InputOTP>
+                                    />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className={AUTH_FIELD_MESSAGE_CLASS} />
                             </FormItem>
                         )}
                     />
 
                     {form.formState.errors.root && (
-                        <p className="rounded-sm bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                            {form.formState.errors.root.message}
-                        </p>
+                        <AuthFormAlert>{form.formState.errors.root.message}</AuthFormAlert>
                     )}
 
-                    <Button
+                    <button
                         type="submit"
-                        disabled={form.formState.isSubmitting}
-                        className="mt-2 w-full"
+                        disabled={isSubmitting}
+                        className={AUTH_PRIMARY_BUTTON_CLASS}
                     >
-                        {form.formState.isSubmitting && <Spinner />}
+                        {isSubmitting && <Spinner aria-hidden="true" />}
                         {t("auth.confirm.submit")}
-                    </Button>
+                    </button>
                 </form>
             </Form>
 
-            <p className="text-center text-sm text-muted-foreground">
-                {t("auth.confirm.noCode")}
-                <Button
-                    type="button"
-                    variant="link"
-                    onClick={handleResend}
-                    disabled={resendStatus !== "idle"}
-                    className="h-auto ms-2 p-0 font-medium"
-                >
-                    {resendButtonText}
-                </Button>
-            </p>
+            <div className={AUTH_FOOTER_CLASS}>
+                <p aria-live="polite" className="flex flex-wrap items-center gap-x-1.5">
+                    {t("auth.confirm.noCode")}
+                    {resendStatus === "idle" && (
+                        <button type="button" onClick={handleResend} className={AUTH_LINK_CLASS}>
+                            {t("auth.confirm.resend")}
+                        </button>
+                    )}
+                    {resendStatus === "sending" && (
+                        <span className="text-ink-muted">{t("auth.confirm.resendSending")}</span>
+                    )}
+                    {resendStatus === "sent" && (
+                        <span className="inline-flex items-center gap-1.5 font-medium text-ink">
+                            <span
+                                aria-hidden="true"
+                                className="inline-flex size-4 items-center justify-center rounded-pill bg-oxblood text-on-oxblood"
+                            >
+                                <Check className="size-2.5" strokeWidth={3.4} />
+                            </span>
+                            {t("auth.confirm.resendSent")}
+                        </span>
+                    )}
+                </p>
+                <p className="mt-1.5 text-meta leading-[1.55] text-ink-muted">
+                    {t("auth.confirm.hint")}
+                </p>
+            </div>
         </div>
     );
 }

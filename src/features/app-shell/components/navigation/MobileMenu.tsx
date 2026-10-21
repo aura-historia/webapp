@@ -3,7 +3,6 @@ import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { env } from "@/env.ts";
 import { useUnseenNotificationCount } from "@/features/notification-center/hooks/useUnseenNotificationCount.ts";
 import { cn } from "@/lib/utils.ts";
 import { LocaleSwitch } from "./LocaleSwitch.tsx";
@@ -18,8 +17,6 @@ import { NavSearchField } from "./NavSearchField.tsx";
 import { SiteSectionLink } from "./SiteSectionLink.tsx";
 import type { NavigationViewer } from "./useNavigationViewer.ts";
 import { Wordmark } from "./Wordmark.tsx";
-
-const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 const SHORTCUT_CLASS = cn(
     "flex min-h-11 items-center justify-between text-base text-ink transition-colors hover:text-brass",
@@ -243,21 +240,20 @@ export function MobileMenu({
 
                         {showAccountActions && viewer.isResolved && !viewer.isAuthenticated && (
                             <div className="flex flex-col gap-2.5">
-                                {isSearchEnabled && (
-                                    <Link
-                                        to="/$lng/search"
-                                        params={true}
-                                        from="/$lng"
-                                        onClick={close}
-                                        data-theme="light"
-                                        className={cn(
-                                            "flex h-13 items-center justify-center rounded-pill bg-surface text-base font-medium text-ink",
-                                            NAV_FOCUS_CLASS,
-                                        )}
-                                    >
-                                        {t("header.startSearching")}
-                                    </Link>
-                                )}
+                                <Link
+                                    to="/$lng/login"
+                                    search={{ redirect: viewer.redirect, mode: "sign-up" }}
+                                    params={true}
+                                    from="/$lng"
+                                    onClick={close}
+                                    data-theme="light"
+                                    className={cn(
+                                        "flex h-13 items-center justify-center rounded-pill bg-surface text-base font-medium text-ink",
+                                        NAV_FOCUS_CLASS,
+                                    )}
+                                >
+                                    {t("header.createAccount")}
+                                </Link>
                                 <Link
                                     to="/$lng/login"
                                     search={{ redirect: viewer.redirect, mode: "sign-in" }}
