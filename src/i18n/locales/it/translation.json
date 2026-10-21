@@ -188,18 +188,18 @@
   "aboutPage": {
     "hero": {
       "eyebrow": "Chi è Aura Historia",
-      "title": "Portiamo più chiarezza nel mercato dell’antiquariato e dell’arte.",
+      "title": "Portiamo più chiarezza <em>nel mercato dell’antiquariato e dell’arte.</em>",
       "subtitle": "Aura Historia nasce per collezionisti e professionisti che cercano con criterio, danno valore al contesto e desiderano una lettura calma di un mercato internazionale disperso."
     },
     "mission": {
       "eyebrow": "Perché esistiamo",
-      "title": "Dare orientamento senza semplificare il mercato.",
+      "title": "Dare orientamento <em>senza semplificare il mercato.</em>",
       "p1": "Antiquariato e arte emergono spesso fuori dai percorsi più ovvi: presso mercanti specializzati, piccole gallerie, case d’asta e marketplace modellati da lessici e consuetudini catalografiche locali.",
       "p2": "Costruiamo Aura Historia per dare ordine a questa ricerca senza trasformarla in un’esperienza d’acquisto generica. L’obiettivo è chiaro: offrire più visibilità a chi conosce il mercato, rendere il confronto più agevole e mantenere evidente la fonte originale."
     },
     "values": {
       "eyebrow": "Come lavoriamo",
-      "title": "Misura prima del rumore.",
+      "title": "Misura <em>prima del rumore.</em>",
       "description": "Questi principi guidano le nostre scelte di prodotto, il nostro linguaggio e il modo in cui trattiamo le fonti.",
       "items": {
         "carefulClaims": {
@@ -218,7 +218,7 @@
     },
     "team": {
       "eyebrow": "Il nostro team",
-      "title": "Un piccolo team con una prospettiva lunga.",
+      "title": "Un piccolo team <em>con una prospettiva lunga.</em>",
       "description": "Dietro Aura Historia ci sono persone che uniscono prodotto, rigore nella ricerca e intelligenza di mercato.",
       "email": "E-mail",
       "emailAria": "Invia un’e-mail a {{name}}",

@@ -188,18 +188,18 @@
   "aboutPage": {
     "hero": {
       "eyebrow": "About Aura Historia",
-      "title": "We make the antiques and art market easier to understand.",
+      "title": "We make the antiques and art market <em>easier to understand.</em>",
       "subtitle": "Aura Historia exists for collectors and professionals who value careful discovery, reliable context, and a calm view of a scattered international market."
     },
     "mission": {
       "eyebrow": "Why we exist",
-      "title": "Orientation without flattening the field.",
+      "title": "Orientation <em>without flattening the field.</em>",
       "p1": "Antiques and art often surface far from the obvious channels: with specialist dealers, smaller shops, auction houses, and marketplaces shaped by local vocabulary and cataloguing habits.",
       "p2": "We build Aura Historia to bring order to that search without turning it into a generic shopping experience. The aim is simple: help knowledgeable people see more, compare with care, and keep the original seller relationship clear."
     },
     "values": {
       "eyebrow": "How we work",
-      "title": "Restraint before noise.",
+      "title": "Restraint <em>before noise.</em>",
       "description": "These principles shape our product decisions, our language, and the way we present sources.",
       "items": {
         "carefulClaims": {
@@ -218,7 +218,7 @@
     },
     "team": {
       "eyebrow": "Who we are",
-      "title": "A small team with a long view.",
+      "title": "A small team <em>with a long view.</em>",
       "description": "The people behind Aura Historia combine product work, research discipline, and market intelligence.",
       "email": "Email",
       "emailAria": "Email {{name}}",

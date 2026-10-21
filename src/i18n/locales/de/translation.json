@@ -188,18 +188,18 @@
   "aboutPage": {
     "hero": {
       "eyebrow": "Über Aura Historia",
-      "title": "Wir geben dem Antiquitäten- und Kunstmarkt mehr Übersicht.",
+      "title": "Wir geben dem Antiquitäten- und Kunstmarkt <em>mehr Übersicht.</em>",
       "subtitle": "Aura Historia richtet sich an Sammlerinnen, Sammler und Fachleute, die sorgfältig suchen, verlässlichen Kontext schätzen und einen ruhigen Blick auf ein verstreutes internationales Angebot brauchen."
     },
     "mission": {
       "eyebrow": "Warum es uns gibt",
-      "title": "Orientierung schaffen, ohne den Markt zu vereinfachen.",
+      "title": "Orientierung schaffen, <em>ohne den Markt zu vereinfachen.</em>",
       "p1": "Antiquitäten und Kunst tauchen oft abseits der bekannten Wege auf: bei spezialisierten Händlern, kleineren Galerien, Auktionshäusern und Marktplätzen, geprägt von lokalen Begriffen und eigenen Katalogtraditionen.",
       "p2": "Aura Historia soll diese Suche ordnen. Unser Ziel: mehr Sichtbarkeit, bessere Vergleichbarkeit und eine klare Verbindung zur ursprünglichen Quelle."
     },
     "values": {
       "eyebrow": "Wie wir arbeiten",
-      "title": "Vornehme Zurückhaltung.",
+      "title": "Vornehme <em>Zurückhaltung.</em>",
       "description": "Diese Grundsätze prägen unsere Produktentscheidungen, unsere Sprache und den Umgang mit Quellen.",
       "items": {
         "carefulClaims": {
@@ -218,7 +218,7 @@
     },
     "team": {
       "eyebrow": "Unser Team",
-      "title": "Ein kleines Team mit langem Blick.",
+      "title": "Ein kleines Team <em>mit langem Blick.</em>",
       "description": "Hinter Aura Historia stehen Menschen, die Produktarbeit, Recherche-Disziplin und Marktverständnis zusammenbringen.",
       "email": "E-Mail",
       "emailAria": "E-Mail an {{name}}",

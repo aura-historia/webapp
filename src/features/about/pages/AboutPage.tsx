@@ -1,17 +1,22 @@
-import { ExternalLink, Mail } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { ArrowUpRight, Mail } from "lucide-react";
+import { Trans, useTranslation } from "react-i18next";
 
 import { LinkedInIcon } from "@/components/icons/SocialIcons.tsx";
-import { H1 } from "@/components/typography/H1";
-import { H2 } from "@/components/typography/H2";
-import { H3 } from "@/components/typography/H3";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
     ABOUT_PRINCIPLES,
     ABOUT_TEAM_MEMBERS,
     type AboutTeamMember,
 } from "@/features/about/config/aboutPage.data";
+import { LandingSection } from "@/features/landing/components/common/LandingSection.tsx";
+import {
+    HEADLINE_COMPONENTS,
+    SectionHeading,
+} from "@/features/landing/components/common/SectionHeading.tsx";
+
+const ROMAN_NUMERALS = ["I", "II", "III"] as const;
+
+const CONTACT_BUTTON_CLASS =
+    "inline-flex h-10 items-center gap-2 rounded-pill px-4 text-meta font-medium text-ink shadow-[inset_0_0_0_1px_var(--line-strong)] outline-none transition-shadow hover:shadow-[inset_0_0_0_1px_var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 function getInitials(name: string) {
     return name
@@ -31,71 +36,63 @@ export function AboutTeamMemberCard({ member }: AboutTeamMemberCardProps) {
     const { t } = useTranslation();
 
     return (
-        <Card className="flex h-full flex-col bg-surface-container-lowest">
-            <CardHeader>
-                <div className="flex items-start gap-5">
-                    {member.imageUrl ? (
-                        <img
-                            src={member.imageUrl}
-                            alt={t("aboutPage.team.imageAlt", {
-                                name: member.name,
-                            })}
-                            className="size-20 shrink-0 rounded-full border border-border/70 object-cover"
-                            loading="lazy"
-                            decoding="async"
-                        />
-                    ) : (
-                        <div
-                            className="flex size-20 shrink-0 items-center justify-center rounded-full border border-border/70 bg-surface-container-high font-display text-2xl text-primary"
-                            aria-label={t("aboutPage.team.initialsFallback", {
-                                name: member.name,
-                            })}
-                            role="img"
-                        >
-                            {getInitials(member.name)}
-                        </div>
-                    )}
-                    <div className="min-w-0">
-                        <H3 className="text-2xl sm:text-3xl">{member.name}</H3>
-                        <p className="mt-1 text-sm font-medium uppercase tracking-[0.18em] text-tertiary">
-                            {t(member.positionKey)}
-                        </p>
+        <article className="flex h-full flex-col gap-5 rounded-card bg-surface-raised p-6 text-ink shadow-ring sm:p-7">
+            <div className="flex items-center gap-4">
+                {member.imageUrl ? (
+                    <img
+                        src={member.imageUrl}
+                        alt={t("aboutPage.team.imageAlt", {
+                            name: member.name,
+                        })}
+                        className="size-16 shrink-0 rounded-full bg-image-ground object-cover shadow-ring"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                ) : (
+                    <div
+                        className="flex size-16 shrink-0 items-center justify-center rounded-full bg-oxblood font-serif text-2xl tracking-[0.02em] text-on-oxblood"
+                        aria-label={t("aboutPage.team.initialsFallback", {
+                            name: member.name,
+                        })}
+                        role="img"
+                    >
+                        {getInitials(member.name)}
                     </div>
-                </div>
-            </CardHeader>
-            <CardContent className="flex grow flex-col space-y-5">
-                {member.bioKey && (
-                    <p className="text-base leading-7 text-secondary">{t(member.bioKey)}</p>
                 )}
-                <div className="mt-auto flex flex-wrap gap-2 pt-2">
-                    <Button asChild variant="outline" size="sm">
-                        <a
-                            href={`mailto:${member.email}`}
-                            aria-label={t("aboutPage.team.emailAria", {
-                                name: member.name,
-                            })}
-                        >
-                            <Mail className="size-4" aria-hidden="true" />
-                            {t("aboutPage.team.email")}
-                        </a>
-                    </Button>
-                    <Button asChild variant="outline" size="sm">
-                        <a
-                            href={member.linkedinUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={t("aboutPage.team.linkedinAria", {
-                                name: member.name,
-                            })}
-                        >
-                            <LinkedInIcon className="size-4" />
-                            {t("aboutPage.team.linkedin")}
-                            <ExternalLink aria-hidden="true" />
-                        </a>
-                    </Button>
+                <div className="flex min-w-0 flex-col gap-1.5">
+                    <h3 className="font-serif text-title-md font-normal">{member.name}</h3>
+                    <p className="font-mono text-kicker text-ink-muted uppercase">
+                        {t(member.positionKey)}
+                    </p>
                 </div>
-            </CardContent>
-        </Card>
+            </div>
+            {member.bioKey && <p className="text-body text-ink-secondary">{t(member.bioKey)}</p>}
+            <div className="mt-auto flex flex-wrap gap-2 border-t border-line-subtle pt-4">
+                <a
+                    href={`mailto:${member.email}`}
+                    aria-label={t("aboutPage.team.emailAria", {
+                        name: member.name,
+                    })}
+                    className={CONTACT_BUTTON_CLASS}
+                >
+                    <Mail className="size-[15px]" strokeWidth={1.8} aria-hidden="true" />
+                    {t("aboutPage.team.email")}
+                </a>
+                <a
+                    href={member.linkedinUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={t("aboutPage.team.linkedinAria", {
+                        name: member.name,
+                    })}
+                    className={CONTACT_BUTTON_CLASS}
+                >
+                    <LinkedInIcon className="size-[15px]" />
+                    {t("aboutPage.team.linkedin")}
+                    <ArrowUpRight className="size-[13px]" strokeWidth={1.8} aria-hidden="true" />
+                </a>
+            </div>
+        </article>
     );
 }
 
@@ -104,90 +101,101 @@ export function AboutPage() {
     const visibleTeamMembers = ABOUT_TEAM_MEMBERS.filter((member) => !member.hidden);
 
     return (
-        <div className="bg-background">
-            <section className="border-b border-border/60 bg-surface-container-low px-4 py-18 sm:px-6 lg:px-8 lg:py-24">
-                <div className="mx-auto max-w-5xl">
-                    <span className="mb-5 block text-xs font-semibold uppercase tracking-[0.28em] text-tertiary">
+        <div className="bg-surface">
+            <section
+                aria-labelledby="about-title"
+                data-theme="dark"
+                className="bg-surface px-(--page-gutter) pt-14 pb-16 text-ink sm:py-[clamp(72px,9vw,128px)]"
+            >
+                <div className="mx-auto flex w-full max-w-content flex-col gap-5 sm:gap-7">
+                    <p className="font-mono text-[11px] tracking-[0.2em] text-brass-light uppercase sm:text-eyebrow">
                         {t("aboutPage.hero.eyebrow")}
-                    </span>
-                    <H1 className="max-w-4xl text-4xl leading-tight sm:text-5xl lg:text-6xl">
-                        {t("aboutPage.hero.title")}
-                    </H1>
-                    <p className="mt-6 max-w-3xl text-lg leading-8 text-secondary sm:text-xl">
+                    </p>
+                    <h1
+                        id="about-title"
+                        className="max-w-[1000px] font-serif text-[44px] leading-[1.02] font-normal tracking-[-0.025em] text-balance sm:text-[clamp(46px,6vw,92px)] [&_em]:text-brass-light [&_em]:italic"
+                    >
+                        <Trans i18nKey="aboutPage.hero.title" components={HEADLINE_COMPONENTS} />
+                    </h1>
+                    <p className="max-w-[680px] text-base leading-[1.55] text-pretty text-ink-secondary sm:text-lead">
                         {t("aboutPage.hero.subtitle")}
                     </p>
                 </div>
             </section>
 
-            <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-                <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-                    <div>
-                        <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.24em] text-tertiary">
-                            {t("aboutPage.mission.eyebrow")}
-                        </span>
-                        <H2 className="text-3xl leading-tight sm:text-5xl">
-                            {t("aboutPage.mission.title")}
-                        </H2>
-                    </div>
-                    <div className="space-y-5 text-base leading-7 text-secondary sm:text-lg sm:leading-8">
-                        <p>{t("aboutPage.mission.p1")}</p>
-                        <p>{t("aboutPage.mission.p2")}</p>
-                    </div>
+            <LandingSection
+                ground="surface"
+                labelledBy="about-mission-heading"
+                containerClassName="grid gap-5 sm:gap-8 min-[920px]:grid-cols-[minmax(min(460px,100%),1fr)_minmax(0,1fr)] min-[920px]:gap-14"
+            >
+                <SectionHeading
+                    id="about-mission-heading"
+                    eyebrow={`${ROMAN_NUMERALS[0]} — ${t("aboutPage.mission.eyebrow")}`}
+                    title={
+                        <Trans i18nKey="aboutPage.mission.title" components={HEADLINE_COMPONENTS} />
+                    }
+                />
+                <div className="flex flex-col gap-5 text-base leading-relaxed text-ink-secondary sm:text-body-lg min-[920px]:pt-2">
+                    <p>{t("aboutPage.mission.p1")}</p>
+                    <p>{t("aboutPage.mission.p2")}</p>
                 </div>
-            </section>
+            </LandingSection>
 
-            <section className="bg-surface-container-low px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-                <div className="mx-auto max-w-5xl">
-                    <div className="max-w-3xl">
-                        <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.24em] text-tertiary">
-                            {t("aboutPage.values.eyebrow")}
-                        </span>
-                        <H2 className="text-3xl leading-tight sm:text-5xl">
-                            {t("aboutPage.values.title")}
-                        </H2>
-                        <p className="mt-5 text-lg leading-8 text-secondary">
-                            {t("aboutPage.values.description")}
-                        </p>
-                    </div>
+            <LandingSection
+                ground="raised"
+                labelledBy="about-values-heading"
+                containerClassName="flex flex-col gap-9 sm:gap-16"
+            >
+                <SectionHeading
+                    id="about-values-heading"
+                    className="max-w-[820px]"
+                    eyebrow={`${ROMAN_NUMERALS[1]} — ${t("aboutPage.values.eyebrow")}`}
+                    title={
+                        <Trans i18nKey="aboutPage.values.title" components={HEADLINE_COMPONENTS} />
+                    }
+                    intro={t("aboutPage.values.description")}
+                />
+                <ol className="grid grid-cols-1 min-[920px]:grid-cols-3">
+                    {ABOUT_PRINCIPLES.map((item, index) => (
+                        <li
+                            key={item.titleKey}
+                            className="grid grid-cols-[56px_minmax(0,1fr)] gap-x-3 gap-y-1 border-t border-ink py-[22px] last:border-b min-[920px]:flex min-[920px]:flex-col min-[920px]:gap-4 min-[920px]:pt-7 min-[920px]:pr-7 min-[920px]:last:border-b-0"
+                        >
+                            <span
+                                aria-hidden="true"
+                                className="row-span-2 font-serif text-[36px] leading-none text-oxblood min-[920px]:text-[48px]"
+                            >
+                                {ROMAN_NUMERALS[index]}
+                            </span>
+                            <h3 className="font-serif text-[22px] font-medium sm:text-title-sm">
+                                {t(item.titleKey)}
+                            </h3>
+                            <p className="text-body text-ink-secondary">{t(item.descriptionKey)}</p>
+                        </li>
+                    ))}
+                </ol>
+            </LandingSection>
 
-                    <div className="mt-9 grid gap-4 md:grid-cols-3">
-                        {ABOUT_PRINCIPLES.map((item) => (
-                            <Card key={item.titleKey} className="bg-surface-container-lowest">
-                                <CardHeader>
-                                    <CardTitle className="font-display text-2xl font-normal text-primary">
-                                        {t(item.titleKey)}
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="text-sm leading-6 text-secondary">
-                                    {t(item.descriptionKey)}
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
+            <LandingSection
+                ground="surface"
+                labelledBy="about-team-heading"
+                containerClassName="flex flex-col gap-9 sm:gap-14"
+            >
+                <SectionHeading
+                    id="about-team-heading"
+                    className="max-w-[820px]"
+                    eyebrow={`${ROMAN_NUMERALS[2]} — ${t("aboutPage.team.eyebrow")}`}
+                    title={
+                        <Trans i18nKey="aboutPage.team.title" components={HEADLINE_COMPONENTS} />
+                    }
+                    intro={t("aboutPage.team.description")}
+                />
+                <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
+                    {visibleTeamMembers.map((member) => (
+                        <AboutTeamMemberCard key={member.id} member={member} />
+                    ))}
                 </div>
-            </section>
-
-            <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-                <div className="mx-auto max-w-5xl">
-                    <div className="max-w-3xl">
-                        <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.24em] text-tertiary">
-                            {t("aboutPage.team.eyebrow")}
-                        </span>
-                        <H2 className="text-3xl leading-tight sm:text-5xl">
-                            {t("aboutPage.team.title")}
-                        </H2>
-                        <p className="mt-5 text-lg leading-8 text-secondary">
-                            {t("aboutPage.team.description")}
-                        </p>
-                    </div>
-
-                    <div className="mt-10 grid gap-5 md:grid-cols-2">
-                        {visibleTeamMembers.map((member) => (
-                            <AboutTeamMemberCard key={member.id} member={member} />
-                        ))}
-                    </div>
-                </div>
-            </section>
+            </LandingSection>
         </div>
     );
 }

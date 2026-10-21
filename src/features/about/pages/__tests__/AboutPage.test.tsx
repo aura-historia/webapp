@@ -7,7 +7,7 @@ import { renderWithRouter } from "@/test/utils";
 
 function getCardForMember(name: string) {
     const heading = screen.getByRole("heading", { name });
-    const card = heading.closest('[data-slot="card"]');
+    const card = heading.closest("article");
     expect(card).toBeInTheDocument();
     return card as HTMLElement;
 }
@@ -58,14 +58,11 @@ describe("AboutPage", () => {
             const card = getCardForMember(member.name);
             expect(card).toHaveClass("flex", "h-full", "flex-col");
 
-            const content = card.querySelector('[data-slot="card-content"]');
-            expect(content).toHaveClass("flex", "grow", "flex-col");
-
             const emailLink = within(card).getByRole("link", {
                 name: `E-Mail an ${member.name}`,
             });
             const buttonRow = emailLink.parentElement;
-            expect(buttonRow).toHaveClass("mt-auto", "flex", "flex-wrap", "gap-2", "pt-2");
+            expect(buttonRow).toHaveClass("mt-auto", "flex", "flex-wrap", "gap-2");
         }
     });
 
