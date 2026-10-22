@@ -1566,7 +1566,6 @@
   "notifications": {
     "title": "Benachrichtigungen",
     "markAllRead": "Alle als gelesen markieren",
-    "noNotifications": "Keine Benachrichtigungen",
     "ariaLabel": "Benachrichtigungen öffnen",
     "types": {
       "priceChange": "Preisänderung",
@@ -1581,19 +1580,62 @@
     "deleteAll": "Alle löschen",
     "markRead": "Als gelesen markieren",
     "loadingError": {
-      "title": "Fehler beim Laden",
-      "description": "Benachrichtigungen konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
+      "description": "Benachrichtigungen konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+      "headline": "Benachrichtigungen <em>nicht erreichbar.</em>",
+      "retry": "Erneut versuchen"
     },
     "loadingMore": "Lade weitere Benachrichtigungen...",
     "allLoaded_one": "{{count}} Benachrichtigung geladen",
     "allLoaded_other": "Alle {{count}} Benachrichtigungen geladen",
     "noResults": {
-      "title": "Keine Benachrichtigungen",
-      "description": "Sie haben noch keine Benachrichtigungen erhalten."
+      "description": "Aktivieren Sie die Glocke bei einem Objekt auf Ihrer Merkliste oder die Benachrichtigungen eines Suchauftrags, und Änderungen erscheinen hier.",
+      "headline": "Noch keine <em>Benachrichtigungen.</em>",
+      "popoverDescription": "Preis- und Verfügbarkeitsänderungen auf Ihrer Merkliste und neue Treffer für Ihre Suchaufträge erscheinen hier."
     },
     "totalElements_one": "{{count}} Benachrichtigung",
     "totalElements_other": "{{count}} Benachrichtigungen",
-    "showAll": "Alle Benachrichtigungen anzeigen"
+    "showAll": "Alle Benachrichtigungen anzeigen",
+    "heading": "Meine <em>Benachrichtigungen.</em>",
+    "lead": "Preis- und Verfügbarkeitsänderungen auf Ihrer Merkliste, neue Treffer für Ihre Suchaufträge und Neuigkeiten zu Ihrem Partnerantrag, die neuesten zuerst.",
+    "loading": "Benachrichtigungen werden geladen",
+    "unread": "Ungelesen",
+    "new": "Neu",
+    "latest": "Neueste Benachrichtigungen",
+    "newCount_one": "{{count}} neu",
+    "newCount_other": "{{count}} neu",
+    "inTotal_one": "{{count}} insgesamt",
+    "inTotal_other": "{{count}} insgesamt",
+    "changedTo": "geändert zu",
+    "matchFor": "Neuer Treffer für <em>{{name}}</em>",
+    "allMatches": "Alle Treffer",
+    "partnerDecision": "Ihr Antrag wurde",
+    "sources": {
+      "watchlist": "Merkliste",
+      "searchFilter": "Suchauftrag"
+    },
+    "groups": {
+      "today": "Heute",
+      "thisWeek": "Diese Woche",
+      "earlier": "Früher"
+    },
+    "overview": {
+      "label": "Übersicht",
+      "unread": "Ungelesen",
+      "total": "Insgesamt",
+      "unreadInline_one": "<count>{{count}}</count> ungelesen",
+      "unreadInline_other": "<count>{{count}}</count> ungelesen",
+      "sourcesTitle": "Woher sie kommen",
+      "sourcesText": "Aktivieren Sie die Glocke bei einem Objekt auf Ihrer Merkliste für Preis- und Verfügbarkeitsänderungen oder die Benachrichtigungen eines Suchauftrags für neue Treffer.",
+      "watchlistLink": "Meine Merkliste",
+      "searchFiltersLink": "Meine Suchaufträge"
+    },
+    "deleteAllConfirm": {
+      "title": "Alle <em>Benachrichtigungen löschen?</em>",
+      "description": "Alle Ihre Benachrichtigungen werden entfernt. Ihre Merkliste und Ihre Suchaufträge bleiben unverändert. Dies kann nicht rückgängig gemacht werden.",
+      "short": "Alle Benachrichtigungen löschen? Dies kann nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "deleting": "Wird gelöscht…"
+    }
   },
   "shop": {
     "header": {

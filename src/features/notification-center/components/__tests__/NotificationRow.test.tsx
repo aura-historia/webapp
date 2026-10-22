@@ -1,5 +1,5 @@
 import { renderWithRouter } from "@/test/utils.tsx";
-import { NotificationCard } from "../NotificationCard.tsx";
+import { NotificationRow } from "../NotificationRow.tsx";
 import { screen } from "@testing-library/react";
 import { act } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -28,7 +28,7 @@ vi.mock("@/features/notification-center/api/useDeleteNotification.ts", () => ({
     useDeleteNotification: mockUseDeleteNotification,
 }));
 
-describe("NotificationCard", () => {
+describe("Notification rows", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         mockUseUserAccount.mockReturnValue({
@@ -61,7 +61,7 @@ describe("NotificationCard", () => {
 
         let container!: HTMLElement;
         await act(async () => {
-            ({ container } = renderWithRouter(<NotificationCard notification={notification} />));
+            ({ container } = renderWithRouter(<NotificationRow notification={notification} />));
         });
 
         expect(screen.getByText("Antique Shop")).toBeInTheDocument();
@@ -70,7 +70,78 @@ describe("NotificationCard", () => {
         ).toBeInTheDocument();
     });
 
-    for (const Component of [NotificationCard, NotificationItem]) {
+    it("marks an unread row with a dot and a New label, and drops both once read", async () => {
+        await act(async () => {
+            renderWithRouter(<NotificationRow notification={notification()} />);
+        });
+        expect(screen.getByText("Ungelesen")).toBeInTheDocument();
+        expect(screen.getByText("Neu")).toBeInTheDocument();
+        expect(screen.getByText("Preisänderung")).toBeInTheDocument();
+        expect(screen.getByText("· Merkliste", { exact: false })).toBeInTheDocument();
+    });
+
+    it("leaves read rows without unread markers or a mark-as-read button", async () => {
+        await act(async () => {
+            renderWithRouter(<NotificationRow notification={notification({ seen: true })} />);
+        });
+        expect(screen.queryByText("Ungelesen")).not.toBeInTheDocument();
+        expect(screen.queryByText("Neu")).not.toBeInTheDocument();
+        expect(
+            screen.queryByRole("button", { name: "Als gelesen markieren" }),
+        ).not.toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Löschen" })).toBeInTheDocument();
+    });
+
+    it("shows the relative price change on the page row", async () => {
+        let container!: HTMLElement;
+        await act(async () => {
+            ({ container } = renderWithRouter(<NotificationRow notification={notification()} />));
+        });
+        const text = (container.textContent ?? "").replace(/[  ]/g, " ");
+        expect(text).toContain("−20 %");
+    });
+
+    it("hides an unassessed listing photo until sensitive content is allowed", async () => {
+        await act(async () => {
+            renderWithRouter(<NotificationRow notification={notification()} />);
+        });
+        expect(screen.getByTestId("prohibited-image-placeholder")).toBeInTheDocument();
+        expect(document.querySelector("img")).not.toBeInTheDocument();
+    });
+
+    it("links a search filter match to its filter", async () => {
+        const { change: _change, ...product } = watchlistPayload;
+        const value = notification({
+            kind: "SEARCH_FILTER_MATCH",
+            payload: { ...product, userSearchFilterId: "filter-1", userSearchFilterName: "Vases" },
+        });
+        await act(async () => {
+            renderWithRouter(<NotificationRow notification={value} />);
+        });
+        expect(screen.getByText("Vases")).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "Alle Treffer" })).toHaveAttribute(
+            "href",
+            "/de/me/search-filter/filter-1",
+        );
+    });
+
+    it("marks a popover item read and closes the popover when its title is opened", async () => {
+        const onNavigate = vi.fn();
+        await act(async () => {
+            renderWithRouter(
+                <ul>
+                    <NotificationItem notification={notification()} onNavigate={onNavigate} />
+                </ul>,
+            );
+        });
+        await act(async () => {
+            screen.getByRole("link", { name: "Vintage Vase" }).click();
+        });
+        expect(mockUseMarkNotificationSeen().mutate).toHaveBeenCalledWith("notification-1");
+        expect(onNavigate).toHaveBeenCalledTimes(1);
+    });
+
+    for (const Component of [NotificationRow, NotificationItem]) {
         describe(Component.name, () => {
             it("formats near-midnight dates in the server-provided visitor timezone", async () => {
                 const value = notification({ created: "2026-09-10T00:30:00Z" });
