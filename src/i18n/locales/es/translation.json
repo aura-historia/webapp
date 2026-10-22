@@ -1595,7 +1595,6 @@
   "notifications": {
     "title": "Notificaciones",
     "markAllRead": "Marcar todo como leído",
-    "noNotifications": "Sin notificaciones",
     "ariaLabel": "Abrir notificaciones",
     "types": {
       "priceChange": "Cambio de precio",
@@ -1610,19 +1609,62 @@
     "deleteAll": "Eliminar todo",
     "markRead": "Marcar como leído",
     "loadingError": {
-      "title": "Error de carga",
-      "description": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde."
+      "description": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde.",
+      "headline": "Notificaciones <em>no disponibles.</em>",
+      "retry": "Intentar de nuevo"
     },
     "loadingMore": "Cargando más notificaciones...",
     "allLoaded_one": "{{count}} notificación cargada",
     "allLoaded_other": "Todas las {{count}} notificaciones cargadas",
     "noResults": {
-      "title": "Sin notificaciones",
-      "description": "Aún no has recibido ninguna notificación."
+      "description": "Active la campana de un objeto de su lista de seguimiento o las alertas de un filtro de búsqueda, y los cambios aparecerán aquí.",
+      "headline": "Aún no hay <em>notificaciones.</em>",
+      "popoverDescription": "Aquí aparecen los cambios de precio y disponibilidad de su lista de seguimiento y las nuevas coincidencias de sus filtros de búsqueda."
     },
     "totalElements_one": "{{count}} notificación",
     "totalElements_other": "{{count}} notificaciones",
-    "showAll": "Mostrar todas las notificaciones"
+    "showAll": "Mostrar todas las notificaciones",
+    "heading": "Mis <em>notificaciones.</em>",
+    "lead": "Cambios de precio y disponibilidad en su lista de seguimiento, nuevas coincidencias para sus filtros de búsqueda y novedades sobre su solicitud de socio, las más recientes primero.",
+    "loading": "Cargando notificaciones",
+    "unread": "Sin leer",
+    "new": "Nueva",
+    "latest": "Últimas notificaciones",
+    "newCount_one": "{{count}} nueva",
+    "newCount_other": "{{count}} nuevas",
+    "inTotal_one": "{{count}} en total",
+    "inTotal_other": "{{count}} en total",
+    "changedTo": "cambiado a",
+    "matchFor": "Nueva coincidencia para <em>{{name}}</em>",
+    "allMatches": "Todas las coincidencias",
+    "partnerDecision": "Su solicitud ha sido",
+    "sources": {
+      "watchlist": "Lista de seguimiento",
+      "searchFilter": "Filtro de búsqueda"
+    },
+    "groups": {
+      "today": "Hoy",
+      "thisWeek": "Esta semana",
+      "earlier": "Anteriores"
+    },
+    "overview": {
+      "label": "Resumen",
+      "unread": "Sin leer",
+      "total": "En total",
+      "unreadInline_one": "<count>{{count}}</count> sin leer",
+      "unreadInline_other": "<count>{{count}}</count> sin leer",
+      "sourcesTitle": "De dónde vienen",
+      "sourcesText": "Active la campana de un objeto de su lista de seguimiento para cambios de precio y disponibilidad, o las alertas de un filtro de búsqueda para nuevas coincidencias.",
+      "watchlistLink": "Mi lista de seguimiento",
+      "searchFiltersLink": "Mis filtros de búsqueda"
+    },
+    "deleteAllConfirm": {
+      "title": "¿Eliminar todas las <em>notificaciones?</em>",
+      "description": "Se eliminarán todas sus notificaciones. Su lista de seguimiento y sus filtros de búsqueda no cambian. Esta acción no se puede deshacer.",
+      "short": "¿Eliminar todas las notificaciones? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "deleting": "Eliminando…"
+    }
   },
   "adminListingSources": {
     "title": "Gestión de fuentes de anuncios",

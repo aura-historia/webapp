@@ -1566,7 +1566,6 @@
   "notifications": {
     "title": "Notifications",
     "markAllRead": "Mark all as read",
-    "noNotifications": "No notifications",
     "ariaLabel": "Open notifications",
     "types": {
       "priceChange": "Price change",
@@ -1581,19 +1580,62 @@
     "deleteAll": "Delete all",
     "markRead": "Mark as read",
     "loadingError": {
-      "title": "Error loading notifications",
-      "description": "Notifications could not be loaded. Please try again later."
+      "description": "Notifications could not be loaded. Please try again later.",
+      "headline": "Notifications <em>unavailable.</em>",
+      "retry": "Try again"
     },
     "loadingMore": "Loading more notifications...",
     "allLoaded_one": "{{count}} notification loaded",
     "allLoaded_other": "All {{count}} notifications loaded",
     "noResults": {
-      "title": "No notifications",
-      "description": "You haven't received any notifications yet."
+      "description": "Ring the bell on a watchlist item, or turn on alerts for a search filter, and changes will arrive here.",
+      "headline": "No notifications <em>yet.</em>",
+      "popoverDescription": "Price and availability changes on your watchlist and new matches for your search filters appear here."
     },
     "totalElements_one": "{{count}} notification",
     "totalElements_other": "{{count}} notifications",
-    "showAll": "Show all notifications"
+    "showAll": "Show all notifications",
+    "heading": "My <em>notifications.</em>",
+    "lead": "Price and availability changes on your watchlist, new matches for your search filters and news on your partner application, newest first.",
+    "loading": "Loading notifications",
+    "unread": "Unread",
+    "new": "New",
+    "latest": "Latest notifications",
+    "newCount_one": "{{count}} new",
+    "newCount_other": "{{count}} new",
+    "inTotal_one": "{{count}} in total",
+    "inTotal_other": "{{count}} in total",
+    "changedTo": "changed to",
+    "matchFor": "New match for <em>{{name}}</em>",
+    "allMatches": "All matches",
+    "partnerDecision": "Your application was",
+    "sources": {
+      "watchlist": "Watchlist",
+      "searchFilter": "Search filter"
+    },
+    "groups": {
+      "today": "Today",
+      "thisWeek": "This week",
+      "earlier": "Earlier"
+    },
+    "overview": {
+      "label": "Overview",
+      "unread": "Unread",
+      "total": "In total",
+      "unreadInline_one": "<count>{{count}}</count> unread",
+      "unreadInline_other": "<count>{{count}}</count> unread",
+      "sourcesTitle": "Where they come from",
+      "sourcesText": "Ring the bell on a watchlist item for price and availability changes, or turn on alerts for a search filter to hear about new matches.",
+      "watchlistLink": "My watchlist",
+      "searchFiltersLink": "My search filters"
+    },
+    "deleteAllConfirm": {
+      "title": "Delete all <em>notifications?</em>",
+      "description": "All your notifications will be removed. Your watchlist and search filters stay as they are. This cannot be undone.",
+      "short": "Delete all notifications? This cannot be undone.",
+      "cancel": "Cancel",
+      "deleting": "Deleting…"
+    }
   },
   "shop": {
     "header": {

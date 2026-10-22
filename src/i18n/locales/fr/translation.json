@@ -1595,7 +1595,6 @@
   "notifications": {
     "title": "Notifications",
     "markAllRead": "Marquer tout comme lu",
-    "noNotifications": "Aucune notification",
     "ariaLabel": "Ouvrir les notifications",
     "types": {
       "priceChange": "Changement de prix",
@@ -1610,19 +1609,62 @@
     "deleteAll": "Tout supprimer",
     "markRead": "Marquer comme lu",
     "loadingError": {
-      "title": "Erreur de chargement",
-      "description": "Les notifications n'ont pas pu être chargées. Veuillez réessayer plus tard."
+      "description": "Les notifications n'ont pas pu être chargées. Veuillez réessayer plus tard.",
+      "headline": "Notifications <em>inaccessibles.</em>",
+      "retry": "Réessayer"
     },
     "loadingMore": "Chargement de plus de notifications...",
     "allLoaded_one": "{{count}} notification chargée",
     "allLoaded_other": "Toutes les {{count}} notifications chargées",
     "noResults": {
-      "title": "Aucune notification",
-      "description": "Vous n'avez pas encore reçu de notifications."
+      "description": "Activez la cloche d’un objet de vos favoris ou les alertes d’un filtre de recherche, et les changements arriveront ici.",
+      "headline": "Pas encore de <em>notifications.</em>",
+      "popoverDescription": "Les changements de prix et de disponibilité de vos favoris et les nouvelles correspondances de vos filtres de recherche apparaissent ici."
     },
     "totalElements_one": "{{count}} notification",
     "totalElements_other": "{{count}} notifications",
-    "showAll": "Afficher toutes les notifications"
+    "showAll": "Afficher toutes les notifications",
+    "heading": "Mes <em>notifications.</em>",
+    "lead": "Changements de prix et de disponibilité de vos favoris, nouvelles correspondances pour vos filtres de recherche et nouvelles de votre candidature partenaire, les plus récentes d’abord.",
+    "loading": "Chargement des notifications",
+    "unread": "Non lue",
+    "new": "Nouveau",
+    "latest": "Dernières notifications",
+    "newCount_one": "{{count}} nouvelle",
+    "newCount_other": "{{count}} nouvelles",
+    "inTotal_one": "{{count}} au total",
+    "inTotal_other": "{{count}} au total",
+    "changedTo": "changé en",
+    "matchFor": "Nouvelle correspondance pour <em>{{name}}</em>",
+    "allMatches": "Toutes les correspondances",
+    "partnerDecision": "Votre candidature a été",
+    "sources": {
+      "watchlist": "Favoris",
+      "searchFilter": "Filtre de recherche"
+    },
+    "groups": {
+      "today": "Aujourd’hui",
+      "thisWeek": "Cette semaine",
+      "earlier": "Plus tôt"
+    },
+    "overview": {
+      "label": "Aperçu",
+      "unread": "Non lues",
+      "total": "Au total",
+      "unreadInline_one": "<count>{{count}}</count> non lue",
+      "unreadInline_other": "<count>{{count}}</count> non lues",
+      "sourcesTitle": "D’où elles viennent",
+      "sourcesText": "Activez la cloche d’un objet de vos favoris pour les changements de prix et de disponibilité, ou les alertes d’un filtre de recherche pour les nouvelles correspondances.",
+      "watchlistLink": "Mes favoris",
+      "searchFiltersLink": "Mes filtres de recherche"
+    },
+    "deleteAllConfirm": {
+      "title": "Supprimer toutes les <em>notifications ?</em>",
+      "description": "Toutes vos notifications seront supprimées. Vos favoris et vos filtres de recherche restent inchangés. Cette action est irréversible.",
+      "short": "Supprimer toutes les notifications ? Cette action est irréversible.",
+      "cancel": "Annuler",
+      "deleting": "Suppression…"
+    }
   },
   "adminListingSources": {
     "title": "Gestion des sources d’annonces",

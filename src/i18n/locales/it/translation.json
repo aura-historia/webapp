@@ -1595,7 +1595,6 @@
   "notifications": {
     "title": "Notifiche",
     "markAllRead": "Segna tutte come lette",
-    "noNotifications": "Nessuna notifica",
     "ariaLabel": "Apri notifiche",
     "types": {
       "priceChange": "Modifica del prezzo",
@@ -1610,19 +1609,62 @@
     "deleteAll": "Elimina tutto",
     "markRead": "Segna come letto",
     "loadingError": {
-      "title": "Errore di caricamento",
-      "description": "Le notifiche non possono essere caricate. Riprova più tardi."
+      "description": "Le notifiche non possono essere caricate. Riprova più tardi.",
+      "headline": "Notifiche <em>non raggiungibili.</em>",
+      "retry": "Riprova"
     },
     "loadingMore": "Caricamento di altre notifiche...",
     "allLoaded_one": "{{count}} notifica caricata",
     "allLoaded_other": "Tutte le {{count}} notifiche caricate",
     "noResults": {
-      "title": "Nessuna notifica",
-      "description": "Non hai ancora ricevuto alcuna notifica."
+      "description": "Attiva la campanella su un oggetto dei preferiti o gli avvisi di un filtro di ricerca, e le variazioni arriveranno qui.",
+      "headline": "Ancora nessuna <em>notifica.</em>",
+      "popoverDescription": "Qui compaiono le variazioni di prezzo e disponibilità dei tuoi preferiti e le nuove corrispondenze dei tuoi filtri di ricerca."
     },
     "totalElements_one": "{{count}} notifica",
     "totalElements_other": "{{count}} notifiche",
-    "showAll": "Mostra tutte le notifiche"
+    "showAll": "Mostra tutte le notifiche",
+    "heading": "Le mie <em>notifiche.</em>",
+    "lead": "Variazioni di prezzo e disponibilità nella tua lista dei preferiti, nuove corrispondenze per i tuoi filtri di ricerca e novità sulla tua domanda di partnership, dalle più recenti.",
+    "loading": "Caricamento delle notifiche",
+    "unread": "Non letta",
+    "new": "Nuova",
+    "latest": "Ultime notifiche",
+    "newCount_one": "{{count}} nuova",
+    "newCount_other": "{{count}} nuove",
+    "inTotal_one": "{{count}} in totale",
+    "inTotal_other": "{{count}} in totale",
+    "changedTo": "cambiato in",
+    "matchFor": "Nuova corrispondenza per <em>{{name}}</em>",
+    "allMatches": "Tutte le corrispondenze",
+    "partnerDecision": "La tua domanda è stata",
+    "sources": {
+      "watchlist": "Preferiti",
+      "searchFilter": "Filtro di ricerca"
+    },
+    "groups": {
+      "today": "Oggi",
+      "thisWeek": "Questa settimana",
+      "earlier": "Precedenti"
+    },
+    "overview": {
+      "label": "Panoramica",
+      "unread": "Non lette",
+      "total": "In totale",
+      "unreadInline_one": "<count>{{count}}</count> non letta",
+      "unreadInline_other": "<count>{{count}}</count> non lette",
+      "sourcesTitle": "Da dove arrivano",
+      "sourcesText": "Attiva la campanella su un oggetto dei preferiti per le variazioni di prezzo e disponibilità, oppure gli avvisi di un filtro di ricerca per le nuove corrispondenze.",
+      "watchlistLink": "La mia lista dei preferiti",
+      "searchFiltersLink": "I miei filtri di ricerca"
+    },
+    "deleteAllConfirm": {
+      "title": "Eliminare tutte le <em>notifiche?</em>",
+      "description": "Tutte le tue notifiche verranno rimosse. La lista dei preferiti e i filtri di ricerca restano invariati. L’operazione non può essere annullata.",
+      "short": "Eliminare tutte le notifiche? L’operazione non può essere annullata.",
+      "cancel": "Annulla",
+      "deleting": "Eliminazione…"
+    }
   },
   "adminListingSources": {
     "title": "Gestione delle fonti di annunci",
