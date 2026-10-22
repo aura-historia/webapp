@@ -13,7 +13,7 @@ import { FAQ_DATA } from "@/features/landing/components/faq-section/FAQSection.d
 import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
 import { cn } from "@/lib/utils.ts";
 
-function FaqItem({
+export function FaqItem({
     question,
     answer,
     isOpen,

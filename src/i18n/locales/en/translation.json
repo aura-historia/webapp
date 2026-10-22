@@ -992,92 +992,101 @@
   },
   "partnerProgram": {
     "hero": {
-      "badge": "Partner Program",
-      "title": "Sell antiques or art online?<br/>Reach collectors worldwide.",
-      "subtitle": "Join Aura Historia – the global platform for antiques & art where collectors find exactly what you sell. Free, no commitment, set up in minutes.",
+      "title": "Sell antiques or art online? Reach collectors <em>worldwide.</em>",
+      "subtitle": "Aura Historia is the global search for antiques and art, where collectors find exactly what you sell. Connect your shop once; buyers who find your pieces continue on your own website.",
       "primaryCta": "Become a partner",
-      "secondaryCta": "Learn more",
-      "trustBadges": {
-        "free": "100% free",
-        "noTech": "No technical skills needed",
-        "cancel": "Cancel any time"
+      "secondaryCta": "See how it works",
+      "eyebrow": "Partner program · For dealers & auction houses",
+      "preview": {
+        "caption": "How your pieces appear",
+        "sample": "Sample",
+        "badge": "Partner shop",
+        "title": "Harbour scene, oil on canvas",
+        "seller": "Your shop",
+        "cta": "Go to your shop"
+      },
+      "terms": {
+        "label": "Partner terms",
+        "commission": {
+          "value": "0%",
+          "label": "Commission on sales"
+        },
+        "fees": {
+          "value": "€0",
+          "label": "Set-up or listing fees"
+        },
+        "revenue": {
+          "value": "100%",
+          "label": "Of your revenue stays yours"
+        },
+        "cancel": {
+          "value": "Any time",
+          "label": "Leave without notice"
+        }
       }
     },
     "motivation": {
-      "title": "Why join the program?",
-      "subtitle": "Aura Historia connects motivated collectors directly with your pieces – with zero sales commission.",
+      "title": "Collectors are already searching. <em>Let them find you.</em>",
+      "subtitle": "Aura Historia connects motivated collectors directly with your pieces. We send them to your shop, and we take no commission on what they buy.",
       "items": {
         "audience": {
           "title": "A global collector community",
-          "description": "Reach buyers in 15+ countries who actively search for rare antiques and art."
+          "description": "Reach buyers across many countries who actively search for rare antiques and art, each in their own language."
         },
         "traffic": {
           "title": "More qualified traffic",
-          "description": "We send interested visitors straight to your shop – every click counts for you, not for us."
+          "description": "We send interested visitors straight to your shop. Every click counts for you, not for us."
         },
         "highIntent": {
-          "title": "High-intent leads",
-          "description": "Our intelligent platform matches collectors with what they truly want. The result: enquiries with real buying intent."
+          "title": "Enquiries with intent",
+          "description": "Our search matches collectors with what they are actually looking for, so the visitors you receive arrive ready to buy."
         },
         "trust": {
-          "title": "Partner-Shop badge",
-          "description": "Stand out with the verified Partner-Shop badge and earn the trust of demanding collectors."
+          "title": "The Partner Shop badge",
+          "description": "Your listings carry the verified Partner Shop badge, a mark of trust for demanding collectors."
         },
         "realtime": {
           "title": "Real-time sync",
-          "description": "New pieces appear in our search instantly – your buyers are the first to know."
+          "description": "New pieces appear in our search as soon as you list them, so your buyers are the first to know."
         },
         "noCommission": {
           "title": "No sales commission",
           "description": "We don't earn from your sales. You keep 100% of your revenue."
         }
-      }
-    },
-    "stats": {
-      "title": "What our partners experience",
-      "subtitle": "Current averages across our partner network.",
-      "trafficIncrease": {
-        "value": "XX%",
-        "label": "More traffic after 8 weeks"
       },
-      "newBuyers": {
-        "value": "XX%",
-        "label": "Increase in conversion rate from Aura Historia buyers"
-      },
-      "countries": {
-        "value": "XX",
-        "label": "New countries enquiries come from"
-      },
-      "setup": {
-        "value": "< 15 min",
-        "label": "Until your first product is live"
-      },
-      "disclaimer": "Numbers reflect averages across active partner shops. Individual results may vary."
+      "eyebrow": "Why join"
     },
     "integrations": {
-      "title": "Connect your inventory",
-      "subtitle": "Choose a plugin or a custom integration with scoped access to your provider.",
+      "title": "Connect your <em>inventory.</em>",
+      "subtitle": "Choose a plugin for your shop system, or build a custom integration with scoped access to your provider.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Install our extension directly from the WordPress plugin directory.",
+        "description": "Install our extension directly from the WordPress plugin directory. It handles the sync for you.",
         "cta": "Open WordPress plugin",
-        "badge": "Recommended"
+        "badge": "Recommended",
+        "kicker": "Plugin · WordPress directory"
       },
       "shopify": {
         "title": "Shopify app",
-        "description": "Open our listing directly in the Shopify App Store.",
+        "description": "Install our app from the Shopify App Store and your listings sync from your store.",
         "cta": "Open Shopify App Store",
-        "badge": "Popular"
+        "badge": "Popular",
+        "kicker": "App · Shopify App Store"
       },
       "customApi": {
         "title": "Custom API integration",
         "description": "Synchronize listings with a scoped access token and synchronous batches of up to 100 entries.",
         "cta": "View API docs",
-        "badge": "For developers"
-      }
+        "badge": "For developers",
+        "kicker": "REST API · Access token",
+        "exampleLabel": "POST · Listing batch",
+        "result": "every entry written"
+      },
+      "eyebrow": "Connect",
+      "newTab": "(opens in a new tab)"
     },
     "howEasy": {
-      "title": "Online in three steps",
+      "title": "Online in <em>three steps.</em>",
       "subtitle": "No code, no prior knowledge, no risk. Here's how you become a partner.",
       "steps": {
         "apply": {
@@ -1086,17 +1095,18 @@
         },
         "claim": {
           "title": "Set up your shop",
-          "description": "Claim your shop and complete your profile in our dashboard."
+          "description": "Claim your shop and complete its profile in the partner dashboard."
         },
         "connect": {
           "title": "Activate the integration",
-          "description": "Choose WooCommerce, Shopify or our API – your products appear live automatically."
+          "description": "Choose WooCommerce, Shopify or our API. Your products then appear in the search automatically."
         }
-      }
+      },
+      "eyebrow": "How it works",
+      "cta": "Start your application"
     },
     "faq": {
-      "title": "Partner program · frequently asked questions",
-      "subtitle": "Answers to the questions partners ask us most.",
+      "title": "What partners <em>ask us most.</em>",
       "items": {
         "free": {
           "question": "What does the partner program cost?",
@@ -1130,24 +1140,29 @@
           "question": "Will I get help during setup?",
           "answer": "Yes. Our partner team supports you personally during onboarding and is reachable by email – also long after launch."
         }
-      }
+      },
+      "eyebrow": "Questions",
+      "contact": "Something else on your mind? Write to <mail>{{email}}</mail>"
     },
     "customIntegrationPage": {
       "hero": {
-        "eyebrow": "Partner program · Custom API integration",
-        "title": "Connect your shop with our API",
+        "title": "Connect your shop with <em>our API.</em>",
         "subtitle": "Connect your inventory through a provider you have access to. Synchronous batches return completed write results; inspect failures before retrying.",
         "primaryCta": "Manage access tokens",
-        "secondaryCta": "Open API documentation"
+        "secondaryCta": "Open API documentation",
+        "breadcrumb": "Partner program",
+        "current": "Custom API integration",
+        "newTab": "(opens in a new tab)"
       },
       "concept": {
-        "title": "Synchronous listing batches",
+        "title": "Synchronous <em>listing batches.</em>",
         "description": "POST, PATCH, PUT and DELETE complete writes synchronously. HTTP 200 contains only failed entries; [] means every entry succeeded, including an empty batch. Search visibility is a separate step.",
         "flowLabel": "Typical flow",
         "flow": {
           "send": "Send up to 100 entries",
-          "completed": "HTTP 200 · writes completed",
-          "failures": "Inspect failures before retrying"
+          "completed": "Writes completed",
+          "failures": "Inspect failures before retrying",
+          "allWritten": "[] = all written"
         },
         "benefits": {
           "synchronous": {
@@ -1158,7 +1173,9 @@
             "title": "Retry precisely",
             "description": "For a partial failure, correct and retry only failed entries where appropriate. If all entries fail, inspect the problem response."
           }
-        }
+        },
+        "eyebrow": "How batches work",
+        "flowCaption": "Synchronous"
       },
       "summary": {
         "title": "What you need for the first sync",
@@ -1176,10 +1193,11 @@
             "title": "A small listing batch",
             "description": "Start with a few entries and inspect the response. Every method accepts at most 100 entries and allows []."
           }
-        }
+        },
+        "kicker": "Checklist · first sync"
       },
       "guide": {
-        "title": "From access token to first product sync",
+        "title": "From access token to <em>first product sync.</em>",
         "subtitle": "A practical setup flow for connecting a custom shop system to Aura Historia.",
         "stepLabel": "Step {{number}}",
         "endpointLabel": "Relevant endpoint",
@@ -1194,7 +1212,8 @@
             "retryCta": "Try again",
             "empty": "You currently have no access to providers. A previous grant may have been revoked.",
             "applyCta": "Apply for a partner shop",
-            "selectionLabel": "Provider for this integration"
+            "selectionLabel": "Provider for this integration",
+            "signInHint": "Sign in to see the providers your account can access."
           },
           "requestKey": {
             "title": "Create a user access token",
@@ -1202,27 +1221,42 @@
             "focus": "Copy the token immediately: it is shown only once. Store it securely and send it as a Bearer token with every API request.",
             "cta": "Create user access token",
             "defaultTokenName": "Custom API product sync",
-            "visualTitle": "Create and save credentials",
-            "visualCaption": "Access token and shop ID"
+            "summary": {
+              "name": "Name",
+              "scope": "Scope",
+              "provider": "Provider",
+              "none": "Not selected"
+            }
           },
           "preparePayload": {
             "title": "Prepare and send your first product request",
             "description": "The URL uses the selected provider's listingSourceId. Replace YOUR_USER_ACCESS_TOKEN on your server and POST the example batch.",
             "focus": "Check HTTP 200 and the failure array. Queue acceptance does not prove a successful listing write.",
-            "visualTitle": "Prepare JSON payload",
-            "visualCaption": "Batch structure and required fields"
+            "copy": "Copy",
+            "copied": "Copied"
           },
           "verifyResults": {
             "title": "Inspect the batch result",
             "description": "A successful empty failure array is []. A partial result names only failed entries; an all-failure batch returns a problem response.",
-            "focus": "Store the response securely and retry only failures that can be corrected or retried."
+            "focus": "Store the response securely and retry only failures that can be corrected or retried.",
+            "outcomes": {
+              "allWritten": "All written",
+              "partial": "Partial",
+              "allFailed": "All failed",
+              "failures": "failures"
+            }
           }
-        }
+        },
+        "eyebrow": "Set-up guide"
       },
       "endpoints": {
-        "title": "Partner product API reference",
-        "subtitle": "The embedded OpenAPI reference focuses on the batch endpoints you need for a custom integration.",
-        "embedTitle": "Partner product API reference"
+        "title": "Partner product <em>API reference.</em>",
+        "subtitle": "The rules each method follows, then the embedded OpenAPI reference for the batch endpoints you need.",
+        "embedTitle": "Partner product API reference",
+        "eyebrow": "Reference",
+        "frameLabel": "OpenAPI · Partner products",
+        "fullDocs": "Full docs",
+        "allMethods": "All methods"
       },
       "contract": {
         "batch": {
@@ -1234,11 +1268,11 @@
           "description": "POST requires sourceListingId, url and images; include localized title and description when available (the current contract allows omission or null). Seller and address fields are not supported. Availability is nullable. Asking price is { type: MONETARY, currency: EUR, amount: 420000 } in minor currency units, or { type: ON_REQUEST }; null records no price."
         },
         "patch": {
-          "title": "PATCH: preserve or clear",
+          "title": "Preserve or clear",
           "description": "Omitted members preserve existing facts. null clears availability, price and each price estimate. url: null, images: null and auction: null are invalid (400 BAD_BODY_VALUE). images: [] clears images. The complete batch contract is validated before entry transactions begin."
         },
         "put": {
-          "title": "PUT: upsert semantics",
+          "title": "Upsert semantics",
           "description": "For existing listings, omit availability/prices to preserve, send null to clear or a value to set. Omit images to preserve, [] to clear, or an array to replace; null is invalid. Omit url or send null to preserve; a URL replaces it. title/description apply only on creation. New listings require sourceListingId, url and images; omitted/null availability and prices record no value."
         },
         "auction": {
@@ -1256,10 +1290,48 @@
       }
     },
     "finalCta": {
-      "title": "Ready to reach collectors worldwide?",
+      "title": "Ready to reach collectors <em>worldwide?</em>",
       "subtitle": "Apply for free in under two minutes. No contract, no risk, full control.",
       "primary": "Become a partner now",
-      "secondary": "Email the partner team"
+      "secondary": "Email the partner team",
+      "eyebrow": "Apply"
+    },
+    "ownership": {
+      "eyebrow": "What stays yours",
+      "title": "We bring the collectors. <em>Your shop stays yours.</em>",
+      "subtitle": "Aura Historia adds discovery and traffic. It does not stand between you and your buyers.",
+      "items": {
+        "customers": {
+          "label": "Customer relationship",
+          "value": "Yours",
+          "detail": "Buyers are sent straight to your shop to complete the purchase."
+        },
+        "checkout": {
+          "label": "Payment & checkout",
+          "value": "Yours",
+          "detail": "Payment processing stays on your website, with your existing provider."
+        },
+        "revenue": {
+          "label": "Revenue",
+          "value": "100% yours",
+          "detail": "No set-up, listing or sales fees. We take no commission."
+        },
+        "channels": {
+          "label": "Other channels",
+          "value": "Unchanged",
+          "detail": "Keep selling on your own site and every platform you already use."
+        },
+        "data": {
+          "label": "Product data",
+          "value": "Public details only",
+          "detail": "We sync publicly visible product information to make it discoverable. You keep full control."
+        },
+        "partnership": {
+          "label": "Partnership",
+          "value": "End it any time",
+          "detail": "No notice and no reason needed. We remove your products on request right away."
+        }
+      }
     }
   },
   "apiErrors": {

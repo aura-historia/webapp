@@ -1,9 +1,9 @@
 export const PARTNER_PROGRAM_FRAGMENTS = {
     hero: "hero",
     motivation: "motivation",
-    integrations: "integrations",
     howEasy: "how-easy",
-    stats: "stats",
+    integrations: "integrations",
+    ownership: "what-stays-yours",
     faq: "faq",
     apply: "apply",
 } as const;

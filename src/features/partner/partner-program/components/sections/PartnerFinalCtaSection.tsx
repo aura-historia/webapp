@@ -1,52 +1,72 @@
-import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button.tsx";
-import { ArrowRight, Mail } from "lucide-react";
-import { H2 } from "@/components/typography/H2.tsx";
 import { Link } from "@tanstack/react-router";
+import { ArrowRight, Mail } from "lucide-react";
+import { Trans, useTranslation } from "react-i18next";
+import {
+    CONTACT_EMAIL,
+    NAV_FOCUS_CLASS,
+} from "@/features/app-shell/components/navigation/navigationConfig.ts";
+import { LandingSection } from "@/features/landing/components/common/LandingSection.tsx";
+import {
+    HEADLINE_COMPONENTS,
+    SectionHeading,
+} from "@/features/landing/components/common/SectionHeading.tsx";
+import { PARTNER_PROGRAM_FRAGMENTS } from "@/features/partner/partner-program/config/partnerProgramFragments.ts";
+import { cn } from "@/lib/utils.ts";
 
+/** The closing oxblood band: apply in the partner dashboard, or write to the partner team. */
 export default function PartnerFinalCtaSection() {
     const { t } = useTranslation();
 
     return (
-        <section
-            className="relative overflow-hidden bg-linear-to-br from-primary to-primary-container px-4 py-24 sm:px-8 text-primary-foreground"
-            aria-labelledby="partner-final-cta-title"
+        <LandingSection
+            ground="oxblood"
+            id={PARTNER_PROGRAM_FRAGMENTS.apply}
+            labelledBy="partner-final-cta-title"
+            className="py-16 sm:py-[clamp(72px,9vw,120px)]"
+            containerClassName="grid grid-cols-1 items-end gap-8 lg:grid-cols-2 lg:gap-12"
         >
-            <div className="mx-auto max-w-4xl text-center flex flex-col items-center gap-8">
-                <H2
-                    id="partner-final-cta-title"
-                    className="text-3xl sm:text-5xl font-normal text-primary-foreground"
+            <SectionHeading
+                id="partner-final-cta-title"
+                onInk
+                eyebrowClassName="text-brass-light"
+                eyebrow={t("partnerProgram.finalCta.eyebrow")}
+                title={
+                    <Trans
+                        i18nKey="partnerProgram.finalCta.title"
+                        components={HEADLINE_COMPONENTS}
+                    />
+                }
+                intro={
+                    <span className="text-on-oxblood-muted">
+                        {t("partnerProgram.finalCta.subtitle")}
+                    </span>
+                }
+            />
+            <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-3 lg:justify-end">
+                <Link
+                    to="/$lng/partners/applications"
+                    params={true}
+                    from="/$lng"
+                    data-theme="light"
+                    className={cn(
+                        "inline-flex h-[52px] items-center justify-center gap-2.5 rounded-pill bg-surface px-7 text-[15px] font-medium text-ink transition-opacity hover:opacity-90 sm:h-[54px]",
+                        NAV_FOCUS_CLASS,
+                    )}
                 >
-                    {t("partnerProgram.finalCta.title")}
-                </H2>
-                <p className="max-w-2xl text-base sm:text-lg text-primary-foreground/85">
-                    {t("partnerProgram.finalCta.subtitle")}
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto justify-center">
-                    <Button
-                        asChild
-                        size="lg"
-                        variant="secondary"
-                        className="min-h-12 bg-tertiary text-on-tertiary hover:bg-tertiary/90"
-                    >
-                        <Link to="/$lng/partners/applications" params={true} from="/$lng">
-                            {t("partnerProgram.finalCta.primary")}
-                            <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-                        </Link>
-                    </Button>
-                    <Button
-                        asChild
-                        size="lg"
-                        variant="outline"
-                        className="min-h-12 border-primary-foreground/40 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
-                    >
-                        <a href="mailto:contact@aura-historia.com">
-                            <Mail className="mr-2 h-4 w-4" aria-hidden="true" />
-                            {t("partnerProgram.finalCta.secondary")}
-                        </a>
-                    </Button>
-                </div>
+                    {t("partnerProgram.finalCta.primary")}
+                    <ArrowRight aria-hidden="true" className="size-4" strokeWidth={1.8} />
+                </Link>
+                <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    className={cn(
+                        "inline-flex h-[52px] items-center justify-center gap-2.5 rounded-pill px-7 text-[15px] text-on-oxblood shadow-[inset_0_0_0_1px_rgba(251,248,242,0.4)] transition-shadow hover:shadow-[inset_0_0_0_1px_var(--on-oxblood)] sm:h-[54px]",
+                        NAV_FOCUS_CLASS,
+                    )}
+                >
+                    <Mail aria-hidden="true" className="size-4" strokeWidth={1.8} />
+                    {t("partnerProgram.finalCta.secondary")}
+                </a>
             </div>
-        </section>
+        </LandingSection>
     );
 }
