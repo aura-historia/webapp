@@ -997,92 +997,101 @@
   },
   "partnerProgram": {
     "hero": {
-      "badge": "Programma Partner",
-      "title": "Vendi antiquariato o arte online?<br/>Raggiungi collezionisti in tutto il mondo.",
-      "subtitle": "Entra in Aura Historia, la piattaforma globale per antiquariato e arte dove i collezionisti trovano esattamente ciò che vendi. Gratis, senza vincoli e pronta in pochi minuti.",
+      "title": "Vendi antiquariato o arte online? Raggiungi collezionisti <em>in tutto il mondo.</em>",
+      "subtitle": "Aura Historia è la ricerca globale di antiquariato e arte, dove i collezionisti trovano esattamente ciò che vendi. Collega il tuo shop una volta; chi trova i tuoi pezzi acquista sul tuo sito.",
       "primaryCta": "Diventa partner",
-      "secondaryCta": "Scopri di più",
-      "trustBadges": {
-        "free": "100 % gratis",
-        "noTech": "Nessuna competenza tecnica",
-        "cancel": "Esci quando vuoi"
+      "secondaryCta": "Come funziona",
+      "eyebrow": "Programma partner · Per mercanti e case d’asta",
+      "preview": {
+        "caption": "Come appaiono i tuoi pezzi",
+        "sample": "Esempio",
+        "badge": "Partner-Shop",
+        "title": "Scena portuale, olio su tela",
+        "seller": "Il tuo shop",
+        "cta": "Al tuo shop"
+      },
+      "terms": {
+        "label": "Condizioni per i partner",
+        "commission": {
+          "value": "0%",
+          "label": "Commissione sulle vendite"
+        },
+        "fees": {
+          "value": "0 €",
+          "label": "Costi di attivazione o di pubblicazione"
+        },
+        "revenue": {
+          "value": "100%",
+          "label": "Del fatturato resta tuo"
+        },
+        "cancel": {
+          "value": "In qualsiasi momento",
+          "label": "Uscita senza preavviso"
+        }
       }
     },
     "motivation": {
-      "title": "Perché diventare partner?",
-      "subtitle": "Aura Historia mette in contatto collezionisti motivati direttamente con i tuoi pezzi, senza commissioni sulle vendite.",
+      "title": "I collezionisti stanno già cercando. <em>Fatti trovare.</em>",
+      "subtitle": "Aura Historia mette in contatto collezionisti motivati direttamente con i tuoi pezzi. Li indirizziamo al tuo shop e non prendiamo commissioni sui loro acquisti.",
       "items": {
         "audience": {
           "title": "Community globale di collezionisti",
-          "description": "Raggiungi acquirenti in oltre 15 paesi che cercano attivamente antiquariato e arte rari."
+          "description": "Raggiungi acquirenti di molti paesi che cercano attivamente antiquariato e arte rari, ciascuno nella propria lingua."
         },
         "traffic": {
           "title": "Più traffico qualificato",
-          "description": "Inviamo i visitatori interessati direttamente al tuo shop: ogni clic conta per te, non per noi."
+          "description": "Inviamo i visitatori interessati direttamente al tuo shop. Ogni clic conta per te, non per noi."
         },
         "highIntent": {
-          "title": "Lead ad alta intenzione",
-          "description": "La nostra piattaforma intelligente abbina i collezionisti a ciò che cercano davvero. Il risultato: richieste con reale intenzione d'acquisto."
+          "title": "Richieste con intenzione d’acquisto",
+          "description": "La nostra ricerca collega i collezionisti a ciò che cercano davvero, così i visitatori che ricevi arrivano pronti ad acquistare."
         },
         "trust": {
-          "title": "Badge Partner-Shop",
-          "description": "Distinguiti con il badge verificato Partner-Shop e conquista la fiducia dei collezionisti più esigenti."
+          "title": "Il badge Partner-Shop",
+          "description": "I tuoi annunci portano il badge verificato Partner-Shop, un segno di fiducia per collezionisti esigenti."
         },
         "realtime": {
           "title": "Sincronizzazione in tempo reale",
-          "description": "I nuovi pezzi compaiono subito nella nostra ricerca: i tuoi acquirenti sono i primi a saperlo."
+          "description": "I nuovi pezzi compaiono nella nostra ricerca non appena li pubblichi, così i tuoi acquirenti sono i primi a saperlo."
         },
         "noCommission": {
           "title": "Nessuna commissione di vendita",
           "description": "Non guadagniamo sulle tue vendite. Trattieni il 100 % dei tuoi ricavi."
         }
-      }
-    },
-    "stats": {
-      "title": "Cosa vivono i nostri partner",
-      "subtitle": "Medie attuali osservate sulla nostra rete di partner.",
-      "trafficIncrease": {
-        "value": "XX %",
-        "label": "Traffico in più dopo 8 settimane"
       },
-      "newBuyers": {
-        "value": "XX %",
-        "label": "Aumento del tasso di conversione grazie agli acquirenti di Aura Historia"
-      },
-      "countries": {
-        "value": "XX",
-        "label": "Nuovi Paesi da cui arrivano richieste"
-      },
-      "setup": {
-        "value": "< 15 min",
-        "label": "Per avere il primo prodotto online"
-      },
-      "disclaimer": "I valori derivano dalle medie degli shop partner attivi. I risultati individuali possono variare."
+      "eyebrow": "Perché aderire"
     },
     "integrations": {
-      "title": "Colleghi il suo inventario",
-      "subtitle": "Scelga un plugin o un’integrazione personalizzata con accesso limitato al suo fornitore.",
+      "title": "Collega il tuo <em>inventario.</em>",
+      "subtitle": "Scegli un plugin per il tuo sistema di shop o crea un’integrazione personalizzata con accesso limitato al tuo fornitore.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Installa la nostra estensione direttamente dal repository plugin di WordPress.",
+        "description": "Installa la nostra estensione direttamente dalla directory dei plugin di WordPress. Pensa lei alla sincronizzazione.",
         "cta": "Apri plugin WordPress",
-        "badge": "Consigliato"
+        "badge": "Consigliato",
+        "kicker": "Plugin · Directory WordPress"
       },
       "shopify": {
         "title": "App Shopify",
-        "description": "Apri direttamente la nostra scheda nello Shopify App Store.",
+        "description": "Installa la nostra app dallo Shopify App Store e i tuoi annunci si sincronizzano dal tuo shop.",
         "cta": "Apri Shopify App Store",
-        "badge": "Popolare"
+        "badge": "Popolare",
+        "kicker": "App · Shopify App Store"
       },
       "customApi": {
         "title": "Integrazione API personalizzata",
         "description": "Sincronizzi gli annunci con un token di accesso limitato e batch sincroni fino a 100 voci.",
         "cta": "Vedi documentazione API",
-        "badge": "Per sviluppatori"
-      }
+        "badge": "Per sviluppatori",
+        "kicker": "API REST · Token di accesso",
+        "exampleLabel": "POST · Lotto di annunci",
+        "result": "tutte le voci scritte"
+      },
+      "eyebrow": "Collegare",
+      "newTab": "(si apre in una nuova scheda)"
     },
     "howEasy": {
-      "title": "Online in tre passi",
+      "title": "Online in <em>tre passaggi.</em>",
       "subtitle": "Niente codice, nessun prerequisito, nessun rischio. Ecco come diventare partner.",
       "steps": {
         "apply": {
@@ -1091,17 +1100,18 @@
         },
         "claim": {
           "title": "Configura lo shop",
-          "description": "Rivendica il tuo shop e completa il profilo nella nostra dashboard."
+          "description": "Rivendica il tuo shop e completa il profilo nella dashboard partner."
         },
         "connect": {
           "title": "Attiva l'integrazione",
-          "description": "Scegli WooCommerce, Shopify o la nostra API – i tuoi prodotti appaiono live in automatico."
+          "description": "Scegli WooCommerce, Shopify o la nostra API. I tuoi prodotti compaiono poi automaticamente nella ricerca."
         }
-      }
+      },
+      "eyebrow": "Come funziona",
+      "cta": "Inizia la candidatura"
     },
     "faq": {
-      "title": "Programma Partner · domande frequenti",
-      "subtitle": "Le risposte alle domande più ricorrenti.",
+      "title": "Ciò che i partner <em>ci chiedono più spesso.</em>",
       "items": {
         "free": {
           "question": "Quanto costa il programma Partner?",
@@ -1135,30 +1145,36 @@
           "question": "Avrò supporto durante la configurazione?",
           "answer": "Sì. Il nostro team partner ti accompagna personalmente nell'onboarding ed è raggiungibile via email anche molto dopo il lancio."
         }
-      }
+      },
+      "eyebrow": "Domande",
+      "contact": "Hai un’altra domanda? Scrivi a <mail>{{email}}</mail>"
     },
     "finalCta": {
-      "title": "Pronto a raggiungere collezionisti nel mondo?",
+      "title": "Pronto a raggiungere collezionisti <em>in tutto il mondo?</em>",
       "subtitle": "Candidati gratuitamente in meno di due minuti. Senza contratti, senza rischi, con pieno controllo.",
       "primary": "Diventa partner ora",
-      "secondary": "Scrivi al team partner"
+      "secondary": "Scrivi al team partner",
+      "eyebrow": "Candidarsi"
     },
     "customIntegrationPage": {
       "hero": {
-        "eyebrow": "Programma partner · Integrazione API personalizzata",
-        "title": "Collega il tuo shop con la nostra API",
+        "title": "Colleghi il suo negozio alla <em>nostra API.</em>",
         "subtitle": "Colleghi il suo inventario tramite un fornitore a cui è stato concesso l’accesso. I batch sincroni restituiscono i risultati delle scritture completate; verifichi gli errori prima di riprovare.",
         "primaryCta": "Gestisci i token di accesso",
-        "secondaryCta": "Apri la documentazione API"
+        "secondaryCta": "Apri la documentazione API",
+        "breadcrumb": "Programma partner",
+        "current": "Integrazione API personalizzata",
+        "newTab": "(si apre in una nuova scheda)"
       },
       "concept": {
-        "title": "Batch di annunci sincroni",
+        "title": "Lotti di annunci <em>sincroni.</em>",
         "description": "POST, PATCH, PUT e DELETE completano le scritture in modo sincrono. HTTP 200 contiene solo le voci non riuscite; [] indica successo completo, anche per un batch vuoto. La visibilità nella ricerca è un passaggio separato.",
         "flowLabel": "Flusso tipico",
         "flow": {
           "send": "Invii fino a 100 voci",
-          "completed": "HTTP 200 · scritture completate",
-          "failures": "Verifichi gli errori prima di riprovare"
+          "completed": "Scritture completate",
+          "failures": "Verifichi gli errori prima di riprovare",
+          "allWritten": "[] = tutto scritto"
         },
         "benefits": {
           "synchronous": {
@@ -1169,7 +1185,9 @@
             "title": "Ripeta in modo mirato",
             "description": "In caso di errore parziale, corregga e ripeta solo le voci non riuscite quando opportuno. Se tutte falliscono, esamini la risposta di problema."
           }
-        }
+        },
+        "eyebrow": "Come funzionano i lotti",
+        "flowCaption": "Sincrono"
       },
       "summary": {
         "title": "Cosa serve per la prima sincronizzazione",
@@ -1187,10 +1205,11 @@
             "title": "Un piccolo batch di annunci",
             "description": "Inizi con poche voci e verifichi la risposta. Ogni metodo accetta al massimo 100 voci e consente []."
           }
-        }
+        },
+        "kicker": "Checklist · prima sincronizzazione"
       },
       "guide": {
-        "title": "Dal token di accesso alla prima sincronizzazione",
+        "title": "Dal token di accesso alla <em>prima sincronizzazione.</em>",
         "subtitle": "Un flusso pratico per collegare un sistema shop personalizzato ad Aura Historia.",
         "stepLabel": "Passo {{number}}",
         "endpointLabel": "Endpoint rilevante",
@@ -1205,7 +1224,8 @@
             "retryCta": "Riprova",
             "empty": "Al momento non ha accesso ad alcun fornitore. Un accesso precedente potrebbe essere stato revocato.",
             "applyCta": "Richiedi uno shop partner",
-            "selectionLabel": "Fornitore per questa integrazione"
+            "selectionLabel": "Fornitore per questa integrazione",
+            "signInHint": "Acceda per vedere i fornitori a cui il suo account ha accesso."
           },
           "requestKey": {
             "title": "Crea un token di accesso utente",
@@ -1213,27 +1233,42 @@
             "focus": "Copia subito il token: viene mostrato una sola volta. Conservalo in modo sicuro e invialo come token Bearer con ogni richiesta API.",
             "cta": "Crea token di accesso utente",
             "defaultTokenName": "Sincronizzazione prodotti tramite API personalizzata",
-            "visualTitle": "Crea e salva le credenziali",
-            "visualCaption": "Token di accesso e ID shop"
+            "summary": {
+              "name": "Nome",
+              "scope": "Autorizzazione",
+              "provider": "Fornitore",
+              "none": "Non selezionato"
+            }
           },
           "preparePayload": {
             "title": "Prepara e invia la prima richiesta prodotti",
             "description": "L’URL utilizza il listingSourceId del fornitore selezionato. Sostituisca YOUR_USER_ACCESS_TOKEN sul server e invii il batch di esempio con POST.",
             "focus": "Verifichi HTTP 200 e l’array degli errori. L’accettazione in coda non conferma una scrittura riuscita.",
-            "visualTitle": "Preparare il payload JSON",
-            "visualCaption": "Struttura del batch e campi obbligatori"
+            "copy": "Copia",
+            "copied": "Copiato"
           },
           "verifyResults": {
             "title": "Verifichi il risultato del batch",
             "description": "Un array di errori vuoto [] indica successo. Un risultato parziale identifica solo le voci non riuscite; un batch interamente fallito restituisce una risposta di problema.",
-            "focus": "Conservi la risposta in modo sicuro e ripeta solo gli errori correggibili o riprovabili."
+            "focus": "Conservi la risposta in modo sicuro e ripeta solo gli errori correggibili o riprovabili.",
+            "outcomes": {
+              "allWritten": "Tutto scritto",
+              "partial": "Parziale",
+              "allFailed": "Tutto fallito",
+              "failures": "errori"
+            }
           }
-        }
+        },
+        "eyebrow": "Guida alla configurazione"
       },
       "endpoints": {
-        "title": "Riferimento API prodotti partner",
-        "subtitle": "Il riferimento OpenAPI integrato si concentra sugli endpoint batch necessari per un’integrazione personalizzata.",
-        "embedTitle": "Riferimento API prodotti partner"
+        "title": "Riferimento <em>API prodotti partner.</em>",
+        "subtitle": "Le regole di ogni metodo, poi il riferimento OpenAPI integrato per gli endpoint a lotti di cui ha bisogno.",
+        "embedTitle": "Riferimento API prodotti partner",
+        "eyebrow": "Riferimento",
+        "frameLabel": "OpenAPI · Prodotti partner",
+        "fullDocs": "Documentazione completa",
+        "allMethods": "Tutti i metodi"
       },
       "contract": {
         "batch": {
@@ -1245,11 +1280,11 @@
           "description": "POST richiede sourceListingId, url e images; includa title e description localizzati quando disponibili (il contratto attuale consente omissione o null). I campi venditore e indirizzo non sono supportati. availability può essere null. Il prezzo è { type: MONETARY, currency: EUR, amount: 420000 } in unità monetarie minori, oppure { type: ON_REQUEST }; null non registra un prezzo."
         },
         "patch": {
-          "title": "PATCH: conservare o cancellare",
+          "title": "Conservare o cancellare",
           "description": "I campi omessi conservano i valori esistenti. null cancella availability, price e ogni stima di prezzo. url: null, images: null e auction: null non sono validi (400 BAD_BODY_VALUE). images: [] cancella le immagini. Il contratto dell’intero batch viene validato prima delle transazioni."
         },
         "put": {
-          "title": "PUT: semantica di inserimento o aggiornamento",
+          "title": "Semantica di inserimento o aggiornamento",
           "description": "Per gli annunci esistenti, ometta availability/prezzi per conservare, invii null per cancellare o un valore per impostare. Ometta images per conservare, [] per cancellare o un array per sostituire; null non è valido. Omettere url o inviare null conserva l’URL; un valore lo sostituisce. title/description si applicano solo alla creazione. I nuovi annunci richiedono sourceListingId, url e images; availability e prezzi omessi/null non registrano un valore."
         },
         "auction": {
@@ -1263,6 +1298,43 @@
         "woocommerce": {
           "title": "WooCommerce: da server a server",
           "description": "POST /api/v1/webhooks/woocommerce/{listingSourceId} richiede autorizzazione Bearer, x-wc-webhook-topic e x-wc-webhook-signature (HMAC-SHA256 in base64 sui byte esatti del corpo); x-wc-webhook-delivery-id è facoltativo. Conservi i segreti sul server; non li invii né li esponga nel browser. HTTP 204 senza corpo conferma l’ammissione o uno stato ignorato autorizzato, non la cattura o la visibilità. date_modified_gmt supporta UTC senza offset, Z o +00:00; altri offset non sono validi. I conflitti di digest e ordine della fonte vengono verificati a valle; una cancellazione senza data può bloccare il ripristino con WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Ripeta un’ammissione incerta senza modifiche, conservando l’ID di consegna se fornito; esamini gli errori del consumer prima di rieseguire."
+        }
+      }
+    },
+    "ownership": {
+      "eyebrow": "Ciò che resta tuo",
+      "title": "Noi portiamo i collezionisti. <em>Il tuo shop resta tuo.</em>",
+      "subtitle": "Aura Historia aggiunge visibilità e traffico. Non si frappone tra te e i tuoi acquirenti.",
+      "items": {
+        "customers": {
+          "label": "Rapporto con il cliente",
+          "value": "Tuo",
+          "detail": "Gli acquirenti vengono indirizzati direttamente al tuo shop per completare l’acquisto."
+        },
+        "checkout": {
+          "label": "Pagamento e checkout",
+          "value": "Tuoi",
+          "detail": "L’elaborazione dei pagamenti resta sul tuo sito, con il tuo fornitore attuale."
+        },
+        "revenue": {
+          "label": "Fatturato",
+          "value": "100% tuo",
+          "detail": "Nessun costo di attivazione, pubblicazione o vendita. Non prendiamo commissioni."
+        },
+        "channels": {
+          "label": "Altri canali",
+          "value": "Invariati",
+          "detail": "Continua a vendere sul tuo sito e su tutte le piattaforme che già utilizzi."
+        },
+        "data": {
+          "label": "Dati di prodotto",
+          "value": "Solo dati pubblici",
+          "detail": "Sincronizziamo le informazioni di prodotto pubblicamente visibili per renderle trovabili. Mantieni il pieno controllo."
+        },
+        "partnership": {
+          "label": "Partnership",
+          "value": "Terminabile in qualsiasi momento",
+          "detail": "Senza preavviso né motivazione. Su richiesta rimuoviamo subito i tuoi prodotti."
         }
       }
     }

@@ -186,7 +186,12 @@ describe("PartnerCustomIntegrationPage", () => {
     );
 
     it("links the primary CTA to access-token management", () => {
-        expect(screen.getByRole("heading", { name: "Shop per API anbinden" })).toBeInTheDocument();
+        expect(
+            screen.getByRole("heading", {
+                level: 1,
+                name: "Verbinden Sie Ihren Shop mit unserer API.",
+            }),
+        ).toBeInTheDocument();
         expect(screen.getByRole("link", { name: /Zugriffstoken verwalten/i })).toHaveAttribute(
             "href",
             "/de/partners/access-tokens",
@@ -276,8 +281,10 @@ describe("PartnerCustomIntegrationPage", () => {
     });
 
     it("explains completed synchronous batches and separate webhook admission", () => {
-        expect(screen.getByText("Synchrone Angebots-Batches")).toBeInTheDocument();
-        expect(screen.getByText(/HTTP 200 · Schreibvorgänge abgeschlossen/)).toBeInTheDocument();
+        expect(
+            screen.getByRole("heading", { name: "Synchrone Angebots-Batches." }),
+        ).toBeInTheDocument();
+        expect(screen.getByText("Schreibvorgänge abgeschlossen")).toBeInTheDocument();
         expect(screen.getByText(/maxItems 100/)).toBeInTheDocument();
         expect(screen.getByText(/x-wc-webhook-signature/)).toHaveTextContent("HTTP 204");
         expect(screen.getByText(/auctionId muss/)).toHaveTextContent("desselben Anbieters");
@@ -296,14 +303,63 @@ describe("PartnerCustomIntegrationPage", () => {
         for (const name of [
             "Batch-Ergebnisse",
             "Erstellungsfelder und Preise",
-            "PATCH: beibehalten oder löschen",
-            "PUT: Upsert-Semantik",
+            "Beibehalten oder löschen",
+            "Upsert-Semantik",
             "Auktionszuordnung und Loszeiten",
             "Batch-Rücknahme und Wiederherstellung",
             "WooCommerce: Server zu Server",
         ]) {
             expect(screen.getByRole("heading", { level: 3, name })).toBeInTheDocument();
         }
+    });
+
+    it("copies the cURL request with the selected provider and confirms it", async () => {
+        const writeText = vi.fn().mockResolvedValue(undefined);
+        Object.defineProperty(navigator, "clipboard", {
+            value: { writeText },
+            configurable: true,
+        });
+        fireEvent.click(screen.getByRole("radio", { name: "Zweiter Shop" }));
+
+        await act(async () => {
+            fireEvent.click(screen.getByRole("button", { name: "Kopieren" }));
+        });
+
+        expect(writeText).toHaveBeenCalledWith(
+            expect.stringContaining("/listing-sources/shop-2/product-listings"),
+        );
+        expect(writeText.mock.calls[0]?.[0]).toContain("Bearer YOUR_USER_ACCESS_TOKEN");
+        expect(screen.getByRole("button", { name: "Kopiert" })).toBeInTheDocument();
+    });
+
+    it("summarises the token with the selected provider", () => {
+        expect(screen.getByText("Nicht ausgewählt")).toBeInTheDocument();
+        fireEvent.click(screen.getByRole("radio", { name: "Erster Shop" }));
+        expect(screen.queryByText("Nicht ausgewählt")).not.toBeInTheDocument();
+        expect(screen.getAllByText("Erster Shop")).toHaveLength(2);
+    });
+
+    it("explains provider access to signed-out visitors", async () => {
+        cleanup();
+        authState.isAuthenticated = false;
+        await act(async () => {
+            renderWithRouter(<PartnerCustomIntegrationPage />);
+        });
+        expect(
+            screen.getByText(
+                "Melden Sie sich an, um die Anbieter zu sehen, auf die Ihr Konto Zugriff hat.",
+            ),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByRole("link", { name: /Anmelden und Anbieterzugriff prüfen/ }),
+        ).toHaveAttribute("href", "/de/partners/applications");
+    });
+
+    it("links back to the partner program from the breadcrumb", () => {
+        expect(screen.getByRole("link", { name: "Partnerprogramm" })).toHaveAttribute(
+            "href",
+            "/de/partner-program",
+        );
     });
 
     it("uses the source collection path and avoids unsupported shop verification links", () => {
