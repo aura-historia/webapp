@@ -99,12 +99,52 @@ describe("/api/oauth/authorize/approve", () => {
         expect(url.searchParams.get("state")).toBe(defaultFormFields.state);
         expect(url.searchParams.get("code_challenge")).toBe(defaultFormFields.code_challenge);
         expect(url.searchParams.get("code_challenge_method")).toBe("S256");
+        expect(url.searchParams.has("resource")).toBe(false);
         expect(init).toEqual({
             headers: {
                 Authorization: "Bearer access-token",
             },
             redirect: "manual",
         });
+    });
+
+    it("keeps the backend's no-store headers on the code redirect", async () => {
+        mockFetch.mockResolvedValue(
+            new Response(null, {
+                status: 302,
+                headers: {
+                    Location: "https://client.example/callback?code=auth-code",
+                    "Cache-Control": "no-store",
+                    Pragma: "no-cache",
+                },
+            }),
+        );
+
+        const response = await post(createRequest(defaultFormFields));
+
+        expect(response.headers.get("Cache-Control")).toBe("no-store");
+        expect(response.headers.get("Pragma")).toBe("no-cache");
+    });
+
+    it("forwards the client's resource indicator to the backend and through sign-in", async () => {
+        const resource = "https://mcp.aura-historia.com/v1";
+        mockFetch.mockResolvedValue(
+            new Response(null, {
+                status: 302,
+                headers: { Location: "https://client.example/callback?code=auth-code" },
+            }),
+        );
+
+        await post(createRequest({ ...defaultFormFields, resource }));
+
+        const [backendUrl] = mockFetch.mock.calls[0] as [string, RequestInit];
+        expect(new URL(backendUrl).searchParams.get("resource")).toBe(resource);
+
+        mockGetServerAuthToken.mockResolvedValueOnce(undefined);
+        const loginResponse = await post(createRequest({ ...defaultFormFields, resource }));
+        const loginUrl = new URL(loginResponse.headers.get("Location") ?? "");
+        const authorizeUrl = new URL(loginUrl.searchParams.get("redirect") ?? "", loginUrl.origin);
+        expect(authorizeUrl.searchParams.get("resource")).toBe(resource);
     });
 
     it("appends listing_source_id to the browser redirect without sending it to the backend authorize request", async () => {

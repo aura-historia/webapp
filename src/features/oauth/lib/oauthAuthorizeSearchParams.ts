@@ -6,6 +6,8 @@ export const oauthAuthorizeSearchSchema = z.object({
     redirect_uri: z.string(),
     scope: z.string().optional(),
     state: z.string().optional(),
+    /** RFC 8707 resource indicator, e.g. the MCP endpoint; the backend validates and binds it. */
+    resource: z.string().optional(),
     code_challenge: z.string(),
     code_challenge_method: z.string().default("S256"),
     requires_listing_source_id: z

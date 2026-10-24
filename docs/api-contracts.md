@@ -41,16 +41,23 @@ admin workflows in [admin workflows](admin-workflows.md).
     **Granted listing sources** below.
   - **Listing search availability filters** ([backend#2235](https://github.com/aura-historia/backend/issues/2235)):
     `orderability` and `includeUnspecifiedAvailability` are now documented on
-    `simpleSearchProductListings` with saved-search semantics. Listing search and saved-search
-    previews send them, so every saved search can be previewed.
+    `simpleSearchProductListings` with saved-search semantics. `mapToListingAvailabilityQuery`
+    sends them only alongside an availability selection, as a saved search persists them, and
+    `matchesNoListingAvailability` short-circuits a predicate that admits nothing (listing search
+    drops empty arrays). Saved-search previews therefore cover every filter; the search page has
+    no orderability control yet.
   - **OAuth** ([backend#2228](https://github.com/aura-historia/backend/issues/2228),
-    [backend#2214](https://github.com/aura-historia/backend/issues/2214)): authorization and token
-    failures use the standard OAuth JSON error (`OAuthErrorData`) with `no-store`/`no-cache`
-    headers; the optional `resource` parameter is not sent, so grants keep the shared Aura
-    default. The approval handler forwards backend error bodies unchanged and needs a Cognito
-    access JWT, which it already sends. The redirect broker keeps classifying token-exchange
-    failures by status. `getOAuthAuthorizationServerMetadata` is generated-only; the browser
-    never discovers its own authorization server.
+    [backend#2214](https://github.com/aura-historia/backend/issues/2214)): authorization input
+    and token failures use the standard OAuth JSON error (`OAuthErrorData`); authentication and
+    authority failures keep `ApiError`. Responses carry `no-store`/`no-cache`, which the approval
+    handler keeps on its redirect and forwarded errors; it forwards error bodies unchanged and
+    sends the Cognito access JWT the backend now requires. The backend's RFC 8414 metadata names
+    this app's `/en/oauth/authorize` as the authorization endpoint, so the consent page accepts an
+    optional `resource` (for example the MCP identifier) and passes it unchanged to
+    `/v1/oauth/authorize`; the backend validates and binds it, and the client repeats it at token
+    exchange. Without it the grant keeps the shared Aura default. The redirect broker keeps
+    classifying token-exchange failures by status and sends no `resource`.
+    `getOAuthAuthorizationServerMetadata` is generated-only.
   - **Cognito-only credential operations** ([backend#2212](https://github.com/aura-historia/backend/issues/2212),
     [backend#2214](https://github.com/aura-historia/backend/issues/2214)): `postMyAccessToken` and
     `adminCreateOAuthClient` no longer accept `AccessTokenAuth` and may return `403`. The browser
@@ -201,9 +208,9 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
   and sale are not equated.
 - `mapProductListingUserState` maps the optional `userState` from detail and collection
   responses. Each section is optional and stays absent when the backend omits it (a delegated
-  credential without that read scope); never default an omitted section to `false` or empty.
-  Consumers treat an absent section as unknown, and `patchListingUserState` updates never create
-  one. `hasUnseenNotification` derives from a non-empty unseen-notification ID array.
+  credential without that read scope); the mapper never defaults an omitted section, and
+  `patchListingUserState` updates never create one. Display code may fall back to the
+  conservative default (not watching, no unseen notifications, sensitive content hidden). `hasUnseenNotification` derives from a non-empty unseen-notification ID array.
 
 ### Listing history
 
@@ -389,8 +396,9 @@ stable error codes, never raw server detail.
   ownership, partner status, metadata-edit permission, configuration or token scope from it.
 - `useOwnListingSources(enabled)` uses `OWN_LISTING_SOURCES_QUERY_KEY`, `no-store`, cancellation,
   zero stale time and inactive retention, and no retries. It requests pages of 100 and follows
-  `next` (sent as `after`) until it is absent, so consumers always see every current grant; a
-  failed or non-advancing page fails the whole query rather than returning a partial list. It is not evidence of authorization for a
+  `next` (sent as `after`) until it is absent. Pages are live rather than a snapshot, so a source
+  renamed meanwhile keeps its first entry; a failed or non-advancing page fails the whole query
+  rather than returning a partial list. It is not evidence of authorization for a
   later write. An empty list means no current access. On a failed refresh show the error state;
   never render cached grants or keep removed IDs selectable.
 - The partner portfolio (`/$lng/partners/listing-sources`) is read-only. There is no partner

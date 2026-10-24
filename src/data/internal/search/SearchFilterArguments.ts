@@ -15,7 +15,7 @@ export type SearchFilterArguments = {
     priceFrom?: number;
     priceTo?: number;
     availability?: Exclude<ListingAvailability, "UNKNOWN">[];
-    /** Saved-search-only criteria; intentionally omitted from public GET search requests. */
+    /** Sent only alongside `availability`; see `mapToListingAvailabilityQuery`. */
     orderability?: ListingOrderability[] | null;
     includeUnspecifiedAvailability?: boolean | null;
     /** Presentation labels paired by index with source IDs in search URLs. */

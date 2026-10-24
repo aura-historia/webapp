@@ -48,6 +48,14 @@ describe("shared own listing sources", () => {
             signal: expect.any(AbortSignal),
         });
     });
+    it("keeps one entry for a source repeated across live pages", async () => {
+        getSources
+            .mockResolvedValueOnce({ data: { items: [source], next: "cursor-1" } })
+            .mockResolvedValueOnce({ data: { items: [{ ...source, name: "Renamed" }] } });
+        const { result } = renderHook(() => useOwnListingSources(true), { wrapper });
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+        expect(result.current.data).toEqual([source]);
+    });
     it("fails instead of returning a partial list when a later page fails", async () => {
         getSources
             .mockResolvedValueOnce({ data: { items: [source], next: "cursor-1" } })

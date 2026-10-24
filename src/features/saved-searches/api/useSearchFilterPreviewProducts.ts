@@ -6,6 +6,10 @@ import {
 } from "@/data/internal/product/ProductListing.ts";
 import { toMinorCurrencyAmount } from "@/data/internal/price/Price.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import {
+    mapToListingAvailabilityQuery,
+    matchesNoListingAvailability,
+} from "@/data/internal/search/ListingAvailabilityQuery.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
@@ -52,9 +56,7 @@ function toListingSearchQuery(
                               : toMinorCurrencyAmount(search.priceTo, currency),
                   }
                 : undefined,
-        availability: search.availability,
-        orderability: search.orderability ?? undefined,
-        includeUnspecifiedAvailability: search.includeUnspecifiedAvailability ?? undefined,
+        ...mapToListingAvailabilityQuery(search),
         created:
             search.creationDateFrom != null || search.creationDateTo != null
                 ? {
@@ -95,7 +97,7 @@ export function useSearchFilterPreviewProducts(
         }),
         enabled,
         queryFn: async () => {
-            if (search.availability?.length === 0) return [];
+            if (matchesNoListingAvailability(search)) return [];
 
             const currency = search.currency ?? preferences.currency;
             const result = await simpleSearchProductListings({
