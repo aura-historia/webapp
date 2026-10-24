@@ -63,7 +63,7 @@ describe("useDealerProducts", () => {
         expect(result.current.data).toHaveLength(2);
     });
 
-    it("calls simpleSearchProductListings with shopName, excludeProductId and defaults", async () => {
+    it("calls simpleSearchProductListings with shopName, excludeProductListingId and defaults", async () => {
         mockSimpleSearchProductListings.mockResolvedValue({
             data: { items: [], total: 0, searchAfter: undefined },
             error: null,
@@ -83,7 +83,7 @@ describe("useDealerProducts", () => {
                 sort: "updated",
                 order: "desc",
                 listingSourceId: ["Christie's"],
-                excludeProductId: ["current-product"],
+                excludeProductListingId: ["current-product"],
             }),
         });
     });

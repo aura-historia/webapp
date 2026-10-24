@@ -36,8 +36,8 @@ describe("SignUpForm", () => {
 
     async function fillCredentials(user: ReturnType<typeof userEvent.setup>) {
         await user.type(screen.getByLabelText("E-Mail"), " user@example.com ");
-        await user.type(screen.getByLabelText("Passwort*"), "Password1!");
-        await user.type(screen.getByLabelText("Passwort bestätigen*"), "Password1!");
+        await user.type(screen.getByLabelText("Passwort"), "Password1!");
+        await user.type(screen.getByLabelText("Passwort bestätigen"), "Password1!");
     }
 
     it("renders the optional marketing checkbox unchecked with the purpose and privacy link", async () => {

@@ -1,173 +1,81 @@
-import { CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
 import { useTranslation } from "react-i18next";
-import type { TFunction } from "i18next";
+import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import {
-    Ban,
-    CalendarClock,
-    CalendarPlus,
-    Coins,
-    Gavel,
-    type LucideIcon,
-    Search,
-    Store,
-    Tag,
-} from "lucide-react";
-import type { ReactNode } from "react";
-import { Badge } from "@/components/ui/badge.tsx";
-import {
-    LISTING_AVAILABILITIES,
-    LISTING_AVAILABILITY_TRANSLATION_KEYS,
-} from "@/data/internal/product/ListingAvailability.ts";
-import {
-    hasActiveFilters,
-    type SearchFilterArguments,
-} from "@/data/internal/search/SearchFilterArguments.ts";
-import { FILTER_DEFAULTS } from "@/features/search/products/lib/filterDefaults.ts";
-
-type TileProps = {
-    readonly icon: LucideIcon;
-    readonly label: string;
-    readonly children: ReactNode;
-};
-
-function CriteriaTile({ icon: Icon, label, children }: TileProps) {
-    return (
-        <div className="flex flex-col gap-2">
-            <span className="flex items-center gap-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                <Icon className="size-3.5 text-tertiary" aria-hidden="true" />
-                {label}
-            </span>
-            <div className="flex flex-wrap gap-1.5">{children}</div>
-        </div>
-    );
-}
-
-function formatDateRange(t: TFunction, language: string, from?: Date, to?: Date) {
-    if (from && to)
-        return `${from.toLocaleDateString(language)} – ${to.toLocaleDateString(language)}`;
-    if (from) return `${t("search.filter.from")} ${from.toLocaleDateString(language)}`;
-    return `${t("search.filter.to")} ${to?.toLocaleDateString(language)}`;
-}
+    getQueryTerms,
+    useSearchFilterCriteria,
+} from "@/features/saved-searches/hooks/useSearchFilterCriteria.ts";
+import { cn } from "@/lib/utils.ts";
 
 type Props = {
     readonly search: SearchFilterArguments;
+    readonly enhancedSearchDescription?: string;
 };
 
+const ROW_CLASS = "flex flex-col gap-2 border-b border-line-subtle py-4";
+const TERM_CLASS = "font-mono text-tag tracking-[0.14em] text-ink-muted uppercase";
+const CHIP_CLASS = "rounded-sm px-2 py-1 text-meta";
+
 /**
- * Every configured search-filter criterion, laid out as a responsive grid of compact
- * icon-labelled tiles rather than a stacked list — built for the spacious detail page,
- * not the narrow card/wizard contexts (see SearchFilterCriteria.tsx for those).
+ * Every criterion of a saved search filter as ruled label/value rows in a raised card, for the
+ * detail page's ink band. Search terms and the AI description span both columns.
  */
-export function SearchFilterConfigurationGrid({ search }: Props) {
-    const { t, i18n } = useTranslation();
-
-    const fallbackQueryTerms = search.q ? [search.q] : [];
-    const queryTerms = search.queryTerms?.length ? search.queryTerms : fallbackQueryTerms;
-    const hasPrice = search.priceFrom != null || search.priceTo != null;
-    const displayedAvailability = search.availability?.length
-        ? search.availability
-        : FILTER_DEFAULTS.availability;
-    const allAvailabilitySelected = displayedAvailability.length === LISTING_AVAILABILITIES.length;
-
-    if (queryTerms.length === 0 && !hasActiveFilters(search) && search.availability == null) {
-        return (
-            <p className="text-sm text-muted-foreground italic">
-                {t("searchFilters.noAdditionalCriteria")}
-            </p>
-        );
-    }
+export function SearchFilterConfigurationGrid({ search, enhancedSearchDescription }: Props) {
+    const { t } = useTranslation();
+    const terms = getQueryTerms(search);
+    const criteria = useSearchFilterCriteria(search);
 
     return (
-        <div className="grid grid-cols-2 gap-x-8 gap-y-7 sm:grid-cols-3 lg:grid-cols-4">
-            {queryTerms.length > 0 && (
-                <CriteriaTile
-                    icon={Search}
-                    label={t("searchFilter.saveDialog.queryLabel", { count: queryTerms.length })}
-                >
-                    {queryTerms.map((term) => (
-                        <Badge key={term} variant="outline">
-                            {term}
-                        </Badge>
-                    ))}
-                </CriteriaTile>
-            )}
-
-            {hasPrice && (
-                <CriteriaTile icon={Coins} label={t("search.filter.priceSpan")}>
-                    <Badge variant="outline">
-                        {search.priceFrom ?? "?"} – {search.priceTo ?? "?"}{" "}
-                        {CURRENCY_SYMBOLS[search.currency ?? "EUR"]}
-                    </Badge>
-                </CriteriaTile>
-            )}
-
-            <CriteriaTile icon={Tag} label={t("search.filter.availability")}>
-                {allAvailabilitySelected ? (
-                    <Badge variant="outline">{t("search.filter.all")}</Badge>
-                ) : (
-                    displayedAvailability.map((value) => (
-                        <Badge key={value} variant="outline">
-                            {t(LISTING_AVAILABILITY_TRANSLATION_KEYS[value])}
-                        </Badge>
-                    ))
+        <div className="min-w-0 rounded-panel bg-surface-raised px-[18px] pt-1 pb-2 text-ink shadow-ring sm:px-7 sm:pt-2 sm:pb-3">
+            <dl className="grid grid-cols-1 gap-x-7 sm:grid-cols-2">
+                {terms.length > 0 && (
+                    <div className={cn(ROW_CLASS, "sm:col-span-2")}>
+                        <dt className={TERM_CLASS}>
+                            {t("searchFilter.saveDialog.queryLabel", { count: terms.length })}
+                        </dt>
+                        <dd className="flex flex-wrap gap-1.5">
+                            {terms.map((term) => (
+                                <span
+                                    key={term}
+                                    className={cn(
+                                        CHIP_CLASS,
+                                        "bg-surface-sunken font-serif text-[15px] italic",
+                                    )}
+                                >
+                                    “{term}”
+                                </span>
+                            ))}
+                        </dd>
+                    </div>
                 )}
-            </CriteriaTile>
-
-            {!!search.listingSourceId?.length && (
-                <CriteriaTile icon={Store} label={t("search.filter.listingSource")}>
-                    <Badge variant="outline">
-                        {t("search.filter.sourceCount", { count: search.listingSourceId.length })}
-                    </Badge>
-                </CriteriaTile>
-            )}
-            {!!search.excludeListingSourceId?.length && (
-                <CriteriaTile icon={Ban} label={t("search.filter.excludeListingSource")}>
-                    <Badge variant="destructive">
-                        {t("search.filter.sourceCount", {
-                            count: search.excludeListingSourceId.length,
-                        })}
-                    </Badge>
-                </CriteriaTile>
-            )}
-
-            {(search.creationDateFrom != null || search.creationDateTo != null) && (
-                <CriteriaTile icon={CalendarPlus} label={t("searchFilters.info.creationDate")}>
-                    <span className="text-sm">
-                        {formatDateRange(
-                            t,
-                            i18n.language,
-                            search.creationDateFrom,
-                            search.creationDateTo,
-                        )}
-                    </span>
-                </CriteriaTile>
-            )}
-
-            {(search.updateDateFrom != null || search.updateDateTo != null) && (
-                <CriteriaTile icon={CalendarClock} label={t("searchFilters.info.updateDate")}>
-                    <span className="text-sm">
-                        {formatDateRange(
-                            t,
-                            i18n.language,
-                            search.updateDateFrom,
-                            search.updateDateTo,
-                        )}
-                    </span>
-                </CriteriaTile>
-            )}
-
-            {(search.auctionDateFrom != null || search.auctionDateTo != null) && (
-                <CriteriaTile icon={Gavel} label={t("searchFilters.info.auctionDate")}>
-                    <span className="text-sm">
-                        {formatDateRange(
-                            t,
-                            i18n.language,
-                            search.auctionDateFrom,
-                            search.auctionDateTo,
-                        )}
-                    </span>
-                </CriteriaTile>
-            )}
+                {enhancedSearchDescription && (
+                    <div className={cn(ROW_CLASS, "sm:col-span-2")}>
+                        <dt className={TERM_CLASS}>{t("searchFilter.saveDialog.aiDescription")}</dt>
+                        <dd className="text-body-sm text-ink-secondary">
+                            {enhancedSearchDescription}
+                        </dd>
+                    </div>
+                )}
+                {criteria.map((criterion) => (
+                    <div key={criterion.id} className={ROW_CLASS}>
+                        <dt className={TERM_CLASS}>{criterion.label}</dt>
+                        <dd className="flex flex-wrap gap-1.5">
+                            {criterion.values.map((value) => (
+                                <span
+                                    key={value}
+                                    className={cn(
+                                        CHIP_CLASS,
+                                        criterion.id === "exclude"
+                                            ? "shadow-[inset_0_0_0_1px_var(--line-strong)] line-through decoration-ink-muted"
+                                            : "bg-surface-sunken",
+                                    )}
+                                >
+                                    {value}
+                                </span>
+                            ))}
+                        </dd>
+                    </div>
+                ))}
+            </dl>
         </div>
     );
 }

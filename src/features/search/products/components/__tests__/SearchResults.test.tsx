@@ -1,6 +1,7 @@
 import { makeProductListing, makeProductListingUserState } from "@/test/fixtures.ts";
 import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { beforeEach, vi } from "vitest";
 import type { SearchResultData } from "@/data/internal/search/SearchResultData.ts";
 import { useSearch } from "@/features/search/products/hooks/useSearch.ts";
@@ -23,24 +24,12 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
     };
 });
 
-vi.mock("@/features/watchlist/components/NotificationButton", () => ({
-    NotificationButton: () => (
-        <button type="button" data-testid="notification-button">
-            Notification
-        </button>
-    ),
-}));
-
 const intersectionState = vi.hoisted(() => ({
     inView: false,
 }));
 
 vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: vi.fn(), inView: intersectionState.inView }),
-}));
-
-vi.mock("lottie-react", () => ({
-    Lottie: () => <div data-testid="lottie-animation" />,
 }));
 
 const mockUseSearch = vi.mocked(useSearch);
@@ -62,6 +51,7 @@ type SearchMockOptions = {
     fetchNextPage?: () => void;
     isPending?: boolean;
     error?: Error | null;
+    refetch?: () => void;
 };
 
 function setSearchMock({
@@ -71,6 +61,7 @@ function setSearchMock({
     fetchNextPage = vi.fn(),
     isPending = false,
     error = null,
+    refetch = vi.fn(),
 }: SearchMockOptions = {}) {
     const pages = isPending ? undefined : [buildQueryPayload(products, total)];
     mockUseSearch.mockReturnValue({
@@ -80,6 +71,7 @@ function setSearchMock({
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage: false,
+        refetch,
     } as unknown as ReturnType<typeof useSearch>);
 }
 
@@ -91,7 +83,9 @@ describe("SearchResults", () => {
     });
 
     it("renders a message when query length is less than 3 characters", () => {
-        renderWithQueryClient(<SearchResults searchFilters={{ q: "ab" }} />);
+        renderWithQueryClient(
+            <SearchResults searchFilters={{ q: "ab" }} onResetFilters={vi.fn()} />,
+        );
         expect(
             screen.getByText("Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten."),
         ).toBeInTheDocument();
@@ -99,14 +93,23 @@ describe("SearchResults", () => {
 
     it("renders skeleton loaders while data is loading", () => {
         setSearchMock({ isPending: true });
-        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
-        expect(screen.getAllByTestId("product-card-skeleton")).toHaveLength(4);
+        renderWithQueryClient(
+            <SearchResults searchFilters={{ q: "test" }} onResetFilters={vi.fn()} />,
+        );
+        expect(screen.getAllByTestId("search-result-skeleton")).toHaveLength(6);
     });
 
-    it("renders an error message when there is an error", () => {
-        setSearchMock({ error: new Error("API Error") });
-        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
-        expect(screen.getByText("Fehler beim Laden")).toBeInTheDocument();
+    it("renders an error message with a retry when there is an error", async () => {
+        const refetch = vi.fn();
+        setSearchMock({ error: new Error("API Error"), refetch });
+        renderWithQueryClient(
+            <SearchResults searchFilters={{ q: "test" }} onResetFilters={vi.fn()} />,
+        );
+        expect(
+            screen.getByRole("heading", { name: "Fehler beim Laden der Ergebnisse." }),
+        ).toBeInTheDocument();
+        await userEvent.click(screen.getByRole("button", { name: "Erneut versuchen" }));
+        expect(refetch).toHaveBeenCalledTimes(1);
         expect(
             screen.getByText(
                 "Die Suchergebnisse konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
@@ -114,13 +117,20 @@ describe("SearchResults", () => {
         ).toBeInTheDocument();
     });
 
-    it("renders a message when no products are found", () => {
+    it("renders a message with a reset when no products are found", async () => {
+        const onResetFilters = vi.fn();
         setSearchMock({ products: [] });
-        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
-        expect(screen.getByText("Keine Ergebnisse gefunden")).toBeInTheDocument();
+        renderWithQueryClient(
+            <SearchResults searchFilters={{ q: "test" }} onResetFilters={onResetFilters} />,
+        );
         expect(
-            screen.getByText("Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen."),
+            screen.getByRole("heading", { name: "Keine Ergebnisse gefunden." }),
         ).toBeInTheDocument();
+        expect(
+            screen.getByText(/Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen./),
+        ).toBeInTheDocument();
+        await userEvent.click(screen.getByRole("button", { name: "Alle Filter zurücksetzen" }));
+        expect(onResetFilters).toHaveBeenCalledTimes(1);
     });
 
     it("reports zero results when API total is zero", () => {
@@ -128,7 +138,11 @@ describe("SearchResults", () => {
 
         setSearchMock({ products: [], total: 0 });
         renderWithQueryClient(
-            <SearchResults searchFilters={{ q: "test" }} onTotalChange={onTotalChange} />,
+            <SearchResults
+                searchFilters={{ q: "test" }}
+                onTotalChange={onTotalChange}
+                onResetFilters={vi.fn()}
+            />,
         );
 
         expect(onTotalChange).toHaveBeenCalledWith(0);
@@ -142,7 +156,9 @@ describe("SearchResults", () => {
             }),
         });
         setSearchMock({ products: [hiddenProduct] });
-        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
+        renderWithQueryClient(
+            <SearchResults searchFilters={{ q: "test" }} onResetFilters={vi.fn()} />,
+        );
         expect(screen.getByText(/Verborgen/i)).toBeInTheDocument();
         expect(screen.getByText(/Kontingent/i)).toBeInTheDocument();
     });
@@ -156,7 +172,9 @@ describe("SearchResults", () => {
                 { ...base, productListingId: "2", title: "Product 2" },
             ],
         });
-        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
+        renderWithQueryClient(
+            <SearchResults searchFilters={{ q: "test" }} onResetFilters={vi.fn()} />,
+        );
         expect(screen.getByText("Product 1")).toBeInTheDocument();
         expect(screen.getByText("Product 2")).toBeInTheDocument();
     });
@@ -173,7 +191,9 @@ describe("SearchResults", () => {
             fetchNextPage,
         });
 
-        renderWithQueryClient(<SearchResults searchFilters={{ q: "test" }} />);
+        renderWithQueryClient(
+            <SearchResults searchFilters={{ q: "test" }} onResetFilters={vi.fn()} />,
+        );
 
         await waitFor(() => expect(fetchNextPage).toHaveBeenCalledTimes(1));
     });

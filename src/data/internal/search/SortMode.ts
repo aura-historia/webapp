@@ -14,7 +14,7 @@ export function getSortModeFieldLabel(field: (typeof SEARCH_RESULT_SORT_FIELDS)[
         case "CREATION_DATE":
             return "search.sortMode.creationDate";
         case "UPDATE_DATE":
-            return "search.sortMode.updateDate";
+            return "search.sortMode.lastUpdated";
         default:
             return "search.sortMode.relevance";
     }

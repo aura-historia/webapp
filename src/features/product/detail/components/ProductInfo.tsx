@@ -1,172 +1,223 @@
-import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
-import { PriceText } from "@/components/typography/PriceText.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { ArrowUpRight } from "lucide-react";
-import "yet-another-react-lightbox/styles.css";
-import "yet-another-react-lightbox/plugins/thumbnails.css";
-import { ProductImageGallery } from "@/features/product/detail/components/ProductImageGallery.tsx";
-import { useTranslation } from "react-i18next";
-import { ProductSharer } from "@/features/product/detail/components/ProductSharer.tsx";
-import { NotificationButton } from "@/features/watchlist/components/NotificationButton.tsx";
-import { WatchlistButton } from "@/features/watchlist/components/WatchlistButton.tsx";
-import { useListingWatchlistState } from "@/features/watchlist/api/watchlistMutationState.ts";
-import { H1 } from "@/components/typography/H1.tsx";
 import { Link } from "@tanstack/react-router";
-import { ListingStatusBadge } from "@/features/product/catalog/components/badges/ListingStatusBadge.tsx";
-import { PriceValuationBadge } from "@/features/product/catalog/components/badges/PriceValuationBadge.tsx";
+import { Bookmark, ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
+import { ListingStatusPill } from "@/features/product/detail/components/ListingStatusPill.tsx";
+import { ProductDescription } from "@/features/product/detail/components/ProductDescription.tsx";
+import { ProductImageGallery } from "@/features/product/detail/components/ProductImageGallery.tsx";
+import { ProductSharer } from "@/features/product/detail/components/ProductSharer.tsx";
+import {
+    FOCUS_CLASS,
+    ProviderLink,
+    usePriceDisplay,
+    useWatchToggle,
+} from "@/features/product/detail/components/ProductListingActions.tsx";
+import { useWatchlistNotificationMutation } from "@/features/watchlist/api/useWatchlistNotificationMutation.ts";
+import { cn } from "@/lib/utils.ts";
+import { ToggleBellIcon } from "@/components/common/ToggleBellIcon.tsx";
+
+const PILL_BUTTON_CLASS = cn(
+    "inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-pill text-button",
+    FOCUS_CLASS,
+);
+const MONO_LABEL_CLASS = "font-mono text-label tracking-[0.14em] text-ink-muted uppercase";
 
 export function ProductInfo({ product }: { readonly product: ProductListingDetail }) {
     const { t } = useTranslation();
-    const { watching: isWatching, notifications: notificationsEnabled } = useListingWatchlistState(
-        product.productListingId,
-        product.userState?.watchlist,
-    );
+    const {
+        watching,
+        notifications,
+        label: watchLabel,
+        toggle: toggleWatch,
+    } = useWatchToggle(product);
+    const notificationMutation = useWatchlistNotificationMutation(product.productListingId);
+    const price = usePriceDisplay(product);
     const isWithdrawn = product.lifecycle === "WITHDRAWN";
-    const merchantUrl = product.viewUrl?.href ?? product.url?.href;
-    const searchFilterData = product.userState?.searchFilter;
-    const matchedSearchFilterId = searchFilterData?.matched
-        ? searchFilterData.userSearchFilterId
-        : undefined;
-    const priceLabel =
-        product.price?.type === "ON_REQUEST"
-            ? t("product.history.values.onRequest")
-            : (product.displayPrice ?? t("product.unknownPrice"));
+    const searchFilter = product.userState?.searchFilter;
+    const matchedFilterId =
+        searchFilter?.matched && !searchFilter.hidden ? searchFilter.userSearchFilterId : undefined;
     const title = product.title ?? t("product.untitled");
     const showSensitiveContent =
         product.userState?.contentVisibility.showUnassessedOrSensitiveContent ?? false;
 
     return (
-        <section className="grid grid-cols-1 gap-8 pb-8 lg:grid-cols-12 lg:gap-12">
-            <div className="shrink-0 lg:col-span-7">
-                <ProductImageGallery
-                    images={product.images}
-                    productId={product.productListingId}
-                    showSensitiveContent={showSensitiveContent}
-                />
-            </div>
-            <div className="flex min-w-0 flex-col lg:col-span-5">
-                <div className="flex items-center justify-between gap-4">
-                    <div className="flex flex-wrap items-center gap-2">
-                        <ListingStatusBadge
+        <section className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16">
+            <ProductImageGallery
+                images={product.images}
+                productId={product.productListingId}
+                title={title}
+                showSensitiveContent={showSensitiveContent}
+            />
+
+            <div className="flex min-w-0 flex-col gap-7">
+                <div className="flex items-start justify-between gap-3">
+                    <div className="flex min-h-11 min-w-0 flex-wrap items-center gap-x-3 gap-y-2">
+                        <ListingStatusPill
                             availability={product.availability}
                             lifecycle={product.lifecycle}
                         />
                         {product.auction?.name?.text && (
-                            <span className="text-xs uppercase tracking-widest text-muted-foreground">
+                            <span className="font-mono text-tag tracking-[0.14em] text-ink-muted uppercase">
                                 {product.auction.name.text}
                             </span>
                         )}
                         {product.lot?.lotNumber && (
-                            <span className="text-xs uppercase tracking-widest text-muted-foreground">
+                            <span className="font-mono text-tag tracking-[0.14em] text-ink uppercase">
                                 {t("product.auction.lotNumber", {
                                     lotNumber: product.lot.lotNumber,
                                 })}
                             </span>
                         )}
                     </div>
-                    <div className="ml-auto shrink-0 self-start">
-                        <div className="hidden gap-2 md:flex">
-                            <ProductSharer title={title} />
-                            <NotificationButton
-                                variant="ghost"
-                                size="icon"
-                                productListingId={product.productListingId}
-                                isNotificationEnabled={notificationsEnabled}
-                                isVisible={isWatching}
-                            />
-                        </div>
-                        <div className="flex gap-2 md:hidden">
-                            <ProductSharer title={title} variant="outline" />
-                            <NotificationButton
-                                variant="outline"
-                                size="icon"
-                                productListingId={product.productListingId}
-                                isNotificationEnabled={notificationsEnabled}
-                                isVisible={isWatching}
-                            />
-                        </div>
+                    <div className="flex shrink-0 gap-1 max-sm:gap-2">
+                        {watching && (
+                            <button
+                                type="button"
+                                aria-pressed={notifications}
+                                aria-label={t("product.watchlistNotifications")}
+                                disabled={notificationMutation.isPending}
+                                onClick={() => notificationMutation.mutate(!notifications)}
+                                className={cn(
+                                    "inline-flex size-11 cursor-pointer items-center justify-center rounded-pill transition-colors duration-200 ease-out motion-reduce:transition-none",
+                                    notifications
+                                        ? "bg-oxblood text-on-oxblood"
+                                        : "text-ink hover:bg-surface-sunken max-sm:shadow-[inset_0_0_0_1px_var(--color-line-strong)]",
+                                    FOCUS_CLASS,
+                                )}
+                            >
+                                <ToggleBellIcon
+                                    key={product.productListingId}
+                                    on={notifications}
+                                    className="size-[18px]"
+                                    strokeWidth={1.7}
+                                />
+                            </button>
+                        )}
+                        <ProductSharer title={title} className="max-sm:hidden" />
+                        <ProductSharer title={title} variant="outline" className="sm:hidden" />
                     </div>
                 </div>
 
-                <H1 className="mt-8 overflow-hidden font-normal leading-[1.2] md:leading-tight">
-                    {title}
-                </H1>
-                <p className="mt-3 text-sm uppercase tracking-[0.08em] text-muted-foreground/80">
+                <div className="flex flex-col gap-3.5">
                     <Link
                         to="/$lng/shops/$shopSlugId"
-                        params={(current) => ({ ...current, shopSlugId: product.source.slugId })}
-                        className="transition-colors hover:text-foreground hover:underline"
+                        params={(current) => ({
+                            ...current,
+                            shopSlugId: product.source.slugId,
+                        })}
                         from="/$lng"
+                        className={cn(
+                            "inline-flex min-h-6 self-start font-mono text-kicker text-ink-muted uppercase hover:text-brass-ink",
+                            FOCUS_CLASS,
+                        )}
                     >
                         {product.source.name}
                     </Link>
-                </p>
+                    <h1 className="font-serif text-[32px] leading-[1.1] font-normal tracking-[-0.02em] text-pretty sm:text-[clamp(34px,3.2vw,46px)] sm:leading-[1.08]">
+                        {title}
+                    </h1>
+                </div>
 
-                {searchFilterData?.matched && !searchFilterData.hidden && matchedSearchFilterId && (
-                    <div className="mt-6 border-l-2 border-tertiary pl-4">
-                        <p className="text-xs uppercase tracking-[0.08em] text-muted-foreground">
+                {matchedFilterId && (
+                    <Link
+                        to="/$lng/me/search-filter/$filterId"
+                        params={(current) => ({ ...current, filterId: matchedFilterId })}
+                        from="/$lng"
+                        className={cn(
+                            "group flex items-center gap-3 rounded-lg bg-surface-sunken px-3.5 py-3 text-body-sm leading-[1.45] text-ink-secondary",
+                            FOCUS_CLASS,
+                        )}
+                    >
+                        <span
+                            aria-hidden="true"
+                            className="inline-flex size-8 shrink-0 items-center justify-center rounded-pill bg-oxblood text-on-oxblood"
+                        >
+                            <Bookmark className="size-3.5 fill-current" strokeWidth={1.8} />
+                        </span>
+                        <span className="min-w-0 flex-1">
                             {t("product.searchFilter.matchedBy")}:{" "}
-                            <Link
-                                to="/$lng/me/search-filter/$filterId"
-                                params={(current) => ({
-                                    ...current,
-                                    filterId: matchedSearchFilterId,
-                                })}
-                                className="font-semibold normal-case tracking-normal text-tertiary transition-colors hover:underline"
-                                from="/$lng"
-                            >
-                                {searchFilterData.userSearchFilterName}
-                            </Link>
-                        </p>
-                    </div>
+                            <strong className="font-semibold text-ink underline decoration-line-strong underline-offset-3 group-hover:text-brass-ink">
+                                {searchFilter?.userSearchFilterName}
+                            </strong>
+                        </span>
+                        <ChevronRight
+                            aria-hidden="true"
+                            className="size-4 shrink-0 text-ink-muted"
+                            strokeWidth={1.8}
+                        />
+                    </Link>
                 )}
 
-                <div className="mt-5 flex flex-wrap items-end gap-3">
-                    <PriceText className="line-clamp-none overflow-visible whitespace-nowrap text-[2.25rem] font-display font-normal italic leading-none text-primary">
-                        {priceLabel}
-                    </PriceText>
-                    <PriceValuationBadge type={product.priceValuation} />
-                </div>
-
-                <div className="mt-8 flex flex-col gap-3">
-                    <Button
-                        variant="default"
-                        className="h-14 w-full rounded-none text-xs uppercase tracking-[0.12em]"
-                        disabled={isWithdrawn || !merchantUrl}
-                        asChild={!isWithdrawn && Boolean(merchantUrl)}
-                    >
-                        {!isWithdrawn && merchantUrl ? (
-                            <a
-                                href={merchantUrl}
-                                target="_blank"
-                                rel="nofollow noopener noreferrer"
-                            >
-                                <ArrowUpRight />
-                                <span>{t("product.toMerchant")}</span>
-                            </a>
-                        ) : (
-                            <span>
-                                <ArrowUpRight />
-                                <span>{t("product.toMerchant")}</span>
-                            </span>
+                <div className="flex flex-col gap-5 border-t border-line pt-6">
+                    <div className="flex flex-col gap-2">
+                        {price.primaryIsEstimate && (
+                            <span className={MONO_LABEL_CLASS}>{t("product.estimate.label")}</span>
                         )}
-                    </Button>
-
-                    <WatchlistButton
-                        variant={isWatching ? "default" : "outline"}
-                        className={`h-14 w-full justify-center rounded-none text-xs uppercase tracking-[0.12em] ${
-                            isWatching
-                                ? "bg-secondary text-secondary-foreground hover:bg-secondary/90"
-                                : "text-primary"
-                        }`}
-                        productListingId={product.productListingId}
-                        isWatching={isWatching}
-                        label={`${isWatching ? "−" : "+"} ${t(
-                            isWatching ? "product.watchlist.remove" : "product.watchlist.add",
-                        )}`}
-                        showIcon={false}
-                    />
+                        <div className="flex flex-wrap items-baseline gap-x-3.5 gap-y-1.5">
+                            <span
+                                data-testid="product-price"
+                                className={cn(
+                                    "font-serif leading-none font-normal tracking-[-0.02em]",
+                                    price.unknown ? "text-ink-muted" : "text-ink",
+                                    price.unknown || price.primary.length > 14
+                                        ? "text-[30px]"
+                                        : "text-[38px] sm:text-[44px]",
+                                )}
+                            >
+                                {price.primary}
+                            </span>
+                            {product.priceValuation === "SALE_OBSERVATION" && (
+                                <span className="rounded-sm bg-surface-sunken px-2 py-1 font-mono text-tag tracking-[0.1em] text-ink-secondary uppercase">
+                                    {t("product.saleObservationPrice")}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+                    {price.estimate && (
+                        <div className="flex items-baseline justify-between gap-3 border-y border-line-subtle py-3">
+                            <span className={MONO_LABEL_CLASS}>{t("product.estimate.label")}</span>
+                            <span className="font-serif text-[20px] leading-[1.2] text-ink">
+                                {price.estimate}
+                            </span>
+                        </div>
+                    )}
+                    <div className="flex flex-col gap-2.5">
+                        <ProviderLink
+                            product={product}
+                            className={cn(PILL_BUTTON_CLASS, "bg-ink text-surface")}
+                        />
+                        <button
+                            type="button"
+                            aria-pressed={watching}
+                            onClick={toggleWatch}
+                            className={cn(
+                                PILL_BUTTON_CLASS,
+                                "cursor-pointer text-ink",
+                                watching
+                                    ? "bg-surface-sunken"
+                                    : "shadow-[inset_0_0_0_1px_var(--color-line-strong)] hover:bg-surface-sunken",
+                            )}
+                        >
+                            <Bookmark
+                                aria-hidden="true"
+                                strokeWidth={1.8}
+                                className={cn("size-4", watching && "fill-current")}
+                            />
+                            {watchLabel}
+                        </button>
+                    </div>
+                    {isWithdrawn && (
+                        <p className="text-meta text-ink-muted">{t("product.withdrawnHint")}</p>
+                    )}
                 </div>
+
+                {product.description && (
+                    // Keyed by listing so a new listing starts clamped, not expanded.
+                    <ProductDescription
+                        key={product.productListingId}
+                        description={product.description}
+                    />
+                )}
             </div>
         </section>
     );

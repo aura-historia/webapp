@@ -50,9 +50,8 @@ describe("PriceSpanFilter", () => {
         });
 
         expect(screen.getByText("Preisspanne")).toBeInTheDocument();
-        // Find slider thumbs by their aria-labels instead of slider by name
-        expect(screen.getByRole("slider", { name: "Minimum" })).toBeInTheDocument();
-        expect(screen.getByRole("slider", { name: "Maximum" })).toBeInTheDocument();
+        expect(screen.getByRole("textbox", { name: "Mindestpreis" })).toBeInTheDocument();
+        expect(screen.getByRole("textbox", { name: "Höchstpreis" })).toBeInTheDocument();
         expect(screen.getByPlaceholderText("Min")).toBeInTheDocument();
         expect(screen.getByPlaceholderText("Max")).toBeInTheDocument();
         expect(screen.getAllByText("€")).toHaveLength(2);
@@ -115,7 +114,7 @@ describe("PriceSpanFilter", () => {
 
         // Set min to greater value
         await user.type(minInput, "8000");
-        await user.click(screen.getByRole("slider", { name: "Minimum" }));
+        await user.tab();
 
         // Wait for the effect to run (swap operation)
         await act(async () => {
@@ -127,7 +126,7 @@ describe("PriceSpanFilter", () => {
         expect(maxInput).toHaveValue("8000");
     });
 
-    it("initializes with provided default values", async () => {
+    it("initializes with provided default values and summarises them", async () => {
         await act(async () => {
             renderWithRouter(
                 <FormWrapper defaultValues={{ priceSpan: { min: 1500, max: 7500 } }}>
@@ -141,13 +140,9 @@ describe("PriceSpanFilter", () => {
 
         expect(minInput).toHaveValue("1500");
         expect(maxInput).toHaveValue("7500");
-
-        // Slider should also reflect these values - get thumbs by aria-label
-        const minThumb = screen.getByRole("slider", { name: "Minimum" });
-        const maxThumb = screen.getByRole("slider", { name: "Maximum" });
-
-        expect(minThumb).toHaveAttribute("aria-valuenow", "1500");
-        expect(maxThumb).toHaveAttribute("aria-valuenow", "7500");
+        expect(
+            screen.getByText((text) => text.includes("1.500") && text.includes("7.500")),
+        ).toBeInTheDocument();
     });
 
     it("resets price span when reset button is clicked", async () => {

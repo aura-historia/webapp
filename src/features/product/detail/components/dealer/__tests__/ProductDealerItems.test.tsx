@@ -21,6 +21,7 @@ vi.mock("embla-carousel-react", () => ({
             scrollNext: vi.fn(),
             canScrollNext: vi.fn(() => false),
             canScrollPrev: vi.fn(() => false),
+            slidesInView: vi.fn(() => [0, 1]),
         },
     ],
 }));
@@ -81,7 +82,7 @@ describe("ProductDealerItems", () => {
 
         renderWithQueryClient(<ProductDealerItems {...defaultProps} />);
 
-        expect(screen.getAllByTestId("product-grid-item-skeleton")).toHaveLength(4);
+        expect(screen.getAllByTestId("search-result-skeleton")).toHaveLength(4);
     });
 
     it("renders an error state when the hook returns an error", () => {
@@ -125,6 +126,10 @@ describe("ProductDealerItems", () => {
 
         expect(screen.getByText("Ancient Vase")).toBeInTheDocument();
         expect(screen.getByText("Roman Coin")).toBeInTheDocument();
+        expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
+            "Weitere Artikel von diesem Anbieter",
+        );
+        expect(screen.getByText("01–02 / 02")).toBeInTheDocument();
         const shopLink = screen.getByText("Anbieterprofil ansehen").closest("a");
         expect(shopLink).toHaveAttribute("href", "/de/shops/shop-1");
     });
@@ -153,5 +158,24 @@ describe("ProductDealerItems", () => {
         renderWithQueryClient(<ProductDealerItems {...defaultProps} />);
 
         expect(mockUseDealerProducts).toHaveBeenCalledWith("ls_01TESTSOURCE", "current-product");
+    });
+    it("shows only the first image on cards inside the rail", () => {
+        const images = [1, 2, 3].map((n) => ({
+            url: new URL(`https://example.com/image${n}.jpg`),
+            prohibitedContentType: "NONE" as const,
+        }));
+        mockUseDealerProducts.mockReturnValue({
+            data: [{ ...baseProduct, productListingId: "p1", title: "Ancient Vase", images }],
+            isLoading: false,
+            isError: false,
+            error: null,
+        } as never);
+
+        const { container } = renderWithQueryClient(<ProductDealerItems {...defaultProps} />);
+
+        expect(screen.queryByText("1 / 3")).not.toBeInTheDocument();
+        expect(screen.queryByRole("button", { name: "Nächstes Bild" })).not.toBeInTheDocument();
+        const photos = [...container.querySelectorAll("img")].map((img) => img.getAttribute("src"));
+        expect(photos).toEqual(["https://example.com/image1.jpg"]);
     });
 });

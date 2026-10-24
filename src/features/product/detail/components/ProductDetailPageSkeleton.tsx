@@ -1,154 +1,111 @@
-import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { useLayoutEffect } from "react";
+import { SearchResultCardSkeleton } from "@/features/search/products/components/results/SearchResultPlaceholders.tsx";
+import { cn } from "@/lib/utils.ts";
 
+const BLOCK = "bg-surface-sunken";
+const THUMBNAIL_IDS = ["t1", "t2", "t3", "t4", "t5", "t6"];
+const DESCRIPTION_LINES = [
+    { id: "d1", width: "100%" },
+    { id: "d2", width: "94%" },
+    { id: "d3", width: "98%" },
+    { id: "d4", width: "66%" },
+    { id: "d5", width: "96%", gap: true },
+    { id: "d6", width: "90%" },
+    { id: "d7", width: "52%" },
+];
+
+/** Mirrors the detail page: gallery, summary column with description, price history, history and rail. */
 export function ProductDetailPageSkeleton() {
     useLayoutEffect(() => {
         globalThis.scrollTo({ top: 0, left: 0 });
     }, []);
 
     return (
-        <div className="mx-auto w-full max-w-[1280px] px-4 pb-20 pt-8 md:px-8">
-            <section className="grid grid-cols-1 gap-8 pb-8 lg:grid-cols-12 lg:gap-12">
-                <div className="lg:col-span-7 space-y-6">
-                    <Skeleton className="w-full aspect-[5/6] rounded-none" />
-                    <div className="grid grid-cols-4 gap-2">
-                        {[1, 2, 3, 4].map((thumbnail) => (
-                            <Skeleton
-                                key={thumbnail}
-                                className="aspect-square w-full rounded-none"
-                            />
-                        ))}
-                    </div>
-                </div>
-
-                <div className="lg:col-span-5 flex min-w-0 flex-col">
-                    <div className="flex items-start justify-between gap-4">
-                        <div className="flex flex-wrap gap-2">
-                            <Skeleton className="h-6 w-24 rounded-full" />
-                            <Skeleton className="h-6 w-24 rounded-full" />
-                            <Skeleton className="h-6 w-28 rounded-full" />
-                        </div>
-                        <div className="hidden md:flex gap-2">
-                            <Skeleton className="h-10 w-10 rounded-none" />
-                            <Skeleton className="h-10 w-10 rounded-none" />
-                        </div>
-                    </div>
-
-                    <Skeleton className="mt-8 h-12 w-5/6 rounded-none" />
-                    <Skeleton className="mt-3 h-4 w-40 rounded-none" />
-
-                    <div className="mt-5 flex flex-wrap items-end gap-3">
-                        <Skeleton className="h-12 w-44 rounded-none" />
-                        <Skeleton className="h-6 w-28 rounded-none" />
-                    </div>
-
-                    <div className="mt-8 flex flex-col gap-3">
-                        <Skeleton className="h-14 w-full rounded-none" />
-                        <Skeleton className="h-14 w-full rounded-none" />
-                    </div>
-
-                    <div className="mt-8 space-y-4 border-t border-border/30 pt-8">
-                        {[1, 2, 3, 4].map((row) => (
-                            <div key={row} className="flex items-center justify-between gap-4">
-                                <Skeleton className="h-4 w-1/3 rounded-none" />
-                                <Skeleton className="h-4 w-2/5 rounded-none" />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            <section className="grid grid-cols-1 gap-8 border-y border-border/30 pt-8 pb-16 lg:grid-cols-12 lg:gap-12">
-                <div className="lg:col-span-4">
-                    <Skeleton className="h-8 w-48 rounded-none" />
-                    <Skeleton className="mt-4 h-0.5 w-12 rounded-none" />
-                </div>
-                <div className="lg:col-span-8">
-                    <div className="space-y-3">
-                        <Skeleton className="h-4 w-full rounded-none" />
-                        <Skeleton className="h-4 w-full rounded-none" />
-                        <Skeleton className="h-4 w-4/5 rounded-none" />
-                    </div>
-                    <div className="mt-6 border-l-4 border-primary/20 bg-surface-container-low px-6 py-5 space-y-3">
-                        <Skeleton className="h-4 w-40 rounded-none" />
-                        <Skeleton className="h-4 w-full rounded-none" />
-                        <Skeleton className="h-4 w-3/4 rounded-none" />
-                    </div>
-                </div>
-            </section>
-
-            <div className="mt-16">
-                <section className="flex min-w-0 flex-col gap-8">
-                    <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-start">
-                        <div>
-                            <Skeleton className="h-8 w-56 rounded-none" />
-                            <Skeleton className="mt-4 h-0.5 w-12 rounded-none" />
-                        </div>
-                        <div className="flex gap-4 flex-wrap items-end">
-                            {[1, 2, 3, 4, 5, 6, 7].map((range) => (
-                                <Skeleton key={range} className="h-4 w-10 rounded-none" />
-                            ))}
-                        </div>
-                    </div>
-                    <Skeleton className="min-h-75 w-full border border-outline-variant/10 bg-surface-container-low rounded-none" />
-                </section>
-            </div>
-
-            <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
-                <div className="lg:col-span-4">
-                    <section className="flex h-full min-w-0 flex-col gap-6">
-                        <div className="flex flex-col gap-4 w-full flex-shrink-0">
-                            <div>
-                                <Skeleton className="h-8 w-40 rounded-none" />
-                                <Skeleton className="mt-4 h-0.5 w-12 rounded-none" />
-                            </div>
-                            <div className="flex gap-2 flex-wrap">
-                                <Skeleton className="h-4 w-14 rounded-none" />
-                                <Skeleton className="h-4 w-16 rounded-none" />
-                                <Skeleton className="h-4 w-24 rounded-none" />
-                            </div>
-                        </div>
-
-                        <div className="space-y-5">
-                            {[1, 2, 3, 4].map((item) => (
-                                <div key={item} className="flex gap-3">
-                                    <div className="flex flex-col items-center">
-                                        <Skeleton className="h-2.5 w-2.5 rounded-full" />
-                                        <Skeleton className="mt-2 h-16 w-0.5 rounded-none" />
-                                    </div>
-                                    <div className="flex-1 space-y-2">
-                                        <Skeleton className="h-4 w-28 rounded-none" />
-                                        <Skeleton className="h-4 w-2/3 rounded-none" />
-                                        <Skeleton className="h-4 w-5/6 rounded-none" />
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                </div>
-
-                <div className="lg:col-span-8">
-                    <section className="flex min-w-0 flex-col gap-6">
-                        <div>
-                            <Skeleton className="h-8 w-56 rounded-none" />
-                            <Skeleton className="mt-4 h-0.5 w-12 rounded-none" />
-                        </div>
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-                            {[1, 2, 3].map((card) => (
+        <div
+            aria-busy="true"
+            data-testid="product-detail-skeleton"
+            className="mx-auto w-full max-w-[calc(var(--container-content)+2*var(--page-gutter))] px-(--page-gutter) pt-0 pb-16 sm:pt-10 sm:pb-28"
+        >
+            <div aria-hidden="true" className="animate-pulse motion-reduce:animate-none">
+                <section className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16">
+                    <div className="flex flex-col gap-3">
+                        <div className="aspect-[4/5] bg-image-ground max-sm:-mx-(--page-gutter) sm:rounded-figure" />
+                        <div className="hidden grid-cols-6 gap-3 sm:grid">
+                            {THUMBNAIL_IDS.map((id) => (
                                 <div
-                                    key={card}
-                                    className="border border-outline-variant/10 bg-surface-container-low"
+                                    key={id}
+                                    className="aspect-square rounded-md bg-image-ground"
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-7">
+                        <div className="flex items-center justify-between">
+                            <div className={cn("h-7 w-28 rounded-pill", BLOCK)} />
+                            <div className="flex gap-1">
+                                <div className={cn("size-11 rounded-pill", BLOCK)} />
+                                <div className={cn("size-11 rounded-pill", BLOCK)} />
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-3.5">
+                            <div className={cn("h-[11px] w-[34%] rounded-xs", BLOCK)} />
+                            <div className={cn("h-10 w-[96%] rounded-sm", BLOCK)} />
+                            <div className={cn("h-10 w-[64%] rounded-sm", BLOCK)} />
+                        </div>
+                        <div className="flex flex-col gap-5 border-t border-line pt-6">
+                            <div className={cn("h-11 w-[38%] rounded-sm", BLOCK)} />
+                            <div className="flex h-[46px] items-center justify-between border-y border-line-subtle">
+                                <div className={cn("h-2.5 w-18 rounded-xs", BLOCK)} />
+                                <div className={cn("h-4 w-30 rounded-xs", BLOCK)} />
+                            </div>
+                            <div className={cn("h-13 rounded-pill", BLOCK)} />
+                            <div className="h-13 rounded-pill shadow-[inset_0_0_0_1px_var(--color-line)]" />
+                        </div>
+                        <div className="flex flex-col gap-[13px] border-t border-line pt-7">
+                            <div className={cn("mb-1.5 h-6 w-[150px] rounded-sm", BLOCK)} />
+                            {DESCRIPTION_LINES.map((line) => (
+                                <div
+                                    key={line.id}
+                                    className={cn("h-3 rounded-xs", BLOCK, line.gap && "mt-2.5")}
+                                    style={{ width: line.width }}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                <div className="mt-14 rounded-figure bg-surface-raised p-5 shadow-ring sm:mt-24 sm:p-8">
+                    <div className="mb-7 flex items-center justify-between gap-6">
+                        <div className={cn("h-8 w-[220px] rounded-sm", BLOCK)} />
+                        <div className={cn("hidden h-10 w-[360px] rounded-pill sm:block", BLOCK)} />
+                    </div>
+                    <div className="h-60 rounded-md bg-[repeating-linear-gradient(180deg,transparent_0_79px,var(--color-line-subtle)_79px_80px)] sm:h-80" />
+                </div>
+
+                <div className="mt-14 grid grid-cols-1 gap-14 sm:mt-24 lg:gap-16 xl:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]">
+                    <div className="flex flex-col gap-4">
+                        <div className={cn("h-8 w-40 rounded-sm", BLOCK)} />
+                        <div className={cn("h-11 w-full rounded-sm", BLOCK)} />
+                        <div className={cn("h-24 w-full rounded-sm", BLOCK)} />
+                        <div className={cn("h-24 w-full rounded-sm", BLOCK)} />
+                    </div>
+                    <div className="flex flex-col gap-6">
+                        <div className={cn("h-8 w-48 rounded-sm", BLOCK)} />
+                        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                            {["s1", "s2", "s3"].map((id, index) => (
+                                <div
+                                    key={id}
+                                    className={cn(
+                                        index > 0 && "max-sm:hidden",
+                                        index > 1 && "max-lg:hidden",
+                                    )}
                                 >
-                                    <Skeleton className="aspect-video w-full rounded-none" />
-                                    <div className="space-y-3 p-4">
-                                        <Skeleton className="h-4 w-full rounded-none" />
-                                        <Skeleton className="h-4 w-3/4 rounded-none" />
-                                        <Skeleton className="h-4 w-1/2 rounded-none" />
-                                    </div>
+                                    <SearchResultCardSkeleton />
                                 </div>
                             ))}
                         </div>
-                    </section>
+                    </div>
                 </div>
             </div>
         </div>

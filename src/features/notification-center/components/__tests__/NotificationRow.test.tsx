@@ -1,0 +1,287 @@
+import { renderWithRouter } from "@/test/utils.tsx";
+import { NotificationRow } from "../NotificationRow.tsx";
+import { screen } from "@testing-library/react";
+import { act } from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { Notification } from "@/data/internal/notification/Notification.ts";
+import { notification, watchlistPayload } from "../../__tests__/fixtures.ts";
+import { NotificationItem } from "../NotificationItem.tsx";
+
+const mockUseUserAccount = vi.hoisted(() => vi.fn());
+const mockUseMarkNotificationSeen = vi.hoisted(() => vi.fn());
+const mockUseDeleteNotification = vi.hoisted(() => vi.fn());
+
+vi.mock("@tanstack/react-router", async (importOriginal) => ({
+    ...(await importOriginal<typeof import("@tanstack/react-router")>()),
+    useRouteContext: () => ({ timeZone: "America/New_York" }),
+}));
+
+vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
+    useUserAccount: mockUseUserAccount,
+}));
+
+vi.mock("@/features/notification-center/api/useMarkNotificationSeen.ts", () => ({
+    useMarkNotificationSeen: mockUseMarkNotificationSeen,
+}));
+
+vi.mock("@/features/notification-center/api/useDeleteNotification.ts", () => ({
+    useDeleteNotification: mockUseDeleteNotification,
+}));
+
+describe("Notification rows", () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+        mockUseUserAccount.mockReturnValue({
+            data: { showUnassessedOrSensitiveContent: false },
+        });
+        mockUseMarkNotificationSeen.mockReturnValue({
+            isPending: false,
+            mutate: vi.fn(),
+        });
+        mockUseDeleteNotification.mockReturnValue({
+            isPending: false,
+            mutate: vi.fn(),
+        });
+    });
+
+    it("renders the optional partner application shop logo when present", async () => {
+        const notification: Notification = {
+            notificationId: "notification-1",
+            seen: false,
+            created: new Date("2024-04-01T10:00:00Z"),
+            updated: new Date("2024-04-01T10:00:00Z"),
+            payload: {
+                type: "PARTNER_APPLICATION",
+                listingSourceName: "Antique Shop",
+                image: "https://example.com/logo.png",
+                decision: "APPROVED",
+                partnershipApplicationId: "partner-application-1",
+            },
+        };
+
+        let container!: HTMLElement;
+        await act(async () => {
+            ({ container } = renderWithRouter(<NotificationRow notification={notification} />));
+        });
+
+        expect(screen.getByText("Antique Shop")).toBeInTheDocument();
+        expect(
+            container.querySelector('img[src="https://example.com/logo.png"]'),
+        ).toBeInTheDocument();
+    });
+
+    it("marks an unread row with a dot and a New label, and drops both once read", async () => {
+        await act(async () => {
+            renderWithRouter(<NotificationRow notification={notification()} />);
+        });
+        expect(screen.getByText("Ungelesen")).toBeInTheDocument();
+        expect(screen.getByText("Neu")).toBeInTheDocument();
+        expect(screen.getByText("Preisänderung")).toBeInTheDocument();
+        expect(screen.getByText("· Merkliste", { exact: false })).toBeInTheDocument();
+    });
+
+    it("leaves read rows without unread markers or a mark-as-read button", async () => {
+        await act(async () => {
+            renderWithRouter(<NotificationRow notification={notification({ seen: true })} />);
+        });
+        expect(screen.queryByText("Ungelesen")).not.toBeInTheDocument();
+        expect(screen.queryByText("Neu")).not.toBeInTheDocument();
+        expect(
+            screen.queryByRole("button", { name: "Als gelesen markieren" }),
+        ).not.toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Löschen" })).toBeInTheDocument();
+    });
+
+    it("shows the relative price change on the page row", async () => {
+        let container!: HTMLElement;
+        await act(async () => {
+            ({ container } = renderWithRouter(<NotificationRow notification={notification()} />));
+        });
+        const text = (container.textContent ?? "").replace(/[  ]/g, " ");
+        expect(text).toContain("−20 %");
+    });
+
+    it("hides an unassessed listing photo until sensitive content is allowed", async () => {
+        await act(async () => {
+            renderWithRouter(<NotificationRow notification={notification()} />);
+        });
+        expect(screen.getByTestId("prohibited-image-placeholder")).toBeInTheDocument();
+        expect(document.querySelector("img")).not.toBeInTheDocument();
+    });
+
+    it("links a search filter match to its filter", async () => {
+        const { change: _change, ...product } = watchlistPayload;
+        const value = notification({
+            kind: "SEARCH_FILTER_MATCH",
+            payload: { ...product, userSearchFilterId: "filter-1", userSearchFilterName: "Vases" },
+        });
+        await act(async () => {
+            renderWithRouter(<NotificationRow notification={value} />);
+        });
+        expect(screen.getByText("Vases")).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "Alle Treffer" })).toHaveAttribute(
+            "href",
+            "/de/me/search-filter/filter-1",
+        );
+    });
+
+    it("marks a popover item read and closes the popover when its title is opened", async () => {
+        const onNavigate = vi.fn();
+        await act(async () => {
+            renderWithRouter(
+                <ul>
+                    <NotificationItem notification={notification()} onNavigate={onNavigate} />
+                </ul>,
+            );
+        });
+        await act(async () => {
+            screen.getByRole("link", { name: "Vintage Vase" }).click();
+        });
+        expect(mockUseMarkNotificationSeen().mutate).toHaveBeenCalledWith("notification-1");
+        expect(onNavigate).toHaveBeenCalledTimes(1);
+    });
+
+    for (const Component of [NotificationRow, NotificationItem]) {
+        describe(Component.name, () => {
+            it("formats near-midnight dates in the server-provided visitor timezone", async () => {
+                const value = notification({ created: "2026-09-10T00:30:00Z" });
+                await act(async () => {
+                    renderWithRouter(<Component notification={value} />);
+                });
+                expect(screen.getByText("09.09.2026")).toBeInTheDocument();
+                expect(screen.queryByText("10.09.2026")).not.toBeInTheDocument();
+            });
+            it("renders redacted on-request/null prices without a listing link or image", async () => {
+                const value = notification({
+                    payload: {
+                        ...watchlistPayload,
+                        title: null,
+                        image: null,
+                        productListingTitleSlugId: "",
+                        change: {
+                            type: "PRICE_CHANGE",
+                            oldPrice: null,
+                            newPrice: { type: "ON_REQUEST" },
+                        },
+                    },
+                });
+                await act(async () => {
+                    renderWithRouter(<Component notification={value} />);
+                });
+                expect(screen.getByText("Unbenanntes Objekt")).toBeInTheDocument();
+                expect(
+                    screen.queryByRole("link", { name: "Unbenanntes Objekt" }),
+                ).not.toBeInTheDocument();
+                expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
+                expect(screen.getByText("Preis auf Anfrage")).toBeInTheDocument();
+                expect(document.querySelector("img")).not.toBeInTheDocument();
+            });
+
+            it.each([
+                ["KRW", 1_500_000, 1_250_000, "1.500.000 ₩", "1.250.000 ₩"],
+                ["SEK", 1_234_550, 999_905, "12.345,50 SEK", "9.999,05 SEK"],
+            ] as const)(
+                "renders %s price changes in the payload currency",
+                async (currency, oldAmount, newAmount, oldText, newText) => {
+                    const value = notification({
+                        payload: {
+                            ...watchlistPayload,
+                            change: {
+                                type: "PRICE_CHANGE",
+                                oldPrice: { type: "MONETARY", amount: oldAmount, currency },
+                                newPrice: { type: "MONETARY", amount: newAmount, currency },
+                            },
+                        },
+                    });
+                    let container!: HTMLElement;
+                    await act(async () => {
+                        ({ container } = renderWithRouter(<Component notification={value} />));
+                    });
+                    const text = (container.textContent ?? "").replace(/[\u00a0\u202f]/g, " ");
+                    expect(text).toContain(oldText);
+                    expect(text).toContain(newText);
+                    expect(text).not.toContain("undefined");
+                    expect(text).not.toContain("€");
+                    expect(text).not.toContain("EUR");
+                },
+            );
+
+            it("marks and deletes using notification ID", async () => {
+                await act(async () => {
+                    renderWithRouter(<Component notification={notification()} />);
+                });
+                const buttons = screen.getAllByRole("button");
+                await act(async () => {
+                    buttons[0].click();
+                    buttons[1].click();
+                });
+                expect(mockUseMarkNotificationSeen().mutate).toHaveBeenCalledWith("notification-1");
+                expect(mockUseDeleteNotification().mutate).toHaveBeenCalledWith("notification-1");
+                expect(screen.getByRole("link", { name: "Vintage Vase" })).toHaveAttribute(
+                    "href",
+                    "/de/products/vintage-vase",
+                );
+            });
+
+            it("renders nullable availability", async () => {
+                const value = notification({
+                    kind: "WATCHLIST_AVAILABILITY_CHANGED",
+                    payload: {
+                        ...watchlistPayload,
+                        change: {
+                            type: "AVAILABILITY_CHANGE",
+                            oldAvailability: null,
+                            newAvailability: "SOLD_OUT",
+                        },
+                    },
+                });
+                await act(async () => {
+                    renderWithRouter(<Component notification={value} />);
+                });
+                expect(screen.getByText("Vintage Vase")).toBeInTheDocument();
+                expect(
+                    screen.queryByText("product.listingAvailability.unknown"),
+                ).not.toBeInTheDocument();
+            });
+
+            it("renders a search filter match", async () => {
+                const { change: _change, ...product } = watchlistPayload;
+                const value = notification({
+                    kind: "SEARCH_FILTER_MATCH",
+                    payload: {
+                        ...product,
+                        userSearchFilterId: "filter-1",
+                        userSearchFilterName: "Vases",
+                    },
+                });
+                await act(async () => {
+                    renderWithRouter(<Component notification={value} />);
+                });
+                expect(screen.getByText("Vintage Vase")).toBeInTheDocument();
+            });
+
+            it.each(["APPROVED", "REJECTED"] as const)(
+                "renders partnership %s without a logo",
+                async (decision) => {
+                    const value = notification({
+                        kind:
+                            decision === "APPROVED"
+                                ? "PARTNERSHIP_APPLICATION_APPROVED"
+                                : "PARTNERSHIP_APPLICATION_REJECTED",
+                        payload: {
+                            partnershipApplicationId: "application-1",
+                            decision,
+                            listingSourceName: "Shop",
+                            image: null,
+                        },
+                    });
+                    await act(async () => {
+                        renderWithRouter(<Component notification={value} />);
+                    });
+                    expect(screen.getByText("Shop")).toBeInTheDocument();
+                    expect(document.querySelector("img")).not.toBeInTheDocument();
+                },
+            );
+        });
+    }
+});

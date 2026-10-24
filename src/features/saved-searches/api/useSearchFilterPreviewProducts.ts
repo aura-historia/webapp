@@ -40,7 +40,7 @@ function toListingSearchQuery(
         currency: parseCurrency(currency),
         productQuery,
         enhancedSearchDescription: search.enhancedSearchDescription,
-        excludeProductId: search.excludeProductId,
+        excludeProductListingId: search.excludeProductId,
         listingSourceId: search.listingSourceId,
         excludeListingSourceId: search.excludeListingSourceId,
         auctionId: search.auctionId,

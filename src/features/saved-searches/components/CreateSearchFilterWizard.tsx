@@ -1,17 +1,16 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils.ts";
 import type React from "react";
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { AnimatePresence, motion } from "motion/react";
-import { Lock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Lock, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog.tsx";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog.tsx";
 import {
     Form,
     FormControl,
@@ -21,29 +20,17 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form.tsx";
-import { Input } from "@/components/ui/input.tsx";
 import { TagInput } from "@/components/ui/tag-input.tsx";
-import { Textarea } from "@/components/ui/textarea.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Badge } from "@/components/ui/badge.tsx";
-import { H3 } from "@/components/typography/H3.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
-import {
-    Stepper,
-    StepperIndicator,
-    StepperItem,
-    StepperNav,
-    StepperSeparator,
-    StepperTitle,
-    StepperTrigger,
-} from "@/components/ui/stepper.tsx";
 import { SearchFilterFormProvider } from "@/features/search/common/components/SearchFilterFormProvider.tsx";
-import { AuctionDateSpanFilter } from "@/features/search/products/components/filters/AuctionDateSpanFilter.tsx";
-import { CreationDateSpanFilter } from "@/features/search/products/components/filters/CreationDateSpanFilter.tsx";
+import {
+    AuctionDateSpanFilter,
+    CreationDateSpanFilter,
+    UpdateDateSpanFilter,
+} from "@/features/search/products/components/filters/DateSpanFilter.tsx";
 import { MerchantFilters } from "@/features/search/products/components/filters/MerchantFilters.tsx";
 import { PriceSpanFilter } from "@/features/search/products/components/filters/PriceSpanFilter.tsx";
 import { ProductStateFilter } from "@/features/search/products/components/filters/ProductStateFilter.tsx";
-import { UpdateDateSpanFilter } from "@/features/search/products/components/filters/UpdateDateSpanFilter.tsx";
 import { useCreateUserSearchFilter } from "@/features/saved-searches/api/useCreateUserSearchFilter.ts";
 import { useUpdateUserSearchFilter } from "@/features/saved-searches/api/useUpdateUserSearchFilter.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
@@ -51,6 +38,14 @@ import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchF
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { SearchFilterWizardConfirmStep } from "@/features/saved-searches/components/SearchFilterWizardConfirmStep.tsx";
+import {
+    FIELD_CLASS,
+    FOCUS_CLASS,
+    GHOST_PILL_CLASS,
+    ICON_BUTTON_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+} from "@/features/saved-searches/lib/searchFilterStyles.ts";
 import type { Variants } from "motion";
 import type { Currency } from "@/data/internal/common/Currency.ts";
 
@@ -88,7 +83,7 @@ type FilterStep = {
 };
 
 /**
- * Filter steps for the wizard (steps 2–6).
+ * Filter steps for the wizard (steps 2–4).
  * `restricted: true` marks steps that require a paid plan.
  * `content` receives `disabled` so filter components can be grayed out for FREE users.
  */
@@ -126,25 +121,85 @@ const FILTER_STEPS: FilterStep[] = [
 // Step 1 (name) + N filter steps + confirm step
 const TOTAL_STEPS = FILTER_STEPS.length + 2;
 
+const LABEL_CLASS = "text-meta font-medium text-ink data-[error=true]:text-oxblood";
+const HINT_CLASS = "text-xs leading-[1.5] text-ink-muted";
+const MESSAGE_CLASS = "text-xs text-oxblood";
+const OPTIONAL_TAG_CLASS =
+    "rounded-sm bg-surface-sunken px-1.5 py-0.5 font-mono text-tag tracking-[0.1em] text-ink-muted uppercase";
+
 type StepHeaderProps = {
+    readonly step: number;
     readonly title: string;
     readonly description: string;
     readonly optional?: boolean;
-    readonly restricted?: boolean;
+    readonly onClose: () => void;
 };
 
-function StepHeader({ title, description, optional = false, restricted = false }: StepHeaderProps) {
+function StepHeader({ step, title, description, optional = false, onClose }: StepHeaderProps) {
     const { t } = useTranslation();
     return (
-        <div className="space-y-2 mb-6">
-            <div className="flex items-center gap-2">
-                <H3>{title}</H3>
-                {optional && <Badge variant="secondary">{t("searchFilter.optional")}</Badge>}
-                {restricted && (
-                    <Badge variant="secondary">{t("searchFilter.upgradeRequired")}</Badge>
-                )}
+        <div className="flex items-start justify-between gap-4 px-5 pt-[22px] pb-[18px] lg:px-9 lg:pt-8 lg:pb-6">
+            <div className="flex max-w-[560px] flex-col gap-2.5">
+                <span className="inline-flex items-center gap-2.5 font-mono text-kicker tracking-[0.14em] text-ink-muted uppercase">
+                    {t("searchFilter.wizard.stepOf", { step, total: TOTAL_STEPS })}
+                    {optional && (
+                        <span className={OPTIONAL_TAG_CLASS}>{t("searchFilter.optional")}</span>
+                    )}
+                </span>
+                <h3 className="font-serif text-[26px] leading-[1.12] font-normal tracking-[-0.01em] lg:text-[30px]">
+                    {title}
+                </h3>
+                <DialogDescription className="text-body-sm text-ink-secondary">
+                    {description}
+                </DialogDescription>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
+            <button
+                type="button"
+                aria-label={t("searchFilter.saveDialog.close")}
+                onClick={onClose}
+                className={cn(
+                    ICON_BUTTON_CLASS,
+                    "-mt-1.5 -mr-2.5 hidden size-10 text-ink-muted lg:inline-flex",
+                )}
+            >
+                <X aria-hidden="true" className="size-[18px]" strokeWidth={1.8} />
+            </button>
+        </div>
+    );
+}
+
+/** The notice above a plan-restricted step on the Free plan. */
+function LockedStepNotice() {
+    const { t } = useTranslation();
+    return (
+        <div className="mb-6 flex flex-wrap items-center gap-x-4 gap-y-3 rounded-lg bg-surface-sunken px-[18px] py-4">
+            <span
+                aria-hidden="true"
+                className="inline-flex size-9 shrink-0 items-center justify-center rounded-pill bg-surface-raised text-oxblood shadow-ring"
+            >
+                <Lock className="size-4" strokeWidth={1.8} />
+            </span>
+            <div className="flex min-w-0 flex-[1_1_220px] flex-col gap-1">
+                <span className="font-mono text-kicker tracking-[0.14em] text-brass-ink uppercase">
+                    {t("searchFilter.upgradeRequired")}
+                </span>
+                <span className="text-body-sm text-ink-secondary">
+                    {t("searchFilter.wizard.lockedHint")}
+                </span>
+            </div>
+            <Link
+                to="/$lng"
+                hash="pricing"
+                params={true}
+                from="/$lng"
+                className={cn(
+                    "inline-flex min-h-11 items-center gap-1.5 rounded-xs text-sm font-medium text-oxblood",
+                    FOCUS_CLASS,
+                )}
+            >
+                {t("searchFilter.upgradeNow")}
+                <ArrowRight aria-hidden="true" className="size-3.5" strokeWidth={1.8} />
+            </Link>
         </div>
     );
 }
@@ -208,7 +263,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
     const scrollRef = useRef<HTMLDivElement>(null);
 
     // Focus the scroll container on every step change so Enter-key events are captured.
-    // Step 1 is excluded — its <Input autoFocus> handles focus itself.
+    // Step 1 is excluded — its name input autofocuses itself.
     useEffect(() => {
         if (step > 1) scrollRef.current?.focus();
     }, [step]);
@@ -263,11 +318,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
         mode,
     ]);
 
-    /**
-     * Step labels shown in the sidebar.
-     * Only recomputed when the language changes.
-     * Note: Shadcn has no built-in Stepper — we use our own implementation in components/ui/stepper.tsx.
-     */
+    /** Step labels for the stepper; only recomputed when the language changes. */
     const stepLabels = useMemo(
         () => [
             t("searchFilter.wizard.step.name"),
@@ -292,10 +343,11 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
             if (e.key !== "Enter" || (e.target as HTMLElement).tagName === "TEXTAREA") return;
             const target = e.target;
             if (
-                step === TOTAL_STEPS &&
                 target instanceof Element &&
                 target.closest(
-                    "a, button, input, select, [role='button'], [role='link'], [contenteditable='true']",
+                    step === TOTAL_STEPS
+                        ? "a, button, input, select, [role='button'], [role='link'], [contenteditable='true']"
+                        : "a, button, [role='button'], [role='link']",
                 )
             ) {
                 return;
@@ -310,147 +362,166 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
         [step, handleNext, handleSave],
     );
 
+    const close = () => onOpenChange(false);
+
     /**
      * Returns the content for the current step:
-     * - Step 1: enter name
-     * - Steps 2–6: configure filters
-     * - Last step: summary before saving
+     * - Step 1: name, search terms and the AI description
+     * - Steps 2–4: configure filters
+     * - Last step: summary and preview before saving
      */
     const renderStepContent = () => {
         if (step === 1)
             return (
-                <>
-                    <StepHeader
-                        title={t("searchFilter.wizard.step.name")}
-                        description={t("searchFilter.wizard.step.nameDescription")}
-                    />
-                    <Form {...nameForm}>
-                        <div className="space-y-4">
-                            <FormField
-                                control={nameForm.control}
-                                name="name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>
-                                            {t("searchFilter.saveDialog.nameLabel")}
-                                        </FormLabel>
-                                        <FormDescription className="text-xs -mt-1">
-                                            {t("searchFilter.saveDialog.nameHint")}
-                                        </FormDescription>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                autoFocus
-                                                placeholder={t(
-                                                    "searchFilter.saveDialog.namePlaceholder",
-                                                )}
-                                                className="h-11"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={nameForm.control}
-                                name="queryTerms"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>
-                                            {t("searchFilter.saveDialog.queryLabel", {
-                                                count: field.value.length,
-                                            })}
-                                        </FormLabel>
-                                        <FormDescription className="text-xs -mt-1">
-                                            {t("searchFilter.saveDialog.queryHint")}
-                                        </FormDescription>
-                                        <FormControl>
-                                            <TagInput
-                                                value={field.value}
-                                                onChange={field.onChange}
-                                                minLength={3}
-                                                minLengthMessage={t(
-                                                    "searchFilter.wizard.queryTermTooShort",
-                                                )}
-                                                placeholder={t(
-                                                    "searchFilter.saveDialog.queryPlaceholder",
-                                                )}
-                                                removeTagLabel={(tag) =>
-                                                    t("searchFilter.saveDialog.removeQueryTerm", {
-                                                        term: tag,
-                                                    })
-                                                }
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={nameForm.control}
-                                name="enhancedSearchDescription"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <div className="flex items-center gap-1.5">
-                                            <FormLabel>
-                                                {t("searchFilter.saveDialog.aiDescriptionLabel")}
-                                            </FormLabel>
-                                            {!isUltimate && (
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <Lock className="size-3.5 text-muted-foreground cursor-pointer shrink-0" />
-                                                    </TooltipTrigger>
-                                                    <TooltipContent className="flex flex-col gap-1 max-w-56 text-center">
-                                                        <span>
-                                                            {t(
-                                                                "searchFilter.saveDialog.ultimateOnly",
-                                                            )}
-                                                        </span>
-                                                        <Link
-                                                            to="/$lng"
-                                                            hash="pricing"
-                                                            className="text-primary underline underline-offset-2 font-medium"
-                                                            params={true}
-                                                            from="/$lng"
-                                                        >
-                                                            {t("searchFilter.upgradeNow")}
-                                                        </Link>
-                                                    </TooltipContent>
-                                                </Tooltip>
+                <Form {...nameForm}>
+                    <div className="flex flex-col gap-7">
+                        <FormField
+                            control={nameForm.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem className="gap-2">
+                                    <FormLabel className={LABEL_CLASS}>
+                                        {t("searchFilter.saveDialog.nameLabel")}
+                                    </FormLabel>
+                                    <FormControl>
+                                        <input
+                                            {...field}
+                                            // biome-ignore lint/a11y/noAutofocus: the dialog's first field
+                                            autoFocus
+                                            maxLength={255}
+                                            placeholder={t(
+                                                "searchFilter.saveDialog.namePlaceholder",
                                             )}
-                                        </div>
-                                        <FormDescription className="text-xs -mt-1">
-                                            {t("searchFilter.saveDialog.aiDescriptionHint")}
-                                        </FormDescription>
-                                        <FormControl>
-                                            <Textarea
-                                                {...field}
-                                                placeholder={t(
-                                                    "searchFilter.saveDialog.aiDescriptionPlaceholder",
-                                                )}
-                                                className="min-h-28"
-                                                disabled={!isUltimate}
-                                                maxLength={1000}
-                                            />
-                                        </FormControl>
-                                        <div className="flex justify-between items-center">
-                                            <FormMessage />
-                                            <span className="text-xs text-muted-foreground ml-auto">
-                                                {field.value?.length ?? 0}/1000
+                                            className={cn(
+                                                FIELD_CLASS,
+                                                "h-12 text-base lg:h-11 lg:text-[15px]",
+                                            )}
+                                        />
+                                    </FormControl>
+                                    <FormDescription className={HINT_CLASS}>
+                                        {t("searchFilter.saveDialog.nameHint")}
+                                    </FormDescription>
+                                    <FormMessage className={MESSAGE_CLASS} />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={nameForm.control}
+                            name="queryTerms"
+                            render={({ field }) => (
+                                <FormItem className="gap-2">
+                                    <FormLabel className={LABEL_CLASS}>
+                                        {t("searchFilter.saveDialog.queryLabel", {
+                                            count: field.value.length,
+                                        })}
+                                    </FormLabel>
+                                    <FormControl>
+                                        <TagInput
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            minLength={3}
+                                            minLengthMessage={t(
+                                                "searchFilter.wizard.queryTermTooShort",
+                                            )}
+                                            placeholder={t(
+                                                "searchFilter.saveDialog.queryPlaceholder",
+                                            )}
+                                            removeTagLabel={(tag) =>
+                                                t("searchFilter.saveDialog.removeQueryTerm", {
+                                                    term: tag,
+                                                })
+                                            }
+                                        />
+                                    </FormControl>
+                                    <FormDescription className={HINT_CLASS}>
+                                        {t("searchFilter.saveDialog.queryHint")}
+                                    </FormDescription>
+                                    <FormMessage className={MESSAGE_CLASS} />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={nameForm.control}
+                            name="enhancedSearchDescription"
+                            render={({ field }) => (
+                                <FormItem className="gap-2">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <FormLabel
+                                            className={cn(
+                                                LABEL_CLASS,
+                                                !isUltimate && "text-ink-muted",
+                                            )}
+                                        >
+                                            {t("searchFilter.saveDialog.aiDescription")}{" "}
+                                            <span className="font-normal text-ink-muted">
+                                                {t("searchFilter.saveDialog.optional")}
                                             </span>
-                                        </div>
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                    </Form>
-                </>
+                                        </FormLabel>
+                                        {!isUltimate && (
+                                            <span className="inline-flex items-center gap-1 font-mono text-tag text-ink-muted uppercase">
+                                                <Lock
+                                                    aria-hidden="true"
+                                                    className="size-3"
+                                                    strokeWidth={2}
+                                                />
+                                                {t("searchFilter.saveDialog.ultimateBadge")}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <FormControl>
+                                        <textarea
+                                            {...field}
+                                            rows={3}
+                                            placeholder={t(
+                                                "searchFilter.saveDialog.aiDescriptionPlaceholder",
+                                            )}
+                                            disabled={!isUltimate}
+                                            maxLength={1000}
+                                            className={cn(
+                                                FIELD_CLASS,
+                                                "h-auto min-h-28 resize-none py-2.5 text-base leading-[1.5] lg:text-sm",
+                                            )}
+                                        />
+                                    </FormControl>
+                                    <div className="flex justify-between gap-2 text-xs text-ink-muted">
+                                        <FormDescription className={HINT_CLASS}>
+                                            {isUltimate ? (
+                                                t("searchFilter.saveDialog.aiDescriptionHint")
+                                            ) : (
+                                                <>
+                                                    {t("searchFilter.saveDialog.ultimateOnly")} ·{" "}
+                                                    <Link
+                                                        to="/$lng"
+                                                        hash="pricing"
+                                                        params={true}
+                                                        from="/$lng"
+                                                        className={cn(
+                                                            "font-medium text-oxblood",
+                                                            FOCUS_CLASS,
+                                                        )}
+                                                    >
+                                                        {t("searchFilter.upgradeNow")}
+                                                    </Link>
+                                                </>
+                                            )}
+                                        </FormDescription>
+                                        <span className="shrink-0 font-mono text-tag">
+                                            {field.value?.length ?? 0} / 1000
+                                        </span>
+                                    </div>
+                                    <FormMessage className={MESSAGE_CLASS} />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                </Form>
             );
         if (step === TOTAL_STEPS)
             return (
                 <SearchFilterWizardConfirmStep
                     name={nameForm.watch("name")}
                     enhancedSearchDescription={nameForm.watch("enhancedSearchDescription")}
+                    onChangeStep={goTo}
                     filters={{
                         ...filters,
                         currency: filters.currency ?? preferences.currency,
@@ -463,13 +534,13 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
         const disabled = isFree && !!fs.restricted;
         return (
             <>
-                <StepHeader
-                    title={t(fs.label)}
-                    description={t(fs.desc)}
-                    optional
-                    restricted={disabled}
-                />
-                {fs.content(disabled, filters.currency ?? preferences.currency)}
+                {disabled && <LockedStepNotice />}
+                <div
+                    className={cn("flex flex-col", disabled && "opacity-45")}
+                    aria-disabled={disabled}
+                >
+                    {fs.content(disabled, filters.currency ?? preferences.currency)}
+                </div>
             </>
         );
     };
@@ -478,85 +549,198 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
         edit: t("searchFilter.wizard.titleEdit"),
         duplicate: t("searchFilter.wizard.titleDuplicate"),
     };
-    const wizardTitle = wizardTitleByMode[mode] ?? t("searchFilter.wizard.title");
+    const wizardTitle = wizardTitleByMode[mode] ?? t("searchFilter.wizard.titleCreate");
+    const eyebrowByMode: Record<string, string> = {
+        edit: t("searchFilter.wizard.eyebrowEdit"),
+        duplicate: t("searchFilter.wizard.eyebrowDuplicate"),
+    };
+    const eyebrow = eyebrowByMode[mode] ?? t("searchFilter.wizard.eyebrow");
+
+    const stepDescriptions = [
+        t("searchFilter.wizard.step.nameDescription"),
+        ...FILTER_STEPS.map(({ desc }) => t(desc)),
+        t("searchFilter.wizard.step.confirmDescription"),
+    ];
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
-                className="w-full max-w-[95vw] lg:max-w-[1000px] h-[100dvh] md:h-[700px] flex flex-col gap-0 p-0 overflow-hidden shadow-2xl"
+                showCloseButton={false}
+                className="flex h-dvh w-full max-w-full flex-col gap-0 overflow-hidden rounded-none border-0 bg-surface-raised p-0 text-ink shadow-menu sm:max-w-full md:h-[700px] md:max-w-[95vw] md:rounded-panel lg:max-w-[1000px]"
                 onInteractOutside={(e) => e.preventDefault()}
                 onEscapeKeyDown={(e) => e.preventDefault()}
+                onKeyDown={handleContentKeyDown}
             >
-                <Stepper
-                    value={step}
-                    onValueChange={goTo}
-                    className="flex flex-1 flex-row min-h-0 overflow-hidden gap-0"
-                    onKeyDown={handleContentKeyDown}
-                >
-                    {/* Sidebar – desktop only */}
-                    <div className="hidden lg:flex flex-col w-52 shrink-0 bg-muted/30 px-5 pt-8 pb-6 border-r">
-                        <DialogHeader className="mb-6">
-                            <DialogTitle className="text-base font-bold tracking-tight leading-tight">
+                <DialogTitle className="sr-only">{wizardTitle}</DialogTitle>
+                <div className="flex min-h-0 flex-1 flex-col overflow-hidden lg:flex-row">
+                    {/* Stepper – desktop only */}
+                    <aside className="hidden w-[272px] shrink-0 flex-col gap-9 bg-surface px-7 py-8 shadow-[inset_-1px_0_0_var(--line-subtle)] lg:flex">
+                        <div className="flex flex-col gap-2.5">
+                            <span className="font-mono text-kicker tracking-[0.16em] text-brass-ink uppercase">
+                                {eyebrow}
+                            </span>
+                            <span
+                                aria-hidden="true"
+                                className="font-serif text-[30px] leading-[1.1] font-normal tracking-[-0.01em]"
+                            >
                                 {wizardTitle}
-                            </DialogTitle>
-                        </DialogHeader>
-                        <StepperNav className="flex-col items-stretch gap-0">
-                            {stepLabels.map((label, i) => (
-                                <Fragment key={label}>
-                                    <StepperItem
-                                        step={i + 1}
-                                        className="flex-row items-center gap-3"
-                                    >
-                                        <StepperTrigger className="flex-row items-center gap-3 w-full text-left">
-                                            <StepperIndicator className="size-8 text-xs font-semibold shrink-0" />
-                                            <StepperTitle className="text-sm font-medium leading-snug">
-                                                {label}
-                                            </StepperTitle>
-                                        </StepperTrigger>
-                                    </StepperItem>
-                                    {i < TOTAL_STEPS - 1 && (
-                                        <StepperSeparator
-                                            step={i + 1}
-                                            className="w-px h-5 ml-4 self-start"
-                                        />
-                                    )}
-                                </Fragment>
-                            ))}
-                        </StepperNav>
-                    </div>
+                            </span>
+                        </div>
+                        <ol
+                            aria-label={t("searchFilter.wizard.stepsLabel")}
+                            className="flex flex-col"
+                        >
+                            {stepLabels.map((label, index) => {
+                                const number = index + 1;
+                                const done = number < step;
+                                const current = number === step;
+                                const restricted = !!FILTER_STEPS[index - 1]?.restricted;
+                                const locked = restricted && isFree;
+                                const optional = number > 1 && number < TOTAL_STEPS;
+                                return (
+                                    <li key={label} className="relative flex">
+                                        {number < TOTAL_STEPS && (
+                                            <span
+                                                aria-hidden="true"
+                                                className={cn(
+                                                    "absolute top-9 -bottom-2 left-[13px] w-px",
+                                                    done ? "bg-oxblood" : "bg-line",
+                                                )}
+                                            />
+                                        )}
+                                        <button
+                                            type="button"
+                                            aria-current={current ? "step" : undefined}
+                                            onClick={() => goTo(number)}
+                                            className={cn(
+                                                "group flex min-h-[60px] flex-1 cursor-pointer items-start gap-3.5 rounded-xs pt-1 pb-4 text-left",
+                                                FOCUS_CLASS,
+                                            )}
+                                        >
+                                            <span
+                                                aria-hidden="true"
+                                                className={cn(
+                                                    "inline-flex size-7 shrink-0 items-center justify-center rounded-pill font-mono text-[11px]",
+                                                    done && "bg-oxblood text-on-oxblood",
+                                                    current && "bg-ink text-surface",
+                                                    !done &&
+                                                        !current &&
+                                                        "text-ink-muted shadow-[inset_0_0_0_1px_var(--line-strong)]",
+                                                )}
+                                            >
+                                                {done ? (
+                                                    <Check
+                                                        className="size-[13px]"
+                                                        strokeWidth={2.8}
+                                                    />
+                                                ) : (
+                                                    `0${number}`
+                                                )}
+                                            </span>
+                                            <span className="flex flex-col gap-1 pt-1">
+                                                <span
+                                                    className={cn(
+                                                        "text-sm leading-[1.3] group-hover:text-ink",
+                                                        current ? "font-semibold" : "font-normal",
+                                                        current || done
+                                                            ? "text-ink"
+                                                            : "text-ink-muted",
+                                                    )}
+                                                >
+                                                    {label}
+                                                </span>
+                                                {(locked || optional) && (
+                                                    <span className="inline-flex items-center gap-1 font-mono text-tag tracking-[0.1em] text-ink-muted uppercase">
+                                                        {locked && (
+                                                            <Lock
+                                                                aria-hidden="true"
+                                                                className="size-[11px]"
+                                                                strokeWidth={2}
+                                                            />
+                                                        )}
+                                                        {locked
+                                                            ? t("searchFilter.wizard.proTag")
+                                                            : t("searchFilter.optional")}
+                                                    </span>
+                                                )}
+                                            </span>
+                                        </button>
+                                    </li>
+                                );
+                            })}
+                        </ol>
+                    </aside>
 
                     {/* Content */}
-                    <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+                    <div className="flex min-h-0 min-w-0 flex-1 flex-col">
                         {/* Mobile/tablet progress header */}
-                        <div className="lg:hidden flex flex-col gap-2.5 px-4 pt-4 pb-3 border-b bg-muted/30 shrink-0">
-                            <p className="text-sm font-bold tracking-tight">{wizardTitle}</p>
-                            <div className="flex gap-1">
-                                {stepLabels.map((label, i) => (
-                                    <div
+                        <div className="flex shrink-0 flex-col gap-3 bg-surface px-5 pt-3.5 pb-[18px] shadow-[inset_0_-1px_0_var(--line-subtle)] lg:hidden">
+                            <div className="flex items-center justify-between gap-3">
+                                <span
+                                    aria-hidden="true"
+                                    className="font-serif text-[22px] leading-[1.15] font-normal"
+                                >
+                                    {wizardTitle}
+                                </span>
+                                <button
+                                    type="button"
+                                    aria-label={t("searchFilter.saveDialog.close")}
+                                    onClick={close}
+                                    className={cn(ICON_BUTTON_CLASS, "-mr-2.5 text-ink-muted")}
+                                >
+                                    <X
+                                        aria-hidden="true"
+                                        className="size-[18px]"
+                                        strokeWidth={1.8}
+                                    />
+                                </button>
+                            </div>
+                            <div
+                                role="progressbar"
+                                aria-label={t("searchFilter.wizard.progressLabel")}
+                                aria-valuemin={1}
+                                aria-valuemax={TOTAL_STEPS}
+                                aria-valuenow={step}
+                                className="grid grid-cols-5 gap-1"
+                            >
+                                {stepLabels.map((label, index) => (
+                                    <span
                                         key={label}
                                         className={cn(
-                                            "flex-1 h-1.5 rounded-full transition-colors duration-300",
-                                            i < step ? "bg-primary" : "bg-muted",
+                                            "h-[3px] rounded-xs transition-colors duration-300",
+                                            index < step ? "bg-oxblood" : "bg-surface-sunken",
                                         )}
                                     />
                                 ))}
                             </div>
-                            <div className="flex items-center justify-between gap-4">
-                                <span className="text-xs font-semibold truncate">
-                                    {stepLabels[step - 1]}
+                            <div className="flex justify-between gap-3 text-meta">
+                                <span className="truncate font-medium">
+                                    {t("searchFilter.wizard.stepOf", { step, total: TOTAL_STEPS })}{" "}
+                                    · {stepLabels[step - 1]}
                                 </span>
                                 {step < TOTAL_STEPS && (
-                                    <span className="text-xs text-muted-foreground truncate shrink-0">
-                                        {stepLabels[step]}
+                                    <span className="shrink-0 truncate text-ink-muted">
+                                        {t("searchFilter.wizard.nextStep", {
+                                            label: stepLabels[step],
+                                        })}
                                     </span>
                                 )}
                             </div>
                         </div>
+
+                        <StepHeader
+                            step={step}
+                            title={stepLabels[step - 1]}
+                            description={stepDescriptions[step - 1]}
+                            optional={step > 1 && step < TOTAL_STEPS}
+                            onClose={close}
+                        />
+
                         <SearchFilterFormProvider value={filters} onChange={setFilters}>
                             <div
                                 ref={scrollRef}
                                 tabIndex={-1}
-                                className="flex-1 min-h-0 overflow-y-auto outline-none"
+                                className="min-h-0 flex-1 overflow-y-auto outline-none"
                             >
                                 <AnimatePresence mode="wait" custom={direction}>
                                     <motion.div
@@ -566,7 +750,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
-                                        className="px-4 py-6 lg:px-8 lg:py-8"
+                                        className="px-5 pt-1 pb-7 lg:px-9 lg:pb-8"
                                     >
                                         {renderStepContent()}
                                     </motion.div>
@@ -574,50 +758,68 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                             </div>
                         </SearchFilterFormProvider>
 
-                        <div className="flex justify-between gap-3 px-4 py-4 lg:px-8 lg:py-5 border-t bg-muted/20 shrink-0">
-                            <Button
+                        <div className="flex shrink-0 items-center justify-between gap-2.5 bg-surface-raised px-5 pt-3 pb-5 shadow-[inset_0_1px_0_var(--line-subtle)] lg:px-9 lg:py-4">
+                            <button
                                 type="button"
-                                variant="outline"
-                                size="lg"
                                 disabled={isPending}
-                                onClick={() => (step === 1 ? onOpenChange(false) : goTo(step - 1))}
+                                onClick={() => (step === 1 ? close() : goTo(step - 1))}
+                                className={cn(
+                                    SECONDARY_PILL_CLASS,
+                                    "pr-[18px]",
+                                    step === 1 && "pl-[18px]",
+                                )}
                             >
+                                {step > 1 && (
+                                    <ArrowLeft
+                                        aria-hidden="true"
+                                        className="size-3.5"
+                                        strokeWidth={1.8}
+                                    />
+                                )}
                                 {step === 1
                                     ? t("searchFilter.saveDialog.cancelButton")
                                     : t("searchFilter.wizard.back")}
-                            </Button>
+                            </button>
                             <div className="flex items-center gap-2">
                                 {step < TOTAL_STEPS ? (
                                     <>
-                                        <Button
+                                        <button
                                             type="button"
-                                            variant="ghost"
-                                            size="lg"
                                             onClick={handleSaveDirect}
                                             disabled={isPending}
-                                            className="text-muted-foreground"
+                                            className={GHOST_PILL_CLASS}
                                         >
+                                            {isPending && <Spinner aria-hidden="true" />}
                                             {t("searchFilter.wizard.saveDirectly")}
-                                        </Button>
-                                        <Button type="button" size="lg" onClick={handleNext}>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={handleNext}
+                                            className={cn(PRIMARY_PILL_CLASS, "pr-[18px]")}
+                                        >
                                             {t("searchFilter.wizard.next")}
-                                        </Button>
+                                            <ArrowRight
+                                                aria-hidden="true"
+                                                className="size-3.5"
+                                                strokeWidth={1.8}
+                                            />
+                                        </button>
                                     </>
                                 ) : (
-                                    <Button
+                                    <button
                                         type="button"
-                                        size="lg"
                                         onClick={handleSave}
                                         disabled={isPending}
+                                        className={cn(PRIMARY_PILL_CLASS, "px-6")}
                                     >
-                                        {isPending && <Spinner />}
-                                        {t("searchFilter.saveDialog.saveButton")}
-                                    </Button>
+                                        {isPending && <Spinner aria-hidden="true" />}
+                                        {t("searchFilter.wizard.saveFinal")}
+                                    </button>
                                 )}
                             </div>
                         </div>
                     </div>
-                </Stepper>
+                </div>
             </DialogContent>
         </Dialog>
     );

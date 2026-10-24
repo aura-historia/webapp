@@ -8,8 +8,9 @@ import {
     useMatches,
 } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
-import manropeFontUrl from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
-import newsreaderFontUrl from "@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url";
+import geistFontUrl from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
+import newsreaderFontUrl from "@fontsource-variable/newsreader/files/newsreader-latin-opsz-normal.woff2?url";
+import newsreaderItalicFontUrl from "@fontsource-variable/newsreader/files/newsreader-latin-opsz-italic.woff2?url";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import { Footer } from "@/features/app-shell/components/Footer.tsx";
@@ -123,7 +124,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 },
                 {
                     rel: "preload",
-                    href: manropeFontUrl,
+                    href: geistFontUrl,
                     as: "font",
                     type: "font/woff2",
                     crossOrigin: "anonymous",
@@ -131,6 +132,13 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 {
                     rel: "preload",
                     href: newsreaderFontUrl,
+                    as: "font",
+                    type: "font/woff2",
+                    crossOrigin: "anonymous",
+                },
+                {
+                    rel: "preload",
+                    href: newsreaderItalicFontUrl,
                     as: "font",
                     type: "font/woff2",
                     crossOrigin: "anonymous",
@@ -215,10 +223,10 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
                 <body className="bg-background">
                     <NavigationProgress />
                     <div className={"min-h-screen flex flex-col"}>
-                        {/* Above the sticky header so the landing hero's -mt-20 still tucks under it. */}
+                        {/* Above the header so the landing hero still tucks under the header bar. */}
                         <ServiceStatusBanner />
                         <Header />
-                        <main className={isLandingPage ? "flex-1 -mt-20" : "flex-1"}>
+                        <main className={isLandingPage ? "flex-1 -mt-15 lg:-mt-22" : "flex-1"}>
                             {children}
                         </main>
                         <Footer />

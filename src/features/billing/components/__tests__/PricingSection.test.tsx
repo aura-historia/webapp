@@ -79,8 +79,11 @@ describe("PricingSection", () => {
         });
     });
 
-    it("renders the section heading", () => {
-        expect(screen.getByText("Den passenden Zugang wählen")).toBeInTheDocument();
+    it("renders the chapter heading with its italic closing phrase", () => {
+        expect(screen.getByText("V — Preise")).toBeInTheDocument();
+        const heading = screen.getByRole("heading", { level: 2 });
+        expect(heading).toHaveTextContent("Wählen Sie Ihren Zugang.");
+        expect(heading.querySelector("em")).toHaveTextContent("Zugang.");
     });
 
     it("renders the section subtitle", () => {
@@ -92,7 +95,7 @@ describe("PricingSection", () => {
     });
 
     it("renders all three tier names", () => {
-        expect(screen.getAllByText("Kostenlos")).toHaveLength(2);
+        expect(screen.getByRole("heading", { name: "Kostenlos" })).toBeInTheDocument();
         expect(screen.getByText("Pro")).toBeInTheDocument();
         expect(screen.getByText("Ultimate")).toBeInTheDocument();
     });
@@ -120,9 +123,15 @@ describe("PricingSection", () => {
         expect(screen.getByText("Jährlich")).toBeInTheDocument();
         expect(screen.getByText("2 Monate sparen")).toBeInTheDocument();
 
-        const toggle = screen.getByRole("switch");
-        expect(toggle).toBeInTheDocument();
-        expect(toggle).toHaveAttribute("data-state", "checked");
+        expect(screen.getByRole("group", { name: "Abrechnungszeitraum" })).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: /Jährlich/ })).toHaveAttribute(
+            "aria-pressed",
+            "true",
+        );
+        expect(screen.getByRole("button", { name: "Monatlich" })).toHaveAttribute(
+            "aria-pressed",
+            "false",
+        );
     });
 
     it("renders yearly equivalent prices by default (yearly pre-selected)", () => {
@@ -158,19 +167,13 @@ describe("PricingSection", () => {
         }).format(34.9);
 
         // Strikethrough prices should be present
-        const proStrikethrough = screen.getByText(
-            (_, element) =>
-                element?.textContent === germanProMonthly &&
-                element?.classList.contains("line-through"),
+        const struckPrices = Array.from(document.querySelectorAll("s")).map(
+            (element) => element.textContent,
         );
-        expect(proStrikethrough).toBeInTheDocument();
-
-        const ultimateStrikethrough = screen.getByText(
-            (_, element) =>
-                element?.textContent === germanUltimateMonthly &&
-                element?.classList.contains("line-through"),
-        );
-        expect(ultimateStrikethrough).toBeInTheDocument();
+        expect(struckPrices).toEqual([
+            `Regulärer Monatspreis: ${germanProMonthly}`,
+            `Regulärer Monatspreis: ${germanUltimateMonthly}`,
+        ]);
     });
 
     it("renders yearly billing note when yearly is selected", () => {
@@ -179,11 +182,12 @@ describe("PricingSection", () => {
         ).toBeGreaterThanOrEqual(2);
     });
 
-    it("switches to monthly prices when toggle is clicked", async () => {
+    it("switches to monthly prices when monthly billing is chosen", async () => {
         const user = userEvent.setup();
-        const toggle = screen.getByRole("switch");
 
-        await user.click(toggle);
+        await user.click(screen.getByRole("button", { name: "Monatlich" }));
+
+        expect(document.querySelectorAll("s")).toHaveLength(0);
 
         const germanProPrice = new Intl.NumberFormat("de", {
             style: "currency",
@@ -265,7 +269,7 @@ describe("PricingSection", () => {
         const aiAgentText = screen.getByText("KI-Suchagent");
         const listItem = aiAgentText.closest("li");
         expect(listItem?.className).toContain("font-semibold");
-        expect(listItem?.className).toContain("text-primary");
+        expect(listItem?.className).toContain("text-ink");
     });
 
     it("renders CTA buttons for all tiers", () => {
@@ -531,9 +535,8 @@ describe("PricingSection billing button behavior", () => {
         });
 
         const user = userEvent.setup();
-        const toggle = screen.getByRole("switch");
 
-        await user.click(toggle);
+        await user.click(screen.getByRole("button", { name: "Monatlich" }));
 
         const subscribeButtons = screen.getAllByText("Abonnieren");
         await user.click(subscribeButtons[0]);

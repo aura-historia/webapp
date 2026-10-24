@@ -26,7 +26,7 @@ export function AuthFlow({ step, onStepChange, onComplete, locale, redirect }: A
     const [pendingPassword, setPendingPassword] = useState("");
 
     return (
-        <div className="w-full max-w-md">
+        <div className="w-full">
             {step === "sign-in" && (
                 <SignInForm
                     onSwitchToSignUp={() => onStepChange("sign-up")}

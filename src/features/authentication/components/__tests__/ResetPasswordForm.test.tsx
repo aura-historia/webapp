@@ -49,7 +49,7 @@ describe("ResetPasswordForm", () => {
         );
 
         await user.type(screen.getByLabelText("E-Mail"), "user@example.com");
-        await user.click(screen.getByRole("button", { name: "Code senden" }));
+        await user.click(screen.getByRole("button", { name: "Reset-Code senden" }));
 
         await waitFor(() => {
             expect(screen.getByLabelText("Zurücksetzungscode")).toBeInTheDocument();
@@ -150,7 +150,10 @@ describe("ResetPasswordForm", () => {
         await waitFor(() => {
             expect(mockResendSignUpCode).toHaveBeenCalledWith({ username: "user@example.com" });
         });
-        expect(screen.getByRole("button", { name: "Code gesendet!" })).toBeDisabled();
+        expect(screen.getByText("Neuer Code gesendet")).toBeInTheDocument();
+        expect(
+            screen.queryByRole("button", { name: "Code erneut senden" }),
+        ).not.toBeInTheDocument();
     });
 
     it("shows an error and allows retrying when resending the sign-up code fails", async () => {
@@ -182,7 +185,7 @@ describe("ResetPasswordForm", () => {
         await waitFor(() => {
             expect(mockResendSignUpCode).toHaveBeenCalledTimes(2);
         });
-        expect(screen.getByRole("button", { name: "Code gesendet!" })).toBeDisabled();
+        expect(screen.getByText("Neuer Code gesendet")).toBeInTheDocument();
     });
 
     it("allows manually retrying sign-up confirmation after an automatic failure", async () => {

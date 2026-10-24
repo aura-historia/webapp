@@ -4,10 +4,6 @@ vi.mock("@/env", () => ({
     env: { VITE_APP_URL: "https://aura-historia.com", VITE_FEATURE_LOGIN_ENABLED: false },
 }));
 
-vi.mock("lottie-react", () => ({
-    Lottie: () => null,
-}));
-
 vi.mock("@tanstack/react-router", async () => {
     const actual =
         await vi.importActual<typeof import("@tanstack/react-router")>("@tanstack/react-router");
@@ -46,6 +42,8 @@ vi.mock("@tanstack/react-router", async () => {
 });
 
 import { screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ProductInfo } from "../ProductInfo.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { mapToProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
@@ -77,7 +75,7 @@ describe("ProductInfo", () => {
     it("renders the title, public source and display price", () => {
         renderWithQueryClient(<ProductInfo product={product} />);
         expect(screen.getByRole("heading", { name: "Test Product Title" })).toBeInTheDocument();
-        expect(screen.getByText("99,99 €")).toBeInTheDocument();
+        expect(screen.getByTestId("product-price")).toHaveTextContent("99,99 €");
         expect(screen.getByRole("link", { name: "Antique Store" })).toHaveAttribute(
             "href",
             "/de/shops/antique-store",
@@ -91,20 +89,30 @@ describe("ProductInfo", () => {
     });
     it("falls back to the source URL", () => {
         renderWithQueryClient(<ProductInfo product={{ ...product, viewUrl: undefined }} />);
-        expect(screen.getByRole("link", { name: /Zur Seite des Anbieters/ })).toHaveAttribute(
+        expect(screen.getAllByRole("link", { name: /Zur Seite des Anbieters/ })[0]).toHaveAttribute(
             "href",
             product.url?.href,
         );
     });
     it("disables the merchant action for a withdrawn listing", () => {
         renderWithQueryClient(<ProductInfo product={{ ...product, lifecycle: "WITHDRAWN" }} />);
-        expect(screen.getByRole("button", { name: /Zur Seite des Anbieters/ })).toBeDisabled();
+        expect(
+            screen.queryByRole("link", { name: /Zur Seite des Anbieters/ }),
+        ).not.toBeInTheDocument();
+        for (const action of screen.getAllByText("Zur Seite des Anbieters")) {
+            expect(action.closest("[aria-disabled]")).toHaveAttribute("aria-disabled", "true");
+        }
+        expect(
+            screen.getByText("Dieses Angebot wurde von seiner Quelle zurückgezogen."),
+        ).toBeInTheDocument();
     });
     it("disables the merchant action for a redacted URL", () => {
         renderWithQueryClient(
             <ProductInfo product={{ ...product, url: undefined, viewUrl: undefined }} />,
         );
-        expect(screen.getByRole("button", { name: /Zur Seite des Anbieters/ })).toBeDisabled();
+        expect(
+            screen.queryByRole("link", { name: /Zur Seite des Anbieters/ }),
+        ).not.toBeInTheDocument();
     });
     it("renders on-request prices", () => {
         renderWithQueryClient(
@@ -112,13 +120,13 @@ describe("ProductInfo", () => {
                 product={{ ...product, price: { type: "ON_REQUEST" }, displayPrice: undefined }}
             />,
         );
-        expect(screen.getByText("Preis auf Anfrage")).toBeInTheDocument();
+        expect(screen.getByTestId("product-price")).toHaveTextContent("Preis auf Anfrage");
     });
     it("renders missing prices", () => {
         renderWithQueryClient(
             <ProductInfo product={{ ...product, price: undefined, displayPrice: undefined }} />,
         );
-        expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
+        expect(screen.getByTestId("product-price")).toHaveTextContent("Preis unbekannt");
     });
     it("renders an unavailable historical SEK conversion as unknown, not as 0, EUR or the source amount", () => {
         const sold = mapToProductListingDetail(
@@ -152,13 +160,14 @@ describe("ProductInfo", () => {
                     lot: null,
                     created: "2026-08-01T00:00:00Z",
                     updated: "2026-09-01T00:00:00Z",
+                    shipping: null,
                 },
             },
             "de",
         );
 
         const { container } = renderWithQueryClient(<ProductInfo product={sold} />);
-        expect(screen.getByText("Preis unbekannt")).toBeInTheDocument();
+        expect(screen.getByTestId("product-price")).toHaveTextContent("Preis unbekannt");
         const content = container.textContent ?? "";
         expect(content).not.toMatch(/€|EUR|SEK|2\.500|0,00/);
         expect(content).not.toContain("undefined");
@@ -203,7 +212,7 @@ describe("ProductInfo", () => {
             },
         });
         renderWithQueryClient(<ProductInfo product={{ ...product, userState }} />);
-        expect(screen.getByRole("link", { name: "My filter" })).toHaveAttribute(
+        expect(screen.getByRole("link", { name: /My filter/ })).toHaveAttribute(
             "href",
             "/de/me/search-filter/filter-1",
         );
@@ -219,5 +228,71 @@ describe("ProductInfo", () => {
         });
         renderWithQueryClient(<ProductInfo product={{ ...product, userState }} />);
         expect(screen.queryByText("My filter")).not.toBeInTheDocument();
+    });
+    it("shows the estimate under the price", () => {
+        renderWithQueryClient(
+            <ProductInfo
+                product={{
+                    ...product,
+                    pricing: {
+                        ...product.pricing,
+                        display: {
+                            ...product.pricing.display,
+                            priceEstimateMin: { amount: 260000, currency: "EUR" },
+                            priceEstimateMax: { amount: 320000, currency: "EUR" },
+                        },
+                    },
+                }}
+            />,
+        );
+        expect(screen.getByTestId("product-price")).toHaveTextContent("99,99 €");
+        expect(screen.getByText("Schätzung")).toBeInTheDocument();
+        expect(screen.getByText(/2\.600.*3\.200/)).toBeInTheDocument();
+    });
+    it("shows the estimate as the figure when there is no price", () => {
+        renderWithQueryClient(
+            <ProductInfo
+                product={{
+                    ...product,
+                    price: undefined,
+                    displayPrice: undefined,
+                    pricing: {
+                        ...product.pricing,
+                        display: { priceEstimateMin: { amount: 400000, currency: "EUR" } },
+                    },
+                }}
+            />,
+        );
+        expect(screen.getByTestId("product-price")).toHaveTextContent(/^Ab 4\.000/);
+        expect(screen.getByText("Schätzung")).toBeInTheDocument();
+    });
+    it("renders the description when present", () => {
+        renderWithQueryClient(
+            <ProductInfo product={{ ...product, description: "Walnut with a marble top." }} />,
+        );
+        expect(screen.getByRole("heading", { name: "Beschreibung" })).toBeInTheDocument();
+        expect(screen.getByText("Walnut with a marble top.")).toBeInTheDocument();
+        expect(screen.queryByRole("button", { name: /Mehr anzeigen/ })).not.toBeInTheDocument();
+    });
+    it("omits the description section when there is none", () => {
+        renderWithQueryClient(<ProductInfo product={{ ...product, description: undefined }} />);
+        expect(screen.queryByRole("heading", { name: "Beschreibung" })).not.toBeInTheDocument();
+    });
+    it("starts a newly shown listing with its description clamped", async () => {
+        const long = "Walnut. ".repeat(80);
+        const { rerender } = renderWithQueryClient(
+            <ProductInfo product={{ ...product, description: long }} />,
+        );
+        await userEvent.click(screen.getByRole("button", { name: /Mehr anzeigen/ }));
+        expect(screen.getByRole("button", { name: /Weniger anzeigen/ })).toBeInTheDocument();
+
+        rerender(
+            <QueryClientProvider client={new QueryClient()}>
+                <ProductInfo
+                    product={{ ...product, productListingId: "other-listing", description: long }}
+                />
+            </QueryClientProvider>,
+        );
+        expect(screen.getByRole("button", { name: /Mehr anzeigen/ })).toBeInTheDocument();
     });
 });

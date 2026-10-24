@@ -31,7 +31,8 @@ info:
     - Many list and search endpoints use **cursor-based pagination** via `searchAfter`\n- Origin API responses include\
     \ server-generated `X-Request-Id` and `X-Correlation-Id` headers. Clients may send `X-Correlation-Id` to preserve a trace\
     \ only when it is a 1–128-character ASCII value containing letters, digits, `.`, `_`, or `-`; invalid values are replaced.\
-    \ Both headers are CORS-exposed; CloudFront removes them from viewer responses on the six cache-enabled discovery behaviors so shared cache hits cannot replay origin IDs.\n- Requests are limited to 1 MiB and time out after 30 seconds.\n- `POST /api/v1/webhooks/loops` is limited to 64 KiB and has a 10-second processing budget; it requires a valid Loops signature but no Aura bearer.\n- `GET /api/v1/health` is a\
+    \ Both headers are CORS-exposed; CloudFront removes them from viewer responses on the six cache-enabled discovery behaviors so shared cache hits cannot replay origin IDs.\n- Request bodies are limited to 1 MiB and requests time out after 30 seconds. A declared `Content-Length` above 1 MiB is\
+    \ rejected at the edge with `413` (`BAD_BODY_VALUE`, JSON body) before authentication or route handling.\n- `POST /api/v1/webhooks/loops` is limited to 64 KiB and has a 10-second processing budget; it requires a valid Loops signature but no Aura bearer.\n- `GET /api/v1/health` is a\
     \ process liveness check. `GET /api/v1/ready` returns `204` only when the configured PostgreSQL and OpenSearch dependencies are\
     \ reachable; it otherwise returns `503`.\n- WooCommerce webhook ingestion responds with **`204 No Content`** after\
     \ signed validation. A mapped raw-capture command receives `204` only after confirmed shared FIFO admission; authorized ignored create/update status events are no-op `204`. Queue admission is not raw capture, provider receipt persistence, canonical normalization, or search visibility. Capture conflicts are handled by the consumer, not returned synchronously; existing partner Product batch writes remain synchronous.\n\n## Environment\
@@ -79,6 +80,61 @@ paths:
           description: The readiness check succeeded.
         "503":
           description: The readiness check failed or timed out; no diagnostic body is returned.
+  /api/v1/overview:
+    get:
+      summary: Get public catalogue statistics
+      description: |
+        Anonymous aggregate statistics for the public catalogue. Hourly maintenance recalculates
+        every count together from authoritative PostgreSQL about every six hours, and reads return
+        that stored calculation; `asOf` is its time. Including the 15-minute shared edge cache,
+        figures are normally at most about seven hours old; a failed refresh keeps the previous
+        calculation.
+        There are no filters, personalization, or per-source, per-partner or per-user details.
+        Credentials are neither required nor evaluated, and query strings never change the
+        representation; send none, because each distinct query string is cached separately.
+        Clients should not attach a bearer token; any `Authorization` header makes the response
+        private.
+
+        Counts cover ProductListings with lifecycle `ACTIVE`, whatever their availability.
+        `sourcesIndexed` counts distinct ListingSources with at least one counted listing.
+        `countries` counts distinct countries in the counted listings' effective advertised-inventory
+        geography; business association and shipping destinations do not establish inventory location.
+        `languages` counts the union of original title and description languages; generated
+        translations and presentation fallbacks are excluded. `newObjectsLast7Days` counts listings
+        whose `created` timestamp lies in the 168 hours ending at `asOf` (start exclusive, end inclusive).
+        Effective geography and OpenSearch projections may lag PostgreSQL while they catch up.
+      operationId: getPublicOverview
+      tags: [Overview]
+      security: []
+      responses:
+        "200":
+          description: Anonymous successful 200 responses without Authorization use `public, max-age=0, s-maxage=900, stale-if-error=0`; any request with Authorization uses `private, no-store`.
+          headers:
+            Cache-Control:
+              schema: { type: string }
+              example: public, max-age=0, s-maxage=900, stale-if-error=0
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PublicOverviewData"
+        "500":
+          description: The aggregate read model is invalid. Cache-Control is no-store.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example:
+                status: 500
+                title: Internal Server Error
+                error: OVERVIEW_INTERNAL_ERROR
+        "503":
+          description: PostgreSQL is temporarily unavailable, or no calculation has been stored yet. Cache-Control is no-store.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example:
+                status: 503
+                title: Service Unavailable
+                error: OVERVIEW_TEMPORARILY_UNAVAILABLE
   /api/v1/auctions:
     get:
       summary: List public Auctions
@@ -185,6 +241,30 @@ paths:
           description: Complete returned JSON cursor. It is scoped to this Auction and includes `auctionId`, catalogue position, and ProductListing ID.
           schema: { type: string }
       responses:
+        "401":
+          description: Supplied bearer credentials are invalid (INVALID_CREDENTIALS).
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: The current authenticated user is suspended, deleted or not permitted (FORBIDDEN).
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Invalid persisted shipping dependencies (SHIPPING_STORAGE_ERROR) or listing read failure.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: Shipping storage/transaction or permitted destination reads are temporarily unavailable.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "200":
           description: "Visible assigned ProductListings in normal personalized detail presentation, ordered by catalogue position, null positions last, then backing listing UUID. Anonymous successful 200 responses without Authorization use `public, max-age=0, s-maxage=60, stale-if-error=0`; requests with any Authorization header and all non-200 responses use `private, no-store`."
           content:
@@ -825,7 +905,9 @@ paths:
 
         Aura Historia access tokens on this endpoint must include the `product-listings:write` scope.
 
-        Allowed callers are Aura Historia admins and users partnered with the target listing source.
+        The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone
+        does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations.
+        Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
 
 
         The request body is an array of `CreateProductListingData` objects. Each entry is created
@@ -912,7 +994,9 @@ paths:
                       sourceListingId: baroque-violin-002
                       error: CONFLICT
         "400":
-          description: Bad request — request body is missing, empty, or contains invalid JSON
+          description:
+            Bad request (`BAD_BODY_VALUE`) — the body is missing, empty, invalid JSON or violates the batch contract,
+            or every entry failed and the first failure was an invalid product-listing write.
           content:
             application/problem+json:
               schema:
@@ -960,7 +1044,9 @@ paths:
                     title: Unauthorized
                     error: ACCESS_TOKEN_NOT_FOUND
         "403":
-          description: Forbidden — the authenticated caller is not allowed to ingest product-listings for this listing source
+          description:
+            Forbidden — the caller has no Partnership grant for this listing source (administrator role alone is
+            insufficient), or the access token lacks `product-listings:write`.
           content:
             application/problem+json:
               schema:
@@ -970,7 +1056,7 @@ paths:
                 title: Forbidden
                 error: FORBIDDEN
         "404":
-          description: Not found — the specified listing source does not exist
+          description: Not found — the listing source (`LISTING_SOURCE_NOT_FOUND`) or the referenced Auction (`AUCTION_NOT_FOUND`) does not exist
           content:
             application/problem+json:
               schema:
@@ -979,8 +1065,20 @@ paths:
                 status: 404
                 title: Not Found
                 error: LISTING_SOURCE_NOT_FOUND
+        "409":
+          description: Conflict — the first failed entry's source listing key already exists for this listing source, or its Auction belongs to another listing source (`CONFLICT`)
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 409
+                title: Conflict
+                error: CONFLICT
         "503":
-          description: Service unavailable — all entries encountered a temporary product-write failure
+          description:
+            Service unavailable — the first failure was temporary (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE` or
+            `AUCTION_TEMPORARILY_UNAVAILABLE`).
           content:
             application/problem+json:
               schema:
@@ -1013,7 +1111,9 @@ paths:
 
         Aura Historia access tokens on this endpoint must include the `product-listings:write` scope.
 
-        Allowed callers are Aura Historia admins and users partnered with the target listing source.
+        The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone
+        does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations.
+        Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
 
 
         The request body is an array of `UpdateProductListingData` objects. Omitted fields are unchanged;
@@ -1100,7 +1200,9 @@ paths:
                       sourceListingId: baroque-violin-002
                       error: PRODUCT_LISTING_NOT_FOUND
         "400":
-          description: Bad request — request body is missing, empty, or contains invalid JSON
+          description:
+            Bad request (`BAD_BODY_VALUE`) — the body is missing, empty, invalid JSON or violates the batch contract,
+            or every entry failed and the first failure was an invalid product-listing write.
           content:
             application/problem+json:
               schema:
@@ -1148,7 +1250,9 @@ paths:
                     title: Unauthorized
                     error: ACCESS_TOKEN_NOT_FOUND
         "403":
-          description: Forbidden — the authenticated caller is not allowed to ingest product-listings for this listing source
+          description:
+            Forbidden — the caller has no Partnership grant for this listing source (administrator role alone is
+            insufficient), or the access token lacks `product-listings:write`.
           content:
             application/problem+json:
               schema:
@@ -1158,7 +1262,7 @@ paths:
                 title: Forbidden
                 error: FORBIDDEN
         "404":
-          description: Not found — the specified listing source does not exist
+          description: Not found — the listing source (`LISTING_SOURCE_NOT_FOUND`), product listing (`PRODUCT_LISTING_NOT_FOUND`) or referenced Auction (`AUCTION_NOT_FOUND`) does not exist
           content:
             application/problem+json:
               schema:
@@ -1167,8 +1271,20 @@ paths:
                 status: 404
                 title: Not Found
                 error: LISTING_SOURCE_NOT_FOUND
+        "409":
+          description: Conflict — the first failed entry's product listing is withdrawn, or its Auction belongs to another listing source (`CONFLICT`)
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 409
+                title: Conflict
+                error: CONFLICT
         "503":
-          description: Service unavailable — all entries encountered a temporary product-write failure
+          description:
+            Service unavailable — the first failure was temporary (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE` or
+            `AUCTION_TEMPORARILY_UNAVAILABLE`).
           content:
             application/problem+json:
               schema:
@@ -1193,8 +1309,10 @@ paths:
         "Creates new product-listings or updates existing ones for a listing source in a single batch call,\nusing\
         \ bearer authentication. This endpoint is intended for partnerships and accepts:\n- a Cognito bearer token for the\
         \ partner user linked to the listing source, or\n- an Aura Historia access token owned by that partner user.\n\nAura\
-        \ Historia access tokens on this endpoint must include the `product-listings:write` scope.\nAllowed callers are Aura\
-        \ Historia admins and users partnered with the target listing source.\n\nThe request body is an array of `UpsertProductListingData`\
+        \ Historia access tokens on this endpoint must include the `product-listings:write` scope.\nThe caller must be a\
+        \ user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access.\n\
+        Administrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run\n\
+        per entry, so an authenticated empty array returns `[]` without them.\n\nThe request body is an array of `UpsertProductListingData`\
         \ objects. Each entry is upserted\nsynchronously in its own PostgreSQL transaction. For each entry:\n- **New listing**\
         \ — omitted or `null` availability, price, and estimates create no value; `auction` is omitted or an asserted nested Auction/lot-facts patch (not `null`).\n- **Existing listing** — availability, price, and each price estimate\n  are tri-state: omitted preserves, `null` clears, and a concrete value replaces. Omit `auction` to preserve it; `auction: null` is invalid. Within an asserted Auction/lot-facts patch, each lot/timing leaf is tri-state: omit to preserve, `null` to clear clearable leaves, or provide a value to set. `auctionId` must name an existing Auction for this ListingSource; omit it to preserve membership, send `null` to clear it, or send an ID to set it. A withdrawn\n  listing is restored before current facts\
         \ apply.\n- `title` and `description` apply only on creation. For an\n  existing\
@@ -1302,7 +1420,9 @@ paths:
                       sourceListingId: baroque-violin-002
                       error: BAD_BODY_VALUE
         "400":
-          description: Bad request — request body is missing, empty, or contains invalid JSON
+          description:
+            Bad request (`BAD_BODY_VALUE`) — the body is missing, empty, invalid JSON or violates the batch contract,
+            or every entry failed and the first failure was an invalid product-listing write.
           content:
             application/problem+json:
               schema:
@@ -1350,7 +1470,9 @@ paths:
                     title: Unauthorized
                     error: ACCESS_TOKEN_NOT_FOUND
         "403":
-          description: Forbidden — the authenticated caller is not allowed to ingest product-listings for this listing source
+          description:
+            Forbidden — the caller has no Partnership grant for this listing source (administrator role alone is
+            insufficient), or the access token lacks `product-listings:write`.
           content:
             application/problem+json:
               schema:
@@ -1360,7 +1482,7 @@ paths:
                 title: Forbidden
                 error: FORBIDDEN
         "404":
-          description: Not found — the specified listing source does not exist
+          description: Not found — the listing source (`LISTING_SOURCE_NOT_FOUND`) or the referenced Auction (`AUCTION_NOT_FOUND`) does not exist
           content:
             application/problem+json:
               schema:
@@ -1369,8 +1491,20 @@ paths:
                 status: 404
                 title: Not Found
                 error: LISTING_SOURCE_NOT_FOUND
+        "409":
+          description: Conflict — the first failed entry conflicts with current state, such as an Auction that belongs to another listing source (`CONFLICT`)
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 409
+                title: Conflict
+                error: CONFLICT
         "503":
-          description: Service unavailable — all entries encountered a temporary product-write failure
+          description:
+            Service unavailable — the first failure was temporary (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE` or
+            `AUCTION_TEMPORARILY_UNAVAILABLE`).
           content:
             application/problem+json:
               schema:
@@ -1398,9 +1532,11 @@ paths:
         materialized PostgreSQL state synchronously in its own transaction.
 
 
-        Allowed callers are Aura Historia admins and users partnered with the target listing source. Aura
+        The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone
+        does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations.
+        Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
 
-        Historia access tokens must include the `product-listings:write` scope.
+        Aura Historia access tokens must include the `product-listings:write` scope.
 
 
         The request body is an array of product identifiers. The response returns HTTP 200 with
@@ -1472,20 +1608,20 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "403":
           description:
-            Forbidden — caller is neither admin nor partnered with this listing source, or the access token lacks
-            `product-listings:write`.
+            Forbidden — caller has no Partnership grant for this listing source (administrator role alone is
+            insufficient), or the access token lacks `product-listings:write`.
           content:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
         "404":
-          description: Not found — the specified listing source or product does not exist.
+          description: Not found — the listing source (`LISTING_SOURCE_NOT_FOUND`) or product listing (`PRODUCT_LISTING_NOT_FOUND`) does not exist.
           content:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
         "503":
-          description: Service unavailable — all entries encountered a temporary product-write failure.
+          description: Service unavailable — the first failure was temporary (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).
           content:
             application/problem+json:
               schema:
@@ -2911,6 +3047,18 @@ paths:
         - BearerAuth: []
         - {}
       responses:
+        "401":
+          description: Supplied bearer credentials are invalid (INVALID_CREDENTIALS).
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: The current authenticated user is suspended, deleted or not permitted (FORBIDDEN).
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "200":
           description: ProductListing found and returned successfully
           headers:
@@ -3004,6 +3152,18 @@ paths:
         - BearerAuth: []
         - {}
       responses:
+        "401":
+          description: Supplied bearer credentials are invalid (INVALID_CREDENTIALS).
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: The current authenticated user is suspended, deleted or not permitted (FORBIDDEN).
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "200":
           description: ProductListing found and returned successfully
           content:
@@ -3272,6 +3432,24 @@ paths:
         - BearerAuth: []
         - {}
       responses:
+        "401":
+          description: Supplied bearer credentials are invalid (INVALID_CREDENTIALS).
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: The current authenticated user is suspended, deleted or not permitted (FORBIDDEN).
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: Shipping storage/transaction or permitted destination reads are temporarily unavailable.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "200":
           description: Ready anonymous responses without Authorization are shared for 300 seconds; credential-bearing responses are private and not stored.
           headers:
@@ -3344,6 +3522,12 @@ paths:
       tags:
         - ProductListings
       parameters:
+        - name: shipping
+          in: query
+          style: deepObject
+          explode: true
+          description: Definite whole-country advertised shipping, independent of item geography and browsing preference. Nested country/service/charge predicates constrain indexed membership and totals, which may lag current returned terms. No shipping cost sorting or cart total is supported.
+          schema: {$ref: '#/components/schemas/ShippingSearchData'}
         - name: geography
           in: query
           style: deepObject
@@ -3388,10 +3572,10 @@ paths:
             type: string
             minLength: 1
             maxLength: 1000
-        - name: excludeProductId
+        - name: excludeProductListingId
           in: query
           required: false
-          description: Optional product IDs to exclude from results.
+          description: Optional ProductListing IDs (strict `pl_` TypeIDs) to exclude from results and totals.
           style: form
           explode: true
           schema:
@@ -3577,14 +3761,14 @@ paths:
         - name: sort
           in: query
           required: false
-          description: Field to sort results by
+          description: Field to sort results by. Without `sort`, results are ordered by relevance score descending.
           schema:
             $ref: "#/components/schemas/SortProductListingFieldData"
           example: created
         - name: order
           in: query
           required: false
-          description: Sort order (only valid when sort is specified)
+          description: Sort order. Requires `sort`; defaults to `desc` when `sort` is supplied without `order`.
           schema:
             type: string
             enum:
@@ -3599,7 +3783,15 @@ paths:
 
             `searchAfter` in the previous response as one query value. It pins the FX snapshot
 
-            for the full cursor chain.
+            for the full cursor chain. Keep the same search parameters. Malformed inner sort values
+
+            or an incorrect number of sort values return `400 BAD_QUERY_PARAMETER_VALUE` with
+
+            `source.field` set to `searchAfter`. Continuations retain their original ranking mode.
+
+            If a semantic continuation cannot obtain an embedding, it returns
+
+            `503 PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`; retry with the unchanged cursor.
 
             "
           schema:
@@ -3619,6 +3811,18 @@ paths:
         - BearerAuth: []
         - {}
       responses:
+        "401":
+          description: Supplied bearer credentials are invalid (INVALID_CREDENTIALS).
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: The current authenticated user is suspended, deleted or not permitted (FORBIDDEN).
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "200":
           description: Simple search results returned successfully
           headers:
@@ -3649,26 +3853,46 @@ paths:
                     status: 400
                     title: Bad Request
                     error: BAD_BODY_VALUE
+                invalid_search_after:
+                  summary: Malformed inner cursor sort values or incorrect sort value count
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_QUERY_PARAMETER_VALUE
+                    source:
+                      field: searchAfter
+                      type: QUERY
+                    detail: searchAfter contains invalid sort values or an incorrect number of sort values.
                 invalid_sort_field:
                   summary: Invalid sort field
                   value:
                     status: 400
                     title: Bad Request
-                    error: BAD_QUERY_PARAMETER_VALUE
+                    error: BAD_SORT_VALUE
                     source:
                       field: sort
                       type: QUERY
-                    detail: "Expected any of: 'score', 'price', 'updated', 'created'. Got: 'invalid'"
+                    detail: "Expected any of: 'score', 'updated', 'created'. Got: 'invalid'"
+                order_without_sort:
+                  summary: Sort order supplied without sort field
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_SORT_VALUE
+                    source:
+                      field: sort
+                      type: QUERY
+                    detail: "'sort' is required when 'order' is supplied."
                 invalid_order:
                   summary: Invalid sort order
                   value:
                     status: 400
                     title: Bad Request
-                    error: BAD_QUERY_PARAMETER_VALUE
+                    error: BAD_ORDER_VALUE
                     source:
                       field: order
                       type: QUERY
-                    detail: "Expected any of: 'asc' or 'desc'. Got: 'invalid'"
+                    detail: "Expected any of: 'asc', 'desc'. Got: 'invalid'"
         "503":
           description: Product search or required personalized state is temporarily unavailable
           content:
@@ -3786,12 +4010,14 @@ paths:
 
         The number of allowed search filters and the set of usable search filter fields depend on the user's tier:
 
-        - `FREE`: Up to 1 search filter. Allowed fields are `productQuery`, `price`, `state`, `excludeProductId`, and `lifecycle`.
-        Other fields are forbidden and return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+        - `FREE`: Up to 1 active search filter. Allowed search fields are `language`, `currency`, `productQuery`,
+        `price`, `excludeProductListingId`, `availability`, `orderability`, and `includeUnspecifiedAvailability`.
+        Other search fields, including `geography` and `shipping`, return `SEARCH_FILTER_RESTRICTED_FEATURE`.
 
-        - `PRO`: Up to 5 search filters. All filter fields are allowed.
+        - `PRO`: Up to 5 active search filters. All search fields, including `geography` and `shipping`, are allowed
+        except `enhancedSearchDescription`.
 
-        - `ULTIMATE`: Unlimited search filters. All filter fields are allowed.
+        - `ULTIMATE`: Unlimited search filters. All search fields are allowed.
 
         "
       operationId: createUserSearchFilter
@@ -4200,7 +4426,7 @@ paths:
       description:
         "Updates a specific search filter by its ID for the authenticated user.
 
-        Allows partial updates: omitted members remain unchanged, documented nullable criteria
+        Allows partial updates: omitted or null top-level members remain unchanged. Within `search`, documented nullable criteria
 
         accept `null` to clear, and `null` for required scalars or collections returns `400 BAD_BODY_VALUE`.
 
@@ -4211,10 +4437,12 @@ paths:
 
         The set of usable search filter fields depends on the user's tier:
 
-        - `FREE`: Allowed fields are `productQuery`, `price`, `state`, `excludeProductId`, and `lifecycle`. Other fields are
-        forbidden and return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+        - `FREE`: Allowed search fields are `language`, `currency`, `productQuery`, `price`, `excludeProductListingId`,
+        `availability`, `orderability`, and `includeUnspecifiedAvailability`. Other search fields, including `geography` and
+        `shipping`, return `SEARCH_FILTER_RESTRICTED_FEATURE` when added. Existing restricted criteria can be retained or
+        cleared on inactive filters; activating a filter validates all its criteria against the current tier.
 
-        - `PRO`: All filter fields are allowed.
+        - `PRO`: All search fields, including `geography` and `shipping`, are allowed except `enhancedSearchDescription`.
 
         - `ULTIMATE`: All filter fields are allowed.
 
@@ -4871,6 +5099,12 @@ paths:
       security:
         - BearerAuth: []
       responses:
+        "403":
+          description: The current authenticated user is suspended, deleted or not permitted (FORBIDDEN).
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "200":
           description: Watchlist product-listings retrieved successfully
           headers:
@@ -6707,6 +6941,12 @@ paths:
         PostgreSQL synchronously cascades user-owned access tokens, OAuth authorization codes, watchlist entries,
         saved-search filters and matches, notifications, partnership memberships, and partnership applications.
 
+        Backend authentication is immediately invalidated. The same transaction durably records a request for Cognito identity
+        deletion; provider removal retries asynchronously. Until it completes, Cognito sign-in may still succeed
+        and the signup address may remain reserved. After removal, the email can register a new account with a
+        new identity; the deleted account cannot be recovered. Minimal identity fences prevent delayed registration
+        callbacks from recreating the deleted account and support provider reconciliation.
+
         The final active administrator cannot be deleted, including through a self-targeted admin request.
 
         "
@@ -7166,7 +7406,11 @@ paths:
     post:
       summary: Revoke a user's Cognito sessions as admin
       description: |
-        Invalidates the explicit target user's Cognito sessions with Cognito global sign-out. No request body is accepted.
+        Invalidates the explicit target user's sessions locally and requests Cognito global sign-out. No request body is accepted.
+        The local cutoff is committed before the provider call and advanced again when it returns,
+        including on provider failure. Local sessions may therefore remain revoked even if the response is an error.
+        Cutoffs include a 60-second clock-skew allowance; fresh logins may be rejected for roughly
+        a minute after the latest completion/retry. Token refresh does not bypass the cutoff.
 
         Cognito JWTs and Aura Historia access tokens are accepted. The caller's persisted user role
         must be `ADMIN`; delegated Aura Historia access tokens must also have `users:write`.
@@ -7718,7 +7962,12 @@ paths:
       summary: Delete authenticated user
       description: "Permanently deletes the authenticated user's account.
 
-        The deletion is performed synchronously and the access token is immediately invalidated upon success.
+        Business account deletion and backend credential invalidation are synchronous. The same transaction
+        durably records a request for Cognito identity deletion; HTTP 204 confirms the commit, while provider removal retries
+        asynchronously. Until it completes, Cognito sign-in may still succeed and the signup address may remain
+        reserved. After removal, the email can register a new account with a new identity; the deleted account
+        cannot be recovered. Minimal identity fences prevent delayed registration callbacks from recreating the
+        deleted account and support provider reconciliation.
 
         Cognito JWTs and Aura Historia access tokens are accepted; delegated access tokens require `users:write`.
 
@@ -8932,9 +9181,13 @@ paths:
         "Updates settings for a specific watchlist product (e.g., toggle notifications or manually activate/deactivate
         the watchlist entry).
 
-        Returns the full personalized product data after applying the update.
+        Returns full personalized product data (`item` and `userState`) after applying the update, including
+        for an empty `{}` no-op. `userState.watchlist.watching` reflects whether the entry is active, and
+        `userState.watchlist.notifications` reflects the stored notification setting. Hidden and withdrawn
+        listings retain their usual redaction.
 
-        Requires valid Cognito JWT authentication.
+        Requires a valid user bearer credential. Delegated credentials require `watchlist:write`; no additional
+        read scope is required for the response. Responses are not cached.
 
         "
       operationId: patchWatchlistProduct
@@ -8963,15 +9216,16 @@ paths:
         - name: currency
           in: query
           required: false
-          description: Currency for price display in the response.
+          description: Currency for price display in the response. Defaults to `EUR` when omitted.
           schema:
             $ref: "#/components/schemas/CurrencyData"
           example: EUR
       security:
         - BearerAuth: []
+        - AccessTokenAuth: []
       requestBody:
         required: true
-        description: Patch object containing fields to update
+        description: Patch object containing fields to update. An empty object leaves the entry unchanged.
         content:
           application/json:
             schema:
@@ -8995,8 +9249,12 @@ paths:
                   state: ACTIVE
       responses:
         "200":
-          description: Watchlist product updated successfully
+          description: Watchlist product updated successfully, with current personalized product details
           headers:
+            Cache-Control:
+              schema:
+                type: string
+              example: no-store
             Access-Control-Allow-Origin:
               description: CORS header
               schema:
@@ -9006,47 +9264,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PersonalizedProductListingDetailsData"
-              example:
-                item:
-                  productListingId: pl_5xdb465tg1enarx2knf04mxbxj
-                  productListingTitleSlugId: smartphone-case-a1b2c3
-                  eventId: evt_69wh1chr82fen9vvyk6n3mh80m
-                  source:
-                    listingSourceId: ls_6rd827eqfefsva9teecmwa3ate
-                    name: Tech Store
-                    slugId: tech-store
-                  sourceListingId: 6ba7b810-9dad-11d1-80b4-00c04fd430c8
-                  title:
-                    text: Smartphone Case
-                    language: en
-                  price:
-                    offer:
-                      currency: EUR
-                      amount: 2999
-                    estimate:
-                      min:
-                        currency: EUR
-                        amount: 2700
-                      max:
-                        currency: EUR
-                        amount: 3300
-                  availability: IN_STOCK
-                  url: https://tech-store.com/smartphone-case
-                  viewUrl: https://tech-store.com/smartphone-case?utm_source=aura_historia&utm_medium=referral
-                  images:
-                    - url: https://tech-store.com/images/case-1.jpg
-                  contentPolicy:
-                    decision: ALLOWED
-                  created: "2024-01-01T10:00:00Z"
-                  updated: "2024-01-01T12:00:00Z"
-                userState:
-                  watchlist:
-                    watching: true
-                    notifications: true
-                  contentVisibility:
-                    showUnassessedOrSensitiveContent: false
-                  notification:
-                    unseenNotificationIds: []
         "400":
           description: Bad request - invalid parameters or body
           content:
@@ -9087,8 +9304,21 @@ paths:
                     title: Bad Request
                     error: BAD_BODY_VALUE
                     detail: Invalid JSON format
+                unsupported_presentation:
+                  summary: Unsupported language or currency query value
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_QUERY_PARAMETER_VALUE
+                null_state:
+                  summary: State cannot be null
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_BODY_VALUE
+                    detail: Body field 'state' must not be null.
         "401":
-          description: Unauthorized - invalid or missing JWT token
+          description: Unauthorized - invalid or missing bearer credential
           content:
             application/problem+json:
               schema:
@@ -9096,7 +9326,17 @@ paths:
               example:
                 status: 401
                 title: Unauthorized
-                error: UNAUTHORIZED
+                error: INVALID_CREDENTIALS
+        "403":
+          description: Delegated credential lacks watchlist:write
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 403
+                title: Forbidden
+                error: FORBIDDEN
         "404":
           description: Watchlist entry or ProductListing not found
           content:
@@ -9145,6 +9385,12 @@ paths:
                     status: 409
                     title: Conflict
                     error: PRODUCT_LISTING_UNAVAILABLE
+        "503":
+          description: Watchlist persistence, product details, pricing or shipping is temporarily unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Internal server error
           content:
@@ -10636,7 +10882,11 @@ paths:
 
         flow (RFC 7009). The request body must be `application/x-www-form-urlencoded`. Client
 
-        authentication is performed via `client_id` / `client_secret` form fields.
+        authentication is performed via `client_id` / `client_secret` form fields. The token must
+
+        have been issued to that client; another client's token or a personal access token is
+
+        rejected with `403 FORBIDDEN` and is not revoked.
 
 
         After revocation the token is immediately inactive and introspection will return
@@ -10730,6 +10980,16 @@ paths:
                     title: Unauthorized
                     error: OAUTH_CLIENT_NOT_FOUND
                     detail: OAuth client not found.
+        "403":
+          description: Forbidden — the token was not issued to the authenticated OAuth client.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 403
+                title: Forbidden
+                error: FORBIDDEN
         "500":
           description: Internal server error.
           content:
@@ -16638,13 +16898,791 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ClearSourceLocationDefaultData'
+  /api/v1/listing-sources/{listing_source_id}/shipping-profiles:
+    get:
+      summary: List source shipping profiles
+      operationId: listShippingProfiles
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      - name: size
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 21
+      - name: after
+        in: query
+        schema:
+          type: string
+          pattern: ^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      - name: objectKey
+        in: query
+        description: Exact stable object key belonging to the authenticated producer. Omit integrationMethod for SOURCE identity.
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[!-~]+$
+      - name: integrationMethod
+        in: query
+        description: Enabled provider method for objectKey lookup; requires objectKey.
+        schema:
+          type: string
+          enum: [SHOPIFY, WOOCOMMERCE]
+      description: Requires an unsuspended administrator or an active partnership member of the operator
+        Party with the exact source grant. Delegated credentials also require listing-sources:read for reads,
+        listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors
+        are no-store. Terms are advertised arrangements, never authorized quotes. Active and retired summaries
+        in ascending UUID order. Use the final shippingProfileId as after to continue; an empty page is
+        terminal. objectKey filters by stable authenticated producer identity and returns zero or one summary, including retired or manually taken-over profiles. No terms or evidence hydration.
+      responses:
+        '200':
+          description: Committed advertised shipping management result.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShippingProfileSummaryData'
+                maxItems: 100
+                minItems: 0
+        '400':
+          $ref: '#/components/responses/ShippingManagementError400'
+        '401':
+          $ref: '#/components/responses/ShippingManagementError401'
+        '403':
+          $ref: '#/components/responses/ShippingManagementError403'
+        '404':
+          $ref: '#/components/responses/ShippingManagementError404'
+        '409':
+          $ref: '#/components/responses/ShippingManagementError409'
+        '500':
+          $ref: '#/components/responses/ShippingManagementError500'
+        '503':
+          $ref: '#/components/responses/ShippingManagementError503'
+    post:
+      summary: Create source shipping profile
+      operationId: createShippingProfile
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      description: Requires an unsuspended administrator or an active partnership member of the operator
+        Party with the exact source grant. Delegated credentials also require listing-sources:read for reads,
+        listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors
+        are no-store. Terms are advertised arrangements, never authorized quotes. Creation key is scoped
+        to source and caller identity; matching original content/evidence returns the current profile without
+        effects, differing content conflicts. Creation never selects a source default.
+      responses:
+        '200':
+          description: Committed advertised shipping management result.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShippingProfileData'
+        '400':
+          $ref: '#/components/responses/ShippingManagementError400'
+        '401':
+          $ref: '#/components/responses/ShippingManagementError401'
+        '403':
+          $ref: '#/components/responses/ShippingManagementError403'
+        '404':
+          $ref: '#/components/responses/ShippingManagementError404'
+        '409':
+          $ref: '#/components/responses/ShippingManagementError409'
+        '500':
+          $ref: '#/components/responses/ShippingManagementError500'
+        '503':
+          $ref: '#/components/responses/ShippingManagementError503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateShippingProfileData'
+  /api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}:
+    get:
+      summary: Get source shipping profile
+      operationId: getShippingProfile
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      - name: shipping_profile_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      description: 'Requires an unsuspended administrator or an active partnership member of the operator
+        Party with the exact source grant. Delegated credentials also require listing-sources:read for reads,
+        listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors
+        are no-store. Terms are advertised arrangements, never authorized quotes. '
+      responses:
+        '200':
+          description: Committed advertised shipping management result.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShippingProfileData'
+        '400':
+          $ref: '#/components/responses/ShippingManagementError400'
+        '401':
+          $ref: '#/components/responses/ShippingManagementError401'
+        '403':
+          $ref: '#/components/responses/ShippingManagementError403'
+        '404':
+          $ref: '#/components/responses/ShippingManagementError404'
+        '409':
+          $ref: '#/components/responses/ShippingManagementError409'
+        '500':
+          $ref: '#/components/responses/ShippingManagementError500'
+        '503':
+          $ref: '#/components/responses/ShippingManagementError503'
+    put:
+      summary: Replace advertised profile content and evidence
+      operationId: replaceShippingProfile
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      - name: shipping_profile_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      description: Requires an unsuspended administrator or an active partnership member of the operator
+        Party with the exact source grant. Delegated credentials also require listing-sources:read for reads,
+        listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors
+        are no-store. Terms are advertised arrangements, never authorized quotes. CAS checks managementRevision,
+        including semantic no-ops. Terms/lifecycle changes advance termsRevision; evidence-only corrections
+        advance managementRevision independently. Explicit PartyLocation use asserts applicability and requires
+        an active operator-owned location, without granting location-editing rights.
+      responses:
+        '200':
+          description: Committed advertised shipping management result.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShippingProfileData'
+        '400':
+          $ref: '#/components/responses/ShippingManagementError400'
+        '401':
+          $ref: '#/components/responses/ShippingManagementError401'
+        '403':
+          $ref: '#/components/responses/ShippingManagementError403'
+        '404':
+          $ref: '#/components/responses/ShippingManagementError404'
+        '409':
+          $ref: '#/components/responses/ShippingManagementError409'
+        '500':
+          $ref: '#/components/responses/ShippingManagementError500'
+        '503':
+          $ref: '#/components/responses/ShippingManagementError503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplaceShippingProfileData'
+    delete:
+      summary: Retire shipping profile
+      operationId: retireShippingProfile
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      - name: shipping_profile_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      description: Requires an unsuspended administrator or an active partnership member of the operator
+        Party with the exact source grant. Delegated credentials also require listing-sources:read for reads,
+        listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors
+        are no-store. Terms are advertised arrangements, never authorized quotes. Retirement retains terms,
+        history, defaults and references. It does not assert no shipping. Repeat retirement is a no-op only
+        at the current management revision.
+      responses:
+        '200':
+          description: Committed advertised shipping management result.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShippingProfileData'
+        '400':
+          $ref: '#/components/responses/ShippingManagementError400'
+        '401':
+          $ref: '#/components/responses/ShippingManagementError401'
+        '403':
+          $ref: '#/components/responses/ShippingManagementError403'
+        '404':
+          $ref: '#/components/responses/ShippingManagementError404'
+        '409':
+          $ref: '#/components/responses/ShippingManagementError409'
+        '500':
+          $ref: '#/components/responses/ShippingManagementError500'
+        '503':
+          $ref: '#/components/responses/ShippingManagementError503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShippingProfileLifecycleData'
+  /api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}/restore:
+    post:
+      summary: Restore shipping profile explicitly
+      operationId: restoreShippingProfile
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      - name: shipping_profile_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      description: Requires an unsuspended administrator or an active partnership member of the operator
+        Party with the exact source grant. Delegated credentials also require listing-sources:read for reads,
+        listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors
+        are no-store. Terms are advertised arrangements, never authorized quotes. Revalidates current referenced
+        location eligibility. Does not select a default.
+      responses:
+        '200':
+          description: Committed advertised shipping management result.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShippingProfileData'
+        '400':
+          $ref: '#/components/responses/ShippingManagementError400'
+        '401':
+          $ref: '#/components/responses/ShippingManagementError401'
+        '403':
+          $ref: '#/components/responses/ShippingManagementError403'
+        '404':
+          $ref: '#/components/responses/ShippingManagementError404'
+        '409':
+          $ref: '#/components/responses/ShippingManagementError409'
+        '500':
+          $ref: '#/components/responses/ShippingManagementError500'
+        '503':
+          $ref: '#/components/responses/ShippingManagementError503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShippingProfileLifecycleData'
+  /api/v1/listing-sources/{listing_source_id}/shipping-default:
+    get:
+      summary: Read explicit source shipping default
+      operationId: getShippingDefault
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      description: 'Requires an unsuspended administrator or an active partnership member of the operator
+        Party with the exact source grant. Delegated credentials also require listing-sources:read for reads,
+        listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors
+        are no-store. Terms are advertised arrangements, never authorized quotes. '
+      responses:
+        '200':
+          description: Committed advertised shipping management result.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShippingDefaultData'
+        '400':
+          $ref: '#/components/responses/ShippingManagementError400'
+        '401':
+          $ref: '#/components/responses/ShippingManagementError401'
+        '403':
+          $ref: '#/components/responses/ShippingManagementError403'
+        '404':
+          $ref: '#/components/responses/ShippingManagementError404'
+        '409':
+          $ref: '#/components/responses/ShippingManagementError409'
+        '500':
+          $ref: '#/components/responses/ShippingManagementError500'
+        '503':
+          $ref: '#/components/responses/ShippingManagementError503'
+    put:
+      summary: Assign active source shipping default
+      operationId: assignShippingDefault
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      description: Requires an unsuspended administrator or an active partnership member of the operator
+        Party with the exact source grant. Delegated credentials also require listing-sources:read for reads,
+        listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors
+        are no-store. Terms are advertised arrangements, never authorized quotes. Requires the selected
+        profile to belong to this source and remain active; repeat assignment revalidates eligibility and
+        CAS.
+      responses:
+        '200':
+          description: Committed advertised shipping management result.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShippingDefaultData'
+        '400':
+          $ref: '#/components/responses/ShippingManagementError400'
+        '401':
+          $ref: '#/components/responses/ShippingManagementError401'
+        '403':
+          $ref: '#/components/responses/ShippingManagementError403'
+        '404':
+          $ref: '#/components/responses/ShippingManagementError404'
+        '409':
+          $ref: '#/components/responses/ShippingManagementError409'
+        '500':
+          $ref: '#/components/responses/ShippingManagementError500'
+        '503':
+          $ref: '#/components/responses/ShippingManagementError503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignShippingDefaultData'
+    delete:
+      summary: Clear source shipping default
+      operationId: clearShippingDefault
+      tags:
+      - ListingSources
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: listing_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      description: Requires an unsuspended administrator or an active partnership member of the operator
+        Party with the exact source grant. Delegated credentials also require listing-sources:read for reads,
+        listing-sources:write for commands. All authority is revalidated in the transaction. Responses/errors
+        are no-store. Terms are advertised arrangements, never authorized quotes. Clear remains possible
+        after profile retirement. CAS applies even when already clear; semantic no-op preserves the revision
+        and emits no signal.
+      responses:
+        '200':
+          description: Committed advertised shipping management result.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShippingDefaultData'
+        '400':
+          $ref: '#/components/responses/ShippingManagementError400'
+        '401':
+          $ref: '#/components/responses/ShippingManagementError401'
+        '403':
+          $ref: '#/components/responses/ShippingManagementError403'
+        '404':
+          $ref: '#/components/responses/ShippingManagementError404'
+        '409':
+          $ref: '#/components/responses/ShippingManagementError409'
+        '500':
+          $ref: '#/components/responses/ShippingManagementError500'
+        '503':
+          $ref: '#/components/responses/ShippingManagementError503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClearShippingDefaultData'
+
+  /api/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery:
+    parameters:
+    - name: listing_source_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$'
+    - name: source_listing_id
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 512
+    get:
+      operationId: getProductListingDelivery
+      tags: [ProductListings]
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      description: >-
+        Protected delivery configuration. Requires product-listings:read credential scope
+        and current administrator or active operator Partnership source authority. Responses and errors
+        are no-store. Returns retained configuration for active or withdrawn listings, without
+        resolving effective delivery or revalidating current profile/location eligibility.
+      responses:
+        '200':
+          description: Current protected delivery configuration.
+          headers:
+            Cache-Control:
+              schema: {type: string, enum: [no-store]}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListingDeliveryViewData'
+        '400':
+          description: Invalid delivery command or references (BAD_BODY_VALUE).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Authentication required (INVALID_CREDENTIALS).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing capability or source authority (FORBIDDEN).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Source or source-local listing missing.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale listing version, withdrawn listing or missing/retired/foreign delivery reference.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or operation failure.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Transaction or capability unavailable.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+    patch:
+      operationId: changeProductListingDelivery
+      tags: [ProductListings]
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      description: >-
+        Revision-checked delivery command. Requires product-listings:write credential scope
+        and current administrator or active operator Partnership source authority. Responses and errors
+        are no-store. Commands never create or restore listings. Current references are validated at
+        execution. SET/UNCHANGED/CLEAR and coherent whole-policy replacement preserve unrelated facts.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductListingDeliveryCommandData'
+      responses:
+        '200':
+          description: Committed delivery command result.
+          headers:
+            Cache-Control:
+              schema: {type: string, enum: [no-store]}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListingDeliveryResultData'
+        '400':
+          description: Invalid delivery command or references (BAD_BODY_VALUE).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Authentication required (INVALID_CREDENTIALS).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing capability or source authority (FORBIDDEN).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Source or source-local listing missing.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: Stale listing version, withdrawn listing or missing/retired/foreign delivery reference.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Invalid persisted state or operation failure.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Transaction or capability unavailable.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /api/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery/async:
+    parameters:
+    - name: listing_source_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$'
+    - name: source_listing_id
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 512
+    post:
+      operationId: submitProductListingDelivery
+      tags: [ProductListings]
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      description: >-
+        Asynchronous delivery admission. Requires product-listings:write credential scope
+        for delegated credentials. Admission validates the typed command and confirms FIFO custody.
+        Execution rechecks current administrator or active operator Partnership source authority,
+        the original expectedVersion, active listing and current references. Responses and errors
+        are no-store. Retry unchanged content with the returned Idempotency-Key.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductListingDeliveryCommandData'
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: false
+        schema: {type: string, minLength: 1, maxLength: 128}
+        description: Retry with unchanged content and key. Accepted means FIFO admission only; execution checks the original expectedVersion.
+      responses:
+        '202':
+          description: Confirmed admission report; not canonical completion.
+          headers:
+            Cache-Control:
+              schema: {type: string, enum: [no-store]}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncProductListingBatchReport'
+        '400':
+          description: Invalid command/header problem, or rejected typed admission report.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncProductListingBatchReport'
+        '401':
+          description: Authentication required (INVALID_CREDENTIALS).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Missing capability or source authority (FORBIDDEN).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '413':
+          description: Delivery command exceeds the FIFO message limit; no confirmed acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncProductListingBatchReport'
+        '500':
+          description: Internal admission problem, or nonretryable enqueue failure report.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncProductListingBatchReport'
+        '503':
+          description: Publisher unavailable problem, or retryable failed/unconfirmed admission report.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncProductListingBatchReport'
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: "Cognito JWT bearer token.
+      description: "Cognito access JWT bearer token. Signature, issuer, client, token use and expiry
+
+        are validated locally. Signed integer `auth_time` and `iat` claims are required;
+
+        sessions authenticated at or before the persisted local revocation cutoff are rejected.
+
+        This check shares the existing identity lookup and makes no live Cognito status request.
+
+        Revocation requested only in Cognito is not observed immediately; already-issued JWTs
+
+        can remain accepted until expiry. Use the administrator session-revocation endpoint
+
+        for immediate local enforcement. Database authentication failures return
+
+        `503 AUTH_TEMPORARILY_UNAVAILABLE`.
 
         This scheme is used for authenticated user routes and for partner routes that accept Cognito user tokens.
 
@@ -16689,21 +17727,1884 @@ components:
         maxLength: 128
         pattern: '^[\x21-\x2B\x2D-\x7E]{1,128}$'
       example: catalog-sync-2026-09-29
+  responses:
+    ShippingManagementError400:
+      description: Invalid path/body/schema/revision (INVALID_OBJECT_ID or BAD_BODY_VALUE).
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    ShippingManagementError401:
+      description: Missing or invalid authentication (INVALID_CREDENTIALS).
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    ShippingManagementError403:
+      description: Missing current authority or credential scope (FORBIDDEN).
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    ShippingManagementError404:
+      description: Source, scoped profile, compatible location or attributed Party absent (LISTING_SOURCE_NOT_FOUND,
+        SHIPPING_PROFILE_NOT_FOUND, SHIPPING_LOCATION_NOT_FOUND, PARTY_NOT_FOUND).
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    ShippingManagementError409:
+      description: Stale/exhausted revision, conflicting creation retry or ineligible profile/reference (SHIPPING_STALE_REVISION,
+        SHIPPING_REVISION_EXHAUSTED, SHIPPING_CREATION_KEY_CONFLICT, SHIPPING_PROFILE_RETIRED, SHIPPING_REFERENCE_INELIGIBLE).
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    ShippingManagementError500:
+      description: Persisted state cannot be decoded or storage operation failed (SHIPPING_STORAGE_ERROR).
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    ShippingManagementError503:
+      description: Storage or transaction unavailable (SHIPPING_TEMPORARILY_UNAVAILABLE).
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
   schemas:
-    ActorData:
-      oneOf:
-        - type: string
+    DeliveryAssessmentGeography:
+      type: object
+      additionalProperties: false
+      required:
+      - referenceRelease
+      - country
+      - subdivision
+      - postalCode
+      properties:
+        referenceRelease:
+          type: string
           enum:
-            - SYSTEM
-          description: Backend-initiated actor marker.
-        - type: string
-          description: User ID of the user who performed the change.
-      description: "Audit actor encoded as a plain string.
-
-        Values are either the literal `SYSTEM` or the User ID of the acting user.
-
-        "
-      example: SYSTEM
+          - iso-codes-4.20.1
+        country:
+          type: string
+          pattern: ^[A-Z]{2}$
+          nullable: true
+        subdivision:
+          type: string
+          nullable: true
+        postalCode:
+          type: string
+          nullable: true
+    DeliveryAssessmentAttribution:
+      type: object
+      additionalProperties: false
+      required: [provider, attributionUrl]
+      properties:
+        provider: {type: string}
+        attributionUrl: {type: string}
+    DeliveryAssertionEvidence:
+      type: object
+      additionalProperties: false
+      required: [verifiedAt]
+      properties:
+        verifiedAt:
+          type: string
+          format: date-time
+      description: Last successful assertion observation. Terms remain valid until updated, withdrawn,
+        or their source loses authority. Observation age alone never withdraws terms. Failed recrawls,
+        unrelated edits, evidence-only corrections and lifecycle commands do not advance this time.
+    DeliveryAssessmentProfileBasis:
+      type: object
+      additionalProperties: false
+      required:
+      - shippingProfileId
+      - termsRevision
+      - managementRevision
+      - lifecycle
+      - evidence
+      properties:
+        shippingProfileId:
+          type: string
+          pattern: ^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$
+        termsRevision:
+          type: integer
+          minimum: 1
+          maximum: 9223372036854775807
+        managementRevision:
+          type: integer
+          minimum: 1
+          maximum: 9223372036854775807
+        lifecycle:
+          type: string
+          enum:
+          - ACTIVE
+          - RETIRED
+        evidence:
+          $ref: '#/components/schemas/DeliveryAssertionEvidence'
+    DeliveryAssessmentReason:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      properties:
+        code:
+          type: string
+          enum:
+          - MISSING_INPUT
+          - NO_SOURCE_DEFAULT
+          - PROFILE_ABSENT
+          - PROFILE_RETIRED
+          - SOURCE_MISMATCH
+          - AMBIGUOUS_DEPENDENCY
+          - LOCATION_ABSENT
+          - LOCATION_RETIRED
+          - REFERENCE_RELEASE_MISMATCH
+          - UNRESOLVED_AREA
+          - UNSUPPORTED_POSTAL_SHAPE
+          - COUNTRY_MISMATCH
+          - SUBDIVISION_MISMATCH
+          - POSTAL_MISMATCH
+          - CLASS_MISMATCH
+          - INCOMPLETE_CLASS_MEMBERSHIP
+          - VARIANT_MISMATCH
+          - VARIANT_UNAVAILABLE
+          - MIXED_VARIANT_APPLICABILITY
+          - QUANTITY_OUTSIDE_RANGE
+          - QUALIFYING_THRESHOLD_NOT_MET
+          - CURRENCY_MISMATCH
+          - EXCLUDED
+          - EARLIER_ZONE_UNDETERMINED
+          - INCOMPLETE_COVERAGE
+          - OUTSIDE_COMPLETE_COVERAGE
+          - NO_APPLICABLE_SERVICE
+          - NO_SHIPPING_ASSERTION
+          - NO_COLLECTION_ASSERTION
+          - NO_ELIGIBILITY_ASSERTION
+          - SUPPRESSED_INHERITANCE
+          - ASSERTION_CLEARED
+          - SHIPPING_PROHIBITED
+          - SHIPPING_DEPENDENCY_REPLACED
+          - SHIPPING_DEPENDENCY_UNDETERMINED
+          - UNKNOWN_CHARGE_BASIS
+          - NO_CURRENCY_ASSERTION
+          - PRICE_ON_REQUEST
+          - EXTERNALLY_CALCULATED_PRICE
+          - ARITHMETIC_OVERFLOW
+        input:
+          type: string
+          enum:
+          - DESTINATION
+          - DESTINATION_COUNTRY
+          - DESTINATION_SUBDIVISION
+          - POSTAL_CODE
+          - ORIGIN_COUNTRY
+          - QUANTITY
+          - LOTS
+          - SHIPMENTS
+          - SELLER_ORDERS
+          - VARIANT
+          - CLASS_MEMBERSHIP
+          - QUALIFYING_AMOUNT
+        scope:
+          type: string
+          enum:
+          - ITEM
+          - LOT
+          - SHIPMENT
+          - SELLER_ORDER
+        index:
+          type: integer
+          minimum: 0
+      description: MISSING_INPUT includes input, plus scope for QUALIFYING_AMOUNT. EARLIER_ZONE_UNDETERMINED
+        includes index. Other codes include no additional fields or private dependency text.
+    DeliveryAssessmentCharge:
+      oneOf:
+      - $ref: '#/components/schemas/ShippingPriceDataFixed'
+      - $ref: '#/components/schemas/ShippingPriceDataFrom'
+      - $ref: '#/components/schemas/ShippingPriceDataEstimatedRange'
+      description: Arithmetic advertised charge for its explicit basis and count; never a quote or landed
+        cost. Null when unavailable, inapplicable or necessary count/currency/basis is absent.
+    DeliveryAssessmentOption:
+      type: object
+      additionalProperties: false
+      required:
+      - serviceIndex
+      - applicability
+      - eligibility
+      - charge
+      - reasons
+      properties:
+        serviceIndex:
+          type: integer
+          minimum: 0
+          description: Zero-based service index within the selected zone of item.shipping.terms.
+        applicability:
+          type: string
+          enum:
+          - MATCH
+          - NO_MATCH
+          - UNDETERMINED
+        eligibility:
+          type: string
+          enum:
+          - OFFERED
+          - NOT_OFFERED
+          - SUBJECT_TO_CONFIRMATION
+          - null
+          nullable: true
+        charge:
+          anyOf:
+          - $ref: '#/components/schemas/DeliveryAssessmentCharge'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        reasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeliveryAssessmentReason'
+      description: Eligibility and calculated charge for a service in the selected advertised zone.
+        Service identity, advertised price/basis/components and durations remain in item.shipping.terms.
+    DeliveryAssessmentCollection:
+      type: object
+      additionalProperties: false
+      required:
+      - eligibility
+      - applicability
+      - reasons
+      properties:
+        eligibility:
+          type: string
+          enum:
+          - OFFERED
+          - NOT_OFFERED
+          - SUBJECT_TO_CONFIRMATION
+          - null
+          nullable: true
+        applicability:
+          type: string
+          enum:
+          - MATCH
+          - NO_MATCH
+          - UNDETERMINED
+        reasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeliveryAssessmentReason'
+      description: Independent collection can remain offered when shipping is prohibited. Arrangement/windows
+        are in terms.collection; site is always null pending explicit permitted disclosure.
+    ShippingDisplayData:
+      type: object
+      additionalProperties: false
+      required: [currency, fxRateId, capturedAt, rates]
+      description: >-
+        Converted current effective advertised rates. Source terms retain their original amounts/currencies.
+        HalfUp rounding uses currency minor-unit exponents. FROM and ESTIMATED_RANGE retain uncertainty;
+        FREE with known currency remains zero. Unknown-currency free, external, on-request and absent rates
+        have no entry. Conversion supplies no quantity, applicability, binding quote or complete landed cost.
+      properties:
+        currency: {$ref: '#/components/schemas/CurrencyData'}
+        fxRateId: {type: string, description: 'Immutable persisted browsing FX snapshot, pinned for search continuation.'}
+        capturedAt: {type: string, format: date-time}
+        rates:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [zoneIndex, serviceIndex, price, basis]
+            properties:
+              zoneIndex: {type: integer, minimum: 0, description: Zero-based zone index in effective terms.}
+              serviceIndex: {type: integer, minimum: 0, description: Zero-based service index within that zone.}
+              price:
+                oneOf:
+                - {$ref: '#/components/schemas/ShippingPriceDataFree'}
+                - {$ref: '#/components/schemas/ShippingPriceDataFixed'}
+                - {$ref: '#/components/schemas/ShippingPriceDataFrom'}
+                - {$ref: '#/components/schemas/ShippingPriceDataEstimatedRange'}
+              basis: {type: string, nullable: true, enum: [PER_ITEM, PER_LOT, PER_SHIPMENT, PER_SELLER_ORDER, null]}
+    ShippingMatchValuationData:
+      type: object
+      additionalProperties: false
+      required: [interpretation, fxRateId, capturedAt, maximumPerItem]
+      description: Immutable shipping FX evaluation basis, separate from historical sale/asking-price valuation. Later captures, destination edits and filter edits do not rewrite it.
+      properties:
+        interpretation: {type: string, enum: [WHOLE_COUNTRY_PER_ITEM_FX_V1]}
+        fxRateId: {type: string}
+        capturedAt: {type: string, format: date-time}
+        maximumPerItem:
+          type: object
+          additionalProperties: false
+          required: [amount, currency]
+          properties:
+            amount: {type: integer, format: int64, minimum: 0, maximum: 9223372036854775807}
+            currency: {$ref: '#/components/schemas/CurrencyData'}
+    AdvertisedListingShippingData:
+      type: object
+      additionalProperties: false
+      description: >-
+        Effective advertised shipping and collection terms, shared by every viewer. Source defaults
+        and listing overrides are resolved from current PostgreSQL state. Dispatch origins and
+        collection sites are always null. Invalid shipping dependencies return 500 SHIPPING_STORAGE_ERROR;
+        unavailable shipping reads return 503 SHIPPING_TEMPORARILY_UNAVAILABLE. Missing or withdrawn listings and hidden entries have
+        shipping null. Clients render these terms generically without a destination. Display conversion uses
+        persisted browsing FX, never historical sale-observation FX. Missing snapshot/unavailable FX reads
+        return 503; invalid snapshot, missing required quote or overflow return 500. Shared listing FX
+        resolution retains endpoint errors; shipping enrichment uses SHIPPING_TEMPORARILY_UNAVAILABLE
+        or SHIPPING_STORAGE_ERROR. No provider is called. Currency and query predicates isolate
+        anonymous caches; credential-bearing responses and errors remain private, no-store.
+      required: [terms, display, listingRevision, sourceRevision, defaultRevision, profile, listingEvidence, evaluatedAt, shippingReasons, collectionReasons, notices]
+      properties:
+        display:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingDisplayData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        terms:
+          $ref: '#/components/schemas/AdvertisedDeliveryTermsData'
+        listingRevision: {type: integer, minimum: 1, maximum: 9223372036854775807}
+        sourceRevision: {type: integer, minimum: 1, maximum: 9223372036854775807}
+        defaultRevision: {type: integer, minimum: 1, maximum: 9223372036854775807, nullable: true}
+        profile:
+          anyOf:
+          - $ref: '#/components/schemas/DeliveryAssessmentProfileBasis'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        listingEvidence:
+          anyOf:
+          - $ref: '#/components/schemas/DeliveryAssertionEvidence'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        evaluatedAt: {type: string, format: date-time}
+        shippingReasons:
+          type: array
+          items: {$ref: '#/components/schemas/DeliveryAssessmentReason'}
+        collectionReasons:
+          type: array
+          items: {$ref: '#/components/schemas/DeliveryAssessmentReason'}
+        notices:
+          type: array
+          items:
+            type: string
+            enum: [ASSIGNMENT_UNRESOLVED, INTEGRATION_MISMATCH, PROFILE_INTEGRATION_MISMATCH]
+    PersonalizedListingShippingData:
+      type: object
+      additionalProperties: false
+      description: >-
+        Evaluation for the authenticated owner's selected browsing destination. Omitted when
+        no destination is selected or the listing is hidden/withdrawn. A saved address or explicit
+        country/postal preference can supply the destination; owning addresses alone selects none.
+        Destination facts include submitted assertions and compatible permitted unexpired derived
+        evidence. No street, coordinates or address identity is returned. Delegated personalization
+        requires users:read; credentials without it receive generic terms. Browsing infers no quantity, variant, shipment/order count or qualifying
+        amount. Missing inputs retain uncertainty and explained null charges. This enrichment does
+        not filter or reorder results. Authenticated responses are never cached.
+      required: [destination, attribution, evaluatedAt, eligibility, selectedZone, options, reasons, collection, bindingQuote, completeLandedCost]
+      properties:
+        destination:
+          $ref: '#/components/schemas/DeliveryAssessmentGeography'
+        attribution:
+          anyOf:
+          - $ref: '#/components/schemas/DeliveryAssessmentAttribution'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        evaluatedAt: {type: string, format: date-time}
+        eligibility:
+          type: string
+          enum: [OFFERED, NOT_OFFERED, SUBJECT_TO_CONFIRMATION, null]
+          nullable: true
+        selectedZone:
+          type: integer
+          minimum: 0
+          nullable: true
+          description: Zero-based zone index in item.shipping.terms.shipping.coverage.zones.
+        options:
+          type: array
+          items: {$ref: '#/components/schemas/DeliveryAssessmentOption'}
+        reasons:
+          type: array
+          items: {$ref: '#/components/schemas/DeliveryAssessmentReason'}
+        collection:
+          $ref: '#/components/schemas/DeliveryAssessmentCollection'
+        bindingQuote: {type: boolean, enum: [false]}
+        completeLandedCost: {type: boolean, enum: [false]}
+    ProductListingDeliveryCommandData:
+      type: object
+      additionalProperties: false
+      required: [expectedVersion, delivery]
+      properties:
+        import:
+          $ref: '#/components/schemas/ShippingImportWriteData'
+        expectedVersion: {type: integer, minimum: 1, maximum: 9223372036854775807}
+        delivery:
+          oneOf:
+          - $ref: '#/components/schemas/ListingDeliveryEmptyPatchData'
+          - type: object
+            additionalProperties: false
+            required: [state, value]
+            properties:
+              state: {type: string, enum: [SET]}
+              value:
+                $ref: '#/components/schemas/ListingDeliveryPatchData'
+    ListingDeliveryEmptyPatchData:
+      type: object
+      additionalProperties: false
+      required: [state]
+      properties:
+        state: {type: string, enum: [UNCHANGED, CLEAR]}
+    ListingDeliveryIntegrationData:
+      oneOf:
+      - type: object
+        additionalProperties: false
+        required: [kind]
+        properties:
+          kind: {type: string, enum: [SOURCE]}
+      - type: object
+        additionalProperties: false
+        required: [kind, method]
+        properties:
+          kind: {type: string, enum: [PROVIDER]}
+          method: {type: string, enum: [SHOPIFY, WOOCOMMERCE]}
+    ListingDeliverySelectionData:
+      oneOf:
+      - type: object
+        additionalProperties: false
+        required: [kind]
+        properties:
+          kind: {type: string, enum: [INHERIT_SOURCE_DEFAULT, SUPPRESS_INHERITANCE]}
+      - type: object
+        additionalProperties: false
+        required: [kind, profile_id]
+        properties:
+          kind: {type: string, enum: [EXPLICIT]}
+          profile_id:
+            type: string
+            pattern: '^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$'
+      - type: object
+        additionalProperties: false
+        required: [kind, terms]
+        properties:
+          kind: {type: string, enum: [INLINE]}
+          terms:
+            $ref: '#/components/schemas/AdvertisedDeliveryTermsData'
+    ListingDeliveryRateInputsData:
+      type: object
+      additionalProperties: false
+      required: [classes, variants]
+      properties:
+        classes:
+          type: object
+          nullable: true
+          additionalProperties: false
+          required: [codes, completeness]
+          properties:
+            codes:
+              type: array
+              maxItems: 64
+              uniqueItems: true
+              items: {type: string, minLength: 1, maxLength: 128}
+            completeness: {type: string, enum: [PARTIAL, COMPLETE]}
+        variants:
+          type: array
+          nullable: true
+          minItems: 1
+          maxItems: 64
+          uniqueItems: true
+          items: {type: string, minLength: 1, maxLength: 128}
+    ListingDeliveryInheritOrClearData:
+      type: object
+      additionalProperties: false
+      required: [kind]
+      properties:
+        kind: {type: string, enum: [INHERIT, CLEAR]}
+    ListingDeliveryConfigurationData:
+      type: object
+      additionalProperties: false
+      required: [schema, source_id, integration, selection, rate_inputs, shipping, collection]
+      properties:
+        schema: {type: string, enum: [LISTING_DELIVERY_V1]}
+        source_id:
+          type: string
+          pattern: '^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$'
+        integration:
+          $ref: '#/components/schemas/ListingDeliveryIntegrationData'
+        selection:
+          anyOf:
+          - $ref: '#/components/schemas/ListingDeliverySelectionData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        rate_inputs:
+          $ref: '#/components/schemas/ListingDeliveryRateInputsData'
+        shipping:
+          $ref: '#/components/schemas/ListingDeliveryShippingOverrideData'
+        collection:
+          $ref: '#/components/schemas/ListingDeliveryCollectionOverrideData'
+    ProductListingDeliveryViewData:
+      type: object
+      required: [productListingId, expectedVersion, delivery]
+      properties:
+        productListingId:
+          type: string
+          pattern: '^pl_[0-7][0-9a-hjkmnp-tv-z]{25}$'
+        expectedVersion: {type: integer, minimum: 1}
+        delivery:
+          anyOf:
+          - $ref: '#/components/schemas/ListingDeliveryConfigurationData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+    ProductListingDeliveryResultData:
+      type: object
+      required: [productListingId, expectedVersion, outcome]
+      properties:
+        productListingId:
+          type: string
+          pattern: '^pl_[0-7][0-9a-hjkmnp-tv-z]{25}$'
+        expectedVersion: {type: integer, minimum: 1}
+        outcome: {type: string, enum: [CHANGED, UNCHANGED], description: "Canonical listing change; UNCHANGED can still commit an explicit observation or manual ownership handoff."}
+    ProductListingDeliveryHistoryChangeData:
+      type: object
+      additionalProperties: false
+      required: [type]
+      properties:
+        type: {type: string, enum: [DELIVERY_CHANGED]}
+    ListingDeliveryShippingOverrideData:
+      oneOf:
+      - $ref: '#/components/schemas/ListingDeliveryInheritOrClearData'
+      - type: object
+        additionalProperties: false
+        required: [kind, value]
+        properties:
+          kind: {type: string, enum: [REPLACE]}
+          value:
+            $ref: '#/components/schemas/ShippingPolicyData'
+    ListingDeliveryCollectionOverrideData:
+      oneOf:
+      - $ref: '#/components/schemas/ListingDeliveryInheritOrClearData'
+      - type: object
+        additionalProperties: false
+        required: [kind, value]
+        properties:
+          kind: {type: string, enum: [REPLACE]}
+          value:
+            $ref: '#/components/schemas/ShippingCollectionData'
+    ListingDeliveryPatchData:
+      type: object
+      additionalProperties: false
+      required: [integration, selection, rateInputs, shipping, collection]
+      properties:
+        integration:
+          $ref: '#/components/schemas/ListingDeliveryIntegrationData'
+        selection:
+          oneOf:
+          - $ref: '#/components/schemas/ListingDeliveryEmptyPatchData'
+          - type: object
+            additionalProperties: false
+            required: [state, value]
+            properties:
+              state: {type: string, enum: [SET]}
+              value:
+                $ref: '#/components/schemas/ListingDeliverySelectionData'
+        rateInputs:
+          oneOf:
+          - $ref: '#/components/schemas/ListingDeliveryEmptyPatchData'
+          - type: object
+            additionalProperties: false
+            required: [state, value]
+            properties:
+              state: {type: string, enum: [SET]}
+              value:
+                $ref: '#/components/schemas/ListingDeliveryRateInputsData'
+        shipping:
+          oneOf:
+          - $ref: '#/components/schemas/ListingDeliveryEmptyPatchData'
+          - type: object
+            additionalProperties: false
+            required: [state, value]
+            properties:
+              state: {type: string, enum: [SET]}
+              value:
+                $ref: '#/components/schemas/ListingDeliveryShippingOverrideData'
+        collection:
+          oneOf:
+          - $ref: '#/components/schemas/ListingDeliveryEmptyPatchData'
+          - type: object
+            additionalProperties: false
+            required: [state, value]
+            properties:
+              state: {type: string, enum: [SET]}
+              value:
+                $ref: '#/components/schemas/ListingDeliveryCollectionOverrideData'
+    ShippingImportObservationData:
+      type: object
+      additionalProperties: false
+      description: Explicit successful new acquisition marker (empty object). Uses the parent acquiredAt,
+        which cannot be in the future. Shipping assertions have no freshness or expiry deadline.
+        Replays and ordinary writes without observation never advance observation time.
+        Evidence-only corrections and lifecycle/removal commands cannot supply observation.
+    ShippingImportWriteData:
+      type: object
+      additionalProperties: false
+      required:
+      - integration
+      - sequence
+      - acquiredAt
+      - requestKey
+      properties:
+        acquiredAt:
+          type: string
+          format: date-time
+          description: Successful acquisition time for every command, including removal/correction; must follow the latest source/integration authority change.
+        integration:
+          $ref: '#/components/schemas/ListingDeliveryIntegrationData'
+        sequence:
+          type: integer
+          minimum: 1
+          maximum: 9223372036854775807
+        requestKey:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[!-~]+$
+        objectKey:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[!-~]+$
+          nullable: true
+        observation:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingImportObservationData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+      description: 'Optional import semantics on existing commands. objectKey is required only on profile creation;
+        it identifies a stable source/producer/integration object independently of requestKey. sequence increases per
+        touched component within the current source lifecycle; it is producer acquisition order, never receive time. Omitted observation
+        does not renew observation time. Creation, changed normalized profile terms, changed default assignment and changed
+        listing assertions and first claims of equal implicit selections require observation; explicit owned-component
+        removals do not renew observation time. Acquisition ordering uses microsecond precision. Equal terms with observation explicitly refresh acquisition evidence without semantic
+        revision changes. Exact requestKey replay returns current committed state without effects for 90 days; changed
+        reuse conflicts permanently. Current source/grant/integration authority is rechecked even on replay. Imports
+        cannot modify manually owned components. 409 codes: SHIPPING_IMPORT_AUTHORITY_STALE, SHIPPING_IMPORT_OWNERSHIP_CONFLICT,
+        SHIPPING_IMPORT_REQUEST_CONFLICT, SHIPPING_IMPORT_OUT_OF_ORDER, SHIPPING_IMPORT_IDENTITY_EXISTS. Refetch and
+        reconcile conflicts; never rebase an old payload onto the newest revision. Missing catalog listing is retryable
+        404 SHIPPING_IMPORT_DEPENDENCY_MISSING; retain the record until catalog creation commits. No shipping write
+        creates or restores catalog products.'
+    ShippingCurrencyCode:
+      type: string
+      enum:
+      - EUR
+      - GBP
+      - USD
+      - AUD
+      - CAD
+      - NZD
+      - CNY
+      - BRL
+      - PLN
+      - TRY
+      - JPY
+      - CZK
+      - RUB
+      - AED
+      - SAR
+      - HKD
+      - SGD
+      - CHF
+      - ZAR
+      - SEK
+      - DKK
+      - NOK
+      - KRW
+      - INR
+      - TWD
+      - HUF
+      - RON
+      - MXN
+      - THB
+      - ARS
+    ShippingMoneyData:
+      type: object
+      additionalProperties: false
+      required:
+      - amount_minor
+      - currency
+      properties:
+        amount_minor:
+          type: integer
+          minimum: 0
+          maximum: 18446744073709551615
+        currency:
+          $ref: '#/components/schemas/ShippingCurrencyCode'
+      description: Advertised amount in currency minor units; never an authorized quote or checkout total.
+    ShippingQuantityData:
+      type: object
+      additionalProperties: false
+      required:
+      - minimum
+      - maximum
+      properties:
+        minimum:
+          type: integer
+          minimum: 1
+          maximum: 18446744073709551615
+        maximum:
+          type: integer
+          minimum: 1
+          maximum: 18446744073709551615
+      description: Ordered inclusive bounds.
+    ShippingThresholdData:
+      type: object
+      additionalProperties: false
+      required:
+      - minimum
+      - scope
+      properties:
+        minimum:
+          $ref: '#/components/schemas/ShippingMoneyData'
+        scope:
+          type: string
+          enum:
+          - ITEM
+          - LOT
+          - SHIPMENT
+          - SELLER_ORDER
+    ShippingApplicabilityData:
+      type: object
+      additionalProperties: false
+      required:
+      - class
+      - variants
+      - quantity
+      - threshold
+      properties:
+        class:
+          type: string
+          minLength: 1
+          maxLength: 128
+          nullable: true
+        variants:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+          maxItems: 64
+          minItems: 1
+          nullable: true
+        quantity:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingQuantityData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        threshold:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingThresholdData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+      description: Class and variant codes are scoped to the path ListingSource; absence must be explicit
+        null.
+    ShippingTimeData:
+      type: object
+      additionalProperties: false
+      required:
+      - minimum
+      - maximum
+      - unit
+      - basis
+      - trigger
+      properties:
+        minimum:
+          type: integer
+          minimum: 0
+          maximum: 4294967295
+        maximum:
+          type: integer
+          minimum: 0
+          maximum: 4294967295
+        unit:
+          type: string
+          enum:
+          - HOURS
+          - DAYS
+          - WEEKS
+        basis:
+          type: string
+          enum:
+          - CALENDAR
+          - BUSINESS
+          - null
+          nullable: true
+        trigger:
+          type: string
+          enum:
+          - ORDER
+          - ORDER_CONFIRMATION
+          - PAYMENT
+          - DISPATCH
+          - READY_FOR_COLLECTION
+          - null
+          nullable: true
+      description: Ordered duration bounds; handling, transit and total are independent assertions.
+    ShippingLeadTimesData:
+      type: object
+      additionalProperties: false
+      required:
+      - handling
+      - transit
+      - total
+      properties:
+        handling:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingTimeData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        transit:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingTimeData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        total:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingTimeData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+    ShippingActorDataListingSource:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      properties:
+        kind:
+          type: string
+          enum:
+          - LISTING_SOURCE
+    ShippingActorDataBuyer:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      properties:
+        kind:
+          type: string
+          enum:
+          - BUYER
+    ShippingActorDataParty:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - party_id
+      properties:
+        kind:
+          type: string
+          enum:
+          - PARTY
+        party_id:
+          type: string
+          pattern: ^pty_[0-7][0-9a-hjkmnp-tv-z]{25}$
+    ShippingActorData:
+      oneOf:
+      - $ref: '#/components/schemas/ShippingActorDataListingSource'
+      - $ref: '#/components/schemas/ShippingActorDataBuyer'
+      - $ref: '#/components/schemas/ShippingActorDataParty'
+      discriminator:
+        propertyName: kind
+        mapping:
+          LISTING_SOURCE: '#/components/schemas/ShippingActorDataListingSource'
+          BUYER: '#/components/schemas/ShippingActorDataBuyer'
+          PARTY: '#/components/schemas/ShippingActorDataParty'
+    ShippingPriceDataFree:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - currency
+      properties:
+        kind:
+          type: string
+          enum:
+          - FREE
+        currency:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingCurrencyCode'
+          - type: object
+            nullable: true
+            enum:
+            - null
+    ShippingPriceDataFixed:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - amount
+      properties:
+        kind:
+          type: string
+          enum:
+          - FIXED
+        amount:
+          $ref: '#/components/schemas/ShippingMoneyData'
+    ShippingPriceDataFrom:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - amount
+      properties:
+        kind:
+          type: string
+          enum:
+          - FROM
+        amount:
+          $ref: '#/components/schemas/ShippingMoneyData'
+    ShippingPriceDataEstimatedRange:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - minimum
+      - maximum
+      properties:
+        kind:
+          type: string
+          enum:
+          - ESTIMATED_RANGE
+        minimum:
+          $ref: '#/components/schemas/ShippingMoneyData'
+        maximum:
+          $ref: '#/components/schemas/ShippingMoneyData'
+    ShippingPriceDataExternallyCalculated:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - currency
+      properties:
+        kind:
+          type: string
+          enum:
+          - EXTERNALLY_CALCULATED
+        currency:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingCurrencyCode'
+          - type: object
+            nullable: true
+            enum:
+            - null
+    ShippingPriceDataOnRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - currency
+      properties:
+        kind:
+          type: string
+          enum:
+          - ON_REQUEST
+        currency:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingCurrencyCode'
+          - type: object
+            nullable: true
+            enum:
+            - null
+    ShippingPriceData:
+      oneOf:
+      - $ref: '#/components/schemas/ShippingPriceDataFree'
+      - $ref: '#/components/schemas/ShippingPriceDataFixed'
+      - $ref: '#/components/schemas/ShippingPriceDataFrom'
+      - $ref: '#/components/schemas/ShippingPriceDataEstimatedRange'
+      - $ref: '#/components/schemas/ShippingPriceDataExternallyCalculated'
+      - $ref: '#/components/schemas/ShippingPriceDataOnRequest'
+      discriminator:
+        propertyName: kind
+        mapping:
+          FREE: '#/components/schemas/ShippingPriceDataFree'
+          FIXED: '#/components/schemas/ShippingPriceDataFixed'
+          FROM: '#/components/schemas/ShippingPriceDataFrom'
+          ESTIMATED_RANGE: '#/components/schemas/ShippingPriceDataEstimatedRange'
+          EXTERNALLY_CALCULATED: '#/components/schemas/ShippingPriceDataExternallyCalculated'
+          ON_REQUEST: '#/components/schemas/ShippingPriceDataOnRequest'
+    ShippingRateData:
+      type: object
+      additionalProperties: false
+      required:
+      - price
+      - basis
+      - qualifying_scope
+      - components
+      properties:
+        price:
+          $ref: '#/components/schemas/ShippingPriceData'
+        basis:
+          type: string
+          enum:
+          - PER_ITEM
+          - PER_LOT
+          - PER_SHIPMENT
+          - PER_SELLER_ORDER
+          - null
+          nullable: true
+        qualifying_scope:
+          type: string
+          enum:
+          - ITEM
+          - LOT
+          - SHIPMENT
+          - SELLER_ORDER
+          - null
+          nullable: true
+        components:
+          type: object
+          additionalProperties:
+            type: string
+            enum:
+            - INCLUDED
+            - EXCLUDED
+          description: 'Keys: TRANSPORT, PACKING, INSURANCE, HANDLING, INSTALLATION, IMPORT_DUTY, TAX. Unknown
+            keys are rejected.'
+    ShippingServiceData:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - applicability
+      - eligibility
+      - rate
+      - lead_times
+      - features
+      - arranger
+      - performer
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 128
+        applicability:
+          $ref: '#/components/schemas/ShippingApplicabilityData'
+        eligibility:
+          type: string
+          enum:
+          - OFFERED
+          - NOT_OFFERED
+          - SUBJECT_TO_CONFIRMATION
+          - null
+          nullable: true
+        rate:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingRateData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        lead_times:
+          $ref: '#/components/schemas/ShippingLeadTimesData'
+        features:
+          type: array
+          items:
+            type: string
+            enum:
+            - TRACKING
+            - INSURED
+            - WHITE_GLOVE
+            - INSTALLATION
+            - PACKING
+          maxItems: 5
+          minItems: 0
+          uniqueItems: true
+        arranger:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingActorData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        performer:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingActorData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+    ShippingPostalFormDataExact:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - code
+      properties:
+        kind:
+          type: string
+          enum:
+          - EXACT
+        code:
+          type: string
+          minLength: 1
+          maxLength: 64
+    ShippingPostalFormDataGermanPrefix:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - prefix
+      properties:
+        kind:
+          type: string
+          enum:
+          - GERMAN_PREFIX
+        prefix:
+          type: string
+          pattern: ^[0-9]{1,4}$
+    ShippingPostalFormDataGermanRange:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - first
+      - last
+      properties:
+        kind:
+          type: string
+          enum:
+          - GERMAN_RANGE
+        first:
+          type: string
+          pattern: ^[0-9]{5}$
+        last:
+          type: string
+          pattern: ^[0-9]{5}$
+    ShippingPostalFormData:
+      oneOf:
+      - $ref: '#/components/schemas/ShippingPostalFormDataExact'
+      - $ref: '#/components/schemas/ShippingPostalFormDataGermanPrefix'
+      - $ref: '#/components/schemas/ShippingPostalFormDataGermanRange'
+      discriminator:
+        propertyName: kind
+        mapping:
+          EXACT: '#/components/schemas/ShippingPostalFormDataExact'
+          GERMAN_PREFIX: '#/components/schemas/ShippingPostalFormDataGermanPrefix'
+          GERMAN_RANGE: '#/components/schemas/ShippingPostalFormDataGermanRange'
+    ShippingAreaDataAnywhere:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      properties:
+        kind:
+          type: string
+          enum:
+          - ANYWHERE
+    ShippingAreaDataDomestic:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      properties:
+        kind:
+          type: string
+          enum:
+          - DOMESTIC
+    ShippingAreaDataCountry:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - code
+      - reference_release
+      properties:
+        kind:
+          type: string
+          enum:
+          - COUNTRY
+        code:
+          type: string
+        reference_release:
+          type: string
+          enum:
+          - iso-codes-4.20.1
+    ShippingAreaDataSubdivision:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - code
+      - reference_release
+      properties:
+        kind:
+          type: string
+          enum:
+          - SUBDIVISION
+        code:
+          type: string
+        reference_release:
+          type: string
+          enum:
+          - iso-codes-4.20.1
+    ShippingAreaDataPostal:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - version
+      - country
+      - reference_release
+      - form
+      properties:
+        kind:
+          type: string
+          enum:
+          - POSTAL
+        version:
+          type: string
+          enum:
+          - POSTAL_RULE_V1
+        country:
+          type: string
+        reference_release:
+          type: string
+          enum:
+          - iso-codes-4.20.1
+        form:
+          $ref: '#/components/schemas/ShippingPostalFormData'
+    ShippingAreaDataUnresolved:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - assertion
+      properties:
+        kind:
+          type: string
+          enum:
+          - UNRESOLVED
+        assertion:
+          type: string
+          minLength: 1
+          maxLength: 255
+    ShippingAreaData:
+      oneOf:
+      - $ref: '#/components/schemas/ShippingAreaDataAnywhere'
+      - $ref: '#/components/schemas/ShippingAreaDataDomestic'
+      - $ref: '#/components/schemas/ShippingAreaDataCountry'
+      - $ref: '#/components/schemas/ShippingAreaDataSubdivision'
+      - $ref: '#/components/schemas/ShippingAreaDataPostal'
+      - $ref: '#/components/schemas/ShippingAreaDataUnresolved'
+      discriminator:
+        propertyName: kind
+        mapping:
+          ANYWHERE: '#/components/schemas/ShippingAreaDataAnywhere'
+          DOMESTIC: '#/components/schemas/ShippingAreaDataDomestic'
+          COUNTRY: '#/components/schemas/ShippingAreaDataCountry'
+          SUBDIVISION: '#/components/schemas/ShippingAreaDataSubdivision'
+          POSTAL: '#/components/schemas/ShippingAreaDataPostal'
+          UNRESOLVED: '#/components/schemas/ShippingAreaDataUnresolved'
+    ShippingSiteGeographyData:
+      type: object
+      additionalProperties: false
+      required:
+      - reference_release
+      - address_text
+      - country
+      - subdivision
+      - postal_code
+      properties:
+        reference_release:
+          type: string
+          enum:
+          - iso-codes-4.20.1
+        address_text:
+          type: string
+          nullable: true
+        country:
+          type: string
+          nullable: true
+        subdivision:
+          type: string
+          nullable: true
+        postal_code:
+          type: string
+          nullable: true
+      description: One whole advertised site assertion. ISO geography constructors validate codes, release
+        and compatibility. Confidential assertions are protected management data.
+    ShippingSitePointData:
+      type: object
+      additionalProperties: false
+      required:
+      - latitude_degrees
+      - longitude_degrees
+      properties:
+        latitude_degrees:
+          type: number
+          minimum: -90
+          maximum: 90
+        longitude_degrees:
+          type: number
+          minimum: -180
+          maximum: 180
+    ShippingSitePositionData:
+      type: object
+      additionalProperties: false
+      required:
+      - point
+      - precision
+      - accuracy_metres
+      properties:
+        point:
+          $ref: '#/components/schemas/ShippingSitePointData'
+        precision:
+          type: string
+          enum:
+          - PREMISES
+          - STREET
+          - LOCALITY
+          - REPRESENTATIVE
+        accuracy_metres:
+          type: number
+          minimum: 0
+          nullable: true
+    ShippingSiteDataPartyLocation:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - party_location_id
+      properties:
+        kind:
+          type: string
+          enum:
+          - PARTY_LOCATION
+        party_location_id:
+          type: string
+          pattern: ^ploc_[0-7][0-9a-hjkmnp-tv-z]{25}$
+    ShippingSiteDataAsserted:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - geography
+      - position
+      properties:
+        kind:
+          type: string
+          enum:
+          - ASSERTED
+        geography:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingSiteGeographyData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        position:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingSitePositionData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+    ShippingSiteData:
+      oneOf:
+      - $ref: '#/components/schemas/ShippingSiteDataPartyLocation'
+      - $ref: '#/components/schemas/ShippingSiteDataAsserted'
+      discriminator:
+        propertyName: kind
+        mapping:
+          PARTY_LOCATION: '#/components/schemas/ShippingSiteDataPartyLocation'
+          ASSERTED: '#/components/schemas/ShippingSiteDataAsserted'
+    ShippingZoneData:
+      type: object
+      additionalProperties: false
+      required:
+      - areas
+      - applicability
+      - services
+      properties:
+        areas:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingAreaData'
+          maxItems: 64
+          minItems: 1
+        applicability:
+          $ref: '#/components/schemas/ShippingApplicabilityData'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingServiceData'
+          maxItems: 64
+          minItems: 1
+      description: Zones are ordered; service codes are unique within each zone.
+    ShippingCoverageData:
+      type: object
+      additionalProperties: false
+      required:
+      - reference_release
+      - completeness
+      - applicability
+      - exclusions
+      - zones
+      - dispatch_origin
+      properties:
+        reference_release:
+          type: string
+          enum:
+          - iso-codes-4.20.1
+        completeness:
+          type: string
+          enum:
+          - PARTIAL
+          - COMPLETE
+        applicability:
+          $ref: '#/components/schemas/ShippingApplicabilityData'
+        exclusions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingAreaData'
+          maxItems: 64
+          minItems: 0
+        zones:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingZoneData'
+          maxItems: 64
+          minItems: 0
+        dispatch_origin:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingSiteData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+    ShippingPolicyDataProhibited:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      properties:
+        kind:
+          type: string
+          enum:
+          - PROHIBITED
+    ShippingPolicyDataCoverage:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - coverage
+      properties:
+        kind:
+          type: string
+          enum:
+          - COVERAGE
+        coverage:
+          $ref: '#/components/schemas/ShippingCoverageData'
+    ShippingPolicyData:
+      oneOf:
+      - $ref: '#/components/schemas/ShippingPolicyDataProhibited'
+      - $ref: '#/components/schemas/ShippingPolicyDataCoverage'
+      discriminator:
+        propertyName: kind
+        mapping:
+          PROHIBITED: '#/components/schemas/ShippingPolicyDataProhibited'
+          COVERAGE: '#/components/schemas/ShippingPolicyDataCoverage'
+    ShippingCollectionArrangementDataByAppointment:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      properties:
+        kind:
+          type: string
+          enum:
+          - BY_APPOINTMENT
+    ShippingCollectionArrangementDataContactToArrange:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      properties:
+        kind:
+          type: string
+          enum:
+          - CONTACT_TO_ARRANGE
+    ShippingCollectionArrangementDataWindow:
+      type: object
+      additionalProperties: false
+      required:
+      - kind
+      - duration
+      properties:
+        kind:
+          type: string
+          enum:
+          - WINDOW
+        duration:
+          $ref: '#/components/schemas/ShippingTimeData'
+    ShippingCollectionArrangementData:
+      oneOf:
+      - $ref: '#/components/schemas/ShippingCollectionArrangementDataByAppointment'
+      - $ref: '#/components/schemas/ShippingCollectionArrangementDataContactToArrange'
+      - $ref: '#/components/schemas/ShippingCollectionArrangementDataWindow'
+      discriminator:
+        propertyName: kind
+        mapping:
+          BY_APPOINTMENT: '#/components/schemas/ShippingCollectionArrangementDataByAppointment'
+          CONTACT_TO_ARRANGE: '#/components/schemas/ShippingCollectionArrangementDataContactToArrange'
+          WINDOW: '#/components/schemas/ShippingCollectionArrangementDataWindow'
+    ShippingCollectionData:
+      type: object
+      additionalProperties: false
+      required:
+      - applicability
+      - dependency
+      - eligibility
+      - site
+      - arrangement
+      properties:
+        applicability:
+          $ref: '#/components/schemas/ShippingApplicabilityData'
+        dependency:
+          type: string
+          enum:
+          - INDEPENDENT
+          - SHIPPING
+        eligibility:
+          type: string
+          enum:
+          - OFFERED
+          - NOT_OFFERED
+          - SUBJECT_TO_CONFIRMATION
+          - null
+          nullable: true
+        site:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingSiteData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        arrangement:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingCollectionArrangementData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+    AdvertisedDeliveryTermsData:
+      type: object
+      additionalProperties: false
+      required:
+      - schema
+      - shipping
+      - collection
+      properties:
+        schema:
+          type: string
+          enum:
+          - SHIP_TERMS_V1
+        shipping:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingPolicyData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        collection:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingCollectionData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+      description: Strict versioned advertised terms. All fields, including nullable fields, are required;
+        unknown fields/codes are rejected. Absence, explicit prohibition and retirement have different meanings.
+        This contract supplies no quote.
+    ShippingProfileContentData:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - attributedPartyId
+      - terms
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        attributedPartyId:
+          type: string
+          pattern: ^pty_[0-7][0-9a-hjkmnp-tv-z]{25}$
+          nullable: true
+        terms:
+          $ref: '#/components/schemas/AdvertisedDeliveryTermsData'
+    ShippingEvidenceInputData:
+      type: object
+      additionalProperties: false
+      required:
+      - reference
+      - assertion
+      properties:
+        reference:
+          type: string
+          minLength: 1
+          maxLength: 2048
+        assertion:
+          type: string
+          minLength: 1
+          maxLength: 255
+      description: Protected provenance link; never fetched during writes, never grants authority. No buyer
+        addresses. Excluded from responses, public indexes, signals and logs.
+    CreateShippingProfileData:
+      type: object
+      additionalProperties: false
+      required:
+      - creationKey
+      - content
+      - evidence
+      properties:
+        import:
+          $ref: '#/components/schemas/ShippingImportWriteData'
+        creationKey:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[!-~]+$
+        content:
+          $ref: '#/components/schemas/ShippingProfileContentData'
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingEvidenceInputData'
+          maxItems: 32
+          minItems: 0
+    ReplaceShippingProfileData:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedRevision
+      - content
+      - evidence
+      properties:
+        import:
+          $ref: '#/components/schemas/ShippingImportWriteData'
+        expectedRevision:
+          type: integer
+          minimum: 1
+          maximum: 9223372036854775807
+        content:
+          $ref: '#/components/schemas/ShippingProfileContentData'
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShippingEvidenceInputData'
+          maxItems: 32
+          minItems: 0
+      description: Complete explicit replacement. Empty evidence corrects the current evidence set; prior
+        protected evidence remains in history. Retired profiles require restoration before content or
+        evidence correction.
+    ShippingProfileLifecycleData:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedRevision
+      properties:
+        import:
+          $ref: '#/components/schemas/ShippingImportWriteData'
+        expectedRevision:
+          type: integer
+          minimum: 1
+          maximum: 9223372036854775807
+    AssignShippingDefaultData:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedRevision
+      - shippingProfileId
+      properties:
+        import:
+          $ref: '#/components/schemas/ShippingImportWriteData'
+        expectedRevision:
+          type: integer
+          minimum: 1
+          maximum: 9223372036854775807
+        shippingProfileId:
+          type: string
+          pattern: ^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$
+    ClearShippingDefaultData:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedRevision
+      properties:
+        import:
+          $ref: '#/components/schemas/ShippingImportWriteData'
+        expectedRevision:
+          type: integer
+          minimum: 1
+          maximum: 9223372036854775807
+    ShippingProfileSummaryData:
+      type: object
+      additionalProperties: false
+      required:
+      - shippingProfileId
+      - listingSourceId
+      - name
+      - managementRevision
+      - termsRevision
+      - lifecycle
+      properties:
+        shippingProfileId:
+          type: string
+          pattern: ^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$
+        listingSourceId:
+          type: string
+          pattern: ^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$
+        name:
+          type: string
+        managementRevision:
+          type: integer
+          minimum: 1
+          maximum: 9223372036854775807
+        termsRevision:
+          type: integer
+          minimum: 1
+          maximum: 9223372036854775807
+        lifecycle:
+          type: string
+          enum:
+          - ACTIVE
+          - RETIRED
+    ShippingProfileData:
+      type: object
+      additionalProperties: false
+      required:
+      - shippingProfileId
+      - listingSourceId
+      - managementRevision
+      - termsRevision
+      - lifecycle
+      - content
+      properties:
+        shippingProfileId:
+          type: string
+          pattern: ^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$
+        listingSourceId:
+          type: string
+          pattern: ^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$
+        managementRevision:
+          type: integer
+          minimum: 1
+          maximum: 9223372036854775807
+        termsRevision:
+          type: integer
+          minimum: 1
+          maximum: 9223372036854775807
+        lifecycle:
+          type: string
+          enum:
+          - ACTIVE
+          - RETIRED
+        content:
+          $ref: '#/components/schemas/ShippingProfileContentData'
+      description: Protected management detail; retains retired references and site assertions, excludes evidence.
+        Never expose this DTO as public collection addresses.
+    ShippingDefaultData:
+      type: object
+      additionalProperties: false
+      required:
+      - listingSourceId
+      - revision
+      - shippingProfileId
+      - eligibility
+      properties:
+        listingSourceId:
+          type: string
+          pattern: ^ls_[0-7][0-9a-hjkmnp-tv-z]{25}$
+        revision:
+          type: integer
+          minimum: 1
+          maximum: 9223372036854775807
+        shippingProfileId:
+          type: string
+          pattern: ^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$
+          nullable: true
+        eligibility:
+          type: string
+          enum:
+          - ACTIVE
+          - RETIRED
+          - MISSING
+          - null
+          nullable: true
+      description: Initial absent state has revision 1. Clear retains an advancing revision tombstone; retirement
+        retains the selected identity and ineligible status. No implicit fallback.
     AdminProductListingVersion:
       type: object
       additionalProperties: false
@@ -16861,6 +19762,7 @@ components:
       type: object
       description: Lightweight ProductListing summary for search and similar-listing results.
       required:
+        - shipping
         - productListingId
         - eventId
         - source
@@ -16873,6 +19775,13 @@ components:
         - images
         - updated
       properties:
+        shipping:
+          anyOf:
+          - $ref: '#/components/schemas/AdvertisedListingShippingData'
+          - type: object
+            nullable: true
+            enum:
+            - null
         productListingId:
           type: string
         productListingTitleSlugId:
@@ -16903,9 +19812,12 @@ components:
         priceValuation:
           $ref: "#/components/schemas/ProductListingSummaryPriceValuationData"
         availability:
-          allOf:
-            - $ref: "#/components/schemas/ListingAvailabilityData"
-          nullable: true
+          anyOf:
+          - $ref: '#/components/schemas/ListingAvailabilityData'
+          - type: object
+            nullable: true
+            enum:
+            - null
         lifecycle:
           $ref: "#/components/schemas/ListingLifecycleData"
         url:
@@ -16919,12 +19831,16 @@ components:
           items:
             $ref: "#/components/schemas/ProductListingImageData"
         contentPolicy:
-          allOf:
-            - $ref: "#/components/schemas/ContentPolicyData"
-          nullable: true
+          anyOf:
+          - $ref: '#/components/schemas/ContentPolicyData'
+          - type: object
+            nullable: true
+            enum:
+            - null
         updated:
           type: string
           format: date-time
+          description: Time of the last committed change to listing-owned state, including enrichment (translations, embedding, geography, shipping summary, content assessment and delivery evidence). Strictly increasing per listing, with each new value at millisecond precision; FX changes and response-time composition do not advance it.
         geography:
           description: Advertised inventory geography on geographic search summaries; selected by the backend from eligible source evidence.
           allOf: [{$ref: '#/components/schemas/ListingGeographyData'}]
@@ -16964,6 +19880,7 @@ components:
       type: object
       description: Canonical ProductListing detail inside a personalized response wrapper.
       required:
+        - shipping
         - productListingId
         - eventId
         - source
@@ -16979,6 +19896,13 @@ components:
         - created
         - updated
       properties:
+        shipping:
+          anyOf:
+          - $ref: '#/components/schemas/AdvertisedListingShippingData'
+          - type: object
+            nullable: true
+            enum:
+            - null
         productListingId:
           type: string
         productListingTitleSlugId:
@@ -17025,9 +19949,12 @@ components:
             valuation:
               $ref: "#/components/schemas/ProductListingPricingValuationData"
         availability:
-          allOf:
-            - $ref: "#/components/schemas/ListingAvailabilityData"
-          nullable: true
+          anyOf:
+          - $ref: '#/components/schemas/ListingAvailabilityData'
+          - type: object
+            nullable: true
+            enum:
+            - null
         lifecycle:
           $ref: "#/components/schemas/ListingLifecycleData"
         url:
@@ -17041,18 +19968,28 @@ components:
           items:
             $ref: "#/components/schemas/ProductListingImageData"
         contentPolicy:
-          allOf:
-            - $ref: "#/components/schemas/ContentPolicyData"
-          nullable: true
+          anyOf:
+          - $ref: '#/components/schemas/ContentPolicyData'
+          - type: object
+            nullable: true
+            enum:
+            - null
         auction:
-          allOf:
-            - $ref: "#/components/schemas/AuctionSummaryData"
-          nullable: true
-          description: Current parent Auction presentation from the joined PostgreSQL detail read. Null when the listing has no parent Auction.
+          anyOf:
+          - $ref: '#/components/schemas/AuctionSummaryData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+          description: Current parent Auction presentation from the joined PostgreSQL detail read. Null when the
+            listing has no parent Auction.
         lot:
-          allOf:
-            - $ref: "#/components/schemas/ProductListingLotData"
-          nullable: true
+          anyOf:
+          - $ref: '#/components/schemas/ProductListingLotData'
+          - type: object
+            nullable: true
+            enum:
+            - null
           description: Listing-owned lot facts. Null when the listing has no lot facts.
         created:
           type: string
@@ -17060,6 +19997,7 @@ components:
         updated:
           type: string
           format: date-time
+          description: Time of the last committed change to listing-owned state, including enrichment (translations, embedding, geography, shipping summary, content assessment and delivery evidence). Strictly increasing per listing, with each new value at millisecond precision; FX changes and response-time composition do not advance it.
     ProductListingLotData:
       type: object
       additionalProperties: false
@@ -17230,6 +20168,8 @@ components:
         - notification
         - searchFilter
       properties:
+        shipping:
+          $ref: '#/components/schemas/PersonalizedListingShippingData'
         watchlist:
           $ref: "#/components/schemas/WatchlistUserStateData"
         contentVisibility:
@@ -17300,6 +20240,9 @@ components:
         - matched
         - hidden
       properties:
+        shippingMatchValuation:
+          allOf: [{$ref: '#/components/schemas/ShippingMatchValuationData'}]
+          description: Present on saved-filter match listing responses when the match used an explicit FX shipping maximum.
         matched:
           type: boolean
           description: Whether any of the user's saved search filters matched this product. Defaults to `false`.
@@ -17934,11 +20877,12 @@ components:
         changes:
           type: array
           minItems: 1
-          description: "Deterministic semantic-change order: main price, minimum estimate, maximum estimate, availability, URL, images, auction, lifecycle, sale observation."
+          description: "Deterministic semantic-change order: main price, minimum estimate, maximum estimate, availability, URL, images, auction, lifecycle, sale observation, delivery."
           items:
             $ref: "#/components/schemas/ProductListingHistoryChangeData"
     ProductListingHistoryChangeData:
       oneOf:
+        - $ref: "#/components/schemas/ProductListingDeliveryHistoryChangeData"
         - $ref: "#/components/schemas/ProductListingMainPriceHistoryChangeData"
         - $ref: "#/components/schemas/ProductListingPriceHistoryChangeData"
         - $ref: "#/components/schemas/ProductListingAvailabilityHistoryChangeData"
@@ -18157,6 +21101,15 @@ components:
       type: object
       description: ProductListing search criteria used by saved search filters.
       properties:
+        shipping:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingSearchData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+          description: Complete shipping predicate. Omit to leave unchanged in PATCH; null clears it. Saved country
+            values pin their reference release and interpretation independently of browsing preferences.
         language:
           $ref: "#/components/schemas/LanguageData"
         currency:
@@ -18171,7 +21124,7 @@ components:
           minLength: 1
           maxLength: 1000
           nullable: true
-        excludeProductId:
+        excludeProductListingId:
           type: array
           items:
             type: string
@@ -18242,23 +21195,37 @@ components:
         - name
         - search
       properties:
+        acceptShippingDestination:
+          $ref: '#/components/schemas/AcceptShippingDestinationData'
         name:
           type: string
           description: User-defined name for the search filter (max 255 characters, will be truncated if longer)
           maxLength: 255
           example: My Tech Store Search
+        notifications:
+          type: boolean
+          default: true
+          description: Whether to send email notifications for new matches. Omit to enable notifications.
+          example: false
         search:
           $ref: "#/components/schemas/ProductListingSearchData"
     PatchUserSearchFilterData:
       type: object
       description: "Partial search filter update data.
 
-        All fields are optional and only provided fields will be updated.
+        All fields are optional and nullable. Omitted or null top-level members leave the stored value unchanged.
+        Nested search criteria use the null and omission rules in PatchProductListingSearchData.
 
         Can update the search filter name, notifications preference, activation state, and/or the search filter criteria.
 
         "
       properties:
+        acceptShippingDestination:
+          anyOf:
+            - $ref: '#/components/schemas/AcceptShippingDestinationData'
+            - type: object
+              nullable: true
+              enum: [null]
         name:
           type: string
           description: User-defined name for the search filter (max 255 characters, will be truncated if longer)
@@ -18275,14 +21242,16 @@ components:
 
             When `false`, no notifications are sent for this filter.
 
-            Omit to leave unchanged.
+            Omit or supply `null` to leave unchanged.
 
             "
           example: true
         state:
-          allOf:
+          anyOf:
             - $ref: "#/components/schemas/PatchResourceStateData"
-          nullable: true
+            - type: string
+              nullable: true
+              enum: [null]
           description:
             "Optional activation state update for this saved search filter.
 
@@ -18290,14 +21259,16 @@ components:
 
             `INACTIVE_BY_USER` manually disables the filter.
 
-            Omit to leave the current state unchanged.
+            Omit or supply `null` to leave the current state unchanged.
 
             "
         search:
-          allOf:
+          anyOf:
             - $ref: "#/components/schemas/PatchProductListingSearchData"
-          nullable: true
-          description: Partial search filter criteria to update
+            - type: object
+              nullable: true
+              enum: [null]
+          description: Partial search filter criteria to update. Omit or supply null to leave all criteria unchanged.
     PatchUserSearchFilterMatchData:
       type: object
       description: "Partial update payload for a saved-search product match.
@@ -18322,6 +21293,15 @@ components:
         date ranges, and the availability query may be cleared with `null`; availability, orderability, and includeUnspecifiedAvailability`
         must be supplied together or all be `null`.
       properties:
+        shipping:
+          anyOf:
+          - $ref: '#/components/schemas/ShippingSearchData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+          description: Complete shipping predicate. Omit to leave unchanged in PATCH; null clears it. Saved country
+            values pin their reference release and interpretation independently of browsing preferences.
         language:
           $ref: "#/components/schemas/LanguageData"
           nullable: true
@@ -18397,8 +21377,6 @@ components:
         - notifications
         - state
         - search
-        - createdBy
-        - updatedBy
         - created
         - updated
       properties:
@@ -18431,10 +21409,6 @@ components:
           $ref: "#/components/schemas/ResourceStateData"
         search:
           $ref: "#/components/schemas/ProductListingSearchData"
-        createdBy:
-          $ref: "#/components/schemas/ActorData"
-        updatedBy:
-          $ref: "#/components/schemas/ActorData"
         created:
           type: string
           format: date-time
@@ -18488,6 +21462,7 @@ components:
         - created
         - updated
       properties:
+        shippingMatchValuation: {$ref: '#/components/schemas/ShippingMatchValuationData'}
         userId:
           type: string
           description: Unique identifier of the user who owns the matched search filter.
@@ -19373,9 +22348,8 @@ components:
         state:
           allOf:
             - $ref: "#/components/schemas/PatchResourceStateData"
-          nullable: true
           description:
-            "Optional activation state update for this watchlist entry.
+            "Optional, non-null activation state update for this watchlist entry.
 
             `ACTIVE` reactivates the entry if the user's current tier still has watchlist quota.
 
@@ -19961,7 +22935,7 @@ components:
         max search filters, allowed search filter fields).
 
         - `FREE`: Default tier for all users. Allows up to 20 watchlist entries, up to 1 search filter (limited to `productQuery`,
-        `price`, `state`, `excludeProductId`, and `lifecycle` filter fields), and up to 10 product matches per filter.
+        `price`, `state`, `excludeProductListingId`, and `lifecycle` filter fields), and up to 10 product matches per filter.
 
         - `PRO`: Premium tier. Allows up to 100 watchlist entries, up to 5 search filters with access to all filter fields,
         and unlimited product matches per filter.
@@ -20018,6 +22992,7 @@ components:
         updated:
           type: string
           format: date-time
+          description: When the notification state (such as `seen`) last changed; repeating an identical state leaves it unchanged.
     NotificationPayloadData:
       description: Reason-specific immutable snapshot. Its shape is selected by the parent `NotificationData.kind`.
       oneOf:
@@ -20638,6 +23613,52 @@ components:
           description: Optional WooCommerce product modification timestamp. Accepted forms are no-offset GMT interpreted as UTC, RFC3339 `Z`, and RFC3339 `+00:00`; nonzero offsets are rejected. A valid value establishes provider source order; omit it when no source-ordering guarantee is available.
           example: "2026-09-06T12:34:56"
 
+    PublicOverviewData:
+      type: object
+      description: Aggregate public-catalogue statistics from the latest scheduled calculation. Contains counts only.
+      required:
+        - asOf
+        - sourcesIndexed
+        - liveObjects
+        - countries
+        - languages
+        - newObjectsLast7Days
+      properties:
+        asOf:
+          type: string
+          format: date-time
+          description: UTC database timestamp at which the stored calculation counted every value.
+          example: "2026-10-19T12:00:00.123456Z"
+        sourcesIndexed:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Distinct ListingSources represented by at least one counted live listing.
+          example: 124
+        liveObjects:
+          type: integer
+          format: int64
+          minimum: 0
+          description: ProductListings with lifecycle `ACTIVE`, including sold-out and unspecified availability.
+          example: 182450
+        countries:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Distinct countries in the counted listings' effective advertised-inventory geography.
+          example: 18
+        languages:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Distinct original title and description languages of the counted listings.
+          example: 9
+        newObjectsLast7Days:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Counted listings created in the 168 hours ending at `asOf`.
+          example: 3120
     AdminOverviewData:
       type: object
       description: Versioned bounded administrator operational summary sourced from authoritative PostgreSQL.
@@ -20872,7 +23893,7 @@ components:
         updated:
           type: string
           format: date-time
-          description: When the Partnership was last updated.
+          description: When the Partnership, its memberships or its listing-source grants last changed.
     AdminPartnershipSummaryData:
       type: object
       description: "Safe administrator Partnership summary. Member/grant identities, Party contact data, persistence versions, and credentials are excluded."
@@ -20906,7 +23927,7 @@ components:
         updated:
           type: string
           format: date-time
-          description: When the Partnership was last updated.
+          description: When the Partnership, its memberships or its listing-source grants last changed.
     PartnershipPartySummaryData:
       type: object
       description: Party summary embedded in an administrator Partnership result.
@@ -22717,6 +25738,80 @@ components:
           enum: [KILOMETERS, MILES, METERS, YARDS, FEET, INCHES, CENTIMETERS, MILLIMETERS, NAUTICAL_MILES]
           example: KILOMETERS
       example: {amount: 25, unit: KILOMETERS}
+    ShippingSearchData:
+      type: object
+      additionalProperties: false
+      description: >-
+        AND predicates over the supported definite whole-country projection. Country, service,
+        currency and per-item amount must belong to one offer. Fixed and explicitly denominated
+        free PER_ITEM rates support an inclusive maximum; free is zero. FROM, estimated, external,
+        requested, absent and differently based prices cannot satisfy a maximum. Postal/variant/cart
+        uncertainty cannot become a definite country match. Missing offers do not mean unavailable
+        or collection-only. No query changes the browsing preference; returned shipping still uses
+        current PostgreSQL authority. Omitted destination selects no country. NONE alone disables
+        shipping filtering (clears it in PATCH); otherwise a country or collectionOffered=true is
+        required. Service and maximum require a country. Shipping observation age imposes no expiry.
+      properties:
+        destination:
+          oneOf:
+            - type: object
+              additionalProperties: false
+              required: [kind, country]
+              properties:
+                kind: {type: string, enum: [COUNTRY]}
+                country: {type: string, pattern: '^[A-Z]{2}$', description: Current ISO 3166-1 alpha-2 country in the pinned release.}
+            - type: object
+              additionalProperties: false
+              required: [kind]
+              properties:
+                kind: {type: string, enum: [NONE]}
+        referenceRelease:
+          type: string
+          enum: [iso-codes-4.20.1]
+          default: iso-codes-4.20.1
+        interpretation:
+          type: string
+          enum: [WHOLE_COUNTRY_PER_ITEM_V1, WHOLE_COUNTRY_PER_ITEM_FX_V1]
+          default: WHOLE_COUNTRY_PER_ITEM_V1
+          description: Default compares advertised source currency. FX_V1 requires maximumPerItem and compares HalfUp converted amounts in its target currency using the persisted browsing snapshot, pinned across continuation.
+        service:
+          type: string
+          minLength: 1
+          maxLength: 128
+          description: Exact advertised service code; requires a destination country.
+        maximumPerItem:
+          type: object
+          additionalProperties: false
+          required: [amount, currency]
+          description: Inclusive per-item charge in minor units. Currency is the advertised source currency by default, or the explicit target under FX_V1, independently of browsing display currency. Only fixed/known-currency free per-item offers match. No purchase quantity or complete landed cost is implied.
+          properties:
+            amount: {type: integer, format: int64, minimum: 0, maximum: 9223372036854775807, description: Inclusive maximum in minor units.}
+            currency: {$ref: '#/components/schemas/CurrencyData'}
+        collectionOffered:
+          type: boolean
+          default: false
+          description: True requires independently definite offered collection. False adds no collection constraint.
+    AcceptShippingDestinationData:
+      description: >-
+        Explicit create/PATCH acceptance guard. The authored search.shipping destination country
+        must equal the authorized owned address or selected preference's submitted country (or
+        subdivision country). No selection, missing asserted country or mismatch is BAD_BODY_VALUE.
+        Ownership/current-account rules apply; delegated callers additionally require users:read.
+        Only the country value/reference/interpretation is saved; postal, street, provider evidence
+        and mutable references are discarded. Later address/preference edits or deletion never move
+        a saved predicate. Omission accepts the authored country directly. No preference is changed.
+      oneOf:
+        - type: object
+          additionalProperties: false
+          required: [kind, addressId]
+          properties:
+            kind: {type: string, enum: [ADDRESS]}
+            addressId: {$ref: '#/components/schemas/UserAddressId'}
+        - type: object
+          additionalProperties: false
+          required: [kind]
+          properties:
+            kind: {type: string, enum: [PREFERENCE]}
     GeographicSearchData:
       type: object
       additionalProperties: false
@@ -22809,6 +25904,8 @@ x-tagGroups:
 tags:
   - name: Operations
     description: Public process liveness and service readiness probes.
+  - name: Overview
+    description: Public aggregate catalogue statistics.
   - name: Auctions
     description: Public Auction discovery, catalogue reads, and administrator Auction management.
   - name: ProductListings

@@ -18,6 +18,10 @@ cannot erase a token already copied to the clipboard. Keep the credential out of
 URLs, persistent storage, public HTML and shared caches. The Scalar-only assurances below do not
 apply to the whole page or the token-creation response.
 
+The cURL example's Copy button writes only the example command, with the selected
+`listingSourceId` (or `YOUR_LISTING_SOURCE_ID`) and the `YOUR_USER_ACCESS_TOKEN` placeholder; it never
+reads or inserts a real token.
+
 ## Reference artifact
 
 `public/partner-products.openapi.json` is extracted by

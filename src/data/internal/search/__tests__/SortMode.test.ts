@@ -10,7 +10,7 @@ describe("listing search sort modes", () => {
     it.each([
         ["RELEVANCE", "score", "relevance"],
         ["CREATION_DATE", "created", "creationDate"],
-        ["UPDATE_DATE", "updated", "updateDate"],
+        ["UPDATE_DATE", "updated", "lastUpdated"],
     ] as const)("maps %s to the current listing API", (field, backendField, label) => {
         expect(SEARCH_RESULT_SORT_FIELDS).toContain(field);
         expect(getSortModeFieldLabel(field)).toBe(`search.sortMode.${label}`);

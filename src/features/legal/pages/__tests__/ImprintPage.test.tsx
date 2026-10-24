@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { IMPRINT_LOCALE_MAP } from "@/features/legal/content/imprint/imprint-asset-map.ts";
 import { ImprintPage } from "../ImprintPage.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
-import { act, screen } from "@testing-library/react";
+import { act, screen, within } from "@testing-library/react";
 
 vi.mock("react-i18next", () => ({
     useTranslation: () => ({
@@ -31,7 +31,7 @@ describe("ImprintPage", () => {
 
     it("renders the markdown content", () => {
         // Check for key content from the German imprint
-        expect(screen.getByText("Diensteanbieter")).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: "Diensteanbieter" })).toBeInTheDocument();
     });
 
     it("renders the service provider name", () => {
@@ -60,21 +60,30 @@ describe("ImprintPage", () => {
     });
 
     it("renders main section headings", () => {
-        expect(screen.getByText("Art des Angebots")).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: "Art des Angebots" })).toBeInTheDocument();
         expect(
-            screen.getByText("Öffentliche Quellen, historische Inhalte und sensible Darstellungen"),
+            screen.getByRole("heading", {
+                name: "Öffentliche Quellen, historische Inhalte und sensible Darstellungen",
+            }),
         ).toBeInTheDocument();
     });
 
     it("renders legal section headings", () => {
-        expect(screen.getByText("Hinweise zu Inhalten und Haftung")).toBeInTheDocument();
-        expect(screen.getByText("Urheberrecht")).toBeInTheDocument();
-        expect(screen.getByText("Anwendbares Recht")).toBeInTheDocument();
+        expect(
+            screen.getByRole("heading", { name: "Hinweise zu Inhalten und Haftung" }),
+        ).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: "Urheberrecht" })).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: "Anwendbares Recht" })).toBeInTheDocument();
     });
 
-    it("renders content within a Card component", () => {
-        const card = screen.getByText("Impressum").closest(".gap-4");
-        expect(card).toBeInTheDocument();
+    it("links each section from the contents list", () => {
+        const [contents] = screen.getAllByRole("navigation", { name: "legal.contents" });
+        const firstLink = within(contents).getAllByRole("link")[0];
+        expect(firstLink).toHaveTextContent("Diensteanbieter");
+        expect(firstLink).toHaveAttribute("href", "#section-diensteanbieter");
+        expect(document.getElementById("section-diensteanbieter")).toHaveTextContent(
+            "Diensteanbieter",
+        );
     });
 
     it("applies correct markdown styles to links", () => {

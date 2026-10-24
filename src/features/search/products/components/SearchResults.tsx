@@ -1,62 +1,81 @@
-import { ProductCard } from "@/features/product/catalog/components/cards/ProductCard.tsx";
-import { HiddenMatchCard } from "@/features/product/catalog/components/cards/HiddenMatchCard.tsx";
-import { ProductCardSkeleton } from "@/features/product/catalog/components/cards/ProductCardSkeleton.tsx";
+import { Info, SearchX, TriangleAlert } from "lucide-react";
 import { useEffect } from "react";
-import { SearchX, ServerCrash } from "lucide-react";
-import { SectionInfoText } from "@/components/typography/SectionInfoText.tsx";
-import type { SearchResultData } from "@/data/internal/search/SearchResultData.ts";
-import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import { useSearch } from "@/features/search/products/hooks/useSearch.ts";
-import { useTranslation } from "react-i18next";
-import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
-import { EmptyState } from "@/components/common/EmptyState.tsx";
+import { Trans, useTranslation } from "react-i18next";
 import { useInView } from "react-intersection-observer";
+import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
+import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import type { SearchResultData } from "@/data/internal/search/SearchResultData.ts";
+import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
+import { SaveSearchButton } from "@/features/saved-searches/components/SaveSearchButton.tsx";
+import { SearchResultCard } from "@/features/search/products/components/results/SearchResultCard.tsx";
+import {
+    RESULT_SECONDARY_BUTTON_CLASS,
+    ResultStatePanel,
+    SearchHiddenMatchCard,
+    SearchResultCardSkeleton,
+} from "@/features/search/products/components/results/SearchResultPlaceholders.tsx";
+import { useSearch } from "@/features/search/products/hooks/useSearch.ts";
 import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 
 type SearchResultsProps = {
     readonly searchFilters: SearchFilterArguments;
     readonly onTotalChange?: (total?: number) => void;
+    readonly onResetFilters: () => void;
 };
 
-const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as const;
+const SKELETON_IDS = ["s1", "s2", "s3", "s4", "s5", "s6"] as const;
 
-export function SearchResults({ searchFilters, onTotalChange }: SearchResultsProps) {
+/** Two columns on phones and tablets, three once the results column is wide enough. */
+export const RESULT_GRID_CLASS =
+    "grid grid-cols-2 gap-x-3 gap-y-7 sm:gap-x-6 sm:gap-y-10 min-[1180px]:grid-cols-3";
+
+export function SearchResults({
+    searchFilters,
+    onTotalChange,
+    onResetFilters,
+}: SearchResultsProps) {
     const { ref: sentinelRef, inView } = useInView();
-    const { t } = useTranslation();
-    const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    const { t, i18n } = useTranslation();
+    const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
         useSearch(searchFilters);
+    const isQueryTooShort = searchFilters.q.length < MIN_SEARCH_QUERY_LENGTH;
 
     const allProducts = data?.pages.flatMap((page: SearchResultData) => page.products) ?? [];
-
     const totalProducts = data?.pages[0]?.total;
     const allLoaded = allProducts.length > 0 && !hasNextPage;
 
     useEffect(() => {
-        if (onTotalChange) {
-            onTotalChange(totalProducts);
-        }
-    }, [totalProducts, onTotalChange]);
+        onTotalChange?.(isQueryTooShort ? undefined : totalProducts);
+    }, [totalProducts, onTotalChange, isQueryTooShort]);
 
     useEffect(() => {
-        if (
-            inView &&
-            hasNextPage &&
-            !isFetchingNextPage &&
-            searchFilters.q.length >= MIN_SEARCH_QUERY_LENGTH
-        ) {
+        if (inView && hasNextPage && !isFetchingNextPage && !isQueryTooShort) {
             fetchNextPage();
         }
-    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, searchFilters.q.length]);
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, isQueryTooShort]);
 
-    if (searchFilters.q.length < MIN_SEARCH_QUERY_LENGTH) {
-        return <SectionInfoText>{t("search.messages.minQueryLength")}</SectionInfoText>;
+    if (isQueryTooShort) {
+        return (
+            <div
+                role="status"
+                className="flex items-start gap-3 rounded-lg bg-surface-raised px-[18px] py-4 text-body text-ink-secondary shadow-field"
+            >
+                <Info
+                    aria-hidden="true"
+                    className="mt-[3px] size-[18px] shrink-0 text-ink-muted"
+                    strokeWidth={1.8}
+                />
+                {t("search.messages.minQueryLength")}
+            </div>
+        );
     }
 
     if (isPending) {
         return (
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div className={RESULT_GRID_CLASS} role="status" aria-busy="true">
+                <span className="sr-only">{t("search.messages.loading")}</span>
                 {SKELETON_IDS.map((id) => (
-                    <ProductCardSkeleton key={id} />
+                    <SearchResultCardSkeleton key={id} />
                 ))}
             </div>
         );
@@ -65,11 +84,32 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
     if (error) {
         console.error(error);
         return (
-            <EmptyState
-                icon={ServerCrash}
-                title={t("search.messages.error.title")}
+            <ResultStatePanel
+                alert
+                icon={
+                    <span
+                        aria-hidden="true"
+                        className="inline-flex size-14 items-center justify-center rounded-pill bg-oxblood text-on-oxblood"
+                    >
+                        <TriangleAlert className="size-[22px]" strokeWidth={1.8} />
+                    </span>
+                }
+                title={
+                    <Trans
+                        i18nKey="search.messages.error.headline"
+                        components={HEADLINE_COMPONENTS}
+                    />
+                }
                 description={t("search.messages.error.description")}
-            />
+            >
+                <button
+                    type="button"
+                    onClick={() => refetch()}
+                    className={RESULT_SECONDARY_BUTTON_CLASS}
+                >
+                    {t("search.messages.error.retry")}
+                </button>
+            </ResultStatePanel>
         );
     }
 
@@ -79,36 +119,60 @@ export function SearchResults({ searchFilters, onTotalChange }: SearchResultsPro
 
     if (allProducts.length === 0) {
         return (
-            <EmptyState
-                icon={SearchX}
-                title={t("search.messages.noResults.title")}
-                description={t("search.messages.noResults.description")}
-            />
+            <ResultStatePanel
+                icon={
+                    <span
+                        aria-hidden="true"
+                        className="inline-flex size-14 items-center justify-center rounded-pill bg-surface-raised text-ink-muted shadow-ring"
+                    >
+                        <SearchX className="size-[22px]" strokeWidth={1.7} />
+                    </span>
+                }
+                title={
+                    <Trans
+                        i18nKey="search.messages.noResults.headline"
+                        components={HEADLINE_COMPONENTS}
+                    />
+                }
+                description={`${t("search.messages.noResults.description")} ${t("search.messages.noResults.saveHint")}`}
+            >
+                <button
+                    type="button"
+                    onClick={onResetFilters}
+                    className={RESULT_SECONDARY_BUTTON_CLASS}
+                >
+                    {t("search.resetAllFilters")}
+                </button>
+                <SaveSearchButton searchArgs={searchFilters} size="md" />
+            </ResultStatePanel>
         );
     }
 
-    const showLoaderRow = isFetchingNextPage || allLoaded;
-
     return (
-        <div className="space-y-8">
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                {allProducts.map((product) => {
-                    const isHidden = product.userState?.searchFilter.hidden === true;
-                    return isHidden ? (
-                        <HiddenMatchCard key={product.productListingId} />
+        <div>
+            <div className={RESULT_GRID_CLASS}>
+                {allProducts.map((product) =>
+                    product.userState?.searchFilter.hidden === true ? (
+                        <SearchHiddenMatchCard key={product.productListingId} />
                     ) : (
-                        <ProductCard key={product.productListingId} product={product} />
-                    );
-                })}
+                        <SearchResultCard key={product.productListingId} product={product} />
+                    ),
+                )}
             </div>
 
-            {showLoaderRow && (
-                <div>
-                    <ListLoaderRow
-                        isFetchingNextPage={isFetchingNextPage}
-                        totalCount={totalProducts}
-                    />
-                </div>
+            {(isFetchingNextPage || allLoaded) && (
+                <ListLoaderRow
+                    isFetchingNextPage={isFetchingNextPage}
+                    totalCount={totalProducts}
+                    progress={
+                        totalProducts == null
+                            ? undefined
+                            : t("search.messages.loadedOf", {
+                                  loaded: allProducts.length.toLocaleString(i18n.language),
+                                  total: totalProducts.toLocaleString(i18n.language),
+                              })
+                    }
+                />
             )}
 
             {hasNextPage && <div ref={sentinelRef} aria-hidden className="h-px w-full" />}

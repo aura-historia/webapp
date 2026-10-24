@@ -101,6 +101,10 @@
       "digitsOnly": "El código solo debe contener dígitos"
     }
   },
+  "legal": {
+    "eyebrow": "Información legal",
+    "contents": "Contenido"
+  },
   "imprint": {
     "title": "Aviso legal"
   },
@@ -111,36 +115,53 @@
     "title": "Términos y condiciones"
   },
   "header": {
+    "mainNavigation": "Principal",
+    "primaryNavigation": "Secciones",
+    "accountNavigation": "Su cuenta",
+    "home": "Inicio de Aura Historia",
+    "wordmark": "Aura Historia",
+    "sections": {
+      "discover": "Descubrir",
+      "platform": "Plataforma",
+      "agent": "Discovery Agent",
+      "dealers": "Para comerciantes",
+      "pricing": "Precios"
+    },
+    "signIn": "Iniciar sesión",
+    "createAccount": "Crear cuenta",
     "watchlist": "Lista de seguimiento",
-    "myAccount": "Mi cuenta",
-    "admin": "Admin",
-    "editAccount": "Editar cuenta",
-    "logout": "Cerrar sesión",
-    "hello": "Hola",
-    "register": "Registrarse",
-    "login": "Iniciar sesión",
-    "searchFilters": "Filtros de Búsqueda",
+    "alerts": "Notificaciones",
+    "alertsUnseen_one": "Notificaciones, {{count}} nueva",
+    "alertsUnseen_other": "Notificaciones, {{count}} nuevas",
+    "newCount": "{{count}} nuevas",
+    "searchAlerts": "Alertas de búsqueda",
     "partnerDashboard": "Panel de socios",
-    "collection": "Colección",
-    "workspace": "Espacio profesional",
-    "accountNavigation": "Navegación de la cuenta"
+    "admin": "Admin",
+    "accountSettings": "Cuenta y ajustes",
+    "signOut": "Cerrar sesión",
+    "accountMenu": "Menú de la cuenta",
+    "yourAura": "Su Aura Historia",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "menu": "Menú",
+    "searchLabel": "Buscar en el mercado global",
+    "searchPlaceholder": "Buscar objetos: época, autor, estilo…",
+    "searchSubmit": "Buscar",
+    "language": "Idioma",
+    "currency": "Moneda",
+    "preferences": "Idioma, moneda y unidades"
   },
   "footer": {
-    "brandName": "Aura Historia",
     "about": "Sobre nosotros",
-    "ariaSwitchToLanguage": "Cambiar al idioma {{language}}",
     "imprint": "Aviso legal",
     "privacy": "Política de privacidad",
     "cookieSettings": "Configuración de cookies",
     "terms": "Términos y condiciones",
     "copyright": "© {{year}} Aura Historia",
     "sections": {
-      "company": "Empresa",
-      "followUs": "Síguenos",
-      "contact": "Contacto",
-      "discoverMore": "Descubrir más",
-      "partnerProgram": "Programa de Partners",
-      "compare": "Comparar"
+      "discover": "Descubrir",
+      "partners": "Socios",
+      "company": "Empresa"
     },
     "landingPageLinks": {
       "recentlyAdded": "Últimas incorporaciones",
@@ -159,25 +180,25 @@
       "customApi": "Integración propia",
       "apply": "Solicitar acceso"
     },
-    "compareLinks": {
-      "barnebys": "Barnebys"
-    }
+    "tagline": "El mercado mundial de antigüedades, en una sola búsqueda.",
+    "socialNavigation": "Redes sociales",
+    "compareBarnebys": "Comparar: Barnebys"
   },
   "aboutPage": {
     "hero": {
       "eyebrow": "Sobre Aura Historia",
-      "title": "Aportamos más claridad al mercado de antigüedades y arte.",
+      "title": "Aportamos más claridad al mercado <em>de antigüedades y arte.</em>",
       "subtitle": "Aura Historia nace para coleccionistas y profesionales que buscan con criterio, valoran el contexto y necesitan una lectura serena de un mercado internacional disperso."
     },
     "mission": {
       "eyebrow": "Por qué existimos",
-      "title": "Orientar sin simplificar el mercado.",
+      "title": "Orientar <em>sin simplificar el mercado.</em>",
       "p1": "Las antigüedades y el arte suelen aparecer fuera de los recorridos más evidentes: en comerciantes especializados, pequeñas galerías, casas de subastas y marketplaces marcados por vocabularios y prácticas de catalogación locales.",
       "p2": "Creamos Aura Historia para ordenar esa búsqueda sin convertirla en una experiencia de compra genérica. El objetivo es claro: dar más visibilidad a quienes conocen el mercado, facilitar la comparación y mantener siempre presente la fuente original."
     },
     "values": {
       "eyebrow": "Cómo trabajamos",
-      "title": "Sobriedad antes que ruido.",
+      "title": "Sobriedad <em>antes que ruido.</em>",
       "description": "Estos principios guían nuestras decisiones de producto, nuestro lenguaje y la forma en que tratamos las fuentes.",
       "items": {
         "carefulClaims": {
@@ -196,7 +217,7 @@
     },
     "team": {
       "eyebrow": "Nuestro equipo",
-      "title": "Un equipo pequeño con mirada de largo plazo.",
+      "title": "Un equipo pequeño <em>con mirada de largo plazo.</em>",
       "description": "Detrás de Aura Historia hay personas que combinan producto, rigor de investigación e inteligencia de mercado.",
       "email": "E-mail",
       "emailAria": "Enviar un e-mail a {{name}}",
@@ -229,7 +250,10 @@
     }
   },
   "account": {
-    "title": "Mi cuenta",
+    "eyebrow": "Cuenta y ajustes",
+    "heading": "Mi <em>cuenta.</em>",
+    "signedInAs": "Sesión iniciada como <email>{{email}}</email>",
+    "sectionsNav": "Secciones de la cuenta",
     "changePassword": {
       "title": "Cambiar contraseña",
       "currentPasswordLabel": "Contraseña actual",
@@ -237,7 +261,21 @@
       "confirmPasswordLabel": "Confirmar nueva contraseña",
       "saveButton": "Guardar contraseña",
       "successMessage": "¡Contraseña cambiada con éxito!",
-      "errorMessage": "Error al cambiar la contraseña."
+      "errorMessage": "Error al cambiar la contraseña.",
+      "description": "Introduzca su contraseña actual y elija una nueva que cumpla todas las reglas.",
+      "policyTitle": "Política de contraseñas",
+      "policyProgress": "{{met}} de {{total}}",
+      "rules": {
+        "length": "Al menos 8 caracteres",
+        "uppercase": "Una letra mayúscula",
+        "lowercase": "Una letra minúscula",
+        "number": "Un número",
+        "symbol": "Un símbolo",
+        "met": "(cumplido)",
+        "notMet": "(no cumplido)"
+      },
+      "incorrectCurrentPassword": "Su contraseña actual no es correcta.",
+      "attemptLimitExceeded": "Demasiados intentos. Espere unos minutos y vuelva a intentarlo."
     },
     "deleteAccount": {
       "title": "Eliminar cuenta",
@@ -248,7 +286,8 @@
       "cancelButton": "Cancelar",
       "confirmButton": "Sí, eliminar cuenta",
       "successMessage": "¡Cuenta eliminada con éxito!",
-      "errorMessage": "Error al eliminar la cuenta."
+      "errorMessage": "Error al eliminar la cuenta.",
+      "closeButton": "Cerrar"
     },
     "personalData": {
       "title": "Datos Personales",
@@ -264,24 +303,23 @@
       "saveButton": "Guardar Cambios",
       "successMessage": "Datos personales actualizados con éxito",
       "showUnassessedOrSensitiveContentLabel": "Mostrar contenido sin evaluar o sensible",
-      "showUnassessedOrSensitiveContentTooltip": "Mostrar contenido que aún no se ha evaluado o se ha clasificado como sensible. Las imágenes pueden incluir símbolos contemplados en el § 86a StGB. Si se desactiva, estas imágenes permanecen ocultas. El contenido ocultado por el servicio sigue sin estar disponible."
+      "showUnassessedOrSensitiveContentTooltip": "Mostrar contenido que aún no se ha evaluado o se ha clasificado como sensible. Las imágenes pueden incluir símbolos contemplados en el § 86a StGB. Si se desactiva, estas imágenes permanecen ocultas. El contenido ocultado por el servicio sigue sin estar disponible.",
+      "description": "Su nombre y el idioma, la moneda y las unidades que usamos en Aura Historia.",
+      "profileGroup": "Perfil",
+      "preferencesGroup": "Preferencias",
+      "loading": "Cargando datos personales"
     },
     "subscription": {
       "title": "Suscripción",
       "currentPlanLabel": "Plan actual",
-      "manageButton": "Gestionar suscripción"
+      "manageButton": "Gestionar suscripción",
+      "description": "Cambie su plan, su método de pago o sus datos de facturación con nuestro proveedor de pagos."
     }
   },
   "search": {
     "filters": "Filtros",
-    "resultsFor": "Resultados de búsqueda para:",
     "resetAllFilters": "Restablecer todos los filtros",
-    "totalResults_one": "{{count}} artículo",
-    "totalResults_other": "{{count}} artículos",
     "bar": {
-      "label": "Búsqueda",
-      "placeholderShort": "Buscar",
-      "button": "Buscar",
       "placeholderExamplesProducts": [
         "Óleo de María Magdalena",
         "Servicio de porcelana Meissen",
@@ -303,29 +341,7 @@
         "Espejo rococó",
         "Miniatura persa",
         "Sillón Luis XV"
-      ],
-      "placeholderExamplesShops": [
-        "Sotheby's",
-        "Christie's",
-        "Catawiki",
-        "1stDibs",
-        "LiveAuctioneers",
-        "Invaluable",
-        "Bonhams",
-        "Dorotheum",
-        "Balclis",
-        "Setdart",
-        "The Saleroom",
-        "Barnebys",
-        "Chairish",
-        "Heritage Auctions",
-        "Drouot"
-      ],
-      "searchTypeLabel": "Tipo de búsqueda",
-      "searchType": {
-        "products": "Artículos",
-        "shops": "Proveedores"
-      }
+      ]
     },
     "validation": {
       "queryMinLength": "Por favor, introduzca al menos 3 caracteres",
@@ -333,21 +349,20 @@
     },
     "filter": {
       "creationDate": "Añadido",
-      "from": "Desde:",
-      "to": "Hasta:",
+      "from": "Desde",
+      "to": "Hasta",
       "availability": "Disponibilidad",
       "listingSource": "Incluir proveedor",
       "listingSources": "Proveedores",
-      "searchListingSources": "Buscar proveedores...",
+      "searchListingSources": "Buscar proveedores",
       "noListingSourcesFound": "No se encontraron proveedores",
       "excludeListingSource": "Excluir proveedor",
-      "searchExcludeListingSources": "Buscar proveedores que excluir...",
+      "searchExcludeListingSources": "Buscar proveedores que excluir",
       "sourceCount_one": "{{count}} proveedor seleccionado",
       "sourceCount_other": "{{count}} proveedores seleccionados",
       "priceSpan": "Rango de precios",
       "min": "Mín",
       "max": "Máx",
-      "priceSpanAria": "Rango de precios",
       "updateDate": "Actualizado",
       "anyDate": "Cualquiera",
       "resetTooltip": {
@@ -359,36 +374,94 @@
         "auctionDate": "Restablecer filtro de fecha de subasta"
       },
       "all": "Todo",
-      "auctionDate": "Fecha de subasta"
+      "auctionDate": "Fecha de subasta",
+      "includedSources": "Proveedores incluidos",
+      "excludedSources": "Proveedores excluidos",
+      "removeSource": "Quitar {{label}}",
+      "minPrice": "Precio mínimo",
+      "maxPrice": "Precio máximo",
+      "priceFromValue": "desde {{value}}",
+      "priceToValue": "hasta {{value}}",
+      "dateFromValue": "Desde {{date}}",
+      "dateToValue": "Hasta {{date}}",
+      "dateFromLabel": "{{filter}} desde",
+      "dateToLabel": "{{filter}} hasta",
+      "clearDate": "Borrar fecha",
+      "clearDateLabel": "Borrar {{label}}",
+      "allSelected": "Todas",
+      "selectedOf": "{{selected}} de {{total}}",
+      "showAll": "Mostrar las {{count}}",
+      "showFewer": "Mostrar menos",
+      "includeProviders": "Incluir proveedores",
+      "excludeProviders": "Excluir proveedores",
+      "priceRange": "Rango de precios"
     },
     "messages": {
       "minQueryLength": "Por favor, introduzca al menos 3 caracteres para iniciar la búsqueda.",
       "error": {
         "title": "Error de carga",
-        "description": "Los resultados de búsqueda no se pudieron cargar. Por favor, inténtelo de nuevo más tarde."
+        "description": "Los resultados de búsqueda no se pudieron cargar. Por favor, inténtelo de nuevo más tarde.",
+        "headline": "Error al cargar los <em>resultados.</em>",
+        "retry": "Intentar de nuevo"
       },
       "noResults": {
         "title": "No se encontraron resultados",
-        "description": "Intente ajustar su término de búsqueda o filtros."
+        "description": "Intente ajustar su término de búsqueda o filtros.",
+        "headline": "No se encontraron <em>resultados.</em>",
+        "saveHint": "Guarde la búsqueda y le avisaremos por correo cuando aparezca una coincidencia."
       },
-      "loadingMore": "Cargando más resultados...",
+      "loadingMore": "Cargando más resultados…",
       "allLoaded_one": "Ha visto {{count}} resultado que coincide con sus filtros.",
       "allLoaded_other": "Ha visto los {{count}} resultados que coinciden con sus filtros.",
-      "allLoadedFallback": "Todos los resultados de búsqueda cargados."
+      "allLoadedFallback": "Todos los resultados de búsqueda cargados.",
+      "loading": "Cargando resultados",
+      "loadedOf": "{{loaded}} de {{total}}"
     },
     "sortMode": {
-      "sortBy": "Ordenar por:",
+      "sortBy": "Ordenar por",
       "relevance": "Relevancia",
-      "creationDate": "Fecha de creación",
-      "updateDate": "Última actualización",
+      "creationDate": "Fecha de alta",
       "order": {
-        "label": "Orden:",
         "asc": "Ascendente",
-        "desc": "Descendente"
-      }
+        "desc": "Descendente",
+        "switchToAsc": "Orden: descendente. Cambiar a ascendente",
+        "switchToDesc": "Orden: ascendente. Cambiar a descendente"
+      },
+      "lastUpdated": "Última actualización"
     },
     "shopResultsFor": "Resultados para",
-    "publicSourcesBrowseTitle": "Proveedores"
+    "publicSourcesBrowseTitle": "Proveedores",
+    "eyebrow": "Resultados de búsqueda",
+    "resultsForQuery": "Resultados para <em>«{{query}}»</em>",
+    "totalObjects_one": "{{formattedCount}} objeto",
+    "totalObjects_other": "{{formattedCount}} objetos",
+    "liveFiltersHint": "Los filtros se aplican al cambiarlos",
+    "type": {
+      "label": "Tipo de búsqueda",
+      "objects": "Objetos",
+      "providers": "Proveedores"
+    },
+    "activeFilters": "Filtros activos",
+    "chip": {
+      "price": "Precio",
+      "includeSource": "Proveedor",
+      "excludeSource": "Excluido",
+      "remove": "Quitar filtro: {{label}}"
+    },
+    "resetAll": "Restablecer",
+    "showResults_one": "Mostrar {{count}} resultado",
+    "showResults_other": "Mostrar {{count}} resultados",
+    "showResultsFallback": "Mostrar resultados",
+    "closeFilters": "Cerrar filtros",
+    "filtersWithCount_one": "Filtros, {{count}} activo",
+    "filtersWithCount_other": "Filtros, {{count}} activos",
+    "saveSearch": "Guardar búsqueda",
+    "scrollToTop": "Volver arriba",
+    "hiddenMatch": {
+      "label": "Coincidencia oculta",
+      "title": "Esta coincidencia supera su cuota mensual",
+      "description": "Actualice su cuenta para ver todos los resultados."
+    }
   },
   "product": {
     "unknownPrice": "Precio desconocido",
@@ -397,10 +470,6 @@
     "details": "Detalles",
     "toMerchant": "Ir al proveedor",
     "noImage": "No hay imagen disponible",
-    "watchlist": {
-      "add": "Añadir a la lista de seguimiento",
-      "remove": "Quitar de la lista de seguimiento"
-    },
     "imageLoadError": "No se pudo cargar la imagen",
     "prohibitedImage": "Imagen oculta por restricciones de contenido",
     "similar": {
@@ -416,7 +485,9 @@
       "noData": {
         "title": "Sin artículos similares",
         "description": "No se encontraron productos similares para este artículo."
-      }
+      },
+      "previous": "Artículos similares anteriores",
+      "next": "Artículos similares siguientes"
     },
     "history": {
       "title": "Historial",
@@ -458,14 +529,17 @@
         "converted": "{{display}} (publicado a {{source}})",
         "sourceOnly": "{{price}} (precio original; sin tipo histórico para {{currency}})",
         "fxProvenance": "Los importes en {{currency}} usan el tipo de cambio registrado el {{capturedAt}}."
-      }
+      },
+      "filterLabel": "Filtrar historial"
     },
     "dealer": {
       "title": "Más anuncios de este proveedor",
       "error": {
         "title": "Error de carga",
         "description": "No se pudieron cargar más anuncios de este proveedor."
-      }
+      },
+      "previous": "Anuncios anteriores de este proveedor",
+      "next": "Anuncios siguientes de este proveedor"
     },
     "priceChart": {
       "title": "Historial de precios",
@@ -485,7 +559,9 @@
       "displayOption": "{{currency}} convertido",
       "displaySelect": "Mostrar el historial de precios en {{currency}} con tipos de cambio históricos",
       "displaySeriesName": "Precio en {{currency}} (tipos históricos)",
-      "displayNote": "Convertido con el tipo de cambio registrado en el momento de cada cambio de precio o antes. Los huecos indican precios sin tipo registrado o sin precio público."
+      "displayNote": "Convertido con el tipo de cambio registrado en el momento de cada cambio de precio o antes. Los huecos indican precios sin tipo registrado o sin precio público.",
+      "timeRangeLabel": "Periodo",
+      "resetZoom": "Restablecer zoom"
     },
     "unseenNotification": "Actualizado",
     "auction": {
@@ -509,6 +585,35 @@
       "soldOut": "Vendido",
       "unknown": "Sin datos",
       "withdrawn": "Retirado"
+    },
+    "previousImage": "Imagen anterior",
+    "nextImage": "Imagen siguiente",
+    "addToWatchlist": "Añadir a la lista de seguimiento",
+    "removeFromWatchlist": "Quitar de la lista de seguimiento",
+    "watchlistNotifications": "Avisos de precio y disponibilidad",
+    "estimate": {
+      "label": "Estimación",
+      "range": "{{min}}–{{max}}",
+      "from": "Desde {{price}}",
+      "upTo": "Hasta {{price}}"
+    },
+    "description": {
+      "title": "Descripción",
+      "showMore": "Mostrar más",
+      "showLess": "Mostrar menos"
+    },
+    "withdrawnHint": "Su fuente ha retirado este anuncio.",
+    "gallery": {
+      "openImage": "Abrir la imagen {{index}} de {{count}} a pantalla completa",
+      "imageAlt": "{{title}}, imagen {{index}}",
+      "showImage": "Mostrar la imagen {{index}}",
+      "viewFullScreen": "Ver las imágenes a pantalla completa",
+      "fullScreen": "Pantalla completa",
+      "chooseImage": "Elegir imagen",
+      "showAll": "Mostrar las {{count}} imágenes a pantalla completa"
+    },
+    "carousel": {
+      "position": "{{range}} de {{total}}"
     }
   },
   "listingAvailability": {
@@ -524,108 +629,9 @@
     "outOfStock": "Agotado temporalmente",
     "soldOut": "Agotado"
   },
-  "discover": {
-    "eyebrow": "El mercado",
-    "title": "El mercado de antigüedades es global. La visión de conjunto, rara vez.",
-    "p1": "Las antigüedades ya están online, pero las piezas relevantes siguen repartidas entre webs de anticuarios, calendarios de subastas, marketplaces y especialistas locales. Aura Historia reúne esas fuentes en una plataforma serena y cuidada.",
-    "p2": "Para coleccionistas, interioristas y profesionales, significa menos puntos ciegos: más contexto y más posibilidades de ver una pieza especial antes de que vuelva a desaparecer.",
-    "highlight1": {
-      "title": "Proveedores",
-      "description": "Explore perfiles de proveedores y los anuncios que tienen asociados actualmente."
-    },
-    "highlight2": {
-      "title": "Lectura del mercado más allá de los nombres obvios",
-      "description": "Nuevas piezas, movimientos de precio y cambios de disponibilidad se siguen para que las oportunidades importantes salgan antes a la vista."
-    },
-    "highlight3": {
-      "title": "Investigación entre idiomas",
-      "description": "Busca en tu idioma; Aura Historia ayuda a interpretar el vocabulario de vendedores internacionales."
-    },
-    "artworks": {
-      "watteau": {
-        "alt": "The Shop Sign of the Art Dealer Gersaint de Antoine Watteau, una escena refinada en el interior de un marchante de arte.",
-        "caption": "Antoine Watteau, The Shop Sign of the Art Dealer Gersaint, 1720–1721"
-      }
-    }
-  },
   "landingPage": {
-    "titleFirstLine": "Las piezas raras no deberían depender<1/>solo del azar",
-    "subtitle": "Aura Historia reúne anticuarios, casas de subastas, marketplaces e inventario especializado en una plataforma global de antigüedades, para que las piezas especiales sean visibles antes de volver a desaparecer.",
-    "recentlyAdded": {
-      "eyebrow": "Agregado recientemente",
-      "title": "Las últimas adquisiciones",
-      "foundAt": "Encontrado en {{shopName}}."
-    },
-    "artworkStories": {
-      "ariaLabel": "Tesis de plataforma de Aura Historia",
-      "title": "El mercado global de antigüedades de un vistazo",
-      "description": "Las piezas especiales rara vez aparecen en un único lugar. Surgen en pequeños anticuarios, tiendas especializadas, marketplaces y calendarios de subastas, a menudo con términos locales y durante poco tiempo. Aura Historia vuelve visible, comprensible y observable ese mercado disperso.",
-      "connoisseurship": {
-        "eyebrow": "Criterio experto, ampliado",
-        "title": "Ver las pistas que no caben en el título",
-        "description": "The Ambassadors de Holbein habla de conocimiento, instrumentos y perspectiva oculta. También en las antigüedades, la pista decisiva suele estar en la fuente, la categoría, el historial de precio, el estado o el momento de aparición, no solo en el título del anuncio.",
-        "supporting": "Aura Historia reúne esas señales en un entorno de trabajo sereno: encontrar, comparar, guardar y abrir la fuente original en el momento oportuno, sin perder el placer del descubrimiento.",
-        "imageAlt": "La pintura The Ambassadors de Hans Holbein como símbolo de erudición, instrumentos y mirada experta.",
-        "caption": "Hans Holbein el Joven, The Ambassadors, 1533"
-      },
-      "globalCollecting": {
-        "eyebrow": "Inventario global",
-        "title": "El gabinete de maravillas hoy está disperso",
-        "description": "The Paston Treasure reúne objetos de lujo, naturalia y rarezas procedentes de una red comercial mundial. Hoy, un gabinete así ya no ocupa una sola sala: está repartido entre webs de anticuarios, marketplaces, calendarios de subastas y especialistas locales.",
-        "supporting": "Aura Historia no sustituye esas fuentes. Te lleva a ellas después de indexar de forma continua la oferta dispersa, ordenarla y mantenerla observable según tus intereses.",
-        "imageAlt": "The Paston Treasure, un bodegón repleto de objetos de lujo y rarezas comerciados globalmente.",
-        "caption": "The Paston Treasure, c. 1663"
-      }
-    },
-    "features": {
-      "eyebrow": "Funciones de la plataforma",
-      "title": "Una plataforma para quienes miran con más atención",
-      "subtitle": "Pensada para coleccionistas, interioristas y profesionales: un espacio sereno para un mercado global demasiado amplio, local y fragmentado para seguirlo por costumbre.",
-      "note": "Aura Historia no es otra página centrada en subastas. Reúne anticuarios, tiendas especializadas, marketplaces e inventario de subastas en un mismo campo de descubrimiento.",
-      "marketScale": {
-        "title": "Un mercado que supera cualquier marketplace",
-        "description": "Aura Historia está pensada para un mercado global de arte y antigüedades que se mide en decenas de miles de millones de dólares y decenas de millones de transacciones al año.",
-        "visual": {
-          "value": "$59,6 mil M",
-          "label": "Ventas globales de arte y antigüedades en 2025, en 41,5 M de transacciones."
-        }
-      },
-      "beyondAuction": {
-        "title": "Más que subastas",
-        "description": "Las subastas son solo una parte del mercado. Aura Historia también hace visibles anticuarios de confianza y pequeños especialistas junto al inventario de subastas, donde muchas piezas relevantes no llegan a plataformas centradas solo en subastas.",
-        "visual": {
-          "value": "$34,8 / $20,7 mil M",
-          "label": "Ventas de comerciantes frente a ventas de subastas públicas en 2025; las subastas privadas añadieron algo menos de $4,2 mil M."
-        }
-      },
-      "translations": {
-        "title": "Encontrar sin hablar el idioma del vendedor",
-        "description": "Busca en tu idioma. Aura Historia ayuda a interpretar títulos internacionales, descripciones de vendedores y vocabulario local del mercado.",
-        "visual": {
-          "value": "13.362 + 81.256",
-          "label": "Tiendas de antigüedades en EE. UU. más comercios europeos de segunda mano y afines: fragmentados por mercados e idiomas locales."
-        }
-      },
-      "watchlist": {
-        "title": "Lista privada",
-        "description": "Mantén a la vista lo que ya encontraste. Guarda piezas con discreción y vuelve cuando el precio, el estado o la disponibilidad merezcan otra mirada."
-      },
-      "personalFilter": {
-        "title": "Alertas de búsqueda",
-        "description": "Describe una vez lo que buscas. Aura Historia observa inventario nuevo y actualizado, y vuelve a poner ante ti las piezas adecuadas."
-      },
-      "history": {
-        "title": "Cronología del objeto",
-        "description": "Sigue la vida comercial de un anuncio: indexado, subastado, vendido, retirado, republicado o cambiado de precio, para que los eventos del mercado sigan visibles después del primer hallazgo."
-      },
-      "aiSearchAgent": {
-        "title": "Agente de descubrimiento con IA",
-        "description": "Formula un briefing en lenguaje natural — época, forma, categoría, escala, ambiente, presupuesto y uso previsto — y deja que el agente observe el mercado con paciencia."
-      }
-    },
     "howItWorks": {
-      "title": "De la curiosidad a una adquisición meditada",
-      "subtitle": "Aura Historia reúne ofertas dispersas de anticuarios, subastas y fuentes especializadas para que las piezas prometedoras sigan visibles.",
+      "title": "De la curiosidad a la <em>adquisición meditada.</em>",
       "step1": {
         "title": "Describe el objeto",
         "description": "Busca por época, estilo, categoría, artista, región o simplemente por una idea, en el idioma que te resulte natural."
@@ -641,41 +647,20 @@
       "step4": {
         "title": "Actúa a tiempo",
         "description": "Te mostramos cambios de precio y estado, además de nuevas piezas relevantes; abres la fuente original y decides allí si comprar, pujar o consultar."
-      }
-    },
-    "testimonials": {
-      "title": "Lo que dicen nuestros usuarios",
-      "subtitle": "Descubre cómo ayudamos a los coleccionistas a vivir su pasión.",
-      "testimonial1": {
-        "name": "Margarete W.",
-        "role": "Colecciona muebles Art Nouveau",
-        "quote": "Por fin una plataforma que facilita la búsqueda de piezas raras. Las alertas de precio me han ayudado varias veces a encontrar verdaderas gangas."
       },
-      "testimonial2": {
-        "name": "Heinrich K.",
-        "role": "Anticuario",
-        "quote": "Como vendedor, uso Aura Historia para vigilar el mercado. Las evoluciones de precios me ayudan enormemente con mi propia fijación de precios."
-      },
-      "testimonial3": {
-        "name": "Elisabeth M.",
-        "role": "Coleccionista aficionada desde hace 20 años",
-        "quote": "Estoy asombrada por la claridad. Antes, pasaba horas buscando en diferentes sitios de vendedores. Ahora encuentro todo en un solo lugar."
-      }
+      "eyebrow": "IV — Cómo funciona"
     },
     "newsletter": {
-      "title": "Manténgase informado",
-      "description": "Reciba semanalmente hallazgos seleccionados, tendencias del mercado e información exclusiva directamente en su bandeja de entrada.",
-      "placeholder": "Su dirección de correo electrónico",
-      "button": "Suscribirse al boletín",
+      "title": "Los mejores hallazgos, <em>antes de que desaparezcan.</em>",
+      "description": "Objetos seleccionados, movimientos del mercado y nuevas funciones, directamente en tu bandeja de entrada. Cancela cuando quieras.",
+      "placeholder": "tu@ejemplo.com",
+      "button": "Suscribirse",
       "privacy": "Primero le enviaremos un enlace de confirmación por correo electrónico. Su suscripción solo comienza cuando lo confirme. Más detalles en nuestra <privacyLink>política de privacidad</privacyLink>.",
       "successMessage": "Revise su bandeja de entrada.",
-      "benefit1": "Destacados personalizados",
-      "benefit2": "Nuevas funciones y ofertas",
-      "benefit3": "Cancelar en cualquier momento",
       "firstNameLabel": "Nombre",
-      "firstNamePlaceholder": "Su nombre",
+      "firstNamePlaceholder": "Nombre (opcional)",
       "lastNameLabel": "Apellido",
-      "lastNamePlaceholder": "Su apellido",
+      "lastNamePlaceholder": "Apellido (opcional)",
       "emailLabel": "Dirección de correo electrónico",
       "emailRequired": "Por favor, introduzca una dirección de correo electrónico válida.",
       "eyebrow": "Boletín",
@@ -683,8 +668,7 @@
       "successTiming": "El correo puede tardar unos minutos en llegar. El enlace es válido durante 24 horas."
     },
     "faq": {
-      "title": "Preguntas frecuentes",
-      "subtitle": "Lo esencial sobre cómo Aura Historia hace más legible el mercado global de antigüedades.",
+      "title": "Preguntado <em>y respondido.</em>",
       "items": {
         "howItWorks": {
           "question": "¿Qué es Aura Historia?",
@@ -722,10 +706,12 @@
           "question": "¿Aura Historia es una base de datos de precios?",
           "answer": "No. Los precios históricos de subastas pueden ser útiles, pero no muestran automáticamente qué está disponible hoy. Aura Historia se centra en disponibilidad actual, seguimiento y señales de mercado a tiempo."
         }
-      }
+      },
+      "eyebrow": "VII — Preguntas",
+      "contact": "¿Tienes otra pregunta? Escribe a <mail>{{email}}</mail>"
     },
     "pricing": {
-      "title": "Elige tu forma de acceso",
+      "title": "Elige tu <em>acceso.</em>",
       "subtitle": "Empieza gratis. Sube de plan cuando listas privadas, alertas y seguimiento del mercado formen parte de tu investigación habitual.",
       "comingSoon": "Próximamente",
       "mostPopular": "Más popular",
@@ -766,14 +752,214 @@
           "aiAgent": "Agente de descubrimiento con IA"
         }
       },
-      "billingNote": "mensual, IVA incluido",
       "monthly": "Mensual",
       "yearly": "Anual",
       "yearlySavings": "Ahorra 2 meses",
       "billingNoteMonthly": "al mes, IVA incluido",
       "billingNoteYearly": "al mes, facturado anualmente, IVA incluido",
       "getStartedFree": "Empezar gratis",
-      "subscribe": "Suscribirse"
+      "subscribe": "Suscribirse",
+      "eyebrow": "V — Precios",
+      "alwaysFree": "Siempre gratis",
+      "billingInterval": "Periodo de facturación",
+      "regularPrice": "Precio mensual habitual:"
+    },
+    "hero": {
+      "title": "El mercado mundial de antigüedades, <em>en una sola búsqueda.</em>",
+      "lead": "Aura Historia indexa comerciantes, casas de subastas y vendedores especializados de todo el mundo, para que coleccionistas, decoradores y profesionales encuentren la pieza adecuada antes de que desaparezca en otro silo.",
+      "searchLabel": "Buscar en el mercado mundial",
+      "searchSubmit": "Buscar en el mercado",
+      "stats": {
+        "sourcesIndexed_one": "Fuente indexada",
+        "sourcesIndexed_other": "Fuentes indexadas",
+        "liveObjects_one": "Objeto activo",
+        "liveObjects_other": "Objetos activos",
+        "countries_one": "País",
+        "countries_other": "Países",
+        "languages_one": "Idioma comprendido",
+        "languages_other": "Idiomas comprendidos",
+        "languagesShort_one": "Idioma",
+        "languagesShort_other": "Idiomas"
+      }
+    },
+    "latest": {
+      "eyebrow": "Nuevo en el índice · Actualizado a diario",
+      "title": "Últimas <em>adquisiciones.</em>",
+      "viewAll": "Ver todas las novedades",
+      "previous": "Objetos anteriores",
+      "next": "Objetos siguientes",
+      "region_one": "Últimas adquisiciones, {{count}} objeto",
+      "region_other": "Últimas adquisiciones, {{count}} objetos",
+      "counter": "{{range}} / {{total}}",
+      "auctionBadge": "Subasta"
+    },
+    "opportunity": {
+      "eyebrow": "II — La oportunidad",
+      "title": "Un mercado de 59.600 millones de $, que aún se busca <em>sitio web a sitio web.</em>",
+      "body": "Las antigüedades llegaron a internet. Su búsqueda no. La oferta se reparte entre webs de comerciantes, calendarios de subastas, marketplaces y tiendas locales, cada uno con su idioma, sus términos y su breve plazo. Aura Historia convierte esa oferta dispersa en una vista serena y legible.",
+      "cta": "Buscar en el mercado",
+      "market": {
+        "label": "Ventas mundiales de arte y antigüedades · 2025",
+        "value": "59.600 M$",
+        "transactions": "en <strong>41,5 M</strong> de transacciones",
+        "segments": {
+          "dealer": {
+            "value": "34.800 M$",
+            "label": "Ventas de comerciantes"
+          },
+          "publicAuction": {
+            "value": "20.700 M$",
+            "label": "Subastas públicas"
+          },
+          "privateAuction": {
+            "value": "4.200 M$",
+            "label": "Subastas privadas"
+          }
+        },
+        "caption": "Las plataformas solo de subastas ven aproximadamente un tercio del mercado. <strong>Aura Historia indexa también comerciantes, tiendas especializadas y marketplaces.</strong>",
+        "source": "Fuente: Art Basel / UBS"
+      },
+      "sellers": {
+        "value": "94.618",
+        "label": "Vendedores independientes · EE. UU. + Europa",
+        "caption": "13.362 tiendas de antigüedades en EE. UU. y 81.256 comercios afines en Europa, cada uno con su propia web, idioma y vocabulario.",
+        "source": "Fuente: IBISWorld US · IBISWorld Europe"
+      }
+    },
+    "platform": {
+      "eyebrow": "III — La plataforma",
+      "title": "Hecha para quienes <em>miran con más atención.</em>",
+      "intro": "Un espacio de trabajo riguroso para coleccionistas, decoradores y profesionales, para un mercado demasiado grande, demasiado local y demasiado fragmentado como para seguirlo por costumbre.",
+      "moreTools": "Más herramientas · {{count}}",
+      "moreToolsLabel": "Más herramientas de la plataforma",
+      "agent": {
+        "kicker": "AI Discovery Agent",
+        "title": "Descríbelo una vez. El agente vigila el mundo por ti.",
+        "body": "Escribe un encargo con tus propias palabras (época, forma, escala, ambiente, presupuesto, uso previsto) y deja que el agente recorra el mercado con paciencia.",
+        "demoLabel": "Ejemplo de encargo para el AI Discovery Agent y sus dos coincidencias más recientes",
+        "review": "Revisar",
+        "examples": {
+          "gustavian": {
+            "brief": "«Una pareja de sillas gustavianas, pintadas en gris, preferiblemente con superficie original, por menos de 4.000 €, para un comedor orientado al norte».",
+            "chips": {
+              "region": "Suecia · h. 1780–1810",
+              "form": "Asientos · pareja",
+              "budget": "≤ 4.000 €",
+              "languages": "SV · DA · DE · EN"
+            },
+            "watching": "Vigilando · <strong>2 coincidencias nuevas</strong> desde el lunes"
+          },
+          "meissen": {
+            "brief": "«Un servicio de café de Meissen para seis, con el motivo de la cebolla, completo con tazas y platos, por menos de 3.000 €, para el día a día».",
+            "chips": {
+              "region": "Sajonia · s. XIX",
+              "form": "Porcelana · para seis",
+              "budget": "≤ 3.000 €",
+              "languages": "DE · EN · FR · NL"
+            },
+            "watching": "Vigilando · <strong>4 coincidencias nuevas</strong> esta semana"
+          },
+          "artDeco": {
+            "brief": "«Una lámpara de sobremesa art déco de bronce, francesa o belga, con pantalla de vidrio, hasta 2.500 €, para un rincón de lectura».",
+            "chips": {
+              "region": "Francia · Bélgica · 1920–1935",
+              "form": "Iluminación · lámpara de mesa",
+              "budget": "≤ 2.500 €",
+              "languages": "FR · NL · DE · EN"
+            },
+            "watching": "Vigilando · <strong>1 coincidencia nueva</strong> hoy"
+          }
+        }
+      },
+      "languages": {
+        "kicker": "Cualquier idioma",
+        "title": "Busca en el tuyo. Encuéntralo en el suyo.",
+        "body": "Leemos títulos internacionales y el vocabulario de los comerciantes locales, para que no tengas que aprender la terminología de cada país.",
+        "demoLabel": "Una búsqueda que encuentra porcelana de Meissen en tres idiomas",
+        "query": "Vajilla de porcelana de Meissen"
+      },
+      "alerts": {
+        "kicker": "Alertas de búsqueda",
+        "title": "Sé el primero cuando aparezca.",
+        "body": "Describe una vez lo que buscas. Vigilamos la oferta recién indexada y actualizada y te devolvemos a la vista los objetos adecuados.",
+        "demoLabel": "Una alerta de búsqueda activa para pinturas de maestros antiguos entre 5.000 € y 15.000 €",
+        "name": "Pintura de maestro antiguo",
+        "tags": {
+          "price": "5.000–15.000 €",
+          "available": "Disponible",
+          "dealers": "Comerciantes"
+        },
+        "matches": "3 coincidencias nuevas esta semana"
+      },
+      "watchlist": {
+        "kicker": "Lista de seguimiento privada",
+        "title": "No pierdas de vista ningún hallazgo.",
+        "body": "Guarda con discreción. Vuelve cuando el precio, el estado o la disponibilidad merezcan una segunda mirada.",
+        "demoLabel": "Tres objetos guardados con cambios recientes: precio rebajado, vuelto a publicar y vendido",
+        "items": {
+          "vanity": "Tocador francés, h. 1800",
+          "sideboard": "Aparador de nogal",
+          "dressingTable": "Tocador Luis XV"
+        },
+        "status": {
+          "priceDrop": "−12 %",
+          "relisted": "Republicado",
+          "sold": "Vendido"
+        }
+      },
+      "timeline": {
+        "kicker": "Historial del objeto",
+        "title": "Toda la vida comercial de un objeto.",
+        "body": "Indexado, subastado, vendido, retirado, vuelto a publicar, con nuevo precio: cada evento del mercado sigue visible tras el primer hallazgo.",
+        "demoLabel": "Historial de un anuncio: indexado, ofrecido en subasta sin venderse y vuelto a publicar por un comerciante",
+        "events": {
+          "indexed": {
+            "label": "Indexado",
+            "date": "Mar"
+          },
+          "auction": {
+            "label": "Ofrecido en subasta · sin vender",
+            "date": "May"
+          },
+          "relisted": {
+            "label": "Republicado por el comerciante",
+            "date": "Sep"
+          }
+        }
+      },
+      "marketWatch": {
+        "kicker": "Seguimiento del mercado",
+        "title": "Mira cómo se mueve el mercado, no solo el anuncio.",
+        "body": "Los objetos nuevos, los cambios de precio y de disponibilidad se siguen de forma continua, para que las oportunidades relevantes sean más fáciles de ver y de aprovechar a tiempo.",
+        "demoLabel": "Gráfico de precios: la mediana del precio de oferta baja ligeramente durante doce meses",
+        "measure": "Mediana del precio de oferta",
+        "period": "12 meses"
+      }
+    },
+    "dealers": {
+      "eyebrow": "VI — Para comerciantes y casas de subastas",
+      "title": "Lleva tu inventario adonde los coleccionistas del mundo <em>ya buscan.</em>",
+      "body": "Aura Historia no sustituye tu tienda: le envía compradores cualificados. Conéctate una vez y tus objetos aparecerán ante coleccionistas que buscan en su propio idioma.",
+      "apply": "Solicitar el programa de socios",
+      "overview": "Información para socios",
+      "links": {
+        "shopify": {
+          "title": "App de Shopify",
+          "description": "Sincroniza tus anuncios directamente desde tu tienda Shopify."
+        },
+        "wordpress": {
+          "title": "Plugin de WordPress",
+          "description": "Conecta tu sitio de WordPress en minutos."
+        },
+        "custom": {
+          "title": "Integración personalizada",
+          "description": "Para casas de subastas y catálogos más grandes."
+        },
+        "dashboard": {
+          "title": "Panel de socios",
+          "description": "Descubre cómo los coleccionistas encuentran y siguen tus objetos."
+        }
+      }
     }
   },
   "newsletter": {
@@ -806,92 +992,101 @@
   },
   "partnerProgram": {
     "hero": {
-      "badge": "Programa de Partners",
-      "title": "¿Vendes antigüedades o arte online?<br/>Llega a coleccionistas en todo el mundo.",
-      "subtitle": "Únete a Aura Historia, la plataforma global de antigüedades y arte donde los coleccionistas encuentran justo lo que vendes. Gratis, sin compromiso y lista en minutos.",
+      "title": "¿Vendes antigüedades o arte online? Llega a coleccionistas <em>de todo el mundo.</em>",
+      "subtitle": "Aura Historia es la búsqueda global de antigüedades y arte, donde los coleccionistas encuentran justo lo que vendes. Conecta tu tienda una vez; quien encuentra tus piezas compra en tu propia web.",
       "primaryCta": "Hazte partner",
-      "secondaryCta": "Saber más",
-      "trustBadges": {
-        "free": "100 % gratis",
-        "noTech": "Sin conocimientos técnicos",
-        "cancel": "Cancela cuando quieras"
+      "secondaryCta": "Cómo funciona",
+      "eyebrow": "Programa de partners · Para comerciantes y casas de subastas",
+      "preview": {
+        "caption": "Así aparecen tus piezas",
+        "sample": "Ejemplo",
+        "badge": "Partner-Shop",
+        "title": "Escena portuaria, óleo sobre lienzo",
+        "seller": "Tu tienda",
+        "cta": "Ir a tu tienda"
+      },
+      "terms": {
+        "label": "Condiciones para partners",
+        "commission": {
+          "value": "0 %",
+          "label": "Comisión sobre ventas"
+        },
+        "fees": {
+          "value": "0 €",
+          "label": "Tarifas de alta o de publicación"
+        },
+        "revenue": {
+          "value": "100 %",
+          "label": "De tus ingresos son tuyos"
+        },
+        "cancel": {
+          "value": "Cuando quiera",
+          "label": "Sal sin preaviso"
+        }
       }
     },
     "motivation": {
-      "title": "¿Por qué unirse?",
-      "subtitle": "Aura Historia conecta a coleccionistas motivados directamente con tus piezas, sin comisiones por venta.",
+      "title": "Los coleccionistas ya están buscando. <em>Deja que te encuentren.</em>",
+      "subtitle": "Aura Historia conecta a coleccionistas motivados directamente con tus piezas. Los enviamos a tu tienda y no cobramos comisión por lo que compran.",
       "items": {
         "audience": {
           "title": "Comunidad global de coleccionistas",
-          "description": "Llega a compradores en más de 15 países que buscan antigüedades y arte de forma activa."
+          "description": "Llega a compradores de muchos países que buscan activamente antigüedades y arte poco comunes, cada uno en su propio idioma."
         },
         "traffic": {
           "title": "Más tráfico cualificado",
-          "description": "Enviamos a los interesados directamente a tu tienda: cada clic cuenta para ti, no para nosotros."
+          "description": "Enviamos a los interesados directamente a tu tienda. Cada clic cuenta para ti, no para nosotros."
         },
         "highIntent": {
-          "title": "Leads con alta intención",
-          "description": "Nuestra plataforma inteligente conecta a coleccionistas con lo que realmente buscan. Resultado: solicitudes con verdadera intención de compra."
+          "title": "Consultas con intención de compra",
+          "description": "Nuestra búsqueda conecta a los coleccionistas con lo que realmente buscan, así que las visitas que recibes llegan dispuestas a comprar."
         },
         "trust": {
-          "title": "Distintivo Partner-Shop",
-          "description": "Destaca con el sello verificado Partner-Shop y gana la confianza de los coleccionistas más exigentes."
+          "title": "El distintivo Partner-Shop",
+          "description": "Tus anuncios llevan el distintivo verificado Partner-Shop, una señal de confianza para coleccionistas exigentes."
         },
         "realtime": {
           "title": "Sincronización en tiempo real",
-          "description": "Las piezas nuevas aparecen al instante en nuestro buscador: tus compradores se enteran antes que nadie."
+          "description": "Las piezas nuevas aparecen en nuestra búsqueda en cuanto las publicas, para que tus compradores sean los primeros en saberlo."
         },
         "noCommission": {
           "title": "Sin comisión por venta",
           "description": "No ganamos con tus ventas. Te quedas con el 100 % de tus ingresos."
         }
-      }
-    },
-    "stats": {
-      "title": "Lo que viven nuestros partners",
-      "subtitle": "Promedios actuales de nuestra red de partners.",
-      "trafficIncrease": {
-        "value": "XX %",
-        "label": "Más tráfico tras 8 semanas"
       },
-      "newBuyers": {
-        "value": "XX %",
-        "label": "Aumento de la tasa de conversión gracias a los compradores de Aura Historia"
-      },
-      "countries": {
-        "value": "XX",
-        "label": "Nuevos países de los que llegan solicitudes"
-      },
-      "setup": {
-        "value": "< 15 min",
-        "label": "Hasta que tu primer producto esté online"
-      },
-      "disclaimer": "Las cifras son promedios de tiendas partner activas. Los resultados individuales pueden variar."
+      "eyebrow": "Por qué unirte"
     },
     "integrations": {
-      "title": "Conecte su inventario",
-      "subtitle": "Elija un plugin o una integración personalizada con acceso limitado a su proveedor.",
+      "title": "Conecta tu <em>inventario.</em>",
+      "subtitle": "Elige un plugin para tu sistema de tienda o crea una integración propia con acceso limitado a tu proveedor.",
       "woocommerce": {
         "title": "WordPress · WooCommerce",
-        "description": "Instala nuestra extensión directamente desde el directorio de plugins de WordPress.",
+        "description": "Instala nuestra extensión directamente desde el directorio de plugins de WordPress. Ella se encarga de la sincronización.",
         "cta": "Abrir plugin de WordPress",
-        "badge": "Recomendado"
+        "badge": "Recomendado",
+        "kicker": "Plugin · Directorio de WordPress"
       },
       "shopify": {
         "title": "App de Shopify",
-        "description": "Abre directamente nuestra ficha en la Shopify App Store.",
+        "description": "Instala nuestra app desde la Shopify App Store y tus anuncios se sincronizan desde tu tienda.",
         "cta": "Abrir Shopify App Store",
-        "badge": "Popular"
+        "badge": "Popular",
+        "kicker": "App · Shopify App Store"
       },
       "customApi": {
         "title": "Integración API propia",
         "description": "Sincronice anuncios con un token de acceso limitado y lotes síncronos de hasta 100 entradas.",
         "cta": "Ver documentación API",
-        "badge": "Para desarrolladores"
-      }
+        "badge": "Para desarrolladores",
+        "kicker": "API REST · Token de acceso",
+        "exampleLabel": "POST · Lote de anuncios",
+        "result": "todas las entradas escritas"
+      },
+      "eyebrow": "Conectar",
+      "newTab": "(se abre en una pestaña nueva)"
     },
     "howEasy": {
-      "title": "Online en tres pasos",
+      "title": "En línea en <em>tres pasos.</em>",
       "subtitle": "Sin código, sin requisitos previos, sin riesgo. Así te conviertes en partner.",
       "steps": {
         "apply": {
@@ -900,17 +1095,18 @@
         },
         "claim": {
           "title": "Configura tu tienda",
-          "description": "Reclama tu tienda y completa tu perfil en nuestro panel."
+          "description": "Reclama tu tienda y completa su perfil en el panel de partners."
         },
         "connect": {
           "title": "Activa la integración",
-          "description": "Elige WooCommerce, Shopify o nuestra API: tus productos aparecen en directo automáticamente."
+          "description": "Elige WooCommerce, Shopify o nuestra API. Tus productos aparecerán automáticamente en la búsqueda."
         }
-      }
+      },
+      "eyebrow": "Cómo funciona",
+      "cta": "Empieza tu solicitud"
     },
     "faq": {
-      "title": "Programa de Partners · preguntas frecuentes",
-      "subtitle": "Respuestas a las dudas que más nos plantean.",
+      "title": "Lo que los partners <em>más nos preguntan.</em>",
       "items": {
         "free": {
           "question": "¿Qué cuesta el programa de Partners?",
@@ -944,30 +1140,36 @@
           "question": "¿Recibiré ayuda durante la configuración?",
           "answer": "Sí. Nuestro equipo de partners te acompaña personalmente en el onboarding y está disponible por correo, también después del lanzamiento."
         }
-      }
+      },
+      "eyebrow": "Preguntas",
+      "contact": "¿Tienes otra pregunta? Escribe a <mail>{{email}}</mail>"
     },
     "finalCta": {
-      "title": "¿Listo para llegar a coleccionistas en todo el mundo?",
+      "title": "¿Listo para llegar a coleccionistas <em>de todo el mundo?</em>",
       "subtitle": "Solicítalo gratis en menos de dos minutos. Sin contrato, sin riesgo, con control total.",
       "primary": "Hazte partner",
-      "secondary": "Escribir al equipo de Partners"
+      "secondary": "Escribir al equipo de Partners",
+      "eyebrow": "Solicitar"
     },
     "customIntegrationPage": {
       "hero": {
-        "eyebrow": "Programa de partners · Integración API propia",
-        "title": "Conecta tu tienda con nuestra API",
+        "title": "Conecte su tienda con <em>nuestra API.</em>",
         "subtitle": "Conecte su inventario mediante un proveedor al que se le haya concedido acceso. Los lotes síncronos devuelven los resultados de escritura completados; revise los errores antes de volver a intentarlo.",
         "primaryCta": "Gestionar tokens de acceso",
-        "secondaryCta": "Abrir documentación API"
+        "secondaryCta": "Abrir documentación API",
+        "breadcrumb": "Programa de socios",
+        "current": "Integración API propia",
+        "newTab": "(se abre en una pestaña nueva)"
       },
       "concept": {
-        "title": "Lotes de anuncios síncronos",
+        "title": "Lotes de anuncios <em>síncronos.</em>",
         "description": "POST, PATCH, PUT y DELETE completan las escrituras de forma síncrona. HTTP 200 contiene solo entradas fallidas; [] indica éxito total, incluso para un lote vacío. La visibilidad en búsquedas es un paso independiente.",
         "flowLabel": "Flujo habitual",
         "flow": {
           "send": "Envíe hasta 100 entradas",
-          "completed": "HTTP 200 · escrituras completadas",
-          "failures": "Revise los errores antes de reintentar"
+          "completed": "Escrituras completadas",
+          "failures": "Revise los errores antes de reintentar",
+          "allWritten": "[] = todo escrito"
         },
         "benefits": {
           "synchronous": {
@@ -978,7 +1180,9 @@
             "title": "Reintente de forma selectiva",
             "description": "Ante un fallo parcial, corrija y reintente solo las entradas fallidas cuando corresponda. Si todas fallan, revise la respuesta de problema."
           }
-        }
+        },
+        "eyebrow": "Cómo funcionan los lotes",
+        "flowCaption": "Síncrono"
       },
       "summary": {
         "title": "Qué necesitas para la primera sincronización",
@@ -996,10 +1200,11 @@
             "title": "Un lote pequeño de anuncios",
             "description": "Comience con pocas entradas y revise la respuesta. Cada método admite hasta 100 entradas y permite []."
           }
-        }
+        },
+        "kicker": "Lista · primera sincronización"
       },
       "guide": {
-        "title": "Del token de acceso a la primera sincronización",
+        "title": "Del token de acceso a la <em>primera sincronización.</em>",
         "subtitle": "Un flujo práctico para conectar un sistema de tienda propio con Aura Historia.",
         "stepLabel": "Paso {{number}}",
         "endpointLabel": "Endpoint relevante",
@@ -1014,7 +1219,8 @@
             "retryCta": "Intentar de nuevo",
             "empty": "Actualmente no tiene acceso a ningún proveedor. Es posible que se haya revocado una autorización anterior.",
             "applyCta": "Solicitar una tienda asociada",
-            "selectionLabel": "Proveedor para esta integración"
+            "selectionLabel": "Proveedor para esta integración",
+            "signInHint": "Inicie sesión para ver los proveedores a los que tiene acceso su cuenta."
           },
           "requestKey": {
             "title": "Crea un token de acceso de usuario",
@@ -1022,27 +1228,42 @@
             "focus": "Copia el token inmediatamente: solo se muestra una vez. Guárdalo de forma segura y envíalo como token Bearer en cada solicitud a la API.",
             "cta": "Crear token de acceso de usuario",
             "defaultTokenName": "Sincronización de productos por API propia",
-            "visualTitle": "Crear y guardar credenciales",
-            "visualCaption": "Token de acceso e ID de tienda"
+            "summary": {
+              "name": "Nombre",
+              "scope": "Permiso",
+              "provider": "Proveedor",
+              "none": "Sin seleccionar"
+            }
           },
           "preparePayload": {
             "title": "Prepara y envía tu primera solicitud de productos",
             "description": "La URL utiliza el listingSourceId del proveedor seleccionado. Sustituya YOUR_USER_ACCESS_TOKEN en su servidor y envíe el lote de ejemplo con POST.",
             "focus": "Compruebe HTTP 200 y el array de errores. La aceptación en una cola no demuestra una escritura correcta.",
-            "visualTitle": "Preparar payload JSON",
-            "visualCaption": "Estructura del lote y campos obligatorios"
+            "copy": "Copiar",
+            "copied": "Copiado"
           },
           "verifyResults": {
             "title": "Revise el resultado del lote",
             "description": "Un array de errores vacío [] indica éxito. Un resultado parcial enumera solo las entradas fallidas; un lote totalmente fallido devuelve una respuesta de problema.",
-            "focus": "Guarde la respuesta de forma segura y reintente solo los errores que puedan corregirse o repetirse."
+            "focus": "Guarde la respuesta de forma segura y reintente solo los errores que puedan corregirse o repetirse.",
+            "outcomes": {
+              "allWritten": "Todo escrito",
+              "partial": "Parcial",
+              "allFailed": "Todo fallido",
+              "failures": "errores"
+            }
           }
-        }
+        },
+        "eyebrow": "Guía de configuración"
       },
       "endpoints": {
-        "title": "Referencia de la API de productos partner",
-        "subtitle": "La referencia OpenAPI integrada se centra en los endpoints por lote que necesitas para una integración propia.",
-        "embedTitle": "Referencia de la API de productos partner"
+        "title": "Referencia de la <em>API de productos para socios.</em>",
+        "subtitle": "Las reglas de cada método y, después, la referencia OpenAPI integrada de los endpoints de lotes que necesita.",
+        "embedTitle": "Referencia de la API de productos partner",
+        "eyebrow": "Referencia",
+        "frameLabel": "OpenAPI · Productos de socios",
+        "fullDocs": "Documentación completa",
+        "allMethods": "Todos los métodos"
       },
       "contract": {
         "batch": {
@@ -1054,11 +1275,11 @@
           "description": "POST requiere sourceListingId, url e images; incluya title y description localizados cuando estén disponibles (el contrato actual permite omisión o null). No se admiten campos de vendedor ni dirección. availability puede ser null. El precio es { type: MONETARY, currency: EUR, amount: 420000 } en unidades monetarias menores, o { type: ON_REQUEST }; null no registra precio."
         },
         "patch": {
-          "title": "PATCH: conservar o borrar",
+          "title": "Conservar o borrar",
           "description": "Los campos omitidos conservan los valores existentes. null borra availability, price y cada estimación de precio. url: null, images: null y auction: null son inválidos (400 BAD_BODY_VALUE). images: [] borra las imágenes. Se valida el contrato del lote completo antes de iniciar las transacciones."
         },
         "put": {
-          "title": "PUT: semántica de inserción o actualización",
+          "title": "Semántica de inserción o actualización",
           "description": "En anuncios existentes, omita availability/precios para conservar, envíe null para borrar o un valor para establecer. Omita images para conservar, [] para borrar o un array para reemplazar; null es inválido. Omitir url o enviar null conserva la URL; un valor la reemplaza. title/description solo se aplican al crear. Los nuevos anuncios requieren sourceListingId, url e images; availability y precios omitidos/null no registran valor."
         },
         "auction": {
@@ -1072,6 +1293,43 @@
         "woocommerce": {
           "title": "WooCommerce: de servidor a servidor",
           "description": "POST /api/v1/webhooks/woocommerce/{listingSourceId} requiere autorización Bearer, x-wc-webhook-topic y x-wc-webhook-signature (HMAC-SHA256 en base64 sobre los bytes exactos del cuerpo); x-wc-webhook-delivery-id es opcional. Mantenga los secretos en el servidor; nunca los envíe ni exponga en un navegador. HTTP 204 sin cuerpo confirma admisión o un estado ignorado autorizado, no captura ni visibilidad. date_modified_gmt admite UTC sin desplazamiento, Z o +00:00; otros desplazamientos son inválidos. Los conflictos de digest y orden de origen se comprueban después; una eliminación sin fecha puede bloquear la restauración con WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Reintente una admisión incierta sin cambios, conservando el ID de entrega si existe; investigue los fallos del consumidor antes de reprocesar."
+        }
+      }
+    },
+    "ownership": {
+      "eyebrow": "Lo que sigue siendo tuyo",
+      "title": "Nosotros traemos a los coleccionistas. <em>Tu tienda sigue siendo tuya.</em>",
+      "subtitle": "Aura Historia aporta visibilidad y tráfico. No se interpone entre tú y tus compradores.",
+      "items": {
+        "customers": {
+          "label": "Relación con el cliente",
+          "value": "Tuya",
+          "detail": "Los compradores van directamente a tu tienda para completar la compra."
+        },
+        "checkout": {
+          "label": "Pago y checkout",
+          "value": "Tuyos",
+          "detail": "El procesamiento de pagos se queda en tu web, con tu proveedor actual."
+        },
+        "revenue": {
+          "label": "Ingresos",
+          "value": "100 % tuyos",
+          "detail": "Sin tarifas de alta, de publicación ni de venta. No cobramos comisión."
+        },
+        "channels": {
+          "label": "Otros canales",
+          "value": "Sin cambios",
+          "detail": "Sigue vendiendo en tu propia web y en todas las plataformas que ya utilizas."
+        },
+        "data": {
+          "label": "Datos de producto",
+          "value": "Solo datos públicos",
+          "detail": "Sincronizamos la información de producto visible públicamente para que se pueda encontrar. Tú mantienes el control total."
+        },
+        "partnership": {
+          "label": "Partnership",
+          "value": "Termínala cuando quieras",
+          "detail": "Sin preaviso ni justificación. Si lo pides, retiramos tus productos de inmediato."
         }
       }
     }
@@ -1119,23 +1377,27 @@
     "USER_ADDRESS_NOT_FOUND": "No se encontró esta dirección guardada."
   },
   "watchlist": {
-    "title": "Mi lista de seguimiento",
+    "heading": "Mi <em>lista de seguimiento.</em>",
+    "lead": "Objetos que sigue en el mercado. Active la campana para enterarse de cambios de precio y disponibilidad.",
+    "loading": "Cargando la lista de seguimiento",
     "loginRequired": "Por favor, inicie sesión para usar la lista de seguimiento.",
     "loadingError": {
-      "title": "Lista no disponible",
-      "description": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde."
+      "headline": "Lista <em>no disponible.</em>",
+      "description": "La lista de seguimiento no está disponible en este momento. Por favor, inténtelo de nuevo más tarde.",
+      "retry": "Intentar de nuevo"
     },
-    "loadingMore": "Cargando más resultados...",
+    "loadingMore": "Cargando más resultados…",
     "allLoaded_one": "Ha visto {{count}} artículo de su lista de seguimiento.",
     "allLoaded_other": "Ha visto los {{count}} artículos de su lista de seguimiento.",
     "noResults": {
-      "title": "No se encontraron artículos",
-      "description": "Añada artículos a su lista de seguimiento para verlos aquí."
+      "headline": "Su lista de seguimiento está <em>vacía.</em>",
+      "description": "Use el marcador de cualquier anuncio para seguirlo aquí, con alertas opcionales de cambios de precio y disponibilidad.",
+      "cta": "Buscar objetos"
     }
   },
   "share": {
     "copyLink": "Copiar enlace",
-    "copied": "¡Copiado!",
+    "copied": "Enlace copiado",
     "shareProduct": "Compartir producto",
     "foundOnAuraHistoria": "¡He encontrado {{title}} en Aura Historia! ¡Podría interesarte!"
   },
@@ -1163,7 +1425,7 @@
   },
   "auth": {
     "federated": {
-      "or": "o",
+      "or": "o con correo electrónico",
       "google": {
         "continue": "Continuar con Google"
       },
@@ -1172,41 +1434,42 @@
       },
       "redirectFailure": "No se pudo completar el inicio de sesión. Inténtelo de nuevo o inicie sesión con su correo electrónico."
     },
-    "subtitle": "Más de 120.000 antigüedades de 500 vendedores. Compare, guarde y siga precios en Aura Historia.",
     "signUp": {
       "firstName": "Nombre",
       "firstNamePlaceholder": "Juan",
       "lastName": "Apellido",
       "lastNamePlaceholder": "García",
       "email": "Correo electrónico",
-      "emailPlaceholder": "tu.correo@ejemplo.es",
-      "password": "Contraseña*",
-      "confirmPassword": "Confirmar contraseña*",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
       "language": "Idioma",
       "currency": "Moneda",
       "unitSystem": "Sistema de unidades",
       "pleaseSelect": "Por favor selecciona",
       "showUnassessedOrSensitiveContentLabel": "Mostrar contenido sin evaluar o sensible",
       "showUnassessedOrSensitiveContentTooltip": "Mostrar contenido que aún no se ha evaluado o se ha clasificado como sensible. Las imágenes pueden incluir símbolos contemplados en el § 86a StGB. Si se desactiva, estas imágenes permanecen ocultas. El contenido ocultado por el servicio sigue sin estar disponible.",
-      "title": "Crear una cuenta",
-      "subtitle": "Únete a Aura Historia para rastrear antigüedades",
-      "passwordPlaceholder": "Crea una contraseña",
+      "title": "Únete a Aura <em>Historia.</em>",
+      "subtitle": "Guarda objetos, sigue sus precios y deja tus búsquedas en marcha mientras no estás.",
+      "passwordPlaceholder": "Elige una contraseña",
       "confirmPasswordPlaceholder": "Repite tu contraseña",
       "submit": "Crear cuenta",
       "haveAccount": "¿Ya tienes una cuenta?",
-      "signInLink": "Iniciar sesión"
+      "signInLink": "Iniciar sesión",
+      "eyebrow": "Crear cuenta"
     },
     "signIn": {
       "email": "Correo electrónico",
-      "emailPlaceholder": "tu.correo@ejemplo.com",
+      "emailPlaceholder": "tu@ejemplo.com",
       "password": "Contraseña",
-      "passwordPlaceholder": "Introduce tu contraseña",
-      "title": "Bienvenido de nuevo",
-      "subtitle": "Inicia sesión en tu cuenta para continuar",
+      "passwordPlaceholder": "Tu contraseña",
+      "title": "Bienvenido de <em>nuevo.</em>",
+      "subtitle": "Inicia sesión para ver tu lista de seguimiento, tus alertas de precio y tus búsquedas guardadas.",
       "submit": "Iniciar sesión",
-      "noAccount": "¿No tienes cuenta?",
-      "signUpLink": "Crear una",
-      "forgotPassword": "¿Has olvidado tu contraseña?"
+      "noAccount": "¿Nuevo en Aura Historia?",
+      "signUpLink": "Crear una cuenta",
+      "forgotPassword": "¿Has olvidado tu contraseña?",
+      "eyebrow": "Iniciar sesión"
     },
     "languages": {
       "de": "Alemán",
@@ -1215,55 +1478,25 @@
       "es": "Español",
       "it": "Italiano"
     },
-    "currencies": {
-      "EUR": "EUR - Euro",
-      "GBP": "GBP - Libra esterlina",
-      "USD": "USD - Dólar estadounidense",
-      "AUD": "AUD - Dólar australiano",
-      "CAD": "CAD - Dólar canadiense",
-      "NZD": "NZD - Dólar neozelandés",
-      "CNY": "CNY - Yuan chino",
-      "BRL": "BRL - Real brasileño",
-      "PLN": "PLN - Zloty polaco",
-      "TRY": "TRY - Lira turca",
-      "JPY": "JPY - Yen japonés",
-      "CZK": "CZK - Corona checa",
-      "RUB": "RUB - Rublo ruso",
-      "AED": "AED - Dirham de los EAU",
-      "SAR": "SAR - Riyal saudí",
-      "HKD": "HKD - Dólar de Hong Kong",
-      "SGD": "SGD - Dólar de Singapur",
-      "CHF": "CHF - Franco suizo",
-      "ZAR": "ZAR - Rand sudafricano",
-      "SEK": "SEK - Corona sueca",
-      "DKK": "DKK - Corona danesa",
-      "NOK": "NOK - Corona noruega",
-      "KRW": "KRW - Won surcoreano",
-      "INR": "INR - Rupia india",
-      "TWD": "TWD - Nuevo dólar taiwanés",
-      "HUF": "HUF - Forinto húngaro",
-      "RON": "RON - Leu rumano",
-      "MXN": "MXN - Peso mexicano",
-      "THB": "THB - Baht tailandés",
-      "ARS": "ARS - Peso argentino"
-    },
     "unitSystems": {
       "METRIC": "Métrico",
       "IMPERIAL": "Imperial"
     },
     "confirm": {
-      "title": "Revisa tu correo",
-      "subtitle": "Te enviamos un código de 6 dígitos a {{email}}",
+      "title": "Revisa tu <em>bandeja de entrada.</em>",
+      "subtitle": "Hemos enviado un código de 6 dígitos a <email>{{email}}</email>. Introdúcelo abajo para confirmar tu dirección.",
       "codeLabel": "Código de verificación",
       "submit": "Verificar correo",
       "noCode": "¿No recibiste el código?",
       "resend": "Reenviar código",
       "resendSending": "Enviando…",
-      "resendSent": "¡Código enviado!"
+      "resendSent": "Nuevo código enviado",
+      "eyebrow": "Verificar correo",
+      "hint": "Puede tardar un minuto en llegar. Si no llega, revisa tu carpeta de spam."
     },
     "userDetails": {
-      "title": "Completa tu perfil",
-      "subtitle": "Estos datos son opcionales — puedes actualizarlos en cualquier momento",
+      "title": "Completa tu <em>perfil.</em>",
+      "subtitle": "Todo es opcional. Puedes cambiarlo más tarde en Cuenta y ajustes.",
       "submit": "Guardar y continuar",
       "skip": "Omitir por ahora",
       "newsletter": {
@@ -1271,37 +1504,56 @@
         "requestedTitle": "Revise su bandeja de entrada.",
         "requestedDescription": "Si {{email}} puede recibir nuestro boletín, le enviaremos un enlace de confirmación a esa dirección. Su suscripción solo comienza cuando abra el enlace y confirme.",
         "requestFailed": "Sus datos se han guardado, pero no se ha podido solicitar la confirmación del boletín. Inténtelo de nuevo u omita este paso por ahora."
-      }
+      },
+      "eyebrow": "Tu perfil",
+      "nameGroup": "Nombre",
+      "preferencesGroup": "Preferencias"
     },
     "errors": {
       "UsernameExistsException": "Ya existe una cuenta con este correo electrónico.",
-      "NotAuthorizedException": "Nombre de usuario o contraseña incorrectos.",
+      "NotAuthorizedException": "Correo electrónico o contraseña incorrectos.",
       "UserNotFoundException": "El usuario no existe.",
-      "CodeMismatchException": "Código de verificación no válido, por favor inténtalo de nuevo.",
+      "CodeMismatchException": "Ese código no es válido. Revisa el correo e inténtalo de nuevo.",
       "LimitExceededException": "Límite de intentos excedido, por favor inténtalo más tarde.",
       "TooManyRequestsException": "Demasiadas peticiones, por favor inténtalo más tarde.",
       "InvalidPasswordException": "La contraseña no cumple con las directrices. Debe contener al menos 8 caracteres, un número, una letra minúscula y una letra mayúscula.",
-      "ExpiredCodeException": "Código no válido, por favor solicita un código nuevo.",
+      "ExpiredCodeException": "Este código ha caducado. Solicita uno nuevo.",
       "UserNotConfirmedException": "El usuario no está confirmado.",
       "InvalidParameterException": "Parámetro proporcionado no válido.",
       "EmptySignInUsername": "Por favor introduce tu correo electrónico.",
       "EmptySignInPassword": "Por favor introduce tu contraseña."
     },
     "resetPassword": {
-      "title": "Restablecer la contraseña",
-      "subtitle": "Introduce tu correo electrónico para recibir un código de restablecimiento",
+      "title": "¿Olvidaste tu <em>contraseña?</em>",
+      "subtitle": "Introduce el correo electrónico de tu cuenta y te enviaremos un código de 6 dígitos.",
       "emailLabel": "Correo electrónico",
-      "emailPlaceholder": "tu.email@ejemplo.es",
-      "submit": "Enviar código",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "submit": "Enviar código de restablecimiento",
       "backToSignIn": "Volver a iniciar sesión",
-      "confirmTitle": "Introduce el código de restablecimiento",
-      "confirmSubtitle": "Introduce el código enviado a tu correo electrónico y tu nueva contraseña",
+      "confirmTitle": "Elige una nueva <em>contraseña.</em>",
+      "confirmSubtitle": "Introduce el código que enviamos a <email>{{email}}</email> y luego tu nueva contraseña.",
       "codeLabel": "Código de restablecimiento",
-      "codePlaceholder": "123456",
       "newPasswordLabel": "Nueva contraseña",
       "newPasswordPlaceholder": "Introduce una nueva contraseña",
       "confirmSubmit": "Restablecer la contraseña",
-      "newPasswordConfirmLabel": "Confirmar nueva contraseña"
+      "newPasswordConfirmLabel": "Confirmar nueva contraseña",
+      "eyebrow": "Restablecer contraseña",
+      "success": "Tu contraseña se ha restablecido. Inicia sesión con tu nueva contraseña."
+    },
+    "page": {
+      "eyebrow": "El índice mundial de antigüedades",
+      "heading": "Una búsqueda entre muchos proveedores, <em>una sola cuenta.</em>",
+      "lead": "Aura Historia busca a la vez en anticuarios, casas de subastas y mercados. Tu cuenta guarda lo que encuentras."
+    },
+    "steps": {
+      "label": "Registro, paso {{current}} de {{total}}",
+      "account": "Cuenta",
+      "verify": "Verificación",
+      "profile": "Perfil"
+    },
+    "password": {
+      "show": "Mostrar contraseña",
+      "hide": "Ocultar contraseña"
     }
   },
   "amplify": {
@@ -1410,7 +1662,6 @@
   "notifications": {
     "title": "Notificaciones",
     "markAllRead": "Marcar todo como leído",
-    "noNotifications": "Sin notificaciones",
     "ariaLabel": "Abrir notificaciones",
     "types": {
       "priceChange": "Cambio de precio",
@@ -1425,19 +1676,62 @@
     "deleteAll": "Eliminar todo",
     "markRead": "Marcar como leído",
     "loadingError": {
-      "title": "Error de carga",
-      "description": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde."
+      "description": "No se pudieron cargar las notificaciones. Por favor, inténtalo de nuevo más tarde.",
+      "headline": "Notificaciones <em>no disponibles.</em>",
+      "retry": "Intentar de nuevo"
     },
     "loadingMore": "Cargando más notificaciones...",
     "allLoaded_one": "{{count}} notificación cargada",
     "allLoaded_other": "Todas las {{count}} notificaciones cargadas",
     "noResults": {
-      "title": "Sin notificaciones",
-      "description": "Aún no has recibido ninguna notificación."
+      "description": "Active la campana de un objeto de su lista de seguimiento o las alertas de un filtro de búsqueda, y los cambios aparecerán aquí.",
+      "headline": "Aún no hay <em>notificaciones.</em>",
+      "popoverDescription": "Aquí aparecen los cambios de precio y disponibilidad de su lista de seguimiento y las nuevas coincidencias de sus filtros de búsqueda."
     },
     "totalElements_one": "{{count}} notificación",
     "totalElements_other": "{{count}} notificaciones",
-    "showAll": "Mostrar todas las notificaciones"
+    "showAll": "Mostrar todas las notificaciones",
+    "heading": "Mis <em>notificaciones.</em>",
+    "lead": "Cambios de precio y disponibilidad en su lista de seguimiento, nuevas coincidencias para sus filtros de búsqueda y novedades sobre su solicitud de socio, las más recientes primero.",
+    "loading": "Cargando notificaciones",
+    "unread": "Sin leer",
+    "new": "Nueva",
+    "latest": "Últimas notificaciones",
+    "newCount_one": "{{count}} nueva",
+    "newCount_other": "{{count}} nuevas",
+    "inTotal_one": "{{count}} en total",
+    "inTotal_other": "{{count}} en total",
+    "changedTo": "cambiado a",
+    "matchFor": "Nueva coincidencia para <em>{{name}}</em>",
+    "allMatches": "Todas las coincidencias",
+    "partnerDecision": "Su solicitud ha sido",
+    "sources": {
+      "watchlist": "Lista de seguimiento",
+      "searchFilter": "Filtro de búsqueda"
+    },
+    "groups": {
+      "today": "Hoy",
+      "thisWeek": "Esta semana",
+      "earlier": "Anteriores"
+    },
+    "overview": {
+      "label": "Resumen",
+      "unread": "Sin leer",
+      "total": "En total",
+      "unreadInline_one": "<count>{{count}}</count> sin leer",
+      "unreadInline_other": "<count>{{count}}</count> sin leer",
+      "sourcesTitle": "De dónde vienen",
+      "sourcesText": "Active la campana de un objeto de su lista de seguimiento para cambios de precio y disponibilidad, o las alertas de un filtro de búsqueda para nuevas coincidencias.",
+      "watchlistLink": "Mi lista de seguimiento",
+      "searchFiltersLink": "Mis filtros de búsqueda"
+    },
+    "deleteAllConfirm": {
+      "title": "¿Eliminar todas las <em>notificaciones?</em>",
+      "description": "Se eliminarán todas sus notificaciones. Su lista de seguimiento y sus filtros de búsqueda no cambian. Esta acción no se puede deshacer.",
+      "short": "¿Eliminar todas las notificaciones? Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "deleting": "Eliminando…"
+    }
   },
   "adminListingSources": {
     "title": "Gestión de fuentes de anuncios",
@@ -1934,31 +2228,37 @@
     }
   },
   "searchFilter": {
-    "saveButton": "Guardar Filtro de Búsqueda",
     "saveSuccess": "¡Filtro de búsqueda guardado exitosamente!",
     "loginRequired": "Por favor, inicie sesión o regístrese para guardar filtros de búsqueda.",
     "quotaReached": "Ha alcanzado el número máximo de filtros de búsqueda. Actualice su suscripción para más.",
     "saveDialog": {
-      "title": "Guardar Filtro de Búsqueda",
+      "title": "Guardar búsqueda",
       "nameLabel": "Nombre",
       "namePlaceholder": "Ej.: Pintura Barroca Mater Dolorosa",
       "queryLabel_one": "Consulta de Búsqueda",
       "queryLabel_other": "Consultas de Búsqueda",
-      "aiDescriptionLabel": "Descripción AI (opcional)",
       "aiDescriptionPlaceholder": "Pintura al óleo de la Virgen María sobre lienzo, no madera, marco barroco con pan de oro sobre base de yeso. El motivo debe ser Mater Dolorosa. La firma del artista debe estar incluida. La pintura no debe tener daños visibles y el marco debe estar completamente intacto. Si la pintura es del Barroco español, debe tener al menos 40x60 cm de tamaño. Esto no aplica al Barroco italiano.",
       "ultimateOnly": "Disponible solo para suscriptores Ultimate",
       "cancelButton": "Cancelar",
       "saveButton": "Guardar",
-      "restrictedFiltersHint": "Estos filtros no están disponibles en su suscripción actual y no pueden ser guardados. Actualice su suscripción para utilizarlos – o guarde el filtro de búsqueda sin estos filtros.",
+      "restrictedFiltersHint": "Su plan guarda el término de búsqueda, la disponibilidad y el rango de precios. Estos filtros no se guardan:",
       "resetAndSaveButton": "Guardar sin estos filtros",
       "queryPlaceholder": "Escriba un término y pulse Intro",
       "nameHint": "Asigne un nombre único a su filtro de búsqueda.",
       "queryHint": "Una o más palabras clave que se compararán con los títulos de los productos. Basta con una coincidencia si hay varios términos.",
       "removeQueryTerm": "Eliminar «{{term}}»",
-      "aiDescriptionHint": "Describa en detalle lo que está buscando – la IA encontrará mejores coincidencias."
+      "aiDescriptionHint": "Describa en detalle lo que está buscando – la IA encontrará mejores coincidencias.",
+      "description": "Le escribimos cuando haya nuevos objetos que coincidan.",
+      "criteriaLabel": "Criterios guardados",
+      "queryCriterion": "«{{query}}»",
+      "aiDescription": "Descripción con IA",
+      "optional": "(opcional)",
+      "ultimateBadge": "Ultimate",
+      "restrictedEyebrow": "Pro y Ultimate",
+      "restrictedTitle": "Algunos filtros requieren <em>Pro.</em>",
+      "close": "Cerrar"
     },
     "wizard": {
-      "title": "Crear Filtro de Búsqueda",
       "back": "Atrás",
       "next": "Siguiente",
       "saveDirectly": "Guardar",
@@ -1966,10 +2266,9 @@
       "nameTooLong": "El nombre no debe exceder los 255 caracteres",
       "queryRequired": "Introduzca al menos un término de búsqueda.",
       "queryTermTooShort": "Cada término de búsqueda debe tener al menos 3 caracteres.",
-      "noFiltersConfigured": "No se han configurado filtros",
       "step": {
         "name": "Nombre",
-        "nameDescription": "Asigne un nombre a su filtro de búsqueda",
+        "nameDescription": "Dale un nombre a tu filtro de búsqueda y las palabras que debe buscar.",
         "priceStatus": "Precio y Estado",
         "priceStatusDescription": "Defina su rango de precios y seleccione el estado de publicación deseado – por ejemplo, solo artículos disponibles o también piezas ya subastadas para investigación de mercado.",
         "shop": "Tienda",
@@ -1977,18 +2276,30 @@
         "date": "Fecha",
         "dateDescription": "Acote la búsqueda por tiempo – por fecha de subasta, fecha de primera publicación o la última actualización del anuncio.",
         "confirm": "Confirmar",
-        "confirmDescription": "Revise su filtro de búsqueda antes de guardarlo"
+        "confirmDescription": "Revisa tu filtro de búsqueda antes de guardarlo."
       },
       "titleEdit": "Editar filtro de búsqueda",
-      "titleDuplicate": "Duplicar filtro de búsqueda"
+      "titleDuplicate": "Duplicar filtro de búsqueda",
+      "eyebrow": "Nuevo filtro de búsqueda",
+      "eyebrowEdit": "Editar",
+      "eyebrowDuplicate": "Duplicar",
+      "stepOf": "Paso {{step}} de {{total}}",
+      "nextStep": "Siguiente: {{label}}",
+      "stepsLabel": "Pasos",
+      "progressLabel": "Progreso",
+      "proTag": "Pro y Ultimate",
+      "lockedHint": "Tu plan guarda el término de búsqueda, la disponibilidad y el rango de precios.",
+      "any": "Cualquiera",
+      "change": "Cambiar",
+      "changeLabel": "Cambiar {{label}}",
+      "saveFinal": "Guardar filtro de búsqueda",
+      "titleCreate": "Crear filtro de búsqueda"
     },
     "optional": "opcional",
     "upgradeRequired": "Solo Pro y Ultimate",
     "upgradeNow": "Actualizar ahora"
   },
   "searchFilters": {
-    "title": "Mis Filtros de Búsqueda",
-    "create": "Crear Filtro de Búsqueda",
     "createUpgradeTooltip": "Actualice su cuenta para crear más filtros de búsqueda",
     "duplicate": "Duplicar filtro de búsqueda",
     "duplicateNamePrefix": "Copia de {{name}}",
@@ -2001,38 +2312,29 @@
       "cancel": "Cancelar",
       "confirm": "Eliminar"
     },
-    "notificationsOn": "Notificaciones activas",
-    "notificationsOff": "Notificaciones inactivas",
-    "activate": "Activar",
     "deactivate": "Pausar",
     "moreActions": "Más acciones",
-    "stateInactiveByUser": "En pausa",
-    "stateInactiveByPlan": "Bloqueado",
     "loadingError": {
-      "title": "Error de carga",
-      "description": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtelo de nuevo más tarde."
+      "description": "No se pudieron cargar los filtros de búsqueda. Por favor, inténtelo de nuevo más tarde.",
+      "headline": "Filtros de búsqueda <em>no disponibles.</em>",
+      "retry": "Intentar de nuevo"
     },
     "noResults": {
-      "title": "Sin Filtros de Búsqueda",
-      "description": "Aún no ha guardado ningún filtro de búsqueda."
+      "description": "Todavía no has guardado ningún filtro de búsqueda. Guarda una búsqueda y te avisaremos por correo cuando aparezcan objetos nuevos que coincidan.",
+      "headline": "Aún no hay <em>filtros de búsqueda.</em>",
+      "searchCta": "Buscar objetos"
     },
     "noMatches": {
-      "title": "Sin Coincidencias",
-      "description": "Aún no se han encontrado artículos que coincidan con este filtro de búsqueda.",
-      "editHint": "Intente ajustar el filtro de búsqueda."
+      "description": "Todavía no se han encontrado objetos para este filtro de búsqueda. Prueba a ajustar el filtro de búsqueda.",
+      "headline": "Aún no hay <em>coincidencias.</em>",
+      "editCta": "Editar filtro de búsqueda"
     },
-    "totalElements": "{{count}} filtro(s) de búsqueda",
-    "matches": "Productos Encontrados",
     "matchesCount_one": "{{count}} producto",
     "matchesCount_other": "{{count}} productos",
-    "matchesHint": "Aquí se muestran los productos que anteriormente cumplieron los criterios de su filtro de búsqueda.",
+    "matchesHint": "Objetos que han coincidido con este filtro de búsqueda desde que lo guardaste. Marca una coincidencia como relevante o no para afinar los resultados futuros.",
     "matchesAndDetails": "Coincidencias y Detalles",
     "matchesAndDetailsShort": "Detalles",
-    "totalElements_one": "{{count}} filtro de búsqueda",
-    "totalElements_other": "{{count}} filtros de búsqueda",
-    "searchPlaceholder": "Buscar filtros de búsqueda...",
-    "showDetails": "Mostrar detalles",
-    "noAdditionalCriteria": "No se han configurado criterios adicionales.",
+    "searchPlaceholder": "Buscar filtros…",
     "info": {
       "creationDate": "Añadido",
       "updateDate": "Actualizado",
@@ -2040,17 +2342,18 @@
     },
     "detail": {
       "eyebrow": "Filtro de Búsqueda",
-      "configurationTitle": "Sus Criterios de Filtro",
-      "configurationHint": "Aquí puede ver todos los ajustes que determinan qué resultados se encuentran para este filtro de búsqueda."
-    },
-    "hiddenMatch": {
-      "title": "Oculto",
-      "description": "Esta coincidencia excede su cuota mensual y está oculta. Actualice su cuenta para ver todos los resultados.",
-      "upgradeButton": "Actualizar ahora"
+      "configurationTitle": "Tus criterios de filtro",
+      "configurationHint": "Todos los ajustes que deciden qué objetos encuentra este filtro de búsqueda.",
+      "back": "Mis filtros de búsqueda",
+      "meta": "Añadido {{created}} · Actualizado {{updated}}"
     },
     "feedback": {
       "relevantHint": "La coincidencia es relevante",
-      "notRelevantHint": "La coincidencia no es relevante"
+      "notRelevantHint": "La coincidencia no es relevante",
+      "question": "¿Relevante?",
+      "relevant": "Relevante",
+      "notRelevant": "No relevante",
+      "groupLabel": "Valoración de esta coincidencia"
     },
     "feedbackError": "No se pudo guardar el comentario.",
     "preview": {
@@ -2059,7 +2362,56 @@
       "unavailable": "La vista previa no está disponible porque este filtro contiene criterios que la búsqueda de anuncios no puede expresar.",
       "error": "No se pudo cargar la vista previa.",
       "empty": "Ahora mismo no hay anuncios que coincidan con estos criterios."
-    }
+    },
+    "searchLabel": "Buscar en tus filtros de búsqueda",
+    "heading": "Mis <em>filtros de búsqueda.</em>",
+    "lead": "Búsquedas guardadas que siguen vigilando el mercado. Te avisamos por correo cuando aparecen objetos nuevos que coinciden.",
+    "loading": "Cargando filtros de búsqueda",
+    "quota": "{{used}} de {{limit}} en tu plan {{plan}}",
+    "aiLabel": "IA",
+    "state": {
+      "live": "En vivo",
+      "active": "Activo",
+      "paused": "Pausado por ti",
+      "locked": "Bloqueado por el plan"
+    },
+    "watching": {
+      "heading": "Vigilando <em>ahora.</em>",
+      "meta_one": "{{count}} activo · comparado con cada anuncio nuevo",
+      "meta_other": "{{count}} activos · comparados con cada anuncio nuevo",
+      "empty": "Ahora mismo no hay nada vigilando. Reanuda un filtro de búsqueda abajo o crea uno nuevo."
+    },
+    "resting": {
+      "heading": "En reposo",
+      "meta_one": "{{count}} no busca coincidencias",
+      "meta_other": "{{count}} no buscan coincidencias",
+      "emptyHeadline": "Nada está <em>en reposo.</em>",
+      "empty": "Los filtros de búsqueda que pausas, o que tu plan bloquea, esperan aquí sin buscar coincidencias."
+    },
+    "pauseFilter": "Pausar {{name}}",
+    "resume": "Reanudar",
+    "upgradeToResume": "Mejora tu plan para reanudar",
+    "pausedNote": "Las coincidencias encontradas antes de la pausa siguen en su página de detalle.",
+    "lockedNote": "Tu plan no incluye este filtro de búsqueda, así que ya no busca coincidencias.",
+    "emailAlertsOn": "Avisos por correo activados",
+    "emailAlertsOff": "Avisos por correo desactivados",
+    "noNameMatch": {
+      "headline": "Ningún filtro de búsqueda coincide con <em>«{{query}}».</em>",
+      "description_one": "Revisa la ortografía o borra la búsqueda para ver tu filtro de búsqueda.",
+      "description_other": "Revisa la ortografía o borra la búsqueda para ver los {{count}} filtros de búsqueda.",
+      "clear": "Borrar búsqueda"
+    },
+    "matchesHeading": "Productos <em>encontrados.</em>",
+    "matchesLoading": "Cargando coincidencias",
+    "matchesLoadingMore": "Cargando más coincidencias…",
+    "matchesProgress": "{{loaded}} de {{total}}",
+    "matchesAllLoaded_one": "Has visto {{count}} coincidencia.",
+    "matchesAllLoaded_other": "Has visto las {{count}} coincidencias.",
+    "matchesError": {
+      "headline": "Coincidencias <em>no disponibles.</em>",
+      "description": "No se han podido cargar las coincidencias. Inténtalo de nuevo más tarde."
+    },
+    "createCta": "Crear filtro de búsqueda"
   },
   "oauth": {
     "authorize": {

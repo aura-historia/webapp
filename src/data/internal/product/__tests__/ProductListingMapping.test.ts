@@ -23,6 +23,7 @@ const baseSummary: ProductListingSummaryData = {
     viewUrl: "https://example.com/view",
     images: [{ url: "https://example.com/image.jpg" }],
     updated: "2026-09-01T00:00:00Z",
+    shipping: null,
 };
 
 const baseDetails: ProductListingDetailsData = {
@@ -53,6 +54,7 @@ const baseDetails: ProductListingDetailsData = {
     lot: null,
     created: "2026-08-01T00:00:00Z",
     updated: "2026-09-01T00:00:00Z",
+    shipping: null,
 };
 
 const personalized = <TItem>(item: TItem) => ({

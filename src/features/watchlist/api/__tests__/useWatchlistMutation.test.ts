@@ -100,6 +100,19 @@ describe("useWatchlistMutation", () => {
         expect(watchingIn(searchKey)).toBe(true);
     });
 
+    it("shows the sign-in notice without a request or pending state when signed out", async () => {
+        auth.userId = undefined;
+        const { result } = renderHook(() => useWatchlistMutation(productListingId), { wrapper });
+        await act(async () => {});
+
+        act(() => result.current.mutate("addToWatchlist"));
+
+        expect(mockToast.info).toHaveBeenCalledWith("watchlist.loginRequired");
+        expect(mockAdd).not.toHaveBeenCalled();
+        expect(result.current.isPending).toBe(false);
+        expect(queryClient.isMutating()).toBe(0);
+    });
+
     it("updates the raw detail wrapper cached for SSR", async () => {
         queryClient.setQueryData(detailKey, {
             item: { productListingId },

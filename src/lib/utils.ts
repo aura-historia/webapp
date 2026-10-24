@@ -1,7 +1,38 @@
 import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { extendTailwindMerge } from "tailwind-merge";
 import { replaceCurrencyCodeWithSymbol } from "@/data/internal/price/Price.ts";
 import type { CheckedState } from "@radix-ui/react-checkbox";
+
+/** Design-system type styles from `src/styles.css`, so `text-tag` is not mistaken for a colour. */
+const TYPE_STYLES = [
+    "display-hero",
+    "display-section",
+    "display-figure",
+    "display-rail",
+    "title-lg",
+    "title-md",
+    "title-sm",
+    "stat",
+    "question",
+    "object-title",
+    "object-title-sm",
+    "wordmark",
+    "lead",
+    "body-lg",
+    "body",
+    "body-sm",
+    "meta",
+    "button",
+    "price",
+    "eyebrow",
+    "kicker",
+    "label",
+    "tag",
+];
+
+const twMerge = extendTailwindMerge({
+    extend: { classGroups: { "font-size": [{ text: TYPE_STYLES }] } },
+});
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));

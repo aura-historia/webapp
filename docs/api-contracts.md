@@ -9,22 +9,38 @@ admin workflows in [admin workflows](admin-workflows.md).
 - `pnpm openapi-ts` generates `src/client/**` and the public partner reference
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
-- The pinned capture is the complete backend `docs/swagger.yaml` at `develop` commit
-  `2697cf4f30283d1dded15fa558efbf4fda9cf9dc` (2026-10-15), taken byte-for-byte for
-  [#1111](https://github.com/aura-historia/webapp/issues/1111). It contains the keyless creates of
-  [backend#2081](https://github.com/aura-historia/backend/pull/2081) and the `ARS` currency of
-  [backend#2096](https://github.com/aura-historia/backend/pull/2096). Git blob
-  `d069e8a39f14136facedf82cbd1f12774149753c`; file SHA-256
-  `ce19c97d577678fa9e023aa1feced72ac34396154fa031918a0982a3d810f1a3`; canonical parsed-JSON
+- The pinned capture is the complete backend `docs/swagger.yaml` at commit
+  `9c9204dfce16d543282e2b9bd2568ace4ff48fec` (2026-10-19), taken byte-for-byte for the hero stats.
+  It is the commit that added the public overview
+  ([backend#2204](https://github.com/aura-historia/backend/pull/2204)). Git blob
+  `81f519a8eaf14d4bfc0a419421164fa61ea2fad1`; file SHA-256
+  `f3a7dd8b66890f592684dbffdae90e5a817acf3d086554437eab56a2ddac9739`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `90a32cb7afaaed3fc12a30907eba7bfd32ce276d6a73bc9112696f44735ff2b5`.
-- Changes against the previous pin (the [#1108](https://github.com/aura-historia/webapp/issues/1108)
-  capture with the [#1112](https://github.com/aura-historia/webapp/issues/1112) `ARS` amendment):
-  `createUserAddress` and `createPartyLocation` dropped the required `Idempotency-Key` header and
-  no longer deduplicate creates (see **Creates** below), with matching `400`/`409` descriptions on
-  the address and Party-location operations; the `listSearchFilterMatches` description now
-  says scheduled matching covers ordinary and enhanced filters with a bounded candidate count. The
-  description change needs no client change: no app copy describes how matches are discovered.
+  `a1b2ae5185cbdd87a6157a7a4c002801b82ad80e23516c864c8f4a666228826d`.
+- Later captures are deliberately not adopted yet. The captures from `f07954281a` (2026-10-19)
+  through at least `04d1295d28` (2026-10-20) are invalid YAML (an unquoted colon in a
+  listing-title description), so the generator cannot read them. From `52ab69fc78`
+  ([backend#2224](https://github.com/aura-historia/backend/pull/2224)) the REST prefix moves from
+  `/api/v1` to `/v1`, which the deployed stage API did not serve on 2026-10-21. Adopt a valid
+  capture with that prefix once the deployment follows.
+- Changes against the previous pin (`2697cf4f30`, 2026-10-15): the public overview
+  (`getPublicOverview`); the shipping epic
+  ([backend#2146](https://github.com/aura-historia/backend/pull/2146)): source shipping profiles and
+  defaults, per-listing delivery, a required nullable `shipping` on listing summaries and details,
+  optional `userState.shipping`, `shipping` listing-search criteria, saved-filter
+  `acceptShippingDestination` and `shippingMatchValuation` on filter matches, and
+  `DELIVERY_CHANGED` history entries; the search exclusion renamed from `excludeProductId` to
+  `excludeProductListingId`; `createdBy`/`updatedBy` (and `ActorData`) removed from search
+  filters; an optional `notifications` (default `true`) on filter creation, which the app does
+  not send; partner batch writes that need a Partnership grant
+  (administrator role alone no longer suffices) with new `409 CONFLICT` and refined error
+  descriptions; and description-only changes elsewhere. Decisions are recorded below.
+- The previous capture (`2697cf4f30`, for
+  [#1111](https://github.com/aura-historia/webapp/issues/1111)) brought the keyless creates of
+  [backend#2081](https://github.com/aura-historia/backend/pull/2081) and the `ARS` currency of
+  [backend#2096](https://github.com/aura-historia/backend/pull/2096): `createUserAddress` and
+  `createPartyLocation` dropped the required `Idempotency-Key` header and no longer deduplicate
+  creates (see **Creates** below).
 - The #1108 capture replaced a 2026-10-05
   capture that had individual operations and schemas grafted in from later backend commits;
   adopt whole captures, not partial ones.
@@ -104,6 +120,18 @@ To adopt a backend revision:
   [service status](service-status.md)). `getMyAccessToken` is unused; the UI reads
   the own-token collection. Billing uses `postBillingManage`; `postBillingCheckout` and
   `postBillingPortal` remain SDK-only.
+- `getPublicOverview` drives the hero stat strip (`HeroStats`, through `usePublicOverview` and
+  `mapToPublicOverview` in `src/data/internal/overview`). It loads after mount and is never
+  prerendered. The operation declares no security, so the client sends no bearer and the
+  anonymous response stays edge-cacheable. Invalid counts fail the query and the strip is left
+  out. `asOf` and `newObjectsLast7Days` are mapped but not shown.
+- Shipping and delivery are generated-only until a shipping slice consumes them: the shipping
+  profile, default and listing-delivery operations, listing `shipping` (fixtures send `null`),
+  `userState.shipping`, the `shipping` search criteria, `acceptShippingDestination` and
+  `shippingMatchValuation`. `DELIVERY_CHANGED` history entries map to the `UNKNOWN` change.
+- Listing search, dealer listings and saved filters send the exclusion as
+  `excludeProductListingId`. The internal `SearchFilterArguments.excludeProductId` and the
+  `excludeProductId` search URL parameter keep their names, so shared links still work.
 - Legacy product URL routes are intentional redirects. Removed shop metadata, taxonomy,
   seller-name, shop-type and price-sort controls stay retired rather than sent to removed APIs.
 

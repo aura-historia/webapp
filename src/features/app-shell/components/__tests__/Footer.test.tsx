@@ -1,15 +1,14 @@
-import { renderWithRouter } from "@/test/utils.tsx";
-import { cleanup, screen, waitFor } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { Footer } from "../Footer.tsx";
-import { t } from "i18next";
-import userEvent from "@testing-library/user-event";
-import { act } from "react";
 import { useLocation } from "@tanstack/react-router";
+import { act, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { t } from "i18next";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
     SHOPIFY_APP_STORE_URL,
     WORDPRESS_PLUGIN_DIRECTORY_URL,
 } from "@/features/partner/partner-program/config/partnerProgramLinks.ts";
+import { renderWithRouter } from "@/test/utils.tsx";
+import { Footer } from "../Footer.tsx";
 
 const { changeLanguageMock, persistLanguagePreferenceMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
@@ -28,22 +27,12 @@ vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
     useUserAccount: vi.fn(() => ({ data: undefined })),
 }));
 
-vi.mock("@/features/preferences/components/CurrencySelector.tsx", () => ({
-    CurrencySelector: () => null,
-}));
-
-vi.mock("@/features/preferences/components/UnitSystemSelector.tsx", () => ({
-    UnitSystemSelector: () => null,
-}));
-
 vi.mock("react-i18next", async () => {
     const actual = await vi.importActual("react-i18next");
     return {
         ...actual,
         useTranslation: () => ({
-            t: (key: string, options?: { year: number }) => {
-                return t(key, options);
-            },
+            t: (key: string, options?: Record<string, unknown>) => t(key, options),
             i18n: {
                 resolvedLanguage: "de",
                 language: "de",
@@ -53,228 +42,257 @@ vi.mock("react-i18next", async () => {
     };
 });
 
-describe("Footer Component", () => {
-    beforeEach(async () => {
+function LocationProbe() {
+    const location = useLocation();
+
+    return (
+        <div data-testid="location-probe">
+            {JSON.stringify({ pathname: location.pathname, hash: location.hash })}
+        </div>
+    );
+}
+
+async function renderFooter(path = "/test") {
+    await act(async () => {
+        renderWithRouter(
+            <>
+                <Footer />
+                <LocationProbe />
+            </>,
+            { initialEntries: [path] },
+        );
+    });
+}
+
+function group(name: string) {
+    return within(screen.getByRole("navigation", { name }));
+}
+
+describe("Footer", () => {
+    beforeEach(() => {
+        localStorage.clear();
         changeLanguageMock.mockClear();
         persistLanguagePreferenceMock.mockClear();
-        await act(async () => {
-            renderWithRouter(<Footer />);
-        });
     });
 
-    afterEach(() => {
-        vi.restoreAllMocks();
-        Reflect.deleteProperty(globalThis, "cookieStore");
+    it("sits on the ink ground", async () => {
+        await renderFooter();
+
+        expect(screen.getByRole("contentinfo")).toHaveAttribute("data-theme", "dark");
     });
 
-    it("should render all navigation links with correct text", () => {
-        expect(screen.getByText("Über uns")).toBeInTheDocument();
-        expect(screen.getByText("Impressum")).toBeInTheDocument();
-        expect(screen.getByText("Datenschutzerklärung")).toBeInTheDocument();
-        expect(screen.getByText("AGB")).toBeInTheDocument();
-        expect(screen.getByText("Cookie-Einstellungen")).toBeInTheDocument();
-    });
+    it("shows the wordmark, tagline and contact address", async () => {
+        await renderFooter();
 
-    it("should render copyright text with correct year", () => {
-        expect(screen.getByText(`© ${new Date().getFullYear()} Aura Historia`)).toBeInTheDocument();
-    });
-
-    it("should render navigation links with correct href attributes", () => {
-        expect(screen.getByText("Über uns").closest("a")).toHaveAttribute("href", "/de/about-us");
-        expect(screen.getByText("Impressum").closest("a")).toHaveAttribute("href", "/de/imprint");
-        expect(screen.getByText("Datenschutzerklärung").closest("a")).toHaveAttribute(
+        expect(screen.getByRole("link", { name: "Aura Historia Startseite" })).toHaveAttribute(
             "href",
-            "/de/privacy",
+            "/de",
         );
-        expect(screen.getByText("AGB").closest("a")).toHaveAttribute(
+        expect(
+            screen.getByText("Der globale Antiquitätenmarkt in einer einzigen Suche."),
+        ).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "contact@aura-historia.com" })).toHaveAttribute(
             "href",
-            "/de/terms-and-conditions",
-        );
-        expect(screen.getByText("Cookie-Einstellungen").closest("a")).toHaveAttribute(
-            "href",
-            "/de/consent-settings",
+            "mailto:contact@aura-historia.com",
         );
     });
 
-    it("should render social media icons with correct links", () => {
-        const xLink = screen.getByLabelText("X");
-        expect(xLink).toHaveAttribute("href", "https://x.com/aurahistoria");
-        expect(xLink).toHaveAttribute("target", "_blank");
+    it("links the landing page sections under Discover", async () => {
+        await renderFooter();
+        const discover = group("Entdecken");
 
-        const instagramLink = screen.getByLabelText("Instagram");
-        expect(instagramLink).toHaveAttribute("href", "https://www.instagram.com/aura_historia/");
-
-        const youtubeLink = screen.getByLabelText("YouTube");
-        expect(youtubeLink).toHaveAttribute("href", "https://www.youtube.com/@aurahistoria");
-    });
-
-    it("should render all social links in follow us section", () => {
-        expect(screen.getByLabelText("X")).toBeInTheDocument();
-        expect(screen.getByLabelText("Instagram")).toBeInTheDocument();
-        expect(screen.getByLabelText("LinkedIn")).toBeInTheDocument();
-        expect(screen.getByLabelText("Facebook")).toBeInTheDocument();
-        expect(screen.getByLabelText("Pinterest")).toBeInTheDocument();
-        expect(screen.getByLabelText("Reddit")).toBeInTheDocument();
-        expect(screen.getByLabelText("YouTube")).toBeInTheDocument();
-        expect(screen.getByLabelText("TikTok")).toBeInTheDocument();
-    });
-
-    it("should render footer section headings", () => {
-        expect(screen.getByText("Unternehmen")).toBeInTheDocument();
-        expect(screen.getByText("Mehr entdecken")).toBeInTheDocument();
-        expect(screen.getByText("Folge uns")).toBeInTheDocument();
-        expect(screen.getByText("Kontakt")).toBeInTheDocument();
-        expect(screen.getByText("Partner-Programm")).toBeInTheDocument();
-    });
-
-    it("should render partner program links with correct href attributes", () => {
-        expect(screen.getByText("Übersicht").closest("a")).toHaveAttribute(
-            "href",
-            "/de/partner-program",
-        );
-        expect(screen.getByText("Partner-Dashboard").closest("a")).toHaveAttribute(
-            "href",
-            "/de/partners/applications",
-        );
-        expect(screen.getByText("WordPress-Plugin").closest("a")).toHaveAttribute(
-            "href",
-            WORDPRESS_PLUGIN_DIRECTORY_URL,
-        );
-        expect(screen.getByText("WordPress-Plugin").closest("a")).toHaveAttribute(
-            "target",
-            "_blank",
-        );
-        expect(screen.getByText("Shopify App Store").closest("a")).toHaveAttribute(
-            "href",
-            SHOPIFY_APP_STORE_URL,
-        );
-        expect(screen.getByText("Shopify App Store").closest("a")).toHaveAttribute(
-            "target",
-            "_blank",
-        );
-        expect(screen.getByText("Eigene Integration").closest("a")).toHaveAttribute(
-            "href",
-            "/de/partner-program/custom-integration",
-        );
-        expect(screen.getByText("Jetzt bewerben").closest("a")).toHaveAttribute(
-            "href",
-            "/de/partners/applications",
-        );
-    });
-
-    it("should navigate to partner program links through the router", async () => {
-        cleanup();
-        const user = userEvent.setup();
-
-        await act(async () => {
-            renderWithRouter(
-                <>
-                    <Footer />
-                    <LocationProbe />
-                </>,
-                { initialEntries: ["/test"] },
-            );
-        });
-
-        await user.click(screen.getByText("Übersicht"));
-
-        await waitFor(() => {
-            expect(screen.getByTestId("location-probe")).toHaveTextContent("/partner-program");
-        });
-    });
-
-    it("should render landing page fragment links", () => {
-        expect(screen.getByText("Neueste Zugänge").closest("a")).toHaveAttribute(
+        expect(discover.getByRole("link", { name: "Neueste Zugänge" })).toHaveAttribute(
             "href",
             "/de#recently-added",
         );
-        expect(screen.getByText("Plattform").closest("a")).toHaveAttribute("href", "/de#discover");
-        expect(screen.getByText("Funktionen").closest("a")).toHaveAttribute("href", "/de#features");
-        expect(screen.getByText("So funktioniert's").closest("a")).toHaveAttribute(
+        expect(discover.getByRole("link", { name: "Plattform" })).toHaveAttribute(
             "href",
-            "/de#how-it-works",
+            "/de#platform",
         );
-        expect(screen.queryByText("Nutzerstimmen")).not.toBeInTheDocument();
-        expect(screen.getByText("Preise").closest("a")).toHaveAttribute("href", "/de#pricing");
-        expect(screen.getByText("Newsletter").closest("a")).toHaveAttribute(
+        expect(discover.getByRole("link", { name: "Preise" })).toHaveAttribute(
             "href",
-            "/de#newsletter",
+            "/de#pricing",
         );
-        expect(screen.getByText("FAQ").closest("a")).toHaveAttribute("href", "/de#faq");
+        expect(discover.getByRole("link", { name: "FAQ" })).toHaveAttribute("href", "/de#faq");
     });
 
-    it("should navigate to the landing page fragment from another route", async () => {
-        cleanup();
+    it("links the partner program, opening store listings in a new tab", async () => {
+        await renderFooter();
+        const partners = group("Partner");
+
+        expect(partners.getByRole("link", { name: "Übersicht" })).toHaveAttribute(
+            "href",
+            "/de/partner-program",
+        );
+        expect(partners.getByRole("link", { name: "Eigene Integration" })).toHaveAttribute(
+            "href",
+            "/de/partner-program/custom-integration",
+        );
+        const wordpress = partners.getByRole("link", { name: "WordPress-Plugin" });
+        expect(wordpress).toHaveAttribute("href", WORDPRESS_PLUGIN_DIRECTORY_URL);
+        expect(wordpress).toHaveAttribute("target", "_blank");
+        expect(wordpress).toHaveAttribute("rel", "noopener noreferrer");
+        expect(partners.getByRole("link", { name: "Shopify App Store" })).toHaveAttribute(
+            "href",
+            SHOPIFY_APP_STORE_URL,
+        );
+    });
+
+    it("links the company pages", async () => {
+        await renderFooter();
+        const company = group("Unternehmen");
+
+        expect(company.getByRole("link", { name: "Über uns" })).toHaveAttribute(
+            "href",
+            "/de/about-us",
+        );
+        expect(company.getByRole("link", { name: "Impressum" })).toHaveAttribute(
+            "href",
+            "/de/imprint",
+        );
+        expect(company.getByRole("link", { name: "Datenschutzerklärung" })).toHaveAttribute(
+            "href",
+            "/de/privacy",
+        );
+        expect(company.getByRole("link", { name: "AGB" })).toHaveAttribute(
+            "href",
+            "/de/terms-and-conditions",
+        );
+        expect(company.getByRole("link", { name: "Cookie-Einstellungen" })).toHaveAttribute(
+            "href",
+            "/de/consent-settings",
+        );
+        expect(company.getByRole("link", { name: "Vergleich: Barnebys" })).toHaveAttribute(
+            "href",
+            "/de/compare/barnebys",
+        );
+    });
+
+    it("opens one link group at a time on phones", async () => {
         const user = userEvent.setup();
+        await renderFooter();
 
-        await act(async () => {
-            renderWithRouter(
-                <>
-                    <Footer />
-                    <LocationProbe />
-                </>,
-                { initialEntries: ["/test"] },
-            );
-        });
+        const discoverToggle = group("Entdecken").getByRole("button", { name: /Entdecken/ });
+        const partnersToggle = group("Partner").getByRole("button", { name: /Partner/ });
+        expect(discoverToggle).toHaveAttribute("aria-expanded", "false");
+        expect(
+            document.getElementById(discoverToggle.getAttribute("aria-controls") ?? ""),
+        ).toHaveClass("hidden");
 
-        await user.click(screen.getByText("Preise"));
+        await user.click(discoverToggle);
+        expect(discoverToggle).toHaveAttribute("aria-expanded", "true");
+        expect(
+            document.getElementById(discoverToggle.getAttribute("aria-controls") ?? ""),
+        ).toHaveClass("grid");
+
+        await user.click(partnersToggle);
+        expect(partnersToggle).toHaveAttribute("aria-expanded", "true");
+        expect(discoverToggle).toHaveAttribute("aria-expanded", "false");
+    });
+
+    it("links the social profiles in a new tab", async () => {
+        await renderFooter();
+        const social = group("Soziale Medien");
+
+        const instagram = social.getByRole("link", { name: "Instagram" });
+        expect(instagram).toHaveAttribute("href", "https://www.instagram.com/aura_historia/");
+        expect(instagram).toHaveAttribute("target", "_blank");
+        expect(social.getAllByRole("link")).toHaveLength(8);
+    });
+
+    it("shows the copyright with the current year", async () => {
+        await renderFooter();
+
+        expect(screen.getByText(`© ${new Date().getFullYear()} Aura Historia`)).toBeInTheDocument();
+    });
+
+    it("navigates to a landing page section from another route", async () => {
+        const user = userEvent.setup();
+        await renderFooter("/test");
+
+        await user.click(group("Entdecken").getByRole("link", { name: "Preise" }));
 
         await waitFor(() => {
-            expect(screen.getByTestId("location-probe")).toHaveTextContent("/");
+            expect(screen.getByTestId("location-probe")).toHaveTextContent('"pathname":"/de"');
             expect(screen.getByTestId("location-probe")).toHaveTextContent("pricing");
         });
     });
 
-    it("should render contact email", () => {
-        const emailLink = screen.getByText("contact@aura-historia.com");
-        expect(emailLink).toHaveAttribute("href", "mailto:contact@aura-historia.com");
-    });
-
-    it("should render company and contact sections stacked", () => {
-        const companyHeading = screen.getByText("Unternehmen");
-        const contactHeading = screen.getByText("Kontakt");
-        const companyContainer = companyHeading.closest("div")?.parentElement;
-        const contactContainer = contactHeading.closest("div")?.parentElement;
-        expect(companyContainer).toBe(contactContainer);
-    });
-
-    it("should change language", async () => {
-        cleanup();
+    it("switches the language from its picker", async () => {
         const user = userEvent.setup();
+        await renderFooter("/de/test");
 
-        await act(async () => {
-            renderWithRouter(
-                <>
-                    <Footer />
-                    <LocationProbe />
-                </>,
-                { initialEntries: ["/de/test"] },
-            );
-        });
-
-        const trigger = screen.getByRole("combobox");
+        const trigger = screen.getByRole("button", { name: "Sprache: Deutsch" });
+        expect(trigger).toHaveAttribute("aria-haspopup", "listbox");
         await user.click(trigger);
 
-        const option = screen.getByLabelText("Zu English wechseln");
-        await user.click(option);
+        const listbox = await screen.findByRole("listbox", { name: "Sprache" });
+        expect(within(listbox).getByRole("option", { name: /Deutsch/ })).toHaveAttribute(
+            "aria-selected",
+            "true",
+        );
+        await user.click(within(listbox).getByRole("option", { name: /English/ }));
 
         await waitFor(() => {
             expect(screen.getByTestId("location-probe")).toHaveTextContent("/en/test");
             expect(changeLanguageMock).toHaveBeenCalledWith("en");
             expect(persistLanguagePreferenceMock).toHaveBeenCalledWith("en");
         });
+        expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+    });
+
+    it("picks a language with the keyboard", async () => {
+        const user = userEvent.setup();
+        await renderFooter("/de/test");
+
+        await user.click(screen.getByRole("button", { name: "Sprache: Deutsch" }));
+        const listbox = await screen.findByRole("listbox", { name: "Sprache" });
+        expect(listbox).toHaveFocus();
+
+        await user.keyboard("{ArrowDown}{Enter}");
+
+        await waitFor(() => expect(changeLanguageMock).toHaveBeenCalledWith("en"));
+    });
+
+    it("searches and picks a currency", async () => {
+        const user = userEvent.setup();
+        await renderFooter();
+
+        await user.click(screen.getByRole("button", { name: /^Währung: EUR/ }));
+        const search = await screen.findByRole("combobox", { name: "Währungen durchsuchen…" });
+        expect(search).toHaveFocus();
+
+        await user.type(search, "usd");
+        const listbox = screen.getByRole("listbox", { name: "Währung" });
+        expect(within(listbox).getAllByRole("option")).toHaveLength(1);
+
+        await user.keyboard("{Enter}");
+
+        expect(await screen.findByRole("button", { name: /^Währung: USD/ })).toBeInTheDocument();
+    });
+
+    it("shows the empty message when no currency matches", async () => {
+        const user = userEvent.setup();
+        await renderFooter();
+
+        await user.click(screen.getByRole("button", { name: /^Währung: EUR/ }));
+        await user.type(
+            await screen.findByRole("combobox", { name: "Währungen durchsuchen…" }),
+            "zzz",
+        );
+
+        expect(screen.getByText("Keine Währung gefunden.")).toBeInTheDocument();
+    });
+
+    it("switches the unit system", async () => {
+        const user = userEvent.setup();
+        await renderFooter();
+
+        await user.click(screen.getByRole("button", { name: /^Einheiten: / }));
+        await user.click(await screen.findByRole("option", { name: /Imperial|Imperial/ }));
+
+        expect(
+            await screen.findByRole("button", { name: /^Einheiten: Imperial/ }),
+        ).toBeInTheDocument();
     });
 });
-
-function LocationProbe() {
-    const location = useLocation();
-
-    return (
-        <div data-testid="location-probe">
-            {JSON.stringify({
-                pathname: location.pathname,
-                hash: location.hash,
-            })}
-        </div>
-    );
-}

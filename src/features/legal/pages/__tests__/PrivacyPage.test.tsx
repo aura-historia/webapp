@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { PRIVACY_LOCALE_MAP } from "@/features/legal/content/privacy/privacy-asset-map.ts";
 import { PrivacyPage } from "../PrivacyPage.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
-import { act, screen } from "@testing-library/react";
+import { act, screen, within } from "@testing-library/react";
 
 vi.mock("react-i18next", () => ({
     useTranslation: () => ({
@@ -96,9 +96,12 @@ describe("PrivacyPage", () => {
         expect(screen.getByText(/Julian Bruder Einzelunternehmen/)).toBeInTheDocument();
     });
 
-    it("renders content within a Card component", () => {
-        const card = screen.getByText("Datenschutz").closest(".gap-4");
-        expect(card).toBeInTheDocument();
+    it("links each section from the contents list", () => {
+        const [contents] = screen.getAllByRole("navigation", { name: "legal.contents" });
+        const firstLink = within(contents).getAllByRole("link")[0];
+        expect(firstLink).toHaveTextContent("Verantwortlicher");
+        expect(firstLink).toHaveAttribute("href", "#section-1");
+        expect(document.getElementById("section-1")).toHaveTextContent("Verantwortlicher");
     });
 });
 

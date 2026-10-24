@@ -120,7 +120,7 @@ export function useSearch(
                     currency: preferences.currency,
                     productQuery: getProductQuery(searchArgs),
                     enhancedSearchDescription: searchArgs.enhancedSearchDescription,
-                    excludeProductId: searchArgs.excludeProductId,
+                    excludeProductListingId: searchArgs.excludeProductId,
                     listingSourceId: searchArgs.listingSourceId,
                     excludeListingSourceId: searchArgs.excludeListingSourceId,
                     auctionId: searchArgs.auctionId,

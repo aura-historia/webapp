@@ -1,33 +1,39 @@
+import { useLocation } from "@tanstack/react-router";
+import { ArrowUpRight, Check, Link2, Share2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Lottie } from "lottie-react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Share2, Link2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import {
     FacebookShareButton,
+    RedditShareButton,
+    TelegramShareButton,
     WhatsappShareButton,
     XShareButton,
-    TelegramShareButton,
-    RedditShareButton,
-    FacebookIcon,
-    WhatsappIcon,
-    XIcon,
-    TelegramIcon,
-    RedditIcon,
 } from "react-share";
-import tick from "@/assets/lottie/tick.json";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "@tanstack/react-router";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
 import { env } from "@/env.ts";
+import { cn } from "@/lib/utils.ts";
 
 type ProductSharerProps = {
-    title: string;
-    variant?: "ghost" | "outline";
-    className?: string;
+    readonly title: string;
+    /** ghost on desktop, a hairline outline on phones */
+    readonly variant?: "ghost" | "outline";
+    readonly className?: string;
 };
+
+const SHARE_TARGETS = [
+    { name: "WhatsApp", Button: WhatsappShareButton },
+    { name: "Facebook", Button: FacebookShareButton },
+    { name: "X", Button: XShareButton },
+    { name: "Telegram", Button: TelegramShareButton },
+    { name: "Reddit", Button: RedditShareButton },
+] as const;
+
+const ROW_CLASS =
+    "flex w-full cursor-pointer items-center rounded-md px-3 text-body-sm text-ink outline-none hover:bg-surface-sunken focus-visible:bg-surface-sunken";
 
 export function ProductSharer({ title, variant = "ghost", className }: ProductSharerProps) {
     const { t } = useTranslation();
+    const [open, setOpen] = useState(false);
     const [copied, setCopied] = useState(false);
     const pathname = useLocation({ select: (location) => location.pathname });
     const url = new URL(pathname, env.VITE_APP_URL).toString();
@@ -43,97 +49,73 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
         setCopied(true);
     };
 
-    const iconSize = 32;
-
-    const personalText = t("share.foundOnAuraHistoria", { title });
-    const standardText = title;
-
-    const shareButtons = [
-        {
-            name: "WhatsApp",
-            Button: WhatsappShareButton,
-            Icon: WhatsappIcon,
-            usePersonalText: true,
-        },
-        {
-            name: "Facebook",
-            Button: FacebookShareButton,
-            Icon: FacebookIcon,
-            usePersonalText: true,
-        },
-        { name: "X", Button: XShareButton, Icon: XIcon, usePersonalText: true },
-        {
-            name: "Telegram",
-            Button: TelegramShareButton,
-            Icon: TelegramIcon,
-            usePersonalText: true,
-        },
-        { name: "Reddit", Button: RedditShareButton, Icon: RedditIcon, usePersonalText: true },
-    ];
+    const shareText = t("share.foundOnAuraHistoria", { title });
 
     return (
-        <Popover>
+        <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <Button variant={variant} size="icon" className={className}>
-                    <Share2 className="size-5" />
-                    <span className="sr-only">{t("share.shareProduct")}</span>
-                </Button>
+                <button
+                    type="button"
+                    aria-label={t("share.shareProduct")}
+                    className={cn(
+                        "inline-flex size-11 cursor-pointer items-center justify-center rounded-pill text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass",
+                        variant === "outline" &&
+                            "shadow-[inset_0_0_0_1px_var(--color-line-strong)]",
+                        open ? "bg-surface-sunken" : "hover:bg-surface-sunken",
+                        className,
+                    )}
+                >
+                    <Share2 aria-hidden="true" className="size-[18px]" strokeWidth={1.7} />
+                </button>
             </PopoverTrigger>
-            <PopoverContent className="w-56 p-2 bg-background z-40" align="end">
-                <div className="flex flex-col gap-1">
-                    <button
-                        type="button"
-                        onClick={copyLink}
-                        className="flex items-center gap-3 px-3 py-2 hover:bg-accent rounded-md cursor-pointer w-full text-left"
-                    >
-                        <div className="w-8 h-8 shrink-0 relative">
-                            <div
-                                className={`absolute inset-0 flex items-center justify-center rounded-full bg-primary transition-all duration-200 ease-out ${
-                                    copied ? "opacity-0 scale-75" : "opacity-100 scale-100"
-                                }`}
-                            >
-                                <Link2 className="size-4 text-white" />
-                            </div>
-
-                            {copied && (
-                                <div className="absolute inset-0 flex items-center justify-center scale-[1.7]">
-                                    <Lottie src={tick} autoplay={true} className="w-8 h-8" />
-                                </div>
-                            )}
-                        </div>
-
-                        <div className="relative min-w-22.5">
-                            <span
-                                className={`font-medium text-sm block transition-opacity duration-200 ease-out ${
-                                    copied ? "opacity-0" : "opacity-100"
-                                }`}
-                            >
-                                {t("share.copyLink")}
-                            </span>
-                            <span
-                                className={`font-medium text-sm block absolute top-0 left-0 transition-opacity duration-200 ease-out ${
-                                    copied ? "opacity-100" : "opacity-0"
-                                }`}
-                            >
-                                {t("share.copied")}
-                            </span>
-                        </div>
-                    </button>
-
-                    {shareButtons.map(({ name, Button: ShareButton, Icon, usePersonalText }) => (
-                        <ShareButton
-                            key={name}
-                            url={url}
-                            title={usePersonalText ? personalText : standardText}
-                            resetButtonStyle={false}
+            <PopoverContent
+                align="end"
+                className="z-40 flex w-62 flex-col rounded-panel border-0 bg-surface-raised p-2 text-ink shadow-menu"
+            >
+                <button
+                    type="button"
+                    onClick={copyLink}
+                    className={cn(
+                        ROW_CLASS,
+                        "h-11 gap-2.5 font-medium",
+                        copied && "bg-surface-sunken",
+                    )}
+                >
+                    {copied ? (
+                        <span
+                            aria-hidden="true"
+                            className="inline-flex size-5 items-center justify-center rounded-pill bg-oxblood text-on-oxblood"
                         >
-                            <div className="flex items-center gap-3 px-3 py-2 hover:bg-accent rounded-md cursor-pointer w-full">
-                                <Icon size={iconSize} round className="shrink-0" />
-                                <span className="font-medium text-sm">{name}</span>
-                            </div>
-                        </ShareButton>
-                    ))}
-                </div>
+                            <Check className="size-[11px]" strokeWidth={3} />
+                        </span>
+                    ) : (
+                        <Link2
+                            aria-hidden="true"
+                            className="size-[18px] text-ink-muted"
+                            strokeWidth={1.7}
+                        />
+                    )}
+                    <span role="status">{copied ? t("share.copied") : t("share.copyLink")}</span>
+                </button>
+                <span aria-hidden="true" className="mx-1 my-1.5 h-px bg-line-subtle" />
+                {SHARE_TARGETS.map(({ name, Button: ShareButton }) => (
+                    <ShareButton
+                        key={name}
+                        url={url}
+                        title={shareText}
+                        resetButtonStyle={false}
+                        className="w-full rounded-md text-left outline-none focus-visible:outline-2 focus-visible:outline-brass"
+                    >
+                        <span className={cn(ROW_CLASS, "h-10 justify-between")}>
+                            {name}
+                            <ArrowUpRight
+                                aria-hidden="true"
+                                className="size-3.5 text-ink-muted"
+                                strokeWidth={1.8}
+                            />
+                        </span>
+                    </ShareButton>
+                ))}
             </PopoverContent>
         </Popover>
     );

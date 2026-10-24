@@ -35,7 +35,7 @@ export function useDealerProducts(
                     sort: "updated",
                     order: "desc",
                     listingSourceId: [listingSourceId],
-                    excludeProductId: [excludeProductListingId],
+                    excludeProductListingId: [excludeProductListingId],
                 },
             });
 

@@ -143,9 +143,9 @@ describe("PersonalDataForm", () => {
         const user = userEvent.setup();
         renderWithQueryClient(<PersonalDataForm />);
 
-        await user.click(screen.getByRole("button", { name: "Währung" }));
+        await user.click(screen.getByRole("button", { name: /^Währung/ }));
         expect(screen.getAllByRole("option")).toHaveLength(30);
-        await user.click(screen.getByRole("option", { name: "SEK - Schwedische Krone" }));
+        await user.click(screen.getByRole("option", { name: /Schwedische Krone/ }));
         await user.click(screen.getByRole("button", { name: /änderungen speichern/i }));
 
         await waitFor(() =>

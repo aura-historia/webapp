@@ -1,4 +1,4 @@
-import { act, screen } from "@testing-library/react";
+import { act, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { CreateSearchFilterWizard } from "../CreateSearchFilterWizard.tsx";
@@ -57,13 +57,9 @@ vi.mock("@/features/search/common/components/SearchFilterFormProvider.tsx", () =
 vi.mock("@/features/search/products/components/filters/MerchantFilters.tsx", () => ({
     MerchantFilters: () => <div data-testid="merchant-filter" />,
 }));
-vi.mock("@/features/search/products/components/filters/AuctionDateSpanFilter.tsx", () => ({
+vi.mock("@/features/search/products/components/filters/DateSpanFilter.tsx", () => ({
     AuctionDateSpanFilter: () => <div data-testid="auction-date-filter" />,
-}));
-vi.mock("@/features/search/products/components/filters/CreationDateSpanFilter.tsx", () => ({
     CreationDateSpanFilter: () => <div data-testid="creation-date-filter" />,
-}));
-vi.mock("@/features/search/products/components/filters/UpdateDateSpanFilter.tsx", () => ({
     UpdateDateSpanFilter: () => <div data-testid="update-date-filter" />,
 }));
 
@@ -98,7 +94,7 @@ describe("CreateSearchFilterWizard", () => {
                     <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
                 ),
             );
-            expect(screen.getAllByText("Neuen Suchauftrag anlegen").length).toBeGreaterThan(0);
+            expect(screen.getByRole("dialog", { name: "Suchauftrag anlegen" })).toBeInTheDocument();
         });
 
         it("renders edit title in edit mode", async () => {
@@ -112,7 +108,9 @@ describe("CreateSearchFilterWizard", () => {
                     />,
                 ),
             );
-            expect(screen.getAllByText("Suchauftrag bearbeiten").length).toBeGreaterThan(0);
+            expect(
+                screen.getByRole("dialog", { name: "Suchauftrag bearbeiten" }),
+            ).toBeInTheDocument();
         });
 
         it("renders duplicate title in duplicate mode", async () => {
@@ -126,7 +124,9 @@ describe("CreateSearchFilterWizard", () => {
                     />,
                 ),
             );
-            expect(screen.getAllByText("Suchauftrag duplizieren").length).toBeGreaterThan(0);
+            expect(
+                screen.getByRole("dialog", { name: "Suchauftrag duplizieren" }),
+            ).toBeInTheDocument();
         });
 
         it("renders name and query input fields on step 1", async () => {
@@ -147,7 +147,103 @@ describe("CreateSearchFilterWizard", () => {
                     <CreateSearchFilterWizard open={false} onOpenChange={vi.fn()} mode="create" />,
                 ),
             );
-            expect(screen.queryAllByText("Neuen Suchauftrag anlegen")).toHaveLength(0);
+            expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+        });
+
+        it("renders the step header with the step count, title and description", async () => {
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
+                ),
+            );
+            expect(screen.getAllByText(/Schritt 1 von 5/).length).toBeGreaterThan(0);
+            expect(
+                screen.getByRole("heading", { level: 3, name: "Suchbegriff & Name" }),
+            ).toBeInTheDocument();
+            expect(
+                screen.getByText(
+                    "Geben Sie Ihrem Suchauftrag einen Namen und die Begriffe, nach denen er suchen soll.",
+                ),
+            ).toBeInTheDocument();
+        });
+
+        it("renders a stepper with all five steps, marking the current one", async () => {
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
+                ),
+            );
+            const stepper = screen.getByRole("list", { name: "Schritte" });
+            const steps = within(stepper).getAllByRole("button");
+            expect(steps).toHaveLength(5);
+            expect(steps[0]).toHaveAttribute("aria-current", "step");
+            expect(steps[0]).toHaveTextContent("Suchbegriff & Name");
+            expect(steps[4]).toHaveTextContent("Zusammenfassung");
+        });
+
+        it("reports the progress of the current step", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard
+                        open
+                        onOpenChange={vi.fn()}
+                        mode="edit"
+                        filter={mockFilter}
+                    />,
+                ),
+            );
+            const progress = screen.getByRole("progressbar", { name: "Fortschritt" });
+            expect(progress).toHaveAttribute("aria-valuenow", "1");
+            await user.click(screen.getByRole("button", { name: /^Weiter$/i }));
+            expect(progress).toHaveAttribute("aria-valuenow", "2");
+        });
+
+        it("jumps to a step from the stepper", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard
+                        open
+                        onOpenChange={vi.fn()}
+                        mode="edit"
+                        filter={mockFilter}
+                    />,
+                ),
+            );
+            const stepper = screen.getByRole("list", { name: "Schritte" });
+            await user.click(within(stepper).getByRole("button", { name: /Zusammenfassung/ }));
+            expect(screen.getByTestId("confirm-step")).toBeInTheDocument();
+            expect(within(stepper).getAllByRole("button")[4]).toHaveAttribute(
+                "aria-current",
+                "step",
+            );
+        });
+
+        it("does not jump past step 1 from the stepper while step 1 is invalid", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
+                ),
+            );
+            const stepper = screen.getByRole("list", { name: "Schritte" });
+            await user.click(within(stepper).getByRole("button", { name: /Zusammenfassung/ }));
+            expect(screen.queryByTestId("confirm-step")).not.toBeInTheDocument();
+        });
+
+        it("closes from the close buttons", async () => {
+            const user = userEvent.setup();
+            const onOpenChange = vi.fn();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard open onOpenChange={onOpenChange} mode="create" />,
+                ),
+            );
+            const closeButtons = screen.getAllByRole("button", { name: "Schließen" });
+            expect(closeButtons).toHaveLength(2);
+            await user.click(closeButtons[0]);
+            expect(onOpenChange).toHaveBeenCalledWith(false);
         });
     });
 
@@ -408,7 +504,10 @@ describe("CreateSearchFilterWizard", () => {
             );
             await navigateToConfirmStep(user);
             expect(screen.queryByRole("button", { name: /^Weiter$/i })).not.toBeInTheDocument();
-            expect(screen.getByRole("button", { name: /^Speichern$/i })).toBeInTheDocument();
+            expect(screen.queryByRole("button", { name: /^Speichern$/i })).not.toBeInTheDocument();
+            expect(
+                screen.getByRole("button", { name: "Suchauftrag speichern" }),
+            ).toBeInTheDocument();
         });
 
         it("does not save when form is invalid on step 1", async () => {

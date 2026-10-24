@@ -16,10 +16,6 @@ vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: vi.fn(), inView: false }),
 }));
 
-vi.mock("lottie-react", () => ({
-    Lottie: () => <div data-testid="lottie-animation" />,
-}));
-
 vi.mock("@tanstack/react-router", async (importOriginal) => {
     const actual = await importOriginal<typeof import("@tanstack/react-router")>();
     return {
@@ -29,14 +25,6 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
         ),
     };
 });
-
-vi.mock("@/features/watchlist/components/NotificationButton", () => ({
-    NotificationButton: () => (
-        <button type="button" data-testid="notification-button">
-            Notification
-        </button>
-    ),
-}));
 
 const mockUseShopProducts = vi.mocked(useShopProducts);
 

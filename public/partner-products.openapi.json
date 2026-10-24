@@ -6,7 +6,7 @@
     "description": "Synchronous listing-source batch writes and server-to-server WooCommerce webhooks. Use product-listings:write and a current grant for the target listing source. Batch HTTP 200 reports completed writes; WooCommerce HTTP 204 only acknowledges confirmed admission or an authorized no-op, not completed ingestion."
   },
   "x-source-url": "https://raw.githubusercontent.com/aura-historia/backend/refs/heads/develop/docs/swagger.yaml",
-  "x-source-contract-sha256": "90a32cb7afaaed3fc12a30907eba7bfd32ce276d6a73bc9112696f44735ff2b5",
+  "x-source-contract-sha256": "a1b2ae5185cbdd87a6157a7a4c002801b82ad80e23516c864c8f4a666228826d",
   "servers": [
     {
       "url": "https://api.stage.aura-historia.com",
@@ -21,7 +21,7 @@
     "/api/v1/listing-sources/{listingSourceId}/product-listings": {
       "post": {
         "summary": "Batch create product-listings (Partner API)",
-        "description": "Creates one or more product-listings for a listing source using bearer authentication.\nThis endpoint is intended for partnerships and accepts:\n- a Cognito bearer token for the partner user linked to the listing source, or\n- an Aura Historia access token owned by that partner user.\n\nAura Historia access tokens on this endpoint must include the `product-listings:write` scope.\nAllowed callers are Aura Historia admins and users partnered with the target listing source.\n\nThe request body is an array of `CreateProductListingData` objects. Each entry is created\nsynchronously in its own PostgreSQL transaction.\nLocalized `title` and `description` are optional. Omit or send `null` when the source has no value to record.\n\nThe response returns HTTP 200 with failures as `{ listingSourceId, sourceListingId, error }` objects when\none or more entries succeed. `error` is the stable API error key for that entry. If every non-empty entry fails, the first failure is returned\nas a problem response. An empty array is accepted and returns `[]`.\n",
+        "description": "Creates one or more product-listings for a listing source using bearer authentication.\nThis endpoint is intended for partnerships and accepts:\n- a Cognito bearer token for the partner user linked to the listing source, or\n- an Aura Historia access token owned by that partner user.\n\nAura Historia access tokens on this endpoint must include the `product-listings:write` scope.\nThe caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.\n\nThe request body is an array of `CreateProductListingData` objects. Each entry is created\nsynchronously in its own PostgreSQL transaction.\nLocalized `title` and `description` are optional. Omit or send `null` when the source has no value to record.\n\nThe response returns HTTP 200 with failures as `{ listingSourceId, sourceListingId, error }` objects when\none or more entries succeed. `error` is the stable API error key for that entry. If every non-empty entry fails, the first failure is returned\nas a problem response. An empty array is accepted and returns `[]`.\n",
         "operationId": "postPartnerProductListings",
         "tags": [
           "ProductListings"
@@ -122,7 +122,7 @@
             }
           },
           "400": {
-            "description": "Bad request \u2014 request body is missing, empty, or contains invalid JSON",
+            "description": "Bad request (`BAD_BODY_VALUE`) \u2014 the body is missing, empty, invalid JSON or violates the batch contract, or every entry failed and the first failure was an invalid product-listing write.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -184,7 +184,7 @@
             }
           },
           "403": {
-            "description": "Forbidden \u2014 the authenticated caller is not allowed to ingest product-listings for this listing source",
+            "description": "Forbidden \u2014 the caller has no Partnership grant for this listing source (administrator role alone is insufficient), or the access token lacks `product-listings:write`.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -199,7 +199,7 @@
             }
           },
           "404": {
-            "description": "Not found \u2014 the specified listing source does not exist",
+            "description": "Not found \u2014 the listing source (`LISTING_SOURCE_NOT_FOUND`) or the referenced Auction (`AUCTION_NOT_FOUND`) does not exist",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -213,8 +213,23 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict \u2014 the first failed entry's source listing key already exists for this listing source, or its Auction belongs to another listing source (`CONFLICT`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 409,
+                  "title": "Conflict",
+                  "error": "CONFLICT"
+                }
+              }
+            }
+          },
           "503": {
-            "description": "Service unavailable \u2014 all entries encountered a temporary product-write failure",
+            "description": "Service unavailable \u2014 the first failure was temporary (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE` or `AUCTION_TEMPORARILY_UNAVAILABLE`).",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -247,7 +262,7 @@
       },
       "patch": {
         "summary": "Batch update product-listings (Partner API)",
-        "description": "Updates one or more existing product-listings for a listing source using bearer authentication.\nThis endpoint is intended for partnerships and accepts:\n- a Cognito bearer token for the partner user linked to the listing source, or\n- an Aura Historia access token owned by that partner user.\n\nAura Historia access tokens on this endpoint must include the `product-listings:write` scope.\nAllowed callers are Aura Historia admins and users partnered with the target listing source.\n\nThe request body is an array of `UpdateProductListingData` objects. Omitted fields are unchanged;\n`null` clears availability and price. Omit `auction` to preserve its context; `auction: null`, `url: null`,\nand `images: null` return `400 BAD_BODY_VALUE`; send `[]` to remove all images. Within an asserted `auction`,\nomit a leaf to preserve it, send `null` to clear a clearable lot/timing leaf, or send a value to set it.\n`auction.auctionId` must name an existing Auction for this ListingSource. Omit it to preserve membership, send\n`null` to clear membership, or send an ID to set it. The complete batch contract is\nvalidated before any entry is applied synchronously in its own PostgreSQL transaction.\n\nThe response returns HTTP 200 with failures as `{ listingSourceId, sourceListingId, error }` objects when\none or more entries succeed. `error` is the stable API error key for that entry. If every non-empty entry fails, the first failure is returned\nas a problem response. An empty array is accepted and returns `[]`.\n",
+        "description": "Updates one or more existing product-listings for a listing source using bearer authentication.\nThis endpoint is intended for partnerships and accepts:\n- a Cognito bearer token for the partner user linked to the listing source, or\n- an Aura Historia access token owned by that partner user.\n\nAura Historia access tokens on this endpoint must include the `product-listings:write` scope.\nThe caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.\n\nThe request body is an array of `UpdateProductListingData` objects. Omitted fields are unchanged;\n`null` clears availability and price. Omit `auction` to preserve its context; `auction: null`, `url: null`,\nand `images: null` return `400 BAD_BODY_VALUE`; send `[]` to remove all images. Within an asserted `auction`,\nomit a leaf to preserve it, send `null` to clear a clearable lot/timing leaf, or send a value to set it.\n`auction.auctionId` must name an existing Auction for this ListingSource. Omit it to preserve membership, send\n`null` to clear membership, or send an ID to set it. The complete batch contract is\nvalidated before any entry is applied synchronously in its own PostgreSQL transaction.\n\nThe response returns HTTP 200 with failures as `{ listingSourceId, sourceListingId, error }` objects when\none or more entries succeed. `error` is the stable API error key for that entry. If every non-empty entry fails, the first failure is returned\nas a problem response. An empty array is accepted and returns `[]`.\n",
         "operationId": "patchPartnerProductListings",
         "tags": [
           "ProductListings"
@@ -339,7 +354,7 @@
             }
           },
           "400": {
-            "description": "Bad request \u2014 request body is missing, empty, or contains invalid JSON",
+            "description": "Bad request (`BAD_BODY_VALUE`) \u2014 the body is missing, empty, invalid JSON or violates the batch contract, or every entry failed and the first failure was an invalid product-listing write.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -401,7 +416,7 @@
             }
           },
           "403": {
-            "description": "Forbidden \u2014 the authenticated caller is not allowed to ingest product-listings for this listing source",
+            "description": "Forbidden \u2014 the caller has no Partnership grant for this listing source (administrator role alone is insufficient), or the access token lacks `product-listings:write`.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -416,7 +431,7 @@
             }
           },
           "404": {
-            "description": "Not found \u2014 the specified listing source does not exist",
+            "description": "Not found \u2014 the listing source (`LISTING_SOURCE_NOT_FOUND`), product listing (`PRODUCT_LISTING_NOT_FOUND`) or referenced Auction (`AUCTION_NOT_FOUND`) does not exist",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -430,8 +445,23 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict \u2014 the first failed entry's product listing is withdrawn, or its Auction belongs to another listing source (`CONFLICT`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 409,
+                  "title": "Conflict",
+                  "error": "CONFLICT"
+                }
+              }
+            }
+          },
           "503": {
-            "description": "Service unavailable \u2014 all entries encountered a temporary product-write failure",
+            "description": "Service unavailable \u2014 the first failure was temporary (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE` or `AUCTION_TEMPORARILY_UNAVAILABLE`).",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -464,7 +494,7 @@
       },
       "put": {
         "summary": "Batch upsert product-listings (Partner API)",
-        "description": "Creates new product-listings or updates existing ones for a listing source in a single batch call,\nusing bearer authentication. This endpoint is intended for partnerships and accepts:\n- a Cognito bearer token for the partner user linked to the listing source, or\n- an Aura Historia access token owned by that partner user.\n\nAura Historia access tokens on this endpoint must include the `product-listings:write` scope.\nAllowed callers are Aura Historia admins and users partnered with the target listing source.\n\nThe request body is an array of `UpsertProductListingData` objects. Each entry is upserted\nsynchronously in its own PostgreSQL transaction. For each entry:\n- **New listing** \u2014 omitted or `null` availability, price, and estimates create no value; `auction` is omitted or an asserted nested Auction/lot-facts patch (not `null`).\n- **Existing listing** \u2014 availability, price, and each price estimate\n  are tri-state: omitted preserves, `null` clears, and a concrete value replaces. Omit `auction` to preserve it; `auction: null` is invalid. Within an asserted Auction/lot-facts patch, each lot/timing leaf is tri-state: omit to preserve, `null` to clear clearable leaves, or provide a value to set. `auctionId` must name an existing Auction for this ListingSource; omit it to preserve membership, send `null` to clear it, or send an ID to set it. A withdrawn\n  listing is restored before current facts apply.\n- `title` and `description` apply only on creation. For an\n  existing listing they preserve current state and emit no current-state history event.\n- `images` is separate: omit to preserve, send `[]` to clear, or send an array to replace.\n  `null` is invalid. `url` is non-clearable: omit or send `null` to preserve it; send a URL\n  value to replace it.\n\nThe response returns HTTP 200 with failures as `{ listingSourceId, sourceListingId, error }` objects when\none or more entries succeed. `error` is the stable API error key for that entry. If every non-empty entry fails, the first failure is returned\nas a problem response. An empty array is accepted and returns `[]`.\n",
+        "description": "Creates new product-listings or updates existing ones for a listing source in a single batch call,\nusing bearer authentication. This endpoint is intended for partnerships and accepts:\n- a Cognito bearer token for the partner user linked to the listing source, or\n- an Aura Historia access token owned by that partner user.\n\nAura Historia access tokens on this endpoint must include the `product-listings:write` scope.\nThe caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access.\nAdministrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run\nper entry, so an authenticated empty array returns `[]` without them.\n\nThe request body is an array of `UpsertProductListingData` objects. Each entry is upserted\nsynchronously in its own PostgreSQL transaction. For each entry:\n- **New listing** \u2014 omitted or `null` availability, price, and estimates create no value; `auction` is omitted or an asserted nested Auction/lot-facts patch (not `null`).\n- **Existing listing** \u2014 availability, price, and each price estimate\n  are tri-state: omitted preserves, `null` clears, and a concrete value replaces. Omit `auction` to preserve it; `auction: null` is invalid. Within an asserted Auction/lot-facts patch, each lot/timing leaf is tri-state: omit to preserve, `null` to clear clearable leaves, or provide a value to set. `auctionId` must name an existing Auction for this ListingSource; omit it to preserve membership, send `null` to clear it, or send an ID to set it. A withdrawn\n  listing is restored before current facts apply.\n- `title` and `description` apply only on creation. For an\n  existing listing they preserve current state and emit no current-state history event.\n- `images` is separate: omit to preserve, send `[]` to clear, or send an array to replace.\n  `null` is invalid. `url` is non-clearable: omit or send `null` to preserve it; send a URL\n  value to replace it.\n\nThe response returns HTTP 200 with failures as `{ listingSourceId, sourceListingId, error }` objects when\none or more entries succeed. `error` is the stable API error key for that entry. If every non-empty entry fails, the first failure is returned\nas a problem response. An empty array is accepted and returns `[]`.\n",
         "operationId": "putPartnerProductListings",
         "tags": [
           "ProductListings"
@@ -609,7 +639,7 @@
             }
           },
           "400": {
-            "description": "Bad request \u2014 request body is missing, empty, or contains invalid JSON",
+            "description": "Bad request (`BAD_BODY_VALUE`) \u2014 the body is missing, empty, invalid JSON or violates the batch contract, or every entry failed and the first failure was an invalid product-listing write.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -671,7 +701,7 @@
             }
           },
           "403": {
-            "description": "Forbidden \u2014 the authenticated caller is not allowed to ingest product-listings for this listing source",
+            "description": "Forbidden \u2014 the caller has no Partnership grant for this listing source (administrator role alone is insufficient), or the access token lacks `product-listings:write`.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -686,7 +716,7 @@
             }
           },
           "404": {
-            "description": "Not found \u2014 the specified listing source does not exist",
+            "description": "Not found \u2014 the listing source (`LISTING_SOURCE_NOT_FOUND`) or the referenced Auction (`AUCTION_NOT_FOUND`) does not exist",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -700,8 +730,23 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict \u2014 the first failed entry conflicts with current state, such as an Auction that belongs to another listing source (`CONFLICT`)",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 409,
+                  "title": "Conflict",
+                  "error": "CONFLICT"
+                }
+              }
+            }
+          },
           "503": {
-            "description": "Service unavailable \u2014 all entries encountered a temporary product-write failure",
+            "description": "Service unavailable \u2014 the first failure was temporary (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE` or `AUCTION_TEMPORARILY_UNAVAILABLE`).",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -734,7 +779,7 @@
       },
       "delete": {
         "summary": "Batch delete product-listings (Partner API)",
-        "description": "Soft-deletes product-listings for a listing source. Each entry writes its product lifecycle delete event and\nmaterialized PostgreSQL state synchronously in its own transaction.\n\nAllowed callers are Aura Historia admins and users partnered with the target listing source. Aura\nHistoria access tokens must include the `product-listings:write` scope.\n\nThe request body is an array of product identifiers. The response returns HTTP 200 with\nfailures as `{ listingSourceId, sourceListingId, error }` objects when one or more entries succeed.\n`error` is the stable API error key for that entry. If every non-empty entry fails, the first\nfailure is returned as a problem response. An empty array is accepted and returns `[]`.\n",
+        "description": "Soft-deletes product-listings for a listing source. Each entry writes its product lifecycle delete event and\nmaterialized PostgreSQL state synchronously in its own transaction.\n\nThe caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.\nAura Historia access tokens must include the `product-listings:write` scope.\n\nThe request body is an array of product identifiers. The response returns HTTP 200 with\nfailures as `{ listingSourceId, sourceListingId, error }` objects when one or more entries succeed.\n`error` is the stable API error key for that entry. If every non-empty entry fails, the first\nfailure is returned as a problem response. An empty array is accepted and returns `[]`.\n",
         "operationId": "deletePartnerProductListings",
         "tags": [
           "ProductListings"
@@ -825,7 +870,7 @@
             }
           },
           "403": {
-            "description": "Forbidden \u2014 caller is neither admin nor partnered with this listing source, or the access token lacks `product-listings:write`.",
+            "description": "Forbidden \u2014 caller has no Partnership grant for this listing source (administrator role alone is insufficient), or the access token lacks `product-listings:write`.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -835,7 +880,7 @@
             }
           },
           "404": {
-            "description": "Not found \u2014 the specified listing source or product does not exist.",
+            "description": "Not found \u2014 the listing source (`LISTING_SOURCE_NOT_FOUND`) or product listing (`PRODUCT_LISTING_NOT_FOUND`) does not exist.",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -845,7 +890,7 @@
             }
           },
           "503": {
-            "description": "Service unavailable \u2014 all entries encountered a temporary product-write failure.",
+            "description": "Service unavailable \u2014 the first failure was temporary (`PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`).",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -1972,7 +2017,7 @@
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT",
-        "description": "Cognito JWT bearer token.\nThis scheme is used for authenticated user routes and for partner routes that accept Cognito user tokens.\n"
+        "description": "Cognito access JWT bearer token. Signature, issuer, client, token use and expiry\nare validated locally. Signed integer `auth_time` and `iat` claims are required;\nsessions authenticated at or before the persisted local revocation cutoff are rejected.\nThis check shares the existing identity lookup and makes no live Cognito status request.\nRevocation requested only in Cognito is not observed immediately; already-issued JWTs\ncan remain accepted until expiry. Use the administrator session-revocation endpoint\nfor immediate local enforcement. Database authentication failures return\n`503 AUTH_TEMPORARILY_UNAVAILABLE`.\nThis scheme is used for authenticated user routes and for partner routes that accept Cognito user tokens.\n"
       }
     }
   },

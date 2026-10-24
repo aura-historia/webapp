@@ -1,21 +1,21 @@
 export const HOW_IT_WORKS_STEPS = [
     {
-        number: "1",
+        numeral: "I",
         titleKey: "landingPage.howItWorks.step1.title",
         descKey: "landingPage.howItWorks.step1.description",
     },
     {
-        number: "2",
+        numeral: "II",
         titleKey: "landingPage.howItWorks.step2.title",
         descKey: "landingPage.howItWorks.step2.description",
     },
     {
-        number: "3",
+        numeral: "III",
         titleKey: "landingPage.howItWorks.step3.title",
         descKey: "landingPage.howItWorks.step3.description",
     },
     {
-        number: "4",
+        numeral: "IV",
         titleKey: "landingPage.howItWorks.step4.title",
         descKey: "landingPage.howItWorks.step4.description",
     },

@@ -10,16 +10,15 @@ describe("FAQSection", () => {
         });
     });
 
-    it("renders the section heading", () => {
-        expect(screen.getByText("Häufige Fragen")).toBeInTheDocument();
-    });
-
-    it("renders the section subtitle", () => {
-        expect(
-            screen.getByText(
-                "Das Wichtigste darüber, wie Aura Historia den globalen Antiquitätenmarkt übersichtlicher macht.",
-            ),
-        ).toBeInTheDocument();
+    it("renders the chapter heading and the contact address", () => {
+        expect(screen.getByText("VII — Fragen")).toBeInTheDocument();
+        expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
+            "Gefragt, und beantwortet.",
+        );
+        expect(screen.getByRole("link", { name: "contact@aura-historia.com" })).toHaveAttribute(
+            "href",
+            "mailto:contact@aura-historia.com",
+        );
     });
 
     it("renders all FAQ questions", () => {
@@ -40,25 +39,34 @@ describe("FAQSection", () => {
         expect(screen.getByText("Ist Aura Historia eine Preisdatenbank?")).toBeInTheDocument();
     });
 
-    it("expands accordion item when clicked", async () => {
-        const user = userEvent.setup();
-        const firstQuestion = screen.getByText("Was ist Aura Historia?");
-
-        await user.click(firstQuestion);
-
-        expect(screen.getByText(/Aura Historia ist eine globale Plattform/)).toBeInTheDocument();
+    it("opens the first answer by default", () => {
+        expect(screen.getByRole("button", { name: /Was ist Aura Historia\?/ })).toHaveAttribute(
+            "aria-expanded",
+            "true",
+        );
+        expect(screen.getByText(/Aura Historia ist eine globale Plattform/)).toBeVisible();
     });
 
-    it("collapses accordion item when clicked again", async () => {
+    it("keeps one answer open at a time", async () => {
         const user = userEvent.setup();
-        const firstQuestion = screen.getByText("Was ist Aura Historia?");
+        const first = screen.getByRole("button", { name: /Was ist Aura Historia\?/ });
+        const second = screen.getByRole("button", {
+            name: /Kann ich direkt über Aura Historia kaufen\?/,
+        });
 
-        // Open
-        await user.click(firstQuestion);
-        expect(firstQuestion).toHaveAttribute("data-state", "open");
+        await user.click(second);
 
-        // Close
-        await user.click(firstQuestion);
-        expect(firstQuestion).toHaveAttribute("data-state", "closed");
+        expect(second).toHaveAttribute("aria-expanded", "true");
+        expect(first).toHaveAttribute("aria-expanded", "false");
+        expect(screen.getByText(/Aura Historia ist eine globale Plattform/)).not.toBeVisible();
+    });
+
+    it("closes an open answer when clicked again", async () => {
+        const user = userEvent.setup();
+        const first = screen.getByRole("button", { name: /Was ist Aura Historia\?/ });
+
+        await user.click(first);
+
+        expect(first).toHaveAttribute("aria-expanded", "false");
     });
 });

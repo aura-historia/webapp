@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { SearchFilterMatches } from "../SearchFilterMatches.tsx";
@@ -16,22 +16,10 @@ vi.mock("react-intersection-observer", () => ({
     useInView: () => ({ ref: observedRef, inView: false }),
 }));
 
-vi.mock("lottie-react", () => ({
-    Lottie: () => <div data-testid="lottie-animation" />,
-}));
-
 vi.mock("@/features/saved-searches/components/match/SearchFilterMatchCard.tsx", () => ({
     SearchFilterMatchCard: ({ product }: { product: ProductListing }) => (
         <div data-testid="search-filter-match-card">{product.title}</div>
     ),
-}));
-
-vi.mock("@/features/product/catalog/components/cards/HiddenMatchCard.tsx", () => ({
-    HiddenMatchCard: () => <div data-testid="hidden-match-card" />,
-}));
-
-vi.mock("@/features/product/catalog/components/cards/ProductCardSkeleton.tsx", () => ({
-    ProductCardSkeleton: () => <div data-testid="product-card-skeleton" />,
 }));
 
 vi.mock("@tanstack/react-router", async (importOriginal) => {
@@ -68,6 +56,7 @@ type MatchesMockOptions = {
     error?: Error | null;
     hasNextPage?: boolean;
     isFetchingNextPage?: boolean;
+    refetch?: () => void;
 };
 
 function setMatchesMock({
@@ -77,6 +66,7 @@ function setMatchesMock({
     error = null,
     hasNextPage = false,
     isFetchingNextPage = false,
+    refetch = vi.fn(),
 }: MatchesMockOptions = {}) {
     const resolvedTotal = total ?? products.length;
     mockUseSearchFilterMatchedProducts.mockReturnValue({
@@ -91,6 +81,7 @@ function setMatchesMock({
         fetchNextPage: vi.fn(),
         hasNextPage,
         isFetchingNextPage,
+        refetch,
     });
 }
 
@@ -104,55 +95,83 @@ describe("SearchFilterMatches", () => {
         setMatchesMock({ products: [buildProduct()], hasNextPage: true });
         renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
         expect(observedRef).toHaveBeenCalledWith(expect.any(HTMLElement));
-        expect(screen.queryByText("Alle Produkte geladen")).not.toBeInTheDocument();
+        expect(screen.queryByTestId("list-loader-check")).not.toBeInTheDocument();
     });
 
     it("keeps observing an empty page when its cursor has more matches", () => {
         setMatchesMock({ products: [], hasNextPage: true });
         renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
         expect(observedRef).toHaveBeenCalledWith(expect.any(HTMLElement));
-        expect(screen.queryByText("Keine Treffer gefunden")).not.toBeInTheDocument();
+        expect(
+            screen.queryByRole("heading", { name: "Noch keine Treffer." }),
+        ).not.toBeInTheDocument();
     });
 
     describe("Loading state", () => {
         it("renders skeleton cards while matches are loading", () => {
             setMatchesMock({ isPending: true });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getAllByTestId("product-card-skeleton")).toHaveLength(4);
+            expect(screen.getByRole("status")).toHaveTextContent("Treffer werden geladen");
+            expect(screen.getAllByTestId("search-result-skeleton")).toHaveLength(4);
+        });
+
+        it("does not show the match count while loading", () => {
+            setMatchesMock({ isPending: true });
+            renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
+            expect(screen.queryByText(/Produkte?$/)).not.toBeInTheDocument();
         });
     });
 
     describe("Error state", () => {
-        it("renders error EmptyState when matches fail to load", () => {
+        it("renders an error panel when matches fail to load", () => {
             setMatchesMock({ error: new Error("fetch failed") });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getByText("Fehler beim Laden")).toBeInTheDocument();
+            expect(screen.getByRole("alert")).toBeInTheDocument();
+            expect(
+                screen.getByRole("heading", { name: "Treffer nicht verfügbar." }),
+            ).toBeInTheDocument();
             expect(
                 screen.getByText(
-                    "Die Suchaufträge konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+                    "Die Treffer konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
                 ),
             ).toBeInTheDocument();
+        });
+
+        it("retries loading the matches", () => {
+            const refetch = vi.fn();
+            setMatchesMock({ error: new Error("fetch failed"), refetch });
+            renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
+            fireEvent.click(screen.getByRole("button", { name: "Erneut versuchen" }));
+            expect(refetch).toHaveBeenCalledTimes(1);
         });
     });
 
     describe("Empty state", () => {
-        it("renders no-matches EmptyState when there are no products", () => {
+        it("renders the no-matches panel when there are no products", () => {
             setMatchesMock({ products: [], total: 0 });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getByText("Keine Treffer gefunden")).toBeInTheDocument();
+            expect(
+                screen.getByRole("heading", { name: "Noch keine Treffer." }),
+            ).toBeInTheDocument();
             expect(
                 screen.getByText(
-                    "Für diesen Suchauftrag gibt es momentan keine passenden Produkte.",
+                    "Für diesen Suchauftrag wurden noch keine passenden Objekte gefunden. Passen Sie den Suchauftrag gegebenenfalls an.",
                 ),
             ).toBeInTheDocument();
         });
 
-        it("renders a link back to search filters in the empty state", () => {
+        it("offers editing the filter when onEdit is given", () => {
+            const onEdit = vi.fn();
+            setMatchesMock({ products: [], total: 0 });
+            renderWithQueryClient(<SearchFilterMatches filterId="filter-1" onEdit={onEdit} />);
+            fireEvent.click(screen.getByRole("button", { name: "Suchauftrag bearbeiten" }));
+            expect(onEdit).toHaveBeenCalledTimes(1);
+        });
+
+        it("omits the edit button without onEdit", () => {
             setMatchesMock({ products: [], total: 0 });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(
-                screen.getByRole("link", { name: "Zurück zu den Suchaufträgen" }),
-            ).toBeInTheDocument();
+            expect(screen.queryByRole("button")).not.toBeInTheDocument();
         });
     });
 
@@ -171,7 +190,7 @@ describe("SearchFilterMatches", () => {
             expect(screen.getByText("Vase 2")).toBeInTheDocument();
         });
 
-        it("renders HiddenMatchCard instead of a product card for hidden products", () => {
+        it("renders the hidden match card instead of a product card for hidden products", () => {
             setMatchesMock({
                 products: [
                     buildProduct({ productListingId: "p1", title: "Sichtbar" }),
@@ -193,13 +212,18 @@ describe("SearchFilterMatches", () => {
             });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
             expect(screen.getByTestId("search-filter-match-card")).toBeInTheDocument();
-            expect(screen.getByTestId("hidden-match-card")).toBeInTheDocument();
+            expect(
+                screen.getByRole("article", { name: "Verborgener Treffer" }),
+            ).toBeInTheDocument();
+            expect(screen.queryByText("Verborgen")).not.toBeInTheDocument();
         });
 
         it("renders the section heading", () => {
             setMatchesMock({ products: [buildProduct()], total: 1 });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getByText("Gefundene Produkte")).toBeInTheDocument();
+            expect(
+                screen.getByRole("heading", { level: 2, name: "Gefundene Objekte." }),
+            ).toBeInTheDocument();
         });
 
         it("renders the total product count", () => {
@@ -218,7 +242,8 @@ describe("SearchFilterMatches", () => {
                 isFetchingNextPage: false,
             });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getByTestId("lottie-animation")).toBeInTheDocument();
+            expect(screen.getByTestId("list-loader-check")).toBeInTheDocument();
+            expect(screen.getByText("Sie haben 1 Treffer gesehen.")).toBeInTheDocument();
         });
 
         it("shows loading-more indicator when fetching the next page", () => {
@@ -229,7 +254,8 @@ describe("SearchFilterMatches", () => {
                 isFetchingNextPage: true,
             });
             renderWithQueryClient(<SearchFilterMatches filterId="filter-1" />);
-            expect(screen.getByText("Lade neue Ergebnisse...")).toBeInTheDocument();
+            expect(screen.getByRole("status")).toHaveTextContent("Weitere Treffer werden geladen…");
+            expect(screen.getByText("1 von 10")).toBeInTheDocument();
         });
     });
 });

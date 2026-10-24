@@ -43,7 +43,7 @@ describe("FederatedAuthOptions", () => {
             locale: "fr",
             redirectPath: "/de/me/watchlist?sort=recent",
         });
-        expect(screen.getByText("oder")).toBeInTheDocument();
+        expect(screen.getByText("oder mit E-Mail")).toBeInTheDocument();
     });
 
     it("renders Facebook with its localized accessible label", async () => {

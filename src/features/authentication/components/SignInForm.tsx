@@ -11,11 +11,21 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { getAuthErrorMessage } from "@/features/authentication/lib/getAuthErrorMessage.ts";
 import { Spinner } from "@/components/ui/spinner";
 import { FederatedAuthOptions } from "@/features/authentication/components/FederatedAuthOptions.tsx";
+import { AuthFormAlert } from "@/features/authentication/components/AuthFormAlert.tsx";
+import { AuthFormHeader } from "@/features/authentication/components/AuthFormHeader.tsx";
+import { PasswordInput } from "@/features/authentication/components/PasswordInput.tsx";
+import {
+    AUTH_FIELD_CLASS,
+    AUTH_FIELD_MESSAGE_CLASS,
+    AUTH_FOOTER_CLASS,
+    AUTH_LABEL_CLASS,
+    AUTH_LINK_CLASS,
+    AUTH_PRIMARY_BUTTON_CLASS,
+} from "@/features/authentication/lib/authStyles.ts";
+import { cn } from "@/lib/utils.ts";
 
 const signInSchema = (t: ReturnType<typeof useTranslation>["t"]) =>
     z.object({
@@ -97,36 +107,40 @@ export function SignInForm({
     };
 
     return (
-        <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-1">
-                <h1 className="font-display text-2xl text-primary">{t("auth.signIn.title")}</h1>
-                <p className="text-sm text-muted-foreground">{t("auth.signIn.subtitle")}</p>
-            </div>
+        <div className="flex flex-col gap-7">
+            <AuthFormHeader
+                eyebrow={t("auth.signIn.eyebrow")}
+                titleKey="auth.signIn.title"
+                lead={t("auth.signIn.subtitle")}
+            />
 
             <FederatedAuthOptions intent="sign-in" locale={locale} redirect={redirect} />
 
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="flex flex-col gap-4"
+                    className="flex flex-col gap-5"
                     noValidate
                 >
                     <FormField
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>{t("auth.signIn.email")}</FormLabel>
+                            <FormItem className="gap-2">
+                                <FormLabel className={AUTH_LABEL_CLASS}>
+                                    {t("auth.signIn.email")}
+                                </FormLabel>
                                 <FormControl>
-                                    <Input
+                                    <input
                                         {...field}
                                         type="email"
                                         autoComplete="email"
                                         placeholder={t("auth.signIn.emailPlaceholder")}
-                                        className="h-11 bg-transparent"
+                                        disabled={form.formState.isSubmitting}
+                                        className={AUTH_FIELD_CLASS}
                                     />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className={AUTH_FIELD_MESSAGE_CLASS} />
                             </FormItem>
                         )}
                     />
@@ -135,60 +149,55 @@ export function SignInForm({
                         control={form.control}
                         name="password"
                         render={({ field }) => (
-                            <FormItem>
-                                <div className="flex items-center justify-between">
-                                    <FormLabel>{t("auth.signIn.password")}</FormLabel>
-                                    <Button
+                            <FormItem className="gap-2">
+                                <div className="flex items-baseline justify-between gap-3">
+                                    <FormLabel className={AUTH_LABEL_CLASS}>
+                                        {t("auth.signIn.password")}
+                                    </FormLabel>
+                                    <button
                                         type="button"
-                                        variant="link"
                                         onClick={onSwitchToResetPassword}
-                                        className="h-auto p-0 text-xs font-medium"
-                                        tabIndex={-1}
+                                        className={cn(
+                                            AUTH_LINK_CLASS,
+                                            "text-meta font-normal text-ink-secondary",
+                                        )}
                                     >
                                         {t("auth.signIn.forgotPassword")}
-                                    </Button>
+                                    </button>
                                 </div>
                                 <FormControl>
-                                    <Input
+                                    <PasswordInput
                                         {...field}
-                                        type="password"
                                         autoComplete="current-password"
                                         placeholder={t("auth.signIn.passwordPlaceholder")}
-                                        className="h-11 bg-transparent"
+                                        disabled={form.formState.isSubmitting}
                                     />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className={AUTH_FIELD_MESSAGE_CLASS} />
                             </FormItem>
                         )}
                     />
 
                     {form.formState.errors.root && (
-                        <p className="rounded-sm bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                            {form.formState.errors.root.message}
-                        </p>
+                        <AuthFormAlert>{form.formState.errors.root.message}</AuthFormAlert>
                     )}
 
-                    <Button
+                    <button
                         type="submit"
                         disabled={form.formState.isSubmitting}
-                        className="mt-2 w-full"
+                        className={cn(AUTH_PRIMARY_BUTTON_CLASS, "mt-1")}
                     >
-                        {form.formState.isSubmitting && <Spinner />}
+                        {form.formState.isSubmitting && <Spinner aria-hidden="true" />}
                         {t("auth.signIn.submit")}
-                    </Button>
+                    </button>
                 </form>
             </Form>
 
-            <p className="text-center text-sm text-muted-foreground">
+            <p className={AUTH_FOOTER_CLASS}>
                 {t("auth.signIn.noAccount")}{" "}
-                <Button
-                    type="button"
-                    variant="link"
-                    onClick={onSwitchToSignUp}
-                    className="h-auto p-0 font-medium"
-                >
+                <button type="button" onClick={onSwitchToSignUp} className={AUTH_LINK_CLASS}>
                     {t("auth.signIn.signUpLink")}
-                </Button>
+                </button>
             </p>
         </div>
     );
