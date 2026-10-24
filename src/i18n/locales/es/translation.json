@@ -771,19 +771,14 @@
       "searchSubmit": "Buscar en el mercado",
       "stats": {
         "sourcesIndexed_one": "Fuente indexada",
-        "sourcesIndexed_many": "Fuentes indexadas",
         "sourcesIndexed_other": "Fuentes indexadas",
         "liveObjects_one": "Objeto activo",
-        "liveObjects_many": "Objetos activos",
         "liveObjects_other": "Objetos activos",
         "countries_one": "País",
-        "countries_many": "Países",
         "countries_other": "Países",
         "languages_one": "Idioma comprendido",
-        "languages_many": "Idiomas comprendidos",
         "languages_other": "Idiomas comprendidos",
         "languagesShort_one": "Idioma",
-        "languagesShort_many": "Idiomas",
         "languagesShort_other": "Idiomas"
       }
     },
