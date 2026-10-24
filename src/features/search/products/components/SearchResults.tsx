@@ -152,7 +152,7 @@ export function SearchResults({
         <div>
             <div className={RESULT_GRID_CLASS}>
                 {allProducts.map((product) =>
-                    product.userState?.searchFilter.hidden === true ? (
+                    product.userState?.searchFilter?.hidden === true ? (
                         <SearchHiddenMatchCard key={product.productListingId} />
                     ) : (
                         <SearchResultCard key={product.productListingId} product={product} />

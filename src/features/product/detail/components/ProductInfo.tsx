@@ -38,7 +38,7 @@ export function ProductInfo({ product }: { readonly product: ProductListingDetai
         searchFilter?.matched && !searchFilter.hidden ? searchFilter.userSearchFilterId : undefined;
     const title = product.title ?? t("product.untitled");
     const showSensitiveContent =
-        product.userState?.contentVisibility.showUnassessedOrSensitiveContent ?? false;
+        product.userState?.contentVisibility?.showUnassessedOrSensitiveContent ?? false;
 
     return (
         <section className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16">

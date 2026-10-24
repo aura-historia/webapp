@@ -136,7 +136,7 @@ describe("deep-object query serialization", () => {
     it("keeps the generated serialization for listing parameters and the JSON cursor", () => {
         const url = client.buildUrl({
             baseUrl: "https://api.test",
-            url: "/api/v1/product-listings",
+            url: "/v1/product-listings",
             query: {
                 productQuery: ["chair"],
                 availability: ["AVAILABLE", "SOLD"],

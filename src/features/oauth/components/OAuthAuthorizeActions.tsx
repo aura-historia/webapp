@@ -41,6 +41,9 @@ export function OAuthAuthorizeActions({
                 {searchParams.state !== undefined && (
                     <input type="hidden" name="state" value={searchParams.state} />
                 )}
+                {searchParams.resource !== undefined && (
+                    <input type="hidden" name="resource" value={searchParams.resource} />
+                )}
                 {listingSourceId !== undefined && (
                     <input type="hidden" name="listing_source_id" value={listingSourceId} />
                 )}

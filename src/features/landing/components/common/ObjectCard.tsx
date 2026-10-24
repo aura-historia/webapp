@@ -45,7 +45,7 @@ export function ObjectCard({ product, className }: ObjectCardProps) {
     const [imageFailed, setImageFailed] = useState(false);
     const image = product.images[0];
     const showSensitiveContent =
-        product.userState?.contentVisibility.showUnassessedOrSensitiveContent ?? false;
+        product.userState?.contentVisibility?.showUnassessedOrSensitiveContent ?? false;
     const isRestricted = image !== undefined && isRestrictedImage(image, showSensitiveContent);
     const title = product.title ?? t("product.untitled");
     const price =

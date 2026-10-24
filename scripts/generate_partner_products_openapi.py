@@ -9,8 +9,8 @@ from pathlib import Path
 from urllib.request import urlopen
 
 SOURCE_URL = "https://raw.githubusercontent.com/aura-historia/backend/refs/heads/develop/docs/swagger.yaml"
-TARGET_PATH = "/api/v1/listing-sources/{listingSourceId}/product-listings"
-WEBHOOK_PATH = "/api/v1/webhooks/woocommerce/{listingSourceId}"
+TARGET_PATH = "/v1/listing-sources/{listingSourceId}/product-listings"
+WEBHOOK_PATH = "/v1/webhooks/woocommerce/{listingSourceId}"
 TARGET_METHODS = ("post", "patch", "put", "delete")
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "public" / "partner-products.openapi.json"
 

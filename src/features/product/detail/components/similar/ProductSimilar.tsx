@@ -98,7 +98,7 @@ export function ProductSimilar({ productListingId }: ProductSimilarProps) {
                 <CarouselContent className="-ml-3 sm:-ml-6">
                     {data.products.map((product) => (
                         <CarouselItem key={product.productListingId} className={ITEM_CLASS}>
-                            {product.userState?.searchFilter.hidden === true ? (
+                            {product.userState?.searchFilter?.hidden === true ? (
                                 <SearchHiddenMatchCard />
                             ) : (
                                 <SearchResultCard product={product} firstImageOnly />

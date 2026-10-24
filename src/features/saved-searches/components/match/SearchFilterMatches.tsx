@@ -126,7 +126,7 @@ export function SearchFilterMatches({ filterId, onEdit }: Props) {
             <>
                 <div className={MATCH_GRID_CLASS}>
                     {allProducts.map((product, index) => {
-                        const isHidden = product.userState?.searchFilter.hidden === true;
+                        const isHidden = product.userState?.searchFilter?.hidden === true;
                         const key = isHidden ? `hidden-${index}` : product.productListingId;
                         return isHidden ? (
                             <SearchHiddenMatchCard key={key} />

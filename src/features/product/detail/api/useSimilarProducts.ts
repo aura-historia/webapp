@@ -40,7 +40,7 @@ function getSafePollUrl(
 
     const baseUrl = new URL(apiBase);
     const pollUrl = new URL(location, baseUrl);
-    const expectedPath = `/api/v1/product-listings/${encodeURIComponent(productListingId)}/similar`;
+    const expectedPath = `/v1/product-listings/${encodeURIComponent(productListingId)}/similar`;
 
     if (
         pollUrl.origin !== baseUrl.origin ||

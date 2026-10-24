@@ -35,15 +35,15 @@ security schemes. It corrects outdated asking-price examples to include `type: M
 changing monetary estimate schemas.
 
 The subset contains POST/PATCH/PUT/DELETE on
-`/api/v1/listing-sources/{listingSourceId}/product-listings` and POST on
-`/api/v1/webhooks/woocommerce/{listingSourceId}`. Async `/async` batches and provider ingestion
+`/v1/listing-sources/{listingSourceId}/product-listings` and POST on
+`/v1/webhooks/woocommerce/{listingSourceId}`. Async `/async` batches and provider ingestion
 configuration are outside the guide and reference. Scalar is documentation-only: request/client
 buttons are hidden, authentication persistence is disabled, and no real credentials or webhook
 configuration are passed to it.
 
 ## Provider ingestion configuration
 
-`PUT /api/v1/listing-sources/{listingSourceId}/ingestion-configurations/woocommerce` and `/shopify`
+`PUT /v1/listing-sources/{listingSourceId}/ingestion-configurations/woocommerce` and `/shopify`
 are server integration capabilities with no browser settings form. They require a Cognito user or
 access token with `listing-sources:write` plus partnership write access to the source. A PUT
 atomically enables or replaces the method; omitted or null currency/language clears those

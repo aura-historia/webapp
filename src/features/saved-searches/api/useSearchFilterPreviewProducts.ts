@@ -6,6 +6,10 @@ import {
 } from "@/data/internal/product/ProductListing.ts";
 import { toMinorCurrencyAmount } from "@/data/internal/price/Price.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import {
+    mapToListingAvailabilityQuery,
+    matchesNoListingAvailability,
+} from "@/data/internal/search/ListingAvailabilityQuery.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
@@ -15,11 +19,6 @@ import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 const PREVIEW_SIZE = 4;
-
-/** GET listing search cannot apply these saved-search-only conditions. */
-export function canPreviewSavedSearch(search: SearchFilterArguments): boolean {
-    return search.orderability == null && search.includeUnspecifiedAvailability == null;
-}
 
 function toListingSearchQuery(
     search: SearchFilterArguments,
@@ -57,7 +56,7 @@ function toListingSearchQuery(
                               : toMinorCurrencyAmount(search.priceTo, currency),
                   }
                 : undefined,
-        availability: search.availability,
+        ...mapToListingAvailabilityQuery(search),
         created:
             search.creationDateFrom != null || search.creationDateTo != null
                 ? {
@@ -90,16 +89,15 @@ export function useSearchFilterPreviewProducts(
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
-    const previewable = canPreviewSavedSearch(search);
 
     return useQuery({
         queryKey: productListingQueryKeys.savedSearchPreview(search, {
             language: parseLanguage(i18n.language),
             currency: preferences.currency,
         }),
-        enabled: enabled && previewable,
+        enabled,
         queryFn: async () => {
-            if (search.availability?.length === 0) return [];
+            if (matchesNoListingAvailability(search)) return [];
 
             const currency = search.currency ?? preferences.currency;
             const result = await simpleSearchProductListings({

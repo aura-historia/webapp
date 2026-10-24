@@ -27,7 +27,7 @@ type Schema = {
     format?: string;
 };
 const spec = JSON.parse(readFileSync("public/partner-products.openapi.json", "utf8"));
-const path = "/api/v1/listing-sources/{listingSourceId}/product-listings";
+const path = "/v1/listing-sources/{listingSourceId}/product-listings";
 
 // Validate the OpenAPI 3.0 schema vocabulary used by the partner request examples.
 function matches(value: unknown, schema: Schema): boolean {
@@ -123,7 +123,7 @@ describe("partner OpenAPI contract", () => {
         }
         expect(Object.keys(spec.paths)).toEqual([
             path,
-            "/api/v1/webhooks/woocommerce/{listingSourceId}",
+            "/v1/webhooks/woocommerce/{listingSourceId}",
         ]);
         expect(spec.components.schemas.OwnUserAccountData).toBeUndefined();
         expect(spec.components.schemas.CreateListingSourceData).toBeUndefined();
@@ -135,7 +135,7 @@ describe("partner OpenAPI contract", () => {
     });
 
     it("requires webhook signature, allows an optional delivery ID and returns no success body", () => {
-        const operation = spec.paths["/api/v1/webhooks/woocommerce/{listingSourceId}"].post;
+        const operation = spec.paths["/v1/webhooks/woocommerce/{listingSourceId}"].post;
         expect(
             operation.parameters.find((p: { name: string }) => p.name === "x-wc-webhook-signature")
                 .required,

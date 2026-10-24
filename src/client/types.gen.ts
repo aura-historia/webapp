@@ -4,93 +4,106 @@ export type ClientOptions = {
   baseUrl: 'https://api.stage.aura-historia.com' | 'https://api.aura-historia.com' | (string & {});
 };
 
-export type DeliveryAssessmentGeography = {
-  referenceRelease: 'iso-codes-4.20.1';
-  country: string | null;
-  subdivision: string | null;
-  postalCode: string | null;
+/**
+ * Standard OAuth protocol error. Submitted input, credentials and technical causes are never reflected. REST client-management and first-party authentication failures keep ApiError.
+ */
+export type OAuthErrorData = {
+  error: 'invalid_request' | 'invalid_client' | 'invalid_grant' | 'unsupported_grant_type' | 'unsupported_response_type' | 'invalid_scope' | 'invalid_target' | 'access_denied' | 'server_error' | 'temporarily_unavailable';
 };
 
+export type OAuthAuthorizationServerMetadataData = {
+  issuer: 'https://api.aura-historia.com' | 'https://api.stage.aura-historia.com';
+  authorization_endpoint: 'https://aura-historia.com/en/oauth/authorize' | 'https://stage.aura-historia.com/en/oauth/authorize';
+  token_endpoint: 'https://api.aura-historia.com/v1/oauth/token' | 'https://api.stage.aura-historia.com/v1/oauth/token';
+  response_types_supported: Array<'code'>;
+  response_modes_supported: Array<'query'>;
+  grant_types_supported: Array<'authorization_code'>;
+  token_endpoint_auth_methods_supported: Array<'client_secret_post'>;
+  code_challenge_methods_supported: Array<'S256'>;
+  scopes_supported: Array<'users:read' | 'users:write' | 'search-filters:read' | 'search-filters:write' | 'watchlist:read' | 'watchlist:write' | 'notifications:read' | 'notifications:write'>;
+};
+
+/**
+ * Minimal effective destination area facts. Absent facts are omitted; no street, coordinates, address identity or provider evidence is returned.
+ */
+export type DeliveryAssessmentGeography = {
+  referenceRelease: 'iso-codes-4.20.1';
+  country?: string;
+  subdivision?: string;
+  postalCode?: string;
+};
+
+/**
+ * Required attribution of geographic provider evidence behind the assessed destination.
+ */
 export type DeliveryAssessmentAttribution = {
   provider: string;
   attributionUrl: string;
 };
 
 /**
- * Last successful assertion observation. Terms remain valid until updated, withdrawn, or their source loses authority. Observation age alone never withdraws terms. Failed recrawls, unrelated edits, evidence-only corrections and lifecycle commands do not advance this time.
+ * Assessed eligibility. Omitted eligibility means unknown or unasserted; only NOT_OFFERED is an established negative.
  */
-export type DeliveryAssertionEvidence = {
-  verifiedAt: string;
-};
+export type DeliveryAssessmentEligibility = 'OFFERED' | 'NOT_OFFERED' | 'SUBJECT_TO_CONFIRMATION';
 
-export type DeliveryAssessmentProfileBasis = {
-  shippingProfileId: string;
-  termsRevision: number;
-  managementRevision: number;
-  lifecycle: 'ACTIVE' | 'RETIRED';
-  evidence: DeliveryAssertionEvidence;
+/**
+ * Caller-suppliable inputs whose absence leaves eligibility undetermined. Present only when eligibility is omitted.
+ */
+export type DeliveryAssessmentRequiredInputs = Array<'DESTINATION' | 'DESTINATION_COUNTRY' | 'DESTINATION_SUBDIVISION' | 'POSTAL_CODE' | 'QUANTITY' | 'LOTS' | 'SHIPMENTS' | 'SELLER_ORDERS' | 'VARIANT'>;
+
+/**
+ * A condition depends on a qualifying amount at this scope, which browsing never supplies.
+ */
+export type DeliveryAssessmentExplanationDataQualifyingAmountRequired = {
+  code: 'QUALIFYING_AMOUNT_REQUIRED';
+  scope: 'ITEM' | 'LOT' | 'SHIPMENT' | 'SELLER_ORDER';
 };
 
 /**
- * MISSING_INPUT includes input, plus scope for QUALIFYING_AMOUNT. EARLIER_ZONE_UNDETERMINED includes index. Other codes include no additional fields or private dependency text.
+ * INCOMPLETE_COVERAGE means partial coverage neither includes nor excludes the destination or service. UNRESOLVED_TERMS means seller-side origin/class facts, areas or dependencies cannot be interpreted conservatively. SHIPPING_UNDETERMINED means collection depends on undetermined shipping. NOT_ASSERTED means applicable terms assert no eligibility.
  */
-export type DeliveryAssessmentReason = {
-  code: 'MISSING_INPUT' | 'NO_SOURCE_DEFAULT' | 'PROFILE_ABSENT' | 'PROFILE_RETIRED' | 'SOURCE_MISMATCH' | 'AMBIGUOUS_DEPENDENCY' | 'LOCATION_ABSENT' | 'LOCATION_RETIRED' | 'REFERENCE_RELEASE_MISMATCH' | 'UNRESOLVED_AREA' | 'UNSUPPORTED_POSTAL_SHAPE' | 'COUNTRY_MISMATCH' | 'SUBDIVISION_MISMATCH' | 'POSTAL_MISMATCH' | 'CLASS_MISMATCH' | 'INCOMPLETE_CLASS_MEMBERSHIP' | 'VARIANT_MISMATCH' | 'VARIANT_UNAVAILABLE' | 'MIXED_VARIANT_APPLICABILITY' | 'QUANTITY_OUTSIDE_RANGE' | 'QUALIFYING_THRESHOLD_NOT_MET' | 'CURRENCY_MISMATCH' | 'EXCLUDED' | 'EARLIER_ZONE_UNDETERMINED' | 'INCOMPLETE_COVERAGE' | 'OUTSIDE_COMPLETE_COVERAGE' | 'NO_APPLICABLE_SERVICE' | 'NO_SHIPPING_ASSERTION' | 'NO_COLLECTION_ASSERTION' | 'NO_ELIGIBILITY_ASSERTION' | 'SUPPRESSED_INHERITANCE' | 'ASSERTION_CLEARED' | 'SHIPPING_PROHIBITED' | 'SHIPPING_DEPENDENCY_REPLACED' | 'SHIPPING_DEPENDENCY_UNDETERMINED' | 'UNKNOWN_CHARGE_BASIS' | 'NO_CURRENCY_ASSERTION' | 'PRICE_ON_REQUEST' | 'EXTERNALLY_CALCULATED_PRICE' | 'ARITHMETIC_OVERFLOW';
-  input?: 'DESTINATION' | 'DESTINATION_COUNTRY' | 'DESTINATION_SUBDIVISION' | 'POSTAL_CODE' | 'ORIGIN_COUNTRY' | 'QUANTITY' | 'LOTS' | 'SHIPMENTS' | 'SELLER_ORDERS' | 'VARIANT' | 'CLASS_MEMBERSHIP' | 'QUALIFYING_AMOUNT';
-  scope?: 'ITEM' | 'LOT' | 'SHIPMENT' | 'SELLER_ORDER';
-  index?: number;
+export type DeliveryAssessmentExplanationDataCode = {
+  code: 'INCOMPLETE_COVERAGE' | 'UNRESOLVED_TERMS' | 'SHIPPING_UNDETERMINED' | 'NOT_ASSERTED';
 };
 
 /**
- * Arithmetic advertised charge for its explicit basis and count; never a quote or landed cost. Null when unavailable, inapplicable or necessary count/currency/basis is absent.
+ * Bounded explanation of an undetermined outcome, derived from the assessment rather than a raw reason trace. Present only when eligibility is omitted.
+ */
+export type DeliveryAssessmentExplanations = Array<DeliveryAssessmentExplanationDataQualifyingAmountRequired | DeliveryAssessmentExplanationDataCode>;
+
+/**
+ * Assessed collection outcome. Omitted when collection is unasserted. Collection can remain offered when shipping is prohibited.
+ */
+export type DeliveryAssessmentSummaryData = {
+  eligibility?: DeliveryAssessmentEligibility;
+  requiredInputs?: DeliveryAssessmentRequiredInputs;
+  explanations?: DeliveryAssessmentExplanations;
+};
+
+/**
+ * Arithmetic advertised charge in source currency for its explicit basis and count; never a quote or landed cost. Omitted unless every count its basis needs is known, so browsing calculates none.
  */
 export type DeliveryAssessmentCharge = ShippingPriceDataFixed | ShippingPriceDataFrom | ShippingPriceDataEstimatedRange;
 
 /**
- * Eligibility and calculated charge for a service in the selected advertised zone. Service identity, advertised price/basis/components and durations remain in item.shipping.terms.
+ * A service of the destination's selected zone whose conditions do not definitely exclude it, identified by its code with a copy of its advertised rate. Inputs and explanations cover only its own applicability.
  */
 export type DeliveryAssessmentOption = {
-  /**
-   * Zero-based service index within the selected zone of item.shipping.terms.
-   */
-  serviceIndex: number;
-  applicability: 'MATCH' | 'NO_MATCH' | 'UNDETERMINED';
-  eligibility: 'OFFERED' | 'NOT_OFFERED' | 'SUBJECT_TO_CONFIRMATION' | null;
-  charge: DeliveryAssessmentCharge | null;
-  reasons: Array<DeliveryAssessmentReason>;
+  service: string;
+  eligibility?: DeliveryAssessmentEligibility;
+  requiredInputs?: DeliveryAssessmentRequiredInputs;
+  explanations?: DeliveryAssessmentExplanations;
+  rate?: ListingShippingRateData;
+  charge?: DeliveryAssessmentCharge;
 };
 
 /**
- * Independent collection can remain offered when shipping is prohibited. Arrangement/windows are in terms.collection; site is always null pending explicit permitted disclosure.
- */
-export type DeliveryAssessmentCollection = {
-  eligibility: 'OFFERED' | 'NOT_OFFERED' | 'SUBJECT_TO_CONFIRMATION' | null;
-  applicability: 'MATCH' | 'NO_MATCH' | 'UNDETERMINED';
-  reasons: Array<DeliveryAssessmentReason>;
-};
-
-/**
- * Converted current effective advertised rates. Source terms retain their original amounts/currencies. HalfUp rounding uses currency minor-unit exponents. FROM and ESTIMATED_RANGE retain uncertainty; FREE with known currency remains zero. Unknown-currency free, external, on-request and absent rates have no entry. Conversion supplies no quantity, applicability, binding quote or complete landed cost.
+ * Valuation of every requested-currency value in this shipping object, from the persisted browsing FX snapshot (pinned for search continuation). Present only when a value was converted; same-currency reads omit it. HalfUp rounding uses currency minor-unit exponents.
  */
 export type ShippingDisplayData = {
   currency: CurrencyData;
-  /**
-   * Immutable persisted browsing FX snapshot, pinned for search continuation.
-   */
   fxRateId: string;
   capturedAt: string;
-  rates: Array<{
-    /**
-     * Zero-based zone index in effective terms.
-     */
-    zoneIndex: number;
-    /**
-     * Zero-based service index within that zone.
-     */
-    serviceIndex: number;
-    price: ShippingPriceDataFree | ShippingPriceDataFixed | ShippingPriceDataFrom | ShippingPriceDataEstimatedRange;
-    basis: 'PER_ITEM' | 'PER_LOT' | 'PER_SHIPMENT' | 'PER_SELLER_ORDER' | null;
-  }>;
 };
 
 /**
@@ -107,39 +120,208 @@ export type ShippingMatchValuationData = {
 };
 
 /**
- * Effective advertised shipping and collection terms, shared by every viewer. Source defaults and listing overrides are resolved from current PostgreSQL state. Dispatch origins and collection sites are always null. Invalid shipping dependencies return 500 SHIPPING_STORAGE_ERROR; unavailable shipping reads return 503 SHIPPING_TEMPORARILY_UNAVAILABLE. Missing or withdrawn listings and hidden entries have shipping null. Clients render these terms generically without a destination. Display conversion uses persisted browsing FX, never historical sale-observation FX. Missing snapshot/unavailable FX reads return 503; invalid snapshot, missing required quote or overflow return 500. Shared listing FX resolution retains endpoint errors; shipping enrichment uses SHIPPING_TEMPORARILY_UNAVAILABLE or SHIPPING_STORAGE_ERROR. No provider is called. Currency and query predicates isolate anonymous caches; credential-bearing responses and errors remain private, no-store.
+ * Bounded destination-independent shipping of a collection item, shared by every viewer. Its size never grows with the advertised policy: it contains no terms, zones, service lists, per-zone conversions or management metadata. Omitted when nothing is asserted or the listing is hidden/withdrawn; omission is not a no-shipping assertion. Current PostgreSQL state is used even when indexed membership lags. Invalid shipping dependencies return 500 SHIPPING_STORAGE_ERROR; unavailable shipping reads return 503 SHIPPING_TEMPORARILY_UNAVAILABLE.
  */
-export type AdvertisedListingShippingData = {
-  display: ShippingDisplayData | null;
-  terms: AdvertisedDeliveryTermsData;
-  listingRevision: number;
-  sourceRevision: number;
-  defaultRevision: number | null;
-  profile: DeliveryAssessmentProfileBasis | null;
-  listingEvidence: DeliveryAssertionEvidence | null;
-  evaluatedAt: string;
-  shippingReasons: Array<DeliveryAssessmentReason>;
-  collectionReasons: Array<DeliveryAssessmentReason>;
-  notices: Array<'ASSIGNMENT_UNRESOLVED' | 'INTEGRATION_MISMATCH' | 'PROFILE_INTEGRATION_MISMATCH'>;
+export type ListingShippingSummaryData = {
+  eligibility?: DeliveryAssessmentEligibility;
+  requiredInputs?: DeliveryAssessmentRequiredInputs;
+  explanations?: DeliveryAssessmentExplanations;
+  collection?: DeliveryAssessmentSummaryData;
 };
 
 /**
- * Evaluation for the authenticated owner's selected browsing destination. Omitted when no destination is selected or the listing is hidden/withdrawn. A saved address or explicit country/postal preference can supply the destination; owning addresses alone selects none. Destination facts include submitted assertions and compatible permitted unexpired derived evidence. No street, coordinates or address identity is returned. Delegated personalization requires users:read; credentials without it receive generic terms. Browsing infers no quantity, variant, shipment/order count or qualifying amount. Missing inputs retain uncertainty and explained null charges. This enrichment does not filter or reorder results. Authenticated responses are never cached.
+ * Destination-independent shipping of a single listing read, shared by every viewer: the summary fields and effective advertised terms. Terms are omitted when none resolve; the summary then explains why. Omitted when nothing is asserted or the listing is hidden/withdrawn. Display conversion uses persisted browsing FX, never historical sale-observation FX. Missing snapshot or unavailable FX reads return 503; invalid snapshot, missing required quote or overflow return 500. Currency and query predicates isolate anonymous caches; credential-bearing responses and errors remain private, no-store.
  */
-export type PersonalizedListingShippingData = {
+export type ListingShippingDetailData = {
+  eligibility?: DeliveryAssessmentEligibility;
+  requiredInputs?: DeliveryAssessmentRequiredInputs;
+  explanations?: DeliveryAssessmentExplanations;
+  terms?: ListingShippingTermsData;
+  display?: ShippingDisplayData;
+};
+
+/**
+ * One advertised rate of a service establishing the summarized eligibility in the destination's selected zone, in the requested currency when its amount is convertible. Services with undetermined conditions never supply it. Several candidates are compared only with one basis and exact fixed or known-currency free prices in one currency: the lowest wins, then the first advertised; otherwise it is omitted. It implies no purchase quantity, total, quote or global cheapest rate.
+ */
+export type ShippingPricePreviewData = {
+  service: string;
+  basis: 'PER_ITEM' | 'PER_LOT' | 'PER_SHIPMENT' | 'PER_SELLER_ORDER';
+  price: ListingShippingPriceData;
+};
+
+/**
+ * Bounded assessment of a collection item for the authenticated owner's selected browsing destination, without echoing it. Omitted when nothing is assessed, no destination is selected, delegated personalization lacks users:read, or the listing is hidden/withdrawn. Owning addresses alone selects none. Authenticated responses are never cached.
+ */
+export type PersonalizedShippingSummaryData = {
+  eligibility?: DeliveryAssessmentEligibility;
+  requiredInputs?: DeliveryAssessmentRequiredInputs;
+  explanations?: DeliveryAssessmentExplanations;
+  pricePreview?: ShippingPricePreviewData;
+  collection?: DeliveryAssessmentSummaryData;
+  attribution?: DeliveryAssessmentAttribution;
+  display?: ShippingDisplayData;
+};
+
+/**
+ * Assessment of a single listing for the authenticated owner's selected browsing destination. Omitted under the same conditions as PersonalizedShippingSummaryData. Destination facts include submitted assertions and compatible permitted unexpired derived evidence. Browsing infers no quantity, variant, shipment/order count or qualifying amount. This enrichment does not filter or reorder results.
+ */
+export type PersonalizedShippingDetailData = {
   destination: DeliveryAssessmentGeography;
-  attribution: DeliveryAssessmentAttribution | null;
-  evaluatedAt: string;
-  eligibility: 'OFFERED' | 'NOT_OFFERED' | 'SUBJECT_TO_CONFIRMATION' | null;
+  attribution?: DeliveryAssessmentAttribution;
+  eligibility?: DeliveryAssessmentEligibility;
+  requiredInputs?: DeliveryAssessmentRequiredInputs;
+  explanations?: DeliveryAssessmentExplanations;
+  options?: Array<DeliveryAssessmentOption>;
+  collection?: DeliveryAssessmentSummaryData;
+  display?: ShippingDisplayData;
+};
+
+export type ListingShippingPriceDataFree = {
+  kind: 'FREE';
+  currency?: ShippingCurrencyCode;
+};
+
+export type ListingShippingPriceDataExternallyCalculated = {
+  kind: 'EXTERNALLY_CALCULATED';
+  currency?: ShippingCurrencyCode;
+};
+
+export type ListingShippingPriceDataOnRequest = {
+  kind: 'ON_REQUEST';
+  currency?: ShippingCurrencyCode;
+};
+
+/**
+ * Every advertised price kind. On-request and externally calculated prices stay explicit; an omitted currency is unasserted.
+ */
+export type ListingShippingPriceData = ({
+  kind: 'FREE';
+} & ListingShippingPriceDataFree) | ({
+  kind: 'FIXED';
+} & ShippingPriceDataFixed) | ({
+  kind: 'FROM';
+} & ShippingPriceDataFrom) | ({
+  kind: 'ESTIMATED_RANGE';
+} & ShippingPriceDataEstimatedRange) | ({
+  kind: 'EXTERNALLY_CALCULATED';
+} & ListingShippingPriceDataExternallyCalculated) | ({
+  kind: 'ON_REQUEST';
+} & ListingShippingPriceDataOnRequest);
+
+export type ListingShippingRateData = {
+  price: ListingShippingPriceData;
   /**
-   * Zero-based zone index in item.shipping.terms.shipping.coverage.zones.
+   * Requested-currency value of a fixed, from or range amount advertised in another currency; price keeps the source value. Valued by the enclosing display.
    */
-  selectedZone: number | null;
-  options: Array<DeliveryAssessmentOption>;
-  reasons: Array<DeliveryAssessmentReason>;
-  collection: DeliveryAssessmentCollection;
-  bindingQuote: false;
-  completeLandedCost: false;
+  display_price?: ListingShippingPriceData;
+  basis?: 'PER_ITEM' | 'PER_LOT' | 'PER_SHIPMENT' | 'PER_SELLER_ORDER';
+  qualifying_scope?: 'ITEM' | 'LOT' | 'SHIPMENT' | 'SELLER_ORDER';
+  /**
+   * Keys: TRANSPORT, PACKING, INSURANCE, HANDLING, INSTALLATION, IMPORT_DUTY, TAX. Absence is no inclusion assertion.
+   */
+  components?: {
+    [key: string]: 'INCLUDED' | 'EXCLUDED';
+  };
+};
+
+/**
+ * Asserted conditions, all of which must hold. Omitted for unconditional rules.
+ */
+export type ListingShippingApplicabilityData = {
+  class?: string;
+  variants?: Array<string>;
+  quantity?: ShippingQuantityData;
+  threshold?: ShippingThresholdData;
+};
+
+export type ListingShippingTimeData = {
+  minimum: number;
+  maximum: number;
+  unit: 'HOURS' | 'DAYS' | 'WEEKS';
+  basis?: 'CALENDAR' | 'BUSINESS';
+  trigger?: 'ORDER' | 'ORDER_CONFIRMATION' | 'PAYMENT' | 'DISPATCH' | 'READY_FOR_COLLECTION';
+};
+
+/**
+ * Independent duration assertions; never computed dates.
+ */
+export type ListingShippingLeadTimesData = {
+  handling?: ListingShippingTimeData;
+  transit?: ListingShippingTimeData;
+  total?: ListingShippingTimeData;
+};
+
+export type ListingShippingServiceData = {
+  code: string;
+  applicability?: ListingShippingApplicabilityData;
+  eligibility?: DeliveryAssessmentEligibility;
+  rate?: ListingShippingRateData;
+  lead_times?: ListingShippingLeadTimesData;
+  features?: Array<'TRACKING' | 'INSURED' | 'WHITE_GLOVE' | 'INSTALLATION' | 'PACKING'>;
+  arranger?: ShippingActorData;
+  performer?: ShippingActorData;
+};
+
+/**
+ * Zones are ordered; the first matching zone applies and service codes are unique within it.
+ */
+export type ListingShippingZoneData = {
+  areas: Array<ShippingAreaData>;
+  applicability?: ListingShippingApplicabilityData;
+  services: Array<ListingShippingServiceData>;
+};
+
+/**
+ * Exclusions precede zones. The dispatch origin is never disclosed.
+ */
+export type ListingShippingCoverageData = {
+  reference_release: 'iso-codes-4.20.1';
+  completeness: 'PARTIAL' | 'COMPLETE';
+  applicability?: ListingShippingApplicabilityData;
+  exclusions?: Array<ShippingAreaData>;
+  zones: Array<ListingShippingZoneData>;
+};
+
+export type ListingShippingPolicyDataCoverage = {
+  kind: 'COVERAGE';
+  coverage: ListingShippingCoverageData;
+};
+
+export type ListingShippingPolicyData = ({
+  kind: 'PROHIBITED';
+} & ShippingPolicyDataProhibited) | ({
+  kind: 'COVERAGE';
+} & ListingShippingPolicyDataCoverage);
+
+export type ListingShippingCollectionArrangementDataWindow = {
+  kind: 'WINDOW';
+  duration: ListingShippingTimeData;
+};
+
+export type ListingShippingCollectionArrangementData = ({
+  kind: 'BY_APPOINTMENT';
+} & ShippingCollectionArrangementDataByAppointment) | ({
+  kind: 'CONTACT_TO_ARRANGE';
+} & ShippingCollectionArrangementDataContactToArrange) | ({
+  kind: 'WINDOW';
+} & ListingShippingCollectionArrangementDataWindow);
+
+/**
+ * Collection sites are never disclosed; a referenced location does not authorize publishing its address.
+ */
+export type ListingShippingCollectionData = {
+  applicability?: ListingShippingApplicabilityData;
+  dependency: 'INDEPENDENT' | 'SHIPPING';
+  eligibility?: DeliveryAssessmentEligibility;
+  arrangement?: ListingShippingCollectionArrangementData;
+};
+
+/**
+ * Public read projection of effective advertised terms. Unlike the strict AdvertisedDeliveryTermsData protocol used by management and imports, it carries no schema marker and omits absent assertions and empty optional collections. This contract supplies no quote.
+ */
+export type ListingShippingTermsData = {
+  shipping?: ListingShippingPolicyData;
+  collection?: ListingShippingCollectionData;
 };
 
 export type ProductListingDeliveryCommandData = {
@@ -781,7 +963,7 @@ export type AdminProductListingPage = {
  * Lightweight ProductListing summary for search and similar-listing results.
  */
 export type ProductListingSummaryData = {
-  shipping: AdvertisedListingShippingData | null;
+  shipping?: ListingShippingSummaryData;
   productListingId: string;
   /**
    * Immutable Aura-owned public locator. Omitted when the listing is redacted as hidden.
@@ -827,7 +1009,7 @@ export type ProductListingSummaryPriceValuationData = {
  * Canonical ProductListing detail inside a personalized response wrapper.
  */
 export type ProductListingDetailsData = {
-  shipping: AdvertisedListingShippingData | null;
+  shipping?: ListingShippingDetailData;
   productListingId: string;
   /**
    * Immutable Aura-owned public locator. Omitted when the listing is redacted as hidden.
@@ -837,7 +1019,53 @@ export type ProductListingDetailsData = {
   source: ProductListingSourceData;
   sourceListingId: string;
   /**
-   * Original normalized title. Truncation ellipses remain stable; legacy constructor trailing whitespace is presented trimmed.
+   * Original normalized title. Styled letters and digits are presented as ordinary text, emoji and ornamental symbols are removed and truncation ellipses remain stable; titles stored before a normalization change, including legacy trailing whitespace, are presented in current normalized form.
+   */
+  productTitle?: LocalizedTextData | null;
+  productDescription?: LocalizedTextData | null;
+  title?: LocalizedTextData | null;
+  description?: LocalizedTextData | null;
+  pricing: {
+    source: ProductListingPricingData;
+    display: ProductListingPricingData;
+    valuation: ProductListingPricingValuationData;
+  };
+  availability: ListingAvailabilityData | null;
+  lifecycle: ListingLifecycleData;
+  url: string;
+  viewUrl: string;
+  images: Array<ProductListingImageData>;
+  contentPolicy?: ContentPolicyData | null;
+  /**
+   * Current parent Auction presentation from the joined PostgreSQL detail read. Null when the listing has no parent Auction.
+   */
+  auction: AuctionSummaryData | null;
+  /**
+   * Listing-owned lot facts. Null when the listing has no lot facts.
+   */
+  lot: ProductListingLotData | null;
+  created: string;
+  /**
+   * Time of the last committed change to listing-owned state, including enrichment (translations, embedding, geography, shipping summary, content assessment and delivery evidence). Strictly increasing per listing, with each new value at millisecond precision; FX changes and response-time composition do not advance it.
+   */
+  updated: string;
+};
+
+/**
+ * Canonical ProductListing detail inside a collection (watchlist, saved-search matches and auction catalogue). Identical to ProductListingDetailsData except that shipping is the bounded collection summary.
+ */
+export type ProductListingCollectionDetailsData = {
+  shipping?: ListingShippingSummaryData;
+  productListingId: string;
+  /**
+   * Immutable Aura-owned public locator. Omitted when the listing is redacted as hidden.
+   */
+  productListingTitleSlugId?: string;
+  eventId: string;
+  source: ProductListingSourceData;
+  sourceListingId: string;
+  /**
+   * Original normalized title. Styled letters and digits are presented as ordinary text, emoji and ornamental symbols are removed and truncation ellipses remain stable; titles stored before a normalization change, including legacy trailing whitespace, are presented in current normalized form.
    */
   productTitle?: LocalizedTextData | null;
   productDescription?: LocalizedTextData | null;
@@ -903,9 +1131,20 @@ export type ProductListingPricingValuationData = {
 export type PersonalizedProductListingDetailsData = {
   item: ProductListingDetailsData;
   /**
-   * Present only for a valid user or delegated-user bearer token.
+   * Present only for a valid user or delegated-user bearer token. A delegated token receives only the sections its read scopes permit and no `userState` when none applies.
    */
   userState?: ProductListingUserStateData | null;
+};
+
+/**
+ * Canonical Product detail in a collection, with optional user-specific state and bounded shipping.
+ */
+export type PersonalizedProductListingCollectionDetailsData = {
+  item: ProductListingCollectionDetailsData;
+  /**
+   * Present only for a valid user or delegated-user bearer token. A delegated token receives only the sections its read scopes permit and no `userState` when none applies.
+   */
+  userState?: ProductListingCollectionUserStateData | null;
 };
 
 /**
@@ -914,9 +1153,9 @@ export type PersonalizedProductListingDetailsData = {
 export type PersonalizedProductListingSummaryData = {
   item: ProductListingSummaryData;
   /**
-   * Present only for a valid user or delegated-user bearer token.
+   * Present only for a valid user or delegated-user bearer token. A delegated token receives only the sections its read scopes permit and no `userState` when none applies.
    */
-  userState?: ProductListingUserStateData | null;
+  userState?: ProductListingCollectionUserStateData | null;
 };
 
 /**
@@ -953,14 +1192,33 @@ export type ProductListingSearchCursorData = {
 };
 
 /**
- * User-specific state information for a product
+ * User-specific state information for a product.
+ * Cognito users receive every section that applies. An Aura Historia access token receives a section only
+ * with its read scope, on every route that returns `userState`: `watchlist` requires `watchlist:read`,
+ * `notification` requires `notifications:read`, `searchFilter` requires `search-filters:read`, and
+ * `contentVisibility` and `shipping` require `users:read`. Sections without their scope are omitted rather
+ * than defaulted.
+ * Undisclosed state still applies: quota-hidden matches stay redacted and stored content preferences still
+ * decide image visibility.
+ *
  */
 export type ProductListingUserStateData = {
-  shipping?: PersonalizedListingShippingData;
-  watchlist: WatchlistUserStateData;
-  contentVisibility: ContentVisibilityUserStateData;
-  notification: NotificationUserStateData;
-  searchFilter: SearchFilterUserStateData;
+  shipping?: PersonalizedShippingDetailData;
+  watchlist?: WatchlistUserStateData;
+  contentVisibility?: ContentVisibilityUserStateData;
+  notification?: NotificationUserStateData;
+  searchFilter?: SearchFilterUserStateData;
+};
+
+/**
+ * ProductListingUserStateData for collection items; `shipping` is the bounded collection summary.
+ */
+export type ProductListingCollectionUserStateData = {
+  shipping?: PersonalizedShippingSummaryData;
+  watchlist?: WatchlistUserStateData;
+  contentVisibility?: ContentVisibilityUserStateData;
+  notification?: NotificationUserStateData;
+  searchFilter?: SearchFilterUserStateData;
 };
 
 /**
@@ -1352,7 +1610,7 @@ export type ProductListingDiscoveryHistoryPayloadData = {
   listingSourceId: string;
   sourceListingId: string;
   /**
-   * Normalized discovery title, with legacy constructor trailing whitespace presented trimmed without rewriting the stored event.
+   * Normalized discovery title. Titles stored before a normalization change, including legacy trailing whitespace and decorative typography, are presented in current normalized form without rewriting the stored event; a title without remaining text is omitted.
    */
   title?: LocalizedTextData;
   description?: LocalizedTextData;
@@ -1906,11 +2164,11 @@ export type PatchAccessTokenData = {
    */
   name?: string;
   /**
-   * Omit to leave unchanged. Send `[]` to empty the set; null is invalid.
+   * Omit to leave unchanged. Send `[]` to empty the set; null is invalid. Aura Historia access tokens may only send a subset of the current scopes.
    */
   scopes?: Array<AccessTokenScopeData>;
   /**
-   * Omit to leave unchanged. Send null to clear the expiration timestamp.
+   * Omit to leave unchanged. Send null to clear the expiration timestamp. Aura Historia access tokens cannot clear or extend an existing expiry.
    */
   expires?: string | null;
 };
@@ -2109,7 +2367,7 @@ export type OAuthClientAdminCollectionData = {
 
 /**
  * Secret-free OAuth client metadata returned by the admin OAuth client collection,
- * detail, and update endpoints under `/api/v1/admin/oauth-clients`.
+ * detail, and update endpoints under `/v1/admin/oauth-clients`.
  * This schema intentionally has no `client_secret` property.
  *
  */
@@ -2153,10 +2411,10 @@ export type OAuthClientAdminData = {
 };
 
 /**
- * Token response returned by `POST /api/v1/oauth/token` and
- * `GET /api/v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`.
+ * Token response returned by `POST /v1/oauth/token` and
+ * `GET /v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`.
  * The `access_token` is an Aura Historia bearer access token. `expires_in` is omitted
- * (`null`) for non-expiring tokens. `third_party_exchange_code` is only present on the
+ * for non-expiring tokens. `third_party_exchange_code` is only present on the
  * direct token exchange response.
  *
  */
@@ -2165,18 +2423,18 @@ export type OAuthTokenResponseData = {
    * The issued Aura Historia access token (plaintext bearer value).
    */
   access_token: string;
-  token_type: AccessTokenTypeData;
+  token_type: 'Bearer';
   /**
-   * Seconds until the access token expires. `null` when the token does not expire.
+   * Seconds until expiry; omitted when the token does not expire.
    */
-  expires_in?: number | null;
+  expires_in?: number;
   /**
    * Space-separated list of scopes granted to the access token.
    */
   scope: string;
   /**
-   * Optional one-time exchange code returned by `POST /api/v1/oauth/token`.
-   * It can be redeemed once via `GET /api/v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`
+   * Optional one-time exchange code returned by `POST /v1/oauth/token`.
+   * It can be redeemed once via `GET /v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`
    * within 60 seconds to obtain the same access token.
    *
    */
@@ -2184,7 +2442,7 @@ export type OAuthTokenResponseData = {
 };
 
 /**
- * Introspection response returned by `POST /api/v1/oauth/introspect` (RFC 7662).
+ * Introspection response returned by `POST /v1/oauth/introspect` (RFC 7662).
  * When `active` is `false` all other fields are omitted.
  * When `active` is `true` the available token metadata is populated.
  *
@@ -2437,7 +2695,7 @@ export type SearchFilterMatchProductCollectionData = {
   /**
    * Persisted matches in ascending match-creation order.
    */
-  items: Array<PersonalizedProductListingDetailsData>;
+  items: Array<PersonalizedProductListingCollectionDetailsData>;
   /**
    * Number of items returned in the current page.
    */
@@ -2510,7 +2768,7 @@ export type AdminUserSummaryData = {
 };
 
 /**
- * User-owned account information for `/api/v1/me/account`. Role, tier, and Stripe customer ID are read-only here.
+ * User-owned account information for `/v1/me/account`. Role, tier, and Stripe customer ID are read-only here.
  */
 export type OwnUserAccountData = {
   /**
@@ -2836,7 +3094,7 @@ export type CreateProductListingData = {
    */
   sourceListingId: string;
   /**
-   * Optional localized title. Omit or send `null` when no title is available.
+   * Optional localized title. Omit or send `null` when no title is available. The title is normalized; styled letters and digits become ordinary text and emoji and ornamental symbols are removed. A title without remaining text, such as a blank or emoji-only title, is rejected with `BAD_BODY_VALUE`: synchronous batches fail with `400`, asynchronous batches report that item as a failure.
    */
   title?: LocalizedTextData | null;
   /**
@@ -2993,7 +3251,7 @@ export type UpsertProductListingData = {
    */
   sourceListingId: string;
   /**
-   * Optional localized title for the product. Used only when creating a new product.
+   * Optional localized title for the product. Used only when creating a new product. The title is normalized; styled letters and digits become ordinary text and emoji and ornamental symbols are removed. A title without remaining text, such as a blank or emoji-only title, is rejected with `BAD_BODY_VALUE`: synchronous batches fail with `400`, asynchronous batches report that item as a failure.
    */
   title?: LocalizedTextData | null;
   /**
@@ -3455,6 +3713,14 @@ export type ListingSourceData = {
   updated: string;
 };
 
+export type AdministeredListingSourcesPageData = {
+  items: Array<AdministeredListingSourceData>;
+  /**
+   * Opaque actor-bound continuation, absent when the page is complete. Pass as after.
+   */
+  next?: string;
+};
+
 export type AdministeredListingSourceData = {
   listingSourceId: string;
   listingSourceSlugId: string;
@@ -3775,7 +4041,7 @@ export type PublicAuctionDirectoryCursorScopeData = {
 };
 
 export type PublicAuctionCatalogueData = {
-  items: Array<PersonalizedProductListingDetailsData>;
+  items: Array<PersonalizedProductListingCollectionDetailsData>;
   pageSize: number;
   /**
    * Omitted on the terminal page. Send the complete JSON value as the `searchAfter` query parameter.
@@ -4351,7 +4617,7 @@ export type AdminProductListingPageWritable = {
 };
 
 /**
- * User-owned account information for `/api/v1/me/account`. Role, tier, and Stripe customer ID are read-only here.
+ * User-owned account information for `/v1/me/account`. Role, tier, and Stripe customer ID are read-only here.
  */
 export type OwnUserAccountDataWritable = {
   /**
@@ -4472,11 +4738,27 @@ export type AsyncProductListingIdempotencyKey = string;
  */
 export type ProductListingIdPath = string;
 
+export type GetOAuthAuthorizationServerMetadataData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/.well-known/oauth-authorization-server';
+};
+
+export type GetOAuthAuthorizationServerMetadataResponses = {
+  /**
+   * Public metadata; supplied credentials are not evaluated. CloudFront keeps this exact route uncached.
+   */
+  200: OAuthAuthorizationServerMetadataData;
+};
+
+export type GetOAuthAuthorizationServerMetadataResponse = GetOAuthAuthorizationServerMetadataResponses[keyof GetOAuthAuthorizationServerMetadataResponses];
+
 export type GetHealthData = {
   body?: never;
   path?: never;
   query?: never;
-  url: '/api/v1/health';
+  url: '/v1/health';
 };
 
 export type GetHealthResponses = {
@@ -4492,7 +4774,7 @@ export type GetReadinessData = {
   body?: never;
   path?: never;
   query?: never;
-  url: '/api/v1/ready';
+  url: '/v1/ready';
 };
 
 export type GetReadinessErrors = {
@@ -4515,7 +4797,7 @@ export type GetPublicOverviewData = {
   body?: never;
   path?: never;
   query?: never;
-  url: '/api/v1/overview';
+  url: '/v1/overview';
 };
 
 export type GetPublicOverviewErrors = {
@@ -4564,7 +4846,7 @@ export type ListAuctionsData = {
      */
     searchAfter?: string;
   };
-  url: '/api/v1/auctions';
+  url: '/v1/auctions';
 };
 
 export type ListAuctionsErrors = {
@@ -4592,7 +4874,7 @@ export type GetAuctionData = {
     auctionId: string;
   };
   query?: never;
-  url: '/api/v1/auctions/{auctionId}';
+  url: '/v1/auctions/{auctionId}';
 };
 
 export type GetAuctionErrors = {
@@ -4629,7 +4911,7 @@ export type GetAuctionCatalogueData = {
      */
     searchAfter?: string;
   };
-  url: '/api/v1/auctions/{auctionId}/product-listings';
+  url: '/v1/auctions/{auctionId}/product-listings';
 };
 
 export type GetAuctionCatalogueErrors = {
@@ -4703,7 +4985,7 @@ export type SearchAdminProductListingsData = {
      */
     searchAfter?: string;
   };
-  url: '/api/v1/admin/product-listings';
+  url: '/v1/admin/product-listings';
 };
 
 export type SearchAdminProductListingsErrors = {
@@ -4751,7 +5033,7 @@ export type WithdrawAdminProductListingData = {
   query: {
     expectedVersion: number;
   };
-  url: '/api/v1/admin/product-listings/{productListingId}';
+  url: '/v1/admin/product-listings/{productListingId}';
 };
 
 export type WithdrawAdminProductListingErrors = {
@@ -4805,7 +5087,7 @@ export type GetAdminProductListingData = {
     productListingId: string;
   };
   query?: never;
-  url: '/api/v1/admin/product-listings/{productListingId}';
+  url: '/v1/admin/product-listings/{productListingId}';
 };
 
 export type GetAdminProductListingErrors = {
@@ -4855,7 +5137,7 @@ export type UpdateAdminProductListingData = {
     productListingId: string;
   };
   query?: never;
-  url: '/api/v1/admin/product-listings/{productListingId}';
+  url: '/v1/admin/product-listings/{productListingId}';
 };
 
 export type UpdateAdminProductListingErrors = {
@@ -4909,7 +5191,7 @@ export type RestoreAdminProductListingData = {
     productListingId: string;
   };
   query?: never;
-  url: '/api/v1/admin/product-listings/{productListingId}/restore';
+  url: '/v1/admin/product-listings/{productListingId}/restore';
 };
 
 export type RestoreAdminProductListingErrors = {
@@ -4986,7 +5268,7 @@ export type AdminSearchAuctionsData = {
      */
     searchAfter?: string;
   };
-  url: '/api/v1/admin/auctions';
+  url: '/v1/admin/auctions';
 };
 
 export type AdminSearchAuctionsErrors = {
@@ -5021,7 +5303,7 @@ export type CreateAdminAuctionData = {
   body: CreateAuctionData;
   path?: never;
   query?: never;
-  url: '/api/v1/admin/auctions';
+  url: '/v1/admin/auctions';
 };
 
 export type CreateAdminAuctionErrors = {
@@ -5069,7 +5351,7 @@ export type GetAdminAuctionData = {
     auctionId: string;
   };
   query?: never;
-  url: '/api/v1/admin/auctions/{auctionId}';
+  url: '/v1/admin/auctions/{auctionId}';
 };
 
 export type GetAdminAuctionErrors = {
@@ -5113,7 +5395,7 @@ export type UpdateAdminAuctionData = {
     auctionId: string;
   };
   query?: never;
-  url: '/api/v1/admin/auctions/{auctionId}';
+  url: '/v1/admin/auctions/{auctionId}';
 };
 
 export type UpdateAdminAuctionErrors = {
@@ -5161,7 +5443,7 @@ export type PutWoocommerceListingSourceIngestionConfigurationData2 = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listingSourceId}/ingestion-configurations/woocommerce';
+  url: '/v1/listing-sources/{listingSourceId}/ingestion-configurations/woocommerce';
 };
 
 export type PutWoocommerceListingSourceIngestionConfigurationErrors = {
@@ -5219,7 +5501,7 @@ export type PutShopifyListingSourceIngestionConfigurationData2 = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listingSourceId}/ingestion-configurations/shopify';
+  url: '/v1/listing-sources/{listingSourceId}/ingestion-configurations/shopify';
 };
 
 export type PutShopifyListingSourceIngestionConfigurationErrors = {
@@ -5280,7 +5562,7 @@ export type DeletePartnerProductListingsData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings';
+  url: '/v1/listing-sources/{listingSourceId}/product-listings';
 };
 
 export type DeletePartnerProductListingsErrors = {
@@ -5357,7 +5639,7 @@ export type ListPartnerProductListingsData = {
      */
     searchAfter?: string;
   };
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings';
+  url: '/v1/listing-sources/{listingSourceId}/product-listings';
 };
 
 export type ListPartnerProductListingsErrors = {
@@ -5406,7 +5688,7 @@ export type PatchPartnerProductListingsData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings';
+  url: '/v1/listing-sources/{listingSourceId}/product-listings';
 };
 
 export type PatchPartnerProductListingsErrors = {
@@ -5467,7 +5749,7 @@ export type PostPartnerProductListingsData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings';
+  url: '/v1/listing-sources/{listingSourceId}/product-listings';
 };
 
 export type PostPartnerProductListingsErrors = {
@@ -5528,7 +5810,7 @@ export type PutPartnerProductListingsData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings';
+  url: '/v1/listing-sources/{listingSourceId}/product-listings';
 };
 
 export type PutPartnerProductListingsErrors = {
@@ -5592,7 +5874,7 @@ export type WithdrawPartnerProductListingData = {
   query: {
     expectedVersion: number;
   };
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}';
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}';
 };
 
 export type WithdrawPartnerProductListingErrors = {
@@ -5650,7 +5932,7 @@ export type GetPartnerProductListingData = {
     productListingId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}';
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}';
 };
 
 export type GetPartnerProductListingErrors = {
@@ -5704,7 +5986,7 @@ export type UpdatePartnerProductListingData = {
     productListingId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}';
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}';
 };
 
 export type UpdatePartnerProductListingErrors = {
@@ -5762,7 +6044,7 @@ export type RestorePartnerProductListingData = {
     productListingId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}/restore';
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}/restore';
 };
 
 export type RestorePartnerProductListingErrors = {
@@ -5825,7 +6107,7 @@ export type DeleteAsyncPartnerProductListingsData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/async';
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/async';
 };
 
 export type DeleteAsyncPartnerProductListingsErrors = {
@@ -5884,7 +6166,7 @@ export type PatchAsyncPartnerProductListingsData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/async';
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/async';
 };
 
 export type PatchAsyncPartnerProductListingsErrors = {
@@ -5943,7 +6225,7 @@ export type PostAsyncPartnerProductListingsData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/async';
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/async';
 };
 
 export type PostAsyncPartnerProductListingsErrors = {
@@ -6002,7 +6284,7 @@ export type PutAsyncPartnerProductListingsData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/async';
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/async';
 };
 
 export type PutAsyncPartnerProductListingsErrors = {
@@ -6077,7 +6359,7 @@ export type PostWoocommerceWebhookData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/webhooks/woocommerce/{listingSourceId}';
+  url: '/v1/webhooks/woocommerce/{listingSourceId}';
 };
 
 export type PostWoocommerceWebhookErrors = {
@@ -6172,7 +6454,7 @@ export type PostLoopsPreferenceWebhookData = {
   };
   path?: never;
   query?: never;
-  url: '/api/v1/webhooks/loops';
+  url: '/v1/webhooks/loops';
 };
 
 export type PostLoopsPreferenceWebhookErrors = {
@@ -6225,7 +6507,7 @@ export type GetProductListingByTitleSlugData = {
     language?: LanguageData;
     currency?: CurrencyData;
   };
-  url: '/api/v1/product-listings/by-slug/{productListingTitleSlugId}';
+  url: '/v1/product-listings/by-slug/{productListingTitleSlugId}';
 };
 
 export type GetProductListingByTitleSlugErrors = {
@@ -6284,7 +6566,7 @@ export type GetProductListingData = {
      */
     currency?: CurrencyData;
   };
-  url: '/api/v1/product-listings/{productListingId}';
+  url: '/v1/product-listings/{productListingId}';
 };
 
 export type GetProductListingErrors = {
@@ -6339,7 +6621,7 @@ export type GetProductListingHistoryData = {
      */
     currency?: CurrencyData;
   };
-  url: '/api/v1/product-listings/{productListingId}/history';
+  url: '/v1/product-listings/{productListingId}/history';
 };
 
 export type GetProductListingHistoryErrors = {
@@ -6390,7 +6672,7 @@ export type GetSimilarProductListingsData = {
      */
     currency?: CurrencyData;
   };
-  url: '/api/v1/product-listings/{productListingId}/similar';
+  url: '/v1/product-listings/{productListingId}/similar';
 };
 
 export type GetSimilarProductListingsErrors = {
@@ -6499,6 +6781,14 @@ export type SimpleSearchProductListingsData = {
      */
     availability?: Array<ListingAvailabilityData>;
     /**
+     * Optional derived orderability groups. Values are ORed and combine with exact availability assertions.
+     */
+    orderability?: Array<ListingOrderabilityData>;
+    /**
+     * Include listings without an availability assertion. Defaults to false when any availability or orderability predicate is supplied.
+     */
+    includeUnspecifiedAvailability?: boolean;
+    /**
      * Optional filter by product creation date range (RFC3339 format).
      * Use `created[min]` and/or `created[max]` to specify the datetime bounds.
      *
@@ -6584,7 +6874,7 @@ export type SimpleSearchProductListingsData = {
      */
     size?: number;
   };
-  url: '/api/v1/product-listings';
+  url: '/v1/product-listings';
 };
 
 export type SimpleSearchProductListingsErrors = {
@@ -6625,7 +6915,7 @@ export type GetUserSearchFiltersData = {
   body?: never;
   path?: never;
   query?: never;
-  url: '/api/v1/me/search-filters';
+  url: '/v1/me/search-filters';
 };
 
 export type GetUserSearchFiltersErrors = {
@@ -6661,7 +6951,7 @@ export type CreateUserSearchFilterData = {
   body: PostUserSearchFilterData;
   path?: never;
   query?: never;
-  url: '/api/v1/me/search-filters';
+  url: '/v1/me/search-filters';
 };
 
 export type CreateUserSearchFilterErrors = {
@@ -6711,7 +7001,7 @@ export type DeleteUserSearchFilterData = {
     userSearchFilterId: string;
   };
   query?: never;
-  url: '/api/v1/me/search-filters/{userSearchFilterId}';
+  url: '/v1/me/search-filters/{userSearchFilterId}';
 };
 
 export type DeleteUserSearchFilterErrors = {
@@ -6757,7 +7047,7 @@ export type GetUserSearchFilterData = {
     userSearchFilterId: string;
   };
   query?: never;
-  url: '/api/v1/me/search-filters/{userSearchFilterId}';
+  url: '/v1/me/search-filters/{userSearchFilterId}';
 };
 
 export type GetUserSearchFilterErrors = {
@@ -6807,7 +7097,7 @@ export type UpdateUserSearchFilterData = {
     userSearchFilterId: string;
   };
   query?: never;
-  url: '/api/v1/me/search-filters/{userSearchFilterId}';
+  url: '/v1/me/search-filters/{userSearchFilterId}';
 };
 
 export type UpdateUserSearchFilterErrors = {
@@ -6874,7 +7164,7 @@ export type ListSearchFilterMatchesData = {
      */
     searchAfter?: string;
   };
-  url: '/api/v1/me/search-filters/{userSearchFilterId}/matches';
+  url: '/v1/me/search-filters/{userSearchFilterId}/matches';
 };
 
 export type ListSearchFilterMatchesErrors = {
@@ -6934,7 +7224,7 @@ export type UpdateSearchFilterMatchFeedbackData = {
     productListingId: string;
   };
   query?: never;
-  url: '/api/v1/me/search-filters/{userSearchFilterId}/matches/{productListingId}';
+  url: '/v1/me/search-filters/{userSearchFilterId}/matches/{productListingId}';
 };
 
 export type UpdateSearchFilterMatchFeedbackErrors = {
@@ -6992,7 +7282,7 @@ export type GetWatchlistProductListingsData = {
      */
     searchAfter?: string;
   };
-  url: '/api/v1/me/watchlist';
+  url: '/v1/me/watchlist';
 };
 
 export type GetWatchlistProductListingsErrors = {
@@ -7025,7 +7315,7 @@ export type GetWatchlistProductListingsResponses = {
    * Watchlist product-listings retrieved successfully
    */
   200: {
-    items: Array<PersonalizedProductListingDetailsData>;
+    items: Array<PersonalizedProductListingCollectionDetailsData>;
     /**
      * Number of items returned in the current page.
      */
@@ -7046,7 +7336,7 @@ export type AddWatchlistProductData = {
   body: PostWatchlistData;
   path?: never;
   query?: never;
-  url: '/api/v1/me/watchlist';
+  url: '/v1/me/watchlist';
 };
 
 export type AddWatchlistProductErrors = {
@@ -7136,7 +7426,7 @@ export type AdminSearchListingSourcesData = {
      */
     size?: number;
   };
-  url: '/api/v1/admin/listing-sources';
+  url: '/v1/admin/listing-sources';
 };
 
 export type AdminSearchListingSourcesErrors = {
@@ -7180,7 +7470,7 @@ export type AdminCreateListingSourceData = {
   body: CreateListingSourceDataWritable;
   path?: never;
   query?: never;
-  url: '/api/v1/admin/listing-sources';
+  url: '/v1/admin/listing-sources';
 };
 
 export type AdminCreateListingSourceErrors = {
@@ -7278,7 +7568,7 @@ export type AdminSearchPartiesData = {
      */
     size?: number;
   };
-  url: '/api/v1/admin/parties';
+  url: '/v1/admin/parties';
 };
 
 export type AdminSearchPartiesErrors = {
@@ -7322,7 +7612,7 @@ export type AdminCreatePartyData = {
   body: CreatePartyData;
   path?: never;
   query?: never;
-  url: '/api/v1/admin/parties';
+  url: '/v1/admin/parties';
 };
 
 export type AdminCreatePartyErrors = {
@@ -7372,7 +7662,7 @@ export type AdminDeletePartyData = {
     partyId: string;
   };
   query?: never;
-  url: '/api/v1/admin/parties/{partyId}';
+  url: '/v1/admin/parties/{partyId}';
 };
 
 export type AdminDeletePartyErrors = {
@@ -7426,7 +7716,7 @@ export type AdminGetPartyData = {
     partyId: string;
   };
   query?: never;
-  url: '/api/v1/admin/parties/{partyId}';
+  url: '/v1/admin/parties/{partyId}';
 };
 
 export type AdminGetPartyErrors = {
@@ -7479,7 +7769,7 @@ export type AdminUpdatePartyData = {
     partyId: string;
   };
   query?: never;
-  url: '/api/v1/admin/parties/{partyId}';
+  url: '/v1/admin/parties/{partyId}';
 };
 
 export type AdminUpdatePartyErrors = {
@@ -7590,7 +7880,7 @@ export type AdminSearchUsersData = {
      */
     size?: number;
   };
-  url: '/api/v1/admin/users';
+  url: '/v1/admin/users';
 };
 
 export type AdminSearchUsersErrors = {
@@ -7636,7 +7926,7 @@ export type AdminDeleteUserData = {
     userId: string;
   };
   query?: never;
-  url: '/api/v1/admin/users/{userId}';
+  url: '/v1/admin/users/{userId}';
 };
 
 export type AdminDeleteUserErrors = {
@@ -7690,7 +7980,7 @@ export type AdminGetUserData = {
     userId: string;
   };
   query?: never;
-  url: '/api/v1/admin/users/{userId}';
+  url: '/v1/admin/users/{userId}';
 };
 
 export type AdminGetUserErrors = {
@@ -7735,7 +8025,7 @@ export type AdminPatchUserData = {
     userId: string;
   };
   query?: never;
-  url: '/api/v1/admin/users/{userId}';
+  url: '/v1/admin/users/{userId}';
 };
 
 export type AdminPatchUserErrors = {
@@ -7785,7 +8075,7 @@ export type AdminUnsuspendUserData = {
     userId: string;
   };
   query?: never;
-  url: '/api/v1/admin/users/{userId}/suspension';
+  url: '/v1/admin/users/{userId}/suspension';
 };
 
 export type AdminUnsuspendUserErrors = {
@@ -7839,7 +8129,7 @@ export type AdminSuspendUserData = {
     userId: string;
   };
   query?: never;
-  url: '/api/v1/admin/users/{userId}/suspension';
+  url: '/v1/admin/users/{userId}/suspension';
 };
 
 export type AdminSuspendUserErrors = {
@@ -7893,7 +8183,7 @@ export type AdminRevokeUserSessionsData = {
     userId: string;
   };
   query?: never;
-  url: '/api/v1/admin/users/{userId}/sessions/revoke';
+  url: '/v1/admin/users/{userId}/sessions/revoke';
 };
 
 export type AdminRevokeUserSessionsErrors = {
@@ -7943,7 +8233,7 @@ export type AdminDeleteUserAccessTokensData = {
     userId: string;
   };
   query?: never;
-  url: '/api/v1/admin/users/{userId}/access-tokens';
+  url: '/v1/admin/users/{userId}/access-tokens';
 };
 
 export type AdminDeleteUserAccessTokensErrors = {
@@ -8002,7 +8292,7 @@ export type AdminListUserAccessTokensData = {
      */
     searchAfter?: string;
   };
-  url: '/api/v1/admin/users/{userId}/access-tokens';
+  url: '/v1/admin/users/{userId}/access-tokens';
 };
 
 export type AdminListUserAccessTokensErrors = {
@@ -8056,7 +8346,7 @@ export type AdminDeleteUserAccessTokenData = {
     accessTokenId: string;
   };
   query?: never;
-  url: '/api/v1/admin/users/{userId}/access-tokens/{accessTokenId}';
+  url: '/v1/admin/users/{userId}/access-tokens/{accessTokenId}';
 };
 
 export type AdminDeleteUserAccessTokenErrors = {
@@ -8097,7 +8387,7 @@ export type DeleteUserData = {
   body?: never;
   path?: never;
   query?: never;
-  url: '/api/v1/me';
+  url: '/v1/me';
 };
 
 export type DeleteUserErrors = {
@@ -8134,7 +8424,7 @@ export type GetUserAccountData = {
   body?: never;
   path?: never;
   query?: never;
-  url: '/api/v1/me/account';
+  url: '/v1/me/account';
 };
 
 export type GetUserAccountErrors = {
@@ -8172,7 +8462,7 @@ export type UpdateUserAccountData = {
   body: PatchUserAccountData;
   path?: never;
   query?: never;
-  url: '/api/v1/me/account';
+  url: '/v1/me/account';
 };
 
 export type UpdateUserAccountErrors = {
@@ -8209,7 +8499,7 @@ export type GetMyAccessTokensData = {
   body?: never;
   path?: never;
   query?: never;
-  url: '/api/v1/me/access-tokens';
+  url: '/v1/me/access-tokens';
 };
 
 export type GetMyAccessTokensErrors = {
@@ -8245,7 +8535,7 @@ export type PatchMyAccessTokenData = {
   body: PatchAccessTokenData;
   path?: never;
   query?: never;
-  url: '/api/v1/me/access-tokens';
+  url: '/v1/me/access-tokens';
 };
 
 export type PatchMyAccessTokenErrors = {
@@ -8257,6 +8547,10 @@ export type PatchMyAccessTokenErrors = {
    * Unauthorized - invalid or missing bearer credentials
    */
   401: ApiError;
+  /**
+   * Forbidden - an Aura Historia access token lacks `access-tokens:write` or would expand the target token's scopes or lifetime
+   */
+  403: ApiError;
   /**
    * Access token not found
    */
@@ -8285,7 +8579,7 @@ export type PostMyAccessTokenData = {
   body: PostAccessTokenData;
   path?: never;
   query?: never;
-  url: '/api/v1/me/access-tokens';
+  url: '/v1/me/access-tokens';
 };
 
 export type PostMyAccessTokenErrors = {
@@ -8297,6 +8591,10 @@ export type PostMyAccessTokenErrors = {
    * Unauthorized - invalid or missing bearer credentials
    */
   401: ApiError;
+  /**
+   * Forbidden - the bearer is an Aura Historia access token
+   */
+  403: ApiError;
   /**
    * User not found
    */
@@ -8327,7 +8625,7 @@ export type DeleteMyAccessTokenData = {
     accessTokenId: string;
   };
   query?: never;
-  url: '/api/v1/me/access-tokens/{accessTokenId}';
+  url: '/v1/me/access-tokens/{accessTokenId}';
 };
 
 export type DeleteMyAccessTokenErrors = {
@@ -8365,7 +8663,7 @@ export type GetMyAccessTokenData = {
     accessTokenId: string;
   };
   query?: never;
-  url: '/api/v1/me/access-tokens/{accessTokenId}';
+  url: '/v1/me/access-tokens/{accessTokenId}';
 };
 
 export type GetMyAccessTokenErrors = {
@@ -8405,7 +8703,7 @@ export type PostBillingCheckoutData2 = {
   body: PostBillingCheckoutData;
   path?: never;
   query?: never;
-  url: '/api/v1/me/billing/checkout';
+  url: '/v1/me/billing/checkout';
 };
 
 export type PostBillingCheckoutErrors = {
@@ -8446,7 +8744,7 @@ export type PostBillingPortalData = {
   body?: never;
   path?: never;
   query?: never;
-  url: '/api/v1/me/billing/portal';
+  url: '/v1/me/billing/portal';
 };
 
 export type PostBillingPortalErrors = {
@@ -8486,7 +8784,7 @@ export type PostBillingManageData = {
   body: PostBillingCheckoutData;
   path?: never;
   query?: never;
-  url: '/api/v1/me/billing/manage';
+  url: '/v1/me/billing/manage';
 };
 
 export type PostBillingManageErrors = {
@@ -8532,7 +8830,7 @@ export type DeleteWatchlistProductData = {
     productListingId: string;
   };
   query?: never;
-  url: '/api/v1/me/watchlist/{productListingId}';
+  url: '/v1/me/watchlist/{productListingId}';
 };
 
 export type DeleteWatchlistProductErrors = {
@@ -8592,7 +8890,7 @@ export type PatchWatchlistProductData = {
      */
     currency?: CurrencyData;
   };
-  url: '/api/v1/me/watchlist/{productListingId}';
+  url: '/v1/me/watchlist/{productListingId}';
 };
 
 export type PatchWatchlistProductErrors = {
@@ -8645,7 +8943,7 @@ export type DeleteNotificationsData = {
   body?: never;
   path?: never;
   query?: never;
-  url: '/api/v1/me/notifications';
+  url: '/v1/me/notifications';
 };
 
 export type DeleteNotificationsErrors = {
@@ -8685,7 +8983,7 @@ export type ListNotificationsData = {
      */
     searchAfter?: string;
   };
-  url: '/api/v1/me/notifications';
+  url: '/v1/me/notifications';
 };
 
 export type ListNotificationsErrors = {
@@ -8722,7 +9020,7 @@ export type UpdateNotificationsSeenData2 = {
   body: UpdateNotificationsSeenData;
   path?: never;
   query?: never;
-  url: '/api/v1/me/notifications';
+  url: '/v1/me/notifications';
 };
 
 export type UpdateNotificationsSeenErrors = {
@@ -8759,7 +9057,7 @@ export type UpdateAllNotificationsSeenData = {
   body: UpdateNotificationSeenData;
   path?: never;
   query?: never;
-  url: '/api/v1/me/notifications/all';
+  url: '/v1/me/notifications/all';
 };
 
 export type UpdateAllNotificationsSeenErrors = {
@@ -8798,7 +9096,7 @@ export type DeleteNotificationData = {
     notificationId: string;
   };
   query?: never;
-  url: '/api/v1/me/notifications/{notificationId}';
+  url: '/v1/me/notifications/{notificationId}';
 };
 
 export type DeleteNotificationErrors = {
@@ -8841,7 +9139,7 @@ export type UpdateNotificationSeenData2 = {
     notificationId: string;
   };
   query?: never;
-  url: '/api/v1/me/notifications/{notificationId}';
+  url: '/v1/me/notifications/{notificationId}';
 };
 
 export type UpdateNotificationSeenErrors = {
@@ -8885,7 +9183,7 @@ export type PutNewsletterSubscriptionData2 = {
   body: PutNewsletterSubscriptionData;
   path?: never;
   query?: never;
-  url: '/api/v1/newsletter-subscriptions';
+  url: '/v1/newsletter-subscriptions';
 };
 
 export type PutNewsletterSubscriptionErrors = {
@@ -8925,7 +9223,7 @@ export type ConfirmNewsletterSubscriptionData2 = {
   body: ConfirmNewsletterSubscriptionData;
   path?: never;
   query?: never;
-  url: '/api/v1/newsletter-subscriptions/confirm';
+  url: '/v1/newsletter-subscriptions/confirm';
 };
 
 export type ConfirmNewsletterSubscriptionErrors = {
@@ -8960,7 +9258,7 @@ export type AdminDeleteListingSourceData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/admin/listing-sources/{listingSourceId}';
+  url: '/v1/admin/listing-sources/{listingSourceId}';
 };
 
 export type AdminDeleteListingSourceErrors = {
@@ -9011,7 +9309,7 @@ export type AdminGetListingSourceData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/admin/listing-sources/{listingSourceId}';
+  url: '/v1/admin/listing-sources/{listingSourceId}';
 };
 
 export type AdminGetListingSourceErrors = {
@@ -9064,7 +9362,7 @@ export type AdminUpdateListingSourceData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/admin/listing-sources/{listingSourceId}';
+  url: '/v1/admin/listing-sources/{listingSourceId}';
 };
 
 export type AdminUpdateListingSourceErrors = {
@@ -9118,7 +9416,7 @@ export type GetOAuthConsentClientData = {
     clientId: string;
   };
   query?: never;
-  url: '/api/v1/oauth/clients/{clientId}';
+  url: '/v1/oauth/clients/{clientId}';
 };
 
 export type GetOAuthConsentClientErrors = {
@@ -9172,6 +9470,10 @@ export type OauthAuthorizeData = {
      */
     redirect_uri: string;
     /**
+     * One exact shared Aura resource identifier (RFC 8707). Production accepts https://api.aura-historia.com and https://mcp.aura-historia.com/v1; stage accepts only https://api.stage.aura-historia.com and https://mcp.stage.aura-historia.com/v1. MCP clients must supply the canonical MCP identifier. Omission selects the same-environment shared Aura default (the issuer). Empty, repeated, foreign or noncanonical values fail with 400 OAuth invalid_target (invalid_request for other repeated parameters). The resolved value is bound to the authorization code.
+     */
+    resource?: string;
+    /**
      * Space-separated list of requested scopes. Must be a subset of the client's allowed scopes.
      */
     scope?: string;
@@ -9188,22 +9490,30 @@ export type OauthAuthorizeData = {
      */
     code_challenge_method: 'S256';
   };
-  url: '/api/v1/oauth/authorize';
+  url: '/v1/oauth/authorize';
 };
 
 export type OauthAuthorizeErrors = {
   /**
-   * Bad request — a required query parameter is missing, malformed, or has an unsupported value.
+   * Invalid query, unknown client or unregistered callback, unsupported response type, invalid scope or resource. Errors are returned directly; no unvalidated callback redirect is sent.
    */
-  400: ApiError;
+  400: OAuthErrorData;
   /**
-   * Unauthorized — the Cognito bearer token is missing, invalid, or the OAuth client was not found / credentials are invalid.
+   * Unauthorized — the bearer token is missing or invalid (`INVALID_CREDENTIALS`).
    */
   401: ApiError;
   /**
-   * Internal server error.
+   * Forbidden — the bearer is an Aura Historia access token. Approving an authorization request requires a Cognito access JWT, and no authorization code is issued.
    */
-  500: ApiError;
+  403: ApiError;
+  /**
+   * OAuth service failure, or an existing REST authentication dependency failure.
+   */
+  500: OAuthErrorData;
+  /**
+   * Temporary OAuth service failure, or an existing REST authentication dependency failure.
+   */
+  503: OAuthErrorData;
 };
 
 export type OauthAuthorizeError = OauthAuthorizeErrors[keyof OauthAuthorizeErrors];
@@ -9226,6 +9536,10 @@ export type OauthTokenData = {
      */
     redirect_uri: string;
     /**
+     * Repeat the exact resource selected during authorization. Omission inherits the code's binding, including the shared Aura default for legacy callers. Substitution (even the other allowed alias), foreign/other-environment, empty and repeated values fail with 400 OAuth invalid_target. The issued opaque token authorizes the shared Aura service through both REST and MCP under the original scopes; it has no exclusive transport audience.
+     */
+    resource?: string;
+    /**
      * Canonical OAuthClient ID.
      */
     client_id: string;
@@ -9240,29 +9554,33 @@ export type OauthTokenData = {
   };
   path?: never;
   query?: never;
-  url: '/api/v1/oauth/token';
+  url: '/v1/oauth/token';
 };
 
 export type OauthTokenErrors = {
   /**
-   * Bad request — a required form field is missing, `client_id` is not a valid OAuthClient ID, `redirect_uri` is malformed, or an authorization code error occurred (code not found, expired, mismatched client or redirect URI, or invalid PKCE verifier).
+   * Invalid form content type, malformed or repeated parameters, missing fields, unsupported header authentication, or invalid protocol input.
    */
-  400: ApiError;
+  400: OAuthErrorData;
   /**
-   * Unauthorized — invalid OAuth client credentials or unknown OAuth client.
+   * Unknown or invalid client credentials. Only client_secret_post is supported.
    */
-  401: ApiError;
+  401: OAuthErrorData;
   /**
-   * Internal server error.
+   * Internal failure; technical causes are not returned.
    */
-  500: ApiError;
+  500: OAuthErrorData;
+  /**
+   * Temporary failure.
+   */
+  503: OAuthErrorData;
 };
 
 export type OauthTokenError = OauthTokenErrors[keyof OauthTokenErrors];
 
 export type OauthTokenResponses = {
   /**
-   * Access token issued successfully.
+   * Access token issued. Nonexpiring tokens omit expires_in; no refresh token is issued.
    */
   200: OAuthTokenResponseData;
 };
@@ -9278,7 +9596,7 @@ export type OauthTokenByThirdPartyCodeData = {
     thirdPartyCode: string;
   };
   query?: never;
-  url: '/api/v1/oauth/tokens/by-third-party-code/{thirdPartyCode}';
+  url: '/v1/oauth/tokens/by-third-party-code/{thirdPartyCode}';
 };
 
 export type OauthTokenByThirdPartyCodeErrors = {
@@ -9327,33 +9645,37 @@ export type OauthRevokeData = {
   };
   path?: never;
   query?: never;
-  url: '/api/v1/oauth/revoke';
+  url: '/v1/oauth/revoke';
 };
 
 export type OauthRevokeErrors = {
   /**
-   * Bad request — a required form field is missing, `client_id` is not a valid OAuthClient ID, or the token value is invalid.
+   * Invalid form content type, malformed or repeated parameters, missing fields, unsupported header authentication, or invalid protocol input.
    */
-  400: ApiError;
+  400: OAuthErrorData;
   /**
-   * Unauthorized — invalid OAuth client credentials or unknown OAuth client.
+   * Unknown or invalid client credentials. Only client_secret_post is supported.
    */
-  401: ApiError;
+  401: OAuthErrorData;
   /**
-   * Forbidden — the token was not issued to the authenticated OAuth client.
+   * The token was not issued to the authenticated client and is not revoked.
    */
-  403: ApiError;
+  403: OAuthErrorData;
   /**
-   * Internal server error.
+   * Internal failure; technical causes are not returned.
    */
-  500: ApiError;
+  500: OAuthErrorData;
+  /**
+   * Temporary failure.
+   */
+  503: OAuthErrorData;
 };
 
 export type OauthRevokeError = OauthRevokeErrors[keyof OauthRevokeErrors];
 
 export type OauthRevokeResponses = {
   /**
-   * Token revoked successfully (or token was unknown/already inactive). Empty response body.
+   * Token revoked or already unknown; empty body.
    */
   200: unknown;
 };
@@ -9378,29 +9700,33 @@ export type OauthIntrospectData = {
   };
   path?: never;
   query?: never;
-  url: '/api/v1/oauth/introspect';
+  url: '/v1/oauth/introspect';
 };
 
 export type OauthIntrospectErrors = {
   /**
-   * Bad request — a required form field is missing, `client_id` is not a valid OAuthClient ID, or the token value is invalid.
+   * Invalid form content type, malformed or repeated parameters, missing fields, unsupported header authentication, or invalid protocol input.
    */
-  400: ApiError;
+  400: OAuthErrorData;
   /**
-   * Unauthorized — invalid OAuth client credentials or unknown OAuth client.
+   * Unknown or invalid client credentials. Only client_secret_post is supported.
    */
-  401: ApiError;
+  401: OAuthErrorData;
   /**
-   * Internal server error.
+   * Internal failure; technical causes are not returned.
    */
-  500: ApiError;
+  500: OAuthErrorData;
+  /**
+   * Temporary failure.
+   */
+  503: OAuthErrorData;
 };
 
 export type OauthIntrospectError = OauthIntrospectErrors[keyof OauthIntrospectErrors];
 
 export type OauthIntrospectResponses = {
   /**
-   * Introspection result. `active: false` means the token is unknown, expired, or revoked.
+   * Token metadata; an unknown, expired or revoked token returns only active false.
    */
   200: OAuthIntrospectionResponseData;
 };
@@ -9428,7 +9754,7 @@ export type AdminListOAuthClientsData = {
      */
     size?: number;
   };
-  url: '/api/v1/admin/oauth-clients';
+  url: '/v1/admin/oauth-clients';
 };
 
 export type AdminListOAuthClientsErrors = {
@@ -9472,7 +9798,7 @@ export type AdminCreateOAuthClientData = {
   body: OAuthClientMetadataRequestData;
   path?: never;
   query?: never;
-  url: '/api/v1/admin/oauth-clients';
+  url: '/v1/admin/oauth-clients';
 };
 
 export type AdminCreateOAuthClientErrors = {
@@ -9485,7 +9811,7 @@ export type AdminCreateOAuthClientErrors = {
    */
   401: ApiError;
   /**
-   * Forbidden — the caller is not an administrator or a delegated caller lacks `access-tokens:write`.
+   * Forbidden — the caller is not an administrator, or the bearer is an Aura Historia access token.
    */
   403: ApiError;
   /**
@@ -9518,7 +9844,7 @@ export type AdminDeleteOAuthClientData = {
     clientId: string;
   };
   query?: never;
-  url: '/api/v1/admin/oauth-clients/{clientId}';
+  url: '/v1/admin/oauth-clients/{clientId}';
 };
 
 export type AdminDeleteOAuthClientErrors = {
@@ -9568,7 +9894,7 @@ export type AdminGetOAuthClientData = {
     clientId: string;
   };
   query?: never;
-  url: '/api/v1/admin/oauth-clients/{clientId}';
+  url: '/v1/admin/oauth-clients/{clientId}';
 };
 
 export type AdminGetOAuthClientErrors = {
@@ -9621,7 +9947,7 @@ export type AdminPatchOAuthClientData = {
     clientId: string;
   };
   query?: never;
-  url: '/api/v1/admin/oauth-clients/{clientId}';
+  url: '/v1/admin/oauth-clients/{clientId}';
 };
 
 export type AdminPatchOAuthClientErrors = {
@@ -9676,7 +10002,7 @@ export type SearchPublicListingSourcesData = {
      */
     searchAfter?: string;
   };
-  url: '/api/v1/listing-sources';
+  url: '/v1/listing-sources';
 };
 
 export type SearchPublicListingSourcesErrors = {
@@ -9718,7 +10044,7 @@ export type GetPublicListingSourceBySlugData = {
     listingSourceSlugId: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/by-slug/{listingSourceSlugId}';
+  url: '/v1/listing-sources/by-slug/{listingSourceSlugId}';
 };
 
 export type GetPublicListingSourceBySlugErrors = {
@@ -9758,11 +10084,21 @@ export type GetPublicListingSourceBySlugResponse = GetPublicListingSourceBySlugR
 export type GetMyListingSourcesData = {
   body?: never;
   path?: never;
-  query?: never;
-  url: '/api/v1/me/listing-sources';
+  query?: {
+    size?: number;
+    /**
+     * Opaque next continuation from a preceding page for this authenticated caller.
+     */
+    after?: string;
+  };
+  url: '/v1/me/listing-sources';
 };
 
 export type GetMyListingSourcesErrors = {
+  /**
+   * Invalid size or continuation, including a continuation for another actor.
+   */
+  400: ApiError;
   /**
    * Problem response
    */
@@ -9787,7 +10123,7 @@ export type GetMyListingSourcesResponses = {
   /**
    * Success
    */
-  200: Array<AdministeredListingSourceData>;
+  200: AdministeredListingSourcesPageData;
 };
 
 export type GetMyListingSourcesResponse = GetMyListingSourcesResponses[keyof GetMyListingSourcesResponses];
@@ -9796,7 +10132,7 @@ export type GetMyPartnershipApplicationsData = {
   body?: never;
   path?: never;
   query?: never;
-  url: '/api/v1/me/partnership-applications';
+  url: '/v1/me/partnership-applications';
 };
 
 export type GetMyPartnershipApplicationsErrors = {
@@ -9833,7 +10169,7 @@ export type PostPartnershipApplicationData = {
   body: SubmitPartnershipApplicationData;
   path?: never;
   query?: never;
-  url: '/api/v1/me/partnership-applications';
+  url: '/v1/me/partnership-applications';
 };
 
 export type PostPartnershipApplicationErrors = {
@@ -9880,7 +10216,7 @@ export type DeleteOwnPartnershipApplicationData = {
     partnershipApplicationId: string;
   };
   query?: never;
-  url: '/api/v1/me/partnership-applications/{partnershipApplicationId}';
+  url: '/v1/me/partnership-applications/{partnershipApplicationId}';
 };
 
 export type DeleteOwnPartnershipApplicationErrors = {
@@ -9931,7 +10267,7 @@ export type GetOwnPartnershipApplicationData = {
     partnershipApplicationId: string;
   };
   query?: never;
-  url: '/api/v1/me/partnership-applications/{partnershipApplicationId}';
+  url: '/v1/me/partnership-applications/{partnershipApplicationId}';
 };
 
 export type GetOwnPartnershipApplicationErrors = {
@@ -9976,7 +10312,7 @@ export type GetAdminOverviewData = {
   body?: never;
   path?: never;
   query?: never;
-  url: '/api/v1/admin/overview';
+  url: '/v1/admin/overview';
 };
 
 export type GetAdminOverviewErrors = {
@@ -10034,7 +10370,7 @@ export type AdminSearchPartnershipsData = {
      */
     size?: number;
   };
-  url: '/api/v1/admin/partnerships';
+  url: '/v1/admin/partnerships';
 };
 
 export type AdminSearchPartnershipsErrors = {
@@ -10080,7 +10416,7 @@ export type AdminDissolvePartnershipData = {
     partnershipId: string;
   };
   query?: never;
-  url: '/api/v1/admin/partnerships/{partnershipId}';
+  url: '/v1/admin/partnerships/{partnershipId}';
 };
 
 export type AdminDissolvePartnershipErrors = {
@@ -10134,7 +10470,7 @@ export type AdminGetPartnershipData = {
     partnershipId: string;
   };
   query?: never;
-  url: '/api/v1/admin/partnerships/{partnershipId}';
+  url: '/v1/admin/partnerships/{partnershipId}';
 };
 
 export type AdminGetPartnershipErrors = {
@@ -10188,7 +10524,7 @@ export type AdminRevokePartnershipListingSourceData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}';
+  url: '/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}';
 };
 
 export type AdminRevokePartnershipListingSourceErrors = {
@@ -10242,7 +10578,7 @@ export type AdminGrantPartnershipListingSourceData = {
     listingSourceId: string;
   };
   query?: never;
-  url: '/api/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}';
+  url: '/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}';
 };
 
 export type AdminGrantPartnershipListingSourceErrors = {
@@ -10300,7 +10636,7 @@ export type AdminRevokePartnershipMembershipData = {
     userId: string;
   };
   query?: never;
-  url: '/api/v1/admin/partnerships/{partnershipId}/members/{userId}';
+  url: '/v1/admin/partnerships/{partnershipId}/members/{userId}';
 };
 
 export type AdminRevokePartnershipMembershipErrors = {
@@ -10354,7 +10690,7 @@ export type AdminGrantPartnershipMembershipData = {
     userId: string;
   };
   query?: never;
-  url: '/api/v1/admin/partnerships/{partnershipId}/members/{userId}';
+  url: '/v1/admin/partnerships/{partnershipId}/members/{userId}';
 };
 
 export type AdminGrantPartnershipMembershipErrors = {
@@ -10448,7 +10784,7 @@ export type AdminSearchPartnershipApplicationsData = {
      */
     size?: number;
   };
-  url: '/api/v1/admin/partnership-applications';
+  url: '/v1/admin/partnership-applications';
 };
 
 export type AdminSearchPartnershipApplicationsErrors = {
@@ -10494,7 +10830,7 @@ export type AdminGetPartnershipApplicationData = {
     partnershipApplicationId: string;
   };
   query?: never;
-  url: '/api/v1/admin/partnership-applications/{partnershipApplicationId}';
+  url: '/v1/admin/partnership-applications/{partnershipApplicationId}';
 };
 
 export type AdminGetPartnershipApplicationErrors = {
@@ -10544,7 +10880,7 @@ export type AdminMarkPartnershipApplicationInReviewData = {
     partnershipApplicationId: string;
   };
   query?: never;
-  url: '/api/v1/admin/partnership-applications/{partnershipApplicationId}';
+  url: '/v1/admin/partnership-applications/{partnershipApplicationId}';
 };
 
 export type AdminMarkPartnershipApplicationInReviewErrors = {
@@ -10598,7 +10934,7 @@ export type AdminDecidePartnershipApplicationData = {
     partnershipApplicationId: string;
   };
   query?: never;
-  url: '/api/v1/admin/partnership-applications/{partnershipApplicationId}/decision';
+  url: '/v1/admin/partnership-applications/{partnershipApplicationId}/decision';
 };
 
 export type AdminDecidePartnershipApplicationErrors = {
@@ -10650,7 +10986,7 @@ export type ListUserAddressesData = {
     after?: UserAddressId;
     limit?: number;
   };
-  url: '/api/v1/me/addresses';
+  url: '/v1/me/addresses';
 };
 
 export type ListUserAddressesErrors = {
@@ -10699,7 +11035,7 @@ export type CreateUserAddressData = {
   body: CreateUserAddress;
   path?: never;
   query?: never;
-  url: '/api/v1/me/addresses';
+  url: '/v1/me/addresses';
 };
 
 export type CreateUserAddressErrors = {
@@ -10750,7 +11086,7 @@ export type DeleteUserAddressData = {
     address_id: UserAddressId;
   };
   query?: never;
-  url: '/api/v1/me/addresses/{address_id}';
+  url: '/v1/me/addresses/{address_id}';
 };
 
 export type DeleteUserAddressErrors = {
@@ -10801,7 +11137,7 @@ export type GetUserAddressData = {
     address_id: UserAddressId;
   };
   query?: never;
-  url: '/api/v1/me/addresses/{address_id}';
+  url: '/v1/me/addresses/{address_id}';
 };
 
 export type GetUserAddressErrors = {
@@ -10852,7 +11188,7 @@ export type UpdateUserAddressData = {
     address_id: UserAddressId;
   };
   query?: never;
-  url: '/api/v1/me/addresses/{address_id}';
+  url: '/v1/me/addresses/{address_id}';
 };
 
 export type UpdateUserAddressErrors = {
@@ -10901,7 +11237,7 @@ export type GetBrowsingDestinationData = {
   body?: never;
   path?: never;
   query?: never;
-  url: '/api/v1/me/browsing-destination';
+  url: '/v1/me/browsing-destination';
 };
 
 export type GetBrowsingDestinationErrors = {
@@ -10950,7 +11286,7 @@ export type SetBrowsingDestinationData = {
   body: SetBrowsingDestination;
   path?: never;
   query?: never;
-  url: '/api/v1/me/browsing-destination';
+  url: '/v1/me/browsing-destination';
 };
 
 export type SetBrowsingDestinationErrors = {
@@ -11003,7 +11339,7 @@ export type DiscoverPartyLocationsData = {
     size?: number;
     searchAfter?: PartyLocationDiscoveryCursorData;
   };
-  url: '/api/v1/party-locations';
+  url: '/v1/party-locations';
 };
 
 export type DiscoverPartyLocationsErrors = {
@@ -11047,7 +11383,7 @@ export type ListPartyLocationsData = {
     after?: PartyLocationId;
     limit?: number;
   };
-  url: '/api/v1/parties/{party_id}/locations';
+  url: '/v1/parties/{party_id}/locations';
 };
 
 export type ListPartyLocationsErrors = {
@@ -11097,7 +11433,7 @@ export type CreatePartyLocationData2 = {
     party_id: string;
   };
   query?: never;
-  url: '/api/v1/parties/{party_id}/locations';
+  url: '/v1/parties/{party_id}/locations';
 };
 
 export type CreatePartyLocationErrors = {
@@ -11152,7 +11488,7 @@ export type GetPartyLocationData = {
     location_id: PartyLocationId;
   };
   query?: never;
-  url: '/api/v1/parties/{party_id}/locations/{location_id}';
+  url: '/v1/parties/{party_id}/locations/{location_id}';
 };
 
 export type GetPartyLocationErrors = {
@@ -11203,7 +11539,7 @@ export type CorrectPartyLocationData2 = {
     location_id: PartyLocationId;
   };
   query?: never;
-  url: '/api/v1/parties/{party_id}/locations/{location_id}';
+  url: '/v1/parties/{party_id}/locations/{location_id}';
 };
 
 export type CorrectPartyLocationErrors = {
@@ -11258,7 +11594,7 @@ export type SetPartyLocationLifecycleData2 = {
     location_id: PartyLocationId;
   };
   query?: never;
-  url: '/api/v1/parties/{party_id}/locations/{location_id}/lifecycle';
+  url: '/v1/parties/{party_id}/locations/{location_id}/lifecycle';
 };
 
 export type SetPartyLocationLifecycleErrors = {
@@ -11329,7 +11665,7 @@ export type ListPartyLocationManagersData = {
      */
     searchAfter?: string;
   };
-  url: '/api/v1/admin/parties/{party_id}/location-managers';
+  url: '/v1/admin/parties/{party_id}/location-managers';
 };
 
 export type ListPartyLocationManagersErrors = {
@@ -11380,7 +11716,7 @@ export type SetPartyLocationManagementGrantData = {
     user_id: string;
   };
   query?: never;
-  url: '/api/v1/admin/parties/{party_id}/location-managers/{user_id}';
+  url: '/v1/admin/parties/{party_id}/location-managers/{user_id}';
 };
 
 export type SetPartyLocationManagementGrantErrors = {
@@ -11434,7 +11770,7 @@ export type ClearSourceLocationDefaultData2 = {
     listing_source_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/location-default';
+  url: '/v1/listing-sources/{listing_source_id}/location-default';
 };
 
 export type ClearSourceLocationDefaultErrors = {
@@ -11488,7 +11824,7 @@ export type GetSourceLocationDefaultData = {
     listing_source_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/location-default';
+  url: '/v1/listing-sources/{listing_source_id}/location-default';
 };
 
 export type GetSourceLocationDefaultErrors = {
@@ -11542,7 +11878,7 @@ export type ChangeSourceLocationDefaultApplicabilityData2 = {
     listing_source_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/location-default';
+  url: '/v1/listing-sources/{listing_source_id}/location-default';
 };
 
 export type ChangeSourceLocationDefaultApplicabilityErrors = {
@@ -11596,7 +11932,7 @@ export type AssignSourceLocationDefaultData2 = {
     listing_source_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/location-default';
+  url: '/v1/listing-sources/{listing_source_id}/location-default';
 };
 
 export type AssignSourceLocationDefaultErrors = {
@@ -11650,7 +11986,7 @@ export type AdminClearSourceLocationDefaultData = {
     listing_source_id: string;
   };
   query?: never;
-  url: '/api/v1/admin/listing-sources/{listing_source_id}/location-default';
+  url: '/v1/admin/listing-sources/{listing_source_id}/location-default';
 };
 
 export type AdminClearSourceLocationDefaultErrors = {
@@ -11704,7 +12040,7 @@ export type AdminGetSourceLocationDefaultData = {
     listing_source_id: string;
   };
   query?: never;
-  url: '/api/v1/admin/listing-sources/{listing_source_id}/location-default';
+  url: '/v1/admin/listing-sources/{listing_source_id}/location-default';
 };
 
 export type AdminGetSourceLocationDefaultErrors = {
@@ -11758,7 +12094,7 @@ export type AdminChangeSourceLocationDefaultApplicabilityData = {
     listing_source_id: string;
   };
   query?: never;
-  url: '/api/v1/admin/listing-sources/{listing_source_id}/location-default';
+  url: '/v1/admin/listing-sources/{listing_source_id}/location-default';
 };
 
 export type AdminChangeSourceLocationDefaultApplicabilityErrors = {
@@ -11812,7 +12148,7 @@ export type AdminAssignSourceLocationDefaultData = {
     listing_source_id: string;
   };
   query?: never;
-  url: '/api/v1/admin/listing-sources/{listing_source_id}/location-default';
+  url: '/v1/admin/listing-sources/{listing_source_id}/location-default';
 };
 
 export type AdminAssignSourceLocationDefaultErrors = {
@@ -11874,7 +12210,7 @@ export type ListShippingProfilesData = {
      */
     integrationMethod?: 'SHOPIFY' | 'WOOCOMMERCE';
   };
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles';
+  url: '/v1/listing-sources/{listing_source_id}/shipping-profiles';
 };
 
 export type ListShippingProfilesErrors = {
@@ -11925,7 +12261,7 @@ export type CreateShippingProfileData2 = {
     listing_source_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles';
+  url: '/v1/listing-sources/{listing_source_id}/shipping-profiles';
 };
 
 export type CreateShippingProfileErrors = {
@@ -11977,7 +12313,7 @@ export type RetireShippingProfileData = {
     shipping_profile_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}';
+  url: '/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}';
 };
 
 export type RetireShippingProfileErrors = {
@@ -12029,7 +12365,7 @@ export type GetShippingProfileData = {
     shipping_profile_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}';
+  url: '/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}';
 };
 
 export type GetShippingProfileErrors = {
@@ -12081,7 +12417,7 @@ export type ReplaceShippingProfileData2 = {
     shipping_profile_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}';
+  url: '/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}';
 };
 
 export type ReplaceShippingProfileErrors = {
@@ -12133,7 +12469,7 @@ export type RestoreShippingProfileData = {
     shipping_profile_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}/restore';
+  url: '/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}/restore';
 };
 
 export type RestoreShippingProfileErrors = {
@@ -12184,7 +12520,7 @@ export type ClearShippingDefaultData2 = {
     listing_source_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-default';
+  url: '/v1/listing-sources/{listing_source_id}/shipping-default';
 };
 
 export type ClearShippingDefaultErrors = {
@@ -12235,7 +12571,7 @@ export type GetShippingDefaultData = {
     listing_source_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-default';
+  url: '/v1/listing-sources/{listing_source_id}/shipping-default';
 };
 
 export type GetShippingDefaultErrors = {
@@ -12286,7 +12622,7 @@ export type AssignShippingDefaultData2 = {
     listing_source_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-default';
+  url: '/v1/listing-sources/{listing_source_id}/shipping-default';
 };
 
 export type AssignShippingDefaultErrors = {
@@ -12338,7 +12674,7 @@ export type GetProductListingDeliveryData = {
     source_listing_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery';
+  url: '/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery';
 };
 
 export type GetProductListingDeliveryErrors = {
@@ -12390,7 +12726,7 @@ export type ChangeProductListingDeliveryData = {
     source_listing_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery';
+  url: '/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery';
 };
 
 export type ChangeProductListingDeliveryErrors = {
@@ -12448,7 +12784,7 @@ export type SubmitProductListingDeliveryData = {
     source_listing_id: string;
   };
   query?: never;
-  url: '/api/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery/async';
+  url: '/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery/async';
 };
 
 export type SubmitProductListingDeliveryErrors = {

@@ -27,7 +27,7 @@ const GUIDE_STEPS: readonly { readonly key: GuideStepKey; readonly numeral: stri
     { key: "verifyResults", numeral: "IV" },
 ];
 
-const PRODUCT_LISTINGS_ENDPOINT = "/api/v1/listing-sources/{listingSourceId}/product-listings";
+const PRODUCT_LISTINGS_ENDPOINT = "/v1/listing-sources/{listingSourceId}/product-listings";
 const API_DOCUMENTATION_URL = "https://docs.api.aura-historia.com";
 const LISTING_SOURCE_PLACEHOLDER = "YOUR_LISTING_SOURCE_ID";
 const ACCESS_TOKEN_PLACEHOLDER = "YOUR_USER_ACCESS_TOKEN";
@@ -72,7 +72,7 @@ const LazyPartnerProductsApiReference = lazy(
 function buildCurlCommand(listingSourceId: string) {
     return [
         "curl --request POST \\",
-        `  --url 'https://api.aura-historia.com/api/v1/listing-sources/${listingSourceId}/product-listings' \\`,
+        `  --url 'https://api.aura-historia.com/v1/listing-sources/${listingSourceId}/product-listings' \\`,
         `  --header 'Authorization: Bearer ${ACCESS_TOKEN_PLACEHOLDER}' \\`,
         "  --header 'Content-Type: application/json' \\",
         `  --data '${JSON.stringify(PARTNER_CREATE_EXAMPLE, null, 2)}'`,
@@ -806,7 +806,7 @@ function ProductRequestExample({
             >
                 <code>
                     {
-                        "curl --request POST \\\n  --url 'https://api.aura-historia.com/api/v1/listing-sources/"
+                        "curl --request POST \\\n  --url 'https://api.aura-historia.com/v1/listing-sources/"
                     }
                     <mark className={markClass}>
                         {listingSourceId ?? LISTING_SOURCE_PLACEHOLDER}

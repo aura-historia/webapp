@@ -9,7 +9,7 @@ switch: the notice follows the public health endpoints.
 Each check requests both public probes in parallel with `cache: "no-store"` and a 10 s
 timeout:
 
-| `GET /api/v1/health` | `GET /api/v1/ready` | Result | Visitors see |
+| `GET /v1/health` | `GET /v1/ready` | Result | Visitors see |
 |---|---|---|---|
 | 503 | any | maintenance | maintenance notice |
 | 2xx | 2xx | operational | nothing |
@@ -20,7 +20,7 @@ timeout:
 covers Postgres and the OpenSearch product index. Liveness stays 200 while those
 dependencies fail, so liveness alone would miss broken search.
 
-To announce maintenance, make `/api/v1/health` return 503. The response must carry the
+To announce maintenance, make `/v1/health` return 503. The response must carry the
 API Gateway CORS headers; otherwise the browser cannot read the status and the site
 shows the disruption notice instead.
 

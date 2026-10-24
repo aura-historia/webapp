@@ -72,5 +72,6 @@ function getAuthorizationRequestId(searchParams: OAuthAuthorizeSearchParams): st
         searchParams.scope,
         searchParams.response_type,
         searchParams.code_challenge_method,
+        searchParams.resource,
     ]);
 }

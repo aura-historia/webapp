@@ -6,10 +6,7 @@ import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { SearchFilterSummary } from "@/features/saved-searches/components/SearchFilterSummary.tsx";
 import { SearchResultCard } from "@/features/search/products/components/results/SearchResultCard.tsx";
 import { SearchResultCardSkeleton } from "@/features/search/products/components/results/SearchResultPlaceholders.tsx";
-import {
-    canPreviewSavedSearch,
-    useSearchFilterPreviewProducts,
-} from "@/features/saved-searches/api/useSearchFilterPreviewProducts.ts";
+import { useSearchFilterPreviewProducts } from "@/features/saved-searches/api/useSearchFilterPreviewProducts.ts";
 import { cn } from "@/lib/utils.ts";
 
 type Props = {
@@ -36,16 +33,11 @@ export function SearchFilterWizardConfirmStep({
         enhancedSearchDescription: enhancedSearchDescription || undefined,
     };
     const preview = useSearchFilterPreviewProducts(previewSearch, true);
-    const previewable = canPreviewSavedSearch(previewSearch);
     // Raw form values — reflect exactly what the user has checked (incl. "all selected"),
     // without waiting for SearchFilterFormProvider's debounce to sync them into `filters`.
     const formValues = useFormContext<FilterSchema>().watch();
     let previewContent: ReactNode;
-    if (!previewable) {
-        previewContent = (
-            <p className={PREVIEW_NOTE_CLASS}>{t("searchFilters.preview.unavailable")}</p>
-        );
-    } else if (preview.isPending) {
+    if (preview.isPending) {
         previewContent = (
             <div className={PREVIEW_GRID_CLASS} role="status" aria-busy="true">
                 <SearchResultCardSkeleton />
