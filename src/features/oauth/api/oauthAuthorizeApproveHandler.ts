@@ -4,7 +4,7 @@ import { setListingSourceIdOnRedirectUri } from "@/features/oauth/lib/oauthAutho
 import { z } from "zod";
 import { isSupportedLanguage, localizePathname } from "@/i18n/routing.ts";
 
-const AUTHORIZE_ENDPOINT = "/api/v1/oauth/authorize";
+const AUTHORIZE_ENDPOINT = "/v1/oauth/authorize";
 const LOGIN_PATH = "/login";
 const AUTHORIZE_PAGE_PATH = "/oauth/authorize";
 

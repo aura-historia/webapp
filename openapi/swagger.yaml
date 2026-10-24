@@ -15,10 +15,10 @@ info:
     \ sessions\n\n## Authentication model\n\nThe API uses more than one authentication scheme depending on the route:\n\n\
     - **`BearerAuth`** — Cognito **access** JWT bearer tokens for authenticated user, admin, and\n  partner-user workflows.\
     \ Cognito ID tokens are not accepted as API credentials.\n- **`AccessTokenAuth`** — Aura Historia opaque bearer access\
-    \ tokens created via\n  `/api/v1/me/access-tokens` or OAuth 2.0, primarily intended for partner automations and server-to-server\n\
+    \ tokens created via\n  `/v1/me/access-tokens` or OAuth 2.0, primarily intended for partner automations and server-to-server\n\
     \  ingestion scenarios.\n\nWhen a route lists multiple security schemes, any one of the listed schemes may be accepted.\n\
     Some read endpoints can also be called without authentication, while a valid user token may enrich\nthe response with\
-    \ personalized state such as watchlist, notification, or search-filter metadata.\n\n## Data and response conventions\n\
+    \ personalized state such as watchlist, notification, or search-filter metadata. Aura Historia access\ntokens receive only the sections their read scopes permit; see `ProductListingUserStateData`.\n\n## MCP interface\n\nThe separate `https://mcp.aura-historia.com/v1` Streamable HTTP endpoint accepts opaque Aura access tokens only. Public calls may omit credentials; invalid supplied credentials receive HTTP 401, protected operations require their declared scopes, and insufficient grants receive HTTP 403 with the complete required scope set. Credential-free protected-resource metadata is served on the MCP host at `/.well-known/oauth-protected-resource` and `/.well-known/oauth-protected-resource/v1`. See [the MCP contract](https://github.com/aura-historia/backend/blob/develop/docs/mcp.md) for protocol and discovery details.\n\n## Data and response conventions\n\
     \n- **PATCH:** an omitted request member remains unchanged. A documented nullable PATCH member\n  accepts `null` to clear\
     \ its value; `null` for any other member returns `400 BAD_BODY_VALUE`.\n  Use `[]`, not `null`, to replace a non-null\
     \ collection with an empty collection. Empty HTTP\n  bodies are invalid, `{}` is a valid object-PATCH no-op, and the partner-product\
@@ -26,14 +26,14 @@ info:
     \ and saved-search match reads accept optional **`language`** and\n  **`currency`** parameters. Currency defaults to `EUR`.\
     \ Detail pricing contains the seller's source\n  amounts, converted display amounts, and FX valuation metadata. Active\
     \ product-listings use the latest persisted\n  snapshot; sold product-listings use their immutable sale snapshot. Product\
-    \ history preserves immutable source values and accepts optional `currency` for historical FX display projections.\n  History text is not localized.\n- Request-wide errors are returned as **`application/problem+json`**\
-    \ using a consistent RFC 9457-style structure\n  with `status`, `title`, `error`, optional `source`, and optional `detail`\n\
+    \ history preserves immutable source values and accepts optional `currency` for historical FX display projections.\n  History text is not localized.\n- Request-wide REST errors are returned as **`application/problem+json`**\
+    \ using a consistent RFC 9457-style structure\n  with `status`, `title`, `error`, optional `source`, and optional `detail`. OAuth protocol errors instead return `application/json` with a standard OAuth `error`\n\
     - Many list and search endpoints use **cursor-based pagination** via `searchAfter`\n- Origin API responses include\
     \ server-generated `X-Request-Id` and `X-Correlation-Id` headers. Clients may send `X-Correlation-Id` to preserve a trace\
     \ only when it is a 1–128-character ASCII value containing letters, digits, `.`, `_`, or `-`; invalid values are replaced.\
     \ Both headers are CORS-exposed; CloudFront removes them from viewer responses on the six cache-enabled discovery behaviors so shared cache hits cannot replay origin IDs.\n- Request bodies are limited to 1 MiB and requests time out after 30 seconds. A declared `Content-Length` above 1 MiB is\
-    \ rejected at the edge with `413` (`BAD_BODY_VALUE`, JSON body) before authentication or route handling.\n- `POST /api/v1/webhooks/loops` is limited to 64 KiB and has a 10-second processing budget; it requires a valid Loops signature but no Aura bearer.\n- `GET /api/v1/health` is a\
-    \ process liveness check. `GET /api/v1/ready` returns `204` only when the configured PostgreSQL and OpenSearch dependencies are\
+    \ rejected at the edge with `413` (`BAD_BODY_VALUE`, JSON body) before authentication or route handling.\n- `POST /v1/webhooks/loops` is limited to 64 KiB and has a 10-second processing budget; it requires a valid Loops signature but no Aura bearer.\n- `GET /v1/health` is a\
+    \ process liveness check. `GET /v1/ready` returns `204` only when the configured PostgreSQL and OpenSearch dependencies are\
     \ reachable; it otherwise returns `503`.\n- WooCommerce webhook ingestion responds with **`204 No Content`** after\
     \ signed validation. A mapped raw-capture command receives `204` only after confirmed shared FIFO admission; authorized ignored create/update status events are no-op `204`. Queue admission is not raw capture, provider receipt persistence, canonical normalization, or search visibility. Capture conflicts are handled by the consumer, not returned synchronously; existing partner Product batch writes remain synchronous.\n\n## Environment\
     \ endpoints\n\n- **Development:** `https://api.stage.aura-historia.com`\n- **Production:** `https://api.aura-historia.com`\n\
@@ -54,7 +54,37 @@ servers:
   - url: https://api.aura-historia.com
     description: Production environment
 paths:
-  /api/v1/health:
+  /.well-known/oauth-authorization-server:
+    get:
+      summary: Discover the Aura OAuth authorization server
+      description: Public RFC 8414 metadata for fixed confidential clients. The issuer and endpoints use the configured environment; the authorization endpoint is the existing webapp consent URL. No refresh grant, dynamic registration, CIMD or authorization-response issuer parameter is advertised. Broader registered-client scopes remain supported; scopes_supported lists the relevant ordinary user vocabulary. See docs/oauth.md for fixed-client setup.
+      operationId: getOAuthAuthorizationServerMetadata
+      tags:
+        - OAuth
+      security: []
+      responses:
+        "200":
+          description: Public metadata; supplied credentials are not evaluated. CloudFront keeps this exact route uncached.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthAuthorizationServerMetadataData'
+              example:
+                issuer: https://api.aura-historia.com
+                authorization_endpoint: https://aura-historia.com/en/oauth/authorize
+                token_endpoint: https://api.aura-historia.com/v1/oauth/token
+                response_types_supported: [code]
+                response_modes_supported: [query]
+                grant_types_supported: [authorization_code]
+                token_endpoint_auth_methods_supported: [client_secret_post]
+                code_challenge_methods_supported: [S256]
+                scopes_supported: ['users:read', 'users:write', 'search-filters:read', 'search-filters:write', 'watchlist:read', 'watchlist:write', 'notifications:read', 'notifications:write']
+  /v1/health:
     get:
       summary: Check process liveness
       description: Returns the fixed `ok` response without checking dependencies.
@@ -68,7 +98,7 @@ paths:
             text/plain:
               schema: { type: string }
               example: "ok\n"
-  /api/v1/ready:
+  /v1/ready:
     get:
       summary: Check service readiness
       description: Returns no diagnostic body when readiness fails.
@@ -80,7 +110,7 @@ paths:
           description: The readiness check succeeded.
         "503":
           description: The readiness check failed or timed out; no diagnostic body is returned.
-  /api/v1/overview:
+  /v1/overview:
     get:
       summary: Get public catalogue statistics
       description: |
@@ -135,7 +165,7 @@ paths:
                 status: 503
                 title: Service Unavailable
                 error: OVERVIEW_TEMPORARILY_UNAVAILABLE
-  /api/v1/auctions:
+  /v1/auctions:
     get:
       summary: List public Auctions
       operationId: listAuctions
@@ -199,7 +229,7 @@ paths:
                 $ref: "#/components/schemas/PublicAuctionDirectoryData"
         "400":
           description: "Invalid ID, filter, cursor, or incomplete exact-time range."
-  /api/v1/auctions/{auctionId}:
+  /v1/auctions/{auctionId}:
     get:
       summary: Get public Auction detail
       operationId: getAuction
@@ -219,7 +249,7 @@ paths:
                 $ref: "#/components/schemas/PublicAuctionData"
         "400": { description: Invalid Auction ID (`INVALID_OBJECT_ID`). }
         "404": { description: Auction missing (`AUCTION_NOT_FOUND`). }
-  /api/v1/auctions/{auctionId}/product-listings:
+  /v1/auctions/{auctionId}/product-listings:
     get:
       summary: Get public Auction catalogue
       operationId: getAuctionCatalogue
@@ -273,7 +303,7 @@ paths:
                 $ref: "#/components/schemas/PublicAuctionCatalogueData"
         "400": { description: Invalid Auction ID or cursor. }
         "404": { description: Auction missing (`AUCTION_NOT_FOUND`). }
-  /api/v1/admin/product-listings:
+  /v1/admin/product-listings:
     get:
       summary: Search ProductListings for administration
       operationId: searchAdminProductListings
@@ -314,7 +344,7 @@ paths:
         "500":
           description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
           content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
-  /api/v1/admin/product-listings/{productListingId}:
+  /v1/admin/product-listings/{productListingId}:
     get:
       summary: Inspect authoritative ProductListing facts
       operationId: getAdminProductListing
@@ -428,7 +458,7 @@ paths:
         "500":
           description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
           content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
-  /api/v1/admin/product-listings/{productListingId}/restore:
+  /v1/admin/product-listings/{productListingId}/restore:
     post:
       summary: Explicitly restore a retained ProductListing
       operationId: restoreAdminProductListing
@@ -469,7 +499,7 @@ paths:
         "500":
           description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
           content: { application/json: { schema: { $ref: "#/components/schemas/ApiError" } } }
-  /api/v1/admin/auctions:
+  /v1/admin/auctions:
     get:
       summary: Search Auctions for administration
       operationId: adminSearchAuctions
@@ -583,7 +613,7 @@ paths:
           {
             description: Temporary Auction persistence failure (`AUCTION_TEMPORARILY_UNAVAILABLE`).,
           }
-  /api/v1/admin/auctions/{auctionId}:
+  /v1/admin/auctions/{auctionId}:
     get:
       summary: Get Auction administration detail
       operationId: getAdminAuction
@@ -666,7 +696,7 @@ paths:
             description: Temporary Auction persistence failure (`AUCTION_TEMPORARILY_UNAVAILABLE`).,
           }
 
-  /api/v1/listing-sources/{listingSourceId}/ingestion-configurations/woocommerce:
+  /v1/listing-sources/{listingSourceId}/ingestion-configurations/woocommerce:
     put:
       summary: Replace WooCommerce ListingSource ingestion configuration
       description: |
@@ -758,7 +788,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiError"
 
-  /api/v1/listing-sources/{listingSourceId}/ingestion-configurations/shopify:
+  /v1/listing-sources/{listingSourceId}/ingestion-configurations/shopify:
     put:
       summary: Replace Shopify ListingSource ingestion configuration
       description: |
@@ -850,7 +880,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiError"
 
-  /api/v1/listing-sources/{listingSourceId}/product-listings:
+  /v1/listing-sources/{listingSourceId}/product-listings:
     get:
       summary: List ProductListings for an administered ListingSource
       operationId: listPartnerProductListings
@@ -906,7 +936,7 @@ paths:
         Aura Historia access tokens on this endpoint must include the `product-listings:write` scope.
 
         The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone
-        does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations.
+        does not grant access. Administrators use the separate `/v1/admin/product-listings` operations.
         Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
 
 
@@ -1112,7 +1142,7 @@ paths:
         Aura Historia access tokens on this endpoint must include the `product-listings:write` scope.
 
         The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone
-        does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations.
+        does not grant access. Administrators use the separate `/v1/admin/product-listings` operations.
         Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
 
 
@@ -1311,7 +1341,7 @@ paths:
         \ partner user linked to the listing source, or\n- an Aura Historia access token owned by that partner user.\n\nAura\
         \ Historia access tokens on this endpoint must include the `product-listings:write` scope.\nThe caller must be a\
         \ user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access.\n\
-        Administrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run\n\
+        Administrators use the separate `/v1/admin/product-listings` operations. Partnership and scope checks run\n\
         per entry, so an authenticated empty array returns `[]` without them.\n\nThe request body is an array of `UpsertProductListingData`\
         \ objects. Each entry is upserted\nsynchronously in its own PostgreSQL transaction. For each entry:\n- **New listing**\
         \ — omitted or `null` availability, price, and estimates create no value; `auction` is omitted or an asserted nested Auction/lot-facts patch (not `null`).\n- **Existing listing** — availability, price, and each price estimate\n  are tri-state: omitted preserves, `null` clears, and a concrete value replaces. Omit `auction` to preserve it; `auction: null` is invalid. Within an asserted Auction/lot-facts patch, each lot/timing leaf is tri-state: omit to preserve, `null` to clear clearable leaves, or provide a value to set. `auctionId` must name an existing Auction for this ListingSource; omit it to preserve membership, send `null` to clear it, or send an ID to set it. A withdrawn\n  listing is restored before current facts\
@@ -1533,7 +1563,7 @@ paths:
 
 
         The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone
-        does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations.
+        does not grant access. Administrators use the separate `/v1/admin/product-listings` operations.
         Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
 
         Aura Historia access tokens must include the `product-listings:write` scope.
@@ -1632,7 +1662,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-  /api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}:
+  /v1/listing-sources/{listingSourceId}/product-listings/{productListingId}:
     get:
       summary: Inspect authoritative ProductListing facts
       operationId: getPartnerProductListing
@@ -1749,7 +1779,7 @@ paths:
         "500":
           description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
           content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
-  /api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}/restore:
+  /v1/listing-sources/{listingSourceId}/product-listings/{productListingId}/restore:
     post:
       summary: Explicitly restore a retained ProductListing
       operationId: restorePartnerProductListing
@@ -1791,7 +1821,7 @@ paths:
         "500":
           description: Unexpected failure or invalid persisted state (`PRODUCT_LISTING_INTERNAL_ERROR`).
           content: { application/problem+json: { schema: { $ref: "#/components/schemas/ApiError" } } }
-  /api/v1/listing-sources/{listingSourceId}/product-listings/async:
+  /v1/listing-sources/{listingSourceId}/product-listings/async:
     post:
       summary: Submit a batch of product-listing creates asynchronously (Partner API)
       operationId: postAsyncPartnerProductListings
@@ -2495,7 +2525,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/AsyncProductListingBatchReport"
 
-  /api/v1/webhooks/woocommerce/{listingSourceId}:
+  /v1/webhooks/woocommerce/{listingSourceId}:
     post:
       summary: Ingest a WooCommerce product webhook (Partner API)
       description:
@@ -2866,7 +2896,7 @@ paths:
                     status: 500
                     title: Internal Server Error
                     error: PRODUCT_LISTING_INTERNAL_ERROR
-  /api/v1/webhooks/loops:
+  /v1/webhooks/loops:
     post:
       summary: Apply a signed Loops preference webhook
       description: >-
@@ -3009,7 +3039,7 @@ paths:
                   title: Service Unavailable,
                   error: LOOPS_WEBHOOK_TEMPORARILY_UNAVAILABLE,
                 }
-  /api/v1/product-listings/by-slug/{productListingTitleSlugId}:
+  /v1/product-listings/by-slug/{productListingTitleSlugId}:
     get:
       summary: Get a single product by title slug
       description: >-
@@ -3094,7 +3124,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-  /api/v1/product-listings/{productListingId}:
+  /v1/product-listings/{productListingId}:
     get:
       summary: Get a single product
       description:
@@ -3120,7 +3150,9 @@ paths:
 
         Responses always contain `item`, the product data. A valid user or delegated-user bearer token
 
-        adds optional top-level `userState`; credential-bearing responses are not cached.
+        adds optional top-level `userState`, limited to the sections a delegated token's read scopes permit;
+
+        credential-bearing responses are not cached.
 
         "
       operationId: getProductListing
@@ -3221,7 +3253,7 @@ paths:
                 status: 503
                 title: Service Unavailable
                 error: PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE
-  /api/v1/product-listings/{productListingId}/history:
+  /v1/product-listings/{productListingId}/history:
     get:
       summary: Get ProductListing history
       description:
@@ -3385,7 +3417,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: PRODUCT_LISTING_INTERNAL_ERROR
-  /api/v1/product-listings/{productListingId}/similar:
+  /v1/product-listings/{productListingId}/similar:
     get:
       summary: Get similar product-listings
       description:
@@ -3402,7 +3434,7 @@ paths:
 
         sale-time values. Every ready entry contains `item`; a valid user or delegated-user bearer token adds
 
-        `userState`. Ready anonymous 200 responses without Authorization use `public, max-age=0, s-maxage=300, stale-if-error=0`; any request with Authorization uses `private, no-store`. The `202 EmbeddingPending` response and all errors are always `private, no-store`.
+        `userState`, limited to the sections a delegated token's read scopes permit. Ready anonymous 200 responses without Authorization use `public, max-age=0, s-maxage=300, stale-if-error=0`; any request with Authorization uses `private, no-store`. The `202 EmbeddingPending` response and all errors are always `private, no-store`.
 
         "
       operationId: getSimilarProductListings
@@ -3473,7 +3505,7 @@ paths:
               schema:
                 type: string
                 format: uri
-              example: /api/v1/product-listings/pl_5xdb465tg1enarx2knf04mxbxj/similar
+              example: /v1/product-listings/pl_5xdb465tg1enarx2knf04mxbxj/similar
         "400":
           description: Bad request - invalid parameters
           content:
@@ -3503,7 +3535,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/product-listings:
+  /v1/product-listings:
     get:
       summary: Simple product search via query parameters
       description:
@@ -3658,6 +3690,23 @@ paths:
           example:
             - IN_STOCK
             - LIMITED_AVAILABILITY
+        - name: orderability
+          in: query
+          required: false
+          description: Optional derived orderability groups. Values are ORed and combine with exact availability assertions.
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ListingOrderabilityData"
+            uniqueItems: true
+        - name: includeUnspecifiedAvailability
+          in: query
+          required: false
+          description: Include listings without an availability assertion. Defaults to false when any availability or orderability predicate is supplied.
+          schema:
+            type: boolean
         - name: created
           in: query
           required: false
@@ -3913,7 +3962,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/me/search-filters:
+  /v1/me/search-filters:
     get:
       summary: List user search filters
       description: "Delegated Aura access tokens require `search-filters:read`; missing scope returns `403 FORBIDDEN`. Retrieves all search filters for the authenticated user.
@@ -4060,7 +4109,7 @@ paths:
               schema:
                 type: string
                 format: uri
-              example: https://api.aura-historia.com/api/v1/me/search-filters/sf_4hyqf0gyxveazss7nby5hve5x2
+              example: https://api.aura-historia.com/v1/me/search-filters/sf_4hyqf0gyxveazss7nby5hve5x2
             Content-Language:
               description: The language of the returned content
               schema:
@@ -4186,7 +4235,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/me/search-filters/{userSearchFilterId}:
+  /v1/me/search-filters/{userSearchFilterId}:
     get:
       summary: Get a specific search filter
       description:
@@ -4663,7 +4712,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/me/search-filters/{userSearchFilterId}/matches:
+  /v1/me/search-filters/{userSearchFilterId}/matches:
     get:
       summary: List persisted matches for a saved search filter
       description: >-
@@ -4845,7 +4894,7 @@ paths:
                 status: 503
                 title: Service Unavailable
                 error: SEARCH_FILTER_TEMPORARILY_UNAVAILABLE
-  /api/v1/me/search-filters/{userSearchFilterId}/matches/{productListingId}:
+  /v1/me/search-filters/{userSearchFilterId}/matches/{productListingId}:
     patch:
       summary: Update feedback for a search-filter match
       description:
@@ -5052,13 +5101,15 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/me/watchlist:
+  /v1/me/watchlist:
     get:
       summary: List user's watchlist product-listings
       description:
         "Retrieves all product-listings in the authenticated user's watchlist in watchlist creation order.
 
-        Each result contains current product data and complete user-specific state.
+        Each result contains current product data and user-specific state. Cognito users receive every section;
+
+        an access token receives only the sections its read scopes permit (see `ProductListingUserStateData`).
 
         Accepts Cognito JWT authentication or an Aura Historia access token with `watchlist:read`.
 
@@ -5124,7 +5175,7 @@ paths:
                   items:
                     type: array
                     items:
-                      $ref: "#/components/schemas/PersonalizedProductListingDetailsData"
+                      $ref: "#/components/schemas/PersonalizedProductListingCollectionDetailsData"
                   size:
                     type: integer
                     minimum: 0
@@ -5364,7 +5415,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/admin/listing-sources:
+  /v1/admin/listing-sources:
     post:
       summary: Create a ListingSource as admin
       description: |
@@ -5398,7 +5449,7 @@ paths:
               schema:
                 type: string
                 format: uri
-              example: /api/v1/admin/listing-sources/ls_6rd827eqfefsva9teecmwa3ate
+              example: /v1/admin/listing-sources/ls_6rd827eqfefsva9teecmwa3ate
           content:
             application/json:
               schema:
@@ -5664,7 +5715,7 @@ paths:
                 status: 503
                 title: Service Unavailable
                 error: LISTING_SOURCE_TEMPORARILY_UNAVAILABLE
-  /api/v1/admin/parties:
+  /v1/admin/parties:
     post:
       summary: Create a Party as admin
       description: |
@@ -5701,7 +5752,7 @@ paths:
               schema:
                 type: string
                 format: uri
-              example: /api/v1/admin/parties/pty_4k4snxc3pkecc9yw66heemzyp0
+              example: /v1/admin/parties/pty_4k4snxc3pkecc9yw66heemzyp0
             Cache-Control:
               description: Responses are never stored because contact data is returned.
               schema:
@@ -6024,7 +6075,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: PARTY_INTERNAL_ERROR
-  /api/v1/admin/parties/{partyId}:
+  /v1/admin/parties/{partyId}:
     delete:
       summary: Hard-delete an unused Party as admin
       description: |
@@ -6384,7 +6435,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: PARTY_INTERNAL_ERROR
-  /api/v1/admin/users:
+  /v1/admin/users:
     get:
       summary: Search users as admin
       description:
@@ -6676,7 +6727,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: USER_INTERNAL_ERROR
-  /api/v1/admin/users/{userId}:
+  /v1/admin/users/{userId}:
     get:
       summary: Get a user as admin
       description:
@@ -7051,7 +7102,7 @@ paths:
                 title: Internal Server Error
                 error: USER_INTERNAL_ERROR
 
-  /api/v1/admin/users/{userId}/suspension:
+  /v1/admin/users/{userId}/suspension:
     put:
       summary: Suspend a user as admin
       description: |
@@ -7402,7 +7453,7 @@ paths:
                 title: Internal Server Error
                 error: USER_INTERNAL_ERROR
 
-  /api/v1/admin/users/{userId}/sessions/revoke:
+  /v1/admin/users/{userId}/sessions/revoke:
     post:
       summary: Revoke a user's Cognito sessions as admin
       description: |
@@ -7539,7 +7590,7 @@ paths:
                 title: Internal Server Error
                 error: USER_INTERNAL_ERROR
 
-  /api/v1/admin/users/{userId}/access-tokens:
+  /v1/admin/users/{userId}/access-tokens:
     get:
       summary: List a user's Aura Historia access-token metadata as admin
       description: |
@@ -7839,7 +7890,7 @@ paths:
                 title: Internal Server Error
                 error: ACCESS_TOKEN_INTERNAL_ERROR
 
-  /api/v1/admin/users/{userId}/access-tokens/{accessTokenId}:
+  /v1/admin/users/{userId}/access-tokens/{accessTokenId}:
     delete:
       summary: Revoke a user's Aura Historia access token as admin
       description: |
@@ -7957,7 +8008,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: ACCESS_TOKEN_INTERNAL_ERROR
-  /api/v1/me:
+  /v1/me:
     delete:
       summary: Delete authenticated user
       description: "Permanently deletes the authenticated user's account.
@@ -8030,7 +8081,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/me/account:
+  /v1/me/account:
     get:
       summary: Get user account data
       description:
@@ -8241,7 +8292,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/me/access-tokens:
+  /v1/me/access-tokens:
     post:
       summary: Create an Aura Historia access token
       description:
@@ -8250,8 +8301,9 @@ paths:
         The response includes the plaintext bearer token once. List, get, and update responses contain only
         secret-free metadata and never return the bearer token again.
 
-        Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require
-        the delegated `access-tokens:write` capability.
+        Requires a Cognito access JWT. A valid Aura Historia access token is rejected with `403 FORBIDDEN`, even
+        with the delegated `access-tokens:write` capability, so a delegated credential cannot issue a credential
+        with other scopes or a longer lifetime than its own. No token is created or returned.
 
         "
       operationId: postMyAccessToken
@@ -8259,7 +8311,6 @@ paths:
         - User Account
       security:
         - BearerAuth: []
-        - AccessTokenAuth: []
       requestBody:
         required: true
         description: Access-token creation payload.
@@ -8329,6 +8380,17 @@ paths:
                   field: Authorization
                   type: HEADER
                 detail: Bearer token is invalid.
+        "403":
+          description: Forbidden - the bearer is an Aura Historia access token
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 403
+                title: Forbidden
+                error: FORBIDDEN
+                detail: Aura Historia access tokens cannot create access tokens; use a Cognito access JWT.
         "404":
           description: User not found
           content:
@@ -8445,7 +8507,11 @@ paths:
         plaintext or masked token values.
 
         Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require
-        the delegated `access-tokens:write` capability.
+        the delegated `access-tokens:write` capability and may only rename the target token or narrow it: `scopes`
+        must be a subset of its current scopes, and `expires` may be set no later than its current expiry (or to any
+        time when it has none). Adding a scope, extending the expiry, or clearing an existing expiry with `null` is
+        rejected with `403 FORBIDDEN` and leaves the token unchanged. This applies to every token of the user,
+        including the bearer token itself. Cognito access JWTs may make any change.
 
         "
       operationId: patchMyAccessToken
@@ -8531,6 +8597,18 @@ paths:
                   field: Authorization
                   type: HEADER
                 detail: Bearer token is invalid.
+        "403":
+          description: Forbidden - an Aura Historia access token lacks `access-tokens:write` or would expand the
+            target token's scopes or lifetime
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 403
+                title: Forbidden
+                error: FORBIDDEN
+                detail: Aura Historia access tokens cannot add scopes to an access token or extend or remove its expiry.
         "404":
           description: Access token not found
           content:
@@ -8551,7 +8629,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/me/access-tokens/{accessTokenId}:
+  /v1/me/access-tokens/{accessTokenId}:
     get:
       summary: Get one Aura Historia access token
       description:
@@ -8750,7 +8828,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/me/billing/checkout:
+  /v1/me/billing/checkout:
     post:
       summary: Create Stripe checkout session
       description:
@@ -8869,7 +8947,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/me/billing/portal:
+  /v1/me/billing/portal:
     post:
       summary: Create Stripe billing portal session
       description:
@@ -8943,7 +9021,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/me/billing/manage:
+  /v1/me/billing/manage:
     post:
       summary: Create Stripe billing management session
       description:
@@ -9075,7 +9153,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/me/watchlist/{productListingId}:
+  /v1/me/watchlist/{productListingId}:
     delete:
       summary: Remove product from watchlist
       description:
@@ -9181,13 +9259,15 @@ paths:
         "Updates settings for a specific watchlist product (e.g., toggle notifications or manually activate/deactivate
         the watchlist entry).
 
-        Returns full personalized product data (`item` and `userState`) after applying the update, including
+        Returns personalized product data (`item` and `userState`) after applying the update, including
         for an empty `{}` no-op. `userState.watchlist.watching` reflects whether the entry is active, and
         `userState.watchlist.notifications` reflects the stored notification setting. Hidden and withdrawn
         listings retain their usual redaction.
 
-        Requires a valid user bearer credential. Delegated credentials require `watchlist:write`; no additional
-        read scope is required for the response. Responses are not cached.
+        Requires a valid user bearer credential. Delegated credentials require `watchlist:write` for the update.
+        Like other listing reads, each `userState` section in the response requires its read scope, so
+        `userState.watchlist` requires `watchlist:read` (see `ProductListingUserStateData`). Responses are not
+        cached.
 
         "
       operationId: patchWatchlistProduct
@@ -9401,7 +9481,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/me/notifications:
+  /v1/me/notifications:
     get:
       summary: List user notifications
       description:
@@ -9548,7 +9628,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-  /api/v1/me/notifications/all:
+  /v1/me/notifications/all:
     patch:
       summary: Update all notification seen states
       description: Delegated Aura access tokens require `notifications:write`; missing scope returns `403 FORBIDDEN`.
@@ -9591,7 +9671,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-  /api/v1/me/notifications/{notificationId}:
+  /v1/me/notifications/{notificationId}:
     patch:
       summary: Update one notification seen state
       description: Delegated Aura access tokens require `notifications:write`; missing scope returns `403 FORBIDDEN`.
@@ -9694,7 +9774,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-  /api/v1/newsletter-subscriptions:
+  /v1/newsletter-subscriptions:
     put:
       summary: Request newsletter confirmation
       description: |
@@ -9816,7 +9896,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: NEWSLETTER_INTERNAL_ERROR
-  /api/v1/newsletter-subscriptions/confirm:
+  /v1/newsletter-subscriptions/confirm:
     post:
       summary: Confirm a newsletter subscription
       description: |
@@ -9906,7 +9986,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: NEWSLETTER_INTERNAL_ERROR
-  /api/v1/admin/listing-sources/{listingSourceId}:
+  /v1/admin/listing-sources/{listingSourceId}:
     get:
       summary: Get a ListingSource as admin
       description: |
@@ -10203,7 +10283,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-  /api/v1/oauth/clients/{clientId}:
+  /v1/oauth/clients/{clientId}:
     get:
       summary: Get OAuth client metadata for consent
       description: |
@@ -10213,7 +10293,7 @@ paths:
         client token, or a source partnership. Only a Cognito access JWT is accepted through `BearerAuth`; Cognito ID
         tokens, Aura opaque access tokens, and client-secret credentials are rejected. Centralized account restrictions
         continue to apply. Redirect URIs and allowed scopes are returned exactly as registered; `scope: []` means the
-        client has no allowed scopes and does not imply user consent. `/api/v1/oauth/authorize` remains authoritative
+        client has no allowed scopes and does not imply user consent. `/v1/oauth/authorize` remains authoritative
         and revalidates registration, exact redirect URI, requested-scope subset, and S256 PKCE before issuing a code.
         Every success and error response uses `Cache-Control: no-store`.
       operationId: getOAuthConsentClient
@@ -10338,7 +10418,7 @@ paths:
                 status: 503
                 title: Service Unavailable
                 error: OAUTH_TEMPORARILY_UNAVAILABLE
-  /api/v1/oauth/authorize:
+  /v1/oauth/authorize:
     get:
       summary: OAuth2 authorization endpoint
       description: "Starts the OAuth2 authorization code flow (RFC 6749 §4.1).
@@ -10352,9 +10432,14 @@ paths:
 
         supplied, `state` as query parameters. The single-use authorization code must be exchanged
 
-        for an access token via `POST /api/v1/oauth/token` before it expires. A delegated caller
+        for an access token via `POST /v1/oauth/token` before it expires.
 
-        must have `access-tokens:write` and every requested OAuth scope.
+
+        Approval requires a Cognito access JWT. An Aura Historia access token, including one with
+
+        `access-tokens:write`, receives `403 FORBIDDEN` and no authorization code is issued, so a
+
+        delegated credential cannot obtain an OAuth token that outlives its own grant.
 
         "
       operationId: oauthAuthorize
@@ -10389,6 +10474,20 @@ paths:
             type: string
             format: uri
           example: https://client.example/callback
+        - name: resource
+          in: query
+          required: false
+          description: >-
+            One exact shared Aura resource identifier (RFC 8707). Production accepts
+            https://api.aura-historia.com and https://mcp.aura-historia.com/v1; stage accepts only
+            https://api.stage.aura-historia.com and https://mcp.stage.aura-historia.com/v1.
+            MCP clients must supply the canonical MCP identifier. Omission selects the same-environment
+            shared Aura default (the issuer). Empty, repeated, foreign or noncanonical values fail with
+            400 OAuth invalid_target (invalid_request for other repeated parameters). The resolved value is bound to the authorization code.
+          schema:
+            type: string
+            format: uri
+          example: https://mcp.aura-historia.com/v1
         - name: scope
           in: query
           required: false
@@ -10443,126 +10542,108 @@ paths:
               schema:
                 type: string
               example: no-store
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
         "400":
-          description: Bad request — a required query parameter is missing, malformed, or has an unsupported value.
+          description: Invalid query, unknown client or unregistered callback, unsupported response type, invalid scope or resource. Errors are returned directly; no unvalidated callback redirect is sent.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/ApiError"
+                $ref: '#/components/schemas/OAuthErrorData'
               examples:
-                missing_response_type:
-                  summary: Missing response_type query parameter
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: BAD_QUERY_PARAMETER_VALUE
-                    source:
-                      field: response_type
-                      type: QUERY
-                    detail: Missing query parameter response_type
+                invalid_request:
+                  value: { error: invalid_request }
                 unsupported_response_type:
-                  summary: Unsupported response_type value
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: BAD_QUERY_PARAMETER_VALUE
-                    source:
-                      field: response_type
-                      type: QUERY
-                    detail: Unsupported response_type 'token'
-                missing_code_challenge:
-                  summary: Missing code_challenge query parameter
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: BAD_QUERY_PARAMETER_VALUE
-                    source:
-                      field: code_challenge
-                      type: QUERY
-                    detail: Missing query parameter code_challenge
-                unsupported_code_challenge_method:
-                  summary: Unsupported code_challenge_method
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: BAD_QUERY_PARAMETER_VALUE
-                    source:
-                      field: code_challenge_method
-                      type: QUERY
-                    detail: Unsupported code_challenge_method 'plain'
+                  value: { error: unsupported_response_type }
                 invalid_scope:
-                  summary: Requested scope not allowed for client
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: OAUTH_INVALID_SCOPE
-                    source:
-                      field: scope
-                      type: QUERY
-                    detail: Requested scope is not allowed for client.
-                invalid_redirect_uri:
-                  summary: Redirect URI not registered for client
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: OAUTH_INVALID_REDIRECT_URI
-                    source:
-                      field: redirect_uri
-                      type: QUERY
-                    detail: Redirect URI is not registered for client.
-                malformed_redirect_uri:
-                  summary: Redirect URI is not a valid absolute URI
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: BAD_QUERY_PARAMETER_VALUE
-                    source:
-                      field: redirect_uri
-                      type: QUERY
-                    detail: relative URL without a base
-                invalid_client_id:
-                  summary: Invalid OAuth client identifier
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: INVALID_OBJECT_ID
-                    source:
-                      field: client_id
-                      type: QUERY
-                    detail: must be a valid OAuthClient ID
+                  value: { error: invalid_scope }
+                invalid_target:
+                  value: { error: invalid_target }
         "401":
-          description:
-            Unauthorized — the Cognito bearer token is missing, invalid, or the OAuth client was not found / credentials
-            are invalid.
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-              examples:
-                missing_bearer:
-                  summary: Missing or invalid bearer token
-                  value:
-                    status: 401
-                    title: Unauthorized
-                    error: UNAUTHORIZED
-                client_not_found:
-                  summary: OAuth client not found
-                  value:
-                    status: 401
-                    title: Unauthorized
-                    error: OAUTH_CLIENT_NOT_FOUND
-                    detail: OAuth client not found.
-        "500":
-          description: Internal server error.
+          description: Unauthorized — the bearer token is missing or invalid (`INVALID_CREDENTIALS`).
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
               example:
+                status: 401
+                title: Unauthorized
+                error: INVALID_CREDENTIALS
+                source:
+                  field: Authorization
+                  type: HEADER
+                detail: Bearer token is invalid.
+        "403":
+          description:
+            Forbidden — the bearer is an Aura Historia access token. Approving an authorization request requires a
+            Cognito access JWT, and no authorization code is issued.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 403
+                title: Forbidden
+                error: FORBIDDEN
+                detail: Aura Historia access tokens cannot approve OAuth authorization requests; use a Cognito access JWT.
+        "500":
+          description: OAuth service failure, or an existing REST authentication dependency failure.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthErrorData'
+              examples:
+                server_error:
+                  value: { error: server_error }
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              example:
                 status: 500
                 title: Internal Server Error
-                error: INTERNAL_SERVER_ERROR
-  /api/v1/oauth/token:
+                error: AUTH_INTERNAL_ERROR
+        "503":
+          description: Temporary OAuth service failure, or an existing REST authentication dependency failure.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthErrorData'
+              examples:
+                temporarily_unavailable:
+                  value: { error: temporarily_unavailable }
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              example:
+                status: 503
+                title: Service Unavailable
+                error: AUTH_TEMPORARILY_UNAVAILABLE
+  /v1/oauth/token:
     post:
       summary: OAuth2 token endpoint
       description:
@@ -10579,11 +10660,15 @@ paths:
 
         The issued access token is non-expiring by default (same lifetime as tokens created via
 
-        `POST /api/v1/me/access-tokens`). Successful responses also include a short-lived
+        `POST /v1/me/access-tokens`). Codes are issued only for approvals made with a Cognito access
+
+        JWT, so the token is an independent credential of the approving user: expiring or revoking
+
+        any other Aura Historia access token does not affect it. Successful responses also include a short-lived
 
         `third_party_exchange_code` that can be redeemed once via
 
-        `GET /api/v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`. The exchange code expires
+        `GET /v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`. The exchange code expires
 
         after 60 seconds and is deleted on first use.
 
@@ -10621,6 +10706,16 @@ paths:
                   format: uri
                   description: Must exactly match the `redirect_uri` used in the corresponding authorization request.
                   example: https://client.example/callback
+                resource:
+                  type: string
+                  format: uri
+                  description: >-
+                    Repeat the exact resource selected during authorization. Omission inherits the code's
+                    binding, including the shared Aura default for legacy callers. Substitution (even the
+                    other allowed alias), foreign/other-environment, empty and repeated values fail with
+                    400 OAuth invalid_target. The issued opaque token authorizes the shared Aura service
+                    through both REST and MCP under the original scopes; it has no exclusive transport audience.
+                  example: https://mcp.aura-historia.com/v1
                 client_id:
                   type: string
                   description: Canonical OAuthClient ID.
@@ -10637,144 +10732,88 @@ paths:
                   example: dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
       responses:
         "200":
-          description: Access token issued successfully.
+          description: Access token issued. Nonexpiring tokens omit expires_in; no refresh token is issued.
           headers:
             Cache-Control:
-              description: Always set to `no-store`.
-              schema:
-                type: string
-              example: no-store
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OAuthTokenResponseData"
+                $ref: '#/components/schemas/OAuthTokenResponseData'
               example:
                 access_token: aurahistoria_abcdefghijk_verylongtokenvalue
-                token_type: BEARER
-                expires_in: null
-                scope: product-listings:write
+                token_type: Bearer
+                scope: users:read
                 third_party_exchange_code: 01970f22-2bf0-7000-8000-000000000099
         "400":
-          description:
-            Bad request — a required form field is missing, `client_id` is not a valid OAuthClient ID, `redirect_uri` is
-            malformed, or an authorization code error occurred (code not found, expired, mismatched client or redirect URI,
-            or invalid PKCE verifier).
+          description: Invalid form content type, malformed or repeated parameters, missing fields, unsupported header authentication, or invalid protocol input.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/ApiError"
+                $ref: '#/components/schemas/OAuthErrorData'
               examples:
-                missing_grant_type:
-                  summary: Missing grant_type form field
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: BAD_BODY_VALUE
-                    source:
-                      field: grant_type
-                      type: BODY
-                    detail: Missing form field grant_type
+                invalid_request:
+                  value: { error: invalid_request }
+                invalid_grant:
+                  value: { error: invalid_grant }
                 unsupported_grant_type:
-                  summary: Unsupported grant_type
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: BAD_BODY_VALUE
-                    source:
-                      field: grant_type
-                      type: BODY
-                    detail: Unsupported grant_type 'client_credentials'
-                code_not_found:
-                  summary: Authorization code not found or already used
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: OAUTH_AUTHORIZATION_CODE_NOT_FOUND
-                    detail: Authorization code not found.
-                code_expired:
-                  summary: Authorization code expired
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: OAUTH_AUTHORIZATION_CODE_EXPIRED
-                    detail: Authorization code expired.
-                code_client_mismatch:
-                  summary: Authorization code belongs to a different OAuth client
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: OAUTH_AUTHORIZATION_CODE_CLIENT_MISMATCH
-                    detail: Authorization code does not belong to client.
-                redirect_uri_mismatch:
-                  summary: Redirect URI does not match the authorization request
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: OAUTH_AUTHORIZATION_REDIRECT_URI_MISMATCH
-                    detail: Authorization code redirect_uri mismatch.
-                invalid_code_verifier:
-                  summary: PKCE code verifier does not match
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: OAUTH_INVALID_CODE_VERIFIER
-                    detail: PKCE code_verifier did not match code_challenge.
-                malformed_redirect_uri:
-                  summary: Redirect URI is not a valid absolute URI
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: BAD_BODY_VALUE
-                    source:
-                      field: redirect_uri
-                      type: BODY
-                    detail: relative URL without a base
-                invalid_client_id:
-                  summary: Invalid OAuth client identifier
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: INVALID_OBJECT_ID
-                    source:
-                      field: client_id
-                      type: BODY
-                    detail: must be a valid OAuthClient ID
+                  value: { error: unsupported_grant_type }
+                invalid_target:
+                  value: { error: invalid_target }
         "401":
-          description: Unauthorized — invalid OAuth client credentials or unknown OAuth client.
+          description: Unknown or invalid client credentials. Only client_secret_post is supported.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/ApiError"
+                $ref: '#/components/schemas/OAuthErrorData'
               examples:
-                invalid_client_secret:
-                  summary: Invalid client secret
-                  value:
-                    status: 401
-                    title: Unauthorized
-                    error: INVALID_OAUTH_CLIENT_SECRET
-                    detail: Invalid OAuth client secret.
-                client_not_found:
-                  summary: OAuth client not found
-                  value:
-                    status: 401
-                    title: Unauthorized
-                    error: OAUTH_CLIENT_NOT_FOUND
-                    detail: OAuth client not found.
+                invalid_client:
+                  value: { error: invalid_client }
         "500":
-          description: Internal server error.
+          description: Internal failure; technical causes are not returned.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/ApiError"
-              example:
-                status: 500
-                title: Internal Server Error
-                error: INTERNAL_SERVER_ERROR
-  /api/v1/oauth/tokens/by-third-party-code/{thirdPartyCode}:
+                $ref: '#/components/schemas/OAuthErrorData'
+              examples:
+                server_error:
+                  value: { error: server_error }
+        "503":
+          description: Temporary failure.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthErrorData'
+              examples:
+                temporarily_unavailable:
+                  value: { error: temporarily_unavailable }
+  /v1/oauth/tokens/by-third-party-code/{thirdPartyCode}:
     get:
       summary: Exchange OAuth token by third-party code
       description:
-        "Exchanges a one-time `third_party_exchange_code` returned by `POST /api/v1/oauth/token`
+        "Exchanges a one-time `third_party_exchange_code` returned by `POST /v1/oauth/token`
 
         for the same Aura Historia access token. No client credentials or bearer token are required.
 
@@ -10805,14 +10844,15 @@ paths:
               schema:
                 type: string
               example: no-store
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/OAuthTokenResponseData"
               example:
                 access_token: aurahistoria_abcdefghijk_verylongtokenvalue
-                token_type: BEARER
-                expires_in: null
+                token_type: Bearer
                 scope: product-listings:write
         "400":
           description:
@@ -10874,7 +10914,7 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
-  /api/v1/oauth/revoke:
+  /v1/oauth/revoke:
     post:
       summary: OAuth2 token revocation endpoint
       description:
@@ -10886,7 +10926,7 @@ paths:
 
         have been issued to that client; another client's token or a personal access token is
 
-        rejected with `403 FORBIDDEN` and is not revoked.
+        rejected with `403` and OAuth `access_denied` and is not revoked.
 
 
         After revocation the token is immediately inactive and introspection will return
@@ -10923,84 +10963,83 @@ paths:
                   example: aurahistoria_abcdefghijk_verylongsecretvalue
       responses:
         "200":
-          description: Token revoked successfully (or token was unknown/already inactive). Empty response body.
+          description: Token revoked or already unknown; empty body.
           headers:
             Cache-Control:
-              description: Always set to `no-store`.
-              schema:
-                type: string
-              example: no-store
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
         "400":
-          description:
-            Bad request — a required form field is missing, `client_id` is not a valid OAuthClient ID, or the token value
-            is invalid.
+          description: Invalid form content type, malformed or repeated parameters, missing fields, unsupported header authentication, or invalid protocol input.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/ApiError"
+                $ref: '#/components/schemas/OAuthErrorData'
               examples:
-                missing_token:
-                  summary: Missing token form field
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: BAD_BODY_VALUE
-                    source:
-                      field: token
-                      type: BODY
-                    detail: Missing form field token
-                invalid_client_id:
-                  summary: Invalid OAuth client identifier
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: INVALID_OBJECT_ID
-                    source:
-                      field: client_id
-                      type: BODY
-                    detail: must be a valid OAuthClient ID
+                invalid_request:
+                  value: { error: invalid_request }
         "401":
-          description: Unauthorized — invalid OAuth client credentials or unknown OAuth client.
+          description: Unknown or invalid client credentials. Only client_secret_post is supported.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/ApiError"
+                $ref: '#/components/schemas/OAuthErrorData'
               examples:
-                invalid_client_secret:
-                  summary: Invalid client secret
-                  value:
-                    status: 401
-                    title: Unauthorized
-                    error: INVALID_OAUTH_CLIENT_SECRET
-                    detail: Invalid OAuth client secret.
-                client_not_found:
-                  summary: OAuth client not found
-                  value:
-                    status: 401
-                    title: Unauthorized
-                    error: OAUTH_CLIENT_NOT_FOUND
-                    detail: OAuth client not found.
+                invalid_client:
+                  value: { error: invalid_client }
         "403":
-          description: Forbidden — the token was not issued to the authenticated OAuth client.
+          description: The token was not issued to the authenticated client and is not revoked.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/ApiError"
-              example:
-                status: 403
-                title: Forbidden
-                error: FORBIDDEN
+                $ref: '#/components/schemas/OAuthErrorData'
+              examples:
+                access_denied:
+                  value: { error: access_denied }
         "500":
-          description: Internal server error.
+          description: Internal failure; technical causes are not returned.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/ApiError"
-              example:
-                status: 500
-                title: Internal Server Error
-                error: INTERNAL_SERVER_ERROR
-  /api/v1/oauth/introspect:
+                $ref: '#/components/schemas/OAuthErrorData'
+              examples:
+                server_error:
+                  value: { error: server_error }
+        "503":
+          description: Temporary failure.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthErrorData'
+              examples:
+                temporarily_unavailable:
+                  value: { error: temporarily_unavailable }
+  /v1/oauth/introspect:
     post:
       summary: OAuth2 token introspection endpoint
       description:
@@ -11045,94 +11084,76 @@ paths:
                   example: aurahistoria_abcdefghijk_verylongsecretvalue
       responses:
         "200":
-          description: "Introspection result. `active: false` means the token is unknown, expired, or revoked."
+          description: Token metadata; an unknown, expired or revoked token returns only active false.
           headers:
             Cache-Control:
-              description: Always set to `no-store`.
-              schema:
-                type: string
-              example: no-store
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OAuthIntrospectionResponseData"
+                $ref: '#/components/schemas/OAuthIntrospectionResponseData'
               examples:
-                active:
-                  summary: Active token
-                  value:
-                    active: true
-                    scope: product-listings:write
-                    client_id: oc_7b0gwc1x49e0mvbt3tfexfqgb5
-                    sub: usr_4hzreqwxgvef69j056bszwwm17
-                    token_type: Bearer
-                    exp: 1780000000
-                    iat: 1748400000
                 inactive:
-                  summary: Inactive / unknown token
-                  value:
-                    active: false
+                  value: { active: false }
         "400":
-          description:
-            Bad request — a required form field is missing, `client_id` is not a valid OAuthClient ID, or the token value
-            is invalid.
+          description: Invalid form content type, malformed or repeated parameters, missing fields, unsupported header authentication, or invalid protocol input.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/ApiError"
+                $ref: '#/components/schemas/OAuthErrorData'
               examples:
-                missing_token:
-                  summary: Missing token form field
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: BAD_BODY_VALUE
-                    source:
-                      field: token
-                      type: BODY
-                    detail: Missing form field token
-                invalid_client_id:
-                  summary: Invalid OAuth client identifier
-                  value:
-                    status: 400
-                    title: Bad Request
-                    error: INVALID_OBJECT_ID
-                    source:
-                      field: client_id
-                      type: BODY
-                    detail: must be a valid OAuthClient ID
+                invalid_request:
+                  value: { error: invalid_request }
         "401":
-          description: Unauthorized — invalid OAuth client credentials or unknown OAuth client.
+          description: Unknown or invalid client credentials. Only client_secret_post is supported.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/ApiError"
+                $ref: '#/components/schemas/OAuthErrorData'
               examples:
-                invalid_client_secret:
-                  summary: Invalid client secret
-                  value:
-                    status: 401
-                    title: Unauthorized
-                    error: INVALID_OAUTH_CLIENT_SECRET
-                    detail: Invalid OAuth client secret.
-                client_not_found:
-                  summary: OAuth client not found
-                  value:
-                    status: 401
-                    title: Unauthorized
-                    error: OAUTH_CLIENT_NOT_FOUND
-                    detail: OAuth client not found.
+                invalid_client:
+                  value: { error: invalid_client }
         "500":
-          description: Internal server error.
+          description: Internal failure; technical causes are not returned.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
           content:
-            application/problem+json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/ApiError"
-              example:
-                status: 500
-                title: Internal Server Error
-                error: INTERNAL_SERVER_ERROR
-
-  /api/v1/admin/oauth-clients:
+                $ref: '#/components/schemas/OAuthErrorData'
+              examples:
+                server_error:
+                  value: { error: server_error }
+        "503":
+          description: Temporary failure.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthErrorData'
+              examples:
+                temporarily_unavailable:
+                  value: { error: temporarily_unavailable }
+  /v1/admin/oauth-clients:
     get:
       summary: List OAuth client metadata for administration
       description: |
@@ -11140,7 +11161,7 @@ paths:
 
         User and delegated-user principals must have the persisted `ADMIN` business role.
         Delegated Aura Historia access-token callers must also have the `access-tokens:read`
-        capability. The OAuth protocol routes remain under `/api/v1/oauth`.
+        capability. The OAuth protocol routes remain under `/v1/oauth`.
 
         Results use bounded keyset pagination in fixed `created` ascending, then OAuthClient ID ascending order. Page sizes are clamped to 1–100, with a default of 21. The
         `searchAfter` value is a JSON-encoded `[created RFC3339 timestamp, OAuthClient ID]`
@@ -11307,9 +11328,10 @@ paths:
       description: |
         Creates a new OAuth client metadata record for an authenticated administrator.
 
-        User and delegated-user principals must have the persisted `ADMIN` business role.
-        Delegated Aura Historia access-token callers must also have the `access-tokens:write`
-        capability. The plaintext `client_secret` is returned only in this create response and
+        Requires a Cognito access JWT of a user with the persisted `ADMIN` business role. The
+        response contains a new client secret, so an Aura Historia access token, including an
+        administrator's token with `access-tokens:write`, receives `403 FORBIDDEN` and no client is
+        registered. The plaintext `client_secret` is returned only in this create response and
         is never logged or returned by later reads.
 
         Redirect URIs must be non-empty HTTPS URLs without fragments. Requested scopes must be
@@ -11319,7 +11341,6 @@ paths:
         - OAuth
       security:
         - BearerAuth: []
-        - AccessTokenAuth: []
       requestBody:
         required: true
         description: OAuth client metadata creation payload.
@@ -11346,7 +11367,7 @@ paths:
               schema:
                 type: string
                 format: uri
-              example: /api/v1/admin/oauth-clients/oc_7b0gwc1x49e0mvbt3tfexfqgb5
+              example: /v1/admin/oauth-clients/oc_7b0gwc1x49e0mvbt3tfexfqgb5
             Cache-Control:
               description: Always set to `no-store` because the response contains the raw secret.
               schema:
@@ -11420,7 +11441,7 @@ paths:
                 title: Unauthorized
                 error: INVALID_CREDENTIALS
         "403":
-          description: Forbidden — the caller is not an administrator or a delegated caller lacks `access-tokens:write`.
+          description: Forbidden — the caller is not an administrator, or the bearer is an Aura Historia access token.
           headers:
             Cache-Control:
               description: Error responses are never stored.
@@ -11431,11 +11452,20 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-              example:
-                status: 403
-                title: Forbidden
-                error: FORBIDDEN
-                detail: OAuth client creation requires the ADMIN role; delegated callers also require access-tokens:write.
+              examples:
+                not_admin:
+                  summary: Caller is not an administrator
+                  value:
+                    status: 403
+                    title: Forbidden
+                    error: FORBIDDEN
+                delegated_credential:
+                  summary: Bearer is an Aura Historia access token
+                  value:
+                    status: 403
+                    title: Forbidden
+                    error: FORBIDDEN
+                    detail: Aura Historia access tokens cannot register OAuth clients; use a Cognito access JWT.
         "500":
           description: Internal authentication or OAuth client creation failure.
           headers:
@@ -11468,7 +11498,7 @@ paths:
                 status: 503
                 title: Service Unavailable
                 error: OAUTH_TEMPORARILY_UNAVAILABLE
-  /api/v1/admin/oauth-clients/{clientId}:
+  /v1/admin/oauth-clients/{clientId}:
     get:
       summary: Get OAuth client metadata for administration
       description: |
@@ -11811,7 +11841,7 @@ paths:
         Delegated Aura Historia access-token callers must also have the `access-tokens:write`
         capability. Deletion atomically invalidates pending authorization codes, OAuth-issued
         Aura access tokens, and their one-time third-party exchange codes. The OAuth protocol
-        routes remain under `/api/v1/oauth`; this administrative mutation is not a protocol route.
+        routes remain under `/v1/oauth`; this administrative mutation is not a protocol route.
       operationId: adminDeleteOAuthClient
       tags:
         - OAuth
@@ -11936,7 +11966,7 @@ paths:
                 status: 503
                 title: Service Unavailable
                 error: OAUTH_TEMPORARILY_UNAVAILABLE
-  /api/v1/listing-sources:
+  /v1/listing-sources:
     get:
       summary: Search public ListingSources
       description: Anonymous, literal partial-name search and browse of every persisted ListingSource. Optional valid credentials never widen the public representation; invalid supplied credentials are rejected. Query values are NFC/Unicode-whitespace canonicalized. One scalar and punctuation-only input return a terminal empty collection.
@@ -11997,7 +12027,7 @@ paths:
           content:
             application/problem+json:
               schema: { $ref: "#/components/schemas/ApiError" }
-  /api/v1/listing-sources/by-slug/{listingSourceSlugId}:
+  /v1/listing-sources/by-slug/{listingSourceSlugId}:
     get:
       summary: Get a public ListingSource by immutable slug
       description: Anonymous exact immutable-slug lookup. This route accepts no query parameters. Optional valid credentials never widen the public representation; invalid supplied credentials are rejected.
@@ -12051,22 +12081,38 @@ paths:
           content:
             application/problem+json:
               schema: { $ref: "#/components/schemas/ApiError" }
-  /api/v1/me/listing-sources:
+  /v1/me/listing-sources:
     get:
       summary: List caller-administered ListingSources
-      description: Delegated Aura access tokens require `listing-sources:read`; missing scope returns `403 FORBIDDEN`.
+      description: >-
+        Live keyset page of the authenticated caller's currently granted sources, ordered by
+        source name (bytewise ascending) and unique ListingSource ID ascending. Every page
+        rechecks active partnership membership, source/operator eligibility and delegated
+        `listing-sources:read` capability. Continuations are versioned and bound to this actor
+        and ordering; they do not provide a snapshot. Unknown input fields are rejected.
       operationId: getMyListingSources
       tags:
         - ListingSources
+      parameters:
+        - in: query
+          name: size
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+        - in: query
+          name: after
+          description: Opaque next continuation from a preceding page for this authenticated caller.
+          schema: { type: string, maxLength: 4096 }
       responses:
         "200":
           description: Success
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/AdministeredListingSourceData"
+                $ref: "#/components/schemas/AdministeredListingSourcesPageData"
+        "400":
+          description: Invalid size or continuation, including a continuation for another actor.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ApiError" }
         "401":
           description: Problem response
           content:
@@ -12094,7 +12140,7 @@ paths:
       security:
         - BearerAuth: []
         - AccessTokenAuth: []
-  /api/v1/me/partnership-applications:
+  /v1/me/partnership-applications:
     get:
       summary: List caller PartnershipApplications
       description: Delegated Aura access tokens require `partnership-applications:read`; missing scope returns `403 FORBIDDEN`.
@@ -12195,7 +12241,7 @@ paths:
       security:
         - BearerAuth: []
         - AccessTokenAuth: []
-  /api/v1/me/partnership-applications/{partnershipApplicationId}:
+  /v1/me/partnership-applications/{partnershipApplicationId}:
     get:
       summary: Get a caller PartnershipApplication
       description: Delegated Aura access tokens require `partnership-applications:read`; missing scope returns `403 FORBIDDEN`.
@@ -12314,7 +12360,7 @@ paths:
       security:
         - BearerAuth: []
         - AccessTokenAuth: []
-  /api/v1/admin/overview:
+  /v1/admin/overview:
     get:
       summary: Get the administrator operational overview
       description: |
@@ -12412,7 +12458,7 @@ paths:
                 status: 503
                 title: Service Unavailable
                 error: ADMIN_OVERVIEW_TEMPORARILY_UNAVAILABLE
-  /api/v1/admin/partnerships:
+  /v1/admin/partnerships:
     get:
       summary: List Partnerships for administration
       description: |
@@ -12587,7 +12633,7 @@ paths:
                 status: 503
                 title: Service Unavailable
                 error: PARTNERSHIP_TEMPORARILY_UNAVAILABLE
-  /api/v1/admin/partnerships/{partnershipId}:
+  /v1/admin/partnerships/{partnershipId}:
     get:
       summary: Get a Partnership for administration
       description: |
@@ -12815,7 +12861,7 @@ paths:
                 status: 503
                 title: Service Unavailable
                 error: PARTNERSHIP_TEMPORARILY_UNAVAILABLE
-  /api/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}:
+  /v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}:
     put:
       summary: Grant a ListingSource to a Partnership
       description: |
@@ -13154,7 +13200,7 @@ paths:
                 status: 503
                 title: Service Unavailable
                 error: PARTNERSHIP_TEMPORARILY_UNAVAILABLE
-  /api/v1/admin/partnerships/{partnershipId}/members/{userId}:
+  /v1/admin/partnerships/{partnershipId}/members/{userId}:
     put:
       summary: Grant a user membership in a Partnership
       description: |
@@ -13476,7 +13522,7 @@ paths:
                 status: 503
                 title: Service Unavailable
                 error: PARTNERSHIP_TEMPORARILY_UNAVAILABLE
-  /api/v1/admin/partnership-applications:
+  /v1/admin/partnership-applications:
     get:
       summary: Search PartnershipApplications for administration
       description: |
@@ -13754,7 +13800,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-  /api/v1/admin/partnership-applications/{partnershipApplicationId}:
+  /v1/admin/partnership-applications/{partnershipApplicationId}:
     get:
       summary: Get a PartnershipApplication for administration
       description:
@@ -13992,7 +14038,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-  /api/v1/admin/partnership-applications/{partnershipApplicationId}/decision:
+  /v1/admin/partnership-applications/{partnershipApplicationId}/decision:
     post:
       summary: Decide a PartnershipApplication as admin
       description: |
@@ -14123,7 +14169,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-  /api/v1/me/addresses:
+  /v1/me/addresses:
     post:
       summary: Save a private address
       operationId: createUserAddress
@@ -14360,7 +14406,7 @@ paths:
           minimum: 1
           maximum: 100
           default: 25
-  /api/v1/me/addresses/{address_id}:
+  /v1/me/addresses/{address_id}:
     get:
       summary: Read an own private address
       operationId: getUserAddress
@@ -14711,7 +14757,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/UserAddressId'
-  /api/v1/me/browsing-destination:
+  /v1/me/browsing-destination:
     get:
       summary: Read own browsing destination
       operationId: getBrowsingDestination
@@ -14933,7 +14979,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SetBrowsingDestination'
-  /api/v1/party-locations:
+  /v1/party-locations:
     get:
       summary: Discover public Party locations
       operationId: discoverPartyLocations
@@ -14988,7 +15034,7 @@ paths:
           content:
             application/problem+json:
               schema: {$ref: '#/components/schemas/ApiError'}
-  /api/v1/parties/{party_id}/locations:
+  /v1/parties/{party_id}/locations:
     post:
       operationId: createPartyLocation
       summary: Create a Party location
@@ -15239,7 +15285,7 @@ paths:
         membership in this Party's active partnership, or an explicit location management grant.
         Non-administrator users must be unsuspended. Membership removal or partnership dissolution removes derived
         authority; independent explicit grants survive. Listing-write scope does not confer access.
-  /api/v1/parties/{party_id}/locations/{location_id}:
+  /v1/parties/{party_id}/locations/{location_id}:
     get:
       operationId: getPartyLocation
       summary: Get a protected Party location
@@ -15478,7 +15524,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CorrectPartyLocationData'
-  /api/v1/parties/{party_id}/locations/{location_id}/lifecycle:
+  /v1/parties/{party_id}/locations/{location_id}/lifecycle:
     put:
       operationId: setPartyLocationLifecycle
       summary: Retire or explicitly restore a Party location
@@ -15607,7 +15653,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SetPartyLocationLifecycleData'
-  /api/v1/admin/parties/{party_id}/location-managers:
+  /v1/admin/parties/{party_id}/location-managers:
     get:
       operationId: listPartyLocationManagers
       summary: List current Party location managers
@@ -15760,7 +15806,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /api/v1/admin/parties/{party_id}/location-managers/{user_id}:
+  /v1/admin/parties/{party_id}/location-managers/{user_id}:
     put:
       operationId: setPartyLocationManagementGrant
       summary: Grant or revoke Party location management
@@ -15884,7 +15930,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PartyLocationManagementGrantData'
-  /api/v1/listing-sources/{listing_source_id}/location-default:
+  /v1/listing-sources/{listing_source_id}/location-default:
     get:
       summary: Get source location default
       operationId: getSourceLocationDefault
@@ -16391,7 +16437,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ClearSourceLocationDefaultData'
-  /api/v1/admin/listing-sources/{listing_source_id}/location-default:
+  /v1/admin/listing-sources/{listing_source_id}/location-default:
     get:
       summary: Get source location default as administrator
       operationId: adminGetSourceLocationDefault
@@ -16898,7 +16944,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ClearSourceLocationDefaultData'
-  /api/v1/listing-sources/{listing_source_id}/shipping-profiles:
+  /v1/listing-sources/{listing_source_id}/shipping-profiles:
     get:
       summary: List source shipping profiles
       operationId: listShippingProfiles
@@ -17031,7 +17077,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateShippingProfileData'
-  /api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}:
+  /v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}:
     get:
       summary: Get source shipping profile
       operationId: getShippingProfile
@@ -17205,7 +17251,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ShippingProfileLifecycleData'
-  /api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}/restore:
+  /v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}/restore:
     post:
       summary: Restore shipping profile explicitly
       operationId: restoreShippingProfile
@@ -17265,7 +17311,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ShippingProfileLifecycleData'
-  /api/v1/listing-sources/{listing_source_id}/shipping-default:
+  /v1/listing-sources/{listing_source_id}/shipping-default:
     get:
       summary: Read explicit source shipping default
       operationId: getShippingDefault
@@ -17421,7 +17467,7 @@ paths:
             schema:
               $ref: '#/components/schemas/ClearShippingDefaultData'
 
-  /api/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery:
+  /v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery:
     parameters:
     - name: listing_source_id
       in: path
@@ -17568,7 +17614,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /api/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery/async:
+  /v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery/async:
     parameters:
     - name: listing_source_id
       in: path
@@ -17692,7 +17738,7 @@ components:
       scheme: bearer
       bearerFormat: opaque
       description:
-        "Aura Historia bearer access token created through `/api/v1/me/access-tokens`.
+        "Aura Historia bearer access token created through `/v1/me/access-tokens`.
 
         Tokens are sent as standard bearer authorization headers.
 
@@ -17719,6 +17765,12 @@ components:
       schema: { type: string }
 
   headers:
+    OAuthNoStore:
+      description: OAuth credentials and protocol errors must not be stored.
+      schema: { type: string, enum: [no-store] }
+    OAuthNoCache:
+      description: Legacy cache prevention for OAuth credential traffic.
+      schema: { type: string, enum: [no-cache] }
     AsyncProductListingIdempotencyKey:
       description: Effective key, echoed on every evaluated report (including non-2xx); not guaranteed on pre-evaluation ApiError responses. CORS-exposed for browser clients.
       schema:
@@ -17815,14 +17867,54 @@ components:
           schema:
             $ref: '#/components/schemas/ApiError'
   schemas:
+    OAuthErrorData:
+      type: object
+      additionalProperties: false
+      description: Standard OAuth protocol error. Submitted input, credentials and technical causes are never reflected. REST client-management and first-party authentication failures keep ApiError.
+      required: [error]
+      properties:
+        error:
+          type: string
+          enum: [invalid_request, invalid_client, invalid_grant, unsupported_grant_type, unsupported_response_type, invalid_scope, invalid_target, access_denied, server_error, temporarily_unavailable]
+    OAuthAuthorizationServerMetadataData:
+      type: object
+      additionalProperties: false
+      required: [issuer, authorization_endpoint, token_endpoint, response_types_supported, response_modes_supported, grant_types_supported, token_endpoint_auth_methods_supported, code_challenge_methods_supported, scopes_supported]
+      properties:
+        issuer:
+          type: string
+          enum: ['https://api.aura-historia.com', 'https://api.stage.aura-historia.com']
+        authorization_endpoint:
+          type: string
+          enum: ['https://aura-historia.com/en/oauth/authorize', 'https://stage.aura-historia.com/en/oauth/authorize']
+        token_endpoint:
+          type: string
+          enum: ['https://api.aura-historia.com/v1/oauth/token', 'https://api.stage.aura-historia.com/v1/oauth/token']
+        response_types_supported:
+          type: array
+          items: { type: string, enum: [code] }
+        response_modes_supported:
+          type: array
+          items: { type: string, enum: [query] }
+        grant_types_supported:
+          type: array
+          items: { type: string, enum: [authorization_code] }
+        token_endpoint_auth_methods_supported:
+          type: array
+          items: { type: string, enum: [client_secret_post] }
+        code_challenge_methods_supported:
+          type: array
+          items: { type: string, enum: [S256] }
+        scopes_supported:
+          type: array
+          items:
+            type: string
+            enum: ['users:read', 'users:write', 'search-filters:read', 'search-filters:write', 'watchlist:read', 'watchlist:write', 'notifications:read', 'notifications:write']
     DeliveryAssessmentGeography:
       type: object
       additionalProperties: false
       required:
       - referenceRelease
-      - country
-      - subdivision
-      - postalCode
       properties:
         referenceRelease:
           type: string
@@ -17831,13 +17923,12 @@ components:
         country:
           type: string
           pattern: ^[A-Z]{2}$
-          nullable: true
         subdivision:
           type: string
-          nullable: true
         postalCode:
           type: string
-          nullable: true
+      description: Minimal effective destination area facts. Absent facts are omitted; no street, coordinates,
+        address identity or provider evidence is returned.
     DeliveryAssessmentAttribution:
       type: object
       additionalProperties: false
@@ -17845,226 +17936,110 @@ components:
       properties:
         provider: {type: string}
         attributionUrl: {type: string}
-    DeliveryAssertionEvidence:
+      description: Required attribution of geographic provider evidence behind the assessed destination.
+    DeliveryAssessmentEligibility:
+      type: string
+      enum:
+      - OFFERED
+      - NOT_OFFERED
+      - SUBJECT_TO_CONFIRMATION
+      description: Assessed eligibility. Omitted eligibility means unknown or unasserted; only NOT_OFFERED
+        is an established negative.
+    DeliveryAssessmentRequiredInputs:
+      type: array
+      minItems: 1
+      uniqueItems: true
+      items:
+        type: string
+        enum:
+        - DESTINATION
+        - DESTINATION_COUNTRY
+        - DESTINATION_SUBDIVISION
+        - POSTAL_CODE
+        - QUANTITY
+        - LOTS
+        - SHIPMENTS
+        - SELLER_ORDERS
+        - VARIANT
+      description: Caller-suppliable inputs whose absence leaves eligibility undetermined. Present only
+        when eligibility is omitted.
+    DeliveryAssessmentExplanationDataQualifyingAmountRequired:
       type: object
       additionalProperties: false
-      required: [verifiedAt]
+      required: [code, scope]
       properties:
-        verifiedAt:
-          type: string
-          format: date-time
-      description: Last successful assertion observation. Terms remain valid until updated, withdrawn,
-        or their source loses authority. Observation age alone never withdraws terms. Failed recrawls,
-        unrelated edits, evidence-only corrections and lifecycle commands do not advance this time.
-    DeliveryAssessmentProfileBasis:
+        code: {type: string, enum: [QUALIFYING_AMOUNT_REQUIRED]}
+        scope: {type: string, enum: [ITEM, LOT, SHIPMENT, SELLER_ORDER]}
+      description: A condition depends on a qualifying amount at this scope, which browsing never supplies.
+    DeliveryAssessmentExplanationDataCode:
       type: object
       additionalProperties: false
-      required:
-      - shippingProfileId
-      - termsRevision
-      - managementRevision
-      - lifecycle
-      - evidence
-      properties:
-        shippingProfileId:
-          type: string
-          pattern: ^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$
-        termsRevision:
-          type: integer
-          minimum: 1
-          maximum: 9223372036854775807
-        managementRevision:
-          type: integer
-          minimum: 1
-          maximum: 9223372036854775807
-        lifecycle:
-          type: string
-          enum:
-          - ACTIVE
-          - RETIRED
-        evidence:
-          $ref: '#/components/schemas/DeliveryAssertionEvidence'
-    DeliveryAssessmentReason:
-      type: object
-      additionalProperties: false
-      required:
-      - code
+      required: [code]
       properties:
         code:
           type: string
           enum:
-          - MISSING_INPUT
-          - NO_SOURCE_DEFAULT
-          - PROFILE_ABSENT
-          - PROFILE_RETIRED
-          - SOURCE_MISMATCH
-          - AMBIGUOUS_DEPENDENCY
-          - LOCATION_ABSENT
-          - LOCATION_RETIRED
-          - REFERENCE_RELEASE_MISMATCH
-          - UNRESOLVED_AREA
-          - UNSUPPORTED_POSTAL_SHAPE
-          - COUNTRY_MISMATCH
-          - SUBDIVISION_MISMATCH
-          - POSTAL_MISMATCH
-          - CLASS_MISMATCH
-          - INCOMPLETE_CLASS_MEMBERSHIP
-          - VARIANT_MISMATCH
-          - VARIANT_UNAVAILABLE
-          - MIXED_VARIANT_APPLICABILITY
-          - QUANTITY_OUTSIDE_RANGE
-          - QUALIFYING_THRESHOLD_NOT_MET
-          - CURRENCY_MISMATCH
-          - EXCLUDED
-          - EARLIER_ZONE_UNDETERMINED
           - INCOMPLETE_COVERAGE
-          - OUTSIDE_COMPLETE_COVERAGE
-          - NO_APPLICABLE_SERVICE
-          - NO_SHIPPING_ASSERTION
-          - NO_COLLECTION_ASSERTION
-          - NO_ELIGIBILITY_ASSERTION
-          - SUPPRESSED_INHERITANCE
-          - ASSERTION_CLEARED
-          - SHIPPING_PROHIBITED
-          - SHIPPING_DEPENDENCY_REPLACED
-          - SHIPPING_DEPENDENCY_UNDETERMINED
-          - UNKNOWN_CHARGE_BASIS
-          - NO_CURRENCY_ASSERTION
-          - PRICE_ON_REQUEST
-          - EXTERNALLY_CALCULATED_PRICE
-          - ARITHMETIC_OVERFLOW
-        input:
-          type: string
-          enum:
-          - DESTINATION
-          - DESTINATION_COUNTRY
-          - DESTINATION_SUBDIVISION
-          - POSTAL_CODE
-          - ORIGIN_COUNTRY
-          - QUANTITY
-          - LOTS
-          - SHIPMENTS
-          - SELLER_ORDERS
-          - VARIANT
-          - CLASS_MEMBERSHIP
-          - QUALIFYING_AMOUNT
-        scope:
-          type: string
-          enum:
-          - ITEM
-          - LOT
-          - SHIPMENT
-          - SELLER_ORDER
-        index:
-          type: integer
-          minimum: 0
-      description: MISSING_INPUT includes input, plus scope for QUALIFYING_AMOUNT. EARLIER_ZONE_UNDETERMINED
-        includes index. Other codes include no additional fields or private dependency text.
+          - UNRESOLVED_TERMS
+          - SHIPPING_UNDETERMINED
+          - NOT_ASSERTED
+      description: INCOMPLETE_COVERAGE means partial coverage neither includes nor excludes the destination
+        or service. UNRESOLVED_TERMS means seller-side origin/class facts, areas or dependencies cannot be
+        interpreted conservatively. SHIPPING_UNDETERMINED means collection depends on undetermined shipping.
+        NOT_ASSERTED means applicable terms assert no eligibility.
+    DeliveryAssessmentExplanations:
+      type: array
+      minItems: 1
+      uniqueItems: true
+      items:
+        oneOf:
+        - $ref: '#/components/schemas/DeliveryAssessmentExplanationDataQualifyingAmountRequired'
+        - $ref: '#/components/schemas/DeliveryAssessmentExplanationDataCode'
+      description: Bounded explanation of an undetermined outcome, derived from the assessment rather than
+        a raw reason trace. Present only when eligibility is omitted.
+    DeliveryAssessmentSummaryData:
+      type: object
+      additionalProperties: false
+      minProperties: 1
+      properties:
+        eligibility: {$ref: '#/components/schemas/DeliveryAssessmentEligibility'}
+        requiredInputs: {$ref: '#/components/schemas/DeliveryAssessmentRequiredInputs'}
+        explanations: {$ref: '#/components/schemas/DeliveryAssessmentExplanations'}
+      description: Assessed collection outcome. Omitted when collection is unasserted. Collection can remain
+        offered when shipping is prohibited.
     DeliveryAssessmentCharge:
       oneOf:
       - $ref: '#/components/schemas/ShippingPriceDataFixed'
       - $ref: '#/components/schemas/ShippingPriceDataFrom'
       - $ref: '#/components/schemas/ShippingPriceDataEstimatedRange'
-      description: Arithmetic advertised charge for its explicit basis and count; never a quote or landed
-        cost. Null when unavailable, inapplicable or necessary count/currency/basis is absent.
+      description: Arithmetic advertised charge in source currency for its explicit basis and count; never a
+        quote or landed cost. Omitted unless every count its basis needs is known, so browsing calculates none.
     DeliveryAssessmentOption:
       type: object
       additionalProperties: false
-      required:
-      - serviceIndex
-      - applicability
-      - eligibility
-      - charge
-      - reasons
+      required: [service]
       properties:
-        serviceIndex:
-          type: integer
-          minimum: 0
-          description: Zero-based service index within the selected zone of item.shipping.terms.
-        applicability:
-          type: string
-          enum:
-          - MATCH
-          - NO_MATCH
-          - UNDETERMINED
-        eligibility:
-          type: string
-          enum:
-          - OFFERED
-          - NOT_OFFERED
-          - SUBJECT_TO_CONFIRMATION
-          - null
-          nullable: true
-        charge:
-          anyOf:
-          - $ref: '#/components/schemas/DeliveryAssessmentCharge'
-          - type: object
-            nullable: true
-            enum:
-            - null
-        reasons:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeliveryAssessmentReason'
-      description: Eligibility and calculated charge for a service in the selected advertised zone.
-        Service identity, advertised price/basis/components and durations remain in item.shipping.terms.
-    DeliveryAssessmentCollection:
-      type: object
-      additionalProperties: false
-      required:
-      - eligibility
-      - applicability
-      - reasons
-      properties:
-        eligibility:
-          type: string
-          enum:
-          - OFFERED
-          - NOT_OFFERED
-          - SUBJECT_TO_CONFIRMATION
-          - null
-          nullable: true
-        applicability:
-          type: string
-          enum:
-          - MATCH
-          - NO_MATCH
-          - UNDETERMINED
-        reasons:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeliveryAssessmentReason'
-      description: Independent collection can remain offered when shipping is prohibited. Arrangement/windows
-        are in terms.collection; site is always null pending explicit permitted disclosure.
+        service: {type: string, minLength: 1, maxLength: 128}
+        eligibility: {$ref: '#/components/schemas/DeliveryAssessmentEligibility'}
+        requiredInputs: {$ref: '#/components/schemas/DeliveryAssessmentRequiredInputs'}
+        explanations: {$ref: '#/components/schemas/DeliveryAssessmentExplanations'}
+        rate: {$ref: '#/components/schemas/ListingShippingRateData'}
+        charge: {$ref: '#/components/schemas/DeliveryAssessmentCharge'}
+      description: A service of the destination's selected zone whose conditions do not definitely exclude it,
+        identified by its code with a copy of its advertised rate. Inputs and explanations cover only its own
+        applicability.
     ShippingDisplayData:
       type: object
       additionalProperties: false
-      required: [currency, fxRateId, capturedAt, rates]
+      required: [currency, fxRateId, capturedAt]
       description: >-
-        Converted current effective advertised rates. Source terms retain their original amounts/currencies.
-        HalfUp rounding uses currency minor-unit exponents. FROM and ESTIMATED_RANGE retain uncertainty;
-        FREE with known currency remains zero. Unknown-currency free, external, on-request and absent rates
-        have no entry. Conversion supplies no quantity, applicability, binding quote or complete landed cost.
+        Valuation of every requested-currency value in this shipping object, from the persisted browsing FX
+        snapshot (pinned for search continuation). Present only when a value was converted; same-currency
+        reads omit it. HalfUp rounding uses currency minor-unit exponents.
       properties:
         currency: {$ref: '#/components/schemas/CurrencyData'}
-        fxRateId: {type: string, description: 'Immutable persisted browsing FX snapshot, pinned for search continuation.'}
+        fxRateId: {type: string}
         capturedAt: {type: string, format: date-time}
-        rates:
-          type: array
-          items:
-            type: object
-            additionalProperties: false
-            required: [zoneIndex, serviceIndex, price, basis]
-            properties:
-              zoneIndex: {type: integer, minimum: 0, description: Zero-based zone index in effective terms.}
-              serviceIndex: {type: integer, minimum: 0, description: Zero-based service index within that zone.}
-              price:
-                oneOf:
-                - {$ref: '#/components/schemas/ShippingPriceDataFree'}
-                - {$ref: '#/components/schemas/ShippingPriceDataFixed'}
-                - {$ref: '#/components/schemas/ShippingPriceDataFrom'}
-                - {$ref: '#/components/schemas/ShippingPriceDataEstimatedRange'}
-              basis: {type: string, nullable: true, enum: [PER_ITEM, PER_LOT, PER_SHIPMENT, PER_SELLER_ORDER, null]}
     ShippingMatchValuationData:
       type: object
       additionalProperties: false
@@ -18081,103 +18056,294 @@ components:
           properties:
             amount: {type: integer, format: int64, minimum: 0, maximum: 9223372036854775807}
             currency: {$ref: '#/components/schemas/CurrencyData'}
-    AdvertisedListingShippingData:
+    ListingShippingSummaryData:
       type: object
       additionalProperties: false
+      minProperties: 1
       description: >-
-        Effective advertised shipping and collection terms, shared by every viewer. Source defaults
-        and listing overrides are resolved from current PostgreSQL state. Dispatch origins and
-        collection sites are always null. Invalid shipping dependencies return 500 SHIPPING_STORAGE_ERROR;
-        unavailable shipping reads return 503 SHIPPING_TEMPORARILY_UNAVAILABLE. Missing or withdrawn listings and hidden entries have
-        shipping null. Clients render these terms generically without a destination. Display conversion uses
-        persisted browsing FX, never historical sale-observation FX. Missing snapshot/unavailable FX reads
-        return 503; invalid snapshot, missing required quote or overflow return 500. Shared listing FX
-        resolution retains endpoint errors; shipping enrichment uses SHIPPING_TEMPORARILY_UNAVAILABLE
-        or SHIPPING_STORAGE_ERROR. No provider is called. Currency and query predicates isolate
-        anonymous caches; credential-bearing responses and errors remain private, no-store.
-      required: [terms, display, listingRevision, sourceRevision, defaultRevision, profile, listingEvidence, evaluatedAt, shippingReasons, collectionReasons, notices]
+        Bounded destination-independent shipping of a collection item, shared by every viewer. Its size never
+        grows with the advertised policy: it contains no terms, zones, service lists, per-zone conversions or
+        management metadata. Omitted when nothing is asserted or the listing is hidden/withdrawn; omission is
+        not a no-shipping assertion. Current PostgreSQL state is used even when indexed membership lags.
+        Invalid shipping dependencies return 500 SHIPPING_STORAGE_ERROR; unavailable shipping reads return 503
+        SHIPPING_TEMPORARILY_UNAVAILABLE.
       properties:
-        display:
-          anyOf:
-          - $ref: '#/components/schemas/ShippingDisplayData'
-          - type: object
-            nullable: true
-            enum:
-            - null
-        terms:
-          $ref: '#/components/schemas/AdvertisedDeliveryTermsData'
-        listingRevision: {type: integer, minimum: 1, maximum: 9223372036854775807}
-        sourceRevision: {type: integer, minimum: 1, maximum: 9223372036854775807}
-        defaultRevision: {type: integer, minimum: 1, maximum: 9223372036854775807, nullable: true}
-        profile:
-          anyOf:
-          - $ref: '#/components/schemas/DeliveryAssessmentProfileBasis'
-          - type: object
-            nullable: true
-            enum:
-            - null
-        listingEvidence:
-          anyOf:
-          - $ref: '#/components/schemas/DeliveryAssertionEvidence'
-          - type: object
-            nullable: true
-            enum:
-            - null
-        evaluatedAt: {type: string, format: date-time}
-        shippingReasons:
-          type: array
-          items: {$ref: '#/components/schemas/DeliveryAssessmentReason'}
-        collectionReasons:
-          type: array
-          items: {$ref: '#/components/schemas/DeliveryAssessmentReason'}
-        notices:
-          type: array
-          items:
-            type: string
-            enum: [ASSIGNMENT_UNRESOLVED, INTEGRATION_MISMATCH, PROFILE_INTEGRATION_MISMATCH]
-    PersonalizedListingShippingData:
+        eligibility: {$ref: '#/components/schemas/DeliveryAssessmentEligibility'}
+        requiredInputs: {$ref: '#/components/schemas/DeliveryAssessmentRequiredInputs'}
+        explanations: {$ref: '#/components/schemas/DeliveryAssessmentExplanations'}
+        collection: {$ref: '#/components/schemas/DeliveryAssessmentSummaryData'}
+    ListingShippingDetailData:
       type: object
       additionalProperties: false
+      minProperties: 1
       description: >-
-        Evaluation for the authenticated owner's selected browsing destination. Omitted when
-        no destination is selected or the listing is hidden/withdrawn. A saved address or explicit
-        country/postal preference can supply the destination; owning addresses alone selects none.
-        Destination facts include submitted assertions and compatible permitted unexpired derived
-        evidence. No street, coordinates or address identity is returned. Delegated personalization
-        requires users:read; credentials without it receive generic terms. Browsing infers no quantity, variant, shipment/order count or qualifying
-        amount. Missing inputs retain uncertainty and explained null charges. This enrichment does
-        not filter or reorder results. Authenticated responses are never cached.
-      required: [destination, attribution, evaluatedAt, eligibility, selectedZone, options, reasons, collection, bindingQuote, completeLandedCost]
+        Destination-independent shipping of a single listing read, shared by every viewer: the summary fields
+        and effective advertised terms. Terms are omitted when none resolve; the summary then explains why.
+        Omitted when nothing is asserted or the listing is hidden/withdrawn.
+        Display conversion uses persisted browsing FX, never historical sale-observation FX. Missing snapshot
+        or unavailable FX reads return 503; invalid snapshot, missing required quote or overflow return 500.
+        Currency and query predicates isolate anonymous caches; credential-bearing responses and errors remain
+        private, no-store.
       properties:
-        destination:
-          $ref: '#/components/schemas/DeliveryAssessmentGeography'
-        attribution:
-          anyOf:
-          - $ref: '#/components/schemas/DeliveryAssessmentAttribution'
-          - type: object
-            nullable: true
-            enum:
-            - null
-        evaluatedAt: {type: string, format: date-time}
-        eligibility:
-          type: string
-          enum: [OFFERED, NOT_OFFERED, SUBJECT_TO_CONFIRMATION, null]
-          nullable: true
-        selectedZone:
-          type: integer
-          minimum: 0
-          nullable: true
-          description: Zero-based zone index in item.shipping.terms.shipping.coverage.zones.
+        eligibility: {$ref: '#/components/schemas/DeliveryAssessmentEligibility'}
+        requiredInputs: {$ref: '#/components/schemas/DeliveryAssessmentRequiredInputs'}
+        explanations: {$ref: '#/components/schemas/DeliveryAssessmentExplanations'}
+        terms: {$ref: '#/components/schemas/ListingShippingTermsData'}
+        display: {$ref: '#/components/schemas/ShippingDisplayData'}
+    ShippingPricePreviewData:
+      type: object
+      additionalProperties: false
+      required: [service, basis, price]
+      properties:
+        service: {type: string, minLength: 1, maxLength: 128}
+        basis: {type: string, enum: [PER_ITEM, PER_LOT, PER_SHIPMENT, PER_SELLER_ORDER]}
+        price: {$ref: '#/components/schemas/ListingShippingPriceData'}
+      description: >-
+        One advertised rate of a service establishing the summarized eligibility in the destination's selected
+        zone, in the requested currency when its amount is convertible. Services with undetermined conditions
+        never supply it. Several candidates are compared only with one basis and exact fixed or known-currency
+        free prices in one currency: the lowest wins, then the first advertised; otherwise it is omitted. It
+        implies no purchase quantity, total, quote or global cheapest rate.
+    PersonalizedShippingSummaryData:
+      type: object
+      additionalProperties: false
+      minProperties: 1
+      description: >-
+        Bounded assessment of a collection item for the authenticated owner's selected browsing destination,
+        without echoing it. Omitted when nothing is assessed, no destination is selected, delegated
+        personalization lacks users:read, or the listing is hidden/withdrawn. Owning addresses alone selects
+        none. Authenticated responses are never cached.
+      properties:
+        eligibility: {$ref: '#/components/schemas/DeliveryAssessmentEligibility'}
+        requiredInputs: {$ref: '#/components/schemas/DeliveryAssessmentRequiredInputs'}
+        explanations: {$ref: '#/components/schemas/DeliveryAssessmentExplanations'}
+        pricePreview: {$ref: '#/components/schemas/ShippingPricePreviewData'}
+        collection: {$ref: '#/components/schemas/DeliveryAssessmentSummaryData'}
+        attribution: {$ref: '#/components/schemas/DeliveryAssessmentAttribution'}
+        display: {$ref: '#/components/schemas/ShippingDisplayData'}
+    PersonalizedShippingDetailData:
+      type: object
+      additionalProperties: false
+      required: [destination]
+      description: >-
+        Assessment of a single listing for the authenticated owner's selected browsing destination. Omitted
+        under the same conditions as PersonalizedShippingSummaryData. Destination facts include submitted
+        assertions and compatible permitted unexpired derived evidence. Browsing infers no quantity, variant,
+        shipment/order count or qualifying amount. This enrichment does not filter or reorder results.
+      properties:
+        destination: {$ref: '#/components/schemas/DeliveryAssessmentGeography'}
+        attribution: {$ref: '#/components/schemas/DeliveryAssessmentAttribution'}
+        eligibility: {$ref: '#/components/schemas/DeliveryAssessmentEligibility'}
+        requiredInputs: {$ref: '#/components/schemas/DeliveryAssessmentRequiredInputs'}
+        explanations: {$ref: '#/components/schemas/DeliveryAssessmentExplanations'}
         options:
           type: array
+          minItems: 1
+          maxItems: 64
           items: {$ref: '#/components/schemas/DeliveryAssessmentOption'}
-        reasons:
+        collection: {$ref: '#/components/schemas/DeliveryAssessmentSummaryData'}
+        display: {$ref: '#/components/schemas/ShippingDisplayData'}
+    ListingShippingPriceDataFree:
+      type: object
+      additionalProperties: false
+      required: [kind]
+      properties:
+        kind: {type: string, enum: [FREE]}
+        currency: {$ref: '#/components/schemas/ShippingCurrencyCode'}
+    ListingShippingPriceDataExternallyCalculated:
+      type: object
+      additionalProperties: false
+      required: [kind]
+      properties:
+        kind: {type: string, enum: [EXTERNALLY_CALCULATED]}
+        currency: {$ref: '#/components/schemas/ShippingCurrencyCode'}
+    ListingShippingPriceDataOnRequest:
+      type: object
+      additionalProperties: false
+      required: [kind]
+      properties:
+        kind: {type: string, enum: [ON_REQUEST]}
+        currency: {$ref: '#/components/schemas/ShippingCurrencyCode'}
+    ListingShippingPriceData:
+      oneOf:
+      - $ref: '#/components/schemas/ListingShippingPriceDataFree'
+      - $ref: '#/components/schemas/ShippingPriceDataFixed'
+      - $ref: '#/components/schemas/ShippingPriceDataFrom'
+      - $ref: '#/components/schemas/ShippingPriceDataEstimatedRange'
+      - $ref: '#/components/schemas/ListingShippingPriceDataExternallyCalculated'
+      - $ref: '#/components/schemas/ListingShippingPriceDataOnRequest'
+      discriminator:
+        propertyName: kind
+        mapping:
+          FREE: '#/components/schemas/ListingShippingPriceDataFree'
+          FIXED: '#/components/schemas/ShippingPriceDataFixed'
+          FROM: '#/components/schemas/ShippingPriceDataFrom'
+          ESTIMATED_RANGE: '#/components/schemas/ShippingPriceDataEstimatedRange'
+          EXTERNALLY_CALCULATED: '#/components/schemas/ListingShippingPriceDataExternallyCalculated'
+          ON_REQUEST: '#/components/schemas/ListingShippingPriceDataOnRequest'
+      description: Every advertised price kind. On-request and externally calculated prices stay explicit;
+        an omitted currency is unasserted.
+    ListingShippingRateData:
+      type: object
+      additionalProperties: false
+      required: [price]
+      properties:
+        price: {$ref: '#/components/schemas/ListingShippingPriceData'}
+        display_price:
+          allOf:
+          - $ref: '#/components/schemas/ListingShippingPriceData'
+          description: Requested-currency value of a fixed, from or range amount advertised in another currency;
+            price keeps the source value. Valued by the enclosing display.
+        basis: {type: string, enum: [PER_ITEM, PER_LOT, PER_SHIPMENT, PER_SELLER_ORDER]}
+        qualifying_scope: {type: string, enum: [ITEM, LOT, SHIPMENT, SELLER_ORDER]}
+        components:
+          type: object
+          minProperties: 1
+          additionalProperties:
+            type: string
+            enum: [INCLUDED, EXCLUDED]
+          description: 'Keys: TRANSPORT, PACKING, INSURANCE, HANDLING, INSTALLATION, IMPORT_DUTY, TAX. Absence
+            is no inclusion assertion.'
+    ListingShippingApplicabilityData:
+      type: object
+      additionalProperties: false
+      minProperties: 1
+      properties:
+        class: {type: string, minLength: 1, maxLength: 128}
+        variants:
           type: array
-          items: {$ref: '#/components/schemas/DeliveryAssessmentReason'}
-        collection:
-          $ref: '#/components/schemas/DeliveryAssessmentCollection'
-        bindingQuote: {type: boolean, enum: [false]}
-        completeLandedCost: {type: boolean, enum: [false]}
+          minItems: 1
+          maxItems: 64
+          items: {type: string, minLength: 1, maxLength: 128}
+        quantity: {$ref: '#/components/schemas/ShippingQuantityData'}
+        threshold: {$ref: '#/components/schemas/ShippingThresholdData'}
+      description: Asserted conditions, all of which must hold. Omitted for unconditional rules.
+    ListingShippingTimeData:
+      type: object
+      additionalProperties: false
+      required: [minimum, maximum, unit]
+      properties:
+        minimum: {type: integer, minimum: 0, maximum: 4294967295}
+        maximum: {type: integer, minimum: 0, maximum: 4294967295}
+        unit: {type: string, enum: [HOURS, DAYS, WEEKS]}
+        basis: {type: string, enum: [CALENDAR, BUSINESS]}
+        trigger: {type: string, enum: [ORDER, ORDER_CONFIRMATION, PAYMENT, DISPATCH, READY_FOR_COLLECTION]}
+    ListingShippingLeadTimesData:
+      type: object
+      additionalProperties: false
+      minProperties: 1
+      properties:
+        handling: {$ref: '#/components/schemas/ListingShippingTimeData'}
+        transit: {$ref: '#/components/schemas/ListingShippingTimeData'}
+        total: {$ref: '#/components/schemas/ListingShippingTimeData'}
+      description: Independent duration assertions; never computed dates.
+    ListingShippingServiceData:
+      type: object
+      additionalProperties: false
+      required: [code]
+      properties:
+        code: {type: string, minLength: 1, maxLength: 128}
+        applicability: {$ref: '#/components/schemas/ListingShippingApplicabilityData'}
+        eligibility: {$ref: '#/components/schemas/DeliveryAssessmentEligibility'}
+        rate: {$ref: '#/components/schemas/ListingShippingRateData'}
+        lead_times: {$ref: '#/components/schemas/ListingShippingLeadTimesData'}
+        features:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items: {type: string, enum: [TRACKING, INSURED, WHITE_GLOVE, INSTALLATION, PACKING]}
+        arranger: {$ref: '#/components/schemas/ShippingActorData'}
+        performer: {$ref: '#/components/schemas/ShippingActorData'}
+    ListingShippingZoneData:
+      type: object
+      additionalProperties: false
+      required: [areas, services]
+      properties:
+        areas:
+          type: array
+          minItems: 1
+          maxItems: 64
+          items: {$ref: '#/components/schemas/ShippingAreaData'}
+        applicability: {$ref: '#/components/schemas/ListingShippingApplicabilityData'}
+        services:
+          type: array
+          minItems: 1
+          maxItems: 64
+          items: {$ref: '#/components/schemas/ListingShippingServiceData'}
+      description: Zones are ordered; the first matching zone applies and service codes are unique within it.
+    ListingShippingCoverageData:
+      type: object
+      additionalProperties: false
+      required: [reference_release, completeness, zones]
+      properties:
+        reference_release: {type: string, enum: [iso-codes-4.20.1]}
+        completeness: {type: string, enum: [PARTIAL, COMPLETE]}
+        applicability: {$ref: '#/components/schemas/ListingShippingApplicabilityData'}
+        exclusions:
+          type: array
+          minItems: 1
+          maxItems: 64
+          items: {$ref: '#/components/schemas/ShippingAreaData'}
+        zones:
+          type: array
+          maxItems: 64
+          items: {$ref: '#/components/schemas/ListingShippingZoneData'}
+      description: Exclusions precede zones. The dispatch origin is never disclosed.
+    ListingShippingPolicyDataCoverage:
+      type: object
+      additionalProperties: false
+      required: [kind, coverage]
+      properties:
+        kind: {type: string, enum: [COVERAGE]}
+        coverage: {$ref: '#/components/schemas/ListingShippingCoverageData'}
+    ListingShippingPolicyData:
+      oneOf:
+      - $ref: '#/components/schemas/ShippingPolicyDataProhibited'
+      - $ref: '#/components/schemas/ListingShippingPolicyDataCoverage'
+      discriminator:
+        propertyName: kind
+        mapping:
+          PROHIBITED: '#/components/schemas/ShippingPolicyDataProhibited'
+          COVERAGE: '#/components/schemas/ListingShippingPolicyDataCoverage'
+    ListingShippingCollectionArrangementDataWindow:
+      type: object
+      additionalProperties: false
+      required: [kind, duration]
+      properties:
+        kind: {type: string, enum: [WINDOW]}
+        duration: {$ref: '#/components/schemas/ListingShippingTimeData'}
+    ListingShippingCollectionArrangementData:
+      oneOf:
+      - $ref: '#/components/schemas/ShippingCollectionArrangementDataByAppointment'
+      - $ref: '#/components/schemas/ShippingCollectionArrangementDataContactToArrange'
+      - $ref: '#/components/schemas/ListingShippingCollectionArrangementDataWindow'
+      discriminator:
+        propertyName: kind
+        mapping:
+          BY_APPOINTMENT: '#/components/schemas/ShippingCollectionArrangementDataByAppointment'
+          CONTACT_TO_ARRANGE: '#/components/schemas/ShippingCollectionArrangementDataContactToArrange'
+          WINDOW: '#/components/schemas/ListingShippingCollectionArrangementDataWindow'
+    ListingShippingCollectionData:
+      type: object
+      additionalProperties: false
+      required: [dependency]
+      properties:
+        applicability: {$ref: '#/components/schemas/ListingShippingApplicabilityData'}
+        dependency: {type: string, enum: [INDEPENDENT, SHIPPING]}
+        eligibility: {$ref: '#/components/schemas/DeliveryAssessmentEligibility'}
+        arrangement: {$ref: '#/components/schemas/ListingShippingCollectionArrangementData'}
+      description: Collection sites are never disclosed; a referenced location does not authorize publishing its address.
+    ListingShippingTermsData:
+      type: object
+      additionalProperties: false
+      minProperties: 1
+      properties:
+        shipping: {$ref: '#/components/schemas/ListingShippingPolicyData'}
+        collection: {$ref: '#/components/schemas/ListingShippingCollectionData'}
+      description: >-
+        Public read projection of effective advertised terms. Unlike the strict AdvertisedDeliveryTermsData
+        protocol used by management and imports, it carries no schema marker and omits absent assertions and
+        empty optional collections. This contract supplies no quote.
     ProductListingDeliveryCommandData:
       type: object
       additionalProperties: false
@@ -19762,7 +19928,6 @@ components:
       type: object
       description: Lightweight ProductListing summary for search and similar-listing results.
       required:
-        - shipping
         - productListingId
         - eventId
         - source
@@ -19776,12 +19941,7 @@ components:
         - updated
       properties:
         shipping:
-          anyOf:
-          - $ref: '#/components/schemas/AdvertisedListingShippingData'
-          - type: object
-            nullable: true
-            enum:
-            - null
+          $ref: '#/components/schemas/ListingShippingSummaryData'
         productListingId:
           type: string
         productListingTitleSlugId:
@@ -19880,7 +20040,6 @@ components:
       type: object
       description: Canonical ProductListing detail inside a personalized response wrapper.
       required:
-        - shipping
         - productListingId
         - eventId
         - source
@@ -19897,12 +20056,7 @@ components:
         - updated
       properties:
         shipping:
-          anyOf:
-          - $ref: '#/components/schemas/AdvertisedListingShippingData'
-          - type: object
-            nullable: true
-            enum:
-            - null
+          $ref: '#/components/schemas/ListingShippingDetailData'
         productListingId:
           type: string
         productListingTitleSlugId:
@@ -19922,7 +20076,124 @@ components:
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
           nullable: true
-          description: Original normalized title. Truncation ellipses remain stable; legacy constructor trailing whitespace is presented trimmed.
+          description: Original normalized title. Styled letters and digits are presented as ordinary text, emoji and ornamental symbols are removed and truncation ellipses remain stable; titles stored before a normalization change, including legacy trailing whitespace, are presented in current normalized form.
+        productDescription:
+          allOf:
+            - $ref: "#/components/schemas/LocalizedTextData"
+          nullable: true
+        title:
+          allOf:
+            - $ref: "#/components/schemas/LocalizedTextData"
+          nullable: true
+        description:
+          allOf:
+            - $ref: "#/components/schemas/LocalizedTextData"
+          nullable: true
+        pricing:
+          type: object
+          required:
+            - source
+            - display
+            - valuation
+          properties:
+            source:
+              $ref: "#/components/schemas/ProductListingPricingData"
+            display:
+              $ref: "#/components/schemas/ProductListingPricingData"
+            valuation:
+              $ref: "#/components/schemas/ProductListingPricingValuationData"
+        availability:
+          anyOf:
+          - $ref: '#/components/schemas/ListingAvailabilityData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        lifecycle:
+          $ref: "#/components/schemas/ListingLifecycleData"
+        url:
+          type: string
+          format: uri
+        viewUrl:
+          type: string
+          format: uri
+        images:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProductListingImageData"
+        contentPolicy:
+          anyOf:
+          - $ref: '#/components/schemas/ContentPolicyData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+        auction:
+          anyOf:
+          - $ref: '#/components/schemas/AuctionSummaryData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+          description: Current parent Auction presentation from the joined PostgreSQL detail read. Null when the
+            listing has no parent Auction.
+        lot:
+          anyOf:
+          - $ref: '#/components/schemas/ProductListingLotData'
+          - type: object
+            nullable: true
+            enum:
+            - null
+          description: Listing-owned lot facts. Null when the listing has no lot facts.
+        created:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+          description: Time of the last committed change to listing-owned state, including enrichment (translations, embedding, geography, shipping summary, content assessment and delivery evidence). Strictly increasing per listing, with each new value at millisecond precision; FX changes and response-time composition do not advance it.
+    ProductListingCollectionDetailsData:
+      type: object
+      description: Canonical ProductListing detail inside a collection (watchlist, saved-search matches and auction
+        catalogue). Identical to ProductListingDetailsData except that shipping is the bounded collection summary.
+      required:
+        - productListingId
+        - eventId
+        - source
+        - sourceListingId
+        - pricing
+        - availability
+        - lifecycle
+        - url
+        - viewUrl
+        - images
+        - auction
+        - lot
+        - created
+        - updated
+      properties:
+        shipping:
+          $ref: '#/components/schemas/ListingShippingSummaryData'
+        productListingId:
+          type: string
+        productListingTitleSlugId:
+          type: string
+          minLength: 8
+          maxLength: 120
+          pattern: "^[a-z0-9]+(-[a-z0-9]+)*-[0-9a-f]{6}$"
+          description: Immutable Aura-owned public locator. Omitted when the listing is redacted as hidden.
+          example: museum-cabinet-18-19-century-a1b2c3
+        eventId:
+          type: string
+        source:
+          $ref: "#/components/schemas/ProductListingSourceData"
+        sourceListingId:
+          type: string
+        productTitle:
+          allOf:
+            - $ref: "#/components/schemas/LocalizedTextData"
+          nullable: true
+          description: Original normalized title. Styled letters and digits are presented as ordinary text, emoji and ornamental symbols are removed and truncation ellipses remain stable; titles stored before a normalization change, including legacy trailing whitespace, are presented in current normalized form.
         productDescription:
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
@@ -20095,7 +20366,24 @@ components:
           allOf:
             - $ref: "#/components/schemas/ProductListingUserStateData"
           nullable: true
-          description: Present only for a valid user or delegated-user bearer token.
+          description:
+            Present only for a valid user or delegated-user bearer token. A delegated token receives only the
+            sections its read scopes permit and no `userState` when none applies.
+    PersonalizedProductListingCollectionDetailsData:
+      type: object
+      description: Canonical Product detail in a collection, with optional user-specific state and bounded shipping.
+      required:
+        - item
+      properties:
+        item:
+          $ref: "#/components/schemas/ProductListingCollectionDetailsData"
+        userState:
+          allOf:
+            - $ref: "#/components/schemas/ProductListingCollectionUserStateData"
+          nullable: true
+          description:
+            Present only for a valid user or delegated-user bearer token. A delegated token receives only the
+            sections its read scopes permit and no `userState` when none applies.
     PersonalizedProductListingSummaryData:
       type: object
       description: Canonical Product summary with optional user-specific state.
@@ -20106,9 +20394,11 @@ components:
           $ref: "#/components/schemas/ProductListingSummaryData"
         userState:
           allOf:
-            - $ref: "#/components/schemas/ProductListingUserStateData"
+            - $ref: "#/components/schemas/ProductListingCollectionUserStateData"
           nullable: true
-          description: Present only for a valid user or delegated-user bearer token.
+          description:
+            Present only for a valid user or delegated-user bearer token. A delegated token receives only the
+            sections its read scopes permit and no `userState` when none applies.
     ProductListingSearchResultData:
       type: object
       description: Cursor-paged canonical Product search response.
@@ -20161,15 +20451,41 @@ components:
 
     ProductListingUserStateData:
       type: object
-      description: User-specific state information for a product
-      required:
-        - watchlist
-        - contentVisibility
-        - notification
-        - searchFilter
+      description:
+        "User-specific state information for a product.
+
+        Cognito users receive every section that applies. An Aura Historia access token receives a section only
+
+        with its read scope, on every route that returns `userState`: `watchlist` requires `watchlist:read`,
+
+        `notification` requires `notifications:read`, `searchFilter` requires `search-filters:read`, and
+
+        `contentVisibility` and `shipping` require `users:read`. Sections without their scope are omitted rather
+
+        than defaulted.
+
+        Undisclosed state still applies: quota-hidden matches stay redacted and stored content preferences still
+
+        decide image visibility.
+
+        "
       properties:
         shipping:
-          $ref: '#/components/schemas/PersonalizedListingShippingData'
+          $ref: '#/components/schemas/PersonalizedShippingDetailData'
+        watchlist:
+          $ref: "#/components/schemas/WatchlistUserStateData"
+        contentVisibility:
+          $ref: "#/components/schemas/ContentVisibilityUserStateData"
+        notification:
+          $ref: "#/components/schemas/NotificationUserStateData"
+        searchFilter:
+          $ref: "#/components/schemas/SearchFilterUserStateData"
+    ProductListingCollectionUserStateData:
+      type: object
+      description: ProductListingUserStateData for collection items; `shipping` is the bounded collection summary.
+      properties:
+        shipping:
+          $ref: '#/components/schemas/PersonalizedShippingSummaryData'
         watchlist:
           $ref: "#/components/schemas/WatchlistUserStateData"
         contentVisibility:
@@ -20847,7 +21163,7 @@ components:
         sourceListingId:
           type: string
         title:
-          description: Normalized discovery title, with legacy constructor trailing whitespace presented trimmed without rewriting the stored event.
+          description: Normalized discovery title. Titles stored before a normalization change, including legacy trailing whitespace and decorative typography, are presented in current normalized form without rewriting the stored event; a title without remaining text is omitted.
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
         description:
@@ -21811,14 +22127,16 @@ components:
           items:
             $ref: "#/components/schemas/AccessTokenScopeData"
           uniqueItems: true
-          description: Omit to leave unchanged. Send `[]` to empty the set; null is invalid.
+          description: Omit to leave unchanged. Send `[]` to empty the set; null is invalid. Aura Historia access
+            tokens may only send a subset of the current scopes.
           example:
             - product-listings:write
         expires:
           type: string
           format: date-time
           nullable: true
-          description: Omit to leave unchanged. Send null to clear the expiration timestamp.
+          description: Omit to leave unchanged. Send null to clear the expiration timestamp. Aura Historia access
+            tokens cannot clear or extend an existing expiry.
           example: "2026-07-31T00:00:00Z"
     OAuthClientConsentMetadataData:
       type: object
@@ -22127,7 +22445,7 @@ components:
       description:
         "Secret-free OAuth client metadata returned by the admin OAuth client collection,
 
-        detail, and update endpoints under `/api/v1/admin/oauth-clients`.
+        detail, and update endpoints under `/v1/admin/oauth-clients`.
 
         This schema intentionally has no `client_secret` property.
 
@@ -22195,13 +22513,13 @@ components:
           example: 1748539200
     OAuthTokenResponseData:
       type: object
-      description: "Token response returned by `POST /api/v1/oauth/token` and
+      description: "Token response returned by `POST /v1/oauth/token` and
 
-        `GET /api/v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`.
+        `GET /v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`.
 
         The `access_token` is an Aura Historia bearer access token. `expires_in` is omitted
 
-        (`null`) for non-expiring tokens. `third_party_exchange_code` is only present on the
+        for non-expiring tokens. `third_party_exchange_code` is only present on the
 
         direct token exchange response.
 
@@ -22216,14 +22534,14 @@ components:
           description: The issued Aura Historia access token (plaintext bearer value).
           example: aurahistoria_abcdefghijk_verylongtokenvalue
         token_type:
-          $ref: "#/components/schemas/AccessTokenTypeData"
+          type: string
+          enum: [Bearer]
         expires_in:
           type: integer
           format: int64
           minimum: 0
-          nullable: true
-          description: Seconds until the access token expires. `null` when the token does not expire.
-          example: null
+          description: Seconds until expiry; omitted when the token does not expire.
+          example: 3600
         scope:
           type: string
           description: Space-separated list of scopes granted to the access token.
@@ -22232,9 +22550,9 @@ components:
           type: string
           format: uuid
           description:
-            "Optional one-time exchange code returned by `POST /api/v1/oauth/token`.
+            "Optional one-time exchange code returned by `POST /v1/oauth/token`.
 
-            It can be redeemed once via `GET /api/v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`
+            It can be redeemed once via `GET /v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`
 
             within 60 seconds to obtain the same access token.
 
@@ -22243,7 +22561,7 @@ components:
     OAuthIntrospectionResponseData:
       type: object
       description:
-        "Introspection response returned by `POST /api/v1/oauth/introspect` (RFC 7662).
+        "Introspection response returned by `POST /v1/oauth/introspect` (RFC 7662).
 
         When `active` is `false` all other fields are omitted.
 
@@ -22554,7 +22872,7 @@ components:
         items:
           type: array
           items:
-            $ref: "#/components/schemas/PersonalizedProductListingDetailsData"
+            $ref: "#/components/schemas/PersonalizedProductListingCollectionDetailsData"
           description: Persisted matches in ascending match-creation order.
         size:
           type: integer
@@ -22650,7 +22968,7 @@ components:
     OwnUserAccountData:
       type: object
       description:
-        User-owned account information for `/api/v1/me/account`. Role, tier, and Stripe customer ID are read-only
+        User-owned account information for `/v1/me/account`. Role, tier, and Stripe customer ID are read-only
         here.
       required:
         - userId
@@ -23218,7 +23536,7 @@ components:
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
           nullable: true
-          description: Optional localized title. Omit or send `null` when no title is available.
+          description: "Optional localized title. Omit or send `null` when no title is available. The title is normalized; styled letters and digits become ordinary text and emoji and ornamental symbols are removed. A title without remaining text, such as a blank or emoji-only title, is rejected with `BAD_BODY_VALUE`: synchronous batches fail with `400`, asynchronous batches report that item as a failure."
         description:
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
@@ -23425,7 +23743,7 @@ components:
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
           nullable: true
-          description: Optional localized title for the product. Used only when creating a new product.
+          description: "Optional localized title for the product. Used only when creating a new product. The title is normalized; styled letters and digits become ordinary text and emoji and ornamental symbols are removed. A title without remaining text, such as a blank or emoji-only title, is rejected with `BAD_BODY_VALUE`: synchronous batches fail with `400`, asynchronous batches report that item as a failure."
         description:
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
@@ -24156,6 +24474,18 @@ components:
         updated:
           type: string
           format: date-time
+    AdministeredListingSourcesPageData:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/AdministeredListingSourceData"
+        next:
+          type: string
+          description: Opaque actor-bound continuation, absent when the page is complete. Pass as after.
     AdministeredListingSourceData:
       type: object
       required:
@@ -24843,7 +25173,7 @@ components:
         items:
           type: array
           items:
-            $ref: "#/components/schemas/PersonalizedProductListingDetailsData"
+            $ref: "#/components/schemas/PersonalizedProductListingCollectionDetailsData"
         pageSize:
           type: integer
           format: int64

@@ -22,10 +22,7 @@ vi.mock("@/data/internal/product/ProductListing.ts", () => ({
     mapPersonalizedProductListingSummary: vi.fn(() => ({ productListingId: "listing-1" })),
 }));
 
-import {
-    canPreviewSavedSearch,
-    useSearchFilterPreviewProducts,
-} from "../useSearchFilterPreviewProducts.ts";
+import { useSearchFilterPreviewProducts } from "../useSearchFilterPreviewProducts.ts";
 
 const baseSearch: SearchFilterArguments = {
     q: "Tisch",
@@ -89,27 +86,29 @@ describe("useSearchFilterPreviewProducts", () => {
         expect(mockSearchListings).not.toHaveBeenCalled();
     });
 
-    it("does not broaden criteria the listing search endpoint cannot express", () => {
-        expect(canPreviewSavedSearch({ ...baseSearch, orderability: ["ORDERABLE_NOW"] })).toBe(
-            false,
-        );
-        expect(
-            canPreviewSavedSearch({ ...baseSearch, includeUnspecifiedAvailability: false }),
-        ).toBe(false);
-    });
+    it("applies saved-search availability conditions instead of broadening them", async () => {
+        mockSearchListings.mockResolvedValue({ data: { items: [] }, error: null });
 
-    it("does not fetch when GET cannot express the saved criteria", () => {
         const { result } = renderHook(
             () =>
                 useSearchFilterPreviewProducts(
-                    { ...baseSearch, orderability: ["ORDERABLE_NOW"] },
+                    {
+                        ...baseSearch,
+                        orderability: ["ORDERABLE_NOW"],
+                        includeUnspecifiedAvailability: false,
+                    },
                     true,
                 ),
             { wrapper: createWrapper() },
         );
 
-        expect(result.current.fetchStatus).toBe("idle");
-        expect(mockSearchListings).not.toHaveBeenCalled();
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+        expect(mockSearchListings).toHaveBeenCalledWith({
+            query: expect.objectContaining({
+                orderability: ["ORDERABLE_NOW"],
+                includeUnspecifiedAvailability: false,
+            }),
+        });
     });
 
     it("exposes API failures as query errors", async () => {

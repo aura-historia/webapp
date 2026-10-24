@@ -1,19 +1,22 @@
-import type { ProductListingUserStateData } from "@/client";
+import type { ProductListingCollectionUserStateData, ProductListingUserStateData } from "@/client";
 
-/** Viewer-specific listing state after converting the personalized API wrapper. */
+/**
+ * Viewer-specific listing state after converting the personalized API wrapper. Each section is
+ * present only when the backend returns it; an omitted section is unknown, not `false` or empty.
+ */
 export type ProductListingUserState = {
-    readonly watchlist: {
+    readonly watchlist?: {
         readonly watching: boolean;
         readonly notifications: boolean;
     };
-    readonly contentVisibility: {
+    readonly contentVisibility?: {
         readonly showUnassessedOrSensitiveContent: boolean;
     };
-    readonly notification: {
+    readonly notification?: {
         readonly unseenNotificationIds: readonly string[];
         readonly hasUnseenNotification: boolean;
     };
-    readonly searchFilter: {
+    readonly searchFilter?: {
         readonly matched: boolean;
         readonly hidden: boolean;
         readonly userSearchFilterId?: string;
@@ -22,27 +25,46 @@ export type ProductListingUserState = {
     };
 };
 
-/** Maps personalized viewer state and derives unread status from its ID collection. */
+/** Detail and collection responses share these sections; only their unmapped `shipping` differs. */
+type ProductListingUserStateDto = Omit<
+    ProductListingUserStateData | ProductListingCollectionUserStateData,
+    "shipping"
+>;
+
+/** Maps the returned viewer-state sections and derives unread status from its ID collection. */
 export function mapProductListingUserState(
-    apiData: ProductListingUserStateData | null | undefined,
+    apiData: ProductListingUserStateDto | null | undefined,
 ): ProductListingUserState | null | undefined {
     if (apiData == null) return apiData;
 
-    const unseenNotificationIds = [...apiData.notification.unseenNotificationIds];
+    const { watchlist, contentVisibility, notification, searchFilter } = apiData;
+    const unseenNotificationIds = notification ? [...notification.unseenNotificationIds] : [];
 
     return {
-        watchlist: {
-            watching: apiData.watchlist.watching,
-            notifications: apiData.watchlist.notifications,
-        },
-        contentVisibility: {
-            showUnassessedOrSensitiveContent:
-                apiData.contentVisibility.showUnassessedOrSensitiveContent,
-        },
-        notification: {
-            unseenNotificationIds,
-            hasUnseenNotification: unseenNotificationIds.length > 0,
-        },
-        searchFilter: { ...apiData.searchFilter },
+        ...(watchlist
+            ? {
+                  watchlist: {
+                      watching: watchlist.watching,
+                      notifications: watchlist.notifications,
+                  },
+              }
+            : {}),
+        ...(contentVisibility
+            ? {
+                  contentVisibility: {
+                      showUnassessedOrSensitiveContent:
+                          contentVisibility.showUnassessedOrSensitiveContent,
+                  },
+              }
+            : {}),
+        ...(notification
+            ? {
+                  notification: {
+                      unseenNotificationIds,
+                      hasUnseenNotification: unseenNotificationIds.length > 0,
+                  },
+              }
+            : {}),
+        ...(searchFilter ? { searchFilter: { ...searchFilter } } : {}),
     };
 }

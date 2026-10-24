@@ -2,7 +2,7 @@
 
 import { type Client, type ClientMeta, type Options as Options2, type RequestResult, type TDataShape, urlSearchParamsBodySerializer } from './client';
 import { client } from './client.gen';
-import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminAssignSourceLocationDefaultData, AdminAssignSourceLocationDefaultErrors, AdminAssignSourceLocationDefaultResponses, AdminChangeSourceLocationDefaultApplicabilityData, AdminChangeSourceLocationDefaultApplicabilityErrors, AdminChangeSourceLocationDefaultApplicabilityResponses, AdminClearSourceLocationDefaultData, AdminClearSourceLocationDefaultErrors, AdminClearSourceLocationDefaultResponses, AdminCreateListingSourceData, AdminCreateListingSourceErrors, AdminCreateListingSourceResponses, AdminCreateOAuthClientData, AdminCreateOAuthClientErrors, AdminCreateOAuthClientResponses, AdminCreatePartyData, AdminCreatePartyErrors, AdminCreatePartyResponses, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationErrors, AdminDecidePartnershipApplicationResponses, AdminDeleteListingSourceData, AdminDeleteListingSourceErrors, AdminDeleteListingSourceResponses, AdminDeleteOAuthClientData, AdminDeleteOAuthClientErrors, AdminDeleteOAuthClientResponses, AdminDeletePartyData, AdminDeletePartyErrors, AdminDeletePartyResponses, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenErrors, AdminDeleteUserAccessTokenResponses, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensErrors, AdminDeleteUserAccessTokensResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminDissolvePartnershipData, AdminDissolvePartnershipErrors, AdminDissolvePartnershipResponses, AdminGetListingSourceData, AdminGetListingSourceErrors, AdminGetListingSourceResponses, AdminGetOAuthClientData, AdminGetOAuthClientErrors, AdminGetOAuthClientResponses, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationErrors, AdminGetPartnershipApplicationResponses, AdminGetPartnershipData, AdminGetPartnershipErrors, AdminGetPartnershipResponses, AdminGetPartyData, AdminGetPartyErrors, AdminGetPartyResponses, AdminGetSourceLocationDefaultData, AdminGetSourceLocationDefaultErrors, AdminGetSourceLocationDefaultResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceErrors, AdminGrantPartnershipListingSourceResponses, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipErrors, AdminGrantPartnershipMembershipResponses, AdminListOAuthClientsData, AdminListOAuthClientsErrors, AdminListOAuthClientsResponses, AdminListUserAccessTokensData, AdminListUserAccessTokensErrors, AdminListUserAccessTokensResponses, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewErrors, AdminMarkPartnershipApplicationInReviewResponses, AdminPatchOAuthClientData, AdminPatchOAuthClientErrors, AdminPatchOAuthClientResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceErrors, AdminRevokePartnershipListingSourceResponses, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipErrors, AdminRevokePartnershipMembershipResponses, AdminRevokeUserSessionsData, AdminRevokeUserSessionsErrors, AdminRevokeUserSessionsResponses, AdminSearchAuctionsData, AdminSearchAuctionsErrors, AdminSearchAuctionsResponses, AdminSearchListingSourcesData, AdminSearchListingSourcesErrors, AdminSearchListingSourcesResponses, AdminSearchPartiesData, AdminSearchPartiesErrors, AdminSearchPartiesResponses, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsErrors, AdminSearchPartnershipApplicationsResponses, AdminSearchPartnershipsData, AdminSearchPartnershipsErrors, AdminSearchPartnershipsResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, AdminSuspendUserData, AdminSuspendUserErrors, AdminSuspendUserResponses, AdminUnsuspendUserData, AdminUnsuspendUserErrors, AdminUnsuspendUserResponses, AdminUpdateListingSourceData, AdminUpdateListingSourceErrors, AdminUpdateListingSourceResponses, AdminUpdatePartyData, AdminUpdatePartyErrors, AdminUpdatePartyResponses, AssignShippingDefaultData2, AssignShippingDefaultErrors, AssignShippingDefaultResponses, AssignSourceLocationDefaultData2, AssignSourceLocationDefaultErrors, AssignSourceLocationDefaultResponses, ChangeProductListingDeliveryData, ChangeProductListingDeliveryErrors, ChangeProductListingDeliveryResponses, ChangeSourceLocationDefaultApplicabilityData2, ChangeSourceLocationDefaultApplicabilityErrors, ChangeSourceLocationDefaultApplicabilityResponses, ClearShippingDefaultData2, ClearShippingDefaultErrors, ClearShippingDefaultResponses, ClearSourceLocationDefaultData2, ClearSourceLocationDefaultErrors, ClearSourceLocationDefaultResponses, ConfirmNewsletterSubscriptionData2, ConfirmNewsletterSubscriptionErrors, ConfirmNewsletterSubscriptionResponses, CorrectPartyLocationData2, CorrectPartyLocationErrors, CorrectPartyLocationResponses, CreateAdminAuctionData, CreateAdminAuctionErrors, CreateAdminAuctionResponses, CreatePartyLocationData2, CreatePartyLocationErrors, CreatePartyLocationResponses, CreateShippingProfileData2, CreateShippingProfileErrors, CreateShippingProfileResponses, CreateUserAddressData, CreateUserAddressErrors, CreateUserAddressResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAsyncPartnerProductListingsData, DeleteAsyncPartnerProductListingsErrors, DeleteAsyncPartnerProductListingsResponses, DeleteMyAccessTokenData, DeleteMyAccessTokenErrors, DeleteMyAccessTokenResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteNotificationsData, DeleteNotificationsErrors, DeleteNotificationsResponses, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationErrors, DeleteOwnPartnershipApplicationResponses, DeletePartnerProductListingsData, DeletePartnerProductListingsErrors, DeletePartnerProductListingsResponses, DeleteUserAddressData, DeleteUserAddressErrors, DeleteUserAddressResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, DiscoverPartyLocationsData, DiscoverPartyLocationsErrors, DiscoverPartyLocationsResponses, GetAdminAuctionData, GetAdminAuctionErrors, GetAdminAuctionResponses, GetAdminOverviewData, GetAdminOverviewErrors, GetAdminOverviewResponses, GetAdminProductListingData, GetAdminProductListingErrors, GetAdminProductListingResponses, GetAuctionCatalogueData, GetAuctionCatalogueErrors, GetAuctionCatalogueResponses, GetAuctionData, GetAuctionErrors, GetAuctionResponses, GetBrowsingDestinationData, GetBrowsingDestinationErrors, GetBrowsingDestinationResponses, GetHealthData, GetHealthResponses, GetMyAccessTokenData, GetMyAccessTokenErrors, GetMyAccessTokenResponses, GetMyAccessTokensData, GetMyAccessTokensErrors, GetMyAccessTokensResponses, GetMyListingSourcesData, GetMyListingSourcesErrors, GetMyListingSourcesResponses, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsErrors, GetMyPartnershipApplicationsResponses, GetOAuthConsentClientData, GetOAuthConsentClientErrors, GetOAuthConsentClientResponses, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationErrors, GetOwnPartnershipApplicationResponses, GetPartnerProductListingData, GetPartnerProductListingErrors, GetPartnerProductListingResponses, GetPartyLocationData, GetPartyLocationErrors, GetPartyLocationResponses, GetProductListingByTitleSlugData, GetProductListingByTitleSlugErrors, GetProductListingByTitleSlugResponses, GetProductListingData, GetProductListingDeliveryData, GetProductListingDeliveryErrors, GetProductListingDeliveryResponses, GetProductListingErrors, GetProductListingHistoryData, GetProductListingHistoryErrors, GetProductListingHistoryResponses, GetProductListingResponses, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugErrors, GetPublicListingSourceBySlugResponses, GetPublicOverviewData, GetPublicOverviewErrors, GetPublicOverviewResponses, GetReadinessData, GetReadinessErrors, GetReadinessResponses, GetShippingDefaultData, GetShippingDefaultErrors, GetShippingDefaultResponses, GetShippingProfileData, GetShippingProfileErrors, GetShippingProfileResponses, GetSimilarProductListingsData, GetSimilarProductListingsErrors, GetSimilarProductListingsResponses, GetSourceLocationDefaultData, GetSourceLocationDefaultErrors, GetSourceLocationDefaultResponses, GetUserAccountData, GetUserAccountErrors, GetUserAccountResponses, GetUserAddressData, GetUserAddressErrors, GetUserAddressResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductListingsData, GetWatchlistProductListingsErrors, GetWatchlistProductListingsResponses, ListAuctionsData, ListAuctionsErrors, ListAuctionsResponses, ListNotificationsData, ListNotificationsErrors, ListNotificationsResponses, ListPartnerProductListingsData, ListPartnerProductListingsErrors, ListPartnerProductListingsResponses, ListPartyLocationManagersData, ListPartyLocationManagersErrors, ListPartyLocationManagersResponses, ListPartyLocationsData, ListPartyLocationsErrors, ListPartyLocationsResponses, ListSearchFilterMatchesData, ListSearchFilterMatchesErrors, ListSearchFilterMatchesResponses, ListShippingProfilesData, ListShippingProfilesErrors, ListShippingProfilesResponses, ListUserAddressesData, ListUserAddressesErrors, ListUserAddressesResponses, OauthAuthorizeData, OauthAuthorizeErrors, OauthIntrospectData, OauthIntrospectErrors, OauthIntrospectResponses, OauthRevokeData, OauthRevokeErrors, OauthRevokeResponses, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeErrors, OauthTokenByThirdPartyCodeResponses, OauthTokenData, OauthTokenErrors, OauthTokenResponses, PatchAsyncPartnerProductListingsData, PatchAsyncPartnerProductListingsErrors, PatchAsyncPartnerProductListingsResponses, PatchMyAccessTokenData, PatchMyAccessTokenErrors, PatchMyAccessTokenResponses, PatchPartnerProductListingsData, PatchPartnerProductListingsErrors, PatchPartnerProductListingsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostAsyncPartnerProductListingsData, PostAsyncPartnerProductListingsErrors, PostAsyncPartnerProductListingsResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostLoopsPreferenceWebhookData, PostLoopsPreferenceWebhookErrors, PostLoopsPreferenceWebhookResponses, PostMyAccessTokenData, PostMyAccessTokenErrors, PostMyAccessTokenResponses, PostPartnerProductListingsData, PostPartnerProductListingsErrors, PostPartnerProductListingsResponses, PostPartnershipApplicationData, PostPartnershipApplicationErrors, PostPartnershipApplicationResponses, PostWoocommerceWebhookData, PostWoocommerceWebhookErrors, PostWoocommerceWebhookResponses, PutAsyncPartnerProductListingsData, PutAsyncPartnerProductListingsErrors, PutAsyncPartnerProductListingsResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductListingsData, PutPartnerProductListingsErrors, PutPartnerProductListingsResponses, PutShopifyListingSourceIngestionConfigurationData2, PutShopifyListingSourceIngestionConfigurationErrors, PutShopifyListingSourceIngestionConfigurationResponses, PutWoocommerceListingSourceIngestionConfigurationData2, PutWoocommerceListingSourceIngestionConfigurationErrors, PutWoocommerceListingSourceIngestionConfigurationResponses, ReplaceShippingProfileData2, ReplaceShippingProfileErrors, ReplaceShippingProfileResponses, RestoreAdminProductListingData, RestoreAdminProductListingErrors, RestoreAdminProductListingResponses, RestorePartnerProductListingData, RestorePartnerProductListingErrors, RestorePartnerProductListingResponses, RestoreShippingProfileData, RestoreShippingProfileErrors, RestoreShippingProfileResponses, RetireShippingProfileData, RetireShippingProfileErrors, RetireShippingProfileResponses, SearchAdminProductListingsData, SearchAdminProductListingsErrors, SearchAdminProductListingsResponses, SearchPublicListingSourcesData, SearchPublicListingSourcesErrors, SearchPublicListingSourcesResponses, SetBrowsingDestinationData, SetBrowsingDestinationErrors, SetBrowsingDestinationResponses, SetPartyLocationLifecycleData2, SetPartyLocationLifecycleErrors, SetPartyLocationLifecycleResponses, SetPartyLocationManagementGrantData, SetPartyLocationManagementGrantErrors, SetPartyLocationManagementGrantResponses, SimpleSearchProductListingsData, SimpleSearchProductListingsErrors, SimpleSearchProductListingsResponses, SubmitProductListingDeliveryData, SubmitProductListingDeliveryErrors, SubmitProductListingDeliveryResponses, UpdateAdminAuctionData, UpdateAdminAuctionErrors, UpdateAdminAuctionResponses, UpdateAdminProductListingData, UpdateAdminProductListingErrors, UpdateAdminProductListingResponses, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenErrors, UpdateAllNotificationsSeenResponses, UpdateNotificationSeenData2, UpdateNotificationSeenErrors, UpdateNotificationSeenResponses, UpdateNotificationsSeenData2, UpdateNotificationsSeenErrors, UpdateNotificationsSeenResponses, UpdatePartnerProductListingData, UpdatePartnerProductListingErrors, UpdatePartnerProductListingResponses, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackErrors, UpdateSearchFilterMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserAddressData, UpdateUserAddressErrors, UpdateUserAddressResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses, WithdrawAdminProductListingData, WithdrawAdminProductListingErrors, WithdrawAdminProductListingResponses, WithdrawPartnerProductListingData, WithdrawPartnerProductListingErrors, WithdrawPartnerProductListingResponses } from './types.gen';
+import type { AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminAssignSourceLocationDefaultData, AdminAssignSourceLocationDefaultErrors, AdminAssignSourceLocationDefaultResponses, AdminChangeSourceLocationDefaultApplicabilityData, AdminChangeSourceLocationDefaultApplicabilityErrors, AdminChangeSourceLocationDefaultApplicabilityResponses, AdminClearSourceLocationDefaultData, AdminClearSourceLocationDefaultErrors, AdminClearSourceLocationDefaultResponses, AdminCreateListingSourceData, AdminCreateListingSourceErrors, AdminCreateListingSourceResponses, AdminCreateOAuthClientData, AdminCreateOAuthClientErrors, AdminCreateOAuthClientResponses, AdminCreatePartyData, AdminCreatePartyErrors, AdminCreatePartyResponses, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationErrors, AdminDecidePartnershipApplicationResponses, AdminDeleteListingSourceData, AdminDeleteListingSourceErrors, AdminDeleteListingSourceResponses, AdminDeleteOAuthClientData, AdminDeleteOAuthClientErrors, AdminDeleteOAuthClientResponses, AdminDeletePartyData, AdminDeletePartyErrors, AdminDeletePartyResponses, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenErrors, AdminDeleteUserAccessTokenResponses, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensErrors, AdminDeleteUserAccessTokensResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminDissolvePartnershipData, AdminDissolvePartnershipErrors, AdminDissolvePartnershipResponses, AdminGetListingSourceData, AdminGetListingSourceErrors, AdminGetListingSourceResponses, AdminGetOAuthClientData, AdminGetOAuthClientErrors, AdminGetOAuthClientResponses, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationErrors, AdminGetPartnershipApplicationResponses, AdminGetPartnershipData, AdminGetPartnershipErrors, AdminGetPartnershipResponses, AdminGetPartyData, AdminGetPartyErrors, AdminGetPartyResponses, AdminGetSourceLocationDefaultData, AdminGetSourceLocationDefaultErrors, AdminGetSourceLocationDefaultResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceErrors, AdminGrantPartnershipListingSourceResponses, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipErrors, AdminGrantPartnershipMembershipResponses, AdminListOAuthClientsData, AdminListOAuthClientsErrors, AdminListOAuthClientsResponses, AdminListUserAccessTokensData, AdminListUserAccessTokensErrors, AdminListUserAccessTokensResponses, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewErrors, AdminMarkPartnershipApplicationInReviewResponses, AdminPatchOAuthClientData, AdminPatchOAuthClientErrors, AdminPatchOAuthClientResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceErrors, AdminRevokePartnershipListingSourceResponses, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipErrors, AdminRevokePartnershipMembershipResponses, AdminRevokeUserSessionsData, AdminRevokeUserSessionsErrors, AdminRevokeUserSessionsResponses, AdminSearchAuctionsData, AdminSearchAuctionsErrors, AdminSearchAuctionsResponses, AdminSearchListingSourcesData, AdminSearchListingSourcesErrors, AdminSearchListingSourcesResponses, AdminSearchPartiesData, AdminSearchPartiesErrors, AdminSearchPartiesResponses, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsErrors, AdminSearchPartnershipApplicationsResponses, AdminSearchPartnershipsData, AdminSearchPartnershipsErrors, AdminSearchPartnershipsResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, AdminSuspendUserData, AdminSuspendUserErrors, AdminSuspendUserResponses, AdminUnsuspendUserData, AdminUnsuspendUserErrors, AdminUnsuspendUserResponses, AdminUpdateListingSourceData, AdminUpdateListingSourceErrors, AdminUpdateListingSourceResponses, AdminUpdatePartyData, AdminUpdatePartyErrors, AdminUpdatePartyResponses, AssignShippingDefaultData2, AssignShippingDefaultErrors, AssignShippingDefaultResponses, AssignSourceLocationDefaultData2, AssignSourceLocationDefaultErrors, AssignSourceLocationDefaultResponses, ChangeProductListingDeliveryData, ChangeProductListingDeliveryErrors, ChangeProductListingDeliveryResponses, ChangeSourceLocationDefaultApplicabilityData2, ChangeSourceLocationDefaultApplicabilityErrors, ChangeSourceLocationDefaultApplicabilityResponses, ClearShippingDefaultData2, ClearShippingDefaultErrors, ClearShippingDefaultResponses, ClearSourceLocationDefaultData2, ClearSourceLocationDefaultErrors, ClearSourceLocationDefaultResponses, ConfirmNewsletterSubscriptionData2, ConfirmNewsletterSubscriptionErrors, ConfirmNewsletterSubscriptionResponses, CorrectPartyLocationData2, CorrectPartyLocationErrors, CorrectPartyLocationResponses, CreateAdminAuctionData, CreateAdminAuctionErrors, CreateAdminAuctionResponses, CreatePartyLocationData2, CreatePartyLocationErrors, CreatePartyLocationResponses, CreateShippingProfileData2, CreateShippingProfileErrors, CreateShippingProfileResponses, CreateUserAddressData, CreateUserAddressErrors, CreateUserAddressResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAsyncPartnerProductListingsData, DeleteAsyncPartnerProductListingsErrors, DeleteAsyncPartnerProductListingsResponses, DeleteMyAccessTokenData, DeleteMyAccessTokenErrors, DeleteMyAccessTokenResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteNotificationsData, DeleteNotificationsErrors, DeleteNotificationsResponses, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationErrors, DeleteOwnPartnershipApplicationResponses, DeletePartnerProductListingsData, DeletePartnerProductListingsErrors, DeletePartnerProductListingsResponses, DeleteUserAddressData, DeleteUserAddressErrors, DeleteUserAddressResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, DiscoverPartyLocationsData, DiscoverPartyLocationsErrors, DiscoverPartyLocationsResponses, GetAdminAuctionData, GetAdminAuctionErrors, GetAdminAuctionResponses, GetAdminOverviewData, GetAdminOverviewErrors, GetAdminOverviewResponses, GetAdminProductListingData, GetAdminProductListingErrors, GetAdminProductListingResponses, GetAuctionCatalogueData, GetAuctionCatalogueErrors, GetAuctionCatalogueResponses, GetAuctionData, GetAuctionErrors, GetAuctionResponses, GetBrowsingDestinationData, GetBrowsingDestinationErrors, GetBrowsingDestinationResponses, GetHealthData, GetHealthResponses, GetMyAccessTokenData, GetMyAccessTokenErrors, GetMyAccessTokenResponses, GetMyAccessTokensData, GetMyAccessTokensErrors, GetMyAccessTokensResponses, GetMyListingSourcesData, GetMyListingSourcesErrors, GetMyListingSourcesResponses, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsErrors, GetMyPartnershipApplicationsResponses, GetOAuthAuthorizationServerMetadataData, GetOAuthAuthorizationServerMetadataResponses, GetOAuthConsentClientData, GetOAuthConsentClientErrors, GetOAuthConsentClientResponses, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationErrors, GetOwnPartnershipApplicationResponses, GetPartnerProductListingData, GetPartnerProductListingErrors, GetPartnerProductListingResponses, GetPartyLocationData, GetPartyLocationErrors, GetPartyLocationResponses, GetProductListingByTitleSlugData, GetProductListingByTitleSlugErrors, GetProductListingByTitleSlugResponses, GetProductListingData, GetProductListingDeliveryData, GetProductListingDeliveryErrors, GetProductListingDeliveryResponses, GetProductListingErrors, GetProductListingHistoryData, GetProductListingHistoryErrors, GetProductListingHistoryResponses, GetProductListingResponses, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugErrors, GetPublicListingSourceBySlugResponses, GetPublicOverviewData, GetPublicOverviewErrors, GetPublicOverviewResponses, GetReadinessData, GetReadinessErrors, GetReadinessResponses, GetShippingDefaultData, GetShippingDefaultErrors, GetShippingDefaultResponses, GetShippingProfileData, GetShippingProfileErrors, GetShippingProfileResponses, GetSimilarProductListingsData, GetSimilarProductListingsErrors, GetSimilarProductListingsResponses, GetSourceLocationDefaultData, GetSourceLocationDefaultErrors, GetSourceLocationDefaultResponses, GetUserAccountData, GetUserAccountErrors, GetUserAccountResponses, GetUserAddressData, GetUserAddressErrors, GetUserAddressResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductListingsData, GetWatchlistProductListingsErrors, GetWatchlistProductListingsResponses, ListAuctionsData, ListAuctionsErrors, ListAuctionsResponses, ListNotificationsData, ListNotificationsErrors, ListNotificationsResponses, ListPartnerProductListingsData, ListPartnerProductListingsErrors, ListPartnerProductListingsResponses, ListPartyLocationManagersData, ListPartyLocationManagersErrors, ListPartyLocationManagersResponses, ListPartyLocationsData, ListPartyLocationsErrors, ListPartyLocationsResponses, ListSearchFilterMatchesData, ListSearchFilterMatchesErrors, ListSearchFilterMatchesResponses, ListShippingProfilesData, ListShippingProfilesErrors, ListShippingProfilesResponses, ListUserAddressesData, ListUserAddressesErrors, ListUserAddressesResponses, OauthAuthorizeData, OauthAuthorizeErrors, OauthIntrospectData, OauthIntrospectErrors, OauthIntrospectResponses, OauthRevokeData, OauthRevokeErrors, OauthRevokeResponses, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeErrors, OauthTokenByThirdPartyCodeResponses, OauthTokenData, OauthTokenErrors, OauthTokenResponses, PatchAsyncPartnerProductListingsData, PatchAsyncPartnerProductListingsErrors, PatchAsyncPartnerProductListingsResponses, PatchMyAccessTokenData, PatchMyAccessTokenErrors, PatchMyAccessTokenResponses, PatchPartnerProductListingsData, PatchPartnerProductListingsErrors, PatchPartnerProductListingsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostAsyncPartnerProductListingsData, PostAsyncPartnerProductListingsErrors, PostAsyncPartnerProductListingsResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostLoopsPreferenceWebhookData, PostLoopsPreferenceWebhookErrors, PostLoopsPreferenceWebhookResponses, PostMyAccessTokenData, PostMyAccessTokenErrors, PostMyAccessTokenResponses, PostPartnerProductListingsData, PostPartnerProductListingsErrors, PostPartnerProductListingsResponses, PostPartnershipApplicationData, PostPartnershipApplicationErrors, PostPartnershipApplicationResponses, PostWoocommerceWebhookData, PostWoocommerceWebhookErrors, PostWoocommerceWebhookResponses, PutAsyncPartnerProductListingsData, PutAsyncPartnerProductListingsErrors, PutAsyncPartnerProductListingsResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductListingsData, PutPartnerProductListingsErrors, PutPartnerProductListingsResponses, PutShopifyListingSourceIngestionConfigurationData2, PutShopifyListingSourceIngestionConfigurationErrors, PutShopifyListingSourceIngestionConfigurationResponses, PutWoocommerceListingSourceIngestionConfigurationData2, PutWoocommerceListingSourceIngestionConfigurationErrors, PutWoocommerceListingSourceIngestionConfigurationResponses, ReplaceShippingProfileData2, ReplaceShippingProfileErrors, ReplaceShippingProfileResponses, RestoreAdminProductListingData, RestoreAdminProductListingErrors, RestoreAdminProductListingResponses, RestorePartnerProductListingData, RestorePartnerProductListingErrors, RestorePartnerProductListingResponses, RestoreShippingProfileData, RestoreShippingProfileErrors, RestoreShippingProfileResponses, RetireShippingProfileData, RetireShippingProfileErrors, RetireShippingProfileResponses, SearchAdminProductListingsData, SearchAdminProductListingsErrors, SearchAdminProductListingsResponses, SearchPublicListingSourcesData, SearchPublicListingSourcesErrors, SearchPublicListingSourcesResponses, SetBrowsingDestinationData, SetBrowsingDestinationErrors, SetBrowsingDestinationResponses, SetPartyLocationLifecycleData2, SetPartyLocationLifecycleErrors, SetPartyLocationLifecycleResponses, SetPartyLocationManagementGrantData, SetPartyLocationManagementGrantErrors, SetPartyLocationManagementGrantResponses, SimpleSearchProductListingsData, SimpleSearchProductListingsErrors, SimpleSearchProductListingsResponses, SubmitProductListingDeliveryData, SubmitProductListingDeliveryErrors, SubmitProductListingDeliveryResponses, UpdateAdminAuctionData, UpdateAdminAuctionErrors, UpdateAdminAuctionResponses, UpdateAdminProductListingData, UpdateAdminProductListingErrors, UpdateAdminProductListingResponses, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenErrors, UpdateAllNotificationsSeenResponses, UpdateNotificationSeenData2, UpdateNotificationSeenErrors, UpdateNotificationSeenResponses, UpdateNotificationsSeenData2, UpdateNotificationsSeenErrors, UpdateNotificationsSeenResponses, UpdatePartnerProductListingData, UpdatePartnerProductListingErrors, UpdatePartnerProductListingResponses, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackErrors, UpdateSearchFilterMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserAddressData, UpdateUserAddressErrors, UpdateUserAddressResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses, WithdrawAdminProductListingData, WithdrawAdminProductListingErrors, WithdrawAdminProductListingResponses, WithdrawPartnerProductListingData, WithdrawPartnerProductListingErrors, WithdrawPartnerProductListingResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
   /**
@@ -19,18 +19,25 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 };
 
 /**
+ * Discover the Aura OAuth authorization server
+ *
+ * Public RFC 8414 metadata for fixed confidential clients. The issuer and endpoints use the configured environment; the authorization endpoint is the existing webapp consent URL. No refresh grant, dynamic registration, CIMD or authorization-response issuer parameter is advertised. Broader registered-client scopes remain supported; scopes_supported lists the relevant ordinary user vocabulary. See docs/oauth.md for fixed-client setup.
+ */
+export const getOAuthAuthorizationServerMetadata = <ThrowOnError extends boolean = false>(options?: Options<GetOAuthAuthorizationServerMetadataData, ThrowOnError>): RequestResult<GetOAuthAuthorizationServerMetadataResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetOAuthAuthorizationServerMetadataResponses, unknown, ThrowOnError>({ url: '/.well-known/oauth-authorization-server', ...options });
+
+/**
  * Check process liveness
  *
  * Returns the fixed `ok` response without checking dependencies.
  */
-export const getHealth = <ThrowOnError extends boolean = false>(options?: Options<GetHealthData, ThrowOnError>): RequestResult<GetHealthResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetHealthResponses, unknown, ThrowOnError>({ url: '/api/v1/health', ...options });
+export const getHealth = <ThrowOnError extends boolean = false>(options?: Options<GetHealthData, ThrowOnError>): RequestResult<GetHealthResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetHealthResponses, unknown, ThrowOnError>({ url: '/v1/health', ...options });
 
 /**
  * Check service readiness
  *
  * Returns no diagnostic body when readiness fails.
  */
-export const getReadiness = <ThrowOnError extends boolean = false>(options?: Options<GetReadinessData, ThrowOnError>): RequestResult<GetReadinessResponses, GetReadinessErrors, ThrowOnError> => (options?.client ?? client).get<GetReadinessResponses, GetReadinessErrors, ThrowOnError>({ url: '/api/v1/ready', ...options });
+export const getReadiness = <ThrowOnError extends boolean = false>(options?: Options<GetReadinessData, ThrowOnError>): RequestResult<GetReadinessResponses, GetReadinessErrors, ThrowOnError> => (options?.client ?? client).get<GetReadinessResponses, GetReadinessErrors, ThrowOnError>({ url: '/v1/ready', ...options });
 
 /**
  * Get public catalogue statistics
@@ -56,22 +63,22 @@ export const getReadiness = <ThrowOnError extends boolean = false>(options?: Opt
  * Effective geography and OpenSearch projections may lag PostgreSQL while they catch up.
  *
  */
-export const getPublicOverview = <ThrowOnError extends boolean = false>(options?: Options<GetPublicOverviewData, ThrowOnError>): RequestResult<GetPublicOverviewResponses, GetPublicOverviewErrors, ThrowOnError> => (options?.client ?? client).get<GetPublicOverviewResponses, GetPublicOverviewErrors, ThrowOnError>({ url: '/api/v1/overview', ...options });
+export const getPublicOverview = <ThrowOnError extends boolean = false>(options?: Options<GetPublicOverviewData, ThrowOnError>): RequestResult<GetPublicOverviewResponses, GetPublicOverviewErrors, ThrowOnError> => (options?.client ?? client).get<GetPublicOverviewResponses, GetPublicOverviewErrors, ThrowOnError>({ url: '/v1/overview', ...options });
 
 /**
  * List public Auctions
  */
-export const listAuctions = <ThrowOnError extends boolean = false>(options?: Options<ListAuctionsData, ThrowOnError>): RequestResult<ListAuctionsResponses, ListAuctionsErrors, ThrowOnError> => (options?.client ?? client).get<ListAuctionsResponses, ListAuctionsErrors, ThrowOnError>({ url: '/api/v1/auctions', ...options });
+export const listAuctions = <ThrowOnError extends boolean = false>(options?: Options<ListAuctionsData, ThrowOnError>): RequestResult<ListAuctionsResponses, ListAuctionsErrors, ThrowOnError> => (options?.client ?? client).get<ListAuctionsResponses, ListAuctionsErrors, ThrowOnError>({ url: '/v1/auctions', ...options });
 
 /**
  * Get public Auction detail
  */
-export const getAuction = <ThrowOnError extends boolean = false>(options: Options<GetAuctionData, ThrowOnError>): RequestResult<GetAuctionResponses, GetAuctionErrors, ThrowOnError> => (options.client ?? client).get<GetAuctionResponses, GetAuctionErrors, ThrowOnError>({ url: '/api/v1/auctions/{auctionId}', ...options });
+export const getAuction = <ThrowOnError extends boolean = false>(options: Options<GetAuctionData, ThrowOnError>): RequestResult<GetAuctionResponses, GetAuctionErrors, ThrowOnError> => (options.client ?? client).get<GetAuctionResponses, GetAuctionErrors, ThrowOnError>({ url: '/v1/auctions/{auctionId}', ...options });
 
 /**
  * Get public Auction catalogue
  */
-export const getAuctionCatalogue = <ThrowOnError extends boolean = false>(options: Options<GetAuctionCatalogueData, ThrowOnError>): RequestResult<GetAuctionCatalogueResponses, GetAuctionCatalogueErrors, ThrowOnError> => (options.client ?? client).get<GetAuctionCatalogueResponses, GetAuctionCatalogueErrors, ThrowOnError>({ url: '/api/v1/auctions/{auctionId}/product-listings', ...options });
+export const getAuctionCatalogue = <ThrowOnError extends boolean = false>(options: Options<GetAuctionCatalogueData, ThrowOnError>): RequestResult<GetAuctionCatalogueResponses, GetAuctionCatalogueErrors, ThrowOnError> => (options.client ?? client).get<GetAuctionCatalogueResponses, GetAuctionCatalogueErrors, ThrowOnError>({ url: '/v1/auctions/{auctionId}/product-listings', ...options });
 
 /**
  * Search ProductListings for administration
@@ -88,7 +95,7 @@ export const searchAdminProductListings = <ThrowOnError extends boolean = false>
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/product-listings',
+  url: '/v1/admin/product-listings',
   ...options
 });
 
@@ -107,7 +114,7 @@ export const withdrawAdminProductListing = <ThrowOnError extends boolean = false
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/product-listings/{productListingId}',
+  url: '/v1/admin/product-listings/{productListingId}',
   ...options
 });
 
@@ -126,7 +133,7 @@ export const getAdminProductListing = <ThrowOnError extends boolean = false>(opt
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/product-listings/{productListingId}',
+  url: '/v1/admin/product-listings/{productListingId}',
   ...options
 });
 
@@ -145,7 +152,7 @@ export const updateAdminProductListing = <ThrowOnError extends boolean = false>(
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/product-listings/{productListingId}',
+  url: '/v1/admin/product-listings/{productListingId}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -168,7 +175,7 @@ export const restoreAdminProductListing = <ThrowOnError extends boolean = false>
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/product-listings/{productListingId}/restore',
+  url: '/v1/admin/product-listings/{productListingId}/restore',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -191,7 +198,7 @@ export const adminSearchAuctions = <ThrowOnError extends boolean = false>(option
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/auctions',
+  url: '/v1/admin/auctions',
   ...options
 });
 
@@ -210,7 +217,7 @@ export const createAdminAuction = <ThrowOnError extends boolean = false>(options
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/auctions',
+  url: '/v1/admin/auctions',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -233,7 +240,7 @@ export const getAdminAuction = <ThrowOnError extends boolean = false>(options: O
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/auctions/{auctionId}',
+  url: '/v1/admin/auctions/{auctionId}',
   ...options
 });
 
@@ -252,7 +259,7 @@ export const updateAdminAuction = <ThrowOnError extends boolean = false>(options
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/auctions/{auctionId}',
+  url: '/v1/admin/auctions/{auctionId}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -281,7 +288,7 @@ export const putWoocommerceListingSourceIngestionConfiguration = <ThrowOnError e
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/ingestion-configurations/woocommerce',
+  url: '/v1/listing-sources/{listingSourceId}/ingestion-configurations/woocommerce',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -310,7 +317,7 @@ export const putShopifyListingSourceIngestionConfiguration = <ThrowOnError exten
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/ingestion-configurations/shopify',
+  url: '/v1/listing-sources/{listingSourceId}/ingestion-configurations/shopify',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -324,7 +331,7 @@ export const putShopifyListingSourceIngestionConfiguration = <ThrowOnError exten
  * Soft-deletes product-listings for a listing source. Each entry writes its product lifecycle delete event and
  * materialized PostgreSQL state synchronously in its own transaction.
  *
- * The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
+ * The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access. Administrators use the separate `/v1/admin/product-listings` operations. Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
  * Aura Historia access tokens must include the `product-listings:write` scope.
  *
  * The request body is an array of product identifiers. The response returns HTTP 200 with
@@ -343,7 +350,7 @@ export const deletePartnerProductListings = <ThrowOnError extends boolean = fals
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings',
+  url: '/v1/listing-sources/{listingSourceId}/product-listings',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -366,7 +373,7 @@ export const listPartnerProductListings = <ThrowOnError extends boolean = false>
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings',
+  url: '/v1/listing-sources/{listingSourceId}/product-listings',
   ...options
 });
 
@@ -379,7 +386,7 @@ export const listPartnerProductListings = <ThrowOnError extends boolean = false>
  * - an Aura Historia access token owned by that partner user.
  *
  * Aura Historia access tokens on this endpoint must include the `product-listings:write` scope.
- * The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
+ * The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access. Administrators use the separate `/v1/admin/product-listings` operations. Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
  *
  * The request body is an array of `UpdateProductListingData` objects. Omitted fields are unchanged;
  * `null` clears availability and price. Omit `auction` to preserve its context; `auction: null`, `url: null`,
@@ -404,7 +411,7 @@ export const patchPartnerProductListings = <ThrowOnError extends boolean = false
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings',
+  url: '/v1/listing-sources/{listingSourceId}/product-listings',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -421,7 +428,7 @@ export const patchPartnerProductListings = <ThrowOnError extends boolean = false
  * - an Aura Historia access token owned by that partner user.
  *
  * Aura Historia access tokens on this endpoint must include the `product-listings:write` scope.
- * The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access. Administrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
+ * The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access. Administrators use the separate `/v1/admin/product-listings` operations. Partnership and scope checks run per entry, so an authenticated empty array returns `[]` without them.
  *
  * The request body is an array of `CreateProductListingData` objects. Each entry is created
  * synchronously in its own PostgreSQL transaction.
@@ -442,7 +449,7 @@ export const postPartnerProductListings = <ThrowOnError extends boolean = false>
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings',
+  url: '/v1/listing-sources/{listingSourceId}/product-listings',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -460,7 +467,7 @@ export const postPartnerProductListings = <ThrowOnError extends boolean = false>
  *
  * Aura Historia access tokens on this endpoint must include the `product-listings:write` scope.
  * The caller must be a user with an active Partnership grant for the path ListingSource; administrator role alone does not grant access.
- * Administrators use the separate `/api/v1/admin/product-listings` operations. Partnership and scope checks run
+ * Administrators use the separate `/v1/admin/product-listings` operations. Partnership and scope checks run
  * per entry, so an authenticated empty array returns `[]` without them.
  *
  * The request body is an array of `UpsertProductListingData` objects. Each entry is upserted
@@ -490,7 +497,7 @@ export const putPartnerProductListings = <ThrowOnError extends boolean = false>(
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings',
+  url: '/v1/listing-sources/{listingSourceId}/product-listings',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -513,7 +520,7 @@ export const withdrawPartnerProductListing = <ThrowOnError extends boolean = fal
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}',
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}',
   ...options
 });
 
@@ -532,7 +539,7 @@ export const getPartnerProductListing = <ThrowOnError extends boolean = false>(o
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}',
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}',
   ...options
 });
 
@@ -551,7 +558,7 @@ export const updatePartnerProductListing = <ThrowOnError extends boolean = false
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}',
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -574,7 +581,7 @@ export const restorePartnerProductListing = <ThrowOnError extends boolean = fals
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}/restore',
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/{productListingId}/restore',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -634,7 +641,7 @@ export const deleteAsyncPartnerProductListings = <ThrowOnError extends boolean =
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/async',
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/async',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -699,7 +706,7 @@ export const patchAsyncPartnerProductListings = <ThrowOnError extends boolean = 
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/async',
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/async',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -760,7 +767,7 @@ export const postAsyncPartnerProductListings = <ThrowOnError extends boolean = f
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/async',
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/async',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -826,7 +833,7 @@ export const putAsyncPartnerProductListings = <ThrowOnError extends boolean = fa
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listingSourceId}/product-listings/async',
+  url: '/v1/listing-sources/{listingSourceId}/product-listings/async',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -880,7 +887,7 @@ export const postWoocommerceWebhook = <ThrowOnError extends boolean = false>(opt
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/webhooks/woocommerce/{listingSourceId}',
+  url: '/v1/webhooks/woocommerce/{listingSourceId}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -895,7 +902,7 @@ export const postWoocommerceWebhook = <ThrowOnError extends boolean = false>(opt
  * `204` means the receipt and any local preference effects committed, or the authenticated delivery was an identical duplicate or a safely ignored event. It does not mean a marketing message was sent or delivered. Conflicting delivery identity returns `409`; temporary database/provider-reader failure or the 10-second processing budget returns retryable `503`. All responses are `no-store`.
  */
 export const postLoopsPreferenceWebhook = <ThrowOnError extends boolean = false>(options: Options<PostLoopsPreferenceWebhookData, ThrowOnError>): RequestResult<PostLoopsPreferenceWebhookResponses, PostLoopsPreferenceWebhookErrors, ThrowOnError> => (options.client ?? client).post<PostLoopsPreferenceWebhookResponses, PostLoopsPreferenceWebhookErrors, ThrowOnError>({
-  url: '/api/v1/webhooks/loops',
+  url: '/v1/webhooks/loops',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -914,7 +921,7 @@ export const getProductListingByTitleSlug = <ThrowOnError extends boolean = fals
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/product-listings/by-slug/{productListingTitleSlugId}',
+  url: '/v1/product-listings/by-slug/{productListingTitleSlugId}',
   ...options
 });
 
@@ -932,7 +939,8 @@ export const getProductListingByTitleSlug = <ThrowOnError extends boolean = fals
  * current display pricing may change when the selected persisted FX snapshot changes. An anonymous successful 200 response without Authorization uses `public, max-age=0, s-maxage=120, stale-if-error=0`; any request with Authorization and all non-200 responses use `private, no-store`.
  *
  * Responses always contain `item`, the product data. A valid user or delegated-user bearer token
- * adds optional top-level `userState`; credential-bearing responses are not cached.
+ * adds optional top-level `userState`, limited to the sections a delegated token's read scopes permit;
+ * credential-bearing responses are not cached.
  *
  */
 export const getProductListing = <ThrowOnError extends boolean = false>(options: Options<GetProductListingData, ThrowOnError>): RequestResult<GetProductListingResponses, GetProductListingErrors, ThrowOnError> => (options.client ?? client).get<GetProductListingResponses, GetProductListingErrors, ThrowOnError>({
@@ -941,7 +949,7 @@ export const getProductListing = <ThrowOnError extends boolean = false>(options:
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/product-listings/{productListingId}',
+  url: '/v1/product-listings/{productListingId}',
   ...options
 });
 
@@ -953,7 +961,7 @@ export const getProductListing = <ThrowOnError extends boolean = false>(options:
  * Price snapshots preserve stored source amounts and currencies. Sale observations retain their immutable source provenance. Without `currency`, the response is unchanged. With `currency`, each monetary discovery price/estimate and each previous/current price/estimate change value may include `display` with `currency`, `amount`, `fxRateId` and `capturedAt`. The snapshot is the latest persisted capture at or before this entry's `timestamp`, including an exact capture-time match. Both sides of a change use that entry's snapshot, even if the source currency changed. Conversion uses HalfUp rounding and the requested currency's minor-unit exponent (JPY and KRW: 0; all others: 2). Same-currency amounts retain the snapshot provenance. Missing snapshots or source/target quotes omit `display` for that value; the response still succeeds, and consumers fall back to the labelled source value. ON_REQUEST and null values receive no display projection. No later snapshot, current rates or provider calls are used. Source values, event order and the changes array remain intact. Currency query variants are included in the shared edge cache key.
  *
  */
-export const getProductListingHistory = <ThrowOnError extends boolean = false>(options: Options<GetProductListingHistoryData, ThrowOnError>): RequestResult<GetProductListingHistoryResponses, GetProductListingHistoryErrors, ThrowOnError> => (options.client ?? client).get<GetProductListingHistoryResponses, GetProductListingHistoryErrors, ThrowOnError>({ url: '/api/v1/product-listings/{productListingId}/history', ...options });
+export const getProductListingHistory = <ThrowOnError extends boolean = false>(options: Options<GetProductListingHistoryData, ThrowOnError>): RequestResult<GetProductListingHistoryResponses, GetProductListingHistoryErrors, ThrowOnError> => (options.client ?? client).get<GetProductListingHistoryResponses, GetProductListingHistoryErrors, ThrowOnError>({ url: '/v1/product-listings/{productListingId}/history', ...options });
 
 /**
  * Get similar product-listings
@@ -965,7 +973,7 @@ export const getProductListingHistory = <ThrowOnError extends boolean = false>(o
  * Ready entries return `displayPrice` in the requested currency and `priceValuation` metadata.
  * Active ProductListings use one persisted snapshot pinned for the request; sold ProductListings use immutable
  * sale-time values. Every ready entry contains `item`; a valid user or delegated-user bearer token adds
- * `userState`. Ready anonymous 200 responses without Authorization use `public, max-age=0, s-maxage=300, stale-if-error=0`; any request with Authorization uses `private, no-store`. The `202 EmbeddingPending` response and all errors are always `private, no-store`.
+ * `userState`, limited to the sections a delegated token's read scopes permit. Ready anonymous 200 responses without Authorization use `public, max-age=0, s-maxage=300, stale-if-error=0`; any request with Authorization uses `private, no-store`. The `202 EmbeddingPending` response and all errors are always `private, no-store`.
  *
  */
 export const getSimilarProductListings = <ThrowOnError extends boolean = false>(options: Options<GetSimilarProductListingsData, ThrowOnError>): RequestResult<GetSimilarProductListingsResponses, GetSimilarProductListingsErrors, ThrowOnError> => (options.client ?? client).get<GetSimilarProductListingsResponses, GetSimilarProductListingsErrors, ThrowOnError>({
@@ -974,7 +982,7 @@ export const getSimilarProductListings = <ThrowOnError extends boolean = false>(
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/product-listings/{productListingId}/similar',
+  url: '/v1/product-listings/{productListingId}/similar',
   ...options
 });
 
@@ -989,7 +997,7 @@ export const simpleSearchProductListings = <ThrowOnError extends boolean = false
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/product-listings',
+  url: '/v1/product-listings',
   ...options
 });
 
@@ -1011,7 +1019,7 @@ export const getUserSearchFilters = <ThrowOnError extends boolean = false>(optio
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/search-filters',
+  url: '/v1/me/search-filters',
   ...options
 });
 
@@ -1039,7 +1047,7 @@ export const createUserSearchFilter = <ThrowOnError extends boolean = false>(opt
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/search-filters',
+  url: '/v1/me/search-filters',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -1065,7 +1073,7 @@ export const deleteUserSearchFilter = <ThrowOnError extends boolean = false>(opt
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/search-filters/{userSearchFilterId}',
+  url: '/v1/me/search-filters/{userSearchFilterId}',
   ...options
 });
 
@@ -1087,7 +1095,7 @@ export const getUserSearchFilter = <ThrowOnError extends boolean = false>(option
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/search-filters/{userSearchFilterId}',
+  url: '/v1/me/search-filters/{userSearchFilterId}',
   ...options
 });
 
@@ -1116,7 +1124,7 @@ export const updateUserSearchFilter = <ThrowOnError extends boolean = false>(opt
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/search-filters/{userSearchFilterId}',
+  url: '/v1/me/search-filters/{userSearchFilterId}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -1141,7 +1149,7 @@ export const listSearchFilterMatches = <ThrowOnError extends boolean = false>(op
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/search-filters/{userSearchFilterId}/matches',
+  url: '/v1/me/search-filters/{userSearchFilterId}/matches',
   ...options
 });
 
@@ -1169,7 +1177,7 @@ export const updateSearchFilterMatchFeedback = <ThrowOnError extends boolean = f
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/search-filters/{userSearchFilterId}/matches/{productListingId}',
+  url: '/v1/me/search-filters/{userSearchFilterId}/matches/{productListingId}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -1181,7 +1189,8 @@ export const updateSearchFilterMatchFeedback = <ThrowOnError extends boolean = f
  * List user's watchlist product-listings
  *
  * Retrieves all product-listings in the authenticated user's watchlist in watchlist creation order.
- * Each result contains current product data and complete user-specific state.
+ * Each result contains current product data and user-specific state. Cognito users receive every section;
+ * an access token receives only the sections its read scopes permit (see `ProductListingUserStateData`).
  * Accepts Cognito JWT authentication or an Aura Historia access token with `watchlist:read`.
  *
  */
@@ -1191,7 +1200,7 @@ export const getWatchlistProductListings = <ThrowOnError extends boolean = false
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/watchlist',
+  url: '/v1/me/watchlist',
   ...options
 });
 
@@ -1217,7 +1226,7 @@ export const addWatchlistProduct = <ThrowOnError extends boolean = false>(option
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/watchlist',
+  url: '/v1/me/watchlist',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -1258,7 +1267,7 @@ export const adminSearchListingSources = <ThrowOnError extends boolean = false>(
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/listing-sources',
+  url: '/v1/admin/listing-sources',
   ...options
 });
 
@@ -1285,7 +1294,7 @@ export const adminCreateListingSource = <ThrowOnError extends boolean = false>(o
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/listing-sources',
+  url: '/v1/admin/listing-sources',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -1321,7 +1330,7 @@ export const adminSearchParties = <ThrowOnError extends boolean = false>(options
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/parties',
+  url: '/v1/admin/parties',
   ...options
 });
 
@@ -1347,7 +1356,7 @@ export const adminCreateParty = <ThrowOnError extends boolean = false>(options: 
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/parties',
+  url: '/v1/admin/parties',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -1375,7 +1384,7 @@ export const adminDeleteParty = <ThrowOnError extends boolean = false>(options: 
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/parties/{partyId}',
+  url: '/v1/admin/parties/{partyId}',
   ...options
 });
 
@@ -1400,7 +1409,7 @@ export const adminGetParty = <ThrowOnError extends boolean = false>(options: Opt
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/parties/{partyId}',
+  url: '/v1/admin/parties/{partyId}',
   ...options
 });
 
@@ -1430,7 +1439,7 @@ export const adminUpdateParty = <ThrowOnError extends boolean = false>(options: 
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/parties/{partyId}',
+  url: '/v1/admin/parties/{partyId}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -1460,7 +1469,7 @@ export const adminSearchUsers = <ThrowOnError extends boolean = false>(options?:
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/users',
+  url: '/v1/admin/users',
   ...options
 });
 
@@ -1485,7 +1494,7 @@ export const adminDeleteUser = <ThrowOnError extends boolean = false>(options: O
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/users/{userId}',
+  url: '/v1/admin/users/{userId}',
   ...options
 });
 
@@ -1507,7 +1516,7 @@ export const adminGetUser = <ThrowOnError extends boolean = false>(options: Opti
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/users/{userId}',
+  url: '/v1/admin/users/{userId}',
   ...options
 });
 
@@ -1533,7 +1542,7 @@ export const adminPatchUser = <ThrowOnError extends boolean = false>(options: Op
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/users/{userId}',
+  url: '/v1/admin/users/{userId}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -1567,7 +1576,7 @@ export const adminUnsuspendUser = <ThrowOnError extends boolean = false>(options
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/users/{userId}/suspension',
+  url: '/v1/admin/users/{userId}/suspension',
   ...options
 });
 
@@ -1600,7 +1609,7 @@ export const adminSuspendUser = <ThrowOnError extends boolean = false>(options: 
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/users/{userId}/suspension',
+  url: '/v1/admin/users/{userId}/suspension',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -1638,7 +1647,7 @@ export const adminRevokeUserSessions = <ThrowOnError extends boolean = false>(op
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/users/{userId}/sessions/revoke',
+  url: '/v1/admin/users/{userId}/sessions/revoke',
   ...options
 });
 
@@ -1667,7 +1676,7 @@ export const adminDeleteUserAccessTokens = <ThrowOnError extends boolean = false
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/users/{userId}/access-tokens',
+  url: '/v1/admin/users/{userId}/access-tokens',
   ...options
 });
 
@@ -1698,7 +1707,7 @@ export const adminListUserAccessTokens = <ThrowOnError extends boolean = false>(
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/users/{userId}/access-tokens',
+  url: '/v1/admin/users/{userId}/access-tokens',
   ...options
 });
 
@@ -1728,7 +1737,7 @@ export const adminDeleteUserAccessToken = <ThrowOnError extends boolean = false>
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/users/{userId}/access-tokens/{accessTokenId}',
+  url: '/v1/admin/users/{userId}/access-tokens/{accessTokenId}',
   ...options
 });
 
@@ -1751,7 +1760,7 @@ export const deleteUser = <ThrowOnError extends boolean = false>(options?: Optio
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me',
+  url: '/v1/me',
   ...options
 });
 
@@ -1769,7 +1778,7 @@ export const getUserAccount = <ThrowOnError extends boolean = false>(options?: O
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/account',
+  url: '/v1/me/account',
   ...options
 });
 
@@ -1789,7 +1798,7 @@ export const updateUserAccount = <ThrowOnError extends boolean = false>(options:
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/account',
+  url: '/v1/me/account',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -1815,7 +1824,7 @@ export const getMyAccessTokens = <ThrowOnError extends boolean = false>(options?
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/access-tokens',
+  url: '/v1/me/access-tokens',
   ...options
 });
 
@@ -1825,7 +1834,7 @@ export const getMyAccessTokens = <ThrowOnError extends boolean = false>(options?
  * Updates metadata for one access token owned by the authenticated user. Omitted properties
  * remain unchanged; `expires: null` clears expiry. `name` and `scopes` reject `null`; use
  * `scopes: []` to clear scopes. The response contains secret-free metadata only and never returns plaintext or masked token values.
- * Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require the delegated `access-tokens:write` capability.
+ * Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require the delegated `access-tokens:write` capability and may only rename the target token or narrow it: `scopes` must be a subset of its current scopes, and `expires` may be set no later than its current expiry (or to any time when it has none). Adding a scope, extending the expiry, or clearing an existing expiry with `null` is rejected with `403 FORBIDDEN` and leaves the token unchanged. This applies to every token of the user, including the bearer token itself. Cognito access JWTs may make any change.
  *
  */
 export const patchMyAccessToken = <ThrowOnError extends boolean = false>(options: Options<PatchMyAccessTokenData, ThrowOnError>): RequestResult<PatchMyAccessTokenResponses, PatchMyAccessTokenErrors, ThrowOnError> => (options.client ?? client).patch<PatchMyAccessTokenResponses, PatchMyAccessTokenErrors, ThrowOnError>({
@@ -1838,7 +1847,7 @@ export const patchMyAccessToken = <ThrowOnError extends boolean = false>(options
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/access-tokens',
+  url: '/v1/me/access-tokens',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -1851,7 +1860,7 @@ export const patchMyAccessToken = <ThrowOnError extends boolean = false>(options
  *
  * Creates a new Aura Historia access token for the authenticated user.
  * The response includes the plaintext bearer token once. List, get, and update responses contain only secret-free metadata and never return the bearer token again.
- * Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require the delegated `access-tokens:write` capability.
+ * Requires a Cognito access JWT. A valid Aura Historia access token is rejected with `403 FORBIDDEN`, even with the delegated `access-tokens:write` capability, so a delegated credential cannot issue a credential with other scopes or a longer lifetime than its own. No token is created or returned.
  *
  */
 export const postMyAccessToken = <ThrowOnError extends boolean = false>(options: Options<PostMyAccessTokenData, ThrowOnError>): RequestResult<PostMyAccessTokenResponses, PostMyAccessTokenErrors, ThrowOnError> => (options.client ?? client).post<PostMyAccessTokenResponses, PostMyAccessTokenErrors, ThrowOnError>({
@@ -1859,12 +1868,8 @@ export const postMyAccessToken = <ThrowOnError extends boolean = false>(options:
       key: 'BearerAuth',
       scheme: 'bearer',
       type: 'http'
-    }, {
-      key: 'AccessTokenAuth',
-      scheme: 'bearer',
-      type: 'http'
     }],
-  url: '/api/v1/me/access-tokens',
+  url: '/v1/me/access-tokens',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -1891,7 +1896,7 @@ export const deleteMyAccessToken = <ThrowOnError extends boolean = false>(option
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/access-tokens/{accessTokenId}',
+  url: '/v1/me/access-tokens/{accessTokenId}',
   ...options
 });
 
@@ -1913,7 +1918,7 @@ export const getMyAccessToken = <ThrowOnError extends boolean = false>(options: 
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/access-tokens/{accessTokenId}',
+  url: '/v1/me/access-tokens/{accessTokenId}',
   ...options
 });
 
@@ -1935,7 +1940,7 @@ export const postBillingCheckout = <ThrowOnError extends boolean = false>(option
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/billing/checkout',
+  url: '/v1/me/billing/checkout',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -1958,7 +1963,7 @@ export const postBillingPortal = <ThrowOnError extends boolean = false>(options?
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/billing/portal',
+  url: '/v1/me/billing/portal',
   ...options
 });
 
@@ -1984,7 +1989,7 @@ export const postBillingManage = <ThrowOnError extends boolean = false>(options:
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/billing/manage',
+  url: '/v1/me/billing/manage',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -2006,7 +2011,7 @@ export const deleteWatchlistProduct = <ThrowOnError extends boolean = false>(opt
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/watchlist/{productListingId}',
+  url: '/v1/me/watchlist/{productListingId}',
   ...options
 });
 
@@ -2014,8 +2019,8 @@ export const deleteWatchlistProduct = <ThrowOnError extends boolean = false>(opt
  * Update watchlist product settings
  *
  * Updates settings for a specific watchlist product (e.g., toggle notifications or manually activate/deactivate the watchlist entry).
- * Returns full personalized product data (`item` and `userState`) after applying the update, including for an empty `{}` no-op. `userState.watchlist.watching` reflects whether the entry is active, and `userState.watchlist.notifications` reflects the stored notification setting. Hidden and withdrawn listings retain their usual redaction.
- * Requires a valid user bearer credential. Delegated credentials require `watchlist:write`; no additional read scope is required for the response. Responses are not cached.
+ * Returns personalized product data (`item` and `userState`) after applying the update, including for an empty `{}` no-op. `userState.watchlist.watching` reflects whether the entry is active, and `userState.watchlist.notifications` reflects the stored notification setting. Hidden and withdrawn listings retain their usual redaction.
+ * Requires a valid user bearer credential. Delegated credentials require `watchlist:write` for the update. Like other listing reads, each `userState` section in the response requires its read scope, so `userState.watchlist` requires `watchlist:read` (see `ProductListingUserStateData`). Responses are not cached.
  *
  */
 export const patchWatchlistProduct = <ThrowOnError extends boolean = false>(options: Options<PatchWatchlistProductData, ThrowOnError>): RequestResult<PatchWatchlistProductResponses, PatchWatchlistProductErrors, ThrowOnError> => (options.client ?? client).patch<PatchWatchlistProductResponses, PatchWatchlistProductErrors, ThrowOnError>({
@@ -2028,7 +2033,7 @@ export const patchWatchlistProduct = <ThrowOnError extends boolean = false>(opti
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/watchlist/{productListingId}',
+  url: '/v1/me/watchlist/{productListingId}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -2051,7 +2056,7 @@ export const deleteNotifications = <ThrowOnError extends boolean = false>(option
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/notifications',
+  url: '/v1/me/notifications',
   ...options
 });
 
@@ -2074,7 +2079,7 @@ export const listNotifications = <ThrowOnError extends boolean = false>(options?
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/notifications',
+  url: '/v1/me/notifications',
   ...options
 });
 
@@ -2093,7 +2098,7 @@ export const updateNotificationsSeen = <ThrowOnError extends boolean = false>(op
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/notifications',
+  url: '/v1/me/notifications',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -2116,7 +2121,7 @@ export const updateAllNotificationsSeen = <ThrowOnError extends boolean = false>
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/notifications/all',
+  url: '/v1/me/notifications/all',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -2139,7 +2144,7 @@ export const deleteNotification = <ThrowOnError extends boolean = false>(options
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/notifications/{notificationId}',
+  url: '/v1/me/notifications/{notificationId}',
   ...options
 });
 
@@ -2158,7 +2163,7 @@ export const updateNotificationSeen = <ThrowOnError extends boolean = false>(opt
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/notifications/{notificationId}',
+  url: '/v1/me/notifications/{notificationId}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -2187,7 +2192,7 @@ export const putNewsletterSubscription = <ThrowOnError extends boolean = false>(
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/newsletter-subscriptions',
+  url: '/v1/newsletter-subscriptions',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -2208,7 +2213,7 @@ export const putNewsletterSubscription = <ThrowOnError extends boolean = false>(
  *
  */
 export const confirmNewsletterSubscription = <ThrowOnError extends boolean = false>(options: Options<ConfirmNewsletterSubscriptionData2, ThrowOnError>): RequestResult<ConfirmNewsletterSubscriptionResponses, ConfirmNewsletterSubscriptionErrors, ThrowOnError> => (options.client ?? client).post<ConfirmNewsletterSubscriptionResponses, ConfirmNewsletterSubscriptionErrors, ThrowOnError>({
-  url: '/api/v1/newsletter-subscriptions/confirm',
+  url: '/v1/newsletter-subscriptions/confirm',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -2240,7 +2245,7 @@ export const adminDeleteListingSource = <ThrowOnError extends boolean = false>(o
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/listing-sources/{listingSourceId}',
+  url: '/v1/admin/listing-sources/{listingSourceId}',
   ...options
 });
 
@@ -2265,7 +2270,7 @@ export const adminGetListingSource = <ThrowOnError extends boolean = false>(opti
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/listing-sources/{listingSourceId}',
+  url: '/v1/admin/listing-sources/{listingSourceId}',
   ...options
 });
 
@@ -2298,7 +2303,7 @@ export const adminUpdateListingSource = <ThrowOnError extends boolean = false>(o
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/listing-sources/{listingSourceId}',
+  url: '/v1/admin/listing-sources/{listingSourceId}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -2315,7 +2320,7 @@ export const adminUpdateListingSource = <ThrowOnError extends boolean = false>(o
  * client token, or a source partnership. Only a Cognito access JWT is accepted through `BearerAuth`; Cognito ID
  * tokens, Aura opaque access tokens, and client-secret credentials are rejected. Centralized account restrictions
  * continue to apply. Redirect URIs and allowed scopes are returned exactly as registered; `scope: []` means the
- * client has no allowed scopes and does not imply user consent. `/api/v1/oauth/authorize` remains authoritative
+ * client has no allowed scopes and does not imply user consent. `/v1/oauth/authorize` remains authoritative
  * and revalidates registration, exact redirect URI, requested-scope subset, and S256 PKCE before issuing a code.
  * Every success and error response uses `Cache-Control: no-store`.
  *
@@ -2326,7 +2331,7 @@ export const getOAuthConsentClient = <ThrowOnError extends boolean = false>(opti
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/oauth/clients/{clientId}',
+  url: '/v1/oauth/clients/{clientId}',
   ...options
 });
 
@@ -2339,8 +2344,11 @@ export const getOAuthConsentClient = <ThrowOnError extends boolean = false>(opti
  *
  * On success the endpoint redirects (302) to the `redirect_uri` appending `code` and, if
  * supplied, `state` as query parameters. The single-use authorization code must be exchanged
- * for an access token via `POST /api/v1/oauth/token` before it expires. A delegated caller
- * must have `access-tokens:write` and every requested OAuth scope.
+ * for an access token via `POST /v1/oauth/token` before it expires.
+ *
+ * Approval requires a Cognito access JWT. An Aura Historia access token, including one with
+ * `access-tokens:write`, receives `403 FORBIDDEN` and no authorization code is issued, so a
+ * delegated credential cannot obtain an OAuth token that outlives its own grant.
  *
  */
 export const oauthAuthorize = <ThrowOnError extends boolean = false>(options: Options<OauthAuthorizeData, ThrowOnError>): RequestResult<unknown, OauthAuthorizeErrors, ThrowOnError> => (options.client ?? client).get<unknown, OauthAuthorizeErrors, ThrowOnError>({
@@ -2349,7 +2357,7 @@ export const oauthAuthorize = <ThrowOnError extends boolean = false>(options: Op
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/oauth/authorize',
+  url: '/v1/oauth/authorize',
   ...options
 });
 
@@ -2363,15 +2371,17 @@ export const oauthAuthorize = <ThrowOnError extends boolean = false>(options: Op
  * endpoint.
  *
  * The issued access token is non-expiring by default (same lifetime as tokens created via
- * `POST /api/v1/me/access-tokens`). Successful responses also include a short-lived
+ * `POST /v1/me/access-tokens`). Codes are issued only for approvals made with a Cognito access
+ * JWT, so the token is an independent credential of the approving user: expiring or revoking
+ * any other Aura Historia access token does not affect it. Successful responses also include a short-lived
  * `third_party_exchange_code` that can be redeemed once via
- * `GET /api/v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`. The exchange code expires
+ * `GET /v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`. The exchange code expires
  * after 60 seconds and is deleted on first use.
  *
  */
 export const oauthToken = <ThrowOnError extends boolean = false>(options: Options<OauthTokenData, ThrowOnError>): RequestResult<OauthTokenResponses, OauthTokenErrors, ThrowOnError> => (options.client ?? client).post<OauthTokenResponses, OauthTokenErrors, ThrowOnError>({
   ...urlSearchParamsBodySerializer,
-  url: '/api/v1/oauth/token',
+  url: '/v1/oauth/token',
   ...options,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -2382,14 +2392,14 @@ export const oauthToken = <ThrowOnError extends boolean = false>(options: Option
 /**
  * Exchange OAuth token by third-party code
  *
- * Exchanges a one-time `third_party_exchange_code` returned by `POST /api/v1/oauth/token`
+ * Exchanges a one-time `third_party_exchange_code` returned by `POST /v1/oauth/token`
  * for the same Aura Historia access token. No client credentials or bearer token are required.
  *
  * The exchange code expires after 60 seconds and is deleted whether the exchange succeeds or
  * fails due to expiry.
  *
  */
-export const oauthTokenByThirdPartyCode = <ThrowOnError extends boolean = false>(options: Options<OauthTokenByThirdPartyCodeData, ThrowOnError>): RequestResult<OauthTokenByThirdPartyCodeResponses, OauthTokenByThirdPartyCodeErrors, ThrowOnError> => (options.client ?? client).get<OauthTokenByThirdPartyCodeResponses, OauthTokenByThirdPartyCodeErrors, ThrowOnError>({ url: '/api/v1/oauth/tokens/by-third-party-code/{thirdPartyCode}', ...options });
+export const oauthTokenByThirdPartyCode = <ThrowOnError extends boolean = false>(options: Options<OauthTokenByThirdPartyCodeData, ThrowOnError>): RequestResult<OauthTokenByThirdPartyCodeResponses, OauthTokenByThirdPartyCodeErrors, ThrowOnError> => (options.client ?? client).get<OauthTokenByThirdPartyCodeResponses, OauthTokenByThirdPartyCodeErrors, ThrowOnError>({ url: '/v1/oauth/tokens/by-third-party-code/{thirdPartyCode}', ...options });
 
 /**
  * OAuth2 token revocation endpoint
@@ -2398,7 +2408,7 @@ export const oauthTokenByThirdPartyCode = <ThrowOnError extends boolean = false>
  * flow (RFC 7009). The request body must be `application/x-www-form-urlencoded`. Client
  * authentication is performed via `client_id` / `client_secret` form fields. The token must
  * have been issued to that client; another client's token or a personal access token is
- * rejected with `403 FORBIDDEN` and is not revoked.
+ * rejected with `403` and OAuth `access_denied` and is not revoked.
  *
  * After revocation the token is immediately inactive and introspection will return
  * `active: false`. Attempting to revoke an unknown or already-revoked token is not an error.
@@ -2406,7 +2416,7 @@ export const oauthTokenByThirdPartyCode = <ThrowOnError extends boolean = false>
  */
 export const oauthRevoke = <ThrowOnError extends boolean = false>(options: Options<OauthRevokeData, ThrowOnError>): RequestResult<OauthRevokeResponses, OauthRevokeErrors, ThrowOnError> => (options.client ?? client).post<OauthRevokeResponses, OauthRevokeErrors, ThrowOnError>({
   ...urlSearchParamsBodySerializer,
-  url: '/api/v1/oauth/revoke',
+  url: '/v1/oauth/revoke',
   ...options,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -2427,7 +2437,7 @@ export const oauthRevoke = <ThrowOnError extends boolean = false>(options: Optio
  */
 export const oauthIntrospect = <ThrowOnError extends boolean = false>(options: Options<OauthIntrospectData, ThrowOnError>): RequestResult<OauthIntrospectResponses, OauthIntrospectErrors, ThrowOnError> => (options.client ?? client).post<OauthIntrospectResponses, OauthIntrospectErrors, ThrowOnError>({
   ...urlSearchParamsBodySerializer,
-  url: '/api/v1/oauth/introspect',
+  url: '/v1/oauth/introspect',
   ...options,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -2442,7 +2452,7 @@ export const oauthIntrospect = <ThrowOnError extends boolean = false>(options: O
  *
  * User and delegated-user principals must have the persisted `ADMIN` business role.
  * Delegated Aura Historia access-token callers must also have the `access-tokens:read`
- * capability. The OAuth protocol routes remain under `/api/v1/oauth`.
+ * capability. The OAuth protocol routes remain under `/v1/oauth`.
  *
  * Results use bounded keyset pagination in fixed `created` ascending, then OAuthClient ID ascending order. Page sizes are clamped to 1–100, with a default of 21. The
  * `searchAfter` value is a JSON-encoded `[created RFC3339 timestamp, OAuthClient ID]`
@@ -2463,7 +2473,7 @@ export const adminListOAuthClients = <ThrowOnError extends boolean = false>(opti
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/oauth-clients',
+  url: '/v1/admin/oauth-clients',
   ...options
 });
 
@@ -2472,9 +2482,10 @@ export const adminListOAuthClients = <ThrowOnError extends boolean = false>(opti
  *
  * Creates a new OAuth client metadata record for an authenticated administrator.
  *
- * User and delegated-user principals must have the persisted `ADMIN` business role.
- * Delegated Aura Historia access-token callers must also have the `access-tokens:write`
- * capability. The plaintext `client_secret` is returned only in this create response and
+ * Requires a Cognito access JWT of a user with the persisted `ADMIN` business role. The
+ * response contains a new client secret, so an Aura Historia access token, including an
+ * administrator's token with `access-tokens:write`, receives `403 FORBIDDEN` and no client is
+ * registered. The plaintext `client_secret` is returned only in this create response and
  * is never logged or returned by later reads.
  *
  * Redirect URIs must be non-empty HTTPS URLs without fragments. Requested scopes must be
@@ -2486,12 +2497,8 @@ export const adminCreateOAuthClient = <ThrowOnError extends boolean = false>(opt
       key: 'BearerAuth',
       scheme: 'bearer',
       type: 'http'
-    }, {
-      key: 'AccessTokenAuth',
-      scheme: 'bearer',
-      type: 'http'
     }],
-  url: '/api/v1/admin/oauth-clients',
+  url: '/v1/admin/oauth-clients',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -2508,7 +2515,7 @@ export const adminCreateOAuthClient = <ThrowOnError extends boolean = false>(opt
  * Delegated Aura Historia access-token callers must also have the `access-tokens:write`
  * capability. Deletion atomically invalidates pending authorization codes, OAuth-issued
  * Aura access tokens, and their one-time third-party exchange codes. The OAuth protocol
- * routes remain under `/api/v1/oauth`; this administrative mutation is not a protocol route.
+ * routes remain under `/v1/oauth`; this administrative mutation is not a protocol route.
  *
  */
 export const adminDeleteOAuthClient = <ThrowOnError extends boolean = false>(options: Options<AdminDeleteOAuthClientData, ThrowOnError>): RequestResult<AdminDeleteOAuthClientResponses, AdminDeleteOAuthClientErrors, ThrowOnError> => (options.client ?? client).delete<AdminDeleteOAuthClientResponses, AdminDeleteOAuthClientErrors, ThrowOnError>({
@@ -2521,7 +2528,7 @@ export const adminDeleteOAuthClient = <ThrowOnError extends boolean = false>(opt
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/oauth-clients/{clientId}',
+  url: '/v1/admin/oauth-clients/{clientId}',
   ...options
 });
 
@@ -2547,7 +2554,7 @@ export const adminGetOAuthClient = <ThrowOnError extends boolean = false>(option
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/oauth-clients/{clientId}',
+  url: '/v1/admin/oauth-clients/{clientId}',
   ...options
 });
 
@@ -2578,7 +2585,7 @@ export const adminPatchOAuthClient = <ThrowOnError extends boolean = false>(opti
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/oauth-clients/{clientId}',
+  url: '/v1/admin/oauth-clients/{clientId}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -2601,7 +2608,7 @@ export const searchPublicListingSources = <ThrowOnError extends boolean = false>
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources',
+  url: '/v1/listing-sources',
   ...options
 });
 
@@ -2620,14 +2627,14 @@ export const getPublicListingSourceBySlug = <ThrowOnError extends boolean = fals
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/by-slug/{listingSourceSlugId}',
+  url: '/v1/listing-sources/by-slug/{listingSourceSlugId}',
   ...options
 });
 
 /**
  * List caller-administered ListingSources
  *
- * Delegated Aura access tokens require `listing-sources:read`; missing scope returns `403 FORBIDDEN`.
+ * Live keyset page of the authenticated caller's currently granted sources, ordered by source name (bytewise ascending) and unique ListingSource ID ascending. Every page rechecks active partnership membership, source/operator eligibility and delegated `listing-sources:read` capability. Continuations are versioned and bound to this actor and ordering; they do not provide a snapshot. Unknown input fields are rejected.
  */
 export const getMyListingSources = <ThrowOnError extends boolean = false>(options?: Options<GetMyListingSourcesData, ThrowOnError>): RequestResult<GetMyListingSourcesResponses, GetMyListingSourcesErrors, ThrowOnError> => (options?.client ?? client).get<GetMyListingSourcesResponses, GetMyListingSourcesErrors, ThrowOnError>({
   security: [{
@@ -2639,7 +2646,7 @@ export const getMyListingSources = <ThrowOnError extends boolean = false>(option
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/listing-sources',
+  url: '/v1/me/listing-sources',
   ...options
 });
 
@@ -2658,7 +2665,7 @@ export const getMyPartnershipApplications = <ThrowOnError extends boolean = fals
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/partnership-applications',
+  url: '/v1/me/partnership-applications',
   ...options
 });
 
@@ -2677,7 +2684,7 @@ export const postPartnershipApplication = <ThrowOnError extends boolean = false>
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/partnership-applications',
+  url: '/v1/me/partnership-applications',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -2700,7 +2707,7 @@ export const deleteOwnPartnershipApplication = <ThrowOnError extends boolean = f
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/partnership-applications/{partnershipApplicationId}',
+  url: '/v1/me/partnership-applications/{partnershipApplicationId}',
   ...options
 });
 
@@ -2719,7 +2726,7 @@ export const getOwnPartnershipApplication = <ThrowOnError extends boolean = fals
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/partnership-applications/{partnershipApplicationId}',
+  url: '/v1/me/partnership-applications/{partnershipApplicationId}',
   ...options
 });
 
@@ -2749,7 +2756,7 @@ export const getAdminOverview = <ThrowOnError extends boolean = false>(options?:
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/overview',
+  url: '/v1/admin/overview',
   ...options
 });
 
@@ -2784,7 +2791,7 @@ export const adminSearchPartnerships = <ThrowOnError extends boolean = false>(op
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/partnerships',
+  url: '/v1/admin/partnerships',
   ...options
 });
 
@@ -2811,7 +2818,7 @@ export const adminDissolvePartnership = <ThrowOnError extends boolean = false>(o
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/partnerships/{partnershipId}',
+  url: '/v1/admin/partnerships/{partnershipId}',
   ...options
 });
 
@@ -2840,7 +2847,7 @@ export const adminGetPartnership = <ThrowOnError extends boolean = false>(option
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/partnerships/{partnershipId}',
+  url: '/v1/admin/partnerships/{partnershipId}',
   ...options
 });
 
@@ -2866,7 +2873,7 @@ export const adminRevokePartnershipListingSource = <ThrowOnError extends boolean
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}',
+  url: '/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}',
   ...options
 });
 
@@ -2891,7 +2898,7 @@ export const adminGrantPartnershipListingSource = <ThrowOnError extends boolean 
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}',
+  url: '/v1/admin/partnerships/{partnershipId}/listing-source-grants/{listingSourceId}',
   ...options
 });
 
@@ -2917,7 +2924,7 @@ export const adminRevokePartnershipMembership = <ThrowOnError extends boolean = 
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/partnerships/{partnershipId}/members/{userId}',
+  url: '/v1/admin/partnerships/{partnershipId}/members/{userId}',
   ...options
 });
 
@@ -2942,7 +2949,7 @@ export const adminGrantPartnershipMembership = <ThrowOnError extends boolean = f
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/partnerships/{partnershipId}/members/{userId}',
+  url: '/v1/admin/partnerships/{partnershipId}/members/{userId}',
   ...options
 });
 
@@ -2976,7 +2983,7 @@ export const adminSearchPartnershipApplications = <ThrowOnError extends boolean 
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/partnership-applications',
+  url: '/v1/admin/partnership-applications',
   ...options
 });
 
@@ -2997,7 +3004,7 @@ export const adminGetPartnershipApplication = <ThrowOnError extends boolean = fa
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/partnership-applications/{partnershipApplicationId}',
+  url: '/v1/admin/partnership-applications/{partnershipApplicationId}',
   ...options
 });
 
@@ -3023,7 +3030,7 @@ export const adminMarkPartnershipApplicationInReview = <ThrowOnError extends boo
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/partnership-applications/{partnershipApplicationId}',
+  url: '/v1/admin/partnership-applications/{partnershipApplicationId}',
   ...options
 });
 
@@ -3052,7 +3059,7 @@ export const adminDecidePartnershipApplication = <ThrowOnError extends boolean =
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/partnership-applications/{partnershipApplicationId}/decision',
+  url: '/v1/admin/partnership-applications/{partnershipApplicationId}/decision',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3075,7 +3082,7 @@ export const listUserAddresses = <ThrowOnError extends boolean = false>(options?
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/addresses',
+  url: '/v1/me/addresses',
   ...options
 });
 
@@ -3094,7 +3101,7 @@ export const createUserAddress = <ThrowOnError extends boolean = false>(options:
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/addresses',
+  url: '/v1/me/addresses',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3117,7 +3124,7 @@ export const deleteUserAddress = <ThrowOnError extends boolean = false>(options:
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/addresses/{address_id}',
+  url: '/v1/me/addresses/{address_id}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3140,7 +3147,7 @@ export const getUserAddress = <ThrowOnError extends boolean = false>(options: Op
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/addresses/{address_id}',
+  url: '/v1/me/addresses/{address_id}',
   ...options
 });
 
@@ -3159,7 +3166,7 @@ export const updateUserAddress = <ThrowOnError extends boolean = false>(options:
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/addresses/{address_id}',
+  url: '/v1/me/addresses/{address_id}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3182,7 +3189,7 @@ export const getBrowsingDestination = <ThrowOnError extends boolean = false>(opt
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/browsing-destination',
+  url: '/v1/me/browsing-destination',
   ...options
 });
 
@@ -3201,7 +3208,7 @@ export const setBrowsingDestination = <ThrowOnError extends boolean = false>(opt
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/me/browsing-destination',
+  url: '/v1/me/browsing-destination',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3214,7 +3221,7 @@ export const setBrowsingDestination = <ThrowOnError extends boolean = false>(opt
  *
  * Location-oriented discovery of eligible active Party sites. Multiple matching sites of one Party intentionally appear as separate locations. Country/subdivision predicates need no coordinates. Radius or distance ordering requires an explicit numeric origin. Strict proximity requires PREMISES precision; approximate mode retains coarse labels. Ordered by distance when requested, then native location UUID ascending; otherwise UUID ascending. Reads current PostgreSQL locations independently of listing projection catch-up. All responses are private, no-store. Management evidence, addresses and revisions stay private.
  */
-export const discoverPartyLocations = <ThrowOnError extends boolean = false>(options: Options<DiscoverPartyLocationsData, ThrowOnError>): RequestResult<DiscoverPartyLocationsResponses, DiscoverPartyLocationsErrors, ThrowOnError> => (options.client ?? client).get<DiscoverPartyLocationsResponses, DiscoverPartyLocationsErrors, ThrowOnError>({ url: '/api/v1/party-locations', ...options });
+export const discoverPartyLocations = <ThrowOnError extends boolean = false>(options: Options<DiscoverPartyLocationsData, ThrowOnError>): RequestResult<DiscoverPartyLocationsResponses, DiscoverPartyLocationsErrors, ThrowOnError> => (options.client ?? client).get<DiscoverPartyLocationsResponses, DiscoverPartyLocationsErrors, ThrowOnError>({ url: '/v1/party-locations', ...options });
 
 /**
  * List protected Party locations
@@ -3231,7 +3238,7 @@ export const listPartyLocations = <ThrowOnError extends boolean = false>(options
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/parties/{party_id}/locations',
+  url: '/v1/parties/{party_id}/locations',
   ...options
 });
 
@@ -3250,7 +3257,7 @@ export const createPartyLocation = <ThrowOnError extends boolean = false>(option
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/parties/{party_id}/locations',
+  url: '/v1/parties/{party_id}/locations',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3273,7 +3280,7 @@ export const getPartyLocation = <ThrowOnError extends boolean = false>(options: 
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/parties/{party_id}/locations/{location_id}',
+  url: '/v1/parties/{party_id}/locations/{location_id}',
   ...options
 });
 
@@ -3292,7 +3299,7 @@ export const correctPartyLocation = <ThrowOnError extends boolean = false>(optio
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/parties/{party_id}/locations/{location_id}',
+  url: '/v1/parties/{party_id}/locations/{location_id}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3315,7 +3322,7 @@ export const setPartyLocationLifecycle = <ThrowOnError extends boolean = false>(
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/parties/{party_id}/locations/{location_id}/lifecycle',
+  url: '/v1/parties/{party_id}/locations/{location_id}/lifecycle',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3338,7 +3345,7 @@ export const listPartyLocationManagers = <ThrowOnError extends boolean = false>(
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/parties/{party_id}/location-managers',
+  url: '/v1/admin/parties/{party_id}/location-managers',
   ...options
 });
 
@@ -3357,7 +3364,7 @@ export const setPartyLocationManagementGrant = <ThrowOnError extends boolean = f
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/parties/{party_id}/location-managers/{user_id}',
+  url: '/v1/admin/parties/{party_id}/location-managers/{user_id}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3380,7 +3387,7 @@ export const clearSourceLocationDefault = <ThrowOnError extends boolean = false>
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/location-default',
+  url: '/v1/listing-sources/{listing_source_id}/location-default',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3403,7 +3410,7 @@ export const getSourceLocationDefault = <ThrowOnError extends boolean = false>(o
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/location-default',
+  url: '/v1/listing-sources/{listing_source_id}/location-default',
   ...options
 });
 
@@ -3422,7 +3429,7 @@ export const changeSourceLocationDefaultApplicability = <ThrowOnError extends bo
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/location-default',
+  url: '/v1/listing-sources/{listing_source_id}/location-default',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3445,7 +3452,7 @@ export const assignSourceLocationDefault = <ThrowOnError extends boolean = false
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/location-default',
+  url: '/v1/listing-sources/{listing_source_id}/location-default',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3468,7 +3475,7 @@ export const adminClearSourceLocationDefault = <ThrowOnError extends boolean = f
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/listing-sources/{listing_source_id}/location-default',
+  url: '/v1/admin/listing-sources/{listing_source_id}/location-default',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3491,7 +3498,7 @@ export const adminGetSourceLocationDefault = <ThrowOnError extends boolean = fal
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/listing-sources/{listing_source_id}/location-default',
+  url: '/v1/admin/listing-sources/{listing_source_id}/location-default',
   ...options
 });
 
@@ -3510,7 +3517,7 @@ export const adminChangeSourceLocationDefaultApplicability = <ThrowOnError exten
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/listing-sources/{listing_source_id}/location-default',
+  url: '/v1/admin/listing-sources/{listing_source_id}/location-default',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3533,7 +3540,7 @@ export const adminAssignSourceLocationDefault = <ThrowOnError extends boolean = 
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/admin/listing-sources/{listing_source_id}/location-default',
+  url: '/v1/admin/listing-sources/{listing_source_id}/location-default',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3556,7 +3563,7 @@ export const listShippingProfiles = <ThrowOnError extends boolean = false>(optio
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles',
+  url: '/v1/listing-sources/{listing_source_id}/shipping-profiles',
   ...options
 });
 
@@ -3575,7 +3582,7 @@ export const createShippingProfile = <ThrowOnError extends boolean = false>(opti
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles',
+  url: '/v1/listing-sources/{listing_source_id}/shipping-profiles',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3598,7 +3605,7 @@ export const retireShippingProfile = <ThrowOnError extends boolean = false>(opti
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}',
+  url: '/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3621,7 +3628,7 @@ export const getShippingProfile = <ThrowOnError extends boolean = false>(options
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}',
+  url: '/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}',
   ...options
 });
 
@@ -3640,7 +3647,7 @@ export const replaceShippingProfile = <ThrowOnError extends boolean = false>(opt
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}',
+  url: '/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3663,7 +3670,7 @@ export const restoreShippingProfile = <ThrowOnError extends boolean = false>(opt
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}/restore',
+  url: '/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}/restore',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3686,7 +3693,7 @@ export const clearShippingDefault = <ThrowOnError extends boolean = false>(optio
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-default',
+  url: '/v1/listing-sources/{listing_source_id}/shipping-default',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3709,7 +3716,7 @@ export const getShippingDefault = <ThrowOnError extends boolean = false>(options
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-default',
+  url: '/v1/listing-sources/{listing_source_id}/shipping-default',
   ...options
 });
 
@@ -3728,7 +3735,7 @@ export const assignShippingDefault = <ThrowOnError extends boolean = false>(opti
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/shipping-default',
+  url: '/v1/listing-sources/{listing_source_id}/shipping-default',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3749,7 +3756,7 @@ export const getProductListingDelivery = <ThrowOnError extends boolean = false>(
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery',
+  url: '/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery',
   ...options
 });
 
@@ -3766,7 +3773,7 @@ export const changeProductListingDelivery = <ThrowOnError extends boolean = fals
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery',
+  url: '/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery',
   ...options,
   headers: {
     'Content-Type': 'application/json',
@@ -3787,7 +3794,7 @@ export const submitProductListingDelivery = <ThrowOnError extends boolean = fals
       scheme: 'bearer',
       type: 'http'
     }],
-  url: '/api/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery/async',
+  url: '/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery/async',
   ...options,
   headers: {
     'Content-Type': 'application/json',

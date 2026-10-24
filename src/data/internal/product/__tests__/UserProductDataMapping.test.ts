@@ -28,8 +28,15 @@ describe("mapProductListingUserState", () => {
             notification: { unseenNotificationIds: [] },
         });
 
-        expect(result?.notification.hasUnseenNotification).toBe(false);
-        expect(result?.notification.unseenNotificationIds).toEqual([]);
+        expect(result?.notification?.hasUnseenNotification).toBe(false);
+        expect(result?.notification?.unseenNotificationIds).toEqual([]);
+    });
+
+    it("keeps sections the backend omitted absent instead of defaulting them", () => {
+        expect(mapProductListingUserState({ watchlist: state.watchlist })).toEqual({
+            watchlist: { watching: true, notifications: false },
+        });
+        expect(mapProductListingUserState({})).toEqual({});
     });
 
     it("preserves omitted and null personalized wrappers", () => {

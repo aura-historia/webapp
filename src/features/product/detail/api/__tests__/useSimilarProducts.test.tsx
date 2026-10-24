@@ -24,7 +24,7 @@ vi.mock("@/data/internal/product/ProductListing.ts", () => ({
 }));
 
 const listingId = "pl_01TESTLISTING";
-const location = `/api/v1/product-listings/${listingId}/similar`;
+const location = `/v1/product-listings/${listingId}/similar`;
 const pending = (url?: string) => ({
     response: new Response(null, { status: 202, headers: url ? { Location: url } : {} }),
 });
@@ -72,7 +72,7 @@ describe("useSimilarProducts", () => {
     it.each([
         undefined,
         "https://untrusted.example/similar",
-        "/api/v1/product-listings/pl_OTHER/similar",
+        "/v1/product-listings/pl_OTHER/similar",
     ])("rejects an absent or unsafe polling location: %s", async (url) => {
         mocks.initial.mockResolvedValue(pending(url));
         const { result } = renderSimilar();

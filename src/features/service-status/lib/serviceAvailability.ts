@@ -5,9 +5,9 @@ export type ServiceProbe = {
 };
 
 export type ServiceStatusSnapshot = {
-    /** `GET /api/v1/health`: the API answers at all; 503 signals maintenance. */
+    /** `GET /v1/health`: the API answers at all; 503 signals maintenance. */
     readonly liveness: ServiceProbe;
-    /** `GET /api/v1/ready`: the API can reach its database and search index. */
+    /** `GET /v1/ready`: the API can reach its database and search index. */
     readonly readiness: ServiceProbe;
 };
 

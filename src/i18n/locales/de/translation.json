@@ -1285,7 +1285,7 @@
         },
         "woocommerce": {
           "title": "WooCommerce: Server zu Server",
-          "description": "POST /api/v1/webhooks/woocommerce/{listingSourceId} erfordert Bearer-Autorisierung, x-wc-webhook-topic und x-wc-webhook-signature (Base64-HMAC-SHA256 über exakte Body-Bytes); x-wc-webhook-delivery-id ist optional. Webhook-Geheimnisse bleiben auf dem Server und dürfen nie im Browser gesendet oder angezeigt werden. HTTP 204 ohne Body bestätigt die Annahme oder einen autorisierten ignorierten Status, weder Erfassung noch Suchsichtbarkeit. date_modified_gmt erlaubt UTC ohne Offset, Z oder +00:00; andere Offsets sind ungültig. Digest- und Quellreihenfolgekonflikte werden nachgelagert geprüft; eine Löschung ohne Zeitstempel kann die Wiederherstellung mit WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS blockieren. Wiederholen Sie unklare Annahmen unverändert mit derselben vorhandenen Delivery-ID; prüfen Sie Consumer-Fehler vor erneuter Ausführung."
+          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} erfordert Bearer-Autorisierung, x-wc-webhook-topic und x-wc-webhook-signature (Base64-HMAC-SHA256 über exakte Body-Bytes); x-wc-webhook-delivery-id ist optional. Webhook-Geheimnisse bleiben auf dem Server und dürfen nie im Browser gesendet oder angezeigt werden. HTTP 204 ohne Body bestätigt die Annahme oder einen autorisierten ignorierten Status, weder Erfassung noch Suchsichtbarkeit. date_modified_gmt erlaubt UTC ohne Offset, Z oder +00:00; andere Offsets sind ungültig. Digest- und Quellreihenfolgekonflikte werden nachgelagert geprüft; eine Löschung ohne Zeitstempel kann die Wiederherstellung mit WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS blockieren. Wiederholen Sie unklare Annahmen unverändert mit derselben vorhandenen Delivery-ID; prüfen Sie Consumer-Fehler vor erneuter Ausführung."
         }
       }
     },
@@ -1865,7 +1865,6 @@
     "preview": {
       "title": "Vorschau der Angebote",
       "description": "Eine aktuelle Vorschau aus der Angebotssuche. Gespeicherte Treffer erscheinen separat auf der Detailseite des Suchauftrags.",
-      "unavailable": "Eine Vorschau ist nicht verfügbar, weil dieser Suchauftrag Kriterien enthält, die die Angebotssuche nicht abbilden kann.",
       "error": "Die Vorschau konnte nicht geladen werden.",
       "empty": "Derzeit entsprechen keine Angebote diesen Kriterien."
     },

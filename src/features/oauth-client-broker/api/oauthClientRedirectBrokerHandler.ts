@@ -6,7 +6,7 @@ import {
     setThirdPartyExchangeCodeOnRedirectUri,
 } from "@/features/oauth-client-broker/lib/oauthClientBrokerState.ts";
 
-const TOKEN_ENDPOINT = "/api/v1/oauth/token";
+const TOKEN_ENDPOINT = "/v1/oauth/token";
 const THIRD_PARTY_EXCHANGE_CODE_RESPONSE_FIELD = "third_party_exchange_code";
 const BROKER_HANDLED_CALLBACK_PARAMS = new Set([
     "access_token",

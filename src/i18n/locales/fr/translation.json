@@ -1292,7 +1292,7 @@
         },
         "woocommerce": {
           "title": "WooCommerce : de serveur à serveur",
-          "description": "POST /api/v1/webhooks/woocommerce/{listingSourceId} exige l’autorisation Bearer, x-wc-webhook-topic et x-wc-webhook-signature (HMAC-SHA256 en base64 sur les octets exacts du corps) ; x-wc-webhook-delivery-id est facultatif. Gardez les secrets sur le serveur ; ne les envoyez ni ne les exposez dans un navigateur. HTTP 204 sans corps confirme l’admission ou un statut ignoré autorisé, pas la capture ni la visibilité. date_modified_gmt accepte UTC sans décalage, Z ou +00:00 ; les autres décalages sont invalides. Les conflits de digest et d’ordre source sont vérifiés en aval ; une suppression sans date peut bloquer la restauration avec WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Réessayez une admission incertaine sans modification, en conservant l’ID de livraison fourni ; examinez les échecs du consommateur avant relance."
+          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} exige l’autorisation Bearer, x-wc-webhook-topic et x-wc-webhook-signature (HMAC-SHA256 en base64 sur les octets exacts du corps) ; x-wc-webhook-delivery-id est facultatif. Gardez les secrets sur le serveur ; ne les envoyez ni ne les exposez dans un navigateur. HTTP 204 sans corps confirme l’admission ou un statut ignoré autorisé, pas la capture ni la visibilité. date_modified_gmt accepte UTC sans décalage, Z ou +00:00 ; les autres décalages sont invalides. Les conflits de digest et d’ordre source sont vérifiés en aval ; une suppression sans date peut bloquer la restauration avec WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Réessayez une admission incertaine sans modification, en conservant l’ID de livraison fourni ; examinez les échecs du consommateur avant relance."
         }
       }
     },
@@ -2359,7 +2359,6 @@
     "preview": {
       "title": "Aperçu des annonces",
       "description": "Un aperçu en temps réel issu de la recherche d’annonces. Les correspondances enregistrées figurent séparément sur la page de détail du filtre.",
-      "unavailable": "L’aperçu est indisponible, car ce filtre contient des critères que la recherche d’annonces ne peut pas exprimer.",
       "error": "Impossible de charger l’aperçu.",
       "empty": "Aucune annonce ne correspond à ces critères pour le moment."
     },

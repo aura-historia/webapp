@@ -115,13 +115,13 @@ describe("useSearch", () => {
             created: { min: "2024-01-01T00:00:00.000Z", max: "2024-12-31T23:59:59.999Z" },
             updated: { min: "2025-01-01T00:00:00.000Z", max: "2025-06-30T23:59:59.999Z" },
             lotBiddingOpens: { min: "2026-01-01T00:00:00.000Z", max: "2026-02-01T00:00:00.000Z" },
+            orderability: ["NOT_ORDERABLE"],
+            includeUnspecifiedAvailability: false,
         });
         expect(query).not.toHaveProperty("state");
         expect(query).not.toHaveProperty("shopName");
         expect(query).not.toHaveProperty("sellerName");
         expect(query).not.toHaveProperty("shopType");
-        expect(query).not.toHaveProperty("orderability");
-        expect(query).not.toHaveProperty("includeUnspecifiedAvailability");
         expect(result.current.data?.pages[0]?.total).toBeUndefined();
     });
 

@@ -1285,7 +1285,7 @@
         },
         "woocommerce": {
           "title": "WooCommerce: server-to-server",
-          "description": "POST /api/v1/webhooks/woocommerce/{listingSourceId} requires bearer authorization, x-wc-webhook-topic and x-wc-webhook-signature (base64 HMAC-SHA256 over exact body bytes); x-wc-webhook-delivery-id is optional. Keep webhook secrets on the server; never send or expose them in a browser. HTTP 204 has no body and acknowledges confirmed admission or an authorized ignored status, not capture or search visibility. date_modified_gmt supports UTC without offset, Z or +00:00; other offsets are invalid. Delivery digest conflicts and source-order conflicts are checked downstream; a timestamp-free deletion can block restoration with WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Retry an uncertain admission unchanged, preserving delivery ID when supplied; investigate consumer failures before redrive."
+          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} requires bearer authorization, x-wc-webhook-topic and x-wc-webhook-signature (base64 HMAC-SHA256 over exact body bytes); x-wc-webhook-delivery-id is optional. Keep webhook secrets on the server; never send or expose them in a browser. HTTP 204 has no body and acknowledges confirmed admission or an authorized ignored status, not capture or search visibility. date_modified_gmt supports UTC without offset, Z or +00:00; other offsets are invalid. Delivery digest conflicts and source-order conflicts are checked downstream; a timestamp-free deletion can block restoration with WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Retry an uncertain admission unchanged, preserving delivery ID when supplied; investigate consumer failures before redrive."
         }
       }
     },
@@ -1865,7 +1865,6 @@
     "preview": {
       "title": "Listing preview",
       "description": "A live preview from listing search. Persisted matches appear separately on the filter detail page.",
-      "unavailable": "A preview is unavailable because this filter contains criteria that listing search cannot express.",
       "error": "The preview could not be loaded.",
       "empty": "No listings match these criteria right now."
     },

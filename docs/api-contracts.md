@@ -9,33 +9,61 @@ admin workflows in [admin workflows](admin-workflows.md).
 - `pnpm openapi-ts` generates `src/client/**` and the public partner reference
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
-- The pinned capture is the complete backend `docs/swagger.yaml` at commit
-  `9c9204dfce16d543282e2b9bd2568ace4ff48fec` (2026-10-19), taken byte-for-byte for the hero stats.
-  It is the commit that added the public overview
-  ([backend#2204](https://github.com/aura-historia/backend/pull/2204)). Git blob
-  `81f519a8eaf14d4bfc0a419421164fa61ea2fad1`; file SHA-256
-  `f3a7dd8b66890f592684dbffdae90e5a817acf3d086554437eab56a2ddac9739`; canonical parsed-JSON
+- The pinned capture is the complete backend `docs/swagger.yaml` of the first production release,
+  `develop` at `e7c8d0e393dd4f7aba69ad32014273f272029225` (2026-10-24). Its last contract change is
+  `53149ae5f3` ([backend#2445](https://github.com/aura-historia/backend/pull/2445)). Git blob
+  `313c5282ee60f23ca80035cdb76e5316158aed30`; file SHA-256
+  `7b88e3269fed97f0138428eacb15a489e6ccd7e3b5c0ec0602a396eede0419f3`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `a1b2ae5185cbdd87a6157a7a4c002801b82ad80e23516c864c8f4a666228826d`.
-- Later captures are deliberately not adopted yet. The captures from `f07954281a` (2026-10-19)
-  through at least `04d1295d28` (2026-10-20) are invalid YAML (an unquoted colon in a
-  listing-title description), so the generator cannot read them. From `52ab69fc78`
-  ([backend#2224](https://github.com/aura-historia/backend/pull/2224)) the REST prefix moves from
-  `/api/v1` to `/v1`, which the deployed stage API did not serve on 2026-10-21. Adopt a valid
-  capture with that prefix once the deployment follows.
-- Changes against the previous pin (`2697cf4f30`, 2026-10-15): the public overview
-  (`getPublicOverview`); the shipping epic
-  ([backend#2146](https://github.com/aura-historia/backend/pull/2146)): source shipping profiles and
-  defaults, per-listing delivery, a required nullable `shipping` on listing summaries and details,
-  optional `userState.shipping`, `shipping` listing-search criteria, saved-filter
-  `acceptShippingDestination` and `shippingMatchValuation` on filter matches, and
-  `DELIVERY_CHANGED` history entries; the search exclusion renamed from `excludeProductId` to
-  `excludeProductListingId`; `createdBy`/`updatedBy` (and `ActorData`) removed from search
-  filters; an optional `notifications` (default `true`) on filter creation, which the app does
-  not send; partner batch writes that need a Partnership grant
-  (administrator role alone no longer suffices) with new `409 CONFLICT` and refined error
-  descriptions; and description-only changes elsewhere. Decisions are recorded below.
-- The previous capture (`2697cf4f30`, for
+  `4f9994b6f6dc937cf795140b3b87f2fde2e96c4bf91540bb7a95acc84b9a2fda`.
+- Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
+  `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
+  ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
+  every hand-built backend URL (OAuth approval and broker token exchange, the similar-listings
+  `Location` check, partner examples) use `/v1`. Webapp-owned `/api/...` routes, such as
+  `/api/oauth/authorize/approve` and the OAuth client redirect broker, are this app's own routes and
+  keep their paths. Release this webapp only with or after a backend that serves `/v1`.
+- Changes against the previous pin (`9c9204dfce`, 2026-10-19), with their decisions:
+  - **Base path:** `/api/v1` → `/v1` (above).
+  - **Listing shipping** ([backend#2444](https://github.com/aura-historia/backend/issues/2444)):
+    `item.shipping` is optional instead of required nullable and is omitted when nothing is
+    asserted. Collections (search, similar, watchlist, saved-search matches, auction catalogues)
+    return the bounded `ListingShippingSummaryData`/`PersonalizedShippingSummaryData`; detail and
+    the watchlist PATCH return `ListingShippingDetailData`/`PersonalizedShippingDetailData`. The
+    watchlist, saved-search matches and auction catalogue therefore use the new
+    `PersonalizedProductListingCollectionDetailsData`; `mapPersonalizedProductListingDetails` maps
+    that collection shape. Shipping itself stays generated-only (see below).
+  - **Optional `userState` sections** ([backend#2213](https://github.com/aura-historia/backend/issues/2213)):
+    `watchlist`, `contentVisibility`, `notification` and `searchFilter` are each omitted when the
+    credential lacks its read scope. See **Listings** below.
+  - **Granted-source pages** ([backend#2249](https://github.com/aura-historia/backend/issues/2249)):
+    `getMyListingSources` returns `{ items, next? }` with `size`/`after`. See
+    **Granted listing sources** below.
+  - **Listing search availability filters** ([backend#2235](https://github.com/aura-historia/backend/issues/2235)):
+    `orderability` and `includeUnspecifiedAvailability` are now documented on
+    `simpleSearchProductListings` with saved-search semantics. Listing search and saved-search
+    previews send them, so every saved search can be previewed.
+  - **OAuth** ([backend#2228](https://github.com/aura-historia/backend/issues/2228),
+    [backend#2214](https://github.com/aura-historia/backend/issues/2214)): authorization and token
+    failures use the standard OAuth JSON error (`OAuthErrorData`) with `no-store`/`no-cache`
+    headers; the optional `resource` parameter is not sent, so grants keep the shared Aura
+    default. The approval handler forwards backend error bodies unchanged and needs a Cognito
+    access JWT, which it already sends. The redirect broker keeps classifying token-exchange
+    failures by status. `getOAuthAuthorizationServerMetadata` is generated-only; the browser
+    never discovers its own authorization server.
+  - **Cognito-only credential operations** ([backend#2212](https://github.com/aura-historia/backend/issues/2212),
+    [backend#2214](https://github.com/aura-historia/backend/issues/2214)): `postMyAccessToken` and
+    `adminCreateOAuthClient` no longer accept `AccessTokenAuth` and may return `403`. The browser
+    always sends its Cognito access JWT; errors already go through `mapToInternalApiError`.
+  - **`OAuthTokenResponseData`:** `expires_in` is non-nullable (omitted for non-expiring tokens)
+    and `token_type` is the literal `Bearer`. The redirect broker reads only
+    `third_party_exchange_code`.
+  - Description-only changes elsewhere, including the partner batch operations.
+- The `9c9204dfce` capture added the public overview and the shipping epic
+  ([backend#2146](https://github.com/aura-historia/backend/pull/2146)), renamed the search exclusion
+  to `excludeProductListingId`, removed `createdBy`/`updatedBy` from search filters and required a
+  Partnership grant for partner batch writes; the decisions are recorded below.
+- The `2697cf4f30` capture (for
   [#1111](https://github.com/aura-historia/webapp/issues/1111)) brought the keyless creates of
   [backend#2081](https://github.com/aura-historia/backend/pull/2081) and the `ARS` currency of
   [backend#2096](https://github.com/aura-historia/backend/pull/2096): `createUserAddress` and
@@ -126,9 +154,10 @@ To adopt a backend revision:
   anonymous response stays edge-cacheable. Invalid counts fail the query and the strip is left
   out. `asOf` and `newObjectsLast7Days` are mapped but not shown.
 - Shipping and delivery are generated-only until a shipping slice consumes them: the shipping
-  profile, default and listing-delivery operations, listing `shipping` (fixtures send `null`),
-  `userState.shipping`, the `shipping` search criteria, `acceptShippingDestination` and
-  `shippingMatchValuation`. `DELIVERY_CHANGED` history entries map to the `UNKNOWN` change.
+  profile, default and listing-delivery operations, listing `shipping` (summary and detail
+  shapes; fixtures omit it), `userState.shipping`, the `shipping` search criteria,
+  `acceptShippingDestination` and `shippingMatchValuation`. `DELIVERY_CHANGED` history entries
+  map to the `UNKNOWN` change.
 - Listing search, dealer listings and saved filters send the exclusion as
   `excludeProductListingId`. The internal `SearchFilterArguments.excludeProductId` and the
   `excludeProductId` search URL parameter keep their names, so shared links still work.
@@ -170,8 +199,11 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
 - Availability is the nullable 11-value enum plus `UNKNOWN` for unexpected values. Lifecycle is
   independently `ACTIVE` or `WITHDRAWN` (with an `UNKNOWN` fallback); withdrawal, out-of-stock
   and sale are not equated.
-- `mapProductListingUserState` maps the optional `userState`; `hasUnseenNotification` derives
-  from a non-empty unseen-notification ID array.
+- `mapProductListingUserState` maps the optional `userState` from detail and collection
+  responses. Each section is optional and stays absent when the backend omits it (a delegated
+  credential without that read scope); never default an omitted section to `false` or empty.
+  Consumers treat an absent section as unknown, and `patchListingUserState` updates never create
+  one. `hasUnseenNotification` derives from a non-empty unseen-notification ID array.
 
 ### Listing history
 
@@ -356,7 +388,9 @@ stable error codes, never raw server detail.
   `listingSourceId`, `listingSourceSlugId` and `name`. Do not enrich it with admin requests or infer
   ownership, partner status, metadata-edit permission, configuration or token scope from it.
 - `useOwnListingSources(enabled)` uses `OWN_LISTING_SOURCES_QUERY_KEY`, `no-store`, cancellation,
-  zero stale time and inactive retention, and no retries. It is not evidence of authorization for a
+  zero stale time and inactive retention, and no retries. It requests pages of 100 and follows
+  `next` (sent as `after`) until it is absent, so consumers always see every current grant; a
+  failed or non-advancing page fails the whole query rather than returning a partial list. It is not evidence of authorization for a
   later write. An empty list means no current access. On a failed refresh show the error state;
   never render cached grants or keep removed IDs selectable.
 - The partner portfolio (`/$lng/partners/listing-sources`) is read-only. There is no partner

@@ -1,7 +1,6 @@
 import type {
-    PersonalizedProductListingDetailsData,
+    PersonalizedProductListingCollectionDetailsData,
     PersonalizedProductListingSummaryData,
-    ProductListingUserStateData,
 } from "@/client";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
 import {
@@ -62,7 +61,7 @@ export type ProductListing = {
 
 function mapSummaryFields(
     item: PersonalizedProductListingSummaryData["item"],
-    userState: ProductListingUserStateData | null | undefined,
+    userState: PersonalizedProductListingSummaryData["userState"],
     locale: string,
 ): ProductListing {
     const displayPrice = mapListingPrice(item.displayPrice);
@@ -98,9 +97,9 @@ export function mapPersonalizedProductListingSummary(
     return mapSummaryFields(apiData.item, apiData.userState, locale);
 }
 
-/** Projects a detail response into card fields for endpoints that return listing details in collections. */
+/** Projects a collection detail (watchlist, saved-search matches) into card fields. */
 export function mapPersonalizedProductListingDetails(
-    apiData: PersonalizedProductListingDetailsData,
+    apiData: PersonalizedProductListingCollectionDetailsData,
     locale: string,
 ): ProductListing {
     const item = apiData.item;

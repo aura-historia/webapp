@@ -16,7 +16,7 @@ Apply this guide to changes under `src/features/oauth`.
 
 ## Ordinary-user consent metadata
 
-Backend issue [#1926](https://github.com/aura-historia/backend/issues/1926) supplies `GET /api/v1/oauth/clients/{clientId}` for signed-in ordinary users authenticated with a Cognito access JWT. Its secret-free response contains client identity, public URLs, registered redirects and allowed scopes. The consent hook reads this endpoint with the shared API client's ordinary-user authentication and maps the response to the internal OAuth model before UI use.
+Backend issue [#1926](https://github.com/aura-historia/backend/issues/1926) supplies `GET /v1/oauth/clients/{clientId}` for signed-in ordinary users authenticated with a Cognito access JWT. Its secret-free response contains client identity, public URLs, registered redirects and allowed scopes. The consent hook reads this endpoint with the shared API client's ordinary-user authentication and maps the response to the internal OAuth model before UI use.
 
 The generated `getOAuthConsentClient` operation supplies `OAuthClientConsentMetadataData`. The feature adapter checks the requested client identity and maps only the public fields to the internal model before UI use. Reads use `cache: no-store`; metadata queries are short-lived and cleared on sign-out/account changes. Unavailable metadata shows the localized unavailable state. Backend authorization remains authoritative for registration, redirects and permissions. Regenerate the client with `pnpm openapi-ts` when the backend contract changes.
 

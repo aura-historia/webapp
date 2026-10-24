@@ -17,14 +17,14 @@ describe("canonical notification endpoint paths", () => {
             });
             expect(patch).toHaveBeenLastCalledWith(
                 expect.objectContaining({
-                    url: "/api/v1/me/notifications",
+                    url: "/v1/me/notifications",
                     body: { notificationIds: ["notification-1"], seen: true },
                 }),
             );
             await updateAllNotificationsSeen({ body: { seen: true } });
             expect(patch).toHaveBeenLastCalledWith(
                 expect.objectContaining({
-                    url: "/api/v1/me/notifications/all",
+                    url: "/v1/me/notifications/all",
                     body: { seen: true },
                 }),
             );
@@ -34,7 +34,7 @@ describe("canonical notification endpoint paths", () => {
             });
             expect(patch).toHaveBeenLastCalledWith(
                 expect.objectContaining({
-                    url: "/api/v1/me/notifications/{notificationId}",
+                    url: "/v1/me/notifications/{notificationId}",
                     path: { notificationId: "notification-1" },
                 }),
             );
@@ -47,12 +47,12 @@ describe("canonical notification endpoint paths", () => {
         try {
             await deleteNotifications();
             expect(remove).toHaveBeenLastCalledWith(
-                expect.objectContaining({ url: "/api/v1/me/notifications" }),
+                expect.objectContaining({ url: "/v1/me/notifications" }),
             );
             await deleteNotification({ path: { notificationId: "notification-1" } });
             expect(remove).toHaveBeenLastCalledWith(
                 expect.objectContaining({
-                    url: "/api/v1/me/notifications/{notificationId}",
+                    url: "/v1/me/notifications/{notificationId}",
                     path: { notificationId: "notification-1" },
                 }),
             );

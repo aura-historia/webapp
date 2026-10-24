@@ -69,6 +69,14 @@ function buildFilterQuery(
         );
     }
 
+    if (searchArgs.orderability?.length) {
+        filters.orderability = searchArgs.orderability;
+    }
+
+    if (searchArgs.includeUnspecifiedAvailability != null) {
+        filters.includeUnspecifiedAvailability = searchArgs.includeUnspecifiedAvailability;
+    }
+
     if (searchArgs.creationDateFrom != null || searchArgs.creationDateTo != null) {
         filters.created = {
             min: searchArgs.creationDateFrom?.toISOString(),
@@ -102,8 +110,6 @@ export function useSearch(
     const searchCriteria = { ...searchArgs };
     delete searchCriteria.listingSourceLabels;
     delete searchCriteria.excludeListingSourceLabels;
-    delete searchCriteria.orderability;
-    delete searchCriteria.includeUnspecifiedAvailability;
 
     return useInfiniteQuery({
         queryKey: productListingQueryKeys.search(searchCriteria, {

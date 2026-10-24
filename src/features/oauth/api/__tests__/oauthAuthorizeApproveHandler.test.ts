@@ -91,7 +91,7 @@ describe("/api/oauth/authorize/approve", () => {
         const [backendUrl, init] = mockFetch.mock.calls[0] as [string, RequestInit];
         const url = new URL(backendUrl);
         expect(url.origin).toBe("https://api.test.example");
-        expect(url.pathname).toBe("/api/v1/oauth/authorize");
+        expect(url.pathname).toBe("/v1/oauth/authorize");
         expect(url.searchParams.get("response_type")).toBe("code");
         expect(url.searchParams.get("client_id")).toBe(defaultFormFields.client_id);
         expect(url.searchParams.get("redirect_uri")).toBe(defaultFormFields.redirect_uri);

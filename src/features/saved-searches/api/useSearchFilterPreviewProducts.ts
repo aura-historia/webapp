@@ -16,11 +16,6 @@ import { useTranslation } from "react-i18next";
 
 const PREVIEW_SIZE = 4;
 
-/** GET listing search cannot apply these saved-search-only conditions. */
-export function canPreviewSavedSearch(search: SearchFilterArguments): boolean {
-    return search.orderability == null && search.includeUnspecifiedAvailability == null;
-}
-
 function toListingSearchQuery(
     search: SearchFilterArguments,
     language: string,
@@ -58,6 +53,8 @@ function toListingSearchQuery(
                   }
                 : undefined,
         availability: search.availability,
+        orderability: search.orderability ?? undefined,
+        includeUnspecifiedAvailability: search.includeUnspecifiedAvailability ?? undefined,
         created:
             search.creationDateFrom != null || search.creationDateTo != null
                 ? {
@@ -90,14 +87,13 @@ export function useSearchFilterPreviewProducts(
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
-    const previewable = canPreviewSavedSearch(search);
 
     return useQuery({
         queryKey: productListingQueryKeys.savedSearchPreview(search, {
             language: parseLanguage(i18n.language),
             currency: preferences.currency,
         }),
-        enabled: enabled && previewable,
+        enabled,
         queryFn: async () => {
             if (search.availability?.length === 0) return [];
 
