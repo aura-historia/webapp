@@ -264,7 +264,7 @@ describe("/api/oauth/authorize/approve", () => {
         await post(createRequest(defaultFormFields), postWithDefaultApiUrl);
 
         const [backendUrl] = mockFetch.mock.calls[0] as [string, RequestInit];
-        expect(new URL(backendUrl).origin).toBe("https://api.stage.aura-historia.com");
+        expect(new URL(backendUrl).origin).toBe("https://api.aura-historia.com");
     });
 });
 

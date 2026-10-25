@@ -23,6 +23,8 @@ admin workflows in [admin workflows](admin-workflows.md).
   `Location` check, partner examples) use `/v1`. Webapp-owned `/api/...` routes, such as
   `/api/oauth/authorize/approve` and the OAuth client redirect broker, are this app's own routes and
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
+- Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
+  sets its environment's API URL explicitly.
 - Changes against the previous pin (`9c9204dfce`, 2026-10-19), with their decisions:
   - **Base path:** `/api/v1` → `/v1` (above).
   - **Listing shipping** ([backend#2444](https://github.com/aura-historia/backend/issues/2444)):
