@@ -112,6 +112,8 @@ Cuando se utilizan funciones para socios, tiendas o administración, también po
 
 Si autoriza expresamente una aplicación externa, esta podrá acceder a los datos o recursos que se muestran en la pantalla de autorización. Puede rechazar la solicitud. Tras aprobarla, la aplicación podrá tratar los datos recibidos conforme a su propia política de privacidad. Puede pedirnos que revoquemos una autorización; esto no elimina los datos que la aplicación ya haya recibido. Contacte con nosotros para solicitar la revocación y con el proveedor de la aplicación respecto de los datos que ya recibió.
 
+**Conexión con Shopify:** Cuando instala el canal de ventas de Aura Historia en Shopify y conecta su cuenta de Aura Historia, tratamos el dominio de la tienda, los datos de productos, el idioma y la moneda de la tienda, así como perfiles de envío, zonas de destino, métodos anunciados, condiciones, precios y asignaciones de productos y variantes para publicar sus anuncios y la información de envío compatible en Aura Historia. Las sesiones y credenciales de acceso de Shopify, junto con el progreso limitado de las importaciones, se almacenan en Cloudflare. Esta integración no solicita datos de clientes; no se importan direcciones precisas de preparación de pedidos. Puede desconectar la integración en el canal de Shopify o desinstalar la aplicación. Esto detiene nuevas importaciones de envío e inicia la retirada de las declaraciones de envío importadas que pertenecen a la integración y la revocación del acceso a Aura Historia; se conservan los cambios manuales del socio. Las credenciales y los datos limitados de tareas necesarios para una limpieza pendiente pueden conservarse por separado durante un máximo de siete días. La desconexión no confirma automáticamente la eliminación de los anuncios ya enviados ni de todas las declaraciones importadas; contacte con soporte si la limpieza no se ha confirmado.
+
 **Finalidades del tratamiento:**
 
 - prestación y personalización del servicio
@@ -382,4 +384,4 @@ Podemos adaptar estas notas de privacidad cuando sea necesario por cambios legal
 
 ---
 
-*Estado: 12.10.2026*
+*Estado: 26.10.2026*

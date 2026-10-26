@@ -112,6 +112,8 @@ Quando vengono utilizzate funzionalità partner, shop o di amministrazione, poss
 
 Se autorizzate espressamente un’applicazione esterna, questa può accedere ai dati o alle risorse indicati nella schermata di autorizzazione. Potete rifiutare la richiesta. Dopo l’approvazione, l’applicazione può trattare i dati ricevuti secondo la propria informativa sulla privacy. Potete chiederci di revocare un’autorizzazione; ciò non cancella i dati che l’applicazione ha già ricevuto. Contattateci per richiedere la revoca e rivolgetevi al provider dell’applicazione per i dati già ricevuti.
 
+**Collegamento Shopify:** Quando installate il canale di vendita Aura Historia in Shopify e collegate il vostro account Aura Historia, trattiamo il dominio del negozio, i dati dei prodotti, la lingua e la valuta del negozio, nonché profili di spedizione, aree di destinazione, metodi pubblicizzati, condizioni, prezzi e assegnazioni di prodotti e varianti per pubblicare le vostre inserzioni e le informazioni di spedizione supportate su Aura Historia. Le sessioni e le credenziali di accesso Shopify, insieme all’avanzamento limitato delle importazioni, sono archiviate presso Cloudflare. Questa integrazione non richiede dati dei clienti; gli indirizzi precisi di evasione degli ordini non vengono importati. Potete scollegare l’integrazione nel canale Shopify o disinstallare l’app. Questo interrompe nuove importazioni di spedizione e avvia la rimozione delle dichiarazioni di spedizione importate di proprietà dell’integrazione e la revoca dell’accesso ad Aura Historia; le modifiche manuali del partner vengono conservate. Le credenziali e i dati limitati delle attività necessari per una pulizia in sospeso possono essere conservati separatamente per un massimo di sette giorni. Lo scollegamento non conferma automaticamente la cancellazione delle inserzioni già inviate né di tutte le dichiarazioni importate; contattate l’assistenza se la pulizia non è confermata.
+
 **Finalità del trattamento:**
 
 - fornitura e personalizzazione del servizio
@@ -382,4 +384,4 @@ Possiamo adeguare le presenti note sulla privacy quando ciò si renda necessario
 
 ---
 
-*Stato: 12.10.2026*
+*Stato: 26.10.2026*
