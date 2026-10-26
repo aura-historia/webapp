@@ -1938,6 +1938,13 @@
     "loadError": "Provider access could not be verified. Access may have changed. Please try again.",
     "empty": "You currently have no access to providers. A previous grant may have been revoked."
   },
+  "ownListingSources": {
+    "moreAvailable": "More providers are available. This list is not complete yet.",
+    "loadMore": "Show more providers",
+    "loadingMore": "Loading more providers…",
+    "loadMoreError": "More providers could not be loaded. This list is not complete.",
+    "retry": "Try again"
+  },
   "partnerAccessTokens": {
     "title": "Access Tokens",
     "description": "All access tokens saved for your partner account.",

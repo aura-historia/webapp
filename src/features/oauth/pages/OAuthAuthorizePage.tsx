@@ -30,11 +30,13 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
     const navigate = useNavigate();
     const { data: client, isLoading, isError, error } = useOAuthClient(searchParams.client_id);
     const requiresListingSourceId = searchParams.requires_listing_source_id;
+    const listingSourcePages = useOAuthListingSources(requiresListingSourceId);
     const {
-        data: listingSources = [],
-        isLoading: isListingSourcesLoading,
+        sources: listingSources,
+        isPending: isListingSourcesPending,
         isError: isListingSourcesError,
-    } = useOAuthListingSources(requiresListingSourceId);
+        hasMore: hasMoreListingSources,
+    } = listingSourcePages;
     const {
         effectiveListingSource,
         effectiveListingSourceId,
@@ -46,6 +48,7 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
     } = useOAuthAuthorizeListingSourceSelection({
         searchParams,
         listingSources,
+        hasMoreListingSources,
     });
 
     const handleDeny = () => {
@@ -55,7 +58,7 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
         }
     };
 
-    if (isLoading || (requiresListingSourceId && isListingSourcesLoading)) {
+    if (isLoading || (requiresListingSourceId && isListingSourcesPending)) {
         return (
             <OAuthAuthorizePageContainer>
                 <OAuthAuthorizePageSkeleton
@@ -95,7 +98,7 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
         );
     }
 
-    if (requiresListingSourceId && listingSources.length === 0) {
+    if (requiresListingSourceId && listingSources.length === 0 && !hasMoreListingSources) {
         return (
             <OAuthAuthorizeErrorCard
                 title={t("oauth.authorize.listingSources.empty.title")}
@@ -124,6 +127,7 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
                         {requiresListingSourceSelection && (
                             <OAuthListingSourceSelection
                                 listingSources={listingSources}
+                                listingSourcePages={listingSourcePages}
                                 selectedListingSourceId={effectiveListingSourceId}
                                 onSelectListingSource={selectListingSource}
                             />

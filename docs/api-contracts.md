@@ -39,8 +39,10 @@ admin workflows in [admin workflows](admin-workflows.md).
     `watchlist`, `contentVisibility`, `notification` and `searchFilter` are each omitted when the
     credential lacks its read scope. See **Listings** below.
   - **Granted-source pages** ([backend#2249](https://github.com/aura-historia/backend/issues/2249)):
-    `getMyListingSources` returns `{ items, next? }` with `size`/`after`. See
-    **Granted listing sources** below.
+    `getMyListingSources` returns `{ items, next? }` with `size`/`after`; the partner portfolio,
+    custom integration page and OAuth source selection request later pages on demand
+    ([#1154](https://github.com/aura-historia/webapp/issues/1154)). See **Granted listing
+    sources** below.
   - **Listing search availability filters** ([backend#2235](https://github.com/aura-historia/backend/issues/2235)):
     `orderability` and `includeUnspecifiedAvailability` are now documented on
     `simpleSearchProductListings` with saved-search semantics. `mapToListingAvailabilityQuery`
@@ -396,16 +398,35 @@ stable error codes, never raw server detail.
 - `OwnListingSource` (`src/data/internal/listing-source/OwnListingSource.ts`) contains only
   `listingSourceId`, `listingSourceSlugId` and `name`. Do not enrich it with admin requests or infer
   ownership, partner status, metadata-edit permission, configuration or token scope from it.
-- `useOwnListingSources(enabled)` uses `OWN_LISTING_SOURCES_QUERY_KEY`, `no-store`, cancellation,
-  zero stale time and inactive retention, and no retries. It requests pages of 100 and follows
-  `next` (sent as `after`) until it is absent. Pages are live rather than a snapshot, so a source
-  renamed meanwhile keeps its first entry; a failed or non-advancing page fails the whole query
-  rather than returning a partial list. It is not evidence of authorization for a
-  later write. An empty list means no current access. On a failed refresh show the error state;
-  never render cached grants or keep removed IDs selectable.
+- `getMyListingSources` returns one bounded page, `{ items, next? }`
+  (`AdministeredListingSourcesPageData`, at most 100 items); `next` is an opaque, actor-bound
+  continuation sent unchanged as `after`, and its absence marks the last page. `mapToOwnListingSourcePage` maps a page and
+  `combineOwnListingSourcePages` joins the loaded pages in order by `listingSourceId`: equal names
+  stay distinct sources, and a source repeated across live pages (renamed between reads) keeps its
+  first entry.
+- `useOwnListingSources(enabled)` is one infinite query under `OWN_LISTING_SOURCES_QUERY_KEY` with
+  `no-store`, cancellation, zero stale time and inactive retention, and no retries. It loads the
+  first page of 100 and requests each later page only on `loadMore()`; consumers say the list is
+  incomplete while `hasMore` is true and never present the loaded pages as every grant. A failed
+  first page or refresh sets `isError` and withholds every loaded page (`sources` is empty); a
+  failed next page keeps the loaded pages, sets `isLoadMoreError` and can be requested again.
+  `loadMore()` does nothing while another read runs, since it would cancel a refresh midway.
+- The loaded pages are not evidence of authorization for a later write; the backend decides every
+  operation. An empty last page means no current access; an empty page that carries `next` does
+  not.
+  Viewer changes remove the query and abort pending pages (see **Identity, cursors and caches**);
+  partnership grant changes reset it, cancelling pending pages and restarting from the first page
+  rather than re-walking old cursors.
+- A view treats a single source as the only choice only when it is also the last page. A choice is
+  used only while its source is among the loaded grants: a source dropped by a refresh or restart
+  is no longer selected or submitted, and the custom integration page keeps a choice per viewer.
+- Release this webapp only with or after the paged backend
+  ([backend#2249](https://github.com/aura-historia/backend/issues/2249)): an older array response
+  has no `items` and fails the read closed.
 - The partner portfolio (`/$lng/partners/listing-sources`) is read-only. There is no partner
   metadata update contract; do not substitute `adminUpdateListingSource`. OAuth and the custom
-  integration page consume the same hook; OAuth source selection does not scope the OAuth grant.
+  integration page consume the same hook and its cache; OAuth source selection does not scope the
+  OAuth grant, and MCP consent (`requires_listing_source_id=false`) never reads sources.
 
 ## Own partnership applications
 

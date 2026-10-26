@@ -6,16 +6,13 @@ import { Button } from "@/components/ui/button.tsx";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import { useOwnListingSources } from "@/features/partner/common/api/useOwnListingSources.ts";
+import { OwnListingSourcesMore } from "@/features/partner/common/components/OwnListingSourcesMore.tsx";
 
 export function PartnerListingSourcesSection() {
     const { t } = useTranslation();
     const { isAuthenticated, isResolved } = useResolvedAuth();
-    const {
-        data: sources = [],
-        isPending,
-        isError,
-        refetch,
-    } = useOwnListingSources(isAuthenticated);
+    const listingSources = useOwnListingSources(isAuthenticated);
+    const { sources, isPending, isError, hasMore, retry } = listingSources;
 
     let sourceContent: ReactNode;
     if (!isResolved || (isAuthenticated && isPending)) {
@@ -40,13 +37,13 @@ export function PartnerListingSourcesSection() {
                 <p className="text-sm text-muted-foreground">
                     {t("partnerListingSources.loadError")}
                 </p>
-                <Button size="sm" variant="outline" onClick={() => refetch()}>
+                <Button size="sm" variant="outline" onClick={retry}>
                     <RefreshCw className="h-4 w-4" aria-hidden="true" />
                     {t("partnerListingSources.actions.retry")}
                 </Button>
             </div>
         );
-    } else if (!isAuthenticated || sources.length === 0) {
+    } else if (!isAuthenticated || (sources.length === 0 && !hasMore)) {
         sourceContent = (
             <div className="flex flex-col items-center gap-3 border bg-surface-container-low px-4 py-12 text-center">
                 <SearchX className="h-12 w-12 text-muted-foreground" aria-hidden="true" />
@@ -55,19 +52,22 @@ export function PartnerListingSourcesSection() {
         );
     } else {
         sourceContent = (
-            <ul className="flex flex-col gap-2">
-                {sources.map((source) => (
-                    <li
-                        key={source.listingSourceId}
-                        className="flex min-w-0 flex-col gap-1 border bg-surface-container-low p-3"
-                    >
-                        <span className="break-words font-medium">{source.name}</span>
-                        <span className="break-all text-xs text-muted-foreground">
-                            {source.listingSourceId}
-                        </span>
-                    </li>
-                ))}
-            </ul>
+            <div className="flex flex-col gap-4">
+                <ul className="flex flex-col gap-2">
+                    {sources.map((source) => (
+                        <li
+                            key={source.listingSourceId}
+                            className="flex min-w-0 flex-col gap-1 border bg-surface-container-low p-3"
+                        >
+                            <span className="break-words font-medium">{source.name}</span>
+                            <span className="break-all text-xs text-muted-foreground">
+                                {source.listingSourceId}
+                            </span>
+                        </li>
+                    ))}
+                </ul>
+                <OwnListingSourcesMore listingSources={listingSources} />
+            </div>
         );
     }
 

@@ -3104,6 +3104,13 @@
     "loadError": "L’accès aux fournisseurs n’a pas pu être vérifié. Les droits ont peut-être changé. Veuillez réessayer.",
     "empty": "Vous n’avez actuellement accès à aucun fournisseur. Un accès antérieur a peut-être été révoqué."
   },
+  "ownListingSources": {
+    "moreAvailable": "D’autres fournisseurs sont disponibles. Cette liste n’est pas encore complète.",
+    "loadMore": "Afficher plus de fournisseurs",
+    "loadingMore": "Chargement d’autres fournisseurs…",
+    "loadMoreError": "Les autres fournisseurs n’ont pas pu être chargés. Cette liste n’est pas complète.",
+    "retry": "Réessayer"
+  },
   "adminUsers": {
     "title": "Gestion des utilisateurs",
     "description": "Recherchez des résumés de compte, consultez les détails et modifiez séparément le profil, le rôle et l’offre.",

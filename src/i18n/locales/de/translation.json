@@ -1938,6 +1938,13 @@
     "loadError": "Der Zugriff auf Anbieter konnte nicht geprüft werden. Die Zugriffsrechte können sich geändert haben. Bitte versuchen Sie es erneut.",
     "empty": "Sie haben derzeit keinen Zugriff auf Anbieter. Eine frühere Freigabe wurde möglicherweise widerrufen."
   },
+  "ownListingSources": {
+    "moreAvailable": "Weitere Anbieter sind verfügbar. Diese Liste ist noch nicht vollständig.",
+    "loadMore": "Weitere Anbieter anzeigen",
+    "loadingMore": "Weitere Anbieter werden geladen…",
+    "loadMoreError": "Weitere Anbieter konnten nicht geladen werden. Diese Liste ist nicht vollständig.",
+    "retry": "Erneut versuchen"
+  },
   "partnerAccessTokens": {
     "title": "Zugriffstoken",
     "description": "Alle für Ihr Partnerkonto gespeicherten Zugriffstoken.",

@@ -3104,6 +3104,13 @@
     "loadError": "No se pudo verificar el acceso a los proveedores. Es posible que los permisos hayan cambiado. Inténtelo de nuevo.",
     "empty": "Actualmente no tiene acceso a ningún proveedor. Es posible que se haya revocado una autorización anterior."
   },
+  "ownListingSources": {
+    "moreAvailable": "Hay más proveedores disponibles. Esta lista aún no está completa.",
+    "loadMore": "Mostrar más proveedores",
+    "loadingMore": "Cargando más proveedores…",
+    "loadMoreError": "No se pudieron cargar más proveedores. Esta lista no está completa.",
+    "retry": "Intentar de nuevo"
+  },
   "adminUsers": {
     "title": "Gestión de usuarios",
     "description": "Busque resúmenes de cuentas, revise sus detalles y aplique por separado los cambios de perfil, rol y plan.",

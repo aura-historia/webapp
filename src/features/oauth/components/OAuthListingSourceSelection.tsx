@@ -1,14 +1,19 @@
 import { useTranslation } from "react-i18next";
 import type { OAuthListingSource } from "@/features/oauth/hooks/useOAuthListingSources.ts";
+import type { OwnListingSourcesPaging } from "@/features/partner/common/api/useOwnListingSources.ts";
+import { OwnListingSourcesMore } from "@/features/partner/common/components/OwnListingSourcesMore.tsx";
 
 interface OAuthListingSourceSelectionProps {
     readonly listingSources: readonly OAuthListingSource[];
+    /** Paging state of the shared granted-source read. */
+    readonly listingSourcePages: OwnListingSourcesPaging;
     readonly selectedListingSourceId: string | undefined;
     readonly onSelectListingSource: (listingSourceId: string) => void;
 }
 
 export function OAuthListingSourceSelection({
     listingSources,
+    listingSourcePages,
     selectedListingSourceId,
     onSelectListingSource,
 }: OAuthListingSourceSelectionProps) {
@@ -53,6 +58,7 @@ export function OAuthListingSourceSelection({
                     );
                 })}
             </fieldset>
+            <OwnListingSourcesMore listingSources={listingSourcePages} />
         </div>
     );
 }
