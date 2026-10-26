@@ -728,13 +728,13 @@
       },
       "pro": {
         "name": "Pro",
-        "description": "Per collezionisti che seguono pezzi importanti attraverso fornitori e tempo.",
+        "description": "Per collezionisti che seguono pezzi importanti tra fornitori diversi e nel tempo.",
         "features": {
           "search": "Ricerca illimitata tra tutti i fornitori indicizzati",
           "watchlistItems": "100 oggetti nella lista privata",
           "searchAlerts": "5 avvisi di ricerca attivi",
-          "alertMatches": "Notifiche di risultati da avviso illimitate",
-          "alertCriteria": "Avvisi per fornitore, asta, data, posizione e spedizione",
+          "alertMatches": "Notifiche illimitate di risultati da avviso",
+          "alertCriteria": "Avvisi anche per fornitore, asta, data, posizione e spedizione",
           "matching": "Confronto su testo dell’annuncio e fino a 1 immagine"
         }
       },
@@ -745,10 +745,10 @@
           "search": "Ricerca illimitata tra tutti i fornitori indicizzati",
           "watchlistItems": "Lista privata illimitata",
           "searchAlerts": "Avvisi di ricerca attivi illimitati",
-          "alertMatches": "Notifiche di risultati da avviso illimitate",
-          "alertCriteria": "Avvisi per fornitore, asta, data, posizione e spedizione",
+          "alertMatches": "Notifiche illimitate di risultati da avviso",
+          "alertCriteria": "Avvisi anche per fornitore, asta, data, posizione e spedizione",
           "matching": "Confronto su testo dell’annuncio e fino a 4 immagini",
-          "searchInstructions": "Istruzioni di ricerca personalizzate per un confronto più preciso"
+          "searchInstructions": "Istruzioni di ricerca personalizzate per un confronto avanzato"
         }
       },
       "monthly": "Mensile",
@@ -834,7 +834,7 @@
       "agent": {
         "kicker": "Istruzioni di ricerca",
         "title": "Descrivilo una volta. Il tuo avviso resta attento.",
-        "body": "Con Ultimate, aggiungi a un avviso di ricerca istruzioni scritte con parole tue (epoca, forma, dimensioni, condizioni, budget, uso previsto). I nuovi annunci vengono confrontati con il loro testo e fino a quattro immagini, e ti avvisiamo dei risultati.",
+        "body": "Con Ultimate, aggiungi a un avviso di ricerca istruzioni scritte con parole tue (epoca, forma, dimensioni, condizioni, budget, uso previsto). I nuovi annunci vengono valutati in base al testo e a un massimo di quattro immagini, e ti avvisiamo dei risultati.",
         "demoLabel": "Esempio di istruzioni di ricerca per un avviso e i suoi due risultati più recenti",
         "review": "Vedi",
         "examples": {
@@ -879,7 +879,7 @@
       },
       "alerts": {
         "kicker": "Avvisi di ricerca",
-        "title": "Sii il primo quando riaffiora.",
+        "title": "Sappi quando riaffiora.",
         "body": "Descrivi una volta ciò che cerchi. Osserviamo l’offerta appena indicizzata e aggiornata e riportiamo alla tua attenzione gli oggetti giusti.",
         "demoLabel": "Un avviso di ricerca attivo per dipinti di antichi maestri tra 5.000 € e 15.000 €",
         "name": "Dipinto di antico maestro",

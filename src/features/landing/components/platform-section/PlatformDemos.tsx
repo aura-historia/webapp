@@ -44,7 +44,8 @@ function useAnimateWhenVisible(ref: RefObject<HTMLElement | null>): boolean {
 
 /**
  * Example search instructions for an Ultimate search alert, typed out like a visitor writing
- * them, with the criteria they cover and the alert's latest matches. It cycles through a few briefs.
+ * them, with illustrative tags for what they describe and the alert's latest matches. It cycles
+ * through a few briefs.
  */
 export function AgentDemo() {
     const { t } = useTranslation();

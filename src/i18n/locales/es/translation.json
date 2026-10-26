@@ -123,7 +123,7 @@
     "sections": {
       "discover": "Descubrir",
       "platform": "Plataforma",
-      "agent": "Instrucciones de búsqueda",
+      "agent": "Instrucciones",
       "dealers": "Para comerciantes",
       "pricing": "Precios"
     },
@@ -733,8 +733,8 @@
           "search": "Búsqueda ilimitada en todos los proveedores indexados",
           "watchlistItems": "100 piezas en la lista privada",
           "searchAlerts": "5 alertas de búsqueda activas",
-          "alertMatches": "Notificaciones de coincidencias de alertas ilimitadas",
-          "alertCriteria": "Alertas por proveedor, subasta, fecha, ubicación y envío",
+          "alertMatches": "Notificaciones ilimitadas de coincidencias de alertas",
+          "alertCriteria": "Alertas también por proveedor, subasta, fecha, ubicación y envío",
           "matching": "Coincidencias según el texto del anuncio y hasta 1 imagen"
         }
       },
@@ -745,10 +745,10 @@
           "search": "Búsqueda ilimitada en todos los proveedores indexados",
           "watchlistItems": "Lista privada ilimitada",
           "searchAlerts": "Alertas de búsqueda activas ilimitadas",
-          "alertMatches": "Notificaciones de coincidencias de alertas ilimitadas",
-          "alertCriteria": "Alertas por proveedor, subasta, fecha, ubicación y envío",
+          "alertMatches": "Notificaciones ilimitadas de coincidencias de alertas",
+          "alertCriteria": "Alertas también por proveedor, subasta, fecha, ubicación y envío",
           "matching": "Coincidencias según el texto del anuncio y hasta 4 imágenes",
-          "searchInstructions": "Instrucciones de búsqueda propias para coincidencias más precisas"
+          "searchInstructions": "Instrucciones de búsqueda propias para una coincidencia ampliada"
         }
       },
       "monthly": "Mensual",
@@ -834,7 +834,7 @@
       "agent": {
         "kicker": "Instrucciones de búsqueda",
         "title": "Descríbelo una vez. Tu alerta de búsqueda sigue atenta.",
-        "body": "Con Ultimate, añade a una alerta de búsqueda instrucciones con tus propias palabras (época, forma, escala, estado, presupuesto, uso previsto). Los nuevos anuncios se comparan con su texto y hasta cuatro imágenes, y te avisamos de las coincidencias.",
+        "body": "Con Ultimate, añade a una alerta de búsqueda instrucciones con tus propias palabras (época, forma, escala, estado, presupuesto, uso previsto). Los nuevos anuncios se evalúan a partir de su texto y de hasta cuatro imágenes, y te avisamos de las coincidencias.",
         "demoLabel": "Ejemplo de instrucciones de búsqueda para una alerta y sus dos coincidencias más recientes",
         "review": "Revisar",
         "examples": {
@@ -879,7 +879,7 @@
       },
       "alerts": {
         "kicker": "Alertas de búsqueda",
-        "title": "Sé el primero cuando aparezca.",
+        "title": "Entérate cuando aparezca.",
         "body": "Describe una vez lo que buscas. Vigilamos la oferta recién indexada y actualizada y te devolvemos a la vista los objetos adecuados.",
         "demoLabel": "Una alerta de búsqueda activa para pinturas de maestros antiguos entre 5.000 € y 15.000 €",
         "name": "Pintura de maestro antiguo",

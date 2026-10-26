@@ -123,7 +123,7 @@
     "sections": {
       "discover": "Découvrir",
       "platform": "Plateforme",
-      "agent": "Consignes de recherche",
+      "agent": "Consignes",
       "dealers": "Pour les marchands",
       "pricing": "Tarifs"
     },
@@ -728,13 +728,13 @@
       },
       "pro": {
         "name": "Pro",
-        "description": "Pour les collectionneurs qui suivent des pièces sérieuses à travers les fournisseurs et le temps.",
+        "description": "Pour les collectionneurs qui suivent des pièces sérieuses chez différents fournisseurs et dans la durée.",
         "features": {
           "search": "Recherche illimitée parmi tous les fournisseurs indexés",
           "watchlistItems": "100 objets dans la liste privée",
           "searchAlerts": "5 alertes de recherche actives",
-          "alertMatches": "Notifications de correspondances d’alerte illimitées",
-          "alertCriteria": "Alertes par fournisseur, vente aux enchères, date, localisation et livraison",
+          "alertMatches": "Notifications illimitées de correspondances d’alerte",
+          "alertCriteria": "Alertes également par fournisseur, vente aux enchères, date, localisation et livraison",
           "matching": "Correspondance sur le texte de l’annonce et jusqu’à 1 image"
         }
       },
@@ -745,8 +745,8 @@
           "search": "Recherche illimitée parmi tous les fournisseurs indexés",
           "watchlistItems": "Liste privée illimitée",
           "searchAlerts": "Alertes de recherche actives illimitées",
-          "alertMatches": "Notifications de correspondances d’alerte illimitées",
-          "alertCriteria": "Alertes par fournisseur, vente aux enchères, date, localisation et livraison",
+          "alertMatches": "Notifications illimitées de correspondances d’alerte",
+          "alertCriteria": "Alertes également par fournisseur, vente aux enchères, date, localisation et livraison",
           "matching": "Correspondance sur le texte de l’annonce et jusqu’à 4 images",
           "searchInstructions": "Consignes de recherche personnalisées pour une correspondance affinée"
         }
@@ -834,7 +834,7 @@
       "agent": {
         "kicker": "Consignes de recherche",
         "title": "Décrivez-le une fois. Votre alerte reste attentive.",
-        "body": "Avec Ultimate, ajoutez à une alerte de recherche des consignes rédigées avec vos propres mots (époque, forme, dimensions, état, budget, usage prévu). Les nouvelles annonces sont comparées à leur texte et à quatre images au plus, et nous vous informons des correspondances.",
+        "body": "Avec Ultimate, ajoutez à une alerte de recherche des consignes rédigées avec vos propres mots (époque, forme, dimensions, état, budget, usage prévu). Les nouvelles annonces sont analysées à partir de leur texte et de quatre images au plus, et nous vous informons des correspondances.",
         "demoLabel": "Exemple de consignes de recherche pour une alerte et ses deux derniers résultats",
         "review": "Consulter",
         "examples": {
@@ -879,7 +879,7 @@
       },
       "alerts": {
         "kicker": "Alertes de recherche",
-        "title": "Soyez le premier quand elle refait surface.",
+        "title": "Sachez quand elle refait surface.",
         "body": "Décrivez une fois ce que vous cherchez. Nous surveillons l’offre nouvellement indexée et mise à jour et ramenons les bons objets sous vos yeux.",
         "demoLabel": "Une alerte de recherche active pour des tableaux de maîtres anciens entre 5 000 € et 15 000 €",
         "name": "Tableau de maître ancien",

@@ -734,7 +734,7 @@
           "watchlistItems": "100 objects on the private watchlist",
           "searchAlerts": "5 active search alerts",
           "alertMatches": "Unlimited search-alert match notifications",
-          "alertCriteria": "Search alerts by provider, auction, date, location, and shipping",
+          "alertCriteria": "Search alerts also by provider, auction, date, location, and shipping",
           "matching": "Matching on the listing text and up to 1 image"
         }
       },
@@ -746,7 +746,7 @@
           "watchlistItems": "Unlimited private watchlist",
           "searchAlerts": "Unlimited active search alerts",
           "alertMatches": "Unlimited search-alert match notifications",
-          "alertCriteria": "Search alerts by provider, auction, date, location, and shipping",
+          "alertCriteria": "Search alerts also by provider, auction, date, location, and shipping",
           "matching": "Matching on the listing text and up to 4 images",
           "searchInstructions": "Custom search instructions for enhanced matching"
         }
@@ -834,7 +834,7 @@
       "agent": {
         "kicker": "Search instructions",
         "title": "Describe it once. Your search alert keeps watching.",
-        "body": "With Ultimate, add instructions in your own words to a search alert — era, form, scale, condition, budget, intended use. New listings are matched against their text and up to four images, and we notify you of matches.",
+        "body": "With Ultimate, add instructions in your own words to a search alert — era, form, scale, condition, budget, intended use. New listings are matched using their text and up to four images, and we notify you of matches.",
         "demoLabel": "Example search instructions for a search alert and its two latest matches",
         "review": "Review",
         "examples": {
@@ -879,7 +879,7 @@
       },
       "alerts": {
         "kicker": "Search alerts",
-        "title": "Be first when it surfaces.",
+        "title": "Know when it surfaces.",
         "body": "Describe what you want once. We watch newly indexed and updated inventory and bring the right objects back into view.",
         "demoLabel": "An active search alert for Old Master paintings between €5,000 and €15,000",
         "name": "Old Master painting",

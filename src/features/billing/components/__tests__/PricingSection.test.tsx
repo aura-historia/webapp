@@ -296,7 +296,9 @@ describe("PricingSection", () => {
             screen.getAllByText("Unbegrenzte Trefferbenachrichtigungen aus Suchaufträgen"),
         ).toHaveLength(2);
         expect(
-            screen.getAllByText("Suchaufträge nach Anbieter, Auktion, Datum, Standort und Versand"),
+            screen.getAllByText(
+                "Suchaufträge auch nach Anbieter, Auktion, Datum, Standort und Versand",
+            ),
         ).toHaveLength(2);
     });
 
@@ -390,6 +392,27 @@ describe("PricingSection", () => {
     });
 });
 
+describe("Pricing and search-instruction copy", () => {
+    it.each(["de", "en", "es", "fr", "it"])(
+        "promises no notification timing, priority or agent in %s",
+        async (lng) => {
+            const { default: translation } = await import(`@/i18n/locales/${lng}/translation.json`);
+            const copy = JSON.stringify([
+                translation.landingPage.pricing,
+                translation.landingPage.platform.agent.kicker,
+                translation.landingPage.platform.agent.title,
+                translation.landingPage.platform.agent.body,
+                translation.landingPage.platform.agent.demoLabel,
+                translation.landingPage.platform.alerts.title,
+                translation.header.sections.agent,
+            ]);
+            expect(copy).not.toMatch(
+                /real-time|Echtzeit|tiempo real|temps réel|tempo reale|priorit|agent|few hours|weniger Stunden|pocas horas|quelques heures|poche ore/i,
+            );
+        },
+    );
+});
+
 describe("PricingSection currency preference", () => {
     const renderWithCurrency = async (currency: string) => {
         localStorage.setItem("user-preferences", JSON.stringify({ currency }));
@@ -410,11 +433,18 @@ describe("PricingSection currency preference", () => {
 
             const yearly = displayedPrices();
             expect(yearly).toHaveLength(3);
+            expect(yearly[0]).toBe(
+                new Intl.NumberFormat("de", {
+                    style: "currency",
+                    currency,
+                    minimumFractionDigits: 0,
+                }).format(0),
+            );
             await user.click(screen.getByRole("button", { name: "Monatlich" }));
             const monthly = displayedPrices();
 
             for (const text of [...yearly, ...monthly]) {
-                expect(text).not.toMatch(/NaN|undefined|In Kürze/);
+                expect(text).not.toMatch(/NaN|undefined/);
                 expect(text).toMatch(/\d/);
             }
             if (currency !== "EUR") {

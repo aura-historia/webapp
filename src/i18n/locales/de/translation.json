@@ -734,7 +734,7 @@
           "watchlistItems": "100 Objekte in der privaten Merkliste",
           "searchAlerts": "5 aktive Suchaufträge",
           "alertMatches": "Unbegrenzte Trefferbenachrichtigungen aus Suchaufträgen",
-          "alertCriteria": "Suchaufträge nach Anbieter, Auktion, Datum, Standort und Versand",
+          "alertCriteria": "Suchaufträge auch nach Anbieter, Auktion, Datum, Standort und Versand",
           "matching": "Abgleich anhand des Angebotstexts und bis zu 1 Bild"
         }
       },
@@ -746,7 +746,7 @@
           "watchlistItems": "Unbegrenzte Merkliste",
           "searchAlerts": "Unbegrenzt viele aktive Suchaufträge",
           "alertMatches": "Unbegrenzte Trefferbenachrichtigungen aus Suchaufträgen",
-          "alertCriteria": "Suchaufträge nach Anbieter, Auktion, Datum, Standort und Versand",
+          "alertCriteria": "Suchaufträge auch nach Anbieter, Auktion, Datum, Standort und Versand",
           "matching": "Abgleich anhand des Angebotstexts und bis zu 4 Bildern",
           "searchInstructions": "Eigene Suchanweisungen für einen erweiterten Abgleich"
         }
@@ -879,7 +879,7 @@
       },
       "alerts": {
         "kicker": "Suchaufträge",
-        "title": "Als Erster sehen, was auftaucht.",
+        "title": "Sehen, wenn es auftaucht.",
         "body": "Beschreiben Sie einmal, was Sie suchen. Wir beobachten neu erfasste und aktualisierte Angebote und bringen die passenden Objekte zurück in den Blick.",
         "demoLabel": "Ein aktiver Suchauftrag für Gemälde Alter Meister zwischen 5.000 € und 15.000 €",
         "name": "Gemälde Alter Meister",
