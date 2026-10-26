@@ -171,7 +171,9 @@ To adopt a backend revision:
   map to the `UNKNOWN` change.
 - Listing search, dealer listings and saved filters send the exclusion as
   `excludeProductListingId`. The internal `SearchFilterArguments.excludeProductId` and the
-  `excludeProductId` search URL parameter keep their names, so shared links still work.
+  `excludeProductId` search URL parameter keep their names, so shared links still work. The
+  dealer rail requests one extra listing and also drops the viewed listing itself, so it never
+  shows the current listing even if the API filter misses it.
 - Legacy product URL routes are intentional redirects. Removed shop metadata, taxonomy,
   seller-name, shop-type and price-sort controls stay retired rather than sent to removed APIs.
 
