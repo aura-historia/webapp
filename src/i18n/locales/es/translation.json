@@ -1432,7 +1432,8 @@
       "facebook": {
         "continue": "Continuar con Facebook"
       },
-      "redirectFailure": "No se pudo completar el inicio de sesión. Inténtelo de nuevo o inicie sesión con su correo electrónico."
+      "redirectFailure": "No se pudo completar el inicio de sesión. Inténtelo de nuevo o inicie sesión con su correo electrónico.",
+      "redirectTooLong": "Esta solicitud es demasiado larga para continuar con esta opción de inicio de sesión. Inicie sesión con su correo electrónico."
     },
     "signUp": {
       "firstName": "Nombre",

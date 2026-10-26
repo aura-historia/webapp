@@ -219,6 +219,97 @@ describe("OAuthAuthorizePage", () => {
         },
     );
 
+    it.each([
+        ["an unregistered redirect URI", { redirect_uri: "https://attacker.example/callback" }],
+        [
+            "a redirect URI that only shares the registered prefix",
+            { redirect_uri: "https://client.example/callback/../other" },
+        ],
+        [
+            "a redirect URI with an added query",
+            { redirect_uri: "https://client.example/callback?next=https://attacker.example" },
+        ],
+        ["metadata for another client", { client_id: "oc_other_client" }],
+    ])("reports %s without offering approval or a denial redirect", async (_, change) => {
+        await act(async () =>
+            renderWithRouter(
+                <OAuthAuthorizePage searchParams={{ ...defaultSearchParams, ...change }} />,
+            ),
+        );
+
+        expect(screen.getByText("Ungültige Autorisierungsanfrage")).toBeInTheDocument();
+        expect(screen.queryByRole("button")).not.toBeInTheDocument();
+        expect(document.querySelector("form")).not.toBeInTheDocument();
+        expect(navigate).not.toHaveBeenCalled();
+    });
+
+    it("carries an MCP request to the direct callback without listing-source routing", async () => {
+        const mcpSearchParams: OAuthAuthorizeSearchParams = {
+            ...defaultSearchParams,
+            redirect_uri: "https://claude.ai/api/mcp/auth_callback",
+            scope: "watchlist:read",
+            state: "mcp-state",
+            resource: "https://mcp.aura-historia.com/v1",
+        };
+        mockUseOAuthClient.mockReturnValue({
+            data: {
+                ...mockClientData,
+                redirectUris: ["https://claude.ai/api/mcp/auth_callback"],
+                scopes: [...ACCESS_TOKEN_SCOPES],
+            },
+            isLoading: false,
+            isError: false,
+        });
+        mockUseOAuthListingSources.mockReturnValue({
+            data: [{ listingSourceId: "ls_cached", name: "Cached source" }],
+            isLoading: false,
+            isError: false,
+        });
+
+        await act(async () =>
+            renderWithRouter(<OAuthAuthorizePage searchParams={mcpSearchParams} />),
+        );
+
+        expect(mockUseOAuthListingSources).toHaveBeenCalledWith(false);
+        expect(screen.queryByText("Cached source")).not.toBeInTheDocument();
+        expect(screen.getAllByRole("listitem").map((item) => item.textContent)).toEqual([
+            expect.stringContaining("watchlist:read"),
+        ]);
+
+        const form = screen
+            .getByRole("button", { name: "Test Partner App den Zugriff auf Ihr Konto erlauben" })
+            .closest("form");
+        if (!form) {
+            throw new Error("Approve form not found");
+        }
+        expect(Object.fromEntries(new FormData(form))).toEqual({
+            lng: "de",
+            response_type: "code",
+            client_id: "01970f22-2bf0-7000-8000-000000000010",
+            redirect_uri: "https://claude.ai/api/mcp/auth_callback",
+            scope: "watchlist:read",
+            state: "mcp-state",
+            resource: "https://mcp.aura-historia.com/v1",
+            code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+            code_challenge_method: "S256",
+        });
+
+        await userEvent
+            .setup()
+            .click(
+                screen.getByRole("button", { name: "Autorisierung für Test Partner App ablehnen" }),
+            );
+        const denied = new URL(navigate.mock.calls[0][0].href);
+        expect(`${denied.origin}${denied.pathname}`).toBe(
+            "https://claude.ai/api/mcp/auth_callback",
+        );
+        expect(Object.fromEntries(denied.searchParams)).toEqual({
+            error: "access_denied",
+            error_description: "The user denied the authorization request",
+            state: "mcp-state",
+        });
+    });
+
     it("shows skeleton when client data is loading", async () => {
         mockUseOAuthClient.mockReturnValue({
             data: undefined,

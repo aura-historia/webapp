@@ -21,9 +21,12 @@ function containsControlCharacters(value: string): boolean {
 }
 
 function isSafeRedirectPath(value: string): boolean {
+    return value.length <= MAX_REDIRECT_PATH_LENGTH && isSameOriginRedirectPath(value);
+}
+
+function isSameOriginRedirectPath(value: string): boolean {
     if (
         value.length === 0 ||
-        value.length > MAX_REDIRECT_PATH_LENGTH ||
         !value.startsWith("/") ||
         value.startsWith("//") ||
         value.includes("\\") ||
@@ -48,6 +51,28 @@ function isFederatedAuthIntent(value: unknown): value is FederatedAuthIntent {
     return value === "sign-in" || value === "sign-up";
 }
 
+/** Whether the destination survives the round trip, including JSON escaping within the state limit. */
+function canCarryRedirectPath(redirectPath: string): boolean {
+    return (
+        isSafeRedirectPath(redirectPath) &&
+        JSON.stringify({ version: 1, intent: "sign-up", locale: "en", redirectPath }).length <=
+            MAX_STATE_LENGTH
+    );
+}
+
+/**
+ * A same-origin destination too long to carry through federated sign-in, such as an oversized
+ * OAuth authorization request. `createFederatedAuthState` would drop it, so callers must tell the
+ * user instead of signing in without it. Unsafe destinations are dropped as before.
+ */
+export function isFederatedRedirectPathTooLong(redirectPath: string | undefined): boolean {
+    return (
+        redirectPath !== undefined &&
+        isSameOriginRedirectPath(redirectPath) &&
+        !canCarryRedirectPath(redirectPath)
+    );
+}
+
 export function createFederatedAuthState(options: {
     intent: FederatedAuthIntent;
     locale: string;
@@ -59,7 +84,7 @@ export function createFederatedAuthState(options: {
         locale: isSupportedLanguage(options.locale) ? options.locale : "en",
     };
 
-    if (options.redirectPath && isSafeRedirectPath(options.redirectPath)) {
+    if (options.redirectPath && canCarryRedirectPath(options.redirectPath)) {
         state.redirectPath = options.redirectPath;
     }
 

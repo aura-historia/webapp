@@ -1432,7 +1432,8 @@
       "facebook": {
         "continue": "Continue with Facebook"
       },
-      "redirectFailure": "Sign-in could not be completed. Please try again or sign in with your email address."
+      "redirectFailure": "Sign-in could not be completed. Please try again or sign in with your email address.",
+      "redirectTooLong": "This request is too long to continue with this sign-in option. Please sign in with your email address instead."
     },
     "errors": {
       "UsernameExistsException": "An account with this email already exists.",
