@@ -267,6 +267,56 @@ describe("/api/oauth/authorize/approve", () => {
         expect(url.searchParams.has("listing_source_id")).toBe(false);
     });
 
+    it("keeps the source requirement through sign-in without sending it to the backend", async () => {
+        const fields = {
+            ...defaultFormFields,
+            requires_listing_source_id: "true",
+            listing_source_id: "shop-1",
+        };
+        mockGetServerAuthToken.mockResolvedValueOnce(undefined);
+
+        const loginResponse = await post(createRequest(fields));
+
+        const loginUrl = new URL(loginResponse.headers.get("Location") ?? "");
+        const authorizeUrl = new URL(loginUrl.searchParams.get("redirect") ?? "", loginUrl.origin);
+        const { lng: _lng, listing_source_id: _listingSourceId, ...retriedFields } = fields;
+        expect(Object.fromEntries(authorizeUrl.searchParams)).toEqual(retriedFields);
+        expect(mockFetch).not.toHaveBeenCalled();
+
+        mockFetch.mockResolvedValue(
+            new Response(null, {
+                status: 302,
+                headers: { Location: "https://client.example/callback?code=auth-code" },
+            }),
+        );
+        const response = await post(createRequest(fields));
+
+        expect(response.headers.get("Location")).toBe(
+            "https://client.example/callback?code=auth-code&listing_source_id=shop-1",
+        );
+        const [backendUrl] = mockFetch.mock.calls[0] as [string, RequestInit];
+        const backendParams = new URL(backendUrl).searchParams;
+        expect(backendParams.has("requires_listing_source_id")).toBe(false);
+        expect(backendParams.has("listing_source_id")).toBe(false);
+    });
+
+    it.each([undefined, ""])(
+        "rejects a required-source approval with listing source %j before requesting a code",
+        async (listingSourceId) => {
+            const response = await post(
+                createRequest({
+                    ...defaultFormFields,
+                    requires_listing_source_id: "true",
+                    listing_source_id: listingSourceId,
+                }),
+            );
+
+            expect(response.status).toBe(400);
+            expect(mockGetServerAuthToken).not.toHaveBeenCalled();
+            expect(mockFetch).not.toHaveBeenCalled();
+        },
+    );
+
     it("does not add optional parameters when scope and state are omitted", async () => {
         mockFetch.mockResolvedValue(
             new Response("Redirect without location", {

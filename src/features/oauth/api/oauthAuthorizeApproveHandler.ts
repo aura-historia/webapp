@@ -8,18 +8,26 @@ const AUTHORIZE_ENDPOINT = "/v1/oauth/authorize";
 const LOGIN_PATH = "/login";
 const AUTHORIZE_PAGE_PATH = "/oauth/authorize";
 
-const oauthAuthorizeFormSchema = z.object({
-    lng: z.string().refine(isSupportedLanguage),
-    response_type: z.literal("code"),
-    client_id: z.string().min(1),
-    redirect_uri: z.string().min(1),
-    scope: z.string().optional(),
-    state: z.string().optional(),
-    resource: z.string().optional(),
-    listing_source_id: z.string().optional(),
-    code_challenge: z.string().min(1),
-    code_challenge_method: z.literal("S256"),
-});
+const oauthAuthorizeFormSchema = z
+    .object({
+        lng: z.string().refine(isSupportedLanguage),
+        response_type: z.literal("code"),
+        client_id: z.string().min(1),
+        redirect_uri: z.string().min(1),
+        scope: z.string().optional(),
+        state: z.string().optional(),
+        resource: z.string().optional(),
+        /** Consent routing flag: it returns through sign-in but is never sent to the backend. */
+        requires_listing_source_id: z
+            .enum(["true", "false"])
+            .optional()
+            .transform((value) => value === "true"),
+        listing_source_id: z.string().optional(),
+        code_challenge: z.string().min(1),
+        code_challenge_method: z.literal("S256"),
+    })
+    // A client that asks for a source needs it in its callback: never request a code without one.
+    .refine((form) => !form.requires_listing_source_id || Boolean(form.listing_source_id));
 
 type OAuthAuthorizeFormData = z.infer<typeof oauthAuthorizeFormSchema>;
 
@@ -37,6 +45,7 @@ export async function postOAuthAuthorizeApprove({ request }: { request: Request 
         scope: getFormValue(formData, "scope"),
         state: getFormValue(formData, "state"),
         resource: getFormValue(formData, "resource"),
+        requires_listing_source_id: getFormValue(formData, "requires_listing_source_id"),
         listing_source_id: getFormValue(formData, "listing_source_id"),
         code_challenge: getFormValue(formData, "code_challenge"),
         code_challenge_method: getFormValue(formData, "code_challenge_method"),
@@ -102,6 +111,10 @@ function buildBackendAuthorizeUrl(params: OAuthAuthorizeFormData): string {
 function buildLoginRedirectUrl(request: Request, params: OAuthAuthorizeFormData): string {
     const authorizeUrl = new URL(localizePathname(AUTHORIZE_PAGE_PATH, params.lng), request.url);
     appendAuthorizeParams(authorizeUrl.searchParams, params);
+    // The chosen source is not carried: consent asks again against the grants of whoever signs in.
+    if (params.requires_listing_source_id) {
+        authorizeUrl.searchParams.set("requires_listing_source_id", "true");
+    }
 
     const loginUrl = new URL(localizePathname(LOGIN_PATH, params.lng), request.url);
     loginUrl.searchParams.set("redirect", `${authorizeUrl.pathname}${authorizeUrl.search}`);

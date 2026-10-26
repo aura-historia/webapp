@@ -491,6 +491,7 @@ describe("OAuthAuthorizePage", () => {
 
         const formData = new FormData(form);
         expect(formData.get("redirect_uri")).toBe("https://client.example/callback");
+        expect(formData.get("requires_listing_source_id")).toBe("true");
         expect(formData.get("listing_source_id")).toBe("shop-1");
         expect(screen.getByText("Ausgewählter Anbieter")).toBeInTheDocument();
         expect(screen.getByText("Only Shop")).toBeInTheDocument();
