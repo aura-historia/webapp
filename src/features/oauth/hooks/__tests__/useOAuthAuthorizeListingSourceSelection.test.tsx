@@ -34,7 +34,11 @@ describe("listing-source selection", () => {
     it("does not retain a selected source when access is revoked", () => {
         const { result, rerender } = renderHook(
             ({ listingSources }) =>
-                useOAuthAuthorizeListingSourceSelection({ searchParams: params, listingSources }),
+                useOAuthAuthorizeListingSourceSelection({
+                    searchParams: params,
+                    listingSources,
+                    hasMoreListingSources: false,
+                }),
             { initialProps: { listingSources: sources } },
         );
         act(() => result.current.selectListingSource("ls_second"));
@@ -49,6 +53,7 @@ describe("listing-source selection", () => {
             useOAuthAuthorizeListingSourceSelection({
                 searchParams: params,
                 listingSources: sources,
+                hasMoreListingSources: false,
             }),
         );
         act(() => result.current.selectListingSource("ls_ungranted"));
@@ -60,9 +65,47 @@ describe("listing-source selection", () => {
             useOAuthAuthorizeListingSourceSelection({
                 searchParams: params,
                 listingSources: sources.slice(0, 1),
+                hasMoreListingSources: false,
             }),
         );
         expect(result.current.listingSourceId).toBe("ls_first");
+        expect(result.current.shouldShowSelectedListingSource).toBe(true);
+        expect(result.current.requiresListingSourceSelection).toBe(false);
+    });
+
+    it("asks for a choice when the single loaded source is not the last page", () => {
+        const { result } = renderHook(() =>
+            useOAuthAuthorizeListingSourceSelection({
+                searchParams: params,
+                listingSources: sources.slice(0, 1),
+                hasMoreListingSources: true,
+            }),
+        );
+        expect(result.current.listingSourceId).toBeUndefined();
+        expect(result.current.shouldShowSelectedListingSource).toBe(false);
+        expect(result.current.requiresListingSourceSelection).toBe(true);
+    });
+
+    it("selects a source from a later page and drops it when the pages restart", () => {
+        const lastPageSource = { listingSourceId: "ls_last_page", name: "First" };
+        const { result, rerender } = renderHook(
+            ({ listingSources, hasMoreListingSources }) =>
+                useOAuthAuthorizeListingSourceSelection({
+                    searchParams: params,
+                    listingSources,
+                    hasMoreListingSources,
+                }),
+            { initialProps: { listingSources: sources, hasMoreListingSources: true } },
+        );
+        expect(result.current.requiresListingSourceSelection).toBe(true);
+        rerender({ listingSources: [...sources, lastPageSource], hasMoreListingSources: false });
+        act(() => result.current.selectListingSource("ls_last_page"));
+        expect(result.current.listingSourceId).toBe("ls_last_page");
+        expect(result.current.effectiveListingSource).toBe(lastPageSource);
+
+        // A grant refresh restarts from the first page; the unloaded choice is not submitted.
+        rerender({ listingSources: sources, hasMoreListingSources: true });
+        expect(result.current.listingSourceId).toBeUndefined();
     });
 
     it("uses a selected canonical source ID", () => {
@@ -70,6 +113,7 @@ describe("listing-source selection", () => {
             useOAuthAuthorizeListingSourceSelection({
                 searchParams: params,
                 listingSources: sources,
+                hasMoreListingSources: false,
             }),
         );
         act(() => result.current.selectListingSource("ls_second"));
@@ -84,6 +128,7 @@ describe("listing-source selection", () => {
                     useOAuthAuthorizeListingSourceSelection({
                         searchParams,
                         listingSources: sources,
+                        hasMoreListingSources: false,
                     }),
                 { initialProps: { searchParams } },
             );
@@ -103,7 +148,11 @@ describe("listing-source selection", () => {
         const searchParams = { ...params, resource: "https://api.aura-historia.com" };
         const { result, rerender } = renderHook(
             ({ searchParams }) =>
-                useOAuthAuthorizeListingSourceSelection({ searchParams, listingSources: sources }),
+                useOAuthAuthorizeListingSourceSelection({
+                    searchParams,
+                    listingSources: sources,
+                    hasMoreListingSources: false,
+                }),
             { initialProps: { searchParams } },
         );
         act(() => result.current.selectListingSource("ls_second"));
@@ -118,7 +167,11 @@ describe("listing-source selection", () => {
     it("preserves manual selection when the normalized request is unchanged", () => {
         const { result, rerender } = renderHook(
             ({ searchParams }) =>
-                useOAuthAuthorizeListingSourceSelection({ searchParams, listingSources: sources }),
+                useOAuthAuthorizeListingSourceSelection({
+                    searchParams,
+                    listingSources: sources,
+                    hasMoreListingSources: false,
+                }),
             { initialProps: { searchParams: params } },
         );
         act(() => result.current.selectListingSource("ls_second"));
@@ -132,6 +185,7 @@ describe("listing-source selection", () => {
                 useOAuthAuthorizeListingSourceSelection({
                     searchParams,
                     listingSources: sources.slice(0, 1),
+                    hasMoreListingSources: false,
                 }),
             { initialProps: { searchParams: params } },
         );

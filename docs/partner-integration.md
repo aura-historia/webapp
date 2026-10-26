@@ -7,9 +7,12 @@ described in [API contracts](api-contracts.md).
 ## Integration guide
 
 The guide consumes `OwnListingSource` from `useOwnListingSources`; it never treats source access as
-ownership or permission to edit metadata. Failed refreshes and revoked grants remove cached
-selections from the example. Token creation selects only `product-listings:write`. Application
-requests link to application management; the guide does not embed the application form.
+ownership or permission to edit metadata. The provider picker shows the first page of grants and
+loads further pages when the user asks, preselecting a single provider only when no further page
+exists. Failed refreshes, revoked grants and restarted pages remove cached selections from the
+example; a choice belongs to the viewer who made it. Token creation selects only
+`product-listings:write`. Application requests link to application management; the guide does not
+embed the application form.
 
 The authenticated page can mount `AccessTokenCreateDialog`, which displays
 `createdAccessToken.plaintextToken` once and copies it only on the user's explicit action. The

@@ -5,7 +5,10 @@ import { getListingSourceIdFromRedirectUri } from "@/features/oauth/lib/oauthAut
 
 interface UseOAuthAuthorizeListingSourceSelectionParams {
     readonly searchParams: OAuthAuthorizeSearchParams;
-    readonly listingSources: OAuthListingSource[];
+    /** Sources from the pages loaded so far. */
+    readonly listingSources: readonly OAuthListingSource[];
+    /** Further pages exist, so a single loaded source is not the only choice. */
+    readonly hasMoreListingSources: boolean;
 }
 
 interface ListingSourceSelection {
@@ -16,6 +19,7 @@ interface ListingSourceSelection {
 export function useOAuthAuthorizeListingSourceSelection({
     searchParams,
     listingSources,
+    hasMoreListingSources,
 }: UseOAuthAuthorizeListingSourceSelectionParams) {
     const requiresListingSourceId = searchParams.requires_listing_source_id;
     const authorizationRequestId = getAuthorizationRequestId(searchParams);
@@ -37,11 +41,13 @@ export function useOAuthAuthorizeListingSourceSelection({
             ? selection.listingSourceId
             : redirectUriListingSourceId;
 
+    // A choice counts only while its source is among the currently loaded grants.
     const selectedListingSource = selectedListingSourceId
         ? listingSources.find((source) => source.listingSourceId === selectedListingSourceId)
         : undefined;
+    const hasOnlyListingSource = listingSources.length === 1 && !hasMoreListingSources;
     const effectiveListingSource = requiresListingSourceId
-        ? listingSources.length === 1
+        ? hasOnlyListingSource
             ? listingSources[0]
             : selectedListingSource
         : undefined;
@@ -52,8 +58,8 @@ export function useOAuthAuthorizeListingSourceSelection({
         effectiveListingSourceId: listingSourceId,
         listingSourceId,
         requestedScopes: searchParams.scope?.split(" ").filter(Boolean) ?? [],
-        requiresListingSourceSelection: requiresListingSourceId && listingSources.length > 1,
-        shouldShowSelectedListingSource: requiresListingSourceId && listingSources.length === 1,
+        requiresListingSourceSelection: requiresListingSourceId && !hasOnlyListingSource,
+        shouldShowSelectedListingSource: requiresListingSourceId && hasOnlyListingSource,
         selectListingSource: (listingSourceId: string) =>
             setSelection({
                 authorizationRequestId,

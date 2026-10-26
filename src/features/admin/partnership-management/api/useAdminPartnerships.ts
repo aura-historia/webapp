@@ -154,9 +154,11 @@ async function invalidatePartnershipState(
     partnershipId: string,
     removeDetail = false,
 ) {
-    // Fail closed while the server refreshes the viewer's source access and its available choices.
-    await queryClient.cancelQueries({ queryKey: OWN_LISTING_SOURCES_QUERY_KEY });
-    queryClient.setQueryData(OWN_LISTING_SOURCES_QUERY_KEY, []);
+    // Fail closed while the server refreshes the viewer's source access and its available choices:
+    // cancel pending pages and drop every loaded one, so the choices restart from the first page.
+    const ownListingSourcesReset = queryClient.resetQueries({
+        queryKey: OWN_LISTING_SOURCES_QUERY_KEY,
+    });
 
     if (removeDetail) {
         queryClient.removeQueries({ queryKey: adminPartnershipDetailQueryKey(partnershipId) });
@@ -165,7 +167,7 @@ async function invalidatePartnershipState(
     await Promise.all([
         queryClient.invalidateQueries({ queryKey: ADMIN_PARTNERSHIPS_QUERY_KEY }),
         queryClient.invalidateQueries({ queryKey: ADMIN_OVERVIEW_QUERY_KEY }),
-        queryClient.invalidateQueries({ queryKey: OWN_LISTING_SOURCES_QUERY_KEY }),
+        ownListingSourcesReset,
     ]);
 }
 

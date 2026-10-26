@@ -21,14 +21,24 @@ const authState = vi.hoisted(() => ({
 }));
 
 const listingSourceState = vi.hoisted(() => ({
-    data: [
+    sources: [
         { listingSourceId: "shop-1", listingSourceSlugId: "erster-shop", name: "Erster Shop" },
         { listingSourceId: "shop-2", listingSourceSlugId: "zweiter-shop", name: "Zweiter Shop" },
     ],
     isPending: false,
     isError: false,
-    refetch: vi.fn(),
+    hasMore: false,
+    canLoadMore: false,
+    isLoadingMore: false,
+    isLoadMoreError: false,
+    loadMore: vi.fn(),
+    retry: vi.fn(),
 }));
+const lastPageSource = {
+    listingSourceId: "shop-3",
+    listingSourceSlugId: "letzter",
+    name: "Letzter Shop",
+};
 
 vi.mock(
     "@/features/partner/partner-program/components/api-reference/PartnerProductsApiReference.tsx",
@@ -65,7 +75,7 @@ describe("PartnerCustomIntegrationPage", () => {
         vi.clearAllMocks();
         authState.isAuthenticated = true;
         authState.isResolved = true;
-        listingSourceState.data = [
+        listingSourceState.sources = [
             { listingSourceId: "shop-1", listingSourceSlugId: "erster-shop", name: "Erster Shop" },
             {
                 listingSourceId: "shop-2",
@@ -75,6 +85,10 @@ describe("PartnerCustomIntegrationPage", () => {
         ];
         listingSourceState.isPending = false;
         listingSourceState.isError = false;
+        listingSourceState.hasMore = false;
+        listingSourceState.canLoadMore = false;
+        listingSourceState.isLoadingMore = false;
+        listingSourceState.isLoadMoreError = false;
 
         await act(async () => {
             renderWithRouter(<PartnerCustomIntegrationPage />);
@@ -87,7 +101,7 @@ describe("PartnerCustomIntegrationPage", () => {
             renderWithRouter(<RefreshableIntegrationPage />);
         });
         fireEvent.click(screen.getByRole("radio", { name: "Zweiter Shop" }));
-        listingSourceState.data = [];
+        listingSourceState.sources = [];
         fireEvent.click(screen.getByRole("button", { name: "Refresh view" }));
         expect(screen.queryByRole("radio")).not.toBeInTheDocument();
         expect(
@@ -109,9 +123,14 @@ describe("PartnerCustomIntegrationPage", () => {
             renderWithRouter(<RefreshableIntegrationPage />);
         });
         fireEvent.click(screen.getByRole("radio", { name: "Zweiter Shop" }));
+        // The shared hook withholds every loaded page after a failed refresh.
         listingSourceState.isError = true;
+        listingSourceState.sources = [];
         fireEvent.click(screen.getByRole("button", { name: "Refresh view" }));
         expect(screen.queryByRole("radio")).not.toBeInTheDocument();
+        expect(screen.getByTestId("partner-product-code-example")).not.toHaveTextContent(
+            "/listing-sources/shop-2/product-listings",
+        );
         expect(
             screen.queryByRole("link", { name: /Meine Shop-Seite öffnen/i }),
         ).not.toBeInTheDocument();
@@ -120,9 +139,75 @@ describe("PartnerCustomIntegrationPage", () => {
         ).toBeInTheDocument();
     });
 
+    it("reaches a provider on the final page and keeps that choice", async () => {
+        cleanup();
+        listingSourceState.hasMore = true;
+        listingSourceState.canLoadMore = true;
+        await act(async () => {
+            renderWithRouter(<RefreshableIntegrationPage />);
+        });
+        expect(
+            screen.getByText(
+                "Weitere Anbieter sind verfügbar. Diese Liste ist noch nicht vollständig.",
+            ),
+        ).toBeInTheDocument();
+        fireEvent.click(screen.getByRole("button", { name: "Weitere Anbieter anzeigen" }));
+        expect(listingSourceState.loadMore).toHaveBeenCalledOnce();
+
+        listingSourceState.sources = [...listingSourceState.sources, lastPageSource];
+        listingSourceState.hasMore = false;
+        listingSourceState.canLoadMore = false;
+        fireEvent.click(screen.getByRole("button", { name: "Refresh view" }));
+        expect(
+            screen.queryByRole("button", { name: "Weitere Anbieter anzeigen" }),
+        ).not.toBeInTheDocument();
+        fireEvent.click(screen.getByRole("radio", { name: "Letzter Shop" }));
+        expect(screen.getByTestId("partner-product-code-example")).toHaveTextContent(
+            "/listing-sources/shop-3/product-listings",
+        );
+
+        // Restarted pages no longer include the choice, so it is neither shown nor used.
+        listingSourceState.sources = listingSourceState.sources.slice(0, 2);
+        listingSourceState.hasMore = true;
+        fireEvent.click(screen.getByRole("button", { name: "Refresh view" }));
+        expect(
+            screen.getAllByRole("radio").some((radio) => (radio as HTMLInputElement).checked),
+        ).toBe(false);
+        expect(screen.getByText("YOUR_LISTING_SOURCE_ID").tagName).toBe("MARK");
+    });
+
+    it("does not preselect a single loaded provider while more pages exist", async () => {
+        cleanup();
+        listingSourceState.sources = listingSourceState.sources.slice(0, 1);
+        listingSourceState.hasMore = true;
+        await act(async () => {
+            renderWithRouter(<PartnerCustomIntegrationPage />);
+        });
+        expect(screen.getByRole("radio", { name: "Erster Shop" })).not.toBeChecked();
+        expect(screen.getByText("YOUR_LISTING_SOURCE_ID").tagName).toBe("MARK");
+    });
+
+    it("keeps loaded providers when the next page fails and requests it again", async () => {
+        cleanup();
+        listingSourceState.hasMore = true;
+        listingSourceState.canLoadMore = true;
+        listingSourceState.isLoadMoreError = true;
+        await act(async () => {
+            renderWithRouter(<PartnerCustomIntegrationPage />);
+        });
+        expect(screen.getByRole("radio", { name: "Zweiter Shop" })).toBeInTheDocument();
+        expect(
+            screen.getByText(
+                "Weitere Anbieter konnten nicht geladen werden. Diese Liste ist nicht vollständig.",
+            ),
+        ).toHaveAttribute("role", "alert");
+        fireEvent.click(screen.getByRole("button", { name: "Erneut versuchen" }));
+        expect(listingSourceState.loadMore).toHaveBeenCalledOnce();
+    });
+
     it("shows pending existing-source proposals with an application-management link", async () => {
         cleanup();
-        listingSourceState.data = [];
+        listingSourceState.sources = [];
         applicationState.data = [
             {
                 id: "pa_existing",
@@ -142,7 +227,7 @@ describe("PartnerCustomIntegrationPage", () => {
 
     it("shows proposed source names without inventing source access", async () => {
         cleanup();
-        listingSourceState.data = [];
+        listingSourceState.sources = [];
         applicationState.data = [
             {
                 id: "pa_proposed",
@@ -169,7 +254,7 @@ describe("PartnerCustomIntegrationPage", () => {
         "does not treat %s applications as pending or granted sources",
         async (state) => {
             cleanup();
-            listingSourceState.data = [];
+            listingSourceState.sources = [];
             applicationState.data = [
                 {
                     id: "pa_terminal",
@@ -230,7 +315,7 @@ describe("PartnerCustomIntegrationPage", () => {
 
     it("selects the only granted source by default", async () => {
         cleanup();
-        listingSourceState.data = [
+        listingSourceState.sources = [
             { listingSourceId: "shop-1", listingSourceSlugId: "erster-shop", name: "Erster Shop" },
         ];
 
@@ -246,7 +331,7 @@ describe("PartnerCustomIntegrationPage", () => {
 
     it("links to application management when no sources are granted", async () => {
         cleanup();
-        listingSourceState.data = [];
+        listingSourceState.sources = [];
         await act(async () => {
             renderWithRouter(<PartnerCustomIntegrationPage />);
         });

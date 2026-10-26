@@ -3104,6 +3104,13 @@
     "loadError": "Non è stato possibile verificare l’accesso ai fornitori. I permessi potrebbero essere cambiati. Riprovi.",
     "empty": "Al momento non ha accesso ad alcun fornitore. Un accesso precedente potrebbe essere stato revocato."
   },
+  "ownListingSources": {
+    "moreAvailable": "Sono disponibili altri fornitori. Questo elenco non è ancora completo.",
+    "loadMore": "Mostra altri fornitori",
+    "loadingMore": "Caricamento di altri fornitori…",
+    "loadMoreError": "Non è stato possibile caricare altri fornitori. Questo elenco non è completo.",
+    "retry": "Riprova"
+  },
   "adminUsers": {
     "title": "Gestione utenti",
     "description": "Cerca riepiloghi degli account, esamina i dettagli e modifica separatamente profilo, ruolo e piano.",

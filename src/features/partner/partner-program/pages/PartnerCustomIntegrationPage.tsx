@@ -8,9 +8,11 @@ import {
 } from "@/features/landing/components/common/SectionHeading.tsx";
 import {
     type OwnListingSource,
+    type OwnListingSources,
     useOwnListingSources,
 } from "@/features/partner/common/api/useOwnListingSources.ts";
 import { AccessTokenCreateDialog } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
+import { OwnListingSourcesMore } from "@/features/partner/common/components/OwnListingSourcesMore.tsx";
 import { cn } from "@/lib/utils.ts";
 import { PARTNER_CREATE_EXAMPLE } from "../config/partnerRequestExamples.ts";
 import { ClientOnly, Link } from "@tanstack/react-router";
@@ -81,27 +83,20 @@ function buildCurlCommand(listingSourceId: string) {
 
 export default function PartnerCustomIntegrationPage() {
     const { t } = useTranslation();
-    const [selectedListingSourceId, setSelectedListingSourceId] = useState<string>();
+    const [selection, setSelection] = useState<ListingSourceSelection>();
     const [createTokenDialogOpen, setCreateTokenDialogOpen] = useState(false);
-    const { isAuthenticated, isResolved } = useResolvedAuth();
-    const {
-        data: grantedSources = [],
-        isPending: areListingSourcesPending,
-        isError: areListingSourcesError,
-        refetch: refetchListingSources,
-    } = useOwnListingSources(isAuthenticated);
+    const { user, isAuthenticated, isResolved } = useResolvedAuth();
+    const listingSourcePages = useOwnListingSources(isAuthenticated);
 
-    const listingSources =
-        isAuthenticated && isResolved && !areListingSourcesError ? grantedSources : [];
-
-    const effectiveSelectedListingSourceId =
-        selectedListingSourceId ??
-        (listingSources.length === 1 ? listingSources[0]?.listingSourceId : undefined);
-    const selectedListingSource = effectiveSelectedListingSourceId
-        ? listingSources.find(
-              (source) => source.listingSourceId === effectiveSelectedListingSourceId,
-          )
-        : undefined;
+    const listingSources = isAuthenticated && isResolved ? listingSourcePages.sources : [];
+    // A choice applies only to the viewer who made it and only while the source is still granted.
+    const selectedListingSourceId =
+        selection?.viewerId === user?.userId ? selection?.listingSourceId : undefined;
+    const selectedListingSource =
+        listingSources.find((source) => source.listingSourceId === selectedListingSourceId) ??
+        (listingSources.length === 1 && !listingSourcePages.hasMore
+            ? listingSources[0]
+            : undefined);
 
     const stepAside: Record<GuideStepKey, ReactNode> = {
         selectSource: (
@@ -109,12 +104,12 @@ export default function PartnerCustomIntegrationPage() {
                 <ListingSourceRequirement
                     isAuthenticated={isAuthenticated}
                     isResolved={isResolved}
-                    isPending={areListingSourcesPending}
-                    isError={areListingSourcesError}
+                    listingSourcePages={listingSourcePages}
                     listingSources={listingSources}
-                    selectedListingSourceId={effectiveSelectedListingSourceId}
-                    onSelectListingSource={setSelectedListingSourceId}
-                    onRetry={() => refetchListingSources()}
+                    selectedListingSourceId={selectedListingSource?.listingSourceId}
+                    onSelectListingSource={(listingSourceId) =>
+                        setSelection({ viewerId: user?.userId, listingSourceId })
+                    }
                 />
                 <PendingPartnershipApplications enabled={isAuthenticated && isResolved} />
             </>
@@ -616,29 +611,31 @@ function RequestAccessTokenAction({
     );
 }
 
+interface ListingSourceSelection {
+    readonly viewerId: string | undefined;
+    readonly listingSourceId: string;
+}
+
 interface ListingSourceRequirementProps {
     readonly isAuthenticated: boolean;
     readonly isResolved: boolean;
-    readonly isPending: boolean;
-    readonly isError: boolean;
+    readonly listingSourcePages: OwnListingSources;
     readonly listingSources: readonly OwnListingSource[];
     readonly selectedListingSourceId: string | undefined;
     readonly onSelectListingSource: (listingSourceId: string) => void;
-    readonly onRetry: () => void;
 }
 
 function ListingSourceRequirement({
     isAuthenticated,
     isResolved,
-    isPending,
-    isError,
+    listingSourcePages,
     listingSources,
     selectedListingSourceId,
     onSelectListingSource,
-    onRetry,
 }: ListingSourceRequirementProps) {
     const { t } = useTranslation();
     const translationBase = "partnerProgram.customIntegrationPage.guide.steps.selectSource";
+    const { isPending, isError, hasMore, retry } = listingSourcePages;
 
     if (!isResolved || (isAuthenticated && isPending)) {
         return (
@@ -678,7 +675,7 @@ function ListingSourceRequirement({
                 <p className="text-body-sm text-ink">{t(`${translationBase}.loadError`)}</p>
                 <button
                     type="button"
-                    onClick={onRetry}
+                    onClick={retry}
                     className={cn(OUTLINE_BUTTON_CLASS, "self-start")}
                 >
                     <RefreshCw aria-hidden="true" className="size-[15px]" strokeWidth={1.8} />
@@ -688,7 +685,7 @@ function ListingSourceRequirement({
         );
     }
 
-    if (listingSources.length === 0) {
+    if (listingSources.length === 0 && !hasMore) {
         return (
             <div className={cn(FIELD_PANEL_CLASS, "flex flex-col gap-3.5")}>
                 <p className="text-body-sm text-ink-secondary">{t(`${translationBase}.empty`)}</p>
@@ -744,6 +741,15 @@ function ListingSourceRequirement({
                     </label>
                 );
             })}
+            <OwnListingSourcesMore
+                listingSources={listingSourcePages}
+                className="mt-1.5 gap-2.5 px-0.5"
+                textClassName="text-body-sm text-ink-secondary"
+                buttonClassName={cn(
+                    OUTLINE_BUTTON_CLASS,
+                    "disabled:cursor-not-allowed disabled:text-ink-muted disabled:hover:shadow-[inset_0_0_0_1px_var(--line-strong)]",
+                )}
+            />
         </fieldset>
     );
 }

@@ -37,13 +37,34 @@ const mockUseOAuthClient = vi.hoisted(() =>
     }),
 );
 
-const mockUseOAuthListingSources = vi.hoisted(() =>
-    vi.fn().mockReturnValue({
-        data: [],
-        isLoading: false,
-        isError: false,
-    }),
-);
+type ListingSourcesState = {
+    sources: { listingSourceId: string; name: string }[];
+    isPending?: boolean;
+    isError?: boolean;
+    hasMore?: boolean;
+};
+
+const loadMoreListingSources = vi.hoisted(() => vi.fn());
+const mockUseOAuthListingSources = vi.hoisted(() => vi.fn());
+
+function listingSourcesState({
+    sources,
+    isPending = false,
+    isError = false,
+    hasMore = false,
+}: ListingSourcesState) {
+    return {
+        sources,
+        isPending,
+        isError,
+        hasMore,
+        canLoadMore: hasMore,
+        isLoadingMore: false,
+        isLoadMoreError: false,
+        loadMore: loadMoreListingSources,
+        retry: vi.fn(),
+    };
+}
 
 vi.mock("@/features/oauth/hooks/useOAuthClient.ts", () => ({
     useOAuthClient: mockUseOAuthClient,
@@ -72,11 +93,7 @@ describe("OAuthAuthorizePage", () => {
             isLoading: false,
             isError: false,
         });
-        mockUseOAuthListingSources.mockReturnValue({
-            data: [],
-            isLoading: false,
-            isError: false,
-        });
+        mockUseOAuthListingSources.mockReturnValue(listingSourcesState({ sources: [] }));
     });
 
     it("renders the authorization page with client name", async () => {
@@ -260,11 +277,11 @@ describe("OAuthAuthorizePage", () => {
             isLoading: false,
             isError: false,
         });
-        mockUseOAuthListingSources.mockReturnValue({
-            data: [{ listingSourceId: "ls_cached", name: "Cached source" }],
-            isLoading: false,
-            isError: false,
-        });
+        mockUseOAuthListingSources.mockReturnValue(
+            listingSourcesState({
+                sources: [{ listingSourceId: "ls_cached", name: "Cached source" }],
+            }),
+        );
 
         await act(async () =>
             renderWithRouter(<OAuthAuthorizePage searchParams={mcpSearchParams} />),
@@ -448,11 +465,9 @@ describe("OAuthAuthorizePage", () => {
     });
 
     it("submits the only available partner shop separately from the redirect URI", async () => {
-        mockUseOAuthListingSources.mockReturnValue({
-            data: [{ listingSourceId: "shop-1", name: "Only Shop" }],
-            isLoading: false,
-            isError: false,
-        });
+        mockUseOAuthListingSources.mockReturnValue(
+            listingSourcesState({ sources: [{ listingSourceId: "shop-1", name: "Only Shop" }] }),
+        );
 
         await act(async () =>
             renderWithRouter(
@@ -482,11 +497,7 @@ describe("OAuthAuthorizePage", () => {
     });
 
     it("shows an error when a partner shop is required but none are available", async () => {
-        mockUseOAuthListingSources.mockReturnValue({
-            data: [],
-            isLoading: false,
-            isError: false,
-        });
+        mockUseOAuthListingSources.mockReturnValue(listingSourcesState({ sources: [] }));
 
         await act(async () =>
             renderWithRouter(
@@ -504,14 +515,14 @@ describe("OAuthAuthorizePage", () => {
 
     it("lets the user choose a partner shop when multiple are available", async () => {
         const user = userEvent.setup();
-        mockUseOAuthListingSources.mockReturnValue({
-            data: [
-                { listingSourceId: "shop-1", name: "First Shop" },
-                { listingSourceId: "shop-2", name: "Second Shop" },
-            ],
-            isLoading: false,
-            isError: false,
-        });
+        mockUseOAuthListingSources.mockReturnValue(
+            listingSourcesState({
+                sources: [
+                    { listingSourceId: "shop-1", name: "First Shop" },
+                    { listingSourceId: "shop-2", name: "Second Shop" },
+                ],
+            }),
+        );
 
         await act(async () =>
             renderWithRouter(
@@ -542,6 +553,101 @@ describe("OAuthAuthorizePage", () => {
         expect(formData.get("listing_source_id")).toBe("shop-2");
     });
 
+    it("reaches and submits a provider from the final page of grants", async () => {
+        const user = userEvent.setup();
+        const firstPage = [
+            { listingSourceId: "shop-1", name: "First Shop" },
+            { listingSourceId: "shop-2", name: "Second Shop" },
+        ];
+        let state = listingSourcesState({ sources: firstPage, hasMore: true });
+        mockUseOAuthListingSources.mockImplementation(() => state);
+        let refresh: () => void = () => {};
+        function OAuthAuthorizePageHarness() {
+            const [, setVersion] = useState(0);
+            refresh = () => setVersion((version) => version + 1);
+            return (
+                <OAuthAuthorizePage
+                    searchParams={{ ...defaultSearchParams, requires_listing_source_id: true }}
+                />
+            );
+        }
+        await act(async () => renderWithRouter(<OAuthAuthorizePageHarness />));
+
+        const approveButton = screen.getByRole("button", {
+            name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
+        });
+        expect(approveButton).toBeDisabled();
+        expect(
+            screen.getByText(
+                "Weitere Anbieter sind verfügbar. Diese Liste ist noch nicht vollständig.",
+            ),
+        ).toBeInTheDocument();
+        await user.click(screen.getByRole("button", { name: "Weitere Anbieter anzeigen" }));
+        expect(loadMoreListingSources).toHaveBeenCalledOnce();
+
+        // A distinct source may share a name with one on an earlier page.
+        state = listingSourcesState({
+            sources: [...firstPage, { listingSourceId: "shop-9", name: "First Shop" }],
+        });
+        act(() => refresh());
+        expect(
+            screen.queryByRole("button", { name: "Weitere Anbieter anzeigen" }),
+        ).not.toBeInTheDocument();
+        const [, lastPageRadio] = screen.getAllByRole("radio", { name: /First Shop/ });
+        await user.click(lastPageRadio);
+        expect(approveButton).toBeEnabled();
+        const form = approveButton.closest("form");
+        if (!form) {
+            throw new Error("Approve form not found");
+        }
+        expect(new FormData(form).get("listing_source_id")).toBe("shop-9");
+
+        // Pages restarted after a grant change no longer include the choice.
+        state = listingSourcesState({ sources: firstPage, hasMore: true });
+        act(() => refresh());
+        expect(approveButton).toBeDisabled();
+        expect(new FormData(form).has("listing_source_id")).toBe(false);
+    });
+
+    it("asks for a choice when one loaded provider is not the last page", async () => {
+        mockUseOAuthListingSources.mockReturnValue(
+            listingSourcesState({
+                sources: [{ listingSourceId: "shop-1", name: "First Shop" }],
+                hasMore: true,
+            }),
+        );
+        await act(async () =>
+            renderWithRouter(
+                <OAuthAuthorizePage
+                    searchParams={{ ...defaultSearchParams, requires_listing_source_id: true }}
+                />,
+            ),
+        );
+        expect(screen.getByRole("radio", { name: /First Shop/ })).not.toBeChecked();
+        expect(screen.queryByText("Ausgewählter Anbieter")).not.toBeInTheDocument();
+        expect(
+            screen.getByRole("button", {
+                name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
+            }),
+        ).toBeDisabled();
+    });
+
+    it("withholds provider choices when the grant read fails", async () => {
+        mockUseOAuthListingSources.mockReturnValue(
+            listingSourcesState({ sources: [], isError: true }),
+        );
+        await act(async () =>
+            renderWithRouter(
+                <OAuthAuthorizePage
+                    searchParams={{ ...defaultSearchParams, requires_listing_source_id: true }}
+                />,
+            ),
+        );
+        expect(screen.getByText("Anbieter konnten nicht geladen werden")).toBeInTheDocument();
+        expect(screen.queryByRole("radio")).not.toBeInTheDocument();
+        expect(document.querySelector("form")).not.toBeInTheDocument();
+    });
+
     it.each([
         { state: "next-csrf-state" },
         { code_challenge: "next-challenge" },
@@ -549,14 +655,14 @@ describe("OAuthAuthorizePage", () => {
     ])("clears a manual partner shop selection when the request changes: %j", async (change) => {
         const user = userEvent.setup();
         let updateSearchParams: (searchParams: typeof defaultSearchParams) => void = () => {};
-        mockUseOAuthListingSources.mockReturnValue({
-            data: [
-                { listingSourceId: "shop-1", name: "First Shop" },
-                { listingSourceId: "shop-2", name: "Second Shop" },
-            ],
-            isLoading: false,
-            isError: false,
-        });
+        mockUseOAuthListingSources.mockReturnValue(
+            listingSourcesState({
+                sources: [
+                    { listingSourceId: "shop-1", name: "First Shop" },
+                    { listingSourceId: "shop-2", name: "Second Shop" },
+                ],
+            }),
+        );
 
         function OAuthAuthorizePageHarness() {
             const [searchParams, setSearchParams] = useState({

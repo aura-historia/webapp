@@ -127,8 +127,12 @@ describe("admin Partnership API", () => {
         ]) {
             operation.mockResolvedValue(ok(undefined, 204));
         }
-        client.setQueryData(OWN_LISTING_SOURCES_QUERY_KEY, [{ listingSourceId: "ls_01" }]);
+        client.setQueryData(OWN_LISTING_SOURCES_QUERY_KEY, {
+            pages: [{ items: [{ listingSourceId: "ls_01" }], next: "cursor-1" }],
+            pageParams: [undefined],
+        });
         const invalidate = vi.spyOn(client, "invalidateQueries");
+        const reset = vi.spyOn(client, "resetQueries");
         const hooks = renderHook(
             () => ({
                 grantMember: useGrantAdminPartnershipMembership(),
@@ -152,10 +156,11 @@ describe("admin Partnership API", () => {
         expect(api.revokeMember).toHaveBeenCalledWith({ path: membership });
         expect(api.grantSource).toHaveBeenCalledWith({ path: source });
         expect(api.revokeSource).toHaveBeenCalledWith({ path: source });
-        expect(client.getQueryData(OWN_LISTING_SOURCES_QUERY_KEY)).toEqual([]);
+        // Loaded grant pages and their cursors are dropped, not re-walked.
+        expect(client.getQueryData(OWN_LISTING_SOURCES_QUERY_KEY)).toBeUndefined();
         expect(invalidate).toHaveBeenCalledWith({ queryKey: ["admin", "overview"] });
         expect(invalidate).toHaveBeenCalledWith({ queryKey: ["admin", "partnerships"] });
-        expect(invalidate).toHaveBeenCalledWith({ queryKey: OWN_LISTING_SOURCES_QUERY_KEY });
+        expect(reset).toHaveBeenCalledWith({ queryKey: OWN_LISTING_SOURCES_QUERY_KEY });
     });
 
     it("shows the same-party conflict returned by the backend", async () => {
