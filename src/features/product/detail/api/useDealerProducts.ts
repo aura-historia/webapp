@@ -31,7 +31,8 @@ export function useDealerProducts(
                 query: {
                     language: parseLanguage(i18n.language),
                     currency: preferences.currency,
-                    size: DEALER_PRODUCTS_SIZE,
+                    // One spare result keeps the rail full if the API returns the current listing.
+                    size: DEALER_PRODUCTS_SIZE + 1,
                     sort: "updated",
                     order: "desc",
                     listingSourceId: [listingSourceId],
@@ -43,11 +44,11 @@ export function useDealerProducts(
                 throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
             }
 
-            return (
-                result.data?.items?.map((product) =>
-                    mapPersonalizedProductListingSummary(product, i18n.language),
-                ) ?? []
-            );
+            // The rail must never show the listing being viewed, even if the API filter misses it.
+            return (result.data?.items ?? [])
+                .map((product) => mapPersonalizedProductListingSummary(product, i18n.language))
+                .filter((product) => product.productListingId !== excludeProductListingId)
+                .slice(0, DEALER_PRODUCTS_SIZE);
         },
     });
 }

@@ -47,7 +47,7 @@ describe("useDealerProducts", () => {
     it("fetches and returns products for the given shop, excluding the current product", async () => {
         mockSimpleSearchProductListings.mockResolvedValue({
             data: {
-                items: [{ productId: "p1" }, { productId: "p2" }],
+                items: [{ productListingId: "pl_1" }, { productListingId: "pl_2" }],
                 total: 2,
                 searchAfter: undefined,
             },
@@ -79,13 +79,60 @@ describe("useDealerProducts", () => {
             query: expect.objectContaining({
                 language: "de",
                 currency: "EUR",
-                size: 8,
+                size: 9,
                 sort: "updated",
                 order: "desc",
                 listingSourceId: ["Christie's"],
                 excludeProductListingId: ["current-product"],
             }),
         });
+    });
+
+    it("drops the current listing when the API returns it anyway", async () => {
+        mockSimpleSearchProductListings.mockResolvedValue({
+            data: {
+                items: [
+                    { productListingId: "pl_1" },
+                    { productListingId: "current-product" },
+                    { productListingId: "pl_2" },
+                ],
+                total: 3,
+            },
+            error: null,
+        });
+
+        const { result } = renderHook(() => useDealerProducts("Christie's", "current-product"), {
+            wrapper: TestRouterWrapper,
+        });
+
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+        expect(result.current.data).toEqual([
+            { productListingId: "pl_1" },
+            { productListingId: "pl_2" },
+        ]);
+    });
+
+    it("returns at most eight listings", async () => {
+        mockSimpleSearchProductListings.mockResolvedValue({
+            data: {
+                items: Array.from({ length: 9 }, (_, index) => ({
+                    productListingId: `pl_${index + 1}`,
+                })),
+                total: 20,
+            },
+            error: null,
+        });
+
+        const { result } = renderHook(() => useDealerProducts("Christie's", "current-product"), {
+            wrapper: TestRouterWrapper,
+        });
+
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+        expect(result.current.data?.map((product) => product.productListingId)).toEqual(
+            Array.from({ length: 8 }, (_, index) => `pl_${index + 1}`),
+        );
     });
 
     it("throws an error mapped via getErrorMessage when API returns an error", async () => {
