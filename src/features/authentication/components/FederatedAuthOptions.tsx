@@ -9,6 +9,7 @@ import {
 import {
     createFederatedAuthState,
     type FederatedAuthIntent,
+    isFederatedRedirectPathTooLong,
 } from "@/features/authentication/lib/federatedAuthState.ts";
 import { AuthFormAlert } from "@/features/authentication/components/AuthFormAlert.tsx";
 import { AUTH_OUTLINE_BUTTON_CLASS } from "@/features/authentication/lib/authStyles.ts";
@@ -22,11 +23,19 @@ type FederatedAuthOptionsProps = {
 export function FederatedAuthOptions({ intent, locale, redirect }: FederatedAuthOptionsProps) {
     const { t } = useTranslation();
     const [pendingProviderId, setPendingProviderId] = useState<string | null>(null);
-    const [hasError, setHasError] = useState(false);
+    const [errorKey, setErrorKey] = useState<
+        "auth.federated.redirectFailure" | "auth.federated.redirectTooLong" | null
+    >(null);
 
     const startRedirect = async (provider: FederatedAuthProvider) => {
+        // Signing in without the destination would silently lose it, e.g. an OAuth request.
+        if (isFederatedRedirectPathTooLong(redirect)) {
+            setErrorKey("auth.federated.redirectTooLong");
+            return;
+        }
+
         setPendingProviderId(provider.id);
-        setHasError(false);
+        setErrorKey(null);
 
         try {
             await signInWithRedirect({
@@ -38,7 +47,7 @@ export function FederatedAuthOptions({ intent, locale, redirect }: FederatedAuth
                 }),
             });
         } catch {
-            setHasError(true);
+            setErrorKey("auth.federated.redirectFailure");
         } finally {
             // Also reset on success so the button is usable after a back navigation.
             setPendingProviderId(null);
@@ -71,7 +80,7 @@ export function FederatedAuthOptions({ intent, locale, redirect }: FederatedAuth
                 })}
             </div>
 
-            {hasError && <AuthFormAlert>{t("auth.federated.redirectFailure")}</AuthFormAlert>}
+            {errorKey && <AuthFormAlert>{t(errorKey)}</AuthFormAlert>}
 
             <div className="flex items-center gap-3 font-mono text-kicker text-ink-muted uppercase">
                 <div aria-hidden="true" className="h-px flex-1 bg-line" />

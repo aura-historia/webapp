@@ -15,6 +15,10 @@ import { useOAuthAuthorizeListingSourceSelection } from "@/features/oauth/hooks/
 import { useOAuthClient } from "@/features/oauth/hooks/useOAuthClient.ts";
 import { useOAuthListingSources } from "@/features/oauth/hooks/useOAuthListingSources.ts";
 import type { OAuthAuthorizeSearchParams } from "@/features/oauth/lib/oauthAuthorizeSearchParams.ts";
+import {
+    getOAuthDenialRedirectUrl,
+    isRegisteredOAuthRedirect,
+} from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
 import { OAuthConsentUnavailableError } from "@/features/oauth/api/oauthConsentMetadata.ts";
 
 interface OAuthAuthorizePageProps {
@@ -45,11 +49,10 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
     });
 
     const handleDeny = () => {
-        const url = new URL(searchParams.redirect_uri);
-        url.searchParams.set("error", "access_denied");
-        url.searchParams.set("error_description", "The user denied the authorization request");
-        if (searchParams.state) url.searchParams.set("state", searchParams.state);
-        navigate({ href: url.toString() });
+        const denialUrl = client && getOAuthDenialRedirectUrl(client, searchParams);
+        if (denialUrl) {
+            navigate({ href: denialUrl });
+        }
     };
 
     if (isLoading || (requiresListingSourceId && isListingSourcesLoading)) {
@@ -69,6 +72,16 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
             <OAuthAuthorizeErrorCard
                 title={t(`oauth.authorize.${errorKey}.title`)}
                 description={t(`oauth.authorize.${errorKey}.description`)}
+            />
+        );
+    }
+
+    // RFC 6749 §4.1.2.1: report an unregistered redirect URI here and never redirect to it.
+    if (!isRegisteredOAuthRedirect(client, searchParams)) {
+        return (
+            <OAuthAuthorizeErrorCard
+                title={t("oauth.authorize.error.title")}
+                description={t("oauth.authorize.error.description")}
             />
         );
     }

@@ -115,6 +115,27 @@ describe("FederatedAuthOptions", () => {
         expect(facebookButton).toBeEnabled();
     });
 
+    it("explains instead of starting a redirect that would lose an over-long destination", async () => {
+        const user = userEvent.setup();
+        await act(async () => {
+            renderWithRouter(
+                <FederatedAuthOptions
+                    intent="sign-in"
+                    locale="de"
+                    redirect={`/de/oauth/authorize?client_id=oc_test&state=${"e".repeat(2100)}`}
+                />,
+            );
+        });
+
+        await user.click(screen.getByRole("button", { name: "Mit Google fortfahren" }));
+
+        expect(await screen.findByRole("alert")).toHaveTextContent(
+            "Diese Anfrage ist zu lang, um mit dieser Anmeldeoption fortzufahren. Bitte melden Sie sich stattdessen mit Ihrer E-Mail-Adresse an.",
+        );
+        expect(mockSignInWithRedirect).not.toHaveBeenCalled();
+        expect(screen.getByRole("button", { name: "Mit Facebook fortfahren" })).toBeEnabled();
+    });
+
     it("shows a localized generic error if the redirect cannot start", async () => {
         mockSignInWithRedirect.mockRejectedValue(new Error("sensitive sdk detail"));
         const user = userEvent.setup();

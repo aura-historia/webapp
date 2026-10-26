@@ -27,6 +27,7 @@ const requestChanges = [
     { scope: "watchlist:read" },
     { response_type: "other" },
     { code_challenge_method: "plain" },
+    { resource: "https://mcp.aura-historia.com/v1" },
 ] satisfies Partial<OAuthAuthorizeSearchParams>[];
 
 describe("listing-source selection", () => {
@@ -96,6 +97,22 @@ describe("listing-source selection", () => {
             expect(result.current.listingSourceId).toBe("ls_first");
             unmount();
         }
+    });
+
+    it("clears manual selection when the resource indicator changes to another resource", () => {
+        const searchParams = { ...params, resource: "https://api.aura-historia.com" };
+        const { result, rerender } = renderHook(
+            ({ searchParams }) =>
+                useOAuthAuthorizeListingSourceSelection({ searchParams, listingSources: sources }),
+            { initialProps: { searchParams } },
+        );
+        act(() => result.current.selectListingSource("ls_second"));
+        rerender({
+            searchParams: { ...searchParams, resource: "https://mcp.aura-historia.com/v1" },
+        });
+        expect(result.current.listingSourceId).toBeUndefined();
+        rerender({ searchParams });
+        expect(result.current.listingSourceId).toBeUndefined();
     });
 
     it("preserves manual selection when the normalized request is unchanged", () => {

@@ -1432,7 +1432,8 @@
       "facebook": {
         "continue": "Mit Facebook fortfahren"
       },
-      "redirectFailure": "Die Anmeldung konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut oder melden Sie sich mit Ihrer E-Mail-Adresse an."
+      "redirectFailure": "Die Anmeldung konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut oder melden Sie sich mit Ihrer E-Mail-Adresse an.",
+      "redirectTooLong": "Diese Anfrage ist zu lang, um mit dieser Anmeldeoption fortzufahren. Bitte melden Sie sich stattdessen mit Ihrer E-Mail-Adresse an."
     },
     "signUp": {
       "firstName": "Vorname",

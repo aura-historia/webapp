@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { createElement } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { defaultParseSearch } from "@tanstack/react-router";
 import { Route } from "@/routes/$lng._auth.oauth.authorize.tsx";
 
 const mockOAuthAuthorizePage = vi.hoisted(() =>
@@ -86,6 +87,60 @@ describe("_auth.oauth.authorize route", () => {
         const result = validateSearch(searchWithOptionals);
         expect(result).toHaveProperty("scope", "products:write");
         expect(result).toHaveProperty("state", "csrf-token-xyz");
+    });
+
+    it("keeps the MCP resource indicator and requested scopes exactly as sent", () => {
+        const result = validateSearch({
+            client_id: "oc_7b0gwc1x49e0mvbt3tfexfqgb5",
+            redirect_uri: "https://claude.ai/api/mcp/auth_callback",
+            scope: "watchlist:read watchlist:write",
+            state: "mcp-state",
+            resource: "https://mcp.aura-historia.com/v1",
+            code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+            code_challenge_method: "S256",
+        });
+
+        expect(result).toEqual({
+            response_type: "code",
+            client_id: "oc_7b0gwc1x49e0mvbt3tfexfqgb5",
+            redirect_uri: "https://claude.ai/api/mcp/auth_callback",
+            scope: "watchlist:read watchlist:write",
+            state: "mcp-state",
+            resource: "https://mcp.aura-historia.com/v1",
+            code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+            code_challenge_method: "S256",
+            requires_listing_source_id: false,
+        });
+    });
+
+    it("restores protocol values the router parsed as numbers, booleans or null", () => {
+        const search = defaultParseSearch(
+            "?client_id=1234&redirect_uri=https%3A%2F%2Fclient.example%2Fcallback" +
+                "&code_challenge=challenge&state=0042&scope=null&resource=true",
+        );
+        expect(search).toMatchObject({ client_id: 1234, scope: null, resource: true });
+
+        expect(validateSearch(search)).toMatchObject({
+            client_id: "1234",
+            state: "0042",
+            scope: "null",
+            resource: "true",
+        });
+        expect(validateSearch({ ...search, state: 987654321 })).toHaveProperty(
+            "state",
+            "987654321",
+        );
+    });
+
+    it("rejects a repeated protocol parameter", () => {
+        expect(() =>
+            validateSearch(
+                defaultParseSearch(
+                    "?client_id=oc_test&redirect_uri=https%3A%2F%2Fclient.example%2Fcallback" +
+                        "&code_challenge=challenge&state=first&state=second",
+                ),
+            ),
+        ).toThrow();
     });
 
     it("throws when required client_id is missing", () => {

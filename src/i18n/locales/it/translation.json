@@ -1432,7 +1432,8 @@
       "facebook": {
         "continue": "Continua con Facebook"
       },
-      "redirectFailure": "Non è stato possibile completare l’accesso. Riprova oppure accedi con il tuo indirizzo e-mail."
+      "redirectFailure": "Non è stato possibile completare l’accesso. Riprova oppure accedi con il tuo indirizzo e-mail.",
+      "redirectTooLong": "Questa richiesta è troppo lunga per continuare con questa opzione di accesso. Accedi invece con il tuo indirizzo e-mail."
     },
     "signUp": {
       "firstName": "Nome",

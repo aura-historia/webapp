@@ -24,6 +24,10 @@ const oauthAuthorizeFormSchema = z.object({
 type OAuthAuthorizeFormData = z.infer<typeof oauthAuthorizeFormSchema>;
 
 export async function postOAuthAuthorizeApprove({ request }: { request: Request }) {
+    if (!isSameOriginSubmission(request)) {
+        return textResponse("Cross-origin OAuth authorization request rejected.", 403);
+    }
+
     const formData = await request.formData();
     const parseResult = oauthAuthorizeFormSchema.safeParse({
         lng: getFormValue(formData, "lng"),
@@ -68,6 +72,20 @@ export async function postOAuthAuthorizeApprove({ request }: { request: Request 
     } catch {
         return textResponse("OAuth authorization request failed.", 502);
     }
+}
+
+/**
+ * Only the consent page itself may approve: a cross-origin form would otherwise ride the session
+ * cookie to a code. Browsers send `Sec-Fetch-Site` on form posts, older ones at least `Origin`;
+ * a request with neither is rejected too.
+ */
+function isSameOriginSubmission(request: Request): boolean {
+    const fetchSite = request.headers.get("Sec-Fetch-Site");
+    if (fetchSite !== null) {
+        return fetchSite === "same-origin";
+    }
+
+    return request.headers.get("Origin") === new URL(request.url).origin;
 }
 
 function getFormValue(formData: FormData, key: string): string | undefined {
