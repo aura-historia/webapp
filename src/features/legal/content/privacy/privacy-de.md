@@ -112,6 +112,8 @@ Soweit Partner-, Shop- oder Administrationsfunktionen genutzt werden, können zu
 
 Wenn Sie eine externe Anwendung ausdrücklich autorisieren, kann sie auf die Daten oder Ressourcen zugreifen, die auf dem Freigabebildschirm angezeigt werden. Sie können eine Anfrage ablehnen. Nach einer Freigabe kann die Anwendung die erhaltenen Daten nach ihren eigenen Datenschutzbestimmungen verarbeiten. Sie können eine Freigabe widerrufen lassen; dies löscht keine Daten, die die Anwendung bereits erhalten hat. Für einen Widerruf kontaktieren Sie uns; wegen bereits übermittelter Daten wenden Sie sich bitte auch an den Anbieter der Anwendung.
 
+**Shopify-Verbindung:** Wenn Sie den Aura Historia-Vertriebskanal in Shopify installieren und Ihr Aura Historia-Konto verbinden, verarbeiten wir die Shop-Domain, Produktdaten, Shop-Sprache und Währung sowie Versandprofile, Zielgebiete, angebotene Versandarten, Bedingungen, Preise und Produkt-/Variantenzuordnungen, um Ihre Angebote und unterstützte Versandangaben auf Aura Historia bereitzustellen. Shopify-Sitzungen und Zugangsdaten sowie begrenzte Importfortschritte werden bei Cloudflare gespeichert. Diese Integration fordert keine Kundendaten an; genaue Fulfillment-Adressen werden nicht importiert. Sie können die Verbindung im Shopify-Kanal trennen oder die App deinstallieren. Dadurch werden weitere Versandimporte gestoppt und die Entfernung eigener importierter Versandangaben sowie der Widerruf der Aura Historia-Zugriffsberechtigung angestoßen; manuelle Partneränderungen bleiben erhalten. Für ausstehende Bereinigungen können die hierfür erforderlichen Aura Historia-Zugangsdaten und begrenzte Auftragsdaten bis zu sieben Tage getrennt vorgehalten werden. Eine Trennung bestätigt nicht automatisch die Löschung bereits übermittelter Angebote oder aller importierten Angaben; bei nicht bestätigter Bereinigung wenden Sie sich bitte an unseren Support.
+
 **Zwecke der Verarbeitung:**
 
 - Bereitstellung und Personalisierung des Dienstes
@@ -382,4 +384,4 @@ Wir können diese Datenschutzhinweise anpassen, wenn dies aufgrund rechtlicher, 
 
 ---
 
-*Stand: 12.10.2026*
+*Stand: 26.10.2026*

@@ -112,6 +112,8 @@ Lorsque des fonctionnalités partenaires, boutique ou d’administration sont ut
 
 Si vous autorisez expressément une application externe, elle peut accéder aux données ou ressources indiquées sur l’écran d’autorisation. Vous pouvez refuser une demande. Après approbation, l’application peut traiter les données reçues conformément à sa propre politique de confidentialité. Vous pouvez nous demander de révoquer une autorisation ; cela ne supprime pas les données que l’application a déjà reçues. Contactez-nous pour demander la révocation et contactez le fournisseur de l’application au sujet des données déjà reçues.
 
+**Connexion Shopify :** Lorsque vous installez le canal de vente Aura Historia dans Shopify et connectez votre compte Aura Historia, nous traitons le domaine de la boutique, les données des produits, la langue et la devise de la boutique, ainsi que les profils d’expédition, zones de destination, modes annoncés, conditions, prix et affectations de produits et variantes afin de publier vos annonces et les informations d’expédition prises en charge sur Aura Historia. Les sessions et identifiants d’accès Shopify, ainsi que la progression limitée des imports, sont stockés chez Cloudflare. Cette intégration ne demande pas de données clients ; les adresses précises de préparation des commandes ne sont pas importées. Vous pouvez déconnecter l’intégration dans le canal Shopify ou désinstaller l’application. Cela arrête les nouveaux imports d’expédition et lance le retrait des informations d’expédition importées appartenant à l’intégration et la révocation de l’accès Aura Historia ; les modifications manuelles du partenaire sont conservées. Les identifiants et données limitées de tâches nécessaires à un nettoyage en attente peuvent être conservés séparément pendant sept jours au maximum. La déconnexion ne confirme pas automatiquement la suppression des annonces déjà transmises ni de toutes les informations importées ; contactez le support si le nettoyage reste non confirmé.
+
 **Finalités du traitement :**
 
 - fourniture et personnalisation du service
@@ -382,4 +384,4 @@ Nous pouvons adapter les présentes notices de confidentialité lorsque cela dev
 
 ---
 
-*État : 12.10.2026*
+*État : 26.10.2026*

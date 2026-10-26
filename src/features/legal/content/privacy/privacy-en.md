@@ -112,6 +112,8 @@ Where partner, shop, or administration features are used, we may additionally pr
 
 If you explicitly authorize an external application, it can access the data or resources shown on the authorization screen. You may decline a request. After you approve it, the application may handle the data it receives under its own privacy policy. You can ask us to revoke an authorization; this does not delete data the application has already received. Contact us to request revocation, and contact the application provider about data it has already received.
 
+**Shopify connection:** When you install the Aura Historia sales channel in Shopify and connect your Aura Historia account, we process the shop domain, product data, shop language and currency, and shipping profiles, destination areas, advertised methods, conditions, prices and product/variant membership to publish your listings and supported shipping information on Aura Historia. Shopify sessions and access credentials, together with bounded import progress, are stored with Cloudflare. This integration does not request customer data; precise fulfillment addresses are not imported. You can disconnect in the Shopify channel or uninstall the app. This stops further shipping imports and starts removal of owned imported shipping assertions and revocation of Aura Historia access; manual partner edits are preserved. Credentials and bounded job data needed for pending cleanup can be retained separately for up to seven days. Disconnecting does not automatically confirm deletion of listings already submitted or all imported assertions; contact support when cleanup remains unconfirmed.
+
 **Purposes of processing:**
 
 - provision and personalization of the service
@@ -382,4 +384,4 @@ We may adapt these privacy notices where this becomes necessary due to legal, te
 
 ---
 
-*Status: 12 October 2026*
+*Status: 26 October 2026*
