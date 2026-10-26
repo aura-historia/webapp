@@ -19,7 +19,7 @@ describe("Amplify configuration", () => {
         expect(amplifyConfig.Auth.Cognito.userPoolClientId).toBe("test-client-id");
         expect(amplifyConfig.Auth.Cognito.loginWith.email).toBe(true);
         expect(amplifyConfig.Auth.Cognito.loginWith.oauth).toEqual({
-            domain: "auth.stage.aura-historia.com",
+            domain: "auth.aura-historia.com",
             scopes: ["openid", "email", "profile"],
             redirectSignIn: ["http://localhost:3000"],
             redirectSignOut: ["http://localhost:3000"],

@@ -15,10 +15,8 @@ type PreviewResult = {
 const mockPreview = vi.hoisted(() =>
     vi.fn((): PreviewResult => ({ isPending: false, error: null, data: [] })),
 );
-const mockCanPreview = vi.hoisted(() => vi.fn(() => true));
 
 vi.mock("@/features/saved-searches/api/useSearchFilterPreviewProducts.ts", () => ({
-    canPreviewSavedSearch: mockCanPreview,
     useSearchFilterPreviewProducts: mockPreview,
 }));
 
@@ -58,7 +56,6 @@ function renderConfirmStep(
 describe("SearchFilterWizardConfirmStep", () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        mockCanPreview.mockReturnValue(true);
         mockPreview.mockReturnValue({ isPending: false, error: null, data: [] });
     });
 
@@ -116,16 +113,6 @@ describe("SearchFilterWizardConfirmStep", () => {
             renderConfirmStep("Filter", { q: "Tisch" });
             expect(
                 screen.getByRole("heading", { name: "Vorschau der Angebote" }),
-            ).toBeInTheDocument();
-        });
-
-        it("explains when the filter cannot be previewed", () => {
-            mockCanPreview.mockReturnValue(false);
-            renderConfirmStep("Filter", { q: "Tisch" });
-            expect(
-                screen.getByText(
-                    "Eine Vorschau ist nicht verfügbar, weil dieser Suchauftrag Kriterien enthält, die die Angebotssuche nicht abbilden kann.",
-                ),
             ).toBeInTheDocument();
         });
 

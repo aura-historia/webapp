@@ -73,7 +73,7 @@ describe("useWatchlistNotificationMutation", () => {
         const cached = queryClient.getQueryData<{ pages: Array<{ products: ProductListing[] }> }>(
             key,
         );
-        expect(cached?.pages[0].products[0].userState?.watchlist.notifications).toBe(true);
+        expect(cached?.pages[0].products[0].userState?.watchlist?.notifications).toBe(true);
         expect(cached?.pages[0].products[0]).toHaveProperty("source");
     });
 
@@ -91,7 +91,7 @@ describe("useWatchlistNotificationMutation", () => {
         await expect(result.current.mutateAsync(true)).rejects.toThrow("Unavailable");
         expect(
             queryClient.getQueryData<{ pages: Array<{ products: ProductListing[] }> }>(key)
-                ?.pages[0].products[0].userState?.watchlist.notifications,
+                ?.pages[0].products[0].userState?.watchlist?.notifications,
         ).toBe(false);
         expect(mockToast.error).toHaveBeenCalled();
     });

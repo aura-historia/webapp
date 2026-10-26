@@ -52,7 +52,7 @@ function SearchResultCardComponent({
     readonly firstImageOnly?: boolean;
 }) {
     const { t } = useTranslation();
-    const unseenNotificationIds = product.userState?.notification.unseenNotificationIds ?? [];
+    const unseenNotificationIds = product.userState?.notification?.unseenNotificationIds ?? [];
     const hasUnseenNotification = unseenNotificationIds.length > 0;
     const markSeen = useMarkNotificationsSeen();
     const searchFilterData = product.userState?.searchFilter;
@@ -63,7 +63,7 @@ function SearchResultCardComponent({
     const isWithdrawn = product.lifecycle === "WITHDRAWN";
     const merchantUrl = product.viewUrl?.href ?? product.url?.href;
     const showSensitiveContent =
-        product.userState?.contentVisibility.showUnassessedOrSensitiveContent ?? false;
+        product.userState?.contentVisibility?.showUnassessedOrSensitiveContent ?? false;
     const { watching, notifications } = useListingWatchlistState(
         product.productListingId,
         product.userState?.watchlist,

@@ -4,15 +4,16 @@ import { productListingQueryKeys } from "@/data/internal/product/ProductListingQ
 /**
  * Viewer state shared by mapped listings (`ProductListing.userState`) and the raw personalized
  * detail DTO cached for SSR (`{ item, userState }`). `hasUnseenNotification` exists only on mapped
- * listings; updates preserve whichever shape they receive.
+ * listings; updates preserve whichever shape they receive. Sections the backend omitted stay
+ * absent: updates never create them.
  */
 export type ListingUserStateShape = {
-    readonly watchlist: { readonly watching: boolean; readonly notifications: boolean };
-    readonly notification: {
+    readonly watchlist?: { readonly watching: boolean; readonly notifications: boolean };
+    readonly notification?: {
         readonly unseenNotificationIds: readonly string[];
         readonly hasUnseenNotification?: boolean;
     };
-    readonly searchFilter: {
+    readonly searchFilter?: {
         readonly matched: boolean;
         readonly hidden: boolean;
         readonly userSearchFilterId?: string;
@@ -168,15 +169,14 @@ export function withWatchlistState(patch: {
     readonly notifications?: boolean;
 }): ListingUserStateUpdate {
     return (state) => {
-        const watching = patch.watching ?? state.watchlist.watching;
-        const notifications = patch.notifications ?? state.watchlist.notifications;
-        if (
-            watching === state.watchlist.watching &&
-            notifications === state.watchlist.notifications
-        ) {
+        const current = state.watchlist;
+        if (!current) return state;
+        const watching = patch.watching ?? current.watching;
+        const notifications = patch.notifications ?? current.notifications;
+        if (watching === current.watching && notifications === current.notifications) {
             return state;
         }
-        return { ...state, watchlist: { ...state.watchlist, watching, notifications } };
+        return { ...state, watchlist: { ...current, watching, notifications } };
     };
 }
 
@@ -185,16 +185,18 @@ export function withoutUnseenNotifications(
     notificationIds: ReadonlySet<string> | undefined,
 ): ListingUserStateUpdate {
     return (state) => {
-        const current = state.notification.unseenNotificationIds;
+        const notification = state.notification;
+        if (!notification) return state;
+        const current = notification.unseenNotificationIds;
         const unseenNotificationIds =
             notificationIds === undefined ? [] : current.filter((id) => !notificationIds.has(id));
         if (unseenNotificationIds.length === current.length) return state;
         return {
             ...state,
             notification: {
-                ...state.notification,
+                ...notification,
                 unseenNotificationIds,
-                ...("hasUnseenNotification" in state.notification
+                ...("hasUnseenNotification" in notification
                     ? { hasUnseenNotification: unseenNotificationIds.length > 0 }
                     : {}),
             },
@@ -202,15 +204,16 @@ export function withoutUnseenNotifications(
     };
 }
 
+type ListingSearchFilterState = NonNullable<ListingUserStateShape["searchFilter"]>;
+
 function forSearchFilter(
     userSearchFilterId: string,
-    update: (
-        searchFilter: ListingUserStateShape["searchFilter"],
-    ) => ListingUserStateShape["searchFilter"],
+    update: (searchFilter: ListingSearchFilterState) => ListingSearchFilterState,
 ): ListingUserStateUpdate {
     return (state) => {
-        if (state.searchFilter.userSearchFilterId !== userSearchFilterId) return state;
-        return { ...state, searchFilter: update(state.searchFilter) };
+        const searchFilter = state.searchFilter;
+        if (searchFilter?.userSearchFilterId !== userSearchFilterId) return state;
+        return { ...state, searchFilter: update(searchFilter) };
     };
 }
 

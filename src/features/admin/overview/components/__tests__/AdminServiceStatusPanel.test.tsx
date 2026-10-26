@@ -53,12 +53,12 @@ describe("AdminServiceStatusPanel", () => {
         ).toBeTruthy();
 
         const liveness = probeRow(panel, "adminOverview.serviceStatus.probes.liveness");
-        expect(liveness).toHaveTextContent("GET /api/v1/health");
+        expect(liveness).toHaveTextContent("GET /v1/health");
         expect(liveness).toHaveTextContent(t("adminOverview.serviceStatus.probeStates.available"));
         expect(liveness).toHaveTextContent("HTTP 200 · 84 ms");
 
         const readiness = probeRow(panel, "adminOverview.serviceStatus.probes.readiness");
-        expect(readiness).toHaveTextContent("GET /api/v1/ready");
+        expect(readiness).toHaveTextContent("GET /v1/ready");
         expect(readiness).toHaveTextContent(
             t("adminOverview.serviceStatus.probeStates.unavailable"),
         );

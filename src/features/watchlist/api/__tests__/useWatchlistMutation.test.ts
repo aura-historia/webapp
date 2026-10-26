@@ -58,7 +58,7 @@ describe("useWatchlistMutation", () => {
         createElement(QueryClientProvider, { client: queryClient }, children);
     const watchingIn = (key: readonly unknown[], index = 0) =>
         queryClient.getQueryData<ListingPages>(key)?.pages[0].products[index].userState?.watchlist
-            .watching;
+            ?.watching;
     const seed = (...listings: ProductListing[]) => {
         queryClient.setQueryData(watchlistKey, {
             pages: [{ products: listings, size: listings.length }],

@@ -28,15 +28,9 @@ export const env = createEnv({
             .string()
             .regex(/^[A-Za-z0-9.-]+$/, "Use the Cognito domain without a scheme or path")
             .optional()
-            .default("auth.stage.aura-historia.com"),
-        VITE_COGNITO_REDIRECT_SIGN_IN: z
-            .url()
-            .optional()
-            .default("https://stage.aura-historia.com/"),
-        VITE_COGNITO_REDIRECT_SIGN_OUT: z
-            .url()
-            .optional()
-            .default("https://stage.aura-historia.com/"),
+            .default("auth.aura-historia.com"),
+        VITE_COGNITO_REDIRECT_SIGN_IN: z.url().optional().default("https://aura-historia.com/"),
+        VITE_COGNITO_REDIRECT_SIGN_OUT: z.url().optional().default("https://aura-historia.com/"),
 
         // Feature flags - default to enabled if not set
         VITE_FEATURE_LOGIN_ENABLED: z

@@ -21,18 +21,61 @@ describe("shared own listing sources", () => {
         return createElement(QueryClientProvider, { client }, children);
     }
     it("maps only the three reference fields and never requests details", async () => {
-        getSources.mockResolvedValue({ data: [{ ...source, operator: { private: true } }] });
+        getSources.mockResolvedValue({
+            data: { items: [{ ...source, operator: { private: true } }] },
+        });
         const { result } = renderHook(() => useOwnListingSources(true), { wrapper });
         await waitFor(() => expect(result.current.isSuccess).toBe(true));
         expect(result.current.data).toEqual([source]);
         expect(getSources).toHaveBeenCalledOnce();
         expect(getSources).toHaveBeenCalledWith({
+            query: { size: 100, after: undefined },
             cache: "no-store",
             signal: expect.any(AbortSignal),
         });
     });
+    it("follows every continuation and combines the pages in order", async () => {
+        const second = { listingSourceId: "ls_second", listingSourceSlugId: "second", name: "B" };
+        getSources
+            .mockResolvedValueOnce({ data: { items: [source], next: "cursor-1" } })
+            .mockResolvedValueOnce({ data: { items: [second] } });
+        const { result } = renderHook(() => useOwnListingSources(true), { wrapper });
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+        expect(result.current.data).toEqual([source, second]);
+        expect(getSources).toHaveBeenNthCalledWith(2, {
+            query: { size: 100, after: "cursor-1" },
+            cache: "no-store",
+            signal: expect.any(AbortSignal),
+        });
+    });
+    it("keeps one entry for a source repeated across live pages", async () => {
+        getSources
+            .mockResolvedValueOnce({ data: { items: [source], next: "cursor-1" } })
+            .mockResolvedValueOnce({ data: { items: [{ ...source, name: "Renamed" }] } });
+        const { result } = renderHook(() => useOwnListingSources(true), { wrapper });
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+        expect(result.current.data).toEqual([source]);
+    });
+    it("fails instead of returning a partial list when a later page fails", async () => {
+        getSources
+            .mockResolvedValueOnce({ data: { items: [source], next: "cursor-1" } })
+            .mockResolvedValueOnce({
+                error: { status: 400, title: "Bad Request", error: "BAD_QUERY_PARAMETER_VALUE" },
+            });
+        const { result } = renderHook(() => useOwnListingSources(true), { wrapper });
+        await waitFor(() => expect(result.current.isError).toBe(true));
+        expect(result.current.data).toBeUndefined();
+    });
+    it("fails when a continuation repeats", async () => {
+        getSources.mockResolvedValue({ data: { items: [source], next: "cursor-1" } });
+        const { result } = renderHook(() => useOwnListingSources(true), { wrapper });
+        await waitFor(() => expect(result.current.isError).toBe(true));
+        expect(getSources).toHaveBeenCalledTimes(2);
+    });
     it("replaces previously granted sources with an empty list on revocation", async () => {
-        getSources.mockResolvedValueOnce({ data: [source] }).mockResolvedValueOnce({ data: [] });
+        getSources
+            .mockResolvedValueOnce({ data: { items: [source] } })
+            .mockResolvedValueOnce({ data: { items: [] } });
         const { result } = renderHook(() => useOwnListingSources(true), { wrapper });
         await waitFor(() => expect(result.current.data).toEqual([source]));
         await act(async () => {
@@ -55,7 +98,7 @@ describe("shared own listing sources", () => {
         expect(getSources).toHaveBeenCalledOnce();
     });
     it("releases inactive source data instead of persisting grants", async () => {
-        getSources.mockResolvedValue({ data: [source] });
+        getSources.mockResolvedValue({ data: { items: [source] } });
         const { result, unmount } = renderHook(() => useOwnListingSources(true), { wrapper });
         await waitFor(() => expect(result.current.isSuccess).toBe(true));
         unmount();

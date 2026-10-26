@@ -66,7 +66,7 @@ describe("api-config", () => {
 
         expect(mockSetConfig).toHaveBeenCalledWith(
             expect.objectContaining({
-                baseUrl: "https://api.stage.aura-historia.com",
+                baseUrl: "https://api.aura-historia.com",
             }),
         );
     });

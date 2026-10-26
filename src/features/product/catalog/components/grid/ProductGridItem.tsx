@@ -34,7 +34,7 @@ function getRecentlyAddedMetaText(
 
 function ProductGridItemComponent({ product, variant = "default" }: ProductGridItemProps) {
     const { t } = useTranslation();
-    const unseenNotificationIds = product.userState?.notification.unseenNotificationIds ?? [];
+    const unseenNotificationIds = product.userState?.notification?.unseenNotificationIds ?? [];
     const hasUnseenNotification = unseenNotificationIds.length > 0;
     const markSeen = useMarkNotificationsSeen();
 
@@ -43,7 +43,7 @@ function ProductGridItemComponent({ product, variant = "default" }: ProductGridI
     }, [unseenNotificationIds, markSeen.mutate]);
 
     const showSensitiveContent =
-        product.userState?.contentVisibility.showUnassessedOrSensitiveContent ?? false;
+        product.userState?.contentVisibility?.showUnassessedOrSensitiveContent ?? false;
     const priceLabel =
         product.formattedPrice ??
         (product.price?.type === "ON_REQUEST"

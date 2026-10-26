@@ -15,7 +15,7 @@ export function SearchFilterMatchCard({ product, filterId }: Props) {
             <MatchFeedbackButtons
                 filterId={filterId}
                 productListingId={product.productListingId}
-                currentFeedback={product.userState?.searchFilter.matchFeedback}
+                currentFeedback={product.userState?.searchFilter?.matchFeedback}
             />
         </div>
     );

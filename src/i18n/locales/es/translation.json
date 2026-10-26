@@ -1292,7 +1292,7 @@
         },
         "woocommerce": {
           "title": "WooCommerce: de servidor a servidor",
-          "description": "POST /api/v1/webhooks/woocommerce/{listingSourceId} requiere autorización Bearer, x-wc-webhook-topic y x-wc-webhook-signature (HMAC-SHA256 en base64 sobre los bytes exactos del cuerpo); x-wc-webhook-delivery-id es opcional. Mantenga los secretos en el servidor; nunca los envíe ni exponga en un navegador. HTTP 204 sin cuerpo confirma admisión o un estado ignorado autorizado, no captura ni visibilidad. date_modified_gmt admite UTC sin desplazamiento, Z o +00:00; otros desplazamientos son inválidos. Los conflictos de digest y orden de origen se comprueban después; una eliminación sin fecha puede bloquear la restauración con WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Reintente una admisión incierta sin cambios, conservando el ID de entrega si existe; investigue los fallos del consumidor antes de reprocesar."
+          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} requiere autorización Bearer, x-wc-webhook-topic y x-wc-webhook-signature (HMAC-SHA256 en base64 sobre los bytes exactos del cuerpo); x-wc-webhook-delivery-id es opcional. Mantenga los secretos en el servidor; nunca los envíe ni exponga en un navegador. HTTP 204 sin cuerpo confirma admisión o un estado ignorado autorizado, no captura ni visibilidad. date_modified_gmt admite UTC sin desplazamiento, Z o +00:00; otros desplazamientos son inválidos. Los conflictos de digest y orden de origen se comprueban después; una eliminación sin fecha puede bloquear la restauración con WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Reintente una admisión incierta sin cambios, conservando el ID de entrega si existe; investigue los fallos del consumidor antes de reprocesar."
         }
       }
     },
@@ -2359,7 +2359,6 @@
     "preview": {
       "title": "Vista previa de anuncios",
       "description": "Una vista previa actual de la búsqueda de anuncios. Las coincidencias guardadas aparecen por separado en el detalle del filtro.",
-      "unavailable": "La vista previa no está disponible porque este filtro contiene criterios que la búsqueda de anuncios no puede expresar.",
       "error": "No se pudo cargar la vista previa.",
       "empty": "Ahora mismo no hay anuncios que coincidan con estos criterios."
     },

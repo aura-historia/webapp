@@ -13,7 +13,10 @@ import {
     type ListingSearchCursor,
     type SearchResultData,
 } from "@/data/internal/search/SearchResultData.ts";
-import { LISTING_AVAILABILITIES } from "@/data/internal/product/ProductListingDomain.ts";
+import {
+    mapToListingAvailabilityQuery,
+    matchesNoListingAvailability,
+} from "@/data/internal/search/ListingAvailabilityQuery.ts";
 import { toMinorCurrencyAmount } from "@/data/internal/price/Price.ts";
 import { mapToBackendSortModeArguments } from "@/data/internal/search/SortMode.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
@@ -35,9 +38,6 @@ function getProductQuery(searchArgs: SearchFilterArguments): string[] {
     return [];
 }
 
-function hasEmptyArrayFilter(args: SearchFilterArguments): boolean {
-    return args.availability?.length === 0;
-}
 /**
  * Builds filter query parameters from search arguments.
  * Returns a strongly typed Partial of SimpleSearchProductListingsData's query object,
@@ -62,12 +62,7 @@ function buildFilterQuery(
         };
     }
 
-    if (searchArgs.availability?.length) {
-        filters.availability = searchArgs.availability.filter(
-            (value): value is (typeof LISTING_AVAILABILITIES)[number] =>
-                LISTING_AVAILABILITIES.includes(value as (typeof LISTING_AVAILABILITIES)[number]),
-        );
-    }
+    Object.assign(filters, mapToListingAvailabilityQuery(searchArgs));
 
     if (searchArgs.creationDateFrom != null || searchArgs.creationDateTo != null) {
         filters.created = {
@@ -102,8 +97,6 @@ export function useSearch(
     const searchCriteria = { ...searchArgs };
     delete searchCriteria.listingSourceLabels;
     delete searchCriteria.excludeListingSourceLabels;
-    delete searchCriteria.orderability;
-    delete searchCriteria.includeUnspecifiedAvailability;
 
     return useInfiniteQuery({
         queryKey: productListingQueryKeys.search(searchCriteria, {
@@ -112,7 +105,7 @@ export function useSearch(
         }),
         enabled: isSearchEnabled && searchArgs.q.length >= MIN_SEARCH_QUERY_LENGTH,
         queryFn: async ({ pageParam }) => {
-            if (hasEmptyArrayFilter(searchArgs)) return EMPTY_RESULT;
+            if (matchesNoListingAvailability(searchArgs)) return EMPTY_RESULT;
 
             const result = await simpleSearchProductListings({
                 query: {

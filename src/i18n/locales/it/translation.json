@@ -1292,7 +1292,7 @@
         },
         "woocommerce": {
           "title": "WooCommerce: da server a server",
-          "description": "POST /api/v1/webhooks/woocommerce/{listingSourceId} richiede autorizzazione Bearer, x-wc-webhook-topic e x-wc-webhook-signature (HMAC-SHA256 in base64 sui byte esatti del corpo); x-wc-webhook-delivery-id è facoltativo. Conservi i segreti sul server; non li invii né li esponga nel browser. HTTP 204 senza corpo conferma l’ammissione o uno stato ignorato autorizzato, non la cattura o la visibilità. date_modified_gmt supporta UTC senza offset, Z o +00:00; altri offset non sono validi. I conflitti di digest e ordine della fonte vengono verificati a valle; una cancellazione senza data può bloccare il ripristino con WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Ripeta un’ammissione incerta senza modifiche, conservando l’ID di consegna se fornito; esamini gli errori del consumer prima di rieseguire."
+          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} richiede autorizzazione Bearer, x-wc-webhook-topic e x-wc-webhook-signature (HMAC-SHA256 in base64 sui byte esatti del corpo); x-wc-webhook-delivery-id è facoltativo. Conservi i segreti sul server; non li invii né li esponga nel browser. HTTP 204 senza corpo conferma l’ammissione o uno stato ignorato autorizzato, non la cattura o la visibilità. date_modified_gmt supporta UTC senza offset, Z o +00:00; altri offset non sono validi. I conflitti di digest e ordine della fonte vengono verificati a valle; una cancellazione senza data può bloccare il ripristino con WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Ripeta un’ammissione incerta senza modifiche, conservando l’ID di consegna se fornito; esamini gli errori del consumer prima di rieseguire."
         }
       }
     },
@@ -2359,7 +2359,6 @@
     "preview": {
       "title": "Anteprima degli annunci",
       "description": "Un’anteprima aggiornata dalla ricerca degli annunci. Le corrispondenze salvate sono mostrate separatamente nella pagina dei dettagli del filtro.",
-      "unavailable": "L’anteprima non è disponibile perché questo filtro contiene criteri che la ricerca degli annunci non può esprimere.",
       "error": "Impossibile caricare l’anteprima.",
       "empty": "Al momento nessun annuncio corrisponde a questi criteri."
     },

@@ -111,14 +111,14 @@ export function AdminServiceStatusPanel({ language }: { readonly language: strin
                     <dl className="grid gap-3 md:grid-cols-2">
                         <ProbeRow
                             label={t("adminOverview.serviceStatus.probes.liveness")}
-                            endpoint="GET /api/v1/health"
+                            endpoint="GET /v1/health"
                             probe={result.snapshot.liveness}
                             state={livenessState(result.snapshot.liveness)}
                             language={language}
                         />
                         <ProbeRow
                             label={t("adminOverview.serviceStatus.probes.readiness")}
-                            endpoint="GET /api/v1/ready"
+                            endpoint="GET /v1/ready"
                             probe={result.snapshot.readiness}
                             state={readinessState(result.snapshot.readiness)}
                             language={language}

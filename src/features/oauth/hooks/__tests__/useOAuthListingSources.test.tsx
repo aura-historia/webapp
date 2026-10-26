@@ -21,9 +21,15 @@ describe("useOAuthListingSources", () => {
     }
     it("maps granted source DTOs before supplying the UI", async () => {
         getSources.mockResolvedValue({
-            data: [
-                { listingSourceId: "ls_test", listingSourceSlugId: "public-slug", name: "Dealer" },
-            ],
+            data: {
+                items: [
+                    {
+                        listingSourceId: "ls_test",
+                        listingSourceSlugId: "public-slug",
+                        name: "Dealer",
+                    },
+                ],
+            },
         });
         const { result } = renderHook(() => useOAuthListingSources(true), { wrapper });
         await waitFor(() => expect(result.current.isSuccess).toBe(true));
@@ -31,12 +37,13 @@ describe("useOAuthListingSources", () => {
             { listingSourceId: "ls_test", listingSourceSlugId: "public-slug", name: "Dealer" },
         ]);
         expect(getSources).toHaveBeenCalledWith({
+            query: { size: 100, after: undefined },
             cache: "no-store",
             signal: expect.any(AbortSignal),
         });
     });
     it("keeps an empty grant list empty", async () => {
-        getSources.mockResolvedValue({ data: [] });
+        getSources.mockResolvedValue({ data: { items: [] } });
         const { result } = renderHook(() => useOAuthListingSources(true), { wrapper });
         await waitFor(() => expect(result.current.isSuccess).toBe(true));
         expect(result.current.data).toEqual([]);

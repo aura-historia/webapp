@@ -4,7 +4,7 @@ import { setListingSourceIdOnRedirectUri } from "@/features/oauth/lib/oauthAutho
 import { z } from "zod";
 import { isSupportedLanguage, localizePathname } from "@/i18n/routing.ts";
 
-const AUTHORIZE_ENDPOINT = "/api/v1/oauth/authorize";
+const AUTHORIZE_ENDPOINT = "/v1/oauth/authorize";
 const LOGIN_PATH = "/login";
 const AUTHORIZE_PAGE_PATH = "/oauth/authorize";
 
@@ -15,6 +15,7 @@ const oauthAuthorizeFormSchema = z.object({
     redirect_uri: z.string().min(1),
     scope: z.string().optional(),
     state: z.string().optional(),
+    resource: z.string().optional(),
     listing_source_id: z.string().optional(),
     code_challenge: z.string().min(1),
     code_challenge_method: z.literal("S256"),
@@ -31,6 +32,7 @@ export async function postOAuthAuthorizeApprove({ request }: { request: Request 
         redirect_uri: getFormValue(formData, "redirect_uri"),
         scope: getFormValue(formData, "scope"),
         state: getFormValue(formData, "state"),
+        resource: getFormValue(formData, "resource"),
         listing_source_id: getFormValue(formData, "listing_source_id"),
         code_challenge: getFormValue(formData, "code_challenge"),
         code_challenge_method: getFormValue(formData, "code_challenge_method"),
@@ -58,6 +60,7 @@ export async function postOAuthAuthorizeApprove({ request }: { request: Request 
         if (isRedirectResponse(response) && locationHeader) {
             return redirectResponse(
                 setListingSourceIdOnRedirectUri(locationHeader, parseResult.data.listing_source_id),
+                getNoStoreHeaders(response),
             );
         }
 
@@ -101,23 +104,38 @@ function appendAuthorizeParams(searchParams: URLSearchParams, params: OAuthAutho
     if (params.state !== undefined) {
         searchParams.set("state", params.state);
     }
+
+    if (params.resource !== undefined) {
+        searchParams.set("resource", params.resource);
+    }
 }
 
 function isRedirectResponse(response: Response): boolean {
     return response.status >= 300 && response.status < 400;
 }
 
-function redirectResponse(location: string): Response {
+/** OAuth responses carry codes or protocol errors; keep the backend's `no-store`/`no-cache`. */
+function getNoStoreHeaders(response: Response): Headers {
+    const headers = new Headers();
+    for (const name of ["Cache-Control", "Pragma"]) {
+        const value = response.headers.get(name);
+        if (value) {
+            headers.set(name, value);
+        }
+    }
+    return headers;
+}
+
+function redirectResponse(location: string, headers = new Headers()): Response {
+    headers.set("Location", location);
     return new Response(null, {
         status: 302,
-        headers: {
-            Location: location,
-        },
+        headers,
     });
 }
 
 async function forwardErrorResponse(response: Response): Promise<Response> {
-    const headers = new Headers();
+    const headers = getNoStoreHeaders(response);
     const contentType = response.headers.get("Content-Type");
     if (contentType) {
         headers.set("Content-Type", contentType);
