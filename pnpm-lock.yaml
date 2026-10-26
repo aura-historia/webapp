@@ -159,8 +159,8 @@ importers:
         specifier: ^10.1.0
         version: 10.1.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
       react-share:
-        specifier: ^5.3.0
-        version: 5.3.0(react@19.3.1)(supports-color@10.2.2)
+        specifier: ^6.1.0
+        version: 6.1.0(react@19.3.1)
       sonner:
         specifier: ^2.0.8
         version: 2.0.8(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -3522,14 +3522,6 @@ packages:
   dayjs@1.11.23:
     resolution: {integrity: sha512-QDTCU0M0MxR3hQfnlDJfwekQiaanm1ubOD231u73WBckQ/fsamwRLiE2GBz6D3a/xF1NgfiDLJjXBa1hYOYTtQ==}
 
-  debug@2.6.9:
-    resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-
   debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
     engines: {node: '>=6.0'}
@@ -3963,9 +3955,6 @@ packages:
   jsonc-parser@3.3.1:
     resolution: {integrity: sha512-HUgH65KyejrUFPvHFPbqOY0rsFip3Bo5wb4ngvdi1EpCYWUQDC5V+Y7mZws+DLkr4M//zQJoanu1SP+87Dv1oQ==}
 
-  jsonp@0.2.1:
-    resolution: {integrity: sha512-pfog5gdDxPdV4eP7Kg87M8/bHgshlZ5pybl+yKxAnCZ5O7lCIn7Ixydj03wOlnDQesky2BPyA91SQ+5Y/mNwzw==}
-
   kleur@4.1.5:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
@@ -4339,9 +4328,6 @@ packages:
       react-dom:
         optional: true
 
-  ms@2.0.0:
-    resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
-
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
@@ -4574,10 +4560,10 @@ packages:
       '@types/react':
         optional: true
 
-  react-share@5.3.0:
-    resolution: {integrity: sha512-NU4TqizVi2TuyLpN93/ng2ux+uIGHK5b2dT15cHvZDwfi5b5NuzGych4htCGObN8lubygeamhRxUot4lZ0Pv6Q==}
+  react-share@6.1.0:
+    resolution: {integrity: sha512-5+do0CzuHxMTplqBLPFsnN8SQT+2Jf2AdLK0OJDXdd+/dSjzn0/a5CYVpxK3PI1HInspkLtreVGYlp2W8X9SjA==}
     peerDependencies:
-      react: ^17 || ^18 || ^19
+      react: ^18 || ^19
 
   react-style-singleton@2.2.3:
     resolution: {integrity: sha512-b6jSvxvVnyptAiLjbkWLE/lOnR4lfTtDAl+eUC7RZy+QQWc6wRzIV2CE6xBuMmDxc2qIihtDCZD5NPOFl7fRBQ==}
@@ -8801,12 +8787,6 @@ snapshots:
 
   dayjs@1.11.23: {}
 
-  debug@2.6.9(supports-color@10.2.2):
-    dependencies:
-      ms: 2.0.0
-    optionalDependencies:
-      supports-color: 10.2.2
-
   debug@4.4.3(supports-color@10.2.2):
     dependencies:
       ms: 2.1.3
@@ -9285,12 +9265,6 @@ snapshots:
   json5@2.2.3: {}
 
   jsonc-parser@3.3.1: {}
-
-  jsonp@0.2.1(supports-color@10.2.2):
-    dependencies:
-      debug: 2.6.9(supports-color@10.2.2)
-    transitivePeerDependencies:
-      - supports-color
 
   kleur@4.1.5: {}
 
@@ -9841,8 +9815,6 @@ snapshots:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  ms@2.0.0: {}
-
   ms@2.1.3: {}
 
   nanoid@3.3.20: {}
@@ -10142,13 +10114,10 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.3.0
 
-  react-share@5.3.0(react@19.3.1)(supports-color@10.2.2):
+  react-share@6.1.0(react@19.3.1):
     dependencies:
       classnames: 2.5.1
-      jsonp: 0.2.1(supports-color@10.2.2)
       react: 19.3.1
-    transitivePeerDependencies:
-      - supports-color
 
   react-style-singleton@2.2.3(@types/react@19.3.0)(react@19.3.1):
     dependencies:
