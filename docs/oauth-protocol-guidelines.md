@@ -25,7 +25,7 @@ Apply this guide to changes under `src/features/oauth`.
 ## Approval and denial
 
 - `/api/oauth/authorize/approve` accepts only same-origin form posts: `Sec-Fetch-Site: same-origin`, or, from browsers without fetch metadata, an `Origin` equal to the request origin. A cross-site, sibling-subdomain, opaque or origin-less post receives `403` before the session is read or a code is requested. Approval still requires the Cognito session cookie, and the backend redirect with code and state is returned with its `no-store` headers.
-- The consent page shows the invalid-request state, with neither approval nor denial, unless the consent metadata belongs to the requested client and lists the redirect URI exactly (RFC 6749 §4.1.2.1). Denial navigates only to that registered URI with `error=access_denied` and the original `state`; no code is requested.
+- The consent page shows the invalid-request state, with neither approval nor denial, unless the consent metadata belongs to the requested client and lists the redirect URI exactly (RFC 6749 §4.1.2.1). Denial navigates only to that registered URI, keeping any query it was registered with, and adds `error=access_denied` and the original `state`; no code is requested.
 
 ## Ordinary-user consent metadata
 

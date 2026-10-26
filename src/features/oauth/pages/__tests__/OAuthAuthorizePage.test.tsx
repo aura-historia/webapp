@@ -239,6 +239,10 @@ describe("OAuthAuthorizePage", () => {
     it.each([
         ["an unregistered redirect URI", { redirect_uri: "https://attacker.example/callback" }],
         [
+            "an unregistered HTTPS destination with state",
+            { redirect_uri: "https://example.com/qa-oauth-callback", state: "qa-browser-consent" },
+        ],
+        [
             "a redirect URI that only shares the registered prefix",
             { redirect_uri: "https://client.example/callback/../other" },
         ],
@@ -255,9 +259,52 @@ describe("OAuthAuthorizePage", () => {
         );
 
         expect(screen.getByText("Ungültige Autorisierungsanfrage")).toBeInTheDocument();
+        expect(screen.queryByText("Test Partner App")).not.toBeInTheDocument();
+        expect(screen.queryByRole("link")).not.toBeInTheDocument();
+        expect(screen.queryByRole("list")).not.toBeInTheDocument();
         expect(screen.queryByRole("button")).not.toBeInTheDocument();
         expect(document.querySelector("form")).not.toBeInTheDocument();
         expect(navigate).not.toHaveBeenCalled();
+    });
+
+    it("offers consent for a registered redirect URI with a query and keeps it on denial", async () => {
+        const redirectUri = "https://client.example/callback?tenant=north&return=/admin";
+        mockUseOAuthClient.mockReturnValue({
+            data: { ...mockClientData, redirectUris: [redirectUri] },
+            isLoading: false,
+            isError: false,
+        });
+
+        await act(async () =>
+            renderWithRouter(
+                <OAuthAuthorizePage
+                    searchParams={{ ...defaultSearchParams, redirect_uri: redirectUri }}
+                />,
+            ),
+        );
+
+        const form = screen
+            .getByRole("button", { name: "Test Partner App den Zugriff auf Ihr Konto erlauben" })
+            .closest("form");
+        if (!form) {
+            throw new Error("Approve form not found");
+        }
+        expect(new FormData(form).get("redirect_uri")).toBe(redirectUri);
+
+        await userEvent
+            .setup()
+            .click(
+                screen.getByRole("button", { name: "Autorisierung für Test Partner App ablehnen" }),
+            );
+        const denied = new URL(navigate.mock.calls[0][0].href);
+        expect(`${denied.origin}${denied.pathname}`).toBe("https://client.example/callback");
+        expect([...denied.searchParams]).toEqual([
+            ["tenant", "north"],
+            ["return", "/admin"],
+            ["error", "access_denied"],
+            ["error_description", "The user denied the authorization request"],
+            ["state", "csrf-state-123"],
+        ]);
     });
 
     it("carries an MCP request to the direct callback without listing-source routing", async () => {
