@@ -123,7 +123,7 @@
     "sections": {
       "discover": "Scoprire",
       "platform": "Piattaforma",
-      "agent": "Discovery Agent",
+      "agent": "Istruzioni di ricerca",
       "dealers": "Per i mercanti",
       "pricing": "Prezzi"
     },
@@ -713,43 +713,42 @@
     "pricing": {
       "title": "Scegli il tuo <em>accesso.</em>",
       "subtitle": "Inizia gratis. Passa a un piano superiore quando liste private, avvisi e osservazione del mercato diventano parte della tua ricerca abituale.",
-      "comingSoon": "In arrivo",
       "mostPopular": "Più popolare",
       "free": {
         "name": "Gratuito",
         "description": "Per prime ricerche, ritrovamenti spontanei e una piccola selezione privata.",
         "features": {
-          "unlimitedSearches": "Ricerche illimitate",
+          "search": "Ricerca illimitata tra tutti i fornitori indicizzati",
           "watchlistItems": "20 oggetti nella lista privata",
-          "searchAlerts": "1 avviso di ricerca",
-          "alertMatches": "10 nuovi risultati da avviso al mese",
-          "alertType": "Monitoraggio base del mercato",
-          "notificationSpeed": "Notifiche entro poche ore"
+          "searchAlerts": "1 avviso di ricerca attivo",
+          "alertMatches": "10 notifiche di risultati da avviso al mese",
+          "alertCriteria": "Avvisi per termine di ricerca, disponibilità e fascia di prezzo",
+          "matching": "Confronto su titolo e descrizione dell’annuncio"
         }
       },
       "pro": {
         "name": "Pro",
-        "description": "Per collezionisti che seguono pezzi importanti attraverso fonti e tempo.",
+        "description": "Per collezionisti che seguono pezzi importanti attraverso fornitori e tempo.",
         "features": {
-          "unlimitedSearches": "Ricerche illimitate",
+          "search": "Ricerca illimitata tra tutti i fornitori indicizzati",
           "watchlistItems": "100 oggetti nella lista privata",
-          "searchAlerts": "5 avvisi di ricerca",
-          "alertMatches": "Risultati da avviso illimitati",
-          "alertType": "Monitoraggio avanzato del mercato",
-          "notificationSpeed": "Notifiche in tempo reale"
+          "searchAlerts": "5 avvisi di ricerca attivi",
+          "alertMatches": "Notifiche di risultati da avviso illimitate",
+          "alertCriteria": "Avvisi per fornitore, asta, data, posizione e spedizione",
+          "matching": "Confronto su testo dell’annuncio e fino a 1 immagine"
         }
       },
       "ultimate": {
         "name": "Ultimate",
-        "description": "Per collezionisti esigenti, interior designer e professionisti con un brief di mercato continuativo.",
+        "description": "Per collezionisti esigenti, interior designer e professionisti che descrivono con precisione ciò che cercano.",
         "features": {
-          "unlimitedSearches": "Ricerche illimitate",
+          "search": "Ricerca illimitata tra tutti i fornitori indicizzati",
           "watchlistItems": "Lista privata illimitata",
-          "searchAlerts": "Avvisi di ricerca illimitati",
-          "alertMatches": "Risultati da avviso illimitati",
-          "alertType": "Monitoraggio avanzato del mercato",
-          "notificationSpeed": "Notifiche prioritarie in tempo reale",
-          "aiAgent": "Agente IA di scoperta"
+          "searchAlerts": "Avvisi di ricerca attivi illimitati",
+          "alertMatches": "Notifiche di risultati da avviso illimitate",
+          "alertCriteria": "Avvisi per fornitore, asta, data, posizione e spedizione",
+          "matching": "Confronto su testo dell’annuncio e fino a 4 immagini",
+          "searchInstructions": "Istruzioni di ricerca personalizzate per un confronto più preciso"
         }
       },
       "monthly": "Mensile",
@@ -833,10 +832,10 @@
       "moreTools": "Altri strumenti · {{count}}",
       "moreToolsLabel": "Altri strumenti della piattaforma",
       "agent": {
-        "kicker": "AI Discovery Agent",
-        "title": "Descrivilo una volta. L’agente osserva il mondo per te.",
-        "body": "Scrivi una richiesta con parole tue (epoca, forma, dimensioni, atmosfera, budget, uso previsto) e lascia che l’agente esplori il mercato con pazienza.",
-        "demoLabel": "Esempio di richiesta all’AI Discovery Agent e i suoi due risultati più recenti",
+        "kicker": "Istruzioni di ricerca",
+        "title": "Descrivilo una volta. Il tuo avviso resta attento.",
+        "body": "Con Ultimate, aggiungi a un avviso di ricerca istruzioni scritte con parole tue (epoca, forma, dimensioni, condizioni, budget, uso previsto). I nuovi annunci vengono confrontati con il loro testo e fino a quattro immagini, e ti avvisiamo dei risultati.",
+        "demoLabel": "Esempio di istruzioni di ricerca per un avviso e i suoi due risultati più recenti",
         "review": "Vedi",
         "examples": {
           "gustavian": {

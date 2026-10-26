@@ -55,7 +55,7 @@ function FeatureCard({ feature, demo, className }: FeatureCardProps) {
     );
 }
 
-/** III — The platform: the AI Discovery Agent, four everyday tools and market watch. */
+/** III — The platform: search instructions (Ultimate), four everyday tools and market watch. */
 export function PlatformSection() {
     const { t } = useTranslation();
     const isBento = useMediaQuery(BENTO_QUERY);

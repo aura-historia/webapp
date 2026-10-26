@@ -77,7 +77,7 @@ describe("Header", () => {
                 "href",
                 "/de#platform",
             );
-            expect(nav.getByRole("link", { name: "Discovery Agent" })).toHaveAttribute(
+            expect(nav.getByRole("link", { name: "Suchanweisungen" })).toHaveAttribute(
                 "href",
                 "/de#agent",
             );

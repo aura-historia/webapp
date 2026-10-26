@@ -19,7 +19,7 @@ function advance(ms: number) {
 }
 
 function demo() {
-    return within(screen.getByRole("img", { name: /Discovery Agent/ }));
+    return within(screen.getByRole("img", { name: /Suchanweisungen/ }));
 }
 
 describe("AgentDemo", () => {

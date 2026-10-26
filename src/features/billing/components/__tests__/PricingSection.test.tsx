@@ -1,31 +1,65 @@
 import PricingSection from "@/features/billing/components/PricingSection.tsx";
-import { PRICING_TIERS } from "@/features/billing/components/PricingSection.data.ts";
+import {
+    type PaidPricingTier,
+    PRICING_TIERS,
+} from "@/features/billing/components/PricingSection.data.ts";
 import { CURRENCIES, type Currency } from "@/data/internal/common/Currency.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { act, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 
-const CONFIGURED_BILLING_CURRENCIES = [
-    "EUR",
-    "GBP",
-    "USD",
-    "AUD",
-    "CAD",
-    "NZD",
-    "CNY",
-    "BRL",
-    "PLN",
-    "TRY",
-    "JPY",
-    "CZK",
-    "RUB",
-    "AED",
-    "SAR",
-    "HKD",
-    "SGD",
-    "CHF",
-];
+/** The Stripe catalogue aligned on 26 October 2026: [Pro monthly, Pro yearly, Ultimate monthly, Ultimate yearly]. */
+const STRIPE_PRICES: Record<Currency, readonly [number, number, number, number]> = {
+    AED: [59.9, 599, 149.9, 1499],
+    ARS: [21990, 219900, 54990, 549900],
+    AUD: [22.9, 229, 59.9, 599],
+    BRL: [79.9, 799, 199.9, 1999],
+    CAD: [22.9, 229, 59.9, 599],
+    CHF: [15.9, 159, 39.9, 399],
+    CNY: [109.9, 1099, 279.9, 2799],
+    CZK: [329.9, 3299, 899.9, 8999],
+    DKK: [109.9, 1099, 279.9, 2799],
+    EUR: [13.9, 139, 34.9, 349],
+    GBP: [11.9, 119, 29.9, 299],
+    HKD: [119.9, 1199, 319.9, 3199],
+    HUF: [4990, 49900, 11990, 119900],
+    INR: [1299, 12990, 3299, 32990],
+    JPY: [1900, 19000, 6499, 64990],
+    KRW: [21900, 219000, 54900, 549000],
+    MXN: [249.9, 2499, 649.9, 6499],
+    NOK: [159.9, 1599, 399.9, 3999],
+    NZD: [27.9, 279, 69.9, 699],
+    PLN: [54.9, 549, 149.9, 1499],
+    RON: [69.9, 699, 179.9, 1799],
+    RUB: [1289.9, 12899, 3299.9, 32999],
+    SAR: [59.9, 599, 149.9, 1499],
+    SEK: [169.9, 1699, 429.9, 4299],
+    SGD: [19.9, 199, 54.9, 549],
+    THB: [499, 4990, 1199, 11990],
+    TRY: [689.9, 6899, 1899.9, 18999],
+    TWD: [549, 5490, 1399, 13990],
+    USD: [17.9, 179, 39.9, 399],
+    ZAR: [229.9, 2299, 599.9, 5999],
+};
+
+function paidTier(id: PaidPricingTier["id"]): PaidPricingTier {
+    const tier = PRICING_TIERS.find((pricingTier) => pricingTier.id === id);
+    if (tier?.id !== id) throw new Error(`Missing ${id} tier`);
+    return tier as PaidPricingTier;
+}
+
+/** The formatted number in a price, e.g. "1.082,50" from "1.082,50 ₹". */
+function amountIn(text: string | undefined): string | undefined {
+    return text?.match(/\d[\d.,]*/)?.[0];
+}
+
+/** The large current price of each plan card, in card order. */
+function displayedPrices(): string[] {
+    return Array.from(document.querySelectorAll("article span.font-serif")).map(
+        (element) => element.textContent ?? "",
+    );
+}
 
 type MockAuthUser = { userId: string; username: string } | null;
 
@@ -108,12 +142,12 @@ describe("PricingSection", () => {
         ).toBeInTheDocument();
         expect(
             screen.getByText(
-                "Für Sammler, die ernsthafte Kandidaten über Quellen und Zeit hinweg verfolgen.",
+                "Für Sammler, die ernsthafte Kandidaten über Anbieter und Zeit hinweg verfolgen.",
             ),
         ).toBeInTheDocument();
         expect(
             screen.getByText(
-                "Für anspruchsvolle Sammler, Interior-Profis und professionelle Marktbeobachtung.",
+                "Für anspruchsvolle Sammler, Interior-Profis und Fachleute, die genau beschreiben, wonach sie suchen.",
             ),
         ).toBeInTheDocument();
     });
@@ -220,33 +254,67 @@ describe("PricingSection", () => {
 
     it("renders free tier features", () => {
         expect(screen.getByText("20 Objekte in der privaten Merkliste")).toBeInTheDocument();
-        expect(screen.getByText("1 Suchauftrag")).toBeInTheDocument();
-        expect(screen.getByText("10 neue Treffer aus Suchaufträgen pro Monat")).toBeInTheDocument();
-        expect(screen.getByText("Einfache Marktbeobachtung")).toBeInTheDocument();
+        expect(screen.getByText("1 aktiver Suchauftrag")).toBeInTheDocument();
         expect(
-            screen.getByText("Benachrichtigungen innerhalb weniger Stunden"),
+            screen.getByText("10 Trefferbenachrichtigungen aus Suchaufträgen pro Monat"),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText("Suchaufträge nach Suchbegriff, Verfügbarkeit und Preisspanne"),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText("Abgleich anhand von Titel und Beschreibung des Angebots"),
         ).toBeInTheDocument();
     });
 
     it("renders pro tier features", () => {
         expect(screen.getByText("100 Objekte in der privaten Merkliste")).toBeInTheDocument();
-        expect(screen.getByText("5 Suchaufträge")).toBeInTheDocument();
+        expect(screen.getByText("5 aktive Suchaufträge")).toBeInTheDocument();
+        expect(
+            screen.getByText("Abgleich anhand des Angebotstexts und bis zu 1 Bild"),
+        ).toBeInTheDocument();
     });
 
     it("renders ultimate tier features", () => {
         expect(screen.getByText("Unbegrenzte Merkliste")).toBeInTheDocument();
-        expect(screen.getByText("Unbegrenzte Suchaufträge")).toBeInTheDocument();
-        expect(screen.getByText("KI-Suchagent")).toBeInTheDocument();
-        expect(screen.getByText("Priorisierte Echtzeit-Benachrichtigungen")).toBeInTheDocument();
+        expect(screen.getByText("Unbegrenzt viele aktive Suchaufträge")).toBeInTheDocument();
+        expect(
+            screen.getByText("Abgleich anhand des Angebotstexts und bis zu 4 Bildern"),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText("Eigene Suchanweisungen für einen erweiterten Abgleich"),
+        ).toBeInTheDocument();
     });
 
-    it("renders unlimited searches for every tier", () => {
-        expect(screen.getAllByText("Unbegrenzt suchen")).toHaveLength(3);
+    it("renders unlimited ordinary search for every tier", () => {
+        expect(
+            screen.getAllByText("Unbegrenzte Suche über alle indexierten Anbieter"),
+        ).toHaveLength(3);
     });
 
-    it("renders advanced market monitoring for both pro and ultimate tiers", () => {
-        const fullAlerts = screen.getAllByText("Vertiefte Marktbeobachtung");
-        expect(fullAlerts).toHaveLength(2);
+    it("renders unlimited match notifications and the full alert criteria for both paid tiers", () => {
+        expect(
+            screen.getAllByText("Unbegrenzte Trefferbenachrichtigungen aus Suchaufträgen"),
+        ).toHaveLength(2);
+        expect(
+            screen.getAllByText("Suchaufträge nach Anbieter, Auktion, Datum, Standort und Versand"),
+        ).toHaveLength(2);
+    });
+
+    it("offers custom search instructions only on the ultimate tier", () => {
+        const instructions = screen.getByText(
+            "Eigene Suchanweisungen für einen erweiterten Abgleich",
+        );
+        expect(instructions.closest("article")).toHaveAttribute(
+            "aria-labelledby",
+            "pricing-ultimate",
+        );
+    });
+
+    it("does not promise notification timing, priority delivery or an agent", () => {
+        expect(screen.queryByText(/Echtzeit|innerhalb weniger Stunden|Priorisiert/)).toBeNull();
+        expect(screen.queryByText(/Agent/)).toBeNull();
+        expect(screen.queryByText("Vertiefte Marktbeobachtung")).toBeNull();
+        expect(screen.queryByText("Einfache Marktbeobachtung")).toBeNull();
     });
 
     it("does not render text or hybrid search plan wording", () => {
@@ -265,9 +333,11 @@ describe("PricingSection", () => {
         expect(checkIcons).toHaveLength(19);
     });
 
-    it("highlights the AI search agent feature", () => {
-        const aiAgentText = screen.getByText("KI-Suchagent");
-        const listItem = aiAgentText.closest("li");
+    it("highlights the custom search instructions feature", () => {
+        const instructions = screen.getByText(
+            "Eigene Suchanweisungen für einen erweiterten Abgleich",
+        );
+        const listItem = instructions.closest("li");
         expect(listItem?.className).toContain("font-semibold");
         expect(listItem?.className).toContain("text-ink");
     });
@@ -293,60 +363,35 @@ describe("PricingSection", () => {
         }
     });
 
-    it("configures the same existing subscription currencies on every paid tier", () => {
-        for (const tier of PRICING_TIERS.filter((pricingTier) => pricingTier.prices)) {
-            expect(Object.keys(tier.prices ?? {})).toEqual(CONFIGURED_BILLING_CURRENCIES);
-            expect(Object.keys(tier.yearlyPrices ?? {})).toEqual(CONFIGURED_BILLING_CURRENCIES);
-        }
-    });
-
-    it("does not configure subscription prices for newly supported listing currencies", () => {
-        const configured = new Set<string>(CONFIGURED_BILLING_CURRENCIES);
-        const unpriced = CURRENCIES.filter((currency) => !configured.has(currency));
-        expect(unpriced).toEqual([
-            "ZAR",
-            "SEK",
-            "DKK",
-            "NOK",
-            "KRW",
-            "INR",
-            "TWD",
-            "HUF",
-            "RON",
-            "MXN",
-            "THB",
-            "ARS",
-        ]);
+    it("prices both paid tiers in every supported currency", () => {
         for (const tier of PRICING_TIERS) {
-            for (const currency of unpriced) {
-                expect(tier.prices?.[currency]).toBeUndefined();
-                expect(tier.yearlyPrices?.[currency]).toBeUndefined();
-            }
+            if (tier.id === "free") continue;
+            expect(Object.keys(tier.prices).sort()).toEqual([...CURRENCIES].sort());
+            expect(Object.keys(tier.yearlyPrices).sort()).toEqual([...CURRENCIES].sort());
         }
+        expect(Object.keys(STRIPE_PRICES).sort()).toEqual([...CURRENCIES].sort());
     });
 
-    it("yearly prices equal 10x monthly prices (2-month discount)", () => {
-        for (const tier of PRICING_TIERS.filter(
-            (pricingTier) => pricingTier.prices && pricingTier.yearlyPrices,
-        )) {
-            const { prices, yearlyPrices } = tier;
-            if (!prices || !yearlyPrices) {
-                continue;
-            }
+    it.each(CURRENCIES)("matches the Stripe catalogue amounts for %s", (currency) => {
+        const [proMonthly, proYearly, ultimateMonthly, ultimateYearly] = STRIPE_PRICES[currency];
+        expect(paidTier("pro").prices[currency]).toBe(proMonthly);
+        expect(paidTier("pro").yearlyPrices[currency]).toBe(proYearly);
+        expect(paidTier("ultimate").prices[currency]).toBe(ultimateMonthly);
+        expect(paidTier("ultimate").yearlyPrices[currency]).toBe(ultimateYearly);
+    });
 
+    it("charges exactly ten monthly prices for a year (2-month discount)", () => {
+        for (const tier of PRICING_TIERS) {
+            if (tier.id === "free") continue;
             for (const currency of CURRENCIES) {
-                const monthly = prices[currency];
-                const yearly = yearlyPrices[currency];
-                if (monthly === undefined || yearly === undefined) continue;
-                // Yearly should be 10x monthly (rounded)
-                expect(yearly).toBeCloseTo(monthly * 10, 0);
+                expect(tier.yearlyPrices[currency]).toBeCloseTo(tier.prices[currency] * 10, 6);
             }
         }
     });
 });
 
 describe("PricingSection currency preference", () => {
-    const renderWithCurrency = async (currency: Currency) => {
+    const renderWithCurrency = async (currency: string) => {
         localStorage.setItem("user-preferences", JSON.stringify({ currency }));
         await act(async () => {
             renderWithRouter(<PricingSection />);
@@ -357,28 +402,66 @@ describe("PricingSection currency preference", () => {
         localStorage.clear();
     });
 
-    it.each(["SEK", "KRW"] as const)(
-        "shows the coming-soon fallback for unpriced %s instead of a formatted amount",
+    it.each(CURRENCIES)(
+        "renders %s prices for both cycles without a fallback",
         async (currency) => {
             await renderWithCurrency(currency);
+            const user = userEvent.setup();
 
-            expect(await screen.findAllByText("In Kürze")).toHaveLength(2);
-            expect(screen.queryByText(/NaN|undefined/)).not.toBeInTheDocument();
-            expect(screen.queryByText(/€/)).not.toBeInTheDocument();
+            const yearly = displayedPrices();
+            expect(yearly).toHaveLength(3);
+            await user.click(screen.getByRole("button", { name: "Monatlich" }));
+            const monthly = displayedPrices();
+
+            for (const text of [...yearly, ...monthly]) {
+                expect(text).not.toMatch(/NaN|undefined|In Kürze/);
+                expect(text).toMatch(/\d/);
+            }
+            if (currency !== "EUR") {
+                expect(document.body.textContent).not.toMatch(/€/);
+            }
         },
     );
 
-    it("keeps formatting configured prices for an existing currency", async () => {
-        await renderWithCurrency("CHF");
+    it.each([
+        // [currency, Pro yearly per month, Pro monthly, Ultimate yearly per month, Ultimate monthly]
+        ["DKK", "91,58", "109,90", "233,25", "279,90"],
+        ["NOK", "133,25", "159,90", "333,25", "399,90"],
+        ["INR", "1.082,50", "1.299", "2.749,17", "3.299"],
+        ["HUF", "4.158,33", "4.990", "9.991,67", "11.990"],
+        ["TWD", "457,50", "549", "1.165,83", "1.399"],
+        ["KRW", "18.250", "21.900", "45.750", "54.900"],
+        ["JPY", "1.583", "1.900", "5.416", "6.499"],
+        ["ARS", "18.325", "21.990", "45.825", "54.990"],
+    ] as const)(
+        "formats %s per-month equivalents and monthly prices at charge precision",
+        async (currency, proYearly, proMonthly, ultimateYearly, ultimateMonthly) => {
+            await renderWithCurrency(currency);
+            const user = userEvent.setup();
 
-        const yearlyPerMonth = new Intl.NumberFormat("de", {
-            style: "currency",
-            currency: "CHF",
-        }).format(159 / 12);
-        expect(
-            await screen.findByText((_, element) => element?.textContent === yearlyPerMonth),
-        ).toBeInTheDocument();
-        expect(screen.queryByText("In Kürze")).not.toBeInTheDocument();
+            const [, pro, ultimate] = displayedPrices();
+            expect(amountIn(pro)).toBe(proYearly);
+            expect(amountIn(ultimate)).toBe(ultimateYearly);
+            const struck = Array.from(document.querySelectorAll("s")).map(
+                (element) => element.textContent ?? "",
+            );
+            expect(amountIn(struck[0])).toBe(proMonthly);
+            expect(amountIn(struck[1])).toBe(ultimateMonthly);
+
+            await user.click(screen.getByRole("button", { name: "Monatlich" }));
+            const [, proMonth, ultimateMonth] = displayedPrices();
+            expect(amountIn(proMonth)).toBe(proMonthly);
+            expect(amountIn(ultimateMonth)).toBe(ultimateMonthly);
+        },
+    );
+
+    it("falls back to EUR for an unsupported stored currency", async () => {
+        await renderWithCurrency("XYZ");
+
+        const [, pro] = displayedPrices();
+        expect(pro).toBe(
+            new Intl.NumberFormat("de", { style: "currency", currency: "EUR" }).format(139 / 12),
+        );
     });
 });
 
