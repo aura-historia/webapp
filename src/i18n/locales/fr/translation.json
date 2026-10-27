@@ -1805,7 +1805,6 @@
       "PARTNER_API": "API partenaire"
     },
     "configurationTypes": {
-      "UNCONFIGURED": "Non configurée",
       "WEB_CRAWL": "Exploration web",
       "SHOPIFY": "Shopify",
       "WOOCOMMERCE": "WooCommerce",
@@ -1827,10 +1826,10 @@
     },
     "form": {
       "createTitle": "Créer une source d’annonces",
-      "createDescription": "Créez une source et choisissez son opérateur et sa configuration d’ingestion.",
+      "createDescription": "Créez une source et choisissez son opérateur. Les méthodes d’ingestion peuvent être configurées plus tard.",
       "editTitle": "Modifier la source d’annonces",
       "editDescription": "Modifiez les informations de la source. L’opérateur et le slug sont immuables.",
-      "configurationDescription": "Ajoutez une configuration pour chaque méthode d’ingestion. Les entrées non configurées conservent la méthode sans réglages fournisseur.",
+      "configurationDescription": "Facultatif : ajoutez maintenant les méthodes d’ingestion configurées ou laissez la liste vide pour les configurer plus tard.",
       "referralDescription": "Informations Partnerize facultatives. Aucun identifiant fournisseur n’est stocké ici.",
       "replaceConfiguration": "Remplacer la configuration d’ingestion",
       "incompleteConfigurationNotice": "L’API de lecture ne renvoie pas les valeurs de configuration. Laissez cette option désactivée pour conserver les réglages actuels. Son activation remplace ceux de chaque méthode active.",
@@ -1871,7 +1870,6 @@
       "nameTooLong": "Le nom de la source ne peut pas dépasser 255 octets UTF-8.",
       "invalidEmail": "Saisissez une adresse e-mail valide.",
       "invalidUrl": "Saisissez une URL HTTP ou HTTPS valide.",
-      "configurationRequired": "Ajoutez au moins une configuration d’ingestion.",
       "operatorRequired": "Sélectionnez une organisation opératrice.",
       "operatorNameRequired": "Saisissez le nom de la nouvelle organisation opératrice.",
       "duplicateMethod": "Chaque méthode d’ingestion ne peut être ajoutée qu’une fois.",
