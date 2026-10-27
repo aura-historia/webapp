@@ -1781,7 +1781,6 @@
       "phone": "Telefono",
       "email": "E-mail",
       "ingestionMethods": "Metodi di acquisizione",
-      "ingestionMethod": "Metodo di acquisizione",
       "ingestionConfiguration": "Configurazione di acquisizione",
       "configurationType": "Tipo di configurazione",
       "fallbackCurrency": "Valuta di ripiego (ISO 4217)",
