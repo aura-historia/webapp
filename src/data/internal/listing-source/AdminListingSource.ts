@@ -174,8 +174,7 @@ export function mapToListingSourceReference(data: ListingSourceReferenceData) {
 }
 
 export type AdminListingSourceConfigurationFields = {
-    readonly type: "UNCONFIGURED" | "WEB_CRAWL" | "SHOPIFY" | "WOOCOMMERCE" | "PARTNER_API";
-    readonly ingestionMethod: ListingIngestionMethodData;
+    readonly type: "WEB_CRAWL" | "SHOPIFY" | "WOOCOMMERCE" | "PARTNER_API";
     readonly fallbackCurrency: string;
     readonly domain: string;
     readonly currency: string;
@@ -217,12 +216,10 @@ export type AdminListingSourceUpdateValues = {
 };
 
 export function createDefaultConfiguration(
-    type: AdminListingSourceConfigurationFields["type"] = "UNCONFIGURED",
-    ingestionMethod: ListingIngestionMethodData = "WEB_CRAWL",
+    type: AdminListingSourceConfigurationFields["type"] = "WEB_CRAWL",
 ): AdminListingSourceConfigurationFields {
     return {
         type,
-        ingestionMethod,
         fallbackCurrency: "",
         domain: "",
         currency: "",
@@ -247,9 +244,6 @@ function optionalCurrencyValue(value: string): Currency | undefined {
 function mapCreateConfiguration(
     configuration: AdminListingSourceConfigurationFields,
 ): CreateListingIngestionConfigurationDataWritable {
-    if (configuration.type === "UNCONFIGURED") {
-        return { type: "UNCONFIGURED", ingestionMethod: configuration.ingestionMethod };
-    }
     if (configuration.type === "WEB_CRAWL") {
         const fallbackCurrency = optionalCurrencyValue(configuration.fallbackCurrency);
         return { type: "WEB_CRAWL", ...(fallbackCurrency ? { fallbackCurrency } : {}) };

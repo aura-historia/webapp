@@ -3804,9 +3804,6 @@ export type PutShopifyListingSourceIngestionConfigurationData = {
 };
 
 export type CreateListingIngestionConfigurationData = {
-  type: 'UNCONFIGURED';
-  ingestionMethod: ListingIngestionMethodData;
-} | {
   type: 'WEB_CRAWL';
   /**
    * Optional ISO 4217 fallback used only when crawler-extracted price text contains no currency hint.
@@ -4657,9 +4654,6 @@ export type PutWoocommerceListingSourceIngestionConfigurationDataWritable = {
 };
 
 export type CreateListingIngestionConfigurationDataWritable = {
-  type: 'UNCONFIGURED';
-  ingestionMethod: ListingIngestionMethodData;
-} | {
   type: 'WEB_CRAWL';
   /**
    * Optional ISO 4217 fallback used only when crawler-extracted price text contains no currency hint.

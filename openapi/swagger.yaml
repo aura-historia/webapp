@@ -24626,18 +24626,6 @@ components:
           additionalProperties: false
           required:
             - type
-            - ingestionMethod
-          properties:
-            type:
-              type: string
-              enum:
-                - UNCONFIGURED
-            ingestionMethod:
-              $ref: "#/components/schemas/ListingIngestionMethodData"
-        - type: object
-          additionalProperties: false
-          required:
-            - type
           properties:
             type:
               type: string

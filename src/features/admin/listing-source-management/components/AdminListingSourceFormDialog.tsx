@@ -89,8 +89,7 @@ function addCurrencyIssues(
 }
 
 const configurationFieldsSchema = z.object({
-    type: z.enum(["UNCONFIGURED", "WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE", "PARTNER_API"]),
-    ingestionMethod: z.enum(ADMIN_LISTING_SOURCE_INGESTION_METHODS),
+    type: z.enum(["WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE", "PARTNER_API"]),
     fallbackCurrency: z.string(),
     domain: z.string(),
     currency: z.string(),
@@ -115,9 +114,7 @@ const createFormSchema = z
             .string()
             .trim()
             .pipe(z.union([z.literal(""), z.email("adminListingSources.validation.invalidEmail")])),
-        configurations: z
-            .array(configurationFieldsSchema)
-            .min(1, "adminListingSources.validation.configurationRequired"),
+        configurations: z.array(configurationFieldsSchema),
         url: presentationUrlSchema,
         image: presentationUrlSchema,
         partnerizeCamref: z.string(),
@@ -137,11 +134,7 @@ const createFormSchema = z
                 message: "adminListingSources.validation.operatorNameRequired",
             });
         }
-        const methods = values.configurations.map((configuration) =>
-            configuration.type === "UNCONFIGURED"
-                ? configuration.ingestionMethod
-                : configuration.type,
-        );
+        const methods = values.configurations.map((configuration) => configuration.type);
         if (new Set(methods).size !== methods.length) {
             context.addIssue({
                 code: "custom",
@@ -287,7 +280,7 @@ function CreateListingSourceForm({
             operatorName: "",
             operatorPhone: "",
             operatorEmail: "",
-            configurations: [createDefaultConfiguration()],
+            configurations: [],
             url: "",
             image: "",
             partnerizeCamref: "",
@@ -453,7 +446,6 @@ function CreateListingSourceForm({
                             register={form.register}
                             control={form.control}
                             errors={form.formState.errors.configurations?.[index]}
-                            canRemove={fields.length > 1}
                             onRemove={() => remove(index)}
                         />
                     ))}
@@ -496,7 +488,6 @@ function CreateConfigurationEditor({
     register,
     control,
     errors,
-    canRemove,
     onRemove,
 }: {
     readonly index: number;
@@ -508,13 +499,11 @@ function CreateConfigurationEditor({
         readonly fallbackCurrency?: { readonly message?: string };
         readonly currency?: { readonly message?: string };
     };
-    readonly canRemove: boolean;
     readonly onRemove: () => void;
 }) {
     const { t } = useTranslation();
     const base = `configurations.${index}` as const;
     const typeField = useController({ control, name: `${base}.type` }).field;
-    const methodField = useController({ control, name: `${base}.ingestionMethod` }).field;
     const type = typeField.value;
 
     return (
@@ -529,13 +518,7 @@ function CreateConfigurationEditor({
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                            {[
-                                "UNCONFIGURED",
-                                "WEB_CRAWL",
-                                "SHOPIFY",
-                                "WOOCOMMERCE",
-                                "PARTNER_API",
-                            ].map((item) => (
+                            {["WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE", "PARTNER_API"].map((item) => (
                                 <SelectItem key={item} value={item}>
                                     {t(`adminListingSources.configurationTypes.${item}`)}
                                 </SelectItem>
@@ -543,30 +526,9 @@ function CreateConfigurationEditor({
                         </SelectContent>
                     </Select>
                 </div>
-                {type === "UNCONFIGURED" && (
-                    <div className="grid min-w-56 flex-1 gap-2">
-                        <Label htmlFor={`admin-source-${index}-ingestion-method`}>
-                            {t("adminListingSources.fields.ingestionMethod")}
-                        </Label>
-                        <Select value={methodField.value} onValueChange={methodField.onChange}>
-                            <SelectTrigger id={`admin-source-${index}-ingestion-method`}>
-                                <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {ADMIN_LISTING_SOURCE_INGESTION_METHODS.map((method) => (
-                                    <SelectItem key={method} value={method}>
-                                        {t(`adminListingSources.methods.${method}`)}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-                )}
-                {canRemove && (
-                    <Button type="button" variant="outline" onClick={onRemove}>
-                        {t("adminListingSources.actions.removeMethod")}
-                    </Button>
-                )}
+                <Button type="button" variant="outline" onClick={onRemove}>
+                    {t("adminListingSources.actions.removeMethod")}
+                </Button>
             </div>
             {type === "WEB_CRAWL" && (
                 <FormField

@@ -124,7 +124,6 @@ describe("admin ListingSource mapping and request builders", () => {
             operatorPhone: " ",
             operatorEmail: " contact@example.test ",
             configurations: [
-                { ...createDefaultConfiguration("UNCONFIGURED", "WEB_CRAWL") },
                 { ...createDefaultConfiguration("WEB_CRAWL"), fallbackCurrency: " EUR " },
                 {
                     ...createDefaultConfiguration("SHOPIFY"),
@@ -150,7 +149,6 @@ describe("admin ListingSource mapping and request builders", () => {
                 email: "contact@example.test",
             },
             ingestionConfiguration: [
-                { type: "UNCONFIGURED", ingestionMethod: "WEB_CRAWL" },
                 { type: "WEB_CRAWL", fallbackCurrency: "EUR" },
                 { type: "SHOPIFY", domain: "store.example", currency: "USD", language: "en" },
                 { type: "WOOCOMMERCE", webhookSecret: "write-only-value" },
@@ -167,6 +165,27 @@ describe("admin ListingSource mapping and request builders", () => {
                 configurations: [createDefaultConfiguration("PARTNER_API")],
             }).operator,
         ).toEqual({ type: "EXISTING", partyId: "party_02" });
+    });
+
+    it("creates a source with no ingestion methods when no configuration is selected", () => {
+        expect(
+            buildCreateAdminListingSourceData({
+                name: " Empty Source ",
+                operatorType: "EXISTING",
+                operatorPartyId: " party_02 ",
+                operatorName: "",
+                operatorPhone: "",
+                operatorEmail: "",
+                configurations: [],
+                url: "",
+                image: "",
+                partnerizeCamref: "",
+            }),
+        ).toEqual({
+            name: "Empty Source",
+            operator: { type: "EXISTING", partyId: "party_02" },
+            ingestionConfiguration: [],
+        });
     });
 
     it("omits unseen configuration by default and preserves a blank WooCommerce secret", () => {
@@ -281,12 +300,12 @@ describe("admin ListingSource mapping and request builders", () => {
                     fallbackCurrency: currencies[0],
                 },
                 {
-                    ...createDefaultConfiguration("SHOPIFY", "SHOPIFY"),
+                    ...createDefaultConfiguration("SHOPIFY"),
                     domain: "store.example",
                     currency: currencies[1],
                 },
                 {
-                    ...createDefaultConfiguration("WOOCOMMERCE", "WOOCOMMERCE"),
+                    ...createDefaultConfiguration("WOOCOMMERCE"),
                     webhookSecret: "secret",
                     currency: currencies[2],
                 },
