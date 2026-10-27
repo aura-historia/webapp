@@ -1781,7 +1781,6 @@
       "phone": "Téléphone",
       "email": "E-mail",
       "ingestionMethods": "Méthodes d’ingestion",
-      "ingestionMethod": "Méthode d’ingestion",
       "ingestionConfiguration": "Configuration d’ingestion",
       "configurationType": "Type de configuration",
       "fallbackCurrency": "Devise de repli (ISO 4217)",
