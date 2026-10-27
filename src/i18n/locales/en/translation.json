@@ -2454,7 +2454,6 @@
       "PARTNER_API": "Partner API"
     },
     "configurationTypes": {
-      "UNCONFIGURED": "Unconfigured",
       "WEB_CRAWL": "Web crawl",
       "SHOPIFY": "Shopify",
       "WOOCOMMERCE": "WooCommerce",
@@ -2476,10 +2475,10 @@
     },
     "form": {
       "createTitle": "Create listing source",
-      "createDescription": "Create a source and choose its operator and ingestion configuration.",
+      "createDescription": "Create a source and choose its operator. Ingestion methods can be configured later.",
       "editTitle": "Edit listing source",
       "editDescription": "Change source details. The operator and source slug are immutable.",
-      "configurationDescription": "Add one configuration for each ingestion method. Unconfigured entries preserve the method without provider settings.",
+      "configurationDescription": "Optional: add configured ingestion methods now, or leave this empty and configure them later.",
       "referralDescription": "Optional Partnerize referral information. No provider credentials are stored here.",
       "replaceConfiguration": "Replace ingestion configuration",
       "incompleteConfigurationNotice": "The read API does not return configuration values. Leave this off to preserve the current settings. Turning it on replaces settings for every active ingestion method.",
@@ -2520,7 +2519,6 @@
       "nameTooLong": "The source name must be 255 UTF-8 bytes or fewer.",
       "invalidEmail": "Enter a valid email address.",
       "invalidUrl": "Enter a valid HTTP or HTTPS URL.",
-      "configurationRequired": "Add at least one ingestion configuration.",
       "operatorRequired": "Select an operator organization.",
       "operatorNameRequired": "Enter the new operator organization name.",
       "duplicateMethod": "Each ingestion method can only be added once.",
