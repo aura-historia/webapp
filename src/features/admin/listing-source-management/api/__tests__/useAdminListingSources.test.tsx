@@ -13,7 +13,6 @@ import {
     useUpdateAdminListingSource,
 } from "../useAdminListingSources.ts";
 import {
-    createDefaultConfiguration,
     defaultUpdateConfigurations,
     type AdminListingSourceCreateValues,
     type AdminListingSourceDetail,
@@ -164,7 +163,7 @@ describe("admin ListingSource API", () => {
             operatorName: "",
             operatorPhone: "",
             operatorEmail: "",
-            configurations: [createDefaultConfiguration("UNCONFIGURED", "WEB_CRAWL")],
+            configurations: [],
             url: "",
             image: "",
             partnerizeCamref: "",
@@ -177,7 +176,7 @@ describe("admin ListingSource API", () => {
             body: {
                 name: "New Source",
                 operator: { type: "EXISTING", partyId: "party_02" },
-                ingestionConfiguration: [{ type: "UNCONFIGURED", ingestionMethod: "WEB_CRAWL" }],
+                ingestionConfiguration: [],
             },
         });
         expect(reference).toEqual({
