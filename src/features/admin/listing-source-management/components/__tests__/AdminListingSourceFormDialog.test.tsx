@@ -63,19 +63,30 @@ describe("AdminListingSourceFormDialog", () => {
         expect(api.update.mutate).not.toHaveBeenCalled();
     });
 
-    it("labels each configuration select in the create form", () => {
+    it("starts without an ingestion method and allows adding and removing the last entry", () => {
         renderDialog();
 
-        expect(
-            screen.getByRole("combobox", {
-                name: testI18n.t("adminListingSources.fields.configurationType"),
+        const configurationType = testI18n.t("adminListingSources.fields.configurationType");
+        expect(screen.queryByRole("combobox", { name: configurationType })).not.toBeInTheDocument();
+
+        fireEvent.click(
+            screen.getByRole("button", {
+                name: testI18n.t("adminListingSources.actions.addMethod"),
             }),
-        ).toBeTruthy();
+        );
+        expect(screen.getByRole("combobox", { name: configurationType })).toBeInTheDocument();
         expect(
-            screen.getByRole("combobox", {
+            screen.queryByRole("combobox", {
                 name: testI18n.t("adminListingSources.fields.ingestionMethod"),
             }),
-        ).toBeTruthy();
+        ).not.toBeInTheDocument();
+
+        fireEvent.click(
+            screen.getByRole("button", {
+                name: testI18n.t("adminListingSources.actions.removeMethod"),
+            }),
+        );
+        expect(screen.queryByRole("combobox", { name: configurationType })).not.toBeInTheDocument();
     });
 
     describe("currency validation in the edit form", () => {
