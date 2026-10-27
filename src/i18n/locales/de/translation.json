@@ -2454,7 +2454,6 @@
       "PARTNER_API": "Partner-API"
     },
     "configurationTypes": {
-      "UNCONFIGURED": "Nicht konfiguriert",
       "WEB_CRAWL": "Web-Crawl",
       "SHOPIFY": "Shopify",
       "WOOCOMMERCE": "WooCommerce",
@@ -2476,10 +2475,10 @@
     },
     "form": {
       "createTitle": "Listing-Quelle erstellen",
-      "createDescription": "Erstellen Sie eine Quelle und wählen Sie Betreiber sowie Importkonfiguration.",
+      "createDescription": "Erstellen Sie eine Quelle und wählen Sie ihren Betreiber. Importmethoden können später konfiguriert werden.",
       "editTitle": "Listing-Quelle bearbeiten",
       "editDescription": "Ändern Sie Quelldaten. Betreiber und Quellen-Slug sind unveränderlich.",
-      "configurationDescription": "Fügen Sie für jede Importmethode eine Konfiguration hinzu. Nicht konfigurierte Einträge behalten die Methode ohne Anbietereinstellungen bei.",
+      "configurationDescription": "Optional: Fügen Sie jetzt konfigurierte Importmethoden hinzu oder lassen Sie die Liste leer, um sie später einzurichten.",
       "referralDescription": "Optionale Partnerize-Empfehlungsdaten. Hier werden keine Anbieterzugangsdaten gespeichert.",
       "replaceConfiguration": "Importkonfiguration ersetzen",
       "incompleteConfigurationNotice": "Die Lese-API gibt Konfigurationswerte nicht zurück. Lassen Sie diese Option aus, um aktuelle Einstellungen beizubehalten. Beim Aktivieren werden die Einstellungen aller aktiven Importmethoden ersetzt.",
@@ -2520,7 +2519,6 @@
       "nameTooLong": "Der Quellenname darf höchstens 255 UTF-8-Bytes lang sein.",
       "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
       "invalidUrl": "Geben Sie eine gültige HTTP- oder HTTPS-URL ein.",
-      "configurationRequired": "Fügen Sie mindestens eine Importkonfiguration hinzu.",
       "operatorRequired": "Wählen Sie eine Betreiberorganisation aus.",
       "operatorNameRequired": "Geben Sie den Namen der neuen Betreiberorganisation ein.",
       "duplicateMethod": "Jede Importmethode kann nur einmal hinzugefügt werden.",
