@@ -1805,7 +1805,6 @@
       "PARTNER_API": "API de socio"
     },
     "configurationTypes": {
-      "UNCONFIGURED": "Sin configurar",
       "WEB_CRAWL": "Rastreo web",
       "SHOPIFY": "Shopify",
       "WOOCOMMERCE": "WooCommerce",
@@ -1827,10 +1826,10 @@
     },
     "form": {
       "createTitle": "Crear fuente de anuncios",
-      "createDescription": "Cree una fuente y elija su operador y configuración de ingestión.",
+      "createDescription": "Cree una fuente y elija su operador. Los métodos de ingestión se pueden configurar más adelante.",
       "editTitle": "Editar fuente de anuncios",
       "editDescription": "Cambie los datos de la fuente. El operador y el slug son inmutables.",
-      "configurationDescription": "Añada una configuración por cada método de ingestión. Las entradas sin configurar conservan el método sin ajustes del proveedor.",
+      "configurationDescription": "Opcional: añada ahora métodos de ingestión configurados o deje la lista vacía para configurarlos más adelante.",
       "referralDescription": "Datos opcionales de referidos de Partnerize. Aquí no se guardan credenciales del proveedor.",
       "replaceConfiguration": "Reemplazar la configuración de ingestión",
       "incompleteConfigurationNotice": "La API de lectura no devuelve los valores de configuración. Déjelo desactivado para conservar los ajustes actuales. Al activarlo se reemplazan los ajustes de todos los métodos activos.",
@@ -1871,7 +1870,6 @@
       "nameTooLong": "El nombre no puede superar los 255 bytes UTF-8.",
       "invalidEmail": "Introduzca un correo electrónico válido.",
       "invalidUrl": "Introduzca una URL HTTP o HTTPS válida.",
-      "configurationRequired": "Añada al menos una configuración de ingestión.",
       "operatorRequired": "Seleccione una organización operadora.",
       "operatorNameRequired": "Introduzca el nombre de la nueva organización operadora.",
       "duplicateMethod": "Cada método de ingestión solo se puede añadir una vez.",
