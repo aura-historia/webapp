@@ -123,7 +123,7 @@
     "sections": {
       "discover": "Descubrir",
       "platform": "Plataforma",
-      "agent": "Discovery Agent",
+      "agent": "Instrucciones",
       "dealers": "Para comerciantes",
       "pricing": "Precios"
     },
@@ -713,43 +713,42 @@
     "pricing": {
       "title": "Elige tu <em>acceso.</em>",
       "subtitle": "Empieza gratis. Sube de plan cuando listas privadas, alertas y seguimiento del mercado formen parte de tu investigación habitual.",
-      "comingSoon": "Próximamente",
       "mostPopular": "Más popular",
       "free": {
         "name": "Gratis",
         "description": "Para primeras investigaciones, hallazgos espontáneos y una pequeña selección privada.",
         "features": {
-          "unlimitedSearches": "Búsquedas ilimitadas",
+          "search": "Búsqueda ilimitada en todos los proveedores indexados",
           "watchlistItems": "20 piezas en la lista privada",
-          "searchAlerts": "1 alerta de búsqueda",
-          "alertMatches": "10 nuevos resultados de alertas al mes",
-          "alertType": "Seguimiento básico del mercado",
-          "notificationSpeed": "Notificaciones en pocas horas"
+          "searchAlerts": "1 alerta de búsqueda activa",
+          "alertMatches": "10 notificaciones de coincidencias de alertas al mes",
+          "alertCriteria": "Alertas por término de búsqueda, disponibilidad y rango de precios",
+          "matching": "Coincidencias según el título y la descripción del anuncio"
         }
       },
       "pro": {
         "name": "Pro",
-        "description": "Para coleccionistas que siguen candidatas importantes a través de fuentes y tiempo.",
+        "description": "Para coleccionistas que siguen candidatas importantes a través de proveedores y del tiempo.",
         "features": {
-          "unlimitedSearches": "Búsquedas ilimitadas",
+          "search": "Búsqueda ilimitada en todos los proveedores indexados",
           "watchlistItems": "100 piezas en la lista privada",
-          "searchAlerts": "5 alertas de búsqueda",
-          "alertMatches": "Resultados de alertas ilimitados",
-          "alertType": "Seguimiento avanzado del mercado",
-          "notificationSpeed": "Notificaciones en tiempo real"
+          "searchAlerts": "5 alertas de búsqueda activas",
+          "alertMatches": "Notificaciones ilimitadas de coincidencias de alertas",
+          "alertCriteria": "Alertas también por proveedor, subasta, fecha, ubicación y envío",
+          "matching": "Coincidencias según el texto del anuncio y hasta 1 imagen"
         }
       },
       "ultimate": {
         "name": "Ultimate",
-        "description": "Para coleccionistas exigentes, interioristas y profesionales con una investigación de mercado continua.",
+        "description": "Para coleccionistas exigentes, interioristas y profesionales que describen con precisión lo que buscan.",
         "features": {
-          "unlimitedSearches": "Búsquedas ilimitadas",
+          "search": "Búsqueda ilimitada en todos los proveedores indexados",
           "watchlistItems": "Lista privada ilimitada",
-          "searchAlerts": "Alertas de búsqueda ilimitadas",
-          "alertMatches": "Resultados de alertas ilimitados",
-          "alertType": "Seguimiento avanzado del mercado",
-          "notificationSpeed": "Notificaciones prioritarias en tiempo real",
-          "aiAgent": "Agente de descubrimiento con IA"
+          "searchAlerts": "Alertas de búsqueda activas ilimitadas",
+          "alertMatches": "Notificaciones ilimitadas de coincidencias de alertas",
+          "alertCriteria": "Alertas también por proveedor, subasta, fecha, ubicación y envío",
+          "matching": "Coincidencias según el texto del anuncio y hasta 4 imágenes",
+          "searchInstructions": "Instrucciones de búsqueda detalladas para la coincidencia mediante agente de IA"
         }
       },
       "monthly": "Mensual",
@@ -833,10 +832,10 @@
       "moreTools": "Más herramientas · {{count}}",
       "moreToolsLabel": "Más herramientas de la plataforma",
       "agent": {
-        "kicker": "AI Discovery Agent",
-        "title": "Descríbelo una vez. El agente vigila el mundo por ti.",
-        "body": "Escribe un encargo con tus propias palabras (época, forma, escala, ambiente, presupuesto, uso previsto) y deja que el agente recorra el mercado con paciencia.",
-        "demoLabel": "Ejemplo de encargo para el AI Discovery Agent y sus dos coincidencias más recientes",
+        "kicker": "Instrucciones de búsqueda",
+        "title": "Descríbelo una vez. Tu alerta de búsqueda sigue atenta.",
+        "body": "Con Ultimate, añade a una alerta de búsqueda instrucciones con tus propias palabras (época, forma, escala, estado, presupuesto, uso previsto). Los nuevos anuncios se evalúan a partir de su texto y de hasta cuatro imágenes, y te avisamos de las coincidencias.",
+        "demoLabel": "Ejemplo de instrucciones de búsqueda para una alerta y sus dos coincidencias más recientes",
         "review": "Revisar",
         "examples": {
           "gustavian": {
@@ -880,7 +879,7 @@
       },
       "alerts": {
         "kicker": "Alertas de búsqueda",
-        "title": "Sé el primero cuando aparezca.",
+        "title": "Entérate cuando aparezca.",
         "body": "Describe una vez lo que buscas. Vigilamos la oferta recién indexada y actualizada y te devolvemos a la vista los objetos adecuados.",
         "demoLabel": "Una alerta de búsqueda activa para pinturas de maestros antiguos entre 5.000 € y 15.000 €",
         "name": "Pintura de maestro antiguo",

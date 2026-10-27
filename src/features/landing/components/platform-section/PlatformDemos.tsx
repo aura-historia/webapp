@@ -43,8 +43,9 @@ function useAnimateWhenVisible(ref: RefObject<HTMLElement | null>): boolean {
 }
 
 /**
- * An example brief for the AI Discovery Agent, typed out like a visitor writing it, with the
- * criteria the agent extracts and its latest matches. It cycles through a few briefs.
+ * Example search instructions for an Ultimate search alert, typed out like a visitor writing
+ * them, with illustrative tags for what they describe and the alert's latest matches. It cycles
+ * through a few briefs.
  */
 export function AgentDemo() {
     const { t } = useTranslation();

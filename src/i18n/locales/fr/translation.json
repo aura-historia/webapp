@@ -123,7 +123,7 @@
     "sections": {
       "discover": "Découvrir",
       "platform": "Plateforme",
-      "agent": "Discovery Agent",
+      "agent": "Consignes",
       "dealers": "Pour les marchands",
       "pricing": "Tarifs"
     },
@@ -713,43 +713,42 @@
     "pricing": {
       "title": "Choisissez votre <em>accès.</em>",
       "subtitle": "Commencez gratuitement. Changez de formule lorsque listes privées, alertes et veille du marché deviennent une part régulière de votre recherche.",
-      "comingSoon": "Bientôt disponible",
       "mostPopular": "Le plus populaire",
       "free": {
         "name": "Gratuit",
         "description": "Pour les premières recherches, les trouvailles spontanées et une petite sélection privée.",
         "features": {
-          "unlimitedSearches": "Recherches illimitées",
+          "search": "Recherche illimitée parmi tous les fournisseurs indexés",
           "watchlistItems": "20 objets dans la liste privée",
-          "searchAlerts": "1 alerte de recherche",
-          "alertMatches": "10 nouvelles correspondances d’alerte par mois",
-          "alertType": "Veille de marché essentielle",
-          "notificationSpeed": "Notifications sous quelques heures"
+          "searchAlerts": "1 alerte de recherche active",
+          "alertMatches": "10 notifications de correspondances d’alerte par mois",
+          "alertCriteria": "Alertes par terme de recherche, disponibilité et fourchette de prix",
+          "matching": "Correspondance sur le titre et la description de l’annonce"
         }
       },
       "pro": {
         "name": "Pro",
-        "description": "Pour les collectionneurs qui suivent des pièces sérieuses à travers les sources et le temps.",
+        "description": "Pour les collectionneurs qui suivent des pièces sérieuses chez différents fournisseurs et dans la durée.",
         "features": {
-          "unlimitedSearches": "Recherches illimitées",
+          "search": "Recherche illimitée parmi tous les fournisseurs indexés",
           "watchlistItems": "100 objets dans la liste privée",
-          "searchAlerts": "5 alertes de recherche",
-          "alertMatches": "Correspondances d’alertes illimitées",
-          "alertType": "Surveillance avancée du marché",
-          "notificationSpeed": "Notifications en temps réel"
+          "searchAlerts": "5 alertes de recherche actives",
+          "alertMatches": "Notifications illimitées de correspondances d’alerte",
+          "alertCriteria": "Alertes également par fournisseur, vente aux enchères, date, localisation et livraison",
+          "matching": "Correspondance sur le texte de l’annonce et jusqu’à 1 image"
         }
       },
       "ultimate": {
         "name": "Ultimate",
-        "description": "Pour collectionneurs exigeants, décorateurs et professionnels avec un brief de marché permanent.",
+        "description": "Pour collectionneurs exigeants, décorateurs et professionnels qui décrivent précisément ce qu’ils recherchent.",
         "features": {
-          "unlimitedSearches": "Recherches illimitées",
+          "search": "Recherche illimitée parmi tous les fournisseurs indexés",
           "watchlistItems": "Liste privée illimitée",
-          "searchAlerts": "Alertes de recherche illimitées",
-          "alertMatches": "Correspondances d’alertes illimitées",
-          "alertType": "Surveillance avancée du marché",
-          "notificationSpeed": "Notifications prioritaires en temps réel",
-          "aiAgent": "Agent de découverte IA"
+          "searchAlerts": "Alertes de recherche actives illimitées",
+          "alertMatches": "Notifications illimitées de correspondances d’alerte",
+          "alertCriteria": "Alertes également par fournisseur, vente aux enchères, date, localisation et livraison",
+          "matching": "Correspondance sur le texte de l’annonce et jusqu’à 4 images",
+          "searchInstructions": "Consignes de recherche détaillées pour la correspondance par agent IA"
         }
       },
       "monthly": "Mensuel",
@@ -833,10 +832,10 @@
       "moreTools": "Autres outils · {{count}}",
       "moreToolsLabel": "Autres outils de la plateforme",
       "agent": {
-        "kicker": "AI Discovery Agent",
-        "title": "Décrivez-le une fois. L’agent veille sur le monde pour vous.",
-        "body": "Rédigez une demande avec vos propres mots (époque, forme, dimensions, ambiance, budget, usage prévu) et laissez l’agent parcourir le marché avec patience.",
-        "demoLabel": "Exemple de demande pour l’AI Discovery Agent et ses deux derniers résultats",
+        "kicker": "Consignes de recherche",
+        "title": "Décrivez-le une fois. Votre alerte reste attentive.",
+        "body": "Avec Ultimate, ajoutez à une alerte de recherche des consignes rédigées avec vos propres mots (époque, forme, dimensions, état, budget, usage prévu). Les nouvelles annonces sont analysées à partir de leur texte et de quatre images au plus, et nous vous informons des correspondances.",
+        "demoLabel": "Exemple de consignes de recherche pour une alerte et ses deux derniers résultats",
         "review": "Consulter",
         "examples": {
           "gustavian": {
@@ -880,7 +879,7 @@
       },
       "alerts": {
         "kicker": "Alertes de recherche",
-        "title": "Soyez le premier quand elle refait surface.",
+        "title": "Sachez quand elle refait surface.",
         "body": "Décrivez une fois ce que vous cherchez. Nous surveillons l’offre nouvellement indexée et mise à jour et ramenons les bons objets sous vos yeux.",
         "demoLabel": "Une alerte de recherche active pour des tableaux de maîtres anciens entre 5 000 € et 15 000 €",
         "name": "Tableau de maître ancien",

@@ -123,7 +123,7 @@
     "sections": {
       "discover": "Discover",
       "platform": "Platform",
-      "agent": "Discovery Agent",
+      "agent": "Search instructions",
       "dealers": "For Dealers",
       "pricing": "Pricing"
     },
@@ -713,43 +713,42 @@
     "pricing": {
       "title": "Choose your <em>access.</em>",
       "subtitle": "Start freely. Upgrade when watchlists, alerts, and discovery workflows become part of how you follow the market.",
-      "comingSoon": "Coming Soon",
       "mostPopular": "Most Popular",
       "free": {
         "name": "Free",
         "description": "For first research sessions, spontaneous finds, and a small private shortlist.",
         "features": {
-          "unlimitedSearches": "Unlimited searches",
+          "search": "Unlimited search across indexed providers",
           "watchlistItems": "20 objects on the private watchlist",
-          "searchAlerts": "1 search alert",
-          "alertMatches": "10 new search-alert matches per month",
-          "alertType": "Basic market monitoring",
-          "notificationSpeed": "Notifications within a few hours"
+          "searchAlerts": "1 active search alert",
+          "alertMatches": "10 search-alert match notifications per month",
+          "alertCriteria": "Search alerts by search term, availability, and price range",
+          "matching": "Matching on the listing title and description"
         }
       },
       "pro": {
         "name": "Pro",
-        "description": "For collectors who follow serious candidates across sources and time.",
+        "description": "For collectors who follow serious candidates across providers and over time.",
         "features": {
-          "unlimitedSearches": "Unlimited searches",
+          "search": "Unlimited search across indexed providers",
           "watchlistItems": "100 objects on the private watchlist",
-          "searchAlerts": "5 search alerts",
-          "alertMatches": "Unlimited search-alert matches",
-          "alertType": "Advanced market monitoring",
-          "notificationSpeed": "Real-time notifications"
+          "searchAlerts": "5 active search alerts",
+          "alertMatches": "Unlimited search-alert match notifications",
+          "alertCriteria": "Search alerts also by provider, auction, date, location, and shipping",
+          "matching": "Matching on the listing text and up to 1 image"
         }
       },
       "ultimate": {
         "name": "Ultimate",
-        "description": "For demanding collectors, decorators, and professionals with a standing market brief.",
+        "description": "For demanding collectors, decorators, and professionals who describe precisely what they are looking for.",
         "features": {
-          "unlimitedSearches": "Unlimited searches",
+          "search": "Unlimited search across indexed providers",
           "watchlistItems": "Unlimited private watchlist",
-          "searchAlerts": "Unlimited search alerts",
-          "alertMatches": "Unlimited search-alert matches",
-          "alertType": "Advanced market monitoring",
-          "notificationSpeed": "Priority real-time notifications",
-          "aiAgent": "AI Discovery Agent"
+          "searchAlerts": "Unlimited active search alerts",
+          "alertMatches": "Unlimited search-alert match notifications",
+          "alertCriteria": "Search alerts also by provider, auction, date, location, and shipping",
+          "matching": "Matching on the listing text and up to 4 images",
+          "searchInstructions": "Detailed search instructions for AI-Agent matching"
         }
       },
       "monthly": "Monthly",
@@ -833,10 +832,10 @@
       "moreTools": "More tools · {{count}}",
       "moreToolsLabel": "More platform tools",
       "agent": {
-        "kicker": "AI Discovery Agent",
-        "title": "Describe it once. The agent watches the world for you.",
-        "body": "Write a brief in plain language — era, form, scale, mood, budget, intended use — and let the agent work the market with patience.",
-        "demoLabel": "Example brief for the AI Discovery Agent and its two latest matches",
+        "kicker": "Search instructions",
+        "title": "Describe it once. Your search alert keeps watching.",
+        "body": "With Ultimate, add instructions in your own words to a search alert — era, form, scale, condition, budget, intended use. New listings are matched using their text and up to four images, and we notify you of matches.",
+        "demoLabel": "Example search instructions for a search alert and its two latest matches",
         "review": "Review",
         "examples": {
           "gustavian": {
@@ -880,7 +879,7 @@
       },
       "alerts": {
         "kicker": "Search alerts",
-        "title": "Be first when it surfaces.",
+        "title": "Know when it surfaces.",
         "body": "Describe what you want once. We watch newly indexed and updated inventory and bring the right objects back into view.",
         "demoLabel": "An active search alert for Old Master paintings between €5,000 and €15,000",
         "name": "Old Master painting",

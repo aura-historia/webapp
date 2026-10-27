@@ -123,7 +123,7 @@
     "sections": {
       "discover": "Entdecken",
       "platform": "Plattform",
-      "agent": "Discovery Agent",
+      "agent": "Suchanweisungen",
       "dealers": "Für Händler",
       "pricing": "Preise"
     },
@@ -713,43 +713,42 @@
     "pricing": {
       "title": "Wählen Sie Ihren <em>Zugang.</em>",
       "subtitle": "Starten Sie kostenlos. Wechseln Sie, sobald Merklisten, Suchaufträge und Marktbeobachtung zu Ihrer regelmäßigen Recherche gehören.",
-      "comingSoon": "In Kürze",
       "mostPopular": "Am beliebtesten",
       "free": {
         "name": "Kostenlos",
         "description": "Für erste Recherchen, spontane Funde und eine kleine private Auswahl.",
         "features": {
-          "unlimitedSearches": "Unbegrenzt suchen",
+          "search": "Unbegrenzte Suche über alle indexierten Anbieter",
           "watchlistItems": "20 Objekte in der privaten Merkliste",
-          "searchAlerts": "1 Suchauftrag",
-          "alertMatches": "10 neue Treffer aus Suchaufträgen pro Monat",
-          "alertType": "Einfache Marktbeobachtung",
-          "notificationSpeed": "Benachrichtigungen innerhalb weniger Stunden"
+          "searchAlerts": "1 aktiver Suchauftrag",
+          "alertMatches": "10 Trefferbenachrichtigungen aus Suchaufträgen pro Monat",
+          "alertCriteria": "Suchaufträge nach Suchbegriff, Verfügbarkeit und Preisspanne",
+          "matching": "Abgleich anhand von Titel und Beschreibung des Angebots"
         }
       },
       "pro": {
         "name": "Pro",
-        "description": "Für Sammler, die ernsthafte Kandidaten über Quellen und Zeit hinweg verfolgen.",
+        "description": "Für Sammler, die ernsthafte Kandidaten über Anbieter und Zeit hinweg verfolgen.",
         "features": {
-          "unlimitedSearches": "Unbegrenzt suchen",
+          "search": "Unbegrenzte Suche über alle indexierten Anbieter",
           "watchlistItems": "100 Objekte in der privaten Merkliste",
-          "searchAlerts": "5 Suchaufträge",
-          "alertMatches": "Unbegrenzte Treffer aus Suchaufträgen",
-          "alertType": "Vertiefte Marktbeobachtung",
-          "notificationSpeed": "Echtzeit-Benachrichtigungen"
+          "searchAlerts": "5 aktive Suchaufträge",
+          "alertMatches": "Unbegrenzte Trefferbenachrichtigungen aus Suchaufträgen",
+          "alertCriteria": "Suchaufträge auch nach Anbieter, Auktion, Datum, Standort und Versand",
+          "matching": "Abgleich anhand des Angebotstexts und bis zu 1 Bild"
         }
       },
       "ultimate": {
         "name": "Ultimate",
-        "description": "Für anspruchsvolle Sammler, Interior-Profis und professionelle Marktbeobachtung.",
+        "description": "Für anspruchsvolle Sammler, Interior-Profis und Fachleute, die genau beschreiben, wonach sie suchen.",
         "features": {
-          "unlimitedSearches": "Unbegrenzt suchen",
+          "search": "Unbegrenzte Suche über alle indexierten Anbieter",
           "watchlistItems": "Unbegrenzte Merkliste",
-          "searchAlerts": "Unbegrenzte Suchaufträge",
-          "alertMatches": "Unbegrenzte Treffer aus Suchaufträgen",
-          "alertType": "Vertiefte Marktbeobachtung",
-          "notificationSpeed": "Priorisierte Echtzeit-Benachrichtigungen",
-          "aiAgent": "KI-Suchagent"
+          "searchAlerts": "Unbegrenzt viele aktive Suchaufträge",
+          "alertMatches": "Unbegrenzte Trefferbenachrichtigungen aus Suchaufträgen",
+          "alertCriteria": "Suchaufträge auch nach Anbieter, Auktion, Datum, Standort und Versand",
+          "matching": "Abgleich anhand des Angebotstexts und bis zu 4 Bildern",
+          "searchInstructions": "Detaillierte Suchanweisungen für den Abgleich per KI-Agent"
         }
       },
       "monthly": "Monatlich",
@@ -833,10 +832,10 @@
       "moreTools": "Weitere Werkzeuge · {{count}}",
       "moreToolsLabel": "Weitere Werkzeuge der Plattform",
       "agent": {
-        "kicker": "KI Discovery Agent",
-        "title": "Einmal beschreiben. Der Agent beobachtet die Welt für Sie.",
-        "body": "Schreiben Sie einen Suchauftrag in Ihren eigenen Worten – Epoche, Form, Maßstab, Stimmung, Budget, Verwendungszweck – und lassen Sie den Agenten den Markt geduldig beobachten.",
-        "demoLabel": "Beispiel für einen Suchauftrag an den KI Discovery Agent und seine zwei neuesten Treffer",
+        "kicker": "Suchanweisungen",
+        "title": "Einmal beschreiben. Ihr Suchauftrag bleibt aufmerksam.",
+        "body": "Mit Ultimate ergänzen Sie einen Suchauftrag um Anweisungen in Ihren eigenen Worten – Epoche, Form, Maßstab, Zustand, Budget, Verwendungszweck. Neue Angebote werden anhand ihres Textes und bis zu vier Bildern abgeglichen, und wir benachrichtigen Sie über Treffer.",
+        "demoLabel": "Beispiel für Suchanweisungen in einem Suchauftrag und seine zwei neuesten Treffer",
         "review": "Ansehen",
         "examples": {
           "gustavian": {
@@ -880,7 +879,7 @@
       },
       "alerts": {
         "kicker": "Suchaufträge",
-        "title": "Als Erster sehen, was auftaucht.",
+        "title": "Sehen, wenn es auftaucht.",
         "body": "Beschreiben Sie einmal, was Sie suchen. Wir beobachten neu erfasste und aktualisierte Angebote und bringen die passenden Objekte zurück in den Blick.",
         "demoLabel": "Ein aktiver Suchauftrag für Gemälde Alter Meister zwischen 5.000 € und 15.000 €",
         "name": "Gemälde Alter Meister",

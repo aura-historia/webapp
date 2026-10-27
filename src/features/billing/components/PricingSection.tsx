@@ -4,11 +4,13 @@ import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import type { BillingCycle } from "@/data/internal/billing/BillingCycle.ts";
 import type { BillingPlan } from "@/data/internal/billing/BillingPlan.ts";
+import { CURRENCY_MINOR_UNIT_EXPONENTS, parseCurrency } from "@/data/internal/common/Currency.ts";
 import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navigationConfig.ts";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import {
     type BillingInterval,
     PRICING_TIERS,
+    type PaidPricingTier,
     type PricingTier,
 } from "@/features/billing/components/PricingSection.data.ts";
 import { useStripeBilling } from "@/features/billing/hooks/useStripeBilling.ts";
@@ -27,15 +29,15 @@ const CTA_BASE = cn(
 );
 const CTA_PRIMARY = "bg-surface font-medium text-ink hover:opacity-90";
 const CTA_SECONDARY = "text-ink shadow-[inset_0_0_0_1px_var(--line-strong)] hover:text-brass-ink";
+/** From this many characters (e.g. "1 399 TWD") the prices step down a size to fit the cards. */
+const LONG_PRICE_LENGTH = 9;
 
-function toBillingPlan(tier: PricingTier): BillingPlan {
+function toBillingPlan(tier: PaidPricingTier): BillingPlan {
     switch (tier.id) {
         case "pro":
             return "PRO";
         case "ultimate":
             return "ULTIMATE";
-        case "free":
-            throw new Error("Free tier cannot be mapped to a paid billing plan");
     }
 }
 
@@ -92,19 +94,23 @@ function IntervalToggle({ value, onChange }: IntervalToggleProps) {
 export default function PricingSection() {
     const { t, i18n } = useTranslation();
     const { preferences } = useUserPreferences();
-    const currency = preferences.currency ?? "EUR";
+    // Stored preferences are not validated on load; fall back to EUR for unsupported codes.
+    const currency = parseCurrency(preferences.currency);
     const [billingInterval, setBillingInterval] = useState<BillingInterval>("yearly");
     const { isAuthenticated, isResolved: isAuthResolved } = useResolvedAuth();
     const { handleSubscribe, isLoading } = useStripeBilling();
     const isYearly = billingInterval === "yearly";
     const billingCycle: BillingCycle = isYearly ? "YEARLY" : "MONTHLY";
 
+    // Charge precision follows the currency's minor unit (none for JPY and KRW), so a yearly
+    // per-month equivalent never shows fractions the currency cannot be charged in.
+    const minorUnitDigits = CURRENCY_MINOR_UNIT_EXPONENTS[currency];
     const formatAmount = (amount: number) =>
         new Intl.NumberFormat(i18n.language, {
             style: "currency",
             currency,
-            minimumFractionDigits: Number.isInteger(amount) ? 0 : 2,
-            maximumFractionDigits: 2,
+            minimumFractionDigits: Number.isInteger(amount) ? 0 : minorUnitDigits,
+            maximumFractionDigits: minorUnitDigits,
         }).format(amount);
 
     const priceFor = (tier: PricingTier): { current: string; regular?: string } => {
@@ -112,21 +118,22 @@ export default function PricingSection() {
             return { current: formatAmount(0) };
         }
 
-        const monthly = tier.prices?.[currency];
-        const yearlyTotal = tier.yearlyPrices?.[currency];
+        const monthly = tier.prices[currency];
 
-        if (isYearly && yearlyTotal !== undefined) {
+        if (isYearly) {
+            // The yearly charge is ten monthly charges; show it spread over twelve months.
             return {
-                current: formatAmount(yearlyTotal / 12),
-                regular: monthly === undefined ? undefined : formatAmount(monthly),
+                current: formatAmount(tier.yearlyPrices[currency] / 12),
+                regular: formatAmount(monthly),
             };
         }
 
-        return {
-            current:
-                monthly === undefined ? t("landingPage.pricing.comingSoon") : formatAmount(monthly),
-        };
+        return { current: formatAmount(monthly) };
     };
+
+    const prices = PRICING_TIERS.map(priceFor);
+    // One size for the whole row, so a short free price never outsizes the paid ones.
+    const hasLongPrice = prices.some((price) => price.current.length >= LONG_PRICE_LENGTH);
 
     const noteFor = (tier: PricingTier) => {
         if (tier.id === "free") return t("landingPage.pricing.alwaysFree");
@@ -160,8 +167,8 @@ export default function PricingSection() {
             </div>
 
             <div className="grid grid-cols-1 items-stretch gap-3 sm:gap-4 lg:grid-cols-3">
-                {PRICING_TIERS.map((tier) => {
-                    const price = priceFor(tier);
+                {PRICING_TIERS.map((tier, index) => {
+                    const price = prices[index];
                     const isInk = tier.isHighlighted === true;
 
                     return (
@@ -198,7 +205,14 @@ export default function PricingSection() {
 
                             <div className="flex flex-col gap-2 border-t border-line pt-[22px]">
                                 <div className="flex flex-wrap items-baseline gap-3">
-                                    <span className="font-serif text-[52px] leading-none sm:text-[clamp(48px,4.6vw,64px)]">
+                                    <span
+                                        className={cn(
+                                            "font-serif leading-none",
+                                            hasLongPrice
+                                                ? "text-[clamp(34px,11vw,40px)] sm:text-[48px] lg:text-[clamp(36px,3.4vw,48px)]"
+                                                : "text-[min(52px,16vw)] sm:text-[clamp(48px,4.6vw,64px)]",
+                                        )}
+                                    >
                                         {price.current}
                                     </span>
                                     {price.regular && (
