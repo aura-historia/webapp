@@ -2430,7 +2430,6 @@
       "phone": "Telefon",
       "email": "E-Mail",
       "ingestionMethods": "Importmethoden",
-      "ingestionMethod": "Importmethode",
       "ingestionConfiguration": "Importkonfiguration",
       "configurationType": "Konfigurationstyp",
       "fallbackCurrency": "Ersatzwährung (ISO 4217)",
