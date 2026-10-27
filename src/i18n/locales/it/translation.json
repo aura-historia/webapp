@@ -1805,7 +1805,6 @@
       "PARTNER_API": "API partner"
     },
     "configurationTypes": {
-      "UNCONFIGURED": "Non configurato",
       "WEB_CRAWL": "Scansione web",
       "SHOPIFY": "Shopify",
       "WOOCOMMERCE": "WooCommerce",
@@ -1827,10 +1826,10 @@
     },
     "form": {
       "createTitle": "Crea fonte di annunci",
-      "createDescription": "Crea una fonte e scegli l’operatore e la configurazione di acquisizione.",
+      "createDescription": "Crea una fonte e scegli il suo operatore. I metodi di acquisizione possono essere configurati in seguito.",
       "editTitle": "Modifica fonte di annunci",
       "editDescription": "Modifica i dati della fonte. Operatore e slug sono immutabili.",
-      "configurationDescription": "Aggiungi una configurazione per ogni metodo di acquisizione. Le voci non configurate mantengono il metodo senza impostazioni del fornitore.",
+      "configurationDescription": "Facoltativo: aggiungi ora i metodi di acquisizione configurati oppure lascia la lista vuota per configurarli in seguito.",
       "referralDescription": "Dati referral Partnerize facoltativi. Qui non vengono salvate credenziali del fornitore.",
       "replaceConfiguration": "Sostituisci la configurazione di acquisizione",
       "incompleteConfigurationNotice": "L’API di lettura non restituisce i valori di configurazione. Lascia l’opzione disattivata per mantenere le impostazioni attuali. Attivandola sostituirai le impostazioni di tutti i metodi attivi.",
@@ -1871,7 +1870,6 @@
       "nameTooLong": "Il nome della fonte non può superare 255 byte UTF-8.",
       "invalidEmail": "Inserisci un indirizzo e-mail valido.",
       "invalidUrl": "Inserisci un URL HTTP o HTTPS valido.",
-      "configurationRequired": "Aggiungi almeno una configurazione di acquisizione.",
       "operatorRequired": "Seleziona un’organizzazione operatrice.",
       "operatorNameRequired": "Inserisci il nome della nuova organizzazione operatrice.",
       "duplicateMethod": "Ogni metodo di acquisizione può essere aggiunto una sola volta.",
