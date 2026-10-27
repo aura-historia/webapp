@@ -1781,7 +1781,6 @@
       "phone": "Teléfono",
       "email": "Correo electrónico",
       "ingestionMethods": "Métodos de ingestión",
-      "ingestionMethod": "Método de ingestión",
       "ingestionConfiguration": "Configuración de ingestión",
       "configurationType": "Tipo de configuración",
       "fallbackCurrency": "Moneda alternativa (ISO 4217)",
