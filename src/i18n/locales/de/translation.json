@@ -748,7 +748,7 @@
           "alertMatches": "Unbegrenzte Trefferbenachrichtigungen aus Suchaufträgen",
           "alertCriteria": "Suchaufträge auch nach Anbieter, Auktion, Datum, Standort und Versand",
           "matching": "Abgleich anhand des Angebotstexts und bis zu 4 Bildern",
-          "searchInstructions": "Eigene Suchanweisungen für einen erweiterten Abgleich"
+          "searchInstructions": "Detaillierte Suchanweisungen für den Abgleich per KI-Agent"
         }
       },
       "monthly": "Monatlich",

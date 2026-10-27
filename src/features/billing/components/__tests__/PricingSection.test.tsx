@@ -281,7 +281,7 @@ describe("PricingSection", () => {
             screen.getByText("Abgleich anhand des Angebotstexts und bis zu 4 Bildern"),
         ).toBeInTheDocument();
         expect(
-            screen.getByText("Eigene Suchanweisungen für einen erweiterten Abgleich"),
+            screen.getByText("Detaillierte Suchanweisungen für den Abgleich per KI-Agent"),
         ).toBeInTheDocument();
     });
 
@@ -304,7 +304,7 @@ describe("PricingSection", () => {
 
     it("offers custom search instructions only on the ultimate tier", () => {
         const instructions = screen.getByText(
-            "Eigene Suchanweisungen für einen erweiterten Abgleich",
+            "Detaillierte Suchanweisungen für den Abgleich per KI-Agent",
         );
         expect(instructions.closest("article")).toHaveAttribute(
             "aria-labelledby",
@@ -312,9 +312,14 @@ describe("PricingSection", () => {
         );
     });
 
-    it("does not promise notification timing, priority delivery or an agent", () => {
+    it("does not promise notification timing or priority, and names an agent only on Ultimate", () => {
         expect(screen.queryByText(/Echtzeit|innerhalb weniger Stunden|Priorisiert/)).toBeNull();
-        expect(screen.queryByText(/Agent/)).toBeNull();
+        const agentRows = screen.getAllByText(/Agent/);
+        expect(agentRows).toHaveLength(1);
+        expect(agentRows[0].closest("article")).toHaveAttribute(
+            "aria-labelledby",
+            "pricing-ultimate",
+        );
         expect(screen.queryByText("Vertiefte Marktbeobachtung")).toBeNull();
         expect(screen.queryByText("Einfache Marktbeobachtung")).toBeNull();
     });
@@ -337,7 +342,7 @@ describe("PricingSection", () => {
 
     it("highlights the custom search instructions feature", () => {
         const instructions = screen.getByText(
-            "Eigene Suchanweisungen für einen erweiterten Abgleich",
+            "Detaillierte Suchanweisungen für den Abgleich per KI-Agent",
         );
         const listItem = instructions.closest("li");
         expect(listItem?.className).toContain("font-semibold");
@@ -394,7 +399,7 @@ describe("PricingSection", () => {
 
 describe("Pricing and search-instruction copy", () => {
     it.each(["de", "en", "es", "fr", "it"])(
-        "promises no notification timing, priority or agent in %s",
+        "promises no notification timing or priority, and names an agent only on the Ultimate row, in %s",
         async (lng) => {
             const { default: translation } = await import(`@/i18n/locales/${lng}/translation.json`);
             const copy = JSON.stringify([
@@ -407,8 +412,13 @@ describe("Pricing and search-instruction copy", () => {
                 translation.header.sections.agent,
             ]);
             expect(copy).not.toMatch(
-                /real-time|Echtzeit|tiempo real|temps réel|tempo reale|priorit|agent|few hours|weniger Stunden|pocas horas|quelques heures|poche ore/i,
+                /real-time|Echtzeit|tiempo real|temps réel|tempo reale|priorit|few hours|weniger Stunden|pocas horas|quelques heures|poche ore/i,
             );
+            const agentRow = JSON.stringify(
+                translation.landingPage.pricing.ultimate.features.searchInstructions,
+            ).slice(1, -1);
+            expect(agentRow).toMatch(/agent/i);
+            expect(copy.replace(agentRow, "")).not.toMatch(/agent/i);
         },
     );
 });

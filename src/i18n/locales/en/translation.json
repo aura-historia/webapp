@@ -748,7 +748,7 @@
           "alertMatches": "Unlimited search-alert match notifications",
           "alertCriteria": "Search alerts also by provider, auction, date, location, and shipping",
           "matching": "Matching on the listing text and up to 4 images",
-          "searchInstructions": "Custom search instructions for enhanced matching"
+          "searchInstructions": "Detailed search instructions for AI-Agent matching"
         }
       },
       "monthly": "Monthly",

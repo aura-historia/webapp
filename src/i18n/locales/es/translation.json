@@ -748,7 +748,7 @@
           "alertMatches": "Notificaciones ilimitadas de coincidencias de alertas",
           "alertCriteria": "Alertas también por proveedor, subasta, fecha, ubicación y envío",
           "matching": "Coincidencias según el texto del anuncio y hasta 4 imágenes",
-          "searchInstructions": "Instrucciones de búsqueda propias para una coincidencia ampliada"
+          "searchInstructions": "Instrucciones de búsqueda detalladas para la coincidencia mediante agente de IA"
         }
       },
       "monthly": "Mensual",

@@ -748,7 +748,7 @@
           "alertMatches": "Notifications illimitées de correspondances d’alerte",
           "alertCriteria": "Alertes également par fournisseur, vente aux enchères, date, localisation et livraison",
           "matching": "Correspondance sur le texte de l’annonce et jusqu’à 4 images",
-          "searchInstructions": "Consignes de recherche personnalisées pour une correspondance affinée"
+          "searchInstructions": "Consignes de recherche détaillées pour la correspondance par agent IA"
         }
       },
       "monthly": "Mensuel",

@@ -748,7 +748,7 @@
           "alertMatches": "Notifiche illimitate di risultati da avviso",
           "alertCriteria": "Avvisi anche per fornitore, asta, data, posizione e spedizione",
           "matching": "Confronto su testo dell’annuncio e fino a 4 immagini",
-          "searchInstructions": "Istruzioni di ricerca personalizzate per un confronto avanzato"
+          "searchInstructions": "Istruzioni di ricerca dettagliate per il confronto tramite agente IA"
         }
       },
       "monthly": "Mensile",
