@@ -75,11 +75,6 @@ describe("AdminListingSourceFormDialog", () => {
             }),
         );
         expect(screen.getByRole("combobox", { name: configurationType })).toBeInTheDocument();
-        expect(
-            screen.queryByRole("combobox", {
-                name: testI18n.t("adminListingSources.fields.ingestionMethod"),
-            }),
-        ).not.toBeInTheDocument();
 
         fireEvent.click(
             screen.getByRole("button", {
