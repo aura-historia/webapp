@@ -518,12 +518,7 @@ function CreateConfigurationEditor({
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                            {[
-                                "WEB_CRAWL",
-                                "SHOPIFY",
-                                "WOOCOMMERCE",
-                                "PARTNER_API",
-                            ].map((item) => (
+                            {["WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE", "PARTNER_API"].map((item) => (
                                 <SelectItem key={item} value={item}>
                                     {t(`adminListingSources.configurationTypes.${item}`)}
                                 </SelectItem>
