@@ -49,4 +49,4 @@ Key facts for agents:
 - [Privacy policy](https://aura-historia.com/en/privacy/): How personal data is processed.
 - [Imprint](https://aura-historia.com/en/imprint/): Legal operator information.
 - [MCP documentation on GitHub](https://github.com/aura-historia/backend/blob/develop/docs/mcp.md): Source of the MCP documentation, with links to the tool manifests and tests.
-- [Sitemap](https://aura-historia.com/sitemap.xml): All static public pages in every language.
+- [Sitemap](https://aura-historia.com/sitemap.xml): All indexable static pages in every language.

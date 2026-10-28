@@ -4,25 +4,7 @@ import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { devtools } from "@tanstack/devtools-vite";
-import { SUPPORTED_LANGUAGES } from "./src/i18n/languages.ts";
-
-const STATIC_PAGE_PATHS = [
-    "/",
-    "/about-us",
-    "/compare/barnebys",
-    "/imprint",
-    "/partner-program",
-    "/partner-program/custom-integration",
-    "/privacy",
-    "/terms-and-conditions",
-] as const;
-
-// Dynamic source search and profile routes are intentionally excluded; see the public-source
-// discovery guidance before adding a static sitemap or prerender entry for them.
-
-const PRERENDER_PAGES = SUPPORTED_LANGUAGES.flatMap(({ code }) =>
-    STATIC_PAGE_PATHS.map((path) => ({ path: `/${code}${path}` })),
-);
+import { PRERENDER_PAGES } from "./src/lib/seo/staticPages.ts";
 
 export default defineConfig({
     plugins: [
