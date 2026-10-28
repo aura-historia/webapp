@@ -107,7 +107,13 @@ async function getOAuthClientRedirectBroker({
 
     const brokerConfig = getOAuthBrokerConfig(app);
     if (!brokerConfig) {
-        return textResponse("OAuth broker is not configured.", 500);
+        return redirectResponse(
+            setOAuthErrorOnRedirectUri(brokerState.redirectUri, "server_error", {
+                errorDescription: "OAuth broker is not configured.",
+                clientState: brokerState.clientState,
+                forwardedParams,
+            }),
+        );
     }
 
     const tokenResponse = await exchangeAuthorizationCode({
@@ -250,6 +256,7 @@ function getOAuthBrokerConfig(app: OAuthClientRedirectBrokerApp): OAuthBrokerCon
     const clientSecret = appConfig.getClientSecret();
 
     if (!clientId || !clientSecret) {
+        console.error("[OAuth broker] Client credentials are not configured.", { app });
         return undefined;
     }
 

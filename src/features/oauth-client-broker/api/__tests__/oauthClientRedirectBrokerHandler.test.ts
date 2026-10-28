@@ -3,7 +3,7 @@ import { encodeOAuthClientBrokerState } from "@/features/oauth-client-broker/lib
 import { getWooCommerceOAuthClientRedirectBroker } from "../oauthClientRedirectBrokerHandler.ts";
 
 const mockFetch = vi.hoisted(() => vi.fn());
-const brokerClientId = vi.hoisted(() => "oc_01ktraqg4de8982t9h5n35wggg");
+const brokerClientId = vi.hoisted(() => "oc_7b0gwc1x49e0mvbt3tfexfqgb5");
 const mockEnv = vi.hoisted<{
     VITE_API_URL: string | undefined;
     OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID: string | undefined;
@@ -210,14 +210,30 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         );
     });
 
-    it("returns a server error when broker credentials are not configured", async () => {
+    it("redirects to the final target as server_error when broker credentials are not configured", async () => {
         mockEnv.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET = undefined;
 
-        const response = await get(createBrokerRequest());
+        const response = await get(
+            createBrokerRequest({ extraParams: [["listing_source_id", "shop-1"]] }),
+        );
 
-        expect(response.status).toBe(500);
-        await expect(response.text()).resolves.toBe("OAuth broker is not configured.");
+        expect(response.status).toBe(302);
         expect(mockFetch).not.toHaveBeenCalled();
+        const location = getLocation(response);
+        const redirectUrl = new URL(location);
+        expect(redirectUrl.origin).toBe("https://merchant.example");
+        expect(redirectUrl.searchParams.get("error")).toBe("server_error");
+        expect(redirectUrl.searchParams.get("error_description")).toBe(
+            "OAuth broker is not configured.",
+        );
+        expect(redirectUrl.searchParams.get("listing_source_id")).toBe("shop-1");
+        expect(redirectUrl.searchParams.get("state")).toBe("merchant-csrf-state");
+        expect(redirectUrl.searchParams.has("code")).toBe(false);
+        expect(location).not.toContain("authorization-code");
+        expect(consoleError).toHaveBeenCalledWith(
+            "[OAuth broker] Client credentials are not configured.",
+            { app: "woocommerce" },
+        );
     });
 
     it("treats a non-canonical broker client ID as not configured", async () => {
@@ -226,9 +242,14 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
 
         const response = await get(createBrokerRequest());
 
-        expect(response.status).toBe(500);
-        await expect(response.text()).resolves.toBe("OAuth broker is not configured.");
+        expect(response.status).toBe(302);
         expect(mockFetch).not.toHaveBeenCalled();
+        const redirectUrl = new URL(getLocation(response));
+        expect(redirectUrl.searchParams.get("error")).toBe("server_error");
+        expect(redirectUrl.searchParams.get("error_description")).toBe(
+            "OAuth broker is not configured.",
+        );
+        expect(redirectUrl.searchParams.get("state")).toBe("merchant-csrf-state");
         expect(consoleError).toHaveBeenCalledWith(
             "[OAuth broker] Configured client ID is not a canonical OAuthClient ID.",
             { app: "woocommerce" },

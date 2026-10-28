@@ -23,6 +23,9 @@ jobs:
         environment:
             name: production
             url: https://aura-historia.com
+        env:
+            # Targets wrangler.jsonc's production environment, matching the release upload.
+            CLOUDFLARE_ENV: production
         steps:
             - name: Checkout repository
               uses: actions/checkout@v7
