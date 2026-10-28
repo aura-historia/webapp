@@ -59,8 +59,9 @@ admin workflows in [admin workflows](admin-workflows.md).
     this app's `/en/oauth/authorize` as the authorization endpoint, so the consent page accepts an
     optional `resource` (for example the MCP identifier) and passes it unchanged to
     `/v1/oauth/authorize`; the backend validates and binds it, and the client repeats it at token
-    exchange. Without it the grant keeps the shared Aura default. The redirect broker keeps
-    classifying token-exchange failures by status and sends no `resource`.
+    exchange. Without it the grant keeps the shared Aura default. The redirect broker classifies
+    token-exchange failures by status and the `invalid_client` identifier, logs only the status
+    and a known `OAuthErrorData` identifier, and sends no `resource`.
     `getOAuthAuthorizationServerMetadata` is generated-only.
   - **Cognito-only credential operations** ([backend#2212](https://github.com/aura-historia/backend/issues/2212),
     [backend#2214](https://github.com/aura-historia/backend/issues/2214)): `postMyAccessToken` and

@@ -166,7 +166,7 @@ To redeploy a previous release, run the **Redeploy production release** workflow
   <a href="https://aura-historia.com"><img src="https://img.shields.io/badge/aura--historia.com-Visit%20Website-8B4513?style=flat" alt="Aura Historia website" /></a>
 </p>
 
-Manual staging deployments require `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`:
+Manual staging deployments require `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. The script rebuilds with the staging configuration before deploying, so an earlier local production build is never deployed to staging. Run it with `CLOUDFLARE_ENV` unset:
 
 ```sh
 # Staging

@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { type ParseError, parse } from "jsonc-parser";
 import { describe, expect, it, vi } from "vitest";
 import { OAUTH_CLIENT_ID_PATTERN } from "../oauthClientRedirectBrokerHandler.ts";
 
@@ -14,14 +15,22 @@ const PRODUCTION_CLIENT_ID = "oc_01m5vyvraxecksre2zepjcza88";
 
 interface WorkerConfig {
     readonly name?: string;
+    readonly compatibility_date?: string;
+    readonly compatibility_flags?: string[];
     readonly vars?: Record<string, string>;
     readonly env?: Record<string, WorkerConfig>;
 }
 
-// wrangler.jsonc only uses full-line comments.
-const wranglerConfig = JSON.parse(
-    readFileSync(resolve(process.cwd(), "wrangler.jsonc"), "utf8").replaceAll(/^\s*\/\/.*$/gm, ""),
+const wranglerConfigErrors: ParseError[] = [];
+const wranglerConfig = parse(
+    readFileSync(resolve(process.cwd(), "wrangler.jsonc"), "utf8"),
+    wranglerConfigErrors,
+    { allowTrailingComma: true },
 ) as WorkerConfig;
+// Staging deploys the top level. Production deploys `env.production`, which takes its own vars:
+// wrangler does not inherit vars into environments.
+const stagingConfig = wranglerConfig;
+const productionConfig = wranglerConfig.env?.production;
 const ciWorkflow = readFileSync(resolve(process.cwd(), ".github/workflows/ci.yml"), "utf8");
 
 function getCiJob(jobId: string): string {
@@ -33,18 +42,20 @@ function getCiJob(jobId: string): string {
 }
 
 describe("WooCommerce OAuth broker deployment config", () => {
+    it("parses wrangler.jsonc", () => {
+        expect(wranglerConfigErrors).toEqual([]);
+    });
+
     it("configures a canonical OAuthClient ID for staging", () => {
-        expect(wranglerConfig.name).toBe("aura-historia-staging");
-        expect(wranglerConfig.vars?.[CLIENT_ID_VAR]).toMatch(OAUTH_CLIENT_ID_PATTERN);
+        expect(stagingConfig.name).toBe("aura-historia-staging");
+        expect(stagingConfig.vars?.[CLIENT_ID_VAR]).toMatch(OAUTH_CLIENT_ID_PATTERN);
+        expect(stagingConfig.vars?.[CLIENT_ID_VAR]).not.toBe(PRODUCTION_CLIENT_ID);
     });
 
     it("configures the registered production client for the production Worker", () => {
-        const production = wranglerConfig.env?.production;
-
-        expect(production?.name).toBe("aura-historia");
-        expect(production?.vars?.[CLIENT_ID_VAR]).toBe(PRODUCTION_CLIENT_ID);
+        expect(productionConfig?.name).toBe("aura-historia");
+        expect(productionConfig?.vars?.[CLIENT_ID_VAR]).toBe(PRODUCTION_CLIENT_ID);
         expect(PRODUCTION_CLIENT_ID).toMatch(OAUTH_CLIENT_ID_PATTERN);
-        expect(wranglerConfig.vars?.[CLIENT_ID_VAR]).not.toBe(PRODUCTION_CLIENT_ID);
     });
 
     it("builds and uploads production releases with the production environment only", () => {
