@@ -1,11 +1,7 @@
+# Pages that must stay out of search results (legal, login, account, partner, admin, OAuth)
+# send a noindex robots tag instead of being disallowed here, so crawlers can read it.
 User-agent: *
-Disallow: /login
-Disallow: /account
-Disallow: /watchlist
-Disallow: /imprint
-Disallow: /privacy
-Disallow: /consent-settings
-Disallow: /terms-and-conditions
+Disallow: /api/
 
 Sitemap: https://aura-historia.com/sitemap.xml
 

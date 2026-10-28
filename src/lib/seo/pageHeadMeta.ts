@@ -158,7 +158,7 @@ export function generatePageHeadMeta(options: PageMetaOptions): HeadMeta {
         ? [
               { rel: "canonical", href: localizedUrl },
               // Only emit hreflang on pages that are actually indexed.
-              // noIndex pages (imprint, privacy, …) are already excluded via robots.txt.
+              // noIndex pages (imprint, privacy, …) are also left out of the sitemap.
               ...(noIndex ? [] : generateHreflangLinks(new URL(localizedUrl).pathname)),
           ]
         : [];

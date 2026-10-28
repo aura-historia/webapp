@@ -61,8 +61,21 @@ src/features/<feature-name>/
 Exclude any routes that are only accessible through authentication or contain highly personalized content from pre-rendering and indexing.
 
 - Pre-rendering is enabled by default, only apply it to routes where it makes sense
-- Use `noindex: true` in route metadata
-- Edit `vite.config.ts` to add excluded pre-rendering routes
+- Use `noIndex: true` in route metadata
+- Edit `src/lib/seo/staticPages.ts` to add or remove prerendered pages; `vite.config.ts` reads it
+
+## Indexing (`robots.txt`, sitemap)
+
+- Keep a page out of search results with a `noindex` robots tag, never with a `Disallow` rule: a
+  disallowed page cannot be fetched, so its `noindex` goes unseen and it can still be indexed from
+  external links. `public/robots.txt` disallows only non-page endpoints (`/api/`).
+- Legal pages (imprint, privacy, terms), login, consent settings and every authenticated area are
+  `noindex`. Prerendered `noindex` pages set `indexable: false` in `src/lib/seo/staticPages.ts`, which
+  leaves them out of `sitemap.xml`.
+- robots.txt rules are path-prefix matches and every page carries a language prefix, so a rule that
+  must match pages needs one (`/*/…`).
+- `src/lib/seo/__tests__/robotsTxt.test.ts` keeps robots.txt, the sitemap and route `noindex`
+  settings consistent.
 
 ## Agent discovery (`llms.txt`)
 
