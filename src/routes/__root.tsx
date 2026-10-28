@@ -148,6 +148,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                     href: ICON_IMAGE_URL,
                     type: "image/png",
                 },
+                // Points agents to the site-wide llms.txt (https://llmstxt.org).
+                {
+                    rel: "describedby",
+                    href: "/llms.txt",
+                },
             ],
         };
     },

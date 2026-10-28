@@ -1,0 +1,52 @@
+# Aura Historia
+
+> Aura Historia is a global discovery platform for antiques, art and design objects. It indexes public listings from dealers, auction houses, shops and marketplaces, so collectors and market professionals can search across providers, languages and currencies in one place, then follow objects with watchlists, saved searches and notifications. Structured access is available through a public MCP server and a REST API.
+
+Key facts for agents:
+
+- Aura Historia is a discovery service, not a marketplace. Each listing links to the provider that offers it; purchases, bids and payment happen with that provider.
+- Listing facts come from the provider. Confirm authenticity, provenance, condition, price and availability with the provider before acting on them. Converted prices are for orientation; the provider's source price is authoritative.
+- "Provider" means a dealer, auction house, shop or marketplace. The API and MCP tools call a provider a "listing source" (`listingSourceId`).
+- Prefer the MCP server or the REST API over scraping web pages: both return complete, structured data, and the public catalogue needs no account.
+- Website pages carry a language prefix: `de`, `en`, `es`, `fr` or `it`. A path without a prefix redirects to a preferred language.
+- Listing search: `https://aura-historia.com/{lang}/search?q={query}`, optionally with `sortField` (`RELEVANCE`, `CREATION_DATE`, `UPDATE_DATE`) and `sortOrder` (`ASC`, `DESC`). Provider search: `https://aura-historia.com/{lang}/search/shops?q={query}`.
+- Listing pages use `https://aura-historia.com/{lang}/products/{productListingTitleSlugId}`; provider pages use `https://aura-historia.com/{lang}/shops/{shopSlugId}`.
+- Account, partner and admin areas (`/{lang}/me/`, `/{lang}/partners/`, `/{lang}/admin/`) require sign-in and are not public content.
+
+## MCP server
+
+- [MCP endpoint](https://mcp.aura-historia.com/v1): Remote MCP server over Streamable HTTP (JSON-RPC via POST). Tool discovery and the public catalogue tools (listing search and detail, price history, similar listings, auctions and auction catalogues, provider search, locations, catalogue overview) need no credentials. Tools for the signed-in user's own account, watchlist, saved searches and notifications need an OAuth access token with the matching scopes.
+- [MCP documentation](https://docs.api.aura-historia.com/mcp.md): Supported protocol revisions, the tool catalogue and required scopes, continuation and pagination rules, error codes and request limits. Tool names match the REST operation IDs.
+- [MCP protected resource metadata](https://mcp.aura-historia.com/.well-known/oauth-protected-resource/v1): RFC 9728 metadata naming the authorization server `https://api.aura-historia.com`. Send `resource=https://mcp.aura-historia.com/v1` in authorization and token requests.
+
+## REST API
+
+- [API reference](https://docs.api.aura-historia.com/): Interactive reference for `https://api.aura-historia.com/v1`, covering listings, auctions, providers, personalization, partner workflows, identity and OAuth. Public catalogue reads need no credentials.
+- [OpenAPI contract](https://docs.api.aura-historia.com/swagger.yaml): Complete OpenAPI 3.0 document. It is large (about 1 MB); search it for the operation you need instead of loading it whole.
+- [OAuth guide](https://docs.api.aura-historia.com/oauth.md): Authorization code flow with mandatory S256 PKCE, resource indicators, consent and revocation. Clients are registered by Aura Historia; there is no dynamic client registration and there are no refresh tokens.
+- [OAuth authorization server metadata](https://api.aura-historia.com/.well-known/oauth-authorization-server): RFC 8414 metadata with the issuer, endpoints and supported scopes.
+- [API changelog](https://docs.api.aura-historia.com/CHANGELOG.md): REST contract and user-visible behaviour changes, newest first.
+
+## Partner integrations
+
+- [Partner program](https://aura-historia.com/en/partner-program/): How dealers and auction houses list their inventory on Aura Historia, free of charge and without sales commission, through WooCommerce, Shopify or the API.
+- [Custom API integration guide](https://aura-historia.com/en/partner-program/custom-integration/): Synchronous batch create, update and delete of a provider's listings, the asking-price format and the WooCommerce webhook contract.
+- [Partner product API (OpenAPI)](https://aura-historia.com/partner-products.openapi.json): The product-sync and WooCommerce webhook operations, extracted from the full contract.
+- [WooCommerce plugin](https://wordpress.org/plugins/aura-historia-partner-connect/): Aura Historia Partner Connect for WordPress and WooCommerce.
+- [Shopify app](https://apps.shopify.com/aura-historia-partner-connect): Aura Historia app on the Shopify App Store; syncs listings from a Shopify store.
+
+## Website
+
+- [Home](https://aura-historia.com/en/): Overview of the platform, plans and frequently asked questions.
+- [Search listings](https://aura-historia.com/en/search): Full-text search across all indexed listings.
+- [Search providers](https://aura-historia.com/en/search/shops): Find dealers, auction houses and shops by name.
+- [About us](https://aura-historia.com/en/about-us/): Why Aura Historia exists and how the team approaches trust and source-aware discovery.
+- [Aura Historia compared with Barnebys](https://aura-historia.com/en/compare/barnebys/): Differences in source coverage, multilingual search and alerts.
+
+## Optional
+
+- [Terms and conditions](https://aura-historia.com/en/terms-and-conditions/): Terms of use, including paid services and payment processing.
+- [Privacy policy](https://aura-historia.com/en/privacy/): How personal data is processed.
+- [Imprint](https://aura-historia.com/en/imprint/): Legal operator information.
+- [MCP documentation on GitHub](https://github.com/aura-historia/backend/blob/develop/docs/mcp.md): Source of the MCP documentation, with links to the tool manifests and tests.
+- [Sitemap](https://aura-historia.com/sitemap.xml): All static public pages in every language.

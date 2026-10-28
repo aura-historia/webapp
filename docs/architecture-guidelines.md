@@ -64,6 +64,22 @@ Exclude any routes that are only accessible through authentication or contain hi
 - Use `noindex: true` in route metadata
 - Edit `vite.config.ts` to add excluded pre-rendering routes
 
+## Agent discovery (`llms.txt`)
+
+`public/llms.txt` follows the [llms.txt specification](https://llmstxt.org): one H1, a blockquote
+summary, unheaded guidance, then H2 sections that contain only `- [name](url): notes` link lists,
+with secondary links in a final `## Optional` section. It is served as a static asset with UTF-8
+plain-text headers from `public/_headers`, announced by a `rel="describedby"` link in the root route
+head and by a comment in `public/robots.txt`.
+
+- Update it when public routes, the public URL patterns it describes, the REST API or MCP endpoints,
+  API documentation URLs or partner integration listings change.
+- Use absolute HTTPS URLs that avoid redirects where possible; prerendered pages keep their trailing
+  slash. Prefer Markdown sources (such as `https://docs.api.aura-historia.com/*.md`) over HTML.
+- List only public content; never link account, partner, admin or OAuth pages, and keep claims as
+  restrained as product copy.
+- `src/lib/seo/__tests__/llmsTxt.test.ts` checks the structure and shared links.
+
 ## Validation
 
 Start with the narrowest relevant checks, then broaden when useful:
