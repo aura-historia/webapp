@@ -8,3 +8,5 @@ Disallow: /consent-settings
 Disallow: /terms-and-conditions
 
 Sitemap: https://aura-historia.com/sitemap.xml
+
+# LLM-readable site overview: https://aura-historia.com/llms.txt
