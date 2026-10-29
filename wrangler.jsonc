@@ -4,18 +4,8 @@
   "compatibility_date": "2025-09-02",
   "compatibility_flags": ["nodejs_compat"],
   "main": "@tanstack/react-start/server-entry",
-  // Each deployment uses its own backend's registered WooCommerce OAuth client: a canonical `oc_`
-  // TypeID. The matching client secret is a Worker secret. Vars and bindings are not inherited by
-  // environments, so production builds with CLOUDFLARE_ENV=production to replace the staging values.
+  // The registered WooCommerce OAuth client, as a canonical `oc_` TypeID. Its secret is a Worker secret.
   "vars": {
-    "OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID": "oc_01ktraqg4de8982t9h5n35wggg"
-  },
-  "env": {
-    "production": {
-      "name": "aura-historia",
-      "vars": {
-        "OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID": "oc_01m5vyvraxecksre2zepjcza88"
-      }
-    }
+    "OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID": "oc_01m5vyvraxecksre2zepjcza88"
   }
 }

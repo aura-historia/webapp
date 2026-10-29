@@ -205,9 +205,6 @@ jobs:
             name: production
             url: https://aura-historia.com
         env:
-            # Selects wrangler.jsonc's production environment (Worker vars such as the WooCommerce
-            # OAuth broker client ID) for the build and the upload.
-            CLOUDFLARE_ENV: production
             VITE_USER_POOL_ID: ${{ secrets.VITE_USER_POOL_ID }}
             VITE_USER_POOL_CLIENT_ID: ${{ secrets.VITE_USER_POOL_CLIENT_ID }}
             VITE_API_URL: ${{ vars.VITE_API_URL }}

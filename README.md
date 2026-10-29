@@ -158,7 +158,7 @@ The application deploys to Cloudflare Workers after CI succeeds:
 | `develop` | Staging | [stage.aura-historia.com](https://stage.aura-historia.com) |
 | Protected `YYYYMMDD-HHMM` release tag from `develop` history | Production | [aura-historia.com](https://aura-historia.com) |
 
-Release timestamps use UTC. Production deployment is CI-only: create and push a protected, immutable release tag after the corresponding `develop` commit has passed CI. CI validates the tag timestamp and that its commit belongs to `develop` history, uploads it to Cloudflare with the same version tag, then deploys that version. This supports re-deploying or rolling back to a named release in Cloudflare. The release job builds with `CLOUDFLARE_ENV=production`, so it uses the `production` environment from `wrangler.jsonc` (Worker name and vars) instead of the staging defaults.
+Release timestamps use UTC. Production deployment is CI-only: create and push a protected, immutable release tag after the corresponding `develop` commit has passed CI. CI validates the tag timestamp and that its commit belongs to `develop` history, uploads it to Cloudflare with the same version tag, then deploys that version. This supports re-deploying or rolling back to a named release in Cloudflare.
 
 To redeploy a previous release, run the **Redeploy production release** workflow from GitHub Actions and provide its release tag. The workflow requires the same production-environment protections and promotes the already-uploaded Cloudflare Worker version without rebuilding it.
 
@@ -166,7 +166,7 @@ To redeploy a previous release, run the **Redeploy production release** workflow
   <a href="https://aura-historia.com"><img src="https://img.shields.io/badge/aura--historia.com-Visit%20Website-8B4513?style=flat" alt="Aura Historia website" /></a>
 </p>
 
-Manual staging deployments require `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. The script rebuilds with the staging configuration before deploying, so an earlier local production build is never deployed to staging. Run it with `CLOUDFLARE_ENV` unset:
+Manual staging deployments require `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`:
 
 ```sh
 # Staging

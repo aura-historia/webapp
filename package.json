@@ -17,8 +17,8 @@
         "openapi-ts": "openapi-ts && python scripts/generate_partner_products_openapi.py --input openapi/swagger.yaml",
         "prepare": "husky",
         "preview": "vite preview",
-        "deploy": "pnpm run deploy:staging",
-        "deploy:staging": "pnpm run build && wrangler deploy --name aura-historia-staging",
+        "deploy": "wrangler deploy",
+        "deploy:staging": "wrangler deploy --name aura-historia-staging",
         "cf-typegen": "wrangler types"
     },
     "lint-staged": {
