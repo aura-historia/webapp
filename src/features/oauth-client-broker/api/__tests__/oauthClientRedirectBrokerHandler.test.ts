@@ -1,15 +1,16 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from "vitest";
 import { encodeOAuthClientBrokerState } from "@/features/oauth-client-broker/lib/oauthClientBrokerState.ts";
 import { getWooCommerceOAuthClientRedirectBroker } from "../oauthClientRedirectBrokerHandler.ts";
 
 const mockFetch = vi.hoisted(() => vi.fn());
+const brokerClientId = vi.hoisted(() => "oc_7b0gwc1x49e0mvbt3tfexfqgb5");
 const mockEnv = vi.hoisted<{
     VITE_API_URL: string | undefined;
     OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID: string | undefined;
     OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET: string | undefined;
 }>(() => ({
     VITE_API_URL: "https://api.test.example",
-    OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID: "01970f22-2bf0-7000-8000-000000000010",
+    OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID: brokerClientId,
     OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET: "broker-client-secret",
 }));
 
@@ -23,13 +24,19 @@ const thirdPartyExchangeCode = "01970f22-2bf0-7000-8000-000000000099";
 type GetHandler = (ctx: { request: Request }) => Promise<Response>;
 
 describe("/api/oauth/client/redirect-broker/woocommerce", () => {
+    let consoleError: MockInstance<typeof console.error>;
+
     beforeEach(() => {
         vi.clearAllMocks();
+        consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
         vi.stubGlobal("fetch", mockFetch);
         mockEnv.VITE_API_URL = "https://api.test.example";
-        mockEnv.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID =
-            "01970f22-2bf0-7000-8000-000000000010";
+        mockEnv.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID = brokerClientId;
         mockEnv.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET = "broker-client-secret";
+    });
+
+    afterEach(() => {
+        consoleError.mockRestore();
     });
 
     it("exchanges the authorization code and redirects with only the third-party exchange code", async () => {
@@ -79,7 +86,7 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         expect(body.get("redirect_uri")).toBe(
             "https://auth.example/api/oauth/client/redirect-broker/woocommerce",
         );
-        expect(body.get("client_id")).toBe("01970f22-2bf0-7000-8000-000000000010");
+        expect(body.get("client_id")).toBe(brokerClientId);
         expect(body.get("client_secret")).toBe("broker-client-secret");
         expect(body.get("code_verifier")).toBe(codeVerifier);
     });
@@ -203,14 +210,50 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         );
     });
 
-    it("returns a server error when broker credentials are not configured", async () => {
+    it("redirects to the final target as server_error when broker credentials are not configured", async () => {
         mockEnv.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET = undefined;
+
+        const response = await get(
+            createBrokerRequest({ extraParams: [["listing_source_id", "shop-1"]] }),
+        );
+
+        expect(response.status).toBe(302);
+        expect(mockFetch).not.toHaveBeenCalled();
+        const location = getLocation(response);
+        const redirectUrl = new URL(location);
+        expect(redirectUrl.origin).toBe("https://merchant.example");
+        expect(redirectUrl.searchParams.get("error")).toBe("server_error");
+        expect(redirectUrl.searchParams.get("error_description")).toBe(
+            "OAuth broker is not configured.",
+        );
+        expect(redirectUrl.searchParams.get("listing_source_id")).toBe("shop-1");
+        expect(redirectUrl.searchParams.get("state")).toBe("merchant-csrf-state");
+        expect(redirectUrl.searchParams.has("code")).toBe(false);
+        expect(location).not.toContain("authorization-code");
+        expect(consoleError).toHaveBeenCalledWith(
+            "[OAuth broker] Client credentials are not configured.",
+            { app: "woocommerce" },
+        );
+    });
+
+    it("treats a non-canonical broker client ID as not configured", async () => {
+        mockEnv.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID =
+            "019eb0ab-c08d-7212-8169-312d465e4210";
 
         const response = await get(createBrokerRequest());
 
-        expect(response.status).toBe(500);
-        await expect(response.text()).resolves.toBe("OAuth broker is not configured.");
+        expect(response.status).toBe(302);
         expect(mockFetch).not.toHaveBeenCalled();
+        const redirectUrl = new URL(getLocation(response));
+        expect(redirectUrl.searchParams.get("error")).toBe("server_error");
+        expect(redirectUrl.searchParams.get("error_description")).toBe(
+            "OAuth broker is not configured.",
+        );
+        expect(redirectUrl.searchParams.get("state")).toBe("merchant-csrf-state");
+        expect(consoleError).toHaveBeenCalledWith(
+            "[OAuth broker] Configured client ID is not a canonical OAuthClient ID.",
+            { app: "woocommerce" },
+        );
     });
 
     it("redirects backend bad-request token failures as invalid_grant", async () => {
@@ -232,8 +275,39 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         expect(redirectUrl.searchParams.has("third_party_exchange_code")).toBe(false);
     });
 
-    it("redirects backend unauthorized token failures as server_error", async () => {
-        mockFetch.mockResolvedValue(new Response("Unauthorized", { status: 401 }));
+    it("redirects broker client authentication failures as server_error with a safe diagnostic", async () => {
+        mockFetch.mockResolvedValue(
+            new Response('{"error":"invalid_client"}', {
+                status: 401,
+                headers: { "Content-Type": "application/json" },
+            }),
+        );
+
+        const response = await get(createBrokerRequest());
+
+        expect(response.status).toBe(302);
+        const location = getLocation(response);
+        const redirectUrl = new URL(location);
+        expect(redirectUrl.searchParams.get("error")).toBe("server_error");
+        expect(redirectUrl.searchParams.get("error_description")).toBe(
+            "OAuth broker client authentication failed.",
+        );
+        expect(redirectUrl.searchParams.get("state")).toBe("merchant-csrf-state");
+        expect(location).not.toContain("broker-client-secret");
+        expect(consoleError).toHaveBeenCalledTimes(1);
+        expect(consoleError).toHaveBeenCalledWith("[OAuth broker] Token exchange failed.", {
+            status: 401,
+            error: "invalid_client",
+        });
+    });
+
+    it("logs only a known OAuth error identifier for other token failures", async () => {
+        mockFetch.mockResolvedValue(
+            new Response('{"error":"secret-access-token","detail":"broker-client-secret"}', {
+                status: 503,
+                headers: { "Content-Type": "application/json" },
+            }),
+        );
 
         const response = await get(createBrokerRequest());
 
@@ -241,6 +315,13 @@ describe("/api/oauth/client/redirect-broker/woocommerce", () => {
         expect(redirectUrl.searchParams.get("error")).toBe("server_error");
         expect(redirectUrl.searchParams.get("error_description")).toBe(
             "OAuth token exchange failed.",
+        );
+        expect(consoleError).toHaveBeenCalledWith("[OAuth broker] Token exchange failed.", {
+            status: 503,
+            error: "unrecognized",
+        });
+        expect(JSON.stringify(consoleError.mock.calls)).not.toMatch(
+            /secret-access-token|broker-client-secret|authorization-code/,
         );
     });
 
