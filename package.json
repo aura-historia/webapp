@@ -88,7 +88,7 @@
         "zod": "^4.6.7"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.5.15",
+        "@biomejs/biome": "2.6.3",
         "@hey-api/openapi-ts": "0.0.0-next-20260824173136",
         "@playwright/test": "^1.64.1",
         "@tanstack/devtools-vite": "^0.8.5",
@@ -106,7 +106,7 @@
         "jsonc-parser": "^3.3.1",
         "lint-staged": "^17.6.0",
         "typescript": "^7.0.2",
-        "vite": "^8.3.4",
+        "vite": "^8.3.5",
         "vitest": "^5.0.5",
         "wrangler": "^4.152.0"
     }
