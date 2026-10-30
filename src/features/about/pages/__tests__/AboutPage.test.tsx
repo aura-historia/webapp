@@ -1,8 +1,14 @@
-import { act, render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { ABOUT_TEAM_MEMBERS, type AboutTeamMember } from "@/features/about/config/aboutPage.data";
-import { AboutPage, AboutTeamMemberCard } from "@/features/about/pages/AboutPage";
+import { AboutTeamMemberCard } from "@/features/about/components/AboutTeamMemberCard.tsx";
+import {
+    ABOUT_FAQ_ITEMS,
+    ABOUT_SECTION_IDS,
+    ABOUT_TEAM_MEMBERS,
+    type AboutTeamMember,
+} from "@/features/about/config/aboutPage.data";
+import { AboutPage } from "@/features/about/pages/AboutPage";
 import { renderWithRouter } from "@/test/utils";
 
 function getCardForMember(name: string) {
@@ -12,11 +18,15 @@ function getCardForMember(name: string) {
     return card as HTMLElement;
 }
 
+async function renderAboutPage() {
+    await act(async () => {
+        renderWithRouter(<AboutPage />);
+    });
+}
+
 describe("AboutPage", () => {
-    it("renders the lean about page sections", async () => {
-        await act(async () => {
-            renderWithRouter(<AboutPage />);
-        });
+    it("renders the hero and the five chapters in order", async () => {
+        await renderAboutPage();
 
         expect(
             screen.getByRole("heading", {
@@ -25,22 +35,96 @@ describe("AboutPage", () => {
             }),
         ).toBeInTheDocument();
         expect(
-            screen.getByRole("heading", {
-                name: "Orientierung schaffen, ohne den Markt zu vereinfachen.",
+            screen.getByText(/^Aura Historia ist eine weltweite Suchmaschine .* die Händler/),
+        ).toBeInTheDocument();
+
+        const chapterHeadings = screen
+            .getAllByRole("heading", { level: 2 })
+            .map((heading) => heading.textContent);
+        expect(chapterHeadings).toEqual([
+            "Was Aura Historia bietet.",
+            "Was Aura Historia unterscheidet.",
+            "Wer Aura Historia nutzt.",
+            "Das Team hinter Aura Historia.",
+            "Häufig gestellte Fragen.",
+        ]);
+    });
+
+    it("links every chapter from the hero navigation", async () => {
+        await renderAboutPage();
+
+        const navigation = screen.getByRole("navigation", { name: "Auf dieser Seite" });
+        const hrefs = within(navigation)
+            .getAllByRole("link")
+            .map((link) => link.getAttribute("href"));
+
+        expect(hrefs).toEqual(Object.values(ABOUT_SECTION_IDS).map((id) => `#${id}`));
+        for (const id of Object.values(ABOUT_SECTION_IDS)) {
+            expect(document.getElementById(id)).toBeInTheDocument();
+        }
+    });
+
+    it("links each service to where it lives", async () => {
+        await renderAboutPage();
+
+        expect(screen.getByRole("link", { name: "Markt durchsuchen" })).toHaveAttribute(
+            "href",
+            "/de/search",
+        );
+        expect(screen.getByRole("link", { name: "Merkliste anlegen" })).toHaveAttribute(
+            "href",
+            "/de/me/watchlist",
+        );
+        expect(screen.getByRole("link", { name: "Suchauftrag anlegen" })).toHaveAttribute(
+            "href",
+            "/de/me/search-filters",
+        );
+        expect(screen.getByRole("link", { name: "Zum Partnerprogramm" })).toHaveAttribute(
+            "href",
+            "/de/partner-program",
+        );
+    });
+
+    it("names the sources of outside figures and links the full Barnebys comparison", async () => {
+        await renderAboutPage();
+
+        expect(screen.getByText("Quelle: Art Basel / UBS")).toBeInTheDocument();
+        expect(screen.getByText("Quelle: Catawiki-Hilfecenter für Verkäufer")).toBeInTheDocument();
+        expect(
+            screen.getByRole("link", {
+                name: "Zum vollständigen Vergleich: Aura Historia und Barnebys",
             }),
-        ).toBeInTheDocument();
-        expect(
-            screen.getByRole("heading", { name: "Vornehme Zurückhaltung." }),
-        ).toBeInTheDocument();
-        expect(
-            screen.getByRole("heading", { name: "Ein kleines Team mit langem Blick." }),
-        ).toBeInTheDocument();
+        ).toHaveAttribute("href", expect.stringContaining("/compare/barnebys"));
+    });
+
+    it("lists both audience groups", async () => {
+        await renderAboutPage();
+
+        const audience = document.getElementById(ABOUT_SECTION_IDS.audience) as HTMLElement;
+        expect(within(audience).getByRole("heading", { name: "Sammler" })).toBeInTheDocument();
+        expect(within(audience).getByRole("heading", { name: "Der Handel" })).toBeInTheDocument();
+        expect(within(audience).getAllByRole("listitem")).toHaveLength(8);
+    });
+
+    it("keeps every FAQ answer in the markup and opens one at a time", async () => {
+        await renderAboutPage();
+
+        const faq = document.getElementById(ABOUT_SECTION_IDS.faq) as HTMLElement;
+        const questions = within(faq).getAllByRole("button");
+        expect(questions).toHaveLength(ABOUT_FAQ_ITEMS.length);
+        expect(questions[0]).toHaveAttribute("aria-expanded", "true");
+
+        const closedAnswer = within(faq).getByText(/^Nein\. Der Kauf findet beim jeweiligen/);
+        expect(closedAnswer).not.toBeVisible();
+
+        fireEvent.click(within(faq).getByRole("button", { name: /Kann ich über Aura Historia/ }));
+
+        expect(closedAnswer).toBeVisible();
+        expect(questions[0]).toHaveAttribute("aria-expanded", "false");
     });
 
     it("renders configured visible team members", async () => {
-        await act(async () => {
-            renderWithRouter(<AboutPage />);
-        });
+        await renderAboutPage();
 
         expect(screen.getByRole("heading", { name: "Julian Bruder" })).toBeInTheDocument();
         expect(screen.getByRole("heading", { name: "Luca Franke" })).toBeInTheDocument();
@@ -50,9 +134,7 @@ describe("AboutPage", () => {
     });
 
     it("keeps contact buttons aligned at the bottom of every team card", async () => {
-        await act(async () => {
-            renderWithRouter(<AboutPage />);
-        });
+        await renderAboutPage();
 
         for (const member of ABOUT_TEAM_MEMBERS.filter((teamMember) => !teamMember.hidden)) {
             const card = getCardForMember(member.name);
@@ -67,9 +149,7 @@ describe("AboutPage", () => {
     });
 
     it("renders the configured email and LinkedIn links for each visible member", async () => {
-        await act(async () => {
-            renderWithRouter(<AboutPage />);
-        });
+        await renderAboutPage();
 
         for (const member of ABOUT_TEAM_MEMBERS.filter((teamMember) => !teamMember.hidden)) {
             const card = getCardForMember(member.name);
@@ -90,9 +170,7 @@ describe("AboutPage", () => {
     });
 
     it("uses initials as image fallback when no image is configured", async () => {
-        await act(async () => {
-            renderWithRouter(<AboutPage />);
-        });
+        await renderAboutPage();
 
         expect(screen.getByRole("img", { name: "Initialen von Julian Bruder" })).toHaveTextContent(
             "JB",
@@ -102,7 +180,7 @@ describe("AboutPage", () => {
         ).toHaveTextContent("AF");
     });
 
-    it("contains complete config for five team members while Anton is hidden", () => {
+    it("contains complete config for five team members", () => {
         expect(ABOUT_TEAM_MEMBERS).toHaveLength(5);
         expect(ABOUT_TEAM_MEMBERS.map((member) => member.email)).toEqual([
             "julian.bruder@aura-historia.com",
