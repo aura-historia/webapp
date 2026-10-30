@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import { OAUTH_CLIENT_ID_PATTERN } from "@/features/oauth-client-broker/server/brokerConfig.ts";
 import {
     BROKER_RATE_LIMITER_BINDING,
-    BROKER_TRANSACTIONS_BINDING,
+    BROKER_TRANSACTIONS_EXPORT,
 } from "@/features/oauth-client-broker/server/brokerBindings.ts";
 
 vi.mock("@/env.ts", () => ({
@@ -17,6 +17,7 @@ const REGISTERED_CLIENT_ID = "oc_01m5vyvraxecksre2zepjcza88";
 
 interface WorkerConfig {
     readonly main?: string;
+    readonly compatibility_flags?: string[];
     readonly vars?: Record<string, string>;
     readonly durable_objects?: { bindings?: Array<{ name: string; class_name: string }> };
     readonly migrations?: unknown[];
@@ -43,21 +44,20 @@ describe("WooCommerce OAuth broker deployment config", () => {
         expect(clientId).toMatch(OAUTH_CLIENT_ID_PATTERN);
     });
 
-    it("binds the transaction store to a SQLite-backed class the Worker entry exports", () => {
-        const binding = wranglerConfig.durable_objects?.bindings?.find(
-            (entry) => entry.name === BROKER_TRANSACTIONS_BINDING,
-        );
+    it("declares the transaction store as a SQLite-backed export the Worker entry provides", () => {
         const workerEntry = readFileSync(resolve(process.cwd(), "src/worker.ts"), "utf8");
 
         expect(wranglerConfig.main).toBe("./src/worker.ts");
-        expect(binding?.class_name).toBe("WooCommerceOAuthBrokerTransaction");
-        expect(workerEntry).toContain("export { WooCommerceOAuthBrokerTransaction }");
-        // Version uploads (releases, branch builds) apply exports but refuse pending migrations.
-        expect(wranglerConfig.exports?.WooCommerceOAuthBrokerTransaction).toEqual({
+        expect(workerEntry).toContain(`export { ${BROKER_TRANSACTIONS_EXPORT} }`);
+        expect(wranglerConfig.exports?.[BROKER_TRANSACTIONS_EXPORT]).toEqual({
             type: "durable-object",
             storage: "sqlite",
         });
+        // Version uploads (releases, branch builds) refuse pending migrations and bindings to a
+        // class not yet provisioned, so the namespace is reached through the Worker's exports.
         expect(wranglerConfig.migrations ?? []).toEqual([]);
+        expect(wranglerConfig.durable_objects?.bindings ?? []).toEqual([]);
+        expect(wranglerConfig.compatibility_flags).toContain("enable_ctx_exports");
     });
 
     it("configures the initiation and completion rate limiter", () => {

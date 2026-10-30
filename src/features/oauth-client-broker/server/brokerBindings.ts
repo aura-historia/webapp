@@ -1,21 +1,29 @@
-import { env as workerEnv, type DurableObjectNamespace, type RateLimit } from "cloudflare:workers";
+import {
+    type DurableObjectNamespace,
+    type RateLimit,
+    env as workerEnv,
+    exports as workerExports,
+} from "cloudflare:workers";
 import { getBrokerAppOrigin } from "@/features/oauth-client-broker/lib/brokerUrls.ts";
 import type { WooCommerceOAuthBrokerTransaction } from "@/features/oauth-client-broker/server/WooCommerceOAuthBrokerTransaction.ts";
 
-/** Binding names in `wrangler.jsonc`. */
-export const BROKER_TRANSACTIONS_BINDING = "OAUTH_BROKER_WOOCOMMERCE_TRANSACTIONS";
+/** The Durable Object class declared in `exports` in `wrangler.jsonc`. */
+export const BROKER_TRANSACTIONS_EXPORT = "WooCommerceOAuthBrokerTransaction";
+/** Rate limiter binding name in `wrangler.jsonc`. */
 export const BROKER_RATE_LIMITER_BINDING = "OAUTH_BROKER_WOOCOMMERCE_RATE_LIMITER";
 
 /**
- * The transaction's Durable Object, or `undefined` (logged) when the binding is missing, so every
- * caller fails closed rather than falling back to another store.
+ * The transaction's Durable Object, or `undefined` (logged) when the namespace is missing, so
+ * every caller fails closed rather than falling back to another store. The namespace comes from
+ * the Worker's own `exports` rather than an `env` binding: a version upload may not bind a class
+ * that its deployment has yet to provision.
  */
 export function getBrokerTransaction(transactionId: string) {
-    const namespace = workerEnv[BROKER_TRANSACTIONS_BINDING] as
+    const namespace = workerExports[BROKER_TRANSACTIONS_EXPORT] as
         | DurableObjectNamespace<WooCommerceOAuthBrokerTransaction>
         | undefined;
     if (!namespace) {
-        console.error("[OAuth broker] Transaction storage binding is not configured.");
+        console.error("[OAuth broker] Transaction storage is not configured.");
         return undefined;
     }
     return namespace.get(namespace.idFromName(transactionId));

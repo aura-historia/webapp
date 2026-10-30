@@ -1,11 +1,11 @@
 import { vi } from "vitest";
 import type { DurableObjectId } from "cloudflare:workers";
-import { env as workerEnv } from "@/test/cloudflareWorkersStub.ts";
+import { env as workerEnv, exports as workerExports } from "@/test/cloudflareWorkersStub.ts";
 import { createSqliteDurableObjectState } from "@/test/durableObjectState.ts";
 import { WooCommerceOAuthBrokerTransaction } from "@/features/oauth-client-broker/server/WooCommerceOAuthBrokerTransaction.ts";
 import {
     BROKER_RATE_LIMITER_BINDING,
-    BROKER_TRANSACTIONS_BINDING,
+    BROKER_TRANSACTIONS_EXPORT,
 } from "@/features/oauth-client-broker/server/brokerBindings.ts";
 
 export const APP_ORIGIN = "https://aura-historia.com";
@@ -40,7 +40,7 @@ export function installBrokerBindings() {
     const states = new Map<string, ReturnType<typeof createSqliteDurableObjectState>>();
     const limit = vi.fn(async (_options: { key: string }) => ({ success: true }));
 
-    workerEnv[BROKER_TRANSACTIONS_BINDING] = {
+    workerExports[BROKER_TRANSACTIONS_EXPORT] = {
         idFromName: (name: string): DurableObjectId => ({ toString: () => name }),
         get: (id: DurableObjectId) => {
             const name = id.toString();
@@ -68,7 +68,7 @@ export function installBrokerBindings() {
 }
 
 export function removeBrokerBindings() {
-    delete workerEnv[BROKER_TRANSACTIONS_BINDING];
+    delete workerExports[BROKER_TRANSACTIONS_EXPORT];
     delete workerEnv[BROKER_RATE_LIMITER_BINDING];
 }
 

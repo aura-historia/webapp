@@ -2,7 +2,9 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "aura-historia-staging",
   "compatibility_date": "2025-09-02",
-  "compatibility_flags": ["nodejs_compat"],
+  // `enable_ctx_exports` (default from 2025-11-17) exposes the Worker's own Durable Object
+  // namespaces through `exports` from `cloudflare:workers`.
+  "compatibility_flags": ["nodejs_compat", "enable_ctx_exports"],
   // TanStack Start's server entry plus the exported Durable Object classes.
   "main": "./src/worker.ts",
   // The registered WooCommerce OAuth client, as a canonical `oc_` TypeID. Its secret is a Worker secret.
@@ -11,17 +13,10 @@
   },
   // WooCommerce OAuth broker transactions: one SQLite-backed object per transaction. Namespaces
   // belong to the Worker, so staging (`aura-historia-staging`), production (`aura-historia`) and
-  // local development each keep their own transactions.
-  "durable_objects": {
-    "bindings": [
-      {
-        "name": "OAUTH_BROKER_WOOCOMMERCE_TRANSACTIONS",
-        "class_name": "WooCommerceOAuthBrokerTransaction"
-      }
-    ]
-  },
-  // Declarative Durable Object lifecycle: unlike `migrations`, it is applied by `wrangler versions
-  // upload`, which production releases and branch builds use.
+  // local development each keep their own transactions. Declared in `exports`, not `migrations`,
+  // and reached through the Worker's own exports rather than a `durable_objects` binding: version
+  // uploads (releases, branch builds) refuse pending migrations and bindings to a class their
+  // deployment has yet to provision.
   "exports": {
     "WooCommerceOAuthBrokerTransaction": { "type": "durable-object", "storage": "sqlite" }
   },

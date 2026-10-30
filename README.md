@@ -168,7 +168,7 @@ Release timestamps use UTC. Production deployment is CI-only: create and push a 
 
 To redeploy a previous release, run the **Redeploy production release** workflow from GitHub Actions and provide its release tag. The workflow requires the same production-environment protections and promotes the already-uploaded Cloudflare Worker version without rebuilding it.
 
-Durable Objects, such as the WooCommerce OAuth broker's transaction store, are declared in `exports` in `wrangler.jsonc` rather than as `migrations`: version uploads, which production releases and Cloudflare's branch builds use, apply declarative exports but refuse pending migrations. Keep new Durable Object classes in `exports` so releases need no extra step.
+Durable Objects, such as the WooCommerce OAuth broker's transaction store, are declared in `exports` in `wrangler.jsonc` rather than as `migrations`, and code reaches them through `exports` from `cloudflare:workers` rather than a `durable_objects` binding. Version uploads, which production releases and Cloudflare's branch builds use, refuse pending migrations and bindings to a class that is not provisioned yet; declarative exports are provisioned when the version is deployed, so releases need no extra step.
 
 <p>
   <a href="https://aura-historia.com"><img src="https://img.shields.io/badge/aura--historia.com-Visit%20Website-8B4513?style=flat" alt="Aura Historia website" /></a>

@@ -57,4 +57,7 @@ declare module "cloudflare:workers" {
 
     /** Bindings of the running Worker. */
     export const env: Readonly<Record<string, unknown>>;
+
+    /** The running Worker's own exports (`ctx.exports`), e.g. its Durable Object namespaces. */
+    export const exports: Readonly<Record<string, unknown>>;
 }

@@ -9,7 +9,7 @@ import {
     MERCHANT_REDIRECT_URI,
     removeBrokerBindings,
 } from "@/features/oauth-client-broker/__tests__/brokerTestHarness.ts";
-import { env as workerEnv } from "@/test/cloudflareWorkersStub.ts";
+import { env as workerEnv, exports as workerExports } from "@/test/cloudflareWorkersStub.ts";
 
 const mockEnv = vi.hoisted(() => ({}) as Record<string, string | undefined>);
 vi.mock("@/env.ts", () => ({ env: mockEnv }));
@@ -284,7 +284,7 @@ describe("POST /api/oauth/broker/woocommerce/initiate", () => {
     });
 
     it("fails closed without transaction storage or rate limiter bindings", async () => {
-        delete workerEnv.OAUTH_BROKER_WOOCOMMERCE_TRANSACTIONS;
+        delete workerExports.WooCommerceOAuthBrokerTransaction;
         expect((await initiate(VALID_FIELDS)).body.error).toBe("server_error");
 
         delete workerEnv.OAUTH_BROKER_WOOCOMMERCE_RATE_LIMITER;
@@ -292,7 +292,7 @@ describe("POST /api/oauth/broker/woocommerce/initiate", () => {
     });
 
     it("reports unavailable storage as retryable", async () => {
-        workerEnv.OAUTH_BROKER_WOOCOMMERCE_TRANSACTIONS = {
+        workerExports.WooCommerceOAuthBrokerTransaction = {
             idFromName: (name: string) => ({ toString: () => name }),
             get: () => ({
                 create: async () => {
