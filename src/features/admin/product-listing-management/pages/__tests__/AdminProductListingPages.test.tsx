@@ -292,6 +292,38 @@ describe("AdminProductListingDetailPage", () => {
         });
     });
 
+    it("replaces the original title in its language and clears the description", async () => {
+        api.getAdminProductListing.mockResolvedValue(ok(detailDto));
+        api.updateAdminProductListing.mockResolvedValue(
+            ok({ productListingId: "pl_01", expectedVersion: 8, outcome: "CHANGED" }),
+        );
+        renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
+
+        const title = await screen.findByLabelText(t("adminProductListings.fields.originalTitle"));
+        expect(title).toHaveValue("Walnut cabinet");
+        fireEvent.change(title, { target: { value: "Walnut cabinet, 1890" } });
+        fireEvent.change(
+            screen.getByLabelText(t("adminProductListings.fields.originalDescription")),
+            {
+                target: { value: "" },
+            },
+        );
+        fireEvent.click(
+            screen.getByRole("button", { name: t("adminProductListings.actions.save") }),
+        );
+
+        expect(await screen.findByText(t("adminProductListings.edit.saved"))).toBeInTheDocument();
+        expect(api.updateAdminProductListing).toHaveBeenCalledWith({
+            path: { productListingId: "pl_01" },
+            body: {
+                expectedVersion: 7,
+                title: { text: "Walnut cabinet, 1890", language: "en" },
+                description: null,
+            },
+            cache: "no-store",
+        });
+    });
+
     it("keeps saved values at the returned version when the refetch after saving fails", async () => {
         api.getAdminProductListing
             .mockResolvedValueOnce(ok(detailDto))

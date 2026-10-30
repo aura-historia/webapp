@@ -63,6 +63,36 @@ describe("AdminListingSourceFormDialog", () => {
         expect(api.update.mutate).not.toHaveBeenCalled();
     });
 
+    it("edits the recorded platform technology and rejects malformed codes", async () => {
+        renderDialog({ source: { ...source, platformTechnology: "SHOPIFY" } });
+        const platform = screen.getByLabelText(
+            testI18n.t("adminListingSources.fields.platformTechnology"),
+        );
+        expect(platform).toHaveValue("SHOPIFY");
+        const save = screen.getByRole("button", {
+            name: testI18n.t("adminListingSources.actions.save"),
+        });
+
+        fireEvent.change(platform, { target: { value: "shop-ware" } });
+        fireEvent.click(save);
+        expect(
+            await screen.findByText(
+                testI18n.t("adminListingSources.validation.platformTechnology"),
+            ),
+        ).toBeInTheDocument();
+        expect(api.update.mutate).not.toHaveBeenCalled();
+
+        fireEvent.change(platform, { target: { value: "shopware" } });
+        fireEvent.click(save);
+        await waitFor(() => expect(api.update.mutate).toHaveBeenCalledTimes(1));
+        expect(api.update.mutate).toHaveBeenCalledWith(
+            expect.objectContaining({
+                values: expect.objectContaining({ platformTechnology: "shopware" }),
+            }),
+            expect.any(Object),
+        );
+    });
+
     it("starts without an ingestion method and allows adding and removing the last entry", () => {
         renderDialog();
 

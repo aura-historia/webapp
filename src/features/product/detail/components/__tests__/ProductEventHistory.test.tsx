@@ -47,6 +47,16 @@ const changedEvent: ProductListingHistoryEntry = {
         kind: "CHANGED",
         changes: [
             {
+                type: "TITLE_CHANGED",
+                previous: { text: "Baroque violin", language: "en" },
+                current: { text: "Baroque violin, 1720", language: "en" },
+            },
+            {
+                type: "DESCRIPTION_CHANGED",
+                previous: null,
+                current: { text: "Maple back.", language: "en" },
+            },
+            {
                 type: "MAIN_PRICE_CHANGED",
                 previous: { type: "MONETARY", amount: 10000, currency: "EUR" },
                 current: { type: "ON_REQUEST" },
@@ -105,6 +115,9 @@ describe("ProductEventHistory", () => {
 
         expect(screen.getAllByTestId("timeline-item")).toHaveLength(1);
         expect(screen.getByText("product.history.events.listingChangedTitle")).toBeInTheDocument();
+        expect(screen.getByText("product.history.events.titleChanged")).toBeInTheDocument();
+        expect(screen.getByText("product.history.events.descriptionAdded")).toBeInTheDocument();
+        expect(screen.queryByText(/Baroque violin/)).not.toBeInTheDocument();
         expect(screen.getByText(/product.history.events.mainPriceChanged/)).toBeInTheDocument();
         expect(
             screen.getByText(/product.history.events.minimumEstimateChanged/),
@@ -124,7 +137,36 @@ describe("ProductEventHistory", () => {
         expect(
             screen.getByText(/product.history.events.saleObservationRetracted/),
         ).toBeInTheDocument();
-        expect(screen.getAllByTestId("timeline-description")).toHaveLength(11);
+        expect(screen.getAllByTestId("timeline-description")).toHaveLength(13);
+    });
+
+    it("names removed text and groups text changes under details", () => {
+        const removal: ProductListingHistoryEntry = {
+            ...changedEvent,
+            payload: {
+                kind: "CHANGED",
+                changes: [
+                    {
+                        type: "TITLE_CHANGED",
+                        previous: { text: "Baroque violin", language: "en" },
+                        current: null,
+                    },
+                    {
+                        type: "DESCRIPTION_CHANGED",
+                        previous: { text: "Maple back.", language: "en" },
+                        current: null,
+                    },
+                ],
+            },
+        };
+
+        const { rerender } = render(<ProductEventHistory event={removal} filter="details" />);
+
+        expect(screen.getByText("product.history.events.titleRemoved")).toBeInTheDocument();
+        expect(screen.getByText("product.history.events.descriptionRemoved")).toBeInTheDocument();
+
+        rerender(<ProductEventHistory event={removal} filter="price" />);
+        expect(screen.queryByTestId("timeline-item")).not.toBeInTheDocument();
     });
 
     it("keeps price filtering on the relevant changes without splitting the event", () => {

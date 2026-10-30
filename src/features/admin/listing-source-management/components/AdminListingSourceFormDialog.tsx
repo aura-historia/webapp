@@ -27,11 +27,13 @@ import {
 import { toSupportedCurrency } from "@/data/internal/common/Currency.ts";
 import {
     ADMIN_LISTING_SOURCE_INGESTION_METHODS,
+    ADMIN_LISTING_SOURCE_PLATFORM_SUGGESTIONS,
     type AdminListingSourceCreateValues,
     type AdminListingSourceDetail,
     type AdminListingSourceUpdateValues,
     createDefaultConfiguration,
     defaultUpdateConfigurations,
+    isOptionalPlatformTechnology,
 } from "@/data/internal/listing-source/AdminListingSource.ts";
 import {
     AdminListingSourceRequestError,
@@ -57,6 +59,10 @@ function isOptionalHttpUrl(value: string) {
 
 const presentationUrlSchema = z.string().refine(isOptionalHttpUrl, {
     message: "adminListingSources.validation.invalidUrl",
+});
+
+const platformTechnologySchema = z.string().refine(isOptionalPlatformTechnology, {
+    message: "adminListingSources.validation.platformTechnology",
 });
 
 const UNSUPPORTED_CURRENCY_MESSAGE = "adminListingSources.validation.unsupportedCurrency";
@@ -114,6 +120,7 @@ const createFormSchema = z
             .string()
             .trim()
             .pipe(z.union([z.literal(""), z.email("adminListingSources.validation.invalidEmail")])),
+        platformTechnology: platformTechnologySchema,
         configurations: z.array(configurationFieldsSchema),
         url: presentationUrlSchema,
         image: presentationUrlSchema,
@@ -179,6 +186,7 @@ const updateFormSchema = z
             .refine(fitsName, {
                 message: "adminListingSources.validation.nameTooLong",
             }),
+        platformTechnology: platformTechnologySchema,
         url: presentationUrlSchema,
         image: presentationUrlSchema,
         referralAction: z.enum(["KEEP", "SET", "CLEAR"]),
@@ -280,6 +288,7 @@ function CreateListingSourceForm({
             operatorName: "",
             operatorPhone: "",
             operatorEmail: "",
+            platformTechnology: "",
             configurations: [],
             url: "",
             image: "",
@@ -418,6 +427,10 @@ function CreateListingSourceForm({
                         </div>
                     )}
                 </div>
+                <PlatformTechnologyField
+                    register={form.register}
+                    error={form.formState.errors.platformTechnology?.message}
+                />
                 <section className="grid gap-3" aria-labelledby="admin-source-configurations-title">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                         <h3 id="admin-source-configurations-title" className="font-medium">
@@ -628,6 +641,7 @@ function UpdateListingSourceForm({
         resolver: zodResolver(updateFormSchema),
         defaultValues: {
             name: source.name,
+            platformTechnology: source.platformTechnology ?? "",
             url: source.presentation.url ?? "",
             image: source.presentation.image ?? "",
             referralAction: "KEEP",
@@ -700,6 +714,10 @@ function UpdateListingSourceForm({
                 >
                     <Input id="admin-listing-source-name" {...form.register("name")} />
                 </FormField>
+                <PlatformTechnologyField
+                    register={form.register}
+                    error={form.formState.errors.platformTechnology?.message}
+                />
                 <FormField
                     id="admin-listing-source-url"
                     label={t("adminListingSources.fields.url")}
@@ -899,6 +917,41 @@ function UpdateConfigurationEditor({
                 </p>
             )}
         </div>
+    );
+}
+
+function PlatformTechnologyField({
+    register,
+    error,
+}: {
+    readonly register: UseFormRegister<CreateFormValues> | UseFormRegister<UpdateFormValues>;
+    readonly error?: string;
+}) {
+    const { t } = useTranslation();
+    return (
+        <FormField
+            id="admin-listing-source-platform"
+            label={t("adminListingSources.fields.platformTechnology")}
+            error={error}
+        >
+            <Input
+                id="admin-listing-source-platform"
+                list="admin-listing-source-platform-suggestions"
+                autoComplete="off"
+                autoCapitalize="characters"
+                spellCheck={false}
+                aria-invalid={Boolean(error)}
+                {...(register as UseFormRegister<CreateFormValues>)("platformTechnology")}
+            />
+            <datalist id="admin-listing-source-platform-suggestions">
+                {ADMIN_LISTING_SOURCE_PLATFORM_SUGGESTIONS.map((code) => (
+                    <option key={code} value={code} />
+                ))}
+            </datalist>
+            <p className="text-xs text-muted-foreground">
+                {t("adminListingSources.form.platformTechnologyDescription")}
+            </p>
+        </FormField>
     );
 }
 

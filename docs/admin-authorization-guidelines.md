@@ -27,7 +27,12 @@ operations. Listing-source search/detail use their separate safe DTOs; the read 
 omits full ingestion configuration and never returns the write-only WooCommerce
 secret. Preserve unseen configuration by omitting it from updates, and require an
 explicit replacement action before sending new settings. The operator and source slug
-are immutable on update. User search and detail use separate summary and account DTO
+are immutable on update. The optional `platformTechnology` code is descriptive metadata,
+independent of ingestion: the forms upper-case ASCII letters, validate the backend pattern, and
+an update sends it only when it changed (empty clears it). Party, user and listing-source
+searches return an opaque `searchAfter` that embeds the last item's sort value (such as a name or
+email): resend it unchanged only with the filters and sort that returned it (each list query key
+holds both), and keep it out of URLs, logs and analytics. User search and detail use separate summary and account DTO
 mappings; user reads and mutations use `Cache-Control: no-store` requests and private
 query keys. User security controls map suspension, Cognito session revocation, and Aura access-token
 metadata/revocation separately. The account detail DTO does not expose suspension state, so show only

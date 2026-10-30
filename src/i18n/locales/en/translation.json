@@ -521,6 +521,12 @@
         "maximumEstimateChanged": "Maximum estimate changed from {{previous}} to {{current}}.",
         "availabilityChanged": "Availability changed from {{previous}} to {{current}}.",
         "imagesChangedWithCounts": "Image count changed from {{previousCount}} to {{currentCount}}.",
+        "titleAdded": "Title added.",
+        "titleChanged": "Title updated.",
+        "titleRemoved": "Title removed.",
+        "descriptionAdded": "Description added.",
+        "descriptionChanged": "Description updated.",
+        "descriptionRemoved": "Description removed.",
         "auctionChanged": "Auction or lot details changed.",
         "withdrawn": "Listing withdrawn after availability was {{previousAvailability}}.",
         "restored": "Listing restored by its source.",
@@ -1268,11 +1274,11 @@
         },
         "patch": {
           "title": "Preserve or clear",
-          "description": "Omitted members preserve existing facts. null clears availability, price and each price estimate. url: null, images: null and auction: null are invalid (400 BAD_BODY_VALUE). images: [] clears images. The complete batch contract is validated before entry transactions begin."
+          "description": "Omitted members preserve existing facts. null clears title, description, availability, price and each price estimate. url: null, images: null and auction: null are invalid (400 BAD_BODY_VALUE). images: [] clears images. The complete batch contract is validated before entry transactions begin."
         },
         "put": {
           "title": "Upsert semantics",
-          "description": "For existing listings, omit availability/prices to preserve, send null to clear or a value to set. Omit images to preserve, [] to clear, or an array to replace; null is invalid. Omit url or send null to preserve; a URL replaces it. title/description apply only on creation. New listings require sourceListingId, url and images; omitted/null availability and prices record no value."
+          "description": "For existing listings, omit title, description, availability or prices to preserve, send null to clear or a value to set. Omit images to preserve, [] to clear, or an array to replace; null is invalid. Omit url or send null to preserve; a URL replaces it. New listings require sourceListingId, url and images; omitted/null title, description, availability and prices record no value."
         },
         "auction": {
           "title": "Auction membership and lot timing",
@@ -1284,7 +1290,7 @@
         },
         "woocommerce": {
           "title": "WooCommerce: server-to-server",
-          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} requires bearer authorization, x-wc-webhook-topic and x-wc-webhook-signature (base64 HMAC-SHA256 over exact body bytes); x-wc-webhook-delivery-id is optional. Keep webhook secrets on the server; never send or expose them in a browser. HTTP 204 has no body and acknowledges confirmed admission or an authorized ignored status, not capture or search visibility. date_modified_gmt supports UTC without offset, Z or +00:00; other offsets are invalid. Delivery digest conflicts and source-order conflicts are checked downstream; a timestamp-free deletion can block restoration with WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Retry an uncertain admission unchanged, preserving delivery ID when supplied; investigate consumer failures before redrive."
+          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} requires bearer authorization, x-wc-webhook-topic and x-wc-webhook-signature (base64 HMAC-SHA256 over exact body bytes); x-wc-webhook-delivery-id is optional. Keep webhook secrets on the server; never send or expose them in a browser. HTTP 204 has no body and acknowledges confirmed admission or an authorized ignored event, not capture or search visibility. Variation events (type: variation) are ignored; the parent’s own product.updated refreshes its listing. Every deletion withdraws the listing whose sourceListingId is the delivered id. date_modified_gmt supports UTC without offset, Z or +00:00; other offsets are invalid. Source order is applied downstream: older observations complete without effect, after a timestamp-free deletion only a later date_modified_gmt restores the listing, and an UPSERT without date_modified_gmt is rejected with CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Retry an uncertain admission unchanged, preserving delivery ID when supplied."
         }
       }
     },
@@ -2228,7 +2234,7 @@
       "REJECT": "Application rejected."
     },
     "errors": {
-      "conflict": "This application was changed in the meantime or no longer allows this action. The latest status has been loaded.",
+      "conflict": "This application was changed in the meantime or no longer allows this action, or every slug generated for the proposed organization or source name is already taken. The latest status has been loaded.",
       "missing": "Application not found or unavailable."
     }
   },
@@ -2313,7 +2319,7 @@
     "errors": {
       "forbidden": "You do not have permission to access organization contact details.",
       "missing": "Organization not found or no longer available.",
-      "createConflict": "This organization could not be created because its generated identifier conflicts with an existing record. Review the existing organizations before trying again.",
+      "createConflict": "This organization could not be created because every slug generated from its name is already taken. Review the existing organizations or choose a more distinctive name before trying again.",
       "updateConflict": "This organization changed while you were editing it. Close this form and open it again to edit the latest version.",
       "deleteConflict": "This organization could not be deleted because it may still have recorded locations or be linked to a listing source or partnership. No related records were deleted.",
       "invalid": "Check the organization details and try again.",
@@ -2397,6 +2403,7 @@
       "operatorPartyId": "Operator organization ID",
       "ingestionMethod": "Ingestion method",
       "allMethods": "All methods",
+      "platformTechnology": "Platform code",
       "sort": "Sort by",
       "apply": "Apply filters",
       "reset": "Reset"
@@ -2414,6 +2421,7 @@
     "list": {
       "operator": "Operator: {{name}}",
       "noMethods": "No ingestion method",
+      "platform": "Platform: {{code}}",
       "updated": "Updated {{date}}",
       "total_one": "{{count}} listing source",
       "total_other": "{{count}} listing sources",
@@ -2430,6 +2438,7 @@
       "phone": "Phone",
       "email": "Email",
       "ingestionMethods": "Ingestion methods",
+      "platformTechnology": "Platform technology",
       "ingestionConfiguration": "Ingestion configuration",
       "configurationType": "Configuration type",
       "fallbackCurrency": "Fallback currency (ISO 4217)",
@@ -2444,6 +2453,7 @@
       "created": "Created",
       "updated": "Last updated",
       "notProvided": "Not provided",
+      "notRecorded": "Not recorded",
       "referralUnavailable": "Currently unavailable"
     },
     "methods": {
@@ -2479,6 +2489,7 @@
       "editDescription": "Change source details. The operator and source slug are immutable.",
       "configurationDescription": "Optional: add configured ingestion methods now, or leave this empty and configure them later.",
       "referralDescription": "Optional Partnerize referral information. No provider credentials are stored here.",
+      "platformTechnologyDescription": "Optional code in capital letters, digits and underscores, such as SHOPIFY or BIGCOMMERCE. It only describes the shop software: it does not enable ingestion or imply an installed app or partnership. Leave it empty to record no platform.",
       "replaceConfiguration": "Replace ingestion configuration",
       "incompleteConfigurationNotice": "The read API does not return configuration values. Leave this off to preserve the current settings. Turning it on replaces settings for every active ingestion method.",
       "secretPreservationNotice": "This secret is write-only and is never read back. Leave it blank to preserve an existing secret; enter a value to set or rotate it.",
@@ -2507,7 +2518,7 @@
     "errors": {
       "forbidden": "You do not have permission to manage listing sources.",
       "missing": "Listing source not found or no longer available.",
-      "createConflict": "The source conflicts with existing provider configuration. Review the current sources before trying again.",
+      "createConflict": "The source conflicts with existing provider configuration, or every slug generated from its name or the new operator’s name is already taken. Review the current sources or choose a more distinctive name before trying again.",
       "updateConflict": "This listing source changed while you were editing it. Reload its details before trying again.",
       "deleteConflict": "This listing source has listings or retained relationships and could not be deleted. No related records were removed.",
       "invalid": "Check the listing source details and ingestion settings, then try again.",
@@ -2524,7 +2535,8 @@
       "shopifyDomainRequired": "Enter the Shopify store domain.",
       "webhookSecretRequired": "Enter the WooCommerce webhook secret.",
       "camrefRequired": "Enter the Partnerize campaign reference.",
-      "unsupportedCurrency": "Enter a supported ISO 4217 currency code, such as EUR or SEK."
+      "unsupportedCurrency": "Enter a supported ISO 4217 currency code, such as EUR or SEK.",
+      "platformTechnology": "Enter a code of up to 64 characters that starts with a letter and uses only letters, digits and single underscores, such as BIGCOMMERCE."
     },
     "locationDefault": {
       "title": "Default location",
@@ -3562,6 +3574,9 @@
       "url": "Original URL",
       "originalTitle": "Original title",
       "originalDescription": "Original description",
+      "text": "Original text",
+      "titleLanguage": "Title language",
+      "descriptionLanguage": "Description language",
       "images": "Images",
       "auction": "Auction and lot",
       "lotNumber": "Lot number",
@@ -3571,7 +3586,8 @@
       "estimateMin": "Lower estimate",
       "estimateMax": "Upper estimate",
       "currency": "Currency",
-      "chooseCurrency": "Choose a currency"
+      "chooseCurrency": "Choose a currency",
+      "chooseLanguage": "Choose a language"
     },
     "lifecycles": {
       "ACTIVE": "Active",
@@ -3601,14 +3617,14 @@
       "eyebrow": "Product listing record",
       "convergence": "Changes here update the authoritative listing record. Public search, listing pages and caches follow asynchronously, and a later import from the listing source can overwrite these edits or restore a withdrawn listing. They are corrections, not permanent overrides.",
       "factsTitle": "Recorded facts",
-      "factsDescription": "Identity, original text, sale observation and timestamps are read-only. Lifecycle changes use the withdraw and restore actions.",
+      "factsDescription": "Identity, sale observation and timestamps are read-only. Edit the original text and the other listing facts below; lifecycle changes use the withdraw and restore actions.",
       "sourceListingIdScope": "Unique only within this listing source.",
       "noSaleObservation": "None recorded",
       "noText": "None recorded"
     },
     "edit": {
       "title": "Edit listing facts",
-      "description": "Only the price, estimates, availability, URL, images and auction details can be changed. Saving sends only the values you changed.",
+      "description": "Only the original title and description, price, estimates, availability, URL, images and auction details can be changed. Saving sends only the values you changed.",
       "withdrawnLocked": "This listing is withdrawn. Restore it before editing; unsaved changes stay in the form.",
       "lifecycleUnknownLocked": "The lifecycle of this listing is not recognized, so it cannot be edited here.",
       "stale": "This listing changed after you started editing and is now at version {{version}}. Keep your changes to reapply only the values you edited to the latest version, or discard them to load the latest values.",
@@ -3616,6 +3632,8 @@
       "noChanges": "There are no changes to save.",
       "saved": "Changes saved. Public search and listing pages update asynchronously.",
       "unchanged": "The listing already had these values; nothing was changed.",
+      "textHelp": "Enter the source’s original text in the language it is written in, not a translation. Leave a field empty to clear it. Translations, content assessment and search follow asynchronously.",
+      "titleHelp": "Titles are normalized: styled letters and digits become ordinary text, and emoji and ornamental symbols are removed. A title with no remaining text is rejected.",
       "pricingHelp": "Amounts are in the source currency. Use a decimal point or comma and no thousands separators. Choose “Not specified” to clear the price.",
       "estimateHelp": "Leave an estimate amount empty to clear that estimate.",
       "availabilityHelp": "“Not specified” clears the availability; it does not mean unavailable.",
@@ -3699,6 +3717,7 @@
       "filterTooLong": "Enter no more than 512 UTF-8 bytes.",
       "amountRequired": "Enter an amount.",
       "currencyRequired": "Choose a currency.",
+      "languageRequired": "Choose the language this text is written in.",
       "amountFormat": "Enter a non-negative amount with digits and an optional decimal point or comma, without thousands separators.",
       "amountNoDecimals": "This currency has no minor unit. Enter a whole amount.",
       "amountTwoDecimals": "Enter no more than two decimal places.",

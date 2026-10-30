@@ -1,4 +1,5 @@
 import type {
+    LocalizedTextData,
     ProductListingHistoryChangeData,
     ProductListingHistoryEntryData,
     ProductListingHistoryEstimateData,
@@ -45,11 +46,14 @@ export type ListingAuctionFacts = {
     readonly reportedClosedAt: Date | null;
 };
 
+/** Original source text in its declared language; never a translation. */
+export type HistoryLocalizedText = { readonly text: string; readonly language: string };
+
 export type ProductListingDiscovery = {
     readonly listingSourceId: string;
     readonly sourceListingId: string;
-    readonly title?: { readonly text: string; readonly language: string };
-    readonly description?: { readonly text: string; readonly language: string };
+    readonly title?: HistoryLocalizedText;
+    readonly description?: HistoryLocalizedText;
     readonly pricing: {
         readonly price?: HistoryListingPrice | null;
         readonly priceEstimateMin?: HistoryPriceEstimate | null;
@@ -62,6 +66,12 @@ export type ProductListingDiscovery = {
 };
 
 export type ProductListingHistoryChange =
+    | {
+          /** `null` records an absent text on that side, so a change can add or remove it. */
+          readonly type: "TITLE_CHANGED" | "DESCRIPTION_CHANGED";
+          readonly previous: HistoryLocalizedText | null;
+          readonly current: HistoryLocalizedText | null;
+      }
     | {
           readonly type: "MAIN_PRICE_CHANGED";
           readonly previous: HistoryListingPrice | null;
@@ -162,8 +172,19 @@ function mapAuction(value: ProductListingAuctionFactsData | null): ListingAuctio
     };
 }
 
+function mapText(value: LocalizedTextData | null): HistoryLocalizedText | null {
+    return value === null ? null : { text: value.text, language: value.language };
+}
+
 function mapChange(change: ProductListingHistoryChangeData): ProductListingHistoryChange {
     switch (change.type) {
+        case "TITLE_CHANGED":
+        case "DESCRIPTION_CHANGED":
+            return {
+                type: change.type,
+                previous: mapText(change.previous),
+                current: mapText(change.current),
+            };
         case "MAIN_PRICE_CHANGED":
             return {
                 type: change.type,

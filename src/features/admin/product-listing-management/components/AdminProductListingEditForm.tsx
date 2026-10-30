@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
+import { Textarea } from "@/components/ui/textarea.tsx";
 import {
     Select,
     SelectContent,
@@ -14,6 +15,7 @@ import {
     SelectValue,
 } from "@/components/ui/select.tsx";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
+import { isSourceTextLanguage, SOURCE_TEXT_LANGUAGES } from "@/data/internal/common/Language.ts";
 import type { AdminProductListingDetail } from "@/data/internal/product/AdminProductListing.ts";
 import {
     LISTING_AVAILABILITIES,
@@ -164,6 +166,7 @@ export function AdminProductListingEditForm({
                         )}
                     </p>
                 )}
+                <TextFields form={form} disabled={locked} />
                 <PricingFields form={form} disabled={locked} />
                 <div className="grid gap-4 sm:grid-cols-2">
                     <AvailabilityField
@@ -245,6 +248,119 @@ export function AdminProductListingEditForm({
                 </div>
             </form>
         </section>
+    );
+}
+
+function TextFields({
+    form,
+    disabled,
+}: {
+    readonly form: UseFormReturn<AdminProductListingFormValues>;
+    readonly disabled: boolean;
+}) {
+    const { t } = useTranslation();
+    const errors = form.formState.errors;
+
+    return (
+        <fieldset className="grid gap-4 border p-4">
+            <legend className="px-1 font-medium">{t("adminProductListings.fields.text")}</legend>
+            <p className="text-sm text-muted-foreground">
+                {t("adminProductListings.edit.textHelp")}
+            </p>
+            <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_10rem]">
+                <div className="grid content-start gap-2">
+                    <Label htmlFor="admin-product-listing-title">
+                        {t("adminProductListings.fields.originalTitle")}
+                    </Label>
+                    <Input
+                        id="admin-product-listing-title"
+                        autoComplete="off"
+                        disabled={disabled}
+                        {...form.register("title")}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                        {t("adminProductListings.edit.titleHelp")}
+                    </p>
+                </div>
+                <TextLanguageField
+                    form={form}
+                    name="titleLanguage"
+                    label={t("adminProductListings.fields.titleLanguage")}
+                    disabled={disabled}
+                    error={errors.titleLanguage?.message}
+                />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_10rem]">
+                <div className="grid content-start gap-2">
+                    <Label htmlFor="admin-product-listing-description">
+                        {t("adminProductListings.fields.originalDescription")}
+                    </Label>
+                    <Textarea
+                        id="admin-product-listing-description"
+                        className="min-h-32"
+                        disabled={disabled}
+                        {...form.register("description")}
+                    />
+                </div>
+                <TextLanguageField
+                    form={form}
+                    name="descriptionLanguage"
+                    label={t("adminProductListings.fields.descriptionLanguage")}
+                    disabled={disabled}
+                    error={errors.descriptionLanguage?.message}
+                />
+            </div>
+        </fieldset>
+    );
+}
+
+function TextLanguageField({
+    form,
+    name,
+    label,
+    disabled,
+    error,
+}: {
+    readonly form: UseFormReturn<AdminProductListingFormValues>;
+    readonly name: "titleLanguage" | "descriptionLanguage";
+    readonly label: string;
+    readonly disabled: boolean;
+    readonly error?: string;
+}) {
+    const { t } = useTranslation();
+    const language = useController({ control: form.control, name }).field;
+    const id = `admin-product-listing-${name}`;
+    const unsupported = language.value !== "" && !isSourceTextLanguage(language.value);
+
+    return (
+        <div className="grid content-start gap-2">
+            <Label htmlFor={id}>{label}</Label>
+            <Select
+                value={language.value || "unset"}
+                onValueChange={(value) => language.onChange(value === "unset" ? "" : value)}
+                disabled={disabled}
+            >
+                <SelectTrigger id={id} aria-invalid={error ? true : undefined}>
+                    <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="unset">
+                        {t("adminProductListings.fields.chooseLanguage")}
+                    </SelectItem>
+                    {unsupported && (
+                        <SelectItem value={language.value} disabled>
+                            {language.value.toUpperCase()}
+                        </SelectItem>
+                    )}
+                    {SOURCE_TEXT_LANGUAGES.map((code) => (
+                        <SelectItem key={code} value={code}>
+                            {code.toUpperCase()}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+            <FormFieldError message={error} />
+        </div>
     );
 }
 

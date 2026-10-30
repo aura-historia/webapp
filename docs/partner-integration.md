@@ -66,18 +66,25 @@ valid store domain. Responses are bodyless 201 (enabled) or 204 (replaced or unc
   completed writes; never promise immediate visibility.
 - `sourceListingId` is the source-owned identity; seller and address fields do not exist. The
   create contract requires `sourceListingId`, `url` and `images`; localized `title` and
-  `description` are optional and nullable. Do not make the public subset stricter than the backend.
+  `description` are optional and nullable (omitted or `null` records no text). Do not make the
+  public subset stricter than the backend.
 - Asking price is a tagged union: `{ type: "MONETARY", currency: "EUR", amount: 420000 }` (minor
   units) or `{ type: "ON_REQUEST" }`. Nullable availability preserves unknown.
 
 | Write | Omitted | null | Concrete value |
 |---|---|---|---|
+| PATCH/PUT title/description | Preserve | Clear | Set text and source language |
 | PATCH availability/price/estimates | Preserve | Clear | Set |
 | PATCH URL/images | Preserve | Invalid (`400 BAD_BODY_VALUE`) | Replace; images `[]` clears |
 | PUT existing availability/price/estimates | Preserve | Clear | Set |
 | PUT existing images | Preserve | Invalid | Replace; `[]` clears |
 | PUT existing URL | Preserve | Preserve | Replace |
-| PUT title/description | Creation only | Creation only | Existing text remains unchanged |
+
+Titles are normalized (styled letters become ordinary text; emoji and ornamental symbols are
+removed); a title with no remaining text is rejected with `BAD_BODY_VALUE` (a synchronous batch
+fails with `400`, an async batch reports that item). Whitespace-equivalent text is unchanged; a
+meaningful text change is recorded in the listing history and refreshes translation, content
+assessment and search asynchronously.
 
 For new PUT listings, URL and images are required; omitted or null availability and prices record
 no assertion. PATCH validates the complete batch before writing entries. Omit `auction` to
@@ -98,17 +105,24 @@ listings and preserves history; PUT restores a withdrawn listing before applying
   server/WooCommerce side, never in the browser guide or reference.
 - Every topic requires `id`. Created/updated events with `status: publish` require nonblank `name`
   and `permalink` and map to an UPSERT; `trash`, `draft`, `pending` and `private` map to DELETE;
-  `product.deleted` requires only `id`. Missing or unsupported statuses are authorized no-ops.
-  Description fields are accepted but ignored.
+  `product.deleted` requires only `id`. Missing or unsupported statuses, and created/updated events
+  with `type: variation` whatever their status, are authorized no-ops; the parent's own
+  `product.updated` refreshes its listing. Every DELETE withdraws the listing whose
+  `sourceListingId` is the delivered `id`, including one written only through the partner API.
+  `description`, `short_description` and `related_ids` are accepted but ignored.
 - HTTP 204 acknowledges confirmed queue admission or an authorized no-op, not capture,
   normalization, source-order checks or search visibility. A non-204 never proves rollback.
 - `date_modified_gmt` accepts GMT without offset (UTC), `Z` and `+00:00`; other offsets are rejected
-  before admission. Ordering conflicts and delivery-ID reuse are evaluated downstream, not as
-  immediate 409s. A timestamp-free DELETE sets a restore barrier; a later UPSERT without a provably
-  newer timestamp fails downstream with `WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS`.
-- A delivery receipt keeps its evidence digest for 90 days. Without a delivery ID there is no
-  receipt-based deduplication. Retry uncertain admission with the unchanged signed body, topic,
-  source, actor and delivery ID.
+  before admission. Source order is applied downstream, never as an immediate 409: older
+  observations of a product complete without effect, equal timestamps apply in arrival order (an
+  UPSERT never overtakes a DELETE with the same timestamp), and a timestamp-free DELETE sets a
+  restore barrier at the later of its capture time and every known `date_modified_gmt`. An UPSERT
+  without `date_modified_gmt` is rejected downstream with
+  `CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS`.
+- A delivery receipt binds the delivery ID to its evidence digest for 90 days, so an exact retry
+  may be deduplicated; WooCommerce reuses IDs within one second, so a different payload under the
+  same ID is a separate observation. Without a delivery ID there is no receipt-based deduplication.
+  Retry uncertain admission with the unchanged signed body, topic, source, actor and delivery ID.
 
 ## Validation
 

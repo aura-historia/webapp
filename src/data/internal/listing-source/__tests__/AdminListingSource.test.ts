@@ -6,6 +6,7 @@ import {
     buildUpdateAdminListingSourceData,
     createDefaultConfiguration,
     defaultUpdateConfigurations,
+    isOptionalPlatformTechnology,
     mapToAdminListingSourceDetail,
     mapToAdminListingSourcePage,
     mapToAdminListingSourceSearchQuery,
@@ -51,6 +52,7 @@ describe("admin ListingSource mapping and request builders", () => {
                     listingSourceSlugId: " antique-house ",
                     operatorPartyId: " party_01 ",
                     ingestionMethod: "SHOPIFY",
+                    platformTechnology: " bigcommerce ",
                     sort: "updated",
                     order: "desc",
                 },
@@ -64,10 +66,44 @@ describe("admin ListingSource mapping and request builders", () => {
             listingSourceSlugId: "antique-house",
             operatorPartyId: "party_01",
             ingestionMethod: "SHOPIFY",
+            platformTechnology: "BIGCOMMERCE",
             sort: "updated",
             order: "desc",
             searchAfter: "opaque/cursor+1",
         });
+        expect(mapToAdminListingSourceSearchQuery({ platformTechnology: " " })).toEqual({
+            size: 25,
+        });
+    });
+
+    it("maps a recorded platform technology and leaves an absent one absent", () => {
+        expect(
+            mapToAdminListingSourcePage({
+                items: [{ ...summaryDto, platformTechnology: "SHOPWARE" }],
+                size: 1,
+            }).items[0]?.platformTechnology,
+        ).toBe("SHOPWARE");
+        expect(
+            mapToAdminListingSourceDetail({ ...detailDto, platformTechnology: "SHOPIFY" })
+                .platformTechnology,
+        ).toBe("SHOPIFY");
+        expect(Object.hasOwn(detail, "platformTechnology")).toBe(false);
+    });
+
+    it("accepts empty or well-formed platform codes in any ASCII case", () => {
+        for (const value of ["", " ", "SHOPIFY", " shopware ", "MY_SHOP_2", "X".repeat(64)]) {
+            expect(isOptionalPlatformTechnology(value)).toBe(true);
+        }
+        for (const value of [
+            "2SHOP",
+            "SHOP-WARE",
+            "SHOP__WARE",
+            "_SHOP",
+            "SHOP_",
+            "X".repeat(65),
+        ]) {
+            expect(isOptionalPlatformTechnology(value)).toBe(false);
+        }
     });
 
     it("maps distinct search and detail DTOs without manufacturing private configuration", () => {
@@ -139,6 +175,7 @@ describe("admin ListingSource mapping and request builders", () => {
             ],
             url: " https://source.example ",
             image: " ",
+            platformTechnology: " bigcommerce ",
             partnerizeCamref: " ref-01 ",
         };
         expect(buildCreateAdminListingSourceData(base)).toEqual({
@@ -148,6 +185,7 @@ describe("admin ListingSource mapping and request builders", () => {
                 name: "New Operator",
                 email: "contact@example.test",
             },
+            platformTechnology: "BIGCOMMERCE",
             ingestionConfiguration: [
                 { type: "WEB_CRAWL", fallbackCurrency: "EUR" },
                 { type: "SHOPIFY", domain: "store.example", currency: "USD", language: "en" },
@@ -179,6 +217,7 @@ describe("admin ListingSource mapping and request builders", () => {
                 configurations: [],
                 url: "",
                 image: "",
+                platformTechnology: "",
                 partnerizeCamref: "",
             }),
         ).toEqual({
@@ -194,6 +233,7 @@ describe("admin ListingSource mapping and request builders", () => {
             url: detail.presentation.url ?? "",
             image: "",
             referralAction: "KEEP" as const,
+            platformTechnology: "",
             partnerizeCamref: "",
             replaceIngestionConfiguration: false,
             configurations: defaultUpdateConfigurations(detail.ingestionMethods),
@@ -225,12 +265,41 @@ describe("admin ListingSource mapping and request builders", () => {
         ).not.toContain("webhookSecret");
     });
 
+    it("preserves, replaces or clears the platform technology on update", () => {
+        const recorded = { ...detail, platformTechnology: "SHOPIFY" };
+        const values = {
+            name: recorded.name,
+            platformTechnology: "SHOPIFY",
+            url: recorded.presentation.url ?? "",
+            image: recorded.presentation.image ?? "",
+            referralAction: "KEEP" as const,
+            partnerizeCamref: "",
+            replaceIngestionConfiguration: false,
+            configurations: defaultUpdateConfigurations(recorded.ingestionMethods),
+        };
+
+        expect(buildUpdateAdminListingSourceData(recorded, values)).toEqual({});
+        expect(
+            buildUpdateAdminListingSourceData(recorded, {
+                ...values,
+                platformTechnology: " woocommerce ",
+            }),
+        ).toEqual({ platformTechnology: "WOOCOMMERCE" });
+        expect(
+            buildUpdateAdminListingSourceData(recorded, { ...values, platformTechnology: "" }),
+        ).toEqual({ platformTechnology: null });
+        expect(
+            buildUpdateAdminListingSourceData(detail, { ...values, platformTechnology: "" }),
+        ).not.toHaveProperty("platformTechnology");
+    });
+
     it("only clears nullable values on explicit request and never includes a slug or operator in update", () => {
         const updateValues = {
             name: "Renamed Source",
             url: "",
             image: "",
             referralAction: "CLEAR" as const,
+            platformTechnology: "",
             partnerizeCamref: "",
             replaceIngestionConfiguration: false,
             configurations: defaultUpdateConfigurations(detail.ingestionMethods),
@@ -256,6 +325,7 @@ describe("admin ListingSource mapping and request builders", () => {
                 url: detail.presentation.url ?? "",
                 image: detail.presentation.image ?? "",
                 referralAction: "KEEP",
+                platformTechnology: "",
                 partnerizeCamref: "",
                 replaceIngestionConfiguration: true,
                 configurations: defaultUpdateConfigurations(["SHOPIFY"]),
@@ -285,6 +355,7 @@ describe("admin ListingSource mapping and request builders", () => {
             operatorEmail: "",
             url: "",
             image: "",
+            platformTechnology: "",
             partnerizeCamref: "",
         };
         const allMethods = ["WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE"] as const;
@@ -326,6 +397,7 @@ describe("admin ListingSource mapping and request builders", () => {
                 url: detail.presentation.url ?? "",
                 image: "",
                 referralAction: "KEEP" as const,
+                platformTechnology: "",
                 partnerizeCamref: "",
                 replaceIngestionConfiguration: true,
                 configurations: [

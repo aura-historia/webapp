@@ -9,13 +9,16 @@ admin workflows in [admin workflows](admin-workflows.md).
 - `pnpm openapi-ts` generates `src/client/**` and the public partner reference
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
-- The pinned capture is the complete backend `docs/swagger.yaml` of the first production release,
-  `develop` at `e7c8d0e393dd4f7aba69ad32014273f272029225` (2026-10-24). Its last contract change is
-  `53149ae5f3` ([backend#2445](https://github.com/aura-historia/backend/pull/2445)). Git blob
-  `313c5282ee60f23ca80035cdb76e5316158aed30`; file SHA-256
-  `7b88e3269fed97f0138428eacb15a489e6ccd7e3b5c0ec0602a396eede0419f3`; canonical parsed-JSON
+- The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
+  `8614fdac7dec923134ea399864def4e86ebaf8d1` (2026-10-30). Its last contract change is
+  `46997f8d8d` ([backend#2655](https://github.com/aura-historia/backend/pull/2655)). Git blob
+  `4aaf2fbc9ee2a88d60d18cdc94d44f13088a2041`; file SHA-256
+  `fd1441858b68bfcfc3c79be12ddf9b712ad6de9230a4e449c7d38fb130808321`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `4f9994b6f6dc937cf795140b3b87f2fde2e96c4bf91540bb7a95acc84b9a2fda`.
+  `c9b2c4b8e6cf05d9a2dc560b0565de1351bfac74dd01b55a15cb86000004af49`. It replaces the
+  first-production-release capture (`e7c8d0e393`, 2026-10-24) together with the listing-source
+  create schema that [#1179](https://github.com/aura-historia/webapp/issues/1179) had grafted onto
+  it.
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -25,7 +28,59 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
-- Changes against the previous pin (`9c9204dfce`, 2026-10-19), with their decisions:
+- Changes against the previous pin (`e7c8d0e393`, 2026-10-24), with their decisions:
+  - **Mutable listing text** ([backend#2597](https://github.com/aura-historia/backend/issues/2597)):
+    the admin and partner single-listing PATCH and the partner batch writes (synchronous and
+    async) accept tri-state localized `title`/`description` (omit preserves, `null` clears, a value
+    sets). The admin listing edit form consumes the admin PATCH (see
+    [admin workflows](admin-workflows.md#product-listing-administration)); the partner
+    single-listing operations stay generated-only; the custom integration guide and the partner
+    reference describe the batch semantics. History adds `TITLE_CHANGED` and
+    `DESCRIPTION_CHANGED` (see **Listing history**).
+  - **ListingSource platform technology** ([backend#2567](https://github.com/aura-historia/backend/issues/2567)):
+    optional `platformTechnology` on the admin detail and search summaries, create (omit or `null`
+    records none) and update (omit preserves, `null` clears), plus an exact `platformTechnology`
+    search filter. Admin listing-source management shows, filters and edits it (see
+    [admin authorization](admin-authorization-guidelines.md)). It is descriptive only, never
+    implies ingestion, an installed app or a partnership, and is absent from public and partner
+    representations.
+  - **Opaque admin search cursors** ([backend#2623](https://github.com/aura-historia/backend/issues/2623)):
+    `adminSearchParties`, `adminSearchUsers` and `adminSearchListingSources` return an opaque
+    `searchAfter` bound to the filters and sort that produced it; ID cursors and cursors for other
+    filters return `400 BAD_QUERY_PARAMETER_VALUE`. No client change was needed: every consumer
+    already resends the cursor unchanged from an infinite query whose key holds each filter and
+    the sort, so a changed scope starts without a cursor. A traversal that spans the backend
+    release fails its next page and restarts on refresh. The cursor embeds the last item's sort
+    value (such as a name or email), so it stays out of URLs, logs and analytics.
+  - **Readable slugs** ([backend#2654](https://github.com/aura-historia/backend/issues/2654)): new
+    Party and ListingSource slugs are the slugified name (`antiques-and-more`, then `-2`, `-3`, …);
+    existing UUID-suffixed slugs are kept. Slugs stay opaque and are never parsed. A `409 CONFLICT`
+    from `adminCreateParty`, `adminCreateListingSource` (including a new operator) or approving a
+    proposed-source application can now also mean that every slug candidate for the name is taken;
+    the conflict copy says so.
+  - **Listing-source create schema** ([backend#2521](https://github.com/aura-historia/backend/issues/2521)):
+    `CreateListingIngestionConfigurationData` has no `UNCONFIGURED` member, and an empty
+    `ingestionConfiguration` creates a source without methods. #1179 already consumed this; the
+    whole capture now carries it.
+  - **WooCommerce webhook** ([backend#2523](https://github.com/aura-historia/backend/issues/2523),
+    [backend#2522](https://github.com/aura-historia/backend/issues/2522),
+    [backend#2606](https://github.com/aura-historia/backend/issues/2606)): `type: variation`
+    events are authorized no-ops, `related_ids` is ignored, every DELETE withdraws the listing
+    keyed by the delivered `id`, delivery IDs bind exact retries only, and source order follows
+    `date_modified_gmt` with `CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS` for an UPSERT without
+    it. The browser never calls the webhook; the custom integration guide and
+    [partner integration](partner-integration.md#woocommerce-webhook) follow the contract.
+  - **Bounded search dependencies** ([backend#2625](https://github.com/aura-historia/backend/issues/2625)):
+    description only. A slow query embedding falls back to BM25 on a first page; a semantic
+    continuation or a stalled index returns `503 PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE` instead
+    of `408`. The search results' existing error state and retry cover both.
+  - Description-only changes elsewhere, including the admin search cursor examples.
+  - Release this webapp only with or after a backend that serves this capture: older backends
+    reject the admin listing `title`/`description` and the `platformTechnology` members
+    (`additionalProperties: false`), although they are sent only when an administrator changes
+    them.
+- Changes adopted with the `e7c8d0e393` capture (against `9c9204dfce`, 2026-10-19), with their
+  decisions:
   - **Base path:** `/api/v1` → `/v1` (above).
   - **Listing shipping** ([backend#2444](https://github.com/aura-historia/backend/issues/2444)):
     `item.shipping` is optional instead of required nullable and is omitted when nothing is
@@ -229,6 +284,9 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
   projection (`amount`, `currency`, `fxRateId`, `capturedAt`) from the latest snapshot at or before
   the entry. The mapper keeps both on discovery prices/estimates and both sides of price and
   estimate changes, and drops a malformed or unsupported projection rather than coercing it.
+- `TITLE_CHANGED` and `DESCRIPTION_CHANGED` keep the full previous and current original text with
+  its language; `null` marks an absent side. The timeline names the change (added, updated or
+  removed) under the Details filter and never quotes the source text.
 - A missing projection is normal (no snapshot or quote, including snapshots taken before a currency such as ARS was supported).
   The timeline then shows the labelled source amount; converted values show their source amount
   and snapshot capture time. The chart offers one requested-currency series built only from

@@ -850,10 +850,18 @@ export type AdminProductListingVersion = {
 };
 
 /**
- * Omission preserves. Monetary amounts are nonnegative minor units, at most 9223372036854775807. Null clears price, each estimate and availability. URL/images/whole auction cannot be null. Title/description and every field outside this whitelist are read-only.
+ * Omission preserves. Monetary amounts are nonnegative minor units, at most 9223372036854775807. Null clears title, description, price, each estimate and availability. URL/images/whole auction cannot be null. Every field outside this whitelist is read-only.
  */
 export type UpdateAdminProductListing = {
   expectedVersion: number;
+  /**
+   * Omit to preserve; null clears; a localized value sets. Normalized empty titles are invalid. Whitespace-equivalent text preserves current formatting and causes no text change. Language changes are meaningful.
+   */
+  title?: LocalizedTextData | null;
+  /**
+   * Omit to preserve; null clears; a localized value sets. Whitespace-equivalent text is unchanged; meaningful replacements preserve paragraphs.
+   */
+  description?: LocalizedTextData | null;
   price?: AdminProductListingPrice | null;
   priceEstimateMin?: AdminProductListingMonetaryPrice | null;
   priceEstimateMax?: AdminProductListingMonetaryPrice | null;
@@ -1623,7 +1631,7 @@ export type ProductListingDiscoveryHistoryPayloadData = {
 
 export type ProductListingChangedHistoryPayloadData = {
   /**
-   * Deterministic semantic-change order: main price, minimum estimate, maximum estimate, availability, URL, images, auction, lifecycle, sale observation, delivery.
+   * Deterministic semantic-change order: title, description, main price, minimum estimate, maximum estimate, availability, URL, images, auction, lifecycle, sale observation, delivery.
    */
   changes: Array<ProductListingHistoryChangeData>;
 };
@@ -1631,7 +1639,19 @@ export type ProductListingChangedHistoryPayloadData = {
 /**
  * Typed semantic change.
  */
-export type ProductListingHistoryChangeData = ProductListingDeliveryHistoryChangeData | ProductListingMainPriceHistoryChangeData | ProductListingPriceHistoryChangeData | ProductListingAvailabilityHistoryChangeData | ProductListingUrlHistoryChangeData | ProductListingImagesHistoryChangeData | ProductListingAuctionHistoryChangeData | ProductListingWithdrawalHistoryChangeData | ProductListingRestorationHistoryChangeData | ProductListingSaleObservationHistoryChangeData;
+export type ProductListingHistoryChangeData = ProductListingTitleHistoryChangeData | ProductListingDescriptionHistoryChangeData | ProductListingDeliveryHistoryChangeData | ProductListingMainPriceHistoryChangeData | ProductListingPriceHistoryChangeData | ProductListingAvailabilityHistoryChangeData | ProductListingUrlHistoryChangeData | ProductListingImagesHistoryChangeData | ProductListingAuctionHistoryChangeData | ProductListingWithdrawalHistoryChangeData | ProductListingRestorationHistoryChangeData | ProductListingSaleObservationHistoryChangeData;
+
+export type ProductListingTitleHistoryChangeData = {
+  type: 'TITLE_CHANGED';
+  previous: LocalizedTextData | null;
+  current: LocalizedTextData | null;
+};
+
+export type ProductListingDescriptionHistoryChangeData = {
+  type: 'DESCRIPTION_CHANGED';
+  previous: LocalizedTextData | null;
+  current: LocalizedTextData | null;
+};
 
 export type ProductListingMainPriceHistoryChangeData = {
   type: 'MAIN_PRICE_CHANGED';
@@ -2611,7 +2631,7 @@ export type PartyData = {
 };
 
 /**
- * Cursor-paginated Party summaries for the admin search endpoint. `searchAfter` is a Party ID cursor and is omitted when the current page is terminal.
+ * Cursor-paginated Party summaries for the admin search endpoint. `searchAfter` is an opaque cursor and is omitted when the current page is terminal.
  */
 export type PartyCollectionData = {
   /**
@@ -2623,7 +2643,7 @@ export type PartyCollectionData = {
    */
   size: number;
   /**
-   * Party ID cursor for the next page, omitted when no more results are available.
+   * Opaque cursor for the next page, valid only with the same filters and sort; omitted when no more results are available.
    */
   searchAfter?: string;
   /**
@@ -2715,7 +2735,7 @@ export type SearchFilterMatchProductCollectionData = {
 
 /**
  * Cursor-paginated collection of users for the admin search endpoint.
- * Items are compact admin user summaries. `searchAfter` is a User ID cursor for
+ * Items are compact admin user summaries. `searchAfter` is an opaque cursor for
  * the next page and is omitted when the current page is terminal. The cursor must
  * be sent with the same filters and sort as the page that returned it.
  *
@@ -2730,7 +2750,7 @@ export type UserCollectionData = {
    */
   size: number;
   /**
-   * User ID cursor for the next page, omitted when more results are unavailable.
+   * Opaque cursor for the next page, valid only with the same filters and sort; omitted when no more results are available.
    */
   searchAfter?: string;
   /**
@@ -3207,6 +3227,14 @@ export type UpdateProductListingData = {
    */
   sourceListingId: string;
   /**
+   * Omit to preserve; null clears; a localized value sets. Normalized empty titles are invalid. Whitespace-equivalent text preserves current formatting and causes no text change. Language changes are meaningful.
+   */
+  title?: LocalizedTextData | null;
+  /**
+   * Omit to preserve; null clears; a localized value sets. Whitespace-equivalent text is unchanged; meaningful replacements preserve paragraphs.
+   */
+  description?: LocalizedTextData | null;
+  /**
    * Omit to leave unchanged. Send null to clear the current asking-price assertion.
    */
   price?: ProductListingPriceData | null;
@@ -3238,7 +3266,7 @@ export type UpdateProductListingData = {
 
 /**
  * Data for synchronously upserting one ProductListing. Only `sourceListingId` is required.
- * Availability, price, and each price estimate are tri-state: omitted preserves an existing
+ * Title, description, availability, price, and each price estimate are tri-state: omitted preserves an existing
  * value, `null` clears it, and a concrete value replaces it. The nested Auction/lot-facts patch is omitted
  * to preserve stored facts or supplied as a leaf patch; `null` is invalid. Within an asserted patch, lot/timing leaves
  * omit to preserve, use `null` to clear, or provide a value to set. `auctionId` must identify an existing Auction for this ListingSource; omit it to preserve membership, send `null` to clear it, or send an ID to set it. Upsert restores a withdrawn listing before current
@@ -3251,11 +3279,11 @@ export type UpsertProductListingData = {
    */
   sourceListingId: string;
   /**
-   * Optional localized title for the product. Used only when creating a new product. The title is normalized; styled letters and digits become ordinary text and emoji and ornamental symbols are removed. A title without remaining text, such as a blank or emoji-only title, is rejected with `BAD_BODY_VALUE`: synchronous batches fail with `400`, asynchronous batches report that item as a failure.
+   * Localized title patch. Omit to preserve; null clears; a value sets text and source language. The title is normalized; styled letters and digits become ordinary text and emoji and ornamental symbols are removed. A title without remaining text, such as a blank or emoji-only title, is rejected with `BAD_BODY_VALUE`: synchronous batches fail with `400`, asynchronous batches report that item as a failure.
    */
   title?: LocalizedTextData | null;
   /**
-   * Optional localized description of the product. Used only when creating a new product.
+   * Localized description patch. Omit to preserve; null clears; a value sets text and source language.
    */
   description?: LocalizedTextData | null;
   /**
@@ -3302,7 +3330,8 @@ export type WoocommerceProductWebhookImageData = {
  * WooCommerce product payload accepted for `product.created` and `product.updated`.
  * Every event requires `id`. `status: publish` captures an UPSERT and requires nonblank `name` and `permalink`.
  * `status: trash`, `draft`, `pending`, or `private` captures a DELETE and requires only `id`; missing or
- * unsupported status is authorized ignored input and also requires only `id`.
+ * unsupported status is authorized ignored input and also requires only `id`. `type: variation` is
+ * authorized ignored input whatever its status and requires only `id`.
  *
  */
 export type WoocommerceProductWebhookUpsertData = {
@@ -3310,6 +3339,12 @@ export type WoocommerceProductWebhookUpsertData = {
    * WooCommerce product identifier. It is converted to the internal `sourceListingId`.
    */
   id: number;
+  /**
+   * Optional WooCommerce product type. `variation` marks a variation of a parent product and makes
+   * the event authorized ignored input whatever its status. Other or missing types follow `status`.
+   *
+   */
+  type?: string | null;
   /**
    * Nonblank product title required only when `status: publish` captures an UPSERT.
    */
@@ -3698,6 +3733,11 @@ export type PublicListingSourceSearchCollectionData = {
   searchAfter?: string;
 };
 
+/**
+ * Open platform code in ASCII SCREAMING_SNAKE_CASE. Reuse established codes such as SHOPIFY, WOOCOMMERCE, BIGCOMMERCE, or SHOPWARE; other well-formed codes are accepted. Descriptive admin-only metadata, independent of ingestion configuration. Recording a platform does not enable ingestion or imply an installed app or Partnership.
+ */
+export type PlatformTechnology = string;
+
 export type ListingSourceData = {
   listingSourceId: string;
   listingSourceSlugId: string;
@@ -3706,6 +3746,10 @@ export type ListingSourceData = {
    */
   name: string;
   operator: OperatorPartyData;
+  /**
+   * Recorded platform code, omitted when no platform is recorded.
+   */
+  platformTechnology?: PlatformTechnology;
   ingestionMethods: Array<ListingIngestionMethodData>;
   url?: string;
   image?: string;
@@ -3728,7 +3772,7 @@ export type AdministeredListingSourceData = {
 };
 
 /**
- * Cursor-paginated safe ListingSource summaries for the admin search endpoint. `searchAfter` is a ListingSource ID cursor and is omitted when the current page is terminal.
+ * Cursor-paginated safe ListingSource summaries for the admin search endpoint. `searchAfter` is an opaque cursor and is omitted when the current page is terminal.
  */
 export type ListingSourceSearchCollectionData = {
   /**
@@ -3740,7 +3784,7 @@ export type ListingSourceSearchCollectionData = {
    */
   size: number;
   /**
-   * ListingSource ID cursor for the next page, omitted when no more results are available.
+   * Opaque cursor for the next page, valid only with the same filters and sort; omitted when no more results are available.
    */
   searchAfter?: string;
   /**
@@ -3766,6 +3810,10 @@ export type ListingSourceSearchSummaryData = {
    */
   name: string;
   operator: OperatorPartyData;
+  /**
+   * Recorded platform code, omitted when no platform is recorded.
+   */
+  platformTechnology?: PlatformTechnology;
   /**
    * Active canonical ingestion methods.
    */
@@ -3852,6 +3900,10 @@ export type CreateListingSourceData = {
    */
   name: string;
   operator: ListingSourceOperatorInputData;
+  /**
+   * Optional platform code in ASCII SCREAMING_SNAKE_CASE; reuse established codes such as SHOPIFY or BIGCOMMERCE. Omission or null records no platform.
+   */
+  platformTechnology?: string | null;
   ingestionConfiguration: Array<CreateListingIngestionConfigurationData>;
   url?: string;
   image?: string;
@@ -3875,13 +3927,17 @@ export type UpdateListingIngestionConfigurationData = {
 };
 
 /**
- * Omitted fields are unchanged. `null` clears only `url`, `image`, and `referralConfiguration`. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
+ * Omitted fields are unchanged. `null` clears only `url`, `image`, `platformTechnology`, and `referralConfiguration`. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
  */
 export type UpdateListingSourceData = {
   /**
    * ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
    */
   name?: string;
+  /**
+   * Platform code in ASCII SCREAMING_SNAKE_CASE; reuse established codes such as SHOPIFY or BIGCOMMERCE. Omission preserves the platform, null clears it, and a code replaces it.
+   */
+  platformTechnology?: string | null;
   ingestionConfiguration?: Array<UpdateListingIngestionConfigurationData>;
   url?: string | null;
   image?: string | null;
@@ -4682,6 +4738,10 @@ export type CreateListingSourceDataWritable = {
    */
   name: string;
   operator: ListingSourceOperatorInputData;
+  /**
+   * Optional platform code in ASCII SCREAMING_SNAKE_CASE; reuse established codes such as SHOPIFY or BIGCOMMERCE. Omission or null records no platform.
+   */
+  platformTechnology?: string | null;
   ingestionConfiguration: Array<CreateListingIngestionConfigurationDataWritable>;
   url?: string;
   image?: string;
@@ -4709,13 +4769,17 @@ export type UpdateListingIngestionConfigurationDataWritable = {
 };
 
 /**
- * Omitted fields are unchanged. `null` clears only `url`, `image`, and `referralConfiguration`. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
+ * Omitted fields are unchanged. `null` clears only `url`, `image`, `platformTechnology`, and `referralConfiguration`. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
  */
 export type UpdateListingSourceDataWritable = {
   /**
    * ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
    */
   name?: string;
+  /**
+   * Platform code in ASCII SCREAMING_SNAKE_CASE; reuse established codes such as SHOPIFY or BIGCOMMERCE. Omission preserves the platform, null clears it, and a code replaces it.
+   */
+  platformTechnology?: string | null;
   ingestionConfiguration?: Array<UpdateListingIngestionConfigurationDataWritable>;
   url?: string | null;
   image?: string | null;
@@ -6322,9 +6386,9 @@ export type PutAsyncPartnerProductListingsResponse = PutAsyncPartnerProductListi
 export type PostWoocommerceWebhookData = {
   /**
    * Topic-specific WooCommerce product payload.
-   * Every topic requires `id`. For `product.created` and `product.updated`, `status: publish` captures an UPSERT and requires nonblank `name` and `permalink`; `status: trash`, `draft`, `pending`, or `private` captures a DELETE and requires only `id`. Missing or unsupported create/update statuses are authorized ignored events and require only `id`. `product.deleted` captures a DELETE and requires only `id`; its other fields are optional and ignored when absent.
-   * WooCommerce `description` and `short_description` are accepted but ignored on all topics. They do not populate Aura's canonical product description and are omitted from persisted `source_payload`; provider-receipt evidence digests use this sanitized payload. The webhook signature is still verified over the exact original request body bytes.
-   * When present on an event that maps to raw capture, WooCommerce `date_modified_gmt` is the source ordering timestamp. It accepts a no-offset GMT value interpreted as UTC, RFC3339 `Z`, or RFC3339 `+00:00`; malformed or nonzero-offset values return `400 BAD_BODY_VALUE` before submission. Valid timestamps are checked for conflicts only during consumer capture. `product.created` and `product.updated` events with missing or unsupported status are ignored only after capability and source authorization, then acknowledge `204` without parsing `date_modified_gmt` or constructing a provider receipt; a denied ignored event returns `403 FORBIDDEN`. An authorized ignored event persists no provider receipt even if a delivery ID is supplied. Omit it when source order is unavailable; an omitted timestamp provides no source-ordering guarantee.
+   * Every topic requires `id`. For `product.created` and `product.updated`, `status: publish` captures an UPSERT and requires nonblank `name` and `permalink`; `status: trash`, `draft`, `pending`, or `private` captures a DELETE and requires only `id`. Missing or unsupported create/update statuses are authorized ignored events and require only `id`. A create/update payload with `type: variation` is an authorized ignored event whatever its status. `product.deleted` captures a DELETE for the delivered `id` and requires only `id`; its other fields are optional and ignored when absent.
+   * WooCommerce `description`, `short_description` and `related_ids` are accepted but ignored on all topics. Descriptions do not populate Aura's canonical product description, and `related_ids` is a random sample of related products; all three are omitted from persisted `source_payload`, and provider-receipt evidence digests use this sanitized payload. The webhook signature is still verified over the exact original request body bytes.
+   * When present on an event that maps to raw capture, WooCommerce `date_modified_gmt` is the source ordering timestamp. It accepts a no-offset GMT value interpreted as UTC, RFC3339 `Z`, or RFC3339 `+00:00`; malformed or nonzero-offset values return `400 BAD_BODY_VALUE` before submission. Valid timestamps order observations of the same product only during consumer capture: older observations complete without effect, and observations with an equal timestamp apply in arrival order, except that an UPSERT never overtakes a DELETE with the same timestamp. `product.created` and `product.updated` events with missing or unsupported status, or with `type: variation`, are ignored only after capability and source authorization, then acknowledge `204` without parsing `date_modified_gmt` or constructing a provider receipt; a denied ignored event returns `403 FORBIDDEN`. An authorized ignored event persists no provider receipt even if a delivery ID is supplied. Omit it when source order is unavailable; an omitted timestamp provides no source-ordering guarantee.
    *
    */
   body: WoocommerceProductWebhookUpsertData | WoocommerceProductWebhookDeleteData;
@@ -6342,7 +6406,7 @@ export type PostWoocommerceWebhookData = {
      */
     'x-wc-webhook-signature': string;
     /**
-     * Optional WooCommerce delivery identifier. For an event that maps to raw capture, its downstream provider receipt retains only a canonical semantic source-payload SHA-256 evidence digest for 90 days and deduplicates retries when applied. Reuse with different evidence fails during consumer capture, not as an immediate HTTP conflict. Logical receipt expiry permits a new receipt but never removes or rewrites a captured raw revision or its provenance. Authorized ignored create/update status events persist no receipt and receive no receipt-based retry-deduplication, even when this header is supplied. When absent, no provider receipt or receipt-based retry-deduplication guarantee is made.
+     * Optional WooCommerce delivery identifier. For an event that maps to raw capture, its downstream provider receipt binds the identifier to a canonical semantic source-payload SHA-256 evidence digest for 90 days and deduplicates exact retries when applied. WooCommerce repeats an identifier within one second, so a different payload under the same identifier is a separate observation, not a conflict. Logical receipt expiry permits a new receipt but never removes or rewrites a captured raw revision or its provenance. Authorized ignored create/update events persist no receipt and receive no receipt-based retry-deduplication, even when this header is supplied. When absent, no provider receipt or receipt-based retry-deduplication guarantee is made.
      */
     'x-wc-webhook-delivery-id'?: string;
   };
@@ -6395,7 +6459,7 @@ export type PostWoocommerceWebhookError = PostWoocommerceWebhookErrors[keyof Pos
 
 export type PostWoocommerceWebhookResponses = {
   /**
-   * Webhook bearer/capability, source configuration, and exact-body signature are validated. Current partner/source grant authorization for mapped commands happens at consumer execution; ignored no-ops check it before response. A `204` acknowledges either an authorized ignored create/update status (no queue send or receipt) or matching confirmed acceptance of one `CAPTURE_RAW` command by the shared ProductListing FIFO. It does not confirm raw capture, provider receipt persistence, source-order checks, canonical normalization, or search visibility. Those decisions occur when the consumer executes the command. Ignored events do not parse `date_modified_gmt` or construct a provider receipt. When a delivery ID or source timestamp is omitted, no corresponding receipt or source-ordering guarantee is made. The backend returns no response body on success.
+   * Webhook bearer/capability, source configuration, and exact-body signature are validated. Current partner/source grant authorization for mapped commands happens at consumer execution; ignored no-ops check it before response. A `204` acknowledges either an authorized ignored create/update event (no queue send or receipt) or matching confirmed acceptance of one `CAPTURE_RAW` command by the shared ProductListing FIFO. It does not confirm raw capture, provider receipt persistence, source-order checks, canonical normalization, or search visibility. Those decisions occur when the consumer executes the command. Ignored events do not parse `date_modified_gmt` or construct a provider receipt. When a delivery ID or source timestamp is omitted, no corresponding receipt or source-ordering guarantee is made. The backend returns no response body on success.
    *
    */
   204: void;
@@ -7404,6 +7468,10 @@ export type AdminSearchListingSourcesData = {
      */
     ingestionMethod?: ListingIngestionMethodData;
     /**
+     * Optional exact platform code filter, combinable with all other filters. Use reusable SCREAMING_SNAKE_CASE codes.
+     */
+    platformTechnology?: PlatformTechnology;
+    /**
      * Sort field. Valid values are `name`, `slug`, `created`, and `updated`. The default is `name` ascending.
      */
     sort?: SortListingSourceFieldData;
@@ -7412,7 +7480,7 @@ export type AdminSearchListingSourcesData = {
      */
     order?: 'asc' | 'desc';
     /**
-     * Opaque ListingSource ID cursor returned by the previous page. It is omitted when no next page exists.
+     * Opaque cursor returned by the previous page for the same filters and sort. Pass it back unchanged. It embeds the sort value of the last returned item, such as a name or email address, so keep it out of logs and shared links like the response data itself.
      */
     searchAfter?: string;
     /**
@@ -7485,7 +7553,7 @@ export type AdminCreateListingSourceErrors = {
    */
   404: ApiError;
   /**
-   * ListingSource or provider configuration conflicts with current state.
+   * ListingSource or provider configuration conflicts with current state, or every generated slug candidate for a name is already taken.
    */
   409: ApiError;
   /**
@@ -7554,7 +7622,7 @@ export type AdminSearchPartiesData = {
      */
     order?: 'asc' | 'desc';
     /**
-     * Opaque Party ID cursor returned by the previous page. It is omitted when no next page exists.
+     * Opaque cursor returned by the previous page for the same filters and sort. Pass it back unchanged. It embeds the sort value of the last returned item, such as a name or email address, so keep it out of logs and shared links like the response data itself.
      */
     searchAfter?: string;
     /**
@@ -7623,7 +7691,7 @@ export type AdminCreatePartyErrors = {
    */
   403: ApiError;
   /**
-   * Conflict - the generated Party slug conflicts with current state.
+   * Conflict - every generated Party slug candidate for the name is already taken.
    */
   409: ApiError;
   /**
@@ -7864,9 +7932,7 @@ export type AdminSearchUsersData = {
      */
     order?: 'asc' | 'desc';
     /**
-     * Opaque User ID cursor for keyset pagination. Pass the `searchAfter` string returned by the previous response to fetch the next page.
-     * Requests may also provide the legacy JSON array form when its final element is a valid User ID. The cursor is valid only with the same filters and sort used for the previous page.
-     *
+     * Opaque cursor returned by the previous page for the same filters and sort. Pass it back unchanged. It embeds the sort value of the last returned item, such as a name or email address, so keep it out of logs and shared links like the response data itself.
      */
     searchAfter?: string;
     /**
@@ -10949,7 +11015,7 @@ export type AdminDecidePartnershipApplicationErrors = {
    */
   404: ApiError;
   /**
-   * Conflict - the PartnershipApplication is not in a decisionable state or was changed concurrently.
+   * Conflict - the PartnershipApplication is not in a decisionable state or was changed concurrently, or every generated slug candidate for the new Party or ListingSource name is already taken.
    */
   409: ApiError;
   /**
