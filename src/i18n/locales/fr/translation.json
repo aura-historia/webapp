@@ -1297,7 +1297,7 @@
         },
         "woocommerce": {
           "title": "WooCommerce : de serveur à serveur",
-          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} exige l’autorisation Bearer, x-wc-webhook-topic et x-wc-webhook-signature (HMAC-SHA256 en base64 sur les octets exacts du corps) ; x-wc-webhook-delivery-id est facultatif. Gardez les secrets sur le serveur ; ne les envoyez ni ne les exposez dans un navigateur. HTTP 204 sans corps confirme l’admission ou un événement ignoré autorisé, pas la capture ni la visibilité. Les événements de variation (type: variation) sont ignorés ; le product.updated propre au produit parent actualise son annonce. Chaque suppression retire l’annonce dont le sourceListingId est l’id livré. date_modified_gmt accepte UTC sans décalage, Z ou +00:00 ; les autres décalages sont invalides. L’ordre source s’applique en aval : les observations plus anciennes se terminent sans effet, après une suppression sans date seul un date_modified_gmt ultérieur rétablit l’annonce, et un UPSERT sans date_modified_gmt est refusé avec CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Réessayez une admission incertaine sans modification, en conservant l’ID de livraison fourni."
+          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} exige l’autorisation Bearer, x-wc-webhook-topic et x-wc-webhook-signature (HMAC-SHA256 en base64 sur les octets exacts du corps) ; x-wc-webhook-delivery-id est facultatif. Gardez les secrets sur le serveur ; ne les envoyez ni ne les exposez dans un navigateur. HTTP 204 sans corps confirme l’admission ou un événement ignoré autorisé, pas la capture ni la visibilité. Les événements de variation (type: variation) sont ignorés ; le product.updated propre au produit parent actualise son annonce. Chaque suppression retire l’annonce dont le sourceListingId est l’id livré. date_modified_gmt accepte UTC sans décalage, Z ou +00:00 ; les autres décalages sont invalides. L’ordre source s’applique en aval : les observations plus anciennes se terminent sans effet, après une suppression sans date seul un date_modified_gmt ultérieur rétablit l’annonce, et, après une suppression, un UPSERT sans date_modified_gmt est refusé avec CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Réessayez une admission incertaine sans modification, en conservant l’ID de livraison fourni."
         }
       }
     },
@@ -1359,6 +1359,7 @@
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Vous avez déjà un abonnement actif. Veuillez utiliser le portail client pour le gérer.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Aucun abonnement existant n'a été trouvé. Veuillez démarrer un nouveau processus de paiement.",
     "SEARCH_FILTER_RESTRICTED_FEATURE": "Certains de vos filtres actifs sont uniquement disponibles pour les utilisateurs premium. Veuillez supprimer ces filtres ou mettre à niveau votre compte pour enregistrer un filtre de recherche.",
+    "SEARCH_FILTER_TEMPORARILY_UNAVAILABLE": "Les filtres de recherche sont temporairement indisponibles. Veuillez réessayer dans quelques minutes.",
     "BAD_REQUEST": "La requête est invalide.",
     "NOT_FOUND": "La ressource demandée est introuvable.",
     "CONFLICT": "L'action n'a pas pu être effectuée en raison d'un conflit.",
@@ -1754,7 +1755,6 @@
       "operatorPartyId": "ID de l’organisation opératrice",
       "ingestionMethod": "Méthode d’ingestion",
       "allMethods": "Toutes les méthodes",
-      "platformTechnology": "Code de plateforme",
       "sort": "Trier par",
       "apply": "Appliquer les filtres",
       "reset": "Réinitialiser"
@@ -1772,7 +1772,7 @@
     "list": {
       "operator": "Opérateur : {{name}}",
       "noMethods": "Aucune méthode d’ingestion",
-      "platform": "Plateforme : {{code}}",
+      "platform": "Technologie de plateforme : {{code}}",
       "updated": "Mise à jour le {{date}}",
       "total_one": "{{count}} source d’annonces",
       "total_other": "{{count}} sources d’annonces",
@@ -1790,6 +1790,7 @@
       "email": "E-mail",
       "ingestionMethods": "Méthodes d’ingestion",
       "platformTechnology": "Technologie de plateforme",
+      "platformTechnologyNotRecorded": "Non enregistrée",
       "ingestionConfiguration": "Configuration d’ingestion",
       "configurationType": "Type de configuration",
       "fallbackCurrency": "Devise de repli (ISO 4217)",
@@ -1804,7 +1805,6 @@
       "created": "Créée le",
       "updated": "Dernière mise à jour",
       "notProvided": "Non renseigné",
-      "notRecorded": "Non enregistrée",
       "referralUnavailable": "Indisponible pour le moment"
     },
     "methods": {
@@ -3633,7 +3633,8 @@
       "saved": "Modifications enregistrées. La recherche publique et les pages d’annonces sont mises à jour de manière asynchrone.",
       "unchanged": "L’annonce avait déjà ces valeurs ; rien n’a été modifié.",
       "textHelp": "Saisissez le texte d’origine de la source dans la langue dans laquelle il est rédigé, pas une traduction. Laissez un champ vide pour supprimer le texte. Les traductions, l’évaluation du contenu et la recherche suivent de manière asynchrone.",
-      "titleHelp": "Les titres sont normalisés : les lettres et chiffres stylisés deviennent du texte ordinaire, et les emoji et symboles décoratifs sont supprimés. Un titre sans texte restant est refusé.",
+      "titleHelp": "Les titres sont normalisés : les lettres et chiffres stylisés deviennent du texte ordinaire, les emoji et symboles décoratifs sont supprimés, la première lettre passe en majuscule et le point final est retiré. Les titres de plus de 128 caractères sont raccourcis avec « ... ». Un titre sans texte restant est refusé.",
+      "titleTooLong": "Ce titre dépasse 128 caractères et sera raccourci à l’enregistrement.",
       "pricingHelp": "Les montants sont exprimés dans la devise de la source. Utilisez un point ou une virgule décimale, sans séparateur de milliers. Choisissez « Non renseigné » pour supprimer le prix.",
       "estimateHelp": "Laissez le montant d’une estimation vide pour supprimer cette estimation.",
       "availabilityHelp": "« Non renseigné » supprime la disponibilité ; cela ne signifie pas « indisponible ».",
@@ -3705,6 +3706,7 @@
       "invalidId": "Cet ID d’annonce de produit n’est pas valide. Les ID d’annonce de produit commencent par « pl_ ».",
       "invalidSearch": "Ces filtres n’ont pas pu être appliqués. Vérifiez les ID et le texte recherché, puis réessayez.",
       "invalid": "La requête a été refusée. Vérifiez les valeurs et réessayez.",
+      "invalidTitle": "Le titre a été refusé. Saisissez un titre qui contient encore des lettres ou des chiffres une fois les emoji et symboles décoratifs supprimés.",
       "auctionMissing": "La vente sélectionnée est introuvable.",
       "auctionSourceMismatch": "La vente sélectionnée appartient à une autre source.",
       "versionConflict": "Cette annonce a été modifiée avant que votre requête ne soit appliquée. La dernière version a été chargée ; examinez-la avant de réessayer.",

@@ -28,6 +28,7 @@ import {
 import {
     ADMIN_PRODUCT_LISTING_PRICE_KINDS,
     type AdminProductListingFormValues,
+    LISTING_TITLE_MAX_CHARACTERS,
     buildAdminProductListingPatch,
     createAdminProductListingFormSchema,
     hasAdminProductListingChanges,
@@ -260,6 +261,13 @@ function TextFields({
 }) {
     const { t } = useTranslation();
     const errors = form.formState.errors;
+    const [title, titleLanguage, descriptionLanguage] = form.watch([
+        "title",
+        "titleLanguage",
+        "descriptionLanguage",
+    ]);
+    // The backend shortens longer titles with "..." instead of rejecting them.
+    const titleTooLong = [...title.trim()].length > LISTING_TITLE_MAX_CHARACTERS;
 
     return (
         <fieldset className="grid gap-4 border p-4">
@@ -275,12 +283,19 @@ function TextFields({
                     <Input
                         id="admin-product-listing-title"
                         autoComplete="off"
+                        dir="auto"
+                        lang={textLanguage(titleLanguage)}
                         disabled={disabled}
                         {...form.register("title")}
                     />
                     <p className="text-xs text-muted-foreground">
                         {t("adminProductListings.edit.titleHelp")}
                     </p>
+                    {titleTooLong && (
+                        <p className="text-xs text-muted-foreground">
+                            {t("adminProductListings.edit.titleTooLong")}
+                        </p>
+                    )}
                 </div>
                 <TextLanguageField
                     form={form}
@@ -298,6 +313,8 @@ function TextFields({
                     <Textarea
                         id="admin-product-listing-description"
                         className="min-h-32"
+                        dir="auto"
+                        lang={textLanguage(descriptionLanguage)}
                         disabled={disabled}
                         {...form.register("description")}
                     />
@@ -312,6 +329,11 @@ function TextFields({
             </div>
         </fieldset>
     );
+}
+
+/** Marks the input's language only once a supported one is chosen. */
+function textLanguage(language: string): string | undefined {
+    return isSourceTextLanguage(language) ? language : undefined;
 }
 
 function TextLanguageField({

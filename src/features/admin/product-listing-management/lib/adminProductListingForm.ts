@@ -22,6 +22,9 @@ import {
 export const ADMIN_PRODUCT_LISTING_PRICE_KINDS = ["NONE", "MONETARY", "ON_REQUEST"] as const;
 export type AdminProductListingPriceKind = (typeof ADMIN_PRODUCT_LISTING_PRICE_KINDS)[number];
 
+/** Longer titles are shortened by the backend, not rejected. */
+export const LISTING_TITLE_MAX_CHARACTERS = 128;
+
 /** Backend bounds for lot facts. */
 const LOT_NUMBER_MAX_BYTES = 128;
 const CATALOGUE_POSITION_MAX = 4_294_967_295;

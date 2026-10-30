@@ -14,7 +14,15 @@ vi.mock("../../api/useAdminListingSources.ts", () => ({
     useUpdateAdminListingSource: () => api.update,
 }));
 vi.mock("@/features/admin/party-management/components/AdminPartyPicker.tsx", () => ({
-    AdminPartyPicker: () => null,
+    AdminPartyPicker: ({
+        onSelect,
+    }: {
+        readonly onSelect: (identity?: { readonly partyId: string }) => void;
+    }) => (
+        <button type="button" onClick={() => onSelect({ partyId: "party_01" })}>
+            Pick operator
+        </button>
+    ),
 }));
 
 const source: AdminListingSourceDetail = {
@@ -88,6 +96,31 @@ describe("AdminListingSourceFormDialog", () => {
         expect(api.update.mutate).toHaveBeenCalledWith(
             expect.objectContaining({
                 values: expect.objectContaining({ platformTechnology: "shopware" }),
+            }),
+            expect.any(Object),
+        );
+    });
+
+    it("creates a source with a normalized platform technology", async () => {
+        renderDialog();
+        fireEvent.change(screen.getByLabelText(testI18n.t("adminListingSources.fields.name")), {
+            target: { value: "Antique House" },
+        });
+        fireEvent.click(screen.getByRole("button", { name: "Pick operator" }));
+        fireEvent.change(
+            screen.getByLabelText(testI18n.t("adminListingSources.fields.platformTechnology")),
+            { target: { value: "bigcommerce" } },
+        );
+        fireEvent.click(
+            screen.getByRole("button", { name: testI18n.t("adminListingSources.actions.create") }),
+        );
+
+        await waitFor(() => expect(api.create.mutate).toHaveBeenCalledTimes(1));
+        expect(api.create.mutate).toHaveBeenCalledWith(
+            expect.objectContaining({
+                name: "Antique House",
+                operatorPartyId: "party_01",
+                platformTechnology: "bigcommerce",
             }),
             expect.any(Object),
         );

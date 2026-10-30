@@ -49,6 +49,7 @@ export type AdminProductListingErrorReason =
     | "invalidId"
     | "invalidSearch"
     | "invalid"
+    | "invalidTitle"
     | "auctionMissing"
     | "auctionSourceMismatch"
     | "versionConflict"
@@ -92,10 +93,19 @@ function errorCode(error: unknown): string | undefined {
     return typeof error.error === "string" ? error.error : undefined;
 }
 
+/** Reads only the stable problem field name; the rejected value is never shown. */
+function errorField(error: unknown): string | undefined {
+    if (typeof error !== "object" || error === null || !("source" in error)) return undefined;
+    const source = error.source;
+    if (typeof source !== "object" || source === null || !("field" in source)) return undefined;
+    return typeof source.field === "string" ? source.field : undefined;
+}
+
 export function adminProductListingErrorReason(
     status: number | undefined,
     operation: AdminProductListingOperation,
     code?: string,
+    field?: string,
 ): AdminProductListingErrorReason {
     if (status === 401 || status === 403) return "forbidden";
     if (status === 404) {
@@ -111,6 +121,10 @@ export function adminProductListingErrorReason(
     if (status === 400) {
         if (operation === "read") return "invalidId";
         if (operation === "search") return "invalidSearch";
+        // A title with no text left after normalization is the one rejection the form cannot predict.
+        if (operation === "update" && (field === "title" || field?.startsWith("title."))) {
+            return "invalidTitle";
+        }
         return "invalid";
     }
     // Without a definite response a command may or may not have been committed.
@@ -131,7 +145,12 @@ export function createAdminProductListingErrorFactory(
     t: TFunction,
 ): AdminProductListingErrorFactory {
     return (status, operation, error) => {
-        const reason = adminProductListingErrorReason(status, operation, errorCode(error));
+        const reason = adminProductListingErrorReason(
+            status,
+            operation,
+            errorCode(error),
+            errorField(error),
+        );
         // API bodies can echo submitted URLs and identifiers. Only expose localized status copy.
         return new AdminProductListingRequestError(
             t(`adminProductListings.errors.${reason}`),

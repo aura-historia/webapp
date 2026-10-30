@@ -1297,7 +1297,7 @@
         },
         "woocommerce": {
           "title": "WooCommerce: de servidor a servidor",
-          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} requiere autorización Bearer, x-wc-webhook-topic y x-wc-webhook-signature (HMAC-SHA256 en base64 sobre los bytes exactos del cuerpo); x-wc-webhook-delivery-id es opcional. Mantenga los secretos en el servidor; nunca los envíe ni exponga en un navegador. HTTP 204 sin cuerpo confirma admisión o un evento ignorado autorizado, no captura ni visibilidad. Los eventos de variación (type: variation) se ignoran; el propio product.updated del producto principal actualiza su anuncio. Cada eliminación retira el anuncio cuyo sourceListingId es el id entregado. date_modified_gmt admite UTC sin desplazamiento, Z o +00:00; otros desplazamientos son inválidos. El orden de origen se aplica después: las observaciones anteriores terminan sin efecto, tras una eliminación sin fecha solo un date_modified_gmt posterior restaura el anuncio y un UPSERT sin date_modified_gmt se rechaza con CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Reintente una admisión incierta sin cambios, conservando el ID de entrega si existe."
+          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} requiere autorización Bearer, x-wc-webhook-topic y x-wc-webhook-signature (HMAC-SHA256 en base64 sobre los bytes exactos del cuerpo); x-wc-webhook-delivery-id es opcional. Mantenga los secretos en el servidor; nunca los envíe ni exponga en un navegador. HTTP 204 sin cuerpo confirma admisión o un evento ignorado autorizado, no captura ni visibilidad. Los eventos de variación (type: variation) se ignoran; el propio product.updated del producto principal actualiza su anuncio. Cada eliminación retira el anuncio cuyo sourceListingId es el id entregado. date_modified_gmt admite UTC sin desplazamiento, Z o +00:00; otros desplazamientos son inválidos. El orden de origen se aplica después: las observaciones anteriores terminan sin efecto, tras una eliminación sin fecha solo un date_modified_gmt posterior restaura el anuncio y, tras una eliminación, un UPSERT sin date_modified_gmt se rechaza con CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Reintente una admisión incierta sin cambios, conservando el ID de entrega si existe."
         }
       }
     },
@@ -1359,6 +1359,7 @@
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Ya tiene una suscripción activa. Por favor, utilice el portal de cliente para gestionarla.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No se encontró ninguna suscripción existente. Por favor, inicie un nuevo proceso de pago.",
     "SEARCH_FILTER_RESTRICTED_FEATURE": "Algunos de los filtros activos solo están disponibles para usuarios premium. Por favor, elimine estos filtros o actualice su cuenta para guardar un filtro de búsqueda.",
+    "SEARCH_FILTER_TEMPORARILY_UNAVAILABLE": "Los filtros de búsqueda no están disponibles temporalmente. Vuelva a intentarlo en unos minutos.",
     "BAD_REQUEST": "La solicitud no es válida.",
     "NOT_FOUND": "El recurso solicitado no fue encontrado.",
     "CONFLICT": "La acción no pudo completarse debido a un conflicto.",
@@ -1754,7 +1755,6 @@
       "operatorPartyId": "ID de la organización operadora",
       "ingestionMethod": "Método de ingestión",
       "allMethods": "Todos los métodos",
-      "platformTechnology": "Código de plataforma",
       "sort": "Ordenar por",
       "apply": "Aplicar filtros",
       "reset": "Restablecer"
@@ -1772,7 +1772,7 @@
     "list": {
       "operator": "Operador: {{name}}",
       "noMethods": "Sin método de ingestión",
-      "platform": "Plataforma: {{code}}",
+      "platform": "Tecnología de plataforma: {{code}}",
       "updated": "Actualizada {{date}}",
       "total_one": "{{count}} fuente de anuncios",
       "total_other": "{{count}} fuentes de anuncios",
@@ -1790,6 +1790,7 @@
       "email": "Correo electrónico",
       "ingestionMethods": "Métodos de ingestión",
       "platformTechnology": "Tecnología de plataforma",
+      "platformTechnologyNotRecorded": "No registrada",
       "ingestionConfiguration": "Configuración de ingestión",
       "configurationType": "Tipo de configuración",
       "fallbackCurrency": "Moneda alternativa (ISO 4217)",
@@ -1804,7 +1805,6 @@
       "created": "Creada",
       "updated": "Última actualización",
       "notProvided": "No indicado",
-      "notRecorded": "No registrada",
       "referralUnavailable": "No disponible por ahora"
     },
     "methods": {
@@ -3633,7 +3633,8 @@
       "saved": "Cambios guardados. La búsqueda pública y las páginas de anuncios se actualizan de forma asíncrona.",
       "unchanged": "El anuncio ya tenía estos valores; no se cambió nada.",
       "textHelp": "Introduzca el texto original de la fuente en el idioma en que está escrito, no una traducción. Deje un campo vacío para quitar el texto. Las traducciones, la evaluación del contenido y la búsqueda se actualizan de forma asíncrona.",
-      "titleHelp": "Los títulos se normalizan: las letras y cifras estilizadas se convierten en texto normal y se eliminan los emojis y los símbolos decorativos. Se rechaza un título sin texto restante.",
+      "titleHelp": "Los títulos se normalizan: las letras y cifras estilizadas se convierten en texto normal, se eliminan los emojis y los símbolos decorativos, la primera letra pasa a mayúscula y se suprime el punto final. Los títulos de más de 128 caracteres se acortan con «...». Se rechaza un título sin texto restante.",
+      "titleTooLong": "Este título tiene más de 128 caracteres y se acortará al guardarlo.",
       "pricingHelp": "Los importes están en la moneda de la fuente. Use un punto o una coma decimal y ningún separador de miles. Elija «Sin especificar» para quitar el precio.",
       "estimateHelp": "Deje vacío el importe de una estimación para quitarla.",
       "availabilityHelp": "«Sin especificar» quita la disponibilidad; no significa «no disponible».",
@@ -3705,6 +3706,7 @@
       "invalidId": "Este ID de anuncio de producto no es válido. Los ID de anuncio de producto empiezan por «pl_».",
       "invalidSearch": "No se pudieron aplicar estos filtros. Compruebe los ID y el texto de búsqueda e inténtelo de nuevo.",
       "invalid": "Se rechazó la solicitud. Compruebe los valores e inténtelo de nuevo.",
+      "invalidTitle": "Se rechazó el título. Introduzca un título que siga conteniendo letras o cifras una vez eliminados los emojis y los símbolos decorativos.",
       "auctionMissing": "No se encontró la subasta seleccionada.",
       "auctionSourceMismatch": "La subasta seleccionada pertenece a otra fuente.",
       "versionConflict": "Este anuncio cambió antes de que se aplicara su solicitud. Se ha cargado la versión más reciente; revísela antes de volver a intentarlo.",

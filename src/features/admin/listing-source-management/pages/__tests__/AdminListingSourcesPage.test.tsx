@@ -144,7 +144,7 @@ describe("AdminListingSourcesPage", () => {
         expect(
             screen.getByText(testI18n.t("adminListingSources.fields.platformTechnology"))
                 .nextElementSibling?.textContent,
-        ).toBe(testI18n.t("adminListingSources.fields.notRecorded"));
+        ).toBe(testI18n.t("adminListingSources.fields.platformTechnologyNotRecorded"));
     });
 
     it("reports a missing referral as not provided when the summary is current", () => {

@@ -296,7 +296,7 @@ function AdminListingSourceDetailDialog({
                                 {source.platformTechnology}
                             </span>
                         ) : (
-                            t("adminListingSources.fields.notRecorded")
+                            t("adminListingSources.fields.platformTechnologyNotRecorded")
                         )}
                     </DetailRow>
                     <DetailRow label={t("adminListingSources.fields.url")}>

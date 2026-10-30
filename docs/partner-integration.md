@@ -80,8 +80,9 @@ valid store domain. Responses are bodyless 201 (enabled) or 204 (replaced or unc
 | PUT existing images | Preserve | Invalid | Replace; `[]` clears |
 | PUT existing URL | Preserve | Preserve | Replace |
 
-Titles are normalized (styled letters become ordinary text; emoji and ornamental symbols are
-removed); a title with no remaining text is rejected with `BAD_BODY_VALUE` (a synchronous batch
+Titles are normalized (styled letters become ordinary text, emoji and ornamental symbols are
+removed, the first letter is capitalized, a closing period is dropped, and titles over 128
+characters are shortened with `...`); a title with no remaining text is rejected with `BAD_BODY_VALUE` (a synchronous batch
 fails with `400`, an async batch reports that item). Whitespace-equivalent text is unchanged; a
 meaningful text change is recorded in the listing history and refreshes translation, content
 assessment and search asynchronously.
@@ -116,9 +117,10 @@ listings and preserves history; PUT restores a withdrawn listing before applying
   before admission. Source order is applied downstream, never as an immediate 409: older
   observations of a product complete without effect, equal timestamps apply in arrival order (an
   UPSERT never overtakes a DELETE with the same timestamp), and a timestamp-free DELETE sets a
-  restore barrier at the later of its capture time and every known `date_modified_gmt`. An UPSERT
-  without `date_modified_gmt` is rejected downstream with
-  `CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS`.
+  restore barrier at the later of its capture time and every known `date_modified_gmt`. After a
+  deletion, an UPSERT without `date_modified_gmt` is rejected downstream with
+  `CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS`; otherwise it is captured without an ordering
+  guarantee.
 - A delivery receipt binds the delivery ID to its evidence digest for 90 days, so an exact retry
   may be deduplicated; WooCommerce reuses IDs within one second, so a different payload under the
   same ID is a separate observation. Without a delivery ID there is no receipt-based deduplication.

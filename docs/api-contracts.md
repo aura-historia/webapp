@@ -54,7 +54,9 @@ admin workflows in [admin workflows](admin-workflows.md).
     value (such as a name or email), so it stays out of URLs, logs and analytics.
   - **Readable slugs** ([backend#2654](https://github.com/aura-historia/backend/issues/2654)): new
     Party and ListingSource slugs are the slugified name (`antiques-and-more`, then `-2`, `-3`, …);
-    existing UUID-suffixed slugs are kept. Slugs stay opaque and are never parsed. A `409 CONFLICT`
+    existing UUID-suffixed slugs are kept. Slugs stay opaque and are never parsed. A slug names
+    its current holder: a legacy `/shops/<slug>` link, or a slug freed by deleting an unused
+    source, can resolve to a later source with that name. A `409 CONFLICT`
     from `adminCreateParty`, `adminCreateListingSource` (including a new operator) or approving a
     proposed-source application can now also mean that every slug candidate for the name is taken;
     the conflict copy says so.
@@ -67,14 +69,26 @@ admin workflows in [admin workflows](admin-workflows.md).
     [backend#2606](https://github.com/aura-historia/backend/issues/2606)): `type: variation`
     events are authorized no-ops, `related_ids` is ignored, every DELETE withdraws the listing
     keyed by the delivered `id`, delivery IDs bind exact retries only, and source order follows
-    `date_modified_gmt` with `CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS` for an UPSERT without
-    it. The browser never calls the webhook; the custom integration guide and
+    `date_modified_gmt`; after a deletion, an UPSERT without it fails with
+    `CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS`. The browser never calls the webhook; the custom integration guide and
     [partner integration](partner-integration.md#woocommerce-webhook) follow the contract.
   - **Bounded search dependencies** ([backend#2625](https://github.com/aura-historia/backend/issues/2625)):
     description only. A slow query embedding falls back to BM25 on a first page; a semantic
     continuation or a stalled index returns `503 PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE` instead
-    of `408`. The search results' existing error state and retry cover both.
+    of `408`. The search results' existing error state and retry cover both. Creating or updating
+    a search filter whose text needs an embedding now returns `503
+    SEARCH_FILTER_TEMPORARILY_UNAVAILABLE` after the same deadline (not yet declared on those
+    operations); `apiErrors` translates the code, so the wizard shows a retryable message.
   - Description-only changes elsewhere, including the admin search cursor examples.
+  - Backend changelog entries without a contract change need no client change: REST CORS now
+    answers `*`, which forbids `credentials: "include"` (the client never sends it); Cognito
+    signing-key refresh can briefly return `503` for unknown keys
+    ([backend#2621](https://github.com/aura-historia/backend/issues/2621)), handled like any
+    unavailable response; MCP dropped its partner tools
+    ([backend#2481](https://github.com/aura-historia/backend/issues/2481)), and `llms.txt` already
+    lists only consumer tools; unprocessable queued listing commands are set aside sooner
+    ([backend#2548](https://github.com/aura-historia/backend/issues/2548)), with unchanged admission
+    responses.
   - Release this webapp only with or after a backend that serves this capture: older backends
     reject the admin listing `title`/`description` and the `platformTechnology` members
     (`additionalProperties: false`), although they are sent only when an administrator changes

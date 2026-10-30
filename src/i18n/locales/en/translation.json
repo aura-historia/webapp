@@ -1290,7 +1290,7 @@
         },
         "woocommerce": {
           "title": "WooCommerce: server-to-server",
-          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} requires bearer authorization, x-wc-webhook-topic and x-wc-webhook-signature (base64 HMAC-SHA256 over exact body bytes); x-wc-webhook-delivery-id is optional. Keep webhook secrets on the server; never send or expose them in a browser. HTTP 204 has no body and acknowledges confirmed admission or an authorized ignored event, not capture or search visibility. Variation events (type: variation) are ignored; the parent’s own product.updated refreshes its listing. Every deletion withdraws the listing whose sourceListingId is the delivered id. date_modified_gmt supports UTC without offset, Z or +00:00; other offsets are invalid. Source order is applied downstream: older observations complete without effect, after a timestamp-free deletion only a later date_modified_gmt restores the listing, and an UPSERT without date_modified_gmt is rejected with CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Retry an uncertain admission unchanged, preserving delivery ID when supplied."
+          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} requires bearer authorization, x-wc-webhook-topic and x-wc-webhook-signature (base64 HMAC-SHA256 over exact body bytes); x-wc-webhook-delivery-id is optional. Keep webhook secrets on the server; never send or expose them in a browser. HTTP 204 has no body and acknowledges confirmed admission or an authorized ignored event, not capture or search visibility. Variation events (type: variation) are ignored; the parent’s own product.updated refreshes its listing. Every deletion withdraws the listing whose sourceListingId is the delivered id. date_modified_gmt supports UTC without offset, Z or +00:00; other offsets are invalid. Source order is applied downstream: older observations complete without effect, after a timestamp-free deletion only a later date_modified_gmt restores the listing, and after a deletion an UPSERT without date_modified_gmt is rejected with CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Retry an uncertain admission unchanged, preserving delivery ID when supplied."
         }
       }
     },
@@ -1358,6 +1358,7 @@
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "You already have an active subscription. Please use the customer portal to manage it.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No existing subscription was found. Please start a new checkout.",
     "SEARCH_FILTER_RESTRICTED_FEATURE": "Some of your active filters are only available for premium users. Please remove these filters or upgrade your account to save a search filter.",
+    "SEARCH_FILTER_TEMPORARILY_UNAVAILABLE": "Search filters are temporarily unavailable. Please try again in a few minutes.",
     "BAD_REQUEST": "The request is invalid.",
     "NOT_FOUND": "The requested resource was not found.",
     "CONFLICT": "The action could not be completed due to a conflict.",
@@ -2403,7 +2404,6 @@
       "operatorPartyId": "Operator organization ID",
       "ingestionMethod": "Ingestion method",
       "allMethods": "All methods",
-      "platformTechnology": "Platform code",
       "sort": "Sort by",
       "apply": "Apply filters",
       "reset": "Reset"
@@ -2421,7 +2421,7 @@
     "list": {
       "operator": "Operator: {{name}}",
       "noMethods": "No ingestion method",
-      "platform": "Platform: {{code}}",
+      "platform": "Platform technology: {{code}}",
       "updated": "Updated {{date}}",
       "total_one": "{{count}} listing source",
       "total_other": "{{count}} listing sources",
@@ -2439,6 +2439,7 @@
       "email": "Email",
       "ingestionMethods": "Ingestion methods",
       "platformTechnology": "Platform technology",
+      "platformTechnologyNotRecorded": "Not recorded",
       "ingestionConfiguration": "Ingestion configuration",
       "configurationType": "Configuration type",
       "fallbackCurrency": "Fallback currency (ISO 4217)",
@@ -2453,7 +2454,6 @@
       "created": "Created",
       "updated": "Last updated",
       "notProvided": "Not provided",
-      "notRecorded": "Not recorded",
       "referralUnavailable": "Currently unavailable"
     },
     "methods": {
@@ -3633,7 +3633,8 @@
       "saved": "Changes saved. Public search and listing pages update asynchronously.",
       "unchanged": "The listing already had these values; nothing was changed.",
       "textHelp": "Enter the source’s original text in the language it is written in, not a translation. Leave a field empty to clear it. Translations, content assessment and search follow asynchronously.",
-      "titleHelp": "Titles are normalized: styled letters and digits become ordinary text, and emoji and ornamental symbols are removed. A title with no remaining text is rejected.",
+      "titleHelp": "Titles are normalized: styled letters and digits become ordinary text, emoji and ornamental symbols are removed, the first letter is capitalized and a closing period is dropped. Titles longer than 128 characters are shortened with “...”. A title with no remaining text is rejected.",
+      "titleTooLong": "This title has more than 128 characters and will be shortened when saved.",
       "pricingHelp": "Amounts are in the source currency. Use a decimal point or comma and no thousands separators. Choose “Not specified” to clear the price.",
       "estimateHelp": "Leave an estimate amount empty to clear that estimate.",
       "availabilityHelp": "“Not specified” clears the availability; it does not mean unavailable.",
@@ -3705,6 +3706,7 @@
       "invalidId": "This product listing ID is not valid. Product listing IDs start with “pl_”.",
       "invalidSearch": "These filters could not be applied. Check the IDs and search text, then try again.",
       "invalid": "The request was rejected. Check the values and try again.",
+      "invalidTitle": "The title was rejected. Enter a title that still contains letters or digits once emoji and ornamental symbols are removed.",
       "auctionMissing": "The selected auction was not found.",
       "auctionSourceMismatch": "The selected auction belongs to a different listing source.",
       "versionConflict": "This listing changed before your request was applied. The latest version has been loaded; review it before trying again.",

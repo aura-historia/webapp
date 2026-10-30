@@ -102,8 +102,10 @@ Routes: `/$lng/admin/product-listings` (directory) and `/$lng/admin/product-list
   membership with lot facts. Text is the source's original, never a translation: new text needs a
   language from `SOURCE_TEXT_LANGUAGES` (the listing's other text's language is preselected), a
   language switch alone is a change, and an emptied field sends `null` to clear it. Text is
-  trimmed; the backend normalizes titles, treats whitespace-equivalent text as unchanged and
-  rejects a title with no remaining text (`400`). The PATCH contains only groups that differ
+  trimmed; the backend normalizes titles (the help text lists the rules), treats
+  whitespace-equivalent text as unchanged and shortens titles over 128 characters, which the form
+  notes before saving. A title with no remaining text is rejected (`400` on `title.text`) with its
+  own message. The text inputs carry the chosen language and `dir="auto"`. The PATCH contains only groups that differ
   from the record as the draft began: omitted groups are kept, cleared optional values are `null`,
   an empty image list empties the collection, detaching sends only `auctionId: null`, and each
   timing instant clears on its own. Decimal input converts exactly to minor units with

@@ -158,7 +158,7 @@ export function AdminListingSourceFiltersForm({
                 </div>
                 <div className="grid gap-2">
                     <Label htmlFor="admin-listing-sources-platform">
-                        {t("adminListingSources.filters.platformTechnology")}
+                        {t("adminListingSources.fields.platformTechnology")}
                     </Label>
                     <Input
                         id="admin-listing-sources-platform"

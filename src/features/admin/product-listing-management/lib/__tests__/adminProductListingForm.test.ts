@@ -273,6 +273,27 @@ describe("rebaseAdminProductListingDraft", () => {
         });
     });
 
+    it("keeps an edited title over a newer description and drops untouched text", () => {
+        const latest = toAdminProductListingFormValues({
+            ...listing,
+            description: { text: "Two doors.", language: "en" },
+            expectedVersion: 8,
+        });
+        const edited = draft({ title: "Nussbaumschrank", titleLanguage: "de" });
+
+        const rebased = rebaseAdminProductListingDraft(edited, original, latest);
+
+        expect(rebased).toMatchObject({
+            title: "Nussbaumschrank",
+            titleLanguage: "de",
+            description: "Two doors.",
+            descriptionLanguage: "en",
+        });
+        expect(buildAdminProductListingPatch(rebased, latest)).toEqual({
+            title: { text: "Nussbaumschrank", language: "de" },
+        });
+    });
+
     it("yields no patch when the latest version already contains the draft", () => {
         const edited = draft({ availability: "SOLD_OUT" });
         const latest = toAdminProductListingFormValues({ ...listing, availability: "SOLD_OUT" });
