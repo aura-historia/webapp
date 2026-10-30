@@ -53,11 +53,9 @@ export const SOURCE_TEXT_LANGUAGES = [
 ] as const satisfies readonly LanguageData[];
 export type SourceTextLanguage = (typeof SOURCE_TEXT_LANGUAGES)[number];
 
-// Fails to compile when the backend adds a language that is missing above.
-const sourceTextLanguagesCoverContract: [Exclude<LanguageData, SourceTextLanguage>] extends [never]
-    ? true
-    : never = true;
-void sourceTextLanguagesCoverContract;
+type AssertNever<T extends never> = T;
+/** Fails to compile when the backend adds a language that is missing above. */
+export type MissingSourceTextLanguages = AssertNever<Exclude<LanguageData, SourceTextLanguage>>;
 
 export function isSourceTextLanguage(value: string): value is SourceTextLanguage {
     return (SOURCE_TEXT_LANGUAGES as readonly string[]).includes(value);
