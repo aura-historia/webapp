@@ -102,6 +102,15 @@ export function requestUrl(input: RequestInfo | URL): URL {
     return new URL(input instanceof Request ? input.url : input.toString());
 }
 
+/** The broker sends form bodies as `URLSearchParams`; the generated client sends `Request`s. */
+async function readRequestBody(
+    input: RequestInfo | URL,
+    init: RequestInit | undefined,
+): Promise<string | undefined> {
+    if (init?.body instanceof URLSearchParams) return init.body.toString();
+    return input instanceof Request ? input.text() : undefined;
+}
+
 export interface BackendScript {
     /** Granted source pages, in order. */
     sourcePages?: Array<{
@@ -126,13 +135,7 @@ export function createBackend(script: BackendScript = {}) {
     const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
         const url = requestUrl(input);
         const headers = new Headers(input instanceof Request ? input.headers : init?.headers);
-        // The broker sends form bodies as `URLSearchParams`; the generated client sends `Request`s.
-        const rawBody =
-            init?.body instanceof URLSearchParams
-                ? init.body.toString()
-                : input instanceof Request
-                  ? await input.text()
-                  : undefined;
+        const rawBody = await readRequestBody(input, init);
         const body = rawBody === undefined ? undefined : new URLSearchParams(rawBody);
         calls.push({ path: url.pathname, url, body, headers });
 
