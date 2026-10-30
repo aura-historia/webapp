@@ -14,10 +14,13 @@ import {
 } from "@/components/ui/select.tsx";
 import {
     ADMIN_LISTING_SOURCE_INGESTION_METHODS,
+    ADMIN_LISTING_SOURCE_PLATFORM_SUGGESTIONS,
     ADMIN_LISTING_SOURCE_SORT_FIELDS,
     type AdminListingSourceFilters,
     type AdminListingSourceSortField,
     type AdminListingSourceSortOrder,
+    isOptionalPlatformTechnology,
+    normalizePlatformTechnology,
 } from "@/data/internal/listing-source/AdminListingSource.ts";
 
 const SORT_OPTIONS = ADMIN_LISTING_SOURCE_SORT_FIELDS.flatMap((sort) => [
@@ -32,6 +35,9 @@ const filterSchema = z.object({
     listingSourceSlugId: z.string(),
     operatorPartyId: z.string(),
     ingestionMethod: z.enum(["", ...ADMIN_LISTING_SOURCE_INGESTION_METHODS]),
+    platformTechnology: z.string().refine(isOptionalPlatformTechnology, {
+        message: "adminListingSources.validation.platformTechnology",
+    }),
     sortOption: z.enum(SORT_OPTIONS),
 });
 
@@ -45,6 +51,7 @@ function toFilterValues(filters: AdminListingSourceFilters): FilterValues {
         listingSourceSlugId: filters.listingSourceSlugId ?? "",
         operatorPartyId: filters.operatorPartyId ?? "",
         ingestionMethod: filters.ingestionMethod ?? "",
+        platformTechnology: filters.platformTechnology ?? "",
         sortOption:
             `${filters.sort ?? "name"}:${filters.order ?? "asc"}` as FilterValues["sortOption"],
     };
@@ -62,6 +69,7 @@ function toFilters(values: FilterValues): AdminListingSourceFilters {
         listingSourceSlugId: values.listingSourceSlugId.trim(),
         operatorPartyId: values.operatorPartyId.trim(),
         ingestionMethod: values.ingestionMethod || undefined,
+        platformTechnology: normalizePlatformTechnology(values.platformTechnology),
         sort,
         order,
     };
@@ -84,6 +92,7 @@ export function AdminListingSourceFiltersForm({
     });
     const ingestionMethod = useController({ control: form.control, name: "ingestionMethod" }).field;
     const sortOption = useController({ control: form.control, name: "sortOption" }).field;
+    const platformError = form.formState.errors.platformTechnology?.message;
 
     return (
         <form
@@ -146,6 +155,31 @@ export function AdminListingSourceFiltersForm({
                             ))}
                         </SelectContent>
                     </Select>
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="admin-listing-sources-platform">
+                        {t("adminListingSources.fields.platformTechnology")}
+                    </Label>
+                    <Input
+                        id="admin-listing-sources-platform"
+                        type="search"
+                        list="admin-listing-sources-platform-suggestions"
+                        autoComplete="off"
+                        autoCapitalize="characters"
+                        spellCheck={false}
+                        aria-invalid={platformError ? true : undefined}
+                        {...form.register("platformTechnology")}
+                    />
+                    <datalist id="admin-listing-sources-platform-suggestions">
+                        {ADMIN_LISTING_SOURCE_PLATFORM_SUGGESTIONS.map((code) => (
+                            <option key={code} value={code} />
+                        ))}
+                    </datalist>
+                    {platformError && (
+                        <p role="alert" className="text-sm text-destructive">
+                            {t(platformError)}
+                        </p>
+                    )}
                 </div>
             </div>
             <div className="flex flex-wrap items-end justify-between gap-3">

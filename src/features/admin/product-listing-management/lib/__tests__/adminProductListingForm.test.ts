@@ -86,6 +86,10 @@ describe("minor-unit conversion", () => {
 describe("toAdminProductListingFormValues", () => {
     it("fills the form from authoritative facts in UTC and keeps image order", () => {
         expect(original).toEqual({
+            title: "Walnut cabinet",
+            titleLanguage: "en",
+            description: "",
+            descriptionLanguage: "en",
             priceKind: "MONETARY",
             priceAmount: "1250.50",
             priceCurrency: "EUR",
@@ -106,6 +110,12 @@ describe("toAdminProductListingFormValues", () => {
             scheduledCloses: "2026-10-12T18:30:15",
             reportedClosedAt: "",
         });
+    });
+
+    it("never defaults a language the listing does not use", () => {
+        expect(
+            toAdminProductListingFormValues({ ...listing, title: null, description: null }),
+        ).toMatchObject({ title: "", titleLanguage: "", description: "", descriptionLanguage: "" });
     });
 
     it("never defaults a currency the listing does not use", () => {
@@ -143,6 +153,34 @@ describe("buildAdminProductListingPatch", () => {
 
         expect(hasAdminProductListingChanges(values, original)).toBe(false);
         expect(buildAdminProductListingPatch(values, original)).toEqual({});
+    });
+
+    it("replaces or clears the original text with its own language", () => {
+        expect(
+            buildAdminProductListingPatch(
+                draft({
+                    title: " Nussbaumschrank ",
+                    titleLanguage: "de",
+                    description: "Two doors.\nOriginal key.",
+                }),
+                original,
+            ),
+        ).toEqual({
+            title: { text: "Nussbaumschrank", language: "de" },
+            description: { text: "Two doors.\nOriginal key.", language: "en" },
+        });
+        expect(buildAdminProductListingPatch(draft({ title: "  " }), original)).toEqual({
+            title: null,
+        });
+    });
+
+    it("ignores a language choice without text and treats a language switch as a change", () => {
+        expect(hasAdminProductListingChanges(draft({ descriptionLanguage: "fr" }), original)).toBe(
+            false,
+        );
+        expect(buildAdminProductListingPatch(draft({ titleLanguage: "de" }), original)).toEqual({
+            title: { text: "Walnut cabinet", language: "de" },
+        });
     });
 
     it("serializes only changed groups with explicit clears", () => {
@@ -235,6 +273,27 @@ describe("rebaseAdminProductListingDraft", () => {
         });
     });
 
+    it("keeps an edited title over a newer description and drops untouched text", () => {
+        const latest = toAdminProductListingFormValues({
+            ...listing,
+            description: { text: "Two doors.", language: "en" },
+            expectedVersion: 8,
+        });
+        const edited = draft({ title: "Nussbaumschrank", titleLanguage: "de" });
+
+        const rebased = rebaseAdminProductListingDraft(edited, original, latest);
+
+        expect(rebased).toMatchObject({
+            title: "Nussbaumschrank",
+            titleLanguage: "de",
+            description: "Two doors.",
+            descriptionLanguage: "en",
+        });
+        expect(buildAdminProductListingPatch(rebased, latest)).toEqual({
+            title: { text: "Nussbaumschrank", language: "de" },
+        });
+    });
+
     it("yields no patch when the latest version already contains the draft", () => {
         const edited = draft({ availability: "SOLD_OUT" });
         const latest = toAdminProductListingFormValues({ ...listing, availability: "SOLD_OUT" });
@@ -314,6 +373,35 @@ describe("validateAdminProductListingForm", () => {
         ).toEqual([
             { path: ["priceAmount"], message: "adminProductListings.validation.amountNoDecimals" },
         ]);
+    });
+
+    it("requires a supported language for new text only", () => {
+        const untitled = toAdminProductListingFormValues({
+            ...listing,
+            title: null,
+            description: null,
+        });
+
+        expect(
+            validateAdminProductListingForm({ ...untitled, title: "Walnut cabinet" }, untitled),
+        ).toEqual([
+            {
+                path: ["titleLanguage"],
+                message: "adminProductListings.validation.languageRequired",
+            },
+        ]);
+        expect(
+            validateAdminProductListingForm(
+                { ...untitled, description: "Two doors.", descriptionLanguage: "xx" },
+                untitled,
+            ),
+        ).toEqual([
+            {
+                path: ["descriptionLanguage"],
+                message: "adminProductListings.validation.languageRequired",
+            },
+        ]);
+        expect(validateAdminProductListingForm(draft({ title: "" }), original)).toEqual([]);
     });
 
     it("feeds the zod schema used by the form", () => {

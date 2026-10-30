@@ -36,6 +36,16 @@ const changedEntry = {
     payload: {
         changes: [
             {
+                type: "TITLE_CHANGED",
+                previous: { text: "Baroque violin", language: "en" },
+                current: { text: "Barockgeige", language: "de" },
+            },
+            {
+                type: "DESCRIPTION_CHANGED",
+                previous: { text: "Maple back.", language: "en" },
+                current: null,
+            },
+            {
                 type: "MAIN_PRICE_CHANGED",
                 previous: { type: "MONETARY", amount: 120000, currency: "EUR" },
                 current: { type: "ON_REQUEST" },
@@ -101,17 +111,27 @@ describe("mapProductListingHistory", () => {
 
         expect(entry?.payload.kind).toBe("CHANGED");
         if (entry?.payload.kind !== "CHANGED") throw new Error("Expected a changed entry");
-        expect(entry.payload.changes).toHaveLength(11);
+        expect(entry.payload.changes).toHaveLength(13);
         expect(entry.payload.changes[0]).toEqual({
+            type: "TITLE_CHANGED",
+            previous: { text: "Baroque violin", language: "en" },
+            current: { text: "Barockgeige", language: "de" },
+        });
+        expect(entry.payload.changes[1]).toEqual({
+            type: "DESCRIPTION_CHANGED",
+            previous: { text: "Maple back.", language: "en" },
+            current: null,
+        });
+        expect(entry.payload.changes[2]).toEqual({
             type: "MAIN_PRICE_CHANGED",
             previous: { type: "MONETARY", amount: 120000, currency: "EUR" },
             current: { type: "ON_REQUEST" },
         });
-        expect(entry.payload.changes[9]).toEqual({
+        expect(entry.payload.changes[11]).toEqual({
             type: "SALE_OBSERVED",
             observation: { observedAt: new Date("2026-09-02T08:00:00Z"), fxRateId: "fxrate_42" },
         });
-        expect(entry.payload.changes[10]?.type).toBe("SALE_OBSERVATION_RETRACTED");
+        expect(entry.payload.changes[12]?.type).toBe("SALE_OBSERVATION_RETRACTED");
     });
 
     it("retains an unknown future change as a safe fallback", () => {

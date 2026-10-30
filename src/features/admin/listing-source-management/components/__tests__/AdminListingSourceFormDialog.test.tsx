@@ -14,7 +14,15 @@ vi.mock("../../api/useAdminListingSources.ts", () => ({
     useUpdateAdminListingSource: () => api.update,
 }));
 vi.mock("@/features/admin/party-management/components/AdminPartyPicker.tsx", () => ({
-    AdminPartyPicker: () => null,
+    AdminPartyPicker: ({
+        onSelect,
+    }: {
+        readonly onSelect: (identity?: { readonly partyId: string }) => void;
+    }) => (
+        <button type="button" onClick={() => onSelect({ partyId: "party_01" })}>
+            Pick operator
+        </button>
+    ),
 }));
 
 const source: AdminListingSourceDetail = {
@@ -61,6 +69,61 @@ describe("AdminListingSourceFormDialog", () => {
             ).toHaveLength(2),
         );
         expect(api.update.mutate).not.toHaveBeenCalled();
+    });
+
+    it("edits the recorded platform technology and rejects malformed codes", async () => {
+        renderDialog({ source: { ...source, platformTechnology: "SHOPIFY" } });
+        const platform = screen.getByLabelText(
+            testI18n.t("adminListingSources.fields.platformTechnology"),
+        );
+        expect(platform).toHaveValue("SHOPIFY");
+        const save = screen.getByRole("button", {
+            name: testI18n.t("adminListingSources.actions.save"),
+        });
+
+        fireEvent.change(platform, { target: { value: "shop-ware" } });
+        fireEvent.click(save);
+        expect(
+            await screen.findByText(
+                testI18n.t("adminListingSources.validation.platformTechnology"),
+            ),
+        ).toBeInTheDocument();
+        expect(api.update.mutate).not.toHaveBeenCalled();
+
+        fireEvent.change(platform, { target: { value: "shopware" } });
+        fireEvent.click(save);
+        await waitFor(() => expect(api.update.mutate).toHaveBeenCalledTimes(1));
+        expect(api.update.mutate).toHaveBeenCalledWith(
+            expect.objectContaining({
+                values: expect.objectContaining({ platformTechnology: "shopware" }),
+            }),
+            expect.any(Object),
+        );
+    });
+
+    it("creates a source with a normalized platform technology", async () => {
+        renderDialog();
+        fireEvent.change(screen.getByLabelText(testI18n.t("adminListingSources.fields.name")), {
+            target: { value: "Antique House" },
+        });
+        fireEvent.click(screen.getByRole("button", { name: "Pick operator" }));
+        fireEvent.change(
+            screen.getByLabelText(testI18n.t("adminListingSources.fields.platformTechnology")),
+            { target: { value: "bigcommerce" } },
+        );
+        fireEvent.click(
+            screen.getByRole("button", { name: testI18n.t("adminListingSources.actions.create") }),
+        );
+
+        await waitFor(() => expect(api.create.mutate).toHaveBeenCalledTimes(1));
+        expect(api.create.mutate).toHaveBeenCalledWith(
+            expect.objectContaining({
+                name: "Antique House",
+                operatorPartyId: "party_01",
+                platformTechnology: "bigcommerce",
+            }),
+            expect.any(Object),
+        );
     });
 
     it("starts without an ingestion method and allows adding and removing the last entry", () => {

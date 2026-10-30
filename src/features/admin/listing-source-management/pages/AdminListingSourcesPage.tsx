@@ -57,6 +57,13 @@ function ListingSourceRow({
                     ) : (
                         <span>{t("adminListingSources.list.noMethods")}</span>
                     )}
+                    {source.platformTechnology && (
+                        <span>
+                            {t("adminListingSources.list.platform", {
+                                code: source.platformTechnology,
+                            })}
+                        </span>
+                    )}
                     <span>
                         {t("adminListingSources.list.updated", {
                             date: formatDateTime(source.updated, i18n.language, "UTC"),
@@ -282,6 +289,15 @@ function AdminListingSourceDetailDialog({
                                   .map((method) => t(`adminListingSources.methods.${method}`))
                                   .join(", ")
                             : t("adminListingSources.list.noMethods")}
+                    </DetailRow>
+                    <DetailRow label={t("adminListingSources.fields.platformTechnology")}>
+                        {source.platformTechnology ? (
+                            <span className="break-all font-mono text-sm">
+                                {source.platformTechnology}
+                            </span>
+                        ) : (
+                            t("adminListingSources.fields.platformTechnologyNotRecorded")
+                        )}
                     </DetailRow>
                     <DetailRow label={t("adminListingSources.fields.url")}>
                         {source.presentation.url ? (

@@ -144,6 +144,22 @@ describe("mapToBackendAdminProductListingPatch", () => {
         expect(body).not.toHaveProperty("auction");
     });
 
+    it("sends replaced and cleared original text with its own language", () => {
+        const body = mapToBackendAdminProductListingPatch(
+            { title: { text: "Nussbaumschrank", language: "de" }, description: null },
+            7,
+        );
+
+        expect(body).toEqual({
+            expectedVersion: 7,
+            title: { text: "Nussbaumschrank", language: "de" },
+            description: null,
+        });
+        expect(mapToBackendAdminProductListingPatch({ price: null }, 7)).not.toHaveProperty(
+            "title",
+        );
+    });
+
     it("maps monetary and on-request prices explicitly", () => {
         expect(
             mapToBackendAdminProductListingPatch(

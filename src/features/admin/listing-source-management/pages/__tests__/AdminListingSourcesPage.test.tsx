@@ -120,6 +120,33 @@ describe("AdminListingSourcesPage", () => {
         expect(api.locationDefaultSection).toHaveBeenLastCalledWith({ source: detail });
     });
 
+    it("shows a recorded platform technology in the row and details", () => {
+        mockList([{ ...summary, platformTechnology: "SHOPWARE" }]);
+        mockDetail({ ...detail, platformTechnology: "SHOPWARE" });
+        render(<AdminListingSourcesPage />);
+
+        expect(
+            screen.getByText(testI18n.t("adminListingSources.list.platform", { code: "SHOPWARE" })),
+        ).toBeTruthy();
+        openDetails();
+        expect(
+            screen.getByText(testI18n.t("adminListingSources.fields.platformTechnology"))
+                .nextElementSibling?.textContent,
+        ).toBe("SHOPWARE");
+    });
+
+    it("reports a platform technology that is not recorded", () => {
+        mockList([summary]);
+        mockDetail(detail);
+        render(<AdminListingSourcesPage />);
+        openDetails();
+
+        expect(
+            screen.getByText(testI18n.t("adminListingSources.fields.platformTechnology"))
+                .nextElementSibling?.textContent,
+        ).toBe(testI18n.t("adminListingSources.fields.platformTechnologyNotRecorded"));
+    });
+
     it("reports a missing referral as not provided when the summary is current", () => {
         mockList([{ ...detail }]);
         mockDetail(detail);

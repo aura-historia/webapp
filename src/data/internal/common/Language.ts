@@ -30,3 +30,33 @@ export function mapToBackendLanguage(language?: Language): LanguageData | null {
             return language;
     }
 }
+
+/**
+ * Every language the backend accepts for localized source text (`LanguageData`), such as listing
+ * titles and descriptions. Wider than the app's own interface languages.
+ */
+export const SOURCE_TEXT_LANGUAGES = [
+    "de",
+    "en",
+    "es",
+    "fr",
+    "it",
+    "zh",
+    "pt",
+    "pl",
+    "tr",
+    "nl",
+    "cs",
+    "ja",
+    "ru",
+    "ar",
+] as const satisfies readonly LanguageData[];
+export type SourceTextLanguage = (typeof SOURCE_TEXT_LANGUAGES)[number];
+
+type AssertNever<T extends never> = T;
+/** Fails to compile when the backend adds a language that is missing above. */
+export type MissingSourceTextLanguages = AssertNever<Exclude<LanguageData, SourceTextLanguage>>;
+
+export function isSourceTextLanguage(value: string): value is SourceTextLanguage {
+    return (SOURCE_TEXT_LANGUAGES as readonly string[]).includes(value);
+}

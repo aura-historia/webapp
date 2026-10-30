@@ -516,6 +516,12 @@
         "maximumEstimateChanged": "La stima massima è cambiata da {{previous}} a {{current}}.",
         "availabilityChanged": "La disponibilità è cambiata da {{previous}} a {{current}}.",
         "imagesChangedWithCounts": "Il numero di immagini è cambiato da {{previousCount}} a {{currentCount}}.",
+        "titleAdded": "Titolo aggiunto.",
+        "titleChanged": "Titolo aggiornato.",
+        "titleRemoved": "Titolo rimosso.",
+        "descriptionAdded": "Descrizione aggiunta.",
+        "descriptionChanged": "Descrizione aggiornata.",
+        "descriptionRemoved": "Descrizione rimossa.",
         "auctionChanged": "I dettagli dell’asta o del lotto sono cambiati.",
         "withdrawn": "Annuncio ritirato; la disponibilità era {{previousAvailability}}.",
         "restored": "Annuncio ripristinato dalla fonte.",
@@ -1275,11 +1281,11 @@
         },
         "patch": {
           "title": "Conservare o cancellare",
-          "description": "I campi omessi conservano i valori esistenti. null cancella availability, price e ogni stima di prezzo. url: null, images: null e auction: null non sono validi (400 BAD_BODY_VALUE). images: [] cancella le immagini. Il contratto dell’intero batch viene validato prima delle transazioni."
+          "description": "I campi omessi conservano i valori esistenti. null cancella title, description, availability, price e ogni stima di prezzo. url: null, images: null e auction: null non sono validi (400 BAD_BODY_VALUE). images: [] cancella le immagini. Il contratto dell’intero batch viene validato prima delle transazioni."
         },
         "put": {
           "title": "Semantica di inserimento o aggiornamento",
-          "description": "Per gli annunci esistenti, ometta availability/prezzi per conservare, invii null per cancellare o un valore per impostare. Ometta images per conservare, [] per cancellare o un array per sostituire; null non è valido. Omettere url o inviare null conserva l’URL; un valore lo sostituisce. title/description si applicano solo alla creazione. I nuovi annunci richiedono sourceListingId, url e images; availability e prezzi omessi/null non registrano un valore."
+          "description": "Per gli annunci esistenti, ometta title, description, availability o prezzi per conservare, invii null per cancellare o un valore per impostare. Ometta images per conservare, [] per cancellare o un array per sostituire; null non è valido. Omettere url o inviare null conserva l’URL; un valore lo sostituisce. I nuovi annunci richiedono sourceListingId, url e images; title, description, availability e prezzi omessi/null non registrano un valore."
         },
         "auction": {
           "title": "Associazione all’asta e orari del lotto",
@@ -1291,7 +1297,7 @@
         },
         "woocommerce": {
           "title": "WooCommerce: da server a server",
-          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} richiede autorizzazione Bearer, x-wc-webhook-topic e x-wc-webhook-signature (HMAC-SHA256 in base64 sui byte esatti del corpo); x-wc-webhook-delivery-id è facoltativo. Conservi i segreti sul server; non li invii né li esponga nel browser. HTTP 204 senza corpo conferma l’ammissione o uno stato ignorato autorizzato, non la cattura o la visibilità. date_modified_gmt supporta UTC senza offset, Z o +00:00; altri offset non sono validi. I conflitti di digest e ordine della fonte vengono verificati a valle; una cancellazione senza data può bloccare il ripristino con WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Ripeta un’ammissione incerta senza modifiche, conservando l’ID di consegna se fornito; esamini gli errori del consumer prima di rieseguire."
+          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} richiede autorizzazione Bearer, x-wc-webhook-topic e x-wc-webhook-signature (HMAC-SHA256 in base64 sui byte esatti del corpo); x-wc-webhook-delivery-id è facoltativo. Conservi i segreti sul server; non li invii né li esponga nel browser. HTTP 204 senza corpo conferma l’ammissione o un evento ignorato autorizzato, non la cattura o la visibilità. Gli eventi di variante (type: variation) vengono ignorati; il product.updated del prodotto principale aggiorna il suo annuncio. Ogni cancellazione ritira l’annuncio il cui sourceListingId corrisponde all’id consegnato. date_modified_gmt supporta UTC senza offset, Z o +00:00; altri offset non sono validi. L’ordine della fonte si applica a valle: le osservazioni più vecchie terminano senza effetto, dopo una cancellazione senza data solo un date_modified_gmt successivo ripristina l’annuncio e, dopo una cancellazione, un UPSERT senza date_modified_gmt viene rifiutato con CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Ripeta un’ammissione incerta senza modifiche, conservando l’ID di consegna se fornito."
         }
       }
     },
@@ -1353,6 +1359,7 @@
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Non è stato trovato alcun abbonamento esistente. Avvia un nuovo processo di pagamento.",
     "unknown": "Si è verificato un errore imprevisto.",
     "SEARCH_FILTER_RESTRICTED_FEATURE": "Alcuni dei filtri attivi sono disponibili solo per utenti premium. Rimuovi questi filtri o aggiorna il tuo account per salvare un filtro di ricerca.",
+    "SEARCH_FILTER_TEMPORARILY_UNAVAILABLE": "I filtri di ricerca non sono temporaneamente disponibili. Riprova tra qualche minuto.",
     "BAD_REQUEST": "La richiesta non è valida.",
     "NOT_FOUND": "La risorsa richiesta non è stata trovata.",
     "CONFLICT": "L'azione non ha potuto essere completata a causa di un conflitto.",
@@ -1765,6 +1772,7 @@
     "list": {
       "operator": "Operatore: {{name}}",
       "noMethods": "Nessun metodo di acquisizione",
+      "platform": "Tecnologia della piattaforma: {{code}}",
       "updated": "Aggiornata {{date}}",
       "total_one": "{{count}} fonte di annunci",
       "total_other": "{{count}} fonti di annunci",
@@ -1781,6 +1789,8 @@
       "phone": "Telefono",
       "email": "E-mail",
       "ingestionMethods": "Metodi di acquisizione",
+      "platformTechnology": "Tecnologia della piattaforma",
+      "platformTechnologyNotRecorded": "Non registrata",
       "ingestionConfiguration": "Configurazione di acquisizione",
       "configurationType": "Tipo di configurazione",
       "fallbackCurrency": "Valuta di ripiego (ISO 4217)",
@@ -1830,6 +1840,7 @@
       "editDescription": "Modifica i dati della fonte. Operatore e slug sono immutabili.",
       "configurationDescription": "Facoltativo: aggiungi ora i metodi di acquisizione configurati oppure lascia la lista vuota per configurarli in seguito.",
       "referralDescription": "Dati referral Partnerize facoltativi. Qui non vengono salvate credenziali del fornitore.",
+      "platformTechnologyDescription": "Codice facoltativo in lettere maiuscole, cifre e trattini bassi, ad esempio SHOPIFY o BIGCOMMERCE. Descrive solo il software del negozio: non attiva l’acquisizione e non implica un’app installata né una partnership. Lascialo vuoto per non registrare alcuna piattaforma.",
       "replaceConfiguration": "Sostituisci la configurazione di acquisizione",
       "incompleteConfigurationNotice": "L’API di lettura non restituisce i valori di configurazione. Lascia l’opzione disattivata per mantenere le impostazioni attuali. Attivandola sostituirai le impostazioni di tutti i metodi attivi.",
       "secretPreservationNotice": "Questo segreto è solo scrivibile e non viene mai letto di nuovo. Lascialo vuoto per mantenere un segreto esistente; inserisci un valore per impostarlo o ruotarlo.",
@@ -1858,7 +1869,7 @@
     "errors": {
       "forbidden": "Non hai l’autorizzazione per gestire le fonti di annunci.",
       "missing": "Fonte di annunci non trovata o non più disponibile.",
-      "createConflict": "La fonte è in conflitto con una configurazione del fornitore esistente. Esamina le fonti attuali e riprova.",
+      "createConflict": "La fonte è in conflitto con una configurazione del fornitore esistente, oppure ogni slug generato dal suo nome o dal nome del nuovo operatore è già in uso. Esamina le fonti attuali o scegli un nome più distintivo prima di riprovare.",
       "updateConflict": "La fonte è stata modificata durante l’operazione. Ricarica i dettagli prima di riprovare.",
       "deleteConflict": "La fonte ha annunci o relazioni conservate e non può essere eliminata. Non è stato rimosso alcun dato correlato.",
       "invalid": "Controlla i dati della fonte e le impostazioni di acquisizione, quindi riprova.",
@@ -1875,7 +1886,8 @@
       "shopifyDomainRequired": "Inserisci il dominio del negozio Shopify.",
       "webhookSecretRequired": "Inserisci il segreto webhook WooCommerce.",
       "camrefRequired": "Inserisci il riferimento campagna Partnerize.",
-      "unsupportedCurrency": "Inserisci un codice valuta ISO 4217 supportato, ad esempio EUR o SEK."
+      "unsupportedCurrency": "Inserisci un codice valuta ISO 4217 supportato, ad esempio EUR o SEK.",
+      "platformTechnology": "Inserisci un codice di massimo 64 caratteri che inizi con una lettera e contenga solo lettere, cifre e trattini bassi singoli, ad esempio BIGCOMMERCE."
     },
     "locationDefault": {
       "title": "Sede predefinita",
@@ -2607,7 +2619,7 @@
       "REJECT": "Richiesta rifiutata."
     },
     "errors": {
-      "conflict": "Questa richiesta è stata modificata nel frattempo o non consente più questa azione. È stato caricato lo stato attuale.",
+      "conflict": "Questa richiesta è stata modificata nel frattempo o non consente più questa azione, oppure ogni slug generato per il nome dell’organizzazione o della fonte proposto è già in uso. È stato caricato lo stato attuale.",
       "missing": "Richiesta non trovata o non disponibile."
     }
   },
@@ -2692,7 +2704,7 @@
     "errors": {
       "forbidden": "Non hai l’autorizzazione per accedere ai recapiti dell’organizzazione.",
       "missing": "Organizzazione non trovata o non più disponibile.",
-      "createConflict": "Non è stato possibile creare l’organizzazione perché l’identificatore generato è in conflitto con un record esistente. Controlla le organizzazioni presenti prima di riprovare.",
+      "createConflict": "Non è stato possibile creare l’organizzazione perché ogni identificatore URL generato dal suo nome è già in uso. Controlla le organizzazioni presenti o scegli un nome più distintivo prima di riprovare.",
       "updateConflict": "L’organizzazione è stata modificata mentre la stavi aggiornando. Chiudi il modulo e riaprilo per modificare la versione più recente.",
       "deleteConflict": "Non è stato possibile eliminare questa organizzazione perché potrebbe avere ancora sedi registrate o essere collegata a una fonte di annunci o a una partnership. Nessun record correlato è stato eliminato.",
       "invalid": "Controlla i dati dell’organizzazione e riprova.",
@@ -3562,6 +3574,9 @@
       "url": "URL originale",
       "originalTitle": "Titolo originale",
       "originalDescription": "Descrizione originale",
+      "text": "Testo originale",
+      "titleLanguage": "Lingua del titolo",
+      "descriptionLanguage": "Lingua della descrizione",
       "images": "Immagini",
       "auction": "Asta e lotto",
       "lotNumber": "Numero di lotto",
@@ -3571,7 +3586,8 @@
       "estimateMin": "Stima minima",
       "estimateMax": "Stima massima",
       "currency": "Valuta",
-      "chooseCurrency": "Scegli una valuta"
+      "chooseCurrency": "Scegli una valuta",
+      "chooseLanguage": "Scegli una lingua"
     },
     "lifecycles": {
       "ACTIVE": "Attivo",
@@ -3601,14 +3617,14 @@
       "eyebrow": "Record dell’annuncio di prodotto",
       "convergence": "Le modifiche apportate qui aggiornano il record di riferimento dell’annuncio. La ricerca pubblica, le pagine degli annunci e le cache si aggiornano in modo asincrono, e un’importazione successiva dalla fonte può sovrascrivere queste modifiche o ripristinare un annuncio ritirato. Sono correzioni, non sostituzioni permanenti.",
       "factsTitle": "Dati registrati",
-      "factsDescription": "Identità, testo originale, osservazione di vendita e marche temporali sono di sola lettura. Il ciclo di vita si modifica con le azioni Ritira e Ripristina.",
+      "factsDescription": "Identità, osservazione di vendita e marche temporali sono di sola lettura. Il testo originale e gli altri dati si modificano qui sotto; il ciclo di vita si modifica con le azioni Ritira e Ripristina.",
       "sourceListingIdScope": "Univoco solo all’interno di questa fonte.",
       "noSaleObservation": "Nessuna registrata",
       "noText": "Nessuno registrato"
     },
     "edit": {
       "title": "Modifica i dati dell’annuncio",
-      "description": "Puoi modificare solo prezzo, stime, disponibilità, URL, immagini e dati dell’asta. Il salvataggio invia solo i valori che hai modificato.",
+      "description": "Puoi modificare solo titolo e descrizione originali, prezzo, stime, disponibilità, URL, immagini e dati dell’asta. Il salvataggio invia solo i valori che hai modificato.",
       "withdrawnLocked": "Questo annuncio è ritirato. Ripristinalo prima di modificarlo; le modifiche non salvate restano nel modulo.",
       "lifecycleUnknownLocked": "Il ciclo di vita di questo annuncio non è riconosciuto, quindi non può essere modificato qui.",
       "stale": "Questo annuncio è cambiato dopo che hai iniziato la modifica ed è ora alla versione {{version}}. Mantieni le tue modifiche per riapplicare solo i valori che hai modificato all’ultima versione, oppure scartale per caricare i valori più recenti.",
@@ -3616,6 +3632,9 @@
       "noChanges": "Non ci sono modifiche da salvare.",
       "saved": "Modifiche salvate. La ricerca pubblica e le pagine degli annunci si aggiornano in modo asincrono.",
       "unchanged": "L’annuncio aveva già questi valori; non è stato modificato nulla.",
+      "textHelp": "Inserisci il testo originale della fonte nella lingua in cui è scritto, non una traduzione. Lascia un campo vuoto per rimuovere il testo. Traduzioni, valutazione dei contenuti e ricerca si aggiornano in modo asincrono.",
+      "titleHelp": "I titoli vengono normalizzati: lettere e cifre stilizzate diventano testo normale, emoji e simboli decorativi vengono rimossi, la prima lettera diventa maiuscola e il punto finale viene eliminato. I titoli oltre 128 caratteri vengono abbreviati con «...». Un titolo senza testo residuo viene rifiutato.",
+      "titleTooLong": "Questo titolo supera i 128 caratteri e verrà abbreviato al salvataggio.",
       "pricingHelp": "Gli importi sono nella valuta della fonte. Usa un punto o una virgola decimale, senza separatori delle migliaia. Scegli «Non specificato» per rimuovere il prezzo.",
       "estimateHelp": "Lascia vuoto l’importo di una stima per rimuoverla.",
       "availabilityHelp": "«Non specificato» rimuove la disponibilità; non significa «non disponibile».",
@@ -3687,6 +3706,7 @@
       "invalidId": "Questo ID dell’annuncio di prodotto non è valido. Gli ID degli annunci di prodotti iniziano con «pl_».",
       "invalidSearch": "Non è stato possibile applicare questi filtri. Controlla gli ID e il testo di ricerca, poi riprova.",
       "invalid": "La richiesta è stata rifiutata. Controlla i valori e riprova.",
+      "invalidTitle": "Il titolo è stato rifiutato. Inserisci un titolo che contenga ancora lettere o cifre dopo la rimozione di emoji e simboli decorativi.",
       "auctionMissing": "L’asta selezionata non è stata trovata.",
       "auctionSourceMismatch": "L’asta selezionata appartiene a un’altra fonte.",
       "versionConflict": "Questo annuncio è cambiato prima che la tua richiesta venisse applicata. È stata caricata l’ultima versione; esaminala prima di riprovare.",
@@ -3699,6 +3719,7 @@
       "filterTooLong": "Inserisci al massimo 512 byte UTF-8.",
       "amountRequired": "Inserisci un importo.",
       "currencyRequired": "Scegli una valuta.",
+      "languageRequired": "Scegli la lingua in cui è scritto questo testo.",
       "amountFormat": "Inserisci un importo non negativo in cifre, con un eventuale punto o virgola decimale, senza separatori delle migliaia.",
       "amountNoDecimals": "Questa valuta non ha sottounità. Inserisci un importo intero.",
       "amountTwoDecimals": "Inserisci al massimo due decimali.",

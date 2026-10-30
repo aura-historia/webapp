@@ -166,6 +166,7 @@ describe("admin ListingSource API", () => {
             configurations: [],
             url: "",
             image: "",
+            platformTechnology: "",
             partnerizeCamref: "",
         };
         let reference: { listingSourceId: string; listingSourceSlugId: string } | undefined;
@@ -202,6 +203,7 @@ describe("admin ListingSource API", () => {
                         url: "https://antique.example",
                         image: "",
                         referralAction: "KEEP",
+                        platformTechnology: "",
                         partnerizeCamref: "",
                         replaceIngestionConfiguration: false,
                         configurations: defaultUpdateConfigurations(source.ingestionMethods),

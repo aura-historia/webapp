@@ -4,10 +4,12 @@ import {
     CURRENCY_MINOR_UNIT_EXPONENTS,
     type Currency,
 } from "@/data/internal/common/Currency.ts";
+import { isSourceTextLanguage } from "@/data/internal/common/Language.ts";
 import type {
     AdminProductListingAuctionPatch,
     AdminProductListingDetail,
     AdminProductListingPatch,
+    AdminProductListingTextPatch,
     AdminProductListingTimingPatch,
 } from "@/data/internal/product/AdminProductListing.ts";
 import {
@@ -20,15 +22,24 @@ import {
 export const ADMIN_PRODUCT_LISTING_PRICE_KINDS = ["NONE", "MONETARY", "ON_REQUEST"] as const;
 export type AdminProductListingPriceKind = (typeof ADMIN_PRODUCT_LISTING_PRICE_KINDS)[number];
 
+/** Longer titles are shortened by the backend, not rejected. */
+export const LISTING_TITLE_MAX_CHARACTERS = 128;
+
 /** Backend bounds for lot facts. */
 const LOT_NUMBER_MAX_BYTES = 128;
 const CATALOGUE_POSITION_MAX = 4_294_967_295;
 
 /**
- * Edit-form state. Amounts are decimal text in major units; an empty currency means none was
+ * Edit-form state. Text is the original source text; an empty language means none was chosen,
+ * never a default. Amounts are decimal text in major units; an empty currency means none was
  * chosen, never a default. Timing values are UTC `YYYY-MM-DDTHH:mm[:ss]`.
  */
 export type AdminProductListingFormValues = {
+    title: string;
+    /** A stored language outside `SOURCE_TEXT_LANGUAGES` is kept for display but never sent. */
+    titleLanguage: string;
+    description: string;
+    descriptionLanguage: string;
     priceKind: AdminProductListingPriceKind;
     priceAmount: string;
     priceCurrency: Currency | "";
@@ -118,12 +129,18 @@ function estimateValues(estimate: ListingPriceEstimate | null, fallback: Currenc
 export function toAdminProductListingFormValues(
     listing: AdminProductListingDetail,
 ): AdminProductListingFormValues {
+    // New text starts in the listing's other text's language; without one the admin chooses.
+    const fallbackLanguage = listing.title?.language ?? listing.description?.language ?? "";
     // A new amount starts in the listing's own currency; without one the admin chooses explicitly.
     const fallbackCurrency = knownCurrencies(listing)[0] ?? "";
     const price = listing.price;
     const estimateMin = estimateValues(listing.priceEstimateMin, fallbackCurrency);
     const estimateMax = estimateValues(listing.priceEstimateMax, fallbackCurrency);
     return {
+        title: listing.title?.text ?? "",
+        titleLanguage: listing.title?.language ?? fallbackLanguage,
+        description: listing.description?.text ?? "",
+        descriptionLanguage: listing.description?.language ?? fallbackLanguage,
         priceKind: price?.type ?? "NONE",
         priceAmount:
             price?.type === "MONETARY" ? formatMinorUnits(price.amount, price.currency) : "",
@@ -164,6 +181,12 @@ function sameMoney(
     return parsedA.ok && parsedB.ok && parsedA.amount === parsedB.amount;
 }
 
+function sameText(textA: string, languageA: string, textB: string, languageB: string): boolean {
+    const a = textA.trim();
+    // Without text the language selection carries no value.
+    return a === textB.trim() && (a === "" || languageA === languageB);
+}
+
 function sameInstant(a: string, b: string): boolean {
     if (a === b) return true;
     const dateA = parseUtcInputValue(a);
@@ -189,6 +212,16 @@ type Values = AdminProductListingFormValues;
  * listing as it was when the draft began, and a rebase keeps exactly those groups.
  */
 const FORM_GROUPS = {
+    title: {
+        fields: ["title", "titleLanguage"],
+        same: (a: Values, b: Values) =>
+            sameText(a.title, a.titleLanguage, b.title, b.titleLanguage),
+    },
+    description: {
+        fields: ["description", "descriptionLanguage"],
+        same: (a: Values, b: Values) =>
+            sameText(a.description, a.descriptionLanguage, b.description, b.descriptionLanguage),
+    },
     price: {
         fields: ["priceKind", "priceAmount", "priceCurrency"],
         same: (a: Values, b: Values) =>
@@ -276,6 +309,16 @@ function requireMinorUnits(amount: string, currency: Currency | ""): number {
     return parsed.amount;
 }
 
+/** Empty text clears; otherwise the trimmed text keeps its validated language. */
+function toTextPatch(text: string, language: string): AdminProductListingTextPatch | null {
+    const trimmed = text.trim();
+    if (trimmed === "") return null;
+    if (!isSourceTextLanguage(language)) {
+        throw new Error("Validate the listing form before building a patch.");
+    }
+    return { text: trimmed, language };
+}
+
 function toPrice(values: Values): ListingPrice | null {
     if (values.priceKind === "NONE") return null;
     if (values.priceKind === "ON_REQUEST") return { type: "ON_REQUEST" };
@@ -336,6 +379,10 @@ export function buildAdminProductListingPatch(
     const changed = changedGroups(values, original);
     const auction = toAuctionPatch(values, changed);
     return {
+        ...(changed.has("title") && { title: toTextPatch(values.title, values.titleLanguage) }),
+        ...(changed.has("description") && {
+            description: toTextPatch(values.description, values.descriptionLanguage),
+        }),
         ...(changed.has("price") && { price: toPrice(values) }),
         ...(changed.has("priceEstimateMin") && {
             priceEstimateMin: toEstimate(values.estimateMinAmount, values.estimateMinCurrency),
@@ -417,6 +464,12 @@ function moneyIssues(
     return [{ path: [amountField], message }];
 }
 
+function textIssues(languageField: keyof Values, text: string, language: string): FormIssue[] {
+    return text.trim() !== "" && !isSourceTextLanguage(language)
+        ? [{ path: [languageField], message: "adminProductListings.validation.languageRequired" }]
+        : [];
+}
+
 function instantIssues(field: keyof Values, value: string): FormIssue[] {
     return parseUtcInputValue(value) === undefined
         ? [{ path: [field], message: "adminProductListings.validation.invalidDateTime" }]
@@ -427,6 +480,14 @@ function instantIssues(field: keyof Values, value: string): FormIssue[] {
 export function validateAdminProductListingForm(values: Values, original: Values): FormIssue[] {
     const changed = changedGroups(values, original);
     const issues: FormIssue[] = [];
+    if (changed.has("title")) {
+        issues.push(...textIssues("titleLanguage", values.title, values.titleLanguage));
+    }
+    if (changed.has("description")) {
+        issues.push(
+            ...textIssues("descriptionLanguage", values.description, values.descriptionLanguage),
+        );
+    }
     if (changed.has("price") && values.priceKind === "MONETARY") {
         issues.push(
             ...moneyIssues(
@@ -513,6 +574,10 @@ const currencyValue = z.union([z.literal(""), z.enum(CURRENCIES)]);
 export function createAdminProductListingFormSchema(original: Values) {
     return z
         .object({
+            title: z.string(),
+            titleLanguage: z.string(),
+            description: z.string(),
+            descriptionLanguage: z.string(),
             priceKind: z.enum(ADMIN_PRODUCT_LISTING_PRICE_KINDS),
             priceAmount: z.string(),
             priceCurrency: currencyValue,
