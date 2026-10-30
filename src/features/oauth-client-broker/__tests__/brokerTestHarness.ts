@@ -38,7 +38,7 @@ export function createBrokerEnv() {
 export function installBrokerBindings() {
     const objects = new Map<string, WooCommerceOAuthBrokerTransaction>();
     const states = new Map<string, ReturnType<typeof createSqliteDurableObjectState>>();
-    const limit = vi.fn(async (_options: { key: string }) => ({ success: true }));
+    const limit = vi.fn((_options: { key: string }) => Promise.resolve({ success: true }));
 
     workerExports[BROKER_TRANSACTIONS_EXPORT] = {
         idFromName: (name: string): DurableObjectId => ({ toString: () => name }),
@@ -126,8 +126,14 @@ export function createBackend(script: BackendScript = {}) {
     const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
         const url = requestUrl(input);
         const headers = new Headers(input instanceof Request ? input.headers : init?.headers);
-        const rawBody = init?.body ?? (input instanceof Request ? await input.text() : undefined);
-        const body = rawBody === undefined ? undefined : new URLSearchParams(rawBody.toString());
+        // The broker sends form bodies as `URLSearchParams`; the generated client sends `Request`s.
+        const rawBody =
+            init?.body instanceof URLSearchParams
+                ? init.body.toString()
+                : input instanceof Request
+                  ? await input.text()
+                  : undefined;
+        const body = rawBody === undefined ? undefined : new URLSearchParams(rawBody);
         calls.push({ path: url.pathname, url, body, headers });
 
         if (url.pathname === "/v1/oauth/authorize") {

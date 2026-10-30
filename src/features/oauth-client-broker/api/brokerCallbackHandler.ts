@@ -14,6 +14,7 @@ import {
     revokeAccessToken,
 } from "@/features/oauth-client-broker/server/brokerBackend.ts";
 import { getBrokerTransaction } from "@/features/oauth-client-broker/server/brokerBindings.ts";
+import type { ExchangeClaim } from "@/features/oauth-client-broker/server/brokerTransactionMachine.ts";
 import {
     getWooCommerceBrokerConfig,
     type WooCommerceBrokerConfig,
@@ -72,53 +73,61 @@ export async function getWooCommerceBrokerCallback({ request }: { request: Reque
             claim.error === "binding_mismatch" ? "session_mismatch" : "invalid_request",
         );
     }
-    const clearBinding = [clearSessionBindingCookie(transactionId)];
+    return exchangeAndHandOff({ transaction, transactionId, code, claim: claim.value, config });
+}
 
+/**
+ * Redeems the claimed code once and hands the outcome to the merchant: the stored credential, or
+ * the failure. A credential that cannot be kept is revoked rather than left issued.
+ */
+async function exchangeAndHandOff(params: {
+    readonly transaction: BrokerTransactionStub;
+    readonly transactionId: string;
+    readonly code: string;
+    readonly claim: ExchangeClaim;
+    readonly config: WooCommerceBrokerConfig;
+}): Promise<Response> {
+    const { transaction, claim, config } = params;
+    const clearBinding = [clearSessionBindingCookie(params.transactionId)];
     const exchange = await exchangeAuthorizationCode({
-        code,
-        codeVerifier: claim.value.codeVerifier,
-        ...(claim.value.resource === undefined ? {} : { resource: claim.value.resource }),
+        code: params.code,
+        codeVerifier: claim.codeVerifier,
+        ...(claim.resource === undefined ? {} : { resource: claim.resource }),
         config,
         now: Date.now,
     });
 
     const completionCode = createRandomBase64Url();
     const completionCodeHash = await sha256Base64Url(completionCode);
-    const handoff = {
-        transactionId,
-        clientState: claim.value.clientState,
-        completionCode,
-    };
+    const handoffResponse = () =>
+        redirectResponse(
+            buildMerchantHandoffUrl(claim.merchantRedirectUri, {
+                transactionId: params.transactionId,
+                clientState: claim.clientState,
+                completionCode,
+            }),
+            clearBinding,
+        );
 
     if (!exchange.ok) {
         try {
             const failed = await transaction.failExchange(exchange.error, completionCodeHash);
-            if (!failed.ok) return consentError("invalid_request", clearBinding);
+            return failed.ok ? handoffResponse() : consentError("invalid_request", clearBinding);
         } catch {
             return storageUnavailable("fail", clearBinding);
         }
-        return redirectResponse(
-            buildMerchantHandoffUrl(claim.value.merchantRedirectUri, handoff),
-            clearBinding,
-        );
     }
 
     try {
         const stored = await transaction.storeCredential(exchange.credential, completionCodeHash);
-        if (!stored.ok) {
-            await revokeUndelivered(exchange.credential.accessToken, config);
-            return consentError("invalid_request", clearBinding);
-        }
+        if (stored.ok) return handoffResponse();
+        await revokeUndelivered(exchange.credential.accessToken, config);
+        return consentError("invalid_request", clearBinding);
     } catch {
         // The exchange succeeded but the result could not be kept: never leave it issued.
         await revokeUndelivered(exchange.credential.accessToken, config);
         return storageUnavailable("store", clearBinding);
     }
-
-    return redirectResponse(
-        buildMerchantHandoffUrl(claim.value.merchantRedirectUri, handoff),
-        clearBinding,
-    );
 }
 
 /**

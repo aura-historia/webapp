@@ -28,16 +28,19 @@ export function createSqliteDurableObjectState() {
                     return { toArray: () => rows };
                 },
             },
-            async setAlarm(scheduledTime: number) {
+            setAlarm(scheduledTime: number) {
                 state.alarm = scheduledTime;
+                return Promise.resolve();
             },
-            async deleteAlarm() {
+            deleteAlarm() {
                 state.alarm = undefined;
+                return Promise.resolve();
             },
-            async deleteAll() {
+            deleteAll() {
                 database.close();
                 database = new DatabaseSync(":memory:");
                 state.deletedAll++;
+                return Promise.resolve();
             },
         },
     };
