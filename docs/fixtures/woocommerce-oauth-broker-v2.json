@@ -1,0 +1,117 @@
+{
+  "description": "Sanitized fixtures of the WooCommerce OAuth broker protocol v2, shared with aura-historia/woocommerce-extension#126. Values are examples; random values are 32 bytes as base64url without padding. The normative contract is docs/oauth-protocol-guidelines.md.",
+  "protocol_version": 2,
+  "encoding": {
+    "random_value_pattern": "^[A-Za-z0-9_-]{43}$",
+    "client_value_pattern": "^[A-Za-z0-9_-]{43,128}$",
+    "completion_challenge_example": {
+      "completion_secret": "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk",
+      "completion_challenge": "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+      "completion_challenge_method": "S256"
+    }
+  },
+  "endpoints": {
+    "initiate": "POST https://aura-historia.com/api/oauth/broker/woocommerce/initiate",
+    "authorization": "GET https://aura-historia.com/oauth/authorize?transaction_id={transaction_id}",
+    "complete": "POST https://aura-historia.com/api/oauth/broker/woocommerce/complete",
+    "stage_origin": "https://stage.aura-historia.com"
+  },
+  "initiate": {
+    "request": {
+      "content_type": "application/x-www-form-urlencoded",
+      "form": {
+        "protocol_version": "2",
+        "client_id": "oc_01m5vyvraxecksre2zepjcza88",
+        "merchant_redirect_uri": "https://shop.example/wp-admin/admin.php?page=aura-historia",
+        "client_state": "mRB0dSUtBEyJrgVt6xQGFFn0Wd6p8pcQxLwVHAwkiBs",
+        "scope": "product-listings:write listing-sources:write",
+        "completion_challenge": "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+        "completion_challenge_method": "S256"
+      }
+    },
+    "response": {
+      "status": 201,
+      "body": {
+        "protocol_version": 2,
+        "transaction_id": "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
+        "authorization_url": "https://aura-historia.com/oauth/authorize?transaction_id=q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
+        "expires_at": "2026-10-30T12:15:00.000Z"
+      }
+    }
+  },
+  "merchant_handoff": {
+    "location": "https://shop.example/wp-admin/admin.php?page=aura-historia&transaction_id=q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I&state=mRB0dSUtBEyJrgVt6xQGFFn0Wd6p8pcQxLwVHAwkiBs&completion_code=4Hm0wQ1dE9x2Lr7pYcVn6sKa3TbZ8uJf5gOiWlNqXyE",
+    "protocol_params": ["transaction_id", "state", "completion_code"],
+    "never_present": ["access_token", "code", "code_verifier", "completion_secret", "listing_source_id", "third_party_exchange_code"]
+  },
+  "complete": {
+    "request": {
+      "content_type": "application/x-www-form-urlencoded",
+      "form": {
+        "protocol_version": "2",
+        "transaction_id": "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
+        "completion_code": "4Hm0wQ1dE9x2Lr7pYcVn6sKa3TbZ8uJf5gOiWlNqXyE",
+        "completion_secret": "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
+      }
+    },
+    "responses": {
+      "authorized": {
+        "status": 200,
+        "body": {
+          "protocol_version": 2,
+          "transaction_id": "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
+          "client_state": "mRB0dSUtBEyJrgVt6xQGFFn0Wd6p8pcQxLwVHAwkiBs",
+          "outcome": "authorized",
+          "listing_source_id": "ls_6rd827eqfefsva9teecmwa3ate",
+          "access_token": "aurahistoria_example_access_token",
+          "token_type": "Bearer",
+          "scope": "product-listings:write listing-sources:write"
+        },
+        "optional_fields": {
+          "resource": "Present only when the initiation requested one; the exact requested value.",
+          "access_token_expires_at": "Present only when the backend returned expires_in; RFC 3339 UTC."
+        }
+      },
+      "denied": {
+        "status": 200,
+        "body": {
+          "protocol_version": 2,
+          "transaction_id": "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
+          "client_state": "mRB0dSUtBEyJrgVt6xQGFFn0Wd6p8pcQxLwVHAwkiBs",
+          "outcome": "denied",
+          "error": "access_denied"
+        }
+      },
+      "failed": {
+        "status": 200,
+        "body": {
+          "protocol_version": 2,
+          "transaction_id": "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
+          "client_state": "mRB0dSUtBEyJrgVt6xQGFFn0Wd6p8pcQxLwVHAwkiBs",
+          "outcome": "failed",
+          "error": "invalid_grant"
+        },
+        "errors": ["invalid_scope", "invalid_target", "invalid_grant", "server_error", "temporarily_unavailable"]
+      }
+    }
+  },
+  "endpoint_errors": [
+    { "error": "invalid_request", "status": 400, "retryable": false },
+    { "error": "unsupported_protocol_version", "status": 400, "retryable": false },
+    { "error": "invalid_client", "status": 400, "retryable": false },
+    { "error": "invalid_redirect_uri", "status": 400, "retryable": false },
+    { "error": "invalid_scope", "status": 400, "retryable": false },
+    { "error": "invalid_target", "status": 400, "retryable": false },
+    { "error": "invalid_completion_challenge", "status": 400, "retryable": false },
+    { "error": "invalid_transaction", "status": 400, "retryable": false },
+    { "error": "invalid_code", "status": 400, "retryable": false },
+    { "error": "invalid_proof", "status": 400, "retryable": false },
+    { "error": "authorization_pending", "status": 409, "retryable": true },
+    { "error": "already_consumed", "status": 409, "retryable": false },
+    { "error": "expired_transaction", "status": 410, "retryable": false },
+    { "error": "rate_limited", "status": 429, "retryable": true },
+    { "error": "server_error", "status": 500, "retryable": false },
+    { "error": "temporarily_unavailable", "status": 503, "retryable": true }
+  ],
+  "endpoint_error_body_example": { "protocol_version": 2, "error": "invalid_proof", "retryable": false }
+}

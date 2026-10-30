@@ -3,9 +3,38 @@
   "name": "aura-historia-staging",
   "compatibility_date": "2025-09-02",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry",
+  // TanStack Start's server entry plus the exported Durable Object classes.
+  "main": "./src/worker.ts",
   // The registered WooCommerce OAuth client, as a canonical `oc_` TypeID. Its secret is a Worker secret.
   "vars": {
     "OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID": "oc_01m5vyvraxecksre2zepjcza88"
-  }
+  },
+  // WooCommerce OAuth broker transactions: one SQLite-backed object per transaction. Namespaces
+  // belong to the Worker, so staging (`aura-historia-staging`), production (`aura-historia`) and
+  // local development each keep their own transactions.
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "OAUTH_BROKER_WOOCOMMERCE_TRANSACTIONS",
+        "class_name": "WooCommerceOAuthBrokerTransaction"
+      }
+    ]
+  },
+  // Production releases upload versions, which cannot apply migrations: a new migration needs the
+  // one-time "Apply production Durable Object migrations" workflow (see README).
+  "migrations": [
+    {
+      "tag": "v1-oauth-broker-transactions",
+      "new_sqlite_classes": ["WooCommerceOAuthBrokerTransaction"]
+    }
+  ],
+  // Initiation and completion attempts per client address and minute. Staging and production
+  // share the namespace; keys carry the deployment's origin.
+  "ratelimits": [
+    {
+      "name": "OAUTH_BROKER_WOOCOMMERCE_RATE_LIMITER",
+      "namespace_id": "1025",
+      "simple": { "limit": 30, "period": 60 }
+    }
+  ]
 }

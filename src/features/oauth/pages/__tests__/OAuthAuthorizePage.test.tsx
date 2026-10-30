@@ -11,6 +11,7 @@ import {
     ACCESS_TOKEN_SCOPE_METADATA,
 } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import testI18n from "@/i18n/i18nForTests.ts";
+import { env } from "@/env.ts";
 
 const navigate = vi.hoisted(() => vi.fn());
 vi.mock("@tanstack/react-router", async (importOriginal) => ({
@@ -265,6 +266,31 @@ describe("OAuthAuthorizePage", () => {
         expect(screen.queryByRole("button")).not.toBeInTheDocument();
         expect(document.querySelector("form")).not.toBeInTheDocument();
         expect(navigate).not.toHaveBeenCalled();
+    });
+
+    it("sends a direct request for the WooCommerce broker callback back to WordPress", async () => {
+        const mutableEnv = env as { VITE_APP_URL?: string };
+        const previousAppUrl = mutableEnv.VITE_APP_URL;
+        mutableEnv.VITE_APP_URL = "https://aura-historia.com";
+        try {
+            await act(async () =>
+                renderWithRouter(
+                    <OAuthAuthorizePage
+                        searchParams={{
+                            ...defaultSearchParams,
+                            redirect_uri:
+                                "https://aura-historia.com/api/oauth/client/redirect-broker/woocommerce",
+                        }}
+                    />,
+                ),
+            );
+
+            expect(screen.getByText("Verbindung in WordPress starten")).toBeInTheDocument();
+            expect(screen.queryByRole("button")).not.toBeInTheDocument();
+            expect(document.querySelector("form")).not.toBeInTheDocument();
+        } finally {
+            mutableEnv.VITE_APP_URL = previousAppUrl;
+        }
     });
 
     it("offers consent for a registered redirect URI with a query and keeps it on denial", async () => {

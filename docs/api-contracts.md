@@ -19,9 +19,9 @@ admin workflows in [admin workflows](admin-workflows.md).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
-  every hand-built backend URL (OAuth approval and broker token exchange, the similar-listings
+  every hand-built backend URL (OAuth approval and the broker's authorize, token and revoke calls, the similar-listings
   `Location` check, partner examples) use `/v1`. Webapp-owned `/api/...` routes, such as
-  `/api/oauth/authorize/approve` and the OAuth client redirect broker, are this app's own routes and
+  `/api/oauth/authorize/approve`, the OAuth client redirect broker and `/api/oauth/broker/woocommerce/*`, are this app's own routes and
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
@@ -59,17 +59,19 @@ admin workflows in [admin workflows](admin-workflows.md).
     this app's `/en/oauth/authorize` as the authorization endpoint, so the consent page accepts an
     optional `resource` (for example the MCP identifier) and passes it unchanged to
     `/v1/oauth/authorize`; the backend validates and binds it, and the client repeats it at token
-    exchange. Without it the grant keeps the shared Aura default. The redirect broker classifies
-    token-exchange failures by status and the `invalid_client` identifier, logs only the status
-    and a known `OAuthErrorData` identifier, and sends no `resource`.
+    exchange. Without it the grant keeps the shared Aura default. The WooCommerce broker
+    classifies token-exchange failures by status and OAuth identifier, logs only the status and
+    a known `OAuthErrorData` identifier, and repeats the transaction's stored `resource`, if any,
+    at token exchange (protocol v2, `docs/oauth-protocol-guidelines.md`).
     `getOAuthAuthorizationServerMetadata` is generated-only.
   - **Cognito-only credential operations** ([backend#2212](https://github.com/aura-historia/backend/issues/2212),
     [backend#2214](https://github.com/aura-historia/backend/issues/2214)): `postMyAccessToken` and
     `adminCreateOAuthClient` no longer accept `AccessTokenAuth` and may return `403`. The browser
     always sends its Cognito access JWT; errors already go through `mapToInternalApiError`.
   - **`OAuthTokenResponseData`:** `expires_in` is non-nullable (omitted for non-expiring tokens)
-    and `token_type` is the literal `Bearer`. The redirect broker reads only
-    `third_party_exchange_code`.
+    and `token_type` is the literal `Bearer`. The WooCommerce broker reads `access_token`,
+    `token_type`, `scope` and `expires_in` and drops `third_party_exchange_code`; it never
+    forwards or redeems that code.
   - Description-only changes elsewhere, including the partner batch operations.
 - The `9c9204dfce` capture added the public overview and the shipping epic
   ([backend#2146](https://github.com/aura-historia/backend/pull/2146)), renamed the search exclusion
