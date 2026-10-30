@@ -19,7 +19,8 @@ interface WorkerConfig {
     readonly main?: string;
     readonly vars?: Record<string, string>;
     readonly durable_objects?: { bindings?: Array<{ name: string; class_name: string }> };
-    readonly migrations?: Array<{ tag: string; new_sqlite_classes?: string[] }>;
+    readonly migrations?: unknown[];
+    readonly exports?: Record<string, { type: string; storage?: string }>;
     readonly ratelimits?: Array<{ name: string; simple: { limit: number; period: number } }>;
 }
 
@@ -51,11 +52,12 @@ describe("WooCommerce OAuth broker deployment config", () => {
         expect(wranglerConfig.main).toBe("./src/worker.ts");
         expect(binding?.class_name).toBe("WooCommerceOAuthBrokerTransaction");
         expect(workerEntry).toContain("export { WooCommerceOAuthBrokerTransaction }");
-        expect(
-            wranglerConfig.migrations?.some((migration) =>
-                migration.new_sqlite_classes?.includes("WooCommerceOAuthBrokerTransaction"),
-            ),
-        ).toBe(true);
+        // Version uploads (releases, branch builds) apply exports but refuse pending migrations.
+        expect(wranglerConfig.exports?.WooCommerceOAuthBrokerTransaction).toEqual({
+            type: "durable-object",
+            storage: "sqlite",
+        });
+        expect(wranglerConfig.migrations ?? []).toEqual([]);
     });
 
     it("configures the initiation and completion rate limiter", () => {

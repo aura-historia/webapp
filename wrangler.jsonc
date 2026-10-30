@@ -20,14 +20,11 @@
       }
     ]
   },
-  // Production releases upload versions, which cannot apply migrations: a new migration needs the
-  // one-time "Apply production Durable Object migrations" workflow (see README).
-  "migrations": [
-    {
-      "tag": "v1-oauth-broker-transactions",
-      "new_sqlite_classes": ["WooCommerceOAuthBrokerTransaction"]
-    }
-  ],
+  // Declarative Durable Object lifecycle: unlike `migrations`, it is applied by `wrangler versions
+  // upload`, which production releases and branch builds use.
+  "exports": {
+    "WooCommerceOAuthBrokerTransaction": { "type": "durable-object", "storage": "sqlite" }
+  },
   // Initiation and completion attempts per client address and minute. Staging and production
   // share the namespace; keys carry the deployment's origin.
   "ratelimits": [
