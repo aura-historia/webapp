@@ -2919,6 +2919,53 @@
       "unavailable": {
         "title": "Autorisierung nicht verfügbar",
         "description": "Die registrierten Angaben dieser Anwendung können derzeit nicht geprüft werden. Bitte versuchen Sie es später erneut."
+      },
+      "brokerRequired": {
+        "title": "Verbindung in WordPress starten",
+        "description": "Dieser WooCommerce-Verbindungslink wird nicht mehr unterstützt. Starten Sie die Verbindung erneut in Ihrem WordPress-Adminbereich und aktualisieren Sie das Aura-Historia-Plugin, falls dies wiederholt auftritt."
+      },
+      "broker": {
+        "recipient": {
+          "label": "Empfänger der Verbindung",
+          "description": "Aura Historia übermittelt diesen Zugriff ausschließlich an diese WordPress-Website. Fahren Sie nur fort, wenn es sich um Ihren Shop handelt."
+        },
+        "sourceRegistrationNote": "Wählen Sie den Anbieter, für den diese WordPress-Website als Website hinterlegt ist.",
+        "errors": {
+          "recipientNotRegistered": {
+            "title": "Diese Website ist für den gewählten Anbieter nicht hinterlegt",
+            "description": "Aura Historia verbindet einen Anbieter nur mit der für ihn hinterlegten Website. Wählen Sie den Anbieter, für den {{recipient}} hinterlegt ist, oder kontaktieren Sie uns, um die Website des Anbieters zu aktualisieren."
+          },
+          "sourceUnavailable": {
+            "title": "Zugriff auf den Anbieter konnte nicht bestätigt werden",
+            "description": "Sie haben keinen Zugriff mehr auf den gewählten Anbieter. Wählen Sie einen anderen Anbieter oder beantragen Sie Zugriff und versuchen Sie es erneut."
+          },
+          "approvalFailed": {
+            "title": "Autorisierung konnte nicht abgeschlossen werden",
+            "description": "Aura Historia konnte die Anfrage gerade nicht abschließen. Bitte versuchen Sie es erneut."
+          }
+        },
+        "states": {
+          "declined": {
+            "title": "Verbindung abgelehnt",
+            "description": "Es wurde kein Zugriff gewährt. Sie können diese Seite schließen und zu Ihrem WordPress-Adminbereich zurückkehren."
+          },
+          "answered": {
+            "title": "Diese Verbindungsanfrage wurde bereits beantwortet",
+            "description": "Kehren Sie zu Ihrem WordPress-Adminbereich zurück, um das Ergebnis zu sehen, oder starten Sie die Verbindung erneut."
+          },
+          "invalid": {
+            "title": "Diese Verbindungsanfrage ist nicht mehr gültig",
+            "description": "Sie ist abgelaufen, wurde bereits verwendet oder der Link ist unvollständig. Starten Sie die Verbindung erneut in Ihrem WordPress-Adminbereich und aktualisieren Sie das Aura-Historia-Plugin, falls dies wiederholt auftritt."
+          },
+          "unavailable": {
+            "title": "Verbindung nicht verfügbar",
+            "description": "Diese Verbindungsanfrage kann derzeit nicht geladen werden. Bitte versuchen Sie es später erneut."
+          },
+          "sessionMismatch": {
+            "title": "Verbindung konnte nicht bestätigt werden",
+            "description": "Schließen Sie die Verbindung in dem Browser und Konto ab, mit denen Sie sie autorisiert haben. Starten Sie die Verbindung erneut in Ihrem WordPress-Adminbereich."
+          }
+        }
       }
     }
   },

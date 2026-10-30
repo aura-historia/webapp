@@ -56,6 +56,11 @@ import { Route as LngAuthAdminProductListingsIndexRouteImport } from './routes/$
 import { Route as LngAuthAdminProductListingsProductListingIdRouteImport } from './routes/$lng._auth.admin.product-listings.$productListingId'
 import { Route as LngAuthMeBillingManageRouteImport } from './routes/$lng._auth.me.billing.manage'
 import { Route as LngAuthMeSearchFilterFilterIdRouteImport } from './routes/$lng._auth.me.search-filter.$filterId'
+import { Route as ApiOauthBrokerWoocommerceApproveRouteImport } from './routes/api.oauth.broker.woocommerce.approve'
+import { Route as ApiOauthBrokerWoocommerceCompleteRouteImport } from './routes/api.oauth.broker.woocommerce.complete'
+import { Route as ApiOauthBrokerWoocommerceConsentRouteImport } from './routes/api.oauth.broker.woocommerce.consent'
+import { Route as ApiOauthBrokerWoocommerceDenyRouteImport } from './routes/api.oauth.broker.woocommerce.deny'
+import { Route as ApiOauthBrokerWoocommerceInitiateRouteImport } from './routes/api.oauth.broker.woocommerce.initiate'
 import { Route as ApiOauthClientRedirectBrokerWoocommerceRouteImport } from './routes/api.oauth.client_.redirect-broker.woocommerce'
 
 const LngRoute = LngRouteImport.update({
@@ -309,6 +314,36 @@ const LngAuthMeSearchFilterFilterIdRoute =
     path: '/me/search-filter/$filterId',
     getParentRoute: () => LngAuthRoute,
   } as any)
+const ApiOauthBrokerWoocommerceApproveRoute =
+  ApiOauthBrokerWoocommerceApproveRouteImport.update({
+    id: '/api/oauth/broker/woocommerce/approve',
+    path: '/api/oauth/broker/woocommerce/approve',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiOauthBrokerWoocommerceCompleteRoute =
+  ApiOauthBrokerWoocommerceCompleteRouteImport.update({
+    id: '/api/oauth/broker/woocommerce/complete',
+    path: '/api/oauth/broker/woocommerce/complete',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiOauthBrokerWoocommerceConsentRoute =
+  ApiOauthBrokerWoocommerceConsentRouteImport.update({
+    id: '/api/oauth/broker/woocommerce/consent',
+    path: '/api/oauth/broker/woocommerce/consent',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiOauthBrokerWoocommerceDenyRoute =
+  ApiOauthBrokerWoocommerceDenyRouteImport.update({
+    id: '/api/oauth/broker/woocommerce/deny',
+    path: '/api/oauth/broker/woocommerce/deny',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiOauthBrokerWoocommerceInitiateRoute =
+  ApiOauthBrokerWoocommerceInitiateRouteImport.update({
+    id: '/api/oauth/broker/woocommerce/initiate',
+    path: '/api/oauth/broker/woocommerce/initiate',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiOauthClientRedirectBrokerWoocommerceRoute =
   ApiOauthClientRedirectBrokerWoocommerceRouteImport.update({
     id: '/api/oauth/client_/redirect-broker/woocommerce',
@@ -360,6 +395,11 @@ export interface FileRoutesByFullPath {
   '/$lng/admin/product-listings/$productListingId': typeof LngAuthAdminProductListingsProductListingIdRoute
   '/$lng/me/billing/manage': typeof LngAuthMeBillingManageRoute
   '/$lng/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
+  '/api/oauth/broker/woocommerce/approve': typeof ApiOauthBrokerWoocommerceApproveRoute
+  '/api/oauth/broker/woocommerce/complete': typeof ApiOauthBrokerWoocommerceCompleteRoute
+  '/api/oauth/broker/woocommerce/consent': typeof ApiOauthBrokerWoocommerceConsentRoute
+  '/api/oauth/broker/woocommerce/deny': typeof ApiOauthBrokerWoocommerceDenyRoute
+  '/api/oauth/broker/woocommerce/initiate': typeof ApiOauthBrokerWoocommerceInitiateRoute
   '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
   '/$lng/admin/auctions/': typeof LngAuthAdminAuctionsIndexRoute
   '/$lng/admin/parties/': typeof LngAuthAdminPartiesIndexRoute
@@ -405,6 +445,11 @@ export interface FileRoutesByTo {
   '/$lng/admin/product-listings/$productListingId': typeof LngAuthAdminProductListingsProductListingIdRoute
   '/$lng/me/billing/manage': typeof LngAuthMeBillingManageRoute
   '/$lng/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
+  '/api/oauth/broker/woocommerce/approve': typeof ApiOauthBrokerWoocommerceApproveRoute
+  '/api/oauth/broker/woocommerce/complete': typeof ApiOauthBrokerWoocommerceCompleteRoute
+  '/api/oauth/broker/woocommerce/consent': typeof ApiOauthBrokerWoocommerceConsentRoute
+  '/api/oauth/broker/woocommerce/deny': typeof ApiOauthBrokerWoocommerceDenyRoute
+  '/api/oauth/broker/woocommerce/initiate': typeof ApiOauthBrokerWoocommerceInitiateRoute
   '/api/oauth/client/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
   '/$lng/admin/auctions': typeof LngAuthAdminAuctionsIndexRoute
   '/$lng/admin/parties': typeof LngAuthAdminPartiesIndexRoute
@@ -456,6 +501,11 @@ export interface FileRoutesById {
   '/$lng/_auth/admin/product-listings/$productListingId': typeof LngAuthAdminProductListingsProductListingIdRoute
   '/$lng/_auth/me/billing/manage': typeof LngAuthMeBillingManageRoute
   '/$lng/_auth/me/search-filter/$filterId': typeof LngAuthMeSearchFilterFilterIdRoute
+  '/api/oauth/broker/woocommerce/approve': typeof ApiOauthBrokerWoocommerceApproveRoute
+  '/api/oauth/broker/woocommerce/complete': typeof ApiOauthBrokerWoocommerceCompleteRoute
+  '/api/oauth/broker/woocommerce/consent': typeof ApiOauthBrokerWoocommerceConsentRoute
+  '/api/oauth/broker/woocommerce/deny': typeof ApiOauthBrokerWoocommerceDenyRoute
+  '/api/oauth/broker/woocommerce/initiate': typeof ApiOauthBrokerWoocommerceInitiateRoute
   '/api/oauth/client_/redirect-broker/woocommerce': typeof ApiOauthClientRedirectBrokerWoocommerceRoute
   '/$lng/_auth/admin/auctions/': typeof LngAuthAdminAuctionsIndexRoute
   '/$lng/_auth/admin/parties/': typeof LngAuthAdminPartiesIndexRoute
@@ -507,6 +557,11 @@ export interface FileRouteTypes {
     | '/$lng/admin/product-listings/$productListingId'
     | '/$lng/me/billing/manage'
     | '/$lng/me/search-filter/$filterId'
+    | '/api/oauth/broker/woocommerce/approve'
+    | '/api/oauth/broker/woocommerce/complete'
+    | '/api/oauth/broker/woocommerce/consent'
+    | '/api/oauth/broker/woocommerce/deny'
+    | '/api/oauth/broker/woocommerce/initiate'
     | '/api/oauth/client/redirect-broker/woocommerce'
     | '/$lng/admin/auctions/'
     | '/$lng/admin/parties/'
@@ -552,6 +607,11 @@ export interface FileRouteTypes {
     | '/$lng/admin/product-listings/$productListingId'
     | '/$lng/me/billing/manage'
     | '/$lng/me/search-filter/$filterId'
+    | '/api/oauth/broker/woocommerce/approve'
+    | '/api/oauth/broker/woocommerce/complete'
+    | '/api/oauth/broker/woocommerce/consent'
+    | '/api/oauth/broker/woocommerce/deny'
+    | '/api/oauth/broker/woocommerce/initiate'
     | '/api/oauth/client/redirect-broker/woocommerce'
     | '/$lng/admin/auctions'
     | '/$lng/admin/parties'
@@ -602,6 +662,11 @@ export interface FileRouteTypes {
     | '/$lng/_auth/admin/product-listings/$productListingId'
     | '/$lng/_auth/me/billing/manage'
     | '/$lng/_auth/me/search-filter/$filterId'
+    | '/api/oauth/broker/woocommerce/approve'
+    | '/api/oauth/broker/woocommerce/complete'
+    | '/api/oauth/broker/woocommerce/consent'
+    | '/api/oauth/broker/woocommerce/deny'
+    | '/api/oauth/broker/woocommerce/initiate'
     | '/api/oauth/client_/redirect-broker/woocommerce'
     | '/$lng/_auth/admin/auctions/'
     | '/$lng/_auth/admin/parties/'
@@ -611,6 +676,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   LngRoute: typeof LngRouteWithChildren
   ApiOauthAuthorizeApproveRoute: typeof ApiOauthAuthorizeApproveRoute
+  ApiOauthBrokerWoocommerceApproveRoute: typeof ApiOauthBrokerWoocommerceApproveRoute
+  ApiOauthBrokerWoocommerceCompleteRoute: typeof ApiOauthBrokerWoocommerceCompleteRoute
+  ApiOauthBrokerWoocommerceConsentRoute: typeof ApiOauthBrokerWoocommerceConsentRoute
+  ApiOauthBrokerWoocommerceDenyRoute: typeof ApiOauthBrokerWoocommerceDenyRoute
+  ApiOauthBrokerWoocommerceInitiateRoute: typeof ApiOauthBrokerWoocommerceInitiateRoute
   ApiOauthClientRedirectBrokerWoocommerceRoute: typeof ApiOauthClientRedirectBrokerWoocommerceRoute
 }
 
@@ -945,6 +1015,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LngAuthMeSearchFilterFilterIdRouteImport
       parentRoute: typeof LngAuthRoute
     }
+    '/api/oauth/broker/woocommerce/approve': {
+      id: '/api/oauth/broker/woocommerce/approve'
+      path: '/api/oauth/broker/woocommerce/approve'
+      fullPath: '/api/oauth/broker/woocommerce/approve'
+      preLoaderRoute: typeof ApiOauthBrokerWoocommerceApproveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/oauth/broker/woocommerce/complete': {
+      id: '/api/oauth/broker/woocommerce/complete'
+      path: '/api/oauth/broker/woocommerce/complete'
+      fullPath: '/api/oauth/broker/woocommerce/complete'
+      preLoaderRoute: typeof ApiOauthBrokerWoocommerceCompleteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/oauth/broker/woocommerce/consent': {
+      id: '/api/oauth/broker/woocommerce/consent'
+      path: '/api/oauth/broker/woocommerce/consent'
+      fullPath: '/api/oauth/broker/woocommerce/consent'
+      preLoaderRoute: typeof ApiOauthBrokerWoocommerceConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/oauth/broker/woocommerce/deny': {
+      id: '/api/oauth/broker/woocommerce/deny'
+      path: '/api/oauth/broker/woocommerce/deny'
+      fullPath: '/api/oauth/broker/woocommerce/deny'
+      preLoaderRoute: typeof ApiOauthBrokerWoocommerceDenyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/oauth/broker/woocommerce/initiate': {
+      id: '/api/oauth/broker/woocommerce/initiate'
+      path: '/api/oauth/broker/woocommerce/initiate'
+      fullPath: '/api/oauth/broker/woocommerce/initiate'
+      preLoaderRoute: typeof ApiOauthBrokerWoocommerceInitiateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/oauth/client_/redirect-broker/woocommerce': {
       id: '/api/oauth/client_/redirect-broker/woocommerce'
       path: '/api/oauth/client/redirect-broker/woocommerce'
@@ -1098,6 +1203,13 @@ const LngRouteWithChildren = LngRoute._addFileChildren(LngRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   LngRoute: LngRouteWithChildren,
   ApiOauthAuthorizeApproveRoute: ApiOauthAuthorizeApproveRoute,
+  ApiOauthBrokerWoocommerceApproveRoute: ApiOauthBrokerWoocommerceApproveRoute,
+  ApiOauthBrokerWoocommerceCompleteRoute:
+    ApiOauthBrokerWoocommerceCompleteRoute,
+  ApiOauthBrokerWoocommerceConsentRoute: ApiOauthBrokerWoocommerceConsentRoute,
+  ApiOauthBrokerWoocommerceDenyRoute: ApiOauthBrokerWoocommerceDenyRoute,
+  ApiOauthBrokerWoocommerceInitiateRoute:
+    ApiOauthBrokerWoocommerceInitiateRoute,
   ApiOauthClientRedirectBrokerWoocommerceRoute:
     ApiOauthClientRedirectBrokerWoocommerceRoute,
 }

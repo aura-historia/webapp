@@ -2455,6 +2455,53 @@
       "unavailable": {
         "title": "Autorización no disponible",
         "description": "No podemos verificar los datos registrados de esta aplicación en este momento. Inténtelo más tarde."
+      },
+      "brokerRequired": {
+        "title": "Inicie la conexión desde WordPress",
+        "description": "Este enlace de conexión de WooCommerce ya no es compatible. Vuelva a iniciar la conexión desde el panel de administración de WordPress y actualice el plugin de Aura Historia si el problema se repite."
+      },
+      "broker": {
+        "recipient": {
+          "label": "Destinatario de la conexión",
+          "description": "Aura Historia entrega este acceso únicamente a este sitio de WordPress. Continúe solo si es su tienda."
+        },
+        "sourceRegistrationNote": "Elija el proveedor cuyo sitio web registrado sea este sitio de WordPress.",
+        "errors": {
+          "recipientNotRegistered": {
+            "title": "Este sitio no está registrado para el proveedor seleccionado",
+            "description": "Aura Historia solo conecta un proveedor con el sitio web registrado para él. Elija el proveedor registrado para {{recipient}} o contáctenos para actualizar el sitio web del proveedor."
+          },
+          "sourceUnavailable": {
+            "title": "No se pudo confirmar el acceso al proveedor",
+            "description": "Ya no tiene acceso al proveedor seleccionado. Elija otro proveedor, o solicite acceso e inténtelo de nuevo."
+          },
+          "approvalFailed": {
+            "title": "No se pudo completar la autorización",
+            "description": "Aura Historia no pudo completar la solicitud en este momento. Inténtelo de nuevo."
+          }
+        },
+        "states": {
+          "declined": {
+            "title": "Conexión rechazada",
+            "description": "No se concedió ningún acceso. Puede cerrar esta página y volver al panel de administración de WordPress."
+          },
+          "answered": {
+            "title": "Esta solicitud de conexión ya fue respondida",
+            "description": "Vuelva al panel de administración de WordPress para ver el resultado o inicie la conexión de nuevo."
+          },
+          "invalid": {
+            "title": "Esta solicitud de conexión ya no es válida",
+            "description": "Ha caducado, ya se utilizó o el enlace está incompleto. Vuelva a iniciar la conexión desde el panel de administración de WordPress y actualice el plugin de Aura Historia si el problema se repite."
+          },
+          "unavailable": {
+            "title": "Conexión no disponible",
+            "description": "No podemos cargar esta solicitud de conexión en este momento. Inténtelo de nuevo más tarde."
+          },
+          "sessionMismatch": {
+            "title": "No se pudo confirmar la conexión",
+            "description": "Complete la conexión en el navegador y la cuenta con los que la autorizó. Vuelva a iniciar la conexión desde el panel de administración de WordPress."
+          }
+        }
       }
     }
   },

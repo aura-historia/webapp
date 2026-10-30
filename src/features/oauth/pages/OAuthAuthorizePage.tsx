@@ -20,6 +20,7 @@ import {
     isRegisteredOAuthRedirect,
 } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
 import { OAuthConsentUnavailableError } from "@/features/oauth/api/oauthConsentMetadata.ts";
+import { isWooCommerceBrokerCallback } from "@/features/oauth-client-broker/lib/brokerUrls.ts";
 
 interface OAuthAuthorizePageProps {
     readonly searchParams: OAuthAuthorizeSearchParams;
@@ -57,6 +58,16 @@ export function OAuthAuthorizePage({ searchParams }: OAuthAuthorizePageProps) {
             navigate({ href: denialUrl });
         }
     };
+
+    // WooCommerce connects only through a broker transaction, never by a direct request.
+    if (isWooCommerceBrokerCallback(searchParams.redirect_uri)) {
+        return (
+            <OAuthAuthorizeErrorCard
+                title={t("oauth.authorize.brokerRequired.title")}
+                description={t("oauth.authorize.brokerRequired.description")}
+            />
+        );
+    }
 
     if (isLoading || (requiresListingSourceId && isListingSourcesPending)) {
         return (

@@ -3,6 +3,7 @@ import { getApiBaseUrl } from "@/lib/apiBaseUrl.ts";
 import { setListingSourceIdOnRedirectUri } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
 import { z } from "zod";
 import { isSupportedLanguage, localizePathname } from "@/i18n/routing.ts";
+import { isWooCommerceBrokerCallback } from "@/features/oauth-client-broker/lib/brokerUrls.ts";
 
 const AUTHORIZE_ENDPOINT = "/v1/oauth/authorize";
 const LOGIN_PATH = "/login";
@@ -53,6 +54,11 @@ export async function postOAuthAuthorizeApprove({ request }: { request: Request 
 
     if (!parseResult.success) {
         return textResponse("Invalid OAuth authorization request.", 400);
+    }
+
+    // The WooCommerce broker callback accepts codes only for its own transactions.
+    if (isWooCommerceBrokerCallback(parseResult.data.redirect_uri)) {
+        return textResponse("Start the WooCommerce connection from WordPress.", 400);
     }
 
     const { getServerAuthToken } = await import("@/lib/server/amplify.server.ts");

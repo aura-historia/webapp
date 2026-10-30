@@ -2919,6 +2919,53 @@
       "unavailable": {
         "title": "Authorization unavailable",
         "description": "We cannot verify this application’s registered details at present. Please try again later."
+      },
+      "brokerRequired": {
+        "title": "Start the connection from WordPress",
+        "description": "This WooCommerce connection link is no longer supported. Start the connection again from your WordPress admin, and update the Aura Historia plugin if this keeps happening."
+      },
+      "broker": {
+        "recipient": {
+          "label": "Connection recipient",
+          "description": "Aura Historia delivers this access only to this WordPress site. Continue only if it is your shop."
+        },
+        "sourceRegistrationNote": "Choose the provider whose registered website is this WordPress site.",
+        "errors": {
+          "recipientNotRegistered": {
+            "title": "This site is not registered for the selected provider",
+            "description": "Aura Historia only connects a provider to the website registered for it. Choose the provider registered for {{recipient}}, or contact us to update the provider's website."
+          },
+          "sourceUnavailable": {
+            "title": "Provider access could not be confirmed",
+            "description": "You no longer have access to the selected provider. Choose another provider, or request access and try again."
+          },
+          "approvalFailed": {
+            "title": "Authorization could not be completed",
+            "description": "Aura Historia could not complete the request just now. Please try again."
+          }
+        },
+        "states": {
+          "declined": {
+            "title": "Connection declined",
+            "description": "No access was granted. You can close this page and return to your WordPress admin."
+          },
+          "answered": {
+            "title": "This connection request has already been answered",
+            "description": "Return to your WordPress admin to see the result, or start the connection again."
+          },
+          "invalid": {
+            "title": "This connection request is no longer valid",
+            "description": "It has expired, was already used, or the link is incomplete. Start the connection again from your WordPress admin, and update the Aura Historia plugin if this keeps happening."
+          },
+          "unavailable": {
+            "title": "Connection unavailable",
+            "description": "We cannot load this connection request at present. Please try again later."
+          },
+          "sessionMismatch": {
+            "title": "Connection could not be confirmed",
+            "description": "Complete the connection in the browser and account you approved it with. Start the connection again from your WordPress admin."
+          }
+        }
       }
     }
   },
