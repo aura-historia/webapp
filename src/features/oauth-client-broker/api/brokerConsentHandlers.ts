@@ -6,7 +6,7 @@ import {
 } from "@/features/oauth-client-broker/lib/brokerCrypto.ts";
 import {
     buildMerchantHandoffUrl,
-    getMerchantRecipient,
+    getMerchantSiteAddress,
 } from "@/features/oauth-client-broker/lib/brokerMerchantRedirectUri.ts";
 import {
     BROKER_RANDOM_VALUE_PATTERN,
@@ -71,7 +71,7 @@ export async function getWooCommerceBrokerConsent({ request }: { request: Reques
                 transaction_id: view.context.transactionId,
                 client_id: view.context.clientId,
                 merchant_redirect_uri: view.context.merchantRedirectUri,
-                recipient: getMerchantRecipient(view.context.merchantRedirectUri),
+                recipient: getMerchantSiteAddress(view.context.merchantRedirectUri),
                 scope: view.context.scope,
                 ...(view.context.resource === undefined ? {} : { resource: view.context.resource }),
                 expires_at: new Date(view.context.expiresAt).toISOString(),
@@ -94,7 +94,7 @@ export async function postWooCommerceBrokerApprove({ request }: { request: Reque
     const decision = await readDecision(request);
     if (decision instanceof Response) return decision;
     if (!decision.listingSourceId) {
-        return consentRedirect(decision, "invalid_request");
+        return consentRedirect(decision, "source_unavailable");
     }
 
     const identity = await getServerAuthIdentity();
@@ -279,7 +279,11 @@ async function verifyDestination(
         : "recipient_not_registered";
 }
 
-export function isRegisteredRecipient(
+/**
+ * The registered website must be the WordPress site the plugin runs at: the same origin and the
+ * same install path. A sibling path on a shared origin, or any other page, is not the recipient.
+ */
+function isRegisteredRecipient(
     registeredUrl: string | undefined,
     merchantRedirectUri: string,
 ): boolean {
@@ -295,7 +299,10 @@ export function isRegisteredRecipient(
         (isLoopbackBrokerOrigin() &&
             registered.protocol === "http:" &&
             isLoopbackHostname(registered.hostname));
-    return secure && registered.origin === getMerchantRecipient(merchantRedirectUri);
+    const path = registered.pathname.endsWith("/")
+        ? registered.pathname
+        : `${registered.pathname}/`;
+    return secure && `${registered.origin}${path}` === getMerchantSiteAddress(merchantRedirectUri);
 }
 
 async function answerWithHandoff(

@@ -22,7 +22,7 @@
       "form": {
         "protocol_version": "2",
         "client_id": "oc_01m5vyvraxecksre2zepjcza88",
-        "merchant_redirect_uri": "https://shop.example/wp-admin/admin.php?page=aura-historia",
+        "merchant_redirect_uri": "https://shop.example/wp-admin/admin.php?page=aura-historia-partner-connect",
         "client_state": "mRB0dSUtBEyJrgVt6xQGFFn0Wd6p8pcQxLwVHAwkiBs",
         "scope": "product-listings:write listing-sources:write",
         "completion_challenge": "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
@@ -40,7 +40,8 @@
     }
   },
   "merchant_handoff": {
-    "location": "https://shop.example/wp-admin/admin.php?page=aura-historia&transaction_id=q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I&state=mRB0dSUtBEyJrgVt6xQGFFn0Wd6p8pcQxLwVHAwkiBs&completion_code=4Hm0wQ1dE9x2Lr7pYcVn6sKa3TbZ8uJf5gOiWlNqXyE",
+    "location": "https://shop.example/wp-admin/admin.php?page=aura-historia-partner-connect&transaction_id=q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I&state=mRB0dSUtBEyJrgVt6xQGFFn0Wd6p8pcQxLwVHAwkiBs&completion_code=4Hm0wQ1dE9x2Lr7pYcVn6sKa3TbZ8uJf5gOiWlNqXyE",
+    "merchant_redirect_uri_shape": "{site address}wp-admin/admin.php?page=aura-historia-partner-connect",
     "protocol_params": ["transaction_id", "state", "completion_code"],
     "never_present": ["access_token", "code", "code_verifier", "completion_secret", "listing_source_id", "third_party_exchange_code"]
   },

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button.tsx";
 import {
@@ -15,7 +16,8 @@ interface BrokerConsentActionsProps {
 
 /**
  * Same-origin decision forms. They carry only the transaction reference and the chosen source:
- * client, recipient, scopes and resource are read from the stored transaction.
+ * client, recipient, scopes and resource are read from the stored transaction. A decision is sent
+ * once; a second click would race the first for the transaction.
  */
 export function BrokerConsentActions({
     lng,
@@ -25,6 +27,8 @@ export function BrokerConsentActions({
     denyAriaLabel,
 }: BrokerConsentActionsProps) {
     const { t } = useTranslation();
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const markSubmitted = () => setIsSubmitted(true);
     const fields = (
         <>
             <input type="hidden" name="lng" value={lng} />
@@ -41,23 +45,30 @@ export function BrokerConsentActions({
                 action={WOOCOMMERCE_BROKER_APPROVE_PATH}
                 method="post"
                 className="w-full sm:w-auto"
+                onSubmit={markSubmitted}
             >
                 {fields}
                 <Button
                     type="submit"
                     className="w-full sm:w-auto"
-                    disabled={listingSourceId === undefined}
+                    disabled={listingSourceId === undefined || isSubmitted}
                     aria-label={approveAriaLabel}
                 >
                     {t("oauth.authorize.approve")}
                 </Button>
             </form>
-            <form action={WOOCOMMERCE_BROKER_DENY_PATH} method="post" className="w-full sm:w-auto">
+            <form
+                action={WOOCOMMERCE_BROKER_DENY_PATH}
+                method="post"
+                className="w-full sm:w-auto"
+                onSubmit={markSubmitted}
+            >
                 {fields}
                 <Button
                     type="submit"
                     variant="outline"
                     className="w-full sm:w-auto"
+                    disabled={isSubmitted}
                     aria-label={denyAriaLabel}
                 >
                     {t("oauth.authorize.deny")}

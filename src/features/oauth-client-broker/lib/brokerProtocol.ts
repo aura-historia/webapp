@@ -24,27 +24,6 @@ export const BROKER_MAX_REQUEST_BYTES = 8192;
 export const BROKER_MAX_REDIRECT_URI_LENGTH = 2048;
 export const BROKER_MAX_RESOURCE_LENGTH = 512;
 
-/** Query parameters the broker owns on the merchant return URI. */
-export const BROKER_HANDOFF_PARAMS = ["transaction_id", "state", "completion_code"] as const;
-
-/**
- * Names a registered merchant return URI must not use: the handoff parameters and every OAuth or
- * legacy broker field a plugin could mistake for a protocol value.
- */
-export const BROKER_RESERVED_REDIRECT_PARAMS = new Set<string>([
-    ...BROKER_HANDOFF_PARAMS,
-    "access_token",
-    "code",
-    "error",
-    "error_description",
-    "error_uri",
-    "id_token",
-    "iss",
-    "listing_source_id",
-    "third_party_exchange_code",
-    "token",
-]);
-
 export type BrokerTransactionPhase =
     | "created"
     | "approved"

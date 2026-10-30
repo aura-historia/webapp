@@ -20,6 +20,7 @@ import { useBrokerConsent } from "@/features/oauth-client-broker/hooks/useBroker
 import { useBrokerListingSourceSelection } from "@/features/oauth-client-broker/hooks/useBrokerListingSourceSelection.ts";
 import type { BrokerConsentSearchParams } from "@/features/oauth-client-broker/lib/brokerConsentSearchParams.ts";
 import { BROKER_RANDOM_VALUE_PATTERN } from "@/features/oauth-client-broker/lib/brokerProtocol.ts";
+import { formatMerchantSiteAddress } from "@/features/oauth-client-broker/lib/brokerMerchantRedirectUri.ts";
 import type { OAuthBrokerConsent } from "@/data/internal/oauth/OAuthBrokerConsent.ts";
 
 type TerminalState = "declined" | "answered" | "invalid" | "unavailable" | "sessionMismatch";
@@ -181,7 +182,7 @@ function PendingBrokerConsent({
                                     {t(`oauth.authorize.broker.errors.${inlineError}.title`)}
                                 </span>
                                 {t(`oauth.authorize.broker.errors.${inlineError}.description`, {
-                                    recipient: new URL(consent.recipient).host,
+                                    recipient: formatMerchantSiteAddress(consent.recipient),
                                 })}
                             </AuthFormAlert>
                         )}

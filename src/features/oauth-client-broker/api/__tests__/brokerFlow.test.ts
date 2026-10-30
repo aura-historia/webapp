@@ -153,7 +153,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             transaction_id: body.transaction_id,
             client_id: CLIENT_ID,
             merchant_redirect_uri: MERCHANT_REDIRECT_URI,
-            recipient: "https://shop.example",
+            recipient: "https://shop.example/",
             scope: "product-listings:write listing-sources:write",
             expires_at: body.expires_at,
         });
@@ -323,6 +323,8 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             ["another port", "https://shop.example:8443/"],
             ["plain HTTP", "http://shop.example/"],
             ["a subdomain", "https://www.shop.example/"],
+            ["a sibling site on the same origin", "https://shop.example/other-shop/"],
+            ["a site below the WordPress install", "https://shop.example/shop/"],
             ["no registered website", undefined],
         ])("refuses approval when the source's registered website is %s", async (_, registered) => {
             useBackend({ registeredUrls: { "shop-example": registered } });
@@ -339,6 +341,44 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             expect(location.searchParams.get("broker_error")).toBe("recipient_not_registered");
             expect(backend.callsTo("/v1/oauth/authorize")).toHaveLength(0);
             expect(approval.headers.getSetCookie()).toEqual([]);
+        });
+
+        it.each([
+            ["with a trailing slash", "https://host.example/store/"],
+            ["without a trailing slash", "https://host.example/store"],
+            ["with a query", "https://host.example/store/?utm=x"],
+        ])("accepts a WordPress subdirectory registered %s", async (_, registered) => {
+            useBackend({ registeredUrls: { "shop-example": registered } });
+            const { body } = await initiate({
+                merchant_redirect_uri:
+                    "https://host.example/store/wp-admin/admin.php?page=aura-historia-partner-connect",
+            });
+
+            const approval = await decide("approve", {
+                lng: "en",
+                transaction_id: body.transaction_id,
+                listing_source_id: LISTING_SOURCE_ID,
+            });
+
+            expect(approval.headers.get("Location")).toMatch(new RegExp(`^${CALLBACK_URL}\\?`));
+        });
+
+        it("refuses another shop's subdirectory on a shared origin", async () => {
+            useBackend({ registeredUrls: { "shop-example": "https://host.example/shop-a/" } });
+            const { body } = await initiate({
+                merchant_redirect_uri:
+                    "https://host.example/shop-b/wp-admin/admin.php?page=aura-historia-partner-connect",
+            });
+
+            const approval = await decide("approve", {
+                lng: "en",
+                transaction_id: body.transaction_id,
+                listing_source_id: LISTING_SOURCE_ID,
+            });
+
+            expect(approval.headers.get("Location")).toContain(
+                "broker_error=recipient_not_registered",
+            );
         });
 
         it("refuses a source that is no longer granted", async () => {
@@ -628,6 +668,24 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             expectConsentError(await callback(location.toString(), []), "session_mismatch");
         });
 
+        it("keeps the approving browser's binding after a forged attempt", async () => {
+            const { location, cookies } = await approved();
+            const forged = new URL(location);
+            forged.searchParams.set(
+                "state",
+                `${forged.searchParams.get("state")?.split(".")[0]}.${"f".repeat(43)}`,
+            );
+
+            const rejected = await callback(forged.toString(), cookies);
+            expectConsentError(rejected, "session_mismatch");
+            expect(rejected.headers.getSetCookie()).toEqual([]);
+
+            const legitimate = await callback(location.toString(), cookies);
+            expect(new URL(legitimate.headers.get("Location") ?? "").origin).toBe(
+                "https://shop.example",
+            );
+        });
+
         it("rejects a callback in another account", async () => {
             const { location, cookies } = await approved();
             getServerAuthIdentity.mockResolvedValue({ accessToken: USER_JWT, userSub: "intruder" });
@@ -738,6 +796,43 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             const [revocation] = backend.callsTo("/v1/oauth/revoke");
             expect(revocation.body?.get("token")).toBe(ACCESS_TOKEN);
         });
+    });
+
+    it("never logs credentials, codes, states, secrets or addresses", async () => {
+        const errorLog = vi.mocked(console.error);
+        useBackend({
+            token: () => jsonResponse({ error: "invalid_client" }, 401),
+            revoke: () => jsonResponse({ error: "server_error" }, 500),
+        });
+        const failed = await runToHandoff();
+        useBackend({ revoke: () => jsonResponse({ error: "server_error" }, 500) });
+        const succeeded = await runToHandoff();
+        await complete({
+            protocol_version: "2",
+            transaction_id: succeeded.transactionId,
+            completion_code: "g".repeat(43),
+            completion_secret: COMPLETION_SECRET,
+        });
+
+        const logged = JSON.stringify(errorLog.mock.calls);
+        expect(errorLog).toHaveBeenCalled();
+        for (const secret of [
+            ACCESS_TOKEN,
+            COMPLETION_SECRET,
+            CLIENT_STATE,
+            USER_JWT,
+            "broker-client-secret",
+            "backend-code",
+            MERCHANT_REDIRECT_URI,
+            "shop.example",
+            failed.handoff.searchParams.get("completion_code") ?? "",
+            succeeded.handoff.searchParams.get("completion_code") ?? "",
+            new URL(succeeded.approval.headers.get("Location") ?? "").searchParams.get("state") ??
+                "",
+            succeeded.cookies[0].split(";")[0].split("=")[1],
+        ]) {
+            expect(logged).not.toContain(secret);
+        }
     });
 
     describe("completion", () => {

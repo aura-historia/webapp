@@ -127,31 +127,43 @@ describe("POST /api/oauth/broker/woocommerce/initiate", () => {
         expect(bindings.objects.size).toBe(0);
     });
 
+    const PAGE = "wp-admin/admin.php?page=aura-historia-partner-connect";
+
     it.each([
-        ["plain HTTP", "http://shop.example/wp-admin/admin.php?page=aura-historia"],
-        ["loopback HTTP on a public broker", "http://localhost:8080/wp-admin/admin.php"],
-        ["credentials", "https://user:pass@shop.example/wp-admin/admin.php"],
-        ["a fragment", "https://shop.example/wp-admin/admin.php?page=aura#top"],
-        ["an empty fragment", "https://shop.example/wp-admin/admin.php#"],
-        ["a relative URI", "/wp-admin/admin.php"],
-        ["an uppercase host", "https://SHOP.example/wp-admin/admin.php"],
-        ["a default port", "https://shop.example:443/wp-admin/admin.php"],
-        ["a dot segment", "https://shop.example/wp-admin/../admin.php"],
-        ["a backslash", "https://shop.example\\wp-admin/admin.php"],
-        ["whitespace", "https://shop.example/wp admin/admin.php"],
-        ["a reserved state parameter", "https://shop.example/wp-admin/admin.php?state=x"],
+        ["plain HTTP", `http://shop.example/${PAGE}`],
+        ["loopback HTTP on a public broker", `http://localhost:8080/${PAGE}`],
+        ["credentials", `https://user:pass@shop.example/${PAGE}`],
+        ["a fragment", `https://shop.example/${PAGE}#top`],
+        ["an empty fragment", `https://shop.example/${PAGE}#`],
+        ["a relative URI", `/${PAGE}`],
+        ["an uppercase host", `https://SHOP.example/${PAGE}`],
+        ["a default port", `https://shop.example:443/${PAGE}`],
+        ["a dot segment", `https://shop.example/blog/../${PAGE}`],
+        ["a backslash", `https://shop.example\\${PAGE}`],
+        ["whitespace", `https://shop.example/my shop/${PAGE}`],
+        ["another admin page", "https://shop.example/wp-admin/admin.php?page=wc-settings"],
         [
-            "a reserved completion_code parameter",
-            "https://shop.example/admin.php?completion_code=x",
+            "another script",
+            "https://shop.example/wp-admin/options.php?page=aura-historia-partner-connect",
         ],
-        ["an encoded reserved parameter", "https://shop.example/admin.php?st%61te=x"],
-        ["a reserved parameter in another case", "https://shop.example/admin.php?Transaction_ID=x"],
-        ["a reserved listing_source_id", "https://shop.example/admin.php?listing_source_id=ls_x"],
-        ["a duplicate parameter", "https://shop.example/admin.php?page=a&page=b"],
-        ["an empty query", "https://shop.example/admin.php?"],
-        ["an empty query segment", "https://shop.example/admin.php?page=a&&tab=b"],
-        ["a trailing separator", "https://shop.example/admin.php?page=a&"],
-        ["an overlong URI", `https://shop.example/${"a".repeat(2048)}`],
+        [
+            "a page outside wp-admin",
+            "https://shop.example/admin.php?page=aura-historia-partner-connect",
+        ],
+        ["no query", "https://shop.example/wp-admin/admin.php"],
+        ["an added parameter", `https://shop.example/${PAGE}&tab=connect`],
+        ["a reserved parameter", `https://shop.example/${PAGE}&state=x`],
+        ["a repeated page", `https://shop.example/${PAGE}&page=aura-historia-partner-connect`],
+        [
+            "an encoded page name",
+            "https://shop.example/wp-admin/admin.php?p%61ge=aura-historia-partner-connect",
+        ],
+        [
+            "a PHP-mangled page name",
+            "https://shop.example/wp-admin/admin.php?page[]=aura-historia-partner-connect",
+        ],
+        ["an empty query", "https://shop.example/wp-admin/admin.php?"],
+        ["an overlong URI", `https://shop.example/${"a".repeat(2048)}/${PAGE}`],
         ["another scheme", "javascript:alert(1)"],
     ])("rejects a merchant redirect URI with %s", async (_, merchantRedirectUri) => {
         const { body } = await initiate({
@@ -164,12 +176,9 @@ describe("POST /api/oauth/broker/woocommerce/initiate", () => {
     });
 
     it.each([
-        ["a custom domain with a port", "https://shop.example:8443/wp-admin/admin.php?page=aura"],
-        [
-            "a WordPress subdirectory",
-            "https://shop.example/store/wp-admin/admin.php?page=aura&tab=connect",
-        ],
-        ["no query", "https://shop.example/wp-admin/admin.php"],
+        ["a custom domain with a port", `https://shop.example:8443/${PAGE}`],
+        ["a WordPress subdirectory", `https://shop.example/store/${PAGE}`],
+        ["an internationalized domain", `https://xn--mnchen-3ya.example/${PAGE}`],
     ])("accepts a merchant redirect URI with %s", async (_, merchantRedirectUri) => {
         const { status } = await initiate({
             ...VALID_FIELDS,
@@ -184,7 +193,7 @@ describe("POST /api/oauth/broker/woocommerce/initiate", () => {
 
         const { status, body } = await initiate({
             ...VALID_FIELDS,
-            merchant_redirect_uri: "http://localhost:8080/wp-admin/admin.php?page=aura",
+            merchant_redirect_uri: `http://localhost:8080/${PAGE}`,
         });
 
         expect(status).toBe(201);
@@ -199,6 +208,13 @@ describe("POST /api/oauth/broker/woocommerce/initiate", () => {
             (await initiate([...Object.entries(VALID_FIELDS), ["client_state", "t".repeat(43)]]))
                 .body.error,
         ).toBe("invalid_request");
+    });
+
+    it("rejects a body without a declared length before reading it", async () => {
+        const request = formRequest(INITIATE_URL, VALID_FIELDS);
+        request.headers.delete("Content-Length");
+
+        expect((await initiate({}, request)).body.error).toBe("invalid_request");
     });
 
     it("rejects another content type and an oversized body", async () => {

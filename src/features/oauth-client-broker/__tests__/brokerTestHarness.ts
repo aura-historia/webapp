@@ -13,7 +13,8 @@ export const API_ORIGIN = "https://api.test.example";
 export const CALLBACK_URL = `${APP_ORIGIN}/api/oauth/client/redirect-broker/woocommerce`;
 export const CLIENT_ID = "oc_7b0gwc1x49e0mvbt3tfexfqgb5";
 export const CLIENT_SECRET = "broker-client-secret";
-export const MERCHANT_REDIRECT_URI = "https://shop.example/wp-admin/admin.php?page=aura-historia";
+export const MERCHANT_REDIRECT_URI =
+    "https://shop.example/wp-admin/admin.php?page=aura-historia-partner-connect";
 export const LISTING_SOURCE_ID = "ls_6rd827eqfefsva9teecmwa3ate";
 export const OTHER_LISTING_SOURCE_ID = "ls_11j55nbvjfe7ds34s7gya899a9";
 export const USER_SUB = "user-sub-1";
@@ -77,10 +78,15 @@ export function formRequest(
     headers: Record<string, string> = {},
 ): Request {
     const entries = Symbol.iterator in fields ? [...fields] : Object.entries(fields);
-    const body = new URLSearchParams(entries.map(([key, value]) => [key, value]));
+    const body = new URLSearchParams(entries.map(([key, value]) => [key, value])).toString();
+    // Browsers and WordPress send the length; the runtime passes it on to the Worker.
     return new Request(url, {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded", ...headers },
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Length": String(new TextEncoder().encode(body).length),
+            ...headers,
+        },
         body,
     });
 }

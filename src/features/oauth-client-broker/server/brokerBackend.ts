@@ -20,6 +20,8 @@ const LISTING_SOURCE_PAGE_SIZE = 100;
 const MAX_LISTING_SOURCE_PAGES = 50;
 const MAX_ACCESS_TOKEN_LENGTH = 4096;
 const MAX_SCOPE_LENGTH = 2048;
+/** Bounds every backend call, so a stalled request ends as a failure instead of hanging. */
+const BACKEND_TIMEOUT_MS = 10_000;
 
 const OAUTH_ERROR_IDENTIFIERS = new Set<string>([
     "invalid_request",
@@ -75,6 +77,7 @@ export async function requestAuthorizationCode(params: {
             headers: { Authorization: `Bearer ${params.accessToken}` },
             redirect: "manual",
             cache: "no-store",
+            signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
         });
     } catch {
         logBackendFailure("authorize", "network");
@@ -143,7 +146,10 @@ function readAuthorizationRedirect(
     const error = single("error");
     if (error !== undefined) {
         logBackendFailure("authorize", "error_redirect", readKnownIdentifier(error));
-        return { ok: false, kind: "rejected", error: toFailureError(error) };
+        // Only a refusal of the request itself ends the transaction; anything else may pass.
+        return error === "invalid_scope" || error === "invalid_target"
+            ? { ok: false, kind: "rejected", error }
+            : { ok: false, kind: "unavailable" };
     }
 
     const code = single("code");
@@ -189,6 +195,7 @@ export async function exchangeAuthorizationCode(params: {
             body,
             redirect: "manual",
             cache: "no-store",
+            signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
         });
     } catch {
         logBackendFailure("token", "network");
@@ -286,6 +293,7 @@ export async function revokeAccessToken(
             }),
             redirect: "manual",
             cache: "no-store",
+            signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
         });
         if (response.ok || response.status === 403) return true;
         logBackendFailure("revoke", response.status, await readOAuthErrorIdentifier(response));
@@ -313,6 +321,7 @@ export async function findGrantedListingSource(params: {
             query: { size: LISTING_SOURCE_PAGE_SIZE, after },
             cache: "no-store",
             redirect: "error",
+            signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
             throwOnError: false,
         }).catch(() => undefined);
 
@@ -350,6 +359,7 @@ export async function getRegisteredListingSourceUrl(params: {
         path: { listingSourceSlugId: params.listingSourceSlugId },
         cache: "no-store",
         redirect: "error",
+        signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
         throwOnError: false,
     }).catch(() => undefined);
 
@@ -374,13 +384,6 @@ async function readOAuthErrorIdentifier(response: Response): Promise<string | un
 
 function readKnownIdentifier(value: unknown): string | undefined {
     return typeof value === "string" && OAUTH_ERROR_IDENTIFIERS.has(value) ? value : undefined;
-}
-
-function toFailureError(error: string): BrokerFailureError {
-    if (error === "invalid_scope" || error === "invalid_target" || error === "access_denied") {
-        return error;
-    }
-    return error === "temporarily_unavailable" ? error : "server_error";
 }
 
 /** Safe categories only: an operation, an HTTP status or kind, and a known OAuth identifier. */

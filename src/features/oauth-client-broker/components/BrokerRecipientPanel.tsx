@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
+import { formatMerchantSiteAddress } from "@/features/oauth-client-broker/lib/brokerMerchantRedirectUri.ts";
 
 interface BrokerRecipientPanelProps {
-    /** Origin of the WordPress site. */
+    /** Address of the WordPress site: origin and install path. */
     readonly recipient: string;
     /** The exact address the connection returns to. */
     readonly merchantRedirectUri: string;
@@ -25,7 +26,9 @@ export function BrokerRecipientPanel({
             >
                 {t("oauth.authorize.broker.recipient.label")}
             </p>
-            <p className="break-all text-body font-medium text-ink">{new URL(recipient).host}</p>
+            <p className="break-all text-body font-medium text-ink">
+                {formatMerchantSiteAddress(recipient)}
+            </p>
             <p className="break-all font-mono text-meta text-ink-muted">{merchantRedirectUri}</p>
             <p className="mt-1 text-body-sm text-ink-muted">
                 {t("oauth.authorize.broker.recipient.description")}

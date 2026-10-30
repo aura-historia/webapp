@@ -6,7 +6,7 @@ export type OAuthBrokerConsent =
           readonly clientId: string;
           /** The exact WordPress address that receives the connection. */
           readonly merchantRedirectUri: string;
-          /** Its origin, shown as the recipient. */
+          /** The WordPress site address (origin and install path), shown as the recipient. */
           readonly recipient: string;
           readonly scopes: readonly string[];
           readonly resource?: string;

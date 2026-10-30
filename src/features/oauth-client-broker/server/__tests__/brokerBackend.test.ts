@@ -89,11 +89,11 @@ describe("WooCommerce broker backend calls", () => {
             [jsonResponse({ error: "temporarily_unavailable" }, 503), { kind: "unavailable" }],
             [
                 redirect(`${CALLBACK_URL}?error=access_denied&state=sent-state`),
-                { kind: "rejected", error: "access_denied" },
+                { kind: "unavailable" },
             ],
             [
-                redirect(`${CALLBACK_URL}?error=weird&state=sent-state`),
-                { kind: "rejected", error: "server_error" },
+                redirect(`${CALLBACK_URL}?error=invalid_scope&state=sent-state`),
+                { kind: "rejected", error: "invalid_scope" },
             ],
             [redirect(`${CALLBACK_URL}?state=sent-state`), { kind: "unavailable" }],
             [redirect(`${CALLBACK_URL}?code=abc&state=sent-state#frag`), { kind: "unavailable" }],

@@ -51,17 +51,20 @@ export function textResponse(message: string, status: number): Response {
 
 /**
  * Reads a form-encoded body in which every field is known and appears at most once. Returns
- * `undefined` for another content type, an oversized body, an unknown or a repeated field.
+ * `undefined` for another content type, a body without a declared length or over the limit, and
+ * an unknown or repeated field. The declared length is checked before anything is read.
  */
 export async function readStrictForm<Field extends string>(
     request: Request,
     fields: readonly Field[],
 ): Promise<Partial<Record<Field, string>> | undefined> {
     const contentType = request.headers.get("Content-Type")?.split(";")[0]?.trim().toLowerCase();
-    const declaredLength = Number(request.headers.get("Content-Length") ?? "0");
+    const declaredLength = request.headers.get("Content-Length");
     if (
         contentType !== "application/x-www-form-urlencoded" ||
-        declaredLength > BROKER_MAX_REQUEST_BYTES
+        declaredLength === null ||
+        !/^\d{1,5}$/.test(declaredLength) ||
+        Number(declaredLength) > BROKER_MAX_REQUEST_BYTES
     ) {
         return undefined;
     }

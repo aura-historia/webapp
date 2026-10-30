@@ -52,9 +52,8 @@ export async function getWooCommerceBrokerCallback({ request }: { request: Reque
 
     const identity = await getServerAuthIdentity();
     const sessionBinding = readCookie(request, getSessionBindingCookieName(transactionId));
-    const clearBinding = [clearSessionBindingCookie(transactionId)];
     if (!identity || !sessionBinding) {
-        return consentError("session_mismatch", clearBinding);
+        return consentError("session_mismatch");
     }
 
     let claim: Awaited<ReturnType<BrokerTransactionStub["claimExchange"]>>;
@@ -65,14 +64,15 @@ export async function getWooCommerceBrokerCallback({ request }: { request: Reque
             userSub: identity.userSub,
         });
     } catch {
-        return storageUnavailable("claim", clearBinding);
+        return storageUnavailable("claim");
     }
+    // A failed attempt leaves the approving browser's binding in place; a claim consumes it.
     if (!claim.ok) {
         return consentError(
             claim.error === "binding_mismatch" ? "session_mismatch" : "invalid_request",
-            clearBinding,
         );
     }
+    const clearBinding = [clearSessionBindingCookie(transactionId)];
 
     const exchange = await exchangeAuthorizationCode({
         code,
@@ -147,7 +147,7 @@ function consentError(error: BrokerConsentError, setCookies: readonly string[] =
     return redirectResponse(getBrokerConsentPageUrl({ error }), setCookies);
 }
 
-function storageUnavailable(operation: string, setCookies: readonly string[]): Response {
+function storageUnavailable(operation: string, setCookies: readonly string[] = []): Response {
     console.error("[OAuth broker] Transaction storage is unavailable.", { operation });
     return consentError("unavailable", setCookies);
 }

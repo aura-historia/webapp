@@ -7,7 +7,8 @@ import type { BrokerConsentSearchParams } from "@/features/oauth-client-broker/l
 import { OAuthConsentUnavailableError } from "@/features/oauth/api/oauthConsentMetadata.ts";
 
 const TRANSACTION_ID = "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I";
-const MERCHANT_REDIRECT_URI = "https://shop.example/wp-admin/admin.php?page=aura-historia";
+const MERCHANT_REDIRECT_URI =
+    "https://shop.example/wp-admin/admin.php?page=aura-historia-partner-connect";
 
 const mockUseBrokerConsent = vi.hoisted(() => vi.fn());
 vi.mock("@/features/oauth-client-broker/hooks/useBrokerConsent.ts", () => ({
@@ -29,7 +30,7 @@ const pendingConsent = {
     transactionId: TRANSACTION_ID,
     clientId: "oc_01m5vyvraxecksre2zepjcza88",
     merchantRedirectUri: MERCHANT_REDIRECT_URI,
-    recipient: "https://shop.example",
+    recipient: "https://shop.example/",
     scopes: ["product-listings:write"],
 };
 

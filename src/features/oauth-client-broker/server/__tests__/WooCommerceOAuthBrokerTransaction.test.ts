@@ -196,6 +196,24 @@ describe("WooCommerceOAuthBrokerTransaction", () => {
         expect(rawRecord(state)).not.toContain("v".repeat(43));
     });
 
+    it("reports a claimed exchange that never stored a result as pending, then expired", async () => {
+        const { object } = setup();
+        await create(object);
+        await approve(object);
+        await claim(object);
+
+        expect(await object.complete(attempt())).toEqual({
+            ok: false,
+            error: "authorization_pending",
+        });
+        vi.setSystemTime(START + 900_000);
+        expect(await object.complete(attempt())).toEqual({
+            ok: false,
+            error: "expired_transaction",
+        });
+        expect(fetchMock).not.toHaveBeenCalled();
+    });
+
     it("refuses early completion as pending without changing the record", async () => {
         const { state, object } = setup();
         await create(object);

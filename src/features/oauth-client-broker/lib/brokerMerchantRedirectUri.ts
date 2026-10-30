@@ -1,15 +1,18 @@
-import {
-    BROKER_MAX_REDIRECT_URI_LENGTH,
-    BROKER_RESERVED_REDIRECT_PARAMS,
-} from "@/features/oauth-client-broker/lib/brokerProtocol.ts";
+import { BROKER_MAX_REDIRECT_URI_LENGTH } from "@/features/oauth-client-broker/lib/brokerProtocol.ts";
 import { isLoopbackHostname } from "@/features/oauth-client-broker/lib/brokerUrls.ts";
+
+/** The plugin's settings page (`Plugin::PAGE_SLUG`), the only page that receives a handoff. */
+export const WOOCOMMERCE_PLUGIN_PAGE = "aura-historia-partner-connect";
+const ADMIN_PAGE_SUFFIX = "wp-admin/admin.php";
+const ADMIN_PAGE_QUERY = `?page=${WOOCOMMERCE_PLUGIN_PAGE}`;
 
 // biome-ignore lint/suspicious/noControlCharactersInRegex: control characters are what is rejected.
 const UNSAFE_CHARACTERS = /[\u0000- \u007f\\#]/;
 
 /**
- * Validates the exact WordPress return URI. Only canonical absolute URLs pass: what the plugin
- * sends is what the broker stores, shows and returns to, with no normalization in between.
+ * Validates the exact WordPress return URI: the plugin's settings page as WordPress builds it,
+ * `{site}/wp-admin/admin.php?page=aura-historia-partner-connect`. Only canonical absolute URLs
+ * pass, so what the plugin sends is what the broker stores, shows and returns to.
  */
 export function validateMerchantRedirectUri(
     rawUri: string,
@@ -38,10 +41,12 @@ export function validateMerchantRedirectUri(
         return undefined;
     }
 
-    return hasUnambiguousStaticQuery(url) ? url : undefined;
+    return url.pathname.endsWith(`/${ADMIN_PAGE_SUFFIX}`) && url.search === ADMIN_PAGE_QUERY
+        ? url
+        : undefined;
 }
 
-/** The merchant's own static query, with the handoff parameters appended after it unchanged. */
+/** The return URI with the handoff parameters appended after the plugin's page parameter. */
 export function buildMerchantHandoffUrl(
     merchantRedirectUri: string,
     handoff: {
@@ -55,33 +60,20 @@ export function buildMerchantHandoffUrl(
         state: handoff.clientState,
         completion_code: handoff.completionCode,
     });
-    const separator = new URL(merchantRedirectUri).search ? "&" : "?";
-    return `${merchantRedirectUri}${separator}${handoffQuery.toString()}`;
+    return `${merchantRedirectUri}&${handoffQuery.toString()}`;
 }
 
-/** The address shown to the user: the origin that receives the connection. */
-export function getMerchantRecipient(merchantRedirectUri: string): string {
-    return new URL(merchantRedirectUri).origin;
+/**
+ * The WordPress site address that receives the connection: origin and install path, without the
+ * admin page (`https://shop.example/` or `https://host.example/store/`).
+ */
+export function getMerchantSiteAddress(merchantRedirectUri: string): string {
+    const url = new URL(merchantRedirectUri);
+    return `${url.origin}${url.pathname.slice(0, -ADMIN_PAGE_SUFFIX.length)}`;
 }
 
-function hasUnambiguousStaticQuery(url: URL): boolean {
-    const query = url.search.slice(1);
-    if (url.search === "" && !url.href.endsWith("?")) return true;
-    if (query === "") return false;
-
-    const seen = new Set<string>();
-    for (const segment of query.split("&")) {
-        const rawKey = segment.split("=", 1)[0];
-        if (!rawKey) return false;
-
-        let key: string;
-        try {
-            key = decodeURIComponent(rawKey.replaceAll("+", " ")).toLowerCase();
-        } catch {
-            return false;
-        }
-        if (seen.has(key) || BROKER_RESERVED_REDIRECT_PARAMS.has(key)) return false;
-        seen.add(key);
-    }
-    return true;
+/** The site address as shown to people: `shop.example` or `host.example/store`. */
+export function formatMerchantSiteAddress(siteAddress: string): string {
+    const url = new URL(siteAddress);
+    return `${url.host}${url.pathname.replace(/\/$/, "")}`;
 }
