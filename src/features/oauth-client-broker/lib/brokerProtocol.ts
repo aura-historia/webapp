@@ -47,16 +47,16 @@ export type BrokerEndpointError =
     | "invalid_request"
     | "unsupported_protocol_version"
     | "invalid_client"
-    | "invalid_redirect_uri"
+    | "invalid_destination"
     | "invalid_scope"
     | "invalid_target"
     | "invalid_completion_challenge"
     | "invalid_transaction"
-    | "invalid_code"
-    | "invalid_proof"
-    | "authorization_pending"
-    | "already_consumed"
-    | "expired_transaction"
+    | "invalid_completion_code"
+    | "invalid_completion_proof"
+    | "transaction_pending"
+    | "transaction_consumed"
+    | "transaction_expired"
     | "rate_limited"
     | "server_error"
     | "temporarily_unavailable";
@@ -65,16 +65,16 @@ export const BROKER_ENDPOINT_ERROR_STATUS: Record<BrokerEndpointError, number> =
     invalid_request: 400,
     unsupported_protocol_version: 400,
     invalid_client: 400,
-    invalid_redirect_uri: 400,
+    invalid_destination: 400,
     invalid_scope: 400,
     invalid_target: 400,
     invalid_completion_challenge: 400,
     invalid_transaction: 400,
-    invalid_code: 400,
-    invalid_proof: 400,
-    authorization_pending: 409,
-    already_consumed: 409,
-    expired_transaction: 410,
+    invalid_completion_code: 400,
+    invalid_completion_proof: 400,
+    transaction_pending: 409,
+    transaction_consumed: 409,
+    transaction_expired: 410,
     rate_limited: 429,
     server_error: 500,
     temporarily_unavailable: 503,
@@ -82,7 +82,7 @@ export const BROKER_ENDPOINT_ERROR_STATUS: Record<BrokerEndpointError, number> =
 
 /** Errors after which the same request may succeed later; all others need a fresh flow. */
 export const BROKER_RETRYABLE_ENDPOINT_ERRORS = new Set<BrokerEndpointError>([
-    "authorization_pending",
+    "transaction_pending",
     "rate_limited",
     "temporarily_unavailable",
 ]);

@@ -204,12 +204,12 @@ describe("WooCommerceOAuthBrokerTransaction", () => {
 
         expect(await object.complete(attempt())).toEqual({
             ok: false,
-            error: "authorization_pending",
+            error: "transaction_pending",
         });
         vi.setSystemTime(START + 900_000);
         expect(await object.complete(attempt())).toEqual({
             ok: false,
-            error: "expired_transaction",
+            error: "transaction_expired",
         });
         expect(fetchMock).not.toHaveBeenCalled();
     });
@@ -222,7 +222,7 @@ describe("WooCommerceOAuthBrokerTransaction", () => {
 
         expect(await object.complete(attempt())).toEqual({
             ok: false,
-            error: "authorization_pending",
+            error: "transaction_pending",
         });
         expect(rawRecord(state)).toBe(before);
     });
@@ -255,7 +255,7 @@ describe("WooCommerceOAuthBrokerTransaction", () => {
         );
         expect(result.ok).toBe(false);
         expect(result).toMatchObject({
-            error: code === "code" ? "invalid_proof" : "invalid_code",
+            error: code === "code" ? "invalid_completion_proof" : "invalid_completion_code",
         });
 
         expect(await object.complete(attempt())).toMatchObject({
@@ -290,8 +290,8 @@ describe("WooCommerceOAuthBrokerTransaction", () => {
             },
         ]);
         expect(results.filter((result) => !result.ok)).toEqual([
-            { ok: false, error: "already_consumed" },
-            { ok: false, error: "already_consumed" },
+            { ok: false, error: "transaction_consumed" },
+            { ok: false, error: "transaction_consumed" },
         ]);
         expect(rawRecord(state)).not.toContain(ACCESS_TOKEN);
     });
@@ -308,12 +308,12 @@ describe("WooCommerceOAuthBrokerTransaction", () => {
             await first.object.complete(
                 attempt(await sha256Base64Url(otherCode), await sha256Base64Url(otherSecret)),
             ),
-        ).toEqual({ ok: false, error: "invalid_code" });
+        ).toEqual({ ok: false, error: "invalid_completion_code" });
         expect(
             await first.object.complete(
                 attempt(hashes.completionCode, await sha256Base64Url(otherSecret)),
             ),
-        ).toEqual({ ok: false, error: "invalid_proof" });
+        ).toEqual({ ok: false, error: "invalid_completion_proof" });
     });
 
     it("revokes a credential whose completion code expired undelivered", async () => {
@@ -323,7 +323,7 @@ describe("WooCommerceOAuthBrokerTransaction", () => {
 
         expect(await object.complete(attempt())).toEqual({
             ok: false,
-            error: "expired_transaction",
+            error: "transaction_expired",
         });
         expect(fetchMock).toHaveBeenCalledTimes(1);
         const [url, init] = fetchMock.mock.calls[0] as [URL, RequestInit];
@@ -332,7 +332,7 @@ describe("WooCommerceOAuthBrokerTransaction", () => {
         expect(rawRecord(state)).not.toContain(ACCESS_TOKEN);
         expect(await object.complete(attempt())).toEqual({
             ok: false,
-            error: "expired_transaction",
+            error: "transaction_expired",
         });
     });
 
@@ -396,7 +396,7 @@ describe("WooCommerceOAuthBrokerTransaction", () => {
         });
         expect(await object.complete(attempt())).toEqual({
             ok: false,
-            error: "already_consumed",
+            error: "transaction_consumed",
         });
     });
 
@@ -407,7 +407,10 @@ describe("WooCommerceOAuthBrokerTransaction", () => {
         await object.answerBeforeApproval({ outcome: { kind: "denied" } });
 
         expect(object.getConsentView()).toEqual({ status: "declined" });
-        expect(await object.complete(attempt())).toEqual({ ok: false, error: "invalid_code" });
+        expect(await object.complete(attempt())).toEqual({
+            ok: false,
+            error: "invalid_completion_code",
+        });
     });
 
     it("hands off a failed exchange as a failure outcome", async () => {
@@ -435,7 +438,7 @@ describe("WooCommerceOAuthBrokerTransaction", () => {
         expect(await approve(object)).toEqual({ ok: false, error: "invalid_transaction" });
         expect(await object.complete(attempt())).toEqual({
             ok: false,
-            error: "expired_transaction",
+            error: "transaction_expired",
         });
     });
 
@@ -451,7 +454,7 @@ describe("WooCommerceOAuthBrokerTransaction", () => {
                 { accessToken: ACCESS_TOKEN, tokenType: "Bearer", scope: "x" },
                 hashes.completionCode,
             ),
-        ).toEqual({ ok: false, error: "expired_transaction" });
+        ).toEqual({ ok: false, error: "transaction_expired" });
     });
 
     it("never extends the completion code past the transaction expiry", async () => {

@@ -15,10 +15,13 @@ import { getWooCommerceBrokerCallback } from "@/features/oauth-client-broker/api
 import { postWooCommerceBrokerComplete } from "@/features/oauth-client-broker/api/brokerCompleteHandler.ts";
 import {
     APP_ORIGIN,
+    COMPLETE_URL,
     createBackend,
     createBrokerEnv,
     formRequest,
+    INITIATE_URL,
     installBrokerBindings,
+    jsonRequest,
     jsonResponse,
     LISTING_SOURCE_ID,
     removeBrokerBindings,
@@ -35,8 +38,8 @@ vi.mock("@/lib/server/amplify.server.ts", () => ({ getServerAuthIdentity }));
 const fixtures = JSON.parse(
     readFileSync(resolve(process.cwd(), "docs/fixtures/woocommerce-oauth-broker-v2.json"), "utf8"),
 );
-const initiateForm: Record<string, string> = fixtures.initiate.request.form;
-const completionSecret: string = fixtures.complete.request.form.completion_secret;
+const initiateBody: Record<string, string | number> = fixtures.initiate.request.json;
+const completionSecret: string = fixtures.complete.request.json.completion_secret;
 
 function keysOf(value: Record<string, unknown>) {
     return Object.keys(value).sort();
@@ -45,7 +48,7 @@ function keysOf(value: Record<string, unknown>) {
 /** Runs the fixture's initiation through consent and the callback to the merchant handoff. */
 async function handoffFor(action: "approve" | "deny") {
     const initiation = await postWooCommerceBrokerInitiate({
-        request: formRequest(`${APP_ORIGIN}/api/oauth/broker/woocommerce/initiate`, initiateForm),
+        request: jsonRequest(INITIATE_URL, initiateBody, fixtures.initiate.request.headers),
     });
     const initiated = await initiation.json();
     const decision = await (action === "approve"
@@ -76,19 +79,23 @@ async function handoffFor(action: "approve" | "deny") {
 
 async function completeWith(handoff: URL) {
     return postWooCommerceBrokerComplete({
-        request: formRequest(`${APP_ORIGIN}/api/oauth/broker/woocommerce/complete`, {
-            protocol_version: "2",
-            transaction_id: handoff.searchParams.get("transaction_id") ?? "",
-            completion_code: handoff.searchParams.get("completion_code") ?? "",
-            completion_secret: completionSecret,
-        }),
+        request: jsonRequest(
+            COMPLETE_URL,
+            {
+                protocol_version: 2,
+                transaction_id: handoff.searchParams.get("transaction_id") ?? "",
+                completion_code: handoff.searchParams.get("completion_code") ?? "",
+                completion_secret: completionSecret,
+            },
+            fixtures.complete.request.headers,
+        ),
     });
 }
 
 describe("shared WooCommerce broker v2 fixtures", () => {
     beforeEach(() => {
         Object.assign(mockEnv, createBrokerEnv(), {
-            OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID: initiateForm.client_id,
+            OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID: initiateBody.client_id,
         });
         installBrokerBindings();
         getServerAuthIdentity.mockResolvedValue({ accessToken: USER_JWT, userSub: USER_SUB });
@@ -104,7 +111,7 @@ describe("shared WooCommerce broker v2 fixtures", () => {
     it("derives the completion challenge as BASE64URL(SHA256(ASCII(completion_secret)))", async () => {
         const example = fixtures.encoding.completion_challenge_example;
         expect(await sha256Base64Url(example.completion_secret)).toBe(example.completion_challenge);
-        expect(initiateForm.completion_challenge).toBe(example.completion_challenge);
+        expect(initiateBody.completion_challenge).toBe(example.completion_challenge);
     });
 
     it("lists every endpoint error with its status and retryability", () => {
@@ -127,13 +134,13 @@ describe("shared WooCommerce broker v2 fixtures", () => {
         );
     });
 
-    it("matches the initiation, handoff and authorized completion fixtures", async () => {
+    it("matches the initiation, handoff and approved completion fixtures", async () => {
         const backend = createBackend({
             token: () =>
                 jsonResponse({
                     access_token: "aurahistoria_example_access_token",
                     token_type: "Bearer",
-                    scope: initiateForm.scope,
+                    scope: initiateBody.scope,
                 }),
         });
         vi.stubGlobal("fetch", backend.fetchMock);
@@ -141,6 +148,12 @@ describe("shared WooCommerce broker v2 fixtures", () => {
         const { initiation, initiated, handoff } = await handoffFor("approve");
         expect(initiation.status).toBe(fixtures.initiate.response.status);
         expect(keysOf(initiated)).toEqual(keysOf(fixtures.initiate.response.body));
+        expect(initiated.authorization_url).toBe(
+            fixtures.initiate.response.body.authorization_url.replace(
+                fixtures.initiate.response.body.transaction_id,
+                initiated.transaction_id,
+            ),
+        );
 
         const fixtureHandoff = new URL(fixtures.merchant_handoff.location);
         expect([...handoff.searchParams.keys()]).toEqual([...fixtureHandoff.searchParams.keys()]);
@@ -150,13 +163,13 @@ describe("shared WooCommerce broker v2 fixtures", () => {
         for (const absent of fixtures.merchant_handoff.never_present) {
             expect(handoff.searchParams.has(absent)).toBe(false);
         }
-        expect(handoff.searchParams.get("state")).toBe(initiateForm.client_state);
+        expect(handoff.searchParams.get("state")).toBe(initiateBody.client_state);
 
         const completion = await completeWith(handoff);
         const body = await completion.json();
-        expect(completion.status).toBe(fixtures.complete.responses.authorized.status);
+        expect(completion.status).toBe(fixtures.complete.responses.approved.status);
         expect(body).toEqual({
-            ...fixtures.complete.responses.authorized.body,
+            ...fixtures.complete.responses.approved.body,
             transaction_id: initiated.transaction_id,
         });
     });
@@ -185,8 +198,8 @@ describe("shared WooCommerce broker v2 fixtures", () => {
         const { handoff } = await handoffFor("approve");
 
         const response = await postWooCommerceBrokerComplete({
-            request: formRequest(`${APP_ORIGIN}/api/oauth/broker/woocommerce/complete`, {
-                protocol_version: "2",
+            request: jsonRequest(COMPLETE_URL, {
+                protocol_version: 2,
                 transaction_id: handoff.searchParams.get("transaction_id") ?? "",
                 completion_code: handoff.searchParams.get("completion_code") ?? "",
                 completion_secret: "x".repeat(43),

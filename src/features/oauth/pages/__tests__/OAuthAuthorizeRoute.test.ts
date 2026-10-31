@@ -3,12 +3,25 @@ import { createElement } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { defaultParseSearch } from "@tanstack/react-router";
 import { Route } from "@/routes/$lng._auth.oauth.authorize.tsx";
+import {
+    getBrokerAuthorizationUrl,
+    getWooCommerceBrokerCallbackUrl,
+} from "@/features/oauth-client-broker/lib/brokerUrls.ts";
 
 const mockOAuthAuthorizePage = vi.hoisted(() =>
     vi.fn(({ searchParams }) =>
         createElement("div", { "data-testid": "oauth-authorize-page" }, searchParams.client_id),
     ),
 );
+
+vi.mock("@/env.ts", () => ({
+    env: {
+        VITE_APP_URL: "https://aura-historia.com",
+        VITE_API_URL: "https://api.aura-historia.com",
+        VITE_FEATURE_LOGIN_ENABLED: true,
+        VITE_FEATURE_SEARCH_ENABLED: true,
+    },
+}));
 
 vi.mock("@/features/oauth/pages/OAuthAuthorizePage.tsx", () => ({
     OAuthAuthorizePage: mockOAuthAuthorizePage,
@@ -154,6 +167,84 @@ describe("_auth.oauth.authorize route", () => {
             }),
         ).toHaveProperty("broker_error", "recipient_not_registered");
         expect(validateSearch({ broker_error: "made_up" })).toEqual({});
+    });
+
+    describe("WooCommerce broker entry", () => {
+        const TRANSACTION_ID = "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I";
+        const entry = {
+            client_id: "oc_01m5vyvraxecksre2zepjcza88",
+            redirect_uri: getWooCommerceBrokerCallbackUrl(),
+            response_type: "code",
+            scope: "product-listings:read product-listings:write",
+            state: TRANSACTION_ID,
+        };
+
+        it("reads the transaction from the authorization URL initiation returns", () => {
+            const url = new URL(
+                getBrokerAuthorizationUrl({
+                    transactionId: TRANSACTION_ID,
+                    clientId: entry.client_id,
+                    scope: entry.scope,
+                }),
+            );
+
+            expect(validateSearch(defaultParseSearch(url.search))).toEqual({
+                transaction_id: TRANSACTION_ID,
+            });
+        });
+
+        it("reads the entry the router returns to after sign-in, with the reference merged in", () => {
+            // The `_auth` guard's redirect carries the location with the validated search merged.
+            const returned = new URL(
+                `${getBrokerAuthorizationUrl({
+                    transactionId: TRANSACTION_ID,
+                    clientId: entry.client_id,
+                    scope: entry.scope,
+                })}&transaction_id=${TRANSACTION_ID}`,
+            );
+
+            expect(validateSearch(defaultParseSearch(returned.search))).toEqual({
+                transaction_id: TRANSACTION_ID,
+            });
+        });
+
+        it.each([
+            ["an added parameter", { ...entry, requires_listing_source_id: "true" }],
+            [
+                "another merged transaction",
+                { ...entry, transaction_id: "x2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I" },
+            ],
+            ["a resource", { ...entry, resource: "https://mcp.aura-historia.com/v1" }],
+            ["a missing scope", { ...entry, scope: undefined }],
+            ["another callback", { ...entry, redirect_uri: "https://shop.example/callback" }],
+            [
+                "the callback on another origin",
+                {
+                    ...entry,
+                    redirect_uri:
+                        "https://attacker.example/api/oauth/client/redirect-broker/woocommerce",
+                },
+            ],
+            ["another response type", { ...entry, response_type: "token" }],
+            ["a state that is no transaction reference", { ...entry, state: "merchant-state" }],
+            [
+                "a readable legacy state",
+                { ...entry, state: btoa(JSON.stringify({ redirect_uri: "https://x.example" })) },
+            ],
+        ])("does not read a request with %s as a broker entry", (_, search) => {
+            const params = Object.fromEntries(
+                Object.entries(search).filter(([, value]) => value !== undefined),
+            );
+
+            // Any other shape is a direct OAuth request, which requires a PKCE challenge.
+            expect(() => validateSearch(params)).toThrow();
+        });
+
+        it("keeps a direct request for the broker callback an OAuth request", () => {
+            expect(
+                validateSearch({ ...entry, code_challenge: "challenge", state: "legacy" }),
+            ).toMatchObject({ client_id: entry.client_id, redirect_uri: entry.redirect_uri });
+        });
     });
 
     it("treats a request with client_id as OAuth even if it names a transaction", () => {

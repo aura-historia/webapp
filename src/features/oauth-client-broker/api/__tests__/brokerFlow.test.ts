@@ -13,10 +13,13 @@ import {
     APP_ORIGIN,
     CALLBACK_URL,
     CLIENT_ID,
+    COMPLETE_URL,
     createBackend,
     createBrokerEnv,
     formRequest,
+    INITIATE_URL,
     installBrokerBindings,
+    jsonRequest,
     jsonResponse,
     LISTING_SOURCE_ID,
     MERCHANT_REDIRECT_URI,
@@ -44,10 +47,10 @@ function useBackend(script: Parameters<typeof createBackend>[0] = {}) {
     vi.stubGlobal("fetch", backend.fetchMock);
 }
 
-async function initiate(overrides: Record<string, string> = {}) {
+async function initiate(overrides: Record<string, unknown> = {}) {
     const response = await postWooCommerceBrokerInitiate({
-        request: formRequest(`${APP_ORIGIN}/api/oauth/broker/woocommerce/initiate`, {
-            protocol_version: "2",
+        request: jsonRequest(INITIATE_URL, {
+            protocol_version: 2,
             client_id: CLIENT_ID,
             merchant_redirect_uri: MERCHANT_REDIRECT_URI,
             client_state: CLIENT_STATE,
@@ -83,9 +86,9 @@ function callback(location: string, cookies: string[]) {
     });
 }
 
-function complete(fields: Record<string, string>) {
+function complete(fields: Record<string, unknown>) {
     return postWooCommerceBrokerComplete({
-        request: formRequest(`${APP_ORIGIN}/api/oauth/broker/woocommerce/complete`, fields),
+        request: jsonRequest(COMPLETE_URL, fields),
     });
 }
 
@@ -138,8 +141,13 @@ describe("WooCommerce OAuth broker protocol v2", () => {
         expect(`${authorizationUrl.origin}${authorizationUrl.pathname}`).toBe(
             `${APP_ORIGIN}/oauth/authorize`,
         );
-        expect([...authorizationUrl.searchParams.keys()]).toEqual(["transaction_id"]);
-        expect(authorizationUrl.searchParams.get("transaction_id")).toBe(body.transaction_id);
+        expect(Object.fromEntries(authorizationUrl.searchParams)).toEqual({
+            client_id: CLIENT_ID,
+            redirect_uri: CALLBACK_URL,
+            response_type: "code",
+            scope: "product-listings:write listing-sources:write",
+            state: body.transaction_id,
+        });
         expect(body.authorization_url).not.toContain(COMPLETION_SECRET);
         expect(body.authorization_url).not.toContain(CLIENT_STATE);
 
@@ -218,7 +226,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
         );
 
         const completion = await complete({
-            protocol_version: "2",
+            protocol_version: 2,
             transaction_id: body.transaction_id,
             completion_code: handoff.searchParams.get("completion_code") ?? "",
             completion_secret: COMPLETION_SECRET,
@@ -227,7 +235,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
         expect(completion.headers.get("Cache-Control")).toBe("no-store");
         expect(await completion.json()).toEqual({
             protocol_version: 2,
-            outcome: "authorized",
+            outcome: "approved",
             transaction_id: body.transaction_id,
             client_state: CLIENT_STATE,
             listing_source_id: LISTING_SOURCE_ID,
@@ -237,7 +245,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
         });
 
         const replay = await complete({
-            protocol_version: "2",
+            protocol_version: 2,
             transaction_id: body.transaction_id,
             completion_code: handoff.searchParams.get("completion_code") ?? "",
             completion_secret: COMPLETION_SECRET,
@@ -245,7 +253,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
         expect(replay.status).toBe(409);
         expect(await replay.json()).toEqual({
             protocol_version: 2,
-            error: "already_consumed",
+            error: "transaction_consumed",
             retryable: false,
         });
     });
@@ -275,7 +283,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             const { transactionId } = await runToHandoff();
 
             const guessed = await complete({
-                protocol_version: "2",
+                protocol_version: 2,
                 transaction_id: transactionId,
                 completion_code: "g".repeat(43),
                 completion_secret: COMPLETION_SECRET,
@@ -283,7 +291,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             expect(guessed.status).toBe(400);
             expect(await guessed.json()).toEqual({
                 protocol_version: 2,
-                error: "invalid_code",
+                error: "invalid_completion_code",
                 retryable: false,
             });
         });
@@ -303,7 +311,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             const { body } = await initiate();
 
             const early = await complete({
-                protocol_version: "2",
+                protocol_version: 2,
                 transaction_id: body.transaction_id,
                 completion_code: "g".repeat(43),
                 completion_secret: COMPLETION_SECRET,
@@ -311,7 +319,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             expect(early.status).toBe(409);
             expect(await early.json()).toEqual({
                 protocol_version: 2,
-                error: "authorization_pending",
+                error: "transaction_pending",
                 retryable: true,
             });
         });
@@ -519,7 +527,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             expect(backend.callsTo("/v1/oauth/token")).toHaveLength(0);
 
             const completion = await complete({
-                protocol_version: "2",
+                protocol_version: 2,
                 transaction_id: body.transaction_id,
                 completion_code: handoff.searchParams.get("completion_code") ?? "",
                 completion_secret: COMPLETION_SECRET,
@@ -562,7 +570,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             expect(handoff.origin).toBe("https://shop.example");
 
             const completion = await complete({
-                protocol_version: "2",
+                protocol_version: 2,
                 transaction_id: body.transaction_id,
                 completion_code: handoff.searchParams.get("completion_code") ?? "",
                 completion_secret: COMPLETION_SECRET,
@@ -718,7 +726,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             ).not.toBe("i".repeat(43));
 
             const completion = await complete({
-                protocol_version: "2",
+                protocol_version: 2,
                 transaction_id: transactionId,
                 completion_code: handoff.searchParams.get("completion_code") ?? "",
                 completion_secret: COMPLETION_SECRET,
@@ -746,7 +754,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             const { handoff, transactionId } = await runToHandoff();
 
             const completion = await complete({
-                protocol_version: "2",
+                protocol_version: 2,
                 transaction_id: transactionId,
                 completion_code: handoff.searchParams.get("completion_code") ?? "",
                 completion_secret: COMPLETION_SECRET,
@@ -762,7 +770,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             const { handoff, transactionId } = await runToHandoff();
 
             const completion = await complete({
-                protocol_version: "2",
+                protocol_version: 2,
                 transaction_id: transactionId,
                 completion_code: handoff.searchParams.get("completion_code") ?? "",
                 completion_secret: COMPLETION_SECRET,
@@ -808,7 +816,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
         useBackend({ revoke: () => jsonResponse({ error: "server_error" }, 500) });
         const succeeded = await runToHandoff();
         await complete({
-            protocol_version: "2",
+            protocol_version: 2,
             transaction_id: succeeded.transactionId,
             completion_code: "g".repeat(43),
             completion_secret: COMPLETION_SECRET,
@@ -841,8 +849,8 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             ["a malformed code", { completion_code: "short" }],
             ["a malformed secret", { completion_secret: "has spaces in it ".repeat(4) }],
         ])("rejects %s as invalid_request", async (_, override) => {
-            const fields: Record<string, string> = {
-                protocol_version: "2",
+            const fields: Record<string, unknown> = {
+                protocol_version: 2,
                 transaction_id: "t".repeat(43),
                 completion_code: "c".repeat(43),
                 completion_secret: COMPLETION_SECRET,
@@ -857,22 +865,49 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             expect((await response.json()).error).toBe("invalid_request");
         });
 
-        it("rejects a repeated field", async () => {
+        it("rejects a repeated member", async () => {
             const response = await postWooCommerceBrokerComplete({
-                request: formRequest(`${APP_ORIGIN}/api/oauth/broker/woocommerce/complete`, [
-                    ["protocol_version", "2"],
-                    ["transaction_id", "t".repeat(43)],
-                    ["completion_code", "c".repeat(43)],
-                    ["completion_code", "d".repeat(43)],
-                    ["completion_secret", COMPLETION_SECRET],
-                ]),
+                request: jsonRequest(
+                    COMPLETE_URL,
+                    `{"protocol_version":2,"transaction_id":"${"t".repeat(43)}",` +
+                        `"completion_code":"${"c".repeat(43)}","completion_code":"${"d".repeat(43)}",` +
+                        `"completion_secret":"${COMPLETION_SECRET}"}`,
+                ),
+            });
+            expect((await response.json()).error).toBe("invalid_request");
+        });
+
+        it.each([
+            ["a protocol version as text", { protocol_version: "2" }],
+            ["a numeric completion code", { completion_code: 1234 }],
+            ["an unknown member", { listing_source_id: OTHER_LISTING_SOURCE_ID }],
+        ])("rejects %s as invalid_request", async (_, override) => {
+            const response = await complete({
+                protocol_version: 2,
+                transaction_id: "t".repeat(43),
+                completion_code: "c".repeat(43),
+                completion_secret: COMPLETION_SECRET,
+                ...override,
+            });
+            expect(response.status).toBe(400);
+            expect((await response.json()).error).toBe("invalid_request");
+        });
+
+        it("rejects a form-encoded completion", async () => {
+            const response = await postWooCommerceBrokerComplete({
+                request: formRequest(COMPLETE_URL, {
+                    protocol_version: "2",
+                    transaction_id: "t".repeat(43),
+                    completion_code: "c".repeat(43),
+                    completion_secret: COMPLETION_SECRET,
+                }),
             });
             expect((await response.json()).error).toBe("invalid_request");
         });
 
         it("rejects another protocol version", async () => {
             const response = await complete({
-                protocol_version: "1",
+                protocol_version: 1,
                 transaction_id: "t".repeat(43),
                 completion_code: "c".repeat(43),
                 completion_secret: COMPLETION_SECRET,
@@ -882,7 +917,7 @@ describe("WooCommerce OAuth broker protocol v2", () => {
 
         it("reports an unknown transaction without creating one", async () => {
             const response = await complete({
-                protocol_version: "2",
+                protocol_version: 2,
                 transaction_id: "t".repeat(43),
                 completion_code: "c".repeat(43),
                 completion_secret: COMPLETION_SECRET,
@@ -896,19 +931,19 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             const second = await runToHandoff();
 
             const response = await complete({
-                protocol_version: "2",
+                protocol_version: 2,
                 transaction_id: second.transactionId,
                 completion_code: first.handoff.searchParams.get("completion_code") ?? "",
                 completion_secret: COMPLETION_SECRET,
             });
-            expect((await response.json()).error).toBe("invalid_code");
+            expect((await response.json()).error).toBe("invalid_completion_code");
         });
 
         it("rate-limits completion attempts per client address", async () => {
             bindings.limit.mockResolvedValue({ success: false });
 
             const response = await complete({
-                protocol_version: "2",
+                protocol_version: 2,
                 transaction_id: "t".repeat(43),
                 completion_code: "c".repeat(43),
                 completion_secret: COMPLETION_SECRET,

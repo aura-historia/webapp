@@ -1,5 +1,5 @@
 {
-  "description": "Sanitized fixtures of the WooCommerce OAuth broker protocol v2, shared with aura-historia/woocommerce-extension#126. Values are examples; random values are 32 bytes as base64url without padding. The normative contract is docs/oauth-protocol-guidelines.md.",
+  "description": "Sanitized fixtures of the WooCommerce OAuth broker protocol v2 as the WooCommerce extension (aura-historia/woocommerce-extension, from 0.3.2) sends and validates it. Values are examples; random values are 32 bytes as base64url without padding. The normative contract is docs/oauth-protocol-guidelines.md.",
   "protocol_version": 2,
   "encoding": {
     "random_value_pattern": "^[A-Za-z0-9_-]{43}$",
@@ -11,16 +11,19 @@
     }
   },
   "endpoints": {
-    "initiate": "POST https://aura-historia.com/api/oauth/broker/woocommerce/initiate",
-    "authorization": "GET https://aura-historia.com/oauth/authorize?transaction_id={transaction_id}",
-    "complete": "POST https://aura-historia.com/api/oauth/broker/woocommerce/complete",
+    "initiate": "POST https://aura-historia.com/api/oauth/client/redirect-broker/woocommerce/transactions",
+    "authorization": "GET https://aura-historia.com/oauth/authorize?client_id={client_id}&redirect_uri=https%3A%2F%2Faura-historia.com%2Fapi%2Foauth%2Fclient%2Fredirect-broker%2Fwoocommerce&response_type=code&scope={scope}&state={transaction_id}",
+    "complete": "POST https://aura-historia.com/api/oauth/client/redirect-broker/woocommerce/transactions/complete",
     "stage_origin": "https://stage.aura-historia.com"
   },
   "initiate": {
     "request": {
-      "content_type": "application/x-www-form-urlencoded",
-      "form": {
-        "protocol_version": "2",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      "json": {
+        "protocol_version": 2,
         "client_id": "oc_01m5vyvraxecksre2zepjcza88",
         "merchant_redirect_uri": "https://shop.example/wp-admin/admin.php?page=aura-historia-partner-connect",
         "client_state": "mRB0dSUtBEyJrgVt6xQGFFn0Wd6p8pcQxLwVHAwkiBs",
@@ -34,9 +37,10 @@
       "body": {
         "protocol_version": 2,
         "transaction_id": "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
-        "authorization_url": "https://aura-historia.com/oauth/authorize?transaction_id=q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
+        "authorization_url": "https://aura-historia.com/oauth/authorize?client_id=oc_01m5vyvraxecksre2zepjcza88&redirect_uri=https%3A%2F%2Faura-historia.com%2Fapi%2Foauth%2Fclient%2Fredirect-broker%2Fwoocommerce&response_type=code&scope=product-listings%3Awrite+listing-sources%3Awrite&state=q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
         "expires_at": "2026-10-30T12:15:00.000Z"
-      }
+      },
+      "authorization_url_rules": "An OAuth-shaped entry on the broker origin: client_id, redirect_uri (the broker callback), response_type=code, the exact requested scope and the transaction_id as state, nothing else. The consent page reads every value from the stored transaction."
     }
   },
   "merchant_handoff": {
@@ -47,30 +51,33 @@
   },
   "complete": {
     "request": {
-      "content_type": "application/x-www-form-urlencoded",
-      "form": {
-        "protocol_version": "2",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      "json": {
+        "protocol_version": 2,
         "transaction_id": "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
         "completion_code": "4Hm0wQ1dE9x2Lr7pYcVn6sKa3TbZ8uJf5gOiWlNqXyE",
         "completion_secret": "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
       }
     },
     "responses": {
-      "authorized": {
+      "approved": {
         "status": 200,
         "body": {
           "protocol_version": 2,
           "transaction_id": "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
           "client_state": "mRB0dSUtBEyJrgVt6xQGFFn0Wd6p8pcQxLwVHAwkiBs",
-          "outcome": "authorized",
+          "outcome": "approved",
           "listing_source_id": "ls_6rd827eqfefsva9teecmwa3ate",
           "access_token": "aurahistoria_example_access_token",
           "token_type": "Bearer",
           "scope": "product-listings:write listing-sources:write"
         },
         "optional_fields": {
-          "resource": "Present only when the initiation requested one; the exact requested value.",
-          "access_token_expires_at": "Present only when the backend returned expires_in; RFC 3339 UTC."
+          "resource": "Present only when the initiation requested one; the exact requested value. The WooCommerce extension never requests one.",
+          "access_token_expires_at": "Present only when the backend returned expires_in; RFC 3339 UTC. The WooCommerce extension rejects expiring tokens."
         }
       },
       "denied": {
@@ -100,19 +107,19 @@
     { "error": "invalid_request", "status": 400, "retryable": false },
     { "error": "unsupported_protocol_version", "status": 400, "retryable": false },
     { "error": "invalid_client", "status": 400, "retryable": false },
-    { "error": "invalid_redirect_uri", "status": 400, "retryable": false },
+    { "error": "invalid_destination", "status": 400, "retryable": false },
     { "error": "invalid_scope", "status": 400, "retryable": false },
     { "error": "invalid_target", "status": 400, "retryable": false },
     { "error": "invalid_completion_challenge", "status": 400, "retryable": false },
     { "error": "invalid_transaction", "status": 400, "retryable": false },
-    { "error": "invalid_code", "status": 400, "retryable": false },
-    { "error": "invalid_proof", "status": 400, "retryable": false },
-    { "error": "authorization_pending", "status": 409, "retryable": true },
-    { "error": "already_consumed", "status": 409, "retryable": false },
-    { "error": "expired_transaction", "status": 410, "retryable": false },
+    { "error": "invalid_completion_code", "status": 400, "retryable": false },
+    { "error": "invalid_completion_proof", "status": 400, "retryable": false },
+    { "error": "transaction_pending", "status": 409, "retryable": true },
+    { "error": "transaction_consumed", "status": 409, "retryable": false },
+    { "error": "transaction_expired", "status": 410, "retryable": false },
     { "error": "rate_limited", "status": 429, "retryable": true },
     { "error": "server_error", "status": 500, "retryable": false },
     { "error": "temporarily_unavailable", "status": 503, "retryable": true }
   ],
-  "endpoint_error_body_example": { "protocol_version": 2, "error": "invalid_proof", "retryable": false }
+  "endpoint_error_body_example": { "protocol_version": 2, "error": "invalid_completion_proof", "retryable": false }
 }
