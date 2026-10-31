@@ -210,7 +210,7 @@
         },
         "watchlist": {
           "title": "Lista privata",
-          "description": "Salva gli oggetti con discrezione e torna quando conta. Ti avvisiamo dei cambiamenti di prezzo, stato e disponibilità e teniamo in vista la storia di ogni oggetto: indicizzato, battuto all’asta, rimesso in vendita, riprezzato, venduto.",
+          "description": "Salva gli oggetti con discrezione e torna quando conta. Ti avvisiamo dei cambiamenti di prezzo, stato e disponibilità e teniamo traccia della storia di ogni oggetto: indicizzato, battuto all’asta, rimesso in vendita, con nuovo prezzo, venduto.",
           "cta": "Crea la tua lista"
         },
         "alerts": {
@@ -268,7 +268,7 @@
     "audience": {
       "eyebrow": "Pubblico",
       "title": "Chi usa <em>Aura Historia.</em>",
-      "description": "Collezionisti e professionisti che seguono antiquariato e arte su più di una fonte. Partiamo da Europa e Stati Uniti, ed estendiamo continuamente la copertura ad altri mercati.",
+      "description": "Collezionisti e professionisti che seguono antiquariato e arte su più di una fonte. Partiamo dall’Europa e dagli Stati Uniti ed estendiamo continuamente la copertura ad altri mercati.",
       "groups": {
         "collectors": {
           "heading": "Collezionisti",
@@ -352,11 +352,11 @@
           "answer": "No. Gli annunci sono mostrati come le fonti li pubblicano, tradotti quando serve. Le questioni di valore, stato e autenticità si chiariscono con il venditore."
         },
         "barnebys": {
-          "question": "In cosa Aura Historia è diversa da Barnebys?",
+          "question": "In cosa si differenzia Aura Historia da Barnebys?",
           "answer": "Barnebys è più forte sulle case d’asta. Aura Historia indicizza anche antiquari, negozi specializzati e marketplace, allinea gli annunci in cinque lingue e controlla continuamente le variazioni. La nostra pagina di confronto illustra le differenze nel dettaglio."
         },
         "contact": {
-          "question": "Come contatto Aura Historia?",
+          "question": "Come posso contattare Aura Historia?",
           "answer": "Scrivi a contact@aura-historia.com per domande, suggerimenti di fonti o segnalazioni di violazioni di legge."
         }
       }

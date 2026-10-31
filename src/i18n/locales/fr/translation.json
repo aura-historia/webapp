@@ -14,7 +14,7 @@
     },
     "about": {
       "title": "À propos | Aura Historia",
-      "description": "Aura Historia est un moteur de recherche mondial pour les antiquités et l’art, chez les marchands, maisons de ventes et places de marché. Ce que nous faisons et qui nous sommes."
+      "description": "Aura Historia est un moteur de recherche mondial dédié aux antiquités et à l’art, qui couvre marchands, maisons de ventes et places de marché. Ce que nous faisons, ce qui nous distingue et qui nous sommes."
     },
     "search": {
       "title": "Rechercher des antiquités | Aura Historia",
@@ -210,12 +210,12 @@
         },
         "watchlist": {
           "title": "Liste de surveillance privée",
-          "description": "Enregistrez des objets en toute discrétion et revenez-y au bon moment. Nous vous informons des changements de prix, de statut et de disponibilité, et gardons l’historique de chaque objet en vue : indexé, mis aux enchères, remis en vente, réévalué, vendu.",
+          "description": "Enregistrez des objets en toute discrétion et revenez-y au bon moment. Nous vous informons des changements de prix, de statut et de disponibilité, et gardons l’historique de chaque objet en vue : indexé, mis aux enchères, remis en vente, prix modifié, vendu.",
           "cta": "Créer une liste de surveillance"
         },
         "alerts": {
           "title": "Alertes de recherche",
-          "description": "Décrivez une fois ce que vous cherchez, et nous vérifions les annonces nouvellement indexées ou mises à jour. Les formules payantes ajoutent des critères comme le fournisseur, le lieu et l’expédition ; avec Ultimate, vous rédigez des consignes avec vos propres mots, comparées au texte des annonces et à quatre images au plus.",
+          "description": "Décrivez une fois ce que vous cherchez, et nous vérifions si les annonces nouvellement indexées ou mises à jour y correspondent. Les formules payantes ajoutent des critères comme le fournisseur, le lieu et l’expédition ; avec Ultimate, vous rédigez des consignes avec vos propres mots, comparées au texte des annonces et à quatre images au plus.",
           "cta": "Créer une alerte de recherche"
         },
         "partners": {
@@ -251,10 +251,10 @@
           "description": "Les annonces sont traduites et la terminologie des antiquités harmonisée entre l’anglais, l’allemand, le français, l’espagnol et l’italien : une recherche dans votre langue trouve aussi des objets catalogués dans une autre. Barnebys conserve souvent le texte des annonces dans la langue du vendeur."
         },
         "current": {
-          "title": "Ce qui est proposé, pas ce qui s’est vendu",
+          "title": "Ce qui est proposé aujourd’hui, pas ce qui s’est vendu",
           "figure": "Aujourd’hui",
           "figureLabel": "Offres actuelles, pas résultats passés",
-          "description": "Les bases de prix comme WorthPoint et Artprice recensent ce qui s’est déjà vendu, et à quel prix. Aura Historia montre ce qui est disponible aujourd’hui et suit chaque objet au fil des changements de prix, des enchères et des remises en vente."
+          "description": "Les bases de données de prix comme WorthPoint et Artprice recensent ce qui s’est déjà vendu, et à quel prix. Aura Historia montre ce qui est disponible aujourd’hui et suit chaque objet au fil des changements de prix, des enchères et des remises en vente."
         },
         "seller": {
           "title": "La vente reste chez le vendeur",
@@ -268,7 +268,7 @@
     "audience": {
       "eyebrow": "Public",
       "title": "Qui utilise <em>Aura Historia.</em>",
-      "description": "Des collectionneurs et des professionnels qui suivent les antiquités et l’art sur plus d’une source. Nous commençons par l’Europe et les États-Unis, et étendons continuellement notre couverture à d’autres marchés.",
+      "description": "Des collectionneurs et des professionnels qui suivent les antiquités et l’art à travers plusieurs sources. Nous commençons par l’Europe et les États-Unis, et étendons continuellement notre couverture à d’autres marchés.",
       "groups": {
         "collectors": {
           "heading": "Collectionneurs",
@@ -291,7 +291,7 @@
       }
     },
     "team": {
-      "eyebrow": "Les personnes",
+      "eyebrow": "Équipe",
       "title": "L’équipe derrière <em>Aura Historia.</em>",
       "story": {
         "origin": "Aura Historia est né à Leipzig en 2026, de l’expérience d’un collectionneur : les objets qui valent la peine d’être trouvés apparaissent souvent loin des canaux évidents, chez des marchands spécialisés, de petites boutiques, des maisons de ventes et des places de marché, chacun avec sa propre langue et ses habitudes de catalogage.",

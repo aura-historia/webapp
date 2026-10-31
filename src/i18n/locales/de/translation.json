@@ -210,7 +210,7 @@
         },
         "watchlist": {
           "title": "Private Merkliste",
-          "description": "Merken Sie sich Objekte diskret vor und kehren Sie zurück, wenn es darauf ankommt. Wir benachrichtigen Sie über Änderungen bei Preis, Status und Verfügbarkeit und halten die Geschichte jedes Objekts sichtbar: erfasst, versteigert, wieder eingestellt, neu bepreist, verkauft.",
+          "description": "Merken Sie sich Objekte diskret vor und kehren Sie zurück, wenn es darauf ankommt. Wir benachrichtigen Sie über Änderungen bei Preis, Status und Verfügbarkeit und halten den Verlauf jedes Objekts im Blick: erfasst, versteigert, wieder eingestellt, neu bepreist, verkauft.",
           "cta": "Merkliste anlegen"
         },
         "alerts": {
@@ -239,7 +239,7 @@
           "source": "Quelle: Art Basel / UBS"
         },
         "alerts": {
-          "title": "Benachrichtigt, sobald sich Angebote ändern",
+          "title": "Benachrichtigungen, sobald sich Angebote ändern",
           "figure": "Laufend",
           "figureLabel": "Beobachtung statt Tageszusammenfassung",
           "description": "Wir prüfen neue Angebote, Preisänderungen und Verfügbarkeit laufend und benachrichtigen Sie bei Treffern. Die Suchbenachrichtigungen von Barnebys folgen einem täglichen Prüfrhythmus mit dem bekannten Zeitfenster um 18:00 Uhr CEST."
@@ -254,13 +254,13 @@
           "title": "Was heute angeboten wird, nicht was verkauft wurde",
           "figure": "Jetzt",
           "figureLabel": "Aktuelle Angebote statt vergangener Ergebnisse",
-          "description": "Preisdatenbanken wie WorthPoint und Artprice dokumentieren, was bereits verkauft wurde und zu welchem Preis. Aura Historia zeigt, was heute verfügbar ist, und begleitet jedes Objekt durch Preisänderungen, Auktionen und erneute Einstellungen."
+          "description": "Preisdatenbanken wie WorthPoint und Artprice dokumentieren, was bereits verkauft wurde und zu welchem Preis. Aura Historia zeigt, was heute verfügbar ist, und begleitet jedes Objekt über Preisänderungen, Auktionen und Wiedereinstellungen hinweg."
         },
         "seller": {
           "title": "Der Verkauf bleibt beim Anbieter",
           "figure": "0 %",
           "figureLabel": "Provision auf Partnerverkäufe",
-          "description": "Käufe finden auf der Website des Anbieters statt; wir wickeln keinen Verkauf ab. Partnershops zahlen keine Einrichtungs-, Listing- oder Verkaufsgebühren, während ein Marktplatz wie Catawiki Verkäufern eine Erfolgsprovision von 12,5 % zuzüglich eines Festbetrags pro Verkauf berechnet.",
+          "description": "Käufe finden auf der Website des Anbieters statt; wir wickeln keinen Verkauf ab. Partner-Shops zahlen keine Einrichtungs-, Listing- oder Verkaufsgebühren, während ein Marktplatz wie Catawiki Verkäufern eine Erfolgsprovision von 12,5 % zuzüglich eines Festbetrags pro Verkauf berechnet.",
           "source": "Quelle: Catawiki-Hilfecenter für Verkäufer"
         }
       }
@@ -268,7 +268,7 @@
     "audience": {
       "eyebrow": "Zielgruppe",
       "title": "Wer Aura Historia <em>nutzt.</em>",
-      "description": "Sammler und Fachleute, die Antiquitäten und Kunst über mehr als eine Quelle hinweg verfolgen. Wir beginnen mit Europa und den Vereinigten Staaten und erweitern unsere Abdeckung weiterer Märkte laufend.",
+      "description": "Sammler und Fachleute, die Antiquitäten und Kunst über mehr als eine Quelle hinweg verfolgen. Wir beginnen mit Europa und den Vereinigten Staaten und erweitern unsere Abdeckung laufend um weitere Märkte.",
       "groups": {
         "collectors": {
           "heading": "Sammler",
@@ -285,7 +285,7 @@
             "dealers": "Antiquitätenhändler und Galerien, die Ware einkaufen und Angebotspreise verfolgen",
             "auctionHouses": "Experten und Katalogisierer von Auktionshäusern, die vergleichbare Angebote prüfen",
             "researchers": "Marktforscher und Analysten, die Preise und Verfügbarkeit über die Zeit verfolgen",
-            "partners": "Händler und Auktionshäuser, die ihr Angebot als Partnershop einstellen"
+            "partners": "Händler und Auktionshäuser, die ihr Angebot als Partner-Shops einstellen"
           }
         }
       }
@@ -337,7 +337,7 @@
         },
         "whoIsBehind": {
           "question": "Wer steht hinter Aura Historia?",
-          "answer": "Aura Historia wird von einem fünfköpfigen Team entwickelt – mit Schwerpunkten in Webentwicklung, Datenautomatisierung, Interface-Design und Knowledge-Graph-Engineering. Sitz ist Leipzig."
+          "answer": "Aura Historia wird von einem fünfköpfigen Team entwickelt – mit Schwerpunkten in Webentwicklung, Datenautomatisierung, Interface-Design und Knowledge-Graph-Engineering. Der Sitz ist in Leipzig."
         },
         "isFree": {
           "question": "Ist Aura Historia kostenlos?",

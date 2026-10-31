@@ -221,7 +221,7 @@
         "partners": {
           "title": "Partner program",
           "description": "Dealers and auction houses connect their shop through our Shopify app, WordPress plugin or a custom API. Their pieces reach collectors searching in their own language, and buyers continue to the partner’s website. No fees, no commission.",
-          "cta": "Partner program"
+          "cta": "Explore the partner program"
         }
       }
     },
@@ -248,7 +248,7 @@
           "title": "Five languages, one vocabulary",
           "figure": "5",
           "figureLabel": "Languages, terms aligned",
-          "description": "Listings are translated and antique terminology aligned across English, German, French, Spanish and Italian, so a search in your language also finds objects catalogued in another. Barnebys often keeps listing text in the language of the seller."
+          "description": "Listings are translated and antiques terminology aligned across English, German, French, Spanish and Italian, so a search in your language also finds objects catalogued in another. Barnebys often keeps listing text in the language of the seller."
         },
         "current": {
           "title": "What is offered now, not what sold",
@@ -310,7 +310,7 @@
         },
         "lucaFranke": {
           "position": "Lead Webapp Engineer",
-          "bio": "Luca leads the web application work, translating Aura Historia's research and discovery goals into a reliable, maintainable product experience. Luca previously worked on web and app development for marketplaces."
+          "bio": "Luca leads the web application work, translating Aura Historia’s research and discovery goals into a reliable, maintainable product experience. Luca previously worked on web and app development for marketplaces."
         },
         "abdellahFilali": {
           "position": "Lead Data Automation Engineer",
