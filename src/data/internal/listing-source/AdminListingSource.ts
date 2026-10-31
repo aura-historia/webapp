@@ -29,6 +29,31 @@ export const ADMIN_LISTING_SOURCE_SORT_FIELDS = [
     "updated",
 ] as const satisfies readonly SortListingSourceFieldData[];
 
+/** Established platform codes offered as suggestions; any well-formed code is accepted. */
+export const ADMIN_LISTING_SOURCE_PLATFORM_SUGGESTIONS = [
+    "SHOPIFY",
+    "WOOCOMMERCE",
+    "BIGCOMMERCE",
+    "SHOPWARE",
+] as const;
+
+const PLATFORM_TECHNOLOGY_PATTERN = /^[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)*$/;
+const PLATFORM_TECHNOLOGY_MAX_LENGTH = 64;
+
+/** Trims and upper-cases ASCII letters; codes are SCREAMING_SNAKE_CASE, so case carries no meaning. */
+export function normalizePlatformTechnology(value: string): string {
+    return value.trim().replace(/[a-z]/g, (letter) => letter.toUpperCase());
+}
+
+/** Whether `value`, once normalized, is empty or a well-formed platform code. */
+export function isOptionalPlatformTechnology(value: string): boolean {
+    const code = normalizePlatformTechnology(value);
+    return (
+        code === "" ||
+        (code.length <= PLATFORM_TECHNOLOGY_MAX_LENGTH && PLATFORM_TECHNOLOGY_PATTERN.test(code))
+    );
+}
+
 export type AdminListingSourceSortField = (typeof ADMIN_LISTING_SOURCE_SORT_FIELDS)[number];
 export type AdminListingSourceSortOrder = "asc" | "desc";
 
@@ -42,6 +67,8 @@ export type AdminListingSourceSummary = {
         readonly name: string;
     };
     readonly ingestionMethods: readonly ListingIngestionMethodData[];
+    /** Descriptive admin metadata, independent of ingestion; absent when none is recorded. */
+    readonly platformTechnology?: string;
     readonly presentation: {
         readonly url?: string;
         readonly image?: string;
@@ -68,6 +95,7 @@ export type AdminListingSourceFilters = {
     readonly listingSourceSlugId?: string;
     readonly operatorPartyId?: string;
     readonly ingestionMethod?: ListingIngestionMethodData;
+    readonly platformTechnology?: string;
     readonly sort?: AdminListingSourceSortField;
     readonly order?: AdminListingSourceSortOrder;
 };
@@ -97,6 +125,8 @@ export function mapToAdminListingSourceSearchQuery(
     if (listingSourceSlugId) query.listingSourceSlugId = listingSourceSlugId;
     if (operatorPartyId) query.operatorPartyId = operatorPartyId;
     if (filters.ingestionMethod) query.ingestionMethod = filters.ingestionMethod;
+    const platformTechnology = normalizePlatformTechnology(filters.platformTechnology ?? "");
+    if (platformTechnology) query.platformTechnology = platformTechnology;
     if (filters.sort && filters.order) {
         query.sort = filters.sort;
         query.order = filters.order;
@@ -131,6 +161,7 @@ export function mapToAdminListingSourceSummary(
         name: data.name,
         operator: mapOperator(data.operator),
         ingestionMethods: data.ingestionMethods,
+        ...(data.platformTechnology ? { platformTechnology: data.platformTechnology } : {}),
         presentation: mapPresentation(data.presentation),
         ...(Object.hasOwn(data, "referralConfiguration")
             ? { referralConfiguration: data.referralConfiguration }
@@ -157,6 +188,7 @@ export function mapToAdminListingSourceDetail(data: ListingSourceData): AdminLis
         name: data.name,
         operator: mapOperator(data.operator),
         ingestionMethods: data.ingestionMethods,
+        ...(data.platformTechnology ? { platformTechnology: data.platformTechnology } : {}),
         presentation: {
             ...(data.url ? { url: data.url } : {}),
             ...(data.image ? { image: data.image } : {}),
@@ -189,6 +221,7 @@ export type AdminListingSourceCreateValues = {
     readonly operatorName: string;
     readonly operatorPhone: string;
     readonly operatorEmail: string;
+    readonly platformTechnology: string;
     readonly configurations: readonly AdminListingSourceConfigurationFields[];
     readonly url: string;
     readonly image: string;
@@ -207,6 +240,7 @@ export type AdminListingSourceUpdateConfigurationFields = {
 
 export type AdminListingSourceUpdateValues = {
     readonly name: string;
+    readonly platformTechnology: string;
     readonly url: string;
     readonly image: string;
     readonly referralAction: "KEEP" | "SET" | "CLEAR";
@@ -290,9 +324,11 @@ export function buildCreateAdminListingSourceData(
                       : {}),
               };
     const camref = optionalValue(values.partnerizeCamref);
+    const platformTechnology = normalizePlatformTechnology(values.platformTechnology);
     return {
         name: values.name.trim(),
         operator,
+        ...(platformTechnology ? { platformTechnology } : {}),
         ingestionConfiguration: values.configurations.map(mapCreateConfiguration),
         ...(optionalValue(values.url) ? { url: optionalValue(values.url) } : {}),
         ...(optionalValue(values.image) ? { image: optionalValue(values.image) } : {}),
@@ -341,7 +377,11 @@ export function buildUpdateAdminListingSourceData(
     const name = values.name.trim();
     const url = values.url.trim();
     const image = values.image.trim();
+    const platformTechnology = normalizePlatformTechnology(values.platformTechnology);
     if (name !== source.name) patch.name = name;
+    if (platformTechnology !== (source.platformTechnology ?? "")) {
+        patch.platformTechnology = platformTechnology || null;
+    }
     if (url !== (source.presentation.url ?? "")) patch.url = url || null;
     if (image !== (source.presentation.image ?? "")) patch.image = image || null;
     if (values.referralAction === "SET") {

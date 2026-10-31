@@ -108,6 +108,21 @@ describe("admin product listing requests", () => {
         expect(error.message).toBe(`adminProductListings.errors.${reason}`);
     });
 
+    it("names a rejected title only for an update problem on the title", () => {
+        const factory = createAdminProductListingErrorFactory(((key: string) => key) as never);
+        const problem = (field: string) => ({
+            error: "BAD_BODY_VALUE",
+            source: { field, type: "BODY" },
+            detail: "private diagnostic",
+        });
+
+        expect(factory(400, "update", problem("title.text")).reason).toBe("invalidTitle");
+        expect(factory(400, "update", problem("title")).reason).toBe("invalidTitle");
+        expect(factory(400, "update", problem("titleLanguage")).reason).toBe("invalid");
+        expect(factory(400, "update", problem("description.text")).reason).toBe("invalid");
+        expect(factory(400, "withdraw", problem("title.text")).reason).toBe("invalid");
+    });
+
     it("hides API response details from read errors", async () => {
         api.getAdminProductListing.mockResolvedValue(failure(404, "PRODUCT_LISTING_NOT_FOUND"));
 

@@ -73,6 +73,22 @@ export async function getServerUserSession() {
     }
 }
 
+/** The signed-in user's access JWT with its subject, for binding a decision to the account. */
+export async function getServerAuthIdentity(): Promise<
+    { readonly accessToken: string; readonly userSub: string } | undefined
+> {
+    const context = createServerAmplifyContext();
+    try {
+        const accessToken = (await fetchAuthSession(context)).tokens?.accessToken;
+        const userSub = accessToken?.payload.sub;
+        return accessToken && typeof userSub === "string"
+            ? { accessToken: accessToken.toString(), userSub }
+            : undefined;
+    } catch {
+        return undefined;
+    }
+}
+
 export async function getServerAuthToken(): Promise<string | undefined> {
     const context = createServerAmplifyContext();
     try {

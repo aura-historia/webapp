@@ -18,6 +18,7 @@ import {
     mapListingPrice,
     mapListingPriceEstimate,
 } from "@/data/internal/product/ProductListingDomain.ts";
+import type { SourceTextLanguage } from "@/data/internal/common/Language.ts";
 import {
     mapProductListingSource,
     type ProductListingSource,
@@ -104,11 +105,20 @@ export type AdminProductListingAuctionPatch = {
     readonly timing?: AdminProductListingTimingPatch;
 };
 
+/** Replacement original text; the language is the text's own, never a translation target. */
+export type AdminProductListingTextPatch = {
+    readonly text: string;
+    readonly language: SourceTextLanguage;
+};
+
 /**
- * Editable facts only. Omission preserves, `null` clears price, an estimate or availability.
- * URL, images and the auction object are never null; `images: []` empties the collection.
+ * Editable facts only. Omission preserves, `null` clears the title, description, price, an
+ * estimate or availability. URL, images and the auction object are never null; `images: []`
+ * empties the collection.
  */
 export type AdminProductListingPatch = {
+    readonly title?: AdminProductListingTextPatch | null;
+    readonly description?: AdminProductListingTextPatch | null;
     readonly price?: ListingPrice | null;
     readonly priceEstimateMin?: ListingPriceEstimate | null;
     readonly priceEstimateMax?: ListingPriceEstimate | null;
@@ -234,6 +244,10 @@ function mapPrice(price: ListingPrice | null): UpdateAdminProductListing["price"
     return { type: "MONETARY", currency: price.currency, amount: price.amount };
 }
 
+function mapTextPatch(text: AdminProductListingTextPatch | null) {
+    return text === null ? null : { text: text.text, language: text.language };
+}
+
 function mapEstimate(estimate: ListingPriceEstimate | null) {
     return estimate === null ? null : { currency: estimate.currency, amount: estimate.amount };
 }
@@ -248,6 +262,10 @@ export function mapToBackendAdminProductListingPatch(
 ): UpdateAdminProductListing {
     return {
         expectedVersion,
+        ...(patch.title !== undefined && { title: mapTextPatch(patch.title) }),
+        ...(patch.description !== undefined && {
+            description: mapTextPatch(patch.description),
+        }),
         ...(patch.price !== undefined && { price: mapPrice(patch.price) }),
         ...(patch.priceEstimateMin !== undefined && {
             priceEstimateMin: mapEstimate(patch.priceEstimateMin),

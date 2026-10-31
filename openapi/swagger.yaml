@@ -350,7 +350,7 @@ paths:
       operationId: getAdminProductListing
       description: >-
         Administrator authority is required; delegated Aura tokens additionally require `product-listings:read`. Cognito administrators need no delegated scope or Partnership grant. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness.
-        Original title/description, slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
+        Original title/description are mutable; slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
       tags: [ProductListings]
       security:
         - BearerAuth: []
@@ -1345,8 +1345,7 @@ paths:
         per entry, so an authenticated empty array returns `[]` without them.\n\nThe request body is an array of `UpsertProductListingData`\
         \ objects. Each entry is upserted\nsynchronously in its own PostgreSQL transaction. For each entry:\n- **New listing**\
         \ — omitted or `null` availability, price, and estimates create no value; `auction` is omitted or an asserted nested Auction/lot-facts patch (not `null`).\n- **Existing listing** — availability, price, and each price estimate\n  are tri-state: omitted preserves, `null` clears, and a concrete value replaces. Omit `auction` to preserve it; `auction: null` is invalid. Within an asserted Auction/lot-facts patch, each lot/timing leaf is tri-state: omit to preserve, `null` to clear clearable leaves, or provide a value to set. `auctionId` must name an existing Auction for this ListingSource; omit it to preserve membership, send `null` to clear it, or send an ID to set it. A withdrawn\n  listing is restored before current facts\
-        \ apply.\n- `title` and `description` apply only on creation. For an\n  existing\
-        \ listing they preserve current state and emit no current-state history event.\n- `images` is separate: omit to preserve,\
+        \ apply.\n- `title` and `description` are tri-state: omit to preserve, `null` to clear, or provide localized text to replace it. Whitespace-equivalent text is unchanged; meaningful changes retain full original text history and refresh asynchronous enrichment.\n- `images` is separate: omit to preserve,\
         \ send `[]` to clear, or send an array to replace.\n  `null` is invalid. `url` is non-clearable: omit or send `null`\
         \ to preserve it; send a URL\n  value to replace it.\n\nThe response returns HTTP 200 with failures as `{ listingSourceId,\
         \ sourceListingId, error }` objects when\none or more entries succeed. `error` is the stable API error key for that\
@@ -1668,7 +1667,7 @@ paths:
       operationId: getPartnerProductListing
       description: >-
         An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:read`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness.
-        Original title/description, slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
+        Original title/description are mutable; slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
       tags: [ProductListings]
       security:
         - BearerAuth: []
@@ -2221,7 +2220,7 @@ paths:
         null clears clearable values and nested auction leaves. `auction.auctionId` may be omitted
         to preserve membership, null to clear it or an ID to set it. `images: []` clears images,
         while `images: null` and `auction: null` are invalid. An omitted or null `url` preserves
-        an existing URL; a URL value replaces it. Title and description apply on creation only.
+        an existing URL; a URL value replaces it. Title and description use tri-state patches on both creation and update: omission preserves, null clears, and a localized value sets.
         Auction existence, listing state, partnership/source authority, lifecycle and other
         business conflicts are decided downstream, not as an
         immediate item failure or synchronous `404`.
@@ -2549,17 +2548,17 @@ paths:
         - optionally, the WooCommerce delivery identifier in `x-wc-webhook-delivery-id`.
 
 
-        A supplied delivery identifier applies only when an event maps to raw capture. Its provider receipt retains only a
+        A supplied delivery identifier applies only when an event maps to raw capture. Its provider receipt binds the identifier to a
 
-        canonical semantic source-payload SHA-256 evidence digest for 90 days. A captured-observation retry with the same
+        canonical semantic source-payload SHA-256 evidence digest for 90 days, because WooCommerce repeats identifiers within one second.
 
-        digest may be deduplicated during downstream capture; reuse with different evidence fails in the consumer, not as an immediate HTTP `409`.
+        An exact retry of a captured observation may be deduplicated during downstream capture; a different payload under the same identifier is a separate observation ordered by `date_modified_gmt`.
 
         Logical receipt expiry permits a new receipt but never removes or rewrites a captured raw revision or its provenance.
 
-        A timestamp-free DELETE establishes a restore barrier. A later UPSERT without a provably newer `date_modified_gmt`
+        A timestamp-free DELETE sets a restore barrier at the later of its capture time and every `date_modified_gmt` already known for the product.
 
-        fails during downstream capture (`WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS`), not as an immediate HTTP `409`. Admission does not create a provider receipt or raw revision; investigate the failed FIFO command before reconciliation or redrive.
+        A later observation applies only when its `date_modified_gmt` is after the barrier; older ones complete without effect. An UPSERT without `date_modified_gmt` is rejected and logged during downstream capture (`CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS`), not as an immediate HTTP `409`. Admission does not create a provider receipt or raw revision.
 
         The service verifies the signature over untouched body bytes before JSON parsing, then submits mapped observations as `CAPTURE_RAW` to the shared FIFO after bearer/capability checks and source configuration lookup. The consumer checks the current partner/source grant for mapped observations; ignored no-ops check it immediately. Only a matching, confirmed queue acceptance permits `204`; rejected, oversized, unconfirmed, and not-attempted submissions are not acknowledged. The FIFO consumer later commits raw capture with the command receipt; provider receipt and source-order decisions occur during that capture. Authorized ignored create/update events are no-op `204` without queue send or receipt, even when they include a delivery identifier. Retry an uncertain submission with the same signed body, topic, source, actor and delivery identifier where provided; without a delivery identifier, retries cannot recover the original command identity after a lost reply and have no provider receipt-based deduplication guarantee. A lost reply may already have enqueued work; never infer rollback from a non-204.
 
@@ -2578,7 +2577,21 @@ paths:
 
         only `id`
 
-        - `product.deleted` captures a DELETE and requires only `id`
+        - `product.created` and `product.updated` with `type: variation` are authorized ignored events whatever their
+
+        status and require only `id`. A variation belongs to its parent product's listing: when WooCommerce saves or
+
+        deletes a variation it re-saves the parent and delivers the parent's own `product.updated`, which refreshes
+
+        that listing.
+
+        - `product.deleted` captures a DELETE for the delivered `id` and requires only `id`. WooCommerce sends only
+
+        `id` for a deleted variation as well, so deleting a variation never withdraws its parent's listing.
+
+        - every DELETE withdraws the listing whose `sourceListingId` equals the delivered `id`, including a listing
+
+        created only through the partner product-listing API
 
 
         The listing source identified by `listingSourceId` must have a WooCommerce ingestion configuration
@@ -2633,7 +2646,7 @@ paths:
         - name: x-wc-webhook-delivery-id
           in: header
           required: false
-          description: "Optional WooCommerce delivery identifier. For an event that maps to raw capture, its downstream provider receipt retains only a canonical semantic source-payload SHA-256 evidence digest for 90 days and deduplicates retries when applied. Reuse with different evidence fails during consumer capture, not as an immediate HTTP conflict. Logical receipt expiry permits a new receipt but never removes or rewrites a captured raw revision or its provenance. Authorized ignored create/update status events persist no receipt and receive no receipt-based retry-deduplication, even when this header is supplied. When absent, no provider receipt or receipt-based retry-deduplication guarantee is made."
+          description: "Optional WooCommerce delivery identifier. For an event that maps to raw capture, its downstream provider receipt binds the identifier to a canonical semantic source-payload SHA-256 evidence digest for 90 days and deduplicates exact retries when applied. WooCommerce repeats an identifier within one second, so a different payload under the same identifier is a separate observation, not a conflict. Logical receipt expiry permits a new receipt but never removes or rewrites a captured raw revision or its provenance. Authorized ignored create/update events persist no receipt and receive no receipt-based retry-deduplication, even when this header is supplied. When absent, no provider receipt or receipt-based retry-deduplication guarantee is made."
           schema:
             type: string
             minLength: 1
@@ -2643,11 +2656,11 @@ paths:
         required: true
         description: "Topic-specific WooCommerce product payload.
 
-          Every topic requires `id`. For `product.created` and `product.updated`, `status: publish` captures an UPSERT and requires nonblank `name` and `permalink`; `status: trash`, `draft`, `pending`, or `private` captures a DELETE and requires only `id`. Missing or unsupported create/update statuses are authorized ignored events and require only `id`. `product.deleted` captures a DELETE and requires only `id`; its other fields are optional and ignored when absent.
+          Every topic requires `id`. For `product.created` and `product.updated`, `status: publish` captures an UPSERT and requires nonblank `name` and `permalink`; `status: trash`, `draft`, `pending`, or `private` captures a DELETE and requires only `id`. Missing or unsupported create/update statuses are authorized ignored events and require only `id`. A create/update payload with `type: variation` is an authorized ignored event whatever its status. `product.deleted` captures a DELETE for the delivered `id` and requires only `id`; its other fields are optional and ignored when absent.
 
-          WooCommerce `description` and `short_description` are accepted but ignored on all topics. They do not populate Aura's canonical product description and are omitted from persisted `source_payload`; provider-receipt evidence digests use this sanitized payload. The webhook signature is still verified over the exact original request body bytes.
+          WooCommerce `description`, `short_description` and `related_ids` are accepted but ignored on all topics. Descriptions do not populate Aura's canonical product description, and `related_ids` is a random sample of related products; all three are omitted from persisted `source_payload`, and provider-receipt evidence digests use this sanitized payload. The webhook signature is still verified over the exact original request body bytes.
 
-          When present on an event that maps to raw capture, WooCommerce `date_modified_gmt` is the source ordering timestamp. It accepts a no-offset GMT value interpreted as UTC, RFC3339 `Z`, or RFC3339 `+00:00`; malformed or nonzero-offset values return `400 BAD_BODY_VALUE` before submission. Valid timestamps are checked for conflicts only during consumer capture. `product.created` and `product.updated` events with missing or unsupported status are ignored only after capability and source authorization, then acknowledge `204` without parsing `date_modified_gmt` or constructing a provider receipt; a denied ignored event returns `403 FORBIDDEN`. An authorized ignored event persists no provider receipt even if a delivery ID is supplied. Omit it when source order is unavailable; an omitted timestamp provides no source-ordering guarantee.
+          When present on an event that maps to raw capture, WooCommerce `date_modified_gmt` is the source ordering timestamp. It accepts a no-offset GMT value interpreted as UTC, RFC3339 `Z`, or RFC3339 `+00:00`; malformed or nonzero-offset values return `400 BAD_BODY_VALUE` before submission. Valid timestamps order observations of the same product only during consumer capture: older observations complete without effect, and observations with an equal timestamp apply in arrival order, except that an UPSERT never overtakes a DELETE with the same timestamp. `product.created` and `product.updated` events with missing or unsupported status, or with `type: variation`, are ignored only after capability and source authorization, then acknowledge `204` without parsing `date_modified_gmt` or constructing a provider receipt; a denied ignored event returns `403 FORBIDDEN`. An authorized ignored event persists no provider receipt even if a delivery ID is supplied. Omit it when source order is unavailable; an omitted timestamp provides no source-ordering guarantee.
 
           "
         content:
@@ -2698,7 +2711,7 @@ paths:
       responses:
         "204":
           description:
-            "Webhook bearer/capability, source configuration, and exact-body signature are validated. Current partner/source grant authorization for mapped commands happens at consumer execution; ignored no-ops check it before response. A `204` acknowledges either an authorized ignored create/update status (no queue send or receipt) or matching confirmed acceptance of one `CAPTURE_RAW` command by the shared ProductListing FIFO. It does not confirm raw capture, provider receipt persistence, source-order checks, canonical normalization, or search visibility. Those decisions occur when the consumer executes the command. Ignored events do not parse `date_modified_gmt` or construct a provider receipt. When a delivery ID or source timestamp is omitted, no corresponding receipt or source-ordering guarantee is made. The backend returns no response body on success.
+            "Webhook bearer/capability, source configuration, and exact-body signature are validated. Current partner/source grant authorization for mapped commands happens at consumer execution; ignored no-ops check it before response. A `204` acknowledges either an authorized ignored create/update event (no queue send or receipt) or matching confirmed acceptance of one `CAPTURE_RAW` command by the shared ProductListing FIFO. It does not confirm raw capture, provider receipt persistence, source-order checks, canonical normalization, or search visibility. Those decisions occur when the consumer executes the command. Ignored events do not parse `date_modified_gmt` or construct a provider receipt. When a delivery ID or source timestamp is omitted, no corresponding receipt or source-ordering guarantee is made. The backend returns no response body on success.
 
             "
           headers:
@@ -3540,7 +3553,7 @@ paths:
       summary: Simple product search via query parameters
       description:
         "Performs canonical ProductListing search with query parameters. Text queries combine BM25 and embedding
-        KNN retrieval when embedding generation succeeds; otherwise the backend falls back to BM25. Explicit non-score sorts
+        KNN retrieval when embedding generation succeeds within a few seconds; otherwise the backend falls back to BM25. Explicit non-score sorts
         use BM25. Any request with an Authorization header is private and not stored, including valid credentials that add
         user state. Anonymous successful 200 responses use `public, max-age=0, s-maxage=60, stale-if-error=0`; errors use `private, no-store`.
         Geographic predicates are AND; values in each country or subdivision set are OR.
@@ -5425,6 +5438,10 @@ paths:
         `operator` accepts either an existing Party reference (`EXISTING` with `partyId`) or a
         new Party with name and optional contact details (`NEW`). Ingestion configuration,
         provider uniqueness, presentation, and referral validation remain service-owned.
+        The ListingSource and a `NEW` operator Party each get a slug generated once from their own
+        canonical name, such as `antiques-and-more`; when that slug is already taken, the first free
+        of `antiques-and-more-2`, `antiques-and-more-3`, and so on is used. Slugs never change on
+        rename.
         A WooCommerce ingestion configuration carries its required `webhookSecret` as a write-only
         member; it is never returned or logged.
       operationId: adminCreateListingSource
@@ -5479,7 +5496,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiError"
         "409":
-          description: ListingSource or provider configuration conflicts with current state.
+          description: ListingSource or provider configuration conflicts with current state, or every generated slug candidate for a name is already taken.
           content:
             application/problem+json:
               schema:
@@ -5505,17 +5522,21 @@ paths:
         `query` performs a case-insensitive substring search across the ListingSource name and
         stable slug, and also the operator Party name and slug. `name` restricts the substring
         match to the ListingSource name. `listingSourceId` and `listingSourceSlugId` are exact
-        identity filters. `operatorPartyId` and `ingestionMethod` are exact filters.
+        identity filters. `operatorPartyId`, `ingestionMethod`, and `platformTechnology` are exact filters
+        and can be combined. Platform technology is descriptive metadata independent of ingestion.
 
-        Results use deterministic cursor pagination. The default sort is `name` ascending;
+        Results use deterministic keyset pagination. The default sort is `name` ascending;
         override it by providing both `sort` and `order`. Valid sort fields are `name`, `slug`,
-        `created`, and `updated`; ListingSource ID is always the final deterministic tie-breaker.
-        Page sizes are clamped to 1–100, with a default of 21. The returned ListingSource ID `searchAfter`
-        cursor is omitted on the terminal page and should be sent with the same filters and sort.
+        `created`, and `updated`; ListingSource ID is always the final ascending tie-breaker.
+        Page sizes are clamped to 1–100, with a default of 21. The opaque `searchAfter` cursor
+        continues after the sort position of the last returned ListingSource, also when that source
+        was deleted or changed since, and is omitted on the terminal page. Send it back unchanged with
+        the same filters and sort; a malformed cursor, a ListingSource ID cursor, or a cursor
+        returned for other filters or sort is rejected with `400 BAD_QUERY_PARAMETER_VALUE`.
         Responses always use `Cache-Control: no-store`.
 
         The result contains only safe business-resource fields: ListingSource identity and name,
-        operator Party reference, active ingestion methods, presentation URLs, and referral summary.
+        operator Party reference, active ingestion methods, optional platform technology, presentation URLs, and referral summary.
         Provider credentials, webhook secrets, and crawler-local configuration are never returned.
       operationId: adminSearchListingSources
       tags:
@@ -5551,7 +5572,7 @@ paths:
           description: Optional exact immutable ListingSource slug filter.
           schema:
             type: string
-          example: antiques-and-more-550e8400-e29b-41d4-a716-446655440000
+          example: antiques-and-more
         - name: operatorPartyId
           in: query
           required: false
@@ -5566,6 +5587,13 @@ paths:
           schema:
             $ref: "#/components/schemas/ListingIngestionMethodData"
           example: PARTNER_API
+        - name: platformTechnology
+          in: query
+          required: false
+          description: Optional exact platform code filter, combinable with all other filters. Use reusable SCREAMING_SNAKE_CASE codes.
+          schema:
+            $ref: "#/components/schemas/PlatformTechnology"
+          example: BIGCOMMERCE
         - name: sort
           in: query
           required: false
@@ -5586,10 +5614,10 @@ paths:
         - name: searchAfter
           in: query
           required: false
-          description: Opaque ListingSource ID cursor returned by the previous page. It is omitted when no next page exists.
+          description: Opaque cursor returned by the previous page for the same filters and sort. Pass it back unchanged. It embeds the sort value of the last returned item, such as a name or email address, so keep it out of logs and shared links like the response data itself.
           schema:
             type: string
-          example: ls_01jw7j4azge008000000000003
+          example: eyJ2ZXJzaW9uIjoxLCJzY29wZSI6IkFBRUNBd1FGQmdjSUNRb0xEQTBPRHhBUkVoTVVGUllYR0JrYUd4d2RIaDgiLCJrZXkiOnsibmFtZSI6IkFudGlxdWVzIGFuZCBNb3JlIn0sImlkIjoibHNfNnJkODI3ZXFmZWZzdmE5dGVlY213YTNhdGUifQ
         - name: size
           in: query
           required: false
@@ -5621,11 +5649,11 @@ paths:
               example:
                 items:
                   - listingSourceId: ls_6rd827eqfefsva9teecmwa3ate
-                    listingSourceSlugId: antiques-and-more-550e8400-e29b-41d4-a716-446655440000
+                    listingSourceSlugId: antiques-and-more
                     name: Antiques and More
                     operator:
                       partyId: pty_11bczr8va9ek4abckdkrqda538
-                      partySlugId: antiques-operator-550e8400-e29b-41d4-a716-446655440001
+                      partySlugId: antiques-operator
                       name: Antiques Operator
                     ingestionMethods:
                       - PARTNER_API
@@ -5638,7 +5666,7 @@ paths:
                     created: "2026-01-01T10:00:00Z"
                     updated: "2026-01-02T10:00:00Z"
                 size: 21
-                searchAfter: ls_6rd827eqfefsva9teecmwa3ate
+                searchAfter: eyJ2ZXJzaW9uIjoxLCJzY29wZSI6IkFBRUNBd1FGQmdjSUNRb0xEQTBPRHhBUkVoTVVGUllYR0JrYUd4d2RIaDgiLCJrZXkiOnsibmFtZSI6IkFudGlxdWVzIGFuZCBNb3JlIn0sImlkIjoibHNfNnJkODI3ZXFmZWZzdmE5dGVlY213YTNhdGUifQ
         "400":
           description: Bad request - invalid ListingSource search parameters.
           content:
@@ -5666,7 +5694,16 @@ paths:
                       type: QUERY
                     detail: Query parameter 'listingSourceId' must be a valid ListingSource ID
                 invalid_query:
-                  summary: Invalid ingestion method, page size, or cursor
+                  summary: Invalid ingestion method or page size
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_QUERY_PARAMETER_VALUE
+                    source:
+                      field: size
+                      type: QUERY
+                foreign_search_after:
+                  summary: Malformed cursor or cursor for other filters or sort
                   value:
                     status: 400
                     title: Bad Request
@@ -5674,6 +5711,7 @@ paths:
                     source:
                       field: searchAfter
                       type: QUERY
+                    detail: searchAfter belongs to different filters or sort. Repeat the request that returned it, or start again without searchAfter.
         "401":
           description: Unauthorized - invalid or missing bearer credentials.
           content:
@@ -5724,8 +5762,10 @@ paths:
 
         The request accepts only the Party name and optional phone/email contact information.
         Party names trim outer Unicode whitespace, reject blank values, and reject values over 255
-        UTF-8 bytes. The Party slug is generated once from the canonical name and stable Party ID;
-        it remains immutable if the Party is renamed later.
+        UTF-8 bytes. The Party slug is generated once from the canonical name, such as
+        `antiques-and-more`; when another Party already holds it, the first free of
+        `antiques-and-more-2`, `antiques-and-more-3`, and so on is used. The slug remains immutable
+        if the Party is renamed later.
       operationId: adminCreateParty
       tags:
         - Party
@@ -5764,7 +5804,7 @@ paths:
                 $ref: "#/components/schemas/PartyData"
               example:
                 partyId: pty_4k4snxc3pkecc9yw66heemzyp0
-                partySlugId: antiques-and-more-550e8400-e29b-41d4-a716-446655440000
+                partySlugId: antiques-and-more
                 name: Antiques and More
                 contact:
                   phone: "+49 30 123456"
@@ -5813,7 +5853,7 @@ paths:
                 error: FORBIDDEN
                 detail: Operation is not permitted.
         "409":
-          description: Conflict - the generated Party slug conflicts with current state.
+          description: Conflict - every generated Party slug candidate for the name is already taken.
           content:
             application/problem+json:
               schema:
@@ -5853,11 +5893,15 @@ paths:
         `name`, `phone`, and `email` restrict the substring match to one contact/name field.
         `created` and `updated` accept inclusive RFC3339 ranges using `min` and `max` query members.
 
-        Results use deterministic cursor pagination. The default sort is `name` ascending;
+        Results use deterministic keyset pagination. The default sort is `name` ascending;
         override it by providing both `sort` and `order`. Valid sort fields are `name`, `email`,
-        `phone`, `created`, and `updated`; Party ID is always the final deterministic tie-breaker.
-        Page sizes are clamped to 1–100, with a default of 21. The returned ListingSource ID `searchAfter`
-        cursor is omitted on the terminal page and should be sent with the same filters and sort.
+        `phone`, `created`, and `updated`; missing contact values sort last in both directions, and
+        Party ID is always the final ascending tie-breaker.
+        Page sizes are clamped to 1–100, with a default of 21. The opaque `searchAfter` cursor
+        continues after the sort position of the last returned Party, also when that Party was
+        deleted or changed since, and is omitted on the terminal page. Send it back unchanged with
+        the same filters and sort; a malformed cursor, a Party ID cursor, or a cursor returned for
+        other filters or sort is rejected with `400 BAD_QUERY_PARAMETER_VALUE`.
         Responses always use `Cache-Control: no-store` because contact data is returned.
       operationId: adminSearchParties
       tags:
@@ -5946,10 +5990,10 @@ paths:
         - name: searchAfter
           in: query
           required: false
-          description: Opaque Party ID cursor returned by the previous page. It is omitted when no next page exists.
+          description: Opaque cursor returned by the previous page for the same filters and sort. Pass it back unchanged. It embeds the sort value of the last returned item, such as a name or email address, so keep it out of logs and shared links like the response data itself.
           schema:
             type: string
-          example: pty_01jw7j4azge008000000000002
+          example: eyJ2ZXJzaW9uIjoxLCJzY29wZSI6IkFBRUNBd1FGQmdjSUNRb0xEQTBPRHhBUkVoTVVGUllYR0JrYUd4d2RIaDgiLCJrZXkiOnsibmFtZSI6IkFudGlxdWVzIGFuZCBNb3JlIn0sImlkIjoicHR5XzRrNHNueGMzcGtlY2M5eXc2NmhlZW16eXAwIn0
         - name: size
           in: query
           required: false
@@ -5981,7 +6025,7 @@ paths:
               example:
                 items:
                   - partyId: pty_4k4snxc3pkecc9yw66heemzyp0
-                    partySlugId: antiques-and-more-550e8400-e29b-41d4-a716-446655440000
+                    partySlugId: antiques-and-more
                     name: Antiques and More
                     contact:
                       phone: "+49 30 123456"
@@ -5989,7 +6033,7 @@ paths:
                     created: "2026-01-01T10:00:00Z"
                     updated: "2026-01-02T10:00:00Z"
                 size: 21
-                searchAfter: pty_4k4snxc3pkecc9yw66heemzyp0
+                searchAfter: eyJ2ZXJzaW9uIjoxLCJzY29wZSI6IkFBRUNBd1FGQmdjSUNRb0xEQTBPRHhBUkVoTVVGUllYR0JrYUd4d2RIaDgiLCJrZXkiOnsibmFtZSI6IkFudGlxdWVzIGFuZCBNb3JlIn0sImlkIjoicHR5XzRrNHNueGMzcGtlY2M5eXc2NmhlZW16eXAwIn0
         "400":
           description: Bad request - invalid query parameters.
           content:
@@ -6024,7 +6068,17 @@ paths:
                     source:
                       field: searchAfter
                       type: QUERY
-                    detail: "searchAfter must contain a valid Party ID."
+                    detail: searchAfter must be a cursor returned by this search.
+                foreign_search_after:
+                  summary: Cursor returned for other filters or sort
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_QUERY_PARAMETER_VALUE
+                    source:
+                      field: searchAfter
+                      type: QUERY
+                    detail: searchAfter belongs to different filters or sort. Repeat the request that returned it, or start again without searchAfter.
                 invalid_size:
                   summary: Invalid page size
                   value:
@@ -6217,7 +6271,7 @@ paths:
                 $ref: "#/components/schemas/PartyData"
               example:
                 partyId: pty_4k4snxc3pkecc9yw66heemzyp0
-                partySlugId: antiques-and-more-550e8400-e29b-41d4-a716-446655440000
+                partySlugId: antiques-and-more
                 name: Antiques and More
                 contact:
                   phone: "+49 30 123456"
@@ -6362,7 +6416,7 @@ paths:
                 $ref: "#/components/schemas/PartyData"
               example:
                 partyId: pty_4k4snxc3pkecc9yw66heemzyp0
-                partySlugId: antiques-and-more-550e8400-e29b-41d4-a716-446655440000
+                partySlugId: antiques-and-more
                 name: Antiques and More
                 contact:
                   phone: "+49 30 123456"
@@ -6449,9 +6503,17 @@ paths:
 
         Results use deterministic keyset pagination. The default sort is `name` ascending;
 
-        override it by providing both `sort` and `order`. Every sort uses `userId` as a
+        override it by providing both `sort` and `order`. Every sort uses `userId` as the final
 
-        deterministic tie-breaker. This response always uses `Cache-Control: no-store`.
+        ascending tie-breaker. The opaque `searchAfter` cursor continues after the sort position of
+
+        the last returned user, also when that user was deleted or changed since, and is omitted on
+
+        the terminal page. A malformed cursor, a User ID cursor, or a cursor returned for other
+
+        filters or sort is rejected with `400 BAD_QUERY_PARAMETER_VALUE`. This response always uses
+
+        `Cache-Control: no-store`.
 
         "
       operationId: adminSearchUsers
@@ -6577,15 +6639,10 @@ paths:
         - name: searchAfter
           in: query
           required: false
-          description:
-            "Opaque User ID cursor for keyset pagination. Pass the `searchAfter` string returned by the previous response to fetch the next page.
-
-            Requests may also provide the legacy JSON array form when its final element is a valid User ID. The cursor is valid only with the same filters and sort used for the previous page.
-
-            "
+          description: Opaque cursor returned by the previous page for the same filters and sort. Pass it back unchanged. It embeds the sort value of the last returned item, such as a name or email address, so keep it out of logs and shared links like the response data itself.
           schema:
             type: string
-          example: usr_01jw7j4azge008000000000004
+          example: eyJ2ZXJzaW9uIjoxLCJzY29wZSI6IkFBRUNBd1FGQmdjSUNRb0xEQTBPRHhBUkVoTVVGUllYR0JrYUd4d2RIaDgiLCJrZXkiOnsiZW1haWwiOiJncmFjZS51c2VyQGV4YW1wbGUuY29tIn0sImlkIjoidXNyXzY4MXc5em5oZThlYXdyaGVieGQxMDQ2ZDQ0In0
         - name: size
           in: query
           required: false
@@ -6630,7 +6687,7 @@ paths:
                     tier: PRO
                     role: USER
                 size: 2
-                searchAfter: usr_681w9znhe8eawrhebxd1046d44
+                searchAfter: eyJ2ZXJzaW9uIjoxLCJzY29wZSI6IkFBRUNBd1FGQmdjSUNRb0xEQTBPRHhBUkVoTVVGUllYR0JrYUd4d2RIaDgiLCJrZXkiOnsiZW1haWwiOiJncmFjZS51c2VyQGV4YW1wbGUuY29tIn0sImlkIjoidXNyXzY4MXc5em5oZThlYXdyaGVieGQxMDQ2ZDQ0In0
         "400":
           description: Bad request - invalid query parameters.
           content:
@@ -6675,7 +6732,17 @@ paths:
                     source:
                       field: searchAfter
                       type: QUERY
-                    detail: "searchAfter must contain a valid User ID."
+                    detail: searchAfter must be a cursor returned by this search.
+                foreign_search_after:
+                  summary: Cursor returned for other filters or sort
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_QUERY_PARAMETER_VALUE
+                    source:
+                      field: searchAfter
+                      type: QUERY
+                    detail: searchAfter belongs to different filters or sort. Repeat the request that returned it, or start again without searchAfter.
                 invalid_size:
                   summary: Invalid page size
                   value:
@@ -10121,7 +10188,7 @@ paths:
                 $ref: "#/components/schemas/ListingSourceReferenceData"
               example:
                 listingSourceId: ls_6rd827eqfefsva9teecmwa3ate
-                listingSourceSlugId: antiques-and-more-550e8400-e29b-41d4-a716-446655440000
+                listingSourceSlugId: antiques-and-more
         "400":
           description: Bad request - invalid ListingSource ID, empty/malformed body, invalid values, or ingestion configuration mismatch.
           content:
@@ -14050,6 +14117,9 @@ paths:
         terminal replays retain their existing idempotent behavior. Approval atomically creates or finds
         the Party and Partnership, grants membership and
         ListingSource access, updates the application, and creates the applicant notification.
+        A Party and ListingSource created by approval each get a slug generated from their own name,
+        such as `antiques-and-more`; when that slug is already taken, the first free of
+        `antiques-and-more-2`, `antiques-and-more-3`, and so on is used.
         Rejection preserves the existing application and notification semantics. Responses always
         use `Cache-Control: no-store`.
       operationId: adminDecidePartnershipApplication
@@ -14134,7 +14204,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApiError"
         "409":
-          description: Conflict - the PartnershipApplication is not in a decisionable state or was changed concurrently.
+          description: Conflict - the PartnershipApplication is not in a decisionable state or was changed concurrently, or every generated slug candidate for the new Party or ListingSource name is already taken.
           headers:
             Cache-Control:
               description: Error responses are never stored.
@@ -19781,9 +19851,17 @@ components:
       type: object
       additionalProperties: false
       required: [expectedVersion]
-      description: Omission preserves. Monetary amounts are nonnegative minor units, at most 9223372036854775807. Null clears price, each estimate and availability. URL/images/whole auction cannot be null. Title/description and every field outside this whitelist are read-only.
+      description: Omission preserves. Monetary amounts are nonnegative minor units, at most 9223372036854775807. Null clears title, description, price, each estimate and availability. URL/images/whole auction cannot be null. Every field outside this whitelist is read-only.
       properties:
         expectedVersion: { type: integer, format: int64, minimum: 1, maximum: 9223372036854775807 }
+        title:
+          allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
+          nullable: true
+          description: Omit to preserve; null clears; a localized value sets. Normalized empty titles are invalid. Whitespace-equivalent text preserves current formatting and causes no text change. Language changes are meaningful.
+        description:
+          allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
+          nullable: true
+          description: Omit to preserve; null clears; a localized value sets. Whitespace-equivalent text is unchanged; meaningful replacements preserve paragraphs.
         price:
           nullable: true
           allOf: [{ $ref: "#/components/schemas/AdminProductListingPrice" }]
@@ -21193,11 +21271,13 @@ components:
         changes:
           type: array
           minItems: 1
-          description: "Deterministic semantic-change order: main price, minimum estimate, maximum estimate, availability, URL, images, auction, lifecycle, sale observation, delivery."
+          description: "Deterministic semantic-change order: title, description, main price, minimum estimate, maximum estimate, availability, URL, images, auction, lifecycle, sale observation, delivery."
           items:
             $ref: "#/components/schemas/ProductListingHistoryChangeData"
     ProductListingHistoryChangeData:
       oneOf:
+        - $ref: "#/components/schemas/ProductListingTitleHistoryChangeData"
+        - $ref: "#/components/schemas/ProductListingDescriptionHistoryChangeData"
         - $ref: "#/components/schemas/ProductListingDeliveryHistoryChangeData"
         - $ref: "#/components/schemas/ProductListingMainPriceHistoryChangeData"
         - $ref: "#/components/schemas/ProductListingPriceHistoryChangeData"
@@ -21209,6 +21289,30 @@ components:
         - $ref: "#/components/schemas/ProductListingRestorationHistoryChangeData"
         - $ref: "#/components/schemas/ProductListingSaleObservationHistoryChangeData"
       description: Typed semantic change.
+    ProductListingTitleHistoryChangeData:
+      type: object
+      additionalProperties: false
+      required: [type, previous, current]
+      properties:
+        type: { type: string, enum: [TITLE_CHANGED] }
+        previous:
+          nullable: true
+          allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
+        current:
+          nullable: true
+          allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
+    ProductListingDescriptionHistoryChangeData:
+      type: object
+      additionalProperties: false
+      required: [type, previous, current]
+      properties:
+        type: { type: string, enum: [DESCRIPTION_CHANGED] }
+        previous:
+          nullable: true
+          allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
+        current:
+          nullable: true
+          allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
     ProductListingMainPriceHistoryChangeData:
       type: object
       required:
@@ -22762,7 +22866,7 @@ components:
           description: When the Party was last updated.
     PartyCollectionData:
       type: object
-      description: "Cursor-paginated Party summaries for the admin search endpoint. `searchAfter` is a Party ID cursor and is omitted when the current page is terminal."
+      description: "Cursor-paginated Party summaries for the admin search endpoint. `searchAfter` is an opaque cursor and is omitted when the current page is terminal."
       required:
         - items
         - size
@@ -22780,8 +22884,8 @@ components:
           example: 21
         searchAfter:
           type: string
-          description: Party ID cursor for the next page, omitted when no more results are available.
-          example: pty_71m2jxjctefykb6crqka16yf6z
+          description: Opaque cursor for the next page, valid only with the same filters and sort; omitted when no more results are available.
+          example: eyJ2ZXJzaW9uIjoxLCJzY29wZSI6IkFBRUNBd1FGQmdjSUNRb0xEQTBPRHhBUkVoTVVGUllYR0JrYUd4d2RIaDgiLCJrZXkiOnsibmFtZSI6IkFudGlxdWVzIGFuZCBNb3JlIn0sImlkIjoicHR5XzRrNHNueGMzcGtlY2M5eXc2NmhlZW16eXAwIn0
         total:
           type: integer
           minimum: 0
@@ -22903,7 +23007,7 @@ components:
       description:
         "Cursor-paginated collection of users for the admin search endpoint.
 
-        Items are compact admin user summaries. `searchAfter` is a User ID cursor for
+        Items are compact admin user summaries. `searchAfter` is an opaque cursor for
 
         the next page and is omitted when the current page is terminal. The cursor must
 
@@ -22927,8 +23031,8 @@ components:
           example: 21
         searchAfter:
           type: string
-          description: User ID cursor for the next page, omitted when more results are unavailable.
-          example: usr_681w9znhe8eawrhebxd1046d44
+          description: Opaque cursor for the next page, valid only with the same filters and sort; omitted when no more results are available.
+          example: eyJ2ZXJzaW9uIjoxLCJzY29wZSI6IkFBRUNBd1FGQmdjSUNRb0xEQTBPRHhBUkVoTVVGUllYR0JrYUd4d2RIaDgiLCJrZXkiOnsiZW1haWwiOiJncmFjZS51c2VyQGV4YW1wbGUuY29tIn0sImlkIjoidXNyXzY4MXc5em5oZThlYXdyaGVieGQxMDQ2ZDQ0In0
         total:
           type: integer
           minimum: 0
@@ -23678,6 +23782,14 @@ components:
           type: string
           description: The listing source's own identifier for the product to update. Product existence is evaluated synchronously on the synchronous route and downstream on the async route.
           example: baroque-violin-001
+        title:
+          allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
+          nullable: true
+          description: Omit to preserve; null clears; a localized value sets. Normalized empty titles are invalid. Whitespace-equivalent text preserves current formatting and causes no text change. Language changes are meaningful.
+        description:
+          allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
+          nullable: true
+          description: Omit to preserve; null clears; a localized value sets. Whitespace-equivalent text is unchanged; meaningful replacements preserve paragraphs.
         price:
           allOf:
             - $ref: "#/components/schemas/ProductListingPriceData"
@@ -23721,7 +23833,7 @@ components:
       description:
         "Data for synchronously upserting one ProductListing. Only `sourceListingId` is required.
 
-        Availability, price, and each price estimate are tri-state: omitted preserves an existing
+        Title, description, availability, price, and each price estimate are tri-state: omitted preserves an existing
 
         value, `null` clears it, and a concrete value replaces it. The nested Auction/lot-facts patch is omitted
 
@@ -23743,12 +23855,12 @@ components:
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
           nullable: true
-          description: "Optional localized title for the product. Used only when creating a new product. The title is normalized; styled letters and digits become ordinary text and emoji and ornamental symbols are removed. A title without remaining text, such as a blank or emoji-only title, is rejected with `BAD_BODY_VALUE`: synchronous batches fail with `400`, asynchronous batches report that item as a failure."
+          description: "Localized title patch. Omit to preserve; null clears; a value sets text and source language. The title is normalized; styled letters and digits become ordinary text and emoji and ornamental symbols are removed. A title without remaining text, such as a blank or emoji-only title, is rejected with `BAD_BODY_VALUE`: synchronous batches fail with `400`, asynchronous batches report that item as a failure."
         description:
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
           nullable: true
-          description: Optional localized description of the product. Used only when creating a new product.
+          description: Localized description patch. Omit to preserve; null clears; a value sets text and source language.
         price:
           allOf:
             - $ref: "#/components/schemas/ProductListingPriceData"
@@ -23818,7 +23930,9 @@ components:
 
         `status: trash`, `draft`, `pending`, or `private` captures a DELETE and requires only `id`; missing or
 
-        unsupported status is authorized ignored input and also requires only `id`.
+        unsupported status is authorized ignored input and also requires only `id`. `type: variation` is
+
+        authorized ignored input whatever its status and requires only `id`.
 
         "
       required:
@@ -23830,6 +23944,15 @@ components:
           minimum: 0
           description: WooCommerce product identifier. It is converted to the internal `sourceListingId`.
           example: 17
+        type:
+          type: string
+          nullable: true
+          description: "Optional WooCommerce product type. `variation` marks a variation of a parent product and makes
+
+            the event authorized ignored input whatever its status. Other or missing types follow `status`.
+
+            "
+          example: simple
         name:
           type: string
           description: "Nonblank product title required only when `status: publish` captures an UPSERT."
@@ -24438,6 +24561,17 @@ components:
         searchAfter:
           type: string
           description: Opaque continuation, omitted on a terminal page.
+    PlatformTechnology:
+      type: string
+      minLength: 1
+      maxLength: 64
+      pattern: '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'
+      description: >-
+        Open platform code in ASCII SCREAMING_SNAKE_CASE. Reuse established codes such as
+        SHOPIFY, WOOCOMMERCE, BIGCOMMERCE, or SHOPWARE; other well-formed codes are accepted.
+        Descriptive admin-only metadata, independent of ingestion configuration. Recording a
+        platform does not enable ingestion or imply an installed app or Partnership.
+      example: SHOPIFY
     ListingSourceData:
       type: object
       required:
@@ -24458,6 +24592,10 @@ components:
           description: ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
         operator:
           $ref: "#/components/schemas/OperatorPartyData"
+        platformTechnology:
+          allOf:
+            - $ref: "#/components/schemas/PlatformTechnology"
+          description: Recorded platform code, omitted when no platform is recorded.
         ingestionMethods:
           type: array
           items:
@@ -24501,7 +24639,7 @@ components:
           type: string
     ListingSourceSearchCollectionData:
       type: object
-      description: "Cursor-paginated safe ListingSource summaries for the admin search endpoint. `searchAfter` is a ListingSource ID cursor and is omitted when the current page is terminal."
+      description: "Cursor-paginated safe ListingSource summaries for the admin search endpoint. `searchAfter` is an opaque cursor and is omitted when the current page is terminal."
       required:
         - items
         - size
@@ -24519,8 +24657,8 @@ components:
           example: 21
         searchAfter:
           type: string
-          description: ListingSource ID cursor for the next page, omitted when no more results are available.
-          example: ls_11j55nbvjfe7ds34s7gya899a9
+          description: Opaque cursor for the next page, valid only with the same filters and sort; omitted when no more results are available.
+          example: eyJ2ZXJzaW9uIjoxLCJzY29wZSI6IkFBRUNBd1FGQmdjSUNRb0xEQTBPRHhBUkVoTVVGUllYR0JrYUd4d2RIaDgiLCJrZXkiOnsibmFtZSI6IkFudGlxdWVzIGFuZCBNb3JlIn0sImlkIjoibHNfNnJkODI3ZXFmZWZzdmE5dGVlY213YTNhdGUifQ
         total:
           type: integer
           minimum: 0
@@ -24550,6 +24688,10 @@ components:
           description: ListingSource name.
         operator:
           $ref: "#/components/schemas/OperatorPartyData"
+        platformTechnology:
+          allOf:
+            - $ref: "#/components/schemas/PlatformTechnology"
+          description: Recorded platform code, omitted when no platform is recorded.
         ingestionMethods:
           type: array
           items:
@@ -24745,6 +24887,13 @@ components:
           description: ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
         operator:
           $ref: "#/components/schemas/ListingSourceOperatorInputData"
+        platformTechnology:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 64
+          pattern: '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'
+          description: Optional platform code in ASCII SCREAMING_SNAKE_CASE; reuse established codes such as SHOPIFY or BIGCOMMERCE. Omission or null records no platform.
         ingestionConfiguration:
           type: array
           items:
@@ -24811,11 +24960,18 @@ components:
     UpdateListingSourceData:
       type: object
       additionalProperties: false
-      description: Omitted fields are unchanged. `null` clears only `url`, `image`, and `referralConfiguration`. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
+      description: Omitted fields are unchanged. `null` clears only `url`, `image`, `platformTechnology`, and `referralConfiguration`. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
       properties:
         name:
           type: string
           description: ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
+        platformTechnology:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 64
+          pattern: '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'
+          description: Platform code in ASCII SCREAMING_SNAKE_CASE; reuse established codes such as SHOPIFY or BIGCOMMERCE. Omission preserves the platform, null clears it, and a code replaces it.
         ingestionConfiguration:
           type: array
           items:

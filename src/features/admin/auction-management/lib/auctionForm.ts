@@ -1,24 +1,9 @@
 import { z } from "zod";
-import { parseLanguage } from "@/data/internal/common/Language.ts";
+import { parseLanguage, SOURCE_TEXT_LANGUAGES } from "@/data/internal/common/Language.ts";
 import type { AuctionCreateValues, AuctionMetadataValues } from "../api/useAdminAuctions.ts";
 
 /** Languages the backend accepts for localized auction names. */
-export const AUCTION_NAME_LANGUAGES = [
-    "de",
-    "en",
-    "es",
-    "fr",
-    "it",
-    "zh",
-    "pt",
-    "pl",
-    "tr",
-    "nl",
-    "cs",
-    "ja",
-    "ru",
-    "ar",
-] as const;
+export const AUCTION_NAME_LANGUAGES = SOURCE_TEXT_LANGUAGES;
 const formats = ["", "LIVE", "TIMED"] as const;
 const statuses = ["", "SCHEDULED", "IN_PROGRESS", "ENDED", "POSTPONED", "CANCELLED"] as const;
 const validUtcDateTime = (value: string) => {

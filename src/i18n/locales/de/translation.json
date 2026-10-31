@@ -634,6 +634,12 @@
         "maximumEstimateChanged": "Höchstschätzung geändert von {{previous}} auf {{current}}.",
         "availabilityChanged": "Verfügbarkeit geändert von {{previous}} auf {{current}}.",
         "imagesChangedWithCounts": "Bildanzahl geändert von {{previousCount}} auf {{currentCount}}.",
+        "titleAdded": "Titel hinzugefügt.",
+        "titleChanged": "Titel aktualisiert.",
+        "titleRemoved": "Titel entfernt.",
+        "descriptionAdded": "Beschreibung hinzugefügt.",
+        "descriptionChanged": "Beschreibung aktualisiert.",
+        "descriptionRemoved": "Beschreibung entfernt.",
         "auctionChanged": "Auktions- oder Losdaten geändert.",
         "withdrawn": "Eintrag zurückgezogen; die Verfügbarkeit war {{previousAvailability}}.",
         "restored": "Eintrag von der Quelle wiederhergestellt.",
@@ -1381,11 +1387,11 @@
         },
         "patch": {
           "title": "Beibehalten oder löschen",
-          "description": "Weggelassene Felder behalten bestehende Werte bei. null löscht availability, price und jede Preisschätzung. url: null, images: null und auction: null sind ungültig (400 BAD_BODY_VALUE). images: [] löscht Bilder. Der gesamte Batch-Vertrag wird vor Beginn der Einzeltransaktionen geprüft."
+          "description": "Weggelassene Felder behalten bestehende Werte bei. null löscht title, description, availability, price und jede Preisschätzung. url: null, images: null und auction: null sind ungültig (400 BAD_BODY_VALUE). images: [] löscht Bilder. Der gesamte Batch-Vertrag wird vor Beginn der Einzeltransaktionen geprüft."
         },
         "put": {
           "title": "Upsert-Semantik",
-          "description": "Bei bestehenden Angeboten: availability/Preise weglassen zum Beibehalten, null zum Löschen, Wert zum Setzen. images weglassen zum Beibehalten, [] zum Löschen, Array zum Ersetzen; null ist ungültig. url weglassen oder null behält die URL bei; ein Wert ersetzt sie. title/description gelten nur beim Erstellen. Neue Angebote erfordern sourceListingId, url und images; fehlende/null availability und Preise erfassen keinen Wert."
+          "description": "Bei bestehenden Angeboten: title, description, availability oder Preise weglassen zum Beibehalten, null zum Löschen, Wert zum Setzen. images weglassen zum Beibehalten, [] zum Löschen, Array zum Ersetzen; null ist ungültig. url weglassen oder null behält die URL bei; ein Wert ersetzt sie. Neue Angebote erfordern sourceListingId, url und images; fehlende/null title, description, availability und Preise erfassen keinen Wert."
         },
         "auction": {
           "title": "Auktionszuordnung und Loszeiten",
@@ -1397,7 +1403,7 @@
         },
         "woocommerce": {
           "title": "WooCommerce: Server zu Server",
-          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} erfordert Bearer-Autorisierung, x-wc-webhook-topic und x-wc-webhook-signature (Base64-HMAC-SHA256 über exakte Body-Bytes); x-wc-webhook-delivery-id ist optional. Webhook-Geheimnisse bleiben auf dem Server und dürfen nie im Browser gesendet oder angezeigt werden. HTTP 204 ohne Body bestätigt die Annahme oder einen autorisierten ignorierten Status, weder Erfassung noch Suchsichtbarkeit. date_modified_gmt erlaubt UTC ohne Offset, Z oder +00:00; andere Offsets sind ungültig. Digest- und Quellreihenfolgekonflikte werden nachgelagert geprüft; eine Löschung ohne Zeitstempel kann die Wiederherstellung mit WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS blockieren. Wiederholen Sie unklare Annahmen unverändert mit derselben vorhandenen Delivery-ID; prüfen Sie Consumer-Fehler vor erneuter Ausführung."
+          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} erfordert Bearer-Autorisierung, x-wc-webhook-topic und x-wc-webhook-signature (Base64-HMAC-SHA256 über exakte Body-Bytes); x-wc-webhook-delivery-id ist optional. Webhook-Geheimnisse bleiben auf dem Server und dürfen nie im Browser gesendet oder angezeigt werden. HTTP 204 ohne Body bestätigt die Annahme oder ein autorisiertes ignoriertes Ereignis, weder Erfassung noch Suchsichtbarkeit. Variantenereignisse (type: variation) werden ignoriert; das eigene product.updated des Elternprodukts aktualisiert dessen Angebot. Jede Löschung zieht das Angebot zurück, dessen sourceListingId der gelieferten id entspricht. date_modified_gmt erlaubt UTC ohne Offset, Z oder +00:00; andere Offsets sind ungültig. Die Quellreihenfolge wird nachgelagert angewendet: Ältere Beobachtungen bleiben ohne Wirkung, nach einer Löschung ohne Zeitstempel stellt nur ein späteres date_modified_gmt das Angebot wieder her, und nach einer Löschung wird ein UPSERT ohne date_modified_gmt mit CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS abgelehnt. Wiederholen Sie unklare Annahmen unverändert mit derselben vorhandenen Delivery-ID."
         }
       }
     },
@@ -1466,6 +1472,7 @@
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Es wurde kein bestehendes Abonnement gefunden. Bitte starten Sie einen neuen Checkout.",
     "unknown": "Ein unerwarteter Fehler ist aufgetreten.",
     "SEARCH_FILTER_RESTRICTED_FEATURE": "Einige Ihrer aktiven Filter sind nur für Premium-Nutzer verfügbar. Bitte entfernen Sie diese Filter, um einen Suchauftrag zu speichern.",
+    "SEARCH_FILTER_TEMPORARILY_UNAVAILABLE": "Suchaufträge sind vorübergehend nicht verfügbar. Bitte versuchen Sie es in einigen Minuten erneut.",
     "BAD_REQUEST": "Die Anfrage ist ungültig.",
     "NOT_FOUND": "Die angeforderte Ressource wurde nicht gefunden.",
     "CONFLICT": "Die Aktion konnte aufgrund eines Konflikts nicht ausgeführt werden.",
@@ -2341,7 +2348,7 @@
       "REJECT": "Antrag abgelehnt."
     },
     "errors": {
-      "conflict": "Dieser Antrag wurde zwischenzeitlich geändert oder lässt diese Aktion nicht mehr zu. Der aktuelle Status wurde geladen.",
+      "conflict": "Dieser Antrag wurde zwischenzeitlich geändert oder lässt diese Aktion nicht mehr zu, oder jeder für den vorgeschlagenen Organisations- oder Quellennamen erzeugte Slug ist bereits vergeben. Der aktuelle Status wurde geladen.",
       "missing": "Antrag nicht gefunden oder nicht verfügbar."
     }
   },
@@ -2426,7 +2433,7 @@
     "errors": {
       "forbidden": "Sie haben keine Berechtigung, die Kontaktdaten der Organisation aufzurufen.",
       "missing": "Organisation nicht gefunden oder nicht mehr verfügbar.",
-      "createConflict": "Die Organisation konnte nicht erstellt werden, da ihre erzeugte Kennung mit einem bestehenden Datensatz kollidiert. Prüfen Sie die vorhandenen Organisationen und versuchen Sie es erneut.",
+      "createConflict": "Die Organisation konnte nicht erstellt werden, da jeder aus ihrem Namen erzeugte Slug bereits vergeben ist. Prüfen Sie die vorhandenen Organisationen oder wählen Sie einen eindeutigeren Namen, bevor Sie es erneut versuchen.",
       "updateConflict": "Diese Organisation wurde während Ihrer Bearbeitung geändert. Schließen Sie das Formular und öffnen Sie es erneut, um die aktuelle Fassung zu bearbeiten.",
       "deleteConflict": "Diese Organisation konnte nicht gelöscht werden, weil sie möglicherweise noch erfasste Standorte hat oder mit einer Listing-Quelle oder Partnerschaft verknüpft ist. Zugehörige Datensätze wurden nicht gelöscht.",
       "invalid": "Prüfen Sie die Organisationsangaben und versuchen Sie es erneut.",
@@ -2527,6 +2534,7 @@
     "list": {
       "operator": "Betreiber: {{name}}",
       "noMethods": "Keine Importmethode",
+      "platform": "Plattformtechnologie: {{code}}",
       "updated": "Aktualisiert {{date}}",
       "total_one": "{{count}} Listing-Quelle",
       "total_other": "{{count}} Listing-Quellen",
@@ -2543,6 +2551,8 @@
       "phone": "Telefon",
       "email": "E-Mail",
       "ingestionMethods": "Importmethoden",
+      "platformTechnology": "Plattformtechnologie",
+      "platformTechnologyNotRecorded": "Nicht erfasst",
       "ingestionConfiguration": "Importkonfiguration",
       "configurationType": "Konfigurationstyp",
       "fallbackCurrency": "Ersatzwährung (ISO 4217)",
@@ -2592,6 +2602,7 @@
       "editDescription": "Ändern Sie Quelldaten. Betreiber und Quellen-Slug sind unveränderlich.",
       "configurationDescription": "Optional: Fügen Sie jetzt konfigurierte Importmethoden hinzu oder lassen Sie die Liste leer, um sie später einzurichten.",
       "referralDescription": "Optionale Partnerize-Empfehlungsdaten. Hier werden keine Anbieterzugangsdaten gespeichert.",
+      "platformTechnologyDescription": "Optionaler Code aus Großbuchstaben, Ziffern und Unterstrichen, z. B. SHOPIFY oder BIGCOMMERCE. Er beschreibt nur die Shop-Software: Er aktiviert keinen Import und setzt weder eine installierte App noch eine Partnerschaft voraus. Lassen Sie das Feld leer, um keine Plattform zu erfassen.",
       "replaceConfiguration": "Importkonfiguration ersetzen",
       "incompleteConfigurationNotice": "Die Lese-API gibt Konfigurationswerte nicht zurück. Lassen Sie diese Option aus, um aktuelle Einstellungen beizubehalten. Beim Aktivieren werden die Einstellungen aller aktiven Importmethoden ersetzt.",
       "secretPreservationNotice": "Dieses Secret ist schreibgeschützt und wird nie zurückgegeben. Lassen Sie das Feld leer, um ein vorhandenes Secret beizubehalten; geben Sie einen Wert ein, um es zu setzen oder zu erneuern.",
@@ -2620,7 +2631,7 @@
     "errors": {
       "forbidden": "Sie dürfen Listing-Quellen nicht verwalten.",
       "missing": "Listing-Quelle nicht gefunden oder nicht mehr verfügbar.",
-      "createConflict": "Die Quelle steht im Konflikt mit einer bestehenden Anbieterkonfiguration. Prüfen Sie die aktuellen Quellen und versuchen Sie es erneut.",
+      "createConflict": "Die Quelle steht im Konflikt mit einer bestehenden Anbieterkonfiguration, oder jeder aus ihrem Namen oder dem Namen des neuen Betreibers erzeugte Slug ist bereits vergeben. Prüfen Sie die aktuellen Quellen oder wählen Sie einen eindeutigeren Namen, bevor Sie es erneut versuchen.",
       "updateConflict": "Diese Listing-Quelle wurde während der Bearbeitung geändert. Laden Sie die Details neu und versuchen Sie es erneut.",
       "deleteConflict": "Diese Listing-Quelle hat Listings oder bestehende Beziehungen und konnte nicht gelöscht werden. Zugehörige Datensätze wurden nicht entfernt.",
       "invalid": "Prüfen Sie Quelldaten und Importeinstellungen und versuchen Sie es erneut.",
@@ -2637,7 +2648,8 @@
       "shopifyDomainRequired": "Geben Sie die Shopify-Shop-Domain ein.",
       "webhookSecretRequired": "Geben Sie das WooCommerce-Webhook-Secret ein.",
       "camrefRequired": "Geben Sie die Partnerize-Kampagnenreferenz ein.",
-      "unsupportedCurrency": "Geben Sie einen unterstützten ISO-4217-Währungscode ein, z. B. EUR oder SEK."
+      "unsupportedCurrency": "Geben Sie einen unterstützten ISO-4217-Währungscode ein, z. B. EUR oder SEK.",
+      "platformTechnology": "Geben Sie einen Code mit höchstens 64 Zeichen ein, der mit einem Buchstaben beginnt und nur Buchstaben, Ziffern und einzelne Unterstriche enthält, z. B. BIGCOMMERCE."
     },
     "locationDefault": {
       "title": "Standardstandort",
@@ -3020,6 +3032,53 @@
       "unavailable": {
         "title": "Autorisierung nicht verfügbar",
         "description": "Die registrierten Angaben dieser Anwendung können derzeit nicht geprüft werden. Bitte versuchen Sie es später erneut."
+      },
+      "brokerRequired": {
+        "title": "Verbindung in WordPress starten",
+        "description": "Dieser WooCommerce-Verbindungslink wird nicht mehr unterstützt. Starten Sie die Verbindung erneut in Ihrem WordPress-Adminbereich und aktualisieren Sie das Aura-Historia-Plugin, falls dies wiederholt auftritt."
+      },
+      "broker": {
+        "recipient": {
+          "label": "Empfänger der Verbindung",
+          "description": "Aura Historia übermittelt diesen Zugriff ausschließlich an diese WordPress-Website. Fahren Sie nur fort, wenn es sich um Ihren Shop handelt."
+        },
+        "sourceRegistrationNote": "Wählen Sie den Anbieter, für den diese WordPress-Website als Website hinterlegt ist.",
+        "errors": {
+          "recipientNotRegistered": {
+            "title": "Diese Website ist für den gewählten Anbieter nicht hinterlegt",
+            "description": "Aura Historia verbindet einen Anbieter nur mit der für ihn hinterlegten Website. Wählen Sie den Anbieter, für den {{recipient}} hinterlegt ist, oder kontaktieren Sie uns, um die Website des Anbieters zu aktualisieren."
+          },
+          "sourceUnavailable": {
+            "title": "Zugriff auf den Anbieter konnte nicht bestätigt werden",
+            "description": "Sie haben keinen Zugriff mehr auf den gewählten Anbieter. Wählen Sie einen anderen Anbieter oder beantragen Sie Zugriff und versuchen Sie es erneut."
+          },
+          "approvalFailed": {
+            "title": "Autorisierung konnte nicht abgeschlossen werden",
+            "description": "Aura Historia konnte die Anfrage gerade nicht abschließen. Bitte versuchen Sie es erneut."
+          }
+        },
+        "states": {
+          "declined": {
+            "title": "Verbindung abgelehnt",
+            "description": "Es wurde kein Zugriff gewährt. Sie können diese Seite schließen und zu Ihrem WordPress-Adminbereich zurückkehren."
+          },
+          "answered": {
+            "title": "Diese Verbindungsanfrage wurde bereits beantwortet",
+            "description": "Kehren Sie zu Ihrem WordPress-Adminbereich zurück, um das Ergebnis zu sehen, oder starten Sie die Verbindung erneut."
+          },
+          "invalid": {
+            "title": "Diese Verbindungsanfrage ist nicht mehr gültig",
+            "description": "Sie ist abgelaufen, wurde bereits verwendet oder der Link ist unvollständig. Starten Sie die Verbindung erneut in Ihrem WordPress-Adminbereich und aktualisieren Sie das Aura-Historia-Plugin, falls dies wiederholt auftritt."
+          },
+          "unavailable": {
+            "title": "Verbindung nicht verfügbar",
+            "description": "Diese Verbindungsanfrage kann derzeit nicht geladen werden. Bitte versuchen Sie es später erneut."
+          },
+          "sessionMismatch": {
+            "title": "Verbindung konnte nicht bestätigt werden",
+            "description": "Schließen Sie die Verbindung in dem Browser und Konto ab, mit denen Sie sie autorisiert haben. Starten Sie die Verbindung erneut in Ihrem WordPress-Adminbereich."
+          }
+        }
       }
     }
   },
@@ -3675,6 +3734,9 @@
       "url": "Original-URL",
       "originalTitle": "Originaltitel",
       "originalDescription": "Originalbeschreibung",
+      "text": "Originaltext",
+      "titleLanguage": "Sprache des Titels",
+      "descriptionLanguage": "Sprache der Beschreibung",
       "images": "Bilder",
       "auction": "Auktion und Los",
       "lotNumber": "Losnummer",
@@ -3684,7 +3746,8 @@
       "estimateMin": "Mindestschätzung",
       "estimateMax": "Höchstschätzung",
       "currency": "Währung",
-      "chooseCurrency": "Währung auswählen"
+      "chooseCurrency": "Währung auswählen",
+      "chooseLanguage": "Sprache auswählen"
     },
     "lifecycles": {
       "ACTIVE": "Aktiv",
@@ -3714,14 +3777,14 @@
       "eyebrow": "Datensatz des Produktangebots",
       "convergence": "Änderungen hier aktualisieren den maßgeblichen Angebotsdatensatz. Öffentliche Suche, Angebotsseiten und Caches folgen asynchron, und ein späterer Import aus der Listing-Source kann diese Änderungen überschreiben oder ein zurückgezogenes Angebot wiederherstellen. Es handelt sich um Korrekturen, nicht um dauerhafte Übersteuerungen.",
       "factsTitle": "Erfasste Angaben",
-      "factsDescription": "Identität, Originaltext, Verkaufsbeobachtung und Zeitstempel sind schreibgeschützt. Den Lebenszyklus ändern Sie mit den Aktionen Zurückziehen und Wiederherstellen.",
+      "factsDescription": "Identität, Verkaufsbeobachtung und Zeitstempel sind schreibgeschützt. Originaltext und die übrigen Angaben bearbeiten Sie unten; den Lebenszyklus ändern Sie mit den Aktionen Zurückziehen und Wiederherstellen.",
       "sourceListingIdScope": "Nur innerhalb dieser Listing-Source eindeutig.",
       "noSaleObservation": "Keine erfasst",
       "noText": "Keine erfasst"
     },
     "edit": {
       "title": "Angebotsangaben bearbeiten",
-      "description": "Nur Preis, Schätzungen, Verfügbarkeit, URL, Bilder und Auktionsangaben lassen sich ändern. Beim Speichern werden nur die von Ihnen geänderten Werte gesendet.",
+      "description": "Nur Originaltitel und -beschreibung, Preis, Schätzungen, Verfügbarkeit, URL, Bilder und Auktionsangaben lassen sich ändern. Beim Speichern werden nur die von Ihnen geänderten Werte gesendet.",
       "withdrawnLocked": "Dieses Angebot ist zurückgezogen. Stellen Sie es wieder her, bevor Sie es bearbeiten; nicht gespeicherte Änderungen bleiben im Formular erhalten.",
       "lifecycleUnknownLocked": "Der Lebenszyklus dieses Angebots wird nicht erkannt, daher kann es hier nicht bearbeitet werden.",
       "stale": "Dieses Angebot wurde geändert, nachdem Sie mit der Bearbeitung begonnen haben, und hat jetzt Version {{version}}. Behalten Sie Ihre Änderungen, um nur die von Ihnen bearbeiteten Werte auf die neueste Version anzuwenden, oder verwerfen Sie sie, um die neuesten Werte zu laden.",
@@ -3729,6 +3792,9 @@
       "noChanges": "Es gibt keine Änderungen zu speichern.",
       "saved": "Änderungen gespeichert. Öffentliche Suche und Angebotsseiten werden asynchron aktualisiert.",
       "unchanged": "Das Angebot hatte diese Werte bereits; es wurde nichts geändert.",
+      "textHelp": "Geben Sie den Originaltext der Quelle in der Sprache ein, in der er verfasst ist, keine Übersetzung. Lassen Sie ein Feld leer, um den Text zu entfernen. Übersetzungen, Inhaltsbewertung und Suche folgen asynchron.",
+      "titleHelp": "Titel werden normalisiert: Stilisierte Buchstaben und Ziffern werden zu gewöhnlichem Text, Emojis und Ziersymbole werden entfernt, der erste Buchstabe wird großgeschrieben und ein abschließender Punkt entfällt. Titel mit mehr als 128 Zeichen werden mit „...“ gekürzt. Ein Titel ohne verbleibenden Text wird abgelehnt.",
+      "titleTooLong": "Dieser Titel hat mehr als 128 Zeichen und wird beim Speichern gekürzt.",
       "pricingHelp": "Beträge sind in der Währung der Source angegeben. Verwenden Sie einen Dezimalpunkt oder ein Dezimalkomma und keine Tausendertrennzeichen. Wählen Sie „Nicht angegeben“, um den Preis zu entfernen.",
       "estimateHelp": "Lassen Sie den Betrag einer Schätzung leer, um diese Schätzung zu entfernen.",
       "availabilityHelp": "„Nicht angegeben“ entfernt die Verfügbarkeit; es bedeutet nicht „nicht verfügbar“.",
@@ -3800,6 +3866,7 @@
       "invalidId": "Diese Produktangebots-ID ist ungültig. Produktangebots-IDs beginnen mit „pl_“.",
       "invalidSearch": "Diese Filter konnten nicht angewendet werden. Prüfen Sie die IDs und den Suchtext und versuchen Sie es erneut.",
       "invalid": "Die Anfrage wurde abgelehnt. Prüfen Sie die Werte und versuchen Sie es erneut.",
+      "invalidTitle": "Der Titel wurde abgelehnt. Geben Sie einen Titel ein, der nach dem Entfernen von Emojis und Ziersymbolen noch Buchstaben oder Ziffern enthält.",
       "auctionMissing": "Die ausgewählte Auktion wurde nicht gefunden.",
       "auctionSourceMismatch": "Die ausgewählte Auktion gehört zu einer anderen Listing-Source.",
       "versionConflict": "Dieses Angebot wurde geändert, bevor Ihre Anfrage angewendet wurde. Die neueste Version wurde geladen; prüfen Sie sie, bevor Sie es erneut versuchen.",
@@ -3812,6 +3879,7 @@
       "filterTooLong": "Geben Sie höchstens 512 UTF-8-Bytes ein.",
       "amountRequired": "Geben Sie einen Betrag ein.",
       "currencyRequired": "Wählen Sie eine Währung aus.",
+      "languageRequired": "Wählen Sie die Sprache, in der dieser Text verfasst ist.",
       "amountFormat": "Geben Sie einen nicht negativen Betrag aus Ziffern mit optionalem Dezimalpunkt oder Dezimalkomma ein, ohne Tausendertrennzeichen.",
       "amountNoDecimals": "Diese Währung hat keine Untereinheit. Geben Sie einen ganzen Betrag ein.",
       "amountTwoDecimals": "Geben Sie höchstens zwei Nachkommastellen ein.",

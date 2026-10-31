@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
 import viteReact from "@vitejs/plugin-react";
 
@@ -5,6 +6,12 @@ export default defineConfig({
     plugins: [viteReact()],
     resolve: {
         tsconfigPaths: true,
+        alias: {
+            // The Workers runtime module exists only in workerd; tests use a stand-in.
+            "cloudflare:workers": fileURLToPath(
+                new URL("./src/test/cloudflareWorkersStub.ts", import.meta.url),
+            ),
+        },
     },
     test: {
         environment: "jsdom",

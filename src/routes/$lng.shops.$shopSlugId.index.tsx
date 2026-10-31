@@ -8,8 +8,8 @@ import { ShopProfilePage } from "@/features/shop/profile/pages/ShopProfilePage.t
 import { useMemo } from "react";
 import { isApiNotFoundError } from "@/lib/api/apiError.ts";
 
-// Keep the established /shops/:slug URL for existing links; it now resolves only
-// immutable public listing-source slugs and lets unknown legacy shop slugs 404.
+// Keep the established /shops/:slug URL for existing links; it resolves only public
+// listing-source slugs, so a legacy shop slug 404s unless a source now holds that readable slug.
 export const Route = createFileRoute("/$lng/shops/$shopSlugId/")({
     loader: async ({ context: { queryClient }, params: { shopSlugId } }) => {
         try {

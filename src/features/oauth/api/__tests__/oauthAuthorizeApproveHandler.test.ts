@@ -8,6 +8,7 @@ const mockFetch = vi.hoisted(() => vi.fn());
 vi.mock("@/env.ts", () => ({
     env: {
         VITE_API_URL: "https://api.test.example",
+        VITE_APP_URL: "https://aura-historia.com",
     },
 }));
 
@@ -64,6 +65,23 @@ describe("/api/oauth/authorize/approve", () => {
             "Cross-origin OAuth authorization request rejected.",
         );
         expect(response.headers.has("Location")).toBe(false);
+        expect(mockGetServerAuthToken).not.toHaveBeenCalled();
+        expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it("refuses a direct request for the WooCommerce broker callback", async () => {
+        const response = await post(
+            createRequest({
+                ...defaultFormFields,
+                redirect_uri:
+                    "https://aura-historia.com/api/oauth/client/redirect-broker/woocommerce",
+            }),
+        );
+
+        expect(response.status).toBe(400);
+        await expect(response.text()).resolves.toBe(
+            "Start the WooCommerce connection from WordPress.",
+        );
         expect(mockGetServerAuthToken).not.toHaveBeenCalled();
         expect(mockFetch).not.toHaveBeenCalled();
     });

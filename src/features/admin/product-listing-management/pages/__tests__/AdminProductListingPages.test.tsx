@@ -292,6 +292,84 @@ describe("AdminProductListingDetailPage", () => {
         });
     });
 
+    it("replaces the original title in its language and clears the description", async () => {
+        api.getAdminProductListing.mockResolvedValue(ok(detailDto));
+        api.updateAdminProductListing.mockResolvedValue(
+            ok({ productListingId: "pl_01", expectedVersion: 8, outcome: "CHANGED" }),
+        );
+        renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
+
+        const title = await screen.findByLabelText(t("adminProductListings.fields.originalTitle"));
+        expect(title).toHaveValue("Walnut cabinet");
+        fireEvent.change(title, { target: { value: "Walnut cabinet, 1890" } });
+        fireEvent.change(
+            screen.getByLabelText(t("adminProductListings.fields.originalDescription")),
+            {
+                target: { value: "" },
+            },
+        );
+        fireEvent.click(
+            screen.getByRole("button", { name: t("adminProductListings.actions.save") }),
+        );
+
+        expect(await screen.findByText(t("adminProductListings.edit.saved"))).toBeInTheDocument();
+        expect(api.updateAdminProductListing).toHaveBeenCalledWith({
+            path: { productListingId: "pl_01" },
+            body: {
+                expectedVersion: 7,
+                title: { text: "Walnut cabinet, 1890", language: "en" },
+                description: null,
+            },
+            cache: "no-store",
+        });
+    });
+
+    it("requires a language for new text, notes long titles and names a rejected title", async () => {
+        api.getAdminProductListing.mockResolvedValue(
+            ok({ ...detailDto, title: null, description: null }),
+        );
+        api.updateAdminProductListing.mockResolvedValue({
+            data: undefined,
+            error: {
+                status: 400,
+                error: "BAD_BODY_VALUE",
+                source: { field: "title.text", type: "BODY" },
+                detail: "private diagnostic",
+            },
+            response: { status: 400 },
+        });
+        renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
+
+        const title = await screen.findByLabelText(t("adminProductListings.fields.originalTitle"));
+        const save = screen.getByRole("button", { name: t("adminProductListings.actions.save") });
+        fireEvent.change(title, { target: { value: "x".repeat(129) } });
+        expect(screen.getByText(t("adminProductListings.edit.titleTooLong"))).toBeInTheDocument();
+        fireEvent.click(save);
+
+        expect(
+            await screen.findByText(t("adminProductListings.validation.languageRequired")),
+        ).toBeInTheDocument();
+        expect(api.updateAdminProductListing).not.toHaveBeenCalled();
+
+        fireEvent.change(title, { target: { value: "✨" } });
+        expect(screen.queryByText(t("adminProductListings.edit.titleTooLong"))).toBeNull();
+        await userEvent.click(
+            screen.getByRole("combobox", { name: t("adminProductListings.fields.titleLanguage") }),
+        );
+        await userEvent.click(await screen.findByRole("option", { name: "DE" }));
+        fireEvent.click(save);
+
+        expect(
+            await screen.findByText(t("adminProductListings.errors.invalidTitle")),
+        ).toBeInTheDocument();
+        expect(screen.queryByText(/private diagnostic/)).toBeNull();
+        expect(api.updateAdminProductListing).toHaveBeenCalledWith(
+            expect.objectContaining({
+                body: { expectedVersion: 7, title: { text: "✨", language: "de" } },
+            }),
+        );
+    });
+
     it("keeps saved values at the returned version when the refetch after saving fails", async () => {
         api.getAdminProductListing
             .mockResolvedValueOnce(ok(detailDto))

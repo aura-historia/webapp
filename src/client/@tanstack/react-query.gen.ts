@@ -236,7 +236,7 @@ export const getAdminProductListingQueryKey = (options: Options<GetAdminProductL
 /**
  * Inspect authoritative ProductListing facts
  *
- * Administrator authority is required; delegated Aura tokens additionally require `product-listings:read`. Cognito administrators need no delegated scope or Partnership grant. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness. Original title/description, slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
+ * Administrator authority is required; delegated Aura tokens additionally require `product-listings:read`. Cognito administrators need no delegated scope or Partnership grant. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness. Original title/description are mutable; slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
  */
 export const getAdminProductListingOptions = (options: Options<GetAdminProductListingData>) => queryOptions<GetAdminProductListingResponse, GetAdminProductListingError, GetAdminProductListingResponse, ReturnType<typeof getAdminProductListingQueryKey>>({
   queryFn: async ({ queryKey, signal }) => {
@@ -557,8 +557,7 @@ export const postPartnerProductListingsMutation = (options?: Partial<Options<Pos
  * - **Existing listing** — availability, price, and each price estimate
  *   are tri-state: omitted preserves, `null` clears, and a concrete value replaces. Omit `auction` to preserve it; `auction: null` is invalid. Within an asserted Auction/lot-facts patch, each lot/timing leaf is tri-state: omit to preserve, `null` to clear clearable leaves, or provide a value to set. `auctionId` must name an existing Auction for this ListingSource; omit it to preserve membership, send `null` to clear it, or send an ID to set it. A withdrawn
  *   listing is restored before current facts apply.
- * - `title` and `description` apply only on creation. For an
- *   existing listing they preserve current state and emit no current-state history event.
+ * - `title` and `description` are tri-state: omit to preserve, `null` to clear, or provide localized text to replace it. Whitespace-equivalent text is unchanged; meaningful changes retain full original text history and refresh asynchronous enrichment.
  * - `images` is separate: omit to preserve, send `[]` to clear, or send an array to replace.
  *   `null` is invalid. `url` is non-clearable: omit or send `null` to preserve it; send a URL
  *   value to replace it.
@@ -606,7 +605,7 @@ export const getPartnerProductListingQueryKey = (options: Options<GetPartnerProd
 /**
  * Inspect authoritative ProductListing facts
  *
- * An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:read`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness. Original title/description, slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
+ * An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:read`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness. Original title/description are mutable; slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
  */
 export const getPartnerProductListingOptions = (options: Options<GetPartnerProductListingData>) => queryOptions<GetPartnerProductListingResponse, GetPartnerProductListingError, GetPartnerProductListingResponse, ReturnType<typeof getPartnerProductListingQueryKey>>({
   queryFn: async ({ queryKey, signal }) => {
@@ -847,7 +846,7 @@ export const postAsyncPartnerProductListingsMutation = (options?: Partial<Option
  * null clears clearable values and nested auction leaves. `auction.auctionId` may be omitted
  * to preserve membership, null to clear it or an ID to set it. `images: []` clears images,
  * while `images: null` and `auction: null` are invalid. An omitted or null `url` preserves
- * an existing URL; a URL value replaces it. Title and description apply on creation only.
+ * an existing URL; a URL value replaces it. Title and description use tri-state patches on both creation and update: omission preserves, null clears, and a localized value sets.
  * Auction existence, listing state, partnership/source authority, lifecycle and other
  * business conflicts are decided downstream, not as an
  * immediate item failure or synchronous `404`.
@@ -909,12 +908,12 @@ export const putAsyncPartnerProductListingsMutation = (options?: Partial<Options
  * - the base64-encoded HMAC-SHA256 signature over the exact, untouched request body bytes in `x-wc-webhook-signature`, and
  * - optionally, the WooCommerce delivery identifier in `x-wc-webhook-delivery-id`.
  *
- * A supplied delivery identifier applies only when an event maps to raw capture. Its provider receipt retains only a
- * canonical semantic source-payload SHA-256 evidence digest for 90 days. A captured-observation retry with the same
- * digest may be deduplicated during downstream capture; reuse with different evidence fails in the consumer, not as an immediate HTTP `409`.
+ * A supplied delivery identifier applies only when an event maps to raw capture. Its provider receipt binds the identifier to a
+ * canonical semantic source-payload SHA-256 evidence digest for 90 days, because WooCommerce repeats identifiers within one second.
+ * An exact retry of a captured observation may be deduplicated during downstream capture; a different payload under the same identifier is a separate observation ordered by `date_modified_gmt`.
  * Logical receipt expiry permits a new receipt but never removes or rewrites a captured raw revision or its provenance.
- * A timestamp-free DELETE establishes a restore barrier. A later UPSERT without a provably newer `date_modified_gmt`
- * fails during downstream capture (`WOOCOMMERCE_PROVIDER_SOURCE_ORDER_AMBIGUOUS`), not as an immediate HTTP `409`. Admission does not create a provider receipt or raw revision; investigate the failed FIFO command before reconciliation or redrive.
+ * A timestamp-free DELETE sets a restore barrier at the later of its capture time and every `date_modified_gmt` already known for the product.
+ * A later observation applies only when its `date_modified_gmt` is after the barrier; older ones complete without effect. An UPSERT without `date_modified_gmt` is rejected and logged during downstream capture (`CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS`), not as an immediate HTTP `409`. Admission does not create a provider receipt or raw revision.
  * The service verifies the signature over untouched body bytes before JSON parsing, then submits mapped observations as `CAPTURE_RAW` to the shared FIFO after bearer/capability checks and source configuration lookup. The consumer checks the current partner/source grant for mapped observations; ignored no-ops check it immediately. Only a matching, confirmed queue acceptance permits `204`; rejected, oversized, unconfirmed, and not-attempted submissions are not acknowledged. The FIFO consumer later commits raw capture with the command receipt; provider receipt and source-order decisions occur during that capture. Authorized ignored create/update events are no-op `204` without queue send or receipt, even when they include a delivery identifier. Retry an uncertain submission with the same signed body, topic, source, actor and delivery identifier where provided; without a delivery identifier, retries cannot recover the original command identity after a lost reply and have no provider receipt-based deduplication guarantee. A lost reply may already have enqueued work; never infer rollback from a non-204.
  *
  * Topic-specific payload requirements:
@@ -924,7 +923,14 @@ export const putAsyncPartnerProductListingsMutation = (options?: Partial<Options
  * - `product.created` and `product.updated` with `status: trash`, `draft`, `pending`, or `private` capture a
  * DELETE and require only `id`; missing or unsupported statuses are authorized ignored events and also require
  * only `id`
- * - `product.deleted` captures a DELETE and requires only `id`
+ * - `product.created` and `product.updated` with `type: variation` are authorized ignored events whatever their
+ * status and require only `id`. A variation belongs to its parent product's listing: when WooCommerce saves or
+ * deletes a variation it re-saves the parent and delivers the parent's own `product.updated`, which refreshes
+ * that listing.
+ * - `product.deleted` captures a DELETE for the delivered `id` and requires only `id`. WooCommerce sends only
+ * `id` for a deleted variation as well, so deleting a variation never withdraws its parent's listing.
+ * - every DELETE withdraws the listing whose `sourceListingId` equals the delivered `id`, including a listing
+ * created only through the partner product-listing API
  *
  * The listing source identified by `listingSourceId` must have a WooCommerce ingestion configuration
  * with a nonblank write-only `webhookSecret` and a configured language.
@@ -1074,7 +1080,7 @@ export const simpleSearchProductListingsQueryKey = (options?: Options<SimpleSear
 /**
  * Simple product search via query parameters
  *
- * Performs canonical ProductListing search with query parameters. Text queries combine BM25 and embedding KNN retrieval when embedding generation succeeds; otherwise the backend falls back to BM25. Explicit non-score sorts use BM25. Any request with an Authorization header is private and not stored, including valid credentials that add user state. Anonymous successful 200 responses use `public, max-age=0, s-maxage=60, stale-if-error=0`; errors use `private, no-store`. Geographic predicates are AND; values in each country or subdivision set are OR. Missing geography never matches. Radius is inclusive in its supplied unit to the same recorded point used by distance ordering. Numeric origins never resolve from addresses/preferences. Distance ordering conflicts with sort and uses lexical text matching. Geographic responses are private, no-store and use eventually consistent OpenSearch projections; location updates can briefly lag in items, ordering, total and continuation. `language` defaults to `en` and `currency` defaults to `EUR`.
+ * Performs canonical ProductListing search with query parameters. Text queries combine BM25 and embedding KNN retrieval when embedding generation succeeds within a few seconds; otherwise the backend falls back to BM25. Explicit non-score sorts use BM25. Any request with an Authorization header is private and not stored, including valid credentials that add user state. Anonymous successful 200 responses use `public, max-age=0, s-maxage=60, stale-if-error=0`; errors use `private, no-store`. Geographic predicates are AND; values in each country or subdivision set are OR. Missing geography never matches. Radius is inclusive in its supplied unit to the same recorded point used by distance ordering. Numeric origins never resolve from addresses/preferences. Distance ordering conflicts with sort and uses lexical text matching. Geographic responses are private, no-store and use eventually consistent OpenSearch projections; location updates can briefly lag in items, ordering, total and continuation. `language` defaults to `en` and `currency` defaults to `EUR`.
  */
 export const simpleSearchProductListingsOptions = (options?: Options<SimpleSearchProductListingsData>) => queryOptions<SimpleSearchProductListingsResponse, SimpleSearchProductListingsError, SimpleSearchProductListingsResponse, ReturnType<typeof simpleSearchProductListingsQueryKey>>({
   queryFn: async ({ queryKey, signal }) => {
@@ -1325,17 +1331,21 @@ export const adminSearchListingSourcesQueryKey = (options?: Options<AdminSearchL
  * `query` performs a case-insensitive substring search across the ListingSource name and
  * stable slug, and also the operator Party name and slug. `name` restricts the substring
  * match to the ListingSource name. `listingSourceId` and `listingSourceSlugId` are exact
- * identity filters. `operatorPartyId` and `ingestionMethod` are exact filters.
+ * identity filters. `operatorPartyId`, `ingestionMethod`, and `platformTechnology` are exact filters
+ * and can be combined. Platform technology is descriptive metadata independent of ingestion.
  *
- * Results use deterministic cursor pagination. The default sort is `name` ascending;
+ * Results use deterministic keyset pagination. The default sort is `name` ascending;
  * override it by providing both `sort` and `order`. Valid sort fields are `name`, `slug`,
- * `created`, and `updated`; ListingSource ID is always the final deterministic tie-breaker.
- * Page sizes are clamped to 1–100, with a default of 21. The returned ListingSource ID `searchAfter`
- * cursor is omitted on the terminal page and should be sent with the same filters and sort.
+ * `created`, and `updated`; ListingSource ID is always the final ascending tie-breaker.
+ * Page sizes are clamped to 1–100, with a default of 21. The opaque `searchAfter` cursor
+ * continues after the sort position of the last returned ListingSource, also when that source
+ * was deleted or changed since, and is omitted on the terminal page. Send it back unchanged with
+ * the same filters and sort; a malformed cursor, a ListingSource ID cursor, or a cursor
+ * returned for other filters or sort is rejected with `400 BAD_QUERY_PARAMETER_VALUE`.
  * Responses always use `Cache-Control: no-store`.
  *
  * The result contains only safe business-resource fields: ListingSource identity and name,
- * operator Party reference, active ingestion methods, presentation URLs, and referral summary.
+ * operator Party reference, active ingestion methods, optional platform technology, presentation URLs, and referral summary.
  * Provider credentials, webhook secrets, and crawler-local configuration are never returned.
  *
  */
@@ -1361,6 +1371,10 @@ export const adminSearchListingSourcesOptions = (options?: Options<AdminSearchLi
  * `operator` accepts either an existing Party reference (`EXISTING` with `partyId`) or a
  * new Party with name and optional contact details (`NEW`). Ingestion configuration,
  * provider uniqueness, presentation, and referral validation remain service-owned.
+ * The ListingSource and a `NEW` operator Party each get a slug generated once from their own
+ * canonical name, such as `antiques-and-more`; when that slug is already taken, the first free
+ * of `antiques-and-more-2`, `antiques-and-more-3`, and so on is used. Slugs never change on
+ * rename.
  * A WooCommerce ingestion configuration carries its required `webhookSecret` as a write-only
  * member; it is never returned or logged.
  *
@@ -1391,11 +1405,15 @@ export const adminSearchPartiesQueryKey = (options?: Options<AdminSearchPartiesD
  * `name`, `phone`, and `email` restrict the substring match to one contact/name field.
  * `created` and `updated` accept inclusive RFC3339 ranges using `min` and `max` query members.
  *
- * Results use deterministic cursor pagination. The default sort is `name` ascending;
+ * Results use deterministic keyset pagination. The default sort is `name` ascending;
  * override it by providing both `sort` and `order`. Valid sort fields are `name`, `email`,
- * `phone`, `created`, and `updated`; Party ID is always the final deterministic tie-breaker.
- * Page sizes are clamped to 1–100, with a default of 21. The returned ListingSource ID `searchAfter`
- * cursor is omitted on the terminal page and should be sent with the same filters and sort.
+ * `phone`, `created`, and `updated`; missing contact values sort last in both directions, and
+ * Party ID is always the final ascending tie-breaker.
+ * Page sizes are clamped to 1–100, with a default of 21. The opaque `searchAfter` cursor
+ * continues after the sort position of the last returned Party, also when that Party was
+ * deleted or changed since, and is omitted on the terminal page. Send it back unchanged with
+ * the same filters and sort; a malformed cursor, a Party ID cursor, or a cursor returned for
+ * other filters or sort is rejected with `400 BAD_QUERY_PARAMETER_VALUE`.
  * Responses always use `Cache-Control: no-store` because contact data is returned.
  *
  */
@@ -1420,8 +1438,10 @@ export const adminSearchPartiesOptions = (options?: Options<AdminSearchPartiesDa
  *
  * The request accepts only the Party name and optional phone/email contact information.
  * Party names trim outer Unicode whitespace, reject blank values, and reject values over 255
- * UTF-8 bytes. The Party slug is generated once from the canonical name and stable Party ID;
- * it remains immutable if the Party is renamed later.
+ * UTF-8 bytes. The Party slug is generated once from the canonical name, such as
+ * `antiques-and-more`; when another Party already holds it, the first free of
+ * `antiques-and-more-2`, `antiques-and-more-3`, and so on is used. The slug remains immutable
+ * if the Party is renamed later.
  *
  */
 export const adminCreatePartyMutation = (options?: Partial<Options<AdminCreatePartyData>>): UseMutationOptions<AdminCreatePartyResponse, AdminCreatePartyError, Options<AdminCreatePartyData>> => {
@@ -1528,8 +1548,12 @@ export const adminSearchUsersQueryKey = (options?: Options<AdminSearchUsersData>
  * first name, and last name; `email`, `firstName`, and `lastName` restrict the
  * match to one field. `tier` and `role` filters use exact values.
  * Results use deterministic keyset pagination. The default sort is `name` ascending;
- * override it by providing both `sort` and `order`. Every sort uses `userId` as a
- * deterministic tie-breaker. This response always uses `Cache-Control: no-store`.
+ * override it by providing both `sort` and `order`. Every sort uses `userId` as the final
+ * ascending tie-breaker. The opaque `searchAfter` cursor continues after the sort position of
+ * the last returned user, also when that user was deleted or changed since, and is omitted on
+ * the terminal page. A malformed cursor, a User ID cursor, or a cursor returned for other
+ * filters or sort is rejected with `400 BAD_QUERY_PARAMETER_VALUE`. This response always uses
+ * `Cache-Control: no-store`.
  *
  */
 export const adminSearchUsersOptions = (options?: Options<AdminSearchUsersData>) => queryOptions<AdminSearchUsersResponse, AdminSearchUsersError, AdminSearchUsersResponse, ReturnType<typeof adminSearchUsersQueryKey>>({
@@ -3209,6 +3233,9 @@ export const adminMarkPartnershipApplicationInReviewMutation = (options?: Partia
  * terminal replays retain their existing idempotent behavior. Approval atomically creates or finds
  * the Party and Partnership, grants membership and
  * ListingSource access, updates the application, and creates the applicant notification.
+ * A Party and ListingSource created by approval each get a slug generated from their own name,
+ * such as `antiques-and-more`; when that slug is already taken, the first free of
+ * `antiques-and-more-2`, `antiques-and-more-3`, and so on is used.
  * Rejection preserves the existing application and notification semantics. Responses always
  * use `Cache-Control: no-store`.
  *

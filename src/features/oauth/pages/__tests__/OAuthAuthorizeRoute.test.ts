@@ -143,6 +143,28 @@ describe("_auth.oauth.authorize route", () => {
         ).toThrow();
     });
 
+    it("reads a WooCommerce broker transaction from its reference alone", () => {
+        expect(
+            validateSearch({ transaction_id: "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I" }),
+        ).toEqual({ transaction_id: "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I" });
+        expect(
+            validateSearch({
+                transaction_id: "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
+                broker_error: "recipient_not_registered",
+            }),
+        ).toHaveProperty("broker_error", "recipient_not_registered");
+        expect(validateSearch({ broker_error: "made_up" })).toEqual({});
+    });
+
+    it("treats a request with client_id as OAuth even if it names a transaction", () => {
+        expect(() =>
+            validateSearch({
+                client_id: "oc_test",
+                transaction_id: "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
+            }),
+        ).toThrow();
+    });
+
     it("throws when required client_id is missing", () => {
         expect(() =>
             validateSearch({
