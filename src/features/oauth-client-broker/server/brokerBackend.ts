@@ -22,6 +22,12 @@ const MAX_ACCESS_TOKEN_LENGTH = 4096;
 const MAX_SCOPE_LENGTH = 2048;
 /** Bounds every backend call, so a stalled request ends as a failure instead of hanging. */
 const BACKEND_TIMEOUT_MS = 10_000;
+/**
+ * Backend calls never follow redirects: the code request reads its redirect, every other call
+ * treats one as a failure. Not `error`: the Worker runtime supports only `follow` and `manual`
+ * and throws for anything else before a request is sent.
+ */
+const BACKEND_REDIRECT_MODE = "manual" satisfies RequestRedirect;
 
 const OAUTH_ERROR_IDENTIFIERS = new Set<string>([
     "invalid_request",
@@ -75,12 +81,12 @@ export async function requestAuthorizationCode(params: {
     try {
         response = await fetch(url, {
             headers: { Authorization: `Bearer ${params.accessToken}` },
-            redirect: "manual",
+            redirect: BACKEND_REDIRECT_MODE,
             cache: "no-store",
             signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
         });
-    } catch {
-        logBackendFailure("authorize", "network");
+    } catch (error) {
+        logBackendFailure("authorize", describeRequestFailure(error));
         return { ok: false, kind: "unavailable" };
     }
 
@@ -193,12 +199,12 @@ export async function exchangeAuthorizationCode(params: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
             body,
-            redirect: "manual",
+            redirect: BACKEND_REDIRECT_MODE,
             cache: "no-store",
             signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
         });
-    } catch {
-        logBackendFailure("token", "network");
+    } catch (error) {
+        logBackendFailure("token", describeRequestFailure(error));
         return { ok: false, error: "temporarily_unavailable" };
     }
 
@@ -291,15 +297,15 @@ export async function revokeAccessToken(
                 client_id: config.clientId,
                 client_secret: config.clientSecret,
             }),
-            redirect: "manual",
+            redirect: BACKEND_REDIRECT_MODE,
             cache: "no-store",
             signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
         });
         if (response.ok || response.status === 403) return true;
         logBackendFailure("revoke", response.status, await readOAuthErrorIdentifier(response));
         return false;
-    } catch {
-        logBackendFailure("revoke", "network");
+    } catch (error) {
+        logBackendFailure("revoke", describeRequestFailure(error));
         return false;
     }
 }
@@ -315,24 +321,31 @@ export async function findGrantedListingSource(params: {
 }): Promise<ListingSourceCheck> {
     let after: string | undefined;
     for (let page = 0; page < MAX_LISTING_SOURCE_PAGES; page++) {
-        const result = await getMyListingSources({
-            baseUrl: getApiBaseUrl(env.VITE_API_URL),
-            auth: params.accessToken,
-            query: { size: LISTING_SOURCE_PAGE_SIZE, after },
-            cache: "no-store",
-            redirect: "error",
-            signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
-            throwOnError: false,
-        }).catch(() => undefined);
+        const result = await readBackend(() =>
+            getMyListingSources({
+                baseUrl: getApiBaseUrl(env.VITE_API_URL),
+                auth: params.accessToken,
+                query: { size: LISTING_SOURCE_PAGE_SIZE, after },
+                cache: "no-store",
+                redirect: BACKEND_REDIRECT_MODE,
+                signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
+                throwOnError: false,
+            }),
+        );
 
-        if (!result?.response) return { ok: false, kind: "unavailable" };
-        if (result.response.status === 401) return { ok: false, kind: "unauthenticated" };
-        if (!result.data) {
-            logBackendFailure("listing_sources", result.response.status);
+        if (!result.ok) {
+            if (result.status === 401) return { ok: false, kind: "unauthenticated" };
+            logBackendFailure("listing_sources", result.status);
             return { ok: false, kind: "unavailable" };
         }
 
-        const sourcePage = mapToOwnListingSourcePage(result.data);
+        let sourcePage: ReturnType<typeof mapToOwnListingSourcePage>;
+        try {
+            sourcePage = mapToOwnListingSourcePage(result.data);
+        } catch {
+            logBackendFailure("listing_sources", "invalid_response");
+            return { ok: false, kind: "unavailable" };
+        }
         const source = combineOwnListingSourcePages([sourcePage]).find(
             (item) => item.listingSourceId === params.listingSourceId,
         );
@@ -352,23 +365,80 @@ export async function findGrantedListingSource(params: {
 export async function getRegisteredListingSourceUrl(params: {
     readonly accessToken: string;
     readonly listingSourceSlugId: string;
-}): Promise<{ readonly ok: true; readonly url?: string } | { readonly ok: false }> {
-    const result = await getPublicListingSourceBySlug({
-        baseUrl: getApiBaseUrl(env.VITE_API_URL),
-        auth: params.accessToken,
-        path: { listingSourceSlugId: params.listingSourceSlugId },
-        cache: "no-store",
-        redirect: "error",
-        signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
-        throwOnError: false,
-    }).catch(() => undefined);
+}): Promise<
+    | { readonly ok: true; readonly url?: string }
+    | { readonly ok: false; readonly kind: "unauthenticated" | "unavailable" }
+> {
+    const result = await readBackend(() =>
+        getPublicListingSourceBySlug({
+            baseUrl: getApiBaseUrl(env.VITE_API_URL),
+            auth: params.accessToken,
+            path: { listingSourceSlugId: params.listingSourceSlugId },
+            cache: "no-store",
+            redirect: BACKEND_REDIRECT_MODE,
+            signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
+            throwOnError: false,
+        }),
+    );
 
-    if (!result?.data) {
-        logBackendFailure("listing_source", result?.response?.status ?? "network");
-        return { ok: false };
+    if (!result.ok) {
+        if (result.status === 401) return { ok: false, kind: "unauthenticated" };
+        logBackendFailure("listing_source", result.status);
+        return { ok: false, kind: "unavailable" };
     }
-    const source = mapPublicListingSource(result.data);
-    return { ok: true, ...(source.url === undefined ? {} : { url: source.url }) };
+    let url: string | undefined;
+    try {
+        url = mapPublicListingSource(result.data).url;
+    } catch {
+        logBackendFailure("listing_source", "invalid_response");
+        return { ok: false, kind: "unavailable" };
+    }
+    return { ok: true, ...(url === undefined ? {} : { url }) };
+}
+
+type BackendRead<T> =
+    | { readonly ok: true; readonly data: T }
+    | {
+          readonly ok: false;
+          readonly status: number | RequestFailure | "request_rejected" | "invalid_response";
+      };
+
+/**
+ * Reduces a generated-client read to its data, or to what failed: the HTTP status of any
+ * non-success response (a redirect included), or the kind of failure when none arrived. The
+ * client returns rather than throws request errors, so both are read here; errors are not kept.
+ */
+async function readBackend<T>(
+    call: () => Promise<{
+        readonly data?: T;
+        readonly error?: unknown;
+        readonly request?: Request;
+        readonly response?: Response;
+    }>,
+): Promise<BackendRead<T>> {
+    let result: Awaited<ReturnType<typeof call>>;
+    try {
+        result = await call();
+    } catch (error) {
+        return { ok: false, status: describeRequestFailure(error) };
+    }
+    const { request, response } = result;
+    // The runtime refused to build the request from its options, so nothing was sent.
+    if (!request) return { ok: false, status: "request_rejected" };
+    if (!response) return { ok: false, status: describeRequestFailure(result.error) };
+    if (!response.ok) return { ok: false, status: response.status };
+    // A success whose body is not the JSON the client could parse.
+    if (result.data === undefined) return { ok: false, status: "invalid_response" };
+    return { ok: true, data: result.data };
+}
+
+type RequestFailure = "timeout" | "network";
+
+/** The kind of a request that got no response: the timeout, or anything else that stopped it. */
+function describeRequestFailure(error: unknown): RequestFailure {
+    const name =
+        typeof error === "object" && error !== null && "name" in error ? error.name : undefined;
+    return name === "TimeoutError" || name === "AbortError" ? "timeout" : "network";
 }
 
 async function readOAuthErrorIdentifier(response: Response): Promise<string | undefined> {

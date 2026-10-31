@@ -7,6 +7,7 @@ import {
     revokeAccessToken,
 } from "@/features/oauth-client-broker/server/brokerBackend.ts";
 import {
+    assertWorkerFetchOptions,
     CALLBACK_URL,
     CLIENT_ID,
     CLIENT_SECRET,
@@ -51,7 +52,11 @@ describe("WooCommerce broker backend calls", () => {
     beforeEach(() => {
         Object.assign(mockEnv, createBrokerEnv());
         fetchMock.mockReset();
-        vi.stubGlobal("fetch", fetchMock);
+        // Requests the Worker runtime would refuse never reach the backend double.
+        vi.stubGlobal("fetch", (input: RequestInfo | URL, init?: RequestInit) => {
+            assertWorkerFetchOptions(input, init);
+            return fetchMock(input, init);
+        });
         vi.spyOn(console, "error").mockImplementation(() => undefined);
     });
 
@@ -104,10 +109,18 @@ describe("WooCommerce broker backend calls", () => {
             expect(await authorize()).toEqual({ ok: false, ...expected });
         });
 
-        it("reports a network failure as unavailable", async () => {
-            fetchMock.mockRejectedValue(new TypeError("network"));
+        it.each([
+            [new TypeError("network"), "network"],
+            [new DOMException("The operation timed out.", "TimeoutError"), "timeout"],
+        ])("reports a request without response as unavailable (%#)", async (error, status) => {
+            fetchMock.mockRejectedValue(error);
 
             expect(await authorize()).toEqual({ ok: false, kind: "unavailable" });
+            expect(console.error).toHaveBeenCalledWith("[OAuth broker] Backend request failed.", {
+                operation: "authorize",
+                status,
+                error: "unrecognized",
+            });
         });
     });
 
@@ -222,52 +235,161 @@ describe("WooCommerce broker backend calls", () => {
     });
 
     describe("listing source checks", () => {
+        function findGrant() {
+            return findGrantedListingSource({
+                accessToken: USER_JWT,
+                listingSourceId: LISTING_SOURCE_ID,
+            });
+        }
+
+        function readRegisteredUrl() {
+            return getRegisteredListingSourceUrl({
+                accessToken: USER_JWT,
+                listingSourceSlugId: "shop-example",
+            });
+        }
+
+        function expectLogged(operation: string, status: number | string) {
+            expect(console.error).toHaveBeenCalledWith("[OAuth broker] Backend request failed.", {
+                operation,
+                status,
+                error: "unrecognized",
+            });
+        }
+
+        it("reads grants and the registered website as the Worker runtime allows", async () => {
+            fetchMock.mockImplementation(async (input: Request) =>
+                input.url.includes("/v1/me/listing-sources")
+                    ? jsonResponse({
+                          items: [
+                              {
+                                  listingSourceId: LISTING_SOURCE_ID,
+                                  listingSourceSlugId: "shop-example",
+                                  name: "Shop Example",
+                              },
+                          ],
+                      })
+                    : jsonResponse({
+                          listingSourceId: LISTING_SOURCE_ID,
+                          listingSourceSlugId: "shop-example",
+                          name: "Shop Example",
+                          operator: { name: "Operator" },
+                          url: "https://shop.example:8443/",
+                      }),
+            );
+
+            expect(await findGrant()).toMatchObject({
+                ok: true,
+                source: { listingSourceId: LISTING_SOURCE_ID },
+            });
+            expect(await readRegisteredUrl()).toEqual({
+                ok: true,
+                url: "https://shop.example:8443/",
+            });
+            for (const [request] of fetchMock.mock.calls as [Request][]) {
+                expect(request.redirect).toBe("manual");
+                expect(request.cache).toBe("no-store");
+                expect(request.headers.get("Authorization")).toBe(`Bearer ${USER_JWT}`);
+            }
+            expect(console.error).not.toHaveBeenCalled();
+        });
+
         it.each([
             [jsonResponse({ status: 401 }, 401), "unauthenticated"],
             [jsonResponse({ status: 500 }, 500), "unavailable"],
-        ])("maps a grant read failure %#", async (response, kind) => {
-            fetchMock.mockResolvedValue(response);
+        ])("maps a read failure %#", async (response, kind) => {
+            fetchMock.mockImplementation(async () => response.clone());
 
-            expect(
-                await findGrantedListingSource({
-                    accessToken: USER_JWT,
-                    listingSourceId: LISTING_SOURCE_ID,
-                }),
-            ).toEqual({ ok: false, kind });
+            expect(await findGrant()).toEqual({ ok: false, kind });
+            expect(await readRegisteredUrl()).toEqual({ ok: false, kind });
         });
 
-        it("reports a network failure as unavailable", async () => {
-            fetchMock.mockRejectedValue(new TypeError("network"));
+        it("does not log an expired sign-in, which returns to sign-in", async () => {
+            fetchMock.mockImplementation(async () => jsonResponse({ status: 401 }, 401));
 
-            expect(
-                await findGrantedListingSource({
-                    accessToken: USER_JWT,
-                    listingSourceId: LISTING_SOURCE_ID,
-                }),
-            ).toEqual({ ok: false, kind: "unavailable" });
+            await findGrant();
+            await readRegisteredUrl();
+
+            expect(console.error).not.toHaveBeenCalled();
+        });
+
+        it("names a request the runtime refuses to build, which never reaches the backend", async () => {
+            vi.stubGlobal(
+                "Request",
+                class {
+                    constructor() {
+                        throw new TypeError("Invalid redirect value");
+                    }
+                },
+            );
+
+            expect(await findGrant()).toEqual({ ok: false, kind: "unavailable" });
+            expectLogged("listing_sources", "request_rejected");
+            expect(await readRegisteredUrl()).toEqual({ ok: false, kind: "unavailable" });
+            expectLogged("listing_source", "request_rejected");
+            expect(fetchMock).not.toHaveBeenCalled();
+        });
+
+        it("treats a redirect as a failure instead of following it", async () => {
+            fetchMock.mockImplementation(
+                async () =>
+                    new Response(null, {
+                        status: 302,
+                        headers: { Location: "https://elsewhere.example/" },
+                    }),
+            );
+
+            expect(await findGrant()).toEqual({ ok: false, kind: "unavailable" });
+            expectLogged("listing_sources", 302);
+            expect(await readRegisteredUrl()).toEqual({ ok: false, kind: "unavailable" });
+            expectLogged("listing_source", 302);
+            expect(fetchMock).toHaveBeenCalledTimes(2);
+        });
+
+        it.each([
+            [new TypeError("network"), "network"],
+            [new DOMException("The operation timed out.", "TimeoutError"), "timeout"],
+        ])("logs a request without response by its kind (%#)", async (error, status) => {
+            fetchMock.mockRejectedValue(error);
+
+            expect(await findGrant()).toEqual({ ok: false, kind: "unavailable" });
+            expectLogged("listing_sources", status);
+            expect(await readRegisteredUrl()).toEqual({ ok: false, kind: "unavailable" });
+            expectLogged("listing_source", status);
+        });
+
+        it.each([
+            ["JSON of another shape", () => jsonResponse({ unexpected: true })],
+            [
+                "a body that is not JSON",
+                () =>
+                    new Response("<html>", {
+                        status: 200,
+                        headers: { "Content-Type": "application/json" },
+                    }),
+            ],
+        ])("reports %s as an invalid response", async (_, response) => {
+            fetchMock.mockImplementation(async () => response());
+
+            expect(await findGrant()).toEqual({ ok: false, kind: "unavailable" });
+            expectLogged("listing_sources", "invalid_response");
+            expect(await readRegisteredUrl()).toEqual({ ok: false, kind: "unavailable" });
+            expectLogged("listing_source", "invalid_response");
         });
 
         it("stops after the page limit instead of reading without end", async () => {
             fetchMock.mockImplementation(async () => jsonResponse({ items: [], next: "more" }));
 
-            expect(
-                await findGrantedListingSource({
-                    accessToken: USER_JWT,
-                    listingSourceId: LISTING_SOURCE_ID,
-                }),
-            ).toEqual({ ok: false, kind: "unavailable" });
+            expect(await findGrant()).toEqual({ ok: false, kind: "unavailable" });
             expect(fetchMock).toHaveBeenCalledTimes(50);
+            expectLogged("listing_sources", "page_limit");
         });
 
         it("reports an unreadable registered website as a failure", async () => {
             fetchMock.mockResolvedValue(jsonResponse({ status: 404 }, 404));
 
-            expect(
-                await getRegisteredListingSourceUrl({
-                    accessToken: USER_JWT,
-                    listingSourceSlugId: "x",
-                }),
-            ).toEqual({ ok: false });
+            expect(await readRegisteredUrl()).toEqual({ ok: false, kind: "unavailable" });
+            expectLogged("listing_source", 404);
         });
     });
 });

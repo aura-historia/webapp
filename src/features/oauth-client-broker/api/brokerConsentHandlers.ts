@@ -272,7 +272,9 @@ async function verifyDestination(
         accessToken: identity.accessToken,
         listingSourceSlugId: grant.source.listingSourceSlugId,
     });
-    if (!registered.ok) return "approval_failed";
+    if (!registered.ok) {
+        return registered.kind === "unauthenticated" ? "unauthenticated" : "approval_failed";
+    }
 
     return isRegisteredRecipient(registered.url, context.merchantRedirectUri)
         ? "authorized"

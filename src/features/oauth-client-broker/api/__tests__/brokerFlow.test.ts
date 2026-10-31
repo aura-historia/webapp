@@ -25,6 +25,7 @@ import {
     MERCHANT_REDIRECT_URI,
     OTHER_LISTING_SOURCE_ID,
     removeBrokerBindings,
+    requestUrl,
     USER_JWT,
     USER_SUB,
 } from "@/features/oauth-client-broker/__tests__/brokerTestHarness.ts";
@@ -371,6 +372,60 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             expect(approval.headers.get("Location")).toMatch(new RegExp(`^${CALLBACK_URL}\\?`));
         });
 
+        describe("a site registered with a custom port", () => {
+            const siteAddress = "https://shop.example:8443/";
+            const merchantRedirectUri = `${siteAddress}wp-admin/admin.php?page=aura-historia-partner-connect`;
+
+            beforeEach(() => {
+                useBackend({ registeredUrls: { "shop-example": siteAddress } });
+            });
+
+            it("connects through approval, callback and completion", async () => {
+                const { body } = await initiate({ merchant_redirect_uri: merchantRedirectUri });
+                const approval = await decide("approve", {
+                    lng: "en",
+                    transaction_id: body.transaction_id,
+                    listing_source_id: LISTING_SOURCE_ID,
+                });
+                expect(approval.headers.get("Location")).toMatch(new RegExp(`^${CALLBACK_URL}\\?`));
+
+                const handoffResponse = await callback(
+                    approval.headers.get("Location") ?? "",
+                    approval.headers.getSetCookie(),
+                );
+                const location = handoffResponse.headers.get("Location") ?? "";
+                expect(location.startsWith(`${merchantRedirectUri}&`)).toBe(true);
+
+                const completion = await complete({
+                    protocol_version: 2,
+                    transaction_id: body.transaction_id,
+                    completion_code: new URL(location).searchParams.get("completion_code") ?? "",
+                    completion_secret: COMPLETION_SECRET,
+                });
+                expect(await completion.json()).toMatchObject({
+                    outcome: "approved",
+                    access_token: ACCESS_TOKEN,
+                    listing_source_id: LISTING_SOURCE_ID,
+                });
+            });
+
+            it("hands a denial back to the verified site", async () => {
+                const { body } = await initiate({ merchant_redirect_uri: merchantRedirectUri });
+
+                const denial = await decide("deny", {
+                    lng: "en",
+                    transaction_id: body.transaction_id,
+                    listing_source_id: LISTING_SOURCE_ID,
+                });
+
+                const location = denial.headers.get("Location") ?? "";
+                expect(location.startsWith(`${merchantRedirectUri}&`)).toBe(true);
+                expect(new URL(location).searchParams.get("completion_code")).toMatch(
+                    /^[A-Za-z0-9_-]{43}$/,
+                );
+            });
+        });
+
         it("refuses another shop's subdirectory on a shared origin", async () => {
             useBackend({ registeredUrls: { "shop-example": "https://host.example/shop-a/" } });
             const { body } = await initiate({
@@ -458,6 +513,28 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             expect(location.searchParams.get("redirect")).toBe(
                 `/fr/oauth/authorize?transaction_id=${body.transaction_id}`,
             );
+        });
+
+        it.each([
+            ["the grant recheck", "/v1/me/listing-sources"],
+            ["the registered website", "/v1/listing-sources/by-slug/shop-example"],
+        ])("returns to sign-in when the session expires at %s", async (_, path) => {
+            vi.stubGlobal("fetch", (input: RequestInfo | URL, init?: RequestInit) =>
+                requestUrl(input).pathname === path
+                    ? Promise.resolve(jsonResponse({ status: 401 }, 401))
+                    : backend.fetchMock(input, init),
+            );
+            const { body } = await initiate();
+
+            for (const action of ["approve", "deny"] as const) {
+                const response = await decide(action, {
+                    lng: "en",
+                    transaction_id: body.transaction_id,
+                    listing_source_id: LISTING_SOURCE_ID,
+                });
+                expect(new URL(response.headers.get("Location") ?? "").pathname).toBe("/en/login");
+            }
+            expect(backend.callsTo("/v1/oauth/authorize")).toHaveLength(0);
         });
 
         it("ignores injected protocol fields and rejects repeated ones", async () => {
@@ -579,6 +656,37 @@ describe("WooCommerce OAuth broker protocol v2", () => {
                 outcome: "failed",
                 error: "invalid_scope",
             });
+        });
+
+        it.each([
+            ["the grant recheck", "/v1/me/listing-sources", "listing_sources"],
+            [
+                "the registered website",
+                "/v1/listing-sources/by-slug/shop-example",
+                "listing_source",
+            ],
+            ["the code request", "/v1/oauth/authorize", "authorize"],
+        ])("names %s in the log when approval fails there", async (_, path, operation) => {
+            vi.stubGlobal("fetch", (input: RequestInfo | URL, init?: RequestInit) =>
+                requestUrl(input).pathname === path
+                    ? Promise.reject(new TypeError("fetch failed"))
+                    : backend.fetchMock(input, init),
+            );
+            const { body } = await initiate();
+
+            const approval = await decide("approve", {
+                lng: "en",
+                transaction_id: body.transaction_id,
+                listing_source_id: LISTING_SOURCE_ID,
+            });
+
+            expect(approval.headers.get("Location")).toContain("broker_error=approval_failed");
+            expect(vi.mocked(console.error).mock.calls).toEqual([
+                [
+                    "[OAuth broker] Backend request failed.",
+                    { operation, status: "network", error: "unrecognized" },
+                ],
+            ]);
         });
 
         it.each([
