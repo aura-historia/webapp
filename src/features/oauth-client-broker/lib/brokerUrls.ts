@@ -3,11 +3,13 @@ import type { BrokerConsentError } from "@/features/oauth-client-broker/lib/brok
 
 /** The broker callback registered for the WooCommerce OAuth client; keep this path stable. */
 export const WOOCOMMERCE_BROKER_CALLBACK_PATH = "/api/oauth/client/redirect-broker/woocommerce";
-export const WOOCOMMERCE_BROKER_INITIATE_PATH = "/api/oauth/broker/woocommerce/initiate";
+/** Server-to-server endpoints the WooCommerce extension calls; renaming them breaks the plugin. */
+export const WOOCOMMERCE_BROKER_INITIATE_PATH = `${WOOCOMMERCE_BROKER_CALLBACK_PATH}/transactions`;
+export const WOOCOMMERCE_BROKER_COMPLETE_PATH = `${WOOCOMMERCE_BROKER_INITIATE_PATH}/complete`;
+/** Endpoints of Aura Historia's own consent page. */
 export const WOOCOMMERCE_BROKER_CONSENT_PATH = "/api/oauth/broker/woocommerce/consent";
 export const WOOCOMMERCE_BROKER_APPROVE_PATH = "/api/oauth/broker/woocommerce/approve";
 export const WOOCOMMERCE_BROKER_DENY_PATH = "/api/oauth/broker/woocommerce/deny";
-export const WOOCOMMERCE_BROKER_COMPLETE_PATH = "/api/oauth/broker/woocommerce/complete";
 
 const AUTHORIZE_PAGE_PATH = "/oauth/authorize";
 
@@ -43,6 +45,28 @@ export function isLoopbackBrokerOrigin(): boolean {
 
 export function isLoopbackHostname(hostname: string): boolean {
     return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "[::1]";
+}
+
+/**
+ * The browser entry initiation returns. The WooCommerce extension follows only an OAuth-shaped
+ * authorization URL on this origin that names its client, `response_type=code` and its exact
+ * scope, so the entry is a request for the broker callback whose `state` is the opaque transaction
+ * reference. The consent page recognizes exactly this shape and reads every protocol value from
+ * the stored transaction, never from the URL. Without a language the app redirects to the
+ * visitor's preferred one.
+ */
+export function getBrokerAuthorizationUrl(params: {
+    readonly transactionId: string;
+    readonly clientId: string;
+    readonly scope: string;
+}): string {
+    const url = new URL(AUTHORIZE_PAGE_PATH, getBrokerAppOrigin());
+    url.searchParams.set("client_id", params.clientId);
+    url.searchParams.set("redirect_uri", getWooCommerceBrokerCallbackUrl());
+    url.searchParams.set("response_type", "code");
+    url.searchParams.set("scope", params.scope);
+    url.searchParams.set("state", params.transactionId);
+    return url.toString();
 }
 
 /**

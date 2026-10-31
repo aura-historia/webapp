@@ -50,18 +50,14 @@ export function textResponse(message: string, status: number): Response {
 }
 
 /**
- * Reads a form-encoded body in which every field is known and appears at most once. Returns
- * `undefined` for another content type, a body without a declared length or over the limit, and
- * an unknown or repeated field. The declared length is checked before anything is read.
+ * The body of the given media type, or `undefined` for another content type, a body without a
+ * declared length or over the limit. The declared length is checked before anything is read.
  */
-export async function readStrictForm<Field extends string>(
-    request: Request,
-    fields: readonly Field[],
-): Promise<Partial<Record<Field, string>> | undefined> {
+async function readBoundedBody(request: Request, mediaType: string): Promise<string | undefined> {
     const contentType = request.headers.get("Content-Type")?.split(";")[0]?.trim().toLowerCase();
     const declaredLength = request.headers.get("Content-Length");
     if (
-        contentType !== "application/x-www-form-urlencoded" ||
+        contentType !== mediaType ||
         declaredLength === null ||
         !/^\d{1,5}$/.test(declaredLength) ||
         Number(declaredLength) > BROKER_MAX_REQUEST_BYTES
@@ -75,7 +71,20 @@ export async function readStrictForm<Field extends string>(
     } catch {
         return undefined;
     }
-    if (new TextEncoder().encode(body).length > BROKER_MAX_REQUEST_BYTES) {
+    return new TextEncoder().encode(body).length > BROKER_MAX_REQUEST_BYTES ? undefined : body;
+}
+
+/**
+ * Reads a form-encoded body in which every field is known and appears at most once. Returns
+ * `undefined` for another content type, a body without a declared length or over the limit, and
+ * an unknown or repeated field. The declared length is checked before anything is read.
+ */
+export async function readStrictForm<Field extends string>(
+    request: Request,
+    fields: readonly Field[],
+): Promise<Partial<Record<Field, string>> | undefined> {
+    const body = await readBoundedBody(request, "application/x-www-form-urlencoded");
+    if (body === undefined) {
         return undefined;
     }
 
@@ -88,6 +97,87 @@ export async function readStrictForm<Field extends string>(
         values[key as Field] = value;
     }
     return values;
+}
+
+export type JsonFieldType = "string" | "number";
+
+export type StrictJsonBody<Spec extends Readonly<Record<string, JsonFieldType>>> = {
+    -readonly [Field in keyof Spec]?: Spec[Field] extends "number" ? number : string;
+};
+
+/**
+ * A JSON string token, optionally followed by the colon that makes it a member name. Non-string
+ * JSON tokens never contain a quote, so scanning from the start stays aligned with string tokens.
+ */
+const JSON_STRING_TOKEN = /"(?:[^"\\]|\\.)*"(\s*:)?/g;
+
+export type StrictJsonResult<Spec extends Readonly<Record<string, JsonFieldType>>> =
+    | { readonly ok: true; readonly body: StrictJsonBody<Spec> }
+    /**
+     * `protocolVersion` is the raw `protocol_version` member whenever the body was a JSON object,
+     * so a newer protocol is reported as such even if its other members are unknown here.
+     */
+    | { readonly ok: false; readonly protocolVersion?: unknown };
+
+/**
+ * Reads a JSON object body in which every member is known, appears at most once and has the
+ * declared type. Fails for another content type, a body without a declared length or over the
+ * limit, malformed JSON, another top-level value, a nested, boolean or `null` member, a member of
+ * the wrong type, and an unknown or repeated member. The declared length is checked before
+ * anything is read.
+ */
+export async function readStrictJson<const Spec extends Readonly<Record<string, JsonFieldType>>>(
+    request: Request,
+    spec: Spec,
+): Promise<StrictJsonResult<Spec>> {
+    const body = await readBoundedBody(request, "application/json");
+    if (body === undefined) {
+        return { ok: false };
+    }
+
+    let parsed: unknown;
+    try {
+        parsed = JSON.parse(body);
+    } catch {
+        return { ok: false };
+    }
+    if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+        return { ok: false };
+    }
+    const failure = {
+        ok: false,
+        protocolVersion: Object.hasOwn(parsed, "protocol_version")
+            ? (parsed as Record<string, unknown>).protocol_version
+            : undefined,
+    } as const;
+
+    const values: Record<string, string | number> = {};
+    const entries = Object.entries(parsed);
+    for (const [key, value] of entries) {
+        if (!Object.hasOwn(spec, key) || typeof value !== spec[key]) {
+            return failure;
+        }
+        values[key] = value as string | number;
+    }
+
+    // JSON.parse keeps the last of repeated members; with only flat members left, every member
+    // name in the text is a top-level one, so more names than members means a repetition.
+    const memberNames = [...body.matchAll(JSON_STRING_TOKEN)].filter((token) => token[1]);
+    if (memberNames.length !== entries.length) {
+        return failure;
+    }
+
+    return { ok: true, body: values as StrictJsonBody<Spec> };
+}
+
+/**
+ * The error for a body `readStrictJson` refused: a numeric `protocol_version` other than this
+ * one outranks every other problem, so a newer plugin learns to update rather than to retry.
+ */
+export function strictJsonError(protocolVersion: unknown): BrokerEndpointError {
+    return typeof protocolVersion === "number" && protocolVersion !== BROKER_PROTOCOL_VERSION
+        ? "unsupported_protocol_version"
+        : "invalid_request";
 }
 
 /**

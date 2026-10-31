@@ -2,10 +2,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { postWooCommerceBrokerInitiate } from "@/features/oauth-client-broker/api/brokerInitiateHandler.ts";
 import {
     APP_ORIGIN,
+    CALLBACK_URL,
     CLIENT_ID,
     createBrokerEnv,
     formRequest,
+    INITIATE_URL,
     installBrokerBindings,
+    jsonRequest,
     MERCHANT_REDIRECT_URI,
     removeBrokerBindings,
 } from "@/features/oauth-client-broker/__tests__/brokerTestHarness.ts";
@@ -14,9 +17,8 @@ import { env as workerEnv, exports as workerExports } from "@/test/cloudflareWor
 const mockEnv = vi.hoisted(() => ({}) as Record<string, string | undefined>);
 vi.mock("@/env.ts", () => ({ env: mockEnv }));
 
-const INITIATE_URL = `${APP_ORIGIN}/api/oauth/broker/woocommerce/initiate`;
-const VALID_FIELDS = {
-    protocol_version: "2",
+const VALID_FIELDS: Record<string, unknown> = {
+    protocol_version: 2,
     client_id: CLIENT_ID,
     merchant_redirect_uri: MERCHANT_REDIRECT_URI,
     client_state: "s".repeat(43),
@@ -27,23 +29,15 @@ const VALID_FIELDS = {
 
 let bindings: ReturnType<typeof installBrokerBindings>;
 
-async function initiate(
-    fields: Iterable<readonly [string, string]> | Record<string, string | undefined>,
-    request?: Request,
-) {
-    const entries = Symbol.iterator in fields ? [...fields] : Object.entries(fields);
+/** Sends the fields as JSON; an `undefined` field is left out. */
+async function initiate(fields: Record<string, unknown>, request?: Request) {
     const response = await postWooCommerceBrokerInitiate({
-        request:
-            request ??
-            formRequest(
-                INITIATE_URL,
-                entries.filter((entry): entry is [string, string] => entry[1] !== undefined),
-            ),
+        request: request ?? jsonRequest(INITIATE_URL, fields),
     });
     return { status: response.status, response, body: await response.json() };
 }
 
-describe("POST /api/oauth/broker/woocommerce/initiate", () => {
+describe("POST /api/oauth/client/redirect-broker/woocommerce/transactions", () => {
     beforeEach(() => {
         Object.assign(mockEnv, createBrokerEnv());
         bindings = installBrokerBindings();
@@ -59,17 +53,44 @@ describe("POST /api/oauth/broker/woocommerce/initiate", () => {
         const { status, body, response } = await initiate(VALID_FIELDS);
 
         expect(status).toBe(201);
+        expect(response.headers.get("Content-Type")).toBe("application/json; charset=utf-8");
         expect(response.headers.get("Cache-Control")).toBe("no-store");
         expect(response.headers.get("Pragma")).toBe("no-cache");
         expect(response.headers.get("Access-Control-Allow-Origin")).toBeNull();
         expect(body).toEqual({
             protocol_version: 2,
             transaction_id: expect.stringMatching(/^[A-Za-z0-9_-]{43}$/),
-            authorization_url: `${APP_ORIGIN}/oauth/authorize?transaction_id=${body.transaction_id}`,
+            authorization_url: expect.any(String),
             expires_at: expect.stringMatching(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/),
         });
         expect(Date.parse(body.expires_at) - Date.now()).toBeGreaterThan(890_000);
         expect(bindings.objects.has(body.transaction_id)).toBe(true);
+    });
+
+    it("returns the authorization URL shape the WooCommerce extension accepts", async () => {
+        const { body } = await initiate({
+            ...VALID_FIELDS,
+            scope: "product-listings:read product-listings:write",
+        });
+
+        // The extension follows only /oauth/authorize on the broker origin, with exactly its
+        // client, response_type=code and scope, an opaque state and no unknown parameter.
+        const url = new URL(body.authorization_url);
+        expect(`${url.origin}${url.pathname}`).toBe(`${APP_ORIGIN}/oauth/authorize`);
+        expect(url.hash).toBe("");
+        expect([...url.searchParams]).toEqual([
+            ["client_id", CLIENT_ID],
+            ["redirect_uri", CALLBACK_URL],
+            ["response_type", "code"],
+            ["scope", "product-listings:read product-listings:write"],
+            ["state", body.transaction_id],
+        ]);
+        // PHP's urldecode, which the extension uses, reads `+` as a space.
+        expect(body.authorization_url).toContain(
+            "scope=product-listings%3Aread+product-listings%3Awrite",
+        );
+        expect(body.authorization_url).not.toContain(VALID_FIELDS.client_state as string);
+        expect(body.authorization_url).not.toContain(VALID_FIELDS.completion_challenge as string);
     });
 
     it("issues independent transactions for the same request", async () => {
@@ -80,8 +101,9 @@ describe("POST /api/oauth/broker/woocommerce/initiate", () => {
     });
 
     it.each([
-        ["another protocol version", { protocol_version: "1" }, "unsupported_protocol_version"],
+        ["another protocol version", { protocol_version: 1 }, "unsupported_protocol_version"],
         ["no protocol version", { protocol_version: undefined }, "invalid_request"],
+        ["a protocol version as text", { protocol_version: "2" }, "invalid_request"],
         ["another client", { client_id: "oc_00000000000000000000000000" }, "invalid_client"],
         [
             "a bare UUID client",
@@ -171,7 +193,11 @@ describe("POST /api/oauth/broker/woocommerce/initiate", () => {
             merchant_redirect_uri: merchantRedirectUri,
         });
 
-        expect(body.error).toBe("invalid_redirect_uri");
+        expect(body).toEqual({
+            protocol_version: 2,
+            error: "invalid_destination",
+            retryable: false,
+        });
         expect(bindings.objects.size).toBe(0);
     });
 
@@ -200,36 +226,118 @@ describe("POST /api/oauth/broker/woocommerce/initiate", () => {
         expect(body.authorization_url).toMatch(/^http:\/\/localhost:3000\/oauth\/authorize\?/);
     });
 
-    it("rejects unknown and repeated fields", async () => {
+    it("rejects unknown and repeated members", async () => {
         expect(
             (await initiate({ ...VALID_FIELDS, code_verifier: "v".repeat(43) })).body.error,
         ).toBe("invalid_request");
-        expect(
-            (await initiate([...Object.entries(VALID_FIELDS), ["client_state", "t".repeat(43)]]))
-                .body.error,
-        ).toBe("invalid_request");
+        const json = JSON.stringify(VALID_FIELDS);
+        const prototype = `${json.slice(0, -1)},"__proto__":"x"}`;
+        expect((await initiate({}, jsonRequest(INITIATE_URL, prototype))).body.error).toBe(
+            "invalid_request",
+        );
+
+        const repeated = `${json.slice(0, -1)},"client_state":"${"t".repeat(43)}"}`;
+        expect((await initiate({}, jsonRequest(INITIATE_URL, repeated))).body.error).toBe(
+            "invalid_request",
+        );
+        const escaped = `${json.slice(0, -1)},"client\\u005fstate":"${"t".repeat(43)}"}`;
+        expect((await initiate({}, jsonRequest(INITIATE_URL, escaped))).body.error).toBe(
+            "invalid_request",
+        );
+        expect(bindings.objects.size).toBe(0);
+    });
+
+    it("does not mistake a value that looks like a member for a repeated member", async () => {
+        const resource = 'https://api.example/"client_state":';
+        const text = JSON.stringify({ ...VALID_FIELDS, resource });
+        expect(text).toContain('\\"client_state\\":');
+
+        const { status, body } = await initiate({}, jsonRequest(INITIATE_URL, text));
+        expect(status).toBe(201);
+        const view = await bindings.objects.get(body.transaction_id)?.getConsentView();
+        expect(view).toMatchObject({ context: { resource } });
+
+        const spaced = JSON.stringify(VALID_FIELDS, null, 2).replaceAll('":', '" :');
+        expect((await initiate({}, jsonRequest(INITIATE_URL, spaced))).status).toBe(201);
+    });
+
+    it.each([
+        ["malformed JSON", "{"],
+        ["an array", JSON.stringify([VALID_FIELDS])],
+        ["a string", JSON.stringify("protocol_version")],
+        ["null", "null"],
+        ["a nested value", JSON.stringify({ ...VALID_FIELDS, scope: ["product-listings:write"] })],
+        ["an object member", JSON.stringify({ ...VALID_FIELDS, client_id: { id: CLIENT_ID } })],
+        ["a boolean member", JSON.stringify({ ...VALID_FIELDS, protocol_version: true })],
+        ["a null member", JSON.stringify({ ...VALID_FIELDS, resource: null })],
+        ["a number for a text member", JSON.stringify({ ...VALID_FIELDS, client_state: 12345 })],
+    ])("rejects %s as invalid_request", async (_, text) => {
+        const { status, body } = await initiate({}, jsonRequest(INITIATE_URL, text));
+
+        expect(status).toBe(400);
+        expect(body).toEqual({ protocol_version: 2, error: "invalid_request", retryable: false });
+        expect(bindings.objects.size).toBe(0);
+    });
+
+    it("reports a newer protocol version before members it does not know", async () => {
+        const { status, body } = await initiate({
+            ...VALID_FIELDS,
+            protocol_version: 3,
+            completion_challenge_method: undefined,
+            future_member: { nested: true },
+        });
+
+        expect(status).toBe(400);
+        expect(body).toEqual({
+            protocol_version: 2,
+            error: "unsupported_protocol_version",
+            retryable: false,
+        });
+        expect(bindings.objects.size).toBe(0);
+    });
+
+    it("accepts the body as PHP's wp_json_encode writes it, with escaped slashes", async () => {
+        const text = JSON.stringify(VALID_FIELDS).replaceAll("/", "\\/");
+        expect(text).toContain("https:\\/\\/shop.example\\/wp-admin\\/admin.php");
+
+        const { status, body } = await initiate({}, jsonRequest(INITIATE_URL, text));
+
+        expect(status).toBe(201);
+        const view = await bindings.objects.get(body.transaction_id)?.getConsentView();
+        expect(view).toMatchObject({ context: { merchantRedirectUri: MERCHANT_REDIRECT_URI } });
     });
 
     it("rejects a body without a declared length before reading it", async () => {
-        const request = formRequest(INITIATE_URL, VALID_FIELDS);
+        const request = jsonRequest(INITIATE_URL, VALID_FIELDS);
         request.headers.delete("Content-Length");
 
         expect((await initiate({}, request)).body.error).toBe("invalid_request");
     });
 
-    it("rejects another content type and an oversized body", async () => {
-        const json = new Request(INITIATE_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(VALID_FIELDS),
+    it("accepts a charset parameter and the WooCommerce extension's request headers", async () => {
+        const request = jsonRequest(INITIATE_URL, VALID_FIELDS, {
+            "Content-Type": "application/json; charset=UTF-8",
+            "User-Agent": "GuzzleHttp/7",
         });
-        expect((await initiate({}, json)).body.error).toBe("invalid_request");
 
-        const oversized = formRequest(INITIATE_URL, {
+        expect((await initiate({}, request)).status).toBe(201);
+    });
+
+    it("rejects another content type and an oversized body", async () => {
+        const form = formRequest(
+            INITIATE_URL,
+            Object.fromEntries(
+                Object.entries(VALID_FIELDS).map(([key, value]) => [key, String(value)]),
+            ),
+        );
+        expect((await initiate({}, form)).body.error).toBe("invalid_request");
+
+        const oversized = jsonRequest(INITIATE_URL, {
             ...VALID_FIELDS,
             resource: `https://a.example/${"a".repeat(9000)}`,
         });
         expect((await initiate({}, oversized)).body.error).toBe("invalid_request");
+        expect(bindings.objects.size).toBe(0);
     });
 
     it("keeps the requested scope and resource exactly", async () => {
@@ -254,7 +362,7 @@ describe("POST /api/oauth/broker/woocommerce/initiate", () => {
 
         const { status, body, response } = await initiate(
             VALID_FIELDS,
-            formRequest(INITIATE_URL, VALID_FIELDS, { "CF-Connecting-IP": "203.0.113.7" }),
+            jsonRequest(INITIATE_URL, VALID_FIELDS, { "CF-Connecting-IP": "203.0.113.7" }),
         );
 
         expect(status).toBe(429);

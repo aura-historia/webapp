@@ -7,6 +7,7 @@ import { buildMerchantHandoffUrl } from "@/features/oauth-client-broker/lib/brok
 import {
     BROKER_CALLBACK_STATE_PATTERN,
     type BrokerConsentError,
+    type BrokerFailureError,
 } from "@/features/oauth-client-broker/lib/brokerProtocol.ts";
 import { getBrokerConsentPageUrl } from "@/features/oauth-client-broker/lib/brokerUrls.ts";
 import {
@@ -109,13 +110,24 @@ async function exchangeAndHandOff(params: {
             clearBinding,
         );
 
-    if (!exchange.ok) {
+    const handOffFailure = async (error: BrokerFailureError) => {
         try {
-            const failed = await transaction.failExchange(exchange.error, completionCodeHash);
+            const failed = await transaction.failExchange(error, completionCodeHash);
             return failed.ok ? handoffResponse() : consentError("invalid_request", clearBinding);
         } catch {
             return storageUnavailable("fail", clearBinding);
         }
+    };
+
+    if (!exchange.ok) {
+        return handOffFailure(exchange.error);
+    }
+    if (exchange.credential.accessTokenExpiresAt !== undefined) {
+        // The WooCommerce extension has no refresh flow and refuses expiring tokens, so such a
+        // credential could never be stored: revoke it rather than release it.
+        console.error("[OAuth broker] Refused an expiring credential.");
+        await revokeUndelivered(exchange.credential.accessToken, config);
+        return handOffFailure("server_error");
     }
 
     try {

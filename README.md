@@ -75,7 +75,7 @@ VITE_COGNITO_REDIRECT_SIGN_OUT=http://localhost:3000
 
 After a federated redirect, the app reads email, names and the `identities` claim from the ID token, so the `openid email profile` scopes suffice; it does not call `fetchUserAttributes`, which would also need `aws.cognito.signin.user.admin`.
 
-The WooCommerce OAuth broker (`/api/oauth/broker/woocommerce/*`) also needs the registered client's secret, a Worker secret in deployed environments. `pnpm dev` runs its Durable Object transaction store and rate limiter locally; with `VITE_APP_URL` on loopback HTTP it also accepts a local WordPress on loopback HTTP. See [`docs/oauth-protocol-guidelines.md`](docs/oauth-protocol-guidelines.md).
+The WooCommerce OAuth broker (the plugin's endpoints under `/api/oauth/client/redirect-broker/woocommerce`, the consent page's under `/api/oauth/broker/woocommerce/*`) also needs the registered client's secret, a Worker secret in deployed environments. `pnpm dev` runs its Durable Object transaction store and rate limiter locally; with `VITE_APP_URL` on loopback HTTP it also accepts a local WordPress on loopback HTTP. See [`docs/oauth-protocol-guidelines.md`](docs/oauth-protocol-guidelines.md).
 
 ```dotenv
 OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET=your-client-secret

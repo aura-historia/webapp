@@ -11,6 +11,9 @@ import {
 export const APP_ORIGIN = "https://aura-historia.com";
 export const API_ORIGIN = "https://api.test.example";
 export const CALLBACK_URL = `${APP_ORIGIN}/api/oauth/client/redirect-broker/woocommerce`;
+/** The endpoints the WooCommerce extension calls, spelled out so a renamed route fails tests. */
+export const INITIATE_URL = `${APP_ORIGIN}/api/oauth/client/redirect-broker/woocommerce/transactions`;
+export const COMPLETE_URL = `${APP_ORIGIN}/api/oauth/client/redirect-broker/woocommerce/transactions/complete`;
 export const CLIENT_ID = "oc_7b0gwc1x49e0mvbt3tfexfqgb5";
 export const CLIENT_SECRET = "broker-client-secret";
 export const MERCHANT_REDIRECT_URI =
@@ -88,6 +91,29 @@ export function formRequest(
             ...headers,
         },
         body,
+    });
+}
+
+/**
+ * A server-to-server request as the WooCommerce extension sends it: a JSON body with its length,
+ * `Accept: application/json`. A string body is sent as is, to test malformed JSON.
+ */
+export function jsonRequest(
+    url: string,
+    body: unknown,
+    headers: Record<string, string> = {},
+): Request {
+    const text = typeof body === "string" ? body : JSON.stringify(body);
+    return new Request(url, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Cache-Control": "no-store",
+            "Content-Length": String(new TextEncoder().encode(text).length),
+            ...headers,
+        },
+        body: text,
     });
 }
 

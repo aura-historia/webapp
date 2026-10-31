@@ -13,7 +13,7 @@ import {
     type BrokerEndpointError,
 } from "@/features/oauth-client-broker/lib/brokerProtocol.ts";
 import {
-    getBrokerConsentPageUrl,
+    getBrokerAuthorizationUrl,
     isLoopbackBrokerOrigin,
 } from "@/features/oauth-client-broker/lib/brokerUrls.ts";
 import {
@@ -24,19 +24,21 @@ import { getWooCommerceBrokerConfig } from "@/features/oauth-client-broker/serve
 import {
     endpointErrorResponse,
     jsonResponse,
-    readStrictForm,
+    readStrictJson,
+    type StrictJsonBody,
+    strictJsonError,
 } from "@/features/oauth-client-broker/server/brokerHttp.ts";
 
-const INITIATE_FIELDS = [
-    "protocol_version",
-    "client_id",
-    "merchant_redirect_uri",
-    "client_state",
-    "scope",
-    "resource",
-    "completion_challenge",
-    "completion_challenge_method",
-] as const;
+const INITIATE_FIELDS = {
+    protocol_version: "number",
+    client_id: "string",
+    merchant_redirect_uri: "string",
+    client_state: "string",
+    scope: "string",
+    resource: "string",
+    completion_challenge: "string",
+    completion_challenge_method: "string",
+} as const;
 
 const KNOWN_SCOPES = new Set<string>(ACCESS_TOKEN_SCOPES);
 
@@ -50,9 +52,9 @@ export async function postWooCommerceBrokerInitiate({ request }: { request: Requ
         return endpointErrorResponse("rate_limited");
     }
 
-    const form = await readStrictForm(request, INITIATE_FIELDS);
-    if (!form) {
-        return endpointErrorResponse("invalid_request");
+    const read = await readStrictJson(request, INITIATE_FIELDS);
+    if (!read.ok) {
+        return endpointErrorResponse(strictJsonError(read.protocolVersion));
     }
 
     const config = getWooCommerceBrokerConfig();
@@ -60,7 +62,7 @@ export async function postWooCommerceBrokerInitiate({ request }: { request: Requ
         return endpointErrorResponse("server_error");
     }
 
-    const validation = validateInitiation(form, config.clientId);
+    const validation = validateInitiation(read.body, config.clientId);
     if (!validation.ok) {
         return endpointErrorResponse(validation.error);
     }
@@ -94,7 +96,11 @@ export async function postWooCommerceBrokerInitiate({ request }: { request: Requ
             {
                 protocol_version: BROKER_PROTOCOL_VERSION,
                 transaction_id: transactionId,
-                authorization_url: getBrokerConsentPageUrl({ transactionId }),
+                authorization_url: getBrokerAuthorizationUrl({
+                    transactionId,
+                    clientId: config.clientId,
+                    scope: validation.value.scope,
+                }),
                 expires_at: new Date(created.value.expiresAt).toISOString(),
             },
             201,
@@ -116,33 +122,33 @@ interface ValidInitiation {
 }
 
 function validateInitiation(
-    form: Partial<Record<(typeof INITIATE_FIELDS)[number], string>>,
+    body: StrictJsonBody<typeof INITIATE_FIELDS>,
     clientId: string,
 ): { ok: true; value: ValidInitiation } | { ok: false; error: BrokerEndpointError } {
-    if (form.protocol_version === undefined) return { ok: false, error: "invalid_request" };
-    if (form.protocol_version !== String(BROKER_PROTOCOL_VERSION)) {
+    if (body.protocol_version === undefined) return { ok: false, error: "invalid_request" };
+    if (body.protocol_version !== BROKER_PROTOCOL_VERSION) {
         return { ok: false, error: "unsupported_protocol_version" };
     }
-    if (form.client_id !== clientId) return { ok: false, error: "invalid_client" };
+    if (body.client_id !== clientId) return { ok: false, error: "invalid_client" };
 
     const merchantRedirectUri =
-        form.merchant_redirect_uri &&
-        validateMerchantRedirectUri(form.merchant_redirect_uri, {
+        body.merchant_redirect_uri &&
+        validateMerchantRedirectUri(body.merchant_redirect_uri, {
             allowLoopbackHttp: isLoopbackBrokerOrigin(),
         });
-    if (!merchantRedirectUri) return { ok: false, error: "invalid_redirect_uri" };
+    if (!merchantRedirectUri) return { ok: false, error: "invalid_destination" };
 
-    if (!form.client_state || !BROKER_CLIENT_SECRET_VALUE_PATTERN.test(form.client_state)) {
+    if (!body.client_state || !BROKER_CLIENT_SECRET_VALUE_PATTERN.test(body.client_state)) {
         return { ok: false, error: "invalid_request" };
     }
-    if (!form.scope || !isSupportedScope(form.scope)) return { ok: false, error: "invalid_scope" };
-    if (form.resource !== undefined && !isValidResource(form.resource)) {
+    if (!body.scope || !isSupportedScope(body.scope)) return { ok: false, error: "invalid_scope" };
+    if (body.resource !== undefined && !isValidResource(body.resource)) {
         return { ok: false, error: "invalid_target" };
     }
     if (
-        form.completion_challenge_method !== BROKER_COMPLETION_CHALLENGE_METHOD ||
-        !form.completion_challenge ||
-        !BROKER_RANDOM_VALUE_PATTERN.test(form.completion_challenge)
+        body.completion_challenge_method !== BROKER_COMPLETION_CHALLENGE_METHOD ||
+        !body.completion_challenge ||
+        !BROKER_RANDOM_VALUE_PATTERN.test(body.completion_challenge)
     ) {
         return { ok: false, error: "invalid_completion_challenge" };
     }
@@ -151,10 +157,10 @@ function validateInitiation(
         ok: true,
         value: {
             merchantRedirectUri: merchantRedirectUri.toString(),
-            clientState: form.client_state,
-            scope: form.scope,
-            ...(form.resource === undefined ? {} : { resource: form.resource }),
-            completionChallenge: form.completion_challenge,
+            clientState: body.client_state,
+            scope: body.scope,
+            ...(body.resource === undefined ? {} : { resource: body.resource }),
+            completionChallenge: body.completion_challenge,
         },
     };
 }

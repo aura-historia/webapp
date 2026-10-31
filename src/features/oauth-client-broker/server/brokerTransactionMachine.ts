@@ -69,7 +69,7 @@ export interface BrokerCredential {
     readonly accessToken: string;
     readonly tokenType: "Bearer";
     readonly scope: string;
-    /** Only when the backend returned `expires_in`. */
+    /** Only when the backend returned `expires_in`; the callback refuses such a credential. */
     readonly accessTokenExpiresAt?: number;
 }
 
@@ -137,7 +137,7 @@ export type ConsentView =
 
 export type TransitionError =
     | "invalid_transaction"
-    | "expired_transaction"
+    | "transaction_expired"
     | "already_answered"
     | "binding_mismatch";
 
@@ -171,11 +171,11 @@ export type CompletionResult =
           readonly ok: false;
           readonly error:
               | "invalid_transaction"
-              | "authorization_pending"
-              | "invalid_code"
-              | "invalid_proof"
-              | "already_consumed"
-              | "expired_transaction";
+              | "transaction_pending"
+              | "invalid_completion_code"
+              | "invalid_completion_proof"
+              | "transaction_consumed"
+              | "transaction_expired";
           /** A credential that expired undelivered during this call; the caller revokes it. */
           readonly revokeAccessToken?: string;
       };
@@ -305,7 +305,7 @@ export class BrokerTransactionMachine {
         now: number,
     ): TransitionResult<HandoffDestination> {
         const record = this.readLive(now);
-        if (!record) return { ok: false, error: "expired_transaction" };
+        if (!record) return { ok: false, error: "transaction_expired" };
         if (record.phase !== "exchanging") return { ok: false, error: "already_answered" };
 
         this.storage.write({
@@ -324,7 +324,7 @@ export class BrokerTransactionMachine {
         now: number,
     ): TransitionResult<HandoffDestination> {
         const record = this.readLive(now);
-        if (!record) return { ok: false, error: "expired_transaction" };
+        if (!record) return { ok: false, error: "transaction_expired" };
         if (record.phase !== "exchanging") return { ok: false, error: "already_answered" };
 
         this.storage.write({
@@ -348,7 +348,7 @@ export class BrokerTransactionMachine {
         if (now >= record.expiresAt || record.phase === "expired") {
             return {
                 ok: false,
-                error: "expired_transaction",
+                error: "transaction_expired",
                 ...this.expireReadyCredential(record),
             };
         }
@@ -358,20 +358,20 @@ export class BrokerTransactionMachine {
             // No code exists yet, or the outcome was never handed off: nothing can match.
             return {
                 ok: false,
-                error: isAwaitingResult(record) ? "authorization_pending" : "invalid_code",
+                error: isAwaitingResult(record) ? "transaction_pending" : "invalid_completion_code",
             };
         }
         if (!timingSafeEqual(handoff.completionCodeHash, attempt.completionCodeHash)) {
-            return { ok: false, error: "invalid_code" };
+            return { ok: false, error: "invalid_completion_code" };
         }
         if (!timingSafeEqual(record.completionChallenge, attempt.completionSecretHash)) {
-            return { ok: false, error: "invalid_proof" };
+            return { ok: false, error: "invalid_completion_proof" };
         }
-        if (record.phase === "consumed") return { ok: false, error: "already_consumed" };
+        if (record.phase === "consumed") return { ok: false, error: "transaction_consumed" };
         if (now >= handoff.expiresAt) {
             return {
                 ok: false,
-                error: "expired_transaction",
+                error: "transaction_expired",
                 ...this.expireReadyCredential(record),
             };
         }
