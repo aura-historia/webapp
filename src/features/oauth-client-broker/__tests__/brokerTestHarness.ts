@@ -128,6 +128,21 @@ export function requestUrl(input: RequestInfo | URL): URL {
     return new URL(input instanceof Request ? input.url : input.toString());
 }
 
+/**
+ * The Worker runtime (workerd) supports only the `follow` and `manual` redirect modes and throws
+ * this TypeError for any other, before a request leaves the Worker. Node accepts `error`, so test
+ * doubles of the backend refuse it the same way to keep the broker on what production runs.
+ */
+export const WORKER_REDIRECT_MODE_ERROR =
+    'Invalid redirect value, must be one of "follow" or "manual" ("error" won\'t be implemented since it does not make sense at the edge; use "manual" and check the response status code).';
+
+export function assertWorkerFetchOptions(input: RequestInfo | URL, init?: RequestInit): void {
+    const redirect = init?.redirect ?? (input instanceof Request ? input.redirect : "follow");
+    if (redirect !== "follow" && redirect !== "manual") {
+        throw new TypeError(WORKER_REDIRECT_MODE_ERROR);
+    }
+}
+
 /** The broker sends form bodies as `URLSearchParams`; the generated client sends `Request`s. */
 async function readRequestBody(
     input: RequestInfo | URL,
@@ -159,6 +174,7 @@ export function createBackend(script: BackendScript = {}) {
     const registeredUrls = script.registeredUrls ?? { "shop-example": "https://shop.example/" };
 
     const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+        assertWorkerFetchOptions(input, init);
         const url = requestUrl(input);
         const headers = new Headers(input instanceof Request ? input.headers : init?.headers);
         const rawBody = await readRequestBody(input, init);

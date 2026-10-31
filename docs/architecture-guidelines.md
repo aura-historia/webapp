@@ -36,6 +36,7 @@ src/features/<feature-name>/
 - Use TanStack Query for cache, mutation, and client interaction patterns.
 - Respect authenticated vs unauthenticated cache behavior. Do not cache personalized data as shared public data.
 - Parse language via existing language utilities and currency/preferences via existing preference helpers.
+- Server code runs on Cloudflare Workers (workerd), whose `fetch` and `Request` support only `redirect: "follow"` and `"manual"` and throw a `TypeError` for `"error"` before anything is sent; the generated client returns that as a failed result with no response. Use `"manual"` and treat an unexpected redirect status as a failure. Browser-only code may use `"error"`.
 - Keep route `validateSearch` output URL-safe (strings, numbers, booleans, and arrays). Product search uses `validateSearchUrlParams` for route state and `validateSearchParams` to map date strings to domain `Date` values at the page boundary. Returning `Date` objects from route validation can cause repeated canonical URL redirects.
 
 ## Generated code
