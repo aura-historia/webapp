@@ -40,7 +40,7 @@ Key facts for agents:
 - [Home](https://aura-historia.com/en/): Overview of the platform, plans and frequently asked questions.
 - [Search listings](https://aura-historia.com/en/search): Full-text search across all indexed listings.
 - [Search providers](https://aura-historia.com/en/search/shops): Find dealers, auction houses and shops by name.
-- [About us](https://aura-historia.com/en/about-us/): Why Aura Historia exists and how the team approaches trust and source-aware discovery.
+- [About us](https://aura-historia.com/en/about-us/): What Aura Historia does, how it differs from auction aggregators, price databases and marketplaces, who uses it, the team behind it, and frequently asked questions.
 - [Aura Historia compared with Barnebys](https://aura-historia.com/en/compare/barnebys/): Differences in source coverage, multilingual search and alerts.
 
 ## Optional

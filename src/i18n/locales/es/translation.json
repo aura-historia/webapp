@@ -14,7 +14,7 @@
     },
     "about": {
       "title": "Sobre nosotros | Aura Historia",
-      "description": "Conozca por qué existe Aura Historia y cómo nuestro equipo aborda la confianza, la sobriedad y el descubrimiento atento a las fuentes en el mercado de antigüedades y arte."
+      "description": "Aura Historia es un buscador global de antigüedades y arte que abarca comerciantes, casas de subastas y marketplaces. Qué hacemos, en qué nos diferenciamos y quiénes somos."
     },
     "search": {
       "title": "Buscar antigüedades | Aura Historia",
@@ -188,37 +188,115 @@
     "hero": {
       "eyebrow": "Sobre Aura Historia",
       "title": "Aportamos más claridad al mercado <em>de antigüedades y arte.</em>",
-      "subtitle": "Aura Historia nace para coleccionistas y profesionales que buscan con criterio, valoran el contexto y necesitan una lectura serena de un mercado internacional disperso."
+      "subtitle": "Aura Historia es un buscador global de antigüedades y arte que reúne a comerciantes, casas de subastas y marketplaces en una sola búsqueda multilingüe, para coleccionistas, decoradores y profesionales del sector. Nace para quienes buscan con cuidado, valoran un contexto fiable y quieren una lectura serena de un mercado internacional disperso.",
+      "navLabel": "En esta página",
+      "nav": {
+        "services": "Qué hacemos",
+        "difference": "Qué nos distingue",
+        "audience": "Para quién",
+        "team": "Equipo",
+        "faq": "Preguntas"
+      }
     },
-    "mission": {
-      "eyebrow": "Por qué existimos",
-      "title": "Orientar <em>sin simplificar el mercado.</em>",
-      "p1": "Las antigüedades y el arte suelen aparecer fuera de los recorridos más evidentes: en comerciantes especializados, pequeñas galerías, casas de subastas y marketplaces marcados por vocabularios y prácticas de catalogación locales.",
-      "p2": "Creamos Aura Historia para ordenar esa búsqueda sin convertirla en una experiencia de compra genérica. El objetivo es claro: dar más visibilidad a quienes conocen el mercado, facilitar la comparación y mantener siempre presente la fuente original."
-    },
-    "values": {
-      "eyebrow": "Cómo trabajamos",
-      "title": "Sobriedad <em>antes que ruido.</em>",
-      "description": "Estos principios guían nuestras decisiones de producto, nuestro lenguaje y la forma en que tratamos las fuentes.",
+    "services": {
+      "eyebrow": "Servicios",
+      "title": "Qué hace <em>Aura Historia.</em>",
+      "description": "Cuatro servicios con un objetivo: ayudarte a encontrar el objeto adecuado y tenerlo a la vista hasta que decidas.",
       "items": {
-        "carefulClaims": {
-          "title": "Afirmaciones prudentes",
-          "description": "No hacemos grandes promesas sobre valor, autenticidad o certeza. Aura Historia ayuda a descubrir e investigar; la valoración permanece en manos del coleccionista y de la fuente."
+        "search": {
+          "title": "Una sola búsqueda en todo el mercado",
+          "description": "Comerciantes, casas de subastas, tiendas especializadas y marketplaces en una sola búsqueda. Los anuncios se traducen y su terminología se unifica, de modo que una consulta en tu idioma también encuentra objetos catalogados en otro. Ves lo que se ofrece ahora y abres el anuncio original para comprar o pujar.",
+          "cta": "Buscar en el mercado"
         },
-        "discernment": {
-          "title": "Respeto por el criterio",
-          "description": "Nuestros usuarios saben qué mirar. El producto, la interfaz y el texto deben informar con claridad, sin condescendencia, dramatismo ni presión."
+        "watchlist": {
+          "title": "Lista de seguimiento privada",
+          "description": "Guarda objetos con discreción y vuelve cuando importe. Te avisamos de cambios de precio, estado y disponibilidad, y mantenemos a la vista la historia de cada objeto: indexado, subastado, vuelto a publicar, con nuevo precio, vendido.",
+          "cta": "Crear una lista de seguimiento"
         },
-        "sourceStewardship": {
-          "title": "Cuidado de las fuentes",
-          "description": "El contexto, la atribución y la relación con el vendedor original permanecen visibles para que la investigación no se reduzca a una lista anónima de objetos."
+        "alerts": {
+          "title": "Alertas de búsqueda",
+          "description": "Describe una vez lo que buscas y revisamos los anuncios recién indexados y actualizados en busca de coincidencias. Los planes de pago añaden criterios como proveedor, ubicación y envío; con Ultimate, escribes instrucciones con tus propias palabras, que se comparan con el texto del anuncio y hasta cuatro imágenes.",
+          "cta": "Crear una alerta de búsqueda"
+        },
+        "partners": {
+          "title": "Programa de partners",
+          "description": "Comerciantes y casas de subastas conectan su tienda mediante nuestra app de Shopify, el plugin de WordPress o una API personalizada. Sus piezas llegan a coleccionistas que buscan en su propio idioma, y los compradores continúan en la web del partner. Sin tarifas ni comisiones.",
+          "cta": "Ver el programa de partners"
+        }
+      }
+    },
+    "difference": {
+      "eyebrow": "La diferencia",
+      "title": "Qué distingue a <em>Aura Historia.</em>",
+      "description": "Cinco diferencias que puedes comprobar. Cuando nos comparamos por nombre con otra plataforma, la comparación está publicada íntegramente.",
+      "comparisonLink": "Leer la comparación completa: Aura Historia y Barnebys",
+      "items": {
+        "market": {
+          "title": "Todo el mercado, no solo las subastas",
+          "figure": "34.800 M$",
+          "figureLabel": "Ventas de comerciantes, 2025",
+          "description": "Los agregadores de subastas como Barnebys tienen su punto fuerte en las casas de subastas, que suponen unos 24.900 M$ de un mercado de 59.600 M$. Aura Historia indexa también a los comerciantes, tiendas especializadas y marketplaces donde se vende la mayor parte.",
+          "source": "Fuente: Art Basel / UBS"
+        },
+        "alerts": {
+          "title": "Alertas a medida que cambian los anuncios",
+          "figure": "Continuo",
+          "figureLabel": "Seguimiento, no un resumen diario",
+          "description": "Revisamos continuamente nuevos anuncios, cambios de precio y disponibilidad, y te avisamos cuando algo coincide. Las alertas de búsqueda de Barnebys siguen una revisión diaria, con la conocida ventana de las 18:00 CEST."
+        },
+        "languages": {
+          "title": "Cinco idiomas, un vocabulario",
+          "figure": "5",
+          "figureLabel": "Idiomas, términos unificados",
+          "description": "Los anuncios se traducen y la terminología de antigüedades se unifica entre inglés, alemán, francés, español e italiano, de modo que una búsqueda en tu idioma también encuentra objetos catalogados en otro. Barnebys suele mantener el texto de los anuncios en el idioma del vendedor."
+        },
+        "current": {
+          "title": "Lo que se ofrece ahora, no lo que se vendió",
+          "figure": "Ahora",
+          "figureLabel": "Ofertas actuales, no resultados pasados",
+          "description": "Las bases de datos de precios como WorthPoint y Artprice registran lo que ya se ha vendido y por cuánto. Aura Historia muestra lo que está disponible hoy y sigue cada objeto a través de cambios de precio, subastas y nuevas publicaciones."
+        },
+        "seller": {
+          "title": "La venta se queda con el vendedor",
+          "figure": "0 %",
+          "figureLabel": "Comisión sobre ventas de partners",
+          "description": "Las compras se realizan en la web del vendedor; nunca gestionamos la venta. Las tiendas partner no pagan tarifas de alta, publicación ni venta, mientras que un marketplace como Catawiki cobra a los vendedores una comisión del 12,5 % más un importe fijo por venta.",
+          "source": "Fuente: centro de ayuda para vendedores de Catawiki"
+        }
+      }
+    },
+    "audience": {
+      "eyebrow": "Público",
+      "title": "Quién usa <em>Aura Historia.</em>",
+      "description": "Coleccionistas y profesionales que siguen antigüedades y arte en más de una fuente. Empezamos por Europa y Estados Unidos, y ampliamos continuamente nuestra cobertura a otros mercados.",
+      "groups": {
+        "collectors": {
+          "heading": "Coleccionistas",
+          "items": {
+            "privateCollectors": "Coleccionistas privados de antigüedades, arte y objetos de diseño, desde la primera adquisición hasta una colección consolidada",
+            "specialists": "Coleccionistas especializados que siguen a un fabricante, una época o una región más allá de las fronteras, como la porcelana de Meissen o el mobiliario gustaviano",
+            "decorators": "Interioristas y decoradores que buscan piezas de época para sus clientes",
+            "heirs": "Herederos y albaceas que quieren ver por cuánto se ofrecen hoy objetos comparables"
+          }
+        },
+        "trade": {
+          "heading": "El sector",
+          "items": {
+            "dealers": "Anticuarios y galerías que buscan piezas para su inventario y siguen los precios de venta",
+            "auctionHouses": "Especialistas y catalogadores de casas de subastas que comparan ofertas similares",
+            "researchers": "Investigadores y analistas de mercado que siguen precios y disponibilidad a lo largo del tiempo",
+            "partners": "Comerciantes y casas de subastas que publican su inventario como tiendas partner"
+          }
         }
       }
     },
     "team": {
-      "eyebrow": "Nuestro equipo",
-      "title": "Un equipo pequeño <em>con mirada de largo plazo.</em>",
-      "description": "Detrás de Aura Historia hay personas que combinan producto, rigor de investigación e inteligencia de mercado.",
+      "eyebrow": "Personas",
+      "title": "El equipo detrás de <em>Aura Historia.</em>",
+      "story": {
+        "origin": "Aura Historia nació en Leipzig en 2026, a partir de la experiencia de un coleccionista: los objetos que merece la pena encontrar aparecen lejos de los canales evidentes: en manos de comerciantes especializados, en tiendas pequeñas, casas de subastas y marketplaces, cada uno con su propio idioma y sus costumbres de catalogación.",
+        "today": "Nos propusimos poner orden en esa búsqueda sin convertirla en una experiencia de compra genérica. Hoy, un equipo de cinco personas desarrolla Aura Historia, entre ingeniería web, automatización de datos, diseño de interfaces e ingeniería de grafos de conocimiento."
+      },
       "email": "E-mail",
       "emailAria": "Enviar un e-mail a {{name}}",
       "linkedin": "LinkedIn",
@@ -228,23 +306,58 @@
       "members": {
         "julianBruder": {
           "position": "Presidente",
-          "bio": "Julian colecciona arte antiguo desde hace años, especialmente óleos de la Virgen María. Quizá publique pronto parte de su colección y utiliza Aura Historia en su propia búsqueda diaria."
+          "bio": "Julian colecciona arte antiguo desde hace años, especialmente óleos de la Virgen María. Quizá publique pronto parte de su colección y utiliza Aura Historia en su propia búsqueda diaria. Antes, Julian trabajó en la automatización de procesos de negocio en banca y seguros."
         },
         "lucaFranke": {
           "position": "Lead Webapp Engineer",
-          "bio": "Luca lidera la webapp y convierte las exigencias de investigación de Aura Historia en una experiencia de producto fiable y fácil de mantener."
+          "bio": "Luca lidera la webapp y convierte las exigencias de investigación de Aura Historia en una experiencia de producto fiable y fácil de mantener. Antes, Luca trabajó en desarrollo web y de apps para marketplaces."
         },
         "abdellahFilali": {
           "position": "Lead Data Automation Engineer",
-          "bio": "Abdellah desarrolla la automatización de fuentes, calidad de datos y procesos repetibles para que Aura Historia pueda seguir un mercado fragmentado con fiabilidad."
+          "bio": "Abdellah desarrolla la automatización de fuentes, calidad de datos y procesos repetibles para que Aura Historia pueda seguir un mercado fragmentado con fiabilidad. Antes, Abdellah trabajó en extracción automatizada de datos para plataformas de empleo."
         },
         "erwinBause": {
           "position": "Lead UI/UX Engineer",
-          "bio": "Erwin diseña la interfaz y la interacción para que Aura Historia sea serena, legible y cercana a la forma en que coleccionistas y especialistas investigan objetos."
+          "bio": "Erwin diseña la interfaz y la interacción para que Aura Historia sea serena, legible y cercana a la forma en que coleccionistas y especialistas investigan objetos. Antes, Erwin trabajó en diseño UI/UX para aplicaciones de consumo."
         },
         "antonDiettrich": {
           "position": "Lead Knowledge Graph Engineer",
-          "bio": "Anton trabaja en las bases del grafo de conocimiento que conectan objetos, fuentes, categorías y contexto de mercado de forma estructurada."
+          "bio": "Anton trabaja en las bases del grafo de conocimiento que conectan objetos, fuentes, categorías y contexto de mercado de forma estructurada. Antes, Anton trabajó en ingeniería de grafos de conocimiento y en sistemas de pregunta-respuesta basados en grafos de conocimiento."
+        }
+      }
+    },
+    "faq": {
+      "eyebrow": "Preguntas",
+      "title": "Preguntas <em>frecuentes.</em>",
+      "contact": "¿Tienes otra pregunta? Escribe a <mail>{{email}}</mail>",
+      "items": {
+        "whatIs": {
+          "question": "¿Qué es Aura Historia?",
+          "answer": "Aura Historia es un buscador global de antigüedades y arte con sede en Leipzig, Alemania. Reúne anuncios de comerciantes, casas de subastas y marketplaces en una sola búsqueda multilingüe, con listas de seguimiento privadas y alertas de búsqueda."
+        },
+        "whoIsBehind": {
+          "question": "¿Quién está detrás de Aura Historia?",
+          "answer": "Aura Historia lo desarrolla un equipo de cinco personas, entre ingeniería web, automatización de datos, diseño de interfaces e ingeniería de grafos de conocimiento. Tiene su sede en Leipzig, Alemania."
+        },
+        "isFree": {
+          "question": "¿Aura Historia es gratis?",
+          "answer": "Sí. Buscar no requiere cuenta, y una cuenta gratuita añade una lista de seguimiento privada de 20 objetos y una alerta de búsqueda. Si sigues muchos objetos a la vez, puedes elegir un plan de pago con más espacio para ambos."
+        },
+        "buyDirectly": {
+          "question": "¿Puedo comprar a través de Aura Historia?",
+          "answer": "No. La compra se realiza con el vendedor original: enlazamos al anuncio de origen, donde confirmas precio, estado, envío y pago antes de comprar o pujar."
+        },
+        "appraisal": {
+          "question": "¿Aura Historia tasa o autentica objetos?",
+          "answer": "No. Los anuncios se muestran tal como los publican sus fuentes, traducidos cuando hace falta. Las cuestiones de valor, estado y autenticidad se resuelven con el vendedor."
+        },
+        "barnebys": {
+          "question": "¿En qué se diferencia Aura Historia de Barnebys?",
+          "answer": "Barnebys tiene su punto fuerte en las casas de subastas. Aura Historia indexa también comerciantes, tiendas especializadas y marketplaces, unifica los anuncios en cinco idiomas y revisa los cambios continuamente. Nuestra página comparativa detalla las diferencias."
+        },
+        "contact": {
+          "question": "¿Cómo contacto con Aura Historia?",
+          "answer": "Escribe a contact@aura-historia.com con preguntas, sugerencias de fuentes o avisos de infracciones legales."
         }
       }
     }

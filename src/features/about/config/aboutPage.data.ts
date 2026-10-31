@@ -1,8 +1,3 @@
-export type AboutPrincipleItem = {
-    readonly titleKey: string;
-    readonly descriptionKey: string;
-};
-
 export type AboutTeamMember = {
     readonly id: string;
     readonly name: string;
@@ -14,20 +9,21 @@ export type AboutTeamMember = {
     readonly hidden?: boolean;
 };
 
-export const ABOUT_PRINCIPLES: readonly AboutPrincipleItem[] = [
-    {
-        titleKey: "aboutPage.values.items.carefulClaims.title",
-        descriptionKey: "aboutPage.values.items.carefulClaims.description",
-    },
-    {
-        titleKey: "aboutPage.values.items.discernment.title",
-        descriptionKey: "aboutPage.values.items.discernment.description",
-    },
-    {
-        titleKey: "aboutPage.values.items.sourceStewardship.title",
-        descriptionKey: "aboutPage.values.items.sourceStewardship.description",
-    },
-] as const;
+export type AboutFaqItem = {
+    readonly questionKey: string;
+    readonly answerKey: string;
+};
+
+/** Anchors of the about page's chapters, linked from the hero's "On this page" row. */
+export const ABOUT_SECTION_IDS = {
+    services: "services",
+    difference: "difference",
+    audience: "audience",
+    team: "team",
+    faq: "faq",
+} as const;
+
+export type AboutSectionId = (typeof ABOUT_SECTION_IDS)[keyof typeof ABOUT_SECTION_IDS];
 
 export const ABOUT_TEAM_MEMBERS: readonly AboutTeamMember[] = [
     {
@@ -69,5 +65,37 @@ export const ABOUT_TEAM_MEMBERS: readonly AboutTeamMember[] = [
         bioKey: "aboutPage.team.members.antonDiettrich.bio",
         email: "anton.diettrich@aura-historia.com",
         linkedinUrl: "https://www.linkedin.com/in/anton-diettrich-77529521a/",
+    },
+] as const;
+
+/** The about page's questions; the route also publishes them as FAQPage structured data. */
+export const ABOUT_FAQ_ITEMS: readonly AboutFaqItem[] = [
+    {
+        questionKey: "aboutPage.faq.items.whatIs.question",
+        answerKey: "aboutPage.faq.items.whatIs.answer",
+    },
+    {
+        questionKey: "aboutPage.faq.items.whoIsBehind.question",
+        answerKey: "aboutPage.faq.items.whoIsBehind.answer",
+    },
+    {
+        questionKey: "aboutPage.faq.items.isFree.question",
+        answerKey: "aboutPage.faq.items.isFree.answer",
+    },
+    {
+        questionKey: "aboutPage.faq.items.buyDirectly.question",
+        answerKey: "aboutPage.faq.items.buyDirectly.answer",
+    },
+    {
+        questionKey: "aboutPage.faq.items.appraisal.question",
+        answerKey: "aboutPage.faq.items.appraisal.answer",
+    },
+    {
+        questionKey: "aboutPage.faq.items.barnebys.question",
+        answerKey: "aboutPage.faq.items.barnebys.answer",
+    },
+    {
+        questionKey: "aboutPage.faq.items.contact.question",
+        answerKey: "aboutPage.faq.items.contact.answer",
     },
 ] as const;
