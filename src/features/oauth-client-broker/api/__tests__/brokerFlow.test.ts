@@ -781,6 +781,35 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             });
         });
 
+        it("revokes an expiring credential and hands off a failure the plugin accepts", async () => {
+            useBackend({
+                token: () =>
+                    jsonResponse({
+                        access_token: ACCESS_TOKEN,
+                        token_type: "Bearer",
+                        scope: "product-listings:write",
+                        expires_in: 3600,
+                    }),
+            });
+            const { handoff, transactionId } = await runToHandoff();
+
+            const [revocation] = backend.callsTo("/v1/oauth/revoke");
+            expect(revocation.body?.get("token")).toBe(ACCESS_TOKEN);
+            const completion = await complete({
+                protocol_version: 2,
+                transaction_id: transactionId,
+                completion_code: handoff.searchParams.get("completion_code") ?? "",
+                completion_secret: COMPLETION_SECRET,
+            });
+            expect(await completion.json()).toEqual({
+                protocol_version: 2,
+                outcome: "failed",
+                error: "server_error",
+                transaction_id: transactionId,
+                client_state: CLIENT_STATE,
+            });
+        });
+
         it("revokes a credential it cannot keep after the exchange", async () => {
             const { body } = await initiate();
             const approval = await decide("approve", {
@@ -891,6 +920,16 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             });
             expect(response.status).toBe(400);
             expect((await response.json()).error).toBe("invalid_request");
+        });
+
+        it("reports a newer protocol version before members it does not know", async () => {
+            const response = await complete({
+                protocol_version: 3,
+                transaction_id: "t".repeat(43),
+                completion_proof: "p".repeat(43),
+            });
+            expect(response.status).toBe(400);
+            expect((await response.json()).error).toBe("unsupported_protocol_version");
         });
 
         it("rejects a form-encoded completion", async () => {

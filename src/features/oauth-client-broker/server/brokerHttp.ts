@@ -111,37 +111,51 @@ export type StrictJsonBody<Spec extends Readonly<Record<string, JsonFieldType>>>
  */
 const JSON_STRING_TOKEN = /"(?:[^"\\]|\\.)*"(\s*:)?/g;
 
+export type StrictJsonResult<Spec extends Readonly<Record<string, JsonFieldType>>> =
+    | { readonly ok: true; readonly body: StrictJsonBody<Spec> }
+    /**
+     * `protocolVersion` is the raw `protocol_version` member whenever the body was a JSON object,
+     * so a newer protocol is reported as such even if its other members are unknown here.
+     */
+    | { readonly ok: false; readonly protocolVersion?: unknown };
+
 /**
  * Reads a JSON object body in which every member is known, appears at most once and has the
- * declared type. Returns `undefined` for another content type, a body without a declared length
- * or over the limit, malformed JSON, another top-level value, a nested, boolean or `null` member,
- * a member of the wrong type, and an unknown or repeated member. The declared length is checked
- * before anything is read.
+ * declared type. Fails for another content type, a body without a declared length or over the
+ * limit, malformed JSON, another top-level value, a nested, boolean or `null` member, a member of
+ * the wrong type, and an unknown or repeated member. The declared length is checked before
+ * anything is read.
  */
 export async function readStrictJson<const Spec extends Readonly<Record<string, JsonFieldType>>>(
     request: Request,
     spec: Spec,
-): Promise<StrictJsonBody<Spec> | undefined> {
+): Promise<StrictJsonResult<Spec>> {
     const body = await readBoundedBody(request, "application/json");
     if (body === undefined) {
-        return undefined;
+        return { ok: false };
     }
 
     let parsed: unknown;
     try {
         parsed = JSON.parse(body);
     } catch {
-        return undefined;
+        return { ok: false };
     }
     if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
-        return undefined;
+        return { ok: false };
     }
+    const failure = {
+        ok: false,
+        protocolVersion: Object.hasOwn(parsed, "protocol_version")
+            ? (parsed as Record<string, unknown>).protocol_version
+            : undefined,
+    } as const;
 
     const values: Record<string, string | number> = {};
     const entries = Object.entries(parsed);
     for (const [key, value] of entries) {
         if (!Object.hasOwn(spec, key) || typeof value !== spec[key]) {
-            return undefined;
+            return failure;
         }
         values[key] = value as string | number;
     }
@@ -150,10 +164,20 @@ export async function readStrictJson<const Spec extends Readonly<Record<string, 
     // name in the text is a top-level one, so more names than members means a repetition.
     const memberNames = [...body.matchAll(JSON_STRING_TOKEN)].filter((token) => token[1]);
     if (memberNames.length !== entries.length) {
-        return undefined;
+        return failure;
     }
 
-    return values as StrictJsonBody<Spec>;
+    return { ok: true, body: values as StrictJsonBody<Spec> };
+}
+
+/**
+ * The error for a body `readStrictJson` refused: a numeric `protocol_version` other than this
+ * one outranks every other problem, so a newer plugin learns to update rather than to retry.
+ */
+export function strictJsonError(protocolVersion: unknown): BrokerEndpointError {
+    return typeof protocolVersion === "number" && protocolVersion !== BROKER_PROTOCOL_VERSION
+        ? "unsupported_protocol_version"
+        : "invalid_request";
 }
 
 /**

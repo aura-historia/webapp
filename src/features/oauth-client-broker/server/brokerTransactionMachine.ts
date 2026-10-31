@@ -69,7 +69,7 @@ export interface BrokerCredential {
     readonly accessToken: string;
     readonly tokenType: "Bearer";
     readonly scope: string;
-    /** Only when the backend returned `expires_in`. */
+    /** Only when the backend returned `expires_in`; the callback refuses such a credential. */
     readonly accessTokenExpiresAt?: number;
 }
 

@@ -12,6 +12,7 @@ import {
     endpointErrorResponse,
     jsonResponse,
     readStrictJson,
+    strictJsonError,
 } from "@/features/oauth-client-broker/server/brokerHttp.ts";
 import type { CompletionResult } from "@/features/oauth-client-broker/server/brokerTransactionMachine.ts";
 
@@ -31,9 +32,16 @@ export async function postWooCommerceBrokerComplete({ request }: { request: Requ
         return endpointErrorResponse("rate_limited");
     }
 
-    const body = await readStrictJson(request, COMPLETE_FIELDS);
+    const read = await readStrictJson(request, COMPLETE_FIELDS);
+    if (!read.ok) {
+        return endpointErrorResponse(strictJsonError(read.protocolVersion));
+    }
+    const body = read.body;
+    if (body.protocol_version !== undefined && body.protocol_version !== BROKER_PROTOCOL_VERSION) {
+        return endpointErrorResponse("unsupported_protocol_version");
+    }
     if (
-        body?.protocol_version === undefined ||
+        body.protocol_version === undefined ||
         !body.transaction_id ||
         !BROKER_RANDOM_VALUE_PATTERN.test(body.transaction_id) ||
         !body.completion_code ||
@@ -42,9 +50,6 @@ export async function postWooCommerceBrokerComplete({ request }: { request: Requ
         !BROKER_CLIENT_SECRET_VALUE_PATTERN.test(body.completion_secret)
     ) {
         return endpointErrorResponse("invalid_request");
-    }
-    if (body.protocol_version !== BROKER_PROTOCOL_VERSION) {
-        return endpointErrorResponse("unsupported_protocol_version");
     }
 
     const transaction = getBrokerTransaction(body.transaction_id);
@@ -88,13 +93,6 @@ function toCompletionBody(result: Extract<CompletionResult, { ok: true }>) {
             token_type: result.credential.tokenType,
             scope: result.credential.scope,
             ...(result.resource === undefined ? {} : { resource: result.resource }),
-            ...(result.credential.accessTokenExpiresAt === undefined
-                ? {}
-                : {
-                      access_token_expires_at: new Date(
-                          result.credential.accessTokenExpiresAt,
-                      ).toISOString(),
-                  }),
         };
     }
 

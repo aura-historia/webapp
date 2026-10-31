@@ -26,6 +26,7 @@ import {
     jsonResponse,
     readStrictJson,
     type StrictJsonBody,
+    strictJsonError,
 } from "@/features/oauth-client-broker/server/brokerHttp.ts";
 
 const INITIATE_FIELDS = {
@@ -51,9 +52,9 @@ export async function postWooCommerceBrokerInitiate({ request }: { request: Requ
         return endpointErrorResponse("rate_limited");
     }
 
-    const body = await readStrictJson(request, INITIATE_FIELDS);
-    if (!body) {
-        return endpointErrorResponse("invalid_request");
+    const read = await readStrictJson(request, INITIATE_FIELDS);
+    if (!read.ok) {
+        return endpointErrorResponse(strictJsonError(read.protocolVersion));
     }
 
     const config = getWooCommerceBrokerConfig();
@@ -61,7 +62,7 @@ export async function postWooCommerceBrokerInitiate({ request }: { request: Requ
         return endpointErrorResponse("server_error");
     }
 
-    const validation = validateInitiation(body, config.clientId);
+    const validation = validateInitiation(read.body, config.clientId);
     if (!validation.ok) {
         return endpointErrorResponse(validation.error);
     }

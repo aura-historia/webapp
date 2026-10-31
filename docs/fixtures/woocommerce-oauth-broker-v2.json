@@ -27,7 +27,7 @@
         "client_id": "oc_01m5vyvraxecksre2zepjcza88",
         "merchant_redirect_uri": "https://shop.example/wp-admin/admin.php?page=aura-historia-partner-connect",
         "client_state": "mRB0dSUtBEyJrgVt6xQGFFn0Wd6p8pcQxLwVHAwkiBs",
-        "scope": "product-listings:write listing-sources:write",
+        "scope": "product-listings:read product-listings:write listing-sources:read listing-sources:write",
         "completion_challenge": "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
         "completion_challenge_method": "S256"
       }
@@ -37,7 +37,7 @@
       "body": {
         "protocol_version": 2,
         "transaction_id": "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
-        "authorization_url": "https://aura-historia.com/oauth/authorize?client_id=oc_01m5vyvraxecksre2zepjcza88&redirect_uri=https%3A%2F%2Faura-historia.com%2Fapi%2Foauth%2Fclient%2Fredirect-broker%2Fwoocommerce&response_type=code&scope=product-listings%3Awrite+listing-sources%3Awrite&state=q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
+        "authorization_url": "https://aura-historia.com/oauth/authorize?client_id=oc_01m5vyvraxecksre2zepjcza88&redirect_uri=https%3A%2F%2Faura-historia.com%2Fapi%2Foauth%2Fclient%2Fredirect-broker%2Fwoocommerce&response_type=code&scope=product-listings%3Aread+product-listings%3Awrite+listing-sources%3Aread+listing-sources%3Awrite&state=q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
         "expires_at": "2026-10-30T12:15:00.000Z"
       },
       "authorization_url_rules": "An OAuth-shaped entry on the broker origin: client_id, redirect_uri (the broker callback), response_type=code, the exact requested scope and the transaction_id as state, nothing else. The consent page reads every value from the stored transaction."
@@ -73,11 +73,12 @@
           "listing_source_id": "ls_6rd827eqfefsva9teecmwa3ate",
           "access_token": "aurahistoria_example_access_token",
           "token_type": "Bearer",
-          "scope": "product-listings:write listing-sources:write"
+          "scope": "product-listings:read product-listings:write listing-sources:read listing-sources:write"
         },
+        "never_present": ["access_token_expires_at", "expires_in", "refresh_token"],
+        "never_present_note": "The broker revokes a token the backend issues with expires_in and reports outcome failed with server_error; the WooCommerce extension has no refresh flow.",
         "optional_fields": {
-          "resource": "Present only when the initiation requested one; the exact requested value. The WooCommerce extension never requests one.",
-          "access_token_expires_at": "Present only when the backend returned expires_in; RFC 3339 UTC. The WooCommerce extension rejects expiring tokens."
+          "resource": "Present only when the initiation requested one; the exact requested value. The WooCommerce extension never requests one."
         }
       },
       "denied": {

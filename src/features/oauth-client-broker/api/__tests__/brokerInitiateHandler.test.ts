@@ -279,6 +279,34 @@ describe("POST /api/oauth/client/redirect-broker/woocommerce/transactions", () =
         expect(bindings.objects.size).toBe(0);
     });
 
+    it("reports a newer protocol version before members it does not know", async () => {
+        const { status, body } = await initiate({
+            ...VALID_FIELDS,
+            protocol_version: 3,
+            completion_challenge_method: undefined,
+            future_member: { nested: true },
+        });
+
+        expect(status).toBe(400);
+        expect(body).toEqual({
+            protocol_version: 2,
+            error: "unsupported_protocol_version",
+            retryable: false,
+        });
+        expect(bindings.objects.size).toBe(0);
+    });
+
+    it("accepts the body as PHP's wp_json_encode writes it, with escaped slashes", async () => {
+        const text = JSON.stringify(VALID_FIELDS).replaceAll("/", "\\/");
+        expect(text).toContain("https:\\/\\/shop.example\\/wp-admin\\/admin.php");
+
+        const { status, body } = await initiate({}, jsonRequest(INITIATE_URL, text));
+
+        expect(status).toBe(201);
+        const view = await bindings.objects.get(body.transaction_id)?.getConsentView();
+        expect(view).toMatchObject({ context: { merchantRedirectUri: MERCHANT_REDIRECT_URI } });
+    });
+
     it("rejects a body without a declared length before reading it", async () => {
         const request = jsonRequest(INITIATE_URL, VALID_FIELDS);
         request.headers.delete("Content-Length");

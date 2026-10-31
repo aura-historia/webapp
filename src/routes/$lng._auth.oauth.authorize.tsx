@@ -17,8 +17,14 @@ export const Route = createFileRoute("/$lng/_auth/oauth/authorize")({
 
 function RouteComponent() {
     const searchParams = Route.useSearch();
-    if ("client_id" in searchParams) {
-        return <OAuthAuthorizePage searchParams={searchParams} />;
+    // The router merges the raw query into the validated search, so the broker's OAuth-shaped
+    // entry still carries `client_id` here: decide by the parsed shape, not by a single key.
+    const brokerSearch = parseBrokerConsentSearch(searchParams);
+    if (brokerSearch) {
+        return <WooCommerceBrokerConsentPage searchParams={brokerSearch} />;
     }
-    return <WooCommerceBrokerConsentPage searchParams={searchParams} />;
+    if (!("client_id" in searchParams)) {
+        return <WooCommerceBrokerConsentPage searchParams={searchParams} />;
+    }
+    return <OAuthAuthorizePage searchParams={searchParams} />;
 }

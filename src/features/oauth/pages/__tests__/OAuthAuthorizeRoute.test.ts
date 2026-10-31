@@ -1,7 +1,13 @@
 import { render, screen } from "@testing-library/react";
 import { createElement } from "react";
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { defaultParseSearch } from "@tanstack/react-router";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+    createMemoryHistory,
+    createRootRoute,
+    createRoute,
+    createRouter,
+    defaultParseSearch,
+} from "@tanstack/react-router";
 import { Route } from "@/routes/$lng._auth.oauth.authorize.tsx";
 import {
     getBrokerAuthorizationUrl,
@@ -26,6 +32,50 @@ vi.mock("@/env.ts", () => ({
 vi.mock("@/features/oauth/pages/OAuthAuthorizePage.tsx", () => ({
     OAuthAuthorizePage: mockOAuthAuthorizePage,
 }));
+
+const mockBrokerConsentPage = vi.hoisted(() =>
+    vi.fn(() => createElement("div", { "data-testid": "broker-consent-page" })),
+);
+
+vi.mock("@/features/oauth-client-broker/pages/WooCommerceBrokerConsentPage.tsx", () => ({
+    WooCommerceBrokerConsentPage: mockBrokerConsentPage,
+}));
+
+/**
+ * What `Route.useSearch()` returns for a URL: the search of the route's match in a real router
+ * with the same parents, which merges the raw query into the validated search.
+ */
+function routerSearchFor(href: string): Record<string, unknown> {
+    const rootRoute = createRootRoute();
+    const lngRoute = createRoute({ getParentRoute: () => rootRoute, path: "$lng" });
+    const authRoute = createRoute({ getParentRoute: () => lngRoute, id: "_auth" });
+    const authorizeRoute = createRoute({
+        getParentRoute: () => authRoute,
+        path: "oauth/authorize",
+        validateSearch: Route.options.validateSearch as (
+            search: Record<string, unknown>,
+        ) => Record<string, unknown>,
+    });
+    const router = createRouter({
+        routeTree: rootRoute.addChildren([
+            lngRoute.addChildren([authRoute.addChildren([authorizeRoute])]),
+        ]),
+        history: createMemoryHistory({ initialEntries: [href] }),
+    });
+    const match = router.matchRoutes(router.latestLocation).at(-1);
+    expect(match?.routeId).toBe("/$lng/_auth/oauth/authorize");
+    expect(match?.searchError).toBeUndefined();
+    return match?.search as Record<string, unknown>;
+}
+
+function renderRouteWithSearch(search: Record<string, unknown>) {
+    vi.spyOn(Route, "useSearch").mockReturnValue(search as never);
+    const Component = Route.options.component;
+    if (!Component) {
+        throw new Error("Authorize route component not found");
+    }
+    render(createElement(Component));
+}
 
 const validateSearch = Route.options.validateSearch as (
     search: Record<string, unknown>,
@@ -171,6 +221,11 @@ describe("_auth.oauth.authorize route", () => {
 
     describe("WooCommerce broker entry", () => {
         const TRANSACTION_ID = "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I";
+
+        beforeEach(() => {
+            mockOAuthAuthorizePage.mockClear();
+            mockBrokerConsentPage.mockClear();
+        });
         const entry = {
             client_id: "oc_01m5vyvraxecksre2zepjcza88",
             redirect_uri: getWooCommerceBrokerCallbackUrl(),
@@ -191,6 +246,58 @@ describe("_auth.oauth.authorize route", () => {
             expect(validateSearch(defaultParseSearch(url.search))).toEqual({
                 transaction_id: TRANSACTION_ID,
             });
+        });
+
+        it("renders the broker consent for the entry, although the router keeps client_id", () => {
+            const url = new URL(
+                getBrokerAuthorizationUrl({
+                    transactionId: TRANSACTION_ID,
+                    clientId: entry.client_id,
+                    scope: entry.scope,
+                }),
+            );
+            const search = routerSearchFor(`/en${url.pathname}${url.search}`);
+            expect(search).toMatchObject({ client_id: entry.client_id, state: TRANSACTION_ID });
+
+            renderRouteWithSearch(search);
+
+            expect(screen.getByTestId("broker-consent-page")).toBeInTheDocument();
+            expect(mockBrokerConsentPage).toHaveBeenCalledWith(
+                { searchParams: { transaction_id: TRANSACTION_ID } },
+                undefined,
+            );
+            expect(mockOAuthAuthorizePage).not.toHaveBeenCalled();
+        });
+
+        it("renders the broker consent for a reference-only page", () => {
+            renderRouteWithSearch(
+                routerSearchFor(
+                    `/en/oauth/authorize?transaction_id=${TRANSACTION_ID}&broker_error=approval_failed`,
+                ),
+            );
+
+            expect(mockBrokerConsentPage).toHaveBeenCalledWith(
+                {
+                    searchParams: {
+                        transaction_id: TRANSACTION_ID,
+                        broker_error: "approval_failed",
+                    },
+                },
+                undefined,
+            );
+        });
+
+        it("renders the OAuth page for a direct request for the broker callback", () => {
+            const search = new URLSearchParams({
+                ...entry,
+                state: "legacy-state",
+                code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+            });
+
+            renderRouteWithSearch(routerSearchFor(`/en/oauth/authorize?${search}`));
+
+            expect(screen.getByTestId("oauth-authorize-page")).toBeInTheDocument();
+            expect(mockBrokerConsentPage).not.toHaveBeenCalled();
         });
 
         it("reads the entry the router returns to after sign-in, with the reference merged in", () => {
