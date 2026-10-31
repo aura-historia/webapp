@@ -297,10 +297,37 @@ describe("WooCommerce broker backend calls", () => {
         it.each([
             [jsonResponse({ status: 401 }, 401), "unauthenticated"],
             [jsonResponse({ status: 500 }, 500), "unavailable"],
-        ])("maps a grant read failure %#", async (response, kind) => {
-            fetchMock.mockResolvedValue(response);
+        ])("maps a read failure %#", async (response, kind) => {
+            fetchMock.mockImplementation(async () => response.clone());
 
             expect(await findGrant()).toEqual({ ok: false, kind });
+            expect(await readRegisteredUrl()).toEqual({ ok: false, kind });
+        });
+
+        it("does not log an expired sign-in, which returns to sign-in", async () => {
+            fetchMock.mockImplementation(async () => jsonResponse({ status: 401 }, 401));
+
+            await findGrant();
+            await readRegisteredUrl();
+
+            expect(console.error).not.toHaveBeenCalled();
+        });
+
+        it("names a request the runtime refuses to build, which never reaches the backend", async () => {
+            vi.stubGlobal(
+                "Request",
+                class {
+                    constructor() {
+                        throw new TypeError("Invalid redirect value");
+                    }
+                },
+            );
+
+            expect(await findGrant()).toEqual({ ok: false, kind: "unavailable" });
+            expectLogged("listing_sources", "request_rejected");
+            expect(await readRegisteredUrl()).toEqual({ ok: false, kind: "unavailable" });
+            expectLogged("listing_source", "request_rejected");
+            expect(fetchMock).not.toHaveBeenCalled();
         });
 
         it("treats a redirect as a failure instead of following it", async () => {
@@ -314,7 +341,7 @@ describe("WooCommerce broker backend calls", () => {
 
             expect(await findGrant()).toEqual({ ok: false, kind: "unavailable" });
             expectLogged("listing_sources", 302);
-            expect(await readRegisteredUrl()).toEqual({ ok: false });
+            expect(await readRegisteredUrl()).toEqual({ ok: false, kind: "unavailable" });
             expectLogged("listing_source", 302);
             expect(fetchMock).toHaveBeenCalledTimes(2);
         });
@@ -327,16 +354,26 @@ describe("WooCommerce broker backend calls", () => {
 
             expect(await findGrant()).toEqual({ ok: false, kind: "unavailable" });
             expectLogged("listing_sources", status);
-            expect(await readRegisteredUrl()).toEqual({ ok: false });
+            expect(await readRegisteredUrl()).toEqual({ ok: false, kind: "unavailable" });
             expectLogged("listing_source", status);
         });
 
-        it("reports an unexpected response body as unavailable", async () => {
-            fetchMock.mockImplementation(async () => jsonResponse({ unexpected: true }));
+        it.each([
+            ["JSON of another shape", () => jsonResponse({ unexpected: true })],
+            [
+                "a body that is not JSON",
+                () =>
+                    new Response("<html>", {
+                        status: 200,
+                        headers: { "Content-Type": "application/json" },
+                    }),
+            ],
+        ])("reports %s as an invalid response", async (_, response) => {
+            fetchMock.mockImplementation(async () => response());
 
             expect(await findGrant()).toEqual({ ok: false, kind: "unavailable" });
             expectLogged("listing_sources", "invalid_response");
-            expect(await readRegisteredUrl()).toEqual({ ok: false });
+            expect(await readRegisteredUrl()).toEqual({ ok: false, kind: "unavailable" });
             expectLogged("listing_source", "invalid_response");
         });
 
@@ -351,7 +388,7 @@ describe("WooCommerce broker backend calls", () => {
         it("reports an unreadable registered website as a failure", async () => {
             fetchMock.mockResolvedValue(jsonResponse({ status: 404 }, 404));
 
-            expect(await readRegisteredUrl()).toEqual({ ok: false });
+            expect(await readRegisteredUrl()).toEqual({ ok: false, kind: "unavailable" });
             expectLogged("listing_source", 404);
         });
     });

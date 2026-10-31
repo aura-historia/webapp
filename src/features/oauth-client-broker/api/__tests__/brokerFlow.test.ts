@@ -515,6 +515,28 @@ describe("WooCommerce OAuth broker protocol v2", () => {
             );
         });
 
+        it.each([
+            ["the grant recheck", "/v1/me/listing-sources"],
+            ["the registered website", "/v1/listing-sources/by-slug/shop-example"],
+        ])("returns to sign-in when the session expires at %s", async (_, path) => {
+            vi.stubGlobal("fetch", (input: RequestInfo | URL, init?: RequestInit) =>
+                requestUrl(input).pathname === path
+                    ? Promise.resolve(jsonResponse({ status: 401 }, 401))
+                    : backend.fetchMock(input, init),
+            );
+            const { body } = await initiate();
+
+            for (const action of ["approve", "deny"] as const) {
+                const response = await decide(action, {
+                    lng: "en",
+                    transaction_id: body.transaction_id,
+                    listing_source_id: LISTING_SOURCE_ID,
+                });
+                expect(new URL(response.headers.get("Location") ?? "").pathname).toBe("/en/login");
+            }
+            expect(backend.callsTo("/v1/oauth/authorize")).toHaveLength(0);
+        });
+
         it("ignores injected protocol fields and rejects repeated ones", async () => {
             const { body } = await initiate();
 

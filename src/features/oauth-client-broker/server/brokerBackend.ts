@@ -365,7 +365,10 @@ export async function findGrantedListingSource(params: {
 export async function getRegisteredListingSourceUrl(params: {
     readonly accessToken: string;
     readonly listingSourceSlugId: string;
-}): Promise<{ readonly ok: true; readonly url?: string } | { readonly ok: false }> {
+}): Promise<
+    | { readonly ok: true; readonly url?: string }
+    | { readonly ok: false; readonly kind: "unauthenticated" | "unavailable" }
+> {
     const result = await readBackend(() =>
         getPublicListingSourceBySlug({
             baseUrl: getApiBaseUrl(env.VITE_API_URL),
@@ -379,22 +382,26 @@ export async function getRegisteredListingSourceUrl(params: {
     );
 
     if (!result.ok) {
+        if (result.status === 401) return { ok: false, kind: "unauthenticated" };
         logBackendFailure("listing_source", result.status);
-        return { ok: false };
+        return { ok: false, kind: "unavailable" };
     }
     let url: string | undefined;
     try {
         url = mapPublicListingSource(result.data).url;
     } catch {
         logBackendFailure("listing_source", "invalid_response");
-        return { ok: false };
+        return { ok: false, kind: "unavailable" };
     }
     return { ok: true, ...(url === undefined ? {} : { url }) };
 }
 
 type BackendRead<T> =
     | { readonly ok: true; readonly data: T }
-    | { readonly ok: false; readonly status: number | RequestFailure };
+    | {
+          readonly ok: false;
+          readonly status: number | RequestFailure | "request_rejected" | "invalid_response";
+      };
 
 /**
  * Reduces a generated-client read to its data, or to what failed: the HTTP status of any
@@ -405,6 +412,7 @@ async function readBackend<T>(
     call: () => Promise<{
         readonly data?: T;
         readonly error?: unknown;
+        readonly request?: Request;
         readonly response?: Response;
     }>,
 ): Promise<BackendRead<T>> {
@@ -414,10 +422,13 @@ async function readBackend<T>(
     } catch (error) {
         return { ok: false, status: describeRequestFailure(error) };
     }
-    // The client's types promise a response, but a request that failed to send has none.
-    const response: Response | undefined = result.response;
+    const { request, response } = result;
+    // The runtime refused to build the request from its options, so nothing was sent.
+    if (!request) return { ok: false, status: "request_rejected" };
     if (!response) return { ok: false, status: describeRequestFailure(result.error) };
-    if (!response.ok || result.data === undefined) return { ok: false, status: response.status };
+    if (!response.ok) return { ok: false, status: response.status };
+    // A success whose body is not the JSON the client could parse.
+    if (result.data === undefined) return { ok: false, status: "invalid_response" };
     return { ok: true, data: result.data };
 }
 
