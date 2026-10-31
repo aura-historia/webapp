@@ -5,13 +5,7 @@ import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navi
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
 import { cn } from "@/lib/utils.ts";
 
-const JUMP_LINKS: readonly AboutSectionId[] = [
-    ABOUT_SECTION_IDS.services,
-    ABOUT_SECTION_IDS.difference,
-    ABOUT_SECTION_IDS.audience,
-    ABOUT_SECTION_IDS.team,
-    ABOUT_SECTION_IDS.faq,
-];
+const JUMP_LINKS: readonly AboutSectionId[] = Object.values(ABOUT_SECTION_IDS);
 
 /** Ink hero: editorial headline, the plain one-sentence definition as the lead, and the chapter links. */
 export function AboutHeroSection() {

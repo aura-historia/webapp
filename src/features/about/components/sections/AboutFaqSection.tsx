@@ -22,7 +22,7 @@ export function AboutFaqSection() {
             ground="raised"
             id={ABOUT_SECTION_IDS.faq}
             labelledBy="about-faq-heading"
-            containerClassName={cn(ABOUT_SPLIT_CLASS, "items-start gap-8")}
+            containerClassName={cn(ABOUT_SPLIT_CLASS, "items-start gap-8 sm:gap-8")}
         >
             <SectionHeading
                 id="about-faq-heading"
