@@ -1,6 +1,6 @@
 ---
 name: product-copywriter
-description: Write or revise Aura Historia user-facing copy for collectors, dealers, auction staff, partners, and estate sellers with polished antiques/art-market tone and full i18n coverage.
+description: Write or revise Aura Historia user-facing copy for collectors, dealers, auction staff, partners, and estate sellers with a polished antiques-market tone and full i18n coverage.
 ---
 
 # Product Copywriter
@@ -18,7 +18,7 @@ Read:
 
 ## Voice
 
-Write polished, confident, precise, restrained copy for discerning antiques/art users.
+Write polished, confident, precise, restrained copy for discerning antiques collectors and trade users.
 
 Prefer:
 

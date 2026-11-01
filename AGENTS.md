@@ -1,6 +1,6 @@
 # Aura Historia
 
-Refined global discovery for antiques, art, design objects, dealers, and auction houses. Tone: precise, calm, trusted; no hype.
+Refined global discovery for antiques, design objects, dealers, and auction houses. Tone: precise, calm, trusted; no hype.
 
 ## Rules
 
