@@ -236,7 +236,7 @@
           "figure": "34.800 M$",
           "figureLabel": "Ventas de comerciantes, 2025",
           "description": "Los agregadores de subastas como Barnebys tienen su punto fuerte en las casas de subastas, que suponen unos 24.900 M$ de un mercado de 59.600 M$. Aura Historia indexa también a los comerciantes, tiendas especializadas y marketplaces donde se vende la mayor parte.",
-          "source": "Fuente: Art Basel / UBS"
+          "source": "Fuente: Art Basel & UBS Global Art Market Report 2026"
         },
         "alerts": {
           "title": "Alertas a medida que cambian los anuncios",
@@ -935,13 +935,13 @@
           }
         },
         "caption": "Las plataformas solo de subastas ven aproximadamente un tercio del mercado. <strong>Aura Historia indexa también comerciantes, tiendas especializadas y marketplaces.</strong>",
-        "source": "Fuente: Art Basel / UBS"
+        "source": "Fuente: Art Basel & UBS Global Art Market Report 2026"
       },
       "sellers": {
         "value": "94.618",
         "label": "Vendedores independientes · EE. UU. + Europa",
         "caption": "13.362 tiendas de antigüedades en EE. UU. y 81.256 comercios afines en Europa, cada uno con su propia web, idioma y vocabulario.",
-        "source": "Fuente: IBISWorld US · IBISWorld Europe"
+        "source": "Fuente: IBISWorld US 2024 · IBISWorld Europe 2025"
       }
     },
     "platform": {

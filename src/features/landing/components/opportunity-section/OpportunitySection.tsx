@@ -11,7 +11,10 @@ import { HERO_SEARCH_ID } from "@/features/landing/components/hero-section/HeroS
 import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
 import { cn } from "@/lib/utils.ts";
 
-/** Shares of 2025 art & antiques sales (Art Basel / UBS), oxblood → brass → sand. */
+/**
+ * Shares of 2025 art & antiques sales (Art Basel & UBS Global Art Market Report 2026),
+ * oxblood → brass → sand. Update with the figures when a new edition is cited.
+ */
 const MARKET_SEGMENTS = [
     { key: "dealer", share: 58.3, color: "bg-oxblood", rule: "border-oxblood" },
     { key: "publicAuction", share: 34.7, color: "bg-brass", rule: "border-brass" },
