@@ -7,10 +7,10 @@
   },
   "meta": {
     "siteName": "Aura Historia | Piattaforma globale per antiquariato",
-    "defaultDescription": "Scopri antiquariato raro e oggetti di design da commercianti, case d’asta e marketplace di tutto il mondo in una piattaforma raffinata per collezionisti e professionisti.",
+    "defaultDescription": "Scopri pezzi d’antiquariato rari e oggetti di design da commercianti, case d’asta e marketplace di tutto il mondo in una piattaforma raffinata per collezionisti e professionisti.",
     "home": {
       "title": "Aura Historia | Piattaforma globale per antiquariato",
-      "description": "Scopri antiquariato raro e oggetti di design da commercianti, case d’asta e marketplace di tutto il mondo in una piattaforma raffinata per collezionisti e professionisti."
+      "description": "Scopri pezzi d’antiquariato rari e oggetti di design da commercianti, case d’asta e marketplace di tutto il mondo in una piattaforma raffinata per collezionisti e professionisti."
     },
     "about": {
       "title": "Chi siamo | Aura Historia",
@@ -188,7 +188,7 @@
     "hero": {
       "eyebrow": "Chi è Aura Historia",
       "title": "Portiamo più chiarezza <em>nel mercato dell’antiquariato.</em>",
-      "subtitle": "Aura Historia è un motore di ricerca globale per l’antiquariato che riunisce antiquari, case d’asta e marketplace in un’unica ricerca multilingue, per collezionisti, arredatori e professionisti del settore. Nasce per chi cerca con cura, dà valore a un contesto affidabile e desidera una lettura calma di un mercato internazionale disperso.",
+      "subtitle": "Aura Historia è un motore di ricerca globale per l’antiquariato: riunisce antiquari, case d’asta e marketplace in un’unica ricerca multilingue, per collezionisti, arredatori e professionisti del settore. Nasce per chi cerca con cura, dà valore a un contesto affidabile e desidera una lettura calma di un mercato internazionale disperso.",
       "navLabel": "In questa pagina",
       "nav": {
         "services": "Cosa facciamo",

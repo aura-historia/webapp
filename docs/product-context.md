@@ -15,7 +15,7 @@ The app currently emphasizes:
 
 ## Product goal
 
-Help users find, evaluate, remember, and act on valuable antiques faster than they could by browsing fragmented dealer, auction, and marketplace websites manually.
+Help users find, evaluate, remember, and act on opportunities in valuable antiques faster than they could by browsing fragmented dealer, auction, and marketplace websites manually.
 
 The user should feel:
 
@@ -51,7 +51,7 @@ Assume many users are intelligent, proud of their taste, skeptical, and status-s
 
 Use a tone that is polished, confident, precise, and restrained.
 
-Position Aura Historia on antiques. Do not describe it as a platform, search or market for "antiques and art" (or "antiques & art") in any locale. Cited market figures keep their source's scope: the Art Basel / UBS report counts art and antiques sales together, so its labels say so.
+Position Aura Historia on antiques. Do not present art as a category it covers alongside antiques (for example “antiques and art”, “antiques, art and design objects” or “art dealers”) in any locale. Art in example searches, bios, or object descriptions is fine. Cited market figures keep their source’s scope: the Art Basel / UBS report counts art and antiques sales together, so its labels say so.
 
 Prefer:
 
