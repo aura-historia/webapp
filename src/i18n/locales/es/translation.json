@@ -7,14 +7,14 @@
   },
   "meta": {
     "siteName": "Aura Historia | Plataforma global de antigüedades",
-    "defaultDescription": "Descubre antigüedades, arte y objetos de diseño raros de vendedores, casas de subastas y mercados de todo el mundo en una plataforma refinada para coleccionistas y profesionales.",
+    "defaultDescription": "Descubre antigüedades y objetos de diseño raros de vendedores, casas de subastas y mercados de todo el mundo en una plataforma refinada para coleccionistas y profesionales.",
     "home": {
       "title": "Aura Historia | Plataforma global de antigüedades",
-      "description": "Descubre antigüedades, arte y objetos de diseño raros de vendedores, casas de subastas y mercados de todo el mundo en una plataforma refinada para coleccionistas y profesionales."
+      "description": "Descubre antigüedades y objetos de diseño raros de vendedores, casas de subastas y mercados de todo el mundo en una plataforma refinada para coleccionistas y profesionales."
     },
     "about": {
       "title": "Sobre nosotros | Aura Historia",
-      "description": "Aura Historia es un buscador global de antigüedades y arte que abarca comerciantes, casas de subastas y marketplaces. Qué hacemos, en qué nos diferenciamos y quiénes somos."
+      "description": "Aura Historia es un buscador global de antigüedades que abarca comerciantes, casas de subastas y marketplaces. Qué hacemos, en qué nos diferenciamos y quiénes somos."
     },
     "search": {
       "title": "Buscar antigüedades | Aura Historia",
@@ -64,7 +64,7 @@
     },
     "partnerProgram": {
       "title": "Programa de Partners | Aura Historia",
-      "description": "Conviértete en tienda partner de Aura Historia, la plataforma global de antigüedades y arte. Gratis, sin comisiones y conectada en minutos."
+      "description": "Conviértete en tienda partner de Aura Historia, la plataforma global de antigüedades. Gratis, sin comisiones y conectada en minutos."
     },
     "partnerApplications": {
       "title": "Solicitudes de Socios Actuales | Aura Historia"
@@ -187,8 +187,8 @@
   "aboutPage": {
     "hero": {
       "eyebrow": "Sobre Aura Historia",
-      "title": "Aportamos más claridad al mercado <em>de antigüedades y arte.</em>",
-      "subtitle": "Aura Historia es un buscador global de antigüedades y arte que reúne a comerciantes, casas de subastas y marketplaces en una sola búsqueda multilingüe, para coleccionistas, decoradores y profesionales del sector. Nace para quienes buscan con cuidado, valoran un contexto fiable y quieren una lectura serena de un mercado internacional disperso.",
+      "title": "Aportamos más claridad al mercado <em>de antigüedades.</em>",
+      "subtitle": "Aura Historia es un buscador global de antigüedades que reúne a comerciantes, casas de subastas y marketplaces en una sola búsqueda multilingüe, para coleccionistas, decoradores y profesionales del sector. Nace para quienes buscan con cuidado, valoran un contexto fiable y quieren una lectura serena de un mercado internacional disperso.",
       "navLabel": "En esta página",
       "nav": {
         "services": "Qué hacemos",
@@ -268,12 +268,12 @@
     "audience": {
       "eyebrow": "Público",
       "title": "Quién usa <em>Aura Historia.</em>",
-      "description": "Coleccionistas y profesionales que siguen antigüedades y arte en más de una fuente. Empezamos por Europa y Estados Unidos, y ampliamos continuamente nuestra cobertura a otros mercados.",
+      "description": "Coleccionistas y profesionales que siguen antigüedades en más de una fuente. Empezamos por Europa y Estados Unidos, y ampliamos continuamente nuestra cobertura a otros mercados.",
       "groups": {
         "collectors": {
           "heading": "Coleccionistas",
           "items": {
-            "privateCollectors": "Coleccionistas privados de antigüedades, arte y objetos de diseño, desde la primera adquisición hasta una colección consolidada",
+            "privateCollectors": "Coleccionistas privados de antigüedades y objetos de diseño, desde la primera adquisición hasta una colección consolidada",
             "specialists": "Coleccionistas especializados que siguen a un fabricante, una época o una región más allá de las fronteras, como la porcelana de Meissen o el mobiliario gustaviano",
             "decorators": "Interioristas y decoradores que buscan piezas de época para sus clientes",
             "heirs": "Herederos y albaceas que quieren ver por cuánto se ofrecen hoy objetos comparables"
@@ -333,7 +333,7 @@
       "items": {
         "whatIs": {
           "question": "¿Qué es Aura Historia?",
-          "answer": "Aura Historia es un buscador global de antigüedades y arte con sede en Leipzig, Alemania. Reúne anuncios de comerciantes, casas de subastas y marketplaces en una sola búsqueda multilingüe, con listas de seguimiento privadas y alertas de búsqueda."
+          "answer": "Aura Historia es un buscador global de antigüedades con sede en Leipzig, Alemania. Reúne anuncios de comerciantes, casas de subastas y marketplaces en una sola búsqueda multilingüe, con listas de seguimiento privadas y alertas de búsqueda."
         },
         "whoIsBehind": {
           "question": "¿Quién está detrás de Aura Historia?",
@@ -791,7 +791,7 @@
       "items": {
         "howItWorks": {
           "question": "¿Qué es Aura Historia?",
-          "answer": "Aura Historia es una plataforma global para antigüedades, arte y objetos singulares. Reunimos ofertas actuales de anticuarios, casas de subastas, marketplaces y fuentes especializadas para que coleccionistas y profesionales puedan ver el mercado con más claridad."
+          "answer": "Aura Historia es una plataforma global para antigüedades y objetos singulares. Reunimos ofertas actuales de anticuarios, casas de subastas, marketplaces y fuentes especializadas para que coleccionistas y profesionales puedan ver el mercado con más claridad."
         },
         "directPurchase": {
           "question": "¿Puedo comprar directamente en Aura Historia?",
@@ -1110,8 +1110,8 @@
   },
   "partnerProgram": {
     "hero": {
-      "title": "¿Vendes antigüedades o arte online? Llega a coleccionistas <em>de todo el mundo.</em>",
-      "subtitle": "Aura Historia es la búsqueda global de antigüedades y arte, donde los coleccionistas encuentran justo lo que vendes. Conecta tu tienda una vez; quien encuentra tus piezas compra en tu propia web.",
+      "title": "¿Vendes antigüedades online? Llega a coleccionistas <em>de todo el mundo.</em>",
+      "subtitle": "Aura Historia es la búsqueda global de antigüedades, donde los coleccionistas encuentran justo lo que vendes. Conecta tu tienda una vez; quien encuentra tus piezas compra en tu propia web.",
       "primaryCta": "Hazte partner",
       "secondaryCta": "Cómo funciona",
       "eyebrow": "Programa de partners · Para comerciantes y casas de subastas",
@@ -1149,7 +1149,7 @@
       "items": {
         "audience": {
           "title": "Comunidad global de coleccionistas",
-          "description": "Llega a compradores de muchos países que buscan activamente antigüedades y arte poco comunes, cada uno en su propio idioma."
+          "description": "Llega a compradores de muchos países que buscan activamente antigüedades poco comunes, cada uno en su propio idioma."
         },
         "traffic": {
           "title": "Más tráfico cualificado",
@@ -1252,7 +1252,7 @@
         },
         "fit": {
           "question": "¿Qué tiendas encajan en el programa?",
-          "answer": "Buscamos tiendas online serias de antigüedades, arte, coleccionables y objetos históricos. Las casas de subastas y los especialistas son especialmente bienvenidos."
+          "answer": "Buscamos tiendas online serias de antigüedades, coleccionables y objetos históricos. Las casas de subastas y los especialistas son especialmente bienvenidos."
         },
         "support": {
           "question": "¿Recibiré ayuda durante la configuración?",
@@ -2394,7 +2394,7 @@
         "priceStatus": "Precio y Estado",
         "priceStatusDescription": "Defina su rango de precios y seleccione el estado de publicación deseado – por ejemplo, solo artículos disponibles o también piezas ya subastadas para investigación de mercado.",
         "shop": "Tienda",
-        "shopDescription": "Seleccione específicamente tipos de proveedores – renombradas casas de subastas, marchantes de arte especializados o mercados – e incluya o excluya proveedores individuales.",
+        "shopDescription": "Seleccione específicamente tipos de proveedores – renombradas casas de subastas, anticuarios especializados o mercados – e incluya o excluya proveedores individuales.",
         "date": "Fecha",
         "dateDescription": "Acote la búsqueda por tiempo – por fecha de subasta, fecha de primera publicación o la última actualización del anuncio.",
         "confirm": "Confirmar",

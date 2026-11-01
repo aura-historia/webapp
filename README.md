@@ -2,7 +2,7 @@
 <h1 align="center">Aura Historia — Webapp</h1>
 
 <p align="center">
-  <strong>The refined global discovery platform for antiques, art, and design objects.</strong>
+  <strong>The refined global discovery platform for antiques and design objects.</strong>
 </p>
 
 <p align="center">
@@ -14,7 +14,7 @@
 
 ## Overview
 
-Aura Historia brings together antiques, art, and design objects from a global network of dealers, auction houses, shops, and marketplaces. It gives collectors and market professionals a single place to discover objects, compare sources, and follow opportunities across languages and currencies.
+Aura Historia brings together antiques and design objects from a global network of dealers, auction houses, shops, and marketplaces. It gives collectors and market professionals a single place to discover objects, compare sources, and follow opportunities across languages and currencies.
 
 The webapp supports:
 

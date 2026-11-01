@@ -2,11 +2,11 @@
 
 ## What Aura Historia does
 
-Aura Historia is a refined global discovery platform for antiques, art, design objects, and related market intelligence. It indexes objects from public providers such as dealers, auction houses, and marketplaces so users can search across providers, languages, and currencies from one place. In user-facing copy, call these providers (German: “Anbieter”); retain “listing source” for technical identifiers and implementation terminology.
+Aura Historia is a refined global discovery platform for antiques, design objects, and related market intelligence. It indexes objects from public providers such as dealers, auction houses, and marketplaces so users can search across providers, languages, and currencies from one place. In user-facing copy, call these providers (German: “Anbieter”); retain “listing source” for technical identifiers and implementation terminology.
 
 The app currently emphasizes:
 
-- Global antiques and art discovery across public providers.
+- Global antiques discovery across public providers.
 - Recently added objects and provider discovery. Provider pages show the public provider summary and currently indexed listings; they do not provide provider classifications, addresses, partner status, or total listing counts.
 - Multilingual search/discovery and localized SEO.
 - Watchlists, saved search filters, notifications, and matching.
@@ -15,7 +15,7 @@ The app currently emphasizes:
 
 ## Product goal
 
-Help users find, evaluate, remember, and act on valuable antiques and art opportunities faster than they could by browsing fragmented dealer, auction, and marketplace websites manually.
+Help users find, evaluate, remember, and act on valuable antiques faster than they could by browsing fragmented dealer, auction, and marketplace websites manually.
 
 The user should feel:
 
@@ -26,14 +26,14 @@ The user should feel:
 
 ## Target users
 
-Primary audience: collectors in the antiques and arts field. This includes amateur collectors, expert collectors, wealthy collectors, budget-conscious collectors, and specialist niche collectors.
+Primary audience: collectors in the antiques field. This includes amateur collectors, expert collectors, wealthy collectors, budget-conscious collectors, and specialist niche collectors.
 
 Additional audiences:
 
 - Commercial dealers and gallery/shop operators.
 - Private dealers and estate sellers.
 - Auction-house staff, analysts, cataloguers, and market researchers.
-- People selling inherited antiques or art who may need orientation.
+- People selling inherited antiques who may need orientation.
 - Partners integrating shops, WooCommerce, Shopify, custom APIs, or OAuth clients.
 
 ## Audience psychology
@@ -50,6 +50,8 @@ Assume many users are intelligent, proud of their taste, skeptical, and status-s
 ## Voice and copy
 
 Use a tone that is polished, confident, precise, and restrained.
+
+Position Aura Historia on antiques. Do not describe it as a platform, search or market for "antiques and art" (or "antiques & art") in any locale. Cited market figures keep their source's scope: the Art Basel / UBS report counts art and antiques sales together, so its labels say so.
 
 Prefer:
 
@@ -93,7 +95,7 @@ field clearing, auction membership, withdrawal/restoration, and retry semantics.
 
 Before adding user-facing text:
 
-- Does it fit the refined antiques/art setting?
+- Does it fit the refined antiques setting?
 - Does it respect knowledgeable, status-sensitive users?
 - Is the claim supported by product behavior or existing content?
 - Is it translated in every supported locale: `de`, `en`, `es`, `fr`, `it`?

@@ -30,7 +30,7 @@ describe("AboutPage", () => {
 
         expect(
             screen.getByRole("heading", {
-                name: "Wir geben dem Antiquitäten- und Kunstmarkt mehr Übersicht.",
+                name: "Wir geben dem Antiquitätenmarkt mehr Übersicht.",
                 level: 1,
             }),
         ).toBeInTheDocument();

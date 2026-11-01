@@ -7,14 +7,14 @@
   },
   "meta": {
     "siteName": "Aura Historia | Globale Antiquitäten-Plattform",
-    "defaultDescription": "Entdecken Sie seltene Antiquitäten, Kunst und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
+    "defaultDescription": "Entdecken Sie seltene Antiquitäten und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
     "home": {
       "title": "Aura Historia | Globale Antiquitäten-Plattform",
-      "description": "Entdecken Sie seltene Antiquitäten, Kunst und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis."
+      "description": "Entdecken Sie seltene Antiquitäten und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis."
     },
     "about": {
       "title": "Über uns | Aura Historia",
-      "description": "Aura Historia ist eine weltweite Suchmaschine für Antiquitäten und Kunst über Händler, Auktionshäuser und Marktplätze hinweg. Was wir tun, was uns unterscheidet und wer wir sind."
+      "description": "Aura Historia ist eine weltweite Suchmaschine für Antiquitäten über Händler, Auktionshäuser und Marktplätze hinweg. Was wir tun, was uns unterscheidet und wer wir sind."
     },
     "search": {
       "title": "Antiquitäten suchen | Aura Historia",
@@ -64,7 +64,7 @@
     },
     "partnerProgram": {
       "title": "Partner-Programm | Aura Historia",
-      "description": "Werden Sie Partner-Shop bei Aura Historia – der globalen Plattform für Antiquitäten & Kunst. Kostenlos, ohne Provision, in Minuten verbunden."
+      "description": "Werden Sie Partner-Shop bei Aura Historia – der globalen Plattform für Antiquitäten. Kostenlos, ohne Provision, in Minuten verbunden."
     },
     "partnerApplications": {
       "title": "Aktuelle Partneranträge | Aura Historia"
@@ -187,8 +187,8 @@
   "aboutPage": {
     "hero": {
       "eyebrow": "Über Aura Historia",
-      "title": "Wir geben dem Antiquitäten- und Kunstmarkt <em>mehr Übersicht.</em>",
-      "subtitle": "Aura Historia ist eine weltweite Suchmaschine für Antiquitäten und Kunst, die Händler, Auktionshäuser und Marktplätze in einer mehrsprachigen Suche zusammenführt – für Sammler, Einrichter und den Handel. Sie richtet sich an alle, die sorgfältig suchen, verlässlichen Kontext schätzen und einen ruhigen Blick auf ein verstreutes internationales Angebot brauchen.",
+      "title": "Wir geben dem Antiquitätenmarkt <em>mehr Übersicht.</em>",
+      "subtitle": "Aura Historia ist eine weltweite Suchmaschine für Antiquitäten, die Händler, Auktionshäuser und Marktplätze in einer mehrsprachigen Suche zusammenführt – für Sammler, Einrichter und den Handel. Sie richtet sich an alle, die sorgfältig suchen, verlässlichen Kontext schätzen und einen ruhigen Blick auf ein verstreutes internationales Angebot brauchen.",
       "navLabel": "Auf dieser Seite",
       "nav": {
         "services": "Was wir tun",
@@ -268,12 +268,12 @@
     "audience": {
       "eyebrow": "Zielgruppe",
       "title": "Wer Aura Historia <em>nutzt.</em>",
-      "description": "Sammler und Fachleute, die Antiquitäten und Kunst über mehr als eine Quelle hinweg verfolgen. Wir beginnen mit Europa und den Vereinigten Staaten und erweitern unsere Abdeckung laufend um weitere Märkte.",
+      "description": "Sammler und Fachleute, die Antiquitäten über mehr als eine Quelle hinweg verfolgen. Wir beginnen mit Europa und den Vereinigten Staaten und erweitern unsere Abdeckung laufend um weitere Märkte.",
       "groups": {
         "collectors": {
           "heading": "Sammler",
           "items": {
-            "privateCollectors": "Privatsammler von Antiquitäten, Kunst und Designobjekten, vom ersten Erwerb bis zur gewachsenen Sammlung",
+            "privateCollectors": "Privatsammler von Antiquitäten und Designobjekten, vom ersten Erwerb bis zur gewachsenen Sammlung",
             "specialists": "Spezialsammler, die einem Hersteller, einer Epoche oder einer Region über Ländergrenzen hinweg folgen, etwa Meissener Porzellan oder gustavianischen Möbeln",
             "decorators": "Innenarchitekten und Einrichter, die historische Stücke für ihre Kunden suchen",
             "heirs": "Erben und Nachlassverwalter, die sehen möchten, zu welchen Preisen vergleichbare Objekte heute angeboten werden"
@@ -333,7 +333,7 @@
       "items": {
         "whatIs": {
           "question": "Was ist Aura Historia?",
-          "answer": "Aura Historia ist eine weltweite Suchmaschine für Antiquitäten und Kunst mit Sitz in Leipzig. Sie führt Angebote von Händlern, Auktionshäusern und Marktplätzen in einer mehrsprachigen Suche zusammen, mit privaten Merklisten und Suchaufträgen."
+          "answer": "Aura Historia ist eine weltweite Suchmaschine für Antiquitäten mit Sitz in Leipzig. Sie führt Angebote von Händlern, Auktionshäusern und Marktplätzen in einer mehrsprachigen Suche zusammen, mit privaten Merklisten und Suchaufträgen."
         },
         "whoIsBehind": {
           "question": "Wer steht hinter Aura Historia?",
@@ -791,7 +791,7 @@
       "items": {
         "howItWorks": {
           "question": "Was ist Aura Historia?",
-          "answer": "Aura Historia ist eine globale Plattform für Antiquitäten, Kunst und besondere Objekte. Wir führen aktuelle Angebote von Händlern, Auktionshäusern, Marktplätzen und spezialisierten Quellen zusammen, damit Sammler und Profis den Markt klarer überblicken."
+          "answer": "Aura Historia ist eine globale Plattform für Antiquitäten und besondere Objekte. Wir führen aktuelle Angebote von Händlern, Auktionshäusern, Marktplätzen und spezialisierten Quellen zusammen, damit Sammler und Profis den Markt klarer überblicken."
         },
         "directPurchase": {
           "question": "Kann ich direkt über Aura Historia kaufen?",
@@ -1110,8 +1110,8 @@
   },
   "partnerProgram": {
     "hero": {
-      "title": "Verkaufen Sie Antiquitäten oder Kunst online? Erreichen Sie Sammler <em>weltweit.</em>",
-      "subtitle": "Aura Historia ist die globale Suche für Antiquitäten und Kunst, in der Sammler genau das finden, was Sie verkaufen. Binden Sie Ihren Shop einmal an; Käufer, die Ihre Stücke finden, kaufen auf Ihrer eigenen Webseite.",
+      "title": "Verkaufen Sie Antiquitäten online? Erreichen Sie Sammler <em>weltweit.</em>",
+      "subtitle": "Aura Historia ist die globale Suche für Antiquitäten, in der Sammler genau das finden, was Sie verkaufen. Binden Sie Ihren Shop einmal an; Käufer, die Ihre Stücke finden, kaufen auf Ihrer eigenen Webseite.",
       "primaryCta": "Partner werden",
       "secondaryCta": "So funktioniert es",
       "eyebrow": "Partnerprogramm · Für Händler & Auktionshäuser",
@@ -1149,7 +1149,7 @@
       "items": {
         "audience": {
           "title": "Globale Sammler-Community",
-          "description": "Erreichen Sie Käufer in vielen Ländern, die gezielt nach seltenen Antiquitäten und Kunst suchen, jeweils in ihrer eigenen Sprache."
+          "description": "Erreichen Sie Käufer in vielen Ländern, die gezielt nach seltenen Antiquitäten suchen, jeweils in ihrer eigenen Sprache."
         },
         "traffic": {
           "title": "Mehr qualifizierter Traffic",
@@ -1252,7 +1252,7 @@
         },
         "fit": {
           "question": "Welche Shops passen ins Programm?",
-          "answer": "Wir suchen seriöse Online-Shops mit Antiquitäten, Kunstgegenständen, Sammlerstücken und vergleichbaren historischen Objekten. Auktionshäuser und spezialisierte Fachhändler sind ausdrücklich willkommen."
+          "answer": "Wir suchen seriöse Online-Shops mit Antiquitäten, Sammlerstücken und vergleichbaren historischen Objekten. Auktionshäuser und spezialisierte Fachhändler sind ausdrücklich willkommen."
         },
         "support": {
           "question": "Bekomme ich beim Setup Unterstützung?",
@@ -1901,7 +1901,7 @@
         "confirm": "Zusammenfassung",
         "confirmDescription": "Prüfen Sie Ihren Suchauftrag vor dem Speichern.",
         "priceStatusDescription": "Definieren Sie Ihren Preisrahmen und wählen Sie den gewünschten Anzeigenstatus – etwa ausschließlich verfügbare Objekte oder auch bereits versteigerte Stücke zur Marktrecherche.",
-        "shopDescription": "Wählen Sie gezielt Anbietertypen – renommierte Auktionshäuser, spezialisierte Kunsthändler oder Marktplätze – und schließen Sie einzelne Häuser ein oder aus.",
+        "shopDescription": "Wählen Sie gezielt Anbietertypen – renommierte Auktionshäuser, spezialisierte Antiquitätenhändler oder Marktplätze – und schließen Sie einzelne Häuser ein oder aus.",
         "dateDescription": "Grenzen Sie die Suche zeitlich ein – nach Auktionstermin, Datum der Erstveröffentlichung oder der letzten Aktualisierung des Inserats."
       },
       "titleEdit": "Suchauftrag bearbeiten",

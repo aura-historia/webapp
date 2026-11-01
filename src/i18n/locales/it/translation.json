@@ -7,14 +7,14 @@
   },
   "meta": {
     "siteName": "Aura Historia | Piattaforma globale per antiquariato",
-    "defaultDescription": "Scopri antiquariato raro, arte e oggetti di design da commercianti, case d’asta e marketplace di tutto il mondo in una piattaforma raffinata per collezionisti e professionisti.",
+    "defaultDescription": "Scopri antiquariato raro e oggetti di design da commercianti, case d’asta e marketplace di tutto il mondo in una piattaforma raffinata per collezionisti e professionisti.",
     "home": {
       "title": "Aura Historia | Piattaforma globale per antiquariato",
-      "description": "Scopri antiquariato raro, arte e oggetti di design da commercianti, case d’asta e marketplace di tutto il mondo in una piattaforma raffinata per collezionisti e professionisti."
+      "description": "Scopri antiquariato raro e oggetti di design da commercianti, case d’asta e marketplace di tutto il mondo in una piattaforma raffinata per collezionisti e professionisti."
     },
     "about": {
       "title": "Chi siamo | Aura Historia",
-      "description": "Aura Historia è un motore di ricerca globale per antiquariato e arte tra antiquari, case d’asta e marketplace. Cosa facciamo, cosa ci distingue e chi siamo."
+      "description": "Aura Historia è un motore di ricerca globale per l’antiquariato tra antiquari, case d’asta e marketplace. Cosa facciamo, cosa ci distingue e chi siamo."
     },
     "search": {
       "title": "Cerca antiquariato | Aura Historia",
@@ -64,7 +64,7 @@
     },
     "partnerProgram": {
       "title": "Programma Partner | Aura Historia",
-      "description": "Diventa partner di Aura Historia, la piattaforma globale per antiquariato e arte. Gratis, senza commissioni e connessa in pochi minuti."
+      "description": "Diventa partner di Aura Historia, la piattaforma globale per l’antiquariato. Gratis, senza commissioni e connessa in pochi minuti."
     },
     "partnerApplications": {
       "title": "Richieste di Partnership Correnti | Aura Historia"
@@ -187,8 +187,8 @@
   "aboutPage": {
     "hero": {
       "eyebrow": "Chi è Aura Historia",
-      "title": "Portiamo più chiarezza <em>nel mercato dell’antiquariato e dell’arte.</em>",
-      "subtitle": "Aura Historia è un motore di ricerca globale per antiquariato e arte che riunisce antiquari, case d’asta e marketplace in un’unica ricerca multilingue, per collezionisti, arredatori e professionisti del settore. Nasce per chi cerca con cura, dà valore a un contesto affidabile e desidera una lettura calma di un mercato internazionale disperso.",
+      "title": "Portiamo più chiarezza <em>nel mercato dell’antiquariato.</em>",
+      "subtitle": "Aura Historia è un motore di ricerca globale per l’antiquariato che riunisce antiquari, case d’asta e marketplace in un’unica ricerca multilingue, per collezionisti, arredatori e professionisti del settore. Nasce per chi cerca con cura, dà valore a un contesto affidabile e desidera una lettura calma di un mercato internazionale disperso.",
       "navLabel": "In questa pagina",
       "nav": {
         "services": "Cosa facciamo",
@@ -268,12 +268,12 @@
     "audience": {
       "eyebrow": "Pubblico",
       "title": "Chi usa <em>Aura Historia.</em>",
-      "description": "Collezionisti e professionisti che seguono antiquariato e arte su più di una fonte. Partiamo dall’Europa e dagli Stati Uniti ed estendiamo continuamente la copertura ad altri mercati.",
+      "description": "Collezionisti e professionisti che seguono l’antiquariato su più di una fonte. Partiamo dall’Europa e dagli Stati Uniti ed estendiamo continuamente la copertura ad altri mercati.",
       "groups": {
         "collectors": {
           "heading": "Collezionisti",
           "items": {
-            "privateCollectors": "Collezionisti privati di antiquariato, arte e oggetti di design, dal primo acquisto a una collezione affermata",
+            "privateCollectors": "Collezionisti privati di antiquariato e oggetti di design, dal primo acquisto a una collezione affermata",
             "specialists": "Collezionisti specializzati che seguono un produttore, un’epoca o una regione oltre i confini, come la porcellana di Meissen o i mobili gustaviani",
             "decorators": "Interior designer e arredatori che cercano pezzi d’epoca per i propri clienti",
             "heirs": "Eredi ed esecutori testamentari che vogliono vedere a quali prezzi sono offerti oggi oggetti comparabili"
@@ -333,7 +333,7 @@
       "items": {
         "whatIs": {
           "question": "Che cos’è Aura Historia?",
-          "answer": "Aura Historia è un motore di ricerca globale per antiquariato e arte, con sede a Lipsia, in Germania. Riunisce gli annunci di antiquari, case d’asta e marketplace in un’unica ricerca multilingue, con liste private e avvisi di ricerca."
+          "answer": "Aura Historia è un motore di ricerca globale per l’antiquariato, con sede a Lipsia, in Germania. Riunisce gli annunci di antiquari, case d’asta e marketplace in un’unica ricerca multilingue, con liste private e avvisi di ricerca."
         },
         "whoIsBehind": {
           "question": "Chi c’è dietro Aura Historia?",
@@ -791,7 +791,7 @@
       "items": {
         "howItWorks": {
           "question": "Che cos’è Aura Historia?",
-          "answer": "Aura Historia è una piattaforma globale per antiquariato, arte e oggetti distintivi. Riuniamo offerte attuali da commercianti, case d’asta, marketplace e fonti specializzate, così collezionisti e professionisti possono leggere il mercato con più chiarezza."
+          "answer": "Aura Historia è una piattaforma globale per antiquariato e oggetti distintivi. Riuniamo offerte attuali da commercianti, case d’asta, marketplace e fonti specializzate, così collezionisti e professionisti possono leggere il mercato con più chiarezza."
         },
         "directPurchase": {
           "question": "Posso acquistare direttamente su Aura Historia?",
@@ -1110,8 +1110,8 @@
   },
   "partnerProgram": {
     "hero": {
-      "title": "Vendi antiquariato o arte online? Raggiungi collezionisti <em>in tutto il mondo.</em>",
-      "subtitle": "Aura Historia è la ricerca globale di antiquariato e arte, dove i collezionisti trovano esattamente ciò che vendi. Collega il tuo shop una volta; chi trova i tuoi pezzi acquista sul tuo sito.",
+      "title": "Vendi antiquariato online? Raggiungi collezionisti <em>in tutto il mondo.</em>",
+      "subtitle": "Aura Historia è la ricerca globale di antiquariato, dove i collezionisti trovano esattamente ciò che vendi. Collega il tuo shop una volta; chi trova i tuoi pezzi acquista sul tuo sito.",
       "primaryCta": "Diventa partner",
       "secondaryCta": "Come funziona",
       "eyebrow": "Programma partner · Per mercanti e case d’asta",
@@ -1149,7 +1149,7 @@
       "items": {
         "audience": {
           "title": "Community globale di collezionisti",
-          "description": "Raggiungi acquirenti di molti paesi che cercano attivamente antiquariato e arte rari, ciascuno nella propria lingua."
+          "description": "Raggiungi acquirenti di molti paesi che cercano attivamente pezzi d’antiquariato rari, ciascuno nella propria lingua."
         },
         "traffic": {
           "title": "Più traffico qualificato",
@@ -1252,7 +1252,7 @@
         },
         "fit": {
           "question": "Quali shop sono adatti al programma?",
-          "answer": "Cerchiamo shop online seri di antiquariato, arte, collezionismo e oggetti storici. Case d'asta e commercianti specializzati sono particolarmente benvenuti."
+          "answer": "Cerchiamo shop online seri di antiquariato, collezionismo e oggetti storici. Case d'asta e commercianti specializzati sono particolarmente benvenuti."
         },
         "support": {
           "question": "Avrò supporto durante la configurazione?",
@@ -2394,7 +2394,7 @@
         "priceStatus": "Prezzo e stato",
         "priceStatusDescription": "Definisci il tuo intervallo di prezzi e seleziona lo stato dell'annuncio desiderato – ad esempio solo articoli disponibili o anche pezzi già venduti all'asta per la ricerca di mercato.",
         "shop": "Negozio",
-        "shopDescription": "Seleziona specificamente i tipi di fornitori – rinominate case d'aste, commercianti d'arte specializzati o mercati – e includi o escludi fornitori individuali.",
+        "shopDescription": "Seleziona specificamente i tipi di fornitori – rinomate case d'asta, antiquari specializzati o mercati – e includi o escludi fornitori individuali.",
         "date": "Data",
         "dateDescription": "Restringi la ricerca per data – per data d'asta, data di prima pubblicazione o ultimo aggiornamento dell'inserzione.",
         "confirm": "Conferma",

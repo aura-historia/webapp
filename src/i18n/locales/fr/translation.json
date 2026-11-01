@@ -7,14 +7,14 @@
   },
   "meta": {
     "siteName": "Aura Historia | Plateforme mondiale d’antiquités",
-    "defaultDescription": "Découvrez antiquités rares, art et objets de design auprès de marchands, maisons de vente et places de marché du monde entier, dans une plateforme raffinée pour collectionneurs et professionnels.",
+    "defaultDescription": "Découvrez antiquités rares et objets de design auprès de marchands, maisons de vente et places de marché du monde entier, dans une plateforme raffinée pour collectionneurs et professionnels.",
     "home": {
       "title": "Aura Historia | Plateforme mondiale d’antiquités",
-      "description": "Découvrez antiquités rares, art et objets de design auprès de marchands, maisons de vente et places de marché du monde entier, dans une plateforme raffinée pour collectionneurs et professionnels."
+      "description": "Découvrez antiquités rares et objets de design auprès de marchands, maisons de vente et places de marché du monde entier, dans une plateforme raffinée pour collectionneurs et professionnels."
     },
     "about": {
       "title": "À propos | Aura Historia",
-      "description": "Aura Historia est un moteur de recherche mondial dédié aux antiquités et à l’art, qui couvre marchands, maisons de ventes et places de marché. Ce que nous faisons, ce qui nous distingue et qui nous sommes."
+      "description": "Aura Historia est un moteur de recherche mondial dédié aux antiquités, qui couvre marchands, maisons de ventes et places de marché. Ce que nous faisons, ce qui nous distingue et qui nous sommes."
     },
     "search": {
       "title": "Rechercher des antiquités | Aura Historia",
@@ -64,7 +64,7 @@
     },
     "partnerProgram": {
       "title": "Programme partenaires | Aura Historia",
-      "description": "Devenez boutique partenaire d'Aura Historia, la plateforme mondiale pour les antiquités et l'art. Gratuit, sans commission, connectée en quelques minutes."
+      "description": "Devenez boutique partenaire d'Aura Historia, la plateforme mondiale pour les antiquités. Gratuit, sans commission, connectée en quelques minutes."
     },
     "partnerApplications": {
       "title": "Candidatures partenaires en cours | Aura Historia"
@@ -187,8 +187,8 @@
   "aboutPage": {
     "hero": {
       "eyebrow": "À propos d’Aura Historia",
-      "title": "Nous apportons plus de lisibilité <em>au marché des antiquités et de l’art.</em>",
-      "subtitle": "Aura Historia est un moteur de recherche mondial dédié aux antiquités et à l’art, qui réunit marchands, maisons de ventes et places de marché dans une seule recherche multilingue, pour les collectionneurs, les décorateurs et les professionnels. Il s’adresse à celles et ceux qui cherchent avec soin, attachent de l’importance à un contexte fiable et veulent une lecture posée d’un marché international dispersé.",
+      "title": "Nous apportons plus de lisibilité <em>au marché des antiquités.</em>",
+      "subtitle": "Aura Historia est un moteur de recherche mondial dédié aux antiquités, qui réunit marchands, maisons de ventes et places de marché dans une seule recherche multilingue, pour les collectionneurs, les décorateurs et les professionnels. Il s’adresse à celles et ceux qui cherchent avec soin, attachent de l’importance à un contexte fiable et veulent une lecture posée d’un marché international dispersé.",
       "navLabel": "Sur cette page",
       "nav": {
         "services": "Ce que nous faisons",
@@ -268,12 +268,12 @@
     "audience": {
       "eyebrow": "Public",
       "title": "Qui utilise <em>Aura Historia.</em>",
-      "description": "Des collectionneurs et des professionnels qui suivent les antiquités et l’art à travers plusieurs sources. Nous commençons par l’Europe et les États-Unis, et étendons continuellement notre couverture à d’autres marchés.",
+      "description": "Des collectionneurs et des professionnels qui suivent les antiquités à travers plusieurs sources. Nous commençons par l’Europe et les États-Unis, et étendons continuellement notre couverture à d’autres marchés.",
       "groups": {
         "collectors": {
           "heading": "Collectionneurs",
           "items": {
-            "privateCollectors": "Collectionneurs privés d’antiquités, d’art et d’objets de design, de la première acquisition à la collection établie",
+            "privateCollectors": "Collectionneurs privés d’antiquités et d’objets de design, de la première acquisition à la collection établie",
             "specialists": "Collectionneurs spécialisés qui suivent un fabricant, une époque ou une région par-delà les frontières, comme la porcelaine de Meissen ou le mobilier gustavien",
             "decorators": "Architectes d’intérieur et décorateurs à la recherche de pièces d’époque pour leurs clients",
             "heirs": "Héritiers et exécuteurs testamentaires qui veulent voir à quels prix des objets comparables sont proposés aujourd’hui"
@@ -333,7 +333,7 @@
       "items": {
         "whatIs": {
           "question": "Qu’est-ce qu’Aura Historia ?",
-          "answer": "Aura Historia est un moteur de recherche mondial dédié aux antiquités et à l’art, basé à Leipzig, en Allemagne. Il réunit les annonces de marchands, de maisons de ventes et de places de marché dans une seule recherche multilingue, avec listes de surveillance privées et alertes de recherche."
+          "answer": "Aura Historia est un moteur de recherche mondial dédié aux antiquités, basé à Leipzig, en Allemagne. Il réunit les annonces de marchands, de maisons de ventes et de places de marché dans une seule recherche multilingue, avec listes de surveillance privées et alertes de recherche."
         },
         "whoIsBehind": {
           "question": "Qui est derrière Aura Historia ?",
@@ -791,7 +791,7 @@
       "items": {
         "howItWorks": {
           "question": "Qu’est-ce qu’Aura Historia ?",
-          "answer": "Aura Historia est une plateforme mondiale pour les antiquités, l’art et les objets singuliers. Nous réunissons les offres actuelles de marchands, maisons de vente, places de marché et sources spécialisées afin que collectionneurs et professionnels voient le marché plus clairement."
+          "answer": "Aura Historia est une plateforme mondiale pour les antiquités et les objets singuliers. Nous réunissons les offres actuelles de marchands, maisons de vente, places de marché et sources spécialisées afin que collectionneurs et professionnels voient le marché plus clairement."
         },
         "directPurchase": {
           "question": "Puis-je acheter directement sur Aura Historia ?",
@@ -1110,8 +1110,8 @@
   },
   "partnerProgram": {
     "hero": {
-      "title": "Vous vendez des antiquités ou de l’art en ligne ? Touchez des collectionneurs <em>du monde entier.</em>",
-      "subtitle": "Aura Historia est la recherche mondiale d’antiquités et d’art, où les collectionneurs trouvent exactement ce que vous vendez. Connectez votre boutique une fois ; les acheteurs qui trouvent vos pièces achètent sur votre propre site.",
+      "title": "Vous vendez des antiquités en ligne ? Touchez des collectionneurs <em>du monde entier.</em>",
+      "subtitle": "Aura Historia est la recherche mondiale d’antiquités, où les collectionneurs trouvent exactement ce que vous vendez. Connectez votre boutique une fois ; les acheteurs qui trouvent vos pièces achètent sur votre propre site.",
       "primaryCta": "Devenir partenaire",
       "secondaryCta": "Voir le fonctionnement",
       "eyebrow": "Programme partenaires · Pour marchands et maisons de ventes",
@@ -1149,7 +1149,7 @@
       "items": {
         "audience": {
           "title": "Communauté mondiale de collectionneurs",
-          "description": "Touchez des acheteurs de nombreux pays qui recherchent activement des antiquités et des œuvres rares, chacun dans sa propre langue."
+          "description": "Touchez des acheteurs de nombreux pays qui recherchent activement des antiquités rares, chacun dans sa propre langue."
         },
         "traffic": {
           "title": "Plus de trafic qualifié",
@@ -1252,7 +1252,7 @@
         },
         "fit": {
           "question": "Quelles boutiques peuvent rejoindre le programme ?",
-          "answer": "Nous recherchons des boutiques en ligne sérieuses spécialisées en antiquités, art, objets de collection et pièces historiques. Les maisons de ventes et marchands spécialisés sont les bienvenus."
+          "answer": "Nous recherchons des boutiques en ligne sérieuses spécialisées en antiquités, objets de collection et pièces historiques. Les maisons de ventes et marchands spécialisés sont les bienvenus."
         },
         "support": {
           "question": "Suis-je accompagné pendant l'installation ?",
@@ -2394,7 +2394,7 @@
         "priceStatus": "Prix & Statut",
         "priceStatusDescription": "Définissez votre fourchette de prix et sélectionnez le statut d'annonce souhaité – par exemple, uniquement les articles disponibles ou aussi les pièces déjà vendues aux enchères pour la recherche de marché.",
         "shop": "Boutique",
-        "shopDescription": "Sélectionnez précisément les types de fournisseurs – maisons de ventes aux enchères renommées, marchands d'art spécialisés ou marchés – et incluez ou excluez des fournisseurs individuels.",
+        "shopDescription": "Sélectionnez précisément les types de fournisseurs – maisons de ventes aux enchères renommées, antiquaires spécialisés ou marchés – et incluez ou excluez des fournisseurs individuels.",
         "date": "Date",
         "dateDescription": "Affinez la recherche par date – par date de vente aux enchères, date de première publication ou dernière mise à jour de l'annonce.",
         "confirm": "Confirmer",
