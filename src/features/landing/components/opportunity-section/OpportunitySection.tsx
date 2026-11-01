@@ -12,7 +12,7 @@ import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFra
 import { cn } from "@/lib/utils.ts";
 
 /**
- * Shares of 2025 art & antiques sales (Art Basel & UBS Global Art Market Report 2026),
+ * Shares of 2025 art & antiques sales (Art Basel & UBS Art Market Report 2026),
  * oxblood → brass → sand. Update with the figures when a new edition is cited.
  */
 const MARKET_SEGMENTS = [
@@ -81,7 +81,7 @@ function MarketFigure() {
                         components={STRONG_COMPONENTS}
                     />
                 </span>
-                <span className="font-mono text-[10px] tracking-[0.1em] text-ink-muted uppercase sm:text-[11px]">
+                <span className="font-mono text-[10px] tracking-[0.1em] text-balance text-ink-muted uppercase sm:text-[11px]">
                     {t("landingPage.opportunity.market.source")}
                 </span>
             </figcaption>
@@ -104,7 +104,7 @@ function SellersFigure() {
             </div>
             <figcaption className="flex flex-col gap-2.5 text-sm leading-[1.55] text-ink-secondary">
                 <span>{t("landingPage.opportunity.sellers.caption")}</span>
-                <span className="font-mono text-[10px] tracking-[0.1em] text-ink-muted uppercase sm:text-[11px]">
+                <span className="font-mono text-[10px] tracking-[0.1em] text-balance text-ink-muted uppercase sm:text-[11px]">
                     {t("landingPage.opportunity.sellers.source")}
                 </span>
             </figcaption>

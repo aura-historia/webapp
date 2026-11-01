@@ -89,7 +89,7 @@ describe("AboutPage", () => {
         await renderAboutPage();
 
         expect(
-            screen.getByText("Quelle: Art Basel & UBS Global Art Market Report 2026"),
+            screen.getByText(/^Quelle: Art Basel & UBS Art Market Report \d{4}$/),
         ).toBeInTheDocument();
         expect(screen.getByText("Quelle: Catawiki-Hilfecenter für Verkäufer")).toBeInTheDocument();
         expect(

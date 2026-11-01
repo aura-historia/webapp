@@ -235,8 +235,8 @@
           "title": "Tout le marché, pas seulement les enchères",
           "figure": "34,8 Md$",
           "figureLabel": "Ventes des marchands, 2025",
-          "description": "Les agrégateurs d’enchères comme Barnebys sont surtout forts auprès des maisons de ventes, qui représentent environ 24,9 Md$ d’un marché de 59,6 Md$. Aura Historia indexe aussi les marchands, boutiques spécialisées et places de marché où se vend la plus grande part.",
-          "source": "Source : Art Basel & UBS Global Art Market Report 2026"
+          "description": "Les agrégateurs d’enchères comme Barnebys sont surtout forts auprès des maisons de ventes, qui représentent environ 24,8 Md$ d’un marché de 59,6 Md$. Aura Historia indexe aussi les marchands, boutiques spécialisées et places de marché où se vend la plus grande part.",
+          "source": "Source : Art Basel & UBS Art Market Report 2026"
         },
         "alerts": {
           "title": "Des alertes au fil des changements",
@@ -931,16 +931,16 @@
           },
           "privateAuction": {
             "value": "4,2 Md$",
-            "label": "Ventes aux enchères privées"
+            "label": "Ventes privées des maisons de ventes"
           }
         },
         "caption": "Les plateformes dédiées aux enchères ne voient qu’environ un tiers du marché. <strong>Aura Historia indexe aussi marchands, boutiques spécialisées et places de marché.</strong>",
-        "source": "Source : Art Basel & UBS Global Art Market Report 2026"
+        "source": "Source : Art Basel & UBS Art Market Report 2026"
       },
       "sellers": {
         "value": "94 618",
         "label": "Vendeurs indépendants · États-Unis + Europe",
-        "caption": "13 362 magasins d’antiquités aux États-Unis et 81 256 commerces apparentés en Europe, chacun avec son propre site, sa langue et son vocabulaire.",
+        "caption": "13 362 magasins d’antiquités aux États-Unis et 81 256 commerces d’occasion et d’antiquités en Europe, chacun avec son propre site, sa langue et son vocabulaire.",
         "source": "Source : IBISWorld US 2024 · IBISWorld Europe 2025"
       }
     },

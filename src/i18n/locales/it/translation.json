@@ -235,8 +235,8 @@
           "title": "Tutto il mercato, non solo le aste",
           "figure": "34,8 Mld $",
           "figureLabel": "Vendite degli antiquari, 2025",
-          "description": "Gli aggregatori d’aste come Barnebys sono più forti sulle case d’asta, che rappresentano circa 24,9 Mld $ di un mercato da 59,6 Mld $. Aura Historia indicizza anche antiquari, negozi specializzati e marketplace, dove si vende la quota maggiore.",
-          "source": "Fonte: Art Basel & UBS Global Art Market Report 2026"
+          "description": "Gli aggregatori d’aste come Barnebys sono più forti sulle case d’asta, che rappresentano circa 24,8 Mld $ di un mercato da 59,6 Mld $. Aura Historia indicizza anche antiquari, negozi specializzati e marketplace, dove si vende la quota maggiore.",
+          "source": "Fonte: Art Basel & UBS Art Market Report 2026"
         },
         "alerts": {
           "title": "Avvisi man mano che gli annunci cambiano",
@@ -931,16 +931,16 @@
           },
           "privateAuction": {
             "value": "4,2 Mld $",
-            "label": "Aste private"
+            "label": "Vendite private delle case d’asta"
           }
         },
         "caption": "Le piattaforme solo d’asta vedono circa un terzo del mercato. <strong>Aura Historia indicizza anche antiquari, negozi specializzati e marketplace.</strong>",
-        "source": "Fonte: Art Basel & UBS Global Art Market Report 2026"
+        "source": "Fonte: Art Basel & UBS Art Market Report 2026"
       },
       "sellers": {
         "value": "94.618",
         "label": "Venditori indipendenti · USA + Europa",
-        "caption": "13.362 negozi di antiquariato negli USA e 81.256 rivenditori affini in Europa, ognuno con il proprio sito, la propria lingua e il proprio lessico.",
+        "caption": "13.362 negozi di antiquariato negli USA e 81.256 rivenditori di usato e antiquariato in Europa, ognuno con il proprio sito, la propria lingua e il proprio lessico.",
         "source": "Fonte: IBISWorld US 2024 · IBISWorld Europe 2025"
       }
     },

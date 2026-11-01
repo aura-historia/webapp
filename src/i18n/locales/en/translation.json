@@ -235,8 +235,8 @@
           "title": "The whole market, not only auctions",
           "figure": "$34.8B",
           "figureLabel": "Dealer sales, 2025",
-          "description": "Auction aggregators such as Barnebys are strongest around auction houses, which account for about $24.9B of a $59.6B market. Aura Historia also indexes the dealers, specialist shops and marketplaces where the larger share is sold.",
-          "source": "Source: Art Basel & UBS Global Art Market Report 2026"
+          "description": "Auction aggregators such as Barnebys are strongest around auction houses, which account for about $24.8B of a $59.6B market. Aura Historia also indexes the dealers, specialist shops and marketplaces where the larger share is sold.",
+          "source": "Source: Art Basel & UBS Art Market Report 2026"
         },
         "alerts": {
           "title": "Alerts as listings change",
@@ -931,16 +931,16 @@
           },
           "privateAuction": {
             "value": "$4.2B",
-            "label": "Private auction"
+            "label": "Auction-house private sales"
           }
         },
         "caption": "Auction-only platforms see roughly a third of the market. <strong>Aura Historia also indexes dealers, specialist shops and marketplaces.</strong>",
-        "source": "Source: Art Basel & UBS Global Art Market Report 2026"
+        "source": "Source: Art Basel & UBS Art Market Report 2026"
       },
       "sellers": {
         "value": "94,618",
         "label": "Independent sellers · US + Europe",
-        "caption": "13,362 US antique stores and 81,256 European antique-adjacent retailers — each with its own site, language and vocabulary.",
+        "caption": "13,362 US antique stores and 81,256 European second-hand and antique retailers — each with its own site, language and vocabulary.",
         "source": "Source: IBISWorld US 2024 · IBISWorld Europe 2025"
       }
     },

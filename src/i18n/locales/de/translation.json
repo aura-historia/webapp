@@ -235,8 +235,8 @@
           "title": "Der ganze Markt, nicht nur Auktionen",
           "figure": "34,8 Mrd. $",
           "figureLabel": "Händlerumsätze, 2025",
-          "description": "Auktionsaggregatoren wie Barnebys sind bei Auktionshäusern am stärksten, auf die rund 24,9 Mrd. $ eines Marktes von 59,6 Mrd. $ entfallen. Aura Historia erfasst auch die Händler, Fachgeschäfte und Marktplätze, über die der größere Teil verkauft wird.",
-          "source": "Quelle: Art Basel & UBS Global Art Market Report 2026"
+          "description": "Auktionsaggregatoren wie Barnebys sind bei Auktionshäusern am stärksten, auf die rund 24,8 Mrd. $ eines Marktes von 59,6 Mrd. $ entfallen. Aura Historia erfasst auch die Händler, Fachgeschäfte und Marktplätze, über die der größere Teil verkauft wird.",
+          "source": "Quelle: Art Basel & UBS Art Market Report 2026"
         },
         "alerts": {
           "title": "Benachrichtigungen, sobald sich Angebote ändern",
@@ -931,16 +931,16 @@
           },
           "privateAuction": {
             "value": "4,2 Mrd. $",
-            "label": "Private Auktionen"
+            "label": "Privatverkäufe der Auktionshäuser"
           }
         },
         "caption": "Reine Auktionsplattformen sehen etwa ein Drittel des Marktes. <strong>Aura Historia erfasst auch Händler, Fachgeschäfte und Marktplätze.</strong>",
-        "source": "Quelle: Art Basel & UBS Global Art Market Report 2026"
+        "source": "Quelle: Art Basel & UBS Art Market Report 2026"
       },
       "sellers": {
         "value": "94.618",
         "label": "Unabhängige Anbieter · USA + Europa",
-        "caption": "13.362 Antiquitätengeschäfte in den USA und 81.256 antiquitätennahe Händler in Europa – jeder mit eigener Website, Sprache und eigenem Vokabular.",
+        "caption": "13.362 Antiquitätengeschäfte in den USA und 81.256 Gebrauchtwaren- und Antiquitätenhändler in Europa – jeder mit eigener Website, Sprache und eigenem Vokabular.",
         "source": "Quelle: IBISWorld US 2024 · IBISWorld Europe 2025"
       }
     },
