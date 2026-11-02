@@ -384,4 +384,4 @@ We may adapt these privacy notices where this becomes necessary due to legal, te
 
 ---
 
-*Status: 26 October 2026*
+_Status: 26 October 2026_

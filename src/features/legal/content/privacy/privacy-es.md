@@ -384,4 +384,4 @@ Podemos adaptar estas notas de privacidad cuando sea necesario por cambios legal
 
 ---
 
-*Estado: 26.10.2026*
+_Estado: 26.10.2026_

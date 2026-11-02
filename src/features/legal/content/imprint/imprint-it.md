@@ -103,4 +103,4 @@ Il diritto tedesco si applica alle presenti informazioni sul prestatore e alle q
 
 ---
 
-*Stato: 17.05.2026*
+_Stato: 17.05.2026_

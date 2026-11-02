@@ -103,4 +103,4 @@ Le droit allemand s’applique à ces mentions légales ainsi qu’aux questions
 
 ---
 
-*État : 17.05.2026*
+_État : 17.05.2026_

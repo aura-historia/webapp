@@ -103,4 +103,4 @@ El derecho alemán se aplica a esta información del prestador y a las cuestione
 
 ---
 
-*Estado: 17.05.2026*
+_Estado: 17.05.2026_
