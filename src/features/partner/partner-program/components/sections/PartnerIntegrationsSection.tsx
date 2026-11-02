@@ -8,6 +8,8 @@ import {
     HEADLINE_COMPONENTS,
     SectionHeading,
 } from "@/features/landing/components/common/SectionHeading.tsx";
+import { ShopifyBagMark } from "@/features/partner/partner-program/components/brand-marks/ShopifyBagMark.tsx";
+import { WordPressMark } from "@/features/partner/partner-program/components/brand-marks/WordPressMark.tsx";
 import { PARTNER_CREATE_EXAMPLE } from "@/features/partner/partner-program/config/partnerRequestExamples.ts";
 import { PARTNER_PROGRAM_FRAGMENTS } from "@/features/partner/partner-program/config/partnerProgramFragments.ts";
 import {
@@ -16,7 +18,7 @@ import {
 } from "@/features/partner/partner-program/config/partnerProgramLinks.ts";
 import { cn } from "@/lib/utils.ts";
 
-type IntegrationKey = "woocommerce" | "shopify" | "customApi";
+type IntegrationKey = "shopify" | "woocommerce" | "customApi";
 
 const EXAMPLE_FIELDS = ["sourceListingId", "title", "price", "url", "images"] as const;
 
@@ -27,14 +29,19 @@ function formatExampleValue(value: unknown) {
     return JSON.stringify(value).replaceAll('":', '": ').replaceAll(',"', ', "');
 }
 
+/**
+ * One integration card. The shop-system cards carry the platform's mark beside the kicker and the
+ * same badge, so neither reads as the better choice; the custom API card stays the developer option.
+ */
 function IntegrationCard({
     integration,
-    badgeTone,
+    mark,
     external,
     children,
 }: {
     readonly integration: IntegrationKey;
-    readonly badgeTone: "filled" | "outline";
+    /** The platform's official mark; decorative, since the kicker and title name the platform. */
+    readonly mark?: ReactNode;
     readonly external: boolean;
     readonly children?: ReactNode;
 }) {
@@ -44,17 +51,13 @@ function IntegrationCard({
     return (
         <article className="flex h-full flex-col gap-3.5 rounded-card bg-surface-raised p-[22px] shadow-ring transition-shadow group-hover:shadow-[0_0_0_1px_var(--brass)] sm:gap-5 sm:p-[clamp(24px,3vw,36px)]">
             <div className="flex items-center justify-between gap-3">
-                <span className="font-mono text-kicker text-ink-muted uppercase">
-                    {t(`partnerProgram.integrations.${integration}.kicker`)}
-                </span>
-                <span
-                    className={cn(
-                        "shrink-0 rounded-sm px-2 py-1 font-mono text-tag uppercase",
-                        badgeTone === "filled"
-                            ? "bg-oxblood text-on-oxblood"
-                            : "text-ink shadow-[inset_0_0_0_1px_var(--line-strong)]",
-                    )}
-                >
+                <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+                    {mark}
+                    <span className="font-mono text-kicker text-ink-muted uppercase">
+                        {t(`partnerProgram.integrations.${integration}.kicker`)}
+                    </span>
+                </div>
+                <span className="shrink-0 rounded-sm px-2 py-1 font-mono text-tag text-ink uppercase shadow-[inset_0_0_0_1px_var(--line-strong)]">
                     {t(`partnerProgram.integrations.${integration}.badge`)}
                 </span>
             </div>
@@ -112,7 +115,11 @@ function BatchExample() {
     );
 }
 
-/** III — Connect: the WordPress and Shopify plugins beside the custom API card on the ink ground. */
+/**
+ * IV — Connect: the Shopify app above the WooCommerce plugin, as equal options that depend on the
+ * partner's shop system, beside the taller custom API card on the ink ground. Brand marks follow the
+ * owners' rules: Shopify's full-colour bag, the WordPress W Mark, and WooCommerce by name only.
+ */
 export default function PartnerIntegrationsSection() {
     const { t } = useTranslation();
 
@@ -127,7 +134,7 @@ export default function PartnerIntegrationsSection() {
                 <SectionHeading
                     id="partner-integrations-heading"
                     onInk
-                    eyebrow={`III — ${t("partnerProgram.integrations.eyebrow")}`}
+                    eyebrow={`IV — ${t("partnerProgram.integrations.eyebrow")}`}
                     title={
                         <Trans
                             i18nKey="partnerProgram.integrations.title"
@@ -142,20 +149,28 @@ export default function PartnerIntegrationsSection() {
 
             <div className="grid grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-2">
                 <a
-                    href={WORDPRESS_PLUGIN_DIRECTORY_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={CARD_LINK_CLASS}
-                >
-                    <IntegrationCard integration="woocommerce" badgeTone="filled" external />
-                </a>
-                <a
                     href={SHOPIFY_APP_STORE_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={CARD_LINK_CLASS}
                 >
-                    <IntegrationCard integration="shopify" badgeTone="outline" external />
+                    <IntegrationCard
+                        integration="shopify"
+                        mark={<ShopifyBagMark className="h-5 sm:h-6" />}
+                        external
+                    />
+                </a>
+                <a
+                    href={WORDPRESS_PLUGIN_DIRECTORY_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={CARD_LINK_CLASS}
+                >
+                    <IntegrationCard
+                        integration="woocommerce"
+                        mark={<WordPressMark className="size-5 text-ink sm:size-[22px]" />}
+                        external
+                    />
                 </a>
                 <Link
                     to="/$lng/partner-program/custom-integration"
@@ -166,11 +181,14 @@ export default function PartnerIntegrationsSection() {
                         "min-w-0 lg:col-start-2 lg:row-span-2 lg:row-start-1",
                     )}
                 >
-                    <IntegrationCard integration="customApi" badgeTone="outline" external={false}>
+                    <IntegrationCard integration="customApi" external={false}>
                         <BatchExample />
                     </IntegrationCard>
                 </Link>
             </div>
+            <p className="text-xs leading-normal text-ink-muted">
+                {t("partnerProgram.integrations.trademarks")}
+            </p>
         </LandingSection>
     );
 }

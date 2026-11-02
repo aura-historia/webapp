@@ -15,7 +15,7 @@ const STEPS = [
     { numeral: "III", key: "connect" },
 ] as const;
 
-/** II — How it works: three Roman-numeral steps on the raised band, as on the landing page. */
+/** III — How it works: three Roman-numeral steps on the raised band, as on the landing page. */
 export default function PartnerHowEasySection() {
     const { t } = useTranslation();
 
@@ -29,7 +29,7 @@ export default function PartnerHowEasySection() {
             <SectionHeading
                 id="partner-how-easy-heading"
                 align="center"
-                eyebrow={`II — ${t("partnerProgram.howEasy.eyebrow")}`}
+                eyebrow={`III — ${t("partnerProgram.howEasy.eyebrow")}`}
                 title={
                     <Trans
                         i18nKey="partnerProgram.howEasy.title"

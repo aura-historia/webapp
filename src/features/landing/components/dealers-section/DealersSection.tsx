@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Braces, ChartLine } from "lucide-react";
+import type { ReactNode } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navigationConfig.ts";
 import { LandingSection } from "@/features/landing/components/common/LandingSection.tsx";
@@ -8,6 +9,8 @@ import {
     SectionHeading,
 } from "@/features/landing/components/common/SectionHeading.tsx";
 import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
+import { ShopifyBagMark } from "@/features/partner/partner-program/components/brand-marks/ShopifyBagMark.tsx";
+import { WordPressMark } from "@/features/partner/partner-program/components/brand-marks/WordPressMark.tsx";
 import {
     SHOPIFY_APP_STORE_URL,
     WORDPRESS_PLUGIN_DIRECTORY_URL,
@@ -19,7 +22,24 @@ const ROW_CLASS = cn(
     NAV_FOCUS_CLASS,
 );
 
-function RowContent({ index, item }: { readonly index: number; readonly item: string }) {
+/** Line icons for our own tools: the app's icon library, in ink so they keep their colour on hover. */
+const TOOL_ICON_CLASS = "size-5 shrink-0 text-ink sm:size-6";
+
+/**
+ * One destination: number, title and description, then the platform's mark or the tool's icon beside the
+ * arrow. Marks keep their colours on hover; external rows say they open a new tab.
+ */
+function RowContent({
+    index,
+    item,
+    mark,
+    external = false,
+}: {
+    readonly index: number;
+    readonly item: string;
+    readonly mark: ReactNode;
+    readonly external?: boolean;
+}) {
     const { t } = useTranslation();
 
     return (
@@ -28,23 +48,31 @@ function RowContent({ index, item }: { readonly index: number; readonly item: st
                 {String(index + 1).padStart(2, "0")}
             </span>
             <span className="flex min-w-0 flex-1 flex-col gap-1">
-                <span className="font-serif text-[22px] sm:text-title-md">
+                <span className="font-serif text-[22px] leading-[1.15] text-balance sm:text-title-md">
                     {t(`landingPage.dealers.links.${item}.title`)}
                 </span>
                 <span className="text-body-sm leading-snug text-ink-muted">
                     {t(`landingPage.dealers.links.${item}.description`)}
                 </span>
             </span>
-            <ArrowUpRight
-                aria-hidden="true"
-                className="size-[18px] shrink-0 sm:size-5"
-                strokeWidth={1.6}
-            />
+            <span className="flex shrink-0 items-center gap-2.5 sm:gap-4">
+                {mark}
+                <ArrowUpRight
+                    aria-hidden="true"
+                    className="size-[18px] shrink-0 sm:size-5"
+                    strokeWidth={1.6}
+                />
+            </span>
+            {external && <span className="sr-only">{t("partnerProgram.integrations.newTab")}</span>}
         </>
     );
 }
 
-/** VI — For dealers and auction houses: the partner program and its integrations. */
+/**
+ * VI — For dealers and auction houses: the partner program and its four destinations. Partner platforms
+ * carry their official mark (Shopify's full-colour bag, the WordPress W Mark; WooCommerce by name only,
+ * as Woo allows no logo without a licence), our own tools a line icon, and a trademark line closes the list.
+ */
 export function DealersSection() {
     const { t } = useTranslation();
 
@@ -96,48 +124,85 @@ export function DealersSection() {
                 </div>
             </div>
 
-            <ul className="flex flex-col border-t border-line">
-                <li>
-                    <a
-                        href={SHOPIFY_APP_STORE_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={ROW_CLASS}
-                    >
-                        <RowContent index={0} item="shopify" />
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href={WORDPRESS_PLUGIN_DIRECTORY_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={ROW_CLASS}
-                    >
-                        <RowContent index={1} item="wordpress" />
-                    </a>
-                </li>
-                <li>
-                    <Link
-                        to="/$lng/partner-program/custom-integration"
-                        params={true}
-                        from="/$lng"
-                        className={ROW_CLASS}
-                    >
-                        <RowContent index={2} item="custom" />
-                    </Link>
-                </li>
-                <li>
-                    <Link
-                        to="/$lng/partners/applications"
-                        params={true}
-                        from="/$lng"
-                        className={ROW_CLASS}
-                    >
-                        <RowContent index={3} item="dashboard" />
-                    </Link>
-                </li>
-            </ul>
+            <div className="flex flex-col gap-4">
+                <ul className="flex flex-col border-t border-line">
+                    <li>
+                        <a
+                            href={SHOPIFY_APP_STORE_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={ROW_CLASS}
+                        >
+                            <RowContent
+                                index={0}
+                                item="shopify"
+                                mark={<ShopifyBagMark className="h-5 sm:h-6" />}
+                                external
+                            />
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href={WORDPRESS_PLUGIN_DIRECTORY_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={ROW_CLASS}
+                        >
+                            <RowContent
+                                index={1}
+                                item="wordpress"
+                                mark={
+                                    <WordPressMark className="size-[18px] text-ink sm:size-[22px]" />
+                                }
+                                external
+                            />
+                        </a>
+                    </li>
+                    <li>
+                        <Link
+                            to="/$lng/partner-program/custom-integration"
+                            params={true}
+                            from="/$lng"
+                            className={ROW_CLASS}
+                        >
+                            <RowContent
+                                index={2}
+                                item="custom"
+                                mark={
+                                    <Braces
+                                        aria-hidden="true"
+                                        className={TOOL_ICON_CLASS}
+                                        strokeWidth={1.6}
+                                    />
+                                }
+                            />
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/$lng/partners/applications"
+                            params={true}
+                            from="/$lng"
+                            className={ROW_CLASS}
+                        >
+                            <RowContent
+                                index={3}
+                                item="dashboard"
+                                mark={
+                                    <ChartLine
+                                        aria-hidden="true"
+                                        className={TOOL_ICON_CLASS}
+                                        strokeWidth={1.6}
+                                    />
+                                }
+                            />
+                        </Link>
+                    </li>
+                </ul>
+                <p className="text-xs leading-normal text-ink-muted">
+                    {t("partnerProgram.integrations.trademarks")}
+                </p>
+            </div>
         </LandingSection>
     );
 }

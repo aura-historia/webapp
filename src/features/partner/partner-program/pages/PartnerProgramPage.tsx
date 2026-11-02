@@ -1,3 +1,4 @@
+import PartnerDiscoverySection from "@/features/partner/partner-program/components/sections/PartnerDiscoverySection.tsx";
 import PartnerFAQSection from "@/features/partner/partner-program/components/sections/PartnerFAQSection.tsx";
 import PartnerFinalCtaSection from "@/features/partner/partner-program/components/sections/PartnerFinalCtaSection.tsx";
 import PartnerHeroSection from "@/features/partner/partner-program/components/sections/PartnerHeroSection.tsx";
@@ -11,6 +12,7 @@ export default function PartnerProgramPage() {
         <div className="bg-surface">
             <PartnerHeroSection />
             <PartnerMotivationSection />
+            <PartnerDiscoverySection />
             <PartnerHowEasySection />
             <PartnerIntegrationsSection />
             <PartnerOwnershipSection />

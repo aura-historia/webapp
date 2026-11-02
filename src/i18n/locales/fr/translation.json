@@ -1062,12 +1062,12 @@
       "overview": "Présentation du programme",
       "links": {
         "shopify": {
-          "title": "Application Shopify",
+          "title": "Partner Connect pour Shopify",
           "description": "Synchronisez vos annonces directement depuis votre boutique Shopify."
         },
         "wordpress": {
-          "title": "Extension WordPress",
-          "description": "Connectez votre site WordPress en quelques minutes."
+          "title": "Partner Connect pour WooCommerce®",
+          "description": "Synchronisez vos annonces depuis votre boutique WooCommerce sur WordPress."
         },
         "custom": {
           "title": "Intégration sur mesure",
@@ -1174,21 +1174,103 @@
       },
       "eyebrow": "Pourquoi nous rejoindre"
     },
+    "discovery": {
+      "eyebrow": "La recherche change",
+      "title": "Restez trouvable à mesure que la recherche <em>évolue.</em>",
+      "subtitle": "De plus en plus de personnes découvrent des produits grâce aux réponses et aux assistants d’IA, et plus seulement grâce à une liste de liens. Aura Historia se prépare à ces nouveaux parcours avec des données de catalogue structurées et un accès ouvert aux outils d’IA, pour que les pièces que vous publiez chez nous soient trouvées de plus de façons.",
+      "shift": {
+        "label": "De la recherche aux agents · Le changement en chiffres",
+        "title": "La découverte passe des listes de résultats aux réponses et assistants d’IA, <em>y compris pour les pièces de valeur.</em>",
+        "items": {
+          "search": {
+            "stage": "Recherche",
+            "value": "8 %",
+            "claim": "des visites Google avec un résumé d’IA ont mené à un clic sur un résultat classique. Sans résumé : 15 %.",
+            "source": "Pew Research · juil. 2025"
+          },
+          "answers": {
+            "stage": "Réponses d’IA",
+            "value": "60 %",
+            "claim": "des adultes aux États-Unis disent avoir lu des résumés d’IA en haut des résultats de recherche.",
+            "source": "Pew Research · juin 2026"
+          },
+          "assistants": {
+            "stage": "Assistants",
+            "value": "42 %",
+            "claim": "des adultes aux États-Unis utilisent des chatbots d’IA pour rechercher des informations.",
+            "source": "Pew Research · juin 2026"
+          },
+          "buying": {
+            "stage": "Achat",
+            "value": "54 %",
+            "claim": "des acheteurs de luxe aux États-Unis ont utilisé l’IA lors de leur dernier achat de luxe.",
+            "source": "Bain & Comité Colbert · juin 2026"
+          },
+          "collecting": {
+            "stage": "Collection",
+            "value": "67 %",
+            "claim": "des collectionneurs fortunés estiment que l’IA aide à découvrir artistes et œuvres.",
+            "source": "Art Basel & UBS · oct. 2026"
+          }
+        },
+        "notesLabel": "Comment ces chiffres ont été mesurés",
+        "notes": {
+          "search": "Recherches Google observées d’adultes aux États-Unis, mars 2025. Une comparaison entre recherches, pas une mesure du trafic web total.",
+          "survey2026": "Enquête auprès de 5 119 adultes aux États-Unis, 17–23 février 2026. Déclaratif.",
+          "buying": "Enquête auprès d’acheteurs de luxe récents, avril 2026 ; échantillon américain de 559 personnes. Usage de l’IA selon la définition de l’enquête.",
+          "collecting": "Enquête auprès de 3 100 collectionneurs fortunés dans dix marchés, 2026."
+        }
+      },
+      "routes": {
+        "label": "Une connexion · Trois façons d’être trouvé",
+        "status": "Disponible",
+        "items": {
+          "aura": {
+            "title": "La recherche Aura Historia",
+            "description": "Les collectionneurs cherchent chez des marchands et maisons de ventes de nombreux pays à la fois, dans leur propre langue, et sont alertés quand une nouvelle pièce correspond."
+          },
+          "engines": {
+            "title": "Moteurs de recherche",
+            "description": "Chaque annonce a sa propre page publique avec des données produit structurées, ouverte aux moteurs de recherche et à leurs fonctions d’IA."
+          },
+          "assistants": {
+            "title": "Assistants et agents d’IA",
+            "description": "Les assistants capables d’utiliser des outils externes peuvent chercher dans notre catalogue public, vos annonces comprises, sans compte."
+          }
+        },
+        "detailToggle": "Comment ça marche ?",
+        "detailLabel": "Détail technique",
+        "detail": "Nous exploitons un serveur MCP public (Model Context Protocol, un standard ouvert que les outils d’IA utilisent pour lire des données) et une API REST. Vous n’avez rien à installer ni à exploiter."
+      },
+      "apps": {
+        "label": "En développement · Nos apps pour assistants d’IA",
+        "intro": "Nous développons des apps Aura Historia pour ces assistants, afin que chacun puisse chercher dans le catalogue, vos annonces comprises, là où il pose sa question.",
+        "status": "En développement",
+        "google": "Recherche Google et Gemini"
+      },
+      "disclaimer": "Nous ne décidons pas de ce qu’affichent les moteurs de recherche ou les assistants d’IA : ils choisissent eux-mêmes si et comment présenter vos annonces. Les apps en développement ne sont pas encore disponibles et chacune dépend de l’examen du fournisseur. Aura Historia n’est ni affiliée à OpenAI, Anthropic, Google, xAI ou Meta, ni soutenue par eux ; les noms de produits sont des marques de leurs détenteurs respectifs.",
+      "closing": {
+        "title": "Aucune configuration d’IA <em>de votre côté.</em>",
+        "body": "Connectez-vous une fois via Shopify, WooCommerce ou notre API. Quelle que soit la façon dont les acheteurs trouvent vos pièces, ils achètent dans votre propre boutique.",
+        "apply": "Devenir partenaire",
+        "connect": "Voir comment se connecter"
+      }
+    },
     "integrations": {
       "title": "Connectez votre <em>inventaire.</em>",
-      "subtitle": "Choisissez un plugin pour votre système de boutique ou créez une intégration sur mesure avec un accès limité à votre fournisseur.",
+      "subtitle": "Utilisez l’application ou le plugin du système de boutique que vous utilisez déjà, ou créez une intégration sur mesure avec un accès limité à votre fournisseur.",
       "woocommerce": {
-        "title": "WordPress · WooCommerce",
+        "title": "Partner Connect pour WooCommerce®",
         "description": "Installez notre extension directement depuis le répertoire des plugins WordPress. Elle se charge de la synchronisation.",
         "cta": "Ouvrir le plugin WordPress",
-        "badge": "Recommandé",
+        "badge": "Sans code",
         "kicker": "Plugin · Répertoire WordPress"
       },
       "shopify": {
-        "title": "Application Shopify",
+        "title": "Partner Connect pour Shopify",
         "description": "Installez notre app depuis le Shopify App Store et vos annonces se synchronisent depuis votre boutique.",
         "cta": "Ouvrir Shopify App Store",
-        "badge": "Populaire",
+        "badge": "Sans code",
         "kicker": "App · Shopify App Store"
       },
       "customApi": {
@@ -1201,7 +1283,8 @@
         "result": "toutes les entrées écrites"
       },
       "eyebrow": "Connecter",
-      "newTab": "(s’ouvre dans un nouvel onglet)"
+      "newTab": "(s’ouvre dans un nouvel onglet)",
+      "trademarks": "Shopify est une marque de Shopify Inc. WooCommerce® et ses designs associés sont des marques d’Automattic Inc. WordPress est une marque de la WordPress Foundation."
     },
     "howEasy": {
       "title": "En ligne en <em>trois étapes.</em>",
@@ -1217,7 +1300,7 @@
         },
         "connect": {
           "title": "Activez l'intégration",
-          "description": "Choisissez WooCommerce, Shopify ou notre API. Vos produits apparaissent ensuite automatiquement dans la recherche."
+          "description": "Choisissez Shopify, WooCommerce ou notre API. Vos produits apparaissent ensuite automatiquement dans la recherche."
         }
       },
       "eyebrow": "Fonctionnement",

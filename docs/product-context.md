@@ -81,6 +81,8 @@ For partners:
 1. Present Aura Historia as a professional acquisition and discovery channel.
 2. Reduce fear of lock-in: free/commission-free where current product copy says so, easy integrations, API/OAuth options.
 3. Make setup, product sync, and token/OAuth security understandable.
+4. Explain AI-era discovery by what works today (public listing pages with structured data, the public MCP server and API) and label apps for named assistants as in development. Never promise traffic, rankings, AI answers, native integrations or endorsements; third parties decide what they show.
+5. Present Shopify and WooCommerce as equal options chosen by the partner's shop system, and respect each brand's naming and logo rules (see `docs/design-guidelines.md`, Partner program).
 
 Custom partner integrations use granted listing sources and access tokens with
 `product-listings:write`. POST/PATCH/PUT/DELETE batches of up to 100 entries complete

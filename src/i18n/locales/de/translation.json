@@ -1062,12 +1062,12 @@
       "overview": "Partnerübersicht",
       "links": {
         "shopify": {
-          "title": "Shopify-App",
+          "title": "Partner Connect für Shopify",
           "description": "Angebote direkt aus Ihrem Shopify-Shop synchronisieren."
         },
         "wordpress": {
-          "title": "WordPress-Plugin",
-          "description": "Ihre WordPress-Website in wenigen Minuten verbinden."
+          "title": "Partner Connect für WooCommerce®",
+          "description": "Angebote aus Ihrem WooCommerce-Shop auf WordPress synchronisieren."
         },
         "custom": {
           "title": "Eigene Integration",
@@ -1174,21 +1174,103 @@
       },
       "eyebrow": "Warum mitmachen"
     },
+    "discovery": {
+      "eyebrow": "Die Suche verändert sich",
+      "title": "Auffindbar bleiben, wenn sich die Suche <em>wandelt.</em>",
+      "subtitle": "Immer mehr Menschen entdecken Produkte über KI-Antworten und Assistenten, nicht nur über eine Liste von Links. Aura Historia bereitet sich mit strukturierten Katalogdaten und offenem Zugang für KI-Werkzeuge auf diese neuen Wege vor, damit die Stücke, die Sie bei uns listen, auf mehr Wegen gefunden werden.",
+      "shift": {
+        "label": "Von der Suche zu Agenten · Der Wandel in Zahlen",
+        "title": "Die Entdeckung wandert von Ergebnislisten zu KI-Antworten und Assistenten, <em>auch bei hochwertigen Stücken.</em>",
+        "items": {
+          "search": {
+            "stage": "Suche",
+            "value": "8 %",
+            "claim": "der Google-Besuche mit KI-Zusammenfassung führten zu einem Klick auf ein reguläres Ergebnis. Ohne: 15 %.",
+            "source": "Pew Research · Juli 2025"
+          },
+          "answers": {
+            "stage": "KI-Antworten",
+            "value": "60 %",
+            "claim": "der Erwachsenen in den USA geben an, KI-Zusammenfassungen über den Suchergebnissen gelesen zu haben.",
+            "source": "Pew Research · Juni 2026"
+          },
+          "assistants": {
+            "stage": "Assistenten",
+            "value": "42 %",
+            "claim": "der Erwachsenen in den USA nutzen KI-Chatbots, um nach Informationen zu suchen.",
+            "source": "Pew Research · Juni 2026"
+          },
+          "buying": {
+            "stage": "Kaufen",
+            "value": "54 %",
+            "claim": "der Luxuskäufer in den USA nutzten KI bei ihrem letzten Luxuskauf.",
+            "source": "Bain & Comité Colbert · Juni 2026"
+          },
+          "collecting": {
+            "stage": "Sammeln",
+            "value": "67 %",
+            "claim": "der vermögenden Sammler sehen, dass KI hilft, Künstler und Kunstwerke zu entdecken.",
+            "source": "Art Basel & UBS · Okt. 2026"
+          }
+        },
+        "notesLabel": "So wurden diese Zahlen erhoben",
+        "notes": {
+          "search": "Beobachtete Google-Suchen von Erwachsenen in den USA, März 2025. Ein Vergleich zwischen Suchen, kein Maß für den gesamten Web-Traffic.",
+          "survey2026": "Umfrage unter 5.119 Erwachsenen in den USA, 17.–23. Februar 2026. Selbstauskunft.",
+          "buying": "Umfrage unter Luxuskäufern mit kürzlichem Kauf, April 2026; US-Stichprobe von 559. KI-Nutzung im Sinne der Umfrage.",
+          "collecting": "Umfrage unter 3.100 vermögenden Sammlern in zehn Märkten, 2026."
+        }
+      },
+      "routes": {
+        "label": "Eine Anbindung · Drei Wege, gefunden zu werden",
+        "status": "Jetzt verfügbar",
+        "items": {
+          "aura": {
+            "title": "Die Suche von Aura Historia",
+            "description": "Sammler durchsuchen Händler und Auktionshäuser in vielen Ländern zugleich, in ihrer eigenen Sprache, und werden benachrichtigt, wenn ein neues Stück passt."
+          },
+          "engines": {
+            "title": "Suchmaschinen",
+            "description": "Jedes Angebot erhält eine eigene öffentliche Seite mit strukturierten Produktdaten, offen für Suchmaschinen und ihre KI-Funktionen."
+          },
+          "assistants": {
+            "title": "KI-Assistenten und Agenten",
+            "description": "Assistenten, die externe Werkzeuge nutzen können, durchsuchen unseren öffentlichen Katalog, Ihre Angebote eingeschlossen, ganz ohne Konto."
+          }
+        },
+        "detailToggle": "Wie funktioniert das?",
+        "detailLabel": "Technisches Detail",
+        "detail": "Wir betreiben einen öffentlichen MCP-Server (Model Context Protocol, ein offener Standard, mit dem KI-Werkzeuge Daten lesen) und eine REST-API. Sie müssen nichts installieren oder betreiben."
+      },
+      "apps": {
+        "label": "In Entwicklung · Unsere Apps für KI-Assistenten",
+        "intro": "Wir entwickeln Apps von Aura Historia für diese Assistenten, damit Menschen den Katalog, Ihre Angebote eingeschlossen, direkt dort durchsuchen können, wo sie fragen.",
+        "status": "In Entwicklung",
+        "google": "Google Suche & Gemini"
+      },
+      "disclaimer": "Wir bestimmen nicht, was Suchmaschinen oder KI-Assistenten anzeigen: Ob und wie sie Ihre Angebote zeigen, entscheiden sie selbst. Apps in Entwicklung sind noch nicht verfügbar und hängen jeweils von der Prüfung durch den Anbieter ab. Aura Historia ist mit OpenAI, Anthropic, Google, xAI und Meta weder verbunden noch wird es von ihnen unterstützt; Produktnamen sind Marken ihrer jeweiligen Inhaber.",
+      "closing": {
+        "title": "Keine KI-Einrichtung <em>auf Ihrer Seite.</em>",
+        "body": "Einmal über Shopify, WooCommerce oder unsere API anbinden. Wie auch immer Käufer Ihre Stücke finden: Gekauft wird in Ihrem eigenen Shop.",
+        "apply": "Partner werden",
+        "connect": "So funktioniert die Anbindung"
+      }
+    },
     "integrations": {
       "title": "Ihren Bestand <em>anbinden.</em>",
-      "subtitle": "Wählen Sie ein Plugin für Ihr Shopsystem oder bauen Sie eine eigene Integration mit gezieltem Zugriff auf Ihren Anbieter.",
+      "subtitle": "Nutzen Sie die App oder das Plugin für das Shopsystem, das Sie bereits betreiben, oder bauen Sie eine eigene Integration mit gezieltem Zugriff auf Ihren Anbieter.",
       "woocommerce": {
-        "title": "WordPress · WooCommerce",
+        "title": "Partner Connect für WooCommerce®",
         "description": "Installieren Sie unsere Erweiterung direkt über das WordPress-Plugin-Verzeichnis. Sie übernimmt die Synchronisation für Sie.",
         "cta": "Zum WordPress-Plugin",
-        "badge": "Empfohlen",
+        "badge": "Ohne Code",
         "kicker": "Plugin · WordPress-Verzeichnis"
       },
       "shopify": {
-        "title": "Shopify-App",
+        "title": "Partner Connect für Shopify",
         "description": "Installieren Sie unsere App aus dem Shopify App Store, und Ihre Angebote werden aus Ihrem Shop synchronisiert.",
         "cta": "Zum Shopify App Store",
-        "badge": "Beliebt",
+        "badge": "Ohne Code",
         "kicker": "App · Shopify App Store"
       },
       "customApi": {
@@ -1201,7 +1283,8 @@
         "result": "alle Einträge geschrieben"
       },
       "eyebrow": "Anbinden",
-      "newTab": "(öffnet in neuem Tab)"
+      "newTab": "(öffnet in neuem Tab)",
+      "trademarks": "Shopify ist eine Marke von Shopify Inc. WooCommerce® und die zugehörigen Designs sind Marken von Automattic Inc. WordPress ist eine Marke der WordPress Foundation."
     },
     "howEasy": {
       "title": "In drei Schritten <em>online.</em>",
@@ -1217,7 +1300,7 @@
         },
         "connect": {
           "title": "Integration aktivieren",
-          "description": "Wählen Sie WooCommerce, Shopify oder unsere API. Ihre Produkte erscheinen dann automatisch in der Suche."
+          "description": "Wählen Sie Shopify, WooCommerce oder unsere API. Ihre Produkte erscheinen dann automatisch in der Suche."
         }
       },
       "eyebrow": "So funktioniert es",
