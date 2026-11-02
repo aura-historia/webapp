@@ -17,7 +17,7 @@ describe("PartnerProgramPage", () => {
         expect(
             screen.getByRole("heading", {
                 level: 1,
-                name: "Verkaufen Sie Antiquitäten oder Kunst online? Erreichen Sie Sammler weltweit.",
+                name: "Verkaufen Sie Antiquitäten online? Erreichen Sie Sammler weltweit.",
             }),
         ).toBeInTheDocument();
         for (const name of [
