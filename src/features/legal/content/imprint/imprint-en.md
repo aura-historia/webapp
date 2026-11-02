@@ -12,7 +12,7 @@ Information pursuant to § 5 DDG and § 18 para. 2 MStV
 
 **Email (contact):** [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-**VAT ID:** requested
+**VAT ID:** DE463899077
 
 ---
 
@@ -103,4 +103,4 @@ German law applies to this provider identification and to legal questions arisin
 
 ---
 
-_Status: 17 May 2026_
+_Status: 2 November 2026_

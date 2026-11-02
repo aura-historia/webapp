@@ -12,7 +12,7 @@ Informations conformément au § 5 DDG et au § 18 al. 2 MStV
 
 **E-mail (contact) :** [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-**Numéro de TVA intracommunautaire :** en cours de délivrance
+**Numéro de TVA intracommunautaire :** DE463899077
 
 ---
 
@@ -103,4 +103,4 @@ Le droit allemand s’applique à ces mentions légales ainsi qu’aux questions
 
 ---
 
-_État : 17.05.2026_
+_État : 02.11.2026_

@@ -12,7 +12,7 @@ Información conforme al § 5 DDG y al § 18 párr. 2 MStV
 
 **Correo electrónico (contacto):** [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-**NIF/Número de IVA:** en trámite
+**NIF/Número de IVA:** DE463899077
 
 ---
 
@@ -103,4 +103,4 @@ El derecho alemán se aplica a esta información del prestador y a las cuestione
 
 ---
 
-_Estado: 17.05.2026_
+_Estado: 02.11.2026_
