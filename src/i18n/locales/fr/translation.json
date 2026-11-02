@@ -1060,14 +1060,15 @@
       "body": "Aura Historia ne remplace pas votre boutique : il lui envoie des acheteurs qualifiés. Connectez-vous une fois, et vos objets apparaissent auprès de collectionneurs qui cherchent dans leur propre langue.",
       "apply": "Postuler au programme partenaire",
       "overview": "Présentation du programme",
+      "newTab": "(s’ouvre dans un nouvel onglet)",
       "links": {
         "shopify": {
           "title": "Application Shopify",
           "description": "Synchronisez vos annonces directement depuis votre boutique Shopify."
         },
         "wordpress": {
-          "title": "Extension WordPress",
-          "description": "Connectez votre site WordPress en quelques minutes."
+          "title": "Extension pour WooCommerce",
+          "description": "Synchronisez vos annonces depuis votre boutique WooCommerce sur WordPress."
         },
         "custom": {
           "title": "Intégration sur mesure",
