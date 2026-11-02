@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Braces, ChartLine } from "lucide-react";
+import type { ReactNode } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { ShopifyBagIcon, WordPressIcon } from "@/components/icons/PlatformIcons.tsx";
 import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navigationConfig.ts";
 import { LandingSection } from "@/features/landing/components/common/LandingSection.tsx";
 import {
@@ -19,7 +21,35 @@ const ROW_CLASS = cn(
     NAV_FOCUS_CLASS,
 );
 
-function RowContent({ index, item }: { readonly index: number; readonly item: string }) {
+/**
+ * Our own tools take a line icon at the arrow's stroke. Like the partner marks, it stays in ink
+ * while the row turns brass on hover.
+ */
+const LINE_ICON_CLASS = "size-5 shrink-0 text-ink sm:size-6";
+
+/**
+ * The mark beside each row's arrow: the official Shopify Shopping Bag and WordPress W Mark for the
+ * partner platforms, line icons for our own tools. WooCommerce appears by name only: its trademark
+ * guidelines allow no logo without a licence. All marks are decorative; the copy names the platform.
+ */
+const ROW_MARKS = {
+    shopify: <ShopifyBagIcon className="aspect-[89/101] h-5 w-auto shrink-0 sm:h-6" />,
+    wordpress: <WordPressIcon className="size-[18px] shrink-0 text-ink sm:size-[22px]" />,
+    custom: <Braces aria-hidden="true" className={LINE_ICON_CLASS} strokeWidth={1.6} />,
+    dashboard: <ChartLine aria-hidden="true" className={LINE_ICON_CLASS} strokeWidth={1.6} />,
+} satisfies Record<string, ReactNode>;
+
+type DealerRow = keyof typeof ROW_MARKS;
+
+function RowContent({
+    index,
+    item,
+    external = false,
+}: {
+    readonly index: number;
+    readonly item: DealerRow;
+    readonly external?: boolean;
+}) {
     const { t } = useTranslation();
 
     return (
@@ -28,18 +58,22 @@ function RowContent({ index, item }: { readonly index: number; readonly item: st
                 {String(index + 1).padStart(2, "0")}
             </span>
             <span className="flex min-w-0 flex-1 flex-col gap-1">
-                <span className="font-serif text-[22px] sm:text-title-md">
+                <span className="font-serif text-[22px] leading-[1.15] text-balance sm:text-title-md">
                     {t(`landingPage.dealers.links.${item}.title`)}
                 </span>
                 <span className="text-body-sm leading-snug text-ink-muted">
                     {t(`landingPage.dealers.links.${item}.description`)}
                 </span>
             </span>
-            <ArrowUpRight
-                aria-hidden="true"
-                className="size-[18px] shrink-0 sm:size-5"
-                strokeWidth={1.6}
-            />
+            <span className="flex shrink-0 items-center gap-2.5 sm:gap-4">
+                {ROW_MARKS[item]}
+                <ArrowUpRight
+                    aria-hidden="true"
+                    className="size-[18px] shrink-0 sm:size-5"
+                    strokeWidth={1.6}
+                />
+            </span>
+            {external ? <span className="sr-only">{t("landingPage.dealers.newTab")}</span> : null}
         </>
     );
 }
@@ -104,7 +138,7 @@ export function DealersSection() {
                         rel="noopener noreferrer"
                         className={ROW_CLASS}
                     >
-                        <RowContent index={0} item="shopify" />
+                        <RowContent index={0} item="shopify" external />
                     </a>
                 </li>
                 <li>
@@ -114,7 +148,7 @@ export function DealersSection() {
                         rel="noopener noreferrer"
                         className={ROW_CLASS}
                     >
-                        <RowContent index={1} item="wordpress" />
+                        <RowContent index={1} item="wordpress" external />
                     </a>
                 </li>
                 <li>
