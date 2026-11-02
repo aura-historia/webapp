@@ -384,4 +384,4 @@ Nous pouvons adapter les présentes notices de confidentialité lorsque cela dev
 
 ---
 
-*État : 26.10.2026*
+_État : 26.10.2026_

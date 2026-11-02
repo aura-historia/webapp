@@ -292,4 +292,4 @@ Se siete commercianti, persone giuridiche di diritto pubblico, patrimoni separat
 
 ---
 
-*Stato: 12.10.2026*
+_Stato: 12.10.2026_
