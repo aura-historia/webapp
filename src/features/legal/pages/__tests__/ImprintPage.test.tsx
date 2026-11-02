@@ -43,6 +43,10 @@ describe("ImprintPage", () => {
         expect(elements.length).toBeGreaterThan(0);
     });
 
+    it("renders the VAT ID", () => {
+        expect(screen.getByText(/DE463899077/)).toBeInTheDocument();
+    });
+
     it("renders personal email link", () => {
         const emailLinks = screen.getAllByRole("link", {
             name: /julian\.bruder@aura-historia\.com/i,
@@ -193,6 +197,7 @@ describe("Imprint Page Logic", () => {
             ["service name", "Aura Historia"],
             ["owner name", "Julian Bruder Einzelunternehmen"],
             ["personal email", "julian.bruder@aura-historia.com"],
+            ["VAT ID", "DE463899077"],
             ["Stripe wording", "Stripe"],
         ])("should contain %s in all locales", (_description, expectedPhrase) => {
             for (const content of Object.values(IMPRINT_LOCALE_MAP)) {
