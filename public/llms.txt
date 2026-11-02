@@ -1,6 +1,6 @@
 # Aura Historia
 
-> Aura Historia is a global discovery platform for antiques, art and design objects. It indexes public listings from dealers, auction houses, shops and marketplaces, so collectors and market professionals can search across providers, languages and currencies in one place, then follow objects with watchlists, saved searches and notifications. Structured access is available through a public MCP server and a REST API.
+> Aura Historia is a global discovery platform for antiques and design objects. It indexes public listings from dealers, auction houses, shops and marketplaces, so collectors and market professionals can search across providers, languages and currencies in one place, then follow objects with watchlists, saved searches and notifications. Structured access is available through a public MCP server and a REST API.
 
 Key facts for agents:
 

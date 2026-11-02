@@ -19,7 +19,7 @@ describe("pageHeadMeta", () => {
                 expect(result.meta).toContainEqual({
                     name: "description",
                     content:
-                        "Entdecken Sie seltene Antiquitäten, Kunst und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
+                        "Entdecken Sie seltene Antiquitäten und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
                 });
             });
 
@@ -128,7 +128,7 @@ describe("pageHeadMeta", () => {
                 expect(result.meta).toContainEqual({
                     property: "og:description",
                     content:
-                        "Entdecken Sie seltene Antiquitäten, Kunst und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
+                        "Entdecken Sie seltene Antiquitäten und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
                 });
             });
 
@@ -242,7 +242,7 @@ describe("pageHeadMeta", () => {
                 expect(result.meta).toContainEqual({
                     name: "twitter:description",
                     content:
-                        "Entdecken Sie seltene Antiquitäten, Kunst und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
+                        "Entdecken Sie seltene Antiquitäten und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
                 });
             });
 

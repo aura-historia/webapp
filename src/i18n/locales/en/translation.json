@@ -7,14 +7,14 @@
   },
   "meta": {
     "siteName": "Aura Historia | Global Antiques Platform",
-    "defaultDescription": "Discover rare antiques, art, and design objects from dealers, auction houses, and marketplaces worldwide — in one refined platform for collectors and professionals.",
+    "defaultDescription": "Discover rare antiques and design objects from dealers, auction houses, and marketplaces worldwide — in one refined platform for collectors and professionals.",
     "home": {
       "title": "Aura Historia | Global Antiques Platform",
-      "description": "Discover rare antiques, art, and design objects from dealers, auction houses, and marketplaces worldwide — in one refined platform for collectors and professionals."
+      "description": "Discover rare antiques and design objects from dealers, auction houses, and marketplaces worldwide — in one refined platform for collectors and professionals."
     },
     "about": {
       "title": "About Us | Aura Historia",
-      "description": "Aura Historia is a global search engine for antiques and art across dealers, auction houses and marketplaces. What we do, how we differ and who we are."
+      "description": "Aura Historia is a global search engine for antiques across dealers, auction houses and marketplaces. What we do, how we differ and who we are."
     },
     "search": {
       "title": "Search Antiques | Aura Historia",
@@ -64,7 +64,7 @@
     },
     "partnerProgram": {
       "title": "Partner Program | Aura Historia",
-      "description": "Become a partner shop on Aura Historia – the global platform for antiques & art. Free, commission-free, connected in minutes."
+      "description": "Become a partner shop on Aura Historia – the global platform for antiques. Free, commission-free, connected in minutes."
     },
     "partnerApplications": {
       "title": "Current Partner Applications | Aura Historia"
@@ -187,8 +187,8 @@
   "aboutPage": {
     "hero": {
       "eyebrow": "About Aura Historia",
-      "title": "We make the antiques and art market <em>easier to understand.</em>",
-      "subtitle": "Aura Historia is a global search engine for antiques and art that brings dealers, auction houses and marketplaces into one multilingual search, for collectors, decorators and the trade. It exists for people who value careful discovery, reliable context and a calm view of a scattered international market.",
+      "title": "We make the antiques market <em>easier to understand.</em>",
+      "subtitle": "Aura Historia is a global search engine for antiques that brings dealers, auction houses and marketplaces into one multilingual search, for collectors, decorators and the trade. It exists for people who value careful discovery, reliable context and a calm view of a scattered international market.",
       "navLabel": "On this page",
       "nav": {
         "services": "What we do",
@@ -268,12 +268,12 @@
     "audience": {
       "eyebrow": "Audience",
       "title": "Who uses <em>Aura Historia.</em>",
-      "description": "Collectors and professionals who follow antiques and art across more than one source. We start with Europe and the United States, and our coverage of further markets grows continuously.",
+      "description": "Collectors and professionals who follow antiques across more than one source. We start with Europe and the United States, and our coverage of further markets grows continuously.",
       "groups": {
         "collectors": {
           "heading": "Collectors",
           "items": {
-            "privateCollectors": "Private collectors of antiques, art and design objects, from a first acquisition to an established collection",
+            "privateCollectors": "Private collectors of antiques and design objects, from a first acquisition to an established collection",
             "specialists": "Specialist collectors following one maker, period or region across borders, such as Meissen porcelain or Gustavian furniture",
             "decorators": "Interior designers and decorators sourcing period pieces for clients",
             "heirs": "Heirs and executors who want to see what comparable objects are offered for today"
@@ -333,7 +333,7 @@
       "items": {
         "whatIs": {
           "question": "What is Aura Historia?",
-          "answer": "Aura Historia is a global search engine for antiques and art, based in Leipzig, Germany. It brings listings from dealers, auction houses and marketplaces into one multilingual search, with private watchlists and search alerts."
+          "answer": "Aura Historia is a global search engine for antiques, based in Leipzig, Germany. It brings listings from dealers, auction houses and marketplaces into one multilingual search, with private watchlists and search alerts."
         },
         "whoIsBehind": {
           "question": "Who is behind Aura Historia?",
@@ -791,7 +791,7 @@
       "items": {
         "howItWorks": {
           "question": "What is Aura Historia?",
-          "answer": "Aura Historia is a global platform for antiques, art, and distinctive objects. We bring current inventory from dealer sites, auction houses, marketplaces, and specialist sources into one place so collectors and professionals can follow the market with clarity."
+          "answer": "Aura Historia is a global platform for antiques and distinctive objects. We bring current inventory from dealer sites, auction houses, marketplaces, and specialist sources into one place so collectors and professionals can follow the market with clarity."
         },
         "directPurchase": {
           "question": "Can I buy directly through Aura Historia?",
@@ -1110,8 +1110,8 @@
   },
   "partnerProgram": {
     "hero": {
-      "title": "Sell antiques or art online? Reach collectors <em>worldwide.</em>",
-      "subtitle": "Aura Historia is the global search for antiques and art, where collectors find exactly what you sell. Connect your shop once; buyers who find your pieces continue on your own website.",
+      "title": "Sell antiques online? Reach collectors <em>worldwide.</em>",
+      "subtitle": "Aura Historia is the global search for antiques, where collectors find exactly what you sell. Connect your shop once; buyers who find your pieces continue on your own website.",
       "primaryCta": "Become a partner",
       "secondaryCta": "See how it works",
       "eyebrow": "Partner program · For dealers & auction houses",
@@ -1149,7 +1149,7 @@
       "items": {
         "audience": {
           "title": "A global collector community",
-          "description": "Reach buyers across many countries who actively search for rare antiques and art, each in their own language."
+          "description": "Reach buyers across many countries who actively search for rare antiques, each in their own language."
         },
         "traffic": {
           "title": "More qualified traffic",
@@ -1252,7 +1252,7 @@
         },
         "fit": {
           "question": "Which shops fit the program?",
-          "answer": "We look for reputable online shops selling antiques, art, collectibles and comparable historical objects. Auction houses and specialised dealers are explicitly welcome."
+          "answer": "We look for reputable online shops selling antiques, collectibles and comparable historical objects. Auction houses and specialised dealers are explicitly welcome."
         },
         "support": {
           "question": "Will I get help during setup?",
@@ -1898,7 +1898,7 @@
         "priceStatus": "Price & Status",
         "priceStatusDescription": "Define your price range and select the desired listing status – such as only available items, or also already auctioned pieces for market research.",
         "shop": "Shop",
-        "shopDescription": "Specifically select provider types – renowned auction houses, specialized art dealers or marketplaces – and include or exclude individual providers.",
+        "shopDescription": "Specifically select provider types – renowned auction houses, specialized antique dealers or marketplaces – and include or exclude individual providers.",
         "date": "Date",
         "dateDescription": "Narrow down the search by time – by auction date, date of first publication, or the last update of the listing.",
         "confirm": "Confirm",
