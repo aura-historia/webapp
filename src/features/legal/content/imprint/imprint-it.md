@@ -12,7 +12,7 @@ Informazioni ai sensi del § 5 DDG e del § 18 comma 2 MStV
 
 **E-mail (contatto):** [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-**Partita IVA:** in fase di richiesta
+**Partita IVA:** DE463899077
 
 ---
 
@@ -103,4 +103,4 @@ Il diritto tedesco si applica alle presenti informazioni sul prestatore e alle q
 
 ---
 
-*Stato: 17.05.2026*
+*Stato: 02.11.2026*

@@ -12,7 +12,7 @@ Angaben gemäß § 5 DDG und § 18 Abs. 2 MStV
 
 **E-Mail (Kontakt):** [contact@aura-historia.com](mailto:contact@aura-historia.com)
 
-**Umsatzsteuer-Identifikationsnummer:** beantragt
+**Umsatzsteuer-Identifikationsnummer:** DE463899077
 
 ---
 
@@ -103,4 +103,4 @@ Für diese Anbieterkennzeichnung sowie für aus oder im Zusammenhang mit der Nut
 
 ---
 
-*Stand: 17.05.2026*
+*Stand: 02.11.2026*
