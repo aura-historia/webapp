@@ -292,4 +292,4 @@ Si vous êtes commerçant, personne morale de droit public, patrimoine spécial 
 
 ---
 
-*Version du 12.10.2026*
+_Version du 12.10.2026_

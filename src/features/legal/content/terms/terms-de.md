@@ -292,4 +292,4 @@ Sind Sie Kaufmann, juristische Person des öffentlichen Rechts oder öffentlich-
 
 ---
 
-*Stand: 12.10.2026*
+_Stand: 12.10.2026_

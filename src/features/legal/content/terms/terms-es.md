@@ -292,4 +292,4 @@ Si usted es comerciante, una persona jurídica de derecho público, un patrimoni
 
 ---
 
-*Estado: 12.10.2026*
+_Estado: 12.10.2026_

@@ -384,4 +384,4 @@ Possiamo adeguare le presenti note sulla privacy quando ciò si renda necessario
 
 ---
 
-*Stato: 26.10.2026*
+_Stato: 26.10.2026_

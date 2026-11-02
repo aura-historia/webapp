@@ -103,4 +103,4 @@ German law applies to this provider identification and to legal questions arisin
 
 ---
 
-*Status: 2 November 2026*
+_Status: 2 November 2026_

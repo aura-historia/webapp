@@ -103,4 +103,4 @@ Für diese Anbieterkennzeichnung sowie für aus oder im Zusammenhang mit der Nut
 
 ---
 
-*Stand: 02.11.2026*
+_Stand: 02.11.2026_

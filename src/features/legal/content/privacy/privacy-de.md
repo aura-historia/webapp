@@ -384,4 +384,4 @@ Wir können diese Datenschutzhinweise anpassen, wenn dies aufgrund rechtlicher, 
 
 ---
 
-*Stand: 26.10.2026*
+_Stand: 26.10.2026_

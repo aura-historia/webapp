@@ -292,4 +292,4 @@ If you are a merchant, a legal entity under public law, a special fund under pub
 
 ---
 
-*Status: 12 October 2026*
+_Status: 12 October 2026_
