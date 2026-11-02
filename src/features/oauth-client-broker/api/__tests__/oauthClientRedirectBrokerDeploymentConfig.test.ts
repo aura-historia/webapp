@@ -71,11 +71,11 @@ describe("WooCommerce OAuth broker deployment config", () => {
                 ?.simple,
         ).toEqual({ limit: 30, period: 60 });
     });
+
     it("declares WooCommerce OAuth bindings for Worker Previews", () => {
         expect(wranglerConfig.previews?.vars?.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID).toBe(
             REGISTERED_CLIENT_ID,
         );
         expect(wranglerConfig.previews?.ratelimits).toEqual(wranglerConfig.ratelimits);
     });
-
 });
