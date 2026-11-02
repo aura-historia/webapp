@@ -15,7 +15,7 @@ const OWNERSHIP_ITEMS = [
     "partnership",
 ] as const;
 
-/** IV — What stays yours: a ruled ledger of what a partnership leaves with the shop. */
+/** V — What stays yours: a ruled ledger of what a partnership leaves with the shop. */
 export default function PartnerOwnershipSection() {
     const { t } = useTranslation();
 
@@ -30,7 +30,7 @@ export default function PartnerOwnershipSection() {
             <SectionHeading
                 id="partner-ownership-heading"
                 className="max-w-[820px]"
-                eyebrow={`IV — ${t("partnerProgram.ownership.eyebrow")}`}
+                eyebrow={`V — ${t("partnerProgram.ownership.eyebrow")}`}
                 title={
                     <Trans
                         i18nKey="partnerProgram.ownership.title"

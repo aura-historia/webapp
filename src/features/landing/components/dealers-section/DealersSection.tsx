@@ -78,7 +78,10 @@ function RowContent({
     );
 }
 
-/** VI — For dealers and auction houses: the partner program and its integrations. */
+/**
+ * VI — For dealers and auction houses: the partner program and its integrations. The store rows name
+ * our product ("Partner Connect for …", WooCommerce with ®), and the trademark line closes the list.
+ */
 export function DealersSection() {
     const { t } = useTranslation();
 
@@ -130,48 +133,53 @@ export function DealersSection() {
                 </div>
             </div>
 
-            <ul className="flex flex-col border-t border-line">
-                <li>
-                    <a
-                        href={SHOPIFY_APP_STORE_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={ROW_CLASS}
-                    >
-                        <RowContent index={0} item="shopify" external />
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href={WORDPRESS_PLUGIN_DIRECTORY_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={ROW_CLASS}
-                    >
-                        <RowContent index={1} item="wordpress" external />
-                    </a>
-                </li>
-                <li>
-                    <Link
-                        to="/$lng/partner-program/custom-integration"
-                        params={true}
-                        from="/$lng"
-                        className={ROW_CLASS}
-                    >
-                        <RowContent index={2} item="custom" />
-                    </Link>
-                </li>
-                <li>
-                    <Link
-                        to="/$lng/partners/applications"
-                        params={true}
-                        from="/$lng"
-                        className={ROW_CLASS}
-                    >
-                        <RowContent index={3} item="dashboard" />
-                    </Link>
-                </li>
-            </ul>
+            <div className="flex flex-col gap-4">
+                <ul className="flex flex-col border-t border-line">
+                    <li>
+                        <a
+                            href={SHOPIFY_APP_STORE_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={ROW_CLASS}
+                        >
+                            <RowContent index={0} item="shopify" external />
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href={WORDPRESS_PLUGIN_DIRECTORY_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={ROW_CLASS}
+                        >
+                            <RowContent index={1} item="wordpress" external />
+                        </a>
+                    </li>
+                    <li>
+                        <Link
+                            to="/$lng/partner-program/custom-integration"
+                            params={true}
+                            from="/$lng"
+                            className={ROW_CLASS}
+                        >
+                            <RowContent index={2} item="custom" />
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/$lng/partners/applications"
+                            params={true}
+                            from="/$lng"
+                            className={ROW_CLASS}
+                        >
+                            <RowContent index={3} item="dashboard" />
+                        </Link>
+                    </li>
+                </ul>
+                <p className="text-xs leading-normal text-ink-muted">
+                    {t("partnerProgram.integrations.trademarks")}
+                </p>
+            </div>
         </LandingSection>
     );
 }

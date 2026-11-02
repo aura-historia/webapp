@@ -1063,11 +1063,11 @@
       "newTab": "(si apre in una nuova scheda)",
       "links": {
         "shopify": {
-          "title": "App Shopify",
+          "title": "Partner Connect per Shopify",
           "description": "Sincronizza gli annunci direttamente dal tuo negozio Shopify."
         },
         "wordpress": {
-          "title": "Plugin per WooCommerce",
+          "title": "Partner Connect per WooCommerce®",
           "description": "Sincronizza gli annunci dal tuo negozio WooCommerce su WordPress."
         },
         "custom": {
@@ -1175,21 +1175,103 @@
       },
       "eyebrow": "Perché aderire"
     },
+    "discovery": {
+      "eyebrow": "La ricerca sta cambiando",
+      "title": "Fatti trovare mentre la ricerca <em>evolve.</em>",
+      "subtitle": "Sempre più persone scoprono prodotti tramite risposte e assistenti di IA, non solo da un elenco di link. Aura Historia si prepara a questi nuovi percorsi con dati di catalogo strutturati e accesso aperto per gli strumenti di IA, così i pezzi che pubblichi con noi possono essere trovati in più modi.",
+      "shift": {
+        "label": "Dalla ricerca agli agenti · Il cambiamento in cifre",
+        "title": "La scoperta si sposta dagli elenchi di risultati alle risposte e agli assistenti di IA, <em>anche per i pezzi di valore.</em>",
+        "items": {
+          "search": {
+            "stage": "Ricerca",
+            "value": "8%",
+            "claim": "delle visite a Google con un riassunto IA ha portato a un clic su un risultato tradizionale. Senza: 15%.",
+            "source": "Pew Research · lug 2025"
+          },
+          "answers": {
+            "stage": "Risposte IA",
+            "value": "60%",
+            "claim": "degli adulti negli Stati Uniti dichiara di aver letto i riassunti IA in cima ai risultati di ricerca.",
+            "source": "Pew Research · giu 2026"
+          },
+          "assistants": {
+            "stage": "Assistenti",
+            "value": "42%",
+            "claim": "degli adulti negli Stati Uniti usa chatbot di IA per cercare informazioni.",
+            "source": "Pew Research · giu 2026"
+          },
+          "buying": {
+            "stage": "Acquisto",
+            "value": "54%",
+            "claim": "degli acquirenti di lusso negli Stati Uniti ha usato l’IA nel suo ultimo acquisto di lusso.",
+            "source": "Bain & Comité Colbert · giu 2026"
+          },
+          "collecting": {
+            "stage": "Collezionismo",
+            "value": "67%",
+            "claim": "dei collezionisti con grandi patrimoni ritiene che l’IA aiuti a scoprire artisti e opere.",
+            "source": "Art Basel & UBS · ott 2026"
+          }
+        },
+        "notesLabel": "Come sono state misurate queste cifre",
+        "notes": {
+          "search": "Ricerche Google osservate di adulti negli Stati Uniti, marzo 2025. Un confronto tra ricerche, non una misura del traffico web totale.",
+          "survey2026": "Sondaggio su 5.119 adulti negli Stati Uniti, 17–23 febbraio 2026. Dati dichiarati.",
+          "buying": "Sondaggio su acquirenti di lusso recenti, aprile 2026; campione statunitense di 559. Uso dell’IA secondo la definizione del sondaggio.",
+          "collecting": "Sondaggio su 3.100 collezionisti con grandi patrimoni in dieci mercati, 2026."
+        }
+      },
+      "routes": {
+        "label": "Un collegamento · Tre modi per essere trovato",
+        "status": "Disponibile ora",
+        "items": {
+          "aura": {
+            "title": "La ricerca di Aura Historia",
+            "description": "I collezionisti cercano tra mercanti e case d’asta di molti paesi insieme, nella loro lingua, e ricevono un avviso quando arriva un nuovo pezzo che corrisponde."
+          },
+          "engines": {
+            "title": "Motori di ricerca",
+            "description": "Ogni annuncio ha una propria pagina pubblica con dati di prodotto strutturati, aperta ai motori di ricerca e alle loro funzioni di IA."
+          },
+          "assistants": {
+            "title": "Assistenti e agenti di IA",
+            "description": "Gli assistenti che possono usare strumenti esterni cercano nel nostro catalogo pubblico, inclusi i tuoi annunci, senza bisogno di un account."
+          }
+        },
+        "detailToggle": "Come funziona?",
+        "detailLabel": "Dettaglio tecnico",
+        "detail": "Gestiamo un server MCP pubblico (Model Context Protocol, uno standard aperto che gli strumenti di IA usano per leggere dati) e un’API REST. Non devi installare né gestire nulla."
+      },
+      "apps": {
+        "label": "In sviluppo · Le nostre app per assistenti di IA",
+        "intro": "Stiamo sviluppando app di Aura Historia per questi assistenti, così le persone possono cercare nel catalogo, inclusi i tuoi annunci, proprio dove fanno le loro domande.",
+        "status": "In sviluppo",
+        "google": "Ricerca Google e Gemini"
+      },
+      "disclaimer": "Non decidiamo cosa mostrano i motori di ricerca o gli assistenti di IA: se e come presentare i tuoi annunci lo scelgono loro. Le app in sviluppo non sono ancora disponibili e ciascuna dipende dalla revisione del fornitore. Aura Historia non è affiliata a OpenAI, Anthropic, Google, xAI o Meta né da loro approvata; i nomi dei prodotti sono marchi dei rispettivi titolari.",
+      "closing": {
+        "title": "Nessuna configurazione IA <em>da parte tua.</em>",
+        "body": "Collegati una volta tramite Shopify, WooCommerce o la nostra API. In qualunque modo gli acquirenti trovino i tuoi pezzi, acquistano nel tuo negozio.",
+        "apply": "Diventa partner",
+        "connect": "Scopri come collegarti"
+      }
+    },
     "integrations": {
       "title": "Collega il tuo <em>inventario.</em>",
-      "subtitle": "Scegli un plugin per il tuo sistema di shop o crea un’integrazione personalizzata con accesso limitato al tuo fornitore.",
+      "subtitle": "Usa l’app o il plugin del sistema di shop che usi già, oppure crea un’integrazione personalizzata con accesso limitato al tuo fornitore.",
       "woocommerce": {
-        "title": "WordPress · WooCommerce",
+        "title": "Partner Connect per WooCommerce®",
         "description": "Installa la nostra estensione direttamente dalla directory dei plugin di WordPress. Pensa lei alla sincronizzazione.",
         "cta": "Apri plugin WordPress",
-        "badge": "Consigliato",
+        "badge": "Senza codice",
         "kicker": "Plugin · Directory WordPress"
       },
       "shopify": {
-        "title": "App Shopify",
+        "title": "Partner Connect per Shopify",
         "description": "Installa la nostra app dallo Shopify App Store e i tuoi annunci si sincronizzano dal tuo shop.",
         "cta": "Apri Shopify App Store",
-        "badge": "Popolare",
+        "badge": "Senza codice",
         "kicker": "App · Shopify App Store"
       },
       "customApi": {
@@ -1202,7 +1284,8 @@
         "result": "tutte le voci scritte"
       },
       "eyebrow": "Collegare",
-      "newTab": "(si apre in una nuova scheda)"
+      "newTab": "(si apre in una nuova scheda)",
+      "trademarks": "Shopify è un marchio di Shopify Inc. WooCommerce® e i design associati sono marchi di Automattic Inc. WordPress è un marchio della WordPress Foundation."
     },
     "howEasy": {
       "title": "Online in <em>tre passaggi.</em>",
@@ -1218,7 +1301,7 @@
         },
         "connect": {
           "title": "Attiva l'integrazione",
-          "description": "Scegli WooCommerce, Shopify o la nostra API. I tuoi prodotti compaiono poi automaticamente nella ricerca."
+          "description": "Scegli Shopify, WooCommerce o la nostra API. I tuoi prodotti compaiono poi automaticamente nella ricerca."
         }
       },
       "eyebrow": "Come funziona",

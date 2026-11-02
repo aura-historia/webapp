@@ -21,7 +21,7 @@ describe("DealersSection", () => {
     });
 
     it("opens the Shopify App Store in a new tab and says so", () => {
-        const link = screen.getByRole("link", { name: /Shopify-App/ });
+        const link = screen.getByRole("link", { name: /Partner Connect für Shopify/ });
 
         expect(link).toHaveAttribute("href", SHOPIFY_APP_STORE_URL);
         expect(link).toHaveAttribute("target", "_blank");
@@ -29,8 +29,8 @@ describe("DealersSection", () => {
         expect(link).toHaveAccessibleName(/\(öffnet in neuem Tab\)$/);
     });
 
-    it("names the WordPress directory row as the plugin for WooCommerce", () => {
-        const link = screen.getByRole("link", { name: /Plugin für WooCommerce/ });
+    it("names the WordPress directory row after our plugin for WooCommerce, with its registered mark", () => {
+        const link = screen.getByRole("link", { name: /Partner Connect für WooCommerce®/ });
 
         expect(link).toHaveAttribute("href", WORDPRESS_PLUGIN_DIRECTORY_URL);
         expect(link).toHaveAttribute("target", "_blank");
@@ -56,6 +56,14 @@ describe("DealersSection", () => {
             expect(link).not.toHaveAttribute("target");
             expect(link).not.toHaveAccessibleName(/öffnet in neuem Tab/);
         }
+    });
+
+    it("credits the platform trademarks under the rows", () => {
+        expect(
+            screen.getByText(
+                "Shopify ist eine Marke von Shopify Inc. WooCommerce® und die zugehörigen Designs sind Marken von Automattic Inc. WordPress ist eine Marke der WordPress Foundation.",
+            ),
+        ).toBeInTheDocument();
     });
 
     it("gives every row a decorative mark beside the arrow", () => {

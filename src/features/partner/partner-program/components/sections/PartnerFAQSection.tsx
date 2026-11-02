@@ -20,7 +20,7 @@ const FAQ_KEYS = [
     "support",
 ] as const;
 
-/** V — Questions: the landing page's FAQ pattern with the partner questions, one answer open at a time. */
+/** VI — Questions: the landing page's FAQ pattern with the partner questions, one answer open at a time. */
 export default function PartnerFAQSection() {
     const { t } = useTranslation();
     const [openIndex, setOpenIndex] = useState(0);
@@ -34,7 +34,7 @@ export default function PartnerFAQSection() {
         >
             <SectionHeading
                 id="partner-faq-heading"
-                eyebrow={`V — ${t("partnerProgram.faq.eyebrow")}`}
+                eyebrow={`VI — ${t("partnerProgram.faq.eyebrow")}`}
                 title={
                     <Trans i18nKey="partnerProgram.faq.title" components={HEADLINE_COMPONENTS} />
                 }

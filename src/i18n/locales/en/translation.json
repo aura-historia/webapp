@@ -1063,11 +1063,11 @@
       "newTab": "(opens in a new tab)",
       "links": {
         "shopify": {
-          "title": "Shopify App",
+          "title": "Partner Connect for Shopify",
           "description": "Sync listings straight from your Shopify store."
         },
         "wordpress": {
-          "title": "Plugin for WooCommerce",
+          "title": "Partner Connect for WooCommerce®",
           "description": "Sync listings from your WooCommerce store on WordPress."
         },
         "custom": {
@@ -1175,21 +1175,103 @@
       },
       "eyebrow": "Why join"
     },
+    "discovery": {
+      "eyebrow": "Search is changing",
+      "title": "Be discoverable as search <em>evolves.</em>",
+      "subtitle": "More people now explore products through AI answers and assistants, not only a list of links. Aura Historia is building for these journeys with structured catalogue data and open access for AI tools, so the pieces you list with us can be found in more ways.",
+      "shift": {
+        "label": "From search to agents · The shift in figures",
+        "title": "Discovery is moving from result lists to AI answers and assistants, <em>including for high-value pieces.</em>",
+        "items": {
+          "search": {
+            "stage": "Search",
+            "value": "8%",
+            "claim": "of Google visits with an AI summary led to a click on a regular result. Without one: 15%.",
+            "source": "Pew Research · Jul 2025"
+          },
+          "answers": {
+            "stage": "AI answers",
+            "value": "60%",
+            "claim": "of U.S. adults say they have read AI summaries at the top of search results.",
+            "source": "Pew Research · Jun 2026"
+          },
+          "assistants": {
+            "stage": "Assistants",
+            "value": "42%",
+            "claim": "of U.S. adults use AI chatbots to search for information.",
+            "source": "Pew Research · Jun 2026"
+          },
+          "buying": {
+            "stage": "Buying",
+            "value": "54%",
+            "claim": "of U.S. luxury buyers used AI during their most recent luxury purchase.",
+            "source": "Bain & Comité Colbert · Jun 2026"
+          },
+          "collecting": {
+            "stage": "Collecting",
+            "value": "67%",
+            "claim": "of high-net-worth collectors see AI helping people discover artists and artworks.",
+            "source": "Art Basel & UBS · Oct 2026"
+          }
+        },
+        "notesLabel": "How these figures were measured",
+        "notes": {
+          "search": "Observed Google searches by U.S. adults, March 2025. A comparison across searches, not a measure of total web traffic.",
+          "survey2026": "Survey of 5,119 U.S. adults, 17–23 February 2026. Self-reported.",
+          "buying": "Survey of recent luxury buyers, April 2026; U.S. sample of 559. AI use as defined by the survey.",
+          "collecting": "Survey of 3,100 high-net-worth collectors in ten markets, 2026."
+        }
+      },
+      "routes": {
+        "label": "One connection · Three ways to be found",
+        "status": "Available now",
+        "items": {
+          "aura": {
+            "title": "Aura Historia search",
+            "description": "Collectors search dealers and auction houses in many countries at once, in their own language, and get alerts when a new piece matches."
+          },
+          "engines": {
+            "title": "Search engines",
+            "description": "Each listing gets its own public page with structured product data, open to search engines and their AI features."
+          },
+          "assistants": {
+            "title": "AI assistants and agents",
+            "description": "Assistants that can use outside tools can search our public catalogue, your listings included, with no account needed."
+          }
+        },
+        "detailToggle": "How does this work?",
+        "detailLabel": "Technical detail",
+        "detail": "We run a public MCP server (Model Context Protocol, an open standard AI tools use to read data) and a REST API. There is nothing for you to install or run."
+      },
+      "apps": {
+        "label": "In development · Our apps for AI assistants",
+        "intro": "We are building Aura Historia apps for these assistants, so people can search the catalogue, your listings included, right where they ask.",
+        "status": "In development",
+        "google": "Google Search & Gemini"
+      },
+      "disclaimer": "We don't control what search engines or AI assistants show: whether and how they present your listings is their decision. Apps in development are not yet available and each depends on the provider's review. Aura Historia is not affiliated with or endorsed by OpenAI, Anthropic, Google, xAI or Meta; product names are trademarks of their respective owners.",
+      "closing": {
+        "title": "No AI set-up <em>on your side.</em>",
+        "body": "Connect once through Shopify, WooCommerce or our API. However buyers find your pieces, they continue to your own shop to buy.",
+        "apply": "Become a partner",
+        "connect": "See how to connect"
+      }
+    },
     "integrations": {
       "title": "Connect your <em>inventory.</em>",
-      "subtitle": "Choose a plugin for your shop system, or build a custom integration with scoped access to your provider.",
+      "subtitle": "Use the app or plugin for the shop system you already run, or build a custom integration with scoped access to your provider.",
       "woocommerce": {
-        "title": "WordPress · WooCommerce",
+        "title": "Partner Connect for WooCommerce®",
         "description": "Install our extension directly from the WordPress plugin directory. It handles the sync for you.",
         "cta": "Open WordPress plugin",
-        "badge": "Recommended",
+        "badge": "No code",
         "kicker": "Plugin · WordPress directory"
       },
       "shopify": {
-        "title": "Shopify app",
+        "title": "Partner Connect for Shopify",
         "description": "Install our app from the Shopify App Store and your listings sync from your store.",
         "cta": "Open Shopify App Store",
-        "badge": "Popular",
+        "badge": "No code",
         "kicker": "App · Shopify App Store"
       },
       "customApi": {
@@ -1202,7 +1284,8 @@
         "result": "every entry written"
       },
       "eyebrow": "Connect",
-      "newTab": "(opens in a new tab)"
+      "newTab": "(opens in a new tab)",
+      "trademarks": "Shopify is a trademark of Shopify Inc. WooCommerce® and its associated designs are trademarks of Automattic Inc. WordPress is a trademark of the WordPress Foundation."
     },
     "howEasy": {
       "title": "Online in <em>three steps.</em>",
@@ -1218,7 +1301,7 @@
         },
         "connect": {
           "title": "Activate the integration",
-          "description": "Choose WooCommerce, Shopify or our API. Your products then appear in the search automatically."
+          "description": "Choose Shopify, WooCommerce or our API. Your products then appear in the search automatically."
         }
       },
       "eyebrow": "How it works",
