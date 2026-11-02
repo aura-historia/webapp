@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Braces, ChartLine } from "lucide-react";
 import type { ReactNode } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { ShopifyBagIcon, WordPressIcon } from "@/components/icons/PlatformIcons.tsx";
 import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navigationConfig.ts";
 import { LandingSection } from "@/features/landing/components/common/LandingSection.tsx";
 import {
@@ -9,8 +10,6 @@ import {
     SectionHeading,
 } from "@/features/landing/components/common/SectionHeading.tsx";
 import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
-import { ShopifyBagMark } from "@/features/partner/partner-program/components/brand-marks/ShopifyBagMark.tsx";
-import { WordPressMark } from "@/features/partner/partner-program/components/brand-marks/WordPressMark.tsx";
 import {
     SHOPIFY_APP_STORE_URL,
     WORDPRESS_PLUGIN_DIRECTORY_URL,
@@ -22,22 +21,33 @@ const ROW_CLASS = cn(
     NAV_FOCUS_CLASS,
 );
 
-/** Line icons for our own tools: the app's icon library, in ink so they keep their colour on hover. */
-const TOOL_ICON_CLASS = "size-5 shrink-0 text-ink sm:size-6";
+/**
+ * Our own tools take a line icon at the arrow's stroke. Like the partner marks, it stays in ink
+ * while the row turns brass on hover.
+ */
+const LINE_ICON_CLASS = "size-5 shrink-0 text-ink sm:size-6";
 
 /**
- * One destination: number, title and description, then the platform's mark or the tool's icon beside the
- * arrow. Marks keep their colours on hover; external rows say they open a new tab.
+ * The mark beside each row's arrow: the official Shopify Shopping Bag and WordPress W Mark for the
+ * partner platforms, line icons for our own tools. WooCommerce appears by name only: its trademark
+ * guidelines allow no logo without a licence. All marks are decorative; the copy names the platform.
  */
+const ROW_MARKS = {
+    shopify: <ShopifyBagIcon className="aspect-[89/101] h-5 w-auto shrink-0 sm:h-6" />,
+    wordpress: <WordPressIcon className="size-[18px] shrink-0 text-ink sm:size-[22px]" />,
+    custom: <Braces aria-hidden="true" className={LINE_ICON_CLASS} strokeWidth={1.6} />,
+    dashboard: <ChartLine aria-hidden="true" className={LINE_ICON_CLASS} strokeWidth={1.6} />,
+} satisfies Record<string, ReactNode>;
+
+type DealerRow = keyof typeof ROW_MARKS;
+
 function RowContent({
     index,
     item,
-    mark,
     external = false,
 }: {
     readonly index: number;
-    readonly item: string;
-    readonly mark: ReactNode;
+    readonly item: DealerRow;
     readonly external?: boolean;
 }) {
     const { t } = useTranslation();
@@ -56,22 +66,21 @@ function RowContent({
                 </span>
             </span>
             <span className="flex shrink-0 items-center gap-2.5 sm:gap-4">
-                {mark}
+                {ROW_MARKS[item]}
                 <ArrowUpRight
                     aria-hidden="true"
                     className="size-[18px] shrink-0 sm:size-5"
                     strokeWidth={1.6}
                 />
             </span>
-            {external && <span className="sr-only">{t("partnerProgram.integrations.newTab")}</span>}
+            {external ? <span className="sr-only">{t("landingPage.dealers.newTab")}</span> : null}
         </>
     );
 }
 
 /**
- * VI — For dealers and auction houses: the partner program and its four destinations. Partner platforms
- * carry their official mark (Shopify's full-colour bag, the WordPress W Mark; WooCommerce by name only,
- * as Woo allows no logo without a licence), our own tools a line icon, and a trademark line closes the list.
+ * VI — For dealers and auction houses: the partner program and its integrations. The store rows name
+ * our product ("Partner Connect for …", WooCommerce with ®), and the trademark line closes the list.
  */
 export function DealersSection() {
     const { t } = useTranslation();
@@ -133,12 +142,7 @@ export function DealersSection() {
                             rel="noopener noreferrer"
                             className={ROW_CLASS}
                         >
-                            <RowContent
-                                index={0}
-                                item="shopify"
-                                mark={<ShopifyBagMark className="h-5 sm:h-6" />}
-                                external
-                            />
+                            <RowContent index={0} item="shopify" external />
                         </a>
                     </li>
                     <li>
@@ -148,14 +152,7 @@ export function DealersSection() {
                             rel="noopener noreferrer"
                             className={ROW_CLASS}
                         >
-                            <RowContent
-                                index={1}
-                                item="wordpress"
-                                mark={
-                                    <WordPressMark className="size-[18px] text-ink sm:size-[22px]" />
-                                }
-                                external
-                            />
+                            <RowContent index={1} item="wordpress" external />
                         </a>
                     </li>
                     <li>
@@ -165,17 +162,7 @@ export function DealersSection() {
                             from="/$lng"
                             className={ROW_CLASS}
                         >
-                            <RowContent
-                                index={2}
-                                item="custom"
-                                mark={
-                                    <Braces
-                                        aria-hidden="true"
-                                        className={TOOL_ICON_CLASS}
-                                        strokeWidth={1.6}
-                                    />
-                                }
-                            />
+                            <RowContent index={2} item="custom" />
                         </Link>
                     </li>
                     <li>
@@ -185,17 +172,7 @@ export function DealersSection() {
                             from="/$lng"
                             className={ROW_CLASS}
                         >
-                            <RowContent
-                                index={3}
-                                item="dashboard"
-                                mark={
-                                    <ChartLine
-                                        aria-hidden="true"
-                                        className={TOOL_ICON_CLASS}
-                                        strokeWidth={1.6}
-                                    />
-                                }
-                            />
+                            <RowContent index={3} item="dashboard" />
                         </Link>
                     </li>
                 </ul>

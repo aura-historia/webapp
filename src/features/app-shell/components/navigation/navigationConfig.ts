@@ -52,9 +52,13 @@ export const SITE_SECTION_LINKS: readonly SiteSectionLink[] = [
 
 export const CONTACT_EMAIL = "contact@aura-historia.com";
 
-/** Shared focus treatment from the design system: a solid 2px brass outline, 3px offset. */
+/**
+ * Shared focus treatment from the design system: a solid 2px brass outline, 3px offset.
+ * `outline-solid` is required: in Tailwind v4 `outline-none` also sets the outline style that
+ * `outline-2` reads, so without it the ring never draws.
+ */
 export const NAV_FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 export function getActiveSiteSection(routePathname: string): SiteSectionId | undefined {
     if (routePathname === "/partner-program" || routePathname.startsWith("/partner-program/")) {

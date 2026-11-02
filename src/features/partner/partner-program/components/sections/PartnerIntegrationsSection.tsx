@@ -2,14 +2,13 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { ShopifyBagIcon, WordPressIcon } from "@/components/icons/PlatformIcons.tsx";
 import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navigationConfig.ts";
 import { LandingSection } from "@/features/landing/components/common/LandingSection.tsx";
 import {
     HEADLINE_COMPONENTS,
     SectionHeading,
 } from "@/features/landing/components/common/SectionHeading.tsx";
-import { ShopifyBagMark } from "@/features/partner/partner-program/components/brand-marks/ShopifyBagMark.tsx";
-import { WordPressMark } from "@/features/partner/partner-program/components/brand-marks/WordPressMark.tsx";
 import { PARTNER_CREATE_EXAMPLE } from "@/features/partner/partner-program/config/partnerRequestExamples.ts";
 import { PARTNER_PROGRAM_FRAGMENTS } from "@/features/partner/partner-program/config/partnerProgramFragments.ts";
 import {
@@ -156,7 +155,9 @@ export default function PartnerIntegrationsSection() {
                 >
                     <IntegrationCard
                         integration="shopify"
-                        mark={<ShopifyBagMark className="h-5 sm:h-6" />}
+                        mark={
+                            <ShopifyBagIcon className="aspect-[89/101] h-5 w-auto shrink-0 sm:h-6" />
+                        }
                         external
                     />
                 </a>
@@ -168,7 +169,7 @@ export default function PartnerIntegrationsSection() {
                 >
                     <IntegrationCard
                         integration="woocommerce"
-                        mark={<WordPressMark className="size-5 text-ink sm:size-[22px]" />}
+                        mark={<WordPressIcon className="size-5 shrink-0 text-ink sm:size-[22px]" />}
                         external
                     />
                 </a>
