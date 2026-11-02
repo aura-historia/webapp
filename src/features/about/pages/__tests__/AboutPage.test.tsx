@@ -88,7 +88,9 @@ describe("AboutPage", () => {
     it("names the sources of outside figures and links the full Barnebys comparison", async () => {
         await renderAboutPage();
 
-        expect(screen.getByText("Quelle: Art Basel / UBS")).toBeInTheDocument();
+        expect(
+            screen.getByText(/^Quelle: Art Basel & UBS Art Market Report \d{4}$/),
+        ).toBeInTheDocument();
         expect(screen.getByText("Quelle: Catawiki-Hilfecenter für Verkäufer")).toBeInTheDocument();
         expect(
             screen.getByRole("link", {

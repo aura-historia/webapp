@@ -80,7 +80,7 @@ export function AboutDifferenceSection() {
                                 {t(`aboutPage.difference.items.${item.id}.description`)}
                             </p>
                             {item.hasSource && (
-                                <p className="font-mono text-label text-ink-muted uppercase">
+                                <p className="font-mono text-label text-balance text-ink-muted uppercase">
                                     {t(`aboutPage.difference.items.${item.id}.source`)}
                                 </p>
                             )}
