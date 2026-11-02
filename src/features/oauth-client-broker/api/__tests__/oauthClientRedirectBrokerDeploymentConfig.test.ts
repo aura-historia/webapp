@@ -22,7 +22,12 @@ interface WorkerConfig {
     readonly durable_objects?: { bindings?: Array<{ name: string; class_name: string }> };
     readonly migrations?: unknown[];
     readonly exports?: Record<string, { type: string; storage?: string }>;
-    readonly ratelimits?: Array<{ name: string; simple: { limit: number; period: number } }>;
+    readonly ratelimits?: Array<{
+        name: string;
+        namespace_id: string;
+        simple: { limit: number; period: number };
+    }>;
+    readonly previews?: Pick<WorkerConfig, "vars" | "ratelimits">;
 }
 
 const wranglerConfigErrors: ParseError[] = [];
@@ -65,5 +70,12 @@ describe("WooCommerce OAuth broker deployment config", () => {
             wranglerConfig.ratelimits?.find((entry) => entry.name === BROKER_RATE_LIMITER_BINDING)
                 ?.simple,
         ).toEqual({ limit: 30, period: 60 });
+    });
+
+    it("declares WooCommerce OAuth bindings for Worker Previews", () => {
+        expect(
+            wranglerConfig.previews?.vars?.OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID,
+        ).toBe(REGISTERED_CLIENT_ID);
+        expect(wranglerConfig.previews?.ratelimits).toEqual(wranglerConfig.ratelimits);
     });
 });

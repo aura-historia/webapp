@@ -28,5 +28,19 @@
       "namespace_id": "1025",
       "simple": { "limit": 30, "period": 60 }
     }
-  ]
+  ],
+  // Wrangler Previews do not inherit production bindings. Use the same registered
+  // WooCommerce OAuth client and rate limiter as staging and production.
+  "previews": {
+    "vars": {
+      "OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID": "oc_01m5vyvraxecksre2zepjcza88"
+    },
+    "ratelimits": [
+      {
+        "name": "OAUTH_BROKER_WOOCOMMERCE_RATE_LIMITER",
+        "namespace_id": "1025",
+        "simple": { "limit": 30, "period": 60 }
+      }
+    ]
+  }
 }
