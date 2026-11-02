@@ -87,7 +87,8 @@ plain-text headers from `public/_headers`, announced by a `rel="describedby"` li
 head and by a comment in `public/robots.txt`.
 
 - Update it when public routes, the public URL patterns it describes, the REST API or MCP endpoints,
-  API documentation URLs or partner integration listings change.
+  API documentation URLs or partner integration listings change. An MCP host change also needs the
+  DNS-AID record in the Cloudflare zone updated (`docs/dns-aid.md`).
 - Use absolute HTTPS URLs that avoid redirects where possible; prerendered pages keep their trailing
   slash. Prefer Markdown sources (such as `https://docs.api.aura-historia.com/*.md`) over HTML.
 - List only public content; never link account, partner, admin or OAuth pages, and keep claims as
