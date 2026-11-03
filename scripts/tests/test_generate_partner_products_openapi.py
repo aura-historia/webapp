@@ -27,10 +27,10 @@ class ExtractPartnerSpecTests(unittest.TestCase):
     def test_repairs_prices_without_mutating_input_or_estimates(self):
         price = {"currency": "EUR", "amount": 4200}
         sample = {"sourceListingId": "test", "price": price, "priceEstimateMin": copy.deepcopy(price)}
-        operation = self.spec["paths"][extractor.TARGET_PATH]["post"]
+        operation = self.spec["paths"][extractor.SYNC_PATH]["post"]
         operation["requestBody"]["content"]["application/json"]["examples"] = {"stale": {"value": [sample]}}
         result = extractor.extract_partner_spec(self.spec)
-        example = result["paths"][extractor.TARGET_PATH]["post"]["requestBody"]["content"]["application/json"]["examples"]["stale"]["value"][0]
+        example = result["paths"][extractor.SYNC_PATH]["post"]["requestBody"]["content"]["application/json"]["examples"]["stale"]["value"][0]
         self.assertEqual("MONETARY", example["price"]["type"])
         self.assertNotIn("type", example["priceEstimateMin"])
         self.assertNotIn("type", price)
@@ -62,21 +62,67 @@ class ExtractPartnerSpecTests(unittest.TestCase):
                     extractor.component_refs({"discriminator": {"mapping": {"price": target}}})
 
     def test_fails_if_a_required_method_or_component_is_missing(self):
-        del self.spec["paths"][extractor.TARGET_PATH]["delete"]
-        with self.assertRaises(KeyError):
-            extractor.extract_partner_spec(self.spec)
-        self.setUp()
+        for path in extractor.TARGET_PATHS:
+            with self.subTest(path=path):
+                del self.spec["paths"][path]["delete"]
+                with self.assertRaises(KeyError):
+                    extractor.extract_partner_spec(self.spec)
+                self.setUp()
         del self.spec["components"]["schemas"]["CreateProductListingData"]
         with self.assertRaises(KeyError):
             extractor.extract_partner_spec(self.spec)
+        self.setUp()
+        del self.spec["components"]["schemas"]["AsyncProductListingBatchReport"]
+        with self.assertRaises(KeyError):
+            extractor.extract_partner_spec(self.spec)
+
+    def test_lists_async_then_sync_batches_with_every_method_and_no_webhook(self):
+        self.spec["paths"]["/v1/webhooks/woocommerce/{listingSourceId}"] = {
+            "post": {"operationId": "postWoocommerceWebhook", "responses": {"204": {"description": "ok"}}},
+        }
+        result = extractor.extract_partner_spec(self.spec)
+        self.assertEqual([extractor.ASYNC_PATH, extractor.SYNC_PATH], list(result["paths"]))
+        for path in extractor.TARGET_PATHS:
+            self.assertEqual(list(extractor.TARGET_METHODS), list(result["paths"][path]))
+        self.assertNotIn("webhook", json.dumps(result).lower())
+        self.assertNotIn("woocommerce", json.dumps(result).lower())
+
+    def test_keeps_complete_async_admission_contract(self):
+        result = extractor.extract_partner_spec(self.spec)
+        for method in extractor.TARGET_METHODS:
+            operation = result["paths"][extractor.ASYNC_PATH][method]
+            accepted = operation["responses"]["202"]
+            self.assertEqual(
+                "#/components/schemas/AsyncProductListingBatchReport",
+                accepted["content"]["application/json"]["schema"]["$ref"],
+            )
+            self.assertEqual(
+                "#/components/headers/AsyncProductListingIdempotencyKey",
+                accepted["headers"]["Idempotency-Key"]["$ref"],
+            )
+            self.assertIn(
+                {"$ref": "#/components/parameters/AsyncProductListingIdempotencyKey"},
+                operation["parameters"],
+            )
+        report = result["components"]["schemas"]["AsyncProductListingBatchReport"]
+        self.assertEqual(["submissionId", "acceptedCount", "failures"], report["required"])
+        self.assertIn("AsyncProductListingBatchFailure", result["components"]["schemas"])
+        self.assertIn("AsyncProductListingIdempotencyKey", result["components"]["parameters"])
+        self.assertIn("AsyncProductListingIdempotencyKey", result["components"]["headers"])
+
+    def test_published_reference_matches_the_pinned_contract(self):
+        import yaml
+
+        pinned = yaml.safe_load((ROOT / "openapi/swagger.yaml").read_text(encoding="utf-8"))
+        self.assertEqual(extractor.extract_partner_spec(pinned), self.spec)
 
     def test_retains_path_parameters_and_inherited_security(self):
-        self.spec["paths"][extractor.TARGET_PATH]["parameters"] = [{"name": "listingSourceId", "in": "path"}]
+        self.spec["paths"][extractor.SYNC_PATH]["parameters"] = [{"name": "listingSourceId", "in": "path"}]
         self.spec["security"] = [{"AccessTokenAuth": []}]
-        del self.spec["paths"][extractor.TARGET_PATH]["post"]["security"]
+        del self.spec["paths"][extractor.SYNC_PATH]["post"]["security"]
         result = extractor.extract_partner_spec(self.spec)
         self.assertEqual(self.spec["security"], result["security"])
-        self.assertEqual(self.spec["paths"][extractor.TARGET_PATH]["parameters"], result["paths"][extractor.TARGET_PATH]["parameters"])
+        self.assertEqual(self.spec["paths"][extractor.SYNC_PATH]["parameters"], result["paths"][extractor.SYNC_PATH]["parameters"])
 
 
 if __name__ == "__main__":

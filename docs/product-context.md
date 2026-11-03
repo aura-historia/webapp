@@ -85,11 +85,13 @@ For partners:
 5. Present Shopify and WooCommerce as equal options chosen by the partner's shop system, and respect each brand's naming and logo rules (see `docs/design-guidelines.md`, Partner program).
 
 Custom partner integrations use granted listing sources and access tokens with
-`product-listings:write`. POST/PATCH/PUT/DELETE batches of up to 100 entries complete
-synchronously and return HTTP 200 with only failed entries; `[]` is full success,
-including empty batches. Avoid promises of queue acceptance, immediate search
-visibility, or publication within a fixed time. WooCommerce webhook HTTP 204 only
-acknowledges confirmed admission or an authorized no-op; secrets remain server-side.
+`product-listings:write`. POST/PATCH/PUT/DELETE batches of up to 100 entries go
+asynchronously (recommended, `/async`) or synchronously. Asynchronous HTTP 202 confirms
+admission; admitted entries are processed for the partner, who has nothing to poll.
+Synchronous HTTP 200 returns only failed entries; `[]` is full success, including empty
+batches. Never call admission a completed write, and avoid promises of immediate search
+visibility or publication within a fixed time. The WooCommerce plugin's webhook HTTP 204
+only acknowledges confirmed admission or an authorized no-op; secrets remain server-side.
 See [Partner integration](partner-integration.md) for
 field clearing, auction membership, withdrawal/restoration, and retry semantics.
 

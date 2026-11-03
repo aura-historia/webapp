@@ -30,8 +30,8 @@ Key facts for agents:
 ## Partner integrations
 
 - [Partner program](https://aura-historia.com/en/partner-program/): How dealers and auction houses list their inventory on Aura Historia, free of charge and without sales commission, through WooCommerce, Shopify or the API.
-- [Custom API integration guide](https://aura-historia.com/en/partner-program/custom-integration/): Synchronous batch create, update and delete of a provider's listings, the asking-price format and the WooCommerce webhook contract.
-- [Partner product API (OpenAPI)](https://aura-historia.com/partner-products.openapi.json): The product-sync and WooCommerce webhook operations, extracted from the full contract.
+- [Custom API integration guide](https://aura-historia.com/en/partner-program/custom-integration/): Asynchronous (recommended) and synchronous batches that create, update, upsert and withdraw a provider's listings, the admission report and idempotency key, and the asking-price format.
+- [Partner product API (OpenAPI)](https://aura-historia.com/partner-products.openapi.json): The asynchronous and synchronous listing-batch operations (POST, PATCH, PUT, DELETE), extracted from the full contract.
 - [WooCommerce plugin](https://wordpress.org/plugins/aura-historia-partner-connect/): Aura Historia Partner Connect for WordPress and WooCommerce.
 - [Shopify app](https://apps.shopify.com/aura-historia-partner-connect): Aura Historia app on the Shopify App Store; syncs listings from a Shopify store.
 

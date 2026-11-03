@@ -1356,7 +1356,7 @@
     "customIntegrationPage": {
       "hero": {
         "title": "Conecte su tienda con <em>nuestra API.</em>",
-        "subtitle": "Conecte su inventario mediante un proveedor al que se le haya concedido acceso. Los lotes síncronos devuelven los resultados de escritura completados; revise los errores antes de volver a intentarlo.",
+        "subtitle": "Envíe lotes de anuncios para un proveedor al que tenga acceso. Los lotes asíncronos, la vía recomendada, se aceptan al instante y los procesamos nosotros; los lotes síncronos devuelven los resultados de escritura completados.",
         "primaryCta": "Gestionar tokens de acceso",
         "secondaryCta": "Abrir documentación API",
         "breadcrumb": "Programa de socios",
@@ -1364,58 +1364,60 @@
         "newTab": "(se abre en una pestaña nueva)"
       },
       "concept": {
-        "title": "Lotes de anuncios <em>síncronos.</em>",
-        "description": "POST, PATCH, PUT y DELETE completan las escrituras de forma síncrona. HTTP 200 contiene solo entradas fallidas; [] indica éxito total, incluso para un lote vacío. La visibilidad en búsquedas es un paso independiente.",
+        "title": "Dos formas de <em>enviar un lote.</em>",
+        "description": "Ambos modos aceptan los mismos lotes de anuncios para el mismo proveedor: hasta 100 entradas, POST para crear, PATCH para actualizar, PUT para upsert y DELETE para retirar. Se diferencian en lo que confirma la respuesta; el modo asíncrono es la opción recomendada.",
         "flowLabel": "Flujo habitual",
         "flow": {
           "send": "Envíe hasta 100 entradas",
-          "completed": "Escrituras completadas",
-          "failures": "Revise los errores antes de reintentar",
-          "allWritten": "[] = todo escrito"
-        },
-        "benefits": {
-          "synchronous": {
-            "title": "Resultados completados",
-            "description": "Cada entrada tiene su propia transacción. Las escrituras correctas permanecen confirmadas aunque otra entrada falle."
-          },
-          "retry": {
-            "title": "Reintente de forma selectiva",
-            "description": "Ante un fallo parcial, corrija y reintente solo las entradas fallidas cuando corresponda. Si todas fallan, revise la respuesta de problema."
-          }
+          "allWritten": "[] = todo escrito",
+          "asyncAdmitted": "Aceptado para su procesamiento",
+          "asyncDone": "Nada que consultar; nosotros nos encargamos",
+          "asyncDoneNote": "sin seguimiento",
+          "syncCompleted": "Escrituras completadas",
+          "syncFailures": "Reintente solo las entradas fallidas"
         },
         "eyebrow": "Cómo funcionan los lotes",
-        "flowCaption": "Síncrono"
+        "flowCaption": "Dos modos",
+        "choose": {
+          "async": "Envíe el lote y siga adelante: las entradas aceptadas las procesamos nosotros, sin nada que consultar ni confirmar.",
+          "sync": "Elíjalo cuando su sistema necesite el resultado de escritura de cada entrada antes de continuar."
+        }
       },
       "summary": {
-        "title": "Qué necesitas para la primera sincronización",
-        "subtitle": "Estos tres elementos bastan para enviar un primer lote de productos fácil de revisar.",
+        "title": "Lo que necesita para el primer lote",
+        "subtitle": "Con estos elementos basta para enviar un primer lote fácil de comprobar en cualquiera de los dos modos.",
         "items": {
           "accessToken": {
             "title": "Un token de acceso con permisos limitados",
-            "description": "Utilice product-listings:write con una autorización vigente para el proveedor de destino. Guarde las credenciales en su entorno de servidor."
+            "description": "Use product-listings:write con un acceso vigente al proveedor de destino; ambos modos lo aceptan. Guarde las credenciales en su entorno de servidor."
           },
           "listingSourceId": {
             "title": "ID del proveedor (listingSourceId)",
-            "description": "Utilice el ID canónico del proveedor en la ruta de la solicitud y su propio sourceListingId para cada anuncio."
+            "description": "Ambos modos usan el ID canónico del proveedor en la ruta de la solicitud y su propio sourceListingId para cada anuncio."
           },
           "listingBatch": {
             "title": "Un lote pequeño de anuncios",
-            "description": "Comience con pocas entradas y revise la respuesta. Cada método admite hasta 100 entradas y permite []."
+            "description": "Empiece con pocas entradas y revise la respuesta. Cada método, en ambos modos, admite como máximo 100 entradas y permite []."
+          },
+          "idempotencyKey": {
+            "title": "Una clave de idempotencia",
+            "tag": "Solo asíncrono",
+            "description": "Opcional, pero envíe su propia Idempotency-Key: una nueva para cada lote, reutilizada solo para reenviar ese mismo lote sin cambios."
           }
         },
-        "kicker": "Lista · primera sincronización"
+        "kicker": "Lista · ambos modos"
       },
       "guide": {
-        "title": "Del token de acceso a la <em>primera sincronización.</em>",
-        "subtitle": "Un flujo práctico para conectar un sistema de tienda propio con Aura Historia.",
+        "title": "Del token de acceso al <em>primer lote de anuncios.</em>",
+        "subtitle": "Un flujo práctico para conectar un sistema de tienda propio con Aura Historia, en cualquiera de los dos modos.",
         "stepLabel": "Paso {{number}}",
-        "endpointLabel": "Endpoint relevante",
+        "endpointLabel": "Endpoints relevantes",
         "focusLabel": "Qué revisar",
         "steps": {
           "selectSource": {
             "title": "Seleccionar un proveedor accesible",
             "description": "Seleccione para esta integración un proveedor al que tenga acceso actualmente. El acceso no acredita la propiedad ni el permiso para modificar los datos del proveedor.",
-            "focus": "Utilice el ID canónico del proveedor para la integración.",
+            "focus": "Use el ID canónico del proveedor para la integración; ambos modos usan el mismo.",
             "signInCta": "Iniciar sesión y comprobar el acceso al proveedor",
             "loadError": "No se pudo verificar el acceso al proveedor.",
             "retryCta": "Intentar de nuevo",
@@ -1426,7 +1428,7 @@
           },
           "requestKey": {
             "title": "Crea un token de acceso de usuario",
-            "description": "Cree un token de acceso de usuario con product-listings:write para una cuenta que tenga acceso vigente al proveedor de destino.",
+            "description": "Cree un token de acceso de usuario con product-listings:write para una cuenta con acceso vigente al proveedor de destino. El mismo token sirve para ambos modos.",
             "focus": "Copia el token inmediatamente: solo se muestra una vez. Guárdalo de forma segura y envíalo como token Bearer en cada solicitud a la API.",
             "cta": "Crear token de acceso de usuario",
             "defaultTokenName": "Sincronización de productos por API propia",
@@ -1439,20 +1441,31 @@
           },
           "preparePayload": {
             "title": "Prepara y envía tu primera solicitud de productos",
-            "description": "La URL utiliza el listingSourceId del proveedor seleccionado. Sustituya YOUR_USER_ACCESS_TOKEN en su servidor y envíe el lote de ejemplo con POST.",
-            "focus": "Compruebe HTTP 200 y el array de errores. La aceptación en una cola no demuestra una escritura correcta.",
+            "description": "El modo asíncrono está seleccionado; cambie a síncrono si necesita los resultados de escritura en la respuesta. La URL usa el listingSourceId del proveedor seleccionado. Sustituya YOUR_USER_ACCESS_TOKEN en su servidor, en asíncrono también YOUR_BATCH_KEY, y envíe el lote de ejemplo con POST.",
+            "focus": "Asíncrono: compruebe HTTP 202, acceptedCount y failures; después procesamos nosotros las entradas aceptadas. Síncrono: compruebe HTTP 200 y el array de errores.",
             "copy": "Copiar",
-            "copied": "Copiado"
+            "copied": "Copiado",
+            "modeLabel": "Modo del lote",
+            "returns": {
+              "async": "Devuelve 202 · aceptado, lo procesamos nosotros",
+              "sync": "Devuelve 200 · entradas fallidas, o [] si todo se completó"
+            }
           },
           "verifyResults": {
-            "title": "Revise el resultado del lote",
-            "description": "Un array de errores vacío [] indica éxito. Un resultado parcial enumera solo las entradas fallidas; un lote totalmente fallido devuelve una respuesta de problema.",
-            "focus": "Guarde la respuesta de forma segura y reintente solo los errores que puedan corregirse o repetirse.",
+            "title": "Lea el resultado de su modo",
+            "description": "Asíncrono: acceptedCount más failures equivale a las entradas enviadas, cada error en su índice original; las entradas aceptadas no requieren seguimiento. Síncrono: [] indica que todas las entradas se completaron; con éxito parcial solo se nombran las entradas fallidas; un lote totalmente fallido devuelve una respuesta de problema.",
+            "focus": "Guarde las respuestas de forma segura. Reenvíe sin cambios y con la misma clave un lote asíncrono incierto; reenvíe solo los errores síncronos que puedan corregirse.",
             "outcomes": {
               "allWritten": "Todo escrito",
               "partial": "Parcial",
               "allFailed": "Todo fallido",
-              "failures": "errores"
+              "failures": "errores",
+              "asyncCaption": "Asíncrono · aceptado para su procesamiento",
+              "syncCaption": "Síncrono · escrituras completadas",
+              "allAdmitted": "Todo aceptado",
+              "partlyAdmitted": "Aceptado en parte",
+              "noneAdmitted": "Nada aceptado",
+              "report": "informe"
             }
           }
         },
@@ -1460,17 +1473,24 @@
       },
       "endpoints": {
         "title": "Referencia de la <em>API de productos para socios.</em>",
-        "subtitle": "Las reglas de cada método y, después, la referencia OpenAPI integrada de los endpoints de lotes que necesita.",
+        "subtitle": "Las reglas de cada método en ambos modos y, después, la referencia OpenAPI integrada de los endpoints de lotes asíncronos y síncronos.",
         "embedTitle": "Referencia de la API de productos partner",
         "eyebrow": "Referencia",
         "frameLabel": "OpenAPI · Productos de socios",
-        "fullDocs": "Documentación completa",
-        "allMethods": "Todos los métodos"
+        "fullDocs": "Documentación completa"
       },
       "contract": {
-        "batch": {
-          "title": "Resultados de los lotes",
-          "description": "POST/PATCH/PUT/DELETE: maxItems 100; [] devuelve HTTP 200 con []. Cada entrada se ejecuta en su propia transacción. Con éxito parcial, HTTP 200 devuelve solo errores como { listingSourceId, sourceListingId, error }. Si todas las entradas de un lote no vacío fallan, el primer error se devuelve como application/problem+json. No repita las entradas correctas."
+        "asyncAdmission": {
+          "title": "Resultados de aceptación",
+          "description": "POST, PATCH, PUT y DELETE en /product-listings/async aceptan las mismas entradas, maxItems 100. HTTP 202 indica que se confirmó la aceptación de al menos una entrada, o que el lote estaba vacío; después procesamos nosotros las entradas aceptadas, sin nada que consultar. El informe es { submissionId, acceptedCount, failures }: acceptedCount más failures equivale a las entradas enviadas, y cada error incluye index, error, retryable y, cuando puede devolverse con seguridad, sourceListingId. Si no se acepta nada: 503 para envíos no confirmados, reintentables o bloqueados; si no, 500 para errores internos; 413 cuando solo falla el tamaño; en otro caso, 400. La existencia del anuncio, las subastas y la autorización del proveedor se comprueban durante el procesamiento."
+        },
+        "asyncIdempotency": {
+          "title": "Idempotencia y reintentos",
+          "description": "Envíe una sola cabecera Idempotency-Key: de 1 a 128 caracteres ASCII visibles, sin comas. Sin ella, se genera una clave y se devuelve en el informe; si esa respuesta se pierde, la clave no se puede recuperar. Tras una respuesta perdida o incierta, reenvíe exactamente el mismo lote, sin cambios y en el mismo orden, con la misma clave, incluidas las entradas rechazadas. retryable marca los errores en los que procede ese reenvío (ENQUEUE_UNCONFIRMED puede estar ya en cola); los errores de validación y de tamaño no son reintentables. Corrija las entradas no válidas en una solicitud nueva con una clave nueva, sin las entradas aceptadas ni las inciertas. submissionId solo sirve para correlacionar. Para consultar los anuncios usted mismo, use GET en /product-listings; los tokens delegados también necesitan product-listings:read."
+        },
+        "syncOutcomes": {
+          "description": "POST, PATCH, PUT y DELETE en /product-listings: maxItems 100; [] devuelve HTTP 200 con []. Cada entrada se ejecuta en su propia transacción. Con éxito parcial, HTTP 200 devuelve solo errores como { listingSourceId, sourceListingId, error }. Si todas las entradas de un lote no vacío fallan, el primer error se devuelve como application/problem+json. No repita las entradas correctas.",
+          "title": "Resultados de escrituras completadas"
         },
         "create": {
           "title": "Campos de creación y precios",
@@ -1490,11 +1510,35 @@
         },
         "withdrawal": {
           "title": "Retirada por lotes y restauración",
-          "description": "DELETE usa la misma ruta de colección con un array de { sourceListingId }. Retira anuncios y conserva su historial. PUT restaura un anuncio retirado antes de aplicar los datos actuales. Revise los errores y reintente solo las entradas fallidas cuando corresponda."
+          "description": "DELETE acepta un array de { sourceListingId } en cualquiera de las dos rutas. Retira anuncios, algo reversible, y conserva su historial; PUT restaura un anuncio retirado antes de aplicar los datos actuales. Lea el resultado según su modo: el informe de aceptación en asíncrono, las entradas fallidas en síncrono."
+        }
+      },
+      "modes": {
+        "recommended": "Recomendado",
+        "endpoint": "Endpoint · POST · PATCH · PUT · DELETE",
+        "rows": {
+          "response": "La respuesta",
+          "failures": "Si fallan entradas",
+          "retry": "Reintentos",
+          "afterwards": "Después"
         },
-        "woocommerce": {
-          "title": "WooCommerce: de servidor a servidor",
-          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} requiere autorización Bearer, x-wc-webhook-topic y x-wc-webhook-signature (HMAC-SHA256 en base64 sobre los bytes exactos del cuerpo); x-wc-webhook-delivery-id es opcional. Mantenga los secretos en el servidor; nunca los envíe ni exponga en un navegador. HTTP 204 sin cuerpo confirma admisión o un evento ignorado autorizado, no captura ni visibilidad. Los eventos de variación (type: variation) se ignoran; el propio product.updated del producto principal actualiza su anuncio. Cada eliminación retira el anuncio cuyo sourceListingId es el id entregado. date_modified_gmt admite UTC sin desplazamiento, Z o +00:00; otros desplazamientos son inválidos. El orden de origen se aplica después: las observaciones anteriores terminan sin efecto, tras una eliminación sin fecha solo un date_modified_gmt posterior restaura el anuncio y, tras una eliminación, un UPSERT sin date_modified_gmt se rechaza con CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Reintente una admisión incierta sin cambios, conservando el ID de entrega si existe."
+        "async": {
+          "label": "Asíncrono",
+          "status": "Aceptado",
+          "title": "Aceptado ahora, <em>procesado por nosotros.</em>",
+          "response": "HTTP 202 devuelve un informe de aceptación: <code>submissionId</code>, <code>acceptedCount</code> y un error por cada entrada cuya aceptación no se confirmó.",
+          "failures": "Las entradas aceptadas siguen adelante. La existencia del anuncio, las subastas y la autorización del proveedor se comprueban durante el procesamiento, no en la respuesta. Si no se acepta nada, 400, 413, 500 o 503 devuelven el mismo informe.",
+          "retry": "Tras una respuesta perdida o incierta, reenvíe el lote sin cambios con la misma Idempotency-Key. Corrija las entradas no válidas en un lote nuevo con una clave nueva.",
+          "afterwards": "Nada que consultar: una vez aceptada, la entrada queda en nuestras manos y la procesamos nosotros. Si aun así quiere comprobarlo, lea los anuncios con GET; los tokens delegados también necesitan <code>product-listings:read</code>."
+        },
+        "sync": {
+          "label": "Síncrono",
+          "status": "Completado",
+          "title": "Escrituras completadas, <em>en la respuesta.</em>",
+          "response": "HTTP 200 enumera solo las entradas fallidas; [] indica que todas se completaron, incluso en un lote vacío.",
+          "failures": "Cada entrada tiene su propia transacción, así que las escrituras completadas se conservan. Si fallan todas las entradas, se devuelve en su lugar una respuesta de problema.",
+          "retry": "Corrija y reenvíe solo las entradas fallidas.",
+          "afterwards": "La visibilidad en búsquedas llega por separado; una escritura completada aún no aparece en la búsqueda."
         }
       }
     },

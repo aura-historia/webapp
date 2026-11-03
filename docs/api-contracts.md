@@ -70,8 +70,8 @@ admin workflows in [admin workflows](admin-workflows.md).
     events are authorized no-ops, `related_ids` is ignored, every DELETE withdraws the listing
     keyed by the delivered `id`, delivery IDs bind exact retries only, and source order follows
     `date_modified_gmt`; after a deletion, an UPSERT without it fails with
-    `CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS`. The browser never calls the webhook; the custom integration guide and
-    [partner integration](partner-integration.md#woocommerce-webhook) follow the contract.
+    `CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS`. The browser never calls the webhook, and the custom integration guide and its reference no
+    longer show it; [partner integration](partner-integration.md#woocommerce-webhook) keeps the contract.
   - **Bounded search dependencies** ([backend#2625](https://github.com/aura-historia/backend/issues/2625)):
     description only. A slow query embedding falls back to BM25 on a first page; a semantic
     continuation or a stalled index returns `503 PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE` instead
@@ -217,12 +217,13 @@ To adopt a backend revision:
   consumed by the admin product listing workspace
   ([#1101](https://github.com/aura-historia/webapp/issues/1101); see
   [admin workflows](admin-workflows.md#product-listing-administration)).
-- Partner async ingestion batches and provider ingestion configuration are external API
-  capabilities, not browser workflows (see [partner integration](partner-integration.md)).
+- Partner async ingestion batches (the recommended mode, documented first in the custom
+  integration guide and its reference), synchronous batches and provider ingestion configuration
+  are external API capabilities, not browser workflows (see [partner integration](partner-integration.md)).
 - The partner single-listing operations (`listPartnerProductListings`, `getPartnerProductListing`,
   `updatePartnerProductListing`, `withdrawPartnerProductListing`, `restorePartnerProductListing`)
   are generated-only: there is no partner listing workspace yet, and the public partner reference
-  still covers only the batch writes and the WooCommerce webhook. They need an active Partnership
+  covers only the asynchronous and synchronous batch writes. They need an active Partnership
   grant for the source; administrator role alone does not grant access.
 - `postLoopsPreferenceWebhook` is a signed server-to-server endpoint; the browser never calls it.
 - `OwnUserAccountData.marketingEmailConsent` is not mapped; no account view shows consent yet (see

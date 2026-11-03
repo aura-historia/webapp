@@ -3,7 +3,7 @@
   "info": {
     "title": "Aura Historia Partner Listing API Reference",
     "version": "1.0.0",
-    "description": "Synchronous listing-source batch writes and server-to-server WooCommerce webhooks. Use product-listings:write and a current grant for the target listing source. Batch HTTP 200 reports completed writes; WooCommerce HTTP 204 only acknowledges confirmed admission or an authorized no-op, not completed ingestion."
+    "description": "Listing-source batch writes in two modes, each with POST, PATCH, PUT and DELETE. Asynchronous submission (recommended, /async) answers HTTP 202 once entries are admitted; admitted entries are then processed for you. Synchronous batches answer HTTP 200 with completed writes and the entries that failed. Both use product-listings:write and a current grant for the target listing source."
   },
   "x-source-url": "https://raw.githubusercontent.com/aura-historia/backend/refs/heads/develop/docs/swagger.yaml",
   "x-source-contract-sha256": "c9b2c4b8e6cf05d9a2dc560b0565de1351bfac74dd01b55a15cb86000004af49",
@@ -18,6 +18,897 @@
     }
   ],
   "paths": {
+    "/v1/listing-sources/{listingSourceId}/product-listings/async": {
+      "post": {
+        "summary": "Submit a batch of product-listing creates asynchronously (Partner API)",
+        "operationId": "postAsyncPartnerProductListings",
+        "tags": [
+          "ProductListings"
+        ],
+        "description": "Submits the same JSON array of create objects as the synchronous POST, with up to 100\noriginal entries. Accepts a partner user's Cognito access JWT or Aura access token;\ndelegated access requires `product-listings:write`. No client-supplied queue or authority\nmetadata is accepted. Each entry is parsed and validated independently after whole-request\nJSON/array/size validation; invalid entries do not prevent eligible siblings from being\nExisting create field rules apply (including optional `title` and `description`, omitted/null availability,\noptional pricing, and invalid outer `auction: null`). A syntactically valid missing Auction,\nexisting listing key, partnership/source authority, lifecycle, and other business\nconflicts are decided downstream, not reported as immediate item failures.\n\nOnly confirmed queue admission counts as accepted. `202` means admission, not creation,\ncompletion, rollback, or immediate search visibility. An unconfirmed send may already\nhave been queued. `submissionId` is an opaque correlation identifier, not a job ID:\nthere is no submission status endpoint, batch-level deduplication, or Location header.\nNo created listing IDs or synchronous mutation results are returned.\n\nFor a non-empty evaluated batch, at least one confirmed acceptance yields `202`, even\nwith item failures. With zero accepted, any unconfirmed send or retryable send/deadline/FIFO\nblocked outcome yields `503`; otherwise internal/configuration failures yield `500`;\notherwise all encoded-message-size failures yield `413`; remaining validation/value/size\nfailures yield `400`. An empty array returns `202` after authentication and capability\nchecks, with no sends. Every evaluated report uses the same JSON schema and echoes the\neffective `Idempotency-Key`, including non-2xx reports. Before item evaluation, bad\npath/key, malformed JSON, non-array, empty text, or over-100 array returns `400`;\nauthentication `401`, insufficient capability `403`, whole-body/front-door limit `413`,\nand pre-evaluation internal/configuration or transient dependency failure `500` or `503`.\nThese request-wide failures use `ApiError` and send nothing.\n\nSupply one `Idempotency-Key` for retries; a key is generated if omitted and echoed\non evaluated responses. A lost response containing a generated key cannot be recovered.\nAfter transport uncertainty retry the exact unchanged ordered logical batch with the\nsame key, including previously rejected entries at their original zero-based indices;\nnever compact, reorder, or change its content under that key. Per-command downstream\nreceipts deduplicate independently; the submission ID does not suppress the batch.\nCorrect definitely invalid items in a separate request with a new key and do not include\naccepted/uncertain siblings. A same-group eligible successor is blocked when its FIFO\npredecessor is unresolved; unrelated groups may still be accepted. FIFO covers\nshared-queue acceptance per group, not cross-group or execution order.\n",
+        "parameters": [
+          {
+            "name": "listingSourceId",
+            "in": "path",
+            "required": true,
+            "description": "Strict `ls_` ListingSource TypeID.",
+            "schema": {
+              "type": "string",
+              "example": "ls_6rd827eqfefsva9teecmwa3ate"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/AsyncProductListingIdempotencyKey"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "AccessTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Same array and item contract as synchronous create; individual invalid items produce report failures, not whole-batch rejection.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/components/schemas/CreateProductListingData"
+                }
+              },
+              "example": [
+                {
+                  "sourceListingId": "SKU-001",
+                  "title": {
+                    "text": "Baroque Violin",
+                    "language": "en"
+                  },
+                  "description": {
+                    "text": "An eighteenth-century violin.",
+                    "language": "en"
+                  },
+                  "url": "https://my-listing-source.com/product-listings/SKU-001",
+                  "images": [
+                    "https://my-listing-source.com/images/violin-1.jpg"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "At least one item confirmed admitted, or an authorized empty array. May include item-level failures.",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                },
+                "examples": {
+                  "partial_admission": {
+                    "summary": "Four original entries; indices 0 and 2 confirmed accepted",
+                    "value": {
+                      "submissionId": "plis1_example",
+                      "acceptedCount": 2,
+                      "failures": [
+                        {
+                          "index": 1,
+                          "sourceListingId": "SKU-002",
+                          "error": "BAD_BODY_VALUE",
+                          "retryable": false
+                        },
+                        {
+                          "index": 3,
+                          "sourceListingId": "SKU-004",
+                          "error": "ENQUEUE_UNCONFIRMED",
+                          "retryable": true
+                        }
+                      ]
+                    }
+                  },
+                  "empty_batch": {
+                    "summary": "Empty authorized batch; no sends",
+                    "value": {
+                      "submissionId": "plis1_example",
+                      "acceptedCount": 0,
+                      "failures": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Pre-evaluation invalid request (ApiError), or zero accepted with only item validation/value/size rejections (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                },
+                "example": {
+                  "status": 400,
+                  "title": "Bad Request",
+                  "error": "BAD_BODY_VALUE"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                },
+                "example": {
+                  "submissionId": "plis1_example",
+                  "acceptedCount": 0,
+                  "failures": [
+                    {
+                      "index": 0,
+                      "error": "BAD_BODY_VALUE",
+                      "retryable": false
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential; no sends.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient credential capability; no sends.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Whole-body/front-door limit before evaluation (ApiError), or zero accepted with only encoded-message-size item failures (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                },
+                "example": {
+                  "submissionId": "plis1_example",
+                  "acceptedCount": 0,
+                  "failures": [
+                    {
+                      "index": 0,
+                      "sourceListingId": "SKU-001",
+                      "error": "PRODUCT_LISTING_INGESTION_PAYLOAD_TOO_LARGE",
+                      "retryable": false
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Pre-evaluation internal/configuration failure (ApiError), or zero accepted with an item internal/configuration failure and no retryable send outcome (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                },
+                "example": {
+                  "submissionId": "plis1_example",
+                  "acceptedCount": 0,
+                  "failures": [
+                    {
+                      "index": 0,
+                      "sourceListingId": "SKU-001",
+                      "error": "PRODUCT_LISTING_INGESTION_INTERNAL_ERROR",
+                      "retryable": false
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Pre-evaluation transient dependency failure (ApiError), or zero accepted with an unconfirmed/retryable send, deadline or blocked outcome (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                },
+                "example": {
+                  "submissionId": "plis1_example",
+                  "acceptedCount": 0,
+                  "failures": [
+                    {
+                      "index": 0,
+                      "sourceListingId": "SKU-001",
+                      "error": "ENQUEUE_UNCONFIRMED",
+                      "retryable": true
+                    },
+                    {
+                      "index": 1,
+                      "sourceListingId": "SKU-001",
+                      "error": "ENQUEUE_BLOCKED",
+                      "retryable": true
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Submit a batch of product-listing updates asynchronously (Partner API)",
+        "operationId": "patchAsyncPartnerProductListings",
+        "tags": [
+          "ProductListings"
+        ],
+        "description": "Submits the same JSON array of up to 100 `UpdateProductListingData` items as the\nsynchronous PATCH. Accepts a partner user's Cognito access JWT or Aura access token;\ndelegated access requires `product-listings:write`. No client-supplied queue or authority\nmetadata is accepted. After whole-request JSON/array/size validation, each item is parsed\nand validated independently; invalid items do not prevent eligible siblings from being\nqueued. The synchronous PATCH field rules apply: omit fields to preserve them; `null`\nclears availability, price, price estimates and clearable nested auction leaves; omit\n`auction` to preserve its context, or send an object to patch it. `auction: null`,\n`url: null` and `images: null` are invalid; `images: []` clears images. Omit\n`auction.auctionId` to preserve membership, use `null` to clear it or an ID to set it.\nA syntactically valid but missing listing or Auction, partnership/source authority,\nlifecycle and other business conflicts are checked downstream, not reported as immediate\nitem failures or a synchronous `404`. Admission does not guarantee the patch is applied.\n\nOnly confirmed queue admission counts as accepted. `202` means admission, not update\ncompletion, rollback, or immediate search visibility. An unconfirmed send may already\nhave been queued. `submissionId` is an opaque correlation identifier, not a job ID:\nthere is no submission status endpoint, batch-level deduplication, or Location header.\nNo updated listing IDs or synchronous mutation results are returned.\n\nFor a non-empty evaluated batch, at least one confirmed acceptance yields `202`, even\nwith item failures. With zero accepted, any unconfirmed send or retryable send/deadline/FIFO\nblocked outcome yields `503`; otherwise internal/configuration failures yield `500`;\notherwise all encoded-message-size failures yield `413`; remaining validation/value/size\nfailures yield `400`. An empty array returns `202` after authentication and capability\nchecks, with no sends. Every evaluated report uses the shared async batch JSON schema\nand echoes the effective `Idempotency-Key`, including non-2xx reports. Before item\nevaluation, bad path/key, malformed JSON, non-array, empty text, or over-100 array\nreturns `400`; authentication `401`, insufficient capability `403`, whole-body/front-door\nlimit `413`, and pre-evaluation internal/configuration or transient dependency failure\n`500` or `503`. These request-wide failures use `ApiError` and send nothing.\n\nSupply one `Idempotency-Key` for retries; a key is generated if omitted and echoed on\nevaluated responses. A lost response containing a generated key cannot be recovered.\nAfter transport uncertainty retry the exact unchanged ordered logical batch with the\nsame key, including previously rejected entries at their original zero-based indices;\nnever compact, reorder, or change its content under that key. Per-command downstream\nreceipts deduplicate independently; the submission ID does not suppress the batch.\nCorrect definitely invalid items in a separate request with a new key and do not include\naccepted/uncertain siblings. A same-group eligible successor is blocked when its FIFO\npredecessor is unresolved; unrelated groups may still be accepted. FIFO covers\nshared-queue acceptance per group, not cross-group or execution order.\n",
+        "parameters": [
+          {
+            "name": "listingSourceId",
+            "in": "path",
+            "required": true,
+            "description": "Strict `ls_` ListingSource TypeID.",
+            "schema": {
+              "type": "string",
+              "example": "ls_6rd827eqfefsva9teecmwa3ate"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/AsyncProductListingIdempotencyKey"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "AccessTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Same array and item contract as synchronous PATCH; individual invalid items produce report failures, not whole-batch rejection.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/components/schemas/UpdateProductListingData"
+                }
+              },
+              "example": [
+                {
+                  "sourceListingId": "baroque-violin-001",
+                  "availability": null
+                },
+                {
+                  "sourceListingId": "baroque-violin-002",
+                  "url": null
+                },
+                {
+                  "sourceListingId": "baroque-violin-003",
+                  "price": {
+                    "type": "MONETARY",
+                    "currency": "EUR",
+                    "amount": 5000
+                  }
+                },
+                {
+                  "sourceListingId": "baroque-violin-004",
+                  "images": []
+                }
+              ]
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "At least one update confirmed admitted, or an authorized empty array. May include item-level failures; no update completion implied.",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                },
+                "examples": {
+                  "partial_admission": {
+                    "summary": "Four original updates; indices 0 and 2 confirmed accepted",
+                    "value": {
+                      "submissionId": "plis1_example",
+                      "acceptedCount": 2,
+                      "failures": [
+                        {
+                          "index": 1,
+                          "sourceListingId": "baroque-violin-002",
+                          "error": "BAD_BODY_VALUE",
+                          "retryable": false
+                        },
+                        {
+                          "index": 3,
+                          "sourceListingId": "baroque-violin-004",
+                          "error": "ENQUEUE_UNCONFIRMED",
+                          "retryable": true
+                        }
+                      ]
+                    }
+                  },
+                  "empty_batch": {
+                    "summary": "Empty authorized batch; no sends",
+                    "value": {
+                      "submissionId": "plis1_example",
+                      "acceptedCount": 0,
+                      "failures": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Pre-evaluation invalid request (ApiError), or zero accepted with only item validation/value/size rejections (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential; no sends.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient credential capability; no sends.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Whole-body/front-door limit before evaluation (ApiError), or zero accepted with only encoded-message-size item failures (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Pre-evaluation internal/configuration failure (ApiError), or zero accepted with an item internal/configuration failure and no retryable send outcome (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Pre-evaluation transient dependency failure (ApiError), or zero accepted with an unconfirmed/retryable send, deadline or blocked outcome (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Submit a batch of product-listing upserts asynchronously (Partner API)",
+        "operationId": "putAsyncPartnerProductListings",
+        "tags": [
+          "ProductListings"
+        ],
+        "description": "Submits the same JSON array of up to 100 `UpsertProductListingData` items as the\nsynchronous PUT. Accepts a partner user's Cognito access JWT or Aura access token;\ndelegated access requires `product-listings:write`. No client-supplied queue or authority\nmetadata is accepted. After whole-request JSON/array/size validation, items are parsed\nand validated independently; invalid items do not prevent eligible siblings from being\nqueued. For a new listing, omitted or null availability, price and estimates create no\nvalue; `auction` may be omitted or asserted as an object, not null. For an existing\nlisting, omitted availability, price, estimates and auction facts preserve their values;\nnull clears clearable values and nested auction leaves. `auction.auctionId` may be omitted\nto preserve membership, null to clear it or an ID to set it. `images: []` clears images,\nwhile `images: null` and `auction: null` are invalid. An omitted or null `url` preserves\nan existing URL; a URL value replaces it. Title and description use tri-state patches on both creation and update: omission preserves, null clears, and a localized value sets.\nAuction existence, listing state, partnership/source authority, lifecycle and other\nbusiness conflicts are decided downstream, not as an\nimmediate item failure or synchronous `404`.\n\nOnly confirmed queue admission counts as accepted. `202` means admission, not an applied\nupsert, rollback, or immediate search visibility. An unconfirmed send may already have\nbeen queued. `submissionId` is an opaque correlation identifier, not a job ID; there is\nno submission status endpoint, batch-level deduplication, or Location header. No created\nor updated listing IDs or synchronous mutation results are returned.\n\nFor a non-empty evaluated batch, at least one confirmed acceptance yields `202`, even\nwith item failures. With zero accepted, an unconfirmed send or retryable send/deadline/FIFO\nblocked outcome yields `503`; otherwise internal/configuration failures yield `500`;\notherwise all encoded-message-size failures yield `413`; remaining validation/value/size\nfailures yield `400`. An empty array returns `202` after authentication and capability\nchecks, with no sends. Every evaluated report uses the shared async batch JSON schema\nand echoes the effective `Idempotency-Key`, including non-2xx reports. Before evaluation,\nbad path/key, malformed JSON, non-array, empty text or over-100 array returns `400`;\nauthentication `401`, insufficient capability `403`, whole-body/front-door limit `413`,\nand pre-evaluation internal/configuration or transient dependency failure `500` or `503`.\nThese request-wide failures use `ApiError` and send nothing.\n\nSupply one `Idempotency-Key` for retries; a key is generated if omitted and echoed on\nevaluated responses. A lost response containing a generated key cannot be recovered.\nAfter transport uncertainty retry the exact unchanged ordered logical batch with the\nsame key, including rejected items at their original zero-based indices; never compact,\nreorder or change its content under that key. Per-command downstream receipts deduplicate\nindependently; the submission ID does not suppress the batch. Correct definitely invalid\nitems separately with a new key, excluding accepted/uncertain siblings. A same-group\neligible successor is blocked when its FIFO predecessor is unresolved; unrelated groups\nmay still be accepted. FIFO covers shared-queue acceptance per group, not execution order.\n",
+        "parameters": [
+          {
+            "name": "listingSourceId",
+            "in": "path",
+            "required": true,
+            "description": "Strict `ls_` ListingSource TypeID.",
+            "schema": {
+              "type": "string",
+              "example": "ls_6rd827eqfefsva9teecmwa3ate"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/AsyncProductListingIdempotencyKey"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "AccessTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Same array and item contract as synchronous PUT; individual invalid items produce report failures, not whole-batch rejection.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/components/schemas/UpsertProductListingData"
+                }
+              },
+              "example": [
+                {
+                  "sourceListingId": "baroque-violin-001",
+                  "title": {
+                    "text": "Baroque Violin",
+                    "language": "en"
+                  },
+                  "url": "https://my-listing-source.com/product-listings/baroque-violin"
+                },
+                {
+                  "sourceListingId": "baroque-violin-002",
+                  "images": []
+                },
+                {
+                  "sourceListingId": "baroque-violin-003",
+                  "auction": null
+                }
+              ]
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "At least one upsert confirmed admitted, or an authorized empty array. May include item-level failures; no upsert completion implied.",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                },
+                "examples": {
+                  "partial_admission": {
+                    "summary": "Three original upserts; indices 0 and 1 confirmed accepted",
+                    "value": {
+                      "submissionId": "plis1_example",
+                      "acceptedCount": 2,
+                      "failures": [
+                        {
+                          "index": 2,
+                          "sourceListingId": "baroque-violin-003",
+                          "error": "BAD_BODY_VALUE",
+                          "retryable": false
+                        }
+                      ]
+                    }
+                  },
+                  "empty_batch": {
+                    "summary": "Empty authorized batch; no sends",
+                    "value": {
+                      "submissionId": "plis1_example",
+                      "acceptedCount": 0,
+                      "failures": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Pre-evaluation invalid request (ApiError), or zero accepted with only item validation/value/size rejections (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential; no sends.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient credential capability; no sends.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Whole-body/front-door limit before evaluation (ApiError), or zero accepted with only encoded-message-size item failures (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Pre-evaluation internal/configuration failure (ApiError), or zero accepted with an item internal/configuration failure and no retryable send outcome (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Pre-evaluation transient dependency failure (ApiError), or zero accepted with an unconfirmed/retryable send, deadline or blocked outcome (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Submit a batch of product-listing withdrawals asynchronously (Partner API)",
+        "operationId": "deleteAsyncPartnerProductListings",
+        "tags": [
+          "ProductListings"
+        ],
+        "description": "Submits the same JSON array of up to 100 `WithdrawProductListingData` items as the\nsynchronous DELETE, without changing that synchronous operation. Each item identifies\na listing by `sourceListingId`; withdrawal is reversible, not physical deletion. Accepts\na partner user's Cognito access JWT or Aura access token; delegated access requires\n`product-listings:write`. No client-supplied queue or authority metadata is accepted.\nAfter whole-request JSON/array/size validation, items are parsed and validated\nindependently; invalid items do not prevent eligible siblings from being queued.\nListing existence, partnership/source authority, lifecycle and other business conflicts\nare checked downstream, not as immediate item failures or a synchronous `404`.\n\nOnly confirmed queue admission counts as accepted. `202` means admission, not an applied\nwithdrawal, rollback, or immediate removal from public search. An unconfirmed send may\nalready have been queued. `submissionId` is an opaque correlation identifier, not a job\nID; there is no submission status endpoint, batch-level deduplication, or Location header.\nNo synchronous deletion results or withdrawn listing IDs are returned.\n\nFor a non-empty evaluated batch, at least one confirmed acceptance yields `202`, even\nwith item failures. With zero accepted, an unconfirmed send or retryable send/deadline/FIFO\nblocked outcome yields `503`; otherwise internal/configuration failures yield `500`;\notherwise all encoded-message-size failures yield `413`; remaining validation/value/size\nfailures yield `400`. An empty array returns `202` after authentication and capability\nchecks, with no sends. Every evaluated report uses the shared async batch JSON schema\nand echoes the effective `Idempotency-Key`, including non-2xx reports. Before evaluation,\nbad path/key, malformed JSON, non-array, empty text or over-100 array returns `400`;\nauthentication `401`, insufficient capability `403`, whole-body/front-door limit `413`,\nand pre-evaluation internal/configuration or transient dependency failure `500` or `503`.\nThese request-wide failures use `ApiError` and send nothing.\n\nSupply one `Idempotency-Key` for retries; a key is generated if omitted and echoed on\nevaluated responses. A lost response containing a generated key cannot be recovered.\nAfter transport uncertainty retry the exact unchanged ordered logical batch with the\nsame key, including rejected items at their original zero-based indices; never compact,\nreorder or change its content under that key. Per-command downstream receipts deduplicate\nindependently; the submission ID does not suppress the batch. Correct definitely invalid\nitems separately with a new key, excluding accepted/uncertain siblings. A same-group\neligible successor is blocked when its FIFO predecessor is unresolved; unrelated groups\nmay still be accepted. FIFO covers shared-queue acceptance per group, not execution order.\n",
+        "parameters": [
+          {
+            "name": "listingSourceId",
+            "in": "path",
+            "required": true,
+            "description": "Strict `ls_` ListingSource TypeID.",
+            "schema": {
+              "type": "string",
+              "example": "ls_6rd827eqfefsva9teecmwa3ate"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/AsyncProductListingIdempotencyKey"
+          }
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "AccessTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Same array and item contract as synchronous DELETE; individual invalid items produce report failures, not whole-batch rejection.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/components/schemas/WithdrawProductListingData"
+                }
+              },
+              "example": [
+                {
+                  "sourceListingId": "baroque-violin-001"
+                },
+                {
+                  "sourceListingId": "  "
+                },
+                {
+                  "sourceListingId": "baroque-violin-003"
+                }
+              ]
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "At least one withdrawal confirmed admitted, or an authorized empty array. May include item-level failures; no withdrawal completion implied.",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                },
+                "examples": {
+                  "partial_admission": {
+                    "summary": "Three original withdrawals; indices 0 and 2 confirmed accepted",
+                    "value": {
+                      "submissionId": "plis1_example",
+                      "acceptedCount": 2,
+                      "failures": [
+                        {
+                          "index": 1,
+                          "error": "BAD_BODY_VALUE",
+                          "retryable": false
+                        }
+                      ]
+                    }
+                  },
+                  "empty_batch": {
+                    "summary": "Empty authorized batch; no sends",
+                    "value": {
+                      "submissionId": "plis1_example",
+                      "acceptedCount": 0,
+                      "failures": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Pre-evaluation invalid request (ApiError), or zero accepted with only item validation/value/size rejections (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid bearer credential; no sends.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Insufficient credential capability; no sends.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Whole-body/front-door limit before evaluation (ApiError), or zero accepted with only encoded-message-size item failures (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Pre-evaluation internal/configuration failure (ApiError), or zero accepted with an item internal/configuration failure and no retryable send outcome (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Pre-evaluation transient dependency failure (ApiError), or zero accepted with an unconfirmed/retryable send, deadline or blocked outcome (batch report).",
+            "headers": {
+              "Idempotency-Key": {
+                "$ref": "#/components/headers/AsyncProductListingIdempotencyKey"
+              }
+            },
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsyncProductListingBatchReport"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/listing-sources/{listingSourceId}/product-listings": {
       "post": {
         "summary": "Batch create product-listings (Partner API)",
@@ -911,398 +1802,36 @@
           }
         }
       }
-    },
-    "/v1/webhooks/woocommerce/{listingSourceId}": {
-      "post": {
-        "summary": "Ingest a WooCommerce product webhook (Partner API)",
-        "description": "Accepts a single WooCommerce product webhook event for a partnership using bearer authentication.\nThis endpoint is intended for partnerships and accepts:\n- a Cognito bearer token for the partner user linked to the listing source, or\n- an Aura Historia access token owned by that partner user.\n\nThe caller must provide:\n- the bearer token in the `Authorization` header,\n- the WooCommerce topic in `x-wc-webhook-topic`, and\n- the base64-encoded HMAC-SHA256 signature over the exact, untouched request body bytes in `x-wc-webhook-signature`, and\n- optionally, the WooCommerce delivery identifier in `x-wc-webhook-delivery-id`.\n\nA supplied delivery identifier applies only when an event maps to raw capture. Its provider receipt binds the identifier to a\ncanonical semantic source-payload SHA-256 evidence digest for 90 days, because WooCommerce repeats identifiers within one second.\nAn exact retry of a captured observation may be deduplicated during downstream capture; a different payload under the same identifier is a separate observation ordered by `date_modified_gmt`.\nLogical receipt expiry permits a new receipt but never removes or rewrites a captured raw revision or its provenance.\nA timestamp-free DELETE sets a restore barrier at the later of its capture time and every `date_modified_gmt` already known for the product.\nA later observation applies only when its `date_modified_gmt` is after the barrier; older ones complete without effect. An UPSERT without `date_modified_gmt` is rejected and logged during downstream capture (`CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS`), not as an immediate HTTP `409`. Admission does not create a provider receipt or raw revision.\nThe service verifies the signature over untouched body bytes before JSON parsing, then submits mapped observations as `CAPTURE_RAW` to the shared FIFO after bearer/capability checks and source configuration lookup. The consumer checks the current partner/source grant for mapped observations; ignored no-ops check it immediately. Only a matching, confirmed queue acceptance permits `204`; rejected, oversized, unconfirmed, and not-attempted submissions are not acknowledged. The FIFO consumer later commits raw capture with the command receipt; provider receipt and source-order decisions occur during that capture. Authorized ignored create/update events are no-op `204` without queue send or receipt, even when they include a delivery identifier. Retry an uncertain submission with the same signed body, topic, source, actor and delivery identifier where provided; without a delivery identifier, retries cannot recover the original command identity after a lost reply and have no provider receipt-based deduplication guarantee. A lost reply may already have enqueued work; never infer rollback from a non-204.\n\nTopic-specific payload requirements:\n- every topic requires `id`\n- `product.created` and `product.updated` with `status: publish` capture an UPSERT and require nonblank\n`name` and `permalink`\n- `product.created` and `product.updated` with `status: trash`, `draft`, `pending`, or `private` capture a\nDELETE and require only `id`; missing or unsupported statuses are authorized ignored events and also require\nonly `id`\n- `product.created` and `product.updated` with `type: variation` are authorized ignored events whatever their\nstatus and require only `id`. A variation belongs to its parent product's listing: when WooCommerce saves or\ndeletes a variation it re-saves the parent and delivers the parent's own `product.updated`, which refreshes\nthat listing.\n- `product.deleted` captures a DELETE for the delivered `id` and requires only `id`. WooCommerce sends only\n`id` for a deleted variation as well, so deleting a variation never withdraws its parent's listing.\n- every DELETE withdraws the listing whose `sourceListingId` equals the delivered `id`, including a listing\ncreated only through the partner product-listing API\n\nThe listing source identified by `listingSourceId` must have a WooCommerce ingestion configuration\nwith a nonblank write-only `webhookSecret` and a configured language.\nA nonblank `price` maps to a `SET` and requires the listing source to have `woocommerceCurrency` configured.\n",
-        "operationId": "postWoocommerceWebhook",
-        "tags": [
-          "ProductListings"
-        ],
-        "security": [
-          {
-            "BearerAuth": []
-          },
-          {
-            "AccessTokenAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "listingSourceId",
-            "in": "path",
-            "required": true,
-            "description": "Unique identifier of the target ListingSource that should receive the WooCommerce webhook",
-            "schema": {
-              "type": "string",
-              "example": "ls_6rd827eqfefsva9teecmwa3ate"
-            }
-          },
-          {
-            "name": "x-wc-webhook-topic",
-            "in": "header",
-            "required": true,
-            "description": "WooCommerce webhook topic that determines how the payload is interpreted.\nOnly the listed topic values are accepted.\n",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "product.created",
-                "product.updated",
-                "product.deleted"
-              ]
-            },
-            "example": "product.created"
-          },
-          {
-            "name": "x-wc-webhook-signature",
-            "in": "header",
-            "required": true,
-            "description": "Base64-encoded HMAC-SHA256 signature of the raw HTTP request body, calculated with the\nWooCommerce ingestion configuration's `webhookSecret`.\n",
-            "schema": {
-              "type": "string"
-            },
-            "example": "wqW/6B0S9myGxVQ8l3PPX2f6s4HWtY6q9KAr4m+Jv3E="
-          },
-          {
-            "name": "x-wc-webhook-delivery-id",
-            "in": "header",
-            "required": false,
-            "description": "Optional WooCommerce delivery identifier. For an event that maps to raw capture, its downstream provider receipt binds the identifier to a canonical semantic source-payload SHA-256 evidence digest for 90 days and deduplicates exact retries when applied. WooCommerce repeats an identifier within one second, so a different payload under the same identifier is a separate observation, not a conflict. Logical receipt expiry permits a new receipt but never removes or rewrites a captured raw revision or its provenance. Authorized ignored create/update events persist no receipt and receive no receipt-based retry-deduplication, even when this header is supplied. When absent, no provider receipt or receipt-based retry-deduplication guarantee is made.",
-            "schema": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 512
-            },
-            "example": "4d1f0a18-ec5e-4e97-8cf8-ff4edc8b2e31"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "description": "Topic-specific WooCommerce product payload.\nEvery topic requires `id`. For `product.created` and `product.updated`, `status: publish` captures an UPSERT and requires nonblank `name` and `permalink`; `status: trash`, `draft`, `pending`, or `private` captures a DELETE and requires only `id`. Missing or unsupported create/update statuses are authorized ignored events and require only `id`. A create/update payload with `type: variation` is an authorized ignored event whatever its status. `product.deleted` captures a DELETE for the delivered `id` and requires only `id`; its other fields are optional and ignored when absent.\nWooCommerce `description`, `short_description` and `related_ids` are accepted but ignored on all topics. Descriptions do not populate Aura's canonical product description, and `related_ids` is a random sample of related products; all three are omitted from persisted `source_payload`, and provider-receipt evidence digests use this sanitized payload. The webhook signature is still verified over the exact original request body bytes.\nWhen present on an event that maps to raw capture, WooCommerce `date_modified_gmt` is the source ordering timestamp. It accepts a no-offset GMT value interpreted as UTC, RFC3339 `Z`, or RFC3339 `+00:00`; malformed or nonzero-offset values return `400 BAD_BODY_VALUE` before submission. Valid timestamps order observations of the same product only during consumer capture: older observations complete without effect, and observations with an equal timestamp apply in arrival order, except that an UPSERT never overtakes a DELETE with the same timestamp. `product.created` and `product.updated` events with missing or unsupported status, or with `type: variation`, are ignored only after capability and source authorization, then acknowledge `204` without parsing `date_modified_gmt` or constructing a provider receipt; a denied ignored event returns `403 FORBIDDEN`. An authorized ignored event persists no provider receipt even if a delivery ID is supplied. Omit it when source order is unavailable; an omitted timestamp provides no source-ordering guarantee.\n",
-          "content": {
-            "application/json": {
-              "schema": {
-                "anyOf": [
-                  {
-                    "$ref": "#/components/schemas/WoocommerceProductWebhookUpsertData"
-                  },
-                  {
-                    "$ref": "#/components/schemas/WoocommerceProductWebhookDeleteData"
-                  }
-                ]
-              },
-              "examples": {
-                "created": {
-                  "summary": "Product created webhook",
-                  "value": {
-                    "id": 17,
-                    "name": "Test Produkt Titel",
-                    "permalink": "http://aura-historia-test.local/product/test-produkt-titel/",
-                    "description": "<p>Hayde yallah test beschreibung</p>\n",
-                    "short_description": "<p>Hayde yallah kurze test beschreibung</p>\n",
-                    "price": "42.69",
-                    "status": "publish",
-                    "stock_status": "instock",
-                    "images": []
-                  }
-                },
-                "updated": {
-                  "summary": "Product updated webhook",
-                  "value": {
-                    "id": 17,
-                    "name": "Test Produkt Titel",
-                    "permalink": "http://aura-historia-test.local/product/test-produkt-titel/",
-                    "description": "<p>Hayde yallah test beschreibung</p>\n",
-                    "short_description": "<p>Hayde yallah kurze test beschreibung</p>\n",
-                    "price": "123.45",
-                    "status": "publish",
-                    "stock_status": "instock",
-                    "images": []
-                  }
-                },
-                "deleted": {
-                  "summary": "Product deleted webhook",
-                  "value": {
-                    "id": 17
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "Webhook bearer/capability, source configuration, and exact-body signature are validated. Current partner/source grant authorization for mapped commands happens at consumer execution; ignored no-ops check it before response. A `204` acknowledges either an authorized ignored create/update event (no queue send or receipt) or matching confirmed acceptance of one `CAPTURE_RAW` command by the shared ProductListing FIFO. It does not confirm raw capture, provider receipt persistence, source-order checks, canonical normalization, or search visibility. Those decisions occur when the consumer executes the command. Ignored events do not parse `date_modified_gmt` or construct a provider receipt. When a delivery ID or source timestamp is omitted, no corresponding receipt or source-ordering guarantee is made. The backend returns no response body on success.\n",
-            "headers": {
-              "Access-Control-Allow-Origin": {
-                "description": "CORS header",
-                "schema": {
-                  "type": "string"
-                },
-                "example": "*"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request \u2014 invalid or missing listing source ID, missing body, malformed JSON, unsupported\nWooCommerce topic, an invalid `date_modified_gmt` source timestamp (including a nonzero offset) for an event that maps to raw capture, or a missing field required by the selected capture operation.\n",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "examples": {
-                  "missing_listing_source_id": {
-                    "summary": "Missing listing source ID path parameter",
-                    "value": {
-                      "status": 400,
-                      "title": "Bad Request",
-                      "error": "BAD_PATH_PARAMETER_VALUE",
-                      "source": {
-                        "field": "listingSourceId",
-                        "type": "PATH"
-                      },
-                      "detail": "Missing field 'listingSourceId'."
-                    }
-                  },
-                  "invalid_listing_source_id": {
-                    "summary": "Invalid listing source ID format",
-                    "value": {
-                      "status": 400,
-                      "title": "Bad Request",
-                      "error": "INVALID_OBJECT_ID",
-                      "source": {
-                        "field": "listingSourceId",
-                        "type": "PATH"
-                      },
-                      "detail": "must be a valid ListingSource ID"
-                    }
-                  },
-                  "missing_body": {
-                    "summary": "Request body is absent or empty",
-                    "value": {
-                      "status": 400,
-                      "title": "Bad Request",
-                      "error": "BAD_BODY_VALUE",
-                      "detail": "Body cannot be empty."
-                    }
-                  },
-                  "invalid_json": {
-                    "summary": "Request body is not valid JSON",
-                    "value": {
-                      "status": 400,
-                      "title": "Bad Request",
-                      "error": "BAD_BODY_VALUE",
-                      "detail": "expected value at line 1 column 1"
-                    }
-                  },
-                  "missing_topic": {
-                    "summary": "WooCommerce topic header is missing",
-                    "value": {
-                      "status": 400,
-                      "title": "Bad Request",
-                      "error": "BAD_HEADER_VALUE",
-                      "source": {
-                        "field": "x-wc-webhook-topic",
-                        "type": "HEADER"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized \u2014 missing or invalid bearer credentials use `INVALID_CREDENTIALS`. A missing or invalid\nWooCommerce signature uses `BAD_HEADER_VALUE`.\n",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "examples": {
-                  "missing_authorization": {
-                    "summary": "Authorization header is missing",
-                    "value": {
-                      "status": 401,
-                      "title": "Unauthorized",
-                      "error": "INVALID_CREDENTIALS",
-                      "source": {
-                        "field": "Authorization",
-                        "type": "HEADER"
-                      }
-                    }
-                  },
-                  "invalid_access_token": {
-                    "summary": "Aura Historia access token is unknown or expired",
-                    "value": {
-                      "status": 401,
-                      "title": "Unauthorized",
-                      "error": "INVALID_CREDENTIALS"
-                    }
-                  },
-                  "missing_signature": {
-                    "summary": "WooCommerce signature header is missing",
-                    "value": {
-                      "status": 401,
-                      "title": "Unauthorized",
-                      "error": "BAD_HEADER_VALUE",
-                      "source": {
-                        "field": "x-wc-webhook-signature",
-                        "type": "HEADER"
-                      },
-                      "detail": "WooCommerce signature header is required."
-                    }
-                  },
-                  "signature_mismatch": {
-                    "summary": "WooCommerce signature does not match the request body",
-                    "value": {
-                      "status": 401,
-                      "title": "Unauthorized",
-                      "error": "BAD_HEADER_VALUE",
-                      "source": {
-                        "field": "x-wc-webhook-signature",
-                        "type": "HEADER"
-                      },
-                      "detail": "WooCommerce signature is invalid."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden \u2014 the caller lacks the required ProductListing write capability or exact source partnership grant, including for ignored status events",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "example": {
-                  "status": 403,
-                  "title": "Forbidden",
-                  "error": "FORBIDDEN"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found \u2014 the specified listing source does not exist",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "example": {
-                  "status": 404,
-                  "title": "Not Found",
-                  "error": "LISTING_SOURCE_NOT_FOUND"
-                }
-              }
-            }
-          },
-          "413": {
-            "description": "Payload too large \u2014 the HTTP body limit or encoded SQS message limit was exceeded before confirmed admission. No queue acceptance is claimed.",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "examples": {
-                  "body_limit": {
-                    "value": {
-                      "status": 413,
-                      "title": "Payload Too Large",
-                      "error": "BAD_BODY_VALUE"
-                    }
-                  },
-                  "encoded_message_limit": {
-                    "value": {
-                      "status": 413,
-                      "title": "Payload Too Large",
-                      "error": "PRODUCT_LISTING_INGESTION_PAYLOAD_TOO_LARGE"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Service unavailable \u2014 authentication or source lookup is temporarily unavailable, or mapped command admission is rejected retryably, unconfirmed, or not attempted (including timeout). A send may already have succeeded when its acknowledgment was lost; retry unchanged. Uses `AUTH_TEMPORARILY_UNAVAILABLE`, `LISTING_SOURCE_TEMPORARILY_UNAVAILABLE`, or `PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`.",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "examples": {
-                  "auth_temporarily_unavailable": {
-                    "summary": "Authentication is temporarily unavailable",
-                    "value": {
-                      "status": 503,
-                      "title": "Service Unavailable",
-                      "error": "AUTH_TEMPORARILY_UNAVAILABLE"
-                    }
-                  },
-                  "listing_source_temporarily_unavailable": {
-                    "summary": "ListingSource access is temporarily unavailable",
-                    "value": {
-                      "status": 503,
-                      "title": "Service Unavailable",
-                      "error": "LISTING_SOURCE_TEMPORARILY_UNAVAILABLE"
-                    }
-                  },
-                  "product_listing_temporarily_unavailable": {
-                    "summary": "ProductListing ingestion queue admission is unavailable or unconfirmed",
-                    "value": {
-                      "status": 503,
-                      "title": "Service Unavailable",
-                      "error": "PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error \u2014 authentication/source lookup or a non-retryable ingestion setup/encoding failure prevented confirmed admission. A failed response never proves an attempted send was not queued. Uses `AUTH_INTERNAL_ERROR`, `LISTING_SOURCE_INTERNAL_ERROR`, or `PRODUCT_LISTING_INTERNAL_ERROR`.",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                },
-                "examples": {
-                  "auth_internal_error": {
-                    "summary": "Authentication failed internally",
-                    "value": {
-                      "status": 500,
-                      "title": "Internal Server Error",
-                      "error": "AUTH_INTERNAL_ERROR"
-                    }
-                  },
-                  "listing_source_internal_error": {
-                    "summary": "ListingSource access failed internally",
-                    "value": {
-                      "status": 500,
-                      "title": "Internal Server Error",
-                      "error": "LISTING_SOURCE_INTERNAL_ERROR"
-                    }
-                  },
-                  "product_listing_internal_error": {
-                    "summary": "ProductListing ingestion admission failed internally",
-                    "value": {
-                      "status": 500,
-                      "title": "Internal Server Error",
-                      "error": "PRODUCT_LISTING_INTERNAL_ERROR"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
+    "headers": {
+      "AsyncProductListingIdempotencyKey": {
+        "description": "Effective key, echoed on every evaluated report (including non-2xx); not guaranteed on pre-evaluation ApiError responses. CORS-exposed for browser clients.",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[\\x21-\\x2B\\x2D-\\x7E]{1,128}$"
+        },
+        "example": "catalog-sync-2026-09-29"
+      }
+    },
+    "parameters": {
+      "AsyncProductListingIdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": false,
+        "description": "One value only; native duplicates and comma-joined values are invalid (`400 BAD_HEADER_VALUE`) before publication. Use 1\u2013128 visible ASCII bytes excluding comma. Supply the same key with the unchanged ordered batch for transport retries. If absent, a key is generated and returned on evaluated reports; it cannot be recovered if that response is lost.",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[\\x21-\\x2B\\x2D-\\x7E]{1,128}$"
+        },
+        "example": "catalog-sync-2026-09-29"
+      }
+    },
     "schemas": {
       "ApiError": {
         "type": "object",
@@ -1361,6 +1890,68 @@
             ],
             "description": "Type of parameter that caused the error",
             "example": "PATH"
+          }
+        }
+      },
+      "AsyncProductListingBatchFailure": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "index",
+          "error",
+          "retryable"
+        ],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 99,
+            "description": "Original zero-based batch position, authoritative even when sourceListingId cannot be echoed."
+          },
+          "sourceListingId": {
+            "type": "string",
+            "description": "Included only if present, valid, and safe to echo; omitted otherwise."
+          },
+          "error": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]*$",
+            "description": "Bounded safe code, never raw exception or payload text. Includes BAD_BODY_VALUE, PRODUCT_LISTING_INGESTION_PAYLOAD_TOO_LARGE, ENQUEUE_FAILED (definitely unsuccessful send), ENQUEUE_UNCONFIRMED (possibly queued), ENQUEUE_NOT_ATTEMPTED (budget before send), ENQUEUE_BLOCKED (eligible FIFO successor held), PRODUCT_LISTING_INGESTION_INTERNAL_ERROR, and applicable narrower item-validation codes.",
+            "example": "ENQUEUE_UNCONFIRMED"
+          },
+          "retryable": {
+            "type": "boolean",
+            "description": "Whether unchanged-whole-batch retry is appropriate; never permission to resubmit a compacted subset with the same key. Unconfirmed is retryable; validation and size errors are not. Blocked inherits its predecessor's retryability; deterministic configuration errors need repair."
+          }
+        }
+      },
+      "AsyncProductListingBatchReport": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Admission report, not a listing creation or update result. For every evaluated batch, acceptedCount plus the number of failures equals the original array length.",
+        "required": [
+          "submissionId",
+          "acceptedCount",
+          "failures"
+        ],
+        "properties": {
+          "submissionId": {
+            "type": "string",
+            "description": "Opaque correlation identifier only; not a status resource or batch deduplication token.",
+            "example": "plis1_example"
+          },
+          "acceptedCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Number of publisher-confirmed admitted entries; never includes unconfirmed sends."
+          },
+          "failures": {
+            "type": "array",
+            "maxItems": 100,
+            "description": "Exactly one per non-confirmed original entry, sorted by original zero-based index. Empty for fully admitted or empty batches.",
+            "items": {
+              "$ref": "#/components/schemas/AsyncProductListingBatchFailure"
+            }
           }
         }
       },
@@ -1911,121 +2502,6 @@
             "type": "string",
             "description": "Partner-controlled identifier of the ProductListing to withdraw.",
             "example": "baroque-violin-001"
-          }
-        }
-      },
-      "WoocommerceProductWebhookDeleteData": {
-        "type": "object",
-        "description": "WooCommerce product payload accepted for `product.deleted`.\nOnly `id` is required. If `name` or `permalink` are provided they may still be used by the backend,\nbut the event remains valid with just the product ID.\n",
-        "required": [
-          "id"
-        ],
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 0,
-            "description": "WooCommerce product identifier. It is converted to the internal `sourceListingId`.",
-            "example": 17
-          },
-          "date_modified_gmt": {
-            "type": "string",
-            "nullable": true,
-            "description": "Optional WooCommerce product modification timestamp. Accepted forms are no-offset GMT interpreted as UTC, RFC3339 `Z`, and RFC3339 `+00:00`; nonzero offsets are rejected. A valid value establishes provider source order; omit it when no source-ordering guarantee is available.",
-            "example": "2026-09-06T12:34:56"
-          }
-        }
-      },
-      "WoocommerceProductWebhookImageData": {
-        "type": "object",
-        "description": "Image object extracted from a WooCommerce product payload.",
-        "required": [
-          "src"
-        ],
-        "properties": {
-          "src": {
-            "type": "string",
-            "format": "uri",
-            "description": "Absolute URL of a product image.",
-            "example": "https://aura-historia-test.local/wp-content/uploads/2026/05/product.jpg"
-          }
-        }
-      },
-      "WoocommerceProductWebhookUpsertData": {
-        "type": "object",
-        "description": "WooCommerce product payload accepted for `product.created` and `product.updated`.\nEvery event requires `id`. `status: publish` captures an UPSERT and requires nonblank `name` and `permalink`.\n`status: trash`, `draft`, `pending`, or `private` captures a DELETE and requires only `id`; missing or\nunsupported status is authorized ignored input and also requires only `id`. `type: variation` is\nauthorized ignored input whatever its status and requires only `id`.\n",
-        "required": [
-          "id"
-        ],
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "minimum": 0,
-            "description": "WooCommerce product identifier. It is converted to the internal `sourceListingId`.",
-            "example": 17
-          },
-          "type": {
-            "type": "string",
-            "nullable": true,
-            "description": "Optional WooCommerce product type. `variation` marks a variation of a parent product and makes\nthe event authorized ignored input whatever its status. Other or missing types follow `status`.\n",
-            "example": "simple"
-          },
-          "name": {
-            "type": "string",
-            "description": "Nonblank product title required only when `status: publish` captures an UPSERT.",
-            "example": "Test Produkt Titel"
-          },
-          "permalink": {
-            "type": "string",
-            "format": "uri",
-            "description": "Public URL required only when `status: publish` captures an UPSERT.",
-            "example": "http://aura-historia-test.local/product/test-produkt-titel/"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true,
-            "description": "Optional WooCommerce product-description field. Accepted but ignored; it is not mapped to Aura's canonical description and is omitted from persisted source evidence.",
-            "example": "<p>Hayde yallah test beschreibung</p>\n"
-          },
-          "short_description": {
-            "type": "string",
-            "nullable": true,
-            "description": "Optional WooCommerce short-description field. Accepted but ignored; it is not mapped to Aura's canonical description and is omitted from persisted source evidence.",
-            "example": "<p>Hayde yallah kurze test beschreibung</p>\n"
-          },
-          "price": {
-            "type": "string",
-            "nullable": true,
-            "pattern": "^(?:[0-9]+(?:\\.[0-9]+)?|)$",
-            "description": "Optional WooCommerce price string for a captured `status: publish` UPSERT.\nIntake writes current raw-values schema `1` with `MACHINE_DECIMAL`. A nonblank value must be an untrimmed unsigned ASCII decimal\n(`digits` or `digits.digits`): no whitespace, signs, grouping separators, or currency symbols. A nonblank\n`SET` requires the listing source's configured `woocommerceCurrency`. Fractional digits beyond the configured\ncurrency minor-unit scale are accepted only when every excess digit is `0`; a nonzero excess digit is\nrejected rather than truncated. A blank source string maps to `CLEAR`.\n",
-            "example": "42.69"
-          },
-          "status": {
-            "type": "string",
-            "nullable": true,
-            "description": "Optional WooCommerce product status string.\n`publish` captures an UPSERT and requires nonblank `name` and `permalink`. `draft`, `pending`,\n`private`, and `trash` capture a DELETE and require only `id`. Unsupported or missing status is\nauthorized ignored input: it causes no destructive write and does not require `name` or `permalink`.\n",
-            "example": "publish"
-          },
-          "stock_status": {
-            "type": "string",
-            "nullable": true,
-            "description": "Optional WooCommerce stock-status string.\nFor `publish`, `instock` maps to `IN_STOCK`, `outofstock` to `OUT_OF_STOCK`, and\n`onbackorder` to `BACK_ORDER`. Missing or unsupported stock status never implies a sale.\n",
-            "example": "instock"
-          },
-          "date_modified_gmt": {
-            "type": "string",
-            "nullable": true,
-            "description": "Optional WooCommerce product modification timestamp. When the topic/status maps to raw capture, accepted forms are no-offset GMT interpreted as UTC, RFC3339 `Z`, and RFC3339 `+00:00`; malformed or nonzero-offset values are rejected. A valid value establishes provider source order; omit it when no source-ordering guarantee is available.",
-            "example": "2026-09-06T12:34:56"
-          },
-          "images": {
-            "type": "array",
-            "description": "Optional list of WooCommerce product images. Missing payload fields are treated as an empty list.",
-            "items": {
-              "$ref": "#/components/schemas/WoocommerceProductWebhookImageData"
-            },
-            "example": []
           }
         }
       }

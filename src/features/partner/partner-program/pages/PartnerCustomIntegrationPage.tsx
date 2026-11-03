@@ -17,7 +17,16 @@ import { cn } from "@/lib/utils.ts";
 import { PARTNER_CREATE_EXAMPLE } from "../config/partnerRequestExamples.ts";
 import { ClientOnly, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight, Check, Copy, KeyRound, RefreshCw } from "lucide-react";
-import { type ReactNode, lazy, Suspense, useEffect, useState } from "react";
+import {
+    type KeyboardEvent,
+    type ReactNode,
+    lazy,
+    Suspense,
+    useEffect,
+    useId,
+    useRef,
+    useState,
+} from "react";
 import { Trans, useTranslation } from "react-i18next";
 
 type GuideStepKey = "selectSource" | "requestKey" | "preparePayload" | "verifyResults";
@@ -29,29 +38,59 @@ const GUIDE_STEPS: readonly { readonly key: GuideStepKey; readonly numeral: stri
     { key: "verifyResults", numeral: "IV" },
 ];
 
+type BatchMode = "async" | "sync";
+
+/** Asynchronous submission is the recommended mode, so it always comes first. */
+const BATCH_MODES: readonly BatchMode[] = ["async", "sync"];
+const RECOMMENDED_MODE: BatchMode = "async";
+
 const PRODUCT_LISTINGS_ENDPOINT = "/v1/listing-sources/{listingSourceId}/product-listings";
+const BATCH_ENDPOINTS: Record<BatchMode, string> = {
+    async: `${PRODUCT_LISTINGS_ENDPOINT}/async`,
+    sync: PRODUCT_LISTINGS_ENDPOINT,
+};
+const BATCH_STATUS: Record<BatchMode, string> = { async: "202", sync: "200" };
 const API_DOCUMENTATION_URL = "https://docs.api.aura-historia.com";
 const LISTING_SOURCE_PLACEHOLDER = "YOUR_LISTING_SOURCE_ID";
 const ACCESS_TOKEN_PLACEHOLDER = "YOUR_USER_ACCESS_TOKEN";
+const BATCH_KEY_PLACEHOLDER = "YOUR_BATCH_KEY";
 
 const CONTRACT_TOPICS = [
-    { key: "batch", tag: null },
+    { key: "asyncAdmission", tag: "ASYNC" },
+    { key: "asyncIdempotency", tag: "ASYNC" },
+    { key: "syncOutcomes", tag: "SYNC" },
     { key: "create", tag: "POST" },
     { key: "patch", tag: "PATCH" },
     { key: "put", tag: "PUT" },
     { key: "auction", tag: "AUCTION" },
     { key: "withdrawal", tag: "DELETE" },
-    { key: "woocommerce", tag: "WEBHOOK" },
 ] as const;
 
-const BATCH_OUTCOMES = [
-    { key: "allWritten", code: "200 · []", live: true },
-    { key: "partial", code: "200 · ", live: false },
-    { key: "allFailed", code: "problem+json", live: false },
-] as const;
+interface BatchOutcome {
+    readonly key: string;
+    readonly code: string;
+    /** Translated word after the code ("report", "failures"). */
+    readonly suffix?: "report" | "failures";
+    /** Marks the fully successful outcome with the mode's status dot. */
+    readonly marked?: boolean;
+}
 
-const FLOW_STEPS = ["send", "completed", "failures"] as const;
-const SUMMARY_ITEMS = ["accessToken", "listingSourceId", "listingBatch"] as const;
+const BATCH_OUTCOMES: Record<BatchMode, readonly BatchOutcome[]> = {
+    async: [
+        { key: "allAdmitted", code: "202 · ", suffix: "report", marked: true },
+        { key: "partlyAdmitted", code: "202 · ", suffix: "failures" },
+        { key: "noneAdmitted", code: "4xx · 5xx · ", suffix: "report" },
+    ],
+    sync: [
+        { key: "allWritten", code: "200 · []", marked: true },
+        { key: "partial", code: "200 · ", suffix: "failures" },
+        { key: "allFailed", code: "problem+json" },
+    ],
+};
+
+const MODE_ROWS = ["response", "failures", "retry", "afterwards"] as const;
+const SUMMARY_ITEMS = ["accessToken", "listingSourceId", "listingBatch", "idempotencyKey"] as const;
+const CODE_COMPONENTS = { code: <code className="font-mono text-[13px] text-ink" /> };
 
 const MONO_LABEL_CLASS = "font-mono text-label text-ink-muted uppercase";
 const INK_BUTTON_CLASS = cn(
@@ -71,12 +110,14 @@ const LazyPartnerProductsApiReference = lazy(
         ),
 );
 
-function buildCurlCommand(listingSourceId: string) {
+function buildCurlCommand(listingSourceId: string, mode: BatchMode) {
+    const path = mode === "async" ? "product-listings/async" : "product-listings";
     return [
         "curl --request POST \\",
-        `  --url 'https://api.aura-historia.com/v1/listing-sources/${listingSourceId}/product-listings' \\`,
+        `  --url 'https://api.aura-historia.com/v1/listing-sources/${listingSourceId}/${path}' \\`,
         `  --header 'Authorization: Bearer ${ACCESS_TOKEN_PLACEHOLDER}' \\`,
         "  --header 'Content-Type: application/json' \\",
+        ...(mode === "async" ? [`  --header 'Idempotency-Key: ${BATCH_KEY_PLACEHOLDER}' \\`] : []),
         `  --data '${JSON.stringify(PARTNER_CREATE_EXAMPLE, null, 2)}'`,
     ].join("\n");
 }
@@ -221,85 +262,27 @@ export default function PartnerCustomIntegrationPage() {
                 ground="surface"
                 labelledBy="custom-integration-concept-heading"
                 className="border-b border-line-subtle"
-                containerClassName="grid items-start gap-7 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-[clamp(40px,5vw,80px)]"
+                containerClassName="flex flex-col gap-12 sm:gap-16"
             >
-                <div className="flex flex-col gap-7 sm:gap-9">
-                    <SectionHeading
-                        id="custom-integration-concept-heading"
-                        eyebrow={`I — ${t("partnerProgram.customIntegrationPage.concept.eyebrow")}`}
-                        title={
-                            <Trans
-                                i18nKey="partnerProgram.customIntegrationPage.concept.title"
-                                components={HEADLINE_COMPONENTS}
-                            />
-                        }
-                        intro={t("partnerProgram.customIntegrationPage.concept.description")}
-                        className="[&>p:last-child]:max-w-[560px]"
-                    />
-                    <dl className="grid gap-0 sm:grid-cols-2 sm:gap-7">
-                        {(["synchronous", "retry"] as const).map((benefit) => (
-                            <div
-                                key={benefit}
-                                className="flex flex-col gap-2 border-t border-ink pt-[18px] pb-[22px] sm:gap-2.5 sm:pt-5 sm:pb-0"
-                            >
-                                <dt className="font-serif text-[21px] leading-[1.2] font-medium sm:text-[22px]">
-                                    {t(
-                                        `partnerProgram.customIntegrationPage.concept.benefits.${benefit}.title`,
-                                    )}
-                                </dt>
-                                <dd className="text-body text-ink-secondary">
-                                    {t(
-                                        `partnerProgram.customIntegrationPage.concept.benefits.${benefit}.description`,
-                                    )}
-                                </dd>
-                            </div>
-                        ))}
-                    </dl>
-                </div>
-
-                <aside
-                    aria-labelledby="custom-integration-summary-heading"
-                    className="flex flex-col gap-3.5 rounded-card bg-surface-raised p-[22px] shadow-ring sm:gap-5 sm:p-[clamp(24px,3vw,36px)]"
-                >
-                    <p className="font-mono text-kicker text-ink-muted uppercase">
-                        {t("partnerProgram.customIntegrationPage.summary.kicker")}
-                    </p>
-                    <h3
-                        id="custom-integration-summary-heading"
-                        className="font-serif text-[26px] leading-[1.15] font-normal sm:text-[30px] sm:leading-[1.1]"
-                    >
-                        {t("partnerProgram.customIntegrationPage.summary.title")}
-                    </h3>
-                    <p className="text-body text-ink-secondary">
-                        {t("partnerProgram.customIntegrationPage.summary.subtitle")}
-                    </p>
-                    <ul className="border-t border-line">
-                        {SUMMARY_ITEMS.map((item) => (
-                            <li
-                                key={item}
-                                className="grid grid-cols-[22px_minmax(0,1fr)] gap-3 border-b border-line py-4 last:border-b-0 sm:grid-cols-[24px_minmax(0,1fr)] sm:gap-3.5 sm:py-[18px] sm:last:border-b"
-                            >
-                                <Check
-                                    aria-hidden="true"
-                                    className="mt-0.5 size-[18px] text-oxblood sm:size-5"
-                                    strokeWidth={2}
+                <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-[clamp(40px,5vw,80px)]">
+                    <div className="flex flex-col gap-7 sm:gap-9">
+                        <SectionHeading
+                            id="custom-integration-concept-heading"
+                            eyebrow={`I — ${t("partnerProgram.customIntegrationPage.concept.eyebrow")}`}
+                            title={
+                                <Trans
+                                    i18nKey="partnerProgram.customIntegrationPage.concept.title"
+                                    components={HEADLINE_COMPONENTS}
                                 />
-                                <div className="flex flex-col gap-1 sm:gap-1.5">
-                                    <span className="text-[15px] font-medium">
-                                        {t(
-                                            `partnerProgram.customIntegrationPage.summary.items.${item}.title`,
-                                        )}
-                                    </span>
-                                    <span className="text-body-sm text-ink-secondary">
-                                        {t(
-                                            `partnerProgram.customIntegrationPage.summary.items.${item}.description`,
-                                        )}
-                                    </span>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </aside>
+                            }
+                            intro={t("partnerProgram.customIntegrationPage.concept.description")}
+                            className="[&>p:last-child]:max-w-[560px]"
+                        />
+                        <BatchModeChoice />
+                    </div>
+                    <FirstBatchChecklist />
+                </div>
+                <BatchModeComparison />
             </LandingSection>
 
             <LandingSection
@@ -396,10 +379,7 @@ export default function PartnerCustomIntegrationPage() {
                         >
                             <div className="flex flex-wrap items-center gap-3">
                                 <code className="rounded-sm bg-surface-sunken px-[7px] py-[3px] font-mono text-tag text-ink uppercase">
-                                    {topic.tag ??
-                                        t(
-                                            "partnerProgram.customIntegrationPage.endpoints.allMethods",
-                                        )}
+                                    {topic.tag}
                                 </code>
                                 <h3 className="font-serif text-[21px] leading-[1.2] font-normal sm:text-title-sm sm:font-normal">
                                     {t(
@@ -465,27 +445,96 @@ export default function PartnerCustomIntegrationPage() {
     );
 }
 
-/** The typical batch flow as a terminal panel beside the hero copy. */
+/** The oxblood tag that marks asynchronous submission, as the featured pricing plan's. */
+function RecommendedBadge() {
+    const { t } = useTranslation();
+    return (
+        <span className="rounded-sm bg-oxblood px-2 py-[3px] font-mono text-tag text-on-oxblood uppercase">
+            {t("partnerProgram.customIntegrationPage.modes.recommended")}
+        </span>
+    );
+}
+
+/**
+ * A hollow ring for admitted work, a filled dot for completed writes: the shape carries the
+ * difference, the label beside it names it. signal-live stays on ink; parchment uses ink.
+ */
+function StatusDot({ mode, onParchment = false }: { mode: BatchMode; onParchment?: boolean }) {
+    return (
+        <span
+            aria-hidden="true"
+            className={cn(
+                "size-[7px] shrink-0 rounded-full sm:size-2",
+                mode === "async" && onParchment && "shadow-[inset_0_0_0_1.5px_var(--ink)]",
+                mode === "async" && !onParchment && "shadow-[inset_0_0_0_1.5px_var(--brass)]",
+                mode === "sync" && (onParchment ? "bg-ink" : "bg-signal-live"),
+            )}
+        />
+    );
+}
+
+interface FlowForkCell {
+    readonly mode: BatchMode;
+    readonly title: string;
+    readonly code?: ReactNode;
+}
+
+/** One flow step that splits into the two modes, asynchronous first. */
+function FlowForkRow({ number, cells }: { number: string; cells: readonly FlowForkCell[] }) {
+    const { t } = useTranslation();
+
+    return (
+        <li className="grid grid-cols-[28px_minmax(0,1fr)] gap-x-2.5 border-b border-line-subtle px-4 py-3.5 last:border-b-0 sm:grid-cols-[40px_minmax(0,1fr)] sm:gap-x-4 sm:p-5">
+            <span className="pt-[3px] font-mono text-xs text-brass-ink sm:pt-0.5">{number}</span>
+            <div className="grid sm:grid-cols-2">
+                {cells.map((cell, index) => (
+                    <div
+                        key={cell.mode}
+                        className={cn(
+                            "flex min-w-0 flex-col gap-1 sm:gap-2",
+                            index === 0
+                                ? "border-b border-line-subtle pb-2.5 sm:border-b-0 sm:pr-4 sm:pb-0"
+                                : "pt-2.5 sm:border-l sm:border-line-subtle sm:pt-0 sm:pl-4",
+                        )}
+                    >
+                        <span className="flex flex-wrap items-center gap-2">
+                            <span
+                                className={cn(
+                                    "font-mono text-tag tracking-[0.14em] uppercase",
+                                    cell.mode === RECOMMENDED_MODE
+                                        ? "text-brass-light"
+                                        : "text-ink-muted",
+                                )}
+                            >
+                                {t(`partnerProgram.customIntegrationPage.modes.${cell.mode}.label`)}
+                            </span>
+                            {cell.mode === RECOMMENDED_MODE && number === "02" && (
+                                <RecommendedBadge />
+                            )}
+                        </span>
+                        <span className="font-serif text-lg leading-[1.3] sm:text-object-title">
+                            {cell.title}
+                        </span>
+                        {cell.code}
+                    </div>
+                ))}
+            </div>
+        </li>
+    );
+}
+
+/** The typical batch flow as a terminal panel beside the hero copy: one send, then the two modes. */
 function FlowPanel() {
     const { t } = useTranslation();
-    const chips: Record<(typeof FLOW_STEPS)[number], ReactNode> = {
-        send: (
-            <code className="rounded-sm px-2 py-1 font-mono text-[11px] tracking-[0.08em] text-ink-secondary shadow-[inset_0_0_0_1px_var(--line-strong)]">
-                POST · PATCH · PUT · DELETE
-            </code>
-        ),
-        completed: (
-            <code className="inline-flex items-center gap-2 font-mono text-xs text-ink">
-                <span aria-hidden="true" className="size-2 rounded-full bg-signal-live" />
-                HTTP 200
-            </code>
-        ),
-        failures: (
-            <code className="font-mono text-xs text-ink-secondary">
-                {t("partnerProgram.customIntegrationPage.concept.flow.allWritten")}
-            </code>
-        ),
-    };
+    const statusCode = (mode: BatchMode) => (
+        <code className="inline-flex items-center gap-1.5 font-mono text-xs text-ink sm:gap-2">
+            <StatusDot mode={mode} />
+            HTTP {BATCH_STATUS[mode]}
+        </code>
+    );
+    const noteCode = (text: string) => (
+        <code className="font-mono text-xs text-ink-secondary">{text}</code>
+    );
 
     return (
         <figure className="overflow-hidden rounded-panel bg-surface-raised shadow-ring">
@@ -493,29 +542,247 @@ function FlowPanel() {
                 <span className={MONO_LABEL_CLASS}>
                     {t("partnerProgram.customIntegrationPage.concept.flowLabel")}
                 </span>
-                <span className={cn(MONO_LABEL_CLASS, "hidden sm:inline")}>
+                <span className={MONO_LABEL_CLASS}>
                     {t("partnerProgram.customIntegrationPage.concept.flowCaption")}
                 </span>
             </figcaption>
             <ol>
-                {FLOW_STEPS.map((flowStep, index) => (
-                    <li
-                        key={flowStep}
-                        className="grid grid-cols-[28px_minmax(0,1fr)] items-center gap-x-2.5 gap-y-1 border-b border-line-subtle px-4 py-3.5 last:border-b-0 sm:grid-cols-[40px_minmax(0,1fr)_auto] sm:gap-4 sm:p-5"
-                    >
-                        <span className="font-mono text-xs text-brass-ink">
-                            {String(index + 1).padStart(2, "0")}
-                        </span>
-                        <span className="font-serif text-lg leading-[1.3] sm:text-[21px] sm:leading-[1.25]">
-                            {t(`partnerProgram.customIntegrationPage.concept.flow.${flowStep}`)}
-                        </span>
-                        <span className="col-start-2 justify-self-start sm:col-start-auto sm:justify-self-end">
-                            {chips[flowStep]}
-                        </span>
-                    </li>
-                ))}
+                <li className="grid grid-cols-[28px_minmax(0,1fr)] items-center gap-x-2.5 gap-y-1.5 border-b border-line-subtle px-4 py-3.5 sm:grid-cols-[40px_minmax(0,1fr)_auto] sm:gap-4 sm:p-5">
+                    <span className="font-mono text-xs text-brass-ink">01</span>
+                    <span className="font-serif text-lg leading-[1.3] sm:text-[21px] sm:leading-[1.25]">
+                        {t(`partnerProgram.customIntegrationPage.concept.flow.send`)}
+                    </span>
+                    <code className="col-start-2 justify-self-start rounded-sm px-2 py-1 font-mono text-[10px] tracking-[0.08em] text-ink-secondary shadow-[inset_0_0_0_1px_var(--line-strong)] sm:col-start-auto sm:justify-self-end sm:text-[11px]">
+                        POST · PATCH · PUT · DELETE
+                    </code>
+                </li>
+                <FlowForkRow
+                    number="02"
+                    cells={[
+                        {
+                            mode: "async",
+                            title: t(
+                                `partnerProgram.customIntegrationPage.concept.flow.asyncAdmitted`,
+                            ),
+                            code: statusCode("async"),
+                        },
+                        {
+                            mode: "sync",
+                            title: t(
+                                `partnerProgram.customIntegrationPage.concept.flow.syncCompleted`,
+                            ),
+                            code: statusCode("sync"),
+                        },
+                    ]}
+                />
+                <FlowForkRow
+                    number="03"
+                    cells={[
+                        {
+                            mode: "async",
+                            title: t(`partnerProgram.customIntegrationPage.concept.flow.asyncDone`),
+                            code: noteCode(
+                                t(
+                                    `partnerProgram.customIntegrationPage.concept.flow.asyncDoneNote`,
+                                ),
+                            ),
+                        },
+                        {
+                            mode: "sync",
+                            title: t(
+                                `partnerProgram.customIntegrationPage.concept.flow.syncFailures`,
+                            ),
+                            code: noteCode(
+                                t(`partnerProgram.customIntegrationPage.concept.flow.allWritten`),
+                            ),
+                        },
+                    ]}
+                />
             </ol>
         </figure>
+    );
+}
+
+/** When to choose each mode, asynchronous first with the recommendation. */
+function BatchModeChoice() {
+    const { t } = useTranslation();
+
+    return (
+        <dl className="grid gap-0 sm:grid-cols-2 sm:gap-7">
+            {BATCH_MODES.map((mode) => (
+                <div
+                    key={mode}
+                    className="flex flex-col gap-2 border-t border-ink pt-[18px] pb-[22px] last:pb-0 sm:gap-2.5 sm:pt-5 sm:pb-0"
+                >
+                    <dt className="flex flex-wrap items-center justify-between gap-2.5">
+                        <span className="flex flex-wrap items-center gap-2.5">
+                            <a
+                                href={`#batch-mode-${mode}`}
+                                className={cn(
+                                    "font-serif text-[21px] leading-[1.2] font-medium hover:underline hover:underline-offset-4 sm:text-[22px]",
+                                    NAV_FOCUS_CLASS,
+                                )}
+                            >
+                                {t(`partnerProgram.customIntegrationPage.modes.${mode}.label`)}
+                            </a>
+                            {mode === RECOMMENDED_MODE && <RecommendedBadge />}
+                        </span>
+                        <code className="font-mono text-label text-ink-muted">
+                            HTTP {BATCH_STATUS[mode]}
+                        </code>
+                    </dt>
+                    <dd className="text-body text-ink-secondary">
+                        {t(`partnerProgram.customIntegrationPage.concept.choose.${mode}`)}
+                    </dd>
+                </div>
+            ))}
+        </dl>
+    );
+}
+
+/** What both modes need for a first batch, plus the asynchronous idempotency key. */
+function FirstBatchChecklist() {
+    const { t } = useTranslation();
+
+    return (
+        <aside
+            aria-labelledby="custom-integration-summary-heading"
+            className="flex flex-col gap-3.5 rounded-card bg-surface-raised p-[22px] shadow-ring sm:gap-5 sm:p-[clamp(24px,3vw,36px)]"
+        >
+            <p className="font-mono text-kicker text-ink-muted uppercase">
+                {t(`partnerProgram.customIntegrationPage.summary.kicker`)}
+            </p>
+            <h3
+                id="custom-integration-summary-heading"
+                className="font-serif text-[26px] leading-[1.15] font-normal sm:text-[30px] sm:leading-[1.1]"
+            >
+                {t(`partnerProgram.customIntegrationPage.summary.title`)}
+            </h3>
+            <p className="text-body text-ink-secondary">
+                {t(`partnerProgram.customIntegrationPage.summary.subtitle`)}
+            </p>
+            <ul className="border-t border-line">
+                {SUMMARY_ITEMS.map((item) => (
+                    <li
+                        key={item}
+                        className="grid grid-cols-[22px_minmax(0,1fr)] gap-3 border-b border-line py-4 last:border-b-0 sm:grid-cols-[24px_minmax(0,1fr)] sm:gap-3.5 sm:py-[18px] sm:last:border-b"
+                    >
+                        <Check
+                            aria-hidden="true"
+                            className="mt-0.5 size-[18px] text-oxblood sm:size-5"
+                            strokeWidth={2}
+                        />
+                        <div className="flex flex-col gap-1 sm:gap-1.5">
+                            <span className="flex flex-wrap items-center gap-2 text-[15px] font-medium">
+                                {t(
+                                    `partnerProgram.customIntegrationPage.summary.items.${item}.title`,
+                                )}
+                                {item === "idempotencyKey" && (
+                                    <code className="rounded-sm bg-surface-sunken px-[7px] py-[3px] font-mono text-tag font-normal text-ink uppercase">
+                                        {t(
+                                            `partnerProgram.customIntegrationPage.summary.items.idempotencyKey.tag`,
+                                        )}
+                                    </code>
+                                )}
+                            </span>
+                            <span className="text-body-sm text-ink-secondary">
+                                {t(
+                                    `partnerProgram.customIntegrationPage.summary.items.${item}.description`,
+                                )}
+                            </span>
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        </aside>
+    );
+}
+
+/** The two modes compared row by row; the recommended one leads, on ink like the featured plan. */
+function BatchModeComparison() {
+    return (
+        <div className="grid gap-5 lg:grid-cols-2 lg:gap-7">
+            {BATCH_MODES.map((mode) => (
+                <BatchModeCard key={mode} mode={mode} />
+            ))}
+        </div>
+    );
+}
+
+function BatchModeCard({ mode }: { mode: BatchMode }) {
+    const { t } = useTranslation();
+    const isRecommended = mode === RECOMMENDED_MODE;
+    const titleId = `batch-mode-${mode}-title`;
+
+    return (
+        <article
+            id={`batch-mode-${mode}`}
+            aria-labelledby={titleId}
+            data-theme={isRecommended ? "dark" : undefined}
+            className={cn(
+                "flex min-w-0 scroll-mt-24 flex-col gap-4 rounded-card p-[22px] text-ink sm:gap-5 sm:p-[clamp(24px,3vw,36px)]",
+                isRecommended
+                    ? "bg-surface shadow-[0_0_0_1px_rgba(184,147,90,0.45)]"
+                    : "bg-surface-raised shadow-ring",
+            )}
+        >
+            <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-3">
+                <p className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+                    <span
+                        className={cn(
+                            "font-mono text-kicker uppercase",
+                            isRecommended ? "text-brass" : "text-brass-ink",
+                        )}
+                    >
+                        {t(`partnerProgram.customIntegrationPage.modes.${mode}.label`)}
+                    </span>
+                    {isRecommended && <RecommendedBadge />}
+                </p>
+                <span className="inline-flex h-[26px] items-center gap-2 rounded-pill px-2.5 font-mono text-tag text-ink uppercase shadow-[inset_0_0_0_1px_var(--line-strong)] sm:h-7 sm:px-3 sm:text-[11px] sm:tracking-[0.08em]">
+                    <StatusDot mode={mode} onParchment={!isRecommended} />
+                    HTTP {BATCH_STATUS[mode]} ·{" "}
+                    {t(`partnerProgram.customIntegrationPage.modes.${mode}.status`)}
+                </span>
+            </div>
+            <h3
+                id={titleId}
+                className={cn(
+                    "font-serif text-[28px] leading-[1.12] font-normal sm:text-title-lg sm:font-normal [&_em]:italic",
+                    isRecommended && "[&_em]:text-brass-light",
+                )}
+            >
+                <Trans
+                    i18nKey={`partnerProgram.customIntegrationPage.modes.${mode}.title`}
+                    components={HEADLINE_COMPONENTS}
+                />
+            </h3>
+            <div className="flex flex-col gap-1.5 rounded-lg px-3.5 py-3 shadow-field sm:gap-2 sm:px-4 sm:py-3.5">
+                <span className={MONO_LABEL_CLASS}>
+                    {t(`partnerProgram.customIntegrationPage.modes.endpoint`)}
+                </span>
+                <code className="font-mono text-xs wrap-anywhere text-ink sm:text-[13px]">
+                    {BATCH_ENDPOINTS[mode]}
+                </code>
+            </div>
+            <dl className="border-t border-line">
+                {MODE_ROWS.map((row) => (
+                    <div
+                        key={row}
+                        className="flex flex-col gap-1.5 border-b border-line py-3.5 last:border-b-0 last:pb-0 sm:grid sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-4 sm:py-4"
+                    >
+                        <dt className={cn(MONO_LABEL_CLASS, "sm:pt-[3px]")}>
+                            {t(`partnerProgram.customIntegrationPage.modes.rows.${row}`)}
+                        </dt>
+                        <dd className="text-body text-ink-secondary">
+                            <Trans
+                                i18nKey={`partnerProgram.customIntegrationPage.modes.${mode}.${row}`}
+                                components={CODE_COMPONENTS}
+                            />
+                        </dd>
+                    </div>
+                ))}
+            </dl>
+        </article>
     );
 }
 
@@ -761,6 +1028,11 @@ function ProductRequestExample({
 }) {
     const { t } = useTranslation();
     const [copied, setCopied] = useState(false);
+    // Asynchronous is the recommended default; a fixed default keeps server and client alike.
+    const [mode, setMode] = useState<BatchMode>(RECOMMENDED_MODE);
+    const tabRefs = useRef<Partial<Record<BatchMode, HTMLButtonElement | null>>>({});
+    const tabsId = useId();
+    const panelId = `${tabsId}-panel`;
     const markClass = "rounded-sm bg-oxblood px-1 py-px text-on-oxblood";
 
     useEffect(() => {
@@ -769,10 +1041,33 @@ function ProductRequestExample({
         return () => clearTimeout(timeout);
     }, [copied]);
 
+    const selectMode = (next: BatchMode, focus = false) => {
+        setMode(next);
+        setCopied(false);
+        if (focus) tabRefs.current[next]?.focus();
+    };
+
+    const onTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+        const index = BATCH_MODES.indexOf(mode);
+        const last = BATCH_MODES.length - 1;
+        const targets: Record<string, number> = {
+            ArrowRight: index === last ? 0 : index + 1,
+            ArrowDown: index === last ? 0 : index + 1,
+            ArrowLeft: index === 0 ? last : index - 1,
+            ArrowUp: index === 0 ? last : index - 1,
+            Home: 0,
+            End: last,
+        };
+        const target = targets[event.key];
+        if (target === undefined) return;
+        event.preventDefault();
+        selectMode(BATCH_MODES[target], true);
+    };
+
     const copyCommand = async () => {
         try {
             await navigator.clipboard.writeText(
-                buildCurlCommand(listingSourceId ?? LISTING_SOURCE_PLACEHOLDER),
+                buildCurlCommand(listingSourceId ?? LISTING_SOURCE_PLACEHOLDER, mode),
             );
             setCopied(true);
         } catch {
@@ -800,78 +1095,151 @@ function ProductRequestExample({
                     <span aria-live="polite">
                         {t(
                             copied
-                                ? "partnerProgram.customIntegrationPage.guide.steps.preparePayload.copied"
-                                : "partnerProgram.customIntegrationPage.guide.steps.preparePayload.copy",
+                                ? `partnerProgram.customIntegrationPage.guide.steps.preparePayload.copied`
+                                : `partnerProgram.customIntegrationPage.guide.steps.preparePayload.copy`,
                         )}
                     </span>
                 </button>
             </figcaption>
-            <pre
-                data-testid="partner-product-code-example"
-                className="max-w-full overflow-x-auto p-3.5 font-mono text-[11px] leading-[1.7] text-ink-secondary sm:px-4 sm:py-[18px] sm:text-xs"
+            <div
+                role="tablist"
+                aria-label={t(
+                    `partnerProgram.customIntegrationPage.guide.steps.preparePayload.modeLabel`,
+                )}
+                className="grid grid-cols-2 gap-1 border-b border-line p-1.5"
             >
-                <code>
-                    {
-                        "curl --request POST \\\n  --url 'https://api.aura-historia.com/v1/listing-sources/"
-                    }
-                    <mark className={markClass}>
-                        {listingSourceId ?? LISTING_SOURCE_PLACEHOLDER}
-                    </mark>
-                    {"/product-listings' \\\n  --header 'Authorization: Bearer "}
-                    <mark className={markClass}>{ACCESS_TOKEN_PLACEHOLDER}</mark>
-                    {"' \\\n  --header 'Content-Type: application/json' \\\n  --data '"}
-                    {JSON.stringify(PARTNER_CREATE_EXAMPLE, null, 2)}
-                    {"'"}
-                </code>
-            </pre>
+                {BATCH_MODES.map((tabMode) => {
+                    const isSelected = tabMode === mode;
+                    return (
+                        <button
+                            key={tabMode}
+                            ref={(element) => {
+                                tabRefs.current[tabMode] = element;
+                            }}
+                            type="button"
+                            role="tab"
+                            id={`${tabsId}-${tabMode}`}
+                            aria-selected={isSelected}
+                            aria-controls={panelId}
+                            tabIndex={isSelected ? 0 : -1}
+                            onClick={() => selectMode(tabMode)}
+                            onKeyDown={onTabKeyDown}
+                            className={cn(
+                                "inline-flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-md px-2 text-sm font-medium transition-colors sm:min-h-10 sm:gap-2 sm:px-3",
+                                NAV_FOCUS_CLASS,
+                                isSelected
+                                    ? "bg-surface-raised text-ink shadow-[inset_0_0_0_1px_var(--line-strong)]"
+                                    : "text-ink-muted hover:text-ink",
+                            )}
+                        >
+                            {t(`partnerProgram.customIntegrationPage.modes.${tabMode}.label`)}
+                            <code className="font-mono text-tag font-normal text-ink-muted sm:text-[11px]">
+                                {BATCH_STATUS[tabMode]}
+                            </code>
+                        </button>
+                    );
+                })}
+            </div>
+            <div role="tabpanel" id={panelId} aria-labelledby={`${tabsId}-${mode}`}>
+                <pre
+                    data-testid="partner-product-code-example"
+                    className="max-w-full overflow-x-auto p-3.5 font-mono text-[11px] leading-[1.7] text-ink-secondary sm:px-4 sm:py-[18px] sm:text-xs"
+                >
+                    <code>
+                        {
+                            "curl --request POST \\\n  --url 'https://api.aura-historia.com/v1/listing-sources/"
+                        }
+                        <mark className={markClass}>
+                            {listingSourceId ?? LISTING_SOURCE_PLACEHOLDER}
+                        </mark>
+                        {mode === "async"
+                            ? "/product-listings/async' \\\n"
+                            : "/product-listings' \\\n"}
+                        {"  --header 'Authorization: Bearer "}
+                        <mark className={markClass}>{ACCESS_TOKEN_PLACEHOLDER}</mark>
+                        {"' \\\n  --header 'Content-Type: application/json' \\\n"}
+                        {mode === "async" && (
+                            <>
+                                {"  --header 'Idempotency-Key: "}
+                                <mark className={markClass}>{BATCH_KEY_PLACEHOLDER}</mark>
+                                {"' \\\n"}
+                            </>
+                        )}
+                        {"  --data '"}
+                        {JSON.stringify(PARTNER_CREATE_EXAMPLE, null, 2)}
+                        {"'"}
+                    </code>
+                </pre>
+                <p className="flex items-start gap-2 border-t border-line px-3.5 py-2.5 font-mono text-tag leading-normal tracking-[0.12em] text-ink-muted uppercase sm:items-center sm:px-4 sm:text-[11px] sm:tracking-[0.14em]">
+                    <span className="mt-[3px] flex sm:mt-0">
+                        <StatusDot mode={mode} />
+                    </span>
+                    {t(
+                        `partnerProgram.customIntegrationPage.guide.steps.preparePayload.returns.${mode}`,
+                    )}
+                </p>
+            </div>
         </figure>
     );
 }
 
-/** Step IV: the endpoint and the three ways a batch can come back. */
+/** Step IV: both endpoints and the ways a batch comes back in each mode, asynchronous first. */
 function BatchResult() {
     const { t } = useTranslation();
 
     return (
         <>
-            <div className="flex flex-col gap-1 rounded-lg px-3.5 py-3 shadow-[inset_0_0_0_1px_var(--line)] sm:gap-1.5 sm:px-4 sm:py-3.5">
+            <div className="flex flex-col gap-2 rounded-lg px-3.5 py-3 shadow-[inset_0_0_0_1px_var(--line)] sm:px-4 sm:py-3.5">
                 <span className={MONO_LABEL_CLASS}>
                     {t("partnerProgram.customIntegrationPage.guide.endpointLabel")}
                 </span>
-                <code className="font-mono text-xs wrap-anywhere sm:text-[13px]">
-                    {PRODUCT_LISTINGS_ENDPOINT}
-                </code>
-            </div>
-            <dl
-                data-theme="dark"
-                className="grid overflow-hidden rounded-lg bg-surface text-ink sm:grid-cols-3"
-            >
-                {BATCH_OUTCOMES.map((outcome) => (
+                {BATCH_MODES.map((mode) => (
                     <div
-                        key={outcome.key}
-                        className="flex items-center justify-between gap-3 border-b border-line px-3.5 py-3 last:border-b-0 sm:flex-col sm:items-start sm:gap-1.5 sm:border-r sm:border-b-0 sm:px-4 sm:py-3.5 sm:last:border-r-0"
+                        key={mode}
+                        className="flex flex-col gap-0.5 sm:grid sm:grid-cols-[56px_minmax(0,1fr)] sm:items-baseline sm:gap-2.5"
                     >
-                        <dt className="font-mono text-tag text-ink-muted uppercase">
-                            {t(
-                                `partnerProgram.customIntegrationPage.guide.steps.verifyResults.outcomes.${outcome.key}`,
-                            )}
-                        </dt>
-                        <dd className="inline-flex items-center gap-1.5 font-mono text-xs sm:text-[13px]">
-                            {outcome.live && (
-                                <span
-                                    aria-hidden="true"
-                                    className="size-[7px] rounded-full bg-signal-live"
-                                />
-                            )}
-                            {outcome.code}
-                            {outcome.key === "partial" &&
-                                t(
-                                    "partnerProgram.customIntegrationPage.guide.steps.verifyResults.outcomes.failures",
-                                )}
-                        </dd>
+                        <span className="font-mono text-tag text-ink-muted uppercase">{mode}</span>
+                        <code className="font-mono text-xs wrap-anywhere sm:text-[13px]">
+                            {BATCH_ENDPOINTS[mode]}
+                        </code>
                     </div>
                 ))}
-            </dl>
+            </div>
+            {BATCH_MODES.map((mode) => (
+                <div
+                    key={mode}
+                    data-theme="dark"
+                    className="overflow-hidden rounded-lg bg-surface text-ink"
+                >
+                    <p className="border-b border-line px-3.5 py-2.5 font-mono text-tag tracking-[0.14em] text-ink-muted uppercase sm:px-4">
+                        {t(
+                            `partnerProgram.customIntegrationPage.guide.steps.verifyResults.outcomes.${mode}Caption`,
+                        )}
+                    </p>
+                    <dl className="grid sm:grid-cols-3">
+                        {BATCH_OUTCOMES[mode].map((outcome) => (
+                            <div
+                                key={outcome.key}
+                                className="flex items-center justify-between gap-3 border-b border-line px-3.5 py-3 last:border-b-0 sm:flex-col sm:items-start sm:gap-1.5 sm:border-r sm:border-b-0 sm:px-4 sm:py-3.5 sm:last:border-r-0"
+                            >
+                                <dt className="font-mono text-tag text-ink-muted uppercase">
+                                    {t(
+                                        `partnerProgram.customIntegrationPage.guide.steps.verifyResults.outcomes.${outcome.key}`,
+                                    )}
+                                </dt>
+                                <dd className="inline-flex items-center gap-1.5 font-mono text-xs sm:text-[13px]">
+                                    {outcome.marked && <StatusDot mode={mode} />}
+                                    {outcome.code}
+                                    {outcome.suffix &&
+                                        t(
+                                            `partnerProgram.customIntegrationPage.guide.steps.verifyResults.outcomes.${outcome.suffix}`,
+                                        )}
+                                </dd>
+                            </div>
+                        ))}
+                    </dl>
+                </div>
+            ))}
         </>
     );
 }

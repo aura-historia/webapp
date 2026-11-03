@@ -1349,7 +1349,7 @@
     "customIntegrationPage": {
       "hero": {
         "title": "Connect your shop with <em>our API.</em>",
-        "subtitle": "Connect your inventory through a provider you have access to. Synchronous batches return completed write results; inspect failures before retrying.",
+        "subtitle": "Send listing batches for a provider you have access to. Asynchronous batches, the recommended way, are admitted at once and processed for you; synchronous batches return completed write results.",
         "primaryCta": "Manage access tokens",
         "secondaryCta": "Open API documentation",
         "breadcrumb": "Partner program",
@@ -1357,58 +1357,60 @@
         "newTab": "(opens in a new tab)"
       },
       "concept": {
-        "title": "Synchronous <em>listing batches.</em>",
-        "description": "POST, PATCH, PUT and DELETE complete writes synchronously. HTTP 200 contains only failed entries; [] means every entry succeeded, including an empty batch. Search visibility is a separate step.",
+        "title": "Two ways to <em>send a batch.</em>",
+        "description": "Both modes take the same listing batches for the same provider: up to 100 entries, POST to create, PATCH to update, PUT to upsert and DELETE to withdraw. They differ in what the response confirms; asynchronous is the recommended default.",
         "flowLabel": "Typical flow",
         "flow": {
           "send": "Send up to 100 entries",
-          "completed": "Writes completed",
-          "failures": "Inspect failures before retrying",
-          "allWritten": "[] = all written"
-        },
-        "benefits": {
-          "synchronous": {
-            "title": "Completed results",
-            "description": "Each entry has its own transaction. Successful writes remain committed when another entry fails."
-          },
-          "retry": {
-            "title": "Retry precisely",
-            "description": "For a partial failure, correct and retry only failed entries where appropriate. If all entries fail, inspect the problem response."
-          }
+          "allWritten": "[] = all written",
+          "asyncAdmitted": "Admitted for processing",
+          "asyncDone": "Nothing to poll; we take it from here",
+          "asyncDoneNote": "no follow-up needed",
+          "syncCompleted": "Writes completed",
+          "syncFailures": "Retry failed entries only"
         },
         "eyebrow": "How batches work",
-        "flowCaption": "Synchronous"
+        "flowCaption": "Two modes",
+        "choose": {
+          "async": "Send the batch and move on: admitted entries are processed for you, with nothing to poll or confirm.",
+          "sync": "Choose it when your system needs each entry's write result before it continues."
+        }
       },
       "summary": {
-        "title": "What you need for the first sync",
-        "subtitle": "These three pieces are enough to send a first, easy-to-check product batch.",
+        "title": "What you need for the first batch",
+        "subtitle": "These pieces are enough to send a first, easy-to-check batch in either mode.",
         "items": {
           "accessToken": {
             "title": "A scoped access token",
-            "description": "Use product-listings:write with a current grant for the target provider. Keep credentials in your server environment."
+            "description": "Use product-listings:write with a current grant for the target provider; both modes accept it. Keep credentials in your server environment."
           },
           "listingSourceId": {
             "title": "Provider ID (listingSourceId)",
-            "description": "Use the provider's canonical ID in the request path and your own sourceListingId for each listing."
+            "description": "Both modes use the provider's canonical ID in the request path and your own sourceListingId for each listing."
           },
           "listingBatch": {
             "title": "A small listing batch",
-            "description": "Start with a few entries and inspect the response. Every method accepts at most 100 entries and allows []."
+            "description": "Start with a few entries and inspect the response. Every method, in both modes, accepts at most 100 entries and allows []."
+          },
+          "idempotencyKey": {
+            "title": "An idempotency key",
+            "tag": "Async only",
+            "description": "Optional, but send your own Idempotency-Key: a new one for each batch, reused only to resend that batch unchanged."
           }
         },
-        "kicker": "Checklist · first sync"
+        "kicker": "Checklist · both modes"
       },
       "guide": {
-        "title": "From access token to <em>first product sync.</em>",
-        "subtitle": "A practical setup flow for connecting a custom shop system to Aura Historia.",
+        "title": "From access token to <em>first listing batch.</em>",
+        "subtitle": "A practical setup flow for connecting a custom shop system to Aura Historia, in either mode.",
         "stepLabel": "Step {{number}}",
-        "endpointLabel": "Relevant endpoint",
+        "endpointLabel": "Relevant endpoints",
         "focusLabel": "What to check",
         "steps": {
           "selectSource": {
             "title": "Select a provider you can access",
             "description": "Select a provider you currently have access to for this integration. Access does not establish ownership or permission to edit provider details.",
-            "focus": "Use the provider's canonical ID for the integration.",
+            "focus": "Use the provider's canonical ID for the integration; both modes use the same one.",
             "signInCta": "Sign in and check provider access",
             "loadError": "Provider access could not be verified.",
             "retryCta": "Try again",
@@ -1419,7 +1421,7 @@
           },
           "requestKey": {
             "title": "Create a user access token",
-            "description": "Create a user access token with product-listings:write for an account currently granted access to the target provider.",
+            "description": "Create a user access token with product-listings:write for an account currently granted access to the target provider. The same token works for both modes.",
             "focus": "Copy the token immediately: it is shown only once. Store it securely and send it as a Bearer token with every API request.",
             "cta": "Create user access token",
             "defaultTokenName": "Custom API product sync",
@@ -1432,20 +1434,31 @@
           },
           "preparePayload": {
             "title": "Prepare and send your first product request",
-            "description": "The URL uses the selected provider's listingSourceId. Replace YOUR_USER_ACCESS_TOKEN on your server and POST the example batch.",
-            "focus": "Check HTTP 200 and the failure array. Queue acceptance does not prove a successful listing write.",
+            "description": "Asynchronous is selected; switch to synchronous if you need write results in the response. The URL uses the selected provider's listingSourceId. Replace YOUR_USER_ACCESS_TOKEN on your server, for async also YOUR_BATCH_KEY, and POST the example batch.",
+            "focus": "Asynchronous: check HTTP 202, acceptedCount and failures; admitted entries are then processed for you. Synchronous: check HTTP 200 and the failure array.",
             "copy": "Copy",
-            "copied": "Copied"
+            "copied": "Copied",
+            "modeLabel": "Batch mode",
+            "returns": {
+              "async": "Returns 202 · admitted, processed for you",
+              "sync": "Returns 200 · failed entries, or [] when all completed"
+            }
           },
           "verifyResults": {
-            "title": "Inspect the batch result",
-            "description": "A successful empty failure array is []. A partial result names only failed entries; an all-failure batch returns a problem response.",
-            "focus": "Store the response securely and retry only failures that can be corrected or retried.",
+            "title": "Read the result for your mode",
+            "description": "Asynchronous: acceptedCount plus failures equals the entries sent, each failure at its original index; admitted entries need no follow-up. Synchronous: [] means every entry completed; a partial result names only failed entries; an all-failure batch returns a problem response.",
+            "focus": "Store responses securely. Resend an uncertain asynchronous batch unchanged under the same key; resend only synchronous failures that can be corrected.",
             "outcomes": {
               "allWritten": "All written",
               "partial": "Partial",
               "allFailed": "All failed",
-              "failures": "failures"
+              "failures": "failures",
+              "asyncCaption": "Asynchronous · admitted for processing",
+              "syncCaption": "Synchronous · completed writes",
+              "allAdmitted": "All admitted",
+              "partlyAdmitted": "Partly admitted",
+              "noneAdmitted": "None admitted",
+              "report": "report"
             }
           }
         },
@@ -1453,17 +1466,24 @@
       },
       "endpoints": {
         "title": "Partner product <em>API reference.</em>",
-        "subtitle": "The rules each method follows, then the embedded OpenAPI reference for the batch endpoints you need.",
+        "subtitle": "The rules each method follows in both modes, then the embedded OpenAPI reference for the asynchronous and synchronous batch endpoints.",
         "embedTitle": "Partner product API reference",
         "eyebrow": "Reference",
         "frameLabel": "OpenAPI · Partner products",
-        "fullDocs": "Full docs",
-        "allMethods": "All methods"
+        "fullDocs": "Full docs"
       },
       "contract": {
-        "batch": {
-          "title": "Batch outcomes",
-          "description": "POST/PATCH/PUT/DELETE: maxItems 100; [] returns HTTP 200 with []. Each entry runs in its own transaction. On partial success, HTTP 200 returns only failures as { listingSourceId, sourceListingId, error }. If every non-empty entry fails, the first failure becomes an application/problem+json response. Do not replay successful entries."
+        "asyncAdmission": {
+          "title": "Admission outcomes",
+          "description": "POST, PATCH, PUT and DELETE on /product-listings/async take the same entries, maxItems 100. HTTP 202 means at least one entry was confirmed admitted, or the batch was empty; admitted entries are then processed for you, with nothing to poll. The report is { submissionId, acceptedCount, failures }: acceptedCount plus failures equals the entries sent, and each failure has index, error, retryable and, when safe to echo, sourceListingId. With nothing admitted: 503 for unconfirmed, retryable or blocked sends; otherwise 500 for internal failures; 413 when only size failed; otherwise 400. Listing existence, auctions and provider authority are checked during processing."
+        },
+        "asyncIdempotency": {
+          "title": "Idempotency and retries",
+          "description": "Send one Idempotency-Key header: 1–128 visible ASCII characters, no comma. Without one, a key is generated and echoed on the report; if that response is lost, the key cannot be recovered. After a lost or uncertain response, resend the exact batch, unchanged and in the same order, with the same key, rejected entries included. retryable marks failures where that resend is appropriate (ENQUEUE_UNCONFIRMED may already be queued); validation and size errors are not retryable. Correct invalid entries in a new request with a new key, leaving out admitted and uncertain ones. submissionId is for correlation only. To look at listings yourself, use GET on /product-listings; delegated tokens also need product-listings:read."
+        },
+        "syncOutcomes": {
+          "description": "POST, PATCH, PUT and DELETE on /product-listings: maxItems 100; [] returns HTTP 200 with []. Each entry runs in its own transaction. On partial success, HTTP 200 returns only failures as { listingSourceId, sourceListingId, error }. If every non-empty entry fails, the first failure becomes an application/problem+json response. Do not replay successful entries.",
+          "title": "Completed-write outcomes"
         },
         "create": {
           "title": "Create fields and prices",
@@ -1483,11 +1503,35 @@
         },
         "withdrawal": {
           "title": "Batch withdrawal and restoration",
-          "description": "DELETE uses the same collection path with an array of { sourceListingId }. It withdraws listings and preserves their history. PUT restores a withdrawn listing before applying current facts. Inspect failures and retry only failed entries when appropriate."
+          "description": "DELETE takes an array of { sourceListingId } on either path. It withdraws listings, which is reversible, and preserves their history; PUT restores a withdrawn listing before applying current facts. Read the outcome by your mode: the admission report for asynchronous, failed entries for synchronous."
+        }
+      },
+      "modes": {
+        "recommended": "Recommended",
+        "endpoint": "Endpoint · POST · PATCH · PUT · DELETE",
+        "rows": {
+          "response": "The response",
+          "failures": "When entries fail",
+          "retry": "Retry",
+          "afterwards": "Afterwards"
         },
-        "woocommerce": {
-          "title": "WooCommerce: server-to-server",
-          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} requires bearer authorization, x-wc-webhook-topic and x-wc-webhook-signature (base64 HMAC-SHA256 over exact body bytes); x-wc-webhook-delivery-id is optional. Keep webhook secrets on the server; never send or expose them in a browser. HTTP 204 has no body and acknowledges confirmed admission or an authorized ignored event, not capture or search visibility. Variation events (type: variation) are ignored; the parent’s own product.updated refreshes its listing. Every deletion withdraws the listing whose sourceListingId is the delivered id. date_modified_gmt supports UTC without offset, Z or +00:00; other offsets are invalid. Source order is applied downstream: older observations complete without effect, after a timestamp-free deletion only a later date_modified_gmt restores the listing, and after a deletion an UPSERT without date_modified_gmt is rejected with CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Retry an uncertain admission unchanged, preserving delivery ID when supplied."
+        "async": {
+          "label": "Asynchronous",
+          "status": "Admitted",
+          "title": "Admitted now, <em>processed for you.</em>",
+          "response": "HTTP 202 returns an admission report: <code>submissionId</code>, <code>acceptedCount</code> and one failure for each entry not confirmed admitted.",
+          "failures": "Admitted entries go ahead. Listing existence, auctions and provider authority are checked during processing, not in the response. With nothing admitted, 400, 413, 500 or 503 returns the same report.",
+          "retry": "After a lost or uncertain response, resend the unchanged batch with the same Idempotency-Key. Fix invalid entries in a new batch with a new key.",
+          "afterwards": "Nothing to poll: once admitted, an entry is in our hands and processed for you. To look anyway, read listings back with GET; delegated tokens also need <code>product-listings:read</code>."
+        },
+        "sync": {
+          "label": "Synchronous",
+          "status": "Completed",
+          "title": "Completed writes, <em>in the response.</em>",
+          "response": "HTTP 200 lists failed entries only; [] means every entry completed, an empty batch included.",
+          "failures": "Each entry has its own transaction, so completed writes stay committed. If every entry fails, a problem response is returned instead.",
+          "retry": "Correct and resend only the failed entries.",
+          "afterwards": "Search visibility follows separately; a completed write is not yet visible in search."
         }
       }
     },
