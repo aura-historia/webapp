@@ -1349,7 +1349,7 @@
     "customIntegrationPage": {
       "hero": {
         "title": "Verbinden Sie Ihren Shop mit <em>unserer API.</em>",
-        "subtitle": "Binden Sie Ihren Bestand über einen freigegebenen Anbieter an. Synchrone Batches liefern abgeschlossene Schreibergebnisse; prüfen Sie Fehler vor einem erneuten Versuch.",
+        "subtitle": "Senden Sie Angebots-Batches für einen freigegebenen Anbieter. Asynchrone Batches, der empfohlene Weg, werden sofort angenommen und für Sie verarbeitet; synchrone Batches liefern abgeschlossene Schreibergebnisse.",
         "primaryCta": "Zugriffstoken verwalten",
         "secondaryCta": "API-Dokumentation öffnen",
         "breadcrumb": "Partnerprogramm",
@@ -1357,58 +1357,60 @@
         "newTab": "(öffnet in neuem Tab)"
       },
       "concept": {
-        "title": "Synchrone <em>Angebots-Batches.</em>",
-        "description": "POST, PATCH, PUT und DELETE schließen Schreibvorgänge synchron ab. HTTP 200 enthält nur fehlgeschlagene Einträge; [] bedeutet vollständigen Erfolg, auch bei einem leeren Batch. Die Sichtbarkeit in der Suche ist ein separater Schritt.",
+        "title": "Zwei Wege, <em>einen Batch zu senden.</em>",
+        "description": "Beide Modi nehmen dieselben Angebots-Batches für denselben Anbieter an: bis zu 100 Einträge, POST zum Erstellen, PATCH zum Aktualisieren, PUT für Upserts und DELETE zum Zurücknehmen. Sie unterscheiden sich darin, was die Antwort bestätigt; asynchron ist der empfohlene Standard.",
         "flowLabel": "Typischer Ablauf",
         "flow": {
           "send": "Bis zu 100 Einträge senden",
-          "completed": "Schreibvorgänge abgeschlossen",
-          "failures": "Fehler vor erneutem Versuch prüfen",
-          "allWritten": "[] = alle geschrieben"
-        },
-        "benefits": {
-          "synchronous": {
-            "title": "Abgeschlossene Ergebnisse",
-            "description": "Jeder Eintrag hat eine eigene Transaktion. Erfolgreiche Schreibvorgänge bleiben gespeichert, wenn ein anderer Eintrag fehlschlägt."
-          },
-          "retry": {
-            "title": "Gezielt erneut versuchen",
-            "description": "Bei Teilerfolg korrigieren und wiederholen Sie gegebenenfalls nur fehlgeschlagene Einträge. Wenn alle Einträge fehlschlagen, prüfen Sie die Problemantwort."
-          }
+          "allWritten": "[] = alle geschrieben",
+          "asyncAdmitted": "Zur Verarbeitung angenommen",
+          "asyncDone": "Kein Nachfragen nötig; den Rest übernehmen wir",
+          "asyncDoneNote": "keine Nachverfolgung nötig",
+          "syncCompleted": "Schreibvorgänge abgeschlossen",
+          "syncFailures": "Nur fehlgeschlagene Einträge wiederholen"
         },
         "eyebrow": "So funktionieren Batches",
-        "flowCaption": "Synchron"
+        "flowCaption": "Zwei Modi",
+        "choose": {
+          "async": "Batch senden und weitermachen: Angenommene Einträge werden für Sie verarbeitet, ohne Abfragen oder Bestätigen.",
+          "sync": "Wählen Sie diesen Modus, wenn Ihr System das Schreibergebnis jedes Eintrags braucht, bevor es weiterarbeitet."
+        }
       },
       "summary": {
-        "title": "Was Sie für den ersten Sync brauchen",
-        "subtitle": "Diese drei Angaben reichen aus, um ein erstes, gut prüfbares Produkt-Batch zu senden.",
+        "title": "Was Sie für den ersten Batch brauchen",
+        "subtitle": "Diese Angaben reichen aus, um in beiden Modi einen ersten, gut prüfbaren Batch zu senden.",
         "items": {
           "accessToken": {
             "title": "Ein Zugriffstoken mit passender Berechtigung",
-            "description": "Verwenden Sie product-listings:write mit einer aktuellen Freigabe für den Zielanbieter. Bewahren Sie Zugangsdaten in Ihrer Serverumgebung auf."
+            "description": "Verwenden Sie product-listings:write mit einer aktuellen Freigabe für den Zielanbieter; beide Modi akzeptieren das Token. Bewahren Sie Zugangsdaten in Ihrer Serverumgebung auf."
           },
           "listingSourceId": {
             "title": "Anbieter-ID (listingSourceId)",
-            "description": "Verwenden Sie die kanonische Anbieter-ID im Anfragepfad und Ihre eigene sourceListingId für jedes Angebot."
+            "description": "Beide Modi verwenden die kanonische Anbieter-ID im Anfragepfad und Ihre eigene sourceListingId für jedes Angebot."
           },
           "listingBatch": {
             "title": "Ein kleiner Angebots-Batch",
-            "description": "Beginnen Sie mit wenigen Einträgen und prüfen Sie die Antwort. Jede Methode erlaubt höchstens 100 Einträge sowie []."
+            "description": "Beginnen Sie mit wenigen Einträgen und prüfen Sie die Antwort. Jede Methode erlaubt in beiden Modi höchstens 100 Einträge sowie []."
+          },
+          "idempotencyKey": {
+            "title": "Ein Idempotenzschlüssel",
+            "tag": "Nur asynchron",
+            "description": "Optional, aber senden Sie einen eigenen Idempotency-Key: einen neuen für jeden Batch, wiederverwendet nur, um genau diesen Batch unverändert erneut zu senden."
           }
         },
-        "kicker": "Checkliste · erster Sync"
+        "kicker": "Checkliste · beide Modi"
       },
       "guide": {
-        "title": "Vom Zugriffstoken zum <em>ersten Produkt-Sync.</em>",
-        "subtitle": "Ein praktischer Ablauf, um ein eigenes Shopsystem mit Aura Historia zu verbinden.",
+        "title": "Vom Zugriffstoken zum <em>ersten Angebots-Batch.</em>",
+        "subtitle": "Ein praktischer Ablauf, um ein eigenes Shopsystem mit Aura Historia zu verbinden, in beiden Modi.",
         "stepLabel": "Schritt {{number}}",
-        "endpointLabel": "Relevanter Endpunkt",
+        "endpointLabel": "Relevante Endpunkte",
         "focusLabel": "Worauf Sie achten sollten",
         "steps": {
           "selectSource": {
             "title": "Freigegebenen Anbieter auswählen",
             "description": "Wählen Sie für diese Integration einen Anbieter aus, auf den Sie derzeit Zugriff haben. Der Zugriff bestätigt weder Eigentum noch die Berechtigung, Anbieterdetails zu bearbeiten.",
-            "focus": "Verwenden Sie die kanonische Anbieter-ID für die Integration.",
+            "focus": "Verwenden Sie die kanonische Anbieter-ID für die Integration; beide Modi verwenden dieselbe.",
             "signInCta": "Anmelden und Anbieterzugriff prüfen",
             "loadError": "Der Zugriff auf Anbieter konnte nicht geprüft werden.",
             "retryCta": "Erneut versuchen",
@@ -1419,7 +1421,7 @@
           },
           "requestKey": {
             "title": "Benutzer-Zugriffstoken erstellen",
-            "description": "Erstellen Sie ein Benutzer-Zugriffstoken mit product-listings:write für ein Konto mit aktueller Freigabe für den Zielanbieter.",
+            "description": "Erstellen Sie ein Benutzer-Zugriffstoken mit product-listings:write für ein Konto mit aktueller Freigabe für den Zielanbieter. Dasselbe Token funktioniert in beiden Modi.",
             "focus": "Kopieren Sie das Token sofort, da es nur einmal angezeigt wird. Speichern Sie es sicher und senden Sie es bei jedem API-Request als Bearer-Token.",
             "cta": "Benutzer-Zugriffstoken erstellen",
             "defaultTokenName": "Produktsynchronisation per eigener API",
@@ -1432,20 +1434,31 @@
           },
           "preparePayload": {
             "title": "Ersten Produkt-Request vorbereiten und senden",
-            "description": "Die URL verwendet die ausgewählte listingSourceId des Anbieters. Ersetzen Sie YOUR_USER_ACCESS_TOKEN auf Ihrem Server und senden Sie den Beispiel-Batch per POST.",
-            "focus": "Prüfen Sie HTTP 200 und das Fehlerarray. Eine Warteschlangenannahme bestätigt keinen erfolgreichen Schreibvorgang.",
+            "description": "Asynchron ist ausgewählt; wechseln Sie zu synchron, wenn Sie Schreibergebnisse in der Antwort brauchen. Die URL verwendet die ausgewählte listingSourceId des Anbieters. Ersetzen Sie YOUR_USER_ACCESS_TOKEN auf Ihrem Server, bei asynchron zusätzlich YOUR_BATCH_KEY, und senden Sie den Beispiel-Batch per POST.",
+            "focus": "Asynchron: Prüfen Sie HTTP 202, acceptedCount und failures; angenommene Einträge werden danach für Sie verarbeitet. Synchron: Prüfen Sie HTTP 200 und das Fehlerarray.",
             "copy": "Kopieren",
-            "copied": "Kopiert"
+            "copied": "Kopiert",
+            "modeLabel": "Batch-Modus",
+            "returns": {
+              "async": "Liefert 202 · angenommen, für Sie verarbeitet",
+              "sync": "Liefert 200 · fehlgeschlagene Einträge oder [], wenn alle abgeschlossen sind"
+            }
           },
           "verifyResults": {
-            "title": "Batch-Ergebnis prüfen",
-            "description": "Ein leeres Fehlerarray [] bedeutet Erfolg. Bei Teilerfolg werden nur fehlgeschlagene Einträge genannt; ein vollständig fehlgeschlagener Batch liefert eine Problemantwort.",
-            "focus": "Bewahren Sie die Antwort sicher auf und wiederholen Sie nur korrigierbare oder erneut ausführbare Einträge.",
+            "title": "Ergebnis für Ihren Modus lesen",
+            "description": "Asynchron: acceptedCount plus failures ergibt die gesendeten Einträge, jeder Fehler steht an seinem ursprünglichen Index; angenommene Einträge brauchen keine Nachverfolgung. Synchron: [] bedeutet, dass jeder Eintrag abgeschlossen ist; bei Teilerfolg werden nur fehlgeschlagene Einträge genannt; ein vollständig fehlgeschlagener Batch liefert eine Problemantwort.",
+            "focus": "Bewahren Sie Antworten sicher auf. Senden Sie einen unsicheren asynchronen Batch unverändert mit demselben Schlüssel erneut; wiederholen Sie synchron nur korrigierbare Fehler.",
             "outcomes": {
               "allWritten": "Alle geschrieben",
               "partial": "Teilweise",
               "allFailed": "Alle fehlgeschlagen",
-              "failures": "Fehler"
+              "failures": "Fehler",
+              "asyncCaption": "Asynchron · zur Verarbeitung angenommen",
+              "syncCaption": "Synchron · abgeschlossene Schreibvorgänge",
+              "allAdmitted": "Alle angenommen",
+              "partlyAdmitted": "Teilweise angenommen",
+              "noneAdmitted": "Keiner angenommen",
+              "report": "Bericht"
             }
           }
         },
@@ -1453,17 +1466,24 @@
       },
       "endpoints": {
         "title": "Partner-Produkt-<em>API-Referenz.</em>",
-        "subtitle": "Die Regeln der einzelnen Methoden, dann die eingebettete OpenAPI-Referenz für die Batch-Endpunkte, die Sie brauchen.",
+        "subtitle": "Die Regeln der einzelnen Methoden in beiden Modi, dann die eingebettete OpenAPI-Referenz für die asynchronen und synchronen Batch-Endpunkte.",
         "embedTitle": "Partner-Produkt-API-Referenz",
         "eyebrow": "Referenz",
         "frameLabel": "OpenAPI · Partner-Produkte",
-        "fullDocs": "Vollständige Doku",
-        "allMethods": "Alle Methoden"
+        "fullDocs": "Vollständige Doku"
       },
       "contract": {
-        "batch": {
-          "title": "Batch-Ergebnisse",
-          "description": "POST/PATCH/PUT/DELETE: maxItems 100; [] liefert HTTP 200 mit []. Jeder Eintrag läuft in einer eigenen Transaktion. Bei Teilerfolg liefert HTTP 200 nur Fehler als { listingSourceId, sourceListingId, error }. Scheitern alle Einträge eines nicht leeren Batches, wird der erste Fehler als application/problem+json zurückgegeben. Wiederholen Sie keine erfolgreichen Einträge."
+        "asyncAdmission": {
+          "title": "Annahmeergebnisse",
+          "description": "POST, PATCH, PUT und DELETE auf /product-listings/async nehmen dieselben Einträge an, maxItems 100. HTTP 202 bedeutet, dass mindestens ein Eintrag bestätigt angenommen wurde oder der Batch leer war; angenommene Einträge werden danach für Sie verarbeitet, ohne dass Sie nachfragen müssen. Der Bericht lautet { submissionId, acceptedCount, failures }: acceptedCount plus failures ergibt die gesendeten Einträge, und jeder Fehler enthält index, error, retryable sowie, wenn sie gefahrlos zurückgegeben werden kann, die sourceListingId. Wird nichts angenommen: 503 bei unbestätigten, wiederholbaren oder blockierten Sendungen; sonst 500 bei internen Fehlern; 413, wenn nur die Größe scheitert; sonst 400. Ob ein Angebot existiert, Auktionen und die Anbieterberechtigung werden bei der Verarbeitung geprüft."
+        },
+        "asyncIdempotency": {
+          "title": "Idempotenz und Wiederholungen",
+          "description": "Senden Sie genau einen Idempotency-Key-Header: 1–128 sichtbare ASCII-Zeichen, ohne Komma. Ohne Header wird ein Schlüssel erzeugt und im Bericht zurückgegeben; geht diese Antwort verloren, lässt sich der Schlüssel nicht wiederherstellen. Senden Sie nach einer verlorenen oder unsicheren Antwort genau denselben Batch unverändert, in derselben Reihenfolge und mit demselben Schlüssel erneut, abgelehnte Einträge eingeschlossen. retryable kennzeichnet Fehler, bei denen dieses erneute Senden angebracht ist (ENQUEUE_UNCONFIRMED ist möglicherweise schon eingereiht); Validierungs- und Größenfehler sind nicht wiederholbar. Korrigieren Sie ungültige Einträge in einer neuen Anfrage mit neuem Schlüssel und lassen Sie angenommene und unsichere Einträge weg. submissionId dient nur der Zuordnung. Um Angebote selbst einzusehen, verwenden Sie GET auf /product-listings; delegierte Tokens brauchen dafür zusätzlich product-listings:read."
+        },
+        "syncOutcomes": {
+          "description": "POST, PATCH, PUT und DELETE auf /product-listings: maxItems 100; [] liefert HTTP 200 mit []. Jeder Eintrag läuft in einer eigenen Transaktion. Bei Teilerfolg liefert HTTP 200 nur Fehler als { listingSourceId, sourceListingId, error }. Scheitern alle Einträge eines nicht leeren Batches, wird der erste Fehler als application/problem+json zurückgegeben. Wiederholen Sie keine erfolgreichen Einträge.",
+          "title": "Ergebnisse abgeschlossener Schreibvorgänge"
         },
         "create": {
           "title": "Erstellungsfelder und Preise",
@@ -1483,11 +1503,35 @@
         },
         "withdrawal": {
           "title": "Batch-Rücknahme und Wiederherstellung",
-          "description": "DELETE verwendet denselben Sammlungspfad mit einem Array aus { sourceListingId }. Es nimmt Angebote zurück und erhält ihre Historie. PUT stellt ein zurückgenommenes Angebot vor Anwendung aktueller Werte wieder her. Prüfen Sie Fehler und wiederholen Sie gegebenenfalls nur fehlgeschlagene Einträge."
+          "description": "DELETE nimmt auf beiden Pfaden ein Array aus { sourceListingId } an. Es nimmt Angebote zurück, was umkehrbar ist, und bewahrt ihren Verlauf; PUT stellt ein zurückgenommenes Angebot wieder her, bevor aktuelle Angaben angewendet werden. Lesen Sie das Ergebnis je nach Modus: den Annahmebericht bei asynchron, fehlgeschlagene Einträge bei synchron."
+        }
+      },
+      "modes": {
+        "recommended": "Empfohlen",
+        "endpoint": "Endpunkt · POST · PATCH · PUT · DELETE",
+        "rows": {
+          "response": "Die Antwort",
+          "failures": "Wenn Einträge fehlschlagen",
+          "retry": "Wiederholen",
+          "afterwards": "Danach"
         },
-        "woocommerce": {
-          "title": "WooCommerce: Server zu Server",
-          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} erfordert Bearer-Autorisierung, x-wc-webhook-topic und x-wc-webhook-signature (Base64-HMAC-SHA256 über exakte Body-Bytes); x-wc-webhook-delivery-id ist optional. Webhook-Geheimnisse bleiben auf dem Server und dürfen nie im Browser gesendet oder angezeigt werden. HTTP 204 ohne Body bestätigt die Annahme oder ein autorisiertes ignoriertes Ereignis, weder Erfassung noch Suchsichtbarkeit. Variantenereignisse (type: variation) werden ignoriert; das eigene product.updated des Elternprodukts aktualisiert dessen Angebot. Jede Löschung zieht das Angebot zurück, dessen sourceListingId der gelieferten id entspricht. date_modified_gmt erlaubt UTC ohne Offset, Z oder +00:00; andere Offsets sind ungültig. Die Quellreihenfolge wird nachgelagert angewendet: Ältere Beobachtungen bleiben ohne Wirkung, nach einer Löschung ohne Zeitstempel stellt nur ein späteres date_modified_gmt das Angebot wieder her, und nach einer Löschung wird ein UPSERT ohne date_modified_gmt mit CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS abgelehnt. Wiederholen Sie unklare Annahmen unverändert mit derselben vorhandenen Delivery-ID."
+        "async": {
+          "label": "Asynchron",
+          "status": "Angenommen",
+          "title": "Jetzt angenommen, <em>für Sie verarbeitet.</em>",
+          "response": "HTTP 202 liefert einen Annahmebericht: <code>submissionId</code>, <code>acceptedCount</code> und einen Fehler für jeden Eintrag, dessen Annahme nicht bestätigt wurde.",
+          "failures": "Angenommene Einträge werden weiterverarbeitet. Ob ein Angebot existiert, Auktionen und die Anbieterberechtigung werden bei der Verarbeitung geprüft, nicht in der Antwort. Wird nichts angenommen, liefern 400, 413, 500 oder 503 denselben Bericht.",
+          "retry": "Senden Sie nach einer verlorenen oder unsicheren Antwort den unveränderten Batch mit demselben Idempotency-Key erneut. Korrigieren Sie ungültige Einträge in einem neuen Batch mit neuem Schlüssel.",
+          "afterwards": "Kein Nachfragen nötig: Ist ein Eintrag angenommen, liegt er bei uns und wird für Sie verarbeitet. Wenn Sie trotzdem nachsehen möchten, lesen Sie Angebote per GET zurück; delegierte Tokens brauchen dafür zusätzlich <code>product-listings:read</code>."
+        },
+        "sync": {
+          "label": "Synchron",
+          "status": "Abgeschlossen",
+          "title": "Abgeschlossene Schreibvorgänge, <em>direkt in der Antwort.</em>",
+          "response": "HTTP 200 nennt nur fehlgeschlagene Einträge; [] bedeutet, dass jeder Eintrag abgeschlossen ist, auch bei einem leeren Batch.",
+          "failures": "Jeder Eintrag hat eine eigene Transaktion, abgeschlossene Schreibvorgänge bleiben also gespeichert. Schlagen alle Einträge fehl, kommt stattdessen eine Problemantwort.",
+          "retry": "Korrigieren Sie nur die fehlgeschlagenen Einträge und senden Sie sie erneut.",
+          "afterwards": "Die Sichtbarkeit in der Suche folgt separat; ein abgeschlossener Schreibvorgang ist noch nicht in der Suche sichtbar."
         }
       }
     },

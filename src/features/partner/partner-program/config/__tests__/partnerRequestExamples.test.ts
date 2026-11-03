@@ -27,7 +27,8 @@ type Schema = {
     format?: string;
 };
 const spec = JSON.parse(readFileSync("public/partner-products.openapi.json", "utf8"));
-const path = "/v1/listing-sources/{listingSourceId}/product-listings";
+const syncPath = "/v1/listing-sources/{listingSourceId}/product-listings";
+const asyncPath = `${syncPath}/async`;
 
 // Validate the OpenAPI 3.0 schema vocabulary used by the partner request examples.
 function matches(value: unknown, schema: Schema): boolean {
@@ -85,23 +86,31 @@ describe("partner OpenAPI contract", () => {
         ["patch", PARTNER_PATCH_EXAMPLE],
         ["put", PARTNER_PUT_EXAMPLE],
         ["delete", PARTNER_WITHDRAW_EXAMPLE],
-    ])("validates the %s fixture, embedded examples and empty batch", (method, example) => {
-        const operation = spec.paths[path][method as string];
-        const body = operation.requestBody.content["application/json"];
-        expect(matches(example, body.schema)).toBe(true);
-        expect(matches([], body.schema)).toBe(true);
-        expect(
-            matches(
-                Array.from({ length: 101 }, () => example[0]),
-                body.schema,
-            ),
-        ).toBe(false);
-        for (const sample of Object.values(body.examples ?? {}) as { value: unknown }[]) {
-            expect(matches(sample.value, body.schema)).toBe(true);
-        }
-        expect(operation.responses["200"]).toBeDefined();
-        expect(operation.responses["202"]).toBeUndefined();
-    });
+    ])(
+        "validates the %s fixture, embedded examples and empty batch in both modes",
+        (method, example) => {
+            for (const [path, success, other] of [
+                [asyncPath, "202", "200"],
+                [syncPath, "200", "202"],
+            ] as const) {
+                const operation = spec.paths[path][method as string];
+                const body = operation.requestBody.content["application/json"];
+                expect(matches(example, body.schema)).toBe(true);
+                expect(matches([], body.schema)).toBe(true);
+                expect(
+                    matches(
+                        Array.from({ length: 101 }, () => example[0]),
+                        body.schema,
+                    ),
+                ).toBe(false);
+                for (const sample of Object.values(body.examples ?? {}) as { value: unknown }[]) {
+                    expect(matches(sample.value, body.schema)).toBe(true);
+                }
+                expect(operation.responses[success]).toBeDefined();
+                expect(operation.responses[other]).toBeUndefined();
+            }
+        },
+    );
 
     it("rejects stale asking prices, missing create fields and unsupported seller fields", () => {
         const schema = spec.components.schemas.CreateProductListingData;
@@ -121,10 +130,11 @@ describe("partner OpenAPI contract", () => {
                 node = (node as Record<string, unknown>)[segment];
             expect(node, reference).toBeDefined();
         }
-        expect(Object.keys(spec.paths)).toEqual([
-            path,
-            "/v1/webhooks/woocommerce/{listingSourceId}",
-        ]);
+        // Asynchronous submission is recommended, so it leads the embedded reference.
+        expect(Object.keys(spec.paths)).toEqual([asyncPath, syncPath]);
+        for (const path of [asyncPath, syncPath]) {
+            expect(Object.keys(spec.paths[path])).toEqual(["post", "patch", "put", "delete"]);
+        }
         expect(spec.components.schemas.OwnUserAccountData).toBeUndefined();
         expect(spec.components.schemas.CreateListingSourceData).toBeUndefined();
         expect(Object.keys(spec.components.securitySchemes).sort()).toEqual([
@@ -134,18 +144,27 @@ describe("partner OpenAPI contract", () => {
         expect(JSON.stringify(spec)).not.toContain("/shops/");
     });
 
-    it("requires webhook signature, allows an optional delivery ID and returns no success body", () => {
-        const operation = spec.paths["/v1/webhooks/woocommerce/{listingSourceId}"].post;
-        expect(
-            operation.parameters.find((p: { name: string }) => p.name === "x-wc-webhook-signature")
-                .required,
-        ).toBe(true);
-        expect(
-            operation.parameters.find(
-                (p: { name: string }) => p.name === "x-wc-webhook-delivery-id",
-            ).required,
-        ).toBe(false);
-        expect(operation.responses["204"].content).toBeUndefined();
-        expect(JSON.stringify(spec.components.schemas)).not.toContain("woocommerceWebhookSecret");
+    it("documents async admission reports with the idempotency key and no webhook", () => {
+        for (const method of ["post", "patch", "put", "delete"]) {
+            const operation = spec.paths[asyncPath][method];
+            const accepted = operation.responses["202"];
+            expect(accepted.content["application/json"].schema.$ref).toBe(
+                "#/components/schemas/AsyncProductListingBatchReport",
+            );
+            expect(accepted.headers["Idempotency-Key"].$ref).toBe(
+                "#/components/headers/AsyncProductListingIdempotencyKey",
+            );
+            expect(operation.parameters).toContainEqual({
+                $ref: "#/components/parameters/AsyncProductListingIdempotencyKey",
+            });
+        }
+        expect(spec.components.schemas.AsyncProductListingBatchReport.required).toEqual([
+            "submissionId",
+            "acceptedCount",
+            "failures",
+        ]);
+        expect(spec.components.parameters.AsyncProductListingIdempotencyKey.required).toBe(false);
+        expect(JSON.stringify(spec).toLowerCase()).not.toContain("webhook");
+        expect(JSON.stringify(spec).toLowerCase()).not.toContain("woocommerce");
     });
 });

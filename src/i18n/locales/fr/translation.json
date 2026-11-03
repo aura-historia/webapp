@@ -1356,7 +1356,7 @@
     "customIntegrationPage": {
       "hero": {
         "title": "Connectez votre boutique à <em>notre API.</em>",
-        "subtitle": "Connectez votre inventaire via un fournisseur auquel vous avez accordé l’accès. Les lots synchrones renvoient les résultats des écritures terminées ; vérifiez les échecs avant de réessayer.",
+        "subtitle": "Envoyez des lots d’annonces pour un fournisseur auquel vous avez accès. Les lots asynchrones, la voie recommandée, sont acceptés aussitôt et traités par nos soins ; les lots synchrones renvoient les résultats des écritures terminées.",
         "primaryCta": "Gérer les jetons d’accès",
         "secondaryCta": "Ouvrir la documentation API",
         "breadcrumb": "Programme partenaires",
@@ -1364,58 +1364,60 @@
         "newTab": "(s’ouvre dans un nouvel onglet)"
       },
       "concept": {
-        "title": "Lots d’annonces <em>synchrones.</em>",
-        "description": "POST, PATCH, PUT et DELETE terminent les écritures de manière synchrone. HTTP 200 contient uniquement les entrées en échec ; [] indique un succès complet, même pour un lot vide. La visibilité dans la recherche est une étape distincte.",
+        "title": "Deux façons <em>d’envoyer un lot.</em>",
+        "description": "Les deux modes acceptent les mêmes lots d’annonces pour le même fournisseur : jusqu’à 100 entrées, POST pour créer, PATCH pour mettre à jour, PUT pour l’upsert et DELETE pour retirer. Ils diffèrent par ce que la réponse confirme ; le mode asynchrone est recommandé par défaut.",
         "flowLabel": "Flux habituel",
         "flow": {
           "send": "Envoyez jusqu’à 100 entrées",
-          "completed": "Écritures terminées",
-          "failures": "Vérifiez les échecs avant de réessayer",
-          "allWritten": "[] = tout est écrit"
-        },
-        "benefits": {
-          "synchronous": {
-            "title": "Résultats terminés",
-            "description": "Chaque entrée dispose de sa propre transaction. Les écritures réussies restent validées lorsqu’une autre entrée échoue."
-          },
-          "retry": {
-            "title": "Réessayez de manière ciblée",
-            "description": "En cas d’échec partiel, corrigez et renvoyez uniquement les entrées en échec si nécessaire. Si toutes échouent, examinez la réponse de problème."
-          }
+          "allWritten": "[] = tout est écrit",
+          "asyncAdmitted": "Accepté pour traitement",
+          "asyncDone": "Rien à interroger ; nous prenons le relais",
+          "asyncDoneNote": "aucun suivi nécessaire",
+          "syncCompleted": "Écritures terminées",
+          "syncFailures": "Ne renvoyer que les entrées en échec"
         },
         "eyebrow": "Fonctionnement des lots",
-        "flowCaption": "Synchrone"
+        "flowCaption": "Deux modes",
+        "choose": {
+          "async": "Envoyez le lot et passez à la suite : nous traitons les entrées acceptées, sans rien à interroger ni à confirmer.",
+          "sync": "Choisissez-le lorsque votre système a besoin du résultat d’écriture de chaque entrée avant de continuer."
+        }
       },
       "summary": {
-        "title": "Ce qu’il vous faut pour la première synchronisation",
-        "subtitle": "Ces trois éléments suffisent pour envoyer un premier lot de produits facile à vérifier.",
+        "title": "Ce qu’il vous faut pour le premier lot",
+        "subtitle": "Ces éléments suffisent pour envoyer un premier lot facile à vérifier, dans l’un ou l’autre mode.",
         "items": {
           "accessToken": {
             "title": "Un jeton d’accès à portée limitée",
-            "description": "Utilisez product-listings:write avec une autorisation actuelle pour le fournisseur cible. Conservez les identifiants sur votre serveur."
+            "description": "Utilisez product-listings:write avec un accès en cours pour le fournisseur cible ; les deux modes l’acceptent. Conservez les identifiants dans votre environnement serveur."
           },
           "listingSourceId": {
             "title": "Identifiant du fournisseur (listingSourceId)",
-            "description": "Utilisez l’identifiant canonique du fournisseur dans le chemin de la requête et votre propre sourceListingId pour chaque annonce."
+            "description": "Les deux modes utilisent l’ID canonique du fournisseur dans le chemin de la requête et votre propre sourceListingId pour chaque annonce."
           },
           "listingBatch": {
             "title": "Un petit lot d’annonces",
-            "description": "Commencez par quelques entrées et examinez la réponse. Chaque méthode accepte au maximum 100 entrées et autorise []."
+            "description": "Commencez avec quelques entrées et examinez la réponse. Chaque méthode, dans les deux modes, accepte au plus 100 entrées et autorise []."
+          },
+          "idempotencyKey": {
+            "title": "Une clé d’idempotence",
+            "tag": "Asynchrone uniquement",
+            "description": "Facultative, mais envoyez votre propre Idempotency-Key : une nouvelle pour chaque lot, réutilisée uniquement pour renvoyer ce lot à l’identique."
           }
         },
-        "kicker": "Liste · première synchronisation"
+        "kicker": "Liste · deux modes"
       },
       "guide": {
-        "title": "Du jeton d’accès à la <em>première synchronisation.</em>",
-        "subtitle": "Un parcours pratique pour connecter un système de boutique sur mesure à Aura Historia.",
+        "title": "Du jeton d’accès au <em>premier lot d’annonces.</em>",
+        "subtitle": "Un parcours pratique pour connecter un système de boutique sur mesure à Aura Historia, dans l’un ou l’autre mode.",
         "stepLabel": "Étape {{number}}",
-        "endpointLabel": "Endpoint concerné",
+        "endpointLabel": "Endpoints concernés",
         "focusLabel": "À vérifier",
         "steps": {
           "selectSource": {
             "title": "Sélectionner un fournisseur accessible",
             "description": "Sélectionnez un fournisseur auquel vous avez actuellement accès pour cette intégration. L’accès ne confirme ni la propriété ni le droit de modifier les informations du fournisseur.",
-            "focus": "Utilisez l’identifiant canonique du fournisseur pour l’intégration.",
+            "focus": "Utilisez l’ID canonique du fournisseur pour l’intégration ; les deux modes utilisent le même.",
             "signInCta": "Se connecter et vérifier l’accès au fournisseur",
             "loadError": "L’accès au fournisseur n’a pas pu être vérifié.",
             "retryCta": "Réessayer",
@@ -1426,7 +1428,7 @@
           },
           "requestKey": {
             "title": "Créer un jeton d’accès utilisateur",
-            "description": "Créez un jeton d’accès utilisateur avec product-listings:write pour un compte autorisé à accéder actuellement au fournisseur cible.",
+            "description": "Créez un jeton d’accès utilisateur avec product-listings:write pour un compte disposant d’un accès en cours au fournisseur cible. Le même jeton fonctionne dans les deux modes.",
             "focus": "Copiez immédiatement le jeton : il n’est affiché qu’une seule fois. Conservez-le en lieu sûr et envoyez-le comme jeton Bearer avec chaque requête API.",
             "cta": "Créer un jeton d’accès utilisateur",
             "defaultTokenName": "Synchronisation produits par API personnalisée",
@@ -1439,20 +1441,31 @@
           },
           "preparePayload": {
             "title": "Préparer et envoyer votre première requête produit",
-            "description": "L’URL utilise le listingSourceId du fournisseur sélectionné. Remplacez YOUR_USER_ACCESS_TOKEN sur votre serveur et envoyez le lot d’exemple avec POST.",
-            "focus": "Vérifiez HTTP 200 et le tableau d’échecs. L’acceptation dans une file ne prouve pas la réussite d’une écriture.",
+            "description": "Le mode asynchrone est sélectionné ; passez au mode synchrone si vous avez besoin des résultats d’écriture dans la réponse. L’URL utilise le listingSourceId du fournisseur sélectionné. Remplacez YOUR_USER_ACCESS_TOKEN sur votre serveur, en asynchrone aussi YOUR_BATCH_KEY, puis envoyez le lot d’exemple en POST.",
+            "focus": "Asynchrone : vérifiez HTTP 202, acceptedCount et failures ; nous traitons ensuite les entrées acceptées. Synchrone : vérifiez HTTP 200 et le tableau d’échecs.",
             "copy": "Copier",
-            "copied": "Copié"
+            "copied": "Copié",
+            "modeLabel": "Mode du lot",
+            "returns": {
+              "async": "Renvoie 202 · accepté, traité par nos soins",
+              "sync": "Renvoie 200 · entrées en échec, ou [] si tout est terminé"
+            }
           },
           "verifyResults": {
-            "title": "Examinez le résultat du lot",
-            "description": "Un tableau d’échecs vide [] indique un succès. Un résultat partiel identifie uniquement les entrées en échec ; un lot entièrement échoué renvoie une réponse de problème.",
-            "focus": "Conservez la réponse en sécurité et ne renvoyez que les échecs pouvant être corrigés ou réessayés.",
+            "title": "Lisez le résultat selon votre mode",
+            "description": "Asynchrone : acceptedCount plus failures correspond aux entrées envoyées, chaque échec à son index d’origine ; les entrées acceptées ne demandent aucun suivi. Synchrone : [] signifie que toutes les entrées sont terminées ; en cas de succès partiel, seules les entrées en échec sont citées ; un lot entièrement en échec renvoie une réponse de problème.",
+            "focus": "Conservez les réponses en sécurité. Renvoyez un lot asynchrone incertain à l’identique avec la même clé ; ne renvoyez en synchrone que les échecs corrigibles.",
             "outcomes": {
               "allWritten": "Tout écrit",
               "partial": "Partiel",
               "allFailed": "Tout en échec",
-              "failures": "échecs"
+              "failures": "échecs",
+              "asyncCaption": "Asynchrone · accepté pour traitement",
+              "syncCaption": "Synchrone · écritures terminées",
+              "allAdmitted": "Tout accepté",
+              "partlyAdmitted": "Accepté en partie",
+              "noneAdmitted": "Rien d’accepté",
+              "report": "rapport"
             }
           }
         },
@@ -1460,17 +1473,24 @@
       },
       "endpoints": {
         "title": "Référence de <em>l’API produits partenaires.</em>",
-        "subtitle": "Les règles de chaque méthode, puis la référence OpenAPI intégrée des endpoints de lots dont vous avez besoin.",
+        "subtitle": "Les règles de chaque méthode dans les deux modes, puis la référence OpenAPI intégrée des endpoints de lots asynchrones et synchrones.",
         "embedTitle": "Référence de l’API produits partenaire",
         "eyebrow": "Référence",
         "frameLabel": "OpenAPI · Produits partenaires",
-        "fullDocs": "Documentation complète",
-        "allMethods": "Toutes les méthodes"
+        "fullDocs": "Documentation complète"
       },
       "contract": {
-        "batch": {
-          "title": "Résultats des lots",
-          "description": "POST/PATCH/PUT/DELETE : maxItems 100 ; [] renvoie HTTP 200 avec []. Chaque entrée s’exécute dans sa propre transaction. En cas de succès partiel, HTTP 200 renvoie uniquement les échecs sous la forme { listingSourceId, sourceListingId, error }. Si toutes les entrées d’un lot non vide échouent, le premier échec devient une réponse application/problem+json. Ne renvoyez pas les entrées réussies."
+        "asyncAdmission": {
+          "title": "Résultats d’acceptation",
+          "description": "POST, PATCH, PUT et DELETE sur /product-listings/async acceptent les mêmes entrées, maxItems 100. HTTP 202 signifie qu’au moins une entrée a été acceptée de façon confirmée, ou que le lot était vide ; nous traitons ensuite les entrées acceptées, sans rien à interroger. Le rapport est { submissionId, acceptedCount, failures } : acceptedCount plus failures correspond aux entrées envoyées, et chaque échec comporte index, error, retryable et, lorsqu’il peut être renvoyé sans risque, sourceListingId. Si rien n’est accepté : 503 pour des envois non confirmés, réessayables ou bloqués ; sinon 500 pour les erreurs internes ; 413 lorsque seule la taille échoue ; sinon 400. L’existence de l’annonce, les enchères et l’autorisation du fournisseur sont vérifiées pendant le traitement."
+        },
+        "asyncIdempotency": {
+          "title": "Idempotence et nouveaux essais",
+          "description": "Envoyez un seul en-tête Idempotency-Key : 1 à 128 caractères ASCII visibles, sans virgule. Sans en-tête, une clé est générée et renvoyée dans le rapport ; si cette réponse est perdue, la clé ne peut pas être récupérée. Après une réponse perdue ou incertaine, renvoyez exactement le même lot, inchangé et dans le même ordre, avec la même clé, entrées refusées comprises. retryable signale les échecs pour lesquels ce renvoi convient (ENQUEUE_UNCONFIRMED est peut-être déjà en file) ; les erreurs de validation et de taille ne sont pas réessayables. Corrigez les entrées invalides dans une nouvelle requête avec une nouvelle clé, sans les entrées acceptées ni incertaines. submissionId sert uniquement à la corrélation. Pour consulter vous-même les annonces, utilisez GET sur /product-listings ; les jetons délégués ont aussi besoin de product-listings:read."
+        },
+        "syncOutcomes": {
+          "description": "POST, PATCH, PUT et DELETE sur /product-listings : maxItems 100 ; [] renvoie HTTP 200 avec []. Chaque entrée s’exécute dans sa propre transaction. En cas de succès partiel, HTTP 200 renvoie uniquement les échecs sous la forme { listingSourceId, sourceListingId, error }. Si toutes les entrées d’un lot non vide échouent, le premier échec devient une réponse application/problem+json. Ne renvoyez pas les entrées réussies.",
+          "title": "Résultats des écritures terminées"
         },
         "create": {
           "title": "Champs de création et prix",
@@ -1490,11 +1510,35 @@
         },
         "withdrawal": {
           "title": "Retrait par lots et restauration",
-          "description": "DELETE utilise le même chemin de collection avec un tableau de { sourceListingId }. Il retire les annonces en conservant leur historique. PUT restaure une annonce retirée avant d’appliquer les données actuelles. Examinez les échecs et renvoyez uniquement les entrées en échec si nécessaire."
+          "description": "DELETE accepte un tableau de { sourceListingId } sur l’un ou l’autre chemin. Il retire les annonces, de façon réversible, en conservant leur historique ; PUT restaure une annonce retirée avant d’appliquer les données actuelles. Lisez le résultat selon votre mode : le rapport d’acceptation en asynchrone, les entrées en échec en synchrone."
+        }
+      },
+      "modes": {
+        "recommended": "Recommandé",
+        "endpoint": "Endpoint · POST · PATCH · PUT · DELETE",
+        "rows": {
+          "response": "La réponse",
+          "failures": "En cas d’échec",
+          "retry": "Nouvel essai",
+          "afterwards": "Ensuite"
         },
-        "woocommerce": {
-          "title": "WooCommerce : de serveur à serveur",
-          "description": "POST /v1/webhooks/woocommerce/{listingSourceId} exige l’autorisation Bearer, x-wc-webhook-topic et x-wc-webhook-signature (HMAC-SHA256 en base64 sur les octets exacts du corps) ; x-wc-webhook-delivery-id est facultatif. Gardez les secrets sur le serveur ; ne les envoyez ni ne les exposez dans un navigateur. HTTP 204 sans corps confirme l’admission ou un événement ignoré autorisé, pas la capture ni la visibilité. Les événements de variation (type: variation) sont ignorés ; le product.updated propre au produit parent actualise son annonce. Chaque suppression retire l’annonce dont le sourceListingId est l’id livré. date_modified_gmt accepte UTC sans décalage, Z ou +00:00 ; les autres décalages sont invalides. L’ordre source s’applique en aval : les observations plus anciennes se terminent sans effet, après une suppression sans date seul un date_modified_gmt ultérieur rétablit l’annonce, et, après une suppression, un UPSERT sans date_modified_gmt est refusé avec CAPTURE_RAW_PROVIDER_SOURCE_ORDER_AMBIGUOUS. Réessayez une admission incertaine sans modification, en conservant l’ID de livraison fourni."
+        "async": {
+          "label": "Asynchrone",
+          "status": "Accepté",
+          "title": "Accepté maintenant, <em>traité par nos soins.</em>",
+          "response": "HTTP 202 renvoie un rapport d’acceptation : <code>submissionId</code>, <code>acceptedCount</code> et un échec pour chaque entrée dont l’acceptation n’est pas confirmée.",
+          "failures": "Les entrées acceptées suivent leur cours. L’existence de l’annonce, les enchères et l’autorisation du fournisseur sont vérifiées pendant le traitement, pas dans la réponse. Si rien n’est accepté, 400, 413, 500 ou 503 renvoie le même rapport.",
+          "retry": "Après une réponse perdue ou incertaine, renvoyez le lot inchangé avec la même Idempotency-Key. Corrigez les entrées invalides dans un nouveau lot avec une nouvelle clé.",
+          "afterwards": "Rien à interroger : une fois acceptée, l’entrée est entre nos mains et nous la traitons. Pour vérifier malgré tout, relisez les annonces avec GET ; les jetons délégués ont aussi besoin de <code>product-listings:read</code>."
+        },
+        "sync": {
+          "label": "Synchrone",
+          "status": "Terminé",
+          "title": "Des écritures terminées, <em>dans la réponse.</em>",
+          "response": "HTTP 200 ne liste que les entrées en échec ; [] signifie que toutes les entrées sont terminées, lot vide compris.",
+          "failures": "Chaque entrée a sa propre transaction : les écritures terminées restent enregistrées. Si toutes les entrées échouent, une réponse de problème est renvoyée à la place.",
+          "retry": "Corrigez et renvoyez uniquement les entrées en échec.",
+          "afterwards": "La visibilité dans la recherche suit séparément ; une écriture terminée n’apparaît pas encore dans la recherche."
         }
       }
     },

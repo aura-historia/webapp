@@ -21,9 +21,12 @@ cannot erase a token already copied to the clipboard. Keep the credential out of
 URLs, persistent storage, public HTML and shared caches. The Scalar-only assurances below do not
 apply to the whole page or the token-creation response.
 
-The cURL example's Copy button writes only the example command, with the selected
-`listingSourceId` (or `YOUR_LISTING_SOURCE_ID`) and the `YOUR_USER_ACCESS_TOKEN` placeholder; it never
-reads or inserts a real token.
+The guide presents asynchronous batches first, as the recommended mode, and synchronous batches
+second. The cURL example switches between the two with tabs and starts on asynchronous, so server
+and client render alike. Its Copy button writes only the command of the shown mode, with the
+selected `listingSourceId` (or `YOUR_LISTING_SOURCE_ID`), the `YOUR_USER_ACCESS_TOKEN` placeholder
+and, for asynchronous batches, the `YOUR_BATCH_KEY` idempotency-key placeholder; it never reads or
+inserts a real token.
 
 ## Reference artifact
 
@@ -38,11 +41,12 @@ security schemes. It corrects outdated asking-price examples to include `type: M
 changing monetary estimate schemas.
 
 The subset contains POST/PATCH/PUT/DELETE on
-`/v1/listing-sources/{listingSourceId}/product-listings` and POST on
-`/v1/webhooks/woocommerce/{listingSourceId}`. Async `/async` batches and provider ingestion
-configuration are outside the guide and reference. Scalar is documentation-only: request/client
-buttons are hidden, authentication persistence is disabled, and no real credentials or webhook
-configuration are passed to it.
+`/v1/listing-sources/{listingSourceId}/product-listings/async` first, then on
+`/v1/listing-sources/{listingSourceId}/product-listings`, with the async admission report,
+failure and idempotency-key components. The WooCommerce webhook and provider ingestion
+configuration are outside the guide and reference; the webhook contract below is for the
+WooCommerce plugin and server integrations. Scalar is documentation-only: request/client buttons
+are hidden, authentication persistence is disabled, and no real credentials are passed to it.
 
 ## Provider ingestion configuration
 
@@ -53,6 +57,29 @@ atomically enables or replaces the method; omitted or null currency/language cle
 overrides. WooCommerce requires a nonblank, write-only `webhookSecret`; Shopify requires a unique
 valid store domain. Responses are bodyless 201 (enabled) or 204 (replaced or unchanged) with
 `no-store`. Keep provider secrets server-side and out of logs, examples and caches.
+
+## Asynchronous batches (recommended)
+
+- POST/PATCH/PUT/DELETE on `/v1/listing-sources/{listingSourceId}/product-listings/async` take the
+  same arrays and field rules as the synchronous batches, `maxItems: 100` including `[]`.
+- HTTP 202 means at least one entry was confirmed admitted (or the batch was empty). Admitted
+  entries are then processed for the partner; there is nothing to poll or confirm, and copy says
+  so instead of asking partners to check back. Admission is still not a completed write or search
+  visibility, so never label it as one. Listing existence, auctions and provider authority are
+  checked during processing, not reported in the response.
+- Every evaluated response is an admission report `{ submissionId, acceptedCount, failures }`:
+  `acceptedCount` plus the failures equals the entries sent, and each failure carries the original
+  `index`, `error`, `retryable` and, when safe to echo, `sourceListingId`. With nothing admitted the
+  report comes with 503 (unconfirmed, retryable or blocked sends), else 500 (internal), else 413
+  (size only), else 400. `submissionId` only correlates; there is no status endpoint.
+- Send one `Idempotency-Key` (1–128 visible ASCII characters, no comma); without it a key is
+  generated and echoed, and is lost with a lost response. After transport uncertainty resend the
+  exact unchanged batch, in the same order, with the same key; correct invalid entries in a new
+  request with a new key, leaving out admitted and uncertain entries. `retryable` marks failures
+  where that resend is appropriate (`ENQUEUE_UNCONFIRMED` may already be queued).
+- A partner who wants to look anyway reads listings back with GET on the synchronous collection
+  path; delegated tokens need `product-listings:read` for it, which the guide's token dialog does not
+  preselect.
 
 ## Synchronous batches
 
@@ -95,10 +122,13 @@ ID to set. The same omit/null/value rules apply to `lotNumber`, `cataloguePositi
 timing leaves `biddingOpens`, `scheduledCloses` and `reportedClosedAt`. Setting a lot never creates
 an auction.
 
-DELETE accepts `[{ "sourceListingId": "demo-violin-001" }]` on the collection path. It withdraws
+DELETE accepts `[{ "sourceListingId": "demo-violin-001" }]` on either collection path. It withdraws
 listings and preserves history; PUT restores a withdrawn listing before applying current facts.
 
 ## WooCommerce webhook
+
+The webhook serves the WooCommerce plugin and server-to-server integrations; it is not part of the
+custom integration guide or its embedded reference.
 
 - The path uses the canonical `listingSourceId`. Requests require bearer authorization,
   `x-wc-webhook-topic` and `x-wc-webhook-signature` (base64 HMAC-SHA256 over the untouched body
@@ -130,5 +160,6 @@ listings and preserves history; PUT restores a withdrawn listing before applying
 
 Run focused Vitest tests for `src/features/partner/partner-program` and locale parity, plus
 `python -m unittest discover -s scripts/tests`. Contract tests validate the request and batch
-examples, reject legacy untagged prices and unsupported fields, resolve references, enforce the
-batch limit, and check the webhook header and 204 contract.
+examples in both modes, reject legacy untagged prices and unsupported fields, resolve references,
+enforce the batch limit and the async-then-sync path order, check the async admission report and
+idempotency key, and keep any webhook out of the subset.

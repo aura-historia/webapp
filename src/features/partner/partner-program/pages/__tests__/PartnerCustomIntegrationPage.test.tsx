@@ -2,7 +2,7 @@ import { vi } from "vitest";
 import { useState } from "react";
 import PartnerCustomIntegrationPage from "@/features/partner/partner-program/pages/PartnerCustomIntegrationPage.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
-import { act, cleanup, fireEvent, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, screen, within } from "@testing-library/react";
 import type { PartnerApplication } from "@/data/internal/partner-application/OwnPartnershipApplication.ts";
 
 const applicationState = vi.hoisted(() => ({
@@ -346,6 +346,53 @@ describe("PartnerCustomIntegrationPage", () => {
         expect(screen.getByTestId("partner-product-code-example")).toBeInTheDocument();
         expect(screen.getByText("YOUR_USER_ACCESS_TOKEN").tagName).toBe("MARK");
         expect(screen.getByText("YOUR_LISTING_SOURCE_ID").tagName).toBe("MARK");
+        expect(screen.getByText("YOUR_BATCH_KEY").tagName).toBe("MARK");
+    });
+
+    it("selects the recommended asynchronous example first and switches modes by tab", () => {
+        const asyncTab = screen.getByRole("tab", { name: /^Asynchron/ });
+        const syncTab = screen.getByRole("tab", { name: /^Synchron/ });
+        const tabs = screen.getAllByRole("tab");
+        expect(tabs[0]).toBe(asyncTab);
+        expect(asyncTab).toHaveAttribute("aria-selected", "true");
+        expect(asyncTab).toHaveAttribute("tabindex", "0");
+        expect(syncTab).toHaveAttribute("tabindex", "-1");
+        const example = screen.getByTestId("partner-product-code-example");
+        expect(example).toHaveTextContent("/product-listings/async'");
+        expect(example).toHaveTextContent("Idempotency-Key: YOUR_BATCH_KEY");
+        expect(screen.getByRole("tabpanel")).toHaveTextContent(
+            "Liefert 202 · angenommen, für Sie verarbeitet",
+        );
+
+        fireEvent.keyDown(asyncTab, { key: "ArrowRight" });
+        expect(syncTab).toHaveAttribute("aria-selected", "true");
+        expect(syncTab).toHaveFocus();
+        expect(screen.getByTestId("partner-product-code-example")).not.toHaveTextContent(
+            "Idempotency-Key",
+        );
+        expect(screen.getByTestId("partner-product-code-example")).toHaveTextContent(
+            "/product-listings' ",
+        );
+        expect(screen.getByRole("tabpanel")).toHaveAccessibleName(/^Synchron/);
+
+        fireEvent.keyDown(syncTab, { key: "Home" });
+        expect(asyncTab).toHaveAttribute("aria-selected", "true");
+        fireEvent.click(syncTab);
+        expect(syncTab).toHaveAttribute("aria-selected", "true");
+    });
+
+    it("shows both endpoints and the outcomes of each mode in the result step", () => {
+        expect(
+            screen.getByRole("heading", { name: "Ergebnis für Ihren Modus lesen" }),
+        ).toBeInTheDocument();
+        const asyncOutcomes = screen.getByText("Asynchron · zur Verarbeitung angenommen");
+        const syncOutcomes = screen.getByText("Synchron · abgeschlossene Schreibvorgänge");
+        expect(
+            asyncOutcomes.compareDocumentPosition(syncOutcomes) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy();
+        expect(screen.getByText("Alle angenommen")).toBeInTheDocument();
+        expect(screen.getByText("Keiner angenommen")).toBeInTheDocument();
+        expect(screen.getByText("Alle geschrieben")).toBeInTheDocument();
     });
 
     it("renders the cURL example for signed-out users", async () => {
@@ -365,15 +412,37 @@ describe("PartnerCustomIntegrationPage", () => {
         expect(screen.queryByText("Shop-Seite prüfen")).not.toBeInTheDocument();
     });
 
-    it("explains completed synchronous batches and separate webhook admission", () => {
+    it("presents asynchronous batches first and recommended, then synchronous", () => {
         expect(
-            screen.getByRole("heading", { name: "Synchrone Angebots-Batches." }),
+            screen.getByRole("heading", { name: "Zwei Wege, einen Batch zu senden." }),
         ).toBeInTheDocument();
+        const asyncCard = screen.getByRole("article", {
+            name: "Jetzt angenommen, für Sie verarbeitet.",
+        });
+        const syncCard = screen.getByRole("article", {
+            name: "Abgeschlossene Schreibvorgänge, direkt in der Antwort.",
+        });
+        expect(
+            asyncCard.compareDocumentPosition(syncCard) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy();
+        expect(asyncCard).toHaveAttribute("data-theme", "dark");
+        expect(within(asyncCard).getByText("Empfohlen")).toBeInTheDocument();
+        expect(within(syncCard).queryByText("Empfohlen")).not.toBeInTheDocument();
+        expect(asyncCard).toHaveTextContent("/product-listings/async");
+        expect(asyncCard).toHaveTextContent("HTTP 202");
+        expect(asyncCard).toHaveTextContent("product-listings:read");
+        expect(syncCard).toHaveTextContent("HTTP 200");
+        expect(screen.getByText("Zur Verarbeitung angenommen")).toBeInTheDocument();
         expect(screen.getByText("Schreibvorgänge abgeschlossen")).toBeInTheDocument();
-        expect(screen.getByText(/maxItems 100/)).toBeInTheDocument();
-        expect(screen.getByText(/x-wc-webhook-signature/)).toHaveTextContent("HTTP 204");
+        // Both the asynchronous admission and the synchronous outcome topics state the limit.
+        expect(screen.getAllByText(/maxItems 100/, { selector: "p" })).toHaveLength(2);
         expect(screen.getByText(/auctionId muss/)).toHaveTextContent("desselben Anbieters");
-        expect(screen.queryByText(/202 Accepted/)).not.toBeInTheDocument();
+    });
+
+    it("keeps WooCommerce webhook content off the guide", () => {
+        expect(document.body).not.toHaveTextContent(/webhook/i);
+        expect(document.body).not.toHaveTextContent(/WooCommerce/);
+        expect(document.body).not.toHaveTextContent("x-wc-webhook");
     });
 
     it("embeds the interactive partner API reference without redundant endpoint cards", () => {
@@ -385,17 +454,26 @@ describe("PartnerCustomIntegrationPage", () => {
     });
 
     it("exposes every contract topic through level-three heading navigation", () => {
-        for (const name of [
-            "Batch-Ergebnisse",
+        const names = [
+            "Annahmeergebnisse",
+            "Idempotenz und Wiederholungen",
+            "Ergebnisse abgeschlossener Schreibvorgänge",
             "Erstellungsfelder und Preise",
             "Beibehalten oder löschen",
             "Upsert-Semantik",
             "Auktionszuordnung und Loszeiten",
             "Batch-Rücknahme und Wiederherstellung",
-            "WooCommerce: Server zu Server",
-        ]) {
-            expect(screen.getByRole("heading", { level: 3, name })).toBeInTheDocument();
+        ];
+        const headings = names.map((name) => screen.getByRole("heading", { level: 3, name }));
+        // Asynchronous topics lead, in the order listed.
+        for (const [index, heading] of headings.slice(1).entries()) {
+            expect(
+                headings[index].compareDocumentPosition(heading) & Node.DOCUMENT_POSITION_FOLLOWING,
+            ).toBeTruthy();
         }
+        expect(
+            screen.queryByRole("heading", { name: "WooCommerce: Server zu Server" }),
+        ).not.toBeInTheDocument();
     });
 
     it("copies the cURL request with the selected provider and confirms it", async () => {
@@ -411,10 +489,20 @@ describe("PartnerCustomIntegrationPage", () => {
         });
 
         expect(writeText).toHaveBeenCalledWith(
-            expect.stringContaining("/listing-sources/shop-2/product-listings"),
+            expect.stringContaining("/listing-sources/shop-2/product-listings/async'"),
         );
         expect(writeText.mock.calls[0]?.[0]).toContain("Bearer YOUR_USER_ACCESS_TOKEN");
+        expect(writeText.mock.calls[0]?.[0]).toContain("Idempotency-Key: YOUR_BATCH_KEY");
         expect(screen.getByRole("button", { name: "Kopiert" })).toBeInTheDocument();
+
+        fireEvent.click(screen.getByRole("tab", { name: /^Synchron/ }));
+        expect(screen.getByRole("button", { name: "Kopieren" })).toBeInTheDocument();
+        await act(async () => {
+            fireEvent.click(screen.getByRole("button", { name: "Kopieren" }));
+        });
+        const syncCommand = writeText.mock.calls[1]?.[0];
+        expect(syncCommand).toContain("/listing-sources/shop-2/product-listings'");
+        expect(syncCommand).not.toContain("Idempotency-Key");
     });
 
     it("summarises the token with the selected provider", () => {
@@ -455,6 +543,8 @@ describe("PartnerCustomIntegrationPage", () => {
         expect(
             screen.queryByRole("link", { name: /Meine Shop-Seite öffnen/i }),
         ).not.toBeInTheDocument();
-        expect(screen.getByRole("heading", { name: "Batch-Ergebnis prüfen" })).toBeInTheDocument();
+        expect(
+            screen.getByRole("heading", { name: "Ergebnis für Ihren Modus lesen" }),
+        ).toBeInTheDocument();
     });
 });

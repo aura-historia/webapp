@@ -9,8 +9,11 @@ from pathlib import Path
 from urllib.request import urlopen
 
 SOURCE_URL = "https://raw.githubusercontent.com/aura-historia/backend/refs/heads/develop/docs/swagger.yaml"
-TARGET_PATH = "/v1/listing-sources/{listingSourceId}/product-listings"
-WEBHOOK_PATH = "/v1/webhooks/woocommerce/{listingSourceId}"
+SYNC_PATH = "/v1/listing-sources/{listingSourceId}/product-listings"
+ASYNC_PATH = f"{SYNC_PATH}/async"
+# Asynchronous submission is the recommended mode, so it leads the reference; the
+# synchronous batches follow. WooCommerce webhooks belong to the plugin, not this guide.
+TARGET_PATHS = (ASYNC_PATH, SYNC_PATH)
 TARGET_METHODS = ("post", "patch", "put", "delete")
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "public" / "partner-products.openapi.json"
 
@@ -56,8 +59,8 @@ def component_refs(value: object) -> set[str]:
 
 def extract_partner_spec(spec: dict) -> dict:
     paths = {
-        TARGET_PATH: {method: copy.deepcopy(spec["paths"][TARGET_PATH][method]) for method in TARGET_METHODS},
-        WEBHOOK_PATH: {"post": copy.deepcopy(spec["paths"][WEBHOOK_PATH]["post"])},
+        path: {method: copy.deepcopy(spec["paths"][path][method]) for method in TARGET_METHODS}
+        for path in TARGET_PATHS
     }
     for path, item in paths.items():
         if "parameters" in spec["paths"][path]:
@@ -94,10 +97,11 @@ def extract_partner_spec(spec: dict) -> dict:
             "title": "Aura Historia Partner Listing API Reference",
             "version": spec["info"]["version"],
             "description": (
-                "Synchronous listing-source batch writes and server-to-server WooCommerce webhooks. "
-                "Use product-listings:write and a current grant for the target listing source. "
-                "Batch HTTP 200 reports completed writes; WooCommerce HTTP 204 only acknowledges "
-                "confirmed admission or an authorized no-op, not completed ingestion."
+                "Listing-source batch writes in two modes, each with POST, PATCH, PUT and DELETE. "
+                "Asynchronous submission (recommended, /async) answers HTTP 202 once entries are "
+                "admitted; admitted entries are then processed for you. Synchronous batches answer "
+                "HTTP 200 with completed writes and the entries that failed. Both use "
+                "product-listings:write and a current grant for the target listing source."
             ),
         },
         "x-source-url": SOURCE_URL,
