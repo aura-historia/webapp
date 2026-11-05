@@ -6,19 +6,19 @@
     "currencySearchEmpty": "No se ha encontrado ninguna divisa."
   },
   "meta": {
-    "siteName": "Aura Historia | Plataforma global de antigüedades",
-    "defaultDescription": "Descubre antigüedades y objetos de diseño raros de vendedores, casas de subastas y mercados de todo el mundo en una plataforma refinada para coleccionistas y profesionales.",
+    "siteName": "Aura Historia | Plataforma global de arte y antigüedades",
+    "defaultDescription": "Descubre arte, antigüedades y objetos de diseño raros de vendedores, casas de subastas y mercados de todo el mundo en una plataforma refinada para coleccionistas y profesionales.",
     "home": {
-      "title": "Aura Historia | Plataforma global de antigüedades",
-      "description": "Descubre antigüedades y objetos de diseño raros de vendedores, casas de subastas y mercados de todo el mundo en una plataforma refinada para coleccionistas y profesionales."
+      "title": "Aura Historia | Plataforma global de arte y antigüedades",
+      "description": "Descubre arte, antigüedades y objetos de diseño raros de vendedores, casas de subastas y mercados de todo el mundo en una plataforma refinada para coleccionistas y profesionales."
     },
     "about": {
       "title": "Sobre nosotros | Aura Historia",
-      "description": "Aura Historia es un buscador global de antigüedades que abarca comerciantes, casas de subastas y marketplaces. Qué hacemos, en qué nos diferenciamos y quiénes somos."
+      "description": "Aura Historia es un buscador global de arte y antigüedades que abarca comerciantes, casas de subastas y marketplaces. Qué hacemos, en qué nos diferenciamos y quiénes somos."
     },
     "search": {
-      "title": "Buscar antigüedades | Aura Historia",
-      "description": "Busca y descubre antigüedades únicas de comerciantes de confianza en Aura Historia."
+      "title": "Buscar arte y antigüedades | Aura Historia",
+      "description": "Busca y descubre arte y antigüedades únicos de comerciantes de confianza en Aura Historia."
     },
     "login": {
       "title": "Iniciar sesión | Aura Historia",
@@ -64,14 +64,14 @@
     },
     "partnerProgram": {
       "title": "Programa de Partners | Aura Historia",
-      "description": "Conviértete en tienda partner de Aura Historia, la plataforma global de antigüedades. Gratis, sin comisiones y conectada en minutos."
+      "description": "Conviértete en tienda partner de Aura Historia, la plataforma global de arte y antigüedades. Gratis, sin comisiones y conectada en minutos."
     },
     "partnerApplications": {
       "title": "Solicitudes de Socios Actuales | Aura Historia"
     },
     "compareBarnebys": {
-      "title": "Aura Historia vs Barnebys | Comparativa de búsqueda de antigüedades",
-      "description": "Compara Aura Historia y Barnebys en búsqueda de antigüedades, cobertura de fuentes, búsqueda multilingüe, alertas rápidas y seguimiento del mercado con IA."
+      "title": "Aura Historia vs Barnebys | Comparativa de búsqueda de arte y antigüedades",
+      "description": "Compara Aura Historia y Barnebys en búsqueda de arte y antigüedades, cobertura de fuentes, búsqueda multilingüe, alertas rápidas y seguimiento del mercado con IA."
     },
     "partnerAccessTokens": {
       "title": "Tokens de acceso | Aura Historia"
@@ -180,15 +180,15 @@
       "customApi": "Integración propia",
       "apply": "Solicitar acceso"
     },
-    "tagline": "El mercado mundial de antigüedades, en una sola búsqueda.",
+    "tagline": "El mercado mundial de arte y antigüedades, en una sola búsqueda.",
     "socialNavigation": "Redes sociales",
     "compareBarnebys": "Comparar: Barnebys"
   },
   "aboutPage": {
     "hero": {
       "eyebrow": "Sobre Aura Historia",
-      "title": "Aportamos más claridad al mercado <em>de antigüedades.</em>",
-      "subtitle": "Aura Historia es un buscador global de antigüedades que reúne a comerciantes, casas de subastas y marketplaces en una sola búsqueda multilingüe, para coleccionistas, decoradores y profesionales del sector. Nace para quienes buscan con cuidado, valoran un contexto fiable y quieren una lectura serena de un mercado internacional disperso.",
+      "title": "Aportamos más claridad al mercado <em>de arte y antigüedades.</em>",
+      "subtitle": "Aura Historia es un buscador global de arte y antigüedades que reúne a comerciantes, casas de subastas y marketplaces en una sola búsqueda multilingüe, para coleccionistas, decoradores y profesionales del sector. Nace para quienes buscan con cuidado, valoran un contexto fiable y quieren una lectura serena de un mercado internacional disperso.",
       "navLabel": "En esta página",
       "nav": {
         "services": "Qué hacemos",
@@ -248,7 +248,7 @@
           "title": "Cinco idiomas, un vocabulario",
           "figure": "5",
           "figureLabel": "Idiomas, términos unificados",
-          "description": "Los anuncios se traducen y la terminología de antigüedades se unifica entre inglés, alemán, francés, español e italiano, de modo que una búsqueda en tu idioma también encuentra objetos catalogados en otro. Barnebys suele mantener el texto de los anuncios en el idioma del vendedor."
+          "description": "Los anuncios se traducen y la terminología de arte y antigüedades se unifica entre inglés, alemán, francés, español e italiano, de modo que una búsqueda en tu idioma también encuentra objetos catalogados en otro. Barnebys suele mantener el texto de los anuncios en el idioma del vendedor."
         },
         "current": {
           "title": "Lo que se ofrece ahora, no lo que se vendió",
@@ -268,12 +268,12 @@
     "audience": {
       "eyebrow": "Público",
       "title": "Quién usa <em>Aura Historia.</em>",
-      "description": "Coleccionistas y profesionales que siguen antigüedades en más de una fuente. Empezamos por Europa y Estados Unidos, y ampliamos continuamente nuestra cobertura a otros mercados.",
+      "description": "Coleccionistas y profesionales que siguen arte y antigüedades en más de una fuente. Empezamos por Europa y Estados Unidos, y ampliamos continuamente nuestra cobertura a otros mercados.",
       "groups": {
         "collectors": {
           "heading": "Coleccionistas",
           "items": {
-            "privateCollectors": "Coleccionistas privados de antigüedades y objetos de diseño, desde la primera adquisición hasta una colección consolidada",
+            "privateCollectors": "Coleccionistas privados de arte, antigüedades y objetos de diseño, desde la primera adquisición hasta una colección consolidada",
             "specialists": "Coleccionistas especializados que siguen a un fabricante, una época o una región más allá de las fronteras, como la porcelana de Meissen o el mobiliario gustaviano",
             "decorators": "Interioristas y decoradores que buscan piezas de época para sus clientes",
             "heirs": "Herederos y albaceas que quieren ver por cuánto se ofrecen hoy objetos comparables"
@@ -282,7 +282,7 @@
         "trade": {
           "heading": "El sector",
           "items": {
-            "dealers": "Anticuarios y galerías que buscan piezas para su inventario y siguen los precios de venta",
+            "dealers": "Anticuarios, marchantes de arte y galerías que buscan piezas para su inventario y siguen los precios de venta",
             "auctionHouses": "Especialistas y catalogadores de casas de subastas que comparan ofertas similares",
             "researchers": "Investigadores y analistas de mercado que siguen precios y disponibilidad a lo largo del tiempo",
             "partners": "Comerciantes y casas de subastas que publican su inventario como tiendas partner"
@@ -333,7 +333,7 @@
       "items": {
         "whatIs": {
           "question": "¿Qué es Aura Historia?",
-          "answer": "Aura Historia es un buscador global de antigüedades con sede en Leipzig, Alemania. Reúne anuncios de comerciantes, casas de subastas y marketplaces en una sola búsqueda multilingüe, con listas de seguimiento privadas y alertas de búsqueda."
+          "answer": "Aura Historia es un buscador global de arte y antigüedades con sede en Leipzig, Alemania. Reúne anuncios de comerciantes, casas de subastas y marketplaces en una sola búsqueda multilingüe, con listas de seguimiento privadas y alertas de búsqueda."
         },
         "whoIsBehind": {
           "question": "¿Quién está detrás de Aura Historia?",
@@ -791,7 +791,7 @@
       "items": {
         "howItWorks": {
           "question": "¿Qué es Aura Historia?",
-          "answer": "Aura Historia es una plataforma global para antigüedades y objetos singulares. Reunimos ofertas actuales de anticuarios, casas de subastas, marketplaces y fuentes especializadas para que coleccionistas y profesionales puedan ver el mercado con más claridad."
+          "answer": "Aura Historia es una plataforma global para arte, antigüedades y objetos singulares. Reunimos ofertas actuales de anticuarios, casas de subastas, marketplaces y fuentes especializadas para que coleccionistas y profesionales puedan ver el mercado con más claridad."
         },
         "directPurchase": {
           "question": "¿Puedo comprar directamente en Aura Historia?",
@@ -883,7 +883,7 @@
       "regularPrice": "Precio mensual habitual:"
     },
     "hero": {
-      "title": "El mercado mundial de antigüedades, <em>en una sola búsqueda.</em>",
+      "title": "El mercado mundial de arte y antigüedades, <em>en una sola búsqueda.</em>",
       "lead": "Aura Historia indexa comerciantes, casas de subastas y vendedores especializados de todo el mundo, para que coleccionistas, decoradores y profesionales encuentren la pieza adecuada antes de que desaparezca en otro silo.",
       "searchLabel": "Buscar en el mercado mundial",
       "searchSubmit": "Buscar en el mercado",
@@ -914,7 +914,7 @@
     "opportunity": {
       "eyebrow": "II — La oportunidad",
       "title": "Un mercado de 59.600 millones de $, que aún se busca <em>sitio web a sitio web.</em>",
-      "body": "Las antigüedades llegaron a internet. Su búsqueda no. La oferta se reparte entre webs de comerciantes, calendarios de subastas, marketplaces y tiendas locales, cada uno con su idioma, sus términos y su breve plazo. Aura Historia convierte esa oferta dispersa en una vista serena y legible.",
+      "body": "El arte y las antigüedades llegaron a internet. Su búsqueda no. La oferta se reparte entre webs de comerciantes, calendarios de subastas, marketplaces y tiendas locales, cada uno con su idioma, sus términos y su breve plazo. Aura Historia convierte esa oferta dispersa en una vista serena y legible.",
       "cta": "Buscar en el mercado",
       "market": {
         "label": "Ventas mundiales de arte y antigüedades · 2025",
@@ -1111,8 +1111,8 @@
   },
   "partnerProgram": {
     "hero": {
-      "title": "¿Vendes antigüedades online? Llega a coleccionistas <em>de todo el mundo.</em>",
-      "subtitle": "Aura Historia es la búsqueda global de antigüedades, donde los coleccionistas encuentran justo lo que vendes. Conecta tu tienda una vez; quien encuentra tus piezas compra en tu propia web.",
+      "title": "¿Vendes arte y antigüedades online? Llega a coleccionistas <em>de todo el mundo.</em>",
+      "subtitle": "Aura Historia es la búsqueda global de arte y antigüedades, donde los coleccionistas encuentran justo lo que vendes. Conecta tu tienda una vez; quien encuentra tus piezas compra en tu propia web.",
       "primaryCta": "Hazte partner",
       "secondaryCta": "Cómo funciona",
       "eyebrow": "Programa de partners · Para comerciantes y casas de subastas",
@@ -1150,7 +1150,7 @@
       "items": {
         "audience": {
           "title": "Comunidad global de coleccionistas",
-          "description": "Llega a compradores de muchos países que buscan activamente antigüedades poco comunes, cada uno en su propio idioma."
+          "description": "Llega a compradores de muchos países que buscan activamente arte y antigüedades poco comunes, cada uno en su propio idioma."
         },
         "traffic": {
           "title": "Más tráfico cualificado",
@@ -1336,7 +1336,7 @@
         },
         "fit": {
           "question": "¿Qué tiendas encajan en el programa?",
-          "answer": "Buscamos tiendas online serias de antigüedades, coleccionables y objetos históricos. Las casas de subastas y los especialistas son especialmente bienvenidos."
+          "answer": "Buscamos tiendas online serias de arte, antigüedades, coleccionables y objetos históricos. Las casas de subastas y los especialistas son especialmente bienvenidos."
         },
         "support": {
           "question": "¿Recibiré ayuda durante la configuración?",
@@ -1789,7 +1789,7 @@
       "success": "Tu contraseña se ha restablecido. Inicia sesión con tu nueva contraseña."
     },
     "page": {
-      "eyebrow": "El índice mundial de antigüedades",
+      "eyebrow": "El índice mundial de arte y antigüedades",
       "heading": "Una búsqueda entre muchos proveedores, <em>una sola cuenta.</em>",
       "lead": "Aura Historia busca a la vez en anticuarios, casas de subastas y mercados. Tu cuenta guarda lo que encuentras."
     },
@@ -2522,7 +2522,7 @@
         "priceStatus": "Precio y Estado",
         "priceStatusDescription": "Defina su rango de precios y seleccione el estado de publicación deseado – por ejemplo, solo artículos disponibles o también piezas ya subastadas para investigación de mercado.",
         "shop": "Tienda",
-        "shopDescription": "Seleccione específicamente tipos de proveedores – renombradas casas de subastas, anticuarios especializados o mercados – e incluya o excluya proveedores individuales.",
+        "shopDescription": "Seleccione específicamente tipos de proveedores – renombradas casas de subastas, anticuarios y marchantes de arte especializados o mercados – e incluya o excluya proveedores individuales.",
         "date": "Fecha",
         "dateDescription": "Acote la búsqueda por tiempo – por fecha de subasta, fecha de primera publicación o la última actualización del anuncio.",
         "confirm": "Confirmar",
@@ -3064,17 +3064,17 @@
   "compareBarnebysPage": {
     "structuredData": {
       "about": {
-        "searchEngine": "buscador de antigüedades",
+        "searchEngine": "buscador de arte y antigüedades",
         "auctionAggregation": "agregación de subastas",
-        "multilingualSearch": "búsqueda multilingüe de antigüedades",
-        "realTimeAlerts": "alertas de antigüedades casi en tiempo real",
-        "aiDiscovery": "búsqueda de antigüedades asistida por IA"
+        "multilingualSearch": "búsqueda multilingüe de arte y antigüedades",
+        "realTimeAlerts": "alertas de arte y antigüedades casi en tiempo real",
+        "aiDiscovery": "búsqueda de arte y antigüedades asistida por IA"
       }
     },
     "hero": {
       "eyebrow": "Comparativa: Aura Historia vs Barnebys",
-      "title": "Ver más mercado que solo catálogos de subastas",
-      "subtitle": "Barnebys ha ayudado a que los catálogos de casas de subastas sean más fáciles de buscar. Aura Historia parte de una idea más amplia: quien colecciona en serio debería poder seguir todo el mercado online de antigüedades, no solo las fuentes de subastas más conocidas.",
+      "title": "Ver más mercado de arte y antigüedades que solo catálogos de subastas",
+      "subtitle": "Barnebys ha ayudado a que los catálogos de casas de subastas sean más fáciles de buscar. Aura Historia parte de una idea más amplia: quien colecciona en serio debería poder seguir todo el mercado online de arte y antigüedades, no solo las fuentes de subastas más conocidas.",
       "primaryCta": "Buscar en todo el mercado",
       "secondaryCta": "Ver la comparativa",
       "quickAnswerEyebrow": "En pocas palabras",
@@ -3087,7 +3087,7 @@
         "value": "Barnebys"
       },
       "marketSearch": {
-        "label": "Más fuerte para buscar en todo el mercado de antigüedades",
+        "label": "Más fuerte para buscar en todo el mercado de arte y antigüedades",
         "value": "Aura Historia"
       },
       "multilingualDiscovery": {
@@ -3102,13 +3102,13 @@
     "summary": {
       "eyebrow": "Resumen",
       "title": "La versión corta",
-      "paragraph1": "Aura Historia es la alternativa más completa a Barnebys para coleccionistas, comerciantes, investigadores y cualquiera que quiera encontrar antigüedades más allá de los catálogos de subastas.",
+      "paragraph1": "Aura Historia es la alternativa más completa a Barnebys para coleccionistas, comerciantes, investigadores y cualquiera que quiera encontrar arte y antigüedades más allá de los catálogos de subastas.",
       "paragraph2": "Barnebys merece reconocimiento por su trayectoria en la búsqueda de subastas. En la práctica, Aura Historia gana terreno al cubrir más tipos de fuentes, traducir y armonizar anuncios, seguir cambios casi en tiempo real y apoyarse en búsqueda moderna con IA."
     },
     "respect": {
       "eyebrow": "Reconocimiento donde corresponde",
       "title": "Barnebys ayudó a dar forma a la búsqueda de subastas",
-      "paragraph1": "Una comparación justa empieza aquí: Barnebys es un nombre reconocido en el mundo de las subastas de antigüedades. Para muchos compradores, hizo que catálogos dispersos fueran más accesibles y fáciles de consultar.",
+      "paragraph1": "Una comparación justa empieza aquí: Barnebys es un nombre reconocido en el mundo de las subastas de arte y antigüedades. Para muchos compradores, hizo que catálogos dispersos fueran más accesibles y fáciles de consultar.",
       "paragraph2": "Eso tiene valor. Pero no es lo mismo que ver el mercado online completo. Las piezas buscadas aparecen en grandes casas de subastas, subastadores regionales, comerciantes especializados, tiendas independientes, marketplaces y a veces vendedores privados. Aura Historia está pensado para esa realidad más amplia."
     },
     "advantages": {
@@ -3118,7 +3118,7 @@
       "cards": {
         "marketBeyondAuctions": {
           "title": "El mercado más allá de los catálogos de subastas",
-          "description": "Aura Historia indexa los lugares online donde realmente se ofrecen antigüedades: casas de subastas, plataformas de subastas, comerciantes especializados, vendedores privados, marketplaces y otras fuentes."
+          "description": "Aura Historia indexa los lugares online donde realmente se ofrecen arte y antigüedades: casas de subastas, plataformas de subastas, comerciantes especializados, vendedores privados, marketplaces y otras fuentes."
         },
         "nearRealTimeAlerts": {
           "title": "Alertas casi en tiempo real",
@@ -3137,8 +3137,8 @@
     "scorecard": {
       "eyebrow": "La comparativa",
       "title": "Aura Historia y Barnebys, punto por punto",
-      "description": "Barnebys mantiene un papel claro para la búsqueda centrada en subastas. Aura Historia está pensado para compradores que quieren ver el mercado de antigüedades con más amplitud y contar con una capa de seguimiento más moderna.",
-      "caption": "Comparativa de Aura Historia y Barnebys para búsqueda de antigüedades",
+      "description": "Barnebys mantiene un papel claro para la búsqueda centrada en subastas. Aura Historia está pensado para compradores que quieren ver el mercado de arte y antigüedades con más amplitud y contar con una capa de seguimiento más moderna.",
+      "caption": "Comparativa de Aura Historia y Barnebys para búsqueda de arte y antigüedades",
       "headers": {
         "criterion": "Criterio",
         "barnebys": "Barnebys",
@@ -3148,7 +3148,7 @@
       "rows": {
         "auctionHeritage": {
           "criterion": "Experiencia en búsqueda de subastas",
-          "barnebys": "Un nombre conocido desde hace años en la agregación de subastas de antigüedades, especialmente entre compradores centrados en catálogos.",
+          "barnebys": "Un nombre conocido desde hace años en la agregación de subastas de arte y antigüedades, especialmente entre compradores centrados en catálogos.",
           "auraHistoria": "Un buscador más nuevo, diseñado desde el inicio para cubrir más fuentes y enriquecer los datos de forma moderna.",
           "verdict": "Barnebys por notoriedad en subastas",
           "whyItMatters": "Si consultas sobre todo grandes catálogos de subastas, Barnebys ofrece una experiencia familiar."
@@ -3156,7 +3156,7 @@
         "sourceCoverage": {
           "criterion": "Amplitud de fuentes",
           "barnebys": "Especialmente fuerte en casas de subastas y plataformas de subastas, sobre todo en catálogos consolidados.",
-          "auraHistoria": "Indexa casas de subastas, plataformas de subastas, comerciantes, vendedores privados, marketplaces y otras fuentes online donde se ofrecen antigüedades.",
+          "auraHistoria": "Indexa casas de subastas, plataformas de subastas, comerciantes, vendedores privados, marketplaces y otras fuentes online donde se ofrecen arte y antigüedades.",
           "verdict": "Aura Historia",
           "whyItMatters": "Muchas buenas piezas no aparecen primero en un gran catálogo de subastas. Más fuentes significan más oportunidades."
         },
@@ -3170,7 +3170,7 @@
         "languageHandling": {
           "criterion": "Idiomas y terminología",
           "barnebys": "Los textos suelen mantenerse cerca del idioma y la terminología originales de la fuente.",
-          "auraHistoria": "Traduce anuncios a varios idiomas y armoniza la terminología de antigüedades entre lenguas.",
+          "auraHistoria": "Traduce anuncios a varios idiomas y armoniza la terminología de arte y antigüedades entre lenguas.",
           "verdict": "Aura Historia",
           "whyItMatters": "El idioma del vendedor no debería decidir si un coleccionista puede encontrar una pieza."
         },
@@ -3184,7 +3184,7 @@
         "technologyDirection": {
           "criterion": "Orientación tecnológica",
           "barnebys": "Una experiencia madura de búsqueda de subastas para compradores que conocen ese ecosistema.",
-          "auraHistoria": "Una capa de búsqueda asistida por IA para todo el mercado de antigüedades, con indexación, traducciones, coincidencia semántica y seguimiento.",
+          "auraHistoria": "Una capa de búsqueda asistida por IA para todo el mercado de arte y antigüedades, con indexación, traducciones, coincidencia semántica y seguimiento.",
           "verdict": "Aura Historia",
           "whyItMatters": "La búsqueda moderna no consiste solo en acumular datos. Debe entender la intención del comprador entre idiomas y fuentes."
         }
@@ -3196,7 +3196,7 @@
       "sources": {
         "auctionHouses": "Casas de subastas",
         "auctionPlatforms": "Plataformas de subastas",
-        "antiqueDealers": "Comerciantes de antigüedades",
+        "antiqueDealers": "Comerciantes de arte y antigüedades",
         "privateSellers": "Vendedores privados",
         "marketplaces": "Marketplaces"
       },
@@ -3231,31 +3231,31 @@
       "items": {
         "alternative": {
           "question": "¿Aura Historia es una alternativa a Barnebys?",
-          "answer": "Sí. Aura Historia es una alternativa a Barnebys para compradores que quieren buscar más allá de la agregación de casas de subastas y seguir en un mismo lugar casas de subastas, comerciantes, marketplaces, vendedores privados y otras fuentes online de antigüedades."
+          "answer": "Sí. Aura Historia es una alternativa a Barnebys para compradores que quieren buscar más allá de la agregación de casas de subastas y seguir en un mismo lugar casas de subastas, comerciantes, marketplaces, vendedores privados y otras fuentes online de arte y antigüedades."
         },
         "replace": {
           "question": "¿Aura Historia sustituye a Barnebys?",
-          "answer": "Si quieres sobre todo explorar catálogos de subastas consolidados en un entorno familiar, Barnebys sigue siendo una opción respetada. Si buscas más cobertura online, búsqueda multilingüe, alertas rápidas y coincidencias asistidas por IA, Aura Historia está diseñado para eso."
+          "answer": "Si quieres sobre todo explorar catálogos de subastas consolidados en un entorno familiar, Barnebys sigue siendo una opción respetada. Si buscas más cobertura online de arte y antigüedades, búsqueda multilingüe, alertas rápidas y coincidencias asistidas por IA, Aura Historia está diseñado para eso."
         },
         "fasterAlerts": {
-          "question": "¿Qué servicio ofrece alertas de antigüedades más rápidas?",
+          "question": "¿Qué servicio ofrece alertas de arte y antigüedades más rápidas?",
           "answer": "Aura Historia está diseñado para seguimiento casi en tiempo real. Las alertas de búsqueda de Barnebys siguen un ritmo de revisión diario, incluida la ventana conocida de las 18:00 CEST."
         },
         "multilingualSearch": {
-          "question": "¿Qué servicio es mejor para búsqueda multilingüe de antigüedades?",
+          "question": "¿Qué servicio es mejor para búsqueda multilingüe de arte y antigüedades?",
           "answer": "Aura Historia traduce anuncios y armoniza la terminología entre los idiomas admitidos. Así, el idioma de búsqueda debería importar menos, tanto si el anuncio original está en inglés, alemán, francés, español, italiano u otro idioma."
         },
         "outsideAuctions": {
-          "question": "¿Qué servicio ayuda mejor a encontrar antigüedades fuera de subastas?",
-          "answer": "Aura Historia. Su ventaja central es una cobertura de fuentes más amplia: casas de subastas, plataformas de subastas, comerciantes, vendedores privados, marketplaces y otros lugares online donde se ofrecen antigüedades."
+          "question": "¿Qué servicio ayuda mejor a encontrar arte y antigüedades fuera de subastas?",
+          "answer": "Aura Historia. Su ventaja central es una cobertura de fuentes más amplia: casas de subastas, plataformas de subastas, comerciantes, vendedores privados, marketplaces y otros lugares online donde se ofrecen arte y antigüedades."
         }
       }
     },
     "finalCta": {
       "eyebrow": "Veredicto",
-      "title": "Barnebys es sólido para subastas. Aura Historia está pensado para el mercado de antigüedades.",
-      "description": "Si tu búsqueda debe incluir los lugares donde realmente se ofrecen antigüedades online, empieza con Aura Historia.",
-      "button": "Buscar antigüedades"
+      "title": "Barnebys es sólido para subastas. Aura Historia está pensado para el mercado de arte y antigüedades.",
+      "description": "Si tu búsqueda debe incluir los lugares donde realmente se ofrecen arte y antigüedades online, empieza con Aura Historia.",
+      "button": "Buscar arte y antigüedades"
     }
   },
   "partnerAccessTokens": {

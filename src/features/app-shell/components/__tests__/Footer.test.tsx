@@ -89,7 +89,7 @@ describe("Footer", () => {
             "/de",
         );
         expect(
-            screen.getByText("Der globale Antiquitätenmarkt in einer einzigen Suche."),
+            screen.getByText("Der globale Kunst- und Antiquitätenmarkt in einer einzigen Suche."),
         ).toBeInTheDocument();
         expect(screen.getByRole("link", { name: "contact@aura-historia.com" })).toHaveAttribute(
             "href",

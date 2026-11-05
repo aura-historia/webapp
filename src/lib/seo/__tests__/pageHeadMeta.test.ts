@@ -14,12 +14,12 @@ describe("pageHeadMeta", () => {
                 const result = generatePageHeadMeta({ pageKey: "home" });
 
                 expect(result.meta).toContainEqual({
-                    title: "Aura Historia | Globale Antiquitäten-Plattform",
+                    title: "Aura Historia | Globale Kunst- und Antiquitäten-Plattform",
                 });
                 expect(result.meta).toContainEqual({
                     name: "description",
                     content:
-                        "Entdecken Sie seltene Antiquitäten und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
+                        "Entdecken Sie seltene Kunst, Antiquitäten und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
                 });
             });
 
@@ -27,12 +27,12 @@ describe("pageHeadMeta", () => {
                 const result = generatePageHeadMeta({ pageKey: "search" });
 
                 expect(result.meta).toContainEqual({
-                    title: "Antiquitäten suchen | Aura Historia",
+                    title: "Kunst und Antiquitäten suchen | Aura Historia",
                 });
                 expect(result.meta).toContainEqual({
                     name: "description",
                     content:
-                        "Suchen und entdecken Sie einzigartige Antiquitäten von vertrauenswürdigen Händlern auf Aura Historia.",
+                        "Suchen und entdecken Sie einzigartige Kunst und Antiquitäten von vertrauenswürdigen Händlern auf Aura Historia.",
                 });
             });
 
@@ -118,7 +118,7 @@ describe("pageHeadMeta", () => {
 
                 expect(result.meta).toContainEqual({
                     property: "og:title",
-                    content: "Aura Historia | Globale Antiquitäten-Plattform",
+                    content: "Aura Historia | Globale Kunst- und Antiquitäten-Plattform",
                 });
             });
 
@@ -128,7 +128,7 @@ describe("pageHeadMeta", () => {
                 expect(result.meta).toContainEqual({
                     property: "og:description",
                     content:
-                        "Entdecken Sie seltene Antiquitäten und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
+                        "Entdecken Sie seltene Kunst, Antiquitäten und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
                 });
             });
 
@@ -232,7 +232,7 @@ describe("pageHeadMeta", () => {
 
                 expect(result.meta).toContainEqual({
                     name: "twitter:title",
-                    content: "Aura Historia | Globale Antiquitäten-Plattform",
+                    content: "Aura Historia | Globale Kunst- und Antiquitäten-Plattform",
                 });
             });
 
@@ -242,7 +242,7 @@ describe("pageHeadMeta", () => {
                 expect(result.meta).toContainEqual({
                     name: "twitter:description",
                     content:
-                        "Entdecken Sie seltene Antiquitäten und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
+                        "Entdecken Sie seltene Kunst, Antiquitäten und Designobjekte von Händlern, Auktionshäusern und Marktplätzen weltweit – auf einer kuratierten Plattform für Sammler und Profis.",
                 });
             });
 

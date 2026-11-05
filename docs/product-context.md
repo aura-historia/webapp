@@ -2,11 +2,11 @@
 
 ## What Aura Historia does
 
-Aura Historia is a refined global discovery platform for antiques, design objects, and related market intelligence. It indexes objects from public providers such as dealers, auction houses, and marketplaces so users can search across providers, languages, and currencies from one place. In user-facing copy, call these providers (German: “Anbieter”); retain “listing source” for technical identifiers and implementation terminology.
+Aura Historia is a refined global discovery platform for art, antiques, design objects, and related market intelligence. It indexes objects from public providers such as dealers, auction houses, and marketplaces so users can search across providers, languages, and currencies from one place. In user-facing copy, call these providers (German: “Anbieter”); retain “listing source” for technical identifiers and implementation terminology.
 
 The app currently emphasizes:
 
-- Global antiques discovery across public providers.
+- Global art and antiques discovery across public providers.
 - Recently added objects and provider discovery. Provider pages show the public provider summary and currently indexed listings; they do not provide provider classifications, addresses, partner status, or total listing counts.
 - Multilingual search/discovery and localized SEO.
 - Watchlists, saved search filters, notifications, and matching.
@@ -15,7 +15,7 @@ The app currently emphasizes:
 
 ## Product goal
 
-Help users find, evaluate, remember, and act on opportunities in valuable antiques faster than they could by browsing fragmented dealer, auction, and marketplace websites manually.
+Help users find, evaluate, remember, and act on opportunities in valuable art and antiques faster than they could by browsing fragmented dealer, auction, and marketplace websites manually.
 
 The user should feel:
 
@@ -26,14 +26,14 @@ The user should feel:
 
 ## Target users
 
-Primary audience: collectors in the antiques field. This includes amateur collectors, expert collectors, wealthy collectors, budget-conscious collectors, and specialist niche collectors.
+Primary audience: collectors in the art and antiques field. This includes amateur collectors, expert collectors, wealthy collectors, budget-conscious collectors, and specialist niche collectors.
 
 Additional audiences:
 
 - Commercial dealers and gallery/shop operators.
 - Private dealers and estate sellers.
 - Auction-house staff, analysts, cataloguers, and market researchers.
-- People selling inherited antiques who may need orientation.
+- People selling inherited art and antiques who may need orientation.
 - Partners integrating shops, WooCommerce, Shopify, custom APIs, or OAuth clients.
 
 ## Audience psychology
@@ -51,7 +51,7 @@ Assume many users are intelligent, proud of their taste, skeptical, and status-s
 
 Use a tone that is polished, confident, precise, and restrained.
 
-Position Aura Historia on antiques. Do not present art as a category it covers alongside antiques (for example “antiques and art”, “antiques, art and design objects” or “art dealers”) in any locale. Art in example searches, bios, or object descriptions is fine. Cited market figures keep their source’s scope: the Art Basel / UBS report counts art and antiques sales together, so its labels say so.
+Position Aura Historia on art and antiques (German “Kunst und Antiquitäten”, French “art et antiquités”, Spanish “arte y antigüedades”, Italian “arte e antiquariato”). Use “art and antiques” as the category name in titles, metadata, taglines, and audience descriptions; in a list with other categories write “art, antiques and design objects”. Do not narrow the positioning back to antiques alone, and do not claim a specialism the index does not show, such as “fine art dealers” or valuations of artworks. Keep literal object names and cited market figures as the source states them: the Art Basel / UBS report counts art and antiques sales together, so its labels say so. Legal documents (terms, imprint, privacy policy) keep their reviewed wording until counsel updates it.
 
 Prefer:
 
@@ -99,7 +99,7 @@ field clearing, auction membership, withdrawal/restoration, and retry semantics.
 
 Before adding user-facing text:
 
-- Does it fit the refined antiques setting?
+- Does it fit the refined art and antiques setting?
 - Does it respect knowledgeable, status-sensitive users?
 - Is the claim supported by product behavior or existing content?
 - Is it translated in every supported locale: `de`, `en`, `es`, `fr`, `it`?

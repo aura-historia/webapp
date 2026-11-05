@@ -37,7 +37,7 @@ interface ObjectCardProps {
 }
 
 /**
- * One antique as it appears in the index, in the `rail` layout: 4:5 photo with an auction
+ * One object as it appears in the index, in the `rail` layout: 4:5 photo with an auction
  * badge for auction lots, serif title, source · country and price.
  */
 export function ObjectCard({ product, className }: ObjectCardProps) {
