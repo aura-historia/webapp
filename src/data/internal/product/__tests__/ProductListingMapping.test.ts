@@ -5,7 +5,10 @@ import type {
     ProductListingSummaryData,
 } from "@/client";
 import { describe, expect, it } from "vitest";
-import { mapPersonalizedProductListingSummary } from "../ProductListing.ts";
+import {
+    mapPersonalizedProductListingDetails,
+    mapPersonalizedProductListingSummary,
+} from "../ProductListing.ts";
 import { mapToProductListingDetail } from "../ProductListingDetail.ts";
 
 const source = { listingSourceId: "ls_opaque:01", name: "Atelier", slugId: "source-slug" };
@@ -221,6 +224,40 @@ describe("ProductListing mappers", () => {
         });
         expect(result.auction).toBeNull();
         expect(result.lot).toBeNull();
+    });
+
+    it("prefers the localized title and description over the original product text", () => {
+        const details: PersonalizedProductListingDetailsData = personalized({
+            ...baseDetails,
+            productTitle: { text: "Antique Imari charger", language: "en" },
+            productDescription: { text: "Original description", language: "en" },
+            title: { text: "Antike Imari-Platte", language: "de" },
+            description: { text: "Lokalisierte Beschreibung", language: "de" },
+        });
+
+        const detail = mapToProductListingDetail(details, "de-DE");
+        expect(detail.title).toBe("Antike Imari-Platte");
+        expect(detail.description).toBe("Lokalisierte Beschreibung");
+        expect(mapPersonalizedProductListingDetails(details, "de-DE").title).toBe(
+            "Antike Imari-Platte",
+        );
+    });
+
+    it("falls back to the original product text when no localized text exists", () => {
+        const details: PersonalizedProductListingDetailsData = personalized({
+            ...baseDetails,
+            productTitle: { text: "Antique Imari charger", language: "en" },
+            productDescription: { text: "Original description", language: "en" },
+            title: null,
+            description: null,
+        });
+
+        const detail = mapToProductListingDetail(details, "de-DE");
+        expect(detail.title).toBe("Antique Imari charger");
+        expect(detail.description).toBe("Original description");
+        expect(mapPersonalizedProductListingDetails(details, "de-DE").title).toBe(
+            "Antique Imari charger",
+        );
     });
 
     it("preserves SALE_OBSERVATION metadata, ON_REQUEST, and lot facts without a parent auction", () => {

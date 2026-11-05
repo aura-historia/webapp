@@ -71,9 +71,10 @@ export function mapToProductListingDetail(
     return {
         productListingId: item.productListingId,
         productListingTitleSlugId: item.productListingTitleSlugId,
-        // The API's localized title is preferred, with its source title as fallback.
-        title: item.productTitle?.text ?? item.title?.text ?? undefined,
-        description: item.productDescription?.text ?? item.description?.text ?? undefined,
+        // `title`/`description` are localized for the requested language; the original
+        // `productTitle`/`productDescription` are only a fallback.
+        title: item.title?.text ?? item.productTitle?.text ?? undefined,
+        description: item.description?.text ?? item.productDescription?.text ?? undefined,
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
         pricing,

@@ -109,7 +109,7 @@ export function mapPersonalizedProductListingDetails(
         productListingTitleSlugId: item.productListingTitleSlugId,
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
-        title: item.productTitle?.text ?? item.title?.text ?? undefined,
+        title: item.title?.text ?? item.productTitle?.text ?? undefined,
         price: displayPrice,
         priceValuation: item.pricing.valuation.type,
         valuation: mapListingDetailValuation(item.pricing.valuation),
