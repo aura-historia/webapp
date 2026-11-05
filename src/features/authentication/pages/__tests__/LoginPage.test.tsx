@@ -18,7 +18,7 @@ describe("LoginPage", () => {
     it("shows the promise beside the form and the ink band on phones for sign-in", async () => {
         await act(async () => renderLoginPage("sign-in"));
 
-        const eyebrows = screen.getAllByText("Der globale Antiquitätenindex");
+        const eyebrows = screen.getAllByText("Der globale Kunst- und Antiquitätenindex");
         expect(eyebrows).toHaveLength(2);
         expect(eyebrows[0].closest("[data-theme]")).toHaveAttribute("data-theme", "dark");
         expect(eyebrows[1].closest("aside")).toHaveClass("hidden", "lg:block");
@@ -28,7 +28,7 @@ describe("LoginPage", () => {
     it("leaves the phone band out on the onboarding steps", async () => {
         await act(async () => renderLoginPage("confirm"));
 
-        const eyebrows = screen.getAllByText("Der globale Antiquitätenindex");
+        const eyebrows = screen.getAllByText("Der globale Kunst- und Antiquitätenindex");
         expect(eyebrows).toHaveLength(1);
         expect(eyebrows[0].closest("aside")).toBeInTheDocument();
     });

@@ -6,19 +6,19 @@
     "currencySearchEmpty": "No currencies found."
   },
   "meta": {
-    "siteName": "Aura Historia | Global Antiques Platform",
-    "defaultDescription": "Discover rare antiques and design objects from dealers, auction houses, and marketplaces worldwide — in one refined platform for collectors and professionals.",
+    "siteName": "Aura Historia | Global Art and Antiques Platform",
+    "defaultDescription": "Discover rare art, antiques and design objects from dealers, auction houses, and marketplaces worldwide — in one refined platform for collectors and professionals.",
     "home": {
-      "title": "Aura Historia | Global Antiques Platform",
-      "description": "Discover rare antiques and design objects from dealers, auction houses, and marketplaces worldwide — in one refined platform for collectors and professionals."
+      "title": "Aura Historia | Global Art and Antiques Platform",
+      "description": "Discover rare art, antiques and design objects from dealers, auction houses, and marketplaces worldwide — in one refined platform for collectors and professionals."
     },
     "about": {
       "title": "About Us | Aura Historia",
-      "description": "Aura Historia is a global search engine for antiques across dealers, auction houses and marketplaces. What we do, how we differ and who we are."
+      "description": "Aura Historia is a global search engine for art and antiques across dealers, auction houses and marketplaces. What we do, how we differ and who we are."
     },
     "search": {
-      "title": "Search Antiques | Aura Historia",
-      "description": "Search and discover unique antiques from trusted dealers on Aura Historia."
+      "title": "Search Art and Antiques | Aura Historia",
+      "description": "Search and discover unique art and antiques from trusted dealers on Aura Historia."
     },
     "login": {
       "title": "Login | Aura Historia",
@@ -64,7 +64,7 @@
     },
     "partnerProgram": {
       "title": "Partner Program | Aura Historia",
-      "description": "Become a partner shop on Aura Historia – the global platform for antiques. Free, commission-free, connected in minutes."
+      "description": "Become a partner shop on Aura Historia – the global platform for art and antiques. Free, commission-free, connected in minutes."
     },
     "partnerApplications": {
       "title": "Current Partner Applications | Aura Historia"
@@ -76,8 +76,8 @@
       "title": "Providers you can access | Aura Historia"
     },
     "compareBarnebys": {
-      "title": "Aura Historia vs Barnebys | Antiques Search Engine Comparison",
-      "description": "Compare Aura Historia with Barnebys for antiques search, source coverage, multilingual discovery, near real-time alerts, and AI-assisted market monitoring."
+      "title": "Aura Historia vs Barnebys | Art and Antiques Search Engine Comparison",
+      "description": "Compare Aura Historia with Barnebys for art and antiques search, source coverage, multilingual discovery, near real-time alerts, and AI-assisted market monitoring."
     },
     "newsletterConfirm": {
       "title": "Confirm newsletter subscription | Aura Historia"
@@ -180,15 +180,15 @@
       "customApi": "Custom integration",
       "apply": "Apply now"
     },
-    "tagline": "The global antiques market, in a single search.",
+    "tagline": "The global art and antiques market, in a single search.",
     "socialNavigation": "Social media",
     "compareBarnebys": "Compare: Barnebys"
   },
   "aboutPage": {
     "hero": {
       "eyebrow": "About Aura Historia",
-      "title": "We make the antiques market <em>easier to understand.</em>",
-      "subtitle": "Aura Historia is a global search engine for antiques that brings dealers, auction houses and marketplaces into one multilingual search, for collectors, decorators and the trade. It exists for people who value careful discovery, reliable context and a calm view of a scattered international market.",
+      "title": "We make the art and antiques market <em>easier to understand.</em>",
+      "subtitle": "Aura Historia is a global search engine for art and antiques that brings dealers, auction houses and marketplaces into one multilingual search, for collectors, decorators and the trade. It exists for people who value careful discovery, reliable context and a calm view of a scattered international market.",
       "navLabel": "On this page",
       "nav": {
         "services": "What we do",
@@ -248,7 +248,7 @@
           "title": "Five languages, one vocabulary",
           "figure": "5",
           "figureLabel": "Languages, terms aligned",
-          "description": "Listings are translated and antiques terminology aligned across English, German, French, Spanish and Italian, so a search in your language also finds objects catalogued in another. Barnebys often keeps listing text in the language of the seller."
+          "description": "Listings are translated and art and antiques terminology aligned across English, German, French, Spanish and Italian, so a search in your language also finds objects catalogued in another. Barnebys often keeps listing text in the language of the seller."
         },
         "current": {
           "title": "What is offered now, not what sold",
@@ -268,12 +268,12 @@
     "audience": {
       "eyebrow": "Audience",
       "title": "Who uses <em>Aura Historia.</em>",
-      "description": "Collectors and professionals who follow antiques across more than one source. We start with Europe and the United States, and our coverage of further markets grows continuously.",
+      "description": "Collectors and professionals who follow art and antiques across more than one source. We start with Europe and the United States, and our coverage of further markets grows continuously.",
       "groups": {
         "collectors": {
           "heading": "Collectors",
           "items": {
-            "privateCollectors": "Private collectors of antiques and design objects, from a first acquisition to an established collection",
+            "privateCollectors": "Private collectors of art, antiques and design objects, from a first acquisition to an established collection",
             "specialists": "Specialist collectors following one maker, period or region across borders, such as Meissen porcelain or Gustavian furniture",
             "decorators": "Interior designers and decorators sourcing period pieces for clients",
             "heirs": "Heirs and executors who want to see what comparable objects are offered for today"
@@ -282,7 +282,7 @@
         "trade": {
           "heading": "The trade",
           "items": {
-            "dealers": "Antique dealers and galleries sourcing stock and following asking prices",
+            "dealers": "Art and antiques dealers and galleries sourcing stock and following asking prices",
             "auctionHouses": "Auction-house specialists and cataloguers checking comparable offers",
             "researchers": "Market researchers and analysts following prices and availability over time",
             "partners": "Dealers and auction houses that list their inventory as partner shops"
@@ -333,7 +333,7 @@
       "items": {
         "whatIs": {
           "question": "What is Aura Historia?",
-          "answer": "Aura Historia is a global search engine for antiques, based in Leipzig, Germany. It brings listings from dealers, auction houses and marketplaces into one multilingual search, with private watchlists and search alerts."
+          "answer": "Aura Historia is a global search engine for art and antiques, based in Leipzig, Germany. It brings listings from dealers, auction houses and marketplaces into one multilingual search, with private watchlists and search alerts."
         },
         "whoIsBehind": {
           "question": "Who is behind Aura Historia?",
@@ -791,7 +791,7 @@
       "items": {
         "howItWorks": {
           "question": "What is Aura Historia?",
-          "answer": "Aura Historia is a global platform for antiques and distinctive objects. We bring current inventory from dealer sites, auction houses, marketplaces, and specialist sources into one place so collectors and professionals can follow the market with clarity."
+          "answer": "Aura Historia is a global platform for art, antiques and distinctive objects. We bring current inventory from dealer sites, auction houses, marketplaces, and specialist sources into one place so collectors and professionals can follow the market with clarity."
         },
         "directPurchase": {
           "question": "Can I buy directly through Aura Historia?",
@@ -883,7 +883,7 @@
       "regularPrice": "Regular monthly price:"
     },
     "hero": {
-      "title": "The world's antiques market, <em>in a single search.</em>",
+      "title": "The world's art and antiques market, <em>in a single search.</em>",
       "lead": "Aura Historia indexes dealers, auction houses and specialist sellers worldwide — so collectors, decorators and the trade find the right piece before it disappears into another silo.",
       "searchLabel": "Search the global market",
       "searchSubmit": "Search the market",
@@ -914,7 +914,7 @@
     "opportunity": {
       "eyebrow": "II — The opportunity",
       "title": "A $59.6 billion market, still searched <em>one website at a time.</em>",
-      "body": "Antiques moved online. Discovery didn't. Inventory is split across dealer websites, auction calendars, marketplaces and local shops — each with its own language, terms and short window. Aura Historia turns that scattered supply into one calm, legible view.",
+      "body": "Art and antiques moved online. Discovery didn't. Inventory is split across dealer websites, auction calendars, marketplaces and local shops — each with its own language, terms and short window. Aura Historia turns that scattered supply into one calm, legible view.",
       "cta": "Search the market",
       "market": {
         "label": "Global art & antiques sales · 2025",
@@ -1111,8 +1111,8 @@
   },
   "partnerProgram": {
     "hero": {
-      "title": "Sell antiques online? Reach collectors <em>worldwide.</em>",
-      "subtitle": "Aura Historia is the global search for antiques, where collectors find exactly what you sell. Connect your shop once; buyers who find your pieces continue on your own website.",
+      "title": "Sell art and antiques online? Reach collectors <em>worldwide.</em>",
+      "subtitle": "Aura Historia is the global search for art and antiques, where collectors find exactly what you sell. Connect your shop once; buyers who find your pieces continue on your own website.",
       "primaryCta": "Become a partner",
       "secondaryCta": "See how it works",
       "eyebrow": "Partner program · For dealers & auction houses",
@@ -1150,7 +1150,7 @@
       "items": {
         "audience": {
           "title": "A global collector community",
-          "description": "Reach buyers across many countries who actively search for rare antiques, each in their own language."
+          "description": "Reach buyers across many countries who actively search for rare art and antiques, each in their own language."
         },
         "traffic": {
           "title": "More qualified traffic",
@@ -1336,7 +1336,7 @@
         },
         "fit": {
           "question": "Which shops fit the program?",
-          "answer": "We look for reputable online shops selling antiques, collectibles and comparable historical objects. Auction houses and specialised dealers are explicitly welcome."
+          "answer": "We look for reputable online shops selling art, antiques, collectibles and comparable historical objects. Auction houses and specialised dealers are explicitly welcome."
         },
         "support": {
           "question": "Will I get help during setup?",
@@ -1789,7 +1789,7 @@
       "success": "Your password has been reset. Sign in with your new password."
     },
     "page": {
-      "eyebrow": "The global antiques index",
+      "eyebrow": "The global art and antiques index",
       "heading": "One search across many providers, <em>one account.</em>",
       "lead": "Aura Historia searches dealers, auction houses and marketplaces at once. Your account keeps what you find."
     },
@@ -2026,7 +2026,7 @@
         "priceStatus": "Price & Status",
         "priceStatusDescription": "Define your price range and select the desired listing status – such as only available items, or also already auctioned pieces for market research.",
         "shop": "Shop",
-        "shopDescription": "Specifically select provider types – renowned auction houses, specialized antique dealers or marketplaces – and include or exclude individual providers.",
+        "shopDescription": "Specifically select provider types – renowned auction houses, specialized art and antiques dealers or marketplaces – and include or exclude individual providers.",
         "date": "Date",
         "dateDescription": "Narrow down the search by time – by auction date, date of first publication, or the last update of the listing.",
         "confirm": "Confirm",
@@ -3213,17 +3213,17 @@
   "compareBarnebysPage": {
     "structuredData": {
       "about": {
-        "searchEngine": "antiques search engine",
+        "searchEngine": "art and antiques search engine",
         "auctionAggregation": "auction aggregation",
-        "multilingualSearch": "multilingual antiques search",
-        "realTimeAlerts": "near real-time antiques alerts",
-        "aiDiscovery": "AI-assisted antiques discovery"
+        "multilingualSearch": "multilingual art and antiques search",
+        "realTimeAlerts": "near real-time art and antiques alerts",
+        "aiDiscovery": "AI-assisted art and antiques discovery"
       }
     },
     "hero": {
       "eyebrow": "Comparison: Aura Historia vs Barnebys",
-      "title": "A broader antiques search engine than an auction aggregator",
-      "subtitle": "Barnebys helped make auction-house catalogues easier to search. Aura Historia starts from a wider premise: serious collectors should see the whole online antiques market, not only the best-known auction stream.",
+      "title": "A broader art and antiques search engine than an auction aggregator",
+      "subtitle": "Barnebys helped make auction-house catalogues easier to search. Aura Historia starts from a wider premise: serious collectors should see the whole online art and antiques market, not only the best-known auction stream.",
       "primaryCta": "Search the wider market",
       "secondaryCta": "See the scorecard",
       "quickAnswerEyebrow": "Quick answer",
@@ -3236,7 +3236,7 @@
         "value": "Barnebys"
       },
       "marketSearch": {
-        "label": "Best for market-wide antiques search",
+        "label": "Best for market-wide art and antiques search",
         "value": "Aura Historia"
       },
       "multilingualDiscovery": {
@@ -3251,13 +3251,13 @@
     "summary": {
       "eyebrow": "Summary",
       "title": "The short version",
-      "paragraph1": "Aura Historia is the better Barnebys alternative for collectors, dealers, researchers, and anyone who needs broad antiques discovery rather than auction aggregation alone.",
+      "paragraph1": "Aura Historia is the better Barnebys alternative for collectors, dealers, researchers, and anyone who needs broad art and antiques discovery rather than auction aggregation alone.",
       "paragraph2": "Barnebys deserves credit for its history in auction search. Aura Historia wins the practical comparison by indexing more source types, translating and normalizing listing text, monitoring changes near real-time, and building on modern AI-assisted search."
     },
     "respect": {
       "eyebrow": "Respect where it is due",
       "title": "Barnebys helped define auction aggregation",
-      "paragraph1": "A fair comparison should start here: Barnebys is a known name in the antiques auction world. For many buyers, it made scattered auction-house catalogues feel more searchable and approachable.",
+      "paragraph1": "A fair comparison should start here: Barnebys is a known name in the art and antiques auction world. For many buyers, it made scattered auction-house catalogues feel more searchable and approachable.",
       "paragraph2": "That is useful. It is also not the same as seeing the whole online market. The objects collectors want are spread across major auction houses, regional auctioneers, specialist dealers, independent shops, marketplaces, and sometimes private sellers. Aura Historia is designed for that wider reality."
     },
     "advantages": {
@@ -3267,7 +3267,7 @@
       "cards": {
         "marketBeyondAuctions": {
           "title": "The market beyond auction catalogues",
-          "description": "Aura Historia is built to index the online places antiques are actually sold: auction houses, auction platforms, specialist dealers, private sellers, marketplaces, and more."
+          "description": "Aura Historia is built to index the online places art and antiques are actually sold: auction houses, auction platforms, specialist dealers, private sellers, marketplaces, and more."
         },
         "nearRealTimeAlerts": {
           "title": "Near real-time alerts",
@@ -3286,8 +3286,8 @@
     "scorecard": {
       "eyebrow": "The comparison table",
       "title": "Aura Historia vs Barnebys, side by side",
-      "description": "Barnebys keeps a clear place for auction-focused discovery. Aura Historia is built for buyers who want the wider antiques market and a more modern monitoring layer.",
-      "caption": "Comparison of Aura Historia and Barnebys for antiques search",
+      "description": "Barnebys keeps a clear place for auction-focused discovery. Aura Historia is built for buyers who want the wider art and antiques market and a more modern monitoring layer.",
+      "caption": "Comparison of Aura Historia and Barnebys for art and antiques search",
       "headers": {
         "criterion": "Criterion",
         "barnebys": "Barnebys",
@@ -3297,7 +3297,7 @@
       "rows": {
         "auctionHeritage": {
           "criterion": "Auction-house heritage",
-          "barnebys": "A long-established name in antiques auction aggregation with broad recognition among auction-focused buyers.",
+          "barnebys": "A long-established name in art and antiques auction aggregation with broad recognition among auction-focused buyers.",
           "auraHistoria": "A newer search engine built from day one around a wider source model and modern data enrichment.",
           "verdict": "Barnebys for legacy recognition",
           "whyItMatters": "If you mainly browse major auction catalogues, Barnebys has a familiar, proven position."
@@ -3305,7 +3305,7 @@
         "sourceCoverage": {
           "criterion": "Source coverage",
           "barnebys": "Strongest around auction houses and auction platforms, particularly established catalogues.",
-          "auraHistoria": "Indexes auction houses, auction platforms, dealers, private sellers, marketplaces, and other online sources where antiques appear.",
+          "auraHistoria": "Indexes auction houses, auction platforms, dealers, private sellers, marketplaces, and other online sources where art and antiques appear.",
           "verdict": "Aura Historia",
           "whyItMatters": "Many valuable finds never start in a major auction catalogue. Broader coverage creates broader opportunity."
         },
@@ -3319,7 +3319,7 @@
         "languageHandling": {
           "criterion": "Language handling",
           "barnebys": "Often keeps listing text close to the native source language and source terminology.",
-          "auraHistoria": "Translates listings into multiple languages and aligns antique terminology across languages.",
+          "auraHistoria": "Translates listings into multiple languages and aligns art and antiques terminology across languages.",
           "verdict": "Aura Historia",
           "whyItMatters": "The language of a seller should not decide whether a collector can discover the object."
         },
@@ -3333,7 +3333,7 @@
         "technologyDirection": {
           "criterion": "Technology direction",
           "barnebys": "A mature auction-search experience for buyers who know the auction ecosystem.",
-          "auraHistoria": "An AI-forward search layer for the whole antiques market, combining indexing, translations, semantic matching, and monitoring.",
+          "auraHistoria": "An AI-forward search layer for the whole art and antiques market, combining indexing, translations, semantic matching, and monitoring.",
           "verdict": "Aura Historia",
           "whyItMatters": "Modern discovery is not only about having data; it is about understanding what a buyer means across languages and sources."
         }
@@ -3345,7 +3345,7 @@
       "sources": {
         "auctionHouses": "Auction houses",
         "auctionPlatforms": "Auction platforms",
-        "antiqueDealers": "Antique dealers",
+        "antiqueDealers": "Art and antiques dealers",
         "privateSellers": "Private sellers",
         "marketplaces": "Marketplaces"
       },
@@ -3380,31 +3380,31 @@
       "items": {
         "alternative": {
           "question": "Is Aura Historia a Barnebys alternative?",
-          "answer": "Yes. Aura Historia is a Barnebys alternative for buyers who want to search beyond auction-house aggregation and monitor auction houses, dealers, marketplaces, private sellers, and other online antiques sources in one place."
+          "answer": "Yes. Aura Historia is a Barnebys alternative for buyers who want to search beyond auction-house aggregation and monitor auction houses, dealers, marketplaces, private sellers, and other online art and antiques sources in one place."
         },
         "replace": {
           "question": "Does Aura Historia replace Barnebys?",
-          "answer": "If you only want a familiar way to browse established auction-house catalogues, Barnebys remains a respected option. If you want broader online antiques coverage, multilingual discovery, near real-time alerts, and AI-assisted matching, Aura Historia is designed to be the stronger choice."
+          "answer": "If you only want a familiar way to browse established auction-house catalogues, Barnebys remains a respected option. If you want broader online art and antiques coverage, multilingual discovery, near real-time alerts, and AI-assisted matching, Aura Historia is designed to be the stronger choice."
         },
         "fasterAlerts": {
-          "question": "Which service has faster antiques alerts?",
+          "question": "Which service has faster art and antiques alerts?",
           "answer": "Aura Historia is designed for near real-time monitoring. Barnebys search alerts follow a daily check pattern, including the known 18:00 CEST alert window."
         },
         "multilingualSearch": {
-          "question": "Which service is better for multilingual antiques search?",
+          "question": "Which service is better for multilingual art and antiques search?",
           "answer": "Aura Historia is built to translate listings and align terminology across supported languages. That means the search language should matter less, whether the original listing is in English, German, French, Spanish, Italian, or another source language."
         },
         "outsideAuctions": {
-          "question": "Which service is better for finding antiques outside auctions?",
-          "answer": "Aura Historia. Its core advantage is broader source coverage: auction houses, auction platforms, dealers, private sellers, marketplaces, and other online places where antiques are sold."
+          "question": "Which service is better for finding art and antiques outside auctions?",
+          "answer": "Aura Historia. Its core advantage is broader source coverage: auction houses, auction platforms, dealers, private sellers, marketplaces, and other online places where art and antiques are sold."
         }
       }
     },
     "finalCta": {
       "eyebrow": "Final verdict",
-      "title": "Barnebys is good for auctions. Aura Historia is built for the antiques market.",
-      "description": "If your search should include the places where antiques are actually sold online, start with Aura Historia.",
-      "button": "Start searching antiques"
+      "title": "Barnebys is good for auctions. Aura Historia is built for the art and antiques market.",
+      "description": "If your search should include the places where art and antiques are actually sold online, start with Aura Historia.",
+      "button": "Start searching art and antiques"
     }
   },
   "adminUsers": {

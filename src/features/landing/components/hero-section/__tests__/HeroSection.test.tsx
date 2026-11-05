@@ -18,7 +18,7 @@ describe("HeroSection", () => {
         const heading = screen.getByRole("heading", { level: 1 });
 
         expect(heading).toHaveTextContent(
-            "Der weltweite Antiquitätenmarkt, in einer einzigen Suche.",
+            "Der weltweite Kunst- und Antiquitätenmarkt, in einer einzigen Suche.",
         );
         expect(heading.querySelector("em")).toHaveTextContent("in einer einzigen Suche.");
         expect(heading.closest("section")).toHaveAttribute("data-theme", "dark");

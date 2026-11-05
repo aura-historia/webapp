@@ -12,7 +12,7 @@ import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFra
 import { cn } from "@/lib/utils.ts";
 
 /**
- * Shares of 2025 art & antiques sales (Art Basel & UBS Art Market Report 2026),
+ * Shares of 2025 art and antiques sales (Art Basel & UBS Art Market Report 2026),
  * oxblood → brass → sand. Update with the figures when a new edition is cited.
  */
 const MARKET_SEGMENTS = [
