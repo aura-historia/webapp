@@ -163,7 +163,7 @@ export type PersonalizedShippingSummaryData = {
 };
 
 /**
- * Assessment of a single listing for the authenticated owner's selected browsing destination. Omitted under the same conditions as PersonalizedShippingSummaryData. Destination facts include submitted assertions and compatible permitted unexpired derived evidence. Browsing infers no quantity, variant, shipment/order count or qualifying amount. This enrichment does not filter or reorder results.
+ * Assessment of a single listing for the authenticated owner's selected browsing destination. Omitted under the same conditions as PersonalizedShippingSummaryData. Destination facts include submitted assertions and compatible permitted derived evidence. Browsing infers no quantity, variant, shipment/order count or qualifying amount. This enrichment does not filter or reorder results.
  */
 export type PersonalizedShippingDetailData = {
   destination: DeliveryAssessmentGeography;
@@ -984,7 +984,10 @@ export type ProductListingSummaryData = {
    * Indexed Auction TypeID association. Omitted when this listing has no Auction association; search and similar results do not hydrate current Auction metadata.
    */
   auctionId?: string;
-  title?: LocalizedTextData | null;
+  /**
+   * Listing title. Carries only `localized`. Omitted when the listing has no title.
+   */
+  title?: ListingTextData;
   displayPrice?: ProductListingPriceData | null;
   priceValuation: ProductListingSummaryPriceValuationData;
   availability: ListingAvailabilityData | null;
@@ -1027,12 +1030,13 @@ export type ProductListingDetailsData = {
   source: ProductListingSourceData;
   sourceListingId: string;
   /**
-   * Original normalized title. Styled letters and digits are presented as ordinary text, emoji and ornamental symbols are removed and truncation ellipses remain stable; titles stored before a normalization change, including legacy trailing whitespace, are presented in current normalized form.
+   * Listing title. Omitted when the listing has neither an original nor a translated title. Chosen separately from `description`, so their languages can differ.
    */
-  productTitle?: LocalizedTextData | null;
-  productDescription?: LocalizedTextData | null;
-  title?: LocalizedTextData | null;
-  description?: LocalizedTextData | null;
+  title?: ListingTextData;
+  /**
+   * Listing description. Omitted when the listing has neither an original nor a translated description.
+   */
+  description?: ListingTextData;
   pricing: {
     source: ProductListingPricingData;
     display: ProductListingPricingData;
@@ -1073,12 +1077,13 @@ export type ProductListingCollectionDetailsData = {
   source: ProductListingSourceData;
   sourceListingId: string;
   /**
-   * Original normalized title. Styled letters and digits are presented as ordinary text, emoji and ornamental symbols are removed and truncation ellipses remain stable; titles stored before a normalization change, including legacy trailing whitespace, are presented in current normalized form.
+   * Listing title. Omitted when the listing has neither an original nor a translated title. Chosen separately from `description`, so their languages can differ.
    */
-  productTitle?: LocalizedTextData | null;
-  productDescription?: LocalizedTextData | null;
-  title?: LocalizedTextData | null;
-  description?: LocalizedTextData | null;
+  title?: ListingTextData;
+  /**
+   * Listing description. Omitted when the listing has neither an original nor a translated description.
+   */
+  description?: ListingTextData;
   pricing: {
     source: ProductListingPricingData;
     display: ProductListingPricingData;
@@ -1323,6 +1328,20 @@ export type LocalizedTextData = {
    */
   text: string;
   language: LanguageData;
+};
+
+/**
+ * A listing text as the source published it and as shown for the requested language. Show `localized`; compare `localized.language` with `original.language` to tell whether the text was translated.
+ */
+export type ListingTextData = {
+  /**
+   * Text as the source published it, normalized. Styled letters and digits are presented as ordinary text, emoji and ornamental symbols are removed and truncation ellipses remain stable; texts stored before a normalization change, including legacy trailing whitespace, are presented in current normalized form. Omitted when the listing has no original text and on responses that do not carry it (search and similar-listing summaries and notification payloads).
+   */
+  original?: LocalizedTextData;
+  /**
+   * Text to show for the requested language. Chosen from the translations and the original in the order requested language, `en`, `de`, then any other language, so it can be the original itself. Always present.
+   */
+  localized: LocalizedTextData;
 };
 
 /**
@@ -3031,7 +3050,10 @@ export type WatchlistNotificationPayloadData = {
   listingSourceSlugId: string;
   productListingTitleSlugId: string;
   listingSourceName: string;
-  title: LocalizedTextData | null;
+  /**
+   * Listing title for the recipient's language. Null when the listing had no title. Carries only `localized`.
+   */
+  title: ListingTextData | null;
   image: ProductListingImageData | null;
   url: string;
   viewUrl: string;
@@ -3067,7 +3089,10 @@ export type SearchFilterNotificationPayloadData = {
   listingSourceSlugId: string;
   productListingTitleSlugId: string;
   listingSourceName: string;
-  title: LocalizedTextData | null;
+  /**
+   * Listing title for the recipient's language. Null when the listing had no title. Carries only `localized`.
+   */
+  title: ListingTextData | null;
   image: ProductListingImageData | null;
   url: string;
   viewUrl: string;
@@ -4263,7 +4288,7 @@ export type UserAddressDerivedGeography = {
 };
 
 /**
- * Current backend geocoding state, returned with address CRUD/list reads. A unique compatible premises result can supply a point automatically. Coarse results can supply administrative geography only. Expired or revoked evidence is UNAVAILABLE and suppressed. This is browsing enrichment, not address or delivery verification.
+ * Current backend geocoding state, returned with address CRUD/list reads. A unique compatible premises result can supply a point automatically. Coarse results can supply administrative geography only. Evidence has no time limit. This is browsing enrichment, not address or delivery verification.
  */
 export type UserAddressResolution = {
   status: 'PENDING' | 'ACCEPTED' | 'AMBIGUOUS' | 'NO_MATCH' | 'FAILED' | 'BLOCKED' | 'UNAVAILABLE';
@@ -4479,6 +4504,98 @@ export type PartyLocationsPage = {
   items: Array<PartyLocationData>;
   /**
    * Last returned ID when another row exists; supply as after. Null when exhausted.
+   */
+  next: PartyLocationId | null;
+};
+
+/**
+ * Strict UUIDv7 geocoding resolution TypeID.
+ */
+export type ResolutionId = string;
+
+export type RequestPartyLocationResolutionData = {
+  expectedRevision: number;
+};
+
+export type AcceptPartyLocationResolutionCandidateData = {
+  expectedRevision: number;
+  resolutionId: ResolutionId;
+  generation: number;
+  /**
+   * Index of an acceptable candidate in the read that supplied generation.
+   */
+  candidateIndex: number;
+};
+
+export type RetryPartyLocationResolutionData = {
+  expectedRevision: number;
+  resolutionId: ResolutionId;
+  generation: number;
+  /**
+   * Also discard existing evidence and reviewed selections.
+   */
+  force?: boolean;
+};
+
+/**
+ * Normalized provider-derived geography with attribution. Provider record references are never returned. The last candidate of an ACCEPTED resolution may be the administrative-only form of the first.
+ */
+export type PartyLocationResolutionCandidateData = {
+  index: number;
+  /**
+   * Compatible with the submitted assertions and, when it carries a point, premises-precise. Only acceptable candidates can be selected.
+   */
+  acceptable: boolean;
+  geography?: PartyLocationGeography;
+  position?: PartyLocationPosition;
+  provider: string;
+  attributionUrl: string;
+};
+
+export type PartyLocationResolutionData = {
+  resolutionId: ResolutionId;
+  /**
+   * Changes on retry; accept-candidate and retry require the current value.
+   */
+  generation: number;
+  /**
+   * Location revision the resolution is bound to.
+   */
+  locationRevision: number;
+  inputRevision: number;
+  status: 'PENDING' | 'ACCEPTED' | 'AMBIGUOUS' | 'NO_MATCH' | 'FAILED' | 'BLOCKED';
+  attempts: number;
+  /**
+   * Category of the last failed attempt.
+   */
+  failure?: 'TIMEOUT' | 'THROTTLED' | 'UNAVAILABLE' | 'AUTHENTICATION' | 'CONFIGURATION' | 'UNSUPPORTED_INPUT' | 'INVALID_RESPONSE' | 'STORAGE_NOT_PERMITTED' | 'LEASE_ATTEMPTS_EXHAUSTED';
+  /**
+   * Candidate the acceptance policy accepted automatically.
+   */
+  acceptedCandidateIndex?: number;
+  /**
+   * Candidate selected by review; takes precedence over acceptedCandidateIndex.
+   */
+  selectedCandidateIndex?: number;
+  candidates: Array<PartyLocationResolutionCandidateData>;
+};
+
+export type PartyLocationResolutionStateData = {
+  /**
+   * Null when the location has no geocoding work because it carries an explicit position, has no address text or is retired.
+   */
+  resolution: PartyLocationResolutionData | null;
+};
+
+export type PartyLocationResolutionReviewData = {
+  location: PartyLocationData;
+  resolution: PartyLocationResolutionData;
+};
+
+export type PartyLocationResolutionReviewsPage = {
+  items: Array<PartyLocationResolutionReviewData>;
+  /**
+   * Last scanned location ID when more may match; supply as after. Null when exhausted.
    */
   next: PartyLocationId | null;
 };
@@ -11820,6 +11937,273 @@ export type SetPartyLocationManagementGrantResponses = {
 };
 
 export type SetPartyLocationManagementGrantResponse = SetPartyLocationManagementGrantResponses[keyof SetPartyLocationManagementGrantResponses];
+
+export type ListPartyLocationResolutionReviewsData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Only this resolution status. Omitted lists AMBIGUOUS, BLOCKED and FAILED. AMBIGUOUS locations leave the queue once a candidate is selected for the current generation.
+     */
+    status?: 'AMBIGUOUS' | 'BLOCKED' | 'FAILED';
+    /**
+     * The previous page's next value.
+     */
+    after?: PartyLocationId;
+    limit?: number;
+  };
+  url: '/v1/admin/party-location-resolutions';
+};
+
+export type ListPartyLocationResolutionReviewsErrors = {
+  /**
+   * Invalid path, query or body (INVALID_OBJECT_ID, BAD_QUERY_PARAMETER_VALUE or BAD_BODY_VALUE), including an unacceptable or unknown candidate index.
+   */
+  400: ApiError;
+  /**
+   * Bearer authentication required (INVALID_CREDENTIALS).
+   */
+  401: ApiError;
+  /**
+   * Missing credential scope or administrator authority (FORBIDDEN).
+   */
+  403: ApiError;
+  /**
+   * Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+   */
+  500: ApiError;
+  /**
+   * Persistence/transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+   */
+  503: ApiError;
+};
+
+export type ListPartyLocationResolutionReviewsError = ListPartyLocationResolutionReviewsErrors[keyof ListPartyLocationResolutionReviewsErrors];
+
+export type ListPartyLocationResolutionReviewsResponses = {
+  /**
+   * Locations across all Parties in ascending ID order, each with its current resolution.
+   */
+  200: PartyLocationResolutionReviewsPage;
+};
+
+export type ListPartyLocationResolutionReviewsResponse = ListPartyLocationResolutionReviewsResponses[keyof ListPartyLocationResolutionReviewsResponses];
+
+export type GetPartyLocationResolutionData = {
+  body?: never;
+  path: {
+    /**
+     * Strict Party TypeID.
+     */
+    party_id: string;
+    location_id: PartyLocationId;
+  };
+  query?: never;
+  url: '/v1/admin/parties/{party_id}/locations/{location_id}/resolution';
+};
+
+export type GetPartyLocationResolutionErrors = {
+  /**
+   * Invalid path, query or body (INVALID_OBJECT_ID, BAD_QUERY_PARAMETER_VALUE or BAD_BODY_VALUE), including an unacceptable or unknown candidate index.
+   */
+  400: ApiError;
+  /**
+   * Bearer authentication required (INVALID_CREDENTIALS).
+   */
+  401: ApiError;
+  /**
+   * Missing credential scope or administrator authority (FORBIDDEN).
+   */
+  403: ApiError;
+  /**
+   * Party, location or bound resolution not found (PARTY_NOT_FOUND).
+   */
+  404: ApiError;
+  /**
+   * Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+   */
+  500: ApiError;
+  /**
+   * Persistence/transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+   */
+  503: ApiError;
+};
+
+export type GetPartyLocationResolutionError = GetPartyLocationResolutionErrors[keyof GetPartyLocationResolutionErrors];
+
+export type GetPartyLocationResolutionResponses = {
+  /**
+   * Current resolution of the location after the operation.
+   */
+  200: PartyLocationResolutionStateData;
+};
+
+export type GetPartyLocationResolutionResponse = GetPartyLocationResolutionResponses[keyof GetPartyLocationResolutionResponses];
+
+export type RequestPartyLocationResolutionData2 = {
+  body: RequestPartyLocationResolutionData;
+  path: {
+    /**
+     * Strict Party TypeID.
+     */
+    party_id: string;
+    location_id: PartyLocationId;
+  };
+  query?: never;
+  url: '/v1/admin/parties/{party_id}/locations/{location_id}/resolution/request';
+};
+
+export type RequestPartyLocationResolutionErrors = {
+  /**
+   * Invalid path, query or body (INVALID_OBJECT_ID, BAD_QUERY_PARAMETER_VALUE or BAD_BODY_VALUE), including an unacceptable or unknown candidate index.
+   */
+  400: ApiError;
+  /**
+   * Bearer authentication required (INVALID_CREDENTIALS).
+   */
+  401: ApiError;
+  /**
+   * Missing credential scope or administrator authority (FORBIDDEN).
+   */
+  403: ApiError;
+  /**
+   * Party, location or bound resolution not found (PARTY_NOT_FOUND).
+   */
+  404: ApiError;
+  /**
+   * Stale location revision, resolution generation or binding (CONFLICT); reread and retry with current values.
+   */
+  409: ApiError;
+  /**
+   * Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+   */
+  500: ApiError;
+  /**
+   * Persistence/transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+   */
+  503: ApiError;
+};
+
+export type RequestPartyLocationResolutionError = RequestPartyLocationResolutionErrors[keyof RequestPartyLocationResolutionErrors];
+
+export type RequestPartyLocationResolutionResponses = {
+  /**
+   * Current resolution of the location after the operation.
+   */
+  200: PartyLocationResolutionStateData;
+};
+
+export type RequestPartyLocationResolutionResponse = RequestPartyLocationResolutionResponses[keyof RequestPartyLocationResolutionResponses];
+
+export type AcceptPartyLocationResolutionCandidateData2 = {
+  body: AcceptPartyLocationResolutionCandidateData;
+  path: {
+    /**
+     * Strict Party TypeID.
+     */
+    party_id: string;
+    location_id: PartyLocationId;
+  };
+  query?: never;
+  url: '/v1/admin/parties/{party_id}/locations/{location_id}/resolution/accept-candidate';
+};
+
+export type AcceptPartyLocationResolutionCandidateErrors = {
+  /**
+   * Invalid path, query or body (INVALID_OBJECT_ID, BAD_QUERY_PARAMETER_VALUE or BAD_BODY_VALUE), including an unacceptable or unknown candidate index.
+   */
+  400: ApiError;
+  /**
+   * Bearer authentication required (INVALID_CREDENTIALS).
+   */
+  401: ApiError;
+  /**
+   * Missing credential scope or administrator authority (FORBIDDEN).
+   */
+  403: ApiError;
+  /**
+   * Party, location or bound resolution not found (PARTY_NOT_FOUND).
+   */
+  404: ApiError;
+  /**
+   * Stale location revision, resolution generation or binding (CONFLICT); reread and retry with current values.
+   */
+  409: ApiError;
+  /**
+   * Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+   */
+  500: ApiError;
+  /**
+   * Persistence/transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+   */
+  503: ApiError;
+};
+
+export type AcceptPartyLocationResolutionCandidateError = AcceptPartyLocationResolutionCandidateErrors[keyof AcceptPartyLocationResolutionCandidateErrors];
+
+export type AcceptPartyLocationResolutionCandidateResponses = {
+  /**
+   * Current resolution of the location after the operation.
+   */
+  200: PartyLocationResolutionStateData;
+};
+
+export type AcceptPartyLocationResolutionCandidateResponse = AcceptPartyLocationResolutionCandidateResponses[keyof AcceptPartyLocationResolutionCandidateResponses];
+
+export type RetryPartyLocationResolutionData2 = {
+  body: RetryPartyLocationResolutionData;
+  path: {
+    /**
+     * Strict Party TypeID.
+     */
+    party_id: string;
+    location_id: PartyLocationId;
+  };
+  query?: never;
+  url: '/v1/admin/parties/{party_id}/locations/{location_id}/resolution/retry';
+};
+
+export type RetryPartyLocationResolutionErrors = {
+  /**
+   * Invalid path, query or body (INVALID_OBJECT_ID, BAD_QUERY_PARAMETER_VALUE or BAD_BODY_VALUE), including an unacceptable or unknown candidate index.
+   */
+  400: ApiError;
+  /**
+   * Bearer authentication required (INVALID_CREDENTIALS).
+   */
+  401: ApiError;
+  /**
+   * Missing credential scope or administrator authority (FORBIDDEN).
+   */
+  403: ApiError;
+  /**
+   * Party, location or bound resolution not found (PARTY_NOT_FOUND).
+   */
+  404: ApiError;
+  /**
+   * Stale location revision, resolution generation or binding (CONFLICT); reread and retry with current values.
+   */
+  409: ApiError;
+  /**
+   * Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+   */
+  500: ApiError;
+  /**
+   * Persistence/transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+   */
+  503: ApiError;
+};
+
+export type RetryPartyLocationResolutionError = RetryPartyLocationResolutionErrors[keyof RetryPartyLocationResolutionErrors];
+
+export type RetryPartyLocationResolutionResponses = {
+  /**
+   * Current resolution of the location after the operation.
+   */
+  200: PartyLocationResolutionStateData;
+};
+
+export type RetryPartyLocationResolutionResponse = RetryPartyLocationResolutionResponses[keyof RetryPartyLocationResolutionResponses];
 
 export type ClearSourceLocationDefaultData2 = {
   body: ClearSourceLocationDefaultData;

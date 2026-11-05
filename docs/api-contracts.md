@@ -10,15 +10,13 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `8614fdac7dec923134ea399864def4e86ebaf8d1` (2026-10-30). Its last contract change is
-  `46997f8d8d` ([backend#2655](https://github.com/aura-historia/backend/pull/2655)). Git blob
-  `4aaf2fbc9ee2a88d60d18cdc94d44f13088a2041`; file SHA-256
-  `fd1441858b68bfcfc3c79be12ddf9b712ad6de9230a4e449c7d38fb130808321`; canonical parsed-JSON
+  `5e0b39124774bf71f27c1925d9c7a782d290a5f0` (2026-11-05), which is also its last contract change
+  ([backend#2788](https://github.com/aura-historia/backend/pull/2788)). Git blob
+  `948ce303a31181d0edfdd6cf4624766714ae8e32`; file SHA-256
+  `d3035e76a894eb56d2978467ffc58e889eebe0e42c2d32fc027ce0e1af9b896e`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `c9b2c4b8e6cf05d9a2dc560b0565de1351bfac74dd01b55a15cb86000004af49`. It replaces the
-  first-production-release capture (`e7c8d0e393`, 2026-10-24) together with the listing-source
-  create schema that [#1179](https://github.com/aura-historia/webapp/issues/1179) had grafted onto
-  it.
+  `0d668d91c361be57813f6944ecd2e0f07ff1983e22255ec9700f7317a8be0f5e`. It replaces the
+  `8614fdac7d` capture (2026-10-30, last contract change `46997f8d8d`).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -28,7 +26,25 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
-- Changes against the previous pin (`e7c8d0e393`, 2026-10-24), with their decisions:
+- Changes against the previous pin (`8614fdac7d`, 2026-10-30), with their decisions:
+  - **Listing text objects** ([backend#2784](https://github.com/aura-historia/backend/issues/2784)):
+    listing `title` and `description` are `ListingTextData` (`{ original?, localized }`) instead
+    of `LocalizedTextData`, and `productTitle`/`productDescription` are removed. Detail and
+    collection details carry both members; search and similar-listing summaries and notification
+    payloads carry only `localized`. Every mapper reads `localized` through
+    `src/data/internal/product/ListingText.ts` (see **Listings** below); `original` is not mapped.
+    Admin and partner listing text keeps `LocalizedTextData`. This breaking change shipped without
+    a transition period: release this webapp only with or after a backend that serves this capture.
+  - **Party-location geocoding review** ([backend#2770](https://github.com/aura-historia/backend/issues/2770)):
+    `listPartyLocationResolutionReviews`, `getPartyLocationResolution`,
+    `requestPartyLocationResolution`, `acceptPartyLocationResolutionCandidate` and
+    `retryPartyLocationResolution` are generated-only until an admin review slice consumes them
+    (see **Known gaps and decisions**).
+  - Description-only: geocoding evidence no longer expires
+    ([backend#2771](https://github.com/aura-historia/backend/issues/2771)). No copy or mapper
+    depended on expiry.
+- Changes adopted with the `8614fdac7d` capture (against `e7c8d0e393`, 2026-10-24), with their
+  decisions:
   - **Mutable listing text** ([backend#2597](https://github.com/aura-historia/backend/issues/2597)):
     the admin and partner single-listing PATCH and the partner batch writes (synchronous and
     async) accept tri-state localized `title`/`description` (omit preserves, `null` clears, a value
@@ -209,7 +225,10 @@ To adopt a backend revision:
   `deleteUserAddress`), the browsing destination (`getBrowsingDestination`,
   `setBrowsingDestination`), public discovery (`discoverPartyLocations`) and the non-admin source
   defaults (`getSourceLocationDefault`, `assignSourceLocationDefault`,
-  `changeSourceLocationDefaultApplicability`, `clearSourceLocationDefault`). Listing search does
+  `changeSourceLocationDefaultApplicability`, `clearSourceLocationDefault`) and the admin
+  geocoding review (`listPartyLocationResolutionReviews`, `getPartyLocationResolution`,
+  `requestPartyLocationResolution`, `acceptPartyLocationResolutionCandidate`,
+  `retryPartyLocationResolution`). Listing search does
   not send `geography` yet. Privacy rules for these slices
   are in [privacy alignment](privacy-policy-alignment.md#geography).
 - The admin ProductListing operations (`searchAdminProductListings`, `getAdminProductListing`,
@@ -270,6 +289,15 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
 - `ProductListingDetail` is a distinct detail contract. `pricing` keeps source and display prices
   and the valuation snapshot; `auction` and `lot` are independently nullable, and a lot never
   creates or supplies a parent auction.
+- Listing titles and descriptions come from `ListingTextData.localized`
+  (`mapListingDisplayText`), which the backend already chose for the requested language with a
+  fallback to `en`, `de` and then any other language. Never show `original` in its place.
+  `ProductListingDetail.description` is the exception
+  ([#1232](https://github.com/aura-historia/webapp/issues/1232)): `mapListingTextInLanguage` keeps
+  it only when `localized.language` is the language the product page requested, so the page body,
+  the meta, Open Graph and Twitter descriptions and the JSON-LD `description` never show a
+  description in another language. Without one, the page shows no description section and keeps
+  the root's generic meta description. The title always shows the fallback.
 - Redacted or missing text, slugs and image URLs stay absent; never invent titles, prices,
   sellers, auctions or sale facts.
 - Monetary and on-request prices are separate union members; a missing price stays `null`.

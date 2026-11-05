@@ -3,6 +3,7 @@ import type {
     PersonalizedProductListingSummaryData,
 } from "@/client";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+import { mapListingDisplayText } from "@/data/internal/product/ListingText.ts";
 import {
     mapProductListingSource,
     type ProductListingSource,
@@ -72,7 +73,7 @@ function mapSummaryFields(
         productListingTitleSlugId: item.productListingTitleSlugId,
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
-        title: item.title?.text ?? undefined,
+        title: mapListingDisplayText(item.title),
         price: displayPrice,
         priceValuation: item.priceValuation.type,
         valuation: mapListingSummaryValuation(item.priceValuation),
@@ -109,7 +110,7 @@ export function mapPersonalizedProductListingDetails(
         productListingTitleSlugId: item.productListingTitleSlugId,
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
-        title: item.title?.text ?? item.productTitle?.text ?? undefined,
+        title: mapListingDisplayText(item.title),
         price: displayPrice,
         priceValuation: item.pricing.valuation.type,
         valuation: mapListingDetailValuation(item.pricing.valuation),

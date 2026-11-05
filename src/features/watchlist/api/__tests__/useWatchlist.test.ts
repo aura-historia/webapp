@@ -93,7 +93,7 @@ describe("useWatchlist", () => {
                                     slugId: "shop",
                                 },
                                 sourceListingId: "item-1",
-                                title: { text: "Vase", language: "en" },
+                                title: { localized: { text: "Vase", language: "en" } },
                                 pricing: {
                                     source: {
                                         price: {

@@ -140,7 +140,7 @@ describe("ProductInfo", () => {
                         slugId: "antique-store",
                     },
                     sourceListingId: "item-1",
-                    title: { text: "Sold Chair", language: "de" },
+                    title: { localized: { text: "Sold Chair", language: "de" } },
                     pricing: {
                         source: { price: { type: "MONETARY", amount: 250000, currency: "EUR" } },
                         display: {},
@@ -162,6 +162,7 @@ describe("ProductInfo", () => {
                     updated: "2026-09-01T00:00:00Z",
                 },
             },
+            "de",
             "de",
         );
 

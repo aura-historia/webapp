@@ -16000,6 +16000,285 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PartyLocationManagementGrantData'
+  /v1/admin/party-location-resolutions:
+    get:
+      operationId: listPartyLocationResolutionReviews
+      summary: List Party locations whose geocoding needs review
+      tags:
+      - Party
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - AMBIGUOUS
+          - BLOCKED
+          - FAILED
+        description: Only this resolution status. Omitted lists AMBIGUOUS, BLOCKED and FAILED. AMBIGUOUS locations
+          leave the queue once a candidate is selected for the current generation.
+      - name: after
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/PartyLocationId'
+        description: The previous page's next value.
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+      responses:
+        '200':
+          description: Locations across all Parties in ascending ID order, each with its current resolution.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartyLocationResolutionReviewsPage'
+        '400':
+          $ref: '#/components/responses/PartyLocationResolutionError400'
+        '401':
+          $ref: '#/components/responses/PartyLocationResolutionError401'
+        '403':
+          $ref: '#/components/responses/PartyLocationResolutionError403'
+        '500':
+          $ref: '#/components/responses/PartyLocationResolutionError500'
+        '503':
+          $ref: '#/components/responses/PartyLocationResolutionError503'
+      description: Review queue of unreviewed AMBIGUOUS locations, since PRECISION_FIRST_V1 never accepts a Party
+        point without review, and of BLOCKED or FAILED work that only an explicit retry restarts. An AMBIGUOUS
+        location without an acceptable candidate stays queued until its address is corrected or a forced retry
+        produces new evidence. Keyset pagination by location ID; a page may hold
+        fewer than limit items when a resolution changes status while it is read. Administrator or internal authority only; delegated credentials require parties:read. Location managers who are not administrators receive 403.
+  /v1/admin/parties/{party_id}/locations/{location_id}/resolution:
+    get:
+      operationId: getPartyLocationResolution
+      summary: Inspect a Party location's geocoding resolution
+      tags:
+      - Party
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: party_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^pty_
+        description: Strict Party TypeID.
+      - name: location_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/PartyLocationId'
+      responses:
+        '200':
+          description: Current resolution of the location after the operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartyLocationResolutionStateData'
+        '400':
+          $ref: '#/components/responses/PartyLocationResolutionError400'
+        '401':
+          $ref: '#/components/responses/PartyLocationResolutionError401'
+        '403':
+          $ref: '#/components/responses/PartyLocationResolutionError403'
+        '404':
+          $ref: '#/components/responses/PartyLocationResolutionError404'
+        '500':
+          $ref: '#/components/responses/PartyLocationResolutionError500'
+        '503':
+          $ref: '#/components/responses/PartyLocationResolutionError503'
+      description: Returns the current resolution, its candidates and any reviewed selection. Administrator or internal authority only; delegated credentials require parties:read. Location managers who are not administrators receive 403.
+  /v1/admin/parties/{party_id}/locations/{location_id}/resolution/request:
+    post:
+      operationId: requestPartyLocationResolution
+      summary: Establish geocoding work for a Party location
+      tags:
+      - Party
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: party_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^pty_
+        description: Strict Party TypeID.
+      - name: location_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/PartyLocationId'
+      responses:
+        '200':
+          description: Current resolution of the location after the operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartyLocationResolutionStateData'
+        '400':
+          $ref: '#/components/responses/PartyLocationResolutionError400'
+        '401':
+          $ref: '#/components/responses/PartyLocationResolutionError401'
+        '403':
+          $ref: '#/components/responses/PartyLocationResolutionError403'
+        '404':
+          $ref: '#/components/responses/PartyLocationResolutionError404'
+        '409':
+          $ref: '#/components/responses/PartyLocationResolutionError409'
+        '500':
+          $ref: '#/components/responses/PartyLocationResolutionError500'
+        '503':
+          $ref: '#/components/responses/PartyLocationResolutionError503'
+      description: Binds an eligible location (active, with address text and no explicit position) to durable resolution work, or detaches an ineligible one; backfills locations created before geocoding. Unchanged input reuses existing evidence without another provider call. Administrator or internal authority only; delegated credentials require parties:write. Location managers who are not administrators receive 403.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestPartyLocationResolutionData'
+  /v1/admin/parties/{party_id}/locations/{location_id}/resolution/accept-candidate:
+    post:
+      operationId: acceptPartyLocationResolutionCandidate
+      summary: Select a geocoding candidate for a Party location
+      tags:
+      - Party
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: party_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^pty_
+        description: Strict Party TypeID.
+      - name: location_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/PartyLocationId'
+      responses:
+        '200':
+          description: Current resolution of the location after the operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartyLocationResolutionStateData'
+        '400':
+          $ref: '#/components/responses/PartyLocationResolutionError400'
+        '401':
+          $ref: '#/components/responses/PartyLocationResolutionError401'
+        '403':
+          $ref: '#/components/responses/PartyLocationResolutionError403'
+        '404':
+          $ref: '#/components/responses/PartyLocationResolutionError404'
+        '409':
+          $ref: '#/components/responses/PartyLocationResolutionError409'
+        '500':
+          $ref: '#/components/responses/PartyLocationResolutionError500'
+        '503':
+          $ref: '#/components/responses/PartyLocationResolutionError503'
+      description: Applies one acceptable candidate to this location only, using the current location revision, resolution ID and generation from the latest read. Selecting the already selected candidate is a no-op. An unacceptable or unknown candidate index returns 400; a changed location, generation or binding returns 409. Administrator or internal authority only; delegated credentials require parties:write. Location managers who are not administrators receive 403.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcceptPartyLocationResolutionCandidateData'
+  /v1/admin/parties/{party_id}/locations/{location_id}/resolution/retry:
+    post:
+      operationId: retryPartyLocationResolution
+      summary: Retry geocoding for a Party location
+      tags:
+      - Party
+      security:
+      - BearerAuth: []
+      - AccessTokenAuth: []
+      parameters:
+      - name: party_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^pty_
+        description: Strict Party TypeID.
+      - name: location_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/PartyLocationId'
+      responses:
+        '200':
+          description: Current resolution of the location after the operation.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                enum:
+                - no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartyLocationResolutionStateData'
+        '400':
+          $ref: '#/components/responses/PartyLocationResolutionError400'
+        '401':
+          $ref: '#/components/responses/PartyLocationResolutionError401'
+        '403':
+          $ref: '#/components/responses/PartyLocationResolutionError403'
+        '404':
+          $ref: '#/components/responses/PartyLocationResolutionError404'
+        '409':
+          $ref: '#/components/responses/PartyLocationResolutionError409'
+        '500':
+          $ref: '#/components/responses/PartyLocationResolutionError500'
+        '503':
+          $ref: '#/components/responses/PartyLocationResolutionError503'
+      description: Starts a new generation with reset attempts and wakes the resolver when the resolution holds no evidence (PENDING, BLOCKED or FAILED). Resolutions with evidence are unchanged unless force is true; forcing discards the evidence and every reviewed selection and may incur another provider call. A changed location, generation or binding returns 409. Administrator or internal authority only; delegated credentials require parties:write. Location managers who are not administrators receive 403.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetryPartyLocationResolutionData'
   /v1/listing-sources/{listing_source_id}/location-default:
     get:
       summary: Get source location default
@@ -17850,6 +18129,90 @@ components:
         pattern: '^[\x21-\x2B\x2D-\x7E]{1,128}$'
       example: catalog-sync-2026-09-29
   responses:
+    PartyLocationResolutionError400:
+      description: Invalid path, query or body (INVALID_OBJECT_ID, BAD_QUERY_PARAMETER_VALUE or BAD_BODY_VALUE), including an unacceptable or unknown candidate index.
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    PartyLocationResolutionError401:
+      description: Bearer authentication required (INVALID_CREDENTIALS).
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    PartyLocationResolutionError403:
+      description: Missing credential scope or administrator authority (FORBIDDEN).
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    PartyLocationResolutionError404:
+      description: Party, location or bound resolution not found (PARTY_NOT_FOUND).
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    PartyLocationResolutionError409:
+      description: Stale location revision, resolution generation or binding (CONFLICT); reread and retry with current values.
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    PartyLocationResolutionError500:
+      description: Invalid persisted state or internal failure (PARTY_INTERNAL_ERROR).
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+    PartyLocationResolutionError503:
+      description: Persistence/transaction unavailable (PARTY_TEMPORARILY_UNAVAILABLE).
+      headers:
+        Cache-Control:
+          schema:
+            type: string
+            enum:
+            - no-store
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
     ShippingManagementError400:
       description: Invalid path/body/schema/revision (INVALID_OBJECT_ID or BAD_BODY_VALUE).
       headers:
@@ -18198,7 +18561,7 @@ components:
       description: >-
         Assessment of a single listing for the authenticated owner's selected browsing destination. Omitted
         under the same conditions as PersonalizedShippingSummaryData. Destination facts include submitted
-        assertions and compatible permitted unexpired derived evidence. Browsing infers no quantity, variant,
+        assertions and compatible permitted derived evidence. Browsing infers no quantity, variant,
         shipment/order count or qualifying amount. This enrichment does not filter or reorder results.
       properties:
         destination: {$ref: '#/components/schemas/DeliveryAssessmentGeography'}
@@ -20041,8 +20404,8 @@ components:
 
         title:
           allOf:
-            - $ref: "#/components/schemas/LocalizedTextData"
-          nullable: true
+            - $ref: "#/components/schemas/ListingTextData"
+          description: Listing title. Carries only `localized`. Omitted when the listing has no title.
         displayPrice:
           allOf:
             - $ref: "#/components/schemas/ProductListingPriceData"
@@ -20150,23 +20513,14 @@ components:
           $ref: "#/components/schemas/ProductListingSourceData"
         sourceListingId:
           type: string
-        productTitle:
-          allOf:
-            - $ref: "#/components/schemas/LocalizedTextData"
-          nullable: true
-          description: Original normalized title. Styled letters and digits are presented as ordinary text, emoji and ornamental symbols are removed and truncation ellipses remain stable; titles stored before a normalization change, including legacy trailing whitespace, are presented in current normalized form.
-        productDescription:
-          allOf:
-            - $ref: "#/components/schemas/LocalizedTextData"
-          nullable: true
         title:
           allOf:
-            - $ref: "#/components/schemas/LocalizedTextData"
-          nullable: true
+            - $ref: "#/components/schemas/ListingTextData"
+          description: Listing title. Omitted when the listing has neither an original nor a translated title. Chosen separately from `description`, so their languages can differ.
         description:
           allOf:
-            - $ref: "#/components/schemas/LocalizedTextData"
-          nullable: true
+            - $ref: "#/components/schemas/ListingTextData"
+          description: Listing description. Omitted when the listing has neither an original nor a translated description.
         pricing:
           type: object
           required:
@@ -20267,23 +20621,14 @@ components:
           $ref: "#/components/schemas/ProductListingSourceData"
         sourceListingId:
           type: string
-        productTitle:
-          allOf:
-            - $ref: "#/components/schemas/LocalizedTextData"
-          nullable: true
-          description: Original normalized title. Styled letters and digits are presented as ordinary text, emoji and ornamental symbols are removed and truncation ellipses remain stable; titles stored before a normalization change, including legacy trailing whitespace, are presented in current normalized form.
-        productDescription:
-          allOf:
-            - $ref: "#/components/schemas/LocalizedTextData"
-          nullable: true
         title:
           allOf:
-            - $ref: "#/components/schemas/LocalizedTextData"
-          nullable: true
+            - $ref: "#/components/schemas/ListingTextData"
+          description: Listing title. Omitted when the listing has neither an original nor a translated title. Chosen separately from `description`, so their languages can differ.
         description:
           allOf:
-            - $ref: "#/components/schemas/LocalizedTextData"
-          nullable: true
+            - $ref: "#/components/schemas/ListingTextData"
+          description: Listing description. Omitted when the listing has neither an original nor a translated description.
         pricing:
           type: object
           required:
@@ -20699,6 +21044,28 @@ components:
           description: The text content
         language:
           $ref: "#/components/schemas/LanguageData"
+    ListingTextData:
+      type: object
+      description: A listing text as the source published it and as shown for the requested language. Show
+        `localized`; compare `localized.language` with `original.language` to tell whether the text was
+        translated.
+      required:
+        - localized
+      properties:
+        original:
+          allOf:
+            - $ref: "#/components/schemas/LocalizedTextData"
+          description: Text as the source published it, normalized. Styled letters and digits are presented as
+            ordinary text, emoji and ornamental symbols are removed and truncation ellipses remain stable; texts
+            stored before a normalization change, including legacy trailing whitespace, are presented in current
+            normalized form. Omitted when the listing has no original text and on responses that do not carry it
+            (search and similar-listing summaries and notification payloads).
+        localized:
+          allOf:
+            - $ref: "#/components/schemas/LocalizedTextData"
+          description: Text to show for the requested language. Chosen from the translations and the original in
+            the order requested language, `en`, `de`, then any other language, so it can be the original itself.
+            Always present.
     PriceData:
       type: object
       description: Price information with currency
@@ -23450,8 +23817,9 @@ components:
           type: string
         title:
           allOf:
-            - $ref: "#/components/schemas/LocalizedTextData"
+            - $ref: "#/components/schemas/ListingTextData"
           nullable: true
+          description: Listing title for the recipient's language. Null when the listing had no title. Carries only `localized`.
         image:
           allOf:
             - $ref: "#/components/schemas/ProductListingImageData"
@@ -23542,8 +23910,9 @@ components:
           type: string
         title:
           allOf:
-            - $ref: "#/components/schemas/LocalizedTextData"
+            - $ref: "#/components/schemas/ListingTextData"
           nullable: true
+          description: Listing title for the recipient's language. Null when the listing had no title. Carries only `localized`.
         image:
           allOf:
             - $ref: "#/components/schemas/ProductListingImageData"
@@ -25648,7 +26017,7 @@ components:
       type: object
       additionalProperties: false
       description: Current backend geocoding state, returned with address CRUD/list reads. A unique compatible premises result can supply a point
-        automatically. Coarse results can supply administrative geography only. Expired or revoked evidence is UNAVAILABLE and suppressed. This is
+        automatically. Coarse results can supply administrative geography only. Evidence has no time limit. This is
         browsing enrichment, not address or delivery verification.
       required:
       - status
@@ -26106,6 +26475,205 @@ components:
           - $ref: '#/components/schemas/PartyLocationId'
           nullable: true
           description: Last returned ID when another row exists; supply as after. Null when exhausted.
+    ResolutionId:
+      type: string
+      pattern: ^gres_[0-7][0-9a-hjkmnp-tv-z]{25}$
+      description: Strict UUIDv7 geocoding resolution TypeID.
+    RequestPartyLocationResolutionData:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedRevision
+      properties:
+        expectedRevision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+    AcceptPartyLocationResolutionCandidateData:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedRevision
+      - resolutionId
+      - generation
+      - candidateIndex
+      properties:
+        expectedRevision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        resolutionId:
+          $ref: '#/components/schemas/ResolutionId'
+        generation:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        candidateIndex:
+          type: integer
+          minimum: 0
+          description: Index of an acceptable candidate in the read that supplied generation.
+    RetryPartyLocationResolutionData:
+      type: object
+      additionalProperties: false
+      required:
+      - expectedRevision
+      - resolutionId
+      - generation
+      properties:
+        expectedRevision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        resolutionId:
+          $ref: '#/components/schemas/ResolutionId'
+        generation:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        force:
+          type: boolean
+          default: false
+          description: Also discard existing evidence and reviewed selections.
+    PartyLocationResolutionCandidateData:
+      type: object
+      additionalProperties: false
+      required:
+      - index
+      - acceptable
+      - provider
+      - attributionUrl
+      properties:
+        index:
+          type: integer
+          minimum: 0
+        acceptable:
+          type: boolean
+          description: Compatible with the submitted assertions and, when it carries a point, premises-precise.
+            Only acceptable candidates can be selected.
+        geography:
+          $ref: '#/components/schemas/PartyLocationGeography'
+        position:
+          $ref: '#/components/schemas/PartyLocationPosition'
+        provider:
+          type: string
+        attributionUrl:
+          type: string
+          format: uri
+      description: Normalized provider-derived geography with attribution. Provider record references are never
+        returned. The last candidate of an ACCEPTED resolution may be the administrative-only form of the first.
+    PartyLocationResolutionData:
+      type: object
+      additionalProperties: false
+      required:
+      - resolutionId
+      - generation
+      - locationRevision
+      - inputRevision
+      - status
+      - attempts
+      - candidates
+      properties:
+        resolutionId:
+          $ref: '#/components/schemas/ResolutionId'
+        generation:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+          description: Changes on retry; accept-candidate and retry require the current value.
+        locationRevision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+          description: Location revision the resolution is bound to.
+        inputRevision:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9223372036854775807
+        status:
+          type: string
+          enum:
+          - PENDING
+          - ACCEPTED
+          - AMBIGUOUS
+          - NO_MATCH
+          - FAILED
+          - BLOCKED
+        attempts:
+          type: integer
+          minimum: 0
+          maximum: 5
+        failure:
+          type: string
+          enum:
+          - TIMEOUT
+          - THROTTLED
+          - UNAVAILABLE
+          - AUTHENTICATION
+          - CONFIGURATION
+          - UNSUPPORTED_INPUT
+          - INVALID_RESPONSE
+          - STORAGE_NOT_PERMITTED
+          - LEASE_ATTEMPTS_EXHAUSTED
+          description: Category of the last failed attempt.
+        acceptedCandidateIndex:
+          type: integer
+          minimum: 0
+          description: Candidate the acceptance policy accepted automatically.
+        selectedCandidateIndex:
+          type: integer
+          minimum: 0
+          description: Candidate selected by review; takes precedence over acceptedCandidateIndex.
+        candidates:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartyLocationResolutionCandidateData'
+    PartyLocationResolutionStateData:
+      type: object
+      additionalProperties: false
+      required:
+      - resolution
+      properties:
+        resolution:
+          allOf:
+          - $ref: '#/components/schemas/PartyLocationResolutionData'
+          nullable: true
+          description: Null when the location has no geocoding work because it carries an explicit position, has no
+            address text or is retired.
+    PartyLocationResolutionReviewData:
+      type: object
+      additionalProperties: false
+      required:
+      - location
+      - resolution
+      properties:
+        location:
+          $ref: '#/components/schemas/PartyLocationData'
+        resolution:
+          $ref: '#/components/schemas/PartyLocationResolutionData'
+    PartyLocationResolutionReviewsPage:
+      type: object
+      additionalProperties: false
+      required:
+      - items
+      - next
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartyLocationResolutionReviewData'
+        next:
+          allOf:
+          - $ref: '#/components/schemas/PartyLocationId'
+          nullable: true
+          description: Last scanned location ID when more may match; supply as after. Null when exhausted.
     PartyLocationManagersPage:
       type: object
       additionalProperties: false
