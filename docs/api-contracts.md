@@ -48,7 +48,10 @@ admin workflows in [admin workflows](admin-workflows.md).
     capture.
   - Backend commits since without a contract change need no client change: the review console's
     per-ListingSource mass-removal confirmation
-    ([backend#2791](https://github.com/aura-historia/backend/issues/2791)).
+    ([backend#2791](https://github.com/aura-historia/backend/issues/2791)) and deploy-time runtime
+    credentials ([backend#2793](https://github.com/aura-historia/backend/issues/2793)). Rechecked
+    against `develop` `07c674d591` (2026-11-06): its `docs/swagger.yaml` is the pinned blob, and
+    regeneration produces no diff.
 - Changes adopted with the `de0ff80312` capture (against `5e0b391247`, 2026-11-05), with their
   decisions:
   - **Responses omit absent members** ([backend#2785](https://github.com/aura-historia/backend/issues/2785)):

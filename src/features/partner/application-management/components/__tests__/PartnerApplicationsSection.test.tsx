@@ -29,7 +29,11 @@ const application = {
     proposal: {
         type: "PROPOSED_LISTING_SOURCE",
         party: { name: "Operator" },
-        listingSource: { name: "Source", requestedIngestionMethods: ["PARTNER_API"] },
+        listingSource: {
+            name: "Source",
+            listingSourceType: "AUCTION_HOUSE",
+            requestedIngestionMethods: ["PARTNER_API"],
+        },
     },
 };
 describe("immutable application workflow", () => {
@@ -74,6 +78,13 @@ describe("immutable application workflow", () => {
         expect(
             screen.queryByRole("button", { name: "Bewerbung zurückziehen" }),
         ).not.toBeInTheDocument();
+    });
+    it("shows the proposed provider type in the details", async () => {
+        render(<PartnerApplicationsSection />);
+        await userEvent.click(screen.getByRole("button", { name: /Details/ }));
+        const type = screen.getByText("Art des Anbieters");
+        expect(type.tagName).toBe("DT");
+        expect(type.nextElementSibling).toHaveTextContent("Auktionshaus");
     });
     it("requires confirmation before withdrawal and exposes no edit action", async () => {
         render(<PartnerApplicationsSection />);
