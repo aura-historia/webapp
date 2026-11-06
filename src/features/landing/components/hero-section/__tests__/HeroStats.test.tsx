@@ -47,14 +47,14 @@ describe("HeroStats", () => {
 
         expect(figureFor("Händler")).toHaveTextContent("1.180");
         expect(figureFor("Auktionshäuser")).toHaveTextContent("42");
-        expect(figureFor("Auktionsplattformen")).toHaveTextContent("6");
+        expect(figureFor("Auktions\u00adplattformen")).toHaveTextContent("6");
         expect(figureFor("Marktplätze")).toHaveTextContent("12");
         expect(figureFor("Aktive Objekte")).toHaveTextContent("182.450");
         expect(figureFor("Länder")).toHaveTextContent("18");
         expect(Array.from(container.querySelectorAll("dt"), (term) => term.textContent)).toEqual([
             "Händler",
             "Auktionshäuser",
-            "Auktionsplattformen",
+            "Auktions\u00adplattformen",
             "Marktplätze",
             "Aktive Objekte",
             "Länder",
@@ -89,7 +89,7 @@ describe("HeroStats", () => {
 
         expect(figureFor("Händler")).toHaveTextContent("1");
         expect(figureFor("Auktionshaus")).toHaveTextContent("1");
-        expect(figureFor("Auktionsplattform")).toHaveTextContent("1");
+        expect(figureFor("Auktions\u00adplattform")).toHaveTextContent("1");
         expect(figureFor("Marktplatz")).toHaveTextContent("1");
         expect(figureFor("Aktives Objekt")).toHaveTextContent("1");
         expect(figureFor("Land")).toHaveTextContent("1");

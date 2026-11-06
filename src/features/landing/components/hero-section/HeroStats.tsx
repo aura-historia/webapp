@@ -18,14 +18,15 @@ type StatKey = (typeof STAT_KEYS)[number];
 /** From a million, live objects read as "1.8M"; below that every figure is exact. */
 const COMPACT_FROM = 1_000_000;
 
-// Phones: a 2 × 3 grid, ruled below each cell. From 640px: a 3 × 2 grid, hairlines between.
+// Phones: a compact 3 × 2 grid. From 640px: a 3 × 2 grid. From 1024px: one row of six, as wide as
+// the headline, so the strip keeps a single row's height under the longer hero.
 const LIST_CLASS =
-    "mt-2 grid w-full grid-cols-2 border-t border-line sm:mt-7 sm:max-w-[880px] sm:grid-cols-3";
+    "mt-2 grid w-full grid-cols-3 border-t border-line sm:mt-7 sm:max-w-[880px] lg:max-w-[1100px] lg:grid-cols-6";
 const ITEM_CLASS =
-    "flex flex-col gap-1 border-b border-line py-[18px] pr-3 even:border-l even:pr-0 even:pl-4 sm:gap-1.5 sm:border-l sm:px-4 sm:py-[22px] sm:even:px-4 sm:nth-[3n+1]:border-l-0";
+    "flex flex-col gap-1 border-b border-l border-line px-2.5 py-3.5 nth-[3n+1]:border-l-0 nth-[3n+1]:pl-0 sm:gap-1.5 sm:px-4 sm:py-[22px] sm:nth-[3n+1]:pl-4 lg:px-3 lg:nth-4:border-l";
 const LABEL_CLASS =
-    "order-2 font-mono text-[10px] leading-[1.4] tracking-[0.14em] text-ink-muted uppercase sm:text-label";
-const FIGURE_CLASS = "order-1 font-serif text-[30px] leading-[1.1] sm:text-stat";
+    "order-2 font-mono text-[9px] leading-[1.4] tracking-[0.12em] text-ink-muted uppercase text-balance sm:text-label";
+const FIGURE_CLASS = "order-1 font-serif text-[24px] leading-[1.1] sm:text-stat";
 
 function statValue(overview: PublicOverview, key: StatKey): number {
     if (key === "liveObjects" || key === "countries") return overview[key];
@@ -69,8 +70,8 @@ export function HeroStatsSkeleton() {
         <div aria-hidden="true" className={LIST_CLASS}>
             {STAT_KEYS.map((key) => (
                 <div key={key} className={ITEM_CLASS}>
-                    <div className="order-2 h-3.5 w-24 rounded-xs bg-line-subtle sm:self-center" />
-                    <div className="order-1 h-[33px] w-16 animate-pulse rounded-xs bg-line-subtle sm:h-[37px] sm:self-center" />
+                    <div className="order-2 h-[25px] w-full max-w-24 rounded-xs bg-line-subtle sm:h-3.5 sm:w-24 sm:self-center" />
+                    <div className="order-1 h-[26px] w-12 animate-pulse rounded-xs bg-line-subtle sm:h-[37px] sm:w-16 sm:self-center" />
                 </div>
             ))}
         </div>
