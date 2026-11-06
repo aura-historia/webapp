@@ -35,8 +35,6 @@ const detail = {
     applicantUserId: "user_1",
     state: "SUBMITTED" as const,
     proposal,
-    approvedPartnershipId: null,
-    approvedListingSourceId: null,
 };
 const summary = { ...detail, created: "2026-09-01T10:00:00Z", updated: "2026-09-01T10:00:00Z" };
 const ok = (data: unknown, status = 200) => ({ data, response: { status, ok: true } });

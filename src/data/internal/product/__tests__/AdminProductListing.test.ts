@@ -15,7 +15,6 @@ const adminProductListingDetailsDto: AdminProductListingDetails = {
     title: { text: "Walnut cabinet", language: "en" },
     price: { type: "MONETARY", amount: 125_050, currency: "EUR" },
     priceEstimateMin: { amount: 100_000, currency: "EUR" },
-    priceEstimateMax: null,
     availability: "IN_STOCK",
     lifecycle: "ACTIVE",
     auctionId: "auc_01",
@@ -31,11 +30,8 @@ const adminProductListingDetailsDto: AdminProductListingDetails = {
         cataloguePosition: 3,
         timing: {
             biddingOpens: "2026-10-10T08:00:00Z",
-            scheduledCloses: null,
-            reportedClosedAt: null,
         },
     },
-    saleObservation: null,
 };
 
 describe("mapAdminProductListingDetail", () => {
@@ -73,13 +69,13 @@ describe("mapAdminProductListingDetail", () => {
     it("keeps absent text, auction facts and unknown enum values without inventing data", () => {
         const listing = mapAdminProductListingDetail({
             ...adminProductListingDetailsDto,
-            title: null,
-            description: null,
+            title: undefined,
+            description: undefined,
             price: { type: "ON_REQUEST" },
             availability: "SOMETHING_NEW" as never,
             lifecycle: "ARCHIVED" as never,
-            auctionId: null,
-            auction: null,
+            auctionId: undefined,
+            auction: undefined,
         });
 
         expect(listing).toMatchObject({

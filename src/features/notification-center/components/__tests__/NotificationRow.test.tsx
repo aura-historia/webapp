@@ -155,12 +155,11 @@ describe("Notification rows", () => {
                 const value = notification({
                     payload: {
                         ...watchlistPayload,
-                        title: null,
-                        image: null,
+                        title: undefined,
+                        image: undefined,
                         productListingTitleSlugId: "",
                         change: {
                             type: "PRICE_CHANGE",
-                            oldPrice: null,
                             newPrice: { type: "ON_REQUEST" },
                         },
                     },
@@ -230,7 +229,6 @@ describe("Notification rows", () => {
                         ...watchlistPayload,
                         change: {
                             type: "AVAILABILITY_CHANGE",
-                            oldAvailability: null,
                             newAvailability: "SOLD_OUT",
                         },
                     },
@@ -272,7 +270,6 @@ describe("Notification rows", () => {
                             partnershipApplicationId: "application-1",
                             decision,
                             listingSourceName: "Shop",
-                            image: null,
                         },
                     });
                     await act(async () => {

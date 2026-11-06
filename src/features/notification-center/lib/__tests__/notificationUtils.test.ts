@@ -11,11 +11,11 @@ describe("notification display", () => {
             to: "$80.00",
         });
     });
-    it("handles null and on-request prices", () => {
+    it("handles omitted and on-request prices", () => {
         const payload = notification({
             payload: {
                 ...watchlistPayload,
-                change: { type: "PRICE_CHANGE", oldPrice: null, newPrice: { type: "ON_REQUEST" } },
+                change: { type: "PRICE_CHANGE", newPrice: { type: "ON_REQUEST" } },
             },
         }).payload;
         expect(getNotificationChangeParts(payload, t, "en")).toEqual({
@@ -30,7 +30,6 @@ describe("notification display", () => {
                 ...watchlistPayload,
                 change: {
                     type: "AVAILABILITY_CHANGE",
-                    oldAvailability: null,
                     newAvailability: "SOLD_OUT",
                 },
             },
@@ -60,7 +59,6 @@ describe("notification display", () => {
                 partnershipApplicationId: "application-1",
                 decision,
                 listingSourceName: "Shop",
-                image: null,
             },
         }).payload;
         expect(getNotificationTypeLabel(payload, t)).toBe("notifications.types.partnerApplication");

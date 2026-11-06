@@ -169,7 +169,7 @@ describe("admin source location default API", () => {
     });
 
     it("clears a retired reference at the expected revision", async () => {
-        api.clear.mockResolvedValue(ok(dto({ revision: 5, assignment: null })));
+        api.clear.mockResolvedValue(ok({ listingSourceId: "ls_1", revision: 5 }));
         const { result } = renderHook(() => useClearAdminSourceLocationDefault(scope), {
             wrapper,
         });

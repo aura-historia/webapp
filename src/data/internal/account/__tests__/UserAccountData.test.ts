@@ -4,30 +4,22 @@ import type { OwnUserAccountData } from "@/client";
 import type { UserAccountPatchData } from "../UserAccountData.ts";
 
 describe("mapToInternalUserAccount", () => {
-    it("preserves nullable preferences and billing identity without audit fields", () => {
+    it("keeps omitted preferences and billing identity absent without audit fields", () => {
         const account = mapToInternalUserAccount({
             userId: "user-1",
             email: "user@example.com",
             tier: "FREE",
             role: "USER",
-            firstName: null,
-            lastName: null,
-            language: null,
-            currency: null,
-            measurementUnit: null,
-            stripeCustomerId: null,
             showUnassessedOrSensitiveContent: false,
             marketingEmailConsent: false,
         });
-        expect(account).toMatchObject({
-            firstName: null,
-            lastName: null,
-            language: null,
-            currency: null,
-            unitSystem: null,
-            stripeCustomerId: null,
-            showUnassessedOrSensitiveContent: false,
-        });
+        expect(account.firstName).toBeUndefined();
+        expect(account.lastName).toBeUndefined();
+        expect(account.language).toBeUndefined();
+        expect(account.currency).toBeUndefined();
+        expect(account.unitSystem).toBeUndefined();
+        expect(account.stripeCustomerId).toBeUndefined();
+        expect(account.showUnassessedOrSensitiveContent).toBe(false);
         expect(account).not.toHaveProperty("created");
         expect(account).not.toHaveProperty("updated");
         expect(account).not.toHaveProperty("structuredAddress");

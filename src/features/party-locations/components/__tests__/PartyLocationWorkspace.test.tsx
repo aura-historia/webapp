@@ -40,8 +40,7 @@ const failure = (status: number) => ({ error: {}, response: { status } });
 /** A request whose response was lost: the backend may or may not have committed it. */
 const lost = () => ({ error: {}, response: undefined });
 /** Serves these locations from now on, as the backend would after a change. */
-const serve = (...items: PartyLocationData[]) =>
-    api.list.mockResolvedValue(ok({ items, next: null }));
+const serve = (...items: PartyLocationData[]) => api.list.mockResolvedValue(ok({ items }));
 
 function renderWorkspace() {
     const client = new QueryClient();

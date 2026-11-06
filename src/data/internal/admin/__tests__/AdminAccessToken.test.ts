@@ -10,7 +10,6 @@ describe("mapToAdminAccessToken", () => {
             name: "Catalog integration",
             scopes: ["product-listings:write"],
             origin: "User",
-            expires: null,
             token: "raw-token-must-not-escape",
             tokenHash: "hash-must-not-escape",
             maskedToken: "masked-token-must-not-escape",
@@ -24,7 +23,6 @@ describe("mapToAdminAccessToken", () => {
             name: "Catalog integration",
             scopes: ["product-listings:write"],
             origin: "User",
-            expires: null,
         });
         expect(mapped).not.toHaveProperty("token");
         expect(mapped).not.toHaveProperty("tokenHash");

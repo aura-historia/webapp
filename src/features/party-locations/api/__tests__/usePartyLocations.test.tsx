@@ -85,7 +85,7 @@ describe("Party-location API", () => {
     it("pages with `after`, private requests and viewer-scoped keys", async () => {
         api.list
             .mockResolvedValueOnce(ok({ items: [dto()], next: "ploc_1" }))
-            .mockResolvedValueOnce(ok({ items: [dto({ id: "ploc_2" })], next: null }));
+            .mockResolvedValueOnce(ok({ items: [dto({ id: "ploc_2" })] }));
         const hook = renderHook(() => usePartyLocationList(scope), { wrapper });
 
         await waitFor(() => expect(hook.result.current.data?.pages).toHaveLength(1));
@@ -120,7 +120,7 @@ describe("Party-location API", () => {
     });
 
     it("rejects a page with a location of another Party", async () => {
-        api.list.mockResolvedValue(ok({ items: [dto({ partyId: "pty_other" })], next: null }));
+        api.list.mockResolvedValue(ok({ items: [dto({ partyId: "pty_other" })] }));
         const hook = renderHook(() => usePartyLocationList(scope), { wrapper });
 
         await waitFor(() => expect(hook.result.current.error).toBeTruthy());
@@ -182,7 +182,7 @@ describe("Party-location API", () => {
         seedList();
         api.create.mockResolvedValueOnce(failure());
         api.list.mockResolvedValueOnce(
-            ok({ items: [dto(), dto({ id: "ploc_2", label: "Depot", revision: 1 })], next: null }),
+            ok({ items: [dto(), dto({ id: "ploc_2", label: "Depot", revision: 1 })] }),
         );
         const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
 
@@ -207,9 +207,7 @@ describe("Party-location API", () => {
 
     it("leaves the outcome unresolved when the refresh fails", async () => {
         api.create.mockResolvedValueOnce(failure(504));
-        api.list
-            .mockResolvedValueOnce(failure(500))
-            .mockResolvedValueOnce(ok({ items: [dto()], next: null }));
+        api.list.mockResolvedValueOnce(failure(500)).mockResolvedValueOnce(ok({ items: [dto()] }));
         const hook = renderHook(() => useCreatePartyLocation(scope), { wrapper });
 
         await submit(hook, { label: "Depot" });
@@ -223,7 +221,7 @@ describe("Party-location API", () => {
     });
 
     it("reports an unknown outcome only when the outcome is indefinite", async () => {
-        api.list.mockResolvedValue(ok({ items: [], next: null }));
+        api.list.mockResolvedValue(ok({ items: [] }));
         api.create
             .mockResolvedValueOnce(failure(502))
             .mockResolvedValueOnce(failure(503))

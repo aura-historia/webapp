@@ -42,7 +42,6 @@ const detailFixture = {
     userId: "opaque/user+01",
     email: "ada@example.test",
     firstName: "Ada",
-    lastName: null,
     language: "en",
     currency: "EUR",
     measurementUnit: "METRIC",
@@ -189,7 +188,6 @@ describe("admin user API", () => {
         );
         expect(hook.result.current.data).toMatchObject({
             userId: "opaque/user+01",
-            lastName: null,
             language: "en",
             tier: "pro",
         });

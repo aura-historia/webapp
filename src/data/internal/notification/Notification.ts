@@ -91,7 +91,7 @@ export type NotificationCollection = {
     readonly searchAfter?: string;
 };
 
-function mapImage(data: ProductListingImageData | null): ProductImage | undefined {
+function mapImage(data: ProductListingImageData | undefined): ProductImage | undefined {
     if (!data?.url) return undefined;
     const url = safeImageUrl(data.url);
     // Notification images have no content assessment; a URL does not prove they are allowed.

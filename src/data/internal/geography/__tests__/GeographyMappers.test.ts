@@ -114,14 +114,14 @@ describe("user addresses", () => {
     it("maps unknown resolution states without inventing derived data", () => {
         const address = mapToUserAddress({
             ...dto,
-            resolution: { status: "QUEUED" as never, derived: null, attribution: null },
+            resolution: { status: "QUEUED" as never },
         });
         expect(address.resolution).toEqual({ status: "UNKNOWN" });
     });
 
-    it("maps the page cursor and stops on null", () => {
+    it("maps the page cursor and stops when it is omitted", () => {
         expect(mapToUserAddressPage({ items: [dto], next: "uaddr_1" }).next).toBe("uaddr_1");
-        expect(mapToUserAddressPage({ items: [], next: null })).toEqual({ items: [] });
+        expect(mapToUserAddressPage({ items: [] })).toEqual({ items: [] });
     });
 
     it("sends create, update and delete bodies with the pinned release and expected version", () => {
@@ -204,7 +204,7 @@ describe("Party locations", () => {
         expect(location.evidence?.observedAt).toEqual(new Date("2026-10-01T00:00:00Z"));
         expect(location.hasUnsupportedValues).toBe(true);
         expect(mapToPartyLocation({ ...dto, roles: [] }).hasUnsupportedValues).toBe(false);
-        expect(mapToPartyLocationPage({ items: [dto], next: null })).not.toHaveProperty("next");
+        expect(mapToPartyLocationPage({ items: [dto] })).not.toHaveProperty("next");
     });
 
     it("preserves omitted, null and replacement semantics on correction", () => {
@@ -328,7 +328,6 @@ describe("source location defaults", () => {
             mapToSourceLocationDefault({
                 listingSourceId: "ls_1",
                 revision: 1,
-                assignment: null,
                 eligibility: null as never,
             }),
         ).toEqual({ listingSourceId: "ls_1", revision: 1, hasUnsupportedValues: false });

@@ -26,7 +26,6 @@ describe("PartyLocationSelector", () => {
                     dto({ id: "ploc_1", label: "Showroom" }),
                     dto({ id: "ploc_2", label: "Old depot", lifecycle: "RETIRED" }),
                 ],
-                next: null,
             },
             response: { status: 200 },
         });

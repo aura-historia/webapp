@@ -50,7 +50,7 @@ describe("useNotifications", () => {
             .mockResolvedValueOnce({
                 data: { items: [notificationDto()], size: 1, searchAfter: cursor },
             })
-            .mockResolvedValueOnce({ data: { items: [], size: 0, searchAfter: null } });
+            .mockResolvedValueOnce({ data: { items: [], size: 0 } });
         const { result } = renderHook(() => useNotifications(), { wrapper });
         await waitFor(() => expect(result.current.hasNextPage).toBe(true));
         await act(() => result.current.fetchNextPage());
