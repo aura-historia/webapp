@@ -888,16 +888,18 @@
       "searchLabel": "Den weltweiten Markt durchsuchen",
       "searchSubmit": "Markt durchsuchen",
       "stats": {
-        "sourcesIndexed_one": "Erfasste Quelle",
-        "sourcesIndexed_other": "Erfasste Quellen",
+        "dealers_one": "Händler",
+        "dealers_other": "Händler",
+        "auctionHouses_one": "Auktionshaus",
+        "auctionHouses_other": "Auktions­häuser",
+        "auctionPlatforms_one": "Auktions­plattform",
+        "auctionPlatforms_other": "Auktions­plattformen",
+        "marketplaces_one": "Marktplatz",
+        "marketplaces_other": "Marktplätze",
         "liveObjects_one": "Aktives Objekt",
         "liveObjects_other": "Aktive Objekte",
         "countries_one": "Land",
-        "countries_other": "Länder",
-        "languages_one": "Erkannte Sprache",
-        "languages_other": "Erkannte Sprachen",
-        "languagesShort_one": "Sprache",
-        "languagesShort_other": "Sprachen"
+        "countries_other": "Länder"
       }
     },
     "latest": {
@@ -2373,6 +2375,8 @@
       "partyPhone": "Telefon (optional)",
       "partyEmail": "E-Mail (optional)",
       "sourceName": "Name des Anbieters",
+      "listingSourceType": "Art des Anbieters",
+      "listingSourceTypeRequired": "Wählen Sie die Art des Anbieters aus.",
       "sourceUrl": "Anbieter-URL (optional)",
       "sourceImage": "Bild-URL (optional)",
       "methods": "Gewünschte Importmethoden",
@@ -2461,6 +2465,7 @@
       "partyPhone": "Telefon",
       "partyEmail": "E-Mail",
       "sourceName": "Name des Anbieters",
+      "listingSourceType": "Art des Anbieters",
       "sourceUrl": "URL des Anbieters",
       "sourceImage": "Bild-URL",
       "methods": "Angefragte Importmethoden"
@@ -2654,6 +2659,7 @@
       "listingSourceId": "Listing-Quellen-ID",
       "listingSourceSlugId": "Unveränderlicher Slug",
       "operatorPartyId": "ID der Betreiberorganisation",
+      "allTypes": "Alle Typen",
       "ingestionMethod": "Importmethode",
       "allMethods": "Alle Methoden",
       "sort": "Sortieren nach",
@@ -2684,6 +2690,7 @@
       "listingSourceId": "Listing-Quellen-ID",
       "immutableSlug": "Unveränderlicher Slug",
       "name": "Quellenname",
+      "listingSourceType": "Quellentyp",
       "operator": "Betreiberorganisation",
       "operatorPartyId": "ID der Betreiberorganisation",
       "operatorName": "Name der neuen Betreiberorganisation",
@@ -2741,6 +2748,8 @@
       "editDescription": "Ändern Sie Quelldaten. Betreiber und Quellen-Slug sind unveränderlich.",
       "configurationDescription": "Optional: Fügen Sie jetzt konfigurierte Importmethoden hinzu oder lassen Sie die Liste leer, um sie später einzurichten.",
       "referralDescription": "Optionale Partnerize-Empfehlungsdaten. Hier werden keine Anbieterzugangsdaten gespeichert.",
+      "chooseListingSourceType": "Quellentyp auswählen",
+      "listingSourceTypeDescription": "Das hauptsächliche Verkaufsmodell der Quelle. Der eigene Shop eines Verkäufers auf einem Marktplatz wird nach diesem Verkäufer eingeordnet, meist als Händler. Der Typ beschreibt die Quelle nur: Import, Angebote und Auktionen bleiben unberührt.",
       "platformTechnologyDescription": "Optionaler Code aus Großbuchstaben, Ziffern und Unterstrichen, z. B. SHOPIFY oder BIGCOMMERCE. Er beschreibt nur die Shop-Software: Er aktiviert keinen Import und setzt weder eine installierte App noch eine Partnerschaft voraus. Lassen Sie das Feld leer, um keine Plattform zu erfassen.",
       "replaceConfiguration": "Importkonfiguration ersetzen",
       "incompleteConfigurationNotice": "Die Lese-API gibt Konfigurationswerte nicht zurück. Lassen Sie diese Option aus, um aktuelle Einstellungen beizubehalten. Beim Aktivieren werden die Einstellungen aller aktiven Importmethoden ersetzt.",
@@ -2779,6 +2788,7 @@
     "validation": {
       "nameRequired": "Geben Sie einen Quellnamen ein.",
       "nameTooLong": "Der Quellenname darf höchstens 255 UTF-8-Bytes lang sein.",
+      "listingSourceTypeRequired": "Wählen Sie einen Quellentyp aus.",
       "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
       "invalidUrl": "Geben Sie eine gültige HTTP- oder HTTPS-URL ein.",
       "operatorRequired": "Wählen Sie eine Betreiberorganisation aus.",
@@ -2890,6 +2900,18 @@
         "unavailable": "Standardstandorte sind vorübergehend nicht verfügbar. Bitte versuchen Sie es in Kürze erneut.",
         "requestFailed": "Die Anfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
       }
+    }
+  },
+  "listingSourceTypes": {
+    "DEALER": "Händler",
+    "AUCTION_HOUSE": "Auktionshaus",
+    "MARKETPLACE": "Marktplatz",
+    "AUCTION_PLATFORM": "Auktionsplattform",
+    "descriptions": {
+      "DEALER": "Verkauft eigene oder in Kommission genommene Objekte zu Festpreisen.",
+      "AUCTION_HOUSE": "Versteigert eigene oder in Kommission genommene Objekte.",
+      "MARKETPLACE": "Bietet anderen Verkäufern Raum für Festpreisangebote.",
+      "AUCTION_PLATFORM": "Bietet anderen Verkäufern Raum für Auktionen."
     }
   },
   "adminPartnerships": {

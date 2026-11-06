@@ -117,6 +117,11 @@ export const getPublicOverviewQueryKey = (options?: Options<GetPublicOverviewDat
  *
  * Counts cover ProductListings with lifecycle `ACTIVE`, whatever their availability.
  * `sourcesIndexed` counts distinct ListingSources with at least one counted listing.
+ * `sourcesIndexedByType` splits that count by the ListingSource's type; every ListingSource has
+ * exactly one type, so the four values always sum to `sourcesIndexed`. A seller's storefront on a
+ * marketplace counts by that seller's type, not as a marketplace; individual sellers on
+ * marketplaces and auction platforms are not counted. A reclassified ListingSource moves with
+ * the next calculation.
  * `countries` counts distinct countries in the counted listings' effective advertised-inventory
  * geography; business association and shipping destinations do not establish inventory location.
  * `languages` counts the union of original title and description languages; generated
@@ -1331,8 +1336,9 @@ export const adminSearchListingSourcesQueryKey = (options?: Options<AdminSearchL
  * `query` performs a case-insensitive substring search across the ListingSource name and
  * stable slug, and also the operator Party name and slug. `name` restricts the substring
  * match to the ListingSource name. `listingSourceId` and `listingSourceSlugId` are exact
- * identity filters. `operatorPartyId`, `ingestionMethod`, and `platformTechnology` are exact filters
- * and can be combined. Platform technology is descriptive metadata independent of ingestion.
+ * identity filters. `operatorPartyId`, `listingSourceType`, `ingestionMethod`, and
+ * `platformTechnology` are exact filters and can be combined. ListingSource type and platform
+ * technology are descriptive metadata independent of ingestion.
  *
  * Results use deterministic keyset pagination. The default sort is `name` ascending;
  * override it by providing both `sort` and `order`. Valid sort fields are `name`, `slug`,
@@ -1345,7 +1351,7 @@ export const adminSearchListingSourcesQueryKey = (options?: Options<AdminSearchL
  * Responses always use `Cache-Control: no-store`.
  *
  * The result contains only safe business-resource fields: ListingSource identity and name,
- * operator Party reference, active ingestion methods, optional platform technology, presentation URLs, and referral summary.
+ * operator Party reference, ListingSource type, active ingestion methods, optional platform technology, presentation URLs, and referral summary.
  * Provider credentials, webhook secrets, and crawler-local configuration are never returned.
  *
  */
@@ -1368,6 +1374,7 @@ export const adminSearchListingSourcesOptions = (options?: Options<AdminSearchLi
  * Delegated Aura access tokens require `listing-sources:write`; missing scope returns `403 FORBIDDEN`.
  * Creates a ListingSource for an authenticated administrator.
  *
+ * `listingSourceType` is required and records the source's primary sales model.
  * `operator` accepts either an existing Party reference (`EXISTING` with `partyId`) or a
  * new Party with name and optional contact details (`NEW`). Ingestion configuration,
  * provider uniqueness, presentation, and referral validation remain service-owned.
@@ -2373,8 +2380,9 @@ export const adminGetListingSourceOptions = (options: Options<AdminGetListingSou
  * Updates one ListingSource for an authenticated administrator.
  *
  * `listingSourceId` must be a valid ListingSource ID. Omitted members remain unchanged; `null` clears only
- * `url`, `image`, and `referralConfiguration`. `name` and
- * `ingestionConfiguration` are non-nullable and cannot be cleared. Supplying
+ * `url`, `image`, `platformTechnology`, and `referralConfiguration`. `name`, `listingSourceType` and
+ * `ingestionConfiguration` are non-nullable and cannot be cleared; `listingSourceType` reclassifies
+ * the ListingSource. Supplying
  * `ingestionConfiguration` replaces the whole configuration list and its methods must match
  * the ListingSource ingestion methods. A WooCommerce entry may omit `webhookSecret` only when
  * WooCommerce is already configured; omission preserves the existing secret, a string rotates

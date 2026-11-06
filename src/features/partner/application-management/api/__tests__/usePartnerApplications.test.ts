@@ -126,6 +126,7 @@ describe("own application API", () => {
             party: { name: "Party", phone: "123", email: "contact@example.com" },
             listingSource: {
                 name: "Source",
+                listingSourceType: "DEALER" as const,
                 url: "https://example.com",
                 image: "https://example.com/image.png",
                 requestedIngestionMethods: ["PARTNER_API" as const],

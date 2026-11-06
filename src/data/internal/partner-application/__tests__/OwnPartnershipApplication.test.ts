@@ -25,6 +25,7 @@ describe("own partnership application boundary", () => {
         const party = { name: "Operator", email: "contact@example.com", address: "private" };
         const listingSource = {
             name: "Source",
+            listingSourceType: "AUCTION_HOUSE" as const,
             requestedIngestionMethods: ["PARTNER_API" as const],
             image: "https://example.com/image.png",
         };

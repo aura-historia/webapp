@@ -29,7 +29,10 @@ secret. Preserve unseen configuration by omitting it from updates, and require a
 explicit replacement action before sending new settings. The operator and source slug
 are immutable on update. The optional `platformTechnology` code is descriptive metadata,
 independent of ingestion: the forms upper-case ASCII letters, validate the backend pattern, and
-an update sends it only when it changed (empty clears it). Party, user and listing-source
+an update sends it only when it changed (empty clears it). The required `listingSourceType`
+(dealer, auction house, marketplace, auction platform) is descriptive too: create starts with no
+choice and refuses to submit until one is made, the edit form reclassifies, and an update sends it
+only when it changed. Party, user and listing-source
 searches return an opaque `searchAfter` that embeds the last item's sort value (such as a name or
 email): resend it unchanged only with the filters and sort that returned it (each list query key
 holds both), and keep it out of URLs, logs and analytics. User search and detail use separate summary and account DTO

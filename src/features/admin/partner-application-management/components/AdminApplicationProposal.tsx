@@ -12,6 +12,10 @@ export function AdminApplicationProposal({ proposal }: { readonly proposal: Part
                   ["partyPhone", proposal.party.phone],
                   ["partyEmail", proposal.party.email],
                   ["sourceName", proposal.listingSource.name],
+                  [
+                      "listingSourceType",
+                      t(`listingSourceTypes.${proposal.listingSource.listingSourceType}`),
+                  ],
                   ["sourceUrl", proposal.listingSource.url],
                   ["sourceImage", proposal.listingSource.image],
                   [

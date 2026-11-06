@@ -50,6 +50,7 @@ function ListingSourceRow({
                     {source.listingSourceId} · {source.listingSourceSlugId}
                 </p>
                 <div className="flex flex-wrap gap-x-2 text-xs text-muted-foreground">
+                    <span>{t(`listingSourceTypes.${source.listingSourceType}`)}</span>
                     {source.ingestionMethods.length ? (
                         source.ingestionMethods.map((method) => (
                             <span key={method}>{t(`adminListingSources.methods.${method}`)}</span>
@@ -274,6 +275,9 @@ function AdminListingSourceDetailDialog({
                     </DetailRow>
                     <DetailRow label={t("adminListingSources.fields.name")}>
                         {source.name}
+                    </DetailRow>
+                    <DetailRow label={t("adminListingSources.fields.listingSourceType")}>
+                        {t(`listingSourceTypes.${source.listingSourceType}`)}
                     </DetailRow>
                     <DetailRow label={t("adminListingSources.fields.operator")}>
                         {source.operator.name}

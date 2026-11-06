@@ -37,6 +37,7 @@ vi.mock("../../components/AdminListingSourceFormDialog.tsx", () => ({
 
 const updated = new Date("2026-09-02T11:00:00.000Z");
 const detail: AdminListingSourceDetail = {
+    listingSourceType: "DEALER",
     listingSourceId: "ls_01SOURCE",
     listingSourceSlugId: "antique-house",
     name: "Antique House",

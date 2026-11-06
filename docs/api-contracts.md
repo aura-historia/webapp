@@ -10,13 +10,13 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `de0ff80312e496943fb7c51744113747af73a62e` (2026-11-06); its last contract change is
-  `52162210a5` ([backend#2789](https://github.com/aura-historia/backend/pull/2789)). Git blob
-  `5fe75e9d601eeacbbfb2a23f22b50306262c2a0f`; file SHA-256
-  `2693eba0209ecfe1d168b3b1c269427712f4706dd845eef6f99a82fa2a007f57`; canonical parsed-JSON
+  `6781ead662002b4a2f3d8399d50845019fb44851` (2026-11-06); its last contract change is
+  `6781ead662` ([backend#2794](https://github.com/aura-historia/backend/pull/2794)). Git blob
+  `4edec09fc2e5d1c9da9f4a57acad9a9153ffb783`; file SHA-256
+  `b2aca1b8eb97ef75ed7707719a9f9fc20f427c4ee798304a8cc8d827bc0202a1`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `ed32210b533b9442a8f0c05e36459c616fcc2cc7d86e92d39761e7f6d071b163`. It replaces the
-  `5e0b391247` capture (2026-11-05, last contract change `5e0b391247`).
+  `4e2980828c0baa8132e165ef79e620e3dcbe408014a8a1b0d4800f52008fc6e9`. It replaces the
+  `de0ff80312` capture (2026-11-06, last contract change `52162210a5`).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -26,7 +26,31 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
-- Changes against the previous pin (`5e0b391247`, 2026-11-05), with their decisions:
+- Changes against the previous pin (`de0ff80312`, 2026-11-06), with their decisions:
+  - **ListingSource types** ([backend#2792](https://github.com/aura-historia/backend/issues/2792)):
+    every ListingSource has a required `listingSourceType` (`DEALER`, `AUCTION_HOUSE`,
+    `MARKETPLACE`, `AUCTION_PLATFORM`; a closed set) on the admin detail and search summaries, a
+    required member on create, an optional reclassification on update (omit preserves; `null` is
+    rejected), an exact `listingSourceType` search filter, and a required member on a proposed
+    source in partnership applications (approval creates the source with it). The shared list is
+    `LISTING_SOURCE_TYPES` in `src/data/internal/listing-source/ListingSourceType.ts`, labelled
+    under `listingSourceTypes`. Admin listing-source management shows, filters, requires and
+    reclassifies it (see [admin authorization](admin-authorization-guidelines.md)); an update sends
+    it only when it changed. The partner application form requires the applicant to choose one,
+    and both application views show it. It is descriptive only: it does not affect ingestion,
+    listing validation or auction facts.
+  - **Indexed sources by type** (same issue): `getPublicOverview` adds required
+    `sourcesIndexedByType` (`dealers`, `auctionHouses`, `marketplaces`, `auctionPlatforms`), which
+    sums to `sourcesIndexed`; the hero stat strip shows it (see **Known gaps and decisions**).
+  - Both are breaking for this webapp: create and application requests now carry a member an older
+    backend rejects, and a response without `sourcesIndexedByType` fails the overview mapping, so
+    the stat strip is left out. Release this webapp only with or after a backend that serves this
+    capture.
+  - Backend commits since without a contract change need no client change: the review console's
+    per-ListingSource mass-removal confirmation
+    ([backend#2791](https://github.com/aura-historia/backend/issues/2791)).
+- Changes adopted with the `de0ff80312` capture (against `5e0b391247`, 2026-11-05), with their
+  decisions:
   - **Responses omit absent members** ([backend#2785](https://github.com/aura-historia/backend/issues/2785)):
     136 response-only members lose `nullable`/`required`, so the generated types turn `X | null`
     into optional `X`; REST responses omit an absent member instead of sending `null`. Request
@@ -278,8 +302,11 @@ To adopt a backend revision:
 - `getPublicOverview` drives the hero stat strip (`HeroStats`, through `usePublicOverview` and
   `mapToPublicOverview` in `src/data/internal/overview`). It loads after mount and is never
   prerendered. The operation declares no security, so the client sends no bearer and the
-  anonymous response stays edge-cacheable. Invalid counts fail the query and the strip is left
-  out. `asOf` and `newObjectsLast7Days` are mapped but not shown.
+  anonymous response stays edge-cacheable. Invalid or missing counts, including a missing
+  `sourcesIndexedByType`, fail the query and the strip is left out. The strip shows
+  `sourcesIndexedByType` (dealers, auction houses, auction platforms, marketplaces),
+  `liveObjects` and `countries`; `asOf`, `sourcesIndexed`, `languages` and
+  `newObjectsLast7Days` are mapped but not shown.
 - Shipping and delivery are generated-only until a shipping slice consumes them: the shipping
   profile, default and listing-delivery operations, listing `shipping` (summary and detail
   shapes; fixtures omit it), `userState.shipping`, the `shipping` search criteria,

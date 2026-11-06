@@ -119,6 +119,7 @@ describe("immutable application workflow", () => {
         await userEvent.click(screen.getByRole("button", { name: /Neue|Neuer/ }));
         await userEvent.type(screen.getByLabelText("Name des Betreibers"), "Operator");
         await userEvent.type(screen.getByLabelText("Name des Anbieters"), "New Source");
+        await userEvent.click(screen.getByRole("radio", { name: "Auktionshaus" }));
         await userEvent.click(screen.getByLabelText("Partner-API"));
         await userEvent.click(
             screen.getByRole("button", {
@@ -132,12 +133,32 @@ describe("immutable application workflow", () => {
                     party: { name: "Operator" },
                     listingSource: {
                         name: "New Source",
+                        listingSourceType: "AUCTION_HOUSE",
                         requestedIngestionMethods: ["PARTNER_API"],
                     },
                 },
                 expect.any(Object),
             ),
         );
+    });
+    it("focuses the provider type and announces the error when none is chosen", async () => {
+        render(<PartnerApplicationsSection />);
+        await userEvent.click(screen.getByRole("button", { name: /Neue|Neuer/ }));
+        await userEvent.type(screen.getByLabelText("Name des Betreibers"), "Operator");
+        await userEvent.type(screen.getByLabelText("Name des Anbieters"), "New Source");
+        await userEvent.click(
+            screen.getByRole("button", {
+                name: /Antrag einreichen|Bewerbung.*senden|Antrag.*senden|Bewerbung einreichen/,
+            }),
+        );
+        expect(await screen.findByRole("alert")).toHaveTextContent(
+            "Wählen Sie die Art des Anbieters aus.",
+        );
+        expect(screen.getByRole("radio", { name: "Händler" })).toHaveFocus();
+        expect(screen.getByRole("radio", { name: "Auktionshaus" })).toHaveAccessibleDescription(
+            /Wählen Sie die Art des Anbieters aus\./,
+        );
+        expect(mocks.create).not.toHaveBeenCalled();
     });
     it("selects and submits the public canonical ID, not a slug", async () => {
         render(<PartnerApplicationsSection />);

@@ -888,16 +888,18 @@
       "searchLabel": "Buscar en el mercado mundial",
       "searchSubmit": "Buscar en el mercado",
       "stats": {
-        "sourcesIndexed_one": "Fuente indexada",
-        "sourcesIndexed_other": "Fuentes indexadas",
+        "dealers_one": "Comerciante",
+        "dealers_other": "Comerciantes",
+        "auctionHouses_one": "Casa de subastas",
+        "auctionHouses_other": "Casas de subastas",
+        "auctionPlatforms_one": "Plataforma de subastas",
+        "auctionPlatforms_other": "Plataformas de subastas",
+        "marketplaces_one": "Marketplace",
+        "marketplaces_other": "Marketplaces",
         "liveObjects_one": "Objeto activo",
         "liveObjects_other": "Objetos activos",
         "countries_one": "País",
-        "countries_other": "Países",
-        "languages_one": "Idioma comprendido",
-        "languages_other": "Idiomas comprendidos",
-        "languagesShort_one": "Idioma",
-        "languagesShort_other": "Idiomas"
+        "countries_other": "Países"
       }
     },
     "latest": {
@@ -1994,6 +1996,7 @@
       "listingSourceId": "ID de la fuente",
       "listingSourceSlugId": "Slug inmutable",
       "operatorPartyId": "ID de la organización operadora",
+      "allTypes": "Todos los tipos",
       "ingestionMethod": "Método de ingestión",
       "allMethods": "Todos los métodos",
       "sort": "Ordenar por",
@@ -2024,6 +2027,7 @@
       "listingSourceId": "ID de la fuente",
       "immutableSlug": "Slug inmutable",
       "name": "Nombre de la fuente",
+      "listingSourceType": "Tipo de fuente",
       "operator": "Organización operadora",
       "operatorPartyId": "ID de la organización operadora",
       "operatorName": "Nombre del nuevo operador",
@@ -2081,6 +2085,8 @@
       "editDescription": "Cambie los datos de la fuente. El operador y el slug son inmutables.",
       "configurationDescription": "Opcional: añada ahora métodos de ingestión configurados o deje la lista vacía para configurarlos más adelante.",
       "referralDescription": "Datos opcionales de referidos de Partnerize. Aquí no se guardan credenciales del proveedor.",
+      "chooseListingSourceType": "Elija un tipo de fuente",
+      "listingSourceTypeDescription": "El modelo de venta principal de la fuente. La tienda propia de un vendedor en un marketplace se clasifica según ese vendedor, normalmente como comerciante. Solo describe la fuente: no afecta a la importación, los anuncios ni las subastas.",
       "platformTechnologyDescription": "Código opcional con letras mayúsculas, cifras y guiones bajos, por ejemplo SHOPIFY o BIGCOMMERCE. Solo describe el software de la tienda: no activa la ingestión ni implica una aplicación instalada ni una colaboración. Déjelo vacío para no registrar ninguna plataforma.",
       "replaceConfiguration": "Reemplazar la configuración de ingestión",
       "incompleteConfigurationNotice": "La API de lectura no devuelve los valores de configuración. Déjelo desactivado para conservar los ajustes actuales. Al activarlo se reemplazan los ajustes de todos los métodos activos.",
@@ -2119,6 +2125,7 @@
     "validation": {
       "nameRequired": "Introduzca un nombre para la fuente.",
       "nameTooLong": "El nombre no puede superar los 255 bytes UTF-8.",
+      "listingSourceTypeRequired": "Elija un tipo de fuente.",
       "invalidEmail": "Introduzca un correo electrónico válido.",
       "invalidUrl": "Introduzca una URL HTTP o HTTPS válida.",
       "operatorRequired": "Seleccione una organización operadora.",
@@ -2230,6 +2237,18 @@
         "unavailable": "Las ubicaciones predeterminadas no están disponibles temporalmente. Vuelva a intentarlo en breve.",
         "requestFailed": "No se pudo completar la solicitud. Vuelva a intentarlo."
       }
+    }
+  },
+  "listingSourceTypes": {
+    "DEALER": "Comerciante",
+    "AUCTION_HOUSE": "Casa de subastas",
+    "MARKETPLACE": "Marketplace",
+    "AUCTION_PLATFORM": "Plataforma de subastas",
+    "descriptions": {
+      "DEALER": "Vende objetos propios o en consignación a precio fijo.",
+      "AUCTION_HOUSE": "Vende objetos propios o en consignación mediante subasta.",
+      "MARKETPLACE": "Aloja a otros vendedores con precios fijos.",
+      "AUCTION_PLATFORM": "Aloja las subastas de otros vendedores."
     }
   },
   "adminPartnerships": {
@@ -2793,6 +2812,8 @@
       "partyPhone": "Teléfono (opcional)",
       "partyEmail": "Correo electrónico (opcional)",
       "sourceName": "Nombre del proveedor",
+      "listingSourceType": "Tipo de proveedor",
+      "listingSourceTypeRequired": "Elija el tipo de proveedor.",
       "sourceUrl": "URL del proveedor (opcional)",
       "sourceImage": "URL de la imagen (opcional)",
       "methods": "Métodos de importación solicitados",
@@ -2881,6 +2902,7 @@
       "partyPhone": "Teléfono",
       "partyEmail": "Correo electrónico",
       "sourceName": "Nombre del proveedor",
+      "listingSourceType": "Tipo de proveedor",
       "sourceUrl": "URL del proveedor",
       "sourceImage": "URL de la imagen",
       "methods": "Métodos de importación solicitados"

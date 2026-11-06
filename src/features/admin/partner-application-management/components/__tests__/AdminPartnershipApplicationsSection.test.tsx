@@ -49,7 +49,11 @@ const detail: AdminPartnershipApplication = {
     proposal: {
         type: "PROPOSED_LISTING_SOURCE",
         party: { name: "Atelier Operator", email: "contact@example.com" },
-        listingSource: { name: "Atelier Source", requestedIngestionMethods: ["WEB_CRAWL"] },
+        listingSource: {
+            name: "Atelier Source",
+            listingSourceType: "DEALER",
+            requestedIngestionMethods: ["WEB_CRAWL"],
+        },
     },
 };
 const summary: AdminPartnershipApplicationSummary = {

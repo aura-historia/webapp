@@ -22,6 +22,7 @@ import {
     isOptionalPlatformTechnology,
     normalizePlatformTechnology,
 } from "@/data/internal/listing-source/AdminListingSource.ts";
+import { LISTING_SOURCE_TYPES } from "@/data/internal/listing-source/ListingSourceType.ts";
 
 const SORT_OPTIONS = ADMIN_LISTING_SOURCE_SORT_FIELDS.flatMap((sort) => [
     `${sort}:asc`,
@@ -34,6 +35,7 @@ const filterSchema = z.object({
     listingSourceId: z.string(),
     listingSourceSlugId: z.string(),
     operatorPartyId: z.string(),
+    listingSourceType: z.enum(["", ...LISTING_SOURCE_TYPES]),
     ingestionMethod: z.enum(["", ...ADMIN_LISTING_SOURCE_INGESTION_METHODS]),
     platformTechnology: z.string().refine(isOptionalPlatformTechnology, {
         message: "adminListingSources.validation.platformTechnology",
@@ -50,6 +52,7 @@ function toFilterValues(filters: AdminListingSourceFilters): FilterValues {
         listingSourceId: filters.listingSourceId ?? "",
         listingSourceSlugId: filters.listingSourceSlugId ?? "",
         operatorPartyId: filters.operatorPartyId ?? "",
+        listingSourceType: filters.listingSourceType ?? "",
         ingestionMethod: filters.ingestionMethod ?? "",
         platformTechnology: filters.platformTechnology ?? "",
         sortOption:
@@ -68,6 +71,7 @@ function toFilters(values: FilterValues): AdminListingSourceFilters {
         listingSourceId: values.listingSourceId.trim(),
         listingSourceSlugId: values.listingSourceSlugId.trim(),
         operatorPartyId: values.operatorPartyId.trim(),
+        listingSourceType: values.listingSourceType || undefined,
         ingestionMethod: values.ingestionMethod || undefined,
         platformTechnology: normalizePlatformTechnology(values.platformTechnology),
         sort,
@@ -90,6 +94,10 @@ export function AdminListingSourceFiltersForm({
         resolver: zodResolver(filterSchema),
         defaultValues: toFilterValues(filters),
     });
+    const listingSourceType = useController({
+        control: form.control,
+        name: "listingSourceType",
+    }).field;
     const ingestionMethod = useController({ control: form.control, name: "ingestionMethod" }).field;
     const sortOption = useController({ control: form.control, name: "sortOption" }).field;
     const platformError = form.formState.errors.platformTechnology?.message;
@@ -131,6 +139,31 @@ export function AdminListingSourceFiltersForm({
                     label={t("adminListingSources.filters.operatorPartyId")}
                     register={form.register}
                 />
+                <div className="grid gap-2">
+                    <Label htmlFor="admin-listing-sources-type">
+                        {t("adminListingSources.fields.listingSourceType")}
+                    </Label>
+                    <Select
+                        value={listingSourceType.value || "all"}
+                        onValueChange={(value) =>
+                            listingSourceType.onChange(value === "all" ? "" : value)
+                        }
+                    >
+                        <SelectTrigger id="admin-listing-sources-type">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">
+                                {t("adminListingSources.filters.allTypes")}
+                            </SelectItem>
+                            {LISTING_SOURCE_TYPES.map((type) => (
+                                <SelectItem key={type} value={type}>
+                                    {t(`listingSourceTypes.${type}`)}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
                 <div className="grid gap-2">
                     <Label htmlFor="admin-listing-sources-method">
                         {t("adminListingSources.filters.ingestionMethod")}

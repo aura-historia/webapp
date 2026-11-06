@@ -14,6 +14,7 @@ import type {
     UpdateListingSourceDataWritable,
 } from "@/client";
 import { type Currency, toSupportedCurrency } from "@/data/internal/common/Currency.ts";
+import type { ListingSourceType } from "@/data/internal/listing-source/ListingSourceType.ts";
 
 export const ADMIN_LISTING_SOURCE_INGESTION_METHODS = [
     "WEB_CRAWL",
@@ -61,6 +62,8 @@ export type AdminListingSourceSummary = {
     readonly listingSourceId: string;
     readonly listingSourceSlugId: string;
     readonly name: string;
+    /** Primary sales model; descriptive only, independent of ingestion. */
+    readonly listingSourceType: ListingSourceType;
     readonly operator: {
         readonly partyId: string;
         readonly partySlugId: string;
@@ -94,6 +97,7 @@ export type AdminListingSourceFilters = {
     readonly listingSourceId?: string;
     readonly listingSourceSlugId?: string;
     readonly operatorPartyId?: string;
+    readonly listingSourceType?: ListingSourceType;
     readonly ingestionMethod?: ListingIngestionMethodData;
     readonly platformTechnology?: string;
     readonly sort?: AdminListingSourceSortField;
@@ -124,6 +128,7 @@ export function mapToAdminListingSourceSearchQuery(
     if (listingSourceId) query.listingSourceId = listingSourceId;
     if (listingSourceSlugId) query.listingSourceSlugId = listingSourceSlugId;
     if (operatorPartyId) query.operatorPartyId = operatorPartyId;
+    if (filters.listingSourceType) query.listingSourceType = filters.listingSourceType;
     if (filters.ingestionMethod) query.ingestionMethod = filters.ingestionMethod;
     const platformTechnology = normalizePlatformTechnology(filters.platformTechnology ?? "");
     if (platformTechnology) query.platformTechnology = platformTechnology;
@@ -159,6 +164,7 @@ export function mapToAdminListingSourceSummary(
         listingSourceId: data.listingSourceId,
         listingSourceSlugId: data.listingSourceSlugId,
         name: data.name,
+        listingSourceType: data.listingSourceType,
         operator: mapOperator(data.operator),
         ingestionMethods: data.ingestionMethods,
         ...(data.platformTechnology ? { platformTechnology: data.platformTechnology } : {}),
@@ -186,6 +192,7 @@ export function mapToAdminListingSourceDetail(data: ListingSourceData): AdminLis
         listingSourceId: data.listingSourceId,
         listingSourceSlugId: data.listingSourceSlugId,
         name: data.name,
+        listingSourceType: data.listingSourceType,
         operator: mapOperator(data.operator),
         ingestionMethods: data.ingestionMethods,
         ...(data.platformTechnology ? { platformTechnology: data.platformTechnology } : {}),
@@ -216,6 +223,7 @@ export type AdminListingSourceConfigurationFields = {
 
 export type AdminListingSourceCreateValues = {
     readonly name: string;
+    readonly listingSourceType: ListingSourceType;
     readonly operatorType: "EXISTING" | "NEW";
     readonly operatorPartyId: string;
     readonly operatorName: string;
@@ -240,6 +248,7 @@ export type AdminListingSourceUpdateConfigurationFields = {
 
 export type AdminListingSourceUpdateValues = {
     readonly name: string;
+    readonly listingSourceType: ListingSourceType;
     readonly platformTechnology: string;
     readonly url: string;
     readonly image: string;
@@ -327,6 +336,7 @@ export function buildCreateAdminListingSourceData(
     const platformTechnology = normalizePlatformTechnology(values.platformTechnology);
     return {
         name: values.name.trim(),
+        listingSourceType: values.listingSourceType,
         operator,
         ...(platformTechnology ? { platformTechnology } : {}),
         ingestionConfiguration: values.configurations.map(mapCreateConfiguration),
@@ -379,6 +389,9 @@ export function buildUpdateAdminListingSourceData(
     const image = values.image.trim();
     const platformTechnology = normalizePlatformTechnology(values.platformTechnology);
     if (name !== source.name) patch.name = name;
+    if (values.listingSourceType !== source.listingSourceType) {
+        patch.listingSourceType = values.listingSourceType;
+    }
     if (platformTechnology !== (source.platformTechnology ?? "")) {
         patch.platformTechnology = platformTechnology || null;
     }

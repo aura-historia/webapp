@@ -33,6 +33,7 @@ vi.mock("@tanstack/react-router", () => ({
 const KEY = "adminListingSources.locationDefault";
 const t = (key: string, options?: Record<string, unknown>) => testI18n.t(key, options);
 const source: AdminListingSourceDetail = {
+    listingSourceType: "DEALER",
     listingSourceId: "ls_1",
     listingSourceSlugId: "antique-house",
     name: "Antique House",

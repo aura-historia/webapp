@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import testI18n from "@/i18n/i18nForTests";
 import type { AdminListingSourceDetail } from "@/data/internal/listing-source/AdminListingSource.ts";
@@ -26,6 +27,7 @@ vi.mock("@/features/admin/party-management/components/AdminPartyPicker.tsx", () 
 }));
 
 const source: AdminListingSourceDetail = {
+    listingSourceType: "DEALER",
     listingSourceId: "ls_01SOURCE",
     listingSourceSlugId: "antique-house",
     name: "Antique House",
@@ -46,6 +48,12 @@ function renderDialog(props: { source?: AdminListingSourceDetail } = {}) {
             onUpdated={vi.fn()}
         />,
     );
+}
+
+function sourceTypeSelect() {
+    return screen.getByRole("combobox", {
+        name: testI18n.t("adminListingSources.fields.listingSourceType"),
+    });
 }
 
 describe("AdminListingSourceFormDialog", () => {
@@ -101,8 +109,66 @@ describe("AdminListingSourceFormDialog", () => {
         );
     });
 
-    it("creates a source with a normalized platform technology", async () => {
+    it("requires a source type before creating a source", async () => {
         renderDialog();
+        fireEvent.change(screen.getByLabelText(testI18n.t("adminListingSources.fields.name")), {
+            target: { value: "Antique House" },
+        });
+        fireEvent.click(screen.getByRole("button", { name: "Pick operator" }));
+        expect(sourceTypeSelect()).toHaveTextContent(
+            testI18n.t("adminListingSources.form.chooseListingSourceType"),
+        );
+        fireEvent.click(
+            screen.getByRole("button", {
+                name: testI18n.t("adminListingSources.actions.create"),
+            }),
+        );
+
+        expect(
+            await screen.findByText(
+                testI18n.t("adminListingSources.validation.listingSourceTypeRequired"),
+            ),
+        ).toBeInTheDocument();
+        expect(api.create.mutate).not.toHaveBeenCalled();
+    });
+
+    it("reclassifies a source in the edit form", async () => {
+        const user = userEvent.setup();
+        renderDialog({ source });
+        expect(sourceTypeSelect()).toHaveTextContent(testI18n.t("listingSourceTypes.DEALER"));
+
+        await user.click(sourceTypeSelect());
+        await user.click(
+            screen.getByRole("option", {
+                name: testI18n.t("listingSourceTypes.AUCTION_HOUSE"),
+            }),
+        );
+        await user.click(
+            screen.getByRole("button", {
+                name: testI18n.t("adminListingSources.actions.save"),
+            }),
+        );
+
+        await waitFor(() => expect(api.update.mutate).toHaveBeenCalledTimes(1));
+        expect(api.update.mutate).toHaveBeenCalledWith(
+            expect.objectContaining({
+                values: expect.objectContaining({
+                    listingSourceType: "AUCTION_HOUSE",
+                }),
+            }),
+            expect.any(Object),
+        );
+    });
+
+    it("creates a source with a normalized platform technology", async () => {
+        const user = userEvent.setup();
+        renderDialog();
+        await user.click(sourceTypeSelect());
+        await user.click(
+            screen.getByRole("option", {
+                name: testI18n.t("listingSourceTypes.MARKETPLACE"),
+            }),
+        );
         fireEvent.change(screen.getByLabelText(testI18n.t("adminListingSources.fields.name")), {
             target: { value: "Antique House" },
         });
@@ -119,6 +185,7 @@ describe("AdminListingSourceFormDialog", () => {
         expect(api.create.mutate).toHaveBeenCalledWith(
             expect.objectContaining({
                 name: "Antique House",
+                listingSourceType: "MARKETPLACE",
                 operatorPartyId: "party_01",
                 platformTechnology: "bigcommerce",
             }),

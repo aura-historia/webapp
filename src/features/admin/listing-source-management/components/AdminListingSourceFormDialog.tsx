@@ -36,6 +36,10 @@ import {
     isOptionalPlatformTechnology,
 } from "@/data/internal/listing-source/AdminListingSource.ts";
 import {
+    LISTING_SOURCE_TYPES,
+    type ListingSourceType,
+} from "@/data/internal/listing-source/ListingSourceType.ts";
+import {
     AdminListingSourceRequestError,
     useCreateAdminListingSource,
     useUpdateAdminListingSource,
@@ -64,6 +68,9 @@ const presentationUrlSchema = z.string().refine(isOptionalHttpUrl, {
 const platformTechnologySchema = z.string().refine(isOptionalPlatformTechnology, {
     message: "adminListingSources.validation.platformTechnology",
 });
+
+const LISTING_SOURCE_TYPE_REQUIRED_MESSAGE =
+    "adminListingSources.validation.listingSourceTypeRequired";
 
 const UNSUPPORTED_CURRENCY_MESSAGE = "adminListingSources.validation.unsupportedCurrency";
 
@@ -112,6 +119,10 @@ const createFormSchema = z
             .refine(fitsName, {
                 message: "adminListingSources.validation.nameTooLong",
             }),
+        // Starts unchosen so an administrator classifies every new source deliberately.
+        listingSourceType: z
+            .enum(["", ...LISTING_SOURCE_TYPES])
+            .refine((value) => value !== "", LISTING_SOURCE_TYPE_REQUIRED_MESSAGE),
         operatorType: z.enum(["EXISTING", "NEW"]),
         operatorPartyId: z.string(),
         operatorName: z.string(),
@@ -186,6 +197,7 @@ const updateFormSchema = z
             .refine(fitsName, {
                 message: "adminListingSources.validation.nameTooLong",
             }),
+        listingSourceType: z.enum(LISTING_SOURCE_TYPES),
         platformTechnology: platformTechnologySchema,
         url: presentationUrlSchema,
         image: presentationUrlSchema,
@@ -216,7 +228,8 @@ const updateFormSchema = z
         }
     });
 
-type CreateFormValues = z.infer<typeof createFormSchema>;
+type CreateFormValues = z.input<typeof createFormSchema>;
+type CreateFormData = z.output<typeof createFormSchema>;
 type UpdateFormValues = z.infer<typeof updateFormSchema>;
 
 export function AdminListingSourceFormDialog({
@@ -279,10 +292,11 @@ function CreateListingSourceForm({
     readonly mutation: ReturnType<typeof useCreateAdminListingSource>;
 }) {
     const { t } = useTranslation();
-    const form = useForm<CreateFormValues>({
+    const form = useForm<CreateFormValues, unknown, CreateFormData>({
         resolver: zodResolver(createFormSchema),
         defaultValues: {
             name: "",
+            listingSourceType: "",
             operatorType: "EXISTING",
             operatorPartyId: "",
             operatorName: "",
@@ -300,10 +314,14 @@ function CreateListingSourceForm({
         name: "configurations",
     });
     const operatorType = useController({ control: form.control, name: "operatorType" }).field;
+    const listingSourceType = useController({
+        control: form.control,
+        name: "listingSourceType",
+    }).field;
     const configurationError = form.formState.errors.configurations?.message;
     const [requestError, setRequestError] = useState<string>();
 
-    const submit = (values: CreateFormValues) => {
+    const submit = (values: CreateFormData) => {
         mutation.reset();
         setRequestError(undefined);
         mutation.mutate(values as AdminListingSourceCreateValues, {
@@ -427,6 +445,12 @@ function CreateListingSourceForm({
                         </div>
                     )}
                 </div>
+                <ListingSourceTypeField
+                    value={listingSourceType.value}
+                    onChange={listingSourceType.onChange}
+                    onBlur={listingSourceType.onBlur}
+                    error={form.formState.errors.listingSourceType?.message}
+                />
                 <PlatformTechnologyField
                     register={form.register}
                     error={form.formState.errors.platformTechnology?.message}
@@ -641,6 +665,7 @@ function UpdateListingSourceForm({
         resolver: zodResolver(updateFormSchema),
         defaultValues: {
             name: source.name,
+            listingSourceType: source.listingSourceType,
             platformTechnology: source.platformTechnology ?? "",
             url: source.presentation.url ?? "",
             image: source.presentation.image ?? "",
@@ -652,6 +677,10 @@ function UpdateListingSourceForm({
     });
     const { fields } = useFieldArray({ control: form.control, name: "configurations" });
     const referralAction = useController({ control: form.control, name: "referralAction" }).field;
+    const listingSourceType = useController({
+        control: form.control,
+        name: "listingSourceType",
+    }).field;
     const replaceConfiguration = useController({
         control: form.control,
         name: "replaceIngestionConfiguration",
@@ -714,6 +743,12 @@ function UpdateListingSourceForm({
                 >
                     <Input id="admin-listing-source-name" {...form.register("name")} />
                 </FormField>
+                <ListingSourceTypeField
+                    value={listingSourceType.value}
+                    onChange={listingSourceType.onChange}
+                    onBlur={listingSourceType.onBlur}
+                    error={form.formState.errors.listingSourceType?.message}
+                />
                 <PlatformTechnologyField
                     register={form.register}
                     error={form.formState.errors.platformTechnology?.message}
@@ -917,6 +952,60 @@ function UpdateConfigurationEditor({
                 </p>
             )}
         </div>
+    );
+}
+
+function ListingSourceTypeField({
+    value,
+    onChange,
+    onBlur,
+    error,
+}: {
+    readonly value: ListingSourceType | "";
+    readonly onChange: (value: ListingSourceType) => void;
+    readonly onBlur: () => void;
+    readonly error?: string;
+}) {
+    const { t } = useTranslation();
+    return (
+        <FormField
+            id="admin-listing-source-type"
+            label={t("adminListingSources.fields.listingSourceType")}
+            error={error}
+        >
+            <Select
+                value={value}
+                onValueChange={(next) => onChange(next as ListingSourceType)}
+                onOpenChange={(open) => {
+                    if (!open) onBlur();
+                }}
+            >
+                <SelectTrigger
+                    id="admin-listing-source-type"
+                    aria-required="true"
+                    aria-invalid={Boolean(error)}
+                    aria-describedby={
+                        error
+                            ? "admin-listing-source-type-description admin-listing-source-type-error"
+                            : "admin-listing-source-type-description"
+                    }
+                >
+                    <SelectValue
+                        placeholder={t("adminListingSources.form.chooseListingSourceType")}
+                    />
+                </SelectTrigger>
+                <SelectContent>
+                    {LISTING_SOURCE_TYPES.map((type) => (
+                        <SelectItem key={type} value={type}>
+                            {t(`listingSourceTypes.${type}`)}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+            <p id="admin-listing-source-type-description" className="text-xs text-muted-foreground">
+                {t("adminListingSources.form.listingSourceTypeDescription")}
+            </p>
+        </FormField>
     );
 }
 

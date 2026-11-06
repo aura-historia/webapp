@@ -12,6 +12,12 @@ vi.mock("@/features/landing/hooks/usePublicOverview.ts", () => ({
 const overview = {
     asOf: new Date("2026-10-21T15:00:00Z"),
     sourcesIndexed: 1240,
+    sourcesIndexedByType: {
+        dealers: 1180,
+        auctionHouses: 42,
+        marketplaces: 12,
+        auctionPlatforms: 6,
+    },
     liveObjects: 182450,
     countries: 18,
     languages: 9,
@@ -35,29 +41,58 @@ describe("HeroStats", () => {
         mockUsePublicOverview.mockReset();
     });
 
-    it("lists the four catalogue figures, exactly and in the page language", async () => {
+    it("lists sources by type, live objects and countries, exactly and in the page language", async () => {
+        mockUsePublicOverview.mockReturnValue({ data: overview, isPending: false });
+        const container = await renderStats();
+
+        expect(figureFor("Händler")).toHaveTextContent("1.180");
+        expect(figureFor("Auktions\u00adhäuser")).toHaveTextContent("42");
+        expect(figureFor("Auktions\u00adplattformen")).toHaveTextContent("6");
+        expect(figureFor("Marktplätze")).toHaveTextContent("12");
+        expect(figureFor("Aktive Objekte")).toHaveTextContent("182.450");
+        expect(figureFor("Länder")).toHaveTextContent("18");
+        expect(Array.from(container.querySelectorAll("dt"), (term) => term.textContent)).toEqual([
+            "Händler",
+            "Auktions\u00adhäuser",
+            "Auktions\u00adplattformen",
+            "Marktplätze",
+            "Aktive Objekte",
+            "Länder",
+        ]);
+    });
+
+    it("no longer shows the total of sources or the languages", async () => {
         mockUsePublicOverview.mockReturnValue({ data: overview, isPending: false });
         await renderStats();
 
-        expect(figureFor("Erfasste Quellen")).toHaveTextContent("1.240");
-        expect(figureFor("Aktive Objekte")).toHaveTextContent("182.450");
-        expect(figureFor("Länder")).toHaveTextContent("18");
-        expect(figureFor("Erkannte Sprachen")).toHaveTextContent("9");
-        expect(screen.getByText("Sprachen")).toBeInTheDocument();
+        expect(screen.queryByText("1.240")).toBeNull();
+        expect(screen.queryByText(/Sprache/)).toBeNull();
+        expect(screen.queryByText(/Quelle/)).toBeNull();
     });
 
     it("uses the singular label for a figure of one", async () => {
         mockUsePublicOverview.mockReturnValue({
-            data: { ...overview, sourcesIndexed: 1, liveObjects: 1, countries: 1, languages: 1 },
+            data: {
+                ...overview,
+                sourcesIndexedByType: {
+                    dealers: 1,
+                    auctionHouses: 1,
+                    marketplaces: 1,
+                    auctionPlatforms: 1,
+                },
+                liveObjects: 1,
+                countries: 1,
+            },
             isPending: false,
         });
         await renderStats();
 
-        expect(figureFor("Erfasste Quelle")).toHaveTextContent("1");
+        expect(figureFor("Händler")).toHaveTextContent("1");
+        expect(figureFor("Auktionshaus")).toHaveTextContent("1");
+        expect(figureFor("Auktions\u00adplattform")).toHaveTextContent("1");
+        expect(figureFor("Marktplatz")).toHaveTextContent("1");
         expect(figureFor("Aktives Objekt")).toHaveTextContent("1");
         expect(figureFor("Land")).toHaveTextContent("1");
-        expect(figureFor("Erkannte Sprache")).toHaveTextContent("1");
-        expect(screen.getByText("Sprache")).toBeInTheDocument();
     });
 
     it("shortens live objects from a million", async () => {

@@ -888,16 +888,18 @@
       "searchLabel": "Rechercher sur le marché mondial",
       "searchSubmit": "Rechercher sur le marché",
       "stats": {
-        "sourcesIndexed_one": "Source indexée",
-        "sourcesIndexed_other": "Sources indexées",
+        "dealers_one": "Marchand",
+        "dealers_other": "Marchands",
+        "auctionHouses_one": "Maison de ventes",
+        "auctionHouses_other": "Maisons de ventes",
+        "auctionPlatforms_one": "Plateforme d’enchères",
+        "auctionPlatforms_other": "Plateformes d’enchères",
+        "marketplaces_one": "Place de marché",
+        "marketplaces_other": "Places de marché",
         "liveObjects_one": "Objet actif",
         "liveObjects_other": "Objets actifs",
         "countries_one": "Pays",
-        "countries_other": "Pays",
-        "languages_one": "Langue comprise",
-        "languages_other": "Langues comprises",
-        "languagesShort_one": "Langue",
-        "languagesShort_other": "Langues"
+        "countries_other": "Pays"
       }
     },
     "latest": {
@@ -1994,6 +1996,7 @@
       "listingSourceId": "ID de la source",
       "listingSourceSlugId": "Slug immuable",
       "operatorPartyId": "ID de l’organisation opératrice",
+      "allTypes": "Tous les types",
       "ingestionMethod": "Méthode d’ingestion",
       "allMethods": "Toutes les méthodes",
       "sort": "Trier par",
@@ -2024,6 +2027,7 @@
       "listingSourceId": "ID de la source",
       "immutableSlug": "Slug immuable",
       "name": "Nom de la source",
+      "listingSourceType": "Type de source",
       "operator": "Organisation opératrice",
       "operatorPartyId": "ID de l’organisation opératrice",
       "operatorName": "Nom du nouvel opérateur",
@@ -2081,6 +2085,8 @@
       "editDescription": "Modifiez les informations de la source. L’opérateur et le slug sont immuables.",
       "configurationDescription": "Facultatif : ajoutez maintenant les méthodes d’ingestion configurées ou laissez la liste vide pour les configurer plus tard.",
       "referralDescription": "Informations Partnerize facultatives. Aucun identifiant fournisseur n’est stocké ici.",
+      "chooseListingSourceType": "Choisissez un type de source",
+      "listingSourceTypeDescription": "Le modèle de vente principal de la source. La boutique propre d’un vendeur sur une place de marché est classée selon ce vendeur, généralement comme marchand. Le type décrit seulement la source : l’importation, les annonces et les enchères ne changent pas.",
       "platformTechnologyDescription": "Code facultatif en lettres majuscules, chiffres et tirets bas, par exemple SHOPIFY ou BIGCOMMERCE. Il décrit seulement le logiciel de boutique : il n’active pas l’ingestion et n’implique ni application installée ni partenariat. Laissez-le vide pour n’enregistrer aucune plateforme.",
       "replaceConfiguration": "Remplacer la configuration d’ingestion",
       "incompleteConfigurationNotice": "L’API de lecture ne renvoie pas les valeurs de configuration. Laissez cette option désactivée pour conserver les réglages actuels. Son activation remplace ceux de chaque méthode active.",
@@ -2119,6 +2125,7 @@
     "validation": {
       "nameRequired": "Saisissez un nom de source.",
       "nameTooLong": "Le nom de la source ne peut pas dépasser 255 octets UTF-8.",
+      "listingSourceTypeRequired": "Choisissez un type de source.",
       "invalidEmail": "Saisissez une adresse e-mail valide.",
       "invalidUrl": "Saisissez une URL HTTP ou HTTPS valide.",
       "operatorRequired": "Sélectionnez une organisation opératrice.",
@@ -2230,6 +2237,18 @@
         "unavailable": "Les sites par défaut sont temporairement indisponibles. Veuillez réessayer dans quelques instants.",
         "requestFailed": "La demande n’a pas pu aboutir. Veuillez réessayer."
       }
+    }
+  },
+  "listingSourceTypes": {
+    "DEALER": "Marchand",
+    "AUCTION_HOUSE": "Maison de ventes",
+    "MARKETPLACE": "Place de marché",
+    "AUCTION_PLATFORM": "Plateforme d’enchères",
+    "descriptions": {
+      "DEALER": "Vend ses propres objets ou des objets en dépôt à prix fixe.",
+      "AUCTION_HOUSE": "Vend ses propres objets ou des objets en dépôt aux enchères.",
+      "MARKETPLACE": "Accueille d’autres vendeurs à prix fixe.",
+      "AUCTION_PLATFORM": "Accueille les enchères d’autres vendeurs."
     }
   },
   "adminPartnerships": {
@@ -2793,6 +2812,8 @@
       "partyPhone": "Téléphone (facultatif)",
       "partyEmail": "E-mail (facultatif)",
       "sourceName": "Nom du fournisseur",
+      "listingSourceType": "Type de fournisseur",
+      "listingSourceTypeRequired": "Choisissez le type de fournisseur.",
       "sourceUrl": "URL du fournisseur (facultatif)",
       "sourceImage": "URL de l’image (facultatif)",
       "methods": "Méthodes d’importation demandées",
@@ -2881,6 +2902,7 @@
       "partyPhone": "Téléphone",
       "partyEmail": "E-mail",
       "sourceName": "Nom du fournisseur",
+      "listingSourceType": "Type de fournisseur",
       "sourceUrl": "URL du fournisseur",
       "sourceImage": "URL de l’image",
       "methods": "Méthodes d’import demandées"
