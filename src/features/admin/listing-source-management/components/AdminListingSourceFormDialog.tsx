@@ -984,6 +984,11 @@ function ListingSourceTypeField({
                     id="admin-listing-source-type"
                     aria-required="true"
                     aria-invalid={Boolean(error)}
+                    aria-describedby={
+                        error
+                            ? "admin-listing-source-type-description admin-listing-source-type-error"
+                            : "admin-listing-source-type-description"
+                    }
                 >
                     <SelectValue
                         placeholder={t("adminListingSources.form.chooseListingSourceType")}
@@ -997,7 +1002,7 @@ function ListingSourceTypeField({
                     ))}
                 </SelectContent>
             </Select>
-            <p className="text-xs text-muted-foreground">
+            <p id="admin-listing-source-type-description" className="text-xs text-muted-foreground">
                 {t("adminListingSources.form.listingSourceTypeDescription")}
             </p>
         </FormField>

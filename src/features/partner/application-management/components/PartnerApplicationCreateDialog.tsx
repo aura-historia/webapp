@@ -181,18 +181,11 @@ export function PartnerApplicationCreateDialog({
                                         </p>
                                     </div>
                                 ))}
-                                <fieldset
-                                    className="grid gap-2"
-                                    aria-describedby={
-                                        listingSourceTypeError
-                                            ? "application-listing-source-type-error"
-                                            : undefined
-                                    }
-                                >
+                                <fieldset className="grid gap-2">
                                     <legend className="mb-2 text-sm font-medium leading-none">
                                         {t("partnerApplications.proposals.listingSourceType")}
                                     </legend>
-                                    {LISTING_SOURCE_TYPES.map((sourceType) => (
+                                    {LISTING_SOURCE_TYPES.map((sourceType, index) => (
                                         <div
                                             key={sourceType}
                                             className="flex items-start gap-3 border p-3"
@@ -205,7 +198,20 @@ export function PartnerApplicationCreateDialog({
                                                 name={listingSourceTypeField.name}
                                                 value={sourceType}
                                                 className="mt-1 size-4 accent-primary"
-                                                aria-describedby={`application-listing-source-type-${sourceType}-description`}
+                                                // The first option takes focus when submitting without a choice.
+                                                ref={
+                                                    index === 0
+                                                        ? listingSourceTypeField.ref
+                                                        : undefined
+                                                }
+                                                aria-describedby={[
+                                                    `application-listing-source-type-${sourceType}-description`,
+                                                    listingSourceTypeError
+                                                        ? "application-listing-source-type-error"
+                                                        : "",
+                                                ]
+                                                    .join(" ")
+                                                    .trim()}
                                                 checked={
                                                     listingSourceTypeField.value === sourceType
                                                 }
@@ -234,6 +240,7 @@ export function PartnerApplicationCreateDialog({
                                     ))}
                                     <p
                                         id="application-listing-source-type-error"
+                                        role="alert"
                                         className="text-sm text-destructive"
                                     >
                                         {listingSourceTypeError}

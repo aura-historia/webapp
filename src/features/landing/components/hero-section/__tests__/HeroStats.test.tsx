@@ -46,14 +46,14 @@ describe("HeroStats", () => {
         const container = await renderStats();
 
         expect(figureFor("Händler")).toHaveTextContent("1.180");
-        expect(figureFor("Auktionshäuser")).toHaveTextContent("42");
+        expect(figureFor("Auktions\u00adhäuser")).toHaveTextContent("42");
         expect(figureFor("Auktions\u00adplattformen")).toHaveTextContent("6");
         expect(figureFor("Marktplätze")).toHaveTextContent("12");
         expect(figureFor("Aktive Objekte")).toHaveTextContent("182.450");
         expect(figureFor("Länder")).toHaveTextContent("18");
         expect(Array.from(container.querySelectorAll("dt"), (term) => term.textContent)).toEqual([
             "Händler",
-            "Auktionshäuser",
+            "Auktions\u00adhäuser",
             "Auktions\u00adplattformen",
             "Marktplätze",
             "Aktive Objekte",
