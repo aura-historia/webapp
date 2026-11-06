@@ -19,6 +19,7 @@ const summaryDto: ListingSourceSearchSummaryData = {
     listingSourceId: "ls_01SOURCE",
     listingSourceSlugId: "antique-house",
     name: "Antique House",
+    listingSourceType: "DEALER",
     operator: { partyId: "party_01", partySlugId: "antique-house", name: "Antique House Ltd" },
     ingestionMethods: ["WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE", "PARTNER_API"],
     presentation: { url: "https://antique.example", image: "https://antique.example/image.jpg" },
@@ -31,6 +32,7 @@ const detailDto: ListingSourceData = {
     listingSourceId: "ls_01SOURCE",
     listingSourceSlugId: "antique-house",
     name: "Antique House",
+    listingSourceType: "DEALER",
     operator: { partyId: "party_01", partySlugId: "antique-house", name: "Antique House Ltd" },
     ingestionMethods: ["WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE", "PARTNER_API"],
     url: "https://antique.example",
@@ -51,6 +53,7 @@ describe("admin ListingSource mapping and request builders", () => {
                     listingSourceId: " ls_01SOURCE ",
                     listingSourceSlugId: " antique-house ",
                     operatorPartyId: " party_01 ",
+                    listingSourceType: "AUCTION_HOUSE",
                     ingestionMethod: "SHOPIFY",
                     platformTechnology: " bigcommerce ",
                     sort: "updated",
@@ -65,6 +68,7 @@ describe("admin ListingSource mapping and request builders", () => {
             listingSourceId: "ls_01SOURCE",
             listingSourceSlugId: "antique-house",
             operatorPartyId: "party_01",
+            listingSourceType: "AUCTION_HOUSE",
             ingestionMethod: "SHOPIFY",
             platformTechnology: "BIGCOMMERCE",
             sort: "updated",
@@ -176,10 +180,12 @@ describe("admin ListingSource mapping and request builders", () => {
             url: " https://source.example ",
             image: " ",
             platformTechnology: " bigcommerce ",
+            listingSourceType: "DEALER" as const,
             partnerizeCamref: " ref-01 ",
         };
         expect(buildCreateAdminListingSourceData(base)).toEqual({
             name: "Source",
+            listingSourceType: "DEALER",
             operator: {
                 type: "NEW",
                 name: "New Operator",
@@ -218,10 +224,12 @@ describe("admin ListingSource mapping and request builders", () => {
                 url: "",
                 image: "",
                 platformTechnology: "",
+                listingSourceType: "DEALER" as const,
                 partnerizeCamref: "",
             }),
         ).toEqual({
             name: "Empty Source",
+            listingSourceType: "DEALER",
             operator: { type: "EXISTING", partyId: "party_02" },
             ingestionConfiguration: [],
         });
@@ -234,6 +242,7 @@ describe("admin ListingSource mapping and request builders", () => {
             image: "",
             referralAction: "KEEP" as const,
             platformTechnology: "",
+            listingSourceType: "DEALER" as const,
             partnerizeCamref: "",
             replaceIngestionConfiguration: false,
             configurations: defaultUpdateConfigurations(detail.ingestionMethods),
@@ -265,6 +274,32 @@ describe("admin ListingSource mapping and request builders", () => {
         ).not.toContain("webhookSecret");
     });
 
+    it("maps the source type and sends it on update only when reclassified", () => {
+        expect(detail.listingSourceType).toBe("DEALER");
+        expect(
+            mapToAdminListingSourcePage({ items: [summaryDto], size: 1 }).items[0],
+        ).toHaveProperty("listingSourceType", "DEALER");
+        const values = {
+            name: detail.name,
+            listingSourceType: "DEALER" as const,
+            platformTechnology: "",
+            url: detail.presentation.url ?? "",
+            image: detail.presentation.image ?? "",
+            referralAction: "KEEP" as const,
+            partnerizeCamref: "",
+            replaceIngestionConfiguration: false,
+            configurations: defaultUpdateConfigurations(detail.ingestionMethods),
+        };
+
+        expect(buildUpdateAdminListingSourceData(detail, values)).toEqual({});
+        expect(
+            buildUpdateAdminListingSourceData(detail, {
+                ...values,
+                listingSourceType: "AUCTION_PLATFORM",
+            }),
+        ).toEqual({ listingSourceType: "AUCTION_PLATFORM" });
+    });
+
     it("preserves, replaces or clears the platform technology on update", () => {
         const recorded = { ...detail, platformTechnology: "SHOPIFY" };
         const values = {
@@ -273,6 +308,7 @@ describe("admin ListingSource mapping and request builders", () => {
             url: recorded.presentation.url ?? "",
             image: recorded.presentation.image ?? "",
             referralAction: "KEEP" as const,
+            listingSourceType: "DEALER" as const,
             partnerizeCamref: "",
             replaceIngestionConfiguration: false,
             configurations: defaultUpdateConfigurations(recorded.ingestionMethods),
@@ -300,6 +336,7 @@ describe("admin ListingSource mapping and request builders", () => {
             image: "",
             referralAction: "CLEAR" as const,
             platformTechnology: "",
+            listingSourceType: "DEALER" as const,
             partnerizeCamref: "",
             replaceIngestionConfiguration: false,
             configurations: defaultUpdateConfigurations(detail.ingestionMethods),
@@ -326,6 +363,7 @@ describe("admin ListingSource mapping and request builders", () => {
                 image: detail.presentation.image ?? "",
                 referralAction: "KEEP",
                 platformTechnology: "",
+                listingSourceType: "DEALER" as const,
                 partnerizeCamref: "",
                 replaceIngestionConfiguration: true,
                 configurations: defaultUpdateConfigurations(["SHOPIFY"]),
@@ -356,6 +394,7 @@ describe("admin ListingSource mapping and request builders", () => {
             url: "",
             image: "",
             platformTechnology: "",
+            listingSourceType: "DEALER" as const,
             partnerizeCamref: "",
         };
         const allMethods = ["WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE"] as const;
@@ -398,6 +437,7 @@ describe("admin ListingSource mapping and request builders", () => {
                 image: "",
                 referralAction: "KEEP" as const,
                 platformTechnology: "",
+                listingSourceType: "DEALER" as const,
                 partnerizeCamref: "",
                 replaceIngestionConfiguration: true,
                 configurations: [

@@ -888,16 +888,18 @@
       "searchLabel": "Cerca nel mercato mondiale",
       "searchSubmit": "Cerca nel mercato",
       "stats": {
-        "sourcesIndexed_one": "Fonte indicizzata",
-        "sourcesIndexed_other": "Fonti indicizzate",
+        "dealers_one": "Commerciante",
+        "dealers_other": "Commercianti",
+        "auctionHouses_one": "Casa d’asta",
+        "auctionHouses_other": "Case d’asta",
+        "auctionPlatforms_one": "Piattaforma d’aste",
+        "auctionPlatforms_other": "Piattaforme d’aste",
+        "marketplaces_one": "Marketplace",
+        "marketplaces_other": "Marketplace",
         "liveObjects_one": "Oggetto attivo",
         "liveObjects_other": "Oggetti attivi",
         "countries_one": "Paese",
-        "countries_other": "Paesi",
-        "languages_one": "Lingua compresa",
-        "languages_other": "Lingue comprese",
-        "languagesShort_one": "Lingua",
-        "languagesShort_other": "Lingue"
+        "countries_other": "Paesi"
       }
     },
     "latest": {
@@ -1994,6 +1996,7 @@
       "listingSourceId": "ID della fonte",
       "listingSourceSlugId": "Slug immutabile",
       "operatorPartyId": "ID dell’organizzazione operatrice",
+      "allTypes": "Tutti i tipi",
       "ingestionMethod": "Metodo di acquisizione",
       "allMethods": "Tutti i metodi",
       "sort": "Ordina per",
@@ -2024,6 +2027,7 @@
       "listingSourceId": "ID della fonte",
       "immutableSlug": "Slug immutabile",
       "name": "Nome della fonte",
+      "listingSourceType": "Tipo di fonte",
       "operator": "Organizzazione operatrice",
       "operatorPartyId": "ID dell’organizzazione operatrice",
       "operatorName": "Nome del nuovo operatore",
@@ -2081,6 +2085,8 @@
       "editDescription": "Modifica i dati della fonte. Operatore e slug sono immutabili.",
       "configurationDescription": "Facoltativo: aggiungi ora i metodi di acquisizione configurati oppure lascia la lista vuota per configurarli in seguito.",
       "referralDescription": "Dati referral Partnerize facoltativi. Qui non vengono salvate credenziali del fornitore.",
+      "chooseListingSourceType": "Scegli un tipo di fonte",
+      "listingSourceTypeDescription": "Il modello di vendita principale della fonte. Il negozio proprio di un venditore su un marketplace si classifica in base a quel venditore, di solito come commerciante. Descrive soltanto la fonte: importazione, annunci e aste non cambiano.",
       "platformTechnologyDescription": "Codice facoltativo in lettere maiuscole, cifre e trattini bassi, ad esempio SHOPIFY o BIGCOMMERCE. Descrive solo il software del negozio: non attiva l’acquisizione e non implica un’app installata né una partnership. Lascialo vuoto per non registrare alcuna piattaforma.",
       "replaceConfiguration": "Sostituisci la configurazione di acquisizione",
       "incompleteConfigurationNotice": "L’API di lettura non restituisce i valori di configurazione. Lascia l’opzione disattivata per mantenere le impostazioni attuali. Attivandola sostituirai le impostazioni di tutti i metodi attivi.",
@@ -2119,6 +2125,7 @@
     "validation": {
       "nameRequired": "Inserisci il nome della fonte.",
       "nameTooLong": "Il nome della fonte non può superare 255 byte UTF-8.",
+      "listingSourceTypeRequired": "Scegli un tipo di fonte.",
       "invalidEmail": "Inserisci un indirizzo e-mail valido.",
       "invalidUrl": "Inserisci un URL HTTP o HTTPS valido.",
       "operatorRequired": "Seleziona un’organizzazione operatrice.",
@@ -2230,6 +2237,18 @@
         "unavailable": "Le sedi predefinite non sono temporaneamente disponibili. Riprova a breve.",
         "requestFailed": "Non è stato possibile completare la richiesta. Riprova."
       }
+    }
+  },
+  "listingSourceTypes": {
+    "DEALER": "Commerciante",
+    "AUCTION_HOUSE": "Casa d’asta",
+    "MARKETPLACE": "Marketplace",
+    "AUCTION_PLATFORM": "Piattaforma d’aste",
+    "descriptions": {
+      "DEALER": "Vende oggetti propri o in conto vendita a prezzo fisso.",
+      "AUCTION_HOUSE": "Vende oggetti propri o in conto vendita all’asta.",
+      "MARKETPLACE": "Ospita altri venditori a prezzo fisso.",
+      "AUCTION_PLATFORM": "Ospita le aste di altri venditori."
     }
   },
   "adminPartnerships": {
@@ -2793,6 +2812,8 @@
       "partyPhone": "Telefono (facoltativo)",
       "partyEmail": "E-mail (facoltativa)",
       "sourceName": "Nome del fornitore",
+      "listingSourceType": "Tipo di fornitore",
+      "listingSourceTypeRequired": "Scegli il tipo di fornitore.",
       "sourceUrl": "URL del fornitore (facoltativo)",
       "sourceImage": "URL dell’immagine (facoltativo)",
       "methods": "Metodi di importazione richiesti",
@@ -2881,6 +2902,7 @@
       "partyPhone": "Telefono",
       "partyEmail": "E-mail",
       "sourceName": "Nome del fornitore",
+      "listingSourceType": "Tipo di fornitore",
       "sourceUrl": "URL del fornitore",
       "sourceImage": "URL dell’immagine",
       "methods": "Metodi di importazione richiesti"

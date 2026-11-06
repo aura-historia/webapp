@@ -27,6 +27,8 @@ Route: `/$lng/admin/partnership-applications`.
 - A 409 shows a conflict and refetches detail and list; a 404 shows an unavailable application.
   Successful transitions store the returned detail and invalidate the application list plus
   `["admin", "overview"]`, `["admin", "partnerships"]` and `["admin", "listing-sources"]`.
+- A proposed source shows the applicant's `listingSourceType`. Approval creates the source with
+  that type; correct it afterwards in listing-source management.
 - Approved listing-source IDs link to listing-source management. Approval does not create a
   partnership membership or source grant; those are managed below.
 

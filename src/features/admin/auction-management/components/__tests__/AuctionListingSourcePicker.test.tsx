@@ -12,6 +12,7 @@ vi.mock("../../api/useAdminAuctions.ts", () => ({
 const t = (key: string, options?: Record<string, unknown>) => testI18n.t(key, options);
 
 const source: AdminListingSourceSummary = {
+    listingSourceType: "DEALER",
     listingSourceId: "ls_6rd827eqfefsva9teecmwa3ate",
     listingSourceSlugId: "spring-sales",
     name: "Spring Sales",

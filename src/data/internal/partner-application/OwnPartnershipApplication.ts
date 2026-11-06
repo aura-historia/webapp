@@ -3,6 +3,7 @@ import type {
     PublicListingSourceData,
     SubmitPartnershipApplicationData,
 } from "@/client";
+import type { ListingSourceType } from "@/data/internal/listing-source/ListingSourceType.ts";
 
 export const PARTNER_APPLICATION_STATES = [
     "SUBMITTED",
@@ -15,7 +16,10 @@ export type PartnerApplicationState = (typeof PARTNER_APPLICATION_STATES)[number
 export const INGESTION_METHODS = ["WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE", "PARTNER_API"] as const;
 export type IngestionMethod = (typeof INGESTION_METHODS)[number];
 export type PartnershipProposal =
-    | { readonly type: "EXISTING_LISTING_SOURCE"; readonly listingSourceId: string }
+    | {
+          readonly type: "EXISTING_LISTING_SOURCE";
+          readonly listingSourceId: string;
+      }
     | {
           readonly type: "PROPOSED_LISTING_SOURCE";
           readonly party: {
@@ -25,6 +29,8 @@ export type PartnershipProposal =
           };
           readonly listingSource: {
               readonly name: string;
+              /** The applicant's classification; approval creates the source with it. */
+              readonly listingSourceType: ListingSourceType;
               readonly url?: string;
               readonly image?: string;
               readonly requestedIngestionMethods: readonly IngestionMethod[];
@@ -53,6 +59,7 @@ export function copyProposal(proposal: PartnershipProposal): PartnershipProposal
         },
         listingSource: {
             name: proposal.listingSource.name,
+            listingSourceType: proposal.listingSource.listingSourceType,
             ...(proposal.listingSource.url ? { url: proposal.listingSource.url } : {}),
             ...(proposal.listingSource.image ? { image: proposal.listingSource.image } : {}),
             requestedIngestionMethods: [...proposal.listingSource.requestedIngestionMethods],

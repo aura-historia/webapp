@@ -888,16 +888,18 @@
       "searchLabel": "Search the global market",
       "searchSubmit": "Search the market",
       "stats": {
-        "sourcesIndexed_one": "Source indexed",
-        "sourcesIndexed_other": "Sources indexed",
+        "dealers_one": "Dealer",
+        "dealers_other": "Dealers",
+        "auctionHouses_one": "Auction house",
+        "auctionHouses_other": "Auction houses",
+        "auctionPlatforms_one": "Auction platform",
+        "auctionPlatforms_other": "Auction platforms",
+        "marketplaces_one": "Marketplace",
+        "marketplaces_other": "Marketplaces",
         "liveObjects_one": "Live object",
         "liveObjects_other": "Live objects",
         "countries_one": "Country",
-        "countries_other": "Countries",
-        "languages_one": "Language understood",
-        "languages_other": "Languages understood",
-        "languagesShort_one": "Language",
-        "languagesShort_other": "Languages"
+        "countries_other": "Countries"
       }
     },
     "latest": {
@@ -2373,6 +2375,8 @@
       "partyPhone": "Phone (optional)",
       "partyEmail": "Email (optional)",
       "sourceName": "Provider name",
+      "listingSourceType": "Provider type",
+      "listingSourceTypeRequired": "Choose the provider type.",
       "sourceUrl": "Provider URL (optional)",
       "sourceImage": "Image URL (optional)",
       "methods": "Requested ingestion methods",
@@ -2461,6 +2465,7 @@
       "partyPhone": "Phone",
       "partyEmail": "Email",
       "sourceName": "Provider name",
+      "listingSourceType": "Provider type",
       "sourceUrl": "Provider URL",
       "sourceImage": "Image URL",
       "methods": "Requested ingestion methods"
@@ -2654,6 +2659,7 @@
       "listingSourceId": "Listing source ID",
       "listingSourceSlugId": "Immutable slug",
       "operatorPartyId": "Operator organization ID",
+      "allTypes": "All types",
       "ingestionMethod": "Ingestion method",
       "allMethods": "All methods",
       "sort": "Sort by",
@@ -2684,6 +2690,7 @@
       "listingSourceId": "Listing source ID",
       "immutableSlug": "Immutable slug",
       "name": "Source name",
+      "listingSourceType": "Source type",
       "operator": "Operator organization",
       "operatorPartyId": "Operator organization ID",
       "operatorName": "New operator name",
@@ -2741,6 +2748,8 @@
       "editDescription": "Change source details. The operator and source slug are immutable.",
       "configurationDescription": "Optional: add configured ingestion methods now, or leave this empty and configure them later.",
       "referralDescription": "Optional Partnerize referral information. No provider credentials are stored here.",
+      "chooseListingSourceType": "Choose a source type",
+      "listingSourceTypeDescription": "The source’s primary sales model. A seller’s own storefront on a marketplace is classified by that seller, usually as a dealer. It only describes the source: ingestion, listings and auctions are unaffected.",
       "platformTechnologyDescription": "Optional code in capital letters, digits and underscores, such as SHOPIFY or BIGCOMMERCE. It only describes the shop software: it does not enable ingestion or imply an installed app or partnership. Leave it empty to record no platform.",
       "replaceConfiguration": "Replace ingestion configuration",
       "incompleteConfigurationNotice": "The read API does not return configuration values. Leave this off to preserve the current settings. Turning it on replaces settings for every active ingestion method.",
@@ -2779,6 +2788,7 @@
     "validation": {
       "nameRequired": "Enter a source name.",
       "nameTooLong": "The source name must be 255 UTF-8 bytes or fewer.",
+      "listingSourceTypeRequired": "Choose a source type.",
       "invalidEmail": "Enter a valid email address.",
       "invalidUrl": "Enter a valid HTTP or HTTPS URL.",
       "operatorRequired": "Select an operator organization.",
@@ -2890,6 +2900,18 @@
         "unavailable": "Default locations are temporarily unavailable. Please try again shortly.",
         "requestFailed": "The request could not be completed. Please try again."
       }
+    }
+  },
+  "listingSourceTypes": {
+    "DEALER": "Dealer",
+    "AUCTION_HOUSE": "Auction house",
+    "MARKETPLACE": "Marketplace",
+    "AUCTION_PLATFORM": "Auction platform",
+    "descriptions": {
+      "DEALER": "Sells its own or consigned objects at fixed prices.",
+      "AUCTION_HOUSE": "Sells its own or consigned objects at auction.",
+      "MARKETPLACE": "Hosts other sellers at fixed prices.",
+      "AUCTION_PLATFORM": "Hosts other sellers’ auctions."
     }
   },
   "adminPartnerships": {

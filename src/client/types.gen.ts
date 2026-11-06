@@ -3438,6 +3438,7 @@ export type PublicOverviewData = {
    * Distinct ListingSources represented by at least one counted live listing.
    */
   sourcesIndexed: number;
+  sourcesIndexedByType: SourcesIndexedByTypeData;
   /**
    * ProductListings with lifecycle `ACTIVE`, including sold-out and unspecified availability.
    */
@@ -3454,6 +3455,30 @@ export type PublicOverviewData = {
    * Counted listings created in the 168 hours ending at `asOf`.
    */
   newObjectsLast7Days: number;
+};
+
+/**
+ * `sourcesIndexed` split by ListingSource type, counted by the same rule and in the same
+ * calculation. Every key is always present and the values sum to `sourcesIndexed`.
+ *
+ */
+export type SourcesIndexedByTypeData = {
+  /**
+   * Counted `DEALER` ListingSources.
+   */
+  dealers: number;
+  /**
+   * Counted `AUCTION_HOUSE` ListingSources.
+   */
+  auctionHouses: number;
+  /**
+   * Counted `MARKETPLACE` ListingSources.
+   */
+  marketplaces: number;
+  /**
+   * Counted `AUCTION_PLATFORM` ListingSources.
+   */
+  auctionPlatforms: number;
 };
 
 /**
@@ -3751,6 +3776,17 @@ export type PublicListingSourceSearchCollectionData = {
  */
 export type PlatformTechnology = string;
 
+/**
+ * Primary sales model of a ListingSource, curated by administrators. `DEALER` sells its
+ * operator's own or consigned inventory at fixed prices and `AUCTION_HOUSE` by auction;
+ * `MARKETPLACE` hosts other sellers at fixed prices and `AUCTION_PLATFORM` by auction. A
+ * seller's storefront on a marketplace is classified by that seller, usually `DEALER`.
+ * Descriptive only: it does not affect ingestion, listing validation or Auction facts. The set
+ * is closed; a new type is an announced contract change.
+ *
+ */
+export type ListingSourceType = 'DEALER' | 'AUCTION_HOUSE' | 'MARKETPLACE' | 'AUCTION_PLATFORM';
+
 export type ListingSourceData = {
   listingSourceId: string;
   listingSourceSlugId: string;
@@ -3758,6 +3794,7 @@ export type ListingSourceData = {
    * ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
    */
   name: string;
+  listingSourceType: ListingSourceType;
   operator: OperatorPartyData;
   /**
    * Recorded platform code, omitted when no platform is recorded.
@@ -3822,6 +3859,7 @@ export type ListingSourceSearchSummaryData = {
    * ListingSource name.
    */
   name: string;
+  listingSourceType: ListingSourceType;
   operator: OperatorPartyData;
   /**
    * Recorded platform code, omitted when no platform is recorded.
@@ -3912,6 +3950,7 @@ export type CreateListingSourceData = {
    * ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
    */
   name: string;
+  listingSourceType: ListingSourceType;
   operator: ListingSourceOperatorInputData;
   /**
    * Optional platform code in ASCII SCREAMING_SNAKE_CASE; reuse established codes such as SHOPIFY or BIGCOMMERCE. Omission or null records no platform.
@@ -3940,13 +3979,17 @@ export type UpdateListingIngestionConfigurationData = {
 };
 
 /**
- * Omitted fields are unchanged. `null` clears only `url`, `image`, `platformTechnology`, and `referralConfiguration`. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
+ * Omitted fields are unchanged. `null` clears only `url`, `image`, `platformTechnology`, and `referralConfiguration`; `null` for `name`, `listingSourceType` or `ingestionConfiguration` is rejected. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
  */
 export type UpdateListingSourceData = {
   /**
    * ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
    */
   name?: string;
+  /**
+   * Reclassifies the ListingSource. Omission preserves the type.
+   */
+  listingSourceType?: ListingSourceType;
   /**
    * Platform code in ASCII SCREAMING_SNAKE_CASE; reuse established codes such as SHOPIFY or BIGCOMMERCE. Omission preserves the platform, null clears it, and a code replaces it.
    */
@@ -3980,6 +4023,10 @@ export type ProposedListingSourceData = {
    * ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
    */
   name: string;
+  /**
+   * The applicant's classification of the proposed ListingSource. Approval creates the ListingSource with this type; administrators can correct it afterwards.
+   */
+  listingSourceType: ListingSourceType;
   url?: string;
   image?: string;
   requestedIngestionMethods: Array<ListingIngestionMethodData>;
@@ -4845,6 +4892,7 @@ export type CreateListingSourceDataWritable = {
    * ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
    */
   name: string;
+  listingSourceType: ListingSourceType;
   operator: ListingSourceOperatorInputData;
   /**
    * Optional platform code in ASCII SCREAMING_SNAKE_CASE; reuse established codes such as SHOPIFY or BIGCOMMERCE. Omission or null records no platform.
@@ -4877,13 +4925,17 @@ export type UpdateListingIngestionConfigurationDataWritable = {
 };
 
 /**
- * Omitted fields are unchanged. `null` clears only `url`, `image`, `platformTechnology`, and `referralConfiguration`. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
+ * Omitted fields are unchanged. `null` clears only `url`, `image`, `platformTechnology`, and `referralConfiguration`; `null` for `name`, `listingSourceType` or `ingestionConfiguration` is rejected. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
  */
 export type UpdateListingSourceDataWritable = {
   /**
    * ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
    */
   name?: string;
+  /**
+   * Reclassifies the ListingSource. Omission preserves the type.
+   */
+  listingSourceType?: ListingSourceType;
   /**
    * Platform code in ASCII SCREAMING_SNAKE_CASE; reuse established codes such as SHOPIFY or BIGCOMMERCE. Omission preserves the platform, null clears it, and a code replaces it.
    */
@@ -7571,6 +7623,10 @@ export type AdminSearchListingSourcesData = {
      * Optional exact operator Party ID filter.
      */
     operatorPartyId?: string;
+    /**
+     * Optional exact ListingSource type filter, combinable with all other filters.
+     */
+    listingSourceType?: ListingSourceType;
     /**
      * Optional exact active ingestion-method filter.
      */

@@ -20,7 +20,11 @@ const detail: AdminPartnershipApplicationData = {
     proposal: {
         type: "PROPOSED_LISTING_SOURCE",
         party: { name: "Atelier" },
-        listingSource: { name: "Atelier Shop", requestedIngestionMethods: ["WEB_CRAWL"] },
+        listingSource: {
+            name: "Atelier Shop",
+            listingSourceType: "DEALER",
+            requestedIngestionMethods: ["WEB_CRAWL"],
+        },
     },
     approvedPartnershipId: "pship_1",
     approvedListingSourceId: "ls_1",

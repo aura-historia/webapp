@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import testI18n from "@/i18n/i18nForTests";
 import { AdminListingSourceFiltersForm } from "../AdminListingSourceFiltersForm.tsx";
@@ -43,6 +44,32 @@ describe("AdminListingSourceFiltersForm", () => {
         ).toBeInTheDocument();
         expect(platformInput()).toHaveAttribute("aria-invalid", "true");
         expect(onApply).not.toHaveBeenCalled();
+    });
+
+    it("applies a source type filter", async () => {
+        const user = userEvent.setup();
+        const onApply = vi.fn();
+        render(<AdminListingSourceFiltersForm filters={{}} onApply={onApply} />);
+
+        await user.click(
+            screen.getByRole("combobox", {
+                name: testI18n.t("adminListingSources.fields.listingSourceType"),
+            }),
+        );
+        await user.click(
+            screen.getByRole("option", {
+                name: testI18n.t("listingSourceTypes.AUCTION_PLATFORM"),
+            }),
+        );
+        apply();
+
+        await waitFor(() =>
+            expect(onApply).toHaveBeenCalledWith({
+                listingSourceType: "AUCTION_PLATFORM",
+                sort: "name",
+                order: "asc",
+            }),
+        );
     });
 
     it("starts from the applied platform filter", () => {

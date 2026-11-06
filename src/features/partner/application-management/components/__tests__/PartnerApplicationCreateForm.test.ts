@@ -23,6 +23,21 @@ describe("proposal form validation", () => {
         ).toBe(false);
         expect(schema.safeParse(PARTNER_APPLICATION_CREATE_DEFAULT_VALUES).success).toBe(false);
     });
+    it("requires the applicant to classify the proposed source", () => {
+        const values = {
+            ...PARTNER_APPLICATION_CREATE_DEFAULT_VALUES,
+            partyName: "Operator",
+            sourceName: "Source",
+        };
+        const result = schema.safeParse(values);
+        expect(result.success).toBe(false);
+        expect(result.error?.issues.map((issue) => issue.message)).toContain(
+            testI18n.t("partnerApplications.proposals.listingSourceTypeRequired"),
+        );
+        expect(schema.safeParse({ ...values, listingSourceType: "MARKETPLACE" }).success).toBe(
+            true,
+        );
+    });
     it("rejects invalid email, non-HTTP URLs and oversized UTF-8 names", () => {
         const values = {
             ...PARTNER_APPLICATION_CREATE_DEFAULT_VALUES,
@@ -40,13 +55,18 @@ describe("proposal form validation", () => {
             ...PARTNER_APPLICATION_CREATE_DEFAULT_VALUES,
             partyName: " Operator ",
             sourceName: " Source ",
+            listingSourceType: "AUCTION_HOUSE",
             partyPhone: " ",
             requestedIngestionMethods: [],
         });
         expect(buildApplicationProposal(values)).toEqual({
             type: "PROPOSED_LISTING_SOURCE",
             party: { name: "Operator" },
-            listingSource: { name: "Source", requestedIngestionMethods: [] },
+            listingSource: {
+                name: "Source",
+                listingSourceType: "AUCTION_HOUSE",
+                requestedIngestionMethods: [],
+            },
         });
     });
 });

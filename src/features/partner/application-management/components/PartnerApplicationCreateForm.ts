@@ -1,5 +1,6 @@
 import type { TFunction } from "i18next";
 import { z } from "zod";
+import { LISTING_SOURCE_TYPES } from "@/data/internal/listing-source/ListingSourceType.ts";
 import {
     INGESTION_METHODS,
     type PartnershipProposal,
@@ -38,21 +39,33 @@ export function createPartnerApplicationFormSchema(t: TFunction) {
                     t("partnerApplications.create.validation.emailInvalid"),
                 ),
             sourceName: requiredName,
+            listingSourceType: z
+                .enum(["", ...LISTING_SOURCE_TYPES])
+                .refine(
+                    (value) => value !== "",
+                    t("partnerApplications.proposals.listingSourceTypeRequired"),
+                ),
             sourceUrl: optionalUrl,
             sourceImage: optionalUrl,
             requestedIngestionMethods: z.array(z.enum(INGESTION_METHODS)),
         }),
     ]);
 }
-export type PartnerApplicationCreateFormData = z.infer<
+/** What the form holds while editing; the source type starts unchosen. */
+export type PartnerApplicationCreateFormValues = z.input<
     ReturnType<typeof createPartnerApplicationFormSchema>
 >;
-export const PARTNER_APPLICATION_CREATE_DEFAULT_VALUES: PartnerApplicationCreateFormData = {
+/** What a valid submission carries. */
+export type PartnerApplicationCreateFormData = z.output<
+    ReturnType<typeof createPartnerApplicationFormSchema>
+>;
+export const PARTNER_APPLICATION_CREATE_DEFAULT_VALUES: PartnerApplicationCreateFormValues = {
     type: "PROPOSED_LISTING_SOURCE",
     partyName: "",
     partyPhone: "",
     partyEmail: "",
     sourceName: "",
+    listingSourceType: "",
     sourceUrl: "",
     sourceImage: "",
     requestedIngestionMethods: [],
@@ -71,6 +84,7 @@ export function buildApplicationProposal(
         },
         listingSource: {
             name: values.sourceName.trim(),
+            listingSourceType: values.listingSourceType,
             ...(values.sourceUrl.trim() ? { url: values.sourceUrl.trim() } : {}),
             ...(values.sourceImage.trim() ? { image: values.sourceImage.trim() } : {}),
             requestedIngestionMethods: [...values.requestedIngestionMethods],

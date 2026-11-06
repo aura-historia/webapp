@@ -55,6 +55,7 @@ const detailDto = {
     updated: "2026-09-02T11:00:00.000Z",
 };
 const source: AdminListingSourceDetail = {
+    listingSourceType: "DEALER",
     listingSourceId: "ls_01SOURCE",
     listingSourceSlugId: "antique-house",
     name: "Antique House",
@@ -157,6 +158,7 @@ describe("admin ListingSource API", () => {
         const invalidate = vi.spyOn(client, "invalidateQueries");
         const hook = renderHook(() => useCreateAdminListingSource(), { wrapper });
         const values: AdminListingSourceCreateValues = {
+            listingSourceType: "DEALER",
             name: "New Source",
             operatorType: "EXISTING",
             operatorPartyId: "party_02",
@@ -176,6 +178,7 @@ describe("admin ListingSource API", () => {
         expect(api.create).toHaveBeenCalledWith({
             body: {
                 name: "New Source",
+                listingSourceType: "DEALER",
                 operator: { type: "EXISTING", partyId: "party_02" },
                 ingestionConfiguration: [],
             },
@@ -199,6 +202,7 @@ describe("admin ListingSource API", () => {
                 hook.result.current.mutateAsync({
                     source,
                     values: {
+                        listingSourceType: "DEALER",
                         name: "Renamed House",
                         url: "https://antique.example",
                         image: "",

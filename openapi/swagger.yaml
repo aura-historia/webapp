@@ -129,6 +129,11 @@ paths:
 
         Counts cover ProductListings with lifecycle `ACTIVE`, whatever their availability.
         `sourcesIndexed` counts distinct ListingSources with at least one counted listing.
+        `sourcesIndexedByType` splits that count by the ListingSource's type; every ListingSource has
+        exactly one type, so the four values always sum to `sourcesIndexed`. A seller's storefront on a
+        marketplace counts by that seller's type, not as a marketplace; individual sellers on
+        marketplaces and auction platforms are not counted. A reclassified ListingSource moves with
+        the next calculation.
         `countries` counts distinct countries in the counted listings' effective advertised-inventory
         geography; business association and shipping destinations do not establish inventory location.
         `languages` counts the union of original title and description languages; generated
@@ -5435,6 +5440,7 @@ paths:
         Delegated Aura access tokens require `listing-sources:write`; missing scope returns `403 FORBIDDEN`.
         Creates a ListingSource for an authenticated administrator.
 
+        `listingSourceType` is required and records the source's primary sales model.
         `operator` accepts either an existing Party reference (`EXISTING` with `partyId`) or a
         new Party with name and optional contact details (`NEW`). Ingestion configuration,
         provider uniqueness, presentation, and referral validation remain service-owned.
@@ -5522,8 +5528,9 @@ paths:
         `query` performs a case-insensitive substring search across the ListingSource name and
         stable slug, and also the operator Party name and slug. `name` restricts the substring
         match to the ListingSource name. `listingSourceId` and `listingSourceSlugId` are exact
-        identity filters. `operatorPartyId`, `ingestionMethod`, and `platformTechnology` are exact filters
-        and can be combined. Platform technology is descriptive metadata independent of ingestion.
+        identity filters. `operatorPartyId`, `listingSourceType`, `ingestionMethod`, and
+        `platformTechnology` are exact filters and can be combined. ListingSource type and platform
+        technology are descriptive metadata independent of ingestion.
 
         Results use deterministic keyset pagination. The default sort is `name` ascending;
         override it by providing both `sort` and `order`. Valid sort fields are `name`, `slug`,
@@ -5536,7 +5543,7 @@ paths:
         Responses always use `Cache-Control: no-store`.
 
         The result contains only safe business-resource fields: ListingSource identity and name,
-        operator Party reference, active ingestion methods, optional platform technology, presentation URLs, and referral summary.
+        operator Party reference, ListingSource type, active ingestion methods, optional platform technology, presentation URLs, and referral summary.
         Provider credentials, webhook secrets, and crawler-local configuration are never returned.
       operationId: adminSearchListingSources
       tags:
@@ -5580,6 +5587,13 @@ paths:
           schema:
             type: string
           example: pty_11bczr8va9ek4abckdkrqda538
+        - name: listingSourceType
+          in: query
+          required: false
+          description: Optional exact ListingSource type filter, combinable with all other filters.
+          schema:
+            $ref: "#/components/schemas/ListingSourceType"
+          example: AUCTION_HOUSE
         - name: ingestionMethod
           in: query
           required: false
@@ -10125,8 +10139,9 @@ paths:
         Updates one ListingSource for an authenticated administrator.
 
         `listingSourceId` must be a valid ListingSource ID. Omitted members remain unchanged; `null` clears only
-        `url`, `image`, and `referralConfiguration`. `name` and
-        `ingestionConfiguration` are non-nullable and cannot be cleared. Supplying
+        `url`, `image`, `platformTechnology`, and `referralConfiguration`. `name`, `listingSourceType` and
+        `ingestionConfiguration` are non-nullable and cannot be cleared; `listingSourceType` reclassifies
+        the ListingSource. Supplying
         `ingestionConfiguration` replaces the whole configuration list and its methods must match
         the ListingSource ingestion methods. A WooCommerce entry may omit `webhookSecret` only when
         WooCommerce is already configured; omission preserves the existing secret, a string rotates
@@ -24254,6 +24269,7 @@ components:
       required:
         - asOf
         - sourcesIndexed
+        - sourcesIndexedByType
         - liveObjects
         - countries
         - languages
@@ -24270,6 +24286,8 @@ components:
           minimum: 0
           description: Distinct ListingSources represented by at least one counted live listing.
           example: 124
+        sourcesIndexedByType:
+          $ref: "#/components/schemas/SourcesIndexedByTypeData"
         liveObjects:
           type: integer
           format: int64
@@ -24294,6 +24312,41 @@ components:
           minimum: 0
           description: Counted listings created in the 168 hours ending at `asOf`.
           example: 3120
+    SourcesIndexedByTypeData:
+      type: object
+      description: |
+        `sourcesIndexed` split by ListingSource type, counted by the same rule and in the same
+        calculation. Every key is always present and the values sum to `sourcesIndexed`.
+      required:
+        - dealers
+        - auctionHouses
+        - marketplaces
+        - auctionPlatforms
+      properties:
+        dealers:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Counted `DEALER` ListingSources.
+          example: 96
+        auctionHouses:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Counted `AUCTION_HOUSE` ListingSources.
+          example: 21
+        marketplaces:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Counted `MARKETPLACE` ListingSources.
+          example: 4
+        auctionPlatforms:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Counted `AUCTION_PLATFORM` ListingSources.
+          example: 3
     AdminOverviewData:
       type: object
       description: Versioned bounded administrator operational summary sourced from authoritative PostgreSQL.
@@ -24757,12 +24810,28 @@ components:
         Descriptive admin-only metadata, independent of ingestion configuration. Recording a
         platform does not enable ingestion or imply an installed app or Partnership.
       example: SHOPIFY
+    ListingSourceType:
+      type: string
+      enum:
+        - DEALER
+        - AUCTION_HOUSE
+        - MARKETPLACE
+        - AUCTION_PLATFORM
+      description: |
+        Primary sales model of a ListingSource, curated by administrators. `DEALER` sells its
+        operator's own or consigned inventory at fixed prices and `AUCTION_HOUSE` by auction;
+        `MARKETPLACE` hosts other sellers at fixed prices and `AUCTION_PLATFORM` by auction. A
+        seller's storefront on a marketplace is classified by that seller, usually `DEALER`.
+        Descriptive only: it does not affect ingestion, listing validation or Auction facts. The set
+        is closed; a new type is an announced contract change.
+      example: DEALER
     ListingSourceData:
       type: object
       required:
         - listingSourceId
         - listingSourceSlugId
         - name
+        - listingSourceType
         - operator
         - ingestionMethods
         - created
@@ -24775,6 +24844,8 @@ components:
         name:
           type: string
           description: ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
+        listingSourceType:
+          $ref: "#/components/schemas/ListingSourceType"
         operator:
           $ref: "#/components/schemas/OperatorPartyData"
         platformTechnology:
@@ -24856,6 +24927,7 @@ components:
         - listingSourceId
         - listingSourceSlugId
         - name
+        - listingSourceType
         - operator
         - ingestionMethods
         - presentation
@@ -24871,6 +24943,8 @@ components:
         name:
           type: string
           description: ListingSource name.
+        listingSourceType:
+          $ref: "#/components/schemas/ListingSourceType"
         operator:
           $ref: "#/components/schemas/OperatorPartyData"
         platformTechnology:
@@ -25063,12 +25137,15 @@ components:
       additionalProperties: false
       required:
         - name
+        - listingSourceType
         - operator
         - ingestionConfiguration
       properties:
         name:
           type: string
           description: ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
+        listingSourceType:
+          $ref: "#/components/schemas/ListingSourceType"
         operator:
           $ref: "#/components/schemas/ListingSourceOperatorInputData"
         platformTechnology:
@@ -25144,11 +25221,15 @@ components:
     UpdateListingSourceData:
       type: object
       additionalProperties: false
-      description: Omitted fields are unchanged. `null` clears only `url`, `image`, `platformTechnology`, and `referralConfiguration`. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
+      description: Omitted fields are unchanged. `null` clears only `url`, `image`, `platformTechnology`, and `referralConfiguration`; `null` for `name`, `listingSourceType` or `ingestionConfiguration` is rejected. Supplying ingestionConfiguration replaces the whole configuration list; a WooCommerce secret may be omitted only when preserving an existing WooCommerce configuration.
       properties:
         name:
           type: string
           description: ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
+        listingSourceType:
+          allOf:
+            - $ref: "#/components/schemas/ListingSourceType"
+          description: Reclassifies the ListingSource. Omission preserves the type.
         platformTechnology:
           type: string
           nullable: true
@@ -25216,11 +25297,16 @@ components:
       type: object
       required:
         - name
+        - listingSourceType
         - requestedIngestionMethods
       properties:
         name:
           type: string
           description: ListingSource name. Outer Unicode whitespace is trimmed; blank values and values over 255 UTF-8 bytes are rejected.
+        listingSourceType:
+          allOf:
+            - $ref: "#/components/schemas/ListingSourceType"
+          description: The applicant's classification of the proposed ListingSource. Approval creates the ListingSource with this type; administrators can correct it afterwards.
         url:
           type: string
           format: uri

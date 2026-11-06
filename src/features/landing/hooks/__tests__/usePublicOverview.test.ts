@@ -10,6 +10,12 @@ vi.mock("@/client", () => ({ getPublicOverview: api.overview }));
 const overview = {
     asOf: "2026-10-21T15:00:36.379941Z",
     sourcesIndexed: 5,
+    sourcesIndexedByType: {
+        dealers: 3,
+        auctionHouses: 1,
+        marketplaces: 1,
+        auctionPlatforms: 0,
+    },
     liveObjects: 74,
     countries: 1,
     languages: 2,
@@ -37,6 +43,7 @@ describe("usePublicOverview", () => {
             throwOnError: true,
         });
         expect(result.current.data?.liveObjects).toBe(74);
+        expect(result.current.data?.sourcesIndexedByType.dealers).toBe(3);
         expect(result.current.data?.asOf).toEqual(new Date("2026-10-21T15:00:36.379Z"));
         expect(client.getQueryData(PUBLIC_OVERVIEW_QUERY_KEY)).toBe(result.current.data);
     });

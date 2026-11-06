@@ -119,6 +119,7 @@ describe("immutable application workflow", () => {
         await userEvent.click(screen.getByRole("button", { name: /Neue|Neuer/ }));
         await userEvent.type(screen.getByLabelText("Name des Betreibers"), "Operator");
         await userEvent.type(screen.getByLabelText("Name des Anbieters"), "New Source");
+        await userEvent.click(screen.getByRole("radio", { name: "Auktionshaus" }));
         await userEvent.click(screen.getByLabelText("Partner-API"));
         await userEvent.click(
             screen.getByRole("button", {
@@ -132,6 +133,7 @@ describe("immutable application workflow", () => {
                     party: { name: "Operator" },
                     listingSource: {
                         name: "New Source",
+                        listingSourceType: "AUCTION_HOUSE",
                         requestedIngestionMethods: ["PARTNER_API"],
                     },
                 },

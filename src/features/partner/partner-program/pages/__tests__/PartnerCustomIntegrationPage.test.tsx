@@ -235,7 +235,11 @@ describe("PartnerCustomIntegrationPage", () => {
                 proposal: {
                     type: "PROPOSED_LISTING_SOURCE",
                     party: { name: "Operator" },
-                    listingSource: { name: "Proposed Source", requestedIngestionMethods: [] },
+                    listingSource: {
+                        name: "Proposed Source",
+                        listingSourceType: "DEALER",
+                        requestedIngestionMethods: [],
+                    },
                 },
             },
         ];
