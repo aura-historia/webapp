@@ -3392,12 +3392,13 @@
     },
     "scopeSelection": {
       "selectAll": "Seleccionar todos los permisos",
-      "selectedCount": "{{selected}} de {{total}} seleccionados",
+      "selectedCount_one": "{{count}} de {{total}} seleccionado",
+      "selectedCount_other": "{{count}} de {{total}} seleccionados",
       "groupSelectAll": "Seleccionar todo",
-      "groupClear": "Quitar todo",
+      "groupClear": "Deseleccionar todo",
       "groupSelectAllLabel": "Seleccionar todo en {{group}}",
-      "groupClearLabel": "Quitar todo en {{group}}",
-      "allSelectedNote": "Este token obtiene todos los permisos, incluido el acceso de escritura. Quite los que la integración no necesite."
+      "groupClearLabel": "Deseleccionar todo en {{group}}",
+      "allSelectedNote": "Este token obtiene todos los permisos, incluido el acceso de escritura. Quita los que la integración no necesite."
     }
   },
   "partnerListingSources": {

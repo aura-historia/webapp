@@ -13,10 +13,16 @@ import testI18n from "@/i18n/i18nForTests.ts";
 
 const mockCreateAccessTokenMutate = vi.hoisted(() => vi.fn());
 const mockReset = vi.hoisted(() => vi.fn());
-const mockUserAccount = vi.hoisted(() => ({ role: "USER" as "USER" | "ADMIN" }));
+const mockUserAccount = vi.hoisted(() => ({
+    role: "USER" as "USER" | "ADMIN",
+    isPending: false,
+}));
 
 vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
-    useUserAccount: () => ({ data: { role: mockUserAccount.role } }),
+    useUserAccount: () =>
+        mockUserAccount.isPending
+            ? { data: undefined, isPending: true }
+            : { data: { role: mockUserAccount.role }, isPending: false },
 }));
 
 vi.mock("@/features/partner/access-token-management/api/useAccessTokens.ts", () => ({
@@ -37,6 +43,7 @@ describe("AccessTokenCreateDialog", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         mockUserAccount.role = "USER";
+        mockUserAccount.isPending = false;
     });
 
     it("validates the required token name", async () => {
@@ -196,7 +203,7 @@ describe("AccessTokenCreateDialog", () => {
         render(<AccessTokenCreateDialog open onOpenChange={vi.fn()} />);
         const groupLabel = testI18n.t("partnerAccessTokens.scopeGroups.account");
 
-        await user.click(screen.getByRole("button", { name: `Alle in ${groupLabel} auswählen` }));
+        await user.click(screen.getByRole("button", { name: `Alle auswählen: ${groupLabel}` }));
         for (const label of [
             "Benutzerdaten lesen",
             "Benutzerdaten aktualisieren",
@@ -207,7 +214,7 @@ describe("AccessTokenCreateDialog", () => {
         }
         expect(screen.getByLabelText("Merkliste lesen")).not.toBeChecked();
 
-        await user.click(screen.getByRole("button", { name: `Alle in ${groupLabel} abwählen` }));
+        await user.click(screen.getByRole("button", { name: `Alle abwählen: ${groupLabel}` }));
         expect(screen.getByLabelText("Benutzerdaten lesen")).not.toBeChecked();
         expect(
             screen.getByRole("checkbox", { name: "Alle Berechtigungen auswählen" }),
@@ -275,5 +282,59 @@ describe("AccessTokenCreateDialog", () => {
         await user.click(screen.getByRole("button", { name: "Ich habe das Token gespeichert" }));
         expect(mockReset).toHaveBeenCalledOnce();
         expect(screen.queryByDisplayValue("aurahistoria_plaintext_token")).not.toBeInTheDocument();
+    });
+    it("locks the bulk actions until the account role is known", async () => {
+        const user = userEvent.setup();
+        mockUserAccount.isPending = true;
+        render(<AccessTokenCreateDialog open onOpenChange={vi.fn()} />);
+
+        expect(
+            screen.getByRole("checkbox", { name: "Alle Berechtigungen auswählen" }),
+        ).toBeDisabled();
+        const groupLabel = testI18n.t("partnerAccessTokens.scopeGroups.account");
+        expect(
+            screen.getByRole("button", { name: `Alle auswählen: ${groupLabel}` }),
+        ).toBeDisabled();
+        await user.click(screen.getByLabelText("Merkliste lesen"));
+        expect(screen.getByLabelText("Merkliste lesen")).toBeChecked();
+    });
+
+    it("selects every administrator scope with its group action for administrators", async () => {
+        const user = userEvent.setup();
+        mockUserAccount.role = "ADMIN";
+        render(<AccessTokenCreateDialog open onOpenChange={vi.fn()} />);
+        const groupLabel = testI18n.t(
+            "partnerAccessTokens.scopeGroups.administrationForAdministrators",
+        );
+
+        await user.click(screen.getByRole("button", { name: `Alle auswählen: ${groupLabel}` }));
+        expect(screen.getByLabelText("Auktionen lesen")).toBeChecked();
+        expect(screen.getByLabelText("Admin-Übersicht lesen")).toBeChecked();
+        expect(screen.getByText("7 von 23 ausgewählt")).toBeInTheDocument();
+    });
+
+    it("keeps the prefilled scope when more are selected", async () => {
+        const user = userEvent.setup();
+        render(
+            <AccessTokenCreateDialog
+                open
+                onOpenChange={vi.fn()}
+                defaultValues={{
+                    name: "Custom API product sync",
+                    scopes: ["product-listings:write"],
+                    expiresAt: "",
+                }}
+            />,
+        );
+        await user.click(screen.getByLabelText("Merkliste lesen"));
+        await user.click(screen.getByRole("button", { name: "Token erstellen" }));
+        expect(mockCreateAccessTokenMutate).toHaveBeenCalledWith(
+            {
+                name: "Custom API product sync",
+                scopes: ["watchlist:read", "product-listings:write"],
+                expiresAt: undefined,
+            },
+            { onSuccess: expect.any(Function) },
+        );
     });
 });

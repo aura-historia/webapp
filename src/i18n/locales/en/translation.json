@@ -2326,11 +2326,12 @@
     },
     "scopeSelection": {
       "selectAll": "Select all permissions",
-      "selectedCount": "{{selected}} of {{total}} selected",
+      "selectedCount_one": "{{count}} of {{total}} selected",
+      "selectedCount_other": "{{count}} of {{total}} selected",
       "groupSelectAll": "Select all",
       "groupClear": "Clear",
       "groupSelectAllLabel": "Select all in {{group}}",
-      "groupClearLabel": "Clear {{group}}",
+      "groupClearLabel": "Clear all in {{group}}",
       "allSelectedNote": "This token gets every permission, including write access. Clear those the integration does not need."
     }
   },

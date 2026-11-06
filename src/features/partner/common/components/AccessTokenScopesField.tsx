@@ -29,8 +29,11 @@ export function AccessTokenScopesField({
 }: AccessTokenScopesFieldProps) {
     const { t } = useTranslation();
     const idPrefix = useId();
-    const { data: userAccount } = useUserAccount();
+    const { data: userAccount, isPending: isRolePending } = useUserAccount();
     const isAdministrator = userAccount?.role === "ADMIN";
+    // Until the role is known an administrator would see too few scopes; keep the bulk actions
+    // locked so "select all" never means less than it says.
+    const bulkDisabled = disabled || isRolePending;
     const groups = accessTokenScopeGroupsFor(isAdministrator);
     const visibleScopes = new Set<AccessTokenScope>(groups.flatMap((group) => group.scopes));
     const selected = new Set<AccessTokenScope>(value);
@@ -39,9 +42,16 @@ export function AccessTokenScopesField({
     const masterId = `${idPrefix}-all`;
     const countId = `${idPrefix}-count`;
 
-    /** Emits the selection in catalogue order, keeping scopes this account cannot see. */
+    /**
+     * Emits the selection in catalogue order, keeping scopes this account cannot see and any scope
+     * the backend returned that this client does not know yet.
+     */
     const emit = (next: ReadonlySet<AccessTokenScope>) => {
-        onChange(ACCESS_TOKEN_SCOPES.filter((scope) => next.has(scope)));
+        const catalogue = new Set<AccessTokenScope>(ACCESS_TOKEN_SCOPES);
+        onChange([
+            ...ACCESS_TOKEN_SCOPES.filter((scope) => next.has(scope)),
+            ...[...next].filter((scope) => !catalogue.has(scope)),
+        ]);
     };
     const setScopes = (scopes: readonly AccessTokenScope[], checked: boolean) => {
         const next = new Set(selected);
@@ -56,7 +66,7 @@ export function AccessTokenScopesField({
     };
 
     return (
-        <fieldset className="grid min-w-0 gap-3" disabled={disabled}>
+        <fieldset className="group/scopes grid min-w-0 gap-3" disabled={disabled}>
             <legend className="mb-1.5 text-sm font-medium">
                 {t("partnerAccessTokens.create.fields.scopes")}
             </legend>
@@ -69,7 +79,7 @@ export function AccessTokenScopesField({
                     <Checkbox
                         id={masterId}
                         aria-describedby={countId}
-                        disabled={disabled}
+                        disabled={bulkDisabled}
                         checked={
                             allSelected ? true : selectedVisibleCount > 0 ? "indeterminate" : false
                         }
@@ -77,7 +87,7 @@ export function AccessTokenScopesField({
                     />
                     <label
                         htmlFor={masterId}
-                        className="min-w-0 flex-1 cursor-pointer text-sm font-medium"
+                        className="min-w-0 flex-1 cursor-pointer text-sm font-medium group-disabled/scopes:cursor-not-allowed"
                     >
                         {t("partnerAccessTokens.scopeSelection.selectAll")}
                     </label>
@@ -87,7 +97,7 @@ export function AccessTokenScopesField({
                         className="font-mono text-tag uppercase text-ink-muted tabular-nums"
                     >
                         {t("partnerAccessTokens.scopeSelection.selectedCount", {
-                            selected: selectedVisibleCount,
+                            count: selectedVisibleCount,
                             total: visibleScopes.size,
                         })}
                     </span>
@@ -126,7 +136,7 @@ export function AccessTokenScopesField({
                             </span>
                             <button
                                 type="button"
-                                disabled={disabled}
+                                disabled={bulkDisabled}
                                 aria-label={t(
                                     groupFull
                                         ? "partnerAccessTokens.scopeSelection.groupClearLabel"
@@ -145,13 +155,13 @@ export function AccessTokenScopesField({
                         </div>
                         <ul>
                             {group.scopes.map((scope) => {
-                                const inputId = `access-token-scope-${scope}`;
+                                const inputId = `${idPrefix}-${scope}`;
                                 const descriptionId = `${idPrefix}-${scope}-description`;
 
                                 return (
                                     <li
                                         key={scope}
-                                        className="flex items-start gap-3 rounded-sm border-b border-line-subtle px-1.5 py-3 hover:bg-surface-sunken"
+                                        className="flex items-start gap-3 rounded-sm border-b border-line-subtle px-1.5 py-3 hover:bg-surface-sunken group-disabled/scopes:hover:bg-transparent"
                                     >
                                         <Checkbox
                                             id={inputId}
@@ -166,7 +176,7 @@ export function AccessTokenScopesField({
                                         <div className="grid min-w-0 gap-1">
                                             <label
                                                 htmlFor={inputId}
-                                                className="cursor-pointer text-sm font-medium leading-snug"
+                                                className="cursor-pointer text-sm font-medium leading-snug group-disabled/scopes:cursor-not-allowed"
                                             >
                                                 {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
                                             </label>

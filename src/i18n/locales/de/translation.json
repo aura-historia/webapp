@@ -2326,11 +2326,12 @@
     },
     "scopeSelection": {
       "selectAll": "Alle Berechtigungen auswählen",
-      "selectedCount": "{{selected}} von {{total}} ausgewählt",
+      "selectedCount_one": "{{count}} von {{total}} ausgewählt",
+      "selectedCount_other": "{{count}} von {{total}} ausgewählt",
       "groupSelectAll": "Alle auswählen",
       "groupClear": "Alle abwählen",
-      "groupSelectAllLabel": "Alle in {{group}} auswählen",
-      "groupClearLabel": "Alle in {{group}} abwählen",
+      "groupSelectAllLabel": "Alle auswählen: {{group}}",
+      "groupClearLabel": "Alle abwählen: {{group}}",
       "allSelectedNote": "Dieses Token erhält jede Berechtigung, auch Schreibzugriff. Wählen Sie die Berechtigungen ab, die die Integration nicht benötigt."
     }
   },

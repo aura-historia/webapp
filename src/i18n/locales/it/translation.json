@@ -3392,7 +3392,8 @@
     },
     "scopeSelection": {
       "selectAll": "Seleziona tutte le autorizzazioni",
-      "selectedCount": "{{selected}} di {{total}} selezionate",
+      "selectedCount_one": "{{count}} di {{total}} selezionata",
+      "selectedCount_other": "{{count}} di {{total}} selezionate",
       "groupSelectAll": "Seleziona tutto",
       "groupClear": "Deseleziona tutto",
       "groupSelectAllLabel": "Seleziona tutto in {{group}}",

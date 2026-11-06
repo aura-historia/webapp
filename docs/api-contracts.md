@@ -487,7 +487,7 @@ stable error codes, never raw server detail.
   click (they never infer one scope from another) and emit them in `ACCESS_TOKEN_SCOPES` order. The
   administrator-only group (`administratorOnly`) is offered only when the account role is ADMIN
   (`accessTokenScopeGroupsFor`); this is display only and the backend still authorizes every
-  scope. Scopes an account cannot see stay in the form value untouched, so editing a token never
+  scope. The bulk actions stay disabled until the account role has loaded. Scopes an account cannot see stay in the form value untouched, so editing a token never
   drops a grant it already holds, and an edit sends `scopes` only when the set differs from the
   saved one.
 - A scope only narrows what a credential may do. Administrative scopes (`auctions:*`,

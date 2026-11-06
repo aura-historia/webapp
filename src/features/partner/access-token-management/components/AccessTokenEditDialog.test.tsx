@@ -138,3 +138,35 @@ it("sends no scope change when the selection returns to the saved grants", async
         expect.anything(),
     );
 });
+
+it("keeps hidden administrator grants when a group action is used", async () => {
+    const user = userEvent.setup();
+    render(
+        <AccessTokenEditDialog
+            accessToken={{ ...accessToken, scopes: ["parties:write"] }}
+            open
+            onOpenChange={vi.fn()}
+        />,
+    );
+    await user.click(
+        screen.getByRole("button", {
+            name: "Alle auswählen: Konto und Zugriffstoken",
+        }),
+    );
+    await user.click(screen.getByRole("button", { name: "Änderungen speichern" }));
+    expect(mutate).toHaveBeenCalledWith(
+        {
+            id: accessToken.id,
+            name: undefined,
+            scopes: [
+                "users:read",
+                "users:write",
+                "access-tokens:read",
+                "access-tokens:write",
+                "parties:write",
+            ],
+            expiresAt: undefined,
+        },
+        expect.anything(),
+    );
+});
