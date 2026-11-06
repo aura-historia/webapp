@@ -22,7 +22,9 @@ info:
     \n- **PATCH:** an omitted request member remains unchanged. A documented nullable PATCH member\n  accepts `null` to clear\
     \ its value; `null` for any other member returns `400 BAD_BODY_VALUE`.\n  Use `[]`, not `null`, to replace a non-null\
     \ collection with an empty collection. Empty HTTP\n  bodies are invalid, `{}` is a valid object-PATCH no-op, and the partner-product\
-    \ PATCH `[]`\n  remains a valid empty batch. Responses may omit absent optional values.\n- Product detail, watchlist,\
+    \ PATCH `[]`\n  remains a valid empty batch. Responses omit absent values\
+    \ instead of returning `null` members; only advertised shipping terms, shipping profile content and listing delivery\
+    \ documents keep their required `null` members.\n- Product detail, watchlist,\
     \ and saved-search match reads accept optional **`language`** and\n  **`currency`** parameters. Currency defaults to `EUR`.\
     \ Detail pricing contains the seller's source\n  amounts, converted display amounts, and FX valuation metadata. Active\
     \ product-listings use the latest persisted\n  snapshot; sold product-listings use their immutable sale snapshot. Product\
@@ -5200,7 +5202,6 @@ paths:
                       type: string
                     minItems: 2
                     maxItems: 2
-                    nullable: true
               example:
                 items:
                   - item:
@@ -5235,7 +5236,6 @@ paths:
                         matched: false
                         hidden: false
                 size: 21
-                searchAfter: null
         "400":
           description: Bad request - invalid parameters
           content:
@@ -13744,8 +13744,6 @@ paths:
                     proposal:
                       type: EXISTING_LISTING_SOURCE
                       listingSourceId: ls_7h03ebvas3fhj9qb5pr5s22029
-                    approvedPartnershipId: null
-                    approvedListingSourceId: null
                     created: "2026-09-04T12:00:00Z"
                     updated: "2026-09-04T12:00:00Z"
                 size: 21
@@ -13873,7 +13871,7 @@ paths:
       description:
         "Delegated Aura access tokens require `partnership-applications:read`; missing scope returns `403 FORBIDDEN`. Retrieves a single PartnershipApplication for authenticated administrators.
 
-        The response includes the applicant, state, proposal, and nullable approval references. All responses send `Cache-Control: no-store`.
+        The response includes the applicant, state, proposal, and approval references once approved. All responses send `Cache-Control: no-store`.
 
         "
       operationId: adminGetPartnershipApplication
@@ -18892,19 +18890,14 @@ components:
           $ref: '#/components/schemas/ListingDeliveryCollectionOverrideData'
     ProductListingDeliveryViewData:
       type: object
-      required: [productListingId, expectedVersion, delivery]
+      required: [productListingId, expectedVersion]
       properties:
         productListingId:
           type: string
           pattern: '^pl_[0-7][0-9a-hjkmnp-tv-z]{25}$'
         expectedVersion: {type: integer, minimum: 1}
         delivery:
-          anyOf:
-          - $ref: '#/components/schemas/ListingDeliveryConfigurationData'
-          - type: object
-            nullable: true
-            enum:
-            - null
+          $ref: '#/components/schemas/ListingDeliveryConfigurationData'
     ProductListingDeliveryResultData:
       type: object
       required: [productListingId, expectedVersion, outcome]
@@ -20180,8 +20173,6 @@ components:
       required:
       - listingSourceId
       - revision
-      - shippingProfileId
-      - eligibility
       properties:
         listingSourceId:
           type: string
@@ -20193,15 +20184,12 @@ components:
         shippingProfileId:
           type: string
           pattern: ^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$
-          nullable: true
         eligibility:
           type: string
           enum:
           - ACTIVE
           - RETIRED
           - MISSING
-          - null
-          nullable: true
       description: Initial absent state has revision 1. Clear retains an advancing revision tombstone; retirement
         retains the selected identity and ineligible status. No implicit fallback.
     AdminProductListingVersion:
@@ -20291,30 +20279,25 @@ components:
         outcome: { type: string, enum: [CHANGED, UNCHANGED] }
     AdminProductListingSummary:
       type: object
-      required: [productListingId, productListingTitleSlugId, source, sourceListingId, title, price, priceEstimateMin, priceEstimateMax, availability, lifecycle, auctionId, expectedVersion, created, updated]
+      required: [productListingId, productListingTitleSlugId, source, sourceListingId, lifecycle, expectedVersion, created, updated]
       properties:
         productListingId: { type: string }
         productListingTitleSlugId: { type: string, readOnly: true }
         source: { $ref: "#/components/schemas/ProductListingSourceData" }
         sourceListingId: { type: string, readOnly: true }
         title:
-          nullable: true
           readOnly: true
           allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
         price:
-          nullable: true
           allOf: [{ $ref: "#/components/schemas/ProductListingPriceData" }]
         priceEstimateMin:
-          nullable: true
           allOf: [{ $ref: "#/components/schemas/PriceData" }]
         priceEstimateMax:
-          nullable: true
           allOf: [{ $ref: "#/components/schemas/PriceData" }]
         availability:
-          nullable: true
           allOf: [{ $ref: "#/components/schemas/ListingAvailabilityData" }]
         lifecycle: { $ref: "#/components/schemas/ListingLifecycleData" }
-        auctionId: { type: string, nullable: true }
+        auctionId: { type: string }
         expectedVersion: { type: integer, format: int64, minimum: 1 }
         created: { type: string, format: date-time, readOnly: true }
         updated: { type: string, format: date-time, readOnly: true }
@@ -20322,10 +20305,9 @@ components:
       allOf:
         - $ref: "#/components/schemas/AdminProductListingSummary"
         - type: object
-          required: [description, url, images, auction, saleObservation]
+          required: [url, images]
           properties:
             description:
-              nullable: true
               readOnly: true
               allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
             url: { type: string, format: uri }
@@ -20334,11 +20316,9 @@ components:
               description: Privileged canonical URLs. Preview respects sensitive/unassessed status; public visibility is unchanged.
               items: { type: string, format: uri }
             auction:
-              nullable: true
               allOf: [{ $ref: "#/components/schemas/AdminProductListingAuction" }]
             saleObservation:
               type: object
-              nullable: true
               readOnly: true
               required: [observedAt, fxRateId]
               properties:
@@ -20346,18 +20326,17 @@ components:
                 fxRateId: { type: string }
     AdminProductListingAuction:
       type: object
-      required: [auctionId, lotNumber, cataloguePosition, timing]
+      required: [timing]
       properties:
-        auctionId: { type: string, nullable: true }
-        lotNumber: { type: string, nullable: true }
-        cataloguePosition: { type: integer, minimum: 1, maximum: 4294967295, nullable: true }
+        auctionId: { type: string }
+        lotNumber: { type: string }
+        cataloguePosition: { type: integer, minimum: 1, maximum: 4294967295 }
         timing:
           type: object
-          required: [biddingOpens, scheduledCloses, reportedClosedAt]
           properties:
-            biddingOpens: { type: string, format: date-time, nullable: true }
-            scheduledCloses: { type: string, format: date-time, nullable: true }
-            reportedClosedAt: { type: string, format: date-time, nullable: true }
+            biddingOpens: { type: string, format: date-time }
+            scheduledCloses: { type: string, format: date-time }
+            reportedClosedAt: { type: string, format: date-time }
     AdminProductListingPage:
       type: object
       required: [items, size]
@@ -20374,7 +20353,6 @@ components:
         - source
         - sourceListingId
         - priceValuation
-        - availability
         - lifecycle
         - url
         - viewUrl
@@ -20409,16 +20387,10 @@ components:
         displayPrice:
           allOf:
             - $ref: "#/components/schemas/ProductListingPriceData"
-          nullable: true
         priceValuation:
           $ref: "#/components/schemas/ProductListingSummaryPriceValuationData"
         availability:
-          anyOf:
-          - $ref: '#/components/schemas/ListingAvailabilityData'
-          - type: object
-            nullable: true
-            enum:
-            - null
+          $ref: '#/components/schemas/ListingAvailabilityData'
         lifecycle:
           $ref: "#/components/schemas/ListingLifecycleData"
         url:
@@ -20432,12 +20404,7 @@ components:
           items:
             $ref: "#/components/schemas/ProductListingImageData"
         contentPolicy:
-          anyOf:
-          - $ref: '#/components/schemas/ContentPolicyData'
-          - type: object
-            nullable: true
-            enum:
-            - null
+          $ref: '#/components/schemas/ContentPolicyData'
         updated:
           type: string
           format: date-time
@@ -20486,13 +20453,10 @@ components:
         - source
         - sourceListingId
         - pricing
-        - availability
         - lifecycle
         - url
         - viewUrl
         - images
-        - auction
-        - lot
         - created
         - updated
       properties:
@@ -20535,12 +20499,7 @@ components:
             valuation:
               $ref: "#/components/schemas/ProductListingPricingValuationData"
         availability:
-          anyOf:
-          - $ref: '#/components/schemas/ListingAvailabilityData'
-          - type: object
-            nullable: true
-            enum:
-            - null
+          $ref: '#/components/schemas/ListingAvailabilityData'
         lifecycle:
           $ref: "#/components/schemas/ListingLifecycleData"
         url:
@@ -20554,29 +20513,14 @@ components:
           items:
             $ref: "#/components/schemas/ProductListingImageData"
         contentPolicy:
-          anyOf:
-          - $ref: '#/components/schemas/ContentPolicyData'
-          - type: object
-            nullable: true
-            enum:
-            - null
+          $ref: '#/components/schemas/ContentPolicyData'
         auction:
-          anyOf:
-          - $ref: '#/components/schemas/AuctionSummaryData'
-          - type: object
-            nullable: true
-            enum:
-            - null
-          description: Current parent Auction presentation from the joined PostgreSQL detail read. Null when the
+          $ref: '#/components/schemas/AuctionSummaryData'
+          description: Current parent Auction presentation from the joined PostgreSQL detail read. Omitted when the
             listing has no parent Auction.
         lot:
-          anyOf:
-          - $ref: '#/components/schemas/ProductListingLotData'
-          - type: object
-            nullable: true
-            enum:
-            - null
-          description: Listing-owned lot facts. Null when the listing has no lot facts.
+          $ref: '#/components/schemas/ProductListingLotData'
+          description: Listing-owned lot facts. Omitted when the listing has no lot facts.
         created:
           type: string
           format: date-time
@@ -20594,13 +20538,10 @@ components:
         - source
         - sourceListingId
         - pricing
-        - availability
         - lifecycle
         - url
         - viewUrl
         - images
-        - auction
-        - lot
         - created
         - updated
       properties:
@@ -20643,12 +20584,7 @@ components:
             valuation:
               $ref: "#/components/schemas/ProductListingPricingValuationData"
         availability:
-          anyOf:
-          - $ref: '#/components/schemas/ListingAvailabilityData'
-          - type: object
-            nullable: true
-            enum:
-            - null
+          $ref: '#/components/schemas/ListingAvailabilityData'
         lifecycle:
           $ref: "#/components/schemas/ListingLifecycleData"
         url:
@@ -20662,29 +20598,14 @@ components:
           items:
             $ref: "#/components/schemas/ProductListingImageData"
         contentPolicy:
-          anyOf:
-          - $ref: '#/components/schemas/ContentPolicyData'
-          - type: object
-            nullable: true
-            enum:
-            - null
+          $ref: '#/components/schemas/ContentPolicyData'
         auction:
-          anyOf:
-          - $ref: '#/components/schemas/AuctionSummaryData'
-          - type: object
-            nullable: true
-            enum:
-            - null
-          description: Current parent Auction presentation from the joined PostgreSQL detail read. Null when the
+          $ref: '#/components/schemas/AuctionSummaryData'
+          description: Current parent Auction presentation from the joined PostgreSQL detail read. Omitted when the
             listing has no parent Auction.
         lot:
-          anyOf:
-          - $ref: '#/components/schemas/ProductListingLotData'
-          - type: object
-            nullable: true
-            enum:
-            - null
-          description: Listing-owned lot facts. Null when the listing has no lot facts.
+          $ref: '#/components/schemas/ProductListingLotData'
+          description: Listing-owned lot facts. Omitted when the listing has no lot facts.
         created:
           type: string
           format: date-time
@@ -20695,52 +20616,36 @@ components:
     ProductListingLotData:
       type: object
       additionalProperties: false
-      required:
-        [
-          lotNumber,
-          cataloguePosition,
-          biddingOpens,
-          scheduledCloses,
-          reportedClosedAt,
-        ]
       description: Listing-owned lot facts. These facts may exist without a parent Auction.
       properties:
         lotNumber:
           type: string
-          nullable: true
         cataloguePosition:
           type: integer
           format: int64
           minimum: 1
           maximum: 4294967295
-          nullable: true
         biddingOpens:
           type: string
           format: date-time
-          nullable: true
         scheduledCloses:
           type: string
           format: date-time
-          nullable: true
         reportedClosedAt:
           type: string
           format: date-time
-          nullable: true
     ProductListingPricingData:
       type: object
       properties:
         price:
           allOf:
             - $ref: "#/components/schemas/ProductListingPriceData"
-          nullable: true
         priceEstimateMin:
           allOf:
             - $ref: "#/components/schemas/PriceData"
-          nullable: true
         priceEstimateMax:
           allOf:
             - $ref: "#/components/schemas/PriceData"
-          nullable: true
     ProductListingPricingValuationData:
       oneOf:
         - type: object
@@ -20788,7 +20693,6 @@ components:
         userState:
           allOf:
             - $ref: "#/components/schemas/ProductListingUserStateData"
-          nullable: true
           description:
             Present only for a valid user or delegated-user bearer token. A delegated token receives only the
             sections its read scopes permit and no `userState` when none applies.
@@ -20803,7 +20707,6 @@ components:
         userState:
           allOf:
             - $ref: "#/components/schemas/ProductListingCollectionUserStateData"
-          nullable: true
           description:
             Present only for a valid user or delegated-user bearer token. A delegated token receives only the
             sections its read scopes permit and no `userState` when none applies.
@@ -20818,7 +20721,6 @@ components:
         userState:
           allOf:
             - $ref: "#/components/schemas/ProductListingCollectionUserStateData"
-          nullable: true
           description:
             Present only for a valid user or delegated-user bearer token. A delegated token receives only the
             sections its read scopes permit and no `userState` when none applies.
@@ -20843,7 +20745,6 @@ components:
         total:
           type: integer
           minimum: 0
-          nullable: true
           description:
             Total matching product-listings for BM25 search when the backend provides it. Hybrid BM25 plus KNN
             search omits this value because its fused candidate pool is not a reliable total.
@@ -20851,7 +20752,6 @@ components:
         searchAfter:
           allOf:
             - $ref: "#/components/schemas/ProductListingSearchCursorData"
-          nullable: true
           description: Opaque cursor for the next page. It must be sent back as one JSON-encoded `searchAfter` query value.
     ProductListingSearchCursorData:
       type: object
@@ -21163,15 +21063,12 @@ components:
         price:
           allOf:
             - $ref: "#/components/schemas/ProductListingHistoryMainPriceData"
-          nullable: true
         priceEstimateMin:
           allOf:
             - $ref: "#/components/schemas/ProductListingHistoryEstimateData"
-          nullable: true
         priceEstimateMax:
           allOf:
             - $ref: "#/components/schemas/ProductListingHistoryEstimateData"
-          nullable: true
     ProductListingHistoryEntryData:
       type: object
       description: One immutable committed ProductListing domain-history entry.
@@ -21437,14 +21334,6 @@ components:
     ProductListingAuctionFactsData:
       type: object
       additionalProperties: false
-      required:
-        [
-          lotNumber,
-          cataloguePosition,
-          biddingOpens,
-          scheduledCloses,
-          reportedClosedAt,
-        ]
       description: Immutable historical listing-owned Auction and lot facts. Their presence has no separate meaning. They never expose a source Auction key or shared Auction metadata.
       properties:
         auctionId:
@@ -21452,27 +21341,22 @@ components:
           description: Resolved Aura Auction TypeID. Omitted when no resolved membership is present.
         lotNumber:
           type: string
-          nullable: true
           description: Optional source-assigned lot label.
         cataloguePosition:
           type: integer
           format: int64
           minimum: 1
           maximum: 4294967295
-          nullable: true
           description: Optional one-based source catalogue position.
         biddingOpens:
           type: string
           format: date-time
-          nullable: true
         scheduledCloses:
           type: string
           format: date-time
-          nullable: true
         reportedClosedAt:
           type: string
           format: date-time
-          nullable: true
 
     ProductListingAuctionTimesData:
       type: object
@@ -21530,14 +21414,11 @@ components:
     ProductListingImageData:
       type: object
       description: Product image after viewer-specific presentation.
-      required:
-        - url
       properties:
         url:
           type: string
           format: uri
-          nullable: true
-          description: URL to the product image, or `null` when it is not shown to this viewer.
+          description: URL to the product image, omitted when it is not shown to this viewer.
           example: https://my-listing-source.com/images/product-1.jpg
     ContentPolicyData:
       oneOf:
@@ -21598,10 +21479,8 @@ components:
         - listingSourceId
         - sourceListingId
         - pricing
-        - availability
         - url
         - imageCount
-        - auction
       properties:
         listingSourceId:
           type: string
@@ -21618,7 +21497,6 @@ components:
         availability:
           allOf:
             - $ref: "#/components/schemas/ListingAvailabilityData"
-          nullable: true
         url:
           type: string
           format: uri
@@ -21629,7 +21507,6 @@ components:
         auction:
           allOf:
             - $ref: "#/components/schemas/ProductListingAuctionFactsData"
-          nullable: true
     ProductListingChangedHistoryPayloadData:
       type: object
       required:
@@ -21659,33 +21536,27 @@ components:
     ProductListingTitleHistoryChangeData:
       type: object
       additionalProperties: false
-      required: [type, previous, current]
+      required: [type]
       properties:
         type: { type: string, enum: [TITLE_CHANGED] }
         previous:
-          nullable: true
           allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
         current:
-          nullable: true
           allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
     ProductListingDescriptionHistoryChangeData:
       type: object
       additionalProperties: false
-      required: [type, previous, current]
+      required: [type]
       properties:
         type: { type: string, enum: [DESCRIPTION_CHANGED] }
         previous:
-          nullable: true
           allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
         current:
-          nullable: true
           allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
     ProductListingMainPriceHistoryChangeData:
       type: object
       required:
         - type
-        - previous
-        - current
       properties:
         type:
           type: string
@@ -21694,17 +21565,13 @@ components:
         previous:
           allOf:
             - $ref: "#/components/schemas/ProductListingHistoryMainPriceData"
-          nullable: true
         current:
           allOf:
             - $ref: "#/components/schemas/ProductListingHistoryMainPriceData"
-          nullable: true
     ProductListingPriceHistoryChangeData:
       type: object
       required:
         - type
-        - previous
-        - current
       properties:
         type:
           type: string
@@ -21714,17 +21581,13 @@ components:
         previous:
           allOf:
             - $ref: "#/components/schemas/ProductListingHistoryEstimateData"
-          nullable: true
         current:
           allOf:
             - $ref: "#/components/schemas/ProductListingHistoryEstimateData"
-          nullable: true
     ProductListingAvailabilityHistoryChangeData:
       type: object
       required:
         - type
-        - previous
-        - current
       properties:
         type:
           type: string
@@ -21733,11 +21596,9 @@ components:
         previous:
           allOf:
             - $ref: "#/components/schemas/ListingAvailabilityData"
-          nullable: true
         current:
           allOf:
             - $ref: "#/components/schemas/ListingAvailabilityData"
-          nullable: true
     ProductListingUrlHistoryChangeData:
       type: object
       required:
@@ -21778,8 +21639,6 @@ components:
       type: object
       required:
         - type
-        - previous
-        - current
       properties:
         type:
           type: string
@@ -21788,16 +21647,13 @@ components:
         previous:
           allOf:
             - $ref: "#/components/schemas/ProductListingAuctionFactsData"
-          nullable: true
         current:
           allOf:
             - $ref: "#/components/schemas/ProductListingAuctionFactsData"
-          nullable: true
     ProductListingWithdrawalHistoryChangeData:
       type: object
       required:
         - type
-        - previousAvailability
       properties:
         type:
           type: string
@@ -21806,7 +21662,6 @@ components:
         previousAvailability:
           allOf:
             - $ref: "#/components/schemas/ListingAvailabilityData"
-          nullable: true
     ProductListingRestorationHistoryChangeData:
       type: object
       required:
@@ -22342,7 +22197,6 @@ components:
           type: integer
           minimum: 0
           description: Total number of product-listings matching the query
-          nullable: true
           example: 127
 
     AccessTokenScopeData:
@@ -22418,7 +22272,6 @@ components:
           items:
             type: string
           description: "`[created RFC3339 timestamp, AccessToken ID]` cursor for the next page, omitted when no more results are available."
-          nullable: true
           example:
             - "2026-09-04T12:00:00Z"
             - at_4ck23tcv0meqqrbyjaka24ra6g
@@ -22468,7 +22321,6 @@ components:
           type: string
           format: date-time
           description: Optional RFC3339 expiration timestamp; expired and current tokens are both listed.
-          nullable: true
           example: "2026-09-30T00:00:00Z"
     OwnAccessTokenData:
       type: object
@@ -22900,7 +22752,6 @@ components:
           items:
             type: string
           description: "`[created RFC3339 timestamp, OAuthClient ID]` cursor for the next page, omitted when no more results are available."
-          nullable: true
           example:
             - "2026-09-04T12:00:00Z"
             - oc_7b0gwc1x49e0mvbt3tfexfqgb5
@@ -22909,7 +22760,6 @@ components:
           format: int64
           minimum: 0
           description: Total matching OAuth clients when provided by the reader; omitted otherwise.
-          nullable: true
           example: 42
     OAuthClientAdminData:
       type: object
@@ -23459,23 +23309,18 @@ components:
         firstName:
           type: string
           maxLength: 64
-          nullable: true
         lastName:
           type: string
           maxLength: 64
-          nullable: true
         language:
           allOf:
             - $ref: "#/components/schemas/LanguageData"
-          nullable: true
         currency:
           allOf:
             - $ref: "#/components/schemas/CurrencyData"
-          nullable: true
         measurementUnit:
           allOf:
             - $ref: "#/components/schemas/MeasurementUnitData"
-          nullable: true
         showUnassessedOrSensitiveContent:
           type: boolean
           description: Stored preference for showing unassessed or sensitive content.
@@ -23489,7 +23334,6 @@ components:
           $ref: "#/components/schemas/UserRoleData"
         stripeCustomerId:
           type: string
-          nullable: true
           description: Persisted Stripe customer identifier, omitted when absent.
 
     AdminUserAccountData:
@@ -23797,8 +23641,6 @@ components:
         - listingSourceSlugId
         - productListingTitleSlugId
         - listingSourceName
-        - title
-        - image
         - url
         - viewUrl
         - change
@@ -23818,12 +23660,10 @@ components:
         title:
           allOf:
             - $ref: "#/components/schemas/ListingTextData"
-          nullable: true
-          description: Listing title for the recipient's language. Null when the listing had no title. Carries only `localized`.
+          description: Listing title for the recipient's language. Omitted when the listing had no title. Carries only `localized`.
         image:
           allOf:
             - $ref: "#/components/schemas/ProductListingImageData"
-          nullable: true
         url:
           type: string
           format: uri
@@ -23840,8 +23680,6 @@ components:
       type: object
       required:
         - type
-        - oldPrice
-        - newPrice
       properties:
         type:
           type: string
@@ -23850,19 +23688,15 @@ components:
         oldPrice:
           allOf:
             - $ref: "#/components/schemas/ProductListingPriceData"
-          nullable: true
-          description: Previous asking-price assertion. Null when unavailable.
+          description: Previous asking-price assertion. Omitted when unavailable.
         newPrice:
           allOf:
             - $ref: "#/components/schemas/ProductListingPriceData"
-          nullable: true
-          description: New asking-price assertion. Null when unavailable.
+          description: New asking-price assertion. Omitted when unavailable.
     WatchlistNotificationAvailabilityChangeData:
       type: object
       required:
         - type
-        - oldAvailability
-        - newAvailability
       properties:
         type:
           type: string
@@ -23871,11 +23705,9 @@ components:
         oldAvailability:
           allOf:
             - $ref: "#/components/schemas/ListingAvailabilityData"
-          nullable: true
         newAvailability:
           allOf:
             - $ref: "#/components/schemas/ListingAvailabilityData"
-          nullable: true
     SearchFilterNotificationPayloadData:
       type: object
       required:
@@ -23887,8 +23719,6 @@ components:
         - listingSourceSlugId
         - productListingTitleSlugId
         - listingSourceName
-        - title
-        - image
         - url
         - viewUrl
       properties:
@@ -23911,12 +23741,10 @@ components:
         title:
           allOf:
             - $ref: "#/components/schemas/ListingTextData"
-          nullable: true
-          description: Listing title for the recipient's language. Null when the listing had no title. Carries only `localized`.
+          description: Listing title for the recipient's language. Omitted when the listing had no title. Carries only `localized`.
         image:
           allOf:
             - $ref: "#/components/schemas/ProductListingImageData"
-          nullable: true
         url:
           type: string
           format: uri
@@ -23929,7 +23757,6 @@ components:
         - partnershipApplicationId
         - decision
         - listingSourceName
-        - image
       properties:
         partnershipApplicationId:
           type: string
@@ -23943,7 +23770,6 @@ components:
         image:
           type: string
           format: uri
-          nullable: true
     UpdateNotificationSeenData:
       type: object
       required:
@@ -23981,7 +23807,6 @@ components:
           description: Number of items returned in the current page.
         searchAfter:
           type: array
-          nullable: true
           minItems: 2
           maxItems: 2
           items:
@@ -24784,8 +24609,6 @@ components:
         - applicantUserId
         - state
         - proposal
-        - approvedPartnershipId
-        - approvedListingSourceId
       properties:
         id:
           type: string
@@ -24797,10 +24620,8 @@ components:
           $ref: "#/components/schemas/PartnershipApplicationProposalData"
         approvedPartnershipId:
           type: string
-          nullable: true
         approvedListingSourceId:
           type: string
-          nullable: true
     PartnershipProposalTypeData:
       type: string
       enum:
@@ -24813,8 +24634,6 @@ components:
         - applicantUserId
         - state
         - proposal
-        - approvedPartnershipId
-        - approvedListingSourceId
         - created
         - updated
       properties:
@@ -24828,10 +24647,8 @@ components:
           $ref: "#/components/schemas/PartnershipApplicationProposalData"
         approvedPartnershipId:
           type: string
-          nullable: true
         approvedListingSourceId:
           type: string
-          nullable: true
         created:
           type: string
           format: date-time
@@ -24865,7 +24682,6 @@ components:
           type: integer
           format: int64
           minimum: 0
-          nullable: true
     ListingSourceReferenceData:
       type: object
       required:
@@ -25071,7 +24887,6 @@ components:
         referralConfiguration:
           allOf:
             - $ref: "#/components/schemas/ReferralConfigurationData"
-          nullable: true
           description: Safe referral summary; provider credentials are never included.
         created:
           type: string
@@ -25509,7 +25324,6 @@ components:
         searchAfter:
           allOf:
             - $ref: "#/components/schemas/PublicAuctionDirectoryCursorData"
-          nullable: true
           description: Omitted on the terminal page. Send the complete JSON value as the `searchAfter` query parameter.
     PublicAuctionDirectoryItemData:
       type: object
@@ -25518,10 +25332,7 @@ components:
         [
           auctionId,
           listingSource,
-          name,
-          format,
           schedule,
-          reportedStatus,
           created,
         ]
       properties:
@@ -25533,17 +25344,14 @@ components:
         name:
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
-          nullable: true
         format:
           allOf:
             - $ref: "#/components/schemas/AuctionFormatData"
-          nullable: true
         schedule:
           $ref: "#/components/schemas/AuctionScheduleData"
         reportedStatus:
           allOf:
             - $ref: "#/components/schemas/AuctionReportedStatusData"
-          nullable: true
         created:
           type: string
           format: date-time
@@ -25554,13 +25362,7 @@ components:
         [
           auctionId,
           listingSource,
-          name,
-          catalogueUrl,
-          viewUrl,
-          format,
           schedule,
-          reportedStatus,
-          reportedLotCount,
           visibleListingCount,
         ]
       properties:
@@ -25572,30 +25374,24 @@ components:
         name:
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
-          nullable: true
         catalogueUrl:
           type: string
           format: uri
-          nullable: true
         viewUrl:
           type: string
           format: uri
-          nullable: true
         format:
           allOf:
             - $ref: "#/components/schemas/AuctionFormatData"
-          nullable: true
         schedule:
           $ref: "#/components/schemas/AuctionScheduleData"
         reportedStatus:
           allOf:
             - $ref: "#/components/schemas/AuctionReportedStatusData"
-          nullable: true
         reportedLotCount:
           type: integer
           format: int64
           minimum: 0
-          nullable: true
         visibleListingCount:
           type: integer
           format: int64
@@ -25627,6 +25423,7 @@ components:
           description: Opaque cursor, omitted on the terminal page.
     PublicAuctionDirectoryCursorData:
       type: object
+      description: Returned without `null` members. Cursors that still carry `null` for an absent member remain accepted.
       additionalProperties: false
       required: [created, auctionId, scope]
       properties:
@@ -25638,30 +25435,24 @@ components:
         scheduled:
           type: string
           format: date-time
-          nullable: true
-          description: Present for scheduled sorting; null if the selected role instant is missing. Omitted for created sorting.
+          description: Present for scheduled sorting when the auction has the selected role instant; otherwise omitted.
         scope:
           $ref: "#/components/schemas/PublicAuctionDirectoryCursorScopeData"
     PublicAuctionDirectoryCursorScopeData:
       type: object
       additionalProperties: false
-      required: [listingSourceId, format, reportedStatus, timeRole, from, to]
       properties:
         listingSourceId:
           type: string
-          nullable: true
         format:
           allOf:
             - $ref: "#/components/schemas/AuctionFormatData"
-          nullable: true
         reportedStatus:
           allOf:
             - $ref: "#/components/schemas/AuctionReportedStatusData"
-          nullable: true
         timeRole:
           type: string
           enum: [BIDDING_OPENS, LIVE_STARTS, LOTS_BEGIN_CLOSING, SCHEDULED_END]
-          nullable: true
         sort:
           type: string
           enum: [scheduled]
@@ -25673,11 +25464,9 @@ components:
         from:
           type: string
           format: date-time
-          nullable: true
         to:
           type: string
           format: date-time
-          nullable: true
     PublicAuctionCatalogueData:
       type: object
       additionalProperties: false
@@ -25695,12 +25484,11 @@ components:
         searchAfter:
           allOf:
             - $ref: "#/components/schemas/PublicAuctionCatalogueCursorData"
-          nullable: true
           description: Omitted on the terminal page. Send the complete JSON value as the `searchAfter` query parameter.
     PublicAuctionCatalogueCursorData:
       type: object
       additionalProperties: false
-      required: [auctionId, cataloguePosition, productListingId]
+      required: [auctionId, productListingId]
       properties:
         auctionId:
           type: string
@@ -25708,7 +25496,6 @@ components:
           type: integer
           format: int64
           minimum: 1
-          nullable: true
         productListingId:
           type: string
     AuctionAdminData:
@@ -25718,12 +25505,7 @@ components:
           auctionId,
           listingSourceId,
           sourceAuctionId,
-          name,
-          catalogueUrl,
-          format,
           schedule,
-          reportedStatus,
-          reportedLotCount,
           expectedVersion,
           created,
           updated,
@@ -25734,16 +25516,13 @@ components:
         sourceAuctionId: { type: string }
         name:
           allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
-          nullable: true
-        catalogueUrl: { type: string, format: uri, nullable: true }
+        catalogueUrl: { type: string, format: uri }
         format:
           allOf: [{ $ref: "#/components/schemas/AuctionFormatData" }]
-          nullable: true
         schedule: { $ref: "#/components/schemas/AuctionScheduleData" }
         reportedStatus:
           allOf: [{ $ref: "#/components/schemas/AuctionReportedStatusData" }]
-          nullable: true
-        reportedLotCount: { type: integer, format: int64, nullable: true }
+        reportedLotCount: { type: integer, format: int64 }
         expectedVersion: { type: integer, format: int64, minimum: 1 }
         created: { type: string, format: date-time }
         updated: { type: string, format: date-time }
@@ -25765,24 +25544,20 @@ components:
           description: Strict `auc_` UUIDv7 TypeID.
         name:
           allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
-          nullable: true
         format:
           allOf: [{ $ref: "#/components/schemas/AuctionFormatData" }]
-          nullable: true
         reportedStatus:
           allOf: [{ $ref: "#/components/schemas/AuctionReportedStatusData" }]
-          nullable: true
         schedule:
           $ref: "#/components/schemas/AuctionScheduleData"
     AuctionScheduleData:
       type: object
       additionalProperties: false
-      required: [biddingOpens, liveStarts, lotsBeginClosing, scheduledEnd]
       properties:
-        biddingOpens: { type: string, format: date-time, nullable: true }
-        liveStarts: { type: string, format: date-time, nullable: true }
-        lotsBeginClosing: { type: string, format: date-time, nullable: true }
-        scheduledEnd: { type: string, format: date-time, nullable: true }
+        biddingOpens: { type: string, format: date-time }
+        liveStarts: { type: string, format: date-time }
+        lotsBeginClosing: { type: string, format: date-time }
+        scheduledEnd: { type: string, format: date-time }
     AuctionScheduleInputData:
       type: object
       additionalProperties: false
@@ -25914,7 +25689,6 @@ components:
       additionalProperties: false
       required:
       - items
-      - next
       properties:
         items:
           type: array
@@ -25924,7 +25698,6 @@ components:
         next:
           allOf:
           - $ref: '#/components/schemas/UserAddressId'
-          nullable: true
     BrowsingDestination:
       oneOf:
       - type: object
@@ -26001,18 +25774,13 @@ components:
     UserAddressDerivedGeography:
       type: object
       additionalProperties: false
-      required:
-      - geography
-      - position
       properties:
         geography:
           allOf:
           - $ref: '#/components/schemas/PartyLocationGeography'
-          nullable: true
         position:
           allOf:
           - $ref: '#/components/schemas/PartyLocationPosition'
-          nullable: true
     UserAddressResolution:
       type: object
       additionalProperties: false
@@ -26021,8 +25789,6 @@ components:
         browsing enrichment, not address or delivery verification.
       required:
       - status
-      - derived
-      - attribution
       properties:
         status:
           type: string
@@ -26037,11 +25803,9 @@ components:
         derived:
           allOf:
           - $ref: '#/components/schemas/UserAddressDerivedGeography'
-          nullable: true
         attribution:
           allOf:
           - $ref: '#/components/schemas/UserAddressAttribution'
-          nullable: true
     UserAddressAttribution:
       type: object
       additionalProperties: false
@@ -26084,12 +25848,10 @@ components:
         businessAssociation:
           allOf:
           - $ref: '#/components/schemas/SourceLocationDefaultEvidence'
-          nullable: true
           description: Explicit associated-business evidence; scope must be ASSOCIATED_BUSINESS.
         advertisedInventory:
           allOf:
           - $ref: '#/components/schemas/SourceLocationDefaultEvidence'
-          nullable: true
           description: Explicit inventory evidence; scope must be ADVERTISED_INVENTORY.
             Business, legal or correspondence evidence alone never establishes this meaning.
     SourceLocationDefaultData:
@@ -26098,8 +25860,6 @@ components:
       required:
       - listingSourceId
       - revision
-      - assignment
-      - eligibility
       properties:
         listingSourceId:
           type: string
@@ -26114,14 +25874,12 @@ components:
         assignment:
           allOf:
           - $ref: '#/components/schemas/SourceLocationDefaultAssignment'
-          nullable: true
         eligibility:
           type: string
           enum:
           - ACTIVE
           - RETIRED
-          nullable: true
-          description: Current eligibility of the retained reference, null if no assignment.
+          description: Current eligibility of the retained reference, omitted if no assignment.
             Retirement preserves the reference but disables inherited geography.
     AssignSourceLocationDefaultData:
       type: object
@@ -26464,7 +26222,6 @@ components:
       additionalProperties: false
       required:
       - items
-      - next
       properties:
         items:
           type: array
@@ -26473,8 +26230,7 @@ components:
         next:
           allOf:
           - $ref: '#/components/schemas/PartyLocationId'
-          nullable: true
-          description: Last returned ID when another row exists; supply as after. Null when exhausted.
+          description: Last returned ID when another row exists; supply as after. Omitted when exhausted.
     ResolutionId:
       type: string
       pattern: ^gres_[0-7][0-9a-hjkmnp-tv-z]{25}$
@@ -26638,14 +26394,11 @@ components:
     PartyLocationResolutionStateData:
       type: object
       additionalProperties: false
-      required:
-      - resolution
       properties:
         resolution:
           allOf:
           - $ref: '#/components/schemas/PartyLocationResolutionData'
-          nullable: true
-          description: Null when the location has no geocoding work because it carries an explicit position, has no
+          description: Omitted when the location has no geocoding work because it carries an explicit position, has no
             address text or is retired.
     PartyLocationResolutionReviewData:
       type: object
@@ -26663,7 +26416,6 @@ components:
       additionalProperties: false
       required:
       - items
-      - next
       properties:
         items:
           type: array
@@ -26672,8 +26424,7 @@ components:
         next:
           allOf:
           - $ref: '#/components/schemas/PartyLocationId'
-          nullable: true
-          description: Last scanned location ID when more may match; supply as after. Null when exhausted.
+          description: Last scanned location ID when more may match; supply as after. Omitted when exhausted.
     PartyLocationManagersPage:
       type: object
       additionalProperties: false

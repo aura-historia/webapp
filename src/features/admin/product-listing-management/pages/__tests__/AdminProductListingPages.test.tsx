@@ -53,8 +53,6 @@ const detailDto: AdminProductListingDetails = {
     sourceListingId: "SKU 0042",
     title: { text: "Walnut cabinet", language: "en" },
     price: { type: "MONETARY", amount: 125_050, currency: "EUR" },
-    priceEstimateMin: null,
-    priceEstimateMax: null,
     availability: "IN_STOCK",
     lifecycle: "ACTIVE",
     auctionId: "auc_01",
@@ -68,9 +66,8 @@ const detailDto: AdminProductListingDetails = {
         auctionId: "auc_01",
         lotNumber: "12A",
         cataloguePosition: 3,
-        timing: { biddingOpens: null, scheduledCloses: null, reportedClosedAt: null },
+        timing: {},
     },
-    saleObservation: null,
 };
 
 function ok<T>(data: T, status = 200) {
@@ -108,9 +105,9 @@ describe("AdminProductListingsPage", () => {
                             ...detailDto,
                             productListingId: "pl_02",
                             sourceListingId: "SKU 0043",
-                            title: null,
+                            title: undefined,
                             lifecycle: "WITHDRAWN",
-                            availability: null,
+                            availability: undefined,
                             price: { type: "ON_REQUEST" },
                         },
                     ],
@@ -326,7 +323,7 @@ describe("AdminProductListingDetailPage", () => {
 
     it("requires a language for new text, notes long titles and names a rejected title", async () => {
         api.getAdminProductListing.mockResolvedValue(
-            ok({ ...detailDto, title: null, description: null }),
+            ok({ ...detailDto, title: undefined, description: undefined }),
         );
         api.updateAdminProductListing.mockResolvedValue({
             data: undefined,
@@ -476,8 +473,10 @@ describe("AdminProductListingDetailPage", () => {
 
     it("locks editing of a withdrawn listing and restores it after confirmation", async () => {
         api.getAdminProductListing
-            .mockResolvedValueOnce(ok({ ...detailDto, lifecycle: "WITHDRAWN", availability: null }))
-            .mockResolvedValue(ok({ ...detailDto, availability: null, expectedVersion: 8 }));
+            .mockResolvedValueOnce(
+                ok({ ...detailDto, lifecycle: "WITHDRAWN", availability: undefined }),
+            )
+            .mockResolvedValue(ok({ ...detailDto, availability: undefined, expectedVersion: 8 }));
         api.restoreAdminProductListing.mockResolvedValue(
             ok({ productListingId: "pl_01", expectedVersion: 8, outcome: "CHANGED" }),
         );
@@ -528,7 +527,7 @@ describe("AdminProductListingDetailPage", () => {
             ok({
                 ...detailDto,
                 lifecycle: "WITHDRAWN",
-                availability: null,
+                availability: undefined,
                 expectedVersion: 8,
             }),
         );

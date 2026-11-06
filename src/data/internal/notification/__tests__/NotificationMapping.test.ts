@@ -31,7 +31,6 @@ describe("notification mapping", () => {
                         ...watchlistPayload,
                         change: {
                             type: "PRICE_CHANGE",
-                            oldPrice: null,
                             newPrice: { type: "ON_REQUEST" },
                         },
                     },
@@ -46,7 +45,6 @@ describe("notification mapping", () => {
                         ...watchlistPayload,
                         change: {
                             type: "AVAILABILITY_CHANGE",
-                            oldAvailability: null,
                             newAvailability: "SOLD_OUT",
                         },
                     },
@@ -61,8 +59,8 @@ describe("notification mapping", () => {
                 kind: "SEARCH_FILTER_MATCH",
                 payload: {
                     ...product,
-                    title: null,
-                    image: null,
+                    title: undefined,
+                    image: undefined,
                     productListingTitleSlugId: "",
                     userSearchFilterId: "filter-1",
                     userSearchFilterName: "Vases",
@@ -90,7 +88,6 @@ describe("notification mapping", () => {
                         partnershipApplicationId: "application-1",
                         decision,
                         listingSourceName: "Shop",
-                        image: null,
                     },
                 }),
             ).payload,
@@ -122,8 +119,7 @@ describe("notification mapping", () => {
         expect(result.searchAfter).toBe(JSON.stringify(cursor));
         expect(result).not.toHaveProperty("total");
         expect(
-            mapToInternalNotificationCollection({ items: [], size: 0, searchAfter: null })
-                .searchAfter,
+            mapToInternalNotificationCollection({ items: [], size: 0 }).searchAfter,
         ).toBeUndefined();
     });
 });

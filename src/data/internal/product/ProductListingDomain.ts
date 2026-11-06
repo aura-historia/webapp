@@ -144,14 +144,15 @@ function mapDate(value: string): Date {
     return new Date(value);
 }
 
-function mapNullableDate(value: string | null): Date | null {
-    return value === null ? null : mapDate(value);
+/** Responses omit absent members; an omitted member maps to `null`. */
+function mapNullableDate(value: string | null | undefined): Date | null {
+    return value == null ? null : mapDate(value);
 }
 
 export function mapListingAvailability(
-    availability: ListingAvailabilityData | null,
+    availability: ListingAvailabilityData | null | undefined,
 ): ListingAvailability | null {
-    if (availability === null) return null;
+    if (availability == null) return null;
     return (LISTING_AVAILABILITIES as readonly string[]).includes(availability)
         ? availability
         : "UNKNOWN";
@@ -230,9 +231,9 @@ export function mapListingContentPolicy(
 }
 
 export function mapListingAuction(
-    auction: AuctionSummaryData | null,
+    auction: AuctionSummaryData | null | undefined,
 ): ListingAuctionSummary | null {
-    if (auction === null) return null;
+    if (auction == null) return null;
     return {
         auctionId: auction.auctionId,
         name: auction.name
@@ -249,11 +250,13 @@ export function mapListingAuction(
     };
 }
 
-export function mapListingLot(lot: ProductListingLotData | null): ListingLotFacts | null {
-    if (lot === null) return null;
+export function mapListingLot(
+    lot: ProductListingLotData | null | undefined,
+): ListingLotFacts | null {
+    if (lot == null) return null;
     return {
-        lotNumber: lot.lotNumber,
-        cataloguePosition: lot.cataloguePosition,
+        lotNumber: lot.lotNumber ?? null,
+        cataloguePosition: lot.cataloguePosition ?? null,
         biddingOpens: mapNullableDate(lot.biddingOpens),
         scheduledCloses: mapNullableDate(lot.scheduledCloses),
         reportedClosedAt: mapNullableDate(lot.reportedClosedAt),

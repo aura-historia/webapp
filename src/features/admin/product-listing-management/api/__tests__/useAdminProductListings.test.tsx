@@ -39,19 +39,13 @@ const detailDto: AdminProductListingDetails = {
     sourceListingId: "SKU 0042",
     title: { text: "Walnut cabinet", language: "en" },
     price: { type: "MONETARY", amount: 125_050, currency: "EUR" },
-    priceEstimateMin: null,
-    priceEstimateMax: null,
     availability: "IN_STOCK",
     lifecycle: "ACTIVE",
-    auctionId: null,
     expectedVersion: 7,
     created: "2026-09-01T10:00:00Z",
     updated: "2026-10-01T12:30:00Z",
-    description: null,
     url: "https://galerie.example/items/42",
     images: [],
-    auction: null,
-    saleObservation: null,
 };
 
 function ok<T>(data: T, status = 200) {

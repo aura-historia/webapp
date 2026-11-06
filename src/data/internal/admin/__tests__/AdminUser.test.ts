@@ -19,7 +19,6 @@ const detailFixture = {
     userId: "opaque/user+01",
     email: "ada@example.test",
     firstName: "Ada",
-    lastName: null,
     language: "en" as const,
     currency: "EUR" as const,
     measurementUnit: "METRIC" as const,
@@ -57,7 +56,6 @@ describe("admin user DTO mapping", () => {
             userId: "opaque/user+01",
             email: "ada@example.test",
             firstName: "Ada",
-            lastName: null,
             language: "en",
             currency: "EUR",
             measurementUnit: "METRIC",
@@ -121,8 +119,8 @@ describe("admin user DTO mapping", () => {
             }),
         ).toEqual({ currency: null });
 
-        const unset = mapToAdminUserAccount({ ...detailFixture, currency: null });
-        expect(unset.currency).toBeNull();
+        const unset = mapToAdminUserAccount({ ...detailFixture, currency: undefined });
+        expect(unset.currency).toBeUndefined();
         expect(toAdminUserProfileFormValues(unset).currency).toBe("");
         expect(mapToAdminUserProfilePatch(unset, toAdminUserProfileFormValues(unset))).toEqual({});
     });

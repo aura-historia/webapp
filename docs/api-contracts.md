@@ -10,13 +10,13 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `5e0b39124774bf71f27c1925d9c7a782d290a5f0` (2026-11-05), which is also its last contract change
-  ([backend#2788](https://github.com/aura-historia/backend/pull/2788)). Git blob
-  `948ce303a31181d0edfdd6cf4624766714ae8e32`; file SHA-256
-  `d3035e76a894eb56d2978467ffc58e889eebe0e42c2d32fc027ce0e1af9b896e`; canonical parsed-JSON
+  `de0ff80312e496943fb7c51744113747af73a62e` (2026-11-06); its last contract change is
+  `52162210a5` ([backend#2789](https://github.com/aura-historia/backend/pull/2789)). Git blob
+  `5fe75e9d601eeacbbfb2a23f22b50306262c2a0f`; file SHA-256
+  `2693eba0209ecfe1d168b3b1c269427712f4706dd845eef6f99a82fa2a007f57`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `0d668d91c361be57813f6944ecd2e0f07ff1983e22255ec9700f7317a8be0f5e`. It replaces the
-  `8614fdac7d` capture (2026-10-30, last contract change `46997f8d8d`).
+  `ed32210b533b9442a8f0c05e36459c616fcc2cc7d86e92d39761e7f6d071b163`. It replaces the
+  `5e0b391247` capture (2026-11-05, last contract change `5e0b391247`).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -26,7 +26,30 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
-- Changes against the previous pin (`8614fdac7d`, 2026-10-30), with their decisions:
+- Changes against the previous pin (`5e0b391247`, 2026-11-05), with their decisions:
+  - **Responses omit absent members** ([backend#2785](https://github.com/aura-historia/backend/issues/2785)):
+    136 response-only members lose `nullable`/`required`, so the generated types turn `X | null`
+    into optional `X`; REST responses omit an absent member instead of sending `null`. Request
+    schemas are unchanged: `null` still clears where documented. Every mapper treats an omitted
+    member like the former `null` with `== null` checks and keeps the app model it had:
+    listing, lot, auction, history and admin listing and auction mappers still return `null` for
+    an absent availability, lot, auction, date, text or count; optional app members (names,
+    cursors, totals, approval references, token expiry) stay absent. Never compare a response
+    member with `=== null`, which an omitted member fails, and never send a response member back
+    as a request. A hidden image is now an image object without `url`, which
+    `mapListingImages` already treats as restricted. The Party-location resolution routes
+    return `{}` without geocoding work; they are generated-only (see
+    **Known gaps and decisions**). Advertised shipping terms, shipping profile `content` and
+    listing delivery configuration keep their required `null` members; shipping stays
+    generated-only. Fixtures follow the contract and omit absent response members. This breaking
+    change shipped without a transition period, but the mappers accept both shapes, so this
+    webapp also works against the previous backend.
+  - Backend commits since without a contract change need no client change: ListingSources read
+    from the admin API with raw captures through the ingestion queue
+    ([backend#2755](https://github.com/aura-historia/backend/issues/2755)) and the crawl root
+    derived from the presentation URL ([backend#2787](https://github.com/aura-historia/backend/issues/2787)).
+- Changes adopted with the `5e0b391247` capture (against `8614fdac7d`, 2026-10-30), with their
+  decisions:
   - **Listing text objects** ([backend#2784](https://github.com/aura-historia/backend/issues/2784)):
     listing `title` and `description` are `ListingTextData` (`{ original?, localized }`) instead
     of `LocalizedTextData`, and `productTitle`/`productDescription` are removed. Detail and
@@ -444,8 +467,8 @@ stable error codes, never raw server detail.
 
 ## Account preferences
 
-- `mapToInternalUserAccount` keeps nullable or absent names, language, currency, measurement units
-  and Stripe customer identity. The account has no audit dates or addresses. The email and
+- `mapToInternalUserAccount` keeps absent names, language, currency, measurement units and Stripe
+  customer identity absent. The account has no audit dates or addresses. The email and
   `marketingEmailConsent` are read-only, and the backend truncates names to 64 characters.
 - The admin user profile form never edits the email: `PatchAdminUserData` has no email member,
   and the dialog shows the canonical address as read-only text.

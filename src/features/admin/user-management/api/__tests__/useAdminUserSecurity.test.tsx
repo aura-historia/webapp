@@ -40,7 +40,6 @@ const token = (userId: string, accessTokenId: string, extra: Record<string, unkn
     name: `Token ${accessTokenId}`,
     scopes: ["users:read"],
     origin: "User",
-    expires: null,
     ...extra,
 });
 
@@ -131,7 +130,6 @@ describe("admin user security API", () => {
             name: "Token at_first",
             scopes: ["users:read"],
             origin: "User",
-            expires: null,
         });
         expect(JSON.stringify(hook.result.current.data)).not.toMatch(
             /raw-secret|hash-secret|masked-secret/,

@@ -3180,7 +3180,7 @@ export const adminGetPartnershipApplicationQueryKey = (options: Options<AdminGet
  * Get a PartnershipApplication for administration
  *
  * Delegated Aura access tokens require `partnership-applications:read`; missing scope returns `403 FORBIDDEN`. Retrieves a single PartnershipApplication for authenticated administrators.
- * The response includes the applicant, state, proposal, and nullable approval references. All responses send `Cache-Control: no-store`.
+ * The response includes the applicant, state, proposal, and approval references once approved. All responses send `Cache-Control: no-store`.
  *
  */
 export const adminGetPartnershipApplicationOptions = (options: Options<AdminGetPartnershipApplicationData>) => queryOptions<AdminGetPartnershipApplicationResponse, AdminGetPartnershipApplicationError, AdminGetPartnershipApplicationResponse, ReturnType<typeof adminGetPartnershipApplicationQueryKey>>({

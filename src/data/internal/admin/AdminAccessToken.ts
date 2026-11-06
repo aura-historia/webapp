@@ -7,7 +7,7 @@ export type AdminAccessToken = {
     readonly name: string;
     readonly scopes: readonly AccessTokenScope[];
     readonly origin: string;
-    readonly expires?: string | null;
+    readonly expires?: string;
 };
 
 /**
@@ -27,6 +27,6 @@ export function mapToAdminAccessToken(
         name: data.name,
         scopes: [...data.scopes],
         origin: data.origin,
-        ...(data.expires !== undefined && { expires: data.expires }),
+        ...(data.expires != null && { expires: data.expires }),
     };
 }

@@ -150,10 +150,7 @@ describe("admin auction queries", () => {
             reportedStatus: "POSTPONED",
             reportedLotCount: 0,
             schedule: {
-                biddingOpens: null,
                 liveStarts: "2026-11-02T10:30:00Z",
-                lotsBeginClosing: null,
-                scheduledEnd: null,
             },
         });
         const values = mapAdminAuctionFormValues(auction);

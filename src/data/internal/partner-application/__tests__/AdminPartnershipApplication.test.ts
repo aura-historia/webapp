@@ -28,8 +28,8 @@ const detail: AdminPartnershipApplicationData = {
 const summary: AdminPartnershipApplicationSummaryData = {
     ...detail,
     state: "SUBMITTED",
-    approvedPartnershipId: null,
-    approvedListingSourceId: null,
+    approvedPartnershipId: undefined,
+    approvedListingSourceId: undefined,
     created: "2026-09-01T10:00:00Z",
     updated: "2026-09-02T11:30:00Z",
 };
@@ -49,11 +49,11 @@ describe("AdminPartnershipApplication mapping", () => {
         expect(mapped).not.toHaveProperty("updated");
     });
 
-    it("omits null approval references", () => {
+    it("omits absent approval references", () => {
         const mapped = mapToAdminPartnershipApplication({
             ...detail,
-            approvedPartnershipId: null,
-            approvedListingSourceId: null,
+            approvedPartnershipId: undefined,
+            approvedListingSourceId: undefined,
         });
         expect(mapped).not.toHaveProperty("approvedPartnershipId");
         expect(mapped).not.toHaveProperty("approvedListingSourceId");
@@ -74,7 +74,7 @@ describe("AdminPartnershipApplication mapping", () => {
                 total: 4,
             }),
         ).toMatchObject({ searchAfter: '["2026-09-01T10:00:00Z","pa_1"]', total: 4 });
-        const terminal = mapToAdminPartnershipApplicationPage({ items: [], size: 0, total: null });
+        const terminal = mapToAdminPartnershipApplicationPage({ items: [], size: 0 });
         expect(terminal).toEqual({ items: [] });
     });
 

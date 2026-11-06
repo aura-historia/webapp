@@ -38,7 +38,6 @@ vi.mock("../../api/useAdminUserSecurity.ts", () => ({
                             name: "Catalog integration",
                             scopes: ["users:read"],
                             origin: "User",
-                            expires: null,
                         },
                     ],
                 },

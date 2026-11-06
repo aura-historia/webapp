@@ -39,9 +39,8 @@ describe("mapToInternalUserSearchFilterCollection", () => {
         expect(result.total).toBe(5);
     });
 
-    it("maps total to undefined when null", () => {
-        const data = { ...baseCollection, total: null };
-        const result = mapToInternalUserSearchFilterCollection(data);
+    it("keeps an omitted total undefined", () => {
+        const result = mapToInternalUserSearchFilterCollection(baseCollection);
         expect(result.total).toBeUndefined();
     });
 

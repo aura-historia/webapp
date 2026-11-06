@@ -379,7 +379,7 @@ export type ListingDeliveryConfigurationData = {
 export type ProductListingDeliveryViewData = {
   productListingId: string;
   expectedVersion: number;
-  delivery: ListingDeliveryConfigurationData | null;
+  delivery?: ListingDeliveryConfigurationData;
 };
 
 export type ProductListingDeliveryResultData = {
@@ -841,8 +841,8 @@ export type ShippingProfileData = {
 export type ShippingDefaultData = {
   listingSourceId: string;
   revision: number;
-  shippingProfileId: string | null;
-  eligibility: 'ACTIVE' | 'RETIRED' | 'MISSING' | null;
+  shippingProfileId?: string;
+  eligibility?: 'ACTIVE' | 'RETIRED' | 'MISSING';
 };
 
 export type AdminProductListingVersion = {
@@ -921,40 +921,40 @@ export type AdminProductListingSummary = {
   readonly productListingTitleSlugId: string;
   source: ProductListingSourceData;
   readonly sourceListingId: string;
-  title: LocalizedTextData | null;
-  price: ProductListingPriceData | null;
-  priceEstimateMin: PriceData | null;
-  priceEstimateMax: PriceData | null;
-  availability: ListingAvailabilityData | null;
+  title?: LocalizedTextData;
+  price?: ProductListingPriceData;
+  priceEstimateMin?: PriceData;
+  priceEstimateMax?: PriceData;
+  availability?: ListingAvailabilityData;
   lifecycle: ListingLifecycleData;
-  auctionId: string | null;
+  auctionId?: string;
   expectedVersion: number;
   readonly created: string;
   readonly updated: string;
 };
 
 export type AdminProductListingDetails = AdminProductListingSummary & {
-  description: LocalizedTextData | null;
+  description?: LocalizedTextData;
   url: string;
   /**
    * Privileged canonical URLs. Preview respects sensitive/unassessed status; public visibility is unchanged.
    */
   images: Array<string>;
-  auction: AdminProductListingAuction | null;
-  readonly saleObservation: {
+  auction?: AdminProductListingAuction;
+  readonly saleObservation?: {
     observedAt: string;
     fxRateId: string;
-  } | null;
+  };
 };
 
 export type AdminProductListingAuction = {
-  auctionId: string | null;
-  lotNumber: string | null;
-  cataloguePosition: number | null;
+  auctionId?: string;
+  lotNumber?: string;
+  cataloguePosition?: number;
   timing: {
-    biddingOpens: string | null;
-    scheduledCloses: string | null;
-    reportedClosedAt: string | null;
+    biddingOpens?: string;
+    scheduledCloses?: string;
+    reportedClosedAt?: string;
   };
 };
 
@@ -988,14 +988,14 @@ export type ProductListingSummaryData = {
    * Listing title. Carries only `localized`. Omitted when the listing has no title.
    */
   title?: ListingTextData;
-  displayPrice?: ProductListingPriceData | null;
+  displayPrice?: ProductListingPriceData;
   priceValuation: ProductListingSummaryPriceValuationData;
-  availability: ListingAvailabilityData | null;
+  availability?: ListingAvailabilityData;
   lifecycle: ListingLifecycleData;
   url: string;
   viewUrl: string;
   images: Array<ProductListingImageData>;
-  contentPolicy?: ContentPolicyData | null;
+  contentPolicy?: ContentPolicyData;
   /**
    * Time of the last committed change to listing-owned state, including enrichment (translations, embedding, geography, shipping summary, content assessment and delivery evidence). Strictly increasing per listing, with each new value at millisecond precision; FX changes and response-time composition do not advance it.
    */
@@ -1042,20 +1042,14 @@ export type ProductListingDetailsData = {
     display: ProductListingPricingData;
     valuation: ProductListingPricingValuationData;
   };
-  availability: ListingAvailabilityData | null;
+  availability?: ListingAvailabilityData;
   lifecycle: ListingLifecycleData;
   url: string;
   viewUrl: string;
   images: Array<ProductListingImageData>;
-  contentPolicy?: ContentPolicyData | null;
-  /**
-   * Current parent Auction presentation from the joined PostgreSQL detail read. Null when the listing has no parent Auction.
-   */
-  auction: AuctionSummaryData | null;
-  /**
-   * Listing-owned lot facts. Null when the listing has no lot facts.
-   */
-  lot: ProductListingLotData | null;
+  contentPolicy?: ContentPolicyData;
+  auction?: AuctionSummaryData;
+  lot?: ProductListingLotData;
   created: string;
   /**
    * Time of the last committed change to listing-owned state, including enrichment (translations, embedding, geography, shipping summary, content assessment and delivery evidence). Strictly increasing per listing, with each new value at millisecond precision; FX changes and response-time composition do not advance it.
@@ -1089,20 +1083,14 @@ export type ProductListingCollectionDetailsData = {
     display: ProductListingPricingData;
     valuation: ProductListingPricingValuationData;
   };
-  availability: ListingAvailabilityData | null;
+  availability?: ListingAvailabilityData;
   lifecycle: ListingLifecycleData;
   url: string;
   viewUrl: string;
   images: Array<ProductListingImageData>;
-  contentPolicy?: ContentPolicyData | null;
-  /**
-   * Current parent Auction presentation from the joined PostgreSQL detail read. Null when the listing has no parent Auction.
-   */
-  auction: AuctionSummaryData | null;
-  /**
-   * Listing-owned lot facts. Null when the listing has no lot facts.
-   */
-  lot: ProductListingLotData | null;
+  contentPolicy?: ContentPolicyData;
+  auction?: AuctionSummaryData;
+  lot?: ProductListingLotData;
   created: string;
   /**
    * Time of the last committed change to listing-owned state, including enrichment (translations, embedding, geography, shipping summary, content assessment and delivery evidence). Strictly increasing per listing, with each new value at millisecond precision; FX changes and response-time composition do not advance it.
@@ -1114,17 +1102,17 @@ export type ProductListingCollectionDetailsData = {
  * Listing-owned lot facts. These facts may exist without a parent Auction.
  */
 export type ProductListingLotData = {
-  lotNumber: string | null;
-  cataloguePosition: number | null;
-  biddingOpens: string | null;
-  scheduledCloses: string | null;
-  reportedClosedAt: string | null;
+  lotNumber?: string;
+  cataloguePosition?: number;
+  biddingOpens?: string;
+  scheduledCloses?: string;
+  reportedClosedAt?: string;
 };
 
 export type ProductListingPricingData = {
-  price?: ProductListingPriceData | null;
-  priceEstimateMin?: PriceData | null;
-  priceEstimateMax?: PriceData | null;
+  price?: ProductListingPriceData;
+  priceEstimateMin?: PriceData;
+  priceEstimateMax?: PriceData;
 };
 
 export type ProductListingPricingValuationData = {
@@ -1146,7 +1134,7 @@ export type PersonalizedProductListingDetailsData = {
   /**
    * Present only for a valid user or delegated-user bearer token. A delegated token receives only the sections its read scopes permit and no `userState` when none applies.
    */
-  userState?: ProductListingUserStateData | null;
+  userState?: ProductListingUserStateData;
 };
 
 /**
@@ -1157,7 +1145,7 @@ export type PersonalizedProductListingCollectionDetailsData = {
   /**
    * Present only for a valid user or delegated-user bearer token. A delegated token receives only the sections its read scopes permit and no `userState` when none applies.
    */
-  userState?: ProductListingCollectionUserStateData | null;
+  userState?: ProductListingCollectionUserStateData;
 };
 
 /**
@@ -1168,7 +1156,7 @@ export type PersonalizedProductListingSummaryData = {
   /**
    * Present only for a valid user or delegated-user bearer token. A delegated token receives only the sections its read scopes permit and no `userState` when none applies.
    */
-  userState?: ProductListingCollectionUserStateData | null;
+  userState?: ProductListingCollectionUserStateData;
 };
 
 /**
@@ -1186,11 +1174,11 @@ export type ProductListingSearchResultData = {
   /**
    * Total matching product-listings for BM25 search when the backend provides it. Hybrid BM25 plus KNN search omits this value because its fused candidate pool is not a reliable total.
    */
-  total?: number | null;
+  total?: number;
   /**
    * Opaque cursor for the next page. It must be sent back as one JSON-encoded `searchAfter` query value.
    */
-  searchAfter?: ProductListingSearchCursorData | null;
+  searchAfter?: ProductListingSearchCursorData;
 };
 
 export type ProductListingSearchCursorData = {
@@ -1397,9 +1385,9 @@ export type ProductListingHistoryMainPriceData = {
 };
 
 export type ProductListingHistoryPricingData = {
-  price?: ProductListingHistoryMainPriceData | null;
-  priceEstimateMin?: ProductListingHistoryEstimateData | null;
-  priceEstimateMax?: ProductListingHistoryEstimateData | null;
+  price?: ProductListingHistoryMainPriceData;
+  priceEstimateMin?: ProductListingHistoryEstimateData;
+  priceEstimateMax?: ProductListingHistoryEstimateData;
 };
 
 /**
@@ -1539,14 +1527,14 @@ export type ProductListingAuctionFactsData = {
   /**
    * Optional source-assigned lot label.
    */
-  lotNumber: string | null;
+  lotNumber?: string;
   /**
    * Optional one-based source catalogue position.
    */
-  cataloguePosition: number | null;
-  biddingOpens: string | null;
-  scheduledCloses: string | null;
-  reportedClosedAt: string | null;
+  cataloguePosition?: number;
+  biddingOpens?: string;
+  scheduledCloses?: string;
+  reportedClosedAt?: string;
 };
 
 /**
@@ -1599,9 +1587,9 @@ export type PricingData = {
  */
 export type ProductListingImageData = {
   /**
-   * URL to the product image, or `null` when it is not shown to this viewer.
+   * URL to the product image, omitted when it is not shown to this viewer.
    */
-  url: string | null;
+  url?: string;
 };
 
 /**
@@ -1642,10 +1630,10 @@ export type ProductListingDiscoveryHistoryPayloadData = {
   title?: LocalizedTextData;
   description?: LocalizedTextData;
   pricing: ProductListingHistoryPricingData;
-  availability: ListingAvailabilityData | null;
+  availability?: ListingAvailabilityData;
   url: string;
   imageCount: number;
-  auction: ProductListingAuctionFactsData | null;
+  auction?: ProductListingAuctionFactsData;
 };
 
 export type ProductListingChangedHistoryPayloadData = {
@@ -1662,32 +1650,32 @@ export type ProductListingHistoryChangeData = ProductListingTitleHistoryChangeDa
 
 export type ProductListingTitleHistoryChangeData = {
   type: 'TITLE_CHANGED';
-  previous: LocalizedTextData | null;
-  current: LocalizedTextData | null;
+  previous?: LocalizedTextData;
+  current?: LocalizedTextData;
 };
 
 export type ProductListingDescriptionHistoryChangeData = {
   type: 'DESCRIPTION_CHANGED';
-  previous: LocalizedTextData | null;
-  current: LocalizedTextData | null;
+  previous?: LocalizedTextData;
+  current?: LocalizedTextData;
 };
 
 export type ProductListingMainPriceHistoryChangeData = {
   type: 'MAIN_PRICE_CHANGED';
-  previous: ProductListingHistoryMainPriceData | null;
-  current: ProductListingHistoryMainPriceData | null;
+  previous?: ProductListingHistoryMainPriceData;
+  current?: ProductListingHistoryMainPriceData;
 };
 
 export type ProductListingPriceHistoryChangeData = {
   type: 'MINIMUM_ESTIMATE_CHANGED' | 'MAXIMUM_ESTIMATE_CHANGED';
-  previous: ProductListingHistoryEstimateData | null;
-  current: ProductListingHistoryEstimateData | null;
+  previous?: ProductListingHistoryEstimateData;
+  current?: ProductListingHistoryEstimateData;
 };
 
 export type ProductListingAvailabilityHistoryChangeData = {
   type: 'AVAILABILITY_CHANGED';
-  previous: ListingAvailabilityData | null;
-  current: ListingAvailabilityData | null;
+  previous?: ListingAvailabilityData;
+  current?: ListingAvailabilityData;
 };
 
 export type ProductListingUrlHistoryChangeData = {
@@ -1704,13 +1692,13 @@ export type ProductListingImagesHistoryChangeData = {
 
 export type ProductListingAuctionHistoryChangeData = {
   type: 'AUCTION_CHANGED';
-  previous: ProductListingAuctionFactsData | null;
-  current: ProductListingAuctionFactsData | null;
+  previous?: ProductListingAuctionFactsData;
+  current?: ProductListingAuctionFactsData;
 };
 
 export type ProductListingWithdrawalHistoryChangeData = {
   type: 'WITHDRAWN';
-  previousAvailability: ListingAvailabilityData | null;
+  previousAvailability?: ListingAvailabilityData;
 };
 
 export type ProductListingRestorationHistoryChangeData = {
@@ -2042,7 +2030,7 @@ export type UserSearchFilterCollectionData = {
   /**
    * Total number of product-listings matching the query
    */
-  total?: number | null;
+  total?: number;
 };
 
 /**
@@ -2079,7 +2067,7 @@ export type AdminAccessTokenCollectionData = {
   searchAfter?: [
     string,
     string
-  ] | null;
+  ];
 };
 
 /**
@@ -2112,7 +2100,7 @@ export type AdminAccessTokenData = {
   /**
    * Optional RFC3339 expiration timestamp; expired and current tokens are both listed.
    */
-  expires?: string | null;
+  expires?: string;
 };
 
 /**
@@ -2397,11 +2385,11 @@ export type OAuthClientAdminCollectionData = {
   searchAfter?: [
     string,
     string
-  ] | null;
+  ];
   /**
    * Total matching OAuth clients when provided by the reader; omitted otherwise.
    */
-  total?: number | null;
+  total?: number;
 };
 
 /**
@@ -2818,11 +2806,11 @@ export type OwnUserAccountData = {
    * User's email address.
    */
   email: string;
-  firstName?: string | null;
-  lastName?: string | null;
-  language?: LanguageData | null;
-  currency?: CurrencyData | null;
-  measurementUnit?: MeasurementUnitData | null;
+  firstName?: string;
+  lastName?: string;
+  language?: LanguageData;
+  currency?: CurrencyData;
+  measurementUnit?: MeasurementUnitData;
   /**
    * Stored preference for showing unassessed or sensitive content.
    */
@@ -2836,7 +2824,7 @@ export type OwnUserAccountData = {
   /**
    * Persisted Stripe customer identifier, omitted when absent.
    */
-  stripeCustomerId?: string | null;
+  stripeCustomerId?: string;
 };
 
 export type AdminUserAccountData = OwnUserAccountData;
@@ -3051,10 +3039,10 @@ export type WatchlistNotificationPayloadData = {
   productListingTitleSlugId: string;
   listingSourceName: string;
   /**
-   * Listing title for the recipient's language. Null when the listing had no title. Carries only `localized`.
+   * Listing title for the recipient's language. Omitted when the listing had no title. Carries only `localized`.
    */
-  title: ListingTextData | null;
-  image: ProductListingImageData | null;
+  title?: ListingTextData;
+  image?: ProductListingImageData;
   url: string;
   viewUrl: string;
   change: WatchlistNotificationChangeData;
@@ -3065,19 +3053,19 @@ export type WatchlistNotificationChangeData = WatchlistNotificationPriceChangeDa
 export type WatchlistNotificationPriceChangeData = {
   type: 'PRICE_CHANGE';
   /**
-   * Previous asking-price assertion. Null when unavailable.
+   * Previous asking-price assertion. Omitted when unavailable.
    */
-  oldPrice: ProductListingPriceData | null;
+  oldPrice?: ProductListingPriceData;
   /**
-   * New asking-price assertion. Null when unavailable.
+   * New asking-price assertion. Omitted when unavailable.
    */
-  newPrice: ProductListingPriceData | null;
+  newPrice?: ProductListingPriceData;
 };
 
 export type WatchlistNotificationAvailabilityChangeData = {
   type: 'AVAILABILITY_CHANGE';
-  oldAvailability: ListingAvailabilityData | null;
-  newAvailability: ListingAvailabilityData | null;
+  oldAvailability?: ListingAvailabilityData;
+  newAvailability?: ListingAvailabilityData;
 };
 
 export type SearchFilterNotificationPayloadData = {
@@ -3090,10 +3078,10 @@ export type SearchFilterNotificationPayloadData = {
   productListingTitleSlugId: string;
   listingSourceName: string;
   /**
-   * Listing title for the recipient's language. Null when the listing had no title. Carries only `localized`.
+   * Listing title for the recipient's language. Omitted when the listing had no title. Carries only `localized`.
    */
-  title: ListingTextData | null;
-  image: ProductListingImageData | null;
+  title?: ListingTextData;
+  image?: ProductListingImageData;
   url: string;
   viewUrl: string;
 };
@@ -3102,7 +3090,7 @@ export type PartnershipApplicationNotificationPayloadData = {
   partnershipApplicationId: string;
   decision: 'APPROVED' | 'REJECTED';
   listingSourceName: string;
-  image: string | null;
+  image?: string;
 };
 
 export type UpdateNotificationSeenData = {
@@ -3126,7 +3114,7 @@ export type NotificationCollectionData = {
   searchAfter?: [
     string,
     string
-  ] | null;
+  ];
 };
 
 /**
@@ -3677,8 +3665,8 @@ export type AdminPartnershipApplicationData = {
   applicantUserId: string;
   state: PartnershipApplicationStateData;
   proposal: PartnershipApplicationProposalData;
-  approvedPartnershipId: string | null;
-  approvedListingSourceId: string | null;
+  approvedPartnershipId?: string;
+  approvedListingSourceId?: string;
 };
 
 export type PartnershipProposalTypeData = 'EXISTING_LISTING_SOURCE' | 'PROPOSED_LISTING_SOURCE';
@@ -3688,8 +3676,8 @@ export type AdminPartnershipApplicationSummaryData = {
   applicantUserId: string;
   state: PartnershipApplicationStateData;
   proposal: PartnershipApplicationProposalData;
-  approvedPartnershipId: string | null;
-  approvedListingSourceId: string | null;
+  approvedPartnershipId?: string;
+  approvedListingSourceId?: string;
   created: string;
   updated: string;
 };
@@ -3707,7 +3695,7 @@ export type AdminPartnershipApplicationCollectionData = {
     string,
     string
   ];
-  total?: number | null;
+  total?: number;
 };
 
 export type ListingSourceReferenceData = {
@@ -3847,7 +3835,7 @@ export type ListingSourceSearchSummaryData = {
   /**
    * Safe referral summary; provider credentials are never included.
    */
-  referralConfiguration?: ReferralConfigurationData | null;
+  referralConfiguration?: ReferralConfigurationData;
   created: string;
   updated: string;
 };
@@ -4041,7 +4029,7 @@ export type PublicAuctionDirectoryData = {
   /**
    * Omitted on the terminal page. Send the complete JSON value as the `searchAfter` query parameter.
    */
-  searchAfter?: PublicAuctionDirectoryCursorData | null;
+  searchAfter?: PublicAuctionDirectoryCursorData;
 };
 
 export type PublicAuctionDirectoryItemData = {
@@ -4050,10 +4038,10 @@ export type PublicAuctionDirectoryItemData = {
    */
   auctionId: string;
   listingSource: PublicAuctionSourceData;
-  name: LocalizedTextData | null;
-  format: AuctionFormatData | null;
+  name?: LocalizedTextData;
+  format?: AuctionFormatData;
   schedule: AuctionScheduleData;
-  reportedStatus: AuctionReportedStatusData | null;
+  reportedStatus?: AuctionReportedStatusData;
   created: string;
 };
 
@@ -4063,13 +4051,13 @@ export type PublicAuctionData = {
    */
   auctionId: string;
   listingSource: PublicAuctionSourceData;
-  name: LocalizedTextData | null;
-  catalogueUrl: string | null;
-  viewUrl: string | null;
-  format: AuctionFormatData | null;
+  name?: LocalizedTextData;
+  catalogueUrl?: string;
+  viewUrl?: string;
+  format?: AuctionFormatData;
   schedule: AuctionScheduleData;
-  reportedStatus: AuctionReportedStatusData | null;
-  reportedLotCount: number | null;
+  reportedStatus?: AuctionReportedStatusData;
+  reportedLotCount?: number;
   visibleListingCount: number;
 };
 
@@ -4091,21 +4079,24 @@ export type AdminAuctionSearchCollectionData = {
   searchAfter?: string;
 };
 
+/**
+ * Returned without `null` members. Cursors that still carry `null` for an absent member remain accepted.
+ */
 export type PublicAuctionDirectoryCursorData = {
   created: string;
   auctionId: string;
   /**
-   * Present for scheduled sorting; null if the selected role instant is missing. Omitted for created sorting.
+   * Present for scheduled sorting when the auction has the selected role instant; otherwise omitted.
    */
-  scheduled?: string | null;
+  scheduled?: string;
   scope: PublicAuctionDirectoryCursorScopeData;
 };
 
 export type PublicAuctionDirectoryCursorScopeData = {
-  listingSourceId: string | null;
-  format: AuctionFormatData | null;
-  reportedStatus: AuctionReportedStatusData | null;
-  timeRole: 'BIDDING_OPENS' | 'LIVE_STARTS' | 'LOTS_BEGIN_CLOSING' | 'SCHEDULED_END';
+  listingSourceId?: string;
+  format?: AuctionFormatData;
+  reportedStatus?: AuctionReportedStatusData;
+  timeRole?: 'BIDDING_OPENS' | 'LIVE_STARTS' | 'LOTS_BEGIN_CLOSING' | 'SCHEDULED_END';
   /**
    * Omitted for the default created ordering.
    */
@@ -4114,8 +4105,8 @@ export type PublicAuctionDirectoryCursorScopeData = {
    * Omitted for the default created/descending ordering.
    */
   order?: 'asc' | 'desc';
-  from: string | null;
-  to: string | null;
+  from?: string;
+  to?: string;
 };
 
 export type PublicAuctionCatalogueData = {
@@ -4124,12 +4115,12 @@ export type PublicAuctionCatalogueData = {
   /**
    * Omitted on the terminal page. Send the complete JSON value as the `searchAfter` query parameter.
    */
-  searchAfter?: PublicAuctionCatalogueCursorData | null;
+  searchAfter?: PublicAuctionCatalogueCursorData;
 };
 
 export type PublicAuctionCatalogueCursorData = {
   auctionId: string;
-  cataloguePosition: number | null;
+  cataloguePosition?: number;
   productListingId: string;
 };
 
@@ -4140,12 +4131,12 @@ export type AuctionAdminData = {
   auctionId: string;
   listingSourceId: string;
   sourceAuctionId: string;
-  name: LocalizedTextData | null;
-  catalogueUrl: string | null;
-  format: AuctionFormatData | null;
+  name?: LocalizedTextData;
+  catalogueUrl?: string;
+  format?: AuctionFormatData;
   schedule: AuctionScheduleData;
-  reportedStatus: AuctionReportedStatusData | null;
-  reportedLotCount: number | null;
+  reportedStatus?: AuctionReportedStatusData;
+  reportedLotCount?: number;
   expectedVersion: number;
   created: string;
   updated: string;
@@ -4163,17 +4154,17 @@ export type AuctionSummaryData = {
    * Strict `auc_` UUIDv7 TypeID.
    */
   auctionId: string;
-  name?: LocalizedTextData | null;
-  format?: AuctionFormatData | null;
-  reportedStatus?: AuctionReportedStatusData | null;
+  name?: LocalizedTextData;
+  format?: AuctionFormatData;
+  reportedStatus?: AuctionReportedStatusData;
   schedule: AuctionScheduleData;
 };
 
 export type AuctionScheduleData = {
-  biddingOpens: string | null;
-  liveStarts: string | null;
-  lotsBeginClosing: string | null;
-  scheduledEnd: string | null;
+  biddingOpens?: string;
+  liveStarts?: string;
+  lotsBeginClosing?: string;
+  scheduledEnd?: string;
 };
 
 /**
@@ -4249,7 +4240,7 @@ export type UserAddress = {
 
 export type UserAddressPage = {
   items: Array<UserAddress>;
-  next: UserAddressId | null;
+  next?: UserAddressId;
 };
 
 /**
@@ -4283,8 +4274,8 @@ export type SetBrowsingDestination = {
 };
 
 export type UserAddressDerivedGeography = {
-  geography: PartyLocationGeography | null;
-  position: PartyLocationPosition | null;
+  geography?: PartyLocationGeography;
+  position?: PartyLocationPosition;
 };
 
 /**
@@ -4292,8 +4283,8 @@ export type UserAddressDerivedGeography = {
  */
 export type UserAddressResolution = {
   status: 'PENDING' | 'ACCEPTED' | 'AMBIGUOUS' | 'NO_MATCH' | 'FAILED' | 'BLOCKED' | 'UNAVAILABLE';
-  derived: UserAddressDerivedGeography | null;
-  attribution: UserAddressAttribution | null;
+  derived?: UserAddressDerivedGeography;
+  attribution?: UserAddressAttribution;
 };
 
 /**
@@ -4317,11 +4308,11 @@ export type SourceLocationDefaultAssignment = {
   /**
    * Explicit associated-business evidence; scope must be ASSOCIATED_BUSINESS.
    */
-  businessAssociation?: SourceLocationDefaultEvidence | null;
+  businessAssociation?: SourceLocationDefaultEvidence;
   /**
    * Explicit inventory evidence; scope must be ADVERTISED_INVENTORY. Business, legal or correspondence evidence alone never establishes this meaning.
    */
-  advertisedInventory?: SourceLocationDefaultEvidence | null;
+  advertisedInventory?: SourceLocationDefaultEvidence;
 };
 
 export type SourceLocationDefaultData = {
@@ -4330,11 +4321,11 @@ export type SourceLocationDefaultData = {
    * Expected source-default revision; an untouched source has revision 1. Stale writes conflict, including no-ops.
    */
   revision: number;
-  assignment: SourceLocationDefaultAssignment | null;
+  assignment?: SourceLocationDefaultAssignment;
   /**
-   * Current eligibility of the retained reference, null if no assignment. Retirement preserves the reference but disables inherited geography.
+   * Current eligibility of the retained reference, omitted if no assignment. Retirement preserves the reference but disables inherited geography.
    */
-  eligibility: 'ACTIVE' | 'RETIRED';
+  eligibility?: 'ACTIVE' | 'RETIRED';
 };
 
 /**
@@ -4503,9 +4494,9 @@ export type PartyLocationData = {
 export type PartyLocationsPage = {
   items: Array<PartyLocationData>;
   /**
-   * Last returned ID when another row exists; supply as after. Null when exhausted.
+   * Last returned ID when another row exists; supply as after. Omitted when exhausted.
    */
-  next: PartyLocationId | null;
+  next?: PartyLocationId;
 };
 
 /**
@@ -4582,9 +4573,9 @@ export type PartyLocationResolutionData = {
 
 export type PartyLocationResolutionStateData = {
   /**
-   * Null when the location has no geocoding work because it carries an explicit position, has no address text or is retired.
+   * Omitted when the location has no geocoding work because it carries an explicit position, has no address text or is retired.
    */
-  resolution: PartyLocationResolutionData | null;
+  resolution?: PartyLocationResolutionData;
 };
 
 export type PartyLocationResolutionReviewData = {
@@ -4595,9 +4586,9 @@ export type PartyLocationResolutionReviewData = {
 export type PartyLocationResolutionReviewsPage = {
   items: Array<PartyLocationResolutionReviewData>;
   /**
-   * Last scanned location ID when more may match; supply as after. Null when exhausted.
+   * Last scanned location ID when more may match; supply as after. Omitted when exhausted.
    */
-  next: PartyLocationId | null;
+  next?: PartyLocationId;
 };
 
 export type PartyLocationManagersPage = {
@@ -4759,12 +4750,12 @@ export type PublicPartyLocationData = {
 export type AdminProductListingSummaryWritable = {
   productListingId: string;
   source: ProductListingSourceData;
-  price: ProductListingPriceData | null;
-  priceEstimateMin: PriceData | null;
-  priceEstimateMax: PriceData | null;
-  availability: ListingAvailabilityData | null;
+  price?: ProductListingPriceData;
+  priceEstimateMin?: PriceData;
+  priceEstimateMax?: PriceData;
+  availability?: ListingAvailabilityData;
   lifecycle: ListingLifecycleData;
-  auctionId: string | null;
+  auctionId?: string;
   expectedVersion: number;
 };
 
@@ -4774,7 +4765,7 @@ export type AdminProductListingDetailsWritable = AdminProductListingSummaryWrita
    * Privileged canonical URLs. Preview respects sensitive/unassessed status; public visibility is unchanged.
    */
   images: Array<string>;
-  auction: AdminProductListingAuction | null;
+  auction?: AdminProductListingAuction;
 };
 
 export type AdminProductListingPageWritable = {
@@ -4798,11 +4789,11 @@ export type OwnUserAccountDataWritable = {
    * User's email address.
    */
   email: string;
-  firstName?: string | null;
-  lastName?: string | null;
-  language?: LanguageData | null;
-  currency?: CurrencyData | null;
-  measurementUnit?: MeasurementUnitData | null;
+  firstName?: string;
+  lastName?: string;
+  language?: LanguageData;
+  currency?: CurrencyData;
+  measurementUnit?: MeasurementUnitData;
   /**
    * Stored preference for showing unassessed or sensitive content.
    */
@@ -4812,7 +4803,7 @@ export type OwnUserAccountDataWritable = {
   /**
    * Persisted Stripe customer identifier, omitted when absent.
    */
-  stripeCustomerId?: string | null;
+  stripeCustomerId?: string;
 };
 
 export type AdminUserAccountDataWritable = OwnUserAccountDataWritable;
@@ -7498,7 +7489,7 @@ export type GetWatchlistProductListingsResponses = {
     searchAfter?: [
       string,
       string
-    ] | null;
+    ];
   };
 };
 

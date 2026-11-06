@@ -28,8 +28,8 @@ export type AdminOAuthClientCursor = readonly [createdAt: string, clientId: stri
 export type AdminOAuthClientPage = {
     readonly items: readonly AdminOAuthClient[];
     readonly size: number;
-    readonly searchAfter?: AdminOAuthClientCursor | null;
-    readonly total?: number | null;
+    readonly searchAfter?: AdminOAuthClientCursor;
+    readonly total?: number;
 };
 
 export type AdminOAuthClientMetadataInput = {
@@ -122,8 +122,8 @@ export function mapToAdminOAuthClientPage(
     return {
         items: data.items.map(mapToAdminOAuthClient),
         size: data.size,
-        ...(data.searchAfter !== undefined && { searchAfter: data.searchAfter }),
-        ...(data.total !== undefined && { total: data.total }),
+        ...(data.searchAfter != null && { searchAfter: data.searchAfter }),
+        ...(data.total != null && { total: data.total }),
     };
 }
 

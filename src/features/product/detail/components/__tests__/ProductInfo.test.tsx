@@ -156,8 +156,6 @@ describe("ProductInfo", () => {
                     url: "https://example.com/chair",
                     viewUrl: "https://example.com/chair",
                     images: [],
-                    auction: null,
-                    lot: null,
                     created: "2026-08-01T00:00:00Z",
                     updated: "2026-09-01T00:00:00Z",
                 },

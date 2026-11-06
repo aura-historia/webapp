@@ -70,9 +70,7 @@ describe("mapToInternalProductImage", () => {
         ).toBe("NAZI_GERMANY");
     });
     it("preserves redaction without recovering a URL", () => {
-        expect(
-            mapToInternalProductImage({ url: null }, { decision: "ALLOWED" })?.url,
-        ).toBeUndefined();
+        expect(mapToInternalProductImage({}, { decision: "ALLOWED" })?.url).toBeUndefined();
     });
     it("rejects malformed URLs", () => {
         expect(mapToInternalProductImage({ url: "invalid" })).toBeUndefined();

@@ -22,8 +22,6 @@ const discoveredEntry = {
             lotNumber: "A-12",
             cataloguePosition: 5,
             biddingOpens: "2026-09-10T08:00:00Z",
-            scheduledCloses: null,
-            reportedClosedAt: null,
         },
     },
 } satisfies ProductListingHistoryEntryData;
@@ -43,7 +41,6 @@ const changedEntry = {
             {
                 type: "DESCRIPTION_CHANGED",
                 previous: { text: "Maple back.", language: "en" },
-                current: null,
             },
             {
                 type: "MAIN_PRICE_CHANGED",
@@ -52,13 +49,11 @@ const changedEntry = {
             },
             {
                 type: "MINIMUM_ESTIMATE_CHANGED",
-                previous: null,
                 current: { amount: 100000, currency: "EUR" },
             },
             {
                 type: "MAXIMUM_ESTIMATE_CHANGED",
                 previous: { amount: 250000, currency: "EUR" },
-                current: null,
             },
             { type: "AVAILABILITY_CHANGED", previous: "AVAILABLE", current: "RESERVED" },
             {
@@ -69,13 +64,10 @@ const changedEntry = {
             { type: "IMAGES_CHANGED", previousCount: 2, currentCount: 4 },
             {
                 type: "AUCTION_CHANGED",
-                previous: null,
                 current: {
                     lotNumber: "A-12",
                     cataloguePosition: 5,
                     biddingOpens: "2026-09-10T08:00:00Z",
-                    scheduledCloses: null,
-                    reportedClosedAt: null,
                 },
             },
             { type: "WITHDRAWN", previousAvailability: "RESERVED" },
@@ -287,7 +279,6 @@ describe("mapProductListingHistory", () => {
                             },
                             {
                                 type: "MINIMUM_ESTIMATE_CHANGED",
-                                previous: null,
                                 current: { amount: 100000, currency: "SEK" },
                             },
                         ],
@@ -315,7 +306,7 @@ describe("mapProductListingHistory", () => {
             }
         });
 
-        it("never projects on-request or null prices", () => {
+        it("never projects on-request or omitted prices", () => {
             const [entry] = mapProductListingHistory([
                 {
                     ...changedEntry,
@@ -323,7 +314,6 @@ describe("mapProductListingHistory", () => {
                         changes: [
                             {
                                 type: "MAIN_PRICE_CHANGED",
-                                previous: null,
                                 current: {
                                     type: "ON_REQUEST",
                                     display: { currency: "RON", amount: 0, ...snapshot },

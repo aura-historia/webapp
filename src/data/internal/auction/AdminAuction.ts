@@ -29,12 +29,17 @@ export type AdminAuction = {
     readonly updated: Date;
 };
 
+/** Responses omit absent members; an omitted member maps to `null`. */
+function mapNullableDate(value: string | undefined): Date | null {
+    return value == null ? null : new Date(value);
+}
+
 function mapSchedule(data: AuctionScheduleData): AuctionSchedule {
     return {
-        biddingOpens: data.biddingOpens === null ? null : new Date(data.biddingOpens),
-        liveStarts: data.liveStarts === null ? null : new Date(data.liveStarts),
-        lotsBeginClosing: data.lotsBeginClosing === null ? null : new Date(data.lotsBeginClosing),
-        scheduledEnd: data.scheduledEnd === null ? null : new Date(data.scheduledEnd),
+        biddingOpens: mapNullableDate(data.biddingOpens),
+        liveStarts: mapNullableDate(data.liveStarts),
+        lotsBeginClosing: mapNullableDate(data.lotsBeginClosing),
+        scheduledEnd: mapNullableDate(data.scheduledEnd),
     };
 }
 
@@ -43,12 +48,12 @@ export function mapAdminAuction(data: AuctionAdminData): AdminAuction {
         auctionId: data.auctionId,
         listingSourceId: data.listingSourceId,
         sourceAuctionId: data.sourceAuctionId,
-        name: data.name,
-        catalogueUrl: data.catalogueUrl,
-        format: data.format,
+        name: data.name ?? null,
+        catalogueUrl: data.catalogueUrl ?? null,
+        format: data.format ?? null,
         schedule: mapSchedule(data.schedule),
-        reportedStatus: data.reportedStatus,
-        reportedLotCount: data.reportedLotCount,
+        reportedStatus: data.reportedStatus ?? null,
+        reportedLotCount: data.reportedLotCount ?? null,
         expectedVersion: data.expectedVersion,
         created: new Date(data.created),
         updated: new Date(data.updated),

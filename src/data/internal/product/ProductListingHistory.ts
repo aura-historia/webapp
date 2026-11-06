@@ -160,20 +160,27 @@ function mapMoney(
     return { amount: value.amount, currency: value.currency, ...(display && { display }) };
 }
 
-function mapAuction(value: ProductListingAuctionFactsData | null): ListingAuctionFacts | null {
-    if (value === null) return null;
+/** Responses omit absent members; an omitted member maps to `null`. */
+function mapNullableDate(value: string | null | undefined): Date | null {
+    return value == null ? null : new Date(value);
+}
+
+function mapAuction(
+    value: ProductListingAuctionFactsData | null | undefined,
+): ListingAuctionFacts | null {
+    if (value == null) return null;
     return {
         auctionId: value.auctionId,
-        lotNumber: value.lotNumber,
-        cataloguePosition: value.cataloguePosition,
-        biddingOpens: value.biddingOpens === null ? null : new Date(value.biddingOpens),
-        scheduledCloses: value.scheduledCloses === null ? null : new Date(value.scheduledCloses),
-        reportedClosedAt: value.reportedClosedAt === null ? null : new Date(value.reportedClosedAt),
+        lotNumber: value.lotNumber ?? null,
+        cataloguePosition: value.cataloguePosition ?? null,
+        biddingOpens: mapNullableDate(value.biddingOpens),
+        scheduledCloses: mapNullableDate(value.scheduledCloses),
+        reportedClosedAt: mapNullableDate(value.reportedClosedAt),
     };
 }
 
-function mapText(value: LocalizedTextData | null): HistoryLocalizedText | null {
-    return value === null ? null : { text: value.text, language: value.language };
+function mapText(value: LocalizedTextData | null | undefined): HistoryLocalizedText | null {
+    return value == null ? null : { text: value.text, language: value.language };
 }
 
 function mapChange(change: ProductListingHistoryChangeData): ProductListingHistoryChange {

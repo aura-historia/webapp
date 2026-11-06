@@ -41,7 +41,7 @@ describe("useSearch", () => {
         queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
         mockGetErrorMessage.mockReturnValue("Unknown error");
         mockSearchListings.mockResolvedValue({
-            data: { items: [], size: 0, total: null, searchAfter: null },
+            data: { items: [], size: 0 },
             error: null,
         });
     });
@@ -133,7 +133,7 @@ describe("useSearch", () => {
                 error: null,
             })
             .mockResolvedValueOnce({
-                data: { items: [], size: 0, searchAfter: null },
+                data: { items: [], size: 0 },
                 error: null,
             });
 

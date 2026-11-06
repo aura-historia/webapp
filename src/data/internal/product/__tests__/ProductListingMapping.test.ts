@@ -52,8 +52,6 @@ const baseDetails: ProductListingDetailsData = {
     url: "https://example.com/item",
     viewUrl: "https://example.com/view",
     images: [{ url: "https://example.com/image.jpg" }],
-    auction: null,
-    lot: null,
     created: "2026-08-01T00:00:00Z",
     updated: "2026-09-01T00:00:00Z",
 };
@@ -95,15 +93,15 @@ describe("ProductListing mappers", () => {
             ...baseSummary,
             productListingTitleSlugId: undefined,
             title: undefined,
-            displayPrice: null,
-            availability: null,
-            images: [{ url: null }],
+            displayPrice: undefined,
+            availability: undefined,
+            images: [{}],
         };
         const result = mapPersonalizedProductListingSummary({ item: summary }, "en");
 
         expect(result.title).toBeUndefined();
         expect(result.productListingTitleSlugId).toBeUndefined();
-        expect(result.price).toBeNull();
+        expect(result.price).toBeUndefined();
         expect(result.availability).toBeNull();
         expect(result.contentPolicy).toBeUndefined();
         expect(result.images).toEqual([{ url: undefined, prohibitedContentType: "UNKNOWN" }]);
@@ -115,13 +113,13 @@ describe("ProductListing mappers", () => {
             "en",
         );
         const missing = mapPersonalizedProductListingSummary(
-            { item: { ...baseSummary, displayPrice: null } },
+            { item: { ...baseSummary, displayPrice: undefined } },
             "en",
         );
 
         expect(onRequest.price).toEqual({ type: "ON_REQUEST" });
         expect(onRequest.formattedPrice).toBeUndefined();
-        expect(missing.price).toBeNull();
+        expect(missing.price).toBeUndefined();
         expect(missing.formattedPrice).toBeUndefined();
     });
 
@@ -283,13 +281,9 @@ describe("ProductListing mappers", () => {
                     observedAt: "2026-08-30T00:00:00Z",
                 },
             },
-            auction: null,
             lot: {
                 lotNumber: "42",
                 cataloguePosition: 7,
-                biddingOpens: null,
-                scheduledCloses: null,
-                reportedClosedAt: null,
             },
         };
         const result = mapToProductListingDetail({ item: details }, "en", "en");
@@ -322,12 +316,8 @@ describe("ProductListing mappers", () => {
                 auctionId: "auc_opaque:01",
                 schedule: {
                     biddingOpens: "2026-09-01T00:00:00Z",
-                    liveStarts: null,
-                    lotsBeginClosing: null,
-                    scheduledEnd: null,
                 },
             },
-            lot: null,
         };
         const result = mapToProductListingDetail({ item: details }, "en", "en");
 
@@ -348,19 +338,11 @@ describe("ProductListing mappers", () => {
             ...baseDetails,
             auction: {
                 auctionId: "auc_opaque:01",
-                schedule: {
-                    biddingOpens: null,
-                    liveStarts: null,
-                    lotsBeginClosing: null,
-                    scheduledEnd: null,
-                },
+                schedule: {},
             },
             lot: {
                 lotNumber: "42",
-                cataloguePosition: null,
                 biddingOpens: "2026-09-02T10:00:00Z",
-                scheduledCloses: null,
-                reportedClosedAt: null,
             },
         };
         const result = mapToProductListingDetail({ item: details }, "en", "en");

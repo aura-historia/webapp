@@ -53,7 +53,6 @@ describe("AdminUserDetailDialog", () => {
                 userId: "opaque/user+01",
                 email: "ada@example.test",
                 firstName: "Ada",
-                lastName: null,
                 language: "en",
                 currency: "EUR",
                 measurementUnit: "METRIC",

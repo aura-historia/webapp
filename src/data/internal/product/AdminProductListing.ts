@@ -128,12 +128,13 @@ export type AdminProductListingPatch = {
     readonly auction?: AdminProductListingAuctionPatch;
 };
 
-function mapText(text: LocalizedTextData | null): AdminProductListingText | null {
-    return text === null ? null : { text: text.text, language: text.language };
+/** Responses omit absent members; an omitted member maps to `null`. */
+function mapText(text: LocalizedTextData | undefined): AdminProductListingText | null {
+    return text == null ? null : { text: text.text, language: text.language };
 }
 
-function mapNullableDate(value: string | null): Date | null {
-    return value === null ? null : new Date(value);
+function mapNullableDate(value: string | undefined): Date | null {
+    return value == null ? null : new Date(value);
 }
 
 export function mapAdminProductListingSummary(
@@ -150,7 +151,7 @@ export function mapAdminProductListingSummary(
         priceEstimateMax: mapListingPriceEstimate(data.priceEstimateMax) ?? null,
         availability: mapListingAvailability(data.availability),
         lifecycle: mapListingLifecycle(data.lifecycle),
-        auctionId: data.auctionId,
+        auctionId: data.auctionId ?? null,
         expectedVersion: data.expectedVersion,
         created: new Date(data.created),
         updated: new Date(data.updated),
@@ -158,13 +159,13 @@ export function mapAdminProductListingSummary(
 }
 
 function mapAuction(
-    data: AdminProductListingAuctionData | null,
+    data: AdminProductListingAuctionData | undefined,
 ): AdminProductListingAuction | null {
-    if (data === null) return null;
+    if (data == null) return null;
     return {
-        auctionId: data.auctionId,
-        lotNumber: data.lotNumber,
-        cataloguePosition: data.cataloguePosition,
+        auctionId: data.auctionId ?? null,
+        lotNumber: data.lotNumber ?? null,
+        cataloguePosition: data.cataloguePosition ?? null,
         biddingOpens: mapNullableDate(data.timing.biddingOpens),
         scheduledCloses: mapNullableDate(data.timing.scheduledCloses),
         reportedClosedAt: mapNullableDate(data.timing.reportedClosedAt),
@@ -180,10 +181,13 @@ export function mapAdminProductListingDetail(
         url: data.url,
         images: [...data.images],
         auction: mapAuction(data.auction),
-        saleObservation: data.saleObservation && {
-            observedAt: new Date(data.saleObservation.observedAt),
-            fxRateId: data.saleObservation.fxRateId,
-        },
+        saleObservation:
+            data.saleObservation == null
+                ? null
+                : {
+                      observedAt: new Date(data.saleObservation.observedAt),
+                      fxRateId: data.saleObservation.fxRateId,
+                  },
     };
 }
 

@@ -56,8 +56,6 @@ const sourceDefault = (patch: Partial<SourceLocationDefaultData> = {}): SourceLo
     ({
         listingSourceId: "ls_1",
         revision: 1,
-        assignment: null,
-        eligibility: null,
         ...patch,
     }) as unknown as SourceLocationDefaultData;
 const assigned = (patch: Partial<SourceLocationDefaultData> = {}) =>
@@ -79,7 +77,7 @@ const failure = (status: number, code = "CONFLICT") => ({
 /** Serves this default from now on, as the backend would after a change. */
 const serve = (data: SourceLocationDefaultData) => api.get.mockResolvedValue(ok(data));
 const serveLocations = (...items: PartyLocationData[]) =>
-    api.listLocations.mockResolvedValue(ok({ items, next: null }));
+    api.listLocations.mockResolvedValue(ok({ items }));
 const button = (key: string) => screen.getByRole("button", { name: t(key) });
 
 function renderSection() {
