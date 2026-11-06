@@ -3387,7 +3387,17 @@
       "account": "Cuenta y tokens de acceso",
       "collecting": "Búsquedas guardadas, notificaciones y lista de seguimiento",
       "partner": "Anuncios, fuentes y solicitudes",
-      "administration": "Administración (solo cuentas de administrador)"
+      "administration": "Administración (solo cuentas de administrador)",
+      "administrationForAdministrators": "Administración"
+    },
+    "scopeSelection": {
+      "selectAll": "Seleccionar todos los permisos",
+      "selectedCount": "{{selected}} de {{total}} seleccionados",
+      "groupSelectAll": "Seleccionar todo",
+      "groupClear": "Quitar todo",
+      "groupSelectAllLabel": "Seleccionar todo en {{group}}",
+      "groupClearLabel": "Quitar todo en {{group}}",
+      "allSelectedNote": "Este token obtiene todos los permisos, incluido el acceso de escritura. Quite los que la integración no necesite."
     }
   },
   "partnerListingSources": {

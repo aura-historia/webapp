@@ -15,13 +15,14 @@ import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { useUpdateAccessToken } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
-import { AccessTokenScopesField } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
+import { AccessTokenScopesField } from "@/features/partner/common/components/AccessTokenScopesField.tsx";
 import { AccessTokenExpirationField } from "@/features/partner/common/components/AccessTokenExpirationField.tsx";
 import {
     type AccessTokenCreateFormData,
     createAccessTokenFormSchema,
 } from "@/features/partner/common/components/AccessTokenCreateForm.ts";
 import type { AccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
+import type { AccessTokenScope } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 
 interface AccessTokenEditDialogProps {
     readonly accessToken: AccessToken | null;
@@ -36,6 +37,16 @@ function toLocalDateTimeInputValue(date: Date | null): string {
 
     const offsetInMilliseconds = date.getTimezoneOffset() * 60_000;
     return new Date(date.getTime() - offsetInMilliseconds).toISOString().slice(0, 16);
+}
+
+/** Order-insensitive: selecting and clearing back to the saved grants is not a change. */
+function hasSameScopes(
+    scopes: readonly AccessTokenScope[],
+    savedScopes: readonly AccessTokenScope[],
+): boolean {
+    const saved = new Set(savedScopes);
+    const next = new Set(scopes);
+    return next.size === saved.size && [...next].every((scope) => saved.has(scope));
 }
 
 export function AccessTokenEditDialog({
@@ -89,7 +100,9 @@ function AccessTokenEditDialogContent({
             {
                 id: accessToken.id,
                 name: dirtyFields.name ? values.name.trim() : undefined,
-                scopes: dirtyFields.scopes ? values.scopes : undefined,
+                scopes: hasSameScopes(values.scopes, accessToken.scopes)
+                    ? undefined
+                    : values.scopes,
                 expiresAt,
             },
             {
@@ -136,7 +149,11 @@ function AccessTokenEditDialogContent({
                     )}
                 </div>
 
-                <AccessTokenScopesField value={scopesField.value} onChange={scopesField.onChange} />
+                <AccessTokenScopesField
+                    value={scopesField.value}
+                    onChange={scopesField.onChange}
+                    disabled={updateAccessToken.isPending}
+                />
 
                 <AccessTokenExpirationField
                     id="access-token-edit-expiration"

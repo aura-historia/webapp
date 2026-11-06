@@ -5,6 +5,10 @@ import { AccessTokenEditDialog } from "./AccessTokenEditDialog.tsx";
 import type { AccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
 
 const mutate = vi.hoisted(() => vi.fn());
+const mockUserAccount = vi.hoisted(() => ({ role: "USER" as "USER" | "ADMIN" }));
+vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
+    useUserAccount: () => ({ data: { role: mockUserAccount.role } }),
+}));
 vi.mock("@/features/partner/access-token-management/api/useAccessTokens.ts", () => ({
     useUpdateAccessToken: () => ({ mutate, isPending: false }),
 }));
@@ -16,7 +20,10 @@ const accessToken: AccessToken = {
     expiresAt: new Date("2026-10-01T12:34:56.789Z"),
 };
 
-beforeEach(() => vi.clearAllMocks());
+beforeEach(() => {
+    vi.clearAllMocks();
+    mockUserAccount.role = "USER";
+});
 
 it("renames without changing grants or truncating the existing expiry", async () => {
     const user = userEvent.setup();
@@ -67,6 +74,7 @@ it("preserves an existing ingestion grant when changing only the name", async ()
 
 it("renders newly supported grants and replaces them only when edited", async () => {
     const user = userEvent.setup();
+    mockUserAccount.role = "ADMIN";
     render(
         <AccessTokenEditDialog
             accessToken={{ ...accessToken, scopes: ["auctions:read", "notifications:write"] }}
@@ -89,6 +97,44 @@ it("renders newly supported grants and replaces them only when edited", async ()
             scopes: ["notifications:write", "partnerships:write"],
             expiresAt: undefined,
         },
+        expect.anything(),
+    );
+});
+
+it("keeps administrator grants it does not show to other accounts", async () => {
+    const user = userEvent.setup();
+    render(
+        <AccessTokenEditDialog
+            accessToken={{ ...accessToken, scopes: ["auctions:read", "watchlist:read"] }}
+            open
+            onOpenChange={vi.fn()}
+        />,
+    );
+    expect(screen.queryByLabelText("Auktionen lesen")).not.toBeInTheDocument();
+    const selectAll = screen.getByRole("checkbox", { name: "Alle Berechtigungen auswählen" });
+    expect(selectAll).toHaveAttribute("data-state", "indeterminate");
+
+    await user.click(selectAll);
+    await user.click(selectAll);
+    await user.click(screen.getByRole("button", { name: "Änderungen speichern" }));
+    expect(mutate).toHaveBeenCalledWith(
+        { id: accessToken.id, name: undefined, scopes: ["auctions:read"], expiresAt: undefined },
+        expect.anything(),
+    );
+});
+
+it("sends no scope change when the selection returns to the saved grants", async () => {
+    const user = userEvent.setup();
+    render(<AccessTokenEditDialog accessToken={accessToken} open onOpenChange={vi.fn()} />);
+    const selectAll = screen.getByRole("checkbox", { name: "Alle Berechtigungen auswählen" });
+
+    await user.click(selectAll);
+    expect(selectAll).toBeChecked();
+    await user.click(selectAll);
+    await user.click(screen.getByLabelText("Produktangebote schreiben"));
+    await user.click(screen.getByRole("button", { name: "Änderungen speichern" }));
+    expect(mutate).toHaveBeenCalledWith(
+        { id: accessToken.id, name: undefined, scopes: undefined, expiresAt: undefined },
         expect.anything(),
     );
 });

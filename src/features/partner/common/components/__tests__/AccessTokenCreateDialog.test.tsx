@@ -7,11 +7,17 @@ import {
     ACCESS_TOKEN_SCOPE_GROUPS,
     ACCESS_TOKEN_SCOPE_METADATA,
     ACCESS_TOKEN_SCOPES,
+    accessTokenScopeGroupsFor,
 } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import testI18n from "@/i18n/i18nForTests.ts";
 
 const mockCreateAccessTokenMutate = vi.hoisted(() => vi.fn());
 const mockReset = vi.hoisted(() => vi.fn());
+const mockUserAccount = vi.hoisted(() => ({ role: "USER" as "USER" | "ADMIN" }));
+
+vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
+    useUserAccount: () => ({ data: { role: mockUserAccount.role } }),
+}));
 
 vi.mock("@/features/partner/access-token-management/api/useAccessTokens.ts", () => ({
     useCreateAccessToken: () => ({
@@ -30,6 +36,7 @@ vi.mock("sonner", () => ({
 describe("AccessTokenCreateDialog", () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        mockUserAccount.role = "USER";
     });
 
     it("validates the required token name", async () => {
@@ -109,20 +116,102 @@ describe("AccessTokenCreateDialog", () => {
         );
     });
 
-    it("offers every supported scope in labelled groups with none selected", () => {
+    it("offers every supported scope to administrators in labelled groups with none selected", () => {
+        mockUserAccount.role = "ADMIN";
         render(<AccessTokenCreateDialog open onOpenChange={vi.fn()} />);
 
         for (const group of ACCESS_TOKEN_SCOPE_GROUPS) {
-            expect(
-                screen.getByRole("group", { name: testI18n.t(group.label) }),
-            ).toBeInTheDocument();
+            const label = "administratorLabel" in group ? group.administratorLabel : group.label;
+            expect(screen.getByRole("group", { name: testI18n.t(label) })).toBeInTheDocument();
         }
-        expect(screen.getAllByRole("checkbox")).toHaveLength(ACCESS_TOKEN_SCOPES.length);
+        // One checkbox per scope plus the select-all control.
+        expect(screen.getAllByRole("checkbox")).toHaveLength(ACCESS_TOKEN_SCOPES.length + 1);
         for (const scope of ACCESS_TOKEN_SCOPES) {
             expect(
                 screen.getByLabelText(testI18n.t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)),
             ).not.toBeChecked();
         }
+    });
+
+    it("offers administrator-only scopes to administrator accounts only", () => {
+        render(<AccessTokenCreateDialog open onOpenChange={vi.fn()} />);
+
+        const visibleScopes = accessTokenScopeGroupsFor(false).flatMap((group) => group.scopes);
+        expect(visibleScopes).not.toContain("auctions:read");
+        expect(
+            screen.queryByRole("group", {
+                name: testI18n.t("partnerAccessTokens.scopeGroups.administration"),
+            }),
+        ).not.toBeInTheDocument();
+        expect(screen.queryByLabelText("Auktionen lesen")).not.toBeInTheDocument();
+        expect(screen.getAllByRole("checkbox")).toHaveLength(visibleScopes.length + 1);
+        expect(screen.getByText(`0 von ${visibleScopes.length} ausgewählt`)).toBeInTheDocument();
+    });
+
+    it("selects and clears every visible scope at once, without administrator scopes", async () => {
+        const user = userEvent.setup();
+        render(<AccessTokenCreateDialog open onOpenChange={vi.fn()} />);
+        const selectAll = screen.getByRole("checkbox", { name: "Alle Berechtigungen auswählen" });
+        const visibleScopes = accessTokenScopeGroupsFor(false).flatMap((group) => group.scopes);
+
+        await user.click(screen.getByLabelText("Merkliste lesen"));
+        expect(selectAll).toHaveAttribute("data-state", "indeterminate");
+
+        await user.click(selectAll);
+        expect(selectAll).toBeChecked();
+        expect(screen.getByText(/Dieses Token erhält jede Berechtigung/)).toBeInTheDocument();
+
+        await user.type(screen.getByLabelText("Name"), "Everything");
+        await user.click(screen.getByRole("button", { name: "Token erstellen" }));
+        expect(mockCreateAccessTokenMutate).toHaveBeenLastCalledWith(
+            { name: "Everything", scopes: visibleScopes, expiresAt: undefined },
+            { onSuccess: expect.any(Function) },
+        );
+    });
+
+    it("clears every scope when all are selected", async () => {
+        const user = userEvent.setup();
+        mockUserAccount.role = "ADMIN";
+        render(
+            <AccessTokenCreateDialog
+                open
+                onOpenChange={vi.fn()}
+                defaultValues={{ name: "All", scopes: [...ACCESS_TOKEN_SCOPES], expiresAt: "" }}
+            />,
+        );
+        const selectAll = screen.getByRole("checkbox", { name: "Alle Berechtigungen auswählen" });
+        expect(selectAll).toBeChecked();
+
+        await user.click(selectAll);
+        expect(selectAll).not.toBeChecked();
+        await user.click(screen.getByRole("button", { name: "Token erstellen" }));
+        expect(mockCreateAccessTokenMutate).toHaveBeenCalledWith(
+            { name: "All", scopes: [], expiresAt: undefined },
+            { onSuccess: expect.any(Function) },
+        );
+    });
+
+    it("selects and clears one group at a time", async () => {
+        const user = userEvent.setup();
+        render(<AccessTokenCreateDialog open onOpenChange={vi.fn()} />);
+        const groupLabel = testI18n.t("partnerAccessTokens.scopeGroups.account");
+
+        await user.click(screen.getByRole("button", { name: `Alle in ${groupLabel} auswählen` }));
+        for (const label of [
+            "Benutzerdaten lesen",
+            "Benutzerdaten aktualisieren",
+            "Zugriffstoken lesen",
+            "Zugriffstoken verwalten",
+        ]) {
+            expect(screen.getByLabelText(label)).toBeChecked();
+        }
+        expect(screen.getByLabelText("Merkliste lesen")).not.toBeChecked();
+
+        await user.click(screen.getByRole("button", { name: `Alle in ${groupLabel} abwählen` }));
+        expect(screen.getByLabelText("Benutzerdaten lesen")).not.toBeChecked();
+        expect(
+            screen.getByRole("checkbox", { name: "Alle Berechtigungen auswählen" }),
+        ).not.toBeChecked();
     });
 
     it("keeps write scopes independent of their read siblings", async () => {

@@ -3387,7 +3387,17 @@
       "account": "Compte et jetons d’accès",
       "collecting": "Recherches enregistrées, notifications et liste de suivi",
       "partner": "Annonces, sources et demandes",
-      "administration": "Administration (comptes administrateurs uniquement)"
+      "administration": "Administration (comptes administrateurs uniquement)",
+      "administrationForAdministrators": "Administration"
+    },
+    "scopeSelection": {
+      "selectAll": "Sélectionner toutes les autorisations",
+      "selectedCount": "{{selected}} sur {{total}} sélectionnées",
+      "groupSelectAll": "Tout sélectionner",
+      "groupClear": "Tout désélectionner",
+      "groupSelectAllLabel": "Tout sélectionner dans {{group}}",
+      "groupClearLabel": "Tout désélectionner dans {{group}}",
+      "allSelectedNote": "Ce jeton reçoit toutes les autorisations, y compris l’accès en écriture. Désélectionnez celles dont l’intégration n’a pas besoin."
     }
   },
   "partnerListingSources": {

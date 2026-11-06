@@ -4,13 +4,7 @@ import { useState } from "react";
 import { useController, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import {
-    ACCESS_TOKEN_SCOPE_GROUPS,
-    ACCESS_TOKEN_SCOPE_METADATA,
-    type AccessTokenScope,
-} from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import { Button } from "@/components/ui/button.tsx";
-import { Checkbox } from "@/components/ui/checkbox.tsx";
 import {
     Dialog,
     DialogContent,
@@ -30,6 +24,7 @@ import {
 } from "@/features/partner/common/components/AccessTokenCreateForm.ts";
 import type { CreatedAccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
 import { AccessTokenExpirationField } from "./AccessTokenExpirationField.tsx";
+import { AccessTokenScopesField } from "./AccessTokenScopesField.tsx";
 
 interface AccessTokenCreateDialogProps {
     readonly open: boolean;
@@ -145,6 +140,7 @@ export function AccessTokenCreateDialog({
                         <AccessTokenScopesField
                             value={scopesField.value}
                             onChange={scopesField.onChange}
+                            disabled={createAccessToken.isPending}
                         />
 
                         <AccessTokenExpirationField
@@ -173,70 +169,6 @@ export function AccessTokenCreateDialog({
                 )}
             </DialogContent>
         </Dialog>
-    );
-}
-
-export function AccessTokenScopesField({
-    value,
-    onChange,
-}: {
-    readonly value: AccessTokenScope[];
-    readonly onChange: (value: AccessTokenScope[]) => void;
-}) {
-    const { t } = useTranslation();
-
-    return (
-        <fieldset className="grid gap-2">
-            <legend className="text-sm font-medium">
-                {t("partnerAccessTokens.create.fields.scopes")}
-            </legend>
-            <p className="text-sm text-muted-foreground">
-                {t("partnerAccessTokens.create.fields.scopesHint")}
-            </p>
-            <div className="grid gap-4 pt-1">
-                {ACCESS_TOKEN_SCOPE_GROUPS.map((group) => (
-                    <fieldset key={group.label} className="grid gap-2">
-                        <legend className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                            {t(group.label)}
-                        </legend>
-                        {group.scopes.map((scope) => {
-                            const checked = value.includes(scope);
-                            const inputId = `access-token-scope-${scope}`;
-
-                            return (
-                                <div
-                                    key={scope}
-                                    className="flex items-start gap-3 rounded-md border p-3"
-                                >
-                                    <Checkbox
-                                        id={inputId}
-                                        checked={checked}
-                                        onCheckedChange={(nextChecked) => {
-                                            onChange(
-                                                nextChecked === true
-                                                    ? [...new Set([...value, scope])]
-                                                    : value.filter((entry) => entry !== scope),
-                                            );
-                                        }}
-                                    />
-                                    <div className="grid gap-1">
-                                        <label
-                                            htmlFor={inputId}
-                                            className="text-sm font-medium leading-none"
-                                        >
-                                            {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
-                                        </label>
-                                        <p className="text-xs text-muted-foreground">
-                                            {t(ACCESS_TOKEN_SCOPE_METADATA[scope].description)}
-                                        </p>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </fieldset>
-                ))}
-            </div>
-        </fieldset>
     );
 }
 

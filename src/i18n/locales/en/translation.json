@@ -2321,7 +2321,17 @@
       "account": "Account and access tokens",
       "collecting": "Saved searches, notifications and watchlist",
       "partner": "Listings, sources and applications",
-      "administration": "Administration (administrator accounts only)"
+      "administration": "Administration (administrator accounts only)",
+      "administrationForAdministrators": "Administration"
+    },
+    "scopeSelection": {
+      "selectAll": "Select all permissions",
+      "selectedCount": "{{selected}} of {{total}} selected",
+      "groupSelectAll": "Select all",
+      "groupClear": "Clear",
+      "groupSelectAllLabel": "Select all in {{group}}",
+      "groupClearLabel": "Clear {{group}}",
+      "allSelectedNote": "This token gets every permission, including write access. Clear those the integration does not need."
     }
   },
   "partnerApplications": {

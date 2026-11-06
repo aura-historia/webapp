@@ -9,6 +9,10 @@ const mockUpdateAccessTokenMutate = vi.hoisted(() => vi.fn());
 const mockDeleteAccessTokenMutate = vi.hoisted(() => vi.fn());
 const mockDeleteAllAccessTokensMutate = vi.hoisted(() => vi.fn());
 
+vi.mock("@/features/account-management/hooks/useUserAccount.ts", () => ({
+    useUserAccount: () => ({ data: { role: "USER" } }),
+}));
+
 vi.mock("@/features/partner/access-token-management/api/useAccessTokens.ts", () => ({
     useAccessTokens: mockUseAccessTokens,
     useCreateAccessToken: () => ({
