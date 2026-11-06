@@ -201,6 +201,9 @@ describe("admin Party API", () => {
                 message: testI18n.t("adminParties.errors.deleteConflict"),
             });
         });
+        // The mutation publishes its error to the hook on React Query's next notify tick, which
+        // can land after `act` returns.
+        await waitFor(() => expect(hook.result.current.isError).toBe(true));
         expect(hook.result.current.error?.message).not.toContain("info@example.test");
     });
 });
