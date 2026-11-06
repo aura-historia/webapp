@@ -482,6 +482,14 @@ stable error codes, never raw server detail.
   sibling (for example, `search-filters:write` does not read saved searches; use
   `search-filters:read`). The UI never couples or auto-selects them, and an expanded registry never
   broadens existing tokens or OAuth client registrations.
+- The own-token create and edit dialogs share `AccessTokenScopesField`: a three-state "Select all
+  permissions" control and a Select all / Clear action per group select scopes only on an explicit
+  click (they never infer one scope from another) and emit them in `ACCESS_TOKEN_SCOPES` order. The
+  administrator-only group (`administratorOnly`) is offered only when the account role is ADMIN
+  (`accessTokenScopeGroupsFor`); this is display only and the backend still authorizes every
+  scope. The bulk actions stay disabled until the account role has loaded. Scopes an account cannot see stay in the form value untouched, so editing a token never
+  drops a grant it already holds, and an edit sends `scopes` only when the set differs from the
+  saved one.
 - A scope only narrows what a credential may do. Administrative scopes (`auctions:*`,
   `parties:*`, `partnerships:*`, `admin-overview:read`, and the administrator parts of
   `product-listings:*`, `listing-sources:*` and `partnership-applications:*`) succeed only for

@@ -61,6 +61,8 @@ export const ACCESS_TOKEN_SCOPE_GROUPS = [
     },
     {
         label: "partnerAccessTokens.scopeGroups.administration",
+        administratorLabel: "partnerAccessTokens.scopeGroups.administrationForAdministrators",
+        administratorOnly: true,
         scopes: [
             "auctions:read",
             "auctions:write",
@@ -71,7 +73,28 @@ export const ACCESS_TOKEN_SCOPE_GROUPS = [
             "admin-overview:read",
         ],
     },
-] as const satisfies readonly { label: string; scopes: readonly AccessTokenScope[] }[];
+] as const satisfies readonly AccessTokenScopeGroup[];
+
+export interface AccessTokenScopeGroup {
+    readonly label: string;
+    /** Label shown to administrators, who need no "administrators only" qualifier. */
+    readonly administratorLabel?: string;
+    /** Scopes that only take effect for administrator accounts; offered to administrators only. */
+    readonly administratorOnly?: boolean;
+    readonly scopes: readonly AccessTokenScope[];
+}
+
+/**
+ * Groups offered to an account when it chooses scopes for its own access tokens. UI visibility
+ * only: the backend still authorizes every scope against the account's role.
+ */
+export function accessTokenScopeGroupsFor(
+    isAdministrator: boolean,
+): readonly AccessTokenScopeGroup[] {
+    return ACCESS_TOKEN_SCOPE_GROUPS.filter(
+        (group: AccessTokenScopeGroup) => isAdministrator || !group.administratorOnly,
+    );
+}
 
 export const ACCESS_TOKEN_SCOPE_METADATA = {
     "users:read": scopeMetadata("usersRead"),

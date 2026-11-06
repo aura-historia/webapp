@@ -3387,7 +3387,18 @@
       "account": "Account e token di accesso",
       "collecting": "Ricerche salvate, notifiche e lista di osservazione",
       "partner": "Annunci, fonti e richieste",
-      "administration": "Amministrazione (solo account amministratore)"
+      "administration": "Amministrazione (solo account amministratore)",
+      "administrationForAdministrators": "Amministrazione"
+    },
+    "scopeSelection": {
+      "selectAll": "Seleziona tutte le autorizzazioni",
+      "selectedCount_one": "{{count}} di {{total}} selezionata",
+      "selectedCount_other": "{{count}} di {{total}} selezionate",
+      "groupSelectAll": "Seleziona tutto",
+      "groupClear": "Deseleziona tutto",
+      "groupSelectAllLabel": "Seleziona tutto in {{group}}",
+      "groupClearLabel": "Deseleziona tutto in {{group}}",
+      "allSelectedNote": "Questo token riceve tutte le autorizzazioni, incluso l’accesso in scrittura. Deseleziona quelle di cui l’integrazione non ha bisogno."
     }
   },
   "partnerListingSources": {

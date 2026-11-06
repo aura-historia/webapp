@@ -2321,7 +2321,18 @@
       "account": "Konto und Zugriffstoken",
       "collecting": "Gespeicherte Suchen, Benachrichtigungen und Merkliste",
       "partner": "Angebote, Quellen und Anträge",
-      "administration": "Administration (nur Administratorkonten)"
+      "administration": "Administration (nur Administratorkonten)",
+      "administrationForAdministrators": "Administration"
+    },
+    "scopeSelection": {
+      "selectAll": "Alle Berechtigungen auswählen",
+      "selectedCount_one": "{{count}} von {{total}} ausgewählt",
+      "selectedCount_other": "{{count}} von {{total}} ausgewählt",
+      "groupSelectAll": "Alle auswählen",
+      "groupClear": "Alle abwählen",
+      "groupSelectAllLabel": "Alle auswählen: {{group}}",
+      "groupClearLabel": "Alle abwählen: {{group}}",
+      "allSelectedNote": "Dieses Token erhält jede Berechtigung, auch Schreibzugriff. Wählen Sie die Berechtigungen ab, die die Integration nicht benötigt."
     }
   },
   "partnerApplications": {
