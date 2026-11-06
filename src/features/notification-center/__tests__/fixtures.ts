@@ -8,7 +8,7 @@ export const watchlistPayload = {
     listingSourceSlugId: "antique-shop",
     productListingTitleSlugId: "vintage-vase",
     listingSourceName: "Antique Shop",
-    title: { text: "Vintage Vase", language: "en" },
+    title: { localized: { text: "Vintage Vase", language: "en" } },
     image: { url: "https://example.com/vase.png" },
     url: "https://example.com/vase",
     viewUrl: "https://example.com/vase",

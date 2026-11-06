@@ -8,6 +8,7 @@ import type {
     WatchlistNotificationPayloadData,
 } from "@/client";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+import { mapListingDisplayText } from "@/data/internal/product/ListingText.ts";
 import {
     mapListingAvailability,
     mapListingPrice,
@@ -112,7 +113,7 @@ function mapProductFields(
         listingSourceSlugId: data.listingSourceSlugId,
         listingSourceName: data.listingSourceName,
         sourceListingId: data.sourceListingId,
-        productTitle: data.title?.text ?? undefined,
+        productTitle: mapListingDisplayText(data.title),
         image: mapImage(data.image),
     };
 }
