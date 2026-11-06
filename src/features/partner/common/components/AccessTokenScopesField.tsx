@@ -39,6 +39,12 @@ export function AccessTokenScopesField({
     const selected = new Set<AccessTokenScope>(value);
     const selectedVisibleCount = [...visibleScopes].filter((scope) => selected.has(scope)).length;
     const allSelected = visibleScopes.size > 0 && selectedVisibleCount === visibleScopes.size;
+    let masterChecked: boolean | "indeterminate" = false;
+    if (allSelected) {
+        masterChecked = true;
+    } else if (selectedVisibleCount > 0) {
+        masterChecked = "indeterminate";
+    }
     const masterId = `${idPrefix}-all`;
     const countId = `${idPrefix}-count`;
 
@@ -80,9 +86,7 @@ export function AccessTokenScopesField({
                         id={masterId}
                         aria-describedby={countId}
                         disabled={bulkDisabled}
-                        checked={
-                            allSelected ? true : selectedVisibleCount > 0 ? "indeterminate" : false
-                        }
+                        checked={masterChecked}
                         onCheckedChange={() => setScopes([...visibleScopes], !allSelected)}
                     />
                     <label
