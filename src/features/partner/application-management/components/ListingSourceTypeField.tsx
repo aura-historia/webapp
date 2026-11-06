@@ -52,7 +52,7 @@ export function ListingSourceTypeField({
                         <label
                             key={sourceType}
                             htmlFor={inputId}
-                            className="flex min-h-11 cursor-pointer items-start gap-3 rounded-md bg-surface p-3.5 shadow-field transition-colors has-[:checked]:bg-surface-raised has-[:checked]:shadow-[inset_0_0_0_1.5px_var(--oxblood)] has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-55 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ring [&:not(:has(:checked,:disabled)):hover]:bg-surface-sunken"
+                            className="flex min-h-11 cursor-pointer items-start gap-3 rounded-md bg-surface p-3.5 shadow-field transition-colors has-[:checked]:bg-surface-raised has-[:checked]:shadow-[inset_0_0_0_1.5px_var(--oxblood)] has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-55 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ring hover:[&:not(:has(:checked,:disabled))]:bg-surface-sunken"
                         >
                             <input
                                 id={inputId}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useController, useForm } from "react-hook-form";
+import { type Control, useController, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -44,6 +44,35 @@ function getProposedFieldInputType(name: (typeof PROPOSED_FIELDS)[number]) {
     if (name === "sourceUrl" || name === "sourceImage") return "url";
     return "text";
 }
+/**
+ * Registers the provider type from a child, after the parent has registered the text fields
+ * above it, so react-hook-form focuses invalid fields in page order on submit.
+ */
+function ProposedListingSourceTypeField({
+    control,
+}: {
+    readonly control: Control<
+        PartnerApplicationCreateFormValues,
+        unknown,
+        PartnerApplicationCreateFormData
+    >;
+}) {
+    const { field, fieldState } = useController({
+        control,
+        name: "listingSourceType",
+        defaultValue: "",
+    });
+    return (
+        <ListingSourceTypeField
+            name={field.name}
+            value={field.value ?? ""}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            inputRef={field.ref}
+            error={fieldState.error?.message}
+        />
+    );
+}
 export function PartnerApplicationCreateDialog({
     open,
     onOpenChange,
@@ -72,14 +101,7 @@ export function PartnerApplicationCreateDialog({
         name: "requestedIngestionMethods",
         defaultValue: [],
     }).field;
-    const listingSourceTypeField = useController({
-        control: form.control,
-        name: "listingSourceType",
-        defaultValue: "",
-    }).field;
     const type = form.watch("type");
-    const listingSourceTypeError = form.getFieldState("listingSourceType", form.formState).error
-        ?.message;
     const reset = () => {
         form.reset(PARTNER_APPLICATION_CREATE_DEFAULT_VALUES);
         setSelected(null);
@@ -181,14 +203,7 @@ export function PartnerApplicationCreateDialog({
                                         </p>
                                     </div>
                                 ))}
-                                <ListingSourceTypeField
-                                    name={listingSourceTypeField.name}
-                                    value={listingSourceTypeField.value ?? ""}
-                                    onChange={listingSourceTypeField.onChange}
-                                    onBlur={listingSourceTypeField.onBlur}
-                                    inputRef={listingSourceTypeField.ref}
-                                    error={listingSourceTypeError}
-                                />
+                                <ProposedListingSourceTypeField control={form.control} />
                                 <fieldset className="grid gap-2">
                                     <legend className="mb-2 text-sm font-medium leading-none">
                                         {t("partnerApplications.proposals.methods")}
