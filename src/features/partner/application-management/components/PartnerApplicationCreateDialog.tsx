@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useController, useForm } from "react-hook-form";
+import { type Control, useController, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -14,13 +14,13 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog.tsx";
-import { LISTING_SOURCE_TYPES } from "@/data/internal/listing-source/ListingSourceType.ts";
 import {
     INGESTION_METHODS,
     type ApplicationListingSource,
 } from "@/data/internal/partner-application/OwnPartnershipApplication.ts";
 import { useCreatePartnerApplication } from "../api/usePartnerApplications.ts";
 import { ApplicationListingSourceField } from "./ApplicationListingSourceField.tsx";
+import { ListingSourceTypeField } from "./ListingSourceTypeField.tsx";
 import {
     buildApplicationProposal,
     createPartnerApplicationFormSchema,
@@ -43,6 +43,35 @@ function getProposedFieldInputType(name: (typeof PROPOSED_FIELDS)[number]) {
     if (name === "partyPhone") return "tel";
     if (name === "sourceUrl" || name === "sourceImage") return "url";
     return "text";
+}
+/**
+ * Registers the provider type from a child, after the parent has registered the text fields
+ * above it, so react-hook-form focuses invalid fields in page order on submit.
+ */
+function ProposedListingSourceTypeField({
+    control,
+}: {
+    readonly control: Control<
+        PartnerApplicationCreateFormValues,
+        unknown,
+        PartnerApplicationCreateFormData
+    >;
+}) {
+    const { field, fieldState } = useController({
+        control,
+        name: "listingSourceType",
+        defaultValue: "",
+    });
+    return (
+        <ListingSourceTypeField
+            name={field.name}
+            value={field.value ?? ""}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            inputRef={field.ref}
+            error={fieldState.error?.message}
+        />
+    );
 }
 export function PartnerApplicationCreateDialog({
     open,
@@ -72,14 +101,7 @@ export function PartnerApplicationCreateDialog({
         name: "requestedIngestionMethods",
         defaultValue: [],
     }).field;
-    const listingSourceTypeField = useController({
-        control: form.control,
-        name: "listingSourceType",
-        defaultValue: "",
-    }).field;
     const type = form.watch("type");
-    const listingSourceTypeError = form.getFieldState("listingSourceType", form.formState).error
-        ?.message;
     const reset = () => {
         form.reset(PARTNER_APPLICATION_CREATE_DEFAULT_VALUES);
         setSelected(null);
@@ -181,70 +203,7 @@ export function PartnerApplicationCreateDialog({
                                         </p>
                                     </div>
                                 ))}
-                                <fieldset className="grid gap-2">
-                                    <legend className="mb-2 text-sm font-medium leading-none">
-                                        {t("partnerApplications.proposals.listingSourceType")}
-                                    </legend>
-                                    {LISTING_SOURCE_TYPES.map((sourceType, index) => (
-                                        <div
-                                            key={sourceType}
-                                            className="flex items-start gap-3 border p-3"
-                                        >
-                                            <input
-                                                id={`application-listing-source-type-${sourceType}`}
-                                                type="radio"
-                                                required
-                                                name={listingSourceTypeField.name}
-                                                value={sourceType}
-                                                className="mt-1 size-4 accent-primary"
-                                                // The first option takes focus when submitting without a choice.
-                                                ref={
-                                                    index === 0
-                                                        ? listingSourceTypeField.ref
-                                                        : undefined
-                                                }
-                                                aria-describedby={[
-                                                    `application-listing-source-type-${sourceType}-description`,
-                                                    listingSourceTypeError
-                                                        ? "application-listing-source-type-error"
-                                                        : "",
-                                                ]
-                                                    .join(" ")
-                                                    .trim()}
-                                                checked={
-                                                    listingSourceTypeField.value === sourceType
-                                                }
-                                                onBlur={listingSourceTypeField.onBlur}
-                                                onChange={() =>
-                                                    listingSourceTypeField.onChange(sourceType)
-                                                }
-                                            />
-                                            <div className="grid flex-1 gap-1">
-                                                <Label
-                                                    htmlFor={`application-listing-source-type-${sourceType}`}
-                                                    className="cursor-pointer leading-normal"
-                                                >
-                                                    {t(`listingSourceTypes.${sourceType}`)}
-                                                </Label>
-                                                <p
-                                                    id={`application-listing-source-type-${sourceType}-description`}
-                                                    className="text-sm text-muted-foreground"
-                                                >
-                                                    {t(
-                                                        `listingSourceTypes.descriptions.${sourceType}`,
-                                                    )}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                    <p
-                                        id="application-listing-source-type-error"
-                                        role="alert"
-                                        className="text-sm text-destructive"
-                                    >
-                                        {listingSourceTypeError}
-                                    </p>
-                                </fieldset>
+                                <ProposedListingSourceTypeField control={form.control} />
                                 <fieldset className="grid gap-2">
                                     <legend className="mb-2 text-sm font-medium leading-none">
                                         {t("partnerApplications.proposals.methods")}

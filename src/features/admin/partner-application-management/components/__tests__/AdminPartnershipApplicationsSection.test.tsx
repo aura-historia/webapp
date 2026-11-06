@@ -134,6 +134,8 @@ describe("admin partnership application review", () => {
         expect(within(dialog).getByRole("heading", { name: "Atelier Source" })).toBeInTheDocument();
         expect(within(dialog).queryByText(t("adminApplications.fields.created"))).toBeNull();
         expect(within(dialog).queryByText(t("adminApplications.fields.updated"))).toBeNull();
+        const type = within(dialog).getByText(t("adminApplications.proposal.listingSourceType"));
+        expect(type.nextElementSibling).toHaveTextContent(t("listingSourceTypes.DEALER"));
         expect(within(dialog).queryByRole("textbox")).toBeNull();
         expect(within(dialog).queryByRole("combobox")).toBeNull();
         expect(

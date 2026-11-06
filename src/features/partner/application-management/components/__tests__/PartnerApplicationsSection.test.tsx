@@ -29,7 +29,11 @@ const application = {
     proposal: {
         type: "PROPOSED_LISTING_SOURCE",
         party: { name: "Operator" },
-        listingSource: { name: "Source", requestedIngestionMethods: ["PARTNER_API"] },
+        listingSource: {
+            name: "Source",
+            listingSourceType: "AUCTION_HOUSE",
+            requestedIngestionMethods: ["PARTNER_API"],
+        },
     },
 };
 describe("immutable application workflow", () => {
@@ -74,6 +78,13 @@ describe("immutable application workflow", () => {
         expect(
             screen.queryByRole("button", { name: "Bewerbung zurückziehen" }),
         ).not.toBeInTheDocument();
+    });
+    it("shows the proposed provider type in the details", async () => {
+        render(<PartnerApplicationsSection />);
+        await userEvent.click(screen.getByRole("button", { name: /Details/ }));
+        const type = screen.getByText("Art des Anbieters");
+        expect(type.tagName).toBe("DT");
+        expect(type.nextElementSibling).toHaveTextContent("Auktionshaus");
     });
     it("requires confirmation before withdrawal and exposes no edit action", async () => {
         render(<PartnerApplicationsSection />);
@@ -159,6 +170,43 @@ describe("immutable application workflow", () => {
             /Wählen Sie die Art des Anbieters aus\./,
         );
         expect(mocks.create).not.toHaveBeenCalled();
+    });
+    it("focuses the first invalid field in page order when nothing is filled", async () => {
+        render(<PartnerApplicationsSection />);
+        await userEvent.click(screen.getByRole("button", { name: /Neue|Neuer/ }));
+        await userEvent.click(screen.getByRole("button", { name: "Antrag einreichen" }));
+        await waitFor(() => expect(screen.getByLabelText("Name des Betreibers")).toHaveFocus());
+        expect(screen.getByRole("alert")).toHaveTextContent(
+            "Wählen Sie die Art des Anbieters aus.",
+        );
+        expect(mocks.create).not.toHaveBeenCalled();
+    });
+    it("clears the provider-type error once a type is chosen", async () => {
+        render(<PartnerApplicationsSection />);
+        await userEvent.click(screen.getByRole("button", { name: /Neue|Neuer/ }));
+        await userEvent.type(screen.getByLabelText("Name des Betreibers"), "Operator");
+        await userEvent.type(screen.getByLabelText("Name des Anbieters"), "New Source");
+        await userEvent.click(screen.getByRole("button", { name: "Antrag einreichen" }));
+        const legend = (await screen.findByRole("alert"))
+            .closest("fieldset")
+            ?.querySelector("legend");
+        expect(legend).toHaveAttribute("data-error", "true");
+        await userEvent.click(screen.getByRole("radio", { name: "Marktplatz" }));
+        await waitFor(() => expect(screen.queryByRole("alert")).not.toBeInTheDocument());
+        expect(legend).toHaveAttribute("data-error", "false");
+        expect(screen.getByRole("radio", { name: "Marktplatz" })).toHaveAccessibleDescription(
+            "Bietet anderen Verkäufern Raum für Festpreisangebote.",
+        );
+    });
+    it("resets the provider type when the proposal type changes", async () => {
+        render(<PartnerApplicationsSection />);
+        await userEvent.click(screen.getByRole("button", { name: /Neue|Neuer/ }));
+        await userEvent.click(screen.getByRole("radio", { name: "Auktionshaus" }));
+        const proposalType = screen.getByLabelText("Art des Vorschlags");
+        await userEvent.selectOptions(proposalType, "EXISTING_LISTING_SOURCE");
+        expect(screen.queryByRole("radio")).not.toBeInTheDocument();
+        await userEvent.selectOptions(proposalType, "PROPOSED_LISTING_SOURCE");
+        for (const radio of screen.getAllByRole("radio")) expect(radio).not.toBeChecked();
     });
     it("selects and submits the public canonical ID, not a slug", async () => {
         render(<PartnerApplicationsSection />);
