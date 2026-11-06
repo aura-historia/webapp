@@ -39,9 +39,10 @@ admin workflows in [admin workflows](admin-workflows.md).
     as a request. A hidden image is now an image object without `url`, which
     `mapListingImages` already treats as restricted. The Party-location resolution routes
     return `{}` without geocoding work; they are generated-only (see
-    **Known gaps and decisions**). Advertised shipping terms, shipping profile `content` and
-    listing delivery configuration keep their required `null` members; shipping stays
-    generated-only. Fixtures follow the contract and omit absent response members. This breaking
+    **Known gaps and decisions**). The members inside advertised shipping terms, shipping
+    profile `content` and listing delivery configuration keep their required `null`, while the
+    delivery view's `delivery` and the shipping default's `shippingProfileId`/`eligibility` are now
+    omitted when absent; shipping stays generated-only. Fixtures follow the contract and omit absent response members. This breaking
     change shipped without a transition period, but the mappers accept both shapes, so this
     webapp also works against the previous backend.
   - Backend commits since without a contract change need no client change: ListingSources read

@@ -13,7 +13,7 @@ reads forward abort signals. API error bodies are never surfaced in the UI.
 Route: `/$lng/admin/partnership-applications`.
 
 - `AdminPartnershipApplication.ts` maps admin DTOs separately from own applications. Detail has
-  no timestamps but carries nullable `approvedPartnershipId`/`approvedListingSourceId`; only search
+  no timestamps but carries optional `approvedPartnershipId`/`approvedListingSourceId`; only search
   summaries guarantee `created`/`updated`, so the detail dialog shows timestamps only when the
   opening summary supplies them.
 - Search sends repeated `state`/`proposalType`, `applicantUserId`, `listingSourceId`, inclusive UTC
