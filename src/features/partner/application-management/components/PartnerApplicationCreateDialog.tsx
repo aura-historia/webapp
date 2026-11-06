@@ -194,7 +194,6 @@ export function PartnerApplicationCreateDialog({
                                                 id={`application-listing-source-type-${sourceType}`}
                                                 type="radio"
                                                 required
-                                                aria-invalid={Boolean(listingSourceTypeError)}
                                                 name={listingSourceTypeField.name}
                                                 value={sourceType}
                                                 className="mt-1 size-4 accent-primary"
