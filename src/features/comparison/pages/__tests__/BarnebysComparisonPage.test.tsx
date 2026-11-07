@@ -89,7 +89,7 @@ describe("BarnebysComparisonPage", () => {
 
         const time = container.querySelector("time");
         expect(time).toHaveAttribute("datetime", BARNEBYS_COMPARISON_LAST_REVIEWED);
-        expect(time).toHaveTextContent("22. Juni 2026");
+        expect(time).toHaveTextContent("7. November 2026");
     });
 
     it("keeps the scorecard a real table with row and column headers", async () => {

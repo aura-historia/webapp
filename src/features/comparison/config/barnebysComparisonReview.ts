@@ -6,4 +6,4 @@
  * unrelated copy edits never bump it: change it only after re-checking the claims. Never derive
  * it from the clock or the build, which would claim a fresh review on every deploy.
  */
-export const BARNEBYS_COMPARISON_LAST_REVIEWED = "2026-06-22";
+export const BARNEBYS_COMPARISON_LAST_REVIEWED = "2026-11-07";
