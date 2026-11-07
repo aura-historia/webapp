@@ -1,0 +1,4443 @@
+[
+  {
+    "name": "addWatchlistProduct",
+    "description": "Add a listing to the signed-in user's watchlist by productListingId so they can follow it and, with notifications on (the default), hear about changes. A listing already on the watchlist returns CONFLICT; subscription tier limits apply.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "notifications": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "productListingId": {
+          "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "productListingId"
+      ],
+      "title": "AddInput",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "addWatchlistProduct",
+      "aura.historia/requiredScopes": [
+        "watchlist:write"
+      ]
+    }
+  },
+  {
+    "name": "createUserAddress",
+    "description": "Save a new private address with a label and its location in the signed-in user's address book; Aura Historia resolves the location for shipping estimates. Each call creates a new address, so repeating a call that timed out can create a duplicate.",
+    "inputSchema": {
+      "$defs": {
+        "GeographyData": {
+          "additionalProperties": false,
+          "properties": {
+            "addressText": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "country": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "postalCode": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "referenceRelease": {
+              "type": "string"
+            },
+            "subdivision": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "referenceRelease"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "geography": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/GeographyData"
+            },
+            {
+              "properties": {
+                "addressText": {
+                  "maxLength": 4096,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "addressText"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "geography"
+      ],
+      "title": "CreateData",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "createUserAddress",
+      "aura.historia/requiredScopes": [
+        "users:write"
+      ]
+    }
+  },
+  {
+    "name": "createUserSearchFilter",
+    "description": "Save a listing search for the signed-in user. Aura Historia matches new listings against it in the background and, with notifications on (the default), notifies the user, so matches appear later. Subscription tier limits apply. Each call creates a new saved search, so repeating a call that timed out can create a duplicate.",
+    "inputSchema": {
+      "$defs": {
+        "AcceptShippingDestinationData": {
+          "description": "Optional acceptance guard. The submitted country must equal the authorized address or\npreference's asserted country. Neither the reference nor provider evidence is retained.",
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "addressId": {
+                  "pattern": "^uaddr_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+                  "type": "string"
+                },
+                "kind": {
+                  "const": "ADDRESS",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind",
+                "addressId"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "PREFERENCE",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "AmountData": {
+          "additionalProperties": false,
+          "properties": {
+            "amount": {
+              "format": "uint64",
+              "maximum": 9223372036854775807,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "currency": {
+              "enum": [
+                "EUR",
+                "GBP",
+                "USD",
+                "AUD",
+                "CAD",
+                "NZD",
+                "CNY",
+                "BRL",
+                "PLN",
+                "TRY",
+                "JPY",
+                "CZK",
+                "RUB",
+                "AED",
+                "SAR",
+                "HKD",
+                "SGD",
+                "CHF",
+                "ZAR",
+                "SEK",
+                "DKK",
+                "NOK",
+                "KRW",
+                "INR",
+                "TWD",
+                "HUF",
+                "RON",
+                "MXN",
+                "THB",
+                "ARS"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "amount",
+            "currency"
+          ],
+          "type": "object"
+        },
+        "DateRangeSchema": {
+          "properties": {
+            "max": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "min": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          },
+          "type": "object"
+        },
+        "DestinationData": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "NONE",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "country": {
+                  "type": "string"
+                },
+                "kind": {
+                  "const": "COUNTRY",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind",
+                "country"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "GeographicSearchData": {
+          "additionalProperties": false,
+          "properties": {
+            "countries": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "distanceOrder": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "mode": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "origin": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/OriginData"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "radius": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "amount": {
+                      "type": "number"
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "amount",
+                    "unit"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "subdivisions": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        },
+        "NumberRangeSchema": {
+          "properties": {
+            "max": {
+              "format": "uint64",
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "min": {
+              "format": "uint64",
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "OriginData": {
+          "additionalProperties": false,
+          "properties": {
+            "latitude": {
+              "format": "double",
+              "type": "number"
+            },
+            "longitude": {
+              "format": "double",
+              "type": "number"
+            }
+          },
+          "required": [
+            "latitude",
+            "longitude"
+          ],
+          "type": "object"
+        },
+        "ProductListingSearchData": {
+          "properties": {
+            "auctionId": {
+              "items": {
+                "pattern": "^auc_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "availability": {
+              "anyOf": [
+                {
+                  "items": {
+                    "enum": [
+                      "AVAILABLE",
+                      "IN_STOCK",
+                      "LIMITED_AVAILABILITY",
+                      "BACK_ORDER",
+                      "MADE_TO_ORDER",
+                      "PRE_ORDER",
+                      "PRE_SALE",
+                      "UNAVAILABLE",
+                      "RESERVED",
+                      "OUT_OF_STOCK",
+                      "SOLD_OUT"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "created": {
+              "$ref": "#/$defs/DateRangeSchema"
+            },
+            "currency": {
+              "default": "EUR",
+              "enum": [
+                "EUR",
+                "GBP",
+                "USD",
+                "AUD",
+                "CAD",
+                "NZD",
+                "CNY",
+                "BRL",
+                "PLN",
+                "TRY",
+                "JPY",
+                "CZK",
+                "RUB",
+                "AED",
+                "SAR",
+                "HKD",
+                "SGD",
+                "CHF",
+                "ZAR",
+                "SEK",
+                "DKK",
+                "NOK",
+                "KRW",
+                "INR",
+                "TWD",
+                "HUF",
+                "RON",
+                "MXN",
+                "THB",
+                "ARS"
+              ],
+              "type": "string"
+            },
+            "enhancedSearchDescription": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "excludeListingSourceId": {
+              "items": {
+                "pattern": "^ls_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "excludeProductListingId": {
+              "items": {
+                "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "geography": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/GeographicSearchData"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "includeUnspecifiedAvailability": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "language": {
+              "default": "en",
+              "enum": [
+                "de",
+                "en",
+                "fr",
+                "es",
+                "it",
+                "zh",
+                "pt",
+                "pl",
+                "tr",
+                "nl",
+                "cs",
+                "ja",
+                "ru",
+                "ar",
+                "de-DE",
+                "de-AT",
+                "de-CH",
+                "de-LU",
+                "de-LI",
+                "en-US",
+                "en-GB",
+                "en-AU",
+                "en-CA",
+                "en-NZ",
+                "en_IE",
+                "fr-FR",
+                "fr-CA",
+                "fr-BE",
+                "fr-CH",
+                "fr-LU",
+                "es-ES",
+                "es-MX",
+                "es-AR",
+                "es-CO",
+                "es-CL",
+                "es-PE",
+                "es-VE",
+                "it-IT",
+                "it-CH",
+                "zh-CN",
+                "zh-Hans",
+                "pt-PT",
+                "pt-BR",
+                "pl-PL",
+                "tr-TR",
+                "nl-NL",
+                "nl-BE",
+                "cs-CZ",
+                "ja-JP",
+                "ru-RU",
+                "ar-SA",
+                "ar-EG",
+                "ar-AE"
+              ],
+              "type": "string"
+            },
+            "listingSourceId": {
+              "items": {
+                "pattern": "^ls_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "lotBiddingOpens": {
+              "$ref": "#/$defs/DateRangeSchema"
+            },
+            "lotScheduledCloses": {
+              "$ref": "#/$defs/DateRangeSchema"
+            },
+            "orderability": {
+              "anyOf": [
+                {
+                  "items": {
+                    "enum": [
+                      "ORDERABLE_NOW",
+                      "ORDERABLE_CONDITIONALLY",
+                      "NOT_ORDERABLE"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "price": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/NumberRangeSchema"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "productQuery": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "shipping": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ShippingSearchData"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "updated": {
+              "$ref": "#/$defs/DateRangeSchema"
+            }
+          },
+          "type": "object"
+        },
+        "ShippingSearchData": {
+          "additionalProperties": false,
+          "properties": {
+            "collectionOffered": {
+              "type": "boolean"
+            },
+            "destination": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/DestinationData"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "interpretation": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "maximumPerItem": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/AmountData"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "referenceRelease": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "service": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "acceptShippingDestination": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AcceptShippingDestinationData"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "notifications": {
+          "default": true,
+          "type": "boolean"
+        },
+        "search": {
+          "$ref": "#/$defs/ProductListingSearchData"
+        }
+      },
+      "required": [
+        "name",
+        "search"
+      ],
+      "title": "CreateArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": false,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "createUserSearchFilter",
+      "aura.historia/requiredScopes": [
+        "search-filters:write"
+      ]
+    }
+  },
+  {
+    "name": "deleteNotification",
+    "description": "Permanently delete one of the signed-in user's notifications by notificationId. Returns an empty object; an unknown ID returns NOT_FOUND.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "notificationId": {
+          "pattern": "^ntf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "notificationId"
+      ],
+      "title": "NotificationArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "deleteNotification",
+      "aura.historia/requiredScopes": [
+        "notifications:write"
+      ]
+    }
+  },
+  {
+    "name": "deleteNotifications",
+    "description": "Permanently delete every notification of the signed-in user, including those beyond the listed page. Takes no arguments. Returns an empty object.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "title": "EmptyArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "deleteNotifications",
+      "aura.historia/requiredScopes": [
+        "notifications:write"
+      ]
+    }
+  },
+  {
+    "name": "deleteUserAddress",
+    "description": "Permanently delete one of the signed-in user's saved addresses. expectedVersion must equal its current version. If the address is the browsing destination, that destination is cleared too. Returns an empty object.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "addressId": {
+          "pattern": "^uaddr_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        },
+        "expectedVersion": {
+          "format": "uint64",
+          "maximum": 9223372036854775807,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "addressId",
+        "expectedVersion"
+      ],
+      "title": "DeleteAddressArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "deleteUserAddress",
+      "aura.historia/requiredScopes": [
+        "users:write"
+      ]
+    }
+  },
+  {
+    "name": "deleteUserSearchFilter",
+    "description": "Permanently delete one of the signed-in user's saved searches. Returns an empty object; an unknown ID returns NOT_FOUND.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "userSearchFilterId": {
+          "pattern": "^sf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "userSearchFilterId"
+      ],
+      "title": "FilterArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "deleteUserSearchFilter",
+      "aura.historia/requiredScopes": [
+        "search-filters:write"
+      ]
+    }
+  },
+  {
+    "name": "deleteWatchlistProduct",
+    "description": "Remove a listing from the signed-in user's watchlist by productListingId. Returns an empty object; a listing that is not on the watchlist returns NOT_FOUND, also after an earlier call removed it.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "productListingId": {
+          "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "productListingId"
+      ],
+      "title": "RemoveInput",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "deleteWatchlistProduct",
+      "aura.historia/requiredScopes": [
+        "watchlist:write"
+      ]
+    }
+  },
+  {
+    "name": "discoverPartyLocations",
+    "description": "Find the public locations, such as shops and showrooms, of the dealers and auction houses that Aura Historia indexes, within countries or subdivisions or within a radius around a point. Returns each location's business, label, country, coordinates and precision, and with distanceOrder its distance from the point. Returns 1 to 100 locations per page (default 21); pass the returned searchAfter object unchanged to get the next page.",
+    "inputSchema": {
+      "$defs": {
+        "GeographicSearchData": {
+          "additionalProperties": false,
+          "properties": {
+            "countries": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "distanceOrder": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "mode": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "origin": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/OriginData"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "radius": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "amount": {
+                      "type": "number"
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "amount",
+                    "unit"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "subdivisions": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        },
+        "OriginData": {
+          "additionalProperties": false,
+          "properties": {
+            "latitude": {
+              "format": "double",
+              "type": "number"
+            },
+            "longitude": {
+              "format": "double",
+              "type": "number"
+            }
+          },
+          "required": [
+            "latitude",
+            "longitude"
+          ],
+          "type": "object"
+        },
+        "PartyLocationCursorData": {
+          "additionalProperties": false,
+          "properties": {
+            "distanceKm": {
+              "format": "double",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "locationId": {
+              "pattern": "^ploc_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "locationId"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "geography": {
+          "$ref": "#/$defs/GeographicSearchData"
+        },
+        "searchAfter": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartyLocationCursorData"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "size": {
+          "default": 21,
+          "description": "Page size from 1 through 100, validated by the discovery use case.",
+          "format": "uint64",
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "geography"
+      ],
+      "title": "DiscoverPartyLocationsData",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "public",
+      "aura.historia/operationId": "discoverPartyLocations",
+      "aura.historia/requiredScopes": []
+    }
+  },
+  {
+    "name": "getAuction",
+    "description": "Get one auction by its auctionId: name, provider, format, schedule, reported status, reported and visible lot counts, and the link to its catalogue at the provider.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "auctionId": {
+          "pattern": "^auc_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "auctionId"
+      ],
+      "title": "AuctionArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "public",
+      "aura.historia/operationId": "getAuction",
+      "aura.historia/requiredScopes": []
+    }
+  },
+  {
+    "name": "getAuctionCatalogue",
+    "description": "List the lots of one auction by its auctionId in catalogue order, as listings in the requested language and currency with shipping details. Pass the returned searchAfter object as a JSON string to get the next page. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "auctionId": {
+          "pattern": "^auc_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        },
+        "currency": {
+          "default": "EUR",
+          "enum": [
+            "EUR",
+            "GBP",
+            "USD",
+            "AUD",
+            "CAD",
+            "NZD",
+            "CNY",
+            "BRL",
+            "PLN",
+            "TRY",
+            "JPY",
+            "CZK",
+            "RUB",
+            "AED",
+            "SAR",
+            "HKD",
+            "SGD",
+            "CHF",
+            "ZAR",
+            "SEK",
+            "DKK",
+            "NOK",
+            "KRW",
+            "INR",
+            "TWD",
+            "HUF",
+            "RON",
+            "MXN",
+            "THB",
+            "ARS"
+          ],
+          "type": "string"
+        },
+        "language": {
+          "default": "en",
+          "enum": [
+            "de",
+            "en",
+            "fr",
+            "es",
+            "it",
+            "zh",
+            "pt",
+            "pl",
+            "tr",
+            "nl",
+            "cs",
+            "ja",
+            "ru",
+            "ar",
+            "de-DE",
+            "de-AT",
+            "de-CH",
+            "de-LU",
+            "de-LI",
+            "en-US",
+            "en-GB",
+            "en-AU",
+            "en-CA",
+            "en-NZ",
+            "en_IE",
+            "fr-FR",
+            "fr-CA",
+            "fr-BE",
+            "fr-CH",
+            "fr-LU",
+            "es-ES",
+            "es-MX",
+            "es-AR",
+            "es-CO",
+            "es-CL",
+            "es-PE",
+            "es-VE",
+            "it-IT",
+            "it-CH",
+            "zh-CN",
+            "zh-Hans",
+            "pt-PT",
+            "pt-BR",
+            "pl-PL",
+            "tr-TR",
+            "nl-NL",
+            "nl-BE",
+            "cs-CZ",
+            "ja-JP",
+            "ru-RU",
+            "ar-SA",
+            "ar-EG",
+            "ar-AE"
+          ],
+          "type": "string"
+        },
+        "pageSize": {
+          "format": "uint64",
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "searchAfter": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "auctionId"
+      ],
+      "title": "CatalogueArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "public",
+      "aura.historia/operationId": "getAuctionCatalogue",
+      "aura.historia/requiredScopes": []
+    }
+  },
+  {
+    "name": "getBrowsingDestination",
+    "description": "Get the destination Aura Historia uses to estimate shipping while the signed-in user browses: NONE, one of their saved addresses (ADDRESS) or a country with an optional postal code (COUNTRY_POSTAL), with its version.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "title": "OwnAccountArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "getBrowsingDestination",
+      "aura.historia/requiredScopes": [
+        "users:read"
+      ]
+    }
+  },
+  {
+    "name": "getProductListing",
+    "description": "Get the full details of one listing by its productListingId: text, prices, images, provider, availability, auction and shipping, in the requested language and currency. Use it when the user wants more than a search result shows. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "Existing presentation query used by listing detail and similarity reads.",
+      "properties": {
+        "currency": {
+          "default": "EUR",
+          "enum": [
+            "EUR",
+            "GBP",
+            "USD",
+            "AUD",
+            "CAD",
+            "NZD",
+            "CNY",
+            "BRL",
+            "PLN",
+            "TRY",
+            "JPY",
+            "CZK",
+            "RUB",
+            "AED",
+            "SAR",
+            "HKD",
+            "SGD",
+            "CHF",
+            "ZAR",
+            "SEK",
+            "DKK",
+            "NOK",
+            "KRW",
+            "INR",
+            "TWD",
+            "HUF",
+            "RON",
+            "MXN",
+            "THB",
+            "ARS"
+          ],
+          "type": "string"
+        },
+        "language": {
+          "default": "en",
+          "enum": [
+            "de",
+            "en",
+            "fr",
+            "es",
+            "it",
+            "zh",
+            "pt",
+            "pl",
+            "tr",
+            "nl",
+            "cs",
+            "ja",
+            "ru",
+            "ar",
+            "de-DE",
+            "de-AT",
+            "de-CH",
+            "de-LU",
+            "de-LI",
+            "en-US",
+            "en-GB",
+            "en-AU",
+            "en-CA",
+            "en-NZ",
+            "en_IE",
+            "fr-FR",
+            "fr-CA",
+            "fr-BE",
+            "fr-CH",
+            "fr-LU",
+            "es-ES",
+            "es-MX",
+            "es-AR",
+            "es-CO",
+            "es-CL",
+            "es-PE",
+            "es-VE",
+            "it-IT",
+            "it-CH",
+            "zh-CN",
+            "zh-Hans",
+            "pt-PT",
+            "pt-BR",
+            "pl-PL",
+            "tr-TR",
+            "nl-NL",
+            "nl-BE",
+            "cs-CZ",
+            "ja-JP",
+            "ru-RU",
+            "ar-SA",
+            "ar-EG",
+            "ar-AE"
+          ],
+          "type": "string"
+        },
+        "productListingId": {
+          "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "productListingId"
+      ],
+      "title": "ListingInput",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "public",
+      "aura.historia/operationId": "getProductListing",
+      "aura.historia/requiredScopes": []
+    }
+  },
+  {
+    "name": "getProductListingByTitleSlug",
+    "description": "Get the full details of one listing by its productListingTitleSlugId, the last segment of an Aura Historia listing page URL (/products/{slug}). Returns the same details as the lookup by productListingId. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "Existing presentation query used by listing detail and similarity reads.",
+      "properties": {
+        "currency": {
+          "default": "EUR",
+          "enum": [
+            "EUR",
+            "GBP",
+            "USD",
+            "AUD",
+            "CAD",
+            "NZD",
+            "CNY",
+            "BRL",
+            "PLN",
+            "TRY",
+            "JPY",
+            "CZK",
+            "RUB",
+            "AED",
+            "SAR",
+            "HKD",
+            "SGD",
+            "CHF",
+            "ZAR",
+            "SEK",
+            "DKK",
+            "NOK",
+            "KRW",
+            "INR",
+            "TWD",
+            "HUF",
+            "RON",
+            "MXN",
+            "THB",
+            "ARS"
+          ],
+          "type": "string"
+        },
+        "language": {
+          "default": "en",
+          "enum": [
+            "de",
+            "en",
+            "fr",
+            "es",
+            "it",
+            "zh",
+            "pt",
+            "pl",
+            "tr",
+            "nl",
+            "cs",
+            "ja",
+            "ru",
+            "ar",
+            "de-DE",
+            "de-AT",
+            "de-CH",
+            "de-LU",
+            "de-LI",
+            "en-US",
+            "en-GB",
+            "en-AU",
+            "en-CA",
+            "en-NZ",
+            "en_IE",
+            "fr-FR",
+            "fr-CA",
+            "fr-BE",
+            "fr-CH",
+            "fr-LU",
+            "es-ES",
+            "es-MX",
+            "es-AR",
+            "es-CO",
+            "es-CL",
+            "es-PE",
+            "es-VE",
+            "it-IT",
+            "it-CH",
+            "zh-CN",
+            "zh-Hans",
+            "pt-PT",
+            "pt-BR",
+            "pl-PL",
+            "tr-TR",
+            "nl-NL",
+            "nl-BE",
+            "cs-CZ",
+            "ja-JP",
+            "ru-RU",
+            "ar-SA",
+            "ar-EG",
+            "ar-AE"
+          ],
+          "type": "string"
+        },
+        "productListingTitleSlugId": {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*-[0-9a-f]{6}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "productListingTitleSlugId"
+      ],
+      "title": "SlugInput",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "public",
+      "aura.historia/operationId": "getProductListingByTitleSlug",
+      "aura.historia/requiredScopes": []
+    }
+  },
+  {
+    "name": "getProductListingHistory",
+    "description": "Get the complete history of one listing by its productListingId: when it was first seen and every recorded change, in event order. Use it for questions about price development or past changes. With currency, each price is also converted at the exchange rate of its event. Returns every event in one result; a history too large for one response fails instead of being truncated.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "Existing optional REST history presentation query, reused by MCP arguments.",
+      "properties": {
+        "currency": {
+          "anyOf": [
+            {
+              "enum": [
+                "EUR",
+                "GBP",
+                "USD",
+                "AUD",
+                "CAD",
+                "NZD",
+                "CNY",
+                "BRL",
+                "PLN",
+                "TRY",
+                "JPY",
+                "CZK",
+                "RUB",
+                "AED",
+                "SAR",
+                "HKD",
+                "SGD",
+                "CHF",
+                "ZAR",
+                "SEK",
+                "DKK",
+                "NOK",
+                "KRW",
+                "INR",
+                "TWD",
+                "HUF",
+                "RON",
+                "MXN",
+                "THB",
+                "ARS"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "productListingId": {
+          "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "productListingId"
+      ],
+      "title": "HistoryInput",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "public",
+      "aura.historia/operationId": "getProductListingHistory",
+      "aura.historia/requiredScopes": []
+    }
+  },
+  {
+    "name": "getPublicListingSourceBySlug",
+    "description": "Get the public profile of one provider (a dealer, auction house, marketplace or auction platform) by its listingSourceSlugId, the last segment of an Aura Historia provider page URL (/shops/{slug}): name, operator, website and image.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "listingSourceSlugId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "listingSourceSlugId"
+      ],
+      "title": "GetPublicListingSourceBySlugData",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "public",
+      "aura.historia/operationId": "getPublicListingSourceBySlug",
+      "aura.historia/requiredScopes": []
+    }
+  },
+  {
+    "name": "getPublicOverview",
+    "description": "Get the latest calculated statistics of the Aura Historia catalogue: live listings, listings added in the last seven days, countries, languages and indexed providers by type, with the time they were calculated. Takes no arguments.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "title": "OverviewArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "public",
+      "aura.historia/operationId": "getPublicOverview",
+      "aura.historia/requiredScopes": []
+    }
+  },
+  {
+    "name": "getSimilarProductListings",
+    "description": "Find listings similar to one listing, identified by its productListingId. Returns up to a fixed number of neighbours in the requested language and currency. EMBEDDING_PENDING means the listing is not yet prepared for comparison and a later call can succeed; READY with an empty list means nothing similar was found. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "Existing presentation query used by listing detail and similarity reads.",
+      "properties": {
+        "currency": {
+          "default": "EUR",
+          "enum": [
+            "EUR",
+            "GBP",
+            "USD",
+            "AUD",
+            "CAD",
+            "NZD",
+            "CNY",
+            "BRL",
+            "PLN",
+            "TRY",
+            "JPY",
+            "CZK",
+            "RUB",
+            "AED",
+            "SAR",
+            "HKD",
+            "SGD",
+            "CHF",
+            "ZAR",
+            "SEK",
+            "DKK",
+            "NOK",
+            "KRW",
+            "INR",
+            "TWD",
+            "HUF",
+            "RON",
+            "MXN",
+            "THB",
+            "ARS"
+          ],
+          "type": "string"
+        },
+        "language": {
+          "default": "en",
+          "enum": [
+            "de",
+            "en",
+            "fr",
+            "es",
+            "it",
+            "zh",
+            "pt",
+            "pl",
+            "tr",
+            "nl",
+            "cs",
+            "ja",
+            "ru",
+            "ar",
+            "de-DE",
+            "de-AT",
+            "de-CH",
+            "de-LU",
+            "de-LI",
+            "en-US",
+            "en-GB",
+            "en-AU",
+            "en-CA",
+            "en-NZ",
+            "en_IE",
+            "fr-FR",
+            "fr-CA",
+            "fr-BE",
+            "fr-CH",
+            "fr-LU",
+            "es-ES",
+            "es-MX",
+            "es-AR",
+            "es-CO",
+            "es-CL",
+            "es-PE",
+            "es-VE",
+            "it-IT",
+            "it-CH",
+            "zh-CN",
+            "zh-Hans",
+            "pt-PT",
+            "pt-BR",
+            "pl-PL",
+            "tr-TR",
+            "nl-NL",
+            "nl-BE",
+            "cs-CZ",
+            "ja-JP",
+            "ru-RU",
+            "ar-SA",
+            "ar-EG",
+            "ar-AE"
+          ],
+          "type": "string"
+        },
+        "productListingId": {
+          "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "productListingId"
+      ],
+      "title": "ListingInput",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "public",
+      "aura.historia/operationId": "getSimilarProductListings",
+      "aura.historia/requiredScopes": []
+    }
+  },
+  {
+    "name": "getUserAccount",
+    "description": "Get the signed-in user's Aura Historia account: email, name, language, currency and measurement unit, content preference, marketing consent, subscription tier and role.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "title": "OwnAccountArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "getUserAccount",
+      "aura.historia/requiredScopes": [
+        "users:read"
+      ]
+    }
+  },
+  {
+    "name": "getUserAddress",
+    "description": "Get one of the signed-in user's saved addresses by addressId, with its resolved location and the attribution of the geocoding provider.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "addressId": {
+          "pattern": "^uaddr_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "addressId"
+      ],
+      "title": "AddressArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "getUserAddress",
+      "aura.historia/requiredScopes": [
+        "users:read"
+      ]
+    }
+  },
+  {
+    "name": "getUserSearchFilter",
+    "description": "Get one of the signed-in user's saved searches by userSearchFilterId, with its criteria, state and notification settings.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "userSearchFilterId": {
+          "pattern": "^sf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "userSearchFilterId"
+      ],
+      "title": "FilterArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "getUserSearchFilter",
+      "aura.historia/requiredScopes": [
+        "search-filters:read"
+      ]
+    }
+  },
+  {
+    "name": "getUserSearchFilters",
+    "description": "List all of the signed-in user's saved searches with their criteria, state and notification settings. Takes no arguments.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "title": "EmptyArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "getUserSearchFilters",
+      "aura.historia/requiredScopes": [
+        "search-filters:read"
+      ]
+    }
+  },
+  {
+    "name": "getWatchlistProductListings",
+    "description": "List the listings on the signed-in user's watchlist with their full details and notification settings, in the requested language and currency. Pass the returned searchAfter array as a JSON string to get the next page.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "currency": {
+          "default": "EUR",
+          "enum": [
+            "EUR",
+            "GBP",
+            "USD",
+            "AUD",
+            "CAD",
+            "NZD",
+            "CNY",
+            "BRL",
+            "PLN",
+            "TRY",
+            "JPY",
+            "CZK",
+            "RUB",
+            "AED",
+            "SAR",
+            "HKD",
+            "SGD",
+            "CHF",
+            "ZAR",
+            "SEK",
+            "DKK",
+            "NOK",
+            "KRW",
+            "INR",
+            "TWD",
+            "HUF",
+            "RON",
+            "MXN",
+            "THB",
+            "ARS"
+          ],
+          "type": "string"
+        },
+        "language": {
+          "default": "en",
+          "enum": [
+            "de",
+            "en",
+            "fr",
+            "es",
+            "it",
+            "zh",
+            "pt",
+            "pl",
+            "tr",
+            "nl",
+            "cs",
+            "ja",
+            "ru",
+            "ar",
+            "de-DE",
+            "de-AT",
+            "de-CH",
+            "de-LU",
+            "de-LI",
+            "en-US",
+            "en-GB",
+            "en-AU",
+            "en-CA",
+            "en-NZ",
+            "en_IE",
+            "fr-FR",
+            "fr-CA",
+            "fr-BE",
+            "fr-CH",
+            "fr-LU",
+            "es-ES",
+            "es-MX",
+            "es-AR",
+            "es-CO",
+            "es-CL",
+            "es-PE",
+            "es-VE",
+            "it-IT",
+            "it-CH",
+            "zh-CN",
+            "zh-Hans",
+            "pt-PT",
+            "pt-BR",
+            "pl-PL",
+            "tr-TR",
+            "nl-NL",
+            "nl-BE",
+            "cs-CZ",
+            "ja-JP",
+            "ru-RU",
+            "ar-SA",
+            "ar-EG",
+            "ar-AE"
+          ],
+          "type": "string"
+        },
+        "searchAfter": {
+          "description": "JSON encoded [RFC3339 watchlist creation timestamp, ProductListing ID].",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "size": {
+          "format": "uint64",
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "title": "ListInput",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "getWatchlistProductListings",
+      "aura.historia/requiredScopes": [
+        "watchlist:read"
+      ]
+    }
+  },
+  {
+    "name": "listAuctions",
+    "description": "List auctions of the auction houses and platforms that Aura Historia indexes, filtered by provider, format, reported status and schedule period and sorted by creation or schedule time. Use it to find upcoming, running or past auctions. A schedule period needs timeRole, from and to together, and sorting by schedule time needs timeRole. Pass the returned searchAfter object as a JSON string to get the next page.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "format": {
+          "anyOf": [
+            {
+              "enum": [
+                "LIVE",
+                "TIMED"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "from": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "listingSourceId": {
+          "anyOf": [
+            {
+              "pattern": "^ls_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "order": {
+          "anyOf": [
+            {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "pageSize": {
+          "format": "uint64",
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "reportedStatus": {
+          "anyOf": [
+            {
+              "enum": [
+                "SCHEDULED",
+                "IN_PROGRESS",
+                "ENDED",
+                "POSTPONED",
+                "CANCELLED"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "searchAfter": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sort": {
+          "anyOf": [
+            {
+              "enum": [
+                "created",
+                "scheduled"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "timeRole": {
+          "anyOf": [
+            {
+              "enum": [
+                "BIDDING_OPENS",
+                "LIVE_STARTS",
+                "LOTS_BEGIN_CLOSING",
+                "SCHEDULED_END"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "to": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "DirectoryQuery",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "public",
+      "aura.historia/operationId": "listAuctions",
+      "aura.historia/requiredScopes": []
+    }
+  },
+  {
+    "name": "listNotifications",
+    "description": "List the signed-in user's notifications, such as watchlist changes and new saved-search matches, with each listing as it was when notified, in the requested language. Returns up to size notifications (default 21, 1 to 100); pass the returned searchAfter array as a JSON string to get the next page.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "default": "en",
+          "enum": [
+            "de",
+            "en",
+            "fr",
+            "es",
+            "it",
+            "zh",
+            "pt",
+            "pl",
+            "tr",
+            "nl",
+            "cs",
+            "ja",
+            "ru",
+            "ar",
+            "de-DE",
+            "de-AT",
+            "de-CH",
+            "de-LU",
+            "de-LI",
+            "en-US",
+            "en-GB",
+            "en-AU",
+            "en-CA",
+            "en-NZ",
+            "en_IE",
+            "fr-FR",
+            "fr-CA",
+            "fr-BE",
+            "fr-CH",
+            "fr-LU",
+            "es-ES",
+            "es-MX",
+            "es-AR",
+            "es-CO",
+            "es-CL",
+            "es-PE",
+            "es-VE",
+            "it-IT",
+            "it-CH",
+            "zh-CN",
+            "zh-Hans",
+            "pt-PT",
+            "pt-BR",
+            "pl-PL",
+            "tr-TR",
+            "nl-NL",
+            "nl-BE",
+            "cs-CZ",
+            "ja-JP",
+            "ru-RU",
+            "ar-SA",
+            "ar-EG",
+            "ar-AE"
+          ],
+          "type": "string"
+        },
+        "searchAfter": {
+          "description": "JSON string of the returned [created, notificationId] array.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "size": {
+          "description": "Defaults to 21 and is clamped to 1 through 100, as on REST.",
+          "format": "uint64",
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "title": "ListArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "listNotifications",
+      "aura.historia/requiredScopes": [
+        "notifications:read"
+      ]
+    }
+  },
+  {
+    "name": "listSearchFilterMatches",
+    "description": "List the listings that matched one of the signed-in user's saved searches, oldest match first, in the requested language and currency. Matching runs in the background, so an empty first page means there are no matches yet. Returns up to size matches (default 21, 1 to 100); pass the returned searchAfter array unchanged to get the next page.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "currency": {
+          "default": "EUR",
+          "enum": [
+            "EUR",
+            "GBP",
+            "USD",
+            "AUD",
+            "CAD",
+            "NZD",
+            "CNY",
+            "BRL",
+            "PLN",
+            "TRY",
+            "JPY",
+            "CZK",
+            "RUB",
+            "AED",
+            "SAR",
+            "HKD",
+            "SGD",
+            "CHF",
+            "ZAR",
+            "SEK",
+            "DKK",
+            "NOK",
+            "KRW",
+            "INR",
+            "TWD",
+            "HUF",
+            "RON",
+            "MXN",
+            "THB",
+            "ARS"
+          ],
+          "type": "string"
+        },
+        "language": {
+          "default": "en",
+          "enum": [
+            "de",
+            "en",
+            "fr",
+            "es",
+            "it",
+            "zh",
+            "pt",
+            "pl",
+            "tr",
+            "nl",
+            "cs",
+            "ja",
+            "ru",
+            "ar",
+            "de-DE",
+            "de-AT",
+            "de-CH",
+            "de-LU",
+            "de-LI",
+            "en-US",
+            "en-GB",
+            "en-AU",
+            "en-CA",
+            "en-NZ",
+            "en_IE",
+            "fr-FR",
+            "fr-CA",
+            "fr-BE",
+            "fr-CH",
+            "fr-LU",
+            "es-ES",
+            "es-MX",
+            "es-AR",
+            "es-CO",
+            "es-CL",
+            "es-PE",
+            "es-VE",
+            "it-IT",
+            "it-CH",
+            "zh-CN",
+            "zh-Hans",
+            "pt-PT",
+            "pt-BR",
+            "pl-PL",
+            "tr-TR",
+            "nl-NL",
+            "nl-BE",
+            "cs-CZ",
+            "ja-JP",
+            "ru-RU",
+            "ar-SA",
+            "ar-EG",
+            "ar-AE"
+          ],
+          "type": "string"
+        },
+        "searchAfter": {
+          "anyOf": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+                  "type": "string"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "size": {
+          "default": null,
+          "description": "Defaults to 21 and clamps to 1..=100.",
+          "format": "uint64",
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "userSearchFilterId": {
+          "pattern": "^sf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "userSearchFilterId"
+      ],
+      "title": "MatchesArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "listSearchFilterMatches",
+      "aura.historia/requiredScopes": [
+        "search-filters:read"
+      ]
+    }
+  },
+  {
+    "name": "listUserAddresses",
+    "description": "List the signed-in user's saved addresses with their resolved locations. Returns up to limit addresses (default 25, 1 to 100); pass the returned next as after to get the next page.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "after": {
+          "anyOf": [
+            {
+              "pattern": "^uaddr_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "limit": {
+          "default": null,
+          "format": "uint32",
+          "maximum": 100,
+          "minimum": 1,
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "title": "PageQuery",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "listUserAddresses",
+      "aura.historia/requiredScopes": [
+        "users:read"
+      ]
+    }
+  },
+  {
+    "name": "patchWatchlistProduct",
+    "description": "Turn notifications for a watched listing on or off, or pause (INACTIVE_BY_USER) or resume (ACTIVE) the entry. Omitted fields stay unchanged and null is invalid; resuming is subject to subscription tier limits. Returns the listing with its full details in the requested language and currency.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "Existing presentation query used by listing detail and similarity reads.",
+      "properties": {
+        "currency": {
+          "default": "EUR",
+          "enum": [
+            "EUR",
+            "GBP",
+            "USD",
+            "AUD",
+            "CAD",
+            "NZD",
+            "CNY",
+            "BRL",
+            "PLN",
+            "TRY",
+            "JPY",
+            "CZK",
+            "RUB",
+            "AED",
+            "SAR",
+            "HKD",
+            "SGD",
+            "CHF",
+            "ZAR",
+            "SEK",
+            "DKK",
+            "NOK",
+            "KRW",
+            "INR",
+            "TWD",
+            "HUF",
+            "RON",
+            "MXN",
+            "THB",
+            "ARS"
+          ],
+          "type": "string"
+        },
+        "language": {
+          "default": "en",
+          "enum": [
+            "de",
+            "en",
+            "fr",
+            "es",
+            "it",
+            "zh",
+            "pt",
+            "pl",
+            "tr",
+            "nl",
+            "cs",
+            "ja",
+            "ru",
+            "ar",
+            "de-DE",
+            "de-AT",
+            "de-CH",
+            "de-LU",
+            "de-LI",
+            "en-US",
+            "en-GB",
+            "en-AU",
+            "en-CA",
+            "en-NZ",
+            "en_IE",
+            "fr-FR",
+            "fr-CA",
+            "fr-BE",
+            "fr-CH",
+            "fr-LU",
+            "es-ES",
+            "es-MX",
+            "es-AR",
+            "es-CO",
+            "es-CL",
+            "es-PE",
+            "es-VE",
+            "it-IT",
+            "it-CH",
+            "zh-CN",
+            "zh-Hans",
+            "pt-PT",
+            "pt-BR",
+            "pl-PL",
+            "tr-TR",
+            "nl-NL",
+            "nl-BE",
+            "cs-CZ",
+            "ja-JP",
+            "ru-RU",
+            "ar-SA",
+            "ar-EG",
+            "ar-AE"
+          ],
+          "type": "string"
+        },
+        "notifications": {
+          "type": "boolean"
+        },
+        "productListingId": {
+          "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "ACTIVE",
+            "INACTIVE_BY_USER"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "productListingId"
+      ],
+      "title": "UpdateInput",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "patchWatchlistProduct",
+      "aura.historia/requiredScopes": [
+        "watchlist:write"
+      ]
+    }
+  },
+  {
+    "name": "searchPublicListingSources",
+    "description": "Search the providers whose listings Aura Historia indexes (dealers, auction houses, marketplaces and auction platforms) by name. Without a query it browses all providers; a query too short to match returns no results. Returns 1 to 50 providers per page (default 21); pass the returned searchAfter unchanged, with the same query and size, to get the next page.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "query": {
+          "default": null,
+          "description": "Optional source-name text; omission or whitespace browses, insufficient text returns no matches.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "searchAfter": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "size": {
+          "default": 21,
+          "description": "Page size from 1 through 50. Continuations are bound to the query and page size.",
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "title": "SearchPublicListingSourcesData",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "public",
+      "aura.historia/operationId": "searchPublicListingSources",
+      "aura.historia/requiredScopes": []
+    }
+  },
+  {
+    "name": "setBrowsingDestination",
+    "description": "Set or clear the destination used to estimate shipping while the signed-in user browses: NONE clears it, ADDRESS selects one of their saved addresses and COUNTRY_POSTAL a country with an optional postal code. expectedVersion must equal the current version. Returns the new destination and version.",
+    "inputSchema": {
+      "$defs": {
+        "DestinationData": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "NONE",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "addressId": {
+                  "pattern": "^uaddr_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+                  "type": "string"
+                },
+                "kind": {
+                  "const": "ADDRESS",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind",
+                "addressId"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "country": {
+                  "type": "string"
+                },
+                "kind": {
+                  "const": "COUNTRY_POSTAL",
+                  "type": "string"
+                },
+                "postalCode": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "country"
+              ],
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "destination": {
+          "$ref": "#/$defs/DestinationData"
+        },
+        "expectedVersion": {
+          "format": "uint64",
+          "maximum": 9223372036854775807,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "expectedVersion",
+        "destination"
+      ],
+      "title": "SetDestinationData",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "setBrowsingDestination",
+      "aura.historia/requiredScopes": [
+        "users:write"
+      ]
+    }
+  },
+  {
+    "name": "simpleSearchProductListings",
+    "description": "Search Aura Historia's index of art, antiques and design objects listed by dealers, auction houses, marketplaces and auction platforms. Use it to find listings by text and by filters such as price, dates, availability, provider, auction, location and shipping. Returns listing summaries in the requested language and currency, with the total when known; pass the returned searchAfter object unchanged to get the next page. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read.",
+    "inputSchema": {
+      "$defs": {
+        "AmountData": {
+          "additionalProperties": false,
+          "properties": {
+            "amount": {
+              "format": "uint64",
+              "maximum": 9223372036854775807,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "currency": {
+              "enum": [
+                "EUR",
+                "GBP",
+                "USD",
+                "AUD",
+                "CAD",
+                "NZD",
+                "CNY",
+                "BRL",
+                "PLN",
+                "TRY",
+                "JPY",
+                "CZK",
+                "RUB",
+                "AED",
+                "SAR",
+                "HKD",
+                "SGD",
+                "CHF",
+                "ZAR",
+                "SEK",
+                "DKK",
+                "NOK",
+                "KRW",
+                "INR",
+                "TWD",
+                "HUF",
+                "RON",
+                "MXN",
+                "THB",
+                "ARS"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "amount",
+            "currency"
+          ],
+          "type": "object"
+        },
+        "DateRangeSchema": {
+          "properties": {
+            "max": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "min": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          },
+          "type": "object"
+        },
+        "DestinationData": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "NONE",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "country": {
+                  "type": "string"
+                },
+                "kind": {
+                  "const": "COUNTRY",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind",
+                "country"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "GeographicSearchData": {
+          "additionalProperties": false,
+          "properties": {
+            "countries": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "distanceOrder": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "mode": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "origin": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/OriginData"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "radius": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "amount": {
+                      "type": "number"
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "amount",
+                    "unit"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "subdivisions": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        },
+        "NumberRangeSchema": {
+          "properties": {
+            "max": {
+              "format": "uint64",
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "min": {
+              "format": "uint64",
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "OriginData": {
+          "additionalProperties": false,
+          "properties": {
+            "latitude": {
+              "format": "double",
+              "type": "number"
+            },
+            "longitude": {
+              "format": "double",
+              "type": "number"
+            }
+          },
+          "required": [
+            "latitude",
+            "longitude"
+          ],
+          "type": "object"
+        },
+        "ProductListingSearchCursorInputData": {
+          "properties": {
+            "fxRateId": {
+              "pattern": "^fx_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+              "type": "string"
+            },
+            "searchAfter": true
+          },
+          "required": [
+            "fxRateId",
+            "searchAfter"
+          ],
+          "type": "object"
+        },
+        "ShippingSearchData": {
+          "additionalProperties": false,
+          "properties": {
+            "collectionOffered": {
+              "type": "boolean"
+            },
+            "destination": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/DestinationData"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "interpretation": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "maximumPerItem": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/AmountData"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "referenceRelease": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "service": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "SortProductListingFieldData": {
+          "enum": [
+            "score",
+            "updated",
+            "created"
+          ],
+          "type": "string"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "description": "Query options shared by REST extraction and MCP's combined argument envelope.",
+      "properties": {
+        "auctionId": {
+          "default": [],
+          "items": {
+            "pattern": "^auc_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "availability": {
+          "anyOf": [
+            {
+              "items": {
+                "enum": [
+                  "AVAILABLE",
+                  "IN_STOCK",
+                  "LIMITED_AVAILABILITY",
+                  "BACK_ORDER",
+                  "MADE_TO_ORDER",
+                  "PRE_ORDER",
+                  "PRE_SALE",
+                  "UNAVAILABLE",
+                  "RESERVED",
+                  "OUT_OF_STOCK",
+                  "SOLD_OUT"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "created": {
+          "$ref": "#/$defs/DateRangeSchema",
+          "default": null
+        },
+        "currency": {
+          "default": "EUR",
+          "enum": [
+            "EUR",
+            "GBP",
+            "USD",
+            "AUD",
+            "CAD",
+            "NZD",
+            "CNY",
+            "BRL",
+            "PLN",
+            "TRY",
+            "JPY",
+            "CZK",
+            "RUB",
+            "AED",
+            "SAR",
+            "HKD",
+            "SGD",
+            "CHF",
+            "ZAR",
+            "SEK",
+            "DKK",
+            "NOK",
+            "KRW",
+            "INR",
+            "TWD",
+            "HUF",
+            "RON",
+            "MXN",
+            "THB",
+            "ARS"
+          ],
+          "type": "string"
+        },
+        "enhancedSearchDescription": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "excludeListingSourceId": {
+          "default": [],
+          "items": {
+            "pattern": "^ls_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "excludeProductListingId": {
+          "default": [],
+          "items": {
+            "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "geography": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GeographicSearchData"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "includeUnspecifiedAvailability": {
+          "default": null,
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "language": {
+          "default": "en",
+          "enum": [
+            "de",
+            "en",
+            "fr",
+            "es",
+            "it",
+            "zh",
+            "pt",
+            "pl",
+            "tr",
+            "nl",
+            "cs",
+            "ja",
+            "ru",
+            "ar",
+            "de-DE",
+            "de-AT",
+            "de-CH",
+            "de-LU",
+            "de-LI",
+            "en-US",
+            "en-GB",
+            "en-AU",
+            "en-CA",
+            "en-NZ",
+            "en_IE",
+            "fr-FR",
+            "fr-CA",
+            "fr-BE",
+            "fr-CH",
+            "fr-LU",
+            "es-ES",
+            "es-MX",
+            "es-AR",
+            "es-CO",
+            "es-CL",
+            "es-PE",
+            "es-VE",
+            "it-IT",
+            "it-CH",
+            "zh-CN",
+            "zh-Hans",
+            "pt-PT",
+            "pt-BR",
+            "pl-PL",
+            "tr-TR",
+            "nl-NL",
+            "nl-BE",
+            "cs-CZ",
+            "ja-JP",
+            "ru-RU",
+            "ar-SA",
+            "ar-EG",
+            "ar-AE"
+          ],
+          "type": "string"
+        },
+        "listingSourceId": {
+          "default": [],
+          "items": {
+            "pattern": "^ls_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "lotBiddingOpens": {
+          "$ref": "#/$defs/DateRangeSchema",
+          "default": null
+        },
+        "lotScheduledCloses": {
+          "$ref": "#/$defs/DateRangeSchema",
+          "default": null
+        },
+        "order": {
+          "anyOf": [
+            {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "orderability": {
+          "anyOf": [
+            {
+              "items": {
+                "enum": [
+                  "ORDERABLE_NOW",
+                  "ORDERABLE_CONDITIONALLY",
+                  "NOT_ORDERABLE"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "price": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NumberRangeSchema"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "productQuery": {
+          "default": [],
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "searchAfter": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProductListingSearchCursorInputData"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "shipping": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ShippingSearchData"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "size": {
+          "description": "Values are clamped to the existing service-supported range 1..=100.",
+          "format": "uint64",
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "sort": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SortProductListingFieldData"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "updated": {
+          "$ref": "#/$defs/DateRangeSchema",
+          "default": null
+        }
+      },
+      "title": "SearchInput",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "_meta": {
+      "aura.historia/access": "public",
+      "aura.historia/operationId": "simpleSearchProductListings",
+      "aura.historia/requiredScopes": []
+    }
+  },
+  {
+    "name": "updateAllNotificationsSeen",
+    "description": "Mark every notification of the signed-in user as seen or unseen, including those beyond the listed page. Returns an empty object.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "seen": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "seen"
+      ],
+      "title": "AllSeenArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "updateAllNotificationsSeen",
+      "aura.historia/requiredScopes": [
+        "notifications:write"
+      ]
+    }
+  },
+  {
+    "name": "updateNotificationSeen",
+    "description": "Mark one of the signed-in user's notifications as seen or unseen by notificationId. Returns an empty object; an unknown ID returns NOT_FOUND.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "notificationId": {
+          "pattern": "^ntf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        },
+        "seen": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "notificationId",
+        "seen"
+      ],
+      "title": "SingleSeenArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "updateNotificationSeen",
+      "aura.historia/requiredScopes": [
+        "notifications:write"
+      ]
+    }
+  },
+  {
+    "name": "updateNotificationsSeen",
+    "description": "Mark the signed-in user's notifications with the given notificationIds (at least one) as seen or unseen. Unknown IDs are ignored. Returns an empty object.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "notificationIds": {
+          "items": {
+            "pattern": "^ntf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "seen": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "notificationIds",
+        "seen"
+      ],
+      "title": "SelectedSeenArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "updateNotificationsSeen",
+      "aura.historia/requiredScopes": [
+        "notifications:write"
+      ]
+    }
+  },
+  {
+    "name": "updateSearchFilterMatchFeedback",
+    "description": "Record whether a listing that matched one of the signed-in user's saved searches is relevant: true or false sets the feedback, null clears it and omission keeps it. Returns the match; a listing that is not a current match returns NOT_FOUND.",
+    "inputSchema": {
+      "$defs": {
+        "PatchValue_boolean": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "feedback": {
+          "$ref": "#/$defs/PatchValue_boolean"
+        },
+        "productListingId": {
+          "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        },
+        "userSearchFilterId": {
+          "pattern": "^sf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "userSearchFilterId",
+        "productListingId"
+      ],
+      "title": "FeedbackArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "updateSearchFilterMatchFeedback",
+      "aura.historia/requiredScopes": [
+        "search-filters:write"
+      ]
+    }
+  },
+  {
+    "name": "updateUserAccount",
+    "description": "Update the signed-in user's name, language, currency, measurement unit or whether unassessed or sensitive content is shown. Omitted fields stay unchanged and null clears an optional field; the content preference cannot be null. Returns the updated account.",
+    "inputSchema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "properties": {
+        "currency": {
+          "anyOf": [
+            {
+              "enum": [
+                "EUR",
+                "GBP",
+                "USD",
+                "AUD",
+                "CAD",
+                "NZD",
+                "CNY",
+                "BRL",
+                "PLN",
+                "TRY",
+                "JPY",
+                "CZK",
+                "RUB",
+                "AED",
+                "SAR",
+                "HKD",
+                "SGD",
+                "CHF",
+                "ZAR",
+                "SEK",
+                "DKK",
+                "NOK",
+                "KRW",
+                "INR",
+                "TWD",
+                "HUF",
+                "RON",
+                "MXN",
+                "THB",
+                "ARS"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "firstName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "language": {
+          "anyOf": [
+            {
+              "enum": [
+                "de",
+                "en",
+                "fr",
+                "es",
+                "it",
+                "zh",
+                "pt",
+                "pl",
+                "tr",
+                "nl",
+                "cs",
+                "ja",
+                "ru",
+                "ar",
+                "de-DE",
+                "de-AT",
+                "de-CH",
+                "de-LU",
+                "de-LI",
+                "en-US",
+                "en-GB",
+                "en-AU",
+                "en-CA",
+                "en-NZ",
+                "en_IE",
+                "fr-FR",
+                "fr-CA",
+                "fr-BE",
+                "fr-CH",
+                "fr-LU",
+                "es-ES",
+                "es-MX",
+                "es-AR",
+                "es-CO",
+                "es-CL",
+                "es-PE",
+                "es-VE",
+                "it-IT",
+                "it-CH",
+                "zh-CN",
+                "zh-Hans",
+                "pt-PT",
+                "pt-BR",
+                "pl-PL",
+                "tr-TR",
+                "nl-NL",
+                "nl-BE",
+                "cs-CZ",
+                "ja-JP",
+                "ru-RU",
+                "ar-SA",
+                "ar-EG",
+                "ar-AE"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lastName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "measurementUnit": {
+          "anyOf": [
+            {
+              "enum": [
+                "METRIC",
+                "IMPERIAL"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "showUnassessedOrSensitiveContent": {
+          "type": "boolean"
+        }
+      },
+      "title": "PatchOwnUserData",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "updateUserAccount",
+      "aura.historia/requiredScopes": [
+        "users:write"
+      ]
+    }
+  },
+  {
+    "name": "updateUserAddress",
+    "description": "Replace the label and location of one of the signed-in user's saved addresses. expectedVersion must equal the address's current version; a stale version returns CONFLICT. Returns the updated address.",
+    "inputSchema": {
+      "$defs": {
+        "GeographyData": {
+          "additionalProperties": false,
+          "properties": {
+            "addressText": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "country": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "postalCode": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "referenceRelease": {
+              "type": "string"
+            },
+            "subdivision": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "referenceRelease"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "addressId": {
+          "pattern": "^uaddr_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        },
+        "expectedVersion": {
+          "format": "uint64",
+          "maximum": 9223372036854775807,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "geography": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/GeographyData"
+            },
+            {
+              "properties": {
+                "addressText": {
+                  "maxLength": 4096,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "addressText"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "addressId",
+        "expectedVersion",
+        "label",
+        "geography"
+      ],
+      "title": "UpdateAddressArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "updateUserAddress",
+      "aura.historia/requiredScopes": [
+        "users:write"
+      ]
+    }
+  },
+  {
+    "name": "updateUserSearchFilter",
+    "description": "Change the name, criteria, state or notification setting of one of the signed-in user's saved searches. Omitted fields stay unchanged and null clears fields that can be cleared; availability, orderability and includeUnspecifiedAvailability change together. Matching against new criteria runs in the background. Returns the saved search.",
+    "inputSchema": {
+      "$defs": {
+        "AcceptShippingDestinationData": {
+          "description": "Optional acceptance guard. The submitted country must equal the authorized address or\npreference's asserted country. Neither the reference nor provider evidence is retained.",
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "addressId": {
+                  "pattern": "^uaddr_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+                  "type": "string"
+                },
+                "kind": {
+                  "const": "ADDRESS",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind",
+                "addressId"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "PREFERENCE",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "AmountData": {
+          "additionalProperties": false,
+          "properties": {
+            "amount": {
+              "format": "uint64",
+              "maximum": 9223372036854775807,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "currency": {
+              "enum": [
+                "EUR",
+                "GBP",
+                "USD",
+                "AUD",
+                "CAD",
+                "NZD",
+                "CNY",
+                "BRL",
+                "PLN",
+                "TRY",
+                "JPY",
+                "CZK",
+                "RUB",
+                "AED",
+                "SAR",
+                "HKD",
+                "SGD",
+                "CHF",
+                "ZAR",
+                "SEK",
+                "DKK",
+                "NOK",
+                "KRW",
+                "INR",
+                "TWD",
+                "HUF",
+                "RON",
+                "MXN",
+                "THB",
+                "ARS"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "amount",
+            "currency"
+          ],
+          "type": "object"
+        },
+        "DateRangeSchema": {
+          "properties": {
+            "max": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "min": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          },
+          "type": "object"
+        },
+        "DestinationData": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "NONE",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "country": {
+                  "type": "string"
+                },
+                "kind": {
+                  "const": "COUNTRY",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind",
+                "country"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "GeographicSearchData": {
+          "additionalProperties": false,
+          "properties": {
+            "countries": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "distanceOrder": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "mode": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "origin": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/OriginData"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "radius": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "amount": {
+                      "type": "number"
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "amount",
+                    "unit"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "subdivisions": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        },
+        "NumberRangeSchema": {
+          "properties": {
+            "max": {
+              "format": "uint64",
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "min": {
+              "format": "uint64",
+              "maximum": 18446744073709551615,
+              "minimum": 0,
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "OriginData": {
+          "additionalProperties": false,
+          "properties": {
+            "latitude": {
+              "format": "double",
+              "type": "number"
+            },
+            "longitude": {
+              "format": "double",
+              "type": "number"
+            }
+          },
+          "required": [
+            "latitude",
+            "longitude"
+          ],
+          "type": "object"
+        },
+        "PatchSearchFilterStateData": {
+          "enum": [
+            "ACTIVE",
+            "INACTIVE_BY_USER"
+          ],
+          "type": "string"
+        },
+        "PatchValue_GeographicSearchData": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GeographicSearchData"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "PatchValue_ShippingSearchData": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ShippingSearchData"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "PatchValue_boolean": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "PatchValue_string": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ProductListingSearchPatchData": {
+          "anyOf": [
+            {
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "availability"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "orderability"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "includeUnspecifiedAvailability"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "properties": {
+                "availability": {
+                  "type": "null"
+                },
+                "includeUnspecifiedAvailability": {
+                  "type": "null"
+                },
+                "orderability": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "availability",
+                "orderability",
+                "includeUnspecifiedAvailability"
+              ]
+            },
+            {
+              "properties": {
+                "availability": {
+                  "type": "array"
+                },
+                "includeUnspecifiedAvailability": {
+                  "type": "boolean"
+                },
+                "orderability": {
+                  "type": "array"
+                }
+              },
+              "required": [
+                "availability",
+                "orderability",
+                "includeUnspecifiedAvailability"
+              ]
+            }
+          ],
+          "properties": {
+            "auctionId": {
+              "anyOf": [
+                {
+                  "items": {
+                    "pattern": "^auc_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "availability": {
+              "anyOf": [
+                {
+                  "items": {
+                    "enum": [
+                      "AVAILABLE",
+                      "IN_STOCK",
+                      "LIMITED_AVAILABILITY",
+                      "BACK_ORDER",
+                      "MADE_TO_ORDER",
+                      "PRE_ORDER",
+                      "PRE_SALE",
+                      "UNAVAILABLE",
+                      "RESERVED",
+                      "OUT_OF_STOCK",
+                      "SOLD_OUT"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "created": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/DateRangeSchema"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "currency": {
+              "enum": [
+                "EUR",
+                "GBP",
+                "USD",
+                "AUD",
+                "CAD",
+                "NZD",
+                "CNY",
+                "BRL",
+                "PLN",
+                "TRY",
+                "JPY",
+                "CZK",
+                "RUB",
+                "AED",
+                "SAR",
+                "HKD",
+                "SGD",
+                "CHF",
+                "ZAR",
+                "SEK",
+                "DKK",
+                "NOK",
+                "KRW",
+                "INR",
+                "TWD",
+                "HUF",
+                "RON",
+                "MXN",
+                "THB",
+                "ARS"
+              ],
+              "type": "string"
+            },
+            "enhancedSearchDescription": {
+              "$ref": "#/$defs/PatchValue_string"
+            },
+            "excludeListingSourceId": {
+              "items": {
+                "pattern": "^ls_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "geography": {
+              "$ref": "#/$defs/PatchValue_GeographicSearchData"
+            },
+            "includeUnspecifiedAvailability": {
+              "$ref": "#/$defs/PatchValue_boolean"
+            },
+            "language": {
+              "enum": [
+                "de",
+                "en",
+                "fr",
+                "es",
+                "it",
+                "zh",
+                "pt",
+                "pl",
+                "tr",
+                "nl",
+                "cs",
+                "ja",
+                "ru",
+                "ar",
+                "de-DE",
+                "de-AT",
+                "de-CH",
+                "de-LU",
+                "de-LI",
+                "en-US",
+                "en-GB",
+                "en-AU",
+                "en-CA",
+                "en-NZ",
+                "en_IE",
+                "fr-FR",
+                "fr-CA",
+                "fr-BE",
+                "fr-CH",
+                "fr-LU",
+                "es-ES",
+                "es-MX",
+                "es-AR",
+                "es-CO",
+                "es-CL",
+                "es-PE",
+                "es-VE",
+                "it-IT",
+                "it-CH",
+                "zh-CN",
+                "zh-Hans",
+                "pt-PT",
+                "pt-BR",
+                "pl-PL",
+                "tr-TR",
+                "nl-NL",
+                "nl-BE",
+                "cs-CZ",
+                "ja-JP",
+                "ru-RU",
+                "ar-SA",
+                "ar-EG",
+                "ar-AE"
+              ],
+              "type": "string"
+            },
+            "listingSourceId": {
+              "items": {
+                "pattern": "^ls_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "lotBiddingOpens": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/DateRangeSchema"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "lotScheduledCloses": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/DateRangeSchema"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "orderability": {
+              "anyOf": [
+                {
+                  "items": {
+                    "enum": [
+                      "ORDERABLE_NOW",
+                      "ORDERABLE_CONDITIONALLY",
+                      "NOT_ORDERABLE"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "price": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/NumberRangeSchema"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "productQuery": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "shipping": {
+              "$ref": "#/$defs/PatchValue_ShippingSearchData"
+            },
+            "updated": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/DateRangeSchema"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "ShippingSearchData": {
+          "additionalProperties": false,
+          "properties": {
+            "collectionOffered": {
+              "type": "boolean"
+            },
+            "destination": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/DestinationData"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "interpretation": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "maximumPerItem": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/AmountData"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "referenceRelease": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "service": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "acceptShippingDestination": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AcceptShippingDestinationData"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "name": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "notifications": {
+          "default": null,
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "search": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProductListingSearchPatchData"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "state": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PatchSearchFilterStateData"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "userSearchFilterId": {
+          "pattern": "^sf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "userSearchFilterId"
+      ],
+      "title": "UpdateArguments",
+      "type": "object"
+    },
+    "annotations": {
+      "destructiveHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": false
+    },
+    "_meta": {
+      "aura.historia/access": "protected",
+      "aura.historia/operationId": "updateUserSearchFilter",
+      "aura.historia/requiredScopes": [
+        "search-filters:write"
+      ]
+    }
+  }
+]

@@ -248,6 +248,36 @@ To adopt a backend revision:
 4. Update mappers, fixtures, locales and docs, then run `pnpm test`, `pnpm lint`,
    `pnpm exec tsc --noEmit`, `pnpm build` and `python -m unittest discover -s scripts/tests`.
 
+### MCP tool snapshot
+
+- `mcp/mcp-tools.json` is the tool list that [WebMCP](architecture-guidelines.md#webmcp)
+  registers. `scripts/sync_mcp_tools.py --input <capture>` writes it from the backend's
+  `docs/mcp-tools.json`. That file is the `tools` array of an anonymous `2026-07-28` `tools/list`,
+  and it is the same for production and stage (backend `docs/mcp.md`, "Tool snapshot"). The sync
+  keeps `name`, `description`, `inputSchema`, `annotations` and `_meta` and drops the output
+  schemas, which make up most of the 650 KB. Never hand-edit the result.
+- The synced capture is backend `develop` `1ef4282b99b15712a34e920eef9fb8242ac82bd3` (2026-11-07,
+  [backend#2819](https://github.com/aura-historia/backend/pull/2819)). Git blob
+  `2eabfc67950641ccfdfc4011718cdaf033b6da0a`; file SHA-256
+  `16988c2fa7a5f77ca010d33553bb82c358468e4b758017eae1fc95a45b89a80a`. It has 38 tools, 12 of them
+  public. The protected tools stay in the file for signed-in WebMCP
+  ([#1245](https://github.com/aura-historia/webapp/issues/1245)).
+- The snapshot is pinned separately from `openapi/swagger.yaml`, and either can be synced alone.
+  The backend records renamed and removed tools, and incompatible argument changes, in its
+  `docs/CHANGELOG.md`. Until this repo syncs such a change, browser calls to the affected tool
+  fail with `-32602`.
+
+To sync a backend revision:
+
+1. Download the snapshot at a fixed commit, never from a branch:
+   `curl -fsSL -o <capture> https://raw.githubusercontent.com/aura-historia/backend/<commit>/docs/mcp-tools.json`.
+2. Run `python scripts/sync_mcp_tools.py --input <capture>` and record the commit and hashes above.
+   `--check` verifies the synced file without writing it.
+3. Review added, renamed and removed public tools against the backend changelog. The script
+   rejects a malformed tool and any name with the `open` prefix, which the webapp's navigation
+   tools use. Then run `pnpm test -- src/features/agent-discovery` and
+   `python -m unittest discover -s scripts/tests`.
+
 ## Known gaps and decisions
 
 - Public auction browsing, detail and catalogue pages are deferred to
