@@ -39,7 +39,13 @@ type ShopListingsProps = {
     readonly onQueryChange: (query: string) => void;
 };
 
-function StateIcon({ alert = false, children }: { alert?: boolean; children: ReactNode }) {
+function StateIcon({
+    alert = false,
+    children,
+}: {
+    readonly alert?: boolean;
+    readonly children: ReactNode;
+}) {
     return (
         <span
             aria-hidden="true"
@@ -51,6 +57,176 @@ function StateIcon({ alert = false, children }: { alert?: boolean; children: Rea
         >
             {children}
         </span>
+    );
+}
+
+type SearchStatusLineProps = {
+    readonly query: string;
+    readonly isPending: boolean;
+    /** Matches loaded without an error; the result line shows only then. */
+    readonly hasResults: boolean;
+    readonly total: number | undefined;
+    readonly onShowAll: () => void;
+};
+
+/**
+ * Ruled line under the heading. The `<output>` stays mounted so screen readers hear "Searching…"
+ * and the result count as they change; it is empty while the full list shows.
+ */
+function SearchStatusLine({
+    query,
+    isPending,
+    hasResults,
+    total,
+    onShowAll,
+}: SearchStatusLineProps) {
+    const { t } = useTranslation();
+    const searching = query.length > 0;
+    const loading = searching && isPending;
+    const showResults = searching && !isPending && hasResults;
+
+    let text: ReactNode = null;
+    if (loading) {
+        text = (
+            <>
+                <Loader2
+                    aria-hidden="true"
+                    className="size-4 animate-spin motion-reduce:animate-none"
+                />
+                {t("shop.search.searching", { query })}
+            </>
+        );
+    } else if (showResults) {
+        text =
+            total === undefined
+                ? t("shop.search.resultsFallback", { query })
+                : t("shop.search.results", { count: total, query });
+    }
+
+    return (
+        <div className="mb-5 flex min-h-11 items-center justify-between gap-3 border-b border-line-subtle md:mb-6 md:gap-4">
+            <output
+                className={
+                    loading
+                        ? "flex items-center gap-2.5 text-body-sm text-ink-muted"
+                        : "min-w-0 text-meta leading-normal text-ink-secondary sm:text-body-sm"
+                }
+            >
+                {text}
+            </output>
+            {showResults && (
+                <button type="button" onClick={onShowAll} className={SHOP_TEXT_LINK_CLASS}>
+                    {t("shop.search.showAll")}
+                </button>
+            )}
+        </div>
+    );
+}
+
+function ListingsLoading() {
+    const { t } = useTranslation();
+
+    return (
+        <div className={SHOP_GRID_CLASS} aria-busy="true">
+            <output className="sr-only">{t("shop.listings.loading")}</output>
+            {SKELETON_IDS.map((id) => (
+                <SearchResultCardSkeleton key={id} />
+            ))}
+        </div>
+    );
+}
+
+function ListingsError({ onRetry }: { readonly onRetry: () => void }) {
+    const { t } = useTranslation();
+
+    return (
+        <ResultStatePanel
+            alert
+            icon={
+                <StateIcon alert>
+                    <TriangleAlert className="size-[22px]" strokeWidth={1.8} />
+                </StateIcon>
+            }
+            title={
+                <Trans i18nKey="shop.listings.error.headline" components={HEADLINE_COMPONENTS} />
+            }
+            description={t("shop.listings.error.description")}
+        >
+            <button type="button" onClick={onRetry} className={RESULT_SECONDARY_BUTTON_CLASS}>
+                {t("shop.listings.error.retry")}
+            </button>
+        </ResultStatePanel>
+    );
+}
+
+function ListingsNoMatches({
+    providerName,
+    query,
+    onShowAll,
+}: {
+    readonly providerName: string;
+    readonly query: string;
+    readonly onShowAll: () => void;
+}) {
+    const { t } = useTranslation();
+
+    return (
+        <ResultStatePanel
+            icon={
+                <StateIcon>
+                    <Search className="size-[22px]" strokeWidth={1.7} />
+                </StateIcon>
+            }
+            title={
+                <Trans i18nKey="shop.search.noMatches.headline" components={HEADLINE_COMPONENTS} />
+            }
+            description={t("shop.search.noMatches.description", { provider: providerName, query })}
+        >
+            {isSearchEnabled && (
+                <Link
+                    to="/$lng/search"
+                    params={true}
+                    from="/$lng"
+                    search={serializeSearchParams(validateSearchParams({ q: query }))}
+                    className={SHOP_PRIMARY_BUTTON_CLASS}
+                >
+                    {t("shop.search.noMatches.searchAll")}
+                </Link>
+            )}
+            <button type="button" onClick={onShowAll} className={RESULT_SECONDARY_BUTTON_CLASS}>
+                {t("shop.search.showAll")}
+            </button>
+        </ResultStatePanel>
+    );
+}
+
+function ListingsEmpty({ providerName }: { readonly providerName: string }) {
+    const { t } = useTranslation();
+
+    return (
+        <ResultStatePanel
+            icon={
+                <StateIcon>
+                    <ImageIcon className="size-[22px]" strokeWidth={1.7} />
+                </StateIcon>
+            }
+            title={
+                <Trans i18nKey="shop.listings.empty.headline" components={HEADLINE_COMPONENTS} />
+            }
+            description={t("shop.listings.empty.description", { provider: providerName })}
+        >
+            {isSearchEnabled && (
+                <Link
+                    to="/$lng/search"
+                    params={true}
+                    from="/$lng"
+                    className={RESULT_SECONDARY_BUTTON_CLASS}
+                >
+                    <Search aria-hidden="true" className="mr-2 size-[15px]" strokeWidth={1.8} />
+                    {t("shop.listings.empty.cta")}
+                </Link>
+            )}
+        </ResultStatePanel>
     );
 }
 
@@ -71,148 +247,24 @@ export function ShopListings({ source, query, onQueryChange }: ShopListingsProps
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     const products = data?.pages.flatMap((page) => page.products) ?? [];
-    const total = data?.pages[0]?.total;
-    const allLoaded = products.length > 0 && !hasNextPage;
     const searching = query.length > 0;
-
-    let statusLine: ReactNode = null;
-    if (searching && isPending) {
-        statusLine = (
-            <p className="flex items-center gap-2.5 text-body-sm text-ink-muted">
-                <Loader2
-                    aria-hidden="true"
-                    className="size-4 animate-spin motion-reduce:animate-none"
-                />
-                {t("shop.search.searching", { query })}
-            </p>
-        );
-    } else if (searching && !error && products.length > 0) {
-        statusLine = (
-            <>
-                <p className="min-w-0 text-meta leading-normal text-ink-secondary sm:text-body-sm">
-                    {total === undefined
-                        ? t("shop.search.resultsFallback", { query })
-                        : t("shop.search.results", { count: total, query })}
-                </p>
-                <button
-                    type="button"
-                    onClick={() => onQueryChange("")}
-                    className={SHOP_TEXT_LINK_CLASS}
-                >
-                    {t("shop.search.showAll")}
-                </button>
-            </>
-        );
-    }
+    const showAll = () => onQueryChange("");
 
     let content: ReactNode;
     if (isPending) {
-        content = (
-            <div className={SHOP_GRID_CLASS} role="status" aria-busy="true">
-                <span className="sr-only">{t("shop.listings.loading")}</span>
-                {SKELETON_IDS.map((id) => (
-                    <SearchResultCardSkeleton key={id} />
-                ))}
-            </div>
-        );
+        content = <ListingsLoading />;
     } else if (error) {
         console.error(error);
-        content = (
-            <ResultStatePanel
-                alert
-                icon={
-                    <StateIcon alert>
-                        <TriangleAlert className="size-[22px]" strokeWidth={1.8} />
-                    </StateIcon>
-                }
-                title={
-                    <Trans
-                        i18nKey="shop.listings.error.headline"
-                        components={HEADLINE_COMPONENTS}
-                    />
-                }
-                description={t("shop.listings.error.description")}
-            >
-                <button
-                    type="button"
-                    onClick={() => refetch()}
-                    className={RESULT_SECONDARY_BUTTON_CLASS}
-                >
-                    {t("shop.listings.error.retry")}
-                </button>
-            </ResultStatePanel>
-        );
+        content = <ListingsError onRetry={() => refetch()} />;
     } else if (products.length === 0 && hasNextPage) {
         // An empty page that still has a cursor: keep loading instead of claiming there is nothing.
         content = <div ref={sentinelRef} aria-hidden className="h-px w-full" />;
     } else if (products.length === 0 && searching) {
         content = (
-            <ResultStatePanel
-                icon={
-                    <StateIcon>
-                        <Search className="size-[22px]" strokeWidth={1.7} />
-                    </StateIcon>
-                }
-                title={
-                    <Trans
-                        i18nKey="shop.search.noMatches.headline"
-                        components={HEADLINE_COMPONENTS}
-                    />
-                }
-                description={t("shop.search.noMatches.description", {
-                    provider: source.name,
-                    query,
-                })}
-            >
-                {isSearchEnabled && (
-                    <Link
-                        to="/$lng/search"
-                        params={true}
-                        from="/$lng"
-                        search={serializeSearchParams(validateSearchParams({ q: query }))}
-                        className={SHOP_PRIMARY_BUTTON_CLASS}
-                    >
-                        {t("shop.search.noMatches.searchAll")}
-                    </Link>
-                )}
-                <button
-                    type="button"
-                    onClick={() => onQueryChange("")}
-                    className={RESULT_SECONDARY_BUTTON_CLASS}
-                >
-                    {t("shop.search.showAll")}
-                </button>
-            </ResultStatePanel>
+            <ListingsNoMatches providerName={source.name} query={query} onShowAll={showAll} />
         );
     } else if (products.length === 0) {
-        content = (
-            <ResultStatePanel
-                icon={
-                    <StateIcon>
-                        <ImageIcon className="size-[22px]" strokeWidth={1.7} />
-                    </StateIcon>
-                }
-                title={
-                    <Trans
-                        i18nKey="shop.listings.empty.headline"
-                        components={HEADLINE_COMPONENTS}
-                    />
-                }
-                description={t("shop.listings.empty.description", { provider: source.name })}
-            >
-                {isSearchEnabled && (
-                    <Link
-                        to="/$lng/search"
-                        params={true}
-                        from="/$lng"
-                        className={RESULT_SECONDARY_BUTTON_CLASS}
-                    >
-                        <Search aria-hidden="true" className="mr-2 size-[15px]" strokeWidth={1.8} />
-                        {t("shop.listings.empty.cta")}
-                    </Link>
-                )}
-            </ResultStatePanel>
-        );
+        content = <ListingsEmpty providerName={source.name} />;
     } else {
         content = (
             <>
@@ -222,7 +274,7 @@ export function ShopListings({ source, query, onQueryChange }: ShopListingsProps
                     ))}
                 </div>
 
-                {(isFetchingNextPage || allLoaded) && (
+                {(isFetchingNextPage || !hasNextPage) && (
                     <ListLoaderRow
                         isFetchingNextPage={isFetchingNextPage}
                         loadingMoreKey="shop.listings.loadingMore"
@@ -262,12 +314,13 @@ export function ShopListings({ source, query, onQueryChange }: ShopListingsProps
                 />
             </div>
 
-            <div
-                role="status"
-                className="mb-5 flex min-h-11 items-center justify-between gap-3 border-b border-line-subtle md:mb-6 md:gap-4"
-            >
-                {statusLine}
-            </div>
+            <SearchStatusLine
+                query={query}
+                isPending={isPending}
+                hasResults={!error && products.length > 0}
+                total={data?.pages[0]?.total}
+                onShowAll={showAll}
+            />
 
             <div id={RESULTS_ID}>{content}</div>
         </section>

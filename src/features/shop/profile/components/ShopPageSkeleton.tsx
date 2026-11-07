@@ -11,8 +11,8 @@ export function ShopPageSkeleton() {
     const { t } = useTranslation();
 
     return (
-        <div className={SHOP_PAGE_CLASS} role="status" aria-busy="true">
-            <span className="sr-only">{t("shop.loading")}</span>
+        <div className={SHOP_PAGE_CLASS} aria-busy="true">
+            <output className="sr-only">{t("shop.loading")}</output>
             <div
                 aria-hidden="true"
                 data-testid="shop-header-skeleton"

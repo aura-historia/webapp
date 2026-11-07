@@ -7,8 +7,9 @@ describe("ShopPageSkeleton", () => {
         render(<ShopPageSkeleton />);
 
         const status = screen.getByRole("status");
-        expect(status).toHaveAttribute("aria-busy", "true");
+        expect(status.tagName).toBe("OUTPUT");
         expect(status).toHaveTextContent("Anbieter wird geladen");
+        expect(status.parentElement).toHaveAttribute("aria-busy", "true");
     });
 
     it("renders a hidden header skeleton", () => {
