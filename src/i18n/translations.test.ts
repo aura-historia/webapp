@@ -195,19 +195,9 @@ function extractDynamicTranslationPatterns(
             return rootKeys.has(rootKey);
         })
         .map((template) => templateToRegExp(template));
-    const comparisonHelperPatterns = [
-        ...sourceContents.matchAll(/getBarnebysComparisonTranslationKey\(\s*`([^`]+)`\s*\)/g),
-    ].map((match) => templateToRegExp(match[1], "compareBarnebysPage."));
-
     return [
         ...directTemplatePatterns,
-        ...comparisonHelperPatterns,
         /^apiErrors\.[^.]+$/,
-        /^compareBarnebysPage\.quickVerdicts\.[^.]+\.(label|value)$/,
-        /^compareBarnebysPage\.scorecard\.rows\.[^.]+\.(criterion|barnebys|auraHistoria|verdict|whyItMatters)$/,
-        /^compareBarnebysPage\.downstream\.sources\.[^.]+$/,
-        /^compareBarnebysPage\.faq\.items\.[^.]+\.(question|answer)$/,
-        /^compareBarnebysPage\.(advantages|downstream)\.cards\.[^.]+\.(title|description)$/,
         /^partnerProgram\.customIntegrationPage\.guide\.steps\.[^.]+\.(title|description|focus|cta|visualTitle|visualCaption|signInCta|loadError|retryCta|empty|applyCta|selectionLabel|selectionRequired|pendingLabel|pendingHint)$/,
     ];
 }
@@ -233,13 +223,9 @@ function isTranslationKeyUsed(
     runtimeKeyCandidates: Set<string>,
     dynamicTranslationPatterns: RegExp[],
 ): boolean {
-    const comparisonKeyPrefix = "compareBarnebysPage.";
-
     return (
         getLookupKeys(translationKey).some((key) => runtimeKeyCandidates.has(key)) ||
-        dynamicTranslationPatterns.some((pattern) => pattern.test(translationKey)) ||
-        (translationKey.startsWith(comparisonKeyPrefix) &&
-            runtimeKeyCandidates.has(translationKey.slice(comparisonKeyPrefix.length)))
+        dynamicTranslationPatterns.some((pattern) => pattern.test(translationKey))
     );
 }
 
