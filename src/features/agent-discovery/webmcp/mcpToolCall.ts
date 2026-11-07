@@ -56,7 +56,10 @@ export class McpProtocolError extends McpCallError {
     }
 }
 
-/** No JSON-RPC response arrived: a network or CORS failure, or an HTTP error without a body. */
+/**
+ * No valid JSON-RPC response arrived: a network or CORS failure, an HTTP error without a JSON-RPC
+ * body, or a malformed answer.
+ */
 export class McpTransportError extends McpCallError {
     override name = "McpTransportError";
 
@@ -66,7 +69,11 @@ export class McpTransportError extends McpCallError {
         options?: ErrorOptions,
     ) {
         const suffix = status === undefined ? "" : ` (HTTP ${status})`;
-        super(toolName, `${toolName} could not reach Aura Historia's MCP server${suffix}`, options);
+        super(
+            toolName,
+            `${toolName} got no valid response from Aura Historia's MCP server${suffix}`,
+            options,
+        );
     }
 }
 
@@ -148,6 +155,7 @@ export async function callMcpTool(
         response = await fetch(endpoint, {
             method: "POST",
             headers: {
+                // Streamable HTTP requires both; this server answers tool calls with JSON only.
                 Accept: "application/json, text/event-stream",
                 "Content-Type": "application/json",
                 "MCP-Protocol-Version": MCP_PROTOCOL_VERSION,

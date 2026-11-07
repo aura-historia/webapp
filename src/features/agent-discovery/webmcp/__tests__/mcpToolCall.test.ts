@@ -134,14 +134,18 @@ describe("callMcpTool", () => {
         expect((error as Error).message).toContain("Invalid tool parameters");
     });
 
-    it("rejects other JSON-RPC errors with their code", async () => {
-        fetchMock.mockResolvedValue(
-            jsonRpc({ error: { code: -32020, message: "Mcp-Name disagrees" } }, 400),
-        );
+    it.each([
+        [400, -32020],
+        [403, -32600],
+        [408, -32603],
+        [413, -32600],
+        [500, -32603],
+    ])("rejects other JSON-RPC errors with their code (HTTP %i)", async (status, code) => {
+        fetchMock.mockResolvedValue(jsonRpc({ error: { code, message: "Rejected" } }, status));
 
         await expect(callMcpTool(ENDPOINT, "getAuction", {})).rejects.toMatchObject({
             name: "McpProtocolError",
-            code: -32020,
+            code,
         });
     });
 
@@ -165,6 +169,13 @@ describe("callMcpTool", () => {
         ],
         ["a non-JSON-RPC body", new Response(JSON.stringify({ ok: true }), { status: 200 }), 200],
         ["a result without structuredContent", jsonRpc({ result: { content: [] } }), 200],
+        [
+            "an event stream",
+            new Response('event: message\ndata: {"jsonrpc":"2.0","id":1,"result":{}}\n\n', {
+                headers: { "Content-Type": "text/event-stream" },
+            }),
+            200,
+        ],
     ])("rejects %s as a transport error", async (_label, response, status) => {
         fetchMock.mockResolvedValue(response);
 

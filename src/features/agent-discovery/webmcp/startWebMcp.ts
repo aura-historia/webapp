@@ -28,6 +28,7 @@ export function startWebMcp(router: AnyRouter): AbortController | undefined {
                 signal: controller.signal,
                 pageOrigin: window.location.origin,
                 mcpOrigin: getMcpBaseUrl(env.VITE_MCP_URL, getApiBaseUrl(env.VITE_API_URL)),
+                searchEnabled: env.VITE_FEATURE_SEARCH_ENABLED,
             }),
         )
         // Without the chunk, agents simply see no tools.

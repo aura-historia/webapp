@@ -1,10 +1,11 @@
-import type { AnyRouter } from "@tanstack/react-router";
+import type { AnyRouter, ParsedLocation } from "@tanstack/react-router";
 import { DEFAULT_LANGUAGE } from "@/i18n/languages.ts";
 import { getLanguageFromPathname } from "@/i18n/routing.ts";
 import {
     serializeSearchParams,
     validateSearchParams,
 } from "@/features/search/products/lib/searchValidation.ts";
+import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 import type { WebMcpTool } from "@/features/agent-discovery/webmcp/modelContext.ts";
 
 /** Prefix of the webapp's own tools; backend tool names never use it (`scripts/sync_mcp_tools.py`). */
@@ -29,21 +30,25 @@ export interface WebMcpNavigationResult {
     readonly url: string;
 }
 
-function readRequiredString(input: unknown, key: string): string {
+function readRequiredString(input: unknown, key: string, minLength = 1): string {
     const value =
         typeof input === "object" && input !== null
             ? (input as Record<string, unknown>)[key]
             : undefined;
-    if (typeof value !== "string" || value.trim() === "") {
-        throw new WebMcpNavigationError("invalid-arguments", `${key} must be a non-empty string`);
+    const trimmed = typeof value === "string" ? value.trim() : "";
+    if (trimmed.length < minLength) {
+        throw new WebMcpNavigationError(
+            "invalid-arguments",
+            `${key} must be a string of at least ${minLength} characters`,
+        );
     }
-    return value.trim();
+    return trimmed;
 }
 
-function stringSchema(key: string, description: string) {
+function stringSchema(key: string, description: string, minLength = 1) {
     return {
         type: "object",
-        properties: { [key]: { type: "string", minLength: 1, description } },
+        properties: { [key]: { type: "string", minLength, description } },
         required: [key],
         additionalProperties: false,
     };
@@ -51,18 +56,32 @@ function stringSchema(key: string, description: string) {
 
 /**
  * Tools that open pages of this site in the current tab. They navigate with the router, so the
- * document and the agent's pending call survive, and they keep the page's current language.
+ * document and the agent's pending call survive, and they keep the page's current language. The
+ * search tool exists only while search is enabled.
  */
-export function createNavigationTools(router: AnyRouter, pageOrigin: string): WebMcpTool[] {
+export function createNavigationTools(
+    router: AnyRouter,
+    pageOrigin: string,
+    searchEnabled: boolean,
+): WebMcpTool[] {
     const currentLanguage = () =>
         getLanguageFromPathname(router.state.location.pathname) ?? DEFAULT_LANGUAGE;
 
     async function open(
-        navigation: Promise<void>,
+        target: ParsedLocation,
         notFoundMessage: string,
+        signal: AbortSignal | undefined,
     ): Promise<WebMcpNavigationResult> {
-        await navigation;
+        await router.navigate({ href: target.href });
+        if (signal?.aborted) {
+            throw signal.reason;
+        }
+
         const { matches, location } = router.state;
+        // A later navigation (another call, or the user) resolves this one with its own state.
+        if (location.pathname !== target.pathname) {
+            throw new WebMcpNavigationError("failed", "Another navigation replaced the page");
+        }
         if (matches.some((match) => match.status === "notFound" || match._notFound)) {
             throw new WebMcpNavigationError("not-found", notFoundMessage);
         }
@@ -74,67 +93,74 @@ export function createNavigationTools(router: AnyRouter, pageOrigin: string): We
 
     const annotations = { readOnlyHint: false, untrustedContentHint: false } as const;
 
-    return [
-        {
-            name: `${NAVIGATION_TOOL_PREFIX}ProductListingPage`,
-            description:
-                "Open the Aura Historia page of one listing in this browser tab, by its productListingTitleSlugId: the last segment of a listing page URL (/products/{slug}), also returned with every listing. The page keeps its current language. Returns the URL of the opened page; fails when no listing has that slug.",
-            inputSchema: stringSchema(
+    const listingPageTool: WebMcpTool = {
+        name: `${NAVIGATION_TOOL_PREFIX}ProductListingPage`,
+        description:
+            "Open the Aura Historia page of one listing in this browser tab, by its productListingTitleSlugId: the last segment of a listing page URL (/products/{slug}), also returned with every listing. The page keeps its current language. Returns the URL of the opened page; fails when no listing has that slug.",
+        inputSchema: stringSchema(
+            "productListingTitleSlugId",
+            "The listing's title slug ID, such as louis-xvi-commode-1a2b3c.",
+        ),
+        annotations,
+        execute: async (input, options) => {
+            const productListingTitleSlugId = readRequiredString(
+                input,
                 "productListingTitleSlugId",
-                "The listing's title slug ID, such as louis-xvi-commode-1a2b3c.",
-            ),
-            annotations,
-            execute: async (input) => {
-                const productListingTitleSlugId = readRequiredString(
-                    input,
-                    "productListingTitleSlugId",
-                );
-                return open(
-                    router.navigate({
-                        to: "/$lng/products/$productListingTitleSlugId",
-                        params: { lng: currentLanguage(), productListingTitleSlugId },
-                    }),
-                    `No listing has the slug ${productListingTitleSlugId}`,
-                );
-            },
+            );
+            return open(
+                router.buildLocation({
+                    to: "/$lng/products/$productListingTitleSlugId",
+                    params: { lng: currentLanguage(), productListingTitleSlugId },
+                }),
+                `No listing has the slug ${productListingTitleSlugId}`,
+                options?.signal,
+            );
         },
-        {
-            name: `${NAVIGATION_TOOL_PREFIX}ProductListingSearch`,
-            description:
-                "Open Aura Historia's listing search results for a text query in this browser tab, without other filters. The page keeps its current language. Returns the URL of the opened page.",
-            inputSchema: stringSchema(
-                "query",
-                "The search text, such as an object, maker, material, style or period.",
-            ),
-            annotations,
-            execute: async (input) => {
-                const query = readRequiredString(input, "query");
-                return open(
-                    router.navigate({
-                        to: "/$lng/search",
-                        params: { lng: currentLanguage() },
-                        search: serializeSearchParams(validateSearchParams({ q: query })),
-                    }),
-                    "The search page was not found",
-                );
-            },
+    };
+
+    const searchTool: WebMcpTool = {
+        name: `${NAVIGATION_TOOL_PREFIX}ProductListingSearch`,
+        description: `Open Aura Historia's listing search results for a text query of at least ${MIN_SEARCH_QUERY_LENGTH} characters in this browser tab, without other filters. The page keeps its current language. Returns the URL of the opened page.`,
+        inputSchema: stringSchema(
+            "query",
+            "The search text, such as an object, maker, material, style or period.",
+            MIN_SEARCH_QUERY_LENGTH,
+        ),
+        annotations,
+        execute: async (input, options) => {
+            const query = readRequiredString(input, "query", MIN_SEARCH_QUERY_LENGTH);
+            return open(
+                router.buildLocation({
+                    to: "/$lng/search",
+                    params: { lng: currentLanguage() },
+                    search: serializeSearchParams(validateSearchParams({ q: query })),
+                }),
+                "The search page was not found",
+                options?.signal,
+            );
         },
-        {
-            name: `${NAVIGATION_TOOL_PREFIX}ListingSourcePage`,
-            description:
-                "Open the Aura Historia page of one provider (a dealer, auction house, marketplace or auction platform) in this browser tab, by its listingSourceSlugId, which listings carry as source.slugId. The page shows the provider's public summary and currently indexed listings and keeps its current language. Returns the URL of the opened page; fails when no provider has that slug.",
-            inputSchema: stringSchema("listingSourceSlugId", "The provider's slug ID."),
-            annotations,
-            execute: async (input) => {
-                const listingSourceSlugId = readRequiredString(input, "listingSourceSlugId");
-                return open(
-                    router.navigate({
-                        to: "/$lng/shops/$shopSlugId",
-                        params: { lng: currentLanguage(), shopSlugId: listingSourceSlugId },
-                    }),
-                    `No provider has the slug ${listingSourceSlugId}`,
-                );
-            },
+    };
+
+    const providerPageTool: WebMcpTool = {
+        name: `${NAVIGATION_TOOL_PREFIX}ListingSourcePage`,
+        description:
+            "Open the Aura Historia page of one provider (a dealer, auction house, marketplace or auction platform) in this browser tab, by its listingSourceSlugId, which listings carry as source.slugId. The page shows the provider's public summary and currently indexed listings and keeps its current language. Returns the URL of the opened page; fails when no provider has that slug.",
+        inputSchema: stringSchema("listingSourceSlugId", "The provider's slug ID."),
+        annotations,
+        execute: async (input, options) => {
+            const listingSourceSlugId = readRequiredString(input, "listingSourceSlugId");
+            return open(
+                router.buildLocation({
+                    to: "/$lng/shops/$shopSlugId",
+                    params: { lng: currentLanguage(), shopSlugId: listingSourceSlugId },
+                }),
+                `No provider has the slug ${listingSourceSlugId}`,
+                options?.signal,
+            );
         },
-    ];
+    };
+
+    return searchEnabled
+        ? [listingPageTool, searchTool, providerPageTool]
+        : [listingPageTool, providerPageTool];
 }

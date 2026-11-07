@@ -41,7 +41,14 @@ function register(
     modelContext: ModelContext,
     { pageOrigin = STAGE_SITE, mcpOrigin = STAGE_MCP, signal = new AbortController().signal } = {},
 ) {
-    registerWebMcpTools({ modelContext, router, signal, pageOrigin, mcpOrigin });
+    registerWebMcpTools({
+        modelContext,
+        router,
+        signal,
+        pageOrigin,
+        mcpOrigin,
+        searchEnabled: true,
+    });
 }
 
 beforeEach(() => {
@@ -189,6 +196,21 @@ describe("registerWebMcpTools", () => {
         controller.abort();
 
         expect(names.size).toBe(0);
+    });
+
+    it("never unregisters by name a tool whose registration returned a promise", async () => {
+        const modelContext: ModelContext = {
+            registerTool: () => Promise.reject(new DOMException("", "InvalidStateError")),
+            unregisterTool: vi.fn(),
+        };
+        const controller = new AbortController();
+
+        register(modelContext, { signal: controller.signal });
+        controller.abort();
+        await Promise.resolve();
+
+        // Another script's tool of the same name stays registered.
+        expect(modelContext.unregisterTool).not.toHaveBeenCalled();
     });
 
     it("tolerates registrations that reject or throw", async () => {

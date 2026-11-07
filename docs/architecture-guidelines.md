@@ -184,7 +184,9 @@ the catalogue tools, and the webapp copies none of their definitions by hand. Th
   - `McpInvalidParamsError`: `-32602`, an unknown tool or invalid arguments, usually a backend
     change this repo has not synced yet.
   - `McpProtocolError`: any other JSON-RPC error.
-  - `McpTransportError`: no JSON-RPC response arrived (a network, CORS or HTTP failure).
+  - `McpTransportError`: no valid JSON-RPC response arrived (a network, CORS or HTTP failure, or
+    a malformed answer). The request accepts JSON and event streams, as Streamable HTTP requires,
+    but the server answers tool calls with JSON only.
 - **Origins:** the MCP server checks `Origin` itself, in addition to gateway CORS. Production admits
   `https://aura-historia.com`; stage admits `https://stage.aura-historia.com` and
   `http://localhost:3000`. On any other page origin, such as a Wrangler Preview, only the navigation
@@ -196,9 +198,12 @@ the catalogue tools, and the webapp copies none of their definitions by hand. Th
   - `openListingSourcePage` (`listingSourceSlugId`)
 
   They navigate with the router and keep the current language. A full page load would destroy the
-  document and the pending call. They resolve with the opened page's absolute URL and reject when
-  the page is not found or fails to load. `registerTool` rejects duplicate names, so their names
-  start with `open`, a prefix the snapshot sync refuses for backend tools.
+  document and the pending call. They resolve with the opened page's absolute URL. They reject when
+  the page is not found or fails to load, when a later navigation replaced it, or when the agent
+  cancels. The search tool needs a query of at least `MIN_SEARCH_QUERY_LENGTH` characters, like the
+  search page, and is left out while `VITE_FEATURE_SEARCH_ENABLED` is off. `registerTool` rejects
+  duplicate names, so their names start with `open`, a prefix the snapshot sync refuses for backend
+  tools.
 - Tool descriptions address agents and are written in English, like the backend's, so they are not
   translated. The tools have no `title`.
 - To verify a deployment, scan [isitagentready.com](https://isitagentready.com/aura-historia.com)

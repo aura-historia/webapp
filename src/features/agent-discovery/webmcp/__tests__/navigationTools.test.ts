@@ -55,7 +55,7 @@ function tool(tools: WebMcpTool[], name: string): WebMcpTool {
 
 describe("createNavigationTools", () => {
     it("offers three prefixed tools that are neither read-only nor untrusted", async () => {
-        const tools = createNavigationTools(await createTestRouter("/de"), ORIGIN);
+        const tools = createNavigationTools(await createTestRouter("/de"), ORIGIN, true);
 
         expect(tools.map(({ name }) => name)).toEqual([
             "openProductListingPage",
@@ -71,7 +71,7 @@ describe("createNavigationTools", () => {
 
     it("opens a listing page in the current language", async () => {
         const router = await createTestRouter("/fr/search?q=vase");
-        const tools = createNavigationTools(router, ORIGIN);
+        const tools = createNavigationTools(router, ORIGIN, true);
 
         const result = await tool(tools, "openProductListingPage").execute({
             productListingTitleSlugId: "louis-xvi-commode-1a2b3c",
@@ -83,7 +83,7 @@ describe("createNavigationTools", () => {
 
     it("opens search results for a query without other filters", async () => {
         const router = await createTestRouter("/it");
-        const tools = createNavigationTools(router, ORIGIN);
+        const tools = createNavigationTools(router, ORIGIN, true);
 
         const result = (await tool(tools, "openProductListingSearch").execute({
             query: "  Art Deco lamp ",
@@ -97,7 +97,7 @@ describe("createNavigationTools", () => {
 
     it("opens a provider page", async () => {
         const router = await createTestRouter("/es");
-        const tools = createNavigationTools(router, ORIGIN);
+        const tools = createNavigationTools(router, ORIGIN, true);
 
         const result = await tool(tools, "openListingSourcePage").execute({
             listingSourceSlugId: "galerie-example",
@@ -108,7 +108,7 @@ describe("createNavigationTools", () => {
     });
 
     it("rejects a slug that has no page", async () => {
-        const tools = createNavigationTools(await createTestRouter("/en"), ORIGIN);
+        const tools = createNavigationTools(await createTestRouter("/en"), ORIGIN, true);
 
         await expect(
             tool(tools, "openProductListingPage").execute({
@@ -121,7 +121,7 @@ describe("createNavigationTools", () => {
     });
 
     it("rejects a page that failed to load", async () => {
-        const tools = createNavigationTools(await createTestRouter("/en"), ORIGIN);
+        const tools = createNavigationTools(await createTestRouter("/en"), ORIGIN, true);
 
         await expect(
             tool(tools, "openProductListingPage").execute({
@@ -130,11 +130,55 @@ describe("createNavigationTools", () => {
         ).rejects.toMatchObject({ reason: "failed" });
     });
 
-    it("rejects missing or blank arguments without navigating", async () => {
-        const router = await createTestRouter("/de");
-        const tools = createNavigationTools(router, ORIGIN);
+    it("leaves out the search tool while search is disabled", async () => {
+        const tools = createNavigationTools(await createTestRouter("/de"), ORIGIN, false);
 
-        for (const input of [undefined, {}, { query: " " }, { query: 3 }]) {
+        expect(tools.map(({ name }) => name)).toEqual([
+            "openProductListingPage",
+            "openListingSourcePage",
+        ]);
+    });
+
+    it("rejects a navigation that a later one replaced", async () => {
+        const router = await createTestRouter("/en");
+        const tools = createNavigationTools(router, ORIGIN, true);
+
+        const [first, second] = await Promise.allSettled([
+            tool(tools, "openProductListingPage").execute({
+                productListingTitleSlugId: "louis-xvi-commode-1a2b3c",
+            }),
+            tool(tools, "openListingSourcePage").execute({ listingSourceSlugId: "galerie" }),
+        ]);
+
+        expect(first).toMatchObject({ status: "rejected", reason: { reason: "failed" } });
+        expect(second).toEqual({
+            status: "fulfilled",
+            value: { url: `${ORIGIN}/en/shops/galerie` },
+        });
+    });
+
+    it("rejects with the abort reason when the agent cancels", async () => {
+        const tools = createNavigationTools(await createTestRouter("/en"), ORIGIN, true);
+        const controller = new AbortController();
+        const reason = new DOMException("Cancelled", "AbortError");
+
+        const execution = tool(tools, "openListingSourcePage").execute(
+            { listingSourceSlugId: "galerie" },
+            { signal: controller.signal },
+        );
+        controller.abort(reason);
+
+        await expect(execution).rejects.toBe(reason);
+    });
+
+    it("rejects missing, blank or too short arguments without navigating", async () => {
+        const router = await createTestRouter("/de");
+        const tools = createNavigationTools(router, ORIGIN, true);
+
+        expect(tool(tools, "openProductListingSearch").inputSchema).toMatchObject({
+            properties: { query: { minLength: 3 } },
+        });
+        for (const input of [undefined, {}, { query: " " }, { query: 3 }, { query: " ab " }]) {
             await expect(
                 tool(tools, "openProductListingSearch").execute(input),
             ).rejects.toMatchObject({ reason: "invalid-arguments" });

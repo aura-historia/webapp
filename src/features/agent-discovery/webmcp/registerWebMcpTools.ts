@@ -14,6 +14,8 @@ export interface WebMcpRegistrationOptions {
     readonly pageOrigin: string;
     /** The environment's MCP origin (`getMcpBaseUrl`). */
     readonly mcpOrigin: string;
+    /** `VITE_FEATURE_SEARCH_ENABLED`: without search, the search navigation tool is left out. */
+    readonly searchEnabled: boolean;
 }
 
 /**
@@ -35,26 +37,29 @@ export function createCatalogueTools(mcpOrigin: string): WebMcpTool[] {
     }));
 }
 
+function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
+    return typeof (value as PromiseLike<unknown> | undefined)?.then === "function";
+}
+
 function registerTool(modelContext: ModelContext, tool: WebMcpTool, signal: AbortSignal): void {
+    let registration: unknown;
     try {
-        // A rejection (a duplicate name, an abort, a frame without the "tools" permission) only
-        // means the tool is not offered.
-        Promise.resolve(modelContext.registerTool(tool, { signal })).catch(() => undefined);
+        registration = modelContext.registerTool(tool, { signal });
     } catch {
         return;
     }
 
-    signal.addEventListener(
-        "abort",
-        () => {
-            try {
-                modelContext.unregisterTool?.(tool.name);
-            } catch {
-                // Already unregistered through the signal.
-            }
-        },
-        { once: true },
-    );
+    if (isPromiseLike(registration)) {
+        // A rejection (a duplicate name, an abort, a frame without the "tools" permission) only
+        // means the tool is not offered.
+        Promise.resolve(registration).catch(() => undefined);
+        return;
+    }
+
+    // Older builds return nothing and may ignore the signal; they unregister by name.
+    signal.addEventListener("abort", () => modelContext.unregisterTool?.(tool.name), {
+        once: true,
+    });
 }
 
 /**
@@ -67,13 +72,14 @@ export function registerWebMcpTools({
     signal,
     pageOrigin,
     mcpOrigin,
+    searchEnabled,
 }: WebMcpRegistrationOptions): void {
     if (signal.aborted) {
         return;
     }
 
     const tools = [
-        ...createNavigationTools(router, pageOrigin),
+        ...createNavigationTools(router, pageOrigin, searchEnabled),
         ...(canCallMcpFromPage(mcpOrigin, pageOrigin) ? createCatalogueTools(mcpOrigin) : []),
     ];
     for (const tool of tools) {

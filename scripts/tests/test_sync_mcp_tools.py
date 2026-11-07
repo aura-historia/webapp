@@ -1,7 +1,11 @@
 import copy
 import importlib.util
 import json
+import os
 from pathlib import Path
+import subprocess
+import sys
+import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -50,6 +54,23 @@ class SyncMcpToolsTests(unittest.TestCase):
         self.assertEqual(sync.strip_tools(tools), tools)
         self.assertEqual(sync.render(tools), sync.OUTPUT.read_text(encoding="utf-8"))
         self.assertTrue(any(entry["_meta"]["aura.historia/access"] == "public" for entry in tools))
+
+    def test_check_mode_compares_without_writing(self):
+        def check(tools):
+            with tempfile.TemporaryDirectory() as directory:
+                capture = Path(directory) / "mcp-tools.json"
+                capture.write_text(json.dumps(tools), encoding="utf-8")
+                return subprocess.run(
+                    [sys.executable, str(ROOT / "scripts/sync_mcp_tools.py"), "--input", str(capture), "--check"],
+                    capture_output=True,
+                    env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+                )
+
+        synced = json.loads(sync.OUTPUT.read_text(encoding="utf-8"))
+        before = sync.OUTPUT.read_bytes()
+        self.assertEqual(check(synced).returncode, 0)
+        self.assertNotEqual(check([*synced, tool(name="zzzNewTool")]).returncode, 0)
+        self.assertEqual(sync.OUTPUT.read_bytes(), before)
 
     def test_rejects_invalid_snapshots(self):
         invalid = {
