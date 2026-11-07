@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: notification-center-board-plan
+expected_outcome: |
+  plan.md notices that the notification center already has boards on the Notifications canvas page and
+  shipped code, and raises that with the user. It inventories the page (route file, page component,
+  states, strings) and plans desktop (1440), mobile (390), part and states boards in new titled rows on
+  the existing Notifications page, below the current boards, plus a list of departures from today's
+  implementation. Nothing is published and no source file changes.

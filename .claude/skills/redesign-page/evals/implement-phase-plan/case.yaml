@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: implement-phase-plan
+expected_outcome: |
+  plan.md notices that the request doesn't match the repo (#1170 is not the notification issue and the
+  notification center redesign already shipped) and asks first. Its plan branches from a freshly
+  fetched origin/develop, targets the PR at develop, covers all five locales and the translations
+  test's orphan-key and change-in-every-locale rules, plans test rewrites, removal of newly unused
+  code, the design guidelines update, a signed-in browser check at desktop and mobile widths, and runs
+  tsc, biome, the full vitest suite and pnpm build. No git state or code changes.

@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: route-input-partner-tokens
+expected_outcome: |
+  Starting from only a route, plan.md resolves it to the partner access tokens page and its feature
+  code, inventories its content and states (including dialogs such as creating or revoking a token),
+  names existing Redesign boards to reuse patterns from, and plans desktop, mobile, part and states
+  boards on the canvas page the feature fits (the existing partner page) rather than a new one.
+  Nothing is published and no source file changes.
