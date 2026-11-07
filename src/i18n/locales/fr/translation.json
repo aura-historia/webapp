@@ -1866,7 +1866,6 @@
     "invalidCodeProvidedRequestAgain": "Code invalide, veuillez en demander un nouveau."
   },
   "consent": {
-    "title": "Nous respectons votre vie privée",
     "description": "Nous utilisons les services optionnels uniquement avec votre consentement : analyse pour améliorer Aura Historia et cartes externes de Google Maps. Vous pouvez choisir chaque finalité séparément. En savoir plus dans notre <1>politique de confidentialité</1>.",
     "analyticsLabel": "Analyse et suivi",
     "analyticsDescription": "Nous aide à comprendre l’utilisation d’Aura Historia afin d’améliorer la plateforme.",
@@ -1874,7 +1873,12 @@
     "externalMapsDescription": "Charge des cartes intégrées Google Maps. Des données telles que votre adresse IP peuvent être transmises à Google.",
     "acceptAll": "Tout accepter",
     "saveSelection": "Enregistrer la sélection",
-    "rejectAll": "Tout refuser"
+    "rejectAll": "Tout refuser",
+    "eyebrow": "Confidentialité",
+    "heading": "Nous respectons votre <em>vie privée.</em>",
+    "changeLater": "Vous pouvez modifier votre choix à tout moment dans les <1>paramètres des cookies</1>.",
+    "choosePurposes": "Choisir les finalités",
+    "hidePurposes": "Masquer les finalités"
   },
   "consentSettings": {
     "title": "Paramètres des cookies",
