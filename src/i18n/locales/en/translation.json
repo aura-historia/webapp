@@ -1866,7 +1866,6 @@
     "invalidCodeProvidedRequestAgain": "Invalid code provided, please request a code again."
   },
   "consent": {
-    "title": "We value your privacy",
     "description": "We only use optional services with your consent: analytics to improve Aura Historia and external maps from Google Maps. You can choose each purpose separately. Learn more in our <1>privacy policy</1>.",
     "analyticsLabel": "Analytics & tracking",
     "analyticsDescription": "Helps us understand how Aura Historia is used so we can improve the platform.",
@@ -1874,7 +1873,12 @@
     "externalMapsDescription": "Loads embedded maps from Google Maps. Data such as your IP address may be transferred to Google.",
     "acceptAll": "Accept all",
     "saveSelection": "Save selection",
-    "rejectAll": "Reject all"
+    "rejectAll": "Reject all",
+    "eyebrow": "Privacy",
+    "heading": "We value your <em>privacy.</em>",
+    "changeLater": "You can change your choice at any time in the <1>cookie settings</1>.",
+    "choosePurposes": "Choose purposes",
+    "hidePurposes": "Hide purposes"
   },
   "consentSettings": {
     "title": "Cookie Settings",
