@@ -27,6 +27,13 @@ Key facts for agents:
 - [OAuth authorization server metadata](https://api.aura-historia.com/.well-known/oauth-authorization-server): RFC 8414 metadata with the issuer, endpoints and supported scopes.
 - [API changelog](https://docs.api.aura-historia.com/CHANGELOG.md): REST contract and user-visible behaviour changes, newest first.
 
+## Agent discovery
+
+- [MCP server card](https://aura-historia.com/.well-known/mcp/server-card.json): MCP Server Card (SEP-2127) with the MCP endpoint, its transport and protocol versions, and its protected resource metadata.
+- [API catalog](https://aura-historia.com/.well-known/api-catalog): RFC 9727 linkset that lists the REST API and the MCP server with their descriptions, documentation and status endpoints.
+- [Agent skills index](https://aura-historia.com/.well-known/agent-skills/index.json): Agent Skills Discovery index of the published `SKILL.md` instructions, each with the `sha256` digest of its exact bytes.
+- [auth.md](https://aura-historia.com/auth.md): How agents authenticate: anonymous access, signing a user in with OAuth, and personal access tokens.
+
 ## Partner integrations
 
 - [Partner program](https://aura-historia.com/en/partner-program/): How dealers and auction houses list their inventory on Aura Historia, free of charge and without sales commission, through WooCommerce, Shopify or the API.

@@ -42,6 +42,7 @@ import { getLanguageFromPathname, isLocalizedAppPath, localizeHref } from "@/i18
 import { syncAmplifyTranslations } from "@/features/authentication/lib/amplifyI18nBridge.ts";
 import { clearViewerScopedQueries } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
 import { useFederatedAuthRedirectCompletion } from "@/features/authentication/hooks/useFederatedAuthRedirectCompletion.ts";
+import { AI_CATALOG_PATH } from "@/features/agent-discovery/lib/agentDiscoveryPaths.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -152,6 +153,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 {
                     rel: "describedby",
                     href: "/llms.txt",
+                },
+                // Points agents to the backend's AI catalog (Agentic Resource Discovery).
+                {
+                    rel: "ai-catalog",
+                    href: AI_CATALOG_PATH,
                 },
             ],
         };

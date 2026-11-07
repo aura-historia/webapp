@@ -17,6 +17,8 @@ export const env = createEnv({
     client: {
         VITE_APP_TITLE: z.string().min(1).optional(),
         VITE_API_URL: z.url().optional(),
+        // The MCP host's origin. Defaults to the API host's `mcp.` sibling (`src/lib/apiBaseUrl.ts`).
+        VITE_MCP_URL: z.url().optional(),
         VITE_APP_URL: z.url().optional().default("https://stage.aura-historia.com"),
 
         VITE_USER_POOL_ID: z.string().min(1).optional().default(""),

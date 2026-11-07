@@ -63,6 +63,12 @@ VITE_USER_POOL_ID=your-cognito-user-pool-id
 VITE_USER_POOL_CLIENT_ID=your-cognito-user-pool-client-id
 ```
 
+The website publishes the backend's agent discovery documents (`/.well-known/…`, `/auth.md`) from the API host and the MCP host. The MCP origin defaults to the API host's `mcp.` sibling (`https://api.stage.aura-historia.com` → `https://mcp.stage.aura-historia.com`); set it explicitly for a backend without that naming. See [`docs/architecture-guidelines.md`](docs/architecture-guidelines.md#agent-discovery).
+
+```dotenv
+VITE_MCP_URL=https://mcp.example.com
+```
+
 Native sign-up writes the optional marketing choice to the immutable `custom:marketing_consent` attribute, so the user pool must define it and the app client must be allowed to write it; otherwise Cognito rejects every native sign-up.
 
 Federated sign-in (e.g. Google) uses the Cognito OAuth domain and redirect URLs. They default to production; locally, set the redirects to a URL registered on the Cognito app client exactly (no added or removed trailing slash):

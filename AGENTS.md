@@ -31,6 +31,7 @@ Refined global discovery for art, antiques, design objects, dealers, and auction
 - Admin authorization: `docs/admin-authorization-guidelines.md`
 - Admin application review or partnership management: `docs/admin-workflows.md`
 - Landing-page prerendering: `docs/landing-page-prerendering-guidelines.md`
+- `llms.txt` or agent discovery documents (`/.well-known/…`, `/auth.md`): `docs/architecture-guidelines.md`
 - DNS agent discovery (DNS-AID) or DNSSEC: `docs/dns-aid.md`
 - Terms, imprint, or privacy translations: `docs/legal-content-guidelines.md`
 

@@ -4,3 +4,18 @@
 /llms.txt
   Content-Type: text/plain; charset=utf-8
   Access-Control-Allow-Origin: *
+
+/de/*
+  Link: </.well-known/api-catalog>; rel="api-catalog"
+
+/en/*
+  Link: </.well-known/api-catalog>; rel="api-catalog"
+
+/es/*
+  Link: </.well-known/api-catalog>; rel="api-catalog"
+
+/fr/*
+  Link: </.well-known/api-catalog>; rel="api-catalog"
+
+/it/*
+  Link: </.well-known/api-catalog>; rel="api-catalog"

@@ -78,7 +78,9 @@ Exclude any routes that are only accessible through authentication or contain hi
 - `src/lib/seo/__tests__/robotsTxt.test.ts` keeps robots.txt, the sitemap and route `noindex`
   settings consistent.
 
-## Agent discovery (`llms.txt`)
+## Agent discovery
+
+### `llms.txt`
 
 `public/llms.txt` follows the [llms.txt specification](https://llmstxt.org): one H1, a blockquote
 summary, unheaded guidance, then H2 sections that contain only `- [name](url): notes` link lists,
@@ -94,6 +96,56 @@ head and by a comment in `public/robots.txt`.
 - List only public content; never link account, partner, admin or OAuth pages, and keep claims as
   restrained as product copy.
 - `src/lib/seo/__tests__/llmsTxt.test.ts` checks the structure and shared links.
+
+### Discovery documents
+
+The backend writes every agent discovery document; the webapp only decides which website paths
+publish them. Never write or edit discovery content here. The backend's
+[agent discovery contract](https://github.com/aura-historia/backend/blob/develop/docs/agent-discovery.md)
+owns the bodies, media types and the environment's URLs.
+
+| Website path | Backend source |
+|---|---|
+| `/.well-known/mcp/server-card.json` | MCP host, same path |
+| `/.well-known/api-catalog` | API host, same path |
+| `/.well-known/oauth-authorization-server` | API host, same path; never cached here |
+| `/.well-known/ai-catalog.json` and `/.well-known/ard.json` | API `/v1/site-discovery/ai-catalog.json` |
+| `/.well-known/poppy.json` | API `/v1/site-discovery/poppy.json` |
+| `/.well-known/agent-skills/index.json` and `/.well-known/agent-skills/{name}/SKILL.md` | API `/v1/site-discovery/agent-skills/…` |
+| `/auth.md` | API `/v1/site-discovery/auth.md` |
+
+- The table lives in `src/features/agent-discovery/server/agentDiscoveryRoutes.ts`. `src/server.ts`
+  answers these paths before TanStack Start, so the root route never locale-redirects them or
+  renders HTML. Other paths below `/.well-known/agent-skills/` are a JSON `404` without a backend
+  call; skill names must match the Agent Skills name rules.
+- `src/worker.ts`, the Wrangler `main`, must re-export `src/server.ts`. Re-exporting
+  `@tanstack/react-start/server-entry` there instead serves TanStack Start's default entry and
+  silently skips the forwarding table and the site-wide headers (`src/__tests__/server.test.ts`).
+- Deliberately not published: `/.well-known/openid-configuration` (Aura is no OpenID provider for
+  agents), `/.well-known/oauth-protected-resource*` (website pages are no protected resources) and
+  `/.well-known/acp.json`.
+- Forwarding (`agentDiscoveryForwarding.ts`) accepts `GET` and `HEAD` only and sends the backend a
+  fresh `GET` without the query or any client header, so cookies and `Authorization` never leave.
+  It passes the status, `Content-Type` with its parameters, `Access-Control-Allow-Origin` and, on the
+  API catalog, `Link` through unchanged, and the body byte for byte: the skills index pins each
+  `SKILL.md` by its `sha256` digest, so never decode, re-encode or reformat a body.
+- A backend that is unreachable, times out, redirects or answers `5xx` gets a JSON `502` (`503` when
+  the backend answered `503`), never the app's HTML. Backend `4xx` pass through, uncached.
+- A `200` is kept in the Workers Cache API for `AGENT_DISCOVERY_EDGE_CACHE_TTL_SECONDS` (300 s, the
+  backend's shared TTL), keyed by website path. Every cached document uses the same TTL, so the
+  skills index and each `SKILL.md` agree on digests again shortly after a backend release. Clients get
+  `public, max-age=0`. The OAuth metadata is never cached here; its `no-store` passes through.
+- The API origin is `VITE_API_URL`; the MCP origin is `VITE_MCP_URL` or, by default, the API host's
+  `mcp.` sibling (`getMcpBaseUrl` in `src/lib/apiBaseUrl.ts`), so staging and Wrangler Previews built
+  against the stage API use the stage MCP host.
+- Every HTML page names the API catalog in a `Link: </.well-known/api-catalog>; rel="api-catalog"`
+  header (RFC 9727 §3): `src/server.ts` adds it to rendered pages and `public/_headers` to
+  prerendered pages, one rule per language. The root route head links the AI catalog with
+  `rel="ai-catalog"`, and `public/llms.txt` links the server card, API catalog, skills index and
+  `auth.md`. Add a language's `_headers` rule with the language.
+- A new website document needs a row here, a table entry and tests in
+  `src/features/agent-discovery/`, and the backend's route. The optional DNS records that point to the
+  AI catalog are in `docs/dns-aid.md`.
 
 ## Validation
 
