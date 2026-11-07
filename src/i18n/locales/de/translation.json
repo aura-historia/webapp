@@ -1961,26 +1961,58 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Anbieterprofil",
       "imageAlt": "Bild für {{shop}}",
       "operator": "Betreiber: {{operator}}",
       "visitWebsite": "Website besuchen",
       "noImage": "Kein Bild verfügbar",
-      "metaDescription": "Entdecken Sie {{shop}} auf Aura Historia."
-    },
-    "products": {
-      "loadingMore": "Weitere Artikel werden geladen...",
-      "noResults": {
-        "title": "Keine Artikel gefunden",
-        "description": "Derzeit sind keine Angebote bei {{source}} gelistet."
-      },
-      "error": {
-        "title": "Artikel konnten nicht geladen werden",
-        "description": "Beim Laden der Artikel ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
-      }
+      "metaDescription": "Entdecken Sie {{shop}} auf Aura Historia.",
+      "eyebrow": "Anbieter",
+      "note": "Aura Historia erfasst die öffentlichen Angebote dieses Anbieters. Sie kaufen direkt beim Anbieter.",
+      "newTab": "(öffnet in neuem Tab)"
     },
     "card": {
       "viewSource": "Anbieterprofil ansehen"
+    },
+    "loading": "Anbieter wird geladen",
+    "listings": {
+      "heading": "Erfasste <em>Angebote.</em>",
+      "sortRecent": "Zuletzt aktualisierte zuerst",
+      "sortRelevance": "Beste Treffer zuerst",
+      "loading": "Angebote werden geladen",
+      "loadingMore": "Weitere Angebote werden geladen…",
+      "allLoaded": "Sie haben alle Angebote von {{provider}} gesehen.",
+      "empty": {
+        "headline": "Zurzeit keine <em>Angebote.</em>",
+        "description": "Von {{provider}} sind im Moment keine Angebote erfasst. Neue Angebote erscheinen hier, sobald wir sie erfassen.",
+        "cta": "Alle Objekte durchsuchen"
+      },
+      "error": {
+        "headline": "Angebote <em>nicht verfügbar.</em>",
+        "description": "Die Angebote dieses Anbieters konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+        "retry": "Erneut versuchen"
+      }
+    },
+    "search": {
+      "label": "Angebote von {{provider}} durchsuchen",
+      "placeholder": "Angebote dieses Anbieters durchsuchen",
+      "submit": "Suchen",
+      "clear": "Suche löschen",
+      "searching": "Suche nach „{{query}}“…",
+      "results_one": "{{count}} Ergebnis für „{{query}}“",
+      "results_other": "{{count}} Ergebnisse für „{{query}}“",
+      "resultsFallback": "Ergebnisse für „{{query}}“",
+      "showAll": "Alle Angebote anzeigen",
+      "allLoaded": "Sie haben alle Ergebnisse für „{{query}}“ gesehen.",
+      "noMatches": {
+        "headline": "Hier keine <em>Treffer.</em>",
+        "description": "Bei {{provider}} passt nichts zu „{{query}}“. Versuchen Sie einen anderen Begriff oder durchsuchen Sie alle Anbieter.",
+        "searchAll": "Alle Anbieter durchsuchen"
+      }
+    },
+    "notFound": {
+      "headline": "Anbieter <em>nicht gefunden.</em>",
+      "description": "Diese Anbieterseite existiert nicht oder ist nicht mehr auf Aura Historia gelistet.",
+      "cta": "Anbieter entdecken"
     }
   },
   "searchFilter": {

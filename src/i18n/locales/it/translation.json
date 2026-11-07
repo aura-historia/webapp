@@ -1887,26 +1887,58 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Profilo del fornitore",
       "imageAlt": "Immagine di {{shop}}",
       "operator": "Gestito da {{operator}}",
       "visitWebsite": "Visita il sito web",
       "noImage": "Nessuna immagine disponibile",
-      "metaDescription": "Scopri {{shop}} su Aura Historia."
-    },
-    "products": {
-      "loadingMore": "Caricamento di altri articoli...",
-      "noResults": {
-        "title": "Nessun articolo trovato",
-        "description": "Al momento non ci sono annunci di {{source}}."
-      },
-      "error": {
-        "title": "Impossibile caricare gli articoli",
-        "description": "Si è verificato un errore durante il caricamento degli articoli. Riprova più tardi."
-      }
+      "metaDescription": "Scopri {{shop}} su Aura Historia.",
+      "eyebrow": "Fornitore",
+      "note": "Aura Historia indicizza gli annunci pubblici di questo fornitore. Acquisti direttamente dal fornitore.",
+      "newTab": "(si apre in una nuova scheda)"
     },
     "card": {
       "viewSource": "Vedi il profilo del fornitore"
+    },
+    "loading": "Caricamento del fornitore",
+    "listings": {
+      "heading": "Annunci <em>indicizzati.</em>",
+      "sortRecent": "Aggiornati di recente per primi",
+      "sortRelevance": "Migliori corrispondenze per prime",
+      "loading": "Caricamento degli annunci",
+      "loadingMore": "Caricamento di altri annunci…",
+      "allLoaded": "Hai visto tutti gli annunci di {{provider}}.",
+      "empty": {
+        "headline": "Nessun annuncio <em>al momento.</em>",
+        "description": "{{provider}} non ha annunci indicizzati al momento. I nuovi annunci compariranno qui non appena li indicizzeremo.",
+        "cta": "Cerca tra tutti gli oggetti"
+      },
+      "error": {
+        "headline": "Annunci <em>non disponibili.</em>",
+        "description": "Non è stato possibile caricare gli annunci di questo fornitore. Riprova più tardi.",
+        "retry": "Riprova"
+      }
+    },
+    "search": {
+      "label": "Cerca negli annunci di {{provider}}",
+      "placeholder": "Cerca negli annunci di questo fornitore",
+      "submit": "Cerca",
+      "clear": "Cancella ricerca",
+      "searching": "Ricerca di «{{query}}»…",
+      "results_one": "{{count}} risultato per «{{query}}»",
+      "results_other": "{{count}} risultati per «{{query}}»",
+      "resultsFallback": "Risultati per «{{query}}»",
+      "showAll": "Mostra tutti gli annunci",
+      "allLoaded": "Hai visto tutti i risultati per «{{query}}».",
+      "noMatches": {
+        "headline": "Nessuna corrispondenza <em>qui.</em>",
+        "description": "Nessun annuncio di {{provider}} corrisponde a «{{query}}». Prova un altro termine o cerca tra tutti i fornitori.",
+        "searchAll": "Cerca tra tutti i fornitori"
+      }
+    },
+    "notFound": {
+      "headline": "Fornitore <em>non trovato.</em>",
+      "description": "Questa pagina del fornitore non esiste o non è più presente su Aura Historia.",
+      "cta": "Esplora i fornitori"
     }
   },
   "notifications": {

@@ -1961,26 +1961,58 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Provider profile",
       "imageAlt": "Image for {{shop}}",
       "operator": "Operated by {{operator}}",
       "visitWebsite": "Visit website",
       "noImage": "No image available",
-      "metaDescription": "Explore {{shop}} on Aura Historia."
-    },
-    "products": {
-      "loadingMore": "Loading more items...",
-      "noResults": {
-        "title": "No items found",
-        "description": "There are currently no listings from {{source}}."
-      },
-      "error": {
-        "title": "Could not load items",
-        "description": "An error occurred while loading items. Please try again later."
-      }
+      "metaDescription": "Explore {{shop}} on Aura Historia.",
+      "eyebrow": "Provider",
+      "note": "Aura Historia indexes the public listings of this provider. You buy directly from the provider.",
+      "newTab": "(opens in a new tab)"
     },
     "card": {
       "viewSource": "View provider profile"
+    },
+    "loading": "Loading provider",
+    "listings": {
+      "heading": "Indexed <em>listings.</em>",
+      "sortRecent": "Most recently updated first",
+      "sortRelevance": "Best matches first",
+      "loading": "Loading listings",
+      "loadingMore": "Loading more listings…",
+      "allLoaded": "You have seen all listings from {{provider}}.",
+      "empty": {
+        "headline": "No listings <em>right now.</em>",
+        "description": "{{provider}} has no listings indexed at the moment. New listings appear here as soon as we index them.",
+        "cta": "Search all objects"
+      },
+      "error": {
+        "headline": "Listings <em>unavailable.</em>",
+        "description": "The listings from this provider could not be loaded. Please try again later.",
+        "retry": "Try again"
+      }
+    },
+    "search": {
+      "label": "Search listings from {{provider}}",
+      "placeholder": "Search this provider's listings",
+      "submit": "Search",
+      "clear": "Clear search",
+      "searching": "Searching for “{{query}}”…",
+      "results_one": "{{count}} result for “{{query}}”",
+      "results_other": "{{count}} results for “{{query}}”",
+      "resultsFallback": "Results for “{{query}}”",
+      "showAll": "Show all listings",
+      "allLoaded": "You have seen all results for “{{query}}”.",
+      "noMatches": {
+        "headline": "No matches <em>here.</em>",
+        "description": "Nothing from {{provider}} matches “{{query}}”. Try another term, or search all providers.",
+        "searchAll": "Search all providers"
+      }
+    },
+    "notFound": {
+      "headline": "Provider <em>not found.</em>",
+      "description": "This provider page does not exist or is no longer listed on Aura Historia.",
+      "cta": "Browse providers"
     }
   },
   "searchFilter": {

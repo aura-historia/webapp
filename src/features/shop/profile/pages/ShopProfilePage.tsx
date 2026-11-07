@@ -1,18 +1,20 @@
-import { ShopHeader } from "@/features/shop/profile/components/ShopHeader.tsx";
-import { ShopProductGrid } from "@/features/shop/profile/components/ShopProductGrid.tsx";
 import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
+import { ShopHeader } from "@/features/shop/profile/components/ShopHeader.tsx";
+import { ShopListings } from "@/features/shop/profile/components/ShopListings.tsx";
+import { SHOP_PAGE_CLASS } from "@/features/shop/profile/lib/shopStyles.ts";
 
 type ShopProfilePageProps = {
     readonly shop: PublicListingSource;
+    /** The active in-page search from the URL; empty for the full list. */
+    readonly query: string;
+    readonly onQueryChange: (query: string) => void;
 };
 
-export function ShopProfilePage({ shop }: ShopProfilePageProps) {
+export function ShopProfilePage({ shop, query, onQueryChange }: ShopProfilePageProps) {
     return (
-        <div className="bg-background">
+        <div className={SHOP_PAGE_CLASS}>
             <ShopHeader shop={shop} />
-            <div className="mx-auto w-full max-w-7xl px-4 pb-16 md:px-10">
-                <ShopProductGrid source={shop} />
-            </div>
+            <ShopListings source={shop} query={query} onQueryChange={onQueryChange} />
         </div>
     );
 }
