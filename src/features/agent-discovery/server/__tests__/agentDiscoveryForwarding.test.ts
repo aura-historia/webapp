@@ -342,6 +342,16 @@ describe("forwardAgentDiscoveryRequest", () => {
         expect(fetchMock).toHaveBeenCalledTimes(2);
     });
 
+    it("passes a backend status without a body through", async () => {
+        fetchMock.mockResolvedValue(backendResponse(null, { status: 204 }));
+
+        const response = await forward("/.well-known/poppy.json");
+
+        expect(response.status).toBe(204);
+        expect(response.body).toBeNull();
+        expect(edgeCache.put).not.toHaveBeenCalled();
+    });
+
     it("answers malformed skill paths and other methods itself", async () => {
         const notFound = await forward("/.well-known/agent-skills/a%2Fb/SKILL.md");
         const notFoundHead = await forward("/.well-known/agent-skills/x/skill.md", {
@@ -510,17 +520,20 @@ describe("forwardAgentDiscoveryRequest", () => {
             expect(fetchMock).toHaveBeenCalledTimes(2);
         });
 
-        it("respects a backend that forbids shared caching", async () => {
-            fetchMock.mockImplementation(async () =>
-                backendResponse("{}", { headers: { "Cache-Control": "private, no-store" } }),
-            );
+        it.each(["private, no-store", "no-cache", "public, max-age=0, s-maxage=0"])(
+            "respects a backend that forbids shared caching with %s",
+            async (cacheControl) => {
+                fetchMock.mockImplementation(async () =>
+                    backendResponse("{}", { headers: { "Cache-Control": cacheControl } }),
+                );
 
-            const response = await forward("/.well-known/poppy.json");
+                const response = await forward("/.well-known/poppy.json");
 
-            expect(response.status).toBe(200);
-            expect(response.headers.get("Cache-Control")).toBe("no-store");
-            expect(edgeCache.put).not.toHaveBeenCalled();
-        });
+                expect(response.status).toBe(200);
+                expect(response.headers.get("Cache-Control")).toBe("no-store");
+                expect(edgeCache.put).not.toHaveBeenCalled();
+            },
+        );
 
         it("still answers when the cache fails or is unavailable", async () => {
             fetchMock.mockImplementation(async () => backendResponse("card"));

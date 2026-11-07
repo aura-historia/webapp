@@ -19,6 +19,8 @@ const ALLOWED_METHODS = "GET, HEAD";
 /** Passed through for every document, unchanged and with all parameters. */
 const COMMON_PASS_THROUGH_HEADERS = ["Content-Type", "Access-Control-Allow-Origin"] as const;
 const BACKEND_REDIRECT_MODE = "manual" satisfies RequestRedirect;
+/** Statuses whose response must have no body; `new Response` throws for any other. */
+const NULL_BODY_STATUSES = new Set([204, 205]);
 /** Directives that forbid a shared cache from storing a response. */
 const UNCACHEABLE_DIRECTIVES = new Set(["private", "no-store", "no-cache"]);
 
@@ -79,11 +81,10 @@ function passThroughHeaders(source: Headers, document: AgentDiscoveryDocument): 
 }
 
 function allowsSharedCaching(cacheControl: string | null): boolean {
-    return !(cacheControl ?? "")
-        .split(",")
-        .some((directive) =>
-            UNCACHEABLE_DIRECTIVES.has(directive.split("=")[0].trim().toLowerCase()),
-        );
+    return !(cacheControl ?? "").split(",").some((directive) => {
+        const [name, value] = directive.split("=").map((part) => part.trim().toLowerCase());
+        return UNCACHEABLE_DIRECTIVES.has(name) || (name === "s-maxage" && value === "0");
+    });
 }
 
 /** `HEAD` gets the same status and headers as `GET`, without the body. */
@@ -179,7 +180,8 @@ async function forwardDocument(
         headers.set("Cache-Control", "no-store");
     }
 
-    return new Response(body, { status: backendResponse.status, headers });
+    const { status } = backendResponse;
+    return new Response(NULL_BODY_STATUSES.has(status) ? null : body, { status, headers });
 }
 
 /**
