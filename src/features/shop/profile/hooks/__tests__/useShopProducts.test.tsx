@@ -1,5 +1,8 @@
-import { renderHook, waitFor } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { act, renderHook, waitFor } from "@testing-library/react";
+import type { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { UserPreferencesProvider } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { TestRouterWrapper } from "@/test/utils.tsx";
 import { useShopProducts } from "../useShopProducts.ts";
 
@@ -33,6 +36,18 @@ vi.mock("react-i18next", () => ({
 vi.mock("@/data/internal/common/Language.ts", () => ({
     parseLanguage: (lang: string) => lang,
 }));
+
+/** One query client for the whole hook lifetime, so rerenders keep the cache and the observer. */
+function createStableWrapper() {
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    return function StableWrapper({ children }: { children: ReactNode }) {
+        return (
+            <UserPreferencesProvider locale="de-DE">
+                <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+            </UserPreferencesProvider>
+        );
+    };
+}
 
 describe("useShopProducts", () => {
     beforeEach(() => {
@@ -88,6 +103,86 @@ describe("useShopProducts", () => {
                 listingSourceId: ["ls_1"],
             }),
         });
+        expect(mockSimpleSearchProductListings.mock.calls[0][0].query.productQuery).toBeUndefined();
+    });
+
+    it("searches the source's listings by relevance when a query is given", async () => {
+        mockSimpleSearchProductListings.mockResolvedValue({
+            data: { items: [], total: 0, searchAfter: undefined },
+            error: null,
+        });
+
+        renderHook(() => useShopProducts("ls_1", "vase"), {
+            wrapper: TestRouterWrapper,
+        });
+
+        await waitFor(() => expect(mockSimpleSearchProductListings).toHaveBeenCalledTimes(1));
+
+        expect(mockSimpleSearchProductListings).toHaveBeenCalledWith({
+            query: expect.objectContaining({
+                sort: "score",
+                order: "desc",
+                listingSourceId: ["ls_1"],
+                productQuery: ["vase"],
+            }),
+        });
+    });
+
+    it("refetches when the query changes", async () => {
+        mockSimpleSearchProductListings.mockResolvedValue({
+            data: { items: [], total: 0, searchAfter: undefined },
+            error: null,
+        });
+
+        const { rerender } = renderHook(({ query }) => useShopProducts("ls_1", query), {
+            wrapper: createStableWrapper(),
+            initialProps: { query: "" },
+        });
+        await waitFor(() => expect(mockSimpleSearchProductListings).toHaveBeenCalledTimes(1));
+
+        rerender({ query: "lamp" });
+
+        await waitFor(() => expect(mockSimpleSearchProductListings).toHaveBeenCalledTimes(2));
+        expect(mockSimpleSearchProductListings.mock.calls[1][0].query).toEqual(
+            expect.objectContaining({ sort: "score", productQuery: ["lamp"] }),
+        );
+    });
+
+    it("sends the cursor of the previous page for the next page", async () => {
+        mockSimpleSearchProductListings.mockResolvedValueOnce({
+            data: {
+                items: [{ productId: "p1" }],
+                total: 2,
+                searchAfter: { fxRateId: "fx-1", searchAfter: ["cursor-value"] },
+            },
+            error: null,
+        });
+        mockSimpleSearchProductListings.mockResolvedValueOnce({
+            data: { items: [{ productId: "p2" }], total: 2, searchAfter: undefined },
+            error: null,
+        });
+
+        const { result } = renderHook(() => useShopProducts("ls_1", "vase"), {
+            wrapper: createStableWrapper(),
+        });
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+        // Assert on the returned result: the hook result only re-renders for properties read before.
+        let next: Awaited<ReturnType<typeof result.current.fetchNextPage>> | undefined;
+        await act(async () => {
+            next = await result.current.fetchNextPage();
+        });
+
+        expect(mockSimpleSearchProductListings).toHaveBeenCalledTimes(2);
+        expect(mockSimpleSearchProductListings.mock.calls[0][0].query.searchAfter).toBeUndefined();
+        expect(mockSimpleSearchProductListings.mock.calls[1][0].query).toEqual(
+            expect.objectContaining({
+                searchAfter: JSON.stringify({ fxRateId: "fx-1", searchAfter: ["cursor-value"] }),
+                productQuery: ["vase"],
+            }),
+        );
+        expect(next?.data?.pages).toHaveLength(2);
+        expect(next?.hasNextPage).toBe(false);
     });
 
     it("throws an error mapped via getErrorMessage when API returns an error", async () => {

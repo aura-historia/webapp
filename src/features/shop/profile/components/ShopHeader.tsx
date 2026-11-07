@@ -1,77 +1,81 @@
-import { H1 } from "@/components/typography/H1.tsx";
-import { H2 } from "@/components/typography/H2.tsx";
-import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
+import { ArrowUpRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { ArrowUpRight, ImageOff } from "lucide-react";
-import { Button } from "@/components/ui/button.tsx";
+import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
+import { SHOP_FOCUS_CLASS } from "@/features/shop/profile/lib/shopStyles.ts";
+import { cn } from "@/lib/utils.ts";
 
 type ShopHeaderProps = {
     readonly shop: PublicListingSource;
 };
 
+/** First letter of the name, shown on the image ground when the provider has no image. */
+function initialOf(name: string): string {
+    return Array.from(name.trim())[0]?.toUpperCase() ?? "";
+}
+
+/**
+ * Provider header: image tile, eyebrow, name, operator, buying note and the website link.
+ *
+ * All parts are grid items of one grid. On phones the tile and eyebrow share the first row and the
+ * rest stacks below; from 768px the tile and the website button span the text rows, and the first
+ * row takes any spare height so the text stays aligned with the bottom of the tile.
+ */
 export function ShopHeader({ shop }: ShopHeaderProps) {
     const { t } = useTranslation();
 
     return (
-        <header className="flex flex-col">
-            <div className="relative isolate overflow-hidden bg-primary">
-                <div className="absolute inset-0 bg-linear-to-t from-primary/85 via-primary/45 to-primary/15" />
-                <div className="relative mx-auto flex min-h-85 max-w-7xl items-end px-4 pb-10 pt-24 md:min-h-130 md:px-10 md:pb-16">
-                    <div className="max-w-3xl space-y-3">
-                        <H1 className="text-5xl font-normal italic leading-tight text-primary-foreground md:text-7xl">
-                            {shop.name}
-                        </H1>
-                    </div>
-                </div>
+        <header className="grid grid-cols-[88px_minmax(0,1fr)] gap-4 border-b border-line-subtle pb-6 md:grid-cols-[184px_minmax(0,1fr)_auto] md:grid-rows-[1fr_auto_auto_auto] md:gap-x-12 md:pb-9">
+            <div className="col-start-1 row-start-1 flex size-22 items-center justify-center overflow-hidden rounded-panel bg-image-ground shadow-ring md:row-span-4 md:size-46 md:self-end md:rounded-figure">
+                {shop.image ? (
+                    <img
+                        src={shop.image}
+                        alt=""
+                        className="size-full object-contain"
+                        loading="eager"
+                    />
+                ) : (
+                    <span
+                        aria-hidden="true"
+                        data-testid="shop-header-initial"
+                        className="font-serif text-[40px] leading-none text-ink-muted md:text-[76px]"
+                    >
+                        {initialOf(shop.name)}
+                    </span>
+                )}
             </div>
-            <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 md:grid-cols-[minmax(220px,320px)_1fr] md:items-stretch md:gap-12 md:px-10 md:py-14">
-                <div className="overflow-hidden bg-surface-container-lowest p-2 shadow-[0_12px_40px_rgba(28,28,22,0.06)]">
-                    {shop.image ? (
-                        <img
-                            src={shop.image}
-                            alt={t("shop.header.imageAlt", { shop: shop.name })}
-                            className="aspect-square w-full object-contain"
-                            loading="lazy"
-                        />
-                    ) : (
-                        <div
-                            role="img"
-                            className="flex aspect-square w-full items-center justify-center bg-muted"
-                            aria-label={t("shop.header.noImage")}
-                        >
-                            <ImageOff className="size-12 text-muted-foreground" />
-                        </div>
+
+            <span className="col-start-2 row-start-1 self-center font-mono text-[11px] leading-[1.4] tracking-[0.2em] text-brass-ink uppercase md:self-end md:text-xs">
+                {t("shop.header.eyebrow")}
+            </span>
+
+            <h1 className="col-span-2 font-serif text-[40px] leading-[1.04] font-normal tracking-[-0.02em] wrap-anywhere md:col-span-1 md:col-start-2 md:row-start-2 md:max-w-[820px] md:text-display-section md:text-balance">
+                {shop.name}
+            </h1>
+
+            <p className="col-span-2 text-body-sm text-ink-secondary md:col-span-1 md:col-start-2 md:row-start-3 md:text-body">
+                {t("shop.header.operator", { operator: shop.operatorName })}
+            </p>
+
+            <p className="col-span-2 text-meta leading-[1.6] text-ink-muted md:col-span-1 md:col-start-2 md:row-start-4 md:max-w-[560px] md:text-body-sm">
+                {t("shop.header.note")}
+            </p>
+
+            {shop.url && (
+                <a
+                    href={shop.url}
+                    target="_blank"
+                    rel="nofollow noopener noreferrer"
+                    className={cn(
+                        "col-span-2 mt-1 inline-flex h-12 items-center justify-center gap-2.5 rounded-pill bg-ink px-6 text-button text-surface transition-colors hover:bg-oxblood hover:text-on-oxblood",
+                        "md:col-span-1 md:col-start-3 md:row-span-4 md:row-start-1 md:mt-0 md:h-13 md:self-end md:whitespace-nowrap",
+                        SHOP_FOCUS_CLASS,
                     )}
-                </div>
-                <div className="flex max-w-3xl flex-col gap-6">
-                    <div className="space-y-3">
-                        <H2 className="text-3xl font-normal italic leading-tight md:text-4xl">
-                            {t("shop.header.overviewTitle")}
-                        </H2>
-                        <div className="flex flex-wrap items-center gap-2">
-                            {t("shop.header.operator", { operator: shop.operatorName })}
-                        </div>
-                    </div>
-                    {shop.url && (
-                        <div className="mt-auto">
-                            <Button
-                                variant="default"
-                                className="h-14 rounded-none text-xs tracking-[0.12em] uppercase"
-                                asChild
-                            >
-                                <a
-                                    href={shop.url}
-                                    target="_blank"
-                                    rel="nofollow noopener noreferrer"
-                                >
-                                    <ArrowUpRight />
-                                    <span>{t("shop.header.visitWebsite")}</span>
-                                </a>
-                            </Button>
-                        </div>
-                    )}
-                </div>
-            </div>
+                >
+                    {t("shop.header.visitWebsite")}
+                    <span className="sr-only"> {t("shop.header.newTab")}</span>
+                    <ArrowUpRight aria-hidden="true" className="size-4" strokeWidth={1.8} />
+                </a>
+            )}
         </header>
     );
 }

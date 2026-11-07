@@ -80,7 +80,12 @@ export const productListingQueryKeys = {
             context.currency,
         ] as const;
     },
-    source(listingSourceId: string, pageSize: number, context: ProductListingQueryContext) {
+    source(
+        listingSourceId: string,
+        pageSize: number,
+        context: ProductListingQueryContext,
+        query = "",
+    ) {
         return [
             ...all,
             "source",
@@ -88,6 +93,7 @@ export const productListingQueryKeys = {
             pageSize,
             context.language,
             context.currency,
+            query,
         ] as const;
     },
     watchlistOf(viewerCacheKey: string | undefined) {

@@ -59,6 +59,18 @@ describe("ProductListing identity and query keys", () => {
         );
     });
 
+    it("separates a source's listings by in-page query", () => {
+        expect(productListingQueryKeys.source("ls_01", 20, context)).toEqual(
+            productListingQueryKeys.source("ls_01", 20, context, ""),
+        );
+        expect(productListingQueryKeys.source("ls_01", 20, context)).not.toEqual(
+            productListingQueryKeys.source("ls_01", 20, context, "vase"),
+        );
+        expect(productListingQueryKeys.source("ls_01", 20, context, "vase")).not.toEqual(
+            productListingQueryKeys.source("ls_01", 20, context, "lamp"),
+        );
+    });
+
     it("lets saved-search match pages be addressed by filter", () => {
         expect(
             productListingQueryKeys.savedSearchMatchesPage("sf_01", context).slice(0, 3),

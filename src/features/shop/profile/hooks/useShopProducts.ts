@@ -26,28 +26,37 @@ export type ShopProductsPage = {
     searchAfter: ListingSearchCursor | undefined;
 };
 
+/**
+ * One provider's indexed listings, newest update first. With a `query`, the backend searches all
+ * of the provider's listings for it and returns the best matches first.
+ */
 export function useShopProducts(
     listingSourceId: string,
+    query = "",
 ): UseInfiniteQueryResult<InfiniteData<ShopProductsPage>> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
+    const language = parseLanguage(i18n.language);
 
     return useInfiniteQuery({
-        queryKey: productListingQueryKeys.source(listingSourceId, PAGE_SIZE, {
-            language: parseLanguage(i18n.language),
-            currency: preferences.currency,
-        }),
+        queryKey: productListingQueryKeys.source(
+            listingSourceId,
+            PAGE_SIZE,
+            { language, currency: preferences.currency },
+            query,
+        ),
         queryFn: async ({ pageParam }) => {
             const result = await simpleSearchProductListings({
                 query: {
-                    language: parseLanguage(i18n.language),
+                    language,
                     currency: preferences.currency,
                     searchAfter: pageParam ? serializeListingSearchCursor(pageParam) : undefined,
                     size: PAGE_SIZE,
-                    sort: "updated",
+                    sort: query ? "score" : "updated",
                     order: "desc",
                     listingSourceId: [listingSourceId],
+                    productQuery: query ? [query] : undefined,
                 },
             });
 

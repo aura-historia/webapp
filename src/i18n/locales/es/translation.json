@@ -1887,26 +1887,58 @@
   },
   "shop": {
     "header": {
-      "overviewTitle": "Perfil del proveedor",
       "imageAlt": "Imagen de {{shop}}",
       "operator": "Gestionado por {{operator}}",
       "visitWebsite": "Visitar el sitio web",
       "noImage": "No hay imagen disponible",
-      "metaDescription": "Explore {{shop}} en Aura Historia."
-    },
-    "products": {
-      "loadingMore": "Cargando más artículos...",
-      "noResults": {
-        "title": "No se encontraron artículos",
-        "description": "Actualmente no hay anuncios de {{source}}."
-      },
-      "error": {
-        "title": "No se pudieron cargar los artículos",
-        "description": "Se produjo un error al cargar los artículos. Por favor, inténtelo de nuevo más tarde."
-      }
+      "metaDescription": "Explore {{shop}} en Aura Historia.",
+      "eyebrow": "Proveedor",
+      "note": "Aura Historia indexa los anuncios públicos de este proveedor. Usted compra directamente al proveedor.",
+      "newTab": "(se abre en una pestaña nueva)"
     },
     "card": {
       "viewSource": "Ver perfil del proveedor"
+    },
+    "loading": "Cargando proveedor",
+    "listings": {
+      "heading": "Anuncios <em>indexados.</em>",
+      "sortRecent": "Actualizados recientemente primero",
+      "sortRelevance": "Mejores coincidencias primero",
+      "loading": "Cargando anuncios",
+      "loadingMore": "Cargando más anuncios…",
+      "allLoaded": "Ha visto todos los anuncios de {{provider}}.",
+      "empty": {
+        "headline": "Sin anuncios <em>por ahora.</em>",
+        "description": "{{provider}} no tiene anuncios indexados en este momento. Los nuevos anuncios aparecerán aquí en cuanto los indexemos.",
+        "cta": "Buscar todos los objetos"
+      },
+      "error": {
+        "headline": "Anuncios <em>no disponibles.</em>",
+        "description": "No se pudieron cargar los anuncios de este proveedor. Por favor, inténtelo de nuevo más tarde.",
+        "retry": "Intentar de nuevo"
+      }
+    },
+    "search": {
+      "label": "Buscar anuncios de {{provider}}",
+      "placeholder": "Buscar en los anuncios de este proveedor",
+      "submit": "Buscar",
+      "clear": "Borrar búsqueda",
+      "searching": "Buscando «{{query}}»…",
+      "results_one": "{{count}} resultado para «{{query}}»",
+      "results_other": "{{count}} resultados para «{{query}}»",
+      "resultsFallback": "Resultados para «{{query}}»",
+      "showAll": "Ver todos los anuncios",
+      "allLoaded": "Ha visto todos los resultados para «{{query}}».",
+      "noMatches": {
+        "headline": "Sin coincidencias <em>aquí.</em>",
+        "description": "Nada de {{provider}} coincide con «{{query}}». Pruebe con otro término o busque en todos los proveedores.",
+        "searchAll": "Buscar en todos los proveedores"
+      }
+    },
+    "notFound": {
+      "headline": "Proveedor <em>no encontrado.</em>",
+      "description": "Esta página de proveedor no existe o ya no figura en Aura Historia.",
+      "cta": "Explorar proveedores"
     }
   },
   "notifications": {
