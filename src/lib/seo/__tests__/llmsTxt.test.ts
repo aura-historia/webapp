@@ -5,6 +5,13 @@ import {
     SHOPIFY_APP_STORE_URL,
     WORDPRESS_PLUGIN_DIRECTORY_URL,
 } from "@/features/partner/partner-program/config/partnerProgramLinks.ts";
+import {
+    AGENT_SKILLS_INDEX_PATH,
+    API_CATALOG_PATH,
+    AUTH_MD_PATH,
+    MCP_SERVER_CARD_PATH,
+} from "@/features/agent-discovery/lib/agentDiscoveryPaths.ts";
+import { resolveAgentDiscoveryRoute } from "@/features/agent-discovery/server/agentDiscoveryRoutes.ts";
 
 const llmsTxt = readFileSync(resolve(process.cwd(), "public/llms.txt"), "utf8");
 const lines = llmsTxt.split("\n");
@@ -58,6 +65,18 @@ describe("public/llms.txt", () => {
         expect(llmsTxt).toContain("(https://docs.api.aura-historia.com/)");
         expect(llmsTxt).toContain("(https://mcp.aura-historia.com/v1)");
         expect(llmsTxt).toContain("(https://docs.api.aura-historia.com/mcp.md)");
+    });
+
+    it("links the agent discovery documents the website publishes", () => {
+        for (const path of [
+            MCP_SERVER_CARD_PATH,
+            API_CATALOG_PATH,
+            AGENT_SKILLS_INDEX_PATH,
+            AUTH_MD_PATH,
+        ]) {
+            expect(llmsTxt).toContain(`(https://aura-historia.com${path})`);
+            expect(resolveAgentDiscoveryRoute(path)).toMatchObject({ kind: "document" });
+        }
     });
 
     it("links the same partner integration listings as the partner program", () => {
