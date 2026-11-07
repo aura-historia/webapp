@@ -7,6 +7,7 @@ import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
+import { startWebMcp } from "@/features/agent-discovery/webmcp/startWebMcp.ts";
 
 // Create a new router instance
 export const getRouter = () => {
@@ -30,6 +31,9 @@ export const getRouter = () => {
         router,
         queryClient: rqContext.queryClient,
     });
+
+    // Browser only, before hydration: agents look for WebMCP tools on page load.
+    startWebMcp(router);
 
     return router;
 };

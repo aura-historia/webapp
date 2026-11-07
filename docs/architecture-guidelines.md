@@ -155,11 +155,13 @@ every page. It is the only discovery piece that runs in the browser. The backend
 the catalogue tools, and the webapp copies none of their definitions by hand. The code lives in
 `src/features/agent-discovery/webmcp/`.
 
-- **Registration:** `useWebMcpTools` in the root layout looks for `document.modelContext`, then
-  `navigator.modelContext` (older Chrome builds). Without either it does nothing. Otherwise it
-  lazy-loads `registerWebMcpTools.ts` and registers the tools once per document. Its `AbortSignal`
-  unregisters them on unmount. Never register tools per route. The effect runs only in the browser,
-  so server markup does not change.
+- **Registration:** `startWebMcp` looks for `document.modelContext`, then `navigator.modelContext`
+  (older Chrome builds). Without either, and on the server, it does nothing. Otherwise it
+  lazy-loads `registerWebMcpTools.ts` and registers the tools once per document; aborting its
+  `AbortSignal` unregisters them. `getRouter` (`src/router.tsx`) calls it when the client creates
+  the router, before hydration. Agents and scanners look for tools on page load, and hydration
+  finishes after the `load` event, so a root-layout effect would register them too late. Never
+  register tools per route. Nothing is rendered, so server markup does not change.
 - **Catalogue tools:** registered from the synced snapshot `mcp/mcp-tools.json` (see
   [API contracts](api-contracts.md#mcp-tool-snapshot)). Every tool whose
   `_meta["aura.historia/access"]` is `public` keeps the server's `name`, `description`,

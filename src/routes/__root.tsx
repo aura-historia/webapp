@@ -43,7 +43,6 @@ import { syncAmplifyTranslations } from "@/features/authentication/lib/amplifyI1
 import { clearViewerScopedQueries } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
 import { useFederatedAuthRedirectCompletion } from "@/features/authentication/hooks/useFederatedAuthRedirectCompletion.ts";
 import { AI_CATALOG_PATH } from "@/features/agent-discovery/lib/agentDiscoveryPaths.ts";
-import { useWebMcpTools } from "@/features/agent-discovery/hooks/useWebMcpTools.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -198,7 +197,6 @@ function RootDocument({ children }: { readonly children: React.ReactNode }) {
     const { initialPreferences } = Route.useRouteContext();
     const queryClient = useQueryClient();
     useFederatedAuthRedirectCompletion();
-    useWebMcpTools();
 
     // Capture the consent value at first render so init runs only once.
     const initialConsentRef = useRef(initialPreferences?.trackingConsent);
