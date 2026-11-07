@@ -63,7 +63,7 @@ VITE_USER_POOL_ID=your-cognito-user-pool-id
 VITE_USER_POOL_CLIENT_ID=your-cognito-user-pool-client-id
 ```
 
-The website publishes the backend's agent discovery documents (`/.well-known/…`, `/auth.md`) from the API host and the MCP host. The MCP origin defaults to the API host's `mcp.` sibling (`https://api.stage.aura-historia.com` → `https://mcp.stage.aura-historia.com`); set it explicitly for a backend without that naming. See [`docs/architecture-guidelines.md`](docs/architecture-guidelines.md#agent-discovery).
+The website publishes the backend's agent discovery documents (`/.well-known/…`, `/auth.md`) from the API host and the MCP host, and its WebMCP tools call the MCP host from the browser. The MCP origin defaults to the API host's `mcp.` sibling (`https://api.stage.aura-historia.com` → `https://mcp.stage.aura-historia.com`); set it explicitly for a backend without that naming. See [`docs/architecture-guidelines.md`](docs/architecture-guidelines.md#agent-discovery).
 
 ```dotenv
 VITE_MCP_URL=https://mcp.example.com

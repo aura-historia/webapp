@@ -6,7 +6,7 @@ Refined global discovery for art, antiques, design objects, dealers, and auction
 
 - Use `pnpm` only. Do not run E2E tests unless asked.
 - Never hand-edit generated code: `src/routeTree.gen.ts`, `src/client/**`,
-  `src/data/internal/geography/reference/isoCodes.gen.ts`.
+  `src/data/internal/geography/reference/isoCodes.gen.ts`, `mcp/mcp-tools.json`.
 - Add every user-facing string to all locales: `de`, `en`, `es`, `fr`, `it`.
 - Update relevant docs when a change affects their guidance, contracts, or described behaviour.
 - Keep UI in sync with the design file and design system. For components you are asked to work on:
@@ -31,7 +31,7 @@ Refined global discovery for art, antiques, design objects, dealers, and auction
 - Admin authorization: `docs/admin-authorization-guidelines.md`
 - Admin application review or partnership management: `docs/admin-workflows.md`
 - Landing-page prerendering: `docs/landing-page-prerendering-guidelines.md`
-- `llms.txt` or agent discovery documents (`/.well-known/…`, `/auth.md`): `docs/architecture-guidelines.md`
+- `llms.txt`, agent discovery documents (`/.well-known/…`, `/auth.md`) or WebMCP: `docs/architecture-guidelines.md`
 - DNS agent discovery (DNS-AID) or DNSSEC: `docs/dns-aid.md`
 - Terms, imprint, or privacy translations: `docs/legal-content-guidelines.md`
 
