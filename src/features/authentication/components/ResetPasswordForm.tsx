@@ -15,6 +15,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { getAuthErrorMessage } from "@/features/authentication/lib/getAuthErrorMessage.ts";
+import { normalizeEmail } from "@/features/authentication/lib/normalizeEmail.ts";
 import { Spinner } from "@/components/ui/spinner";
 import {
     PasswordPolicyChecklist,
@@ -241,8 +242,9 @@ export function ResetPasswordForm({ onSwitchToSignIn, onSuccess }: ResetPassword
 
     const onRequestSubmit = async (data: RequestValues) => {
         try {
-            await resetPassword({ username: data.email.trim() });
-            setEmail(data.email.trim());
+            const email = normalizeEmail(data.email);
+            await resetPassword({ username: email });
+            setEmail(email);
             setStep("confirm");
         } catch (err) {
             const message = getAuthErrorMessage(err, t);

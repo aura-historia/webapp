@@ -43,10 +43,10 @@ function renderSignInForm(overrides?: {
     };
 }
 
-async function submitCredentials() {
+async function submitCredentials(email = "user@example.com") {
     const user = userEvent.setup();
 
-    await user.type(screen.getByLabelText("E-Mail"), "user@example.com");
+    await user.type(screen.getByLabelText("E-Mail"), email);
     await user.type(screen.getByLabelText("Passwort"), "Password1!");
     await user.click(screen.getByRole("button", { name: "Anmelden" }));
 }
@@ -55,6 +55,24 @@ describe("SignInForm", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         mockResendSignUpCode.mockResolvedValue(undefined);
+    });
+
+    it("signs in with the address normalized to the registered form", async () => {
+        // The user pool is case sensitive on the email username, so a capitalised address
+        // is a different, nonexistent user to Cognito.
+        mockSignIn.mockResolvedValue({ nextStep: { signInStep: "DONE" } });
+
+        await act(async () => {
+            renderSignInForm();
+        });
+        await submitCredentials(" User@Example.COM ");
+
+        await waitFor(() => {
+            expect(mockSignIn).toHaveBeenCalledWith({
+                username: "user@example.com",
+                password: "Password1!",
+            });
+        });
     });
 
     it("resends the code and requests confirmation for an unconfirmed Amplify user", async () => {
