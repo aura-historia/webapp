@@ -1684,16 +1684,6 @@
     "shareProduct": "Share product",
     "foundOnAuraHistoria": "I found {{title}} on Aura Historia! This might be interesting for you!"
   },
-  "notFound": {
-    "title": "Page not found",
-    "description": "The page you are looking for was not found.",
-    "goHome": "Go to homepage"
-  },
-  "error": {
-    "title": "Something went wrong",
-    "description": "An unexpected error occurred. Please try again later.",
-    "goHome": "Go to homepage"
-  },
   "serviceStatus": {
     "notice": {
       "maintenance": {
@@ -4301,5 +4291,21 @@
       "retireTitle": "Retire “{{label}}”?",
       "restoreTitle": "Restore “{{label}}”?"
     }
+  },
+  "fallback": {
+    "notFound": {
+      "eyebrow": "Error 404",
+      "headline": "Page <em>not found.</em>",
+      "description": "The address may be mistyped, or the page has moved or been removed. Search the catalogue or return to the homepage."
+    },
+    "error": {
+      "eyebrow": "Unexpected error",
+      "headline": "Something <em>went wrong.</em>",
+      "description": "This page could not be loaded. Please try again — if the problem persists, return to the homepage.",
+      "retry": "Try again",
+      "retrying": "Trying again…"
+    },
+    "searchObjects": "Search objects",
+    "goHome": "Go to homepage"
   }
 }

@@ -2,11 +2,11 @@ import { createRouter as createTanstackRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 import * as TanstackQuery from "./integrations/tanstack-query/root-provider";
 import type { UserPreferences } from "@/features/preferences/types/UserPreferences.ts";
-import { NotFoundComponent } from "@/components/common/NotFoundComponent.tsx";
+import { NotFoundPage } from "@/features/app-shell/components/fallback/NotFoundPage.tsx";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
-import { ErrorComponent } from "@/components/common/ErrorComponent.tsx";
+import { ErrorPage } from "@/features/app-shell/components/fallback/ErrorPage.tsx";
 import { startWebMcp } from "@/features/agent-discovery/webmcp/startWebMcp.ts";
 
 // Create a new router instance
@@ -23,8 +23,8 @@ export const getRouter = () => {
         Wrap: (props: { children: React.ReactNode }) => {
             return <TanstackQuery.Provider {...rqContext}>{props.children}</TanstackQuery.Provider>;
         },
-        defaultNotFoundComponent: NotFoundComponent,
-        defaultErrorComponent: ErrorComponent,
+        defaultNotFoundComponent: NotFoundPage,
+        defaultErrorComponent: ErrorPage,
     });
 
     setupRouterSsrQueryIntegration({
