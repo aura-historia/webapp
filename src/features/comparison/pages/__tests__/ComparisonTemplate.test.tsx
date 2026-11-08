@@ -6,6 +6,7 @@ import { WinnerBadge } from "@/features/comparison/components/ComparisonLayout.t
 import { ComparisonOtherComparisonsSection } from "@/features/comparison/components/sections/ComparisonOtherComparisonsSection.tsx";
 import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
 import { getComparisonNav } from "@/features/comparison/config/comparisonDefinition.ts";
+import { COMPARISON_REGISTRY } from "@/features/comparison/config/comparisonRegistry.ts";
 import { ComparisonPage } from "@/features/comparison/pages/ComparisonPage.tsx";
 import {
     FIXTURE_COMPARISON,
@@ -70,8 +71,9 @@ describe("ComparisonPage with a second definition", () => {
 
         const block = screen.getByRole("region", { name: "Weitere Vergleiche" });
         const links = within(block).getAllByRole("link");
-        expect(links).toHaveLength(1);
-        expect(links[0]).toHaveAttribute("href", "/de/compare/barnebys");
+        expect(links.map((link) => link.getAttribute("href"))).toEqual(
+            COMPARISON_REGISTRY.map((entry) => `/de/compare/${entry.slug}`),
+        );
         expect(links[0]).toHaveTextContent("Aura Historia vs. Barnebys");
         expect(links[0]).toHaveTextContent(i18n.t(BARNEBYS_COMPARISON.positioningKey));
         expect(within(block).queryByText(new RegExp(FIXTURE_COMPETITOR))).toBeNull();

@@ -51,7 +51,8 @@ export interface ComparisonDefinition {
     readonly lastReviewed: string;
     /**
      * Shows `<namespace>.respect.status` under the respect chapter: one dated, factual sentence
-     * about the competitor's current state (for example insolvency or a change of operator).
+     * about the competitor's situation, as far as a primary source supports it (for example an
+     * insolvency, a change of operator or a combination with another company).
      */
     readonly statusNote?: boolean;
     readonly quickVerdicts: readonly ComparisonVerdictItem[];

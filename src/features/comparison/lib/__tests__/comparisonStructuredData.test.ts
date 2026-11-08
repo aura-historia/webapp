@@ -1,8 +1,13 @@
 import { beforeAll, describe, expect, it } from "vitest";
 
+import { ARTSY_COMPARISON } from "@/features/comparison/config/artsyComparison.ts";
+import { ARTSY_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/artsyComparisonReview.ts";
 import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
 import { BARNEBYS_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/barnebysComparisonReview.ts";
-import type { ComparisonDefinition } from "@/features/comparison/config/comparisonDefinition.ts";
+import {
+    type ComparisonDefinition,
+    getComparisonFaq,
+} from "@/features/comparison/config/comparisonDefinition.ts";
 import {
     buildComparisonStructuredData,
     stripInlineMarkup,
@@ -73,6 +78,30 @@ describe("buildComparisonStructuredData", () => {
         expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual([
             t("compareFixturePage.faq.items.alternative.question"),
         ]);
+    });
+
+    it("builds the Artsy page from its visible strings, with no review markup", () => {
+        const [article, faqPage] = build(ARTSY_COMPARISON);
+
+        expect(article).toMatchObject({
+            "@type": "Article",
+            headline: stripInlineMarkup(t("compareArtsyPage.hero.title")),
+            description: t("compareArtsyPage.hero.subtitle"),
+            dateModified: ARTSY_COMPARISON_LAST_REVIEWED,
+            url: "https://aura-historia.com/de/compare/artsy",
+        });
+        expect(article.dateModified).toBe("2026-11-08");
+        expect(article.about).toEqual(
+            ARTSY_COMPARISON.structuredDataTopics.map((topic) =>
+                t(`compareArtsyPage.structuredData.about.${topic}`),
+            ),
+        );
+        expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual(
+            getComparisonFaq(ARTSY_COMPARISON).map((item) => t(item.questionKey)),
+        );
+        expect(JSON.stringify([article, faqPage])).not.toMatch(
+            /"@type":"(Review|AggregateRating|Rating)"/,
+        );
     });
 
     it("strips inline emphasis", () => {

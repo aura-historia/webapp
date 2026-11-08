@@ -22,6 +22,7 @@ import { Route as LngSearchRouteImport } from './routes/$lng.search'
 import { Route as LngTermsAndConditionsRouteImport } from './routes/$lng.terms-and-conditions'
 import { Route as LngAuthAdminRouteImport } from './routes/$lng._auth.admin'
 import { Route as LngAuthPartnersRouteImport } from './routes/$lng._auth.partners'
+import { Route as LngCompareArtsyRouteImport } from './routes/$lng.compare.artsy'
 import { Route as LngCompareBarnebysRouteImport } from './routes/$lng.compare.barnebys'
 import { Route as LngNewsletterConfirmRouteImport } from './routes/$lng.newsletter.confirm'
 import { Route as LngPartnerProgramIndexRouteImport } from './routes/$lng.partner-program.index'
@@ -126,6 +127,11 @@ const LngAuthPartnersRoute = LngAuthPartnersRouteImport.update({
   id: '/partners',
   path: '/partners',
   getParentRoute: () => LngAuthRoute,
+} as any)
+const LngCompareArtsyRoute = LngCompareArtsyRouteImport.update({
+  id: '/compare/artsy',
+  path: '/compare/artsy',
+  getParentRoute: () => LngRoute,
 } as any)
 const LngCompareBarnebysRoute = LngCompareBarnebysRouteImport.update({
   id: '/compare/barnebys',
@@ -366,6 +372,7 @@ export interface FileRoutesByFullPath {
   '/$lng/': typeof LngIndexRoute
   '/$lng/admin': typeof LngAuthAdminRouteWithChildren
   '/$lng/partners': typeof LngAuthPartnersRouteWithChildren
+  '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
@@ -416,6 +423,7 @@ export interface FileRoutesByTo {
   '/$lng/privacy': typeof LngPrivacyRoute
   '/$lng/search': typeof LngSearchRoute
   '/$lng/terms-and-conditions': typeof LngTermsAndConditionsRoute
+  '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
@@ -472,6 +480,7 @@ export interface FileRoutesById {
   '/$lng/': typeof LngIndexRoute
   '/$lng/_auth/admin': typeof LngAuthAdminRouteWithChildren
   '/$lng/_auth/partners': typeof LngAuthPartnersRouteWithChildren
+  '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
@@ -528,6 +537,7 @@ export interface FileRouteTypes {
     | '/$lng/'
     | '/$lng/admin'
     | '/$lng/partners'
+    | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
@@ -578,6 +588,7 @@ export interface FileRouteTypes {
     | '/$lng/privacy'
     | '/$lng/search'
     | '/$lng/terms-and-conditions'
+    | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
@@ -633,6 +644,7 @@ export interface FileRouteTypes {
     | '/$lng/'
     | '/$lng/_auth/admin'
     | '/$lng/_auth/partners'
+    | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
@@ -778,6 +790,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/$lng/partners'
       preLoaderRoute: typeof LngAuthPartnersRouteImport
       parentRoute: typeof LngAuthRoute
+    }
+    '/$lng/compare/artsy': {
+      id: '/$lng/compare/artsy'
+      path: '/compare/artsy'
+      fullPath: '/$lng/compare/artsy'
+      preLoaderRoute: typeof LngCompareArtsyRouteImport
+      parentRoute: typeof LngRoute
     }
     '/$lng/compare/barnebys': {
       id: '/$lng/compare/barnebys'
@@ -1174,6 +1193,7 @@ interface LngRouteChildren {
   LngSearchRoute: typeof LngSearchRoute
   LngTermsAndConditionsRoute: typeof LngTermsAndConditionsRoute
   LngIndexRoute: typeof LngIndexRoute
+  LngCompareArtsyRoute: typeof LngCompareArtsyRoute
   LngCompareBarnebysRoute: typeof LngCompareBarnebysRoute
   LngNewsletterConfirmRoute: typeof LngNewsletterConfirmRoute
   LngProductsProductListingTitleSlugIdRoute: typeof LngProductsProductListingTitleSlugIdRoute
@@ -1192,6 +1212,7 @@ const LngRouteChildren: LngRouteChildren = {
   LngSearchRoute: LngSearchRoute,
   LngTermsAndConditionsRoute: LngTermsAndConditionsRoute,
   LngIndexRoute: LngIndexRoute,
+  LngCompareArtsyRoute: LngCompareArtsyRoute,
   LngCompareBarnebysRoute: LngCompareBarnebysRoute,
   LngNewsletterConfirmRoute: LngNewsletterConfirmRoute,
   LngProductsProductListingTitleSlugIdRoute:
