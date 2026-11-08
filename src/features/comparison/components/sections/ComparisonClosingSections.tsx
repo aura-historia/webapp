@@ -1,4 +1,3 @@
-import { Bell, Clock, Globe, SearchCheck, Telescope } from "lucide-react";
 import { Trans, useTranslation } from "react-i18next";
 
 import {
@@ -9,54 +8,51 @@ import {
     SearchMarketLink,
 } from "@/features/comparison/components/ComparisonLayout.tsx";
 import {
-    BARNEBYS_COMPARISON_SECTION_IDS,
-    BARNEBYS_DOWNSTREAM_KEYS,
-    BARNEBYS_FAQ_ITEMS,
-    BARNEBYS_SOURCE_KEYS,
-} from "@/features/comparison/config/barnebysComparison.data.ts";
+    type ComparisonDefinition,
+    getComparisonFaq,
+} from "@/features/comparison/config/comparisonDefinition.ts";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
 import { cn } from "@/lib/utils.ts";
-
-const DOWNSTREAM_ICONS = {
-    underRadarInventory: Telescope,
-    realMarket: SearchCheck,
-    beforeDigest: Clock,
-    acrossBorders: Globe,
-} as const;
 
 function toNumber(index: number) {
     return String(index + 1).padStart(2, "0");
 }
 
-/** V — Source coverage on the raised band: the ruled source list beside four outcome cards. */
-export function ComparisonSourcesSection() {
+/**
+ * V — Source coverage on the raised band: the ruled source list beside four outcome cards. Only on
+ * pages whose definition has `sources`.
+ */
+export function ComparisonSourcesSection({
+    namespace: ns,
+    sources,
+}: {
+    readonly namespace: string;
+    readonly sources: NonNullable<ComparisonDefinition["sources"]>;
+}) {
     const { t } = useTranslation();
 
     return (
         <ComparisonSection
-            id={BARNEBYS_COMPARISON_SECTION_IDS.sources}
+            id="sources"
             labelledBy="comparison-sources-heading"
             ground="raised"
             containerClassName={cn(COMPARISON_SPLIT_CLASS, "items-start")}
         >
             <div className="flex flex-col gap-5 sm:gap-6">
                 <ComparisonHeading id="comparison-sources-heading" size="sm">
-                    <Trans
-                        i18nKey="compareBarnebysPage.downstream.title"
-                        components={HEADLINE_COMPONENTS}
-                    />
+                    <Trans i18nKey={`${ns}.downstream.title`} components={HEADLINE_COMPONENTS} />
                 </ComparisonHeading>
                 <ul
-                    aria-label={t("compareBarnebysPage.downstream.sourcesLabel")}
+                    aria-label={t(`${ns}.downstream.sourcesLabel`)}
                     className="flex flex-col border-t border-ink sm:mt-3"
                 >
-                    {BARNEBYS_SOURCE_KEYS.map((key, index) => (
+                    {sources.sourceKeys.map((key, index) => (
                         <li
                             key={key}
                             className="flex items-center justify-between gap-4 border-b border-line py-3 sm:py-3.5"
                         >
                             <span className="font-serif text-[19px] leading-[1.2] sm:text-[20px]">
-                                {t(`compareBarnebysPage.downstream.sources.${key}`)}
+                                {t(`${ns}.downstream.sources.${key}`)}
                             </span>
                             <span
                                 aria-hidden="true"
@@ -69,9 +65,7 @@ export function ComparisonSourcesSection() {
                 </ul>
             </div>
             <div className="mt-3 grid grid-cols-1 gap-3 sm:mt-0 sm:gap-4 min-[720px]:grid-cols-2">
-                {BARNEBYS_DOWNSTREAM_KEYS.map((key) => {
-                    const Icon = DOWNSTREAM_ICONS[key];
-
+                {sources.cards.map(({ key, icon: Icon }) => {
                     return (
                         <article
                             key={key}
@@ -81,10 +75,10 @@ export function ComparisonSourcesSection() {
                                 <Icon className="size-5" strokeWidth={1.6} aria-hidden="true" />
                             </span>
                             <h3 className="font-serif text-[22px] leading-[1.2] font-normal sm:text-[24px]">
-                                {t(`compareBarnebysPage.downstream.cards.${key}.title`)}
+                                {t(`${ns}.downstream.cards.${key}.title`)}
                             </h3>
                             <p className="text-body-sm text-ink-secondary">
-                                {t(`compareBarnebysPage.downstream.cards.${key}.description`)}
+                                {t(`${ns}.downstream.cards.${key}.description`)}
                             </p>
                         </article>
                     );
@@ -94,52 +88,64 @@ export function ComparisonSourcesSection() {
     );
 }
 
-/** VI — Alerts on parchment: one narrow column, the Aura Historia standard set in full ink. */
-export function ComparisonAlertsSection() {
+/**
+ * VI — Alerts on parchment: one narrow column, the Aura Historia standard set in full ink. Only on
+ * pages whose definition has `alerts`.
+ */
+export function ComparisonAlertsSection({
+    namespace: ns,
+    alerts,
+}: {
+    readonly namespace: string;
+    readonly alerts: NonNullable<ComparisonDefinition["alerts"]>;
+}) {
     const { t } = useTranslation();
+    const Icon = alerts.icon;
 
     return (
         <ComparisonSection
-            id={BARNEBYS_COMPARISON_SECTION_IDS.alerts}
+            id="alerts"
             labelledBy="comparison-alerts-heading"
             ground="parchment"
             containerClassName="flex max-w-[920px] flex-col gap-5 sm:gap-9"
         >
             <span className="flex size-11 items-center justify-center rounded-full bg-oxblood text-on-oxblood sm:size-12">
-                <Bell className="size-[18px] sm:size-5" strokeWidth={1.7} aria-hidden="true" />
+                <Icon className="size-[18px] sm:size-5" strokeWidth={1.7} aria-hidden="true" />
             </span>
             <ComparisonHeading id="comparison-alerts-heading">
-                <Trans
-                    i18nKey="compareBarnebysPage.alerts.title"
-                    components={HEADLINE_COMPONENTS}
-                />
+                <Trans i18nKey={`${ns}.alerts.title`} components={HEADLINE_COMPONENTS} />
             </ComparisonHeading>
             <div className="flex flex-col gap-4 border-t border-ink pt-5 text-base leading-[1.65] sm:gap-5 sm:pt-7 sm:text-body-lg sm:leading-[1.65]">
-                <p className="text-ink-secondary">{t("compareBarnebysPage.alerts.paragraph1")}</p>
-                <p>{t("compareBarnebysPage.alerts.paragraph2")}</p>
+                <p className="text-ink-secondary">{t(`${ns}.alerts.paragraph1`)}</p>
+                <p>{t(`${ns}.alerts.paragraph2`)}</p>
             </div>
         </ComparisonSection>
     );
 }
 
 /** VII — Questions on the raised band: numbered, ruled items; every answer stays visible. */
-export function ComparisonFaqSection() {
+export function ComparisonFaqSection({
+    definition,
+}: {
+    readonly definition: ComparisonDefinition;
+}) {
     const { t } = useTranslation();
+    const ns = definition.namespace;
 
     return (
         <ComparisonSection
-            id={BARNEBYS_COMPARISON_SECTION_IDS.faq}
+            id="faq"
             labelledBy="comparison-faq-heading"
             ground="raised"
             containerClassName={cn(COMPARISON_SPLIT_CLASS, "items-start")}
         >
             <ComparisonHeading id="comparison-faq-heading" size="sm">
-                <Trans i18nKey="compareBarnebysPage.faq.title" components={HEADLINE_COMPONENTS} />
+                <Trans i18nKey={`${ns}.faq.title`} components={HEADLINE_COMPONENTS} />
             </ComparisonHeading>
             <ol className="mt-2 border-t border-ink sm:mt-0">
-                {BARNEBYS_FAQ_ITEMS.map((item, index) => (
+                {getComparisonFaq(definition).map((item, index) => (
                     <li
-                        key={item.key}
+                        key={item.anchor}
                         id={item.anchor}
                         className={cn(
                             "flex flex-col gap-2.5 border-b border-line py-[22px] sm:grid sm:grid-cols-[48px_minmax(0,1fr)] sm:gap-x-4 sm:gap-y-2 sm:py-7",
@@ -153,10 +159,10 @@ export function ComparisonFaqSection() {
                             {toNumber(index)}
                         </span>
                         <h3 className="font-serif text-[21px] leading-[1.28] font-normal sm:text-[24px] sm:leading-[1.25]">
-                            {t(`compareBarnebysPage.faq.items.${item.key}.question`)}
+                            {t(item.questionKey)}
                         </h3>
                         <p className="max-w-[680px] text-[15px] leading-[1.65] text-ink-secondary sm:text-base">
-                            {t(`compareBarnebysPage.faq.items.${item.key}.answer`)}
+                            {t(item.answerKey)}
                         </p>
                     </li>
                 ))}
@@ -166,12 +172,17 @@ export function ComparisonFaqSection() {
 }
 
 /** Final verdict on oxblood: the closing claim and the call to search. */
-export function ComparisonVerdictSection() {
+export function ComparisonVerdictSection({
+    definition,
+}: {
+    readonly definition: ComparisonDefinition;
+}) {
     const { t } = useTranslation();
+    const ns = definition.namespace;
 
     return (
         <ComparisonSection
-            id={BARNEBYS_COMPARISON_SECTION_IDS.verdict}
+            id="verdict"
             labelledBy="comparison-verdict-heading"
             ground="oxblood"
             className="pb-[72px] sm:py-[clamp(72px,9vw,120px)]"
@@ -179,18 +190,15 @@ export function ComparisonVerdictSection() {
         >
             <div className="flex flex-col gap-5 sm:gap-[22px]">
                 <ComparisonHeading id="comparison-verdict-heading" size="verdict" onDark>
-                    <Trans
-                        i18nKey="compareBarnebysPage.finalCta.title"
-                        components={HEADLINE_COMPONENTS}
-                    />
+                    <Trans i18nKey={`${ns}.finalCta.title`} components={HEADLINE_COMPONENTS} />
                 </ComparisonHeading>
                 <p className="max-w-[520px] text-base leading-[1.6] text-on-oxblood-muted sm:text-[17px]">
-                    {t("compareBarnebysPage.finalCta.description")}
+                    {t(`${ns}.finalCta.description`)}
                 </p>
             </div>
             <div className="flex sm:justify-end">
                 <SearchMarketLink className="h-[52px] w-full px-7 sm:h-[54px] sm:w-auto">
-                    {t("compareBarnebysPage.finalCta.button")}
+                    {t(`${ns}.finalCta.button`)}
                 </SearchMarketLink>
             </div>
         </ComparisonSection>

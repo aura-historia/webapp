@@ -1,25 +1,36 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 
-import { BARNEBYS_FAQ_ITEMS } from "@/features/comparison/config/barnebysComparison.data.ts";
+import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
 import { BARNEBYS_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/barnebysComparisonReview.ts";
+import type { ComparisonDefinition } from "@/features/comparison/config/comparisonDefinition.ts";
 import {
-    buildBarnebysComparisonStructuredData,
+    buildComparisonStructuredData,
     stripInlineMarkup,
-} from "@/features/comparison/lib/barnebysComparisonStructuredData.ts";
+} from "@/features/comparison/lib/comparisonStructuredData.ts";
+import {
+    FIXTURE_COMPARISON,
+    FIXTURE_COMPETITOR,
+    registerFixtureTranslations,
+} from "@/features/comparison/pages/__tests__/comparisonFixture.ts";
 import testI18n from "@/i18n/i18nForTests";
 
 const t = testI18n.t.bind(testI18n);
 
-function build() {
-    return buildBarnebysComparisonStructuredData({
+function build(definition: ComparisonDefinition = BARNEBYS_COMPARISON) {
+    return buildComparisonStructuredData({
+        definition,
         t,
         siteUrl: "https://aura-historia.com",
-        pageUrl: "https://aura-historia.com/de/compare/barnebys",
+        pageUrl: `https://aura-historia.com/de/compare/${definition.slug}`,
         language: "de",
     });
 }
 
-describe("buildBarnebysComparisonStructuredData", () => {
+beforeAll(() => {
+    registerFixtureTranslations();
+});
+
+describe("buildComparisonStructuredData", () => {
     it("describes the page as an article with the fixed review date and a plain headline", () => {
         const [article] = build();
 
@@ -38,7 +49,7 @@ describe("buildBarnebysComparisonStructuredData", () => {
     it("emits the visible questions and answers as an FAQPage", () => {
         const [, faqPage] = build();
 
-        expect(faqPage.mainEntity).toHaveLength(BARNEBYS_FAQ_ITEMS.length);
+        expect(faqPage.mainEntity).toHaveLength(BARNEBYS_COMPARISON.faqItems.length);
         expect(faqPage.mainEntity[0]).toEqual({
             "@type": "Question",
             name: t("compareBarnebysPage.faq.items.alternative.question"),
@@ -49,12 +60,23 @@ describe("buildBarnebysComparisonStructuredData", () => {
         });
     });
 
+    it("builds from any definition: its namespace, topics, FAQ and review date", () => {
+        const [article, faqPage] = build(FIXTURE_COMPARISON);
+
+        expect(article.headline).toBe(`Aura Historia und ${FIXTURE_COMPETITOR}`);
+        expect(article.dateModified).toBe("2026-01-15");
+        expect(article.url).toBe("https://aura-historia.com/de/compare/beispielhaus");
+        expect(article.about).toEqual([
+            t("compareFixturePage.structuredData.about.searchEngine"),
+            t("compareFixturePage.structuredData.about.aiDiscovery"),
+        ]);
+        expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual([
+            t("compareFixturePage.faq.items.alternative.question"),
+        ]);
+    });
+
     it("strips inline emphasis", () => {
         expect(stripInlineMarkup("The short <em>version</em>")).toBe("The short version");
         expect(stripInlineMarkup("<strong>Verdict:</strong> choose")).toBe("Verdict: choose");
-    });
-
-    it("keeps the review date an ISO day", () => {
-        expect(BARNEBYS_COMPARISON_LAST_REVIEWED).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     });
 });

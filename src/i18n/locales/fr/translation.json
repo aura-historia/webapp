@@ -252,8 +252,8 @@
         "alerts": {
           "title": "Des alertes au fil des changements",
           "figure": "En continu",
-          "figureLabel": "Un suivi, pas un résumé quotidien",
-          "description": "Nous vérifions en continu les nouvelles annonces, les changements de prix et la disponibilité, et vous prévenons dès qu’une annonce correspond. Les alertes de recherche de Barnebys suivent une vérification quotidienne, avec la fenêtre connue de 18:00 CEST."
+          "figureLabel": "Nouvelles annonces, prix, disponibilité",
+          "description": "Nous vérifions en continu les nouvelles annonces, les changements de prix et la disponibilité, et vous prévenons dès qu’une annonce correspond."
         },
         "languages": {
           "title": "Cinq langues, un seul vocabulaire",
@@ -3312,9 +3312,7 @@
         "aiDiscovery": "recherche d’art et d’antiquités assistée par IA"
       }
     },
-    "lastReviewed": "Dernière vérification le <time>{{date}}</time>",
     "nav": {
-      "label": "Sur cette page",
       "items": {
         "summary": "Résumé",
         "advantages": "Là où Aura Historia l’emporte",
@@ -3348,9 +3346,9 @@
         "label": "Plus fort pour la recherche multilingue",
         "value": "Aura Historia"
       },
-      "realTimeMonitoring": {
-        "label": "Plus fort pour le suivi quasi en temps réel",
-        "value": "Aura Historia"
+      "searchAlerts": {
+        "label": "Alertes e-mail pour les recherches enregistrées",
+        "value": "Les deux"
       }
     },
     "summary": {
@@ -3361,11 +3359,12 @@
     "respect": {
       "title": "Barnebys a marqué la <em>recherche d’enchères</em>",
       "paragraph1": "Une comparaison juste commence ici : Barnebys est un nom reconnu dans l’univers des ventes aux enchères d’art et d’antiquités. Pour de nombreux acheteurs, il a rendu des catalogues dispersés plus accessibles et plus simples à interroger.",
-      "paragraph2": "C’est utile. Mais ce n’est pas la même chose que voir l’ensemble du marché en ligne. Les objets recherchés apparaissent chez de grandes maisons de ventes, des commissaires-priseurs régionaux, des marchands spécialisés, des boutiques indépendantes, des places de marché et parfois des vendeurs privés. Aura Historia est conçu pour cette réalité plus vaste."
+      "paragraph2": "C’est utile. Mais ce n’est pas la même chose que voir l’ensemble du marché en ligne. Les objets recherchés apparaissent chez de grandes maisons de ventes, des commissaires-priseurs régionaux, des marchands spécialisés, des boutiques indépendantes, des places de marché et parfois des vendeurs privés. Aura Historia est conçu pour cette réalité plus vaste.",
+      "status": "Barnebys Group AB a été déclarée en faillite par le tribunal de district de Stockholm le 11 mars 2026, à sa propre demande. Selon la politique de confidentialité de Barnebys (mise à jour le 3 août 2026), Boje Group AB a repris l’activité et continue d’exploiter le service Barnebys."
     },
     "advantages": {
-      "title": "Plus de sources. Des signaux plus rapides. <em>Moins de barrières de langue.</em>",
-      "description": "L’écart ne tient pas à une seule fonctionnalité. Il vient de l’association d’un index plus large, de données mieux préparées et d’alertes plus rapides.",
+      "title": "Plus de sources. Des signaux quasi en temps réel. <em>Moins de barrières de langue.</em>",
+      "description": "L’écart ne tient pas à une seule fonctionnalité. Il vient de l’association d’un index plus large, de données mieux préparées et d’alertes quasi en temps réel.",
       "cards": {
         "marketBeyondAuctions": {
           "title": "Le marché au-delà des catalogues d’enchères",
@@ -3373,7 +3372,7 @@
         },
         "nearRealTimeAlerts": {
           "title": "Alertes quasi en temps réel",
-          "description": "Pour une pièce rare, une journée peut compter. Aura Historia suit les nouvelles annonces, les variations de prix et la disponibilité au plus près du moment où elles changent, plutôt que de s’en tenir à un rythme quotidien."
+          "description": "Pour une pièce rare, une journée peut compter. Aura Historia suit les nouvelles annonces, les variations de prix et la disponibilité au plus près du moment où elles changent."
         },
         "languagePenalties": {
           "title": "Chercher sans barrière linguistique",
@@ -3391,45 +3390,45 @@
       "caption": "Comparatif d’Aura Historia et de Barnebys pour la recherche d’art et d’antiquités",
       "headers": {
         "criterion": "Critère",
-        "barnebys": "Barnebys",
-        "auraHistoria": "Aura Historia"
+        "auraHistoria": "Aura Historia",
+        "competitor": "Barnebys"
       },
       "rows": {
         "auctionHeritage": {
           "criterion": "Expérience dans la recherche d’enchères",
-          "barnebys": "Un nom connu depuis longtemps dans l’agrégation de ventes aux enchères d’art et d’antiquités, surtout auprès des acheteurs centrés sur les catalogues.",
           "auraHistoria": "Un moteur plus récent, pensé dès le départ pour couvrir davantage de sources et enrichir les données de façon moderne.",
-          "verdict": "Barnebys pour sa notoriété dans les enchères"
+          "verdict": "Barnebys pour sa notoriété dans les enchères",
+          "competitor": "Un nom connu depuis longtemps dans l’agrégation de ventes aux enchères d’art et d’antiquités, surtout auprès des acheteurs centrés sur les catalogues."
         },
         "sourceCoverage": {
           "criterion": "Étendue des sources",
-          "barnebys": "Particulièrement fort sur les maisons de ventes et plateformes d’enchères, notamment les catalogues établis.",
           "auraHistoria": "Indexe maisons de ventes, plateformes d’enchères, marchands, vendeurs privés, places de marché et autres sources en ligne où de l’art et des antiquités sont proposés.",
-          "verdict": "Aura Historia"
-        },
-        "alertSpeed": {
-          "criterion": "Rapidité des alertes",
-          "barnebys": "Les alertes de recherche suivent un rythme de vérification quotidien, avec notamment la fenêtre connue de 18:00 CEST.",
-          "auraHistoria": "Suivi quasi en temps réel des nouvelles annonces détectées, ainsi que des changements de prix et de disponibilité.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Particulièrement fort sur les maisons de ventes et plateformes d’enchères, notamment les catalogues établis."
         },
         "languageHandling": {
           "criterion": "Langues et terminologie",
-          "barnebys": "Les textes restent souvent proches de la langue et de la terminologie d’origine de la source.",
           "auraHistoria": "Traduit les annonces dans plusieurs langues et harmonise la terminologie de l’art et des antiquités d’une langue à l’autre.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Les textes restent souvent proches de la langue et de la terminologie d’origine de la source."
         },
         "alertRelevance": {
           "criterion": "Pertinence des alertes",
-          "barnebys": "Utile pour des veilles d’enchères larges ; une correspondance par mots-clés peut toutefois faire remonter des lots voisins.",
           "auraHistoria": "Pensé autour de données d’objet normalisées et d’une correspondance plus fine, afin de surveiller davantage de marché tout en restant plus pertinent.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Utile pour des veilles d’enchères larges ; une correspondance par mots-clés peut toutefois faire remonter des lots voisins."
         },
         "technologyDirection": {
           "criterion": "Orientation technologique",
-          "barnebys": "Une recherche d’enchères mature pour les acheteurs qui connaissent déjà cet écosystème.",
           "auraHistoria": "Une couche de recherche assistée par IA pour tout le marché de l’art et des antiquités, avec indexation, traductions, correspondance sémantique et suivi.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Une recherche d’enchères mature pour les acheteurs qui connaissent déjà cet écosystème."
+        },
+        "searchAlerts": {
+          "criterion": "Alertes de recherche",
+          "competitor": "Alertes par e-mail lorsque de nouveaux objets correspondant à une recherche enregistrée sont publiés sur Barnebys.",
+          "auraHistoria": "Suivi quasi en temps réel des nouvelles annonces, ainsi que des notifications sur les changements de prix et de disponibilité des objets suivis.",
+          "verdict": "Les deux proposent des alertes de recherche"
         }
       }
     },
@@ -3452,19 +3451,19 @@
           "title": "Comparer le marché réel",
           "description": "Les estimations d’enchères ne racontent qu’une partie de l’histoire. Les prix de marchands, les annonces sur les places de marché et les changements récents de disponibilité complètent la vision du marché."
         },
-        "beforeDigest": {
-          "title": "Agir avant le résumé quotidien",
-          "description": "Le suivi quasi en temps réel est pensé pour les objets rares, lorsque le bon moment pour décider est souvent celui où l’annonce apparaît."
-        },
         "acrossBorders": {
           "title": "Chercher au-delà des langues",
           "description": "Lorsque les termes sont traduits et harmonisés, les collectionneurs ne sont plus limités par la langue du vendeur ou du commissaire-priseur."
+        },
+        "actEarly": {
+          "title": "Agir dès qu’une annonce paraît",
+          "description": "Le suivi quasi en temps réel est pensé pour les objets rares, lorsque le bon moment pour décider est souvent celui où l’annonce apparaît."
         }
       }
     },
     "alerts": {
-      "title": "Un résumé quotidien est ordonné. <em>Les pièces rares le sont rarement.</em>",
-      "paragraph1": "Les alertes Barnebys sont utiles pour suivre des recherches liées aux enchères, surtout lorsqu’elles sont larges. Mais pour une pièce rare, un rythme quotidien peut arriver tard, et une correspondance large par mots-clés peut parfois faire apparaître des lots simplement voisins.",
+      "title": "Une alerte devrait <em>mériter sa place dans votre boîte de réception</em>",
+      "paragraph1": "Les alertes Barnebys sont utiles pour suivre des recherches liées aux enchères, surtout lorsqu’elles sont larges : Barnebys vous envoie un e-mail lorsque de nouveaux objets correspondant à une recherche enregistrée sont publiés. Une correspondance large par mots-clés peut parfois faire apparaître des lots simplement voisins.",
       "paragraph2": "Aura Historia vise un autre niveau d’exigence : signaux quasi en temps réel, terminologie traduite, données normalisées et alertes qui restent pertinentes tout en surveillant davantage de marché. Si une notification demande votre attention, ne devrait-elle pas la mériter ?"
     },
     "faq": {
@@ -3478,10 +3477,6 @@
           "question": "Aura Historia remplace-t-il Barnebys ?",
           "answer": "Si vous voulez surtout parcourir des catalogues de ventes établis dans un environnement familier, Barnebys reste une option respectée. Si vous recherchez une couverture plus large de l’art et des antiquités, une recherche multilingue, des alertes rapides et une correspondance assistée par IA, Aura Historia est conçu pour cela."
         },
-        "fasterAlerts": {
-          "question": "Quel service propose les alertes d’art et d’antiquités les plus rapides ?",
-          "answer": "Aura Historia est conçu pour un suivi quasi en temps réel. Les alertes de recherche Barnebys suivent un rythme de vérification quotidien, avec notamment la fenêtre connue de 18:00 CEST."
-        },
         "multilingualSearch": {
           "question": "Quel service convient le mieux à la recherche multilingue d’art et d’antiquités ?",
           "answer": "Aura Historia traduit les annonces et harmonise la terminologie entre les langues prises en charge. La langue de recherche devrait donc moins compter, que l’annonce d’origine soit en anglais, allemand, français, espagnol, italien ou dans une autre langue."
@@ -3489,6 +3484,14 @@
         "outsideAuctions": {
           "question": "Quel service aide le mieux à trouver de l’art et des antiquités hors enchères ?",
           "answer": "Aura Historia. Son avantage central est une couverture plus large des sources : maisons de ventes, plateformes d’enchères, marchands, vendeurs privés, places de marché et autres lieux en ligne où l’art et les antiquités sont proposés."
+        },
+        "status": {
+          "question": "Barnebys est-il toujours en activité ?",
+          "answer": "Oui, à la date de novembre 2026. Barnebys Group AB a été déclarée en faillite par le tribunal de district de Stockholm le 11 mars 2026, à sa propre demande. Selon la politique de confidentialité de Barnebys (mise à jour le 3 août 2026), Boje Group AB a repris l’activité et continue d’exploiter le service Barnebys."
+        },
+        "alerts": {
+          "question": "Comment fonctionnent les alertes chez Aura Historia et chez Barnebys ?",
+          "answer": "Les deux envoient des alertes par e-mail pour les recherches enregistrées. Barnebys vous écrit lorsque de nouveaux objets correspondant à une recherche enregistrée sont publiés. Aura Historia suit les annonces quasi en temps réel et vous prévient aussi des changements de prix et de disponibilité des objets que vous suivez."
         }
       }
     },
@@ -3496,7 +3499,8 @@
       "title": "Barnebys est solide pour les enchères. <em>Aura Historia est conçu pour le marché de l’art et des antiquités.</em>",
       "description": "Si votre recherche doit inclure les lieux où l’art et les antiquités sont réellement proposés en ligne, commencez avec Aura Historia.",
       "button": "Rechercher de l’art et des antiquités"
-    }
+    },
+    "positioning": "Un moteur de recherche d’enchères en ligne, comparé à une recherche sur l’ensemble du marché de l’art et des antiquités."
   },
   "partnerAccessTokens": {
     "create": {
@@ -4482,6 +4486,18 @@
     "confirm": {
       "retireTitle": "Retirer « {{label}} » ?",
       "restoreTitle": "Rétablir « {{label}} » ?"
+    }
+  },
+  "comparison": {
+    "lastReviewed": "Dernière vérification le <time>{{date}}</time>",
+    "statusLabel": "Situation",
+    "nav": {
+      "label": "Sur cette page"
+    },
+    "otherComparisons": {
+      "title": "Autres <em>comparatifs</em>",
+      "description": "Comment Aura Historia se situe par rapport à d’autres services du marché de l’art et des antiquités.",
+      "linkTitle": "Aura Historia vs {{name}}"
     }
   },
   "fallback": {

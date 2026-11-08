@@ -1,16 +1,20 @@
 import { useTranslation } from "react-i18next";
 
-import { BARNEBYS_COMPARISON_NAV } from "@/features/comparison/config/barnebysComparison.data.ts";
+import {
+    type ComparisonDefinition,
+    getComparisonNav,
+} from "@/features/comparison/config/comparisonDefinition.ts";
 import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navigationConfig.ts";
 import { cn } from "@/lib/utils.ts";
 
 /**
- * "On this page": crawlable anchors, one per chapter h2. Phones get a ruled list with the chapter
- * numerals on the raised band; from 640px it is a single row that sticks under the nav bar.
+ * "On this page": crawlable anchors, one per chapter h2, derived from the definition. Phones get a
+ * ruled list with the chapter numerals on the raised band; from 640px it is a single row that
+ * sticks under the nav bar.
  */
-export function ComparisonJumpNav() {
+export function ComparisonJumpNav({ definition }: { readonly definition: ComparisonDefinition }) {
     const { t } = useTranslation();
-    const label = t("compareBarnebysPage.nav.label");
+    const label = t("comparison.nav.label");
 
     return (
         <nav
@@ -25,7 +29,7 @@ export function ComparisonJumpNav() {
                     {label}
                 </span>
                 <ol className="flex flex-col border-t border-line sm:flex-row sm:gap-6 sm:border-t-0">
-                    {BARNEBYS_COMPARISON_NAV.map((item) => (
+                    {getComparisonNav(definition).map((item) => (
                         <li
                             key={item.id}
                             className="border-b border-line sm:shrink-0 sm:border-b-0"
@@ -37,7 +41,7 @@ export function ComparisonJumpNav() {
                                     NAV_FOCUS_CLASS,
                                 )}
                             >
-                                {t(`compareBarnebysPage.nav.items.${item.id}`)}
+                                {t(item.labelKey)}
                                 <span
                                     aria-hidden="true"
                                     className="font-mono text-[11px] text-ink-muted sm:hidden"
