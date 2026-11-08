@@ -250,7 +250,7 @@
           "title": "Alerts as listings change",
           "figure": "Continuous",
           "figureLabel": "Monitoring, not a daily digest",
-          "description": "We check new listings, price changes and availability continuously, and notify you when something matches. Barnebys search alerts follow a daily check, with the known 18:00 CEST window."
+          "description": "We check new listings, price changes and availability continuously, and notify you when something matches."
         },
         "languages": {
           "title": "Five languages, one vocabulary",
@@ -3295,9 +3295,7 @@
         "aiDiscovery": "AI-assisted art and antiques discovery"
       }
     },
-    "lastReviewed": "Last reviewed <time>{{date}}</time>",
     "nav": {
-      "label": "On this page",
       "items": {
         "summary": "Summary",
         "advantages": "Where Aura Historia wins",
@@ -3331,9 +3329,9 @@
         "label": "Best for multilingual discovery",
         "value": "Aura Historia"
       },
-      "realTimeMonitoring": {
-        "label": "Best for near real-time monitoring",
-        "value": "Aura Historia"
+      "searchAlerts": {
+        "label": "Saved-search email alerts",
+        "value": "Both"
       }
     },
     "summary": {
@@ -3344,7 +3342,8 @@
     "respect": {
       "title": "Barnebys helped define <em>auction aggregation</em>",
       "paragraph1": "A fair comparison should start here: Barnebys is a known name in the art and antiques auction world. For many buyers, it made scattered auction-house catalogues feel more searchable and approachable.",
-      "paragraph2": "That is useful. It is also not the same as seeing the whole online market. The objects collectors want are spread across major auction houses, regional auctioneers, specialist dealers, independent shops, marketplaces, and sometimes private sellers. Aura Historia is designed for that wider reality."
+      "paragraph2": "That is useful. It is also not the same as seeing the whole online market. The objects collectors want are spread across major auction houses, regional auctioneers, specialist dealers, independent shops, marketplaces, and sometimes private sellers. Aura Historia is designed for that wider reality.",
+      "status": "Barnebys Group AB was declared bankrupt by the Stockholm District Court on 11 March 2026, on its own application. According to Barnebys' privacy policy (updated 3 August 2026), Boje Group AB has acquired the business and continues to operate the Barnebys service."
     },
     "advantages": {
       "title": "More sources, faster signals, <em>fewer language barriers</em>",
@@ -3356,7 +3355,7 @@
         },
         "nearRealTimeAlerts": {
           "title": "Near real-time alerts",
-          "description": "For rare pieces, a day can matter. Aura Historia monitors new listings, price changes, and availability close to when they happen instead of relying on a single daily alert rhythm."
+          "description": "For rare pieces, a day can matter. Aura Historia monitors new listings, price changes, and availability close to when they happen."
         },
         "languagePenalties": {
           "title": "Search without language penalties",
@@ -3374,45 +3373,45 @@
       "caption": "Comparison of Aura Historia and Barnebys for art and antiques search",
       "headers": {
         "criterion": "Criterion",
-        "barnebys": "Barnebys",
-        "auraHistoria": "Aura Historia"
+        "auraHistoria": "Aura Historia",
+        "competitor": "Barnebys"
       },
       "rows": {
         "auctionHeritage": {
           "criterion": "Auction-house heritage",
-          "barnebys": "A long-established name in art and antiques auction aggregation with broad recognition among auction-focused buyers.",
           "auraHistoria": "A newer search engine built from day one around a wider source model and modern data enrichment.",
-          "verdict": "Barnebys for legacy recognition"
+          "verdict": "Barnebys for legacy recognition",
+          "competitor": "A long-established name in art and antiques auction aggregation with broad recognition among auction-focused buyers."
         },
         "sourceCoverage": {
           "criterion": "Source coverage",
-          "barnebys": "Strongest around auction houses and auction platforms, particularly established catalogues.",
           "auraHistoria": "Indexes auction houses, auction platforms, dealers, private sellers, marketplaces, and other online sources where art and antiques appear.",
-          "verdict": "Aura Historia"
-        },
-        "alertSpeed": {
-          "criterion": "Alert speed",
-          "barnebys": "Search alerts follow a daily check pattern, including the known 18:00 CEST alert window.",
-          "auraHistoria": "Near real-time monitoring for newly discovered listings plus price and availability changes.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Strongest around auction houses and auction platforms, particularly established catalogues."
         },
         "languageHandling": {
           "criterion": "Language handling",
-          "barnebys": "Often keeps listing text close to the native source language and source terminology.",
           "auraHistoria": "Translates listings into multiple languages and aligns art and antiques terminology across languages.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Often keeps listing text close to the native source language and source terminology."
         },
         "alertRelevance": {
           "criterion": "Alert relevance",
-          "barnebys": "Useful for broad auction watches, while broader keyword matching can occasionally bring adjacent lots into the inbox.",
           "auraHistoria": "Designed around normalized item data and tighter matching so alerts can be both broader in coverage and more selective in relevance.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Useful for broad auction watches, while broader keyword matching can occasionally bring adjacent lots into the inbox."
         },
         "technologyDirection": {
           "criterion": "Technology direction",
-          "barnebys": "A mature auction-search experience for buyers who know the auction ecosystem.",
           "auraHistoria": "An AI-forward search layer for the whole art and antiques market, combining indexing, translations, semantic matching, and monitoring.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "A mature auction-search experience for buyers who know the auction ecosystem."
+        },
+        "searchAlerts": {
+          "criterion": "Saved-search alerts",
+          "competitor": "Email alerts when new items matching a saved search are listed on Barnebys.",
+          "auraHistoria": "Near real-time monitoring of new listings, plus notifications about price and availability changes on watched objects.",
+          "verdict": "Both offer search alerts"
         }
       }
     },
@@ -3435,19 +3434,19 @@
           "title": "Compare the real market",
           "description": "Auction estimates tell one story. Dealer asking prices, marketplace listings, and recent availability changes make the market picture more complete."
         },
-        "beforeDigest": {
-          "title": "Act before the daily digest",
-          "description": "Near real-time monitoring is built for scarce inventory where the best moment to decide is often the moment a listing appears."
-        },
         "acrossBorders": {
           "title": "Search across borders",
           "description": "When terminology is translated and aligned, a collector is no longer limited by the language used by the seller or auctioneer."
+        },
+        "actEarly": {
+          "title": "Act when a listing appears",
+          "description": "Near real-time monitoring is built for scarce inventory where the best moment to decide is often the moment a listing appears."
         }
       }
     },
     "alerts": {
-      "title": "A daily digest is tidy. <em>Rare inventory is not tidy.</em>",
-      "paragraph1": "Barnebys alerts are a useful way to keep an eye on auction-related searches, especially for broad watches. But a daily alert rhythm can be late for rare pieces, and broad keyword matching can sometimes surface adjacent lots that are not quite what the collector meant.",
+      "title": "An alert should <em>earn its place in your inbox</em>",
+      "paragraph1": "Barnebys alerts are a useful way to keep an eye on auction-related searches, especially for broad watches: Barnebys emails you when new items matching a saved search are listed. Broad keyword matching can sometimes surface adjacent lots that are not quite what the collector meant.",
       "paragraph2": "Aura Historia is built for a different standard: near real-time signals, translated terminology, normalized data, and alerts that aim to stay relevant while watching more of the market. If a notification asks for attention, should it not earn it?"
     },
     "faq": {
@@ -3461,10 +3460,6 @@
           "question": "Does Aura Historia replace Barnebys?",
           "answer": "If you only want a familiar way to browse established auction-house catalogues, Barnebys remains a respected option. If you want broader online art and antiques coverage, multilingual discovery, near real-time alerts, and AI-assisted matching, Aura Historia is designed to be the stronger choice."
         },
-        "fasterAlerts": {
-          "question": "Which service has faster art and antiques alerts?",
-          "answer": "Aura Historia is designed for near real-time monitoring. Barnebys search alerts follow a daily check pattern, including the known 18:00 CEST alert window."
-        },
         "multilingualSearch": {
           "question": "Which service is better for multilingual art and antiques search?",
           "answer": "Aura Historia is built to translate listings and align terminology across supported languages. That means the search language should matter less, whether the original listing is in English, German, French, Spanish, Italian, or another source language."
@@ -3472,6 +3467,14 @@
         "outsideAuctions": {
           "question": "Which service is better for finding art and antiques outside auctions?",
           "answer": "Aura Historia. Its core advantage is broader source coverage: auction houses, auction platforms, dealers, private sellers, marketplaces, and other online places where art and antiques are sold."
+        },
+        "status": {
+          "question": "Is Barnebys still operating?",
+          "answer": "Yes, as of November 2026. Barnebys Group AB was declared bankrupt by the Stockholm District Court on 11 March 2026, on its own application. According to Barnebys' privacy policy (updated 3 August 2026), Boje Group AB has acquired the business and continues to operate the Barnebys service."
+        },
+        "alerts": {
+          "question": "How do alerts work on Aura Historia and Barnebys?",
+          "answer": "Both send email alerts for saved searches. Barnebys emails you when new items matching a saved search are listed. Aura Historia monitors listings near real-time and also notifies you about price and availability changes on objects you watch."
         }
       }
     },
@@ -3479,7 +3482,8 @@
       "title": "Barnebys is good for auctions. <em>Aura Historia is built for the art and antiques market.</em>",
       "description": "If your search should include the places where art and antiques are actually sold online, start with Aura Historia.",
       "button": "Start searching art and antiques"
-    }
+    },
+    "positioning": "An online auction search engine, compared with a search across the wider art and antiques market."
   },
   "adminUsers": {
     "title": "User management",
@@ -4273,6 +4277,44 @@
     "confirm": {
       "retireTitle": "Retire “{{label}}”?",
       "restoreTitle": "Restore “{{label}}”?"
+    }
+  },
+  "comparison": {
+    "lastReviewed": "Last reviewed <time>{{date}}</time>",
+    "statusLabel": "Status",
+    "nav": {
+      "label": "On this page",
+      "agents": "For AI assistants"
+    },
+    "agents": {
+      "eyebrow": "For AI assistants and agents",
+      "title": "Built to be read by <em>people and their assistants</em>",
+      "body": "We keep Aura Historia in step with how people now search. The public catalogue is therefore open to AI assistants and agents through a public MCP server (Model Context Protocol, an open standard AI tools use to read data) and a REST API: structured, complete, and without scraping. No account is needed for public listings.",
+      "facts": {
+        "mcpServer": {
+          "label": "MCP server"
+        },
+        "restApi": {
+          "label": "REST API"
+        },
+        "publicListings": {
+          "label": "Public listings",
+          "value": "No account needed"
+        }
+      },
+      "docsLink": "Read the MCP documentation",
+      "closing": "This page does not compare other services' interfaces."
+    },
+    "faq": {
+      "aiAssistants": {
+        "question": "Can AI assistants use Aura Historia directly?",
+        "answer": "Yes. Aura Historia runs a public MCP server (Model Context Protocol, an open standard AI tools use to read data) at https://mcp.aura-historia.com/v1 and a REST API. Assistants and agents that can use outside tools can search the public catalogue directly, and no account is needed for public listings. The documentation is at https://docs.api.aura-historia.com/mcp.md."
+      }
+    },
+    "otherComparisons": {
+      "title": "Other <em>comparisons</em>",
+      "description": "How Aura Historia relates to other services in the art and antiques market.",
+      "linkTitle": "Aura Historia vs {{name}}"
     }
   }
 }

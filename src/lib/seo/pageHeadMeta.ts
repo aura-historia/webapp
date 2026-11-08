@@ -14,7 +14,7 @@ type HeadMeta = {
     scripts?: Array<{ type: string; children: string }>;
 };
 
-type PageMetaKey =
+export type PageMetaKey =
     | "home"
     | "about"
     | "search"

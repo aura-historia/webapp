@@ -250,7 +250,7 @@
           "title": "Avvisi man mano che gli annunci cambiano",
           "figure": "Continuo",
           "figureLabel": "Monitoraggio, non un riepilogo quotidiano",
-          "description": "Controlliamo continuamente nuovi annunci, variazioni di prezzo e disponibilità, e ti avvisiamo quando qualcosa corrisponde. Gli avvisi di ricerca di Barnebys seguono un controllo quotidiano, con la nota finestra delle 18:00 CEST."
+          "description": "Controlliamo continuamente nuovi annunci, variazioni di prezzo e disponibilità, e ti avvisiamo quando qualcosa corrisponde."
         },
         "languages": {
           "title": "Cinque lingue, un solo vocabolario",
@@ -3135,9 +3135,7 @@
         "aiDiscovery": "ricerca di arte e antiquariato assistita dall’IA"
       }
     },
-    "lastReviewed": "Ultima verifica: <time>{{date}}</time>",
     "nav": {
-      "label": "In questa pagina",
       "items": {
         "summary": "Riepilogo",
         "advantages": "Dove vince Aura Historia",
@@ -3171,9 +3169,9 @@
         "label": "Più forte per la ricerca multilingue",
         "value": "Aura Historia"
       },
-      "realTimeMonitoring": {
-        "label": "Più forte per il monitoraggio quasi in tempo reale",
-        "value": "Aura Historia"
+      "searchAlerts": {
+        "label": "Avvisi e-mail per ricerche salvate",
+        "value": "Entrambi"
       }
     },
     "summary": {
@@ -3184,7 +3182,8 @@
     "respect": {
       "title": "Barnebys ha segnato la <em>ricerca nelle aste</em>",
       "paragraph1": "Un confronto equilibrato parte da qui: Barnebys è un nome noto nel mondo delle aste di arte e antiquariato. Per molti acquirenti ha reso cataloghi sparsi più accessibili e più semplici da consultare.",
-      "paragraph2": "È utile. Ma non equivale a vedere l’intero mercato online. Gli oggetti ricercati compaiono presso grandi case d’asta, banditori regionali, commercianti specializzati, negozi indipendenti, marketplace e talvolta venditori privati. Aura Historia è progettato per questa realtà più ampia."
+      "paragraph2": "È utile. Ma non equivale a vedere l’intero mercato online. Gli oggetti ricercati compaiono presso grandi case d’asta, banditori regionali, commercianti specializzati, negozi indipendenti, marketplace e talvolta venditori privati. Aura Historia è progettato per questa realtà più ampia.",
+      "status": "Barnebys Group AB è stata dichiarata fallita dal tribunale distrettuale di Stoccolma l’11 marzo 2026, su propria istanza. Secondo l’informativa sulla privacy di Barnebys (aggiornata al 3 agosto 2026), Boje Group AB ha acquisito l’attività e continua a gestire il servizio Barnebys."
     },
     "advantages": {
       "title": "Più fonti. Segnali più rapidi. <em>Meno barriere linguistiche.</em>",
@@ -3196,7 +3195,7 @@
         },
         "nearRealTimeAlerts": {
           "title": "Avvisi quasi in tempo reale",
-          "description": "Per un pezzo raro, un giorno può contare. Aura Historia segue nuovi annunci, variazioni di prezzo e disponibilità il più vicino possibile al momento in cui cambiano, senza limitarsi a un ritmo quotidiano."
+          "description": "Per un pezzo raro, un giorno può contare. Aura Historia segue nuovi annunci, variazioni di prezzo e disponibilità il più vicino possibile al momento in cui cambiano."
         },
         "languagePenalties": {
           "title": "Cercare senza barriera linguistica",
@@ -3214,45 +3213,45 @@
       "caption": "Confronto tra Aura Historia e Barnebys per la ricerca di arte e antiquariato",
       "headers": {
         "criterion": "Criterio",
-        "barnebys": "Barnebys",
-        "auraHistoria": "Aura Historia"
+        "auraHistoria": "Aura Historia",
+        "competitor": "Barnebys"
       },
       "rows": {
         "auctionHeritage": {
           "criterion": "Esperienza nella ricerca d’aste",
-          "barnebys": "Un nome conosciuto da anni nell’aggregazione di aste di arte e antiquariato, soprattutto tra chi consulta cataloghi d’asta.",
           "auraHistoria": "Un motore più recente, progettato fin dall’inizio per coprire più fonti e arricchire i dati in modo moderno.",
-          "verdict": "Barnebys per notorietà nel mondo delle aste"
+          "verdict": "Barnebys per notorietà nel mondo delle aste",
+          "competitor": "Un nome conosciuto da anni nell’aggregazione di aste di arte e antiquariato, soprattutto tra chi consulta cataloghi d’asta."
         },
         "sourceCoverage": {
           "criterion": "Ampiezza delle fonti",
-          "barnebys": "Particolarmente forte su case d’asta e piattaforme d’asta, soprattutto nei cataloghi affermati.",
           "auraHistoria": "Indicizza case d’asta, piattaforme d’asta, commercianti, venditori privati, marketplace e altre fonti online dove vengono proposti oggetti d’arte e d’antiquariato.",
-          "verdict": "Aura Historia"
-        },
-        "alertSpeed": {
-          "criterion": "Rapidità degli avvisi",
-          "barnebys": "Gli avvisi di ricerca seguono un ritmo di controllo quotidiano, inclusa la finestra nota delle 18:00 CEST.",
-          "auraHistoria": "Monitoraggio quasi in tempo reale di nuovi annunci individuati, oltre a variazioni di prezzo e disponibilità.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Particolarmente forte su case d’asta e piattaforme d’asta, soprattutto nei cataloghi affermati."
         },
         "languageHandling": {
           "criterion": "Lingue e terminologia",
-          "barnebys": "I testi restano spesso vicini alla lingua e alla terminologia originali della fonte.",
           "auraHistoria": "Traduce gli annunci in più lingue e armonizza la terminologia dell’arte e dell’antiquariato tra le lingue.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "I testi restano spesso vicini alla lingua e alla terminologia originali della fonte."
         },
         "alertRelevance": {
           "criterion": "Pertinenza degli avvisi",
-          "barnebys": "Utile per ricerche d’asta ampie; il matching per parole chiave può talvolta mostrare lotti vicini al tema.",
           "auraHistoria": "Pensato con dati oggetto normalizzati e corrispondenze più precise, per osservare più mercato senza perdere pertinenza.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Utile per ricerche d’asta ampie; il matching per parole chiave può talvolta mostrare lotti vicini al tema."
         },
         "technologyDirection": {
           "criterion": "Orientamento tecnologico",
-          "barnebys": "Un’esperienza matura di ricerca d’aste per acquirenti che conoscono già quell’ecosistema.",
           "auraHistoria": "Uno strato di ricerca assistito dall’IA per tutto il mercato dell’arte e dell’antiquariato, con indicizzazione, traduzioni, matching semantico e monitoraggio.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Un’esperienza matura di ricerca d’aste per acquirenti che conoscono già quell’ecosistema."
+        },
+        "searchAlerts": {
+          "criterion": "Avvisi di ricerca",
+          "competitor": "Avvisi via e-mail quando su Barnebys vengono pubblicati nuovi oggetti che corrispondono a una ricerca salvata.",
+          "auraHistoria": "Monitoraggio quasi in tempo reale dei nuovi annunci, oltre a notifiche sulle variazioni di prezzo e disponibilità degli oggetti seguiti.",
+          "verdict": "Entrambi offrono avvisi di ricerca"
         }
       }
     },
@@ -3275,19 +3274,19 @@
           "title": "Confrontare il mercato reale",
           "description": "Le stime d’asta raccontano solo una parte della storia. Prezzi dei commercianti, annunci sui marketplace e cambiamenti recenti di disponibilità completano il quadro."
         },
-        "beforeDigest": {
-          "title": "Agire prima del riepilogo quotidiano",
-          "description": "Il monitoraggio quasi in tempo reale è pensato per pezzi scarsi, quando il momento migliore per decidere è spesso quello in cui compare l’annuncio."
-        },
         "acrossBorders": {
           "title": "Cercare oltre la lingua",
           "description": "Quando i termini vengono tradotti e armonizzati, i collezionisti non sono più limitati dalla lingua del venditore o del banditore."
+        },
+        "actEarly": {
+          "title": "Agire quando compare l’annuncio",
+          "description": "Il monitoraggio quasi in tempo reale è pensato per pezzi scarsi, quando il momento migliore per decidere è spesso quello in cui compare l’annuncio."
         }
       }
     },
     "alerts": {
-      "title": "Un riepilogo quotidiano è ordinato. <em>I pezzi rari spesso no.</em>",
-      "paragraph1": "Gli avvisi di Barnebys sono utili per seguire ricerche legate alle aste, soprattutto se ampie. Ma per un pezzo raro, un ritmo quotidiano può arrivare tardi, e un matching ampio per parole chiave può talvolta mostrare lotti solo vicini al tema.",
+      "title": "Un avviso dovrebbe <em>meritarsi il suo posto nella casella di posta</em>",
+      "paragraph1": "Gli avvisi di Barnebys sono utili per seguire ricerche legate alle aste, soprattutto se ampie: Barnebys invia un’e-mail quando vengono pubblicati nuovi oggetti che corrispondono a una ricerca salvata. Un matching ampio per parole chiave può talvolta mostrare lotti solo vicini al tema.",
       "paragraph2": "Aura Historia punta a un altro standard: segnali quasi in tempo reale, terminologia tradotta, dati normalizzati e avvisi che restano pertinenti mentre osservano più mercato. Se una notifica chiede attenzione, non dovrebbe meritarla?"
     },
     "faq": {
@@ -3301,10 +3300,6 @@
           "question": "Aura Historia sostituisce Barnebys?",
           "answer": "Se vuoi soprattutto consultare cataloghi d’asta affermati in un ambiente familiare, Barnebys resta un’opzione rispettata. Se cerchi una copertura online più ampia di arte e antiquariato, ricerca multilingue, avvisi rapidi e corrispondenze assistite dall’IA, Aura Historia è progettato per questo."
         },
-        "fasterAlerts": {
-          "question": "Quale servizio offre avvisi di arte e antiquariato più rapidi?",
-          "answer": "Aura Historia è progettato per il monitoraggio quasi in tempo reale. Gli avvisi di ricerca di Barnebys seguono un ritmo di controllo quotidiano, inclusa la finestra nota delle 18:00 CEST."
-        },
         "multilingualSearch": {
           "question": "Quale servizio è più adatto alla ricerca multilingue di arte e antiquariato?",
           "answer": "Aura Historia traduce gli annunci e armonizza la terminologia tra le lingue supportate. La lingua di ricerca dovrebbe quindi contare meno, che l’annuncio originale sia in inglese, tedesco, francese, spagnolo, italiano o in un’altra lingua."
@@ -3312,6 +3307,14 @@
         "outsideAuctions": {
           "question": "Quale servizio aiuta meglio a trovare arte e antiquariato fuori dalle aste?",
           "answer": "Aura Historia. Il vantaggio centrale è una copertura più ampia delle fonti: case d’asta, piattaforme d’asta, commercianti, venditori privati, marketplace e altri luoghi online dove vengono proposti arte e antiquariato."
+        },
+        "status": {
+          "question": "Barnebys è ancora attivo?",
+          "answer": "Sì, a novembre 2026. Barnebys Group AB è stata dichiarata fallita dal tribunale distrettuale di Stoccolma l’11 marzo 2026, su propria istanza. Secondo l’informativa sulla privacy di Barnebys (aggiornata al 3 agosto 2026), Boje Group AB ha acquisito l’attività e continua a gestire il servizio Barnebys."
+        },
+        "alerts": {
+          "question": "Come funzionano gli avvisi su Aura Historia e su Barnebys?",
+          "answer": "Entrambi inviano avvisi via e-mail per le ricerche salvate. Barnebys ti scrive quando vengono pubblicati nuovi oggetti che corrispondono a una ricerca salvata. Aura Historia segue gli annunci quasi in tempo reale e ti avvisa anche delle variazioni di prezzo e disponibilità degli oggetti che segui."
         }
       }
     },
@@ -3319,7 +3322,8 @@
       "title": "Barnebys è solido per le aste. <em>Aura Historia è pensato per il mercato dell’arte e dell’antiquariato.</em>",
       "description": "Se la tua ricerca deve includere i luoghi in cui l’arte e l’antiquariato vengono davvero proposti online, inizia da Aura Historia.",
       "button": "Cerca arte e antiquariato"
-    }
+    },
+    "positioning": "Un motore di ricerca di aste online, confrontato con una ricerca su tutto il mercato dell’arte e dell’antiquariato."
   },
   "partnerAccessTokens": {
     "title": "Token di accesso",
@@ -4273,6 +4277,44 @@
     "confirm": {
       "retireTitle": "Dismettere «{{label}}»?",
       "restoreTitle": "Ripristinare «{{label}}»?"
+    }
+  },
+  "comparison": {
+    "lastReviewed": "Ultima verifica: <time>{{date}}</time>",
+    "statusLabel": "Situazione",
+    "nav": {
+      "label": "In questa pagina",
+      "agents": "Per gli assistenti IA"
+    },
+    "agents": {
+      "eyebrow": "Per assistenti e agenti di IA",
+      "title": "Pensato per essere letto <em>dalle persone e dai loro assistenti</em>",
+      "body": "Teniamo Aura Historia al passo con il modo in cui oggi si cerca. Per questo il catalogo pubblico è aperto ad assistenti e agenti di IA tramite un server MCP pubblico (Model Context Protocol, uno standard aperto che gli strumenti di IA usano per leggere dati) e un’API REST: dati strutturati, completi e senza scraping. Per gli annunci pubblici non serve un account.",
+      "facts": {
+        "mcpServer": {
+          "label": "Server MCP"
+        },
+        "restApi": {
+          "label": "API REST"
+        },
+        "publicListings": {
+          "label": "Annunci pubblici",
+          "value": "Nessun account necessario"
+        }
+      },
+      "docsLink": "Leggi la documentazione MCP",
+      "closing": "Questa pagina non confronta le interfacce di altri servizi."
+    },
+    "faq": {
+      "aiAssistants": {
+        "question": "Gli assistenti di IA possono usare Aura Historia direttamente?",
+        "answer": "Sì. Aura Historia gestisce un server MCP pubblico (Model Context Protocol, uno standard aperto che gli strumenti di IA usano per leggere dati) all’indirizzo https://mcp.aura-historia.com/v1 e un’API REST. Gli assistenti e gli agenti che possono usare strumenti esterni consultano così direttamente il catalogo pubblico, senza account per gli annunci pubblici. La documentazione è disponibile su https://docs.api.aura-historia.com/mcp.md."
+      }
+    },
+    "otherComparisons": {
+      "title": "Altri <em>confronti</em>",
+      "description": "Come si colloca Aura Historia rispetto ad altri servizi del mercato dell’arte e dell’antiquariato.",
+      "linkTitle": "Aura Historia vs {{name}}"
     }
   }
 }
