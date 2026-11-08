@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
-import type { CreatedAccessTokenData, OwnAccessTokenData } from "@/client";
+import type {
+    CreatedAccessTokenData,
+    OwnAccessTokenData,
+    OwnAccessTokenListEntryData,
+} from "@/client";
 import {
     mapToAccessToken,
+    mapToAccessTokenListEntry,
     mapToCreatedAccessToken,
 } from "@/data/internal/access-tokens/AccessToken.ts";
 
@@ -35,6 +40,32 @@ describe("mapToAccessToken", () => {
             scopes: [],
             expiresAt: null,
         });
+    });
+});
+
+describe("mapToAccessTokenListEntry", () => {
+    it("maps a token entry like a single token", () => {
+        expect(mapToAccessTokenListEntry(apiAccessToken)).toEqual(mapToAccessToken(apiAccessToken));
+    });
+
+    it("leaves out a metadata document client's connection entry, which has no token ID", () => {
+        const connection: OwnAccessTokenListEntryData = {
+            userId: "usr_owner",
+            connectionId: "ocn_06e2x7g9xm8y5r0gkw4wz1n3tg",
+            name: "Claude Code",
+            scopes: ["users:read", "watchlist:read"],
+            origin: "OAuthMetadataDocument",
+            client: {
+                clientId: "https://claude.ai/oauth/claude-code-client-metadata",
+                name: "Claude Code",
+                kind: "METADATA_DOCUMENT",
+                host: "claude.ai",
+            },
+            created: "2026-11-01T09:00:00Z",
+            lastUsed: "2026-11-06T12:00:00Z",
+        };
+
+        expect(mapToAccessTokenListEntry(connection)).toBeUndefined();
     });
 });
 

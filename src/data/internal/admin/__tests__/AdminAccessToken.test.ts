@@ -31,6 +31,23 @@ describe("mapToAdminAccessToken", () => {
         expect(JSON.stringify(mapped)).not.toContain("must-not-escape");
     });
 
+    it("leaves out a metadata document client's connection entry, which has no token ID", () => {
+        expect(
+            mapToAdminAccessToken(
+                {
+                    userId: "usr_target",
+                    connectionId: "ocn_06e2x7g9xm8y5r0gkw4wz1n3tg",
+                    name: "Claude Code",
+                    scopes: ["users:read"],
+                    origin: "OAuthMetadataDocument",
+                    created: "2026-11-01T09:00:00Z",
+                    lastUsed: "2026-11-06T12:00:00Z",
+                },
+                "usr_target",
+            ),
+        ).toBeUndefined();
+    });
+
     it("rejects metadata returned for a different target user", () => {
         expect(() =>
             mapToAdminAccessToken(

@@ -18,6 +18,7 @@ import {
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import {
     mapToAccessToken,
+    mapToAccessTokenListEntry,
     mapToCreatedAccessToken,
     type AccessToken,
     type CreatedAccessToken,
@@ -38,7 +39,7 @@ export function useAccessTokens() {
                 throw new Error(getErrorMessage(mapToInternalApiError(response.error)));
             }
 
-            return response.data.map(mapToAccessToken);
+            return response.data.flatMap((entry) => mapToAccessTokenListEntry(entry) ?? []);
         },
         staleTime: 30 * 1000,
     });
