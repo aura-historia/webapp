@@ -5,7 +5,6 @@ import { Trans, useTranslation } from "react-i18next";
 import { useInView } from "react-intersection-observer";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
 import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
-import { env } from "@/env.ts";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
 import { SearchResultCard } from "@/features/search/products/components/results/SearchResultCard.tsx";
 import {
@@ -23,8 +22,6 @@ const WATCHLIST_GRID_CLASS =
 
 const PRIMARY_BUTTON_CLASS =
     "inline-flex h-11 items-center justify-center gap-2 rounded-pill bg-ink px-5 text-sm font-medium text-surface outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
-
-const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 export function WatchlistPage() {
     const { ref: sentinelRef, inView } = useInView();
@@ -100,17 +97,10 @@ export function WatchlistPage() {
                 }
                 description={t("watchlist.noResults.description")}
             >
-                {isSearchEnabled && (
-                    <Link
-                        to="/$lng/search"
-                        params={true}
-                        from="/$lng"
-                        className={PRIMARY_BUTTON_CLASS}
-                    >
-                        <Search aria-hidden="true" className="size-[15px]" strokeWidth={1.8} />
-                        {t("watchlist.noResults.cta")}
-                    </Link>
-                )}
+                <Link to="/$lng/search" params={true} from="/$lng" className={PRIMARY_BUTTON_CLASS}>
+                    <Search aria-hidden="true" className="size-[15px]" strokeWidth={1.8} />
+                    {t("watchlist.noResults.cta")}
+                </Link>
             </ResultStatePanel>
         );
     } else {

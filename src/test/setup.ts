@@ -23,8 +23,6 @@ vi.mock("@/env", () => ({
         VITE_COGNITO_DOMAIN: "auth.aura-historia.com",
         VITE_COGNITO_REDIRECT_SIGN_IN: "http://localhost:3000",
         VITE_COGNITO_REDIRECT_SIGN_OUT: "http://localhost:3000",
-        VITE_FEATURE_LOGIN_ENABLED: true,
-        VITE_FEATURE_SEARCH_ENABLED: true,
     },
 }));
 

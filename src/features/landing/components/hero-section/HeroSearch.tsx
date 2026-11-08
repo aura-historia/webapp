@@ -1,14 +1,11 @@
 import { Loader2, Search } from "lucide-react";
 import { type FormEvent, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { env } from "@/env.ts";
 import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navigationConfig.ts";
 import { useAnimatedPlaceholder } from "@/features/search/common/hooks/useAnimatedPlaceholder.ts";
 import { useGlobalSearchSubmit } from "@/features/search/common/hooks/useGlobalSearchSubmit.ts";
 import { useSearchQueryContext } from "@/features/search/common/hooks/useSearchQueryContext.tsx";
 import { cn } from "@/lib/utils.ts";
-
-const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 export const HERO_SEARCH_ID = "hero-search";
 
@@ -55,18 +52,17 @@ export function HeroSearch({ className }: { readonly className?: string }) {
                     inputMode="search"
                     enterKeyHint="search"
                     autoComplete="off"
-                    disabled={!isSearchEnabled}
                     value={value}
                     placeholder={placeholder}
                     onChange={(event) => {
                         setValue(event.target.value);
                         setQuery(event.target.value);
                     }}
-                    className="h-13 min-w-0 flex-1 basis-60 border-0 bg-transparent px-3 text-[17px] text-ink outline-none placeholder:text-ink-placeholder disabled:opacity-35 sm:h-14 [&::-webkit-search-cancel-button]:hidden"
+                    className="h-13 min-w-0 flex-1 basis-60 border-0 bg-transparent px-3 text-[17px] text-ink outline-none placeholder:text-ink-placeholder sm:h-14 [&::-webkit-search-cancel-button]:hidden"
                 />
                 <button
                     type="submit"
-                    disabled={!isSearchEnabled || isPending}
+                    disabled={isPending}
                     aria-label={t("landingPage.hero.searchSubmit")}
                     className={cn(
                         "inline-flex size-13 shrink-0 cursor-pointer items-center justify-center gap-2.5 rounded-[9px] bg-oxblood text-[15px] font-medium text-on-oxblood transition-opacity hover:opacity-90 disabled:opacity-35 sm:h-14 sm:w-auto sm:px-[26px]",

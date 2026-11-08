@@ -271,10 +271,8 @@ the catalogue tools, and the webapp copies none of their definitions by hand. Th
   They navigate with the router and keep the current language. A full page load would destroy the
   document and the pending call. They resolve with the opened page's absolute URL. They reject when
   the page is not found or fails to load, when a later navigation replaced it, or when the agent
-  cancels. The search tool needs a query of at least `MIN_SEARCH_QUERY_LENGTH` characters, like the
-  search page, and is left out while `VITE_FEATURE_SEARCH_ENABLED` is off. `registerTool` rejects
-  duplicate names, so their names start with `open`, a prefix the snapshot sync refuses for backend
-  tools.
+  cancels. `registerTool` rejects duplicate names, so their names start with `open`, a prefix the
+  snapshot sync refuses for backend tools.
 - Tool descriptions address agents and are written in English, like the backend's, so they are not
   translated. The tools have no `title`.
 - To verify a deployment, scan [isitagentready.com](https://isitagentready.com/aura-historia.com)

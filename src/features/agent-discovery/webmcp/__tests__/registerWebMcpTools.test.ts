@@ -47,7 +47,6 @@ function register(
         signal,
         pageOrigin,
         mcpOrigin,
-        searchEnabled: true,
     });
 }
 

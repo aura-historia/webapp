@@ -24,10 +24,8 @@ import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { env } from "@/env.ts";
 
 const PAGE_SIZE = 30;
-const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 const EMPTY_RESULT: SearchResultData = { products: [], size: 0, total: 0, searchAfter: undefined };
 
@@ -102,7 +100,6 @@ export function useSearch(
             language: parseLanguage(i18n.language),
             currency: preferences.currency,
         }),
-        enabled: isSearchEnabled,
         queryFn: async ({ pageParam }) => {
             if (matchesNoListingAvailability(searchArgs)) return EMPTY_RESULT;
 

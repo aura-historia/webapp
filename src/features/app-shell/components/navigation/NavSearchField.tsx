@@ -1,13 +1,10 @@
 import { ArrowRight, Loader2, Search } from "lucide-react";
 import { type FormEvent, useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { env } from "@/env.ts";
 import { useGlobalSearchSubmit } from "@/features/search/common/hooks/useGlobalSearchSubmit.ts";
 import { useSearchQueryContext } from "@/features/search/common/hooks/useSearchQueryContext.tsx";
 import { cn } from "@/lib/utils.ts";
 import { NAV_FOCUS_CLASS } from "./navigationConfig.ts";
-
-const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 interface NavSearchFieldProps {
     /**
@@ -106,12 +103,11 @@ export function NavSearchField({ variant, onSubmitted, className }: NavSearchFie
                 inputMode="search"
                 enterKeyHint="search"
                 autoComplete="off"
-                disabled={!isSearchEnabled}
                 value={value}
                 onChange={(event) => setValue(event.target.value)}
                 placeholder={isMenu ? t("header.searchLabel") : t("header.searchPlaceholder")}
                 className={cn(
-                    "h-10 min-w-0 flex-1 border-0 bg-transparent text-ink outline-none placeholder:text-ink-placeholder disabled:opacity-35 [&::-webkit-search-cancel-button]:hidden",
+                    "h-10 min-w-0 flex-1 border-0 bg-transparent text-ink outline-none placeholder:text-ink-placeholder [&::-webkit-search-cancel-button]:hidden",
                     variant === "compact" ? "text-sm" : "text-base",
                 )}
             />
@@ -119,7 +115,7 @@ export function NavSearchField({ variant, onSubmitted, className }: NavSearchFie
                 <button
                     type="submit"
                     aria-label={t("header.searchSubmit")}
-                    disabled={!isSearchEnabled || isPending}
+                    disabled={isPending}
                     className={cn(
                         "inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-md bg-oxblood text-on-oxblood disabled:opacity-35",
                         NAV_FOCUS_CLASS,
