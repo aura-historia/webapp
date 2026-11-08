@@ -3939,7 +3939,7 @@
         "value": "Aura Historia"
       },
       "dealerAndFixedPrice": {
-        "label": "Stärker für Händlerware und Festpreisangebote",
+        "label": "Stärker für die Suche nach Händler- und Shopware über Websites hinweg",
         "value": "Aura Historia"
       },
       "monitoring": {
@@ -3950,17 +3950,17 @@
     "summary": {
       "title": "Die <em>Kurzfassung</em>",
       "paragraph1": "Aura Historia ist eine Alternative zu Invaluable für Sammler, die über einen einzelnen Auktionsmarktplatz hinaus suchen möchten: Auktionshäuser, Händler, Shops und Marktplätze an einem Ort, mit Festpreisangeboten neben Auktionsangeboten.",
-      "paragraph2": "Invaluable bleibt der Ort, um sich bei etablierten Auktionshäusern auf seiner Plattform zu registrieren und zu bieten. Aura Historia veranstaltet keine Auktionen und nimmt keine Gebote an. Sie zeigt, was wo angeboten wird, und geboten oder gekauft wird beim Anbieter."
+      "paragraph2": "Invaluable bleibt ein Ort, um sich bei etablierten Auktionshäusern auf seiner Plattform zu registrieren und zu bieten. Aura Historia veranstaltet keine Auktionen und nimmt keine Gebote an. Sie zeigt, was wo angeboten wird, und geboten oder gekauft wird beim Anbieter."
     },
     "respect": {
       "title": "Invaluable ist ein etablierter <em>Ort zum Bieten</em>",
-      "paragraph1": "Ein fairer Vergleich beginnt hier: Bei Invaluable registrieren sich Sammler und bieten bei Auktionshäusern auf der ganzen Welt. Laut der Mitteilung vom 1. Oktober 2026 bedienen die Geschäftsbereiche Invaluable und AuctionZip Tausende von Auktionshäusern und bieten Zugang zu rund vier Millionen registrierten Bietern weltweit; im Geschäftsjahr, das am 31. Dezember 2025 endete, wickelten sie einen Bruttowarenumsatz von mehr als 500 Millionen US-Dollar ab.",
+      "paragraph1": "Ein fairer Vergleich beginnt hier: Bei Invaluable registrieren sich Sammler und bieten bei Auktionshäusern auf der ganzen Welt. Laut der Mitteilung von Liquidity Services vom 1. Oktober 2026 bedienen die Geschäftsbereiche Invaluable und AuctionZip Tausende von Auktionshäusern und bieten Zugang zu rund vier Millionen registrierten Bietern weltweit; im Geschäftsjahr, das am 31. Dezember 2025 endete, wickelten sie einen Bruttowarenumsatz von mehr als 500 Millionen US-Dollar ab.",
       "paragraph2": "Aura Historia versucht nicht, das zu ersetzen. Sie beantwortet eine andere Frage: Was wird bei Auktionshäusern, Händlern, Shops und Marktplätzen angeboten, Festpreisangebote eingeschlossen? Invaluable bietet außerdem seine Preisdaten als Abonnement an. Das ist ein anderes Werkzeug und ergänzt eine Suche wie unsere.",
-      "status": "Am 1. Oktober 2026 gab Liquidity Services (Nasdaq: LQDT) bekannt, die Übernahme von Auction Holdings, Inc. abgeschlossen zu haben, die Invaluable, AuctionZip und RFC Auction Systems betreibt."
+      "status": "Am 1. Oktober 2026 gab Liquidity Services (Nasdaq: LQDT) bekannt, die Übernahme von Auction Holdings, Inc., der Betreiberin von Invaluable, AuctionZip und RFC Auction Systems, abgeschlossen zu haben."
     },
     "advantages": {
       "title": "Mehr als Auktionslose, <em>eine Suche über Verkaufsorte hinweg</em>",
-      "description": "Der Unterschied ist die Bandbreite: Händler und Shops neben Auktionshäusern, Objekte vieler Verkaufsorte nebeneinander, einheitliche Begriffe in fünf Sprachen und Beobachtung über Anbieter hinweg.",
+      "description": "Der Unterschied ist die Bandbreite: Händler und Shops neben Auktionshäusern, Objekte vieler Verkaufsorte nebeneinander, vereinheitlichte Terminologie in fünf Sprachen und Beobachtung über Anbieter hinweg.",
       "cards": {
         "moreThanAuctionLots": {
           "title": "Mehr als Auktionslose",
@@ -3971,8 +3971,8 @@
           "description": "Objekte vieler Verkaufsorte stehen in einer Ergebnisliste, statt im Katalog eines einzelnen Anbieters."
         },
         "terminologyAcrossLanguages": {
-          "title": "Einheitliche Begriffe über Sprachen hinweg",
-          "description": "Angebote werden übersetzt und die Begriffe sind über Deutsch, Englisch, Spanisch, Französisch und Italienisch hinweg abgestimmt, sodass eine Suche in einer Sprache Objekte findet, die in einer anderen beschrieben sind."
+          "title": "Vereinheitlichte Terminologie über Sprachen hinweg",
+          "description": "Angebote werden übersetzt und die Terminologie ist über Deutsch, Englisch, Spanisch, Französisch und Italienisch hinweg vereinheitlicht, sodass eine Suche in einer Sprache Objekte findet, die in einer anderen beschrieben sind."
         },
         "monitoringAcrossProviders": {
           "title": "Beobachtung über Anbieter hinweg",
@@ -3992,44 +3992,44 @@
       "rows": {
         "onPlatformBidding": {
           "criterion": "Bieten auf der Plattform",
-          "competitor": "Sammler registrieren sich und bieten bei Invaluable in Live- und Timed-Auktionen, in einer Bietkonsole mit Sprachübersetzung und Währungsumrechnung. Die Zahlungsarten legt jedes Auktionshaus selbst fest.",
+          "competitor": "Sammler registrieren sich zum Bieten, das jeweilige Auktionshaus genehmigt die Teilnahme. Geboten wird bei Invaluable in Live-Auktionen und Auktionen mit festem Ende; Live-Auktionen laufen in einer Bietkonsole mit Sprachübersetzung und Währungsumrechnung. Die Zahlungsarten legt jedes Auktionshaus selbst fest.",
           "auraHistoria": "Veranstaltet keine Auktionen und nimmt keine Gebote an. „Zur Seite des Anbieters“ öffnet das Angebot auf der eigenen Seite des Anbieters.",
           "verdict": "Invaluable beim Bieten"
         },
         "auctionHouseReach": {
           "criterion": "Reichweite bei Auktionshäusern",
-          "competitor": "Bedient gemeinsam mit AuctionZip Tausende von Auktionshäusern und bietet Zugang zu rund vier Millionen registrierten Bietern weltweit, laut der Mitteilung vom 1. Oktober 2026.",
+          "competitor": "Bedient gemeinsam mit AuctionZip Tausende von Auktionshäusern und bietet Zugang zu rund vier Millionen registrierten Bietern weltweit, laut der Mitteilung von Liquidity Services vom 1. Oktober 2026.",
           "auraHistoria": "Indexiert Auktionshäuser, Händler, Shops und Marktplätze anhand ihrer öffentlichen Angebote.",
           "verdict": "Invaluable bei der Reichweite"
         },
         "providerTypes": {
-          "criterion": "Anbietertypen",
-          "competitor": "Auktionshäuser, die auf der Plattform verkaufen, und die Sammler, die bei ihnen bieten.",
-          "auraHistoria": "Auktionshäuser, Händler, Shops und Marktplätze in einer Suche.",
+          "criterion": "Anbieter über eine Plattform hinaus",
+          "competitor": "Auktionshäuser und laut dem Hilfecenter auch Händler und Galerien, die bei Invaluable verkaufen.",
+          "auraHistoria": "Auktionshäuser, Händler, Shops und Marktplätze, jeweils auf der eigenen Website oder Plattform, in einer Suche.",
           "verdict": "Aura Historia"
         },
         "dealersAndFixedPrice": {
-          "criterion": "Händler und Festpreisangebote",
-          "competitor": "Beschreibt sich als Marktplatz für Nachlass-, Kunst-, Antiquitäten- und Sammlerauktionen.",
-          "auraHistoria": "Zeigt die Ware von Händlern und Shops, Festpreisangebote eingeschlossen, neben Auktionsangeboten.",
-          "verdict": "Aura Historia"
+          "criterion": "Ware von Händlern und Shops",
+          "competitor": "Beschreibt sich als Marktplatz für Nachlass-, Kunst-, Antiquitäten- und Sammlerauktionen. Das Hilfecenter erwähnt außerdem „Buy Now“-Artikel sowie Händler- und Galeriepartner.",
+          "auraHistoria": "Durchsucht die Ware von Händlern und Shops auf deren eigenen Websites, Festpreisangebote eingeschlossen, neben Auktionsangeboten.",
+          "verdict": "Aura Historia über Websites hinweg"
         },
         "monitoring": {
           "criterion": "Beobachtung über einen einzelnen Marktplatz hinaus",
-          "competitor": "Suchen und Lose speichern sowie Stichwörtern, Künstlern, Verkäufern und Kategorien folgen, um Hinweise zu dem zu erhalten, was bei Invaluable eingestellt wird.",
+          "competitor": "Lose und Suchen speichern sowie Stichwörtern, Künstlern, Verkäufern und Kategorien folgen, um Benachrichtigungen zu dem zu erhalten, was bei Invaluable eingestellt wird.",
           "auraHistoria": "Merklisten, gespeicherte Suchen und Benachrichtigungen decken alle Anbieter im Index ab, einschließlich Preis- und Verfügbarkeitsänderungen bei beobachteten Objekten.",
           "verdict": "Aura Historia"
         },
         "priceData": {
           "criterion": "Preisdaten",
-          "competitor": "Ein Preisarchiv mit auf Auktionen erzielten Preisen und eigene Preisdaten, die als Abonnement angeboten werden.",
+          "competitor": "Ein Preisarchiv mit auf Auktionen erzielten Preisen, bei dem erweiterte Suche und einige Auktionsinformationen per Abonnement verfügbar sind, und eigene Preisdaten, die als Abonnement angeboten werden.",
           "auraHistoria": "Preisverlauf eines Angebots und ähnliche Objekte auf den Angebotsseiten. Keine Bewertungen.",
           "verdict": "Ergänzend"
         },
         "languageHandling": {
           "criterion": "Umgang mit Sprachen",
-          "competitor": "Beschreibt seine Plattform als mehrwährungs- und mehrsprachig, mit Sprachübersetzung und Währungsumrechnung in der Bietkonsole.",
-          "auraHistoria": "Fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch, Italienisch), mit übersetzten Angeboten und abgestimmten Begriffen.",
+          "competitor": "Beschreibt seine Plattform als mehrwährungs- und mehrsprachig und bietet Bietern Werkzeuge für Sprachübersetzung und Währungsumrechnung.",
+          "auraHistoria": "Fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch, Italienisch), mit übersetzten Angeboten und vereinheitlichter Terminologie.",
           "verdict": "Beide übersetzen"
         }
       }
@@ -4051,11 +4051,11 @@
         },
         "offersSideBySide": {
           "title": "Angebote nebeneinander sehen",
-          "description": "Händlerpreise, Auktionsangebote und Marktplatzangebote stehen in einer Ergebnisliste, sodass Sie vergleichen können, was jetzt verfügbar ist."
+          "description": "Angebotspreise von Händlern, Auktionsangebote und Marktplatzangebote stehen in einer Ergebnisliste, sodass Sie vergleichen können, was jetzt verfügbar ist."
         },
         "acrossLanguages": {
           "title": "In fünf Sprachen suchen",
-          "description": "Wenn Angebote übersetzt und Begriffe abgestimmt sind, ist ein Sammler weniger durch die Sprache des Verkäufers oder Auktionators eingeschränkt."
+          "description": "Wenn Angebote übersetzt und die Terminologie vereinheitlicht ist, ist ein Sammler weniger durch die Sprache des Verkäufers oder Auktionators eingeschränkt."
         },
         "watchAnObject": {
           "title": "Ein einzelnes Objekt beobachten",
@@ -4085,11 +4085,11 @@
         },
         "dealersAndFixedPrice": {
           "question": "Welcher Dienst ist besser für Händler und Festpreisangebote bei Kunst und Antiquitäten?",
-          "answer": "Aura Historia. Händler und Shops mit ihren Festpreisangeboten gehören zu dem, was sie durchsucht. Invaluable beschreibt sich als Marktplatz für Nachlass-, Kunst-, Antiquitäten- und Sammlerauktionen."
+          "answer": "Für die Suche in der Ware vieler Händler und Shops an einem Ort: Aura Historia. Invaluable beschreibt sich als Marktplatz für Nachlass-, Kunst-, Antiquitäten- und Sammlerauktionen; sein Hilfecenter erwähnt außerdem „Buy Now“-Artikel sowie Händler- und Galeriepartner bei Invaluable."
         },
         "auctionZip": {
           "question": "Ist Invaluable dasselbe wie AuctionZip?",
-          "answer": "Nein. Laut der Mitteilung vom 1. Oktober 2026 betreibt Invaluable einen globalen Online-Auktionsmarktplatz, während AuctionZip einen auf die USA ausgerichteten Online-Auktionsmarktplatz und ein Verzeichnis für lokale und regionale Auktionatoren betreibt. Beide werden von demselben Unternehmen betrieben."
+          "answer": "Nein. Laut der Mitteilung von Liquidity Services vom 1. Oktober 2026 betreibt Invaluable einen globalen Online-Auktionsmarktplatz, während AuctionZip einen auf die USA ausgerichteten Online-Auktionsmarktplatz und ein Verzeichnis für lokale und regionale Auktionatoren betreibt. Beide werden von demselben Unternehmen betrieben."
         }
       }
     },

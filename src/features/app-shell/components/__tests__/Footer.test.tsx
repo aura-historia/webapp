@@ -168,7 +168,11 @@ describe("Footer", () => {
             "href",
             "/de/consent-settings",
         );
-        expect(company.queryByRole("link", { name: /Barnebys|Artsy|Invaluable/ })).toBeNull();
+        for (const comparison of COMPARISON_REGISTRY) {
+            expect(
+                company.queryByRole("link", { name: new RegExp(comparison.competitorName) }),
+            ).toBeNull();
+        }
     });
 
     it("lists every published comparison in its own group between Partners and Company", async () => {
@@ -179,16 +183,11 @@ describe("Footer", () => {
         expect(links.map((link) => link.getAttribute("href"))).toEqual(
             COMPARISON_REGISTRY.map((comparison) => `/de/compare/${comparison.slug}`),
         );
-        expect(
-            comparisons.getByRole("link", { name: "Aura Historia vs. Barnebys" }),
-        ).toHaveAttribute("href", "/de/compare/barnebys");
-        expect(comparisons.getByRole("link", { name: "Aura Historia vs. Artsy" })).toHaveAttribute(
-            "href",
-            "/de/compare/artsy",
+        expect(links.map((link) => link.textContent)).toEqual(
+            COMPARISON_REGISTRY.map(
+                (comparison) => `Aura Historia vs. ${comparison.competitorName}`,
+            ),
         );
-        expect(
-            comparisons.getByRole("link", { name: "Aura Historia vs. Invaluable" }),
-        ).toHaveAttribute("href", "/de/compare/invaluable");
 
         const titles = screen
             .getAllByRole("navigation")

@@ -3939,7 +3939,7 @@
         "value": "Aura Historia"
       },
       "dealerAndFixedPrice": {
-        "label": "Best for dealer and fixed-price stock",
+        "label": "Best for searching dealer and shop stock across websites",
         "value": "Aura Historia"
       },
       "monitoring": {
@@ -3950,11 +3950,11 @@
     "summary": {
       "title": "The short <em>version</em>",
       "paragraph1": "Aura Historia is an alternative to Invaluable for collectors who want to search beyond one auction marketplace: auction houses, dealers, shops and marketplaces in one place, with fixed-price stock next to auction listings.",
-      "paragraph2": "Invaluable remains the place to register and bid at established auction houses on its platform. Aura Historia does not run auctions or take bids. It shows what is offered where, and you bid or buy with the provider."
+      "paragraph2": "Invaluable remains a place to register and bid at established auction houses on its platform. Aura Historia does not run auctions or take bids. It shows what is offered where, and you bid or buy with the provider."
     },
     "respect": {
       "title": "Invaluable is an established <em>venue for bidding</em>",
-      "paragraph1": "A fair comparison starts here: Invaluable is where collectors register and bid at auction houses around the world. According to the announcement of 1 October 2026, the Invaluable and AuctionZip businesses serve thousands of auction houses and give access to approximately four million registered bidders globally, and they processed more than $500 million of gross merchandise sales in the fiscal year ended 31 December 2025.",
+      "paragraph1": "A fair comparison starts here: Invaluable is where collectors register and bid at auction houses around the world. According to Liquidity Services' announcement of 1 October 2026, the Invaluable and AuctionZip businesses serve thousands of auction houses and give access to approximately four million registered bidders globally, and they processed more than $500 million of gross merchandise sales in the fiscal year ended 31 December 2025.",
       "paragraph2": "Aura Historia does not try to replace that. It answers a different question: what is offered across auction houses, dealers, shops and marketplaces, fixed-price stock included. Invaluable also offers its pricing data as a subscription service. That is a different tool, and it complements a search like ours.",
       "status": "On 1 October 2026, Liquidity Services (Nasdaq: LQDT) announced that it had completed its acquisition of Auction Holdings, Inc., which operates Invaluable, AuctionZip and RFC Auction Systems."
     },
@@ -3992,43 +3992,43 @@
       "rows": {
         "onPlatformBidding": {
           "criterion": "Bidding on the platform",
-          "competitor": "Collectors register and bid in live and timed auctions on Invaluable, in a bidding console with language translation and currency conversion. Each auction house sets its own payment methods.",
+          "competitor": "Collectors register to bid, which each auction house approves, and bid in live and timed auctions on Invaluable. Live auctions run in a bidding console with language translation and currency conversion. Each auction house sets its own payment methods.",
           "auraHistoria": "Does not run auctions or take bids. “Go to provider” opens the listing on the provider's own page.",
           "verdict": "Invaluable for bidding"
         },
         "auctionHouseReach": {
           "criterion": "Auction-house reach",
-          "competitor": "With AuctionZip, serves thousands of auction houses and gives access to approximately four million registered bidders globally, according to the announcement of 1 October 2026.",
+          "competitor": "With AuctionZip, serves thousands of auction houses and gives access to approximately four million registered bidders globally, according to Liquidity Services' announcement of 1 October 2026.",
           "auraHistoria": "Indexes auction houses, dealers, shops and marketplaces from their public listings.",
           "verdict": "Invaluable for reach"
         },
         "providerTypes": {
-          "criterion": "Provider types",
-          "competitor": "Auction houses that sell on the platform, and the collectors who bid with them.",
-          "auraHistoria": "Auction houses, dealers, shops and marketplaces in one search.",
+          "criterion": "Providers beyond one platform",
+          "competitor": "Auction houses and, according to its help centre, also dealers and galleries who sell on Invaluable.",
+          "auraHistoria": "Auction houses, dealers, shops and marketplaces, each on its own website or platform, in one search.",
           "verdict": "Aura Historia"
         },
         "dealersAndFixedPrice": {
-          "criterion": "Dealers and fixed-price stock",
-          "competitor": "Describes itself as a marketplace for estate, fine art, antiques and collectibles auctions.",
-          "auraHistoria": "Lists dealer and shop stock, fixed-price offers included, next to auction listings.",
-          "verdict": "Aura Historia"
+          "criterion": "Dealer and shop stock",
+          "competitor": "Describes itself as a marketplace for estate, fine art, antiques and collectibles auctions. Its help centre also mentions Buy Now items and dealer and gallery partners.",
+          "auraHistoria": "Searches the stock of dealers and shops on their own websites, fixed-price offers included, next to auction listings.",
+          "verdict": "Aura Historia across websites"
         },
         "monitoring": {
           "criterion": "Monitoring beyond one marketplace",
-          "competitor": "Save searches and lots, and follow keywords, artists, sellers and categories to get alerts for what is listed on Invaluable.",
+          "competitor": "Save lots and searches, and follow keywords, artists, sellers and categories to receive alerts about what is listed on Invaluable.",
           "auraHistoria": "Watchlists, saved searches and notifications cover every provider in the index, with price and availability changes on watched objects.",
           "verdict": "Aura Historia"
         },
         "priceData": {
           "criterion": "Price data",
-          "competitor": "A Price Archive of prices realized at auction, and proprietary pricing data offered as a subscription service.",
+          "competitor": "A Price Archive of prices realized at auction, with advanced search and some auction information by subscription, and proprietary pricing data offered as a subscription service.",
           "auraHistoria": "Price history of a listing and similar objects on listing pages. No valuations.",
           "verdict": "Complementary"
         },
         "languageHandling": {
           "criterion": "Language handling",
-          "competitor": "Describes its platform as multi-currency and multi-lingual, with language translation and currency conversion in its bidding console.",
+          "competitor": "Describes its platform as multi-currency and multi-lingual, and offers bidders language translation and currency conversion tools.",
           "auraHistoria": "Five languages (German, English, Spanish, French, Italian), with translated listings and aligned terminology.",
           "verdict": "Both translate"
         }
@@ -4085,11 +4085,11 @@
         },
         "dealersAndFixedPrice": {
           "question": "Which service is better for dealers and fixed-price art and antiques?",
-          "answer": "Aura Historia. Dealers and shops, with their fixed-price listings, are part of what it searches. Invaluable describes itself as a marketplace for estate, fine art, antiques and collectibles auctions."
+          "answer": "For searching the stock of many dealers and shops in one place, Aura Historia. Invaluable describes itself as a marketplace for estate, fine art, antiques and collectibles auctions, and its help centre also mentions Buy Now items and dealer and gallery partners on Invaluable."
         },
         "auctionZip": {
           "question": "Is Invaluable the same as AuctionZip?",
-          "answer": "No. According to the announcement of 1 October 2026, Invaluable operates a global online auction marketplace, while AuctionZip operates a U.S.-focused online auction marketplace and directory for local and regional auctioneers. One company operates both."
+          "answer": "No. According to Liquidity Services' announcement of 1 October 2026, Invaluable operates a global online auction marketplace, while AuctionZip operates a U.S.-focused online auction marketplace and directory for local and regional auctioneers. One company operates both."
         }
       }
     },

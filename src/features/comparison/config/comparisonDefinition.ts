@@ -5,7 +5,8 @@ import type { PageMetaKey } from "@/lib/seo/pageHeadMeta.ts";
 
 /**
  * Which service a verdict favours: Aura Historia's carry the oxblood mark, the competitor's stay
- * outlined, and a tie (both offer the same thing) is a neutral outline.
+ * outlined, and a tie (both offer the same thing, or the two are complementary rather than rivals)
+ * is a neutral outline.
  */
 export type ComparisonWinner = "aura" | "competitor" | "tie";
 

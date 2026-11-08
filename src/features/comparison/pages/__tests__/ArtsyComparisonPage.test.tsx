@@ -8,13 +8,15 @@ import {
     getComparisonFaq,
     getComparisonNav,
 } from "@/features/comparison/config/comparisonDefinition.ts";
+import { COMPARISON_REGISTRY } from "@/features/comparison/config/comparisonRegistry.ts";
 import { ComparisonPage } from "@/features/comparison/pages/ComparisonPage.tsx";
+import {
+    BANNED_WORDING,
+    type LocaleCode,
+    LOCALES,
+    leaves,
+} from "@/features/comparison/pages/__tests__/comparisonCopyRules.ts";
 import i18n from "@/i18n/i18nForTests";
-import translationDE from "@/i18n/locales/de/translation.json";
-import translationEN from "@/i18n/locales/en/translation.json";
-import translationES from "@/i18n/locales/es/translation.json";
-import translationFR from "@/i18n/locales/fr/translation.json";
-import translationIT from "@/i18n/locales/it/translation.json";
 import { renderWithRouter } from "@/test/utils";
 
 function t(key: string) {
@@ -202,10 +204,18 @@ describe("ComparisonPage with the Artsy definition", () => {
             name: plain("comparison.otherComparisons.title"),
         });
         const links = within(block).getAllByRole("link");
-        expect(links.map((link) => link.getAttribute("href"))).toEqual([
-            "/de/compare/barnebys",
-            "/de/compare/invaluable",
-        ]);
+        const others = COMPARISON_REGISTRY.filter((entry) => entry.slug !== "artsy");
+        expect(links).toHaveLength(COMPARISON_REGISTRY.length - 1);
+        expect(links.map((link) => link.getAttribute("href"))).toEqual(
+            others.map((entry) => `/de/compare/${entry.slug}`),
+        );
+        expect(links.map((link) => link.textContent)).toEqual(
+            others.map((entry) =>
+                expect.stringContaining(
+                    i18n.t("comparison.otherComparisons.linkTitle", { name: entry.competitorName }),
+                ),
+            ),
+        );
 
         expect(
             screen.getByRole("link", { name: t("compareArtsyPage.hero.primaryCta") }),
@@ -221,33 +231,12 @@ describe("ComparisonPage with the Artsy definition", () => {
     });
 });
 
-const LOCALES = {
-    de: translationDE,
-    en: translationEN,
-    es: translationES,
-    fr: translationFR,
-    it: translationIT,
-} as const;
-
-/**
- * Wording the comparison rules of the epic (#1262) keep off the page: speed and fee comparisons,
- * finances and staffing, unqualified superlatives, hype. Stems are anchored where a short stem
- * would hit unrelated words ("costituisce", "frais" as in "fraises").
- */
-const BANNED_WORDING: Record<keyof typeof LOCALES, RegExp> = {
-    en: /\b(faster|slower|cheaper|quickly|instant\w*|immediate\w*|fast|outdated|broken|struggling|layoffs?|bankrupt\w*|insolven\w*|commissions?|fees?|more accurate|more complete|real-time|guaranteed|the only|no other|cutting-edge)\b/i,
-    de: /(schneller|langsamer|sofort|umgehend|günstiger|veraltet|insolvenz|entlassung|kommission|gebühr|genauer|vollständiger|echtzeit|garantiert|der einzige|einzigartig)/i,
-    es: /(más rápid|más lent|al instante|inmediat|más barat|obsolet|despidos|quiebra|comisi[oó]n|tarifa|más preciso|más complet|tiempo real|garantiz|el único)/i,
-    fr: /(plus rapide|plus lent|instantan|immédiat|moins cher|plus cher|obsolète|licenci|faillite|commission|\bfrais\b|plus précis|plus complet|temps réel|garanti|le seul)/i,
-    it: /(più veloce|più lent|istantane|immediat|più economic|obsolet|licenziament|fallimento|commission|\bcosti\b|più accurat|più complet|tempo reale|garantit|l[’']unico)/i,
-};
-
 /**
  * The announcement says "shared leadership"; the wire release even corrected "ownership" to
  * "leadership". The statement must use that phrase in every language and nothing that reads as a
  * sale, merger or parent company.
  */
-const SHARED_LEADERSHIP: Record<keyof typeof LOCALES, string> = {
+const SHARED_LEADERSHIP: Record<LocaleCode, string> = {
     en: "shared leadership",
     de: "gemeinsamer Leitung",
     es: "dirección conjunta",
@@ -255,7 +244,7 @@ const SHARED_LEADERSHIP: Record<keyof typeof LOCALES, string> = {
     it: "guida condivisa",
 };
 
-const OWNERSHIP_WORDING: Record<keyof typeof LOCALES, RegExp> = {
+const OWNERSHIP_WORDING: Record<LocaleCode, RegExp> = {
     en: /(acquir|bought|\bowned\b|\bowner|ownership|took over|taken over|takeover|parent company|subsidiar|merger|merged)/i,
     de: /(übernahm|übernimmt|übernehm|übernommen|kauft|gekauft|erwirbt|besitz|eigentümer|fusion|tochter|muttergesellschaft)/i,
     es: /(adquir|compra|compró|absorb|propiedad|propietari|fusi[oó]n|filial|matriz)/i,
@@ -263,14 +252,8 @@ const OWNERSHIP_WORDING: Record<keyof typeof LOCALES, RegExp> = {
     it: /(acquis|acquist|rilevat|propriet|fusione|controllata)/i,
 };
 
-function leaves(value: unknown): string[] {
-    if (typeof value === "string") return [value];
-    if (value && typeof value === "object") return Object.values(value).flatMap(leaves);
-    return [];
-}
-
 describe.each(Object.entries(LOCALES))("Artsy comparison copy in %s", (lng, locale) => {
-    const code = lng as keyof typeof LOCALES;
+    const code = lng as LocaleCode;
     const copy = leaves(locale.compareArtsyPage);
 
     it("keeps the rules' banned wording and hype off the page", () => {

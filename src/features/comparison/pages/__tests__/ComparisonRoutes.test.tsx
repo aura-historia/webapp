@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { ARTSY_COMPARISON } from "@/features/comparison/config/artsyComparison.ts";
 import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
+import { COMPARISON_REGISTRY } from "@/features/comparison/config/comparisonRegistry.ts";
 import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableComparison.ts";
 import i18n from "@/i18n/i18nForTests";
 import { Route as ArtsyRoute } from "@/routes/$lng.compare.artsy.tsx";
@@ -30,6 +31,15 @@ function headOf(route: (typeof ROUTES)[number][2]): HeadResult {
     expect(head).toBeDefined();
     return (head as (context: unknown) => HeadResult)({});
 }
+
+it("has a route test entry for every registered comparison", () => {
+    expect(ROUTES.map(([slug]) => slug).sort()).toEqual(
+        COMPARISON_REGISTRY.map((entry) => entry.slug).sort(),
+    );
+    for (const [, definition] of ROUTES) {
+        expect(COMPARISON_REGISTRY).toContain(definition);
+    }
+});
 
 describe.each(ROUTES)("the %s comparison route", (slug, definition, route) => {
     it("is the thin route of its definition", () => {

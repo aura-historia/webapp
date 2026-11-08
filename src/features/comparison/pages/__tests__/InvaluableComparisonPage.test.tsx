@@ -10,12 +10,14 @@ import {
 import { COMPARISON_REGISTRY } from "@/features/comparison/config/comparisonRegistry.ts";
 import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableComparison.ts";
 import { ComparisonPage } from "@/features/comparison/pages/ComparisonPage.tsx";
+import {
+    BANNED_WORDING,
+    type LocaleCode,
+    LOCALES,
+    leafEntries,
+    leaves,
+} from "@/features/comparison/pages/__tests__/comparisonCopyRules.ts";
 import i18n from "@/i18n/i18nForTests";
-import translationDE from "@/i18n/locales/de/translation.json";
-import translationEN from "@/i18n/locales/en/translation.json";
-import translationES from "@/i18n/locales/es/translation.json";
-import translationFR from "@/i18n/locales/fr/translation.json";
-import translationIT from "@/i18n/locales/it/translation.json";
 import { renderWithRouter } from "@/test/utils";
 
 function t(key: string) {
@@ -81,10 +83,11 @@ describe("ComparisonPage with the Invaluable definition", () => {
             "#faq",
             "#verdict",
         ]);
-        expect(within(nav).getByRole("link", { name: /Wie beides zusammenpasst/ })).toHaveAttribute(
-            "href",
-            "#together",
-        );
+        expect(
+            within(nav).getByRole("link", {
+                name: plain("compareInvaluablePage.nav.items.together"),
+            }),
+        ).toHaveAttribute("href", "#together");
         expect(getComparisonNav(INVALUABLE_COMPARISON).map((item) => item.marker)).toEqual([
             "I",
             "III",
@@ -94,6 +97,17 @@ describe("ComparisonPage with the Invaluable definition", () => {
             "VII",
             "→",
         ]);
+    });
+
+    it("renders the 'together' chapter from its own copy", async () => {
+        const { container } = await renderPage();
+
+        const together = container.querySelector("section#together");
+        expect(together?.querySelector("h2#comparison-together-heading")).toHaveTextContent(
+            plain("compareInvaluablePage.together.title"),
+        );
+        expect(together).toHaveTextContent(t("compareInvaluablePage.together.paragraph1"));
+        expect(together).toHaveTextContent(t("compareInvaluablePage.together.paragraph2"));
     });
 
     it("concedes the bidding verdict to Invaluable in the quick answer", async () => {
@@ -222,11 +236,16 @@ describe("ComparisonPage with the Invaluable definition", () => {
             name: plain("comparison.otherComparisons.title"),
         });
         const links = within(block).getAllByRole("link");
+        const others = COMPARISON_REGISTRY.filter((entry) => entry.slug !== "invaluable");
+        expect(links).toHaveLength(COMPARISON_REGISTRY.length - 1);
         expect(links.map((link) => link.getAttribute("href"))).toEqual(
-            COMPARISON_REGISTRY.filter((entry) => entry.slug !== "invaluable").map(
-                (entry) => `/de/compare/${entry.slug}`,
-            ),
+            others.map((entry) => `/de/compare/${entry.slug}`),
         );
+        others.forEach((entry, index) => {
+            expect(links[index]).toHaveTextContent(
+                i18n.t("comparison.otherComparisons.linkTitle", { name: entry.competitorName }),
+            );
+        });
 
         expect(
             screen.getByRole("link", { name: t("compareInvaluablePage.hero.primaryCta") }),
@@ -243,32 +262,11 @@ describe("ComparisonPage with the Invaluable definition", () => {
     });
 });
 
-const LOCALES = {
-    de: translationDE,
-    en: translationEN,
-    es: translationES,
-    fr: translationFR,
-    it: translationIT,
-} as const;
-
-/**
- * Wording the comparison rules of the epic (#1262) keep off the page: speed and fee comparisons,
- * finances and staffing, unqualified superlatives, hype. Stems are anchored where a short stem
- * would hit unrelated words ("costituisce", "frais" as in "fraises").
- */
-const BANNED_WORDING: Record<keyof typeof LOCALES, RegExp> = {
-    en: /\b(faster|slower|cheaper|quickly|instant\w*|immediate\w*|fast|outdated|broken|struggling|layoffs?|bankrupt\w*|insolven\w*|commissions?|fees?|premium|more accurate|more complete|real-time|guaranteed|the only|no other|cutting-edge|unlike)\b/i,
-    de: /(schneller|langsamer|sofort|umgehend|günstiger|veraltet|insolvenz|entlassung|kommission|gebühr|aufgeld|genauer|vollständiger|echtzeit|garantiert|der einzige|einzigartig)/i,
-    es: /(más rápid|más lent|al instante|inmediat|más barat|obsolet|despidos|quiebra|comisi[oó]n|tarifa|prima de|más preciso|más complet|tiempo real|garantiz|el único)/i,
-    fr: /(plus rapide|plus lent|instantan|immédiat|moins cher|plus cher|obsolète|licenci|faillite|commission|\bfrais\b|plus précis|plus complet|temps réel|garanti|le seul)/i,
-    it: /(più veloce|più lent|istantane|immediat|più economic|obsolet|licenziament|fallimento|commission|\bcosti\b|più accurat|più complet|tempo reale|garantit|l[’']unico)/i,
-};
-
 /**
  * The page never predicts what the acquisition means: no roadmap or AI plans from the
  * announcement, no named executives, no purchase price, and no "leading" self-description.
  */
-const PREDICTIONS_AND_SUPERLATIVES: Record<keyof typeof LOCALES, RegExp> = {
+const PREDICTIONS_AND_SUPERLATIVES: Record<LocaleCode, RegExp> = {
     en: /(roadmap|\bAI\b|Malone|\$80|\bleading\b|world's)/i,
     de: /(roadmap|\bKI\b|Malone|80 Millionen|führend)/i,
     es: /(roadmap|\bIA\b|Malone|80 millones|líder)/i,
@@ -280,43 +278,51 @@ const PREDICTIONS_AND_SUPERLATIVES: Record<keyof typeof LOCALES, RegExp> = {
  * Words that state the ownership change. They belong to `respect.status` alone: the page states
  * the acquisition once, as a dated fact.
  */
-const OWNERSHIP_WORDING: Record<keyof typeof LOCALES, RegExp> = {
-    en: /(acquir|acquisition|bought|\bowned\b|ownership|takeover|taken over|parent company|subsidiar|merger|merged)/i,
-    de: /(übernahm|übernehm|übernommen|erwirbt|erwarb|besitzer|eigentümer|fusion|tochterunternehmen|muttergesellschaft)/i,
-    es: /(adquisici|adquir|compró|absorb|propiedad|propietari|fusi[oó]n|filial|matriz)/i,
-    fr: /(rachat|racheté|acquisition|acquér|propriétaire|appartient|fusion|filiale)/i,
-    it: /(acquisizion|rilevat|propriet|fusione|controllata)/i,
+const OWNERSHIP_WORDING: Record<LocaleCode, RegExp> = {
+    en: /(acquir|acquisition|bought|\bowned\b|\bowns\b|\bowner|ownership|purchased|takeover|taken over|parent company|subsidiar|merger|merged|\bsold\b)/i,
+    de: /(übernahm|übernehm|übernommen|erwirbt|erwarb|besitzer|eigentümer|gehört|verkauft|fusion|tochterunternehmen|muttergesellschaft)/i,
+    es: /(adquisici|adquir|compró|comprada|absorb|pertenece|propiedad|propietari|fusi[oó]n|filial|matriz|\bvendida\b)/i,
+    fr: /(rachat|racheté|acquisition|acquér|propriétaire|appartient|\bvendue\b|fusion|filiale)/i,
+    it: /(acquisizion|acquistat[oa]|rilevat|appartiene|propriet|\bvenduta\b|fusione|controllata)/i,
 };
 
-/** Draft claims the research corrected: the older reach figure and platform-wide checkout. */
-const CORRECTED_CLAIMS = /(5[.,\s]?000\+?|checkout)/i;
+/** Language-independent names that only the acquisition sentence carries. */
+const ACQUISITION_NAMES = /(Auction Holdings|LQDT|RFC Auction Systems)/;
 
-function leaves(value: unknown, path = ""): Array<[string, string]> {
-    if (typeof value === "string") return [[path, value]];
-    if (value && typeof value === "object") {
-        return Object.entries(value).flatMap(([key, child]) =>
-            leaves(child, path ? `${path}.${key}` : key),
-        );
-    }
-    return [];
-}
+/** The older reach figure ("5,000+", "5.000", "5000"), without matching "15,000" or "25 000". */
+const OLDER_REACH_FIGURE = /(?<![\d.,])5[.,\s]?000(?!\d)/;
+
+/**
+ * Payment wording. Invaluable does not take payment for every auction house, so the page mentions
+ * payment once, where it says each auction house sets its own methods.
+ */
+const PAYMENT_WORDING: Record<LocaleCode, RegExp> = {
+    en: /(payment|\bpay(s|ing)?\b|checkout)/i,
+    de: /(zahlung|bezahl|checkout)/i,
+    es: /(\bpago|pagar|checkout)/i,
+    fr: /(paiement|payer|checkout)/i,
+    it: /(pagament|pagare|checkout)/i,
+};
 
 describe.each(Object.entries(LOCALES))("Invaluable comparison copy in %s", (lng, locale) => {
-    const code = lng as keyof typeof LOCALES;
-    const entries = leaves(locale.compareInvaluablePage);
+    const code = lng as LocaleCode;
+    const entries = leafEntries(locale.compareInvaluablePage);
     const copy = entries.map(([, text]) => text);
+    // The meta title and description are the search-result text, so they follow the same rules.
+    const searchResultCopy = leaves(locale.meta.compareInvaluable);
 
-    it("keeps the rules' banned wording, hype and predictions off the page", () => {
+    it("keeps the rules' banned wording, hype and predictions off the page and its meta text", () => {
         expect(copy.length).toBeGreaterThan(60);
-        for (const text of copy) {
+        expect(searchResultCopy).toHaveLength(2);
+        for (const text of [...copy, ...searchResultCopy]) {
             expect(text).not.toMatch(BANNED_WORDING[code]);
             expect(text).not.toMatch(PREDICTIONS_AND_SUPERLATIVES[code]);
-            expect(text).not.toMatch(CORRECTED_CLAIMS);
+            expect(text).not.toMatch(OLDER_REACH_FIGURE);
             expect(text).not.toMatch(/!/);
         }
     });
 
-    it("states the acquisition once, dated and attributed to the announcement", () => {
+    it("states the acquisition once, dated and with the company that announced it", () => {
         const { status } = locale.compareInvaluablePage.respect;
 
         expect(status).toContain("2026");
@@ -324,22 +330,37 @@ describe.each(Object.entries(LOCALES))("Invaluable comparison copy in %s", (lng,
         expect(status).toContain("Auction Holdings, Inc.");
         expect(status).toMatch(OWNERSHIP_WORDING[code]);
 
-        const mentioning = entries
-            .filter(([, text]) => OWNERSHIP_WORDING[code].test(text))
-            .map(([path]) => path);
-        expect(mentioning).toEqual(["respect.status"]);
+        const pathsMatching = (pattern: RegExp) =>
+            entries.filter(([, text]) => pattern.test(text)).map(([path]) => path);
+        expect(pathsMatching(OWNERSHIP_WORDING[code])).toEqual(["respect.status"]);
+        expect(pathsMatching(ACQUISITION_NAMES)).toEqual(["respect.status"]);
     });
 
-    it("attributes the reach figures to both businesses together, with their years", () => {
-        const { paragraph1 } = locale.compareInvaluablePage.respect;
+    it("attributes the reach figures to both businesses together, with their years and issuer", () => {
+        const page = locale.compareInvaluablePage;
 
-        expect(paragraph1).toContain("Invaluable");
-        expect(paragraph1).toContain("AuctionZip");
-        expect(paragraph1).toContain("2026");
-        expect(paragraph1).toContain("2025");
-        expect(locale.compareInvaluablePage.scorecard.rows.auctionHouseReach.competitor).toContain(
-            "AuctionZip",
-        );
+        expect(page.respect.paragraph1).toContain("Invaluable");
+        expect(page.respect.paragraph1).toContain("AuctionZip");
+        expect(page.respect.paragraph1).toContain("2026");
+        expect(page.respect.paragraph1).toContain("2025");
+        expect(page.scorecard.rows.auctionHouseReach.competitor).toContain("AuctionZip");
+        // Sentences that rely on the announcement name who made it, since FAQ answers are quoted
+        // on their own.
+        for (const text of [
+            page.respect.paragraph1,
+            page.scorecard.rows.auctionHouseReach.competitor,
+            page.faq.items.auctionZip.answer,
+        ]) {
+            expect(text).toContain("Liquidity Services");
+        }
+    });
+
+    it("mentions payment once, where it says each auction house sets its own methods", () => {
+        const paths = entries
+            .filter(([, text]) => PAYMENT_WORDING[code].test(text))
+            .map(([path]) => path);
+
+        expect(paths).toEqual(["scorecard.rows.onPlatformBidding.competitor"]);
     });
 
     it("names the listing page's own 'Go to provider' label where it says what happens next", () => {
@@ -353,20 +374,23 @@ describe.each(Object.entries(LOCALES))("Invaluable comparison copy in %s", (lng,
     });
 
     it("says Aura Historia takes no bids and is not affiliated with Invaluable", () => {
-        const affiliation: Record<keyof typeof LOCALES, RegExp> = {
+        const affiliation: Record<LocaleCode, RegExp> = {
             en: /not affiliated with Invaluable/,
             de: /in keiner Verbindung zu Invaluable/,
             es: /no está vinculada a Invaluable/,
             fr: /n’est pas affiliée à Invaluable/,
             it: /non è affiliata a Invaluable/,
         };
+        const no: Record<LocaleCode, string> = {
+            en: "No.",
+            de: "Nein.",
+            es: "No.",
+            fr: "Non.",
+            it: "No.",
+        };
 
         expect(locale.compareInvaluablePage.together.paragraph2).toMatch(affiliation[code]);
-        expect(
-            locale.compareInvaluablePage.faq.items.bid.answer.startsWith(
-                { en: "No.", de: "Nein.", es: "No.", fr: "Non.", it: "No." }[code],
-            ),
-        ).toBe(true);
+        expect(locale.compareInvaluablePage.faq.items.bid.answer.startsWith(no[code])).toBe(true);
     });
 
     it("lists the same provider types as the Barnebys comparison in this language", () => {
@@ -378,7 +402,7 @@ describe.each(Object.entries(LOCALES))("Invaluable comparison copy in %s", (lng,
     it("writes Invaluable as a plain name and says nothing about agent interfaces", () => {
         expect(locale.compareInvaluablePage.scorecard.headers.competitor).toBe("Invaluable");
         expect(locale.compareInvaluablePage.quickVerdicts.onlineBidding.value).toBe("Invaluable");
-        for (const text of copy) {
+        for (const text of [...copy, ...searchResultCopy]) {
             expect(text).not.toMatch(/MCP|llms\.txt|\bAPI\b/);
         }
     });

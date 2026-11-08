@@ -52,7 +52,7 @@ export const FIXTURE_TOGETHER_LABEL = "Zusammenspiel";
 
 /**
  * Adds the fixture's copy to the test i18n instance: Barnebys' German copy, renamed, with its
- * alerts chapter copied as the `together` chapter.
+ * alerts chapter reworded as the `together` chapter.
  */
 export function registerFixtureTranslations() {
     const base = structuredClone(translationDE.compareBarnebysPage);
@@ -61,7 +61,12 @@ export function registerFixtureTranslations() {
     base.positioning = "Ein Testdienst für die Vorlage.";
     const copy = {
         ...base,
-        together: structuredClone(base.alerts),
+        // Unrelated to the alerts copy, so a test can tell which chapter rendered which strings.
+        together: {
+            title: "Zusammenspiel im <em>Testkapitel</em>",
+            paragraph1: "Erster Absatz des Zusammenspiel-Kapitels.",
+            paragraph2: "Zweiter Absatz des Zusammenspiel-Kapitels.",
+        },
         nav: { items: { ...base.nav.items, together: FIXTURE_TOGETHER_LABEL } },
     };
     i18n.addResourceBundle("de", "translation", { [FIXTURE_NAMESPACE]: copy }, true, true);

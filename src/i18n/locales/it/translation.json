@@ -3747,7 +3747,7 @@
         "value": "Aura Historia"
       },
       "dealerAndFixedPrice": {
-        "label": "Più forte per l’offerta dei commercianti e gli annunci a prezzo fisso",
+        "label": "Più forte per cercare l’offerta di commercianti e negozi su più siti web",
         "value": "Aura Historia"
       },
       "monitoring": {
@@ -3758,11 +3758,11 @@
     "summary": {
       "title": "La versione <em>breve</em>",
       "paragraph1": "Aura Historia è un’alternativa a Invaluable per chi vuole cercare oltre un solo marketplace d’asta: case d’asta, commercianti, negozi e marketplace in un unico posto, con gli annunci a prezzo fisso accanto a quelli d’asta.",
-      "paragraph2": "Invaluable resta il luogo in cui registrarsi e fare offerte presso case d’asta affermate sulla sua piattaforma. Aura Historia non organizza aste e non accetta offerte. Mostra che cosa viene offerto e dove, e si fa un’offerta o si acquista presso il fornitore."
+      "paragraph2": "Invaluable resta un luogo in cui registrarsi e fare offerte presso case d’asta affermate sulla sua piattaforma. Aura Historia non organizza aste e non accetta offerte. Mostra che cosa viene offerto e dove, e si fa un’offerta o si acquista presso il fornitore."
     },
     "respect": {
       "title": "Invaluable è un <em>luogo affermato in cui fare offerte</em>",
-      "paragraph1": "Un confronto corretto parte da qui: su Invaluable i collezionisti si registrano e fanno offerte presso case d’asta di tutto il mondo. Secondo l’annuncio del 1° ottobre 2026, le attività Invaluable e AuctionZip servono migliaia di case d’asta e danno accesso a circa quattro milioni di offerenti registrati in tutto il mondo; nell’esercizio chiuso il 31 dicembre 2025 hanno gestito più di 500 milioni di dollari statunitensi di vendite lorde di merci.",
+      "paragraph1": "Un confronto corretto parte da qui: su Invaluable i collezionisti si registrano e fanno offerte presso case d’asta di tutto il mondo. Secondo l’annuncio di Liquidity Services del 1° ottobre 2026, le attività Invaluable e AuctionZip servono migliaia di case d’asta e danno accesso a circa quattro milioni di offerenti registrati in tutto il mondo; nell’esercizio chiuso il 31 dicembre 2025 hanno gestito più di 500 milioni di dollari statunitensi di vendite lorde di merci.",
       "paragraph2": "Aura Historia non cerca di sostituire tutto questo. Risponde a un’altra domanda: che cosa viene offerto tra case d’asta, commercianti, negozi e marketplace, annunci a prezzo fisso compresi. Invaluable offre anche i suoi dati sui prezzi come servizio in abbonamento. È uno strumento diverso e completa una ricerca come la nostra.",
       "status": "Il 1° ottobre 2026 Liquidity Services (Nasdaq: LQDT) ha annunciato di aver completato l’acquisizione di Auction Holdings, Inc., che gestisce Invaluable, AuctionZip e RFC Auction Systems."
     },
@@ -3800,43 +3800,43 @@
       "rows": {
         "onPlatformBidding": {
           "criterion": "Offerte sulla piattaforma",
-          "competitor": "I collezionisti si registrano e fanno offerte in aste dal vivo e a tempo su Invaluable, in una console per le offerte con traduzione delle lingue e conversione delle valute. Ogni casa d’asta stabilisce i propri metodi di pagamento.",
+          "competitor": "I collezionisti si registrano per fare offerte e ogni casa d’asta approva la partecipazione. Si fanno offerte su Invaluable in aste dal vivo e a tempo; le aste dal vivo si svolgono in una console per le offerte con traduzione delle lingue e conversione delle valute. Ogni casa d’asta stabilisce i propri metodi di pagamento.",
           "auraHistoria": "Non organizza aste e non accetta offerte. “Vai al fornitore” apre l’annuncio sulla pagina del fornitore stesso.",
           "verdict": "Invaluable per le offerte"
         },
         "auctionHouseReach": {
           "criterion": "Portata presso le case d’asta",
-          "competitor": "Insieme ad AuctionZip serve migliaia di case d’asta e dà accesso a circa quattro milioni di offerenti registrati in tutto il mondo, secondo l’annuncio del 1° ottobre 2026.",
+          "competitor": "Insieme ad AuctionZip serve migliaia di case d’asta e dà accesso a circa quattro milioni di offerenti registrati in tutto il mondo, secondo l’annuncio di Liquidity Services del 1° ottobre 2026.",
           "auraHistoria": "Indicizza case d’asta, commercianti, negozi e marketplace a partire dai loro annunci pubblici.",
           "verdict": "Invaluable per la portata"
         },
         "providerTypes": {
-          "criterion": "Tipi di fornitori",
-          "competitor": "Case d’asta che vendono sulla piattaforma e i collezionisti che fanno offerte presso di esse.",
-          "auraHistoria": "Case d’asta, commercianti, negozi e marketplace in un’unica ricerca.",
+          "criterion": "Fornitori oltre una singola piattaforma",
+          "competitor": "Case d’asta e, secondo il suo centro assistenza, anche commercianti e gallerie che vendono su Invaluable.",
+          "auraHistoria": "Case d’asta, commercianti, negozi e marketplace, ciascuno sul proprio sito web o sulla propria piattaforma, in un’unica ricerca.",
           "verdict": "Aura Historia"
         },
         "dealersAndFixedPrice": {
-          "criterion": "Commercianti e prezzi fissi",
-          "competitor": "Si descrive come un marketplace per aste di successioni, belle arti, antiquariato e oggetti da collezione.",
-          "auraHistoria": "Mostra l’offerta di commercianti e negozi, proposte a prezzo fisso comprese, accanto agli annunci d’asta.",
-          "verdict": "Aura Historia"
+          "criterion": "Offerta di commercianti e negozi",
+          "competitor": "Si descrive come un marketplace per aste di beni ereditari, belle arti, antiquariato e oggetti da collezione. Il suo centro assistenza cita anche articoli “Buy Now” e partner commercianti e gallerie.",
+          "auraHistoria": "Cerca l’offerta di commercianti e negozi sui loro siti web, proposte a prezzo fisso comprese, accanto agli annunci d’asta.",
+          "verdict": "Aura Historia su più siti web"
         },
         "monitoring": {
           "criterion": "Monitoraggio oltre un singolo marketplace",
-          "competitor": "Salvare ricerche e lotti, e seguire parole chiave, artisti, venditori e categorie per ricevere avvisi su ciò che viene pubblicato su Invaluable.",
+          "competitor": "Salvare lotti e ricerche, e seguire parole chiave, artisti, venditori e categorie per ricevere avvisi su ciò che viene pubblicato su Invaluable.",
           "auraHistoria": "Liste dei preferiti, ricerche salvate e notifiche coprono tutti i fornitori dell’indice, con le variazioni di prezzo e disponibilità degli oggetti seguiti.",
           "verdict": "Aura Historia"
         },
         "priceData": {
           "criterion": "Dati sui prezzi",
-          "competitor": "Un archivio dei prezzi realizzati alle aste e dati sui prezzi propri offerti in abbonamento.",
+          "competitor": "Un archivio dei prezzi realizzati alle aste, in cui la ricerca avanzata e alcune informazioni sulle aste sono disponibili in abbonamento, e dati sui prezzi propri offerti in abbonamento.",
           "auraHistoria": "Storico dei prezzi di un annuncio e oggetti simili nelle pagine degli annunci. Nessuna valutazione.",
           "verdict": "Complementari"
         },
         "languageHandling": {
           "criterion": "Gestione delle lingue",
-          "competitor": "Descrive la sua piattaforma come multivaluta e multilingue, con traduzione delle lingue e conversione delle valute nella console per le offerte.",
+          "competitor": "Descrive la sua piattaforma come multivaluta e multilingue e offre a chi fa offerte strumenti di traduzione delle lingue e conversione delle valute.",
           "auraHistoria": "Cinque lingue (tedesco, inglese, spagnolo, francese, italiano), con annunci tradotti e terminologia allineata.",
           "verdict": "Entrambi traducono"
         }
@@ -3892,12 +3892,12 @@
           "answer": "No. Aura Historia non organizza aste e non accetta offerte. Nella pagina di un annuncio, “Vai al fornitore” apre l’annuncio sulla pagina del fornitore stesso, in una nuova scheda; lì si fa la registrazione, l’offerta o l’acquisto."
         },
         "dealersAndFixedPrice": {
-          "question": "Quale servizio è migliore per commercianti e arte e antiquariato a prezzo fisso?",
-          "answer": "Aura Historia. Commercianti e negozi, con i loro annunci a prezzo fisso, fanno parte di ciò che cerca. Invaluable si descrive come un marketplace per aste di successioni, belle arti, antiquariato e oggetti da collezione."
+          "question": "Quale servizio è migliore per i commercianti e per l’arte e l’antiquariato a prezzo fisso?",
+          "answer": "Per cercare l’offerta di molti commercianti e negozi in un unico posto, Aura Historia. Invaluable si descrive come un marketplace per aste di beni ereditari, belle arti, antiquariato e oggetti da collezione; il suo centro assistenza cita anche articoli “Buy Now” e partner commercianti e gallerie su Invaluable."
         },
         "auctionZip": {
           "question": "Invaluable è la stessa cosa di AuctionZip?",
-          "answer": "No. Secondo l’annuncio del 1° ottobre 2026, Invaluable gestisce un marketplace d’asta online globale, mentre AuctionZip gestisce un marketplace d’asta online incentrato sugli Stati Uniti e una directory di banditori locali e regionali. Entrambi sono gestiti dalla stessa società."
+          "answer": "No. Secondo l’annuncio di Liquidity Services del 1° ottobre 2026, Invaluable gestisce un marketplace d’asta online globale, mentre AuctionZip gestisce un marketplace d’asta online incentrato sugli Stati Uniti e una directory di banditori locali e regionali. Entrambi sono gestiti dalla stessa società."
         }
       }
     },

@@ -86,23 +86,54 @@ describe("ComparisonPage with a second definition", () => {
         expect(order.indexOf("together")).toBe(order.indexOf("alerts") + 1);
         expect(order.indexOf("faq")).toBe(order.indexOf("together") + 1);
 
+        // Each chapter renders its own copy and nothing of the other's.
+        const alerts = container.querySelector("section#alerts");
         const together = container.querySelector("section#together");
-        expect(together?.getAttribute("aria-labelledby")).toBe("comparison-together-heading");
+        for (const part of ["paragraph1", "paragraph2"] as const) {
+            const alertsCopy = i18n.t(`${FIXTURE_NAMESPACE}.alerts.${part}`);
+            const togetherCopy = i18n.t(`${FIXTURE_NAMESPACE}.together.${part}`);
+            expect(togetherCopy).not.toBe(alertsCopy);
+            expect(alerts).toHaveTextContent(alertsCopy);
+            expect(alerts).not.toHaveTextContent(togetherCopy);
+            expect(together).toHaveTextContent(togetherCopy);
+            expect(together).not.toHaveTextContent(alertsCopy);
+        }
         expect(together?.querySelector("h2#comparison-together-heading")).toHaveTextContent(
             i18n.t(`${FIXTURE_NAMESPACE}.together.title`).replace(/<\/?em>/g, ""),
         );
-        expect(together).toHaveTextContent(i18n.t(`${FIXTURE_NAMESPACE}.together.paragraph1`));
-        expect(together).toHaveTextContent(i18n.t(`${FIXTURE_NAMESPACE}.together.paragraph2`));
-        // The alerts chapter keeps its own id, heading id and copy.
-        expect(container.querySelector("section#alerts")?.getAttribute("aria-labelledby")).toBe(
-            "comparison-alerts-heading",
+        expect(alerts?.querySelector("h2#comparison-alerts-heading")).toHaveTextContent(
+            i18n.t(`${FIXTURE_NAMESPACE}.alerts.title`).replace(/<\/?em>/g, ""),
         );
+        expect(together?.getAttribute("aria-labelledby")).toBe("comparison-together-heading");
+        expect(alerts?.getAttribute("aria-labelledby")).toBe("comparison-alerts-heading");
 
         const nav = screen.getByRole("navigation", { name: i18n.t("comparison.nav.label") });
         expect(
             within(nav).getByRole("link", { name: new RegExp(FIXTURE_TOGETHER_LABEL) }),
         ).toHaveAttribute("href", "#together");
+        expect(getComparisonNav(withBoth).map((item) => item.marker)).toEqual([
+            "I",
+            "III",
+            "IV",
+            "V",
+            "VI",
+            "VII",
+            "→",
+        ]);
     });
+
+    it.each(COMPARISON_REGISTRY.map((entry) => [entry.slug, entry] as const))(
+        "renders the %s page without a raw translation key",
+        async (_slug, definition) => {
+            const { container } = await renderWithin(<ComparisonPage definition={definition} />);
+
+            // A missing or mis-addressed key renders as its own path, e.g. "compareXPage.faq.title".
+            expect(container.textContent).not.toMatch(/\bcompare[A-Za-z0-9]+Page\.[a-z]/i);
+            expect(container.textContent).not.toMatch(
+                /\bcomparison\.(nav|lastReviewed|statusLabel|otherComparisons)\b/,
+            );
+        },
+    );
 
     it("links to the other published comparisons, never to itself", async () => {
         await renderWithin(<ComparisonPage definition={FIXTURE_COMPARISON} />);

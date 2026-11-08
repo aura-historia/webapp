@@ -3747,7 +3747,7 @@
         "value": "Aura Historia"
       },
       "dealerAndFixedPrice": {
-        "label": "Más fuerte para el stock de comerciantes y los anuncios a precio fijo",
+        "label": "Más fuerte para buscar el stock de comerciantes y tiendas en distintos sitios web",
         "value": "Aura Historia"
       },
       "monitoring": {
@@ -3758,11 +3758,11 @@
     "summary": {
       "title": "La versión <em>corta</em>",
       "paragraph1": "Aura Historia es una alternativa a Invaluable para quienes quieren buscar más allá de un solo marketplace de subastas: casas de subastas, comerciantes, tiendas y marketplaces en un solo lugar, con los anuncios a precio fijo junto a los de subasta.",
-      "paragraph2": "Invaluable sigue siendo el lugar donde registrarse y pujar en casas de subastas consolidadas en su plataforma. Aura Historia no organiza subastas ni recibe pujas. Muestra qué se ofrece y dónde, y se puja o se compra con el proveedor."
+      "paragraph2": "Invaluable sigue siendo un lugar donde registrarse y pujar en casas de subastas consolidadas en su plataforma. Aura Historia no organiza subastas ni recibe pujas. Muestra qué se ofrece y dónde, y se puja o se compra con el proveedor."
     },
     "respect": {
       "title": "Invaluable es un <em>lugar para pujar</em> consolidado",
-      "paragraph1": "Una comparación justa empieza aquí: en Invaluable, los coleccionistas se registran y pujan en casas de subastas de todo el mundo. Según el anuncio del 1 de octubre de 2026, los negocios Invaluable y AuctionZip prestan servicio a miles de casas de subastas y dan acceso a aproximadamente cuatro millones de postores registrados en todo el mundo; en el ejercicio fiscal cerrado el 31 de diciembre de 2025 procesaron más de 500 millones de dólares estadounidenses en ventas brutas de mercancías.",
+      "paragraph1": "Una comparación justa empieza aquí: en Invaluable, los coleccionistas se registran y pujan en casas de subastas de todo el mundo. Según el anuncio de Liquidity Services del 1 de octubre de 2026, los negocios Invaluable y AuctionZip prestan servicio a miles de casas de subastas y dan acceso a aproximadamente cuatro millones de postores registrados en todo el mundo; en el ejercicio fiscal cerrado el 31 de diciembre de 2025 procesaron más de 500 millones de dólares estadounidenses en ventas brutas de mercancías.",
       "paragraph2": "Aura Historia no intenta sustituir eso. Responde a otra pregunta: qué se ofrece entre casas de subastas, comerciantes, tiendas y marketplaces, con los anuncios a precio fijo incluidos. Invaluable también ofrece sus datos de precios como servicio de suscripción. Es otra herramienta y complementa una búsqueda como la nuestra.",
       "status": "El 1 de octubre de 2026, Liquidity Services (Nasdaq: LQDT) anunció que había completado la adquisición de Auction Holdings, Inc., que opera Invaluable, AuctionZip y RFC Auction Systems."
     },
@@ -3800,45 +3800,45 @@
       "rows": {
         "onPlatformBidding": {
           "criterion": "Pujas en la plataforma",
-          "competitor": "Los coleccionistas se registran y pujan en subastas en directo y con cierre programado en Invaluable, con una consola de pujas que ofrece traducción de idiomas y conversión de divisas. Cada casa de subastas fija sus métodos de pago.",
+          "competitor": "Los coleccionistas se registran para pujar y cada casa de subastas aprueba su participación. Se puja en Invaluable en subastas en directo y con cierre programado; las subastas en directo se desarrollan en una consola de pujas con traducción de idiomas y conversión de divisas. Cada casa de subastas fija sus métodos de pago.",
           "auraHistoria": "No organiza subastas ni recibe pujas. “Ir al proveedor” abre el anuncio en la página del propio proveedor.",
           "verdict": "Invaluable para pujar"
         },
         "auctionHouseReach": {
           "criterion": "Alcance entre casas de subastas",
-          "competitor": "Junto con AuctionZip, presta servicio a miles de casas de subastas y da acceso a aproximadamente cuatro millones de postores registrados en todo el mundo, según el anuncio del 1 de octubre de 2026.",
+          "competitor": "Junto con AuctionZip, presta servicio a miles de casas de subastas y da acceso a aproximadamente cuatro millones de postores registrados en todo el mundo, según el anuncio de Liquidity Services del 1 de octubre de 2026.",
           "auraHistoria": "Indexa casas de subastas, comerciantes, tiendas y marketplaces a partir de sus anuncios públicos.",
           "verdict": "Invaluable por alcance"
         },
         "providerTypes": {
-          "criterion": "Tipos de proveedores",
-          "competitor": "Casas de subastas que venden en la plataforma y los coleccionistas que pujan en ellas.",
-          "auraHistoria": "Casas de subastas, comerciantes, tiendas y marketplaces en una sola búsqueda.",
+          "criterion": "Proveedores más allá de una plataforma",
+          "competitor": "Casas de subastas y, según su centro de ayuda, también comerciantes y galerías que venden en Invaluable.",
+          "auraHistoria": "Casas de subastas, comerciantes, tiendas y marketplaces, cada uno en su propio sitio web o plataforma, en una sola búsqueda.",
           "verdict": "Aura Historia"
         },
         "dealersAndFixedPrice": {
-          "criterion": "Comerciantes y anuncios a precio fijo",
-          "competitor": "Se describe como un marketplace de subastas de herencias, bellas artes, antigüedades y objetos de colección.",
-          "auraHistoria": "Muestra el stock de comerciantes y tiendas, con las ofertas a precio fijo incluidas, junto a los anuncios de subasta.",
-          "verdict": "Aura Historia"
+          "criterion": "Stock de comerciantes y tiendas",
+          "competitor": "Se describe como un marketplace de subastas de herencias, bellas artes, antigüedades y objetos de colección. Su centro de ayuda menciona además artículos “Buy Now” y socios comerciantes y galerías.",
+          "auraHistoria": "Busca el stock de comerciantes y tiendas en sus propios sitios web, con las ofertas a precio fijo incluidas, junto a los anuncios de subasta.",
+          "verdict": "Aura Historia entre sitios web"
         },
         "monitoring": {
           "criterion": "Seguimiento más allá de un solo marketplace",
-          "competitor": "Guardar búsquedas y lotes, y seguir palabras clave, artistas, vendedores y categorías para recibir avisos de lo que se publica en Invaluable.",
+          "competitor": "Guardar lotes y búsquedas, y seguir palabras clave, artistas, vendedores y categorías para recibir alertas de lo que se publica en Invaluable.",
           "auraHistoria": "Las listas de seguimiento, las búsquedas guardadas y las notificaciones cubren todos los proveedores del índice, con los cambios de precio y disponibilidad de los objetos seguidos.",
           "verdict": "Aura Historia"
         },
         "priceData": {
           "criterion": "Datos de precios",
-          "competitor": "Un archivo de precios con los precios alcanzados en subastas y datos de precios propios que se ofrecen mediante suscripción.",
+          "competitor": "Un archivo de precios con los precios alcanzados en subastas, donde la búsqueda avanzada y parte de la información de las subastas se ofrecen mediante suscripción, y datos de precios propios que se ofrecen mediante suscripción.",
           "auraHistoria": "Historial de precios de un anuncio y objetos similares en las páginas de anuncio. Sin valoraciones.",
           "verdict": "Complementarios"
         },
         "languageHandling": {
           "criterion": "Gestión de idiomas",
-          "competitor": "Describe su plataforma como multidivisa y multilingüe, con traducción de idiomas y conversión de divisas en su consola de pujas.",
+          "competitor": "Describe su plataforma como multidivisa y multilingüe, y ofrece a quienes pujan herramientas de traducción de idiomas y conversión de divisas.",
           "auraHistoria": "Cinco idiomas (alemán, inglés, español, francés, italiano), con anuncios traducidos y terminología unificada.",
-          "verdict": "Ambas traducen"
+          "verdict": "Ambos traducen"
         }
       }
     },
@@ -3892,12 +3892,12 @@
           "answer": "No. Aura Historia no organiza subastas ni recibe pujas. En la página de un anuncio, “Ir al proveedor” abre el anuncio en la página del propio proveedor, en una pestaña nueva, y allí se hace el registro, la puja o la compra."
         },
         "dealersAndFixedPrice": {
-          "question": "¿Qué servicio es mejor para comerciantes y arte y antigüedades a precio fijo?",
-          "answer": "Aura Historia. Los comerciantes y las tiendas, con sus anuncios a precio fijo, forman parte de lo que busca. Invaluable se describe como un marketplace de subastas de herencias, bellas artes, antigüedades y objetos de colección."
+          "question": "¿Qué servicio es mejor para los comerciantes y para el arte y las antigüedades a precio fijo?",
+          "answer": "Para buscar el stock de muchos comerciantes y tiendas en un solo lugar, Aura Historia. Invaluable se describe como un marketplace de subastas de herencias, bellas artes, antigüedades y objetos de colección; su centro de ayuda menciona además artículos “Buy Now” y socios comerciantes y galerías en Invaluable."
         },
         "auctionZip": {
           "question": "¿Es Invaluable lo mismo que AuctionZip?",
-          "answer": "No. Según el anuncio del 1 de octubre de 2026, Invaluable opera un marketplace de subastas en línea de alcance mundial, mientras que AuctionZip opera un marketplace de subastas en línea centrado en Estados Unidos y un directorio de subastadores locales y regionales. Ambos los opera la misma empresa."
+          "answer": "No. Según el anuncio de Liquidity Services del 1 de octubre de 2026, Invaluable opera un marketplace de subastas en línea de alcance mundial, mientras que AuctionZip opera un marketplace de subastas en línea centrado en Estados Unidos y un directorio de subastadores locales y regionales. Ambos los opera la misma empresa."
         }
       }
     },
