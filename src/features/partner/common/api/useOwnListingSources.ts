@@ -33,6 +33,8 @@ export interface OwnListingSources {
     readonly isLoadingMore: boolean;
     /** The latest next-page read failed; the loaded pages stay and the page can be requested again. */
     readonly isLoadMoreError: boolean;
+    /** The loaded pages are being read again from the first page, e.g. after `retry`. */
+    readonly isRefreshing: boolean;
     readonly loadMore: () => void;
     /** Reads the loaded pages again from the first page. */
     readonly retry: () => void;
@@ -87,6 +89,7 @@ export function useOwnListingSources(enabled: boolean): OwnListingSources {
         canLoadMore,
         isLoadingMore: query.isFetchingNextPage,
         isLoadMoreError: query.isFetchNextPageError,
+        isRefreshing: query.isRefetching && !query.isFetchingNextPage,
         loadMore: () => {
             // Requesting a page cancels a running refresh, which would continue from stale pages.
             if (canLoadMore) {

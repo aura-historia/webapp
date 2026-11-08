@@ -2825,6 +2825,68 @@
             "description": "Terminez la connexion dans le navigateur et le compte avec lesquels vous l’avez autorisée. Relancez la connexion depuis l’administration WordPress."
           }
         }
+      },
+      "noProvider": {
+        "eyebrow": "Fournisseur requis",
+        "eyebrowApplication": "Votre candidature",
+        "pathLabel": "Comment vous connecter",
+        "path": {
+          "apply": {
+            "title": "Demander l’admission",
+            "description": "Présentez-nous votre boutique. Un seul formulaire, sur cette page."
+          },
+          "review": {
+            "title": "Nous examinons votre boutique",
+            "description": "Vous recevez notre réponse par e-mail et dans vos notifications."
+          },
+          "connect": {
+            "title": "Finaliser la connexion",
+            "description": "Vérifiez à nouveau ici ou relancez Connect depuis l’app, puis autorisez."
+          }
+        },
+        "stages": {
+          "none": {
+            "title": "Votre compte n’a <em>pas encore de fournisseur.</em>",
+            "description": "Cette app se connecte à un fournisseur : votre boutique telle qu’elle apparaît sur Aura Historia. Demandez l’admission avec votre boutique. Chaque candidature est examinée par une personne ; une fois l’accès accordé, vous pourrez finaliser cette connexion."
+          },
+          "submitted": {
+            "title": "Candidature envoyée. <em>Nous revenons vers vous.</em>",
+            "description": "Nous vous informons par e-mail et dans Aura Historia dès qu’une décision est prise. Une fois l’accès accordé, vérifiez à nouveau ici ou relancez Connect depuis l’app."
+          },
+          "inReview": {
+            "title": "Votre candidature est <em>en cours d’examen.</em>",
+            "description": "Nous vous informons par e-mail et dans Aura Historia dès qu’une décision est prise. Une fois l’accès accordé, vérifiez à nouveau ici ou relancez Connect depuis l’app."
+          },
+          "approved": {
+            "title": "Approuvée. <em>L’accès va suivre.</em>",
+            "description": "Nous configurons votre accès au fournisseur. Vérifiez à nouveau dans un moment, ou relancez Connect depuis l’app plus tard."
+          },
+          "rejected": {
+            "title": "Votre compte n’a <em>pas encore de fournisseur.</em>",
+            "description": "Votre dernière candidature n’a pas été approuvée. Vous pouvez en envoyer une nouvelle."
+          },
+          "withdrawn": {
+            "title": "Votre compte n’a <em>pas encore de fournisseur.</em>",
+            "description": "Vous avez retiré votre dernière candidature. Vous pouvez en envoyer une nouvelle."
+          }
+        },
+        "stillNone": "Pas encore d’accès à un fournisseur. Vérifiez à nouveau une fois votre candidature approuvée.",
+        "checkFailed": {
+          "title": "Nous n’avons pas pu vérifier votre accès",
+          "description": "Veuillez réessayer dans un instant."
+        },
+        "apply": "Demander l’admission",
+        "applyAgain": "Postuler à nouveau",
+        "checkAgain": "Vérifier l’accès à nouveau",
+        "checking": "Vérification…",
+        "return": "Revenir sans connecter",
+        "returnAriaLabel": "Revenir à {{appName}} sans connecter",
+        "applicationContext": "Pour votre connexion à <strong>{{appName}}</strong>.",
+        "granted": {
+          "one": "Vous avez maintenant accès à {{name}}.",
+          "other": "Vous avez maintenant accès à un fournisseur.",
+          "description": "Autorisez ci-dessous pour finaliser la connexion."
+        }
       }
     }
   },

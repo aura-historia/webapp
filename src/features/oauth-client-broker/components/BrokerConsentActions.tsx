@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button.tsx";
 import {
     WOOCOMMERCE_BROKER_APPROVE_PATH,
     WOOCOMMERCE_BROKER_DENY_PATH,
 } from "@/features/oauth-client-broker/lib/brokerUrls.ts";
+import {
+    CONSENT_BRAND_BUTTON_CLASS,
+    CONSENT_OUTLINE_BUTTON_CLASS,
+} from "@/features/oauth/lib/oauthConsentStyles.ts";
 
 interface BrokerConsentActionsProps {
     readonly lng: string;
@@ -48,14 +51,14 @@ export function BrokerConsentActions({
                 onSubmit={markSubmitted}
             >
                 {fields}
-                <Button
+                <button
                     type="submit"
-                    className="w-full sm:w-auto"
+                    className={CONSENT_BRAND_BUTTON_CLASS}
                     disabled={listingSourceId === undefined || isSubmitted}
                     aria-label={approveAriaLabel}
                 >
                     {t("oauth.authorize.approve")}
-                </Button>
+                </button>
             </form>
             <form
                 action={WOOCOMMERCE_BROKER_DENY_PATH}
@@ -64,15 +67,14 @@ export function BrokerConsentActions({
                 onSubmit={markSubmitted}
             >
                 {fields}
-                <Button
+                <button
                     type="submit"
-                    variant="outline"
-                    className="w-full sm:w-auto"
+                    className={CONSENT_OUTLINE_BUTTON_CLASS}
                     disabled={isSubmitted}
                     aria-label={denyAriaLabel}
                 >
                     {t("oauth.authorize.deny")}
-                </Button>
+                </button>
             </form>
         </>
     );

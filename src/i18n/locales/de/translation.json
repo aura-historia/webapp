@@ -3461,6 +3461,68 @@
             "description": "Schließen Sie die Verbindung in dem Browser und Konto ab, mit denen Sie sie autorisiert haben. Starten Sie die Verbindung erneut in Ihrem WordPress-Adminbereich."
           }
         }
+      },
+      "noProvider": {
+        "eyebrow": "Anbieter erforderlich",
+        "eyebrowApplication": "Ihr Antrag",
+        "pathLabel": "So verbinden Sie Ihren Shop",
+        "path": {
+          "apply": {
+            "title": "Aufnahme beantragen",
+            "description": "Erzählen Sie uns von Ihrem Shop. Ein Formular, direkt auf dieser Seite."
+          },
+          "review": {
+            "title": "Wir prüfen Ihren Shop",
+            "description": "Sie hören per E-Mail und in Ihren Benachrichtigungen von uns."
+          },
+          "connect": {
+            "title": "Verbindung abschließen",
+            "description": "Hier erneut prüfen oder Connect in der App neu starten, dann autorisieren."
+          }
+        },
+        "stages": {
+          "none": {
+            "title": "Ihr Konto hat <em>noch keinen Anbieter.</em>",
+            "description": "Diese App verbindet sich mit einem Anbieter: Ihrem Shop, wie er auf Aura Historia erscheint. Beantragen Sie die Aufnahme mit Ihrem Shop. Jeder Antrag wird von einem Menschen geprüft; sobald Sie Zugriff haben, können Sie diese Verbindung abschließen."
+          },
+          "submitted": {
+            "title": "Antrag gesendet. <em>Wir melden uns.</em>",
+            "description": "Wir benachrichtigen Sie per E-Mail und in Aura Historia, sobald entschieden ist. Sobald Sie Zugriff haben, prüfen Sie hier erneut oder starten Connect in der App neu."
+          },
+          "inReview": {
+            "title": "Ihr Antrag ist <em>in Prüfung.</em>",
+            "description": "Wir benachrichtigen Sie per E-Mail und in Aura Historia, sobald entschieden ist. Sobald Sie Zugriff haben, prüfen Sie hier erneut oder starten Connect in der App neu."
+          },
+          "approved": {
+            "title": "Genehmigt. <em>Der Zugriff folgt.</em>",
+            "description": "Wir richten Ihren Zugriff auf den Anbieter ein. Prüfen Sie in Kürze erneut oder starten Sie Connect später in der App neu."
+          },
+          "rejected": {
+            "title": "Ihr Konto hat <em>noch keinen Anbieter.</em>",
+            "description": "Ihr letzter Antrag wurde nicht genehmigt. Sie können einen neuen senden."
+          },
+          "withdrawn": {
+            "title": "Ihr Konto hat <em>noch keinen Anbieter.</em>",
+            "description": "Sie haben Ihren letzten Antrag zurückgezogen. Sie können einen neuen senden."
+          }
+        },
+        "stillNone": "Noch kein Zugriff auf einen Anbieter. Prüfen Sie erneut, sobald Ihr Antrag genehmigt ist.",
+        "checkFailed": {
+          "title": "Ihr Zugriff konnte nicht geprüft werden",
+          "description": "Bitte versuchen Sie es gleich noch einmal."
+        },
+        "apply": "Aufnahme beantragen",
+        "applyAgain": "Erneut beantragen",
+        "checkAgain": "Zugriff erneut prüfen",
+        "checking": "Wird geprüft …",
+        "return": "Ohne Verbindung zurückkehren",
+        "returnAriaLabel": "Ohne Verbindung zu {{appName}} zurückkehren",
+        "applicationContext": "Für Ihre Verbindung mit <strong>{{appName}}</strong>.",
+        "granted": {
+          "one": "Sie haben jetzt Zugriff auf {{name}}.",
+          "other": "Sie haben jetzt Zugriff auf einen Anbieter.",
+          "description": "Autorisieren Sie unten, um die Verbindung abzuschließen."
+        }
       }
     }
   },

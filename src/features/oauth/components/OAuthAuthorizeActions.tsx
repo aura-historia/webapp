@@ -1,5 +1,8 @@
-import { Button } from "@/components/ui/button.tsx";
 import { OAUTH_AUTHORIZE_APPROVE_ACTION } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
+import {
+    CONSENT_BRAND_BUTTON_CLASS,
+    CONSENT_OUTLINE_BUTTON_CLASS,
+} from "@/features/oauth/lib/oauthConsentStyles.ts";
 import type { OAuthAuthorizeSearchParams } from "@/features/oauth/lib/oauthAuthorizeSearchParams.ts";
 import { useTranslation } from "react-i18next";
 import { useParams } from "@tanstack/react-router";
@@ -56,24 +59,23 @@ export function OAuthAuthorizeActions({
                     name="code_challenge_method"
                     value={searchParams.code_challenge_method}
                 />
-                <Button
+                <button
                     type="submit"
-                    className="w-full sm:w-auto"
+                    className={CONSENT_BRAND_BUTTON_CLASS}
                     disabled={isApproveDisabled}
                     aria-label={approveAriaLabel}
                 >
                     {t("oauth.authorize.approve")}
-                </Button>
+                </button>
             </form>
-            <Button
+            <button
                 type="button"
-                variant="outline"
                 onClick={onDeny}
-                className="w-full sm:w-auto"
+                className={CONSENT_OUTLINE_BUTTON_CLASS}
                 aria-label={denyAriaLabel}
             >
                 {t("oauth.authorize.deny")}
-            </Button>
+            </button>
         </>
     );
 }

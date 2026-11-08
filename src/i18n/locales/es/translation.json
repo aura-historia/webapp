@@ -2825,6 +2825,68 @@
             "description": "Complete la conexión en el navegador y la cuenta con los que la autorizó. Vuelva a iniciar la conexión desde el panel de administración de WordPress."
           }
         }
+      },
+      "noProvider": {
+        "eyebrow": "Se necesita un proveedor",
+        "eyebrowApplication": "Su solicitud",
+        "pathLabel": "Cómo conectar",
+        "path": {
+          "apply": {
+            "title": "Solicitar la admisión",
+            "description": "Cuéntenos sobre su tienda. Un formulario, en esta misma página."
+          },
+          "review": {
+            "title": "Revisamos su tienda",
+            "description": "Le informamos por correo electrónico y en sus notificaciones."
+          },
+          "connect": {
+            "title": "Completar la conexión",
+            "description": "Vuelva a comprobarlo aquí o inicie Connect de nuevo desde la app y autorice."
+          }
+        },
+        "stages": {
+          "none": {
+            "title": "Su cuenta aún no tiene <em>ningún proveedor.</em>",
+            "description": "Esta app se conecta a un proveedor: su tienda tal como aparece en Aura Historia. Solicite la admisión con su tienda. Una persona revisa cada solicitud; cuando tenga acceso, podrá completar esta conexión."
+          },
+          "submitted": {
+            "title": "Solicitud enviada. <em>Nos pondremos en contacto.</em>",
+            "description": "Le avisaremos por correo electrónico y en Aura Historia cuando se decida. Cuando tenga acceso, vuelva a comprobarlo aquí o inicie Connect de nuevo desde la app."
+          },
+          "inReview": {
+            "title": "Su solicitud está <em>en revisión.</em>",
+            "description": "Le avisaremos por correo electrónico y en Aura Historia cuando se decida. Cuando tenga acceso, vuelva a comprobarlo aquí o inicie Connect de nuevo desde la app."
+          },
+          "approved": {
+            "title": "Aprobada. <em>El acceso llegará pronto.</em>",
+            "description": "Estamos configurando su acceso al proveedor. Vuelva a comprobarlo dentro de un rato o inicie Connect de nuevo desde la app más tarde."
+          },
+          "rejected": {
+            "title": "Su cuenta aún no tiene <em>ningún proveedor.</em>",
+            "description": "Su última solicitud no fue aprobada. Puede enviar una nueva."
+          },
+          "withdrawn": {
+            "title": "Su cuenta aún no tiene <em>ningún proveedor.</em>",
+            "description": "Retiró su última solicitud. Puede enviar una nueva."
+          }
+        },
+        "stillNone": "Todavía no tiene acceso a ningún proveedor. Vuelva a comprobarlo cuando se apruebe su solicitud.",
+        "checkFailed": {
+          "title": "No pudimos comprobar su acceso",
+          "description": "Inténtelo de nuevo en un momento."
+        },
+        "apply": "Solicitar la admisión",
+        "applyAgain": "Volver a solicitar",
+        "checkAgain": "Comprobar el acceso de nuevo",
+        "checking": "Comprobando…",
+        "return": "Volver sin conectar",
+        "returnAriaLabel": "Volver a {{appName}} sin conectar",
+        "applicationContext": "Para su conexión con <strong>{{appName}}</strong>.",
+        "granted": {
+          "one": "Ahora tiene acceso a {{name}}.",
+          "other": "Ahora tiene acceso a un proveedor.",
+          "description": "Autorice a continuación para completar la conexión."
+        }
       }
     }
   },
