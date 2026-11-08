@@ -465,7 +465,6 @@
       ]
     },
     "validation": {
-      "queryMinLength": "Inserisci almeno 3 caratteri",
       "dateOrder": "La data di inizio deve essere precedente alla data di fine"
     },
     "filter": {
@@ -518,7 +517,6 @@
       "priceRange": "Fascia di prezzo"
     },
     "messages": {
-      "minQueryLength": "Inserisci almeno 3 caratteri per avviare la ricerca.",
       "error": {
         "title": "Errore di caricamento",
         "description": "I risultati di ricerca non hanno potuto essere caricati. Riprova più tardi.",
@@ -554,6 +552,7 @@
     "publicSourcesBrowseTitle": "Fornitori",
     "eyebrow": "Risultati della ricerca",
     "resultsForQuery": "Risultati per <em>«{{query}}»</em>",
+    "resultsAll": "Tutti gli <em>oggetti</em>",
     "totalObjects_one": "{{formattedCount}} oggetto",
     "totalObjects_other": "{{formattedCount}} oggetti",
     "liveFiltersHint": "I filtri si applicano non appena li modifichi",

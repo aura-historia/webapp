@@ -82,15 +82,6 @@ describe("SearchResults", () => {
         setSearchMock();
     });
 
-    it("renders a message when query length is less than 3 characters", () => {
-        renderWithQueryClient(
-            <SearchResults searchFilters={{ q: "ab" }} onResetFilters={vi.fn()} />,
-        );
-        expect(
-            screen.getByText("Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten."),
-        ).toBeInTheDocument();
-    });
-
     it("renders skeleton loaders while data is loading", () => {
         setSearchMock({ isPending: true });
         renderWithQueryClient(

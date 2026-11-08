@@ -2,8 +2,6 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SHOP_SEARCH_DEBOUNCE_MS, ShopListingSearch } from "../ShopListingSearch.tsx";
 
-const MIN_QUERY_MESSAGE = "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.";
-
 function renderSearch(query = "") {
     const onSearch = vi.fn();
     const view = render(
@@ -110,16 +108,6 @@ describe("ShopListingSearch", () => {
         expect(onSearch).toHaveBeenCalledWith("vase");
     });
 
-    it("never searches fewer than three characters while typing", () => {
-        const { onSearch } = renderSearch();
-
-        type("va");
-        advance(SHOP_SEARCH_DEBOUNCE_MS * 2);
-
-        expect(onSearch).not.toHaveBeenCalled();
-        expect(screen.queryByRole("alert")).not.toBeInTheDocument();
-    });
-
     it("restores the full list at once when the field is emptied", () => {
         const { onSearch } = renderSearch("vase");
 
@@ -164,31 +152,6 @@ describe("ShopListingSearch", () => {
         fireEvent.submit(screen.getByRole("search"));
 
         expect(onSearch).not.toHaveBeenCalled();
-    });
-
-    it("explains the minimum length when Enter is pressed with one or two characters", () => {
-        const { onSearch } = renderSearch();
-
-        type("va");
-        fireEvent.submit(screen.getByRole("search"));
-
-        const alert = screen.getByRole("alert");
-        expect(alert).toHaveTextContent(MIN_QUERY_MESSAGE);
-        expect(field()).toHaveAttribute("aria-invalid", "true");
-        expect(field()).toHaveAttribute("aria-describedby", alert.id);
-        expect(onSearch).not.toHaveBeenCalled();
-    });
-
-    it("hides the minimum-length hint once the reader types again", () => {
-        renderSearch();
-
-        type("va");
-        fireEvent.submit(screen.getByRole("search"));
-        type("vas");
-
-        expect(screen.queryByRole("alert")).not.toBeInTheDocument();
-        expect(field()).toHaveAttribute("aria-invalid", "false");
-        expect(field()).not.toHaveAttribute("aria-describedby");
     });
 
     it("shows the clear button only when the field has text", () => {

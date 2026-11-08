@@ -17,11 +17,7 @@ import {
 } from "@/features/search/products/components/filters/DateSpanFilter.tsx";
 import { useTranslation } from "react-i18next";
 import { mapFiltersToUrlParams } from "@/features/search/products/lib/searchUrlParams.ts";
-import {
-    FILTER_DEFAULTS,
-    MIN_SEARCH_QUERY_LENGTH,
-} from "@/features/search/products/lib/filterDefaults.ts";
-import { toast } from "sonner";
+import { FILTER_DEFAULTS } from "@/features/search/products/lib/filterDefaults.ts";
 import { serializeSearchParams } from "@/features/search/products/lib/searchValidation.ts";
 import { useDebouncedCallback } from "use-debounce";
 import {
@@ -57,15 +53,8 @@ export function SearchFilters({
     const { getQuery } = useSearchQueryContext();
 
     const getEffectiveQuery = useCallback((): string => {
-        const currentQuery = getQuery()?.trim();
-
-        if (currentQuery && currentQuery.length < MIN_SEARCH_QUERY_LENGTH) {
-            toast.warning(t("search.validation.queryMinLength"), { duration: 2000 });
-            return searchFilters.q;
-        }
-
-        return currentQuery;
-    }, [getQuery, searchFilters.q, t]);
+        return getQuery()?.trim();
+    }, [getQuery]);
 
     const filterSchema = useMemo(() => createFilterSchema(t), [t]);
 

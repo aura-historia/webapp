@@ -1,8 +1,5 @@
 import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
-/** Minimum number of characters required for a search query */
-export const MIN_SEARCH_QUERY_LENGTH = 3;
-
 export type ProductFilterFormValues = {
     priceSpan?: {
         min?: number;

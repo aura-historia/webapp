@@ -6,7 +6,6 @@ import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navi
 import { useAnimatedPlaceholder } from "@/features/search/common/hooks/useAnimatedPlaceholder.ts";
 import { useGlobalSearchSubmit } from "@/features/search/common/hooks/useGlobalSearchSubmit.ts";
 import { useSearchQueryContext } from "@/features/search/common/hooks/useSearchQueryContext.tsx";
-import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 import { cn } from "@/lib/utils.ts";
 
 const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
@@ -20,11 +19,9 @@ export const HERO_SEARCH_ID = "hero-search";
 export function HeroSearch({ className }: { readonly className?: string }) {
     const { t } = useTranslation();
     const inputId = useId();
-    const errorId = useId();
     const { setQuery } = useSearchQueryContext();
     const { isPending, submit } = useGlobalSearchSubmit();
     const [value, setValue] = useState("");
-    const [error, setError] = useState<string | null>(null);
 
     const examples = useMemo(() => {
         const list = t("search.bar.placeholderExamplesProducts", { returnObjects: true });
@@ -36,12 +33,6 @@ export function HeroSearch({ className }: { readonly className?: string }) {
         event.preventDefault();
         const query = value.trim();
 
-        if (query.length < MIN_SEARCH_QUERY_LENGTH) {
-            setError(t("search.validation.queryMinLength"));
-            return;
-        }
-
-        setError(null);
         submit(query, "products");
     };
 
@@ -67,12 +58,9 @@ export function HeroSearch({ className }: { readonly className?: string }) {
                     disabled={!isSearchEnabled}
                     value={value}
                     placeholder={placeholder}
-                    aria-invalid={error ? true : undefined}
-                    aria-describedby={error ? errorId : undefined}
                     onChange={(event) => {
                         setValue(event.target.value);
                         setQuery(event.target.value);
-                        if (error) setError(null);
                     }}
                     className="h-13 min-w-0 flex-1 basis-60 border-0 bg-transparent px-3 text-[17px] text-ink outline-none placeholder:text-ink-placeholder disabled:opacity-35 sm:h-14 [&::-webkit-search-cancel-button]:hidden"
                 />
@@ -99,11 +87,6 @@ export function HeroSearch({ className }: { readonly className?: string }) {
                     </span>
                 </button>
             </form>
-            {error && (
-                <p id={errorId} role="alert" className="text-left text-sm text-brass-light">
-                    {error}
-                </p>
-            )}
         </div>
     );
 }

@@ -130,7 +130,11 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                             </p>
                             <h1 className="font-serif text-[32px] leading-[1.08] font-normal tracking-[-0.02em] wrap-break-word sm:text-[clamp(34px,3.4vw,48px)] sm:leading-[1.06] [&_em]:italic">
                                 <Trans
-                                    i18nKey="search.resultsForQuery"
+                                    i18nKey={
+                                        searchArgs.q
+                                            ? "search.resultsForQuery"
+                                            : "search.resultsAll"
+                                    }
                                     values={{ query: searchArgs.q }}
                                     components={HEADLINE_COMPONENTS}
                                 />
