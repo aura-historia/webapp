@@ -8,7 +8,6 @@ import {
     SUBSCRIPTION_TYPE_TRANSLATION_KEYS,
 } from "@/data/internal/account/SubscriptionType.ts";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
-import { env } from "@/env.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
 import { useUserSearchFilters } from "@/features/saved-searches/api/useUserSearchFilters.ts";
@@ -42,8 +41,6 @@ type WizardState = {
 
 const SKELETON_IDS = ["s1", "s2"] as const;
 const CARD_GRID_CLASS = "grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2";
-
-const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 export function SearchFiltersPage() {
     const { t } = useTranslation();
@@ -179,16 +176,14 @@ export function SearchFiltersPage() {
                             {t("searchFilters.createCta")}
                         </button>
                     )}
-                    {isSearchEnabled && (
-                        <Link
-                            to="/$lng/search"
-                            params={true}
-                            from="/$lng"
-                            className={RESULT_SECONDARY_BUTTON_CLASS}
-                        >
-                            {t("searchFilters.noResults.searchCta")}
-                        </Link>
-                    )}
+                    <Link
+                        to="/$lng/search"
+                        params={true}
+                        from="/$lng"
+                        className={RESULT_SECONDARY_BUTTON_CLASS}
+                    >
+                        {t("searchFilters.noResults.searchCta")}
+                    </Link>
                 </ResultStatePanel>
             </div>
         );

@@ -8,7 +8,6 @@ const registerWebMcpTools = vi.hoisted(() => vi.fn<(options: WebMcpRegistrationO
 vi.mock("@/env.ts", () => ({
     env: {
         VITE_API_URL: "https://api.stage.aura-historia.com",
-        VITE_FEATURE_SEARCH_ENABLED: false,
     },
 }));
 vi.mock("@/features/agent-discovery/webmcp/registerWebMcpTools.ts", () => ({
@@ -56,7 +55,6 @@ describe("startWebMcp", () => {
             signal: controller?.signal,
             pageOrigin: window.location.origin,
             mcpOrigin: "https://mcp.stage.aura-historia.com",
-            searchEnabled: false,
         });
     });
 

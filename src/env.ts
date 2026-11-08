@@ -33,18 +33,6 @@ export const env = createEnv({
             .default("auth.aura-historia.com"),
         VITE_COGNITO_REDIRECT_SIGN_IN: z.url().optional().default("https://aura-historia.com/"),
         VITE_COGNITO_REDIRECT_SIGN_OUT: z.url().optional().default("https://aura-historia.com/"),
-
-        // Feature flags - default to enabled if not set
-        VITE_FEATURE_LOGIN_ENABLED: z
-            .string()
-            .optional()
-            .default("true")
-            .transform((val) => val !== "false"),
-        VITE_FEATURE_SEARCH_ENABLED: z
-            .string()
-            .optional()
-            .default("true")
-            .transform((val) => val !== "false"),
     },
 
     /**

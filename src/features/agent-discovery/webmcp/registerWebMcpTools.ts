@@ -14,8 +14,6 @@ export interface WebMcpRegistrationOptions {
     readonly pageOrigin: string;
     /** The environment's MCP origin (`getMcpBaseUrl`). */
     readonly mcpOrigin: string;
-    /** `VITE_FEATURE_SEARCH_ENABLED`: without search, the search navigation tool is left out. */
-    readonly searchEnabled: boolean;
 }
 
 /**
@@ -72,14 +70,13 @@ export function registerWebMcpTools({
     signal,
     pageOrigin,
     mcpOrigin,
-    searchEnabled,
 }: WebMcpRegistrationOptions): void {
     if (signal.aborted) {
         return;
     }
 
     const tools = [
-        ...createNavigationTools(router, pageOrigin, searchEnabled),
+        ...createNavigationTools(router, pageOrigin),
         ...(canCallMcpFromPage(mcpOrigin, pageOrigin) ? createCatalogueTools(mcpOrigin) : []),
     ];
     for (const tool of tools) {

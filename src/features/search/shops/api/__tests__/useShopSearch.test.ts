@@ -13,7 +13,6 @@ vi.mock("@/hooks/common/useApiError.ts", () => ({ useApiError: () => ({ getError
 vi.mock("@/data/internal/hooks/ApiError.ts", () => ({
     mapToInternalApiError: (error: unknown) => error,
 }));
-vi.mock("@/env.ts", () => ({ env: { VITE_FEATURE_SEARCH_ENABLED: true } }));
 
 let queryClient: QueryClient;
 function wrapper({ children }: { children: ReactNode }) {

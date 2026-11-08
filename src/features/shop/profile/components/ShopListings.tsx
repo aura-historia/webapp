@@ -5,7 +5,6 @@ import { Trans, useTranslation } from "react-i18next";
 import { useInView } from "react-intersection-observer";
 import { ListLoaderRow } from "@/components/common/ListLoaderRow.tsx";
 import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
-import { env } from "@/env.ts";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
 import {
     serializeSearchParams,
@@ -29,8 +28,6 @@ import {
 const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3", "skeleton-4"] as const;
 const HEADING_ID = "shop-listings-heading";
 const RESULTS_ID = "shop-listings-results";
-
-const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 type ShopListingsProps = {
     readonly source: PublicListingSource;
@@ -182,17 +179,15 @@ function ListingsNoMatches({
             }
             description={t("shop.search.noMatches.description", { provider: providerName, query })}
         >
-            {isSearchEnabled && (
-                <Link
-                    to="/$lng/search"
-                    params={true}
-                    from="/$lng"
-                    search={serializeSearchParams(validateSearchParams({ q: query }))}
-                    className={SHOP_PRIMARY_BUTTON_CLASS}
-                >
-                    {t("shop.search.noMatches.searchAll")}
-                </Link>
-            )}
+            <Link
+                to="/$lng/search"
+                params={true}
+                from="/$lng"
+                search={serializeSearchParams(validateSearchParams({ q: query }))}
+                className={SHOP_PRIMARY_BUTTON_CLASS}
+            >
+                {t("shop.search.noMatches.searchAll")}
+            </Link>
             <button type="button" onClick={onShowAll} className={RESULT_SECONDARY_BUTTON_CLASS}>
                 {t("shop.search.showAll")}
             </button>
@@ -215,17 +210,15 @@ function ListingsEmpty({ providerName }: { readonly providerName: string }) {
             }
             description={t("shop.listings.empty.description", { provider: providerName })}
         >
-            {isSearchEnabled && (
-                <Link
-                    to="/$lng/search"
-                    params={true}
-                    from="/$lng"
-                    className={RESULT_SECONDARY_BUTTON_CLASS}
-                >
-                    <Search aria-hidden="true" className="mr-2 size-[15px]" strokeWidth={1.8} />
-                    {t("shop.listings.empty.cta")}
-                </Link>
-            )}
+            <Link
+                to="/$lng/search"
+                params={true}
+                from="/$lng"
+                className={RESULT_SECONDARY_BUTTON_CLASS}
+            >
+                <Search aria-hidden="true" className="mr-2 size-[15px]" strokeWidth={1.8} />
+                {t("shop.listings.empty.cta")}
+            </Link>
         </ResultStatePanel>
     );
 }

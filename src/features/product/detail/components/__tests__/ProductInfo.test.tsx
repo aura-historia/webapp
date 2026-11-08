@@ -1,7 +1,7 @@
 import { makeProductListingDetail, makeProductListingUserState } from "@/test/fixtures.ts";
 import type React from "react";
 vi.mock("@/env", () => ({
-    env: { VITE_APP_URL: "https://aura-historia.com", VITE_FEATURE_LOGIN_ENABLED: false },
+    env: { VITE_APP_URL: "https://aura-historia.com" },
 }));
 
 vi.mock("@tanstack/react-router", async () => {

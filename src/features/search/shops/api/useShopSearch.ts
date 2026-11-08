@@ -9,10 +9,8 @@ import type { PublicListingSource } from "@/data/internal/shop/PublicListingSour
 import { mapPublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
-import { env } from "@/env.ts";
 
 const PAGE_SIZE = 30;
-const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 export type ShopSearchResultPage = {
     sources: PublicListingSource[];
@@ -44,7 +42,6 @@ export function useShopSearch(
 
     return useInfiniteQuery({
         queryKey: ["publicListingSourceSearch", searchArgs.q, PAGE_SIZE],
-        enabled: isSearchEnabled,
         queryFn: async ({ pageParam }) => {
             const result = await searchPublicListingSources({
                 query: buildShopSearchQuery(searchArgs.q, pageParam),
