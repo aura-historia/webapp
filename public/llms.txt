@@ -50,6 +50,7 @@ Key facts for agents:
 - [About us](https://aura-historia.com/en/about-us): What Aura Historia does, how it differs from auction aggregators, price databases and marketplaces, who uses it, the team behind it, and frequently asked questions.
 - [Aura Historia compared with Artsy](https://aura-historia.com/en/compare/artsy): The Artsy marketplace compared with a search across dealers, auction houses and marketplaces: object types, languages and monitoring, with the 2026 Artsy and Artnet announcement.
 - [Aura Historia compared with Barnebys](https://aura-historia.com/en/compare/barnebys): Source coverage, multilingual search and alerts compared, with the current status of Barnebys.
+- [Aura Historia compared with Invaluable](https://aura-historia.com/en/compare/invaluable): The Invaluable auction marketplace compared with a search across auction houses, dealers and marketplaces: bidding, provider types, monitoring, price data and languages, with the October 2026 acquisition announcement.
 
 ## Optional
 

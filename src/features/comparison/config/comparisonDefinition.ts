@@ -69,6 +69,15 @@ export interface ComparisonDefinition {
     readonly alerts?: {
         readonly icon: LucideIcon;
     };
+    /**
+     * Optional single-column chapter (`#together`), copy at `<namespace>.together.*`: how the
+     * competitor and Aura Historia fit together, for a competitor a reader may use alongside the
+     * search (for example a venue for bidding). It uses the layout of the `alerts` chapter and
+     * follows it when a page has both.
+     */
+    readonly together?: {
+        readonly icon: LucideIcon;
+    };
     /** FAQ items in page order. */
     readonly faqItems: readonly ComparisonFaqItemDefinition[];
     /** Article `about` topics: `<namespace>.structuredData.about.<topic>`. */
@@ -77,7 +86,10 @@ export interface ComparisonDefinition {
     readonly positioningKey: string;
 }
 
-/** Every chapter id in page order. `sources` and `alerts` appear only when the definition has them. */
+/**
+ * Every chapter id in page order. `sources`, `alerts` and `together` appear only when the
+ * definition has them.
+ */
 export const COMPARISON_CHAPTER_IDS = [
     "summary",
     "respect",
@@ -85,6 +97,7 @@ export const COMPARISON_CHAPTER_IDS = [
     "scorecard",
     "sources",
     "alerts",
+    "together",
     "faq",
     "verdict",
 ] as const;
@@ -111,6 +124,7 @@ export function getComparisonChapters(
     return COMPARISON_CHAPTER_IDS.filter((id) => {
         if (id === "sources") return definition.sources !== undefined;
         if (id === "alerts") return definition.alerts !== undefined;
+        if (id === "together") return definition.together !== undefined;
         return true;
     });
 }

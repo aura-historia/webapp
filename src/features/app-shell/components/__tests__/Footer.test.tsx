@@ -168,7 +168,7 @@ describe("Footer", () => {
             "href",
             "/de/consent-settings",
         );
-        expect(company.queryByRole("link", { name: /Barnebys|Artsy/ })).toBeNull();
+        expect(company.queryByRole("link", { name: /Barnebys|Artsy|Invaluable/ })).toBeNull();
     });
 
     it("lists every published comparison in its own group between Partners and Company", async () => {
@@ -186,6 +186,9 @@ describe("Footer", () => {
             "href",
             "/de/compare/artsy",
         );
+        expect(
+            comparisons.getByRole("link", { name: "Aura Historia vs. Invaluable" }),
+        ).toHaveAttribute("href", "/de/compare/invaluable");
 
         const titles = screen
             .getAllByRole("navigation")

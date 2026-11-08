@@ -195,15 +195,17 @@ describe("ComparisonPage with the Artsy definition", () => {
         });
     });
 
-    it("links to Barnebys in the cross-link block, never to itself, and to no external site", async () => {
+    it("links to the other comparisons in the cross-link block, never to itself, and to no external site", async () => {
         const { container } = await renderPage();
 
         const block = screen.getByRole("region", {
             name: plain("comparison.otherComparisons.title"),
         });
         const links = within(block).getAllByRole("link");
-        expect(links).toHaveLength(1);
-        expect(links[0]).toHaveAttribute("href", "/de/compare/barnebys");
+        expect(links.map((link) => link.getAttribute("href"))).toEqual([
+            "/de/compare/barnebys",
+            "/de/compare/invaluable",
+        ]);
 
         expect(
             screen.getByRole("link", { name: t("compareArtsyPage.hero.primaryCta") }),

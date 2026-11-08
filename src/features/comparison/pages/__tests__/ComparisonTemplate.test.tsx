@@ -1,16 +1,23 @@
 import { act, render, screen, within } from "@testing-library/react";
+import { Bell } from "lucide-react";
 import type { ReactElement } from "react";
 import { beforeAll, describe, expect, it } from "vitest";
 
 import { WinnerBadge } from "@/features/comparison/components/ComparisonLayout.tsx";
 import { ComparisonOtherComparisonsSection } from "@/features/comparison/components/sections/ComparisonOtherComparisonsSection.tsx";
 import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
-import { getComparisonNav } from "@/features/comparison/config/comparisonDefinition.ts";
+import {
+    type ComparisonDefinition,
+    getComparisonNav,
+} from "@/features/comparison/config/comparisonDefinition.ts";
 import { COMPARISON_REGISTRY } from "@/features/comparison/config/comparisonRegistry.ts";
 import { ComparisonPage } from "@/features/comparison/pages/ComparisonPage.tsx";
 import {
     FIXTURE_COMPARISON,
+    FIXTURE_COMPARISON_WITH_TOGETHER,
     FIXTURE_COMPETITOR,
+    FIXTURE_NAMESPACE,
+    FIXTURE_TOGETHER_LABEL,
     registerFixtureTranslations,
 } from "@/features/comparison/pages/__tests__/comparisonFixture.ts";
 import i18n from "@/i18n/i18nForTests";
@@ -47,6 +54,7 @@ describe("ComparisonPage with a second definition", () => {
 
         expect(container.querySelector("section#sources")).toBeNull();
         expect(container.querySelector("section#alerts")).toBeNull();
+        expect(container.querySelector("section#together")).toBeNull();
         expect(container.querySelector("section#respect")).not.toHaveTextContent(
             i18n.t("comparison.statusLabel"),
         );
@@ -64,6 +72,36 @@ describe("ComparisonPage with a second definition", () => {
             "V",
             "→",
         ]);
+    });
+
+    it("renders the optional 'together' chapter after 'alerts', from its own copy and ids", async () => {
+        const withBoth = {
+            ...FIXTURE_COMPARISON_WITH_TOGETHER,
+            alerts: { icon: Bell },
+        } as const satisfies ComparisonDefinition;
+        const { container } = await renderWithin(<ComparisonPage definition={withBoth} />);
+
+        const order = [...container.querySelectorAll("section[id]")].map((section) => section.id);
+        expect(order.indexOf("alerts")).toBeGreaterThan(order.indexOf("scorecard"));
+        expect(order.indexOf("together")).toBe(order.indexOf("alerts") + 1);
+        expect(order.indexOf("faq")).toBe(order.indexOf("together") + 1);
+
+        const together = container.querySelector("section#together");
+        expect(together?.getAttribute("aria-labelledby")).toBe("comparison-together-heading");
+        expect(together?.querySelector("h2#comparison-together-heading")).toHaveTextContent(
+            i18n.t(`${FIXTURE_NAMESPACE}.together.title`).replace(/<\/?em>/g, ""),
+        );
+        expect(together).toHaveTextContent(i18n.t(`${FIXTURE_NAMESPACE}.together.paragraph1`));
+        expect(together).toHaveTextContent(i18n.t(`${FIXTURE_NAMESPACE}.together.paragraph2`));
+        // The alerts chapter keeps its own id, heading id and copy.
+        expect(container.querySelector("section#alerts")?.getAttribute("aria-labelledby")).toBe(
+            "comparison-alerts-heading",
+        );
+
+        const nav = screen.getByRole("navigation", { name: i18n.t("comparison.nav.label") });
+        expect(
+            within(nav).getByRole("link", { name: new RegExp(FIXTURE_TOGETHER_LABEL) }),
+        ).toHaveAttribute("href", "#together");
     });
 
     it("links to the other published comparisons, never to itself", async () => {

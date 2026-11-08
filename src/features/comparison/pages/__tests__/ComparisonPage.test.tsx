@@ -181,16 +181,19 @@ describe("ComparisonPage with the Barnebys definition", () => {
         expect(within(sources).getAllByRole("listitem")).toHaveLength(5);
     });
 
-    it("lists the other published comparison in the cross-link block, not itself", async () => {
+    it("lists the other published comparisons in the cross-link block, not itself", async () => {
         await renderPage();
 
         const block = screen.getByRole("region", {
             name: plain("comparison.otherComparisons.title"),
         });
         const links = within(block).getAllByRole("link");
-        expect(links).toHaveLength(1);
-        expect(links[0]).toHaveAttribute("href", "/de/compare/artsy");
+        expect(links.map((link) => link.getAttribute("href"))).toEqual([
+            "/de/compare/artsy",
+            "/de/compare/invaluable",
+        ]);
         expect(links[0]).toHaveTextContent("Aura Historia vs. Artsy");
+        expect(links[1]).toHaveTextContent("Aura Historia vs. Invaluable");
     });
 
     it("uses internal calls to action and never links to Barnebys", async () => {

@@ -82,6 +82,10 @@
       "title": "Aura Historia vs Barnebys | Comparatif de recherche d’art et d’antiquités",
       "description": "Comparez Aura Historia et Barnebys sur la recherche d’art et d’antiquités, la couverture des sources, le multilingue, les alertes rapides et la veille de marché assistée par IA."
     },
+    "compareInvaluable": {
+      "title": "Aura Historia vs Invaluable | Comparatif de recherche d’art et d’antiquités",
+      "description": "Comparez Aura Historia et Invaluable : une place de marché d’enchères face à une recherche entre maisons de ventes, marchands et places de marché d’art et d’antiquités."
+    },
     "partnerAccessTokens": {
       "title": "Jetons d'accès | Aura Historia"
     },
@@ -3701,6 +3705,208 @@
       "button": "Rechercher de l’art et des antiquités"
     },
     "positioning": "Un moteur de recherche d’enchères en ligne, comparé à une recherche sur l’ensemble du marché de l’art et des antiquités."
+  },
+  "compareInvaluablePage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "recherche d’art et d’antiquités",
+        "auctionMarketplace": "place de marché d’enchères en ligne",
+        "crossVenueSearch": "recherche entre maisons de ventes, marchands et places de marché",
+        "multilingualSearch": "recherche multilingue d’art et d’antiquités",
+        "monitoring": "listes de surveillance et recherches enregistrées pour l’art et les antiquités"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Résumé",
+        "advantages": "Là où Aura Historia voit plus large",
+        "scorecard": "Tableau comparatif",
+        "sources": "Types de fournisseurs",
+        "together": "Comment les deux se complètent",
+        "faq": "FAQ",
+        "verdict": "Verdict final"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparatif : Aura Historia vs Invaluable",
+      "title": "Une recherche neutre entre lieux de vente, au-delà d’une seule <em>place de marché d’enchères</em>",
+      "subtitle": "Invaluable est une place de marché établie où les collectionneurs enchérissent auprès de milliers de maisons de ventes. Aura Historia est une couche de recherche entre maisons de ventes, marchands et places de marché : elle montre ce qui est proposé et où, et n’organise pas elle-même de ventes aux enchères.",
+      "primaryCta": "Chercher entre lieux de vente",
+      "secondaryCta": "Voir le comparatif",
+      "quickAnswerEyebrow": "En bref",
+      "quickAnswerTitle": "Invaluable est un lieu où enchérir. <em>Aura Historia est une recherche entre lieux de vente.</em>",
+      "quickAnswerDescription": "<strong>Verdict :</strong> choisissez Invaluable pour vous inscrire et enchérir auprès de maisons de ventes établies sur sa plateforme. Choisissez Aura Historia pour chercher côte à côte parmi les maisons de ventes, les marchands et les places de marché, annonces à prix fixe comprises, et pour suivre des objets chez plusieurs fournisseurs."
+    },
+    "quickVerdicts": {
+      "onlineBidding": {
+        "label": "Solide pour enchérir en ligne auprès de maisons de ventes établies",
+        "value": "Invaluable"
+      },
+      "searchAcrossVenues": {
+        "label": "Plus fort pour chercher parmi les maisons de ventes, les marchands et les places de marché",
+        "value": "Aura Historia"
+      },
+      "dealerAndFixedPrice": {
+        "label": "Plus fort pour le stock des marchands et les annonces à prix fixe",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Plus fort pour le suivi au-delà d’une seule place de marché",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "La version <em>courte</em>",
+      "paragraph1": "Aura Historia est une alternative à Invaluable pour les collectionneurs qui veulent chercher au-delà d’une seule place de marché d’enchères : maisons de ventes, marchands, boutiques et places de marché au même endroit, avec les annonces à prix fixe à côté des annonces d’enchères.",
+      "paragraph2": "Invaluable reste l’endroit où s’inscrire et enchérir auprès de maisons de ventes établies sur sa plateforme. Aura Historia n’organise pas de ventes aux enchères et ne reçoit pas d’enchères. Elle montre ce qui est proposé et où, et l’on enchérit ou l’on achète auprès du fournisseur."
+    },
+    "respect": {
+      "title": "Invaluable est un <em>lieu où enchérir</em> établi",
+      "paragraph1": "Une comparaison équitable commence ici : sur Invaluable, les collectionneurs s’inscrivent et enchérissent auprès de maisons de ventes du monde entier. Selon l’annonce du 1er octobre 2026, les activités Invaluable et AuctionZip servent des milliers de maisons de ventes et donnent accès à environ quatre millions d’enchérisseurs inscrits dans le monde ; pour l’exercice clos le 31 décembre 2025, elles ont traité plus de 500 millions de dollars américains de volume brut de marchandises vendues.",
+      "paragraph2": "Aura Historia ne cherche pas à remplacer cela. Elle répond à une autre question : ce qui est proposé chez les maisons de ventes, les marchands, les boutiques et les places de marché, annonces à prix fixe comprises. Invaluable propose aussi ses données de prix sous forme d’abonnement. C’est un autre outil, qui complète une recherche comme la nôtre.",
+      "status": "Le 1er octobre 2026, Liquidity Services (Nasdaq : LQDT) a annoncé avoir finalisé l’acquisition d’Auction Holdings, Inc., qui exploite Invaluable, AuctionZip et RFC Auction Systems."
+    },
+    "advantages": {
+      "title": "Plus que des lots d’enchères, <em>une recherche entre lieux de vente</em>",
+      "description": "La différence tient à l’étendue : marchands et boutiques à côté des maisons de ventes, objets de nombreux lieux de vente côte à côte, terminologie harmonisée en cinq langues et suivi chez plusieurs fournisseurs.",
+      "cards": {
+        "moreThanAuctionLots": {
+          "title": "Plus que des lots d’enchères",
+          "description": "Marchands, boutiques et places de marché apparaissent avec leurs propres annonces, prix fixes compris, à côté des annonces d’enchères."
+        },
+        "oneSearchAcrossVenues": {
+          "title": "Une recherche entre lieux de vente",
+          "description": "Les objets de nombreux lieux de vente figurent dans une seule liste de résultats, plutôt que dans le catalogue d’un seul."
+        },
+        "terminologyAcrossLanguages": {
+          "title": "Une terminologie harmonisée entre les langues",
+          "description": "Les annonces sont traduites et la terminologie est harmonisée entre l’allemand, l’anglais, l’espagnol, le français et l’italien : une recherche dans une langue peut ainsi trouver des objets décrits dans une autre."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Un suivi chez plusieurs fournisseurs",
+          "description": "Les listes de surveillance, les recherches enregistrées et les notifications fonctionnent auprès de tous les fournisseurs de l’index, et non au sein d’une seule place de marché."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia et Invaluable, <em>point par point</em>",
+      "description": "Invaluable est conçu pour enchérir auprès de maisons de ventes sur sa plateforme. Aura Historia est conçue pour chercher entre lieux de vente, marchands et annonces à prix fixe compris.",
+      "caption": "Comparatif d’Aura Historia et d’Invaluable pour la découverte d’art et d’antiquités",
+      "headers": {
+        "criterion": "Critère",
+        "auraHistoria": "Aura Historia",
+        "competitor": "Invaluable"
+      },
+      "rows": {
+        "onPlatformBidding": {
+          "criterion": "Enchères sur la plateforme",
+          "competitor": "Les collectionneurs s’inscrivent et enchérissent dans des ventes en direct et à durée limitée sur Invaluable, dans une console d’enchères avec traduction des langues et conversion des devises. Chaque maison de ventes fixe ses moyens de paiement.",
+          "auraHistoria": "N’organise pas de ventes aux enchères et ne reçoit pas d’enchères. « Voir chez le fournisseur » ouvre l’annonce sur la page du fournisseur lui-même.",
+          "verdict": "Invaluable pour enchérir"
+        },
+        "auctionHouseReach": {
+          "criterion": "Portée auprès des maisons de ventes",
+          "competitor": "Avec AuctionZip, sert des milliers de maisons de ventes et donne accès à environ quatre millions d’enchérisseurs inscrits dans le monde, selon l’annonce du 1er octobre 2026.",
+          "auraHistoria": "Indexe les maisons de ventes, les marchands, les boutiques et les places de marché à partir de leurs annonces publiques.",
+          "verdict": "Invaluable pour la portée"
+        },
+        "providerTypes": {
+          "criterion": "Types de fournisseurs",
+          "competitor": "Des maisons de ventes qui vendent sur la plateforme, et les collectionneurs qui y enchérissent.",
+          "auraHistoria": "Maisons de ventes, marchands, boutiques et places de marché dans une seule recherche.",
+          "verdict": "Aura Historia"
+        },
+        "dealersAndFixedPrice": {
+          "criterion": "Marchands et prix fixes",
+          "competitor": "Se décrit comme une place de marché de ventes aux enchères de successions, de beaux-arts, d’antiquités et d’objets de collection.",
+          "auraHistoria": "Présente le stock des marchands et des boutiques, offres à prix fixe comprises, à côté des annonces d’enchères.",
+          "verdict": "Aura Historia"
+        },
+        "monitoring": {
+          "criterion": "Suivi au-delà d’une seule place de marché",
+          "competitor": "Enregistrer des recherches et des lots, et suivre des mots-clés, des artistes, des vendeurs et des catégories pour recevoir des alertes sur ce qui est publié sur Invaluable.",
+          "auraHistoria": "Les listes de surveillance, les recherches enregistrées et les notifications couvrent tous les fournisseurs de l’index, avec les changements de prix et de disponibilité des objets suivis.",
+          "verdict": "Aura Historia"
+        },
+        "priceData": {
+          "criterion": "Données de prix",
+          "competitor": "Une archive de prix réalisés aux enchères, et des données de prix propres proposées par abonnement.",
+          "auraHistoria": "Historique de prix d’une annonce et objets similaires sur les pages d’annonce. Aucune évaluation.",
+          "verdict": "Complémentaires"
+        },
+        "languageHandling": {
+          "criterion": "Gestion des langues",
+          "competitor": "Décrit sa plateforme comme multidevise et multilingue, avec traduction des langues et conversion des devises dans sa console d’enchères.",
+          "auraHistoria": "Cinq langues (allemand, anglais, espagnol, français, italien), avec des annonces traduites et une terminologie harmonisée.",
+          "verdict": "Les deux traduisent"
+        }
+      }
+    },
+    "downstream": {
+      "title": "De nombreux types de fournisseurs changent <em>ce que vous pouvez voir</em>",
+      "sourcesLabel": "Types de fournisseurs",
+      "sources": {
+        "auctionHouses": "Maisons de ventes",
+        "auctionPlatforms": "Plateformes d’enchères",
+        "antiqueDealers": "Marchands d’art et d’antiquités",
+        "privateSellers": "Vendeurs privés",
+        "marketplaces": "Places de marché"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Atteindre marchands et boutiques",
+          "description": "De nombreux marchands et boutiques vendent sur leur propre site web. Une recherche entre fournisseurs affiche leurs objets à côté des annonces d’enchères."
+        },
+        "offersSideBySide": {
+          "title": "Voir les offres côte à côte",
+          "description": "Les prix demandés par les marchands, les annonces d’enchères et les offres des places de marché figurent dans une seule liste de résultats : vous comparez ce qui est disponible maintenant."
+        },
+        "acrossLanguages": {
+          "title": "Chercher en cinq langues",
+          "description": "Quand les annonces sont traduites et la terminologie harmonisée, la langue du vendeur ou du commissaire-priseur limite moins un collectionneur."
+        },
+        "watchAnObject": {
+          "title": "Suivre un objet précis",
+          "description": "Une liste de surveillance suit un objet et vous avertit des changements de prix et de disponibilité, quel que soit le fournisseur qui l’annonce."
+        }
+      }
+    },
+    "together": {
+      "title": "Trouvez les objets ici, <em>enchérissez là où ils sont proposés</em>",
+      "paragraph1": "Chacun a un rôle différent. Aura Historia montre ce qui est proposé et où. Sur la page d’une annonce, « Voir chez le fournisseur » ouvre l’annonce sur la page du fournisseur lui-même, dans un nouvel onglet.",
+      "paragraph2": "Aura Historia n’organise pas de ventes aux enchères et ne reçoit pas d’enchères : l’inscription, l’enchère ou l’achat se font donc auprès du fournisseur. Pour enchérir sur Invaluable, inscrivez-vous et enchérissez là-bas, sur sa plateforme. Aura Historia n’est pas affiliée à Invaluable."
+    },
+    "faq": {
+      "title": "Questions fréquentes sur <em>Aura Historia et Invaluable</em>",
+      "items": {
+        "alternative": {
+          "question": "Aura Historia est-elle une alternative à Invaluable ?",
+          "answer": "Oui, pour les acheteurs qui veulent chercher au-delà d’une seule place de marché d’enchères. Aura Historia recherche au même endroit parmi les maisons de ventes, les marchands, les boutiques et les places de marché d’art et d’antiquités, annonces à prix fixe comprises. Elle n’organise pas de ventes aux enchères : ce n’est donc pas un lieu où enchérir. Invaluable reste un lieu établi pour enchérir auprès de maisons de ventes."
+        },
+        "replace": {
+          "question": "Aura Historia remplace-t-elle Invaluable ?",
+          "answer": "Non. Aura Historia n’organise pas de ventes aux enchères et ne reçoit pas d’enchères. Elle montre ce qui est proposé et où. Utilisez-la pour chercher entre lieux de vente, et Invaluable lorsque vous voulez vous inscrire et enchérir auprès d’une maison de ventes sur la plateforme d’Invaluable."
+        },
+        "bid": {
+          "question": "Puis-je enchérir via Aura Historia ?",
+          "answer": "Non. Aura Historia n’organise pas de ventes aux enchères et ne reçoit pas d’enchères. Sur la page d’une annonce, « Voir chez le fournisseur » ouvre l’annonce sur la page du fournisseur lui-même, dans un nouvel onglet ; l’inscription, l’enchère ou l’achat s’y font."
+        },
+        "dealersAndFixedPrice": {
+          "question": "Quel service est le meilleur pour les marchands et l’art et les antiquités à prix fixe ?",
+          "answer": "Aura Historia. Les marchands et les boutiques, avec leurs annonces à prix fixe, font partie de ce qu’elle recherche. Invaluable se décrit comme une place de marché de ventes aux enchères de successions, de beaux-arts, d’antiquités et d’objets de collection."
+        },
+        "auctionZip": {
+          "question": "Invaluable est-il la même chose qu’AuctionZip ?",
+          "answer": "Non. Selon l’annonce du 1er octobre 2026, Invaluable exploite une place de marché d’enchères en ligne mondiale, tandis qu’AuctionZip exploite une place de marché d’enchères en ligne centrée sur les États-Unis et un annuaire de commissaires-priseurs locaux et régionaux. La même entreprise exploite les deux."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Invaluable est un lieu pour les enchères. <em>Aura Historia est une recherche sur tout le marché.</em>",
+      "description": "Si votre recherche doit inclure les marchands, les boutiques et les places de marché en plus des maisons de ventes, commencez par Aura Historia.",
+      "button": "Rechercher de l’art et des antiquités"
+    },
+    "positioning": "Une place de marché d’enchères où les collectionneurs s’inscrivent et enchérissent, face à une recherche entre maisons de ventes, marchands et places de marché qui n’organise pas d’enchères."
   },
   "partnerAccessTokens": {
     "create": {

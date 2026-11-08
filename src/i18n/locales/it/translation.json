@@ -82,6 +82,10 @@
       "title": "Aura Historia vs Barnebys | Confronto sulla ricerca di arte e antiquariato",
       "description": "Confronta Aura Historia e Barnebys per ricerca di arte e antiquariato, copertura delle fonti, ricerca multilingue, avvisi rapidi e monitoraggio del mercato con IA."
     },
+    "compareInvaluable": {
+      "title": "Aura Historia vs Invaluable | Confronto sulla ricerca di arte e antiquariato",
+      "description": "Confronta Aura Historia e Invaluable: un marketplace d’asta a confronto con una ricerca tra case d’asta, commercianti e marketplace di arte e antiquariato."
+    },
     "partnerAccessTokens": {
       "title": "Token di accesso | Aura Historia"
     },
@@ -3701,6 +3705,208 @@
       "button": "Cerca arte e antiquariato"
     },
     "positioning": "Un motore di ricerca di aste online, confrontato con una ricerca su tutto il mercato dell’arte e dell’antiquariato."
+  },
+  "compareInvaluablePage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "ricerca di arte e antiquariato",
+        "auctionMarketplace": "marketplace d’asta online",
+        "crossVenueSearch": "ricerca tra case d’asta, commercianti e marketplace",
+        "multilingualSearch": "ricerca multilingue di arte e antiquariato",
+        "monitoring": "liste dei preferiti e ricerche salvate per arte e antiquariato"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Riepilogo",
+        "advantages": "Dove Aura Historia è più ampia",
+        "scorecard": "Tabella comparativa",
+        "sources": "Tipi di fornitori",
+        "together": "Come si completano i due servizi",
+        "faq": "Domande frequenti",
+        "verdict": "Verdetto finale"
+      }
+    },
+    "hero": {
+      "eyebrow": "Confronto: Aura Historia vs Invaluable",
+      "title": "Una ricerca neutrale tra luoghi di vendita, oltre un solo <em>marketplace d’asta</em>",
+      "subtitle": "Invaluable è un marketplace affermato in cui i collezionisti fanno offerte presso migliaia di case d’asta. Aura Historia è un livello di ricerca tra case d’asta, commercianti e marketplace: mostra che cosa viene offerto e dove, e non organizza aste in proprio.",
+      "primaryCta": "Cerca tra i luoghi di vendita",
+      "secondaryCta": "Vedi il confronto",
+      "quickAnswerEyebrow": "In breve",
+      "quickAnswerTitle": "Invaluable è un luogo in cui fare offerte. <em>Aura Historia è una ricerca tra luoghi di vendita.</em>",
+      "quickAnswerDescription": "<strong>Verdetto:</strong> scegli Invaluable per registrarti e fare offerte presso case d’asta affermate sulla sua piattaforma. Scegli Aura Historia per cercare fianco a fianco tra case d’asta, commercianti e marketplace, annunci a prezzo fisso compresi, e per seguire gli oggetti tra più fornitori."
+    },
+    "quickVerdicts": {
+      "onlineBidding": {
+        "label": "Solido per fare offerte online presso case d’asta affermate",
+        "value": "Invaluable"
+      },
+      "searchAcrossVenues": {
+        "label": "Più forte per cercare tra case d’asta, commercianti e marketplace",
+        "value": "Aura Historia"
+      },
+      "dealerAndFixedPrice": {
+        "label": "Più forte per l’offerta dei commercianti e gli annunci a prezzo fisso",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Più forte per il monitoraggio oltre un singolo marketplace",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "La versione <em>breve</em>",
+      "paragraph1": "Aura Historia è un’alternativa a Invaluable per chi vuole cercare oltre un solo marketplace d’asta: case d’asta, commercianti, negozi e marketplace in un unico posto, con gli annunci a prezzo fisso accanto a quelli d’asta.",
+      "paragraph2": "Invaluable resta il luogo in cui registrarsi e fare offerte presso case d’asta affermate sulla sua piattaforma. Aura Historia non organizza aste e non accetta offerte. Mostra che cosa viene offerto e dove, e si fa un’offerta o si acquista presso il fornitore."
+    },
+    "respect": {
+      "title": "Invaluable è un <em>luogo affermato in cui fare offerte</em>",
+      "paragraph1": "Un confronto corretto parte da qui: su Invaluable i collezionisti si registrano e fanno offerte presso case d’asta di tutto il mondo. Secondo l’annuncio del 1° ottobre 2026, le attività Invaluable e AuctionZip servono migliaia di case d’asta e danno accesso a circa quattro milioni di offerenti registrati in tutto il mondo; nell’esercizio chiuso il 31 dicembre 2025 hanno gestito più di 500 milioni di dollari statunitensi di vendite lorde di merci.",
+      "paragraph2": "Aura Historia non cerca di sostituire tutto questo. Risponde a un’altra domanda: che cosa viene offerto tra case d’asta, commercianti, negozi e marketplace, annunci a prezzo fisso compresi. Invaluable offre anche i suoi dati sui prezzi come servizio in abbonamento. È uno strumento diverso e completa una ricerca come la nostra.",
+      "status": "Il 1° ottobre 2026 Liquidity Services (Nasdaq: LQDT) ha annunciato di aver completato l’acquisizione di Auction Holdings, Inc., che gestisce Invaluable, AuctionZip e RFC Auction Systems."
+    },
+    "advantages": {
+      "title": "Più dei lotti d’asta, <em>una ricerca tra luoghi di vendita</em>",
+      "description": "La differenza sta nell’ampiezza: commercianti e negozi accanto alle case d’asta, oggetti di molti luoghi di vendita affiancati, terminologia allineata in cinque lingue e monitoraggio tra più fornitori.",
+      "cards": {
+        "moreThanAuctionLots": {
+          "title": "Più dei lotti d’asta",
+          "description": "Commercianti, negozi e marketplace compaiono con i propri annunci, prezzi fissi compresi, accanto agli annunci d’asta."
+        },
+        "oneSearchAcrossVenues": {
+          "title": "Una ricerca tra luoghi di vendita",
+          "description": "Gli oggetti di molti luoghi di vendita sono in un’unica lista di risultati, invece che nel catalogo di uno solo."
+        },
+        "terminologyAcrossLanguages": {
+          "title": "Terminologia allineata tra le lingue",
+          "description": "Gli annunci sono tradotti e la terminologia è allineata tra tedesco, inglese, spagnolo, francese e italiano, così una ricerca in una lingua può trovare oggetti descritti in un’altra."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Monitoraggio tra più fornitori",
+          "description": "Liste dei preferiti, ricerche salvate e notifiche funzionano su tutti i fornitori dell’indice, non all’interno di un solo marketplace."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia e Invaluable, <em>punto per punto</em>",
+      "description": "Invaluable è pensato per fare offerte presso case d’asta sulla sua piattaforma. Aura Historia è pensata per cercare tra luoghi di vendita, commercianti e annunci a prezzo fisso compresi.",
+      "caption": "Confronto tra Aura Historia e Invaluable per la scoperta di arte e antiquariato",
+      "headers": {
+        "criterion": "Criterio",
+        "auraHistoria": "Aura Historia",
+        "competitor": "Invaluable"
+      },
+      "rows": {
+        "onPlatformBidding": {
+          "criterion": "Offerte sulla piattaforma",
+          "competitor": "I collezionisti si registrano e fanno offerte in aste dal vivo e a tempo su Invaluable, in una console per le offerte con traduzione delle lingue e conversione delle valute. Ogni casa d’asta stabilisce i propri metodi di pagamento.",
+          "auraHistoria": "Non organizza aste e non accetta offerte. “Vai al fornitore” apre l’annuncio sulla pagina del fornitore stesso.",
+          "verdict": "Invaluable per le offerte"
+        },
+        "auctionHouseReach": {
+          "criterion": "Portata presso le case d’asta",
+          "competitor": "Insieme ad AuctionZip serve migliaia di case d’asta e dà accesso a circa quattro milioni di offerenti registrati in tutto il mondo, secondo l’annuncio del 1° ottobre 2026.",
+          "auraHistoria": "Indicizza case d’asta, commercianti, negozi e marketplace a partire dai loro annunci pubblici.",
+          "verdict": "Invaluable per la portata"
+        },
+        "providerTypes": {
+          "criterion": "Tipi di fornitori",
+          "competitor": "Case d’asta che vendono sulla piattaforma e i collezionisti che fanno offerte presso di esse.",
+          "auraHistoria": "Case d’asta, commercianti, negozi e marketplace in un’unica ricerca.",
+          "verdict": "Aura Historia"
+        },
+        "dealersAndFixedPrice": {
+          "criterion": "Commercianti e prezzi fissi",
+          "competitor": "Si descrive come un marketplace per aste di successioni, belle arti, antiquariato e oggetti da collezione.",
+          "auraHistoria": "Mostra l’offerta di commercianti e negozi, proposte a prezzo fisso comprese, accanto agli annunci d’asta.",
+          "verdict": "Aura Historia"
+        },
+        "monitoring": {
+          "criterion": "Monitoraggio oltre un singolo marketplace",
+          "competitor": "Salvare ricerche e lotti, e seguire parole chiave, artisti, venditori e categorie per ricevere avvisi su ciò che viene pubblicato su Invaluable.",
+          "auraHistoria": "Liste dei preferiti, ricerche salvate e notifiche coprono tutti i fornitori dell’indice, con le variazioni di prezzo e disponibilità degli oggetti seguiti.",
+          "verdict": "Aura Historia"
+        },
+        "priceData": {
+          "criterion": "Dati sui prezzi",
+          "competitor": "Un archivio dei prezzi realizzati alle aste e dati sui prezzi propri offerti in abbonamento.",
+          "auraHistoria": "Storico dei prezzi di un annuncio e oggetti simili nelle pagine degli annunci. Nessuna valutazione.",
+          "verdict": "Complementari"
+        },
+        "languageHandling": {
+          "criterion": "Gestione delle lingue",
+          "competitor": "Descrive la sua piattaforma come multivaluta e multilingue, con traduzione delle lingue e conversione delle valute nella console per le offerte.",
+          "auraHistoria": "Cinque lingue (tedesco, inglese, spagnolo, francese, italiano), con annunci tradotti e terminologia allineata.",
+          "verdict": "Entrambi traducono"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Molti tipi di fornitori cambiano <em>ciò che puoi vedere</em>",
+      "sourcesLabel": "Tipi di fornitori",
+      "sources": {
+        "auctionHouses": "Case d’asta",
+        "auctionPlatforms": "Piattaforme d’asta",
+        "antiqueDealers": "Commercianti di arte e antiquariato",
+        "privateSellers": "Venditori privati",
+        "marketplaces": "Marketplace"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Raggiungi commercianti e negozi",
+          "description": "Molti commercianti e negozi vendono sui propri siti web. Una ricerca tra fornitori mostra i loro oggetti accanto agli annunci d’asta."
+        },
+        "offersSideBySide": {
+          "title": "Vedi le offerte affiancate",
+          "description": "I prezzi richiesti dai commercianti, gli annunci d’asta e le offerte dei marketplace stanno in un’unica lista di risultati, così puoi confrontare ciò che è disponibile adesso."
+        },
+        "acrossLanguages": {
+          "title": "Cerca in cinque lingue",
+          "description": "Quando gli annunci sono tradotti e la terminologia è allineata, la lingua del venditore o del banditore limita meno chi colleziona."
+        },
+        "watchAnObject": {
+          "title": "Segui un singolo oggetto",
+          "description": "Una lista dei preferiti segue un oggetto e ti avvisa delle variazioni di prezzo e disponibilità, qualunque fornitore lo proponga."
+        }
+      }
+    },
+    "together": {
+      "title": "Trova gli oggetti qui, <em>fai offerte dove vengono proposti</em>",
+      "paragraph1": "I due servizi hanno compiti diversi. Aura Historia mostra che cosa viene offerto e dove. Nella pagina di un annuncio, “Vai al fornitore” apre l’annuncio sulla pagina del fornitore stesso, in una nuova scheda.",
+      "paragraph2": "Aura Historia non organizza aste e non accetta offerte, quindi registrarsi, fare un’offerta o acquistare avviene presso il fornitore. Per fare offerte su Invaluable, registrati e fai l’offerta lì, sulla sua piattaforma. Aura Historia non è affiliata a Invaluable."
+    },
+    "faq": {
+      "title": "Domande frequenti su <em>Aura Historia e Invaluable</em>",
+      "items": {
+        "alternative": {
+          "question": "Aura Historia è un’alternativa a Invaluable?",
+          "answer": "Sì, per chi vuole cercare oltre un solo marketplace d’asta. Aura Historia cerca in un unico posto tra case d’asta, commercianti, negozi e marketplace di arte e antiquariato, annunci a prezzo fisso compresi. Non organizza aste, quindi non è un luogo in cui fare offerte. Invaluable resta un luogo affermato in cui fare offerte presso le case d’asta."
+        },
+        "replace": {
+          "question": "Aura Historia sostituisce Invaluable?",
+          "answer": "No. Aura Historia non organizza aste e non accetta offerte. Mostra che cosa viene offerto e dove. Usala per cercare tra luoghi di vendita e usa Invaluable quando vuoi registrarti e fare offerte presso una casa d’asta sulla piattaforma di Invaluable."
+        },
+        "bid": {
+          "question": "Posso fare offerte tramite Aura Historia?",
+          "answer": "No. Aura Historia non organizza aste e non accetta offerte. Nella pagina di un annuncio, “Vai al fornitore” apre l’annuncio sulla pagina del fornitore stesso, in una nuova scheda; lì si fa la registrazione, l’offerta o l’acquisto."
+        },
+        "dealersAndFixedPrice": {
+          "question": "Quale servizio è migliore per commercianti e arte e antiquariato a prezzo fisso?",
+          "answer": "Aura Historia. Commercianti e negozi, con i loro annunci a prezzo fisso, fanno parte di ciò che cerca. Invaluable si descrive come un marketplace per aste di successioni, belle arti, antiquariato e oggetti da collezione."
+        },
+        "auctionZip": {
+          "question": "Invaluable è la stessa cosa di AuctionZip?",
+          "answer": "No. Secondo l’annuncio del 1° ottobre 2026, Invaluable gestisce un marketplace d’asta online globale, mentre AuctionZip gestisce un marketplace d’asta online incentrato sugli Stati Uniti e una directory di banditori locali e regionali. Entrambi sono gestiti dalla stessa società."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Invaluable è un luogo per le aste. <em>Aura Historia è una ricerca su tutto il mercato.</em>",
+      "description": "Se la tua ricerca deve includere commercianti, negozi e marketplace oltre alle case d’asta, comincia da Aura Historia.",
+      "button": "Cerca arte e antiquariato"
+    },
+    "positioning": "Un marketplace d’asta in cui i collezionisti si registrano e fanno offerte, a confronto con una ricerca tra case d’asta, commercianti e marketplace che non organizza aste."
   },
   "partnerAccessTokens": {
     "create": {
