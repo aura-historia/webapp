@@ -2,7 +2,7 @@
 
 import { type Client, type ClientMeta, type Options as Options2, type RequestResult, type TDataShape, urlSearchParamsBodySerializer } from './client';
 import { client } from './client.gen';
-import type { AcceptPartyLocationResolutionCandidateData2, AcceptPartyLocationResolutionCandidateErrors, AcceptPartyLocationResolutionCandidateResponses, AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminAssignSourceLocationDefaultData, AdminAssignSourceLocationDefaultErrors, AdminAssignSourceLocationDefaultResponses, AdminChangeSourceLocationDefaultApplicabilityData, AdminChangeSourceLocationDefaultApplicabilityErrors, AdminChangeSourceLocationDefaultApplicabilityResponses, AdminClearSourceLocationDefaultData, AdminClearSourceLocationDefaultErrors, AdminClearSourceLocationDefaultResponses, AdminCreateListingSourceData, AdminCreateListingSourceErrors, AdminCreateListingSourceResponses, AdminCreateOAuthClientData, AdminCreateOAuthClientErrors, AdminCreateOAuthClientResponses, AdminCreatePartyData, AdminCreatePartyErrors, AdminCreatePartyResponses, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationErrors, AdminDecidePartnershipApplicationResponses, AdminDeleteListingSourceData, AdminDeleteListingSourceErrors, AdminDeleteListingSourceResponses, AdminDeleteOAuthClientData, AdminDeleteOAuthClientErrors, AdminDeleteOAuthClientResponses, AdminDeletePartyData, AdminDeletePartyErrors, AdminDeletePartyResponses, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenErrors, AdminDeleteUserAccessTokenResponses, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensErrors, AdminDeleteUserAccessTokensResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminDissolvePartnershipData, AdminDissolvePartnershipErrors, AdminDissolvePartnershipResponses, AdminGetListingSourceData, AdminGetListingSourceErrors, AdminGetListingSourceResponses, AdminGetOAuthClientData, AdminGetOAuthClientErrors, AdminGetOAuthClientResponses, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationErrors, AdminGetPartnershipApplicationResponses, AdminGetPartnershipData, AdminGetPartnershipErrors, AdminGetPartnershipResponses, AdminGetPartyData, AdminGetPartyErrors, AdminGetPartyResponses, AdminGetSourceLocationDefaultData, AdminGetSourceLocationDefaultErrors, AdminGetSourceLocationDefaultResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceErrors, AdminGrantPartnershipListingSourceResponses, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipErrors, AdminGrantPartnershipMembershipResponses, AdminListOAuthClientsData, AdminListOAuthClientsErrors, AdminListOAuthClientsResponses, AdminListUserAccessTokensData, AdminListUserAccessTokensErrors, AdminListUserAccessTokensResponses, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewErrors, AdminMarkPartnershipApplicationInReviewResponses, AdminPatchOAuthClientData, AdminPatchOAuthClientErrors, AdminPatchOAuthClientResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceErrors, AdminRevokePartnershipListingSourceResponses, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipErrors, AdminRevokePartnershipMembershipResponses, AdminRevokeUserSessionsData, AdminRevokeUserSessionsErrors, AdminRevokeUserSessionsResponses, AdminSearchAuctionsData, AdminSearchAuctionsErrors, AdminSearchAuctionsResponses, AdminSearchListingSourcesData, AdminSearchListingSourcesErrors, AdminSearchListingSourcesResponses, AdminSearchPartiesData, AdminSearchPartiesErrors, AdminSearchPartiesResponses, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsErrors, AdminSearchPartnershipApplicationsResponses, AdminSearchPartnershipsData, AdminSearchPartnershipsErrors, AdminSearchPartnershipsResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, AdminSuspendUserData, AdminSuspendUserErrors, AdminSuspendUserResponses, AdminUnsuspendUserData, AdminUnsuspendUserErrors, AdminUnsuspendUserResponses, AdminUpdateListingSourceData, AdminUpdateListingSourceErrors, AdminUpdateListingSourceResponses, AdminUpdatePartyData, AdminUpdatePartyErrors, AdminUpdatePartyResponses, AssignShippingDefaultData2, AssignShippingDefaultErrors, AssignShippingDefaultResponses, AssignSourceLocationDefaultData2, AssignSourceLocationDefaultErrors, AssignSourceLocationDefaultResponses, ChangeProductListingDeliveryData, ChangeProductListingDeliveryErrors, ChangeProductListingDeliveryResponses, ChangeSourceLocationDefaultApplicabilityData2, ChangeSourceLocationDefaultApplicabilityErrors, ChangeSourceLocationDefaultApplicabilityResponses, ClearShippingDefaultData2, ClearShippingDefaultErrors, ClearShippingDefaultResponses, ClearSourceLocationDefaultData2, ClearSourceLocationDefaultErrors, ClearSourceLocationDefaultResponses, ConfirmNewsletterSubscriptionData2, ConfirmNewsletterSubscriptionErrors, ConfirmNewsletterSubscriptionResponses, CorrectPartyLocationData2, CorrectPartyLocationErrors, CorrectPartyLocationResponses, CreateAdminAuctionData, CreateAdminAuctionErrors, CreateAdminAuctionResponses, CreatePartyLocationData2, CreatePartyLocationErrors, CreatePartyLocationResponses, CreateShippingProfileData2, CreateShippingProfileErrors, CreateShippingProfileResponses, CreateUserAddressData, CreateUserAddressErrors, CreateUserAddressResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAsyncPartnerProductListingsData, DeleteAsyncPartnerProductListingsErrors, DeleteAsyncPartnerProductListingsResponses, DeleteMyAccessTokenData, DeleteMyAccessTokenErrors, DeleteMyAccessTokenResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteNotificationsData, DeleteNotificationsErrors, DeleteNotificationsResponses, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationErrors, DeleteOwnPartnershipApplicationResponses, DeletePartnerProductListingsData, DeletePartnerProductListingsErrors, DeletePartnerProductListingsResponses, DeleteUserAddressData, DeleteUserAddressErrors, DeleteUserAddressResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, DiscoverPartyLocationsData, DiscoverPartyLocationsErrors, DiscoverPartyLocationsResponses, GetAdminAuctionData, GetAdminAuctionErrors, GetAdminAuctionResponses, GetAdminOverviewData, GetAdminOverviewErrors, GetAdminOverviewResponses, GetAdminProductListingData, GetAdminProductListingErrors, GetAdminProductListingResponses, GetAuctionCatalogueData, GetAuctionCatalogueErrors, GetAuctionCatalogueResponses, GetAuctionData, GetAuctionErrors, GetAuctionResponses, GetBrowsingDestinationData, GetBrowsingDestinationErrors, GetBrowsingDestinationResponses, GetHealthData, GetHealthResponses, GetMyAccessTokenData, GetMyAccessTokenErrors, GetMyAccessTokenResponses, GetMyAccessTokensData, GetMyAccessTokensErrors, GetMyAccessTokensResponses, GetMyListingSourcesData, GetMyListingSourcesErrors, GetMyListingSourcesResponses, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsErrors, GetMyPartnershipApplicationsResponses, GetOAuthAuthorizationServerMetadataData, GetOAuthAuthorizationServerMetadataResponses, GetOAuthConsentClientData, GetOAuthConsentClientErrors, GetOAuthConsentClientResponses, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationErrors, GetOwnPartnershipApplicationResponses, GetPartnerProductListingData, GetPartnerProductListingErrors, GetPartnerProductListingResponses, GetPartyLocationData, GetPartyLocationErrors, GetPartyLocationResolutionData, GetPartyLocationResolutionErrors, GetPartyLocationResolutionResponses, GetPartyLocationResponses, GetProductListingByTitleSlugData, GetProductListingByTitleSlugErrors, GetProductListingByTitleSlugResponses, GetProductListingData, GetProductListingDeliveryData, GetProductListingDeliveryErrors, GetProductListingDeliveryResponses, GetProductListingErrors, GetProductListingHistoryData, GetProductListingHistoryErrors, GetProductListingHistoryResponses, GetProductListingResponses, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugErrors, GetPublicListingSourceBySlugResponses, GetPublicOverviewData, GetPublicOverviewErrors, GetPublicOverviewResponses, GetReadinessData, GetReadinessErrors, GetReadinessResponses, GetShippingDefaultData, GetShippingDefaultErrors, GetShippingDefaultResponses, GetShippingProfileData, GetShippingProfileErrors, GetShippingProfileResponses, GetSimilarProductListingsData, GetSimilarProductListingsErrors, GetSimilarProductListingsResponses, GetSourceLocationDefaultData, GetSourceLocationDefaultErrors, GetSourceLocationDefaultResponses, GetUserAccountData, GetUserAccountErrors, GetUserAccountResponses, GetUserAddressData, GetUserAddressErrors, GetUserAddressResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductListingsData, GetWatchlistProductListingsErrors, GetWatchlistProductListingsResponses, ListAuctionsData, ListAuctionsErrors, ListAuctionsResponses, ListNotificationsData, ListNotificationsErrors, ListNotificationsResponses, ListPartnerProductListingsData, ListPartnerProductListingsErrors, ListPartnerProductListingsResponses, ListPartyLocationManagersData, ListPartyLocationManagersErrors, ListPartyLocationManagersResponses, ListPartyLocationResolutionReviewsData, ListPartyLocationResolutionReviewsErrors, ListPartyLocationResolutionReviewsResponses, ListPartyLocationsData, ListPartyLocationsErrors, ListPartyLocationsResponses, ListSearchFilterMatchesData, ListSearchFilterMatchesErrors, ListSearchFilterMatchesResponses, ListShippingProfilesData, ListShippingProfilesErrors, ListShippingProfilesResponses, ListUserAddressesData, ListUserAddressesErrors, ListUserAddressesResponses, OauthAuthorizeData, OauthAuthorizeErrors, OauthIntrospectData, OauthIntrospectErrors, OauthIntrospectResponses, OauthRevokeData, OauthRevokeErrors, OauthRevokeResponses, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeErrors, OauthTokenByThirdPartyCodeResponses, OauthTokenData, OauthTokenErrors, OauthTokenResponses, PatchAsyncPartnerProductListingsData, PatchAsyncPartnerProductListingsErrors, PatchAsyncPartnerProductListingsResponses, PatchMyAccessTokenData, PatchMyAccessTokenErrors, PatchMyAccessTokenResponses, PatchPartnerProductListingsData, PatchPartnerProductListingsErrors, PatchPartnerProductListingsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostAsyncPartnerProductListingsData, PostAsyncPartnerProductListingsErrors, PostAsyncPartnerProductListingsResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostLoopsPreferenceWebhookData, PostLoopsPreferenceWebhookErrors, PostLoopsPreferenceWebhookResponses, PostMyAccessTokenData, PostMyAccessTokenErrors, PostMyAccessTokenResponses, PostPartnerProductListingsData, PostPartnerProductListingsErrors, PostPartnerProductListingsResponses, PostPartnershipApplicationData, PostPartnershipApplicationErrors, PostPartnershipApplicationResponses, PostWoocommerceWebhookData, PostWoocommerceWebhookErrors, PostWoocommerceWebhookResponses, PutAsyncPartnerProductListingsData, PutAsyncPartnerProductListingsErrors, PutAsyncPartnerProductListingsResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductListingsData, PutPartnerProductListingsErrors, PutPartnerProductListingsResponses, PutShopifyListingSourceIngestionConfigurationData2, PutShopifyListingSourceIngestionConfigurationErrors, PutShopifyListingSourceIngestionConfigurationResponses, PutWoocommerceListingSourceIngestionConfigurationData2, PutWoocommerceListingSourceIngestionConfigurationErrors, PutWoocommerceListingSourceIngestionConfigurationResponses, ReplaceShippingProfileData2, ReplaceShippingProfileErrors, ReplaceShippingProfileResponses, RequestPartyLocationResolutionData2, RequestPartyLocationResolutionErrors, RequestPartyLocationResolutionResponses, RestoreAdminProductListingData, RestoreAdminProductListingErrors, RestoreAdminProductListingResponses, RestorePartnerProductListingData, RestorePartnerProductListingErrors, RestorePartnerProductListingResponses, RestoreShippingProfileData, RestoreShippingProfileErrors, RestoreShippingProfileResponses, RetireShippingProfileData, RetireShippingProfileErrors, RetireShippingProfileResponses, RetryPartyLocationResolutionData2, RetryPartyLocationResolutionErrors, RetryPartyLocationResolutionResponses, SearchAdminProductListingsData, SearchAdminProductListingsErrors, SearchAdminProductListingsResponses, SearchPublicListingSourcesData, SearchPublicListingSourcesErrors, SearchPublicListingSourcesResponses, SetBrowsingDestinationData, SetBrowsingDestinationErrors, SetBrowsingDestinationResponses, SetPartyLocationLifecycleData2, SetPartyLocationLifecycleErrors, SetPartyLocationLifecycleResponses, SetPartyLocationManagementGrantData, SetPartyLocationManagementGrantErrors, SetPartyLocationManagementGrantResponses, SimpleSearchProductListingsData, SimpleSearchProductListingsErrors, SimpleSearchProductListingsResponses, SubmitProductListingDeliveryData, SubmitProductListingDeliveryErrors, SubmitProductListingDeliveryResponses, UpdateAdminAuctionData, UpdateAdminAuctionErrors, UpdateAdminAuctionResponses, UpdateAdminProductListingData, UpdateAdminProductListingErrors, UpdateAdminProductListingResponses, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenErrors, UpdateAllNotificationsSeenResponses, UpdateNotificationSeenData2, UpdateNotificationSeenErrors, UpdateNotificationSeenResponses, UpdateNotificationsSeenData2, UpdateNotificationsSeenErrors, UpdateNotificationsSeenResponses, UpdatePartnerProductListingData, UpdatePartnerProductListingErrors, UpdatePartnerProductListingResponses, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackErrors, UpdateSearchFilterMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserAddressData, UpdateUserAddressErrors, UpdateUserAddressResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses, WithdrawAdminProductListingData, WithdrawAdminProductListingErrors, WithdrawAdminProductListingResponses, WithdrawPartnerProductListingData, WithdrawPartnerProductListingErrors, WithdrawPartnerProductListingResponses } from './types.gen';
+import type { AcceptPartyLocationResolutionCandidateData2, AcceptPartyLocationResolutionCandidateErrors, AcceptPartyLocationResolutionCandidateResponses, AddWatchlistProductData, AddWatchlistProductErrors, AddWatchlistProductResponses, AdminAssignSourceLocationDefaultData, AdminAssignSourceLocationDefaultErrors, AdminAssignSourceLocationDefaultResponses, AdminChangeSourceLocationDefaultApplicabilityData, AdminChangeSourceLocationDefaultApplicabilityErrors, AdminChangeSourceLocationDefaultApplicabilityResponses, AdminClearSourceLocationDefaultData, AdminClearSourceLocationDefaultErrors, AdminClearSourceLocationDefaultResponses, AdminCreateListingSourceData, AdminCreateListingSourceErrors, AdminCreateListingSourceResponses, AdminCreateOAuthClientData, AdminCreateOAuthClientErrors, AdminCreateOAuthClientResponses, AdminCreatePartyData, AdminCreatePartyErrors, AdminCreatePartyResponses, AdminDecidePartnershipApplicationData, AdminDecidePartnershipApplicationErrors, AdminDecidePartnershipApplicationResponses, AdminDeleteListingSourceData, AdminDeleteListingSourceErrors, AdminDeleteListingSourceResponses, AdminDeleteOAuthClientData, AdminDeleteOAuthClientErrors, AdminDeleteOAuthClientResponses, AdminDeletePartyData, AdminDeletePartyErrors, AdminDeletePartyResponses, AdminDeleteUserAccessTokenData, AdminDeleteUserAccessTokenErrors, AdminDeleteUserAccessTokenResponses, AdminDeleteUserAccessTokensData, AdminDeleteUserAccessTokensErrors, AdminDeleteUserAccessTokensResponses, AdminDeleteUserData, AdminDeleteUserErrors, AdminDeleteUserResponses, AdminDissolvePartnershipData, AdminDissolvePartnershipErrors, AdminDissolvePartnershipResponses, AdminGetListingSourceData, AdminGetListingSourceErrors, AdminGetListingSourceResponses, AdminGetOAuthClientData, AdminGetOAuthClientErrors, AdminGetOAuthClientResponses, AdminGetPartnershipApplicationData, AdminGetPartnershipApplicationErrors, AdminGetPartnershipApplicationResponses, AdminGetPartnershipData, AdminGetPartnershipErrors, AdminGetPartnershipResponses, AdminGetPartyData, AdminGetPartyErrors, AdminGetPartyResponses, AdminGetSourceLocationDefaultData, AdminGetSourceLocationDefaultErrors, AdminGetSourceLocationDefaultResponses, AdminGetUserData, AdminGetUserErrors, AdminGetUserResponses, AdminGrantPartnershipListingSourceData, AdminGrantPartnershipListingSourceErrors, AdminGrantPartnershipListingSourceResponses, AdminGrantPartnershipMembershipData, AdminGrantPartnershipMembershipErrors, AdminGrantPartnershipMembershipResponses, AdminListOAuthClientsData, AdminListOAuthClientsErrors, AdminListOAuthClientsResponses, AdminListUserAccessTokensData, AdminListUserAccessTokensErrors, AdminListUserAccessTokensResponses, AdminMarkPartnershipApplicationInReviewData, AdminMarkPartnershipApplicationInReviewErrors, AdminMarkPartnershipApplicationInReviewResponses, AdminPatchOAuthClientData, AdminPatchOAuthClientErrors, AdminPatchOAuthClientResponses, AdminPatchUserData, AdminPatchUserErrors, AdminPatchUserResponses, AdminRevokePartnershipListingSourceData, AdminRevokePartnershipListingSourceErrors, AdminRevokePartnershipListingSourceResponses, AdminRevokePartnershipMembershipData, AdminRevokePartnershipMembershipErrors, AdminRevokePartnershipMembershipResponses, AdminRevokeUserSessionsData, AdminRevokeUserSessionsErrors, AdminRevokeUserSessionsResponses, AdminSearchAuctionsData, AdminSearchAuctionsErrors, AdminSearchAuctionsResponses, AdminSearchListingSourcesData, AdminSearchListingSourcesErrors, AdminSearchListingSourcesResponses, AdminSearchPartiesData, AdminSearchPartiesErrors, AdminSearchPartiesResponses, AdminSearchPartnershipApplicationsData, AdminSearchPartnershipApplicationsErrors, AdminSearchPartnershipApplicationsResponses, AdminSearchPartnershipsData, AdminSearchPartnershipsErrors, AdminSearchPartnershipsResponses, AdminSearchUsersData, AdminSearchUsersErrors, AdminSearchUsersResponses, AdminSuspendUserData, AdminSuspendUserErrors, AdminSuspendUserResponses, AdminUnsuspendUserData, AdminUnsuspendUserErrors, AdminUnsuspendUserResponses, AdminUpdateListingSourceData, AdminUpdateListingSourceErrors, AdminUpdateListingSourceResponses, AdminUpdatePartyData, AdminUpdatePartyErrors, AdminUpdatePartyResponses, AssignShippingDefaultData2, AssignShippingDefaultErrors, AssignShippingDefaultResponses, AssignSourceLocationDefaultData2, AssignSourceLocationDefaultErrors, AssignSourceLocationDefaultResponses, ChangeProductListingDeliveryData, ChangeProductListingDeliveryErrors, ChangeProductListingDeliveryResponses, ChangeSourceLocationDefaultApplicabilityData2, ChangeSourceLocationDefaultApplicabilityErrors, ChangeSourceLocationDefaultApplicabilityResponses, ClearShippingDefaultData2, ClearShippingDefaultErrors, ClearShippingDefaultResponses, ClearSourceLocationDefaultData2, ClearSourceLocationDefaultErrors, ClearSourceLocationDefaultResponses, ConfirmNewsletterSubscriptionData2, ConfirmNewsletterSubscriptionErrors, ConfirmNewsletterSubscriptionResponses, CorrectPartyLocationData2, CorrectPartyLocationErrors, CorrectPartyLocationResponses, CreateAdminAuctionData, CreateAdminAuctionErrors, CreateAdminAuctionResponses, CreatePartyLocationData2, CreatePartyLocationErrors, CreatePartyLocationResponses, CreateShippingProfileData2, CreateShippingProfileErrors, CreateShippingProfileResponses, CreateUserAddressData, CreateUserAddressErrors, CreateUserAddressResponses, CreateUserSearchFilterData, CreateUserSearchFilterErrors, CreateUserSearchFilterResponses, DeleteAsyncPartnerProductListingsData, DeleteAsyncPartnerProductListingsErrors, DeleteAsyncPartnerProductListingsResponses, DeleteMyAccessTokenData, DeleteMyAccessTokenErrors, DeleteMyAccessTokenResponses, DeleteNotificationData, DeleteNotificationErrors, DeleteNotificationResponses, DeleteNotificationsData, DeleteNotificationsErrors, DeleteNotificationsResponses, DeleteOwnPartnershipApplicationData, DeleteOwnPartnershipApplicationErrors, DeleteOwnPartnershipApplicationResponses, DeletePartnerProductListingsData, DeletePartnerProductListingsErrors, DeletePartnerProductListingsResponses, DeleteUserAddressData, DeleteUserAddressErrors, DeleteUserAddressResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, DeleteUserSearchFilterData, DeleteUserSearchFilterErrors, DeleteUserSearchFilterResponses, DeleteWatchlistProductData, DeleteWatchlistProductErrors, DeleteWatchlistProductResponses, DisconnectMyOAuthClientData, DisconnectMyOAuthClientErrors, DisconnectMyOAuthClientResponses, DiscoverPartyLocationsData, DiscoverPartyLocationsErrors, DiscoverPartyLocationsResponses, GetAdminAuctionData, GetAdminAuctionErrors, GetAdminAuctionResponses, GetAdminOverviewData, GetAdminOverviewErrors, GetAdminOverviewResponses, GetAdminProductListingData, GetAdminProductListingErrors, GetAdminProductListingResponses, GetApiCatalogData, GetApiCatalogResponses, GetAuctionCatalogueData, GetAuctionCatalogueErrors, GetAuctionCatalogueResponses, GetAuctionData, GetAuctionErrors, GetAuctionResponses, GetBrowsingDestinationData, GetBrowsingDestinationErrors, GetBrowsingDestinationResponses, GetHealthData, GetHealthResponses, GetMyAccessTokenData, GetMyAccessTokenErrors, GetMyAccessTokenResponses, GetMyAccessTokensData, GetMyAccessTokensErrors, GetMyAccessTokensResponses, GetMyListingSourcesData, GetMyListingSourcesErrors, GetMyListingSourcesResponses, GetMyPartnershipApplicationsData, GetMyPartnershipApplicationsErrors, GetMyPartnershipApplicationsResponses, GetOAuthAuthorizationServerMetadataData, GetOAuthAuthorizationServerMetadataResponses, GetOAuthConsentClientData, GetOAuthConsentClientErrors, GetOAuthConsentClientResponses, GetOAuthMetadataDocumentConsentClientData, GetOAuthMetadataDocumentConsentClientErrors, GetOAuthMetadataDocumentConsentClientResponses, GetOAuthProtectedResourceMetadataData, GetOAuthProtectedResourceMetadataResponses, GetOwnPartnershipApplicationData, GetOwnPartnershipApplicationErrors, GetOwnPartnershipApplicationResponses, GetPartnerProductListingData, GetPartnerProductListingErrors, GetPartnerProductListingResponses, GetPartyLocationData, GetPartyLocationErrors, GetPartyLocationResolutionData, GetPartyLocationResolutionErrors, GetPartyLocationResolutionResponses, GetPartyLocationResponses, GetProductListingByTitleSlugData, GetProductListingByTitleSlugErrors, GetProductListingByTitleSlugResponses, GetProductListingData, GetProductListingDeliveryData, GetProductListingDeliveryErrors, GetProductListingDeliveryResponses, GetProductListingErrors, GetProductListingHistoryData, GetProductListingHistoryErrors, GetProductListingHistoryResponses, GetProductListingResponses, GetPublicListingSourceBySlugData, GetPublicListingSourceBySlugErrors, GetPublicListingSourceBySlugResponses, GetPublicOverviewData, GetPublicOverviewErrors, GetPublicOverviewResponses, GetReadinessData, GetReadinessErrors, GetReadinessResponses, GetShippingDefaultData, GetShippingDefaultErrors, GetShippingDefaultResponses, GetShippingProfileData, GetShippingProfileErrors, GetShippingProfileResponses, GetSimilarProductListingsData, GetSimilarProductListingsErrors, GetSimilarProductListingsResponses, GetSiteAgentSkillData, GetSiteAgentSkillErrors, GetSiteAgentSkillResponses, GetSiteAgentSkillsIndexData, GetSiteAgentSkillsIndexResponses, GetSiteAiCatalogData, GetSiteAiCatalogResponses, GetSiteAuthMdData, GetSiteAuthMdResponses, GetSitePoppyDeclarationData, GetSitePoppyDeclarationResponses, GetSiteWebMcpClientMetadataData, GetSiteWebMcpClientMetadataResponses, GetSourceLocationDefaultData, GetSourceLocationDefaultErrors, GetSourceLocationDefaultResponses, GetUserAccountData, GetUserAccountErrors, GetUserAccountResponses, GetUserAddressData, GetUserAddressErrors, GetUserAddressResponses, GetUserSearchFilterData, GetUserSearchFilterErrors, GetUserSearchFilterResponses, GetUserSearchFiltersData, GetUserSearchFiltersErrors, GetUserSearchFiltersResponses, GetWatchlistProductListingsData, GetWatchlistProductListingsErrors, GetWatchlistProductListingsResponses, HeadApiCatalogData, HeadApiCatalogResponses, HeadSiteAgentSkillData, HeadSiteAgentSkillErrors, HeadSiteAgentSkillResponses, HeadSiteAgentSkillsIndexData, HeadSiteAgentSkillsIndexResponses, HeadSiteAiCatalogData, HeadSiteAiCatalogResponses, HeadSiteAuthMdData, HeadSiteAuthMdResponses, HeadSitePoppyDeclarationData, HeadSitePoppyDeclarationResponses, HeadSiteWebMcpClientMetadataData, HeadSiteWebMcpClientMetadataResponses, ListAuctionsData, ListAuctionsErrors, ListAuctionsResponses, ListNotificationsData, ListNotificationsErrors, ListNotificationsResponses, ListPartnerProductListingsData, ListPartnerProductListingsErrors, ListPartnerProductListingsResponses, ListPartyLocationManagersData, ListPartyLocationManagersErrors, ListPartyLocationManagersResponses, ListPartyLocationResolutionReviewsData, ListPartyLocationResolutionReviewsErrors, ListPartyLocationResolutionReviewsResponses, ListPartyLocationsData, ListPartyLocationsErrors, ListPartyLocationsResponses, ListSearchFilterMatchesData, ListSearchFilterMatchesErrors, ListSearchFilterMatchesResponses, ListShippingProfilesData, ListShippingProfilesErrors, ListShippingProfilesResponses, ListUserAddressesData, ListUserAddressesErrors, ListUserAddressesResponses, OauthAuthorizeData, OauthAuthorizeErrors, OauthIntrospectData, OauthIntrospectErrors, OauthIntrospectResponses, OauthRevokeData, OauthRevokeErrors, OauthRevokeResponses, OauthTokenByThirdPartyCodeData, OauthTokenByThirdPartyCodeErrors, OauthTokenByThirdPartyCodeResponses, OauthTokenData, OauthTokenErrors, OauthTokenResponses, PatchAsyncPartnerProductListingsData, PatchAsyncPartnerProductListingsErrors, PatchAsyncPartnerProductListingsResponses, PatchMyAccessTokenData, PatchMyAccessTokenErrors, PatchMyAccessTokenResponses, PatchPartnerProductListingsData, PatchPartnerProductListingsErrors, PatchPartnerProductListingsResponses, PatchWatchlistProductData, PatchWatchlistProductErrors, PatchWatchlistProductResponses, PostAsyncPartnerProductListingsData, PostAsyncPartnerProductListingsErrors, PostAsyncPartnerProductListingsResponses, PostBillingCheckoutData2, PostBillingCheckoutErrors, PostBillingCheckoutResponses, PostBillingManageData, PostBillingManageErrors, PostBillingManageResponses, PostBillingPortalData, PostBillingPortalErrors, PostBillingPortalResponses, PostLoopsPreferenceWebhookData, PostLoopsPreferenceWebhookErrors, PostLoopsPreferenceWebhookResponses, PostMyAccessTokenData, PostMyAccessTokenErrors, PostMyAccessTokenResponses, PostPartnerProductListingsData, PostPartnerProductListingsErrors, PostPartnerProductListingsResponses, PostPartnershipApplicationData, PostPartnershipApplicationErrors, PostPartnershipApplicationResponses, PostWoocommerceWebhookData, PostWoocommerceWebhookErrors, PostWoocommerceWebhookResponses, PutAsyncPartnerProductListingsData, PutAsyncPartnerProductListingsErrors, PutAsyncPartnerProductListingsResponses, PutNewsletterSubscriptionData2, PutNewsletterSubscriptionErrors, PutNewsletterSubscriptionResponses, PutPartnerProductListingsData, PutPartnerProductListingsErrors, PutPartnerProductListingsResponses, PutShopifyListingSourceIngestionConfigurationData2, PutShopifyListingSourceIngestionConfigurationErrors, PutShopifyListingSourceIngestionConfigurationResponses, PutWoocommerceListingSourceIngestionConfigurationData2, PutWoocommerceListingSourceIngestionConfigurationErrors, PutWoocommerceListingSourceIngestionConfigurationResponses, ReplaceShippingProfileData2, ReplaceShippingProfileErrors, ReplaceShippingProfileResponses, RequestPartyLocationResolutionData2, RequestPartyLocationResolutionErrors, RequestPartyLocationResolutionResponses, RestoreAdminProductListingData, RestoreAdminProductListingErrors, RestoreAdminProductListingResponses, RestorePartnerProductListingData, RestorePartnerProductListingErrors, RestorePartnerProductListingResponses, RestoreShippingProfileData, RestoreShippingProfileErrors, RestoreShippingProfileResponses, RetireShippingProfileData, RetireShippingProfileErrors, RetireShippingProfileResponses, RetryPartyLocationResolutionData2, RetryPartyLocationResolutionErrors, RetryPartyLocationResolutionResponses, SearchAdminProductListingsData, SearchAdminProductListingsErrors, SearchAdminProductListingsResponses, SearchPublicListingSourcesData, SearchPublicListingSourcesErrors, SearchPublicListingSourcesResponses, SetBrowsingDestinationData, SetBrowsingDestinationErrors, SetBrowsingDestinationResponses, SetPartyLocationLifecycleData2, SetPartyLocationLifecycleErrors, SetPartyLocationLifecycleResponses, SetPartyLocationManagementGrantData, SetPartyLocationManagementGrantErrors, SetPartyLocationManagementGrantResponses, SimpleSearchProductListingsData, SimpleSearchProductListingsErrors, SimpleSearchProductListingsResponses, SubmitProductListingDeliveryData, SubmitProductListingDeliveryErrors, SubmitProductListingDeliveryResponses, UpdateAdminAuctionData, UpdateAdminAuctionErrors, UpdateAdminAuctionResponses, UpdateAdminProductListingData, UpdateAdminProductListingErrors, UpdateAdminProductListingResponses, UpdateAllNotificationsSeenData, UpdateAllNotificationsSeenErrors, UpdateAllNotificationsSeenResponses, UpdateNotificationSeenData2, UpdateNotificationSeenErrors, UpdateNotificationSeenResponses, UpdateNotificationsSeenData2, UpdateNotificationsSeenErrors, UpdateNotificationsSeenResponses, UpdatePartnerProductListingData, UpdatePartnerProductListingErrors, UpdatePartnerProductListingResponses, UpdateSearchFilterMatchFeedbackData, UpdateSearchFilterMatchFeedbackErrors, UpdateSearchFilterMatchFeedbackResponses, UpdateUserAccountData, UpdateUserAccountErrors, UpdateUserAccountResponses, UpdateUserAddressData, UpdateUserAddressErrors, UpdateUserAddressResponses, UpdateUserSearchFilterData, UpdateUserSearchFilterErrors, UpdateUserSearchFilterResponses, WithdrawAdminProductListingData, WithdrawAdminProductListingErrors, WithdrawAdminProductListingResponses, WithdrawPartnerProductListingData, WithdrawPartnerProductListingErrors, WithdrawPartnerProductListingResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
   /**
@@ -21,9 +21,114 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 /**
  * Discover the Aura OAuth authorization server
  *
- * Public RFC 8414 metadata for fixed confidential clients. The issuer and endpoints use the configured environment; the authorization endpoint is the existing webapp consent URL. No refresh grant, dynamic registration, CIMD or authorization-response issuer parameter is advertised. Broader registered-client scopes remain supported; scopes_supported lists the relevant ordinary user vocabulary. See docs/oauth.md for fixed-client setup.
+ * Public RFC 8414 metadata. The issuer and endpoints use the configured environment; the authorization endpoint is the existing webapp consent URL. Every authorization response carries `iss` (RFC 9207). While the environment enables metadata document clients, `client_id_metadata_document_supported` is `true` and `token_endpoint_auth_methods_supported` adds `none`; otherwise the member is omitted. No refresh grant or dynamic registration is advertised. Broader registered-client scopes remain supported; scopes_supported lists the ordinary user vocabulary, which is also the scope ceiling of metadata document clients. See docs/oauth.md.
  */
 export const getOAuthAuthorizationServerMetadata = <ThrowOnError extends boolean = false>(options?: Options<GetOAuthAuthorizationServerMetadataData, ThrowOnError>): RequestResult<GetOAuthAuthorizationServerMetadataResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetOAuthAuthorizationServerMetadataResponses, unknown, ThrowOnError>({ url: '/.well-known/oauth-authorization-server', ...options });
+
+/**
+ * Discover the REST protected resource
+ *
+ * Public RFC 9728 metadata for the shared Aura default resource that REST serves. `resource` and the single authorization server are the configured environment's issuer, bearer tokens travel in the `Authorization` header, and `scopes_supported` lists the ordinary-user vocabulary that authorization-server discovery advertises; a client's scope ceiling remains authoritative. A `401` for a missing or invalid bearer on a route that accepts Aura access tokens points here with `WWW-Authenticate: Bearer resource_metadata="…"`, which adds `error="invalid_token"` when a presented bearer is invalid or expired. The MCP host publishes its own metadata for the MCP resource. See docs/agent-discovery.md.
+ */
+export const getOAuthProtectedResourceMetadata = <ThrowOnError extends boolean = false>(options?: Options<GetOAuthProtectedResourceMetadataData, ThrowOnError>): RequestResult<GetOAuthProtectedResourceMetadataResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetOAuthProtectedResourceMetadataResponses, unknown, ThrowOnError>({ url: '/.well-known/oauth-protected-resource', ...options });
+
+/**
+ * Discover the Aura APIs
+ *
+ * Public RFC 9727 API catalog in the Linkset format. The catalog's own context lists the REST and MCP endpoints as `item` links; each API context links its description (`service-desc`, the OpenAPI document or the MCP server card), documentation (`service-doc`) and status probe (`status`). Every URL belongs to the configured environment, apart from the shared documentation site. Credentials and query strings are not evaluated; send none. See docs/agent-discovery.md.
+ */
+export const getApiCatalog = <ThrowOnError extends boolean = false>(options?: Options<GetApiCatalogData, ThrowOnError>): RequestResult<GetApiCatalogResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetApiCatalogResponses, unknown, ThrowOnError>({ url: '/.well-known/api-catalog', ...options });
+
+/**
+ * Locate the Aura API catalog
+ *
+ * Returns the `GET` headers without a body, including the `api-catalog` link that RFC 9727 requires.
+ */
+export const headApiCatalog = <ThrowOnError extends boolean = false>(options?: Options<HeadApiCatalogData, ThrowOnError>): RequestResult<HeadApiCatalogResponses, unknown, ThrowOnError> => (options?.client ?? client).head<HeadApiCatalogResponses, unknown, ThrowOnError>({ url: '/.well-known/api-catalog', ...options });
+
+/**
+ * Get the website's AI catalog
+ *
+ * The AI catalog ([Agentic Resource Discovery](https://agenticresourcediscovery.org/), ai-catalog data model) that the website publishes at `/.well-known/ai-catalog.json`. The host is the website's domain, and its entries are the MCP server (its Server Card), the REST API (its OpenAPI document) and the agent skills index, each with a `urn:air:` identifier under that domain and representative queries. Every URL belongs to the configured environment, apart from the shared documentation site. Credentials and query strings are not evaluated; send none. See docs/agent-discovery.md.
+ */
+export const getSiteAiCatalog = <ThrowOnError extends boolean = false>(options?: Options<GetSiteAiCatalogData, ThrowOnError>): RequestResult<GetSiteAiCatalogResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetSiteAiCatalogResponses, unknown, ThrowOnError>({ url: '/v1/site-discovery/ai-catalog.json', ...options });
+
+/**
+ * Check the website's AI catalog
+ *
+ * Returns the `GET` headers without a body.
+ */
+export const headSiteAiCatalog = <ThrowOnError extends boolean = false>(options?: Options<HeadSiteAiCatalogData, ThrowOnError>): RequestResult<HeadSiteAiCatalogResponses, unknown, ThrowOnError> => (options?.client ?? client).head<HeadSiteAiCatalogResponses, unknown, ThrowOnError>({ url: '/v1/site-discovery/ai-catalog.json', ...options });
+
+/**
+ * Get the website's Personal Agent Protocol declaration
+ *
+ * The [Personal Agent Protocol](https://personalagentprotocol.org/) declaration that the website publishes at `/.well-known/poppy.json`, in protocol version `0.1`. `organization.domain` is the website's domain. It declares the website only (`web: {}`): it lists no `apis` and no `auth`, because in version `0.1` that would require Aura Historia's issuer to bind the domain in `poppy_domains` and its APIs to accept Poppy session tokens, and neither is the case. Credentials and query strings are not evaluated; send none. See docs/agent-discovery.md.
+ */
+export const getSitePoppyDeclaration = <ThrowOnError extends boolean = false>(options?: Options<GetSitePoppyDeclarationData, ThrowOnError>): RequestResult<GetSitePoppyDeclarationResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetSitePoppyDeclarationResponses, unknown, ThrowOnError>({ url: '/v1/site-discovery/poppy.json', ...options });
+
+/**
+ * Check the website's Personal Agent Protocol declaration
+ *
+ * Returns the `GET` headers without a body.
+ */
+export const headSitePoppyDeclaration = <ThrowOnError extends boolean = false>(options?: Options<HeadSitePoppyDeclarationData, ThrowOnError>): RequestResult<HeadSitePoppyDeclarationResponses, unknown, ThrowOnError> => (options?.client ?? client).head<HeadSitePoppyDeclarationResponses, unknown, ThrowOnError>({ url: '/v1/site-discovery/poppy.json', ...options });
+
+/**
+ * Get the website's agent skills index
+ *
+ * The [Agent Skills Discovery](https://github.com/cloudflare/agent-skills-discovery-rfc) v0.2.0 index that the website publishes at `/.well-known/agent-skills/index.json`. Each `skill-md` entry carries the skill's name and description from its `SKILL.md` front matter, the website URL it is published at, and the SHA-256 digest of exactly the bytes served for it; a digest changes with every revision of its skill, so the example's is illustrative. Credentials and query strings are not evaluated; send none. See docs/agent-discovery.md.
+ */
+export const getSiteAgentSkillsIndex = <ThrowOnError extends boolean = false>(options?: Options<GetSiteAgentSkillsIndexData, ThrowOnError>): RequestResult<GetSiteAgentSkillsIndexResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetSiteAgentSkillsIndexResponses, unknown, ThrowOnError>({ url: '/v1/site-discovery/agent-skills/index.json', ...options });
+
+/**
+ * Check the website's agent skills index
+ *
+ * Returns the `GET` headers without a body.
+ */
+export const headSiteAgentSkillsIndex = <ThrowOnError extends boolean = false>(options?: Options<HeadSiteAgentSkillsIndexData, ThrowOnError>): RequestResult<HeadSiteAgentSkillsIndexResponses, unknown, ThrowOnError> => (options?.client ?? client).head<HeadSiteAgentSkillsIndexResponses, unknown, ThrowOnError>({ url: '/v1/site-discovery/agent-skills/index.json', ...options });
+
+/**
+ * Get one of the website's agent skills
+ *
+ * One `SKILL.md` that the website publishes at `/.well-known/agent-skills/{skillName}/SKILL.md`: YAML front matter with `name` and `description`, then Markdown instructions whose URLs belong to the configured environment. The skills are `catalogue-search`, `connect-account` and `partner-listing-batches`; the index lists them with their digests. Credentials and query strings are not evaluated; send none. See docs/agent-discovery.md.
+ */
+export const getSiteAgentSkill = <ThrowOnError extends boolean = false>(options: Options<GetSiteAgentSkillData, ThrowOnError>): RequestResult<GetSiteAgentSkillResponses, GetSiteAgentSkillErrors, ThrowOnError> => (options.client ?? client).get<GetSiteAgentSkillResponses, GetSiteAgentSkillErrors, ThrowOnError>({ url: '/v1/site-discovery/agent-skills/{skillName}/SKILL.md', ...options });
+
+/**
+ * Check one of the website's agent skills
+ *
+ * Returns the `GET` headers without a body.
+ */
+export const headSiteAgentSkill = <ThrowOnError extends boolean = false>(options: Options<HeadSiteAgentSkillData, ThrowOnError>): RequestResult<HeadSiteAgentSkillResponses, HeadSiteAgentSkillErrors, ThrowOnError> => (options.client ?? client).head<HeadSiteAgentSkillResponses, HeadSiteAgentSkillErrors, ThrowOnError>({ url: '/v1/site-discovery/agent-skills/{skillName}/SKILL.md', ...options });
+
+/**
+ * Get the website's auth.md
+ *
+ * How agents authenticate with Aura Historia, as Markdown that the website publishes at `/auth.md`. Its first heading contains `auth.md`. It covers anonymous access, signing a user in from an agent with a Client ID Metadata Document and refreshing its tokens, registered clients, personal access tokens and disconnecting, with the environment's issuer and metadata URLs. It has no `agent_auth` block and the authorization server metadata advertises none, because Aura Historia registers no agent identities. Credentials and query strings are not evaluated; send none. See docs/agent-discovery.md.
+ */
+export const getSiteAuthMd = <ThrowOnError extends boolean = false>(options?: Options<GetSiteAuthMdData, ThrowOnError>): RequestResult<GetSiteAuthMdResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetSiteAuthMdResponses, unknown, ThrowOnError>({ url: '/v1/site-discovery/auth.md', ...options });
+
+/**
+ * Check the website's auth.md
+ *
+ * Returns the `GET` headers without a body.
+ */
+export const headSiteAuthMd = <ThrowOnError extends boolean = false>(options?: Options<HeadSiteAuthMdData, ThrowOnError>): RequestResult<HeadSiteAuthMdResponses, unknown, ThrowOnError> => (options?.client ?? client).head<HeadSiteAuthMdResponses, unknown, ThrowOnError>({ url: '/v1/site-discovery/auth.md', ...options });
+
+/**
+ * Get the website's WebMCP client metadata document
+ *
+ * The OAuth Client ID Metadata Document that the website publishes at `/oauth/webmcp-client.json`. The website signs its users in to the MCP server as an ordinary metadata document client with it, so agents in the browser can use the signed-in MCP tools through WebMCP. `client_id` is the document's website URL. It is a public client (`token_endpoint_auth_method: none`) using the authorization code and refresh token grants. Its callback is the website's `/api/oauth/webmcp/callback`; on stage, the same path on `http://localhost` is also listed for local development. It gets the same consent, scope ceiling, token lifetimes and denylist handling as every other metadata document client. Credentials and query strings are not evaluated; send none. See docs/oauth.md and docs/agent-discovery.md.
+ */
+export const getSiteWebMcpClientMetadata = <ThrowOnError extends boolean = false>(options?: Options<GetSiteWebMcpClientMetadataData, ThrowOnError>): RequestResult<GetSiteWebMcpClientMetadataResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetSiteWebMcpClientMetadataResponses, unknown, ThrowOnError>({ url: '/v1/site-discovery/oauth/webmcp-client.json', ...options });
+
+/**
+ * Check the website's WebMCP client metadata document
+ *
+ * Returns the `GET` headers without a body.
+ */
+export const headSiteWebMcpClientMetadata = <ThrowOnError extends boolean = false>(options?: Options<HeadSiteWebMcpClientMetadataData, ThrowOnError>): RequestResult<HeadSiteWebMcpClientMetadataResponses, unknown, ThrowOnError> => (options?.client ?? client).head<HeadSiteWebMcpClientMetadataResponses, unknown, ThrowOnError>({ url: '/v1/site-discovery/oauth/webmcp-client.json', ...options });
 
 /**
  * Check process liveness
@@ -1685,7 +1790,9 @@ export const adminRevokeUserSessions = <ThrowOnError extends boolean = false>(op
 /**
  * Revoke all of a user's Aura Historia access tokens as admin
  *
- * Revokes all Aura Historia access tokens owned by the target user in one atomic PostgreSQL transaction.
+ * Revokes all Aura Historia access tokens owned by the target user in one atomic PostgreSQL transaction,
+ * ends the user's OAuth connections with their refresh tokens and withdraws approvals no client has exchanged yet,
+ * so no client can obtain new tokens.
  *
  * Cognito JWTs and Aura Historia access tokens are accepted. The caller's persisted user role
  * must be `ADMIN`; delegated Aura Historia access tokens must also have `access-tokens:write`.
@@ -1721,9 +1828,10 @@ export const adminDeleteUserAccessTokens = <ThrowOnError extends boolean = false
  * Authorization is enforced in the User service, not only at the HTTP route.
  *
  * `userId` must be a valid User ID and the target user must exist. Expired and current tokens are included.
- * Results use bounded keyset pagination in fixed `created ASC, AccessToken ID ASC` order.
+ * A metadata document client's tokens are listed as one entry per connection, like the user's own listing.
+ * Results use bounded keyset pagination in fixed `created ASC, ID ASC` order over tokens and connections.
  * Page sizes are clamped to 1–100, with a default of 21. `searchAfter` is a JSON-encoded
- * `[created RFC3339 timestamp, AccessToken ID]` cursor and is omitted on the terminal page.
+ * `[created RFC3339 timestamp, AccessToken ID or connection ID]` cursor and is omitted on the terminal page.
  * The cursor's creation timestamp is used only for continuation and is not returned as item metadata.
  * Raw token values, token hashes, and masked token values are never returned.
  *
@@ -1838,9 +1946,33 @@ export const updateUserAccount = <ThrowOnError extends boolean = false>(options:
 });
 
 /**
+ * Disconnect an OAuth client
+ *
+ * Revokes all of the authenticated user's credentials for one OAuth client: for a metadata document client its
+ * connection, with every access token and refresh token it holds; for a registered client every access token issued
+ * to it for this user. For either kind it also withdraws the client's approvals not yet exchanged. The client must
+ * sign the user in again afterwards. Repeating the request, or naming a client the user is not connected to, also
+ * returns `204 No Content`.
+ * Requires a Cognito access JWT. A valid Aura Historia access token is rejected with `403 FORBIDDEN`, even with
+ * the delegated `access-tokens:write` capability.
+ *
+ */
+export const disconnectMyOAuthClient = <ThrowOnError extends boolean = false>(options: Options<DisconnectMyOAuthClientData, ThrowOnError>): RequestResult<DisconnectMyOAuthClientResponses, DisconnectMyOAuthClientErrors, ThrowOnError> => (options.client ?? client).delete<DisconnectMyOAuthClientResponses, DisconnectMyOAuthClientErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/v1/me/access-tokens',
+  ...options
+});
+
+/**
  * List Aura Historia access tokens
  *
  * Lists all of the authenticated user's persisted Aura Historia access tokens, including expired and current tokens.
+ * A metadata document client's tokens are listed as one entry per connection instead: its scopes, `created` and
+ * `lastUsed`, but not its rotating access tokens. OAuth entries carry the client's identity in `client`.
  * The response contains secret-free metadata only. It does not return plaintext or masked token values.
  * Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require the delegated `access-tokens:read` capability.
  *
@@ -2344,6 +2476,28 @@ export const adminUpdateListingSource = <ThrowOnError extends boolean = false>(o
 });
 
 /**
+ * Get metadata document client metadata for consent
+ *
+ * Reads consent metadata for a public client identified by the HTTPS URL of its Client ID Metadata Document.
+ * The URL travels as the `client_id` query parameter; registered (`oc_`) clients use
+ * `/v1/oauth/clients/{clientId}`. Aura loads and validates the client's current document and requires
+ * `redirect_uri` to match a callback it lists, under the same rules as `/v1/oauth/authorize`: exact, except
+ * that loopback callbacks match on any port. Only after this succeeds may the consent page send an
+ * `access_denied` redirect, with `iss`, to that callback. This is a read only and grants nothing. Only a
+ * Cognito access JWT of an ordinary signed-in user is accepted. Every response uses `Cache-Control: no-store`.
+ *
+ */
+export const getOAuthMetadataDocumentConsentClient = <ThrowOnError extends boolean = false>(options: Options<GetOAuthMetadataDocumentConsentClientData, ThrowOnError>): RequestResult<GetOAuthMetadataDocumentConsentClientResponses, GetOAuthMetadataDocumentConsentClientErrors, ThrowOnError> => (options.client ?? client).get<GetOAuthMetadataDocumentConsentClientResponses, GetOAuthMetadataDocumentConsentClientErrors, ThrowOnError>({
+  security: [{
+      key: 'BearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/v1/oauth/metadata-document-clients',
+  ...options
+});
+
+/**
  * Get OAuth client metadata for consent
  *
  * Reads the authoritative registered metadata for one OAuth client before the user begins or completes consent.
@@ -2374,8 +2528,8 @@ export const getOAuthConsentClient = <ThrowOnError extends boolean = false>(opti
  * The authenticated user (resource owner) grants the requesting OAuth client access to their
  * Aura Historia account. PKCE (RFC 7636) with `S256` is required for all requests.
  *
- * On success the endpoint redirects (302) to the `redirect_uri` appending `code` and, if
- * supplied, `state` as query parameters. The single-use authorization code must be exchanged
+ * On success the endpoint redirects (302) to the `redirect_uri` appending `code`, the supplied
+ * `state` and the issuer as `iss` (RFC 9207). The single-use authorization code must be exchanged
  * for an access token via `POST /v1/oauth/token` before it expires.
  *
  * Approval requires a Cognito access JWT. An Aura Historia access token, including one with
@@ -2396,19 +2550,31 @@ export const oauthAuthorize = <ThrowOnError extends boolean = false>(options: Op
 /**
  * OAuth2 token endpoint
  *
- * Exchanges a single-use authorization code for an Aura Historia access token (RFC 6749 §4.1.3).
- * The request body must be `application/x-www-form-urlencoded`. Client authentication is
- * performed via `client_id` / `client_secret` form fields. PKCE code verification (RFC 7636)
- * is mandatory: `code_verifier` must produce the `code_challenge` supplied to the authorize
- * endpoint.
+ * Exchanges a single-use authorization code for an Aura Historia access token (RFC 6749 §4.1.3), or a
+ * metadata document client's refresh token for new tokens (RFC 6749 §6).
+ * The request body must be `application/x-www-form-urlencoded`. A registered client authenticates
+ * with `client_id` / `client_secret` form fields (`client_secret_post`); a metadata document client
+ * sends its `client_id` URL without a secret (`none`). For `grant_type=authorization_code`, PKCE code
+ * verification (RFC 7636) is mandatory: `code_verifier` must produce the `code_challenge` supplied to the
+ * authorize endpoint.
  *
- * The issued access token is non-expiring by default (same lifetime as tokens created via
- * `POST /v1/me/access-tokens`). Codes are issued only for approvals made with a Cognito access
- * JWT, so the token is an independent credential of the approving user: expiring or revoking
- * any other Aura Historia access token does not affect it. Successful responses also include a short-lived
- * `third_party_exchange_code` that can be redeemed once via
- * `GET /v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`. The exchange code expires
- * after 60 seconds and is deleted on first use.
+ * Codes are issued only for approvals made with a Cognito access JWT, so the token is an independent
+ * credential of the approving user: expiring or revoking any other Aura Historia access token does not affect it.
+ * A registered client's access token is non-expiring by default (same lifetime as tokens created via
+ * `POST /v1/me/access-tokens`), and its response also includes a short-lived `third_party_exchange_code` that
+ * can be redeemed once via `GET /v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`. The exchange code
+ * expires after 60 seconds and is deleted on first use.
+ *
+ * A metadata document client's token expires after one hour by default and comes without a
+ * `third_party_exchange_code`; it also receives a `refresh_token` when its document lists the `refresh_token`
+ * grant or the authorization request asked for `offline_access`.
+ *
+ * With `grant_type=refresh_token`, a metadata document client sends `refresh_token` and its `client_id`, without a
+ * secret. Every use returns a new `refresh_token` and the old one stops working at once. Presenting a refresh token
+ * replaced more than 10 seconds earlier revokes its sign-in's refresh tokens and all access tokens of the user's
+ * connection to the client. An unusable refresh token returns `400 invalid_grant`, a scope beyond the sign-in's
+ * `invalid_scope`, another resource `invalid_target`; registered clients receive `400 unauthorized_client`. See
+ * the OAuth contract for lifetimes.
  *
  */
 export const oauthToken = <ThrowOnError extends boolean = false>(options: Options<OauthTokenData, ThrowOnError>): RequestResult<OauthTokenResponses, OauthTokenErrors, ThrowOnError> => (options.client ?? client).post<OauthTokenResponses, OauthTokenErrors, ThrowOnError>({
@@ -2437,10 +2603,12 @@ export const oauthTokenByThirdPartyCode = <ThrowOnError extends boolean = false>
  * OAuth2 token revocation endpoint
  *
  * Revokes an Aura Historia access token that was issued through the OAuth authorization code
- * flow (RFC 7009). The request body must be `application/x-www-form-urlencoded`. Client
- * authentication is performed via `client_id` / `client_secret` form fields. The token must
+ * flow, or a metadata document client's refresh token (RFC 7009). The request body must be
+ * `application/x-www-form-urlencoded`. A registered client authenticates with `client_id` / `client_secret`
+ * form fields; a metadata document client sends its `client_id` URL without a secret. The token must
  * have been issued to that client; another client's token or a personal access token is
- * rejected with `403` and OAuth `access_denied` and is not revoked.
+ * rejected with `403` and OAuth `access_denied` and is not revoked. Revoking a refresh token ends the
+ * user's whole connection to the client, with all its access and refresh tokens.
  *
  * After revocation the token is immediately inactive and introspection will return
  * `active: false`. Attempting to revoke an unknown or already-revoked token is not an error.

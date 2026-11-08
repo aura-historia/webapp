@@ -190,7 +190,7 @@ export function MobileMenu({
                                     {t("header.searchAlerts")}
                                 </Link>
                                 <Link
-                                    to="/$lng/partners/applications"
+                                    to="/$lng/partners"
                                     params={true}
                                     from="/$lng"
                                     onClick={close}

@@ -1,11 +1,12 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { PartnerOverviewPage } from "@/features/partner/overview/pages/PartnerOverviewPage.tsx";
+import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
 
 export const Route = createFileRoute("/$lng/_auth/partners/")({
-    beforeLoad: ({ params }) => {
-        throw redirect({
-            to: "/$lng/partners/applications",
-            params: { lng: params.lng },
-            replace: true,
-        });
-    },
+    head: () =>
+        generatePageHeadMeta({
+            pageKey: "partnerDashboard",
+            noIndex: true,
+        }),
+    component: PartnerOverviewPage,
 });

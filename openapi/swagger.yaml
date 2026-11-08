@@ -17,8 +17,9 @@ info:
     \ Cognito ID tokens are not accepted as API credentials.\n- **`AccessTokenAuth`** — Aura Historia opaque bearer access\
     \ tokens created via\n  `/v1/me/access-tokens` or OAuth 2.0, primarily intended for partner automations and server-to-server\n\
     \  ingestion scenarios.\n\nWhen a route lists multiple security schemes, any one of the listed schemes may be accepted.\n\
+    A `401` for a missing or invalid bearer on a route that accepts Aura access tokens carries\n`WWW-Authenticate: Bearer resource_metadata=\"{issuer}/.well-known/oauth-protected-resource\"`, followed by\n`error=\"invalid_token\"` when a presented bearer is invalid or expired; OAuth\nprotocol and consent routes keep their own errors. `/.well-known/api-catalog` lists the REST and MCP APIs.\n\
     Some read endpoints can also be called without authentication, while a valid user token may enrich\nthe response with\
-    \ personalized state such as watchlist, notification, or search-filter metadata. Aura Historia access\ntokens receive only the sections their read scopes permit; see `ProductListingUserStateData`.\n\n## MCP interface\n\nThe separate `https://mcp.aura-historia.com/v1` Streamable HTTP endpoint accepts opaque Aura access tokens only. Public calls may omit credentials; invalid supplied credentials receive HTTP 401, protected operations require their declared scopes, and insufficient grants receive HTTP 403 with the complete required scope set. Credential-free protected-resource metadata is served on the MCP host at `/.well-known/oauth-protected-resource` and `/.well-known/oauth-protected-resource/v1`. See [the MCP contract](https://github.com/aura-historia/backend/blob/develop/docs/mcp.md) for protocol and discovery details.\n\n## Data and response conventions\n\
+    \ personalized state such as watchlist, notification, or search-filter metadata. Aura Historia access\ntokens receive only the sections their read scopes permit; see `ProductListingUserStateData`.\n\n## MCP interface\n\nThe separate `https://mcp.aura-historia.com/v1` Streamable HTTP endpoint accepts opaque Aura access tokens only. Public calls may omit credentials; invalid supplied credentials receive HTTP 401, protected operations require their declared scopes, and insufficient grants receive HTTP 403 with the complete required scope set. Credential-free protected-resource metadata is served on the MCP host at `/.well-known/oauth-protected-resource` and `/.well-known/oauth-protected-resource/v1`, and its MCP Server Card at `/.well-known/mcp/server-card.json`. See [the MCP contract](https://github.com/aura-historia/backend/blob/develop/docs/mcp.md) for protocol and discovery details.\n\n## Data and response conventions\n\
     \n- **PATCH:** an omitted request member remains unchanged. A documented nullable PATCH member\n  accepts `null` to clear\
     \ its value; `null` for any other member returns `400 BAD_BODY_VALUE`.\n  Use `[]`, not `null`, to replace a non-null\
     \ collection with an empty collection. Empty HTTP\n  bodies are invalid, `{}` is a valid object-PATCH no-op, and the partner-product\
@@ -33,7 +34,7 @@ info:
     - Many list and search endpoints use **cursor-based pagination** via `searchAfter`\n- Origin API responses include\
     \ server-generated `X-Request-Id` and `X-Correlation-Id` headers. Clients may send `X-Correlation-Id` to preserve a trace\
     \ only when it is a 1–128-character ASCII value containing letters, digits, `.`, `_`, or `-`; invalid values are replaced.\
-    \ Both headers are CORS-exposed; CloudFront removes them from viewer responses on the six cache-enabled discovery behaviors so shared cache hits cannot replay origin IDs.\n- Request bodies are limited to 1 MiB and requests time out after 30 seconds. A declared `Content-Length` above 1 MiB is\
+    \ Both headers are CORS-exposed; CloudFront removes them from viewer responses on the cache-enabled discovery behaviors so shared cache hits cannot replay origin IDs.\n- Request bodies are limited to 1 MiB and requests time out after 30 seconds. A declared `Content-Length` above 1 MiB is\
     \ rejected at the edge with `413` (`BAD_BODY_VALUE`, JSON body) before authentication or route handling.\n- `POST /v1/webhooks/loops` is limited to 64 KiB and has a 10-second processing budget; it requires a valid Loops signature but no Aura bearer.\n- `GET /v1/health` is a\
     \ process liveness check. `GET /v1/ready` returns `204` only when the configured PostgreSQL and OpenSearch dependencies are\
     \ reachable; it otherwise returns `503`.\n- WooCommerce webhook ingestion responds with **`204 No Content`** after\
@@ -59,7 +60,7 @@ paths:
   /.well-known/oauth-authorization-server:
     get:
       summary: Discover the Aura OAuth authorization server
-      description: Public RFC 8414 metadata for fixed confidential clients. The issuer and endpoints use the configured environment; the authorization endpoint is the existing webapp consent URL. No refresh grant, dynamic registration, CIMD or authorization-response issuer parameter is advertised. Broader registered-client scopes remain supported; scopes_supported lists the relevant ordinary user vocabulary. See docs/oauth.md for fixed-client setup.
+      description: Public RFC 8414 metadata. The issuer and endpoints use the configured environment; the authorization endpoint is the existing webapp consent URL. Every authorization response carries `iss` (RFC 9207). While the environment enables metadata document clients, `client_id_metadata_document_supported` is `true` and `token_endpoint_auth_methods_supported` adds `none`; otherwise the member is omitted. No refresh grant or dynamic registration is advertised. Broader registered-client scopes remain supported; scopes_supported lists the ordinary user vocabulary, which is also the scope ceiling of metadata document clients. See docs/oauth.md.
       operationId: getOAuthAuthorizationServerMetadata
       tags:
         - OAuth
@@ -83,9 +84,364 @@ paths:
                 response_types_supported: [code]
                 response_modes_supported: [query]
                 grant_types_supported: [authorization_code]
-                token_endpoint_auth_methods_supported: [client_secret_post]
+                token_endpoint_auth_methods_supported: [client_secret_post, none]
                 code_challenge_methods_supported: [S256]
                 scopes_supported: ['users:read', 'users:write', 'search-filters:read', 'search-filters:write', 'watchlist:read', 'watchlist:write', 'notifications:read', 'notifications:write']
+                authorization_response_iss_parameter_supported: true
+                client_id_metadata_document_supported: true
+  /.well-known/oauth-protected-resource:
+    get:
+      summary: Discover the REST protected resource
+      description: >-
+        Public RFC 9728 metadata for the shared Aura default resource that REST serves. `resource`
+        and the single authorization server are the configured environment's issuer, bearer tokens
+        travel in the `Authorization` header, and `scopes_supported` lists the ordinary-user
+        vocabulary that authorization-server discovery advertises; a client's scope ceiling remains
+        authoritative. A `401` for a missing or invalid bearer on a route that accepts Aura access
+        tokens points here with `WWW-Authenticate: Bearer resource_metadata="…"`, which adds
+        `error="invalid_token"` when a presented bearer is invalid or expired. The MCP host
+        publishes its own metadata for the MCP resource. See docs/agent-discovery.md.
+      operationId: getOAuthProtectedResourceMetadata
+      tags:
+        - OAuth
+      security: []
+      responses:
+        "200":
+          description: Public metadata; supplied credentials are not evaluated. CloudFront keeps this exact route uncached.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+            Pragma:
+              $ref: '#/components/headers/OAuthNoCache'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthProtectedResourceMetadataData'
+              example:
+                resource: https://api.aura-historia.com
+                authorization_servers: [https://api.aura-historia.com]
+                bearer_methods_supported: [header]
+                scopes_supported: ['users:read', 'users:write', 'search-filters:read', 'search-filters:write', 'watchlist:read', 'watchlist:write', 'notifications:read', 'notifications:write']
+  /.well-known/api-catalog:
+    get:
+      summary: Discover the Aura APIs
+      description: Public RFC 9727 API catalog in the Linkset format. The catalog's own context lists the REST and MCP endpoints as `item` links; each API context links its description (`service-desc`, the OpenAPI document or the MCP server card), documentation (`service-doc`) and status probe (`status`). Every URL belongs to the configured environment, apart from the shared documentation site. Credentials and query strings are not evaluated; send none. See docs/agent-discovery.md.
+      operationId: getApiCatalog
+      tags:
+        - Agent Discovery
+      security: []
+      responses:
+        "200":
+          description: The API catalog. Approved anonymous discovery representation with a 300-second shared TTL; a request carrying `Authorization` is answered with `private, no-store`.
+          headers:
+            Link:
+              $ref: '#/components/headers/ApiCatalogLink'
+          content:
+            'application/linkset+json; profile="https://www.rfc-editor.org/info/rfc9727"':
+              schema:
+                $ref: '#/components/schemas/ApiCatalogData'
+              example:
+                linkset:
+                  - anchor: https://api.aura-historia.com/.well-known/api-catalog
+                    item:
+                      - href: https://api.aura-historia.com/v1
+                      - href: https://mcp.aura-historia.com/v1
+                  - anchor: https://api.aura-historia.com/v1
+                    service-desc:
+                      - href: https://docs.api.aura-historia.com/swagger.yaml
+                        type: application/vnd.oai.openapi
+                    service-doc:
+                      - href: https://docs.api.aura-historia.com/
+                        type: text/html
+                    status:
+                      - href: https://api.aura-historia.com/v1/health
+                  - anchor: https://mcp.aura-historia.com/v1
+                    service-desc:
+                      - href: https://mcp.aura-historia.com/.well-known/mcp/server-card.json
+                        type: application/mcp-server-card+json
+                    service-doc:
+                      - href: https://docs.api.aura-historia.com/mcp.md
+                        type: text/markdown
+                    status:
+                      - href: https://mcp.aura-historia.com/ready
+    head:
+      summary: Locate the Aura API catalog
+      description: Returns the `GET` headers without a body, including the `api-catalog` link that RFC 9727 requires.
+      operationId: headApiCatalog
+      tags:
+        - Agent Discovery
+      security: []
+      responses:
+        "200":
+          description: The catalog exists at the linked URL.
+          headers:
+            Link:
+              $ref: '#/components/headers/ApiCatalogLink'
+  /v1/site-discovery/ai-catalog.json:
+    get:
+      summary: Get the website's AI catalog
+      description: >-
+        The AI catalog ([Agentic Resource Discovery](https://agenticresourcediscovery.org/), ai-catalog
+        data model) that the website publishes at `/.well-known/ai-catalog.json`. The host is the
+        website's domain, and its entries are the MCP server (its Server Card), the REST API (its
+        OpenAPI document) and the agent skills index, each with a `urn:air:` identifier under that
+        domain and representative queries. Every URL belongs to the configured environment, apart
+        from the shared documentation site. Credentials and query strings are not evaluated; send none.
+        See docs/agent-discovery.md.
+      operationId: getSiteAiCatalog
+      tags: [Agent Discovery]
+      security: []
+      responses:
+        "200":
+          description: The AI catalog. Anonymous responses use `public, max-age=0, s-maxage=300, stale-if-error=0`; a request carrying `Authorization` is answered with `private, no-store`.
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/SiteDiscoveryAllowOrigin'
+          content:
+            application/ai-catalog+json:
+              schema:
+                $ref: '#/components/schemas/SiteAiCatalogData'
+              example:
+                specVersion: "1.0"
+                host:
+                  displayName: Aura Historia
+                  identifier: aura-historia.com
+                  documentationUrl: https://docs.api.aura-historia.com/
+                  logoUrl: https://aura-historia.com/icon1080x1080.png
+                entries:
+                  - identifier: urn:air:aura-historia.com:mcp:aura-historia
+                    displayName: Aura Historia MCP server
+                    type: application/mcp-server-card+json
+                    url: https://mcp.aura-historia.com/.well-known/mcp/server-card.json
+                    description: Search art, antiques and design objects offered by dealers, auction houses, marketplaces and auction platforms without an account; sign in to manage a watchlist, saved searches and notifications.
+                    representativeQueries: [find Art Nouveau silver vases offered by European dealers, which upcoming auctions include Meissen porcelain]
+                  - identifier: urn:air:aura-historia.com:api:rest
+                    displayName: Aura Historia REST API
+                    type: application/vnd.oai.openapi
+                    url: https://docs.api.aura-historia.com/swagger.yaml
+                    description: OpenAPI description of the REST API for catalogue search, user accounts and partner listing synchronization.
+                    representativeQueries: [search antique listings by price range and country, look up a listing source by its slug]
+                  - identifier: urn:air:aura-historia.com:skills:index
+                    displayName: Aura Historia agent skills
+                    type: application/agent-skills+json
+                    url: https://aura-historia.com/.well-known/agent-skills/index.json
+                    description: Instructions for searching the catalogue, connecting a user's account and submitting partner listing batches.
+                    representativeQueries: [how does an agent search the Aura Historia catalogue, sign a user in to Aura Historia from an agent]
+    head:
+      summary: Check the website's AI catalog
+      description: Returns the `GET` headers without a body.
+      operationId: headSiteAiCatalog
+      tags: [Agent Discovery]
+      security: []
+      responses:
+        "200":
+          description: The AI catalog exists.
+  /v1/site-discovery/poppy.json:
+    get:
+      summary: Get the website's Personal Agent Protocol declaration
+      description: >-
+        The [Personal Agent Protocol](https://personalagentprotocol.org/) declaration that the website
+        publishes at `/.well-known/poppy.json`, in protocol version `0.1`. `organization.domain` is the
+        website's domain. It declares the website only (`web: {}`): it lists no `apis` and no `auth`,
+        because in version `0.1` that would require Aura Historia's issuer to bind the domain in
+        `poppy_domains` and its APIs to accept Poppy session tokens, and neither is the case. Credentials and query strings are not evaluated; send none. See
+        docs/agent-discovery.md.
+      operationId: getSitePoppyDeclaration
+      tags: [Agent Discovery]
+      security: []
+      responses:
+        "200":
+          description: The declaration. Anonymous responses use `public, max-age=0, s-maxage=300, stale-if-error=0`; a request carrying `Authorization` is answered with `private, no-store`.
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/SiteDiscoveryAllowOrigin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SitePoppyDeclarationData'
+              example:
+                protocol_version: "0.1"
+                organization:
+                  name: Aura Historia
+                  domain: aura-historia.com
+                web: {}
+    head:
+      summary: Check the website's Personal Agent Protocol declaration
+      description: Returns the `GET` headers without a body.
+      operationId: headSitePoppyDeclaration
+      tags: [Agent Discovery]
+      security: []
+      responses:
+        "200":
+          description: The declaration exists.
+  /v1/site-discovery/agent-skills/index.json:
+    get:
+      summary: Get the website's agent skills index
+      description: >-
+        The [Agent Skills Discovery](https://github.com/cloudflare/agent-skills-discovery-rfc) v0.2.0
+        index that the website publishes at `/.well-known/agent-skills/index.json`. Each `skill-md`
+        entry carries the skill's name and description from its `SKILL.md` front matter, the website
+        URL it is published at, and the SHA-256 digest of exactly the bytes served for it; a digest
+        changes with every revision of its skill, so the example's is illustrative. Credentials and
+        query strings are not evaluated; send none. See docs/agent-discovery.md.
+      operationId: getSiteAgentSkillsIndex
+      tags: [Agent Discovery]
+      security: []
+      responses:
+        "200":
+          description: The skills index. Anonymous responses use `public, max-age=0, s-maxage=300, stale-if-error=0`; a request carrying `Authorization` is answered with `private, no-store`.
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/SiteDiscoveryAllowOrigin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteAgentSkillsIndexData'
+              example:
+                $schema: https://schemas.agentskills.io/discovery/0.2.0/schema.json
+                skills:
+                  - name: catalogue-search
+                    type: skill-md
+                    description: Search Aura Historia's index of art, antiques and design objects offered by dealers, auction houses, marketplaces and auction platforms, and read listing details, price history, auctions and sources. Use when someone wants to find, compare or research such objects. No account is needed.
+                    url: https://aura-historia.com/.well-known/agent-skills/catalogue-search/SKILL.md
+                    digest: sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+    head:
+      summary: Check the website's agent skills index
+      description: Returns the `GET` headers without a body.
+      operationId: headSiteAgentSkillsIndex
+      tags: [Agent Discovery]
+      security: []
+      responses:
+        "200":
+          description: The skills index exists.
+  /v1/site-discovery/agent-skills/{skillName}/SKILL.md:
+    get:
+      summary: Get one of the website's agent skills
+      description: >-
+        One `SKILL.md` that the website publishes at `/.well-known/agent-skills/{skillName}/SKILL.md`:
+        YAML front matter with `name` and `description`, then Markdown instructions whose URLs belong
+        to the configured environment. The skills are `catalogue-search`, `connect-account` and
+        `partner-listing-batches`; the index lists them with their digests. Credentials and query
+        strings are not evaluated; send none. See docs/agent-discovery.md.
+      operationId: getSiteAgentSkill
+      tags: [Agent Discovery]
+      security: []
+      parameters:
+        - name: skillName
+          in: path
+          required: true
+          description: The skill's name, as the index lists it.
+          schema:
+            type: string
+            enum: [catalogue-search, connect-account, partner-listing-batches]
+      responses:
+        "200":
+          description: The skill. Anonymous responses use `public, max-age=0, s-maxage=300, stale-if-error=0`; a request carrying `Authorization` is answered with `private, no-store`.
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/SiteDiscoveryAllowOrigin'
+          content:
+            text/markdown; charset=utf-8:
+              schema: { type: string }
+        "404":
+          description: No skill has this name. The response has no body and is `private, no-store`.
+    head:
+      summary: Check one of the website's agent skills
+      description: Returns the `GET` headers without a body.
+      operationId: headSiteAgentSkill
+      tags: [Agent Discovery]
+      security: []
+      parameters:
+        - name: skillName
+          in: path
+          required: true
+          description: The skill's name, as the index lists it.
+          schema:
+            type: string
+            enum: [catalogue-search, connect-account, partner-listing-batches]
+      responses:
+        "200":
+          description: The skill exists.
+        "404":
+          description: No skill has this name.
+  /v1/site-discovery/auth.md:
+    get:
+      summary: Get the website's auth.md
+      description: >-
+        How agents authenticate with Aura Historia, as Markdown that the website publishes at
+        `/auth.md`. Its first heading contains `auth.md`. It covers anonymous access, signing a user
+        in from an agent with a Client ID Metadata Document and refreshing its tokens, registered
+        clients, personal access tokens and disconnecting, with the environment's issuer and
+        metadata URLs. It has no `agent_auth` block and the
+        authorization server metadata advertises none, because Aura Historia registers no agent
+        identities. Credentials and query strings are not evaluated; send none. See
+        docs/agent-discovery.md.
+      operationId: getSiteAuthMd
+      tags: [Agent Discovery]
+      security: []
+      responses:
+        "200":
+          description: The document. Anonymous responses use `public, max-age=0, s-maxage=300, stale-if-error=0`; a request carrying `Authorization` is answered with `private, no-store`.
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/SiteDiscoveryAllowOrigin'
+          content:
+            text/markdown; charset=utf-8:
+              schema: { type: string }
+    head:
+      summary: Check the website's auth.md
+      description: Returns the `GET` headers without a body.
+      operationId: headSiteAuthMd
+      tags: [Agent Discovery]
+      security: []
+      responses:
+        "200":
+          description: The document exists.
+  /v1/site-discovery/oauth/webmcp-client.json:
+    get:
+      summary: Get the website's WebMCP client metadata document
+      description: >-
+        The OAuth Client ID Metadata Document that the website publishes at
+        `/oauth/webmcp-client.json`. The website signs its users in to the MCP server as an ordinary
+        metadata document client with it, so agents in the browser can use the signed-in MCP tools
+        through WebMCP. `client_id` is the document's website URL. It is a public client
+        (`token_endpoint_auth_method: none`) using the authorization code and refresh token grants.
+        Its callback is the website's `/api/oauth/webmcp/callback`; on stage, the same path on
+        `http://localhost` is also listed for local development. It gets the same consent, scope
+        ceiling, token lifetimes and denylist handling as every other metadata document client.
+        Credentials and query strings are not evaluated; send none. See docs/oauth.md and
+        docs/agent-discovery.md.
+      operationId: getSiteWebMcpClientMetadata
+      tags: [Agent Discovery]
+      security: []
+      responses:
+        "200":
+          description: The document, at most 5 KiB. Anonymous responses use `public, max-age=0, s-maxage=300, stale-if-error=0`; a request carrying `Authorization` is answered with `private, no-store`.
+          headers:
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/SiteDiscoveryAllowOrigin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteWebMcpClientMetadataData'
+              example:
+                client_id: https://aura-historia.com/oauth/webmcp-client.json
+                client_name: AI agents in your browser
+                client_uri: https://aura-historia.com
+                logo_uri: https://aura-historia.com/icon1080x1080.png
+                redirect_uris: [https://aura-historia.com/api/oauth/webmcp/callback]
+                grant_types: [authorization_code, refresh_token]
+                response_types: [code]
+                token_endpoint_auth_method: none
+    head:
+      summary: Check the website's WebMCP client metadata document
+      description: Returns the `GET` headers without a body.
+      operationId: headSiteWebMcpClientMetadata
+      tags: [Agent Discovery]
+      security: []
+      responses:
+        "200":
+          description: The document exists.
   /v1/health:
     get:
       summary: Check process liveness
@@ -7682,9 +8038,10 @@ paths:
         Authorization is enforced in the User service, not only at the HTTP route.
 
         `userId` must be a valid User ID and the target user must exist. Expired and current tokens are included.
-        Results use bounded keyset pagination in fixed `created ASC, AccessToken ID ASC` order.
+        A metadata document client's tokens are listed as one entry per connection, like the user's own listing.
+        Results use bounded keyset pagination in fixed `created ASC, ID ASC` order over tokens and connections.
         Page sizes are clamped to 1–100, with a default of 21. `searchAfter` is a JSON-encoded
-        `[created RFC3339 timestamp, AccessToken ID]` cursor and is omitted on the terminal page.
+        `[created RFC3339 timestamp, AccessToken ID or connection ID]` cursor and is omitted on the terminal page.
         The cursor's creation timestamp is used only for continuation and is not returned as item metadata.
         Raw token values, token hashes, and masked token values are never returned.
       operationId: adminListUserAccessTokens
@@ -7711,7 +8068,7 @@ paths:
         - name: searchAfter
           in: query
           required: false
-          description: JSON-encoded `[created RFC3339 timestamp, AccessToken ID]` cursor from the previous page.
+          description: JSON-encoded `[created RFC3339 timestamp, AccessToken ID or connection ID]` cursor from the previous page.
           schema:
             type: string
           example: '["2026-09-04T12:00:00Z","at_4ck23tcv0meqqrbyjaka24ra6g"]'
@@ -7866,7 +8223,9 @@ paths:
     delete:
       summary: Revoke all of a user's Aura Historia access tokens as admin
       description: |
-        Revokes all Aura Historia access tokens owned by the target user in one atomic PostgreSQL transaction.
+        Revokes all Aura Historia access tokens owned by the target user in one atomic PostgreSQL transaction,
+        ends the user's OAuth connections with their refresh tokens and withdraws approvals no client has exchanged yet,
+        so no client can obtain new tokens.
 
         Cognito JWTs and Aura Historia access tokens are accepted. The caller's persisted user role
         must be `ADMIN`; delegated Aura Historia access tokens must also have `access-tokens:write`.
@@ -8497,6 +8856,10 @@ paths:
       description:
         "Lists all of the authenticated user's persisted Aura Historia access tokens, including expired and current tokens.
 
+        A metadata document client's tokens are listed as one entry per connection instead: its scopes, `created` and
+
+        `lastUsed`, but not its rotating access tokens. OAuth entries carry the client's identity in `client`.
+
         The response contains secret-free metadata only. It does not return plaintext or masked token values.
 
         Accepts Cognito access JWTs or Aura Historia opaque bearer access tokens. Aura Historia access tokens require
@@ -8528,7 +8891,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/OwnAccessTokenData"
+                  $ref: "#/components/schemas/OwnAccessTokenListEntryData"
               examples:
                 one_token:
                   summary: One persisted access token
@@ -8540,6 +8903,29 @@ paths:
                         - product-listings:write
                       origin: User
                       expires: "2026-06-30T00:00:00Z"
+                agent_connection:
+                  summary: A personal token and a metadata document client's connection
+                  value:
+                    - userId: usr_5pvhvpxyhve6ts31n9x8c2y513
+                      accessTokenId: at_4ck23tcv0meqqrbyjaka24ra6g
+                      name: Partner product sync
+                      scopes:
+                        - product-listings:write
+                      origin: User
+                    - userId: usr_5pvhvpxyhve6ts31n9x8c2y513
+                      connectionId: ocn_06e2x7g9xm8y5r0gkw4wz1n3tg
+                      name: Claude Code
+                      scopes:
+                        - users:read
+                        - watchlist:read
+                      origin: OAuthMetadataDocument
+                      client:
+                        clientId: https://claude.ai/oauth/claude-code-client-metadata
+                        name: Claude Code
+                        kind: METADATA_DOCUMENT
+                        host: claude.ai
+                      created: "2026-11-01T09:00:00Z"
+                      lastUsed: "2026-11-06T12:00:00Z"
                 no_tokens:
                   summary: No persisted access tokens exist
                   value: []
@@ -8680,7 +9066,8 @@ paths:
                 detail: Bearer token is invalid.
         "403":
           description: Forbidden - an Aura Historia access token lacks `access-tokens:write` or would expand the
-            target token's scopes or lifetime
+            target token's scopes or lifetime, or the update would expand the scopes or lifetime of a token issued
+            to a metadata document OAuth client, which no credential may do
           content:
             application/problem+json:
               schema:
@@ -8710,6 +9097,104 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
+    delete:
+      summary: Disconnect an OAuth client
+      description:
+        "Revokes all of the authenticated user's credentials for one OAuth client: for a metadata document client its
+
+        connection, with every access token and refresh token it holds; for a registered client every access token issued
+
+        to it for this user. For either kind it also withdraws the client's approvals not yet exchanged. The client must
+
+        sign the user in again afterwards. Repeating the request, or naming a client the user is not connected to, also
+
+        returns `204 No Content`.
+
+        Requires a Cognito access JWT. A valid Aura Historia access token is rejected with `403 FORBIDDEN`, even with
+
+        the delegated `access-tokens:write` capability.
+
+        "
+      operationId: disconnectMyOAuthClient
+      tags:
+        - User Account
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: clientId
+          in: query
+          required: true
+          description: The registered client's `oc_` ID, or the metadata document client's URL, as listed in `client.clientId`.
+          schema:
+            type: string
+          example: https://claude.ai/oauth/claude-code-client-metadata
+      responses:
+        "204":
+          description: The user's credentials for the client are revoked.
+          headers:
+            Cache-Control:
+              description: Caching directive. Always set to `no-store`.
+              schema:
+                type: string
+              example: no-store
+        "400":
+          description: Bad request - `clientId` is missing or names neither kind of OAuth client.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 400
+                title: Bad Request
+                error: BAD_QUERY_PARAMETER_VALUE
+                source:
+                  field: clientId
+                  type: QUERY
+        "401":
+          description: Unauthorized - invalid or missing bearer credentials
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 401
+                title: Unauthorized
+                error: INVALID_CREDENTIALS
+                source:
+                  field: Authorization
+                  type: HEADER
+                detail: Bearer token is invalid.
+        "403":
+          description: Forbidden - the bearer is an Aura Historia access token
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 403
+                title: Forbidden
+                error: FORBIDDEN
+                detail: Aura Historia access tokens cannot disconnect OAuth clients; use a Cognito access JWT.
+        "503":
+          description: Credential persistence is temporarily unavailable.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 503
+                title: Service Unavailable
+                error: OAUTH_TEMPORARILY_UNAVAILABLE
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 500
+                title: Internal Server Error
+                error: OAUTH_INTERNAL_ERROR
   /v1/me/access-tokens/{accessTokenId}:
     get:
       summary: Get one Aura Historia access token
@@ -10365,6 +10850,102 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+  /v1/oauth/metadata-document-clients:
+    get:
+      summary: Get metadata document client metadata for consent
+      description: |
+        Reads consent metadata for a public client identified by the HTTPS URL of its Client ID Metadata Document.
+        The URL travels as the `client_id` query parameter; registered (`oc_`) clients use
+        `/v1/oauth/clients/{clientId}`. Aura loads and validates the client's current document and requires
+        `redirect_uri` to match a callback it lists, under the same rules as `/v1/oauth/authorize`: exact, except
+        that loopback callbacks match on any port. Only after this succeeds may the consent page send an
+        `access_denied` redirect, with `iss`, to that callback. This is a read only and grants nothing. Only a
+        Cognito access JWT of an ordinary signed-in user is accepted. Every response uses `Cache-Control: no-store`.
+      operationId: getOAuthMetadataDocumentConsentClient
+      tags:
+        - OAuth
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: client_id
+          in: query
+          required: true
+          description: Metadata document URL in canonical form (HTTPS, domain host, default port, path below the root, no credentials or fragment).
+          schema:
+            type: string
+            format: uri
+          example: https://claude.ai/oauth/claude-code-client-metadata
+        - name: redirect_uri
+          in: query
+          required: true
+          description: The callback named by the authorization request.
+          schema:
+            type: string
+            format: uri
+          example: http://localhost:53682/callback
+      responses:
+        "200":
+          description: Validated consent metadata.
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OAuthMetadataDocumentConsentClientData"
+              example:
+                client_id: https://claude.ai/oauth/claude-code-client-metadata
+                client_name: Claude Code
+                client_uri: https://claude.ai/
+                client_host: claude.ai
+                redirect_uri_host: localhost
+                loopback_redirect_uris_only: true
+                scope: ['notifications:read', 'notifications:write', 'search-filters:read', 'search-filters:write', 'users:read', 'users:write', 'watchlist:read', 'watchlist:write']
+                granted_scope: ['users:read']
+        "400":
+          description: >-
+            `client_id` is missing or not a metadata document URL, or `redirect_uri` is missing or not absolute
+            (`BAD_QUERY_PARAMETER_VALUE`); metadata document clients are disabled, the host is denied, or the document
+            is unavailable or invalid (`OAUTH_INVALID_CLIENT`); the document does not list the callback
+            (`OAUTH_INVALID_REDIRECT_URI`).
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 400
+                title: Bad Request
+                error: OAUTH_INVALID_CLIENT
+                detail: The client's metadata document is unavailable, invalid or not accepted.
+        "401":
+          description: Missing, invalid, expired, or unsupported bearer credentials (`INVALID_CREDENTIALS`).
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 401
+                title: Unauthorized
+                error: INVALID_CREDENTIALS
+        "503":
+          description: Temporary authentication dependency failure (`AUTH_TEMPORARILY_UNAVAILABLE`).
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/OAuthNoStore'
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 503
+                title: Service Unavailable
+                error: AUTH_TEMPORARILY_UNAVAILABLE
   /v1/oauth/clients/{clientId}:
     get:
       summary: Get OAuth client metadata for consent
@@ -10510,9 +11091,9 @@ paths:
         Aura Historia account. PKCE (RFC 7636) with `S256` is required for all requests.
 
 
-        On success the endpoint redirects (302) to the `redirect_uri` appending `code` and, if
+        On success the endpoint redirects (302) to the `redirect_uri` appending `code`, the supplied
 
-        supplied, `state` as query parameters. The single-use authorization code must be exchanged
+        `state` and the issuer as `iss` (RFC 9207). The single-use authorization code must be exchanged
 
         for an access token via `POST /v1/oauth/token` before it expires.
 
@@ -10542,7 +11123,10 @@ paths:
         - name: client_id
           in: query
           required: true
-          description: Canonical OAuthClient ID.
+          description: >-
+            Canonical OAuthClient ID of a registered client, or the HTTPS URL of a public client's Client ID
+            Metadata Document, which Aura fetches and validates (see docs/oauth.md). A value that parses as an
+            `https` URL is always treated as a metadata document client.
           schema:
             type: string
           example: oc_7b0gwc1x49e0mvbt3tfexfqgb5
@@ -10550,8 +11134,8 @@ paths:
           in: query
           required: true
           description:
-            Redirect URI registered for the OAuth client. Must exactly match one of the client's registered redirect
-            URIs.
+            Must exactly match a redirect URI the client registered or its metadata document lists. A listed
+            loopback callback (`http://127.0.0.1`, `http://[::1]`, `http://localhost`) also matches on any port.
           schema:
             type: string
             format: uri
@@ -10573,7 +11157,7 @@ paths:
         - name: scope
           in: query
           required: false
-          description: Space-separated list of requested scopes. Must be a subset of the client's allowed scopes.
+          description: Space-separated list of requested scopes. Must be a subset of the registered client's allowed scopes, or of the ordinary-user vocabulary in discovery for a metadata document client. A metadata document client may add `offline_access` to receive a refresh token; registered clients may not.
           schema:
             type: string
           example: product-listings:write
@@ -10605,20 +11189,20 @@ paths:
           description:
             "Authorization successful. The user-agent is redirected to `redirect_uri` with the
 
-            one-time authorization `code` and the original `state` (if supplied) appended as
+            one-time authorization `code`, the original `state` (if supplied) and the issuer `iss`
 
-            query parameters, e.g.
+            appended as query parameters, e.g.
 
-            `https://client.example/callback?code=<code>&state=<state>`.
+            `https://client.example/callback?code=<code>&state=<state>&iss=https%3A%2F%2Fapi.aura-historia.com`.
 
             "
           headers:
             Location:
-              description: Redirect URL containing the authorization `code` and optional `state`.
+              description: Redirect URL containing the authorization `code`, optional `state` and `iss`.
               schema:
                 type: string
                 format: uri
-              example: https://client.example/callback?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz
+              example: https://client.example/callback?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz&iss=https%3A%2F%2Fapi.aura-historia.com
             Cache-Control:
               description: Always set to `no-store`.
               schema:
@@ -10627,7 +11211,7 @@ paths:
             Pragma:
               $ref: '#/components/headers/OAuthNoCache'
         "400":
-          description: Invalid query, unknown client or unregistered callback, unsupported response type, invalid scope or resource. Errors are returned directly; no unvalidated callback redirect is sent.
+          description: Invalid query, unknown client or unregistered callback, unsupported response type, invalid scope or resource, or a metadata document client that is disabled, denied, unavailable or invalid (`invalid_client`). Errors are returned directly; no unvalidated callback redirect is sent.
           headers:
             Cache-Control:
               $ref: '#/components/headers/OAuthNoStore'
@@ -10640,6 +11224,8 @@ paths:
               examples:
                 invalid_request:
                   value: { error: invalid_request }
+                invalid_client:
+                  value: { error: invalid_client }
                 unsupported_response_type:
                   value: { error: unsupported_response_type }
                 invalid_scope:
@@ -10729,30 +11315,52 @@ paths:
     post:
       summary: OAuth2 token endpoint
       description:
-        "Exchanges a single-use authorization code for an Aura Historia access token (RFC 6749 §4.1.3).
+        "Exchanges a single-use authorization code for an Aura Historia access token (RFC 6749 §4.1.3), or a
 
-        The request body must be `application/x-www-form-urlencoded`. Client authentication is
+        metadata document client's refresh token for new tokens (RFC 6749 §6).
 
-        performed via `client_id` / `client_secret` form fields. PKCE code verification (RFC 7636)
+        The request body must be `application/x-www-form-urlencoded`. A registered client authenticates
 
-        is mandatory: `code_verifier` must produce the `code_challenge` supplied to the authorize
+        with `client_id` / `client_secret` form fields (`client_secret_post`); a metadata document client
 
-        endpoint.
+        sends its `client_id` URL without a secret (`none`). For `grant_type=authorization_code`, PKCE code
+
+        verification (RFC 7636) is mandatory: `code_verifier` must produce the `code_challenge` supplied to the
+
+        authorize endpoint.
 
 
-        The issued access token is non-expiring by default (same lifetime as tokens created via
+        Codes are issued only for approvals made with a Cognito access JWT, so the token is an independent
 
-        `POST /v1/me/access-tokens`). Codes are issued only for approvals made with a Cognito access
+        credential of the approving user: expiring or revoking any other Aura Historia access token does not affect it.
 
-        JWT, so the token is an independent credential of the approving user: expiring or revoking
+        A registered client's access token is non-expiring by default (same lifetime as tokens created via
 
-        any other Aura Historia access token does not affect it. Successful responses also include a short-lived
+        `POST /v1/me/access-tokens`), and its response also includes a short-lived `third_party_exchange_code` that
 
-        `third_party_exchange_code` that can be redeemed once via
+        can be redeemed once via `GET /v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`. The exchange code
 
-        `GET /v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`. The exchange code expires
+        expires after 60 seconds and is deleted on first use.
 
-        after 60 seconds and is deleted on first use.
+
+        A metadata document client's token expires after one hour by default and comes without a
+
+        `third_party_exchange_code`; it also receives a `refresh_token` when its document lists the `refresh_token`
+
+        grant or the authorization request asked for `offline_access`.
+
+
+        With `grant_type=refresh_token`, a metadata document client sends `refresh_token` and its `client_id`, without a
+
+        secret. Every use returns a new `refresh_token` and the old one stops working at once. Presenting a refresh token
+
+        replaced more than 10 seconds earlier revokes its sign-in's refresh tokens and all access tokens of the user's
+
+        connection to the client. An unusable refresh token returns `400 invalid_grant`, a scope beyond the sign-in's
+
+        `invalid_scope`, another resource `invalid_target`; registered clients receive `400 unauthorized_client`. See
+
+        the OAuth contract for lifetimes.
 
         "
       operationId: oauthToken
@@ -10760,33 +11368,30 @@ paths:
         - OAuth
       requestBody:
         required: true
-        description: Authorization code exchange payload (form-urlencoded).
+        description: Authorization code exchange or refresh payload (form-urlencoded).
         content:
           application/x-www-form-urlencoded:
             schema:
               type: object
               required:
                 - grant_type
-                - code
-                - redirect_uri
                 - client_id
-                - client_secret
-                - code_verifier
               properties:
                 grant_type:
                   type: string
                   enum:
                     - authorization_code
-                  description: OAuth grant type. Must be `authorization_code`.
+                    - refresh_token
+                  description: OAuth grant type. `refresh_token` is available to metadata document clients only.
                   example: authorization_code
                 code:
                   type: string
-                  description: Single-use authorization code received from the authorize redirect.
+                  description: Single-use authorization code received from the authorize redirect. Required for `authorization_code`.
                   example: SplxlOBeZQQYbYS6WxSbIA
                 redirect_uri:
                   type: string
                   format: uri
-                  description: Must exactly match the `redirect_uri` used in the corresponding authorization request.
+                  description: Must exactly match the `redirect_uri` used in the corresponding authorization request. Required for `authorization_code`.
                   example: https://client.example/callback
                 resource:
                   type: string
@@ -10797,24 +11402,33 @@ paths:
                     other allowed alias), foreign/other-environment, empty and repeated values fail with
                     400 OAuth invalid_target. The issued opaque token authorizes the shared Aura service
                     through both REST and MCP under the original scopes; it has no exclusive transport audience.
+                    A refresh may repeat the resource of its sign-in or omit it.
                   example: https://mcp.aura-historia.com/v1
+                refresh_token:
+                  type: string
+                  description: The current refresh token. Required for `refresh_token`.
+                  example: aurahistoria_refreshtoken_abcdefghijk_verylongrefreshtokenvalue
+                scope:
+                  type: string
+                  description: For `refresh_token` only. Space-separated subset of the sign-in's scopes for the new access token; all of them when omitted. `offline_access` is ignored.
+                  example: users:read
                 client_id:
                   type: string
-                  description: Canonical OAuthClient ID.
+                  description: Canonical OAuthClient ID, or the metadata document URL the code was issued to.
                   example: oc_7b0gwc1x49e0mvbt3tfexfqgb5
                 client_secret:
                   type: string
-                  description: OAuth client secret.
+                  description: Required for registered clients; a metadata document client must not send it.
                   example: aurahistoria_abcdefghijk_verylongsecretvalue
                 code_verifier:
                   type: string
                   description:
                     PKCE code verifier. The SHA256 hash of this value must match the `code_challenge` from the
-                    authorization request.
+                    authorization request. Required for `authorization_code`.
                   example: dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
       responses:
         "200":
-          description: Access token issued. Nonexpiring tokens omit expires_in; no refresh token is issued.
+          description: Access token issued. Nonexpiring tokens omit expires_in; metadata document clients receive expires_in and, where issued, a rotating refresh_token.
           headers:
             Cache-Control:
               $ref: '#/components/headers/OAuthNoStore'
@@ -10847,10 +11461,14 @@ paths:
                   value: { error: invalid_grant }
                 unsupported_grant_type:
                   value: { error: unsupported_grant_type }
+                unauthorized_client:
+                  value: { error: unauthorized_client }
+                invalid_scope:
+                  value: { error: invalid_scope }
                 invalid_target:
                   value: { error: invalid_target }
         "401":
-          description: Unknown or invalid client credentials. Only client_secret_post is supported.
+          description: Unknown or invalid client credentials, a secret sent by a metadata document client, or a metadata document client that is disabled or denied.
           headers:
             Cache-Control:
               $ref: '#/components/headers/OAuthNoStore'
@@ -11002,13 +11620,17 @@ paths:
       description:
         "Revokes an Aura Historia access token that was issued through the OAuth authorization code
 
-        flow (RFC 7009). The request body must be `application/x-www-form-urlencoded`. Client
+        flow, or a metadata document client's refresh token (RFC 7009). The request body must be
 
-        authentication is performed via `client_id` / `client_secret` form fields. The token must
+        `application/x-www-form-urlencoded`. A registered client authenticates with `client_id` / `client_secret`
+
+        form fields; a metadata document client sends its `client_id` URL without a secret. The token must
 
         have been issued to that client; another client's token or a personal access token is
 
-        rejected with `403` and OAuth `access_denied` and is not revoked.
+        rejected with `403` and OAuth `access_denied` and is not revoked. Revoking a refresh token ends the
+
+        user's whole connection to the client, with all its access and refresh tokens.
 
 
         After revocation the token is immediately inactive and introspection will return
@@ -11029,19 +11651,18 @@ paths:
               required:
                 - token
                 - client_id
-                - client_secret
               properties:
                 token:
                   type: string
-                  description: The access token to revoke.
+                  description: The access token or refresh token to revoke. `token_type_hint` is not needed and ignored.
                   example: aurahistoria_abcdefghijk_verylongtokenvalue
                 client_id:
                   type: string
-                  description: Canonical OAuthClient ID.
+                  description: Canonical OAuthClient ID, or the metadata document client's URL.
                   example: oc_7b0gwc1x49e0mvbt3tfexfqgb5
                 client_secret:
                   type: string
-                  description: OAuth client secret.
+                  description: OAuth client secret. Required for registered clients; a metadata document client must not send it.
                   example: aurahistoria_abcdefghijk_verylongsecretvalue
       responses:
         "200":
@@ -11066,7 +11687,7 @@ paths:
                 invalid_request:
                   value: { error: invalid_request }
         "401":
-          description: Unknown or invalid client credentials. Only client_secret_post is supported.
+          description: Unknown or invalid client credentials, a secret sent by a metadata document client, or a metadata document client that is disabled or denied.
           headers:
             Cache-Control:
               $ref: '#/components/headers/OAuthNoStore'
@@ -18133,6 +18754,13 @@ components:
     OAuthNoCache:
       description: Legacy cache prevention for OAuth credential traffic.
       schema: { type: string, enum: [no-cache] }
+    SiteDiscoveryAllowOrigin:
+      description: Any origin may read website discovery documents.
+      schema: { type: string, enum: ['*'] }
+    ApiCatalogLink:
+      description: The catalog's own URL with the `api-catalog` relation (RFC 9727).
+      schema: { type: string }
+      example: '<https://api.aura-historia.com/.well-known/api-catalog>; rel="api-catalog"'
     AsyncProductListingIdempotencyKey:
       description: Effective key, echoed on every evaluated report (including non-2xx); not guaranteed on pre-evaluation ApiError responses. CORS-exposed for browser clients.
       schema:
@@ -18322,10 +18950,193 @@ components:
         error:
           type: string
           enum: [invalid_request, invalid_client, invalid_grant, unsupported_grant_type, unsupported_response_type, invalid_scope, invalid_target, access_denied, server_error, temporarily_unavailable]
+    OAuthProtectedResourceMetadataData:
+      type: object
+      additionalProperties: false
+      required: [resource, authorization_servers, bearer_methods_supported, scopes_supported]
+      properties:
+        resource:
+          type: string
+          enum: ['https://api.aura-historia.com', 'https://api.stage.aura-historia.com']
+        authorization_servers:
+          type: array
+          minItems: 1
+          maxItems: 1
+          items:
+            type: string
+            enum: ['https://api.aura-historia.com', 'https://api.stage.aura-historia.com']
+        bearer_methods_supported:
+          type: array
+          items: { type: string, enum: [header] }
+        scopes_supported:
+          type: array
+          items:
+            type: string
+            enum: ['users:read', 'users:write', 'search-filters:read', 'search-filters:write', 'watchlist:read', 'watchlist:write', 'notifications:read', 'notifications:write']
+    SiteAiCatalogData:
+      type: object
+      additionalProperties: false
+      required: [specVersion, host, entries]
+      description: AI catalog (ai-catalog data model). Other hosts' catalogs may carry further members; this one carries exactly these.
+      properties:
+        specVersion:
+          type: string
+          enum: ["1.0"]
+          description: The ai-catalog data model version.
+        host:
+          type: object
+          additionalProperties: false
+          required: [displayName, identifier, documentationUrl, logoUrl]
+          properties:
+            displayName: { type: string }
+            identifier:
+              type: string
+              enum: [aura-historia.com, stage.aura-historia.com]
+              description: The website's domain.
+            documentationUrl: { type: string }
+            logoUrl: { type: string }
+        entries:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [identifier, displayName, type, url, description, representativeQueries]
+            properties:
+              identifier:
+                type: string
+                description: '`urn:air:<website domain>:<namespace>:<name>`.'
+              displayName: { type: string }
+              type:
+                type: string
+                description: Media type of the linked document.
+              url: { type: string }
+              description: { type: string }
+              representativeQueries:
+                type: array
+                minItems: 2
+                maxItems: 5
+                items: { type: string }
+    SitePoppyDeclarationData:
+      type: object
+      additionalProperties: false
+      required: [protocol_version, organization, web]
+      properties:
+        protocol_version:
+          type: string
+          enum: ["0.1"]
+        organization:
+          type: object
+          additionalProperties: false
+          required: [name, domain]
+          properties:
+            name: { type: string }
+            domain:
+              type: string
+              enum: [aura-historia.com, stage.aura-historia.com]
+              description: The website's domain, which must equal the host serving the declaration.
+        web:
+          type: object
+          additionalProperties: false
+          description: Agents browse the website as signed-out visitors.
+    SiteWebMcpClientMetadataData:
+      type: object
+      additionalProperties: false
+      required: [client_id, client_name, client_uri, logo_uri, redirect_uris, grant_types, response_types, token_endpoint_auth_method]
+      properties:
+        client_id:
+          type: string
+          enum: [https://aura-historia.com/oauth/webmcp-client.json, https://stage.aura-historia.com/oauth/webmcp-client.json]
+          description: The document's own website URL.
+        client_name:
+          type: string
+          description: Shown on the consent page beside the verified host of `client_id`.
+        client_uri:
+          type: string
+          enum: [https://aura-historia.com, https://stage.aura-historia.com]
+        logo_uri: { type: string }
+        redirect_uris:
+          type: array
+          minItems: 1
+          items: { type: string }
+          description: The website's `/api/oauth/webmcp/callback`; on stage also `http://localhost/api/oauth/webmcp/callback`, which matches on any port.
+        grant_types:
+          type: array
+          items: { type: string, enum: [authorization_code, refresh_token] }
+        response_types:
+          type: array
+          items: { type: string, enum: [code] }
+        token_endpoint_auth_method:
+          type: string
+          enum: [none]
+    SiteAgentSkillsIndexData:
+      type: object
+      additionalProperties: false
+      required: [$schema, skills]
+      properties:
+        $schema:
+          type: string
+          enum: [https://schemas.agentskills.io/discovery/0.2.0/schema.json]
+        skills:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [name, type, description, url, digest]
+            properties:
+              name: { type: string }
+              type: { type: string, enum: [skill-md] }
+              description: { type: string, maxLength: 1024 }
+              url:
+                type: string
+                description: The website URL the skill is published at.
+              digest:
+                type: string
+                pattern: '^sha256:[0-9a-f]{64}$'
+                description: SHA-256 of the exact `SKILL.md` bytes served.
+    ApiCatalogData:
+      type: object
+      additionalProperties: false
+      required: [linkset]
+      description: RFC 9264 Linkset. The first context is the catalog itself; the others describe one API each.
+      properties:
+        linkset:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiCatalogContextData'
+    ApiCatalogContextData:
+      type: object
+      additionalProperties: false
+      required: [anchor]
+      properties:
+        anchor:
+          type: string
+          description: The catalog URL or an API endpoint.
+        item:
+          type: array
+          items: { $ref: '#/components/schemas/ApiCatalogLinkData' }
+        service-desc:
+          type: array
+          items: { $ref: '#/components/schemas/ApiCatalogLinkData' }
+        service-doc:
+          type: array
+          items: { $ref: '#/components/schemas/ApiCatalogLinkData' }
+        status:
+          type: array
+          items: { $ref: '#/components/schemas/ApiCatalogLinkData' }
+    ApiCatalogLinkData:
+      type: object
+      additionalProperties: false
+      required: [href]
+      properties:
+        href:
+          type: string
+        type:
+          type: string
+          description: Media type of the target, where known.
     OAuthAuthorizationServerMetadataData:
       type: object
       additionalProperties: false
-      required: [issuer, authorization_endpoint, token_endpoint, response_types_supported, response_modes_supported, grant_types_supported, token_endpoint_auth_methods_supported, code_challenge_methods_supported, scopes_supported]
+      required: [issuer, authorization_endpoint, token_endpoint, response_types_supported, response_modes_supported, grant_types_supported, token_endpoint_auth_methods_supported, code_challenge_methods_supported, scopes_supported, authorization_response_iss_parameter_supported]
       properties:
         issuer:
           type: string
@@ -18344,18 +19155,66 @@ components:
           items: { type: string, enum: [query] }
         grant_types_supported:
           type: array
-          items: { type: string, enum: [authorization_code] }
+          description: '`authorization_code`; `refresh_token` is added while metadata document clients are enabled, because only they receive refresh tokens.'
+          items: { type: string, enum: [authorization_code, refresh_token] }
         token_endpoint_auth_methods_supported:
           type: array
-          items: { type: string, enum: [client_secret_post] }
+          description: '`client_secret_post` for registered clients; `none` is added while metadata document clients are enabled.'
+          items: { type: string, enum: [client_secret_post, none] }
         code_challenge_methods_supported:
           type: array
           items: { type: string, enum: [S256] }
         scopes_supported:
           type: array
+          description: The ordinary-user scopes; `offline_access`, which asks for a refresh token, is added while metadata document clients are enabled.
           items:
             type: string
-            enum: ['users:read', 'users:write', 'search-filters:read', 'search-filters:write', 'watchlist:read', 'watchlist:write', 'notifications:read', 'notifications:write']
+            enum: ['users:read', 'users:write', 'search-filters:read', 'search-filters:write', 'watchlist:read', 'watchlist:write', 'notifications:read', 'notifications:write', 'offline_access']
+        authorization_response_iss_parameter_supported:
+          type: boolean
+          enum: [true]
+        client_id_metadata_document_supported:
+          type: boolean
+          enum: [true]
+          description: Present only while the environment enables metadata document clients.
+    OAuthMetadataDocumentConsentClientData:
+      type: object
+      additionalProperties: false
+      description: Consent metadata for a public client identified by its Client ID Metadata Document URL. `client_name`, `client_uri` and `logo_uri` are self-asserted by the document; `client_host` and `redirect_uri_host` are verified.
+      required: [client_id, client_name, client_host, redirect_uri_host, loopback_redirect_uris_only, scope, granted_scope]
+      properties:
+        client_id:
+          type: string
+          format: uri
+          description: The metadata document URL, exactly as submitted.
+        client_name:
+          type: string
+          maxLength: 128
+        client_uri:
+          type: string
+          format: uri
+          description: HTTPS home page from the document; omitted when absent.
+        logo_uri:
+          type: string
+          format: uri
+          description: HTTPS logo from the document; omitted when absent.
+        client_host:
+          type: string
+          description: Host of `client_id`, which serves the document.
+        redirect_uri_host:
+          type: string
+          description: Host of the requested callback, which the document lists.
+        loopback_redirect_uris_only:
+          type: boolean
+          description: Whether every callback the document lists returns to the user's own device (`127.0.0.1`, `[::1]` or `localhost`).
+        scope:
+          type: array
+          description: Scopes such a client may request, sorted.
+          items: { type: string }
+        granted_scope:
+          type: array
+          description: Scopes the authenticated user already granted this client, sorted; empty when the user has no connection to it. A step-up approval adds the requested scopes to them.
+          items: { type: string }
     DeliveryAssessmentGeography:
       type: object
       additionalProperties: false
@@ -22257,7 +23116,7 @@ components:
       description:
         "Cursor-paginated, secret-free access-token metadata for an administrator's explicit target user.
 
-        `searchAfter` is a `[created RFC3339 timestamp, AccessToken ID]` cursor and is omitted
+        `searchAfter` is a `[created RFC3339 timestamp, AccessToken ID or connection ID]` cursor and is omitted
 
         when the current page is terminal. The cursor timestamp is not returned as item metadata.
 
@@ -22286,14 +23145,20 @@ components:
           maxItems: 2
           items:
             type: string
-          description: "`[created RFC3339 timestamp, AccessToken ID]` cursor for the next page, omitted when no more results are available."
+          description: "`[created RFC3339 timestamp, AccessToken ID or connection ID]` cursor for the next page, omitted when no more results are available."
           example:
             - "2026-09-04T12:00:00Z"
             - at_4ck23tcv0meqqrbyjaka24ra6g
     AdminAccessTokenData:
       type: object
       description:
-        "Secret-free Aura Historia access-token metadata returned by the admin target-user listing.
+        "Secret-free credential entry returned by the admin target-user listing: an individually managed access token,
+
+        or a metadata document client's connection, which stands for its rotating access and refresh tokens.
+
+        A token entry carries `accessTokenId`; a connection entry carries `connectionId`, `created` and `lastUsed` instead
+
+        and no `expires`. OAuth entries carry `client`.
 
         The representation contains no raw token, masked token, short-token, or token-hash value.
 
@@ -22302,7 +23167,6 @@ components:
         "
       required:
         - userId
-        - accessTokenId
         - name
         - scopes
         - origin
@@ -22313,7 +23177,7 @@ components:
           example: usr_5pvhvpxyhve6ts31n9x8c2y513
         accessTokenId:
           type: string
-          description: Unique identifier of the access token.
+          description: Unique identifier of the access token; absent on connection entries.
           example: at_4ck23tcv0meqqrbyjaka24ra6g
         name:
           type: string
@@ -22329,14 +23193,125 @@ components:
           example:
             - users:read
         origin:
+          $ref: "#/components/schemas/AccessTokenOriginData"
+        client:
+          $ref: "#/components/schemas/AccessTokenClientData"
+        connectionId:
           type: string
-          description: Origin recorded by the canonical access-token model.
-          example: User
+          description: Present instead of `accessTokenId` on an entry that stands for a metadata document client's connection.
+          example: ocn_06e2x7g9xm8y5r0gkw4wz1n3tg
+        created:
+          type: string
+          format: date-time
+          description: When the user first approved the client; present on connection entries.
+          example: "2026-11-01T09:00:00Z"
+        lastUsed:
+          type: string
+          format: date-time
+          description: When the user last approved the client or the client last obtained an access token; present on connection entries.
+          example: "2026-11-06T12:00:00Z"
         expires:
           type: string
           format: date-time
           description: Optional RFC3339 expiration timestamp; expired and current tokens are both listed.
           example: "2026-09-30T00:00:00Z"
+    AccessTokenOriginData:
+      type: string
+      enum: [User, OAuth, OAuthMetadataDocument]
+      description: "Stable origin of a credential: `User` for a personal access token, `OAuth` for a token issued to an
+
+        administrator-registered OAuth client, `OAuthMetadataDocument` for a public client identified by its Client ID
+
+        Metadata Document.
+
+        "
+      example: User
+    AccessTokenClientData:
+      type: object
+      additionalProperties: false
+      description: The OAuth client holding a listed credential. Present exactly for OAuth origins.
+      required: [clientId, name, kind, host]
+      properties:
+        clientId:
+          type: string
+          description: The registered client's `oc_` ID, or the metadata document URL.
+          example: https://claude.ai/oauth/claude-code-client-metadata
+        name:
+          type: string
+          description: The registered client's name, or the name the client's metadata document asserted at the user's last approval.
+          example: Claude Code
+        kind:
+          type: string
+          enum: [REGISTERED, METADATA_DOCUMENT]
+          description: Whether an administrator registered the client or it identifies itself by its metadata document.
+        host:
+          type: string
+          description: Host of the registered client's `client_uri`, or of the metadata document URL, which Aura verified.
+          example: claude.ai
+    OwnAccessTokenListEntryData:
+      type: object
+      description:
+        "One entry of the authenticated user's credential listing: an individually managed access token, or a metadata
+
+        document client's connection, which stands for its rotating access and refresh tokens.
+
+        A token entry carries `accessTokenId` and optional `expires`. A connection entry carries `connectionId`, the
+
+        client's name as `name`, the union of the scopes the user approved, `created` and `lastUsed`. OAuth entries
+
+        carry `client`. Disconnect a client with `DELETE /v1/me/access-tokens?clientId=…`.
+
+        "
+      required:
+        - userId
+        - name
+        - scopes
+        - origin
+      properties:
+        userId:
+          type: string
+          description: User who owns the credential.
+          example: usr_5pvhvpxyhve6ts31n9x8c2y513
+        accessTokenId:
+          type: string
+          description: Unique identifier of the access token; absent on connection entries.
+          example: at_4ck23tcv0meqqrbyjaka24ra6g
+        connectionId:
+          type: string
+          description: Unique identifier of the connection; present only on connection entries.
+          example: ocn_06e2x7g9xm8y5r0gkw4wz1n3tg
+        name:
+          type: string
+          maxLength: 128
+          description: The token's display name, or the connected client's name.
+          example: Partner product sync
+        scopes:
+          type: array
+          items:
+            $ref: "#/components/schemas/AccessTokenScopeData"
+          uniqueItems: true
+          description: Granted scopes. An empty scope set is returned as an empty array.
+          example:
+            - product-listings:write
+        origin:
+          $ref: "#/components/schemas/AccessTokenOriginData"
+        client:
+          $ref: "#/components/schemas/AccessTokenClientData"
+        expires:
+          type: string
+          format: date-time
+          description: Optional RFC3339 expiration timestamp of a token entry; omitted when the token does not expire.
+          example: "2026-06-30T00:00:00Z"
+        created:
+          type: string
+          format: date-time
+          description: When the user first approved the client; present on connection entries.
+          example: "2026-11-01T09:00:00Z"
+        lastUsed:
+          type: string
+          format: date-time
+          description: When the user last approved the client or the client last obtained an access token; present on connection entries.
+          example: "2026-11-06T12:00:00Z"
     OwnAccessTokenData:
       type: object
       description:
@@ -22375,9 +23350,7 @@ components:
           example:
             - product-listings:write
         origin:
-          type: string
-          description: Origin recorded by the access-token model.
-          example: User
+          $ref: "#/components/schemas/AccessTokenOriginData"
         expires:
           type: string
           format: date-time
@@ -22575,7 +23548,7 @@ components:
         client_uri:
           type: string
           format: uri
-          description: HTTPS URL of the OAuth client's homepage or product site.
+          description: HTTP(S) URL with a host of the OAuth client's homepage or product site. Credential listings show its host to identify the client; any other URL is rejected with `OAUTH_INVALID_CLIENT_METADATA`.
           example: https://client.example
         logo_uri:
           type: string
@@ -22626,7 +23599,7 @@ components:
         client_uri:
           type: string
           format: uri
-          description: Optional replacement homepage or product-site URL for the OAuth client.
+          description: Optional replacement homepage or product-site URL for the OAuth client, an HTTP(S) URL with a host; any other URL is rejected with `OAUTH_INVALID_CLIENT_METADATA`.
           example: https://updated-client.example
         logo_uri:
           type: string
@@ -22855,9 +23828,11 @@ components:
 
         The `access_token` is an Aura Historia bearer access token. `expires_in` is omitted
 
-        for non-expiring tokens. `third_party_exchange_code` is only present on the
+        for non-expiring tokens. `third_party_exchange_code` is only present on a registered
 
-        direct token exchange response.
+        client's direct token exchange response. `refresh_token` is only returned to metadata
+
+        document clients.
 
         "
       required:
@@ -22882,6 +23857,10 @@ components:
           type: string
           description: Space-separated list of scopes granted to the access token.
           example: product-listings:write
+        refresh_token:
+          type: string
+          description: Rotating refresh token of a metadata document client. Present after a code exchange when the client's document lists the `refresh_token` grant or the authorization request asked for `offline_access`, and after every refresh. Each refresh replaces it.
+          example: aurahistoria_refreshtoken_abcdefghijk_verylongrefreshtokenvalue
         third_party_exchange_code:
           type: string
           format: uuid
@@ -26761,6 +27740,7 @@ x-tagGroups:
   - name: Operations
     tags:
       - Operations
+      - Agent Discovery
   - name: Discovery
     tags:
       - ProductListings
@@ -26813,3 +27793,5 @@ tags:
     description: Partnership application submission, review tracking, administration, and decision workflows.
   - name: OAuth
     description: OAuth 2.0 authorization, token, revocation, introspection, and OAuth client metadata management.
+  - name: Agent Discovery
+    description: Machine-readable documents that describe the Aura APIs and the Aura Historia website to agents.

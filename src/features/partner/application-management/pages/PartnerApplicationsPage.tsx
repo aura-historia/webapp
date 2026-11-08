@@ -1,5 +1,15 @@
-import { PartnerApplicationsSection } from "@/features/partner/application-management/components/PartnerApplicationsSection.tsx";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { PartnerApplicationsSection } from "../components/PartnerApplicationsSection.tsx";
 
 export function PartnerApplicationsPage() {
-    return <PartnerApplicationsSection />;
+    const { create } = useSearch({ from: "/$lng/_auth/partners/applications" });
+    const navigate = useNavigate({ from: "/$lng/partners/applications" });
+    return (
+        <PartnerApplicationsSection
+            createOpen={create === true ? true : undefined}
+            onCreateOpenChange={(open) => {
+                if (!open && create) void navigate({ search: {}, replace: true });
+            }}
+        />
+    );
 }

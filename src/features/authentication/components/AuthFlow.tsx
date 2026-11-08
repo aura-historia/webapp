@@ -62,6 +62,7 @@ export function AuthFlow({ step, onStepChange, onComplete, locale, redirect }: A
                     email={pendingEmail}
                     password={pendingPassword}
                     onSuccess={() => onStepChange("user-details")}
+                    onSignInRequired={() => onStepChange("sign-in")}
                 />
             )}
 

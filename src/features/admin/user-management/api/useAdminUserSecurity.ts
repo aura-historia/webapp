@@ -69,7 +69,7 @@ function mapAdminAccessTokenCollection(
 ): AdminUserAccessTokensPage {
     const cursor = collection.searchAfter;
     return {
-        items: collection.items.map((token) => mapToAdminAccessToken(token, userId)),
+        items: collection.items.flatMap((token) => mapToAdminAccessToken(token, userId) ?? []),
         size: collection.size,
         ...(cursor ? { searchAfter: [cursor[0], cursor[1]] as const } : {}),
     };

@@ -2,37 +2,28 @@ import { Link } from "@tanstack/react-router";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { CardHeader, CardTitle } from "@/components/ui/card.tsx";
-import { getSafeHttpsUrl } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
-import type { OAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
+import { getSafeHttpsUrl, getSafeHttpsUrlOnHost } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
+import type { OAuthConsentClient } from "@/data/internal/oauth/OAuthClient.ts";
 
 interface OAuthAuthorizeClientSummaryProps {
-    readonly client: OAuthClient;
+    readonly client: OAuthConsentClient;
 }
 
 export function OAuthAuthorizeClientSummary({ client }: OAuthAuthorizeClientSummaryProps) {
     const { t } = useTranslation();
-    const clientLogoUri = getSafeHttpsUrl(client.logoUri);
+    const { logoUri, links } = getClientPresentation(client);
     const clientLinks = [
-        {
-            href: getSafeHttpsUrl(client.clientUri),
-            label: t("oauth.authorize.clientInfoLink"),
-        },
-        {
-            href: getSafeHttpsUrl(client.policyUri),
-            label: t("oauth.authorize.privacyLink"),
-        },
-        {
-            href: getSafeHttpsUrl(client.tosUri),
-            label: t("oauth.authorize.termsLink"),
-        },
+        { href: links.clientUri, label: t("oauth.authorize.clientInfoLink") },
+        { href: links.policyUri, label: t("oauth.authorize.privacyLink") },
+        { href: links.tosUri, label: t("oauth.authorize.termsLink") },
     ].filter((link): link is { href: string; label: string } => !!link.href);
 
     return (
         <CardHeader className="flex flex-row items-start gap-4 space-y-0">
             <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-outline-variant/20 bg-surface-container-low">
-                {clientLogoUri ? (
+                {logoUri ? (
                     <img
-                        src={clientLogoUri}
+                        src={logoUri}
                         alt={t("oauth.authorize.logoAlt", {
                             appName: client.clientName,
                         })}
@@ -65,4 +56,35 @@ export function OAuthAuthorizeClientSummary({ client }: OAuthAuthorizeClientSumm
             </div>
         </CardHeader>
     );
+}
+
+/**
+ * A registered client's logo and links were registered by an administrator. A metadata document
+ * client asserts its own, on any host: they are shown only on the verified host of its `client_id`,
+ * so a document cannot borrow another app's logo or home page (board "OAuth · Consent — agent
+ * clients identified by a metadata document").
+ */
+function getClientPresentation(client: OAuthConsentClient): {
+    readonly logoUri: string | undefined;
+    readonly links: {
+        readonly clientUri?: string;
+        readonly policyUri?: string;
+        readonly tosUri?: string;
+    };
+} {
+    if (client.kind === "metadataDocument") {
+        return {
+            logoUri: getSafeHttpsUrlOnHost(client.logoUri, client.clientHost),
+            links: { clientUri: getSafeHttpsUrlOnHost(client.clientUri, client.clientHost) },
+        };
+    }
+
+    return {
+        logoUri: getSafeHttpsUrl(client.logoUri),
+        links: {
+            clientUri: getSafeHttpsUrl(client.clientUri),
+            policyUri: getSafeHttpsUrl(client.policyUri),
+            tosUri: getSafeHttpsUrl(client.tosUri),
+        },
+    };
 }
