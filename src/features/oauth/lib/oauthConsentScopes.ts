@@ -13,6 +13,11 @@ export interface OAuthConsentScopes {
     readonly requestsOfflineAccess: boolean;
 }
 
+/** Requested permissions without the `offline_access` request flag. */
+export function withoutOfflineAccess(scopes: readonly string[]): string[] {
+    return scopes.filter((scope) => scope !== OFFLINE_ACCESS_SCOPE);
+}
+
 /** The scopes of the request's `scope` parameter, in order, as sent. */
 export function getRequestedScopes(scope: string | undefined): string[] {
     return scope?.split(" ").filter(Boolean) ?? [];
@@ -34,7 +39,7 @@ export function getOAuthConsentScopes(
     }
 
     const grantedScopes = new Set(metadataDocumentClient.grantedScopes);
-    const permissions = requestedScopes.filter((scope) => scope !== OFFLINE_ACCESS_SCOPE);
+    const permissions = withoutOfflineAccess(requestedScopes);
     return {
         requestedScopes: permissions.filter((scope) => !grantedScopes.has(scope)),
         alreadyGrantedScopes: permissions.filter((scope) => grantedScopes.has(scope)),

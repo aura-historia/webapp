@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
     isMetadataDocumentClientId,
     mapToInternalOAuthClient,
+    returnsToLocalDevice,
     type OAuthClient,
 } from "@/data/internal/oauth/OAuthClient.ts";
 import type { OAuthClientConsentMetadataData } from "@/client";
@@ -130,4 +131,30 @@ describe("isMetadataDocumentClientId", () => {
     ])("treats %j as a registered client", (clientId) => {
         expect(isMetadataDocumentClientId(clientId)).toBe(false);
     });
+});
+
+describe("returnsToLocalDevice", () => {
+    it("is true when every listed callback is loopback", () => {
+        expect(
+            returnsToLocalDevice({ loopbackRedirectUrisOnly: true, redirectUriHost: "localhost" }),
+        ).toBe(true);
+    });
+
+    it.each(["127.0.0.1", "[::1]", "localhost", "LOCALHOST"])(
+        "is true when the requested callback is on %s",
+        (redirectUriHost) => {
+            expect(returnsToLocalDevice({ loopbackRedirectUrisOnly: false, redirectUriHost })).toBe(
+                true,
+            );
+        },
+    );
+
+    it.each(["claude.ai", "localhost.example", "127.0.0.1.example"])(
+        "is false for a web callback on %s",
+        (redirectUriHost) => {
+            expect(returnsToLocalDevice({ loopbackRedirectUrisOnly: false, redirectUriHost })).toBe(
+                false,
+            );
+        },
+    );
 });

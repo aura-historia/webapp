@@ -1034,6 +1034,28 @@ describe("OAuthAuthorizePage for a metadata document client", () => {
         ).toBeTruthy();
     });
 
+    it("warns when this request returns to a loopback callback that a document lists beside web ones", async () => {
+        mockAgentClient({
+            clientId: "https://vscode.dev/oauth/client-metadata.json",
+            clientName: "Visual Studio Code",
+            clientHost: "vscode.dev",
+            redirectUri: "http://127.0.0.1:4444/",
+            redirectUriHost: "127.0.0.1",
+            loopbackRedirectUrisOnly: false,
+        });
+
+        await renderAgentConsent({
+            client_id: "https://vscode.dev/oauth/client-metadata.json",
+            redirect_uri: "http://127.0.0.1:4444/",
+        });
+
+        expect(
+            screen.getByRole("region", {
+                name: t("oauth.authorize.agentClient.loopbackWarning.title"),
+            }),
+        ).toBeInTheDocument();
+    });
+
     it("shows no loopback warning for a web callback", async () => {
         await renderAgentConsent();
 
@@ -1190,6 +1212,22 @@ describe("OAuthAuthorizePage for a metadata document client", () => {
         await renderAgentConsent();
 
         expect(screen.getByText(t("oauth.authorize.error.title"))).toBeInTheDocument();
+        expectNoConsentActions();
+    });
+
+    it.each([
+        ["a rejected session", 401],
+        ["a front-door refusal", 403],
+        ["a rate limit", 429],
+    ])("explains %s as unavailable rather than an invalid link", async (_, status) => {
+        mockAgentClientError(new OAuthConsentMetadataError(status));
+
+        await renderAgentConsent();
+
+        expect(
+            screen.getByText(t("oauth.authorize.agentClient.errors.unavailable.description")),
+        ).toBeInTheDocument();
+        expect(screen.queryByText(t("oauth.authorize.error.title"))).not.toBeInTheDocument();
         expectNoConsentActions();
     });
 

@@ -24,14 +24,17 @@ import {
 } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
 import {
     getOAuthConsentScopes,
-    OFFLINE_ACCESS_SCOPE,
+    withoutOfflineAccess,
 } from "@/features/oauth/lib/oauthConsentScopes.ts";
 import {
     OAuthConsentMetadataError,
     OAuthConsentUnavailableError,
 } from "@/features/oauth/api/oauthConsentMetadata.ts";
 import { isWooCommerceBrokerCallback } from "@/features/oauth-client-broker/lib/brokerUrls.ts";
-import { isMetadataDocumentClientId } from "@/data/internal/oauth/OAuthClient.ts";
+import {
+    isMetadataDocumentClientId,
+    returnsToLocalDevice,
+} from "@/data/internal/oauth/OAuthClient.ts";
 
 interface OAuthAuthorizePageProps {
     readonly searchParams: OAuthAuthorizeSearchParams;
@@ -97,7 +100,7 @@ export function OAuthAuthorizePage({ searchParams: requestSearchParams }: OAuthA
                 <OAuthAuthorizePageSkeleton
                     requestedScopes={
                         isMetadataDocumentRequest
-                            ? requestedScopes.filter((scope) => scope !== OFFLINE_ACCESS_SCOPE)
+                            ? withoutOfflineAccess(requestedScopes)
                             : requestedScopes
                     }
                     title={t("oauth.authorize.title")}
@@ -163,7 +166,7 @@ export function OAuthAuthorizePage({ searchParams: requestSearchParams }: OAuthA
                             })}
                         </p>
 
-                        {metadataDocumentClient?.loopbackRedirectUrisOnly && (
+                        {metadataDocumentClient && returnsToLocalDevice(metadataDocumentClient) && (
                             <OAuthLoopbackWarning />
                         )}
 
@@ -250,23 +253,23 @@ const CONSENT_ERROR_COPY = {
 
 /**
  * The state shown when consent metadata cannot be read. Every refusal stays on this page; nothing
- * is sent to the callback.
+ * is sent to the callback. A registered client keeps its earlier states. For a metadata document
+ * client only the backend's `400` refusals describe the request; any other failure, such as a
+ * rejected session or a rate limit, says the details cannot be verified now.
  */
 function getConsentErrorCopy(
     error: unknown,
     isMetadataDocumentRequest: boolean,
 ): (typeof CONSENT_ERROR_COPY)[keyof typeof CONSENT_ERROR_COPY] {
-    if (error instanceof OAuthConsentUnavailableError) {
-        return isMetadataDocumentRequest
-            ? CONSENT_ERROR_COPY.agentClientUnavailable
-            : CONSENT_ERROR_COPY.unavailable;
+    if (!isMetadataDocumentRequest) {
+        return error instanceof OAuthConsentUnavailableError
+            ? CONSENT_ERROR_COPY.unavailable
+            : CONSENT_ERROR_COPY.invalidRequest;
     }
-    if (
-        isMetadataDocumentRequest &&
-        error instanceof OAuthConsentMetadataError &&
-        error.code === "OAUTH_INVALID_CLIENT"
-    ) {
-        return CONSENT_ERROR_COPY.agentClientInvalid;
+    if (!(error instanceof OAuthConsentMetadataError) || error.status !== 400) {
+        return CONSENT_ERROR_COPY.agentClientUnavailable;
     }
-    return CONSENT_ERROR_COPY.invalidRequest;
+    return error.code === "OAUTH_INVALID_CLIENT"
+        ? CONSENT_ERROR_COPY.agentClientInvalid
+        : CONSENT_ERROR_COPY.invalidRequest;
 }

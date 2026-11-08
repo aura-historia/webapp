@@ -59,6 +59,20 @@ export function isMetadataDocumentClientId(clientId: string): boolean {
     }
 }
 
+const LOOPBACK_HOSTS = new Set(["127.0.0.1", "[::1]", "::1", "localhost"]);
+
+/**
+ * Whether a metadata document client's request returns to the user's own device: every callback
+ * its document lists does, or the requested one does. Any local program can then claim the client.
+ */
+export function returnsToLocalDevice(
+    client: Pick<OAuthMetadataDocumentClient, "loopbackRedirectUrisOnly" | "redirectUriHost">,
+): boolean {
+    return (
+        client.loopbackRedirectUrisOnly || LOOPBACK_HOSTS.has(client.redirectUriHost.toLowerCase())
+    );
+}
+
 export function mapToInternalOAuthClient(data: OAuthClientConsentMetadataData): OAuthClient {
     return {
         kind: "registered",

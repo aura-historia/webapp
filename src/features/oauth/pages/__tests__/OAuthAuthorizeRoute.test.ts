@@ -45,6 +45,11 @@ vi.mock("@/features/oauth-client-broker/pages/WooCommerceBrokerConsentPage.tsx",
  * with the same parents, which merges the raw query into the validated search.
  */
 function routerSearchFor(href: string): Record<string, unknown> {
+    return routerMatchFor(href).search;
+}
+
+/** The route's match and the location href the language switch localizes. */
+function routerMatchFor(href: string): { search: Record<string, unknown>; href: string } {
     const rootRoute = createRootRoute();
     const lngRoute = createRoute({ getParentRoute: () => rootRoute, path: "$lng" });
     const authRoute = createRoute({ getParentRoute: () => lngRoute, id: "_auth" });
@@ -64,7 +69,13 @@ function routerSearchFor(href: string): Record<string, unknown> {
     const match = router.matchRoutes(router.latestLocation).at(-1);
     expect(match?.routeId).toBe("/$lng/_auth/oauth/authorize");
     expect(match?.searchError).toBeUndefined();
-    return match?.search as Record<string, unknown>;
+    return {
+        search: match?.search as Record<string, unknown>,
+        href: router.buildLocation({
+            to: router.latestLocation.pathname,
+            search: match?.search as Record<string, unknown>,
+        }).href,
+    };
 }
 
 function renderRouteWithSearch(search: Record<string, unknown>) {
@@ -365,10 +376,12 @@ describe("_auth.oauth.authorize route", () => {
             code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
             code_challenge_method: "S256",
         };
-        const href = `/en/oauth/authorize?${new URLSearchParams(request)}`;
-
-        const search = routerSearchFor(href);
+        const { search, href } = routerMatchFor(
+            `/en/oauth/authorize?${new URLSearchParams(request)}`,
+        );
         expect(search).toEqual({ ...request, requires_listing_source_id: false });
+        // The language switch localizes the router's own location href.
+        expect(href).toContain("requires_listing_source_id=false");
         expect(routerSearchFor(localizeHref(href, "it"))).toEqual(search);
 
         renderRouteWithSearch(search);

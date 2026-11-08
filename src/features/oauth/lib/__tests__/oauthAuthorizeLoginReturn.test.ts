@@ -148,7 +148,13 @@ describe("OAuth login return", () => {
     );
 
     it("keeps a metadata document client's request when the signed-in user switches locale on consent", () => {
-        const consentHref = `/en/oauth/authorize?${new URLSearchParams(agentRequest)}`;
+        // The language switch localizes the router's location href, whose search the router
+        // re-stringified from the parsed and validated search.
+        const consentHref = `/en/oauth/authorize${defaultStringifySearch(
+            oauthAuthorizeSearchSchema.parse(
+                defaultParseSearch(`?${new URLSearchParams(agentRequest)}`),
+            ),
+        )}`;
 
         for (const language of ["de", "es", "fr", "it"]) {
             expect(parseConsentRequest(localizeHref(consentHref, language))).toEqual({
