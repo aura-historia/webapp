@@ -2779,6 +2779,36 @@
         "title": "Autorización no disponible",
         "description": "No podemos verificar los datos registrados de esta aplicación en este momento. Inténtelo más tarde."
       },
+      "agentClient": {
+        "identity": {
+          "label": "Verificado por Aura Historia",
+          "clientHost": "Identificada por",
+          "redirectHost": "Vuelve a",
+          "description": "El nombre y el logotipo los proporciona la propia aplicación; Aura Historia solo ha verificado estas direcciones. Continúe solo si las reconoce."
+        },
+        "loopbackWarning": {
+          "title": "Continúe solo si acaba de iniciar esto",
+          "description": "Esta aplicación vuelve a un programa de su propio dispositivo, y cualquier programa de ese dispositivo puede usar su nombre. Continúe solo si acaba de iniciar sesión desde una aplicación de este dispositivo."
+        },
+        "scopes": {
+          "newTitle": "Esta aplicación solicita los siguientes permisos adicionales:",
+          "grantedTitle": "Permisos que ya ha concedido:"
+        },
+        "offlineAccess": {
+          "title": "Mantiene la sesión iniciada",
+          "description": "Esta aplicación puede mantener la sesión iniciada hasta que la desconecte. La sesión finaliza tras 30 días sin uso y, como máximo, 90 días después de su aprobación."
+        },
+        "errors": {
+          "invalidClient": {
+            "title": "No se pudo verificar esta aplicación",
+            "description": "Aura Historia no pudo cargar ni aceptar los datos de inicio de sesión de esta aplicación. Vuelva a empezar desde la aplicación. Si el problema persiste, la aplicación no puede iniciar sesión en Aura Historia por el momento."
+          },
+          "unavailable": {
+            "title": "Autorización no disponible",
+            "description": "No podemos verificar los datos de esta aplicación en este momento. Inténtelo más tarde."
+          }
+        }
+      },
       "brokerRequired": {
         "title": "Inicie la conexión desde WordPress",
         "description": "Este enlace de conexión de WooCommerce ya no es compatible. Vuelva a iniciar la conexión desde el panel de administración de WordPress y actualice el plugin de Aura Historia si el problema se repite."

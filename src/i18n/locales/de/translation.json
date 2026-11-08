@@ -3415,6 +3415,36 @@
         "title": "Autorisierung nicht verfügbar",
         "description": "Die registrierten Angaben dieser Anwendung können derzeit nicht geprüft werden. Bitte versuchen Sie es später erneut."
       },
+      "agentClient": {
+        "identity": {
+          "label": "Von Aura Historia geprüft",
+          "clientHost": "Identifiziert durch",
+          "redirectHost": "Kehrt zurück zu",
+          "description": "Name und Logo stammen von der App selbst; Aura Historia hat nur diese Adressen geprüft. Fahren Sie nur fort, wenn Sie sie kennen."
+        },
+        "loopbackWarning": {
+          "title": "Nur fortfahren, wenn Sie dies gerade gestartet haben",
+          "description": "Diese App kehrt zu einem Programm auf Ihrem eigenen Gerät zurück, und jedes Programm dort kann den Namen dieser App verwenden. Fahren Sie nur fort, wenn Sie die Anmeldung gerade in einer App auf diesem Gerät gestartet haben."
+        },
+        "scopes": {
+          "newTitle": "Diese Anwendung fordert folgende zusätzliche Berechtigungen an:",
+          "grantedTitle": "Bereits erlaubte Berechtigungen:"
+        },
+        "offlineAccess": {
+          "title": "Bleibt angemeldet",
+          "description": "Diese Anwendung kann angemeldet bleiben, bis Sie die Verbindung trennen. Die Anmeldung endet nach 30 Tagen ohne Nutzung und spätestens 90 Tage nach Ihrer Zustimmung."
+        },
+        "errors": {
+          "invalidClient": {
+            "title": "Diese App konnte nicht geprüft werden",
+            "description": "Aura Historia konnte die Anmeldedaten dieser App nicht laden oder akzeptieren. Starten Sie den Vorgang erneut in der App. Falls das Problem bestehen bleibt, kann sich die App derzeit nicht bei Aura Historia anmelden."
+          },
+          "unavailable": {
+            "title": "Autorisierung nicht verfügbar",
+            "description": "Die Angaben dieser Anwendung können derzeit nicht geprüft werden. Bitte versuchen Sie es später erneut."
+          }
+        }
+      },
       "brokerRequired": {
         "title": "Verbindung in WordPress starten",
         "description": "Dieser WooCommerce-Verbindungslink wird nicht mehr unterstützt. Starten Sie die Verbindung erneut in Ihrem WordPress-Adminbereich und aktualisieren Sie das Aura-Historia-Plugin, falls dies wiederholt auftritt."

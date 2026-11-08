@@ -257,6 +257,81 @@ describe("/api/oauth/authorize/approve", () => {
         }
     });
 
+    describe("a metadata document client", () => {
+        const agentFields = {
+            ...defaultFormFields,
+            client_id: "https://claude.ai/oauth/claude-code-client-metadata",
+            redirect_uri: "http://localhost:53682/callback",
+            scope: "users:read watchlist:read offline_access",
+            state: "agent-state",
+            resource: "https://mcp.aura-historia.com/v1",
+        };
+
+        it("forwards its URL client ID and offline_access exactly, to the backend and through sign-in", async () => {
+            const callback =
+                "http://localhost:53682/callback?code=auth-code&state=agent-state&iss=https%3A%2F%2Fapi.test.example";
+            mockFetch.mockResolvedValue(
+                new Response(null, { status: 302, headers: { Location: callback } }),
+            );
+
+            const response = await post(createRequest(agentFields));
+            mockGetServerAuthToken.mockResolvedValueOnce(undefined);
+            const loginResponse = await post(createRequest(agentFields));
+
+            // The backend's redirect already carries code, state and iss; it is passed on unchanged.
+            expect(response.status).toBe(302);
+            expect(response.headers.get("Location")).toBe(callback);
+            const [backendUrl] = mockFetch.mock.calls[0] as [string, RequestInit];
+            const loginUrl = new URL(loginResponse.headers.get("Location") ?? "");
+            const authorizeUrl = new URL(
+                loginUrl.searchParams.get("redirect") ?? "",
+                loginUrl.origin,
+            );
+            const { lng: _lng, ...oauthFields } = agentFields;
+            for (const searchParams of [
+                new URL(backendUrl).searchParams,
+                authorizeUrl.searchParams,
+            ]) {
+                expect(Object.fromEntries(searchParams)).toEqual(oauthFields);
+            }
+            expect(authorizeUrl.pathname).toBe("/de/oauth/authorize");
+        });
+
+        it.each([
+            [
+                "a source requirement",
+                { requires_listing_source_id: "true", listing_source_id: "ls_1" },
+            ],
+            ["a listing source", { listing_source_id: "ls_1" }],
+        ])("refuses %s before requesting a code", async (_, routing) => {
+            const response = await post(createRequest({ ...agentFields, ...routing }));
+
+            expect(response.status).toBe(400);
+            expect(mockGetServerAuthToken).not.toHaveBeenCalled();
+            expect(mockFetch).not.toHaveBeenCalled();
+        });
+
+        it("passes on the backend's invalid_client without redirecting", async () => {
+            mockFetch.mockResolvedValue(
+                new Response('{"error":"invalid_client"}', {
+                    status: 400,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Cache-Control": "no-store",
+                        Pragma: "no-cache",
+                    },
+                }),
+            );
+
+            const response = await post(createRequest(agentFields));
+
+            expect(response.status).toBe(400);
+            expect(response.headers.has("Location")).toBe(false);
+            expect(response.headers.get("Cache-Control")).toBe("no-store");
+            await expect(response.text()).resolves.toBe('{"error":"invalid_client"}');
+        });
+    });
+
     it("appends listing_source_id to the browser redirect without sending it to the backend authorize request", async () => {
         mockFetch.mockResolvedValue(
             new Response(null, {
