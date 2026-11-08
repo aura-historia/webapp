@@ -10,13 +10,14 @@ import { FaqItem } from "@/features/landing/components/faq-section/FAQSection.ts
 import { PARTNER_PROGRAM_FRAGMENTS } from "@/features/partner/partner-program/config/partnerProgramFragments.ts";
 
 const FAQ_KEYS = [
+    "admission",
+    "review",
     "free",
     "cancel",
     "technical",
     "exclusivity",
     "data",
     "transactions",
-    "fit",
     "support",
 ] as const;
 

@@ -65,7 +65,7 @@
     },
     "partnerProgram": {
       "title": "Partner Program | Aura Historia",
-      "description": "Become a partner shop on Aura Historia – the global platform for art and antiques. Free, commission-free, connected in minutes."
+      "description": "Partnership by review on Aura Historia, the global search for art and antiques: dealers and auction houses apply, and admitted shops connect through Shopify, WooCommerce or our API, with no commission."
     },
     "partnerCustomIntegration": {
       "title": "API Integration for Custom Shop Systems | Aura Historia",
@@ -186,7 +186,7 @@
       "woocommerce": "WordPress plugin",
       "shopify": "Shopify App Store",
       "customApi": "Custom integration",
-      "apply": "Apply now"
+      "apply": "Apply for admission"
     },
     "tagline": "The global art and antiques market, in a single search.",
     "socialNavigation": "Social media",
@@ -1067,7 +1067,7 @@
       "eyebrow": "VI — For dealers & auction houses",
       "title": "Put your inventory where the world's collectors <em>already search.</em>",
       "body": "Aura Historia doesn't replace your shop — it sends qualified buyers to it. Connect once, and your objects appear in front of collectors searching in their own language.",
-      "apply": "Apply to the partner program",
+      "apply": "Apply for admission",
       "overview": "Partner overview",
       "newTab": "(opens in a new tab)",
       "links": {
@@ -1120,11 +1120,11 @@
   },
   "partnerProgram": {
     "hero": {
-      "title": "Sell art and antiques online? Reach collectors <em>worldwide.</em>",
-      "subtitle": "Aura Historia is the global search for art and antiques, where collectors find exactly what you sell. Connect your shop once; buyers who find your pieces continue on your own website.",
-      "primaryCta": "Become a partner",
-      "secondaryCta": "See how it works",
-      "eyebrow": "Partner program · For dealers & auction houses",
+      "title": "A selected circle of dealers and <em>auction houses.</em>",
+      "subtitle": "Aura Historia partners are admitted by review, not by sign-up. We read every application ourselves and admit the specialist dealers and auction houses we are glad to stand beside. Once admitted, you connect your shop in minutes, and buyers continue on your own website.",
+      "primaryCta": "Apply for admission",
+      "secondaryCta": "How admission works",
+      "eyebrow": "Partner program · Admission by review",
       "preview": {
         "caption": "How your pieces appear",
         "sample": "Sample",
@@ -1139,10 +1139,6 @@
           "value": "0%",
           "label": "Commission on sales"
         },
-        "fees": {
-          "value": "€0",
-          "label": "Set-up or listing fees"
-        },
         "revenue": {
           "value": "100%",
           "label": "Of your revenue stays yours"
@@ -1150,12 +1146,16 @@
         "cancel": {
           "value": "Any time",
           "label": "Leave without notice"
+        },
+        "review": {
+          "value": "By review",
+          "label": "Every application, read by our team"
         }
       }
     },
     "motivation": {
-      "title": "Collectors are already searching. <em>Let them find you.</em>",
-      "subtitle": "Aura Historia connects motivated collectors directly with your pieces. We send them to your shop, and we take no commission on what they buy.",
+      "title": "Collectors are already searching. <em>Be among those they find.</em>",
+      "subtitle": "Partners are a selected group of dealers and auction houses. Collectors find their pieces in our search and continue to their shops, and we take no commission on what they buy.",
       "items": {
         "audience": {
           "title": "A global collector community",
@@ -1170,8 +1170,8 @@
           "description": "Our search matches collectors with what they are actually looking for, so the visitors you receive arrive ready to buy."
         },
         "trust": {
-          "title": "The Partner Shop badge",
-          "description": "Your listings carry the verified Partner Shop badge, a mark of trust for demanding collectors."
+          "title": "A partnership that means something",
+          "description": "Partners are admitted by review against published standards. Being one says something about how you deal."
         },
         "realtime": {
           "title": "Real-time sync",
@@ -1262,7 +1262,7 @@
       "closing": {
         "title": "No AI set-up <em>on your side.</em>",
         "body": "Connect once through Shopify, WooCommerce or our API. However buyers find your pieces, they continue to your own shop to buy.",
-        "apply": "Become a partner",
+        "apply": "Apply for admission",
         "connect": "See how to connect"
       }
     },
@@ -1297,24 +1297,47 @@
       "trademarks": "Shopify is a trademark of Shopify Inc. WooCommerce® and its associated designs are trademarks of Automattic Inc. WordPress is a trademark of the WordPress Foundation."
     },
     "howEasy": {
-      "title": "Online in <em>three steps.</em>",
-      "subtitle": "No code, no prior knowledge, no risk. Here's how you become a partner.",
+      "title": "Admission is selective. <em>Connecting is not.</em>",
+      "subtitle": "We admit dealers and auction houses one application at a time, by the standards below. Once you are admitted, a Shopify or WooCommerce shop connects without code.",
       "steps": {
-        "apply": {
-          "title": "Apply",
-          "description": "Fill in a short form. We review your shop and get back to you within a few days."
-        },
-        "claim": {
-          "title": "Set up your shop",
-          "description": "Claim your shop and complete its profile in the partner dashboard."
-        },
         "connect": {
-          "title": "Activate the integration",
-          "description": "Choose Shopify, WooCommerce or our API. Your products then appear in the search automatically."
+          "title": "Connect",
+          "description": "Once admitted, claim your shop in the partner dashboard and connect Shopify, WooCommerce or our API. Your pieces then appear in our search."
+        },
+        "review": {
+          "title": "Review",
+          "description": "A member of our team reviews your application against these standards and writes to you with the decision, usually within a few days. Not every application is accepted."
+        },
+        "submit": {
+          "title": "Apply",
+          "description": "Tell us about your business and the shop you sell through. It takes a few minutes."
         }
       },
-      "eyebrow": "How it works",
-      "cta": "Start your application"
+      "eyebrow": "Admission",
+      "cta": "Apply for admission",
+      "pathLabel": "The path to partnership",
+      "standards": {
+        "label": "What we look for",
+        "note": "Every application is read by a member of our team.",
+        "items": {
+          "specialism": {
+            "title": "A specialist offer",
+            "description": "Art, antiques, design objects or collectibles of historical interest are at the heart of what you sell."
+          },
+          "descriptions": {
+            "title": "Careful descriptions",
+            "description": "Attribution, dating and condition are described with care, so collectors can judge a piece before they enquire."
+          },
+          "business": {
+            "title": "A business of your own",
+            "description": "An identifiable business with its own website, where buyers complete their purchase or place their bid."
+          },
+          "conduct": {
+            "title": "Fair dealing",
+            "description": "Clear terms of sale and good standing with the buyers you already serve."
+          }
+        }
+      }
     },
     "faq": {
       "title": "What partners <em>ask us most.</em>",
@@ -1343,13 +1366,17 @@
           "question": "Are sales processed through Aura Historia?",
           "answer": "No. Buyers are sent straight to your shop to complete the purchase. You keep your customer relationship, your payment processing and 100% of your revenue."
         },
-        "fit": {
-          "question": "Which shops fit the program?",
-          "answer": "We look for reputable online shops selling art, antiques, collectibles and comparable historical objects. Auction houses and specialised dealers are explicitly welcome."
-        },
         "support": {
           "question": "Will I get help during setup?",
           "answer": "Yes. Our partner team supports you personally during onboarding and is reachable by email – also long after launch."
+        },
+        "admission": {
+          "question": "Who is admitted?",
+          "answer": "Dealers, auction houses and platforms that sell art, antiques, design objects or collectibles of historical interest, describe their pieces with care and sell through their own website. A member of our team reviews every application individually, and not every application is accepted."
+        },
+        "review": {
+          "question": "How long does the review take?",
+          "answer": "Usually a few days. We read each application ourselves and write to you with the decision."
         }
       },
       "eyebrow": "Questions",
@@ -1424,7 +1451,7 @@
             "loadError": "Provider access could not be verified.",
             "retryCta": "Try again",
             "empty": "You currently have no access to providers. A previous grant may have been revoked.",
-            "applyCta": "Apply for a partner shop",
+            "applyCta": "Apply for partner admission",
             "selectionLabel": "Provider for this integration",
             "signInHint": "Sign in to see the providers your account can access."
           },
@@ -1545,11 +1572,11 @@
       }
     },
     "finalCta": {
-      "title": "Ready to reach collectors <em>worldwide?</em>",
-      "subtitle": "Apply for free in under two minutes. No contract, no risk, full control.",
-      "primary": "Become a partner now",
+      "title": "Your pieces, in <em>considered company.</em>",
+      "subtitle": "Tell us about your business. A member of our team reviews every application and writes to you with the decision. Free of charge, with no contract, and you can leave at any time.",
+      "primary": "Apply for admission",
       "secondary": "Email the partner team",
-      "eyebrow": "Apply"
+      "eyebrow": "Admission by application"
     },
     "ownership": {
       "eyebrow": "What stays yours",
@@ -1656,16 +1683,6 @@
     "copied": "Link copied",
     "shareProduct": "Share product",
     "foundOnAuraHistoria": "I found {{title}} on Aura Historia! This might be interesting for you!"
-  },
-  "notFound": {
-    "title": "Page not found",
-    "description": "The page you are looking for was not found.",
-    "goHome": "Go to homepage"
-  },
-  "error": {
-    "title": "Something went wrong",
-    "description": "An unexpected error occurred. Please try again later.",
-    "goHome": "Go to homepage"
   },
   "serviceStatus": {
     "notice": {
@@ -4290,5 +4307,21 @@
       "description": "How Aura Historia relates to other services in the art and antiques market.",
       "linkTitle": "Aura Historia vs {{name}}"
     }
+  },
+  "fallback": {
+    "notFound": {
+      "eyebrow": "Error 404",
+      "headline": "Page <em>not found.</em>",
+      "description": "The address may be mistyped, or the page has moved or been removed. Search the catalogue or return to the homepage."
+    },
+    "error": {
+      "eyebrow": "Unexpected error",
+      "headline": "Something <em>went wrong.</em>",
+      "description": "This page could not be loaded. Please try again — if the problem persists, return to the homepage.",
+      "retry": "Try again",
+      "retrying": "Trying again…"
+    },
+    "searchObjects": "Search objects",
+    "goHome": "Go to homepage"
   }
 }

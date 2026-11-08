@@ -339,7 +339,7 @@ describe("PartnerCustomIntegrationPage", () => {
         await act(async () => {
             renderWithRouter(<PartnerCustomIntegrationPage />);
         });
-        expect(screen.getByRole("link", { name: "Partner-Shop beantragen" })).toHaveAttribute(
+        expect(screen.getByRole("link", { name: "Partner-Aufnahme beantragen" })).toHaveAttribute(
             "href",
             "/de/partners/applications",
         );

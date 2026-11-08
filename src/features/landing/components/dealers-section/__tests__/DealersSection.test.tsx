@@ -20,6 +20,13 @@ describe("DealersSection", () => {
         expect(rows.map((row) => row.textContent?.slice(0, 2))).toEqual(["01", "02", "03", "04"]);
     });
 
+    it("asks dealers to apply for admission", () => {
+        expect(screen.getByRole("link", { name: "Aufnahme beantragen" })).toHaveAttribute(
+            "href",
+            "/de/partner-program/apply",
+        );
+    });
+
     it("opens the Shopify App Store in a new tab and says so", () => {
         const link = screen.getByRole("link", { name: /Partner Connect für Shopify/ });
 
