@@ -65,7 +65,7 @@
     },
     "partnerProgram": {
       "title": "Partner-Programm | Aura Historia",
-      "description": "Werden Sie Partner-Shop bei Aura Historia – der globalen Plattform für Kunst und Antiquitäten. Kostenlos, ohne Provision, in Minuten verbunden."
+      "description": "Partnerschaft nach Prüfung auf Aura Historia, der globalen Suche nach Kunst und Antiquitäten: Händler und Auktionshäuser bewerben sich, aufgenommene Shops binden sich über Shopify, WooCommerce oder unsere API an – ohne Provision."
     },
     "partnerCustomIntegration": {
       "title": "API-Integration für eigene Shopsysteme | Aura Historia",
@@ -186,7 +186,7 @@
       "woocommerce": "WordPress-Plugin",
       "shopify": "Shopify App Store",
       "customApi": "Eigene Integration",
-      "apply": "Jetzt bewerben"
+      "apply": "Aufnahme beantragen"
     },
     "tagline": "Der globale Kunst- und Antiquitätenmarkt in einer einzigen Suche.",
     "socialNavigation": "Soziale Medien",
@@ -1067,7 +1067,7 @@
       "eyebrow": "VI — Für Händler & Auktionshäuser",
       "title": "Bringen Sie Ihr Angebot dorthin, wo Sammler weltweit <em>bereits suchen.</em>",
       "body": "Aura Historia ersetzt Ihren Shop nicht – es schickt qualifizierte Käufer zu Ihnen. Einmal verbinden, und Ihre Objekte erscheinen bei Sammlern, die in ihrer eigenen Sprache suchen.",
-      "apply": "Für das Partnerprogramm bewerben",
+      "apply": "Aufnahme beantragen",
       "overview": "Partnerübersicht",
       "newTab": "(öffnet in neuem Tab)",
       "links": {
@@ -1120,11 +1120,11 @@
   },
   "partnerProgram": {
     "hero": {
-      "title": "Verkaufen Sie Kunst und Antiquitäten online? Erreichen Sie Sammler <em>weltweit.</em>",
-      "subtitle": "Aura Historia ist die globale Suche nach Kunst und Antiquitäten, in der Sammler genau das finden, was Sie verkaufen. Binden Sie Ihren Shop einmal an; Käufer, die Ihre Stücke finden, kaufen auf Ihrer eigenen Webseite.",
-      "primaryCta": "Partner werden",
-      "secondaryCta": "So funktioniert es",
-      "eyebrow": "Partnerprogramm · Für Händler & Auktionshäuser",
+      "title": "Ein ausgewählter Kreis von Händlern und <em>Auktionshäusern.</em>",
+      "subtitle": "Partner von Aura Historia werden nach Prüfung aufgenommen, nicht per Anmeldung. Wir lesen jede Bewerbung selbst und nehmen die spezialisierten Händler und Auktionshäuser auf, neben denen wir gern stehen. Nach der Aufnahme binden Sie Ihren Shop in wenigen Minuten an, und Käufer kaufen weiterhin auf Ihrer eigenen Webseite.",
+      "primaryCta": "Aufnahme beantragen",
+      "secondaryCta": "So funktioniert die Aufnahme",
+      "eyebrow": "Partnerprogramm · Aufnahme nach Prüfung",
       "preview": {
         "caption": "So erscheinen Ihre Stücke",
         "sample": "Beispiel",
@@ -1139,10 +1139,6 @@
           "value": "0 %",
           "label": "Provision auf Verkäufe"
         },
-        "fees": {
-          "value": "0 €",
-          "label": "Einrichtungs- oder Listinggebühren"
-        },
         "revenue": {
           "value": "100 %",
           "label": "Ihres Umsatzes bleiben bei Ihnen"
@@ -1150,12 +1146,16 @@
         "cancel": {
           "value": "Jederzeit",
           "label": "Ohne Frist aussteigen"
+        },
+        "review": {
+          "value": "Nach Prüfung",
+          "label": "Jede Bewerbung, von unserem Team gelesen"
         }
       }
     },
     "motivation": {
-      "title": "Sammler suchen bereits. <em>Lassen Sie sich finden.</em>",
-      "subtitle": "Aura Historia bringt motivierte Sammler direkt zu Ihren Stücken. Wir leiten sie zu Ihrem Shop und nehmen keine Provision auf ihre Käufe.",
+      "title": "Sammler suchen bereits. <em>Gehören Sie zu denen, die gefunden werden.</em>",
+      "subtitle": "Partner sind ein ausgewählter Kreis von Händlern und Auktionshäusern. Sammler finden ihre Stücke in unserer Suche und gelangen weiter in ihre Shops, und wir nehmen keine Provision auf ihre Käufe.",
       "items": {
         "audience": {
           "title": "Globale Sammler-Community",
@@ -1170,8 +1170,8 @@
           "description": "Unsere Suche bringt Sammler zu dem, wonach sie tatsächlich suchen. So kommen Besucher zu Ihnen, die kaufbereit sind."
         },
         "trust": {
-          "title": "Das Partner-Shop-Abzeichen",
-          "description": "Ihre Angebote tragen das verifizierte Partner-Shop-Abzeichen, ein Vertrauenszeichen für anspruchsvolle Sammler."
+          "title": "Eine Partnerschaft mit Gewicht",
+          "description": "Partner werden nach Prüfung anhand veröffentlichter Maßstäbe aufgenommen. Partner zu sein sagt etwas darüber, wie Sie handeln."
         },
         "realtime": {
           "title": "Echtzeit-Synchronisation",
@@ -1262,7 +1262,7 @@
       "closing": {
         "title": "Keine KI-Einrichtung <em>auf Ihrer Seite.</em>",
         "body": "Einmal über Shopify, WooCommerce oder unsere API anbinden. Wie auch immer Käufer Ihre Stücke finden: Gekauft wird in Ihrem eigenen Shop.",
-        "apply": "Partner werden",
+        "apply": "Aufnahme beantragen",
         "connect": "So funktioniert die Anbindung"
       }
     },
@@ -1297,24 +1297,47 @@
       "trademarks": "Shopify ist eine Marke von Shopify Inc. WooCommerce® und die zugehörigen Designs sind Marken von Automattic Inc. WordPress ist eine Marke der WordPress Foundation."
     },
     "howEasy": {
-      "title": "In drei Schritten <em>online.</em>",
-      "subtitle": "Kein Code, keine Vorkenntnisse, kein Risiko. So werden Sie Partner.",
+      "title": "Die Aufnahme ist selektiv. <em>Die Anbindung nicht.</em>",
+      "subtitle": "Wir nehmen Händler und Auktionshäuser einzeln auf, Bewerbung für Bewerbung, nach den unten genannten Maßstäben. Nach der Aufnahme binden Sie einen Shopify- oder WooCommerce-Shop ohne Code an.",
       "steps": {
-        "apply": {
-          "title": "Bewerben",
-          "description": "Füllen Sie ein kurzes Formular aus. Wir prüfen Ihren Shop und melden uns innerhalb weniger Tage."
-        },
-        "claim": {
-          "title": "Shop einrichten",
-          "description": "Beanspruchen Sie Ihren Shop und vervollständigen Sie sein Profil im Partner-Dashboard."
-        },
         "connect": {
-          "title": "Integration aktivieren",
-          "description": "Wählen Sie Shopify, WooCommerce oder unsere API. Ihre Produkte erscheinen dann automatisch in der Suche."
+          "title": "Anbinden",
+          "description": "Nach der Aufnahme beanspruchen Sie Ihren Shop im Partner-Dashboard und binden Shopify, WooCommerce oder unsere API an. Danach erscheinen Ihre Stücke in unserer Suche."
+        },
+        "review": {
+          "title": "Prüfung",
+          "description": "Ein Mitglied unseres Teams prüft Ihre Bewerbung anhand dieser Maßstäbe und teilt Ihnen die Entscheidung mit, meist innerhalb weniger Tage. Nicht jede Bewerbung wird angenommen."
+        },
+        "submit": {
+          "title": "Bewerben",
+          "description": "Erzählen Sie uns von Ihrem Unternehmen und dem Shop, über den Sie verkaufen. Das dauert wenige Minuten."
         }
       },
-      "eyebrow": "So funktioniert es",
-      "cta": "Bewerbung starten"
+      "eyebrow": "Aufnahme",
+      "cta": "Aufnahme beantragen",
+      "pathLabel": "Der Weg zur Partnerschaft",
+      "standards": {
+        "label": "Worauf wir achten",
+        "note": "Jede Bewerbung wird von einem Mitglied unseres Teams gelesen.",
+        "items": {
+          "specialism": {
+            "title": "Ein spezialisiertes Angebot",
+            "description": "Kunst, Antiquitäten, Designobjekte oder Sammlerstücke von historischem Interesse stehen im Mittelpunkt Ihres Angebots."
+          },
+          "descriptions": {
+            "title": "Sorgfältige Beschreibungen",
+            "description": "Zuschreibung, Datierung und Zustand sind sorgfältig beschrieben, damit Sammler ein Stück beurteilen können, bevor sie anfragen."
+          },
+          "business": {
+            "title": "Ein eigenes Geschäft",
+            "description": "Ein erkennbares Unternehmen mit eigener Webseite, auf der Käufer kaufen oder bieten."
+          },
+          "conduct": {
+            "title": "Fairer Umgang",
+            "description": "Klare Verkaufsbedingungen und ein guter Ruf bei den Käufern, die Sie bereits bedienen."
+          }
+        }
+      }
     },
     "faq": {
       "title": "Was Partner <em>am häufigsten fragen.</em>",
@@ -1343,13 +1366,17 @@
           "question": "Werden Verkäufe über Aura Historia abgewickelt?",
           "answer": "Nein, Käufer werden für den Abschluss direkt zu Ihrem Shop weitergeleitet. Sie behalten Ihre Kundenbeziehung, Ihre Zahlungsabwicklung und 100 % Ihres Umsatzes."
         },
-        "fit": {
-          "question": "Welche Shops passen ins Programm?",
-          "answer": "Wir suchen seriöse Online-Shops mit Kunst, Antiquitäten, Sammlerstücken und vergleichbaren historischen Objekten. Auktionshäuser und spezialisierte Fachhändler sind ausdrücklich willkommen."
-        },
         "support": {
           "question": "Bekomme ich beim Setup Unterstützung?",
           "answer": "Ja. Unser Partner-Team begleitet Sie persönlich beim Onboarding und ist per E-Mail erreichbar – auch wenn nach dem Start einmal Fragen aufkommen."
+        },
+        "admission": {
+          "question": "Wer wird aufgenommen?",
+          "answer": "Händler, Auktionshäuser und Plattformen, die Kunst, Antiquitäten, Designobjekte oder Sammlerstücke von historischem Interesse anbieten, ihre Stücke sorgfältig beschreiben und über ihre eigene Webseite verkaufen. Ein Mitglied unseres Teams prüft jede Bewerbung einzeln, und nicht jede Bewerbung wird angenommen."
+        },
+        "review": {
+          "question": "Wie lange dauert die Prüfung?",
+          "answer": "Meist wenige Tage. Wir lesen jede Bewerbung selbst und teilen Ihnen die Entscheidung mit."
         }
       },
       "eyebrow": "Fragen",
@@ -1424,7 +1451,7 @@
             "loadError": "Der Zugriff auf Anbieter konnte nicht geprüft werden.",
             "retryCta": "Erneut versuchen",
             "empty": "Sie haben derzeit keinen Zugriff auf Anbieter. Eine frühere Freigabe wurde möglicherweise widerrufen.",
-            "applyCta": "Partner-Shop beantragen",
+            "applyCta": "Partner-Aufnahme beantragen",
             "selectionLabel": "Anbieter für diese Integration",
             "signInHint": "Melden Sie sich an, um die Anbieter zu sehen, auf die Ihr Konto Zugriff hat."
           },
@@ -1545,11 +1572,11 @@
       }
     },
     "finalCta": {
-      "title": "Bereit, Sammler weltweit <em>zu erreichen?</em>",
-      "subtitle": "Bewerben Sie sich kostenlos in unter zwei Minuten. Ohne Vertrag, ohne Risiko, mit voller Kontrolle.",
-      "primary": "Jetzt Partner werden",
+      "title": "Ihre Stücke, in <em>ausgewählter Gesellschaft.</em>",
+      "subtitle": "Erzählen Sie uns von Ihrem Unternehmen. Ein Mitglied unseres Teams prüft jede Bewerbung und teilt Ihnen die Entscheidung mit. Kostenlos, ohne Vertrag und jederzeit beendbar.",
+      "primary": "Aufnahme beantragen",
       "secondary": "E-Mail an Partner-Team",
-      "eyebrow": "Bewerben"
+      "eyebrow": "Aufnahme nach Bewerbung"
     },
     "ownership": {
       "eyebrow": "Was bei Ihnen bleibt",

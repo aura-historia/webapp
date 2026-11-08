@@ -124,6 +124,10 @@ describe("Footer", () => {
             "href",
             "/de/partner-program",
         );
+        expect(partners.getByRole("link", { name: "Aufnahme beantragen" })).toHaveAttribute(
+            "href",
+            "/de/partners/applications",
+        );
         expect(partners.getByRole("link", { name: "Eigene Integration" })).toHaveAttribute(
             "href",
             "/de/partner-program/custom-integration",

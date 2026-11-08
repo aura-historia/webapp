@@ -8,7 +8,8 @@ import { cn } from "@/lib/utils.ts";
 const PREVIEW_IMAGE_URL = "https://assets.aura-historia.com/webapp/landing-page/lorrain.webp";
 const PREVIEW_PRICE_EUR = 1980;
 
-const TERMS = ["commission", "fees", "revenue", "cancel"] as const;
+/** Admission leads the terms: the threshold first, then the terms that stay generous. */
+const TERMS = ["review", "commission", "revenue", "cancel"] as const;
 
 /** A sample listing card: how a partner's object appears in the index, badge and shop link included. */
 function ListingPreview() {
@@ -165,7 +166,12 @@ export default function PartnerHeroSection() {
                             <dt className="order-2 font-mono text-label text-ink-muted uppercase">
                                 {t(`partnerProgram.hero.terms.${term}.label`)}
                             </dt>
-                            <dd className="order-1 font-serif text-[28px] leading-[1.1] sm:text-stat">
+                            <dd
+                                className={cn(
+                                    "order-1 font-serif text-[28px] leading-[1.1] sm:text-stat",
+                                    term === "review" && "text-brass-light",
+                                )}
+                            >
                                 {t(`partnerProgram.hero.terms.${term}.value`)}
                             </dd>
                         </div>
