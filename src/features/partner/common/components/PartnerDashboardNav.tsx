@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils.ts";
 type SectionPath =
     | "/$lng/partners"
     | "/$lng/partners/applications"
-    | "/$lng/partners/listing-sources"
+    | "/$lng/partners/shop-access"
     | "/$lng/partners/access-tokens";
 
 type Section = {
@@ -46,7 +46,7 @@ const SECTIONS: readonly Section[] = [
         icon: FileText,
     },
     {
-        to: "/$lng/partners/listing-sources",
+        to: "/$lng/partners/shop-access",
         labelKey: "partnerDashboard.nav.providers",
         icon: Store,
     },

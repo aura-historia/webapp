@@ -72,7 +72,7 @@
       "description": "Verbinden Sie ein eigenes Shopsystem über die Partner-API mit Aura Historia: Angebote in asynchronen oder synchronen Batches anlegen, aktualisieren und zurücknehmen."
     },
     "partnerApplications": {
-      "title": "Aktuelle Partneranträge | Aura Historia"
+      "title": "Partneranträge | Aura Historia"
     },
     "partnerAccessTokens": {
       "title": "Zugriffstoken | Aura Historia"
@@ -2257,7 +2257,7 @@
       },
       "providers": {
         "unit": "mit Zugriff",
-        "note": "Zugriff bedeutet nicht Eigentum",
+        "note": "Sie können dafür Angebote senden, besitzen sie aber nicht",
         "noneNote": "Noch kein Zugriff gewährt",
         "cta": "Anbieter ansehen"
       },
@@ -2275,19 +2275,19 @@
       "heading": "So verbinden <em>Sie sich.</em>",
       "lead": "Drei Schritte hier, dann die Verbindung zu Ihrem Shop.",
       "apply": {
-        "title": "Anbieter beantragen",
-        "copy": "Beantragen Sie Zugriff auf einen Anbieter, den Sie betreiben, oder schlagen Sie einen neuen zur Prüfung vor.",
-        "status": "Eingereicht"
+        "title": "Zugang für Ihren Shop beantragen",
+        "copy": "Beantragen Sie Zugriff, wenn Ihr Shop schon auf Aura Historia ist, oder schlagen Sie ihn zur Prüfung vor.",
+        "status": "Beantragt"
       },
       "access": {
-        "title": "Zugriff erhalten",
-        "copy": "Sobald Zugriff gewährt ist, erscheint der Anbieter unter Anbieter.",
+        "title": "Auf Freigabe warten",
+        "copy": "Wir prüfen jeden Antrag. Sobald Zugriff gewährt ist, erscheint Ihr Shop unter Anbieter.",
         "status_one": "{{figure}} Anbieter",
         "status_other": "{{figure}} Anbieter"
       },
       "token": {
         "title": "Zugriffstoken erstellen",
-        "copy": "Geben Sie ihm nur die Berechtigungen, die Ihre Integration braucht. Das Token wird nur einmal angezeigt.",
+        "copy": "Nur für Ihre eigene API-Integration nötig. Geben Sie ihm nur die Berechtigungen, die es braucht; das Token wird nur einmal angezeigt.",
         "status_one": "{{count}} aktiv",
         "status_other": "{{count}} aktiv"
       },
@@ -2507,16 +2507,16 @@
       "sent": "Antrag gesendet.",
       "optional": "(optional)",
       "kind": {
-        "legend": "Wofür beantragen Sie Zugriff?",
-        "existing": "Einen bereits gelisteten Anbieter",
-        "existingDescription": "Er ist schon auf Aura Historia. Beantragen Sie Zugriff darauf.",
-        "proposed": "Einen neuen Anbieter",
-        "proposedDescription": "Er ist noch nicht auf Aura Historia. Erzählen Sie uns davon."
+        "legend": "Was trifft auf Ihren Shop zu?",
+        "existing": "Mein Shop ist schon auf Aura Historia",
+        "existingDescription": "Beantragen Sie Zugriff darauf.",
+        "proposed": "Mein Shop ist noch nicht auf Aura Historia",
+        "proposedDescription": "Erzählen Sie uns davon, und wir prüfen ihn."
       },
       "groups": {
         "provider": "Der Anbieter",
         "operator": "Wer ihn betreibt",
-        "connections": "Wie Angebote zu uns kommen"
+        "connections": "Wie senden Sie Ihre Angebote?"
       },
       "fields": {
         "providerName": "Name des Anbieters",
@@ -2526,6 +2526,12 @@
         "operatorHint": "Die Person oder das Unternehmen, das den Anbieter betreibt.",
         "phone": "Telefon",
         "email": "E-Mail"
+      },
+      "connectionOptions": {
+        "WEB_CRAWL": "Aura Historia liest meine Website",
+        "SHOPIFY": "Shopify",
+        "WOOCOMMERCE": "WooCommerce",
+        "PARTNER_API": "Unsere eigene Integration (API)"
       }
     },
     "loading": "Partneranträge werden geladen.",
@@ -2571,9 +2577,9 @@
       "open": "Offen",
       "openCount_one": "{{count}} wartet auf eine Entscheidung",
       "openCount_other": "{{count}} warten auf eine Entscheidung",
-      "decided": "Entschieden",
-      "decidedCount_one": "{{count}} abgeschlossen",
-      "decidedCount_other": "{{count}} abgeschlossen"
+      "decided": "Abgeschlossen",
+      "decidedCount_one": "{{count}} entschieden oder zurückgezogen",
+      "decidedCount_other": "{{count}} entschieden oder zurückgezogen"
     },
     "row": {
       "newProvider": "Neuer Anbieter",

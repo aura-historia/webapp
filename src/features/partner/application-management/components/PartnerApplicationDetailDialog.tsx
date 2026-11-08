@@ -315,7 +315,7 @@ function ApplicationDetails({
                         )}
                         {application.state === "APPROVED" && (
                             <Link
-                                to="/$lng/partners/listing-sources"
+                                to="/$lng/partners/shop-access"
                                 params={true}
                                 from="/$lng"
                                 className={TEXT_LINK_CLASS}

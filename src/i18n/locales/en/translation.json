@@ -72,10 +72,10 @@
       "description": "Connect a custom shop system to Aura Historia through the partner API: create, update and withdraw listings in asynchronous or synchronous batches."
     },
     "partnerApplications": {
-      "title": "Current Partner Applications | Aura Historia"
+      "title": "Partner applications | Aura Historia"
     },
     "partnerAccessTokens": {
-      "title": "Access Tokens | Aura Historia"
+      "title": "Access tokens | Aura Historia"
     },
     "partnerListingSources": {
       "title": "Providers you can access | Aura Historia"
@@ -2257,7 +2257,7 @@
       },
       "providers": {
         "unit": "you can access",
-        "note": "Listed here means access, not ownership",
+        "note": "You can send listings for these, but you don't own them",
         "noneNote": "No access granted yet",
         "cta": "View providers"
       },
@@ -2275,19 +2275,19 @@
       "heading": "Getting <em>connected.</em>",
       "lead": "Three steps here, then the connection to your shop.",
       "apply": {
-        "title": "Apply for a provider",
-        "copy": "Request access to a provider you run, or propose a new one for review.",
-        "status": "Submitted"
+        "title": "Apply with your shop",
+        "copy": "Ask for access if your shop is already on Aura Historia, or propose it for review.",
+        "status": "Applied"
       },
       "access": {
-        "title": "Get access",
-        "copy": "Once access is granted, the provider appears under Providers.",
+        "title": "Wait for approval",
+        "copy": "We review every application. Once access is granted, your shop appears under Providers.",
         "status_one": "{{figure}} provider",
         "status_other": "{{figure}} providers"
       },
       "token": {
         "title": "Create an access token",
-        "copy": "Give it only the permissions your integration needs. The token is shown once.",
+        "copy": "Only needed for your own API integration. Give it only the permissions it needs; the token is shown once.",
         "status_one": "{{count}} active",
         "status_other": "{{count}} active"
       },
@@ -2507,16 +2507,16 @@
       "sent": "Application sent.",
       "optional": "(optional)",
       "kind": {
-        "legend": "What are you applying for?",
-        "existing": "A provider already listed",
-        "existingDescription": "It is on Aura Historia. Ask for access to it.",
-        "proposed": "A new provider",
-        "proposedDescription": "It is not on Aura Historia yet. Tell us about it."
+        "legend": "Which describes your shop?",
+        "existing": "My shop is already on Aura Historia",
+        "existingDescription": "Ask for access to it.",
+        "proposed": "My shop isn't on Aura Historia yet",
+        "proposedDescription": "Tell us about it and we review it."
       },
       "groups": {
         "provider": "The provider",
         "operator": "Who runs it",
-        "connections": "How listings reach us"
+        "connections": "How will you send listings?"
       },
       "fields": {
         "providerName": "Provider name",
@@ -2526,6 +2526,12 @@
         "operatorHint": "The person or company that runs the provider.",
         "phone": "Phone",
         "email": "Email"
+      },
+      "connectionOptions": {
+        "WEB_CRAWL": "Aura Historia reads my website",
+        "SHOPIFY": "Shopify",
+        "WOOCOMMERCE": "WooCommerce",
+        "PARTNER_API": "Our own integration (API)"
       }
     },
     "loading": "Loading partner applications.",
@@ -2571,9 +2577,9 @@
       "open": "Open",
       "openCount_one": "{{count}} waiting for a decision",
       "openCount_other": "{{count}} waiting for a decision",
-      "decided": "Decided",
-      "decidedCount_one": "{{count}} closed",
-      "decidedCount_other": "{{count}} closed"
+      "decided": "Closed",
+      "decidedCount_one": "{{count}} decided or withdrawn",
+      "decidedCount_other": "{{count}} decided or withdrawn"
     },
     "row": {
       "newProvider": "New provider",

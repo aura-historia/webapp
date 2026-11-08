@@ -72,14 +72,14 @@
       "description": "Connectez un système de boutique sur mesure à Aura Historia via l’API partenaires : créez, mettez à jour et retirez des annonces par lots asynchrones ou synchrones."
     },
     "partnerApplications": {
-      "title": "Candidatures partenaires en cours | Aura Historia"
+      "title": "Candidatures partenaires | Aura Historia"
     },
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Comparatif de recherche d’art et d’antiquités",
       "description": "Comparez Aura Historia et Barnebys sur la recherche d’art et d’antiquités, la couverture des sources, le multilingue, les alertes rapides et la veille de marché assistée par IA."
     },
     "partnerAccessTokens": {
-      "title": "Jetons d'accès | Aura Historia"
+      "title": "Jetons d’accès | Aura Historia"
     },
     "partnerListingSources": {
       "title": "Fournisseurs accessibles | Aura Historia"
@@ -2854,7 +2854,7 @@
       },
       "providers": {
         "unit": "accessibles",
-        "note": "Figurer ici signifie un accès, pas une propriété",
+        "note": "Vous pouvez y envoyer des annonces, sans en être propriétaire",
         "noneNote": "Aucun accès accordé pour l’instant",
         "cta": "Voir les fournisseurs"
       },
@@ -2872,19 +2872,19 @@
       "heading": "Se <em>connecter.</em>",
       "lead": "Trois étapes ici, puis la connexion à votre boutique.",
       "apply": {
-        "title": "Demander un fournisseur",
-        "copy": "Demandez l’accès à un fournisseur que vous exploitez, ou proposez-en un nouveau pour examen.",
-        "status": "Soumise"
+        "title": "Présenter votre boutique",
+        "copy": "Demandez l’accès si votre boutique est déjà sur Aura Historia, ou proposez-la pour examen.",
+        "status": "Envoyée"
       },
       "access": {
-        "title": "Obtenir l’accès",
-        "copy": "Une fois l’accès accordé, le fournisseur apparaît sous Fournisseurs.",
+        "title": "Attendre la validation",
+        "copy": "Nous examinons chaque candidature. Une fois l’accès accordé, votre boutique apparaît sous Fournisseurs.",
         "status_one": "{{figure}} fournisseur",
         "status_other": "{{figure}} fournisseurs"
       },
       "token": {
         "title": "Créer un jeton d’accès",
-        "copy": "Accordez-lui uniquement les autorisations dont votre intégration a besoin. Le jeton n’est affiché qu’une fois.",
+        "copy": "Nécessaire uniquement pour votre propre intégration API. Accordez-lui uniquement les autorisations nécessaires ; le jeton n’est affiché qu’une fois.",
         "status_one": "{{count}} actif",
         "status_other": "{{count}} actifs"
       },
@@ -2912,16 +2912,16 @@
       "sent": "Candidature envoyée.",
       "optional": "(facultatif)",
       "kind": {
-        "legend": "Que demandez-vous ?",
-        "existing": "Un fournisseur déjà référencé",
-        "existingDescription": "Il est déjà sur Aura Historia. Demandez-y l’accès.",
-        "proposed": "Un nouveau fournisseur",
-        "proposedDescription": "Il n’est pas encore sur Aura Historia. Présentez-le-nous."
+        "legend": "Quelle situation décrit votre boutique ?",
+        "existing": "Ma boutique est déjà sur Aura Historia",
+        "existingDescription": "Demandez-y l’accès.",
+        "proposed": "Ma boutique n’est pas encore sur Aura Historia",
+        "proposedDescription": "Présentez-la-nous et nous l’examinerons."
       },
       "groups": {
         "provider": "Le fournisseur",
         "operator": "Qui l’exploite",
-        "connections": "Comment les annonces nous parviennent"
+        "connections": "Comment enverrez-vous vos annonces ?"
       },
       "fields": {
         "providerName": "Nom du fournisseur",
@@ -2931,6 +2931,12 @@
         "operatorHint": "La personne ou l’entreprise qui exploite le fournisseur.",
         "phone": "Téléphone",
         "email": "E-mail"
+      },
+      "connectionOptions": {
+        "WEB_CRAWL": "Aura Historia lit mon site web",
+        "SHOPIFY": "Shopify",
+        "WOOCOMMERCE": "WooCommerce",
+        "PARTNER_API": "Notre propre intégration (API)"
       }
     },
     "loading": "Chargement des candidatures partenaires.",
@@ -2976,9 +2982,9 @@
       "open": "Ouvertes",
       "openCount_one": "{{count}} en attente de décision",
       "openCount_other": "{{count}} en attente de décision",
-      "decided": "Traitées",
-      "decidedCount_one": "{{count}} clôturée",
-      "decidedCount_other": "{{count}} clôturées"
+      "decided": "Clôturées",
+      "decidedCount_one": "{{count}} traitée ou retirée",
+      "decidedCount_other": "{{count}} traitées ou retirées"
     },
     "row": {
       "newProvider": "Nouveau fournisseur",

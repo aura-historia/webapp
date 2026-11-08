@@ -36,8 +36,8 @@ vi.mock("sonner", () => ({ toast: { success: vi.fn() } }));
 
 const SEND = "Antrag senden";
 // The kind cards' labels wrap their description too, so match the start of the name.
-const EXISTING_KIND = /^Einen bereits gelisteten Anbieter/;
-const PROPOSED_KIND = /^Einen neuen Anbieter/;
+const EXISTING_KIND = /^Mein Shop ist schon auf Aura Historia/;
+const PROPOSED_KIND = /^Mein Shop ist noch nicht auf Aura Historia/;
 
 const application: PartnerApplication = {
     id: "pa_1",
@@ -141,7 +141,7 @@ describe("immutable application workflow", () => {
             expect(within(row).getAllByText("Eingereicht")).toHaveLength(2);
             expect(screen.queryByText("pa_1")).not.toBeInTheDocument();
             expect(screen.queryByText(/PROCESSING|COMPLETED/)).not.toBeInTheDocument();
-            expect(screen.queryByRole("region", { name: "Entschieden" })).not.toBeInTheDocument();
+            expect(screen.queryByRole("region", { name: "Abgeschlossen" })).not.toBeInTheDocument();
             expect(
                 screen.getByText(/Mit dem Vorschlag eines öffentlichen Anbieters/),
             ).toBeVisible();
@@ -158,9 +158,9 @@ describe("immutable application workflow", () => {
             await renderSection();
 
             const open = screen.getByRole("region", { name: "Offen" });
-            const decided = screen.getByRole("region", { name: "Entschieden" });
+            const decided = screen.getByRole("region", { name: "Abgeschlossen" });
             expect(open).toHaveTextContent("2 warten auf eine Entscheidung");
-            expect(decided).toHaveTextContent("3 abgeschlossen");
+            expect(decided).toHaveTextContent("3 entschieden oder zurückgezogen");
             expect(within(open).getAllByRole("button")).toHaveLength(2);
             expect(within(decided).getAllByRole("button")).toHaveLength(3);
 
@@ -287,7 +287,7 @@ describe("immutable application workflow", () => {
             expect(terms[1].nextElementSibling).toHaveTextContent("pa_owned");
             expect(within(dialog).getByRole("link", { name: "Anbieter ansehen" })).toHaveAttribute(
                 "href",
-                "/de/partners/listing-sources",
+                "/de/partners/shop-access",
             );
             expect(
                 within(dialog).queryByRole("button", { name: "Antrag zurückziehen" }),
@@ -388,7 +388,7 @@ describe("immutable application workflow", () => {
             const dialog = await openCreateDialog();
 
             const kinds = within(dialog).getByRole("group", {
-                name: "Wofür beantragen Sie Zugriff?",
+                name: "Was trifft auf Ihren Shop zu?",
             });
             expect(within(kinds).getByRole("radio", { name: EXISTING_KIND })).not.toBeChecked();
             expect(within(kinds).getByRole("radio", { name: PROPOSED_KIND })).toBeChecked();
@@ -410,7 +410,9 @@ describe("immutable application workflow", () => {
             expect(within(dialog).getByLabelText("Betreiber")).toHaveAccessibleDescription(
                 "Die Person oder das Unternehmen, das den Anbieter betreibt.",
             );
-            expect(within(dialog).getByRole("checkbox", { name: "Partner-API" })).not.toBeChecked();
+            expect(
+                within(dialog).getByRole("checkbox", { name: "Unsere eigene Integration (API)" }),
+            ).not.toBeChecked();
         });
 
         it.each([
@@ -443,7 +445,9 @@ describe("immutable application workflow", () => {
             await openCreateDialog();
             await fillRequiredProposal();
             await userEvent.click(screen.getByRole("radio", { name: "Auktionshaus" }));
-            await userEvent.click(screen.getByRole("checkbox", { name: "Partner-API" }));
+            await userEvent.click(
+                screen.getByRole("checkbox", { name: "Unsere eigene Integration (API)" }),
+            );
             await userEvent.click(screen.getByRole("button", { name: SEND }));
             await waitFor(() =>
                 expect(mocks.create).toHaveBeenCalledWith(

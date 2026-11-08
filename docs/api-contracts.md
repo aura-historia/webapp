@@ -621,7 +621,7 @@ stable error codes, never raw server detail.
 - Release this webapp only with or after the paged backend
   ([backend#2249](https://github.com/aura-historia/backend/issues/2249)): an older array response
   has no `items` and fails the read closed.
-- The partner portfolio (`/$lng/partners/listing-sources`) is read-only: name, ID (with copy) and a
+- The partner portfolio (`/$lng/partners/shop-access`) is read-only: name, ID (with copy) and a
   link to the public provider page by `listingSourceSlugId`. There is no partner
   metadata update contract; do not substitute `adminUpdateListingSource`. The applications page and
   the dashboard overview read the same granted sources only to name existing-source applications;

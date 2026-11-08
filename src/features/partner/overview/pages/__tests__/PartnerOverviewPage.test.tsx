@@ -150,10 +150,12 @@ describe("PartnerOverviewPage", () => {
 
         const providers = tile("Anbieter");
         expect(providers).toHaveTextContent("2mit Zugriff");
-        expect(providers).toHaveTextContent("Zugriff bedeutet nicht Eigentum");
+        expect(providers).toHaveTextContent(
+            "Sie können dafür Angebote senden, besitzen sie aber nicht",
+        );
         expect(within(providers).getByRole("link", { name: "Anbieter ansehen" })).toHaveAttribute(
             "href",
-            "/de/partners/listing-sources",
+            "/de/partners/shop-access",
         );
 
         const tokens = tile("Zugriffstoken");
@@ -190,7 +192,7 @@ describe("PartnerOverviewPage", () => {
         await renderOverview();
 
         expect(tile("Anbieter")).toHaveTextContent("1+mit Zugriff");
-        expect(step("Zugriff erhalten")).toHaveTextContent("1+ Anbieter");
+        expect(step("Auf Freigabe warten")).toHaveTextContent("1+ Anbieter");
     });
 
     it("shows one tile's error with a retry while the other tiles still render", async () => {
@@ -230,12 +232,12 @@ describe("PartnerOverviewPage", () => {
     it("marks the steps already done", async () => {
         await renderOverview();
 
-        expect(step("Anbieter beantragen")).toHaveTextContent("Eingereicht");
-        expect(step("Zugriff erhalten")).toHaveTextContent("2 Anbieter");
+        expect(step("Zugang für Ihren Shop beantragen")).toHaveTextContent("Beantragt");
+        expect(step("Auf Freigabe warten")).toHaveTextContent("2 Anbieter");
         expect(step("Zugriffstoken erstellen")).toHaveTextContent("2 aktiv");
         for (const title of [
-            "Anbieter beantragen",
-            "Zugriff erhalten",
+            "Zugang für Ihren Shop beantragen",
+            "Auf Freigabe warten",
             "Zugriffstoken erstellen",
         ]) {
             expect(within(step(title)).queryByRole("link")).not.toBeInTheDocument();
@@ -269,10 +271,14 @@ describe("PartnerOverviewPage", () => {
         expect(tile("Anbieter")).toHaveTextContent("Noch kein Zugriff gewährt");
 
         expect(
-            within(step("Anbieter beantragen")).getByRole("link", { name: "Neuer Antrag" }),
+            within(step("Zugang für Ihren Shop beantragen")).getByRole("link", {
+                name: "Neuer Antrag",
+            }),
         ).toHaveAttribute("href", "/de/partners/applications?create=true");
-        expect(step("Zugriff erhalten")).not.toHaveTextContent("Anbieter beantragen");
-        expect(within(step("Zugriff erhalten")).queryByRole("link")).toBeNull();
+        expect(step("Auf Freigabe warten")).not.toHaveTextContent(
+            "Zugang für Ihren Shop beantragen",
+        );
+        expect(within(step("Auf Freigabe warten")).queryByRole("link")).toBeNull();
         expect(
             within(step("Zugriffstoken erstellen")).getByRole("link", {
                 name: "Neues Zugriffstoken",
@@ -287,8 +293,8 @@ describe("PartnerOverviewPage", () => {
         ]);
         await renderOverview();
 
-        const apply = step("Anbieter beantragen");
-        expect(apply).not.toHaveTextContent("Eingereicht");
+        const apply = step("Zugang für Ihren Shop beantragen");
+        expect(apply).not.toHaveTextContent("Beantragt");
         expect(within(apply).getByRole("link", { name: "Neuer Antrag" })).toHaveAttribute(
             "href",
             "/de/partners/applications?create=true",

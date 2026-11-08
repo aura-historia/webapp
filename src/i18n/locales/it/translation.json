@@ -72,7 +72,7 @@
       "description": "Colleghi un sistema di shop personalizzato ad Aura Historia tramite l’API partner: crei, aggiorni e ritiri annunci in batch asincroni o sincroni."
     },
     "partnerApplications": {
-      "title": "Richieste di Partnership Correnti | Aura Historia"
+      "title": "Richieste di partnership | Aura Historia"
     },
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Confronto sulla ricerca di arte e antiquariato",
@@ -2854,7 +2854,7 @@
       },
       "providers": {
         "unit": "accessibili",
-        "note": "Essere qui significa accesso, non proprietà",
+        "note": "Puoi inviare annunci per questi, ma non ne sei proprietario",
         "noneNote": "Nessun accesso ancora concesso",
         "cta": "Vedi fornitori"
       },
@@ -2872,19 +2872,19 @@
       "heading": "Come <em>collegarsi.</em>",
       "lead": "Tre passaggi qui, poi il collegamento al tuo negozio.",
       "apply": {
-        "title": "Richiedi un fornitore",
-        "copy": "Richiedi l’accesso a un fornitore che gestisci, o proponine uno nuovo per la revisione.",
+        "title": "Candida il tuo negozio",
+        "copy": "Richiedi l’accesso se il tuo negozio è già su Aura Historia, o proponilo per la revisione.",
         "status": "Inviata"
       },
       "access": {
-        "title": "Ottieni l’accesso",
-        "copy": "Una volta concesso l’accesso, il fornitore compare in Fornitori.",
+        "title": "Attendi l’approvazione",
+        "copy": "Esaminiamo ogni richiesta. Una volta concesso l’accesso, il tuo negozio compare in Fornitori.",
         "status_one": "{{figure}} fornitore",
         "status_other": "{{figure}} fornitori"
       },
       "token": {
         "title": "Crea un token di accesso",
-        "copy": "Assegnagli solo le autorizzazioni che servono alla tua integrazione. Il token viene mostrato una sola volta.",
+        "copy": "Serve solo per la tua integrazione API. Assegnagli solo le autorizzazioni necessarie; il token viene mostrato una sola volta.",
         "status_one": "{{count}} attivo",
         "status_other": "{{count}} attivi"
       },
@@ -2912,16 +2912,16 @@
       "sent": "Richiesta inviata.",
       "optional": "(facoltativo)",
       "kind": {
-        "legend": "Per cosa fai richiesta?",
-        "existing": "Un fornitore già presente",
-        "existingDescription": "È già su Aura Historia. Richiedine l’accesso.",
-        "proposed": "Un nuovo fornitore",
-        "proposedDescription": "Non è ancora su Aura Historia. Raccontacene."
+        "legend": "Cosa descrive il tuo negozio?",
+        "existing": "Il mio negozio è già su Aura Historia",
+        "existingDescription": "Richiedine l’accesso.",
+        "proposed": "Il mio negozio non è ancora su Aura Historia",
+        "proposedDescription": "Raccontacene e lo esamineremo."
       },
       "groups": {
         "provider": "Il fornitore",
         "operator": "Chi lo gestisce",
-        "connections": "Come ci arrivano gli annunci"
+        "connections": "Come invierai gli annunci?"
       },
       "fields": {
         "providerName": "Nome del fornitore",
@@ -2931,6 +2931,12 @@
         "operatorHint": "La persona o l’azienda che gestisce il fornitore.",
         "phone": "Telefono",
         "email": "E-mail"
+      },
+      "connectionOptions": {
+        "WEB_CRAWL": "Aura Historia legge il mio sito web",
+        "SHOPIFY": "Shopify",
+        "WOOCOMMERCE": "WooCommerce",
+        "PARTNER_API": "La nostra integrazione (API)"
       }
     },
     "loading": "Caricamento delle richieste di partnership in corso.",
@@ -2976,9 +2982,9 @@
       "open": "Aperte",
       "openCount_one": "{{count}} in attesa di decisione",
       "openCount_other": "{{count}} in attesa di decisione",
-      "decided": "Decise",
-      "decidedCount_one": "{{count}} chiusa",
-      "decidedCount_other": "{{count}} chiuse"
+      "decided": "Chiuse",
+      "decidedCount_one": "{{count}} decisa o ritirata",
+      "decidedCount_other": "{{count}} decise o ritirate"
     },
     "row": {
       "newProvider": "Nuovo fornitore",

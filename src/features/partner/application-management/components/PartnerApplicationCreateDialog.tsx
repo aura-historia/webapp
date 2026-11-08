@@ -220,7 +220,7 @@ function IngestionMethodsField({
                             }
                             className="size-4 shrink-0 accent-oxblood"
                         />
-                        {t(`partnerApplications.proposals.ingestion.${method}`)}
+                        {t(`partnerApplications.create.connectionOptions.${method}`)}
                     </label>
                 ))}
             </div>

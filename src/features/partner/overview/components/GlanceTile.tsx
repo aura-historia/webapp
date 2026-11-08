@@ -29,7 +29,7 @@ export function GlanceTile({
     readonly cta: string;
     readonly to:
         | "/$lng/partners/applications"
-        | "/$lng/partners/listing-sources"
+        | "/$lng/partners/shop-access"
         | "/$lng/partners/access-tokens";
     /** Opens the page's create dialog. */
     readonly createSearch?: boolean;

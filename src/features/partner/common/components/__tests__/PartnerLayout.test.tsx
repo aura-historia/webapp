@@ -7,7 +7,7 @@ import { renderWithRouter } from "@/test/utils.tsx";
 const SECTIONS = [
     ["Übersicht", "/de/partners"],
     ["Partner-Anträge", "/de/partners/applications"],
-    ["Anbieter", "/de/partners/listing-sources"],
+    ["Anbieter", "/de/partners/shop-access"],
     ["Zugriffstoken", "/de/partners/access-tokens"],
 ] as const;
 

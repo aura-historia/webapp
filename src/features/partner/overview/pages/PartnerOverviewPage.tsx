@@ -149,7 +149,7 @@ function GlanceSection({ data }: { readonly data: OverviewData }) {
                             : t("partnerDashboard.overview.providers.note")
                     }
                     cta={t("partnerDashboard.overview.providers.cta")}
-                    to="/$lng/partners/listing-sources"
+                    to="/$lng/partners/shop-access"
                     onRetry={data.retryProviders}
                 />
                 <GlanceTile
