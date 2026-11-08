@@ -2086,7 +2086,7 @@
       "stepsLabel": "Steps",
       "progressLabel": "Wizard progress",
       "proTag": "Pro & Ultimate",
-      "lockedHint": "Your plan saves the search term, availability and price range.",
+      "lockedHint": "Your plan saves the search term, availability and price range. Upgrade to set the filters below.",
       "any": "Any",
       "change": "Change",
       "changeLabel": "Change {{label}}",

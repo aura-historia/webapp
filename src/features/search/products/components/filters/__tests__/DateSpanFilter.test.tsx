@@ -90,14 +90,24 @@ describe.each([
         expect(screen.getAllByText("Beliebig")).toHaveLength(2);
     });
 
-    it("locks the group when the subscription does not include it", () => {
+    it("keeps a plan-locked group expandable but disables its date fields", async () => {
+        const user = userEvent.setup();
         render(
             <FormWrapper>
                 <Filter disabled />
             </FormWrapper>,
         );
 
-        expect(screen.getByRole("button", { name: title })).toBeDisabled();
+        const heading = screen.getByRole("button", { name: title });
+        expect(heading).toBeEnabled();
+        expect(heading).toHaveAttribute("aria-expanded", "false");
+        expect(screen.getByText("Nur für Pro & Ultimate")).toBeInTheDocument();
+
+        await user.click(heading);
+
+        expect(heading).toHaveAttribute("aria-expanded", "true");
+        expect(screen.getByRole("button", { name: `${title} von` })).toBeDisabled();
+        expect(screen.getByRole("button", { name: `${title} bis` })).toBeDisabled();
     });
 });
 

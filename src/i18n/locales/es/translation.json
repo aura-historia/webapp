@@ -2599,7 +2599,7 @@
       "stepsLabel": "Pasos",
       "progressLabel": "Progreso",
       "proTag": "Pro y Ultimate",
-      "lockedHint": "Tu plan guarda el término de búsqueda, la disponibilidad y el rango de precios.",
+      "lockedHint": "Tu plan guarda el término de búsqueda, la disponibilidad y el rango de precios. Mejora tu plan para usar los filtros de abajo.",
       "any": "Cualquiera",
       "change": "Cambiar",
       "changeLabel": "Cambiar {{label}}",

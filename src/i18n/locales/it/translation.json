@@ -2599,7 +2599,7 @@
       "stepsLabel": "Passaggi",
       "progressLabel": "Avanzamento",
       "proTag": "Pro & Ultimate",
-      "lockedHint": "Il tuo piano salva il termine di ricerca, la disponibilità e la fascia di prezzo.",
+      "lockedHint": "Il tuo piano salva il termine di ricerca, la disponibilità e la fascia di prezzo. Passa a un piano superiore per usare i filtri qui sotto.",
       "any": "Qualsiasi",
       "change": "Modifica",
       "changeLabel": "Modifica {{label}}",
