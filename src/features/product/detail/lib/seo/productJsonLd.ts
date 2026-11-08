@@ -3,23 +3,43 @@ import type { ListingAvailability } from "@/data/internal/product/ProductListing
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { toMajorCurrencyAmount } from "@/data/internal/price/Price.ts";
 
-type ProductJsonLd = {
+/** Google rejects a `sku` longer than this ("invalid string length"). */
+const SKU_MAX_LENGTH = 50;
+
+type SellerJsonLd = {
+    "@type": "Organization";
+    name: string;
+    url?: string;
+};
+
+type OfferJsonLd = {
+    "@type": "Offer";
+    priceCurrency: string;
+    price: number;
+    availability?: string;
+    url?: string;
+    seller: SellerJsonLd;
+};
+
+export type ProductJsonLd = {
     "@context": "https://schema.org/";
     "@type": "Product";
     name?: string;
     description?: string;
     image?: string[];
     url?: string;
-    sku: string;
-    offers?: {
-        "@type": "Offer";
-        priceCurrency: string;
-        price: number;
-        availability?: string;
-        url?: string;
-    };
+    productID: string;
+    sku?: string;
+    offers?: OfferJsonLd;
     dateCreated?: string;
     dateModified?: string;
+};
+
+export type ProductJsonLdOptions = {
+    /** The localized canonical URL of the listing page. */
+    readonly canonicalUrl?: string;
+    /** The localized URL of the source's profile page, which the listing page links to. */
+    readonly sellerUrl?: string;
 };
 
 const SCHEMA_AVAILABILITY: Partial<Record<ListingAvailability, string>> = {
@@ -34,19 +54,78 @@ const SCHEMA_AVAILABILITY: Partial<Record<ListingAvailability, string>> = {
     SOLD_OUT: "https://schema.org/SoldOut",
 };
 
+/**
+ * The seller's own identifier for the listing, as `sku`: the merchant-specific identifier schema.org
+ * and Google expect. Left out when it is blank or longer than Google accepts.
+ */
+function toSku(sourceListingId: string): string | undefined {
+    const sku = sourceListingId.trim();
+    return sku.length > 0 && sku.length <= SKU_MAX_LENGTH ? sku : undefined;
+}
+
+const SOLD_OUT = "https://schema.org/SoldOut";
+const DISCONTINUED = "https://schema.org/Discontinued";
+
+/**
+ * The availability that goes with the listing's price, or `undefined` when the price is not an
+ * offer we can state truthfully. A sale observation is the price the object sold at; a withdrawn
+ * listing keeps its last asking price, no longer offered. A listing whose state is unknown has no
+ * offer.
+ */
+function offerAvailability(product: ProductListingDetail): string | null | undefined {
+    if (product.valuation.type === "SALE_OBSERVATION") return SOLD_OUT;
+    if (product.lifecycle === "WITHDRAWN") return DISCONTINUED;
+    if (product.lifecycle !== "ACTIVE") return undefined;
+    // An active listing's own availability; `null` when the source does not report one.
+    return (product.availability && SCHEMA_AVAILABILITY[product.availability]) ?? null;
+}
+
+/**
+ * The listing's price as an Offer sold by its source: the current asking price, the price it sold
+ * at, or a withdrawn listing's last asking price. Price on request, a missing price and a zero
+ * price have none.
+ */
+function toOffer(
+    product: ProductListingDetail,
+    { canonicalUrl, sellerUrl }: ProductJsonLdOptions,
+): OfferJsonLd | undefined {
+    const listingPrice = product.pricing.display.price;
+    if (listingPrice?.type !== "MONETARY" || listingPrice.amount <= 0) return undefined;
+
+    const availability = offerAvailability(product);
+    if (availability === undefined) return undefined;
+
+    const seller: SellerJsonLd = { "@type": "Organization", name: product.source.name };
+    if (sellerUrl) seller.url = sellerUrl;
+
+    const offer: OfferJsonLd = {
+        "@type": "Offer",
+        priceCurrency: listingPrice.currency,
+        price: toMajorCurrencyAmount(listingPrice.amount, listingPrice.currency),
+        // The page that shows the offer; the dealer's own listing is one click further.
+        url: canonicalUrl ?? product.viewUrl?.href ?? product.url?.href,
+        seller,
+    };
+    if (availability) offer.availability = availability;
+    return offer;
+}
+
+/**
+ * JSON-LD for a listing page: always a Product, with an Offer whenever the listing has a price we
+ * can state (see `toOffer`). A listing priced on request has no offer; Google then reports the
+ * Product as an invalid product snippet, which is accurate and does not affect ranking.
+ *
+ * Shipping and return policies are not part of the listing data, so the offer carries neither.
+ */
 export function generateProductJsonLd(
     product: ProductListingDetail,
-    canonicalUrl?: string,
+    options: ProductJsonLdOptions = {},
 ): ProductJsonLd {
-    const listingPrice = product.pricing.display.price;
-    const offerAvailability = product.availability
-        ? SCHEMA_AVAILABILITY[product.availability]
-        : undefined;
-
+    const { canonicalUrl } = options;
     const jsonLd: ProductJsonLd = {
         "@context": "https://schema.org/",
         "@type": "Product",
-        sku: product.productListingId,
+        productID: product.productListingId,
     };
     if (product.title) jsonLd.name = product.title;
     // Only present in the page's language (#1232).
@@ -59,28 +138,13 @@ export function generateProductJsonLd(
     jsonLd.image = validImages.length > 0 ? validImages : [BANNER_IMAGE_URL];
 
     if (canonicalUrl) jsonLd.url = canonicalUrl;
-    if (
-        listingPrice?.type === "MONETARY" &&
-        product.valuation.type === "CURRENT" &&
-        product.lifecycle === "ACTIVE"
-    ) {
-        jsonLd.offers = {
-            "@type": "Offer",
-            priceCurrency: listingPrice.currency,
-            price: toMajorCurrencyAmount(listingPrice.amount, listingPrice.currency),
-            url: product.viewUrl?.href ?? product.url?.href,
-        };
-        if (offerAvailability) jsonLd.offers.availability = offerAvailability;
-    }
+    const sku = toSku(product.sourceListingId);
+    if (sku) jsonLd.sku = sku;
+
+    const offer = toOffer(product, options);
+    if (offer) jsonLd.offers = offer;
 
     jsonLd.dateCreated = product.created.toISOString();
     jsonLd.dateModified = product.updated.toISOString();
     return jsonLd;
-}
-
-export function generateProductJsonLdScript(
-    product: ProductListingDetail,
-    canonicalUrl?: string,
-): string {
-    return JSON.stringify(generateProductJsonLd(product, canonicalUrl));
 }

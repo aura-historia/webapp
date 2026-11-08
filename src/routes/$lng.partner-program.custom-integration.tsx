@@ -6,7 +6,7 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/$lng/partner-program/custom-integration")({
     head: () =>
         generatePageHeadMeta({
-            pageKey: "partnerProgram",
+            pageKey: "partnerCustomIntegration",
             url: `${env.VITE_APP_URL}/partner-program/custom-integration`,
         }),
     component: PartnerCustomIntegrationPage,

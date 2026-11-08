@@ -3,6 +3,9 @@ import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
 import { env } from "@/env.ts";
 import i18n from "@/i18n/i18n.ts";
 import { localizeUrl } from "@/i18n/routing.ts";
+import { SITE_NAME, webSiteId } from "@/features/app-shell/lib/siteStructuredData.ts";
+import { getShopProfilePath } from "@/features/shop/profile/lib/shopProfileUrl.ts";
+import { type JsonLdScript, jsonLdScript } from "@/lib/seo/jsonLd.ts";
 
 type HeadMeta = {
     meta: Array<
@@ -11,7 +14,7 @@ type HeadMeta = {
         | { property: string; content: string }
     >;
     links: Array<{ rel: string; href: string; hreflang?: string }>;
-    scripts: Array<{ type: string; children: string }>;
+    scripts: JsonLdScript[];
 };
 
 type ShopHeadParams = {
@@ -22,18 +25,43 @@ type ShopCollectionPageJsonLd = {
     "@context": "https://schema.org/";
     "@type": "CollectionPage";
     name: string;
+    description: string;
     url: string;
+    inLanguage: string;
     image?: string;
+    isPartOf: { "@id": string };
+    about: {
+        "@type": "Organization";
+        name: string;
+        image?: string;
+        sameAs?: string;
+    };
 };
 
-function generateShopJsonLd(data: PublicListingSource, shopUrl: string): ShopCollectionPageJsonLd {
-    return {
+/**
+ * The page lists one source's current listings: a CollectionPage about the source. Only the
+ * allowlisted public fields appear; the source's own website is its `sameAs`.
+ */
+export function generateShopJsonLd(
+    data: PublicListingSource,
+    page: { url: string; description: string; language: string },
+): ShopCollectionPageJsonLd {
+    const about: ShopCollectionPageJsonLd["about"] = { "@type": "Organization", name: data.name };
+    if (data.image) about.image = data.image;
+    if (data.url) about.sameAs = data.url;
+
+    const jsonLd: ShopCollectionPageJsonLd = {
         "@context": "https://schema.org/",
         "@type": "CollectionPage",
         name: data.name,
-        url: shopUrl,
-        image: data.image,
+        description: page.description,
+        url: page.url,
+        inLanguage: page.language,
+        isPartOf: { "@id": webSiteId(env.VITE_APP_URL) },
+        about,
     };
+    if (data.image) jsonLd.image = data.image;
+    return jsonLd;
 }
 
 /**
@@ -46,42 +74,50 @@ export function generateShopHeadMeta(
     loaderData: PublicListingSource | undefined,
     params: ShopHeadParams,
 ): HeadMeta {
-    const shopUrl = localizeUrl(
-        `${env.VITE_APP_URL}/shops/${params.shopSlugId}`,
-        i18n.resolvedLanguage ?? i18n.language,
-    );
-    const shopPath = `/shops/${params.shopSlugId}`;
+    const language = i18n.resolvedLanguage ?? i18n.language;
+    const shopPath = getShopProfilePath(params.shopSlugId);
+    const shopUrl = localizeUrl(new URL(shopPath, env.VITE_APP_URL).toString(), language);
 
     const name = loaderData?.name ?? i18n.t("meta.shop.defaultName");
-    const siteName = i18n.t("meta.siteName");
-    const description = i18n.t("shop.header.metaDescription", { shop: name });
+    const description = i18n.t("meta.shop.description", {
+        shop: name,
+        interpolation: { escapeValue: false },
+    });
 
     return {
         meta: [
-            { title: `${name} | ${siteName}` },
+            { title: `${name} | ${SITE_NAME}` },
             { name: "description", content: description },
             // Open Graph
             { property: "og:title", content: name },
             { property: "og:description", content: description },
             { property: "og:type", content: "website" },
             { property: "og:url", content: shopUrl },
-            ...(loaderData?.image ? [{ property: "og:image", content: loaderData.image }] : []),
-            { property: "og:image:alt", content: name },
+            // Without a source image the root's banner and its alt text stay.
+            ...(loaderData?.image
+                ? [
+                      { property: "og:image", content: loaderData.image },
+                      { property: "og:image:alt", content: name },
+                  ]
+                : []),
             // Twitter Card
             { name: "twitter:card", content: "summary_large_image" },
             { name: "twitter:title", content: name },
             { name: "twitter:description", content: description },
             { name: "twitter:url", content: shopUrl },
-            ...(loaderData?.image ? [{ name: "twitter:image", content: loaderData.image }] : []),
-            { name: "twitter:image:alt", content: name },
+            ...(loaderData?.image
+                ? [
+                      { name: "twitter:image", content: loaderData.image },
+                      { name: "twitter:image:alt", content: name },
+                  ]
+                : []),
         ],
         links: [{ rel: "canonical", href: shopUrl }, ...generateHreflangLinks(shopPath)],
         scripts: loaderData
             ? [
-                  {
-                      type: "application/ld+json",
-                      children: JSON.stringify(generateShopJsonLd(loaderData, shopUrl)),
-                  },
+                  jsonLdScript(
+                      generateShopJsonLd(loaderData, { url: shopUrl, description, language }),
+                  ),
               ]
             : [],
     };

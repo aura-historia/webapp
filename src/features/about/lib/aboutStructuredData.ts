@@ -1,8 +1,7 @@
 import type { TFunction } from "i18next";
 
 import { ABOUT_FAQ_ITEMS } from "@/features/about/config/aboutPage.data";
-import { SOCIAL_LINKS } from "@/features/app-shell/components/footer/Footer.data.ts";
-import { CONTACT_EMAIL } from "@/features/app-shell/components/navigation/navigationConfig.ts";
+import { buildOrganizationNode } from "@/features/app-shell/lib/siteStructuredData.ts";
 
 type AboutStructuredDataInput = {
     readonly t: TFunction;
@@ -23,20 +22,7 @@ export function buildAboutStructuredData({ t, siteUrl, pageUrl }: AboutStructure
         name: t("meta.about.title"),
         description: t("meta.about.description"),
         url: pageUrl,
-        mainEntity: {
-            "@type": "Organization",
-            name: "Aura Historia",
-            url: siteUrl,
-            logo: `${siteUrl}/icon1080x1080.png`,
-            email: CONTACT_EMAIL,
-            foundingDate: "2026",
-            address: {
-                "@type": "PostalAddress",
-                addressLocality: "Leipzig",
-                addressCountry: "DE",
-            },
-            sameAs: SOCIAL_LINKS.map((link) => link.url),
-        },
+        mainEntity: buildOrganizationNode(siteUrl),
     };
     const faqPage = {
         "@context": "https://schema.org",

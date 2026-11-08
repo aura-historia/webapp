@@ -1,11 +1,13 @@
 import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
-import { generateProductJsonLdScript } from "./productJsonLd.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { env } from "@/env.ts";
 import { generateHreflangLinks } from "@/lib/seo/hreflangLinks.ts";
 import i18n from "@/i18n/i18n.ts";
 import { localizeUrl } from "@/i18n/routing.ts";
 import { getProductListingPath } from "@/features/product/catalog/lib/productListingUrl.ts";
+import { getShopProfilePath } from "@/features/shop/profile/lib/shopProfileUrl.ts";
+import { jsonLdScript } from "@/lib/seo/jsonLd.ts";
+import { generateProductJsonLd } from "./productJsonLd.ts";
 
 /** Search engines show about this many characters of a meta description. */
 const META_DESCRIPTION_MAX_LENGTH = 160;
@@ -29,15 +31,32 @@ export function generateProductHeadMeta(
     product: ProductListingDetail | undefined,
     params: ProductHeadParams,
 ) {
-    const productTitle = product?.title ?? i18n.getFixedT(params.lng)("product.untitled");
+    const t = i18n.getFixedT(params.lng);
+    const productTitle = product?.title ?? t("product.untitled");
     const productImage =
         product?.images.find((image) => image.prohibitedContentType === "NONE" && image.url)?.url
             ?.href ?? BANNER_IMAGE_URL;
-    // The detail mapping keeps only a description in the page's language (#1232); without one,
-    // the root's generic description stays.
-    const description = product?.description ? toMetaDescription(product.description) : undefined;
+    // The detail mapping keeps only a description in the page's language (#1232). Without one, a
+    // sentence naming the object and its source stands in, so listings do not share one generic
+    // description.
+    const description = product
+        ? toMetaDescription(
+              product.description ??
+                  t("meta.product.description", {
+                      title: productTitle,
+                      source: product.source.name,
+                      interpolation: { escapeValue: false },
+                  }),
+          )
+        : undefined;
     const listingPath = getProductListingPath(params.productListingTitleSlugId);
     const productUrl = localizeUrl(new URL(listingPath, env.VITE_APP_URL).toString(), params.lng);
+    const sellerUrl = product
+        ? localizeUrl(
+              new URL(getShopProfilePath(product.source.slugId), env.VITE_APP_URL).toString(),
+              params.lng,
+          )
+        : undefined;
 
     return {
         meta: [
@@ -48,19 +67,20 @@ export function generateProductHeadMeta(
             { property: "og:type", content: "product" },
             { property: "og:url", content: productUrl },
             { property: "og:image", content: productImage },
+            { property: "og:image:alt", content: productTitle },
             { name: "twitter:card", content: "summary_large_image" },
             { name: "twitter:url", content: productUrl },
             { name: "twitter:title", content: productTitle },
             ...(description ? [{ name: "twitter:description", content: description }] : []),
             { name: "twitter:image", content: productImage },
+            { name: "twitter:image:alt", content: productTitle },
         ],
         links: [{ rel: "canonical", href: productUrl }, ...generateHreflangLinks(listingPath)],
         scripts: product
             ? [
-                  {
-                      type: "application/ld+json",
-                      children: generateProductJsonLdScript(product, productUrl),
-                  },
+                  jsonLdScript(
+                      generateProductJsonLd(product, { canonicalUrl: productUrl, sellerUrl }),
+                  ),
               ]
             : [],
     };

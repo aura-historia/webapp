@@ -6,6 +6,7 @@ import { env } from "@/env";
 import i18n from "@/i18n/i18n.ts";
 import { localizeUrl } from "@/i18n/routing.ts";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta";
+import { jsonLdScript } from "@/lib/seo/jsonLd.ts";
 
 const CANONICAL_URL = `${env.VITE_APP_URL}/about-us`;
 
@@ -19,10 +20,7 @@ export const Route = createFileRoute("/$lng/about-us")({
             t: i18n.t.bind(i18n),
             siteUrl: env.VITE_APP_URL,
             pageUrl: localizeUrl(CANONICAL_URL, i18n.resolvedLanguage ?? i18n.language),
-        }).map((data) => ({
-            type: "application/ld+json",
-            children: JSON.stringify(data),
-        })),
+        }).map(jsonLdScript),
     }),
     component: AboutPage,
 });

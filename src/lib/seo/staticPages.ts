@@ -18,9 +18,18 @@ export const STATIC_PAGES = [
     { path: "/terms-and-conditions", indexable: false },
 ] as const;
 
+/**
+ * The page's URL below a language prefix, without a trailing slash: `/de`, `/de/about-us`. Asset
+ * serving drops trailing slashes (`html_handling` in `wrangler.jsonc`), so this is the URL that
+ * answers without a redirect, matching canonical and hreflang links.
+ */
+export function localizedStaticPagePath(code: string, path: string): string {
+    return path === "/" ? `/${code}` : `/${code}${path}`;
+}
+
 export const PRERENDER_PAGES = SUPPORTED_LANGUAGES.flatMap(({ code }) =>
     STATIC_PAGES.map(({ path, indexable }) => ({
-        path: `/${code}${path}`,
+        path: localizedStaticPagePath(code, path),
         sitemap: { exclude: !indexable },
     })),
 );

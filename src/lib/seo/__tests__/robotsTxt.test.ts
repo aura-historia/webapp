@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { CONTENT_SIGNAL } from "@/lib/seo/contentSignals.ts";
-import { PRERENDER_PAGES, STATIC_PAGES } from "@/lib/seo/staticPages.ts";
+import { localizedStaticPagePath, PRERENDER_PAGES, STATIC_PAGES } from "@/lib/seo/staticPages.ts";
 
 const routesDir = resolve(process.cwd(), "src/routes");
 const robotsTxt = readFileSync(resolve(process.cwd(), "public/robots.txt"), "utf8");
@@ -127,9 +127,16 @@ describe("static pages", () => {
     it("prerenders every static page in every supported language", () => {
         expect(PRERENDER_PAGES.map(({ path }) => path)).toEqual(
             SUPPORTED_LANGUAGES.flatMap(({ code }) =>
-                STATIC_PAGES.map(({ path }) => `/${code}${path}`),
+                STATIC_PAGES.map(({ path }) => localizedStaticPagePath(code, path)),
             ),
         );
+    });
+
+    it("names each page by the URL that answers without a redirect: no trailing slash", () => {
+        for (const { path } of PRERENDER_PAGES) {
+            expect(path, path).not.toMatch(/\/$/);
+        }
+        expect(PRERENDER_PAGES.map(({ path }) => path)).toContain("/de");
     });
 
     it("keeps legal pages out of search results and the sitemap", () => {

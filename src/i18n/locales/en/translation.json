@@ -49,7 +49,8 @@
       "title": "Admin Dashboard | Aura Historia"
     },
     "shop": {
-      "defaultName": "Shop"
+      "defaultName": "Shop",
+      "description": "Current listings from {{shop}} – art, antiques and design objects, found and kept up to date on Aura Historia."
     },
     "terms": {
       "title": "Terms & Conditions | Aura Historia",
@@ -66,6 +67,10 @@
       "title": "Partner Program | Aura Historia",
       "description": "Become a partner shop on Aura Historia – the global platform for art and antiques. Free, commission-free, connected in minutes."
     },
+    "partnerCustomIntegration": {
+      "title": "API Integration for Custom Shop Systems | Aura Historia",
+      "description": "Connect a custom shop system to Aura Historia through the partner API: create, update and withdraw listings in asynchronous or synchronous batches."
+    },
     "partnerApplications": {
       "title": "Current Partner Applications | Aura Historia"
     },
@@ -81,6 +86,9 @@
     },
     "newsletterConfirm": {
       "title": "Confirm newsletter subscription | Aura Historia"
+    },
+    "product": {
+      "description": "{{title}} – offered by {{source}}. Found on Aura Historia, the global search for art, antiques and design objects."
     }
   },
   "validation": {
@@ -1969,7 +1977,6 @@
       "operator": "Operated by {{operator}}",
       "visitWebsite": "Visit website",
       "noImage": "No image available",
-      "metaDescription": "Explore {{shop}} on Aura Historia.",
       "eyebrow": "Provider",
       "note": "Aura Historia indexes the public listings of this provider. You buy directly from the provider.",
       "newTab": "(opens in a new tab)"

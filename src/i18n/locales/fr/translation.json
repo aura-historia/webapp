@@ -43,7 +43,8 @@
       "title": "Ma liste de surveillance | Aura Historia"
     },
     "shop": {
-      "defaultName": "Boutique"
+      "defaultName": "Boutique",
+      "description": "Annonces actuelles de {{shop}} : art, antiquités et objets de design, repérés et tenus à jour sur Aura Historia."
     },
     "notifications": {
       "title": "Notifications | Aura Historia"
@@ -66,6 +67,10 @@
       "title": "Programme partenaires | Aura Historia",
       "description": "Devenez boutique partenaire d'Aura Historia, la plateforme mondiale pour l'art et les antiquités. Gratuit, sans commission, connectée en quelques minutes."
     },
+    "partnerCustomIntegration": {
+      "title": "Intégration API pour systèmes de boutique sur mesure | Aura Historia",
+      "description": "Connectez un système de boutique sur mesure à Aura Historia via l’API partenaires : créez, mettez à jour et retirez des annonces par lots asynchrones ou synchrones."
+    },
     "partnerApplications": {
       "title": "Candidatures partenaires en cours | Aura Historia"
     },
@@ -81,6 +86,9 @@
     },
     "newsletterConfirm": {
       "title": "Confirmer l'inscription à la newsletter | Aura Historia"
+    },
+    "product": {
+      "description": "{{title}}, proposé par {{source}}. Repéré sur Aura Historia, la recherche mondiale d’art, d’antiquités et d’objets de design."
     }
   },
   "validation": {
@@ -1895,7 +1903,6 @@
       "operator": "Géré par {{operator}}",
       "visitWebsite": "Visiter le site web",
       "noImage": "Aucune image disponible",
-      "metaDescription": "Découvrez {{shop}} sur Aura Historia.",
       "eyebrow": "Fournisseur",
       "note": "Aura Historia indexe les annonces publiques de ce fournisseur. Vous achetez directement auprès du fournisseur.",
       "newTab": "(s’ouvre dans un nouvel onglet)"

@@ -36,24 +36,24 @@ Key facts for agents:
 
 ## Partner integrations
 
-- [Partner program](https://aura-historia.com/en/partner-program/): How dealers and auction houses list their inventory on Aura Historia, free of charge and without sales commission, through WooCommerce, Shopify or the API.
-- [Custom API integration guide](https://aura-historia.com/en/partner-program/custom-integration/): Asynchronous (recommended) and synchronous batches that create, update, upsert and withdraw a provider's listings, the admission report and idempotency key, and the asking-price format.
+- [Partner program](https://aura-historia.com/en/partner-program): How dealers and auction houses list their inventory on Aura Historia, free of charge and without sales commission, through WooCommerce, Shopify or the API.
+- [Custom API integration guide](https://aura-historia.com/en/partner-program/custom-integration): Asynchronous (recommended) and synchronous batches that create, update, upsert and withdraw a provider's listings, the admission report and idempotency key, and the asking-price format.
 - [Partner product API (OpenAPI)](https://aura-historia.com/partner-products.openapi.json): The asynchronous and synchronous listing-batch operations (POST, PATCH, PUT, DELETE), extracted from the full contract.
 - [WooCommerce plugin](https://wordpress.org/plugins/aura-historia-partner-connect/): Aura Historia Partner Connect for WordPress and WooCommerce.
 - [Shopify app](https://apps.shopify.com/aura-historia-partner-connect): Aura Historia app on the Shopify App Store; syncs listings from a Shopify store.
 
 ## Website
 
-- [Home](https://aura-historia.com/en/): Overview of the platform, plans and frequently asked questions.
+- [Home](https://aura-historia.com/en): Overview of the platform, plans and frequently asked questions.
 - [Search listings](https://aura-historia.com/en/search): Full-text search across all indexed listings.
 - [Search providers](https://aura-historia.com/en/search/shops): Find dealers, auction houses and shops by name.
-- [About us](https://aura-historia.com/en/about-us/): What Aura Historia does, how it differs from auction aggregators, price databases and marketplaces, who uses it, the team behind it, and frequently asked questions.
-- [Aura Historia compared with Barnebys](https://aura-historia.com/en/compare/barnebys/): Differences in source coverage, multilingual search and alerts.
+- [About us](https://aura-historia.com/en/about-us): What Aura Historia does, how it differs from auction aggregators, price databases and marketplaces, who uses it, the team behind it, and frequently asked questions.
+- [Aura Historia compared with Barnebys](https://aura-historia.com/en/compare/barnebys): Differences in source coverage, multilingual search and alerts.
 
 ## Optional
 
-- [Terms and conditions](https://aura-historia.com/en/terms-and-conditions/): Terms of use, including paid services and payment processing.
-- [Privacy policy](https://aura-historia.com/en/privacy/): How personal data is processed.
-- [Imprint](https://aura-historia.com/en/imprint/): Legal operator information.
+- [Terms and conditions](https://aura-historia.com/en/terms-and-conditions): Terms of use, including paid services and payment processing.
+- [Privacy policy](https://aura-historia.com/en/privacy): How personal data is processed.
+- [Imprint](https://aura-historia.com/en/imprint): Legal operator information.
 - [MCP documentation on GitHub](https://github.com/aura-historia/backend/blob/develop/docs/mcp.md): Source of the MCP documentation, with links to the tool manifests and tests.
 - [Sitemap](https://aura-historia.com/sitemap.xml): All indexable static pages in every language.

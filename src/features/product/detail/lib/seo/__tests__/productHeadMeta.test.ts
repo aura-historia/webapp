@@ -52,17 +52,48 @@ describe("generateProductHeadMeta", () => {
         expect(head.meta).toContainEqual({ name: "twitter:description", content });
     });
 
-    it("leaves the description tags to the root when the listing has no description in the page's language", () => {
-        const head = generateProductHeadMeta(makeProductListingDetail({ description: undefined }), {
+    it("names the object and its source when the listing has no description in the page's language", () => {
+        const product = makeProductListingDetail({ description: undefined });
+        const head = generateProductHeadMeta(product, {
             lng: "de",
             productListingTitleSlugId: "chair-pl_01TEST",
         });
-        const names = head.meta.map((tag) =>
-            "name" in tag ? tag.name : "property" in tag ? tag.property : "title",
-        );
-        expect(names).not.toContain("description");
-        expect(names).not.toContain("og:description");
-        expect(names).not.toContain("twitter:description");
+        const description = head.meta.find(
+            (tag): tag is { name: string; content: string } =>
+                "name" in tag && tag.name === "description",
+        )?.content;
+
+        expect(description).toContain(product.title);
+        expect(description).toContain(product.source.name);
+        expect(description?.length).toBeLessThanOrEqual(160);
+        expect(head.meta).toContainEqual({ property: "og:description", content: description });
+    });
+
+    it("describes the shared image with the listing title", () => {
+        const product = makeProductListingDetail();
+        const head = generateProductHeadMeta(product, {
+            lng: "en",
+            productListingTitleSlugId: "chair-pl_01TEST",
+        });
+
+        expect(head.meta).toContainEqual({ property: "og:image:alt", content: product.title });
+        expect(head.meta).toContainEqual({ name: "twitter:image:alt", content: product.title });
+    });
+
+    it("links the offer to the source's profile in the page's language", () => {
+        const product = makeProductListingDetail();
+        const head = generateProductHeadMeta(product, {
+            lng: "fr",
+            productListingTitleSlugId: "chair-pl_01TEST",
+        });
+        const jsonLd = JSON.parse(head.scripts[0].children);
+
+        expect(jsonLd["@type"]).toBe("Product");
+        expect(jsonLd.offers.seller).toEqual({
+            "@type": "Organization",
+            name: product.source.name,
+            url: `https://aura-historia.com/fr/shops/${product.source.slugId}`,
+        });
     });
 });
 
