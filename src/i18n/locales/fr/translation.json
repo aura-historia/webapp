@@ -3456,6 +3456,7 @@
       "success": "Jeton d'accès créé.",
       "copy": "Copier le jeton d'accès",
       "copySuccess": "Jeton d'accès copié.",
+      "copyError": "Le jeton n’a pas pu être copié. Sélectionnez-le et copiez-le manuellement avant de fermer cette fenêtre.",
       "fields": {
         "name": "Nom",
         "scopes": "Autorisations",
@@ -3620,6 +3621,7 @@
     "providerId": "ID du fournisseur",
     "copyId": "Copier l’ID de {{name}}",
     "idCopied": "ID du fournisseur copié.",
+    "idCopyError": "L’ID du fournisseur n’a pas pu être copié. Sélectionnez-le et copiez-le manuellement.",
     "publicPage": "Page publique",
     "accessNote": "Un accès n’est pas une propriété : figurer ici ne fait pas de vous le propriétaire ni le partenaire du fournisseur, et ne vous permet pas de modifier ses informations.",
     "loadErrorHeading": "Accès <em>non vérifié.</em>",

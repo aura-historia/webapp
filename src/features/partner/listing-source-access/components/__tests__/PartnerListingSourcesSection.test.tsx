@@ -27,7 +27,7 @@ vi.mock("@/features/partner/common/api/useOwnListingSources.ts", () => ({
 vi.mock("@/features/authentication/hooks/useResolvedAuth.ts", () => ({
     useResolvedAuth: () => auth,
 }));
-vi.mock("sonner", () => ({ toast: { success: vi.fn() } }));
+vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 
 const EMPTY_HEADING = "Noch keine Anbieter.";
 const EMPTY_MESSAGE =
@@ -127,6 +127,23 @@ describe("granted-source portfolio", () => {
 
         expect(writeText).toHaveBeenCalledWith("ls_dealer");
         expect(toast.success).toHaveBeenCalledWith("Anbieter-ID kopiert.");
+    });
+
+    it("says so when a provider ID cannot be copied", async () => {
+        const user = userEvent.setup();
+        const writeText = vi.fn().mockRejectedValue(new DOMException("Denied", "NotAllowedError"));
+        Object.defineProperty(navigator, "clipboard", {
+            configurable: true,
+            value: { writeText },
+        });
+        await renderSection();
+
+        await user.click(screen.getByRole("button", { name: "ID von Aurora Antiques kopieren" }));
+
+        expect(toast.error).toHaveBeenCalledWith(
+            "Die Anbieter-ID konnte nicht kopiert werden. Markieren und kopieren Sie sie manuell.",
+        );
+        expect(toast.success).not.toHaveBeenCalled();
     });
 
     it("renders a loading state while authentication resolves", async () => {

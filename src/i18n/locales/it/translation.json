@@ -3456,6 +3456,7 @@
       "success": "Token di accesso creato.",
       "copy": "Copia token di accesso",
       "copySuccess": "Token di accesso copiato.",
+      "copyError": "Non è stato possibile copiare il token. Selezionalo e copialo manualmente prima di chiudere questa finestra.",
       "fields": {
         "name": "Nome",
         "scopes": "Autorizzazioni",
@@ -3620,6 +3621,7 @@
     "providerId": "ID del fornitore",
     "copyId": "Copia l’ID di {{name}}",
     "idCopied": "ID del fornitore copiato.",
+    "idCopyError": "Non è stato possibile copiare l'ID del fornitore. Selezionalo e copialo manualmente.",
     "publicPage": "Pagina pubblica",
     "accessNote": "L’accesso non è proprietà: comparire qui non ti rende proprietario né partner del fornitore, e non ti consente di modificarne i dati.",
     "loadErrorHeading": "Accesso <em>non verificato.</em>",

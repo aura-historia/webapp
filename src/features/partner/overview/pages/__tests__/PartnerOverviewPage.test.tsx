@@ -280,6 +280,21 @@ describe("PartnerOverviewPage", () => {
         ).toHaveAttribute("href", "/de/partners/access-tokens?create=true");
     });
 
+    it("offers a new application when every application was withdrawn or not approved", async () => {
+        mockApplications([
+            proposed("pa_1", "Aurora Antiques", "WITHDRAWN"),
+            proposed("pa_2", "Delft Hall", "REJECTED"),
+        ]);
+        await renderOverview();
+
+        const apply = step("Anbieter beantragen");
+        expect(apply).not.toHaveTextContent("Eingereicht");
+        expect(within(apply).getByRole("link", { name: "Neuer Antrag" })).toHaveAttribute(
+            "href",
+            "/de/partners/applications?create=true",
+        );
+    });
+
     it("explains a new account's empty token tile", async () => {
         mockTokens([]);
         await renderOverview();

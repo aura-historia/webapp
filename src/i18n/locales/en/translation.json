@@ -2295,6 +2295,7 @@
     "providerId": "Provider ID",
     "copyId": "Copy ID of {{name}}",
     "idCopied": "Provider ID copied.",
+    "idCopyError": "The provider ID could not be copied. Select it and copy it manually.",
     "publicPage": "Public page",
     "accessNote": "Access is not ownership: being listed here does not make you the provider's owner or partner, and does not let you edit its details.",
     "loadErrorHeading": "Access could not be <em>verified.</em>",
@@ -2321,6 +2322,7 @@
       "success": "Access token created.",
       "copy": "Copy access token",
       "copySuccess": "Access token copied.",
+      "copyError": "The token could not be copied. Select it and copy it manually before you close this dialog.",
       "fields": {
         "name": "Name",
         "scopes": "Permissions",

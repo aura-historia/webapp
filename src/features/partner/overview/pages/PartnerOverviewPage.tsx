@@ -172,7 +172,11 @@ function StepsSection({ data }: { readonly data: OverviewData }) {
     const { t } = useTranslation();
     const applicationsReady = data.applicationsState === "ready";
     const tokensReady = data.tokensState === "ready";
-    const hasApplications = data.applications.length > 0;
+    // Only an open or approved application completes the step; withdrawn or not approved ones leave
+    // the partner with nothing standing, so the step offers a new application again.
+    const hasApplications = data.applications.some(
+        (application) => canWithdrawApplication(application) || application.state === "APPROVED",
+    );
     const hasActiveTokens = data.activeCount > 0;
     const hasProviders = data.providersState === "ready" && data.providerCount > 0;
 

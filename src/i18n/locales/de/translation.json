@@ -2295,6 +2295,7 @@
     "providerId": "Anbieter-ID",
     "copyId": "ID von {{name}} kopieren",
     "idCopied": "Anbieter-ID kopiert.",
+    "idCopyError": "Die Anbieter-ID konnte nicht kopiert werden. Markieren und kopieren Sie sie manuell.",
     "publicPage": "Öffentliche Seite",
     "accessNote": "Zugriff ist kein Eigentum: Ein Eintrag hier macht Sie weder zum Inhaber noch zum Partner des Anbieters und erlaubt Ihnen nicht, seine Angaben zu bearbeiten.",
     "loadErrorHeading": "Zugriff konnte nicht <em>geprüft werden.</em>",
@@ -2321,6 +2322,7 @@
       "success": "Zugriffstoken wurde erstellt.",
       "copy": "Zugriffstoken kopieren",
       "copySuccess": "Zugriffstoken wurde kopiert.",
+      "copyError": "Das Token konnte nicht kopiert werden. Markieren und kopieren Sie es manuell, bevor Sie diesen Dialog schließen.",
       "fields": {
         "name": "Name",
         "scopes": "Berechtigungen",

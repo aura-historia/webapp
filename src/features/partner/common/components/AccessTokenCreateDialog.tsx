@@ -95,7 +95,13 @@ export function AccessTokenCreateDialog({
                 )}
                 closeLabel={t("partnerDashboard.close")}
                 showCloseButton={!createAccessToken.isPending && !createdAccessToken}
+                // The plaintext token is shown once, so only the explicit Close button dismisses it.
                 onInteractOutside={(e) => {
+                    if (createdAccessToken) {
+                        e.preventDefault();
+                    }
+                }}
+                onEscapeKeyDown={(e) => {
                     if (createdAccessToken) {
                         e.preventDefault();
                     }
@@ -196,11 +202,14 @@ function CreatedAccessTokenCredential({
     const [copied, setCopied] = useState(false);
 
     const handleCopy = async () => {
-        if (!navigator.clipboard) {
+        try {
+            await navigator.clipboard.writeText(createdAccessToken.plaintextToken);
+        } catch {
+            // No clipboard API (insecure context) or the write was refused: say so, keep the token visible.
+            setCopied(false);
+            toast.error(t("partnerAccessTokens.create.copyError"));
             return;
         }
-
-        await navigator.clipboard.writeText(createdAccessToken.plaintextToken);
         setCopied(true);
         toast.success(t("partnerAccessTokens.create.copySuccess"));
     };

@@ -3456,6 +3456,7 @@
       "success": "Token de acceso creado.",
       "copy": "Copiar token de acceso",
       "copySuccess": "Token de acceso copiado.",
+      "copyError": "No se pudo copiar el token. Selecciónelo y cópielo manualmente antes de cerrar este diálogo.",
       "fields": {
         "name": "Nombre",
         "scopes": "Permisos",
@@ -3620,6 +3621,7 @@
     "providerId": "ID del proveedor",
     "copyId": "Copiar el ID de {{name}}",
     "idCopied": "ID del proveedor copiado.",
+    "idCopyError": "No se pudo copiar el ID del proveedor. Selecciónelo y cópielo manualmente.",
     "publicPage": "Página pública",
     "accessNote": "Acceso no es propiedad: aparecer aquí no le convierte en propietario ni socio del proveedor, ni le permite editar sus datos.",
     "loadErrorHeading": "No se pudo <em>verificar el acceso.</em>",

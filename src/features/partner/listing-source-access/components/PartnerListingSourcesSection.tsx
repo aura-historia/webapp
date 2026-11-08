@@ -127,8 +127,13 @@ export function PartnerListingSourcesSection() {
 function ProviderCard({ source }: { readonly source: OwnListingSource }) {
     const { t } = useTranslation();
     const copyId = async () => {
-        if (!navigator.clipboard) return;
-        await navigator.clipboard.writeText(source.listingSourceId);
+        try {
+            await navigator.clipboard.writeText(source.listingSourceId);
+        } catch {
+            // No clipboard API (insecure context) or the write was refused.
+            toast.error(t("partnerListingSources.idCopyError"));
+            return;
+        }
         toast.success(t("partnerListingSources.idCopied"));
     };
 
