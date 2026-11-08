@@ -31,6 +31,7 @@ type PageMetaKey =
     | "newsletterConfirm"
     | "partnerProgram"
     | "partnerCustomIntegration"
+    | "partnerDashboard"
     | "partnerApplications"
     | "partnerAccessTokens"
     | "partnerListingSources"
@@ -96,6 +97,9 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     partnerCustomIntegration: {
         title: "meta.partnerCustomIntegration.title",
         description: "meta.partnerCustomIntegration.description",
+    },
+    partnerDashboard: {
+        title: "meta.partnerDashboard.title",
     },
     partnerApplications: {
         title: "meta.partnerApplications.title",

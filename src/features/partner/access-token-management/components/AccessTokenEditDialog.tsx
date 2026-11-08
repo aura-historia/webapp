@@ -2,17 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useController, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button.tsx";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Label } from "@/components/ui/label.tsx";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { useUpdateAccessToken } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
 import { AccessTokenScopesField } from "@/features/partner/common/components/AccessTokenScopesField.tsx";
@@ -23,6 +13,17 @@ import {
 } from "@/features/partner/common/components/AccessTokenCreateForm.ts";
 import type { AccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
 import type { AccessTokenScope } from "@/data/internal/access-tokens/AccessTokenScope.ts";
+import {
+    DIALOG_CONTENT_CLASS,
+    DIALOG_DESCRIPTION_CLASS,
+    DIALOG_TITLE_CLASS,
+    FIELD_CLASS,
+    FIELD_ERROR_CLASS,
+    FIELD_LABEL_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+} from "@/features/partner/common/lib/partnerDashboardStyles.ts";
+import { cn } from "@/lib/utils.ts";
 
 interface AccessTokenEditDialogProps {
     readonly accessToken: AccessToken | null;
@@ -116,36 +117,45 @@ function AccessTokenEditDialogContent({
 
     return (
         <DialogContent
-            className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-xl"
+            className={cn(
+                DIALOG_CONTENT_CLASS,
+                "max-h-[calc(100dvh-2rem)] gap-5 overflow-y-auto p-7 sm:max-w-[640px]",
+            )}
+            closeLabel={t("partnerDashboard.close")}
             showCloseButton={!updateAccessToken.isPending}
         >
-            <DialogHeader>
-                <DialogTitle>{t("partnerAccessTokens.edit.title")}</DialogTitle>
-                <DialogDescription>
+            <div className="flex flex-col gap-1.5 pr-8">
+                <DialogTitle className={DIALOG_TITLE_CLASS}>
+                    {t("partnerAccessTokens.edit.title")}
+                </DialogTitle>
+                <DialogDescription className={DIALOG_DESCRIPTION_CLASS}>
                     {t("partnerAccessTokens.edit.description", { name: accessToken.name })}
                 </DialogDescription>
-            </DialogHeader>
+            </div>
 
             <form
                 noValidate
                 className="flex flex-col gap-5"
                 onSubmit={form.handleSubmit(handleSubmit)}
             >
-                <div className="grid gap-2">
-                    <Label htmlFor="access-token-edit-name">
+                <div className="flex flex-col gap-2">
+                    <label
+                        htmlFor="access-token-edit-name"
+                        data-error={Boolean(form.formState.errors.name)}
+                        className={FIELD_LABEL_CLASS}
+                    >
                         {t("partnerAccessTokens.create.fields.name")}
-                    </Label>
-                    <Input
+                    </label>
+                    <input
                         id="access-token-edit-name"
                         autoComplete="off"
                         maxLength={128}
                         aria-invalid={Boolean(form.formState.errors.name)}
+                        className={FIELD_CLASS}
                         {...form.register("name")}
                     />
                     {form.formState.errors.name && (
-                        <p className="text-sm text-destructive">
-                            {form.formState.errors.name.message}
-                        </p>
+                        <p className={FIELD_ERROR_CLASS}>{form.formState.errors.name.message}</p>
                     )}
                 </div>
 
@@ -161,22 +171,26 @@ function AccessTokenEditDialogContent({
                     disabled={updateAccessToken.isPending}
                 />
 
-                <DialogFooter>
-                    <Button
+                <div className="flex flex-wrap justify-end gap-2.5 pt-1">
+                    <button
                         type="button"
-                        variant="outline"
+                        className={SECONDARY_PILL_CLASS}
                         disabled={updateAccessToken.isPending}
                         onClick={onClose}
                     >
                         {t("partnerAccessTokens.edit.cancel")}
-                    </Button>
-                    <Button type="submit" disabled={updateAccessToken.isPending}>
-                        {updateAccessToken.isPending && <Spinner />}
+                    </button>
+                    <button
+                        type="submit"
+                        className={PRIMARY_PILL_CLASS}
+                        disabled={updateAccessToken.isPending}
+                    >
+                        {updateAccessToken.isPending && <Spinner aria-hidden="true" />}
                         {updateAccessToken.isPending
                             ? t("partnerAccessTokens.edit.submitting")
                             : t("partnerAccessTokens.edit.submit")}
-                    </Button>
-                </DialogFooter>
+                    </button>
+                </div>
             </form>
         </DialogContent>
     );

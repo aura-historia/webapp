@@ -89,6 +89,9 @@
     },
     "product": {
       "description": "{{title}}, ofrecido por {{source}}. Encontrado en Aura Historia, la búsqueda global de arte, antigüedades y objetos de diseño."
+    },
+    "partnerDashboard": {
+      "title": "Panel de socios | Aura Historia"
     }
   },
   "validation": {
@@ -2808,12 +2811,70 @@
     }
   },
   "partnerDashboard": {
-    "title": "Panel de Socios",
-    "sidebarLabel": "Secciones de socios",
     "nav": {
       "applications": "Solicitudes",
-      "listingSources": "Proveedores aprobados",
-      "accessTokens": "Tokens de acceso"
+      "accessTokens": "Tokens de acceso",
+      "overview": "Resumen",
+      "providers": "Proveedores",
+      "guides": "Guías",
+      "customIntegration": "Integración API propia",
+      "partnerProgram": "Programa de socios"
+    },
+    "heading": "Panel de <em>socios.</em>",
+    "navLabel": "Panel de socios",
+    "close": "Cerrar",
+    "tryAgain": "Reintentar",
+    "overview": {
+      "glance": "De un vistazo",
+      "unavailable": "No se pudo cargar.",
+      "viewAll": "Ver todo",
+      "applications": {
+        "unit": "abiertas",
+        "note_one": "{{inReview}} en revisión · {{count}} en total",
+        "note_other": "{{inReview}} en revisión · {{count}} en total",
+        "noneNote": "Aún no hay solicitudes",
+        "cta": "Ver solicitudes"
+      },
+      "providers": {
+        "unit": "con acceso",
+        "note": "Aparecer aquí significa acceso, no propiedad",
+        "noneNote": "Aún no se ha concedido acceso",
+        "cta": "Ver proveedores"
+      },
+      "tokens": {
+        "unit": "activos",
+        "soonNote_one": "{{count}} caduca en los próximos 14 días",
+        "soonNote_other": "{{count}} caducan en los próximos 14 días",
+        "totalNote_one": "{{count}} en total",
+        "totalNote_other": "{{count}} en total",
+        "noneNote": "Cree uno cuando conecte su tienda",
+        "cta": "Ver tokens de acceso"
+      }
+    },
+    "steps": {
+      "heading": "Cómo <em>conectarse.</em>",
+      "lead": "Tres pasos aquí y, después, la conexión con su tienda.",
+      "apply": {
+        "title": "Solicitar un proveedor",
+        "copy": "Solicite acceso a un proveedor que gestiona o proponga uno nuevo para su revisión.",
+        "status": "Enviada"
+      },
+      "access": {
+        "title": "Obtener acceso",
+        "copy": "Cuando se conceda el acceso, el proveedor aparecerá en Proveedores.",
+        "status_one": "{{figure}} proveedor",
+        "status_other": "{{figure}} proveedores"
+      },
+      "token": {
+        "title": "Crear un token de acceso",
+        "copy": "Concédale solo los permisos que necesita su integración. El token se muestra una sola vez.",
+        "status_one": "{{count}} activo",
+        "status_other": "{{count}} activos"
+      },
+      "connect": {
+        "title": "Conectar su tienda",
+        "copy": "Instale la app para su sistema de tienda o envíe anuncios mediante la API."
+      }
     }
   },
   "partnerApplications": {
@@ -2823,14 +2884,36 @@
     },
     "create": {
       "open": "Nueva solicitud",
-      "title": "Enviar solicitud de socio",
-      "submit": "Enviar solicitud",
-      "submitting": "Enviando…",
       "cancel": "Cancelar",
-      "success": "Solicitud de socio enviada.",
       "validation": {
         "urlInvalid": "Por favor, ingresa una URL válida.",
         "emailInvalid": "Por favor, ingresa una dirección de correo electrónico válida."
+      },
+      "description": "Revisamos cada solicitud. Una vez enviada, puede consultarla o retirarla, pero no editarla.",
+      "send": "Enviar solicitud",
+      "sending": "Enviando…",
+      "sent": "Solicitud enviada.",
+      "optional": "(opcional)",
+      "kind": {
+        "legend": "¿Qué solicita?",
+        "existing": "Un proveedor ya publicado",
+        "existingDescription": "Ya está en Aura Historia. Solicite acceso a él.",
+        "proposed": "Un proveedor nuevo",
+        "proposedDescription": "Aún no está en Aura Historia. Cuéntenos sobre él."
+      },
+      "groups": {
+        "provider": "El proveedor",
+        "operator": "Quién lo gestiona",
+        "connections": "Cómo nos llegan los anuncios"
+      },
+      "fields": {
+        "providerName": "Nombre del proveedor",
+        "website": "Sitio web",
+        "image": "URL de la imagen",
+        "operator": "Operador",
+        "operatorHint": "La persona o empresa que gestiona el proveedor.",
+        "phone": "Teléfono",
+        "email": "Correo electrónico"
       }
     },
     "loading": "Cargando solicitudes de socios.",
@@ -2841,33 +2924,19 @@
       "submitted": "Enviado",
       "inReview": "En revisión",
       "approved": "Aprobado",
-      "rejected": "Rechazado"
+      "notApproved": "No aprobada"
     },
     "proposals": {
-      "type": "Tipo de propuesta",
-      "existing": "Proveedor existente",
-      "proposed": "Proponer un proveedor",
-      "description": "Envíe una propuesta para su revisión. Una vez enviada, puede consultarla o retirarla.",
       "selectionHint": "Proponer un proveedor público solicita una revisión; no concede acceso.",
-      "immutable": "Las propuestas enviadas no se pueden editar.",
-      "partyName": "Nombre del operador",
-      "partyPhone": "Teléfono (opcional)",
-      "partyEmail": "Correo electrónico (opcional)",
-      "sourceName": "Nombre del proveedor",
       "listingSourceType": "Tipo de proveedor",
       "listingSourceTypeRequired": "Elija el tipo de proveedor.",
-      "sourceUrl": "URL del proveedor (opcional)",
-      "sourceImage": "URL de la imagen (opcional)",
-      "methods": "Métodos de importación solicitados",
       "required": "Este campo es obligatorio.",
       "nameTooLong": "Los nombres no deben superar los 255 bytes UTF-8.",
       "withdraw": "Retirar solicitud",
-      "withdrawConfirm": "¿Retirar esta solicitud? La propuesta seguirá visible como retirada.",
       "withdrawn": "Retirada",
       "conflict": "La solicitud no se puede cambiar en su estado actual. Actualice para ver el estado más reciente.",
       "missing": "Solicitud no encontrada o no disponible.",
       "sourceUnavailable": "Este proveedor ya no está disponible. Seleccione otro proveedor.",
-      "clear": "Borrar selección",
       "noSources": "No se encontraron proveedores.",
       "noMethods": "Ninguno solicitado",
       "ingestion": {
@@ -2876,6 +2945,60 @@
         "WOOCOMMERCE": "WooCommerce",
         "PARTNER_API": "API para socios"
       }
+    },
+    "heading": "Solicitudes de <em>socio.</em>",
+    "lead": "Solicite acceso a un proveedor que gestiona o proponga uno nuevo. Revisamos cada solicitud; una vez enviada, puede consultarla o retirarla, pero no editarla.",
+    "loadErrorHeading": "Solicitudes <em>no disponibles.</em>",
+    "loadErrorDescription": "No se pudieron cargar sus solicitudes de socio. Vuelva a intentarlo.",
+    "emptyHeading": "Aún no hay <em>solicitudes.</em>",
+    "emptyDescription": "Solicite un proveedor que gestiona o proponga uno nuevo. Revisamos cada solicitud.",
+    "howItWorks": "Cómo funciona el programa",
+    "loadingDetails": "Cargando la solicitud…",
+    "viewProviders": "Ver proveedores",
+    "withdrawSuccess": "Solicitud retirada.",
+    "groups": {
+      "open": "Abiertas",
+      "openCount_one": "{{count}} pendiente de decisión",
+      "openCount_other": "{{count}} pendientes de decisión",
+      "decided": "Resueltas",
+      "decidedCount_one": "{{count}} cerrada",
+      "decidedCount_other": "{{count}} cerradas"
+    },
+    "row": {
+      "newProvider": "Proveedor nuevo",
+      "existingProvider": "Proveedor existente",
+      "nameUnavailable": "Nombre no disponible"
+    },
+    "stateNote": {
+      "submitted": "Pendiente de revisión. Puede retirarla hasta que decidamos.",
+      "inReview": "La estamos revisando. Aún puede retirarla.",
+      "approved": "Aprobada. Cuando se conceda el acceso, el proveedor aparecerá en Proveedores.",
+      "rejected": "No aprobada. Puede enviar una nueva solicitud.",
+      "withdrawn": "Usted retiró esta solicitud."
+    },
+    "withdrawConfirm": {
+      "title": "¿Retirar esta solicitud?",
+      "description": "Seguirá en su lista como retirada. Para volver a solicitar, envíe una nueva solicitud.",
+      "keep": "Mantener solicitud",
+      "confirm": "Retirar"
+    },
+    "details": {
+      "website": "Sitio web",
+      "image": "URL de la imagen",
+      "operator": "Operador",
+      "phone": "Teléfono",
+      "email": "Correo electrónico",
+      "connections": "Conexiones",
+      "providerId": "ID del proveedor",
+      "applicationId": "ID de la solicitud"
+    },
+    "search": {
+      "label": "Proveedor",
+      "results": "Proveedores",
+      "searching": "Buscando proveedores…",
+      "error": "No se pudieron buscar proveedores.",
+      "operatedBy": "Gestionado por {{name}}",
+      "change": "Cambiar"
     }
   },
   "adminApplications": {
@@ -3322,11 +3445,6 @@
     }
   },
   "partnerAccessTokens": {
-    "title": "Tokens de acceso",
-    "description": "Todos los tokens de acceso guardados para tu cuenta de socio.",
-    "actions": {
-      "retry": "Reintentar"
-    },
     "create": {
       "open": "Nuevo token de acceso",
       "title": "Crear token de acceso",
@@ -3336,9 +3454,6 @@
       "cancel": "Cancelar",
       "close": "He guardado el token",
       "success": "Token de acceso creado.",
-      "confirmationTitle": "Token de acceso creado",
-      "confirmationDescription": "Copia y guarda el token de forma segura antes de cerrar este diálogo.",
-      "copyWarning": "Este token en texto plano se muestra solo una vez. No podrás recuperarlo después de cerrar este diálogo.",
       "copy": "Copiar token de acceso",
       "copySuccess": "Token de acceso copiado.",
       "fields": {
@@ -3385,10 +3500,15 @@
         "nameRequired": "Por favor, introduce un nombre para el token.",
         "nameTooLong": "El nombre del token no debe exceder los 128 caracteres.",
         "expirationInvalid": "Por favor, introduce una fecha y hora de expiración válida."
-      }
+      },
+      "createdLabel": "Token creado",
+      "createdHeading": "Copie su token <em>ahora.</em>",
+      "createdDescription": "«{{name}}» está listo. Mostramos el token una sola vez y no podremos volver a mostrarlo cuando cierre este diálogo.",
+      "copyShort": "Copiar",
+      "copied": "Copiado",
+      "keepSafe": "Guárdelo en un gestor de contraseñas o en la configuración secreta de su integración. Cualquiera que tenga el token puede actuar con sus permisos."
     },
     "edit": {
-      "open": "Editar",
       "openAriaLabel": "Editar token de acceso {{name}}",
       "title": "Editar token de acceso",
       "description": "Edita el nombre, permisos y expiración de {{name}}.",
@@ -3398,24 +3518,27 @@
       "success": "Token de acceso actualizado."
     },
     "delete": {
-      "open": "Eliminar",
       "openAriaLabel": "Eliminar token de acceso {{name}}",
-      "title": "¿Eliminar token de acceso “{{name}}”?",
-      "description": "Este token de acceso será eliminado permanentemente y ya no podrá ser utilizado.",
-      "confirm": "Eliminar token permanentemente",
       "cancel": "Cancelar",
-      "success": "Token de acceso eliminado."
+      "success": "Token de acceso eliminado.",
+      "heading": "¿Eliminar «{{name}}»?",
+      "lead": "El token se elimina definitivamente y deja de funcionar al instante.",
+      "confirmShort": "Eliminar token",
+      "pending": "Eliminando…"
     },
     "deleteAll": {
-      "open": "Eliminar todos",
-      "title": "¿Eliminar todos los tokens de acceso?",
-      "description": "Todos los {{count}} tokens de acceso serán eliminados permanentemente y ya no podrán ser utilizados.",
-      "confirm": "Eliminar todos los tokens permanentemente",
-      "cancel": "Cancelar",
-      "success": "Todos los tokens de acceso eliminados."
+      "success": "Todos los tokens de acceso eliminados.",
+      "heading": "Eliminar todos los tokens de acceso",
+      "lead": "Toda integración que use alguno de ellos dejará de funcionar al instante.",
+      "openEllipsis": "Eliminar todos…",
+      "confirmTitle_one": "¿Eliminar {{count}} token de acceso?",
+      "confirmTitle_other": "¿Eliminar los {{count}} tokens de acceso?",
+      "confirmDescription_one": "El token se elimina definitivamente. Toda integración que lo use dejará de funcionar al instante.",
+      "confirmDescription_other": "Los {{count}} tokens se eliminan definitivamente. Toda integración que use alguno de ellos dejará de funcionar al instante.",
+      "confirmAll_one": "Eliminar {{count}} token",
+      "confirmAll_other": "Eliminar los {{count}} tokens"
     },
     "loading": "Cargando tokens de acceso.",
-    "loadError": "No se pudieron cargar tus tokens de acceso.",
     "empty": "Aún no has guardado ningún token de acceso.",
     "expiresAt": "Expira {{date}}",
     "expiredAt": "Expiró {{date}}",
@@ -3462,17 +3585,47 @@
       "groupSelectAllLabel": "Seleccionar todo en {{group}}",
       "groupClearLabel": "Deseleccionar todo en {{group}}",
       "allSelectedNote": "Este token obtiene todos los permisos, incluido el acceso de escritura. Quita los que la integración no necesite."
+    },
+    "heading": "Tokens de <em>acceso.</em>",
+    "lead": "Con los tokens, su integración llama a la API de Aura Historia en nombre de su cuenta. Conceda a cada uno solo los permisos que necesita.",
+    "loadErrorHeading": "Tokens de acceso <em>no disponibles.</em>",
+    "loadErrorDescription": "No se pudieron cargar sus tokens de acceso. Vuelva a intentarlo.",
+    "emptyHeading": "Aún no hay <em>tokens de acceso.</em>",
+    "emptyDescription": "Cree un token cuando conecte una integración y concédale solo los permisos que necesita.",
+    "permissions": "Permisos",
+    "showMore_one": "+{{count}} más",
+    "showMore_other": "+{{count}} más",
+    "showFewer": "Mostrar menos",
+    "groups": {
+      "active": "Activos",
+      "activeCount_one": "{{count}} en uso",
+      "activeCount_other": "{{count}} en uso",
+      "expired": "Caducados",
+      "expiredCount_one": "{{count}} ya no funciona",
+      "expiredCount_other": "{{count}} ya no funcionan"
     }
   },
   "partnerListingSources": {
-    "title": "Proveedores accesibles",
-    "description": "Proveedores a los que tiene acceso actualmente. Que aparezcan aquí no acredita la propiedad, el estado de socio ni el permiso para modificar sus datos.",
-    "actions": {
-      "retry": "Reintentar"
-    },
     "loading": "Cargando proveedores accesibles.",
     "loadError": "No se pudo verificar el acceso a los proveedores. Es posible que los permisos hayan cambiado. Inténtelo de nuevo.",
-    "empty": "Actualmente no tiene acceso a ningún proveedor. Es posible que se haya revocado una autorización anterior."
+    "heading": "Sus <em>proveedores.</em>",
+    "lead": "Los proveedores para los que su cuenta puede enviar anuncios. Use el ID de un proveedor en la API o al conectar su tienda.",
+    "applyForAnother": "Solicitar otro proveedor",
+    "withAccess": "Con acceso",
+    "count_one": "{{count}} proveedor",
+    "count_other": "{{count}} proveedores",
+    "countIncomplete_one": "{{count}} cargado · hay más",
+    "countIncomplete_other": "{{count}} cargados · hay más",
+    "access": "Acceso",
+    "providerId": "ID del proveedor",
+    "copyId": "Copiar el ID de {{name}}",
+    "idCopied": "ID del proveedor copiado.",
+    "publicPage": "Página pública",
+    "accessNote": "Acceso no es propiedad: aparecer aquí no le convierte en propietario ni socio del proveedor, ni le permite editar sus datos.",
+    "loadErrorHeading": "No se pudo <em>verificar el acceso.</em>",
+    "emptyHeading": "Aún no hay <em>proveedores.</em>",
+    "emptyDescription": "Aún no tiene acceso a ningún proveedor. Es posible que se haya revocado un acceso anterior.",
+    "viewApplications": "Ver solicitudes"
   },
   "ownListingSources": {
     "moreAvailable": "Hay más proveedores disponibles. Esta lista aún no está completa.",

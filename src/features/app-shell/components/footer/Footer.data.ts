@@ -6,6 +6,7 @@ import {
 
 export type FooterRoute =
     | "/$lng/partner-program"
+    | "/$lng/partners"
     | "/$lng/partners/applications"
     | "/$lng/partner-program/custom-integration"
     | "/$lng/about-us"
@@ -85,7 +86,7 @@ export const FOOTER_GROUPS: readonly FooterGroup[] = [
             {
                 kind: "route",
                 translationKey: "footer.partnerProgramLinks.dashboard",
-                to: "/$lng/partners/applications",
+                to: "/$lng/partners",
             },
             {
                 kind: "external",

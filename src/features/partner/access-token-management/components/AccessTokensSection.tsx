@@ -1,36 +1,55 @@
-import { ACCESS_TOKEN_SCOPE_METADATA } from "@/data/internal/access-tokens/AccessTokenScope.ts";
-import { Clock3, KeyRound, Pencil, Plus, RefreshCw, SearchX, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { KeyRound, Plus, Trash2 } from "lucide-react";
+import { useState } from "react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Badge } from "@/components/ui/badge.tsx";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from "@/components/ui/alert-dialog.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Skeleton } from "@/components/ui/skeleton.tsx";
+import { toast } from "sonner";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
-import { H2 } from "@/components/typography/H2.tsx";
+import type { AccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
 import {
     useAccessTokens,
     useDeleteAccessToken,
     useDeleteAllAccessTokens,
 } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
-import { AccessTokenCreateDialog } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
 import { AccessTokenEditDialog } from "@/features/partner/access-token-management/components/AccessTokenEditDialog.tsx";
-import type { AccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
-import { formatDateTime } from "@/lib/utils.ts";
-import { toast } from "sonner";
+import { AccessTokenCreateDialog } from "@/features/partner/common/components/AccessTokenCreateDialog.tsx";
+import { PartnerPageHeader } from "@/features/partner/common/components/PartnerPageHeader.tsx";
+import {
+    PartnerListHeading,
+    PartnerStatePanel,
+} from "@/features/partner/common/components/PartnerStatePanel.tsx";
+import {
+    DANGER_OUTLINE_PILL_CLASS,
+    DANGER_PILL_CLASS,
+    DIALOG_CONTENT_CLASS,
+    DIALOG_DESCRIPTION_CLASS,
+    DIALOG_TITLE_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+} from "@/features/partner/common/lib/partnerDashboardStyles.ts";
+import { cn } from "@/lib/utils.ts";
+import {
+    sortAccessTokens,
+    type AccessTokenWithExpiry,
+    useClientNow,
+} from "../lib/accessTokenExpiry.ts";
+import { AccessTokenRow } from "./AccessTokenRow.tsx";
 
-export function AccessTokensSection() {
+export function AccessTokensSection({
+    createOpen: createOpenProp,
+    onCreateOpenChange,
+}: {
+    /** Opens the create dialog, e.g. from a link on the overview. */
+    readonly createOpen?: boolean;
+    readonly onCreateOpenChange?: (open: boolean) => void;
+} = {}) {
     const { t, i18n } = useTranslation();
-    const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [createOpenState, setCreateOpenState] = useState(false);
+    const createOpen = createOpenProp ?? createOpenState;
+    const setCreateOpen = (open: boolean) => {
+        setCreateOpenState(open);
+        onCreateOpenChange?.(open);
+    };
     const [editTarget, setEditTarget] = useState<AccessToken | null>(null);
     const [deleteTarget, setDeleteTarget] = useState<AccessToken | null>(null);
     const [deleteAllOpen, setDeleteAllOpen] = useState(false);
@@ -41,110 +60,156 @@ export function AccessTokensSection() {
         isError,
         refetch,
     } = useAccessTokens();
-    // The list includes expired tokens. Expiry depends on the clock, so it is resolved after mount
-    // and on each refetch rather than during render.
-    const [now, setNow] = useState<number | null>(null);
-    useEffect(() => {
-        if (dataUpdatedAt > 0) setNow(Date.now());
-    }, [dataUpdatedAt]);
-    const isExpired = (accessToken: AccessToken) =>
-        now !== null && accessToken.expiresAt !== null && accessToken.expiresAt.getTime() <= now;
-    const sortedAccessTokens = [...accessTokens].sort(
-        (first, second) =>
-            Number(isExpired(first)) - Number(isExpired(second)) ||
-            first.name.localeCompare(second.name, i18n.language),
-    );
+    // Expiry depends on the clock, so it is resolved after mount and on each refetch, not during render.
+    const now = useClientNow(dataUpdatedAt);
+    const sorted = sortAccessTokens(accessTokens, now, i18n.language);
+    const active = sorted.filter((entry) => entry.expiry !== "expired");
+    const expired = sorted.filter((entry) => entry.expiry === "expired");
     const deleteAccessToken = useDeleteAccessToken();
     const deleteAllAccessTokens = useDeleteAllAccessTokens();
+    const actionsDisabled = deleteAccessToken.isPending || deleteAllAccessTokens.isPending;
 
-    const renderContent = () => {
-        if (isPending) {
-            return <AccessTokensSkeleton />;
-        }
-
-        if (isError) {
-            return (
-                <div className="flex flex-col items-center gap-3 border bg-surface-container-low px-4 py-12 text-center">
-                    <p className="text-sm text-muted-foreground">
-                        {t("partnerAccessTokens.loadError")}
-                    </p>
-                    <Button size="sm" variant="outline" onClick={() => refetch()}>
-                        <RefreshCw className="h-4 w-4" aria-hidden="true" />
-                        {t("partnerAccessTokens.actions.retry")}
-                    </Button>
-                </div>
-            );
-        }
-
-        if (accessTokens.length === 0) {
-            return (
-                <div className="flex flex-col items-center gap-3 border bg-surface-container-low px-4 py-12 text-center">
-                    <SearchX className="h-12 w-12 text-muted-foreground" aria-hidden="true" />
-                    <p className="text-sm text-muted-foreground">
-                        {t("partnerAccessTokens.empty")}
-                    </p>
-                </div>
-            );
-        }
-
-        return (
-            <ul className="flex flex-col gap-4">
-                {sortedAccessTokens.map((accessToken) => (
-                    <AccessTokenListItem
+    const renderGroup = (
+        id: string,
+        title: string,
+        count: string,
+        entries: AccessTokenWithExpiry[],
+    ) => (
+        <section aria-labelledby={id} className="flex flex-col gap-4">
+            <PartnerListHeading id={id} title={title} count={count} />
+            <ul className="border-t border-line">
+                {entries.map(({ accessToken, expiry }) => (
+                    <AccessTokenRow
                         key={accessToken.id}
                         accessToken={accessToken}
-                        expired={isExpired(accessToken)}
-                        locale={i18n.language}
+                        expiry={expiry}
+                        actionsDisabled={actionsDisabled}
                         onEdit={() => setEditTarget(accessToken)}
                         onDelete={() => setDeleteTarget(accessToken)}
-                        actionsDisabled={
-                            deleteAccessToken.isPending || deleteAllAccessTokens.isPending
-                        }
                     />
                 ))}
             </ul>
+        </section>
+    );
+
+    let content: ReactNode;
+    if (isPending) {
+        content = <AccessTokensSkeleton />;
+    } else if (isError) {
+        content = (
+            <PartnerStatePanel
+                tone="error"
+                titleKey="partnerAccessTokens.loadErrorHeading"
+                description={t("partnerAccessTokens.loadErrorDescription")}
+            >
+                <button type="button" className={SECONDARY_PILL_CLASS} onClick={() => refetch()}>
+                    {t("partnerDashboard.tryAgain")}
+                </button>
+            </PartnerStatePanel>
         );
-    };
+    } else if (accessTokens.length === 0) {
+        content = (
+            <PartnerStatePanel
+                tone="empty"
+                icon={KeyRound}
+                titleKey="partnerAccessTokens.emptyHeading"
+                description={t("partnerAccessTokens.emptyDescription")}
+            >
+                <button
+                    type="button"
+                    className={PRIMARY_PILL_CLASS}
+                    onClick={() => setCreateOpen(true)}
+                >
+                    <Plus aria-hidden="true" className="size-4" strokeWidth={1.8} />
+                    {t("partnerAccessTokens.create.open")}
+                </button>
+            </PartnerStatePanel>
+        );
+    } else {
+        content = (
+            <>
+                {active.length > 0 &&
+                    renderGroup(
+                        "partner-access-tokens-active",
+                        t("partnerAccessTokens.groups.active"),
+                        t("partnerAccessTokens.groups.activeCount", { count: active.length }),
+                        active,
+                    )}
+                {expired.length > 0 &&
+                    renderGroup(
+                        "partner-access-tokens-expired",
+                        t("partnerAccessTokens.groups.expired"),
+                        t("partnerAccessTokens.groups.expiredCount", { count: expired.length }),
+                        expired,
+                    )}
+                <section
+                    aria-labelledby="partner-access-tokens-delete-all"
+                    className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 rounded-panel px-6 py-5 shadow-[inset_0_0_0_1px_var(--line)]"
+                >
+                    <div className="flex max-w-[520px] flex-col gap-1">
+                        <h2
+                            id="partner-access-tokens-delete-all"
+                            className="text-[15px] font-medium"
+                        >
+                            {t("partnerAccessTokens.deleteAll.heading")}
+                        </h2>
+                        <p className="text-meta text-ink-secondary">
+                            {t("partnerAccessTokens.deleteAll.lead")}
+                        </p>
+                    </div>
+                    <button
+                        type="button"
+                        className={cn(DANGER_OUTLINE_PILL_CLASS, "w-full sm:w-auto")}
+                        disabled={actionsDisabled}
+                        onClick={() => setDeleteAllOpen(true)}
+                    >
+                        <Trash2 aria-hidden="true" className="size-4" strokeWidth={1.7} />
+                        {t("partnerAccessTokens.deleteAll.openEllipsis")}
+                    </button>
+                </section>
+            </>
+        );
+    }
 
     return (
-        <AccessTokensLayout
-            hasAccessTokens={accessTokens.length > 0}
-            deletionPending={deleteAllAccessTokens.isPending}
-            onCreateClick={() => setCreateDialogOpen(true)}
-            onDeleteAllClick={() => setDeleteAllOpen(true)}
-        >
-            {renderContent()}
-            {createDialogOpen && (
-                <AccessTokenCreateDialog
-                    open={createDialogOpen}
-                    onOpenChange={setCreateDialogOpen}
-                />
+        <>
+            <PartnerPageHeader
+                titleKey="partnerAccessTokens.heading"
+                lead={t("partnerAccessTokens.lead")}
+                action={
+                    <button
+                        type="button"
+                        className={PRIMARY_PILL_CLASS}
+                        onClick={() => setCreateOpen(true)}
+                    >
+                        <Plus aria-hidden="true" className="size-4" strokeWidth={1.8} />
+                        {t("partnerAccessTokens.create.open")}
+                    </button>
+                }
+            />
+            {content}
+            {createOpen && (
+                <AccessTokenCreateDialog open={createOpen} onOpenChange={setCreateOpen} />
             )}
             <AccessTokenEditDialog
                 accessToken={editTarget}
                 open={editTarget !== null}
                 onOpenChange={(open) => {
-                    if (!open) {
-                        setEditTarget(null);
-                    }
+                    if (!open) setEditTarget(null);
                 }}
             />
             <DeleteConfirmationDialog
                 open={deleteTarget !== null}
                 isPending={deleteAccessToken.isPending}
-                title={t("partnerAccessTokens.delete.title", { name: deleteTarget?.name })}
-                description={t("partnerAccessTokens.delete.description")}
-                confirmLabel={t("partnerAccessTokens.delete.confirm")}
-                cancelLabel={t("partnerAccessTokens.delete.cancel")}
+                title={t("partnerAccessTokens.delete.heading", { name: deleteTarget?.name })}
+                description={t("partnerAccessTokens.delete.lead")}
+                confirmLabel={t("partnerAccessTokens.delete.confirmShort")}
+                pendingLabel={t("partnerAccessTokens.delete.pending")}
                 onOpenChange={(open) => {
-                    if (!open) {
-                        setDeleteTarget(null);
-                    }
+                    if (!open) setDeleteTarget(null);
                 }}
                 onConfirm={() => {
-                    if (!deleteTarget) {
-                        return;
-                    }
+                    if (!deleteTarget) return;
                     deleteAccessToken.mutate(deleteTarget.id, {
                         onSuccess: () => {
                             toast.success(t("partnerAccessTokens.delete.success"));
@@ -156,12 +221,16 @@ export function AccessTokensSection() {
             <DeleteConfirmationDialog
                 open={deleteAllOpen}
                 isPending={deleteAllAccessTokens.isPending}
-                title={t("partnerAccessTokens.deleteAll.title")}
-                description={t("partnerAccessTokens.deleteAll.description", {
+                title={t("partnerAccessTokens.deleteAll.confirmTitle", {
                     count: accessTokens.length,
                 })}
-                confirmLabel={t("partnerAccessTokens.deleteAll.confirm")}
-                cancelLabel={t("partnerAccessTokens.deleteAll.cancel")}
+                description={t("partnerAccessTokens.deleteAll.confirmDescription", {
+                    count: accessTokens.length,
+                })}
+                confirmLabel={t("partnerAccessTokens.deleteAll.confirmAll", {
+                    count: accessTokens.length,
+                })}
+                pendingLabel={t("partnerAccessTokens.delete.pending")}
                 onOpenChange={setDeleteAllOpen}
                 onConfirm={() => {
                     deleteAllAccessTokens.mutate(
@@ -175,149 +244,7 @@ export function AccessTokensSection() {
                     );
                 }}
             />
-        </AccessTokensLayout>
-    );
-}
-
-function AccessTokensLayout({
-    children,
-    hasAccessTokens,
-    deletionPending,
-    onCreateClick,
-    onDeleteAllClick,
-}: {
-    readonly children: React.ReactNode;
-    readonly hasAccessTokens: boolean;
-    readonly deletionPending: boolean;
-    readonly onCreateClick: () => void;
-    readonly onDeleteAllClick: () => void;
-}) {
-    const { t } = useTranslation();
-
-    return (
-        <section className="flex flex-col gap-4" aria-labelledby="partner-access-tokens-title">
-            <header className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                <div className="flex flex-col gap-1">
-                    <H2 id="partner-access-tokens-title">{t("partnerAccessTokens.title")}</H2>
-                    <p className="text-sm text-muted-foreground md:text-base">
-                        {t("partnerAccessTokens.description")}
-                    </p>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                    <Button
-                        type="button"
-                        variant="destructive"
-                        disabled={!hasAccessTokens || deletionPending}
-                        onClick={onDeleteAllClick}
-                    >
-                        <Trash2 data-icon="inline-start" aria-hidden="true" />
-                        {t("partnerAccessTokens.deleteAll.open")}
-                    </Button>
-                    <Button type="button" variant="outline" onClick={onCreateClick}>
-                        <Plus data-icon="inline-start" aria-hidden="true" />
-                        {t("partnerAccessTokens.create.open")}
-                    </Button>
-                </div>
-            </header>
-            {children}
-        </section>
-    );
-}
-
-function AccessTokenListItem({
-    accessToken,
-    expired,
-    locale,
-    onEdit,
-    onDelete,
-    actionsDisabled,
-}: {
-    readonly accessToken: AccessToken;
-    readonly expired: boolean;
-    readonly locale: string;
-    readonly onEdit: () => void;
-    readonly onDelete: () => void;
-    readonly actionsDisabled: boolean;
-}) {
-    const { t } = useTranslation();
-
-    return (
-        <li className="relative flex flex-col gap-2 border bg-surface-container-low p-4 transition-colors hover:bg-surface-container">
-            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between md:pr-64">
-                <div className="flex min-w-0 flex-wrap items-center gap-2">
-                    <KeyRound
-                        className="h-4 w-4 shrink-0 text-muted-foreground"
-                        aria-hidden="true"
-                    />
-                    <span className="truncate font-medium" title={accessToken.name}>
-                        {accessToken.name}
-                    </span>
-                    {expired && accessToken.expiresAt ? (
-                        <Badge variant="outline" className="text-muted-foreground">
-                            <Clock3 className="h-3 w-3" aria-hidden="true" />
-                            {t("partnerAccessTokens.expiredAt", {
-                                date: formatDateTime(accessToken.expiresAt, locale),
-                            })}
-                        </Badge>
-                    ) : (
-                        <Badge
-                            variant="outline"
-                            className="border-primary/30 bg-primary/10 text-primary"
-                        >
-                            <Clock3 className="h-3 w-3" aria-hidden="true" />
-                            {accessToken.expiresAt
-                                ? t("partnerAccessTokens.expiresAt", {
-                                      date: formatDateTime(accessToken.expiresAt, locale),
-                                  })
-                                : t("partnerAccessTokens.noExpiration")}
-                        </Badge>
-                    )}
-                </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-                {accessToken.scopes.length > 0 ? (
-                    accessToken.scopes.map((scope) => (
-                        <Badge key={scope} variant="secondary">
-                            {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
-                        </Badge>
-                    ))
-                ) : (
-                    <Badge variant="outline">{t("partnerAccessTokens.noScopes")}</Badge>
-                )}
-            </div>
-
-            <div className="mt-2 flex w-full gap-2 md:absolute md:top-4 md:right-4 md:mt-0 md:w-auto">
-                <Button
-                    type="button"
-                    size="sm"
-                    variant="outline"
-                    className="flex-1 md:flex-none"
-                    disabled={actionsDisabled}
-                    onClick={onEdit}
-                    aria-label={t("partnerAccessTokens.edit.openAriaLabel", {
-                        name: accessToken.name,
-                    })}
-                >
-                    <Pencil aria-hidden="true" />
-                    {t("partnerAccessTokens.edit.open")}
-                </Button>
-                <Button
-                    type="button"
-                    size="sm"
-                    variant="destructive"
-                    className="flex-1 md:flex-none"
-                    disabled={actionsDisabled}
-                    onClick={onDelete}
-                    aria-label={t("partnerAccessTokens.delete.openAriaLabel", {
-                        name: accessToken.name,
-                    })}
-                >
-                    <Trash2 aria-hidden="true" />
-                    {t("partnerAccessTokens.delete.open")}
-                </Button>
-            </div>
-        </li>
+        </>
     );
 }
 
@@ -327,7 +254,7 @@ function DeleteConfirmationDialog({
     title,
     description,
     confirmLabel,
-    cancelLabel,
+    pendingLabel,
     onOpenChange,
     onConfirm,
 }: {
@@ -336,58 +263,69 @@ function DeleteConfirmationDialog({
     readonly title: string;
     readonly description: string;
     readonly confirmLabel: string;
-    readonly cancelLabel: string;
+    readonly pendingLabel: string;
     readonly onOpenChange: (open: boolean) => void;
     readonly onConfirm: () => void;
 }) {
+    const { t } = useTranslation();
     return (
-        <AlertDialog open={open} onOpenChange={onOpenChange}>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>{title}</AlertDialogTitle>
-                    <AlertDialogDescription>{description}</AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isPending}>{cancelLabel}</AlertDialogCancel>
-                    <AlertDialogAction
-                        variant="destructive"
+        <Dialog open={open} onOpenChange={(next) => !isPending && onOpenChange(next)}>
+            <DialogContent
+                role="alertdialog"
+                showCloseButton={false}
+                aria-busy={isPending}
+                className={cn(DIALOG_CONTENT_CLASS, "gap-5 p-7 sm:max-w-[520px]")}
+            >
+                <div className="flex flex-col gap-2">
+                    <DialogTitle className={DIALOG_TITLE_CLASS}>{title}</DialogTitle>
+                    <DialogDescription className={DIALOG_DESCRIPTION_CLASS}>
+                        {description}
+                    </DialogDescription>
+                </div>
+                <div className="flex flex-wrap justify-end gap-2.5">
+                    <button
+                        type="button"
+                        className={SECONDARY_PILL_CLASS}
                         disabled={isPending}
-                        onClick={(event) => {
-                            event.preventDefault();
-                            onConfirm();
-                        }}
+                        onClick={() => onOpenChange(false)}
                     >
-                        {isPending && <Spinner data-icon="inline-start" />}
-                        {confirmLabel}
-                    </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                        {t("partnerAccessTokens.delete.cancel")}
+                    </button>
+                    <button
+                        type="button"
+                        className={DANGER_PILL_CLASS}
+                        disabled={isPending}
+                        onClick={onConfirm}
+                    >
+                        {isPending && <Spinner aria-hidden="true" />}
+                        {isPending ? pendingLabel : confirmLabel}
+                    </button>
+                </div>
+            </DialogContent>
+        </Dialog>
     );
 }
 
 function AccessTokensSkeleton() {
     const { t } = useTranslation();
-
     return (
-        <div role="status" aria-live="polite">
+        <div role="status" aria-busy="true">
             <span className="sr-only">{t("partnerAccessTokens.loading")}</span>
-            <ul className="flex flex-col gap-3">
+            <ul className="border-t border-line">
                 {["access-token-skeleton-1", "access-token-skeleton-2"].map((id) => (
                     <li
                         key={id}
-                        className="flex flex-col gap-3 border bg-surface-container-low p-4"
+                        className="grid grid-cols-[40px_minmax(0,1fr)] items-start gap-5 border-b border-line-subtle py-[18px] sm:grid-cols-[40px_minmax(0,1fr)_210px] sm:px-2"
                     >
-                        <div className="flex items-center justify-between gap-3">
-                            <Skeleton className="h-5 w-full max-w-64" />
-                            <Skeleton className="h-6 w-28 rounded-none" />
-                        </div>
-                        <Skeleton className="h-7 w-full max-w-80 rounded-none" />
-                        <div className="flex flex-wrap gap-3">
-                            <Skeleton className="h-3 w-28" />
-                            <Skeleton className="h-3 w-32" />
-                            <Skeleton className="h-3 w-20" />
-                        </div>
+                        <span className="size-10 animate-pulse rounded-md bg-surface-sunken motion-reduce:animate-none" />
+                        <span className="flex flex-col gap-2.5">
+                            <span className="h-4 w-[40%] animate-pulse rounded-xs bg-surface-sunken motion-reduce:animate-none" />
+                            <span className="flex gap-1.5">
+                                <span className="h-6 w-28 animate-pulse rounded-sm bg-surface-sunken motion-reduce:animate-none" />
+                                <span className="h-6 w-32 animate-pulse rounded-sm bg-surface-sunken motion-reduce:animate-none" />
+                            </span>
+                        </span>
+                        <span className="hidden h-2.5 animate-pulse rounded-xs bg-surface-sunken motion-reduce:animate-none sm:block" />
                     </li>
                 ))}
             </ul>
