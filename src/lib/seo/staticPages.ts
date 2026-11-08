@@ -10,6 +10,7 @@ import { SUPPORTED_LANGUAGES } from "../../i18n/languages.ts";
 export const STATIC_PAGES = [
     { path: "/", indexable: true },
     { path: "/about-us", indexable: true },
+    { path: "/compare/artsy", indexable: true },
     { path: "/compare/barnebys", indexable: true },
     { path: "/imprint", indexable: false },
     { path: "/partner-program", indexable: true },

@@ -35,6 +35,7 @@ export type PageMetaKey =
     | "partnerApplications"
     | "partnerAccessTokens"
     | "partnerListingSources"
+    | "compareArtsy"
     | "compareBarnebys"
     | "admin";
 
@@ -109,6 +110,10 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     },
     partnerListingSources: {
         title: "meta.partnerListingSources.title",
+    },
+    compareArtsy: {
+        title: "meta.compareArtsy.title",
+        description: "meta.compareArtsy.description",
     },
     compareBarnebys: {
         title: "meta.compareBarnebys.title",

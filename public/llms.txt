@@ -48,6 +48,7 @@ Key facts for agents:
 - [Search listings](https://aura-historia.com/en/search): Full-text search across all indexed listings.
 - [Search providers](https://aura-historia.com/en/search/shops): Find dealers, auction houses and shops by name.
 - [About us](https://aura-historia.com/en/about-us): What Aura Historia does, how it differs from auction aggregators, price databases and marketplaces, who uses it, the team behind it, and frequently asked questions.
+- [Aura Historia compared with Artsy](https://aura-historia.com/en/compare/artsy): The Artsy marketplace compared with a search across dealers, auction houses and marketplaces: object types, languages and monitoring, with the 2026 Artsy and Artnet announcement.
 - [Aura Historia compared with Barnebys](https://aura-historia.com/en/compare/barnebys): Source coverage, multilingual search and alerts compared, with the current status of Barnebys.
 
 ## Optional

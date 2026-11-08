@@ -3,12 +3,14 @@ import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { t } from "i18next";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { COMPARISON_REGISTRY } from "@/features/comparison/config/comparisonRegistry.ts";
 import {
     SHOPIFY_APP_STORE_URL,
     WORDPRESS_PLUGIN_DIRECTORY_URL,
 } from "@/features/partner/partner-program/config/partnerProgramLinks.ts";
 import { renderWithRouter } from "@/test/utils.tsx";
 import { Footer } from "../Footer.tsx";
+import { FOOTER_GROUPS, footerLinkKey } from "../footer/Footer.data.ts";
 
 const { changeLanguageMock, persistLanguagePreferenceMock } = vi.hoisted(() => ({
     changeLanguageMock: vi.fn().mockResolvedValue(undefined),
@@ -166,10 +168,38 @@ describe("Footer", () => {
             "href",
             "/de/consent-settings",
         );
-        expect(company.getByRole("link", { name: "Vergleich: Barnebys" })).toHaveAttribute(
-            "href",
-            "/de/compare/barnebys",
+        expect(company.queryByRole("link", { name: /Barnebys|Artsy/ })).toBeNull();
+    });
+
+    it("lists every published comparison in its own group between Partners and Company", async () => {
+        await renderFooter();
+        const comparisons = group("Vergleiche");
+
+        const links = comparisons.getAllByRole("link");
+        expect(links.map((link) => link.getAttribute("href"))).toEqual(
+            COMPARISON_REGISTRY.map((comparison) => `/de/compare/${comparison.slug}`),
         );
+        expect(
+            comparisons.getByRole("link", { name: "Aura Historia vs. Barnebys" }),
+        ).toHaveAttribute("href", "/de/compare/barnebys");
+        expect(comparisons.getByRole("link", { name: "Aura Historia vs. Artsy" })).toHaveAttribute(
+            "href",
+            "/de/compare/artsy",
+        );
+
+        const titles = screen
+            .getAllByRole("navigation")
+            .map((nav) => nav.getAttribute("aria-label"))
+            .filter((label) =>
+                ["Entdecken", "Partner", "Vergleiche", "Unternehmen"].includes(label ?? ""),
+            );
+        expect(titles).toEqual(["Entdecken", "Partner", "Vergleiche", "Unternehmen"]);
+    });
+
+    it("keeps each link unique when several links share a translation", () => {
+        const keys = FOOTER_GROUPS.flatMap((footerGroup) => footerGroup.links.map(footerLinkKey));
+
+        expect(new Set(keys).size).toBe(keys.length);
     });
 
     it("opens one link group at a time on phones", async () => {
@@ -178,6 +208,7 @@ describe("Footer", () => {
 
         const discoverToggle = group("Entdecken").getByRole("button", { name: /Entdecken/ });
         const partnersToggle = group("Partner").getByRole("button", { name: /Partner/ });
+        const comparisonsToggle = group("Vergleiche").getByRole("button", { name: /Vergleiche/ });
         expect(discoverToggle).toHaveAttribute("aria-expanded", "false");
         expect(
             document.getElementById(discoverToggle.getAttribute("aria-controls") ?? ""),
@@ -192,6 +223,13 @@ describe("Footer", () => {
         await user.click(partnersToggle);
         expect(partnersToggle).toHaveAttribute("aria-expanded", "true");
         expect(discoverToggle).toHaveAttribute("aria-expanded", "false");
+
+        await user.click(comparisonsToggle);
+        expect(comparisonsToggle).toHaveAttribute("aria-expanded", "true");
+        expect(partnersToggle).toHaveAttribute("aria-expanded", "false");
+        expect(
+            document.getElementById(comparisonsToggle.getAttribute("aria-controls") ?? ""),
+        ).toHaveClass("grid");
     });
 
     it("links the social profiles in a new tab", async () => {
