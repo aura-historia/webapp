@@ -1766,7 +1766,8 @@
       "resendSending": "Envoi en cours…",
       "resendSent": "Nouveau code envoyé",
       "eyebrow": "Vérifier l'e-mail",
-      "hint": "Il peut mettre une minute à arriver. Sinon, vérifiez votre dossier de courrier indésirable."
+      "hint": "Il peut mettre une minute à arriver. Sinon, vérifiez votre dossier de courrier indésirable.",
+      "confirmedSignInRequired": "Votre adresse e-mail est confirmée. Connectez-vous pour continuer."
     },
     "userDetails": {
       "title": "Complétez votre <em>profil.</em>",

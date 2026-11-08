@@ -38,6 +38,7 @@ describe("ConfirmSignUpForm", () => {
                     email="user@example.com"
                     password="Password1!"
                     onSuccess={onSuccess}
+                    onSignInRequired={vi.fn()}
                 />,
             );
         });
@@ -64,7 +65,12 @@ describe("ConfirmSignUpForm", () => {
 
         await act(async () => {
             renderWithRouter(
-                <ConfirmSignUpForm email="user@example.com" password="" onSuccess={vi.fn()} />,
+                <ConfirmSignUpForm
+                    email="user@example.com"
+                    password=""
+                    onSuccess={vi.fn()}
+                    onSignInRequired={vi.fn()}
+                />,
             );
         });
 
@@ -74,5 +80,86 @@ describe("ConfirmSignUpForm", () => {
             expect(mockResendSignUpCode).toHaveBeenCalledWith({ username: "user@example.com" });
         });
         expect(mockSubscribe).not.toHaveBeenCalled();
+    });
+    it("hands over to sign-in when a remount dropped the password", async () => {
+        const user = userEvent.setup();
+        const onSuccess = vi.fn();
+        const onSignInRequired = vi.fn();
+
+        await act(async () => {
+            renderWithRouter(
+                <ConfirmSignUpForm
+                    email="user@example.com"
+                    password=""
+                    onSuccess={onSuccess}
+                    onSignInRequired={onSignInRequired}
+                />,
+            );
+        });
+
+        await user.type(screen.getByRole("textbox"), "123456");
+
+        await waitFor(() => {
+            expect(onSignInRequired).toHaveBeenCalled();
+        });
+
+        expect(mockConfirmSignUp).toHaveBeenCalledWith({
+            username: "user@example.com",
+            confirmationCode: "123456",
+        });
+        expect(mockSignIn).not.toHaveBeenCalled();
+        expect(onSuccess).not.toHaveBeenCalled();
+    });
+
+    it("hands over to sign-in when the sign-in after confirmation fails", async () => {
+        const user = userEvent.setup();
+        const onSuccess = vi.fn();
+        const onSignInRequired = vi.fn();
+        mockSignIn.mockRejectedValue(new Error("NotAuthorizedException"));
+
+        await act(async () => {
+            renderWithRouter(
+                <ConfirmSignUpForm
+                    email="user@example.com"
+                    password="Password1!"
+                    onSuccess={onSuccess}
+                    onSignInRequired={onSignInRequired}
+                />,
+            );
+        });
+
+        await user.type(screen.getByRole("textbox"), "123456");
+
+        await waitFor(() => {
+            expect(onSignInRequired).toHaveBeenCalled();
+        });
+
+        expect(onSuccess).not.toHaveBeenCalled();
+    });
+
+    it("keeps a rejected code on the confirmation step", async () => {
+        const user = userEvent.setup();
+        const onSignInRequired = vi.fn();
+        mockConfirmSignUp.mockRejectedValue(new Error("CodeMismatchException"));
+
+        await act(async () => {
+            renderWithRouter(
+                <ConfirmSignUpForm
+                    email="user@example.com"
+                    password="Password1!"
+                    onSuccess={vi.fn()}
+                    onSignInRequired={onSignInRequired}
+                />,
+            );
+        });
+
+        await user.type(screen.getByRole("textbox"), "123456");
+
+        await waitFor(() => {
+            expect(mockConfirmSignUp).toHaveBeenCalled();
+        });
+
+        expect(mockSignIn).not.toHaveBeenCalled();
+        expect(onSignInRequired).not.toHaveBeenCalled();
     });
 });

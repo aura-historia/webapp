@@ -1766,7 +1766,8 @@
       "resendSending": "Invio in corso…",
       "resendSent": "Nuovo codice inviato",
       "eyebrow": "Verifica e-mail",
-      "hint": "Può impiegare un minuto ad arrivare. Altrimenti controlla la cartella spam."
+      "hint": "Può impiegare un minuto ad arrivare. Altrimenti controlla la cartella spam.",
+      "confirmedSignInRequired": "Il tuo indirizzo e-mail è confermato. Accedi per continuare."
     },
     "userDetails": {
       "title": "Completa il tuo <em>profilo.</em>",

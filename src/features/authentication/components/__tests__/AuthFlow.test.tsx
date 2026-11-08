@@ -24,9 +24,17 @@ vi.mock("@/features/authentication/components/SignUpForm.tsx", () => ({
 }));
 
 vi.mock("@/features/authentication/components/ConfirmSignUpForm.tsx", () => ({
-    ConfirmSignUpForm: ({ email, password }: { email: string; password: string }) => {
+    ConfirmSignUpForm: ({
+        email,
+        password,
+        onSignInRequired,
+    }: {
+        email: string;
+        password: string;
+        onSignInRequired: () => void;
+    }) => {
         confirmationSpy(email, password);
-        return <div>confirm</div>;
+        return <Button onClick={onSignInRequired}>confirm</Button>;
     },
 }));
 
@@ -125,5 +133,24 @@ describe("AuthFlow", () => {
 
         expect(window.sessionStorage.getItem("auth.signUp.pendingEmail")).toBe("user@example.com");
         expect(confirmationSpy).toHaveBeenCalledWith("user@example.com", "Password1!");
+    });
+    it("returns a confirmed account to sign-in when no session could be established", async () => {
+        const user = userEvent.setup();
+        const onStepChange = vi.fn();
+
+        await act(async () =>
+            renderWithRouter(
+                <AuthFlow
+                    step="confirm"
+                    locale="de"
+                    onStepChange={onStepChange}
+                    onComplete={vi.fn()}
+                />,
+            ),
+        );
+
+        await user.click(screen.getByRole("button", { name: "confirm" }));
+
+        expect(onStepChange).toHaveBeenCalledWith("sign-in");
     });
 });
