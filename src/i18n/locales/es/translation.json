@@ -249,7 +249,7 @@
         "alerts": {
           "title": "Alertas a medida que cambian los anuncios",
           "figure": "Continuo",
-          "figureLabel": "Seguimiento, no un resumen diario",
+          "figureLabel": "Nuevos anuncios, precios, disponibilidad",
           "description": "Revisamos continuamente nuevos anuncios, cambios de precio y disponibilidad, y te avisamos cuando algo coincide."
         },
         "languages": {
@@ -3186,8 +3186,8 @@
       "status": "Barnebys Group AB fue declarada en quiebra por el Tribunal de Distrito de Estocolmo el 11 de marzo de 2026, a petición propia. Según la política de privacidad de Barnebys (actualizada el 3 de agosto de 2026), Boje Group AB ha adquirido el negocio y sigue operando el servicio Barnebys."
     },
     "advantages": {
-      "title": "Más fuentes. Señales más rápidas. <em>Menos barreras de idioma.</em>",
-      "description": "La diferencia no está en una única función. Nace de combinar un índice más amplio, datos mejor preparados y alertas más rápidas.",
+      "title": "Más fuentes. Señales casi en tiempo real. <em>Menos barreras de idioma.</em>",
+      "description": "La diferencia no está en una única función. Nace de combinar un índice más amplio, datos mejor preparados y alertas casi en tiempo real.",
       "cards": {
         "marketBeyondAuctions": {
           "title": "El mercado más allá de los catálogos de subastas",

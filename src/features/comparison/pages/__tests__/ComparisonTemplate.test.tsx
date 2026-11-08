@@ -46,7 +46,7 @@ describe("ComparisonPage with a second definition", () => {
 
         expect(container.querySelector("section#sources")).toBeNull();
         expect(container.querySelector("section#alerts")).toBeNull();
-        expect(container.querySelector("section#respect p")).not.toHaveTextContent(
+        expect(container.querySelector("section#respect")).not.toHaveTextContent(
             i18n.t("comparison.statusLabel"),
         );
 

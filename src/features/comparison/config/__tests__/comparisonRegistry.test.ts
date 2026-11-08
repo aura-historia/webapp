@@ -2,7 +2,12 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { getComparisonFaq } from "@/features/comparison/config/comparisonDefinition.ts";
+import {
+    type ComparisonDefinition,
+    getComparisonChapters,
+    getComparisonFaq,
+    getComparisonNav,
+} from "@/features/comparison/config/comparisonDefinition.ts";
 import { COMPARISON_REGISTRY } from "@/features/comparison/config/comparisonRegistry.ts";
 import translationDE from "@/i18n/locales/de/translation.json";
 import translationEN from "@/i18n/locales/en/translation.json";
@@ -33,6 +38,73 @@ function lookup(resource: unknown, key: string): unknown {
         );
 }
 
+/** Every translation key a comparison page reads for its definition, shared keys included. */
+function comparisonCopyKeys(definition: ComparisonDefinition): string[] {
+    const ns = definition.namespace;
+    const chapters = getComparisonChapters(definition);
+    return [
+        `meta.${definition.metaKey}.title`,
+        `meta.${definition.metaKey}.description`,
+        definition.positioningKey,
+        ...[
+            "eyebrow",
+            "title",
+            "subtitle",
+            "primaryCta",
+            "secondaryCta",
+            "quickAnswerEyebrow",
+            "quickAnswerTitle",
+            "quickAnswerDescription",
+        ].map((key) => `${ns}.hero.${key}`),
+        ...definition.quickVerdicts.flatMap(({ key }) => [
+            `${ns}.quickVerdicts.${key}.label`,
+            `${ns}.quickVerdicts.${key}.value`,
+        ]),
+        `${ns}.summary.title`,
+        `${ns}.summary.paragraph1`,
+        `${ns}.summary.paragraph2`,
+        `${ns}.respect.title`,
+        `${ns}.respect.paragraph1`,
+        `${ns}.respect.paragraph2`,
+        ...(definition.statusNote ? [`${ns}.respect.status`] : []),
+        `${ns}.advantages.title`,
+        `${ns}.advantages.description`,
+        ...definition.advantages.flatMap(({ key }) => [
+            `${ns}.advantages.cards.${key}.title`,
+            `${ns}.advantages.cards.${key}.description`,
+        ]),
+        ...["title", "description", "caption"].map((key) => `${ns}.scorecard.${key}`),
+        ...["criterion", "competitor", "auraHistoria"].map(
+            (key) => `${ns}.scorecard.headers.${key}`,
+        ),
+        ...definition.scorecardRows.flatMap(({ key }) =>
+            ["criterion", "competitor", "auraHistoria", "verdict"].map(
+                (field) => `${ns}.scorecard.rows.${key}.${field}`,
+            ),
+        ),
+        ...(definition.sources
+            ? [
+                  `${ns}.downstream.title`,
+                  `${ns}.downstream.sourcesLabel`,
+                  ...definition.sources.sourceKeys.map((key) => `${ns}.downstream.sources.${key}`),
+                  ...definition.sources.cards.flatMap(({ key }) => [
+                      `${ns}.downstream.cards.${key}.title`,
+                      `${ns}.downstream.cards.${key}.description`,
+                  ]),
+              ]
+            : []),
+        ...(definition.alerts
+            ? [`${ns}.alerts.title`, `${ns}.alerts.paragraph1`, `${ns}.alerts.paragraph2`]
+            : []),
+        `${ns}.faq.title`,
+        ...getComparisonFaq(definition).flatMap((item) => [item.questionKey, item.answerKey]),
+        ...["title", "description", "button"].map((key) => `${ns}.finalCta.${key}`),
+        ...getComparisonNav(definition).map((item) => item.labelKey),
+        ...chapters.filter((id) => id !== "respect").map((id) => `${ns}.nav.items.${id}`),
+        ...definition.structuredDataTopics.map((topic) => `${ns}.structuredData.about.${topic}`),
+    ];
+}
+
 describe("COMPARISON_REGISTRY", () => {
     it("has unique slugs whose routes match", () => {
         const slugs = COMPARISON_REGISTRY.map((entry) => entry.slug);
@@ -60,25 +132,14 @@ describe("COMPARISON_REGISTRY", () => {
         }
     });
 
-    it.each(Object.entries(LOCALES))(
-        "has the meta, positioning and FAQ copy in %s",
-        (_, locale) => {
-            for (const entry of COMPARISON_REGISTRY) {
-                expect(lookup(locale, `meta.${entry.metaKey}.title`)).toEqual(expect.any(String));
-                expect(lookup(locale, `meta.${entry.metaKey}.description`)).toEqual(
-                    expect.any(String),
-                );
-                expect(lookup(locale, entry.positioningKey)).toEqual(expect.any(String));
-                expect(lookup(locale, `${entry.namespace}.scorecard.headers.competitor`)).toEqual(
-                    expect.any(String),
-                );
-                for (const item of getComparisonFaq(entry)) {
-                    expect(lookup(locale, item.questionKey)).toEqual(expect.any(String));
-                    expect(lookup(locale, item.answerKey)).toEqual(expect.any(String));
-                }
-            }
-        },
-    );
+    it.each(Object.entries(LOCALES))("has every key the definition reads in %s", (_, locale) => {
+        for (const entry of COMPARISON_REGISTRY) {
+            const missing = comparisonCopyKeys(entry).filter(
+                (key) => typeof lookup(locale, key) !== "string",
+            );
+            expect(missing).toEqual([]);
+        }
+    });
 });
 
 describe("the shared AI-assistants copy", () => {

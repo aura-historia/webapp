@@ -249,7 +249,7 @@
         "alerts": {
           "title": "Benachrichtigungen, sobald sich Angebote ändern",
           "figure": "Laufend",
-          "figureLabel": "Beobachtung statt Tageszusammenfassung",
+          "figureLabel": "Neue Angebote, Preise, Verfügbarkeit",
           "description": "Wir prüfen neue Angebote, Preisänderungen und Verfügbarkeit laufend und benachrichtigen Sie bei Treffern."
         },
         "languages": {
@@ -3330,7 +3330,7 @@
         "value": "Aura Historia"
       },
       "searchAlerts": {
-        "label": "E-Mail-Benachrichtigungen für Suchen",
+        "label": "E-Mail-Benachrichtigungen für gespeicherte Suchen",
         "value": "Beide"
       }
     },
@@ -3346,8 +3346,8 @@
       "status": "Über die Barnebys Group AB wurde am 11. März 2026 auf eigenen Antrag vom Bezirksgericht Stockholm der Konkurs eröffnet. Laut der Datenschutzerklärung von Barnebys (Stand: 3. August 2026) hat die Boje Group AB das Geschäft übernommen und betreibt den Dienst Barnebys weiter."
     },
     "advantages": {
-      "title": "Mehr Quellen. Schnellere Hinweise. <em>Weniger Sprachgrenzen.</em>",
-      "description": "Der Unterschied liegt nicht in einem einzelnen Feature. Er entsteht aus der Kombination eines breiteren Index, sauberer aufbereiteter Daten und schnellerer Benachrichtigungen.",
+      "title": "Mehr Quellen. Hinweise nahezu in Echtzeit. <em>Weniger Sprachgrenzen.</em>",
+      "description": "Der Unterschied liegt nicht in einem einzelnen Feature. Er entsteht aus der Kombination eines breiteren Index, sauberer aufbereiteter Daten und Benachrichtigungen nahezu in Echtzeit.",
       "cards": {
         "marketBeyondAuctions": {
           "title": "Der Markt jenseits der Auktionskataloge",
@@ -3410,7 +3410,7 @@
         "searchAlerts": {
           "criterion": "Suchbenachrichtigungen",
           "competitor": "E-Mail-Benachrichtigungen, sobald neue Objekte zu einer gespeicherten Suche bei Barnebys gelistet werden.",
-          "auraHistoria": "Nahezu Echtzeit-Monitoring neuer Angebote sowie Benachrichtigungen zu Preis- und Verfügbarkeitsänderungen bei beobachteten Objekten.",
+          "auraHistoria": "Monitoring nahezu in Echtzeit für neue Angebote sowie Benachrichtigungen zu Preis- und Verfügbarkeitsänderungen bei beobachteten Objekten.",
           "verdict": "Beide bieten Suchbenachrichtigungen"
         }
       }
@@ -4289,7 +4289,7 @@
     "agents": {
       "eyebrow": "Für KI-Assistenten und Agenten",
       "title": "Lesbar für <em>Menschen und ihre Assistenten</em>",
-      "body": "Wir halten Aura Historia im Takt damit, wie Menschen heute suchen. Deshalb steht der öffentliche Katalog auch KI-Assistenten und Agenten offen: über einen öffentlichen MCP-Server (Model Context Protocol, ein offener Standard, mit dem KI-Werkzeuge Daten lesen) und eine REST-API – strukturiert, vollständig und ohne Scraping. Für öffentliche Angebote ist kein Konto nötig.",
+      "body": "Wir richten Aura Historia danach aus, wie Menschen heute suchen. Deshalb steht der öffentliche Katalog auch KI-Assistenten und Agenten offen: über einen öffentlichen MCP-Server (Model Context Protocol, ein offener Standard, mit dem KI-Werkzeuge Daten lesen) und eine REST-API – strukturiert, vollständig und ohne Scraping. Für öffentliche Angebote ist kein Konto nötig.",
       "facts": {
         "mcpServer": {
           "label": "MCP-Server"

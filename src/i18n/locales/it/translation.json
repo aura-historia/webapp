@@ -249,7 +249,7 @@
         "alerts": {
           "title": "Avvisi man mano che gli annunci cambiano",
           "figure": "Continuo",
-          "figureLabel": "Monitoraggio, non un riepilogo quotidiano",
+          "figureLabel": "Nuovi annunci, prezzi, disponibilità",
           "description": "Controlliamo continuamente nuovi annunci, variazioni di prezzo e disponibilità, e ti avvisiamo quando qualcosa corrisponde."
         },
         "languages": {
@@ -3186,8 +3186,8 @@
       "status": "Barnebys Group AB è stata dichiarata fallita dal tribunale distrettuale di Stoccolma l’11 marzo 2026, su propria istanza. Secondo l’informativa sulla privacy di Barnebys (aggiornata al 3 agosto 2026), Boje Group AB ha acquisito l’attività e continua a gestire il servizio Barnebys."
     },
     "advantages": {
-      "title": "Più fonti. Segnali più rapidi. <em>Meno barriere linguistiche.</em>",
-      "description": "La differenza non sta in una singola funzione. Nasce dall’unione di un indice più ampio, dati preparati meglio e avvisi più rapidi.",
+      "title": "Più fonti. Segnali quasi in tempo reale. <em>Meno barriere linguistiche.</em>",
+      "description": "La differenza non sta in una singola funzione. Nasce dall’unione di un indice più ampio, dati preparati meglio e avvisi quasi in tempo reale.",
       "cards": {
         "marketBeyondAuctions": {
           "title": "Il mercato oltre i cataloghi d’asta",
@@ -4284,7 +4284,7 @@
     "statusLabel": "Situazione",
     "nav": {
       "label": "In questa pagina",
-      "agents": "Per gli assistenti IA"
+      "agents": "Per gli assistenti di IA"
     },
     "agents": {
       "eyebrow": "Per assistenti e agenti di IA",

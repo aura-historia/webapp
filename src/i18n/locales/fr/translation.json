@@ -249,7 +249,7 @@
         "alerts": {
           "title": "Des alertes au fil des changements",
           "figure": "En continu",
-          "figureLabel": "Un suivi, pas un résumé quotidien",
+          "figureLabel": "Nouvelles annonces, prix, disponibilité",
           "description": "Nous vérifions en continu les nouvelles annonces, les changements de prix et la disponibilité, et vous prévenons dès qu’une annonce correspond."
         },
         "languages": {
@@ -3186,8 +3186,8 @@
       "status": "Barnebys Group AB a été déclarée en faillite par le tribunal de district de Stockholm le 11 mars 2026, à sa propre demande. Selon la politique de confidentialité de Barnebys (mise à jour le 3 août 2026), Boje Group AB a repris l’activité et continue d’exploiter le service Barnebys."
     },
     "advantages": {
-      "title": "Plus de sources. Des signaux plus rapides. <em>Moins de barrières de langue.</em>",
-      "description": "L’écart ne tient pas à une seule fonctionnalité. Il vient de l’association d’un index plus large, de données mieux préparées et d’alertes plus rapides.",
+      "title": "Plus de sources. Des signaux quasi en temps réel. <em>Moins de barrières de langue.</em>",
+      "description": "L’écart ne tient pas à une seule fonctionnalité. Il vient de l’association d’un index plus large, de données mieux préparées et d’alertes quasi en temps réel.",
       "cards": {
         "marketBeyondAuctions": {
           "title": "Le marché au-delà des catalogues d’enchères",
@@ -3285,7 +3285,7 @@
       }
     },
     "alerts": {
-      "title": "Une alerte devrait <em>mériter sa place dans votre boîte</em>",
+      "title": "Une alerte devrait <em>mériter sa place dans votre boîte de réception</em>",
       "paragraph1": "Les alertes Barnebys sont utiles pour suivre des recherches liées aux enchères, surtout lorsqu’elles sont larges : Barnebys vous envoie un e-mail lorsque de nouveaux objets correspondant à une recherche enregistrée sont publiés. Une correspondance large par mots-clés peut parfois faire apparaître des lots simplement voisins.",
       "paragraph2": "Aura Historia vise un autre niveau d’exigence : signaux quasi en temps réel, terminologie traduite, données normalisées et alertes qui restent pertinentes tout en surveillant davantage de marché. Si une notification demande votre attention, ne devrait-elle pas la mériter ?"
     },
@@ -3310,7 +3310,7 @@
         },
         "status": {
           "question": "Barnebys est-il toujours en activité ?",
-          "answer": "Oui, en novembre 2026. Barnebys Group AB a été déclarée en faillite par le tribunal de district de Stockholm le 11 mars 2026, à sa propre demande. Selon la politique de confidentialité de Barnebys (mise à jour le 3 août 2026), Boje Group AB a repris l’activité et continue d’exploiter le service Barnebys."
+          "answer": "Oui, à la date de novembre 2026. Barnebys Group AB a été déclarée en faillite par le tribunal de district de Stockholm le 11 mars 2026, à sa propre demande. Selon la politique de confidentialité de Barnebys (mise à jour le 3 août 2026), Boje Group AB a repris l’activité et continue d’exploiter le service Barnebys."
         },
         "alerts": {
           "question": "Comment fonctionnent les alertes chez Aura Historia et chez Barnebys ?",
@@ -4289,7 +4289,7 @@
     "agents": {
       "eyebrow": "Pour les assistants et agents d’IA",
       "title": "Conçu pour être lu <em>par les personnes et leurs assistants</em>",
-      "body": "Nous faisons évoluer Aura Historia au rythme de la manière dont on cherche aujourd’hui. Le catalogue public est donc ouvert aux assistants et agents d’IA via un serveur MCP public (Model Context Protocol, un standard ouvert que les outils d’IA utilisent pour lire des données) et une API REST : des données structurées, complètes et sans scraping. Aucun compte n’est nécessaire pour les annonces publiques.",
+      "body": "Nous faisons évoluer Aura Historia au rythme des nouvelles façons de chercher. Le catalogue public est donc ouvert aux assistants et agents d’IA via un serveur MCP public (Model Context Protocol, un standard ouvert que les outils d’IA utilisent pour lire des données) et une API REST : des données structurées, complètes et sans scraping. Aucun compte n’est nécessaire pour les annonces publiques.",
       "facts": {
         "mcpServer": {
           "label": "Serveur MCP"

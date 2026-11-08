@@ -249,7 +249,7 @@
         "alerts": {
           "title": "Alerts as listings change",
           "figure": "Continuous",
-          "figureLabel": "Monitoring, not a daily digest",
+          "figureLabel": "New listings, prices, availability",
           "description": "We check new listings, price changes and availability continuously, and notify you when something matches."
         },
         "languages": {
@@ -3346,8 +3346,8 @@
       "status": "Barnebys Group AB was declared bankrupt by the Stockholm District Court on 11 March 2026, on its own application. According to Barnebys' privacy policy (updated 3 August 2026), Boje Group AB has acquired the business and continues to operate the Barnebys service."
     },
     "advantages": {
-      "title": "More sources, faster signals, <em>fewer language barriers</em>",
-      "description": "The core difference is not a single feature. It is the compounding advantage of a broader index paired with cleaner data and faster alerts.",
+      "title": "More sources, near real-time signals, <em>fewer language barriers</em>",
+      "description": "The core difference is not a single feature. It is the compounding advantage of a broader index paired with cleaner data and near real-time alerts.",
       "cards": {
         "marketBeyondAuctions": {
           "title": "The market beyond auction catalogues",

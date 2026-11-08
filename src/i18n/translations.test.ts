@@ -201,7 +201,7 @@ function extractDynamicTranslationPatterns(
         ...sourceContents.matchAll(/`\$\{(?:ns|definition\.namespace)\}(\.[^`]*)`/g),
     ].map((match) => {
         const keyPattern = escapeRegExp(match[1]).replace(/\\\$\\\{[^}]+\\\}/g, "[^.]+");
-        return new RegExp(`^compare[A-Z][A-Za-z]*Page${keyPattern}$`);
+        return new RegExp(`^compare[A-Z0-9][A-Za-z0-9]*Page${keyPattern}$`);
     });
     return [
         ...directTemplatePatterns,
