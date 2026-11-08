@@ -36,15 +36,15 @@ const BANNED_TERMS: Record<
             "slower",
             "cheaper",
             "quickly",
-            "instant\\w*",
-            "immediate\\w*",
+            String.raw`instant\w*`,
+            String.raw`immediate\w*`,
             "fast",
             "outdated",
             "broken",
             "struggling",
             "layoffs?",
-            "bankrupt\\w*",
-            "insolven\\w*",
+            String.raw`bankrupt\w*`,
+            String.raw`insolven\w*`,
             "commissions?",
             "fees?",
             "premium",
@@ -113,7 +113,7 @@ const BANNED_TERMS: Record<
             "licenci",
             "faillite",
             "commission",
-            "\\bfrais\\b",
+            String.raw`\bfrais\b`,
             "coût",
             "plus précis",
             "plus complet",
@@ -133,7 +133,7 @@ const BANNED_TERMS: Record<
             "licenziament",
             "fallimento",
             "commission",
-            "\\bcosti\\b",
+            String.raw`\bcosti\b`,
             "più accurat",
             "più complet",
             "tempo reale",
@@ -146,7 +146,7 @@ const BANNED_TERMS: Record<
 export const BANNED_WORDING = Object.fromEntries(
     Object.entries(BANNED_TERMS).map(([code, { wholeWords, terms }]) => {
         const alternatives = `(?:${terms.join("|")})`;
-        return [code, new RegExp(wholeWords ? `\\b${alternatives}\\b` : alternatives, "i")];
+        return [code, new RegExp(wholeWords ? String.raw`\b${alternatives}\b` : alternatives, "i")];
     }),
 ) as Record<LocaleCode, RegExp>;
 
