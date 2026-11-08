@@ -72,7 +72,7 @@
       "description": "Verbinden Sie ein eigenes Shopsystem über die Partner-API mit Aura Historia: Angebote in asynchronen oder synchronen Batches anlegen, aktualisieren und zurücknehmen."
     },
     "partnerApplications": {
-      "title": "Aktuelle Partneranträge | Aura Historia"
+      "title": "Partneranträge | Aura Historia"
     },
     "partnerAccessTokens": {
       "title": "Zugriffstoken | Aura Historia"
@@ -89,6 +89,9 @@
     },
     "product": {
       "description": "{{title}} – angeboten von {{source}}. Gefunden auf Aura Historia, der globalen Suche für Kunst, Antiquitäten und Designobjekte."
+    },
+    "partnerDashboard": {
+      "title": "Partner-Dashboard | Aura Historia"
     }
   },
   "validation": {
@@ -2229,23 +2232,94 @@
     "createCta": "Suchauftrag anlegen"
   },
   "partnerDashboard": {
-    "title": "Partner-Dashboard",
-    "sidebarLabel": "Partner-Bereiche",
     "nav": {
       "applications": "Partner-Anträge",
-      "listingSources": "Genehmigte Anbieter",
-      "accessTokens": "Zugriffstoken"
+      "accessTokens": "Zugriffstoken",
+      "overview": "Übersicht",
+      "providers": "Anbieter",
+      "guides": "Anleitungen",
+      "customIntegration": "Eigene API-Integration",
+      "partnerProgram": "Partnerprogramm"
+    },
+    "heading": "Partner-<em>Dashboard.</em>",
+    "navLabel": "Partner-Dashboard",
+    "close": "Schließen",
+    "tryAgain": "Erneut versuchen",
+    "overview": {
+      "glance": "Auf einen Blick",
+      "unavailable": "Konnte nicht geladen werden.",
+      "viewAll": "Alle ansehen",
+      "applications": {
+        "unit": "offen",
+        "note_one": "{{inReview}} in Prüfung · {{count}} insgesamt",
+        "note_other": "{{inReview}} in Prüfung · {{count}} insgesamt",
+        "noneNote": "Noch keine Anträge",
+        "cta": "Anträge ansehen"
+      },
+      "providers": {
+        "unit": "mit Zugriff",
+        "note": "Sie können dafür Angebote senden, besitzen sie aber nicht",
+        "noneNote": "Noch kein Zugriff gewährt",
+        "cta": "Anbieter ansehen"
+      },
+      "tokens": {
+        "unit": "aktiv",
+        "soonNote_one": "{{count}} läuft in den nächsten 14 Tagen ab",
+        "soonNote_other": "{{count}} laufen in den nächsten 14 Tagen ab",
+        "totalNote_one": "{{count}} insgesamt",
+        "totalNote_other": "{{count}} insgesamt",
+        "noneNote": "Erstellen Sie eines, wenn Sie Ihren Shop verbinden",
+        "cta": "Zugriffstoken ansehen"
+      }
+    },
+    "steps": {
+      "heading": "So verbinden <em>Sie sich.</em>",
+      "lead": "Drei Schritte hier, dann die Verbindung zu Ihrem Shop.",
+      "apply": {
+        "title": "Zugang für Ihren Shop beantragen",
+        "copy": "Beantragen Sie Zugriff, wenn Ihr Shop schon auf Aura Historia ist, oder schlagen Sie ihn zur Prüfung vor.",
+        "status": "Beantragt"
+      },
+      "access": {
+        "title": "Auf Freigabe warten",
+        "copy": "Wir prüfen jeden Antrag. Sobald Zugriff gewährt ist, erscheint Ihr Shop unter Anbieter.",
+        "status_one": "{{figure}} Anbieter",
+        "status_other": "{{figure}} Anbieter"
+      },
+      "token": {
+        "title": "Zugriffstoken erstellen",
+        "copy": "Nur für Ihre eigene API-Integration nötig. Geben Sie ihm nur die Berechtigungen, die es braucht; das Token wird nur einmal angezeigt.",
+        "status_one": "{{count}} aktiv",
+        "status_other": "{{count}} aktiv"
+      },
+      "connect": {
+        "title": "Shop verbinden",
+        "copy": "Installieren Sie die App für Ihr Shopsystem oder senden Sie Angebote über die API."
+      }
     }
   },
   "partnerListingSources": {
-    "title": "Freigegebene Anbieter",
-    "description": "Anbieter, auf die Sie derzeit Zugriff haben. Ein Eintrag bestätigt weder Eigentum noch Partnerstatus oder die Berechtigung, Anbieterdetails zu bearbeiten.",
-    "actions": {
-      "retry": "Erneut versuchen"
-    },
     "loading": "Freigegebene Anbieter werden geladen.",
     "loadError": "Der Zugriff auf Anbieter konnte nicht geprüft werden. Die Zugriffsrechte können sich geändert haben. Bitte versuchen Sie es erneut.",
-    "empty": "Sie haben derzeit keinen Zugriff auf Anbieter. Eine frühere Freigabe wurde möglicherweise widerrufen."
+    "heading": "Ihre <em>Anbieter.</em>",
+    "lead": "Die Anbieter, für die Ihr Konto Angebote senden kann. Verwenden Sie die ID eines Anbieters in der API oder beim Verbinden Ihres Shops.",
+    "applyForAnother": "Weiteren Anbieter beantragen",
+    "withAccess": "Mit Zugriff",
+    "count_one": "{{count}} Anbieter",
+    "count_other": "{{count}} Anbieter",
+    "countIncomplete_one": "{{count}} geladen · weitere verfügbar",
+    "countIncomplete_other": "{{count}} geladen · weitere verfügbar",
+    "access": "Zugriff",
+    "providerId": "Anbieter-ID",
+    "copyId": "ID von {{name}} kopieren",
+    "idCopied": "Anbieter-ID kopiert.",
+    "idCopyError": "Die Anbieter-ID konnte nicht kopiert werden. Markieren und kopieren Sie sie manuell.",
+    "publicPage": "Öffentliche Seite",
+    "accessNote": "Zugriff ist kein Eigentum: Ein Eintrag hier macht Sie weder zum Inhaber noch zum Partner des Anbieters und erlaubt Ihnen nicht, seine Angaben zu bearbeiten.",
+    "loadErrorHeading": "Zugriff konnte nicht <em>geprüft werden.</em>",
+    "emptyHeading": "Noch keine <em>Anbieter.</em>",
+    "emptyDescription": "Sie haben noch keinen Zugriff auf einen Anbieter. Eine frühere Freigabe wurde möglicherweise widerrufen.",
+    "viewApplications": "Anträge ansehen"
   },
   "ownListingSources": {
     "moreAvailable": "Weitere Anbieter sind verfügbar. Diese Liste ist noch nicht vollständig.",
@@ -2255,11 +2329,6 @@
     "retry": "Erneut versuchen"
   },
   "partnerAccessTokens": {
-    "title": "Zugriffstoken",
-    "description": "Alle für Ihr Partnerkonto gespeicherten Zugriffstoken.",
-    "actions": {
-      "retry": "Erneut versuchen"
-    },
     "create": {
       "open": "Neues Zugriffstoken",
       "title": "Zugriffstoken erstellen",
@@ -2269,11 +2338,9 @@
       "cancel": "Abbrechen",
       "close": "Ich habe das Token gespeichert",
       "success": "Zugriffstoken wurde erstellt.",
-      "confirmationTitle": "Zugriffstoken erstellt",
-      "confirmationDescription": "Kopieren und speichern Sie das Token sicher, bevor Sie diesen Dialog schließen.",
-      "copyWarning": "Dieses Token wird nur einmal im Klartext angezeigt. Nach dem Schließen des Dialogs kann es nicht erneut abgerufen werden.",
       "copy": "Zugriffstoken kopieren",
       "copySuccess": "Zugriffstoken wurde kopiert.",
+      "copyError": "Das Token konnte nicht kopiert werden. Markieren und kopieren Sie es manuell, bevor Sie diesen Dialog schließen.",
       "fields": {
         "name": "Name",
         "scopes": "Berechtigungen",
@@ -2318,10 +2385,15 @@
         "nameRequired": "Bitte geben Sie einen Token-Namen ein.",
         "nameTooLong": "Der Token-Name darf höchstens 128 Zeichen enthalten.",
         "expirationInvalid": "Bitte geben Sie ein gültiges Ablaufdatum mit Uhrzeit ein."
-      }
+      },
+      "createdLabel": "Token erstellt",
+      "createdHeading": "Kopieren Sie Ihr Token <em>jetzt.</em>",
+      "createdDescription": "„{{name}}“ ist bereit. Wir zeigen das Token nur einmal und können es nach dem Schließen dieses Dialogs nicht erneut anzeigen.",
+      "copyShort": "Kopieren",
+      "copied": "Kopiert",
+      "keepSafe": "Bewahren Sie es in einem Passwortmanager oder in den geheimen Einstellungen Ihrer Integration auf. Wer das Token hat, kann mit seinen Berechtigungen handeln."
     },
     "edit": {
-      "open": "Bearbeiten",
       "openAriaLabel": "Zugriffstoken {{name}} bearbeiten",
       "title": "Zugriffstoken bearbeiten",
       "description": "Bearbeiten Sie Name, Berechtigungen und Ablaufzeitpunkt von {{name}}.",
@@ -2331,24 +2403,27 @@
       "success": "Zugriffstoken wurde aktualisiert."
     },
     "delete": {
-      "open": "Löschen",
       "openAriaLabel": "Zugriffstoken {{name}} löschen",
-      "title": "Zugriffstoken „{{name}}“ löschen?",
-      "description": "Das Zugriffstoken wird dauerhaft gelöscht und kann danach nicht mehr verwendet werden.",
-      "confirm": "Token endgültig löschen",
       "cancel": "Abbrechen",
-      "success": "Zugriffstoken wurde gelöscht."
+      "success": "Zugriffstoken wurde gelöscht.",
+      "heading": "„{{name}}“ löschen?",
+      "lead": "Das Token wird endgültig gelöscht und funktioniert ab sofort nicht mehr.",
+      "confirmShort": "Token löschen",
+      "pending": "Wird gelöscht…"
     },
     "deleteAll": {
-      "open": "Alle löschen",
-      "title": "Alle Zugriffstoken löschen?",
-      "description": "Alle {{count}} Zugriffstoken werden dauerhaft gelöscht und können danach nicht mehr verwendet werden.",
-      "confirm": "Alle Token endgültig löschen",
-      "cancel": "Abbrechen",
-      "success": "Alle Zugriffstoken wurden gelöscht."
+      "success": "Alle Zugriffstoken wurden gelöscht.",
+      "heading": "Alle Zugriffstoken löschen",
+      "lead": "Jede Integration, die eines davon verwendet, funktioniert ab sofort nicht mehr.",
+      "openEllipsis": "Alle löschen…",
+      "confirmTitle_one": "{{count}} Zugriffstoken löschen?",
+      "confirmTitle_other": "Alle {{count}} Zugriffstoken löschen?",
+      "confirmDescription_one": "Das Token wird endgültig gelöscht. Jede Integration, die es verwendet, funktioniert ab sofort nicht mehr.",
+      "confirmDescription_other": "Alle {{count}} Token werden endgültig gelöscht. Jede Integration, die eines davon verwendet, funktioniert ab sofort nicht mehr.",
+      "confirmAll_one": "{{count}} Token löschen",
+      "confirmAll_other": "Alle {{count}} Token löschen"
     },
     "loading": "Zugriffstoken werden geladen.",
-    "loadError": "Ihre Zugriffstoken konnten nicht geladen werden.",
     "empty": "Sie haben noch keine Zugriffstoken gespeichert.",
     "expiresAt": "Läuft ab am {{date}}",
     "expiredAt": "Abgelaufen am {{date}}",
@@ -2395,6 +2470,24 @@
       "groupSelectAllLabel": "Alle auswählen: {{group}}",
       "groupClearLabel": "Alle abwählen: {{group}}",
       "allSelectedNote": "Dieses Token erhält jede Berechtigung, auch Schreibzugriff. Wählen Sie die Berechtigungen ab, die die Integration nicht benötigt."
+    },
+    "heading": "Ihre <em>Zugriffstoken.</em>",
+    "lead": "Mit Zugriffstoken ruft Ihre Integration die Aura Historia API für Ihr Konto auf. Geben Sie jedem nur die Berechtigungen, die es braucht.",
+    "loadErrorHeading": "Zugriffstoken <em>nicht verfügbar.</em>",
+    "loadErrorDescription": "Ihre Zugriffstoken konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+    "emptyHeading": "Noch keine <em>Zugriffstoken.</em>",
+    "emptyDescription": "Erstellen Sie ein Token, wenn Sie eine Integration verbinden, und geben Sie ihm nur die nötigen Berechtigungen.",
+    "permissions": "Berechtigungen",
+    "showMore_one": "+{{count}} weitere",
+    "showMore_other": "+{{count}} weitere",
+    "showFewer": "Weniger anzeigen",
+    "groups": {
+      "active": "Aktiv",
+      "activeCount_one": "{{count}} in Verwendung",
+      "activeCount_other": "{{count}} in Verwendung",
+      "expired": "Abgelaufen",
+      "expiredCount_one": "{{count}} funktioniert nicht mehr",
+      "expiredCount_other": "{{count}} funktionieren nicht mehr"
     }
   },
   "partnerApplications": {
@@ -2404,14 +2497,42 @@
     },
     "create": {
       "open": "Neuer Antrag",
-      "title": "Partnerantrag einreichen",
-      "submit": "Antrag einreichen",
-      "submitting": "Wird eingereicht…",
       "cancel": "Abbrechen",
-      "success": "Partnerantrag eingereicht.",
       "validation": {
         "urlInvalid": "Bitte geben Sie eine gültige URL ein.",
         "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+      },
+      "description": "Wir prüfen jeden Antrag. Nach dem Senden können Sie ihn einsehen oder zurückziehen, aber nicht mehr bearbeiten.",
+      "send": "Antrag senden",
+      "sending": "Wird gesendet…",
+      "sent": "Antrag gesendet.",
+      "optional": "(optional)",
+      "kind": {
+        "legend": "Was trifft auf Ihren Shop zu?",
+        "existing": "Mein Shop ist schon auf Aura Historia",
+        "existingDescription": "Beantragen Sie Zugriff darauf.",
+        "proposed": "Mein Shop ist noch nicht auf Aura Historia",
+        "proposedDescription": "Erzählen Sie uns davon, und wir prüfen ihn."
+      },
+      "groups": {
+        "provider": "Der Anbieter",
+        "operator": "Wer ihn betreibt",
+        "connections": "Wie senden Sie Ihre Angebote?"
+      },
+      "fields": {
+        "providerName": "Name des Anbieters",
+        "website": "Website",
+        "image": "Bild-URL",
+        "operator": "Betreiber",
+        "operatorHint": "Die Person oder das Unternehmen, das den Anbieter betreibt.",
+        "phone": "Telefon",
+        "email": "E-Mail"
+      },
+      "connectionOptions": {
+        "WEB_CRAWL": "Aura Historia liest meine Website",
+        "SHOPIFY": "Shopify",
+        "WOOCOMMERCE": "WooCommerce",
+        "PARTNER_API": "Unsere eigene Integration (API)"
       }
     },
     "loading": "Partneranträge werden geladen.",
@@ -2422,33 +2543,18 @@
       "submitted": "Eingereicht",
       "inReview": "In Prüfung",
       "approved": "Genehmigt",
-      "rejected": "Abgelehnt"
+      "notApproved": "Nicht genehmigt"
     },
     "proposals": {
-      "type": "Art des Vorschlags",
-      "existing": "Bestehender Anbieter",
-      "proposed": "Anbieter vorschlagen",
-      "description": "Reichen Sie einen Vorschlag zur Prüfung ein. Danach können Sie ihn einsehen oder zurückziehen.",
       "selectionHint": "Mit dem Vorschlag eines öffentlichen Anbieters beantragen Sie eine Prüfung; Zugriff wird dadurch nicht gewährt.",
-      "immutable": "Eingereichte Vorschläge können nicht bearbeitet werden.",
-      "partyName": "Name des Betreibers",
-      "partyPhone": "Telefon (optional)",
-      "partyEmail": "E-Mail (optional)",
-      "sourceName": "Name des Anbieters",
       "listingSourceType": "Art des Anbieters",
       "listingSourceTypeRequired": "Wählen Sie die Art des Anbieters aus.",
-      "sourceUrl": "Anbieter-URL (optional)",
-      "sourceImage": "Bild-URL (optional)",
-      "methods": "Gewünschte Importmethoden",
       "required": "Dieses Feld ist erforderlich.",
       "nameTooLong": "Namen dürfen höchstens 255 UTF-8-Bytes umfassen.",
-      "withdraw": "Bewerbung zurückziehen",
-      "withdrawConfirm": "Diese Bewerbung zurückziehen? Der Vorschlag bleibt als zurückgezogen sichtbar.",
       "withdrawn": "Zurückgezogen",
       "conflict": "Die Bewerbung kann im aktuellen Status nicht geändert werden. Aktualisieren Sie den Status.",
       "missing": "Bewerbung nicht gefunden oder nicht verfügbar.",
       "sourceUnavailable": "Dieser Anbieter ist nicht mehr verfügbar. Bitte wählen Sie einen anderen Anbieter.",
-      "clear": "Auswahl aufheben",
       "noSources": "Keine Anbieter gefunden.",
       "noMethods": "Keine angefordert",
       "ingestion": {
@@ -2457,6 +2563,61 @@
         "WOOCOMMERCE": "WooCommerce",
         "PARTNER_API": "Partner-API"
       }
+    },
+    "heading": "Partner-<em>Anträge.</em>",
+    "lead": "Beantragen Sie Zugriff auf einen Anbieter, den Sie betreiben, oder schlagen Sie einen neuen vor. Wir prüfen jeden Antrag; nach dem Senden können Sie ihn einsehen oder zurückziehen, aber nicht mehr bearbeiten.",
+    "loadErrorHeading": "Anträge <em>nicht verfügbar.</em>",
+    "loadErrorDescription": "Ihre Partneranträge konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+    "emptyHeading": "Noch keine <em>Anträge.</em>",
+    "emptyDescription": "Beantragen Sie einen Anbieter, den Sie betreiben, oder schlagen Sie einen neuen vor. Wir prüfen jeden Antrag.",
+    "howItWorks": "So funktioniert das Programm",
+    "loadingDetails": "Antrag wird geladen…",
+    "viewProviders": "Anbieter ansehen",
+    "withdrawSuccess": "Antrag zurückgezogen.",
+    "groups": {
+      "open": "Offen",
+      "openCount_one": "{{count}} wartet auf eine Entscheidung",
+      "openCount_other": "{{count}} warten auf eine Entscheidung",
+      "decided": "Abgeschlossen",
+      "decidedCount_one": "{{count}} entschieden oder zurückgezogen",
+      "decidedCount_other": "{{count}} entschieden oder zurückgezogen"
+    },
+    "row": {
+      "newProvider": "Neuer Anbieter",
+      "existingProvider": "Bestehender Anbieter",
+      "nameUnavailable": "Name nicht verfügbar"
+    },
+    "stateNote": {
+      "submitted": "Wartet auf die Prüfung. Bis zur Entscheidung können Sie ihn zurückziehen.",
+      "inReview": "Wir prüfen den Antrag. Sie können ihn noch zurückziehen.",
+      "approved": "Genehmigt. Sobald Zugriff gewährt ist, erscheint der Anbieter unter Anbieter.",
+      "rejected": "Nicht genehmigt. Sie können einen neuen Antrag senden.",
+      "withdrawn": "Sie haben diesen Antrag zurückgezogen."
+    },
+    "withdrawConfirm": {
+      "title": "Antrag zurückziehen?",
+      "description": "Er bleibt als zurückgezogen in Ihrer Liste. Um erneut zu beantragen, senden Sie einen neuen Antrag.",
+      "keep": "Antrag behalten",
+      "confirm": "Zurückziehen",
+      "open": "Antrag zurückziehen"
+    },
+    "details": {
+      "website": "Website",
+      "image": "Bild-URL",
+      "operator": "Betreiber",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "connections": "Anbindungen",
+      "providerId": "Anbieter-ID",
+      "applicationId": "Antrags-ID"
+    },
+    "search": {
+      "label": "Anbieter",
+      "results": "Anbieter",
+      "searching": "Anbieter werden gesucht…",
+      "error": "Die Anbietersuche ist fehlgeschlagen.",
+      "operatedBy": "Betrieben von {{name}}",
+      "change": "Ändern"
     }
   },
   "adminApplications": {

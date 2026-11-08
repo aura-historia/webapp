@@ -67,6 +67,12 @@ const searchFiltersRoute = createRoute({
     component: () => <>{injectedChildren}</>,
 });
 
+const partnerOverviewRoute = createRoute({
+    getParentRoute: () => languageRoute,
+    path: "partners",
+    component: () => <>{injectedChildren}</>,
+});
+
 const partnerApplicationsRoute = createRoute({
     getParentRoute: () => languageRoute,
     path: "partners/applications",
@@ -88,6 +94,7 @@ const routeTree = rootRoute.addChildren([
         partnerProgramRoute,
         watchlistRoute,
         searchFiltersRoute,
+        partnerOverviewRoute,
         partnerApplicationsRoute,
         adminOverviewRoute,
     ]),

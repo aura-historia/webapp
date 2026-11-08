@@ -22,12 +22,14 @@ const COMPACT_FROM = 1_000_000;
 // the headline, so the strip keeps a single row's height under the longer hero.
 const LIST_CLASS =
     "mt-2 grid w-full grid-cols-3 border-t border-line sm:mt-7 sm:max-w-[880px] lg:max-w-[1100px] lg:grid-cols-6";
+// Each cell reserves a figure line and two label lines, so every row keeps its height whether or
+// not a label wraps, and centres its figure and label in that height:
+//   phones:  14px + 26.4px figure + 4px gap + 28px (2 × 10px × 1.4) + 14px + 1px rule = 87.4px
+//   ≥ 640px: 22px + 37.4px figure + 6px gap + 30.8px (2 × 11px × 1.4) + 22px + 1px rule = 119.2px
 const ITEM_CLASS =
-    "flex flex-col gap-1 border-b border-l border-line px-2.5 py-3.5 nth-[3n+1]:border-l-0 nth-[3n+1]:pl-0 sm:gap-1.5 sm:px-4 sm:py-[22px] sm:nth-[3n+1]:pl-4 lg:px-3 lg:nth-[3n+1]:pl-3 lg:nth-4:border-l";
+    "flex min-h-[87.4px] flex-col justify-center gap-1 border-b border-l border-line px-2.5 py-3.5 nth-[3n+1]:border-l-0 nth-[3n+1]:pl-0 sm:min-h-[119.2px] sm:gap-1.5 sm:px-4 sm:py-[22px] sm:nth-[3n+1]:pl-4 lg:px-3 lg:nth-[3n+1]:pl-3 lg:nth-4:border-l";
 const LABEL_CLASS =
-    "order-2 min-h-[2.8em] font-mono text-[10px] leading-[1.4] tracking-[0.12em] text-ink-muted uppercase text-balance sm:text-label";
-// Labels reserve two lines, so every row keeps its height whether or not a label wraps, and the
-// skeleton reserves the same.
+    "order-2 font-mono text-[10px] leading-[1.4] tracking-[0.12em] text-ink-muted uppercase text-balance sm:text-label";
 const FIGURE_CLASS = "order-1 font-serif text-[24px] leading-[1.1] sm:text-stat";
 
 function statValue(overview: PublicOverview, key: StatKey): number {
@@ -66,14 +68,17 @@ function HeroStatList({ overview }: { readonly overview: PublicOverview }) {
     );
 }
 
-/** Reserves the strip's height while the counts load after mount. */
+/**
+ * Reserves the strip's height while the counts load after mount. The label bar is one line high,
+ * like most labels, so the centred figure does not move when the counts arrive.
+ */
 export function HeroStatsSkeleton() {
     return (
         <div aria-hidden="true" className={LIST_CLASS}>
             {STAT_KEYS.map((key) => (
                 <div key={key} className={ITEM_CLASS}>
-                    <div className="order-2 h-[28px] sm:h-[31px] sm:self-center">
-                        <div className="h-3.5 w-16 rounded-xs bg-line-subtle sm:w-24" />
+                    <div className="order-2 flex h-[14px] items-center sm:h-[15.4px] sm:self-center">
+                        <div className="h-3 w-16 rounded-xs bg-line-subtle sm:w-24" />
                     </div>
                     <div className="order-1 h-[26px] w-12 animate-pulse rounded-xs bg-line-subtle sm:h-[37px] sm:w-16 sm:self-center" />
                 </div>

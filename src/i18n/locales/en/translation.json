@@ -72,7 +72,7 @@
       "description": "Connect a custom shop system to Aura Historia through the partner API: create, update and withdraw listings in asynchronous or synchronous batches."
     },
     "partnerApplications": {
-      "title": "Current Partner Applications | Aura Historia"
+      "title": "Partner applications | Aura Historia"
     },
     "partnerAccessTokens": {
       "title": "Access Tokens | Aura Historia"
@@ -89,6 +89,9 @@
     },
     "product": {
       "description": "{{title}} – offered by {{source}}. Found on Aura Historia, the global search for art, antiques and design objects."
+    },
+    "partnerDashboard": {
+      "title": "Partner dashboard | Aura Historia"
     }
   },
   "validation": {
@@ -2229,23 +2232,94 @@
     "createCta": "Create search filter"
   },
   "partnerDashboard": {
-    "title": "Partner Dashboard",
-    "sidebarLabel": "Partner Sections",
     "nav": {
       "applications": "Applications",
-      "listingSources": "Approved providers",
-      "accessTokens": "Access tokens"
+      "accessTokens": "Access tokens",
+      "overview": "Overview",
+      "providers": "Providers",
+      "guides": "Guides",
+      "customIntegration": "Custom API integration",
+      "partnerProgram": "Partner program"
+    },
+    "heading": "Partner <em>dashboard.</em>",
+    "navLabel": "Partner dashboard",
+    "close": "Close",
+    "tryAgain": "Try again",
+    "overview": {
+      "glance": "At a glance",
+      "unavailable": "Could not be loaded.",
+      "viewAll": "View all",
+      "applications": {
+        "unit": "open",
+        "note_one": "{{inReview}} in review · {{count}} in total",
+        "note_other": "{{inReview}} in review · {{count}} in total",
+        "noneNote": "No applications yet",
+        "cta": "View applications"
+      },
+      "providers": {
+        "unit": "you can access",
+        "note": "You can send listings for these, but you don't own them",
+        "noneNote": "No access granted yet",
+        "cta": "View providers"
+      },
+      "tokens": {
+        "unit": "active",
+        "soonNote_one": "{{count}} expires within 14 days",
+        "soonNote_other": "{{count}} expire within 14 days",
+        "totalNote_one": "{{count}} in total",
+        "totalNote_other": "{{count}} in total",
+        "noneNote": "Create one when you connect",
+        "cta": "View access tokens"
+      }
+    },
+    "steps": {
+      "heading": "Getting <em>connected.</em>",
+      "lead": "Three steps here, then the connection to your shop.",
+      "apply": {
+        "title": "Apply with your shop",
+        "copy": "Ask for access if your shop is already on Aura Historia, or propose it for review.",
+        "status": "Applied"
+      },
+      "access": {
+        "title": "Wait for approval",
+        "copy": "We review every application. Once access is granted, your shop appears under Providers.",
+        "status_one": "{{figure}} provider",
+        "status_other": "{{figure}} providers"
+      },
+      "token": {
+        "title": "Create an access token",
+        "copy": "Only needed for your own API integration. Give it only the permissions it needs; the token is shown once.",
+        "status_one": "{{count}} active",
+        "status_other": "{{count}} active"
+      },
+      "connect": {
+        "title": "Connect your shop",
+        "copy": "Install the app for your shop system, or send listings through the API."
+      }
     }
   },
   "partnerListingSources": {
-    "title": "Providers you can access",
-    "description": "Providers you currently have access to. Being listed here does not establish ownership, partner status, or permission to edit provider details.",
-    "actions": {
-      "retry": "Retry"
-    },
     "loading": "Loading providers you can access.",
     "loadError": "Provider access could not be verified. Access may have changed. Please try again.",
-    "empty": "You currently have no access to providers. A previous grant may have been revoked."
+    "heading": "Your <em>providers.</em>",
+    "lead": "The providers your account can send listings for. Use a provider's ID in the API or when you connect your shop.",
+    "applyForAnother": "Apply for another provider",
+    "withAccess": "With access",
+    "count_one": "{{count}} provider",
+    "count_other": "{{count}} providers",
+    "countIncomplete_one": "{{count}} loaded · more available",
+    "countIncomplete_other": "{{count}} loaded · more available",
+    "access": "Access",
+    "providerId": "Provider ID",
+    "copyId": "Copy ID of {{name}}",
+    "idCopied": "Provider ID copied.",
+    "idCopyError": "The provider ID could not be copied. Select it and copy it manually.",
+    "publicPage": "Public page",
+    "accessNote": "Access is not ownership: being listed here does not make you the provider's owner or partner, and does not let you edit its details.",
+    "loadErrorHeading": "Access could not be <em>verified.</em>",
+    "emptyHeading": "No providers <em>yet.</em>",
+    "emptyDescription": "You have no access to a provider yet. An earlier grant may have been revoked.",
+    "viewApplications": "View applications"
   },
   "ownListingSources": {
     "moreAvailable": "More providers are available. This list is not complete yet.",
@@ -2255,11 +2329,6 @@
     "retry": "Try again"
   },
   "partnerAccessTokens": {
-    "title": "Access Tokens",
-    "description": "All access tokens saved for your partner account.",
-    "actions": {
-      "retry": "Retry"
-    },
     "create": {
       "open": "New access token",
       "title": "Create access token",
@@ -2269,11 +2338,9 @@
       "cancel": "Cancel",
       "close": "I have saved the token",
       "success": "Access token created.",
-      "confirmationTitle": "Access token created",
-      "confirmationDescription": "Copy and securely store the token before closing this dialog.",
-      "copyWarning": "This plaintext token is shown only once. You cannot retrieve it again after closing this dialog.",
       "copy": "Copy access token",
       "copySuccess": "Access token copied.",
+      "copyError": "The token could not be copied. Select it and copy it manually before you close this dialog.",
       "fields": {
         "name": "Name",
         "scopes": "Permissions",
@@ -2318,10 +2385,15 @@
         "nameRequired": "Please enter a token name.",
         "nameTooLong": "The token name must not exceed 128 characters.",
         "expirationInvalid": "Please enter a valid expiration date and time."
-      }
+      },
+      "createdLabel": "Token created",
+      "createdHeading": "Copy your token <em>now.</em>",
+      "createdDescription": "“{{name}}” is ready. We show the token only once and cannot show it again after you close this dialog.",
+      "copyShort": "Copy",
+      "copied": "Copied",
+      "keepSafe": "Keep it in a password manager or your integration's secret settings. Anyone with the token can act with its permissions."
     },
     "edit": {
-      "open": "Edit",
       "openAriaLabel": "Edit access token {{name}}",
       "title": "Edit access token",
       "description": "Edit the name, permissions, and expiration of {{name}}.",
@@ -2331,24 +2403,27 @@
       "success": "Access token updated."
     },
     "delete": {
-      "open": "Delete",
       "openAriaLabel": "Delete access token {{name}}",
-      "title": "Delete access token “{{name}}”?",
-      "description": "This access token will be permanently deleted and can no longer be used.",
-      "confirm": "Permanently delete token",
       "cancel": "Cancel",
-      "success": "Access token deleted."
+      "success": "Access token deleted.",
+      "heading": "Delete “{{name}}”?",
+      "lead": "The token is deleted for good and stops working at once.",
+      "confirmShort": "Delete token",
+      "pending": "Deleting…"
     },
     "deleteAll": {
-      "open": "Delete all",
-      "title": "Delete all access tokens?",
-      "description": "All {{count}} access tokens will be permanently deleted and can no longer be used.",
-      "confirm": "Permanently delete all tokens",
-      "cancel": "Cancel",
-      "success": "All access tokens deleted."
+      "success": "All access tokens deleted.",
+      "heading": "Delete all access tokens",
+      "lead": "Every integration that uses one of them stops working at once.",
+      "openEllipsis": "Delete all…",
+      "confirmTitle_one": "Delete {{count}} access token?",
+      "confirmTitle_other": "Delete all {{count}} access tokens?",
+      "confirmDescription_one": "The token is deleted for good. Every integration that uses it stops working at once.",
+      "confirmDescription_other": "All {{count}} tokens are deleted for good. Every integration that uses one of them stops working at once.",
+      "confirmAll_one": "Delete {{count}} token",
+      "confirmAll_other": "Delete all {{count}} tokens"
     },
     "loading": "Loading access tokens.",
-    "loadError": "Could not load your access tokens.",
     "empty": "You have not saved any access tokens yet.",
     "expiresAt": "Expires {{date}}",
     "expiredAt": "Expired {{date}}",
@@ -2395,6 +2470,24 @@
       "groupSelectAllLabel": "Select all in {{group}}",
       "groupClearLabel": "Clear all in {{group}}",
       "allSelectedNote": "This token gets every permission, including write access. Clear those the integration does not need."
+    },
+    "heading": "Access <em>tokens.</em>",
+    "lead": "Tokens let your integration call the Aura Historia API for your account. Give each one only the permissions it needs.",
+    "loadErrorHeading": "Access tokens <em>unavailable.</em>",
+    "loadErrorDescription": "Your access tokens could not be loaded. Please try again.",
+    "emptyHeading": "No access tokens <em>yet.</em>",
+    "emptyDescription": "Create a token when you connect an integration, and give it only the permissions it needs.",
+    "permissions": "Permissions",
+    "showMore_one": "+{{count}} more",
+    "showMore_other": "+{{count}} more",
+    "showFewer": "Show fewer",
+    "groups": {
+      "active": "Active",
+      "activeCount_one": "{{count}} in use",
+      "activeCount_other": "{{count}} in use",
+      "expired": "Expired",
+      "expiredCount_one": "{{count}} no longer works",
+      "expiredCount_other": "{{count}} no longer work"
     }
   },
   "partnerApplications": {
@@ -2404,14 +2497,42 @@
     },
     "create": {
       "open": "New application",
-      "title": "Submit partner application",
-      "submit": "Submit application",
-      "submitting": "Submitting…",
       "cancel": "Cancel",
-      "success": "Partner application submitted.",
       "validation": {
         "urlInvalid": "Please enter a valid URL.",
         "emailInvalid": "Please enter a valid email address."
+      },
+      "description": "We review every application. Once sent, it can be read or withdrawn but not edited.",
+      "send": "Send application",
+      "sending": "Sending…",
+      "sent": "Application sent.",
+      "optional": "(optional)",
+      "kind": {
+        "legend": "Which describes your shop?",
+        "existing": "My shop is already on Aura Historia",
+        "existingDescription": "Ask for access to it.",
+        "proposed": "My shop isn't on Aura Historia yet",
+        "proposedDescription": "Tell us about it and we review it."
+      },
+      "groups": {
+        "provider": "The provider",
+        "operator": "Who runs it",
+        "connections": "How will you send listings?"
+      },
+      "fields": {
+        "providerName": "Provider name",
+        "website": "Website",
+        "image": "Image URL",
+        "operator": "Operator",
+        "operatorHint": "The person or company that runs the provider.",
+        "phone": "Phone",
+        "email": "Email"
+      },
+      "connectionOptions": {
+        "WEB_CRAWL": "Aura Historia reads my website",
+        "SHOPIFY": "Shopify",
+        "WOOCOMMERCE": "WooCommerce",
+        "PARTNER_API": "Our own integration (API)"
       }
     },
     "loading": "Loading partner applications.",
@@ -2422,33 +2543,18 @@
       "submitted": "Submitted",
       "inReview": "In review",
       "approved": "Approved",
-      "rejected": "Rejected"
+      "notApproved": "Not approved"
     },
     "proposals": {
-      "type": "Proposal type",
-      "existing": "Existing provider",
-      "proposed": "Propose a provider",
-      "description": "Submit a proposal for review. Once submitted, it can be read or withdrawn.",
       "selectionHint": "Proposing a public provider requests a review; it does not grant access.",
-      "immutable": "Submitted proposals cannot be edited.",
-      "partyName": "Party name",
-      "partyPhone": "Phone (optional)",
-      "partyEmail": "Email (optional)",
-      "sourceName": "Provider name",
       "listingSourceType": "Provider type",
       "listingSourceTypeRequired": "Choose the provider type.",
-      "sourceUrl": "Provider URL (optional)",
-      "sourceImage": "Image URL (optional)",
-      "methods": "Requested ingestion methods",
       "required": "This field is required.",
       "nameTooLong": "Names must not exceed 255 UTF-8 bytes.",
-      "withdraw": "Withdraw application",
-      "withdrawConfirm": "Withdraw this application? The proposal will remain visible as withdrawn.",
       "withdrawn": "Withdrawn",
       "conflict": "The application cannot be changed in its current state. Refresh to see the latest status.",
       "missing": "Application not found or unavailable.",
       "sourceUnavailable": "This provider is no longer available. Please select another provider.",
-      "clear": "Clear selection",
       "noSources": "No providers found.",
       "noMethods": "None requested",
       "ingestion": {
@@ -2457,6 +2563,61 @@
         "WOOCOMMERCE": "WooCommerce",
         "PARTNER_API": "Partner API"
       }
+    },
+    "heading": "Partner <em>applications.</em>",
+    "lead": "Ask for access to a provider you run, or propose a new one. We review each application; once sent, it can be read or withdrawn but not edited.",
+    "loadErrorHeading": "Applications <em>unavailable.</em>",
+    "loadErrorDescription": "Your partner applications could not be loaded. Please try again.",
+    "emptyHeading": "No applications <em>yet.</em>",
+    "emptyDescription": "Apply for a provider you run, or propose a new one. We review every application.",
+    "howItWorks": "How the program works",
+    "loadingDetails": "Loading the application…",
+    "viewProviders": "View providers",
+    "withdrawSuccess": "Application withdrawn.",
+    "groups": {
+      "open": "Open",
+      "openCount_one": "{{count}} waiting for a decision",
+      "openCount_other": "{{count}} waiting for a decision",
+      "decided": "Closed",
+      "decidedCount_one": "{{count}} decided or withdrawn",
+      "decidedCount_other": "{{count}} decided or withdrawn"
+    },
+    "row": {
+      "newProvider": "New provider",
+      "existingProvider": "Existing provider",
+      "nameUnavailable": "Name unavailable"
+    },
+    "stateNote": {
+      "submitted": "Waiting for review. You can withdraw it until we decide.",
+      "inReview": "We are reviewing it. You can still withdraw it.",
+      "approved": "Approved. Once access is granted, the provider appears under Providers.",
+      "rejected": "Not approved. You can send a new application.",
+      "withdrawn": "You withdrew this application."
+    },
+    "withdrawConfirm": {
+      "title": "Withdraw this application?",
+      "description": "It stays in your list as withdrawn. To apply again, send a new application.",
+      "keep": "Keep application",
+      "confirm": "Withdraw",
+      "open": "Withdraw application"
+    },
+    "details": {
+      "website": "Website",
+      "image": "Image URL",
+      "operator": "Operator",
+      "phone": "Phone",
+      "email": "Email",
+      "connections": "Connections",
+      "providerId": "Provider ID",
+      "applicationId": "Application ID"
+    },
+    "search": {
+      "label": "Provider",
+      "results": "Providers",
+      "searching": "Searching providers…",
+      "error": "Providers could not be searched.",
+      "operatedBy": "Operated by {{name}}",
+      "change": "Change"
     }
   },
   "adminApplications": {

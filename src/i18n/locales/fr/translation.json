@@ -72,7 +72,7 @@
       "description": "Connectez un système de boutique sur mesure à Aura Historia via l’API partenaires : créez, mettez à jour et retirez des annonces par lots asynchrones ou synchrones."
     },
     "partnerApplications": {
-      "title": "Candidatures partenaires en cours | Aura Historia"
+      "title": "Candidatures partenaires | Aura Historia"
     },
     "compareBarnebys": {
       "title": "Aura Historia vs Barnebys | Comparatif de recherche d’art et d’antiquités",
@@ -89,6 +89,9 @@
     },
     "product": {
       "description": "{{title}}, proposé par {{source}}. Repéré sur Aura Historia, la recherche mondiale d’art, d’antiquités et d’objets de design."
+    },
+    "partnerDashboard": {
+      "title": "Tableau de bord partenaire | Aura Historia"
     }
   },
   "validation": {
@@ -2826,12 +2829,70 @@
     }
   },
   "partnerDashboard": {
-    "title": "Tableau de bord partenaire",
-    "sidebarLabel": "Sections partenaires",
     "nav": {
       "applications": "Candidatures",
-      "listingSources": "Fournisseurs approuvés",
-      "accessTokens": "Jetons d'accès"
+      "accessTokens": "Jetons d'accès",
+      "overview": "Vue d’ensemble",
+      "providers": "Fournisseurs",
+      "guides": "Guides",
+      "customIntegration": "Intégration API personnalisée",
+      "partnerProgram": "Programme partenaire"
+    },
+    "heading": "Tableau de bord <em>partenaire.</em>",
+    "navLabel": "Tableau de bord partenaire",
+    "close": "Fermer",
+    "tryAgain": "Réessayer",
+    "overview": {
+      "glance": "En bref",
+      "unavailable": "Chargement impossible.",
+      "viewAll": "Tout voir",
+      "applications": {
+        "unit": "ouvertes",
+        "note_one": "{{inReview}} en cours d’examen · {{count}} au total",
+        "note_other": "{{inReview}} en cours d’examen · {{count}} au total",
+        "noneNote": "Aucune candidature pour l’instant",
+        "cta": "Voir les candidatures"
+      },
+      "providers": {
+        "unit": "accessibles",
+        "note": "Vous pouvez y envoyer des annonces, sans en être propriétaire",
+        "noneNote": "Aucun accès accordé pour l’instant",
+        "cta": "Voir les fournisseurs"
+      },
+      "tokens": {
+        "unit": "actifs",
+        "soonNote_one": "{{count}} expire dans les 14 jours",
+        "soonNote_other": "{{count}} expirent dans les 14 jours",
+        "totalNote_one": "{{count}} au total",
+        "totalNote_other": "{{count}} au total",
+        "noneNote": "Créez-en un lorsque vous connectez votre boutique",
+        "cta": "Voir les jetons d’accès"
+      }
+    },
+    "steps": {
+      "heading": "Se <em>connecter.</em>",
+      "lead": "Trois étapes ici, puis la connexion à votre boutique.",
+      "apply": {
+        "title": "Présenter votre boutique",
+        "copy": "Demandez l’accès si votre boutique est déjà sur Aura Historia, ou proposez-la pour examen.",
+        "status": "Envoyée"
+      },
+      "access": {
+        "title": "Attendre la validation",
+        "copy": "Nous examinons chaque candidature. Une fois l’accès accordé, votre boutique apparaît sous Fournisseurs.",
+        "status_one": "{{figure}} fournisseur",
+        "status_other": "{{figure}} fournisseurs"
+      },
+      "token": {
+        "title": "Créer un jeton d’accès",
+        "copy": "Nécessaire uniquement pour votre propre intégration API. Accordez-lui uniquement les autorisations nécessaires ; le jeton n’est affiché qu’une fois.",
+        "status_one": "{{count}} actif",
+        "status_other": "{{count}} actifs"
+      },
+      "connect": {
+        "title": "Connecter votre boutique",
+        "copy": "Installez l’application pour votre système de boutique, ou envoyez vos annonces via l’API."
+      }
     }
   },
   "partnerApplications": {
@@ -2841,14 +2902,42 @@
     },
     "create": {
       "open": "Nouvelle candidature",
-      "title": "Soumettre une candidature partenaire",
-      "submit": "Soumettre la candidature",
-      "submitting": "Soumission en cours…",
       "cancel": "Annuler",
-      "success": "Candidature partenaire soumise.",
       "validation": {
         "urlInvalid": "Veuillez entrer une URL valide.",
         "emailInvalid": "Veuillez entrer une adresse e-mail valide."
+      },
+      "description": "Nous examinons chaque candidature. Une fois envoyée, elle peut être consultée ou retirée, mais pas modifiée.",
+      "send": "Envoyer la candidature",
+      "sending": "Envoi…",
+      "sent": "Candidature envoyée.",
+      "optional": "(facultatif)",
+      "kind": {
+        "legend": "Quelle situation décrit votre boutique ?",
+        "existing": "Ma boutique est déjà sur Aura Historia",
+        "existingDescription": "Demandez-y l’accès.",
+        "proposed": "Ma boutique n’est pas encore sur Aura Historia",
+        "proposedDescription": "Présentez-la-nous et nous l’examinerons."
+      },
+      "groups": {
+        "provider": "Le fournisseur",
+        "operator": "Qui l’exploite",
+        "connections": "Comment enverrez-vous vos annonces ?"
+      },
+      "fields": {
+        "providerName": "Nom du fournisseur",
+        "website": "Site web",
+        "image": "URL de l’image",
+        "operator": "Opérateur",
+        "operatorHint": "La personne ou l’entreprise qui exploite le fournisseur.",
+        "phone": "Téléphone",
+        "email": "E-mail"
+      },
+      "connectionOptions": {
+        "WEB_CRAWL": "Aura Historia lit mon site web",
+        "SHOPIFY": "Shopify",
+        "WOOCOMMERCE": "WooCommerce",
+        "PARTNER_API": "Notre propre intégration (API)"
       }
     },
     "loading": "Chargement des candidatures partenaires.",
@@ -2859,33 +2948,18 @@
       "submitted": "Soumis",
       "inReview": "En cours de révision",
       "approved": "Approuvé",
-      "rejected": "Rejeté"
+      "notApproved": "Non approuvée"
     },
     "proposals": {
-      "type": "Type de proposition",
-      "existing": "Fournisseur existant",
-      "proposed": "Proposer un fournisseur",
-      "description": "Soumettez une proposition pour examen. Une fois soumise, vous pouvez la consulter ou la retirer.",
       "selectionHint": "Proposer un fournisseur public demande un examen ; cela ne donne aucun accès.",
-      "immutable": "Les propositions soumises ne peuvent pas être modifiées.",
-      "partyName": "Nom de l’opérateur",
-      "partyPhone": "Téléphone (facultatif)",
-      "partyEmail": "E-mail (facultatif)",
-      "sourceName": "Nom du fournisseur",
       "listingSourceType": "Type de fournisseur",
       "listingSourceTypeRequired": "Choisissez le type de fournisseur.",
-      "sourceUrl": "URL du fournisseur (facultatif)",
-      "sourceImage": "URL de l’image (facultatif)",
-      "methods": "Méthodes d’importation demandées",
       "required": "Ce champ est obligatoire.",
       "nameTooLong": "Les noms ne doivent pas dépasser 255 octets UTF-8.",
-      "withdraw": "Retirer la candidature",
-      "withdrawConfirm": "Retirer cette candidature ? La proposition restera visible comme retirée.",
       "withdrawn": "Retirée",
       "conflict": "La candidature ne peut pas être modifiée dans son état actuel. Actualisez pour voir le dernier statut.",
       "missing": "Candidature introuvable ou indisponible.",
       "sourceUnavailable": "Ce fournisseur n’est plus disponible. Veuillez en sélectionner un autre.",
-      "clear": "Effacer la sélection",
       "noSources": "Aucun fournisseur trouvé.",
       "noMethods": "Aucune demandée",
       "ingestion": {
@@ -2894,6 +2968,61 @@
         "WOOCOMMERCE": "WooCommerce",
         "PARTNER_API": "API partenaire"
       }
+    },
+    "heading": "Candidatures <em>partenaires.</em>",
+    "lead": "Demandez l’accès à un fournisseur que vous exploitez, ou proposez-en un nouveau. Nous examinons chaque candidature ; une fois envoyée, elle peut être consultée ou retirée, mais pas modifiée.",
+    "loadErrorHeading": "Candidatures <em>indisponibles.</em>",
+    "loadErrorDescription": "Impossible de charger vos candidatures partenaires. Veuillez réessayer.",
+    "emptyHeading": "Aucune candidature <em>pour l’instant.</em>",
+    "emptyDescription": "Demandez un fournisseur que vous exploitez, ou proposez-en un nouveau. Nous examinons chaque candidature.",
+    "howItWorks": "Fonctionnement du programme",
+    "loadingDetails": "Chargement de la candidature…",
+    "viewProviders": "Voir les fournisseurs",
+    "withdrawSuccess": "Candidature retirée.",
+    "groups": {
+      "open": "Ouvertes",
+      "openCount_one": "{{count}} en attente de décision",
+      "openCount_other": "{{count}} en attente de décision",
+      "decided": "Clôturées",
+      "decidedCount_one": "{{count}} traitée ou retirée",
+      "decidedCount_other": "{{count}} traitées ou retirées"
+    },
+    "row": {
+      "newProvider": "Nouveau fournisseur",
+      "existingProvider": "Fournisseur existant",
+      "nameUnavailable": "Nom indisponible"
+    },
+    "stateNote": {
+      "submitted": "En attente d’examen. Vous pouvez la retirer jusqu’à notre décision.",
+      "inReview": "Nous l’examinons. Vous pouvez encore la retirer.",
+      "approved": "Approuvée. Une fois l’accès accordé, le fournisseur apparaît sous Fournisseurs.",
+      "rejected": "Non approuvée. Vous pouvez envoyer une nouvelle candidature.",
+      "withdrawn": "Vous avez retiré cette candidature."
+    },
+    "withdrawConfirm": {
+      "title": "Retirer cette candidature ?",
+      "description": "Elle reste dans votre liste comme retirée. Pour postuler à nouveau, envoyez une nouvelle candidature.",
+      "keep": "Conserver la candidature",
+      "confirm": "Retirer",
+      "open": "Retirer la candidature"
+    },
+    "details": {
+      "website": "Site web",
+      "image": "URL de l’image",
+      "operator": "Opérateur",
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "connections": "Connexions",
+      "providerId": "ID du fournisseur",
+      "applicationId": "ID de la candidature"
+    },
+    "search": {
+      "label": "Fournisseur",
+      "results": "Fournisseurs",
+      "searching": "Recherche de fournisseurs…",
+      "error": "La recherche de fournisseurs a échoué.",
+      "operatedBy": "Exploité par {{name}}",
+      "change": "Modifier"
     }
   },
   "adminApplications": {
@@ -3340,11 +3469,6 @@
     }
   },
   "partnerAccessTokens": {
-    "title": "Jetons d'accès",
-    "description": "Tous les jetons d'accès enregistrés pour votre compte partenaire.",
-    "actions": {
-      "retry": "Réessayer"
-    },
     "create": {
       "open": "Nouveau jeton d'accès",
       "title": "Créer un jeton d'accès",
@@ -3354,11 +3478,9 @@
       "cancel": "Annuler",
       "close": "J'ai enregistré le jeton",
       "success": "Jeton d'accès créé.",
-      "confirmationTitle": "Jeton d'accès créé",
-      "confirmationDescription": "Copiez et stockez le jeton en toute sécurité avant de fermer cette fenêtre.",
-      "copyWarning": "Ce jeton en clair est affiché une seule fois. Vous ne pourrez plus le récupérer après avoir fermé cette fenêtre.",
       "copy": "Copier le jeton d'accès",
       "copySuccess": "Jeton d'accès copié.",
+      "copyError": "Le jeton n’a pas pu être copié. Sélectionnez-le et copiez-le manuellement avant de fermer cette fenêtre.",
       "fields": {
         "name": "Nom",
         "scopes": "Autorisations",
@@ -3403,10 +3525,15 @@
         "nameRequired": "Veuillez entrer un nom de jeton.",
         "nameTooLong": "Le nom du jeton ne doit pas dépasser 128 caractères.",
         "expirationInvalid": "Veuillez entrer une date et une heure d'expiration valides."
-      }
+      },
+      "createdLabel": "Jeton créé",
+      "createdHeading": "Copiez votre jeton <em>maintenant.</em>",
+      "createdDescription": "« {{name}} » est prêt. Nous n’affichons le jeton qu’une fois et ne pourrons plus l’afficher après la fermeture de cette fenêtre.",
+      "copyShort": "Copier",
+      "copied": "Copié",
+      "keepSafe": "Conservez-le dans un gestionnaire de mots de passe ou dans les paramètres secrets de votre intégration. Toute personne disposant du jeton peut agir avec ses autorisations."
     },
     "edit": {
-      "open": "Modifier",
       "openAriaLabel": "Modifier le jeton d'accès {{name}}",
       "title": "Modifier le jeton d'accès",
       "description": "Modifiez le nom, les autorisations et la date d'expiration de {{name}}.",
@@ -3416,24 +3543,27 @@
       "success": "Jeton d'accès mis à jour."
     },
     "delete": {
-      "open": "Supprimer",
       "openAriaLabel": "Supprimer le jeton d'accès {{name}}",
-      "title": "Supprimer le jeton d'accès “{{name}}” ?",
-      "description": "Ce jeton d'accès sera définitivement supprimé et ne pourra plus être utilisé.",
-      "confirm": "Supprimer définitivement le jeton",
       "cancel": "Annuler",
-      "success": "Jeton d'accès supprimé."
+      "success": "Jeton d'accès supprimé.",
+      "heading": "Supprimer « {{name}} » ?",
+      "lead": "Le jeton est supprimé définitivement et cesse de fonctionner immédiatement.",
+      "confirmShort": "Supprimer le jeton",
+      "pending": "Suppression…"
     },
     "deleteAll": {
-      "open": "Tout supprimer",
-      "title": "Supprimer tous les jetons d'accès ?",
-      "description": "Tous les {{count}} jetons d'accès seront définitivement supprimés et ne pourront plus être utilisés.",
-      "confirm": "Supprimer définitivement tous les jetons",
-      "cancel": "Annuler",
-      "success": "Tous les jetons d'accès ont été supprimés."
+      "success": "Tous les jetons d'accès ont été supprimés.",
+      "heading": "Supprimer tous les jetons d’accès",
+      "lead": "Toute intégration qui en utilise un cesse de fonctionner immédiatement.",
+      "openEllipsis": "Tout supprimer…",
+      "confirmTitle_one": "Supprimer {{count}} jeton d’accès ?",
+      "confirmTitle_other": "Supprimer les {{count}} jetons d’accès ?",
+      "confirmDescription_one": "Le jeton est supprimé définitivement. Toute intégration qui l’utilise cesse de fonctionner immédiatement.",
+      "confirmDescription_other": "Les {{count}} jetons sont supprimés définitivement. Toute intégration qui en utilise un cesse de fonctionner immédiatement.",
+      "confirmAll_one": "Supprimer {{count}} jeton",
+      "confirmAll_other": "Supprimer les {{count}} jetons"
     },
     "loading": "Chargement des jetons d'accès.",
-    "loadError": "Impossible de charger vos jetons d'accès.",
     "empty": "Vous n'avez encore enregistré aucun jeton d'accès.",
     "expiresAt": "Expire le {{date}}",
     "expiredAt": "Expiré le {{date}}",
@@ -3480,17 +3610,48 @@
       "groupSelectAllLabel": "Tout sélectionner dans {{group}}",
       "groupClearLabel": "Tout désélectionner dans {{group}}",
       "allSelectedNote": "Ce jeton reçoit toutes les autorisations, y compris l’accès en écriture. Désélectionnez celles dont l’intégration n’a pas besoin."
+    },
+    "heading": "Jetons <em>d’accès.</em>",
+    "lead": "Les jetons permettent à votre intégration d’appeler l’API Aura Historia pour votre compte. Accordez à chacun uniquement les autorisations nécessaires.",
+    "loadErrorHeading": "Jetons d’accès <em>indisponibles.</em>",
+    "loadErrorDescription": "Impossible de charger vos jetons d’accès. Veuillez réessayer.",
+    "emptyHeading": "Aucun jeton d’accès <em>pour l’instant.</em>",
+    "emptyDescription": "Créez un jeton lorsque vous connectez une intégration, et accordez-lui uniquement les autorisations nécessaires.",
+    "permissions": "Autorisations",
+    "showMore_one": "+{{count}} autre",
+    "showMore_other": "+{{count}} autres",
+    "showFewer": "Afficher moins",
+    "groups": {
+      "active": "Actifs",
+      "activeCount_one": "{{count}} en service",
+      "activeCount_other": "{{count}} en service",
+      "expired": "Expirés",
+      "expiredCount_one": "{{count}} ne fonctionne plus",
+      "expiredCount_other": "{{count}} ne fonctionnent plus"
     }
   },
   "partnerListingSources": {
-    "title": "Fournisseurs accessibles",
-    "description": "Fournisseurs auxquels vous avez actuellement accès. Leur présence ici ne confirme ni la propriété, ni le statut de partenaire, ni le droit de modifier leurs informations.",
-    "actions": {
-      "retry": "Réessayer"
-    },
     "loading": "Chargement des fournisseurs accessibles.",
     "loadError": "L’accès aux fournisseurs n’a pas pu être vérifié. Les droits ont peut-être changé. Veuillez réessayer.",
-    "empty": "Vous n’avez actuellement accès à aucun fournisseur. Un accès antérieur a peut-être été révoqué."
+    "heading": "Vos <em>fournisseurs.</em>",
+    "lead": "Les fournisseurs pour lesquels votre compte peut envoyer des annonces. Utilisez l’ID d’un fournisseur dans l’API ou pour connecter votre boutique.",
+    "applyForAnother": "Demander un autre fournisseur",
+    "withAccess": "Avec accès",
+    "count_one": "{{count}} fournisseur",
+    "count_other": "{{count}} fournisseurs",
+    "countIncomplete_one": "{{count}} chargé · d’autres disponibles",
+    "countIncomplete_other": "{{count}} chargés · d’autres disponibles",
+    "access": "Accès",
+    "providerId": "ID du fournisseur",
+    "copyId": "Copier l’ID de {{name}}",
+    "idCopied": "ID du fournisseur copié.",
+    "idCopyError": "L’ID du fournisseur n’a pas pu être copié. Sélectionnez-le et copiez-le manuellement.",
+    "publicPage": "Page publique",
+    "accessNote": "Un accès n’est pas une propriété : figurer ici ne fait pas de vous le propriétaire ni le partenaire du fournisseur, et ne vous permet pas de modifier ses informations.",
+    "loadErrorHeading": "Accès <em>non vérifié.</em>",
+    "emptyHeading": "Aucun fournisseur <em>pour l’instant.</em>",
+    "emptyDescription": "Vous n’avez encore accès à aucun fournisseur. Un accès antérieur a peut-être été révoqué.",
+    "viewApplications": "Voir les candidatures"
   },
   "ownListingSources": {
     "moreAvailable": "D’autres fournisseurs sont disponibles. Cette liste n’est pas encore complète.",

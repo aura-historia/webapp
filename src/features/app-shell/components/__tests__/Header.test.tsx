@@ -233,7 +233,7 @@ describe("Header", () => {
             );
             expect(
                 within(menu).getByRole("menuitem", { name: "Partner-Dashboard" }),
-            ).toHaveAttribute("href", "/de/partners/applications");
+            ).toHaveAttribute("href", "/de/partners");
             expect(
                 within(menu).getByRole("menuitem", { name: "Konto & Einstellungen" }),
             ).toHaveAttribute("href", "/de/me/account");
