@@ -1684,16 +1684,6 @@
     "shareProduct": "Condividi prodotto",
     "foundOnAuraHistoria": "Ho trovato {{title}} su Aura Historia! Potrebbe interessarti!"
   },
-  "notFound": {
-    "title": "Pagina non trovata",
-    "description": "La pagina che stai cercando non è stata trovata.",
-    "goHome": "Vai alla homepage"
-  },
-  "error": {
-    "title": "Qualcosa è andato storto",
-    "description": "Si è verificato un errore imprevisto. Riprova più tardi.",
-    "goHome": "Vai alla homepage"
-  },
   "serviceStatus": {
     "notice": {
       "maintenance": {
@@ -4301,5 +4291,21 @@
       "retireTitle": "Dismettere «{{label}}»?",
       "restoreTitle": "Ripristinare «{{label}}»?"
     }
+  },
+  "fallback": {
+    "notFound": {
+      "eyebrow": "Errore 404",
+      "headline": "Pagina <em>non trovata.</em>",
+      "description": "L’indirizzo potrebbe essere errato, oppure la pagina è stata spostata o rimossa. Cerca nel catalogo o torna alla homepage."
+    },
+    "error": {
+      "eyebrow": "Errore imprevisto",
+      "headline": "Qualcosa <em>è andato storto.</em>",
+      "description": "Non è stato possibile caricare questa pagina. Riprova — se il problema persiste, torna alla homepage.",
+      "retry": "Riprova",
+      "retrying": "Nuovo tentativo…"
+    },
+    "searchObjects": "Cerca oggetti",
+    "goHome": "Vai alla homepage"
   }
 }

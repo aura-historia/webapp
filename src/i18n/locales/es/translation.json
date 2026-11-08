@@ -1684,16 +1684,6 @@
     "shareProduct": "Compartir producto",
     "foundOnAuraHistoria": "¡He encontrado {{title}} en Aura Historia! ¡Podría interesarte!"
   },
-  "notFound": {
-    "title": "Página no encontrada",
-    "description": "La página que busca no fue encontrada.",
-    "goHome": "Ir a la página principal"
-  },
-  "error": {
-    "title": "Algo salió mal",
-    "description": "Se produjo un error inesperado. Por favor, inténtelo de nuevo más tarde.",
-    "goHome": "Ir a la página principal"
-  },
   "serviceStatus": {
     "notice": {
       "maintenance": {
@@ -4301,5 +4291,21 @@
       "retireTitle": "¿Retirar «{{label}}»?",
       "restoreTitle": "¿Restablecer «{{label}}»?"
     }
+  },
+  "fallback": {
+    "notFound": {
+      "eyebrow": "Error 404",
+      "headline": "Página <em>no encontrada.</em>",
+      "description": "Es posible que la dirección esté mal escrita o que la página se haya movido o eliminado. Busque en el catálogo o vuelva a la página principal."
+    },
+    "error": {
+      "eyebrow": "Error inesperado",
+      "headline": "Algo <em>salió mal.</em>",
+      "description": "No se pudo cargar esta página. Inténtelo de nuevo; si el problema continúa, vuelva a la página principal.",
+      "retry": "Reintentar",
+      "retrying": "Reintentando…"
+    },
+    "searchObjects": "Buscar objetos",
+    "goHome": "Ir a la página principal"
   }
 }

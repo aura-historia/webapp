@@ -1684,16 +1684,6 @@
     "shareProduct": "Produkt teilen",
     "foundOnAuraHistoria": "Ich habe {{title}} auf Aura Historia gefunden! Das könnte interessant für dich sein!"
   },
-  "notFound": {
-    "title": "Seite nicht gefunden",
-    "description": "Die gesuchte Seite wurde leider nicht gefunden.",
-    "goHome": "Zur Startseite"
-  },
-  "error": {
-    "title": "Etwas ist schiefgelaufen",
-    "description": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
-    "goHome": "Zur Startseite"
-  },
   "serviceStatus": {
     "notice": {
       "maintenance": {
@@ -4301,5 +4291,21 @@
       "retireTitle": "„{{label}}“ stilllegen?",
       "restoreTitle": "„{{label}}“ reaktivieren?"
     }
+  },
+  "fallback": {
+    "notFound": {
+      "eyebrow": "Fehler 404",
+      "headline": "Seite <em>nicht gefunden.</em>",
+      "description": "Die Adresse ist vielleicht falsch geschrieben, oder die Seite wurde verschoben oder entfernt. Durchsuchen Sie den Katalog oder kehren Sie zur Startseite zurück."
+    },
+    "error": {
+      "eyebrow": "Unerwarteter Fehler",
+      "headline": "Etwas ist <em>schiefgelaufen.</em>",
+      "description": "Diese Seite konnte nicht geladen werden. Bitte versuchen Sie es erneut – wenn das Problem bestehen bleibt, kehren Sie zur Startseite zurück.",
+      "retry": "Erneut versuchen",
+      "retrying": "Wird erneut versucht…"
+    },
+    "searchObjects": "Objekte suchen",
+    "goHome": "Zur Startseite"
   }
 }
