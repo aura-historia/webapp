@@ -118,25 +118,31 @@ describe("ComparisonPage with the Artsy definition", () => {
         const columnHeaders = within(table).getAllByRole("columnheader");
         expect(columnHeaders).toHaveLength(3);
         expect(columnHeaders[1]).toHaveTextContent("Artsy");
-        expect(within(table).getAllByRole("rowheader")).toHaveLength(6);
-        expect(ARTSY_COMPARISON.scorecardRows.map((row) => row.winner)).toEqual([
-            "competitor",
-            "competitor",
-            "aura",
-            "aura",
-            "aura",
-            "aura",
-        ]);
-        for (const row of ARTSY_COMPARISON.scorecardRows) {
-            expect(
-                within(table).getByText(t(`compareArtsyPage.scorecard.rows.${row.key}.competitor`)),
-            ).toBeInTheDocument();
-            expect(
-                within(table).getByText(
-                    t(`compareArtsyPage.scorecard.rows.${row.key}.auraHistoria`),
-                ),
-            ).toBeInTheDocument();
-        }
+        const rowHeaders = within(table).getAllByRole("rowheader");
+        expect(rowHeaders).toHaveLength(6);
+
+        // The verdict line under each criterion carries the check for Aura Historia and nothing
+        // for the competitor, so the rendered marks pin who each row goes to.
+        const winners = ["competitor", "competitor", "aura", "aura", "aura", "aura"];
+        ARTSY_COMPARISON.scorecardRows.forEach((row, index) => {
+            const header = rowHeaders[index];
+            expect(row.winner).toBe(winners[index]);
+            expect(header).toHaveTextContent(
+                t(`compareArtsyPage.scorecard.rows.${row.key}.criterion`),
+            );
+            expect(header).toHaveTextContent(
+                t(`compareArtsyPage.scorecard.rows.${row.key}.verdict`),
+            );
+            expect(header.querySelector("svg") !== null).toBe(row.winner === "aura");
+
+            const cells = within(header.closest("tr") as HTMLElement).getAllByRole("cell");
+            expect(cells[0]).toHaveTextContent(
+                t(`compareArtsyPage.scorecard.rows.${row.key}.competitor`),
+            );
+            expect(cells[1]).toHaveTextContent(
+                t(`compareArtsyPage.scorecard.rows.${row.key}.auraHistoria`),
+            );
+        });
     });
 
     it("prints the fixed review date in a time element", async () => {
@@ -175,7 +181,7 @@ describe("ComparisonPage with the Artsy definition", () => {
         }
     });
 
-    it("lists the same provider types as the Barnebys comparison", async () => {
+    it("lists the provider types of its own copy, the same ruled list as Barnebys", async () => {
         await renderPage();
 
         expect(ARTSY_COMPARISON.sources.sourceKeys).toEqual(BARNEBYS_COMPARISON.sources.sourceKeys);
@@ -185,9 +191,7 @@ describe("ComparisonPage with the Artsy definition", () => {
         const items = within(list).getAllByRole("listitem");
         expect(items).toHaveLength(ARTSY_COMPARISON.sources.sourceKeys.length);
         ARTSY_COMPARISON.sources.sourceKeys.forEach((key, index) => {
-            expect(items[index]).toHaveTextContent(
-                t(`compareBarnebysPage.downstream.sources.${key}`),
-            );
+            expect(items[index]).toHaveTextContent(t(`compareArtsyPage.downstream.sources.${key}`));
         });
     });
 
@@ -223,22 +227,38 @@ const LOCALES = {
     it: translationIT,
 } as const;
 
-/** Wording the comparison rules keep off the page: speed, fees, finances, ownership, hype. */
+/**
+ * Wording the comparison rules of the epic (#1262) keep off the page: speed and fee comparisons,
+ * finances and staffing, unqualified superlatives, hype. Stems are anchored where a short stem
+ * would hit unrelated words ("costituisce", "frais" as in "fraises").
+ */
 const BANNED_WORDING: Record<keyof typeof LOCALES, RegExp> = {
-    en: /\b(faster|slower|cheaper|outdated|broken|struggling|layoffs?|bankrupt|insolven\w*|commission|fees?|more accurate|more complete|real-time|guaranteed|the only|no other|cutting-edge)\b/i,
-    de: /(schneller|langsamer|günstiger|veraltet|insolvenz|entlassung|kommission|gebühr|genauer|vollständiger|echtzeit|garantiert|der einzige|einzigartig)/i,
-    es: /(más rápid|más lent|más barat|obsolet|despidos|quiebra|comisi[oó]n|tarifa|más preciso|más complet|tiempo real|garantiz|el único)/i,
-    fr: /(plus rapide|plus lent|moins cher|obsolète|licenci|faillite|commission|frais|plus précis|plus complet|temps réel|garanti|le seul)/i,
-    it: /(più veloce|più lent|più economic|obsolet|licenziament|fallimento|commission|costi|più accurat|più complet|tempo reale|garantit|l’unico)/i,
+    en: /\b(faster|slower|cheaper|quickly|instant\w*|immediate\w*|fast|outdated|broken|struggling|layoffs?|bankrupt\w*|insolven\w*|commissions?|fees?|more accurate|more complete|real-time|guaranteed|the only|no other|cutting-edge)\b/i,
+    de: /(schneller|langsamer|sofort|umgehend|günstiger|veraltet|insolvenz|entlassung|kommission|gebühr|genauer|vollständiger|echtzeit|garantiert|der einzige|einzigartig)/i,
+    es: /(más rápid|más lent|al instante|inmediat|más barat|obsolet|despidos|quiebra|comisi[oó]n|tarifa|más preciso|más complet|tiempo real|garantiz|el único)/i,
+    fr: /(plus rapide|plus lent|instantan|immédiat|moins cher|plus cher|obsolète|licenci|faillite|commission|\bfrais\b|plus précis|plus complet|temps réel|garanti|le seul)/i,
+    it: /(più veloce|più lent|istantane|immediat|più economic|obsolet|licenziament|fallimento|commission|\bcosti\b|più accurat|più complet|tempo reale|garantit|l[’']unico)/i,
 };
 
-/** Wording that would turn the dated "joined forces under shared leadership" into a deal. */
+/**
+ * The announcement says "shared leadership"; the wire release even corrected "ownership" to
+ * "leadership". The statement must use that phrase in every language and nothing that reads as a
+ * sale, merger or parent company.
+ */
+const SHARED_LEADERSHIP: Record<keyof typeof LOCALES, string> = {
+    en: "shared leadership",
+    de: "gemeinsamer Leitung",
+    es: "dirección conjunta",
+    fr: "direction commune",
+    it: "guida condivisa",
+};
+
 const OWNERSHIP_WORDING: Record<keyof typeof LOCALES, RegExp> = {
-    en: /(acquir|bought|\bowned?\b|ownership|takeover|merger|merged)/i,
-    de: /(übernahme|übernommen|gekauft|besitz|eigentümer|fusion|fusioniert)/i,
-    es: /(adquir|compró|propiedad|propietari|fusi[oó]n|fusionad)/i,
-    fr: /(rachat|racheté|acquis|propriétaire|appartient|fusion)/i,
-    it: /(acquis|acquist|propriet|fusione|fusi\b)/i,
+    en: /(acquir|bought|\bowned\b|\bowner|ownership|took over|taken over|takeover|parent company|subsidiar|merger|merged)/i,
+    de: /(übernahm|übernimmt|übernehm|übernommen|kauft|gekauft|erwirbt|besitz|eigentümer|fusion|tochter|muttergesellschaft)/i,
+    es: /(adquir|compra|compró|absorb|propiedad|propietari|fusi[oó]n|filial|matriz)/i,
+    fr: /(rachat|rachète|racheté|acquis|acquér|propriétaire|appartient|fusion|filiale)/i,
+    it: /(acquis|acquist|rilevat|propriet|fusione|controllata)/i,
 };
 
 function leaves(value: unknown): string[] {
@@ -265,9 +285,18 @@ describe.each(Object.entries(LOCALES))("Artsy comparison copy in %s", (lng, loca
 
         for (const text of [status, answer]) {
             expect(text).toContain("2026");
+            expect(text).toContain(SHARED_LEADERSHIP[code]);
             expect(text).not.toMatch(OWNERSHIP_WORDING[code]);
+            // Who leads or owns either company is perishable and not needed to state the fact.
+            expect(text).not.toMatch(/Yin|Wolff|Beowolff/);
         }
         expect(answer).toContain("Artnet");
+    });
+
+    it("lists the same provider types as the Barnebys comparison in this language", () => {
+        expect(locale.compareArtsyPage.downstream.sources).toEqual(
+            locale.compareBarnebysPage.downstream.sources,
+        );
     });
 
     it("writes Artsy as a plain name and says nothing about agent interfaces", () => {

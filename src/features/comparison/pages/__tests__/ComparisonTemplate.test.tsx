@@ -74,8 +74,9 @@ describe("ComparisonPage with a second definition", () => {
         expect(links.map((link) => link.getAttribute("href"))).toEqual(
             COMPARISON_REGISTRY.map((entry) => `/de/compare/${entry.slug}`),
         );
-        expect(links[0]).toHaveTextContent("Aura Historia vs. Barnebys");
-        expect(links[0]).toHaveTextContent(i18n.t(BARNEBYS_COMPARISON.positioningKey));
+        const barnebys = links.find((link) => link.getAttribute("href") === "/de/compare/barnebys");
+        expect(barnebys).toHaveTextContent("Aura Historia vs. Barnebys");
+        expect(barnebys).toHaveTextContent(i18n.t(BARNEBYS_COMPARISON.positioningKey));
         expect(within(block).queryByText(new RegExp(FIXTURE_COMPETITOR))).toBeNull();
     });
 

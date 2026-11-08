@@ -3310,7 +3310,7 @@
     "structuredData": {
       "about": {
         "artSearch": "recherche d’art et d’antiquités",
-        "galleryMarketplace": "place de marché en ligne pour l’art représenté par des galeries",
+        "galleryMarketplace": "place de marché d’art en ligne pour les galeries et les maisons de ventes",
         "crossProviderSearch": "recherche parmi les marchands, les maisons de ventes et les places de marché",
         "multilingualSearch": "recherche multilingue d’art et d’antiquités",
         "monitoring": "listes de surveillance et recherches enregistrées pour l’art et les antiquités"
@@ -3319,7 +3319,7 @@
     "nav": {
       "items": {
         "summary": "Résumé",
-        "advantages": "Là où Aura Historia va plus loin",
+        "advantages": "Là où Aura Historia voit plus large",
         "scorecard": "Tableau comparatif",
         "sources": "Types de fournisseurs",
         "alerts": "Suivi",
@@ -3330,7 +3330,7 @@
     "hero": {
       "eyebrow": "Comparatif : Aura Historia vs Artsy",
       "title": "Une recherche sur tout le marché, pas seulement sur <em>les annonces de galeries</em>",
-      "subtitle": "Artsy est une place de marché pour l’art représenté par des galeries, avec un accent sur l’art contemporain et moderne. Aura Historia part d’un principe plus large : les collectionneurs devraient pouvoir rechercher l’art, les antiquités et les objets de design chez les marchands, les maisons de ventes et les places de marché, en un seul endroit.",
+      "subtitle": "Artsy est une place de marché en ligne qui met en relation galeries, maisons de ventes et foires avec des acheteurs, et décrit son offre en termes d’art contemporain et moderne. Aura Historia part d’un principe plus large : les collectionneurs devraient pouvoir rechercher l’art, les antiquités et les objets de design chez les marchands, les maisons de ventes et les places de marché, en un seul endroit.",
       "primaryCta": "Explorer le marché élargi",
       "secondaryCta": "Voir le comparatif",
       "quickAnswerEyebrow": "En bref",
@@ -3339,44 +3339,44 @@
     },
     "quickVerdicts": {
       "contemporaryGalleryArt": {
-        "label": "Idéal pour l’art contemporain de galeries représentées",
+        "label": "Solide pour l’art contemporain de galeries représentées",
         "value": "Artsy"
       },
       "antiquesAndDesign": {
-        "label": "Idéal pour les antiquités et les objets de design",
+        "label": "Plus fort pour les antiquités et les objets de design",
         "value": "Aura Historia"
       },
       "providerTypes": {
-        "label": "Idéal pour chercher parmi plusieurs types de fournisseurs",
+        "label": "Plus fort pour chercher parmi plusieurs types de fournisseurs",
         "value": "Aura Historia"
       },
       "monitoring": {
-        "label": "Idéal pour le suivi chez plusieurs fournisseurs",
+        "label": "Plus fort pour le suivi chez plusieurs fournisseurs",
         "value": "Aura Historia"
       }
     },
     "summary": {
       "title": "La version <em>courte</em>",
-      "paragraph1": "Aura Historia est une alternative plus large à Artsy pour les collectionneurs qui veulent des antiquités et des objets de design à côté de l’art, et voir des marchands, des maisons de ventes et des places de marché plutôt que les galeries partenaires d’une seule plateforme.",
-      "paragraph2": "Artsy reste le lieu naturel pour suivre des artistes contemporains à travers leurs galeries, avec un contexte éditorial et artistique autour des œuvres. Aura Historia recherche à travers les fournisseurs et les langues, et vous laisse suivre toute une recherche plutôt qu’un seul inventaire."
+      "paragraph1": "Aura Historia est une alternative plus large à Artsy pour les collectionneurs qui veulent des antiquités et des objets de design à côté de l’art, et voir des marchands, des maisons de ventes et des places de marché plutôt que les partenaires d’une seule plateforme.",
+      "paragraph2": "Artsy reste le lieu naturel pour suivre des artistes contemporains à travers leurs galeries, avec un contexte éditorial et artistique autour des œuvres. Aura Historia recherche à travers les fournisseurs et les langues, et vous laisse suivre entre fournisseurs plutôt qu’au sein d’un seul inventaire."
     },
     "respect": {
       "title": "Artsy a fait connaître <em>l’art des galeries</em> à un large public",
       "paragraph1": "Un comparatif honnête commence ici : Artsy a mis l’inventaire des galeries, les informations sur les artistes et un contenu éditorial à la portée d’un large public. Selon son propre site (novembre 2026), il propose plus d’un million d’œuvres issues de milliers de galeries et de maisons de ventes, et plus de 3,4 millions de collectionneurs et d’amateurs utilisent le service.",
-      "paragraph2": "Les profils d’artistes, les expositions, les foires et les contenus éditoriaux mettent les œuvres en contexte, et la relation avec une galerie fait partie de la façon dont beaucoup de collectionneurs aiment acheter. Aura Historia ne cherche à remplacer ni l’un ni l’autre. Elle répond à une autre question : qu’est-ce qui est proposé sur l’ensemble du marché ?",
-      "status": "Le 15 avril 2026, Artsy et Artnet ont annoncé qu’elles unissaient leurs forces sous une direction commune. Selon cette annonce, les deux continuent de fonctionner comme des marques et des sites web distincts."
+      "paragraph2": "Les profils d’artistes, les expositions, les foires et les contenus éditoriaux mettent les œuvres en contexte. Aura Historia ne cherche pas à le remplacer. Elle répond à une autre question : qu’est-ce qui est proposé chez les marchands, les maisons de ventes et les places de marché ?",
+      "status": "Le 15 avril 2026, Artsy et Artnet ont annoncé avoir uni leurs forces sous une direction commune. Selon cette annonce, les deux marques continueront de fonctionner comme des marques et des sites web distincts."
     },
     "advantages": {
-      "title": "Antiquités et design, davantage de types de fournisseurs, <em>un seul endroit pour suivre</em>",
-      "description": "La différence tient à l’étendue : davantage de types d’objets, davantage de types de fournisseurs, et une recherche qui les couvre tous.",
+      "title": "Antiquités et design, différents types de fournisseurs, <em>un seul endroit pour suivre</em>",
+      "description": "La différence tient à l’étendue : antiquités et objets de design à côté de l’art, de nombreux types de fournisseurs, et une recherche qui les traverse.",
       "cards": {
         "antiquesAndDesign": {
           "title": "Antiquités et objets de design à côté de l’art",
-          "description": "Aura Historia recherche les antiquités et les objets de design à côté des peintures, des estampes et des sculptures, chez les marchands et les maisons de ventes qui les proposent."
+          "description": "Aura Historia recherche les antiquités et les objets de design à côté de l’art, chez les marchands et les maisons de ventes qui les proposent."
         },
         "providersBeyondOnePlatform": {
           "title": "Des fournisseurs qui ne sont pas sur une seule plateforme",
-          "description": "Marchands, maisons de ventes et places de marché apparaissent avec leurs propres annonces, et pas seulement les galeries partenaires d’une seule place de marché."
+          "description": "Marchands, maisons de ventes et places de marché apparaissent avec leurs propres annonces, et pas seulement les partenaires d’une seule place de marché."
         },
         "monitoringBeyondOneInventory": {
           "title": "Un suivi au-delà d’un seul inventaire",
@@ -3401,13 +3401,13 @@
         "galleryRelationships": {
           "criterion": "Relations avec les galeries et art contemporain",
           "competitor": "Les galeries partenaires présentent sur la plateforme leur inventaire, leurs artistes et leurs expositions. Artsy décrit son offre en termes d’art contemporain et moderne.",
-          "auraHistoria": "Présente les annonces telles que les fournisseurs les publient. Ne représente ni galeries ni artistes.",
+          "auraHistoria": "Présente les annonces des fournisseurs. Ne représente ni galeries ni artistes.",
           "verdict": "Artsy pour l’art de galerie"
         },
         "editorialContext": {
           "criterion": "Contexte éditorial et artistique",
           "competitor": "Profils d’artistes, expositions, foires et une section éditoriale avec actualités, analyses de marché et visites d’ateliers.",
-          "auraHistoria": "Se concentre sur l’annonce elle-même, avec l’historique des prix et des objets similaires sur chaque fiche.",
+          "auraHistoria": "Se concentre sur l’annonce elle-même, avec l’historique des prix et des objets similaires sur les pages d’annonces.",
           "verdict": "Artsy pour le contexte"
         },
         "sourceModel": {
@@ -3418,7 +3418,7 @@
         },
         "antiquesAndDesign": {
           "criterion": "Antiquités et objets de design",
-          "competitor": "Propose le design comme un médium parmi d’autres, à côté de la peinture, de la photographie, de la sculpture et de l’estampe.",
+          "competitor": "Propose le design comme un médium parmi d’autres, à côté de la peinture, de la photographie, de la sculpture et de l’estampe, et a une collection de mobilier et de design.",
           "auraHistoria": "Recherche les antiquités et les objets de design à côté de l’art, chez les marchands et les maisons de ventes.",
           "verdict": "Aura Historia"
         },
@@ -3430,14 +3430,14 @@
         },
         "languageHandling": {
           "criterion": "Gestion des langues",
-          "competitor": "Présente son site web et son appli iOS en anglais.",
+          "competitor": "Présente son site web et son application iOS en anglais (novembre 2026).",
           "auraHistoria": "Cinq langues (allemand, anglais, espagnol, français, italien), avec des annonces traduites et une terminologie harmonisée.",
           "verdict": "Aura Historia"
         }
       }
     },
     "downstream": {
-      "title": "Des fournisseurs de toute nature changent <em>ce que vous pouvez voir</em>",
+      "title": "De nombreux types de fournisseurs changent <em>ce que vous pouvez voir</em>",
       "sourcesLabel": "Types de fournisseurs",
       "sources": {
         "auctionHouses": "Maisons de ventes",
@@ -3456,8 +3456,8 @@
           "description": "Les prix demandés par les marchands, les annonces d’enchères et les offres des places de marché figurent dans une même liste de résultats, pour comparer ce qui est disponible maintenant."
         },
         "acrossLanguages": {
-          "title": "Rechercher dans votre langue",
-          "description": "Quand les annonces sont traduites et la terminologie harmonisée, un collectionneur n’est plus limité par la langue du vendeur ou du commissaire-priseur."
+          "title": "Rechercher en cinq langues",
+          "description": "Quand les annonces sont traduites et la terminologie harmonisée, un collectionneur est moins limité par la langue du vendeur ou du commissaire-priseur."
         },
         "watchAnObject": {
           "title": "Suivre un objet précis",
@@ -3466,7 +3466,7 @@
       }
     },
     "alerts": {
-      "title": "Suivre des artistes ou <em>suivre une recherche</em>",
+      "title": "Suivre des artistes ou <em>suivre à travers les fournisseurs</em>",
       "paragraph1": "Sur Artsy, les collectionneurs peuvent suivre des artistes et créer des alertes pour les nouvelles œuvres d’un artiste sur Artsy. Pour qui s’intéresse à un artiste contemporain précis et à ses galeries, c’est une manière naturelle de rester informé.",
       "paragraph2": "Aura Historia suit autre chose : une recherche enregistrée ou une liste de surveillance couvre tous les fournisseurs de l’index. Vous êtes informé des nouvelles annonces correspondantes et des changements de prix et de disponibilité des objets que vous suivez, quel que soit le fournisseur qui les publie."
     },
@@ -3483,15 +3483,15 @@
         },
         "antiquesAndDesign": {
           "question": "Quel service est le meilleur pour les antiquités et les objets de design ?",
-          "answer": "Aura Historia. Les antiquités et les objets de design font partie de ce qu’elle recherche, chez les marchands et les maisons de ventes. Artsy propose le design comme l’un de ses médiums, mais décrit son offre en termes d’art contemporain et moderne."
+          "answer": "Aura Historia. Les antiquités et les objets de design font partie de ce qu’elle recherche, chez les marchands et les maisons de ventes. Artsy propose le design comme l’un de ses médiums et a une collection de mobilier et de design, et décrit son offre en termes d’art contemporain et moderne."
         },
         "galleryArt": {
           "question": "Quel service est le meilleur pour l’art contemporain de galeries ?",
-          "answer": "Artsy. Le service est construit autour de ses galeries partenaires, qui présentent sur la plateforme leur inventaire, leurs artistes et leurs expositions, avec un contenu éditorial autour. Aura Historia présente les annonces telles que les fournisseurs les publient et ne représente ni galeries ni artistes."
+          "answer": "Artsy. Le service est construit autour de ses galeries partenaires, qui présentent sur la plateforme leur inventaire, leurs artistes et leurs expositions, avec un contenu éditorial autour. Aura Historia présente les annonces des fournisseurs et ne représente ni galeries ni artistes."
         },
         "artnet": {
           "question": "Quel est le lien entre Artsy et Artnet ?",
-          "answer": "Le 15 avril 2026, Artsy et Artnet ont annoncé qu’elles unissaient leurs forces sous une direction commune, avec Jeffrey Yin comme directeur général. Selon cette annonce, les deux continuent de fonctionner comme des marques et des sites web distincts. Cette page compare la place de marché Artsy telle qu’elle est décrite publiquement ; elle ne traite ni de la base de prix d’Artnet ni des autres services d’Artnet."
+          "answer": "Le 15 avril 2026, Artsy et Artnet ont annoncé avoir uni leurs forces sous une direction commune. Selon cette annonce, les deux marques continueront de fonctionner comme des marques et des sites web distincts. Cette page compare la place de marché Artsy telle qu’elle est décrite publiquement ; elle ne traite ni de la base de données de prix d’Artnet ni des autres services d’Artnet."
         }
       }
     },
@@ -3500,7 +3500,7 @@
       "description": "Si votre recherche doit inclure les marchands, les maisons de ventes et les places de marché en plus des galeries, commencez par Aura Historia.",
       "button": "Rechercher de l’art et des antiquités"
     },
-    "positioning": "Une place de marché pour l’art représenté par des galeries, face à une recherche parmi les marchands, les maisons de ventes et les places de marché."
+    "positioning": "Une place de marché qui met en relation galeries, maisons de ventes et foires avec des acheteurs, face à une recherche parmi les marchands, les maisons de ventes et les places de marché."
   },
   "compareBarnebysPage": {
     "structuredData": {
