@@ -26,6 +26,29 @@ describe("SignUpForm", () => {
 
     const marketingCheckboxName = /Ich möchte E-Mails von Aura Historia/;
 
+    it("registers the address normalized, so it can be signed in with later", async () => {
+        // The user pool is case sensitive on the email username. Registering the typed
+        // casing would make the account reachable only by repeating that exact casing.
+        const user = userEvent.setup();
+        const onSuccess = vi.fn();
+        await renderSignUpForm(onSuccess);
+
+        await fillCredentials(user, " User@Example.COM ");
+        await user.click(screen.getByRole("button", { name: "Konto erstellen" }));
+
+        await waitFor(() => {
+            expect(mockSignUp).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    username: "user@example.com",
+                    options: expect.objectContaining({
+                        userAttributes: expect.objectContaining({ email: "user@example.com" }),
+                    }),
+                }),
+            );
+        });
+        expect(onSuccess).toHaveBeenCalledWith("user@example.com", "Password1!");
+    });
+
     async function renderSignUpForm(onSuccess = vi.fn()) {
         await act(async () => {
             renderWithRouter(
@@ -34,8 +57,11 @@ describe("SignUpForm", () => {
         });
     }
 
-    async function fillCredentials(user: ReturnType<typeof userEvent.setup>) {
-        await user.type(screen.getByLabelText("E-Mail"), " user@example.com ");
+    async function fillCredentials(
+        user: ReturnType<typeof userEvent.setup>,
+        email = " user@example.com ",
+    ) {
+        await user.type(screen.getByLabelText("E-Mail"), email);
         await user.type(screen.getByLabelText("Passwort"), "Password1!");
         await user.type(screen.getByLabelText("Passwort bestätigen"), "Password1!");
     }

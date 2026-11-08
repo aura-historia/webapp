@@ -19,6 +19,7 @@ import {
     PasswordPolicyFormControl,
 } from "@/components/common/PasswordPolicyChecklist.tsx";
 import { getAuthErrorMessage } from "@/features/authentication/lib/getAuthErrorMessage.ts";
+import { normalizeEmail } from "@/features/authentication/lib/normalizeEmail.ts";
 import { Spinner } from "@/components/ui/spinner";
 import { FederatedAuthOptions } from "@/features/authentication/components/FederatedAuthOptions.tsx";
 import { AuthFormAlert } from "@/features/authentication/components/AuthFormAlert.tsx";
@@ -78,7 +79,7 @@ export function SignUpForm({ onSuccess, onSwitchToSignIn, locale, redirect }: Si
     const isSubmitting = form.formState.isSubmitting;
 
     const onSubmit = async (data: SignUpValues) => {
-        const email = data.email.trim();
+        const email = normalizeEmail(data.email);
 
         try {
             // The immutable Cognito attribute records only this signup request; the backend

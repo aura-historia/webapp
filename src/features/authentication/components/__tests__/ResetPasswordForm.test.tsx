@@ -30,6 +30,22 @@ describe("ResetPasswordForm", () => {
         mockSignIn.mockResolvedValue(undefined);
     });
 
+    it("requests the reset code for the normalized address", async () => {
+        // The user pool is case sensitive on the email username, so the capitalised address
+        // would resolve to no user and silently deliver no code.
+        const user = userEvent.setup();
+        await act(async () =>
+            renderWithRouter(<ResetPasswordForm onSwitchToSignIn={vi.fn()} onSuccess={vi.fn()} />),
+        );
+
+        await user.type(screen.getByLabelText("E-Mail"), " User@Example.COM ");
+        await user.click(screen.getByRole("button", { name: "Reset-Code senden" }));
+
+        await waitFor(() => {
+            expect(mockResetPassword).toHaveBeenCalledWith({ username: "user@example.com" });
+        });
+    });
+
     it("allows typing into the request email field", async () => {
         const user = userEvent.setup();
         await act(async () =>
