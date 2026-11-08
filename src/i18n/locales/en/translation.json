@@ -1780,7 +1780,8 @@
       "resendSending": "Sending…",
       "resendSent": "New code sent",
       "eyebrow": "Verify email",
-      "hint": "It can take a minute to arrive. Check your spam folder if it doesn't."
+      "hint": "It can take a minute to arrive. Check your spam folder if it doesn't.",
+      "confirmedSignInRequired": "Your email is confirmed. Please sign in to continue."
     },
     "userDetails": {
       "title": "Complete your <em>profile.</em>",

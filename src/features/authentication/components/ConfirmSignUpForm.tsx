@@ -5,6 +5,7 @@ import { confirmSignUp, resendSignUpCode, signIn } from "aws-amplify/auth";
 import { Trans, useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Check } from "lucide-react";
+import { toast } from "sonner";
 import {
     Form,
     FormControl,
@@ -39,11 +40,24 @@ type ConfirmValues = z.infer<ReturnType<typeof confirmSchema>>;
 
 type ConfirmSignUpFormProps = {
     readonly email: string;
+    /**
+     * The password from this session's sign-up or sign-in attempt, used to sign the
+     * confirmed user straight in. Empty whenever the step was remounted (a reload
+     * restores the pending email but deliberately never persists the password).
+     */
     readonly password: string;
+    /** Confirmed and signed in. */
     readonly onSuccess: () => void;
+    /** Confirmed, but the session must be established by signing in manually. */
+    readonly onSignInRequired: () => void;
 };
 
-export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpFormProps) {
+export function ConfirmSignUpForm({
+    email,
+    password,
+    onSuccess,
+    onSignInRequired,
+}: ConfirmSignUpFormProps) {
     const { t } = useTranslation();
     const schema = confirmSchema(t);
     const [resendStatus, setResendStatus] = useState<"idle" | "sending" | "sent">("idle");
@@ -54,16 +68,35 @@ export function ConfirmSignUpForm({ email, password, onSuccess }: ConfirmSignUpF
     });
     const isSubmitting = form.formState.isSubmitting;
 
+    const handOverToSignIn = () => {
+        toast.success(t("auth.confirm.confirmedSignInRequired"));
+        onSignInRequired();
+    };
+
     const onSubmit = async (data: ConfirmValues) => {
         const confirmationCode = data.code.trim();
 
         try {
             await confirmSignUp({ username: email, confirmationCode });
-            await signIn({ username: email, password });
-            onSuccess();
         } catch (err) {
             const message = getAuthErrorMessage(err, t);
             form.setError("root", { message });
+            return;
+        }
+
+        // Confirmation spends the code, so this step can never be retried. Without a
+        // password, or when signing in fails, hand over to the sign-in form rather than
+        // stranding a confirmed account on a step whose code is already used.
+        if (!password) {
+            handOverToSignIn();
+            return;
+        }
+
+        try {
+            await signIn({ username: email, password });
+            onSuccess();
+        } catch {
+            handOverToSignIn();
         }
     };
 

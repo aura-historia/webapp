@@ -1766,7 +1766,8 @@
       "resendSending": "Wird gesendet…",
       "resendSent": "Neuer Code gesendet",
       "eyebrow": "E-Mail bestätigen",
-      "hint": "Es kann eine Minute dauern, bis er ankommt. Sehen Sie andernfalls in Ihrem Spam-Ordner nach."
+      "hint": "Es kann eine Minute dauern, bis er ankommt. Sehen Sie andernfalls in Ihrem Spam-Ordner nach.",
+      "confirmedSignInRequired": "Ihre E-Mail-Adresse ist bestätigt. Bitte melden Sie sich an, um fortzufahren."
     },
     "userDetails": {
       "title": "Profil <em>vervollständigen.</em>",
