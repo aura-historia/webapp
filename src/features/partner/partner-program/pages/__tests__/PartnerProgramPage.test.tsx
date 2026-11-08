@@ -17,17 +17,17 @@ describe("PartnerProgramPage", () => {
         expect(
             screen.getByRole("heading", {
                 level: 1,
-                name: "Verkaufen Sie Kunst und Antiquitäten online? Erreichen Sie Sammler weltweit.",
+                name: "Ein ausgewählter Kreis von Händlern und Auktionshäusern.",
             }),
         ).toBeInTheDocument();
         for (const name of [
-            "Sammler suchen bereits. Lassen Sie sich finden.",
+            "Sammler suchen bereits. Gehören Sie zu denen, die sie finden.",
             "Auffindbar bleiben, wenn sich die Suche wandelt.",
-            "In drei Schritten online.",
+            "Die Aufnahme ist selektiv. Die Anbindung nicht.",
             "Ihren Bestand anbinden.",
             "Wir bringen die Sammler. Ihr Shop bleibt Ihrer.",
             "Was Partner am häufigsten fragen.",
-            "Bereit, Sammler weltweit zu erreichen?",
+            "Ihre Stücke, in ausgewählter Gesellschaft.",
         ]) {
             expect(screen.getByRole("heading", { level: 2, name })).toBeInTheDocument();
         }
@@ -37,7 +37,7 @@ describe("PartnerProgramPage", () => {
         for (const eyebrow of [
             "I — Warum mitmachen",
             "II — Die Suche verändert sich",
-            "III — So funktioniert es",
+            "III — Aufnahme",
             "IV — Anbinden",
             "V — Was bei Ihnen bleibt",
             "VI — Fragen",
@@ -51,29 +51,61 @@ describe("PartnerProgramPage", () => {
         expect(screen.queryByText(/XX/)).not.toBeInTheDocument();
     });
 
-    it("lists the partner terms under the hero", () => {
-        expect(screen.getByText("Provision auf Verkäufe").closest("dl")).toHaveAccessibleName(
-            "Partnerbedingungen",
-        );
-        expect(screen.getByText("Ohne Frist aussteigen")).toBeInTheDocument();
+    it("leads the partner terms under the hero with admission by review", () => {
+        const terms = screen.getByText("Provision auf Verkäufe").closest("dl") as HTMLElement;
+        expect(terms).toHaveAccessibleName("Partnerbedingungen");
+        const labels = within(terms)
+            .getAllByRole("term")
+            .map((term) => term.textContent);
+        expect(labels).toEqual([
+            "Jede Bewerbung, von unserem Team gelesen",
+            "Provision auf Verkäufe",
+            "Ihres Umsatzes bleiben bei Ihnen",
+            "Ohne Frist aussteigen",
+        ]);
+        expect(within(terms).getByText("Nach Prüfung")).toBeInTheDocument();
+        expect(within(terms).queryByText("Einrichtungs- oder Listinggebühren")).toBeNull();
     });
 
-    it("sends the hero calls to action to the application band and the steps", () => {
-        const becomePartner = screen.getAllByRole("link", { name: "Partner werden" });
-        expect(becomePartner).toHaveLength(2);
-        for (const link of becomePartner) {
-            expect(link).toHaveAttribute("href", "#apply");
-        }
-        expect(screen.getByRole("link", { name: "So funktioniert es" })).toHaveAttribute(
+    it("publishes the admission standards before the path to partnership", () => {
+        const section = screen
+            .getByRole("heading", {
+                level: 2,
+                name: "Die Aufnahme ist selektiv. Die Anbindung nicht.",
+            })
+            .closest("section") as HTMLElement;
+        const headings = within(section)
+            .getAllByRole("heading", { level: 3 })
+            .map((heading) => heading.textContent);
+        expect(headings).toEqual([
+            "Ein spezialisiertes Angebot",
+            "Sorgfältige Beschreibungen",
+            "Ein eigenes Geschäft",
+            "Fairer Umgang",
+            "Bewerben",
+            "Prüfung",
+            "Anbinden",
+        ]);
+        expect(
+            within(section).getByText(/Nicht jede Bewerbung wird angenommen\./),
+        ).toBeInTheDocument();
+        expect(
+            within(section).queryByText(/Kein Code, keine Vorkenntnisse, kein Risiko/),
+        ).toBeNull();
+    });
+
+    it("asks for admission everywhere and never to simply become a partner", () => {
+        const applyLinks = screen.getAllByRole("link", { name: "Aufnahme beantragen" });
+        expect(applyLinks.map((link) => link.getAttribute("href"))).toEqual([
+            "#apply",
+            "#apply",
+            "#apply",
+            "/de/partners/applications",
+        ]);
+        expect(screen.queryByRole("link", { name: /Partner werden/ })).not.toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "So funktioniert die Aufnahme" })).toHaveAttribute(
             "href",
             "#how-easy",
-        );
-    });
-
-    it("links the final application CTA to the partner dashboard", () => {
-        expect(screen.getByRole("link", { name: "Jetzt Partner werden" })).toHaveAttribute(
-            "href",
-            "/de/partners/applications",
         );
     });
 
@@ -172,9 +204,24 @@ describe("PartnerProgramPage", () => {
         expect(screen.getByText("Jederzeit beendbar")).toBeInTheDocument();
     });
 
+    it("opens the FAQ with who is admitted and how long the review takes", () => {
+        const faq = screen
+            .getByRole("heading", { level: 2, name: "Was Partner am häufigsten fragen." })
+            .closest("section") as HTMLElement;
+        const questions = within(faq)
+            .getAllByRole("button")
+            .map((button) => button.textContent?.replace(/[+−]$/, ""));
+        expect(questions.slice(0, 3)).toEqual([
+            "Wer wird aufgenommen?",
+            "Wie lange dauert die Prüfung?",
+            "Was kostet das Partner-Programm?",
+        ]);
+        expect(within(faq).queryByText("Welche Shops passen ins Programm?")).toBeNull();
+    });
+
     it("keeps one FAQ answer open at a time", () => {
-        const first = screen.getByRole("button", { name: /Was kostet das Partner-Programm\?/ });
-        const second = screen.getByRole("button", { name: /Kann ich jederzeit aussteigen\?/ });
+        const first = screen.getByRole("button", { name: /Wer wird aufgenommen\?/ });
+        const second = screen.getByRole("button", { name: /Wie lange dauert die Prüfung\?/ });
         expect(first).toHaveAttribute("aria-expanded", "true");
         expect(second).toHaveAttribute("aria-expanded", "false");
 

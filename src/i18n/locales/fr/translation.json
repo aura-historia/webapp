@@ -65,7 +65,7 @@
     },
     "partnerProgram": {
       "title": "Programme partenaires | Aura Historia",
-      "description": "Devenez boutique partenaire d'Aura Historia, la plateforme mondiale pour l'art et les antiquités. Gratuit, sans commission, connectée en quelques minutes."
+      "description": "Partenariat sur examen : marchands et maisons de ventes spécialisés sur Aura Historia, la recherche mondiale d’art et d’antiquités. Les boutiques admises se connectent sans code et ne paient aucune commission."
     },
     "partnerCustomIntegration": {
       "title": "Intégration API pour systèmes de boutique sur mesure | Aura Historia",
@@ -186,7 +186,7 @@
       "woocommerce": "Plugin WordPress",
       "shopify": "Shopify",
       "customApi": "Intégration personnalisée",
-      "apply": "Postuler"
+      "apply": "Demander l’admission"
     },
     "tagline": "Le marché mondial de l’art et des antiquités, en une seule recherche.",
     "socialNavigation": "Réseaux sociaux",
@@ -1067,7 +1067,7 @@
       "eyebrow": "VI — Pour les marchands et maisons de ventes",
       "title": "Placez votre inventaire là où les collectionneurs du monde entier <em>cherchent déjà.</em>",
       "body": "Aura Historia ne remplace pas votre boutique : il lui envoie des acheteurs qualifiés. Connectez-vous une fois, et vos objets apparaissent auprès de collectionneurs qui cherchent dans leur propre langue.",
-      "apply": "Postuler au programme partenaire",
+      "apply": "Demander l’admission",
       "overview": "Présentation du programme",
       "newTab": "(s’ouvre dans un nouvel onglet)",
       "links": {
@@ -1120,11 +1120,11 @@
   },
   "partnerProgram": {
     "hero": {
-      "title": "Vous vendez de l’art et des antiquités en ligne ? Touchez des collectionneurs <em>du monde entier.</em>",
-      "subtitle": "Aura Historia est la recherche mondiale d’art et d’antiquités, où les collectionneurs trouvent exactement ce que vous vendez. Connectez votre boutique une fois ; les acheteurs qui trouvent vos pièces achètent sur votre propre site.",
-      "primaryCta": "Devenir partenaire",
-      "secondaryCta": "Voir le fonctionnement",
-      "eyebrow": "Programme partenaires · Pour marchands et maisons de ventes",
+      "title": "Un cercle choisi de marchands et de <em>maisons de ventes.</em>",
+      "subtitle": "Les partenaires d’Aura Historia sont admis sur examen, et non sur simple inscription. Nous lisons nous-mêmes chaque candidature et admettons les marchands et maisons de ventes spécialisés aux côtés desquels nous sommes heureux de figurer. Une fois admis, la connexion prend quelques minutes, et les acheteurs poursuivent sur votre propre site.",
+      "primaryCta": "Demander l’admission",
+      "secondaryCta": "Comment se passe l’admission",
+      "eyebrow": "Programme partenaires · Admission sur examen",
       "preview": {
         "caption": "Comment vos pièces apparaissent",
         "sample": "Exemple",
@@ -1139,10 +1139,6 @@
           "value": "0 %",
           "label": "Commission sur les ventes"
         },
-        "fees": {
-          "value": "0 €",
-          "label": "Frais d’inscription ou de publication"
-        },
         "revenue": {
           "value": "100 %",
           "label": "De votre chiffre d’affaires vous reviennent"
@@ -1150,12 +1146,16 @@
         "cancel": {
           "value": "À tout moment",
           "label": "Partir sans préavis"
+        },
+        "review": {
+          "value": "Sur examen",
+          "label": "Chaque candidature, lue par notre équipe"
         }
       }
     },
     "motivation": {
-      "title": "Les collectionneurs cherchent déjà. <em>Laissez-les vous trouver.</em>",
-      "subtitle": "Aura Historia met des collectionneurs motivés directement en relation avec vos pièces. Nous les envoyons vers votre boutique et ne prenons aucune commission sur leurs achats.",
+      "title": "Les collectionneurs cherchent déjà. <em>Soyez de ceux qu’ils trouvent.</em>",
+      "subtitle": "Les partenaires forment un cercle choisi de marchands et de maisons de ventes. Les collectionneurs trouvent leurs pièces dans notre recherche et poursuivent vers leurs boutiques, et nous ne prenons aucune commission sur leurs achats.",
       "items": {
         "audience": {
           "title": "Communauté mondiale de collectionneurs",
@@ -1170,8 +1170,8 @@
           "description": "Notre recherche relie les collectionneurs à ce qu’ils cherchent réellement : les visiteurs que vous recevez arrivent prêts à acheter."
         },
         "trust": {
-          "title": "Le badge Boutique partenaire",
-          "description": "Vos annonces portent le badge vérifié Boutique partenaire, un gage de confiance pour des collectionneurs exigeants."
+          "title": "Un badge qui se mérite",
+          "description": "Le badge Boutique partenaire n’apparaît qu’à côté des boutiques admises. Les collectionneurs savent qu’il signifie un examen, pas une simple inscription."
         },
         "realtime": {
           "title": "Synchronisation en temps réel",
@@ -1262,7 +1262,7 @@
       "closing": {
         "title": "Aucune configuration d’IA <em>de votre côté.</em>",
         "body": "Connectez-vous une fois via Shopify, WooCommerce ou notre API. Quelle que soit la façon dont les acheteurs trouvent vos pièces, ils achètent dans votre propre boutique.",
-        "apply": "Devenir partenaire",
+        "apply": "Demander l’admission",
         "connect": "Voir comment se connecter"
       }
     },
@@ -1297,24 +1297,47 @@
       "trademarks": "Shopify est une marque de Shopify Inc. WooCommerce® et ses designs associés sont des marques d’Automattic Inc. WordPress est une marque de la WordPress Foundation."
     },
     "howEasy": {
-      "title": "En ligne en <em>trois étapes.</em>",
-      "subtitle": "Pas de code, aucune compétence préalable, aucun risque. Voici comment devenir partenaire.",
+      "title": "L’admission est sélective. <em>La connexion ne l’est pas.</em>",
+      "subtitle": "Nous admettons les marchands et maisons de ventes une candidature à la fois, selon les critères ci-dessous. Une fois admis, vous connectez votre boutique sans code.",
       "steps": {
         "apply": {
           "title": "Postulez",
-          "description": "Remplissez un court formulaire. Nous étudions votre boutique et revenons vers vous sous quelques jours."
-        },
-        "claim": {
-          "title": "Configurez votre boutique",
-          "description": "Revendiquez votre boutique et complétez son profil dans le tableau de bord partenaire."
+          "description": "Présentez-nous votre entreprise et la boutique par laquelle vous vendez. Cela prend quelques minutes."
         },
         "connect": {
-          "title": "Activez l'intégration",
-          "description": "Choisissez Shopify, WooCommerce ou notre API. Vos produits apparaissent ensuite automatiquement dans la recherche."
+          "title": "Connectez",
+          "description": "Une fois admis, revendiquez votre boutique dans le tableau de bord partenaire et connectez Shopify, WooCommerce ou notre API. Vos pièces apparaissent ensuite dans notre recherche."
+        },
+        "review": {
+          "title": "Examen",
+          "description": "Un membre de notre équipe examine votre candidature au regard de ces critères et vous fait part de sa décision, généralement en quelques jours. Toutes les candidatures ne sont pas acceptées."
         }
       },
-      "eyebrow": "Fonctionnement",
-      "cta": "Commencer votre candidature"
+      "eyebrow": "Admission",
+      "cta": "Demander l’admission",
+      "pathLabel": "Le chemin vers le partenariat",
+      "standards": {
+        "label": "Ce que nous recherchons",
+        "note": "Chaque candidature est lue par un membre de notre équipe.",
+        "items": {
+          "specialism": {
+            "title": "Une offre spécialisée",
+            "description": "L’art, les antiquités, les objets de design ou les objets de collection d’intérêt historique sont au cœur de ce que vous vendez."
+          },
+          "descriptions": {
+            "title": "Des descriptions soignées",
+            "description": "Attribution, datation et état sont décrits avec soin, pour que les collectionneurs puissent juger une pièce avant de se renseigner."
+          },
+          "business": {
+            "title": "Une entreprise à vous",
+            "description": "Une entreprise identifiable avec son propre site, où les acheteurs achètent ou enchérissent."
+          },
+          "conduct": {
+            "title": "Des pratiques loyales",
+            "description": "Des conditions de vente claires et une bonne réputation auprès des acheteurs que vous servez déjà."
+          }
+        }
+      }
     },
     "faq": {
       "title": "Ce que les partenaires <em>nous demandent le plus.</em>",
@@ -1343,24 +1366,28 @@
           "question": "Les ventes sont-elles traitées via Aura Historia ?",
           "answer": "Non. Les acheteurs sont redirigés directement vers votre boutique pour finaliser leur achat. Vous conservez la relation client, la gestion des paiements et 100 % de votre chiffre d'affaires."
         },
-        "fit": {
-          "question": "Quelles boutiques peuvent rejoindre le programme ?",
-          "answer": "Nous recherchons des boutiques en ligne sérieuses spécialisées en art, antiquités, objets de collection et pièces historiques. Les maisons de ventes et marchands spécialisés sont les bienvenus."
-        },
         "support": {
           "question": "Suis-je accompagné pendant l'installation ?",
           "answer": "Oui. Notre équipe partenaires vous accompagne personnellement à l'onboarding et reste joignable par e-mail, même longtemps après le lancement."
+        },
+        "admission": {
+          "question": "Qui est admis ?",
+          "answer": "Les marchands, maisons de ventes et plateformes qui vendent de l’art, des antiquités, des objets de design ou des objets de collection d’intérêt historique, décrivent leurs pièces avec soin et vendent via leur propre site. Un membre de notre équipe examine chaque candidature individuellement, et toutes ne sont pas acceptées."
+        },
+        "review": {
+          "question": "Combien de temps dure l’examen ?",
+          "answer": "Généralement quelques jours. Nous lisons nous-mêmes chaque candidature et vous faisons part de notre décision."
         }
       },
       "eyebrow": "Questions",
       "contact": "Une autre question ? Écrivez à <mail>{{email}}</mail>"
     },
     "finalCta": {
-      "title": "Prêt à toucher des collectionneurs <em>du monde entier ?</em>",
-      "subtitle": "Postulez gratuitement en moins de deux minutes. Sans contrat, sans risque, avec un contrôle total.",
-      "primary": "Devenir partenaire",
+      "title": "Vos pièces, en <em>compagnie choisie.</em>",
+      "subtitle": "Présentez-nous votre entreprise. Un membre de notre équipe examine chaque candidature et vous fait part de sa décision. Gratuit, sans contrat, et vous pouvez partir à tout moment.",
+      "primary": "Demander l’admission",
       "secondary": "Écrire à l'équipe partenaires",
-      "eyebrow": "Candidater"
+      "eyebrow": "Admission sur candidature"
     },
     "customIntegrationPage": {
       "hero": {
@@ -1431,7 +1458,7 @@
             "loadError": "L’accès au fournisseur n’a pas pu être vérifié.",
             "retryCta": "Réessayer",
             "empty": "Vous n’avez actuellement accès à aucun fournisseur. Un accès antérieur a peut-être été révoqué.",
-            "applyCta": "Demander une boutique partenaire",
+            "applyCta": "Demander l’admission",
             "selectionLabel": "Fournisseur pour cette intégration",
             "signInHint": "Connectez-vous pour voir les fournisseurs auxquels votre compte a accès."
           },

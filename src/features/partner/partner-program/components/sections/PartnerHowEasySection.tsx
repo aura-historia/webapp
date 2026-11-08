@@ -9,13 +9,18 @@ import {
 import { PARTNER_PROGRAM_FRAGMENTS } from "@/features/partner/partner-program/config/partnerProgramFragments.ts";
 import { cn } from "@/lib/utils.ts";
 
+const STANDARDS = ["specialism", "descriptions", "business", "conduct"] as const;
+
 const STEPS = [
     { numeral: "I", key: "apply" },
-    { numeral: "II", key: "claim" },
+    { numeral: "II", key: "review" },
     { numeral: "III", key: "connect" },
 ] as const;
 
-/** III — How it works: three Roman-numeral steps on the raised band, as on the landing page. */
+/**
+ * III — Admission: the published standards under ink rules, then the path (apply, review, connect)
+ * as Roman-numeral steps on the raised band. The review is the threshold; connecting stays easy.
+ */
 export default function PartnerHowEasySection() {
     const { t } = useTranslation();
 
@@ -38,27 +43,66 @@ export default function PartnerHowEasySection() {
                 }
                 intro={t("partnerProgram.howEasy.subtitle")}
             />
-            <ol className="grid grid-cols-1 sm:gap-y-10 md:grid-cols-3">
-                {STEPS.map((step) => (
-                    <li
-                        key={step.key}
-                        className="grid grid-cols-[56px_minmax(0,1fr)] gap-x-3 gap-y-1 border-t border-ink py-[22px] last:border-b md:flex md:flex-col md:gap-4 md:pt-7 md:pr-7 md:pb-0 md:last:border-b-0"
-                    >
-                        <span
-                            aria-hidden="true"
-                            className="row-span-2 font-serif text-[36px] leading-none text-oxblood md:text-display-rail md:leading-none"
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-baseline sm:gap-x-6 sm:gap-y-5">
+                <p className="font-mono text-kicker text-ink-muted uppercase">
+                    {t("partnerProgram.howEasy.standards.label")}
+                </p>
+                <p className="order-3 text-sm leading-normal text-ink-muted sm:order-2 sm:justify-self-end sm:text-right">
+                    {t("partnerProgram.howEasy.standards.note")}
+                </p>
+                <ol className="order-2 grid grid-cols-1 sm:order-3 sm:col-span-2 sm:grid-cols-2 sm:gap-x-7 lg:grid-cols-4">
+                    {STANDARDS.map((standard, index) => (
+                        <li
+                            key={standard}
+                            className="grid grid-cols-[36px_minmax(0,1fr)] gap-x-3 gap-y-1.5 border-t border-ink pt-5 pb-[22px] sm:flex sm:flex-col sm:gap-2.5 sm:pt-6 sm:pb-2"
                         >
-                            {step.numeral}
-                        </span>
-                        <h3 className="font-serif text-[22px] font-medium md:text-title-sm">
-                            {t(`partnerProgram.howEasy.steps.${step.key}.title`)}
-                        </h3>
-                        <p className="text-body text-ink-secondary">
-                            {t(`partnerProgram.howEasy.steps.${step.key}.description`)}
-                        </p>
-                    </li>
-                ))}
-            </ol>
+                            <span
+                                aria-hidden="true"
+                                className="row-span-2 pt-1.5 font-mono text-xs tracking-[0.14em] text-brass-ink sm:pt-0"
+                            >
+                                {String(index + 1).padStart(2, "0")}
+                            </span>
+                            <h3 className="font-serif text-[22px] leading-[1.2] font-normal sm:text-[24px]">
+                                {t(`partnerProgram.howEasy.standards.items.${standard}.title`)}
+                            </h3>
+                            <p className="text-body text-ink-secondary">
+                                {t(
+                                    `partnerProgram.howEasy.standards.items.${standard}.description`,
+                                )}
+                            </p>
+                        </li>
+                    ))}
+                </ol>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:gap-5">
+                <p className="font-mono text-kicker text-ink-muted uppercase">
+                    {t("partnerProgram.howEasy.pathLabel")}
+                </p>
+                <ol className="grid grid-cols-1 sm:gap-y-10 md:grid-cols-3">
+                    {STEPS.map((step) => (
+                        <li
+                            key={step.key}
+                            className="grid grid-cols-[56px_minmax(0,1fr)] gap-x-3 gap-y-1 border-t border-ink py-[22px] last:border-b md:flex md:flex-col md:gap-4 md:pt-7 md:pr-7 md:pb-0 md:last:border-b-0"
+                        >
+                            <span
+                                aria-hidden="true"
+                                className="row-span-2 font-serif text-[36px] leading-none text-oxblood md:text-display-rail md:leading-none"
+                            >
+                                {step.numeral}
+                            </span>
+                            <h3 className="font-serif text-[22px] font-medium md:text-title-sm">
+                                {t(`partnerProgram.howEasy.steps.${step.key}.title`)}
+                            </h3>
+                            <p className="text-body text-ink-secondary">
+                                {t(`partnerProgram.howEasy.steps.${step.key}.description`)}
+                            </p>
+                        </li>
+                    ))}
+                </ol>
+            </div>
+
             <div className="flex sm:justify-center">
                 <a
                     href={`#${PARTNER_PROGRAM_FRAGMENTS.apply}`}
