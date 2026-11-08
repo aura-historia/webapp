@@ -2525,7 +2525,6 @@
       "listingSourceTypeRequired": "Choose the provider type.",
       "required": "This field is required.",
       "nameTooLong": "Names must not exceed 255 UTF-8 bytes.",
-      "withdraw": "Withdraw application",
       "withdrawn": "Withdrawn",
       "conflict": "The application cannot be changed in its current state. Refresh to see the latest status.",
       "missing": "Application not found or unavailable.",
@@ -2573,7 +2572,8 @@
       "title": "Withdraw this application?",
       "description": "It stays in your list as withdrawn. To apply again, send a new application.",
       "keep": "Keep application",
-      "confirm": "Withdraw"
+      "confirm": "Withdraw",
+      "open": "Withdraw application"
     },
     "details": {
       "website": "Website",

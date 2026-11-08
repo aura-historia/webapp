@@ -100,6 +100,8 @@ export function PartnerDashboardRail() {
                                     params={true}
                                     from="/$lng"
                                     aria-current={isActive ? "page" : undefined}
+                                    activeOptions={{ exact: section.exact ?? false }}
+                                    activeProps={{}}
                                     className={cn(
                                         "flex min-h-11 items-center gap-3 rounded-md px-3 text-sm",
                                         FOCUS_CLASS,
@@ -206,6 +208,8 @@ export function PartnerDashboardMenu() {
                                     params={true}
                                     from="/$lng"
                                     aria-current={isActive ? "page" : undefined}
+                                    activeOptions={{ exact: section.exact ?? false }}
+                                    activeProps={{}}
                                     className={cn(
                                         "flex min-h-12 cursor-pointer items-center gap-3 rounded-md px-3 text-[15px] focus:bg-surface-sunken data-highlighted:bg-surface-sunken",
                                         isActive

@@ -2932,7 +2932,6 @@
       "listingSourceTypeRequired": "Choisissez le type de fournisseur.",
       "required": "Ce champ est obligatoire.",
       "nameTooLong": "Les noms ne doivent pas dépasser 255 octets UTF-8.",
-      "withdraw": "Retirer la candidature",
       "withdrawn": "Retirée",
       "conflict": "La candidature ne peut pas être modifiée dans son état actuel. Actualisez pour voir le dernier statut.",
       "missing": "Candidature introuvable ou indisponible.",
@@ -2980,7 +2979,8 @@
       "title": "Retirer cette candidature ?",
       "description": "Elle reste dans votre liste comme retirée. Pour postuler à nouveau, envoyez une nouvelle candidature.",
       "keep": "Conserver la candidature",
-      "confirm": "Retirer"
+      "confirm": "Retirer",
+      "open": "Retirer la candidature"
     },
     "details": {
       "website": "Site web",

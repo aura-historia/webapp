@@ -2932,7 +2932,6 @@
       "listingSourceTypeRequired": "Elija el tipo de proveedor.",
       "required": "Este campo es obligatorio.",
       "nameTooLong": "Los nombres no deben superar los 255 bytes UTF-8.",
-      "withdraw": "Retirar solicitud",
       "withdrawn": "Retirada",
       "conflict": "La solicitud no se puede cambiar en su estado actual. Actualice para ver el estado más reciente.",
       "missing": "Solicitud no encontrada o no disponible.",
@@ -2980,7 +2979,8 @@
       "title": "¿Retirar esta solicitud?",
       "description": "Seguirá en su lista como retirada. Para volver a solicitar, envíe una nueva solicitud.",
       "keep": "Mantener solicitud",
-      "confirm": "Retirar"
+      "confirm": "Retirar",
+      "open": "Retirar solicitud"
     },
     "details": {
       "website": "Sitio web",

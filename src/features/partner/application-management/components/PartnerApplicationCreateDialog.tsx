@@ -322,11 +322,15 @@ export function PartnerApplicationCreateDialog({
                                             value={kind.type}
                                             checked={type === kind.type}
                                             onChange={() => chooseKind(kind.type)}
+                                            aria-labelledby={`application-kind-${kind.type}-title`}
                                             aria-describedby={`application-kind-${kind.type}`}
                                             className="mt-0.5 size-4 shrink-0 accent-oxblood"
                                         />
                                         <span className="flex flex-col gap-1">
-                                            <span className="text-sm font-medium">
+                                            <span
+                                                id={`application-kind-${kind.type}-title`}
+                                                className="text-sm font-medium"
+                                            >
                                                 {t(kind.title)}
                                             </span>
                                             <span

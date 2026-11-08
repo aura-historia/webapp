@@ -2525,7 +2525,6 @@
       "listingSourceTypeRequired": "Wählen Sie die Art des Anbieters aus.",
       "required": "Dieses Feld ist erforderlich.",
       "nameTooLong": "Namen dürfen höchstens 255 UTF-8-Bytes umfassen.",
-      "withdraw": "Bewerbung zurückziehen",
       "withdrawn": "Zurückgezogen",
       "conflict": "Die Bewerbung kann im aktuellen Status nicht geändert werden. Aktualisieren Sie den Status.",
       "missing": "Bewerbung nicht gefunden oder nicht verfügbar.",
@@ -2573,7 +2572,8 @@
       "title": "Antrag zurückziehen?",
       "description": "Er bleibt als zurückgezogen in Ihrer Liste. Um erneut zu beantragen, senden Sie einen neuen Antrag.",
       "keep": "Antrag behalten",
-      "confirm": "Zurückziehen"
+      "confirm": "Zurückziehen",
+      "open": "Antrag zurückziehen"
     },
     "details": {
       "website": "Website",

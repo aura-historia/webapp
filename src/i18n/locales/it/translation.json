@@ -2932,7 +2932,6 @@
       "listingSourceTypeRequired": "Scegli il tipo di fornitore.",
       "required": "Questo campo è obbligatorio.",
       "nameTooLong": "I nomi non devono superare 255 byte UTF-8.",
-      "withdraw": "Ritirare la candidatura",
       "withdrawn": "Ritirata",
       "conflict": "La candidatura non può essere modificata nel suo stato attuale. Aggiorni per vedere lo stato più recente.",
       "missing": "Candidatura non trovata o non disponibile.",
@@ -2980,7 +2979,8 @@
       "title": "Ritirare questa richiesta?",
       "description": "Resta nel tuo elenco come ritirata. Per fare di nuovo domanda, invia una nuova richiesta.",
       "keep": "Mantieni la richiesta",
-      "confirm": "Ritira"
+      "confirm": "Ritira",
+      "open": "Ritira la richiesta"
     },
     "details": {
       "website": "Sito web",

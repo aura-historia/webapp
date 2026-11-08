@@ -316,7 +316,7 @@ function ApplicationDetails({
                                 aria-expanded={false}
                                 onClick={() => onConfirmingChange(true)}
                             >
-                                {t("partnerApplications.proposals.withdraw")}
+                                {t("partnerApplications.withdrawConfirm.open")}
                             </button>
                         )}
                         {application.state === "APPROVED" && (
