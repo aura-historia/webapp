@@ -2599,7 +2599,7 @@
       "stepsLabel": "Étapes",
       "progressLabel": "Progression",
       "proTag": "Pro & Ultimate",
-      "lockedHint": "Votre formule enregistre le terme de recherche, la disponibilité et la fourchette de prix.",
+      "lockedHint": "Votre formule enregistre le terme de recherche, la disponibilité et la fourchette de prix. Passez à une formule supérieure pour utiliser les filtres ci-dessous.",
       "any": "Tous",
       "change": "Modifier",
       "changeLabel": "Modifier : {{label}}",

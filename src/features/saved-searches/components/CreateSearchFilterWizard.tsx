@@ -85,7 +85,8 @@ type FilterStep = {
 /**
  * Filter steps for the wizard (steps 2–4).
  * `restricted: true` marks steps that require a paid plan.
- * `content` receives `disabled` so filter components can be grayed out for FREE users.
+ * `content` receives `disabled`: on FREE the step and its filter groups stay open and readable,
+ * while the filter controls themselves are grayed out and cannot be used.
  */
 const FILTER_STEPS: FilterStep[] = [
     {
@@ -535,10 +536,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
         return (
             <>
                 {disabled && <LockedStepNotice />}
-                <div
-                    className={cn("flex flex-col", disabled && "opacity-45")}
-                    aria-disabled={disabled}
-                >
+                <div className="flex flex-col">
                     {fs.content(disabled, filters.currency ?? preferences.currency)}
                 </div>
             </>

@@ -2086,7 +2086,7 @@
       "stepsLabel": "Schritte",
       "progressLabel": "Fortschritt",
       "proTag": "Pro & Ultimate",
-      "lockedHint": "Ihr Tarif speichert Suchbegriff, Verfügbarkeit und Preisspanne.",
+      "lockedHint": "Ihr Tarif speichert Suchbegriff, Verfügbarkeit und Preisspanne. Die Filter unten können Sie nach einem Upgrade setzen.",
       "any": "Beliebig",
       "change": "Ändern",
       "changeLabel": "{{label}} ändern",

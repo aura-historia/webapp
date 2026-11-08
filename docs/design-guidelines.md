@@ -77,7 +77,7 @@ Use the token system in `src/styles.css`, which mirrors the design system's `tok
 
 - The search page follows the Redesign's Search page: from 1024px a sticky 280px filter sidebar beside the results; below it, a left drawer (`SearchFilterDrawer`) with the same `SearchFilters` in its `sheet` variant and a footer to reset or close. Phones add `MobileAppBar` (search field and a filter button with the active-filter count) under the header.
 - Filters apply as they change, through the URL. Applied filters also show as removable chips (`ActiveFilterChips`, from `lib/activeFilters.ts`), so they stay visible while the panel is closed.
-- Filter groups use `FilterCard`: a mono heading with a short value summary, a reset button only while the group is active, and a lock for plan-restricted groups in the saved-search wizard. The same filter components serve the search page and the wizard.
+- Filter groups use `FilterCard`: a mono heading with a short value summary, a reset button only while the group is active, and a lock for plan-restricted groups in the saved-search wizard. A locked group stays expandable so every plan can see what it offers; only its controls are dimmed and disabled (`inert`). The same filter components serve the search page and the wizard.
 - Results use `SearchResultCard` (square photo, provider in mono, serif title, availability dot, price, Details and Go to provider) in two columns, three from 1180px. Empty, error, short-query, loading and end-of-list states follow the board "Search · States".
 - `cn` knows the type-style utilities (`text-tag`, `text-meta`, …) as font sizes, so they combine safely with text colours.
 
