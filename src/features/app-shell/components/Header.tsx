@@ -1,7 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
-import { env } from "@/env.ts";
 import { AppNavBar } from "@/features/app-shell/components/navigation/AppNavBar.tsx";
 import { MobileHeader } from "@/features/app-shell/components/navigation/MobileHeader.tsx";
 import { getActiveSiteSection } from "@/features/app-shell/components/navigation/navigationConfig.ts";
@@ -13,9 +12,6 @@ import { useNavigationViewer } from "@/features/app-shell/components/navigation/
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import { clearViewerScopedQueries } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
 import { stripLanguageFromPathname } from "@/i18n/routing.ts";
-
-const isLoginEnabled = env.VITE_FEATURE_LOGIN_ENABLED;
-const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 /** The landing header lies transparently over the ink hero, as in the design. */
 const LANDING_HEADER_TONE: SiteHeaderTone = "overlay";
@@ -34,8 +30,9 @@ export function Header() {
 
     const isLandingPage = routePathname === "/";
     const isLoginRoute = routePathname === "/login";
-    const showSearch = isSearchEnabled && !isLoginRoute;
-    const showAccountActions = isLoginEnabled && !isLoginRoute;
+    // The login page shows neither the search nor the account actions.
+    const showSearch = !isLoginRoute;
+    const showAccountActions = !isLoginRoute;
     const activeSection = getActiveSiteSection(routePathname);
 
     useClearQueriesOnViewerChange();

@@ -87,13 +87,6 @@ The WooCommerce OAuth broker (the plugin's endpoints under `/api/oauth/client/re
 OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_SECRET=your-client-secret
 ```
 
-Optional feature flags:
-
-```dotenv
-VITE_FEATURE_LOGIN_ENABLED=true
-VITE_FEATURE_SEARCH_ENABLED=true
-```
-
 Do not commit credentials, tokens, or production configuration.
 
 ## Quality

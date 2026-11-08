@@ -21,7 +21,6 @@ vi.mock("@/data/internal/product/ProductListing.ts", () => ({
     mapPersonalizedProductListingSummary: (product: unknown) => product,
 }));
 vi.mock("react-i18next", () => ({ useTranslation: () => ({ i18n: { language: "de" } }) }));
-vi.mock("@/env.ts", () => ({ env: { VITE_FEATURE_SEARCH_ENABLED: true } }));
 vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
     useUserPreferences: () => ({ preferences: mockPreferences }),
 }));

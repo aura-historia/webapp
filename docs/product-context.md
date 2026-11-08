@@ -78,7 +78,7 @@ For collectors:
 
 For partners:
 
-1. Present Aura Historia as a professional acquisition and discovery channel.
+1. Present Aura Historia as a professional acquisition and discovery channel, and partnership as admission by review: every application is reviewed by a person against published standards (a specialist offer, careful descriptions, a business of one's own, fair dealing), and not every application is accepted. Keep the technical connection easy (no code for Shopify and WooCommerce); never invent scarcity, quotas or acceptance rates. Where API batch admission is also discussed, say "partner admission" so the two meanings stay apart.
 2. Reduce fear of lock-in: free/commission-free where current product copy says so, easy integrations, API/OAuth options.
 3. Make setup, product sync, and token/OAuth security understandable.
 4. Explain AI-era discovery by what works today (public listing pages with structured data, the public MCP server and API) and label apps for named assistants as in development. Never promise traffic, rankings, AI answers, native integrations or endorsements; third parties decide what they show.

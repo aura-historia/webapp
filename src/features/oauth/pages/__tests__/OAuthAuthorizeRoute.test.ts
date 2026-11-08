@@ -24,8 +24,6 @@ vi.mock("@/env.ts", () => ({
     env: {
         VITE_APP_URL: "https://aura-historia.com",
         VITE_API_URL: "https://api.aura-historia.com",
-        VITE_FEATURE_LOGIN_ENABLED: true,
-        VITE_FEATURE_SEARCH_ENABLED: true,
     },
 }));
 

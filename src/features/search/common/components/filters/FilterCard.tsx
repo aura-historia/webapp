@@ -21,6 +21,10 @@ type FilterCardProps = {
     readonly summary?: ReactNode;
     readonly children: ReactNode;
     readonly defaultOpen?: boolean;
+    /**
+     * Plan-restricted group: the heading stays expandable so users can see what the group offers,
+     * while its controls are dimmed and cannot be used.
+     */
     readonly disabled?: boolean;
 };
 
@@ -40,17 +44,15 @@ export function FilterCard({
     const headingId = useId();
 
     return (
-        <Collapsible open={isOpen} onOpenChange={setIsOpen} disabled={disabled}>
+        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
             <section aria-labelledby={headingId} className="border-t border-line">
                 <div className="flex items-center gap-1">
-                    <CollapsibleTrigger asChild disabled={disabled}>
+                    <CollapsibleTrigger asChild>
                         <button
                             type="button"
                             id={headingId}
-                            disabled={disabled}
                             className={cn(
-                                "group flex min-h-13 flex-1 cursor-pointer items-center gap-2.5 text-left disabled:cursor-not-allowed",
-                                disabled && "opacity-55",
+                                "group flex min-h-13 flex-1 cursor-pointer items-center gap-2.5 text-left",
                                 FILTER_FOCUS_CLASS,
                             )}
                         >
@@ -122,10 +124,9 @@ export function FilterCard({
                 </div>
                 <CollapsibleContent className="-mx-1.5 -mt-1.5 overflow-hidden px-1.5 pt-1.5 data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                     <div
-                        className={cn(
-                            "pb-5",
-                            disabled && "pointer-events-none opacity-55 select-none",
-                        )}
+                        inert={disabled}
+                        aria-disabled={disabled || undefined}
+                        className={cn("pb-5", disabled && "opacity-45 select-none")}
                     >
                         {children}
                     </div>

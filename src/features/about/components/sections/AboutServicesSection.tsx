@@ -10,10 +10,7 @@ import {
     HEADLINE_COMPONENTS,
     SectionHeading,
 } from "@/features/landing/components/common/SectionHeading.tsx";
-import { env } from "@/env";
 import { cn } from "@/lib/utils.ts";
-
-const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
 
 const SERVICES = [
     { id: "search", to: "/$lng/search" },
@@ -66,25 +63,23 @@ export function AboutServicesSection() {
                         <p className="text-body text-ink-secondary">
                             {t(`aboutPage.services.items.${service.id}.description`)}
                         </p>
-                        {(service.to !== "/$lng/search" || isSearchEnabled) && (
-                            <Link
-                                to={service.to}
-                                params={true}
-                                from="/$lng"
-                                className={cn(
-                                    ABOUT_TEXT_LINK_CLASS,
-                                    "mt-auto pt-2 text-body-sm",
-                                    NAV_FOCUS_CLASS,
-                                )}
-                            >
-                                {t(`aboutPage.services.items.${service.id}.cta`)}
-                                <ArrowRight
-                                    className="size-[15px]"
-                                    strokeWidth={1.8}
-                                    aria-hidden="true"
-                                />
-                            </Link>
-                        )}
+                        <Link
+                            to={service.to}
+                            params={true}
+                            from="/$lng"
+                            className={cn(
+                                ABOUT_TEXT_LINK_CLASS,
+                                "mt-auto pt-2 text-body-sm",
+                                NAV_FOCUS_CLASS,
+                            )}
+                        >
+                            {t(`aboutPage.services.items.${service.id}.cta`)}
+                            <ArrowRight
+                                className="size-[15px]"
+                                strokeWidth={1.8}
+                                aria-hidden="true"
+                            />
+                        </Link>
                     </li>
                 ))}
             </ol>

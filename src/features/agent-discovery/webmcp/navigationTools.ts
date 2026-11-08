@@ -55,14 +55,9 @@ function stringSchema(key: string, description: string, minLength = 1) {
 
 /**
  * Tools that open pages of this site in the current tab. They navigate with the router, so the
- * document and the agent's pending call survive, and they keep the page's current language. The
- * search tool exists only while search is enabled.
+ * document and the agent's pending call survive, and they keep the page's current language.
  */
-export function createNavigationTools(
-    router: AnyRouter,
-    pageOrigin: string,
-    searchEnabled: boolean,
-): WebMcpTool[] {
+export function createNavigationTools(router: AnyRouter, pageOrigin: string): WebMcpTool[] {
     const currentLanguage = () =>
         getLanguageFromPathname(router.state.location.pathname) ?? DEFAULT_LANGUAGE;
 
@@ -158,7 +153,5 @@ export function createNavigationTools(
         },
     };
 
-    return searchEnabled
-        ? [listingPageTool, searchTool, providerPageTool]
-        : [listingPageTool, providerPageTool];
+    return [listingPageTool, searchTool, providerPageTool];
 }

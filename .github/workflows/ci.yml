@@ -115,9 +115,6 @@ jobs:
             VITE_COGNITO_DOMAIN: ${{ vars.VITE_COGNITO_DOMAIN }}
             VITE_COGNITO_REDIRECT_SIGN_IN: ${{ vars.VITE_COGNITO_REDIRECT_SIGN_IN }}
             VITE_COGNITO_REDIRECT_SIGN_OUT: ${{ vars.VITE_COGNITO_REDIRECT_SIGN_OUT }}
-            # Feature flags - will be overridden per environment in deploy job
-            VITE_FEATURE_LOGIN_ENABLED: "true"
-            VITE_FEATURE_SEARCH_ENABLED: "true"
         steps:
             - name: Checkout code
               uses: actions/checkout@v7
@@ -164,8 +161,6 @@ jobs:
             VITE_COGNITO_DOMAIN: ${{ vars.VITE_COGNITO_DOMAIN }}
             VITE_COGNITO_REDIRECT_SIGN_IN: ${{ vars.VITE_COGNITO_REDIRECT_SIGN_IN }}
             VITE_COGNITO_REDIRECT_SIGN_OUT: ${{ vars.VITE_COGNITO_REDIRECT_SIGN_OUT }}
-            VITE_FEATURE_LOGIN_ENABLED: ${{ vars.VITE_FEATURE_LOGIN_ENABLED }}
-            VITE_FEATURE_SEARCH_ENABLED: ${{ vars.VITE_FEATURE_SEARCH_ENABLED }}
         steps:
             - name: Checkout code
               uses: actions/checkout@v7
@@ -214,8 +209,6 @@ jobs:
             VITE_COGNITO_DOMAIN: ${{ vars.VITE_COGNITO_DOMAIN }}
             VITE_COGNITO_REDIRECT_SIGN_IN: ${{ vars.VITE_COGNITO_REDIRECT_SIGN_IN }}
             VITE_COGNITO_REDIRECT_SIGN_OUT: ${{ vars.VITE_COGNITO_REDIRECT_SIGN_OUT }}
-            VITE_FEATURE_LOGIN_ENABLED: ${{ vars.VITE_FEATURE_LOGIN_ENABLED }}
-            VITE_FEATURE_SEARCH_ENABLED: ${{ vars.VITE_FEATURE_SEARCH_ENABLED }}
         steps:
             - name: Checkout release tag
               uses: actions/checkout@v7
