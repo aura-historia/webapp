@@ -65,7 +65,7 @@
     },
     "partnerProgram": {
       "title": "Programma Partner | Aura Historia",
-      "description": "Ammissione su valutazione: mercanti e case d’asta specializzati su Aura Historia, la ricerca globale di arte e antiquariato. Gli shop ammessi si collegano senza codice e non pagano commissioni."
+      "description": "Partnership su valutazione su Aura Historia, la ricerca globale di arte e antiquariato: mercanti e case d’asta si candidano, e gli shop ammessi si collegano tramite Shopify, WooCommerce o la nostra API, senza commissioni."
     },
     "partnerCustomIntegration": {
       "title": "Integrazione API per sistemi di shop personalizzati | Aura Historia",
@@ -1154,7 +1154,7 @@
       }
     },
     "motivation": {
-      "title": "I collezionisti stanno già cercando. <em>Sii tra quelli che trovano.</em>",
+      "title": "I collezionisti stanno già cercando. <em>Sii tra chi viene trovato.</em>",
       "subtitle": "I partner sono una cerchia selezionata di mercanti e case d’asta. I collezionisti trovano i loro pezzi nella nostra ricerca e proseguono verso i loro shop, e non prendiamo commissioni sui loro acquisti.",
       "items": {
         "audience": {
@@ -1170,8 +1170,8 @@
           "description": "La nostra ricerca collega i collezionisti a ciò che cercano davvero, così i visitatori che ricevi arrivano pronti ad acquistare."
         },
         "trust": {
-          "title": "Un badge che si conquista",
-          "description": "Il badge Partner-Shop compare solo accanto agli shop ammessi. I collezionisti sanno che significa una valutazione, non una semplice iscrizione."
+          "title": "Una partnership che conta",
+          "description": "I partner vengono ammessi dopo una valutazione secondo criteri pubblicati. Esserlo dice qualcosa sul tuo modo di lavorare."
         },
         "realtime": {
           "title": "Sincronizzazione in tempo reale",
@@ -1298,12 +1298,8 @@
     },
     "howEasy": {
       "title": "L’ammissione è selettiva. <em>Il collegamento no.</em>",
-      "subtitle": "Ammettiamo mercanti e case d’asta una candidatura alla volta, secondo i criteri qui sotto. Una volta ammesso, colleghi il tuo shop senza codice.",
+      "subtitle": "Ammettiamo mercanti e case d’asta una candidatura alla volta, secondo i criteri qui sotto. Una volta ammesso, se usi Shopify o WooCommerce colleghi il tuo shop senza codice.",
       "steps": {
-        "apply": {
-          "title": "Candidati",
-          "description": "Raccontaci della tua attività e dello shop attraverso cui vendi. Bastano pochi minuti."
-        },
         "connect": {
           "title": "Collega",
           "description": "Una volta ammesso, rivendica il tuo shop nella dashboard partner e collega Shopify, WooCommerce o la nostra API. I tuoi pezzi compaiono poi nella nostra ricerca."
@@ -1311,6 +1307,10 @@
         "review": {
           "title": "Valutazione",
           "description": "Un membro del nostro team valuta la tua candidatura secondo questi criteri e ti comunica la decisione, di solito entro pochi giorni. Non tutte le candidature vengono accettate."
+        },
+        "submit": {
+          "title": "Candidati",
+          "description": "Raccontaci della tua attività e dello shop attraverso cui vendi. Bastano pochi minuti."
         }
       },
       "eyebrow": "Ammissione",
@@ -1458,7 +1458,7 @@
             "loadError": "Non è stato possibile verificare l’accesso al fornitore.",
             "retryCta": "Riprova",
             "empty": "Al momento non ha accesso ad alcun fornitore. Un accesso precedente potrebbe essere stato revocato.",
-            "applyCta": "Richiedi l’ammissione",
+            "applyCta": "Richiedi l’ammissione come partner",
             "selectionLabel": "Fornitore per questa integrazione",
             "signInHint": "Acceda per vedere i fornitori a cui il suo account ha accesso."
           },

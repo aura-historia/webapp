@@ -65,7 +65,7 @@
     },
     "partnerProgram": {
       "title": "Partner Program | Aura Historia",
-      "description": "Partnership by review: specialist dealers and auction houses on Aura Historia, the global search for art and antiques. Admitted shops connect without code and pay no commission."
+      "description": "Partnership by review on Aura Historia, the global search for art and antiques: dealers and auction houses apply, and admitted shops connect through Shopify, WooCommerce or our API, with no commission."
     },
     "partnerCustomIntegration": {
       "title": "API Integration for Custom Shop Systems | Aura Historia",
@@ -1121,7 +1121,7 @@
   "partnerProgram": {
     "hero": {
       "title": "A selected circle of dealers and <em>auction houses.</em>",
-      "subtitle": "Aura Historia partners are admitted by review, not by sign-up. We read every application ourselves and admit the specialist dealers and auction houses we are glad to stand beside. Once admitted, connecting takes minutes, and buyers continue on your own website.",
+      "subtitle": "Aura Historia partners are admitted by review, not by sign-up. We read every application ourselves and admit the specialist dealers and auction houses we are glad to stand beside. Once admitted, you connect your shop in minutes, and buyers continue on your own website.",
       "primaryCta": "Apply for admission",
       "secondaryCta": "How admission works",
       "eyebrow": "Partner program · Admission by review",
@@ -1170,8 +1170,8 @@
           "description": "Our search matches collectors with what they are actually looking for, so the visitors you receive arrive ready to buy."
         },
         "trust": {
-          "title": "A badge that is earned",
-          "description": "The Partner Shop badge appears only beside admitted shops. Collectors know it stands for a review, not a sign-up."
+          "title": "A partnership that means something",
+          "description": "Partners are admitted by review against published standards. Being one says something about how you deal."
         },
         "realtime": {
           "title": "Real-time sync",
@@ -1298,12 +1298,8 @@
     },
     "howEasy": {
       "title": "Admission is selective. <em>Connecting is not.</em>",
-      "subtitle": "We admit dealers and auction houses one application at a time, by the standards below. Once you are admitted, connecting your shop takes no code.",
+      "subtitle": "We admit dealers and auction houses one application at a time, by the standards below. Once you are admitted, a Shopify or WooCommerce shop connects without code.",
       "steps": {
-        "apply": {
-          "title": "Apply",
-          "description": "Tell us about your business and the shop you sell through. It takes a few minutes."
-        },
         "connect": {
           "title": "Connect",
           "description": "Once admitted, claim your shop in the partner dashboard and connect Shopify, WooCommerce or our API. Your pieces then appear in our search."
@@ -1311,6 +1307,10 @@
         "review": {
           "title": "Review",
           "description": "A member of our team reviews your application against these standards and writes to you with the decision, usually within a few days. Not every application is accepted."
+        },
+        "submit": {
+          "title": "Apply",
+          "description": "Tell us about your business and the shop you sell through. It takes a few minutes."
         }
       },
       "eyebrow": "Admission",
@@ -1451,7 +1451,7 @@
             "loadError": "Provider access could not be verified.",
             "retryCta": "Try again",
             "empty": "You currently have no access to providers. A previous grant may have been revoked.",
-            "applyCta": "Apply for admission",
+            "applyCta": "Apply for partner admission",
             "selectionLabel": "Provider for this integration",
             "signInHint": "Sign in to see the providers your account can access."
           },

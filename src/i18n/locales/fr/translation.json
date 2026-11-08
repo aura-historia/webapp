@@ -65,7 +65,7 @@
     },
     "partnerProgram": {
       "title": "Programme partenaires | Aura Historia",
-      "description": "Partenariat sur examen : marchands et maisons de ventes spécialisés sur Aura Historia, la recherche mondiale d’art et d’antiquités. Les boutiques admises se connectent sans code et ne paient aucune commission."
+      "description": "Partenariat sur examen chez Aura Historia, la recherche mondiale d’art et d’antiquités : les marchands et maisons de ventes candidatent, et les boutiques admises se connectent via Shopify, WooCommerce ou notre API, sans commission."
     },
     "partnerCustomIntegration": {
       "title": "Intégration API pour systèmes de boutique sur mesure | Aura Historia",
@@ -1121,7 +1121,7 @@
   "partnerProgram": {
     "hero": {
       "title": "Un cercle choisi de marchands et de <em>maisons de ventes.</em>",
-      "subtitle": "Les partenaires d’Aura Historia sont admis sur examen, et non sur simple inscription. Nous lisons nous-mêmes chaque candidature et admettons les marchands et maisons de ventes spécialisés aux côtés desquels nous sommes heureux de figurer. Une fois admis, la connexion prend quelques minutes, et les acheteurs poursuivent sur votre propre site.",
+      "subtitle": "Les partenaires d’Aura Historia sont admis sur examen, et non sur simple inscription. Nous lisons nous-mêmes chaque candidature et admettons les marchands et maisons de ventes spécialisés aux côtés desquels nous sommes heureux de figurer. Une fois admis, vous connectez votre boutique en quelques minutes, et les acheteurs poursuivent sur votre propre site.",
       "primaryCta": "Demander l’admission",
       "secondaryCta": "Comment se passe l’admission",
       "eyebrow": "Programme partenaires · Admission sur examen",
@@ -1170,8 +1170,8 @@
           "description": "Notre recherche relie les collectionneurs à ce qu’ils cherchent réellement : les visiteurs que vous recevez arrivent prêts à acheter."
         },
         "trust": {
-          "title": "Un badge qui se mérite",
-          "description": "Le badge Boutique partenaire n’apparaît qu’à côté des boutiques admises. Les collectionneurs savent qu’il signifie un examen, pas une simple inscription."
+          "title": "Un partenariat qui a du poids",
+          "description": "Les partenaires sont admis sur examen, selon des critères publiés. En faire partie dit quelque chose de votre façon de travailler."
         },
         "realtime": {
           "title": "Synchronisation en temps réel",
@@ -1298,12 +1298,8 @@
     },
     "howEasy": {
       "title": "L’admission est sélective. <em>La connexion ne l’est pas.</em>",
-      "subtitle": "Nous admettons les marchands et maisons de ventes une candidature à la fois, selon les critères ci-dessous. Une fois admis, vous connectez votre boutique sans code.",
+      "subtitle": "Nous admettons les marchands et maisons de ventes une candidature à la fois, selon les critères ci-dessous. Une fois admis, si vous utilisez Shopify ou WooCommerce, vous connectez votre boutique sans code.",
       "steps": {
-        "apply": {
-          "title": "Postulez",
-          "description": "Présentez-nous votre entreprise et la boutique par laquelle vous vendez. Cela prend quelques minutes."
-        },
         "connect": {
           "title": "Connectez",
           "description": "Une fois admis, revendiquez votre boutique dans le tableau de bord partenaire et connectez Shopify, WooCommerce ou notre API. Vos pièces apparaissent ensuite dans notre recherche."
@@ -1311,6 +1307,10 @@
         "review": {
           "title": "Examen",
           "description": "Un membre de notre équipe examine votre candidature au regard de ces critères et vous fait part de sa décision, généralement en quelques jours. Toutes les candidatures ne sont pas acceptées."
+        },
+        "submit": {
+          "title": "Candidatez",
+          "description": "Présentez-nous votre entreprise et la boutique par laquelle vous vendez. Cela prend quelques minutes."
         }
       },
       "eyebrow": "Admission",
@@ -1329,7 +1329,7 @@
             "description": "Attribution, datation et état sont décrits avec soin, pour que les collectionneurs puissent juger une pièce avant de se renseigner."
           },
           "business": {
-            "title": "Une entreprise à vous",
+            "title": "Votre propre entreprise",
             "description": "Une entreprise identifiable avec son propre site, où les acheteurs achètent ou enchérissent."
           },
           "conduct": {
@@ -1458,7 +1458,7 @@
             "loadError": "L’accès au fournisseur n’a pas pu être vérifié.",
             "retryCta": "Réessayer",
             "empty": "Vous n’avez actuellement accès à aucun fournisseur. Un accès antérieur a peut-être été révoqué.",
-            "applyCta": "Demander l’admission",
+            "applyCta": "Demander l’admission comme partenaire",
             "selectionLabel": "Fournisseur pour cette intégration",
             "signInHint": "Connectez-vous pour voir les fournisseurs auxquels votre compte a accès."
           },

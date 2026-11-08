@@ -65,7 +65,7 @@
     },
     "partnerProgram": {
       "title": "Programa de Partners | Aura Historia",
-      "description": "Admisión por evaluación: comerciantes y casas de subastas especializados en Aura Historia, la búsqueda global de arte y antigüedades. Las tiendas admitidas se conectan sin código y no pagan comisión."
+      "description": "Asociación por evaluación en Aura Historia, la búsqueda global de arte y antigüedades: comerciantes y casas de subastas presentan su solicitud, y las tiendas admitidas se conectan con Shopify, WooCommerce o nuestra API, sin comisión."
     },
     "partnerCustomIntegration": {
       "title": "Integración por API para sistemas de tienda propios | Aura Historia",
@@ -1121,7 +1121,7 @@
   "partnerProgram": {
     "hero": {
       "title": "Un círculo selecto de comerciantes y <em>casas de subastas.</em>",
-      "subtitle": "Los partners de Aura Historia se admiten tras una evaluación, no con un simple registro. Leemos nosotros mismos cada solicitud y admitimos a los comerciantes y casas de subastas especializados junto a los que nos complace estar. Una vez admitido, conectar tu tienda lleva minutos y los compradores siguen comprando en tu propia web.",
+      "subtitle": "Los partners de Aura Historia son admitidos tras una evaluación, no con un simple registro. Leemos nosotros mismos cada solicitud y admitimos a los comerciantes y casas de subastas especializados junto a los que nos complace estar. Una vez admitido, conectas tu tienda en minutos y los compradores siguen comprando en tu propia web.",
       "primaryCta": "Solicitar la admisión",
       "secondaryCta": "Cómo funciona la admisión",
       "eyebrow": "Programa de partners · Admisión por evaluación",
@@ -1154,7 +1154,7 @@
       }
     },
     "motivation": {
-      "title": "Los coleccionistas ya están buscando. <em>Sé de los que encuentran.</em>",
+      "title": "Los coleccionistas ya están buscando. <em>Sé de los que ellos encuentran.</em>",
       "subtitle": "Los partners son un grupo selecto de comerciantes y casas de subastas. Los coleccionistas encuentran sus piezas en nuestra búsqueda y continúan hasta sus tiendas, y no cobramos comisión por lo que compran.",
       "items": {
         "audience": {
@@ -1170,8 +1170,8 @@
           "description": "Nuestra búsqueda conecta a los coleccionistas con lo que realmente buscan, así que las visitas que recibes llegan dispuestas a comprar."
         },
         "trust": {
-          "title": "Un distintivo que se gana",
-          "description": "El distintivo Partner-Shop solo aparece junto a las tiendas admitidas. Los coleccionistas saben que significa una evaluación, no un simple registro."
+          "title": "Una asociación con peso",
+          "description": "Los partners son admitidos tras una evaluación con criterios publicados. Ser uno de ellos dice algo de cómo trabajas."
         },
         "realtime": {
           "title": "Sincronización en tiempo real",
@@ -1298,12 +1298,8 @@
     },
     "howEasy": {
       "title": "La admisión es selectiva. <em>La conexión, no.</em>",
-      "subtitle": "Admitimos comerciantes y casas de subastas solicitud por solicitud, según los criterios siguientes. Una vez admitido, conectas tu tienda sin código.",
+      "subtitle": "Admitimos comerciantes y casas de subastas solicitud por solicitud, según los criterios siguientes. Una vez admitido, si usas Shopify o WooCommerce, conectas tu tienda sin código.",
       "steps": {
-        "apply": {
-          "title": "Solicita acceso",
-          "description": "Cuéntanos sobre tu negocio y la tienda en la que vendes. Lleva unos minutos."
-        },
         "connect": {
           "title": "Conecta",
           "description": "Una vez admitido, reclama tu tienda en el panel de partners y conecta Shopify, WooCommerce o nuestra API. Después, tus piezas aparecen en nuestra búsqueda."
@@ -1311,6 +1307,10 @@
         "review": {
           "title": "Evaluación",
           "description": "Un miembro de nuestro equipo evalúa tu solicitud según estos criterios y te comunica la decisión, normalmente en pocos días. No todas las solicitudes se aceptan."
+        },
+        "submit": {
+          "title": "Solicita",
+          "description": "Cuéntanos sobre tu negocio y la tienda en la que vendes. Lleva unos minutos."
         }
       },
       "eyebrow": "Admisión",
@@ -1458,7 +1458,7 @@
             "loadError": "No se pudo verificar el acceso al proveedor.",
             "retryCta": "Intentar de nuevo",
             "empty": "Actualmente no tiene acceso a ningún proveedor. Es posible que se haya revocado una autorización anterior.",
-            "applyCta": "Solicitar la admisión",
+            "applyCta": "Solicitar la admisión como partner",
             "selectionLabel": "Proveedor para esta integración",
             "signInHint": "Inicie sesión para ver los proveedores a los que tiene acceso su cuenta."
           },

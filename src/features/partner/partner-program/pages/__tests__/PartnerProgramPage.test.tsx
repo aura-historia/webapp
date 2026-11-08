@@ -21,7 +21,7 @@ describe("PartnerProgramPage", () => {
             }),
         ).toBeInTheDocument();
         for (const name of [
-            "Sammler suchen bereits. Gehören Sie zu denen, die sie finden.",
+            "Sammler suchen bereits. Gehören Sie zu denen, die gefunden werden.",
             "Auffindbar bleiben, wenn sich die Suche wandelt.",
             "Die Aufnahme ist selektiv. Die Anbindung nicht.",
             "Ihren Bestand anbinden.",
@@ -92,6 +92,16 @@ describe("PartnerProgramPage", () => {
         expect(
             within(section).queryByText(/Kein Code, keine Vorkenntnisse, kein Risiko/),
         ).toBeNull();
+        expect(
+            within(within(section).getByRole("list", { name: "Worauf wir achten" })).getAllByRole(
+                "listitem",
+            ),
+        ).toHaveLength(4);
+        expect(
+            within(
+                within(section).getByRole("list", { name: "Der Weg zur Partnerschaft" }),
+            ).getAllByRole("listitem"),
+        ).toHaveLength(3);
     });
 
     it("asks for admission everywhere and never to simply become a partner", () => {
@@ -208,13 +218,11 @@ describe("PartnerProgramPage", () => {
         const faq = screen
             .getByRole("heading", { level: 2, name: "Was Partner am häufigsten fragen." })
             .closest("section") as HTMLElement;
-        const questions = within(faq)
-            .getAllByRole("button")
-            .map((button) => button.textContent?.replace(/[+−]$/, ""));
-        expect(questions.slice(0, 3)).toEqual([
-            "Wer wird aufgenommen?",
-            "Wie lange dauert die Prüfung?",
-            "Was kostet das Partner-Programm?",
+        const buttons = within(faq).getAllByRole("button");
+        expect(buttons.slice(0, 3)).toEqual([
+            within(faq).getByRole("button", { name: "Wer wird aufgenommen?" }),
+            within(faq).getByRole("button", { name: "Wie lange dauert die Prüfung?" }),
+            within(faq).getByRole("button", { name: "Was kostet das Partner-Programm?" }),
         ]);
         expect(within(faq).queryByText("Welche Shops passen ins Programm?")).toBeNull();
     });

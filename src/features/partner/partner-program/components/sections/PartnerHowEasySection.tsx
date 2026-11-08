@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils.ts";
 const STANDARDS = ["specialism", "descriptions", "business", "conduct"] as const;
 
 const STEPS = [
-    { numeral: "I", key: "apply" },
+    { numeral: "I", key: "submit" },
     { numeral: "II", key: "review" },
     { numeral: "III", key: "connect" },
 ] as const;
@@ -45,13 +45,16 @@ export default function PartnerHowEasySection() {
             />
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-baseline sm:gap-x-6 sm:gap-y-5">
-                <p className="font-mono text-kicker text-ink-muted uppercase">
+                <p
+                    id="partner-standards-label"
+                    className="font-mono text-kicker text-ink-muted uppercase sm:col-start-1 sm:row-start-1"
+                >
                     {t("partnerProgram.howEasy.standards.label")}
                 </p>
-                <p className="order-3 text-sm leading-normal text-ink-muted sm:order-2 sm:justify-self-end sm:text-right">
-                    {t("partnerProgram.howEasy.standards.note")}
-                </p>
-                <ol className="order-2 grid grid-cols-1 sm:order-3 sm:col-span-2 sm:grid-cols-2 sm:gap-x-7 lg:grid-cols-4">
+                <ol
+                    aria-labelledby="partner-standards-label"
+                    className="grid grid-cols-1 sm:col-span-2 sm:row-start-2 sm:grid-cols-2 sm:gap-x-7 lg:grid-cols-4"
+                >
                     {STANDARDS.map((standard, index) => (
                         <li
                             key={standard}
@@ -74,13 +77,23 @@ export default function PartnerHowEasySection() {
                         </li>
                     ))}
                 </ol>
+                {/* Last in reading order; beside the label from 640px. */}
+                <p className="text-sm leading-normal text-ink-muted sm:col-start-2 sm:row-start-1 sm:justify-self-end sm:text-right">
+                    {t("partnerProgram.howEasy.standards.note")}
+                </p>
             </div>
 
             <div className="flex flex-col gap-3 sm:gap-5">
-                <p className="font-mono text-kicker text-ink-muted uppercase">
+                <p
+                    id="partner-path-label"
+                    className="font-mono text-kicker text-ink-muted uppercase"
+                >
                     {t("partnerProgram.howEasy.pathLabel")}
                 </p>
-                <ol className="grid grid-cols-1 sm:gap-y-10 md:grid-cols-3">
+                <ol
+                    aria-labelledby="partner-path-label"
+                    className="grid grid-cols-1 sm:gap-y-10 md:grid-cols-3"
+                >
                     {STEPS.map((step) => (
                         <li
                             key={step.key}

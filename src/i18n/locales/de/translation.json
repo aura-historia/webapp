@@ -65,7 +65,7 @@
     },
     "partnerProgram": {
       "title": "Partner-Programm | Aura Historia",
-      "description": "Partnerschaft nach Prüfung: spezialisierte Händler und Auktionshäuser auf Aura Historia, der globalen Suche nach Kunst und Antiquitäten. Aufgenommene Shops binden sich ohne Code an und zahlen keine Provision."
+      "description": "Partnerschaft nach Prüfung auf Aura Historia, der globalen Suche nach Kunst und Antiquitäten: Händler und Auktionshäuser bewerben sich, aufgenommene Shops binden sich über Shopify, WooCommerce oder unsere API an – ohne Provision."
     },
     "partnerCustomIntegration": {
       "title": "API-Integration für eigene Shopsysteme | Aura Historia",
@@ -1121,7 +1121,7 @@
   "partnerProgram": {
     "hero": {
       "title": "Ein ausgewählter Kreis von Händlern und <em>Auktionshäusern.</em>",
-      "subtitle": "Partner von Aura Historia werden nach Prüfung aufgenommen, nicht per Anmeldung. Wir lesen jede Bewerbung selbst und nehmen die spezialisierten Händler und Auktionshäuser auf, neben denen wir gern stehen. Nach der Aufnahme ist Ihr Shop in wenigen Minuten angebunden, und Käufer kaufen weiterhin auf Ihrer eigenen Webseite.",
+      "subtitle": "Partner von Aura Historia werden nach Prüfung aufgenommen, nicht per Anmeldung. Wir lesen jede Bewerbung selbst und nehmen die spezialisierten Händler und Auktionshäuser auf, neben denen wir gern stehen. Nach der Aufnahme binden Sie Ihren Shop in wenigen Minuten an, und Käufer kaufen weiterhin auf Ihrer eigenen Webseite.",
       "primaryCta": "Aufnahme beantragen",
       "secondaryCta": "So funktioniert die Aufnahme",
       "eyebrow": "Partnerprogramm · Aufnahme nach Prüfung",
@@ -1154,7 +1154,7 @@
       }
     },
     "motivation": {
-      "title": "Sammler suchen bereits. <em>Gehören Sie zu denen, die sie finden.</em>",
+      "title": "Sammler suchen bereits. <em>Gehören Sie zu denen, die gefunden werden.</em>",
       "subtitle": "Partner sind ein ausgewählter Kreis von Händlern und Auktionshäusern. Sammler finden ihre Stücke in unserer Suche und gelangen weiter in ihre Shops, und wir nehmen keine Provision auf ihre Käufe.",
       "items": {
         "audience": {
@@ -1170,8 +1170,8 @@
           "description": "Unsere Suche bringt Sammler zu dem, wonach sie tatsächlich suchen. So kommen Besucher zu Ihnen, die kaufbereit sind."
         },
         "trust": {
-          "title": "Ein Abzeichen, das man sich verdient",
-          "description": "Das Partner-Shop-Abzeichen erscheint nur bei aufgenommenen Shops. Sammler wissen: Es steht für eine Prüfung, nicht für eine bloße Anmeldung."
+          "title": "Eine Partnerschaft mit Gewicht",
+          "description": "Partner werden nach Prüfung anhand veröffentlichter Maßstäbe aufgenommen. Partner zu sein sagt etwas darüber, wie Sie handeln."
         },
         "realtime": {
           "title": "Echtzeit-Synchronisation",
@@ -1298,12 +1298,8 @@
     },
     "howEasy": {
       "title": "Die Aufnahme ist selektiv. <em>Die Anbindung nicht.</em>",
-      "subtitle": "Wir nehmen Händler und Auktionshäuser einzeln auf, Bewerbung für Bewerbung, nach den Maßstäben unten. Nach der Aufnahme binden Sie Ihren Shop ohne Code an.",
+      "subtitle": "Wir nehmen Händler und Auktionshäuser einzeln auf, Bewerbung für Bewerbung, nach den unten genannten Maßstäben. Nach der Aufnahme binden Sie einen Shopify- oder WooCommerce-Shop ohne Code an.",
       "steps": {
-        "apply": {
-          "title": "Bewerben",
-          "description": "Erzählen Sie uns von Ihrem Unternehmen und dem Shop, über den Sie verkaufen. Das dauert wenige Minuten."
-        },
         "connect": {
           "title": "Anbinden",
           "description": "Nach der Aufnahme beanspruchen Sie Ihren Shop im Partner-Dashboard und binden Shopify, WooCommerce oder unsere API an. Danach erscheinen Ihre Stücke in unserer Suche."
@@ -1311,6 +1307,10 @@
         "review": {
           "title": "Prüfung",
           "description": "Ein Mitglied unseres Teams prüft Ihre Bewerbung anhand dieser Maßstäbe und teilt Ihnen die Entscheidung mit, meist innerhalb weniger Tage. Nicht jede Bewerbung wird angenommen."
+        },
+        "submit": {
+          "title": "Bewerben",
+          "description": "Erzählen Sie uns von Ihrem Unternehmen und dem Shop, über den Sie verkaufen. Das dauert wenige Minuten."
         }
       },
       "eyebrow": "Aufnahme",
@@ -1451,7 +1451,7 @@
             "loadError": "Der Zugriff auf Anbieter konnte nicht geprüft werden.",
             "retryCta": "Erneut versuchen",
             "empty": "Sie haben derzeit keinen Zugriff auf Anbieter. Eine frühere Freigabe wurde möglicherweise widerrufen.",
-            "applyCta": "Aufnahme beantragen",
+            "applyCta": "Partner-Aufnahme beantragen",
             "selectionLabel": "Anbieter für diese Integration",
             "signInHint": "Melden Sie sich an, um die Anbieter zu sehen, auf die Ihr Konto Zugriff hat."
           },
@@ -1576,7 +1576,7 @@
       "subtitle": "Erzählen Sie uns von Ihrem Unternehmen. Ein Mitglied unseres Teams prüft jede Bewerbung und teilt Ihnen die Entscheidung mit. Kostenlos, ohne Vertrag und jederzeit beendbar.",
       "primary": "Aufnahme beantragen",
       "secondary": "E-Mail an Partner-Team",
-      "eyebrow": "Aufnahme auf Bewerbung"
+      "eyebrow": "Aufnahme nach Bewerbung"
     },
     "ownership": {
       "eyebrow": "Was bei Ihnen bleibt",
