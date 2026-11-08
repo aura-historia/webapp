@@ -185,7 +185,7 @@ function ApplicationGroup({
 export function ApplicationRowsSkeleton({ count = 3 }: { readonly count?: number }) {
     const { t } = useTranslation();
     return (
-        <div role="status" aria-busy="true">
+        <output aria-busy="true" className="block">
             <span className="sr-only">{t("partnerApplications.loading")}</span>
             <ul className="border-t border-line">
                 {SKELETON_IDS.slice(0, count).map((id) => (
@@ -202,6 +202,6 @@ export function ApplicationRowsSkeleton({ count = 3 }: { readonly count?: number
                     </li>
                 ))}
             </ul>
-        </div>
+        </output>
     );
 }

@@ -309,7 +309,7 @@ function DeleteConfirmationDialog({
 function AccessTokensSkeleton() {
     const { t } = useTranslation();
     return (
-        <div role="status" aria-busy="true">
+        <output aria-busy="true" className="block">
             <span className="sr-only">{t("partnerAccessTokens.loading")}</span>
             <ul className="border-t border-line">
                 {["access-token-skeleton-1", "access-token-skeleton-2"].map((id) => (
@@ -329,6 +329,6 @@ function AccessTokensSkeleton() {
                     </li>
                 ))}
             </ul>
-        </div>
+        </output>
     );
 }

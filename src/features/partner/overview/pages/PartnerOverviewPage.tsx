@@ -31,9 +31,15 @@ import { GlanceTile, type GlanceTileState } from "../components/GlanceTile.tsx";
 
 const RECENT_COUNT = 3;
 
-/** The dashboard's landing page (board "Partner dashboard · Overview"); counts come from the section lists. */
-export function PartnerOverviewPage() {
-    const { t, i18n } = useTranslation();
+function tileState(isPending: boolean, isError: boolean): GlanceTileState {
+    if (isPending) return "pending";
+    if (isError) return "error";
+    return "ready";
+}
+
+/** Everything the overview shows, derived from the three section lists. */
+function usePartnerOverviewData() {
+    const { i18n } = useTranslation();
     const applicationsQuery = usePartnerApplications();
     const tokensQuery = useAccessTokens();
     const { isAuthenticated, isResolved } = useResolvedAuth();
@@ -42,265 +48,301 @@ export function PartnerOverviewPage() {
     const now = useClientNow(tokensQuery.dataUpdatedAt);
 
     const applications = applicationsQuery.data ?? [];
-    const openApplications = applications.filter(canWithdrawApplication);
-    const inReview = applications.filter((application) => application.state === "IN_REVIEW");
     const tokens = sortAccessTokens(tokensQuery.data ?? [], now, i18n.language);
-    const activeTokens = tokens.filter((entry) => entry.expiry !== "expired");
-    const soonTokens = tokens.filter((entry) => entry.expiry === "soon");
     const providerCount = listingSources.sources.length;
-    const providerFigure = listingSources.hasMore ? `${providerCount}+` : String(providerCount);
     const providersPending = !isResolved || (isAuthenticated && listingSources.isPending);
 
-    const applicationsState: GlanceTileState = applicationsQuery.isPending
-        ? "pending"
-        : applicationsQuery.isError
-          ? "error"
-          : "ready";
-    const providersState: GlanceTileState = providersPending
-        ? "pending"
-        : listingSources.isError
-          ? "error"
-          : "ready";
-    const tokensState: GlanceTileState = tokensQuery.isPending
-        ? "pending"
-        : tokensQuery.isError
-          ? "error"
-          : "ready";
+    return {
+        applications,
+        openCount: applications.filter(canWithdrawApplication).length,
+        inReviewCount: applications.filter((application) => application.state === "IN_REVIEW")
+            .length,
+        applicationsState: tileState(applicationsQuery.isPending, applicationsQuery.isError),
+        retryApplications: () => void applicationsQuery.refetch(),
+        tokens,
+        activeCount: tokens.filter((entry) => entry.expiry !== "expired").length,
+        soonCount: tokens.filter((entry) => entry.expiry === "soon").length,
+        tokensState: tileState(tokensQuery.isPending, tokensQuery.isError),
+        retryTokens: () => void tokensQuery.refetch(),
+        providerCount,
+        providerFigure: listingSources.hasMore ? `${providerCount}+` : String(providerCount),
+        providersState: tileState(providersPending, listingSources.isError),
+        retryProviders: listingSources.retry,
+        providerNames,
+    };
+}
 
-    let tokensNote = t("partnerDashboard.overview.tokens.noneNote");
-    if (soonTokens.length > 0) {
-        tokensNote = t("partnerDashboard.overview.tokens.soonNote", { count: soonTokens.length });
-    } else if (tokens.length > 0) {
-        tokensNote = t("partnerDashboard.overview.tokens.totalNote", { count: tokens.length });
-    }
+type OverviewData = ReturnType<typeof usePartnerOverviewData>;
 
+/** The dashboard's landing page (board "Partner dashboard · Overview"); counts come from the section lists. */
+export function PartnerOverviewPage() {
+    const data = usePartnerOverviewData();
     return (
         <>
             <h1 className={cn(PAGE_TITLE_CLASS, "-mb-3 sm:-mb-7")}>
                 <Trans i18nKey="partnerDashboard.heading" components={HEADLINE_COMPONENTS} />
             </h1>
-
-            <section
-                data-theme="dark"
-                aria-labelledby="partner-glance-title"
-                className="flex flex-col gap-7 rounded-card bg-surface px-5 py-6 text-ink sm:px-9 sm:pt-8 sm:pb-9"
-            >
-                <h2
-                    id="partner-glance-title"
-                    className="font-mono text-[11px] font-normal tracking-[0.16em] text-brass-light uppercase"
-                >
-                    {t("partnerDashboard.overview.glance")}
-                </h2>
-                <div className="grid divide-y divide-line md:grid-cols-3 md:divide-x md:divide-y-0">
-                    <GlanceTile
-                        state={applicationsState}
-                        label={t("partnerDashboard.nav.applications")}
-                        figure={String(openApplications.length)}
-                        unit={t("partnerDashboard.overview.applications.unit")}
-                        note={
-                            applications.length === 0
-                                ? t("partnerDashboard.overview.applications.noneNote")
-                                : t("partnerDashboard.overview.applications.note", {
-                                      inReview: inReview.length,
-                                      count: applications.length,
-                                  })
-                        }
-                        cta={
-                            applications.length === 0
-                                ? t("partnerApplications.create.open")
-                                : t("partnerDashboard.overview.applications.cta")
-                        }
-                        to="/$lng/partners/applications"
-                        createSearch={applications.length === 0}
-                        onRetry={() => void applicationsQuery.refetch()}
-                    />
-                    <GlanceTile
-                        state={providersState}
-                        label={t("partnerDashboard.nav.providers")}
-                        figure={providerFigure}
-                        unit={t("partnerDashboard.overview.providers.unit")}
-                        note={
-                            providerCount === 0
-                                ? t("partnerDashboard.overview.providers.noneNote")
-                                : t("partnerDashboard.overview.providers.note")
-                        }
-                        cta={t("partnerDashboard.overview.providers.cta")}
-                        to="/$lng/partners/listing-sources"
-                        onRetry={listingSources.retry}
-                    />
-                    <GlanceTile
-                        state={tokensState}
-                        label={t("partnerDashboard.nav.accessTokens")}
-                        figure={String(activeTokens.length)}
-                        unit={t("partnerDashboard.overview.tokens.unit")}
-                        note={tokensNote}
-                        flagged={soonTokens.length > 0}
-                        cta={t("partnerDashboard.overview.tokens.cta")}
-                        to="/$lng/partners/access-tokens"
-                        onRetry={() => void tokensQuery.refetch()}
-                    />
-                </div>
-            </section>
-
-            <section aria-labelledby="partner-steps-title" className="flex flex-col gap-6">
-                <div className="flex flex-col gap-2">
-                    <h2 id="partner-steps-title" className={SECTION_HEADING_CLASS}>
-                        <Trans
-                            i18nKey="partnerDashboard.steps.heading"
-                            components={HEADLINE_COMPONENTS}
-                        />
-                    </h2>
-                    <p className="text-body-sm text-ink-secondary">
-                        {t("partnerDashboard.steps.lead")}
-                    </p>
-                </div>
-                <ol className="border-t border-line">
-                    <Step
-                        numeral="I"
-                        title={t("partnerDashboard.steps.apply.title")}
-                        copy={t("partnerDashboard.steps.apply.copy")}
-                        status={
-                            applicationsState === "ready" && applications.length > 0
-                                ? t("partnerDashboard.steps.apply.status")
-                                : undefined
-                        }
-                        action={
-                            applicationsState === "ready" && applications.length === 0 ? (
-                                <StepAction to="/$lng/partners/applications">
-                                    {t("partnerApplications.create.open")}
-                                </StepAction>
-                            ) : undefined
-                        }
-                    />
-                    <Step
-                        numeral="II"
-                        title={t("partnerDashboard.steps.access.title")}
-                        copy={t("partnerDashboard.steps.access.copy")}
-                        status={
-                            providersState === "ready" && providerCount > 0
-                                ? t("partnerDashboard.steps.access.status", {
-                                      count: providerCount,
-                                      figure: providerFigure,
-                                  })
-                                : undefined
-                        }
-                    />
-                    <Step
-                        numeral="III"
-                        title={t("partnerDashboard.steps.token.title")}
-                        copy={t("partnerDashboard.steps.token.copy")}
-                        status={
-                            tokensState === "ready" && activeTokens.length > 0
-                                ? t("partnerDashboard.steps.token.status", {
-                                      count: activeTokens.length,
-                                  })
-                                : undefined
-                        }
-                        action={
-                            tokensState === "ready" && activeTokens.length === 0 ? (
-                                <StepAction to="/$lng/partners/access-tokens">
-                                    {t("partnerAccessTokens.create.open")}
-                                </StepAction>
-                            ) : undefined
-                        }
-                    />
-                    <Step
-                        numeral="IV"
-                        title={t("partnerDashboard.steps.connect.title")}
-                        copy={t("partnerDashboard.steps.connect.copy")}
-                    >
-                        <div className="mt-3 flex flex-wrap gap-2">
-                            <ExternalChip href={SHOPIFY_APP_STORE_URL}>
-                                {t("partnerProgram.integrations.shopify.title")}
-                            </ExternalChip>
-                            <ExternalChip href={WORDPRESS_PLUGIN_DIRECTORY_URL}>
-                                {t("partnerProgram.integrations.woocommerce.title")}
-                            </ExternalChip>
-                            <Link
-                                to="/$lng/partner-program/custom-integration"
-                                params={true}
-                                from="/$lng"
-                                className={SMALL_SECONDARY_PILL_CLASS}
-                            >
-                                {t("partnerProgram.integrations.customApi.title")}
-                                <ArrowRight
-                                    aria-hidden="true"
-                                    className="size-3"
-                                    strokeWidth={1.8}
-                                />
-                            </Link>
-                        </div>
-                        <p className="mt-2 text-[11px] leading-normal text-ink-muted">
-                            {t("partnerProgram.integrations.trademarks")}
-                        </p>
-                    </Step>
-                </ol>
-            </section>
-
+            <GlanceSection data={data} />
+            <StepsSection data={data} />
             <div className="grid items-start gap-12 md:grid-cols-2">
-                <section
-                    aria-labelledby="partner-recent-applications"
-                    className="flex min-w-0 flex-col gap-4"
-                >
-                    <RecentHeading
-                        id="partner-recent-applications"
-                        title={t("partnerDashboard.nav.applications")}
-                        to="/$lng/partners/applications"
-                    />
-                    {applicationsState === "ready" &&
-                        (applications.length > 0 ? (
-                            <ul className="border-t border-line">
-                                {applications.slice(0, RECENT_COUNT).map((application) => (
-                                    <li key={application.id}>
-                                        <PartnerApplicationCompactRow
-                                            application={application}
-                                            providerNames={providerNames}
-                                        />
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p className="border-t border-line pt-4 text-body-sm text-ink-muted">
-                                {t("partnerApplications.empty")}
-                            </p>
-                        ))}
-                </section>
-                <section
-                    aria-labelledby="partner-recent-tokens"
-                    className="flex min-w-0 flex-col gap-4"
-                >
-                    <RecentHeading
-                        id="partner-recent-tokens"
-                        title={t("partnerDashboard.nav.accessTokens")}
-                        to="/$lng/partners/access-tokens"
-                    />
-                    {tokensState === "ready" &&
-                        (tokens.length > 0 ? (
-                            <ul className="border-t border-line">
-                                {tokens.slice(0, RECENT_COUNT).map(({ accessToken, expiry }) => (
-                                    <li
-                                        key={accessToken.id}
-                                        className="flex min-h-16 flex-col items-start justify-center gap-1.5 border-b border-line-subtle py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
-                                    >
-                                        <span className="truncate text-[15px] font-medium">
-                                            {accessToken.name}
-                                        </span>
-                                        <AccessTokenExpiry
-                                            accessToken={accessToken}
-                                            state={expiry}
-                                            className="shrink-0 sm:text-right"
-                                        />
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p className="border-t border-line pt-4 text-body-sm text-ink-muted">
-                                {t("partnerAccessTokens.empty")}
-                            </p>
-                        ))}
-                </section>
+                <RecentApplications data={data} />
+                <RecentTokens data={data} />
             </div>
         </>
+    );
+}
+
+function GlanceSection({ data }: { readonly data: OverviewData }) {
+    const { t } = useTranslation();
+    const noApplications = data.applications.length === 0;
+
+    let tokensNote = t("partnerDashboard.overview.tokens.noneNote");
+    if (data.soonCount > 0) {
+        tokensNote = t("partnerDashboard.overview.tokens.soonNote", { count: data.soonCount });
+    } else if (data.tokens.length > 0) {
+        tokensNote = t("partnerDashboard.overview.tokens.totalNote", { count: data.tokens.length });
+    }
+
+    return (
+        <section
+            data-theme="dark"
+            aria-labelledby="partner-glance-title"
+            className="flex flex-col gap-7 rounded-card bg-surface px-5 py-6 text-ink sm:px-9 sm:pt-8 sm:pb-9"
+        >
+            <h2
+                id="partner-glance-title"
+                className="font-mono text-[11px] font-normal tracking-[0.16em] text-brass-light uppercase"
+            >
+                {t("partnerDashboard.overview.glance")}
+            </h2>
+            <div className="grid divide-y divide-line md:grid-cols-3 md:divide-x md:divide-y-0">
+                <GlanceTile
+                    state={data.applicationsState}
+                    label={t("partnerDashboard.nav.applications")}
+                    figure={String(data.openCount)}
+                    unit={t("partnerDashboard.overview.applications.unit")}
+                    note={
+                        noApplications
+                            ? t("partnerDashboard.overview.applications.noneNote")
+                            : t("partnerDashboard.overview.applications.note", {
+                                  inReview: data.inReviewCount,
+                                  count: data.applications.length,
+                              })
+                    }
+                    cta={
+                        noApplications
+                            ? t("partnerApplications.create.open")
+                            : t("partnerDashboard.overview.applications.cta")
+                    }
+                    to="/$lng/partners/applications"
+                    createSearch={noApplications}
+                    onRetry={data.retryApplications}
+                />
+                <GlanceTile
+                    state={data.providersState}
+                    label={t("partnerDashboard.nav.providers")}
+                    figure={data.providerFigure}
+                    unit={t("partnerDashboard.overview.providers.unit")}
+                    note={
+                        data.providerCount === 0
+                            ? t("partnerDashboard.overview.providers.noneNote")
+                            : t("partnerDashboard.overview.providers.note")
+                    }
+                    cta={t("partnerDashboard.overview.providers.cta")}
+                    to="/$lng/partners/listing-sources"
+                    onRetry={data.retryProviders}
+                />
+                <GlanceTile
+                    state={data.tokensState}
+                    label={t("partnerDashboard.nav.accessTokens")}
+                    figure={String(data.activeCount)}
+                    unit={t("partnerDashboard.overview.tokens.unit")}
+                    note={tokensNote}
+                    flagged={data.soonCount > 0}
+                    cta={t("partnerDashboard.overview.tokens.cta")}
+                    to="/$lng/partners/access-tokens"
+                    onRetry={data.retryTokens}
+                />
+            </div>
+        </section>
+    );
+}
+
+function StepsSection({ data }: { readonly data: OverviewData }) {
+    const { t } = useTranslation();
+    const applicationsReady = data.applicationsState === "ready";
+    const tokensReady = data.tokensState === "ready";
+    const hasApplications = data.applications.length > 0;
+    const hasActiveTokens = data.activeCount > 0;
+    const hasProviders = data.providersState === "ready" && data.providerCount > 0;
+
+    return (
+        <section aria-labelledby="partner-steps-title" className="flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
+                <h2 id="partner-steps-title" className={SECTION_HEADING_CLASS}>
+                    <Trans
+                        i18nKey="partnerDashboard.steps.heading"
+                        components={HEADLINE_COMPONENTS}
+                    />
+                </h2>
+                <p className="text-body-sm text-ink-secondary">
+                    {t("partnerDashboard.steps.lead")}
+                </p>
+            </div>
+            <ol className="border-t border-line">
+                <Step
+                    numeral="I"
+                    title={t("partnerDashboard.steps.apply.title")}
+                    copy={t("partnerDashboard.steps.apply.copy")}
+                    status={
+                        applicationsReady && hasApplications
+                            ? t("partnerDashboard.steps.apply.status")
+                            : undefined
+                    }
+                    action={
+                        applicationsReady && !hasApplications ? (
+                            <StepAction to="/$lng/partners/applications">
+                                {t("partnerApplications.create.open")}
+                            </StepAction>
+                        ) : undefined
+                    }
+                />
+                <Step
+                    numeral="II"
+                    title={t("partnerDashboard.steps.access.title")}
+                    copy={t("partnerDashboard.steps.access.copy")}
+                    status={
+                        hasProviders
+                            ? t("partnerDashboard.steps.access.status", {
+                                  count: data.providerCount,
+                                  figure: data.providerFigure,
+                              })
+                            : undefined
+                    }
+                />
+                <Step
+                    numeral="III"
+                    title={t("partnerDashboard.steps.token.title")}
+                    copy={t("partnerDashboard.steps.token.copy")}
+                    status={
+                        tokensReady && hasActiveTokens
+                            ? t("partnerDashboard.steps.token.status", { count: data.activeCount })
+                            : undefined
+                    }
+                    action={
+                        tokensReady && !hasActiveTokens ? (
+                            <StepAction to="/$lng/partners/access-tokens">
+                                {t("partnerAccessTokens.create.open")}
+                            </StepAction>
+                        ) : undefined
+                    }
+                />
+                <Step
+                    numeral="IV"
+                    title={t("partnerDashboard.steps.connect.title")}
+                    copy={t("partnerDashboard.steps.connect.copy")}
+                >
+                    <div className="mt-3 flex flex-wrap gap-2">
+                        <ExternalChip href={SHOPIFY_APP_STORE_URL}>
+                            {t("partnerProgram.integrations.shopify.title")}
+                        </ExternalChip>
+                        <ExternalChip href={WORDPRESS_PLUGIN_DIRECTORY_URL}>
+                            {t("partnerProgram.integrations.woocommerce.title")}
+                        </ExternalChip>
+                        <Link
+                            to="/$lng/partner-program/custom-integration"
+                            params={true}
+                            from="/$lng"
+                            className={SMALL_SECONDARY_PILL_CLASS}
+                        >
+                            {t("partnerProgram.integrations.customApi.title")}
+                            <ArrowRight aria-hidden="true" className="size-3" strokeWidth={1.8} />
+                        </Link>
+                    </div>
+                    <p className="mt-2 text-[11px] leading-normal text-ink-muted">
+                        {t("partnerProgram.integrations.trademarks")}
+                    </p>
+                </Step>
+            </ol>
+        </section>
+    );
+}
+
+function RecentApplications({ data }: { readonly data: OverviewData }) {
+    const { t } = useTranslation();
+    let content: ReactNode = null;
+    if (data.applicationsState === "ready") {
+        content =
+            data.applications.length > 0 ? (
+                <ul className="border-t border-line">
+                    {data.applications.slice(0, RECENT_COUNT).map((application) => (
+                        <li key={application.id}>
+                            <PartnerApplicationCompactRow
+                                application={application}
+                                providerNames={data.providerNames}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p className="border-t border-line pt-4 text-body-sm text-ink-muted">
+                    {t("partnerApplications.empty")}
+                </p>
+            );
+    }
+    return (
+        <section
+            aria-labelledby="partner-recent-applications"
+            className="flex min-w-0 flex-col gap-4"
+        >
+            <RecentHeading
+                id="partner-recent-applications"
+                title={t("partnerDashboard.nav.applications")}
+                to="/$lng/partners/applications"
+            />
+            {content}
+        </section>
+    );
+}
+
+function RecentTokens({ data }: { readonly data: OverviewData }) {
+    const { t } = useTranslation();
+    let content: ReactNode = null;
+    if (data.tokensState === "ready") {
+        content =
+            data.tokens.length > 0 ? (
+                <ul className="border-t border-line">
+                    {data.tokens.slice(0, RECENT_COUNT).map(({ accessToken, expiry }) => (
+                        <li
+                            key={accessToken.id}
+                            className="flex min-h-16 flex-col items-start justify-center gap-1.5 border-b border-line-subtle py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+                        >
+                            <span className="truncate text-[15px] font-medium">
+                                {accessToken.name}
+                            </span>
+                            <AccessTokenExpiry
+                                accessToken={accessToken}
+                                state={expiry}
+                                className="shrink-0 sm:text-right"
+                            />
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p className="border-t border-line pt-4 text-body-sm text-ink-muted">
+                    {t("partnerAccessTokens.empty")}
+                </p>
+            );
+    }
+    return (
+        <section aria-labelledby="partner-recent-tokens" className="flex min-w-0 flex-col gap-4">
+            <RecentHeading
+                id="partner-recent-tokens"
+                title={t("partnerDashboard.nav.accessTokens")}
+                to="/$lng/partners/access-tokens"
+            />
+            {content}
+        </section>
     );
 }
 

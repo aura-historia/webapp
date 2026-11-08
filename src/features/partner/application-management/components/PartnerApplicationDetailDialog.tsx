@@ -274,19 +274,13 @@ function ApplicationDetails({
                     </p>
                 )}
                 {confirming ? (
-                    <div
-                        role="group"
-                        aria-labelledby="withdraw-confirm-title"
-                        className="flex flex-col gap-3.5 rounded-md bg-surface p-4 shadow-[inset_0_0_0_1.5px_var(--oxblood)]"
-                    >
-                        <div className="flex flex-col gap-1">
-                            <p id="withdraw-confirm-title" className="text-[15px] font-medium">
-                                {t("partnerApplications.withdrawConfirm.title")}
-                            </p>
-                            <p className="text-meta text-ink-secondary">
-                                {t("partnerApplications.withdrawConfirm.description")}
-                            </p>
-                        </div>
+                    <fieldset className="m-0 min-w-0 rounded-md border-0 bg-surface p-4 shadow-[inset_0_0_0_1.5px_var(--oxblood)]">
+                        <legend className="float-left w-full p-0 text-[15px] font-medium">
+                            {t("partnerApplications.withdrawConfirm.title")}
+                        </legend>
+                        <p className="clear-left pt-1 pb-3.5 text-meta text-ink-secondary">
+                            {t("partnerApplications.withdrawConfirm.description")}
+                        </p>
                         <div className="flex flex-wrap justify-end gap-2.5">
                             <button
                                 type="button"
@@ -306,7 +300,7 @@ function ApplicationDetails({
                                 {t("partnerApplications.withdrawConfirm.confirm")}
                             </button>
                         </div>
-                    </div>
+                    </fieldset>
                 ) : (
                     <div className="flex flex-wrap items-center justify-between gap-3">
                         {canWithdraw && (

@@ -46,9 +46,10 @@ export function useApplicationLabels(
     const { t } = useTranslation();
     const proposal = application.proposal;
     if (proposal.type === "PROPOSED_LISTING_SOURCE") {
+        const typeKey = `listingSourceTypes.${proposal.listingSource.listingSourceType}`;
         return {
             title: proposal.listingSource.name,
-            meta: `${t("partnerApplications.row.newProvider")} · ${t(`listingSourceTypes.${proposal.listingSource.listingSourceType}`)}`,
+            meta: `${t("partnerApplications.row.newProvider")} · ${t(typeKey)}`,
             initial: proposal.listingSource.name.trim().charAt(0).toUpperCase(),
             image: proposal.listingSource.image,
         };

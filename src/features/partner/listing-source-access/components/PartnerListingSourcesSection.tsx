@@ -183,7 +183,7 @@ function ProviderCard({ source }: { readonly source: OwnListingSource }) {
 function ProviderCardsSkeleton() {
     const { t } = useTranslation();
     return (
-        <div role="status" aria-busy="true">
+        <output aria-busy="true" className="block">
             <span className="sr-only">{t("partnerListingSources.loading")}</span>
             <ul className={GRID_CLASS}>
                 {["provider-skeleton-1", "provider-skeleton-2"].map((id) => (
@@ -200,6 +200,6 @@ function ProviderCardsSkeleton() {
                     </li>
                 ))}
             </ul>
-        </div>
+        </output>
     );
 }
