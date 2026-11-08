@@ -88,7 +88,7 @@
     },
     "compare1stdibs": {
       "title": "Aura Historia vs 1stDibs | Confronto sulla ricerca di arte e antiquariato",
-      "description": "Confronta Aura Historia e 1stDibs: un marketplace curato di commercianti a confronto con una ricerca tra commercianti, case d’asta e marketplace di arte, antiquariato e design."
+      "description": "Confronta Aura Historia e 1stDibs: un marketplace curato di venditori approvati a confronto con una ricerca tra commercianti, case d’asta e marketplace di arte, antiquariato e design."
     },
     "partnerAccessTokens": {
       "title": "Token di accesso | Aura Historia"
@@ -3981,7 +3981,7 @@
         },
         "comparingAcrossProviders": {
           "title": "Confrontare i prezzi tra fornitori",
-          "description": "La pagina di un annuncio mostra lo storico dei prezzi di quell’annuncio e oggetti simili, che possono provenire da fornitori diversi. Aura Historia non fornisce valutazioni."
+          "description": "I risultati di ricerca mostrano affiancati gli oggetti di molti fornitori, e la pagina di un annuncio mostra lo storico dei prezzi di quell’annuncio e gli oggetti simili. Aura Historia non fornisce valutazioni."
         },
         "auctionHousesAndDealers": {
           "title": "Case d’asta e commercianti insieme",
@@ -4023,8 +4023,8 @@
         },
         "crossProviderComparison": {
           "criterion": "Confrontare tra fornitori",
-          "competitor": "Mostra ciò che viene offerto su 1stDibs.",
-          "auraHistoria": "Storico dei prezzi di un annuncio e oggetti simili nelle pagine degli annunci; gli oggetti simili possono provenire da fornitori diversi. Nessuna valutazione.",
+          "competitor": "Mostra ciò che i suoi venditori approvati offrono su 1stDibs.",
+          "auraHistoria": "Risultati di ricerca di molti fornitori affiancati; la pagina di un annuncio mostra lo storico dei prezzi di quell’annuncio e gli oggetti simili. Nessuna valutazione.",
           "verdict": "Aura Historia tra fornitori"
         },
         "auctions": {
@@ -4035,7 +4035,7 @@
         },
         "monitoring": {
           "criterion": "Monitoraggio tra fornitori",
-          "competitor": "Gli acquirenti ricevono avvisi quando su 1stDibs vengono pubblicati nuovi articoli dei creatori che seguono, secondo il suo rapporto annuale 2025.",
+          "competitor": "Tra le sue funzioni di personalizzazione ci sono avvisi quando su 1stDibs vengono pubblicati nuovi articoli dei creatori che un acquirente segue, secondo il suo rapporto annuale 2025.",
           "auraHistoria": "Liste dei preferiti, ricerche salvate e notifiche coprono tutti i fornitori dell’indice, con le variazioni di prezzo e disponibilità degli oggetti seguiti.",
           "verdict": "Aura Historia tra fornitori"
         },
@@ -4078,7 +4078,7 @@
     },
     "alerts": {
       "title": "Confrontare gli oggetti <em>tra fornitori</em>",
-      "paragraph1": "Nella pagina di un annuncio di Aura Historia, lo storico dei prezzi di quell’annuncio e gli oggetti simili compaiono accanto all’oggetto. Poiché l’indice copre molti fornitori, gli oggetti simili possono provenire da fornitori diversi, così puoi vedere a quanto vengono offerti pezzi comparabili oltre una singola vetrina.",
+      "paragraph1": "Aura Historia riunisce gli oggetti di molti fornitori in un’unica lista di risultati, così i prezzi richiesti per oggetti comparabili si leggono affiancati, oltre una singola vetrina. La pagina di un annuncio aggiunge lo storico dei prezzi di quell’annuncio e gli oggetti simili.",
       "paragraph2": "Seguire un oggetto aggiunge i cambiamenti nel tempo: Aura Historia ti avvisa delle variazioni di prezzo e disponibilità, qualunque fornitore lo proponga. Mostra gli annunci così come li pubblicano i fornitori e non fornisce valutazioni."
     },
     "faq": {
@@ -4090,7 +4090,7 @@
         },
         "replace": {
           "question": "Aura Historia sostituisce 1stDibs?",
-          "answer": "No. La selezione è il punto di forza di 1stDibs: i suoi venditori sono scelti e descrive una 1stDibs Promise per gli acquirenti. Aura Historia serve l’ampiezza. Non vende oggetti e mostra gli annunci così come li pubblicano i fornitori, quindi si acquista presso il fornitore."
+          "answer": "No. La selezione è il punto di forza di 1stDibs: i suoi venditori sono scelti e descrive una 1stDibs Promise per gli acquirenti. Aura Historia punta sull’ampiezza. Non vende oggetti e mostra gli annunci così come li pubblicano i fornitori, quindi si acquista presso il fornitore."
         },
         "vetting": {
           "question": "Aura Historia verifica gli oggetti che mostra?",
@@ -4098,7 +4098,7 @@
         },
         "comparePrices": {
           "question": "Dove posso confrontare i prezzi dell’antiquariato tra più commercianti?",
-          "answer": "Su Aura Historia puoi cercare in una volta tra commercianti, case d’asta, negozi e marketplace e aprire un annuncio per vedere il suo storico dei prezzi e gli oggetti simili, che possono provenire da fornitori diversi. Aura Historia non fornisce valutazioni: mostra a quanto vengono offerti oggetti comparabili, così come li pubblicano i fornitori."
+          "answer": "Su Aura Historia puoi cercare in una volta tra commercianti, case d’asta, negozi e marketplace e leggere i risultati affiancati; la pagina di un annuncio mostra lo storico dei prezzi di quell’annuncio e gli oggetti simili. Su 1stDibs puoi confrontare ciò che offrono i suoi venditori approvati su un unico sito, e Aura Historia aggiunge fornitori oltre a quello. Aura Historia non fornisce valutazioni: mostra a quanto vengono offerti oggetti comparabili, così come li pubblicano i fornitori."
         }
       }
     },

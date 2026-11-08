@@ -94,7 +94,7 @@
     },
     "compare1stdibs": {
       "title": "Aura Historia vs. 1stDibs | Kunst- und Antiquitätensuche im Vergleich",
-      "description": "Aura Historia und 1stDibs im Vergleich: ein kuratierter Händlermarktplatz gegenüber einer Suche über Händler, Auktionshäuser und Marktplätze für Kunst, Antiquitäten und Design."
+      "description": "Aura Historia und 1stDibs im Vergleich: ein kuratierter Marktplatz zugelassener Verkäufer gegenüber einer Suche über Händler, Auktionshäuser und Marktplätze für Kunst, Antiquitäten und Design."
     },
     "newsletterConfirm": {
       "title": "Newsletter-Anmeldung bestätigen | Aura Historia"
@@ -4173,7 +4173,7 @@
         },
         "comparingAcrossProviders": {
           "title": "Preise über Anbieter hinweg vergleichen",
-          "description": "Eine Angebotsseite zeigt den Preisverlauf des Angebots und ähnliche Objekte, die von verschiedenen Anbietern stammen können. Aura Historia gibt keine Bewertungen ab."
+          "description": "Suchergebnisse zeigen Objekte vieler Anbieter nebeneinander, und eine Angebotsseite zeigt den Preisverlauf des Angebots und ähnliche Objekte. Aura Historia gibt keine Bewertungen ab."
         },
         "auctionHousesAndDealers": {
           "title": "Auktionshäuser und Händler zusammen",
@@ -4215,8 +4215,8 @@
         },
         "crossProviderComparison": {
           "criterion": "Vergleichen über Anbieter hinweg",
-          "competitor": "Zeigt, was bei 1stDibs angeboten wird.",
-          "auraHistoria": "Preisverlauf eines Angebots und ähnliche Objekte auf den Angebotsseiten; ähnliche Objekte können von verschiedenen Anbietern stammen. Keine Bewertungen.",
+          "competitor": "Zeigt, was die zugelassenen Verkäufer bei 1stDibs anbieten.",
+          "auraHistoria": "Suchergebnisse vieler Anbieter nebeneinander; eine Angebotsseite zeigt den Preisverlauf des Angebots und ähnliche Objekte. Keine Bewertungen.",
           "verdict": "Aura Historia über Anbieter hinweg"
         },
         "auctions": {
@@ -4227,7 +4227,7 @@
         },
         "monitoring": {
           "criterion": "Beobachtung über Anbieter hinweg",
-          "competitor": "Käufer erhalten Benachrichtigungen, wenn neue Artikel von Künstlern und Herstellern, denen sie folgen, bei 1stDibs eingestellt werden, laut seinem Jahresbericht für 2025.",
+          "competitor": "Zu den Personalisierungsfunktionen zählen Benachrichtigungen, wenn neue Artikel von Kreativen, denen Käufer folgen, bei 1stDibs eingestellt werden, laut seinem Jahresbericht für 2025.",
           "auraHistoria": "Merklisten, gespeicherte Suchen und Benachrichtigungen decken alle Anbieter im Index ab, einschließlich Preis- und Verfügbarkeitsänderungen bei beobachteten Objekten.",
           "verdict": "Aura Historia über Anbieter hinweg"
         },
@@ -4270,7 +4270,7 @@
     },
     "alerts": {
       "title": "Objekte <em>über Anbieter hinweg</em> vergleichen",
-      "paragraph1": "Auf einer Angebotsseite von Aura Historia stehen der Preisverlauf des Angebots und ähnliche Objekte neben dem Objekt. Da der Index viele Anbieter abdeckt, können ähnliche Objekte von verschiedenen Anbietern stammen, sodass Sie sehen, wofür vergleichbare Stücke über ein einzelnes Schaufenster hinaus angeboten werden.",
+      "paragraph1": "Aura Historia führt Objekte vieler Anbieter in einer Ergebnisliste, sodass sich die Angebotspreise vergleichbarer Objekte nebeneinander lesen lassen, über ein einzelnes Schaufenster hinaus. Eine Angebotsseite ergänzt den Preisverlauf des Angebots und ähnliche Objekte.",
       "paragraph2": "Das Beobachten eines Objekts ergänzt die Veränderung im Zeitverlauf: Aura Historia benachrichtigt Sie über Änderungen bei Preis und Verfügbarkeit, bei welchem Anbieter es auch gelistet ist. Angebote erscheinen so, wie die Anbieter sie veröffentlichen, und Aura Historia gibt keine Bewertungen ab."
     },
     "faq": {
@@ -4290,7 +4290,7 @@
         },
         "comparePrices": {
           "question": "Wo kann ich Preise für Antiquitäten bei verschiedenen Händlern vergleichen?",
-          "answer": "Bei Aura Historia durchsuchen Sie Händler, Auktionshäuser, Shops und Marktplätze auf einmal und öffnen ein Angebot, um seinen Preisverlauf und ähnliche Objekte zu sehen, die von verschiedenen Anbietern stammen können. Aura Historia gibt keine Bewertungen ab: Sie zeigt, wofür vergleichbare Objekte angeboten werden, so wie die Anbieter es veröffentlichen."
+          "answer": "Bei Aura Historia durchsuchen Sie Händler, Auktionshäuser, Shops und Marktplätze auf einmal und lesen die Ergebnisse nebeneinander; eine Angebotsseite zeigt den Preisverlauf des Angebots und ähnliche Objekte. Bei 1stDibs vergleichen Sie, was die zugelassenen Verkäufer auf einer Website anbieten, und Aura Historia ergänzt Anbieter darüber hinaus. Aura Historia gibt keine Bewertungen ab: Sie zeigt, wofür vergleichbare Objekte angeboten werden, so wie die Anbieter es veröffentlichen."
         }
       }
     },

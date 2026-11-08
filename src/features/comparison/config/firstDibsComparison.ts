@@ -17,11 +17,14 @@ import { FIRST_DIBS_COMPARISON_LAST_REVIEWED } from "@/features/comparison/confi
  *   "approximately", names the report and its year, and gives the buyer definition.
  *   https://www.sec.gov/Archives/edgar/data/1600641/000160064126000007/dibs-20251231.htm
  *   The seller application page says "more than 7,600+ of the world's best sellers and galleries
- *   from over 50 countries" and is undated; the 10-K says "over 70 countries" once, in a risk
- *   factor on regulated materials, and gives no overall country count. The seller figures conflict
- *   (7,600+ against 5,700) and the country figures conflict (50 against 70), so the page uses
- *   neither the undated page nor any country count. Wikipedia (4,000 dealers in 28 countries, 2019)
- *   and the third-party revenue analysis the issue says not to use are not used either.
+ *   from over 50 countries" and is undated. The 10-K says it lists items "from numerous sellers
+ *   located throughout the United States and from over 70 countries" (in its text on regulated
+ *   materials such as fur and ivory) and that sellers reach "approximately 7.8 million users in
+ *   over 200 countries"; those country figures count different things and neither is a headline
+ *   metric. The seller figures conflict (7,600+ against 5,700) and the sellers' country figures
+ *   conflict (50 against 70), so the page uses neither the undated page nor any country count.
+ *   Wikipedia (4,000 dealers in 28 countries, 2019) and the third-party revenue analysis the issue
+ *   says not to use are not used either.
  *   https://www.1stdibs.com/dealer/application-form/
  * - What 1stDibs is and how it describes vetting: "one of the world's leading online marketplaces
  *   for connecting design lovers" and "Our sellers, who undergo an evaluation by our in-house
@@ -45,21 +48,34 @@ import { FIRST_DIBS_COMPARISON_LAST_REVIEWED } from "@/features/comparison/confi
  * - Auctions: the Auction Terms say "The Auction platform is a feature on the 1stdibs marketplace
  *   that allows Sellers to post an Item": sellers list an item for auction, buyers register with
  *   a card or PayPal account and bid, with maximum bids, a five-minute extension and an optional
- *   Buy It Now before the first bid. The terms carry no date. The About page and the Promise page
- *   mention no auctions, and the 10-K describes no auction offer, so the issue's draft ("check
- *   whether 1stDibs has auctions before claiming a difference") resolves to: it does, so the page
- *   claims no difference. The row is a tie, "different roles": 1stDibs lets its sellers run
- *   auctions on its marketplace, Aura Historia runs none. The page never says 1stDibs has no
- *   auction houses either: nothing says which sellers use the feature.
+ *   Buy It Now before the first bid. The terms carry no date; 1stDibs announced the feature in a
+ *   release of 10 November 2021 ("1stDibs Launches Auctions, Providing Shoppers the Chance to Bid
+ *   on Extraordinary Items at Exceptional Prices", "offered by trusted sellers around the world"),
+ *   which does not say who may list. The About page and the Promise page mention no auctions, and
+ *   the 10-K describes no auction offer, so the issue's draft ("check whether 1stDibs has auctions
+ *   before claiming a difference") resolves to: it does, so the page claims no difference. The row
+ *   is a tie, "different roles": 1stDibs lets its sellers run auctions on its marketplace, Aura
+ *   Historia runs none. The page never says 1stDibs has no auction houses either: nothing says
+ *   which sellers use the feature.
  *   https://www.1stdibs.com/about/auctions-terms/
- * - Monitoring: "alerts when new items from followed creators are listed" (10-K, Value Proposition
- *   to Buyers, Personalization). The help centre (Follow Search Results, Save Your Favorite Items)
- *   reportedly also covers following searches, categories and sellers and alerts on saved items,
- *   but it answers automated requests with 403, so it could only be read as search excerpts. The
- *   page therefore states only the annual report's sentence; re-check the help centre by hand
- *   before widening the monitoring row. No frequency is published, so the page makes no speed
- *   comparison.
+ *   https://investors.1stdibs.com/news/news-details/2021/1stDibs-Launches-Auctions-Providing-Shoppers-the-Chance-to-Bid-on-Extraordinary-Items-at-Exceptional-Prices/default.aspx
+ * - Monitoring: the 10-K lists personalisation features for buyers: "These include alerts when new
+ *   items from followed creators are listed, item recommendations, discovery feeds, and highly
+ *   contextual emails" (Value Proposition to Buyers, Personalization). The page says personalisation
+ *   features "include" the alerts, so it does not read as the full list. The help centre (Follow
+ *   Search Results, Save Your Favorite Items) reportedly also covers following searches,
+ *   categories and sellers and alerts on saved items, but it answers automated requests with 403,
+ *   so it could only be read as search excerpts. The page therefore states only the annual
+ *   report's wording; re-check the help centre by hand before widening the monitoring row. No
+ *   frequency is published, so the page makes no speed comparison.
  *   https://support.1stdibs.com/hc/en-us/articles/14516797762715-Follow-Search-Results
+ * - Claims about Aura Historia checked against the live product on 2026-11-08: "similar objects"
+ *   are not said to come from other providers. The public MCP `getSimilarProductListings`, called
+ *   for one listing each of Chetwynd Antiques, TILT vintage design and Manubroc, returned 20
+ *   results per call and every one came from the listing's own provider. The page says search
+ *   results show objects from many providers side by side (a search for "armchair" returned
+ *   listings of two providers) and that a listing page shows that listing's price history and
+ *   similar objects.
  * - Languages: "unveiling a localized site for France" so buyers can "browse and receive customer
  *   support in their local language" (release of 11 May 2022, www.1stdibs.com/fr) and a localized
  *   German site "last month" (release of 27 April 2022: "local language, currency, customer

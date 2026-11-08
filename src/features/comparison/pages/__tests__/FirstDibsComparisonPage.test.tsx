@@ -270,7 +270,7 @@ describe("ComparisonPage with the 1stDibs definition", () => {
  * share or an overall country count (the application page and the annual report disagree).
  */
 const FINANCES_AND_SUPERLATIVES: Record<LocaleCode, RegExp> = {
-    en: /(Nasdaq|\bDIBS\b|GMV|revenue|Shellhammer|Rosenblatt|\bCEO\b|\bleading\b|world's|\b(50|70) countries)/i,
+    en: /(Nasdaq|\bDIBS\b|GMV|revenue|Shellhammer|Rosenblatt|\bCEO\b|\bleading\b|world['’]s|\b(50|70) countries)/i,
     de: /(Nasdaq|\bDIBS\b|GMV|Umsatz|Shellhammer|Rosenblatt|\bCEO\b|führend|\b(50|70) Länder)/i,
     es: /(Nasdaq|\bDIBS\b|GMV|ingresos|Shellhammer|Rosenblatt|\bCEO\b|\blíder\b|\b(50|70) países)/i,
     fr: /(Nasdaq|\bDIBS\b|GMV|chiffre d’affaires|Shellhammer|Rosenblatt|\bPDG\b|\bleader\b|\b(50|70) pays)/i,
@@ -284,6 +284,28 @@ const DISPARAGEMENT: Record<LocaleCode, RegExp> = {
     es: /(poco fiable|sobrevalorad|\bcaros?\b|falsific|estafa)/i,
     fr: /(peu fiable|surévalué|\bchers?\b|contrefaçon|\bfaux\b|arnaque)/i,
     it: /(inaffidabil|sopravvalutat|\bcostos[oiae]\b|contraffa|\bfals[oiae]\b|truffa)/i,
+};
+
+/**
+ * Similar objects stay within one provider in the live product (checked 2026-11-08 on listings of
+ * three providers: every result came from the listing's own provider), so no text may say that
+ * similar objects come from other, different or many providers.
+ */
+const SIMILAR_OBJECTS_FROM_OTHER_PROVIDERS: Record<LocaleCode, RegExp> = {
+    en: /similar objects[^.;]*\b(different|other|several|many|various) providers/i,
+    de: /ähnliche Objekte[^.;]*(verschiedenen|anderen|mehreren|vielen) Anbietern/i,
+    es: /objetos similares[^.;]*(distintos|otros|varios|muchos) proveedores/i,
+    fr: /objets similaires[^.;]*(fournisseurs (différents|autres)|(différents|autres|plusieurs|nombreux) fournisseurs)/i,
+    it: /oggetti simili[^.;]*(fornitori (diversi|altri)|(diversi|altri|più|molti) fornitori)/i,
+};
+
+/** The monitoring cell names the annual report's alerts as one of several features, not all. */
+const ONE_OF_SEVERAL_FEATURES: Record<LocaleCode, RegExp> = {
+    en: /features include alerts/,
+    de: /Personalisierungsfunktionen zählen Benachrichtigungen/,
+    es: /Entre sus funciones de personalización hay alertas/,
+    fr: /fonctions de personnalisation comprennent des alertes/,
+    it: /Tra le sue funzioni di personalizzazione ci sono avvisi/,
 };
 
 /** The undated application page's seller figure and the 2019 encyclopaedia figure: never used. */
@@ -332,6 +354,7 @@ describe.each(Object.entries(LOCALES))("1stDibs comparison copy in %s", (lng, lo
             expect(text).not.toMatch(BANNED_WORDING[code]);
             expect(text).not.toMatch(FINANCES_AND_SUPERLATIVES[code]);
             expect(text).not.toMatch(DISPARAGEMENT[code]);
+            expect(text).not.toMatch(SIMILAR_OBJECTS_FROM_OTHER_PROVIDERS[code]);
             expect(text).not.toMatch(UNUSED_FIGURES);
             expect(text).not.toMatch(/!/);
         }
@@ -359,6 +382,7 @@ describe.each(Object.entries(LOCALES))("1stDibs comparison copy in %s", (lng, lo
         }
         expect(rows.auctions.competitor).toMatch(AUCTION_TERMS[code]);
         expect(rows.monitoring.competitor).toContain("2025");
+        expect(rows.monitoring.competitor).toMatch(ONE_OF_SEVERAL_FEATURES[code]);
         expect(rows.languages.competitor).toContain("2022");
         // The competitor's cells use its names, never ours.
         expect(rows.objectRange.competitor).not.toContain("Aura Historia");
