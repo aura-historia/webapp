@@ -3,6 +3,7 @@ import { applySecurityHeaders } from "@/lib/server/securityHeaders.ts";
 import { forwardAgentDiscoveryRequest } from "@/features/agent-discovery/server/agentDiscoveryForwarding.ts";
 import { applyAgentDiscoveryLinkHeader } from "@/features/agent-discovery/server/agentDiscoveryLinkHeader.ts";
 import { applyContentSignalHeader } from "@/lib/seo/contentSignals.ts";
+import { serveProductSitemapRequest } from "@/features/product/catalog/server/productSitemap.ts";
 
 function applySiteHeaders(headers: Headers): void {
     applySecurityHeaders(headers);
@@ -33,6 +34,12 @@ export default createServerEntry({
         const discoveryResponse = await forwardAgentDiscoveryRequest(request);
         if (discoveryResponse) {
             return discoveryResponse;
+        }
+
+        // Likewise for the product sitemap, which is built from the public search.
+        const sitemapResponse = await serveProductSitemapRequest(request);
+        if (sitemapResponse) {
+            return withSiteHeaders(sitemapResponse);
         }
 
         return withSiteHeaders(await handler.fetch(request, opts));

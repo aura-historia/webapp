@@ -7,6 +7,13 @@
     "compatibility_flags": ["nodejs_compat", "enable_ctx_exports"],
     // TanStack Start's server entry plus the exported Durable Object classes.
     "main": "./src/worker.ts",
+    // Prerendered pages are written as `/de/about-us/index.html`. Serve them at `/de/about-us`, the
+    // URL the router links to and every canonical, hreflang and sitemap entry names; a trailing
+    // slash redirects there. The default (`auto-trailing-slash`) redirected the other way, so each
+    // canonical URL answered with a redirect.
+    "assets": {
+        "html_handling": "drop-trailing-slash",
+    },
     // The registered WooCommerce OAuth client, as a canonical `oc_` TypeID. Its secret is a Worker secret.
     "vars": {
         "OAUTH_CLIENT_REDIRECT_BROKER_WOOCOMMERCE_CLIENT_ID": "oc_01m5vyvraxecksre2zepjcza88",

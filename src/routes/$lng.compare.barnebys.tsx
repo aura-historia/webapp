@@ -6,6 +6,7 @@ import { env } from "@/env";
 import i18n from "@/i18n/i18n.ts";
 import { localizeUrl } from "@/i18n/routing.ts";
 import { generatePageHeadMeta } from "@/lib/seo/pageHeadMeta.ts";
+import { jsonLdScript } from "@/lib/seo/jsonLd.ts";
 
 const CANONICAL_URL = `${env.VITE_APP_URL}/compare/barnebys`;
 
@@ -24,10 +25,7 @@ export const Route = createFileRoute("/$lng/compare/barnebys")({
                 siteUrl: env.VITE_APP_URL,
                 pageUrl: localizeUrl(CANONICAL_URL, language),
                 language,
-            }).map((data) => ({
-                type: "application/ld+json",
-                children: JSON.stringify(data),
-            })),
+            }).map(jsonLdScript),
         };
     },
     component: BarnebysComparisonPage,

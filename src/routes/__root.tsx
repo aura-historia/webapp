@@ -43,6 +43,7 @@ import { syncAmplifyTranslations } from "@/features/authentication/lib/amplifyI1
 import { clearViewerScopedQueries } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
 import { useFederatedAuthRedirectCompletion } from "@/features/authentication/hooks/useFederatedAuthRedirectCompletion.ts";
 import { AI_CATALOG_PATH } from "@/features/agent-discovery/lib/agentDiscoveryPaths.ts";
+import { SITE_NAME } from "@/features/app-shell/lib/siteStructuredData.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -75,8 +76,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 },
                 // Open Graph defaults
                 {
+                    // The brand alone; the page title already carries the tagline.
                     property: "og:site_name",
-                    content: i18n.t("meta.siteName"),
+                    content: SITE_NAME,
                 },
                 {
                     property: "og:locale",

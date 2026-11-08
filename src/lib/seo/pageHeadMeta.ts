@@ -30,6 +30,7 @@ type PageMetaKey =
     | "consentSettings"
     | "newsletterConfirm"
     | "partnerProgram"
+    | "partnerCustomIntegration"
     | "partnerApplications"
     | "partnerAccessTokens"
     | "partnerListingSources"
@@ -92,6 +93,10 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
         title: "meta.partnerProgram.title",
         description: "meta.partnerProgram.description",
     },
+    partnerCustomIntegration: {
+        title: "meta.partnerCustomIntegration.title",
+        description: "meta.partnerCustomIntegration.description",
+    },
     partnerApplications: {
         title: "meta.partnerApplications.title",
     },
@@ -119,8 +124,13 @@ type PageMetaOptions = {
     image?: string;
     /** The Open Graph type (defaults to "website") */
     type?: string;
-    /** Whether to add noindex, nofollow meta tag */
+    /** Whether to add a noindex robots tag (`noindex, nofollow` unless `followLinks`) */
     noIndex?: boolean;
+    /**
+     * With `noIndex`, still let crawlers follow the page's links (`noindex, follow`). For pages that
+     * should stay out of results but lead to pages that belong in them, such as search results.
+     */
+    followLinks?: boolean;
 };
 
 /**
@@ -128,7 +138,14 @@ type PageMetaOptions = {
  * Uses i18n translations for title and description.
  */
 export function generatePageHeadMeta(options: PageMetaOptions): HeadMeta {
-    const { pageKey, url, image = BANNER_IMAGE_URL, type = "website", noIndex = false } = options;
+    const {
+        pageKey,
+        url,
+        image = BANNER_IMAGE_URL,
+        type = "website",
+        noIndex = false,
+        followLinks = false,
+    } = options;
     const localizedUrl = url ? localizeUrl(url, i18n.resolvedLanguage ?? i18n.language) : undefined;
 
     const keys = PAGE_META_KEYS[pageKey];
@@ -137,7 +154,14 @@ export function generatePageHeadMeta(options: PageMetaOptions): HeadMeta {
 
     const meta: HeadMeta["meta"] = [
         { title },
-        ...(noIndex ? [{ name: "robots" as const, content: "noindex, nofollow" }] : []),
+        ...(noIndex
+            ? [
+                  {
+                      name: "robots" as const,
+                      content: followLinks ? "noindex, follow" : "noindex, nofollow",
+                  },
+              ]
+            : []),
         ...(description ? [{ name: "description" as const, content: description }] : []),
         // Open Graph tags
         { property: "og:title" as const, content: title },

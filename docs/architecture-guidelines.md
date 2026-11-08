@@ -76,8 +76,61 @@ Exclude any routes that are only accessible through authentication or contain hi
   leaves them out of `sitemap.xml`.
 - robots.txt rules are path-prefix matches and every page carries a language prefix, so a rule that
   must match pages needs one (`/*/…`).
+- Search result pages (`/search`, `/search/shops`) are `noindex, follow` (`followLinks: true`): their
+  filter combinations are endless, but crawlers should follow their links to listings and sources.
 - `src/lib/seo/__tests__/robotsTxt.test.ts` keeps robots.txt, the sitemap and route `noindex`
   settings consistent.
+
+### Canonical URLs and trailing slashes
+
+Every page URL has a language prefix and no trailing slash: `/de`, `/de/about-us`,
+`/de/products/…`. Canonical, hreflang, `og:url`, sitemap and `llms.txt` URLs use that form, so each
+one answers `200` without a redirect.
+
+- Prerendered pages are written as `/de/about-us/index.html`. `assets.html_handling` in
+  `wrangler.jsonc` is `drop-trailing-slash`, which serves them at `/de/about-us` and redirects
+  `/de/about-us/` there. Do not switch it back to the default (`auto-trailing-slash`), which
+  redirects the other way and turns every canonical URL into a redirect.
+- `localizedStaticPagePath` in `src/lib/seo/staticPages.ts` names prerendered pages, the language
+  root without a slash.
+- The domain root `/` redirects each visitor to their language (302); `x-default` hreflang points to
+  the English page.
+
+### Sitemaps
+
+robots.txt names two sitemaps:
+
+- `/sitemap.xml`, written at build time from `src/lib/seo/staticPages.ts` (indexable pages only).
+- `/sitemaps/products.xml`, built by the Worker (`src/features/product/catalog/server/productSitemap.ts`)
+  from the public product search: the 1,000 most recently updated listings, each in every
+  language, with its first image cleared for display. The edge keeps it for six hours. The cost is
+  fixed (ten anonymous search requests per build), whatever the catalogue size. Listings whose
+  content needs consent stay out. Listing every product needs a backend sitemap feed; until then
+  older listings are found through links (similar items, source pages).
+- Source profiles stay out of sitemaps
+  (see `docs/landing-page-prerendering-guidelines.md#public-listing-source-discovery`).
+
+### Structured data (JSON-LD)
+
+Structured data repeats what the page shows; nothing is only machine-readable. Serialize it with
+`jsonLdScript` / `serializeJsonLd` from `src/lib/seo/jsonLd.ts`: the router writes script children as
+raw HTML, and the helper escapes `<` so listing or source text cannot close the script element.
+
+- Home: Organization and WebSite (which names the site in Google results), the page, and the
+  visible FAQ (`src/features/landing/lib/landingStructuredData.ts`). The Organization node lives in
+  `src/features/app-shell/lib/siteStructuredData.ts`; the about page reuses it.
+- Listing pages (`src/features/product/detail/lib/seo/productJsonLd.ts`): a Product with an Offer
+  only for an active listing with a current asking price above zero. The Offer names the source as
+  `seller` (linked to its profile page) and points to the listing page. `sku` is the source's own
+  listing ID when it has 1–50 characters (Google's limit); `productID` is ours. Without an offer
+  (price on request, sale observations, withdrawn) the page is an ItemPage, because Google counts
+  a Product without offers, reviews or ratings as an invalid item.
+- The listing data has no brand, GTIN, condition, ratings, reviews or return policy, so none are
+  published; Search Console reports them as optional. Shipping details will come with the
+  shipping data.
+- Source profiles: a CollectionPage about the source, from its allowlisted public fields.
+- About and the Barnebys comparison: see their builders in `src/features/about` and
+  `src/features/comparison`.
 
 ### Content Signals
 
@@ -113,8 +166,8 @@ head and by a comment in `public/robots.txt`.
 - Update it when public routes, the public URL patterns it describes, the REST API or MCP endpoints,
   API documentation URLs or partner integration listings change. An MCP host change also needs the
   DNS-AID record in the Cloudflare zone updated (`docs/dns-aid.md`).
-- Use absolute HTTPS URLs that avoid redirects where possible; prerendered pages keep their trailing
-  slash. Prefer Markdown sources (such as `https://docs.api.aura-historia.com/*.md`) over HTML.
+- Use absolute HTTPS URLs that avoid redirects where possible; page URLs have no trailing slash
+  (see [Canonical URLs](#canonical-urls-and-trailing-slashes)). Prefer Markdown sources (such as `https://docs.api.aura-historia.com/*.md`) over HTML.
 - List only public content; never link account, partner, admin or OAuth pages, and keep claims as
   restrained as product copy.
 - `src/lib/seo/__tests__/llmsTxt.test.ts` checks the structure and shared links.
