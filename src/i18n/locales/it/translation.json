@@ -2766,10 +2766,6 @@
         "title": "Seleziona un fornitore",
         "description": "Scelga il fornitore da collegare a questa applicazione. Questa selezione non limita i permessi del token; l’accesso dipende dai permessi richiesti e dalle autorizzazioni attuali per il fornitore.",
         "selectedLabel": "Fornitore selezionato",
-        "empty": {
-          "title": "Nessun fornitore disponibile",
-          "description": "Questa integrazione richiede l’accesso a un fornitore. Richieda l’accesso, poi riavvii l’autorizzazione."
-        },
         "loadError": {
           "title": "Impossibile caricare i fornitori",
           "description": "Non è stato possibile verificare l’accesso ai fornitori. Riprovi."
@@ -2841,7 +2837,7 @@
           },
           "connect": {
             "title": "Completare il collegamento",
-            "description": "Verifichi di nuovo qui o riavvii Connect dall’app, poi autorizzi."
+            "description": "Verifichi di nuovo qui o riavvii il collegamento dall’amministrazione del Suo negozio, poi autorizzi."
           }
         },
         "stages": {
@@ -2851,15 +2847,15 @@
           },
           "submitted": {
             "title": "Richiesta inviata. <em>La ricontatteremo.</em>",
-            "description": "La avviseremo via e-mail e in Aura Historia quando sarà decisa. Quando avrà l’accesso, verifichi di nuovo qui o riavvii Connect dall’app."
+            "description": "La avviseremo via e-mail e in Aura Historia quando sarà decisa. Quando avrà l’accesso, verifichi di nuovo qui o riavvii il collegamento dall’amministrazione del Suo negozio."
           },
           "inReview": {
             "title": "La Sua richiesta è <em>in revisione.</em>",
-            "description": "La avviseremo via e-mail e in Aura Historia quando sarà decisa. Quando avrà l’accesso, verifichi di nuovo qui o riavvii Connect dall’app."
+            "description": "La avviseremo via e-mail e in Aura Historia quando sarà decisa. Quando avrà l’accesso, verifichi di nuovo qui o riavvii il collegamento dall’amministrazione del Suo negozio."
           },
           "approved": {
             "title": "Approvata. <em>L’accesso arriverà a breve.</em>",
-            "description": "Stiamo configurando il Suo accesso al fornitore. Verifichi di nuovo tra poco o riavvii Connect dall’app più tardi."
+            "description": "Stiamo configurando il Suo accesso al fornitore. Verifichi di nuovo tra poco o riavvii più tardi il collegamento dall’amministrazione del Suo negozio."
           },
           "rejected": {
             "title": "Il Suo account non ha <em>ancora un fornitore.</em>",

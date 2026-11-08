@@ -2766,10 +2766,6 @@
         "title": "Sélectionner un fournisseur",
         "description": "Choisissez le fournisseur à connecter à cette application. Ce choix ne limite pas les permissions du jeton ; l’accès dépend des permissions demandées et de vos autorisations actuelles pour ce fournisseur.",
         "selectedLabel": "Fournisseur sélectionné",
-        "empty": {
-          "title": "Aucun fournisseur disponible",
-          "description": "Cette intégration nécessite un accès à un fournisseur. Demandez l’accès, puis recommencez l’autorisation."
-        },
         "loadError": {
           "title": "Impossible de charger les fournisseurs",
           "description": "L’accès à vos fournisseurs n’a pas pu être vérifié. Veuillez réessayer."
@@ -2841,7 +2837,7 @@
           },
           "connect": {
             "title": "Finaliser la connexion",
-            "description": "Vérifiez à nouveau ici ou relancez Connect depuis l’app, puis autorisez."
+            "description": "Vérifiez à nouveau ici ou relancez la connexion depuis l’administration de votre boutique, puis autorisez."
           }
         },
         "stages": {
@@ -2851,15 +2847,15 @@
           },
           "submitted": {
             "title": "Candidature envoyée. <em>Nous revenons vers vous.</em>",
-            "description": "Nous vous informons par e-mail et dans Aura Historia dès qu’une décision est prise. Une fois l’accès accordé, vérifiez à nouveau ici ou relancez Connect depuis l’app."
+            "description": "Nous vous informons par e-mail et dans Aura Historia dès qu’une décision est prise. Une fois l’accès accordé, vérifiez à nouveau ici ou relancez la connexion depuis l’administration de votre boutique."
           },
           "inReview": {
             "title": "Votre candidature est <em>en cours d’examen.</em>",
-            "description": "Nous vous informons par e-mail et dans Aura Historia dès qu’une décision est prise. Une fois l’accès accordé, vérifiez à nouveau ici ou relancez Connect depuis l’app."
+            "description": "Nous vous informons par e-mail et dans Aura Historia dès qu’une décision est prise. Une fois l’accès accordé, vérifiez à nouveau ici ou relancez la connexion depuis l’administration de votre boutique."
           },
           "approved": {
             "title": "Approuvée. <em>L’accès va suivre.</em>",
-            "description": "Nous configurons votre accès au fournisseur. Vérifiez à nouveau dans un moment, ou relancez Connect depuis l’app plus tard."
+            "description": "Nous configurons votre accès au fournisseur. Vérifiez à nouveau dans un moment, ou relancez plus tard la connexion depuis l’administration de votre boutique."
           },
           "rejected": {
             "title": "Votre compte n’a <em>pas encore de fournisseur.</em>",

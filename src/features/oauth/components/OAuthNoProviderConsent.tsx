@@ -1,5 +1,5 @@
 import { CircleAlert, Info, Link2 } from "lucide-react";
-import { useId, useState } from "react";
+import { type ReactNode, useId, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import type { OAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
 import type { PartnerApplication } from "@/data/internal/partner-application/OwnPartnershipApplication.ts";
@@ -16,7 +16,6 @@ import {
     CONSENT_CARD_CLASS,
     CONSENT_COPY_CLASS,
     CONSENT_EYEBROW_CLASS,
-    CONSENT_OUTLINE_BUTTON_CLASS,
     CONSENT_PANEL_CLASS,
     CONSENT_PRIMARY_BUTTON_CLASS,
 } from "@/features/oauth/lib/oauthConsentStyles.ts";
@@ -69,9 +68,13 @@ const ROMAN = ["I", "II", "III"] as const;
 
 interface OAuthNoProviderConsentProps {
     readonly client: OAuthClient;
-    /** The registered denial callback; without it, there is no way back offered. */
-    readonly returnUrl: string | undefined;
-    readonly onReturn: () => void;
+    /** Blocks between the request line and the panel, e.g. the WooCommerce recipient. */
+    readonly children?: ReactNode;
+    /**
+     * The way out beside the main action: Return without connecting for a direct request with a
+     * verified callback, the broker's Decline for WooCommerce, nothing otherwise.
+     */
+    readonly secondaryAction?: ReactNode;
     /** Reads the granted providers again; the page shows the consent once one arrives. */
     readonly onCheckAgain: () => void;
     readonly isChecking: boolean;
@@ -85,8 +88,8 @@ interface OAuthNoProviderConsentProps {
  */
 export function OAuthNoProviderConsent({
     client,
-    returnUrl,
-    onReturn,
+    children,
+    secondaryAction,
     onCheckAgain,
     isChecking,
     checkFailed,
@@ -120,6 +123,8 @@ export function OAuthNoProviderConsent({
                 <p className={CONSENT_COPY_CLASS}>
                     {t("oauth.authorize.description", { appName: client.clientName })}
                 </p>
+
+                {children}
 
                 <section
                     aria-labelledby={headingId}
@@ -258,18 +263,7 @@ export function OAuthNoProviderConsent({
                             )}
                         </button>
                     )}
-                    {returnUrl && (
-                        <button
-                            type="button"
-                            className={CONSENT_OUTLINE_BUTTON_CLASS}
-                            aria-label={t("oauth.authorize.noProvider.returnAriaLabel", {
-                                appName: client.clientName,
-                            })}
-                            onClick={onReturn}
-                        >
-                            {t("oauth.authorize.noProvider.return")}
-                        </button>
-                    )}
+                    {secondaryAction}
                 </div>
             </article>
 

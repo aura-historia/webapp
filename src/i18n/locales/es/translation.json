@@ -2766,10 +2766,6 @@
         "title": "Seleccionar un proveedor",
         "description": "Elija el proveedor que desea conectar con esta aplicación. Esta selección no limita los permisos del token; el acceso depende de los permisos solicitados y de las autorizaciones actuales para el proveedor.",
         "selectedLabel": "Proveedor seleccionado",
-        "empty": {
-          "title": "No hay ningún proveedor disponible",
-          "description": "Esta integración requiere acceso a un proveedor. Solicite acceso y vuelva a iniciar la autorización."
-        },
         "loadError": {
           "title": "No se pudieron cargar los proveedores",
           "description": "No se pudo verificar su acceso al proveedor. Inténtelo de nuevo."
@@ -2841,7 +2837,7 @@
           },
           "connect": {
             "title": "Completar la conexión",
-            "description": "Vuelva a comprobarlo aquí o inicie Connect de nuevo desde la app y autorice."
+            "description": "Vuelva a comprobarlo aquí o inicie la conexión de nuevo desde la administración de su tienda y autorice."
           }
         },
         "stages": {
@@ -2851,15 +2847,15 @@
           },
           "submitted": {
             "title": "Solicitud enviada. <em>Nos pondremos en contacto.</em>",
-            "description": "Le avisaremos por correo electrónico y en Aura Historia cuando se decida. Cuando tenga acceso, vuelva a comprobarlo aquí o inicie Connect de nuevo desde la app."
+            "description": "Le avisaremos por correo electrónico y en Aura Historia cuando se decida. Cuando tenga acceso, vuelva a comprobarlo aquí o inicie la conexión de nuevo desde la administración de su tienda."
           },
           "inReview": {
             "title": "Su solicitud está <em>en revisión.</em>",
-            "description": "Le avisaremos por correo electrónico y en Aura Historia cuando se decida. Cuando tenga acceso, vuelva a comprobarlo aquí o inicie Connect de nuevo desde la app."
+            "description": "Le avisaremos por correo electrónico y en Aura Historia cuando se decida. Cuando tenga acceso, vuelva a comprobarlo aquí o inicie la conexión de nuevo desde la administración de su tienda."
           },
           "approved": {
             "title": "Aprobada. <em>El acceso llegará pronto.</em>",
-            "description": "Estamos configurando su acceso al proveedor. Vuelva a comprobarlo dentro de un rato o inicie Connect de nuevo desde la app más tarde."
+            "description": "Estamos configurando su acceso al proveedor. Vuelva a comprobarlo dentro de un rato o inicie la conexión de nuevo desde la administración de su tienda más tarde."
           },
           "rejected": {
             "title": "Su cuenta aún no tiene <em>ningún proveedor.</em>",

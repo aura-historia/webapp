@@ -15,6 +15,8 @@ interface BrokerConsentActionsProps {
     readonly listingSourceId: string | undefined;
     readonly approveAriaLabel: string;
     readonly denyAriaLabel: string;
+    /** False leaves only Decline, e.g. while the account has no provider to approve with. */
+    readonly canApprove?: boolean;
 }
 
 /**
@@ -28,6 +30,7 @@ export function BrokerConsentActions({
     listingSourceId,
     approveAriaLabel,
     denyAriaLabel,
+    canApprove = true,
 }: BrokerConsentActionsProps) {
     const { t } = useTranslation();
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -44,22 +47,24 @@ export function BrokerConsentActions({
 
     return (
         <>
-            <form
-                action={WOOCOMMERCE_BROKER_APPROVE_PATH}
-                method="post"
-                className="w-full sm:w-auto"
-                onSubmit={markSubmitted}
-            >
-                {fields}
-                <button
-                    type="submit"
-                    className={CONSENT_BRAND_BUTTON_CLASS}
-                    disabled={listingSourceId === undefined || isSubmitted}
-                    aria-label={approveAriaLabel}
+            {canApprove && (
+                <form
+                    action={WOOCOMMERCE_BROKER_APPROVE_PATH}
+                    method="post"
+                    className="w-full sm:w-auto"
+                    onSubmit={markSubmitted}
                 >
-                    {t("oauth.authorize.approve")}
-                </button>
-            </form>
+                    {fields}
+                    <button
+                        type="submit"
+                        className={CONSENT_BRAND_BUTTON_CLASS}
+                        disabled={listingSourceId === undefined || isSubmitted}
+                        aria-label={approveAriaLabel}
+                    >
+                        {t("oauth.authorize.approve")}
+                    </button>
+                </form>
+            )}
             <form
                 action={WOOCOMMERCE_BROKER_DENY_PATH}
                 method="post"

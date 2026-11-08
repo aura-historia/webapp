@@ -4,6 +4,8 @@ import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { OAuthConsentUnavailableError } from "@/features/oauth/api/oauthConsentMetadata.ts";
 import { OAuthAuthorizeClientSummary } from "@/features/oauth/components/OAuthAuthorizeClientSummary.tsx";
+import { OAuthGrantedAccessNote } from "@/features/oauth/components/OAuthGrantedAccessNote.tsx";
+import { OAuthNoProviderConsent } from "@/features/oauth/components/OAuthNoProviderConsent.tsx";
 import { OAuthAuthorizeErrorCard } from "@/features/oauth/components/OAuthAuthorizeErrorCard.tsx";
 import {
     OAuthAuthorizePageContainer,
@@ -16,6 +18,7 @@ import { OAuthSecurityNote } from "@/features/oauth/components/OAuthSecurityNote
 import { OAuthSelectedListingSourceConfirmation } from "@/features/oauth/components/OAuthSelectedListingSourceConfirmation.tsx";
 import { useOAuthClient } from "@/features/oauth/hooks/useOAuthClient.ts";
 import { useOAuthListingSources } from "@/features/oauth/hooks/useOAuthListingSources.ts";
+import { useNoProviderState } from "@/features/oauth/hooks/useNoProviderState.ts";
 import {
     CONSENT_ACTIONS_CLASS,
     CONSENT_ALERT_CLASS,
@@ -87,15 +90,24 @@ function BrokerTransactionConsent({
     if (!pending) {
         return <BrokerTerminalCard state={consent.data.status as TerminalState} />;
     }
-    return <PendingBrokerConsent consent={pending} inlineError={inlineError} />;
+    return (
+        <PendingBrokerConsent
+            consent={pending}
+            inlineError={inlineError}
+            onRefreshTransaction={() => void consent.refetch()}
+        />
+    );
 }
 
 function PendingBrokerConsent({
     consent,
     inlineError,
+    onRefreshTransaction,
 }: {
     readonly consent: Extract<OAuthBrokerConsent, { status: "pending" }>;
     readonly inlineError: (typeof INLINE_ERROR_KEYS)[keyof typeof INLINE_ERROR_KEYS] | undefined;
+    /** Reads the transaction again, so an expired one turns into its terminal state. */
+    readonly onRefreshTransaction: () => void;
 }) {
     const { t } = useTranslation();
     const { lng } = useParams({ from: "/$lng" });
@@ -108,6 +120,7 @@ function PendingBrokerConsent({
             listingSourcePages.sources,
             listingSourcePages.hasMore,
         );
+    const noProvider = useNoProviderState(true, listingSourcePages);
 
     if (isLoading || listingSourcePages.isPending) {
         return <BrokerConsentSkeleton requestedScopes={consent.scopes} />;
@@ -123,20 +136,44 @@ function PendingBrokerConsent({
         );
     }
 
+    const actionProps = {
+        lng,
+        transactionId: consent.transactionId,
+        approveAriaLabel: t("oauth.authorize.approveAriaLabel", { appName: client.clientName }),
+        denyAriaLabel: t("oauth.authorize.denyAriaLabel", { appName: client.clientName }),
+    };
+
+    if (noProvider.showPanel) {
+        return (
+            <OAuthNoProviderConsent
+                client={client}
+                secondaryAction={
+                    <BrokerConsentActions
+                        {...actionProps}
+                        listingSourceId={undefined}
+                        canApprove={false}
+                    />
+                }
+                onCheckAgain={() => {
+                    listingSourcePages.retry();
+                    onRefreshTransaction();
+                }}
+                isChecking={listingSourcePages.isRefreshing}
+                checkFailed={noProvider.checkFailed}
+            >
+                <BrokerRecipientPanel
+                    recipient={consent.recipient}
+                    merchantRedirectUri={consent.merchantRedirectUri}
+                />
+            </OAuthNoProviderConsent>
+        );
+    }
+
     if (listingSourcePages.isError) {
         return (
             <OAuthAuthorizeErrorCard
                 title={t("oauth.authorize.listingSources.loadError.title")}
                 description={t("oauth.authorize.listingSources.loadError.description")}
-            />
-        );
-    }
-
-    if (listingSourcePages.sources.length === 0 && !listingSourcePages.hasMore) {
-        return (
-            <OAuthAuthorizeErrorCard
-                title={t("oauth.authorize.listingSources.empty.title")}
-                description={t("oauth.authorize.listingSources.empty.description")}
             />
         );
     }
@@ -156,6 +193,10 @@ function PendingBrokerConsent({
                     recipient={consent.recipient}
                     merchantRedirectUri={consent.merchantRedirectUri}
                 />
+
+                {noProvider.gainedAccess && (
+                    <OAuthGrantedAccessNote listingSources={listingSourcePages.sources} />
+                )}
 
                 <OAuthRequestedScopes requestedScopes={consent.scopes} />
 
@@ -198,15 +239,8 @@ function PendingBrokerConsent({
 
                 <div className={CONSENT_ACTIONS_CLASS}>
                     <BrokerConsentActions
-                        lng={lng}
-                        transactionId={consent.transactionId}
+                        {...actionProps}
                         listingSourceId={listingSource?.listingSourceId}
-                        approveAriaLabel={t("oauth.authorize.approveAriaLabel", {
-                            appName: client.clientName,
-                        })}
-                        denyAriaLabel={t("oauth.authorize.denyAriaLabel", {
-                            appName: client.clientName,
-                        })}
                     />
                 </div>
             </article>

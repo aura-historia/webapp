@@ -3402,10 +3402,6 @@
         "title": "Select a provider",
         "description": "Choose the provider to connect to this application. This selection does not limit the token's permissions; access follows the requested scopes and your current provider grants.",
         "selectedLabel": "Selected provider",
-        "empty": {
-          "title": "No provider available",
-          "description": "This integration requires access to a provider. Request access, then restart authorization."
-        },
         "loadError": {
           "title": "Unable to load providers",
           "description": "Your provider access could not be verified. Please try again."
@@ -3477,7 +3473,7 @@
           },
           "connect": {
             "title": "Finish connecting",
-            "description": "Check again here or start Connect again from the app, then authorize."
+            "description": "Check again here or start the connection again from your shop’s admin, then authorize."
           }
         },
         "stages": {
@@ -3487,15 +3483,15 @@
           },
           "submitted": {
             "title": "Application sent. <em>We’ll be in touch.</em>",
-            "description": "We notify you by email and in Aura Historia when it is decided. Once you have access, check again here, or start Connect again from the app."
+            "description": "We notify you by email and in Aura Historia when it is decided. Once you have access, check again here, or start the connection again from your shop’s admin."
           },
           "inReview": {
             "title": "Your application is <em>in review.</em>",
-            "description": "We notify you by email and in Aura Historia when it is decided. Once you have access, check again here, or start Connect again from the app."
+            "description": "We notify you by email and in Aura Historia when it is decided. Once you have access, check again here, or start the connection again from your shop’s admin."
           },
           "approved": {
             "title": "Approved. <em>Access follows.</em>",
-            "description": "We are setting up your access to the provider. Check again in a little while, or start Connect again from the app later."
+            "description": "We are setting up your access to the provider. Check again in a little while, or start the connection again from your shop’s admin later."
           },
           "rejected": {
             "title": "Your account has no provider <em>yet.</em>",

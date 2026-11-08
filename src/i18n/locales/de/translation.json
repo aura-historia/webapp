@@ -3402,10 +3402,6 @@
         "title": "Anbieter auswählen",
         "description": "Wählen Sie den Anbieter, den Sie mit dieser Anwendung verbinden möchten. Diese Auswahl beschränkt die Token-Berechtigungen nicht; der Zugriff richtet sich nach den angeforderten Berechtigungen und Ihren aktuellen Anbieterfreigaben.",
         "selectedLabel": "Ausgewählter Anbieter",
-        "empty": {
-          "title": "Kein Anbieter verfügbar",
-          "description": "Für diese Integration benötigen Sie Zugriff auf einen Anbieter. Beantragen Sie Zugriff und starten Sie die Autorisierung erneut."
-        },
         "loadError": {
           "title": "Anbieter konnten nicht geladen werden",
           "description": "Ihr Zugriff auf Anbieter konnte nicht geprüft werden. Bitte versuchen Sie es erneut."
@@ -3477,7 +3473,7 @@
           },
           "connect": {
             "title": "Verbindung abschließen",
-            "description": "Hier erneut prüfen oder Connect in der App neu starten, dann autorisieren."
+            "description": "Hier erneut prüfen oder die Verbindung im Admin-Bereich Ihres Shops neu starten, dann autorisieren."
           }
         },
         "stages": {
@@ -3487,15 +3483,15 @@
           },
           "submitted": {
             "title": "Antrag gesendet. <em>Wir melden uns.</em>",
-            "description": "Wir benachrichtigen Sie per E-Mail und in Aura Historia, sobald entschieden ist. Sobald Sie Zugriff haben, prüfen Sie hier erneut oder starten Connect in der App neu."
+            "description": "Wir benachrichtigen Sie per E-Mail und in Aura Historia, sobald entschieden ist. Sobald Sie Zugriff haben, prüfen Sie hier erneut oder starten die Verbindung im Admin-Bereich Ihres Shops neu."
           },
           "inReview": {
             "title": "Ihr Antrag ist <em>in Prüfung.</em>",
-            "description": "Wir benachrichtigen Sie per E-Mail und in Aura Historia, sobald entschieden ist. Sobald Sie Zugriff haben, prüfen Sie hier erneut oder starten Connect in der App neu."
+            "description": "Wir benachrichtigen Sie per E-Mail und in Aura Historia, sobald entschieden ist. Sobald Sie Zugriff haben, prüfen Sie hier erneut oder starten die Verbindung im Admin-Bereich Ihres Shops neu."
           },
           "approved": {
             "title": "Genehmigt. <em>Der Zugriff folgt.</em>",
-            "description": "Wir richten Ihren Zugriff auf den Anbieter ein. Prüfen Sie in Kürze erneut oder starten Sie Connect später in der App neu."
+            "description": "Wir richten Ihren Zugriff auf den Anbieter ein. Prüfen Sie in Kürze erneut oder starten Sie die Verbindung später im Admin-Bereich Ihres Shops neu."
           },
           "rejected": {
             "title": "Ihr Konto hat <em>noch keinen Anbieter.</em>",
