@@ -133,6 +133,12 @@ type PageMetaOptions = {
     followLinks?: boolean;
 };
 
+/** The robots tag for a page kept out of search results; none for an indexable page. */
+function robotsMeta(noIndex: boolean, followLinks: boolean): HeadMeta["meta"] {
+    if (!noIndex) return [];
+    return [{ name: "robots", content: followLinks ? "noindex, follow" : "noindex, nofollow" }];
+}
+
 /**
  * Generates standard head metadata for a page including Open Graph and Twitter Card tags.
  * Uses i18n translations for title and description.
@@ -154,14 +160,7 @@ export function generatePageHeadMeta(options: PageMetaOptions): HeadMeta {
 
     const meta: HeadMeta["meta"] = [
         { title },
-        ...(noIndex
-            ? [
-                  {
-                      name: "robots" as const,
-                      content: followLinks ? "noindex, follow" : "noindex, nofollow",
-                  },
-              ]
-            : []),
+        ...robotsMeta(noIndex, followLinks),
         ...(description ? [{ name: "description" as const, content: description }] : []),
         // Open Graph tags
         { property: "og:title" as const, content: title },
