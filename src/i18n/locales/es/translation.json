@@ -86,6 +86,10 @@
       "title": "Aura Historia vs Invaluable | Comparativa de búsqueda de arte y antigüedades",
       "description": "Compara Aura Historia con Invaluable: un marketplace de subastas frente a una búsqueda entre casas de subastas, comerciantes y marketplaces de arte y antigüedades."
     },
+    "compare1stdibs": {
+      "title": "Aura Historia vs 1stDibs | Comparativa de búsqueda de arte y antigüedades",
+      "description": "Compara Aura Historia con 1stDibs: un marketplace curado de comerciantes frente a una búsqueda entre comerciantes, casas de subastas y marketplaces de arte, antigüedades y diseño."
+    },
     "partnerAccessTokens": {
       "title": "Tokens de acceso | Aura Historia"
     },
@@ -3907,6 +3911,203 @@
       "button": "Buscar arte y antigüedades"
     },
     "positioning": "Un marketplace de subastas donde los coleccionistas se registran y pujan, frente a una búsqueda entre casas de subastas, comerciantes y marketplaces que no organiza subastas."
+  },
+  "compare1stdibsPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "búsqueda de arte y antigüedades",
+        "curatedMarketplace": "marketplace en línea curado",
+        "crossProviderSearch": "búsqueda entre comerciantes, casas de subastas y marketplaces",
+        "priceComparison": "historial de precios y objetos similares de arte y antigüedades",
+        "monitoring": "listas de seguimiento y búsquedas guardadas de arte y antigüedades"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Resumen",
+        "advantages": "Dónde Aura Historia abarca más",
+        "scorecard": "Tabla comparativa",
+        "sources": "Tipos de proveedores",
+        "alerts": "Comparar entre proveedores",
+        "faq": "Preguntas frecuentes",
+        "verdict": "Veredicto final"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparativa: Aura Historia vs 1stDibs",
+      "title": "Más del mercado en una sola búsqueda que <em>un único escaparate curado</em>",
+      "subtitle": "1stDibs es un marketplace curado donde vendedores aprobados ofrecen, entre otras cosas, muebles, joyas y arte. Aura Historia busca entre comerciantes, casas de subastas y marketplaces codo con codo, para que veas por cuánto se ofrecen objetos comparables más allá de un solo escaparate.",
+      "primaryCta": "Buscar entre proveedores",
+      "secondaryCta": "Ver la comparativa",
+      "quickAnswerEyebrow": "En pocas palabras",
+      "quickAnswerTitle": "1stDibs está curado. <em>Aura Historia es más amplia.</em>",
+      "quickAnswerDescription": "<strong>Veredicto:</strong> elige 1stDibs si buscas un escaparate curado de vendedores aprobados. Elige Aura Historia para buscar entre comerciantes, casas de subastas y marketplaces codo con codo, comparar objetos comparables entre proveedores y seguir los cambios de precio y disponibilidad."
+    },
+    "quickVerdicts": {
+      "curatedSellers": {
+        "label": "Sólido en vendedores curados y aprobados",
+        "value": "1stDibs"
+      },
+      "searchAcrossProviders": {
+        "label": "Más fuerte para buscar entre comerciantes, casas de subastas y marketplaces",
+        "value": "Aura Historia"
+      },
+      "comparingObjects": {
+        "label": "Más fuerte para comparar objetos comparables entre proveedores",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Más fuerte para seguir cambios de precio y disponibilidad entre proveedores",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "La versión <em>corta</em>",
+      "paragraph1": "Aura Historia es una alternativa a 1stDibs para quienes quieren ver más del mercado en una sola búsqueda: comerciantes, casas de subastas, tiendas y marketplaces de arte, antigüedades y objetos de diseño, codo con codo.",
+      "paragraph2": "1stDibs sigue siendo un escaparate curado de vendedores aprobados, y esa selección es su punto fuerte. Aura Historia no evalúa ni autentica objetos y tampoco los vende: muestra qué se ofrece y dónde, tal como lo publican los proveedores, y se compra con el proveedor."
+    },
+    "respect": {
+      "title": "1stDibs es un <em>marketplace curado de vendedores aprobados</em>",
+      "paragraph1": "Una comparativa justa empieza aquí: la selección es el punto fuerte de 1stDibs. Según su informe anual de 2025 (Form 10-K), 1stDibs tenía aproximadamente 5.700 vendedores a 31 de diciembre de 2025 y aproximadamente 60.700 compradores activos en el ejercicio terminado el 31 de diciembre de 2025, entendiendo por compradores activos a quienes hicieron al menos una compra en un periodo de doce meses. Dice que sus vendedores pasan una evaluación de expertos propios que verifica la calidad de su inventario, y ofrece a los compradores lo que llama 1stDibs Promise.",
+      "paragraph2": "Aura Historia no pretende sustituir eso. Responde a otra pregunta: qué objetos comparables ofrecen comerciantes, casas de subastas, tiendas y marketplaces, y dónde. Muestra los anuncios tal como los publican los proveedores y no evalúa ni autentica objetos."
+    },
+    "advantages": {
+      "title": "Más allá de un escaparate, <em>en todo el mercado</em>",
+      "description": "La diferencia es el alcance: una búsqueda entre tipos de proveedores, objetos comparables uno al lado de otro, casas de subastas junto a comerciantes y seguimiento entre proveedores.",
+      "cards": {
+        "beyondOneStorefront": {
+          "title": "Una búsqueda más allá de un solo escaparate",
+          "description": "Los anuncios de comerciantes, casas de subastas, tiendas y marketplaces están en una sola lista de resultados, en lugar del inventario de un solo escaparate."
+        },
+        "comparingAcrossProviders": {
+          "title": "Comparar precios entre proveedores",
+          "description": "La página de un anuncio muestra el historial de precios de ese anuncio y objetos similares, que pueden venir de distintos proveedores. Aura Historia no ofrece valoraciones."
+        },
+        "auctionHousesAndDealers": {
+          "title": "Casas de subastas y comerciantes juntos",
+          "description": "Los anuncios de casas de subastas aparecen en los mismos resultados que los de comerciantes, tiendas y marketplaces."
+        },
+        "watchingChanges": {
+          "title": "Seguir cambios de precio y disponibilidad",
+          "description": "Las listas de seguimiento, las búsquedas guardadas y las notificaciones siguen lo que te interesa entre proveedores, con los cambios de precio y disponibilidad de los objetos seguidos."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia y 1stDibs, <em>punto por punto</em>",
+      "description": "1stDibs está pensado en torno a la selección: los vendedores son elegidos y los compradores compran en su marketplace. Aura Historia está pensada para el alcance: una búsqueda entre proveedores, con historial de precios y objetos similares en las páginas de anuncio.",
+      "caption": "Comparativa de Aura Historia y 1stDibs para descubrir arte, antigüedades y objetos de diseño",
+      "headers": {
+        "criterion": "Criterio",
+        "auraHistoria": "Aura Historia",
+        "competitor": "1stDibs"
+      },
+      "rows": {
+        "curationAndVetting": {
+          "criterion": "Selección y verificación",
+          "competitor": "Los vendedores son elegidos: 1stDibs dice que pasan una evaluación de expertos propios que verifica la calidad de su inventario. Además describe un 1stDibs Promise para los compradores, en los términos que 1stDibs publica.",
+          "auraHistoria": "Muestra anuncios de muchos proveedores tal como se publican. No evalúa ni autentica objetos.",
+          "verdict": "1stDibs en selección"
+        },
+        "sellerModel": {
+          "criterion": "Modelo de vendedores",
+          "competitor": "Un marketplace con solicitud de admisión: los vendedores solicitan y son elegidos, y los compradores compran en 1stDibs.",
+          "auraHistoria": "Anuncios de muchos tipos de proveedores, cada uno en su propio sitio web o plataforma. Aura Historia no vende: se compra con el proveedor.",
+          "verdict": "Modelos distintos"
+        },
+        "objectRange": {
+          "criterion": "Gama de objetos",
+          "competitor": "Describe su gama como muebles vintage, antiguos y contemporáneos, decoración del hogar, joyas, relojes, arte y moda.",
+          "auraHistoria": "Se centra en arte, antigüedades y objetos de diseño.",
+          "verdict": "Aura Historia en enfoque"
+        },
+        "crossProviderComparison": {
+          "criterion": "Comparar entre proveedores",
+          "competitor": "Muestra lo que se ofrece en 1stDibs.",
+          "auraHistoria": "Historial de precios de un anuncio y objetos similares en las páginas de anuncio; los objetos similares pueden venir de distintos proveedores. Sin valoraciones.",
+          "verdict": "Aura Historia entre proveedores"
+        },
+        "auctions": {
+          "criterion": "Subastas",
+          "competitor": "Tiene una función de subastas: sus vendedores pueden publicar un artículo en subasta y los compradores pujan en 1stDibs, según sus condiciones de subasta.",
+          "auraHistoria": "No organiza subastas ni recibe pujas. Muestra anuncios de casas de subastas junto a los de comerciantes y marketplaces; “Ir al proveedor” abre el anuncio en la página del propio proveedor.",
+          "verdict": "Funciones distintas"
+        },
+        "monitoring": {
+          "criterion": "Seguimiento entre proveedores",
+          "competitor": "Los compradores reciben alertas cuando se publican en 1stDibs artículos nuevos de los creadores a los que siguen, según su informe anual de 2025.",
+          "auraHistoria": "Las listas de seguimiento, las búsquedas guardadas y las notificaciones cubren todos los proveedores del índice, con los cambios de precio y disponibilidad de los objetos seguidos.",
+          "verdict": "Aura Historia entre proveedores"
+        },
+        "languages": {
+          "criterion": "Idiomas",
+          "competitor": "Ofrece versiones localizadas de su sitio, por ejemplo en alemán y francés, según sus comunicados de 2022.",
+          "auraHistoria": "Cinco idiomas (alemán, inglés, español, francés, italiano), con anuncios traducidos y terminología unificada.",
+          "verdict": "Ambos multilingües"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Muchos tipos de proveedores cambian <em>lo que puedes ver</em>",
+      "sourcesLabel": "Tipos de proveedores",
+      "sources": {
+        "auctionHouses": "Casas de subastas",
+        "auctionPlatforms": "Plataformas de subastas",
+        "antiqueDealers": "Comerciantes de arte y antigüedades",
+        "privateSellers": "Vendedores privados",
+        "marketplaces": "Marketplaces"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Llega a comerciantes y tiendas",
+          "description": "Muchos comerciantes y tiendas venden en sus propios sitios web. Una búsqueda entre proveedores muestra sus objetos junto a los de casas de subastas y marketplaces."
+        },
+        "offersSideBySide": {
+          "title": "Ve las ofertas lado a lado",
+          "description": "Los precios de los comerciantes, los anuncios de subasta y las ofertas de marketplaces están en una sola lista de resultados, para que compares lo que hay disponible ahora."
+        },
+        "acrossLanguages": {
+          "title": "Busca en cinco idiomas",
+          "description": "Cuando los anuncios se traducen y la terminología se unifica, el idioma del vendedor limita menos a quien compra."
+        },
+        "watchAnObject": {
+          "title": "Sigue un objeto concreto",
+          "description": "Una lista de seguimiento sigue un objeto y te avisa de los cambios de precio y disponibilidad, sea cual sea el proveedor que lo anuncie."
+        }
+      }
+    },
+    "alerts": {
+      "title": "Comparar objetos <em>entre proveedores</em>",
+      "paragraph1": "En la página de un anuncio de Aura Historia, el historial de precios de ese anuncio y los objetos similares aparecen junto al objeto. Como el índice abarca muchos proveedores, los objetos similares pueden venir de distintos proveedores, así que puedes ver por cuánto se ofrecen piezas comparables más allá de un solo escaparate.",
+      "paragraph2": "Seguir un objeto añade los cambios con el tiempo: Aura Historia te avisa de los cambios de precio y disponibilidad, sea cual sea el proveedor que lo anuncie. Muestra los anuncios tal como los publican los proveedores y no ofrece valoraciones."
+    },
+    "faq": {
+      "title": "Preguntas frecuentes sobre <em>Aura Historia y 1stDibs</em>",
+      "items": {
+        "alternative": {
+          "question": "¿Es Aura Historia una alternativa a 1stDibs?",
+          "answer": "Sí, para quienes quieren ver más del mercado en una sola búsqueda. Aura Historia busca en un solo lugar comerciantes, casas de subastas, tiendas y marketplaces de arte, antigüedades y objetos de diseño, con historial de precios y objetos similares en las páginas de anuncio. No evalúa ni autentica objetos. 1stDibs sigue siendo un marketplace curado de vendedores aprobados, y ese es su punto fuerte."
+        },
+        "replace": {
+          "question": "¿Sustituye Aura Historia a 1stDibs?",
+          "answer": "No. La selección es el punto fuerte de 1stDibs: sus vendedores son elegidos y describe un 1stDibs Promise para los compradores. Aura Historia es para el alcance. No vende objetos y muestra los anuncios tal como los publican los proveedores, así que se compra con el proveedor."
+        },
+        "vetting": {
+          "question": "¿Evalúa Aura Historia los objetos que muestra?",
+          "answer": "No. Aura Historia no tasa ni autentica objetos. Los anuncios se muestran tal como los publican sus fuentes, traducidos cuando hace falta. Las cuestiones de valor, estado y autenticidad se resuelven con el vendedor."
+        },
+        "comparePrices": {
+          "question": "¿Dónde puedo comparar precios de antigüedades entre comerciantes?",
+          "answer": "En Aura Historia puedes buscar a la vez entre comerciantes, casas de subastas, tiendas y marketplaces, y abrir un anuncio para ver su historial de precios y objetos similares, que pueden venir de distintos proveedores. Aura Historia no ofrece valoraciones: muestra por cuánto se ofrecen objetos comparables, tal como lo publican los proveedores."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "1stDibs es un escaparate curado. <em>Aura Historia busca en todo el mercado.</em>",
+      "description": "Si tu búsqueda debe llegar a comerciantes, casas de subastas y marketplaces además de a un escaparate curado, empieza por Aura Historia.",
+      "button": "Buscar arte y antigüedades"
+    },
+    "positioning": "Un marketplace curado de vendedores aprobados, frente a una búsqueda entre comerciantes, casas de subastas y marketplaces."
   },
   "partnerAccessTokens": {
     "create": {

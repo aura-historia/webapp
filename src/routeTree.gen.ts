@@ -22,6 +22,7 @@ import { Route as LngSearchRouteImport } from './routes/$lng.search'
 import { Route as LngTermsAndConditionsRouteImport } from './routes/$lng.terms-and-conditions'
 import { Route as LngAuthAdminRouteImport } from './routes/$lng._auth.admin'
 import { Route as LngAuthPartnersRouteImport } from './routes/$lng._auth.partners'
+import { Route as LngCompare1stdibsRouteImport } from './routes/$lng.compare.1stdibs'
 import { Route as LngCompareArtsyRouteImport } from './routes/$lng.compare.artsy'
 import { Route as LngCompareBarnebysRouteImport } from './routes/$lng.compare.barnebys'
 import { Route as LngCompareInvaluableRouteImport } from './routes/$lng.compare.invaluable'
@@ -128,6 +129,11 @@ const LngAuthPartnersRoute = LngAuthPartnersRouteImport.update({
   id: '/partners',
   path: '/partners',
   getParentRoute: () => LngAuthRoute,
+} as any)
+const LngCompare1stdibsRoute = LngCompare1stdibsRouteImport.update({
+  id: '/compare/1stdibs',
+  path: '/compare/1stdibs',
+  getParentRoute: () => LngRoute,
 } as any)
 const LngCompareArtsyRoute = LngCompareArtsyRouteImport.update({
   id: '/compare/artsy',
@@ -378,6 +384,7 @@ export interface FileRoutesByFullPath {
   '/$lng/': typeof LngIndexRoute
   '/$lng/admin': typeof LngAuthAdminRouteWithChildren
   '/$lng/partners': typeof LngAuthPartnersRouteWithChildren
+  '/$lng/compare/1stdibs': typeof LngCompare1stdibsRoute
   '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/compare/invaluable': typeof LngCompareInvaluableRoute
@@ -430,6 +437,7 @@ export interface FileRoutesByTo {
   '/$lng/privacy': typeof LngPrivacyRoute
   '/$lng/search': typeof LngSearchRoute
   '/$lng/terms-and-conditions': typeof LngTermsAndConditionsRoute
+  '/$lng/compare/1stdibs': typeof LngCompare1stdibsRoute
   '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/compare/invaluable': typeof LngCompareInvaluableRoute
@@ -488,6 +496,7 @@ export interface FileRoutesById {
   '/$lng/': typeof LngIndexRoute
   '/$lng/_auth/admin': typeof LngAuthAdminRouteWithChildren
   '/$lng/_auth/partners': typeof LngAuthPartnersRouteWithChildren
+  '/$lng/compare/1stdibs': typeof LngCompare1stdibsRoute
   '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/compare/invaluable': typeof LngCompareInvaluableRoute
@@ -546,6 +555,7 @@ export interface FileRouteTypes {
     | '/$lng/'
     | '/$lng/admin'
     | '/$lng/partners'
+    | '/$lng/compare/1stdibs'
     | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
     | '/$lng/compare/invaluable'
@@ -598,6 +608,7 @@ export interface FileRouteTypes {
     | '/$lng/privacy'
     | '/$lng/search'
     | '/$lng/terms-and-conditions'
+    | '/$lng/compare/1stdibs'
     | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
     | '/$lng/compare/invaluable'
@@ -655,6 +666,7 @@ export interface FileRouteTypes {
     | '/$lng/'
     | '/$lng/_auth/admin'
     | '/$lng/_auth/partners'
+    | '/$lng/compare/1stdibs'
     | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
     | '/$lng/compare/invaluable'
@@ -802,6 +814,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/$lng/partners'
       preLoaderRoute: typeof LngAuthPartnersRouteImport
       parentRoute: typeof LngAuthRoute
+    }
+    '/$lng/compare/1stdibs': {
+      id: '/$lng/compare/1stdibs'
+      path: '/compare/1stdibs'
+      fullPath: '/$lng/compare/1stdibs'
+      preLoaderRoute: typeof LngCompare1stdibsRouteImport
+      parentRoute: typeof LngRoute
     }
     '/$lng/compare/artsy': {
       id: '/$lng/compare/artsy'
@@ -1212,6 +1231,7 @@ interface LngRouteChildren {
   LngSearchRoute: typeof LngSearchRoute
   LngTermsAndConditionsRoute: typeof LngTermsAndConditionsRoute
   LngIndexRoute: typeof LngIndexRoute
+  LngCompare1stdibsRoute: typeof LngCompare1stdibsRoute
   LngCompareArtsyRoute: typeof LngCompareArtsyRoute
   LngCompareBarnebysRoute: typeof LngCompareBarnebysRoute
   LngCompareInvaluableRoute: typeof LngCompareInvaluableRoute
@@ -1232,6 +1252,7 @@ const LngRouteChildren: LngRouteChildren = {
   LngSearchRoute: LngSearchRoute,
   LngTermsAndConditionsRoute: LngTermsAndConditionsRoute,
   LngIndexRoute: LngIndexRoute,
+  LngCompare1stdibsRoute: LngCompare1stdibsRoute,
   LngCompareArtsyRoute: LngCompareArtsyRoute,
   LngCompareBarnebysRoute: LngCompareBarnebysRoute,
   LngCompareInvaluableRoute: LngCompareInvaluableRoute,

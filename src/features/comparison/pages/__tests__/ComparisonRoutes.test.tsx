@@ -5,8 +5,10 @@ import { describe, expect, it, vi } from "vitest";
 import { ARTSY_COMPARISON } from "@/features/comparison/config/artsyComparison.ts";
 import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
 import { COMPARISON_REGISTRY } from "@/features/comparison/config/comparisonRegistry.ts";
+import { FIRST_DIBS_COMPARISON } from "@/features/comparison/config/firstDibsComparison.ts";
 import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableComparison.ts";
 import i18n from "@/i18n/i18nForTests";
+import { Route as FirstDibsRoute } from "@/routes/$lng.compare.1stdibs.tsx";
 import { Route as ArtsyRoute } from "@/routes/$lng.compare.artsy.tsx";
 import { Route as BarnebysRoute } from "@/routes/$lng.compare.barnebys.tsx";
 import { Route as InvaluableRoute } from "@/routes/$lng.compare.invaluable.tsx";
@@ -18,6 +20,7 @@ const ROUTES = [
     ["artsy", ARTSY_COMPARISON, ArtsyRoute],
     ["barnebys", BARNEBYS_COMPARISON, BarnebysRoute],
     ["invaluable", INVALUABLE_COMPARISON, InvaluableRoute],
+    ["1stdibs", FIRST_DIBS_COMPARISON, FirstDibsRoute],
 ] as const;
 
 type HeadResult = {
