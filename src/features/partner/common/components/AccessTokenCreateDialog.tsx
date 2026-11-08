@@ -1,20 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Copy } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 import { useController, useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button.tsx";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Label } from "@/components/ui/label.tsx";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { useCreateAccessToken } from "@/features/partner/access-token-management/api/useAccessTokens.ts";
 import {
@@ -22,7 +12,20 @@ import {
     type AccessTokenCreateFormData,
     createAccessTokenFormSchema,
 } from "@/features/partner/common/components/AccessTokenCreateForm.ts";
+import {
+    DIALOG_CONTENT_CLASS,
+    DIALOG_DESCRIPTION_CLASS,
+    DIALOG_TITLE_CLASS,
+    FIELD_CLASS,
+    FIELD_ERROR_CLASS,
+    FIELD_LABEL_CLASS,
+    FOCUS_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+} from "@/features/partner/common/lib/partnerDashboardStyles.ts";
+import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
 import type { CreatedAccessToken } from "@/data/internal/access-tokens/AccessToken.ts";
+import { cn } from "@/lib/utils.ts";
 import { AccessTokenExpirationField } from "./AccessTokenExpirationField.tsx";
 import { AccessTokenScopesField } from "./AccessTokenScopesField.tsx";
 
@@ -39,7 +42,9 @@ export function AccessTokenCreateDialog({
 }: AccessTokenCreateDialogProps) {
     const { t } = useTranslation();
     const createAccessToken = useCreateAccessToken();
-    const [createdAccessToken, setCreatedAccessToken] = useState<CreatedAccessToken | null>(null);
+    const [createdAccessToken, setCreatedAccessToken] = useState<
+        (CreatedAccessToken & { readonly name: string }) | null
+    >(null);
     const form = useForm<AccessTokenCreateFormData>({
         resolver: zodResolver(createAccessTokenFormSchema(t)),
         defaultValues,
@@ -64,16 +69,17 @@ export function AccessTokenCreateDialog({
     };
 
     const handleSubmit = (values: AccessTokenCreateFormData) => {
+        const name = values.name.trim();
         createAccessToken.mutate(
             {
-                name: values.name.trim(),
+                name,
                 scopes: values.scopes,
                 expiresAt: values.expiresAt ? new Date(values.expiresAt) : undefined,
             },
             {
                 onSuccess: (createdToken) => {
                     toast.success(t("partnerAccessTokens.create.success"));
-                    setCreatedAccessToken(createdToken);
+                    setCreatedAccessToken({ ...createdToken, name });
                     form.reset(defaultValues);
                 },
             },
@@ -83,145 +89,202 @@ export function AccessTokenCreateDialog({
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogContent
-                className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-xl"
-                showCloseButton={!createAccessToken.isPending}
+                className={cn(
+                    DIALOG_CONTENT_CLASS,
+                    "max-h-[calc(100dvh-2rem)] gap-5 overflow-y-auto p-7 sm:max-w-[640px]",
+                )}
+                closeLabel={t("partnerDashboard.close")}
+                showCloseButton={!createAccessToken.isPending && !createdAccessToken}
+                // The plaintext token is shown once, so only the explicit Close button dismisses it.
                 onInteractOutside={(e) => {
                     if (createdAccessToken) {
                         e.preventDefault();
                     }
                 }}
+                onEscapeKeyDown={(e) => {
+                    if (createdAccessToken) {
+                        e.preventDefault();
+                    }
+                }}
             >
-                <DialogHeader>
-                    <DialogTitle>
-                        {t(
-                            createdAccessToken
-                                ? "partnerAccessTokens.create.confirmationTitle"
-                                : "partnerAccessTokens.create.title",
-                        )}
-                    </DialogTitle>
-                    <DialogDescription>
-                        {t(
-                            createdAccessToken
-                                ? "partnerAccessTokens.create.confirmationDescription"
-                                : "partnerAccessTokens.create.description",
-                        )}
-                    </DialogDescription>
-                </DialogHeader>
-
                 {createdAccessToken ? (
                     <CreatedAccessTokenCredential
                         createdAccessToken={createdAccessToken}
                         onClose={() => handleOpenChange(false)}
                     />
                 ) : (
-                    <form
-                        noValidate
-                        className="flex flex-col gap-5"
-                        onSubmit={form.handleSubmit(handleSubmit)}
-                    >
-                        <div className="grid gap-2">
-                            <Label htmlFor="access-token-name">
-                                {t("partnerAccessTokens.create.fields.name")}
-                            </Label>
-                            <Input
-                                id="access-token-name"
-                                autoComplete="off"
-                                maxLength={128}
-                                aria-invalid={Boolean(form.formState.errors.name)}
-                                {...form.register("name")}
-                            />
-                            {form.formState.errors.name && (
-                                <p className="text-sm text-destructive">
-                                    {form.formState.errors.name.message}
-                                </p>
-                            )}
+                    <>
+                        <div className="flex flex-col gap-1.5 pr-8">
+                            <DialogTitle className={DIALOG_TITLE_CLASS}>
+                                {t("partnerAccessTokens.create.title")}
+                            </DialogTitle>
+                            <DialogDescription className={DIALOG_DESCRIPTION_CLASS}>
+                                {t("partnerAccessTokens.create.description")}
+                            </DialogDescription>
                         </div>
+                        <form
+                            noValidate
+                            className="flex flex-col gap-5"
+                            onSubmit={form.handleSubmit(handleSubmit)}
+                        >
+                            <div className="flex flex-col gap-2">
+                                <label
+                                    htmlFor="access-token-name"
+                                    data-error={Boolean(form.formState.errors.name)}
+                                    className={FIELD_LABEL_CLASS}
+                                >
+                                    {t("partnerAccessTokens.create.fields.name")}
+                                </label>
+                                <input
+                                    id="access-token-name"
+                                    autoComplete="off"
+                                    maxLength={128}
+                                    aria-invalid={Boolean(form.formState.errors.name)}
+                                    className={FIELD_CLASS}
+                                    {...form.register("name")}
+                                />
+                                {form.formState.errors.name && (
+                                    <p className={FIELD_ERROR_CLASS}>
+                                        {form.formState.errors.name.message}
+                                    </p>
+                                )}
+                            </div>
 
-                        <AccessTokenScopesField
-                            value={scopesField.value}
-                            onChange={scopesField.onChange}
-                            disabled={createAccessToken.isPending}
-                        />
-
-                        <AccessTokenExpirationField
-                            id="access-token-expiration"
-                            control={form.control}
-                            disabled={createAccessToken.isPending}
-                        />
-
-                        <DialogFooter>
-                            <Button
-                                type="button"
-                                variant="outline"
+                            <AccessTokenScopesField
+                                value={scopesField.value}
+                                onChange={scopesField.onChange}
                                 disabled={createAccessToken.isPending}
-                                onClick={() => handleOpenChange(false)}
-                            >
-                                {t("partnerAccessTokens.create.cancel")}
-                            </Button>
-                            <Button type="submit" disabled={createAccessToken.isPending}>
-                                {createAccessToken.isPending && <Spinner />}
-                                {createAccessToken.isPending
-                                    ? t("partnerAccessTokens.create.submitting")
-                                    : t("partnerAccessTokens.create.submit")}
-                            </Button>
-                        </DialogFooter>
-                    </form>
+                            />
+
+                            <AccessTokenExpirationField
+                                id="access-token-expiration"
+                                control={form.control}
+                                disabled={createAccessToken.isPending}
+                            />
+
+                            <div className="flex flex-wrap justify-end gap-2.5 pt-1">
+                                <button
+                                    type="button"
+                                    className={SECONDARY_PILL_CLASS}
+                                    disabled={createAccessToken.isPending}
+                                    onClick={() => handleOpenChange(false)}
+                                >
+                                    {t("partnerAccessTokens.create.cancel")}
+                                </button>
+                                <button
+                                    type="submit"
+                                    className={PRIMARY_PILL_CLASS}
+                                    disabled={createAccessToken.isPending}
+                                >
+                                    {createAccessToken.isPending && <Spinner aria-hidden="true" />}
+                                    {createAccessToken.isPending
+                                        ? t("partnerAccessTokens.create.submitting")
+                                        : t("partnerAccessTokens.create.submit")}
+                                </button>
+                            </div>
+                        </form>
+                    </>
                 )}
             </DialogContent>
         </Dialog>
     );
 }
 
+/** The one-time token view (board "Access tokens — token created"): shown once, copied, then closed. */
 function CreatedAccessTokenCredential({
     createdAccessToken,
     onClose,
 }: {
-    readonly createdAccessToken: CreatedAccessToken;
+    readonly createdAccessToken: CreatedAccessToken & { readonly name: string };
     readonly onClose: () => void;
 }) {
     const { t } = useTranslation();
+    const [copied, setCopied] = useState(false);
 
     const handleCopy = async () => {
-        if (!navigator.clipboard) {
+        try {
+            await navigator.clipboard.writeText(createdAccessToken.plaintextToken);
+        } catch {
+            // No clipboard API (insecure context) or the write was refused: say so, keep the token visible.
+            setCopied(false);
+            toast.error(t("partnerAccessTokens.create.copyError"));
             return;
         }
-
-        await navigator.clipboard.writeText(createdAccessToken.plaintextToken);
+        setCopied(true);
         toast.success(t("partnerAccessTokens.create.copySuccess"));
     };
 
     return (
-        <div className="flex flex-col gap-4">
-            <div className="border bg-muted p-3 text-sm">
-                {t("partnerAccessTokens.create.copyWarning")}
+        <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-2">
+                <span className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.14em] text-ink-secondary uppercase">
+                    <span
+                        aria-hidden="true"
+                        className="inline-flex size-[18px] items-center justify-center rounded-pill bg-oxblood text-on-oxblood"
+                    >
+                        <Check className="size-2.5" strokeWidth={3} />
+                    </span>
+                    {t("partnerAccessTokens.create.createdLabel")}
+                </span>
+                <DialogTitle className={DIALOG_TITLE_CLASS}>
+                    <Trans
+                        i18nKey="partnerAccessTokens.create.createdHeading"
+                        components={HEADLINE_COMPONENTS}
+                    />
+                </DialogTitle>
+                <DialogDescription className={DIALOG_DESCRIPTION_CLASS}>
+                    {t("partnerAccessTokens.create.createdDescription", {
+                        name: createdAccessToken.name,
+                    })}
+                </DialogDescription>
             </div>
-            <div className="grid gap-2">
-                <Label htmlFor="created-access-token">
+            <div
+                data-theme="dark"
+                className="relative flex flex-col gap-3 rounded-md bg-surface p-4 text-ink"
+            >
+                <label
+                    htmlFor="created-access-token"
+                    className="font-mono text-[10px] tracking-[0.14em] text-brass-light uppercase"
+                >
                     {t("partnerAccessTokens.create.fields.token")}
-                </Label>
-                <div className="flex gap-2">
-                    <Input
+                </label>
+                <div className="flex items-center gap-2.5">
+                    <input
                         id="created-access-token"
                         value={createdAccessToken.plaintextToken}
                         readOnly
-                        className="font-mono"
+                        className={cn(
+                            "h-11 min-w-0 flex-1 rounded-sm border-0 bg-surface-raised px-3 font-mono text-meta text-ink",
+                            FOCUS_CLASS,
+                        )}
                     />
-                    <Button
+                    <button
                         type="button"
-                        variant="outline"
-                        size="icon"
                         aria-label={t("partnerAccessTokens.create.copy")}
                         onClick={() => void handleCopy()}
+                        className={PRIMARY_PILL_CLASS}
                     >
-                        <Copy className="h-4 w-4" aria-hidden="true" />
-                    </Button>
+                        {copied ? (
+                            <Check aria-hidden="true" className="size-[15px]" strokeWidth={1.9} />
+                        ) : (
+                            <Copy aria-hidden="true" className="size-[15px]" strokeWidth={1.9} />
+                        )}
+                        <span aria-hidden="true">
+                            {t(
+                                copied
+                                    ? "partnerAccessTokens.create.copied"
+                                    : "partnerAccessTokens.create.copyShort",
+                            )}
+                        </span>
+                    </button>
                 </div>
             </div>
-            <DialogFooter>
-                <Button type="button" onClick={onClose}>
+            <p className="text-meta text-ink-muted">{t("partnerAccessTokens.create.keepSafe")}</p>
+            <div className="flex justify-end">
+                <button type="button" className={PRIMARY_PILL_CLASS} onClick={onClose}>
                     {t("partnerAccessTokens.create.close")}
-                </Button>
-            </DialogFooter>
+                </button>
+            </div>
         </div>
     );
 }

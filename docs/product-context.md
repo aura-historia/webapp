@@ -2,7 +2,7 @@
 
 ## What Aura Historia does
 
-Aura Historia is a refined global discovery platform for art, antiques, design objects, and related market intelligence. It indexes objects from public providers such as dealers, auction houses, and marketplaces so users can search across providers, languages, and currencies from one place. In user-facing copy, call these providers (German: “Anbieter”); retain “listing source” for technical identifiers and implementation terminology.
+Aura Historia is a refined global discovery platform for art, antiques, design objects, and related market intelligence. It indexes objects from public providers such as dealers, auction houses, and marketplaces so users can search across providers, languages, and currencies from one place. In user-facing copy, call these providers (German: “Anbieter”); retain “listing source” for technical identifiers and implementation terminology. In the partner dashboard, copy that speaks to a partner about their own business may say “your shop” (German “Ihr Shop”), for example “Apply with your shop” or “My shop is already on Aura Historia”; section names, lists and IDs keep “providers”, and nothing may imply that access to a provider is ownership of it.
 
 The app currently emphasizes:
 

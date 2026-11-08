@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { toast } from "sonner";
@@ -36,6 +36,7 @@ vi.mock("@/features/partner/access-token-management/api/useAccessTokens.ts", () 
 vi.mock("sonner", () => ({
     toast: {
         success: vi.fn(),
+        error: vi.fn(),
     },
 }));
 
@@ -268,21 +269,77 @@ describe("AccessTokenCreateDialog", () => {
         await user.type(screen.getByLabelText("Name"), "Product sync");
         await user.click(screen.getByRole("button", { name: "Token erstellen" }));
 
-        expect(screen.getByRole("heading", { name: "Zugriffstoken erstellt" })).toBeInTheDocument();
-        expect(screen.getByDisplayValue("aurahistoria_plaintext_token")).toBeInTheDocument();
+        const dialog = screen.getByRole("dialog");
+        expect(within(dialog).getByText("Token erstellt")).toBeInTheDocument();
         expect(
-            screen.getByText(/Dieses Token wird nur einmal im Klartext angezeigt/),
+            within(dialog).getByRole("heading", { name: "Kopieren Sie Ihr Token jetzt." }),
         ).toBeInTheDocument();
+        expect(dialog).toHaveAccessibleDescription(/„Product sync“ ist bereit/);
+        const tokenInput = screen.getByLabelText("Zugriffstoken");
+        expect(tokenInput).toHaveValue("aurahistoria_plaintext_token");
+        expect(tokenInput).toHaveAttribute("readonly");
+        expect(screen.getByText(/Bewahren Sie es in einem Passwortmanager/)).toBeInTheDocument();
+        expect(screen.queryByRole("button", { name: "Schließen" })).not.toBeInTheDocument();
 
-        await user.click(screen.getByRole("button", { name: "Zugriffstoken kopieren" }));
+        const copyButton = screen.getByRole("button", { name: "Zugriffstoken kopieren" });
+        expect(copyButton).toHaveTextContent("Kopieren");
+        await user.click(copyButton);
 
         expect(writeText).toHaveBeenCalledWith("aurahistoria_plaintext_token");
         expect(toast.success).toHaveBeenCalledWith("Zugriffstoken wurde kopiert.");
+        expect(copyButton).toHaveTextContent("Kopiert");
+
+        // Clicking outside must not dismiss the one-time token view.
+        fireEvent.pointerDown(document.body);
+        expect(screen.getByDisplayValue("aurahistoria_plaintext_token")).toBeInTheDocument();
+
+        // Nor may Escape: only the explicit close button ends it.
+        await user.keyboard("{Escape}");
+        expect(screen.getByDisplayValue("aurahistoria_plaintext_token")).toBeInTheDocument();
+        expect(mockReset).not.toHaveBeenCalled();
 
         await user.click(screen.getByRole("button", { name: "Ich habe das Token gespeichert" }));
         expect(mockReset).toHaveBeenCalledOnce();
         expect(screen.queryByDisplayValue("aurahistoria_plaintext_token")).not.toBeInTheDocument();
     });
+
+    it("says so when the token cannot be copied and keeps it on screen", async () => {
+        const user = userEvent.setup();
+        const writeText = vi.fn().mockRejectedValue(new DOMException("Denied", "NotAllowedError"));
+        Object.defineProperty(navigator, "clipboard", {
+            configurable: true,
+            value: { writeText },
+        });
+        mockCreateAccessTokenMutate.mockImplementation(
+            (
+                _input: unknown,
+                options?: {
+                    onSuccess?: (createdToken: { id: string; plaintextToken: string }) => void;
+                },
+            ) => {
+                options?.onSuccess?.({
+                    id: "token-1",
+                    plaintextToken: "aurahistoria_plaintext_token",
+                });
+            },
+        );
+        render(<AccessTokenCreateDialog open onOpenChange={vi.fn()} />);
+
+        await user.type(screen.getByLabelText("Name"), "Product sync");
+        await user.click(screen.getByRole("button", { name: "Token erstellen" }));
+        const copyButton = screen.getByRole("button", { name: "Zugriffstoken kopieren" });
+        await user.click(copyButton);
+
+        expect(writeText).toHaveBeenCalledWith("aurahistoria_plaintext_token");
+        expect(toast.error).toHaveBeenCalledWith(
+            expect.stringContaining("Das Token konnte nicht kopiert werden"),
+        );
+        expect(toast.success).not.toHaveBeenCalledWith("Zugriffstoken wurde kopiert.");
+        expect(copyButton).toHaveTextContent("Kopieren");
+        expect(copyButton).not.toHaveTextContent("Kopiert");
+        expect(screen.getByDisplayValue("aurahistoria_plaintext_token")).toBeInTheDocument();
+    });
+
     it("locks the bulk actions until the account role is known", async () => {
         const user = userEvent.setup();
         mockUserAccount.isPending = true;

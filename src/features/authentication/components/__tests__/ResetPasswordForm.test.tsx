@@ -70,6 +70,7 @@ describe("ResetPasswordForm", () => {
                     email="user@example.com"
                     password="Password1!"
                     onSuccess={vi.fn()}
+                    onSignInRequired={vi.fn()}
                 />,
             ),
         );
@@ -90,6 +91,7 @@ describe("ResetPasswordForm", () => {
                     email="user@example.com"
                     password="Password1!"
                     onSuccess={vi.fn()}
+                    onSignInRequired={vi.fn()}
                 />,
             ),
         );
@@ -111,6 +113,7 @@ describe("ResetPasswordForm", () => {
                     email="user@example.com"
                     password="Password1!"
                     onSuccess={onSuccess}
+                    onSignInRequired={vi.fn()}
                 />,
             ),
         );
@@ -141,6 +144,7 @@ describe("ResetPasswordForm", () => {
                     email="user@example.com"
                     password="Password1!"
                     onSuccess={vi.fn()}
+                    onSignInRequired={vi.fn()}
                 />,
             ),
         );
@@ -168,6 +172,7 @@ describe("ResetPasswordForm", () => {
                     email="user@example.com"
                     password="Password1!"
                     onSuccess={vi.fn()}
+                    onSignInRequired={vi.fn()}
                 />,
             ),
         );
@@ -199,6 +204,7 @@ describe("ResetPasswordForm", () => {
                     email="user@example.com"
                     password="Password1!"
                     onSuccess={onSuccess}
+                    onSignInRequired={vi.fn()}
                 />,
             ),
         );

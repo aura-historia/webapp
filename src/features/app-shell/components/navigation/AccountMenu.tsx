@@ -28,7 +28,7 @@ type AccountMenuRoute =
     | "/$lng/me/watchlist"
     | "/$lng/me/notifications"
     | "/$lng/me/search-filters"
-    | "/$lng/partners/applications"
+    | "/$lng/partners"
     | "/$lng/admin/overview"
     | "/$lng/me/account";
 
@@ -99,7 +99,7 @@ export function AccountMenu({ viewer, size }: AccountMenuProps) {
                     )}
                 </MenuLink>
                 <MenuLink to="/$lng/me/search-filters">{t("header.searchAlerts")}</MenuLink>
-                <MenuLink to="/$lng/partners/applications">{t("header.partnerDashboard")}</MenuLink>
+                <MenuLink to="/$lng/partners">{t("header.partnerDashboard")}</MenuLink>
                 {viewer.isAdmin && (
                     <MenuLink to="/$lng/admin/overview">{t("header.admin")}</MenuLink>
                 )}

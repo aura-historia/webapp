@@ -1,23 +1,32 @@
 import type { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
-import { H1 } from "@/components/typography/H1.tsx";
-import { PartnerSidebar } from "@/features/partner/common/components/PartnerSidebar.tsx";
+import {
+    PartnerDashboardMenu,
+    PartnerDashboardRail,
+} from "@/features/partner/common/components/PartnerDashboardNav.tsx";
+import { PAGE_COLUMN_CLASS } from "@/features/partner/common/lib/partnerDashboardStyles.ts";
+import { cn } from "@/lib/utils.ts";
 
 interface PartnerLayoutProps {
     readonly children: ReactNode;
 }
 
+/** The dashboard frame: a section rail beside the page from 1024px, a section menu above it below. */
 export function PartnerLayout({ children }: PartnerLayoutProps) {
-    const { t } = useTranslation();
-
     return (
-        <div className="mx-auto flex w-full max-w-screen-2xl flex-col gap-6 px-4 py-6 lg:px-8 lg:py-10">
-            <H1>{t("partnerDashboard.title")}</H1>
-            <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">
-                <aside className="lg:w-56 lg:shrink-0">
-                    <PartnerSidebar />
-                </aside>
-                <main className="min-w-0 flex-1">{children}</main>
+        <div className="bg-surface text-ink">
+            <div className="sticky top-15 z-40 sm:top-16 lg:hidden">
+                <PartnerDashboardMenu />
+            </div>
+            <div
+                className={cn(
+                    PAGE_COLUMN_CLASS,
+                    "grid items-start gap-16 pt-8 pb-24 sm:pt-14 sm:pb-36 lg:grid-cols-[240px_minmax(0,1fr)]",
+                )}
+            >
+                <div className="sticky top-28 hidden lg:block">
+                    <PartnerDashboardRail />
+                </div>
+                <main className="flex min-w-0 flex-col gap-10 sm:gap-14">{children}</main>
             </div>
         </div>
     );
