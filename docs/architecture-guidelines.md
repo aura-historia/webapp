@@ -88,8 +88,12 @@ training may not, because listing texts and images belong to dealers and auction
 carries the standard Content Signals policy text, which makes `no` an express reservation of rights
 under Article 4 of the EU copyright directive (2019/790).
 
-- `CONTENT_SIGNAL` in `src/lib/seo/contentSignals.ts` is the value; the robots.txt test keeps the file
-  equal to it. Change both together, and only as a product and legal decision.
+- Every HTML page repeats the value in a `Content-Signal` response header: Worker-rendered pages get
+  it in `src/server.ts`, prerendered pages from `public/_headers`. Cloudflare's Markdown for Agents
+  keeps that header on the Markdown it converts a page to; without it, Cloudflare adds a default
+  that allows AI training.
+- `CONTENT_SIGNAL` in `src/lib/seo/contentSignals.ts` is the value; tests keep robots.txt and
+  `public/_headers` equal to it. Change them together, and only as a product and legal decision.
 - robots.txt states preferences; Cloudflare enforces them. AI Crawl Control blocks AI training
   crawlers at the edge and must allow search and user-driven agent crawlers, such as `ChatGPT-User`,
   `Claude-User` and `Claude-SearchBot`.

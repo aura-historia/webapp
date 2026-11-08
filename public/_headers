@@ -7,15 +7,20 @@
 
 /de/*
   Link: </.well-known/api-catalog>; rel="api-catalog"
+  Content-Signal: search=yes, ai-input=yes, ai-train=no
 
 /en/*
   Link: </.well-known/api-catalog>; rel="api-catalog"
+  Content-Signal: search=yes, ai-input=yes, ai-train=no
 
 /es/*
   Link: </.well-known/api-catalog>; rel="api-catalog"
+  Content-Signal: search=yes, ai-input=yes, ai-train=no
 
 /fr/*
   Link: </.well-known/api-catalog>; rel="api-catalog"
+  Content-Signal: search=yes, ai-input=yes, ai-train=no
 
 /it/*
   Link: </.well-known/api-catalog>; rel="api-catalog"
+  Content-Signal: search=yes, ai-input=yes, ai-train=no

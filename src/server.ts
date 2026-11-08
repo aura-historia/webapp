@@ -2,10 +2,12 @@ import handler, { createServerEntry } from "@tanstack/react-start/server-entry";
 import { applySecurityHeaders } from "@/lib/server/securityHeaders.ts";
 import { forwardAgentDiscoveryRequest } from "@/features/agent-discovery/server/agentDiscoveryForwarding.ts";
 import { applyAgentDiscoveryLinkHeader } from "@/features/agent-discovery/server/agentDiscoveryLinkHeader.ts";
+import { applyContentSignalHeader } from "@/lib/seo/contentSignals.ts";
 
 function applySiteHeaders(headers: Headers): void {
     applySecurityHeaders(headers);
     applyAgentDiscoveryLinkHeader(headers);
+    applyContentSignalHeader(headers);
 }
 
 /** Adds the site-wide headers; a response whose headers are immutable is copied first. */
