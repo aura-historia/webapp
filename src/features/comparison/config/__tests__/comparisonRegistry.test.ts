@@ -96,6 +96,9 @@ function comparisonCopyKeys(definition: ComparisonDefinition): string[] {
         ...(definition.alerts
             ? [`${ns}.alerts.title`, `${ns}.alerts.paragraph1`, `${ns}.alerts.paragraph2`]
             : []),
+        ...(definition.together
+            ? [`${ns}.together.title`, `${ns}.together.paragraph1`, `${ns}.together.paragraph2`]
+            : []),
         `${ns}.faq.title`,
         ...getComparisonFaq(definition).flatMap((item) => [item.questionKey, item.answerKey]),
         ...["title", "description", "button"].map((key) => `${ns}.finalCta.${key}`),

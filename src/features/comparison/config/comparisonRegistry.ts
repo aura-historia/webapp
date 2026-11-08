@@ -1,6 +1,7 @@
 import { ARTSY_COMPARISON } from "@/features/comparison/config/artsyComparison.ts";
 import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
 import type { ComparisonDefinition } from "@/features/comparison/config/comparisonDefinition.ts";
+import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableComparison.ts";
 
 /**
  * Every published comparison page. The "Other comparisons" block on each page links to the others
@@ -9,4 +10,5 @@ import type { ComparisonDefinition } from "@/features/comparison/config/comparis
 export const COMPARISON_REGISTRY: readonly ComparisonDefinition[] = [
     BARNEBYS_COMPARISON,
     ARTSY_COMPARISON,
+    INVALUABLE_COMPARISON,
 ];

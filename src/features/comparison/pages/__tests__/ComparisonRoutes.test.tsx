@@ -4,9 +4,12 @@ import { describe, expect, it, vi } from "vitest";
 
 import { ARTSY_COMPARISON } from "@/features/comparison/config/artsyComparison.ts";
 import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
+import { COMPARISON_REGISTRY } from "@/features/comparison/config/comparisonRegistry.ts";
+import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableComparison.ts";
 import i18n from "@/i18n/i18nForTests";
 import { Route as ArtsyRoute } from "@/routes/$lng.compare.artsy.tsx";
 import { Route as BarnebysRoute } from "@/routes/$lng.compare.barnebys.tsx";
+import { Route as InvaluableRoute } from "@/routes/$lng.compare.invaluable.tsx";
 import { renderWithRouter } from "@/test/utils";
 
 vi.mock("@/env", () => ({ env: { VITE_APP_URL: "https://aura-historia.com" } }));
@@ -14,6 +17,7 @@ vi.mock("@/env", () => ({ env: { VITE_APP_URL: "https://aura-historia.com" } }))
 const ROUTES = [
     ["artsy", ARTSY_COMPARISON, ArtsyRoute],
     ["barnebys", BARNEBYS_COMPARISON, BarnebysRoute],
+    ["invaluable", INVALUABLE_COMPARISON, InvaluableRoute],
 ] as const;
 
 type HeadResult = {
@@ -27,6 +31,15 @@ function headOf(route: (typeof ROUTES)[number][2]): HeadResult {
     expect(head).toBeDefined();
     return (head as (context: unknown) => HeadResult)({});
 }
+
+it("has a route test entry for every registered comparison", () => {
+    expect(ROUTES.map(([slug]) => slug).sort()).toEqual(
+        COMPARISON_REGISTRY.map((entry) => entry.slug).sort(),
+    );
+    for (const [, definition] of ROUTES) {
+        expect(COMPARISON_REGISTRY).toContain(definition);
+    }
+});
 
 describe.each(ROUTES)("the %s comparison route", (slug, definition, route) => {
     it("is the thin route of its definition", () => {

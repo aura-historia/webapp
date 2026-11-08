@@ -8,6 +8,8 @@ import {
     type ComparisonDefinition,
     getComparisonFaq,
 } from "@/features/comparison/config/comparisonDefinition.ts";
+import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableComparison.ts";
+import { INVALUABLE_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/invaluableComparisonReview.ts";
 import {
     buildComparisonStructuredData,
     stripInlineMarkup,
@@ -98,6 +100,34 @@ describe("buildComparisonStructuredData", () => {
         );
         expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual(
             getComparisonFaq(ARTSY_COMPARISON).map((item) => t(item.questionKey)),
+        );
+        expect(JSON.stringify([article, faqPage])).not.toMatch(
+            /"@type":"(Review|AggregateRating|Rating)"/,
+        );
+    });
+
+    it("builds the Invaluable page from its visible strings, with no review markup", () => {
+        const [article, faqPage] = build(INVALUABLE_COMPARISON);
+
+        expect(article).toMatchObject({
+            "@type": "Article",
+            headline: stripInlineMarkup(t("compareInvaluablePage.hero.title")),
+            description: t("compareInvaluablePage.hero.subtitle"),
+            dateModified: INVALUABLE_COMPARISON_LAST_REVIEWED,
+            url: "https://aura-historia.com/de/compare/invaluable",
+        });
+        expect(article.dateModified).toBe("2026-11-08");
+        expect(article.about).toEqual(
+            INVALUABLE_COMPARISON.structuredDataTopics.map((topic) =>
+                t(`compareInvaluablePage.structuredData.about.${topic}`),
+            ),
+        );
+        expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual(
+            getComparisonFaq(INVALUABLE_COMPARISON).map((item) => t(item.questionKey)),
+        );
+        expect(faqPage.mainEntity).toHaveLength(5);
+        expect(faqPage.mainEntity.at(-1)?.acceptedAnswer.text).toBe(
+            t("compareInvaluablePage.faq.items.auctionZip.answer"),
         );
         expect(JSON.stringify([article, faqPage])).not.toMatch(
             /"@type":"(Review|AggregateRating|Rating)"/,

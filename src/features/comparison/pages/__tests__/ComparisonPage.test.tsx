@@ -8,12 +8,13 @@ import {
     getComparisonFaq,
     getComparisonNav,
 } from "@/features/comparison/config/comparisonDefinition.ts";
+import { COMPARISON_REGISTRY } from "@/features/comparison/config/comparisonRegistry.ts";
 import { ComparisonPage } from "@/features/comparison/pages/ComparisonPage.tsx";
 import i18n from "@/i18n/i18nForTests";
 import { renderWithRouter } from "@/test/utils";
 
-function t(key: string) {
-    return i18n.t(key);
+function t(key: string, options?: Record<string, unknown>) {
+    return i18n.t(key, options);
 }
 
 function plain(key: string) {
@@ -181,16 +182,23 @@ describe("ComparisonPage with the Barnebys definition", () => {
         expect(within(sources).getAllByRole("listitem")).toHaveLength(5);
     });
 
-    it("lists the other published comparison in the cross-link block, not itself", async () => {
+    it("lists the other published comparisons in the cross-link block, not itself", async () => {
         await renderPage();
 
         const block = screen.getByRole("region", {
             name: plain("comparison.otherComparisons.title"),
         });
         const links = within(block).getAllByRole("link");
-        expect(links).toHaveLength(1);
-        expect(links[0]).toHaveAttribute("href", "/de/compare/artsy");
-        expect(links[0]).toHaveTextContent("Aura Historia vs. Artsy");
+        const others = COMPARISON_REGISTRY.filter((entry) => entry.slug !== "barnebys");
+        expect(links).toHaveLength(COMPARISON_REGISTRY.length - 1);
+        expect(links.map((link) => link.getAttribute("href"))).toEqual(
+            others.map((entry) => `/de/compare/${entry.slug}`),
+        );
+        others.forEach((entry, index) => {
+            expect(links[index]).toHaveTextContent(
+                t("comparison.otherComparisons.linkTitle", { name: entry.competitorName }),
+            );
+        });
     });
 
     it("uses internal calls to action and never links to Barnebys", async () => {

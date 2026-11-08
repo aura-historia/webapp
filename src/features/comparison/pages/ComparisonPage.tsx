@@ -1,6 +1,6 @@
 import {
-    ComparisonAlertsSection,
     ComparisonFaqSection,
+    ComparisonNarrativeSection,
     ComparisonSourcesSection,
     ComparisonVerdictSection,
 } from "@/features/comparison/components/sections/ComparisonClosingSections.tsx";
@@ -37,9 +37,17 @@ export function ComparisonPage({ definition }: { readonly definition: Comparison
                     />
                 )}
                 {definition.alerts && (
-                    <ComparisonAlertsSection
+                    <ComparisonNarrativeSection
+                        chapter="alerts"
                         namespace={definition.namespace}
-                        alerts={definition.alerts}
+                        icon={definition.alerts.icon}
+                    />
+                )}
+                {definition.together && (
+                    <ComparisonNarrativeSection
+                        chapter="together"
+                        namespace={definition.namespace}
+                        icon={definition.together.icon}
                     />
                 )}
                 <ComparisonFaqSection definition={definition} />

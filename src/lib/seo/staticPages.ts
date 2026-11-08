@@ -12,6 +12,7 @@ export const STATIC_PAGES = [
     { path: "/about-us", indexable: true },
     { path: "/compare/artsy", indexable: true },
     { path: "/compare/barnebys", indexable: true },
+    { path: "/compare/invaluable", indexable: true },
     { path: "/imprint", indexable: false },
     { path: "/partner-program", indexable: true },
     { path: "/partner-program/custom-integration", indexable: true },

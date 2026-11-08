@@ -1,3 +1,4 @@
+import type { LucideIcon } from "lucide-react";
 import { Trans, useTranslation } from "react-i18next";
 
 import {
@@ -88,36 +89,42 @@ export function ComparisonSourcesSection({
     );
 }
 
+/** The optional single-column chapters, each addressed as `#<chapter>` with copy at `<ns>.<chapter>.*`. */
+export type ComparisonNarrativeChapter = "alerts" | "together";
+
 /**
- * VI — Alerts on parchment: one narrow column, the Aura Historia standard set in full ink. Only on
- * pages whose definition has `alerts`.
+ * VI — A narrow single-column chapter on parchment, the Aura Historia standard set in full ink:
+ * a title and two paragraphs. Used for `alerts` and `together`, and only on pages whose definition
+ * has the chapter.
  */
-export function ComparisonAlertsSection({
+export function ComparisonNarrativeSection({
+    chapter,
     namespace: ns,
-    alerts,
+    icon: Icon,
 }: {
+    readonly chapter: ComparisonNarrativeChapter;
     readonly namespace: string;
-    readonly alerts: NonNullable<ComparisonDefinition["alerts"]>;
+    readonly icon: LucideIcon;
 }) {
     const { t } = useTranslation();
-    const Icon = alerts.icon;
+    const headingId = `comparison-${chapter}-heading`;
 
     return (
         <ComparisonSection
-            id="alerts"
-            labelledBy="comparison-alerts-heading"
+            id={chapter}
+            labelledBy={headingId}
             ground="parchment"
             containerClassName="flex max-w-[920px] flex-col gap-5 sm:gap-9"
         >
             <span className="flex size-11 items-center justify-center rounded-full bg-oxblood text-on-oxblood sm:size-12">
                 <Icon className="size-[18px] sm:size-5" strokeWidth={1.7} aria-hidden="true" />
             </span>
-            <ComparisonHeading id="comparison-alerts-heading">
-                <Trans i18nKey={`${ns}.alerts.title`} components={HEADLINE_COMPONENTS} />
+            <ComparisonHeading id={headingId}>
+                <Trans i18nKey={`${ns}.${chapter}.title`} components={HEADLINE_COMPONENTS} />
             </ComparisonHeading>
             <div className="flex flex-col gap-4 border-t border-ink pt-5 text-base leading-[1.65] sm:gap-5 sm:pt-7 sm:text-body-lg sm:leading-[1.65]">
-                <p className="text-ink-secondary">{t(`${ns}.alerts.paragraph1`)}</p>
-                <p>{t(`${ns}.alerts.paragraph2`)}</p>
+                <p className="text-ink-secondary">{t(`${ns}.${chapter}.paragraph1`)}</p>
+                <p>{t(`${ns}.${chapter}.paragraph2`)}</p>
             </div>
         </ComparisonSection>
     );
