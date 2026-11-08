@@ -2758,6 +2758,36 @@
         "title": "Autorisation indisponible",
         "description": "Les informations enregistrées de cette application ne peuvent pas être vérifiées actuellement. Veuillez réessayer plus tard."
       },
+      "agentClient": {
+        "identity": {
+          "label": "Vérifié par Aura Historia",
+          "clientHost": "Identifiée par",
+          "redirectHost": "Revient vers",
+          "description": "Le nom et le logo sont fournis par l'application elle-même ; Aura Historia n'a vérifié que ces adresses. Ne continuez que si vous les reconnaissez."
+        },
+        "loopbackWarning": {
+          "title": "Ne continuez que si vous venez de lancer cette demande",
+          "description": "Cette application revient vers un programme de votre propre appareil, et tout programme de cet appareil peut utiliser son nom. Ne continuez que si vous venez de lancer la connexion depuis une application de cet appareil."
+        },
+        "scopes": {
+          "newTitle": "Cette application demande les autorisations supplémentaires suivantes :",
+          "grantedTitle": "Autorisations déjà accordées :"
+        },
+        "offlineAccess": {
+          "title": "Reste connectée",
+          "description": "Cette application peut rester connectée jusqu'à ce que vous la déconnectiez. Sa connexion prend fin après 30 jours sans utilisation, et au plus tard 90 jours après votre approbation."
+        },
+        "errors": {
+          "invalidClient": {
+            "title": "Cette application n'a pas pu être vérifiée",
+            "description": "Aura Historia n'a pas pu charger ou accepter les informations de connexion de cette application. Recommencez depuis l'application. Si le problème persiste, l'application ne peut pas se connecter à Aura Historia pour le moment."
+          },
+          "unavailable": {
+            "title": "Autorisation indisponible",
+            "description": "Les informations de cette application ne peuvent pas être vérifiées actuellement. Veuillez réessayer plus tard."
+          }
+        }
+      },
       "brokerRequired": {
         "title": "Lancez la connexion depuis WordPress",
         "description": "Ce lien de connexion WooCommerce n’est plus pris en charge. Relancez la connexion depuis l’administration WordPress et mettez à jour l’extension Aura Historia si cela se reproduit."

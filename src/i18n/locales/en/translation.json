@@ -3236,6 +3236,36 @@
         "title": "Authorization unavailable",
         "description": "We cannot verify this application’s registered details at present. Please try again later."
       },
+      "agentClient": {
+        "identity": {
+          "label": "Verified by Aura Historia",
+          "clientHost": "Identified by",
+          "redirectHost": "Returns to",
+          "description": "The name and logo come from the app itself; Aura Historia verified only these addresses. Continue only if you recognize them."
+        },
+        "loopbackWarning": {
+          "title": "Only continue if you just started this",
+          "description": "This app returns to a program on your own device, and any program there can use this app's name. Only continue if you just started signing in from an app on this device."
+        },
+        "scopes": {
+          "newTitle": "This application is requesting these additional permissions:",
+          "grantedTitle": "Permissions you already allowed:"
+        },
+        "offlineAccess": {
+          "title": "Stays signed in",
+          "description": "This application can stay signed in until you disconnect it. Its sign-in ends after 30 days without use, and at the latest 90 days after you approve."
+        },
+        "errors": {
+          "invalidClient": {
+            "title": "This app could not be verified",
+            "description": "Aura Historia could not load or accept this app's sign-in details. Start again from the app. If this keeps happening, the app cannot sign in to Aura Historia at present."
+          },
+          "unavailable": {
+            "title": "Authorization unavailable",
+            "description": "We cannot verify this application’s details at present. Please try again later."
+          }
+        }
+      },
       "brokerRequired": {
         "title": "Start the connection from WordPress",
         "description": "This WooCommerce connection link is no longer supported. Start the connection again from your WordPress admin, and update the Aura Historia plugin if this keeps happening."

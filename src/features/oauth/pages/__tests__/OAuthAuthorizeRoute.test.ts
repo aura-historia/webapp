@@ -9,6 +9,7 @@ import {
     defaultParseSearch,
 } from "@tanstack/react-router";
 import { Route } from "@/routes/$lng._auth.oauth.authorize.tsx";
+import { localizeHref } from "@/i18n/routing.ts";
 import {
     getBrokerAuthorizationUrl,
     getWooCommerceBrokerCallbackUrl,
@@ -350,6 +351,29 @@ describe("_auth.oauth.authorize route", () => {
                 validateSearch({ ...entry, code_challenge: "challenge", state: "legacy" }),
             ).toMatchObject({ client_id: entry.client_id, redirect_uri: entry.redirect_uri });
         });
+    });
+
+    it("keeps a metadata document client's request exact through the router and a language switch", () => {
+        mockOAuthAuthorizePage.mockClear();
+        const request = {
+            response_type: "code",
+            client_id: "https://claude.ai/oauth/claude-code-client-metadata",
+            redirect_uri: "http://localhost:53682/callback",
+            scope: "users:read watchlist:read offline_access",
+            state: "agent-state",
+            resource: "https://mcp.aura-historia.com/v1",
+            code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+            code_challenge_method: "S256",
+        };
+        const href = `/en/oauth/authorize?${new URLSearchParams(request)}`;
+
+        const search = routerSearchFor(href);
+        expect(search).toEqual({ ...request, requires_listing_source_id: false });
+        expect(routerSearchFor(localizeHref(href, "it"))).toEqual(search);
+
+        renderRouteWithSearch(search);
+        expect(screen.getByTestId("oauth-authorize-page")).toHaveTextContent(request.client_id);
+        expect(mockBrokerConsentPage).not.toHaveBeenCalled();
     });
 
     it("treats a request with client_id as OAuth even if it names a transaction", () => {

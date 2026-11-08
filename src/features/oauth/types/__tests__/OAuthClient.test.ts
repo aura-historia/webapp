@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { mapToInternalOAuthClient, type OAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
+import {
+    isMetadataDocumentClientId,
+    mapToInternalOAuthClient,
+    type OAuthClient,
+} from "@/data/internal/oauth/OAuthClient.ts";
 import type { OAuthClientConsentMetadataData } from "@/client";
 
 describe("mapToInternalOAuthClient", () => {
@@ -22,6 +26,7 @@ describe("mapToInternalOAuthClient", () => {
 
         const result: OAuthClient = mapToInternalOAuthClient(apiData);
 
+        expect(result.kind).toBe("registered");
         expect(result.clientId).toBe("01970f22-2bf0-7000-8000-000000000010");
         expect(result.clientName).toBe("Test OAuth App");
         expect(result.tosUri).toBe("https://client.example/tos");
@@ -104,5 +109,25 @@ describe("mapToInternalOAuthClient", () => {
         expect(result).not.toHaveProperty("client_secret");
         expect(result).not.toHaveProperty("clientIdIssuedAt");
         expect(result).not.toHaveProperty("client_id_issued_at");
+    });
+});
+
+describe("isMetadataDocumentClientId", () => {
+    it.each([
+        "https://claude.ai/oauth/claude-code-client-metadata",
+        "https://vscode.dev/oauth/client-metadata.json",
+        "https://aura-historia.com/oauth/webmcp-client.json",
+    ])("treats the HTTPS URL %s as a metadata document client", (clientId) => {
+        expect(isMetadataDocumentClientId(clientId)).toBe(true);
+    });
+
+    it.each([
+        "oc_7b0gwc1x49e0mvbt3tfexfqgb5",
+        "01970f22-2bf0-7000-8000-000000000010",
+        "http://client.example/metadata.json",
+        "claude.ai/oauth/claude-code-client-metadata",
+        "",
+    ])("treats %j as a registered client", (clientId) => {
+        expect(isMetadataDocumentClientId(clientId)).toBe(false);
     });
 });

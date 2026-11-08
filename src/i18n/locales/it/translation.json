@@ -2758,6 +2758,36 @@
         "title": "Autorizzazione non disponibile",
         "description": "Al momento non possiamo verificare i dati registrati di questa applicazione. Riprova più tardi."
       },
+      "agentClient": {
+        "identity": {
+          "label": "Verificato da Aura Historia",
+          "clientHost": "Identificata da",
+          "redirectHost": "Torna a",
+          "description": "Il nome e il logo sono forniti dall'app stessa; Aura Historia ha verificato solo questi indirizzi. Continua solo se li riconosci."
+        },
+        "loopbackWarning": {
+          "title": "Continua solo se hai appena avviato tu questa richiesta",
+          "description": "Questa app torna a un programma sul tuo dispositivo, e qualsiasi programma presente può usarne il nome. Continua solo se hai appena avviato l'accesso da un'app su questo dispositivo."
+        },
+        "scopes": {
+          "newTitle": "Questa applicazione richiede le seguenti autorizzazioni aggiuntive:",
+          "grantedTitle": "Autorizzazioni che hai già concesso:"
+        },
+        "offlineAccess": {
+          "title": "Resta connessa",
+          "description": "Questa applicazione può restare connessa finché non la disconnetti. L'accesso termina dopo 30 giorni di inutilizzo e al più tardi 90 giorni dopo la tua approvazione."
+        },
+        "errors": {
+          "invalidClient": {
+            "title": "Impossibile verificare questa app",
+            "description": "Aura Historia non è riuscita a caricare o ad accettare i dati di accesso di questa app. Ricomincia dall'app. Se il problema persiste, al momento l'app non può accedere ad Aura Historia."
+          },
+          "unavailable": {
+            "title": "Autorizzazione non disponibile",
+            "description": "Al momento non possiamo verificare i dati di questa applicazione. Riprova più tardi."
+          }
+        }
+      },
       "brokerRequired": {
         "title": "Avvii la connessione da WordPress",
         "description": "Questo link di connessione WooCommerce non è più supportato. Avvii di nuovo la connessione dall’amministrazione di WordPress e aggiorni il plugin Aura Historia se il problema si ripete."

@@ -34,6 +34,36 @@ const mcpRequest = {
     code_challenge_method: "S256",
 };
 
+/**
+ * A metadata document client (an MCP agent) with a loopback callback on an ephemeral port, every
+ * ordinary-user scope and `offline_access`.
+ */
+const agentRequest = {
+    response_type: "code",
+    client_id: "https://claude.ai/oauth/claude-code-client-metadata",
+    redirect_uri: "http://localhost:53682/callback",
+    scope: [
+        "users:read",
+        "users:write",
+        "search-filters:read",
+        "search-filters:write",
+        "watchlist:read",
+        "watchlist:write",
+        "notifications:read",
+        "notifications:write",
+        "offline_access",
+    ].join(" "),
+    state: "q2Jv7Wl3N1m8b0bTt0lpbq3c7S8Dzvq7m3x8W4cnD8I",
+    resource: "https://mcp.aura-historia.com/v1",
+    code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+    code_challenge_method: "S256",
+};
+
+const REQUESTS = [
+    ["a registered MCP client", mcpRequest],
+    ["a metadata document client", agentRequest],
+] as const;
+
 /** The login destination the `_auth` guard derives from the router's parsed location. */
 async function getLoginRedirect(authorizeHref: string): Promise<string> {
     const url = new URL(authorizeHref, "https://aura-historia.com");
@@ -72,39 +102,60 @@ describe("OAuth login return", () => {
         mockGetCurrentUser.mockRejectedValue(new Error("signed out"));
     });
 
-    it("reconstructs the exact request after password, existing-session and federated sign-in", async () => {
-        const authorizeHref = `/en/oauth/authorize?${new URLSearchParams(mcpRequest)}`;
-        const redirect = await getLoginRedirect(authorizeHref);
+    it.each(REQUESTS)(
+        "reconstructs the exact request of %s after password, existing-session and federated sign-in",
+        async (_, oauthRequest) => {
+            const authorizeHref = `/en/oauth/authorize?${new URLSearchParams(oauthRequest)}`;
+            const redirect = await getLoginRedirect(authorizeHref);
 
-        const federatedState = parseFederatedAuthState(
-            createFederatedAuthState({ intent: "sign-in", locale: "en", redirectPath: redirect }),
-        );
-        const returns = {
-            // Password sign-in and an already signed-in visit both continue to the login redirect.
-            login: localizeHref(redirect, "en"),
-            federated: localizeHref(
-                federatedState?.redirectPath ?? "/",
-                federatedState?.locale ?? "",
-            ),
-        };
+            const federatedState = parseFederatedAuthState(
+                createFederatedAuthState({
+                    intent: "sign-in",
+                    locale: "en",
+                    redirectPath: redirect,
+                }),
+            );
+            const returns = {
+                // Password sign-in and an already signed-in visit both continue to the login redirect.
+                login: localizeHref(redirect, "en"),
+                federated: localizeHref(
+                    federatedState?.redirectPath ?? "/",
+                    federatedState?.locale ?? "",
+                ),
+            };
 
-        for (const href of Object.values(returns)) {
-            expect(parseConsentRequest(href)).toEqual({
-                pathname: "/en/oauth/authorize",
-                request: { ...mcpRequest, requires_listing_source_id: false },
+            for (const href of Object.values(returns)) {
+                expect(parseConsentRequest(href)).toEqual({
+                    pathname: "/en/oauth/authorize",
+                    request: { ...oauthRequest, requires_listing_source_id: false },
+                });
+            }
+        },
+    );
+
+    it.each(REQUESTS)(
+        "keeps every OAuth parameter of %s when the user switches locale before signing in",
+        async (_, oauthRequest) => {
+            const redirect = await getLoginRedirect(
+                `/en/oauth/authorize?${new URLSearchParams(oauthRequest)}`,
+            );
+
+            expect(parseConsentRequest(localizeHref(redirect, "fr"))).toEqual({
+                pathname: "/fr/oauth/authorize",
+                request: { ...oauthRequest, requires_listing_source_id: false },
+            });
+        },
+    );
+
+    it("keeps a metadata document client's request when the signed-in user switches locale on consent", () => {
+        const consentHref = `/en/oauth/authorize?${new URLSearchParams(agentRequest)}`;
+
+        for (const language of ["de", "es", "fr", "it"]) {
+            expect(parseConsentRequest(localizeHref(consentHref, language))).toEqual({
+                pathname: `/${language}/oauth/authorize`,
+                request: { ...agentRequest, requires_listing_source_id: false },
             });
         }
-    });
-
-    it("keeps every OAuth parameter when the user switches locale before signing in", async () => {
-        const redirect = await getLoginRedirect(
-            `/en/oauth/authorize?${new URLSearchParams(mcpRequest)}`,
-        );
-
-        expect(parseConsentRequest(localizeHref(redirect, "fr"))).toEqual({
-            pathname: "/fr/oauth/authorize",
-            request: { ...mcpRequest, requires_listing_source_id: false },
-        });
     });
 
     it("keeps a numeric state exact through the router's parsed location", async () => {
