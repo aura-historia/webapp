@@ -98,17 +98,12 @@ one answers `200` without a redirect.
 
 ### Sitemaps
 
-robots.txt names two sitemaps:
-
-- `/sitemap.xml`, written at build time from `src/lib/seo/staticPages.ts` (indexable pages only).
-- `/sitemaps/products.xml`, built by the Worker (`src/features/product/catalog/server/productSitemap.ts`)
-  from the public product search: the 1,000 most recently updated listings, each in every
-  language, with its first image cleared for display. The edge keeps it for six hours. The cost is
-  fixed (ten anonymous search requests per build), whatever the catalogue size. Listings whose
-  content needs consent stay out. Listing every product needs a backend sitemap feed; until then
-  older listings are found through links (similar items, source pages).
-- Source profiles stay out of sitemaps
-  (see `docs/landing-page-prerendering-guidelines.md#public-listing-source-discovery`).
+`/sitemap.xml` is written at build time from `src/lib/seo/staticPages.ts` (indexable pages only)
+and is the only sitemap. Listing pages and source profiles are not in a sitemap: a partial list
+(such as the newest listings) does not help at catalogue scale, and a complete one needs a backend
+feed (proposal: #1256, aura-historia/backend#2820). Crawlers find listings through links (similar
+items, source pages). Source profiles stay out until a public source feed exists (see
+`docs/landing-page-prerendering-guidelines.md#public-listing-source-discovery`).
 
 ### Structured data (JSON-LD)
 
@@ -119,12 +114,14 @@ raw HTML, and the helper escapes `<` so listing or source text cannot close the 
 - Home: Organization and WebSite (which names the site in Google results), the page, and the
   visible FAQ (`src/features/landing/lib/landingStructuredData.ts`). The Organization node lives in
   `src/features/app-shell/lib/siteStructuredData.ts`; the about page reuses it.
-- Listing pages (`src/features/product/detail/lib/seo/productJsonLd.ts`): a Product with an Offer
-  only for an active listing with a current asking price above zero. The Offer names the source as
-  `seller` (linked to its profile page) and points to the listing page. `sku` is the source's own
-  listing ID when it has 1–50 characters (Google's limit); `productID` is ours. Without an offer
-  (price on request, sale observations, withdrawn) the page is an ItemPage, because Google counts
-  a Product without offers, reviews or ratings as an invalid item.
+- Listing pages (`src/features/product/detail/lib/seo/productJsonLd.ts`): always a Product. It
+  has an Offer whenever the listing has a monetary price above zero that can be stated truthfully:
+  the current asking price (with the listing's availability), the price it sold at (`SoldOut`), or
+  a withdrawn listing's last asking price (`Discontinued`). The Offer names the source as `seller`
+  (linked to its profile page) and points to the listing page. `sku` is the source's own listing ID
+  when it has 1–50 characters (Google's limit); `productID` is ours. A listing priced on request
+  has no offer, so Google reports it as an invalid product snippet; that is accurate and does not
+  affect ranking.
 - The listing data has no brand, GTIN, condition, ratings, reviews or return policy, so none are
   published; Search Console reports them as optional. Shipping details will come with the
   shipping data.

@@ -127,31 +127,29 @@ describe("productJsonLd", () => {
         );
     });
 
-    it("describes a listing without a current offer as an ItemPage, not an invalid Product", () => {
-        const result = generateProductJsonLd(makeProduct({ lifecycle: "WITHDRAWN" }), {
-            canonicalUrl: "https://aura-historia.com/en/products/chair",
-        });
-
-        expect(result).toEqual({
-            "@context": "https://schema.org/",
-            "@type": "ItemPage",
-            name: "Antique Chair",
-            image: ["https://example.com/images/chair.jpg"],
-            url: "https://aura-historia.com/en/products/chair",
-            dateCreated: "2024-01-01T00:00:00.000Z",
-            dateModified: "2024-01-20T15:30:00.000Z",
-        });
-    });
-
-    it("omits offers for zero prices", () => {
+    it("keeps a listing without a price a Product, without an offer", () => {
         const price: ListingPrice = { type: "MONETARY", amount: 0, currency: "USD" };
         const base = makeProduct();
-        const product = makeProduct({
-            price,
-            pricing: { source: { price }, display: { price }, valuation: base.valuation },
-        });
+        for (const displayPrice of [price, null]) {
+            const result = generateProductJsonLd(
+                makeProduct({
+                    pricing: {
+                        source: { price: displayPrice },
+                        display: { price: displayPrice },
+                        valuation: base.valuation,
+                    },
+                }),
+                { canonicalUrl: "https://aura-historia.com/en/products/chair" },
+            );
 
-        expect(generateProductJsonLd(product)["@type"]).toBe("ItemPage");
+            expect(result).toMatchObject({
+                "@type": "Product",
+                name: "Antique Chair",
+                productID: "listing-123",
+                url: "https://aura-historia.com/en/products/chair",
+            });
+            expect(result).not.toHaveProperty("offers");
+        }
     });
 
     it("omits offers for on-request prices", () => {
@@ -172,7 +170,7 @@ describe("productJsonLd", () => {
         expect(generateProductJsonLd(product).offers).toBeUndefined();
     });
 
-    it("omits offers for sale observations and withdrawn listings", () => {
+    it("publishes the price a listing sold at as a sold-out offer", () => {
         const saleValuation: ListingPriceValuation = {
             type: "SALE_OBSERVATION",
             fxRateId: "fx-123",
@@ -181,17 +179,31 @@ describe("productJsonLd", () => {
         const saleObserved = makeProduct({
             valuation: saleValuation,
             priceValuation: "SALE_OBSERVATION",
+            availability: "AVAILABLE",
             pricing: {
                 source: { price: makeProduct().price },
                 display: { price: makeProduct().price },
                 valuation: saleValuation,
             },
         });
-        expect(generateProductJsonLd(saleObserved).offers).toBeUndefined();
 
-        expect(
-            generateProductJsonLd(makeProduct({ lifecycle: "WITHDRAWN" })).offers,
-        ).toBeUndefined();
+        expect(generateProductJsonLd(saleObserved).offers).toMatchObject({
+            price: 250,
+            priceCurrency: "USD",
+            availability: "https://schema.org/SoldOut",
+        });
+    });
+
+    it("publishes a withdrawn listing's last asking price as discontinued", () => {
+        expect(generateProductJsonLd(makeProduct({ lifecycle: "WITHDRAWN" })).offers).toMatchObject(
+            { price: 250, availability: "https://schema.org/Discontinued" },
+        );
+    });
+
+    it("publishes no offer for a listing whose lifecycle is unknown", () => {
+        expect(generateProductJsonLd(makeProduct({ lifecycle: "UNKNOWN" }))).not.toHaveProperty(
+            "offers",
+        );
     });
 
     it("omits unknown availability and uses the fallback image when no images are present", () => {

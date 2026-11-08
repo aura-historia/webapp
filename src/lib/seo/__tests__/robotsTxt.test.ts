@@ -3,7 +3,6 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
 import { CONTENT_SIGNAL } from "@/lib/seo/contentSignals.ts";
-import { PRODUCT_SITEMAP_PATH } from "@/features/product/catalog/server/productSitemap.ts";
 import { localizedStaticPagePath, PRERENDER_PAGES, STATIC_PAGES } from "@/lib/seo/staticPages.ts";
 
 const routesDir = resolve(process.cwd(), "src/routes");
@@ -120,7 +119,6 @@ describe("public/robots.txt", () => {
 
     it("announces the sitemap and llms.txt", () => {
         expect(robotsTxt).toContain("Sitemap: https://aura-historia.com/sitemap.xml");
-        expect(robotsTxt).toContain(`Sitemap: https://aura-historia.com${PRODUCT_SITEMAP_PATH}`);
         expect(robotsTxt).toContain("https://aura-historia.com/llms.txt");
     });
 });

@@ -30,6 +30,5 @@ Content-Signal: search=yes, ai-input=yes, ai-train=no
 Disallow: /api/
 
 Sitemap: https://aura-historia.com/sitemap.xml
-Sitemap: https://aura-historia.com/sitemaps/products.xml
 
 # LLM-readable site overview: https://aura-historia.com/llms.txt

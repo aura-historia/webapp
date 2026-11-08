@@ -21,7 +21,7 @@ type OfferJsonLd = {
     seller: SellerJsonLd;
 };
 
-type ProductJsonLd = {
+export type ProductJsonLd = {
     "@context": "https://schema.org/";
     "@type": "Product";
     name?: string;
@@ -30,24 +30,10 @@ type ProductJsonLd = {
     url?: string;
     productID: string;
     sku?: string;
-    offers: OfferJsonLd;
+    offers?: OfferJsonLd;
     dateCreated?: string;
     dateModified?: string;
 };
-
-type ItemPageJsonLd = {
-    "@context": "https://schema.org/";
-    "@type": "ItemPage";
-    name?: string;
-    description?: string;
-    image?: string[];
-    url?: string;
-    dateCreated?: string;
-    dateModified?: string;
-    offers?: undefined;
-};
-
-export type ProductStructuredData = ProductJsonLd | ItemPageJsonLd;
 
 export type ProductJsonLdOptions = {
     /** The localized canonical URL of the listing page. */
@@ -77,27 +63,38 @@ function toSku(sourceListingId: string): string | undefined {
     return sku.length > 0 && sku.length <= SKU_MAX_LENGTH ? sku : undefined;
 }
 
+const SOLD_OUT = "https://schema.org/SoldOut";
+const DISCONTINUED = "https://schema.org/Discontinued";
+
 /**
- * The listing's current asking price as an Offer: only an active listing with a current monetary
- * price above zero. Price on request, sale observations and withdrawn listings have none.
+ * The availability that goes with the listing's price, or `undefined` when the price is not an
+ * offer we can state truthfully. A sale observation is the price the object sold at; a withdrawn
+ * listing keeps its last asking price, no longer offered. A listing whose state is unknown has no
+ * offer.
+ */
+function offerAvailability(product: ProductListingDetail): string | null | undefined {
+    if (product.valuation.type === "SALE_OBSERVATION") return SOLD_OUT;
+    if (product.lifecycle === "WITHDRAWN") return DISCONTINUED;
+    if (product.lifecycle !== "ACTIVE") return undefined;
+    // An active listing's own availability; `null` when the source does not report one.
+    return (product.availability && SCHEMA_AVAILABILITY[product.availability]) ?? null;
+}
+
+/**
+ * The listing's price as an Offer sold by its source: the current asking price, the price it sold
+ * at, or a withdrawn listing's last asking price. Price on request, a missing price and a zero
+ * price have none.
  */
 function toOffer(
     product: ProductListingDetail,
     { canonicalUrl, sellerUrl }: ProductJsonLdOptions,
 ): OfferJsonLd | undefined {
     const listingPrice = product.pricing.display.price;
-    if (
-        listingPrice?.type !== "MONETARY" ||
-        listingPrice.amount <= 0 ||
-        product.valuation.type !== "CURRENT" ||
-        product.lifecycle !== "ACTIVE"
-    ) {
-        return undefined;
-    }
+    if (listingPrice?.type !== "MONETARY" || listingPrice.amount <= 0) return undefined;
 
-    const availability = product.availability
-        ? SCHEMA_AVAILABILITY[product.availability]
-        : undefined;
+    const availability = offerAvailability(product);
+    if (availability === undefined) return undefined;
+
     const seller: SellerJsonLd = { "@type": "Organization", name: product.source.name };
     if (sellerUrl) seller.url = sellerUrl;
 
@@ -114,51 +111,40 @@ function toOffer(
 }
 
 /**
- * JSON-LD for a listing page. A listing with a current asking price is a Product with an Offer
- * sold by its source. Without one (price on request, sold, withdrawn) Google counts a Product as
- * an invalid item, so the page is described as an ItemPage instead.
+ * JSON-LD for a listing page: always a Product, with an Offer whenever the listing has a price we
+ * can state (see `toOffer`). A listing priced on request has no offer; Google then reports the
+ * Product as an invalid product snippet, which is accurate and does not affect ranking.
  *
  * Shipping and return policies are not part of the listing data, so the offer carries neither.
  */
 export function generateProductJsonLd(
     product: ProductListingDetail,
     options: ProductJsonLdOptions = {},
-): ProductStructuredData {
+): ProductJsonLd {
     const { canonicalUrl } = options;
-    // Only present in the page's language (#1232).
-    const description = product.description?.replace(/\s+/g, " ").trim();
-    const validImages = product.images.flatMap((image) =>
-        image.prohibitedContentType === "NONE" && image.url ? [image.url.href] : [],
-    );
-    const image = validImages.length > 0 ? validImages : [BANNER_IMAGE_URL];
-    const dateCreated = product.created.toISOString();
-    const dateModified = product.updated.toISOString();
-
-    const offer = toOffer(product, options);
-    if (!offer) {
-        const itemPage: ItemPageJsonLd = { "@context": "https://schema.org/", "@type": "ItemPage" };
-        if (product.title) itemPage.name = product.title;
-        if (description) itemPage.description = description;
-        itemPage.image = image;
-        if (canonicalUrl) itemPage.url = canonicalUrl;
-        itemPage.dateCreated = dateCreated;
-        itemPage.dateModified = dateModified;
-        return itemPage;
-    }
-
     const jsonLd: ProductJsonLd = {
         "@context": "https://schema.org/",
         "@type": "Product",
         productID: product.productListingId,
-        offers: offer,
     };
     if (product.title) jsonLd.name = product.title;
+    // Only present in the page's language (#1232).
+    const description = product.description?.replace(/\s+/g, " ").trim();
     if (description) jsonLd.description = description;
-    jsonLd.image = image;
+
+    const validImages = product.images.flatMap((image) =>
+        image.prohibitedContentType === "NONE" && image.url ? [image.url.href] : [],
+    );
+    jsonLd.image = validImages.length > 0 ? validImages : [BANNER_IMAGE_URL];
+
     if (canonicalUrl) jsonLd.url = canonicalUrl;
     const sku = toSku(product.sourceListingId);
     if (sku) jsonLd.sku = sku;
-    jsonLd.dateCreated = dateCreated;
-    jsonLd.dateModified = dateModified;
+
+    const offer = toOffer(product, options);
+    if (offer) jsonLd.offers = offer;
+
+    jsonLd.dateCreated = product.created.toISOString();
+    jsonLd.dateModified = product.updated.toISOString();
     return jsonLd;
 }
