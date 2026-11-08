@@ -25,7 +25,6 @@ import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
 import { env } from "@/env.ts";
-import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 
 const PAGE_SIZE = 30;
 const isSearchEnabled = env.VITE_FEATURE_SEARCH_ENABLED;
@@ -103,7 +102,7 @@ export function useSearch(
             language: parseLanguage(i18n.language),
             currency: preferences.currency,
         }),
-        enabled: isSearchEnabled && searchArgs.q.length >= MIN_SEARCH_QUERY_LENGTH,
+        enabled: isSearchEnabled,
         queryFn: async ({ pageParam }) => {
             if (matchesNoListingAvailability(searchArgs)) return EMPTY_RESULT;
 

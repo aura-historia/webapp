@@ -5,7 +5,6 @@ import {
     serializeSearchParams,
     validateSearchParams,
 } from "@/features/search/products/lib/searchValidation.ts";
-import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 import type { WebMcpTool } from "@/features/agent-discovery/webmcp/modelContext.ts";
 
 /** Prefix of the webapp's own tools; backend tool names never use it (`scripts/sync_mcp_tools.py`). */
@@ -120,15 +119,14 @@ export function createNavigationTools(
 
     const searchTool: WebMcpTool = {
         name: `${NAVIGATION_TOOL_PREFIX}ProductListingSearch`,
-        description: `Open Aura Historia's listing search results for a text query of at least ${MIN_SEARCH_QUERY_LENGTH} characters in this browser tab, without other filters. The page keeps its current language. Returns the URL of the opened page.`,
+        description: `Open Aura Historia's listing search results for a text query in this browser tab, without other filters. The page keeps its current language. Returns the URL of the opened page.`,
         inputSchema: stringSchema(
             "query",
             "The search text, such as an object, maker, material, style or period.",
-            MIN_SEARCH_QUERY_LENGTH,
         ),
         annotations,
         execute: async (input, options) => {
-            const query = readRequiredString(input, "query", MIN_SEARCH_QUERY_LENGTH);
+            const query = readRequiredString(input, "query");
             return open(
                 router.buildLocation({
                     to: "/$lng/search",

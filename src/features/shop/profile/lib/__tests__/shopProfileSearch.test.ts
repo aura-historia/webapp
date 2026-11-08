@@ -16,9 +16,9 @@ describe("validateShopProfileSearch", () => {
         expect(validate({ q: "  art deco  " })).toEqual({ q: "art deco" });
     });
 
-    it("drops a query shorter than three characters after trimming", () => {
-        expect(validate({ q: "va" })).toEqual({});
-        expect(validate({ q: "  va  " })).toEqual({});
+    it("keeps short queries and drops blank ones after trimming", () => {
+        expect(validate({ q: "va" })).toEqual({ q: "va" });
+        expect(validate({ q: "  v  " })).toEqual({ q: "v" });
         expect(validate({ q: "   " })).toEqual({});
         expect(validate({ q: "" })).toEqual({});
     });

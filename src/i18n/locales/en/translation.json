@@ -465,7 +465,6 @@
       ]
     },
     "validation": {
-      "queryMinLength": "Please enter at least 3 characters",
       "dateOrder": "Start date must be before end date"
     },
     "filter": {
@@ -518,7 +517,6 @@
       "priceRange": "Price range"
     },
     "messages": {
-      "minQueryLength": "Please enter at least 3 characters to start the search.",
       "error": {
         "title": "Error loading results",
         "description": "The search results could not be loaded. Please try again later.",
@@ -554,6 +552,7 @@
     "publicSourcesBrowseTitle": "Providers",
     "eyebrow": "Search results",
     "resultsForQuery": "Results for <em>“{{query}}”</em>",
+    "resultsAll": "All <em>objects</em>",
     "totalObjects_one": "{{formattedCount}} object",
     "totalObjects_other": "{{formattedCount}} objects",
     "liveFiltersHint": "Filters apply as you change them",

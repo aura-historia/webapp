@@ -1,5 +1,4 @@
-import { act, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { act, screen } from "@testing-library/react";
 import HeroSection from "@/features/landing/components/hero-section/HeroSection.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 
@@ -36,31 +35,5 @@ describe("HeroSection", () => {
         expect(search).toHaveAttribute("data-theme", "light");
         expect(screen.getByLabelText("Den weltweiten Markt durchsuchen")).toBeInTheDocument();
         expect(screen.getByRole("button", { name: "Markt durchsuchen" })).toBeInTheDocument();
-    });
-
-    it("asks for a longer query instead of searching", async () => {
-        const user = userEvent.setup();
-
-        await user.type(screen.getByLabelText("Den weltweiten Markt durchsuchen"), "ab");
-        await user.click(screen.getByRole("button", { name: "Markt durchsuchen" }));
-
-        expect(await screen.findByRole("alert")).toHaveTextContent(
-            "Bitte geben Sie mindestens 3 Zeichen ein",
-        );
-        expect(screen.getByLabelText("Den weltweiten Markt durchsuchen")).toHaveAttribute(
-            "aria-invalid",
-            "true",
-        );
-    });
-
-    it("clears the hint once the query changes", async () => {
-        const user = userEvent.setup();
-        const input = screen.getByLabelText("Den weltweiten Markt durchsuchen");
-
-        await user.type(input, "ab");
-        await user.click(screen.getByRole("button", { name: "Markt durchsuchen" }));
-        await user.type(input, "c");
-
-        await waitFor(() => expect(screen.queryByRole("alert")).not.toBeInTheDocument());
     });
 });

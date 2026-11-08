@@ -465,7 +465,6 @@
       ]
     },
     "validation": {
-      "queryMinLength": "Veuillez saisir au moins 3 caractères",
       "dateOrder": "La date de début doit être antérieure à la date de fin"
     },
     "filter": {
@@ -518,7 +517,6 @@
       "priceRange": "Fourchette de prix"
     },
     "messages": {
-      "minQueryLength": "Veuillez saisir au moins 3 caractères pour lancer la recherche.",
       "error": {
         "title": "Erreur de chargement",
         "description": "Les résultats de recherche n'ont pas pu être chargés. Veuillez réessayer plus tard.",
@@ -554,6 +552,7 @@
     "publicSourcesBrowseTitle": "Fournisseurs",
     "eyebrow": "Résultats de recherche",
     "resultsForQuery": "Résultats pour <em>« {{query}} »</em>",
+    "resultsAll": "Tous les <em>objets</em>",
     "totalObjects_one": "{{formattedCount}} objet",
     "totalObjects_other": "{{formattedCount}} objets",
     "liveFiltersHint": "Les filtres s’appliquent dès que vous les modifiez",

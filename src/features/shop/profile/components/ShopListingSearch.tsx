@@ -1,7 +1,6 @@
 import { ArrowRight, Search, X } from "lucide-react";
 import { type FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 import { SHOP_FOCUS_CLASS } from "@/features/shop/profile/lib/shopStyles.ts";
 import { cn } from "@/lib/utils.ts";
 
@@ -31,7 +30,6 @@ export function ShopListingSearch({
     const { t } = useTranslation();
     const inputRef = useRef<HTMLInputElement>(null);
     const [value, setValue] = useState(query);
-    const [tooShort, setTooShort] = useState(false);
     const lastSent = useRef(query);
 
     // Follow URL changes made elsewhere (back/forward, "Show all listings").
@@ -39,7 +37,6 @@ export function ShopListingSearch({
         if (query !== lastSent.current) {
             lastSent.current = query;
             setValue(query);
-            setTooShort(false);
         }
     }, [query]);
 
@@ -58,8 +55,6 @@ export function ShopListingSearch({
             send("");
             return;
         }
-        if (term.length < MIN_SEARCH_QUERY_LENGTH) return;
-
         const timeoutId = window.setTimeout(() => send(term), SHOP_SEARCH_DEBOUNCE_MS);
         return () => window.clearTimeout(timeoutId);
     }, [value, send]);
@@ -67,21 +62,15 @@ export function ShopListingSearch({
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const term = value.trim();
-        if (term.length > 0 && term.length < MIN_SEARCH_QUERY_LENGTH) {
-            setTooShort(true);
-            return;
-        }
         send(term);
     };
 
     const handleClear = () => {
         setValue("");
-        setTooShort(false);
         inputRef.current?.focus();
     };
 
     const label = t("shop.search.label", { provider: providerName });
-    const errorId = `${resultsId}-error`;
 
     return (
         <form
@@ -96,9 +85,7 @@ export function ShopListingSearch({
             <div
                 className={cn(
                     "flex h-12 items-center gap-1.5 rounded-pill bg-surface-raised pr-1 pl-4 md:gap-2",
-                    tooShort
-                        ? "shadow-[inset_0_0_0_1.5px_var(--oxblood)]"
-                        : "shadow-field focus-within:shadow-[inset_0_0_0_1.5px_var(--ink)]",
+                    "shadow-field focus-within:shadow-[inset_0_0_0_1.5px_var(--ink)]",
                 )}
             >
                 <Search
@@ -113,13 +100,8 @@ export function ShopListingSearch({
                     enterKeyHint="search"
                     autoComplete="off"
                     value={value}
-                    onChange={(event) => {
-                        setValue(event.target.value);
-                        setTooShort(false);
-                    }}
+                    onChange={(event) => setValue(event.target.value)}
                     placeholder={t("shop.search.placeholder")}
-                    aria-invalid={tooShort}
-                    aria-describedby={tooShort ? errorId : undefined}
                     aria-controls={resultsId}
                     className="h-full min-w-0 flex-1 bg-transparent text-base text-ink outline-none placeholder:text-ink-placeholder md:text-sm [&::-webkit-search-cancel-button]:hidden"
                 />
@@ -150,11 +132,6 @@ export function ShopListingSearch({
                     </span>
                 </button>
             </div>
-            {tooShort && (
-                <p id={errorId} role="alert" className="pl-4 text-meta leading-normal text-oxblood">
-                    {t("search.messages.minQueryLength")}
-                </p>
-            )}
         </form>
     );
 }

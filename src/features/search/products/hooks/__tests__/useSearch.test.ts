@@ -66,12 +66,6 @@ describe("useSearch", () => {
         expect(params.get("searchAfter")).toBe(JSON.stringify(cursor));
     });
 
-    it("does not fetch until the query reaches its minimum length", async () => {
-        const { result } = renderHook(() => useSearch({ q: "ab" }), { wrapper: createWrapper() });
-        await waitFor(() => expect(result.current.fetchStatus).toBe("idle"));
-        expect(mockSearchListings).not.toHaveBeenCalled();
-    });
-
     it("sends canonical listing filters and maps a nullable total", async () => {
         const args: SearchFilterArguments = {
             q: "antique vase",

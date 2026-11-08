@@ -1,4 +1,4 @@
-import { Info, SearchX, TriangleAlert } from "lucide-react";
+import { SearchX, TriangleAlert } from "lucide-react";
 import { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useInView } from "react-intersection-observer";
@@ -15,7 +15,6 @@ import {
     SearchResultCardSkeleton,
 } from "@/features/search/products/components/results/SearchResultPlaceholders.tsx";
 import { useSearch } from "@/features/search/products/hooks/useSearch.ts";
-import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 
 type SearchResultsProps = {
     readonly searchFilters: SearchFilterArguments;
@@ -38,37 +37,20 @@ export function SearchResults({
     const { t, i18n } = useTranslation();
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
         useSearch(searchFilters);
-    const isQueryTooShort = searchFilters.q.length < MIN_SEARCH_QUERY_LENGTH;
 
     const allProducts = data?.pages.flatMap((page: SearchResultData) => page.products) ?? [];
     const totalProducts = data?.pages[0]?.total;
     const allLoaded = allProducts.length > 0 && !hasNextPage;
 
     useEffect(() => {
-        onTotalChange?.(isQueryTooShort ? undefined : totalProducts);
-    }, [totalProducts, onTotalChange, isQueryTooShort]);
+        onTotalChange?.(totalProducts);
+    }, [totalProducts, onTotalChange]);
 
     useEffect(() => {
-        if (inView && hasNextPage && !isFetchingNextPage && !isQueryTooShort) {
+        if (inView && hasNextPage && !isFetchingNextPage) {
             fetchNextPage();
         }
-    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage, isQueryTooShort]);
-
-    if (isQueryTooShort) {
-        return (
-            <div
-                role="status"
-                className="flex items-start gap-3 rounded-lg bg-surface-raised px-[18px] py-4 text-body text-ink-secondary shadow-field"
-            >
-                <Info
-                    aria-hidden="true"
-                    className="mt-[3px] size-[18px] shrink-0 text-ink-muted"
-                    strokeWidth={1.8}
-                />
-                {t("search.messages.minQueryLength")}
-            </div>
-        );
-    }
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     if (isPending) {
         return (

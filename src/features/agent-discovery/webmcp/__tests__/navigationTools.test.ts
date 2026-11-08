@@ -171,14 +171,14 @@ describe("createNavigationTools", () => {
         await expect(execution).rejects.toBe(reason);
     });
 
-    it("rejects missing, blank or too short arguments without navigating", async () => {
+    it("rejects missing or blank arguments without navigating", async () => {
         const router = await createTestRouter("/de");
         const tools = createNavigationTools(router, ORIGIN, true);
 
         expect(tool(tools, "openProductListingSearch").inputSchema).toMatchObject({
-            properties: { query: { minLength: 3 } },
+            properties: { query: { minLength: 1 } },
         });
-        for (const input of [undefined, {}, { query: " " }, { query: 3 }, { query: " ab " }]) {
+        for (const input of [undefined, {}, { query: " " }, { query: 3 }]) {
             await expect(
                 tool(tools, "openProductListingSearch").execute(input),
             ).rejects.toMatchObject({ reason: "invalid-arguments" });

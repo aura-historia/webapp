@@ -465,7 +465,6 @@
       ]
     },
     "validation": {
-      "queryMinLength": "Bitte geben Sie mindestens 3 Zeichen ein",
       "dateOrder": "Startdatum muss vor dem Enddatum liegen"
     },
     "filter": {
@@ -518,7 +517,6 @@
       "priceRange": "Preisspanne"
     },
     "messages": {
-      "minQueryLength": "Bitte geben Sie mindestens 3 Zeichen ein, um die Suche zu starten.",
       "error": {
         "title": "Fehler beim Laden",
         "description": "Die Suchergebnisse konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
@@ -554,6 +552,7 @@
     "publicSourcesBrowseTitle": "Anbieter",
     "eyebrow": "Suchergebnisse",
     "resultsForQuery": "Ergebnisse für <em>„{{query}}“</em>",
+    "resultsAll": "Alle <em>Objekte</em>",
     "totalObjects_one": "{{formattedCount}} Objekt",
     "totalObjects_other": "{{formattedCount}} Objekte",
     "liveFiltersHint": "Filter wirken, sobald Sie sie ändern",

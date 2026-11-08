@@ -1,11 +1,9 @@
 import { ArrowRight, Loader2, Search } from "lucide-react";
 import { type FormEvent, useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import { env } from "@/env.ts";
 import { useGlobalSearchSubmit } from "@/features/search/common/hooks/useGlobalSearchSubmit.ts";
 import { useSearchQueryContext } from "@/features/search/common/hooks/useSearchQueryContext.tsx";
-import { MIN_SEARCH_QUERY_LENGTH } from "@/features/search/products/lib/filterDefaults.ts";
 import { cn } from "@/lib/utils.ts";
 import { NAV_FOCUS_CLASS } from "./navigationConfig.ts";
 
@@ -74,14 +72,6 @@ export function NavSearchField({ variant, onSubmitted, className }: NavSearchFie
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const query = value.trim();
-
-        if (query.length < MIN_SEARCH_QUERY_LENGTH) {
-            toast.warning(t("search.validation.queryMinLength"), {
-                position: "top-center",
-                duration: 2000,
-            });
-            return;
-        }
 
         submit(query, isOnShopSearch ? "shops" : "products");
         onSubmitted?.();

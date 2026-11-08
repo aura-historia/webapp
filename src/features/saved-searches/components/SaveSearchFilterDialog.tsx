@@ -235,11 +235,13 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                             aria-label={t("searchFilter.saveDialog.criteriaLabel")}
                             className="flex flex-wrap gap-1.5"
                         >
-                            <li className="rounded-sm bg-surface-sunken px-2 py-1 text-xs">
-                                {t("searchFilter.saveDialog.queryCriterion", {
-                                    query: searchArgs.q,
-                                })}
-                            </li>
+                            {searchArgs.q && (
+                                <li className="rounded-sm bg-surface-sunken px-2 py-1 text-xs">
+                                    {t("searchFilter.saveDialog.queryCriterion", {
+                                        query: searchArgs.q,
+                                    })}
+                                </li>
+                            )}
                             {activeFilters.map((filter) => {
                                 const { key, value } = describe(filter);
                                 return (
