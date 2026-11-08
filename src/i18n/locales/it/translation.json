@@ -65,7 +65,7 @@
     },
     "partnerProgram": {
       "title": "Programma Partner | Aura Historia",
-      "description": "Diventa partner di Aura Historia, la piattaforma globale per l’arte e l’antiquariato. Gratis, senza commissioni e connessa in pochi minuti."
+      "description": "Partnership su valutazione su Aura Historia, la ricerca globale di arte e antiquariato: mercanti e case d’asta si candidano, e gli shop ammessi si collegano tramite Shopify, WooCommerce o la nostra API, senza commissioni."
     },
     "partnerCustomIntegration": {
       "title": "Integrazione API per sistemi di shop personalizzati | Aura Historia",
@@ -186,7 +186,7 @@
       "woocommerce": "Plugin WordPress",
       "shopify": "Shopify",
       "customApi": "Integrazione personalizzata",
-      "apply": "Candidati"
+      "apply": "Richiedi l’ammissione"
     },
     "tagline": "Il mercato globale dell'arte e dell'antiquariato, in un'unica ricerca.",
     "socialNavigation": "Social media",
@@ -1067,7 +1067,7 @@
       "eyebrow": "VI — Per antiquari e case d’asta",
       "title": "Porta il tuo inventario dove i collezionisti di tutto il mondo <em>cercano già.</em>",
       "body": "Aura Historia non sostituisce il tuo negozio: gli invia acquirenti qualificati. Collegati una volta e i tuoi oggetti appariranno ai collezionisti che cercano nella propria lingua.",
-      "apply": "Candidati al programma partner",
+      "apply": "Richiedi l’ammissione",
       "overview": "Panoramica partner",
       "newTab": "(si apre in una nuova scheda)",
       "links": {
@@ -1120,11 +1120,11 @@
   },
   "partnerProgram": {
     "hero": {
-      "title": "Vendi arte e antiquariato online? Raggiungi collezionisti <em>in tutto il mondo.</em>",
-      "subtitle": "Aura Historia è la ricerca globale di arte e antiquariato, dove i collezionisti trovano esattamente ciò che vendi. Collega il tuo shop una volta; chi trova i tuoi pezzi acquista sul tuo sito.",
-      "primaryCta": "Diventa partner",
-      "secondaryCta": "Come funziona",
-      "eyebrow": "Programma partner · Per mercanti e case d’asta",
+      "title": "Una cerchia selezionata di mercanti e <em>case d’asta.</em>",
+      "subtitle": "I partner di Aura Historia vengono ammessi dopo una valutazione, non con una semplice iscrizione. Leggiamo personalmente ogni candidatura e ammettiamo i mercanti e le case d’asta specializzati accanto ai quali siamo lieti di stare. Una volta ammesso, colleghi il tuo shop in pochi minuti e gli acquirenti proseguono sul tuo sito.",
+      "primaryCta": "Richiedi l’ammissione",
+      "secondaryCta": "Come funziona l’ammissione",
+      "eyebrow": "Programma partner · Ammissione su valutazione",
       "preview": {
         "caption": "Come appaiono i tuoi pezzi",
         "sample": "Esempio",
@@ -1139,10 +1139,6 @@
           "value": "0%",
           "label": "Commissione sulle vendite"
         },
-        "fees": {
-          "value": "0 €",
-          "label": "Costi di attivazione o di pubblicazione"
-        },
         "revenue": {
           "value": "100%",
           "label": "Del fatturato resta tuo"
@@ -1150,12 +1146,16 @@
         "cancel": {
           "value": "In qualsiasi momento",
           "label": "Uscita senza preavviso"
+        },
+        "review": {
+          "value": "Su valutazione",
+          "label": "Ogni candidatura, letta dal nostro team"
         }
       }
     },
     "motivation": {
-      "title": "I collezionisti stanno già cercando. <em>Fatti trovare.</em>",
-      "subtitle": "Aura Historia mette in contatto collezionisti motivati direttamente con i tuoi pezzi. Li indirizziamo al tuo shop e non prendiamo commissioni sui loro acquisti.",
+      "title": "I collezionisti stanno già cercando. <em>Sii tra chi viene trovato.</em>",
+      "subtitle": "I partner sono una cerchia selezionata di mercanti e case d’asta. I collezionisti trovano i loro pezzi nella nostra ricerca e proseguono verso i loro shop, e non prendiamo commissioni sui loro acquisti.",
       "items": {
         "audience": {
           "title": "Community globale di collezionisti",
@@ -1170,8 +1170,8 @@
           "description": "La nostra ricerca collega i collezionisti a ciò che cercano davvero, così i visitatori che ricevi arrivano pronti ad acquistare."
         },
         "trust": {
-          "title": "Il badge Partner-Shop",
-          "description": "I tuoi annunci portano il badge verificato Partner-Shop, un segno di fiducia per collezionisti esigenti."
+          "title": "Una partnership che conta",
+          "description": "I partner vengono ammessi dopo una valutazione secondo criteri pubblicati. Esserlo dice qualcosa sul tuo modo di lavorare."
         },
         "realtime": {
           "title": "Sincronizzazione in tempo reale",
@@ -1262,7 +1262,7 @@
       "closing": {
         "title": "Nessuna configurazione IA <em>da parte tua.</em>",
         "body": "Collegati una volta tramite Shopify, WooCommerce o la nostra API. In qualunque modo gli acquirenti trovino i tuoi pezzi, acquistano nel tuo negozio.",
-        "apply": "Diventa partner",
+        "apply": "Richiedi l’ammissione",
         "connect": "Scopri come collegarti"
       }
     },
@@ -1297,24 +1297,47 @@
       "trademarks": "Shopify è un marchio di Shopify Inc. WooCommerce® e i design associati sono marchi di Automattic Inc. WordPress è un marchio della WordPress Foundation."
     },
     "howEasy": {
-      "title": "Online in <em>tre passaggi.</em>",
-      "subtitle": "Niente codice, nessun prerequisito, nessun rischio. Ecco come diventare partner.",
+      "title": "L’ammissione è selettiva. <em>Il collegamento no.</em>",
+      "subtitle": "Ammettiamo mercanti e case d’asta una candidatura alla volta, secondo i criteri qui sotto. Una volta ammesso, se usi Shopify o WooCommerce colleghi il tuo shop senza codice.",
       "steps": {
-        "apply": {
-          "title": "Candidati",
-          "description": "Compila un breve modulo. Esaminiamo il tuo shop e ti rispondiamo in pochi giorni."
-        },
-        "claim": {
-          "title": "Configura lo shop",
-          "description": "Rivendica il tuo shop e completa il profilo nella dashboard partner."
-        },
         "connect": {
-          "title": "Attiva l'integrazione",
-          "description": "Scegli Shopify, WooCommerce o la nostra API. I tuoi prodotti compaiono poi automaticamente nella ricerca."
+          "title": "Collega",
+          "description": "Una volta ammesso, rivendica il tuo shop nella dashboard partner e collega Shopify, WooCommerce o la nostra API. I tuoi pezzi compaiono poi nella nostra ricerca."
+        },
+        "review": {
+          "title": "Valutazione",
+          "description": "Un membro del nostro team valuta la tua candidatura secondo questi criteri e ti comunica la decisione, di solito entro pochi giorni. Non tutte le candidature vengono accettate."
+        },
+        "submit": {
+          "title": "Candidati",
+          "description": "Raccontaci della tua attività e dello shop attraverso cui vendi. Bastano pochi minuti."
         }
       },
-      "eyebrow": "Come funziona",
-      "cta": "Inizia la candidatura"
+      "eyebrow": "Ammissione",
+      "cta": "Richiedi l’ammissione",
+      "pathLabel": "Il percorso verso la partnership",
+      "standards": {
+        "label": "Cosa cerchiamo",
+        "note": "Ogni candidatura viene letta da un membro del nostro team.",
+        "items": {
+          "specialism": {
+            "title": "Un’offerta specializzata",
+            "description": "Arte, antiquariato, oggetti di design o da collezione di interesse storico sono al centro di ciò che vendi."
+          },
+          "descriptions": {
+            "title": "Descrizioni accurate",
+            "description": "Attribuzione, datazione e condizioni sono descritte con cura, così i collezionisti possono valutare un pezzo prima di chiedere informazioni."
+          },
+          "business": {
+            "title": "Un’attività tua",
+            "description": "Un’attività riconoscibile con un proprio sito, dove gli acquirenti completano l’acquisto o fanno un’offerta."
+          },
+          "conduct": {
+            "title": "Correttezza",
+            "description": "Condizioni di vendita chiare e una buona reputazione presso gli acquirenti che già servi."
+          }
+        }
+      }
     },
     "faq": {
       "title": "Ciò che i partner <em>ci chiedono più spesso.</em>",
@@ -1343,24 +1366,28 @@
           "question": "Le vendite passano da Aura Historia?",
           "answer": "No. Gli acquirenti vengono indirizzati al tuo shop per concludere l'acquisto. Mantieni il rapporto col cliente, il tuo sistema di pagamento e il 100 % dei ricavi."
         },
-        "fit": {
-          "question": "Quali shop sono adatti al programma?",
-          "answer": "Cerchiamo shop online seri di arte, antiquariato, collezionismo e oggetti storici. Case d'asta e commercianti specializzati sono particolarmente benvenuti."
-        },
         "support": {
           "question": "Avrò supporto durante la configurazione?",
           "answer": "Sì. Il nostro team partner ti accompagna personalmente nell'onboarding ed è raggiungibile via email anche molto dopo il lancio."
+        },
+        "admission": {
+          "question": "Chi viene ammesso?",
+          "answer": "Mercanti, case d’asta e piattaforme che vendono arte, antiquariato, oggetti di design o da collezione di interesse storico, descrivono i loro pezzi con cura e vendono tramite il proprio sito. Un membro del nostro team valuta ogni candidatura singolarmente, e non tutte vengono accettate."
+        },
+        "review": {
+          "question": "Quanto dura la valutazione?",
+          "answer": "Di solito pochi giorni. Leggiamo personalmente ogni candidatura e ti comunichiamo la decisione."
         }
       },
       "eyebrow": "Domande",
       "contact": "Hai un’altra domanda? Scrivi a <mail>{{email}}</mail>"
     },
     "finalCta": {
-      "title": "Pronto a raggiungere collezionisti <em>in tutto il mondo?</em>",
-      "subtitle": "Candidati gratuitamente in meno di due minuti. Senza contratti, senza rischi, con pieno controllo.",
-      "primary": "Diventa partner ora",
+      "title": "I tuoi pezzi, in <em>compagnia scelta.</em>",
+      "subtitle": "Raccontaci della tua attività. Un membro del nostro team valuta ogni candidatura e ti comunica la decisione. Gratuito, senza contratto, e puoi uscire in qualsiasi momento.",
+      "primary": "Richiedi l’ammissione",
       "secondary": "Scrivi al team partner",
-      "eyebrow": "Candidarsi"
+      "eyebrow": "Ammissione su candidatura"
     },
     "customIntegrationPage": {
       "hero": {
@@ -1431,7 +1458,7 @@
             "loadError": "Non è stato possibile verificare l’accesso al fornitore.",
             "retryCta": "Riprova",
             "empty": "Al momento non ha accesso ad alcun fornitore. Un accesso precedente potrebbe essere stato revocato.",
-            "applyCta": "Richiedi uno shop partner",
+            "applyCta": "Richiedi l’ammissione come partner",
             "selectionLabel": "Fornitore per questa integrazione",
             "signInHint": "Acceda per vedere i fornitori a cui il suo account ha accesso."
           },
@@ -1656,16 +1683,6 @@
     "copied": "Link copiato",
     "shareProduct": "Condividi prodotto",
     "foundOnAuraHistoria": "Ho trovato {{title}} su Aura Historia! Potrebbe interessarti!"
-  },
-  "notFound": {
-    "title": "Pagina non trovata",
-    "description": "La pagina che stai cercando non è stata trovata.",
-    "goHome": "Vai alla homepage"
-  },
-  "error": {
-    "title": "Qualcosa è andato storto",
-    "description": "Si è verificato un errore imprevisto. Riprova più tardi.",
-    "goHome": "Vai alla homepage"
   },
   "serviceStatus": {
     "notice": {
@@ -2599,7 +2616,7 @@
       "stepsLabel": "Passaggi",
       "progressLabel": "Avanzamento",
       "proTag": "Pro & Ultimate",
-      "lockedHint": "Il tuo piano salva il termine di ricerca, la disponibilità e la fascia di prezzo.",
+      "lockedHint": "Il tuo piano salva il termine di ricerca, la disponibilità e la fascia di prezzo. Passa a un piano superiore per usare i filtri qui sotto.",
       "any": "Qualsiasi",
       "change": "Modifica",
       "changeLabel": "Modifica {{label}}",
@@ -4304,5 +4321,21 @@
       "retireTitle": "Dismettere «{{label}}»?",
       "restoreTitle": "Ripristinare «{{label}}»?"
     }
+  },
+  "fallback": {
+    "notFound": {
+      "eyebrow": "Errore 404",
+      "headline": "Pagina <em>non trovata.</em>",
+      "description": "L’indirizzo potrebbe essere errato, oppure la pagina è stata spostata o rimossa. Cerca nel catalogo o torna alla homepage."
+    },
+    "error": {
+      "eyebrow": "Errore imprevisto",
+      "headline": "Qualcosa <em>è andato storto.</em>",
+      "description": "Non è stato possibile caricare questa pagina. Riprova — se il problema persiste, torna alla homepage.",
+      "retry": "Riprova",
+      "retrying": "Nuovo tentativo…"
+    },
+    "searchObjects": "Cerca oggetti",
+    "goHome": "Vai alla homepage"
   }
 }
