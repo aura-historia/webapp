@@ -2,14 +2,29 @@ import { readdirSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages.ts";
+import { CONTENT_SIGNAL } from "@/lib/seo/contentSignals.ts";
 import { PRERENDER_PAGES, STATIC_PAGES } from "@/lib/seo/staticPages.ts";
 
 const routesDir = resolve(process.cwd(), "src/routes");
 const robotsTxt = readFileSync(resolve(process.cwd(), "public/robots.txt"), "utf8");
-const disallowRules = robotsTxt
-    .split("\n")
+const robotsLines = robotsTxt.split("\n");
+const disallowRules = robotsLines
     .map((line) => line.match(/^Disallow:\s*(\S*)/i)?.[1])
     .filter((rule): rule is string => Boolean(rule));
+
+/** The user agents of the group a rule line belongs to: the `User-agent` lines that open it. */
+function groupUserAgents(ruleLineIndex: number): string[] {
+    const userAgents: string[] = [];
+    for (const line of robotsLines.slice(0, ruleLineIndex).reverse()) {
+        const userAgent = line.match(/^User-agent:\s*(\S+)/i)?.[1];
+        if (userAgent) {
+            userAgents.push(userAgent);
+        } else if (userAgents.length > 0) {
+            break;
+        }
+    }
+    return userAgents;
+}
 
 /** Matches a path the way Google and Bing evaluate robots.txt rules: prefix, `*` and `$`. */
 function isDisallowed(path: string): boolean {
@@ -89,6 +104,17 @@ describe("public/robots.txt", () => {
 
     it("keeps server endpoints out of crawling", () => {
         expect(isDisallowed("/api/oauth/authorize/approve")).toBe(true);
+    });
+
+    it("declares the site's content signals once, for every crawler", () => {
+        const signalLines = robotsLines.flatMap((line, index) =>
+            /^Content-Signal:/i.test(line) ? [index] : [],
+        );
+
+        expect(signalLines.map((index) => robotsLines[index])).toEqual([
+            `Content-Signal: ${CONTENT_SIGNAL}`,
+        ]);
+        expect(groupUserAgents(signalLines[0])).toEqual(["*"]);
     });
 
     it("announces the sitemap and llms.txt", () => {
