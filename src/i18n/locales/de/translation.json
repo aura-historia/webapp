@@ -4283,33 +4283,7 @@
     "lastReviewed": "Zuletzt geprüft am <time>{{date}}</time>",
     "statusLabel": "Status",
     "nav": {
-      "label": "Auf dieser Seite",
-      "agents": "Für KI-Assistenten"
-    },
-    "agents": {
-      "eyebrow": "Für KI-Assistenten und Agenten",
-      "title": "Lesbar für <em>Menschen und ihre Assistenten</em>",
-      "body": "Wir richten Aura Historia danach aus, wie Menschen heute suchen. Deshalb steht der öffentliche Katalog auch KI-Assistenten und Agenten offen: über einen öffentlichen MCP-Server (Model Context Protocol, ein offener Standard, mit dem KI-Werkzeuge Daten lesen) und eine REST-API – strukturiert, vollständig und ohne Scraping. Für öffentliche Angebote ist kein Konto nötig.",
-      "facts": {
-        "mcpServer": {
-          "label": "MCP-Server"
-        },
-        "restApi": {
-          "label": "REST-API"
-        },
-        "publicListings": {
-          "label": "Öffentliche Angebote",
-          "value": "Kein Konto nötig"
-        }
-      },
-      "docsLink": "Zur MCP-Dokumentation",
-      "closing": "Diese Seite vergleicht nicht die Schnittstellen anderer Dienste."
-    },
-    "faq": {
-      "aiAssistants": {
-        "question": "Können KI-Assistenten Aura Historia direkt nutzen?",
-        "answer": "Ja. Aura Historia betreibt unter https://mcp.aura-historia.com/v1 einen öffentlichen MCP-Server (Model Context Protocol, ein offener Standard, mit dem KI-Werkzeuge Daten lesen) und eine REST-API. Assistenten und Agenten, die externe Werkzeuge nutzen können, durchsuchen den öffentlichen Katalog damit direkt; für öffentliche Angebote ist kein Konto nötig. Die Dokumentation steht unter https://docs.api.aura-historia.com/mcp.md."
-      }
+      "label": "Auf dieser Seite"
     },
     "otherComparisons": {
       "title": "Weitere <em>Vergleiche</em>",

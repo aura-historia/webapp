@@ -22,7 +22,7 @@ export function stripInlineMarkup(value: string): string {
 
 /**
  * JSON-LD for a comparison page: an Article (headline, description, the page's fixed review date)
- * and an FAQPage built from the same strings the page shows, the shared AI-assistants item included.
+ * and an FAQPage built from the same strings the page shows.
  */
 export function buildComparisonStructuredData({
     definition,

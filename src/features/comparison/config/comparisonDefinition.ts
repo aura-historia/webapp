@@ -68,7 +68,7 @@ export interface ComparisonDefinition {
     readonly alerts?: {
         readonly icon: LucideIcon;
     };
-    /** Page-specific FAQ items; the shared AI-assistants item is appended to every page. */
+    /** FAQ items in page order. */
     readonly faqItems: readonly ComparisonFaqItemDefinition[];
     /** Article `about` topics: `<namespace>.structuredData.about.<topic>`. */
     readonly structuredDataTopics: readonly string[];
@@ -89,9 +89,6 @@ export const COMPARISON_CHAPTER_IDS = [
 ] as const;
 
 export type ComparisonChapterId = (typeof COMPARISON_CHAPTER_IDS)[number];
-
-/** The AI-assistants side-note band under the hero, on every comparison page. */
-export const COMPARISON_AGENTS_SECTION_ID = "agents";
 
 /** Chapters the "On this page" bar leaves out (the respect chapter sits between I and III). */
 const CHAPTERS_OUTSIDE_NAV: ReadonlySet<ComparisonChapterId> = new Set(["respect"]);
@@ -118,12 +115,12 @@ export function getComparisonChapters(
 }
 
 /**
- * The "On this page" links, derived from the definition: the side-note first, then every chapter
- * in page order with its numeral (the closing verdict gets an arrow).
+ * The "On this page" links, derived from the definition: every chapter in page order with its
+ * numeral (the closing verdict gets an arrow).
  */
 export function getComparisonNav(definition: ComparisonDefinition): readonly ComparisonNavItem[] {
     const chapters = getComparisonChapters(definition);
-    const chapterItems = chapters.flatMap((id, index): ComparisonNavItem[] => {
+    return chapters.flatMap((id, index): ComparisonNavItem[] => {
         if (CHAPTERS_OUTSIDE_NAV.has(id)) return [];
         return [
             {
@@ -133,15 +130,6 @@ export function getComparisonNav(definition: ComparisonDefinition): readonly Com
             },
         ];
     });
-
-    return [
-        {
-            id: COMPARISON_AGENTS_SECTION_ID,
-            labelKey: "comparison.nav.agents",
-            marker: "MCP",
-        },
-        ...chapterItems,
-    ];
 }
 
 export interface ComparisonFaqEntry {
@@ -150,21 +138,11 @@ export interface ComparisonFaqEntry {
     readonly answerKey: string;
 }
 
-/** The shared FAQ item every comparison page ends with. */
-export const COMPARISON_AI_ASSISTANTS_FAQ: ComparisonFaqEntry = {
-    anchor: "faq-ai-assistants",
-    questionKey: "comparison.faq.aiAssistants.question",
-    answerKey: "comparison.faq.aiAssistants.answer",
-};
-
-/** The visible FAQ, in order: the page's own items, then the shared AI-assistants item. */
+/** The visible FAQ in page order, with the translation keys of each question and answer. */
 export function getComparisonFaq(definition: ComparisonDefinition): readonly ComparisonFaqEntry[] {
-    return [
-        ...definition.faqItems.map((item) => ({
-            anchor: item.anchor,
-            questionKey: `${definition.namespace}.faq.items.${item.key}.question`,
-            answerKey: `${definition.namespace}.faq.items.${item.key}.answer`,
-        })),
-        COMPARISON_AI_ASSISTANTS_FAQ,
-    ];
+    return definition.faqItems.map((item) => ({
+        anchor: item.anchor,
+        questionKey: `${definition.namespace}.faq.items.${item.key}.question`,
+        answerKey: `${definition.namespace}.faq.items.${item.key}.answer`,
+    }));
 }

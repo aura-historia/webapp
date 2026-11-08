@@ -4283,33 +4283,7 @@
     "lastReviewed": "Last reviewed <time>{{date}}</time>",
     "statusLabel": "Status",
     "nav": {
-      "label": "On this page",
-      "agents": "For AI assistants"
-    },
-    "agents": {
-      "eyebrow": "For AI assistants and agents",
-      "title": "Built to be read by <em>people and their assistants</em>",
-      "body": "We keep Aura Historia in step with how people now search. The public catalogue is therefore open to AI assistants and agents through a public MCP server (Model Context Protocol, an open standard AI tools use to read data) and a REST API: structured, complete, and without scraping. No account is needed for public listings.",
-      "facts": {
-        "mcpServer": {
-          "label": "MCP server"
-        },
-        "restApi": {
-          "label": "REST API"
-        },
-        "publicListings": {
-          "label": "Public listings",
-          "value": "No account needed"
-        }
-      },
-      "docsLink": "Read the MCP documentation",
-      "closing": "This page does not compare other services' interfaces."
-    },
-    "faq": {
-      "aiAssistants": {
-        "question": "Can AI assistants use Aura Historia directly?",
-        "answer": "Yes. Aura Historia runs a public MCP server (Model Context Protocol, an open standard AI tools use to read data) at https://mcp.aura-historia.com/v1 and a REST API. Assistants and agents that can use outside tools can search the public catalogue directly, and no account is needed for public listings. The documentation is at https://docs.api.aura-historia.com/mcp.md."
-      }
+      "label": "On this page"
     },
     "otherComparisons": {
       "title": "Other <em>comparisons</em>",

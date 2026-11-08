@@ -141,31 +141,3 @@ describe("COMPARISON_REGISTRY", () => {
         }
     });
 });
-
-describe("the shared AI-assistants copy", () => {
-    const sharedCopy = (locale: (typeof LOCALES)[keyof typeof LOCALES]) =>
-        JSON.stringify([locale.comparison.agents, locale.comparison.faq.aiAssistants]);
-
-    it.each(Object.entries(LOCALES))("states the public MCP server facts in %s", (_, locale) => {
-        expect(locale.comparison.agents.body).toContain("MCP");
-        expect(locale.comparison.agents.body).toContain("REST");
-        expect(locale.comparison.faq.aiAssistants.answer).toContain(
-            "https://mcp.aura-historia.com/v1",
-        );
-    });
-
-    it.each(Object.entries(LOCALES))(
-        "names no assistant and makes no hype claim in %s",
-        (_, locale) => {
-            expect(sharedCopy(locale)).not.toMatch(
-                /ChatGPT|Claude|Gemini|Copilot|Perplexity|Grok|cutting-edge|revolution|AI-powered/i,
-            );
-        },
-    );
-
-    it("compares nothing in English", () => {
-        expect(sharedCopy(LOCALES.en)).not.toMatch(
-            /\bunlike\b|\bonly\b|\bfirst\b|no other|always up to date|latest tech/i,
-        );
-    });
-});

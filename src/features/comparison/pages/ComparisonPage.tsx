@@ -1,4 +1,3 @@
-import { ComparisonAgentsSection } from "@/features/comparison/components/sections/ComparisonAgentsSection.tsx";
 import {
     ComparisonAlertsSection,
     ComparisonFaqSection,
@@ -17,9 +16,9 @@ import { ComparisonScorecardSection } from "@/features/comparison/components/sec
 import type { ComparisonDefinition } from "@/features/comparison/config/comparisonDefinition.ts";
 
 /**
- * Aura Historia vs a competitor: one h1, the AI-assistants side-note, then chapters the jump links
- * address by id. The definition decides the data and the optional chapters; copy comes from its
- * namespace. Other published comparisons follow the article.
+ * Aura Historia vs a competitor: one h1, then chapters the jump links address by id. The definition
+ * decides the data and the optional chapters; copy comes from its namespace. Other published
+ * comparisons follow the article.
  */
 export function ComparisonPage({ definition }: { readonly definition: ComparisonDefinition }) {
     return (
@@ -27,7 +26,6 @@ export function ComparisonPage({ definition }: { readonly definition: Comparison
             <article className="bg-surface text-ink">
                 <ComparisonHeroSection definition={definition} />
                 <ComparisonJumpNav definition={definition} />
-                <ComparisonAgentsSection />
                 <ComparisonSummarySection definition={definition} />
                 <ComparisonRespectSection definition={definition} />
                 <ComparisonAdvantagesSection definition={definition} />

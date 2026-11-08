@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 
 import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
 import {
-    COMPARISON_AGENTS_SECTION_ID,
     type ComparisonDefinition,
     getComparisonChapters,
     getComparisonFaq,
@@ -30,7 +29,7 @@ async function renderPage(definition: ComparisonDefinition = BARNEBYS_COMPARISON
 }
 
 describe("ComparisonPage with the Barnebys definition", () => {
-    it("renders one h1 and an h2 with an id for every chapter and the side-note", async () => {
+    it("renders one h1 and an h2 with an id for every chapter", async () => {
         const { container } = await renderPage();
 
         expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
@@ -41,9 +40,8 @@ describe("ComparisonPage with the Barnebys definition", () => {
             }),
         ).toBeInTheDocument();
 
-        const ids = [COMPARISON_AGENTS_SECTION_ID, ...getComparisonChapters(BARNEBYS_COMPARISON)];
+        const ids = getComparisonChapters(BARNEBYS_COMPARISON);
         expect(ids).toEqual([
-            "agents",
             "summary",
             "respect",
             "advantages",
@@ -71,14 +69,13 @@ describe("ComparisonPage with the Barnebys definition", () => {
         expect(heading.querySelector("em")).toHaveTextContent("Kurzfassung");
     });
 
-    it("links the side-note and every chapter in the nav, derived from the definition", async () => {
+    it("links every chapter in the nav, derived from the definition", async () => {
         await renderPage();
 
         const nav = screen.getByRole("navigation", { name: t("comparison.nav.label") });
         const links = within(nav).getAllByRole("link");
 
         expect(links.map((link) => link.getAttribute("href"))).toEqual([
-            "#agents",
             "#summary",
             "#advantages",
             "#scorecard",
@@ -87,31 +84,10 @@ describe("ComparisonPage with the Barnebys definition", () => {
             "#faq",
             "#verdict",
         ]);
-        expect(links[0]).toHaveTextContent(t("comparison.nav.agents"));
         expect(within(nav).getByRole("link", { name: /Vergleichstabelle/ })).toHaveAttribute(
             "href",
             "#scorecard",
         );
-    });
-
-    it("places the side-note as a section right after the jump nav, before the first chapter", async () => {
-        const { container } = await renderPage();
-
-        const sideNote = screen.getByRole("region", { name: plain("comparison.agents.title") });
-        expect(sideNote.tagName).toBe("SECTION");
-        expect(sideNote.id).toBe("agents");
-        expect(container.querySelector("aside")).toBeNull();
-        expect(sideNote.previousElementSibling?.tagName).toBe("NAV");
-        expect(sideNote.nextElementSibling?.id).toBe("summary");
-
-        expect(sideNote).toHaveTextContent(t("comparison.agents.body"));
-        expect(sideNote).toHaveTextContent("https://mcp.aura-historia.com/v1");
-        expect(sideNote).toHaveTextContent(t("comparison.agents.closing"));
-        expect(
-            within(sideNote).getByRole("link", { name: t("comparison.agents.docsLink") }),
-        ).toHaveAttribute("href", "https://docs.api.aura-historia.com/mcp.md");
-        // A note, not a verdict: no winner badge inside it.
-        expect(sideNote.querySelector("[data-winner]")).toBeNull();
     });
 
     it("shows the quick answer as a section that leads with the verdict, with a tie badge", async () => {
@@ -176,7 +152,7 @@ describe("ComparisonPage with the Barnebys definition", () => {
         ).toBeInTheDocument();
     });
 
-    it("keeps every FAQ answer in the DOM under a stable anchor, ending with AI assistants", async () => {
+    it("keeps every FAQ answer in the DOM under a stable anchor", async () => {
         const { container } = await renderPage();
 
         const faq = getComparisonFaq(BARNEBYS_COMPARISON);
@@ -187,7 +163,6 @@ describe("ComparisonPage with the Barnebys definition", () => {
             "faq-faster-alerts",
             "faq-multilingual-search",
             "faq-outside-auctions",
-            "faq-ai-assistants",
         ]);
         for (const item of faq) {
             const entry = container.querySelector(`#${item.anchor}`);
@@ -229,7 +204,6 @@ describe("ComparisonPage with the Barnebys definition", () => {
 
     it("derives the nav markers from the chapters", () => {
         expect(getComparisonNav(BARNEBYS_COMPARISON).map((item) => item.marker)).toEqual([
-            "MCP",
             "I",
             "III",
             "IV",

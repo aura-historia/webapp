@@ -46,24 +46,16 @@ describe("buildComparisonStructuredData", () => {
         expect(article.about).toHaveLength(5);
     });
 
-    it("emits the visible questions and answers as an FAQPage, the AI-assistants item last", () => {
+    it("emits the visible questions and answers as an FAQPage", () => {
         const [, faqPage] = build();
 
-        expect(faqPage.mainEntity).toHaveLength(BARNEBYS_COMPARISON.faqItems.length + 1);
+        expect(faqPage.mainEntity).toHaveLength(BARNEBYS_COMPARISON.faqItems.length);
         expect(faqPage.mainEntity[0]).toEqual({
             "@type": "Question",
             name: t("compareBarnebysPage.faq.items.alternative.question"),
             acceptedAnswer: {
                 "@type": "Answer",
                 text: t("compareBarnebysPage.faq.items.alternative.answer"),
-            },
-        });
-        expect(faqPage.mainEntity.at(-1)).toEqual({
-            "@type": "Question",
-            name: t("comparison.faq.aiAssistants.question"),
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: t("comparison.faq.aiAssistants.answer"),
             },
         });
     });
@@ -80,7 +72,6 @@ describe("buildComparisonStructuredData", () => {
         ]);
         expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual([
             t("compareFixturePage.faq.items.alternative.question"),
-            t("comparison.faq.aiAssistants.question"),
         ]);
     });
 

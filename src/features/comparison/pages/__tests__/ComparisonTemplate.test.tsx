@@ -55,27 +55,14 @@ describe("ComparisonPage with a second definition", () => {
             within(nav)
                 .getAllByRole("link")
                 .map((link) => link.getAttribute("href")),
-        ).toEqual(["#agents", "#summary", "#advantages", "#scorecard", "#faq", "#verdict"]);
+        ).toEqual(["#summary", "#advantages", "#scorecard", "#faq", "#verdict"]);
         expect(getComparisonNav(FIXTURE_COMPARISON).map((item) => item.marker)).toEqual([
-            "MCP",
             "I",
             "III",
             "IV",
             "V",
             "→",
         ]);
-    });
-
-    it("keeps the shared side-note and the AI-assistants FAQ item", async () => {
-        const { container } = await renderWithin(
-            <ComparisonPage definition={FIXTURE_COMPARISON} />,
-        );
-
-        expect(container.querySelector("section#agents")).not.toBeNull();
-        expect(container.querySelector("#faq-ai-assistants")).toHaveTextContent(
-            i18n.t("comparison.faq.aiAssistants.question"),
-        );
-        expect(container.querySelectorAll("#faq li")).toHaveLength(2);
     });
 
     it("links to the other published comparisons, never to itself", async () => {
