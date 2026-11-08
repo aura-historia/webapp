@@ -22,16 +22,133 @@ export type LocaleCode = keyof typeof LOCALES;
 /**
  * Wording the comparison rules keep off every page: speed and fee comparisons, finances and
  * staffing, unqualified superlatives, hype. Each language bans the same ideas (speed, cost,
- * superlatives, "real time"). Stems are anchored where a short stem would hit unrelated words
- * ("costituisce", "frais" as in "fraises").
+ * superlatives, "real time"). Entries are regular-expression fragments; stems are anchored where
+ * a short stem would hit unrelated words ("costituisce", "frais" as in "fraises").
  */
-export const BANNED_WORDING: Record<LocaleCode, RegExp> = {
-    en: /\b(faster|slower|cheaper|quickly|instant\w*|immediate\w*|fast|outdated|broken|struggling|layoffs?|bankrupt\w*|insolven\w*|commissions?|fees?|premium|more accurate|more complete|real-time|guaranteed|the only|no other|cutting-edge|unlike)\b/i,
-    de: /(schnell|langsamer|sofort|umgehend|günstiger|veraltet|insolvenz|entlassung|kommission|gebühr|kosten|aufgeld|genauer|vollständiger|echtzeit|garantiert|der einzige|einzigartig)/i,
-    es: /(rápid|más lent|al instante|inmediat|más barat|obsolet|despidos|quiebra|comisi[oó]n|tarifa|coste|prima de|más preciso|más complet|tiempo real|garantiz|el único)/i,
-    fr: /(rapide|plus lent|instantan|immédiat|moins cher|plus cher|obsolète|licenci|faillite|commission|\bfrais\b|coût|plus précis|plus complet|temps réel|garanti|le seul)/i,
-    it: /(veloc|più lent|istantane|immediat|più economic|obsolet|licenziament|fallimento|commission|\bcosti\b|più accurat|più complet|tempo reale|garantit|l[’']unico)/i,
+const BANNED_TERMS: Record<
+    LocaleCode,
+    { readonly wholeWords?: boolean; readonly terms: string[] }
+> = {
+    en: {
+        wholeWords: true,
+        terms: [
+            "faster",
+            "slower",
+            "cheaper",
+            "quickly",
+            "instant\\w*",
+            "immediate\\w*",
+            "fast",
+            "outdated",
+            "broken",
+            "struggling",
+            "layoffs?",
+            "bankrupt\\w*",
+            "insolven\\w*",
+            "commissions?",
+            "fees?",
+            "premium",
+            "more accurate",
+            "more complete",
+            "real-time",
+            "guaranteed",
+            "the only",
+            "no other",
+            "cutting-edge",
+            "unlike",
+        ],
+    },
+    de: {
+        terms: [
+            "schnell",
+            "langsamer",
+            "sofort",
+            "umgehend",
+            "günstiger",
+            "veraltet",
+            "insolvenz",
+            "entlassung",
+            "kommission",
+            "gebühr",
+            "kosten",
+            "aufgeld",
+            "genauer",
+            "vollständiger",
+            "echtzeit",
+            "garantiert",
+            "der einzige",
+            "einzigartig",
+        ],
+    },
+    es: {
+        terms: [
+            "rápid",
+            "más lent",
+            "al instante",
+            "inmediat",
+            "más barat",
+            "obsolet",
+            "despidos",
+            "quiebra",
+            "comisi[oó]n",
+            "tarifa",
+            "coste",
+            "prima de",
+            "más preciso",
+            "más complet",
+            "tiempo real",
+            "garantiz",
+            "el único",
+        ],
+    },
+    fr: {
+        terms: [
+            "rapide",
+            "plus lent",
+            "instantan",
+            "immédiat",
+            "moins cher",
+            "plus cher",
+            "obsolète",
+            "licenci",
+            "faillite",
+            "commission",
+            "\\bfrais\\b",
+            "coût",
+            "plus précis",
+            "plus complet",
+            "temps réel",
+            "garanti",
+            "le seul",
+        ],
+    },
+    it: {
+        terms: [
+            "veloc",
+            "più lent",
+            "istantane",
+            "immediat",
+            "più economic",
+            "obsolet",
+            "licenziament",
+            "fallimento",
+            "commission",
+            "\\bcosti\\b",
+            "più accurat",
+            "più complet",
+            "tempo reale",
+            "garantit",
+            "l[’']unico",
+        ],
+    },
 };
+
+export const BANNED_WORDING = Object.fromEntries(
+    Object.entries(BANNED_TERMS).map(([code, { wholeWords, terms }]) => {
+        const alternatives = `(?:${terms.join("|")})`;
+        return [code, new RegExp(wholeWords ? `\\b${alternatives}\\b` : alternatives, "i")];
+    }),
+) as Record<LocaleCode, RegExp>;
 
 /** Every string below `value`, in document order. */
 export function leaves(value: unknown): string[] {
