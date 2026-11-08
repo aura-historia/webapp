@@ -176,6 +176,7 @@
     "sections": {
       "discover": "Descubrir",
       "partners": "Socios",
+      "compare": "Comparativas",
       "company": "Empresa"
     },
     "landingPageLinks": {
@@ -196,8 +197,7 @@
       "apply": "Solicitar la admisión"
     },
     "tagline": "El mercado mundial de arte y antigüedades, en una sola búsqueda.",
-    "socialNavigation": "Redes sociales",
-    "compareBarnebys": "Comparar: Barnebys"
+    "socialNavigation": "Redes sociales"
   },
   "aboutPage": {
     "hero": {

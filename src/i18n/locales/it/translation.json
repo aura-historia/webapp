@@ -176,6 +176,7 @@
     "sections": {
       "discover": "Scoprire",
       "partners": "Partner",
+      "compare": "Confronti",
       "company": "Azienda"
     },
     "landingPageLinks": {
@@ -196,8 +197,7 @@
       "apply": "Richiedi l’ammissione"
     },
     "tagline": "Il mercato globale dell'arte e dell'antiquariato, in un'unica ricerca.",
-    "socialNavigation": "Social media",
-    "compareBarnebys": "Confronto: Barnebys"
+    "socialNavigation": "Social media"
   },
   "aboutPage": {
     "hero": {

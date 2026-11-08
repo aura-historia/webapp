@@ -176,6 +176,7 @@
     "sections": {
       "discover": "Discover",
       "partners": "Partners",
+      "compare": "Comparisons",
       "company": "Company"
     },
     "landingPageLinks": {
@@ -196,8 +197,7 @@
       "apply": "Apply for admission"
     },
     "tagline": "The global art and antiques market, in a single search.",
-    "socialNavigation": "Social media",
-    "compareBarnebys": "Compare: Barnebys"
+    "socialNavigation": "Social media"
   },
   "aboutPage": {
     "hero": {
