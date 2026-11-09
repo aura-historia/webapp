@@ -90,6 +90,10 @@
       "title": "Aura Historia vs 1stDibs | Comparativa de búsqueda de arte y antigüedades",
       "description": "Compara Aura Historia con 1stDibs: un marketplace curado de vendedores aprobados frente a una búsqueda entre comerciantes, casas de subastas y marketplaces de arte, antigüedades y diseño."
     },
+    "compareLiveauctioneers": {
+      "title": "Aura Historia vs LiveAuctioneers | Comparativa de búsqueda de arte y antigüedades",
+      "description": "Compara Aura Historia con LiveAuctioneers, The Saleroom y Lot-tissimo: plataformas de subastas frente a una búsqueda entre casas de subastas, comerciantes y marketplaces."
+    },
     "partnerAccessTokens": {
       "title": "Tokens de acceso | Aura Historia"
     },
@@ -4108,6 +4112,202 @@
       "button": "Buscar arte y antigüedades"
     },
     "positioning": "Un marketplace curado de vendedores aprobados, frente a una búsqueda entre comerciantes, casas de subastas y marketplaces."
+  },
+  "compareLiveauctioneersPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "búsqueda de arte y antigüedades",
+        "auctionPlatform": "plataforma de subastas en línea",
+        "crossProviderSearch": "búsqueda entre casas de subastas, comerciantes y marketplaces",
+        "multilingualSearch": "búsqueda multilingüe de arte y antigüedades",
+        "monitoring": "listas de seguimiento y búsquedas guardadas de arte y antigüedades"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Resumen",
+        "advantages": "Dónde Aura Historia abarca más",
+        "scorecard": "Tabla comparativa",
+        "sources": "Tipos de proveedores",
+        "together": "Cómo encajan ambos",
+        "faq": "Preguntas frecuentes",
+        "verdict": "Veredicto final"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparativa: Aura Historia vs LiveAuctioneers",
+      "title": "Una búsqueda entre muchos proveedores, más allá de una <em>sola plataforma de subastas</em>",
+      "subtitle": "LiveAuctioneers es una plataforma de subastas en línea para pujar en directo y en subastas con cierre programado; The Saleroom y Lot-tissimo son marketplaces del mismo grupo. Aura Historia busca entre casas de subastas, comerciantes y marketplaces codo con codo y no organiza subastas por sí misma.",
+      "primaryCta": "Buscar en todo el mercado",
+      "secondaryCta": "Ver la comparativa",
+      "quickAnswerEyebrow": "En pocas palabras",
+      "quickAnswerTitle": "LiveAuctioneers es para pujar. <em>Aura Historia es para buscar en el mercado.</em>",
+      "quickAnswerDescription": "<strong>Veredicto:</strong> elige LiveAuctioneers, The Saleroom o Lot-tissimo para registrarte y pujar en casas de subastas en sus plataformas. Elige Aura Historia para buscar casas de subastas, comerciantes y marketplaces codo con codo, con los anuncios a precio fijo incluidos, y para seguir objetos entre proveedores."
+    },
+    "quickVerdicts": {
+      "liveBidding": {
+        "label": "Sólido para pujar en directo y con cierre programado en casas de subastas en línea",
+        "value": "LiveAuctioneers"
+      },
+      "searchAcrossProviders": {
+        "label": "Más fuerte para buscar entre casas de subastas, comerciantes y marketplaces",
+        "value": "Aura Historia"
+      },
+      "dealerAndShopStock": {
+        "label": "Más fuerte para buscar el stock de comerciantes y tiendas en distintos sitios web",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Más fuerte para el seguimiento más allá de una sola plataforma",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "La versión <em>corta</em>",
+      "paragraph1": "Aura Historia es una alternativa a LiveAuctioneers, The Saleroom y Lot-tissimo para quienes quieren buscar más allá de una sola plataforma de subastas: casas de subastas, comerciantes, tiendas y marketplaces en un solo lugar, con los anuncios a precio fijo junto a los de subasta.",
+      "paragraph2": "LiveAuctioneers, The Saleroom y Lot-tissimo siguen siendo lugares donde registrarse y pujar en subastas en sus propias plataformas. Aura Historia no organiza subastas ni recibe pujas. Muestra qué se ofrece y dónde, y se puja o se compra con el proveedor."
+    },
+    "respect": {
+      "title": "LiveAuctioneers es una <em>plataforma para pujar</em> consolidada",
+      "paragraph1": "Una comparación justa empieza aquí: LiveAuctioneers, fundado en 2002, afirma que permite a las casas de subastas celebrar en línea subastas en directo y con cierre programado, y describe su público de postores como el mayor de Norteamérica. The Saleroom y Lot-tissimo son los otros marketplaces de subastas de arte y antigüedades del grupo; el grupo describe Lot-tissimo como alemán.",
+      "paragraph2": "Aura Historia no intenta sustituir eso. Responde a otra pregunta: qué se ofrece entre casas de subastas, comerciantes, tiendas y marketplaces, con los anuncios a precio fijo incluidos. Ver un objeto aquí no convierte a Aura Historia en un lugar donde pujar. Se puja donde se ofrece el objeto.",
+      "status": "Auction Technology Group (ATG) opera LiveAuctioneers, The Saleroom y Lot-tissimo. Su informe anual del ejercicio cerrado el 30 de septiembre de 2025 enumera los tres entre sus marketplaces y sitúa la adquisición de Lot-tissimo en 2018 y la de LiveAuctioneers en octubre de 2021."
+    },
+    "advantages": {
+      "title": "Una búsqueda entre proveedores, <em>no el catálogo de una plataforma</em>",
+      "description": "La diferencia es el alcance: objetos de muchos proveedores uno al lado de otro, comerciantes y tiendas junto a las casas de subastas, terminología unificada en cinco idiomas y seguimiento entre proveedores.",
+      "cards": {
+        "oneSearchAcrossVenues": {
+          "title": "Una búsqueda entre lugares de venta",
+          "description": "Los objetos de muchos proveedores están en una sola lista de resultados, en lugar del catálogo de una sola plataforma."
+        },
+        "moreThanAuctionLots": {
+          "title": "Más que lotes de subasta",
+          "description": "Comerciantes, tiendas y marketplaces aparecen con sus propios anuncios, con los de precio fijo incluidos, junto a los anuncios de subasta."
+        },
+        "terminologyAcrossLanguages": {
+          "title": "Terminología unificada entre idiomas",
+          "description": "Los anuncios se traducen y la terminología se unifica entre alemán, inglés, español, francés e italiano, de modo que una búsqueda en un idioma puede encontrar objetos descritos en otro."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Seguimiento entre proveedores",
+          "description": "Las listas de seguimiento, las búsquedas guardadas y las notificaciones funcionan con todos los proveedores del índice, no dentro de una sola plataforma."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia y LiveAuctioneers, <em>punto por punto</em>",
+      "description": "LiveAuctioneers está pensado para pujar en casas de subastas en su plataforma, con The Saleroom y Lot-tissimo como los otros marketplaces del grupo. Aura Historia está pensada para buscar entre proveedores, incluidos comerciantes y anuncios a precio fijo.",
+      "caption": "Comparativa de Aura Historia y LiveAuctioneers, con The Saleroom y Lot-tissimo, para descubrir arte y antigüedades",
+      "headers": {
+        "criterion": "Criterio",
+        "auraHistoria": "Aura Historia",
+        "competitor": "LiveAuctioneers"
+      },
+      "rows": {
+        "liveBidding": {
+          "criterion": "Pujas en directo y con cierre programado",
+          "competitor": "Quienes se registran pujan en LiveAuctioneers en subastas en directo y con cierre programado, en la web y en sus aplicaciones, que además avisan cuando los lotes guardados están a punto de subastarse. The Saleroom y Lot-tissimo también ofrecen subastas en directo y con cierre programado.",
+          "auraHistoria": "No organiza subastas ni recibe pujas. “Ir al proveedor” abre el anuncio en la página del propio proveedor.",
+          "verdict": "LiveAuctioneers para pujar"
+        },
+        "bidderAudience": {
+          "criterion": "Público de postores, tal como lo describe cada servicio",
+          "competitor": "LiveAuctioneers describe su público de postores como el mayor de Norteamérica. Según el informe anual de Auction Technology Group, la incorporación de LiveAuctioneers en 2021 amplió la oferta del grupo al mercado norteamericano de arte y antigüedades.",
+          "auraHistoria": "No hace ninguna afirmación sobre el tamaño de un público. Muestra los anuncios que cada proveedor hace públicos.",
+          "verdict": "LiveAuctioneers por su público"
+        },
+        "providerTypes": {
+          "criterion": "Proveedores más allá de una plataforma",
+          "competitor": "Casas de subastas que publican en LiveAuctioneers.",
+          "auraHistoria": "Casas de subastas, comerciantes, tiendas y marketplaces, cada uno en su propio sitio web o plataforma, en una sola búsqueda.",
+          "verdict": "Aura Historia"
+        },
+        "dealersAndFixedPrice": {
+          "criterion": "Stock de comerciantes y tiendas",
+          "competitor": "Ofrece lotes en subastas en directo y con cierre programado y, según su centro de recursos para casas de subastas, anuncios “Buy Now” de artículos no vendidos.",
+          "auraHistoria": "Busca el stock de comerciantes y tiendas en sus propios sitios web, con las ofertas a precio fijo incluidas, junto a los anuncios de subasta.",
+          "verdict": "Aura Historia entre sitios web"
+        },
+        "languageHandling": {
+          "criterion": "Gestión de idiomas",
+          "competitor": "LiveAuctioneers dice que sus objetos se traducen a tu idioma y a tu moneda. The Saleroom ofrece su sitio en inglés, francés, alemán e italiano, y Lot-tissimo en inglés y alemán.",
+          "auraHistoria": "Cinco idiomas (alemán, inglés, español, francés, italiano), con anuncios traducidos y terminología unificada.",
+          "verdict": "Sin diferencia documentada"
+        },
+        "monitoring": {
+          "criterion": "Seguimiento más allá de una sola plataforma",
+          "competitor": "Seguir una búsqueda para recibir avisos de los objetos que coinciden: las aplicaciones de LiveAuctioneers envían notificaciones sobre las búsquedas guardadas, y The Saleroom y Lot-tissimo envían por correo alertas sobre los nuevos lotes de sus propios sitios.",
+          "auraHistoria": "Las listas de seguimiento, las búsquedas guardadas y las notificaciones cubren todos los proveedores del índice, con los cambios de precio y disponibilidad de los objetos seguidos.",
+          "verdict": "Aura Historia"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Muchos tipos de proveedores cambian <em>lo que puedes ver</em>",
+      "sourcesLabel": "Tipos de proveedores",
+      "sources": {
+        "auctionHouses": "Casas de subastas",
+        "auctionPlatforms": "Plataformas de subastas",
+        "antiqueDealers": "Comerciantes de arte y antigüedades",
+        "privateSellers": "Vendedores privados",
+        "marketplaces": "Marketplaces"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Llega a comerciantes y tiendas",
+          "description": "Muchos comerciantes y tiendas venden en sus propios sitios web. Una búsqueda entre proveedores muestra sus objetos junto a los anuncios de subasta."
+        },
+        "offersSideBySide": {
+          "title": "Ve las ofertas lado a lado",
+          "description": "Los precios de los comerciantes, los anuncios de subasta y las ofertas de marketplaces están en una sola lista de resultados, para que compares lo que hay disponible ahora."
+        },
+        "acrossLanguages": {
+          "title": "Busca en cinco idiomas",
+          "description": "Cuando los anuncios se traducen y la terminología se unifica, el idioma del vendedor o del subastador limita menos a quien colecciona."
+        },
+        "watchAnObject": {
+          "title": "Sigue un objeto concreto",
+          "description": "Una lista de seguimiento sigue un objeto y te avisa de los cambios de precio y disponibilidad, sea cual sea el proveedor que lo anuncie."
+        }
+      }
+    },
+    "together": {
+      "title": "Encuentra los objetos aquí, <em>puja donde se ofrecen</em>",
+      "paragraph1": "Cada uno hace un trabajo distinto. Aura Historia muestra qué se ofrece y dónde. En la página de un anuncio, “Ir al proveedor” abre el anuncio en la página del propio proveedor, en una pestaña nueva.",
+      "paragraph2": "Aura Historia no organiza subastas ni recibe pujas, así que registrarse, pujar o comprar se hace con el proveedor. Para pujar en LiveAuctioneers, The Saleroom o Lot-tissimo, regístrate y puja allí, en sus plataformas. Aura Historia no está vinculada a LiveAuctioneers, The Saleroom ni Lot-tissimo."
+    },
+    "faq": {
+      "title": "Preguntas frecuentes sobre <em>Aura Historia y LiveAuctioneers</em>",
+      "items": {
+        "alternative": {
+          "question": "¿Es Aura Historia una alternativa a LiveAuctioneers?",
+          "answer": "Sí, para quienes quieren buscar más allá de una sola plataforma de subastas. Aura Historia busca arte y antigüedades en casas de subastas, comerciantes, tiendas y marketplaces desde un solo lugar, con los anuncios a precio fijo incluidos. No organiza subastas, así que no es un lugar donde pujar. LiveAuctioneers sigue siendo una plataforma consolidada para pujar en directo y con cierre programado en casas de subastas."
+        },
+        "saleroomAlternative": {
+          "question": "¿Es Aura Historia una alternativa a The Saleroom?",
+          "answer": "Sí, para quienes quieren buscar más allá de una sola plataforma de subastas. The Saleroom es un marketplace donde las casas de subastas celebran subastas en directo y con cierre programado, y su sitio está disponible en inglés, francés, alemán e italiano. Aura Historia busca en un solo lugar casas de subastas, comerciantes, tiendas y marketplaces y no organiza subastas, así que no es un lugar donde pujar. Para pujar en las subastas que se celebran allí, usa The Saleroom."
+        },
+        "lotTissimoAlternative": {
+          "question": "¿Es Aura Historia una alternativa a Lot-tissimo?",
+          "answer": "Sí, para quienes quieren buscar más allá de una sola plataforma de subastas. Lot-tissimo es un marketplace de subastas de arte y antigüedades, y su sitio está disponible en alemán e inglés. Aura Historia busca en cinco idiomas entre casas de subastas, comerciantes, tiendas y marketplaces y no organiza subastas, así que no es un lugar donde pujar. Para pujar en las subastas que se celebran allí, usa Lot-tissimo."
+        },
+        "bid": {
+          "question": "¿Puedo pujar a través de Aura Historia?",
+          "answer": "No. Aura Historia no organiza subastas ni recibe pujas. En la página de un anuncio, “Ir al proveedor” abre el anuncio en la página del propio proveedor, en una pestaña nueva, y allí se hace el registro, la puja o la compra. Para pujar en LiveAuctioneers, The Saleroom o Lot-tissimo, usa sus plataformas."
+        },
+        "related": {
+          "question": "¿Están relacionadas LiveAuctioneers, The Saleroom y Lot-tissimo?",
+          "answer": "Sí. Según el informe anual de Auction Technology Group (ATG) del ejercicio cerrado el 30 de septiembre de 2025, ATG opera los tres entre sus marketplaces; sitúa la adquisición de Lot-tissimo en 2018 y la de LiveAuctioneers en octubre de 2021. Cada uno funciona en su propio sitio web."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "LiveAuctioneers es una plataforma de subastas. <em>Aura Historia es una búsqueda en todo el mercado.</em>",
+      "description": "Si tu búsqueda debe incluir comerciantes, tiendas y marketplaces además de casas de subastas, empieza por Aura Historia.",
+      "button": "Buscar arte y antigüedades"
+    },
+    "positioning": "Una plataforma de subastas en línea para pujar en directo y con cierre programado, con dos marketplaces más del mismo grupo, frente a una búsqueda entre casas de subastas, comerciantes y marketplaces que no organiza subastas."
   },
   "partnerAccessTokens": {
     "create": {

@@ -90,6 +90,10 @@
       "title": "Aura Historia vs 1stDibs | Comparatif de recherche d’art et d’antiquités",
       "description": "Comparez Aura Historia et 1stDibs : une place de marché triée sur le volet, de vendeurs approuvés, face à une recherche entre marchands, maisons de ventes et places de marché d’art, d’antiquités et de design."
     },
+    "compareLiveauctioneers": {
+      "title": "Aura Historia vs LiveAuctioneers | Comparatif de recherche d’art et d’antiquités",
+      "description": "Comparez Aura Historia avec LiveAuctioneers, The Saleroom et Lot-tissimo : plateformes d’enchères face à une recherche entre maisons de ventes, marchands et places de marché."
+    },
     "partnerAccessTokens": {
       "title": "Jetons d'accès | Aura Historia"
     },
@@ -4108,6 +4112,202 @@
       "button": "Rechercher de l’art et des antiquités"
     },
     "positioning": "Une place de marché triée sur le volet, avec des vendeurs approuvés, face à une recherche entre marchands, maisons de ventes et places de marché."
+  },
+  "compareLiveauctioneersPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "recherche d’art et d’antiquités",
+        "auctionPlatform": "plateforme d’enchères en ligne",
+        "crossProviderSearch": "recherche entre maisons de ventes, marchands et places de marché",
+        "multilingualSearch": "recherche multilingue d’art et d’antiquités",
+        "monitoring": "listes de surveillance et recherches enregistrées pour l’art et les antiquités"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Résumé",
+        "advantages": "Là où Aura Historia voit plus large",
+        "scorecard": "Tableau comparatif",
+        "sources": "Types de fournisseurs",
+        "together": "Comment les deux se complètent",
+        "faq": "FAQ",
+        "verdict": "Verdict final"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparatif : Aura Historia vs LiveAuctioneers",
+      "title": "Une recherche entre de nombreux fournisseurs, au-delà d’une <em>seule plateforme d’enchères</em>",
+      "subtitle": "LiveAuctioneers est une plateforme d’enchères en ligne pour enchérir en direct et dans des ventes à durée limitée ; The Saleroom et Lot-tissimo sont des places de marché du même groupe. Aura Historia cherche côte à côte parmi les maisons de ventes, les marchands et les places de marché, et n’organise pas elle-même de ventes aux enchères.",
+      "primaryCta": "Chercher sur tout le marché",
+      "secondaryCta": "Voir le comparatif",
+      "quickAnswerEyebrow": "En bref",
+      "quickAnswerTitle": "LiveAuctioneers sert à enchérir. <em>Aura Historia sert à chercher sur le marché.</em>",
+      "quickAnswerDescription": "<strong>Verdict :</strong> choisissez LiveAuctioneers, The Saleroom ou Lot-tissimo pour vous inscrire et enchérir auprès de maisons de ventes sur leurs plateformes. Choisissez Aura Historia pour chercher côte à côte parmi les maisons de ventes, les marchands et les places de marché, annonces à prix fixe comprises, et pour suivre des objets chez plusieurs fournisseurs."
+    },
+    "quickVerdicts": {
+      "liveBidding": {
+        "label": "Solide pour enchérir en ligne, en direct et dans des ventes à durée limitée, auprès de maisons de ventes",
+        "value": "LiveAuctioneers"
+      },
+      "searchAcrossProviders": {
+        "label": "Plus fort pour chercher parmi les maisons de ventes, les marchands et les places de marché",
+        "value": "Aura Historia"
+      },
+      "dealerAndShopStock": {
+        "label": "Plus fort pour chercher le stock des marchands et des boutiques sur plusieurs sites",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Plus fort pour le suivi au-delà d’une seule plateforme",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "La version <em>courte</em>",
+      "paragraph1": "Aura Historia est une alternative à LiveAuctioneers, The Saleroom et Lot-tissimo pour les collectionneurs qui veulent chercher au-delà d’une seule plateforme d’enchères : maisons de ventes, marchands, boutiques et places de marché au même endroit, avec les annonces à prix fixe à côté des annonces d’enchères.",
+      "paragraph2": "LiveAuctioneers, The Saleroom et Lot-tissimo restent des endroits où s’inscrire et enchérir dans des ventes sur leurs propres plateformes. Aura Historia n’organise pas de ventes aux enchères et ne reçoit pas d’enchères. Elle montre ce qui est proposé et où, et l’on enchérit ou l’on achète auprès du fournisseur."
+    },
+    "respect": {
+      "title": "LiveAuctioneers est une <em>plateforme pour enchérir</em> établie",
+      "paragraph1": "Une comparaison équitable commence ici : LiveAuctioneers, fondé en 2002, affirme permettre aux maisons de ventes d’organiser en ligne des enchères en direct et à durée limitée, et décrit son public d’enchérisseurs comme le plus grand d’Amérique du Nord. The Saleroom et Lot-tissimo sont les autres places de marché d’enchères d’art et d’antiquités du groupe ; le groupe décrit Lot-tissimo comme allemande.",
+      "paragraph2": "Aura Historia ne cherche pas à remplacer cela. Elle répond à une autre question : ce qui est proposé chez les maisons de ventes, les marchands, les boutiques et les places de marché, annonces à prix fixe comprises. Voir un objet ici ne fait pas d’Aura Historia un lieu où enchérir. On enchérit là où l’objet est proposé.",
+      "status": "Auction Technology Group (ATG) exploite LiveAuctioneers, The Saleroom et Lot-tissimo. Son rapport annuel pour l’exercice clos le 30 septembre 2025 les cite toutes les trois parmi ses places de marché et date le rachat de Lot-tissimo de 2018 et celui de LiveAuctioneers d’octobre 2021."
+    },
+    "advantages": {
+      "title": "Une recherche entre fournisseurs, <em>et non le catalogue d’une plateforme</em>",
+      "description": "La différence tient à l’étendue : objets de nombreux fournisseurs côte à côte, marchands et boutiques à côté des maisons de ventes, terminologie harmonisée en cinq langues et suivi chez plusieurs fournisseurs.",
+      "cards": {
+        "oneSearchAcrossVenues": {
+          "title": "Une recherche entre lieux de vente",
+          "description": "Les objets de nombreux fournisseurs figurent dans une seule liste de résultats, plutôt que dans le catalogue d’une seule plateforme."
+        },
+        "moreThanAuctionLots": {
+          "title": "Plus que des lots mis aux enchères",
+          "description": "Marchands, boutiques et places de marché apparaissent avec leurs propres annonces, offres à prix fixe comprises, à côté des annonces d’enchères."
+        },
+        "terminologyAcrossLanguages": {
+          "title": "Une terminologie harmonisée entre les langues",
+          "description": "Les annonces sont traduites et la terminologie est harmonisée entre l’allemand, l’anglais, l’espagnol, le français et l’italien : une recherche dans une langue peut ainsi trouver des objets décrits dans une autre."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Un suivi chez plusieurs fournisseurs",
+          "description": "Les listes de surveillance, les recherches enregistrées et les notifications fonctionnent auprès de tous les fournisseurs de l’index, et non au sein d’une seule plateforme."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia et LiveAuctioneers, <em>point par point</em>",
+      "description": "LiveAuctioneers est conçu pour enchérir auprès de maisons de ventes sur sa plateforme, avec The Saleroom et Lot-tissimo comme autres places de marché du groupe. Aura Historia est conçue pour chercher entre fournisseurs, y compris les marchands et les annonces à prix fixe.",
+      "caption": "Comparatif d’Aura Historia et de LiveAuctioneers, avec The Saleroom et Lot-tissimo, pour la découverte d’art et d’antiquités",
+      "headers": {
+        "criterion": "Critère",
+        "auraHistoria": "Aura Historia",
+        "competitor": "LiveAuctioneers"
+      },
+      "rows": {
+        "liveBidding": {
+          "criterion": "Enchères en direct et à durée limitée",
+          "competitor": "Les enchérisseurs inscrits enchérissent sur LiveAuctioneers dans des ventes en direct et à durée limitée, sur le web et dans ses applications, qui les avertissent aussi quand des lots enregistrés vont bientôt passer. The Saleroom et Lot-tissimo proposent aussi des ventes en direct et à durée limitée.",
+          "auraHistoria": "N’organise pas de ventes aux enchères et ne reçoit pas d’enchères. « Voir chez le fournisseur » ouvre l’annonce sur la page du fournisseur lui-même.",
+          "verdict": "LiveAuctioneers pour enchérir"
+        },
+        "bidderAudience": {
+          "criterion": "Public d’enchérisseurs, tel que chaque service le décrit",
+          "competitor": "LiveAuctioneers décrit son public d’enchérisseurs comme le plus grand d’Amérique du Nord. Selon le rapport annuel d’Auction Technology Group, l’intégration de LiveAuctioneers en 2021 a étendu l’offre du groupe au marché nord-américain de l’art et des antiquités.",
+          "auraHistoria": "Ne fait aucune affirmation sur la taille d’un public. Montre les annonces que chaque fournisseur rend publiques.",
+          "verdict": "LiveAuctioneers pour le public"
+        },
+        "providerTypes": {
+          "criterion": "Fournisseurs au-delà d’une plateforme",
+          "competitor": "Des maisons de ventes qui publient sur LiveAuctioneers.",
+          "auraHistoria": "Maisons de ventes, marchands, boutiques et places de marché, chacun sur son propre site ou sa propre plateforme, dans une seule recherche.",
+          "verdict": "Aura Historia"
+        },
+        "dealersAndFixedPrice": {
+          "criterion": "Stock des marchands et des boutiques",
+          "competitor": "Propose des lots dans des ventes en direct et à durée limitée et, selon son centre de ressources pour les maisons de ventes, des annonces « Buy Now » d’articles invendus.",
+          "auraHistoria": "Recherche le stock des marchands et des boutiques sur leurs propres sites, offres à prix fixe comprises, à côté des annonces d’enchères.",
+          "verdict": "Aura Historia sur plusieurs sites"
+        },
+        "languageHandling": {
+          "criterion": "Gestion des langues",
+          "competitor": "LiveAuctioneers dit que ses objets sont traduits dans votre langue et votre devise. The Saleroom propose son site en anglais, français, allemand et italien, Lot-tissimo en anglais et allemand.",
+          "auraHistoria": "Cinq langues (allemand, anglais, espagnol, français, italien), avec des annonces traduites et une terminologie harmonisée.",
+          "verdict": "Aucune différence documentée"
+        },
+        "monitoring": {
+          "criterion": "Suivi au-delà d’une seule plateforme",
+          "competitor": "Suivre une recherche pour être averti des objets correspondants : les applications de LiveAuctioneers envoient des notifications pour les recherches enregistrées, et The Saleroom et Lot-tissimo envoient par e-mail des alertes sur les nouveaux lots de leurs propres sites.",
+          "auraHistoria": "Les listes de surveillance, les recherches enregistrées et les notifications couvrent tous les fournisseurs de l’index, avec les changements de prix et de disponibilité des objets suivis.",
+          "verdict": "Aura Historia"
+        }
+      }
+    },
+    "downstream": {
+      "title": "De nombreux types de fournisseurs changent <em>ce que vous pouvez voir</em>",
+      "sourcesLabel": "Types de fournisseurs",
+      "sources": {
+        "auctionHouses": "Maisons de ventes",
+        "auctionPlatforms": "Plateformes d’enchères",
+        "antiqueDealers": "Marchands d’art et d’antiquités",
+        "privateSellers": "Vendeurs privés",
+        "marketplaces": "Places de marché"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Atteindre marchands et boutiques",
+          "description": "De nombreux marchands et boutiques vendent sur leur propre site web. Une recherche entre fournisseurs affiche leurs objets à côté des annonces d’enchères."
+        },
+        "offersSideBySide": {
+          "title": "Voir les offres côte à côte",
+          "description": "Les prix demandés par les marchands, les annonces d’enchères et les offres des places de marché figurent dans une seule liste de résultats : vous comparez ce qui est disponible maintenant."
+        },
+        "acrossLanguages": {
+          "title": "Chercher en cinq langues",
+          "description": "Quand les annonces sont traduites et la terminologie harmonisée, la langue du vendeur ou du commissaire-priseur limite moins un collectionneur."
+        },
+        "watchAnObject": {
+          "title": "Suivre un objet précis",
+          "description": "Une liste de surveillance suit un objet et vous avertit des changements de prix et de disponibilité, quel que soit le fournisseur qui l’annonce."
+        }
+      }
+    },
+    "together": {
+      "title": "Trouvez les objets ici, <em>enchérissez là où ils sont proposés</em>",
+      "paragraph1": "Chacun a un rôle différent. Aura Historia montre ce qui est proposé et où. Sur la page d’une annonce, « Voir chez le fournisseur » ouvre l’annonce sur la page du fournisseur lui-même, dans un nouvel onglet.",
+      "paragraph2": "Aura Historia n’organise pas de ventes aux enchères et ne reçoit pas d’enchères : l’inscription, l’enchère ou l’achat se font donc auprès du fournisseur. Pour enchérir sur LiveAuctioneers, The Saleroom ou Lot-tissimo, inscrivez-vous et enchérissez là-bas, sur leurs plateformes. Aura Historia n’est pas affiliée à LiveAuctioneers, The Saleroom ni Lot-tissimo."
+    },
+    "faq": {
+      "title": "Questions fréquentes sur <em>Aura Historia et LiveAuctioneers</em>",
+      "items": {
+        "alternative": {
+          "question": "Aura Historia est-elle une alternative à LiveAuctioneers ?",
+          "answer": "Oui, pour les acheteurs qui veulent chercher au-delà d’une seule plateforme d’enchères. Aura Historia recherche l’art et les antiquités au même endroit, parmi les maisons de ventes, les marchands, les boutiques et les places de marché, annonces à prix fixe comprises. Elle n’organise pas de ventes aux enchères : ce n’est donc pas un lieu où enchérir. LiveAuctioneers reste une plateforme établie pour enchérir en direct et dans des ventes à durée limitée auprès de maisons de ventes."
+        },
+        "saleroomAlternative": {
+          "question": "Aura Historia est-elle une alternative à The Saleroom ?",
+          "answer": "Oui, pour les acheteurs qui veulent chercher au-delà d’une seule plateforme d’enchères. The Saleroom est une place de marché où des maisons de ventes tiennent des ventes en direct et à durée limitée, et son site existe en anglais, français, allemand et italien. Aura Historia recherche au même endroit parmi les maisons de ventes, les marchands, les boutiques et les places de marché et n’organise pas de ventes aux enchères : ce n’est donc pas un lieu où enchérir. Pour enchérir dans les ventes qui s’y tiennent, utilisez The Saleroom."
+        },
+        "lotTissimoAlternative": {
+          "question": "Aura Historia est-elle une alternative à Lot-tissimo ?",
+          "answer": "Oui, pour les acheteurs qui veulent chercher au-delà d’une seule plateforme d’enchères. Lot-tissimo est une place de marché d’enchères d’art et d’antiquités, et son site existe en allemand et en anglais. Aura Historia recherche en cinq langues parmi les maisons de ventes, les marchands, les boutiques et les places de marché et n’organise pas de ventes aux enchères : ce n’est donc pas un lieu où enchérir. Pour enchérir dans les ventes qui s’y tiennent, utilisez Lot-tissimo."
+        },
+        "bid": {
+          "question": "Puis-je enchérir via Aura Historia ?",
+          "answer": "Non. Aura Historia n’organise pas de ventes aux enchères et ne reçoit pas d’enchères. Sur la page d’une annonce, « Voir chez le fournisseur » ouvre l’annonce sur la page du fournisseur lui-même, dans un nouvel onglet ; l’inscription, l’enchère ou l’achat s’y font. Pour enchérir sur LiveAuctioneers, The Saleroom ou Lot-tissimo, utilisez leurs plateformes."
+        },
+        "related": {
+          "question": "LiveAuctioneers, The Saleroom et Lot-tissimo sont-elles liées ?",
+          "answer": "Oui. Selon le rapport annuel d’Auction Technology Group (ATG) pour l’exercice clos le 30 septembre 2025, ATG exploite les trois parmi ses places de marché ; il date le rachat de Lot-tissimo de 2018 et celui de LiveAuctioneers d’octobre 2021. Chacune fonctionne sur son propre site web."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "LiveAuctioneers est une plateforme d’enchères. <em>Aura Historia est une recherche sur tout le marché.</em>",
+      "description": "Si votre recherche doit inclure les marchands, les boutiques et les places de marché en plus des maisons de ventes, commencez par Aura Historia.",
+      "button": "Rechercher de l’art et des antiquités"
+    },
+    "positioning": "Une plateforme d’enchères en ligne pour enchérir en direct et dans des ventes à durée limitée, avec deux autres places de marché du même groupe, face à une recherche entre maisons de ventes, marchands et places de marché qui n’organise pas d’enchères."
   },
   "partnerAccessTokens": {
     "create": {

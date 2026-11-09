@@ -90,6 +90,10 @@
       "title": "Aura Historia vs 1stDibs | Confronto sulla ricerca di arte e antiquariato",
       "description": "Confronta Aura Historia e 1stDibs: un marketplace curato di venditori approvati a confronto con una ricerca tra commercianti, case d’asta e marketplace di arte, antiquariato e design."
     },
+    "compareLiveauctioneers": {
+      "title": "Aura Historia vs LiveAuctioneers | Confronto sulla ricerca di arte e antiquariato",
+      "description": "Confronta Aura Historia con LiveAuctioneers, The Saleroom e Lot-tissimo: piattaforme d’asta a confronto con una ricerca tra case d’asta, commercianti e marketplace."
+    },
     "partnerAccessTokens": {
       "title": "Token di accesso | Aura Historia"
     },
@@ -4108,6 +4112,202 @@
       "button": "Cerca arte e antiquariato"
     },
     "positioning": "Un marketplace curato di venditori approvati, a confronto con una ricerca tra commercianti, case d’asta e marketplace."
+  },
+  "compareLiveauctioneersPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "ricerca di arte e antiquariato",
+        "auctionPlatform": "piattaforma d’asta online",
+        "crossProviderSearch": "ricerca tra case d’asta, commercianti e marketplace",
+        "multilingualSearch": "ricerca multilingue di arte e antiquariato",
+        "monitoring": "liste dei preferiti e ricerche salvate per arte e antiquariato"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Riepilogo",
+        "advantages": "Dove Aura Historia è più ampia",
+        "scorecard": "Tabella comparativa",
+        "sources": "Tipi di fornitori",
+        "together": "Come si completano i due servizi",
+        "faq": "Domande frequenti",
+        "verdict": "Verdetto finale"
+      }
+    },
+    "hero": {
+      "eyebrow": "Confronto: Aura Historia vs LiveAuctioneers",
+      "title": "Una ricerca tra molti fornitori, oltre una <em>singola piattaforma d’asta</em>",
+      "subtitle": "LiveAuctioneers è una piattaforma d’asta online per fare offerte dal vivo e nelle aste a tempo; The Saleroom e Lot-tissimo sono marketplace dello stesso gruppo. Aura Historia cerca fianco a fianco tra case d’asta, commercianti e marketplace e non organizza aste in proprio.",
+      "primaryCta": "Cerca su tutto il mercato",
+      "secondaryCta": "Vedi il confronto",
+      "quickAnswerEyebrow": "In breve",
+      "quickAnswerTitle": "LiveAuctioneers serve per fare offerte. <em>Aura Historia serve per cercare sul mercato.</em>",
+      "quickAnswerDescription": "<strong>Verdetto:</strong> scegli LiveAuctioneers, The Saleroom o Lot-tissimo per registrarti e fare offerte presso case d’asta sulle loro piattaforme. Scegli Aura Historia per cercare fianco a fianco tra case d’asta, commercianti e marketplace, annunci a prezzo fisso compresi, e per seguire gli oggetti tra più fornitori."
+    },
+    "quickVerdicts": {
+      "liveBidding": {
+        "label": "Solido per fare offerte online in aste dal vivo e a tempo presso case d’asta",
+        "value": "LiveAuctioneers"
+      },
+      "searchAcrossProviders": {
+        "label": "Più forte per cercare tra case d’asta, commercianti e marketplace",
+        "value": "Aura Historia"
+      },
+      "dealerAndShopStock": {
+        "label": "Più forte per cercare l’offerta di commercianti e negozi su più siti web",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Più forte per il monitoraggio oltre una singola piattaforma",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "La versione <em>breve</em>",
+      "paragraph1": "Aura Historia è un’alternativa a LiveAuctioneers, The Saleroom e Lot-tissimo per chi vuole cercare oltre una sola piattaforma d’asta: case d’asta, commercianti, negozi e marketplace in un unico posto, con gli annunci a prezzo fisso accanto a quelli d’asta.",
+      "paragraph2": "LiveAuctioneers, The Saleroom e Lot-tissimo restano luoghi in cui registrarsi e fare offerte nelle aste sulle loro piattaforme. Aura Historia non organizza aste e non accetta offerte. Mostra che cosa viene offerto e dove, e si fa un’offerta o si acquista presso il fornitore."
+    },
+    "respect": {
+      "title": "LiveAuctioneers è una <em>piattaforma affermata per fare offerte</em>",
+      "paragraph1": "Un confronto corretto parte da qui: LiveAuctioneers, fondato nel 2002, dichiara di permettere alle case d’asta di tenere online aste dal vivo e a tempo, e descrive il proprio pubblico di offerenti come il più grande del Nord America. The Saleroom e Lot-tissimo sono gli altri marketplace d’asta di arte e antiquariato del gruppo; il gruppo descrive Lot-tissimo come tedesco.",
+      "paragraph2": "Aura Historia non cerca di sostituire tutto questo. Risponde a un’altra domanda: che cosa viene offerto tra case d’asta, commercianti, negozi e marketplace, annunci a prezzo fisso compresi. Vedere un oggetto qui non rende Aura Historia un luogo in cui fare offerte. Si fa l’offerta dove l’oggetto è proposto.",
+      "status": "Auction Technology Group (ATG) gestisce LiveAuctioneers, The Saleroom e Lot-tissimo. Il suo rapporto annuale per l’esercizio chiuso il 30 settembre 2025 li elenca tutti e tre tra i suoi marketplace e colloca l’acquisizione di Lot-tissimo nel 2018 e quella di LiveAuctioneers a ottobre 2021."
+    },
+    "advantages": {
+      "title": "Una ricerca tra fornitori, <em>non il catalogo di una piattaforma</em>",
+      "description": "La differenza sta nell’ampiezza: oggetti di molti fornitori affiancati, commercianti e negozi accanto alle case d’asta, terminologia allineata in cinque lingue e monitoraggio tra più fornitori.",
+      "cards": {
+        "oneSearchAcrossVenues": {
+          "title": "Una ricerca tra luoghi di vendita",
+          "description": "Gli oggetti di molti fornitori sono in un’unica lista di risultati, invece che nel catalogo di una sola piattaforma."
+        },
+        "moreThanAuctionLots": {
+          "title": "Non solo lotti d’asta",
+          "description": "Commercianti, negozi e marketplace compaiono con i propri annunci, inclusi quelli a prezzo fisso, accanto agli annunci d’asta."
+        },
+        "terminologyAcrossLanguages": {
+          "title": "Terminologia allineata tra le lingue",
+          "description": "Gli annunci sono tradotti e la terminologia è allineata tra tedesco, inglese, spagnolo, francese e italiano, così una ricerca in una lingua può trovare oggetti descritti in un’altra."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Monitoraggio tra più fornitori",
+          "description": "Liste dei preferiti, ricerche salvate e notifiche funzionano su tutti i fornitori dell’indice, non all’interno di una sola piattaforma."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia e LiveAuctioneers, <em>punto per punto</em>",
+      "description": "LiveAuctioneers è pensato per fare offerte presso case d’asta sulla sua piattaforma, con The Saleroom e Lot-tissimo come altri marketplace del gruppo. Aura Historia è pensata per cercare tra fornitori, compresi commercianti e annunci a prezzo fisso.",
+      "caption": "Confronto tra Aura Historia e LiveAuctioneers, con The Saleroom e Lot-tissimo, per la scoperta di arte e antiquariato",
+      "headers": {
+        "criterion": "Criterio",
+        "auraHistoria": "Aura Historia",
+        "competitor": "LiveAuctioneers"
+      },
+      "rows": {
+        "liveBidding": {
+          "criterion": "Offerte dal vivo e a tempo",
+          "competitor": "Chi si registra fa offerte su LiveAuctioneers in aste dal vivo e a tempo, sul web e nelle sue app, che avvisano anche quando i lotti salvati stanno per andare in asta. Anche The Saleroom e Lot-tissimo offrono aste dal vivo e a tempo.",
+          "auraHistoria": "Non organizza aste e non accetta offerte. “Vai al fornitore” apre l’annuncio sulla pagina del fornitore stesso.",
+          "verdict": "LiveAuctioneers per le offerte"
+        },
+        "bidderAudience": {
+          "criterion": "Pubblico di offerenti, come lo descrive ciascun servizio",
+          "competitor": "LiveAuctioneers descrive il proprio pubblico di offerenti come il più grande del Nord America. Secondo il rapporto annuale di Auction Technology Group, l’ingresso di LiveAuctioneers nel 2021 ha esteso l’offerta del gruppo al mercato nordamericano di arte e antiquariato.",
+          "auraHistoria": "Non fa alcuna affermazione sulle dimensioni di un pubblico. Mostra gli annunci che ogni fornitore rende pubblici.",
+          "verdict": "LiveAuctioneers per il pubblico"
+        },
+        "providerTypes": {
+          "criterion": "Fornitori oltre una singola piattaforma",
+          "competitor": "Case d’asta che pubblicano su LiveAuctioneers.",
+          "auraHistoria": "Case d’asta, commercianti, negozi e marketplace, ciascuno sul proprio sito web o sulla propria piattaforma, in un’unica ricerca.",
+          "verdict": "Aura Historia"
+        },
+        "dealersAndFixedPrice": {
+          "criterion": "Offerta di commercianti e negozi",
+          "competitor": "Propone lotti in aste dal vivo e a tempo e, secondo il suo centro risorse per le case d’asta, annunci “Buy Now” di articoli invenduti.",
+          "auraHistoria": "Cerca l’offerta di commercianti e negozi sui loro siti web, proposte a prezzo fisso comprese, accanto agli annunci d’asta.",
+          "verdict": "Aura Historia su più siti web"
+        },
+        "languageHandling": {
+          "criterion": "Gestione delle lingue",
+          "competitor": "LiveAuctioneers dice che i suoi oggetti sono tradotti nella tua lingua e nella tua valuta. The Saleroom offre il suo sito in inglese, francese, tedesco e italiano, Lot-tissimo in inglese e tedesco.",
+          "auraHistoria": "Cinque lingue (tedesco, inglese, spagnolo, francese, italiano), con annunci tradotti e terminologia allineata.",
+          "verdict": "Nessuna differenza documentata"
+        },
+        "monitoring": {
+          "criterion": "Monitoraggio oltre una singola piattaforma",
+          "competitor": "Seguire una ricerca per essere avvisati degli oggetti corrispondenti: le app di LiveAuctioneers inviano notifiche per le ricerche salvate, e The Saleroom e Lot-tissimo inviano via e-mail avvisi sui nuovi lotti dei propri siti.",
+          "auraHistoria": "Liste dei preferiti, ricerche salvate e notifiche coprono tutti i fornitori dell’indice, con le variazioni di prezzo e disponibilità degli oggetti seguiti.",
+          "verdict": "Aura Historia"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Molti tipi di fornitori cambiano <em>ciò che puoi vedere</em>",
+      "sourcesLabel": "Tipi di fornitori",
+      "sources": {
+        "auctionHouses": "Case d’asta",
+        "auctionPlatforms": "Piattaforme d’asta",
+        "antiqueDealers": "Commercianti di arte e antiquariato",
+        "privateSellers": "Venditori privati",
+        "marketplaces": "Marketplace"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Raggiungi commercianti e negozi",
+          "description": "Molti commercianti e negozi vendono sui propri siti web. Una ricerca tra fornitori mostra i loro oggetti accanto agli annunci d’asta."
+        },
+        "offersSideBySide": {
+          "title": "Vedi le offerte affiancate",
+          "description": "I prezzi richiesti dai commercianti, gli annunci d’asta e le offerte dei marketplace stanno in un’unica lista di risultati, così puoi confrontare ciò che è disponibile adesso."
+        },
+        "acrossLanguages": {
+          "title": "Cerca in cinque lingue",
+          "description": "Quando gli annunci sono tradotti e la terminologia è allineata, la lingua del venditore o del banditore limita meno chi colleziona."
+        },
+        "watchAnObject": {
+          "title": "Segui un singolo oggetto",
+          "description": "Una lista dei preferiti segue un oggetto e ti avvisa delle variazioni di prezzo e disponibilità, qualunque fornitore lo proponga."
+        }
+      }
+    },
+    "together": {
+      "title": "Trova gli oggetti qui, <em>fai offerte dove vengono proposti</em>",
+      "paragraph1": "I due servizi hanno compiti diversi. Aura Historia mostra che cosa viene offerto e dove. Nella pagina di un annuncio, “Vai al fornitore” apre l’annuncio sulla pagina del fornitore stesso, in una nuova scheda.",
+      "paragraph2": "Aura Historia non organizza aste e non accetta offerte, quindi registrarsi, fare un’offerta o acquistare avviene presso il fornitore. Per fare offerte su LiveAuctioneers, The Saleroom o Lot-tissimo, registrati e fai l’offerta lì, sulle loro piattaforme. Aura Historia non è affiliata a LiveAuctioneers, The Saleroom né a Lot-tissimo."
+    },
+    "faq": {
+      "title": "Domande frequenti su <em>Aura Historia e LiveAuctioneers</em>",
+      "items": {
+        "alternative": {
+          "question": "Aura Historia è un’alternativa a LiveAuctioneers?",
+          "answer": "Sì, per chi vuole cercare oltre una sola piattaforma d’asta. Aura Historia cerca arte e antiquariato in un unico posto, tra case d’asta, commercianti, negozi e marketplace, annunci a prezzo fisso compresi. Non organizza aste, quindi non è un luogo in cui fare offerte. LiveAuctioneers resta una piattaforma affermata per fare offerte in aste dal vivo e a tempo presso le case d’asta."
+        },
+        "saleroomAlternative": {
+          "question": "Aura Historia è un’alternativa a The Saleroom?",
+          "answer": "Sì, per chi vuole cercare oltre una sola piattaforma d’asta. The Saleroom è un marketplace in cui le case d’asta tengono aste dal vivo e a tempo, e il suo sito è disponibile in inglese, francese, tedesco e italiano. Aura Historia cerca in un unico posto tra case d’asta, commercianti, negozi e marketplace e non organizza aste, quindi non è un luogo in cui fare offerte. Per fare offerte nelle aste che vi si tengono, usa The Saleroom."
+        },
+        "lotTissimoAlternative": {
+          "question": "Aura Historia è un’alternativa a Lot-tissimo?",
+          "answer": "Sì, per chi vuole cercare oltre una sola piattaforma d’asta. Lot-tissimo è un marketplace d’asta di arte e antiquariato, e il suo sito è disponibile in tedesco e inglese. Aura Historia cerca in cinque lingue tra case d’asta, commercianti, negozi e marketplace e non organizza aste, quindi non è un luogo in cui fare offerte. Per fare offerte nelle aste che vi si tengono, usa Lot-tissimo."
+        },
+        "bid": {
+          "question": "Posso fare offerte tramite Aura Historia?",
+          "answer": "No. Aura Historia non organizza aste e non accetta offerte. Nella pagina di un annuncio, “Vai al fornitore” apre l’annuncio sulla pagina del fornitore stesso, in una nuova scheda; lì si fa la registrazione, l’offerta o l’acquisto. Per fare offerte su LiveAuctioneers, The Saleroom o Lot-tissimo, usa le loro piattaforme."
+        },
+        "related": {
+          "question": "LiveAuctioneers, The Saleroom e Lot-tissimo sono collegate?",
+          "answer": "Sì. Secondo il rapporto annuale di Auction Technology Group (ATG) per l’esercizio chiuso il 30 settembre 2025, ATG gestisce tutti e tre tra i suoi marketplace; il rapporto colloca l’acquisizione di Lot-tissimo nel 2018 e quella di LiveAuctioneers a ottobre 2021. Ciascuno funziona sul proprio sito web."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "LiveAuctioneers è una piattaforma per le aste. <em>Aura Historia è una ricerca su tutto il mercato.</em>",
+      "description": "Se la tua ricerca deve includere commercianti, negozi e marketplace oltre alle case d’asta, comincia da Aura Historia.",
+      "button": "Cerca arte e antiquariato"
+    },
+    "positioning": "Una piattaforma d’asta online per fare offerte in aste dal vivo e a tempo, con altri due marketplace dello stesso gruppo, a confronto con una ricerca tra case d’asta, commercianti e marketplace che non organizza aste."
   },
   "partnerAccessTokens": {
     "create": {

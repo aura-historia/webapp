@@ -96,6 +96,10 @@
       "title": "Aura Historia vs 1stDibs | Art and Antiques Search Comparison",
       "description": "Compare Aura Historia with 1stDibs: a curated marketplace of approved sellers versus a search across dealers, auction houses and marketplaces for art, antiques and design."
     },
+    "compareLiveauctioneers": {
+      "title": "Aura Historia vs LiveAuctioneers | Art and Antiques Search Comparison",
+      "description": "Compare Aura Historia with LiveAuctioneers, The Saleroom and Lot-tissimo: auction platforms versus a search across auction houses, dealers and marketplaces."
+    },
     "newsletterConfirm": {
       "title": "Confirm newsletter subscription | Aura Historia"
     },
@@ -4300,6 +4304,202 @@
       "button": "Start searching art and antiques"
     },
     "positioning": "A curated marketplace of approved sellers, compared with a search across dealers, auction houses and marketplaces."
+  },
+  "compareLiveauctioneersPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "art and antiques search",
+        "auctionPlatform": "online auction platform",
+        "crossProviderSearch": "search across auction houses, dealers and marketplaces",
+        "multilingualSearch": "multilingual art and antiques search",
+        "monitoring": "art and antiques watchlists and saved searches"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Summary",
+        "advantages": "Where Aura Historia is wider",
+        "scorecard": "Comparison table",
+        "sources": "Provider types",
+        "together": "How the two fit together",
+        "faq": "FAQ",
+        "verdict": "Final verdict"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparison: Aura Historia vs LiveAuctioneers",
+      "title": "A search across many providers, beyond a <em>single auction platform</em>",
+      "subtitle": "LiveAuctioneers is an online auction platform for live and timed bidding; The Saleroom and Lot-tissimo are marketplaces of the same group. Aura Historia searches auction houses, dealers and marketplaces side by side and runs no auctions of its own.",
+      "primaryCta": "Search across the market",
+      "secondaryCta": "See the scorecard",
+      "quickAnswerEyebrow": "Quick answer",
+      "quickAnswerTitle": "LiveAuctioneers is for bidding. <em>Aura Historia is for searching the market.</em>",
+      "quickAnswerDescription": "<strong>Verdict:</strong> choose LiveAuctioneers, The Saleroom or Lot-tissimo to register and bid at auction houses on their platforms. Choose Aura Historia to search auction houses, dealers and marketplaces side by side, fixed-price stock included, and to watch objects across providers."
+    },
+    "quickVerdicts": {
+      "liveBidding": {
+        "label": "Best for live and timed bidding at auction houses online",
+        "value": "LiveAuctioneers"
+      },
+      "searchAcrossProviders": {
+        "label": "Best for search across auction houses, dealers and marketplaces",
+        "value": "Aura Historia"
+      },
+      "dealerAndShopStock": {
+        "label": "Best for searching dealer and shop stock across websites",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Best for monitoring beyond one platform",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "The short <em>version</em>",
+      "paragraph1": "Aura Historia is an alternative to LiveAuctioneers, The Saleroom and Lot-tissimo for collectors who want to search beyond one auction platform: auction houses, dealers, shops and marketplaces in one place, with fixed-price stock next to auction listings.",
+      "paragraph2": "LiveAuctioneers, The Saleroom and Lot-tissimo remain places to register and bid in auctions on their own platforms. Aura Historia does not run auctions or take bids. It shows what is offered where, and you bid or buy with the provider."
+    },
+    "respect": {
+      "title": "LiveAuctioneers is an established <em>platform for bidding</em>",
+      "paragraph1": "A fair comparison starts here: LiveAuctioneers, founded in 2002, says it enables auction houses to host live and timed auctions online, and it describes its bidder audience as the largest in North America. The Saleroom and Lot-tissimo are the group's other art and antiques auction marketplaces; the group describes Lot-tissimo as a German one.",
+      "paragraph2": "Aura Historia does not try to replace that. It answers a different question: what is offered across auction houses, dealers, shops and marketplaces, fixed-price stock included. Seeing an object here does not make Aura Historia a place to bid. You bid where the object is offered.",
+      "status": "Auction Technology Group (ATG) operates LiveAuctioneers, The Saleroom and Lot-tissimo. Its annual report for the year ended 30 September 2025 lists all three among its marketplaces and dates the acquisition of Lot-tissimo to 2018 and that of LiveAuctioneers to October 2021."
+    },
+    "advantages": {
+      "title": "One search across providers, <em>not one platform's catalogue</em>",
+      "description": "The difference is scope: objects from many providers side by side, dealers and shops next to auction houses, terminology across five languages and monitoring across providers.",
+      "cards": {
+        "oneSearchAcrossVenues": {
+          "title": "One search across venues",
+          "description": "Objects from many providers sit in one result list, instead of one platform's catalogue."
+        },
+        "moreThanAuctionLots": {
+          "title": "More than auction lots",
+          "description": "Dealers, shops and marketplaces appear with their own listings, fixed-price stock included, next to auction listings."
+        },
+        "terminologyAcrossLanguages": {
+          "title": "Terminology across languages",
+          "description": "Listings are translated and terminology is aligned across German, English, Spanish, French and Italian, so a search in one language can find objects described in another."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Monitoring across providers",
+          "description": "Watchlists, saved searches and notifications work across every provider in the index instead of within a single platform."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia vs LiveAuctioneers, <em>side by side</em>",
+      "description": "LiveAuctioneers is built for bidding at auction houses on its platform, with The Saleroom and Lot-tissimo as the group's other marketplaces. Aura Historia is built for searching across providers, including dealers and fixed-price stock.",
+      "caption": "Comparison of Aura Historia and LiveAuctioneers, with The Saleroom and Lot-tissimo, for art and antiques discovery",
+      "headers": {
+        "criterion": "Criterion",
+        "auraHistoria": "Aura Historia",
+        "competitor": "LiveAuctioneers"
+      },
+      "rows": {
+        "liveBidding": {
+          "criterion": "Live and timed bidding",
+          "competitor": "Registered bidders bid in live and timed auctions on LiveAuctioneers, on the web and in its apps, which also notify them when saved items are about to come up. The Saleroom and Lot-tissimo offer live and timed auctions too.",
+          "auraHistoria": "Does not run auctions or take bids. “Go to provider” opens the listing on the provider's own page.",
+          "verdict": "LiveAuctioneers for bidding"
+        },
+        "bidderAudience": {
+          "criterion": "Bidder audience, as each describes it",
+          "competitor": "LiveAuctioneers describes its bidder audience as the largest in North America. Auction Technology Group's annual report says adding LiveAuctioneers in 2021 extended the group's offering into the North American arts and antiques market.",
+          "auraHistoria": "Makes no claim about audience size. Shows what each provider publicly lists.",
+          "verdict": "LiveAuctioneers for audience"
+        },
+        "providerTypes": {
+          "criterion": "Providers beyond one platform",
+          "competitor": "Auction houses that list on LiveAuctioneers.",
+          "auraHistoria": "Auction houses, dealers, shops and marketplaces, each on its own website or platform, in one search.",
+          "verdict": "Aura Historia"
+        },
+        "dealersAndFixedPrice": {
+          "criterion": "Dealer and shop stock",
+          "competitor": "Lists lots in live and timed auctions and, according to its resource centre for auction houses, Buy Now listings of unsold items.",
+          "auraHistoria": "Searches the stock of dealers and shops on their own websites, fixed-price offers included, next to auction listings.",
+          "verdict": "Aura Historia across websites"
+        },
+        "languageHandling": {
+          "criterion": "Language handling",
+          "competitor": "LiveAuctioneers says its objects are translated to your language and currency. The Saleroom offers its site in English, French, German and Italian, Lot-tissimo in English and German.",
+          "auraHistoria": "Five languages (German, English, Spanish, French, Italian), with translated listings and aligned terminology.",
+          "verdict": "No difference documented"
+        },
+        "monitoring": {
+          "criterion": "Monitoring beyond one platform",
+          "competitor": "Follow a search to be notified about matching items: LiveAuctioneers' apps send notifications for saved searches, and The Saleroom and Lot-tissimo email Auction Alerts for new lots on their own sites.",
+          "auraHistoria": "Watchlists, saved searches and notifications cover every provider in the index, with price and availability changes on watched objects.",
+          "verdict": "Aura Historia"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Many kinds of providers change <em>what you can see</em>",
+      "sourcesLabel": "Provider types",
+      "sources": {
+        "auctionHouses": "Auction houses",
+        "auctionPlatforms": "Auction platforms",
+        "antiqueDealers": "Art and antiques dealers",
+        "privateSellers": "Private sellers",
+        "marketplaces": "Marketplaces"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Reach dealers and shops",
+          "description": "Many dealers and shops sell on their own websites. A search across providers lists their objects next to auction listings."
+        },
+        "offersSideBySide": {
+          "title": "See offers side by side",
+          "description": "Dealer asking prices, auction listings and marketplace offers sit in one result list, so you can compare what is available now."
+        },
+        "acrossLanguages": {
+          "title": "Search in five languages",
+          "description": "When listings are translated and terminology is aligned, a collector is less limited by the language of the seller or auctioneer."
+        },
+        "watchAnObject": {
+          "title": "Watch a single object",
+          "description": "A watchlist follows one object and notifies you about changes to its price and availability, whichever provider lists it."
+        }
+      }
+    },
+    "together": {
+      "title": "Find objects here, <em>bid where they are offered</em>",
+      "paragraph1": "The two do different jobs. Aura Historia shows what is offered where. On a listing page, “Go to provider” opens the listing on the provider's own page, in a new tab.",
+      "paragraph2": "Aura Historia does not run auctions or take bids, so registering, bidding or buying happens with the provider. To bid on LiveAuctioneers, The Saleroom or Lot-tissimo, register and bid there, on their platforms. Aura Historia is not affiliated with LiveAuctioneers, The Saleroom or Lot-tissimo."
+    },
+    "faq": {
+      "title": "Common questions about <em>Aura Historia and LiveAuctioneers</em>",
+      "items": {
+        "alternative": {
+          "question": "Is Aura Historia a LiveAuctioneers alternative?",
+          "answer": "Yes, for buyers who want to search beyond one auction platform. Aura Historia searches auction houses, dealers, shops and marketplaces for art and antiques in one place, fixed-price stock included. It does not run auctions, so it is not a place to bid. LiveAuctioneers remains an established platform for live and timed bidding at auction houses."
+        },
+        "saleroomAlternative": {
+          "question": "Is Aura Historia a The Saleroom alternative?",
+          "answer": "Yes, for buyers who want to search beyond one auction platform. The Saleroom is a marketplace where auction houses hold live and timed auctions, and its site is available in English, French, German and Italian. Aura Historia searches auction houses, dealers, shops and marketplaces in one place and does not run auctions, so it is not a place to bid. Use The Saleroom to bid in the auctions held there."
+        },
+        "lotTissimoAlternative": {
+          "question": "Is Aura Historia a Lot-tissimo alternative?",
+          "answer": "Yes, for buyers who want to search beyond one auction platform. Lot-tissimo is an art and antiques auction marketplace, and its site is available in German and English. Aura Historia searches auction houses, dealers, shops and marketplaces in five languages and does not run auctions, so it is not a place to bid. Use Lot-tissimo to bid in the auctions held there."
+        },
+        "bid": {
+          "question": "Can I bid through Aura Historia?",
+          "answer": "No. Aura Historia does not run auctions or take bids. On a listing page, “Go to provider” opens the listing on the provider's own page in a new tab, and registering, bidding or buying happens there. To bid on LiveAuctioneers, The Saleroom or Lot-tissimo, use their platforms."
+        },
+        "related": {
+          "question": "Are LiveAuctioneers, The Saleroom and Lot-tissimo related?",
+          "answer": "Yes. According to the annual report of Auction Technology Group (ATG) for the year ended 30 September 2025, ATG operates all three among its marketplaces; it dates the acquisition of Lot-tissimo to 2018 and that of LiveAuctioneers to October 2021. Each runs its own website."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "LiveAuctioneers is a platform for auctions. <em>Aura Historia is a search across the market.</em>",
+      "description": "If your search should include dealers, shops and marketplaces as well as auction houses, start with Aura Historia.",
+      "button": "Start searching art and antiques"
+    },
+    "positioning": "An online auction platform for live and timed bidding, with two more marketplaces in the same group, compared with a search across auction houses, dealers and marketplaces that runs no auctions."
   },
   "adminUsers": {
     "title": "User management",

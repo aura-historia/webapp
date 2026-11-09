@@ -3,6 +3,7 @@ import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysCompar
 import type { ComparisonDefinition } from "@/features/comparison/config/comparisonDefinition.ts";
 import { FIRST_DIBS_COMPARISON } from "@/features/comparison/config/firstDibsComparison.ts";
 import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableComparison.ts";
+import { LIVE_AUCTIONEERS_COMPARISON } from "@/features/comparison/config/liveAuctioneersComparison.ts";
 
 /**
  * Every published comparison page. The "Other comparisons" block on each page links to the others
@@ -13,4 +14,5 @@ export const COMPARISON_REGISTRY: readonly ComparisonDefinition[] = [
     ARTSY_COMPARISON,
     INVALUABLE_COMPARISON,
     FIRST_DIBS_COMPARISON,
+    LIVE_AUCTIONEERS_COMPARISON,
 ];
