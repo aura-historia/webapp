@@ -10,6 +10,8 @@ import {
     type ComparisonDefinition,
     getComparisonFaq,
 } from "@/features/comparison/config/comparisonDefinition.ts";
+import { EBAY_COMPARISON } from "@/features/comparison/config/ebayComparison.ts";
+import { EBAY_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/ebayComparisonReview.ts";
 import { FIRST_DIBS_COMPARISON } from "@/features/comparison/config/firstDibsComparison.ts";
 import { FIRST_DIBS_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/firstDibsComparisonReview.ts";
 import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableComparison.ts";
@@ -229,6 +231,39 @@ describe("buildComparisonStructuredData", () => {
             t("compareCatawikiPage.faq.items.bid.question"),
             t("compareCatawikiPage.faq.items.dealerStock.question"),
             t("compareCatawikiPage.faq.items.languages.question"),
+        ]);
+        expect(JSON.stringify([article, faqPage])).not.toMatch(
+            /"@type":"(Review|AggregateRating|Rating)"/,
+        );
+    });
+
+    it("builds the eBay page from its visible strings, with no review markup", () => {
+        const [article, faqPage] = build(EBAY_COMPARISON);
+
+        expect(article).toMatchObject({
+            "@type": "Article",
+            headline: stripInlineMarkup(t("compareEbayPage.hero.title")),
+            description: t("compareEbayPage.hero.subtitle"),
+            dateModified: EBAY_COMPARISON_LAST_REVIEWED,
+            url: "https://aura-historia.com/de/compare/ebay",
+        });
+        expect(article.dateModified).toBe("2026-11-09");
+        expect(article.about).toEqual(
+            EBAY_COMPARISON.structuredDataTopics.map((topic) =>
+                t(`compareEbayPage.structuredData.about.${topic}`),
+            ),
+        );
+        expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual(
+            getComparisonFaq(EBAY_COMPARISON).map((item) => t(item.questionKey)),
+        );
+        expect(faqPage.mainEntity).toHaveLength(5);
+        // The questions people ask, in the order the issue lists them.
+        expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual([
+            t("compareEbayPage.faq.items.alternative.question"),
+            t("compareEbayPage.faq.items.replace.question"),
+            t("compareEbayPage.faq.items.rareArt.question"),
+            t("compareEbayPage.faq.items.everydayCollectibles.question"),
+            t("compareEbayPage.faq.items.authenticity.question"),
         ]);
         expect(JSON.stringify([article, faqPage])).not.toMatch(
             /"@type":"(Review|AggregateRating|Rating)"/,

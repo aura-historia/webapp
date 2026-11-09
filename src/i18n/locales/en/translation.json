@@ -104,6 +104,10 @@
       "title": "Aura Historia vs Catawiki | Art and Antiques Search Comparison",
       "description": "Compare Aura Historia with Catawiki: curated weekly auctions versus a search across auction houses, dealers and marketplaces for art, antiques and design."
     },
+    "compareEbay": {
+      "title": "Aura Historia vs eBay | Art and Antiques Search Comparison",
+      "description": "Compare Aura Historia with eBay for art and antiques: a specialised search across dealers, auction houses and marketplaces versus a marketplace across many categories."
+    },
     "newsletterConfirm": {
       "title": "Confirm newsletter subscription | Aura Historia"
     },
@@ -4699,6 +4703,195 @@
       "button": "Start searching art and antiques"
     },
     "positioning": "A curated marketplace of weekly online auctions, compared with a search across auction houses, dealers and marketplaces that runs no auctions."
+  },
+  "compareEbayPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "art and antiques search",
+        "onlineMarketplace": "online marketplace",
+        "crossProviderSearch": "search across dealers, auction houses and marketplaces",
+        "multilingualSearch": "multilingual art and antiques search",
+        "monitoring": "art and antiques watchlists and saved searches"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Summary",
+        "advantages": "Where Aura Historia differs",
+        "scorecard": "Comparison table",
+        "sources": "Provider types",
+        "together": "Using both",
+        "faq": "FAQ",
+        "verdict": "Final verdict"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparison: Aura Historia vs eBay",
+      "title": "A search built for art and antiques, <em>not a multi-category marketplace</em>",
+      "subtitle": "In its annual report for 2025, eBay describes its marketplace as one of the world's largest and names collectibles among its Focus Categories. Aura Historia is built for art, antiques and design objects: it searches dealers, auction houses and marketplaces side by side and aligns terminology across five languages.",
+      "primaryCta": "Search across providers",
+      "secondaryCta": "See the scorecard",
+      "quickAnswerEyebrow": "Quick answer",
+      "quickAnswerTitle": "eBay covers many categories. <em>Aura Historia is for art and antiques.</em>",
+      "quickAnswerDescription": "<strong>Verdict:</strong> choose eBay for its reach and its very large selection across many categories, with the buyer protection programmes eBay's annual report for 2025 describes. Choose Aura Historia to search dealers, auction houses and marketplaces side by side for art, antiques and design objects, and to watch objects across providers."
+    },
+    "quickVerdicts": {
+      "reachAndSelection": {
+        "label": "Best for reach and a very large selection across many categories",
+        "value": "eBay"
+      },
+      "artAntiquesDesign": {
+        "label": "Best for a search focused on art, antiques and design objects",
+        "value": "Aura Historia"
+      },
+      "dealersAndAuctionHouses": {
+        "label": "Best for dealers, auction houses and marketplaces in one search",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Best for monitoring across providers",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "The short <em>version</em>",
+      "paragraph1": "Aura Historia is an alternative to eBay for buyers who want a search built for art, antiques and design objects: dealers, auction houses, shops and marketplaces in one place, with terminology aligned across five languages.",
+      "paragraph2": "eBay remains a marketplace across many categories, where you buy and sell on eBay. Aura Historia is not a marketplace and does not sell objects. It shows what is offered where, and you buy from the provider."
+    },
+    "respect": {
+      "title": "eBay is a marketplace of <em>very wide reach</em>",
+      "paragraph1": "A fair comparison starts here. In its annual report for 2025, eBay describes its marketplace as one of the world's largest, reports 135 million active buyers and 2.5 billion live listings globally at the end of 2025, and names collectibles among its Focus Categories.",
+      "paragraph2": "Aura Historia does not try to replace that. It answers a different question: what dealers, auction houses, shops and marketplaces offer for art, antiques and design objects. Seeing an object here does not make Aura Historia a place to buy. Listings appear as the providers publish them, and you buy from the provider."
+    },
+    "advantages": {
+      "title": "A specialised search, <em>built for art and antiques</em>",
+      "description": "The difference is focus and scope: a search for art, antiques and design objects across dealers, auction houses and marketplaces, with terminology aligned across five languages and monitoring across providers.",
+      "cards": {
+        "specialisedIndex": {
+          "title": "A search built for art and antiques",
+          "description": "The index is for art, antiques and design objects. This describes a focus, not a ranking of quality."
+        },
+        "providerTypes": {
+          "title": "Dealers, auction houses and marketplaces",
+          "description": "Dealers, shops, auction houses and marketplaces appear with the objects they list on their own websites and platforms, in one result list."
+        },
+        "terminologyAcrossLanguages": {
+          "title": "Terminology across languages",
+          "description": "Listings are translated and terminology is aligned across five languages, so a search in one language can return objects catalogued in another."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Monitoring across providers",
+          "description": "Watchlists, saved searches and notifications work across every provider in the index instead of within a single marketplace."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia vs eBay, <em>side by side</em>",
+      "description": "eBay is a marketplace across many categories, with the reach and buyer protection programmes its annual report for 2025 describes. Aura Historia is a search across providers, built for art, antiques and design objects.",
+      "caption": "Comparison of Aura Historia and eBay for art and antiques discovery",
+      "headers": {
+        "criterion": "Criterion",
+        "auraHistoria": "Aura Historia",
+        "competitor": "eBay"
+      },
+      "rows": {
+        "reachAndBuyerBase": {
+          "criterion": "Reach and buyer base",
+          "competitor": "In its annual report for 2025, eBay reports 135 million active buyers (buyer accounts that paid for a transaction within the previous 12 months) and 2.5 billion live listings globally at the end of 2025, and describes the marketplace as one of the world's largest.",
+          "auraHistoria": "A search across providers, not a marketplace with a buyer base of its own. This page draws no size comparison.",
+          "verdict": "eBay"
+        },
+        "buyerProtection": {
+          "criterion": "Buyer protection programmes",
+          "competitor": "In its annual report for 2025, eBay describes the eBay Money Back Guarantee, which lets buyers obtain a refund if an item does not arrive, is damaged or faulty, or differs materially from its description, on most purchases made with qualifying payment methods, and an Authenticity Guarantee for eligible luxury, collectible and high-value items in certain markets.",
+          "auraHistoria": "Shows listings as the providers publish them. Aura Historia does not sell objects or take payments for them: you buy from the provider, under that provider's own terms.",
+          "verdict": "eBay"
+        },
+        "categoryFocus": {
+          "criterion": "Category focus",
+          "competitor": "In its annual report for 2025, eBay names Focus Categories such as motor vehicle parts and accessories, collectibles, refurbished items, apparel, luxury goods and sneakers.",
+          "auraHistoria": "Focused on art, antiques and design objects. This states a focus, not a judgement of quality.",
+          "verdict": "Aura Historia for focus"
+        },
+        "providerTypes": {
+          "criterion": "Provider types",
+          "competitor": "In its annual report for 2025, eBay describes sellers of all sizes, from individual entrepreneurs to global businesses.",
+          "auraHistoria": "Dealers, shops, auction houses and marketplaces, each on its own website or platform, in one search.",
+          "verdict": "Aura Historia across providers"
+        },
+        "languagesAndTerminology": {
+          "criterion": "Languages and terminology",
+          "competitor": "In its annual report for 2025, eBay describes its online marketplace and its localized counterparts, and says its technology empowers millions of buyers and sellers in more than 190 markets. The report does not describe terminology or search across languages.",
+          "auraHistoria": "Five languages (German, English, Spanish, French, Italian), with translated listings and aligned terminology across providers.",
+          "verdict": "No difference documented"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Many kinds of providers change <em>what you can see</em>",
+      "sourcesLabel": "Provider types",
+      "sources": {
+        "auctionHouses": "Auction houses",
+        "auctionPlatforms": "Auction platforms",
+        "antiqueDealers": "Art and antiques dealers",
+        "privateSellers": "Private sellers",
+        "marketplaces": "Marketplaces"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Reach dealers and shops",
+          "description": "Many dealers and shops sell on their own websites. A search across providers lists their objects next to auction listings and marketplace offers."
+        },
+        "offersSideBySide": {
+          "title": "See offers side by side",
+          "description": "Dealer asking prices, auction listings and marketplace offers sit in one result list, so you can compare what is available now."
+        },
+        "acrossLanguages": {
+          "title": "Search in five languages",
+          "description": "When listings are translated and terminology is aligned, a collector is less limited by the language of the seller or auctioneer."
+        },
+        "watchAnObject": {
+          "title": "Watch a single object",
+          "description": "A watchlist follows one object and notifies you about changes to its price and availability, whichever provider lists it."
+        }
+      }
+    },
+    "together": {
+      "title": "eBay for its marketplace, <em>Aura Historia for the providers</em>",
+      "paragraph1": "The two do different jobs. eBay is a marketplace across many categories, and buying there happens on eBay. Aura Historia shows what dealers, auction houses and marketplaces offer for art, antiques and design objects. On a listing page, “Go to provider” opens the listing on the provider's own page, in a new tab.",
+      "paragraph2": "Aura Historia does not sell objects, so a purchase happens with the provider. To buy on eBay, use eBay. Aura Historia is not affiliated with eBay."
+    },
+    "faq": {
+      "title": "Common questions about <em>Aura Historia and eBay</em>",
+      "items": {
+        "alternative": {
+          "question": "Is Aura Historia an eBay alternative for antiques?",
+          "answer": "Yes, for buyers who want a search built for art, antiques and design objects. Aura Historia searches dealers, auction houses, shops and marketplaces in one place and aligns terminology across five languages. It is not a marketplace: you buy from the provider. eBay remains a very large marketplace across many categories, with the buyer protection programmes its annual report for 2025 describes."
+        },
+        "replace": {
+          "question": "Does Aura Historia replace eBay?",
+          "answer": "No. eBay is a marketplace across many categories, where you buy and sell on eBay. Aura Historia is a search for art, antiques and design objects and does not sell objects. You can use Aura Historia to see what dealers, auction houses and marketplaces offer, and eBay where you want to buy on eBay."
+        },
+        "rareArt": {
+          "question": "Which is better for finding rare art and antiques from dealers and auction houses?",
+          "answer": "For searching dealers and auction houses side by side, Aura Historia: it is built for art, antiques and design objects and searches providers on their own websites and platforms. eBay is a marketplace whose sellers, according to its annual report for 2025, range from individual entrepreneurs to global businesses. Which suits you depends on whether you want to compare providers or to look within eBay's marketplace."
+        },
+        "everydayCollectibles": {
+          "question": "Which is better for everyday collectibles?",
+          "answer": "eBay. Its annual report for 2025 names collectibles among its Focus Categories and reports 135 million active buyers at the end of 2025. Aura Historia is built for art, antiques and design objects, so everyday collectibles outside that focus are not what it is for."
+        },
+        "authenticity": {
+          "question": "Does Aura Historia guarantee authenticity?",
+          "answer": "No. Listings are shown as their sources publish them, translated where needed. Questions of value, condition and authenticity are settled with the seller."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "eBay covers many categories. <em>Aura Historia is built for art and antiques.</em>",
+      "description": "If your search should cover dealers, auction houses and marketplaces for art, antiques and design objects, start with Aura Historia.",
+      "button": "Start searching art and antiques"
+    },
+    "positioning": "A marketplace across many categories, compared with a search across dealers, auction houses and marketplaces built for art, antiques and design objects."
   },
   "adminUsers": {
     "title": "User management",
