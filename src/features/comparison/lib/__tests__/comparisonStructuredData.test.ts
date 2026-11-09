@@ -8,6 +8,8 @@ import {
     type ComparisonDefinition,
     getComparisonFaq,
 } from "@/features/comparison/config/comparisonDefinition.ts";
+import { FIRST_DIBS_COMPARISON } from "@/features/comparison/config/firstDibsComparison.ts";
+import { FIRST_DIBS_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/firstDibsComparisonReview.ts";
 import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableComparison.ts";
 import { INVALUABLE_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/invaluableComparisonReview.ts";
 import {
@@ -128,6 +130,34 @@ describe("buildComparisonStructuredData", () => {
         expect(faqPage.mainEntity).toHaveLength(5);
         expect(faqPage.mainEntity.at(-1)?.acceptedAnswer.text).toBe(
             t("compareInvaluablePage.faq.items.auctionZip.answer"),
+        );
+        expect(JSON.stringify([article, faqPage])).not.toMatch(
+            /"@type":"(Review|AggregateRating|Rating)"/,
+        );
+    });
+
+    it("builds the 1stDibs page from its visible strings, with no review markup", () => {
+        const [article, faqPage] = build(FIRST_DIBS_COMPARISON);
+
+        expect(article).toMatchObject({
+            "@type": "Article",
+            headline: stripInlineMarkup(t("compare1stdibsPage.hero.title")),
+            description: t("compare1stdibsPage.hero.subtitle"),
+            dateModified: FIRST_DIBS_COMPARISON_LAST_REVIEWED,
+            url: "https://aura-historia.com/de/compare/1stdibs",
+        });
+        expect(article.dateModified).toBe("2026-11-08");
+        expect(article.about).toEqual(
+            FIRST_DIBS_COMPARISON.structuredDataTopics.map((topic) =>
+                t(`compare1stdibsPage.structuredData.about.${topic}`),
+            ),
+        );
+        expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual(
+            getComparisonFaq(FIRST_DIBS_COMPARISON).map((item) => t(item.questionKey)),
+        );
+        expect(faqPage.mainEntity).toHaveLength(4);
+        expect(faqPage.mainEntity.at(-1)?.acceptedAnswer.text).toBe(
+            t("compare1stdibsPage.faq.items.comparePrices.answer"),
         );
         expect(JSON.stringify([article, faqPage])).not.toMatch(
             /"@type":"(Review|AggregateRating|Rating)"/,
