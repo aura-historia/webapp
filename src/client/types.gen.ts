@@ -1774,7 +1774,10 @@ export type ContentPolicyData = {
   decision: 'ALLOWED';
 } | {
   decision: 'REQUIRES_CONSENT';
-  category: 'NAZI_GERMANY';
+  /**
+   * Why the listing is sensitive: `NAZI_GERMANY` for Nazi-era imagery or paraphernalia, `NUDITY` for nudity, erotica or pornography.
+   */
+  category: 'NAZI_GERMANY' | 'NUDITY';
 };
 
 /**
@@ -4001,7 +4004,7 @@ export type PublicListingSourceOperatorData = {
 };
 
 /**
- * Allowlisted public ListingSource card used by both public collection search and exact slug lookup. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata.
+ * Allowlisted public ListingSource card used by both public collection search and exact slug lookup. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata. The only trace of the referral configuration is `viewUrl`.
  */
 export type PublicListingSourceData = {
   /**
@@ -4018,6 +4021,10 @@ export type PublicListingSourceData = {
    * Optional http/https presentation URL, omitted when absent.
    */
   url?: string;
+  /**
+   * The link to send visitors to, derived from `url` the same way as a ProductListing's `viewUrl`. The source's affiliate link when it has a referral configuration, otherwise `url` with Aura's `utm_source` and `utm_medium` parameters, unless `url` already carries a `utm_source`. Present exactly when `url` is.
+   */
+  viewUrl?: string;
   /**
    * Optional http/https presentation image URL, omitted when absent.
    */

@@ -22,6 +22,8 @@ function initialOf(name: string): string {
  */
 export function ShopHeader({ shop }: ShopHeaderProps) {
     const { t } = useTranslation();
+    // `viewUrl` carries the referral or UTM tagging; `url` is only the fallback for a response without it.
+    const websiteUrl = shop.viewUrl ?? shop.url;
 
     return (
         <header className="grid grid-cols-[88px_minmax(0,1fr)] gap-4 border-b border-line-subtle pb-6 md:grid-cols-[184px_minmax(0,1fr)_auto] md:grid-rows-[1fr_auto_auto_auto] md:gap-x-12 md:pb-9">
@@ -60,9 +62,9 @@ export function ShopHeader({ shop }: ShopHeaderProps) {
                 {t("shop.header.note")}
             </p>
 
-            {shop.url && (
+            {websiteUrl && (
                 <a
-                    href={shop.url}
+                    href={websiteUrl}
                     target="_blank"
                     rel="nofollow noopener noreferrer"
                     className={cn(

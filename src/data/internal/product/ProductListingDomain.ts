@@ -11,7 +11,10 @@ import type {
     ProductListingSummaryPriceValuationData,
 } from "@/client";
 import type { Currency } from "@/data/internal/common/Currency.ts";
-import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
+import type {
+    ProductImage,
+    SensitiveContentCategory,
+} from "@/data/internal/product/ProductImageData.ts";
 import { formatPrice } from "@/data/internal/price/Price.ts";
 
 export const LISTING_AVAILABILITIES = [
@@ -86,7 +89,7 @@ export type ListingPricing = {
 
 export type ListingContentPolicy =
     | { readonly decision: "ALLOWED" }
-    | { readonly decision: "REQUIRES_CONSENT"; readonly category: "NAZI_GERMANY" };
+    | { readonly decision: "REQUIRES_CONSENT"; readonly category: SensitiveContentCategory };
 
 export type ListingAuctionSchedule = {
     readonly biddingOpens: Date | null;
