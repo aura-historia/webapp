@@ -39,7 +39,11 @@ export interface ComparisonDefinition {
     /** URL segment below `/compare/`, e.g. `barnebys`. */
     readonly slug: string;
     readonly routePath: ComparisonRoutePath;
-    /** The competitor's name as it is written; never translated. */
+    /**
+     * The competitor's name as it is written; never translated. For a category of tool rather than
+     * one product, list the brand names (the footer and the cross-link block print it after
+     * "Aura Historia vs"); the category itself is named in the page's copy.
+     */
     readonly competitorName: string;
     /** The page's translation namespace, e.g. `compareBarnebysPage`. */
     readonly namespace: string;
@@ -61,7 +65,11 @@ export interface ComparisonDefinition {
     readonly advantages: readonly ComparisonCardItem[];
     /** Scorecard rows: `<namespace>.scorecard.rows.<key>.{criterion,competitor,auraHistoria,verdict}`. */
     readonly scorecardRows: readonly ComparisonVerdictItem[];
-    /** Optional "source types" chapter (`#sources`), copy at `<namespace>.downstream.*`. */
+    /**
+     * Optional "source types" chapter (`#sources`), copy at `<namespace>.downstream.*`. A page may
+     * fill the slot with another short list and four cards under its own chapter title (the art
+     * price databases page: the questions each tool answers).
+     */
     readonly sources?: {
         readonly sourceKeys: readonly string[];
         readonly cards: readonly ComparisonCardItem[];

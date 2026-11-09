@@ -57,6 +57,13 @@ import type { ComparisonDefinition } from "@/features/comparison/config/comparis
  *   Market Alerts" for followed artists (plans page). Tier names, allowances and prices are left
  *   out (the word "premium" is also on the banned list).
  *   https://www.mutualart.com/plans
+ * - Auction results (FAQ "Artprice or MutualArt"): the homepage offers "access to auction prices,
+ *   personalized updates, and data on over 985,000 artists"; the plans page lists "estimates and
+ *   realized prices". The FAQ says only that MutualArt gives access to auction results.
+ *   https://www.mutualart.com/ https://www.mutualart.com/plans
+ * - Alerts tie: the quick verdict, the verdict line and the quick answer name Artnet (Market
+ *   Alerts) and MutualArt (email alerts) only. Nothing is said of Artprice's or WorthPoint's
+ *   alerts, and no alert cadence is compared.
  * - Appraisals (this is why the issue's "valuation: neither" row is not kept): the homepage offers
  *   online appraisals ("Our expert appraisals help to quickly and conveniently assess the value of
  *   the art you own"), /llms.txt lists "Professional valuation services with 72-hour turnaround".

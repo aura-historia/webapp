@@ -103,8 +103,8 @@
       "description": "Compara Aura Historia con eBay: una búsqueda especializada entre comerciantes, casas de subastas y marketplaces de arte y antigüedades frente a un marketplace de muchas categorías."
     },
     "compareArtPriceDatabases": {
-      "title": "Aura Historia vs bases de datos de precios de arte | Artnet, WorthPoint, MutualArt",
-      "description": "En qué se diferencia Aura Historia de las bases de datos de precios de arte como Artnet, WorthPoint, MutualArt y Artprice: lo que se vendió y por cuánto, frente a lo que se ofrece ahora."
+      "title": "Aura Historia vs bases de datos de precios | Artnet, WorthPoint, MutualArt",
+      "description": "Aura Historia frente a bases de datos de precios como Artnet, WorthPoint, MutualArt y Artprice: lo que se vendió y por cuánto, frente a lo que se ofrece ahora."
     },
     "partnerAccessTokens": {
       "title": "Tokens de acceso | Aura Historia"
@@ -4727,13 +4727,13 @@
     },
     "hero": {
       "eyebrow": "Comparativa: Aura Historia vs bases de datos de precios de arte",
-      "title": "Los precios pasados cuentan una historia. <em>Lo que se ofrece ahora</em> cuenta otra.",
+      "title": "Los precios pasados cuentan una historia. <em>Lo que se ofrece ahora cuenta otra.</em>",
       "subtitle": "Las bases de datos de precios como la Artnet Price Database, WorthPoint, MutualArt y Artprice registran por cuánto se vendieron los objetos. Aura Historia muestra lo que se ofrece ahora entre comerciantes, casas de subastas y marketplaces, y qué ha cambiado desde entonces. Las dos responden a preguntas distintas.",
       "primaryCta": "Buscar lo que se ofrece ahora",
       "secondaryCta": "Ver la comparativa",
       "quickAnswerEyebrow": "En pocas palabras",
       "quickAnswerTitle": "Las bases de datos muestran lo que se vendió. <em>Aura Historia muestra lo que está disponible.</em>",
-      "quickAnswerDescription": "<strong>Veredicto:</strong> usa una base de datos de precios para investigar por cuánto se vendieron objetos comparables. Usa Aura Historia para ver lo que ofrecen ahora comerciantes, casas de subastas y marketplaces, y para seguir los cambios de precio y disponibilidad entre proveedores. Ambas ofrecen alertas. Aura Historia no ofrece valoraciones."
+      "quickAnswerDescription": "<strong>Veredicto:</strong> usa una base de datos de precios para investigar por cuánto se vendieron objetos comparables. Usa Aura Historia para ver lo que ofrecen ahora comerciantes, casas de subastas y marketplaces, y para seguir los cambios de precio y disponibilidad entre proveedores. Artnet y MutualArt también describen alertas. Aura Historia no ofrece valoraciones."
     },
     "quickVerdicts": {
       "pastResults": {
@@ -4749,7 +4749,7 @@
         "value": "Aura Historia"
       },
       "alerts": {
-        "label": "Alertas",
+        "label": "Alertas (Artnet y MutualArt las describen)",
         "value": "Ambas"
       }
     },
@@ -4773,8 +4773,8 @@
           "description": "Anuncios vigentes de comerciantes, casas de subastas, tiendas y marketplaces, tal como los publican los proveedores."
         },
         "askingPrices": {
-          "title": "Precios de salida tal como los publican los proveedores",
-          "description": "Los precios de salida de los proveedores aparecen juntos en una sola lista de resultados, tal como se publican. Aura Historia no ofrece valoraciones."
+          "title": "Precios de venta tal como los publican los proveedores",
+          "description": "Los precios de venta de los proveedores aparecen juntos en una sola lista de resultados, tal como se publican. Aura Historia no ofrece valoraciones."
         },
         "watchingChanges": {
           "title": "Seguir los cambios entre proveedores",
@@ -4812,12 +4812,12 @@
           "criterion": "Alertas",
           "competitor": "Artnet incluye Market Alerts, y MutualArt describe alertas por correo electrónico sobre artistas, lugares y ubicaciones que se siguen.",
           "auraHistoria": "Listas de seguimiento, búsquedas guardadas y notificaciones con todos los proveedores del índice, con los cambios de precio y disponibilidad de los objetos seguidos.",
-          "verdict": "Ambas ofrecen alertas"
+          "verdict": "También Artnet y MutualArt ofrecen alertas"
         },
         "valuation": {
           "criterion": "Valoración",
           "competitor": "Las bases de datos de precios aportan resultados pasados para investigar precios. MutualArt describe además tasaciones en línea de arte que ya posees.",
-          "auraHistoria": "No ofrece valoraciones ni tasaciones. Los anuncios aparecen tal como los publican los proveedores, y el precio de salida es el del propio proveedor.",
+          "auraHistoria": "No ofrece valoraciones ni tasaciones. Los anuncios aparecen tal como los publican los proveedores, y el precio de venta es el del propio proveedor.",
           "verdict": "MutualArt para tasaciones"
         },
         "accessModel": {
@@ -4853,7 +4853,7 @@
         },
         "similarObjects": {
           "title": "Objetos comparables en una sola búsqueda",
-          "description": "Los resultados de búsqueda muestran muchos proveedores uno al lado de otro, así que buscar un tipo de objeto enseña dónde se ofrece y con qué precio de salida."
+          "description": "Los resultados de búsqueda muestran muchos proveedores uno al lado de otro, así que buscar un tipo de objeto enseña dónde se ofrece y con qué precio de venta."
         }
       }
     },
@@ -4879,7 +4879,7 @@
         },
         "worth": {
           "question": "¿Puede Aura Historia decirme cuánto vale mi objeto?",
-          "answer": "No. Aura Historia no ofrece valoraciones ni tasaciones. Muestra los anuncios tal como los publican los proveedores, y el precio de salida es el del propio proveedor. Para saber cuánto vale un objeto, consulta a un tasador y usa una base de datos de precios para ver por cuánto se vendieron objetos comparables."
+          "answer": "No. Aura Historia no ofrece valoraciones ni tasaciones. Muestra los anuncios tal como los publican los proveedores, y el precio de venta es el del propio proveedor. Para saber cuánto vale un objeto, consulta a un tasador y usa una base de datos de precios para ver por cuánto se vendieron objetos comparables."
         },
         "similarOffers": {
           "question": "¿Dónde puedo ver a qué precio se ofrecen objetos similares?",

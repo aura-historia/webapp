@@ -4919,13 +4919,13 @@
     },
     "hero": {
       "eyebrow": "Comparison: Aura Historia vs art price databases",
-      "title": "Past prices tell one story. <em>What is offered now</em> tells another.",
+      "title": "Past prices tell one story. <em>What is offered now tells another.</em>",
       "subtitle": "Price databases such as the Artnet Price Database, WorthPoint, MutualArt and Artprice record what objects sold for. Aura Historia shows what is offered now across dealers, auction houses and marketplaces, and what has changed since. The two answer different questions.",
       "primaryCta": "Search what is offered now",
       "secondaryCta": "See the scorecard",
       "quickAnswerEyebrow": "Quick answer",
       "quickAnswerTitle": "Databases show what sold. <em>Aura Historia shows what is available.</em>",
-      "quickAnswerDescription": "<strong>Verdict:</strong> use a price database to research what comparable objects have sold for. Use Aura Historia to see what dealers, auction houses and marketplaces offer now, and to watch price and availability changes across providers. Both offer alerts. Aura Historia gives no valuations."
+      "quickAnswerDescription": "<strong>Verdict:</strong> use a price database to research what comparable objects have sold for. Use Aura Historia to see what dealers, auction houses and marketplaces offer now, and to watch price and availability changes across providers. Artnet and MutualArt describe alerts too. Aura Historia gives no valuations."
     },
     "quickVerdicts": {
       "pastResults": {
@@ -4941,7 +4941,7 @@
         "value": "Aura Historia"
       },
       "alerts": {
-        "label": "Alerts",
+        "label": "Alerts (Artnet and MutualArt describe them)",
         "value": "Both"
       }
     },
@@ -5004,7 +5004,7 @@
           "criterion": "Alerts",
           "competitor": "Artnet lists Market Alerts, and MutualArt describes email alerts for followed artists, venues and locations.",
           "auraHistoria": "Watchlists, saved searches and notifications across every provider in the index, with price and availability changes on watched objects.",
-          "verdict": "Both offer alerts"
+          "verdict": "Alerts at Artnet and MutualArt too"
         },
         "valuation": {
           "criterion": "Valuation",

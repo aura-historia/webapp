@@ -109,8 +109,8 @@
       "description": "Aura Historia im Vergleich mit eBay: eine spezialisierte Suche über Händler, Auktionshäuser und Marktplätze für Kunst und Antiquitäten gegenüber einem Marktplatz über viele Kategorien hinweg."
     },
     "compareArtPriceDatabases": {
-      "title": "Aura Historia vs. Kunst-Preisdatenbanken | Artnet, WorthPoint, MutualArt",
-      "description": "So unterscheidet sich Aura Historia von Kunst-Preisdatenbanken wie Artnet, WorthPoint, MutualArt und Artprice: was verkauft wurde, gegenüber dem, was jetzt angeboten wird."
+      "title": "Aura Historia vs. Preisdatenbanken | Artnet, WorthPoint, MutualArt",
+      "description": "Aura Historia und Preisdatenbanken wie Artnet, WorthPoint, MutualArt und Artprice: wofür Objekte verkauft wurden, gegenüber dem, was jetzt angeboten wird."
     },
     "newsletterConfirm": {
       "title": "Newsletter-Anmeldung bestätigen | Aura Historia"
@@ -4919,13 +4919,13 @@
     },
     "hero": {
       "eyebrow": "Vergleich: Aura Historia vs. Kunst-Preisdatenbanken",
-      "title": "Vergangene Preise erzählen eine Geschichte. <em>Was jetzt angeboten wird</em>, eine andere.",
+      "title": "Vergangene Preise erzählen eine Geschichte. <em>Was jetzt angeboten wird, erzählt eine andere.</em>",
       "subtitle": "Preisdatenbanken wie die Artnet Price Database, WorthPoint, MutualArt und Artprice halten fest, wofür Objekte verkauft wurden. Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze jetzt anbieten und was sich seither geändert hat. Beide beantworten unterschiedliche Fragen.",
       "primaryCta": "Aktuelle Angebote durchsuchen",
       "secondaryCta": "Vergleich ansehen",
       "quickAnswerEyebrow": "Kurz gesagt",
       "quickAnswerTitle": "Datenbanken zeigen, was verkauft wurde. <em>Aura Historia zeigt, was verfügbar ist.</em>",
-      "quickAnswerDescription": "<strong>Fazit:</strong> Nutzen Sie eine Preisdatenbank, um zu recherchieren, wofür vergleichbare Objekte verkauft wurden. Nutzen Sie Aura Historia, um zu sehen, was Händler, Auktionshäuser und Marktplätze jetzt anbieten, und um Preis- und Verfügbarkeitsänderungen über Anbieter hinweg zu beobachten. Benachrichtigungen bieten beide Seiten. Aura Historia erstellt keine Wertgutachten."
+      "quickAnswerDescription": "<strong>Fazit:</strong> Nutzen Sie eine Preisdatenbank, um zu recherchieren, wofür vergleichbare Objekte verkauft wurden. Nutzen Sie Aura Historia, um zu sehen, was Händler, Auktionshäuser und Marktplätze jetzt anbieten, und um Preis- und Verfügbarkeitsänderungen über Anbieter hinweg zu beobachten. Auch Artnet und MutualArt beschreiben Benachrichtigungen. Aura Historia gibt keine Bewertungen ab."
     },
     "quickVerdicts": {
       "pastResults": {
@@ -4941,24 +4941,24 @@
         "value": "Aura Historia"
       },
       "alerts": {
-        "label": "Benachrichtigungen",
+        "label": "Benachrichtigungen (Artnet und MutualArt beschreiben sie)",
         "value": "Beide"
       }
     },
     "summary": {
       "title": "Die <em>Kurzfassung</em>",
       "paragraph1": "Aura Historia ist weniger eine Alternative zu einer Preisdatenbank als deren Gegenstück. Datenbanken wie die Artnet Price Database, WorthPoint, MutualArt und Artprice halten fest, wofür Objekte verkauft wurden. Aura Historia zeigt, was Händler, Auktionshäuser, Shops und Marktplätze jetzt anbieten, und hält fest, wie sich jedes Angebot verändert.",
-      "paragraph2": "Sammler können beides nutzen: eine Datenbank, um zu erfahren, was ein Objekt erzielt hat, und Aura Historia, um zu sehen, wo vergleichbare Objekte angeboten werden und wie sie sich verändern. Aura Historia erstellt keine Wertgutachten."
+      "paragraph2": "Sammler können beides nutzen: eine Datenbank, um zu erfahren, was ein Objekt erzielt hat, und Aura Historia, um zu sehen, wo vergleichbare Objekte angeboten werden und wie sie sich verändern. Aura Historia gibt keine Bewertungen ab."
     },
     "respect": {
       "title": "Preisdatenbanken bieten <em>Zugang zu Auktionsergebnissen</em>",
-      "paragraph1": "Ein fairer Vergleich beginnt hier. Artnet beschreibt seine Price Database mit rund 18 Millionen Auktionsergebnissen, die bis 1985 zurückreichen (Seite der Price Database, November 2026). Die Muttergesellschaft von Artprice gibt an, ihre Datenbanken enthielten über 30 Millionen Indizes und Auktionsergebnisse, mit Auktionen, die sich bis 1700 zurückverfolgen lassen (November 2026). WorthPoint nannte in seiner Ergebnismitteilung vom Januar 2022 mehr als 610 Millionen archivierte Preise. MutualArt gibt an, Daten zu mehr als 900.000 Künstlerinnen und Künstlern zu haben (November 2026).",
-      "paragraph2": "Das sind die eigenen Angaben der Unternehmen. Sie zählen Unterschiedliches, deshalb addiert diese Seite sie nicht und vergleicht sie mit keiner Zahl von Aura Historia. Preisrecherche ist deren Aufgabe. Aura Historia beantwortet eine andere Frage: was jetzt angeboten wird, von wem und was sich seither geändert hat. Aura Historia erstellt keine Wertgutachten.",
+      "paragraph1": "Ein fairer Vergleich beginnt hier. Artnet beschreibt seine Price Database mit rund 18 Millionen Auktionsergebnissen, die bis 1985 zurückreichen (Seite der Price Database, November 2026). Die Muttergesellschaft von Artprice gibt an, ihre Datenbanken enthielten über 30 Millionen Indizes und Auktionsergebnisse, mit Auktionen, die sich bis 1700 zurückverfolgen lassen (November 2026). WorthPoint nannte in seiner Ergebnismitteilung vom Januar 2022 mehr als 610 Millionen archivierte Preise. MutualArt gibt an, Daten zu mehr als 900.000 Künstlern zu haben (November 2026).",
+      "paragraph2": "Das sind die eigenen Angaben der Unternehmen. Sie zählen Unterschiedliches, deshalb addiert diese Seite sie nicht und vergleicht sie mit keiner Zahl von Aura Historia. Preisrecherche ist deren Aufgabe. Aura Historia beantwortet eine andere Frage: was jetzt angeboten wird, von wem und was sich seither geändert hat. Aura Historia gibt keine Bewertungen ab.",
       "status": "Am 15. April 2026 gaben Artsy und Artnet bekannt, dass sie ihre Kräfte unter gemeinsamer Leitung gebündelt haben. Laut der Mitteilung werden beide weiterhin als eigenständige Marken und Websites betrieben. Die Mitteilung nennt die Artnet Price Database weiterhin unter den Diensten von Artnet."
     },
     "advantages": {
       "title": "Was jetzt angeboten wird, <em>und was sich ändert</em>",
-      "description": "Der Unterschied liegt in der Frage, die jedes Angebot beantwortet: Preisdatenbanken blicken auf vergangene Ergebnisse zurück, Aura Historia auf aktuelle Angebote über Anbieter hinweg und verfolgt, wie sie sich ändern.",
+      "description": "Der Unterschied liegt in der Frage, die jedes der beiden beantwortet: Preisdatenbanken blicken auf vergangene Ergebnisse zurück; Aura Historia zeigt aktuelle Angebote über Anbieter hinweg und verfolgt, wie sie sich ändern.",
       "cards": {
         "offeredNow": {
           "title": "Was jetzt angeboten wird",
@@ -4966,7 +4966,7 @@
         },
         "askingPrices": {
           "title": "Angebotspreise, wie die Anbieter sie veröffentlichen",
-          "description": "Die Angebotspreise der Anbieter stehen gemeinsam in einer Ergebnisliste, so wie sie veröffentlicht werden. Aura Historia erstellt keine Wertgutachten."
+          "description": "Die Angebotspreise der Anbieter stehen gemeinsam in einer Ergebnisliste, so wie sie veröffentlicht werden. Aura Historia gibt keine Bewertungen ab."
         },
         "watchingChanges": {
           "title": "Änderungen über Anbieter hinweg beobachten",
@@ -5004,12 +5004,12 @@
           "criterion": "Benachrichtigungen",
           "competitor": "Artnet führt Market Alerts auf, und MutualArt beschreibt E-Mail-Benachrichtigungen für gefolgte Künstler, Veranstaltungsorte und Standorte.",
           "auraHistoria": "Merklisten, gespeicherte Suchen und Benachrichtigungen über alle Anbieter im Index, mit Preis- und Verfügbarkeitsänderungen bei beobachteten Objekten.",
-          "verdict": "Beide bieten Benachrichtigungen"
+          "verdict": "Auch Artnet und MutualArt bieten Benachrichtigungen"
         },
         "valuation": {
           "criterion": "Wertermittlung",
           "competitor": "Preisdatenbanken liefern vergangene Ergebnisse für die Preisrecherche. MutualArt beschreibt außerdem Online-Wertgutachten für Kunst im eigenen Besitz.",
-          "auraHistoria": "Erstellt keine Wertgutachten und keine Schätzungen. Angebote erscheinen so, wie die Anbieter sie veröffentlichen, und ein Angebotspreis ist der des Anbieters.",
+          "auraHistoria": "Gibt keine Bewertungen oder Wertgutachten ab. Angebote erscheinen so, wie die Anbieter sie veröffentlichen, und ein Angebotspreis ist der des Anbieters.",
           "verdict": "MutualArt für Wertgutachten"
         },
         "accessModel": {
@@ -5052,30 +5052,30 @@
     "together": {
       "title": "Eine Datenbank für das Verkaufte, <em>Aura Historia für das Angebotene</em>",
       "paragraph1": "Nutzen Sie eine Preisdatenbank, um zu erfahren, was ein Objekt erzielt hat. Nutzen Sie Aura Historia, um zu sehen, wo vergleichbare Objekte jetzt angeboten werden und wie sie sich verändern. Auf einer Angebotsseite öffnet „Zur Seite des Anbieters“ das Angebot auf der eigenen Seite des Anbieters, in einem neuen Tab.",
-      "paragraph2": "Aura Historia erstellt keine Wertgutachten. Für ein Wertgutachten wenden Sie sich an eine Gutachterin oder einen Gutachter. Aura Historia steht in keiner Verbindung zu Artnet, WorthPoint, MutualArt oder Artprice."
+      "paragraph2": "Aura Historia gibt keine Bewertungen ab. Für ein Wertgutachten wenden Sie sich an einen Gutachter. Aura Historia steht in keiner Verbindung zu Artnet, WorthPoint, MutualArt oder Artprice."
     },
     "faq": {
       "title": "Häufige Fragen zu <em>Aura Historia und Preisdatenbanken</em>",
       "items": {
         "alternativeArtnet": {
           "question": "Ist Aura Historia eine Alternative zu Artnet?",
-          "answer": "Nicht im üblichen Sinn. Die Artnet Price Database hält fest, wofür Objekte verkauft wurden: Artnet beschreibt sie mit rund 18 Millionen Auktionsergebnissen, die bis 1985 zurückreichen (Seite der Price Database, November 2026). Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze jetzt anbieten. Beide beantworten unterschiedliche Fragen und ergänzen sich gut. Aura Historia erstellt keine Wertgutachten."
+          "answer": "Nicht im üblichen Sinn. Die Artnet Price Database hält fest, wofür Objekte verkauft wurden: Artnet beschreibt sie mit rund 18 Millionen Auktionsergebnissen, die bis 1985 zurückreichen (Seite der Price Database, November 2026). Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze jetzt anbieten. Beide beantworten unterschiedliche Fragen und ergänzen sich gut. Aura Historia gibt keine Bewertungen ab."
         },
         "alternativeWorthPoint": {
           "question": "Ist Aura Historia eine Alternative zu WorthPoint?",
-          "answer": "Nicht im üblichen Sinn. WorthPoint ist eine Preisdatenbank: In seiner Ergebnismitteilung vom Januar 2022 nannte es mehr als 610 Millionen archivierte Preise, gesammelt von Online-Marktplätzen und Auktionshäusern. Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze jetzt anbieten. Nutzen Sie WorthPoint, um vergangene Preise zu recherchieren, und Aura Historia, um aktuelle Angebote zu sehen. Aura Historia erstellt keine Wertgutachten."
+          "answer": "Nicht im üblichen Sinn. WorthPoint ist eine Preisdatenbank: In seiner Ergebnismitteilung vom Januar 2022 nannte es mehr als 610 Millionen archivierte Preise, gesammelt von Online-Marktplätzen und Auktionshäusern. Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze jetzt anbieten. Nutzen Sie WorthPoint, um vergangene Preise zu recherchieren, und Aura Historia, um aktuelle Angebote zu sehen. Aura Historia gibt keine Bewertungen ab."
         },
         "alternativeArtpriceMutualArt": {
           "question": "Ist Aura Historia eine Alternative zu Artprice oder MutualArt?",
-          "answer": "Nicht im üblichen Sinn. Artprice und MutualArt bieten beide Zugang zu Auktionsergebnissen: Die Muttergesellschaft von Artprice gibt an, ihre Datenbanken enthielten über 30 Millionen Indizes und Auktionsergebnisse (November 2026), und MutualArt gibt an, Daten zu mehr als 900.000 Künstlerinnen und Künstlern zu haben (November 2026). Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze jetzt anbieten. MutualArt beschreibt außerdem Online-Wertgutachten, die Aura Historia nicht anbietet."
+          "answer": "Nicht im üblichen Sinn. Artprice und MutualArt bieten beide Zugang zu Auktionsergebnissen: Die Muttergesellschaft von Artprice gibt an, ihre Datenbanken enthielten über 30 Millionen Indizes und Auktionsergebnisse (November 2026), und MutualArt gibt an, Daten zu mehr als 900.000 Künstlern zu haben (November 2026). Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze jetzt anbieten. MutualArt beschreibt außerdem Online-Wertgutachten, die Aura Historia nicht anbietet."
         },
         "worth": {
           "question": "Kann Aura Historia mir sagen, was mein Objekt wert ist?",
-          "answer": "Nein. Aura Historia erstellt keine Wertgutachten und keine Schätzungen. Die Seite zeigt Angebote, wie die Anbieter sie veröffentlichen, und ein Angebotspreis ist der des Anbieters. Um zu erfahren, was ein Objekt wert ist, wenden Sie sich an eine Gutachterin oder einen Gutachter, und nutzen Sie eine Preisdatenbank, um zu sehen, wofür vergleichbare Objekte verkauft wurden."
+          "answer": "Nein. Aura Historia gibt keine Bewertungen ab. Die Seite zeigt Angebote, wie die Anbieter sie veröffentlichen, und ein Angebotspreis ist der des Anbieters. Um zu erfahren, was ein Objekt wert ist, wenden Sie sich an einen Gutachter, und nutzen Sie eine Preisdatenbank, um zu sehen, wofür vergleichbare Objekte verkauft wurden."
         },
         "similarOffers": {
           "question": "Wo sehe ich, wofür ähnliche Objekte angeboten werden?",
-          "answer": "Suchen Sie nach der Objektart. Die Ergebnisse zeigen Händler, Auktionshäuser, Shops und Marktplätze nebeneinander, mit ihren Preisen, wie sie veröffentlicht sind, sodass Sie sehen, wo vergleichbare Objekte angeboten werden. Eine Angebotsseite ergänzt den eigenen Preisverlauf dieses Angebots seit der ersten Erfassung durch Aura Historia. Beides ist kein Wertgutachten, und Preise vergangener Verkäufe sind Sache einer Preisdatenbank."
+          "answer": "Suchen Sie nach der Objektart. Die Ergebnisse zeigen Händler, Auktionshäuser, Shops und Marktplätze nebeneinander, mit ihren Preisen, wie sie veröffentlicht sind, sodass Sie sehen, wo vergleichbare Objekte angeboten werden. Eine Angebotsseite ergänzt den eigenen Preisverlauf dieses Angebots seit der ersten Erfassung durch Aura Historia. Beides ist keine Bewertung, und Preise vergangener Verkäufe sind Sache einer Preisdatenbank."
         },
         "pastResults": {
           "question": "Zeigt Aura Historia vergangene Auktionsergebnisse?",

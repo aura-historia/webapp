@@ -283,12 +283,6 @@ describe("ComparisonPage with the art price databases definition", () => {
         expect(container.querySelectorAll('a[href^="http" i]')).toHaveLength(0);
         expect(container.querySelectorAll("img")).toHaveLength(0);
     });
-
-    it("prints the brand list after 'Aura Historia vs' in the cross-link block of the other pages", () => {
-        expect(ART_PRICE_DATABASES_COMPARISON.competitorName).toBe(
-            "Artnet, WorthPoint, MutualArt, Artprice",
-        );
-    });
 });
 
 /**
@@ -296,22 +290,12 @@ describe("ComparisonPage with the art price databases definition", () => {
  * auction results and the 1985 start (its Price Database page, 2026), Artprice's 30 million
  * indices and auction results and the year 1700 (its parent company's release, 2026), WorthPoint's
  * 610 million archived prices (its results announcement, 2022), MutualArt's 900,000 artists (2026)
- * and the 15 April 2026 combination of Artsy and Artnet. "000" is the tail of "900.000". The
+ * and the 15 April 2026 combination of Artsy and Artnet. The thousands separator of "900,000" is
+ * removed before the digits are scanned (see `withoutSeparators`). The
  * issue's other figures (Artprice back to 1962, WorthPoint from 2006, a billion photographs, 500+
  * auction houses, subscription prices) are not used.
  */
-const ALLOWED_NUMBERS = new Set([
-    "18",
-    "1985",
-    "30",
-    "1700",
-    "610",
-    "2022",
-    "900",
-    "000",
-    "2026",
-    "15",
-]);
+const ALLOWED_NUMBERS = new Set(["18", "1985", "30", "1700", "610", "2022", "900", "2026", "15"]);
 
 /** Each figure with the product it belongs to and the year that must stand beside it. */
 const FIGURES = [
@@ -320,6 +304,41 @@ const FIGURES = [
     { figure: /\b610\b/, product: "WorthPoint", year: "2022" },
     { figure: /\b900\b/, product: "MutualArt", year: "2026" },
 ] as const;
+
+const BRANDS = ["Artnet", "WorthPoint", "MutualArt", "Artprice"] as const;
+
+/** "900,000", "900.000" and "900 000" (also with a no-break space) are one figure: 900 (thousand). */
+function withoutSeparators(text: string) {
+    return text.replace(/(\d)[.,\u00a0\u202f ]000\b/g, "$1");
+}
+
+/**
+ * The product named closest before the figure: a figure never sits beside another product's
+ * name, even when one sentence cites two of them.
+ */
+function nearestBrandBefore(text: string, index: number) {
+    const before = text.slice(0, index);
+    return BRANDS.map((brand) => ({ brand, at: before.lastIndexOf(brand) }))
+        .filter(({ at }) => at >= 0)
+        .sort((a, b) => b.at - a.at)[0]?.brand;
+}
+
+/**
+ * The year (20xx) closest to the figure within its own sentence, before or after it: the one the
+ * figure is dated with ("... of January 2022 cited more than 610 million ..." and "... 18 million
+ * ... (November 2026)").
+ */
+function nearestYearInSentence(text: string, index: number) {
+    const sentenceStart = text.lastIndexOf(". ", index);
+    const sentenceEnd = text.indexOf(". ", index);
+    const from = sentenceStart < 0 ? 0 : sentenceStart + 2;
+    const to = sentenceEnd < 0 ? text.length : sentenceEnd;
+    const years = [...text.slice(from, to).matchAll(/\b20\d\d\b/g)].map((match) => ({
+        year: match[0],
+        distance: Math.abs(from + (match.index ?? 0) - index),
+    }));
+    return years.sort((a, b) => a.distance - b.distance)[0]?.year;
+}
 
 /** Where each figure appears: always with its product and year, because cells and answers are quoted on their own. */
 const FIGURE_PATHS: Record<string, string[]> = {
@@ -362,7 +381,7 @@ const NOT_ADDED_UP: Record<LocaleCode, RegExp> = {
 /** Aura Historia gives no valuations: said plainly, never as an apology and never as a promise. */
 const NO_VALUATIONS: Record<LocaleCode, RegExp> = {
     en: /gives no valuations/i,
-    de: /erstellt keine Wertgutachten/i,
+    de: /gibt keine Bewertungen/i,
     es: /no ofrece valoraciones/i,
     fr: /ne fournit aucune évaluation/i,
     it: /non fornisce valutazioni/i,
@@ -380,9 +399,9 @@ const NO_VALUATION_PATHS = [
 
 const APPRAISER: Record<LocaleCode, RegExp> = {
     en: /appraiser/,
-    de: /Gutachter/,
+    de: /einen Gutachter/,
     es: /tasador/,
-    fr: /expert/,
+    fr: /un expert\b/,
     it: /perito/,
 };
 
@@ -408,7 +427,7 @@ const PRICING: Record<LocaleCode, RegExp> = {
 const ONLY_PAST: Record<LocaleCode, RegExp> = {
     en: /\b(only|solely) (sold|past|historical)\b/i,
     de: /\bnur (verkauft|vergangen|historisch)/i,
-    es: /\bsolo (resultados|precios|ventas) (pasad|vendid)/i,
+    es: /\bs[oó]lo (resultados|precios|ventas) (pasad|vendid)/i,
     fr: /\buniquement (les )?(prix|résultats|ventes) (passé|vendu)/i,
     it: /\bsolo (prezzi|risultati|vendite) (passat|vendut)/i,
 };
@@ -422,12 +441,24 @@ const OWNERSHIP: Record<LocaleCode, RegExp> = {
     it: /(acquis|acquist|fusione|propriet)/i,
 };
 
+/**
+ * The databases' own superlatives ("the world's most comprehensive record of art sales", "world
+ * leader") are never repeated in the page's voice: the sources note says none is used.
+ */
+const SUPERLATIVES: Record<LocaleCode, RegExp> = {
+    en: /(comprehensive|world's (largest|most|first)|world leader|\bleading\b|\bleader\b|largest)/i,
+    de: /(umfassendst|weltweit führend|marktführer|größte[nrs]?\b|\bführend)/i,
+    es: /(más completa|líder|el mayor|mayor del mundo|el primer)/i,
+    fr: /(le plus complet|\bleader\b|le plus grand|premier au monde|premier marché)/i,
+    it: /(più completa|\bleader\b|il più grande|primo al mondo)/i,
+};
+
 const AFFILIATION: Record<LocaleCode, RegExp> = {
     en: /not affiliated with Artnet, WorthPoint, MutualArt or Artprice/,
     de: /in keiner Verbindung zu Artnet, WorthPoint, MutualArt oder Artprice/,
     es: /no está vinculada a Artnet, WorthPoint, MutualArt ni Artprice/,
     fr: /n’est pas affiliée à Artnet, WorthPoint, MutualArt ni Artprice/,
-    it: /non è affiliata ad Artnet, WorthPoint, MutualArt né Artprice/,
+    it: /non è affiliata ad Artnet, WorthPoint, MutualArt né ad Artprice/,
 };
 
 const DESCRIBES_APPRAISALS: Record<LocaleCode, RegExp> = {
@@ -466,7 +497,7 @@ describe.each(Object.entries(LOCALES))(
 
         it("carries no figure but the dated, attributed numbers of the four products", () => {
             for (const text of [...copy, ...searchResultCopy]) {
-                for (const [digits] of text.matchAll(/\d+/g)) {
+                for (const [digits] of withoutSeparators(text).matchAll(/\d+/g)) {
                     expect(ALLOWED_NUMBERS.has(digits), `${digits} in "${text}"`).toBe(true);
                 }
             }
@@ -475,10 +506,18 @@ describe.each(Object.entries(LOCALES))(
                 const paths = pathsMatching(figure);
                 expect(paths.sort(), `paths with ${key}`).toEqual([...FIGURE_PATHS[key]].sort());
                 for (const path of paths) {
-                    // Quoted on its own, the string still names the product and the year.
-                    expect(textAt(path), path).toContain(product);
-                    expect(textAt(path), path).toContain(year);
-                    expect(textAt(path), path).toMatch(ATTRIBUTION[code]);
+                    // Quoted on its own, the string still names the product and the year, and the
+                    // product named closest before the figure and the year closest to it in its sentence are
+                    // its own (a figure moved to another product's sentence would fail here).
+                    const text = withoutSeparators(textAt(path));
+                    const at = text.search(figure);
+                    expect(nearestBrandBefore(text, at), `${path}: product before ${key}`).toBe(
+                        product,
+                    );
+                    expect(nearestYearInSentence(text, at), `${path}: year beside ${key}`).toBe(
+                        year,
+                    );
+                    expect(text, path).toMatch(ATTRIBUTION[code]);
                 }
             }
         });
@@ -557,7 +596,7 @@ describe.each(Object.entries(LOCALES))(
         it("says nothing about the databases' interfaces, assistants or agents", () => {
             for (const text of [...copy, ...searchResultCopy]) {
                 expect(text).not.toMatch(/(MCP|llms\.txt|\bAPI\b|\bAI\b|\bKI\b)/);
-                expect(text).not.toMatch(/(agent|assistant|assistent)/i);
+                expect(text).not.toMatch(/(agent|assistant|assistent|asistent)/i);
             }
         });
 
@@ -571,6 +610,36 @@ describe.each(Object.entries(LOCALES))(
                 expect(text).not.toMatch(
                     /(daily|täglich|diari|quotidien|giornalier|hourly|stündlich|cada hora|toutes les heures|ogni ora)/i,
                 );
+            }
+            // The tie names the two that describe alerts, wherever it is stated.
+            for (const text of [
+                page.scorecard.rows.alerts.verdict,
+                page.quickVerdicts.alerts.label,
+                page.hero.quickAnswerDescription,
+            ]) {
+                expect(text).toContain("Artnet");
+                expect(text).toContain("MutualArt");
+                expect(text).not.toContain("WorthPoint");
+                expect(text).not.toContain("Artprice");
+            }
+        });
+
+        it("names in the current-availability cell only the products with a readable source for it", () => {
+            const cell = textAt("scorecard.rows.currentAvailability.competitor");
+            // Artnet: upcoming auctions; MutualArt: artworks for sale and upcoming lots; Artprice's
+            // parent company: a marketplace. WorthPoint's release says nothing of the kind.
+            for (const brand of ["Artnet", "MutualArt", "Artprice"]) {
+                expect(cell).toContain(brand);
+            }
+            expect(cell).not.toContain("WorthPoint");
+            // Artprice's marketplace is attributed to its parent company and dated.
+            expect(cell).toContain("2026");
+            expect(cell).toMatch(ATTRIBUTION[code]);
+        });
+
+        it("repeats none of the databases' own superlatives in the page's voice", () => {
+            for (const text of [...copy, ...searchResultCopy]) {
+                expect(text).not.toMatch(SUPERLATIVES[code]);
             }
         });
 
