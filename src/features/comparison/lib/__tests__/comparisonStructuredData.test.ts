@@ -1,5 +1,7 @@
 import { beforeAll, describe, expect, it } from "vitest";
 
+import { ART_PRICE_DATABASES_COMPARISON } from "@/features/comparison/config/artPriceDatabasesComparison.ts";
+import { ART_PRICE_DATABASES_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/artPriceDatabasesComparisonReview.ts";
 import { ARTSY_COMPARISON } from "@/features/comparison/config/artsyComparison.ts";
 import { ARTSY_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/artsyComparisonReview.ts";
 import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
@@ -264,6 +266,40 @@ describe("buildComparisonStructuredData", () => {
             t("compareEbayPage.faq.items.rareArt.question"),
             t("compareEbayPage.faq.items.everydayCollectibles.question"),
             t("compareEbayPage.faq.items.authenticity.question"),
+        ]);
+        expect(JSON.stringify([article, faqPage])).not.toMatch(
+            /"@type":"(Review|AggregateRating|Rating)"/,
+        );
+    });
+
+    it("builds the art price databases page from its visible strings, with no review markup", () => {
+        const [article, faqPage] = build(ART_PRICE_DATABASES_COMPARISON);
+
+        expect(article).toMatchObject({
+            "@type": "Article",
+            headline: stripInlineMarkup(t("compareArtPriceDatabasesPage.hero.title")),
+            description: t("compareArtPriceDatabasesPage.hero.subtitle"),
+            dateModified: ART_PRICE_DATABASES_COMPARISON_LAST_REVIEWED,
+            url: "https://aura-historia.com/de/compare/art-price-databases",
+        });
+        expect(article.dateModified).toBe("2026-11-09");
+        expect(article.about).toEqual(
+            ART_PRICE_DATABASES_COMPARISON.structuredDataTopics.map((topic) =>
+                t(`compareArtPriceDatabasesPage.structuredData.about.${topic}`),
+            ),
+        );
+        expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual(
+            getComparisonFaq(ART_PRICE_DATABASES_COMPARISON).map((item) => t(item.questionKey)),
+        );
+        expect(faqPage.mainEntity).toHaveLength(6);
+        // The questions people ask, in the order the issue lists them.
+        expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual([
+            t("compareArtPriceDatabasesPage.faq.items.alternativeArtnet.question"),
+            t("compareArtPriceDatabasesPage.faq.items.alternativeWorthPoint.question"),
+            t("compareArtPriceDatabasesPage.faq.items.alternativeArtpriceMutualArt.question"),
+            t("compareArtPriceDatabasesPage.faq.items.worth.question"),
+            t("compareArtPriceDatabasesPage.faq.items.similarOffers.question"),
+            t("compareArtPriceDatabasesPage.faq.items.pastResults.question"),
         ]);
         expect(JSON.stringify([article, faqPage])).not.toMatch(
             /"@type":"(Review|AggregateRating|Rating)"/,
