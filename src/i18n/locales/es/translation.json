@@ -4737,7 +4737,7 @@
     },
     "quickVerdicts": {
       "pastResults": {
-        "label": "Más fuerte para consultar resultados de subastas pasadas",
+        "label": "Más fuerte para consultar precios y resultados de subastas del pasado",
         "value": "Bases de datos de precios"
       },
       "offeredNow": {
@@ -4756,11 +4756,11 @@
     "summary": {
       "title": "La versión <em>corta</em>",
       "paragraph1": "Aura Historia es menos una alternativa a una base de datos de precios que su complemento. Bases de datos como la Artnet Price Database, WorthPoint, MutualArt y Artprice registran por cuánto se vendieron los objetos. Aura Historia muestra lo que ofrecen ahora comerciantes, casas de subastas, tiendas y marketplaces, y registra cómo cambia cada anuncio.",
-      "paragraph2": "Muchos coleccionistas usan las dos: una base de datos para saber cuánto alcanzó un objeto, y Aura Historia para ver dónde se ofrecen objetos comparables y cómo cambian. Aura Historia no ofrece valoraciones."
+      "paragraph2": "Los coleccionistas pueden usar las dos: una base de datos para saber cuánto alcanzó un objeto, y Aura Historia para ver dónde se ofrecen objetos comparables y cómo cambian. Aura Historia no ofrece valoraciones."
     },
     "respect": {
-      "title": "Las bases de datos de precios hicieron <em>consultables los resultados de subastas</em>",
-      "paragraph1": "Una comparación justa empieza aquí. Artnet describe su Price Database como 18 millones de resultados de subastas, con registros que se remontan a 1985 (su página de la Price Database, noviembre de 2026). La empresa matriz de Artprice afirma que sus bases de datos contienen más de 30 millones de índices y resultados de subastas, con subastas rastreables desde 1700 (noviembre de 2026). El comunicado de resultados de WorthPoint de enero de 2022 citaba más de 610 millones de precios archivados. MutualArt afirma tener datos de más de 900.000 artistas (noviembre de 2026).",
+      "title": "Las bases de datos de precios dan <em>acceso a resultados de subastas</em>",
+      "paragraph1": "Una comparación justa empieza aquí. Artnet describe su Price Database como unos 18 millones de resultados de subastas, con registros que se remontan a 1985 (su página de la Price Database, noviembre de 2026). La empresa matriz de Artprice afirma que sus bases de datos contienen más de 30 millones de índices y resultados de subastas, con subastas rastreables desde 1700 (noviembre de 2026). El comunicado de resultados de WorthPoint de enero de 2022 citaba más de 610 millones de precios archivados. MutualArt afirma tener datos de más de 900.000 artistas (noviembre de 2026).",
       "paragraph2": "Son cifras de las propias empresas. Cuentan cosas distintas, por eso esta página no las suma ni las compara con ninguna cifra de Aura Historia. La investigación de precios es su trabajo. Aura Historia responde a otra pregunta: qué se ofrece ahora, quién lo ofrece y qué ha cambiado desde entonces. No ofrece valoraciones.",
       "status": "El 15 de abril de 2026, Artsy y Artnet anunciaron que han unido fuerzas bajo una dirección conjunta. Según el anuncio, ambas seguirán funcionando como marcas y sitios web distintos. El comunicado sigue citando la Artnet Price Database entre los servicios de Artnet."
     },
@@ -4773,8 +4773,8 @@
           "description": "Anuncios vigentes de comerciantes, casas de subastas, tiendas y marketplaces, tal como los publican los proveedores."
         },
         "askingPrices": {
-          "title": "Precios de salida junto a los lotes de subasta",
-          "description": "Los precios de salida de comerciantes y marketplaces y los anuncios de subasta aparecen en una sola lista de resultados. Aura Historia muestra los anuncios tal como se publican y no ofrece valoraciones."
+          "title": "Precios de salida tal como los publican los proveedores",
+          "description": "Los precios de salida de los proveedores aparecen juntos en una sola lista de resultados, tal como se publican. Aura Historia no ofrece valoraciones."
         },
         "watchingChanges": {
           "title": "Seguir los cambios entre proveedores",
@@ -4798,13 +4798,13 @@
       "rows": {
         "historicalDepth": {
           "criterion": "Profundidad histórica e investigación de resultados",
-          "competitor": "Artnet describe su Price Database como 18 millones de resultados de subastas, con registros que se remontan a 1985 (noviembre de 2026). La empresa matriz de Artprice afirma que sus bases de datos contienen más de 30 millones de índices y resultados de subastas, con subastas rastreables desde 1700 (noviembre de 2026). El comunicado de resultados de WorthPoint de enero de 2022 citaba más de 610 millones de precios archivados. Las cifras cuentan cosas distintas, por lo que no se suman ni se comparan.",
+          "competitor": "Artnet describe su Price Database como unos 18 millones de resultados de subastas, con registros que se remontan a 1985 (noviembre de 2026). La empresa matriz de Artprice afirma que sus bases de datos contienen más de 30 millones de índices y resultados de subastas (noviembre de 2026). El comunicado de resultados de WorthPoint de enero de 2022 citaba más de 610 millones de precios archivados. Las cifras cuentan cosas distintas, por lo que no se suman ni se comparan.",
           "auraHistoria": "No es un archivo de resultados de subastas pasadas. La página de un anuncio muestra los cambios que Aura Historia ha registrado en ese anuncio desde que lo vio por primera vez.",
           "verdict": "Bases de datos de precios"
         },
         "currentAvailability": {
           "criterion": "Disponibilidad actual",
-          "competitor": "Centradas en los resultados de ventas pasadas. Artnet indica que sus bases de datos incluyen las próximas subastas, y MutualArt muestra obras de arte en venta y lotes de próximas subastas.",
+          "competitor": "Centradas en los resultados de ventas pasadas. Artnet indica que sus bases de datos incluyen las próximas subastas, MutualArt muestra obras de arte en venta y lotes de próximas subastas, y la empresa matriz de Artprice describe un marketplace de obras a precio fijo o en subasta (noviembre de 2026).",
           "auraHistoria": "Anuncios vigentes de comerciantes, casas de subastas, tiendas y marketplaces, tal como los publican los proveedores, en una sola búsqueda.",
           "verdict": "Aura Historia entre proveedores"
         },
@@ -4867,7 +4867,7 @@
       "items": {
         "alternativeArtnet": {
           "question": "¿Es Aura Historia una alternativa a Artnet?",
-          "answer": "No en el sentido habitual. La Artnet Price Database registra por cuánto se vendieron los objetos: Artnet la describe como 18 millones de resultados de subastas, con registros que se remontan a 1985 (su página de la Price Database, noviembre de 2026). Aura Historia muestra lo que ofrecen ahora comerciantes, casas de subastas y marketplaces. Las dos responden a preguntas distintas y se complementan bien. Aura Historia no ofrece valoraciones."
+          "answer": "No en el sentido habitual. La Artnet Price Database registra por cuánto se vendieron los objetos: Artnet la describe como unos 18 millones de resultados de subastas, con registros que se remontan a 1985 (su página de la Price Database, noviembre de 2026). Aura Historia muestra lo que ofrecen ahora comerciantes, casas de subastas y marketplaces. Las dos responden a preguntas distintas y se complementan bien. Aura Historia no ofrece valoraciones."
         },
         "alternativeWorthPoint": {
           "question": "¿Es Aura Historia una alternativa a WorthPoint?",

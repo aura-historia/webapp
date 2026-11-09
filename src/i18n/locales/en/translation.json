@@ -4929,7 +4929,7 @@
     },
     "quickVerdicts": {
       "pastResults": {
-        "label": "Best for researching past auction results",
+        "label": "Best for researching past prices and auction results",
         "value": "Price databases"
       },
       "offeredNow": {
@@ -4948,11 +4948,11 @@
     "summary": {
       "title": "The short <em>version</em>",
       "paragraph1": "Aura Historia is less an alternative to a price database than its counterpart. Databases such as the Artnet Price Database, WorthPoint, MutualArt and Artprice record what objects sold for. Aura Historia shows what dealers, auction houses, shops and marketplaces offer now, and records how each listing changes.",
-      "paragraph2": "Many collectors use both: a database to learn what an object has fetched, and Aura Historia to see where comparable objects are offered and how they change. Aura Historia gives no valuations."
+      "paragraph2": "Collectors can use both: a database to learn what an object has fetched, and Aura Historia to see where comparable objects are offered and how they change. Aura Historia gives no valuations."
     },
     "respect": {
-      "title": "Price databases made <em>auction results searchable</em>",
-      "paragraph1": "A fair comparison starts here. Artnet describes its Price Database as 18 million auction results, with records back to 1985 (its Price Database page, November 2026). Artprice's parent company says its databanks hold over 30 million indices and auction results, with auction traceability since 1700 (November 2026). WorthPoint's results announcement of January 2022 cited more than 610 million archived prices. MutualArt says it has data on more than 900,000 artists (November 2026).",
+      "title": "Price databases give <em>access to auction results</em>",
+      "paragraph1": "A fair comparison starts here. Artnet describes its Price Database as about 18 million auction results, with records back to 1985 (its Price Database page, November 2026). Artprice's parent company says its databanks hold over 30 million indices and auction results, with auction traceability since 1700 (November 2026). WorthPoint's results announcement of January 2022 cited more than 610 million archived prices. MutualArt says it has data on more than 900,000 artists (November 2026).",
       "paragraph2": "These are the companies' own figures. They count different things, so this page does not add them up or compare them with any figure of Aura Historia. Price research is their work. Aura Historia answers a different question: what is offered now, by whom, and what has changed since. It gives no valuations.",
       "status": "On 15 April 2026, Artsy and Artnet announced that they had joined forces under shared leadership. According to the announcement, both will continue to operate as distinct brands and websites. The announcement still lists the Artnet Price Database among Artnet's services."
     },
@@ -4965,8 +4965,8 @@
           "description": "Live listings from dealers, auction houses, shops and marketplaces, as the providers publish them."
         },
         "askingPrices": {
-          "title": "Asking prices next to auction lots",
-          "description": "Dealers' and marketplaces' asking prices and auction listings sit in one result list. Aura Historia shows listings as published and gives no valuations."
+          "title": "Asking prices as providers publish them",
+          "description": "Providers' asking prices appear together in one result list, as published. Aura Historia gives no valuations."
         },
         "watchingChanges": {
           "title": "Watching change across providers",
@@ -4990,13 +4990,13 @@
       "rows": {
         "historicalDepth": {
           "criterion": "Historical depth and results research",
-          "competitor": "Artnet describes its Price Database as 18 million auction results, with records back to 1985 (November 2026). Artprice's parent company says its databanks hold over 30 million indices and auction results, with auction traceability since 1700 (November 2026). WorthPoint's results announcement of January 2022 cited more than 610 million archived prices. The figures count different things, so they are not added up or compared.",
+          "competitor": "Artnet describes its Price Database as about 18 million auction results, with records back to 1985 (November 2026). Artprice's parent company says its databanks hold over 30 million indices and auction results (November 2026). WorthPoint's results announcement of January 2022 cited more than 610 million archived prices. The figures count different things, so they are not added up or compared.",
           "auraHistoria": "Not an archive of past auction results. A listing page shows the changes Aura Historia has recorded for that listing since it first saw it.",
           "verdict": "Price databases"
         },
         "currentAvailability": {
           "criterion": "Current availability",
-          "competitor": "Centred on results of past sales. Artnet says upcoming auctions are included in its databases, and MutualArt lists artworks for sale and upcoming auction lots.",
+          "competitor": "Centred on results of past sales. Artnet says upcoming auctions are included in its databases, MutualArt lists artworks for sale and upcoming auction lots, and Artprice's parent company describes a marketplace for works at fixed prices or at auction (November 2026).",
           "auraHistoria": "Live listings from dealers, auction houses, shops and marketplaces, as the providers publish them, in one search.",
           "verdict": "Aura Historia across providers"
         },
@@ -5059,7 +5059,7 @@
       "items": {
         "alternativeArtnet": {
           "question": "Is Aura Historia an Artnet alternative?",
-          "answer": "Not in the usual sense. The Artnet Price Database records what objects sold for: Artnet describes it as 18 million auction results, with records back to 1985 (its Price Database page, November 2026). Aura Historia shows what dealers, auction houses and marketplaces offer now. The two answer different questions and work well together. Aura Historia gives no valuations."
+          "answer": "Not in the usual sense. The Artnet Price Database records what objects sold for: Artnet describes it as about 18 million auction results, with records back to 1985 (its Price Database page, November 2026). Aura Historia shows what dealers, auction houses and marketplaces offer now. The two answer different questions and work well together. Aura Historia gives no valuations."
         },
         "alternativeWorthPoint": {
           "question": "Is Aura Historia a WorthPoint alternative?",

@@ -4929,7 +4929,7 @@
     },
     "quickVerdicts": {
       "pastResults": {
-        "label": "Stärker für die Recherche vergangener Auktionsergebnisse",
+        "label": "Stärker für die Recherche vergangener Preise und Auktionsergebnisse",
         "value": "Preisdatenbanken"
       },
       "offeredNow": {
@@ -4948,11 +4948,11 @@
     "summary": {
       "title": "Die <em>Kurzfassung</em>",
       "paragraph1": "Aura Historia ist weniger eine Alternative zu einer Preisdatenbank als deren Gegenstück. Datenbanken wie die Artnet Price Database, WorthPoint, MutualArt und Artprice halten fest, wofür Objekte verkauft wurden. Aura Historia zeigt, was Händler, Auktionshäuser, Shops und Marktplätze jetzt anbieten, und hält fest, wie sich jedes Angebot verändert.",
-      "paragraph2": "Viele Sammler nutzen beides: eine Datenbank, um zu erfahren, was ein Objekt erzielt hat, und Aura Historia, um zu sehen, wo vergleichbare Objekte angeboten werden und wie sie sich verändern. Aura Historia erstellt keine Wertgutachten."
+      "paragraph2": "Sammler können beides nutzen: eine Datenbank, um zu erfahren, was ein Objekt erzielt hat, und Aura Historia, um zu sehen, wo vergleichbare Objekte angeboten werden und wie sie sich verändern. Aura Historia erstellt keine Wertgutachten."
     },
     "respect": {
-      "title": "Preisdatenbanken haben <em>Auktionsergebnisse durchsuchbar gemacht</em>",
-      "paragraph1": "Ein fairer Vergleich beginnt hier. Artnet beschreibt seine Price Database mit 18 Millionen Auktionsergebnissen, die bis 1985 zurückreichen (Seite der Price Database, November 2026). Die Muttergesellschaft von Artprice gibt an, ihre Datenbanken enthielten über 30 Millionen Indizes und Auktionsergebnisse, mit Auktionen, die sich bis 1700 zurückverfolgen lassen (November 2026). WorthPoint nannte in seiner Ergebnismitteilung vom Januar 2022 mehr als 610 Millionen archivierte Preise. MutualArt gibt an, Daten zu mehr als 900.000 Künstlerinnen und Künstlern zu haben (November 2026).",
+      "title": "Preisdatenbanken bieten <em>Zugang zu Auktionsergebnissen</em>",
+      "paragraph1": "Ein fairer Vergleich beginnt hier. Artnet beschreibt seine Price Database mit rund 18 Millionen Auktionsergebnissen, die bis 1985 zurückreichen (Seite der Price Database, November 2026). Die Muttergesellschaft von Artprice gibt an, ihre Datenbanken enthielten über 30 Millionen Indizes und Auktionsergebnisse, mit Auktionen, die sich bis 1700 zurückverfolgen lassen (November 2026). WorthPoint nannte in seiner Ergebnismitteilung vom Januar 2022 mehr als 610 Millionen archivierte Preise. MutualArt gibt an, Daten zu mehr als 900.000 Künstlerinnen und Künstlern zu haben (November 2026).",
       "paragraph2": "Das sind die eigenen Angaben der Unternehmen. Sie zählen Unterschiedliches, deshalb addiert diese Seite sie nicht und vergleicht sie mit keiner Zahl von Aura Historia. Preisrecherche ist deren Aufgabe. Aura Historia beantwortet eine andere Frage: was jetzt angeboten wird, von wem und was sich seither geändert hat. Aura Historia erstellt keine Wertgutachten.",
       "status": "Am 15. April 2026 gaben Artsy und Artnet bekannt, dass sie ihre Kräfte unter gemeinsamer Leitung gebündelt haben. Laut der Mitteilung werden beide weiterhin als eigenständige Marken und Websites betrieben. Die Mitteilung nennt die Artnet Price Database weiterhin unter den Diensten von Artnet."
     },
@@ -4965,8 +4965,8 @@
           "description": "Aktuelle Angebote von Händlern, Auktionshäusern, Shops und Marktplätzen, so wie die Anbieter sie veröffentlichen."
         },
         "askingPrices": {
-          "title": "Angebotspreise neben Auktionslosen",
-          "description": "Angebotspreise von Händlern und Marktplätzen und Auktionsangebote stehen in einer Ergebnisliste. Aura Historia zeigt Angebote, wie sie veröffentlicht werden, und erstellt keine Wertgutachten."
+          "title": "Angebotspreise, wie die Anbieter sie veröffentlichen",
+          "description": "Die Angebotspreise der Anbieter stehen gemeinsam in einer Ergebnisliste, so wie sie veröffentlicht werden. Aura Historia erstellt keine Wertgutachten."
         },
         "watchingChanges": {
           "title": "Änderungen über Anbieter hinweg beobachten",
@@ -4990,13 +4990,13 @@
       "rows": {
         "historicalDepth": {
           "criterion": "Historische Tiefe und Ergebnisrecherche",
-          "competitor": "Artnet beschreibt seine Price Database mit 18 Millionen Auktionsergebnissen, die bis 1985 zurückreichen (November 2026). Die Muttergesellschaft von Artprice gibt an, ihre Datenbanken enthielten über 30 Millionen Indizes und Auktionsergebnisse, mit Auktionen, die sich bis 1700 zurückverfolgen lassen (November 2026). WorthPoint nannte in seiner Ergebnismitteilung vom Januar 2022 mehr als 610 Millionen archivierte Preise. Die Zahlen zählen Unterschiedliches und werden hier weder addiert noch verglichen.",
+          "competitor": "Artnet beschreibt seine Price Database mit rund 18 Millionen Auktionsergebnissen, die bis 1985 zurückreichen (November 2026). Die Muttergesellschaft von Artprice gibt an, ihre Datenbanken enthielten über 30 Millionen Indizes und Auktionsergebnisse (November 2026). WorthPoint nannte in seiner Ergebnismitteilung vom Januar 2022 mehr als 610 Millionen archivierte Preise. Die Zahlen zählen Unterschiedliches und werden hier weder addiert noch verglichen.",
           "auraHistoria": "Kein Archiv vergangener Auktionsergebnisse. Eine Angebotsseite zeigt die Änderungen, die Aura Historia für dieses Angebot seit der ersten Erfassung festgehalten hat.",
           "verdict": "Preisdatenbanken"
         },
         "currentAvailability": {
           "criterion": "Aktuelle Verfügbarkeit",
-          "competitor": "Ausgerichtet auf Ergebnisse vergangener Verkäufe. Artnet gibt an, dass kommende Auktionen in seinen Datenbanken enthalten sind, und MutualArt listet Kunstwerke zum Verkauf und kommende Auktionslose.",
+          "competitor": "Ausgerichtet auf Ergebnisse vergangener Verkäufe. Artnet gibt an, dass kommende Auktionen in seinen Datenbanken enthalten sind, MutualArt listet Kunstwerke zum Verkauf und kommende Auktionslose, und die Muttergesellschaft von Artprice beschreibt einen Marktplatz für Werke zu Festpreisen oder per Auktion (November 2026).",
           "auraHistoria": "Aktuelle Angebote von Händlern, Auktionshäusern, Shops und Marktplätzen, so wie die Anbieter sie veröffentlichen, in einer Suche.",
           "verdict": "Aura Historia über Anbieter hinweg"
         },
@@ -5059,7 +5059,7 @@
       "items": {
         "alternativeArtnet": {
           "question": "Ist Aura Historia eine Alternative zu Artnet?",
-          "answer": "Nicht im üblichen Sinn. Die Artnet Price Database hält fest, wofür Objekte verkauft wurden: Artnet beschreibt sie mit 18 Millionen Auktionsergebnissen, die bis 1985 zurückreichen (Seite der Price Database, November 2026). Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze jetzt anbieten. Beide beantworten unterschiedliche Fragen und ergänzen sich gut. Aura Historia erstellt keine Wertgutachten."
+          "answer": "Nicht im üblichen Sinn. Die Artnet Price Database hält fest, wofür Objekte verkauft wurden: Artnet beschreibt sie mit rund 18 Millionen Auktionsergebnissen, die bis 1985 zurückreichen (Seite der Price Database, November 2026). Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze jetzt anbieten. Beide beantworten unterschiedliche Fragen und ergänzen sich gut. Aura Historia erstellt keine Wertgutachten."
         },
         "alternativeWorthPoint": {
           "question": "Ist Aura Historia eine Alternative zu WorthPoint?",

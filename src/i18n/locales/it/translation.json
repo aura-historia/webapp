@@ -4737,7 +4737,7 @@
     },
     "quickVerdicts": {
       "pastResults": {
-        "label": "Più forte per ricercare i risultati d’asta passati",
+        "label": "Più forte per ricercare prezzi e risultati d’asta passati",
         "value": "Banche dati dei prezzi"
       },
       "offeredNow": {
@@ -4756,11 +4756,11 @@
     "summary": {
       "title": "La versione <em>breve</em>",
       "paragraph1": "Aura Historia è meno un’alternativa a una banca dati dei prezzi che il suo complemento. Banche dati come l’Artnet Price Database, WorthPoint, MutualArt e Artprice registrano a quanto sono stati venduti gli oggetti. Aura Historia mostra ciò che commercianti, case d’asta, negozi e marketplace offrono oggi e registra come cambia ogni annuncio.",
-      "paragraph2": "Molti collezionisti usano entrambe: una banca dati per sapere quanto ha ottenuto un oggetto, Aura Historia per vedere dove sono offerti oggetti comparabili e come cambiano. Aura Historia non fornisce valutazioni."
+      "paragraph2": "I collezionisti possono usare entrambe: una banca dati per sapere quanto ha ottenuto un oggetto, Aura Historia per vedere dove sono offerti oggetti comparabili e come cambiano. Aura Historia non fornisce valutazioni."
     },
     "respect": {
-      "title": "Le banche dati dei prezzi hanno reso <em>consultabili i risultati d’asta</em>",
-      "paragraph1": "Un confronto equo parte da qui. Artnet descrive la sua Price Database come 18 milioni di risultati d’asta, con registrazioni che risalgono al 1985 (la sua pagina della Price Database, novembre 2026). La società madre di Artprice dichiara che le sue banche dati contengono oltre 30 milioni di indici e risultati d’asta, con aste tracciabili dal 1700 (novembre 2026). Il comunicato sui risultati di WorthPoint del gennaio 2022 citava oltre 610 milioni di prezzi archiviati. MutualArt dichiara di avere dati su oltre 900.000 artisti (novembre 2026).",
+      "title": "Le banche dati dei prezzi danno <em>accesso ai risultati d’asta</em>",
+      "paragraph1": "Un confronto equo parte da qui. Artnet descrive la sua Price Database come circa 18 milioni di risultati d’asta, con registrazioni che risalgono al 1985 (la sua pagina della Price Database, novembre 2026). La società madre di Artprice dichiara che le sue banche dati contengono oltre 30 milioni di indici e risultati d’asta, con aste tracciabili dal 1700 (novembre 2026). Il comunicato sui risultati di WorthPoint del gennaio 2022 citava oltre 610 milioni di prezzi archiviati. MutualArt dichiara di avere dati su oltre 900.000 artisti (novembre 2026).",
       "paragraph2": "Sono cifre delle stesse aziende. Contano cose diverse, per questo questa pagina non le somma e non le confronta con alcuna cifra di Aura Historia. La ricerca dei prezzi è il loro lavoro. Aura Historia risponde a un’altra domanda: che cosa è offerto oggi, da chi e che cosa è cambiato da allora. Non fornisce valutazioni.",
       "status": "Il 15 aprile 2026 Artsy e Artnet hanno annunciato di aver unito le forze sotto una guida condivisa. Secondo l’annuncio, entrambi i marchi continueranno a operare come marchi e siti web distinti. Il comunicato continua a indicare l’Artnet Price Database tra i servizi di Artnet."
     },
@@ -4773,8 +4773,8 @@
           "description": "Annunci attuali di commercianti, case d’asta, negozi e marketplace, come li pubblicano i fornitori."
         },
         "askingPrices": {
-          "title": "Prezzi richiesti accanto ai lotti d’asta",
-          "description": "I prezzi richiesti da commercianti e marketplace e gli annunci d’asta compaiono in un’unica lista di risultati. Aura Historia mostra gli annunci come sono pubblicati e non fornisce valutazioni."
+          "title": "Prezzi richiesti come li pubblicano i fornitori",
+          "description": "I prezzi richiesti dai fornitori compaiono insieme in un’unica lista di risultati, come sono pubblicati. Aura Historia non fornisce valutazioni."
         },
         "watchingChanges": {
           "title": "Seguire i cambiamenti tra più fornitori",
@@ -4798,13 +4798,13 @@
       "rows": {
         "historicalDepth": {
           "criterion": "Profondità storica e ricerca dei risultati",
-          "competitor": "Artnet descrive la sua Price Database come 18 milioni di risultati d’asta, con registrazioni che risalgono al 1985 (novembre 2026). La società madre di Artprice dichiara che le sue banche dati contengono oltre 30 milioni di indici e risultati d’asta, con aste tracciabili dal 1700 (novembre 2026). Il comunicato sui risultati di WorthPoint del gennaio 2022 citava oltre 610 milioni di prezzi archiviati. Le cifre contano cose diverse, quindi non vengono sommate né confrontate.",
+          "competitor": "Artnet descrive la sua Price Database come circa 18 milioni di risultati d’asta, con registrazioni che risalgono al 1985 (novembre 2026). La società madre di Artprice dichiara che le sue banche dati contengono oltre 30 milioni di indici e risultati d’asta (novembre 2026). Il comunicato sui risultati di WorthPoint del gennaio 2022 citava oltre 610 milioni di prezzi archiviati. Le cifre contano cose diverse, quindi non vengono sommate né confrontate.",
           "auraHistoria": "Non è un archivio di risultati d’asta passati. La pagina di un annuncio mostra le variazioni che Aura Historia ha registrato per quell’annuncio da quando lo ha visto per la prima volta.",
           "verdict": "Banche dati dei prezzi"
         },
         "currentAvailability": {
           "criterion": "Disponibilità attuale",
-          "competitor": "Incentrate sui risultati di vendite passate. Artnet indica che le sue banche dati includono le aste in programma, e MutualArt elenca opere d’arte in vendita e lotti di aste in programma.",
+          "competitor": "Incentrate sui risultati di vendite passate. Artnet indica che le sue banche dati includono le aste in programma, MutualArt elenca opere d’arte in vendita e lotti di aste in programma, e la società madre di Artprice descrive un marketplace di opere a prezzo fisso o all’asta (novembre 2026).",
           "auraHistoria": "Annunci attuali di commercianti, case d’asta, negozi e marketplace, come li pubblicano i fornitori, in un’unica ricerca.",
           "verdict": "Aura Historia tra più fornitori"
         },
@@ -4867,7 +4867,7 @@
       "items": {
         "alternativeArtnet": {
           "question": "Aura Historia è un’alternativa ad Artnet?",
-          "answer": "Non nel senso consueto. L’Artnet Price Database registra a quanto sono stati venduti gli oggetti: Artnet lo descrive come 18 milioni di risultati d’asta, con registrazioni che risalgono al 1985 (la sua pagina della Price Database, novembre 2026). Aura Historia mostra ciò che commercianti, case d’asta e marketplace offrono oggi. I due servizi rispondono a domande diverse e si completano bene. Aura Historia non fornisce valutazioni."
+          "answer": "Non nel senso consueto. L’Artnet Price Database registra a quanto sono stati venduti gli oggetti: Artnet lo descrive come circa 18 milioni di risultati d’asta, con registrazioni che risalgono al 1985 (la sua pagina della Price Database, novembre 2026). Aura Historia mostra ciò che commercianti, case d’asta e marketplace offrono oggi. I due servizi rispondono a domande diverse e si completano bene. Aura Historia non fornisce valutazioni."
         },
         "alternativeWorthPoint": {
           "question": "Aura Historia è un’alternativa a WorthPoint?",

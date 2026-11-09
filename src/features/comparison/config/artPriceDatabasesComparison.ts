@@ -30,7 +30,9 @@ import type { ComparisonDefinition } from "@/features/comparison/config/comparis
  *   them against the pages.
  *
  * Artnet (the Price Database)
- * - "18 million auction results, verified by specialists"; auction records "dating back to 1985";
+ * - "18 million auction results, verified by specialists" (the Artnet FAQ, which answers 403 here,
+ *   is reported to say "about 18 million", so the page says "about 18 million"); auction records
+ *   "dating back to 1985";
  *   two databases, Fine Art and Design, and Decorative Art ("antiques, antiquities, and
  *   collectibles"); "Upcoming auctions are included in both databases"; plans of different search
  *   and result allowances (a one-day pass, individual, expert and appraiser plans for Fine Art and
@@ -61,9 +63,10 @@ import type { ComparisonDefinition } from "@/features/comparison/config/comparis
  *   The page says only that MutualArt describes online appraisals and gives no turnaround.
  *   https://www.mutualart.com/ https://www.mutualart.com/llms.txt
  * - Works for sale and upcoming lots (research item 3, why the dealer-and-marketplace row is
- *   dropped): the homepage and /llms.txt list artworks for sale ("Available works for sale from
- *   Partner galleries") and "Upcoming lots from 20,000+ auction houses worldwide". The page says
- *   MutualArt lists artworks for sale and upcoming auction lots, and uses no count.
+ *   dropped, together with Artprice's marketplace below): the homepage and /llms.txt list artworks
+ *   for sale ("Available works for sale from Partner galleries") and "Upcoming lots from 20,000+
+ *   auction houses worldwide". The page says MutualArt lists artworks for sale and upcoming auction
+ *   lots, and uses no count.
  *   https://www.mutualart.com/llms.txt
  *
  * Artprice
@@ -75,11 +78,17 @@ import type { ComparisonDefinition } from "@/features/comparison/config/comparis
  *   and auction results"), attributes it to Artprice's parent company and dates it. The 7,200 and
  *   930,000 are left out: a reader would add them to the others.
  *   https://www.finanzwire.com/press-release/artmarketcom-epa-prc-artmarketcom-artprice-q3-2026-revenue-up-global-rollout-in-early-december-2026-of-artprice-visual-searchr-the-quantum-leap-of-30-years-of-ai-first-strategy-bcOFNoNi8zu
- * - Not used: artprice.com itself (browser check, no content). Its navigation showed a
- *   "Marketplace", which is why the page makes no claim that databases lack asking prices, but the
- *   page names no Artprice marketplace either. The release's own words about the "valuation power
- *   of the tool" describe its search tool and are not an appraisal service, so nothing about
- *   valuation is said of Artprice.
+ * - Marketplace (found in review): the release's "About Artmarket.com" section describes "the
+ *   world's first Standardized Marketplace(R) for buying and selling works of Art" with listings "at
+ *   fixed prices or at auction". The page says only that Artprice's parent company "describes a
+ *   marketplace for works at fixed prices or at auction" (November 2026), never the superlative,
+ *   so the currentAvailability cell does not read as selective. Same release, same URL.
+ * - Not used: artprice.com itself (browser check, no content). The release's own words about the
+ *   "valuation power of the tool" describe its search tool and are not an appraisal service, so
+ *   nothing about valuation is said of Artprice. An SIA library guide gives Artprice's coverage as
+ *   "from 1987", with 1700 to 1900 taken from a reference dictionary: so "auction traceability
+ *   since 1700" is attributed to the parent company and appears once, in the respect chapter,
+ *   never in a scorecard cell or an FAQ answer.
  *
  * WorthPoint
  * - "more than 610 million archived prices" and "nearly 1.3 billion images", data from "online
