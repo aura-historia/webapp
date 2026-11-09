@@ -1,3 +1,5 @@
+import type { ComparisonRoutePath } from "@/features/comparison/config/comparisonDefinition.ts";
+import { COMPARISON_REGISTRY } from "@/features/comparison/config/comparisonRegistry.ts";
 import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
 import {
     SHOPIFY_APP_STORE_URL,
@@ -14,17 +16,30 @@ export type FooterRoute =
     | "/$lng/privacy"
     | "/$lng/terms-and-conditions"
     | "/$lng/consent-settings"
-    | "/$lng/compare/barnebys";
+    | ComparisonRoutePath;
 
 export type FooterLink =
     | { readonly kind: "landing"; readonly translationKey: string; readonly fragment: string }
-    | { readonly kind: "route"; readonly translationKey: string; readonly to: FooterRoute }
+    | {
+          readonly kind: "route";
+          readonly translationKey: string;
+          /** Interpolation values for the link text, such as the competitor's `name`. */
+          readonly translationValues?: Readonly<Record<string, string>>;
+          readonly to: FooterRoute;
+      }
     | { readonly kind: "external"; readonly translationKey: string; readonly href: string };
 
 export interface FooterGroup {
-    readonly id: "discover" | "partners" | "company";
+    readonly id: "discover" | "partners" | "compare" | "company";
     readonly titleKey: string;
     readonly links: readonly FooterLink[];
+}
+
+/** A key that is unique within a group even when two links share their translation key. */
+export function footerLinkKey(link: FooterLink): string {
+    if (link.kind === "landing") return `landing:${link.fragment}`;
+    if (link.kind === "external") return `external:${link.href}`;
+    return `route:${link.to}`;
 }
 
 export interface SocialLink {
@@ -111,6 +126,19 @@ export const FOOTER_GROUPS: readonly FooterGroup[] = [
         ],
     },
     {
+        // One link per published comparison page, so a new page needs no footer change.
+        id: "compare",
+        titleKey: "footer.sections.compare",
+        links: COMPARISON_REGISTRY.map(
+            (comparison): FooterLink => ({
+                kind: "route",
+                translationKey: "comparison.otherComparisons.linkTitle",
+                translationValues: { name: comparison.competitorName },
+                to: comparison.routePath,
+            }),
+        ),
+    },
+    {
         id: "company",
         titleKey: "footer.sections.company",
         links: [
@@ -122,11 +150,6 @@ export const FOOTER_GROUPS: readonly FooterGroup[] = [
                 kind: "route",
                 translationKey: "footer.cookieSettings",
                 to: "/$lng/consent-settings",
-            },
-            {
-                kind: "route",
-                translationKey: "footer.compareBarnebys",
-                to: "/$lng/compare/barnebys",
             },
         ],
     },

@@ -9,6 +9,7 @@ import {
     defaultParseSearch,
 } from "@tanstack/react-router";
 import { Route } from "@/routes/$lng._auth.oauth.authorize.tsx";
+import { localizeHref } from "@/i18n/routing.ts";
 import {
     getBrokerAuthorizationUrl,
     getWooCommerceBrokerCallbackUrl,
@@ -44,6 +45,11 @@ vi.mock("@/features/oauth-client-broker/pages/WooCommerceBrokerConsentPage.tsx",
  * with the same parents, which merges the raw query into the validated search.
  */
 function routerSearchFor(href: string): Record<string, unknown> {
+    return routerMatchFor(href).search;
+}
+
+/** The route's match and the location href the language switch localizes. */
+function routerMatchFor(href: string): { search: Record<string, unknown>; href: string } {
     const rootRoute = createRootRoute();
     const lngRoute = createRoute({ getParentRoute: () => rootRoute, path: "$lng" });
     const authRoute = createRoute({ getParentRoute: () => lngRoute, id: "_auth" });
@@ -63,7 +69,13 @@ function routerSearchFor(href: string): Record<string, unknown> {
     const match = router.matchRoutes(router.latestLocation).at(-1);
     expect(match?.routeId).toBe("/$lng/_auth/oauth/authorize");
     expect(match?.searchError).toBeUndefined();
-    return match?.search as Record<string, unknown>;
+    return {
+        search: match?.search as Record<string, unknown>,
+        href: router.buildLocation({
+            to: router.latestLocation.pathname,
+            search: match?.search as Record<string, unknown>,
+        }).href,
+    };
 }
 
 function renderRouteWithSearch(search: Record<string, unknown>) {
@@ -350,6 +362,31 @@ describe("_auth.oauth.authorize route", () => {
                 validateSearch({ ...entry, code_challenge: "challenge", state: "legacy" }),
             ).toMatchObject({ client_id: entry.client_id, redirect_uri: entry.redirect_uri });
         });
+    });
+
+    it("keeps a metadata document client's request exact through the router and a language switch", () => {
+        mockOAuthAuthorizePage.mockClear();
+        const request = {
+            response_type: "code",
+            client_id: "https://claude.ai/oauth/claude-code-client-metadata",
+            redirect_uri: "http://localhost:53682/callback",
+            scope: "users:read watchlist:read offline_access",
+            state: "agent-state",
+            resource: "https://mcp.aura-historia.com/v1",
+            code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+            code_challenge_method: "S256",
+        };
+        const { search, href } = routerMatchFor(
+            `/en/oauth/authorize?${new URLSearchParams(request)}`,
+        );
+        expect(search).toEqual({ ...request, requires_listing_source_id: false });
+        // The language switch localizes the router's own location href.
+        expect(href).toContain("requires_listing_source_id=false");
+        expect(routerSearchFor(localizeHref(href, "it"))).toEqual(search);
+
+        renderRouteWithSearch(search);
+        expect(screen.getByTestId("oauth-authorize-page")).toHaveTextContent(request.client_id);
+        expect(mockBrokerConsentPage).not.toHaveBeenCalled();
     });
 
     it("treats a request with client_id as OAuth even if it names a transaction", () => {

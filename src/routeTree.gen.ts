@@ -22,7 +22,14 @@ import { Route as LngSearchRouteImport } from './routes/$lng.search'
 import { Route as LngTermsAndConditionsRouteImport } from './routes/$lng.terms-and-conditions'
 import { Route as LngAuthAdminRouteImport } from './routes/$lng._auth.admin'
 import { Route as LngAuthPartnersRouteImport } from './routes/$lng._auth.partners'
+import { Route as LngCompare1stdibsRouteImport } from './routes/$lng.compare.1stdibs'
+import { Route as LngCompareArtPriceDatabasesRouteImport } from './routes/$lng.compare.art-price-databases'
+import { Route as LngCompareArtsyRouteImport } from './routes/$lng.compare.artsy'
 import { Route as LngCompareBarnebysRouteImport } from './routes/$lng.compare.barnebys'
+import { Route as LngCompareCatawikiRouteImport } from './routes/$lng.compare.catawiki'
+import { Route as LngCompareEbayRouteImport } from './routes/$lng.compare.ebay'
+import { Route as LngCompareInvaluableRouteImport } from './routes/$lng.compare.invaluable'
+import { Route as LngCompareLiveauctioneersRouteImport } from './routes/$lng.compare.liveauctioneers'
 import { Route as LngNewsletterConfirmRouteImport } from './routes/$lng.newsletter.confirm'
 import { Route as LngPartnerProgramIndexRouteImport } from './routes/$lng.partner-program.index'
 import { Route as LngPartnerProgramApplyRouteImport } from './routes/$lng.partner-program.apply'
@@ -127,11 +134,48 @@ const LngAuthPartnersRoute = LngAuthPartnersRouteImport.update({
   path: '/partners',
   getParentRoute: () => LngAuthRoute,
 } as any)
+const LngCompare1stdibsRoute = LngCompare1stdibsRouteImport.update({
+  id: '/compare/1stdibs',
+  path: '/compare/1stdibs',
+  getParentRoute: () => LngRoute,
+} as any)
+const LngCompareArtPriceDatabasesRoute =
+  LngCompareArtPriceDatabasesRouteImport.update({
+    id: '/compare/art-price-databases',
+    path: '/compare/art-price-databases',
+    getParentRoute: () => LngRoute,
+  } as any)
+const LngCompareArtsyRoute = LngCompareArtsyRouteImport.update({
+  id: '/compare/artsy',
+  path: '/compare/artsy',
+  getParentRoute: () => LngRoute,
+} as any)
 const LngCompareBarnebysRoute = LngCompareBarnebysRouteImport.update({
   id: '/compare/barnebys',
   path: '/compare/barnebys',
   getParentRoute: () => LngRoute,
 } as any)
+const LngCompareCatawikiRoute = LngCompareCatawikiRouteImport.update({
+  id: '/compare/catawiki',
+  path: '/compare/catawiki',
+  getParentRoute: () => LngRoute,
+} as any)
+const LngCompareEbayRoute = LngCompareEbayRouteImport.update({
+  id: '/compare/ebay',
+  path: '/compare/ebay',
+  getParentRoute: () => LngRoute,
+} as any)
+const LngCompareInvaluableRoute = LngCompareInvaluableRouteImport.update({
+  id: '/compare/invaluable',
+  path: '/compare/invaluable',
+  getParentRoute: () => LngRoute,
+} as any)
+const LngCompareLiveauctioneersRoute =
+  LngCompareLiveauctioneersRouteImport.update({
+    id: '/compare/liveauctioneers',
+    path: '/compare/liveauctioneers',
+    getParentRoute: () => LngRoute,
+  } as any)
 const LngNewsletterConfirmRoute = LngNewsletterConfirmRouteImport.update({
   id: '/newsletter/confirm',
   path: '/newsletter/confirm',
@@ -366,7 +410,14 @@ export interface FileRoutesByFullPath {
   '/$lng/': typeof LngIndexRoute
   '/$lng/admin': typeof LngAuthAdminRouteWithChildren
   '/$lng/partners': typeof LngAuthPartnersRouteWithChildren
+  '/$lng/compare/1stdibs': typeof LngCompare1stdibsRoute
+  '/$lng/compare/art-price-databases': typeof LngCompareArtPriceDatabasesRoute
+  '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
+  '/$lng/compare/catawiki': typeof LngCompareCatawikiRoute
+  '/$lng/compare/ebay': typeof LngCompareEbayRoute
+  '/$lng/compare/invaluable': typeof LngCompareInvaluableRoute
+  '/$lng/compare/liveauctioneers': typeof LngCompareLiveauctioneersRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
@@ -416,7 +467,14 @@ export interface FileRoutesByTo {
   '/$lng/privacy': typeof LngPrivacyRoute
   '/$lng/search': typeof LngSearchRoute
   '/$lng/terms-and-conditions': typeof LngTermsAndConditionsRoute
+  '/$lng/compare/1stdibs': typeof LngCompare1stdibsRoute
+  '/$lng/compare/art-price-databases': typeof LngCompareArtPriceDatabasesRoute
+  '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
+  '/$lng/compare/catawiki': typeof LngCompareCatawikiRoute
+  '/$lng/compare/ebay': typeof LngCompareEbayRoute
+  '/$lng/compare/invaluable': typeof LngCompareInvaluableRoute
+  '/$lng/compare/liveauctioneers': typeof LngCompareLiveauctioneersRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
@@ -472,7 +530,14 @@ export interface FileRoutesById {
   '/$lng/': typeof LngIndexRoute
   '/$lng/_auth/admin': typeof LngAuthAdminRouteWithChildren
   '/$lng/_auth/partners': typeof LngAuthPartnersRouteWithChildren
+  '/$lng/compare/1stdibs': typeof LngCompare1stdibsRoute
+  '/$lng/compare/art-price-databases': typeof LngCompareArtPriceDatabasesRoute
+  '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
+  '/$lng/compare/catawiki': typeof LngCompareCatawikiRoute
+  '/$lng/compare/ebay': typeof LngCompareEbayRoute
+  '/$lng/compare/invaluable': typeof LngCompareInvaluableRoute
+  '/$lng/compare/liveauctioneers': typeof LngCompareLiveauctioneersRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
@@ -528,7 +593,14 @@ export interface FileRouteTypes {
     | '/$lng/'
     | '/$lng/admin'
     | '/$lng/partners'
+    | '/$lng/compare/1stdibs'
+    | '/$lng/compare/art-price-databases'
+    | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
+    | '/$lng/compare/catawiki'
+    | '/$lng/compare/ebay'
+    | '/$lng/compare/invaluable'
+    | '/$lng/compare/liveauctioneers'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
@@ -578,7 +650,14 @@ export interface FileRouteTypes {
     | '/$lng/privacy'
     | '/$lng/search'
     | '/$lng/terms-and-conditions'
+    | '/$lng/compare/1stdibs'
+    | '/$lng/compare/art-price-databases'
+    | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
+    | '/$lng/compare/catawiki'
+    | '/$lng/compare/ebay'
+    | '/$lng/compare/invaluable'
+    | '/$lng/compare/liveauctioneers'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
@@ -633,7 +712,14 @@ export interface FileRouteTypes {
     | '/$lng/'
     | '/$lng/_auth/admin'
     | '/$lng/_auth/partners'
+    | '/$lng/compare/1stdibs'
+    | '/$lng/compare/art-price-databases'
+    | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
+    | '/$lng/compare/catawiki'
+    | '/$lng/compare/ebay'
+    | '/$lng/compare/invaluable'
+    | '/$lng/compare/liveauctioneers'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
@@ -779,11 +865,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LngAuthPartnersRouteImport
       parentRoute: typeof LngAuthRoute
     }
+    '/$lng/compare/1stdibs': {
+      id: '/$lng/compare/1stdibs'
+      path: '/compare/1stdibs'
+      fullPath: '/$lng/compare/1stdibs'
+      preLoaderRoute: typeof LngCompare1stdibsRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/compare/art-price-databases': {
+      id: '/$lng/compare/art-price-databases'
+      path: '/compare/art-price-databases'
+      fullPath: '/$lng/compare/art-price-databases'
+      preLoaderRoute: typeof LngCompareArtPriceDatabasesRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/compare/artsy': {
+      id: '/$lng/compare/artsy'
+      path: '/compare/artsy'
+      fullPath: '/$lng/compare/artsy'
+      preLoaderRoute: typeof LngCompareArtsyRouteImport
+      parentRoute: typeof LngRoute
+    }
     '/$lng/compare/barnebys': {
       id: '/$lng/compare/barnebys'
       path: '/compare/barnebys'
       fullPath: '/$lng/compare/barnebys'
       preLoaderRoute: typeof LngCompareBarnebysRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/compare/catawiki': {
+      id: '/$lng/compare/catawiki'
+      path: '/compare/catawiki'
+      fullPath: '/$lng/compare/catawiki'
+      preLoaderRoute: typeof LngCompareCatawikiRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/compare/ebay': {
+      id: '/$lng/compare/ebay'
+      path: '/compare/ebay'
+      fullPath: '/$lng/compare/ebay'
+      preLoaderRoute: typeof LngCompareEbayRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/compare/invaluable': {
+      id: '/$lng/compare/invaluable'
+      path: '/compare/invaluable'
+      fullPath: '/$lng/compare/invaluable'
+      preLoaderRoute: typeof LngCompareInvaluableRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/compare/liveauctioneers': {
+      id: '/$lng/compare/liveauctioneers'
+      path: '/compare/liveauctioneers'
+      fullPath: '/$lng/compare/liveauctioneers'
+      preLoaderRoute: typeof LngCompareLiveauctioneersRouteImport
       parentRoute: typeof LngRoute
     }
     '/$lng/newsletter/confirm': {
@@ -1174,7 +1309,14 @@ interface LngRouteChildren {
   LngSearchRoute: typeof LngSearchRoute
   LngTermsAndConditionsRoute: typeof LngTermsAndConditionsRoute
   LngIndexRoute: typeof LngIndexRoute
+  LngCompare1stdibsRoute: typeof LngCompare1stdibsRoute
+  LngCompareArtPriceDatabasesRoute: typeof LngCompareArtPriceDatabasesRoute
+  LngCompareArtsyRoute: typeof LngCompareArtsyRoute
   LngCompareBarnebysRoute: typeof LngCompareBarnebysRoute
+  LngCompareCatawikiRoute: typeof LngCompareCatawikiRoute
+  LngCompareEbayRoute: typeof LngCompareEbayRoute
+  LngCompareInvaluableRoute: typeof LngCompareInvaluableRoute
+  LngCompareLiveauctioneersRoute: typeof LngCompareLiveauctioneersRoute
   LngNewsletterConfirmRoute: typeof LngNewsletterConfirmRoute
   LngProductsProductListingTitleSlugIdRoute: typeof LngProductsProductListingTitleSlugIdRoute
   LngSearchShopsRoute: typeof LngSearchShopsRoute
@@ -1192,7 +1334,14 @@ const LngRouteChildren: LngRouteChildren = {
   LngSearchRoute: LngSearchRoute,
   LngTermsAndConditionsRoute: LngTermsAndConditionsRoute,
   LngIndexRoute: LngIndexRoute,
+  LngCompare1stdibsRoute: LngCompare1stdibsRoute,
+  LngCompareArtPriceDatabasesRoute: LngCompareArtPriceDatabasesRoute,
+  LngCompareArtsyRoute: LngCompareArtsyRoute,
   LngCompareBarnebysRoute: LngCompareBarnebysRoute,
+  LngCompareCatawikiRoute: LngCompareCatawikiRoute,
+  LngCompareEbayRoute: LngCompareEbayRoute,
+  LngCompareInvaluableRoute: LngCompareInvaluableRoute,
+  LngCompareLiveauctioneersRoute: LngCompareLiveauctioneersRoute,
   LngNewsletterConfirmRoute: LngNewsletterConfirmRoute,
   LngProductsProductListingTitleSlugIdRoute:
     LngProductsProductListingTitleSlugIdRoute,

@@ -1,11 +1,14 @@
-import { act, screen, waitFor } from "@testing-library/react";
+import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { afterEach, describe, expect, it, vi, beforeEach } from "vitest";
 import { OAuthAuthorizePage } from "@/features/oauth/pages/OAuthAuthorizePage.tsx";
 import { renderWithRouter } from "@/test/utils.tsx";
 import type { OAuthAuthorizeSearchParams } from "@/features/oauth/lib/oauthAuthorizeSearchParams.ts";
-import { OAuthConsentUnavailableError } from "@/features/oauth/api/oauthConsentMetadata.ts";
+import {
+    OAuthConsentMetadataError,
+    OAuthConsentUnavailableError,
+} from "@/features/oauth/api/oauthConsentMetadata.ts";
 import {
     ACCESS_TOKEN_SCOPES,
     ACCESS_TOKEN_SCOPE_METADATA,
@@ -21,6 +24,7 @@ vi.mock("@tanstack/react-router", async (importOriginal) => ({
 }));
 
 const mockClientData = vi.hoisted(() => ({
+    kind: "registered" as const,
     clientId: "01970f22-2bf0-7000-8000-000000000010",
     clientName: "Test Partner App",
     tosUri: "https://client.example/terms",
@@ -122,9 +126,18 @@ const defaultSearchParams: OAuthAuthorizeSearchParams = {
     requires_listing_source_id: false,
 };
 
+const ISSUER = "https://api.stage.aura-historia.com";
+const mutableEnv = env as { VITE_API_URL?: string; VITE_APP_URL?: string };
+const previousApiUrl = mutableEnv.VITE_API_URL;
+
 describe("OAuthAuthorizePage", () => {
+    afterEach(() => {
+        mutableEnv.VITE_API_URL = previousApiUrl;
+    });
+
     beforeEach(() => {
         vi.clearAllMocks();
+        mutableEnv.VITE_API_URL = ISSUER;
         mockUseOAuthClient.mockReturnValue({
             data: mockClientData,
             isLoading: false,
@@ -270,6 +283,7 @@ describe("OAuthAuthorizePage", () => {
             expect(redirected.pathname).toBe("/callback");
             expect(redirected.searchParams.get("error")).toBe("access_denied");
             expect(redirected.searchParams.get("state")).toBe(state ?? null);
+            expect(redirected.searchParams.get("iss")).toBe(ISSUER);
             expect(redirected.searchParams.has("listing_source_id")).toBe(false);
         },
     );
@@ -306,7 +320,6 @@ describe("OAuthAuthorizePage", () => {
     });
 
     it("sends a direct request for the WooCommerce broker callback back to WordPress", async () => {
-        const mutableEnv = env as { VITE_APP_URL?: string };
         const previousAppUrl = mutableEnv.VITE_APP_URL;
         mutableEnv.VITE_APP_URL = "https://aura-historia.com";
         try {
@@ -367,6 +380,7 @@ describe("OAuthAuthorizePage", () => {
             ["error", "access_denied"],
             ["error_description", "The user denied the authorization request"],
             ["state", "csrf-state-123"],
+            ["iss", ISSUER],
         ]);
     });
 
@@ -434,6 +448,7 @@ describe("OAuthAuthorizePage", () => {
             error: "access_denied",
             error_description: "The user denied the authorization request",
             state: "mcp-state",
+            iss: ISSUER,
         });
     });
 
@@ -573,7 +588,10 @@ describe("OAuthAuthorizePage", () => {
             renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
         );
 
-        expect(mockUseOAuthClient).toHaveBeenCalledWith("01970f22-2bf0-7000-8000-000000000010");
+        expect(mockUseOAuthClient).toHaveBeenCalledWith(
+            "01970f22-2bf0-7000-8000-000000000010",
+            "https://client.example/callback",
+        );
     });
 
     it("submits the only available partner shop separately from the redirect URI", async () => {
@@ -1010,5 +1028,417 @@ describe("OAuthAuthorizePage", () => {
 
         expect(screen.getByText("product-listings:write")).toBeInTheDocument();
         expect(screen.queryByText("watchlist:read")).not.toBeInTheDocument();
+    });
+});
+
+describe("OAuthAuthorizePage for a metadata document client", () => {
+    const AGENT_CLIENT_ID = "https://claude.ai/oauth/claude-code-client-metadata";
+    const ORDINARY_USER_SCOPES = [
+        "users:read",
+        "users:write",
+        "search-filters:read",
+        "search-filters:write",
+        "watchlist:read",
+        "watchlist:write",
+        "notifications:read",
+        "notifications:write",
+    ];
+
+    const agentRequest: OAuthAuthorizeSearchParams = {
+        response_type: "code",
+        client_id: AGENT_CLIENT_ID,
+        redirect_uri: "https://claude.ai/api/mcp/auth_callback",
+        scope: "users:read watchlist:read offline_access",
+        state: "agent-state",
+        resource: "https://mcp.aura-historia.com/v1",
+        code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+        code_challenge_method: "S256",
+        requires_listing_source_id: false,
+    };
+
+    const agentClient = {
+        kind: "metadataDocument" as const,
+        clientId: AGENT_CLIENT_ID,
+        clientName: "Claude",
+        clientUri: "https://claude.ai/",
+        logoUri: "https://claude.ai/images/claude-logo.png",
+        clientHost: "claude.ai",
+        redirectUriHost: "claude.ai",
+        redirectUri: "https://claude.ai/api/mcp/auth_callback",
+        loopbackRedirectUrisOnly: false,
+        scopes: ORDINARY_USER_SCOPES,
+        grantedScopes: [] as string[],
+    };
+
+    const t = (key: string, options?: Record<string, string>) => testI18n.t(key, options);
+
+    function mockAgentClient(change: Partial<typeof agentClient> = {}) {
+        mockUseOAuthClient.mockReturnValue({
+            data: { ...agentClient, ...change },
+            isLoading: false,
+            isError: false,
+        });
+    }
+
+    function mockAgentClientError(error: Error) {
+        mockUseOAuthClient.mockReturnValue({
+            data: undefined,
+            isLoading: false,
+            isError: true,
+            error,
+        });
+    }
+
+    async function renderAgentConsent(request: Partial<OAuthAuthorizeSearchParams> = {}) {
+        return act(async () =>
+            renderWithRouter(<OAuthAuthorizePage searchParams={{ ...agentRequest, ...request }} />),
+        );
+    }
+
+    function getApproveForm(appName = "Claude"): HTMLFormElement {
+        const form = screen
+            .getByRole("button", { name: t("oauth.authorize.approveAriaLabel", { appName }) })
+            .closest("form");
+        if (!form) {
+            throw new Error("Approve form not found");
+        }
+        return form;
+    }
+
+    function expectNoConsentActions() {
+        expect(screen.queryByRole("button")).not.toBeInTheDocument();
+        expect(document.querySelector("form")).not.toBeInTheDocument();
+        expect(navigate).not.toHaveBeenCalled();
+    }
+
+    afterEach(() => {
+        mutableEnv.VITE_API_URL = previousApiUrl;
+    });
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+        mutableEnv.VITE_API_URL = ISSUER;
+        mockAgentClient();
+        mockUseOAuthListingSources.mockReturnValue(listingSourcesState({ sources: [] }));
+    });
+
+    it("reads consent metadata for the URL client ID and the requested callback", async () => {
+        await renderAgentConsent();
+
+        expect(mockUseOAuthClient).toHaveBeenCalledWith(
+            AGENT_CLIENT_ID,
+            "https://claude.ai/api/mcp/auth_callback",
+        );
+        expect(mockUseOAuthListingSources).toHaveBeenCalledWith(false);
+    });
+
+    it("shows the client name beside the verified client and callback hosts", async () => {
+        mockAgentClient({
+            redirectUri: "http://localhost:53682/callback",
+            redirectUriHost: "localhost",
+        });
+        await renderAgentConsent({ redirect_uri: "http://localhost:53682/callback" });
+
+        const identity = screen.getByRole("region", {
+            name: t("oauth.authorize.agentClient.identity.label"),
+        });
+        const terms = within(identity).getAllByRole("term");
+        const definitions = within(identity).getAllByRole("definition");
+        expect(terms.map((term) => term.textContent)).toEqual([
+            t("oauth.authorize.agentClient.identity.clientHost"),
+            t("oauth.authorize.agentClient.identity.redirectHost"),
+        ]);
+        expect(definitions.map((definition) => definition.textContent)).toEqual([
+            "claude.ai",
+            "localhost",
+        ]);
+        expect(screen.getAllByText("Claude").length).toBeGreaterThan(0);
+        expect(
+            within(identity).getByText(t("oauth.authorize.agentClient.identity.description")),
+        ).toBeInTheDocument();
+    });
+
+    it("shows the logo and home page only on the verified client host", async () => {
+        await renderAgentConsent();
+
+        expect(
+            screen.getByAltText(t("oauth.authorize.logoAlt", { appName: "Claude" })),
+        ).toHaveAttribute("src", "https://claude.ai/images/claude-logo.png");
+        expect(screen.getByRole("link", { name: "Mehr über diese App" })).toHaveAttribute(
+            "href",
+            "https://claude.ai/",
+        );
+        expect(screen.queryByRole("link", { name: "Datenschutz" })).not.toBeInTheDocument();
+        expect(screen.queryByRole("link", { name: "Nutzungsbedingungen" })).not.toBeInTheDocument();
+    });
+
+    it("shows no logo or home page from another host, as for VS Code", async () => {
+        mockAgentClient({
+            clientId: "https://vscode.dev/oauth/client-metadata.json",
+            clientName: "Visual Studio Code",
+            clientUri: "https://code.visualstudio.com/",
+            logoUri: "https://code.visualstudio.com/assets/favicon.png",
+            clientHost: "vscode.dev",
+        });
+
+        await renderAgentConsent({ client_id: "https://vscode.dev/oauth/client-metadata.json" });
+
+        expect(screen.getByText("Visual Studio Code")).toBeInTheDocument();
+        expect(document.querySelector("img")).not.toBeInTheDocument();
+        expect(screen.queryByRole("link")).not.toBeInTheDocument();
+    });
+
+    it("warns prominently when every callback returns to the user's device", async () => {
+        mockAgentClient({
+            redirectUri: "http://127.0.0.1:33418/",
+            redirectUriHost: "127.0.0.1",
+            loopbackRedirectUrisOnly: true,
+        });
+
+        await renderAgentConsent({ redirect_uri: "http://127.0.0.1:33418/" });
+
+        const warning = screen.getByRole("region", {
+            name: t("oauth.authorize.agentClient.loopbackWarning.title"),
+        });
+        expect(
+            within(warning).getByText(t("oauth.authorize.agentClient.loopbackWarning.description")),
+        ).toBeInTheDocument();
+        // The warning precedes the verified hosts and the permissions.
+        const identity = screen.getByRole("region", {
+            name: t("oauth.authorize.agentClient.identity.label"),
+        });
+        expect(
+            warning.compareDocumentPosition(identity) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy();
+    });
+
+    it("warns when this request returns to a loopback callback that a document lists beside web ones", async () => {
+        mockAgentClient({
+            clientId: "https://vscode.dev/oauth/client-metadata.json",
+            clientName: "Visual Studio Code",
+            clientHost: "vscode.dev",
+            redirectUri: "http://127.0.0.1:4444/",
+            redirectUriHost: "127.0.0.1",
+            loopbackRedirectUrisOnly: false,
+        });
+
+        await renderAgentConsent({
+            client_id: "https://vscode.dev/oauth/client-metadata.json",
+            redirect_uri: "http://127.0.0.1:4444/",
+        });
+
+        expect(
+            screen.getByRole("region", {
+                name: t("oauth.authorize.agentClient.loopbackWarning.title"),
+            }),
+        ).toBeInTheDocument();
+    });
+
+    it("shows no loopback warning for a web callback", async () => {
+        await renderAgentConsent();
+
+        expect(
+            screen.queryByText(t("oauth.authorize.agentClient.loopbackWarning.title")),
+        ).not.toBeInTheDocument();
+    });
+
+    it("explains offline_access instead of listing it, and posts the request unchanged", async () => {
+        await renderAgentConsent({
+            requires_listing_source_id: true,
+        });
+
+        expect(
+            screen.getAllByRole("listitem").map((item) => item.querySelector("code")?.textContent),
+        ).toEqual(["users:read", "watchlist:read"]);
+        expect(screen.queryByText("offline_access")).not.toBeInTheDocument();
+        expect(
+            screen.getByText(t("oauth.authorize.agentClient.offlineAccess.title")),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText(t("oauth.authorize.agentClient.offlineAccess.description")),
+        ).toBeInTheDocument();
+
+        // Provider routing never applies to these clients, even when the request asks for it.
+        expect(mockUseOAuthListingSources).toHaveBeenCalledWith(false);
+        expect(Object.fromEntries(new FormData(getApproveForm()))).toEqual({
+            lng: "de",
+            response_type: "code",
+            client_id: AGENT_CLIENT_ID,
+            redirect_uri: "https://claude.ai/api/mcp/auth_callback",
+            scope: "users:read watchlist:read offline_access",
+            state: "agent-state",
+            resource: "https://mcp.aura-historia.com/v1",
+            code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+            code_challenge_method: "S256",
+        });
+    });
+
+    it("shows no stays-signed-in note without offline_access", async () => {
+        await renderAgentConsent({ scope: "users:read" });
+
+        expect(
+            screen.queryByText(t("oauth.authorize.agentClient.offlineAccess.title")),
+        ).not.toBeInTheDocument();
+    });
+
+    it("separates already granted scopes from newly requested ones in a step-up", async () => {
+        mockAgentClient({ grantedScopes: ["notifications:read", "users:read", "watchlist:read"] });
+
+        await renderAgentConsent({
+            scope: "users:read watchlist:read watchlist:write search-filters:read offline_access",
+        });
+
+        const newScopes = screen.getByRole("list", {
+            name: t("oauth.authorize.agentClient.scopes.newTitle"),
+        });
+        const grantedScopes = screen.getByRole("list", {
+            name: t("oauth.authorize.agentClient.scopes.grantedTitle"),
+        });
+        const badges = (list: HTMLElement) =>
+            within(list)
+                .getAllByRole("listitem")
+                .map((item) => item.querySelector("code")?.textContent);
+        expect(badges(newScopes)).toEqual(["watchlist:write", "search-filters:read"]);
+        expect(badges(grantedScopes)).toEqual(["users:read", "watchlist:read"]);
+        // A granted scope that this request does not name is not shown.
+        expect(screen.queryByText("notifications:read")).not.toBeInTheDocument();
+        expect(
+            screen.queryByRole("list", { name: t("oauth.authorize.scopesTitle") }),
+        ).not.toBeInTheDocument();
+        expect(new FormData(getApproveForm()).get("scope")).toBe(
+            "users:read watchlist:read watchlist:write search-filters:read offline_access",
+        );
+    });
+
+    it("keeps a request for scopes that are all granted in the granted list", async () => {
+        mockAgentClient({ grantedScopes: ["users:read", "watchlist:read"] });
+
+        await renderAgentConsent();
+
+        expect(
+            screen.queryByRole("list", { name: t("oauth.authorize.agentClient.scopes.newTitle") }),
+        ).not.toBeInTheDocument();
+        expect(
+            screen.getByRole("list", {
+                name: t("oauth.authorize.agentClient.scopes.grantedTitle"),
+            }),
+        ).toBeInTheDocument();
+    });
+
+    it("declines to the validated callback with state and issuer", async () => {
+        await renderAgentConsent();
+
+        await userEvent.setup().click(
+            screen.getByRole("button", {
+                name: t("oauth.authorize.denyAriaLabel", { appName: "Claude" }),
+            }),
+        );
+
+        const denied = new URL(navigate.mock.calls[0][0].href);
+        expect(`${denied.origin}${denied.pathname}`).toBe(
+            "https://claude.ai/api/mcp/auth_callback",
+        );
+        expect(Object.fromEntries(denied.searchParams)).toEqual({
+            error: "access_denied",
+            error_description: "The user denied the authorization request",
+            state: "agent-state",
+            iss: ISSUER,
+        });
+    });
+
+    it("declines to a loopback callback on the native client's port", async () => {
+        mockAgentClient({
+            redirectUri: "http://localhost:53682/callback",
+            redirectUriHost: "localhost",
+            loopbackRedirectUrisOnly: true,
+        });
+        await renderAgentConsent({ redirect_uri: "http://localhost:53682/callback" });
+
+        await userEvent.setup().click(
+            screen.getByRole("button", {
+                name: t("oauth.authorize.denyAriaLabel", { appName: "Claude" }),
+            }),
+        );
+
+        const denied = new URL(navigate.mock.calls[0][0].href);
+        expect(`${denied.origin}${denied.pathname}`).toBe("http://localhost:53682/callback");
+        expect(denied.searchParams.get("iss")).toBe(ISSUER);
+    });
+
+    it("shows a safe local error when the document is unavailable or not accepted", async () => {
+        mockAgentClientError(new OAuthConsentMetadataError(400, "OAUTH_INVALID_CLIENT"));
+
+        await renderAgentConsent();
+
+        expect(
+            screen.getByText(t("oauth.authorize.agentClient.errors.invalidClient.title")),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByText(t("oauth.authorize.agentClient.errors.invalidClient.description")),
+        ).toBeInTheDocument();
+        expectNoConsentActions();
+    });
+
+    it.each([
+        ["a callback the document does not list", "OAUTH_INVALID_REDIRECT_URI" as const],
+        ["a malformed client ID or callback", "BAD_QUERY_PARAMETER_VALUE" as const],
+    ])("reports %s as an invalid request", async (_, code) => {
+        mockAgentClientError(new OAuthConsentMetadataError(400, code));
+
+        await renderAgentConsent();
+
+        expect(screen.getByText(t("oauth.authorize.error.title"))).toBeInTheDocument();
+        expectNoConsentActions();
+    });
+
+    it.each([
+        ["a rejected session", 401],
+        ["a front-door refusal", 403],
+        ["a rate limit", 429],
+    ])("explains %s as unavailable rather than an invalid link", async (_, status) => {
+        mockAgentClientError(new OAuthConsentMetadataError(status));
+
+        await renderAgentConsent();
+
+        expect(
+            screen.getByText(t("oauth.authorize.agentClient.errors.unavailable.description")),
+        ).toBeInTheDocument();
+        expect(screen.queryByText(t("oauth.authorize.error.title"))).not.toBeInTheDocument();
+        expectNoConsentActions();
+    });
+
+    it("explains unavailable consent metadata without a redirect", async () => {
+        mockAgentClientError(new OAuthConsentUnavailableError());
+
+        await renderAgentConsent();
+
+        expect(
+            screen.getByText(t("oauth.authorize.agentClient.errors.unavailable.description")),
+        ).toBeInTheDocument();
+        expectNoConsentActions();
+    });
+
+    it.each([
+        ["metadata read for another callback", { redirectUri: "https://claude.ai/other" }],
+        ["metadata of another client", { clientId: "https://attacker.example/client.json" }],
+        [
+            "registered-client metadata for a URL client ID",
+            { kind: "registered" as never, redirectUris: [agentRequest.redirect_uri] },
+        ],
+    ])("offers neither approval nor denial for %s", async (_, change) => {
+        mockAgentClient(change);
+
+        await renderAgentConsent();
+
+        expect(screen.getByText(t("oauth.authorize.error.title"))).toBeInTheDocument();
+        expectNoConsentActions();
+    });
+
+    it("leaves offline_access out of the loading skeleton", async () => {
+        mockUseOAuthClient.mockReturnValue({ data: undefined, isLoading: true, isError: false });
+
+        const { container } = await renderAgentConsent();
+
+        expect(container.querySelectorAll("li")).toHaveLength(2);
     });
 });

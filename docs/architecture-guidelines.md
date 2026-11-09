@@ -126,8 +126,9 @@ raw HTML, and the helper escapes `<` so listing or source text cannot close the 
   published; Search Console reports them as optional. Shipping details will come with the
   shipping data.
 - Source profiles: a CollectionPage about the source, from its allowlisted public fields.
-- About and the Barnebys comparison: see their builders in `src/features/about` and
-  `src/features/comparison`.
+- About: see its builder in `src/features/about`. Comparison pages: one generic builder,
+  `buildComparisonStructuredData` in `src/features/comparison/lib/comparisonStructuredData.ts`,
+  fed by each page's definition (Article plus FAQPage from the visible strings).
 
 ### Content Signals
 

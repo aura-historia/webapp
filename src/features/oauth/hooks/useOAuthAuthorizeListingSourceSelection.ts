@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { OAuthListingSource } from "@/features/oauth/hooks/useOAuthListingSources.ts";
 import type { OAuthAuthorizeSearchParams } from "@/features/oauth/lib/oauthAuthorizeSearchParams.ts";
 import { getListingSourceIdFromRedirectUri } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
+import { getRequestedScopes } from "@/features/oauth/lib/oauthConsentScopes.ts";
 
 interface UseOAuthAuthorizeListingSourceSelectionParams {
     readonly searchParams: OAuthAuthorizeSearchParams;
@@ -57,7 +58,7 @@ export function useOAuthAuthorizeListingSourceSelection({
         effectiveListingSource,
         effectiveListingSourceId: listingSourceId,
         listingSourceId,
-        requestedScopes: searchParams.scope?.split(" ").filter(Boolean) ?? [],
+        requestedScopes: getRequestedScopes(searchParams.scope),
         requiresListingSourceSelection: requiresListingSourceId && !hasOnlyListingSource,
         shouldShowSelectedListingSource: requiresListingSourceId && hasOnlyListingSource,
         selectListingSource: (listingSourceId: string) =>

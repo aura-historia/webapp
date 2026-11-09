@@ -10,13 +10,13 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `6781ead662002b4a2f3d8399d50845019fb44851` (2026-11-06); its last contract change is
-  `6781ead662` ([backend#2794](https://github.com/aura-historia/backend/pull/2794)). Git blob
-  `4edec09fc2e5d1c9da9f4a57acad9a9153ffb783`; file SHA-256
-  `b2aca1b8eb97ef75ed7707719a9f9fc20f427c4ee798304a8cc8d827bc0202a1`; canonical parsed-JSON
+  `867bfe2c79ba9a3daa47deb0715e5f66a0865c31` (2026-11-09); its last contract change is
+  `867bfe2c79` ([backend#2829](https://github.com/aura-historia/backend/pull/2829)). Git blob
+  `002f553f4a911dd1f9646c15a1a8cf9cd470659c`; file SHA-256
+  `42efa03d0577eaafbe351bc25c72c483221ed8f26f7b0131ff0f7df759dd8d34`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `4e2980828c0baa8132e165ef79e620e3dcbe408014a8a1b0d4800f52008fc6e9`. It replaces the
-  `de0ff80312` capture (2026-11-06, last contract change `52162210a5`).
+  `6e3eaace9bb4fc39f27ed4cba1d118843c9c451dbf4c44e2d468a95294080b02`. It replaces the
+  `40f76513aa` capture (2026-11-08, last contract change `1ef4282b99`).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -26,7 +26,83 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
-- Changes against the previous pin (`de0ff80312`, 2026-11-06), with their decisions:
+- Changes against the previous pin (`40f76513aa`, 2026-11-08), with their decisions:
+  - **Nudity is sensitive content** ([backend#2830](https://github.com/aura-historia/backend/issues/2830),
+    [backend#2832](https://github.com/aura-historia/backend/pull/2832), webapp
+    [#1288](https://github.com/aura-historia/webapp/issues/1288)): `ContentPolicyData.category`
+    gains `NUDITY` next to `NAZI_GERMANY`. It behaves exactly like `NAZI_GERMANY`: a
+    `REQUIRES_CONSENT` listing's image URLs arrive only when `showUnassessedOrSensitiveContent` is
+    `true`, there is no second preference, and text that matches both categories stays
+    `NAZI_GERMANY`. `SensitiveContentCategory` (`ProductImageData.ts`) is derived from the
+    generated type, and `ListingContentPolicy` and `ProductImage.prohibitedContentType` build on
+    it, so a further category needs only a client regeneration. Image visibility never branches on
+    the category: everything but `NONE` stays hidden without the preference, a category this
+    client does not know included. Listings assessed before the backend change keep their earlier decision
+    until their title or description changes (a nude listing assessed `ALLOWED` stays `ALLOWED`),
+    so `NUDITY` appears gradually. The preference's
+    tooltip now names nudity and erotic content; the legal pages are unchanged (see
+    [privacy alignment](privacy-policy-alignment.md#alignment-rules)).
+  - **`viewUrl` on public listing sources** ([backend#2827](https://github.com/aura-historia/backend/issues/2827),
+    [backend#2829](https://github.com/aura-historia/backend/pull/2829), webapp
+    [#1290](https://github.com/aura-historia/webapp/issues/1290)): `PublicListingSourceData` gains
+    optional `viewUrl`, present exactly when `url` is: the source's affiliate link when it has a
+    referral configuration, otherwise `url` with `utm_source=aura_historia&utm_medium=referral`
+    (left as is when `url` already carries a `utm_source`). `PublicListingSource` maps both. The
+    provider page's Visit website link opens `viewUrl ?? url`, like a listing's
+    `viewUrl ?? url`; the client never adds UTM or referral parameters. The raw `url` stays where
+    the canonical address is meant: the JSON-LD `sameAs` and the OAuth broker's comparison with a
+    shop's registered website. A Partnerize `viewUrl` contains the campaign reference, as on
+    listings. The admin and own listing-source models are unchanged: the backend added `viewUrl`
+    to neither, and administrators read `referralConfiguration` directly.
+  - Description-only: the `PublicListingSourceData` summary and the `category` description.
+  - Backend commits since without a client change: hidden listings now carry the `url` and `viewUrl`
+    `https://aura-historia.com/#pricing` ([backend#2824](https://github.com/aura-historia/backend/issues/2824));
+    listing links already open `viewUrl ?? url` and nothing special-cases the old path.
+  - Not breaking: an older backend sends no `viewUrl` and only `NAZI_GERMANY`.
+- Changes adopted with the `40f76513aa` capture (against `6781ead662`, 2026-11-06), with their
+  decisions:
+  - **Metadata document clients** (epic [backend#2800](https://github.com/aura-historia/backend/issues/2800),
+    [backend#2815](https://github.com/aura-historia/backend/pull/2815)): a `client_id` that parses
+    as an `https` URL names a public client identified by its Client ID Metadata Document, such as
+    Claude, ChatGPT, Claude Code or VS Code. `getOAuthMetadataDocumentConsentClient`
+    (`GET /v1/oauth/metadata-document-clients`) is consumed by the consent page
+    ([#1237](https://github.com/aura-historia/webapp/issues/1237); see
+    [OAuth protocol guidelines](oauth-protocol-guidelines.md#metadata-document-clients)) and mapped
+    to `OAuthMetadataDocumentClient` in `src/data/internal/oauth/OAuthClient.ts`. `/v1/oauth/authorize`
+    accepts URL client IDs, `offline_access` and listed loopback callbacks on any port, and every
+    authorization response carries `iss` (RFC 9207); the consent page adds the same `iss` to its
+    `access_denied` redirect for both kinds of client. The token and revoke operations add the
+    refresh-token grant and secret-less metadata document clients: the browser never calls them, and
+    the WooCommerce broker, a registered client, is unaffected. Discovery
+    (`getOAuthAuthorizationServerMetadata`, generated-only) adds
+    `authorization_response_iss_parameter_supported`, `client_id_metadata_document_supported`,
+    `none`, `refresh_token` and `offline_access`.
+  - **Connections in the credential listings** (same epic): `getMyAccessTokens` returns
+    `OwnAccessTokenListEntryData`, and it and `adminListUserAccessTokens` may return connection
+    entries (`connectionId`, `created`, `lastUsed`, no `accessTokenId` or `expires`); `origin` is the
+    closed `AccessTokenOriginData` and OAuth entries carry `client`. Until connected apps are listed
+    ([#1238](https://github.com/aura-historia/webapp/issues/1238)), `mapToAccessTokenListEntry` and
+    `mapToAdminAccessToken` leave connection entries out, so no row has an undefined ID or offers
+    token edits it cannot make; revoking all of a user's tokens still ends them.
+    `disconnectMyOAuthClient` (`DELETE /v1/me/access-tokens?clientId=…`) is generated-only until
+    #1238. A registered client's `client_uri` must now be an HTTP(S) URL with a host; the admin
+    client form already requires HTTPS.
+  - **Agent discovery documents** ([backend#2815](https://github.com/aura-historia/backend/pull/2815),
+    [backend#2819](https://github.com/aura-historia/backend/pull/2819)):
+    `getOAuthProtectedResourceMetadata`, `getApiCatalog`, the website documents under
+    `/v1/site-discovery/…` (`getSiteAiCatalog`, `getSitePoppyDeclaration`,
+    `getSiteAgentSkillsIndex`, `getSiteAgentSkill`, `getSiteAuthMd`, `getSiteWebMcpClientMetadata`)
+    and their `HEAD` operations are generated-only. The Worker forwards the website documents as raw
+    responses (see [discovery documents](architecture-guidelines.md#discovery-documents)); publishing
+    `/oauth/webmcp-client.json` belongs to [#1245](https://github.com/aura-historia/webapp/issues/1245).
+  - Not breaking: registered-client consent, denial and the credential listings work against the
+    previous backend too. URL client IDs need a backend that serves this capture.
+  - Backend commits since without a contract change need no client change: crawl fixes
+    ([backend#2795](https://github.com/aura-historia/backend/issues/2795)), bare metadata URLs in
+    `auth.md` ([backend#2816](https://github.com/aura-historia/backend/pull/2816)) and the MCP
+    registry listing ([backend#2823](https://github.com/aura-historia/backend/pull/2823)).
+- Changes adopted with the `6781ead662` capture (against `de0ff80312`, 2026-11-06), with their
+  decisions:
   - **ListingSource types** ([backend#2792](https://github.com/aura-historia/backend/issues/2792)):
     every ListingSource has a required `listingSourceType` (`DEALER`, `AUCTION_HOUSE`,
     `MARKETPLACE`, `AUCTION_PLATFORM`; a closed set) on the admin detail and search summaries, a
@@ -256,12 +332,14 @@ To adopt a backend revision:
   and it is the same for production and stage (backend `docs/mcp.md`, "Tool snapshot"). The sync
   keeps `name`, `description`, `inputSchema`, `annotations` and `_meta` and drops the output
   schemas, which make up most of the 650 KB. Never hand-edit the result.
-- The synced capture is backend `develop` `1ef4282b99b15712a34e920eef9fb8242ac82bd3` (2026-11-07,
-  [backend#2819](https://github.com/aura-historia/backend/pull/2819)). Git blob
-  `2eabfc67950641ccfdfc4011718cdaf033b6da0a`; file SHA-256
-  `16988c2fa7a5f77ca010d33553bb82c358468e4b758017eae1fc95a45b89a80a`. It has 38 tools, 12 of them
+- The synced capture is backend `develop` `867bfe2c79ba9a3daa47deb0715e5f66a0865c31` (2026-11-09,
+  [backend#2829](https://github.com/aura-historia/backend/pull/2829)). Git blob
+  `721f1813b34f944029b54b734f0ca810f9c39870`; file SHA-256
+  `31926fd237b7dea036aae118def1e4d1c2a01dd8265a33d013869114c1ae80cf`. It has 38 tools, 12 of them
   public. The protected tools stay in the file for signed-in WebMCP
-  ([#1245](https://github.com/aura-historia/webapp/issues/1245)).
+  ([#1245](https://github.com/aura-historia/webapp/issues/1245)). Moving from the previous capture
+  (`1ef4282b99`) only added `viewUrl` to the output schemas of `searchPublicListingSources` and
+  `getPublicListingSourceBySlug`, which the sync drops, so `mcp/mcp-tools.json` did not change.
 - The snapshot is pinned separately from `openapi/swagger.yaml`, and either can be synced alone.
   The backend records renamed and removed tools, and incompatible argument changes, in its
   `docs/CHANGELOG.md`. Until this repo syncs such a change, browser calls to the affected tool
@@ -540,8 +618,10 @@ stable error codes, never raw server detail.
   currency/unit preferences and tracking/map consent. Server and first-client rendering use
   deterministic defaults and server-provided preferences.
 - Assessments distinguish `ALLOWED`, `REQUIRES_CONSENT` and unassessed content; a returned URL
-  alone is not an allowed assessment. Notification images have no assessment and require the
-  visibility preference. Public SEO only publishes images assessed `ALLOWED`.
+  alone is not an allowed assessment. `REQUIRES_CONSENT` carries a `category` (`NAZI_GERMANY` or
+  `NUDITY`); both hide images the same way, and the viewer's one preference unlocks both.
+  Notification images have no assessment and require the visibility preference. Public SEO only
+  publishes images assessed `ALLOWED`.
 
 ## Own access tokens
 
@@ -556,6 +636,9 @@ stable error codes, never raw server detail.
   section resolves expiry against the clock after mount (never during render), marks expired
   tokens and lists active tokens first, then by name.
   `CreatedAccessTokenData` carries only the ID and the one-time plaintext.
+- The list is `OwnAccessTokenListEntryData`: a metadata document client's connection entry has no
+  `accessTokenId` and cannot be edited or deleted as a token, so `mapToAccessTokenListEntry` leaves
+  it out until connected apps are listed ([#1238](https://github.com/aura-historia/webapp/issues/1238)).
 - New tokens default to no scopes; editing scopes replaces the whole grant set. Only the
   supported scope enum is modeled: `ACCESS_TOKEN_SCOPES` mirrors the 23 backend
   `AccessTokenScopeData` values exactly (no aliases or remapping), `ACCESS_TOKEN_SCOPE_METADATA`

@@ -5,7 +5,20 @@ export type ProductImage = {
     prohibitedContentType: ProhibitedContentType;
 };
 
-type ProhibitedContentType = "UNKNOWN" | "NONE" | "NAZI_GERMANY";
+/**
+ * Why a listing requires consent. Derived from the generated contract, so a new backend category
+ * only needs a client regeneration.
+ */
+export type SensitiveContentCategory = Extract<
+    ContentPolicyData,
+    { decision: "REQUIRES_CONSENT" }
+>["category"];
+
+/**
+ * `NONE` is assessed as allowed and `UNKNOWN` is unassessed. Both consent categories and any
+ * value an older client does not know stay hidden until the viewer opts in.
+ */
+type ProhibitedContentType = "UNKNOWN" | "NONE" | SensitiveContentCategory;
 
 export function isRestrictedImage(
     image: ProductImage,

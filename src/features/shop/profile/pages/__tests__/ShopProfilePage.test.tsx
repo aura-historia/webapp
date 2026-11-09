@@ -4,12 +4,6 @@ import type { PublicListingSource } from "@/data/internal/shop/PublicListingSour
 import { makePublicListingSource } from "@/test/fixtures.ts";
 import { ShopProfilePage } from "../ShopProfilePage.tsx";
 
-vi.mock("@/features/shop/profile/components/ShopHeader.tsx", () => ({
-    ShopHeader: ({ shop }: { shop: PublicListingSource }) => (
-        <div data-testid="shop-header">{shop.name}</div>
-    ),
-}));
-
 vi.mock("@/features/shop/profile/components/ShopListings.tsx", () => ({
     ShopListings: ({
         source,
@@ -39,8 +33,48 @@ describe("ShopProfilePage", () => {
             />,
         );
 
-        expect(screen.getByTestId("shop-header")).toHaveTextContent("Antique Store");
+        expect(
+            screen.getByRole("heading", { level: 1, name: "Antique Store" }),
+        ).toBeInTheDocument();
         expect(screen.getByTestId("shop-listings")).toHaveTextContent("ls_01TESTSOURCE:vase");
+    });
+
+    it("sends visitors to the source's viewUrl", () => {
+        render(
+            <ShopProfilePage shop={makePublicListingSource()} query="" onQueryChange={vi.fn()} />,
+        );
+
+        expect(screen.getByRole("link", { name: /Website besuchen/ })).toHaveAttribute(
+            "href",
+            "https://example.com/?utm_source=aura_historia&utm_medium=referral",
+        );
+    });
+
+    it("falls back to the raw url when the source has no viewUrl", () => {
+        render(
+            <ShopProfilePage
+                shop={makePublicListingSource({ viewUrl: undefined })}
+                query=""
+                onQueryChange={vi.fn()}
+            />,
+        );
+
+        expect(screen.getByRole("link", { name: /Website besuchen/ })).toHaveAttribute(
+            "href",
+            "https://example.com",
+        );
+    });
+
+    it("offers no website link for a source without a url", () => {
+        render(
+            <ShopProfilePage
+                shop={makePublicListingSource({ url: undefined, viewUrl: undefined })}
+                query=""
+                onQueryChange={vi.fn()}
+            />,
+        );
+
+        expect(screen.queryByRole("link", { name: /Website besuchen/ })).not.toBeInTheDocument();
     });
 
     it("forwards query changes from the listings", () => {

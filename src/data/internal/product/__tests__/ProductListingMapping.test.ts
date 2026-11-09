@@ -5,6 +5,8 @@ import type {
     ProductListingSummaryData,
 } from "@/client";
 import { describe, expect, it } from "vitest";
+import { SENSITIVE_CONTENT_CATEGORIES } from "@/test/fixtures.ts";
+import { isRestrictedImage } from "../ProductImageData.ts";
 import {
     mapPersonalizedProductListingDetails,
     mapPersonalizedProductListingSummary,
@@ -105,6 +107,71 @@ describe("ProductListing mappers", () => {
         expect(result.availability).toBeNull();
         expect(result.contentPolicy).toBeUndefined();
         expect(result.images).toEqual([{ url: undefined, prohibitedContentType: "UNKNOWN" }]);
+    });
+
+    it.each(SENSITIVE_CONTENT_CATEGORIES)(
+        "maps a %s summary assessment and hides its images without the preference",
+        (category) => {
+            const result = mapPersonalizedProductListingSummary(
+                {
+                    item: {
+                        ...baseSummary,
+                        contentPolicy: { decision: "REQUIRES_CONSENT", category },
+                    },
+                },
+                "en",
+            );
+
+            expect(result.contentPolicy).toEqual({ decision: "REQUIRES_CONSENT", category });
+            expect(result.images).toHaveLength(1);
+            expect(result.images[0].prohibitedContentType).toBe(category);
+            expect(isRestrictedImage(result.images[0], false)).toBe(true);
+            expect(isRestrictedImage(result.images[0], true)).toBe(false);
+        },
+    );
+
+    it.each(SENSITIVE_CONTENT_CATEGORIES)(
+        "maps a %s detail assessment and hides its images without the preference",
+        (category) => {
+            const result = mapToProductListingDetail(
+                personalized({
+                    ...baseDetails,
+                    contentPolicy: { decision: "REQUIRES_CONSENT", category },
+                }),
+                "en-US",
+                "en",
+            );
+
+            expect(result.contentPolicy).toEqual({ decision: "REQUIRES_CONSENT", category });
+            expect(result.images[0].prohibitedContentType).toBe(category);
+            expect(isRestrictedImage(result.images[0], false)).toBe(true);
+            expect(isRestrictedImage(result.images[0], true)).toBe(false);
+        },
+    );
+
+    it("keeps images hidden for a category this client does not know", () => {
+        const contentPolicy = {
+            decision: "REQUIRES_CONSENT",
+            category: "FUTURE_CATEGORY",
+        } as unknown as ProductListingSummaryData["contentPolicy"];
+        const result = mapPersonalizedProductListingSummary(
+            { item: { ...baseSummary, contentPolicy } },
+            "en",
+        );
+
+        expect(result.contentPolicy).toEqual(contentPolicy);
+        expect(isRestrictedImage(result.images[0], false)).toBe(true);
+        expect(isRestrictedImage(result.images[0], true)).toBe(false);
+    });
+
+    it("shows images of an allowed listing without the preference", () => {
+        const result = mapPersonalizedProductListingSummary(
+            { item: { ...baseSummary, contentPolicy: { decision: "ALLOWED" } } },
+            "en",
+        );
+
+        expect(result.contentPolicy).toEqual({ decision: "ALLOWED" });
+        expect(isRestrictedImage(result.images[0], false)).toBe(false);
     });
 
     it("keeps ON_REQUEST distinct from missing price", () => {

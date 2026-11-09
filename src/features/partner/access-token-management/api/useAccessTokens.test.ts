@@ -56,7 +56,7 @@ describe("useAccessTokens", () => {
         });
     });
 
-    it("loads and maps the authenticated user's access tokens in backend order", async () => {
+    it("loads and maps the authenticated user's access tokens in backend order, without agent connections", async () => {
         mockGetMyAccessTokens.mockResolvedValue({
             data: [
                 {
@@ -66,6 +66,15 @@ describe("useAccessTokens", () => {
                     scopes: ["product-listings:write"],
                     origin: "User",
                     expires: "2026-08-01T12:00:00Z",
+                },
+                {
+                    userId: "user-1",
+                    connectionId: "ocn_agent",
+                    name: "Claude Code",
+                    scopes: ["watchlist:read"],
+                    origin: "OAuthMetadataDocument",
+                    created: "2026-11-01T09:00:00Z",
+                    lastUsed: "2026-11-06T12:00:00Z",
                 },
                 {
                     userId: "user-1",
