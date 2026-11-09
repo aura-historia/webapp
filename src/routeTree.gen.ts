@@ -26,6 +26,7 @@ import { Route as LngCompare1stdibsRouteImport } from './routes/$lng.compare.1st
 import { Route as LngCompareArtsyRouteImport } from './routes/$lng.compare.artsy'
 import { Route as LngCompareBarnebysRouteImport } from './routes/$lng.compare.barnebys'
 import { Route as LngCompareInvaluableRouteImport } from './routes/$lng.compare.invaluable'
+import { Route as LngCompareLiveauctioneersRouteImport } from './routes/$lng.compare.liveauctioneers'
 import { Route as LngNewsletterConfirmRouteImport } from './routes/$lng.newsletter.confirm'
 import { Route as LngPartnerProgramIndexRouteImport } from './routes/$lng.partner-program.index'
 import { Route as LngPartnerProgramApplyRouteImport } from './routes/$lng.partner-program.apply'
@@ -150,6 +151,12 @@ const LngCompareInvaluableRoute = LngCompareInvaluableRouteImport.update({
   path: '/compare/invaluable',
   getParentRoute: () => LngRoute,
 } as any)
+const LngCompareLiveauctioneersRoute =
+  LngCompareLiveauctioneersRouteImport.update({
+    id: '/compare/liveauctioneers',
+    path: '/compare/liveauctioneers',
+    getParentRoute: () => LngRoute,
+  } as any)
 const LngNewsletterConfirmRoute = LngNewsletterConfirmRouteImport.update({
   id: '/newsletter/confirm',
   path: '/newsletter/confirm',
@@ -388,6 +395,7 @@ export interface FileRoutesByFullPath {
   '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/compare/invaluable': typeof LngCompareInvaluableRoute
+  '/$lng/compare/liveauctioneers': typeof LngCompareLiveauctioneersRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
@@ -441,6 +449,7 @@ export interface FileRoutesByTo {
   '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/compare/invaluable': typeof LngCompareInvaluableRoute
+  '/$lng/compare/liveauctioneers': typeof LngCompareLiveauctioneersRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
@@ -500,6 +509,7 @@ export interface FileRoutesById {
   '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/compare/invaluable': typeof LngCompareInvaluableRoute
+  '/$lng/compare/liveauctioneers': typeof LngCompareLiveauctioneersRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
@@ -559,6 +569,7 @@ export interface FileRouteTypes {
     | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
     | '/$lng/compare/invaluable'
+    | '/$lng/compare/liveauctioneers'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
@@ -612,6 +623,7 @@ export interface FileRouteTypes {
     | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
     | '/$lng/compare/invaluable'
+    | '/$lng/compare/liveauctioneers'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
@@ -670,6 +682,7 @@ export interface FileRouteTypes {
     | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
     | '/$lng/compare/invaluable'
+    | '/$lng/compare/liveauctioneers'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
@@ -841,6 +854,13 @@ declare module '@tanstack/react-router' {
       path: '/compare/invaluable'
       fullPath: '/$lng/compare/invaluable'
       preLoaderRoute: typeof LngCompareInvaluableRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/compare/liveauctioneers': {
+      id: '/$lng/compare/liveauctioneers'
+      path: '/compare/liveauctioneers'
+      fullPath: '/$lng/compare/liveauctioneers'
+      preLoaderRoute: typeof LngCompareLiveauctioneersRouteImport
       parentRoute: typeof LngRoute
     }
     '/$lng/newsletter/confirm': {
@@ -1235,6 +1255,7 @@ interface LngRouteChildren {
   LngCompareArtsyRoute: typeof LngCompareArtsyRoute
   LngCompareBarnebysRoute: typeof LngCompareBarnebysRoute
   LngCompareInvaluableRoute: typeof LngCompareInvaluableRoute
+  LngCompareLiveauctioneersRoute: typeof LngCompareLiveauctioneersRoute
   LngNewsletterConfirmRoute: typeof LngNewsletterConfirmRoute
   LngProductsProductListingTitleSlugIdRoute: typeof LngProductsProductListingTitleSlugIdRoute
   LngSearchShopsRoute: typeof LngSearchShopsRoute
@@ -1256,6 +1277,7 @@ const LngRouteChildren: LngRouteChildren = {
   LngCompareArtsyRoute: LngCompareArtsyRoute,
   LngCompareBarnebysRoute: LngCompareBarnebysRoute,
   LngCompareInvaluableRoute: LngCompareInvaluableRoute,
+  LngCompareLiveauctioneersRoute: LngCompareLiveauctioneersRoute,
   LngNewsletterConfirmRoute: LngNewsletterConfirmRoute,
   LngProductsProductListingTitleSlugIdRoute:
     LngProductsProductListingTitleSlugIdRoute,

@@ -12,6 +12,8 @@ import { FIRST_DIBS_COMPARISON } from "@/features/comparison/config/firstDibsCom
 import { FIRST_DIBS_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/firstDibsComparisonReview.ts";
 import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableComparison.ts";
 import { INVALUABLE_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/invaluableComparisonReview.ts";
+import { LIVE_AUCTIONEERS_COMPARISON } from "@/features/comparison/config/liveAuctioneersComparison.ts";
+import { LIVE_AUCTIONEERS_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/liveAuctioneersComparisonReview.ts";
 import {
     buildComparisonStructuredData,
     stripInlineMarkup,
@@ -158,6 +160,40 @@ describe("buildComparisonStructuredData", () => {
         expect(faqPage.mainEntity).toHaveLength(4);
         expect(faqPage.mainEntity.at(-1)?.acceptedAnswer.text).toBe(
             t("compare1stdibsPage.faq.items.comparePrices.answer"),
+        );
+        expect(JSON.stringify([article, faqPage])).not.toMatch(
+            /"@type":"(Review|AggregateRating|Rating)"/,
+        );
+    });
+
+    it("builds the LiveAuctioneers page from its visible strings, with no review markup", () => {
+        const [article, faqPage] = build(LIVE_AUCTIONEERS_COMPARISON);
+
+        expect(article).toMatchObject({
+            "@type": "Article",
+            headline: stripInlineMarkup(t("compareLiveauctioneersPage.hero.title")),
+            description: t("compareLiveauctioneersPage.hero.subtitle"),
+            dateModified: LIVE_AUCTIONEERS_COMPARISON_LAST_REVIEWED,
+            url: "https://aura-historia.com/de/compare/liveauctioneers",
+        });
+        expect(article.dateModified).toBe("2026-11-09");
+        expect(article.about).toEqual(
+            LIVE_AUCTIONEERS_COMPARISON.structuredDataTopics.map((topic) =>
+                t(`compareLiveauctioneersPage.structuredData.about.${topic}`),
+            ),
+        );
+        expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual(
+            getComparisonFaq(LIVE_AUCTIONEERS_COMPARISON).map((item) => t(item.questionKey)),
+        );
+        expect(faqPage.mainEntity).toHaveLength(5);
+        // One question per brand, so each "<brand> alternative" query finds its own entry.
+        expect(faqPage.mainEntity.map((entry) => entry.name).slice(0, 3)).toEqual([
+            t("compareLiveauctioneersPage.faq.items.alternative.question"),
+            t("compareLiveauctioneersPage.faq.items.saleroomAlternative.question"),
+            t("compareLiveauctioneersPage.faq.items.lotTissimoAlternative.question"),
+        ]);
+        expect(faqPage.mainEntity.at(-1)?.acceptedAnswer.text).toBe(
+            t("compareLiveauctioneersPage.faq.items.related.answer"),
         );
         expect(JSON.stringify([article, faqPage])).not.toMatch(
             /"@type":"(Review|AggregateRating|Rating)"/,

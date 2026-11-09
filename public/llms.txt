@@ -52,6 +52,7 @@ Key facts for agents:
 - [Aura Historia compared with Artsy](https://aura-historia.com/en/compare/artsy): The Artsy marketplace compared with a search across dealers, auction houses and marketplaces: object types, languages and monitoring, with the 2026 Artsy and Artnet announcement.
 - [Aura Historia compared with Barnebys](https://aura-historia.com/en/compare/barnebys): Source coverage, multilingual search and alerts compared, with the current status of Barnebys.
 - [Aura Historia compared with Invaluable](https://aura-historia.com/en/compare/invaluable): The Invaluable auction marketplace compared with a search across auction houses, dealers and marketplaces: bidding, provider types, monitoring, price data and languages, with the October 2026 acquisition announcement.
+- [Aura Historia compared with LiveAuctioneers](https://aura-historia.com/en/compare/liveauctioneers): The LiveAuctioneers auction platform, with The Saleroom and Lot-tissimo from the same group, compared with a search across auction houses, dealers and marketplaces: live and timed bidding, self-described bidder audience, provider types, monitoring and languages, with the group's 2025 annual-report ownership details.
 
 ## Optional
 
