@@ -271,13 +271,14 @@ describe("ComparisonPage with the LiveAuctioneers definition", () => {
 });
 
 /**
- * Wording that states who operates the three brands. The page says it twice, as a dated fact
+ * Wording that states who operates the three brands. The page states it twice, as a dated fact
  * attributed to the group's annual report: in the respect chapter's status line and in the FAQ
- * answer on whether the three are related (FAQ answers are quoted on their own).
+ * answer on whether the three are related (FAQ answers are quoted on their own). Elsewhere the
+ * page only refers to "the group" or "the same group" and states nothing more about it.
  */
 const OWNERSHIP_WORDING: Record<LocaleCode, RegExp> = {
     en: /(acquir|acquisition|bought|\bowned\b|\bowns\b|\bowner|ownership|purchased|takeover|taken over|parent company|subsidiar|merger|merged|\bsold\b)/i,
-    de: /(übernahm|übernehm|übernommen|erwirbt|erwarb|besitzer|eigentümer|gehört|verkauft|fusion|tochterunternehmen|muttergesellschaft)/i,
+    de: /(übernahm|übernehm|übernommen|erwirbt|erwarb|besitzer|eigentümer|gehört|\bverkauft\b|fusion|tochterunternehmen|muttergesellschaft)/i,
     es: /(adquisici|adquir|compró|comprada|absorb|pertenece|propiedad|propietari|fusi[oó]n|filial|matriz|\bvendida\b)/i,
     fr: /(rachat|racheté|acquisition|acquér|propriétaire|appartient|\bvendue\b|fusion|filiale)/i,
     it: /(acquisizion|acquistat[oa]|rilevat|appartiene|propriet|\bvenduta\b|fusione|controllata)/i,
@@ -286,10 +287,16 @@ const OWNERSHIP_WORDING: Record<LocaleCode, RegExp> = {
 const OWNERSHIP_PATHS = ["respect.status", "faq.items.related.answer"];
 
 /**
- * The group's name appears only where the dated sentence is: the respect status line and the FAQ
- * answer. Everywhere else the page says "the group".
+ * The group's name appears where a quoted text relies on its annual report: the respect status
+ * line, the FAQ answer and the one scorecard cell that cites the report. Everywhere else the page
+ * says "the group".
  */
 const GROUP_NAME = /Auction Technology Group/;
+const GROUP_NAME_PATHS = [
+    "respect.status",
+    "scorecard.rows.bidderAudience.competitor",
+    "faq.items.related.answer",
+];
 
 /** The self-description the page concedes, with the verb that attributes it. */
 const LARGEST_AUDIENCE: Record<LocaleCode, RegExp> = {
@@ -302,7 +309,7 @@ const LARGEST_AUDIENCE: Record<LocaleCode, RegExp> = {
 const DESCRIBES_ITS_AUDIENCE: Record<LocaleCode, RegExp> = {
     en: /describes its bidder audience as the largest in North America/,
     de: /beschreibt sein Bieterpublikum als das größte in Nordamerika/,
-    es: /describe su público de pujadores como el mayor de Norteamérica/,
+    es: /describe su público de postores como el mayor de Norteamérica/,
     fr: /décrit son public d’enchérisseurs comme le plus grand d’Amérique du Nord/,
     it: /descrive il proprio pubblico di offerenti come il più grande del Nord America/,
 };
@@ -323,11 +330,10 @@ const SELF_DESCRIPTIONS: Record<LocaleCode, RegExp> = {
 /**
  * Figures the page must not carry: the group's and the network's numbers (3,900 auction houses,
  * 106M buyers, 28M visits, 26.8m lots, 457m sessions), LiveAuctioneers' conflicting counts (1,600,
- * 4,000 and 5,000 auction houses), the Chairish and Pamono deal price and the group's
- * "three times" market claim.
+ * 4,000 and 5,000 auction houses) and the group's "three times" market claim.
  */
 const UNUSED_FIGURES =
-    /((?<![\d.,])(106|3[.,\s  ]?900|1[.,\s  ]?600|4[.,\s  ]?000|5[.,\s  ]?000|26[.,]8|457|85)(?!\d)|\b(three times|dreimal|tres veces|trois fois|tre volte)\b)/i;
+    /((?<![\d.,])(106|3[.,\s  ]?900|1[.,\s  ]?600|4[.,\s  ]?000|5[.,\s  ]?000|26[.,]8|457)(?!\d)|\b(three times|dreimal|tres veces|trois fois|tre volte)\b)/i;
 
 /** Group finances, other brands and the takeover approach of early 2026: not for this page. */
 const OFF_TOPIC: RegExp =
@@ -363,6 +369,31 @@ const CADENCE: Record<LocaleCode, RegExp> = {
     it: /(giornalier|ogni giorno|ogni ora|quotidian)/i,
 };
 
+/**
+ * Cross-listing is a group tool in the annual report that does not say which brands take part, so
+ * the page credits it to no brand and does not mention it.
+ */
+const CROSS_LISTING =
+    /(cross-?listing|atgXL|publicación cruzada|publication croisée|pubblicazione incrociata)/i;
+
+/** The h1 does not claim the "whole market", which nobody can verify. */
+const WHOLE_MARKET: Record<LocaleCode, RegExp> = {
+    en: /whole market|entire market/i,
+    de: /gesamten Markt|ganzen Markt/i,
+    es: /todo el mercado|mercado entero/i,
+    fr: /tout le marché|marché entier/i,
+    it: /tutto il mercato|intero mercato/i,
+};
+
+/** Where the Buy Now cell cites its source: the resource centre for auction houses. */
+const RESOURCE_CENTRE: Record<LocaleCode, RegExp> = {
+    en: /resource centre for auction houses/,
+    de: /Ressourcenbereich für Auktionshäuser/,
+    es: /centro de recursos para casas de subastas/,
+    fr: /centre de ressources pour les maisons de ventes/,
+    it: /centro risorse per le case d’asta/,
+};
+
 describe.each(Object.entries(LOCALES))("LiveAuctioneers comparison copy in %s", (lng, locale) => {
     const code = lng as LocaleCode;
     const page = locale.compareLiveauctioneersPage;
@@ -384,8 +415,10 @@ describe.each(Object.entries(LOCALES))("LiveAuctioneers comparison copy in %s", 
             expect(text).not.toMatch(UK_MARKET[code]);
             expect(text).not.toMatch(PAYMENT_AND_RANKING[code]);
             expect(text).not.toMatch(CADENCE[code]);
+            expect(text).not.toMatch(CROSS_LISTING);
             expect(text).not.toMatch(/!/);
         }
+        expect(page.hero.title).not.toMatch(WHOLE_MARKET[code]);
     });
 
     it("states who operates the three brands twice, dated and attributed to the annual report", () => {
@@ -406,7 +439,7 @@ describe.each(Object.entries(LOCALES))("LiveAuctioneers comparison copy in %s", 
         expect(status).toContain("The Saleroom");
 
         expect(pathsMatching(OWNERSHIP_WORDING[code])).toEqual(OWNERSHIP_PATHS);
-        expect(pathsMatching(GROUP_NAME)).toEqual(OWNERSHIP_PATHS);
+        expect(pathsMatching(GROUP_NAME)).toEqual(GROUP_NAME_PATHS);
         // The FAQ answer keeps the date and source with the claim; it does not repeat the group's
         // three-brand list as a status line of its own.
         expect(answer.startsWith(status)).toBe(false);
@@ -431,6 +464,8 @@ describe.each(Object.entries(LOCALES))("LiveAuctioneers comparison copy in %s", 
             "scorecard.rows.dealersAndFixedPrice.competitor",
         ]);
         expect(dealersAndFixedPrice.competitor).toContain("Buy Now");
+        // The source is the resource centre's description of unsold lots, not a search filter.
+        expect(dealersAndFixedPrice.competitor).toMatch(RESOURCE_CENTRE[code]);
         // The Aura Historia side is about stock on the dealers' own websites, not fixed prices alone.
         expect(dealersAndFixedPrice.verdict).toMatch(
             /(across websites|über Websites hinweg|entre sitios web|sur plusieurs sites|su più siti web)/,
@@ -445,6 +480,8 @@ describe.each(Object.entries(LOCALES))("LiveAuctioneers comparison copy in %s", 
         }
         // The 50-countries figure of its About page is left out.
         expect(competitor).not.toMatch(/\b50\b/);
+        // LiveAuctioneers' claim names no languages, so the verdict only says nothing separates them.
+        expect(page.scorecard.rows.languageHandling.verdict).toMatch(/(document|dokument)/i);
     });
 
     it("names each brand in its own FAQ question and in the meta description", () => {

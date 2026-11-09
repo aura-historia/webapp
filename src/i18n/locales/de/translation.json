@@ -4328,7 +4328,7 @@
     },
     "hero": {
       "eyebrow": "Vergleich: Aura Historia vs. LiveAuctioneers",
-      "title": "Eine Suche über den gesamten Markt, jenseits einer <em>einzelnen Auktionsplattform</em>",
+      "title": "Eine Suche über viele Anbieter hinweg, jenseits einer <em>einzelnen Auktionsplattform</em>",
       "subtitle": "LiveAuctioneers ist eine Online-Auktionsplattform zum Bieten in Live-Auktionen und zeitgesteuerten Auktionen; The Saleroom und Lot-tissimo sind Marktplätze derselben Gruppe. Aura Historia durchsucht Auktionshäuser, Händler und Marktplätze nebeneinander und veranstaltet selbst keine Auktionen.",
       "primaryCta": "Über den Markt hinweg suchen",
       "secondaryCta": "Vergleich ansehen",
@@ -4338,7 +4338,7 @@
     },
     "quickVerdicts": {
       "liveBidding": {
-        "label": "Stark beim Bieten in Live- und zeitgesteuerten Auktionen bei Auktionshäusern",
+        "label": "Stark beim Online-Bieten in Live-Auktionen und zeitgesteuerten Auktionen bei Auktionshäusern",
         "value": "LiveAuctioneers"
       },
       "searchAcrossProviders": {
@@ -4346,7 +4346,7 @@
         "value": "Aura Historia"
       },
       "dealerAndShopStock": {
-        "label": "Stärker für die Suche nach Händler- und Shopware über Websites hinweg",
+        "label": "Stärker für die Suche in den Beständen von Händlern und Shops über Websites hinweg",
         "value": "Aura Historia"
       },
       "monitoring": {
@@ -4361,9 +4361,9 @@
     },
     "respect": {
       "title": "LiveAuctioneers ist eine etablierte <em>Plattform zum Bieten</em>",
-      "paragraph1": "Ein fairer Vergleich beginnt hier: LiveAuctioneers bietet seit 2002 Online-Auktionen an, mit Live-Auktionen und zeitgesteuerten Auktionen, und beschreibt sein Bieterpublikum als das größte in Nordamerika. The Saleroom und Lot-tissimo sind die weiteren Auktionsmarktplätze der Gruppe für Kunst und Antiquitäten; die Gruppe beschreibt Lot-tissimo als einen deutschen.",
+      "paragraph1": "Ein fairer Vergleich beginnt hier: LiveAuctioneers, 2002 gegründet, sagt von sich, Auktionshäusern zu ermöglichen, Live-Auktionen und zeitgesteuerte Auktionen online abzuhalten, und beschreibt sein Bieterpublikum als das größte in Nordamerika. The Saleroom und Lot-tissimo sind die weiteren Auktionsmarktplätze der Gruppe für Kunst und Antiquitäten; die Gruppe beschreibt Lot-tissimo als deutschen Marktplatz.",
       "paragraph2": "Aura Historia versucht nicht, das zu ersetzen. Sie beantwortet eine andere Frage: Was wird bei Auktionshäusern, Händlern, Shops und Marktplätzen angeboten, Festpreisangebote eingeschlossen? Dass ein Objekt hier auftaucht, macht Aura Historia nicht zu einem Ort zum Bieten. Geboten wird dort, wo das Objekt angeboten wird.",
-      "status": "Auction Technology Group (ATG) betreibt LiveAuctioneers, The Saleroom und Lot-tissimo. Ihr Geschäftsbericht für das am 30. September 2025 beendete Geschäftsjahr führt alle drei unter ihren Marktplätzen auf und datiert die Übernahme von Lot-tissimo auf 2018 und die von LiveAuctioneers auf Oktober 2021."
+      "status": "Auction Technology Group (ATG) betreibt LiveAuctioneers, The Saleroom und Lot-tissimo. Der Geschäftsbericht der Gruppe für das am 30. September 2025 beendete Geschäftsjahr führt alle drei unter ihren Marktplätzen auf und datiert die Übernahme von Lot-tissimo auf 2018 und die von LiveAuctioneers auf Oktober 2021."
     },
     "advantages": {
       "title": "Eine Suche über Anbieter hinweg, <em>nicht der Katalog einer Plattform</em>",
@@ -4399,25 +4399,25 @@
       "rows": {
         "liveBidding": {
           "criterion": "Bieten in Live- und zeitgesteuerten Auktionen",
-          "competitor": "Registrierte Bieter bieten bei LiveAuctioneers in Live-Auktionen und zeitgesteuerten Auktionen, im Web und in den Apps; diese benachrichtigen sie auch, wenn gespeicherte Lose bald an der Reihe sind. The Saleroom und Lot-tissimo bieten ebenfalls Live-Auktionen und zeitgesteuerte Auktionen.",
+          "competitor": "Registrierte Bieter bieten bei LiveAuctioneers in Live-Auktionen und zeitgesteuerten Auktionen, im Web und in seinen Apps; diese benachrichtigen sie auch, wenn gespeicherte Lose bald an der Reihe sind. The Saleroom und Lot-tissimo bieten ebenfalls Live-Auktionen und zeitgesteuerte Auktionen.",
           "auraHistoria": "Veranstaltet keine Auktionen und nimmt keine Gebote an. „Zur Seite des Anbieters“ öffnet das Angebot auf der eigenen Seite des Anbieters.",
           "verdict": "LiveAuctioneers beim Bieten"
         },
         "bidderAudience": {
           "criterion": "Bieterpublikum, wie es jeder Dienst selbst beschreibt",
-          "competitor": "LiveAuctioneers beschreibt sein Bieterpublikum als das größte in Nordamerika. Laut dem Geschäftsbericht der Gruppe erweiterte die Aufnahme von LiveAuctioneers 2021 ihr Angebot um den nordamerikanischen Markt für Kunst und Antiquitäten.",
+          "competitor": "LiveAuctioneers beschreibt sein Bieterpublikum als das größte in Nordamerika. Laut dem Geschäftsbericht von Auction Technology Group hat die Gruppe mit der Aufnahme von LiveAuctioneers 2021 ihr Angebot auf den nordamerikanischen Markt für Kunst und Antiquitäten ausgeweitet.",
           "auraHistoria": "Macht keine Angaben zur Größe eines Publikums. Zeigt, was jeder Anbieter öffentlich einstellt.",
           "verdict": "LiveAuctioneers beim Publikum"
         },
         "providerTypes": {
           "criterion": "Anbieter über eine Plattform hinaus",
-          "competitor": "Auktionshäuser und weitere Verkäufer, die bei LiveAuctioneers einstellen. Laut dem Geschäftsbericht der Gruppe können Verkäufer per Cross-Listing außerdem auf mehreren ihrer Marktplätze einstellen.",
+          "competitor": "Auktionshäuser, die bei LiveAuctioneers einstellen.",
           "auraHistoria": "Auktionshäuser, Händler, Shops und Marktplätze, jeweils auf der eigenen Website oder Plattform, in einer Suche.",
           "verdict": "Aura Historia"
         },
         "dealersAndFixedPrice": {
           "criterion": "Ware von Händlern und Shops",
-          "competitor": "Führt Lose in Live-Auktionen und zeitgesteuerten Auktionen auf und laut seinem Suchfilter außerdem „Buy Now“-Artikel der Verkäufer auf seiner Plattform.",
+          "competitor": "Führt Lose in Live-Auktionen und zeitgesteuerten Auktionen auf und laut seinem Ressourcenbereich für Auktionshäuser außerdem „Buy Now“-Angebote für unverkaufte Artikel.",
           "auraHistoria": "Durchsucht die Ware von Händlern und Shops auf deren eigenen Websites, Festpreisangebote eingeschlossen, neben Auktionsangeboten.",
           "verdict": "Aura Historia über Websites hinweg"
         },
@@ -4425,11 +4425,11 @@
           "criterion": "Umgang mit Sprachen",
           "competitor": "LiveAuctioneers sagt, seine Objekte würden in Ihre Sprache und Währung übersetzt. The Saleroom bietet seine Website auf Englisch, Französisch, Deutsch und Italienisch an, Lot-tissimo auf Englisch und Deutsch.",
           "auraHistoria": "Fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch, Italienisch), mit übersetzten Angeboten und vereinheitlichter Terminologie.",
-          "verdict": "Beide bieten mehrere Sprachen"
+          "verdict": "Kein dokumentierter Unterschied"
         },
         "monitoring": {
           "criterion": "Beobachtung über eine einzelne Plattform hinaus",
-          "competitor": "Einer Suche folgen, um über passende Objekte benachrichtigt zu werden: Die Apps von LiveAuctioneers senden Benachrichtigungen zu gespeicherten Suchen, und The Saleroom und Lot-tissimo schicken per E-Mail Alarme zu neuen Losen auf ihren eigenen Websites.",
+          "competitor": "Einer Suche folgen, um über passende Objekte benachrichtigt zu werden: Die Apps von LiveAuctioneers senden Benachrichtigungen zu gespeicherten Suchen, und The Saleroom und Lot-tissimo verschicken per E-Mail „Auction Alerts“ zu neuen Losen auf ihren eigenen Websites.",
           "auraHistoria": "Merklisten, gespeicherte Suchen und Benachrichtigungen decken alle Anbieter im Index ab, einschließlich Preis- und Verfügbarkeitsänderungen bei beobachteten Objekten.",
           "verdict": "Aura Historia"
         }
@@ -4456,7 +4456,7 @@
         },
         "acrossLanguages": {
           "title": "In fünf Sprachen suchen",
-          "description": "Wenn Angebote übersetzt und die Terminologie vereinheitlicht ist, ist ein Sammler weniger durch die Sprache des Verkäufers oder Auktionators eingeschränkt."
+          "description": "Wenn Angebote übersetzt sind und die Terminologie vereinheitlicht ist, ist ein Sammler weniger durch die Sprache des Verkäufers oder Auktionators eingeschränkt."
         },
         "watchAnObject": {
           "title": "Ein einzelnes Objekt beobachten",
@@ -4482,7 +4482,7 @@
         },
         "lotTissimoAlternative": {
           "question": "Ist Aura Historia eine Alternative zu Lot-tissimo?",
-          "answer": "Ja, für Käufer, die über eine einzelne Auktionsplattform hinaus suchen möchten. Lot-tissimo ist ein Auktionsmarktplatz für Kunst und Antiquitäten, den die Gruppe als deutschen beschreibt; die Website gibt es auf Deutsch und Englisch. Aura Historia durchsucht Auktionshäuser, Händler, Shops und Marktplätze in fünf Sprachen und veranstaltet keine Auktionen, ist also kein Ort zum Bieten. Zum Bieten in den dortigen Auktionen nutzen Sie Lot-tissimo."
+          "answer": "Ja, für Käufer, die über eine einzelne Auktionsplattform hinaus suchen möchten. Lot-tissimo ist ein Auktionsmarktplatz für Kunst und Antiquitäten; die Website gibt es auf Deutsch und Englisch. Aura Historia durchsucht Auktionshäuser, Händler, Shops und Marktplätze in fünf Sprachen und veranstaltet keine Auktionen, ist also kein Ort zum Bieten. Zum Bieten in den dortigen Auktionen nutzen Sie Lot-tissimo."
         },
         "bid": {
           "question": "Kann ich über Aura Historia bieten?",

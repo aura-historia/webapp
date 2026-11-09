@@ -55,9 +55,18 @@ import { LIVE_AUCTIONEERS_COMPARISON_LAST_REVIEWED } from "@/features/comparison
  *   the audience in the scorecard row "Bidder audience, as each describes it" and gives the
  *   verdict to LiveAuctioneers, never calls LiveAuctioneers "leading" or "most trusted" in its
  *   own voice, and gives no figure for the audience. It also quotes the annual report's sentence
- *   that the acquisition extended ATG's offering into the North American arts and antiques market.
- * - Bidding: the search page's "Sale Type" filter lists "Live Auction", "Buy Now", "Timed+
- *   Auction" and "Timed Auction" (search for "library table"); the app listing says "Watch live
+ *   that the acquisition extended ATG's offering into the North American arts and antiques market,
+ *   naming Auction Technology Group in that cell because scorecard cells are quoted on their own.
+ *   The issue asks the respect chapter to credit the platforms' role in bringing auction houses
+ *   online. The company overview says "Founded in 2002, LiveAuctioneers is the world's leading
+ *   platform for live and timed auctions of collectibles, antiques, and fine art, enabling more
+ *   than 1,600 of the world's trusted auction houses to host auctions online". The page uses it as
+ *   an attributed statement ("says it enables auction houses to host live and timed auctions
+ *   online"), states the founding year as "founded in 2002" and leaves out "leading" and the 1,600.
+ * - Bidding: the company overview says "live and timed auctions", and the data embedded in a
+ *   search page lists the sale types "Live Auction", "Buy Now", "Timed+ Auction" and "Timed
+ *   Auction" (search for "library table"; the rendered page shows no such filter, so the page does
+ *   not call it one); the app listing says "Watch live
  *   auctions and bid live in real-time", "Place bids before auctions begin or watch auctions when
  *   they are live and bid in real-time" and "Get push notification alerts when items you save or
  *   bid on are almost up for auction". The Saleroom's FAQ: "Live auctions are traditional
@@ -71,20 +80,29 @@ import { LIVE_AUCTIONEERS_COMPARISON_LAST_REVIEWED } from "@/features/comparison
  *   https://apps.apple.com/us/app/liveauctioneers-bid-auction/id321243082
  *   https://www.the-saleroom.com/en-gb/about-us/faqs
  *   https://www.lot-tissimo.com/de-de/about-us/faqs
- * - Fixed-price stock: LiveAuctioneers lists Buy Now items next to its auction lots (the "Sale
- *   Type" filter above: 84 of 236 results for "library table" on 2026-11-09, a count that changes
- *   daily and is not on the page). The issue's draft ("dealers and fixed-price → Aura Historia")
- *   therefore cannot say LiveAuctioneers lacks fixed-price stock. The page says what holds: Buy
- *   Now items exist on LiveAuctioneers (the scorecard row says "according to its search filter"),
- *   and Aura Historia's difference is that it searches the stock of dealers and shops on their own
- *   websites, which a platform does not show. The page never says the group has no list-price
- *   marketplace: its annual report calls Chairish "a leading list-price online marketplace" and
- *   says the acquisition offers "consumers the choice of auction and list price merchandise".
- * - Providers: the annual report says ATG has "deep relationships with 4,000 auctioneers who use
- *   our marketplace" and describes "atgXL: a cross-listing capability to enable sellers to list
- *   across multiple marketplaces". The page therefore says sellers can list across several of the
- *   group's marketplaces (attributed to the annual report) and never says each brand is a separate
- *   catalogue. The advantage is stated as one result list across providers and their own sites.
+ * - Fixed-price stock: LiveAuctioneers offers Buy Now listings next to its auction lots. Its resource
+ *   centre for auction houses says "Our Buy-It-Now solution allows you to increase sales by
+ *   offering unsold auction items for immediate sale on LiveAuctioneers" and "your unsold items
+ *   will be automatically converted to Buy Now listings once your auction ends"; search results
+ *   carry the sale type "Buy Now" (84 of 236 results for "library table" on 2026-11-09, a count
+ *   that changes daily and is not on the page). The issue's draft ("dealers and fixed-price →
+ *   Aura Historia") therefore cannot say LiveAuctioneers lacks fixed-price stock. The page says
+ *   what holds: the scorecard row says "according to its resource centre for auction houses, Buy
+ *   Now listings of unsold items" (the guide describes auction houses' unsold lots and does not say
+ *   whether other sellers can list them), and Aura Historia's difference is that it searches the
+ *   stock of dealers and shops on their own websites, which a platform does not show. The page
+ *   never says the group has no list-price marketplace: its annual report calls Chairish "a
+ *   leading list-price online marketplace" and says the acquisition offers "consumers the choice
+ *   of auction and list price merchandise".
+ *   https://www.liveauctioneers.com/pages/bidder-growth-guide/
+ * - Providers: the sellers on LiveAuctioneers are "auction houses" in its company overview and
+ *   "auctioneers" in its app listing, so the cell says "Auction houses that list on
+ *   LiveAuctioneers". The issue's "other sellers" has no source and is not used. The annual report
+ *   describes "atgXL: a cross-listing capability to enable sellers to list across multiple
+ *   marketplaces" and, in the glossary, a tool for auctioneers to run timed auctions across ATG
+ *   marketplaces and white-label sites. That is a group tool; the report does not say which brands
+ *   take part, so the page does not credit it to LiveAuctioneers and says nothing about
+ *   cross-listing. It also never says each brand is a separate catalogue.
  * - Monitoring: LiveAuctioneers' homepage and search pages offer "Follow this search" ("Be the first
  *   to hear about new items you love"); the mobile-bidding page for auction houses says its apps
  *   send "timely notifications for saved search matches, auction registration approvals, bid
@@ -110,10 +128,15 @@ import { LIVE_AUCTIONEERS_COMPARISON_LAST_REVIEWED } from "@/features/comparison
  *   is left out. The Saleroom's language menu (footer of its inner pages) offers English, Français,
  *   Deutsch and Italiano; Lot-tissimo's offers English and Deutsch. How any of the three treats
  *   terminology is not documented, so the row is a tie and the "terminology" statements only
- *   describe Aura Historia.
+ *   describe Aura Historia. The verdict line reads "No difference documented" and not "Both offer
+ *   several languages": for LiveAuctioneers the only source is the About page's claim, which names
+ *   no languages (its app listing says "English"), and the cell attributes it as a claim.
  *   https://www.liveauctioneers.com/about/
  *   https://www.the-saleroom.com/en-gb/about-us/faqs
  *   https://www.lot-tissimo.com/de-de/auction-alerts
+ * - The h1: the issue's draft ("A search across the whole market, beyond a single auction
+ *   platform") is a totality claim nobody can verify, so the page says "many providers". The final
+ *   call to action keeps the issue's "a search across the market", as the Invaluable page does.
  * - Paid placement: omitted, as the issue's default. LiveAuctioneers advertises promotion
  *   packages to auction houses (https://www.liveauctioneers.com/pages/advertise/); that is a
  *   fact about its business and the page does not imply how results are ranked. Nothing on the
@@ -123,6 +146,11 @@ import { LIVE_AUCTIONEERS_COMPARISON_LAST_REVIEWED } from "@/features/comparison
  *   2026-11-09): none of LiveAuctioneers, The Saleroom, Lot-tissimo, Bonhams or Dorotheum is
  *   indexed as a provider by name, so the page claims no overlap. It says only what the product
  *   docs support: Aura Historia indexes auction houses, dealers, shops and marketplaces.
+ * - Not on the page, for the PR only: the public MCP `getPublicOverview` (2026-11-09) reports 42
+ *   indexed providers, all dealers (0 auction houses, 0 marketplaces), 1 country and 12 languages,
+ *   while the provider list returns more than 50 providers from many countries on its first page.
+ *   The two disagree, so the page keeps the wording of the maintainers' rule and the merged
+ *   sibling pages ("auction houses, dealers and marketplaces"); a maintainer should confirm it.
  * - Not on the page, for the PR only: LiveAuctioneers publishes a `/llms.txt` (200); none of the
  *   three has `/.well-known/mcp/server-card.json`, `api-catalog` or `agent-card.json` (LiveAuctioneers
  *   returns 404, The Saleroom and Lot-tissimo redirect to an error page); their robots.txt files

@@ -4136,7 +4136,7 @@
     },
     "hero": {
       "eyebrow": "Comparativa: Aura Historia vs LiveAuctioneers",
-      "title": "Una búsqueda en todo el mercado, más allá de una <em>sola plataforma de subastas</em>",
+      "title": "Una búsqueda entre muchos proveedores, más allá de una <em>sola plataforma de subastas</em>",
       "subtitle": "LiveAuctioneers es una plataforma de subastas en línea para pujar en directo y en subastas con cierre programado; The Saleroom y Lot-tissimo son marketplaces del mismo grupo. Aura Historia busca entre casas de subastas, comerciantes y marketplaces codo con codo y no organiza subastas por sí misma.",
       "primaryCta": "Buscar en todo el mercado",
       "secondaryCta": "Ver la comparativa",
@@ -4169,9 +4169,9 @@
     },
     "respect": {
       "title": "LiveAuctioneers es una <em>plataforma para pujar</em> consolidada",
-      "paragraph1": "Una comparación justa empieza aquí: LiveAuctioneers ofrece subastas en línea desde 2002, en directo y con cierre programado, y describe su público de pujadores como el mayor de Norteamérica. The Saleroom y Lot-tissimo son los otros marketplaces de subastas de arte y antigüedades del grupo; el grupo describe Lot-tissimo como alemán.",
+      "paragraph1": "Una comparación justa empieza aquí: LiveAuctioneers, fundado en 2002, afirma que permite a las casas de subastas celebrar en línea subastas en directo y con cierre programado, y describe su público de postores como el mayor de Norteamérica. The Saleroom y Lot-tissimo son los otros marketplaces de subastas de arte y antigüedades del grupo; el grupo describe Lot-tissimo como alemán.",
       "paragraph2": "Aura Historia no intenta sustituir eso. Responde a otra pregunta: qué se ofrece entre casas de subastas, comerciantes, tiendas y marketplaces, con los anuncios a precio fijo incluidos. Ver un objeto aquí no convierte a Aura Historia en un lugar donde pujar. Se puja donde se ofrece el objeto.",
-      "status": "Auction Technology Group (ATG) opera LiveAuctioneers, The Saleroom y Lot-tissimo. Su informe anual del ejercicio cerrado el 30 de septiembre de 2025 enumera las tres entre sus marketplaces y sitúa la adquisición de Lot-tissimo en 2018 y la de LiveAuctioneers en octubre de 2021."
+      "status": "Auction Technology Group (ATG) opera LiveAuctioneers, The Saleroom y Lot-tissimo. Su informe anual del ejercicio cerrado el 30 de septiembre de 2025 enumera los tres entre sus marketplaces y sitúa la adquisición de Lot-tissimo en 2018 y la de LiveAuctioneers en octubre de 2021."
     },
     "advantages": {
       "title": "Una búsqueda entre proveedores, <em>no el catálogo de una plataforma</em>",
@@ -4207,25 +4207,25 @@
       "rows": {
         "liveBidding": {
           "criterion": "Pujas en directo y con cierre programado",
-          "competitor": "Quienes se registran pujan en LiveAuctioneers en subastas en directo y con cierre programado, en la web y en sus aplicaciones, que además avisan cuando los lotes guardados están a punto de salir. The Saleroom y Lot-tissimo también ofrecen subastas en directo y con cierre programado.",
+          "competitor": "Quienes se registran pujan en LiveAuctioneers en subastas en directo y con cierre programado, en la web y en sus aplicaciones, que además avisan cuando los lotes guardados están a punto de subastarse. The Saleroom y Lot-tissimo también ofrecen subastas en directo y con cierre programado.",
           "auraHistoria": "No organiza subastas ni recibe pujas. “Ir al proveedor” abre el anuncio en la página del propio proveedor.",
           "verdict": "LiveAuctioneers para pujar"
         },
         "bidderAudience": {
-          "criterion": "Público de pujadores, tal como lo describe cada servicio",
-          "competitor": "LiveAuctioneers describe su público de pujadores como el mayor de Norteamérica. Según el informe anual del grupo, incorporar LiveAuctioneers en 2021 amplió su oferta al mercado norteamericano de arte y antigüedades.",
-          "auraHistoria": "No hace ninguna afirmación sobre el tamaño de un público. Muestra lo que cada proveedor publica abiertamente.",
+          "criterion": "Público de postores, tal como lo describe cada servicio",
+          "competitor": "LiveAuctioneers describe su público de postores como el mayor de Norteamérica. Según el informe anual de Auction Technology Group, la incorporación de LiveAuctioneers en 2021 amplió la oferta del grupo al mercado norteamericano de arte y antigüedades.",
+          "auraHistoria": "No hace ninguna afirmación sobre el tamaño de un público. Muestra los anuncios que cada proveedor hace públicos.",
           "verdict": "LiveAuctioneers por su público"
         },
         "providerTypes": {
           "criterion": "Proveedores más allá de una plataforma",
-          "competitor": "Casas de subastas y otros vendedores que publican en LiveAuctioneers. Según el informe anual del grupo, la publicación cruzada permite además a los vendedores publicar en varios de sus marketplaces.",
+          "competitor": "Casas de subastas que publican en LiveAuctioneers.",
           "auraHistoria": "Casas de subastas, comerciantes, tiendas y marketplaces, cada uno en su propio sitio web o plataforma, en una sola búsqueda.",
           "verdict": "Aura Historia"
         },
         "dealersAndFixedPrice": {
           "criterion": "Stock de comerciantes y tiendas",
-          "competitor": "Ofrece lotes en subastas en directo y con cierre programado y, según su filtro de búsqueda, artículos “Buy Now” de los vendedores de su plataforma.",
+          "competitor": "Ofrece lotes en subastas en directo y con cierre programado y, según su centro de recursos para casas de subastas, anuncios “Buy Now” de artículos no vendidos.",
           "auraHistoria": "Busca el stock de comerciantes y tiendas en sus propios sitios web, con las ofertas a precio fijo incluidas, junto a los anuncios de subasta.",
           "verdict": "Aura Historia entre sitios web"
         },
@@ -4233,11 +4233,11 @@
           "criterion": "Gestión de idiomas",
           "competitor": "LiveAuctioneers dice que sus objetos se traducen a tu idioma y a tu moneda. The Saleroom ofrece su sitio en inglés, francés, alemán e italiano, y Lot-tissimo en inglés y alemán.",
           "auraHistoria": "Cinco idiomas (alemán, inglés, español, francés, italiano), con anuncios traducidos y terminología unificada.",
-          "verdict": "Ambos ofrecen varios idiomas"
+          "verdict": "Sin diferencia documentada"
         },
         "monitoring": {
           "criterion": "Seguimiento más allá de una sola plataforma",
-          "competitor": "Seguir una búsqueda para recibir avisos de lo que coincide: las aplicaciones de LiveAuctioneers envían notificaciones de las búsquedas guardadas, y The Saleroom y Lot-tissimo envían por correo alertas de nuevos lotes de sus propios sitios.",
+          "competitor": "Seguir una búsqueda para recibir avisos de los objetos que coinciden: las aplicaciones de LiveAuctioneers envían notificaciones sobre las búsquedas guardadas, y The Saleroom y Lot-tissimo envían por correo alertas sobre los nuevos lotes de sus propios sitios.",
           "auraHistoria": "Las listas de seguimiento, las búsquedas guardadas y las notificaciones cubren todos los proveedores del índice, con los cambios de precio y disponibilidad de los objetos seguidos.",
           "verdict": "Aura Historia"
         }
@@ -4282,7 +4282,7 @@
       "items": {
         "alternative": {
           "question": "¿Es Aura Historia una alternativa a LiveAuctioneers?",
-          "answer": "Sí, para quienes quieren buscar más allá de una sola plataforma de subastas. Aura Historia busca en un solo lugar casas de subastas, comerciantes, tiendas y marketplaces de arte y antigüedades, con los anuncios a precio fijo incluidos. No organiza subastas, así que no es un lugar donde pujar. LiveAuctioneers sigue siendo una plataforma consolidada para pujar en directo y con cierre programado en casas de subastas."
+          "answer": "Sí, para quienes quieren buscar más allá de una sola plataforma de subastas. Aura Historia busca arte y antigüedades en casas de subastas, comerciantes, tiendas y marketplaces desde un solo lugar, con los anuncios a precio fijo incluidos. No organiza subastas, así que no es un lugar donde pujar. LiveAuctioneers sigue siendo una plataforma consolidada para pujar en directo y con cierre programado en casas de subastas."
         },
         "saleroomAlternative": {
           "question": "¿Es Aura Historia una alternativa a The Saleroom?",
@@ -4290,7 +4290,7 @@
         },
         "lotTissimoAlternative": {
           "question": "¿Es Aura Historia una alternativa a Lot-tissimo?",
-          "answer": "Sí, para quienes quieren buscar más allá de una sola plataforma de subastas. Lot-tissimo es un marketplace de subastas de arte y antigüedades que su grupo describe como alemán, y su sitio está disponible en alemán e inglés. Aura Historia busca en cinco idiomas entre casas de subastas, comerciantes, tiendas y marketplaces y no organiza subastas, así que no es un lugar donde pujar. Para pujar en las subastas que se celebran allí, usa Lot-tissimo."
+          "answer": "Sí, para quienes quieren buscar más allá de una sola plataforma de subastas. Lot-tissimo es un marketplace de subastas de arte y antigüedades, y su sitio está disponible en alemán e inglés. Aura Historia busca en cinco idiomas entre casas de subastas, comerciantes, tiendas y marketplaces y no organiza subastas, así que no es un lugar donde pujar. Para pujar en las subastas que se celebran allí, usa Lot-tissimo."
         },
         "bid": {
           "question": "¿Puedo pujar a través de Aura Historia?",
@@ -4298,7 +4298,7 @@
         },
         "related": {
           "question": "¿Están relacionadas LiveAuctioneers, The Saleroom y Lot-tissimo?",
-          "answer": "Sí. Según el informe anual de Auction Technology Group (ATG) del ejercicio cerrado el 30 de septiembre de 2025, ATG opera las tres entre sus marketplaces; sitúa la adquisición de Lot-tissimo en 2018 y la de LiveAuctioneers en octubre de 2021. Cada una funciona en su propio sitio web."
+          "answer": "Sí. Según el informe anual de Auction Technology Group (ATG) del ejercicio cerrado el 30 de septiembre de 2025, ATG opera los tres entre sus marketplaces; sitúa la adquisición de Lot-tissimo en 2018 y la de LiveAuctioneers en octubre de 2021. Cada uno funciona en su propio sitio web."
         }
       }
     },
