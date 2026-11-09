@@ -195,8 +195,21 @@ function extractDynamicTranslationPatterns(
             return rootKeys.has(rootKey);
         })
         .map((template) => templateToRegExp(template));
+    // Comparison pages read their copy from the definition's namespace (`${ns}.hero.title`), so
+    // such a template stands for the same key in every comparison namespace (`compare<Name>Page`).
+    const comparisonTemplatePatterns = [
+        ...sourceContents.matchAll(/`\$\{(?:ns|definition\.namespace)\}(\.[^`]*)`/g),
+    ].map((match) => {
+        // `${chapter}` addresses the optional narrative chapters (`ComparisonNarrativeSection`), so
+        // it stands for those two names, not for any segment.
+        const keyPattern = escapeRegExp(match[1])
+            .replace(/\\\$\\\{chapter\\\}/g, "(?:alerts|together)")
+            .replace(/\\\$\\\{[^}]+\\\}/g, "[^.]+");
+        return new RegExp(`^compare[A-Z0-9][A-Za-z0-9]*Page${keyPattern}$`);
+    });
     return [
         ...directTemplatePatterns,
+        ...comparisonTemplatePatterns,
         /^apiErrors\.[^.]+$/,
         /^partnerProgram\.customIntegrationPage\.guide\.steps\.[^.]+\.(title|description|focus|cta|visualTitle|visualCaption|signInCta|loadError|retryCta|empty|applyCta|selectionLabel|selectionRequired|pendingLabel|pendingHint)$/,
     ];

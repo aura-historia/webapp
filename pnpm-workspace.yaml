@@ -10,3 +10,8 @@ allowBuilds:
   workerd: true
 
 minimumReleaseAge: 1440
+
+# parse5-parser-stream 8.1 uses Tokenizer.flushCharacters, which parse5 8.0 lacks.
+# Keep its parse5 dependency aligned with jsdom 31's parse5 8.1 version.
+overrides:
+  'parse5-parser-stream@8.1.0>parse5': 8.1.0

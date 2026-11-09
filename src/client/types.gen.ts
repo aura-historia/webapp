@@ -11,16 +11,191 @@ export type OAuthErrorData = {
   error: 'invalid_request' | 'invalid_client' | 'invalid_grant' | 'unsupported_grant_type' | 'unsupported_response_type' | 'invalid_scope' | 'invalid_target' | 'access_denied' | 'server_error' | 'temporarily_unavailable';
 };
 
+export type OAuthProtectedResourceMetadataData = {
+  resource: 'https://api.aura-historia.com' | 'https://api.stage.aura-historia.com';
+  authorization_servers: [
+    'https://api.aura-historia.com' | 'https://api.stage.aura-historia.com'
+  ];
+  bearer_methods_supported: Array<'header'>;
+  scopes_supported: Array<'users:read' | 'users:write' | 'search-filters:read' | 'search-filters:write' | 'watchlist:read' | 'watchlist:write' | 'notifications:read' | 'notifications:write'>;
+};
+
+/**
+ * AI catalog (ai-catalog data model). Other hosts' catalogs may carry further members; this one carries exactly these.
+ */
+export type SiteAiCatalogData = {
+  /**
+   * The ai-catalog data model version.
+   */
+  specVersion: '1.0';
+  host: {
+    displayName: string;
+    /**
+     * The website's domain.
+     */
+    identifier: 'aura-historia.com' | 'stage.aura-historia.com';
+    documentationUrl: string;
+    logoUrl: string;
+  };
+  entries: Array<{
+    /**
+     * `urn:air:<website domain>:<namespace>:<name>`.
+     */
+    identifier: string;
+    displayName: string;
+    /**
+     * Media type of the linked document.
+     */
+    type: string;
+    url: string;
+    description: string;
+    representativeQueries: Array<string>;
+  }>;
+};
+
+export type SitePoppyDeclarationData = {
+  protocol_version: '0.1';
+  organization: {
+    name: string;
+    /**
+     * The website's domain, which must equal the host serving the declaration.
+     */
+    domain: 'aura-historia.com' | 'stage.aura-historia.com';
+  };
+  /**
+   * Agents browse the website as signed-out visitors.
+   */
+  web: {
+    [key: string]: never;
+  };
+};
+
+export type SiteWebMcpClientMetadataData = {
+  /**
+   * The document's own website URL.
+   */
+  client_id: 'https://aura-historia.com/oauth/webmcp-client.json' | 'https://stage.aura-historia.com/oauth/webmcp-client.json';
+  /**
+   * Shown on the consent page beside the verified host of `client_id`.
+   */
+  client_name: string;
+  client_uri: 'https://aura-historia.com' | 'https://stage.aura-historia.com';
+  logo_uri: string;
+  /**
+   * The website's `/api/oauth/webmcp/callback`; on stage also `http://localhost/api/oauth/webmcp/callback`, which matches on any port.
+   */
+  redirect_uris: Array<string>;
+  grant_types: Array<'authorization_code' | 'refresh_token'>;
+  response_types: Array<'code'>;
+  token_endpoint_auth_method: 'none';
+};
+
+export type SiteAgentSkillsIndexData = {
+  $schema: 'https://schemas.agentskills.io/discovery/0.2.0/schema.json';
+  skills: Array<{
+    name: string;
+    type: 'skill-md';
+    description: string;
+    /**
+     * The website URL the skill is published at.
+     */
+    url: string;
+    /**
+     * SHA-256 of the exact `SKILL.md` bytes served.
+     */
+    digest: string;
+  }>;
+};
+
+/**
+ * RFC 9264 Linkset. The first context is the catalog itself; the others describe one API each.
+ */
+export type ApiCatalogData = {
+  linkset: Array<ApiCatalogContextData>;
+};
+
+export type ApiCatalogContextData = {
+  /**
+   * The catalog URL or an API endpoint.
+   */
+  anchor: string;
+  item?: Array<ApiCatalogLinkData>;
+  'service-desc'?: Array<ApiCatalogLinkData>;
+  'service-doc'?: Array<ApiCatalogLinkData>;
+  status?: Array<ApiCatalogLinkData>;
+};
+
+export type ApiCatalogLinkData = {
+  href: string;
+  /**
+   * Media type of the target, where known.
+   */
+  type?: string;
+};
+
 export type OAuthAuthorizationServerMetadataData = {
   issuer: 'https://api.aura-historia.com' | 'https://api.stage.aura-historia.com';
   authorization_endpoint: 'https://aura-historia.com/en/oauth/authorize' | 'https://stage.aura-historia.com/en/oauth/authorize';
   token_endpoint: 'https://api.aura-historia.com/v1/oauth/token' | 'https://api.stage.aura-historia.com/v1/oauth/token';
   response_types_supported: Array<'code'>;
   response_modes_supported: Array<'query'>;
-  grant_types_supported: Array<'authorization_code'>;
-  token_endpoint_auth_methods_supported: Array<'client_secret_post'>;
+  /**
+   * `authorization_code`; `refresh_token` is added while metadata document clients are enabled, because only they receive refresh tokens.
+   */
+  grant_types_supported: Array<'authorization_code' | 'refresh_token'>;
+  /**
+   * `client_secret_post` for registered clients; `none` is added while metadata document clients are enabled.
+   */
+  token_endpoint_auth_methods_supported: Array<'client_secret_post' | 'none'>;
   code_challenge_methods_supported: Array<'S256'>;
-  scopes_supported: Array<'users:read' | 'users:write' | 'search-filters:read' | 'search-filters:write' | 'watchlist:read' | 'watchlist:write' | 'notifications:read' | 'notifications:write'>;
+  /**
+   * The ordinary-user scopes; `offline_access`, which asks for a refresh token, is added while metadata document clients are enabled.
+   */
+  scopes_supported: Array<'users:read' | 'users:write' | 'search-filters:read' | 'search-filters:write' | 'watchlist:read' | 'watchlist:write' | 'notifications:read' | 'notifications:write' | 'offline_access'>;
+  authorization_response_iss_parameter_supported: true;
+  /**
+   * Present only while the environment enables metadata document clients.
+   */
+  client_id_metadata_document_supported?: true;
+};
+
+/**
+ * Consent metadata for a public client identified by its Client ID Metadata Document URL. `client_name`, `client_uri` and `logo_uri` are self-asserted by the document; `client_host` and `redirect_uri_host` are verified.
+ */
+export type OAuthMetadataDocumentConsentClientData = {
+  /**
+   * The metadata document URL, exactly as submitted.
+   */
+  client_id: string;
+  client_name: string;
+  /**
+   * HTTPS home page from the document; omitted when absent.
+   */
+  client_uri?: string;
+  /**
+   * HTTPS logo from the document; omitted when absent.
+   */
+  logo_uri?: string;
+  /**
+   * Host of `client_id`, which serves the document.
+   */
+  client_host: string;
+  /**
+   * Host of the requested callback, which the document lists.
+   */
+  redirect_uri_host: string;
+  /**
+   * Whether every callback the document lists returns to the user's own device (`127.0.0.1`, `[::1]` or `localhost`).
+   */
+  loopback_redirect_uris_only: boolean;
+  /**
+   * Scopes such a client may request, sorted.
+   */
+  scope: Array<string>;
+  /**
+   * Scopes the authenticated user already granted this client, sorted; empty when the user has no connection to it. A step-up approval adds the requested scopes to them.
+   */
+  granted_scope: Array<string>;
 };
 
 /**
@@ -1599,7 +1774,10 @@ export type ContentPolicyData = {
   decision: 'ALLOWED';
 } | {
   decision: 'REQUIRES_CONSENT';
-  category: 'NAZI_GERMANY';
+  /**
+   * Why the listing is sensitive: `NAZI_GERMANY` for Nazi-era imagery or paraphernalia, `NUDITY` for nudity, erotica or pornography.
+   */
+  category: 'NAZI_GERMANY' | 'NUDITY';
 };
 
 /**
@@ -2047,7 +2225,7 @@ export type AccessTokenTypeData = 'BEARER';
 
 /**
  * Cursor-paginated, secret-free access-token metadata for an administrator's explicit target user.
- * `searchAfter` is a `[created RFC3339 timestamp, AccessToken ID]` cursor and is omitted
+ * `searchAfter` is a `[created RFC3339 timestamp, AccessToken ID or connection ID]` cursor and is omitted
  * when the current page is terminal. The cursor timestamp is not returned as item metadata.
  * This schema intentionally has no raw token, masked token, short-token, or token-hash property.
  *
@@ -2062,7 +2240,7 @@ export type AdminAccessTokenCollectionData = {
    */
   size: number;
   /**
-   * `[created RFC3339 timestamp, AccessToken ID]` cursor for the next page, omitted when no more results are available.
+   * `[created RFC3339 timestamp, AccessToken ID or connection ID]` cursor for the next page, omitted when no more results are available.
    */
   searchAfter?: [
     string,
@@ -2071,7 +2249,10 @@ export type AdminAccessTokenCollectionData = {
 };
 
 /**
- * Secret-free Aura Historia access-token metadata returned by the admin target-user listing.
+ * Secret-free credential entry returned by the admin target-user listing: an individually managed access token,
+ * or a metadata document client's connection, which stands for its rotating access and refresh tokens.
+ * A token entry carries `accessTokenId`; a connection entry carries `connectionId`, `created` and `lastUsed` instead
+ * and no `expires`. OAuth entries carry `client`.
  * The representation contains no raw token, masked token, short-token, or token-hash value.
  * `expires` is omitted when the token has no expiration and is returned for both expired and current tokens.
  *
@@ -2082,9 +2263,9 @@ export type AdminAccessTokenData = {
    */
   userId: string;
   /**
-   * Unique identifier of the access token.
+   * Unique identifier of the access token; absent on connection entries.
    */
-  accessTokenId: string;
+  accessTokenId?: string;
   /**
    * User-defined display name of the access token.
    */
@@ -2093,14 +2274,99 @@ export type AdminAccessTokenData = {
    * Granted access-token scopes.
    */
   scopes: Array<AccessTokenScopeData>;
+  origin: AccessTokenOriginData;
+  client?: AccessTokenClientData;
   /**
-   * Origin recorded by the canonical access-token model.
+   * Present instead of `accessTokenId` on an entry that stands for a metadata document client's connection.
    */
-  origin: string;
+  connectionId?: string;
+  /**
+   * When the user first approved the client; present on connection entries.
+   */
+  created?: string;
+  /**
+   * When the user last approved the client or the client last obtained an access token; present on connection entries.
+   */
+  lastUsed?: string;
   /**
    * Optional RFC3339 expiration timestamp; expired and current tokens are both listed.
    */
   expires?: string;
+};
+
+/**
+ * Stable origin of a credential: `User` for a personal access token, `OAuth` for a token issued to an
+ * administrator-registered OAuth client, `OAuthMetadataDocument` for a public client identified by its Client ID
+ * Metadata Document.
+ *
+ */
+export type AccessTokenOriginData = 'User' | 'OAuth' | 'OAuthMetadataDocument';
+
+/**
+ * The OAuth client holding a listed credential. Present exactly for OAuth origins.
+ */
+export type AccessTokenClientData = {
+  /**
+   * The registered client's `oc_` ID, or the metadata document URL.
+   */
+  clientId: string;
+  /**
+   * The registered client's name, or the name the client's metadata document asserted at the user's last approval.
+   */
+  name: string;
+  /**
+   * Whether an administrator registered the client or it identifies itself by its metadata document.
+   */
+  kind: 'REGISTERED' | 'METADATA_DOCUMENT';
+  /**
+   * Host of the registered client's `client_uri`, or of the metadata document URL, which Aura verified.
+   */
+  host: string;
+};
+
+/**
+ * One entry of the authenticated user's credential listing: an individually managed access token, or a metadata
+ * document client's connection, which stands for its rotating access and refresh tokens.
+ * A token entry carries `accessTokenId` and optional `expires`. A connection entry carries `connectionId`, the
+ * client's name as `name`, the union of the scopes the user approved, `created` and `lastUsed`. OAuth entries
+ * carry `client`. Disconnect a client with `DELETE /v1/me/access-tokens?clientId=…`.
+ *
+ */
+export type OwnAccessTokenListEntryData = {
+  /**
+   * User who owns the credential.
+   */
+  userId: string;
+  /**
+   * Unique identifier of the access token; absent on connection entries.
+   */
+  accessTokenId?: string;
+  /**
+   * Unique identifier of the connection; present only on connection entries.
+   */
+  connectionId?: string;
+  /**
+   * The token's display name, or the connected client's name.
+   */
+  name: string;
+  /**
+   * Granted scopes. An empty scope set is returned as an empty array.
+   */
+  scopes: Array<AccessTokenScopeData>;
+  origin: AccessTokenOriginData;
+  client?: AccessTokenClientData;
+  /**
+   * Optional RFC3339 expiration timestamp of a token entry; omitted when the token does not expire.
+   */
+  expires?: string;
+  /**
+   * When the user first approved the client; present on connection entries.
+   */
+  created?: string;
+  /**
+   * When the user last approved the client or the client last obtained an access token; present on connection entries.
+   */
+  lastUsed?: string;
 };
 
 /**
@@ -2125,10 +2391,7 @@ export type OwnAccessTokenData = {
    * Granted access-token scopes. An empty scope set is returned as an empty array.
    */
   scopes: Array<AccessTokenScopeData>;
-  /**
-   * Origin recorded by the access-token model.
-   */
-  origin: string;
+  origin: AccessTokenOriginData;
   /**
    * Optional RFC3339 expiration timestamp; omitted when the token does not expire and returned for expired and current tokens.
    */
@@ -2259,7 +2522,7 @@ export type OAuthClientMetadataRequestData = {
    */
   policy_uri: string;
   /**
-   * HTTPS URL of the OAuth client's homepage or product site.
+   * HTTP(S) URL with a host of the OAuth client's homepage or product site. Credential listings show its host to identify the client; any other URL is rejected with `OAUTH_INVALID_CLIENT_METADATA`.
    */
   client_uri: string;
   /**
@@ -2295,7 +2558,7 @@ export type OAuthClientMetadataPatchData = {
    */
   policy_uri?: string;
   /**
-   * Optional replacement homepage or product-site URL for the OAuth client.
+   * Optional replacement homepage or product-site URL for the OAuth client, an HTTP(S) URL with a host; any other URL is rejected with `OAUTH_INVALID_CLIENT_METADATA`.
    */
   client_uri?: string;
   /**
@@ -2441,8 +2704,9 @@ export type OAuthClientAdminData = {
  * Token response returned by `POST /v1/oauth/token` and
  * `GET /v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`.
  * The `access_token` is an Aura Historia bearer access token. `expires_in` is omitted
- * for non-expiring tokens. `third_party_exchange_code` is only present on the
- * direct token exchange response.
+ * for non-expiring tokens. `third_party_exchange_code` is only present on a registered
+ * client's direct token exchange response. `refresh_token` is only returned to metadata
+ * document clients.
  *
  */
 export type OAuthTokenResponseData = {
@@ -2459,6 +2723,10 @@ export type OAuthTokenResponseData = {
    * Space-separated list of scopes granted to the access token.
    */
   scope: string;
+  /**
+   * Rotating refresh token of a metadata document client. Present after a code exchange when the client's document lists the `refresh_token` grant or the authorization request asked for `offline_access`, and after every refresh. Each refresh replaces it.
+   */
+  refresh_token?: string;
   /**
    * Optional one-time exchange code returned by `POST /v1/oauth/token`.
    * It can be redeemed once via `GET /v1/oauth/tokens/by-third-party-code/{thirdPartyCode}`
@@ -3736,7 +4004,7 @@ export type PublicListingSourceOperatorData = {
 };
 
 /**
- * Allowlisted public ListingSource card used by both public collection search and exact slug lookup. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata.
+ * Allowlisted public ListingSource card used by both public collection search and exact slug lookup. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata. The only trace of the referral configuration is `viewUrl`.
  */
 export type PublicListingSourceData = {
   /**
@@ -3753,6 +4021,10 @@ export type PublicListingSourceData = {
    * Optional http/https presentation URL, omitted when absent.
    */
   url?: string;
+  /**
+   * The link to send visitors to, derived from `url` the same way as a ProductListing's `viewUrl`. The source's affiliate link when it has a referral configuration, otherwise `url` with Aura's `utm_source` and `utm_medium` parameters, unless `url` already carries a `utm_source`. Present exactly when `url` is.
+   */
+  viewUrl?: string;
   /**
    * Optional http/https presentation image URL, omitted when absent.
    */
@@ -4971,6 +5243,256 @@ export type GetOAuthAuthorizationServerMetadataResponses = {
 };
 
 export type GetOAuthAuthorizationServerMetadataResponse = GetOAuthAuthorizationServerMetadataResponses[keyof GetOAuthAuthorizationServerMetadataResponses];
+
+export type GetOAuthProtectedResourceMetadataData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/.well-known/oauth-protected-resource';
+};
+
+export type GetOAuthProtectedResourceMetadataResponses = {
+  /**
+   * Public metadata; supplied credentials are not evaluated. CloudFront keeps this exact route uncached.
+   */
+  200: OAuthProtectedResourceMetadataData;
+};
+
+export type GetOAuthProtectedResourceMetadataResponse = GetOAuthProtectedResourceMetadataResponses[keyof GetOAuthProtectedResourceMetadataResponses];
+
+export type GetApiCatalogData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/.well-known/api-catalog';
+};
+
+export type GetApiCatalogResponses = {
+  /**
+   * The API catalog. Approved anonymous discovery representation with a 300-second shared TTL; a request carrying `Authorization` is answered with `private, no-store`.
+   */
+  200: ApiCatalogData;
+};
+
+export type GetApiCatalogResponse = GetApiCatalogResponses[keyof GetApiCatalogResponses];
+
+export type HeadApiCatalogData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/.well-known/api-catalog';
+};
+
+export type HeadApiCatalogResponses = {
+  /**
+   * The catalog exists at the linked URL.
+   */
+  200: unknown;
+};
+
+export type GetSiteAiCatalogData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/v1/site-discovery/ai-catalog.json';
+};
+
+export type GetSiteAiCatalogResponses = {
+  /**
+   * The AI catalog. Anonymous responses use `public, max-age=0, s-maxage=300, stale-if-error=0`; a request carrying `Authorization` is answered with `private, no-store`.
+   */
+  200: SiteAiCatalogData;
+};
+
+export type GetSiteAiCatalogResponse = GetSiteAiCatalogResponses[keyof GetSiteAiCatalogResponses];
+
+export type HeadSiteAiCatalogData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/v1/site-discovery/ai-catalog.json';
+};
+
+export type HeadSiteAiCatalogResponses = {
+  /**
+   * The AI catalog exists.
+   */
+  200: unknown;
+};
+
+export type GetSitePoppyDeclarationData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/v1/site-discovery/poppy.json';
+};
+
+export type GetSitePoppyDeclarationResponses = {
+  /**
+   * The declaration. Anonymous responses use `public, max-age=0, s-maxage=300, stale-if-error=0`; a request carrying `Authorization` is answered with `private, no-store`.
+   */
+  200: SitePoppyDeclarationData;
+};
+
+export type GetSitePoppyDeclarationResponse = GetSitePoppyDeclarationResponses[keyof GetSitePoppyDeclarationResponses];
+
+export type HeadSitePoppyDeclarationData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/v1/site-discovery/poppy.json';
+};
+
+export type HeadSitePoppyDeclarationResponses = {
+  /**
+   * The declaration exists.
+   */
+  200: unknown;
+};
+
+export type GetSiteAgentSkillsIndexData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/v1/site-discovery/agent-skills/index.json';
+};
+
+export type GetSiteAgentSkillsIndexResponses = {
+  /**
+   * The skills index. Anonymous responses use `public, max-age=0, s-maxage=300, stale-if-error=0`; a request carrying `Authorization` is answered with `private, no-store`.
+   */
+  200: SiteAgentSkillsIndexData;
+};
+
+export type GetSiteAgentSkillsIndexResponse = GetSiteAgentSkillsIndexResponses[keyof GetSiteAgentSkillsIndexResponses];
+
+export type HeadSiteAgentSkillsIndexData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/v1/site-discovery/agent-skills/index.json';
+};
+
+export type HeadSiteAgentSkillsIndexResponses = {
+  /**
+   * The skills index exists.
+   */
+  200: unknown;
+};
+
+export type GetSiteAgentSkillData = {
+  body?: never;
+  path: {
+    /**
+     * The skill's name, as the index lists it.
+     */
+    skillName: 'catalogue-search' | 'connect-account' | 'partner-listing-batches';
+  };
+  query?: never;
+  url: '/v1/site-discovery/agent-skills/{skillName}/SKILL.md';
+};
+
+export type GetSiteAgentSkillErrors = {
+  /**
+   * No skill has this name. The response has no body and is `private, no-store`.
+   */
+  404: unknown;
+};
+
+export type GetSiteAgentSkillResponses = {
+  /**
+   * The skill. Anonymous responses use `public, max-age=0, s-maxage=300, stale-if-error=0`; a request carrying `Authorization` is answered with `private, no-store`.
+   */
+  200: string;
+};
+
+export type GetSiteAgentSkillResponse = GetSiteAgentSkillResponses[keyof GetSiteAgentSkillResponses];
+
+export type HeadSiteAgentSkillData = {
+  body?: never;
+  path: {
+    /**
+     * The skill's name, as the index lists it.
+     */
+    skillName: 'catalogue-search' | 'connect-account' | 'partner-listing-batches';
+  };
+  query?: never;
+  url: '/v1/site-discovery/agent-skills/{skillName}/SKILL.md';
+};
+
+export type HeadSiteAgentSkillErrors = {
+  /**
+   * No skill has this name.
+   */
+  404: unknown;
+};
+
+export type HeadSiteAgentSkillResponses = {
+  /**
+   * The skill exists.
+   */
+  200: unknown;
+};
+
+export type GetSiteAuthMdData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/v1/site-discovery/auth.md';
+};
+
+export type GetSiteAuthMdResponses = {
+  /**
+   * The document. Anonymous responses use `public, max-age=0, s-maxage=300, stale-if-error=0`; a request carrying `Authorization` is answered with `private, no-store`.
+   */
+  200: string;
+};
+
+export type GetSiteAuthMdResponse = GetSiteAuthMdResponses[keyof GetSiteAuthMdResponses];
+
+export type HeadSiteAuthMdData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/v1/site-discovery/auth.md';
+};
+
+export type HeadSiteAuthMdResponses = {
+  /**
+   * The document exists.
+   */
+  200: unknown;
+};
+
+export type GetSiteWebMcpClientMetadataData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/v1/site-discovery/oauth/webmcp-client.json';
+};
+
+export type GetSiteWebMcpClientMetadataResponses = {
+  /**
+   * The document, at most 5 KiB. Anonymous responses use `public, max-age=0, s-maxage=300, stale-if-error=0`; a request carrying `Authorization` is answered with `private, no-store`.
+   */
+  200: SiteWebMcpClientMetadataData;
+};
+
+export type GetSiteWebMcpClientMetadataResponse = GetSiteWebMcpClientMetadataResponses[keyof GetSiteWebMcpClientMetadataResponses];
+
+export type HeadSiteWebMcpClientMetadataData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/v1/site-discovery/oauth/webmcp-client.json';
+};
+
+export type HeadSiteWebMcpClientMetadataResponses = {
+  /**
+   * The document exists.
+   */
+  200: unknown;
+};
 
 export type GetHealthData = {
   body?: never;
@@ -8512,7 +9034,7 @@ export type AdminListUserAccessTokensData = {
      */
     size?: number;
     /**
-     * JSON-encoded `[created RFC3339 timestamp, AccessToken ID]` cursor from the previous page.
+     * JSON-encoded `[created RFC3339 timestamp, AccessToken ID or connection ID]` cursor from the previous page.
      */
     searchAfter?: string;
   };
@@ -8719,6 +9241,52 @@ export type UpdateUserAccountResponses = {
 
 export type UpdateUserAccountResponse = UpdateUserAccountResponses[keyof UpdateUserAccountResponses];
 
+export type DisconnectMyOAuthClientData = {
+  body?: never;
+  path?: never;
+  query: {
+    /**
+     * The registered client's `oc_` ID, or the metadata document client's URL, as listed in `client.clientId`.
+     */
+    clientId: string;
+  };
+  url: '/v1/me/access-tokens';
+};
+
+export type DisconnectMyOAuthClientErrors = {
+  /**
+   * Bad request - `clientId` is missing or names neither kind of OAuth client.
+   */
+  400: ApiError;
+  /**
+   * Unauthorized - invalid or missing bearer credentials
+   */
+  401: ApiError;
+  /**
+   * Forbidden - the bearer is an Aura Historia access token
+   */
+  403: ApiError;
+  /**
+   * Internal server error
+   */
+  500: ApiError;
+  /**
+   * Credential persistence is temporarily unavailable.
+   */
+  503: ApiError;
+};
+
+export type DisconnectMyOAuthClientError = DisconnectMyOAuthClientErrors[keyof DisconnectMyOAuthClientErrors];
+
+export type DisconnectMyOAuthClientResponses = {
+  /**
+   * The user's credentials for the client are revoked.
+   */
+  204: void;
+};
+
+export type DisconnectMyOAuthClientResponse = DisconnectMyOAuthClientResponses[keyof DisconnectMyOAuthClientResponses];
+
 export type GetMyAccessTokensData = {
   body?: never;
   path?: never;
@@ -8747,7 +9315,7 @@ export type GetMyAccessTokensResponses = {
   /**
    * Access tokens retrieved successfully
    */
-  200: Array<OwnAccessTokenData>;
+  200: Array<OwnAccessTokenListEntryData>;
 };
 
 export type GetMyAccessTokensResponse = GetMyAccessTokensResponses[keyof GetMyAccessTokensResponses];
@@ -8772,7 +9340,7 @@ export type PatchMyAccessTokenErrors = {
    */
   401: ApiError;
   /**
-   * Forbidden - an Aura Historia access token lacks `access-tokens:write` or would expand the target token's scopes or lifetime
+   * Forbidden - an Aura Historia access token lacks `access-tokens:write` or would expand the target token's scopes or lifetime, or the update would expand the scopes or lifetime of a token issued to a metadata document OAuth client, which no credential may do
    */
   403: ApiError;
   /**
@@ -9631,6 +10199,48 @@ export type AdminUpdateListingSourceResponses = {
 
 export type AdminUpdateListingSourceResponse = AdminUpdateListingSourceResponses[keyof AdminUpdateListingSourceResponses];
 
+export type GetOAuthMetadataDocumentConsentClientData = {
+  body?: never;
+  path?: never;
+  query: {
+    /**
+     * Metadata document URL in canonical form (HTTPS, domain host, default port, path below the root, no credentials or fragment).
+     */
+    client_id: string;
+    /**
+     * The callback named by the authorization request.
+     */
+    redirect_uri: string;
+  };
+  url: '/v1/oauth/metadata-document-clients';
+};
+
+export type GetOAuthMetadataDocumentConsentClientErrors = {
+  /**
+   * `client_id` is missing or not a metadata document URL, or `redirect_uri` is missing or not absolute (`BAD_QUERY_PARAMETER_VALUE`); metadata document clients are disabled, the host is denied, or the document is unavailable or invalid (`OAUTH_INVALID_CLIENT`); the document does not list the callback (`OAUTH_INVALID_REDIRECT_URI`).
+   */
+  400: ApiError;
+  /**
+   * Missing, invalid, expired, or unsupported bearer credentials (`INVALID_CREDENTIALS`).
+   */
+  401: ApiError;
+  /**
+   * Temporary authentication dependency failure (`AUTH_TEMPORARILY_UNAVAILABLE`).
+   */
+  503: ApiError;
+};
+
+export type GetOAuthMetadataDocumentConsentClientError = GetOAuthMetadataDocumentConsentClientErrors[keyof GetOAuthMetadataDocumentConsentClientErrors];
+
+export type GetOAuthMetadataDocumentConsentClientResponses = {
+  /**
+   * Validated consent metadata.
+   */
+  200: OAuthMetadataDocumentConsentClientData;
+};
+
+export type GetOAuthMetadataDocumentConsentClientResponse = GetOAuthMetadataDocumentConsentClientResponses[keyof GetOAuthMetadataDocumentConsentClientResponses];
+
 export type GetOAuthConsentClientData = {
   body?: never;
   path: {
@@ -9686,11 +10296,11 @@ export type OauthAuthorizeData = {
      */
     response_type: 'code';
     /**
-     * Canonical OAuthClient ID.
+     * Canonical OAuthClient ID of a registered client, or the HTTPS URL of a public client's Client ID Metadata Document, which Aura fetches and validates (see docs/oauth.md). A value that parses as an `https` URL is always treated as a metadata document client.
      */
     client_id: string;
     /**
-     * Redirect URI registered for the OAuth client. Must exactly match one of the client's registered redirect URIs.
+     * Must exactly match a redirect URI the client registered or its metadata document lists. A listed loopback callback (`http://127.0.0.1`, `http://[::1]`, `http://localhost`) also matches on any port.
      */
     redirect_uri: string;
     /**
@@ -9698,7 +10308,7 @@ export type OauthAuthorizeData = {
      */
     resource?: string;
     /**
-     * Space-separated list of requested scopes. Must be a subset of the client's allowed scopes.
+     * Space-separated list of requested scopes. Must be a subset of the registered client's allowed scopes, or of the ordinary-user vocabulary in discovery for a metadata document client. A metadata document client may add `offline_access` to receive a refresh token; registered clients may not.
      */
     scope?: string;
     /**
@@ -9719,7 +10329,7 @@ export type OauthAuthorizeData = {
 
 export type OauthAuthorizeErrors = {
   /**
-   * Invalid query, unknown client or unregistered callback, unsupported response type, invalid scope or resource. Errors are returned directly; no unvalidated callback redirect is sent.
+   * Invalid query, unknown client or unregistered callback, unsupported response type, invalid scope or resource, or a metadata document client that is disabled, denied, unavailable or invalid (`invalid_client`). Errors are returned directly; no unvalidated callback redirect is sent.
    */
   400: OAuthErrorData;
   /**
@@ -9744,37 +10354,45 @@ export type OauthAuthorizeError = OauthAuthorizeErrors[keyof OauthAuthorizeError
 
 export type OauthTokenData = {
   /**
-   * Authorization code exchange payload (form-urlencoded).
+   * Authorization code exchange or refresh payload (form-urlencoded).
    */
   body: {
     /**
-     * OAuth grant type. Must be `authorization_code`.
+     * OAuth grant type. `refresh_token` is available to metadata document clients only.
      */
-    grant_type: 'authorization_code';
+    grant_type: 'authorization_code' | 'refresh_token';
     /**
-     * Single-use authorization code received from the authorize redirect.
+     * Single-use authorization code received from the authorize redirect. Required for `authorization_code`.
      */
-    code: string;
+    code?: string;
     /**
-     * Must exactly match the `redirect_uri` used in the corresponding authorization request.
+     * Must exactly match the `redirect_uri` used in the corresponding authorization request. Required for `authorization_code`.
      */
-    redirect_uri: string;
+    redirect_uri?: string;
     /**
-     * Repeat the exact resource selected during authorization. Omission inherits the code's binding, including the shared Aura default for legacy callers. Substitution (even the other allowed alias), foreign/other-environment, empty and repeated values fail with 400 OAuth invalid_target. The issued opaque token authorizes the shared Aura service through both REST and MCP under the original scopes; it has no exclusive transport audience.
+     * Repeat the exact resource selected during authorization. Omission inherits the code's binding, including the shared Aura default for legacy callers. Substitution (even the other allowed alias), foreign/other-environment, empty and repeated values fail with 400 OAuth invalid_target. The issued opaque token authorizes the shared Aura service through both REST and MCP under the original scopes; it has no exclusive transport audience. A refresh may repeat the resource of its sign-in or omit it.
      */
     resource?: string;
     /**
-     * Canonical OAuthClient ID.
+     * The current refresh token. Required for `refresh_token`.
+     */
+    refresh_token?: string;
+    /**
+     * For `refresh_token` only. Space-separated subset of the sign-in's scopes for the new access token; all of them when omitted. `offline_access` is ignored.
+     */
+    scope?: string;
+    /**
+     * Canonical OAuthClient ID, or the metadata document URL the code was issued to.
      */
     client_id: string;
     /**
-     * OAuth client secret.
+     * Required for registered clients; a metadata document client must not send it.
      */
-    client_secret: string;
+    client_secret?: string;
     /**
-     * PKCE code verifier. The SHA256 hash of this value must match the `code_challenge` from the authorization request.
+     * PKCE code verifier. The SHA256 hash of this value must match the `code_challenge` from the authorization request. Required for `authorization_code`.
      */
-    code_verifier: string;
+    code_verifier?: string;
   };
   path?: never;
   query?: never;
@@ -9787,7 +10405,7 @@ export type OauthTokenErrors = {
    */
   400: OAuthErrorData;
   /**
-   * Unknown or invalid client credentials. Only client_secret_post is supported.
+   * Unknown or invalid client credentials, a secret sent by a metadata document client, or a metadata document client that is disabled or denied.
    */
   401: OAuthErrorData;
   /**
@@ -9804,7 +10422,7 @@ export type OauthTokenError = OauthTokenErrors[keyof OauthTokenErrors];
 
 export type OauthTokenResponses = {
   /**
-   * Access token issued. Nonexpiring tokens omit expires_in; no refresh token is issued.
+   * Access token issued. Nonexpiring tokens omit expires_in; metadata document clients receive expires_in and, where issued, a rotating refresh_token.
    */
   200: OAuthTokenResponseData;
 };
@@ -9855,17 +10473,17 @@ export type OauthRevokeData = {
    */
   body: {
     /**
-     * The access token to revoke.
+     * The access token or refresh token to revoke. `token_type_hint` is not needed and ignored.
      */
     token: string;
     /**
-     * Canonical OAuthClient ID.
+     * Canonical OAuthClient ID, or the metadata document client's URL.
      */
     client_id: string;
     /**
-     * OAuth client secret.
+     * OAuth client secret. Required for registered clients; a metadata document client must not send it.
      */
-    client_secret: string;
+    client_secret?: string;
   };
   path?: never;
   query?: never;
@@ -9878,7 +10496,7 @@ export type OauthRevokeErrors = {
    */
   400: OAuthErrorData;
   /**
-   * Unknown or invalid client credentials. Only client_secret_post is supported.
+   * Unknown or invalid client credentials, a secret sent by a metadata document client, or a metadata document client that is disabled or denied.
    */
   401: OAuthErrorData;
   /**

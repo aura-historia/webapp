@@ -5,6 +5,7 @@ import {
     FOOTER_GROUPS,
     type FooterGroup,
     type FooterLink as FooterLinkConfig,
+    footerLinkKey,
     SOCIAL_LINKS,
 } from "@/features/app-shell/components/footer/Footer.data.ts";
 import { LocaleSwitch } from "@/features/app-shell/components/navigation/LocaleSwitch.tsx";
@@ -46,7 +47,7 @@ function FooterLink({ link }: { readonly link: FooterLinkConfig }) {
 
     return (
         <Link to={link.to} params={true} from="/$lng" className={className}>
-            {t(link.translationKey)}
+            {t(link.translationKey, link.translationValues)}
         </Link>
     );
 }
@@ -99,7 +100,7 @@ function FooterLinkGroup({
                 )}
             >
                 {group.links.map((link) => (
-                    <li key={link.translationKey}>
+                    <li key={footerLinkKey(link)}>
                         <FooterLink link={link} />
                     </li>
                 ))}
@@ -119,8 +120,10 @@ export function Footer() {
             className="bg-surface px-(--page-gutter) pt-14 pb-8 text-ink-secondary md:pt-20"
         >
             <div className="mx-auto flex max-w-content flex-col gap-8 md:gap-16">
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-4 md:gap-10">
-                    <div className="flex flex-col gap-3.5 md:gap-[18px]">
+                {/* The brand takes its own row from 768px (four equal link columns below it) and
+                    the first, wider column from 1024px (four link groups beside it). */}
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-4 md:gap-10 lg:grid-cols-[minmax(0,1.4fr)_repeat(4,minmax(0,1fr))]">
+                    <div className="flex flex-col gap-3.5 md:col-span-4 md:gap-[18px] lg:col-span-1">
                         <Link
                             to="/$lng"
                             params={true}

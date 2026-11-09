@@ -80,9 +80,37 @@
     "partnerListingSources": {
       "title": "Freigegebene Anbieter | Aura Historia"
     },
+    "compareArtsy": {
+      "title": "Aura Historia vs. Artsy | Kunst- und Antiquitätensuche im Vergleich",
+      "description": "Aura Historia und Artsy im Vergleich: Anbieter, Objektarten, Sprachen und Beobachtung über Anbieter hinweg für Kunst und Antiquitäten."
+    },
     "compareBarnebys": {
       "title": "Aura Historia vs. Barnebys | Kunst- und Antiquitätensuche im Vergleich",
       "description": "Aura Historia und Barnebys im Vergleich: Quellenabdeckung, mehrsprachige Suche, schnelle Benachrichtigungen und KI-gestützte Marktbeobachtung für Kunst und Antiquitäten."
+    },
+    "compareInvaluable": {
+      "title": "Aura Historia vs. Invaluable | Kunst- und Antiquitätensuche im Vergleich",
+      "description": "Aura Historia und Invaluable im Vergleich: ein Auktionsmarktplatz gegenüber einer Suche über Auktionshäuser, Händler und Marktplätze für Kunst und Antiquitäten."
+    },
+    "compare1stdibs": {
+      "title": "Aura Historia vs. 1stDibs | Kunst- und Antiquitätensuche im Vergleich",
+      "description": "Aura Historia und 1stDibs im Vergleich: ein kuratierter Marktplatz zugelassener Verkäufer gegenüber einer Suche über Händler, Auktionshäuser und Marktplätze für Kunst, Antiquitäten und Design."
+    },
+    "compareLiveauctioneers": {
+      "title": "Aura Historia vs. LiveAuctioneers | Kunst- und Antiquitätensuche im Vergleich",
+      "description": "Aura Historia im Vergleich mit LiveAuctioneers, The Saleroom und Lot-tissimo: Auktionsplattformen gegenüber einer Suche über Auktionshäuser, Händler und Marktplätze."
+    },
+    "compareCatawiki": {
+      "title": "Aura Historia vs. Catawiki | Kunst- und Antiquitätensuche im Vergleich",
+      "description": "Aura Historia im Vergleich mit Catawiki: kuratierte Wochenauktionen gegenüber einer Suche über Auktionshäuser, Händler und Marktplätze für Kunst und Antiquitäten."
+    },
+    "compareEbay": {
+      "title": "Aura Historia vs. eBay | Kunst- und Antiquitätensuche im Vergleich",
+      "description": "Aura Historia im Vergleich mit eBay: eine spezialisierte Suche über Händler, Auktionshäuser und Marktplätze für Kunst und Antiquitäten gegenüber einem Marktplatz über viele Kategorien hinweg."
+    },
+    "compareArtPriceDatabases": {
+      "title": "Aura Historia vs. Preisdatenbanken | Artnet, WorthPoint, MutualArt",
+      "description": "Aura Historia und Preisdatenbanken wie Artnet, WorthPoint, MutualArt und Artprice: wofür Objekte verkauft wurden, gegenüber dem, was jetzt angeboten wird."
     },
     "newsletterConfirm": {
       "title": "Newsletter-Anmeldung bestätigen | Aura Historia"
@@ -172,6 +200,7 @@
     "sections": {
       "discover": "Entdecken",
       "partners": "Partner",
+      "compare": "Vergleiche",
       "company": "Unternehmen"
     },
     "landingPageLinks": {
@@ -192,8 +221,7 @@
       "apply": "Aufnahme beantragen"
     },
     "tagline": "Der globale Kunst- und Antiquitätenmarkt in einer einzigen Suche.",
-    "socialNavigation": "Soziale Medien",
-    "compareBarnebys": "Vergleich: Barnebys"
+    "socialNavigation": "Soziale Medien"
   },
   "aboutPage": {
     "hero": {
@@ -252,8 +280,8 @@
         "alerts": {
           "title": "Benachrichtigungen, sobald sich Angebote ändern",
           "figure": "Laufend",
-          "figureLabel": "Beobachtung statt Tageszusammenfassung",
-          "description": "Wir prüfen neue Angebote, Preisänderungen und Verfügbarkeit laufend und benachrichtigen Sie bei Treffern. Die Suchbenachrichtigungen von Barnebys folgen einem täglichen Prüfrhythmus mit dem bekannten Zeitfenster um 18:00 Uhr CEST."
+          "figureLabel": "Neue Angebote, Preise, Verfügbarkeit",
+          "description": "Wir prüfen neue Angebote, Preisänderungen und Verfügbarkeit laufend und benachrichtigen Sie bei Treffern."
         },
         "languages": {
           "title": "Fünf Sprachen, ein Vokabular",
@@ -392,7 +420,7 @@
       "saveButton": "Änderungen speichern",
       "successMessage": "Persönliche Daten erfolgreich aktualisiert",
       "showUnassessedOrSensitiveContentLabel": "Ungeprüfte oder sensible Inhalte anzeigen",
-      "showUnassessedOrSensitiveContentTooltip": "Inhalte anzeigen, die noch nicht geprüft wurden oder als sensibel eingestuft sind. Bilder können Kennzeichen nach § 86a StGB enthalten. Wenn deaktiviert, bleiben diese Bilder verborgen. Vom Dienst ausgeblendete Inhalte bleiben nicht verfügbar.",
+      "showUnassessedOrSensitiveContentTooltip": "Inhalte anzeigen, die noch nicht geprüft wurden oder als sensibel eingestuft sind. Bilder können Nacktdarstellungen, erotische Inhalte oder Kennzeichen nach § 86a StGB enthalten. Wenn deaktiviert, bleiben diese Bilder verborgen. Vom Dienst ausgeblendete Inhalte bleiben nicht verfügbar.",
       "description": "Ihr Name sowie die Sprache, Währung und Einheiten, die wir auf Aura Historia für Sie verwenden.",
       "profileGroup": "Profil",
       "preferencesGroup": "Einstellungen",
@@ -1729,7 +1757,7 @@
       "unitSystem": "Einheitensystem",
       "pleaseSelect": "Bitte wählen",
       "showUnassessedOrSensitiveContentLabel": "Ungeprüfte oder sensible Inhalte anzeigen",
-      "showUnassessedOrSensitiveContentTooltip": "Inhalte anzeigen, die noch nicht geprüft wurden oder als sensibel eingestuft sind. Bilder können Kennzeichen nach § 86a StGB enthalten. Wenn deaktiviert, bleiben diese Bilder verborgen. Vom Dienst ausgeblendete Inhalte bleiben nicht verfügbar.",
+      "showUnassessedOrSensitiveContentTooltip": "Inhalte anzeigen, die noch nicht geprüft wurden oder als sensibel eingestuft sind. Bilder können Nacktdarstellungen, erotische Inhalte oder Kennzeichen nach § 86a StGB enthalten. Wenn deaktiviert, bleiben diese Bilder verborgen. Vom Dienst ausgeblendete Inhalte bleiben nicht verfügbar.",
       "title": "Willkommen bei Aura <em>Historia.</em>",
       "subtitle": "Merken Sie sich Objekte, verfolgen Sie ihre Preise und lassen Sie Ihre Suchen weiterlaufen, während Sie unterwegs sind.",
       "passwordPlaceholder": "Passwort wählen",
@@ -3415,6 +3443,36 @@
         "title": "Autorisierung nicht verfügbar",
         "description": "Die registrierten Angaben dieser Anwendung können derzeit nicht geprüft werden. Bitte versuchen Sie es später erneut."
       },
+      "agentClient": {
+        "identity": {
+          "label": "Von Aura Historia geprüft",
+          "clientHost": "Identifiziert durch",
+          "redirectHost": "Kehrt zurück zu",
+          "description": "Name und Logo stammen von der App selbst; Aura Historia hat nur diese Adressen geprüft. Fahren Sie nur fort, wenn Sie sie kennen."
+        },
+        "loopbackWarning": {
+          "title": "Nur fortfahren, wenn Sie dies gerade gestartet haben",
+          "description": "Diese App kehrt zu einem Programm auf Ihrem eigenen Gerät zurück, und jedes Programm dort kann den Namen dieser App verwenden. Fahren Sie nur fort, wenn Sie die Anmeldung gerade in einer App auf diesem Gerät gestartet haben."
+        },
+        "scopes": {
+          "newTitle": "Diese Anwendung fordert folgende zusätzliche Berechtigungen an:",
+          "grantedTitle": "Bereits erlaubte Berechtigungen:"
+        },
+        "offlineAccess": {
+          "title": "Bleibt angemeldet",
+          "description": "Diese Anwendung kann angemeldet bleiben, bis Sie die Verbindung trennen. Die Anmeldung endet nach 30 Tagen ohne Nutzung und spätestens 90 Tage nach Ihrer Zustimmung."
+        },
+        "errors": {
+          "invalidClient": {
+            "title": "Diese App konnte nicht geprüft werden",
+            "description": "Aura Historia konnte die Anmeldedaten dieser App nicht laden oder akzeptieren. Starten Sie den Vorgang erneut in der App. Falls das Problem bestehen bleibt, kann sich die App derzeit nicht bei Aura Historia anmelden."
+          },
+          "unavailable": {
+            "title": "Autorisierung nicht verfügbar",
+            "description": "Die Angaben dieser Anwendung können derzeit nicht geprüft werden. Bitte versuchen Sie es später erneut."
+          }
+        }
+      },
       "brokerRequired": {
         "title": "Verbindung in WordPress starten",
         "description": "Dieser WooCommerce-Verbindungslink wird nicht mehr unterstützt. Starten Sie die Verbindung erneut in Ihrem WordPress-Adminbereich und aktualisieren Sie das Aura-Historia-Plugin, falls dies wiederholt auftritt."
@@ -3526,6 +3584,202 @@
       }
     }
   },
+  "compareArtsyPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "Suche nach Kunst und Antiquitäten",
+        "galleryMarketplace": "Online-Kunstmarktplatz für Galerien und Auktionshäuser",
+        "crossProviderSearch": "Suche über Händler, Auktionshäuser und Marktplätze hinweg",
+        "multilingualSearch": "mehrsprachige Suche nach Kunst und Antiquitäten",
+        "monitoring": "Merklisten und gespeicherte Suchen für Kunst und Antiquitäten"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Kurzfassung",
+        "advantages": "Wo Aura Historia breiter aufgestellt ist",
+        "scorecard": "Vergleichstabelle",
+        "sources": "Anbietertypen",
+        "alerts": "Beobachtung",
+        "faq": "FAQ",
+        "verdict": "Fazit"
+      }
+    },
+    "hero": {
+      "eyebrow": "Vergleich: Aura Historia vs. Artsy",
+      "title": "Eine Suche über den ganzen Markt, nicht nur über <em>Galerieangebote</em>",
+      "subtitle": "Artsy ist ein Online-Marktplatz, der Galerien, Auktionshäuser und Messen mit Käufern zusammenbringt und sein Angebot mit zeitgenössischer und moderner Kunst beschreibt. Aura Historia geht von einer breiteren Prämisse aus: Sammler sollten Kunst, Antiquitäten und Designobjekte bei Händlern, Auktionshäusern und Marktplätzen an einem Ort durchsuchen können.",
+      "primaryCta": "Den gesamten Markt durchsuchen",
+      "secondaryCta": "Vergleich ansehen",
+      "quickAnswerEyebrow": "Kurz gesagt",
+      "quickAnswerTitle": "Artsy ist der Ort, an dem Galerien Kunst zeigen. <em>Aura Historia ist breiter aufgestellt.</em>",
+      "quickAnswerDescription": "<strong>Fazit:</strong> Wählen Sie Artsy für zeitgenössische Kunst, die seine Partnergalerien präsentieren. Wählen Sie Aura Historia, wenn Sie Kunst, Antiquitäten und Designobjekte von vielen Arten von Anbietern in einer mehrsprachigen Suche möchten."
+    },
+    "quickVerdicts": {
+      "contemporaryGalleryArt": {
+        "label": "Stark bei zeitgenössischer Kunst aus vertretenen Galerien",
+        "value": "Artsy"
+      },
+      "antiquesAndDesign": {
+        "label": "Stärker für Antiquitäten und Designobjekte",
+        "value": "Aura Historia"
+      },
+      "providerTypes": {
+        "label": "Stärker für die Suche über Anbietertypen hinweg",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Stärker für die Beobachtung über Anbieter hinweg",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "Die <em>Kurzfassung</em>",
+      "paragraph1": "Aura Historia ist eine breitere Alternative zu Artsy für Sammler, die neben Kunst auch Antiquitäten und Designobjekte suchen und Händler, Auktionshäuser und Marktplätze sehen möchten – nicht nur die Partner einer einzelnen Plattform.",
+      "paragraph2": "Artsy bleibt der naheliegende Ort, um zeitgenössischen Künstlern über ihre Galerien zu folgen, mit redaktionellem und künstlerischem Kontext rund um die Werke. Aura Historia durchsucht Anbieter und Sprachen übergreifend und lässt Sie anbieterübergreifend beobachten statt innerhalb eines einzelnen Bestands."
+    },
+    "respect": {
+      "title": "Artsy hat <em>Galeriekunst</em> einem breiten Publikum zugänglich gemacht",
+      "paragraph1": "Ein fairer Vergleich beginnt damit: Artsy hat Galeriebestände, Künstlerinformationen und redaktionelle Inhalte einem breiten Publikum zugänglich gemacht. Nach eigenen Angaben auf der Website (Stand: November 2026) bietet Artsy mehr als 1 Million Kunstwerke von Tausenden Galerien und Auktionshäusern, und mehr als 3,4 Millionen Sammler und Kunstinteressierte nutzen den Dienst.",
+      "paragraph2": "Künstlerprofile, Ausstellungen, Messen und redaktionelle Beiträge ordnen die Werke ein. Aura Historia will das nicht ersetzen. Es beantwortet eine andere Frage: Was wird bei Händlern, Auktionshäusern und Marktplätzen angeboten?",
+      "status": "Am 15. April 2026 gaben Artsy und Artnet bekannt, dass sie ihre Kräfte unter gemeinsamer Leitung gebündelt haben. Laut der Mitteilung werden beide weiterhin als eigenständige Marken und Websites betrieben."
+    },
+    "advantages": {
+      "title": "Antiquitäten und Design, unterschiedliche Arten von Anbietern, <em>ein Ort zum Beobachten</em>",
+      "description": "Der Unterschied ist der Umfang: Antiquitäten und Designobjekte neben Kunst, viele Arten von Anbietern und eine Suche über sie alle hinweg.",
+      "cards": {
+        "antiquesAndDesign": {
+          "title": "Antiquitäten und Designobjekte neben Kunst",
+          "description": "Aura Historia durchsucht Antiquitäten und Designobjekte neben Kunst – bei den Händlern und Auktionshäusern, die sie anbieten."
+        },
+        "providersBeyondOnePlatform": {
+          "title": "Anbieter, die nicht auf einer Plattform sind",
+          "description": "Händler, Auktionshäuser und Marktplätze erscheinen mit ihren eigenen Angeboten – nicht nur die Partner eines einzelnen Marktplatzes."
+        },
+        "monitoringBeyondOneInventory": {
+          "title": "Beobachtung über einen einzelnen Bestand hinaus",
+          "description": "Merklisten, gespeicherte Suchen und Benachrichtigungen funktionieren über alle Anbieter im Index hinweg statt innerhalb des Katalogs einer einzelnen Plattform."
+        },
+        "languages": {
+          "title": "Suche über Sprachgrenzen hinweg",
+          "description": "Angebote werden übersetzt und die Terminologie wird über Deutsch, Englisch, Spanisch, Französisch und Italienisch hinweg vereinheitlicht, sodass eine Suche in einer Sprache Objekte findet, die in einer anderen beschrieben sind."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia vs. Artsy, <em>im direkten Vergleich</em>",
+      "description": "Artsy hat einen klaren Platz für zeitgenössische Kunst, die Galerien präsentieren. Aura Historia ist für Sammler gebaut, die den breiteren Markt möchten – einschließlich Antiquitäten und Designobjekten.",
+      "caption": "Vergleich von Aura Historia und Artsy für die Suche nach Kunst und Antiquitäten",
+      "headers": {
+        "criterion": "Kriterium",
+        "auraHistoria": "Aura Historia",
+        "competitor": "Artsy"
+      },
+      "rows": {
+        "galleryRelationships": {
+          "criterion": "Galeriebeziehungen und zeitgenössische Kunst",
+          "competitor": "Partnergalerien präsentieren ihren Bestand, ihre Künstler und ihre Ausstellungen auf der Plattform. Artsy beschreibt sein Angebot mit zeitgenössischer und moderner Kunst.",
+          "auraHistoria": "Zeigt Angebote von Anbietern. Vertritt weder Galerien noch Künstler.",
+          "verdict": "Artsy bei Galeriekunst"
+        },
+        "editorialContext": {
+          "criterion": "Redaktioneller und künstlerischer Kontext",
+          "competitor": "Künstlerprofile, Ausstellungen, Messen und ein Redaktionsbereich mit Nachrichten, Marktanalysen und Atelierbesuchen.",
+          "auraHistoria": "Konzentriert sich auf das Angebot selbst, mit Preisverlauf und ähnlichen Objekten auf Angebotsseiten.",
+          "verdict": "Artsy beim Kontext"
+        },
+        "sourceModel": {
+          "criterion": "Anbietermodell",
+          "competitor": "Galerien, Auktionshäuser, Messen und Institutionen, die mit Artsy zusammenarbeiten und dort ihre Werke präsentieren.",
+          "auraHistoria": "Indexiert Händler, Auktionshäuser, Shops und Marktplätze anhand ihrer öffentlichen Angebote.",
+          "verdict": "Aura Historia"
+        },
+        "antiquesAndDesign": {
+          "criterion": "Antiquitäten und Designobjekte",
+          "competitor": "Führt Design als ein Medium neben Malerei, Fotografie, Skulptur und Druckgrafik und hat eine Kollektion zu Möbeln und Design.",
+          "auraHistoria": "Durchsucht Antiquitäten und Designobjekte neben Kunst, bei Händlern und Auktionshäusern.",
+          "verdict": "Aura Historia"
+        },
+        "crossProviderMonitoring": {
+          "criterion": "Beobachtung über Anbieter hinweg",
+          "competitor": "Künstlern folgen und Benachrichtigungen für neue Werke auf Artsy einrichten.",
+          "auraHistoria": "Merklisten, gespeicherte Suchen und Benachrichtigungen decken alle Anbieter im Index ab.",
+          "verdict": "Aura Historia"
+        },
+        "languageHandling": {
+          "criterion": "Umgang mit Sprachen",
+          "competitor": "Website und iOS-App sind auf Englisch (November 2026).",
+          "auraHistoria": "Fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch, Italienisch), mit übersetzten Angeboten und vereinheitlichter Terminologie.",
+          "verdict": "Aura Historia"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Viele Arten von Anbietern verändern, <em>was Sie sehen können</em>",
+      "sourcesLabel": "Anbietertypen",
+      "sources": {
+        "auctionHouses": "Auktionshäuser",
+        "auctionPlatforms": "Auktionsplattformen",
+        "antiqueDealers": "Kunst- und Antiquitätenhändler",
+        "privateSellers": "Private Verkäufer",
+        "marketplaces": "Marktplätze"
+      },
+      "cards": {
+        "providersBeyondGalleries": {
+          "title": "Anbieter jenseits von Partnergalerien erreichen",
+          "description": "Viele Händler, Auktionshäuser und Shops verkaufen auf ihren eigenen Websites. Eine Suche über Anbieter hinweg zeigt ihre Objekte neben allen anderen."
+        },
+        "offersSideBySide": {
+          "title": "Angebote nebeneinander sehen",
+          "description": "Angebotspreise von Händlern, Auktionsangebote und Marktplatzangebote stehen in einer Ergebnisliste, sodass Sie vergleichen können, was aktuell verfügbar ist."
+        },
+        "acrossLanguages": {
+          "title": "In fünf Sprachen suchen",
+          "description": "Wenn Angebote übersetzt und Begriffe vereinheitlicht sind, wird ein Sammler weniger durch die Sprache von Verkäufer oder Auktionator eingeschränkt."
+        },
+        "watchAnObject": {
+          "title": "Ein einzelnes Objekt beobachten",
+          "description": "Eine Merkliste verfolgt ein Objekt und benachrichtigt Sie über Änderungen bei Preis und Verfügbarkeit – gleich, bei welchem Anbieter es gelistet ist."
+        }
+      }
+    },
+    "alerts": {
+      "title": "Künstlern folgen oder <em>über Anbieter hinweg beobachten</em>",
+      "paragraph1": "Auf Artsy können Sammler Künstlern folgen und Benachrichtigungen für neue Werke eines Künstlers auf Artsy einrichten. Wer sich für einen bestimmten zeitgenössischen Künstler und dessen Galerien interessiert, bleibt so auf dem Laufenden.",
+      "paragraph2": "Aura Historia beobachtet etwas anderes: Eine gespeicherte Suche oder eine Merkliste deckt alle Anbieter im Index ab. Sie erfahren von neuen passenden Angeboten sowie von Preis- und Verfügbarkeitsänderungen bei Objekten, die Sie beobachten – gleich, bei welchem Anbieter sie gelistet sind."
+    },
+    "faq": {
+      "title": "Häufige Fragen zu <em>Aura Historia und Artsy</em>",
+      "items": {
+        "alternative": {
+          "question": "Ist Aura Historia eine Alternative zu Artsy?",
+          "answer": "Ja, für Käufer, die über Galerieangebote hinaus suchen möchten. Aura Historia durchsucht Kunst, Antiquitäten und Designobjekte bei Händlern, Auktionshäusern und Marktplätzen an einem Ort. Artsy bleibt eine bekannte Anlaufstelle für zeitgenössische Kunst aus Galerien."
+        },
+        "replace": {
+          "question": "Ersetzt Aura Historia Artsy?",
+          "answer": "Nicht für jeden. Artsy eignet sich für Sammler, die zeitgenössischen Künstlern über ihre Galerien folgen möchten. Aura Historia ist die breitere Wahl für Kunst, Antiquitäten und Designobjekte von vielen Arten von Anbietern; beide lassen sich nebeneinander nutzen."
+        },
+        "antiquesAndDesign": {
+          "question": "Welcher Dienst ist besser für Antiquitäten und Designobjekte?",
+          "answer": "Aura Historia. Antiquitäten und Designobjekte gehören zu dem, was es durchsucht, bei Händlern und Auktionshäusern. Artsy führt Design als eines seiner Medien und hat eine Kollektion zu Möbeln und Design; sein Angebot beschreibt es mit zeitgenössischer und moderner Kunst."
+        },
+        "galleryArt": {
+          "question": "Welcher Dienst ist besser für zeitgenössische Kunst aus Galerien?",
+          "answer": "Artsy. Der Dienst ist auf seine Partnergalerien ausgerichtet, die ihren Bestand, ihre Künstler und ihre Ausstellungen auf der Plattform präsentieren, dazu kommt redaktioneller Kontext. Aura Historia zeigt Angebote von Anbietern und vertritt weder Galerien noch Künstler."
+        },
+        "artnet": {
+          "question": "In welchem Verhältnis stehen Artsy und Artnet?",
+          "answer": "Am 15. April 2026 gaben Artsy und Artnet bekannt, dass sie ihre Kräfte unter gemeinsamer Leitung gebündelt haben. Laut der Mitteilung werden beide weiterhin als eigenständige Marken und Websites betrieben. Diese Seite vergleicht den Marktplatz Artsy, wie er öffentlich beschrieben wird; sie behandelt weder die Preisdatenbank von Artnet noch andere Dienste von Artnet."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Artsy ist stark bei Galeriekunst. <em>Aura Historia ist für den breiteren Markt gebaut.</em>",
+      "description": "Wenn Ihre Suche neben Galerien auch Händler, Auktionshäuser und Marktplätze einschließen soll, beginnen Sie mit Aura Historia.",
+      "button": "Kunst und Antiquitäten suchen"
+    },
+    "positioning": "Ein Marktplatz, der Galerien, Auktionshäuser und Messen mit Käufern zusammenbringt, verglichen mit einer Suche über Händler, Auktionshäuser und Marktplätze."
+  },
   "compareBarnebysPage": {
     "structuredData": {
       "about": {
@@ -3536,9 +3790,7 @@
         "aiDiscovery": "KI-gestützte Kunst- und Antiquitätensuche"
       }
     },
-    "lastReviewed": "Zuletzt geprüft am <time>{{date}}</time>",
     "nav": {
-      "label": "Auf dieser Seite",
       "items": {
         "summary": "Kurzfassung",
         "advantages": "Wo Aura Historia vorne liegt",
@@ -3572,9 +3824,9 @@
         "label": "Stärker bei mehrsprachiger Recherche",
         "value": "Aura Historia"
       },
-      "realTimeMonitoring": {
-        "label": "Stärker bei nahezu Echtzeit-Monitoring",
-        "value": "Aura Historia"
+      "searchAlerts": {
+        "label": "E-Mail-Benachrichtigungen für gespeicherte Suchen",
+        "value": "Beide"
       }
     },
     "summary": {
@@ -3585,11 +3837,12 @@
     "respect": {
       "title": "Barnebys hat die <em>Auktionssuche</em> mitgeprägt",
       "paragraph1": "Ein fairer Vergleich beginnt damit: Barnebys ist in der Welt der Kunst- und Antiquitätenauktionen ein bekannter Name. Für viele Käufer hat der Dienst verstreute Auktionskataloge zugänglicher und besser durchsuchbar gemacht.",
-      "paragraph2": "Das ist wertvoll. Es ist aber nicht dasselbe wie ein Blick auf den gesamten Online-Markt. Gesuchte Objekte tauchen bei großen Auktionshäusern, regionalen Auktionatoren, spezialisierten Händlern, unabhängigen Shops, Marktplätzen und gelegentlich bei privaten Verkäufern auf. Aura Historia ist genau für diese breitere Realität gebaut."
+      "paragraph2": "Das ist wertvoll. Es ist aber nicht dasselbe wie ein Blick auf den gesamten Online-Markt. Gesuchte Objekte tauchen bei großen Auktionshäusern, regionalen Auktionatoren, spezialisierten Händlern, unabhängigen Shops, Marktplätzen und gelegentlich bei privaten Verkäufern auf. Aura Historia ist genau für diese breitere Realität gebaut.",
+      "status": "Über die Barnebys Group AB wurde am 11. März 2026 auf eigenen Antrag vom Bezirksgericht Stockholm der Konkurs eröffnet. Laut der Datenschutzerklärung von Barnebys (Stand: 3. August 2026) hat die Boje Group AB das Geschäft übernommen und betreibt den Dienst Barnebys weiter."
     },
     "advantages": {
-      "title": "Mehr Quellen. Schnellere Hinweise. <em>Weniger Sprachgrenzen.</em>",
-      "description": "Der Unterschied liegt nicht in einem einzelnen Feature. Er entsteht aus der Kombination eines breiteren Index, sauberer aufbereiteter Daten und schnellerer Benachrichtigungen.",
+      "title": "Mehr Quellen. Hinweise nahezu in Echtzeit. <em>Weniger Sprachgrenzen.</em>",
+      "description": "Der Unterschied liegt nicht in einem einzelnen Feature. Er entsteht aus der Kombination eines breiteren Index, sauberer aufbereiteter Daten und Benachrichtigungen nahezu in Echtzeit.",
       "cards": {
         "marketBeyondAuctions": {
           "title": "Der Markt jenseits der Auktionskataloge",
@@ -3597,7 +3850,7 @@
         },
         "nearRealTimeAlerts": {
           "title": "Benachrichtigungen nahezu in Echtzeit",
-          "description": "Bei seltenen Stücken kann ein Tag entscheidend sein. Aura Historia beobachtet neue Angebote, Preisänderungen und Verfügbarkeit möglichst nah am Zeitpunkt der Änderung – statt nur einem täglichen Rhythmus zu folgen."
+          "description": "Bei seltenen Stücken kann ein Tag entscheidend sein. Aura Historia beobachtet neue Angebote, Preisänderungen und Verfügbarkeit möglichst nah am Zeitpunkt der Änderung."
         },
         "languagePenalties": {
           "title": "Suchen ohne Sprachbarriere",
@@ -3615,45 +3868,45 @@
       "caption": "Vergleich von Aura Historia und Barnebys für die Kunst- und Antiquitätensuche",
       "headers": {
         "criterion": "Kriterium",
-        "barnebys": "Barnebys",
-        "auraHistoria": "Aura Historia"
+        "auraHistoria": "Aura Historia",
+        "competitor": "Barnebys"
       },
       "rows": {
         "auctionHeritage": {
           "criterion": "Erfahrung in der Auktionssuche",
-          "barnebys": "Seit Jahren ein bekannter Name in der Aggregation von Kunst- und Antiquitätenauktionen, besonders bei Käufern mit Fokus auf Auktionskataloge.",
           "auraHistoria": "Eine neuere Suchmaschine, die von Anfang an auf breitere Quellenabdeckung und moderne Datenanreicherung ausgelegt ist.",
-          "verdict": "Barnebys bei etablierter Auktionssuche"
+          "verdict": "Barnebys bei etablierter Auktionssuche",
+          "competitor": "Seit Jahren ein bekannter Name in der Aggregation von Kunst- und Antiquitätenauktionen, besonders bei Käufern mit Fokus auf Auktionskataloge."
         },
         "sourceCoverage": {
           "criterion": "Quellenbreite",
-          "barnebys": "Besonders stark bei Auktionshäusern und Auktionsplattformen, vor allem bei etablierten Katalogen.",
           "auraHistoria": "Indexiert Auktionshäuser, Auktionsplattformen, Händler, private Verkäufer, Marktplätze und weitere Online-Quellen, auf denen Kunst und Antiquitäten angeboten werden.",
-          "verdict": "Aura Historia"
-        },
-        "alertSpeed": {
-          "criterion": "Benachrichtigungstempo",
-          "barnebys": "Suchbenachrichtigungen folgen einem täglichen Prüfrhythmus, einschließlich des bekannten Zeitfensters um 18:00 Uhr CEST.",
-          "auraHistoria": "Nahezu Echtzeit-Monitoring für neu entdeckte Angebote sowie Preis- und Verfügbarkeitsänderungen.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Besonders stark bei Auktionshäusern und Auktionsplattformen, vor allem bei etablierten Katalogen."
         },
         "languageHandling": {
           "criterion": "Sprach- und Begriffsarbeit",
-          "barnebys": "Angebotstexte bleiben häufig nah an der ursprünglichen Sprache und Terminologie der Quelle.",
           "auraHistoria": "Übersetzt Angebote in mehrere Sprachen und vereinheitlicht Kunst- und Antiquitätenbegriffe sprachübergreifend.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Angebotstexte bleiben häufig nah an der ursprünglichen Sprache und Terminologie der Quelle."
         },
         "alertRelevance": {
           "criterion": "Relevanz der Benachrichtigungen",
-          "barnebys": "Nützlich für breite Auktionsbeobachtungen; breites Keyword-Matching kann dabei gelegentlich auch thematisch benachbarte Lose ins Postfach bringen.",
           "auraHistoria": "Auf normalisierte Objektdaten und präziseres Matching ausgelegt, damit Benachrichtigungen mehr Markt abdecken und zugleich relevanter bleiben.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Nützlich für breite Auktionsbeobachtungen; breites Keyword-Matching kann dabei gelegentlich auch thematisch benachbarte Lose ins Postfach bringen."
         },
         "technologyDirection": {
           "criterion": "Technologische Ausrichtung",
-          "barnebys": "Eine reife Auktionssuche für Käufer, die sich im Auktionsökosystem zu Hause fühlen.",
           "auraHistoria": "Eine KI-gestützte Suchschicht für den gesamten Kunst- und Antiquitätenmarkt – mit Indexierung, Übersetzungen, semantischem Matching und Monitoring.",
-          "verdict": "Aura Historia"
+          "verdict": "Aura Historia",
+          "competitor": "Eine reife Auktionssuche für Käufer, die sich im Auktionsökosystem zu Hause fühlen."
+        },
+        "searchAlerts": {
+          "criterion": "Suchbenachrichtigungen",
+          "competitor": "E-Mail-Benachrichtigungen, sobald neue Objekte zu einer gespeicherten Suche bei Barnebys gelistet werden.",
+          "auraHistoria": "Monitoring nahezu in Echtzeit für neue Angebote sowie Benachrichtigungen zu Preis- und Verfügbarkeitsänderungen bei beobachteten Objekten.",
+          "verdict": "Beide bieten Suchbenachrichtigungen"
         }
       }
     },
@@ -3676,19 +3929,19 @@
           "title": "Den tatsächlichen Markt vergleichen",
           "description": "Auktionsschätzungen erzählen nur einen Teil der Geschichte. Händlerpreise, Marktplatzangebote und aktuelle Verfügbarkeitsänderungen machen das Bild vollständiger."
         },
-        "beforeDigest": {
-          "title": "Vor dem Tagesüberblick reagieren",
-          "description": "Nahezu Echtzeit-Monitoring ist für knappe Angebote gedacht, bei denen der beste Entscheidungszeitpunkt oft genau der Moment ist, in dem ein Angebot erscheint."
-        },
         "acrossBorders": {
           "title": "Über Sprachgrenzen hinweg suchen",
           "description": "Wenn Begriffe übersetzt und vereinheitlicht werden, sind Sammler nicht mehr auf die Sprache des Verkäufers oder Auktionators beschränkt."
+        },
+        "actEarly": {
+          "title": "Reagieren, sobald ein Angebot erscheint",
+          "description": "Nahezu Echtzeit-Monitoring ist für knappe Angebote gedacht, bei denen der beste Entscheidungszeitpunkt oft genau der Moment ist, in dem ein Angebot erscheint."
         }
       }
     },
     "alerts": {
-      "title": "Ein Tagesüberblick ist ordentlich. <em>Seltene Stücke sind es nicht.</em>",
-      "paragraph1": "Barnebys-Benachrichtigungen sind hilfreich, um auktionsbezogene Suchen im Blick zu behalten – besonders bei breiteren Beobachtungen. Bei seltenen Stücken kann ein täglicher Rhythmus jedoch spät sein, und breites Keyword-Matching kann gelegentlich Lose zeigen, die nur am Rand passen.",
+      "title": "Eine Benachrichtigung sollte <em>ihren Platz im Posteingang verdienen</em>",
+      "paragraph1": "Barnebys-Benachrichtigungen sind hilfreich, um auktionsbezogene Suchen im Blick zu behalten – besonders bei breiteren Beobachtungen: Barnebys schickt eine E-Mail, sobald neue Objekte zu einer gespeicherten Suche gelistet werden. Breites Keyword-Matching kann gelegentlich Lose zeigen, die nur am Rand passen.",
       "paragraph2": "Aura Historia setzt einen anderen Maßstab: Hinweise nahezu in Echtzeit, übersetzte Terminologie, normalisierte Daten und Benachrichtigungen, die relevant bleiben sollen, während sie mehr vom Markt beobachten. Wenn eine Benachrichtigung Aufmerksamkeit verlangt, sollte sie sie dann nicht auch verdienen?"
     },
     "faq": {
@@ -3702,10 +3955,6 @@
           "question": "Ersetzt Aura Historia Barnebys?",
           "answer": "Wenn Sie vor allem etablierte Auktionskataloge auf vertraute Weise durchsuchen möchten, bleibt Barnebys eine respektierte Option. Wenn Sie breitere Online-Abdeckung für Kunst und Antiquitäten, mehrsprachige Suche, schnelle Benachrichtigungen und KI-gestütztes Matching möchten, ist Aura Historia auf diese Anforderungen ausgelegt."
         },
-        "fasterAlerts": {
-          "question": "Welcher Dienst bietet schnellere Benachrichtigungen für Kunst und Antiquitäten?",
-          "answer": "Aura Historia ist auf nahezu Echtzeit-Monitoring ausgelegt. Barnebys-Suchbenachrichtigungen folgen einem täglichen Prüfrhythmus, einschließlich des bekannten Zeitfensters um 18:00 Uhr CEST."
-        },
         "multilingualSearch": {
           "question": "Welcher Dienst eignet sich besser für mehrsprachige Kunst- und Antiquitätensuche?",
           "answer": "Aura Historia übersetzt Angebote und vereinheitlicht Terminologie über die unterstützten Sprachen hinweg. Die Suchsprache sollte dadurch weniger entscheidend sein – egal ob das ursprüngliche Angebot auf Englisch, Deutsch, Französisch, Spanisch, Italienisch oder in einer anderen Sprache verfasst ist."
@@ -3713,6 +3962,14 @@
         "outsideAuctions": {
           "question": "Welcher Dienst ist besser, um Kunst und Antiquitäten außerhalb von Auktionen zu finden?",
           "answer": "Aura Historia. Der zentrale Vorteil ist die breitere Quellenabdeckung: Auktionshäuser, Auktionsplattformen, Händler, private Verkäufer, Marktplätze und weitere Online-Orte, an denen Kunst und Antiquitäten angeboten werden."
+        },
+        "status": {
+          "question": "Ist Barnebys weiterhin in Betrieb?",
+          "answer": "Ja, Stand November 2026. Über die Barnebys Group AB wurde am 11. März 2026 auf eigenen Antrag vom Bezirksgericht Stockholm der Konkurs eröffnet. Laut der Datenschutzerklärung von Barnebys (Stand: 3. August 2026) hat die Boje Group AB das Geschäft übernommen und betreibt den Dienst Barnebys weiter."
+        },
+        "alerts": {
+          "question": "Wie funktionieren Benachrichtigungen bei Aura Historia und Barnebys?",
+          "answer": "Beide verschicken E-Mail-Benachrichtigungen zu gespeicherten Suchen. Barnebys schickt eine E-Mail, sobald neue Objekte zu einer gespeicherten Suche gelistet werden. Aura Historia beobachtet Angebote nahezu in Echtzeit und benachrichtigt Sie außerdem über Preis- und Verfügbarkeitsänderungen bei Objekten, die Sie beobachten."
         }
       }
     },
@@ -3720,7 +3977,1180 @@
       "title": "Barnebys ist stark bei Auktionen. <em>Aura Historia ist für den Kunst- und Antiquitätenmarkt gebaut.</em>",
       "description": "Wenn Ihre Suche die Orte einschließen soll, an denen Kunst und Antiquitäten online tatsächlich angeboten werden, beginnen Sie mit Aura Historia.",
       "button": "Kunst und Antiquitäten suchen"
-    }
+    },
+    "positioning": "Eine Online-Suchmaschine für Auktionen, verglichen mit einer Suche über den gesamten Kunst- und Antiquitätenmarkt."
+  },
+  "compareInvaluablePage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "Suche nach Kunst und Antiquitäten",
+        "auctionMarketplace": "Online-Auktionsmarktplatz",
+        "crossVenueSearch": "Suche über Auktionshäuser, Händler und Marktplätze hinweg",
+        "multilingualSearch": "mehrsprachige Suche nach Kunst und Antiquitäten",
+        "monitoring": "Merklisten und gespeicherte Suchen für Kunst und Antiquitäten"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Kurzfassung",
+        "advantages": "Wo Aura Historia breiter aufgestellt ist",
+        "scorecard": "Vergleichstabelle",
+        "sources": "Anbietertypen",
+        "together": "Wie beides zusammenpasst",
+        "faq": "FAQ",
+        "verdict": "Fazit"
+      }
+    },
+    "hero": {
+      "eyebrow": "Vergleich: Aura Historia vs. Invaluable",
+      "title": "Eine neutrale Suche über Verkaufsorte hinweg, jenseits eines einzelnen <em>Auktionsmarktplatzes</em>",
+      "subtitle": "Invaluable ist ein etablierter Marktplatz, auf dem Sammler bei Tausenden von Auktionshäusern bieten. Aura Historia ist eine Suchebene über Auktionshäuser, Händler und Marktplätze: Sie zeigt, was wo angeboten wird, und veranstaltet selbst keine Auktionen.",
+      "primaryCta": "Über Verkaufsorte hinweg suchen",
+      "secondaryCta": "Vergleich ansehen",
+      "quickAnswerEyebrow": "Kurz gesagt",
+      "quickAnswerTitle": "Invaluable ist ein Ort zum Bieten. <em>Aura Historia ist eine Suche über Verkaufsorte hinweg.</em>",
+      "quickAnswerDescription": "<strong>Fazit:</strong> Wählen Sie Invaluable, um sich bei etablierten Auktionshäusern auf dessen Plattform zu registrieren und zu bieten. Wählen Sie Aura Historia, um Auktionshäuser, Händler und Marktplätze nebeneinander zu durchsuchen – Festpreisangebote eingeschlossen – und Objekte über Anbieter hinweg zu beobachten."
+    },
+    "quickVerdicts": {
+      "onlineBidding": {
+        "label": "Stark beim Online-Bieten bei etablierten Auktionshäusern",
+        "value": "Invaluable"
+      },
+      "searchAcrossVenues": {
+        "label": "Stärker für die Suche über Auktionshäuser, Händler und Marktplätze hinweg",
+        "value": "Aura Historia"
+      },
+      "dealerAndFixedPrice": {
+        "label": "Stärker für die Suche nach Händler- und Shopware über Websites hinweg",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Stärker für die Beobachtung über einen einzelnen Marktplatz hinaus",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "Die <em>Kurzfassung</em>",
+      "paragraph1": "Aura Historia ist eine Alternative zu Invaluable für Sammler, die über einen einzelnen Auktionsmarktplatz hinaus suchen möchten: Auktionshäuser, Händler, Shops und Marktplätze an einem Ort, mit Festpreisangeboten neben Auktionsangeboten.",
+      "paragraph2": "Invaluable bleibt ein Ort, um sich bei etablierten Auktionshäusern auf seiner Plattform zu registrieren und zu bieten. Aura Historia veranstaltet keine Auktionen und nimmt keine Gebote an. Sie zeigt, was wo angeboten wird, und geboten oder gekauft wird beim Anbieter."
+    },
+    "respect": {
+      "title": "Invaluable ist ein etablierter <em>Ort zum Bieten</em>",
+      "paragraph1": "Ein fairer Vergleich beginnt hier: Bei Invaluable registrieren sich Sammler und bieten bei Auktionshäusern auf der ganzen Welt. Laut der Mitteilung von Liquidity Services vom 1. Oktober 2026 bedienen die Geschäftsbereiche Invaluable und AuctionZip Tausende von Auktionshäusern und bieten Zugang zu rund vier Millionen registrierten Bietern weltweit; im Geschäftsjahr, das am 31. Dezember 2025 endete, wickelten sie einen Bruttowarenumsatz von mehr als 500 Millionen US-Dollar ab.",
+      "paragraph2": "Aura Historia versucht nicht, das zu ersetzen. Sie beantwortet eine andere Frage: Was wird bei Auktionshäusern, Händlern, Shops und Marktplätzen angeboten, Festpreisangebote eingeschlossen? Invaluable bietet außerdem seine Preisdaten als Abonnement an. Das ist ein anderes Werkzeug und ergänzt eine Suche wie unsere.",
+      "status": "Am 1. Oktober 2026 gab Liquidity Services (Nasdaq: LQDT) bekannt, die Übernahme von Auction Holdings, Inc., der Betreiberin von Invaluable, AuctionZip und RFC Auction Systems, abgeschlossen zu haben."
+    },
+    "advantages": {
+      "title": "Mehr als Auktionslose, <em>eine Suche über Verkaufsorte hinweg</em>",
+      "description": "Der Unterschied ist die Bandbreite: Händler und Shops neben Auktionshäusern, Objekte vieler Verkaufsorte nebeneinander, vereinheitlichte Terminologie in fünf Sprachen und Beobachtung über Anbieter hinweg.",
+      "cards": {
+        "moreThanAuctionLots": {
+          "title": "Mehr als Auktionslose",
+          "description": "Händler, Shops und Marktplätze erscheinen mit ihren eigenen Angeboten, Festpreisangebote eingeschlossen, neben Auktionsangeboten."
+        },
+        "oneSearchAcrossVenues": {
+          "title": "Eine Suche über Verkaufsorte hinweg",
+          "description": "Objekte vieler Verkaufsorte stehen in einer Ergebnisliste, statt im Katalog eines einzelnen Anbieters."
+        },
+        "terminologyAcrossLanguages": {
+          "title": "Vereinheitlichte Terminologie über Sprachen hinweg",
+          "description": "Angebote werden übersetzt und die Terminologie ist über Deutsch, Englisch, Spanisch, Französisch und Italienisch hinweg vereinheitlicht, sodass eine Suche in einer Sprache Objekte findet, die in einer anderen beschrieben sind."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Beobachtung über Anbieter hinweg",
+          "description": "Merklisten, gespeicherte Suchen und Benachrichtigungen funktionieren über alle Anbieter im Index hinweg statt innerhalb eines einzelnen Marktplatzes."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia vs. Invaluable, <em>im direkten Vergleich</em>",
+      "description": "Invaluable ist zum Bieten bei Auktionshäusern auf seiner Plattform gebaut. Aura Historia ist für die Suche über Verkaufsorte hinweg gebaut, einschließlich Händlern und Festpreisangeboten.",
+      "caption": "Vergleich von Aura Historia und Invaluable für die Suche nach Kunst und Antiquitäten",
+      "headers": {
+        "criterion": "Kriterium",
+        "auraHistoria": "Aura Historia",
+        "competitor": "Invaluable"
+      },
+      "rows": {
+        "onPlatformBidding": {
+          "criterion": "Bieten auf der Plattform",
+          "competitor": "Sammler registrieren sich zum Bieten, das jeweilige Auktionshaus genehmigt die Teilnahme. Geboten wird bei Invaluable in Live-Auktionen und Auktionen mit festem Ende; Live-Auktionen laufen in einer Bietkonsole mit Sprachübersetzung und Währungsumrechnung. Die Zahlungsarten legt jedes Auktionshaus selbst fest.",
+          "auraHistoria": "Veranstaltet keine Auktionen und nimmt keine Gebote an. „Zur Seite des Anbieters“ öffnet das Angebot auf der eigenen Seite des Anbieters.",
+          "verdict": "Invaluable beim Bieten"
+        },
+        "auctionHouseReach": {
+          "criterion": "Reichweite bei Auktionshäusern",
+          "competitor": "Bedient gemeinsam mit AuctionZip Tausende von Auktionshäusern und bietet Zugang zu rund vier Millionen registrierten Bietern weltweit, laut der Mitteilung von Liquidity Services vom 1. Oktober 2026.",
+          "auraHistoria": "Indexiert Auktionshäuser, Händler, Shops und Marktplätze anhand ihrer öffentlichen Angebote.",
+          "verdict": "Invaluable bei der Reichweite"
+        },
+        "providerTypes": {
+          "criterion": "Anbieter über eine Plattform hinaus",
+          "competitor": "Auktionshäuser und laut dem Hilfecenter auch Händler und Galerien, die bei Invaluable verkaufen.",
+          "auraHistoria": "Auktionshäuser, Händler, Shops und Marktplätze, jeweils auf der eigenen Website oder Plattform, in einer Suche.",
+          "verdict": "Aura Historia"
+        },
+        "dealersAndFixedPrice": {
+          "criterion": "Ware von Händlern und Shops",
+          "competitor": "Beschreibt sich als Marktplatz für Nachlass-, Kunst-, Antiquitäten- und Sammlerauktionen. Das Hilfecenter erwähnt außerdem „Buy Now“-Artikel sowie Händler- und Galeriepartner.",
+          "auraHistoria": "Durchsucht die Ware von Händlern und Shops auf deren eigenen Websites, Festpreisangebote eingeschlossen, neben Auktionsangeboten.",
+          "verdict": "Aura Historia über Websites hinweg"
+        },
+        "monitoring": {
+          "criterion": "Beobachtung über einen einzelnen Marktplatz hinaus",
+          "competitor": "Lose und Suchen speichern sowie Stichwörtern, Künstlern, Verkäufern und Kategorien folgen, um Benachrichtigungen zu dem zu erhalten, was bei Invaluable eingestellt wird.",
+          "auraHistoria": "Merklisten, gespeicherte Suchen und Benachrichtigungen decken alle Anbieter im Index ab, einschließlich Preis- und Verfügbarkeitsänderungen bei beobachteten Objekten.",
+          "verdict": "Aura Historia"
+        },
+        "priceData": {
+          "criterion": "Preisdaten",
+          "competitor": "Ein Preisarchiv mit auf Auktionen erzielten Preisen, bei dem erweiterte Suche und einige Auktionsinformationen per Abonnement verfügbar sind, und eigene Preisdaten, die als Abonnement angeboten werden.",
+          "auraHistoria": "Preisverlauf eines Angebots und ähnliche Objekte auf den Angebotsseiten. Keine Bewertungen.",
+          "verdict": "Ergänzend"
+        },
+        "languageHandling": {
+          "criterion": "Umgang mit Sprachen",
+          "competitor": "Beschreibt seine Plattform als mehrwährungs- und mehrsprachig und bietet Bietern Werkzeuge für Sprachübersetzung und Währungsumrechnung.",
+          "auraHistoria": "Fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch, Italienisch), mit übersetzten Angeboten und vereinheitlichter Terminologie.",
+          "verdict": "Beide übersetzen"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Viele Arten von Anbietern verändern, <em>was Sie sehen können</em>",
+      "sourcesLabel": "Anbietertypen",
+      "sources": {
+        "auctionHouses": "Auktionshäuser",
+        "auctionPlatforms": "Auktionsplattformen",
+        "antiqueDealers": "Kunst- und Antiquitätenhändler",
+        "privateSellers": "Private Verkäufer",
+        "marketplaces": "Marktplätze"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Händler und Shops erreichen",
+          "description": "Viele Händler und Shops verkaufen auf ihren eigenen Websites. Eine Suche über Anbieter hinweg zeigt ihre Objekte neben den Auktionsangeboten."
+        },
+        "offersSideBySide": {
+          "title": "Angebote nebeneinander sehen",
+          "description": "Angebotspreise von Händlern, Auktionsangebote und Marktplatzangebote stehen in einer Ergebnisliste, sodass Sie vergleichen können, was jetzt verfügbar ist."
+        },
+        "acrossLanguages": {
+          "title": "In fünf Sprachen suchen",
+          "description": "Wenn Angebote übersetzt und die Terminologie vereinheitlicht ist, ist ein Sammler weniger durch die Sprache des Verkäufers oder Auktionators eingeschränkt."
+        },
+        "watchAnObject": {
+          "title": "Ein einzelnes Objekt beobachten",
+          "description": "Eine Merkliste folgt einem Objekt und benachrichtigt Sie über Änderungen bei Preis und Verfügbarkeit, bei welchem Anbieter es auch gelistet ist."
+        }
+      }
+    },
+    "together": {
+      "title": "Hier Objekte finden, <em>dort bieten, wo sie angeboten werden</em>",
+      "paragraph1": "Beide haben unterschiedliche Aufgaben. Aura Historia zeigt, was wo angeboten wird. Auf einer Angebotsseite öffnet „Zur Seite des Anbieters“ das Angebot auf der eigenen Seite des Anbieters, in einem neuen Tab.",
+      "paragraph2": "Aura Historia veranstaltet keine Auktionen und nimmt keine Gebote an; Registrieren, Bieten oder Kaufen geschieht daher beim Anbieter. Um bei Invaluable zu bieten, registrieren Sie sich dort und bieten auf dessen Plattform. Aura Historia steht in keiner Verbindung zu Invaluable."
+    },
+    "faq": {
+      "title": "Häufige Fragen zu <em>Aura Historia und Invaluable</em>",
+      "items": {
+        "alternative": {
+          "question": "Ist Aura Historia eine Invaluable-Alternative?",
+          "answer": "Ja, für Käufer, die über einen einzelnen Auktionsmarktplatz hinaus suchen möchten. Aura Historia durchsucht Auktionshäuser, Händler, Shops und Marktplätze für Kunst und Antiquitäten an einem Ort, Festpreisangebote eingeschlossen. Sie veranstaltet keine Auktionen und ist daher kein Ort zum Bieten. Invaluable bleibt ein etablierter Ort, um bei Auktionshäusern zu bieten."
+        },
+        "replace": {
+          "question": "Ersetzt Aura Historia Invaluable?",
+          "answer": "Nein. Aura Historia veranstaltet keine Auktionen und nimmt keine Gebote an. Sie zeigt, was wo angeboten wird. Nutzen Sie sie, um über Verkaufsorte hinweg zu suchen, und Invaluable, wenn Sie sich bei einem Auktionshaus auf der Plattform von Invaluable registrieren und bieten möchten."
+        },
+        "bid": {
+          "question": "Kann ich über Aura Historia bieten?",
+          "answer": "Nein. Aura Historia veranstaltet keine Auktionen und nimmt keine Gebote an. Auf einer Angebotsseite öffnet „Zur Seite des Anbieters“ das Angebot auf der eigenen Seite des Anbieters in einem neuen Tab; dort geschieht auch das Registrieren, Bieten oder Kaufen."
+        },
+        "dealersAndFixedPrice": {
+          "question": "Welcher Dienst ist besser für Händler und Festpreisangebote bei Kunst und Antiquitäten?",
+          "answer": "Für die Suche in der Ware vieler Händler und Shops an einem Ort: Aura Historia. Invaluable beschreibt sich als Marktplatz für Nachlass-, Kunst-, Antiquitäten- und Sammlerauktionen; sein Hilfecenter erwähnt außerdem „Buy Now“-Artikel sowie Händler- und Galeriepartner bei Invaluable."
+        },
+        "auctionZip": {
+          "question": "Ist Invaluable dasselbe wie AuctionZip?",
+          "answer": "Nein. Laut der Mitteilung von Liquidity Services vom 1. Oktober 2026 betreibt Invaluable einen globalen Online-Auktionsmarktplatz, während AuctionZip einen auf die USA ausgerichteten Online-Auktionsmarktplatz und ein Verzeichnis für lokale und regionale Auktionatoren betreibt. Beide werden von demselben Unternehmen betrieben."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Invaluable ist ein Ort für Auktionen. <em>Aura Historia ist eine Suche über den Markt.</em>",
+      "description": "Wenn Ihre Suche neben Auktionshäusern auch Händler, Shops und Marktplätze einschließen soll, beginnen Sie mit Aura Historia.",
+      "button": "Kunst und Antiquitäten suchen"
+    },
+    "positioning": "Ein Auktionsmarktplatz, auf dem Sammler sich registrieren und bieten, verglichen mit einer Suche über Auktionshäuser, Händler und Marktplätze, die keine Auktionen veranstaltet."
+  },
+  "compare1stdibsPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "Suche nach Kunst und Antiquitäten",
+        "curatedMarketplace": "kuratierter Online-Marktplatz",
+        "crossProviderSearch": "Suche über Händler, Auktionshäuser und Marktplätze hinweg",
+        "priceComparison": "Preisverlauf und ähnliche Objekte für Kunst und Antiquitäten",
+        "monitoring": "Merklisten und gespeicherte Suchen für Kunst und Antiquitäten"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Kurzfassung",
+        "advantages": "Wo Aura Historia breiter aufgestellt ist",
+        "scorecard": "Vergleichstabelle",
+        "sources": "Anbietertypen",
+        "alerts": "Vergleichen über Anbieter hinweg",
+        "faq": "FAQ",
+        "verdict": "Fazit"
+      }
+    },
+    "hero": {
+      "eyebrow": "Vergleich: Aura Historia vs. 1stDibs",
+      "title": "Mehr vom Markt in einer Suche als ein <em>einzelnes kuratiertes Schaufenster</em>",
+      "subtitle": "1stDibs ist ein kuratierter Marktplatz, auf dem zugelassene Verkäufer unter anderem Möbel, Schmuck und Kunst anbieten. Aura Historia durchsucht Händler, Auktionshäuser und Marktplätze nebeneinander, damit Sie sehen, wofür vergleichbare Objekte über ein einzelnes Schaufenster hinaus angeboten werden.",
+      "primaryCta": "Über Anbieter hinweg suchen",
+      "secondaryCta": "Vergleich ansehen",
+      "quickAnswerEyebrow": "Kurz gesagt",
+      "quickAnswerTitle": "1stDibs ist kuratiert. <em>Aura Historia ist breiter.</em>",
+      "quickAnswerDescription": "<strong>Fazit:</strong> Wählen Sie 1stDibs für ein kuratiertes Schaufenster zugelassener Verkäufer. Wählen Sie Aura Historia, um Händler, Auktionshäuser und Marktplätze nebeneinander zu durchsuchen, vergleichbare Objekte über Anbieter hinweg zu vergleichen und Änderungen bei Preis und Verfügbarkeit zu beobachten."
+    },
+    "quickVerdicts": {
+      "curatedSellers": {
+        "label": "Stark bei kuratierten, zugelassenen Verkäufern",
+        "value": "1stDibs"
+      },
+      "searchAcrossProviders": {
+        "label": "Stärker für die Suche über Händler, Auktionshäuser und Marktplätze hinweg",
+        "value": "Aura Historia"
+      },
+      "comparingObjects": {
+        "label": "Stärker für den Vergleich vergleichbarer Objekte über Anbieter hinweg",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Stärker für die Beobachtung von Preis- und Verfügbarkeitsänderungen über Anbieter hinweg",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "Die <em>Kurzfassung</em>",
+      "paragraph1": "Aura Historia ist eine Alternative zu 1stDibs für Käufer, die mehr vom Markt in einer Suche sehen möchten: Händler, Auktionshäuser, Shops und Marktplätze für Kunst, Antiquitäten und Designobjekte nebeneinander.",
+      "paragraph2": "1stDibs bleibt ein kuratiertes Schaufenster zugelassener Verkäufer, und diese Kuratierung ist seine Stärke. Aura Historia begutachtet Objekte nicht, prüft ihre Echtheit nicht und verkauft sie auch nicht: Sie zeigt, was wo angeboten wird, so wie die Anbieter es veröffentlichen, und gekauft wird beim Anbieter."
+    },
+    "respect": {
+      "title": "1stDibs ist ein <em>kuratierter Marktplatz zugelassener Verkäufer</em>",
+      "paragraph1": "Ein fairer Vergleich beginnt hier: Kuratierung ist die Stärke von 1stDibs. Laut seinem Jahresbericht für 2025 (Form 10-K) hatte 1stDibs zum 31. Dezember 2025 rund 5.700 Verkäufer und im Jahr bis zum 31. Dezember 2025 rund 60.700 aktive Käufer; als aktive Käufer zählen Käufer, die in einem Zeitraum von zwölf Monaten mindestens einen Kauf getätigt haben. Nach eigenen Angaben durchlaufen die Verkäufer eine Bewertung durch hauseigene Experten, die die Qualität ihres Bestands prüft, und Käufern bietet 1stDibs das, was es 1stDibs Promise nennt.",
+      "paragraph2": "Aura Historia will das nicht ersetzen. Sie beantwortet eine andere Frage: Welche vergleichbaren Objekte bieten Händler, Auktionshäuser, Shops und Marktplätze an, und wo? Sie zeigt Angebote so, wie die Anbieter sie veröffentlichen, begutachtet Objekte nicht und prüft ihre Echtheit nicht."
+    },
+    "advantages": {
+      "title": "Über ein Schaufenster hinaus, <em>quer über den Markt</em>",
+      "description": "Der Unterschied ist die Bandbreite: eine Suche über verschiedene Anbietertypen, vergleichbare Objekte nebeneinander, Auktionshäuser neben Händlern und Beobachtung über Anbieter hinweg.",
+      "cards": {
+        "beyondOneStorefront": {
+          "title": "Eine Suche über ein einzelnes Schaufenster hinaus",
+          "description": "Angebote von Händlern, Auktionshäusern, Shops und Marktplätzen stehen in einer Ergebnisliste, statt im Bestand eines einzelnen Schaufensters."
+        },
+        "comparingAcrossProviders": {
+          "title": "Preise über Anbieter hinweg vergleichen",
+          "description": "Suchergebnisse zeigen Objekte vieler Anbieter nebeneinander, und eine Angebotsseite zeigt den Preisverlauf des Angebots und ähnliche Objekte. Aura Historia gibt keine Bewertungen ab."
+        },
+        "auctionHousesAndDealers": {
+          "title": "Auktionshäuser und Händler zusammen",
+          "description": "Angebote von Auktionshäusern erscheinen in denselben Ergebnissen wie die von Händlern, Shops und Marktplätzen."
+        },
+        "watchingChanges": {
+          "title": "Preis- und Verfügbarkeitsänderungen beobachten",
+          "description": "Merklisten, gespeicherte Suchen und Benachrichtigungen verfolgen, was Sie interessiert, über Anbieter hinweg, einschließlich Preis- und Verfügbarkeitsänderungen bei beobachteten Objekten."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia vs. 1stDibs, <em>im direkten Vergleich</em>",
+      "description": "1stDibs ist auf Kuratierung ausgelegt: Verkäufer werden ausgewählt, und Käufer kaufen auf dem Marktplatz. Aura Historia ist auf Bandbreite ausgelegt: eine Suche über Anbieter hinweg, mit Preisverlauf und ähnlichen Objekten auf den Angebotsseiten.",
+      "caption": "Vergleich von Aura Historia und 1stDibs für die Suche nach Kunst, Antiquitäten und Designobjekten",
+      "headers": {
+        "criterion": "Kriterium",
+        "auraHistoria": "Aura Historia",
+        "competitor": "1stDibs"
+      },
+      "rows": {
+        "curationAndVetting": {
+          "criterion": "Kuratierung und Prüfung",
+          "competitor": "Verkäufer werden ausgewählt: Nach Angaben von 1stDibs durchlaufen sie eine Bewertung durch hauseigene Experten, die die Qualität ihres Bestands prüft. Für Käufer beschreibt 1stDibs außerdem ein 1stDibs Promise, zu den Bedingungen, die 1stDibs veröffentlicht.",
+          "auraHistoria": "Zeigt Angebote vieler Anbieter so, wie sie veröffentlicht werden. Sie begutachtet Objekte nicht und prüft ihre Echtheit nicht.",
+          "verdict": "1stDibs bei der Kuratierung"
+        },
+        "sellerModel": {
+          "criterion": "Verkäufermodell",
+          "competitor": "Ein Marktplatz mit Bewerbungsverfahren: Verkäufer bewerben sich und werden ausgewählt, und Käufer kaufen bei 1stDibs.",
+          "auraHistoria": "Angebote vieler Arten von Anbietern, jeweils auf der eigenen Website oder Plattform. Aura Historia verkauft nicht: Gekauft wird beim Anbieter.",
+          "verdict": "Unterschiedliche Modelle"
+        },
+        "objectRange": {
+          "criterion": "Objektspektrum",
+          "competitor": "Beschreibt sein Spektrum als Vintage-, Antik- und zeitgenössische Möbel, Wohnaccessoires, Schmuck, Uhren, Kunst und Mode.",
+          "auraHistoria": "Konzentriert sich auf Kunst, Antiquitäten und Designobjekte.",
+          "verdict": "Aura Historia beim Fokus"
+        },
+        "crossProviderComparison": {
+          "criterion": "Vergleichen über Anbieter hinweg",
+          "competitor": "Zeigt, was die zugelassenen Verkäufer bei 1stDibs anbieten.",
+          "auraHistoria": "Suchergebnisse vieler Anbieter nebeneinander; eine Angebotsseite zeigt den Preisverlauf des Angebots und ähnliche Objekte. Keine Bewertungen.",
+          "verdict": "Aura Historia über Anbieter hinweg"
+        },
+        "auctions": {
+          "criterion": "Auktionen",
+          "competitor": "Hat eine Auktionsfunktion: Seine Verkäufer können einen Artikel zur Auktion einstellen, und Käufer bieten bei 1stDibs, laut den Auktionsbedingungen von 1stDibs.",
+          "auraHistoria": "Veranstaltet keine Auktionen und nimmt keine Gebote an. Zeigt Angebote von Auktionshäusern neben denen von Händlern und Marktplätzen; „Zur Seite des Anbieters“ öffnet das Angebot auf der eigenen Seite des Anbieters.",
+          "verdict": "Unterschiedliche Rollen"
+        },
+        "monitoring": {
+          "criterion": "Beobachtung über Anbieter hinweg",
+          "competitor": "Zu den Personalisierungsfunktionen zählen Benachrichtigungen, wenn neue Artikel von Kreativen, denen Käufer folgen, bei 1stDibs eingestellt werden, laut seinem Jahresbericht für 2025.",
+          "auraHistoria": "Merklisten, gespeicherte Suchen und Benachrichtigungen decken alle Anbieter im Index ab, einschließlich Preis- und Verfügbarkeitsänderungen bei beobachteten Objekten.",
+          "verdict": "Aura Historia über Anbieter hinweg"
+        },
+        "languages": {
+          "criterion": "Sprachen",
+          "competitor": "Bietet lokalisierte Versionen seiner Website an, zum Beispiel auf Deutsch und Französisch, laut seinen Mitteilungen von 2022.",
+          "auraHistoria": "Fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch, Italienisch), mit übersetzten Angeboten und vereinheitlichter Terminologie.",
+          "verdict": "Beide mehrsprachig"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Viele Arten von Anbietern verändern, <em>was Sie sehen können</em>",
+      "sourcesLabel": "Anbietertypen",
+      "sources": {
+        "auctionHouses": "Auktionshäuser",
+        "auctionPlatforms": "Auktionsplattformen",
+        "antiqueDealers": "Kunst- und Antiquitätenhändler",
+        "privateSellers": "Private Verkäufer",
+        "marketplaces": "Marktplätze"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Händler und Shops erreichen",
+          "description": "Viele Händler und Shops verkaufen auf ihren eigenen Websites. Eine Suche über Anbieter hinweg zeigt ihre Objekte neben denen von Auktionshäusern und Marktplätzen."
+        },
+        "offersSideBySide": {
+          "title": "Angebote nebeneinander sehen",
+          "description": "Angebotspreise von Händlern, Auktionsangebote und Marktplatzangebote stehen in einer Ergebnisliste, sodass Sie vergleichen können, was jetzt verfügbar ist."
+        },
+        "acrossLanguages": {
+          "title": "In fünf Sprachen suchen",
+          "description": "Wenn Angebote übersetzt und die Terminologie vereinheitlicht ist, ist ein Käufer weniger durch die Sprache des Verkäufers eingeschränkt."
+        },
+        "watchAnObject": {
+          "title": "Ein einzelnes Objekt beobachten",
+          "description": "Eine Merkliste folgt einem Objekt und benachrichtigt Sie über Änderungen bei Preis und Verfügbarkeit, bei welchem Anbieter es auch gelistet ist."
+        }
+      }
+    },
+    "alerts": {
+      "title": "Objekte <em>über Anbieter hinweg</em> vergleichen",
+      "paragraph1": "Aura Historia führt Objekte vieler Anbieter in einer Ergebnisliste, sodass sich die Angebotspreise vergleichbarer Objekte nebeneinander lesen lassen, über ein einzelnes Schaufenster hinaus. Eine Angebotsseite ergänzt den Preisverlauf des Angebots und ähnliche Objekte.",
+      "paragraph2": "Das Beobachten eines Objekts ergänzt die Veränderung im Zeitverlauf: Aura Historia benachrichtigt Sie über Änderungen bei Preis und Verfügbarkeit, bei welchem Anbieter es auch gelistet ist. Angebote erscheinen so, wie die Anbieter sie veröffentlichen, und Aura Historia gibt keine Bewertungen ab."
+    },
+    "faq": {
+      "title": "Häufige Fragen zu <em>Aura Historia und 1stDibs</em>",
+      "items": {
+        "alternative": {
+          "question": "Ist Aura Historia eine 1stDibs-Alternative?",
+          "answer": "Ja, für Käufer, die mehr vom Markt in einer Suche sehen möchten. Aura Historia durchsucht Händler, Auktionshäuser, Shops und Marktplätze für Kunst, Antiquitäten und Designobjekte an einem Ort, mit Preisverlauf und ähnlichen Objekten auf den Angebotsseiten. Sie begutachtet Objekte nicht und prüft ihre Echtheit nicht. 1stDibs bleibt ein kuratierter Marktplatz zugelassener Verkäufer, und das ist seine Stärke."
+        },
+        "replace": {
+          "question": "Ersetzt Aura Historia 1stDibs?",
+          "answer": "Nein. Kuratierung ist die Stärke von 1stDibs: Die Verkäufer werden ausgewählt, und für Käufer beschreibt 1stDibs ein 1stDibs Promise. Aura Historia steht für Bandbreite. Sie verkauft keine Objekte und zeigt Angebote so, wie die Anbieter sie veröffentlichen; gekauft wird beim Anbieter."
+        },
+        "vetting": {
+          "question": "Prüft Aura Historia die Objekte, die sie zeigt?",
+          "answer": "Nein. Aura Historia schätzt Objekte nicht und prüft ihre Echtheit nicht. Angebote erscheinen so, wie ihre Quellen sie veröffentlichen, bei Bedarf übersetzt. Fragen zu Wert, Zustand und Echtheit klären Sie mit dem Anbieter."
+        },
+        "comparePrices": {
+          "question": "Wo kann ich Preise für Antiquitäten bei verschiedenen Händlern vergleichen?",
+          "answer": "Bei Aura Historia durchsuchen Sie Händler, Auktionshäuser, Shops und Marktplätze auf einmal und lesen die Ergebnisse nebeneinander; eine Angebotsseite zeigt den Preisverlauf des Angebots und ähnliche Objekte. Bei 1stDibs vergleichen Sie, was die zugelassenen Verkäufer auf einer Website anbieten, und Aura Historia ergänzt Anbieter darüber hinaus. Aura Historia gibt keine Bewertungen ab: Sie zeigt, wofür vergleichbare Objekte angeboten werden, so wie die Anbieter es veröffentlichen."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "1stDibs ist ein kuratiertes Schaufenster. <em>Aura Historia durchsucht den weiteren Markt.</em>",
+      "description": "Wenn Ihre Suche neben einem kuratierten Schaufenster auch Händler, Auktionshäuser und Marktplätze erreichen soll, beginnen Sie mit Aura Historia.",
+      "button": "Kunst und Antiquitäten suchen"
+    },
+    "positioning": "Ein kuratierter Marktplatz zugelassener Verkäufer, verglichen mit einer Suche über Händler, Auktionshäuser und Marktplätze."
+  },
+  "compareLiveauctioneersPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "Suche nach Kunst und Antiquitäten",
+        "auctionPlatform": "Online-Auktionsplattform",
+        "crossProviderSearch": "Suche über Auktionshäuser, Händler und Marktplätze hinweg",
+        "multilingualSearch": "mehrsprachige Suche nach Kunst und Antiquitäten",
+        "monitoring": "Merklisten und gespeicherte Suchen für Kunst und Antiquitäten"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Kurzfassung",
+        "advantages": "Wo Aura Historia breiter aufgestellt ist",
+        "scorecard": "Vergleichstabelle",
+        "sources": "Anbietertypen",
+        "together": "Wie beides zusammenpasst",
+        "faq": "FAQ",
+        "verdict": "Fazit"
+      }
+    },
+    "hero": {
+      "eyebrow": "Vergleich: Aura Historia vs. LiveAuctioneers",
+      "title": "Eine Suche über viele Anbieter hinweg, jenseits einer <em>einzelnen Auktionsplattform</em>",
+      "subtitle": "LiveAuctioneers ist eine Online-Auktionsplattform zum Bieten in Live-Auktionen und zeitgesteuerten Auktionen; The Saleroom und Lot-tissimo sind Marktplätze derselben Gruppe. Aura Historia durchsucht Auktionshäuser, Händler und Marktplätze nebeneinander und veranstaltet selbst keine Auktionen.",
+      "primaryCta": "Über den Markt hinweg suchen",
+      "secondaryCta": "Vergleich ansehen",
+      "quickAnswerEyebrow": "Kurz gesagt",
+      "quickAnswerTitle": "LiveAuctioneers ist zum Bieten da. <em>Aura Historia ist zum Durchsuchen des Marktes da.</em>",
+      "quickAnswerDescription": "<strong>Fazit:</strong> Wählen Sie LiveAuctioneers, The Saleroom oder Lot-tissimo, um sich bei Auktionshäusern auf deren Plattformen zu registrieren und zu bieten. Wählen Sie Aura Historia, um Auktionshäuser, Händler und Marktplätze nebeneinander zu durchsuchen – Festpreisangebote eingeschlossen – und Objekte über Anbieter hinweg zu beobachten."
+    },
+    "quickVerdicts": {
+      "liveBidding": {
+        "label": "Stark beim Online-Bieten in Live-Auktionen und zeitgesteuerten Auktionen bei Auktionshäusern",
+        "value": "LiveAuctioneers"
+      },
+      "searchAcrossProviders": {
+        "label": "Stärker für die Suche über Auktionshäuser, Händler und Marktplätze hinweg",
+        "value": "Aura Historia"
+      },
+      "dealerAndShopStock": {
+        "label": "Stärker für die Suche in den Beständen von Händlern und Shops über Websites hinweg",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Stärker für die Beobachtung über eine einzelne Plattform hinaus",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "Die <em>Kurzfassung</em>",
+      "paragraph1": "Aura Historia ist eine Alternative zu LiveAuctioneers, The Saleroom und Lot-tissimo für Sammler, die über eine einzelne Auktionsplattform hinaus suchen möchten: Auktionshäuser, Händler, Shops und Marktplätze an einem Ort, mit Festpreisangeboten neben Auktionsangeboten.",
+      "paragraph2": "LiveAuctioneers, The Saleroom und Lot-tissimo bleiben Orte, um sich zu registrieren und auf ihren eigenen Plattformen in Auktionen zu bieten. Aura Historia veranstaltet keine Auktionen und nimmt keine Gebote an. Sie zeigt, was wo angeboten wird, und geboten oder gekauft wird beim Anbieter."
+    },
+    "respect": {
+      "title": "LiveAuctioneers ist eine etablierte <em>Plattform zum Bieten</em>",
+      "paragraph1": "Ein fairer Vergleich beginnt hier: LiveAuctioneers, 2002 gegründet, sagt von sich, Auktionshäusern zu ermöglichen, Live-Auktionen und zeitgesteuerte Auktionen online abzuhalten, und beschreibt sein Bieterpublikum als das größte in Nordamerika. The Saleroom und Lot-tissimo sind die weiteren Auktionsmarktplätze der Gruppe für Kunst und Antiquitäten; die Gruppe beschreibt Lot-tissimo als deutschen Marktplatz.",
+      "paragraph2": "Aura Historia versucht nicht, das zu ersetzen. Sie beantwortet eine andere Frage: Was wird bei Auktionshäusern, Händlern, Shops und Marktplätzen angeboten, Festpreisangebote eingeschlossen? Dass ein Objekt hier auftaucht, macht Aura Historia nicht zu einem Ort zum Bieten. Geboten wird dort, wo das Objekt angeboten wird.",
+      "status": "Auction Technology Group (ATG) betreibt LiveAuctioneers, The Saleroom und Lot-tissimo. Der Geschäftsbericht der Gruppe für das am 30. September 2025 beendete Geschäftsjahr führt alle drei unter ihren Marktplätzen auf und datiert die Übernahme von Lot-tissimo auf 2018 und die von LiveAuctioneers auf Oktober 2021."
+    },
+    "advantages": {
+      "title": "Eine Suche über Anbieter hinweg, <em>nicht der Katalog einer Plattform</em>",
+      "description": "Der Unterschied ist die Bandbreite: Objekte vieler Anbieter nebeneinander, Händler und Shops neben Auktionshäusern, vereinheitlichte Terminologie in fünf Sprachen und Beobachtung über Anbieter hinweg.",
+      "cards": {
+        "oneSearchAcrossVenues": {
+          "title": "Eine Suche über Verkaufsorte hinweg",
+          "description": "Objekte vieler Anbieter stehen in einer Ergebnisliste, statt im Katalog einer einzelnen Plattform."
+        },
+        "moreThanAuctionLots": {
+          "title": "Mehr als Auktionslose",
+          "description": "Händler, Shops und Marktplätze erscheinen mit ihren eigenen Angeboten, Festpreisangebote eingeschlossen, neben Auktionsangeboten."
+        },
+        "terminologyAcrossLanguages": {
+          "title": "Vereinheitlichte Terminologie über Sprachen hinweg",
+          "description": "Angebote werden übersetzt und die Terminologie ist über Deutsch, Englisch, Spanisch, Französisch und Italienisch hinweg vereinheitlicht, sodass eine Suche in einer Sprache Objekte findet, die in einer anderen beschrieben sind."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Beobachtung über Anbieter hinweg",
+          "description": "Merklisten, gespeicherte Suchen und Benachrichtigungen funktionieren über alle Anbieter im Index hinweg statt innerhalb einer einzelnen Plattform."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia vs. LiveAuctioneers, <em>im direkten Vergleich</em>",
+      "description": "LiveAuctioneers ist zum Bieten bei Auktionshäusern auf seiner Plattform gebaut, mit The Saleroom und Lot-tissimo als weiteren Marktplätzen der Gruppe. Aura Historia ist für die Suche über Anbieter hinweg gebaut, einschließlich Händlern und Festpreisangeboten.",
+      "caption": "Vergleich von Aura Historia und LiveAuctioneers, mit The Saleroom und Lot-tissimo, für die Suche nach Kunst und Antiquitäten",
+      "headers": {
+        "criterion": "Kriterium",
+        "auraHistoria": "Aura Historia",
+        "competitor": "LiveAuctioneers"
+      },
+      "rows": {
+        "liveBidding": {
+          "criterion": "Bieten in Live- und zeitgesteuerten Auktionen",
+          "competitor": "Registrierte Bieter bieten bei LiveAuctioneers in Live-Auktionen und zeitgesteuerten Auktionen, im Web und in seinen Apps; diese benachrichtigen sie auch, wenn gespeicherte Lose bald an der Reihe sind. The Saleroom und Lot-tissimo bieten ebenfalls Live-Auktionen und zeitgesteuerte Auktionen.",
+          "auraHistoria": "Veranstaltet keine Auktionen und nimmt keine Gebote an. „Zur Seite des Anbieters“ öffnet das Angebot auf der eigenen Seite des Anbieters.",
+          "verdict": "LiveAuctioneers beim Bieten"
+        },
+        "bidderAudience": {
+          "criterion": "Bieterpublikum, wie es jeder Dienst selbst beschreibt",
+          "competitor": "LiveAuctioneers beschreibt sein Bieterpublikum als das größte in Nordamerika. Laut dem Geschäftsbericht von Auction Technology Group hat die Gruppe mit der Aufnahme von LiveAuctioneers 2021 ihr Angebot auf den nordamerikanischen Markt für Kunst und Antiquitäten ausgeweitet.",
+          "auraHistoria": "Macht keine Angaben zur Größe eines Publikums. Zeigt, was jeder Anbieter öffentlich einstellt.",
+          "verdict": "LiveAuctioneers beim Publikum"
+        },
+        "providerTypes": {
+          "criterion": "Anbieter über eine Plattform hinaus",
+          "competitor": "Auktionshäuser, die bei LiveAuctioneers einstellen.",
+          "auraHistoria": "Auktionshäuser, Händler, Shops und Marktplätze, jeweils auf der eigenen Website oder Plattform, in einer Suche.",
+          "verdict": "Aura Historia"
+        },
+        "dealersAndFixedPrice": {
+          "criterion": "Ware von Händlern und Shops",
+          "competitor": "Führt Lose in Live-Auktionen und zeitgesteuerten Auktionen auf und laut seinem Ressourcenbereich für Auktionshäuser außerdem „Buy Now“-Angebote für unverkaufte Artikel.",
+          "auraHistoria": "Durchsucht die Ware von Händlern und Shops auf deren eigenen Websites, Festpreisangebote eingeschlossen, neben Auktionsangeboten.",
+          "verdict": "Aura Historia über Websites hinweg"
+        },
+        "languageHandling": {
+          "criterion": "Umgang mit Sprachen",
+          "competitor": "LiveAuctioneers sagt, seine Objekte würden in Ihre Sprache und Währung übersetzt. The Saleroom bietet seine Website auf Englisch, Französisch, Deutsch und Italienisch an, Lot-tissimo auf Englisch und Deutsch.",
+          "auraHistoria": "Fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch, Italienisch), mit übersetzten Angeboten und vereinheitlichter Terminologie.",
+          "verdict": "Kein dokumentierter Unterschied"
+        },
+        "monitoring": {
+          "criterion": "Beobachtung über eine einzelne Plattform hinaus",
+          "competitor": "Einer Suche folgen, um über passende Objekte benachrichtigt zu werden: Die Apps von LiveAuctioneers senden Benachrichtigungen zu gespeicherten Suchen, und The Saleroom und Lot-tissimo verschicken per E-Mail „Auction Alerts“ zu neuen Losen auf ihren eigenen Websites.",
+          "auraHistoria": "Merklisten, gespeicherte Suchen und Benachrichtigungen decken alle Anbieter im Index ab, einschließlich Preis- und Verfügbarkeitsänderungen bei beobachteten Objekten.",
+          "verdict": "Aura Historia"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Viele Arten von Anbietern verändern, <em>was Sie sehen können</em>",
+      "sourcesLabel": "Anbietertypen",
+      "sources": {
+        "auctionHouses": "Auktionshäuser",
+        "auctionPlatforms": "Auktionsplattformen",
+        "antiqueDealers": "Kunst- und Antiquitätenhändler",
+        "privateSellers": "Private Verkäufer",
+        "marketplaces": "Marktplätze"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Händler und Shops erreichen",
+          "description": "Viele Händler und Shops verkaufen auf ihren eigenen Websites. Eine Suche über Anbieter hinweg zeigt ihre Objekte neben den Auktionsangeboten."
+        },
+        "offersSideBySide": {
+          "title": "Angebote nebeneinander sehen",
+          "description": "Angebotspreise von Händlern, Auktionsangebote und Marktplatzangebote stehen in einer Ergebnisliste, sodass Sie vergleichen können, was jetzt verfügbar ist."
+        },
+        "acrossLanguages": {
+          "title": "In fünf Sprachen suchen",
+          "description": "Wenn Angebote übersetzt sind und die Terminologie vereinheitlicht ist, ist ein Sammler weniger durch die Sprache des Verkäufers oder Auktionators eingeschränkt."
+        },
+        "watchAnObject": {
+          "title": "Ein einzelnes Objekt beobachten",
+          "description": "Eine Merkliste folgt einem Objekt und benachrichtigt Sie über Änderungen bei Preis und Verfügbarkeit, bei welchem Anbieter es auch gelistet ist."
+        }
+      }
+    },
+    "together": {
+      "title": "Hier Objekte finden, <em>dort bieten, wo sie angeboten werden</em>",
+      "paragraph1": "Beide haben unterschiedliche Aufgaben. Aura Historia zeigt, was wo angeboten wird. Auf einer Angebotsseite öffnet „Zur Seite des Anbieters“ das Angebot auf der eigenen Seite des Anbieters, in einem neuen Tab.",
+      "paragraph2": "Aura Historia veranstaltet keine Auktionen und nimmt keine Gebote an; Registrieren, Bieten oder Kaufen geschieht daher beim Anbieter. Um bei LiveAuctioneers, The Saleroom oder Lot-tissimo zu bieten, registrieren Sie sich dort und bieten auf deren Plattformen. Aura Historia steht in keiner Verbindung zu LiveAuctioneers, The Saleroom oder Lot-tissimo."
+    },
+    "faq": {
+      "title": "Häufige Fragen zu <em>Aura Historia und LiveAuctioneers</em>",
+      "items": {
+        "alternative": {
+          "question": "Ist Aura Historia eine LiveAuctioneers-Alternative?",
+          "answer": "Ja, für Käufer, die über eine einzelne Auktionsplattform hinaus suchen möchten. Aura Historia durchsucht Auktionshäuser, Händler, Shops und Marktplätze für Kunst und Antiquitäten an einem Ort, Festpreisangebote eingeschlossen. Sie veranstaltet keine Auktionen und ist daher kein Ort zum Bieten. LiveAuctioneers bleibt eine etablierte Plattform zum Bieten in Live- und zeitgesteuerten Auktionen bei Auktionshäusern."
+        },
+        "saleroomAlternative": {
+          "question": "Ist Aura Historia eine Alternative zu The Saleroom?",
+          "answer": "Ja, für Käufer, die über eine einzelne Auktionsplattform hinaus suchen möchten. The Saleroom ist ein Marktplatz, auf dem Auktionshäuser Live-Auktionen und zeitgesteuerte Auktionen abhalten; die Website gibt es auf Englisch, Französisch, Deutsch und Italienisch. Aura Historia durchsucht Auktionshäuser, Händler, Shops und Marktplätze an einem Ort und veranstaltet keine Auktionen, ist also kein Ort zum Bieten. Zum Bieten in den dortigen Auktionen nutzen Sie The Saleroom."
+        },
+        "lotTissimoAlternative": {
+          "question": "Ist Aura Historia eine Alternative zu Lot-tissimo?",
+          "answer": "Ja, für Käufer, die über eine einzelne Auktionsplattform hinaus suchen möchten. Lot-tissimo ist ein Auktionsmarktplatz für Kunst und Antiquitäten; die Website gibt es auf Deutsch und Englisch. Aura Historia durchsucht Auktionshäuser, Händler, Shops und Marktplätze in fünf Sprachen und veranstaltet keine Auktionen, ist also kein Ort zum Bieten. Zum Bieten in den dortigen Auktionen nutzen Sie Lot-tissimo."
+        },
+        "bid": {
+          "question": "Kann ich über Aura Historia bieten?",
+          "answer": "Nein. Aura Historia veranstaltet keine Auktionen und nimmt keine Gebote an. Auf einer Angebotsseite öffnet „Zur Seite des Anbieters“ das Angebot auf der eigenen Seite des Anbieters in einem neuen Tab; dort geschieht auch das Registrieren, Bieten oder Kaufen. Um bei LiveAuctioneers, The Saleroom oder Lot-tissimo zu bieten, nutzen Sie deren Plattformen."
+        },
+        "related": {
+          "question": "Sind LiveAuctioneers, The Saleroom und Lot-tissimo miteinander verbunden?",
+          "answer": "Ja. Laut dem Geschäftsbericht von Auction Technology Group (ATG) für das am 30. September 2025 beendete Geschäftsjahr betreibt ATG alle drei unter ihren Marktplätzen; er datiert die Übernahme von Lot-tissimo auf 2018 und die von LiveAuctioneers auf Oktober 2021. Jeder Dienst hat seine eigene Website."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "LiveAuctioneers ist eine Plattform für Auktionen. <em>Aura Historia ist eine Suche über den Markt.</em>",
+      "description": "Wenn Ihre Suche neben Auktionshäusern auch Händler, Shops und Marktplätze einschließen soll, beginnen Sie mit Aura Historia.",
+      "button": "Kunst und Antiquitäten suchen"
+    },
+    "positioning": "Eine Online-Auktionsplattform zum Bieten in Live- und zeitgesteuerten Auktionen, mit zwei weiteren Marktplätzen derselben Gruppe, verglichen mit einer Suche über Auktionshäuser, Händler und Marktplätze, die keine Auktionen veranstaltet."
+  },
+  "compareCatawikiPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "Suche nach Kunst und Antiquitäten",
+        "auctionMarketplace": "Online-Auktionsmarktplatz",
+        "crossProviderSearch": "Suche über Auktionshäuser, Händler und Marktplätze hinweg",
+        "multilingualSearch": "mehrsprachige Suche nach Kunst und Antiquitäten",
+        "monitoring": "Merklisten und gespeicherte Suchen für Kunst und Antiquitäten"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Kurzfassung",
+        "advantages": "Wo Aura Historia breiter aufgestellt ist",
+        "scorecard": "Vergleichstabelle",
+        "sources": "Anbietertypen",
+        "together": "Wie beides zusammenpasst",
+        "faq": "FAQ",
+        "verdict": "Fazit"
+      }
+    },
+    "hero": {
+      "eyebrow": "Vergleich: Aura Historia vs. Catawiki",
+      "title": "Mehr als wöchentliche Auktionen: <em>Kunst und Antiquitäten über viele Anbieter hinweg</em>",
+      "subtitle": "Catawiki ist ein Online-Auktionsmarktplatz; nach eigener Angabe wird jedes Objekt seiner wöchentlichen Auktionen von hauseigenen Experten ausgewählt. Aura Historia durchsucht Auktionshäuser, Händler und Marktplätze nebeneinander, mit Schwerpunkt auf Kunst, Antiquitäten und Designobjekten.",
+      "primaryCta": "Über den Markt hinweg suchen",
+      "secondaryCta": "Vergleich ansehen",
+      "quickAnswerEyebrow": "Kurz gesagt",
+      "quickAnswerTitle": "Catawiki ist ein kuratierter Auktionsort. <em>Aura Historia ist eine Suche über viele Orte hinweg.</em>",
+      "quickAnswerDescription": "<strong>Fazit:</strong> Wählen Sie Catawiki, um in den wöchentlichen Online-Auktionen zu bieten, in denen nach eigener Angabe Experten die Objekte auswählen, mit dem Käuferschutz, den Catawiki beschreibt. Wählen Sie Aura Historia, um Auktionshäuser, Händler und Marktplätze nebeneinander zu durchsuchen, mit Schwerpunkt auf Kunst, Antiquitäten und Designobjekten, und um Objekte über Anbieter hinweg zu beobachten."
+    },
+    "quickVerdicts": {
+      "curatedAuctions": {
+        "label": "Stark bei kuratierten wöchentlichen Auktionen und dem Käuferschutz, den Catawiki beschreibt",
+        "value": "Catawiki"
+      },
+      "searchAcrossProviders": {
+        "label": "Stärker für die Suche über Auktionshäuser, Händler und Marktplätze hinweg",
+        "value": "Aura Historia"
+      },
+      "artAntiquesDesign": {
+        "label": "Stärker für eine Suche mit Schwerpunkt auf Kunst, Antiquitäten und Designobjekten",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Stärker für die Beobachtung über Anbieter hinweg",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "Die <em>Kurzfassung</em>",
+      "paragraph1": "Aura Historia ist eine Alternative zu Catawiki für Sammler, die über einen einzelnen Auktionsort hinaus suchen möchten: Auktionshäuser, Händler, Shops und Marktplätze an einem Ort, mit Schwerpunkt auf Kunst, Antiquitäten und Designobjekten.",
+      "paragraph2": "Catawiki bleibt ein Ort, um auf dem eigenen Marktplatz in Online-Auktionen zu bieten. Aura Historia veranstaltet keine Auktionen und nimmt keine Gebote an. Sie zeigt, was wo angeboten wird, und geboten oder gekauft wird beim Anbieter."
+    },
+    "respect": {
+      "title": "Catawiki ist ein <em>kuratierter Marktplatz für Auktionen</em>",
+      "paragraph1": "Ein fairer Vergleich beginnt hier. In seinen Nutzungsbedingungen in der Fassung vom 18. März 2024 gibt Catawiki an, dass jede Woche über 75.000 Objekte in Auktionen angeboten werden, jedes davon von den hauseigenen Experten ausgewählt. In seinen Käuferbedingungen vom selben Datum heißt es, sein Käuferschutz bedeute sichere Zahlungen, qualitätsgeprüfte Objekte und verifizierte Verkäufer.",
+      "paragraph2": "Aura Historia versucht nicht, das zu ersetzen. Sie beantwortet eine andere Frage: was bei Auktionshäusern, Händlern, Shops und Marktplätzen angeboten wird. Dass ein Objekt hier erscheint, macht Aura Historia nicht zu einem Ort zum Bieten. Angebote erscheinen so, wie die Anbieter sie veröffentlichen, und geboten oder gekauft wird dort, wo das Objekt angeboten wird."
+    },
+    "advantages": {
+      "title": "Viele Anbieter nebeneinander, <em>nicht die Auktionen eines einzelnen Verkaufsorts</em>",
+      "description": "Der Unterschied sind Bandbreite und Schwerpunkt: Objekte von Auktionshäusern, Händlern und Marktplätzen in einer Suche, der Bestand von Händlern auf deren eigenen Websites, ein Schwerpunkt auf Kunst, Antiquitäten und Designobjekten und die Beobachtung über Anbieter hinweg.",
+      "cards": {
+        "openMarket": {
+          "title": "Der offene Markt jenseits eines Verkaufsorts",
+          "description": "Objekte vieler Anbieter stehen in einer Ergebnisliste, statt in den Auktionen eines einzelnen Verkaufsorts."
+        },
+        "dealerStock": {
+          "title": "Händler und ihr eigener Bestand",
+          "description": "Händler und Shops erscheinen mit den Objekten, die sie auf ihren eigenen Websites anbieten, Angebotspreise eingeschlossen, neben Auktionsangeboten."
+        },
+        "artAntiquesDesignFocus": {
+          "title": "Schwerpunkt auf Kunst, Antiquitäten und Design",
+          "description": "Die Suche gilt Kunst, Antiquitäten und Designobjekten. Das beschreibt einen Schwerpunkt, keine Rangfolge der Qualität."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Beobachtung über Anbieter hinweg",
+          "description": "Merklisten, gespeicherte Suchen und Benachrichtigungen funktionieren über alle Anbieter im Index hinweg statt innerhalb eines einzelnen Marktplatzes."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia vs. Catawiki, <em>im direkten Vergleich</em>",
+      "description": "Catawiki ist für das Bieten in seinen wöchentlichen Online-Auktionen gemacht, in denen nach eigener Angabe Experten die Objekte auswählen. Aura Historia ist für die Suche über Anbieter hinweg gemacht, mit Schwerpunkt auf Kunst, Antiquitäten und Designobjekten.",
+      "caption": "Vergleich von Aura Historia und Catawiki für die Suche nach Kunst und Antiquitäten",
+      "headers": {
+        "criterion": "Kriterium",
+        "auraHistoria": "Aura Historia",
+        "competitor": "Catawiki"
+      },
+      "rows": {
+        "curationAndProtection": {
+          "criterion": "Kuratierung und Käuferschutz",
+          "competitor": "Seine Nutzungsbedingungen und Käuferbedingungen in der Fassung vom 18. März 2024 besagen, dass hauseigene Experten die angebotenen Objekte auswählen, dass sein Käuferschutz sichere Zahlungen, qualitätsgeprüfte Objekte und verifizierte Verkäufer bedeutet und dass ein Zahlungsdienstleister die Zahlung treuhänderisch hält, bis drei Tage nach Erhalt des Objekts.",
+          "auraHistoria": "Zeigt Angebote so, wie die Anbieter sie veröffentlichen. Aura Historia verkauft keine Objekte und nimmt dafür keine Zahlungen entgegen: Sie kaufen beim Anbieter, zu dessen eigenen Bedingungen.",
+          "verdict": "Catawiki"
+        },
+        "weeklyAuctions": {
+          "criterion": "Wöchentlicher Auktionsrhythmus",
+          "competitor": "Veranstaltet jede Woche Online-Auktionen: Laut seinen Nutzungsbedingungen in der Fassung vom 18. März 2024 werden jede Woche über 75.000 Objekte in Auktionen angeboten.",
+          "auraHistoria": "Veranstaltet keine Auktionen. Zeigt die Angebote und Auktionen vieler Anbieter so, wie sie sie veröffentlichen, jeweils nach deren eigenem Zeitplan.",
+          "verdict": "Catawiki bei Auktionen"
+        },
+        "languageBreadth": {
+          "criterion": "Sprachangebot",
+          "competitor": "Seine Nutzungsbedingungen in der Fassung vom 18. März 2024 besagen, dass Website und Apps in mehreren Sprachen verfügbar sind, mit Englisch als Originalsprache.",
+          "auraHistoria": "Fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch, Italienisch), mit übersetzten Angeboten und vereinheitlichter Terminologie über Anbieter hinweg.",
+          "verdict": "Kein dokumentierter Unterschied"
+        },
+        "sourceTypes": {
+          "criterion": "Anbietertypen",
+          "competitor": "Gewerbliche und private Verkäufer bieten auf Catawiki Objekte an, in Auktionen und bei einigen Objekten mit einer Option zum direkten Kauf (Käuferbedingungen, Fassung vom 18. März 2024).",
+          "auraHistoria": "Auktionshäuser, Händler, Shops und Marktplätze, jeweils auf der eigenen Website oder Plattform, in einer Suche.",
+          "verdict": "Aura Historia"
+        },
+        "dealersAndFixedPrice": {
+          "criterion": "Bestand von Händlern und Shops",
+          "competitor": "Veranstaltet Auktionen auf dem eigenen Marktplatz; laut seinen Käuferbedingungen in der Fassung vom 18. März 2024 haben einige Objekte eine Option zum direkten Kauf.",
+          "auraHistoria": "Durchsucht den Bestand von Händlern und Shops auf deren eigenen Websites, Angebotspreise eingeschlossen, neben Auktionsangeboten.",
+          "verdict": "Aura Historia über Websites hinweg"
+        },
+        "categoryFocus": {
+          "criterion": "Kategorie-Schwerpunkt",
+          "competitor": "Seine Nutzungsbedingungen in der Fassung vom 18. März 2024 beschreiben es als Online-Marktplatz für besondere Objekte, die Leidenschaften erfüllen, und nennen eine Filterung der Objekte nach Kategorie.",
+          "auraHistoria": "Schwerpunkt auf Kunst, Antiquitäten und Designobjekten. Das beschreibt einen Schwerpunkt, kein Qualitätsurteil.",
+          "verdict": "Aura Historia beim Schwerpunkt"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Viele Arten von Anbietern verändern, <em>was Sie sehen können</em>",
+      "sourcesLabel": "Anbietertypen",
+      "sources": {
+        "auctionHouses": "Auktionshäuser",
+        "auctionPlatforms": "Auktionsplattformen",
+        "antiqueDealers": "Kunst- und Antiquitätenhändler",
+        "privateSellers": "Private Verkäufer",
+        "marketplaces": "Marktplätze"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Händler und Shops erreichen",
+          "description": "Viele Händler und Shops verkaufen auf ihren eigenen Websites. Eine Suche über Anbieter hinweg zeigt ihre Objekte neben den Auktionsangeboten."
+        },
+        "offersSideBySide": {
+          "title": "Angebote nebeneinander sehen",
+          "description": "Angebotspreise von Händlern, Auktionsangebote und Marktplatzangebote stehen in einer Ergebnisliste, sodass Sie vergleichen können, was jetzt verfügbar ist."
+        },
+        "acrossLanguages": {
+          "title": "In fünf Sprachen suchen",
+          "description": "Wenn Angebote übersetzt sind und die Terminologie vereinheitlicht ist, ist ein Sammler weniger durch die Sprache des Verkäufers oder Auktionators eingeschränkt."
+        },
+        "watchAnObject": {
+          "title": "Ein einzelnes Objekt beobachten",
+          "description": "Eine Merkliste folgt einem Objekt und benachrichtigt Sie über Änderungen bei Preis und Verfügbarkeit, bei welchem Anbieter es auch gelistet ist."
+        }
+      }
+    },
+    "together": {
+      "title": "Hier Objekte finden, <em>dort bieten, wo sie angeboten werden</em>",
+      "paragraph1": "Beide haben unterschiedliche Aufgaben. Aura Historia zeigt, was wo angeboten wird. Auf einer Angebotsseite öffnet „Zur Seite des Anbieters“ das Angebot auf der eigenen Seite des Anbieters, in einem neuen Tab.",
+      "paragraph2": "Aura Historia veranstaltet keine Auktionen und nimmt keine Gebote an; Registrieren, Bieten oder Kaufen geschieht daher beim Anbieter. Um bei Catawiki zu bieten, registrieren Sie sich dort und bieten auf dessen Marktplatz. Aura Historia steht in keiner Verbindung zu Catawiki."
+    },
+    "faq": {
+      "title": "Häufige Fragen zu <em>Aura Historia und Catawiki</em>",
+      "items": {
+        "alternative": {
+          "question": "Ist Aura Historia eine Catawiki-Alternative?",
+          "answer": "Ja, für Käufer, die über einen einzelnen Auktionsort hinaus suchen möchten. Aura Historia durchsucht Auktionshäuser, Händler, Shops und Marktplätze nach Kunst, Antiquitäten und Designobjekten an einem Ort. Sie veranstaltet keine Auktionen und ist daher kein Ort zum Bieten. Catawiki bleibt ein kuratierter Marktplatz zum Bieten in wöchentlichen Online-Auktionen, mit dem Käuferschutz, den Catawiki beschreibt."
+        },
+        "replace": {
+          "question": "Ersetzt Aura Historia Catawiki?",
+          "answer": "Nein. Catawiki ist ein Verkaufsort: Dort finden Auktionen auf dem eigenen Marktplatz statt. Aura Historia ist eine Suche über viele Verkaufsorte hinweg und veranstaltet keine Auktionen. Sie können mit Aura Historia sehen, was bei verschiedenen Anbietern angeboten wird, und Catawiki nutzen, wo Sie in dessen Auktionen bieten möchten."
+        },
+        "bid": {
+          "question": "Kann ich über Aura Historia bieten?",
+          "answer": "Nein. Aura Historia veranstaltet keine Auktionen und nimmt keine Gebote an. Auf einer Angebotsseite öffnet „Zur Seite des Anbieters“ das Angebot auf der eigenen Seite des Anbieters in einem neuen Tab; Registrieren, Bieten oder Kaufen geschieht dort. Um bei Catawiki zu bieten, nutzen Sie Catawiki."
+        },
+        "dealerStock": {
+          "question": "Was ist besser für Händlerbestand und Festpreisangebote bei Kunst und Antiquitäten?",
+          "answer": "Für den Bestand von Händlern auf deren eigenen Websites eignet sich Aura Historia besser: Sie durchsucht Händler und Shops und zeigt deren Angebotspreise neben Auktionsangeboten. Catawiki veranstaltet Auktionen auf dem eigenen Marktplatz, und laut seinen Käuferbedingungen in der Fassung vom 18. März 2024 haben einige Objekte eine Option zum direkten Kauf. Was zu Ihnen passt, hängt davon ab, ob Sie in einer Auktion bieten oder sehen möchten, was Händler anbieten."
+        },
+        "languages": {
+          "question": "Was ist besser für die mehrsprachige Suche?",
+          "answer": "Es ist kein Unterschied dokumentiert. Laut den Nutzungsbedingungen von Catawiki in der Fassung vom 18. März 2024 sind Website und Apps in mehreren Sprachen verfügbar. Aura Historia bietet fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch und Italienisch), mit übersetzten Angeboten und vereinheitlichter Terminologie über Anbieter hinweg. Die Nutzungsbedingungen und Käuferbedingungen dieser Fassung erwähnen Terminologie nicht, und diese Seite behauptet in keiner Richtung einen Vorteil."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Catawiki ist ein kuratierter Ort für Auktionen. <em>Aura Historia durchsucht den weiteren Markt.</em>",
+      "description": "Wenn Ihre Suche neben Auktionshäusern auch Händler, Shops und Marktplätze einschließen soll, beginnen Sie mit Aura Historia.",
+      "button": "Kunst und Antiquitäten suchen"
+    },
+    "positioning": "Ein kuratierter Marktplatz mit wöchentlichen Online-Auktionen, verglichen mit einer Suche über Auktionshäuser, Händler und Marktplätze, die keine Auktionen veranstaltet."
+  },
+  "compareEbayPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "Suche nach Kunst und Antiquitäten",
+        "onlineMarketplace": "Online-Marktplatz",
+        "crossProviderSearch": "Suche über Händler, Auktionshäuser und Marktplätze hinweg",
+        "multilingualSearch": "mehrsprachige Suche nach Kunst und Antiquitäten",
+        "monitoring": "Merklisten und gespeicherte Suchen für Kunst und Antiquitäten"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Kurzfassung",
+        "advantages": "Wo sich Aura Historia unterscheidet",
+        "scorecard": "Vergleichstabelle",
+        "sources": "Anbietertypen",
+        "together": "Beides nutzen",
+        "faq": "FAQ",
+        "verdict": "Fazit"
+      }
+    },
+    "hero": {
+      "eyebrow": "Vergleich: Aura Historia vs. eBay",
+      "title": "Eine Suche für Kunst und Antiquitäten, <em>kein Marktplatz über viele Kategorien hinweg</em>",
+      "subtitle": "In seinem Geschäftsbericht für 2025 beschreibt eBay seinen Marktplatz als einen der größten der Welt und nennt Sammlerstücke unter seinen Schwerpunktkategorien. Aura Historia ist auf Kunst, Antiquitäten und Designobjekte ausgerichtet: Sie durchsucht Händler, Auktionshäuser und Marktplätze nebeneinander und vereinheitlicht die Terminologie über fünf Sprachen hinweg.",
+      "primaryCta": "Über Anbieter hinweg suchen",
+      "secondaryCta": "Vergleich ansehen",
+      "quickAnswerEyebrow": "Kurz gesagt",
+      "quickAnswerTitle": "eBay deckt viele Kategorien ab. <em>Aura Historia ist für Kunst und Antiquitäten.</em>",
+      "quickAnswerDescription": "<strong>Fazit:</strong> Wählen Sie eBay wegen seiner Reichweite und seiner sehr großen Auswahl über viele Kategorien hinweg, mit den Käuferschutzprogrammen, die eBay in seinem Geschäftsbericht für 2025 beschreibt. Wählen Sie Aura Historia, um Händler, Auktionshäuser und Marktplätze nebeneinander nach Kunst, Antiquitäten und Designobjekten zu durchsuchen und um Objekte über Anbieter hinweg zu beobachten."
+    },
+    "quickVerdicts": {
+      "reachAndSelection": {
+        "label": "Stark bei Reichweite und einer sehr großen Auswahl über viele Kategorien hinweg",
+        "value": "eBay"
+      },
+      "artAntiquesDesign": {
+        "label": "Stärker für eine Suche mit Schwerpunkt auf Kunst, Antiquitäten und Designobjekten",
+        "value": "Aura Historia"
+      },
+      "dealersAndAuctionHouses": {
+        "label": "Stärker für Händler, Auktionshäuser und Marktplätze in einer Suche",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Stärker für die Beobachtung über Anbieter hinweg",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "Die <em>Kurzfassung</em>",
+      "paragraph1": "Aura Historia ist eine Alternative zu eBay für Käufer, die eine auf Kunst, Antiquitäten und Designobjekte ausgerichtete Suche möchten: Händler, Auktionshäuser, Shops und Marktplätze an einem Ort, mit vereinheitlichter Terminologie über fünf Sprachen hinweg.",
+      "paragraph2": "eBay bleibt ein Marktplatz über viele Kategorien hinweg, auf dem man bei eBay kauft und verkauft. Aura Historia ist kein Marktplatz und verkauft keine Objekte. Sie zeigt, was wo angeboten wird, und gekauft wird beim Anbieter."
+    },
+    "respect": {
+      "title": "eBay ist ein Marktplatz mit <em>sehr großer Reichweite</em>",
+      "paragraph1": "Ein fairer Vergleich beginnt hier. In seinem Geschäftsbericht für 2025 beschreibt eBay seinen Marktplatz als einen der größten der Welt, nennt für Ende 2025 weltweit 135 Millionen aktive Käufer und 2,5 Milliarden aktive Angebote und führt Sammlerstücke unter seinen Schwerpunktkategorien auf.",
+      "paragraph2": "Aura Historia versucht nicht, das zu ersetzen. Sie beantwortet eine andere Frage: was Händler, Auktionshäuser, Shops und Marktplätze an Kunst, Antiquitäten und Designobjekten anbieten. Dass ein Objekt hier erscheint, macht Aura Historia nicht zu einem Ort zum Kaufen. Angebote erscheinen so, wie die Anbieter sie veröffentlichen, und gekauft wird beim Anbieter."
+    },
+    "advantages": {
+      "title": "Eine spezialisierte Suche, <em>ausgerichtet auf Kunst und Antiquitäten</em>",
+      "description": "Der Unterschied sind Schwerpunkt und Bandbreite: eine Suche nach Kunst, Antiquitäten und Designobjekten über Händler, Auktionshäuser und Marktplätze hinweg, mit vereinheitlichter Terminologie über fünf Sprachen und Beobachtung über Anbieter hinweg.",
+      "cards": {
+        "specialisedIndex": {
+          "title": "Eine Suche für Kunst und Antiquitäten",
+          "description": "Der Index gilt Kunst, Antiquitäten und Designobjekten. Das beschreibt einen Schwerpunkt, keine Rangfolge der Qualität."
+        },
+        "providerTypes": {
+          "title": "Händler, Auktionshäuser und Marktplätze",
+          "description": "Händler, Shops, Auktionshäuser und Marktplätze erscheinen mit den Objekten, die sie auf ihren eigenen Websites und Plattformen anbieten, in einer Ergebnisliste."
+        },
+        "terminologyAcrossLanguages": {
+          "title": "Terminologie über Sprachen hinweg",
+          "description": "Angebote sind übersetzt und die Terminologie ist über fünf Sprachen vereinheitlicht, sodass eine Suche in einer Sprache Objekte finden kann, die in einer anderen katalogisiert sind."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Beobachtung über Anbieter hinweg",
+          "description": "Merklisten, gespeicherte Suchen und Benachrichtigungen funktionieren über alle Anbieter im Index hinweg statt innerhalb eines einzelnen Marktplatzes."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia vs. eBay, <em>im direkten Vergleich</em>",
+      "description": "eBay ist ein Marktplatz über viele Kategorien hinweg, mit der Reichweite und den Käuferschutzprogrammen, die sein Geschäftsbericht für 2025 beschreibt. Aura Historia ist eine Suche über Anbieter hinweg, ausgerichtet auf Kunst, Antiquitäten und Designobjekte.",
+      "caption": "Vergleich von Aura Historia und eBay für die Suche nach Kunst und Antiquitäten",
+      "headers": {
+        "criterion": "Kriterium",
+        "auraHistoria": "Aura Historia",
+        "competitor": "eBay"
+      },
+      "rows": {
+        "reachAndBuyerBase": {
+          "criterion": "Reichweite und Käuferbasis",
+          "competitor": "In seinem Geschäftsbericht für 2025 nennt eBay für Ende 2025 weltweit 135 Millionen aktive Käufer (Käuferkonten, die in den vorangegangenen 12 Monaten eine Transaktion bezahlt haben) und 2,5 Milliarden aktive Angebote und beschreibt den Marktplatz als einen der größten der Welt.",
+          "auraHistoria": "Eine Suche über Anbieter hinweg, kein Marktplatz mit eigener Käuferbasis. Diese Seite stellt keinen Größenvergleich an.",
+          "verdict": "eBay"
+        },
+        "buyerProtection": {
+          "criterion": "Käuferschutzprogramme",
+          "competitor": "In seinem Geschäftsbericht für 2025 beschreibt eBay die eBay Money Back Guarantee, mit der Käufer eine Erstattung erhalten können, wenn ein Artikel nicht ankommt, beschädigt oder fehlerhaft ist oder erheblich von der Beschreibung abweicht, bei den meisten Käufen mit zulässigen Zahlungsmethoden, sowie eine Authenticity Guarantee für infrage kommende Luxus-, Sammler- und hochwertige Artikel in bestimmten Märkten.",
+          "auraHistoria": "Zeigt Angebote so, wie die Anbieter sie veröffentlichen. Aura Historia verkauft keine Objekte und nimmt dafür keine Zahlungen entgegen: Sie kaufen beim Anbieter, zu dessen eigenen Bedingungen.",
+          "verdict": "eBay"
+        },
+        "categoryFocus": {
+          "criterion": "Kategorie-Schwerpunkt",
+          "competitor": "In seinem Geschäftsbericht für 2025 nennt eBay Schwerpunktkategorien wie Kfz-Teile und -Zubehör, Sammlerstücke, generalüberholte Artikel, Bekleidung, Luxusgüter und Sneaker.",
+          "auraHistoria": "Schwerpunkt auf Kunst, Antiquitäten und Designobjekten. Das beschreibt einen Schwerpunkt, kein Qualitätsurteil.",
+          "verdict": "Aura Historia beim Schwerpunkt"
+        },
+        "providerTypes": {
+          "criterion": "Anbietertypen",
+          "competitor": "In seinem Geschäftsbericht für 2025 beschreibt eBay Verkäufer jeder Größe, von Einzelunternehmern bis zu global tätigen Unternehmen.",
+          "auraHistoria": "Händler, Shops, Auktionshäuser und Marktplätze, jeweils auf der eigenen Website oder Plattform, in einer Suche.",
+          "verdict": "Aura Historia über Anbieter hinweg"
+        },
+        "languagesAndTerminology": {
+          "criterion": "Sprachen und Terminologie",
+          "competitor": "In seinem Geschäftsbericht für 2025 beschreibt eBay seinen Online-Marktplatz und dessen lokalisierte Versionen und gibt an, dass seine Technologie Millionen von Käufern und Verkäufern in mehr als 190 Märkten unterstützt. Terminologie oder Suche über Sprachen hinweg beschreibt der Bericht nicht.",
+          "auraHistoria": "Fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch, Italienisch), mit übersetzten Angeboten und vereinheitlichter Terminologie über Anbieter hinweg.",
+          "verdict": "Kein dokumentierter Unterschied"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Viele Arten von Anbietern verändern, <em>was Sie sehen können</em>",
+      "sourcesLabel": "Anbietertypen",
+      "sources": {
+        "auctionHouses": "Auktionshäuser",
+        "auctionPlatforms": "Auktionsplattformen",
+        "antiqueDealers": "Kunst- und Antiquitätenhändler",
+        "privateSellers": "Private Verkäufer",
+        "marketplaces": "Marktplätze"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Händler und Shops erreichen",
+          "description": "Viele Händler und Shops verkaufen auf ihren eigenen Websites. Eine Suche über Anbieter hinweg zeigt ihre Objekte neben Auktionsangeboten und Marktplatzangeboten."
+        },
+        "offersSideBySide": {
+          "title": "Angebote nebeneinander sehen",
+          "description": "Angebotspreise von Händlern, Auktionsangebote und Marktplatzangebote stehen in einer Ergebnisliste, sodass Sie vergleichen können, was jetzt verfügbar ist."
+        },
+        "acrossLanguages": {
+          "title": "In fünf Sprachen suchen",
+          "description": "Wenn Angebote übersetzt sind und die Terminologie vereinheitlicht ist, ist ein Sammler weniger durch die Sprache des Verkäufers oder Auktionators eingeschränkt."
+        },
+        "watchAnObject": {
+          "title": "Ein einzelnes Objekt beobachten",
+          "description": "Eine Merkliste folgt einem Objekt und benachrichtigt Sie über Änderungen bei Preis und Verfügbarkeit, bei welchem Anbieter es auch gelistet ist."
+        }
+      }
+    },
+    "together": {
+      "title": "eBay für seinen Marktplatz, <em>Aura Historia für die Anbieter</em>",
+      "paragraph1": "Beide haben unterschiedliche Aufgaben. eBay ist ein Marktplatz über viele Kategorien hinweg, und gekauft wird bei eBay selbst. Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze an Kunst, Antiquitäten und Designobjekten anbieten. Auf einer Angebotsseite öffnet „Zur Seite des Anbieters“ das Angebot auf der eigenen Seite des Anbieters, in einem neuen Tab.",
+      "paragraph2": "Aura Historia verkauft keine Objekte; gekauft wird daher beim Anbieter. Um bei eBay zu kaufen, nutzen Sie eBay. Aura Historia steht in keiner Verbindung zu eBay."
+    },
+    "faq": {
+      "title": "Häufige Fragen zu <em>Aura Historia und eBay</em>",
+      "items": {
+        "alternative": {
+          "question": "Ist Aura Historia eine eBay-Alternative für Antiquitäten?",
+          "answer": "Ja, für Käufer, die eine auf Kunst, Antiquitäten und Designobjekte ausgerichtete Suche möchten. Aura Historia durchsucht Händler, Auktionshäuser, Shops und Marktplätze an einem Ort und vereinheitlicht die Terminologie über fünf Sprachen hinweg. Sie ist kein Marktplatz: Sie kaufen beim Anbieter. eBay bleibt ein sehr großer Marktplatz über viele Kategorien hinweg, mit den Käuferschutzprogrammen, die sein Geschäftsbericht für 2025 beschreibt."
+        },
+        "replace": {
+          "question": "Ersetzt Aura Historia eBay?",
+          "answer": "Nein. eBay ist ein Marktplatz über viele Kategorien hinweg, auf dem man bei eBay kauft und verkauft. Aura Historia ist eine Suche nach Kunst, Antiquitäten und Designobjekten und verkauft keine Objekte. Sie können mit Aura Historia sehen, was Händler, Auktionshäuser und Marktplätze anbieten, und eBay nutzen, wo Sie bei eBay kaufen möchten."
+        },
+        "rareArt": {
+          "question": "Was ist besser, um seltene Kunst und Antiquitäten von Händlern und Auktionshäusern zu finden?",
+          "answer": "Für die Suche bei Händlern und Auktionshäusern nebeneinander: Aura Historia. Sie ist auf Kunst, Antiquitäten und Designobjekte ausgerichtet und durchsucht Anbieter auf deren eigenen Websites und Plattformen. eBay ist ein Marktplatz, dessen Verkäufer nach seinem Geschäftsbericht für 2025 von Einzelunternehmern bis zu global tätigen Unternehmen reichen. Was besser passt, hängt davon ab, ob Sie Anbieter vergleichen oder innerhalb des eBay-Marktplatzes suchen möchten."
+        },
+        "everydayCollectibles": {
+          "question": "Was ist besser für alltägliche Sammlerstücke?",
+          "answer": "eBay. Sein Geschäftsbericht für 2025 führt Sammlerstücke unter den Schwerpunktkategorien auf und nennt für Ende 2025 weltweit 135 Millionen aktive Käufer. Aura Historia ist auf Kunst, Antiquitäten und Designobjekte ausgerichtet; alltägliche Sammlerstücke außerhalb dieses Schwerpunkts sind nicht ihr Zweck."
+        },
+        "authenticity": {
+          "question": "Übernimmt Aura Historia eine Gewähr für die Echtheit?",
+          "answer": "Nein. Angebote erscheinen so, wie ihre Quellen sie veröffentlichen, bei Bedarf übersetzt. Fragen zu Wert, Zustand und Echtheit klären Sie mit dem Anbieter."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "eBay deckt viele Kategorien ab. <em>Aura Historia ist auf Kunst und Antiquitäten ausgerichtet.</em>",
+      "description": "Wenn Ihre Suche Händler, Auktionshäuser und Marktplätze für Kunst, Antiquitäten und Designobjekte umfassen soll, beginnen Sie mit Aura Historia.",
+      "button": "Kunst und Antiquitäten suchen"
+    },
+    "positioning": "Ein Marktplatz über viele Kategorien hinweg, verglichen mit einer Suche über Händler, Auktionshäuser und Marktplätze, die auf Kunst, Antiquitäten und Designobjekte ausgerichtet ist."
+  },
+  "compareArtPriceDatabasesPage": {
+    "structuredData": {
+      "about": {
+        "crossProviderSearch": "Suche über Händler, Auktionshäuser und Marktplätze hinweg",
+        "monitoring": "Merklisten und gespeicherte Suchen für Kunst und Antiquitäten",
+        "priceDatabases": "Kunst-Preisdatenbanken",
+        "auctionResults": "Recherche von Auktionsergebnissen"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Kurzfassung",
+        "advantages": "Wo sich Aura Historia unterscheidet",
+        "scorecard": "Vergleichstabelle",
+        "sources": "Was jedes beantwortet",
+        "together": "Beides nutzen",
+        "faq": "FAQ",
+        "verdict": "Fazit"
+      }
+    },
+    "hero": {
+      "eyebrow": "Vergleich: Aura Historia vs. Kunst-Preisdatenbanken",
+      "title": "Vergangene Preise erzählen eine Geschichte. <em>Was jetzt angeboten wird, erzählt eine andere.</em>",
+      "subtitle": "Preisdatenbanken wie die Artnet Price Database, WorthPoint, MutualArt und Artprice halten fest, wofür Objekte verkauft wurden. Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze jetzt anbieten und was sich seither geändert hat. Beide beantworten unterschiedliche Fragen.",
+      "primaryCta": "Aktuelle Angebote durchsuchen",
+      "secondaryCta": "Vergleich ansehen",
+      "quickAnswerEyebrow": "Kurz gesagt",
+      "quickAnswerTitle": "Datenbanken zeigen, was verkauft wurde. <em>Aura Historia zeigt, was verfügbar ist.</em>",
+      "quickAnswerDescription": "<strong>Fazit:</strong> Nutzen Sie eine Preisdatenbank, um zu recherchieren, wofür vergleichbare Objekte verkauft wurden. Nutzen Sie Aura Historia, um zu sehen, was Händler, Auktionshäuser und Marktplätze jetzt anbieten, und um Preis- und Verfügbarkeitsänderungen über Anbieter hinweg zu beobachten. Auch Artnet und MutualArt beschreiben Benachrichtigungen. Aura Historia gibt keine Bewertungen ab."
+    },
+    "quickVerdicts": {
+      "pastResults": {
+        "label": "Stärker für die Recherche vergangener Preise und Auktionsergebnisse",
+        "value": "Preisdatenbanken"
+      },
+      "offeredNow": {
+        "label": "Stärker für das, was jetzt angeboten wird",
+        "value": "Aura Historia"
+      },
+      "watchingChanges": {
+        "label": "Stärker für die Beobachtung von Preis- und Verfügbarkeitsänderungen über Anbieter hinweg",
+        "value": "Aura Historia"
+      },
+      "alerts": {
+        "label": "Benachrichtigungen (Artnet und MutualArt beschreiben sie)",
+        "value": "Beide"
+      }
+    },
+    "summary": {
+      "title": "Die <em>Kurzfassung</em>",
+      "paragraph1": "Aura Historia ist weniger eine Alternative zu einer Preisdatenbank als deren Gegenstück. Datenbanken wie die Artnet Price Database, WorthPoint, MutualArt und Artprice halten fest, wofür Objekte verkauft wurden. Aura Historia zeigt, was Händler, Auktionshäuser, Shops und Marktplätze jetzt anbieten, und hält fest, wie sich jedes Angebot verändert.",
+      "paragraph2": "Sammler können beides nutzen: eine Datenbank, um zu erfahren, was ein Objekt erzielt hat, und Aura Historia, um zu sehen, wo vergleichbare Objekte angeboten werden und wie sie sich verändern. Aura Historia gibt keine Bewertungen ab."
+    },
+    "respect": {
+      "title": "Preisdatenbanken bieten <em>Zugang zu Auktionsergebnissen</em>",
+      "paragraph1": "Ein fairer Vergleich beginnt hier. Artnet beschreibt seine Price Database mit rund 18 Millionen Auktionsergebnissen, die bis 1985 zurückreichen (Seite der Price Database, November 2026). Die Muttergesellschaft von Artprice gibt an, ihre Datenbanken enthielten über 30 Millionen Indizes und Auktionsergebnisse, mit Auktionen, die sich bis 1700 zurückverfolgen lassen (November 2026). WorthPoint nannte in seiner Ergebnismitteilung vom Januar 2022 mehr als 610 Millionen archivierte Preise. MutualArt gibt an, Daten zu mehr als 900.000 Künstlern zu haben (November 2026).",
+      "paragraph2": "Das sind die eigenen Angaben der Unternehmen. Sie zählen Unterschiedliches, deshalb addiert diese Seite sie nicht und vergleicht sie mit keiner Zahl von Aura Historia. Preisrecherche ist deren Aufgabe. Aura Historia beantwortet eine andere Frage: was jetzt angeboten wird, von wem und was sich seither geändert hat. Aura Historia gibt keine Bewertungen ab.",
+      "status": "Am 15. April 2026 gaben Artsy und Artnet bekannt, dass sie ihre Kräfte unter gemeinsamer Leitung gebündelt haben. Laut der Mitteilung werden beide weiterhin als eigenständige Marken und Websites betrieben. Die Mitteilung nennt die Artnet Price Database weiterhin unter den Diensten von Artnet."
+    },
+    "advantages": {
+      "title": "Was jetzt angeboten wird, <em>und was sich ändert</em>",
+      "description": "Der Unterschied liegt in der Frage, die jedes der beiden beantwortet: Preisdatenbanken blicken auf vergangene Ergebnisse zurück; Aura Historia zeigt aktuelle Angebote über Anbieter hinweg und verfolgt, wie sie sich ändern.",
+      "cards": {
+        "offeredNow": {
+          "title": "Was jetzt angeboten wird",
+          "description": "Aktuelle Angebote von Händlern, Auktionshäusern, Shops und Marktplätzen, so wie die Anbieter sie veröffentlichen."
+        },
+        "askingPrices": {
+          "title": "Angebotspreise, wie die Anbieter sie veröffentlichen",
+          "description": "Die Angebotspreise der Anbieter stehen gemeinsam in einer Ergebnisliste, so wie sie veröffentlicht werden. Aura Historia gibt keine Bewertungen ab."
+        },
+        "watchingChanges": {
+          "title": "Änderungen über Anbieter hinweg beobachten",
+          "description": "Merklisten, gespeicherte Suchen und Benachrichtigungen verfolgen Preis- und Verfügbarkeitsänderungen bei allen Anbietern im Index."
+        },
+        "noAccount": {
+          "title": "Suchen ohne Konto",
+          "description": "Die Suche braucht kein Konto. Mit einem Konto kommen Merklisten, gespeicherte Suchen und Benachrichtigungen hinzu."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia vs. Preisdatenbanken, <em>im direkten Vergleich</em>",
+      "description": "Preisdatenbanken wie Artnet, WorthPoint, MutualArt und Artprice recherchieren, wofür Objekte verkauft wurden. Aura Historia zeigt, was jetzt angeboten wird. Wo sich die vier unterscheiden, nennt die Zelle, welche gemeint ist.",
+      "caption": "Vergleich von Aura Historia und Kunst-Preisdatenbanken",
+      "headers": {
+        "criterion": "Kriterium",
+        "auraHistoria": "Aura Historia",
+        "competitor": "Preisdatenbanken (Artnet, WorthPoint, MutualArt, Artprice)"
+      },
+      "rows": {
+        "historicalDepth": {
+          "criterion": "Historische Tiefe und Ergebnisrecherche",
+          "competitor": "Artnet beschreibt seine Price Database mit rund 18 Millionen Auktionsergebnissen, die bis 1985 zurückreichen (November 2026). Die Muttergesellschaft von Artprice gibt an, ihre Datenbanken enthielten über 30 Millionen Indizes und Auktionsergebnisse (November 2026). WorthPoint nannte in seiner Ergebnismitteilung vom Januar 2022 mehr als 610 Millionen archivierte Preise. Die Zahlen zählen Unterschiedliches und werden hier weder addiert noch verglichen.",
+          "auraHistoria": "Kein Archiv vergangener Auktionsergebnisse. Eine Angebotsseite zeigt die Änderungen, die Aura Historia für dieses Angebot seit der ersten Erfassung festgehalten hat.",
+          "verdict": "Preisdatenbanken"
+        },
+        "currentAvailability": {
+          "criterion": "Aktuelle Verfügbarkeit",
+          "competitor": "Ausgerichtet auf Ergebnisse vergangener Verkäufe. Artnet gibt an, dass kommende Auktionen in seinen Datenbanken enthalten sind, MutualArt listet Kunstwerke zum Verkauf und kommende Auktionslose, und die Muttergesellschaft von Artprice beschreibt einen Marktplatz für Werke zu Festpreisen oder per Auktion (November 2026).",
+          "auraHistoria": "Aktuelle Angebote von Händlern, Auktionshäusern, Shops und Marktplätzen, so wie die Anbieter sie veröffentlichen, in einer Suche.",
+          "verdict": "Aura Historia über Anbieter hinweg"
+        },
+        "alerts": {
+          "criterion": "Benachrichtigungen",
+          "competitor": "Artnet führt Market Alerts auf, und MutualArt beschreibt E-Mail-Benachrichtigungen für gefolgte Künstler, Veranstaltungsorte und Standorte.",
+          "auraHistoria": "Merklisten, gespeicherte Suchen und Benachrichtigungen über alle Anbieter im Index, mit Preis- und Verfügbarkeitsänderungen bei beobachteten Objekten.",
+          "verdict": "Auch Artnet und MutualArt bieten Benachrichtigungen"
+        },
+        "valuation": {
+          "criterion": "Wertermittlung",
+          "competitor": "Preisdatenbanken liefern vergangene Ergebnisse für die Preisrecherche. MutualArt beschreibt außerdem Online-Wertgutachten für Kunst im eigenen Besitz.",
+          "auraHistoria": "Gibt keine Bewertungen oder Wertgutachten ab. Angebote erscheinen so, wie die Anbieter sie veröffentlichen, und ein Angebotspreis ist der des Anbieters.",
+          "verdict": "MutualArt für Wertgutachten"
+        },
+        "accessModel": {
+          "criterion": "Zugang",
+          "competitor": "Artnet, MutualArt, WorthPoint und Artprice beschreiben jeweils entgeltliche Tarife oder Abonnements für ihre Datenbanken. Diese Seite vergleicht keine Preise.",
+          "auraHistoria": "Die Suche braucht kein Konto. Mit einem Konto kommen Merklisten, gespeicherte Suchen und Benachrichtigungen hinzu.",
+          "verdict": "Unterschiedliche Modelle"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Zwei Werkzeuge beantworten <em>zwei Fragen</em>",
+      "sourcesLabel": "Fragen",
+      "sources": {
+        "pastSale": "Wofür wurde es verkauft?",
+        "artistResults": "Wie haben sich die Ergebnisse eines Künstlers entwickelt?",
+        "offeredNow": "Wo wird ein vergleichbares Objekt jetzt angeboten?",
+        "listingChanges": "Hat sich Preis oder Verfügbarkeit dieses Angebots geändert?",
+        "acrossProviders": "Was bieten Händler, Auktionshäuser und Marktplätze an?"
+      },
+      "cards": {
+        "pastResults": {
+          "title": "Vergangene Ergebnisse",
+          "description": "Eine Preisdatenbank hält Auktionsergebnisse fest und beantwortet damit, wofür vergleichbare Objekte verkauft wurden."
+        },
+        "currentOffers": {
+          "title": "Aktuelle Angebote",
+          "description": "Aura Historia listet auf, was Händler, Auktionshäuser, Shops und Marktplätze jetzt anbieten, nebeneinander in einer Ergebnisliste."
+        },
+        "listingHistory": {
+          "title": "Die eigene Geschichte eines Angebots",
+          "description": "Eine Angebotsseite zeigt die Preis- und Verfügbarkeitsänderungen, die Aura Historia für dieses Angebot seit der ersten Erfassung festgehalten hat. Das ist die Geschichte des Angebots selbst, keine Marktergebnisse."
+        },
+        "similarObjects": {
+          "title": "Vergleichbare Objekte in einer Suche",
+          "description": "Suchergebnisse zeigen viele Anbieter nebeneinander. Eine Suche nach einer Objektart zeigt daher, wo sie angeboten wird und zu welchem Angebotspreis."
+        }
+      }
+    },
+    "together": {
+      "title": "Eine Datenbank für das Verkaufte, <em>Aura Historia für das Angebotene</em>",
+      "paragraph1": "Nutzen Sie eine Preisdatenbank, um zu erfahren, was ein Objekt erzielt hat. Nutzen Sie Aura Historia, um zu sehen, wo vergleichbare Objekte jetzt angeboten werden und wie sie sich verändern. Auf einer Angebotsseite öffnet „Zur Seite des Anbieters“ das Angebot auf der eigenen Seite des Anbieters, in einem neuen Tab.",
+      "paragraph2": "Aura Historia gibt keine Bewertungen ab. Für ein Wertgutachten wenden Sie sich an einen Gutachter. Aura Historia steht in keiner Verbindung zu Artnet, WorthPoint, MutualArt oder Artprice."
+    },
+    "faq": {
+      "title": "Häufige Fragen zu <em>Aura Historia und Preisdatenbanken</em>",
+      "items": {
+        "alternativeArtnet": {
+          "question": "Ist Aura Historia eine Alternative zu Artnet?",
+          "answer": "Nicht im üblichen Sinn. Die Artnet Price Database hält fest, wofür Objekte verkauft wurden: Artnet beschreibt sie mit rund 18 Millionen Auktionsergebnissen, die bis 1985 zurückreichen (Seite der Price Database, November 2026). Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze jetzt anbieten. Beide beantworten unterschiedliche Fragen und ergänzen sich gut. Aura Historia gibt keine Bewertungen ab."
+        },
+        "alternativeWorthPoint": {
+          "question": "Ist Aura Historia eine Alternative zu WorthPoint?",
+          "answer": "Nicht im üblichen Sinn. WorthPoint ist eine Preisdatenbank: In seiner Ergebnismitteilung vom Januar 2022 nannte es mehr als 610 Millionen archivierte Preise, gesammelt von Online-Marktplätzen und Auktionshäusern. Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze jetzt anbieten. Nutzen Sie WorthPoint, um vergangene Preise zu recherchieren, und Aura Historia, um aktuelle Angebote zu sehen. Aura Historia gibt keine Bewertungen ab."
+        },
+        "alternativeArtpriceMutualArt": {
+          "question": "Ist Aura Historia eine Alternative zu Artprice oder MutualArt?",
+          "answer": "Nicht im üblichen Sinn. Artprice und MutualArt bieten beide Zugang zu Auktionsergebnissen: Die Muttergesellschaft von Artprice gibt an, ihre Datenbanken enthielten über 30 Millionen Indizes und Auktionsergebnisse (November 2026), und MutualArt gibt an, Daten zu mehr als 900.000 Künstlern zu haben (November 2026). Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze jetzt anbieten. MutualArt beschreibt außerdem Online-Wertgutachten, die Aura Historia nicht anbietet."
+        },
+        "worth": {
+          "question": "Kann Aura Historia mir sagen, was mein Objekt wert ist?",
+          "answer": "Nein. Aura Historia gibt keine Bewertungen ab. Die Seite zeigt Angebote, wie die Anbieter sie veröffentlichen, und ein Angebotspreis ist der des Anbieters. Um zu erfahren, was ein Objekt wert ist, wenden Sie sich an einen Gutachter, und nutzen Sie eine Preisdatenbank, um zu sehen, wofür vergleichbare Objekte verkauft wurden."
+        },
+        "similarOffers": {
+          "question": "Wo sehe ich, wofür ähnliche Objekte angeboten werden?",
+          "answer": "Suchen Sie nach der Objektart. Die Ergebnisse zeigen Händler, Auktionshäuser, Shops und Marktplätze nebeneinander, mit ihren Preisen, wie sie veröffentlicht sind, sodass Sie sehen, wo vergleichbare Objekte angeboten werden. Eine Angebotsseite ergänzt den eigenen Preisverlauf dieses Angebots seit der ersten Erfassung durch Aura Historia. Beides ist keine Bewertung, und Preise vergangener Verkäufe sind Sache einer Preisdatenbank."
+        },
+        "pastResults": {
+          "question": "Zeigt Aura Historia vergangene Auktionsergebnisse?",
+          "answer": "Nicht als Ergebnisdatenbank. Aura Historia listet auf, was Anbieter anbieten, und hält Änderungen an jedem Angebot ab dem Tag der ersten Erfassung fest, sodass eine Angebotsseite ihren eigenen Preis- und Verfügbarkeitsverlauf zeigt. Ein Angebot, das verkauft oder zurückgezogen wurde, kann sichtbar bleiben, und wo ein Verkauf beobachtet wurde, trägt der Preis die Bezeichnung „Beobachteter Verkaufspreis“. Es ist kein Archiv von Auktionsergebnissen, und der Verlauf beginnt mit der ersten Erfassung eines Angebots durch Aura Historia. Für vergangene Ergebnisse nutzen Sie eine Preisdatenbank."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Datenbanken sagen, was verkauft wurde. <em>Aura Historia zeigt, was am Markt ist.</em>",
+      "description": "Um zu sehen, was Händler, Auktionshäuser und Marktplätze jetzt anbieten, und um zu verfolgen, wie es sich ändert, beginnen Sie mit Aura Historia.",
+      "button": "Angebote am Markt ansehen"
+    },
+    "positioning": "Preisdatenbanken, die festhalten, wofür Objekte verkauft wurden, im Vergleich zu einer Suche über Händler, Auktionshäuser und Marktplätze, die zeigt, was jetzt angeboten wird."
   },
   "adminUsers": {
     "title": "Benutzerverwaltung",
@@ -4514,6 +5944,18 @@
     "confirm": {
       "retireTitle": "„{{label}}“ stilllegen?",
       "restoreTitle": "„{{label}}“ reaktivieren?"
+    }
+  },
+  "comparison": {
+    "lastReviewed": "Zuletzt geprüft am <time>{{date}}</time>",
+    "statusLabel": "Status",
+    "nav": {
+      "label": "Auf dieser Seite"
+    },
+    "otherComparisons": {
+      "title": "Weitere <em>Vergleiche</em>",
+      "description": "Wie sich Aura Historia zu anderen Diensten im Kunst- und Antiquitätenmarkt verhält.",
+      "linkTitle": "Aura Historia vs. {{name}}"
     }
   },
   "fallback": {

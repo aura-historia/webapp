@@ -1,0 +1,230 @@
+import { act, screen, within } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+
+import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
+import {
+    type ComparisonDefinition,
+    getComparisonChapters,
+    getComparisonFaq,
+    getComparisonNav,
+} from "@/features/comparison/config/comparisonDefinition.ts";
+import { COMPARISON_REGISTRY } from "@/features/comparison/config/comparisonRegistry.ts";
+import { ComparisonPage } from "@/features/comparison/pages/ComparisonPage.tsx";
+import i18n from "@/i18n/i18nForTests";
+import { renderWithRouter } from "@/test/utils";
+
+function t(key: string, options?: Record<string, unknown>) {
+    return i18n.t(key, options);
+}
+
+function plain(key: string) {
+    return t(key).replace(/<\/?(em|strong)>/g, "");
+}
+
+async function renderPage(definition: ComparisonDefinition = BARNEBYS_COMPARISON) {
+    let result: ReturnType<typeof renderWithRouter> | undefined;
+    await act(async () => {
+        result = renderWithRouter(<ComparisonPage definition={definition} />);
+    });
+    return result as ReturnType<typeof renderWithRouter>;
+}
+
+describe("ComparisonPage with the Barnebys definition", () => {
+    it("renders one h1 and an h2 with an id for every chapter", async () => {
+        const { container } = await renderPage();
+
+        expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+        expect(
+            screen.getByRole("heading", {
+                level: 1,
+                name: plain("compareBarnebysPage.hero.title"),
+            }),
+        ).toBeInTheDocument();
+
+        const ids = getComparisonChapters(BARNEBYS_COMPARISON);
+        expect(ids).toEqual([
+            "summary",
+            "respect",
+            "advantages",
+            "scorecard",
+            "sources",
+            "alerts",
+            "faq",
+            "verdict",
+        ]);
+        for (const sectionId of ids) {
+            const section = container.querySelector(`section#${sectionId}`);
+            expect(section).not.toBeNull();
+            const headingId = section?.getAttribute("aria-labelledby") ?? "";
+            expect(section?.querySelector(`h2#${headingId}`)).not.toBeNull();
+        }
+    });
+
+    it("sets the closing phrase of a headline in italics", async () => {
+        await renderPage();
+
+        const heading = screen.getByRole("heading", {
+            level: 2,
+            name: plain("compareBarnebysPage.summary.title"),
+        });
+        expect(heading.querySelector("em")).toHaveTextContent("Kurzfassung");
+    });
+
+    it("links every chapter in the nav, derived from the definition", async () => {
+        await renderPage();
+
+        const nav = screen.getByRole("navigation", { name: t("comparison.nav.label") });
+        const links = within(nav).getAllByRole("link");
+
+        expect(links.map((link) => link.getAttribute("href"))).toEqual([
+            "#summary",
+            "#advantages",
+            "#scorecard",
+            "#sources",
+            "#alerts",
+            "#faq",
+            "#verdict",
+        ]);
+        expect(within(nav).getByRole("link", { name: /Vergleichstabelle/ })).toHaveAttribute(
+            "href",
+            "#scorecard",
+        );
+    });
+
+    it("shows the quick answer as a section that leads with the verdict, with a tie badge", async () => {
+        await renderPage();
+
+        const quickAnswer = screen.getByRole("region", {
+            name: plain("compareBarnebysPage.hero.quickAnswerTitle"),
+        });
+        expect(quickAnswer.tagName).toBe("SECTION");
+        expect(within(quickAnswer).getByText("Fazit:").tagName).toBe("STRONG");
+        expect(within(quickAnswer).getAllByRole("definition")).toHaveLength(4);
+
+        const badges = [...quickAnswer.querySelectorAll("[data-winner]")];
+        expect(badges.map((badge) => badge.getAttribute("data-winner"))).toEqual([
+            "competitor",
+            "aura",
+            "aura",
+            "tie",
+        ]);
+        expect(badges[3]).toHaveTextContent(
+            t("compareBarnebysPage.quickVerdicts.searchAlerts.value"),
+        );
+    });
+
+    it("prints the fixed review date in a time element", async () => {
+        const { container } = await renderPage();
+
+        const time = container.querySelector("time");
+        expect(time).toHaveAttribute("datetime", BARNEBYS_COMPARISON.lastReviewed);
+        expect(time).toHaveTextContent("8. November 2026");
+    });
+
+    it("shows the dated status note in the respect chapter", async () => {
+        const { container } = await renderPage();
+
+        const respect = container.querySelector("section#respect");
+        expect(respect).toHaveTextContent(t("comparison.statusLabel"));
+        expect(respect).toHaveTextContent(t("compareBarnebysPage.respect.status"));
+    });
+
+    it("keeps the scorecard a real table with row and column headers", async () => {
+        await renderPage();
+
+        const table = screen.getByRole("table", {
+            name: t("compareBarnebysPage.scorecard.caption"),
+        });
+        const columnHeaders = within(table).getAllByRole("columnheader");
+        expect(columnHeaders).toHaveLength(3);
+        expect(columnHeaders[1]).toHaveTextContent("Barnebys");
+        expect(within(table).getAllByRole("rowheader")).toHaveLength(
+            BARNEBYS_COMPARISON.scorecardRows.length,
+        );
+        expect(
+            within(table).getByText(
+                t("compareBarnebysPage.scorecard.rows.searchAlerts.auraHistoria"),
+            ),
+        ).toBeInTheDocument();
+        expect(
+            within(table).getByText(
+                t("compareBarnebysPage.scorecard.rows.auctionHeritage.competitor"),
+            ),
+        ).toBeInTheDocument();
+    });
+
+    it("keeps every FAQ answer in the DOM under a stable anchor", async () => {
+        const { container } = await renderPage();
+
+        const faq = getComparisonFaq(BARNEBYS_COMPARISON);
+        expect(faq.map((item) => item.anchor)).toEqual([
+            "faq-alternative",
+            "faq-replace",
+            "faq-status",
+            "faq-faster-alerts",
+            "faq-multilingual-search",
+            "faq-outside-auctions",
+        ]);
+        for (const item of faq) {
+            const entry = container.querySelector(`#${item.anchor}`);
+            expect(entry).not.toBeNull();
+            expect(entry).toHaveTextContent(t(item.questionKey));
+            expect(entry).toHaveTextContent(t(item.answerKey));
+        }
+    });
+
+    it("lists the source types", async () => {
+        await renderPage();
+
+        const sources = screen.getByRole("list", {
+            name: t("compareBarnebysPage.downstream.sourcesLabel"),
+        });
+        expect(within(sources).getAllByRole("listitem")).toHaveLength(5);
+    });
+
+    it("lists the other published comparisons in the cross-link block, not itself", async () => {
+        await renderPage();
+
+        const block = screen.getByRole("region", {
+            name: plain("comparison.otherComparisons.title"),
+        });
+        const links = within(block).getAllByRole("link");
+        const others = COMPARISON_REGISTRY.filter((entry) => entry.slug !== "barnebys");
+        expect(links).toHaveLength(COMPARISON_REGISTRY.length - 1);
+        expect(links.map((link) => link.getAttribute("href"))).toEqual(
+            others.map((entry) => `/de/compare/${entry.slug}`),
+        );
+        others.forEach((entry, index) => {
+            expect(links[index]).toHaveTextContent(
+                t("comparison.otherComparisons.linkTitle", { name: entry.competitorName }),
+            );
+        });
+    });
+
+    it("uses internal calls to action and never links to Barnebys", async () => {
+        const { container } = await renderPage();
+
+        expect(
+            screen.getByRole("link", { name: t("compareBarnebysPage.hero.primaryCta") }),
+        ).toHaveAttribute("href", "/de#hero-search");
+        expect(
+            screen.getByRole("link", { name: t("compareBarnebysPage.hero.secondaryCta") }),
+        ).toHaveAttribute("href", "#scorecard");
+        expect(
+            screen.getByRole("link", { name: t("compareBarnebysPage.finalCta.button") }),
+        ).toHaveAttribute("href", "/de#hero-search");
+        expect(container.querySelectorAll('a[href*="barnebys" i]')).toHaveLength(0);
+    });
+
+    it("derives the nav markers from the chapters", () => {
+        expect(getComparisonNav(BARNEBYS_COMPARISON).map((item) => item.marker)).toEqual([
+            "I",
+            "III",
+            "IV",
+            "V",
+            "VI",
+            "VII",
+            "→",
+        ]);
+    });
+});

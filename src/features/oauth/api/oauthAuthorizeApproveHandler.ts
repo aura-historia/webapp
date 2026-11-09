@@ -4,6 +4,7 @@ import { setListingSourceIdOnRedirectUri } from "@/features/oauth/lib/oauthAutho
 import { z } from "zod";
 import { isSupportedLanguage, localizePathname } from "@/i18n/routing.ts";
 import { isWooCommerceBrokerCallback } from "@/features/oauth-client-broker/lib/brokerUrls.ts";
+import { isMetadataDocumentClientId } from "@/data/internal/oauth/OAuthClient.ts";
 
 const AUTHORIZE_ENDPOINT = "/v1/oauth/authorize";
 const LOGIN_PATH = "/login";
@@ -28,7 +29,14 @@ const oauthAuthorizeFormSchema = z
         code_challenge_method: z.literal("S256"),
     })
     // A client that asks for a source needs it in its callback: never request a code without one.
-    .refine((form) => !form.requires_listing_source_id || Boolean(form.listing_source_id));
+    .refine((form) => !form.requires_listing_source_id || Boolean(form.listing_source_id))
+    // Metadata document clients request account scopes only; consent never posts source routing
+    // for them, so a post that carries it was not made by the consent page.
+    .refine(
+        (form) =>
+            !isMetadataDocumentClientId(form.client_id) ||
+            (!form.requires_listing_source_id && form.listing_source_id === undefined),
+    );
 
 type OAuthAuthorizeFormData = z.infer<typeof oauthAuthorizeFormSchema>;
 

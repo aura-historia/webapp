@@ -1,7 +1,7 @@
 import { CircleAlert, Info, Link2 } from "lucide-react";
 import { type ReactNode, useId, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import type { OAuthClient } from "@/data/internal/oauth/OAuthClient.ts";
+import type { OAuthConsentClient } from "@/data/internal/oauth/OAuthClient.ts";
 import type { PartnerApplication } from "@/data/internal/partner-application/OwnPartnershipApplication.ts";
 import { Spinner } from "@/components/ui/spinner.tsx";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
@@ -67,7 +67,7 @@ const PATH_STEPS = ["apply", "review", "connect"] as const;
 const ROMAN = ["I", "II", "III"] as const;
 
 interface OAuthNoProviderConsentProps {
-    readonly client: OAuthClient;
+    readonly client: OAuthConsentClient;
     /** Blocks between the request line and the panel, e.g. the WooCommerce recipient. */
     readonly children?: ReactNode;
     /**

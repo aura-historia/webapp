@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Equal } from "lucide-react";
 import type { ReactNode } from "react";
 
-import type { ComparisonWinner } from "@/features/comparison/config/barnebysComparison.data.ts";
+import type { ComparisonWinner } from "@/features/comparison/config/comparisonDefinition.ts";
 import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navigationConfig.ts";
 import { HERO_SEARCH_ID } from "@/features/landing/components/hero-section/HeroSearch.tsx";
 import { cn } from "@/lib/utils.ts";
@@ -100,7 +100,16 @@ export function ComparisonHeading({
     );
 }
 
-/** The verdict pill: oxblood with a check for Aura Historia, an outline for Barnebys. */
+const WINNER_BADGE_CLASS: Record<ComparisonWinner, string> = {
+    aura: "bg-oxblood text-on-oxblood",
+    competitor: "text-ink shadow-[inset_0_0_0_1px_var(--line-strong)]",
+    tie: "text-ink-secondary shadow-[inset_0_0_0_1px_var(--line)]",
+};
+
+/**
+ * The verdict pill: oxblood with a check for Aura Historia, an outline for the competitor and a
+ * quieter outline with an equals sign for a tie.
+ */
 export function WinnerBadge({
     winner,
     children,
@@ -110,15 +119,17 @@ export function WinnerBadge({
 }) {
     return (
         <span
+            data-winner={winner}
             className={cn(
                 "inline-flex items-center gap-1.5 rounded-pill px-2.5 py-1.5 font-mono text-[10.5px] leading-none tracking-[0.1em] whitespace-nowrap uppercase",
-                winner === "aura"
-                    ? "bg-oxblood text-on-oxblood"
-                    : "text-ink shadow-[inset_0_0_0_1px_var(--line-strong)]",
+                WINNER_BADGE_CLASS[winner],
             )}
         >
             {winner === "aura" && (
                 <Check className="size-3 shrink-0" strokeWidth={2.4} aria-hidden="true" />
+            )}
+            {winner === "tie" && (
+                <Equal className="size-3 shrink-0" strokeWidth={2.2} aria-hidden="true" />
             )}
             {children}
         </span>

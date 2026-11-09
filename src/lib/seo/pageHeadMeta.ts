@@ -14,7 +14,7 @@ type HeadMeta = {
     scripts?: Array<{ type: string; children: string }>;
 };
 
-type PageMetaKey =
+export type PageMetaKey =
     | "home"
     | "about"
     | "search"
@@ -35,7 +35,14 @@ type PageMetaKey =
     | "partnerApplications"
     | "partnerAccessTokens"
     | "partnerListingSources"
+    | "compareArtsy"
     | "compareBarnebys"
+    | "compareInvaluable"
+    | "compare1stdibs"
+    | "compareLiveauctioneers"
+    | "compareCatawiki"
+    | "compareEbay"
+    | "compareArtPriceDatabases"
     | "admin";
 
 const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string }> = {
@@ -110,9 +117,37 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     partnerListingSources: {
         title: "meta.partnerListingSources.title",
     },
+    compareArtsy: {
+        title: "meta.compareArtsy.title",
+        description: "meta.compareArtsy.description",
+    },
     compareBarnebys: {
         title: "meta.compareBarnebys.title",
         description: "meta.compareBarnebys.description",
+    },
+    compareInvaluable: {
+        title: "meta.compareInvaluable.title",
+        description: "meta.compareInvaluable.description",
+    },
+    compare1stdibs: {
+        title: "meta.compare1stdibs.title",
+        description: "meta.compare1stdibs.description",
+    },
+    compareLiveauctioneers: {
+        title: "meta.compareLiveauctioneers.title",
+        description: "meta.compareLiveauctioneers.description",
+    },
+    compareCatawiki: {
+        title: "meta.compareCatawiki.title",
+        description: "meta.compareCatawiki.description",
+    },
+    compareEbay: {
+        title: "meta.compareEbay.title",
+        description: "meta.compareEbay.description",
+    },
+    compareArtPriceDatabases: {
+        title: "meta.compareArtPriceDatabases.title",
+        description: "meta.compareArtPriceDatabases.description",
     },
     admin: {
         title: "meta.admin.title",
