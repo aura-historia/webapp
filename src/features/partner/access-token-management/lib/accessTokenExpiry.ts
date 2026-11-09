@@ -16,9 +16,14 @@ export function getAccessTokenExpiryState(
     accessToken: AccessToken,
     now: number | null,
 ): AccessTokenExpiryState {
-    if (accessToken.expiresAt === null) return "none";
+    return getExpiryState(accessToken.expiresAt, now);
+}
+
+/** Like `getAccessTokenExpiryState`, for any expiry date. */
+export function getExpiryState(expiresAt: Date | null, now: number | null): AccessTokenExpiryState {
+    if (expiresAt === null) return "none";
     if (now === null) return "later";
-    const remaining = accessToken.expiresAt.getTime() - now;
+    const remaining = expiresAt.getTime() - now;
     if (remaining <= 0) return "expired";
     return remaining <= EXPIRING_SOON_MS ? "soon" : "later";
 }

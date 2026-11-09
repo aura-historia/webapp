@@ -2444,18 +2444,18 @@
       "pending": "Wird gelöscht…"
     },
     "deleteAll": {
-      "success": "Alle Zugriffstoken wurden gelöscht.",
-      "heading": "Alle Zugriffstoken löschen",
-      "lead": "Jede Integration, die eines davon verwendet, funktioniert ab sofort nicht mehr.",
+      "success": "Alle persönlichen Zugriffstoken wurden gelöscht.",
+      "heading": "Alle persönlichen Zugriffstoken löschen",
+      "lead": "Jede Integration, die eines davon verwendet, funktioniert ab sofort nicht mehr. Verbundene Apps bleiben verbunden.",
       "openEllipsis": "Alle löschen…",
-      "confirmTitle_one": "{{count}} Zugriffstoken löschen?",
-      "confirmTitle_other": "Alle {{count}} Zugriffstoken löschen?",
-      "confirmDescription_one": "Das Token wird endgültig gelöscht. Jede Integration, die es verwendet, funktioniert ab sofort nicht mehr.",
-      "confirmDescription_other": "Alle {{count}} Token werden endgültig gelöscht. Jede Integration, die eines davon verwendet, funktioniert ab sofort nicht mehr.",
+      "confirmTitle_one": "{{count}} persönliches Zugriffstoken löschen?",
+      "confirmTitle_other": "Alle {{count}} persönlichen Zugriffstoken löschen?",
+      "confirmDescription_one": "Das Token wird endgültig gelöscht. Jede Integration, die es verwendet, funktioniert ab sofort nicht mehr. Verbundene Apps bleiben verbunden.",
+      "confirmDescription_other": "Alle {{count}} Token werden endgültig gelöscht. Jede Integration, die eines davon verwendet, funktioniert ab sofort nicht mehr. Verbundene Apps bleiben verbunden.",
       "confirmAll_one": "{{count}} Token löschen",
       "confirmAll_other": "Alle {{count}} Token löschen"
     },
-    "loading": "Zugriffstoken werden geladen.",
+    "loading": "Zugriffstoken und verbundene Apps werden geladen…",
     "empty": "Sie haben noch keine Zugriffstoken gespeichert.",
     "expiresAt": "Läuft ab am {{date}}",
     "expiredAt": "Abgelaufen am {{date}}",
@@ -2504,11 +2504,9 @@
       "allSelectedNote": "Dieses Token erhält jede Berechtigung, auch Schreibzugriff. Wählen Sie die Berechtigungen ab, die die Integration nicht benötigt."
     },
     "heading": "Ihre <em>Zugriffstoken.</em>",
-    "lead": "Mit Zugriffstoken ruft Ihre Integration die Aura Historia API für Ihr Konto auf. Geben Sie jedem nur die Berechtigungen, die es braucht.",
+    "lead": "Alles, was für Ihr Konto handeln kann: die Apps und KI-Agenten, die Sie per Anmeldung verbunden haben, und die Token, die Sie für Ihre eigenen Integrationen erstellt haben.",
     "loadErrorHeading": "Zugriffstoken <em>nicht verfügbar.</em>",
-    "loadErrorDescription": "Ihre Zugriffstoken konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
-    "emptyHeading": "Noch keine <em>Zugriffstoken.</em>",
-    "emptyDescription": "Erstellen Sie ein Token, wenn Sie eine Integration verbinden, und geben Sie ihm nur die nötigen Berechtigungen.",
+    "loadErrorDescription": "Ihre Zugriffstoken und verbundenen Apps konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
     "permissions": "Berechtigungen",
     "showMore_one": "+{{count}} weitere",
     "showMore_other": "+{{count}} weitere",
@@ -2520,6 +2518,49 @@
       "expired": "Abgelaufen",
       "expiredCount_one": "{{count}} funktioniert nicht mehr",
       "expiredCount_other": "{{count}} funktionieren nicht mehr"
+    },
+    "connectedApps": {
+      "heading": "Verbundene <em>Apps.</em>",
+      "lead": "Apps und KI-Agenten, denen Sie die Nutzung Ihres Kontos erlaubt haben. Wenn Sie eine trennen, endet ihr Zugriff sofort; Sie können sie jederzeit erneut verbinden.",
+      "count_one": "{{count}} verbunden",
+      "count_other": "{{count}} verbunden",
+      "kind": {
+        "agent": "KI-Agent",
+        "browser": "Browser-Agenten",
+        "integration": "Integration"
+      },
+      "browserAgentsName": "KI-Agenten in Ihrem Browser",
+      "meta": {
+        "connected": "Verbunden",
+        "lastUsed": "Zuletzt genutzt",
+        "tokens": "Token",
+        "expiry": "Ablauf"
+      },
+      "empty": {
+        "title": "Keine verbundenen Apps.",
+        "description": "Sobald Sie einer App oder einem KI-Agenten die Nutzung Ihres Kontos erlauben, erscheint sie hier, und Sie können sie jederzeit trennen."
+      },
+      "disconnect": {
+        "open": "Trennen",
+        "openAriaLabel": "{{name}} trennen",
+        "confirmTitle": "{{name}} trennen?",
+        "agentDescription": "Der Zugriff auf Ihr Konto endet sofort, auch die gespeicherte Anmeldung. Um ihn wieder zu nutzen, verbinden Sie ihn und melden sich erneut an.",
+        "browserDescription": "KI-Agenten in diesem Browser verlieren sofort den Zugriff auf Ihr Konto. Beim nächsten Mal bitten sie Sie, sich erneut anzumelden.",
+        "integrationDescription_one": "Ihr Zugriffstoken wird sofort widerrufen, und sie kann nicht mehr für Ihr Konto handeln, bis Sie sie erneut verbinden.",
+        "integrationDescription_other": "Ihre {{count}} Zugriffstoken werden sofort widerrufen, und sie kann nicht mehr für Ihr Konto handeln, bis Sie sie erneut verbinden.",
+        "confirm": "Trennen",
+        "pending": "Wird getrennt…",
+        "success": "{{name}} wurde getrennt.",
+        "error": "{{name}} konnte nicht getrennt werden. Bitte versuchen Sie es erneut."
+      }
+    },
+    "personal": {
+      "heading": "Persönliche <em>Zugriffstoken.</em>",
+      "lead": "Token, die Sie erstellt haben, damit Ihre eigene Integration die Aura Historia API aufrufen kann. Geben Sie jedem nur die Berechtigungen, die es braucht.",
+      "empty": {
+        "title": "Keine persönlichen Zugriffstoken.",
+        "description": "Erstellen Sie eines, sobald Ihre eigene Integration die Aura Historia API aufrufen soll."
+      }
     }
   },
   "partnerApplications": {
@@ -5281,18 +5322,35 @@
         "revoked": "Cognito-Sitzungen wurden widerrufen. Aura-Zugriffstoken und Partnerschaften blieben unverändert."
       },
       "tokens": {
-        "title": "Aura-Historia-Zugriffstoken",
-        "description": "Prüfen und widerrufen Sie die Aura-Historia-Zugriffstoken dieses Benutzers. Dadurch werden weder Cognito-Sitzungen widerrufen noch Partnerschaften aufgelöst.",
+        "title": "Zugriffstoken und verbundene Apps",
+        "description": "Prüfen Sie die Zugriffstoken und verbundenen Apps dieses Benutzers. Alles zu widerrufen beendet auch jede Verbindung und zieht noch nicht genutzte Freigaben zurück. Dadurch werden weder Cognito-Sitzungen widerrufen noch Partnerschaften aufgelöst.",
         "loading": "Zugriffstoken-Metadaten werden geladen…",
         "loadingMore": "Wird geladen…",
         "loadMore": "Weitere Token laden",
         "empty": "Für diesen Benutzer sind keine Zugriffstoken-Metadaten vorhanden.",
         "origin": "Herkunft: {{origin}}",
         "expires": "Läuft ab: {{expires}}",
-        "confirmAll": "Alle Aura-Historia-Zugriffstoken dieses Benutzers widerrufen?",
+        "confirmAll": "Alle Zugriffstoken dieses Benutzers widerrufen und alle verbundenen Apps trennen? Noch nicht genutzte Freigaben werden ebenfalls zurückgezogen.",
         "confirmSingle": "„{{name}}“ für diesen Benutzer widerrufen?",
         "revoked": "Das ausgewählte Aura-Historia-Token ist für diesen Benutzer nicht mehr vorhanden.",
-        "allRevoked": "Alle Aura-Historia-Zugriffstoken sind widerrufen oder waren nicht vorhanden."
+        "allRevoked": "Alle Zugriffstoken sind widerrufen und alle Verbindungen beendet, oder es waren keine vorhanden.",
+        "groups": {
+          "connectedApps": "Verbundene Apps",
+          "personal": "Persönliche Zugriffstoken"
+        },
+        "origins": {
+          "User": "Persönliches Zugriffstoken",
+          "OAuth": "Registrierte App (OAuth)",
+          "OAuthMetadataDocument": "KI-Agent (Client-Metadatendokument)",
+          "unknown": "Unbekannte Herkunft"
+        },
+        "client": "Client: {{host}}",
+        "connectedAt": "Verbunden {{date}}",
+        "lastUsedAt": "Zuletzt genutzt {{date}}",
+        "clientTokens": "An {{name}} ausgegebene Token",
+        "confirmClientToken": "Dieses Token von „{{name}}“ für diesen Benutzer widerrufen?",
+        "readOnly": "Nur lesen",
+        "readOnlyNote": "Nur der Benutzer kann diese App einzeln trennen. „Alle widerrufen“ beendet sie zusammen mit allem anderen."
       },
       "actions": {
         "suspend": "Konto sperren",
@@ -5302,9 +5360,9 @@
         "revokeSessions": "Cognito-Sitzungen widerrufen",
         "confirmSessionRevocation": "Sitzungen widerrufen",
         "confirmTokenRevocation": "Token widerrufen",
-        "confirmAllTokenRevocation": "Alle Token widerrufen",
+        "confirmAllTokenRevocation": "Alle widerrufen und trennen",
         "revokeToken": "Widerrufen",
-        "revokeAllTokens": "Alle Aura-Token widerrufen",
+        "revokeAllTokens": "Alle widerrufen",
         "revoking": "Wird widerrufen…"
       },
       "errors": {

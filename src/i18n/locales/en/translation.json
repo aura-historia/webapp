@@ -2444,18 +2444,18 @@
       "pending": "Deleting…"
     },
     "deleteAll": {
-      "success": "All access tokens deleted.",
-      "heading": "Delete all access tokens",
-      "lead": "Every integration that uses one of them stops working at once.",
+      "success": "All personal access tokens deleted.",
+      "heading": "Delete all personal access tokens",
+      "lead": "Every integration that uses one of them stops working at once. Connected apps stay connected.",
       "openEllipsis": "Delete all…",
-      "confirmTitle_one": "Delete {{count}} access token?",
-      "confirmTitle_other": "Delete all {{count}} access tokens?",
-      "confirmDescription_one": "The token is deleted for good. Every integration that uses it stops working at once.",
-      "confirmDescription_other": "All {{count}} tokens are deleted for good. Every integration that uses one of them stops working at once.",
+      "confirmTitle_one": "Delete {{count}} personal access token?",
+      "confirmTitle_other": "Delete all {{count}} personal access tokens?",
+      "confirmDescription_one": "The token is deleted for good. Every integration that uses it stops working at once. Connected apps stay connected.",
+      "confirmDescription_other": "All {{count}} tokens are deleted for good. Every integration that uses one of them stops working at once. Connected apps stay connected.",
       "confirmAll_one": "Delete {{count}} token",
       "confirmAll_other": "Delete all {{count}} tokens"
     },
-    "loading": "Loading access tokens.",
+    "loading": "Loading access tokens and connected apps…",
     "empty": "You have not saved any access tokens yet.",
     "expiresAt": "Expires {{date}}",
     "expiredAt": "Expired {{date}}",
@@ -2504,11 +2504,9 @@
       "allSelectedNote": "This token gets every permission, including write access. Clear those the integration does not need."
     },
     "heading": "Access <em>tokens.</em>",
-    "lead": "Tokens let your integration call the Aura Historia API for your account. Give each one only the permissions it needs.",
+    "lead": "Everything that can act for your account: the apps and AI agents you connected by signing in, and the tokens you created for your own integrations.",
     "loadErrorHeading": "Access tokens <em>unavailable.</em>",
-    "loadErrorDescription": "Your access tokens could not be loaded. Please try again.",
-    "emptyHeading": "No access tokens <em>yet.</em>",
-    "emptyDescription": "Create a token when you connect an integration, and give it only the permissions it needs.",
+    "loadErrorDescription": "Your access tokens and connected apps could not be loaded. Please try again.",
     "permissions": "Permissions",
     "showMore_one": "+{{count}} more",
     "showMore_other": "+{{count}} more",
@@ -2520,6 +2518,49 @@
       "expired": "Expired",
       "expiredCount_one": "{{count}} no longer works",
       "expiredCount_other": "{{count}} no longer work"
+    },
+    "connectedApps": {
+      "heading": "Connected <em>apps.</em>",
+      "lead": "Apps and AI agents you allowed to use your account. Disconnecting one ends its access at once; you can connect it again at any time.",
+      "count_one": "{{count}} connected",
+      "count_other": "{{count}} connected",
+      "kind": {
+        "agent": "AI agent",
+        "browser": "Browser agents",
+        "integration": "Integration"
+      },
+      "browserAgentsName": "AI agents in your browser",
+      "meta": {
+        "connected": "Connected",
+        "lastUsed": "Last used",
+        "tokens": "Tokens",
+        "expiry": "Expiry"
+      },
+      "empty": {
+        "title": "No connected apps.",
+        "description": "When you allow an app or AI agent to use your account, it appears here, and you can disconnect it at any time."
+      },
+      "disconnect": {
+        "open": "Disconnect",
+        "openAriaLabel": "Disconnect {{name}}",
+        "confirmTitle": "Disconnect {{name}}?",
+        "agentDescription": "It loses access to your account at once, including the sign-in it has saved. To use it again, connect it and sign in once more.",
+        "browserDescription": "AI agents in this browser lose access to your account at once. They ask you to sign in again the next time they need it.",
+        "integrationDescription_one": "Its access token is revoked at once, and it can no longer act for your account until you connect it again.",
+        "integrationDescription_other": "Its {{count}} access tokens are revoked at once, and it can no longer act for your account until you connect it again.",
+        "confirm": "Disconnect",
+        "pending": "Disconnecting…",
+        "success": "{{name}} disconnected.",
+        "error": "{{name}} could not be disconnected. Please try again."
+      }
+    },
+    "personal": {
+      "heading": "Personal access <em>tokens.</em>",
+      "lead": "Tokens you created so your own integration can call the Aura Historia API. Give each one only the permissions it needs.",
+      "empty": {
+        "title": "No personal access tokens.",
+        "description": "Create one when your own integration needs to call the Aura Historia API."
+      }
     }
   },
   "partnerApplications": {
@@ -5281,18 +5322,35 @@
         "revoked": "Cognito sessions were revoked. Aura access tokens and partnerships were not changed."
       },
       "tokens": {
-        "title": "Aura Historia access tokens",
-        "description": "Review and revoke this user's Aura Historia access tokens. These actions do not revoke Cognito sessions or dissolve partnerships.",
+        "title": "Access tokens and connected apps",
+        "description": "Review this user's access tokens and connected apps. Revoking everything also ends every connection and withdraws approvals not yet used. These actions do not revoke Cognito sessions or dissolve partnerships.",
         "loading": "Loading access-token metadata…",
         "loadingMore": "Loading…",
         "loadMore": "Load more tokens",
         "empty": "This user has no access-token metadata to show.",
         "origin": "Origin: {{origin}}",
         "expires": "Expires: {{expires}}",
-        "confirmAll": "Revoke every Aura Historia access token belonging to this user?",
+        "confirmAll": "Revoke every access token of this user and end every connected app? Approvals not yet used are withdrawn too.",
         "confirmSingle": "Revoke “{{name}}” for this user?",
         "revoked": "The selected Aura Historia token is no longer present for this user.",
-        "allRevoked": "All Aura Historia access tokens are revoked, or none were present."
+        "allRevoked": "All access tokens are revoked and all connections ended, or none were present.",
+        "groups": {
+          "connectedApps": "Connected apps",
+          "personal": "Personal access tokens"
+        },
+        "origins": {
+          "User": "Personal access token",
+          "OAuth": "Registered app (OAuth)",
+          "OAuthMetadataDocument": "AI agent (client metadata document)",
+          "unknown": "Unknown origin"
+        },
+        "client": "Client: {{host}}",
+        "connectedAt": "Connected {{date}}",
+        "lastUsedAt": "Last used {{date}}",
+        "clientTokens": "Tokens issued to {{name}}",
+        "confirmClientToken": "Revoke this token of “{{name}}” for this user?",
+        "readOnly": "Read-only",
+        "readOnlyNote": "Only the user can disconnect this app on its own. “Revoke all” ends it with everything else."
       },
       "actions": {
         "suspend": "Suspend account",
@@ -5302,9 +5360,9 @@
         "revokeSessions": "Revoke Cognito sessions",
         "confirmSessionRevocation": "Revoke sessions",
         "confirmTokenRevocation": "Revoke token",
-        "confirmAllTokenRevocation": "Revoke all tokens",
+        "confirmAllTokenRevocation": "Revoke all and disconnect",
         "revokeToken": "Revoke",
-        "revokeAllTokens": "Revoke all Aura tokens",
+        "revokeAllTokens": "Revoke all",
         "revoking": "Revoking…"
       },
       "errors": {

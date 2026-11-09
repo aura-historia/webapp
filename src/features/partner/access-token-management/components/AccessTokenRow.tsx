@@ -21,19 +21,19 @@ const EXPIRY_STYLE: Record<AccessTokenExpiryState, { label: string; mark: string
 
 /** The expiry as a mono label with its mark: filled valid, brass ring soon, hollow expired. */
 export function AccessTokenExpiry({
-    accessToken,
+    expiresAt,
     state,
     className,
 }: {
-    readonly accessToken: AccessToken;
+    readonly expiresAt: Date | null;
     readonly state: AccessTokenExpiryState;
     readonly className?: string;
 }) {
     const { t, i18n } = useTranslation();
     const style = EXPIRY_STYLE[state];
     let label = t("partnerAccessTokens.noExpiration");
-    if (accessToken.expiresAt) {
-        const date = formatDateTime(accessToken.expiresAt, i18n.language);
+    if (expiresAt) {
+        const date = formatDateTime(expiresAt, i18n.language);
         label =
             state === "expired"
                 ? t("partnerAccessTokens.expiredAt", { date })
@@ -98,7 +98,11 @@ export function AccessTokenRow({
                 >
                     {accessToken.name}
                 </h3>
-                <AccessTokenExpiry accessToken={accessToken} state={expiry} className="sm:hidden" />
+                <AccessTokenExpiry
+                    expiresAt={accessToken.expiresAt}
+                    state={expiry}
+                    className="sm:hidden"
+                />
                 <ul
                     aria-label={t("partnerAccessTokens.permissions")}
                     className="flex flex-wrap gap-1.5"
@@ -136,7 +140,7 @@ export function AccessTokenRow({
                 </ul>
             </div>
             <AccessTokenExpiry
-                accessToken={accessToken}
+                expiresAt={accessToken.expiresAt}
                 state={expiry}
                 className="hidden pt-[3px] whitespace-nowrap sm:inline-flex"
             />

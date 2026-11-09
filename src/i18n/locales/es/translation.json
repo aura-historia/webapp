@@ -5044,18 +5044,18 @@
       "pending": "Eliminando…"
     },
     "deleteAll": {
-      "success": "Todos los tokens de acceso eliminados.",
-      "heading": "Eliminar todos los tokens de acceso",
-      "lead": "Toda integración que use alguno de ellos dejará de funcionar al instante.",
+      "success": "Todos los tokens de acceso personales eliminados.",
+      "heading": "Eliminar todos los tokens de acceso personales",
+      "lead": "Toda integración que use alguno de ellos dejará de funcionar al instante. Las aplicaciones conectadas siguen conectadas.",
       "openEllipsis": "Eliminar todos…",
-      "confirmTitle_one": "¿Eliminar {{count}} token de acceso?",
-      "confirmTitle_other": "¿Eliminar los {{count}} tokens de acceso?",
-      "confirmDescription_one": "El token se elimina definitivamente. Toda integración que lo use dejará de funcionar al instante.",
-      "confirmDescription_other": "Los {{count}} tokens se eliminan definitivamente. Toda integración que use alguno de ellos dejará de funcionar al instante.",
+      "confirmTitle_one": "¿Eliminar {{count}} token de acceso personal?",
+      "confirmTitle_other": "¿Eliminar los {{count}} tokens de acceso personales?",
+      "confirmDescription_one": "El token se elimina definitivamente. Toda integración que lo use dejará de funcionar al instante. Las aplicaciones conectadas siguen conectadas.",
+      "confirmDescription_other": "Los {{count}} tokens se eliminan definitivamente. Toda integración que use alguno de ellos dejará de funcionar al instante. Las aplicaciones conectadas siguen conectadas.",
       "confirmAll_one": "Eliminar {{count}} token",
       "confirmAll_other": "Eliminar los {{count}} tokens"
     },
-    "loading": "Cargando tokens de acceso.",
+    "loading": "Cargando tokens de acceso y aplicaciones conectadas…",
     "empty": "Aún no has guardado ningún token de acceso.",
     "expiresAt": "Expira {{date}}",
     "expiredAt": "Expiró {{date}}",
@@ -5104,11 +5104,9 @@
       "allSelectedNote": "Este token obtiene todos los permisos, incluido el acceso de escritura. Quita los que la integración no necesite."
     },
     "heading": "Tokens de <em>acceso.</em>",
-    "lead": "Con los tokens, su integración llama a la API de Aura Historia en nombre de su cuenta. Conceda a cada uno solo los permisos que necesita.",
+    "lead": "Todo lo que puede actuar en nombre de su cuenta: las aplicaciones y los agentes de IA que conectó al iniciar sesión y los tokens que creó para sus propias integraciones.",
     "loadErrorHeading": "Tokens de acceso <em>no disponibles.</em>",
-    "loadErrorDescription": "No se pudieron cargar sus tokens de acceso. Vuelva a intentarlo.",
-    "emptyHeading": "Aún no hay <em>tokens de acceso.</em>",
-    "emptyDescription": "Cree un token cuando conecte una integración y concédale solo los permisos que necesita.",
+    "loadErrorDescription": "No se pudieron cargar sus tokens de acceso ni sus aplicaciones conectadas. Vuelva a intentarlo.",
     "permissions": "Permisos",
     "showMore_one": "+{{count}} más",
     "showMore_other": "+{{count}} más",
@@ -5120,6 +5118,49 @@
       "expired": "Caducados",
       "expiredCount_one": "{{count}} ya no funciona",
       "expiredCount_other": "{{count}} ya no funcionan"
+    },
+    "connectedApps": {
+      "heading": "Aplicaciones <em>conectadas.</em>",
+      "lead": "Aplicaciones y agentes de IA a los que permitió usar su cuenta. Al desconectar uno, su acceso termina al instante; puede volver a conectarlo cuando quiera.",
+      "count_one": "{{count}} conectada",
+      "count_other": "{{count}} conectadas",
+      "kind": {
+        "agent": "Agente de IA",
+        "browser": "Agentes del navegador",
+        "integration": "Integración"
+      },
+      "browserAgentsName": "Agentes de IA en su navegador",
+      "meta": {
+        "connected": "Conectado",
+        "lastUsed": "Último uso",
+        "tokens": "Tokens",
+        "expiry": "Caducidad"
+      },
+      "empty": {
+        "title": "No hay aplicaciones conectadas.",
+        "description": "Cuando permita que una aplicación o un agente de IA use su cuenta, aparecerá aquí y podrá desconectarlo en cualquier momento."
+      },
+      "disconnect": {
+        "open": "Desconectar",
+        "openAriaLabel": "Desconectar {{name}}",
+        "confirmTitle": "¿Desconectar {{name}}?",
+        "agentDescription": "Pierde el acceso a su cuenta al instante, incluido el inicio de sesión que guardó. Para volver a usarlo, conéctelo e inicie sesión de nuevo.",
+        "browserDescription": "Los agentes de IA de este navegador pierden el acceso a su cuenta al instante. La próxima vez que lo necesiten, le pedirán que inicie sesión de nuevo.",
+        "integrationDescription_one": "Su token de acceso se revoca al instante y ya no puede actuar en nombre de su cuenta hasta que vuelva a conectarla.",
+        "integrationDescription_other": "Sus {{count}} tokens de acceso se revocan al instante y ya no puede actuar en nombre de su cuenta hasta que vuelva a conectarla.",
+        "confirm": "Desconectar",
+        "pending": "Desconectando…",
+        "success": "{{name}} desconectado.",
+        "error": "No se pudo desconectar {{name}}. Vuelva a intentarlo."
+      }
+    },
+    "personal": {
+      "heading": "Tokens de acceso <em>personales.</em>",
+      "lead": "Tokens que creó para que su propia integración pueda llamar a la API de Aura Historia. Conceda a cada uno solo los permisos que necesita.",
+      "empty": {
+        "title": "No hay tokens de acceso personales.",
+        "description": "Cree uno cuando su propia integración necesite llamar a la API de Aura Historia."
+      }
     }
   },
   "partnerListingSources": {
@@ -5281,18 +5322,35 @@
         "revoked": "Se revocaron las sesiones de Cognito. Los tokens de acceso de Aura y las asociaciones no cambiaron."
       },
       "tokens": {
-        "title": "Tokens de acceso de Aura Historia",
-        "description": "Consulte y revoque los tokens de acceso de Aura Historia de este usuario. Estas acciones no revocan sesiones de Cognito ni disuelven asociaciones.",
+        "title": "Tokens de acceso y aplicaciones conectadas",
+        "description": "Consulte los tokens de acceso y las aplicaciones conectadas de este usuario. Revocarlo todo también termina cada conexión y retira las autorizaciones aún no usadas. Estas acciones no revocan sesiones de Cognito ni disuelven asociaciones.",
         "loading": "Cargando metadatos de tokens de acceso…",
         "loadingMore": "Cargando…",
         "loadMore": "Cargar más tokens",
         "empty": "No hay metadatos de tokens de acceso para este usuario.",
         "origin": "Origen: {{origin}}",
         "expires": "Caduca: {{expires}}",
-        "confirmAll": "¿Revocar todos los tokens de acceso de Aura Historia de este usuario?",
+        "confirmAll": "¿Revocar todos los tokens de acceso de este usuario y desconectar todas las aplicaciones conectadas? También se retiran las autorizaciones aún no usadas.",
         "confirmSingle": "¿Revocar «{{name}}» para este usuario?",
         "revoked": "El token de Aura Historia seleccionado ya no está disponible para este usuario.",
-        "allRevoked": "Se revocaron todos los tokens de acceso de Aura Historia o no había ninguno."
+        "allRevoked": "Se revocaron todos los tokens de acceso y se terminaron todas las conexiones, o no había ninguno.",
+        "groups": {
+          "connectedApps": "Aplicaciones conectadas",
+          "personal": "Tokens de acceso personales"
+        },
+        "origins": {
+          "User": "Token de acceso personal",
+          "OAuth": "Aplicación registrada (OAuth)",
+          "OAuthMetadataDocument": "Agente de IA (documento de metadatos del cliente)",
+          "unknown": "Origen desconocido"
+        },
+        "client": "Cliente: {{host}}",
+        "connectedAt": "Conectado {{date}}",
+        "lastUsedAt": "Último uso {{date}}",
+        "clientTokens": "Tokens emitidos para {{name}}",
+        "confirmClientToken": "¿Revocar este token de «{{name}}» para este usuario?",
+        "readOnly": "Solo lectura",
+        "readOnlyNote": "Solo el usuario puede desconectar esta aplicación por separado. «Revocar todo» la termina junto con todo lo demás."
       },
       "actions": {
         "suspend": "Suspender cuenta",
@@ -5302,9 +5360,9 @@
         "revokeSessions": "Revocar sesiones de Cognito",
         "confirmSessionRevocation": "Revocar sesiones",
         "confirmTokenRevocation": "Revocar token",
-        "confirmAllTokenRevocation": "Revocar todos los tokens",
+        "confirmAllTokenRevocation": "Revocar todo y desconectar",
         "revokeToken": "Revocar",
-        "revokeAllTokens": "Revocar todos los tokens de Aura",
+        "revokeAllTokens": "Revocar todo",
         "revoking": "Revocando…"
       },
       "errors": {

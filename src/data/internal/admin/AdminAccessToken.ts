@@ -1,38 +1,71 @@
 import type { AdminAccessTokenData } from "@/client";
 import type { AccessTokenScope } from "@/data/internal/access-tokens/AccessTokenScope.ts";
+import {
+    groupCredentialEntries,
+    type AccessTokenOrigin,
+    type CredentialListEntryData,
+    type GroupedCredentials,
+} from "@/data/internal/access-tokens/OwnCredentials.ts";
 
-/** Secret-free token metadata shown in the admin user detail view. */
+/** Secret-free metadata of a token the user manages one by one, as the admin view shows it. */
 export type AdminAccessToken = {
     readonly accessTokenId: string;
     readonly name: string;
     readonly scopes: readonly AccessTokenScope[];
-    readonly origin: string;
+    readonly origin: AccessTokenOrigin;
     readonly expires?: string;
 };
 
+/** A user's credentials in the admin view: personal tokens and connected apps. */
+export type AdminUserCredentials = GroupedCredentials<AdminAccessToken>;
+
 /**
- * Map the admin-only DTO to the small view model. The explicit target is checked here so a
- * malformed response cannot be displayed in another user's token list. A metadata document
- * client's connection entry has no `accessTokenId` and cannot be deleted as a token, so it is left
- * out (`undefined`) until connected apps are listed on their own (#1238); revoking all of the
- * user's tokens still ends it.
+ * Check one entry of the admin listing and keep only its known, secret-free fields. The explicit
+ * target is checked here so a malformed response cannot be displayed in another user's credential
+ * list; copying field by field keeps anything the backend might add (a token value, a hash) out of
+ * the cache.
  */
-export function mapToAdminAccessToken(
+export function mapToAdminCredentialEntry(
     data: AdminAccessTokenData,
     targetUserId: string,
-): AdminAccessToken | undefined {
+): CredentialListEntryData {
     if (data.userId !== targetUserId) {
         throw new Error("Admin access-token response did not match the selected user");
     }
-    if (data.accessTokenId == null) {
-        return undefined;
-    }
-
+    const { client } = data;
     return {
-        accessTokenId: data.accessTokenId,
         name: data.name,
         scopes: [...data.scopes],
         origin: data.origin,
+        ...(data.accessTokenId != null && { accessTokenId: data.accessTokenId }),
+        ...(data.connectionId != null && { connectionId: data.connectionId }),
+        ...(client && {
+            client: {
+                clientId: client.clientId,
+                name: client.name,
+                kind: client.kind,
+                host: client.host,
+            },
+        }),
         ...(data.expires != null && { expires: data.expires }),
+        ...(data.created != null && { created: data.created }),
+        ...(data.lastUsed != null && { lastUsed: data.lastUsed }),
     };
+}
+
+/**
+ * Group the loaded entries the way the user's own dashboard does: one connected app per client,
+ * the rest as personal tokens. Pages are grouped together, so a registered client's tokens on a
+ * later page join its app once that page loads.
+ */
+export function groupAdminCredentials(
+    entries: readonly CredentialListEntryData[],
+): AdminUserCredentials {
+    return groupCredentialEntries(entries, (entry) => ({
+        accessTokenId: entry.accessTokenId,
+        name: entry.name,
+        scopes: [...entry.scopes],
+        origin: entry.origin,
+        ...(entry.expires != null && { expires: entry.expires }),
+    }));
 }
