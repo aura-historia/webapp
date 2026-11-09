@@ -191,9 +191,9 @@ describe("AccessTokensSection", () => {
         it("renders saved access tokens in the active group with their metadata", () => {
             render(<AccessTokensSection />);
 
-            const activeGroup = screen.getByRole("group", { name: "Aktiv" });
+            const activeGroup = screen.getByRole("region", { name: "Aktiv" });
             expect(activeGroup).toHaveTextContent("2 in Verwendung");
-            expect(screen.queryByRole("group", { name: "Abgelaufen" })).not.toBeInTheDocument();
+            expect(screen.queryByRole("region", { name: "Abgelaufen" })).not.toBeInTheDocument();
 
             const productSync = rowFor("Product sync");
             expect(within(productSync).getAllByText("Läuft nicht ab")).toHaveLength(2);
@@ -328,7 +328,7 @@ describe("AccessTokensSection", () => {
             render(<AccessTokensSection />);
 
             expect(
-                screen.getByRole("group", { name: "Alle persönlichen Zugriffstoken löschen" }),
+                screen.getByRole("region", { name: "Alle persönlichen Zugriffstoken löschen" }),
             ).toHaveTextContent(/Jede Integration, die eines davon verwendet/);
             await user.click(screen.getByRole("button", { name: "Alle löschen…" }));
 
@@ -398,8 +398,8 @@ describe("AccessTokensSection", () => {
 
             render(<AccessTokensSection />);
 
-            const activeGroup = screen.getByRole("group", { name: "Aktiv" });
-            const expiredGroup = screen.getByRole("group", { name: "Abgelaufen" });
+            const activeGroup = screen.getByRole("region", { name: "Aktiv" });
+            const expiredGroup = screen.getByRole("region", { name: "Abgelaufen" });
             expect(activeGroup).toHaveTextContent("1 in Verwendung");
             expect(
                 within(activeGroup).getByRole("heading", { name: "Product sync" }),
@@ -428,7 +428,7 @@ describe("AccessTokensSection", () => {
                 within(section).getByText(/Erstellen Sie eines, sobald Ihre eigene Integration/),
             ).toBeVisible();
             expect(screen.queryByRole("button", { name: "Alle löschen…" })).not.toBeInTheDocument();
-            expect(screen.queryByRole("group", { name: "Aktiv" })).not.toBeInTheDocument();
+            expect(screen.queryByRole("region", { name: "Aktiv" })).not.toBeInTheDocument();
             expect(rowFor("Shopify")).toBeInTheDocument();
 
             const createButtons = screen.getAllByRole("button", { name: "Neues Zugriffstoken" });

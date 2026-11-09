@@ -11,13 +11,17 @@ import { getConnectedAppKind } from "@/features/partner/access-token-management/
 import { formatDateTime } from "@/lib/utils.ts";
 import { AdminConfirmation } from "./AdminConfirmation.tsx";
 
-const KNOWN_ORIGINS: readonly AccessTokenOrigin[] = ["User", "OAuth", "OAuthMetadataDocument"];
+const KNOWN_ORIGINS: ReadonlySet<string> = new Set<AccessTokenOrigin>([
+    "User",
+    "OAuth",
+    "OAuthMetadataDocument",
+]);
 
 /** The translated origin; the raw value is never shown. */
 export function useOriginLabel() {
     const { t } = useTranslation();
     return (origin: string) =>
-        KNOWN_ORIGINS.includes(origin as AccessTokenOrigin)
+        KNOWN_ORIGINS.has(origin)
             ? t(`adminUsers.security.tokens.origins.${origin}`)
             : t("adminUsers.security.tokens.origins.unknown");
 }

@@ -107,7 +107,7 @@ export function AccessTokensSection({
         count: string,
         entries: AccessTokenWithExpiry[],
     ) => (
-        <div role="group" aria-labelledby={id} className="flex flex-col gap-3">
+        <section aria-labelledby={id} className="flex flex-col gap-3">
             <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
                 <h3 id={id} className="text-[15px] font-medium">
                     {title}
@@ -128,7 +128,7 @@ export function AccessTokensSection({
                     />
                 ))}
             </ul>
-        </div>
+        </section>
     );
 
     let content: ReactNode;
@@ -252,8 +252,7 @@ export function AccessTokensSection({
                                     }),
                                     expired,
                                 )}
-                            <div
-                                role="group"
+                            <section
                                 aria-labelledby="partner-access-tokens-delete-all"
                                 className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 rounded-panel px-6 py-5 shadow-[inset_0_0_0_1px_var(--line)]"
                             >
@@ -281,7 +280,7 @@ export function AccessTokensSection({
                                     />
                                     {t("partnerAccessTokens.deleteAll.openEllipsis")}
                                 </button>
-                            </div>
+                            </section>
                         </>
                     )}
                 </CredentialSection>

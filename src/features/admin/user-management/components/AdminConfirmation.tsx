@@ -18,7 +18,7 @@ export function AdminConfirmation({
 }) {
     const { t } = useTranslation();
     const promptId = useId();
-    const groupRef = useRef<HTMLDivElement>(null);
+    const groupRef = useRef<HTMLFieldSetElement>(null);
 
     // The trigger unmounts when the confirmation opens, so move focus here and announce the prompt.
     useEffect(() => {
@@ -26,12 +26,11 @@ export function AdminConfirmation({
     }, []);
 
     return (
-        <div
+        <fieldset
             ref={groupRef}
-            role="group"
             aria-labelledby={promptId}
             tabIndex={-1}
-            className="grid gap-2 outline-none sm:col-span-2"
+            className="m-0 grid min-w-0 gap-2 border-0 p-0 outline-none sm:col-span-2"
         >
             <p id={promptId} className="text-sm">
                 {prompt}
@@ -44,6 +43,6 @@ export function AdminConfirmation({
                     {t("adminUsers.actions.cancel")}
                 </Button>
             </div>
-        </div>
+        </fieldset>
     );
 }

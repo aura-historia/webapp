@@ -55,7 +55,7 @@ export function ConnectedAppRow({
     const { t, i18n } = useTranslation();
     const [showAll, setShowAll] = useState(false);
     const promptId = useId();
-    const groupRef = useRef<HTMLDivElement>(null);
+    const groupRef = useRef<HTMLFieldSetElement>(null);
     const triggerRef = useRef<HTMLButtonElement>(null);
     const wasConfirming = useRef(confirming);
     const Icon = KIND_ICON[kind];
@@ -223,13 +223,12 @@ export function ConnectedAppRow({
                 )}
             </div>
             {confirming && (
-                <div
+                <fieldset
                     ref={groupRef}
-                    role="group"
                     aria-labelledby={promptId}
                     aria-busy={pending}
                     tabIndex={-1}
-                    className="col-span-full flex flex-wrap items-center justify-between gap-x-5 gap-y-3 rounded-md bg-surface-sunken px-[18px] py-4 outline-none xl:ml-[60px]"
+                    className="col-span-full m-0 flex min-w-0 flex-wrap items-center justify-between gap-x-5 gap-y-3 rounded-md border-0 bg-surface-sunken px-[18px] py-4 outline-none xl:ml-[60px]"
                 >
                     <p id={promptId} className="min-w-0 flex-[1_1_320px] text-sm leading-[1.55]">
                         <strong className="font-medium text-ink">
@@ -260,7 +259,7 @@ export function ConnectedAppRow({
                                 : t("partnerAccessTokens.connectedApps.disconnect.confirm")}
                         </button>
                     </div>
-                </div>
+                </fieldset>
             )}
         </li>
     );
