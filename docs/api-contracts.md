@@ -80,12 +80,10 @@ admin workflows in [admin workflows](admin-workflows.md).
   - **Connections in the credential listings** (same epic): `getMyAccessTokens` returns
     `OwnAccessTokenListEntryData`, and it and `adminListUserAccessTokens` may return connection
     entries (`connectionId`, `created`, `lastUsed`, no `accessTokenId` or `expires`); `origin` is the
-    closed `AccessTokenOriginData` and OAuth entries carry `client`. Until connected apps are listed
-    ([#1238](https://github.com/aura-historia/webapp/issues/1238)), `mapToAccessTokenListEntry` and
-    `mapToAdminAccessToken` leave connection entries out, so no row has an undefined ID or offers
-    token edits it cannot make; revoking all of a user's tokens still ends them.
-    `disconnectMyOAuthClient` (`DELETE /v1/me/access-tokens?clientId=…`) is generated-only until
-    #1238. A registered client's `client_uri` must now be an HTTP(S) URL with a host; the admin
+    closed `AccessTokenOriginData` and OAuth entries carry `client`. Since
+    [#1238](https://github.com/aura-historia/webapp/issues/1238) both listings are grouped into
+    personal tokens and connected apps (see "Own access tokens"), and `disconnectMyOAuthClient`
+    (`DELETE /v1/me/access-tokens?clientId=…`) backs the dashboard's Disconnect. A registered client's `client_uri` must now be an HTTP(S) URL with a host; the admin
     client form already requires HTTPS.
   - **Agent discovery documents** ([backend#2815](https://github.com/aura-historia/backend/pull/2815),
     [backend#2819](https://github.com/aura-historia/backend/pull/2819)):
@@ -636,9 +634,22 @@ stable error codes, never raw server detail.
   section resolves expiry against the clock after mount (never during render), marks expired
   tokens and lists active tokens first, then by name.
   `CreatedAccessTokenData` carries only the ID and the one-time plaintext.
-- The list is `OwnAccessTokenListEntryData`: a metadata document client's connection entry has no
-  `accessTokenId` and cannot be edited or deleted as a token, so `mapToAccessTokenListEntry` leaves
-  it out until connected apps are listed ([#1238](https://github.com/aura-historia/webapp/issues/1238)).
+- The list is `OwnAccessTokenListEntryData`, mapped by `mapToOwnCredentials`
+  (`OwnCredentials.ts`, [#1238](https://github.com/aura-historia/webapp/issues/1238)) into
+  `personalTokens` and `connectedApps`. Every entry with a `client` belongs to one `ConnectedApp`
+  keyed by `client.clientId`: a registered client's token entries are grouped together (each keeps
+  its `accessTokenId` and `expires`), and a metadata document client's connection entry
+  (`connectionId`, `created`, `lastUsed`, no `accessTokenId`) becomes its `connection`; scopes are
+  the union of the entries'. An entry without `client` stays a personal token when it has an
+  `accessTokenId`; anything else is left out. Never key an app by `accessTokenId`. Edit and delete
+  stay limited to personal tokens; an app is ended with `disconnectMyOAuthClient`
+  (`DELETE /v1/me/access-tokens?clientId=…`, `204` even when nothing was connected), which needs
+  the Cognito session (an Aura access token gets `403`). Delete all deletes personal tokens only.
+- The admin listing uses the same grouping (`groupAdminCredentials` in `AdminAccessToken.ts`) over
+  every loaded page; `mapToAdminCredentialEntry` checks each entry's `userId` against the selected
+  user. Connection entries are read-only there: the admin API deletes single tokens by
+  `accessTokenId` or everything for the user, which also ends connections and withdraws pending
+  approvals. Origins are shown through translated labels, never the raw value.
 - New tokens default to no scopes; editing scopes replaces the whole grant set. Only the
   supported scope enum is modeled: `ACCESS_TOKEN_SCOPES` mirrors the 23 backend
   `AccessTokenScopeData` values exactly (no aliases or remapping), `ACCESS_TOKEN_SCOPE_METADATA`

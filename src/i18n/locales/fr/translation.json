@@ -5044,18 +5044,18 @@
       "pending": "Suppression…"
     },
     "deleteAll": {
-      "success": "Tous les jetons d'accès ont été supprimés.",
-      "heading": "Supprimer tous les jetons d’accès",
-      "lead": "Toute intégration qui en utilise un cesse de fonctionner immédiatement.",
+      "success": "Tous les jetons d’accès personnels ont été supprimés.",
+      "heading": "Supprimer tous les jetons d’accès personnels",
+      "lead": "Toute intégration qui en utilise un cesse de fonctionner immédiatement. Les applications connectées restent connectées.",
       "openEllipsis": "Tout supprimer…",
-      "confirmTitle_one": "Supprimer {{count}} jeton d’accès ?",
-      "confirmTitle_other": "Supprimer les {{count}} jetons d’accès ?",
-      "confirmDescription_one": "Le jeton est supprimé définitivement. Toute intégration qui l’utilise cesse de fonctionner immédiatement.",
-      "confirmDescription_other": "Les {{count}} jetons sont supprimés définitivement. Toute intégration qui en utilise un cesse de fonctionner immédiatement.",
+      "confirmTitle_one": "Supprimer {{count}} jeton d’accès personnel ?",
+      "confirmTitle_other": "Supprimer les {{count}} jetons d’accès personnels ?",
+      "confirmDescription_one": "Le jeton est supprimé définitivement. Toute intégration qui l’utilise cesse de fonctionner immédiatement. Les applications connectées restent connectées.",
+      "confirmDescription_other": "Les {{count}} jetons sont supprimés définitivement. Toute intégration qui en utilise un cesse de fonctionner immédiatement. Les applications connectées restent connectées.",
       "confirmAll_one": "Supprimer {{count}} jeton",
       "confirmAll_other": "Supprimer les {{count}} jetons"
     },
-    "loading": "Chargement des jetons d'accès.",
+    "loading": "Chargement des jetons d’accès et des applications connectées…",
     "empty": "Vous n'avez encore enregistré aucun jeton d'accès.",
     "expiresAt": "Expire le {{date}}",
     "expiredAt": "Expiré le {{date}}",
@@ -5104,11 +5104,9 @@
       "allSelectedNote": "Ce jeton reçoit toutes les autorisations, y compris l’accès en écriture. Désélectionnez celles dont l’intégration n’a pas besoin."
     },
     "heading": "Jetons <em>d’accès.</em>",
-    "lead": "Les jetons permettent à votre intégration d’appeler l’API Aura Historia pour votre compte. Accordez à chacun uniquement les autorisations nécessaires.",
+    "lead": "Tout ce qui peut agir pour votre compte : les applications et agents d’IA que vous avez connectés en vous identifiant, et les jetons que vous avez créés pour vos propres intégrations.",
     "loadErrorHeading": "Jetons d’accès <em>indisponibles.</em>",
-    "loadErrorDescription": "Impossible de charger vos jetons d’accès. Veuillez réessayer.",
-    "emptyHeading": "Aucun jeton d’accès <em>pour l’instant.</em>",
-    "emptyDescription": "Créez un jeton lorsque vous connectez une intégration, et accordez-lui uniquement les autorisations nécessaires.",
+    "loadErrorDescription": "Impossible de charger vos jetons d’accès et vos applications connectées. Veuillez réessayer.",
     "permissions": "Autorisations",
     "showMore_one": "+{{count}} autre",
     "showMore_other": "+{{count}} autres",
@@ -5120,6 +5118,49 @@
       "expired": "Expirés",
       "expiredCount_one": "{{count}} ne fonctionne plus",
       "expiredCount_other": "{{count}} ne fonctionnent plus"
+    },
+    "connectedApps": {
+      "heading": "Applications <em>connectées.</em>",
+      "lead": "Les applications et agents d’IA que vous avez autorisés à utiliser votre compte. En déconnecter un met fin à son accès immédiatement ; vous pouvez le reconnecter à tout moment.",
+      "count_one": "{{count}} connectée",
+      "count_other": "{{count}} connectées",
+      "kind": {
+        "agent": "Agent d’IA",
+        "browser": "Agents du navigateur",
+        "integration": "Intégration"
+      },
+      "browserAgentsName": "Agents d’IA dans votre navigateur",
+      "meta": {
+        "connected": "Connecté",
+        "lastUsed": "Dernière utilisation",
+        "tokens": "Jetons",
+        "expiry": "Expiration"
+      },
+      "empty": {
+        "title": "Aucune application connectée.",
+        "description": "Lorsque vous autorisez une application ou un agent d’IA à utiliser votre compte, il apparaît ici et vous pouvez le déconnecter à tout moment."
+      },
+      "disconnect": {
+        "open": "Déconnecter",
+        "openAriaLabel": "Déconnecter {{name}}",
+        "confirmTitle": "Déconnecter {{name}} ?",
+        "agentDescription": "Il perd immédiatement l’accès à votre compte, y compris la connexion qu’il a enregistrée. Pour l’utiliser à nouveau, connectez-le et identifiez-vous une nouvelle fois.",
+        "browserDescription": "Les agents d’IA de ce navigateur perdent immédiatement l’accès à votre compte. La prochaine fois qu’ils en auront besoin, ils vous demanderont de vous identifier à nouveau.",
+        "integrationDescription_one": "Son jeton d’accès est révoqué immédiatement, et elle ne peut plus agir pour votre compte tant que vous ne la reconnectez pas.",
+        "integrationDescription_other": "Ses {{count}} jetons d’accès sont révoqués immédiatement, et elle ne peut plus agir pour votre compte tant que vous ne la reconnectez pas.",
+        "confirm": "Déconnecter",
+        "pending": "Déconnexion…",
+        "success": "{{name}} déconnecté.",
+        "error": "Impossible de déconnecter {{name}}. Veuillez réessayer."
+      }
+    },
+    "personal": {
+      "heading": "Jetons d’accès <em>personnels.</em>",
+      "lead": "Les jetons que vous avez créés pour que votre propre intégration puisse appeler l’API Aura Historia. Accordez à chacun uniquement les autorisations nécessaires.",
+      "empty": {
+        "title": "Aucun jeton d’accès personnel.",
+        "description": "Créez-en un lorsque votre propre intégration doit appeler l’API Aura Historia."
+      }
     }
   },
   "partnerListingSources": {
@@ -5281,18 +5322,35 @@
         "revoked": "Les sessions Cognito ont été révoquées. Les jetons d’accès Aura et les partenariats n’ont pas changé."
       },
       "tokens": {
-        "title": "Jetons d’accès Aura Historia",
-        "description": "Consultez et révoquez les jetons d’accès Aura Historia de cet utilisateur. Ces actions ne révoquent pas les sessions Cognito et ne dissolvent pas les partenariats.",
+        "title": "Jetons d’accès et applications connectées",
+        "description": "Consultez les jetons d’accès et les applications connectées de cet utilisateur. Tout révoquer met aussi fin à chaque connexion et retire les autorisations pas encore utilisées. Ces actions ne révoquent pas les sessions Cognito et ne dissolvent pas les partenariats.",
         "loading": "Chargement des métadonnées des jetons d’accès…",
         "loadingMore": "Chargement…",
         "loadMore": "Charger plus de jetons",
         "empty": "Aucune métadonnée de jeton d’accès n’est disponible pour cet utilisateur.",
         "origin": "Origine : {{origin}}",
         "expires": "Expire le : {{expires}}",
-        "confirmAll": "Révoquer tous les jetons d’accès Aura Historia de cet utilisateur ?",
+        "confirmAll": "Révoquer tous les jetons d’accès de cet utilisateur et déconnecter toutes les applications connectées ? Les autorisations pas encore utilisées sont aussi retirées.",
         "confirmSingle": "Révoquer « {{name}} » pour cet utilisateur ?",
         "revoked": "Le jeton Aura Historia sélectionné n’est plus présent pour cet utilisateur.",
-        "allRevoked": "Tous les jetons d’accès Aura Historia sont révoqués, ou aucun n’était présent."
+        "allRevoked": "Tous les jetons d’accès sont révoqués et toutes les connexions terminées, ou aucun n’était présent.",
+        "groups": {
+          "connectedApps": "Applications connectées",
+          "personal": "Jetons d’accès personnels"
+        },
+        "origins": {
+          "User": "Jeton d’accès personnel",
+          "OAuth": "Application enregistrée (OAuth)",
+          "OAuthMetadataDocument": "Agent d’IA (document de métadonnées du client)",
+          "unknown": "Origine inconnue"
+        },
+        "client": "Client : {{host}}",
+        "connectedAt": "Connecté le {{date}}",
+        "lastUsedAt": "Dernière utilisation le {{date}}",
+        "clientTokens": "Jetons émis pour {{name}}",
+        "confirmClientToken": "Révoquer ce jeton de « {{name}} » pour cet utilisateur ?",
+        "readOnly": "Lecture seule",
+        "readOnlyNote": "Seul l’utilisateur peut déconnecter cette application à elle seule. « Tout révoquer » y met fin avec tout le reste."
       },
       "actions": {
         "suspend": "Suspendre le compte",
@@ -5302,9 +5360,9 @@
         "revokeSessions": "Révoquer les sessions Cognito",
         "confirmSessionRevocation": "Révoquer les sessions",
         "confirmTokenRevocation": "Révoquer le jeton",
-        "confirmAllTokenRevocation": "Révoquer tous les jetons",
+        "confirmAllTokenRevocation": "Tout révoquer et déconnecter",
         "revokeToken": "Révoquer",
-        "revokeAllTokens": "Révoquer tous les jetons Aura",
+        "revokeAllTokens": "Tout révoquer",
         "revoking": "Révocation…"
       },
       "errors": {

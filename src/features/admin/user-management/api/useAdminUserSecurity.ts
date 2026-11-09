@@ -12,10 +12,8 @@ import {
     type AdminAccessTokenCollectionData,
     type SuspendUserResponseData,
 } from "@/client";
-import {
-    mapToAdminAccessToken,
-    type AdminAccessToken,
-} from "@/data/internal/admin/AdminAccessToken.ts";
+import type { CredentialListEntryData } from "@/data/internal/access-tokens/OwnCredentials.ts";
+import { mapToAdminCredentialEntry } from "@/data/internal/admin/AdminAccessToken.ts";
 import { AdminUserRequestError } from "./useAdminUsers.ts";
 
 export const ADMIN_USER_ACCESS_TOKENS_PAGE_SIZE = 21;
@@ -24,7 +22,8 @@ export const adminUserAccessTokensQueryKey = (userId: string) =>
     ["admin", "users", "access-tokens", userId] as const;
 
 export type AdminUserAccessTokensPage = {
-    readonly items: AdminAccessToken[];
+    /** Checked entries in backend order; group them across pages with `groupAdminCredentials`. */
+    readonly items: CredentialListEntryData[];
     readonly size: number;
     readonly searchAfter?: readonly [string, string];
 };
@@ -69,7 +68,7 @@ function mapAdminAccessTokenCollection(
 ): AdminUserAccessTokensPage {
     const cursor = collection.searchAfter;
     return {
-        items: collection.items.flatMap((token) => mapToAdminAccessToken(token, userId) ?? []),
+        items: collection.items.map((entry) => mapToAdminCredentialEntry(entry, userId)),
         size: collection.size,
         ...(cursor ? { searchAfter: [cursor[0], cursor[1]] as const } : {}),
     };

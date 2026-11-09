@@ -325,7 +325,7 @@ function RecentTokens({ data }: { readonly data: OverviewData }) {
                                 {accessToken.name}
                             </span>
                             <AccessTokenExpiry
-                                accessToken={accessToken}
+                                expiresAt={accessToken.expiresAt}
                                 state={expiry}
                                 className="shrink-0 sm:text-right"
                             />

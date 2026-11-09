@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
-import { ACCESS_TOKEN_SCOPE_METADATA } from "@/data/internal/access-tokens/AccessTokenScope.ts";
+import { groupAdminCredentials } from "@/data/internal/admin/AdminAccessToken.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { clearViewerScopedQueries } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
@@ -23,6 +23,8 @@ import {
     normalizeAdminSuspensionReason,
     utf8ByteLength,
 } from "../lib/adminUserSecurityValidation.ts";
+import { AdminConfirmation } from "./AdminConfirmation.tsx";
+import { AdminUserCredentialList } from "./AdminUserCredentialList.tsx";
 
 type ConfirmationKey = "sessions" | "revoke-all" | `revoke:${string}`;
 
@@ -44,7 +46,10 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
     const { lng } = useParams({ from: "/$lng" });
     const actions = useAdminUserSecurityActions();
     const tokenPages = useAdminUserAccessTokens(userId);
-    const tokens = tokenPages.data?.pages.flatMap((page) => page.items) ?? [];
+    const credentials = groupAdminCredentials(
+        tokenPages.data?.pages.flatMap((page) => page.items) ?? [],
+    );
+    const credentialCount = credentials.personalTokens.length + credentials.connectedApps.length;
     const [pending, setPending] = useState<PendingAction>(null);
     const [requestError, setRequestError] = useState<string>();
     const [confirmedSuspension, setConfirmedSuspension] = useState<boolean | null>(null);
@@ -290,7 +295,7 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
                     </p>
                 </div>
                 {confirmation === "sessions" ? (
-                    <Confirmation
+                    <AdminConfirmation
                         prompt={t("adminUsers.security.sessions.confirm")}
                         confirmLabel={t("adminUsers.security.actions.confirmSessionRevocation")}
                         disabled={actionsDisabled}
@@ -321,7 +326,7 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
                         </p>
                     </div>
                     {confirmation === "revoke-all" ? (
-                        <Confirmation
+                        <AdminConfirmation
                             prompt={t("adminUsers.security.tokens.confirmAll")}
                             confirmLabel={t(
                                 "adminUsers.security.actions.confirmAllTokenRevocation",
@@ -365,86 +370,21 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
                         </div>
                     </div>
                 )}
-                {tokenPages.data && tokens.length === 0 && (
+                {tokenPages.data && credentialCount === 0 && (
                     <p className="border p-4 text-sm text-muted-foreground">
                         {t("adminUsers.security.tokens.empty")}
                     </p>
                 )}
-                {tokens.length > 0 && (
-                    <ul className="grid gap-3">
-                        {tokens.map((token) => (
-                            <li
-                                key={token.accessTokenId}
-                                className="grid gap-3 border p-4 sm:flex sm:items-start sm:justify-between"
-                            >
-                                <div className="grid min-w-0 gap-2">
-                                    <h4 className="font-medium break-words">{token.name}</h4>
-                                    <p className="text-sm text-muted-foreground">
-                                        {t("adminUsers.security.tokens.origin", {
-                                            origin: token.origin,
-                                        })}
-                                    </p>
-                                    <p className="text-sm text-muted-foreground">
-                                        {token.expires
-                                            ? t("adminUsers.security.tokens.expires", {
-                                                  expires: token.expires,
-                                              })
-                                            : t("partnerAccessTokens.noExpiration")}
-                                    </p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {token.scopes.length > 0 ? (
-                                            token.scopes.map((scope) => (
-                                                <span
-                                                    key={scope}
-                                                    className="border px-2 py-1 text-xs"
-                                                >
-                                                    {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
-                                                </span>
-                                            ))
-                                        ) : (
-                                            <span className="border px-2 py-1 text-xs">
-                                                {t("partnerAccessTokens.noScopes")}
-                                            </span>
-                                        )}
-                                    </div>
-                                    <code className="break-all text-xs text-muted-foreground">
-                                        {token.accessTokenId}
-                                    </code>
-                                    {confirmation === `revoke:${token.accessTokenId}` && (
-                                        <Confirmation
-                                            prompt={t("adminUsers.security.tokens.confirmSingle", {
-                                                name: token.name,
-                                            })}
-                                            confirmLabel={t(
-                                                "adminUsers.security.actions.confirmTokenRevocation",
-                                            )}
-                                            disabled={actionsDisabled}
-                                            onConfirm={() =>
-                                                void runTokenRevocation(token.accessTokenId)
-                                            }
-                                            onCancel={cancelConfirmation}
-                                        />
-                                    )}
-                                </div>
-                                {confirmation !== `revoke:${token.accessTokenId}` && (
-                                    <Button
-                                        type="button"
-                                        size="sm"
-                                        variant="outline"
-                                        disabled={actionsDisabled}
-                                        data-confirmation-trigger={`revoke:${token.accessTokenId}`}
-                                        onClick={() =>
-                                            setConfirmation(`revoke:${token.accessTokenId}`)
-                                        }
-                                    >
-                                        {pending === `revoke:${token.accessTokenId}`
-                                            ? t("adminUsers.security.actions.revoking")
-                                            : t("adminUsers.security.actions.revokeToken")}
-                                    </Button>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
+                {credentialCount > 0 && (
+                    <AdminUserCredentialList
+                        credentials={credentials}
+                        confirmation={confirmation}
+                        pending={pending}
+                        disabled={actionsDisabled}
+                        onAsk={setConfirmation}
+                        onCancel={cancelConfirmation}
+                        onRevoke={(accessTokenId) => void runTokenRevocation(accessTokenId)}
+                    />
                 )}
                 {tokenPages.hasNextPage && (
                     <div>
@@ -468,50 +408,5 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
                 </p>
             )}
         </section>
-    );
-}
-
-function Confirmation({
-    prompt,
-    confirmLabel,
-    disabled,
-    onConfirm,
-    onCancel,
-}: {
-    readonly prompt: string;
-    readonly confirmLabel: string;
-    readonly disabled: boolean;
-    readonly onConfirm: () => void;
-    readonly onCancel: () => void;
-}) {
-    const { t } = useTranslation();
-    const promptId = useId();
-    const groupRef = useRef<HTMLDivElement>(null);
-
-    // The trigger unmounts when the confirmation opens, so move focus here and announce the prompt.
-    useEffect(() => {
-        groupRef.current?.focus();
-    }, []);
-
-    return (
-        <div
-            ref={groupRef}
-            role="group"
-            aria-labelledby={promptId}
-            tabIndex={-1}
-            className="grid gap-2 outline-none sm:col-span-2"
-        >
-            <p id={promptId} className="text-sm">
-                {prompt}
-            </p>
-            <div className="flex flex-wrap gap-2">
-                <Button type="button" variant="destructive" disabled={disabled} onClick={onConfirm}>
-                    {confirmLabel}
-                </Button>
-                <Button type="button" variant="outline" disabled={disabled} onClick={onCancel}>
-                    {t("adminUsers.actions.cancel")}
-                </Button>
-            </div>
-        </div>
     );
 }

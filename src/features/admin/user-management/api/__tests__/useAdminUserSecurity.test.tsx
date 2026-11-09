@@ -104,18 +104,33 @@ describe("admin user security API", () => {
         expect(api.suspend.mock.calls[0]?.[0].body.reason).toBe("Security review");
     });
 
-    it("serializes tuple cursors as one JSON query value and maps only safe metadata", async () => {
+    it("keeps no unsupported secret fields in the cached pages", async () => {
+        api.listTokens.mockResolvedValueOnce(
+            ok({
+                items: [
+                    token("usr_target", "at_first", {
+                        token: "raw-secret",
+                        tokenHash: "hash-secret",
+                        maskedToken: "masked-secret",
+                    }),
+                ],
+                size: 1,
+            }),
+        );
+
+        const hook = renderHook(() => useAdminUserAccessTokens("usr_target"), { wrapper });
+        await waitFor(() => expect(hook.result.current.data?.pages).toHaveLength(1));
+
+        expect(JSON.stringify(hook.result.current.data)).not.toMatch(
+            /raw-secret|hash-secret|masked-secret/,
+        );
+    });
+
+    it("serializes tuple cursors as one JSON query value and maps the listing metadata", async () => {
         api.listTokens
             .mockResolvedValueOnce(
                 ok({
-                    items: [
-                        token("usr_target", "at_first", {
-                            token: "raw-secret",
-                            tokenHash: "hash-secret",
-                            maskedToken: "masked-secret",
-                            created: "2026-01-01T00:00:00Z",
-                        }),
-                    ],
+                    items: [token("usr_target", "at_first")],
                     size: 1,
                     searchAfter: ["2026-01-01T00:00:00Z", "at_first"],
                 }),
@@ -131,10 +146,6 @@ describe("admin user security API", () => {
             scopes: ["users:read"],
             origin: "User",
         });
-        expect(JSON.stringify(hook.result.current.data)).not.toMatch(
-            /raw-secret|hash-secret|masked-secret/,
-        );
-        expect(hook.result.current.data?.pages[0]?.items[0]).not.toHaveProperty("created");
         expect(api.listTokens).toHaveBeenCalledWith({
             path: { userId: "usr_target" },
             query: { size: 21 },
@@ -184,6 +195,41 @@ describe("admin user security API", () => {
         expect(adminUserAccessTokensQueryKey("usr_first")).not.toEqual(
             adminUserAccessTokensQueryKey("usr_second"),
         );
+    });
+
+    it("keeps connection entries, which have no token ID, in the checked page items", async () => {
+        const connection = {
+            userId: "usr_target",
+            connectionId: "ocn_agent",
+            name: "Claude Code",
+            scopes: ["users:read"],
+            origin: "OAuthMetadataDocument",
+            client: {
+                clientId: "https://claude.ai/oauth/claude-code-client-metadata",
+                name: "Claude Code",
+                kind: "METADATA_DOCUMENT",
+                host: "claude.ai",
+            },
+            created: "2026-11-01T09:00:00Z",
+            lastUsed: "2026-11-06T12:00:00Z",
+        };
+        api.listTokens.mockResolvedValueOnce(
+            ok({ items: [connection, token("usr_target", "at_first")], size: 2 }),
+        );
+        const hook = renderHook(() => useAdminUserAccessTokens("usr_target"), { wrapper });
+
+        await waitFor(() => expect(hook.result.current.isSuccess).toBe(true));
+
+        const { userId: _userId, ...expectedConnection } = connection;
+        expect(hook.result.current.data?.pages[0]?.items).toEqual([
+            expectedConnection,
+            {
+                accessTokenId: "at_first",
+                name: "Token at_first",
+                scopes: ["users:read"],
+                origin: "User",
+            },
+        ]);
     });
 
     it("does not display token metadata if the server returns it for a different user", async () => {
