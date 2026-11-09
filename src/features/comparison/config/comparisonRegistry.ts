@@ -1,5 +1,6 @@
 import { ARTSY_COMPARISON } from "@/features/comparison/config/artsyComparison.ts";
 import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
+import { CATAWIKI_COMPARISON } from "@/features/comparison/config/catawikiComparison.ts";
 import type { ComparisonDefinition } from "@/features/comparison/config/comparisonDefinition.ts";
 import { FIRST_DIBS_COMPARISON } from "@/features/comparison/config/firstDibsComparison.ts";
 import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableComparison.ts";
@@ -15,4 +16,5 @@ export const COMPARISON_REGISTRY: readonly ComparisonDefinition[] = [
     INVALUABLE_COMPARISON,
     FIRST_DIBS_COMPARISON,
     LIVE_AUCTIONEERS_COMPARISON,
+    CATAWIKI_COMPARISON,
 ];

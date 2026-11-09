@@ -100,6 +100,10 @@
       "title": "Aura Historia vs LiveAuctioneers | Art and Antiques Search Comparison",
       "description": "Compare Aura Historia with LiveAuctioneers, The Saleroom and Lot-tissimo: auction platforms versus a search across auction houses, dealers and marketplaces."
     },
+    "compareCatawiki": {
+      "title": "Aura Historia vs Catawiki | Art and Antiques Search Comparison",
+      "description": "Compare Aura Historia with Catawiki: curated weekly auctions versus a search across auction houses, dealers and marketplaces for art, antiques and design."
+    },
     "newsletterConfirm": {
       "title": "Confirm newsletter subscription | Aura Historia"
     },
@@ -4500,6 +4504,201 @@
       "button": "Start searching art and antiques"
     },
     "positioning": "An online auction platform for live and timed bidding, with two more marketplaces in the same group, compared with a search across auction houses, dealers and marketplaces that runs no auctions."
+  },
+  "compareCatawikiPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "art and antiques search",
+        "auctionMarketplace": "online auction marketplace",
+        "crossProviderSearch": "search across auction houses, dealers and marketplaces",
+        "multilingualSearch": "multilingual art and antiques search",
+        "monitoring": "art and antiques watchlists and saved searches"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Summary",
+        "advantages": "Where Aura Historia is wider",
+        "scorecard": "Comparison table",
+        "sources": "Provider types",
+        "together": "How the two fit together",
+        "faq": "FAQ",
+        "verdict": "Final verdict"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparison: Aura Historia vs Catawiki",
+      "title": "Beyond weekly auctions: <em>art and antiques across many providers</em>",
+      "subtitle": "Catawiki is an online auction marketplace that says each object in its weekly auctions is selected by its in-house experts. Aura Historia searches auction houses, dealers and marketplaces side by side, with a focus on art, antiques and design objects.",
+      "primaryCta": "Search across the market",
+      "secondaryCta": "See the scorecard",
+      "quickAnswerEyebrow": "Quick answer",
+      "quickAnswerTitle": "Catawiki is a curated auction venue. <em>Aura Historia is a search across venues.</em>",
+      "quickAnswerDescription": "<strong>Verdict:</strong> choose Catawiki to bid in its weekly online auctions, where it says its experts select the objects, with the buyer protection it describes. Choose Aura Historia to search auction houses, dealers and marketplaces side by side, with a focus on art, antiques and design objects, and to watch objects across providers."
+    },
+    "quickVerdicts": {
+      "curatedAuctions": {
+        "label": "Best for curated weekly auctions and the buyer protection Catawiki describes",
+        "value": "Catawiki"
+      },
+      "searchAcrossProviders": {
+        "label": "Best for search across auction houses, dealers and marketplaces",
+        "value": "Aura Historia"
+      },
+      "artAntiquesDesign": {
+        "label": "Best for a search focused on art, antiques and design objects",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Best for monitoring across providers",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "The short <em>version</em>",
+      "paragraph1": "Aura Historia is an alternative to Catawiki for collectors who want to search beyond one auction venue: auction houses, dealers, shops and marketplaces in one place, with a focus on art, antiques and design objects.",
+      "paragraph2": "Catawiki remains a place to bid in online auctions on its own marketplace. Aura Historia does not run auctions or take bids. It shows what is offered where, and you bid or buy with the provider."
+    },
+    "respect": {
+      "title": "Catawiki is a <em>curated marketplace for auctions</em>",
+      "paragraph1": "A fair comparison starts here. In its Terms of Use, in the version of 18 March 2024, Catawiki says that over 75,000 objects are offered in auction every week, each selected by its in-house experts. In its Buyer Terms of the same date it says its Buyer Protection means that payments are safe, objects are quality checked and sellers are verified.",
+      "paragraph2": "Aura Historia does not try to replace that. It answers a different question: what is offered across auction houses, dealers, shops and marketplaces. Seeing an object here does not make Aura Historia a place to bid. Listings appear as the providers publish them, and you bid or buy where the object is offered."
+    },
+    "advantages": {
+      "title": "Many providers side by side, <em>not one venue's auctions</em>",
+      "description": "The difference is scope and focus: objects from auction houses, dealers and marketplaces in one search, dealers' stock from their own websites, a focus on art, antiques and design objects and monitoring across providers.",
+      "cards": {
+        "openMarket": {
+          "title": "The open market beyond one venue",
+          "description": "Objects from many providers sit in one result list, instead of the auctions of a single venue."
+        },
+        "dealerStock": {
+          "title": "Dealers and their own stock",
+          "description": "Dealers and shops appear with the objects they list on their own websites, asking prices included, next to auction listings."
+        },
+        "artAntiquesDesignFocus": {
+          "title": "A focus on art, antiques and design",
+          "description": "The search is for art, antiques and design objects. This describes a focus, not a ranking of quality."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Monitoring across providers",
+          "description": "Watchlists, saved searches and notifications work across every provider in the index instead of within a single marketplace."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia vs Catawiki, <em>side by side</em>",
+      "description": "Catawiki is built for bidding in its weekly online auctions, where it says its experts select the objects. Aura Historia is built for searching across providers, with a focus on art, antiques and design objects.",
+      "caption": "Comparison of Aura Historia and Catawiki for art and antiques discovery",
+      "headers": {
+        "criterion": "Criterion",
+        "auraHistoria": "Aura Historia",
+        "competitor": "Catawiki"
+      },
+      "rows": {
+        "curationAndProtection": {
+          "criterion": "Curation and buyer protection",
+          "competitor": "Its Terms of Use and Buyer Terms, in the versions of 18 March 2024, say its in-house experts select the objects offered, that its Buyer Protection means payments are safe, objects are quality checked and sellers are verified, and that a payment provider holds your payment in escrow until three days after you receive the object.",
+          "auraHistoria": "Shows listings as the providers publish them. Aura Historia does not sell objects or take payments for them: you buy from the provider, under that provider's own terms.",
+          "verdict": "Catawiki"
+        },
+        "weeklyAuctions": {
+          "criterion": "Weekly auction rhythm",
+          "competitor": "Runs online auctions every week: its Terms of Use, in the version of 18 March 2024, say that over 75,000 objects are offered in auction every week.",
+          "auraHistoria": "Does not run auctions. Shows the offers and auctions of many providers as they publish them, each on its own schedule.",
+          "verdict": "Catawiki for auctions"
+        },
+        "languageBreadth": {
+          "criterion": "Language breadth",
+          "competitor": "Its Terms of Use, in the version of 18 March 2024, say its website and apps are available in multiple languages, with English as the original.",
+          "auraHistoria": "Five languages (German, English, Spanish, French, Italian), with translated listings and aligned terminology across providers.",
+          "verdict": "No difference documented"
+        },
+        "sourceTypes": {
+          "criterion": "Source types",
+          "competitor": "Professional and private sellers offer objects on Catawiki, in auctions and, for some objects, with a buy now option (Buyer Terms, version of 18 March 2024).",
+          "auraHistoria": "Auction houses, dealers, shops and marketplaces, each on its own website or platform, in one search.",
+          "verdict": "Aura Historia"
+        },
+        "dealersAndFixedPrice": {
+          "criterion": "Dealer and shop stock",
+          "competitor": "Runs auctions on its own marketplace; its Buyer Terms, in the version of 18 March 2024, say some objects have a buy now option.",
+          "auraHistoria": "Searches the stock of dealers and shops on their own websites, asking prices included, next to auction listings.",
+          "verdict": "Aura Historia across websites"
+        },
+        "categoryFocus": {
+          "criterion": "Category focus",
+          "competitor": "Its Terms of Use, in the version of 18 March 2024, describe it as an online marketplace for “special objects that fulfil people's passions” and say buyers can filter objects by category.",
+          "auraHistoria": "Focused on art, antiques and design objects. This states a focus, not a judgement of quality.",
+          "verdict": "Aura Historia for focus"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Many kinds of providers change <em>what you can see</em>",
+      "sourcesLabel": "Provider types",
+      "sources": {
+        "auctionHouses": "Auction houses",
+        "auctionPlatforms": "Auction platforms",
+        "antiqueDealers": "Art and antiques dealers",
+        "privateSellers": "Private sellers",
+        "marketplaces": "Marketplaces"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Reach dealers and shops",
+          "description": "Many dealers and shops sell on their own websites. A search across providers lists their objects next to auction listings."
+        },
+        "offersSideBySide": {
+          "title": "See offers side by side",
+          "description": "Dealer asking prices, auction listings and marketplace offers sit in one result list, so you can compare what is available now."
+        },
+        "acrossLanguages": {
+          "title": "Search in five languages",
+          "description": "When listings are translated and terminology is aligned, a collector is less limited by the language of the seller or auctioneer."
+        },
+        "watchAnObject": {
+          "title": "Watch a single object",
+          "description": "A watchlist follows one object and notifies you about changes to its price and availability, whichever provider lists it."
+        }
+      }
+    },
+    "together": {
+      "title": "Find objects here, <em>bid where they are offered</em>",
+      "paragraph1": "The two do different jobs. Aura Historia shows what is offered where. On a listing page, “Go to provider” opens the listing on the provider's own page, in a new tab.",
+      "paragraph2": "Aura Historia does not run auctions or take bids, so registering, bidding or buying happens with the provider. To bid on Catawiki, register and bid there, on its marketplace. Aura Historia is not affiliated with Catawiki."
+    },
+    "faq": {
+      "title": "Common questions about <em>Aura Historia and Catawiki</em>",
+      "items": {
+        "alternative": {
+          "question": "Is Aura Historia a Catawiki alternative?",
+          "answer": "Yes, for buyers who want to search beyond one auction venue. Aura Historia searches auction houses, dealers, shops and marketplaces for art, antiques and design objects in one place. It does not run auctions, so it is not a place to bid. Catawiki remains a curated marketplace for bidding in weekly online auctions, with the buyer protection it describes."
+        },
+        "replace": {
+          "question": "Does Aura Historia replace Catawiki?",
+          "answer": "No. Catawiki is a venue: it holds auctions on its own marketplace. Aura Historia is a search across venues and runs no auctions. You can use Aura Historia to see what is offered across providers and Catawiki where you want to bid in its auctions."
+        },
+        "bid": {
+          "question": "Can I bid through Aura Historia?",
+          "answer": "No. Aura Historia does not run auctions or take bids. On a listing page, “Go to provider” opens the listing on the provider's own page in a new tab, and registering, bidding or buying happens there. To bid on Catawiki, use Catawiki."
+        },
+        "dealerStock": {
+          "question": "Which is better for dealer inventory and fixed-price art and antiques?",
+          "answer": "For dealers' stock on their own websites, Aura Historia: it searches dealers and shops and shows their asking prices next to auction listings. Catawiki runs auctions on its own marketplace, and its Buyer Terms, in the version of 18 March 2024, say some objects have a buy now option. Which suits you depends on whether you want to bid in an auction or to see what dealers offer."
+        },
+        "languages": {
+          "question": "Which is better for multilingual search?",
+          "answer": "No difference is documented. Catawiki's Terms of Use, in the version of 18 March 2024, say its website and apps are available in multiple languages. Aura Historia offers five languages (German, English, Spanish, French and Italian), with translated listings and aligned terminology across providers. The Terms of Use and Buyer Terms of that version do not mention terminology, and this page claims no advantage either way."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Catawiki is a curated venue for auctions. <em>Aura Historia searches the wider market.</em>",
+      "description": "If your search should include dealers, shops and marketplaces as well as auction houses, start with Aura Historia.",
+      "button": "Start searching art and antiques"
+    },
+    "positioning": "A curated marketplace of weekly online auctions, compared with a search across auction houses, dealers and marketplaces that runs no auctions."
   },
   "adminUsers": {
     "title": "User management",
