@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
+import { CONSENT_PANEL_CLASS } from "@/features/oauth/lib/oauthConsentStyles.ts";
 import { formatMerchantSiteAddress } from "@/features/oauth-client-broker/lib/brokerMerchantRedirectUri.ts";
+import { cn } from "@/lib/utils.ts";
 
 interface BrokerRecipientPanelProps {
     /** Address of the WordPress site: origin and install path. */
@@ -18,19 +20,21 @@ export function BrokerRecipientPanel({
     return (
         <section
             aria-labelledby="broker-recipient-label"
-            className="flex flex-col gap-1 rounded-sm border border-line bg-surface-sunken p-3"
+            className={cn(CONSENT_PANEL_CLASS, "gap-1.5 p-4 sm:px-[18px]")}
         >
             <p
                 id="broker-recipient-label"
-                className="font-mono text-label uppercase text-ink-muted"
+                className="font-mono text-[11px] leading-[1.4] tracking-[0.14em] text-ink-muted uppercase"
             >
                 {t("oauth.authorize.broker.recipient.label")}
             </p>
-            <p className="break-all text-body font-medium text-ink">
+            <p className="font-serif text-xl leading-[1.25] break-all text-ink sm:text-[22px]">
                 {formatMerchantSiteAddress(recipient)}
             </p>
-            <p className="break-all font-mono text-meta text-ink-muted">{merchantRedirectUri}</p>
-            <p className="mt-1 text-body-sm text-ink-muted">
+            <p className="font-mono text-xs leading-normal break-all text-ink-muted">
+                {merchantRedirectUri}
+            </p>
+            <p className="mt-2 border-t border-line pt-3 text-sm leading-[1.6] text-ink-secondary">
                 {t("oauth.authorize.broker.recipient.description")}
             </p>
         </section>

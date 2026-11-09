@@ -3430,10 +3430,6 @@
         "title": "Select a provider",
         "description": "Choose the provider to connect to this application. This selection does not limit the token's permissions; access follows the requested scopes and your current provider grants.",
         "selectedLabel": "Selected provider",
-        "empty": {
-          "title": "No provider available",
-          "description": "This integration requires access to a provider. Request access, then restart authorization."
-        },
         "loadError": {
           "title": "Unable to load providers",
           "description": "Your provider access could not be verified. Please try again."
@@ -3518,6 +3514,68 @@
             "title": "Connection could not be confirmed",
             "description": "Complete the connection in the browser and account you approved it with. Start the connection again from your WordPress admin."
           }
+        }
+      },
+      "noProvider": {
+        "eyebrow": "Provider required",
+        "eyebrowApplication": "Your application",
+        "pathLabel": "How to connect",
+        "path": {
+          "apply": {
+            "title": "Apply for admission",
+            "description": "Tell us about your shop. One form, on this page."
+          },
+          "review": {
+            "title": "We review your shop",
+            "description": "You hear from us by email and in your notifications."
+          },
+          "connect": {
+            "title": "Finish connecting",
+            "description": "Check again here or start the connection again from your shop’s admin, then authorize."
+          }
+        },
+        "stages": {
+          "none": {
+            "title": "Your account has no provider <em>yet.</em>",
+            "description": "This app connects to a provider: your shop as it appears on Aura Historia. Apply for admission with your shop. A person reviews every application; once you have access, you can finish this connection."
+          },
+          "submitted": {
+            "title": "Application sent. <em>We’ll be in touch.</em>",
+            "description": "We notify you by email and in Aura Historia when it is decided. Once you have access, check again here, or start the connection again from your shop’s admin."
+          },
+          "inReview": {
+            "title": "Your application is <em>in review.</em>",
+            "description": "We notify you by email and in Aura Historia when it is decided. Once you have access, check again here, or start the connection again from your shop’s admin."
+          },
+          "approved": {
+            "title": "Approved. <em>Access follows.</em>",
+            "description": "We are setting up your access to the provider. Check again in a little while, or start the connection again from your shop’s admin later."
+          },
+          "rejected": {
+            "title": "Your account has no provider <em>yet.</em>",
+            "description": "Your last application was not approved. You can send a new one."
+          },
+          "withdrawn": {
+            "title": "Your account has no provider <em>yet.</em>",
+            "description": "You withdrew your last application. You can send a new one."
+          }
+        },
+        "stillNone": "No provider access yet. Check again once your application is approved.",
+        "checkFailed": {
+          "title": "We could not check your access",
+          "description": "Please try again in a moment."
+        },
+        "apply": "Apply for admission",
+        "applyAgain": "Apply again",
+        "checkAgain": "Check access again",
+        "checking": "Checking…",
+        "return": "Return without connecting",
+        "returnAriaLabel": "Return to {{appName}} without connecting",
+        "applicationContext": "For your connection to <strong>{{appName}}</strong>.",
+        "granted": {
+          "one": "You now have access to {{name}}.",
+          "other": "You now have access to a provider.",
+          "description": "Authorize below to finish connecting."
         }
       }
     }

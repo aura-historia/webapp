@@ -44,9 +44,23 @@ function sources(items: Array<{ listingSourceId: string; name: string }>, hasMor
         isLoadingMore: false,
         isLoadMoreError: false,
         loadMore: vi.fn(),
-        retry: vi.fn(),
+        isRefreshing: false,
+        retry: retryListingSources,
     };
 }
+
+const retryListingSources = vi.hoisted(() => vi.fn());
+const refetchConsent = vi.hoisted(() => vi.fn());
+const mockUsePartnerApplications = vi.hoisted(() => vi.fn());
+vi.mock(
+    "@/features/partner/application-management/api/usePartnerApplications.ts",
+    async (importOriginal) => ({
+        ...(await importOriginal<
+            typeof import("@/features/partner/application-management/api/usePartnerApplications.ts")
+        >()),
+        usePartnerApplications: mockUsePartnerApplications,
+    }),
+);
 
 async function renderPage(searchParams: BrokerConsentSearchParams) {
     await act(async () =>
@@ -71,6 +85,13 @@ describe("WooCommerceBrokerConsentPage", () => {
             isPending: false,
             isError: false,
             data: pendingConsent,
+            refetch: refetchConsent,
+        });
+        mockUsePartnerApplications.mockReturnValue({
+            data: [],
+            isPending: false,
+            isError: false,
+            refetch: vi.fn(),
         });
         mockUseOAuthClient.mockReturnValue({
             data: {
@@ -243,17 +264,74 @@ describe("WooCommerceBrokerConsentPage", () => {
                 }),
             "Anbieter konnten nicht geladen werden",
         ],
-        [
-            "no granted source",
-            () => mockUseOAuthListingSources.mockReturnValue(sources([])),
-            "Kein Anbieter verfügbar",
-        ],
     ])("offers no decision with %s", async (_, arrange, title) => {
         arrange();
         await renderPage({ transaction_id: TRANSACTION_ID });
 
         expect(screen.getByText(title)).toBeInTheDocument();
         expect(screen.queryByRole("button")).not.toBeInTheDocument();
+    });
+
+    describe("without a provider", () => {
+        beforeEach(() => {
+            mockUseOAuthListingSources.mockReturnValue(sources([]));
+        });
+
+        it("keeps the recipient, asks to apply and offers only the decline form", async () => {
+            const user = userEvent.setup();
+            await renderPage({ transaction_id: TRANSACTION_ID });
+
+            expect(screen.getByText("shop.example")).toBeInTheDocument();
+            expect(screen.getByText(/Ihr Konto hat/)).toHaveTextContent(
+                "Ihr Konto hat noch keinen Anbieter.",
+            );
+            expect(screen.queryByText("product-listings:write")).not.toBeInTheDocument();
+            expect(
+                screen.queryByRole("button", {
+                    name: "Aura Historia for WooCommerce den Zugriff auf Ihr Konto erlauben",
+                }),
+            ).not.toBeInTheDocument();
+
+            const deny = formFields(
+                screen.getByRole("button", {
+                    name: "Autorisierung für Aura Historia for WooCommerce ablehnen",
+                }),
+            );
+            expect(deny).toEqual({
+                action: "/api/oauth/broker/woocommerce/deny",
+                method: "post",
+                fields: { lng: "de", transaction_id: TRANSACTION_ID },
+            });
+
+            await user.click(screen.getByRole("button", { name: "Aufnahme beantragen" }));
+            expect(await screen.findByRole("dialog")).toHaveTextContent(
+                "Für Ihre Verbindung mit Aura Historia for WooCommerce.",
+            );
+        });
+
+        it("checks the grants and the transaction again", async () => {
+            const user = userEvent.setup();
+            mockUsePartnerApplications.mockReturnValue({
+                data: [
+                    {
+                        id: "application-1",
+                        state: "SUBMITTED",
+                        proposal: {
+                            type: "EXISTING_LISTING_SOURCE",
+                            listingSourceId: "ls_6rd827eqfefsva9teecmwa3ate",
+                        },
+                    },
+                ],
+                isPending: false,
+                isError: false,
+                refetch: vi.fn(),
+            });
+            await renderPage({ transaction_id: TRANSACTION_ID });
+
+            await user.click(screen.getByRole("button", { name: "Zugriff erneut prüfen" }));
+            expect(retryListingSources).toHaveBeenCalledOnce();
+            expect(refetchConsent).toHaveBeenCalledOnce();
+        });
     });
 
     it("shows the unavailable state when the transaction cannot be read", async () => {

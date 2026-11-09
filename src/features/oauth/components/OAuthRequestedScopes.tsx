@@ -1,5 +1,7 @@
+import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { OAuthScopeItem } from "@/features/oauth/components/OAuthScopeItem.tsx";
+import { CONSENT_HEADING_CLASS } from "@/features/oauth/lib/oauthConsentStyles.ts";
 
 interface OAuthRequestedScopesProps {
     /** Requested permissions; in a step-up, those the client does not hold yet. */
@@ -41,6 +43,7 @@ export function OAuthRequestedScopes({
     );
 }
 
+/** A heading and the permissions as ruled rows (board "Partner · WooCommerce connection consent"). */
 function OAuthScopeList({
     title,
     scopes,
@@ -48,10 +51,13 @@ function OAuthScopeList({
     readonly title: string;
     readonly scopes: readonly string[];
 }) {
+    const headingId = useId();
     return (
-        <div className="flex flex-col gap-3">
-            <p className="text-sm font-medium text-primary">{title}</p>
-            <ul className="flex flex-col gap-2" aria-label={title}>
+        <div className="flex flex-col gap-2">
+            <h3 id={headingId} className={CONSENT_HEADING_CLASS}>
+                {title}
+            </h3>
+            <ul aria-labelledby={headingId}>
                 {scopes.map((scope) => (
                     <OAuthScopeItem key={scope} scope={scope} />
                 ))}

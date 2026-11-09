@@ -1,17 +1,21 @@
 import { Link } from "@tanstack/react-router";
-import { ExternalLink, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { CardHeader, CardTitle } from "@/components/ui/card.tsx";
-import { getSafeHttpsUrl, getSafeHttpsUrlOnHost } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
 import type { OAuthConsentClient } from "@/data/internal/oauth/OAuthClient.ts";
+import { getSafeHttpsUrl, getSafeHttpsUrlOnHost } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
+import { FOCUS_CLASS } from "@/features/partner/common/lib/partnerDashboardStyles.ts";
+import { cn } from "@/lib/utils.ts";
 
 interface OAuthAuthorizeClientSummaryProps {
     readonly client: OAuthConsentClient;
+    /** Id of the client name, so the consent card can be labelled by it. */
+    readonly nameId?: string;
 }
 
-export function OAuthAuthorizeClientSummary({ client }: OAuthAuthorizeClientSummaryProps) {
+/** The client's logo (or the shield), its name and the links it registered. */
+export function OAuthAuthorizeClientSummary({ client, nameId }: OAuthAuthorizeClientSummaryProps) {
     const { t } = useTranslation();
-    const { logoUri, links } = getClientPresentation(client);
+    const { logoUri: clientLogoUri, links } = getClientPresentation(client);
     const clientLinks = [
         { href: links.clientUri, label: t("oauth.authorize.clientInfoLink") },
         { href: links.policyUri, label: t("oauth.authorize.privacyLink") },
@@ -19,42 +23,55 @@ export function OAuthAuthorizeClientSummary({ client }: OAuthAuthorizeClientSumm
     ].filter((link): link is { href: string; label: string } => !!link.href);
 
     return (
-        <CardHeader className="flex flex-row items-start gap-4 space-y-0">
-            <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-outline-variant/20 bg-surface-container-low">
-                {logoUri ? (
+        <div
+            className={cn(
+                "flex gap-3.5 sm:gap-4",
+                clientLinks.length > 0 ? "items-start" : "items-center",
+            )}
+        >
+            <span className="inline-flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-md bg-surface text-oxblood shadow-field">
+                {clientLogoUri ? (
                     <img
-                        src={logoUri}
+                        src={clientLogoUri}
                         alt={t("oauth.authorize.logoAlt", {
                             appName: client.clientName,
                         })}
-                        className="h-full w-full object-cover"
+                        className="size-full object-cover"
                     />
                 ) : (
-                    <ShieldCheck className="size-6 text-primary shrink-0" aria-hidden="true" />
+                    <ShieldCheck className="size-7" strokeWidth={1.6} aria-hidden="true" />
                 )}
-            </div>
-            <div className="flex min-w-0 flex-1 flex-col gap-2">
-                <CardTitle className="text-balance">{client.clientName}</CardTitle>
+            </span>
+            <div className="flex min-w-0 flex-1 flex-col gap-2 pt-0.5">
+                <h2
+                    id={nameId}
+                    className="font-serif text-[22px] leading-[1.15] font-normal text-balance text-ink sm:text-[26px]"
+                >
+                    {client.clientName}
+                </h2>
                 {clientLinks.length > 0 && (
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                    <p className="flex flex-wrap gap-x-4 gap-y-1 text-meta leading-[1.4] text-ink-secondary">
                         {clientLinks.map((link) => (
                             <Link
                                 key={link.label}
                                 to={link.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                                className={cn(
+                                    "inline-flex items-center gap-1 underline decoration-line-strong underline-offset-3 hover:text-ink hover:decoration-brass",
+                                    FOCUS_CLASS,
+                                )}
                                 params={true}
                                 from="/$lng"
                             >
                                 <span>{link.label}</span>
-                                <ExternalLink className="size-3" aria-hidden="true" />
+                                <ArrowUpRight className="size-3" aria-hidden="true" />
                             </Link>
                         ))}
-                    </div>
+                    </p>
                 )}
             </div>
-        </CardHeader>
+        </div>
     );
 }
 

@@ -2794,10 +2794,6 @@
         "title": "Seleziona un fornitore",
         "description": "Scelga il fornitore da collegare a questa applicazione. Questa selezione non limita i permessi del token; l’accesso dipende dai permessi richiesti e dalle autorizzazioni attuali per il fornitore.",
         "selectedLabel": "Fornitore selezionato",
-        "empty": {
-          "title": "Nessun fornitore disponibile",
-          "description": "Questa integrazione richiede l’accesso a un fornitore. Richieda l’accesso, poi riavvii l’autorizzazione."
-        },
         "loadError": {
           "title": "Impossibile caricare i fornitori",
           "description": "Non è stato possibile verificare l’accesso ai fornitori. Riprovi."
@@ -2882,6 +2878,68 @@
             "title": "Impossibile confermare la connessione",
             "description": "Completi la connessione nel browser e con l’account con cui l’ha autorizzata. Avvii di nuovo la connessione dall’amministrazione di WordPress."
           }
+        }
+      },
+      "noProvider": {
+        "eyebrow": "Fornitore necessario",
+        "eyebrowApplication": "La Sua richiesta",
+        "pathLabel": "Come collegarsi",
+        "path": {
+          "apply": {
+            "title": "Richiedi l’ammissione",
+            "description": "Ci racconti del Suo negozio. Un solo modulo, in questa pagina."
+          },
+          "review": {
+            "title": "Esaminiamo il Suo negozio",
+            "description": "Riceverà la nostra risposta via e-mail e nelle Sue notifiche."
+          },
+          "connect": {
+            "title": "Completare il collegamento",
+            "description": "Verifichi di nuovo qui o riavvii il collegamento dall’amministrazione del Suo negozio, poi autorizzi."
+          }
+        },
+        "stages": {
+          "none": {
+            "title": "Il Suo account non ha <em>ancora un fornitore.</em>",
+            "description": "Questa app si collega a un fornitore: il Suo negozio come appare su Aura Historia. Richieda l’ammissione con il Suo negozio. Ogni richiesta viene esaminata da una persona; quando avrà l’accesso, potrà completare questo collegamento."
+          },
+          "submitted": {
+            "title": "Richiesta inviata. <em>La ricontatteremo.</em>",
+            "description": "La avviseremo via e-mail e in Aura Historia quando sarà decisa. Quando avrà l’accesso, verifichi di nuovo qui o riavvii il collegamento dall’amministrazione del Suo negozio."
+          },
+          "inReview": {
+            "title": "La Sua richiesta è <em>in revisione.</em>",
+            "description": "La avviseremo via e-mail e in Aura Historia quando sarà decisa. Quando avrà l’accesso, verifichi di nuovo qui o riavvii il collegamento dall’amministrazione del Suo negozio."
+          },
+          "approved": {
+            "title": "Approvata. <em>L’accesso arriverà a breve.</em>",
+            "description": "Stiamo configurando il Suo accesso al fornitore. Verifichi di nuovo tra poco o riavvii più tardi il collegamento dall’amministrazione del Suo negozio."
+          },
+          "rejected": {
+            "title": "Il Suo account non ha <em>ancora un fornitore.</em>",
+            "description": "La Sua ultima richiesta non è stata approvata. Può inviarne una nuova."
+          },
+          "withdrawn": {
+            "title": "Il Suo account non ha <em>ancora un fornitore.</em>",
+            "description": "Ha ritirato la Sua ultima richiesta. Può inviarne una nuova."
+          }
+        },
+        "stillNone": "Non ha ancora accesso a un fornitore. Verifichi di nuovo quando la Sua richiesta sarà approvata.",
+        "checkFailed": {
+          "title": "Non è stato possibile verificare il Suo accesso",
+          "description": "Riprovi tra un momento."
+        },
+        "apply": "Richiedi l’ammissione",
+        "applyAgain": "Richiedi di nuovo",
+        "checkAgain": "Verifica di nuovo l’accesso",
+        "checking": "Verifica in corso…",
+        "return": "Torna senza collegare",
+        "returnAriaLabel": "Torna a {{appName}} senza collegare",
+        "applicationContext": "Per il Suo collegamento con <strong>{{appName}}</strong>.",
+        "granted": {
+          "one": "Ora ha accesso a {{name}}.",
+          "other": "Ora ha accesso a un fornitore.",
+          "description": "Autorizzi qui sotto per completare il collegamento."
         }
       }
     }

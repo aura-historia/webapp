@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleAlert } from "lucide-react";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 import { type Control, type UseFormReturn, useController, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -231,9 +231,12 @@ function IngestionMethodsField({
 export function PartnerApplicationCreateDialog({
     open,
     onOpenChange,
+    context,
 }: {
     readonly open: boolean;
     readonly onOpenChange: (open: boolean) => void;
+    /** A note above the form on where the application was started, e.g. a shop connection. */
+    readonly context?: ReactNode;
 }) {
     const { t } = useTranslation();
     const mutation = useCreatePartnerApplication();
@@ -306,6 +309,7 @@ export function PartnerApplicationCreateDialog({
                         disabled={mutation.isPending}
                         className="flex min-w-0 flex-col gap-7 px-7 py-6"
                     >
+                        {context}
                         <fieldset className="flex min-w-0 flex-col gap-2.5">
                             <legend className="mb-2.5 text-meta font-medium">
                                 {t("partnerApplications.create.kind.legend")}

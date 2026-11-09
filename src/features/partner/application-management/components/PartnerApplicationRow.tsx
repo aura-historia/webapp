@@ -115,7 +115,12 @@ export function PartnerApplicationRow({
     application,
     providerNames,
     onOpen,
-}: RowProps & { readonly onOpen: () => void }) {
+    showNote = true,
+}: RowProps & {
+    readonly onOpen: () => void;
+    /** The line on what happens next; left out where the surrounding copy already says it. */
+    readonly showNote?: boolean;
+}) {
     const { t } = useTranslation();
     const labels = useApplicationLabels(application, providerNames);
     return (
@@ -140,9 +145,11 @@ export function PartnerApplicationRow({
                 <span className="truncate font-mono text-[10px] tracking-[0.12em] text-ink-muted uppercase">
                     {labels.meta}
                 </span>
-                <span className="text-meta text-ink-secondary">
-                    {t(BUSINESS_STATE_NOTE_KEY[application.state])}
-                </span>
+                {showNote && (
+                    <span className="text-meta text-ink-secondary">
+                        {t(BUSINESS_STATE_NOTE_KEY[application.state])}
+                    </span>
+                )}
                 <ApplicationStatus state={application.state} className="mt-1.5 sm:hidden" />
             </span>
             <ApplicationStatus

@@ -1,22 +1,27 @@
 import { useNavigate } from "@tanstack/react-router";
-import { ShieldAlert } from "lucide-react";
+import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent, CardFooter } from "@/components/ui/card.tsx";
-import { H1 } from "@/components/typography/H1.tsx";
 import { OAuthAgentClientIdentity } from "@/features/oauth/components/OAuthAgentClientIdentity.tsx";
 import { OAuthAuthorizeActions } from "@/features/oauth/components/OAuthAuthorizeActions.tsx";
 import { OAuthAuthorizeClientSummary } from "@/features/oauth/components/OAuthAuthorizeClientSummary.tsx";
+import { OAuthGrantedAccessNote } from "@/features/oauth/components/OAuthGrantedAccessNote.tsx";
 import { OAuthAuthorizeErrorCard } from "@/features/oauth/components/OAuthAuthorizeErrorCard.tsx";
-import { OAuthAuthorizePageContainer } from "@/features/oauth/components/OAuthAuthorizePageContainer.tsx";
+import {
+    OAuthAuthorizePageContainer,
+    OAuthAuthorizeTitle,
+} from "@/features/oauth/components/OAuthAuthorizePageContainer.tsx";
 import { OAuthAuthorizePageSkeleton } from "@/features/oauth/components/OAuthAuthorizePageSkeleton.tsx";
 import { OAuthListingSourceSelection } from "@/features/oauth/components/OAuthListingSourceSelection.tsx";
 import { OAuthLoopbackWarning } from "@/features/oauth/components/OAuthLoopbackWarning.tsx";
+import { OAuthNoProviderConsent } from "@/features/oauth/components/OAuthNoProviderConsent.tsx";
 import { OAuthOfflineAccessNote } from "@/features/oauth/components/OAuthOfflineAccessNote.tsx";
 import { OAuthRequestedScopes } from "@/features/oauth/components/OAuthRequestedScopes.tsx";
+import { OAuthSecurityNote } from "@/features/oauth/components/OAuthSecurityNote.tsx";
 import { OAuthSelectedListingSourceConfirmation } from "@/features/oauth/components/OAuthSelectedListingSourceConfirmation.tsx";
 import { useOAuthAuthorizeListingSourceSelection } from "@/features/oauth/hooks/useOAuthAuthorizeListingSourceSelection.ts";
 import { useOAuthClient } from "@/features/oauth/hooks/useOAuthClient.ts";
 import { useOAuthListingSources } from "@/features/oauth/hooks/useOAuthListingSources.ts";
+import { useNoProviderState } from "@/features/oauth/hooks/useNoProviderState.ts";
 import type { OAuthAuthorizeSearchParams } from "@/features/oauth/lib/oauthAuthorizeSearchParams.ts";
 import {
     getOAuthDenialRedirectUrl,
@@ -26,6 +31,12 @@ import {
     getOAuthConsentScopes,
     withoutOfflineAccess,
 } from "@/features/oauth/lib/oauthConsentScopes.ts";
+import {
+    CONSENT_ACTIONS_CLASS,
+    CONSENT_CARD_CLASS,
+    CONSENT_COPY_CLASS,
+    CONSENT_OUTLINE_BUTTON_CLASS,
+} from "@/features/oauth/lib/oauthConsentStyles.ts";
 import {
     OAuthConsentMetadataError,
     OAuthConsentUnavailableError,
@@ -43,6 +54,7 @@ interface OAuthAuthorizePageProps {
 export function OAuthAuthorizePage({ searchParams: requestSearchParams }: OAuthAuthorizePageProps) {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const nameId = useId();
     const isMetadataDocumentRequest = isMetadataDocumentClientId(requestSearchParams.client_id);
     // Metadata document clients request account scopes only: provider selection never applies, so
     // no grants are read and neither the flag nor a source is posted.
@@ -62,6 +74,8 @@ export function OAuthAuthorizePage({ searchParams: requestSearchParams }: OAuthA
         isPending: isListingSourcesPending,
         isError: isListingSourcesError,
         hasMore: hasMoreListingSources,
+        isRefreshing: isListingSourcesRefreshing,
+        retry: retryListingSources,
     } = listingSourcePages;
     const {
         effectiveListingSource,
@@ -77,8 +91,10 @@ export function OAuthAuthorizePage({ searchParams: requestSearchParams }: OAuthA
         hasMoreListingSources,
     });
 
+    const noProvider = useNoProviderState(requiresListingSourceId, listingSourcePages);
+
+    const denialUrl = client ? getOAuthDenialRedirectUrl(client, searchParams) : undefined;
     const handleDeny = () => {
-        const denialUrl = client && getOAuthDenialRedirectUrl(client, searchParams);
         if (denialUrl) {
             navigate({ href: denialUrl });
         }
@@ -130,6 +146,31 @@ export function OAuthAuthorizePage({ searchParams: requestSearchParams }: OAuthA
         );
     }
 
+    if (noProvider.showPanel) {
+        return (
+            <OAuthNoProviderConsent
+                client={client}
+                secondaryAction={
+                    denialUrl && (
+                        <button
+                            type="button"
+                            className={CONSENT_OUTLINE_BUTTON_CLASS}
+                            aria-label={t("oauth.authorize.noProvider.returnAriaLabel", {
+                                appName: client.clientName,
+                            })}
+                            onClick={handleDeny}
+                        >
+                            {t("oauth.authorize.noProvider.return")}
+                        </button>
+                    )
+                }
+                onCheckAgain={retryListingSources}
+                isChecking={isListingSourcesRefreshing}
+                checkFailed={noProvider.checkFailed}
+            />
+        );
+    }
+
     if (requiresListingSourceId && isListingSourcesError) {
         return (
             <OAuthAuthorizeErrorCard
@@ -139,95 +180,78 @@ export function OAuthAuthorizePage({ searchParams: requestSearchParams }: OAuthA
         );
     }
 
-    if (requiresListingSourceId && listingSources.length === 0 && !hasMoreListingSources) {
-        return (
-            <OAuthAuthorizeErrorCard
-                title={t("oauth.authorize.listingSources.empty.title")}
-                description={t("oauth.authorize.listingSources.empty.description")}
-            />
-        );
-    }
-
     const metadataDocumentClient = client.kind === "metadataDocument" ? client : undefined;
     const consentScopes = getOAuthConsentScopes(requestedScopes, metadataDocumentClient);
 
     return (
         <OAuthAuthorizePageContainer>
-            <div className="w-full max-w-lg mx-auto flex flex-col gap-4">
-                <H1>{t("oauth.authorize.title")}</H1>
+            <OAuthAuthorizeTitle>{t("oauth.authorize.title")}</OAuthAuthorizeTitle>
 
-                <Card className="gap-4">
-                    <OAuthAuthorizeClientSummary client={client} />
+            <article aria-labelledby={nameId} className={CONSENT_CARD_CLASS}>
+                <OAuthAuthorizeClientSummary client={client} nameId={nameId} />
 
-                    <CardContent className="flex flex-col gap-6">
-                        <p className="text-sm text-muted-foreground">
-                            {t("oauth.authorize.description", {
-                                appName: client.clientName,
-                            })}
-                        </p>
+                <p className={CONSENT_COPY_CLASS}>
+                    {t("oauth.authorize.description", {
+                        appName: client.clientName,
+                    })}
+                </p>
 
-                        {metadataDocumentClient && returnsToLocalDevice(metadataDocumentClient) && (
-                            <OAuthLoopbackWarning />
-                        )}
+                {noProvider.gainedAccess && (
+                    <OAuthGrantedAccessNote listingSources={listingSources} />
+                )}
 
-                        {metadataDocumentClient && (
-                            <OAuthAgentClientIdentity
-                                clientHost={metadataDocumentClient.clientHost}
-                                redirectUriHost={metadataDocumentClient.redirectUriHost}
-                            />
-                        )}
+                {metadataDocumentClient && returnsToLocalDevice(metadataDocumentClient) && (
+                    <OAuthLoopbackWarning />
+                )}
 
-                        <OAuthRequestedScopes
-                            requestedScopes={consentScopes.requestedScopes}
-                            alreadyGrantedScopes={consentScopes.alreadyGrantedScopes}
-                        />
+                {metadataDocumentClient && (
+                    <OAuthAgentClientIdentity
+                        clientHost={metadataDocumentClient.clientHost}
+                        redirectUriHost={metadataDocumentClient.redirectUriHost}
+                    />
+                )}
 
-                        {consentScopes.requestsOfflineAccess && <OAuthOfflineAccessNote />}
+                <OAuthRequestedScopes
+                    requestedScopes={consentScopes.requestedScopes}
+                    alreadyGrantedScopes={consentScopes.alreadyGrantedScopes}
+                />
 
-                        {requiresListingSourceSelection && (
-                            <OAuthListingSourceSelection
-                                listingSources={listingSources}
-                                listingSourcePages={listingSourcePages}
-                                selectedListingSourceId={effectiveListingSourceId}
-                                onSelectListingSource={selectListingSource}
-                            />
-                        )}
+                {consentScopes.requestsOfflineAccess && <OAuthOfflineAccessNote />}
 
-                        {shouldShowSelectedListingSource && effectiveListingSource && (
-                            <OAuthSelectedListingSourceConfirmation
-                                listingSource={effectiveListingSource}
-                            />
-                        )}
+                {requiresListingSourceSelection && (
+                    <OAuthListingSourceSelection
+                        listingSources={listingSources}
+                        listingSourcePages={listingSourcePages}
+                        selectedListingSourceId={effectiveListingSourceId}
+                        onSelectListingSource={selectListingSource}
+                    />
+                )}
 
-                        <div className="flex items-start gap-2 rounded-sm bg-surface-container-highest/40 p-3">
-                            <ShieldAlert
-                                className="size-4 text-muted-foreground shrink-0 mt-0.5"
-                                aria-hidden="true"
-                            />
-                            <p className="text-xs text-muted-foreground">
-                                {t("oauth.authorize.securityNote")}
-                            </p>
-                        </div>
-                    </CardContent>
+                {shouldShowSelectedListingSource && effectiveListingSource && (
+                    <OAuthSelectedListingSourceConfirmation
+                        listingSource={effectiveListingSource}
+                    />
+                )}
 
-                    <CardFooter className="flex flex-col gap-3 pt-2 sm:flex-row-reverse">
-                        <OAuthAuthorizeActions
-                            approveAriaLabel={t("oauth.authorize.approveAriaLabel", {
-                                appName: client.clientName,
-                            })}
-                            denyAriaLabel={t("oauth.authorize.denyAriaLabel", {
-                                appName: client.clientName,
-                            })}
-                            isApproveDisabled={
-                                requiresListingSourceSelection && !effectiveListingSourceId
-                            }
-                            listingSourceId={listingSourceId}
-                            onDeny={handleDeny}
-                            searchParams={searchParams}
-                        />
-                    </CardFooter>
-                </Card>
-            </div>
+                <OAuthSecurityNote />
+
+                <div className={CONSENT_ACTIONS_CLASS}>
+                    <OAuthAuthorizeActions
+                        approveAriaLabel={t("oauth.authorize.approveAriaLabel", {
+                            appName: client.clientName,
+                        })}
+                        denyAriaLabel={t("oauth.authorize.denyAriaLabel", {
+                            appName: client.clientName,
+                        })}
+                        isApproveDisabled={
+                            requiresListingSourceSelection && !effectiveListingSourceId
+                        }
+                        listingSourceId={listingSourceId}
+                        onDeny={handleDeny}
+                        searchParams={searchParams}
+                    />
+                </div>
+            </article>
         </OAuthAuthorizePageContainer>
     );
 }

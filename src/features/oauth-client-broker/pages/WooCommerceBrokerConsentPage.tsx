@@ -1,19 +1,30 @@
 import { useParams } from "@tanstack/react-router";
-import { ShieldAlert } from "lucide-react";
+import { CircleAlert } from "lucide-react";
+import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { H1 } from "@/components/typography/H1.tsx";
-import { Card, CardContent, CardFooter } from "@/components/ui/card.tsx";
-import { AuthFormAlert } from "@/features/authentication/components/AuthFormAlert.tsx";
 import { OAuthConsentUnavailableError } from "@/features/oauth/api/oauthConsentMetadata.ts";
 import { OAuthAuthorizeClientSummary } from "@/features/oauth/components/OAuthAuthorizeClientSummary.tsx";
+import { OAuthGrantedAccessNote } from "@/features/oauth/components/OAuthGrantedAccessNote.tsx";
+import { OAuthNoProviderConsent } from "@/features/oauth/components/OAuthNoProviderConsent.tsx";
 import { OAuthAuthorizeErrorCard } from "@/features/oauth/components/OAuthAuthorizeErrorCard.tsx";
-import { OAuthAuthorizePageContainer } from "@/features/oauth/components/OAuthAuthorizePageContainer.tsx";
+import {
+    OAuthAuthorizePageContainer,
+    OAuthAuthorizeTitle,
+} from "@/features/oauth/components/OAuthAuthorizePageContainer.tsx";
 import { OAuthAuthorizePageSkeleton } from "@/features/oauth/components/OAuthAuthorizePageSkeleton.tsx";
 import { OAuthListingSourceSelection } from "@/features/oauth/components/OAuthListingSourceSelection.tsx";
 import { OAuthRequestedScopes } from "@/features/oauth/components/OAuthRequestedScopes.tsx";
+import { OAuthSecurityNote } from "@/features/oauth/components/OAuthSecurityNote.tsx";
 import { OAuthSelectedListingSourceConfirmation } from "@/features/oauth/components/OAuthSelectedListingSourceConfirmation.tsx";
 import { useOAuthClient } from "@/features/oauth/hooks/useOAuthClient.ts";
 import { useOAuthListingSources } from "@/features/oauth/hooks/useOAuthListingSources.ts";
+import { useNoProviderState } from "@/features/oauth/hooks/useNoProviderState.ts";
+import {
+    CONSENT_ACTIONS_CLASS,
+    CONSENT_ALERT_CLASS,
+    CONSENT_CARD_CLASS,
+    CONSENT_COPY_CLASS,
+} from "@/features/oauth/lib/oauthConsentStyles.ts";
 import { BrokerConsentActions } from "@/features/oauth-client-broker/components/BrokerConsentActions.tsx";
 import { BrokerRecipientPanel } from "@/features/oauth-client-broker/components/BrokerRecipientPanel.tsx";
 import { useBrokerConsent } from "@/features/oauth-client-broker/hooks/useBrokerConsent.ts";
@@ -79,18 +90,28 @@ function BrokerTransactionConsent({
     if (!pending) {
         return <BrokerTerminalCard state={consent.data.status as TerminalState} />;
     }
-    return <PendingBrokerConsent consent={pending} inlineError={inlineError} />;
+    return (
+        <PendingBrokerConsent
+            consent={pending}
+            inlineError={inlineError}
+            onRefreshTransaction={() => void consent.refetch()}
+        />
+    );
 }
 
 function PendingBrokerConsent({
     consent,
     inlineError,
+    onRefreshTransaction,
 }: {
     readonly consent: Extract<OAuthBrokerConsent, { status: "pending" }>;
     readonly inlineError: (typeof INLINE_ERROR_KEYS)[keyof typeof INLINE_ERROR_KEYS] | undefined;
+    /** Reads the transaction again, so an expired one turns into its terminal state. */
+    readonly onRefreshTransaction: () => void;
 }) {
     const { t } = useTranslation();
     const { lng } = useParams({ from: "/$lng" });
+    const nameId = useId();
     const { data: client, isLoading, isError, error } = useOAuthClient(consent.clientId);
     const listingSourcePages = useOAuthListingSources(true);
     const { listingSource, hasOnlyListingSource, selectListingSource } =
@@ -99,6 +120,7 @@ function PendingBrokerConsent({
             listingSourcePages.sources,
             listingSourcePages.hasMore,
         );
+    const noProvider = useNoProviderState(true, listingSourcePages);
 
     if (isLoading || listingSourcePages.isPending) {
         return <BrokerConsentSkeleton requestedScopes={consent.scopes} />;
@@ -114,6 +136,39 @@ function PendingBrokerConsent({
         );
     }
 
+    const actionProps = {
+        lng,
+        transactionId: consent.transactionId,
+        approveAriaLabel: t("oauth.authorize.approveAriaLabel", { appName: client.clientName }),
+        denyAriaLabel: t("oauth.authorize.denyAriaLabel", { appName: client.clientName }),
+    };
+
+    if (noProvider.showPanel) {
+        return (
+            <OAuthNoProviderConsent
+                client={client}
+                secondaryAction={
+                    <BrokerConsentActions
+                        {...actionProps}
+                        listingSourceId={undefined}
+                        canApprove={false}
+                    />
+                }
+                onCheckAgain={() => {
+                    listingSourcePages.retry();
+                    onRefreshTransaction();
+                }}
+                isChecking={listingSourcePages.isRefreshing}
+                checkFailed={noProvider.checkFailed}
+            >
+                <BrokerRecipientPanel
+                    recipient={consent.recipient}
+                    merchantRedirectUri={consent.merchantRedirectUri}
+                />
+            </OAuthNoProviderConsent>
+        );
+    }
+
     if (listingSourcePages.isError) {
         return (
             <OAuthAuthorizeErrorCard
@@ -123,86 +178,72 @@ function PendingBrokerConsent({
         );
     }
 
-    if (listingSourcePages.sources.length === 0 && !listingSourcePages.hasMore) {
-        return (
-            <OAuthAuthorizeErrorCard
-                title={t("oauth.authorize.listingSources.empty.title")}
-                description={t("oauth.authorize.listingSources.empty.description")}
-            />
-        );
-    }
-
     return (
         <OAuthAuthorizePageContainer>
-            <div className="w-full max-w-lg mx-auto flex flex-col gap-4">
-                <H1>{t("oauth.authorize.title")}</H1>
+            <OAuthAuthorizeTitle>{t("oauth.authorize.title")}</OAuthAuthorizeTitle>
 
-                <Card className="gap-4">
-                    <OAuthAuthorizeClientSummary client={client} />
+            <article aria-labelledby={nameId} className={CONSENT_CARD_CLASS}>
+                <OAuthAuthorizeClientSummary client={client} nameId={nameId} />
 
-                    <CardContent className="flex flex-col gap-6">
-                        <p className="text-sm text-muted-foreground">
-                            {t("oauth.authorize.description", { appName: client.clientName })}
-                        </p>
+                <p className={CONSENT_COPY_CLASS}>
+                    {t("oauth.authorize.description", { appName: client.clientName })}
+                </p>
 
-                        <BrokerRecipientPanel
-                            recipient={consent.recipient}
-                            merchantRedirectUri={consent.merchantRedirectUri}
+                <BrokerRecipientPanel
+                    recipient={consent.recipient}
+                    merchantRedirectUri={consent.merchantRedirectUri}
+                />
+
+                {noProvider.gainedAccess && (
+                    <OAuthGrantedAccessNote listingSources={listingSourcePages.sources} />
+                )}
+
+                <OAuthRequestedScopes requestedScopes={consent.scopes} />
+
+                {hasOnlyListingSource && listingSource ? (
+                    <OAuthSelectedListingSourceConfirmation
+                        listingSource={listingSource}
+                        hint={t("oauth.authorize.broker.sourceRegistrationNote")}
+                    />
+                ) : (
+                    <OAuthListingSourceSelection
+                        listingSources={listingSourcePages.sources}
+                        listingSourcePages={listingSourcePages}
+                        selectedListingSourceId={listingSource?.listingSourceId}
+                        onSelectListingSource={selectListingSource}
+                        hint={t("oauth.authorize.broker.sourceRegistrationNote")}
+                    />
+                )}
+
+                <OAuthSecurityNote />
+
+                {inlineError && (
+                    <div role="alert" className={CONSENT_ALERT_CLASS}>
+                        <CircleAlert
+                            aria-hidden="true"
+                            className="mt-0.5 size-[18px] shrink-0 text-oxblood"
+                            strokeWidth={1.8}
                         />
-
-                        <OAuthRequestedScopes requestedScopes={consent.scopes} />
-
-                        {hasOnlyListingSource && listingSource ? (
-                            <OAuthSelectedListingSourceConfirmation listingSource={listingSource} />
-                        ) : (
-                            <OAuthListingSourceSelection
-                                listingSources={listingSourcePages.sources}
-                                listingSourcePages={listingSourcePages}
-                                selectedListingSourceId={listingSource?.listingSourceId}
-                                onSelectListingSource={selectListingSource}
-                            />
-                        )}
-                        <p className="text-sm text-muted-foreground">
-                            {t("oauth.authorize.broker.sourceRegistrationNote")}
-                        </p>
-
-                        <div className="flex items-start gap-2 rounded-sm bg-surface-container-highest/40 p-3">
-                            <ShieldAlert
-                                className="size-4 text-muted-foreground shrink-0 mt-0.5"
-                                aria-hidden="true"
-                            />
-                            <p className="text-xs text-muted-foreground">
-                                {t("oauth.authorize.securityNote")}
+                        <div className="flex min-w-0 flex-col gap-1">
+                            <p className="text-sm leading-normal font-semibold text-ink">
+                                {t(`oauth.authorize.broker.errors.${inlineError}.title`)}
                             </p>
-                        </div>
-
-                        {inlineError && (
-                            <AuthFormAlert>
-                                <span className="block font-medium">
-                                    {t(`oauth.authorize.broker.errors.${inlineError}.title`)}
-                                </span>
+                            <p className="text-sm leading-[1.6] text-ink-secondary">
                                 {t(`oauth.authorize.broker.errors.${inlineError}.description`, {
                                     recipient: formatMerchantSiteAddress(consent.recipient),
                                 })}
-                            </AuthFormAlert>
-                        )}
-                    </CardContent>
+                            </p>
+                        </div>
+                    </div>
+                )}
 
-                    <CardFooter className="flex flex-col gap-3 pt-2 sm:flex-row-reverse">
-                        <BrokerConsentActions
-                            lng={lng}
-                            transactionId={consent.transactionId}
-                            listingSourceId={listingSource?.listingSourceId}
-                            approveAriaLabel={t("oauth.authorize.approveAriaLabel", {
-                                appName: client.clientName,
-                            })}
-                            denyAriaLabel={t("oauth.authorize.denyAriaLabel", {
-                                appName: client.clientName,
-                            })}
-                        />
-                    </CardFooter>
-                </Card>
-            </div>
+                <div className={CONSENT_ACTIONS_CLASS}>
+                    <BrokerConsentActions
+                        {...actionProps}
+                        listingSourceId={listingSource?.listingSourceId}
+                    />
+                </div>
+            </article>
         </OAuthAuthorizePageContainer>
     );
 }

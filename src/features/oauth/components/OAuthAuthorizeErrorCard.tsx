@@ -1,5 +1,4 @@
-import { AlertTriangle } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+import { TriangleAlert } from "lucide-react";
 import { OAuthAuthorizePageContainer } from "@/features/oauth/components/OAuthAuthorizePageContainer.tsx";
 
 interface OAuthAuthorizeErrorCardProps {
@@ -7,20 +6,22 @@ interface OAuthAuthorizeErrorCardProps {
     readonly description: string;
 }
 
+/** A terminal state shown in place of the consent card, without Authorize or Decline. */
 export function OAuthAuthorizeErrorCard({ title, description }: OAuthAuthorizeErrorCardProps) {
     return (
         <OAuthAuthorizePageContainer>
-            <Card className="w-full max-w-lg mx-auto gap-4">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <AlertTriangle className="size-5 text-destructive" aria-hidden="true" />
-                        {title}
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground text-sm">{description}</p>
-                </CardContent>
-            </Card>
+            <article className="flex flex-col gap-3 rounded-card bg-surface-raised p-6 shadow-ring">
+                <span
+                    aria-hidden="true"
+                    className="inline-flex size-9 items-center justify-center rounded-md bg-surface-sunken text-oxblood"
+                >
+                    <TriangleAlert className="size-[18px]" strokeWidth={1.8} />
+                </span>
+                <h1 className="font-serif text-[22px] leading-[1.3] font-normal text-ink">
+                    {title}
+                </h1>
+                <p className="text-sm leading-[1.6] text-ink-secondary">{description}</p>
+            </article>
         </OAuthAuthorizePageContainer>
     );
 }

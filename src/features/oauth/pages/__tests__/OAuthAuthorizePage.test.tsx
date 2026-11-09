@@ -15,6 +15,7 @@ import {
 } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import testI18n from "@/i18n/i18nForTests.ts";
 import { env } from "@/env.ts";
+import type { PartnerApplicationState } from "@/data/internal/partner-application/OwnPartnershipApplication.ts";
 
 const navigate = vi.hoisted(() => vi.fn());
 vi.mock("@tanstack/react-router", async (importOriginal) => ({
@@ -67,7 +68,42 @@ function listingSourcesState({
         isLoadingMore: false,
         isLoadMoreError: false,
         loadMore: loadMoreListingSources,
-        retry: vi.fn(),
+        isRefreshing: false,
+        retry: retryListingSources,
+    };
+}
+
+const retryListingSources = vi.hoisted(() => vi.fn());
+const refetchApplications = vi.hoisted(() => vi.fn());
+const mockUsePartnerApplications = vi.hoisted(() => vi.fn());
+vi.mock(
+    "@/features/partner/application-management/api/usePartnerApplications.ts",
+    async (importOriginal) => ({
+        ...(await importOriginal<
+            typeof import("@/features/partner/application-management/api/usePartnerApplications.ts")
+        >()),
+        usePartnerApplications: mockUsePartnerApplications,
+    }),
+);
+
+function applicationsState(states: readonly PartnerApplicationState[] = []) {
+    return {
+        data: states.map((state, index) => ({
+            id: `application-${index}`,
+            state,
+            proposal: {
+                type: "PROPOSED_LISTING_SOURCE" as const,
+                party: { name: "Lenbach Kunsthandel" },
+                listingSource: {
+                    name: `Galerie ${index}`,
+                    listingSourceType: "DEALER" as const,
+                    requestedIngestionMethods: [],
+                },
+            },
+        })),
+        isPending: false,
+        isError: false,
+        refetch: refetchApplications,
     };
 }
 
@@ -108,6 +144,7 @@ describe("OAuthAuthorizePage", () => {
             isError: false,
         });
         mockUseOAuthListingSources.mockReturnValue(listingSourcesState({ sources: [] }));
+        mockUsePartnerApplications.mockReturnValue(applicationsState());
     });
 
     it("renders the authorization page with client name", async () => {
@@ -426,7 +463,7 @@ describe("OAuthAuthorizePage", () => {
             renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
         );
 
-        expect(container.querySelector("[data-slot='skeleton']")).toBeInTheDocument();
+        expect(container.querySelector("[aria-busy='true']")).toBeInTheDocument();
         expect(screen.queryByText("Test Partner App")).not.toBeInTheDocument();
     });
 
@@ -502,9 +539,11 @@ describe("OAuthAuthorizePage", () => {
             ),
         );
         const items = screen.getAllByRole("listitem");
-        expect(items.map((item) => item.querySelector('[data-slot="badge"]')?.textContent)).toEqual(
-            ["search-filters:write", "auctions:read", "future:read"],
-        );
+        expect(items.map((item) => item.querySelector("code")?.textContent)).toEqual([
+            "search-filters:write",
+            "auctions:read",
+            "future:read",
+        ]);
         expect(screen.queryByText("search-filters:read")).not.toBeInTheDocument();
         expect(screen.queryByText("auctions:write")).not.toBeInTheDocument();
         expect(
@@ -588,21 +627,160 @@ describe("OAuthAuthorizePage", () => {
         expect(screen.getByText("Only Shop")).toBeInTheDocument();
     });
 
-    it("shows an error when a partner shop is required but none are available", async () => {
-        mockUseOAuthListingSources.mockReturnValue(listingSourcesState({ sources: [] }));
+    describe("without a provider", () => {
+        const providerSearch = { ...defaultSearchParams, requires_listing_source_id: true };
 
-        await act(async () =>
-            renderWithRouter(
-                <OAuthAuthorizePage
-                    searchParams={{ ...defaultSearchParams, requires_listing_source_id: true }}
-                />,
-            ),
-        );
+        it("asks to apply and offers a registered way back instead of authorizing", async () => {
+            const user = userEvent.setup();
+            await act(async () =>
+                renderWithRouter(<OAuthAuthorizePage searchParams={providerSearch} />),
+            );
 
-        expect(screen.getByText("Kein Anbieter verfügbar")).toBeInTheDocument();
-        expect(
-            screen.getByText(/Für diese Integration benötigen Sie Zugriff auf einen Anbieter/),
-        ).toBeInTheDocument();
+            expect(screen.getByText(/Ihr Konto hat/)).toHaveTextContent(
+                "Ihr Konto hat noch keinen Anbieter.",
+            );
+            expect(screen.getByRole("list", { name: "So verbinden Sie Ihren Shop" })).toBeVisible();
+            expect(
+                screen.queryByRole("button", {
+                    name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
+                }),
+            ).not.toBeInTheDocument();
+            expect(screen.queryByText("product-listings:write")).not.toBeInTheDocument();
+
+            await user.click(screen.getByRole("button", { name: "Aufnahme beantragen" }));
+            const dialog = await screen.findByRole("dialog");
+            expect(dialog).toHaveTextContent("Für Ihre Verbindung mit Test Partner App.");
+
+            await user.keyboard("{Escape}");
+            await user.click(
+                screen.getByRole("button", {
+                    name: "Ohne Verbindung zu Test Partner App zurückkehren",
+                }),
+            );
+            expect(navigate).toHaveBeenCalledOnce();
+            const href = new URL(navigate.mock.calls[0][0].href);
+            expect(href.origin + href.pathname).toBe("https://client.example/callback");
+            expect(href.searchParams.get("error")).toBe("access_denied");
+            expect(href.searchParams.get("state")).toBe("csrf-state-123");
+            expect(href.searchParams.has("code")).toBe(false);
+        });
+
+        it.each([
+            ["pending", { isPending: true }],
+            ["failed", { isError: true }],
+            ["incomplete", { hasMore: true }],
+        ] as const)("does not treat a %s grant read as no provider", async (_label, state) => {
+            mockUseOAuthListingSources.mockReturnValue(
+                listingSourcesState({ sources: [], ...state }),
+            );
+            await act(async () =>
+                renderWithRouter(<OAuthAuthorizePage searchParams={providerSearch} />),
+            );
+            expect(screen.queryByText(/Ihr Konto hat/)).not.toBeInTheDocument();
+            expect(
+                screen.queryByRole("button", { name: "Aufnahme beantragen" }),
+            ).not.toBeInTheDocument();
+        });
+
+        it("follows an open application and checks access again", async () => {
+            const user = userEvent.setup();
+            mockUsePartnerApplications.mockReturnValue(
+                applicationsState(["REJECTED", "IN_REVIEW"]),
+            );
+            await act(async () =>
+                renderWithRouter(<OAuthAuthorizePage searchParams={providerSearch} />),
+            );
+
+            expect(screen.getByText(/Ihr Antrag ist/)).toHaveTextContent(
+                "Ihr Antrag ist in Prüfung.",
+            );
+            expect(screen.getByText("Galerie 1")).toBeInTheDocument();
+            expect(
+                screen.queryByRole("button", { name: "Aufnahme beantragen" }),
+            ).not.toBeInTheDocument();
+
+            await user.click(screen.getByRole("button", { name: "Zugriff erneut prüfen" }));
+            expect(retryListingSources).toHaveBeenCalledOnce();
+            expect(refetchApplications).toHaveBeenCalledOnce();
+            expect(screen.getByRole("status")).toHaveTextContent(
+                "Noch kein Zugriff auf einen Anbieter.",
+            );
+        });
+
+        it("waits for the grant after approval and offers a new application after a rejection", async () => {
+            mockUsePartnerApplications.mockReturnValue(applicationsState(["APPROVED"]));
+            const { unmount } = await act(async () =>
+                renderWithRouter(<OAuthAuthorizePage searchParams={providerSearch} />),
+            );
+            expect(screen.getByText(/Genehmigt\./)).toHaveTextContent(
+                "Genehmigt. Der Zugriff folgt.",
+            );
+            expect(screen.getByRole("button", { name: "Zugriff erneut prüfen" })).toBeVisible();
+            unmount();
+
+            mockUsePartnerApplications.mockReturnValue(applicationsState(["REJECTED"]));
+            await act(async () =>
+                renderWithRouter(<OAuthAuthorizePage searchParams={providerSearch} />),
+            );
+            expect(
+                screen.getByText(
+                    "Ihr letzter Antrag wurde nicht genehmigt. Sie können einen neuen senden.",
+                ),
+            ).toBeInTheDocument();
+            expect(screen.getByRole("button", { name: "Erneut beantragen" })).toBeVisible();
+        });
+
+        it("keeps the panel when a check fails and shows the consent once access is granted", async () => {
+            let state = listingSourcesState({ sources: [] });
+            mockUseOAuthListingSources.mockImplementation(() => state);
+            mockUsePartnerApplications.mockReturnValue(applicationsState(["APPROVED"]));
+            let refresh: () => void = () => {};
+            function Harness() {
+                const [, setVersion] = useState(0);
+                refresh = () => setVersion((version) => version + 1);
+                return <OAuthAuthorizePage searchParams={providerSearch} />;
+            }
+            await act(async () => renderWithRouter(<Harness />));
+
+            state = listingSourcesState({ sources: [], isError: true });
+            act(() => refresh());
+            expect(screen.getByRole("alert")).toHaveTextContent(
+                "Ihr Zugriff konnte nicht geprüft werden",
+            );
+            expect(screen.getByRole("button", { name: "Zugriff erneut prüfen" })).toBeVisible();
+
+            state = listingSourcesState({
+                sources: [{ listingSourceId: "shop-1", name: "Galerie Lenbach" }],
+            });
+            act(() => refresh());
+            expect(screen.getByRole("status")).toHaveTextContent(
+                "Sie haben jetzt Zugriff auf Galerie Lenbach.",
+            );
+            const approveButton = screen.getByRole("button", {
+                name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
+            });
+            expect(approveButton).toBeEnabled();
+            const form = approveButton.closest("form");
+            if (!form) throw new Error("Approve form not found");
+            expect(new FormData(form).get("listing_source_id")).toBe("shop-1");
+        });
+
+        it("keeps an unregistered callback on the local error", async () => {
+            await act(async () =>
+                renderWithRouter(
+                    <OAuthAuthorizePage
+                        searchParams={{
+                            ...providerSearch,
+                            redirect_uri: "https://evil.example/cb",
+                        }}
+                    />,
+                ),
+            );
+            expect(screen.getByText("Ungültige Autorisierungsanfrage")).toBeInTheDocument();
+            expect(
+                screen.queryByRole("button", { name: /Ohne Verbindung/ }),
+            ).not.toBeInTheDocument();
+        });
     });
 
     it("lets the user choose a partner shop when multiple are available", async () => {
@@ -1070,9 +1248,7 @@ describe("OAuthAuthorizePage for a metadata document client", () => {
         });
 
         expect(
-            screen
-                .getAllByRole("listitem")
-                .map((item) => item.querySelector("[data-slot='badge']")?.textContent),
+            screen.getAllByRole("listitem").map((item) => item.querySelector("code")?.textContent),
         ).toEqual(["users:read", "watchlist:read"]);
         expect(screen.queryByText("offline_access")).not.toBeInTheDocument();
         expect(
@@ -1121,7 +1297,7 @@ describe("OAuthAuthorizePage for a metadata document client", () => {
         const badges = (list: HTMLElement) =>
             within(list)
                 .getAllByRole("listitem")
-                .map((item) => item.querySelector("[data-slot='badge']")?.textContent);
+                .map((item) => item.querySelector("code")?.textContent);
         expect(badges(newScopes)).toEqual(["watchlist:write", "search-filters:read"]);
         expect(badges(grantedScopes)).toEqual(["users:read", "watchlist:read"]);
         // A granted scope that this request does not name is not shown.
