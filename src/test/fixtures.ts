@@ -1,7 +1,20 @@
 import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
 import type { ProductListingUserState } from "@/data/internal/product/UserProductData.ts";
+import type { SensitiveContentCategory } from "@/data/internal/product/ProductImageData.ts";
 import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
+
+/**
+ * Every consent category of the generated contract. The record makes `tsc` fail after a client
+ * regeneration adds a category until it is listed here, so the tests that iterate it cover it.
+ */
+const SENSITIVE_CONTENT_CATEGORY_TABLE: Record<SensitiveContentCategory, true> = {
+    NAZI_GERMANY: true,
+    NUDITY: true,
+};
+export const SENSITIVE_CONTENT_CATEGORIES = Object.keys(
+    SENSITIVE_CONTENT_CATEGORY_TABLE,
+) as readonly SensitiveContentCategory[];
 
 export function makeProductListingUserState(
     overrides: Partial<ProductListingUserState> = {},

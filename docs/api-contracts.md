@@ -37,8 +37,9 @@ admin workflows in [admin workflows](admin-workflows.md).
     generated type, and `ListingContentPolicy` and `ProductImage.prohibitedContentType` build on
     it, so a further category needs only a client regeneration. Image visibility never branches on
     the category: everything but `NONE` stays hidden without the preference, a category this
-    client does not know included. Listings assessed before the backend change keep `ALLOWED`
-    until their title or description changes, so `NUDITY` appears gradually. The preference's
+    client does not know included. Listings assessed before the backend change keep their earlier decision
+    until their title or description changes (a nude listing assessed `ALLOWED` stays `ALLOWED`),
+    so `NUDITY` appears gradually. The preference's
     tooltip now names nudity and erotic content; the legal pages are unchanged (see
     [privacy alignment](privacy-policy-alignment.md#alignment-rules)).
   - **`viewUrl` on public listing sources** ([backend#2827](https://github.com/aura-historia/backend/issues/2827),
@@ -53,7 +54,10 @@ admin workflows in [admin workflows](admin-workflows.md).
     shop's registered website. A Partnerize `viewUrl` contains the campaign reference, as on
     listings. The admin and own listing-source models are unchanged: the backend added `viewUrl`
     to neither, and administrators read `referralConfiguration` directly.
-  - Description-only: the `viewUrl` and `category` descriptions.
+  - Description-only: the `PublicListingSourceData` summary and the `category` description.
+  - Backend commits since without a client change: hidden listings now carry the `url` and `viewUrl`
+    `https://aura-historia.com/#pricing` ([backend#2824](https://github.com/aura-historia/backend/issues/2824));
+    listing links already open `viewUrl ?? url` and nothing special-cases the old path.
   - Not breaking: an older backend sends no `viewUrl` and only `NAZI_GERMANY`.
 - Changes adopted with the `40f76513aa` capture (against `6781ead662`, 2026-11-06), with their
   decisions:

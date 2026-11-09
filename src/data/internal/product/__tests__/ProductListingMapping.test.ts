@@ -5,6 +5,7 @@ import type {
     ProductListingSummaryData,
 } from "@/client";
 import { describe, expect, it } from "vitest";
+import { SENSITIVE_CONTENT_CATEGORIES } from "@/test/fixtures.ts";
 import { isRestrictedImage } from "../ProductImageData.ts";
 import {
     mapPersonalizedProductListingDetails,
@@ -67,8 +68,6 @@ const personalized = <TItem>(item: TItem) => ({
     },
 });
 
-const SENSITIVE_CATEGORIES = ["NAZI_GERMANY", "NUDITY"] as const;
-
 describe("ProductListing mappers", () => {
     it("maps opaque identity, nested source, summary price metadata and viewer state", () => {
         const data: PersonalizedProductListingSummaryData = personalized(baseSummary);
@@ -110,7 +109,7 @@ describe("ProductListing mappers", () => {
         expect(result.images).toEqual([{ url: undefined, prohibitedContentType: "UNKNOWN" }]);
     });
 
-    it.each(SENSITIVE_CATEGORIES)(
+    it.each(SENSITIVE_CONTENT_CATEGORIES)(
         "maps a %s summary assessment and hides its images without the preference",
         (category) => {
             const result = mapPersonalizedProductListingSummary(
@@ -131,7 +130,7 @@ describe("ProductListing mappers", () => {
         },
     );
 
-    it.each(SENSITIVE_CATEGORIES)(
+    it.each(SENSITIVE_CONTENT_CATEGORIES)(
         "maps a %s detail assessment and hides its images without the preference",
         (category) => {
             const result = mapToProductListingDetail(
@@ -149,6 +148,21 @@ describe("ProductListing mappers", () => {
             expect(isRestrictedImage(result.images[0], true)).toBe(false);
         },
     );
+
+    it("keeps images hidden for a category this client does not know", () => {
+        const contentPolicy = {
+            decision: "REQUIRES_CONSENT",
+            category: "FUTURE_CATEGORY",
+        } as unknown as ProductListingSummaryData["contentPolicy"];
+        const result = mapPersonalizedProductListingSummary(
+            { item: { ...baseSummary, contentPolicy } },
+            "en",
+        );
+
+        expect(result.contentPolicy).toEqual(contentPolicy);
+        expect(isRestrictedImage(result.images[0], false)).toBe(true);
+        expect(isRestrictedImage(result.images[0], true)).toBe(false);
+    });
 
     it("shows images of an allowed listing without the preference", () => {
         const result = mapPersonalizedProductListingSummary(

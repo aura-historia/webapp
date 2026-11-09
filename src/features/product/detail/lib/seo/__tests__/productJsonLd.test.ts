@@ -232,6 +232,10 @@ describe("productJsonLd", () => {
                     prohibitedContentType: "NAZI_GERMANY",
                 },
                 {
+                    url: new URL("https://example.com/nudity.jpg"),
+                    prohibitedContentType: "NUDITY",
+                },
+                {
                     url: new URL("https://example.com/unassessed.jpg"),
                     prohibitedContentType: "UNKNOWN",
                 },

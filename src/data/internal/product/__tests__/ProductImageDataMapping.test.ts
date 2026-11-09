@@ -1,4 +1,5 @@
 import type { ContentPolicyData } from "@/client";
+import { SENSITIVE_CONTENT_CATEGORIES } from "@/test/fixtures.ts";
 import { describe, expect, it } from "vitest";
 import {
     filterDuplicateImages,
@@ -8,16 +9,14 @@ import {
     type ProductImage,
 } from "../ProductImageData.ts";
 
-const SENSITIVE_CATEGORIES = ["NAZI_GERMANY", "NUDITY"] as const;
-
 describe("isRestrictedImage", () => {
-    it.each(["NONE", "UNKNOWN", ...SENSITIVE_CATEGORIES] as const)(
+    it.each(["NONE", "UNKNOWN", ...SENSITIVE_CONTENT_CATEGORIES] as const)(
         "keeps redacted %s images hidden even when visibility is enabled",
         (prohibitedContentType) => {
             expect(isRestrictedImage({ prohibitedContentType }, true)).toBe(true);
         },
     );
-    it.each(["UNKNOWN", ...SENSITIVE_CATEGORIES] as const)(
+    it.each(["UNKNOWN", ...SENSITIVE_CONTENT_CATEGORIES] as const)(
         "requires explicit visibility for %s content",
         (prohibitedContentType) => {
             const image = { url: new URL("https://example.com/image.jpg"), prohibitedContentType };
@@ -25,14 +24,17 @@ describe("isRestrictedImage", () => {
             expect(isRestrictedImage(image, true)).toBe(false);
         },
     );
-    it.each(SENSITIVE_CATEGORIES)("should return true for %s images without URL", (category) => {
-        const image: ProductImage = {
-            url: undefined,
-            prohibitedContentType: category,
-        };
+    it.each(SENSITIVE_CONTENT_CATEGORIES)(
+        "should return true for %s images without URL",
+        (category) => {
+            const image: ProductImage = {
+                url: undefined,
+                prohibitedContentType: category,
+            };
 
-        expect(isRestrictedImage(image, false)).toBe(true);
-    });
+            expect(isRestrictedImage(image, false)).toBe(true);
+        },
+    );
 
     it("should return false for images with URL", () => {
         const image: ProductImage = {
@@ -43,7 +45,7 @@ describe("isRestrictedImage", () => {
         expect(isRestrictedImage(image, false)).toBe(false);
     });
 
-    it.each(SENSITIVE_CATEGORIES)(
+    it.each(SENSITIVE_CONTENT_CATEGORIES)(
         "should return true for images with URL and %s content without the preference",
         (category) => {
             const image: ProductImage = {
@@ -69,7 +71,7 @@ describe("mapToInternalProductImage", () => {
             mapToInternalProductImage(image, { decision: "ALLOWED" })?.prohibitedContentType,
         ).toBe("NONE");
     });
-    it.each(SENSITIVE_CATEGORIES)(
+    it.each(SENSITIVE_CONTENT_CATEGORIES)(
         "maps a %s assessment and shows the image only with the preference",
         (category) => {
             const image = mapToInternalProductImage(
