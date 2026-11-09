@@ -731,6 +731,10 @@
       "showMore": "Mehr anzeigen",
       "showLess": "Weniger anzeigen"
     },
+    "title": {
+      "showFull": "Ganzen Titel anzeigen",
+      "showLess": "Weniger anzeigen"
+    },
     "withdrawnHint": "Dieses Angebot wurde von seiner Quelle zurückgezogen.",
     "gallery": {
       "openImage": "Bild {{index}} von {{count}} im Vollbild öffnen",

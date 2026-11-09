@@ -6,6 +6,7 @@ import { ListingStatusPill } from "@/features/product/detail/components/ListingS
 import { ProductDescription } from "@/features/product/detail/components/ProductDescription.tsx";
 import { ProductImageGallery } from "@/features/product/detail/components/ProductImageGallery.tsx";
 import { ProductSharer } from "@/features/product/detail/components/ProductSharer.tsx";
+import { ProductTitle } from "@/features/product/detail/components/ProductTitle.tsx";
 import {
     FOCUS_CLASS,
     ProviderLink,
@@ -113,9 +114,7 @@ export function ProductInfo({ product }: { readonly product: ProductListingDetai
                     >
                         {product.source.name}
                     </Link>
-                    <h1 className="font-serif text-[32px] leading-[1.1] font-normal tracking-[-0.02em] text-pretty sm:text-[clamp(34px,3.2vw,46px)] sm:leading-[1.08]">
-                        {title}
-                    </h1>
+                    <ProductTitle title={title} />
                 </div>
 
                 {matchedFilterId && (
