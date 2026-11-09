@@ -4,6 +4,8 @@ import { ARTSY_COMPARISON } from "@/features/comparison/config/artsyComparison.t
 import { ARTSY_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/artsyComparisonReview.ts";
 import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
 import { BARNEBYS_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/barnebysComparisonReview.ts";
+import { CATAWIKI_COMPARISON } from "@/features/comparison/config/catawikiComparison.ts";
+import { CATAWIKI_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/catawikiComparisonReview.ts";
 import {
     type ComparisonDefinition,
     getComparisonFaq,
@@ -195,6 +197,39 @@ describe("buildComparisonStructuredData", () => {
         expect(faqPage.mainEntity.at(-1)?.acceptedAnswer.text).toBe(
             t("compareLiveauctioneersPage.faq.items.related.answer"),
         );
+        expect(JSON.stringify([article, faqPage])).not.toMatch(
+            /"@type":"(Review|AggregateRating|Rating)"/,
+        );
+    });
+
+    it("builds the Catawiki page from its visible strings, with no review markup", () => {
+        const [article, faqPage] = build(CATAWIKI_COMPARISON);
+
+        expect(article).toMatchObject({
+            "@type": "Article",
+            headline: stripInlineMarkup(t("compareCatawikiPage.hero.title")),
+            description: t("compareCatawikiPage.hero.subtitle"),
+            dateModified: CATAWIKI_COMPARISON_LAST_REVIEWED,
+            url: "https://aura-historia.com/de/compare/catawiki",
+        });
+        expect(article.dateModified).toBe("2026-11-09");
+        expect(article.about).toEqual(
+            CATAWIKI_COMPARISON.structuredDataTopics.map((topic) =>
+                t(`compareCatawikiPage.structuredData.about.${topic}`),
+            ),
+        );
+        expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual(
+            getComparisonFaq(CATAWIKI_COMPARISON).map((item) => t(item.questionKey)),
+        );
+        expect(faqPage.mainEntity).toHaveLength(5);
+        // The questions people ask, in the order the issue lists them.
+        expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual([
+            t("compareCatawikiPage.faq.items.alternative.question"),
+            t("compareCatawikiPage.faq.items.replace.question"),
+            t("compareCatawikiPage.faq.items.bid.question"),
+            t("compareCatawikiPage.faq.items.dealerStock.question"),
+            t("compareCatawikiPage.faq.items.languages.question"),
+        ]);
         expect(JSON.stringify([article, faqPage])).not.toMatch(
             /"@type":"(Review|AggregateRating|Rating)"/,
         );

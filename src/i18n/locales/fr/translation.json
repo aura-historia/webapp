@@ -94,6 +94,10 @@
       "title": "Aura Historia vs LiveAuctioneers | Comparatif de recherche d’art et d’antiquités",
       "description": "Comparez Aura Historia avec LiveAuctioneers, The Saleroom et Lot-tissimo : plateformes d’enchères face à une recherche entre maisons de ventes, marchands et places de marché."
     },
+    "compareCatawiki": {
+      "title": "Aura Historia vs Catawiki | Comparatif de recherche d’art et d’antiquités",
+      "description": "Comparez Aura Historia avec Catawiki : enchères hebdomadaires sélectionnées face à une recherche entre maisons de ventes, marchands et places de marché pour l’art, les antiquités et le design."
+    },
     "partnerAccessTokens": {
       "title": "Jetons d'accès | Aura Historia"
     },
@@ -4308,6 +4312,201 @@
       "button": "Rechercher de l’art et des antiquités"
     },
     "positioning": "Une plateforme d’enchères en ligne pour enchérir en direct et dans des ventes à durée limitée, avec deux autres places de marché du même groupe, face à une recherche entre maisons de ventes, marchands et places de marché qui n’organise pas d’enchères."
+  },
+  "compareCatawikiPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "recherche d’art et d’antiquités",
+        "auctionMarketplace": "place de marché d’enchères en ligne",
+        "crossProviderSearch": "recherche entre maisons de ventes, marchands et places de marché",
+        "multilingualSearch": "recherche multilingue d’art et d’antiquités",
+        "monitoring": "listes de surveillance et recherches enregistrées pour l’art et les antiquités"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Résumé",
+        "advantages": "Là où Aura Historia voit plus large",
+        "scorecard": "Tableau comparatif",
+        "sources": "Types de fournisseurs",
+        "together": "Comment les deux se complètent",
+        "faq": "FAQ",
+        "verdict": "Verdict final"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparatif : Aura Historia vs Catawiki",
+      "title": "Au-delà des enchères hebdomadaires : <em>l’art et les antiquités chez de nombreux fournisseurs</em>",
+      "subtitle": "Catawiki est une place de marché d’enchères en ligne où des objets sélectionnés par ses experts internes sont proposés aux enchères chaque semaine. Aura Historia cherche côte à côte parmi les maisons de ventes, les marchands et les places de marché, avec un accent sur l’art, les antiquités et les objets design.",
+      "primaryCta": "Chercher sur tout le marché",
+      "secondaryCta": "Voir le comparatif",
+      "quickAnswerEyebrow": "En bref",
+      "quickAnswerTitle": "Catawiki est un lieu d’enchères d’objets sélectionnés. <em>Aura Historia est une recherche entre plusieurs lieux de vente.</em>",
+      "quickAnswerDescription": "<strong>Verdict :</strong> choisissez Catawiki pour enchérir dans ses enchères hebdomadaires en ligne d’objets sélectionnés par ses experts, avec la protection de l’acheteur qu’il décrit. Choisissez Aura Historia pour chercher côte à côte parmi les maisons de ventes, les marchands et les places de marché, avec un accent sur l’art, les antiquités et les objets design, et pour suivre des objets chez plusieurs fournisseurs."
+    },
+    "quickVerdicts": {
+      "curatedAuctions": {
+        "label": "Solide pour des enchères hebdomadaires sélectionnées et la protection de l’acheteur",
+        "value": "Catawiki"
+      },
+      "searchAcrossProviders": {
+        "label": "Plus fort pour chercher parmi les maisons de ventes, les marchands et les places de marché",
+        "value": "Aura Historia"
+      },
+      "artAntiquesDesign": {
+        "label": "Plus fort pour une recherche centrée sur l’art, les antiquités et les objets design",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Plus fort pour le suivi chez plusieurs fournisseurs",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "La version <em>courte</em>",
+      "paragraph1": "Aura Historia est une alternative à Catawiki pour les collectionneurs qui veulent chercher au-delà d’un seul lieu d’enchères : maisons de ventes, marchands, boutiques et places de marché au même endroit, avec un accent sur l’art, les antiquités et les objets design.",
+      "paragraph2": "Catawiki reste un endroit où enchérir dans des ventes en ligne sur sa propre place de marché. Aura Historia n’organise pas de ventes aux enchères et ne reçoit pas d’enchères. Elle montre ce qui est proposé et où, et l’on enchérit ou l’on achète auprès du fournisseur."
+    },
+    "respect": {
+      "title": "Catawiki est une <em>place de marché d’enchères avec sélection des objets</em>",
+      "paragraph1": "Une comparaison loyale commence ici. Dans ses Conditions d’utilisation et ses Conditions de l’acheteur, toutes deux en vigueur depuis le 18 mars 2024, Catawiki indique que plus de 75 000 objets sont proposés aux enchères chaque semaine, chacun sélectionné par ses experts internes. Il indique que sa protection de l’acheteur signifie que les paiements sont sécurisés, que les objets font l’objet d’un contrôle qualité et que les vendeurs sont vérifiés.",
+      "paragraph2": "Aura Historia ne cherche pas à remplacer cela. Elle répond à une autre question : ce qui est proposé chez les maisons de ventes, les marchands, les boutiques et les places de marché. Voir un objet ici ne fait pas d’Aura Historia un lieu où enchérir. Les annonces apparaissent telles que les fournisseurs les publient, et l’on enchérit ou l’on achète là où l’objet est proposé."
+    },
+    "advantages": {
+      "title": "De nombreux fournisseurs côte à côte, <em>et non les enchères d’un seul lieu</em>",
+      "description": "La différence tient à l’étendue et à l’accent : objets de maisons de ventes, de marchands et de places de marché dans une seule recherche, stock des marchands sur leur propre site, un accent sur l’art, les antiquités et les objets design, et suivi chez plusieurs fournisseurs.",
+      "cards": {
+        "openMarket": {
+          "title": "Le marché ouvert au-delà d’un seul lieu",
+          "description": "Les objets de nombreux fournisseurs figurent dans une seule liste de résultats, plutôt que dans les enchères d’un seul lieu de vente."
+        },
+        "dealerStock": {
+          "title": "Les marchands et leur propre stock",
+          "description": "Marchands et boutiques apparaissent avec les objets qu’ils proposent sur leur propre site, prix demandés compris, à côté des annonces d’enchères."
+        },
+        "artAntiquesDesignFocus": {
+          "title": "Un accent sur l’art, les antiquités et le design",
+          "description": "La recherche porte sur l’art, les antiquités et les objets design, et non sur toutes les catégories de collection. Cela décrit un accent, pas un classement de qualité."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Un suivi chez plusieurs fournisseurs",
+          "description": "Les listes de surveillance, les recherches enregistrées et les notifications fonctionnent auprès de tous les fournisseurs de l’index, et non au sein d’une seule place de marché."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia et Catawiki, <em>point par point</em>",
+      "description": "Catawiki est conçu pour enchérir dans ses enchères hebdomadaires en ligne d’objets que ses experts sélectionnent. Aura Historia est conçue pour chercher chez plusieurs fournisseurs, avec un accent sur l’art, les antiquités et les objets design.",
+      "caption": "Comparatif d’Aura Historia et de Catawiki pour la découverte d’art et d’antiquités",
+      "headers": {
+        "criterion": "Critère",
+        "auraHistoria": "Aura Historia",
+        "competitor": "Catawiki"
+      },
+      "rows": {
+        "curationAndProtection": {
+          "criterion": "Sélection et protection de l’acheteur",
+          "competitor": "Indique que ses experts internes sélectionnent les objets proposés et que sa protection de l’acheteur signifie que les paiements sont sécurisés, que les objets font l’objet d’un contrôle qualité et que les vendeurs sont vérifiés. Indique qu’un prestataire de paiement conserve le paiement sous séquestre jusqu’à trois jours après la réception de l’objet.",
+          "auraHistoria": "Montre les annonces telles que les fournisseurs les publient. Aura Historia ne vend pas d’objets et ne reçoit pas de paiements : vous achetez auprès du fournisseur, selon ses propres conditions.",
+          "verdict": "Catawiki"
+        },
+        "weeklyAuctions": {
+          "criterion": "Rythme hebdomadaire des enchères",
+          "competitor": "Propose des objets dans des enchères en ligne chaque semaine : ses Conditions d’utilisation, en vigueur depuis le 18 mars 2024, indiquent que plus de 75 000 objets sont proposés aux enchères chaque semaine.",
+          "auraHistoria": "N’organise pas d’enchères. Montre les offres et les enchères de nombreux fournisseurs telles qu’ils les publient, chacun selon son propre calendrier.",
+          "verdict": "Catawiki pour les enchères"
+        },
+        "languageBreadth": {
+          "criterion": "Étendue des langues",
+          "competitor": "Indique que son site web et ses applications sont disponibles en plusieurs langues, l’anglais étant l’original. Ses conditions mentionnent la traduction automatique des descriptions d’objets.",
+          "auraHistoria": "Cinq langues (allemand, anglais, espagnol, français, italien), avec des annonces traduites et une terminologie harmonisée chez plusieurs fournisseurs.",
+          "verdict": "Aucune différence documentée"
+        },
+        "sourceTypes": {
+          "criterion": "Types de fournisseurs",
+          "competitor": "Objets proposés par des vendeurs professionnels et particuliers sur Catawiki, aux enchères et, pour certains objets, avec une option d’achat direct.",
+          "auraHistoria": "Maisons de ventes, marchands, boutiques et places de marché, chacun sur son propre site web ou sa propre plateforme, dans une seule recherche.",
+          "verdict": "Aura Historia"
+        },
+        "dealersAndFixedPrice": {
+          "criterion": "Stock des marchands et des boutiques",
+          "competitor": "Vend aux enchères sur sa propre place de marché ; selon ses Conditions de l’acheteur, certains objets disposent d’une option d’achat direct.",
+          "auraHistoria": "Cherche le stock des marchands et des boutiques sur leur propre site web, prix demandés compris, à côté des annonces d’enchères.",
+          "verdict": "Aura Historia sur plusieurs sites"
+        },
+        "categoryFocus": {
+          "criterion": "Accent par catégorie",
+          "competitor": "Se décrit comme une place de marché en ligne d’« objets spéciaux qui répondent aux passions des gens » et permet de filtrer les objets par catégorie.",
+          "auraHistoria": "Centrée sur l’art, les antiquités et les objets design. Cela exprime un accent, pas un jugement de qualité.",
+          "verdict": "Aura Historia pour l’accent"
+        }
+      }
+    },
+    "downstream": {
+      "title": "De nombreux types de fournisseurs changent <em>ce que vous pouvez voir</em>",
+      "sourcesLabel": "Types de fournisseurs",
+      "sources": {
+        "auctionHouses": "Maisons de ventes",
+        "auctionPlatforms": "Plateformes d’enchères",
+        "antiqueDealers": "Marchands d’art et d’antiquités",
+        "privateSellers": "Vendeurs privés",
+        "marketplaces": "Places de marché"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Atteindre marchands et boutiques",
+          "description": "De nombreux marchands et boutiques vendent sur leur propre site web. Une recherche entre fournisseurs affiche leurs objets à côté des annonces d’enchères."
+        },
+        "offersSideBySide": {
+          "title": "Voir les offres côte à côte",
+          "description": "Les prix demandés par les marchands, les annonces d’enchères et les offres des places de marché figurent dans une seule liste de résultats : vous comparez ce qui est disponible maintenant."
+        },
+        "acrossLanguages": {
+          "title": "Chercher en cinq langues",
+          "description": "Quand les annonces sont traduites et la terminologie harmonisée, la langue du vendeur ou du commissaire-priseur limite moins un collectionneur."
+        },
+        "watchAnObject": {
+          "title": "Suivre un objet précis",
+          "description": "Une liste de surveillance suit un objet et vous avertit des changements de prix et de disponibilité, quel que soit le fournisseur qui l’annonce."
+        }
+      }
+    },
+    "together": {
+      "title": "Trouvez les objets ici, <em>enchérissez là où ils sont proposés</em>",
+      "paragraph1": "Chacun a un rôle différent. Aura Historia montre ce qui est proposé et où. Sur la page d’une annonce, « Voir chez le fournisseur » ouvre l’annonce sur la page du fournisseur lui-même, dans un nouvel onglet.",
+      "paragraph2": "Aura Historia n’organise pas de ventes aux enchères et ne reçoit pas d’enchères : l’inscription, l’enchère ou l’achat se font donc auprès du fournisseur. Pour enchérir sur Catawiki, inscrivez-vous et enchérissez là-bas, sur sa plateforme. Aura Historia n’est pas affiliée à Catawiki."
+    },
+    "faq": {
+      "title": "Questions fréquentes sur <em>Aura Historia et Catawiki</em>",
+      "items": {
+        "alternative": {
+          "question": "Aura Historia est-elle une alternative à Catawiki ?",
+          "answer": "Oui, pour les acheteurs qui veulent chercher au-delà d’un seul lieu d’enchères. Aura Historia cherche parmi les maisons de ventes, les marchands, les boutiques et les places de marché de l’art, des antiquités et des objets design, au même endroit. Elle n’organise pas d’enchères : ce n’est donc pas un lieu où enchérir. Catawiki reste une place de marché avec sélection des objets pour enchérir dans des ventes hebdomadaires en ligne, avec la protection de l’acheteur qu’il décrit."
+        },
+        "replace": {
+          "question": "Aura Historia remplace-t-elle Catawiki ?",
+          "answer": "Non. Catawiki est un lieu de vente : il organise des enchères sur sa propre place de marché. Aura Historia est une recherche entre plusieurs lieux de vente et n’organise pas d’enchères. Vous pouvez utiliser Aura Historia pour voir ce qui est proposé chez plusieurs fournisseurs, et Catawiki là où vous voulez enchérir dans ses ventes."
+        },
+        "bid": {
+          "question": "Puis-je enchérir via Aura Historia ?",
+          "answer": "Non. Aura Historia n’organise pas d’enchères et ne reçoit pas d’enchères. Sur la page d’une annonce, « Voir chez le fournisseur » ouvre l’annonce sur la page du fournisseur lui-même, dans un nouvel onglet, et l’inscription, l’enchère ou l’achat s’y font. Pour enchérir sur Catawiki, utilisez Catawiki."
+        },
+        "dealerStock": {
+          "question": "Quel service convient le mieux au stock des marchands et à l’art et aux antiquités à prix fixe ?",
+          "answer": "Pour le stock des marchands sur leur propre site web, Aura Historia : elle cherche parmi les marchands et les boutiques et affiche leurs prix demandés à côté des annonces d’enchères. Catawiki est conçu autour des enchères et, selon ses Conditions de l’acheteur, certains objets disposent d’une option d’achat direct. Le choix dépend de ce que vous voulez : enchérir dans une vente ou voir ce que proposent les marchands."
+        },
+        "languages": {
+          "question": "Quel service convient le mieux à la recherche multilingue ?",
+          "answer": "Cette page ne revendique aucun avantage, dans un sens comme dans l’autre. Catawiki indique que son site web et ses applications sont disponibles en plusieurs langues. Aura Historia propose cinq langues (allemand, anglais, espagnol, français et italien), avec des annonces traduites et une terminologie harmonisée chez plusieurs fournisseurs. La manière dont Catawiki traite la terminologie n’est pas documentée."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Catawiki est un lieu d’enchères d’objets sélectionnés. <em>Aura Historia cherche sur un marché plus large.</em>",
+      "description": "Si votre recherche doit inclure les marchands, les boutiques et les places de marché en plus des maisons de ventes, commencez par Aura Historia.",
+      "button": "Rechercher de l’art et des antiquités"
+    },
+    "positioning": "Une place de marché d’enchères hebdomadaires en ligne avec sélection des objets, face à une recherche entre maisons de ventes, marchands et places de marché qui n’organise pas d’enchères."
   },
   "partnerAccessTokens": {
     "create": {

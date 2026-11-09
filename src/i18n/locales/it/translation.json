@@ -94,6 +94,10 @@
       "title": "Aura Historia vs LiveAuctioneers | Confronto sulla ricerca di arte e antiquariato",
       "description": "Confronta Aura Historia con LiveAuctioneers, The Saleroom e Lot-tissimo: piattaforme d’asta a confronto con una ricerca tra case d’asta, commercianti e marketplace."
     },
+    "compareCatawiki": {
+      "title": "Aura Historia vs Catawiki | Confronto sulla ricerca di arte e antiquariato",
+      "description": "Confronta Aura Historia con Catawiki: aste settimanali selezionate a confronto con una ricerca tra case d’asta, commercianti e marketplace per arte, antiquariato e design."
+    },
     "partnerAccessTokens": {
       "title": "Token di accesso | Aura Historia"
     },
@@ -4308,6 +4312,201 @@
       "button": "Cerca arte e antiquariato"
     },
     "positioning": "Una piattaforma d’asta online per fare offerte in aste dal vivo e a tempo, con altri due marketplace dello stesso gruppo, a confronto con una ricerca tra case d’asta, commercianti e marketplace che non organizza aste."
+  },
+  "compareCatawikiPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "ricerca di arte e antiquariato",
+        "auctionMarketplace": "marketplace di aste online",
+        "crossProviderSearch": "ricerca tra case d’asta, commercianti e marketplace",
+        "multilingualSearch": "ricerca multilingue di arte e antiquariato",
+        "monitoring": "liste dei preferiti e ricerche salvate per arte e antiquariato"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Riepilogo",
+        "advantages": "Dove Aura Historia è più ampia",
+        "scorecard": "Tabella comparativa",
+        "sources": "Tipi di fornitori",
+        "together": "Come si completano i due servizi",
+        "faq": "Domande frequenti",
+        "verdict": "Verdetto finale"
+      }
+    },
+    "hero": {
+      "eyebrow": "Confronto: Aura Historia vs Catawiki",
+      "title": "Oltre le aste settimanali: <em>arte e antiquariato tra molti fornitori</em>",
+      "subtitle": "Catawiki è un marketplace di aste online in cui oggetti selezionati dai suoi esperti interni vengono proposti all’asta ogni settimana. Aura Historia cerca affiancando case d’asta, commercianti e marketplace, con un’attenzione particolare ad arte, antiquariato e oggetti di design.",
+      "primaryCta": "Cerca su tutto il mercato",
+      "secondaryCta": "Vedi il confronto",
+      "quickAnswerEyebrow": "In breve",
+      "quickAnswerTitle": "Catawiki è un luogo d’asta di oggetti selezionati. <em>Aura Historia è una ricerca tra più luoghi di vendita.</em>",
+      "quickAnswerDescription": "<strong>Verdetto:</strong> scegli Catawiki per fare offerte nelle sue aste online settimanali di oggetti selezionati dai suoi esperti, con la protezione dell’acquirente che descrive. Scegli Aura Historia per cercare affiancando case d’asta, commercianti e marketplace, con un’attenzione particolare ad arte, antiquariato e oggetti di design, e per seguire gli oggetti tra più fornitori."
+    },
+    "quickVerdicts": {
+      "curatedAuctions": {
+        "label": "Solido per aste settimanali selezionate e protezione dell’acquirente",
+        "value": "Catawiki"
+      },
+      "searchAcrossProviders": {
+        "label": "Più forte per cercare tra case d’asta, commercianti e marketplace",
+        "value": "Aura Historia"
+      },
+      "artAntiquesDesign": {
+        "label": "Più forte per una ricerca incentrata su arte, antiquariato e oggetti di design",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Più forte per il monitoraggio tra più fornitori",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "La versione <em>breve</em>",
+      "paragraph1": "Aura Historia è un’alternativa a Catawiki per chi vuole cercare oltre un solo luogo d’asta: case d’asta, commercianti, negozi e marketplace in un unico posto, con un’attenzione particolare ad arte, antiquariato e oggetti di design.",
+      "paragraph2": "Catawiki resta un luogo in cui fare offerte nelle aste online sul proprio marketplace. Aura Historia non organizza aste e non accetta offerte. Mostra che cosa viene offerto e dove, e si fa un’offerta o si acquista presso il fornitore."
+    },
+    "respect": {
+      "title": "Catawiki è un <em>marketplace di aste con selezione degli oggetti</em>",
+      "paragraph1": "Un confronto equo parte da qui. Nei suoi Termini di utilizzo e nei suoi Termini per l’acquirente, entrambi validi dal 18 marzo 2024, Catawiki dichiara che ogni settimana vengono proposti all’asta oltre 75.000 oggetti, ciascuno selezionato dai suoi esperti interni. Dichiara che la sua protezione dell’acquirente significa che i pagamenti sono sicuri, gli oggetti sono sottoposti a un controllo di qualità e i venditori sono verificati.",
+      "paragraph2": "Aura Historia non cerca di sostituire tutto questo. Risponde a un’altra domanda: che cosa viene offerto tra case d’asta, commercianti, negozi e marketplace. Vedere un oggetto qui non fa di Aura Historia un luogo in cui fare offerte. Gli annunci compaiono come li pubblicano i fornitori, e si fa un’offerta o si acquista dove l’oggetto viene proposto."
+    },
+    "advantages": {
+      "title": "Molti fornitori affiancati, <em>non le aste di un solo luogo</em>",
+      "description": "La differenza sta nell’ampiezza e nell’attenzione: oggetti di case d’asta, commercianti e marketplace in un’unica ricerca, l’offerta dei commercianti sui loro siti web, un’attenzione particolare ad arte, antiquariato e oggetti di design e monitoraggio tra più fornitori.",
+      "cards": {
+        "openMarket": {
+          "title": "Il mercato aperto oltre un solo luogo",
+          "description": "Gli oggetti di molti fornitori sono in un’unica lista di risultati, invece che nelle aste di un solo luogo di vendita."
+        },
+        "dealerStock": {
+          "title": "I commercianti e la loro offerta",
+          "description": "Commercianti e negozi compaiono con gli oggetti che propongono sui propri siti web, prezzi richiesti inclusi, accanto agli annunci d’asta."
+        },
+        "artAntiquesDesignFocus": {
+          "title": "Un’attenzione ad arte, antiquariato e design",
+          "description": "La ricerca riguarda arte, antiquariato e oggetti di design, non ogni categoria di collezionismo. Descrive un’attenzione particolare, non una graduatoria di qualità."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Monitoraggio tra più fornitori",
+          "description": "Liste dei preferiti, ricerche salvate e notifiche funzionano su tutti i fornitori dell’indice, non all’interno di un solo marketplace."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia e Catawiki, <em>punto per punto</em>",
+      "description": "Catawiki è pensato per fare offerte nelle sue aste online settimanali di oggetti selezionati dai suoi esperti. Aura Historia è pensata per cercare tra più fornitori, con un’attenzione particolare ad arte, antiquariato e oggetti di design.",
+      "caption": "Confronto tra Aura Historia e Catawiki per la scoperta di arte e antiquariato",
+      "headers": {
+        "criterion": "Criterio",
+        "auraHistoria": "Aura Historia",
+        "competitor": "Catawiki"
+      },
+      "rows": {
+        "curationAndProtection": {
+          "criterion": "Selezione e protezione dell’acquirente",
+          "competitor": "Dichiara che i suoi esperti interni selezionano gli oggetti proposti e che la sua protezione dell’acquirente significa che i pagamenti sono sicuri, gli oggetti sono sottoposti a un controllo di qualità e i venditori sono verificati. Dichiara che un fornitore di servizi di pagamento trattiene il pagamento in deposito fiduciario fino a tre giorni dopo la ricezione dell’oggetto.",
+          "auraHistoria": "Mostra gli annunci come li pubblicano i fornitori. Aura Historia non vende oggetti e non riceve pagamenti: acquisti dal fornitore, alle sue condizioni.",
+          "verdict": "Catawiki"
+        },
+        "weeklyAuctions": {
+          "criterion": "Ritmo settimanale delle aste",
+          "competitor": "Propone oggetti in aste online ogni settimana: i suoi Termini di utilizzo, validi dal 18 marzo 2024, dicono che ogni settimana vengono proposti all’asta oltre 75.000 oggetti.",
+          "auraHistoria": "Non organizza aste. Mostra le offerte e le aste di molti fornitori come le pubblicano, ciascuna con il proprio calendario.",
+          "verdict": "Catawiki per le aste"
+        },
+        "languageBreadth": {
+          "criterion": "Varietà di lingue",
+          "competitor": "Dichiara che il suo sito web e le sue app sono disponibili in più lingue, con l’inglese come originale. I suoi termini menzionano la traduzione automatica delle descrizioni degli oggetti.",
+          "auraHistoria": "Cinque lingue (tedesco, inglese, spagnolo, francese, italiano), con annunci tradotti e terminologia allineata tra i fornitori.",
+          "verdict": "Nessuna differenza documentata"
+        },
+        "sourceTypes": {
+          "criterion": "Tipi di fornitori",
+          "competitor": "Oggetti proposti da venditori professionali e privati su Catawiki, in asta e, per alcuni oggetti, con un’opzione di acquisto diretto.",
+          "auraHistoria": "Case d’asta, commercianti, negozi e marketplace, ciascuno sul proprio sito web o sulla propria piattaforma, in un’unica ricerca.",
+          "verdict": "Aura Historia"
+        },
+        "dealersAndFixedPrice": {
+          "criterion": "Offerta di commercianti e negozi",
+          "competitor": "Vende in asta sul proprio marketplace; secondo i suoi Termini per l’acquirente, alcuni oggetti hanno un’opzione di acquisto diretto.",
+          "auraHistoria": "Cerca l’offerta di commercianti e negozi sui loro siti web, prezzi richiesti inclusi, accanto agli annunci d’asta.",
+          "verdict": "Aura Historia su più siti web"
+        },
+        "categoryFocus": {
+          "criterion": "Attenzione per categoria",
+          "competitor": "Si descrive come un marketplace online di “oggetti speciali che soddisfano le passioni delle persone” e permette di filtrare gli oggetti per categoria.",
+          "auraHistoria": "Incentrata su arte, antiquariato e oggetti di design. Indica un’attenzione particolare, non un giudizio di qualità.",
+          "verdict": "Aura Historia per l’attenzione"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Molti tipi di fornitori cambiano <em>ciò che puoi vedere</em>",
+      "sourcesLabel": "Tipi di fornitori",
+      "sources": {
+        "auctionHouses": "Case d’asta",
+        "auctionPlatforms": "Piattaforme d’asta",
+        "antiqueDealers": "Commercianti di arte e antiquariato",
+        "privateSellers": "Venditori privati",
+        "marketplaces": "Marketplace"
+      },
+      "cards": {
+        "dealersAndShops": {
+          "title": "Raggiungi commercianti e negozi",
+          "description": "Molti commercianti e negozi vendono sui propri siti web. Una ricerca tra fornitori mostra i loro oggetti accanto agli annunci d’asta."
+        },
+        "offersSideBySide": {
+          "title": "Vedi le offerte affiancate",
+          "description": "I prezzi richiesti dai commercianti, gli annunci d’asta e le offerte dei marketplace stanno in un’unica lista di risultati, così puoi confrontare ciò che è disponibile adesso."
+        },
+        "acrossLanguages": {
+          "title": "Cerca in cinque lingue",
+          "description": "Quando gli annunci sono tradotti e la terminologia è allineata, la lingua del venditore o del banditore limita meno chi colleziona."
+        },
+        "watchAnObject": {
+          "title": "Segui un singolo oggetto",
+          "description": "Una lista dei preferiti segue un oggetto e ti avvisa delle variazioni di prezzo e disponibilità, qualunque fornitore lo proponga."
+        }
+      }
+    },
+    "together": {
+      "title": "Trova gli oggetti qui, <em>fai offerte dove vengono proposti</em>",
+      "paragraph1": "I due servizi hanno compiti diversi. Aura Historia mostra che cosa viene offerto e dove. Nella pagina di un annuncio, “Vai al fornitore” apre l’annuncio sulla pagina del fornitore stesso, in una nuova scheda.",
+      "paragraph2": "Aura Historia non organizza aste e non accetta offerte, quindi registrarsi, fare un’offerta o acquistare avviene presso il fornitore. Per fare offerte su Catawiki, registrati e fai l’offerta lì, sul suo marketplace. Aura Historia non è affiliata a Catawiki."
+    },
+    "faq": {
+      "title": "Domande frequenti su <em>Aura Historia e Catawiki</em>",
+      "items": {
+        "alternative": {
+          "question": "Aura Historia è un’alternativa a Catawiki?",
+          "answer": "Sì, per chi vuole cercare oltre un solo luogo d’asta. Aura Historia cerca tra case d’asta, commercianti, negozi e marketplace arte, antiquariato e oggetti di design in un unico posto. Non organizza aste, quindi non è un luogo in cui fare offerte. Catawiki resta un marketplace con selezione degli oggetti per fare offerte nelle aste online settimanali, con la protezione dell’acquirente che descrive."
+        },
+        "replace": {
+          "question": "Aura Historia sostituisce Catawiki?",
+          "answer": "No. Catawiki è un luogo di vendita: organizza aste sul proprio marketplace. Aura Historia è una ricerca tra più luoghi di vendita e non organizza aste. Puoi usare Aura Historia per vedere che cosa viene offerto tra i fornitori e Catawiki dove vuoi fare offerte nelle sue aste."
+        },
+        "bid": {
+          "question": "Posso fare offerte tramite Aura Historia?",
+          "answer": "No. Aura Historia non organizza aste e non accetta offerte. Nella pagina di un annuncio, “Vai al fornitore” apre l’annuncio sulla pagina del fornitore stesso, in una nuova scheda, e lì ci si registra, si fa l’offerta o si acquista. Per fare offerte su Catawiki, usa Catawiki."
+        },
+        "dealerStock": {
+          "question": "Quale è meglio per l’offerta dei commercianti e per arte e antiquariato a prezzo fisso?",
+          "answer": "Per l’offerta dei commercianti sui loro siti web, Aura Historia: cerca tra commercianti e negozi e mostra i loro prezzi richiesti accanto agli annunci d’asta. Catawiki è costruito attorno alle aste e, secondo i suoi Termini per l’acquirente, alcuni oggetti hanno un’opzione di acquisto diretto. Che cosa ti conviene dipende dal fatto che tu voglia fare offerte in un’asta o vedere che cosa propongono i commercianti."
+        },
+        "languages": {
+          "question": "Quale è meglio per la ricerca multilingue?",
+          "answer": "Questa pagina non rivendica alcun vantaggio, in nessuna direzione. Catawiki dichiara che il suo sito web e le sue app sono disponibili in più lingue. Aura Historia offre cinque lingue (tedesco, inglese, spagnolo, francese e italiano), con annunci tradotti e terminologia allineata tra i fornitori. Come Catawiki tratti la terminologia non è documentato."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Catawiki è un luogo d’asta di oggetti selezionati. <em>Aura Historia cerca in un mercato più ampio.</em>",
+      "description": "Se la tua ricerca deve includere commercianti, negozi e marketplace oltre alle case d’asta, comincia da Aura Historia.",
+      "button": "Cerca arte e antiquariato"
+    },
+    "positioning": "Un marketplace di aste online settimanali con selezione degli oggetti, a confronto con una ricerca tra case d’asta, commercianti e marketplace che non organizza aste."
   },
   "partnerAccessTokens": {
     "create": {

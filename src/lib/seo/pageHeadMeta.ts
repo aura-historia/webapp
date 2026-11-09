@@ -40,6 +40,7 @@ export type PageMetaKey =
     | "compareInvaluable"
     | "compare1stdibs"
     | "compareLiveauctioneers"
+    | "compareCatawiki"
     | "admin";
 
 const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string }> = {
@@ -133,6 +134,10 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     compareLiveauctioneers: {
         title: "meta.compareLiveauctioneers.title",
         description: "meta.compareLiveauctioneers.description",
+    },
+    compareCatawiki: {
+        title: "meta.compareCatawiki.title",
+        description: "meta.compareCatawiki.description",
     },
     admin: {
         title: "meta.admin.title",

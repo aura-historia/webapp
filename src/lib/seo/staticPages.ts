@@ -13,6 +13,7 @@ export const STATIC_PAGES = [
     { path: "/compare/1stdibs", indexable: true },
     { path: "/compare/artsy", indexable: true },
     { path: "/compare/barnebys", indexable: true },
+    { path: "/compare/catawiki", indexable: true },
     { path: "/compare/invaluable", indexable: true },
     { path: "/compare/liveauctioneers", indexable: true },
     { path: "/imprint", indexable: false },
