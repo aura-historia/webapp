@@ -102,7 +102,7 @@
     },
     "compareCatawiki": {
       "title": "Aura Historia vs. Catawiki | Kunst- und Antiquitätensuche im Vergleich",
-      "description": "Aura Historia im Vergleich mit Catawiki: kuratierte wöchentliche Auktionen gegenüber einer Suche über Auktionshäuser, Händler und Marktplätze für Kunst, Antiquitäten und Design."
+      "description": "Aura Historia im Vergleich mit Catawiki: kuratierte Wochenauktionen gegenüber einer Suche über Auktionshäuser, Händler und Marktplätze für Kunst und Antiquitäten."
     },
     "newsletterConfirm": {
       "title": "Newsletter-Anmeldung bestätigen | Aura Historia"
@@ -4529,16 +4529,16 @@
     "hero": {
       "eyebrow": "Vergleich: Aura Historia vs. Catawiki",
       "title": "Mehr als wöchentliche Auktionen: <em>Kunst und Antiquitäten über viele Anbieter hinweg</em>",
-      "subtitle": "Catawiki ist ein Online-Auktionsmarktplatz, auf dem von hauseigenen Experten ausgewählte Objekte jede Woche in Auktionen angeboten werden. Aura Historia durchsucht Auktionshäuser, Händler und Marktplätze nebeneinander, mit Schwerpunkt auf Kunst, Antiquitäten und Designobjekten.",
+      "subtitle": "Catawiki ist ein Online-Auktionsmarktplatz; nach eigener Angabe wird jedes Objekt seiner wöchentlichen Auktionen von hauseigenen Experten ausgewählt. Aura Historia durchsucht Auktionshäuser, Händler und Marktplätze nebeneinander, mit Schwerpunkt auf Kunst, Antiquitäten und Designobjekten.",
       "primaryCta": "Über den Markt hinweg suchen",
       "secondaryCta": "Vergleich ansehen",
       "quickAnswerEyebrow": "Kurz gesagt",
       "quickAnswerTitle": "Catawiki ist ein kuratierter Auktionsort. <em>Aura Historia ist eine Suche über viele Orte hinweg.</em>",
-      "quickAnswerDescription": "<strong>Fazit:</strong> Wählen Sie Catawiki, um in den wöchentlichen Online-Auktionen mit von Experten ausgewählten Objekten zu bieten, mit dem Käuferschutz, den Catawiki beschreibt. Wählen Sie Aura Historia, um Auktionshäuser, Händler und Marktplätze nebeneinander zu durchsuchen, mit Schwerpunkt auf Kunst, Antiquitäten und Designobjekten, und um Objekte über Anbieter hinweg zu beobachten."
+      "quickAnswerDescription": "<strong>Fazit:</strong> Wählen Sie Catawiki, um in den wöchentlichen Online-Auktionen zu bieten, in denen nach eigener Angabe Experten die Objekte auswählen, mit dem Käuferschutz, den Catawiki beschreibt. Wählen Sie Aura Historia, um Auktionshäuser, Händler und Marktplätze nebeneinander zu durchsuchen, mit Schwerpunkt auf Kunst, Antiquitäten und Designobjekten, und um Objekte über Anbieter hinweg zu beobachten."
     },
     "quickVerdicts": {
       "curatedAuctions": {
-        "label": "Stark bei kuratierten wöchentlichen Auktionen und Käuferschutz",
+        "label": "Stark bei kuratierten wöchentlichen Auktionen und dem Käuferschutz, den Catawiki beschreibt",
         "value": "Catawiki"
       },
       "searchAcrossProviders": {
@@ -4561,7 +4561,7 @@
     },
     "respect": {
       "title": "Catawiki ist ein <em>kuratierter Marktplatz für Auktionen</em>",
-      "paragraph1": "Ein fairer Vergleich beginnt hier. In seinen Nutzungsbedingungen und Käuferbedingungen, beide gültig ab dem 18. März 2024, gibt Catawiki an, dass jede Woche über 75.000 Objekte in Auktionen angeboten werden, jedes davon von den hauseigenen Experten ausgewählt. Es sagt, sein Käuferschutz bedeute sichere Zahlungen, qualitätsgeprüfte Objekte und verifizierte Verkäufer.",
+      "paragraph1": "Ein fairer Vergleich beginnt hier. In seinen Nutzungsbedingungen in der Fassung vom 18. März 2024 gibt Catawiki an, dass jede Woche über 75.000 Objekte in Auktionen angeboten werden, jedes davon von den hauseigenen Experten ausgewählt. In seinen Käuferbedingungen vom selben Datum heißt es, sein Käuferschutz bedeute sichere Zahlungen, qualitätsgeprüfte Objekte und verifizierte Verkäufer.",
       "paragraph2": "Aura Historia versucht nicht, das zu ersetzen. Sie beantwortet eine andere Frage: was bei Auktionshäusern, Händlern, Shops und Marktplätzen angeboten wird. Dass ein Objekt hier erscheint, macht Aura Historia nicht zu einem Ort zum Bieten. Angebote erscheinen so, wie die Anbieter sie veröffentlichen, und geboten oder gekauft wird dort, wo das Objekt angeboten wird."
     },
     "advantages": {
@@ -4578,7 +4578,7 @@
         },
         "artAntiquesDesignFocus": {
           "title": "Schwerpunkt auf Kunst, Antiquitäten und Design",
-          "description": "Die Suche gilt Kunst, Antiquitäten und Designobjekten statt jeder Sammelkategorie. Das beschreibt einen Schwerpunkt, keine Rangfolge der Qualität."
+          "description": "Die Suche gilt Kunst, Antiquitäten und Designobjekten. Das beschreibt einen Schwerpunkt, keine Rangfolge der Qualität."
         },
         "monitoringAcrossProviders": {
           "title": "Beobachtung über Anbieter hinweg",
@@ -4588,7 +4588,7 @@
     },
     "scorecard": {
       "title": "Aura Historia vs. Catawiki, <em>im direkten Vergleich</em>",
-      "description": "Catawiki ist für das Bieten in seinen wöchentlichen Online-Auktionen mit von Experten ausgewählten Objekten gemacht. Aura Historia ist für die Suche über Anbieter hinweg gemacht, mit Schwerpunkt auf Kunst, Antiquitäten und Designobjekten.",
+      "description": "Catawiki ist für das Bieten in seinen wöchentlichen Online-Auktionen gemacht, in denen nach eigener Angabe Experten die Objekte auswählen. Aura Historia ist für die Suche über Anbieter hinweg gemacht, mit Schwerpunkt auf Kunst, Antiquitäten und Designobjekten.",
       "caption": "Vergleich von Aura Historia und Catawiki für die Suche nach Kunst und Antiquitäten",
       "headers": {
         "criterion": "Kriterium",
@@ -4598,37 +4598,37 @@
       "rows": {
         "curationAndProtection": {
           "criterion": "Kuratierung und Käuferschutz",
-          "competitor": "Gibt an, dass hauseigene Experten die angebotenen Objekte auswählen und dass sein Käuferschutz sichere Zahlungen, qualitätsgeprüfte Objekte und verifizierte Verkäufer bedeute. Gibt an, dass ein Zahlungsdienstleister die Zahlung treuhänderisch hält, bis drei Tage nach Erhalt des Objekts.",
-          "auraHistoria": "Zeigt Angebote so, wie die Anbieter sie veröffentlichen. Aura Historia verkauft keine Objekte und nimmt keine Zahlungen entgegen: Sie kaufen beim Anbieter, zu dessen eigenen Bedingungen.",
+          "competitor": "Seine Nutzungsbedingungen und Käuferbedingungen in der Fassung vom 18. März 2024 besagen, dass hauseigene Experten die angebotenen Objekte auswählen, dass sein Käuferschutz sichere Zahlungen, qualitätsgeprüfte Objekte und verifizierte Verkäufer bedeutet und dass ein Zahlungsdienstleister die Zahlung treuhänderisch hält, bis drei Tage nach Erhalt des Objekts.",
+          "auraHistoria": "Zeigt Angebote so, wie die Anbieter sie veröffentlichen. Aura Historia verkauft keine Objekte und nimmt dafür keine Zahlungen entgegen: Sie kaufen beim Anbieter, zu dessen eigenen Bedingungen.",
           "verdict": "Catawiki"
         },
         "weeklyAuctions": {
           "criterion": "Wöchentlicher Auktionsrhythmus",
-          "competitor": "Bietet jede Woche Objekte in Online-Auktionen an: Laut seinen Nutzungsbedingungen, gültig ab dem 18. März 2024, werden jede Woche über 75.000 Objekte in Auktionen angeboten.",
+          "competitor": "Veranstaltet jede Woche Online-Auktionen: Laut seinen Nutzungsbedingungen in der Fassung vom 18. März 2024 werden jede Woche über 75.000 Objekte in Auktionen angeboten.",
           "auraHistoria": "Veranstaltet keine Auktionen. Zeigt die Angebote und Auktionen vieler Anbieter so, wie sie sie veröffentlichen, jeweils nach deren eigenem Zeitplan.",
           "verdict": "Catawiki bei Auktionen"
         },
         "languageBreadth": {
           "criterion": "Sprachangebot",
-          "competitor": "Gibt an, dass seine Website und Apps in mehreren Sprachen verfügbar sind, mit Englisch als Originalsprache. Seine Bedingungen erwähnen maschinelle Übersetzung von Objektbeschreibungen.",
+          "competitor": "Seine Nutzungsbedingungen in der Fassung vom 18. März 2024 besagen, dass Website und Apps in mehreren Sprachen verfügbar sind, mit Englisch als Originalsprache.",
           "auraHistoria": "Fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch, Italienisch), mit übersetzten Angeboten und vereinheitlichter Terminologie über Anbieter hinweg.",
           "verdict": "Kein dokumentierter Unterschied"
         },
         "sourceTypes": {
           "criterion": "Anbietertypen",
-          "competitor": "Objekte von gewerblichen und privaten Verkäufern auf Catawiki, in Auktionen und bei einigen Objekten mit einer Option zum direkten Kauf.",
+          "competitor": "Gewerbliche und private Verkäufer bieten auf Catawiki Objekte an, in Auktionen und bei einigen Objekten mit einer Option zum direkten Kauf (Käuferbedingungen, Fassung vom 18. März 2024).",
           "auraHistoria": "Auktionshäuser, Händler, Shops und Marktplätze, jeweils auf der eigenen Website oder Plattform, in einer Suche.",
           "verdict": "Aura Historia"
         },
         "dealersAndFixedPrice": {
           "criterion": "Bestand von Händlern und Shops",
-          "competitor": "Verkauft in Auktionen auf dem eigenen Marktplatz; laut seinen Käuferbedingungen haben einige Objekte eine Option zum direkten Kauf.",
+          "competitor": "Veranstaltet Auktionen auf dem eigenen Marktplatz; laut seinen Käuferbedingungen in der Fassung vom 18. März 2024 haben einige Objekte eine Option zum direkten Kauf.",
           "auraHistoria": "Durchsucht den Bestand von Händlern und Shops auf deren eigenen Websites, Angebotspreise eingeschlossen, neben Auktionsangeboten.",
           "verdict": "Aura Historia über Websites hinweg"
         },
         "categoryFocus": {
           "criterion": "Kategorie-Schwerpunkt",
-          "competitor": "Beschreibt sich als Online-Marktplatz für „besondere Objekte, die Leidenschaften erfüllen“ und lässt Käufer Objekte nach Kategorie filtern.",
+          "competitor": "Seine Nutzungsbedingungen in der Fassung vom 18. März 2024 beschreiben es als Online-Marktplatz für besondere Objekte, die Leidenschaften erfüllen, und nennen eine Filterung der Objekte nach Kategorie.",
           "auraHistoria": "Schwerpunkt auf Kunst, Antiquitäten und Designobjekten. Das beschreibt einen Schwerpunkt, kein Qualitätsurteil.",
           "verdict": "Aura Historia beim Schwerpunkt"
         }
@@ -4685,11 +4685,11 @@
         },
         "dealerStock": {
           "question": "Was ist besser für Händlerbestand und Festpreisangebote bei Kunst und Antiquitäten?",
-          "answer": "Für den Bestand von Händlern auf deren eigenen Websites eignet sich Aura Historia besser: Sie durchsucht Händler und Shops und zeigt deren Angebotspreise neben Auktionsangeboten. Catawiki ist auf Auktionen ausgerichtet, und laut seinen Käuferbedingungen haben einige Objekte eine Option zum direkten Kauf. Was zu Ihnen passt, hängt davon ab, ob Sie in einer Auktion bieten oder sehen möchten, was Händler anbieten."
+          "answer": "Für den Bestand von Händlern auf deren eigenen Websites eignet sich Aura Historia besser: Sie durchsucht Händler und Shops und zeigt deren Angebotspreise neben Auktionsangeboten. Catawiki veranstaltet Auktionen auf dem eigenen Marktplatz, und laut seinen Käuferbedingungen in der Fassung vom 18. März 2024 haben einige Objekte eine Option zum direkten Kauf. Was zu Ihnen passt, hängt davon ab, ob Sie in einer Auktion bieten oder sehen möchten, was Händler anbieten."
         },
         "languages": {
           "question": "Was ist besser für die mehrsprachige Suche?",
-          "answer": "Diese Seite behauptet in keiner Richtung einen Vorteil. Catawiki gibt an, dass seine Website und Apps in mehreren Sprachen verfügbar sind. Aura Historia bietet fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch und Italienisch), mit übersetzten Angeboten und vereinheitlichter Terminologie über Anbieter hinweg. Wie Catawiki mit Terminologie umgeht, ist nicht dokumentiert."
+          "answer": "Es ist kein Unterschied dokumentiert. Laut den Nutzungsbedingungen von Catawiki in der Fassung vom 18. März 2024 sind Website und Apps in mehreren Sprachen verfügbar. Aura Historia bietet fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch und Italienisch), mit übersetzten Angeboten und vereinheitlichter Terminologie über Anbieter hinweg. Die Nutzungsbedingungen und Käuferbedingungen dieser Fassung erwähnen Terminologie nicht, und diese Seite behauptet in keiner Richtung einen Vorteil."
         }
       }
     },

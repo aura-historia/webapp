@@ -96,7 +96,7 @@
     },
     "compareCatawiki": {
       "title": "Aura Historia vs Catawiki | Comparativa de búsqueda de arte y antigüedades",
-      "description": "Compara Aura Historia con Catawiki: subastas semanales seleccionadas frente a una búsqueda entre casas de subastas, comerciantes y marketplaces de arte, antigüedades y diseño."
+      "description": "Compara Aura Historia con Catawiki: subastas semanales de objetos seleccionados frente a una búsqueda entre casas de subastas, comerciantes y marketplaces de arte y antigüedades."
     },
     "partnerAccessTokens": {
       "title": "Tokens de acceso | Aura Historia"
@@ -4337,16 +4337,16 @@
     "hero": {
       "eyebrow": "Comparativa: Aura Historia vs Catawiki",
       "title": "Más allá de las subastas semanales: <em>arte y antigüedades entre muchos proveedores</em>",
-      "subtitle": "Catawiki es un marketplace de subastas en línea donde los objetos seleccionados por sus expertos internos se ofrecen en subastas cada semana. Aura Historia busca entre casas de subastas, comerciantes y marketplaces uno al lado de otro, con foco en arte, antigüedades y objetos de diseño.",
+      "subtitle": "Catawiki es un marketplace de subastas en línea que afirma que cada objeto de sus subastas semanales es seleccionado por sus expertos internos. Aura Historia busca entre casas de subastas, comerciantes y marketplaces uno al lado de otro, con foco en arte, antigüedades y objetos de diseño.",
       "primaryCta": "Buscar en todo el mercado",
       "secondaryCta": "Ver la comparativa",
       "quickAnswerEyebrow": "En pocas palabras",
       "quickAnswerTitle": "Catawiki es un lugar de subastas de objetos seleccionados. <em>Aura Historia es una búsqueda entre lugares de venta.</em>",
-      "quickAnswerDescription": "<strong>Veredicto:</strong> elige Catawiki para pujar en sus subastas semanales en línea de objetos que seleccionan sus expertos, con la protección del comprador que describe. Elige Aura Historia para buscar entre casas de subastas, comerciantes y marketplaces uno al lado de otro, con foco en arte, antigüedades y objetos de diseño, y para seguir objetos entre proveedores."
+      "quickAnswerDescription": "<strong>Veredicto:</strong> elige Catawiki para pujar en sus subastas semanales en línea, en las que afirma que sus expertos seleccionan los objetos, con la protección del comprador que describe. Elige Aura Historia para buscar entre casas de subastas, comerciantes y marketplaces uno al lado de otro, con foco en arte, antigüedades y objetos de diseño, y para seguir objetos entre proveedores."
     },
     "quickVerdicts": {
       "curatedAuctions": {
-        "label": "Sólido para subastas semanales seleccionadas y protección del comprador",
+        "label": "Sólido para subastas semanales de objetos seleccionados y la protección del comprador que describe Catawiki",
         "value": "Catawiki"
       },
       "searchAcrossProviders": {
@@ -4369,7 +4369,7 @@
     },
     "respect": {
       "title": "Catawiki es un <em>marketplace de subastas con selección de objetos</em>",
-      "paragraph1": "Una comparativa justa empieza aquí. En sus Condiciones de uso y sus Condiciones del comprador, ambas vigentes desde el 18 de marzo de 2024, Catawiki afirma que cada semana se ofrecen en subasta más de 75.000 objetos, cada uno seleccionado por sus expertos internos. Afirma que su protección del comprador significa que los pagos son seguros, los objetos pasan un control de calidad y los vendedores están verificados.",
+      "paragraph1": "Una comparativa justa empieza aquí. En sus Condiciones de uso, en su versión del 18 de marzo de 2024, Catawiki afirma que cada semana se ofrecen en subasta más de 75.000 objetos, cada uno seleccionado por sus expertos internos. En sus Condiciones del comprador de la misma fecha afirma que su protección del comprador significa que los pagos son seguros, los objetos pasan un control de calidad y los vendedores están verificados.",
       "paragraph2": "Aura Historia no pretende sustituir eso. Responde a otra pregunta: qué se ofrece entre casas de subastas, comerciantes, tiendas y marketplaces. Ver un objeto aquí no convierte a Aura Historia en un lugar donde pujar. Los anuncios aparecen tal como los publican los proveedores, y se puja o se compra donde se ofrece el objeto."
     },
     "advantages": {
@@ -4386,7 +4386,7 @@
         },
         "artAntiquesDesignFocus": {
           "title": "Foco en arte, antigüedades y diseño",
-          "description": "La búsqueda es de arte, antigüedades y objetos de diseño, no de todas las categorías de coleccionismo. Describe un foco, no una clasificación de calidad."
+          "description": "La búsqueda es de arte, antigüedades y objetos de diseño. Describe un foco, no una clasificación de calidad."
         },
         "monitoringAcrossProviders": {
           "title": "Seguimiento entre proveedores",
@@ -4396,7 +4396,7 @@
     },
     "scorecard": {
       "title": "Aura Historia y Catawiki, <em>punto por punto</em>",
-      "description": "Catawiki está pensado para pujar en sus subastas semanales en línea de objetos que seleccionan sus expertos. Aura Historia está pensada para buscar entre proveedores, con foco en arte, antigüedades y objetos de diseño.",
+      "description": "Catawiki está pensado para pujar en sus subastas semanales en línea, en las que afirma que sus expertos seleccionan los objetos. Aura Historia está pensada para buscar entre proveedores, con foco en arte, antigüedades y objetos de diseño.",
       "caption": "Comparativa de Aura Historia y Catawiki para descubrir arte y antigüedades",
       "headers": {
         "criterion": "Criterio",
@@ -4406,37 +4406,37 @@
       "rows": {
         "curationAndProtection": {
           "criterion": "Selección y protección del comprador",
-          "competitor": "Afirma que sus expertos internos seleccionan los objetos ofrecidos y que su protección del comprador significa que los pagos son seguros, los objetos pasan un control de calidad y los vendedores están verificados. Afirma que un proveedor de pagos retiene el pago en depósito hasta tres días después de que recibas el objeto.",
-          "auraHistoria": "Muestra los anuncios tal como los publican los proveedores. Aura Historia no vende objetos ni recibe pagos: compras al proveedor, con sus propias condiciones.",
+          "competitor": "Sus Condiciones de uso y sus Condiciones del comprador, en su versión del 18 de marzo de 2024, dicen que sus expertos internos seleccionan los objetos ofrecidos, que su protección del comprador significa que los pagos son seguros, los objetos pasan un control de calidad y los vendedores están verificados, y que un prestador de servicios de pago retiene el pago en depósito hasta tres días después de que recibas el objeto.",
+          "auraHistoria": "Muestra los anuncios tal como los publican los proveedores. Aura Historia no vende objetos ni recibe pagos por ellos: compras al proveedor, con sus propias condiciones.",
           "verdict": "Catawiki"
         },
         "weeklyAuctions": {
           "criterion": "Ritmo semanal de subastas",
-          "competitor": "Ofrece objetos en subastas en línea cada semana: sus Condiciones de uso, vigentes desde el 18 de marzo de 2024, dicen que cada semana se ofrecen en subasta más de 75.000 objetos.",
+          "competitor": "Organiza subastas en línea cada semana: sus Condiciones de uso, en su versión del 18 de marzo de 2024, dicen que cada semana se ofrecen en subasta más de 75.000 objetos.",
           "auraHistoria": "No organiza subastas. Muestra las ofertas y subastas de muchos proveedores tal como las publican, cada una con su propio calendario.",
           "verdict": "Catawiki para subastas"
         },
         "languageBreadth": {
           "criterion": "Variedad de idiomas",
-          "competitor": "Afirma que su sitio web y sus apps están disponibles en varios idiomas, con el inglés como original. Sus condiciones mencionan la traducción automática de las descripciones de los objetos.",
+          "competitor": "Sus Condiciones de uso, en su versión del 18 de marzo de 2024, dicen que su sitio web y sus apps están disponibles en varios idiomas, con el inglés como original.",
           "auraHistoria": "Cinco idiomas (alemán, inglés, español, francés, italiano), con anuncios traducidos y terminología unificada entre proveedores.",
           "verdict": "Sin diferencia documentada"
         },
         "sourceTypes": {
           "criterion": "Tipos de proveedores",
-          "competitor": "Objetos ofrecidos por vendedores profesionales y particulares en Catawiki, en subastas y, en algunos objetos, con opción de compra directa.",
+          "competitor": "Vendedores profesionales y particulares ofrecen objetos en Catawiki, en subastas y, en algunos objetos, con opción de compra directa (Condiciones del comprador, versión del 18 de marzo de 2024).",
           "auraHistoria": "Casas de subastas, comerciantes, tiendas y marketplaces, cada uno en su propio sitio web o plataforma, en una sola búsqueda.",
           "verdict": "Aura Historia"
         },
         "dealersAndFixedPrice": {
           "criterion": "Stock de comerciantes y tiendas",
-          "competitor": "Vende en subastas en su propio marketplace; según sus Condiciones del comprador, algunos objetos tienen opción de compra directa.",
+          "competitor": "Organiza subastas en su propio marketplace; según sus Condiciones del comprador, en su versión del 18 de marzo de 2024, algunos objetos tienen opción de compra directa.",
           "auraHistoria": "Busca el stock de comerciantes y tiendas en sus propios sitios web, con los precios de venta incluidos, junto a los anuncios de subasta.",
           "verdict": "Aura Historia entre sitios web"
         },
         "categoryFocus": {
           "criterion": "Foco por categorías",
-          "competitor": "Se describe como un marketplace en línea de “objetos especiales que cumplen las pasiones de las personas” y permite filtrar los objetos por categoría.",
+          "competitor": "Sus Condiciones de uso, en su versión del 18 de marzo de 2024, lo describen como un marketplace en línea de objetos especiales que hacen realidad las pasiones de la gente y mencionan un filtro de objetos por categoría.",
           "auraHistoria": "Centrada en arte, antigüedades y objetos de diseño. Esto expresa un foco, no un juicio de calidad.",
           "verdict": "Aura Historia por su foco"
         }
@@ -4493,11 +4493,11 @@
         },
         "dealerStock": {
           "question": "¿Cuál es mejor para el stock de comerciantes y el arte y las antigüedades a precio fijo?",
-          "answer": "Para el stock de los comerciantes en sus propios sitios web, Aura Historia: busca entre comerciantes y tiendas y muestra sus precios de venta junto a los anuncios de subasta. Catawiki se basa en subastas y, según sus Condiciones del comprador, algunos objetos tienen opción de compra directa. Cuál te conviene depende de si quieres pujar en una subasta o ver lo que ofrecen los comerciantes."
+          "answer": "Para el stock de los comerciantes en sus propios sitios web, Aura Historia: busca entre comerciantes y tiendas y muestra sus precios de venta junto a los anuncios de subasta. Catawiki organiza subastas en su propio marketplace y, según sus Condiciones del comprador, en su versión del 18 de marzo de 2024, algunos objetos tienen opción de compra directa. Cuál te conviene depende de si quieres pujar en una subasta o ver lo que ofrecen los comerciantes."
         },
         "languages": {
           "question": "¿Cuál es mejor para la búsqueda multilingüe?",
-          "answer": "Esta página no reclama ventaja en ninguno de los dos sentidos. Catawiki afirma que su sitio web y sus apps están disponibles en varios idiomas. Aura Historia ofrece cinco idiomas (alemán, inglés, español, francés e italiano), con anuncios traducidos y terminología unificada entre proveedores. No está documentado cómo trata Catawiki la terminología."
+          "answer": "No hay diferencia documentada. Según las Condiciones de uso de Catawiki, en su versión del 18 de marzo de 2024, su sitio web y sus apps están disponibles en varios idiomas. Aura Historia ofrece cinco idiomas (alemán, inglés, español, francés e italiano), con anuncios traducidos y terminología unificada entre proveedores. Las Condiciones de uso y las Condiciones del comprador de esa versión no mencionan la terminología, y esta página no afirma que ninguno de los dos tenga ventaja."
         }
       }
     },

@@ -268,16 +268,73 @@ describe("ComparisonPage with the Catawiki definition", () => {
 
 /**
  * Every number the page may carry. The only figure is "over 75,000 objects every week", dated to
- * Catawiki's Terms of Use valid from 18 March 2024. The issue's About-page figures (10+ million
- * visitors, 600+ auctions, 60 countries, 17 languages, 600+ employees, 7 to 10 day auctions) could
- * not be read from Catawiki's own pages and are not used, and neither are fee percentages.
+ * Catawiki's Terms of Use in the version of 18 March 2024. The issue's About-page figures (10+
+ * million visitors, 600+ auctions, 60 countries, 17 languages, 600+ employees, 7 to 10 day
+ * auctions) could not be read from Catawiki's own pages and are not used, and neither are fee
+ * percentages.
  */
 const ALLOWED_NUMBERS = new Set(["75", "000", "18", "2024"]);
 
-/** Catawiki's weekly object count and the date of the documents it comes from, in every language. */
+/** Catawiki's weekly object count, in the two places it appears. */
 const DATED_FIGURE_PATHS = [
     "respect.paragraph1",
     "scorecard.rows.weeklyAuctions.competitor",
+] as const;
+
+/**
+ * Every string that cites a Catawiki document names it and its version date, because FAQ answers
+ * and scorecard cells are quoted on their own.
+ */
+const DOCUMENT_CITING_PATHS = [
+    "respect.paragraph1",
+    "scorecard.rows.curationAndProtection.competitor",
+    "scorecard.rows.weeklyAuctions.competitor",
+    "scorecard.rows.languageBreadth.competitor",
+    "scorecard.rows.sourceTypes.competitor",
+    "scorecard.rows.dealersAndFixedPrice.competitor",
+    "scorecard.rows.categoryFocus.competitor",
+    "faq.items.dealerStock.answer",
+    "faq.items.languages.answer",
+] as const;
+
+const CATAWIKI_DOCUMENTS: Record<LocaleCode, RegExp> = {
+    en: /(Terms of Use|Buyer Terms)/,
+    de: /(Nutzungsbedingungen|Käuferbedingungen)/,
+    es: /(Condiciones de uso|Condiciones del comprador)/,
+    fr: /(Conditions d’utilisation|Conditions de l’acheteur)/,
+    it: /(Termini di utilizzo|Termini per l’acquirente)/,
+};
+
+/**
+ * The documents say "Valid from 18 March 2024", which does not make them current 20 months later:
+ * the page says "the version of" and never "in force" or "valid from".
+ */
+const IN_FORCE: Record<LocaleCode, RegExp> = {
+    en: /(valid from|in force)/i,
+    de: /(gültig ab|in Kraft)/i,
+    es: /vigente/i,
+    fr: /en vigueur/i,
+    it: /(validi? dal|in vigore)/i,
+};
+
+/** Catawiki's own assurances and claims are attributed: "says", "according to", "by its own account". */
+const ATTRIBUTION: Record<LocaleCode, RegExp> = {
+    en: /\bsays?\b/i,
+    de: /(gibt Catawiki an|gibt an|besagen|heißt es|laut|nach eigener Angabe)/i,
+    es: /(afirma|dicen|según)/i,
+    fr: /(indique|indiquent|selon)/i,
+    it: /(dichiara|dicono|secondo)/i,
+};
+
+/** Where Catawiki's assurances (expert selection, buyer protection, languages) are stated. */
+const ATTRIBUTED_PATHS = [
+    "hero.subtitle",
+    "hero.quickAnswerDescription",
+    "scorecard.description",
+    "respect.paragraph1",
+    "scorecard.rows.curationAndProtection.competitor",
+    "scorecard.rows.languageBreadth.competitor",
+    "faq.items.languages.answer",
 ] as const;
 
 /**
@@ -292,13 +349,29 @@ const SELF_DESCRIPTIONS: Record<LocaleCode, RegExp> = {
     it: /(\bleader\b|più affidabile|più fidato|più grande del mondo)/i,
 };
 
-/** Never a doubt about Catawiki's quality, safety or authenticity: not the competitor's to judge. */
+/**
+ * Catawiki's Terms of Use say it is "a facilitator, not a seller" (Article 4): it runs auctions,
+ * it does not sell. A competitor could disprove the verb from the document the page cites.
+ */
+const SELLS: Record<LocaleCode, RegExp> = {
+    en: /\bsells?\b/i,
+    de: /verkauft/i,
+    es: /\bvende\b/i,
+    fr: /\bvend\b/i,
+    it: /\bvende\b/i,
+};
+
+/**
+ * Never a doubt about Catawiki's quality, safety or authenticity: not the competitor's to judge.
+ * That includes the liability list's "(machine) translation" of object descriptions, which next to
+ * Aura Historia's translated listings would read as a contrast.
+ */
 const QUALITY_DOUBT: Record<LocaleCode, RegExp> = {
-    en: /(virtual|can['’]t guarantee|cannot guarantee|counterfeit|\bfakes?\b|complaint|criticis)/i,
-    de: /(virtuell|nicht garantier|gefälscht|fälschung|beschwerde|kritik)/i,
-    es: /(virtual|no puede garantizar|falsific|reclamaci|crític)/i,
-    fr: /(virtuel|ne peut pas garantir|contrefa|\bfaux\b|réclamation|critiqu)/i,
-    it: /(virtual|non può garantire|contraffa|falsific|reclam|critic)/i,
+    en: /(virtual|machine|can['’]t guarantee|cannot guarantee|counterfeit|\bfakes?\b|complaint|criticis)/i,
+    de: /(virtuell|maschinell|nicht garantier|gefälscht|fälschung|beschwerde|kritik)/i,
+    es: /(virtual|traducción automática|no puede garantizar|falsific|reclamaci|crític)/i,
+    fr: /(virtuel|traduction automatique|ne peut pas garantir|contrefa|\bfaux\b|réclamation|critiqu)/i,
+    it: /(virtual|traduzione automatica|non può garantire|contraffa|falsific|reclam|critic)/i,
 };
 
 /** No category list: the readable Catawiki documents do not give one, so the page names none. */
@@ -308,6 +381,15 @@ const CATEGORY_LIST: Record<LocaleCode, RegExp> = {
     es: /(joyer|relojes|coches clásicos|coleccionables|monedas|sellos|cómics|\bvino\b|whisk)/i,
     fr: /(bijou|montres|voitures de collection|objets de collection|monnaies|timbres|bandes dessinées|\bvin\b|whisk)/i,
     it: /(gioiell|orologi|auto d['’]epoca|collezionabili|monete|francobolli|fumetti|\bvino\b|whisk)/i,
+};
+
+/** The focus card must not imply that Catawiki spans "every" category: its range is unconfirmed. */
+const EVERY_CATEGORY: Record<LocaleCode, RegExp> = {
+    en: /(every|all) (collecting )?categor/i,
+    de: /(jede|alle) (Sammel)?kategorie/i,
+    es: /(todas las|cada) categor/i,
+    fr: /(toutes les|chaque) catégories/i,
+    it: /(ogni|tutte le) categori/i,
 };
 
 /** Catawiki's follows, favourites and alerts could not be read: the page describes none of them. */
@@ -337,6 +419,15 @@ const CADENCE: Record<LocaleCode, RegExp> = {
     it: /(giornalier|ogni giorno|ogni ora|quotidian)/i,
 };
 
+/** No size comparison with Catawiki ("more objects than"). */
+const MORE_OBJECTS: Record<LocaleCode, RegExp> = {
+    en: /(more|larger|bigger|wider) (objects|lots|listings|inventory|selection) than/i,
+    de: /(mehr|größere[rs]?) (Objekte|Angebote|Auswahl) als/i,
+    es: /(más|mayor) (objetos|anuncios|oferta|selección) que/i,
+    fr: /(plus d’(objets|annonces)|plus grande sélection) que/i,
+    it: /(più (oggetti|annunci)|maggiore (offerta|selezione)) di/i,
+};
+
 /** The page never claims more or better language support for Aura Historia than Catawiki has. */
 const LANGUAGE_WIN: Record<LocaleCode, RegExp> = {
     en: /(more languages than|wider language|broader language|better language|multilingual than)/i,
@@ -345,6 +436,28 @@ const LANGUAGE_WIN: Record<LocaleCode, RegExp> = {
     fr: /(plus de langues que|plus large choix de langues|meilleur support)/i,
     it: /(più lingue di|maggiore varietà di lingue|miglior supporto)/i,
 };
+
+/** On Aura Historia's own language claims, any comparative at all is out. */
+const LANGUAGE_COMPARATIVE: Record<LocaleCode, RegExp> = {
+    en: /(more languages|wider|broader|better|superior|stronger)/i,
+    de: /(mehr Sprachen|breiter|besser|überlegen|stärker)/i,
+    es: /(más idiomas|más amplio|mejor|superior|más fuerte)/i,
+    fr: /(plus de langues|plus large|meilleur|supérieur|plus fort)/i,
+    it: /(più lingue|più ampi|migliore|superiore|più forte)/i,
+};
+
+/** The statements about Aura Historia itself: no vetting, authenticity or valuation promise. */
+const VETTING_PROMISE: Record<LocaleCode, RegExp> = {
+    en: /(verif|vetted|vetting|authentic|appraisal|valuation|guarantee)/i,
+    de: /(verifizier|geprüft|authentisch|echtheit|bewertung|garant)/i,
+    es: /(verific|autentic|tasaci|valoraci|garant)/i,
+    fr: /(vérifi|authentiq|expertis|évaluation|garant)/i,
+    it: /(verific|autentic|valutazion|perizia|garan)/i,
+};
+
+const AURA_SIDE_PATHS = (path: string) =>
+    /^(summary|advantages|downstream|together|finalCta)\./.test(path) ||
+    /^scorecard\.rows\.[^.]+\.auraHistoria$/.test(path);
 
 /** Catawiki's own wording on languages ("available in multiple languages"), without a count. */
 const MULTIPLE_LANGUAGES: Record<LocaleCode, RegExp> = {
@@ -355,13 +468,13 @@ const MULTIPLE_LANGUAGES: Record<LocaleCode, RegExp> = {
     it: /più lingue/,
 };
 
-/** Its terms refer to machine translation of object descriptions. */
-const MACHINE_TRANSLATION: Record<LocaleCode, RegExp> = {
-    en: /machine translation of object descriptions/,
-    de: /maschinelle Übersetzung von Objektbeschreibungen/,
-    es: /traducción automática de las descripciones de los objetos/,
-    fr: /traduction automatique des descriptions d’objets/,
-    it: /traduzione automatica delle descrizioni degli oggetti/,
+/** Neither readable document mentions terminology, and the FAQ answer says so. */
+const TERMINOLOGY_SILENT: Record<LocaleCode, RegExp> = {
+    en: /do not mention terminology/,
+    de: /erwähnen Terminologie nicht/,
+    es: /no mencionan la terminología/,
+    fr: /ne mentionnent pas la terminologie/,
+    it: /non menzionano la terminologia/,
 };
 
 /** The h1 does not claim the "whole market", which nobody can verify. */
@@ -393,7 +506,7 @@ describe.each(Object.entries(LOCALES))("Catawiki comparison copy in %s", (lng, l
         entries.filter(([, text]) => pattern.test(text)).map(([path]) => path);
     const textAt = (path: string) => entries.find(([entryPath]) => entryPath === path)?.[1] ?? "";
 
-    it("keeps the rules' banned wording, hype, self-description, fee talk and quality doubts off the page and its meta text", () => {
+    it("keeps the rules' banned wording, hype, self-description, fee talk, size comparisons and quality doubts off the page and its meta text", () => {
         expect(copy.length).toBeGreaterThan(60);
         expect(searchResultCopy).toHaveLength(2);
         for (const text of [...copy, ...searchResultCopy]) {
@@ -402,10 +515,41 @@ describe.each(Object.entries(LOCALES))("Catawiki comparison copy in %s", (lng, l
             expect(text).not.toMatch(QUALITY_DOUBT[code]);
             expect(text).not.toMatch(PAID_PLACEMENT[code]);
             expect(text).not.toMatch(CADENCE[code]);
+            expect(text).not.toMatch(MORE_OBJECTS[code]);
             expect(text).not.toMatch(LANGUAGE_WIN[code]);
+            expect(text).not.toMatch(IN_FORCE[code]);
             expect(text).not.toMatch(/!/);
         }
         expect(page.hero.title).not.toMatch(WHOLE_MARKET[code]);
+    });
+
+    it("never says Catawiki sells: it is a facilitator that runs auctions", () => {
+        const aboutCatawiki = entries.filter(
+            ([path]) =>
+                /^scorecard\.rows\.[^.]+\.competitor$/.test(path) ||
+                path.startsWith("respect.") ||
+                path.startsWith("hero.") ||
+                /^faq\.items\.[^.]+\.answer$/.test(path),
+        );
+        expect(aboutCatawiki.length).toBeGreaterThan(10);
+        for (const [path, text] of aboutCatawiki) {
+            expect(text, path).not.toMatch(SELLS[code]);
+        }
+    });
+
+    it("makes no vetting, authenticity or valuation promise for Aura Historia and no language comparative", () => {
+        const auraSide = entries.filter(([path]) => AURA_SIDE_PATHS(path));
+        expect(auraSide.length).toBeGreaterThan(20);
+        for (const [path, text] of auraSide) {
+            expect(text, path).not.toMatch(VETTING_PROMISE[code]);
+        }
+        for (const path of [
+            "scorecard.rows.languageBreadth.auraHistoria",
+            "downstream.cards.acrossLanguages.title",
+            "downstream.cards.acrossLanguages.description",
+        ]) {
+            expect(textAt(path), path).not.toMatch(LANGUAGE_COMPARATIVE[code]);
+        }
     });
 
     it("carries no figure but the dated weekly object count", () => {
@@ -415,43 +559,25 @@ describe.each(Object.entries(LOCALES))("Catawiki comparison copy in %s", (lng, l
             }
         }
         for (const path of DATED_FIGURE_PATHS) {
-            const text = textAt(path);
-            expect(text, path).toMatch(/75[.,\s]?000/);
-            // The figure is dated to the documents, never presented as a current count.
-            expect(text, path).toContain("2024");
-            expect(text, path).toContain("18");
+            expect(textAt(path), path).toMatch(/75[.,\s]?000/);
         }
-        expect(pathsMatching(/75[.,\s]?000/)).toEqual([
-            "respect.paragraph1",
-            "scorecard.rows.weeklyAuctions.competitor",
-        ]);
+        expect(pathsMatching(/75[.,\s]?000/)).toEqual([...DATED_FIGURE_PATHS]);
     });
 
-    it("attributes Catawiki's own claims with a saying verb and its weekly figure to its dated Terms of Use", () => {
-        const saying: Record<LocaleCode, RegExp> = {
-            en: /\bsays\b/i,
-            de: /(gibt an|sagt)/i,
-            es: /afirma/i,
-            fr: /indique/i,
-            it: /dichiara/i,
-        };
-        const termsOfUse: Record<LocaleCode, RegExp> = {
-            en: /Terms of Use/,
-            de: /Nutzungsbedingungen/,
-            es: /Condiciones de uso/,
-            fr: /Conditions d’utilisation/,
-            it: /Termini di utilizzo/,
-        };
-        for (const path of [
-            "respect.paragraph1",
-            "scorecard.rows.curationAndProtection.competitor",
-            "scorecard.rows.languageBreadth.competitor",
-            "faq.items.languages.answer",
-        ]) {
-            expect(textAt(path), path).toMatch(saying[code]);
+    it("names the Catawiki document and its version date wherever a string cites one", () => {
+        for (const path of DOCUMENT_CITING_PATHS) {
+            const text = textAt(path);
+            expect(text, path).toMatch(CATAWIKI_DOCUMENTS[code]);
+            expect(text, path).toMatch(/\b18\b/);
+            expect(text, path).toContain("2024");
         }
-        for (const path of DATED_FIGURE_PATHS) {
-            expect(textAt(path), path).toMatch(termsOfUse[code]);
+        // Every string with the date cites a document, and the date appears nowhere else.
+        expect(pathsMatching(/\b2024\b/).sort()).toEqual([...DOCUMENT_CITING_PATHS].sort());
+    });
+
+    it("attributes Catawiki's own assurances and claims instead of stating them in the page's voice", () => {
+        for (const path of ATTRIBUTED_PATHS) {
+            expect(textAt(path), path).toMatch(ATTRIBUTION[code]);
         }
     });
 
@@ -473,18 +599,19 @@ describe.each(Object.entries(LOCALES))("Catawiki comparison copy in %s", (lng, l
         expect(languageBreadth.verdict).toMatch(
             /(No difference documented|Kein dokumentierter Unterschied|Sin diferencia documentada|Aucune différence documentée|Nessuna differenza documentata)/,
         );
-        // Catawiki's own wording is "multiple languages", with machine translation of object
-        // descriptions in its terms; the About page's count is not used.
+        // Catawiki's own wording is "multiple languages"; the About page's count is not used.
         expect(languageBreadth.competitor).toMatch(MULTIPLE_LANGUAGES[code]);
-        expect(languageBreadth.competitor).toMatch(MACHINE_TRANSLATION[code]);
         expect(page.faq.items.languages.answer).toMatch(MULTIPLE_LANGUAGES[code]);
+        // The FAQ says what the two readable documents are silent on, not that nothing exists.
+        expect(page.faq.items.languages.answer).toMatch(TERMINOLOGY_SILENT[code]);
         // Aura Historia's side lists its five languages and claims no advantage.
         expect(languageBreadth.auraHistoria).toMatch(/\((?:[^,()]+,){4}[^,()]+\)/);
     });
 
-    it("names no Catawiki category and describes none of its follows, favourites or alerts", () => {
+    it("names no Catawiki category, does not say it spans every category and describes none of its follows, favourites or alerts", () => {
         for (const text of copy) {
             expect(text).not.toMatch(CATEGORY_LIST[code]);
+            expect(text).not.toMatch(EVERY_CATEGORY[code]);
         }
         // Only Aura Historia's own monitoring is described, never Catawiki's.
         const catawikiSide = [
@@ -502,16 +629,23 @@ describe.each(Object.entries(LOCALES))("Catawiki comparison copy in %s", (lng, l
         expect(page.quickVerdicts.monitoring.value).toBe("Aura Historia");
     });
 
-    it("quotes Catawiki's self-description once, in the category row, and only in English as a quotation", () => {
+    it("quotes Catawiki's self-description once, in English only, and paraphrases it without quotation marks elsewhere", () => {
+        const quote = /special objects that fulfil people's passions/;
         const { categoryFocus } = page.scorecard.rows;
 
         if (code === "en") {
+            // Exactly one occurrence on the page, inside quotation marks, in the category row.
+            expect(pathsMatching(quote)).toEqual(["scorecard.rows.categoryFocus.competitor"]);
             expect(categoryFocus.competitor).toContain(
                 "“special objects that fulfil people's passions”",
             );
+        } else {
+            // A translated quotation is not Catawiki's wording in that language.
+            expect(pathsMatching(quote)).toEqual([]);
+            expect(categoryFocus.competitor).not.toMatch(/["“”„«»]/);
         }
+        // The focus row and card state a focus, not quality.
         expect(categoryFocus.verdict.length).toBeGreaterThan(0);
-        // A statement of focus, not of quality.
         expect(page.advantages.cards.artAntiquesDesignFocus.description.length).toBeGreaterThan(20);
     });
 
@@ -543,6 +677,18 @@ describe.each(Object.entries(LOCALES))("Catawiki comparison copy in %s", (lng, l
         expect(page.faq.items.replace.answer.startsWith(no[code])).toBe(true);
     });
 
+    it("says Aura Historia does not take payments for objects, since it bills subscriptions", () => {
+        const forObjects: Record<LocaleCode, RegExp> = {
+            en: /take payments for them/,
+            de: /nimmt dafür keine Zahlungen entgegen/,
+            es: /recibe pagos por ellos/,
+            fr: /ne reçoit pas de paiements pour eux/,
+            it: /non riceve pagamenti per essi/,
+        };
+
+        expect(page.scorecard.rows.curationAndProtection.auraHistoria).toMatch(forObjects[code]);
+    });
+
     it("lists the same provider types as the Barnebys comparison in this language", () => {
         expect(page.downstream.sources).toEqual(locale.compareBarnebysPage.downstream.sources);
     });
@@ -551,7 +697,8 @@ describe.each(Object.entries(LOCALES))("Catawiki comparison copy in %s", (lng, l
         expect(page.scorecard.headers.competitor).toBe("Catawiki");
         expect(page.quickVerdicts.curatedAuctions.value).toBe("Catawiki");
         for (const text of [...copy, ...searchResultCopy]) {
-            expect(text).not.toMatch(/MCP|llms\.txt|\bAPI\b/);
+            expect(text).not.toMatch(/(MCP|llms\.txt|\bAPI\b|\bAI\b|\bKI\b)/);
+            expect(text).not.toMatch(/(agent|assistant|assistent)/i);
         }
     });
 });
