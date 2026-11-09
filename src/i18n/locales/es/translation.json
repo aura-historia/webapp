@@ -759,6 +759,10 @@
       "showMore": "Mostrar más",
       "showLess": "Mostrar menos"
     },
+    "title": {
+      "showFull": "Mostrar título completo",
+      "showLess": "Mostrar menos"
+    },
     "withdrawnHint": "Su fuente ha retirado este anuncio.",
     "gallery": {
       "openImage": "Abrir la imagen {{index}} de {{count}} a pantalla completa",

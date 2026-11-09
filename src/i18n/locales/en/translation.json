@@ -759,6 +759,10 @@
       "showMore": "Show more",
       "showLess": "Show less"
     },
+    "title": {
+      "showFull": "Show full title",
+      "showLess": "Show less"
+    },
     "withdrawnHint": "This listing was withdrawn by its source.",
     "gallery": {
       "openImage": "Open image {{index}} of {{count}} in full screen",

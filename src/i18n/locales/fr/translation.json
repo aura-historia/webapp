@@ -759,6 +759,10 @@
       "showMore": "Afficher plus",
       "showLess": "Afficher moins"
     },
+    "title": {
+      "showFull": "Afficher le titre complet",
+      "showLess": "Afficher moins"
+    },
     "withdrawnHint": "Cette annonce a été retirée par sa source.",
     "gallery": {
       "openImage": "Ouvrir l’image {{index}} sur {{count}} en plein écran",
